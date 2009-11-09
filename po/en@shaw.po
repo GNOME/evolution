@@ -11000,5 +11000,6748 @@ msgstr ""
 msgid "This widget displays groups of address books"
 msgstr "𐑞𐑦𐑕 𐑢𐑦𐑡𐑩𐑑 𐑛𐑦𐑕𐑐𐑤𐑱𐑟 𐑜𐑮𐑵𐑐𐑕 𐑝 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒𐑕"
 
-# to be continued...
+#: ../modules/addressbook/e-book-shell-view-actions.c:598
+msgid "Copy the contacts of the selected address book to another"
+msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑑 𐑩𐑯𐑳𐑞𐑼"
 
+#: ../modules/addressbook/e-book-shell-view-actions.c:605
+msgid "Delete the selected address book"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:612
+msgid "Move the contacts of the selected address book to another"
+msgstr "𐑥𐑵𐑝 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑑 𐑩𐑯𐑳𐑞𐑼"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:617
+msgid "_New Address Book"
+msgstr "_𐑯𐑿 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:624
+msgid "Address _Book Properties"
+msgstr "𐑩𐑛𐑮𐑧𐑕 _𐑚𐑫𐑒 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:626
+msgid "Show properties of the selected address book"
+msgstr "𐑖𐑴 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟 𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:631
+#: ../modules/calendar/e-cal-shell-view-actions.c:1242
+#: ../modules/calendar/e-memo-shell-view-actions.c:637
+#: ../modules/calendar/e-task-shell-view-actions.c:762
+#: ../modules/mail/e-mail-shell-view-actions.c:1130
+msgid "_Rename..."
+msgstr "_𐑮𐑰𐑯𐑱𐑥..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:633
+msgid "Rename the selected address book"
+msgstr "𐑮𐑰𐑯𐑱𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:647
+msgid "Stop loading"
+msgstr "𐑕𐑑𐑪𐑐 𐑤𐑴𐑛𐑦𐑙"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:654
+#: ../modules/calendar/e-cal-shell-view-actions.c:1258
+msgid "Copy the selection"
+msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:661
+#: ../modules/calendar/e-cal-shell-view-actions.c:1265
+msgid "Cut the selection"
+msgstr "𐑒𐑳𐑑 𐑞 𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:668
+#: ../modules/calendar/e-cal-shell-view-actions.c:1272
+msgid "Paste the clipboard"
+msgstr "𐑐𐑱𐑕𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:673
+msgid "_Copy Contact To..."
+msgstr "_𐑒𐑪𐑐𐑦 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑑..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:675
+msgid "Copy selected contacts to another address book"
+msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑩𐑯𐑳𐑞𐑼 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:680
+msgid "_Delete Contact"
+msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:682
+msgid "Delete selected contacts"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:687
+msgid "_Forward Contact..."
+msgstr "_𐑓𐑹𐑢𐑼𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:689
+msgid "Send selected contacts to another person"
+msgstr "𐑕𐑧𐑯𐑛 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑩𐑯𐑳𐑞𐑼 𐑐𐑻𐑕𐑩𐑯"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:694
+msgid "_Move Contact To..."
+msgstr "_𐑥𐑵𐑝 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑑..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:696
+msgid "Move selected contacts to another address book"
+msgstr "𐑥𐑵𐑝 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑩𐑯𐑳𐑞𐑼 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:701
+msgid "_New Contact..."
+msgstr "_𐑯𐑿 𐑒𐑪𐑯𐑑𐑨𐑒𐑑..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:708
+msgid "New Contact _List..."
+msgstr "𐑯𐑿 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 _𐑤𐑦𐑕𐑑..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:715
+msgid "_Open"
+msgstr "_𐑴𐑐𐑩𐑯"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:717
+msgid "View the current contact"
+msgstr "𐑝𐑿 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:731
+msgid "Select all contacts"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:736
+msgid "_Send Message to Contact..."
+msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑..."
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:738
+msgid "Send a message to the selected contacts"
+msgstr "𐑕𐑧𐑯𐑛 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:745
+#: ../modules/calendar/e-cal-shell-view-actions.c:1391
+#: ../modules/calendar/e-task-shell-view-actions.c:827
+msgid "_Actions"
+msgstr "_𐑨𐑒𐑖𐑩𐑯𐑟"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:752
+#: ../modules/calendar/e-memo-shell-view-actions.c:681
+#: ../modules/calendar/e-task-shell-view-actions.c:834
+#: ../modules/mail/e-mail-shell-view-actions.c:1272
+msgid "_Preview"
+msgstr "_𐑐𐑮𐑰𐑝𐑿"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:761
+#: ../modules/calendar/e-memo-shell-view-actions.c:616
+#: ../modules/calendar/e-task-shell-view-actions.c:741
+msgid "_Delete"
+msgstr "_𐑛𐑦𐑤𐑰𐑑"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:765
+msgid "_Properties"
+msgstr "_𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:821
+msgid "Contact _Preview"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 _𐑐𐑮𐑰𐑝𐑿"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:823
+msgid "Show contact preview window"
+msgstr "𐑖𐑴 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑢𐑦𐑯𐑛𐑴"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:842
+#: ../modules/calendar/e-memo-shell-view-actions.c:767
+#: ../modules/calendar/e-task-shell-view-actions.c:932
+#: ../modules/mail/e-mail-shell-view-actions.c:1367
+msgid "_Classic View"
+msgstr "_𐑒𐑤𐑨𐑕𐑦𐑒 𐑝𐑿"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:844
+msgid "Show contact preview below the contact list"
+msgstr "𐑖𐑴 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑚𐑩𐑤𐑴 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:849
+#: ../modules/calendar/e-memo-shell-view-actions.c:774
+#: ../modules/calendar/e-task-shell-view-actions.c:939
+#: ../modules/mail/e-mail-shell-view-actions.c:1374
+msgid "_Vertical View"
+msgstr "_𐑝𐑻𐑑𐑦𐑒𐑩𐑤 𐑝𐑿"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:851
+msgid "Show contact preview alongside the contact list"
+msgstr "𐑖𐑴 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑩𐑤𐑪𐑙𐑕𐑲𐑛 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:859
+#: ../modules/calendar/e-cal-shell-view-actions.c:1555
+#: ../modules/calendar/e-memo-shell-view-actions.c:784
+#: ../modules/calendar/e-task-shell-view-actions.c:956
+msgid "Any Category"
+msgstr "𐑧𐑯𐑦 𐑒𐑨𐑑𐑧𐑜𐑹𐑰"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:866
+#: ../modules/calendar/e-cal-shell-view-actions.c:1569
+#: ../modules/calendar/e-memo-shell-view-actions.c:791
+#: ../modules/calendar/e-task-shell-view-actions.c:991
+msgid "Unmatched"
+msgstr "𐑩𐑯𐑥𐑨𐑗𐑑"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:902
+msgid "Print selected contacts"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-view-actions.c:909
+msgid "Preview the contacts to be printed"
+msgstr "𐑐𐑮𐑰𐑝𐑿 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑚𐑰 𐑐𐑮𐑦𐑯𐑑𐑩𐑛"
+
+#: ../modules/addressbook/e-book-shell-view.c:322
+msgid "_Forward Contacts"
+msgstr "_𐑓𐑹𐑢𐑼𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-view.c:324
+msgid "_Forward Contact"
+msgstr "_𐑓𐑹𐑢𐑼𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/e-book-shell-view.c:355
+msgid "_Send Message to Contacts"
+msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-view.c:357
+msgid "_Send Message to List"
+msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../modules/addressbook/e-book-shell-view.c:359
+msgid "_Send Message to Contact"
+msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/eab-composer-util.c:159
+#: ../modules/addressbook/eab-composer-util.c:186
+#, c-format
+msgid "Contact information"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../modules/addressbook/eab-composer-util.c:188
+#, c-format
+msgid "Contact information for %s"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 %s"
+
+#: ../modules/addressbook/ldap-config.glade.h:1
+msgid "1"
+msgstr "1"
+
+#: ../modules/addressbook/ldap-config.glade.h:2
+msgid ""
+"389\n"
+"636\n"
+"3268"
+msgstr ""
+"389\n"
+"636\n"
+"3268"
+
+#: ../modules/addressbook/ldap-config.glade.h:5
+msgid "5"
+msgstr "5"
+
+#: ../modules/addressbook/ldap-config.glade.h:6
+msgid "<b>Authentication</b>"
+msgstr "<b>𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯</b>"
+
+#: ../modules/addressbook/ldap-config.glade.h:7
+msgid "<b>Downloading</b>"
+msgstr "<b>𐑛𐑬𐑯𐑤𐑴𐑛𐑦𐑙</b>"
+
+#: ../modules/addressbook/ldap-config.glade.h:8
+msgid "<b>Searching</b>"
+msgstr "<b>𐑕𐑻𐑗𐑦𐑙</b>"
+
+#: ../modules/addressbook/ldap-config.glade.h:16
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑿𐑕 𐑞𐑦𐑕 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕 𐑑 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑑 𐑿 𐑢𐑦𐑞 𐑞 𐑕𐑻𐑝𐑼."
+
+#: ../modules/addressbook/ldap-config.glade.h:19
+msgid ""
+"One\n"
+"Sub"
+msgstr ""
+"𐑢𐑳𐑯\n"
+"𐑕𐑳𐑚"
+
+#: ../modules/addressbook/ldap-config.glade.h:24
+msgid "Search Filter"
+msgstr "𐑕𐑻𐑗 𐑓𐑦𐑤𐑑𐑼"
+
+#: ../modules/addressbook/ldap-config.glade.h:25
+msgid "Search _base:"
+msgstr "𐑕𐑻𐑗 _𐑚𐑱𐑕:"
+
+#: ../modules/addressbook/ldap-config.glade.h:26
+msgid "Search _filter:"
+msgstr "𐑕𐑻𐑗 _𐑓𐑦𐑤𐑑𐑼:"
+
+#: ../modules/addressbook/ldap-config.glade.h:27
+msgid ""
+"Search filter is the type of object to be searched for. If this is not "
+"modified, the default search will be performed on the type \"person\"."
+msgstr ""
+"𐑕𐑻𐑗 𐑓𐑦𐑤𐑑𐑼 𐑦𐑟 𐑞 𐑑𐑲𐑐 𐑝 𐑪𐑚𐑡𐑧𐑒𐑑 𐑑 𐑚𐑰 𐑕𐑻𐑗𐑑 𐑓𐑹. 𐑦𐑓 𐑞𐑦𐑕 𐑦𐑟 𐑯𐑪𐑑 𐑥𐑪𐑛𐑦𐑓𐑲𐑛, 𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 "
+"𐑕𐑻𐑗 𐑢𐑦𐑤 𐑚𐑰 𐑐𐑼𐑓𐑹𐑥𐑛 𐑪𐑯 𐑞 𐑑𐑲𐑐 \"𐑐𐑻𐑕𐑩𐑯\"."
+
+#: ../modules/addressbook/ldap-config.glade.h:28
+msgid "Supported Search Bases"
+msgstr "𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑕𐑻𐑗 𐑚𐑱𐑕𐑩𐑟"
+
+#: ../modules/addressbook/ldap-config.glade.h:31
+msgid ""
+"This is the maximum number of entries to download. Setting this number to be "
+"too large will slow down your address book."
+msgstr ""
+"𐑞𐑦𐑕 𐑦𐑟 𐑞 𐑥𐑨𐑒𐑕𐑦𐑥𐑩𐑥 𐑯𐑳𐑥𐑚𐑼 𐑝 𐑧𐑯𐑑𐑮𐑦𐑟 𐑑 𐑛𐑬𐑯𐑤𐑴𐑛. 𐑕𐑧𐑑𐑦𐑙 𐑞𐑦𐑕 𐑯𐑳𐑥𐑚𐑼 𐑑 𐑚𐑰 𐑑𐑵 𐑤𐑸𐑡 𐑢𐑦𐑤 "
+"𐑕𐑤𐑴 𐑛𐑬𐑯 𐑿𐑼 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒."
+
+#: ../modules/addressbook/ldap-config.glade.h:32
+msgid ""
+"This is the name for this server that will appear in your Evolution folder "
+"list. It is for display purposes only. "
+msgstr ""
+"𐑞𐑦𐑕 𐑦𐑟 𐑞 𐑯𐑱𐑥 𐑓𐑹 𐑞𐑦𐑕 𐑕𐑻𐑝𐑼 𐑞𐑨𐑑 𐑢𐑦𐑤 𐑩𐑐𐑽 𐑦𐑯 𐑿𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑓𐑴𐑤𐑛𐑼 𐑤𐑦𐑕𐑑. 𐑦𐑑 𐑦𐑟 𐑓𐑹 "
+"𐑛𐑦𐑕𐑐𐑤𐑱 𐑐𐑻𐑐𐑩𐑕𐑩𐑟 𐑴𐑯𐑤𐑦. "
+
+#: ../modules/addressbook/ldap-config.glade.h:33
+msgid "_Download limit:"
+msgstr "_𐑛𐑬𐑯𐑤𐑴𐑛 𐑤𐑦𐑥𐑦𐑑:"
+
+#: ../modules/addressbook/ldap-config.glade.h:34
+msgid "_Find Possible Search Bases"
+msgstr "_𐑓𐑲𐑯𐑛 𐑐𐑪𐑕𐑩𐑚𐑩𐑤 𐑕𐑻𐑗 𐑚𐑱𐑕𐑩𐑟"
+
+#: ../modules/addressbook/ldap-config.glade.h:35
+msgid "_Login method:"
+msgstr "_𐑤𐑪𐑜𐑦𐑯 𐑥𐑧𐑔𐑩𐑛:"
+
+#: ../modules/addressbook/ldap-config.glade.h:37
+msgid "_Port:"
+msgstr "_𐑐𐑹𐑑:"
+
+#: ../modules/addressbook/ldap-config.glade.h:38
+msgid "_Search scope:"
+msgstr "_𐑕𐑻𐑗 𐑕𐑒𐑴𐑐:"
+
+#: ../modules/addressbook/ldap-config.glade.h:40
+msgid "_Timeout:"
+msgstr "_𐑑𐑲𐑥𐑬𐑑:"
+
+#: ../modules/addressbook/ldap-config.glade.h:41
+msgid "_Use secure connection:"
+msgstr "_𐑿𐑟 𐑕𐑦𐑒𐑘𐑫𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯:"
+
+#: ../modules/addressbook/ldap-config.glade.h:42
+msgid "cards"
+msgstr "𐑒𐑸𐑛𐑟"
+
+#: ../modules/calendar/e-cal-attachment-handler.c:341
+msgid "Select a Calendar"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-attachment-handler.c:368
+msgid "Select a Task List"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#. Create the Webcal source group
+#: ../modules/calendar/e-cal-shell-backend.c:122
+#: ../modules/calendar/e-cal-shell-migrate.c:599
+#: ../modules/calendar/e-memo-shell-backend.c:108
+#: ../modules/calendar/e-memo-shell-migrate.c:136
+#: ../modules/calendar/e-task-shell-backend.c:111
+#: ../modules/calendar/e-task-shell-migrate.c:535
+msgid "On The Web"
+msgstr "𐑪𐑯 𐑞 𐑢𐑧𐑚"
+
+#: ../modules/calendar/e-cal-shell-backend.c:123
+#: ../plugins/calendar-weather/calendar-weather.c:117
+msgid "Weather"
+msgstr "𐑢𐑧𐑞𐑼"
+
+#: ../modules/calendar/e-cal-shell-backend.c:238
+#: ../modules/calendar/e-cal-shell-migrate.c:483
+msgid "Birthdays & Anniversaries"
+msgstr "𐑚𐑻𐑔𐑛𐑱𐑟 & 𐑨𐑯𐑩𐑝𐑻𐑕𐑻𐑰𐑟"
+
+#: ../modules/calendar/e-cal-shell-backend.c:424
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-backend.c:426
+#: ../modules/calendar/e-cal-shell-view-actions.c:1342
+msgid "Create a new appointment"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-backend.c:433
+msgid "Create a new all-day appointment"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑷𐑤-𐑛𐑱 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-backend.c:440
+msgid "Create a new meeting request"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑒𐑢𐑧𐑕𐑑"
+
+#: ../modules/calendar/e-cal-shell-backend.c:450
+#: ../modules/calendar/e-cal-shell-view-actions.c:1223
+msgid "Create a new calendar"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-shell-backend.c:485
+#: ../plugins/itip-formatter/itip-formatter.c:2564
+msgid "Calendar and Tasks"
+msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑯 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-cal-shell-backend.c:760
+msgid "The registry of calendars"
+msgstr "𐑞 𐑮𐑧𐑡𐑦𐑕𐑑𐑮𐑰 𐑝 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../modules/calendar/e-cal-shell-migrate.c:131
+msgid ""
+"The location and hierarchy of the Evolution calendar folders has changed "
+"since Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"𐑞 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑯 𐑣𐑲𐑻𐑭𐑮𐑒𐑰 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑗𐑱𐑯𐑡𐑛 𐑕𐑦𐑯𐑕 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 1."
+"𐑧𐑒𐑕.\n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+
+#. FIXME: domain/code
+#: ../modules/calendar/e-cal-shell-migrate.c:693
+#, c-format
+msgid "Unable to migrate calendar `%s'"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑥𐑲𐑜𐑮𐑱𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 `%s'"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:152
+#: ../modules/calendar/e-memo-shell-sidebar.c:149
+#: ../modules/calendar/e-task-shell-sidebar.c:147
+#, c-format
+msgid ""
+"Error on %s\n"
+"%s"
+msgstr ""
+"𐑻𐑼 𐑪𐑯 %s\n"
+"%s"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:188
+msgid "Loading calendars"
+msgstr "𐑤𐑴𐑛𐑦𐑙 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:551
+msgid "Date Navigator Widget"
+msgstr "𐑛𐑱𐑑 𐑯𐑨𐑝𐑩𐑜𐑱𐑑𐑻 𐑢𐑦𐑡𐑩𐑑"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:552
+msgid "This widget displays a miniature calendar"
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑡𐑩𐑑 𐑛𐑦𐑕𐑐𐑤𐑱𐑟 𐑩 𐑥𐑦𐑯𐑰𐑩𐑗𐑫𐑮 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:562
+msgid "This widget displays groups of calendars"
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑡𐑩𐑑 𐑛𐑦𐑕𐑐𐑤𐑱𐑟 𐑜𐑮𐑵𐑐𐑕 𐑝 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:723
+#, c-format
+msgid "Opening calendar at %s"
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑨𐑑 %s"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:214
+#: ../modules/calendar/e-cal-shell-view-actions.c:245
+msgid "Print"
+msgstr "𐑐𐑮𐑦𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:304
+msgid ""
+"This operation will permanently erase all events older than the selected "
+"amount of time. If you continue, you will not be able to recover these "
+"events."
+msgstr ""
+"𐑞𐑦𐑕 𐑪𐑐𐑼𐑱𐑖𐑩𐑯 𐑢𐑦𐑤 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑦𐑮𐑱𐑕 𐑷𐑤 𐑦𐑝𐑧𐑯𐑑𐑕 𐑴𐑤𐑛𐑼 𐑞𐑨𐑯 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑥𐑬𐑯𐑑 𐑝 𐑑𐑲𐑥. "
+"𐑦𐑓 𐑿 𐑒𐑩𐑯𐑑𐑦𐑯𐑿, 𐑿 𐑢𐑦𐑤 𐑯𐑪𐑑 𐑚𐑰 𐑱𐑚𐑩𐑤 𐑑 𐑮𐑧𐑒𐑳𐑝𐑼 𐑞𐑰𐑟 𐑦𐑝𐑧𐑯𐑑𐑕."
+
+#. Translators: This is the first part of the sentence:
+#. * "Purge events older than <<spin-button>> days"
+#: ../modules/calendar/e-cal-shell-view-actions.c:321
+msgid "Purge events older than"
+msgstr "𐑐𐑻𐑡 𐑦𐑝𐑧𐑯𐑑𐑕 𐑴𐑤𐑛𐑼 𐑞𐑨𐑯"
+
+#. Translators: This is the last part of the sentence:
+#. * "Purge events older than <<spin-button>> days"
+#: ../modules/calendar/e-cal-shell-view-actions.c:334
+#: ../plugins/caldav/caldav-source.c:450
+#: ../plugins/calendar-file/calendar-file.c:295
+#: ../plugins/calendar-http/calendar-http.c:325
+#: ../plugins/calendar-weather/calendar-weather.c:516
+#: ../plugins/google-account-setup/google-contacts-source.c:332
+#: ../plugins/google-account-setup/google-source.c:741
+#: ../widgets/misc/e-send-options.glade.h:39
+msgid "days"
+msgstr "𐑛𐑱𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:551
+msgid "Copying Items"
+msgstr "𐑒𐑪𐑐𐑦𐑦𐑙 𐑲𐑑𐑩𐑥𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:801
+msgid "Moving Items"
+msgstr "𐑥𐑵𐑝𐑦𐑙 𐑲𐑑𐑩𐑥𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1097
+msgid "Save As..."
+msgstr "𐑕𐑱𐑝 𐑨𐑟..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1179
+#: ../modules/calendar/e-memo-shell-view-actions.c:609
+msgid "_Copy..."
+msgstr "_𐑒𐑪𐑐𐑦..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1195
+msgid "Go Back"
+msgstr "𐑜𐑴 𐑚𐑨𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1202
+msgid "Go Forward"
+msgstr "𐑜𐑴 𐑓𐑹𐑢𐑼𐑛"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1207
+msgid "Select _Today"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 _𐑑𐑫𐑛𐑱"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1209
+msgid "Select today"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑑𐑫𐑛𐑱"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1214
+msgid "Select _Date"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 _𐑛𐑱𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1216
+msgid "Select a specific date"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑕𐑐𐑩𐑕𐑦𐑓𐑦𐑒 𐑛𐑱𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1221
+msgid "_New Calendar"
+msgstr "_𐑯𐑿 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1237
+msgid "Purge old appointments and meetings"
+msgstr "𐑐𐑻𐑡 𐑴𐑤𐑛 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕 𐑯 𐑥𐑰𐑑𐑦𐑙𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1244
+msgid "Rename the selected calendar"
+msgstr "𐑮𐑰𐑯𐑱𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1249
+msgid "Show _Only This Calendar"
+msgstr "𐑖𐑴 _𐑴𐑯𐑤𐑦 𐑞𐑦𐑕 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1284
+msgid "_Delegate Meeting..."
+msgstr "_𐑛𐑧𐑤𐑩𐑜𐑱𐑑 𐑥𐑰𐑑𐑦𐑙..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1293
+msgid "Delete the appointment"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1298
+msgid "Delete This _Occurrence"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 _𐑪𐑒𐑻𐑩𐑯𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1300
+msgid "Delete this occurrence"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑪𐑒𐑻𐑩𐑯𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1305
+msgid "Delete _All Occurrences"
+msgstr "𐑛𐑦𐑤𐑰𐑑 _𐑷𐑤 𐑩𐑒𐑻𐑩𐑯𐑕𐑦𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1307
+msgid "Delete all occurrences"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 𐑩𐑒𐑻𐑩𐑯𐑕𐑦𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1312
+msgid "New All Day _Event..."
+msgstr "𐑯𐑿 𐑷𐑤 𐑛𐑱 _𐑦𐑝𐑧𐑯𐑑..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1314
+msgid "Create a new all day event"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑷𐑤 𐑛𐑱 𐑦𐑝𐑧𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1326
+msgid "New _Meeting..."
+msgstr "𐑯𐑿 _𐑥𐑰𐑑𐑦𐑙..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1328
+msgid "Create a new meeting"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1340
+msgid "New _Appointment..."
+msgstr "𐑯𐑿 _𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1347
+msgid "Make this Occurrence _Movable"
+msgstr "𐑥𐑱𐑒 𐑞𐑦𐑕 𐑪𐑒𐑻𐑩𐑯𐑕 _𐑥𐑵𐑝𐑩𐑚𐑩𐑤"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1354
+msgid "_Open Appointment"
+msgstr "_𐑴𐑐𐑩𐑯 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1356
+msgid "View the current appointment"
+msgstr "𐑝𐑿 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1361
+msgid "_Reply"
+msgstr "_𐑮𐑦𐑐𐑤𐑲"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1382
+msgid "_Schedule Meeting..."
+msgstr "_𐑖𐑧𐑛𐑿𐑤 𐑥𐑰𐑑𐑦𐑙..."
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1510
+msgid "Day"
+msgstr "𐑛𐑱"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1512
+msgid "Show one day"
+msgstr "𐑖𐑴 𐑢𐑳𐑯 𐑛𐑱"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1517
+msgid "List"
+msgstr "𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1519
+msgid "Show as list"
+msgstr "𐑖𐑴 𐑨𐑟 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1524
+msgid "Month"
+msgstr "𐑥𐑳𐑯𐑔"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1526
+msgid "Show one month"
+msgstr "𐑖𐑴 𐑢𐑳𐑯 𐑥𐑳𐑯𐑔"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1531
+msgid "Week"
+msgstr "𐑢𐑰𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1533
+msgid "Show one week"
+msgstr "𐑖𐑴 𐑢𐑳𐑯 𐑢𐑰𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1538
+msgid "Work Week"
+msgstr "𐑢𐑻𐑒 𐑢𐑰𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1540
+msgid "Show one work week"
+msgstr "𐑖𐑴 𐑢𐑳𐑯 𐑢𐑻𐑒 𐑢𐑰𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1548
+msgid "Active Appointments"
+msgstr "𐑨𐑒𐑑𐑦𐑝 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1562
+msgid "Next 7 Days' Appointments"
+msgstr "𐑯𐑧𐑒𐑕𐑑 7 𐑛𐑱𐑟' 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1586
+#: ../modules/calendar/e-memo-shell-view-actions.c:808
+#: ../modules/calendar/e-task-shell-view-actions.c:1008
+msgid "Description contains"
+msgstr "𐑛𐑦𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1593
+#: ../modules/calendar/e-memo-shell-view-actions.c:815
+#: ../modules/calendar/e-task-shell-view-actions.c:1015
+msgid "Summary contains"
+msgstr "𐑕𐑳𐑥𐑼𐑦 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1605
+msgid "Print this calendar"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞𐑦𐑕 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1612
+msgid "Preview the calendar to be printed"
+msgstr "𐑐𐑮𐑰𐑝𐑿 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑑 𐑚𐑰 𐑐𐑮𐑦𐑯𐑑𐑩𐑛"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1674
+msgid "Go To"
+msgstr "𐑜𐑴 𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:76
+#: ../modules/calendar/e-memo-shell-view-actions.c:96
+msgid "Deleting selected memos..."
+msgstr "𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴𐑟..."
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:281
+#: ../modules/calendar/e-memo-shell-view-actions.c:576
+msgid "Copy selected memo"
+msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:288
+#: ../modules/calendar/e-memo-shell-view-actions.c:583
+msgid "Cut selected memo"
+msgstr "𐑒𐑳𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:295
+#: ../modules/calendar/e-memo-shell-view-actions.c:590
+msgid "Paste memo from the clipboard"
+msgstr "𐑐𐑱𐑕𐑑 𐑥𐑧𐑥𐑴 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:300
+#: ../modules/calendar/e-memo-shell-view-actions.c:595
+msgid "_Delete Memo"
+msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:302
+#: ../modules/calendar/e-memo-shell-view-actions.c:597
+msgid "Delete selected memos"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:314
+#: ../modules/calendar/e-memo-shell-view-actions.c:651
+msgid "New _Memo"
+msgstr "𐑯𐑿 _𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:316
+#: ../modules/calendar/e-memo-shell-backend.c:318
+#: ../modules/calendar/e-memo-shell-view-actions.c:653
+msgid "Create a new memo"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:321
+#: ../modules/calendar/e-memo-shell-view-actions.c:658
+msgid "_Open Memo"
+msgstr "_𐑴𐑐𐑩𐑯 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:323
+#: ../modules/calendar/e-memo-shell-view-actions.c:660
+msgid "View the selected memo"
+msgstr "𐑝𐑿 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:328
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:416
+#: ../modules/calendar/e-memo-shell-view-actions.c:665
+#: ../modules/calendar/e-task-shell-view-actions.c:804
+msgid "Open _Web Page"
+msgstr "𐑴𐑐𐑩𐑯 _𐑢𐑧𐑚 𐑐𐑱𐑡"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:347
+#: ../modules/calendar/e-memo-shell-view-actions.c:841
+msgid "Print the selected memo"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-cal-shell-view-memopad.c:429
+#: ../modules/calendar/e-memo-shell-view.c:223
+msgid "Delete Memo"
+msgid_plural "Delete Memos"
+msgstr[0] "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴"
+msgstr[1] "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:99
+#: ../modules/calendar/e-task-shell-view-actions.c:127
+msgid "Deleting selected tasks..."
+msgstr "𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕..."
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:346
+#: ../modules/calendar/e-task-shell-view-actions.c:692
+msgid "_Assign Task"
+msgstr "_𐑩𐑕𐑲𐑯 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:355
+#: ../modules/calendar/e-task-shell-view-actions.c:701
+msgid "Copy selected tasks"
+msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:362
+#: ../modules/calendar/e-task-shell-view-actions.c:708
+msgid "Cut selected tasks"
+msgstr "𐑒𐑳𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:369
+#: ../modules/calendar/e-task-shell-view-actions.c:715
+msgid "Paste tasks from the clipboard"
+msgstr "𐑐𐑱𐑕𐑑 𐑑𐑭𐑕𐑒𐑕 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:374
+#: ../modules/calendar/e-task-shell-view-actions.c:720
+msgid "_Delete Task"
+msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:376
+#: ../modules/calendar/e-task-shell-view-actions.c:722
+msgid "Delete selected tasks"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:388
+#: ../modules/calendar/e-task-shell-view-actions.c:776
+msgid "_Mark as Complete"
+msgstr "_𐑥𐑸𐑒 𐑨𐑟 𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:390
+#: ../modules/calendar/e-task-shell-view-actions.c:778
+msgid "Mark selected tasks as complete"
+msgstr "𐑥𐑸𐑒 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕 𐑨𐑟 𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:395
+msgid "_Mark as Incomplete"
+msgstr "_𐑥𐑸𐑒 𐑨𐑟 𐑦𐑯𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:397
+#: ../modules/calendar/e-task-shell-view-actions.c:785
+msgid "Mark selected tasks as incomplete"
+msgstr "𐑥𐑸𐑒 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕 𐑨𐑟 𐑦𐑯𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:402
+#: ../modules/calendar/e-task-shell-view-actions.c:790
+msgid "New _Task"
+msgstr "𐑯𐑿 _𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:404
+#: ../modules/calendar/e-task-shell-backend.c:322
+#: ../modules/calendar/e-task-shell-view-actions.c:792
+msgid "Create a new task"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:409
+#: ../modules/calendar/e-task-shell-view-actions.c:797
+msgid "_Open Task"
+msgstr "_𐑴𐑐𐑩𐑯 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:411
+#: ../modules/calendar/e-task-shell-view-actions.c:799
+msgid "View the selected task"
+msgstr "𐑝𐑿 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:435
+#: ../modules/calendar/e-task-shell-view-actions.c:1041
+msgid "Print the selected task"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:540
+#: ../modules/calendar/e-task-shell-view.c:350
+msgid "Delete Task"
+msgid_plural "Delete Tasks"
+msgstr[0] "𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒"
+msgstr[1] "𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-memo-shell-backend.c:323
+msgctxt "New"
+msgid "_Shared Memo"
+msgstr "_𐑖𐑺𐑛 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-memo-shell-backend.c:325
+msgid "Create a new shared memo"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴"
+
+#: ../modules/calendar/e-memo-shell-backend.c:335
+#: ../modules/calendar/e-memo-shell-view-actions.c:625
+msgid "Create a new memo list"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-memo-shell-backend.c:584
+msgid "The registry of memo lists"
+msgstr "𐑞 𐑮𐑧𐑡𐑦𐑕𐑑𐑮𐑰 𐑝 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑𐑕"
+
+#: ../modules/calendar/e-memo-shell-content.c:598
+msgid "The memo table model"
+msgstr "𐑞 𐑥𐑧𐑥𐑴 𐑑𐑱𐑚𐑩𐑤 𐑥𐑪𐑛𐑩𐑤"
+
+#: ../modules/calendar/e-memo-shell-sidebar.c:185
+msgid "Loading memos"
+msgstr "𐑤𐑴𐑛𐑦𐑙 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-memo-shell-sidebar.c:529
+msgid "This widget displays groups of memo lists"
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑡𐑩𐑑 𐑛𐑦𐑕𐑐𐑤𐑱𐑟 𐑜𐑮𐑵𐑐𐑕 𐑝 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑𐑕"
+
+#: ../modules/calendar/e-memo-shell-sidebar.c:682
+#, c-format
+msgid "Opening memos at %s"
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑥𐑧𐑥𐑴𐑟 𐑨𐑑 %s"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:253
+#: ../modules/calendar/e-memo-shell-view-actions.c:270
+msgid "Print Memos"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:623
+msgid "_New Memo List"
+msgstr "_𐑯𐑿 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:639
+msgid "Rename the selected memo list"
+msgstr "𐑮𐑰𐑯𐑱𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:644
+msgid "Show _Only This Memo List"
+msgstr "𐑖𐑴 _𐑴𐑯𐑤𐑦 𐑞𐑦𐑕 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:746
+msgid "Memo _Preview"
+msgstr "𐑥𐑧𐑥𐑴 _𐑐𐑮𐑰𐑝𐑿"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:748
+msgid "Show memo preview pane"
+msgstr "𐑖𐑴 𐑥𐑧𐑥𐑴 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:769
+msgid "Show memo preview below the memo list"
+msgstr "𐑖𐑴 𐑥𐑧𐑥𐑴 𐑐𐑮𐑰𐑝𐑿 𐑚𐑩𐑤𐑴 𐑞 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:776
+msgid "Show memo preview alongside the memo list"
+msgstr "𐑖𐑴 𐑥𐑧𐑥𐑴 𐑐𐑮𐑰𐑝𐑿 𐑩𐑤𐑪𐑙𐑕𐑲𐑛 𐑞 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:827
+msgid "Print the list of memos"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-memo-shell-view-actions.c:834
+msgid "Preview the list of memos to be printed"
+msgstr "𐑐𐑮𐑰𐑝𐑿 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑥𐑧𐑥𐑴𐑟 𐑑 𐑚𐑰 𐑐𐑮𐑦𐑯𐑑𐑩𐑛"
+
+#: ../modules/calendar/e-memo-shell-view-private.c:412
+#, c-format
+msgid "%d memo"
+msgid_plural "%d memos"
+msgstr[0] "%d 𐑥𐑧𐑥𐑴"
+msgstr[1] "%d 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-memo-shell-view-private.c:416
+#: ../modules/calendar/e-task-shell-view-private.c:510
+#, c-format
+msgid "%d selected"
+msgstr "%d 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛"
+
+#: ../modules/calendar/e-memo-shell-view.c:221
+msgid "Delete Memos"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴𐑟"
+
+#: ../modules/calendar/e-task-shell-backend.c:320
+msgctxt "New"
+msgid "_Task"
+msgstr "_𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-task-shell-backend.c:329
+msgid "Create a new assigned task"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒"
+
+#: ../modules/calendar/e-task-shell-backend.c:339
+#: ../modules/calendar/e-task-shell-view-actions.c:750
+msgid "Create a new task list"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-task-shell-backend.c:594
+msgid "The registry of task lists"
+msgstr "𐑞 𐑮𐑧𐑡𐑦𐑕𐑑𐑮𐑰 𐑝 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑𐑕"
+
+#: ../modules/calendar/e-task-shell-content.c:621
+msgid "The task table model"
+msgstr "𐑞 𐑑𐑭𐑕𐑒 𐑑𐑱𐑚𐑩𐑤 𐑥𐑪𐑛𐑩𐑤"
+
+#: ../modules/calendar/e-task-shell-migrate.c:98
+msgid ""
+"The location and hierarchy of the Evolution task folders has changed since "
+"Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"𐑞 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑯 𐑣𐑲𐑻𐑭𐑮𐑒𐑰 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑𐑭𐑕𐑒 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑗𐑱𐑯𐑡𐑛 𐑕𐑦𐑯𐑕 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 1.𐑧𐑒𐑕.\n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+
+#. FIXME: domain/code
+#: ../modules/calendar/e-task-shell-migrate.c:620
+#, c-format
+msgid "Unable to migrate tasks `%s'"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑥𐑲𐑜𐑮𐑱𐑑 𐑑𐑭𐑕𐑒𐑕 `%s'"
+
+#: ../modules/calendar/e-task-shell-sidebar.c:183
+msgid "Loading tasks"
+msgstr "𐑤𐑴𐑛𐑦𐑙 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-sidebar.c:527
+msgid "This widget displays groups of task lists"
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑡𐑩𐑑 𐑛𐑦𐑕𐑐𐑤𐑱𐑟 𐑜𐑮𐑵𐑐𐑕 𐑝 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑𐑕"
+
+#: ../modules/calendar/e-task-shell-sidebar.c:680
+#, c-format
+msgid "Opening tasks at %s"
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑑𐑭𐑕𐑒𐑕 𐑨𐑑 %s"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:284
+#: ../modules/calendar/e-task-shell-view-actions.c:301
+msgid "Print Tasks"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:570
+msgid ""
+"This operation will permanently erase all tasks marked as completed. If you "
+"continue, you will not be able to recover these tasks.\n"
+"\n"
+"Really erase these tasks?"
+msgstr ""
+"𐑞𐑦𐑕 𐑪𐑐𐑼𐑱𐑖𐑩𐑯 𐑢𐑦𐑤 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑦𐑮𐑱𐑕 𐑷𐑤 𐑑𐑭𐑕𐑒𐑕 𐑥𐑸𐑒𐑑 𐑨𐑟 𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛. 𐑦𐑓 𐑿 𐑒𐑩𐑯𐑑𐑦𐑯𐑿, 𐑿 "
+"𐑢𐑦𐑤 𐑯𐑪𐑑 𐑚𐑰 𐑱𐑚𐑩𐑤 𐑑 𐑮𐑧𐑒𐑳𐑝𐑼 𐑞𐑰𐑟 𐑑𐑭𐑕𐑒𐑕.\n"
+"\n"
+"𐑮𐑾𐑤𐑦 𐑦𐑮𐑱𐑕 𐑞𐑰𐑟 𐑑𐑭𐑕𐑒𐑕?"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:734
+msgid "Copy..."
+msgstr "𐑒𐑪𐑐𐑦..."
+
+#: ../modules/calendar/e-task-shell-view-actions.c:748
+msgid "_New Task List"
+msgstr "_𐑯𐑿 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:764
+msgid "Rename the selected task list"
+msgstr "𐑮𐑰𐑯𐑱𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:769
+msgid "Show _Only This Task List"
+msgstr "𐑖𐑴 _𐑴𐑯𐑤𐑦 𐑞𐑦𐑕 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:813
+msgid "Delete completed tasks"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:911
+msgid "Task _Preview"
+msgstr "𐑑𐑭𐑕𐑒 _𐑐𐑮𐑰𐑝𐑿"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:913
+msgid "Show task preview pane"
+msgstr "𐑖𐑴 𐑑𐑭𐑕𐑒 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:934
+msgid "Show task preview below the task list"
+msgstr "𐑖𐑴 𐑑𐑭𐑕𐑒 𐑐𐑮𐑰𐑝𐑿 𐑚𐑩𐑤𐑴 𐑞 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:941
+msgid "Show task preview alongside the task list"
+msgstr "𐑖𐑴 𐑑𐑭𐑕𐑒 𐑐𐑮𐑰𐑝𐑿 𐑩𐑤𐑪𐑙𐑕𐑲𐑛 𐑞 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:949
+msgid "Active Tasks"
+msgstr "𐑨𐑒𐑑𐑦𐑝 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:963
+msgid "Completed Tasks"
+msgstr "𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:970
+msgid "Next 7 Days' Tasks"
+msgstr "𐑯𐑧𐑒𐑕𐑑 7 𐑛𐑱𐑟' 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:977
+msgid "Overdue Tasks"
+msgstr "𐑴𐑝𐑻𐑛𐑵 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:984
+msgid "Tasks with Attachments"
+msgstr "𐑑𐑭𐑕𐑒𐑕 𐑢𐑦𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:1027
+msgid "Print the list of tasks"
+msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view-actions.c:1034
+msgid "Preview the list of tasks to be printed"
+msgstr "𐑐𐑮𐑰𐑝𐑿 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑑𐑭𐑕𐑒𐑕 𐑑 𐑚𐑰 𐑐𐑮𐑦𐑯𐑑𐑩𐑛"
+
+#: ../modules/calendar/e-task-shell-view-private.c:506
+#, c-format
+msgid "%d task"
+msgid_plural "%d tasks"
+msgstr[0] "%d 𐑑𐑭𐑕𐑒"
+msgstr[1] "%d 𐑑𐑭𐑕𐑒𐑕"
+
+#: ../modules/calendar/e-task-shell-view.c:348
+msgid "Delete Tasks"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒𐑕"
+
+#. Translators: This is only for multiple messages.
+#: ../modules/mail/e-mail-attachment-handler.c:335
+#, c-format
+msgid "%d attached messages"
+msgstr "%d 𐑩𐑑𐑨𐑗𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-backend.c:174
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../modules/mail/e-mail-shell-backend.c:176
+msgid "Compose a new mail message"
+msgstr "𐑒𐑩𐑥𐑐𐑴𐑟 𐑩 𐑯𐑿 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../modules/mail/e-mail-shell-backend.c:184
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "𐑥𐑱𐑤 _𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-backend.c:186
+msgid "Create a new mail folder"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑱𐑤 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-backend.c:205
+msgid "Mail Accounts"
+msgstr "𐑥𐑱𐑤 𐑩𐑒𐑬𐑯𐑑𐑕"
+
+#: ../modules/mail/e-mail-shell-backend.c:221
+msgid "Composer Preferences"
+msgstr "𐑒𐑩𐑥𐑐𐑴𐑟𐑼 𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-backend.c:229
+msgid "Network Preferences"
+msgstr "𐑯𐑧𐑑𐑢𐑻𐑒 𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟"
+
+#. green
+#: ../modules/mail/e-mail-shell-migrate.c:959
+msgid "To Do"
+msgstr "𐑑 𐑛𐑵"
+
+#. blue
+#: ../modules/mail/e-mail-shell-migrate.c:960
+msgid "Later"
+msgstr "𐑤𐑱𐑑𐑼"
+
+#: ../modules/mail/e-mail-shell-migrate.c:1139
+msgid "Migration"
+msgstr "𐑥𐑲𐑜𐑮𐑱𐑖𐑩𐑯"
+
+#: ../modules/mail/e-mail-shell-migrate.c:1589
+#, c-format
+msgid "Unable to create new folder `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑯𐑿 𐑓𐑴𐑤𐑛𐑼 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:1617
+#, c-format
+msgid "Unable to copy folder `%s' to `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑪𐑐𐑦 𐑓𐑴𐑤𐑛𐑼 `%s' 𐑑 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:1812
+#, c-format
+msgid "Unable to scan for existing mailboxes at `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑕𐑒𐑨𐑯 𐑓𐑹 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑱𐑤𐑚𐑭𐑒𐑕𐑦𐑟 𐑨𐑑 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:1818
+#: ../modules/mail/e-mail-shell-migrate.c:2915
+msgid "Migrating Folders"
+msgstr "𐑥𐑲𐑜𐑮𐑱𐑑𐑦𐑙 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../modules/mail/e-mail-shell-migrate.c:1819
+msgid ""
+"The location and hierarchy of the Evolution mailbox folders has changed "
+"since Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"𐑞 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑯 𐑣𐑲𐑻𐑭𐑮𐑒𐑰 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑗𐑱𐑯𐑡𐑛 𐑕𐑦𐑯𐑕 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 1."
+"𐑧𐑒𐑕.\n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+
+#: ../modules/mail/e-mail-shell-migrate.c:2022
+#, c-format
+msgid "Unable to open old POP keep-on-server data `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑴𐑐𐑩𐑯 𐑴𐑤𐑛 𐑐𐑪𐑐 𐑒𐑰𐑐-𐑪𐑯-𐑕𐑻𐑝𐑼 𐑛𐑱𐑑𐑩 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:2038
+#, c-format
+msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑮𐑦𐑱𐑑 POP3 𐑒𐑰𐑐-𐑪𐑯-𐑕𐑻𐑝𐑼 𐑛𐑱𐑑𐑩 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:2070
+#, c-format
+msgid "Unable to copy POP3 keep-on-server data `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑪𐑐𐑦 POP3 𐑒𐑰𐑐-𐑪𐑯-𐑕𐑻𐑝𐑼 𐑛𐑱𐑑𐑩 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:2541
+#: ../modules/mail/e-mail-shell-migrate.c:2555
+#, c-format
+msgid "Failed to create local mail storage `%s': %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑤𐑴𐑒𐑩𐑤 𐑥𐑱𐑤 𐑕𐑑𐑹𐑦𐑡 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-migrate.c:3013
+#, c-format
+msgid "Unable to create local mail folders at `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑤𐑴𐑒𐑩𐑤 𐑥𐑱𐑤 𐑓𐑴𐑤𐑛𐑼𐑟 𐑨𐑑 `%s': %s"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1032
+#: ../modules/mail/e-mail-shell-view.c:510
+msgid "_Disable Account"
+msgstr "_𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑩𐑒𐑬𐑯𐑑"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1034
+msgid "Disable this account"
+msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1046
+msgid "_Download Messages for Offline Usage"
+msgstr "_𐑛𐑬𐑯𐑤𐑴𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑿𐑕𐑦𐑡"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1048
+msgid "Download messages of accounts and folders marked for offline"
+msgstr "𐑛𐑬𐑯𐑤𐑴𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑝 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯 𐑓𐑴𐑤𐑛𐑼𐑟 𐑥𐑸𐑒𐑑 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1053
+msgid "Empty _Trash"
+msgstr "𐑧𐑥𐑐𐑑𐑦 _𐑑𐑮𐑨𐑖"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1055
+#: ../modules/mail/e-mail-shell-view-actions.c:1062
+msgid "Permanently remove all the deleted messages from all folders"
+msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑞 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑷𐑤 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1074
+msgid "_Copy Folder To..."
+msgstr "_𐑒𐑪𐑐𐑦 𐑓𐑴𐑤𐑛𐑼 𐑑..."
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1076
+msgid "Copy the selected folder into another folder"
+msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛𐑼 𐑦𐑯𐑑𐑫 𐑩𐑯𐑳𐑞𐑼 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1083
+msgid "Permanently remove this folder"
+msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1090
+msgid "Permanently remove all deleted messages from this folder"
+msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1097
+msgid "Mark all messages in the folder as read"
+msgstr "𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑞 𐑓𐑴𐑤𐑛𐑼 𐑨𐑟 𐑮𐑧𐑛"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1102
+msgid "_Move Folder To..."
+msgstr "_𐑥𐑵𐑝 𐑓𐑴𐑤𐑛𐑼 𐑑..."
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1104
+msgid "Move the selected folder into another folder"
+msgstr "𐑥𐑵𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛𐑼 𐑦𐑯𐑑𐑫 𐑩𐑯𐑳𐑞𐑼 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1109
+msgid "_New..."
+msgstr "_𐑯𐑿..."
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1111
+msgid "Create a new folder for storing mail"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑓𐑴𐑤𐑛𐑼 𐑓𐑹 𐑕𐑑𐑹𐑦𐑙 𐑥𐑱𐑤"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1118
+msgid "Change the properties of this folder"
+msgstr "𐑗𐑱𐑯𐑡 𐑞 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟 𐑝 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1125
+msgid "Refresh the folder"
+msgstr "𐑮𐑰𐑓𐑮𐑧𐑖 𐑞 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1132
+msgid "Change the name of this folder"
+msgstr "𐑗𐑱𐑯𐑡 𐑞 𐑯𐑱𐑥 𐑝 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1137
+msgid "Select _All Messages"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 _𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1139
+msgid "Select all visible messages"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑝𐑦𐑕𐑦𐑚𐑩𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1144
+msgid "Select Message _Thread"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑥𐑧𐑕𐑦𐑡 _𐑔𐑮𐑧𐑛"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1146
+msgid "Select all messages in the same thread as the selected message"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑞 𐑕𐑱𐑥 𐑔𐑮𐑧𐑛 𐑨𐑟 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1153
+msgid "Select all replies to the currently selected message"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑮𐑦𐑐𐑤𐑲𐑟 𐑑 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1158
+msgid "_Unsubscribe"
+msgstr "_𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1160
+msgid "Unsubscribe from the selected folder"
+msgstr "𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1165
+msgid "_New Label"
+msgstr "_𐑯𐑿 𐑤𐑱𐑚𐑩𐑤"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1179
+msgid "Hide _Read Messages"
+msgstr "𐑣𐑲𐑛 _𐑮𐑧𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1181
+msgid "Temporarily hide all messages that have already been read"
+msgstr "𐑑𐑧𐑥𐑐𐑼𐑼𐑦𐑤𐑦 𐑣𐑲𐑛 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑞𐑨𐑑 𐑣𐑨𐑝 𐑷𐑤𐑮𐑧𐑛𐑦 𐑚𐑰𐑯 𐑮𐑧𐑛"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1188
+msgid "Temporarily hide the selected messages"
+msgstr "𐑑𐑧𐑥𐑐𐑼𐑼𐑦𐑤𐑦 𐑣𐑲𐑛 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1195
+msgid "Show messages that have been temporarily hidden"
+msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑞𐑨𐑑 𐑣𐑨𐑝 𐑚𐑰𐑯 𐑑𐑧𐑥𐑐𐑼𐑼𐑦𐑤𐑦 𐑣𐑦𐑛𐑩𐑯"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1216
+msgid "Cancel the current mail operation"
+msgstr "𐑒𐑨𐑯𐑕𐑩𐑤 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑥𐑱𐑤 𐑪𐑐𐑼𐑱𐑖𐑩𐑯"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1221
+msgid "Collapse All _Threads"
+msgstr "𐑒𐑩𐑤𐑨𐑐𐑕 𐑷𐑤 _𐑔𐑮𐑧𐑛𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1223
+msgid "Collapse all message threads"
+msgstr "𐑒𐑩𐑤𐑨𐑐𐑕 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡 𐑔𐑮𐑧𐑛𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1230
+msgid "Expand all message threads"
+msgstr "𐑦𐑒𐑕𐑐𐑨𐑯𐑛 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡 𐑔𐑮𐑧𐑛𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1235
+msgid "_Message Filters"
+msgstr "_𐑥𐑧𐑕𐑦𐑡 𐑓𐑦𐑤𐑑𐑼𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1237
+msgid "Create or edit rules for filtering new mail"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑹 𐑧𐑛𐑦𐑑 𐑮𐑵𐑤𐑟 𐑓𐑹 𐑓𐑦𐑤𐑑𐑼𐑦𐑙 𐑯𐑿 𐑥𐑱𐑤"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1244
+msgid "Create or edit search folder definitions"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑹 𐑧𐑛𐑦𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑛𐑧𐑓𐑩𐑯𐑦𐑖𐑩𐑯𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1249
+msgid "_Subscriptions..."
+msgstr "_𐑕𐑩𐑚𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯𐑟..."
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1251
+msgid "Subscribe or unsubscribe to folders on remote servers"
+msgstr "𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑹 𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑑 𐑓𐑴𐑤𐑛𐑼𐑟 𐑪𐑯 𐑮𐑦𐑥𐑴𐑑 𐑕𐑻𐑝𐑼𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1265
+msgid "_Label"
+msgstr "_𐑤𐑱𐑚𐑩𐑤"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1305
+msgid "_New Folder..."
+msgstr "_𐑯𐑿 𐑓𐑴𐑤𐑛𐑼..."
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1329
+msgid "Hide _Deleted Messages"
+msgstr "𐑣𐑲𐑛 _𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1331
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
+msgstr "𐑣𐑲𐑛 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑮𐑭𐑞𐑼 𐑞𐑨𐑯 𐑛𐑦𐑕𐑐𐑤𐑱𐑦𐑙 𐑞𐑧𐑥 𐑢𐑦𐑞 𐑩 𐑤𐑲𐑯 𐑔𐑮𐑵 𐑞𐑧𐑥"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1338
+msgid "Show Message _Preview"
+msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 _𐑐𐑮𐑰𐑝𐑿"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1340
+msgid "Show message preview pane"
+msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1346
+msgid "_Group By Threads"
+msgstr "_𐑜𐑮𐑵𐑐 𐑚𐑲 𐑔𐑮𐑧𐑛𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1348
+msgid "Threaded message list"
+msgstr "𐑔𐑮𐑧𐑛𐑩𐑛 𐑥𐑧𐑕𐑦𐑡 𐑤𐑦𐑕𐑑"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1369
+msgid "Show message preview below the message list"
+msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 𐑐𐑮𐑰𐑝𐑿 𐑚𐑩𐑤𐑴 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑤𐑦𐑕𐑑"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1376
+msgid "Show message preview alongside the message list"
+msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 𐑐𐑮𐑰𐑝𐑿 𐑩𐑤𐑪𐑙𐑕𐑲𐑛 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑤𐑦𐑕𐑑"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1384
+msgid "All Messages"
+msgstr "𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1391
+msgid "Important Messages"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑩𐑯𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1398
+msgid "Last 5 Days' Messages"
+msgstr "𐑤𐑭𐑕𐑑 5 𐑛𐑱𐑟' 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1405
+msgid "Messages Not Junk"
+msgstr "𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑯𐑪𐑑 𐑡𐑩𐑙𐑒"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1412
+msgid "Messages with Attachments"
+msgstr "𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑦𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1419
+msgid "No Label"
+msgstr "𐑯𐑴 𐑤𐑱𐑚𐑩𐑤"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1426
+msgid "Read Messages"
+msgstr "𐑮𐑧𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1433
+msgid "Recent Messages"
+msgstr "𐑮𐑰𐑕𐑩𐑯𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1440
+msgid "Unread Messages"
+msgstr "𐑳𐑯𐑮𐑧𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1485
+msgid "Subject or Addresses contain"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑹 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑒𐑩𐑯𐑑𐑱𐑯"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1495
+msgid "All Accounts"
+msgstr "𐑷𐑤 𐑩𐑒𐑬𐑯𐑑𐑕"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1502
+msgid "Current Account"
+msgstr "𐑒𐑳𐑮𐑩𐑯𐑑 𐑩𐑒𐑬𐑯𐑑"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1509
+msgid "Current Folder"
+msgstr "𐑒𐑳𐑮𐑩𐑯𐑑 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../modules/mail/e-mail-shell-view-private.c:781
+#, c-format
+msgid "%d selected, "
+msgid_plural "%d selected, "
+msgstr[0] "%d 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛, "
+msgstr[1] "%d 𐑕𐑧𐑤𐑧𐑒𐑑𐑩𐑛, "
+
+#: ../modules/mail/e-mail-shell-view-private.c:792
+#, c-format
+msgid "%d deleted"
+msgid_plural "%d deleted"
+msgstr[0] "%d 𐑛𐑦𐑤𐑰𐑑𐑩𐑛"
+msgstr[1] "%d 𐑛𐑦𐑤𐑰𐑑𐑩𐑛"
+
+#: ../modules/mail/e-mail-shell-view-private.c:798
+#: ../modules/mail/e-mail-shell-view-private.c:805
+#, c-format
+msgid "%d junk"
+msgid_plural "%d junk"
+msgstr[0] "%d 𐑡𐑩𐑙𐑒"
+msgstr[1] "%d 𐑡𐑩𐑙𐑒"
+
+#: ../modules/mail/e-mail-shell-view-private.c:811
+#, c-format
+msgid "%d draft"
+msgid_plural "%d drafts"
+msgstr[0] "%d 𐑛𐑮𐑭𐑓𐑑"
+msgstr[1] "%d 𐑛𐑮𐑭𐑓𐑑𐑕"
+
+#: ../modules/mail/e-mail-shell-view-private.c:823
+#, c-format
+msgid "%d sent"
+msgid_plural "%d sent"
+msgstr[0] "%d 𐑕𐑧𐑯𐑑"
+msgstr[1] "%d 𐑕𐑧𐑯𐑑"
+
+#: ../modules/mail/e-mail-shell-view-private.c:835
+#, c-format
+msgid "%d unread, "
+msgid_plural "%d unread, "
+msgstr[0] "%d 𐑳𐑯𐑮𐑧𐑛, "
+msgstr[1] "%d 𐑳𐑯𐑮𐑧𐑛, "
+
+#: ../modules/mail/e-mail-shell-view-private.c:838
+#, c-format
+msgid "%d total"
+msgid_plural "%d total"
+msgstr[0] "%d 𐑑𐑴𐑑𐑩𐑤"
+msgstr[1] "%d 𐑑𐑴𐑑𐑩𐑤"
+
+#: ../modules/mail/em-composer-prefs.c:478
+msgid "Language(s)"
+msgstr "𐑤𐑨𐑙𐑜𐑢𐑩𐑡(𐑟)"
+
+#: ../modules/mail/em-mailer-prefs.c:96
+msgid "Every time"
+msgstr "𐑧𐑝𐑮𐑦 𐑑𐑲𐑥"
+
+#: ../modules/mail/em-mailer-prefs.c:97
+msgid "Once per day"
+msgstr "𐑢𐑳𐑯𐑕 𐑐𐑻 𐑛𐑱"
+
+#: ../modules/mail/em-mailer-prefs.c:98
+msgid "Once per week"
+msgstr "𐑢𐑳𐑯𐑕 𐑐𐑻 𐑢𐑰𐑒"
+
+#: ../modules/mail/em-mailer-prefs.c:99
+msgid "Once per month"
+msgstr "𐑢𐑳𐑯𐑕 𐑐𐑻 𐑥𐑳𐑯𐑔"
+
+#: ../modules/mail/em-mailer-prefs.c:221
+msgid "Add Custom Junk Header"
+msgstr "𐑨𐑛 𐑒𐑳𐑕𐑑𐑩𐑥 𐑡𐑩𐑙𐑒 𐑣𐑧𐑛𐑼"
+
+#: ../modules/mail/em-mailer-prefs.c:225
+msgid "Header Name:"
+msgstr "𐑣𐑧𐑛𐑼 𐑯𐑱𐑥:"
+
+#: ../modules/mail/em-mailer-prefs.c:226
+msgid "Header Value Contains:"
+msgstr "𐑣𐑧𐑛𐑼 𐑝𐑨𐑤𐑿 𐑒𐑩𐑯𐑑𐑱𐑯𐑟:"
+
+#: ../modules/mail/em-mailer-prefs.c:326
+#: ../widgets/table/e-table-click-to-add.c:498
+#: ../widgets/table/e-table-selection-model.c:309
+msgid "Header"
+msgstr "𐑣𐑧𐑛𐑼"
+
+#: ../modules/mail/em-mailer-prefs.c:330
+msgid "Contains Value"
+msgstr "𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑝𐑨𐑤𐑿"
+
+#. May be a better text
+#: ../modules/mail/em-mailer-prefs.c:723 ../modules/mail/em-mailer-prefs.c:777
+#, c-format
+msgid "%s plugin is available and the binary is installed."
+msgstr "%s 𐑐𐑤𐑳𐑜𐑦𐑯 𐑦𐑟 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑯 𐑞 𐑚𐑲𐑯𐑼𐑦 𐑦𐑟 𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
+
+#. May be a better text
+#: ../modules/mail/em-mailer-prefs.c:731 ../modules/mail/em-mailer-prefs.c:786
+#, c-format
+msgid ""
+"%s plugin is not available. Please check whether the package is installed."
+msgstr "%s 𐑐𐑤𐑳𐑜𐑦𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤. 𐑐𐑤𐑰𐑟 𐑗𐑧𐑒 𐑢𐑧𐑞𐑼 𐑞 𐑐𐑨𐑒𐑦𐑡 𐑦𐑟 𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
+
+#: ../modules/mail/em-mailer-prefs.c:752
+msgid "No Junk plugin available"
+msgstr "𐑯𐑴 𐑡𐑩𐑙𐑒 𐑐𐑤𐑳𐑜𐑦𐑯 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤"
+
+#: ../modules/mail/em-mailer-prefs.c:1146
+msgid "Date header:"
+msgstr "𐑛𐑱𐑑 𐑣𐑧𐑛𐑼:"
+
+#: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
+msgid "Hello Python"
+msgstr "𐑣𐑩𐑤𐑴 ·𐑐𐑲𐑔𐑪𐑯"
+
+#: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:2
+msgid "Python Plugin Loader tests"
+msgstr "·𐑐𐑲𐑔𐑪𐑯 𐑐𐑤𐑳𐑜𐑦𐑯 𐑤𐑴𐑛𐑻 𐑑𐑧𐑕𐑑𐑕"
+
+#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
+msgid "Python Test Plugin"
+msgstr "·𐑐𐑲𐑔𐑪𐑯 𐑑𐑧𐑕𐑑 𐑐𐑤𐑳𐑜𐑦𐑯"
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
+msgid "Add local address books to Evolution."
+msgstr "𐑨𐑛 𐑤𐑴𐑒𐑩𐑤 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒𐑕 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
+msgid "Local Address Books"
+msgstr "𐑤𐑴𐑒𐑩𐑤 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒𐑕"
+
+#: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:1
+msgid ""
+"List of clues for the attachment reminder plugin to look for in a message "
+"body"
+msgstr "𐑤𐑦𐑕𐑑 𐑝 𐑒𐑤𐑵𐑟 𐑓𐑹 𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑮𐑦𐑥𐑲𐑯𐑛𐑼 𐑐𐑤𐑳𐑜𐑦𐑯 𐑑 𐑤𐑫𐑒 𐑓𐑹 𐑦𐑯 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑚𐑪𐑛𐑦"
+
+#: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
+msgid ""
+"List of clues for the attachment reminder plugin to look for in a message "
+"body."
+msgstr "𐑤𐑦𐑕𐑑 𐑝 𐑒𐑤𐑵𐑟 𐑓𐑹 𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑮𐑦𐑥𐑲𐑯𐑛𐑼 𐑐𐑤𐑳𐑜𐑦𐑯 𐑑 𐑤𐑫𐑒 𐑓𐑹 𐑦𐑯 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑚𐑪𐑛𐑦."
+
+#: ../plugins/attachment-reminder/attachment-reminder.c:476
+#: ../plugins/templates/templates.c:378
+msgid "Keywords"
+msgstr "𐑒𐑰𐑢𐑻𐑛𐑟"
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
+#: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
+msgid "Attachment Reminder"
+msgstr "𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑮𐑦𐑥𐑲𐑯𐑛𐑼"
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
+msgid ""
+"Evolution has found some keywords that suggest that this message should "
+"contain an attachment, but cannot find one."
+msgstr ""
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑣𐑨𐑟 𐑓𐑬𐑯𐑛 𐑕𐑳𐑥 𐑒𐑰𐑢𐑻𐑛𐑟 𐑞𐑨𐑑 𐑕𐑩𐑡𐑧𐑕𐑑 𐑞𐑨𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑖𐑫𐑛 𐑒𐑩𐑯𐑑𐑱𐑯 𐑩𐑯 "
+"𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑, 𐑚𐑳𐑑 𐑒𐑨𐑯𐑪𐑑 𐑓𐑲𐑯𐑛 𐑢𐑳𐑯."
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
+msgid "Message has no attachments"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑣𐑨𐑟 𐑯𐑴 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
+msgid "_Add attachment..."
+msgstr "_𐑨𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑..."
+
+#: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
+msgid "_Edit Message"
+msgstr "_𐑧𐑛𐑦𐑑 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
+msgid "Reminds you when you forgot to add an attachment to a mail message."
+msgstr "𐑮𐑦𐑥𐑲𐑯𐑛𐑟 𐑿 𐑢𐑧𐑯 𐑿 𐑓𐑼𐑜𐑪𐑑 𐑑 𐑨𐑛 𐑩𐑯 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑑 𐑩 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡."
+
+#: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
+msgid "Play audio attachments directly in mail messages."
+msgstr "𐑐𐑤𐑱 𐑷𐑛𐑦𐑴 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕 𐑛𐑲𐑮𐑧𐑒𐑑𐑤𐑦 𐑦𐑯 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../plugins/backup-restore/backup-restore.c:143
+msgid "Select name of the Evolution backup file"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑯𐑱𐑥 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤"
+
+#: ../plugins/backup-restore/backup-restore.c:168
+msgid "_Restart Evolution after backup"
+msgstr "_𐑮𐑰𐑕𐑑𐑸𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑭𐑓𐑑𐑼 𐑚𐑨𐑒𐑳𐑐"
+
+#: ../plugins/backup-restore/backup-restore.c:198
+msgid "Select name of the Evolution backup file to restore"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑯𐑱𐑥 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤 𐑑 𐑮𐑩𐑕𐑑𐑹"
+
+#: ../plugins/backup-restore/backup-restore.c:219
+msgid "_Restart Evolution after restore"
+msgstr "_𐑮𐑰𐑕𐑑𐑸𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑭𐑓𐑑𐑼 𐑮𐑩𐑕𐑑𐑹"
+
+#: ../plugins/backup-restore/backup-restore.c:293
+msgid ""
+"You can restore Evolution from your backup. It can restore all the Mails, "
+"Calendars, Tasks, Memos, Contacts. It also restores all your personal "
+"settings, mail filters etc."
+msgstr ""
+"𐑿 𐑒𐑨𐑯 𐑮𐑩𐑕𐑑𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 𐑿𐑼 𐑚𐑨𐑒𐑳𐑐. 𐑦𐑑 𐑒𐑨𐑯 𐑮𐑩𐑕𐑑𐑹 𐑷𐑤 𐑞 𐑥𐑱𐑤𐑟, 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟, 𐑑𐑭𐑕𐑒𐑕, "
+"𐑥𐑧𐑥𐑴𐑟, 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕. 𐑦𐑑 𐑷𐑤𐑕𐑴 𐑮𐑩𐑕𐑑𐑹𐑟 𐑷𐑤 𐑿𐑼 𐑐𐑻𐑕𐑩𐑯𐑩𐑤 𐑕𐑧𐑑𐑦𐑙𐑟, 𐑥𐑱𐑤 𐑓𐑦𐑤𐑑𐑼𐑟 𐑧𐑑𐑕."
+
+#: ../plugins/backup-restore/backup-restore.c:300
+msgid "_Restore Evolution from the backup file"
+msgstr "_𐑮𐑩𐑕𐑑𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 𐑞 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤"
+
+#: ../plugins/backup-restore/backup-restore.c:307
+msgid "Please select an Evolution Archive to restore:"
+msgstr "𐑐𐑤𐑰𐑟 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑸𐑒𐑲𐑝 𐑑 𐑮𐑩𐑕𐑑𐑹:"
+
+#: ../plugins/backup-restore/backup-restore.c:310
+msgid "Choose a file to restore"
+msgstr "𐑗𐑵𐑟 𐑩 𐑓𐑲𐑤 𐑑 𐑮𐑩𐑕𐑑𐑹"
+
+#: ../plugins/backup-restore/backup-restore.c:318
+msgid "Restore from backup"
+msgstr "𐑮𐑩𐑕𐑑𐑹 𐑓𐑮𐑪𐑥 𐑚𐑨𐑒𐑳𐑐"
+
+#: ../plugins/backup-restore/backup-restore.c:354
+msgid "_Backup Settings..."
+msgstr "_𐑚𐑨𐑒𐑳𐑐 𐑕𐑧𐑑𐑦𐑙𐑟..."
+
+#: ../plugins/backup-restore/backup-restore.c:356
+msgid "Backup Evolution data and settings to an archive file"
+msgstr "𐑚𐑨𐑒𐑳𐑐 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑑 𐑩𐑯 𐑸𐑒𐑲𐑝 𐑓𐑲𐑤"
+
+#: ../plugins/backup-restore/backup-restore.c:363
+msgid "Restore Evolution data and settings from an archive file"
+msgstr "𐑮𐑩𐑕𐑑𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑓𐑮𐑪𐑥 𐑩𐑯 𐑸𐑒𐑲𐑝 𐑓𐑲𐑤"
+
+#: ../plugins/backup-restore/backup.c:62
+msgid "Backup Evolution directory"
+msgstr "𐑚𐑨𐑒𐑳𐑐 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦"
+
+#: ../plugins/backup-restore/backup.c:64
+msgid "Restore Evolution directory"
+msgstr "𐑮𐑩𐑕𐑑𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦"
+
+#: ../plugins/backup-restore/backup.c:66
+msgid "Check Evolution Backup"
+msgstr "𐑗𐑧𐑒 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐"
+
+#: ../plugins/backup-restore/backup.c:68
+msgid "Restart Evolution"
+msgstr "𐑮𐑰𐑕𐑑𐑸𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../plugins/backup-restore/backup.c:70
+msgid "With Graphical User Interface"
+msgstr "𐑢𐑦𐑞 𐑜𐑮𐑨𐑓𐑦𐑒𐑩𐑤 𐑿𐑟𐑼 𐑦𐑯𐑑𐑼𐑓𐑱𐑕"
+
+#: ../plugins/backup-restore/backup.c:188
+#: ../plugins/backup-restore/backup.c:250
+msgid "Shutting down Evolution"
+msgstr "𐑖𐑳𐑑𐑦𐑙 𐑛𐑬𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../plugins/backup-restore/backup.c:195
+msgid "Backing Evolution accounts and settings"
+msgstr "𐑚𐑨𐑒𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟"
+
+#: ../plugins/backup-restore/backup.c:201
+msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
+msgstr "𐑚𐑨𐑒𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 (𐑥𐑱𐑤𐑟, 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕, 𐑒𐑨𐑤𐑩𐑯𐑛𐑼, 𐑑𐑭𐑕𐑒𐑕, 𐑥𐑧𐑥𐑴𐑟)"
+
+#: ../plugins/backup-restore/backup.c:212
+msgid "Backup complete"
+msgstr "𐑚𐑨𐑒𐑳𐑐 𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
+
+#: ../plugins/backup-restore/backup.c:217
+#: ../plugins/backup-restore/backup.c:238
+#: ../plugins/backup-restore/backup.c:284
+msgid "Restarting Evolution"
+msgstr "𐑮𐑰𐑕𐑑𐑸𐑑𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../plugins/backup-restore/backup.c:254
+msgid "Backup current Evolution data"
+msgstr "𐑚𐑨𐑒𐑳𐑐 𐑒𐑳𐑮𐑩𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
+
+#: ../plugins/backup-restore/backup.c:259
+msgid "Extracting files from backup"
+msgstr "𐑦𐑒𐑕𐑑𐑮𐑨𐑒𐑑𐑦𐑙 𐑓𐑲𐑤𐑟 𐑓𐑮𐑪𐑥 𐑚𐑨𐑒𐑳𐑐"
+
+#: ../plugins/backup-restore/backup.c:266
+msgid "Loading Evolution settings"
+msgstr "𐑤𐑴𐑛𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟"
+
+#: ../plugins/backup-restore/backup.c:273
+msgid "Removing temporary backup files"
+msgstr "𐑮𐑦𐑥𐑵𐑝𐑦𐑙 𐑑𐑧𐑥𐑐𐑼𐑼𐑦 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤𐑟"
+
+#: ../plugins/backup-restore/backup.c:280
+msgid "Ensuring local sources"
+msgstr "𐑦𐑯𐑖𐑫𐑼𐑦𐑙 𐑤𐑴𐑒𐑩𐑤 𐑕𐑹𐑕𐑩𐑟"
+
+#: ../plugins/backup-restore/backup.c:429
+#, c-format
+msgid "Backing up to the folder %s"
+msgstr "𐑚𐑨𐑒𐑦𐑙 𐑳𐑐 𐑑 𐑞 𐑓𐑴𐑤𐑛𐑼 %s"
+
+#: ../plugins/backup-restore/backup.c:434
+#, c-format
+msgid "Restoring from the folder %s"
+msgstr "𐑮𐑩𐑕𐑑𐑹𐑦𐑙 𐑓𐑮𐑪𐑥 𐑞 𐑓𐑴𐑤𐑛𐑼 %s"
+
+#. Backup / Restore only can have GUI. We should restrict the rest
+#: ../plugins/backup-restore/backup.c:454
+msgid "Evolution Backup"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐"
+
+#: ../plugins/backup-restore/backup.c:454
+msgid "Evolution Restore"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑮𐑩𐑕𐑑𐑹"
+
+#: ../plugins/backup-restore/backup.c:489
+msgid "Backing up Evolution Data"
+msgstr "𐑚𐑨𐑒𐑦𐑙 𐑳𐑐 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
+
+#: ../plugins/backup-restore/backup.c:490
+msgid "Please wait while Evolution is backing up your data."
+msgstr "𐑐𐑤𐑰𐑟 𐑢𐑱𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑚𐑨𐑒𐑦𐑙 𐑳𐑐 𐑿𐑼 𐑛𐑱𐑑𐑩."
+
+#: ../plugins/backup-restore/backup.c:492
+msgid "Restoring Evolution Data"
+msgstr "𐑮𐑩𐑕𐑑𐑹𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
+
+#: ../plugins/backup-restore/backup.c:493
+msgid "Please wait while Evolution is restoring your data."
+msgstr "𐑐𐑤𐑰𐑟 𐑢𐑱𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑮𐑩𐑕𐑑𐑹𐑦𐑙 𐑿𐑼 𐑛𐑱𐑑𐑩."
+
+#: ../plugins/backup-restore/backup.c:511
+msgid "This may take a while depending on the amount of data in your account."
+msgstr "𐑞𐑦𐑕 𐑥𐑱 𐑑𐑱𐑒 𐑩 𐑢𐑲𐑤 𐑛𐑦𐑐𐑧𐑯𐑛𐑦𐑙 𐑪𐑯 𐑞 𐑩𐑥𐑬𐑯𐑑 𐑝 𐑛𐑱𐑑𐑩 𐑦𐑯 𐑿𐑼 𐑩𐑒𐑬𐑯𐑑."
+
+#. the path to the shared library
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
+msgid "Backup and Restore"
+msgstr "𐑚𐑨𐑒𐑳𐑐 𐑯 𐑮𐑩𐑕𐑑𐑹"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
+msgid "Backup and restore your Evolution data and settings."
+msgstr "𐑚𐑨𐑒𐑳𐑐 𐑯 𐑮𐑩𐑕𐑑𐑹 𐑿𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟."
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
+msgid "Are you sure you want to close Evolution?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑒𐑤𐑴𐑕 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯?"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
+msgid ""
+"Are you sure you want to restore Evolution from the selected backup file?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑮𐑩𐑕𐑑𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤?"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
+msgid "Insufficient Permissions"
+msgstr "𐑦𐑯𐑕𐑩𐑓𐑦𐑖𐑩𐑯𐑑 𐑐𐑻𐑥𐑦𐑖𐑪𐑯𐑟"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
+msgid "Invalid Evolution backup file"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
+msgid "Please select a valid backup file to restore."
+msgstr "𐑐𐑤𐑰𐑟 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑝𐑨𐑤𐑦𐑛 𐑚𐑨𐑒𐑳𐑐 𐑓𐑲𐑤 𐑑 𐑮𐑩𐑕𐑑𐑹."
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
+msgid "The selected folder is not writable."
+msgstr "𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛𐑼 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑲𐑑𐑩𐑚𐑩𐑤."
+
+#: ../plugins/bbdb/bbdb.c:617 ../plugins/bbdb/bbdb.c:626
+#: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
+msgid "Automatic Contacts"
+msgstr "𐑷𐑑𐑴𐑥𐑨𐑑𐑦𐑒 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#. Enable BBDB checkbox
+#: ../plugins/bbdb/bbdb.c:641
+msgid "Create _address book entries when sending mails"
+msgstr "𐑒𐑮𐑦𐑱𐑑 _𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑧𐑯𐑑𐑮𐑦𐑟 𐑢𐑧𐑯 𐑕𐑧𐑯𐑛𐑦𐑙 𐑥𐑱𐑤𐑟"
+
+#: ../plugins/bbdb/bbdb.c:647
+msgid "Select Address book for Automatic Contacts"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑓𐑹 𐑷𐑑𐑴𐑥𐑨𐑑𐑦𐑒 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../plugins/bbdb/bbdb.c:662
+msgid "Instant Messaging Contacts"
+msgstr "𐑦𐑯𐑕𐑑𐑩𐑯𐑑 𐑥𐑧𐑕𐑦𐑡𐑦𐑙 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#. Synchronize now button.
+#: ../plugins/bbdb/bbdb.c:694
+msgid "Synchronize with _buddy list now"
+msgstr "𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑲𐑟 𐑢𐑦𐑞 _𐑚𐑩𐑛𐑰 𐑤𐑦𐑕𐑑 𐑯𐑬"
+
+#. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:162
+#, c-format
+msgid "Error occurred while spawning %s: %s."
+msgstr "𐑻𐑼 𐑪𐑒𐑻𐑛 𐑢𐑲𐑤 𐑕𐑐𐑭𐑯𐑦𐑙 %s: %s."
+
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:397
+msgid "Convert message text to _Unicode"
+msgstr "𐑒𐑩𐑯𐑝𐑻𐑑 𐑥𐑧𐑕𐑦𐑡 𐑑𐑧𐑒𐑕𐑑 𐑑 _·𐑿𐑯𐑦𐑒𐑴𐑛"
+
+#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
+msgid "Convert mail messages to Unicode"
+msgstr "𐑒𐑩𐑯𐑝𐑻𐑑 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑑 ·𐑿𐑯𐑦𐑒𐑴𐑛"
+
+#: ../plugins/caldav/caldav-source.c:366
+#: ../plugins/calendar-http/calendar-http.c:171
+msgid "_URL:"
+msgstr "_URL:"
+
+#: ../plugins/caldav/caldav-source.c:390
+#: ../plugins/google-account-setup/google-contacts-source.c:303
+msgid "Use _SSL"
+msgstr "𐑿𐑟 _SSL"
+
+#: ../plugins/caldav/caldav-source.c:451
+#: ../plugins/calendar-file/calendar-file.c:296
+#: ../plugins/calendar-http/calendar-http.c:326
+#: ../plugins/calendar-weather/calendar-weather.c:517
+#: ../plugins/google-account-setup/google-contacts-source.c:333
+#: ../plugins/google-account-setup/google-source.c:742
+msgid "weeks"
+msgstr "𐑢𐑰𐑒𐑕"
+
+#: ../plugins/calendar-file/calendar-file.c:208
+msgid "_Customize options"
+msgstr "_𐑒𐑩𐑕𐑑𐑩𐑥𐑲𐑟 𐑪𐑐𐑖𐑩𐑯𐑟"
+
+#: ../plugins/calendar-file/calendar-file.c:227
+msgid "File _name:"
+msgstr "𐑓𐑲𐑤 _𐑯𐑱𐑥:"
+
+#: ../plugins/calendar-file/calendar-file.c:231
+msgid "Choose calendar file"
+msgstr "𐑗𐑵𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑓𐑲𐑤"
+
+#: ../plugins/calendar-file/calendar-file.c:279
+msgid "On open"
+msgstr "𐑪𐑯 𐑴𐑐𐑩𐑯"
+
+#: ../plugins/calendar-file/calendar-file.c:280
+msgid "On file change"
+msgstr "𐑪𐑯 𐑓𐑲𐑤 𐑗𐑱𐑯𐑡"
+
+#: ../plugins/calendar-file/calendar-file.c:281
+msgid "Periodically"
+msgstr "𐑐𐑰𐑮𐑰𐑭𐑛𐑦𐑒𐑩𐑤𐑰"
+
+#: ../plugins/calendar-file/calendar-file.c:308
+msgid "Force read _only"
+msgstr "𐑓𐑹𐑕 𐑮𐑧𐑛 _𐑴𐑯𐑤𐑦"
+
+#: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
+msgid "Add local calendars to Evolution."
+msgstr "𐑨𐑛 𐑤𐑴𐑒𐑩𐑤 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
+msgid "Local Calendars"
+msgstr "𐑤𐑴𐑒𐑩𐑤 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../plugins/calendar-http/calendar-http.c:369
+msgid "_Secure connection"
+msgstr "_𐑕𐑦𐑒𐑘𐑫𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯"
+
+#: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
+msgid "Add web calendars to Evolution."
+msgstr "𐑨𐑛 𐑢𐑧𐑚 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
+msgid "Web Calendars"
+msgstr "𐑢𐑧𐑚 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../plugins/calendar-weather/calendar-weather.c:60
+msgid "Weather: Fog"
+msgstr "𐑢𐑧𐑞𐑼: 𐑓𐑪𐑜"
+
+#: ../plugins/calendar-weather/calendar-weather.c:61
+msgid "Weather: Cloudy"
+msgstr "𐑢𐑧𐑞𐑼: 𐑒𐑤𐑶𐑛𐑰"
+
+#: ../plugins/calendar-weather/calendar-weather.c:62
+msgid "Weather: Cloudy Night"
+msgstr "𐑢𐑧𐑞𐑼: 𐑒𐑤𐑶𐑛𐑰 𐑯𐑲𐑑"
+
+#: ../plugins/calendar-weather/calendar-weather.c:63
+msgid "Weather: Overcast"
+msgstr "𐑢𐑧𐑞𐑼: 𐑴𐑝𐑻𐑒𐑨𐑕𐑑"
+
+#: ../plugins/calendar-weather/calendar-weather.c:64
+msgid "Weather: Showers"
+msgstr "𐑢𐑧𐑞𐑼: 𐑖𐑬𐑼𐑟"
+
+#: ../plugins/calendar-weather/calendar-weather.c:65
+msgid "Weather: Snow"
+msgstr "𐑢𐑧𐑞𐑼: 𐑕𐑯𐑴"
+
+#: ../plugins/calendar-weather/calendar-weather.c:66
+msgid "Weather: Sunny"
+msgstr "𐑢𐑧𐑞𐑼: 𐑕𐑳𐑯𐑦"
+
+#: ../plugins/calendar-weather/calendar-weather.c:67
+msgid "Weather: Clear Night"
+msgstr "𐑢𐑧𐑞𐑼: 𐑒𐑤𐑽 𐑯𐑲𐑑"
+
+#: ../plugins/calendar-weather/calendar-weather.c:68
+msgid "Weather: Thunderstorms"
+msgstr "𐑢𐑧𐑞𐑼: 𐑔𐑩𐑯𐑛𐑻𐑕𐑑𐑪𐑮𐑥𐑟"
+
+#: ../plugins/calendar-weather/calendar-weather.c:221
+msgid "Select a location"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/calendar-weather/calendar-weather.c:597
+msgid "_Units:"
+msgstr "_𐑿𐑯𐑦𐑑𐑕:"
+
+#: ../plugins/calendar-weather/calendar-weather.c:605
+msgid "Imperial (Fahrenheit, inches, etc)"
+msgstr "𐑦𐑥𐑐𐑽𐑦𐑩𐑤 (·𐑓𐑧𐑮𐑩𐑯𐑣𐑲𐑑, 𐑦𐑯𐑗𐑩𐑟, 𐑧𐑑𐑕)"
+
+#: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
+msgid "Add weather calendars to Evolution."
+msgstr "𐑨𐑛 𐑢𐑧𐑞𐑼 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
+msgid "Weather Calendars"
+msgstr "𐑢𐑧𐑞𐑼 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
+msgid "Check whether Evolution is the default mailer"
+msgstr "𐑗𐑧𐑒 𐑢𐑧𐑞𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑥𐑱𐑤𐑼"
+
+#: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+msgstr "𐑧𐑝𐑮𐑦 𐑑𐑲𐑥 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑑𐑸𐑑𐑕, 𐑗𐑧𐑒 𐑢𐑧𐑞𐑼 𐑹 𐑯𐑪𐑑 𐑦𐑑 𐑦𐑟 𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑥𐑱𐑤𐑼."
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
+msgid "Check whether Evolution is the default mail client on startup."
+msgstr "𐑗𐑧𐑒 𐑢𐑧𐑞𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑥𐑱𐑤 𐑒𐑤𐑲𐑩𐑯𐑑 𐑪𐑯 𐑕𐑑𐑸𐑑𐑳𐑐."
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
+msgid "Default Mail Client"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑥𐑱𐑤 𐑒𐑤𐑲𐑩𐑯𐑑"
+
+#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
+msgid "Do you want to make Evolution your default e-mail client?"
+msgstr "𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑥𐑱𐑒 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑿𐑼 𐑛𐑦𐑓𐑷𐑤𐑑 𐑧-𐑥𐑱𐑤 𐑒𐑤𐑲𐑩𐑯𐑑?"
+
+#: ../plugins/default-source/default-source.c:94
+msgid "Mark as _default address book"
+msgstr "𐑥𐑸𐑒 𐑨𐑟 _𐑛𐑦𐑓𐑷𐑤𐑑 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../plugins/default-source/default-source.c:138
+msgid "Mark as _default calendar"
+msgstr "𐑥𐑸𐑒 𐑨𐑟 _𐑛𐑦𐑓𐑷𐑤𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../plugins/default-source/default-source.c:139
+msgid "Mark as _default task list"
+msgstr "𐑥𐑸𐑒 𐑨𐑟 _𐑛𐑦𐑓𐑷𐑤𐑑 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/default-source/default-source.c:140
+msgid "Mark as _default memo list"
+msgstr "𐑥𐑸𐑒 𐑨𐑟 _𐑛𐑦𐑓𐑷𐑤𐑑 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
+msgid "Default Sources"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑕𐑹𐑕𐑩𐑟"
+
+#: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
+msgid "Mark your preferred address book and calendar as default."
+msgstr "𐑥𐑸𐑒 𐑿𐑼 𐑐𐑮𐑦𐑓𐑻𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑨𐑟 𐑛𐑦𐑓𐑷𐑤𐑑."
+
+#: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
+msgid "List of Custom Headers"
+msgstr "𐑤𐑦𐑕𐑑 𐑝 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟"
+
+#: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
+msgid ""
+"The key specifies the list of custom headers that you can add to an outgoing "
+"message. The format for specifying a Header and Header value is: Name of the "
+"custom header followed by \"=\" and the values separated by \";\""
+msgstr ""
+"𐑞 𐑒𐑰 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑟 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟 𐑞𐑨𐑑 𐑿 𐑒𐑨𐑯 𐑨𐑛 𐑑 𐑩𐑯 𐑬𐑑𐑜𐑴𐑦𐑙 𐑥𐑧𐑕𐑦𐑡. 𐑞 𐑓𐑹𐑥𐑨𐑑 "
+"𐑓𐑹 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑦𐑙 𐑩 𐑣𐑧𐑛𐑼 𐑯 𐑣𐑧𐑛𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟: 𐑯𐑱𐑥 𐑝 𐑞 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼 𐑓𐑪𐑤𐑴𐑛 𐑚𐑲 \"=\" 𐑯 𐑞 "
+"𐑝𐑨𐑤𐑿𐑟 𐑕𐑧𐑐𐑼𐑱𐑑𐑩𐑛 𐑚𐑲 \";\""
+
+#: ../plugins/email-custom-header/email-custom-header.c:329
+msgid "Security:"
+msgstr "𐑕𐑦𐑒𐑘𐑫𐑼𐑦𐑑𐑦:"
+
+#: ../plugins/email-custom-header/email-custom-header.c:334
+msgid "Unclassified"
+msgstr "𐑩𐑯𐑒𐑤𐑨𐑕𐑦𐑓𐑲𐑛"
+
+#: ../plugins/email-custom-header/email-custom-header.c:335
+msgid "Protected"
+msgstr "𐑐𐑮𐑩𐑑𐑧𐑒𐑑𐑩𐑛"
+
+#: ../plugins/email-custom-header/email-custom-header.c:337
+msgid "Secret"
+msgstr "𐑕𐑰𐑒𐑮𐑩𐑑"
+
+#: ../plugins/email-custom-header/email-custom-header.c:338
+msgid "Top secret"
+msgstr "𐑑𐑪𐑐 𐑕𐑰𐑒𐑮𐑩𐑑"
+
+#: ../plugins/email-custom-header/email-custom-header.c:580
+msgid "_Custom Header"
+msgstr "_𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼"
+
+#: ../plugins/email-custom-header/email-custom-header.c:905
+msgid "Key"
+msgstr "𐑒𐑰"
+
+#: ../plugins/email-custom-header/email-custom-header.c:916
+#: ../plugins/templates/templates.c:384
+msgid "Values"
+msgstr "𐑝𐑨𐑤𐑿𐑟"
+
+#. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
+#: ../plugins/email-custom-header/email-custom-header.glade.h:2
+msgid ""
+"The format for specifying a Custom Header key value is:\n"
+"Name of the Custom Header key values separated by \";\"."
+msgstr ""
+"𐑞 𐑓𐑹𐑥𐑨𐑑 𐑓𐑹 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑦𐑙 𐑩 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼 𐑒𐑰 𐑝𐑨𐑤𐑿 𐑦𐑟:\n"
+"𐑯𐑱𐑥 𐑝 𐑞 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼 𐑒𐑰 𐑝𐑨𐑤𐑿𐑟 𐑕𐑧𐑐𐑼𐑱𐑑𐑩𐑛 𐑚𐑲 \";\"."
+
+#. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
+#: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
+msgid "Add custom headers to outgoing mail messages."
+msgstr "𐑨𐑛 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟 𐑑 𐑬𐑑𐑜𐑴𐑦𐑙 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
+msgid "Custom Header"
+msgstr "𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼"
+
+#: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
+msgid "Email Custom Header"
+msgstr "𐑰𐑥𐑱𐑤 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼"
+
+#: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
+msgid "Automatically launch editor when key is pressed in the mail composer"
+msgstr "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑤𐑷𐑯𐑗 𐑧𐑛𐑦𐑑𐑹 𐑢𐑧𐑯 𐑒𐑰 𐑦𐑟 𐑐𐑮𐑧𐑕𐑑 𐑦𐑯 𐑞 𐑥𐑱𐑤 𐑒𐑩𐑥𐑐𐑴𐑟𐑼"
+
+#: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
+#: ../plugins/external-editor/external-editor.c:119
+msgid "Automatically launch when a new mail is edited"
+msgstr "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑤𐑷𐑯𐑗 𐑢𐑧𐑯 𐑩 𐑯𐑿 𐑥𐑱𐑤 𐑦𐑟 𐑧𐑛𐑦𐑑𐑩𐑛"
+
+#: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:3
+msgid "Default External Editor"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹"
+
+#: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:4
+msgid "The default command that must be used as the editor."
+msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑒𐑩𐑥𐑭𐑯𐑛 𐑞𐑨𐑑 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑿𐑟𐑛 𐑨𐑟 𐑞 𐑧𐑛𐑦𐑑𐑹."
+
+#: ../plugins/external-editor/external-editor.c:108
+msgid "Command to be executed to launch the editor: "
+msgstr "𐑒𐑩𐑥𐑭𐑯𐑛 𐑑 𐑚𐑰 𐑧𐑒𐑕𐑩𐑒𐑿𐑑𐑩𐑛 𐑑 𐑤𐑷𐑯𐑗 𐑞 𐑧𐑛𐑦𐑑𐑹: "
+
+#: ../plugins/external-editor/external-editor.c:375
+#: ../plugins/external-editor/external-editor.c:377
+msgid "Compose in External Editor"
+msgstr "𐑒𐑩𐑥𐑐𐑴𐑟 𐑦𐑯 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹"
+
+#: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
+msgid "External Editor"
+msgstr "𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹"
+
+#: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
+msgid "Use an external editor to compose plain-text mail messages."
+msgstr "𐑿𐑟 𐑩𐑯 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹 𐑑 𐑒𐑩𐑥𐑐𐑴𐑟 𐑐𐑤𐑱𐑯-𐑑𐑧𐑒𐑕𐑑 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:1
+msgid "Cannot create Temporary File"
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑑𐑧𐑥𐑐𐑼𐑼𐑦 𐑓𐑲𐑤"
+
+#: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:3
+msgid ""
+"Evolution is unable to create a temporary file to save your mail. Retry "
+"later."
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑩 𐑑𐑧𐑥𐑐𐑼𐑼𐑦 𐑓𐑲𐑤 𐑑 𐑕𐑱𐑝 𐑿𐑼 𐑥𐑱𐑤. 𐑮𐑰𐑑𐑮𐑲 𐑤𐑱𐑑𐑼."
+
+#: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:4
+msgid "External editor still running"
+msgstr "𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹 𐑕𐑑𐑦𐑤 𐑮𐑳𐑯𐑦𐑙"
+
+#: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:5
+msgid ""
+"The external editor is still running. The mail composer window cannot be "
+"closed as long as the editor is active."
+msgstr ""
+"𐑞 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹 𐑦𐑟 𐑕𐑑𐑦𐑤 𐑮𐑳𐑯𐑦𐑙. 𐑞 𐑥𐑱𐑤 𐑒𐑩𐑥𐑐𐑴𐑟𐑼 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑒𐑤𐑴𐑟𐑛 𐑨𐑟 𐑤𐑪𐑙 𐑨𐑟 "
+"𐑞 𐑧𐑛𐑦𐑑𐑹 𐑦𐑟 𐑨𐑒𐑑𐑦𐑝."
+
+#: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
+msgid ""
+"The external editor set in your plugin preferences cannot be launched. Try "
+"setting a different editor."
+msgstr ""
+"𐑞 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑧𐑛𐑦𐑑𐑹 𐑕𐑧𐑑 𐑦𐑯 𐑿𐑼 𐑐𐑤𐑳𐑜𐑦𐑯 𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑤𐑪𐑯𐑗𐑑. 𐑑𐑮𐑲 𐑕𐑧𐑑𐑦𐑙 𐑩 "
+"𐑛𐑦𐑓𐑼𐑩𐑯𐑑 𐑧𐑛𐑦𐑑𐑹."
+
+#: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
+msgid "Insert Face picture by default"
+msgstr "𐑦𐑯𐑕𐑻𐑑 𐑓𐑱𐑕 𐑐𐑦𐑒𐑗𐑼 𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑"
+
+#: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:2
+msgid ""
+"Whether insert Face picture to outgoing messages by default. The picture "
+"should be set before checking this, otherwise nothing happens."
+msgstr ""
+"𐑢𐑧𐑞𐑼 𐑦𐑯𐑕𐑻𐑑 𐑓𐑱𐑕 𐑐𐑦𐑒𐑗𐑼 𐑑 𐑬𐑑𐑜𐑴𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑. 𐑞 𐑐𐑦𐑒𐑗𐑼 𐑖𐑫𐑛 𐑚𐑰 𐑕𐑧𐑑 𐑚𐑦𐑓𐑹 "
+"𐑗𐑧𐑒𐑦𐑙 𐑞𐑦𐑕, 𐑳𐑞𐑼𐑢𐑲𐑟 𐑯𐑳𐑔𐑦𐑙 𐑣𐑨𐑐𐑩𐑯𐑟."
+
+#: ../plugins/face/face.c:169
+msgid "Unknown error"
+msgstr "𐑳𐑯𐑴𐑯 𐑻𐑼"
+
+#: ../plugins/face/face.c:286
+msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 PNG 𐑐𐑦𐑒𐑗𐑼 (𐑞 𐑚𐑧𐑕𐑑 48*48 𐑝 𐑕𐑲𐑟 < 720 𐑚𐑲𐑑𐑕)"
+
+#: ../plugins/face/face.c:296
+msgid "Image files"
+msgstr "𐑦𐑥𐑦𐑡 𐑓𐑲𐑤𐑟"
+
+#: ../plugins/face/face.c:355
+msgid "_Insert Face picture by default"
+msgstr "_𐑦𐑯𐑕𐑻𐑑 𐑓𐑱𐑕 𐑐𐑦𐑒𐑗𐑼 𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑"
+
+#: ../plugins/face/face.c:366
+msgid "Load new _Face picture"
+msgstr "𐑤𐑴𐑛 𐑯𐑿 _𐑓𐑱𐑕 𐑐𐑦𐑒𐑗𐑼"
+
+#: ../plugins/face/face.c:415
+msgid "Include _Face"
+msgstr "𐑦𐑯𐑒𐑤𐑵𐑛 _𐑓𐑱𐑕"
+
+#: ../plugins/face/org-gnome-face.eplug.xml.h:1
+msgid "Attach a small picture of your face to outgoing messages."
+msgstr "𐑩𐑑𐑨𐑗 𐑩 𐑕𐑥𐑷𐑤 𐑐𐑦𐑒𐑗𐑼 𐑝 𐑿𐑼 𐑓𐑱𐑕 𐑑 𐑬𐑑𐑜𐑴𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../plugins/face/org-gnome-face.error.xml.h:1
+msgid "Failed Read"
+msgstr "𐑓𐑱𐑤𐑛 𐑮𐑧𐑛"
+
+#: ../plugins/face/org-gnome-face.error.xml.h:2
+msgid "Invalid Image Size"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑦𐑥𐑦𐑡 𐑕𐑲𐑟"
+
+#: ../plugins/face/org-gnome-face.error.xml.h:3
+msgid "Not an image"
+msgstr "𐑯𐑪𐑑 𐑩𐑯 𐑦𐑥𐑦𐑡"
+
+#: ../plugins/face/org-gnome-face.error.xml.h:4
+msgid "Please select an image of size 48 * 48"
+msgstr "𐑐𐑤𐑰𐑟 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩𐑯 𐑦𐑥𐑦𐑡 𐑝 𐑕𐑲𐑟 48 * 48"
+
+#: ../plugins/face/org-gnome-face.error.xml.h:5
+msgid "The file cannot be read"
+msgstr "𐑞 𐑓𐑲𐑤 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑮𐑧𐑛"
+
+#: ../plugins/face/org-gnome-face.error.xml.h:6
+msgid "The file you selected does not look like a valid .png image. Error: {0}"
+msgstr "𐑞 𐑓𐑲𐑤 𐑿 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑤𐑫𐑒 𐑤𐑲𐑒 𐑩 𐑝𐑨𐑤𐑦𐑛 .·𐑐·𐑯·𐑜 𐑦𐑥𐑦𐑡. 𐑻𐑼: {0}"
+
+#: ../plugins/google-account-setup/google-contacts-source.c:270
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:285
+msgid "<b>Server</b>"
+msgstr "<b>𐑕𐑻𐑝𐑼</b>"
+
+#: ../plugins/google-account-setup/google-source.c:517
+#, c-format
+msgid "Enter password for user %s to access list of subscribed calendars."
+msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 𐑿𐑟𐑼 %s 𐑑 𐑨𐑒𐑕𐑧𐑕 𐑤𐑦𐑕𐑑 𐑝 𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟."
+
+#: ../plugins/google-account-setup/google-source.c:623
+#: ../plugins/mail-to-task/mail-to-task.c:668
+#: ../plugins/mail-to-task/mail-to-task.c:886
+msgid "Unknown error."
+msgstr "𐑳𐑯𐑴𐑯 𐑻𐑼."
+
+#: ../plugins/google-account-setup/google-source.c:793
+msgid "Retrieve _list"
+msgstr "𐑮𐑦𐑑𐑮𐑰𐑝 _𐑤𐑦𐑕𐑑"
+
+#: ../plugins/groupwise-features/camel-gw-listener.c:451
+msgid "Checklist"
+msgstr "𐑗𐑧𐑒𐑤𐑦𐑕𐑑"
+
+#: ../plugins/groupwise-features/gw-ui.c:110
+msgid "New _Shared Folder..."
+msgstr "𐑯𐑿 _𐑖𐑺𐑛 𐑓𐑴𐑤𐑛𐑼..."
+
+#: ../plugins/groupwise-features/gw-ui.c:117
+msgid "_Proxy Login..."
+msgstr "_𐑐𐑮𐑪𐑒𐑕𐑦 𐑤𐑪𐑜𐑦𐑯..."
+
+#: ../plugins/groupwise-features/gw-ui.c:168
+msgid "Junk Mail Settings..."
+msgstr "𐑡𐑩𐑙𐑒 𐑥𐑱𐑤 𐑕𐑧𐑑𐑦𐑙𐑟..."
+
+#: ../plugins/groupwise-features/gw-ui.c:175
+msgid "Track Message Status..."
+msgstr "𐑑𐑮𐑨𐑒 𐑥𐑧𐑕𐑦𐑡 𐑕𐑑𐑱𐑑𐑫𐑕..."
+
+#: ../plugins/groupwise-features/gw-ui.c:181
+msgid "Retract Mail"
+msgstr "𐑮𐑰𐑑𐑮𐑨𐑒𐑑 𐑥𐑱𐑤"
+
+#: ../plugins/groupwise-features/gw-ui.c:338
+msgid "Accept Tentatively"
+msgstr "𐑨𐑒𐑕𐑧𐑐𐑑 𐑑𐑧𐑯𐑑𐑩𐑑𐑦𐑝𐑤𐑰"
+
+#: ../plugins/groupwise-features/install-shared.c:175
+#: ../plugins/groupwise-features/share-folder-common.c:351
+msgid "Create folder"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../plugins/groupwise-features/install-shared.c:225
+#, c-format
+msgid ""
+"The user '%s' has shared a folder with you\n"
+"\n"
+"Message from '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Click 'Apply' to install the shared folder\n"
+"\n"
+msgstr ""
+"𐑞 𐑿𐑟𐑼 '%s' 𐑣𐑨𐑟 𐑖𐑺𐑛 𐑩 𐑓𐑴𐑤𐑛𐑼 𐑢𐑦𐑞 𐑿\n"
+"\n"
+"𐑥𐑧𐑕𐑦𐑡 𐑓𐑮𐑪𐑥 '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"𐑒𐑤𐑦𐑒 '𐑩𐑐𐑤𐑲' 𐑑 𐑦𐑯𐑕𐑑𐑷𐑤 𐑞 𐑖𐑺𐑛 𐑓𐑴𐑤𐑛𐑼\n"
+"\n"
+
+#: ../plugins/groupwise-features/install-shared.c:237
+msgid "Install the shared folder"
+msgstr "𐑦𐑯𐑕𐑑𐑷𐑤 𐑞 𐑖𐑺𐑛 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../plugins/groupwise-features/install-shared.c:241
+msgid "Shared Folder Installation"
+msgstr "𐑖𐑺𐑛 𐑓𐑴𐑤𐑛𐑼 𐑦𐑯𐑕𐑑𐑩𐑤𐑱𐑖𐑩𐑯"
+
+#: ../plugins/groupwise-features/junk-mail-settings.c:81
+msgid "Junk Settings"
+msgstr "𐑡𐑩𐑙𐑒 𐑕𐑧𐑑𐑦𐑙𐑟"
+
+#: ../plugins/groupwise-features/junk-mail-settings.c:94
+#: ../plugins/groupwise-features/junk-settings.glade.h:3
+msgid "Junk Mail Settings"
+msgstr "𐑡𐑩𐑙𐑒 𐑥𐑱𐑤 𐑕𐑧𐑑𐑦𐑙𐑟"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:1
+msgid "<b>Junk List:</b>"
+msgstr "<b>𐑡𐑩𐑙𐑒 𐑤𐑦𐑕𐑑:</b>"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:2
+msgid "Email:"
+msgstr "𐑰𐑥𐑱𐑤:"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:5
+#: ../plugins/publish-calendar/publish-calendar.c:484
+msgid "_Disable"
+msgstr "_𐑛𐑦𐑕𐑱𐑚𐑩𐑤"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:6
+msgid "_Enable"
+msgstr "_𐑦𐑯𐑱𐑚𐑩𐑤"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:7
+msgid "_Junk List"
+msgstr "_𐑡𐑩𐑙𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/groupwise-features/junk-settings.glade.h:8
+#: ../plugins/groupwise-features/properties.glade.h:13
+#: ../widgets/table/e-table-config.glade.h:21
+msgid "_Remove"
+msgstr "_𐑮𐑦𐑥𐑵𐑝"
+
+#: ../plugins/groupwise-features/mail-retract.c:82
+msgid "Message Retract"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑮𐑰𐑑𐑮𐑨𐑒𐑑"
+
+#: ../plugins/groupwise-features/mail-retract.c:87
+msgid ""
+"Retracting a message may remove it from the recipient's mailbox. Are you "
+"sure you want to do this?"
+msgstr ""
+"𐑮𐑰𐑑𐑮𐑨𐑒𐑑𐑦𐑙 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑥𐑱 𐑮𐑦𐑥𐑵𐑝 𐑦𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑮𐑩𐑕𐑦𐑐𐑰𐑩𐑯𐑑'𐑕 𐑥𐑱𐑤𐑚𐑪𐑒𐑕. 𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 "
+"𐑛𐑵 𐑞𐑦𐑕?"
+
+#: ../plugins/groupwise-features/mail-retract.c:106
+msgid "Message retracted successfully"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑮𐑰𐑑𐑮𐑨𐑒𐑑𐑩𐑛 𐑕𐑩𐑒𐑕𐑧𐑕𐑓𐑩𐑤𐑦"
+
+#: ../plugins/groupwise-features/mail-send-options.c:200
+msgid "Insert Send options"
+msgstr "𐑦𐑯𐑕𐑻𐑑 𐑕𐑧𐑯𐑛 𐑪𐑐𐑖𐑩𐑯𐑟"
+
+#: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:1
+msgid "Message retract failed"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑮𐑰𐑑𐑮𐑨𐑒𐑑 𐑓𐑱𐑤𐑛"
+
+#: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:2
+msgid "The server did not allow the selected message to be retracted."
+msgstr "𐑞 𐑕𐑻𐑝𐑼 𐑛𐑦𐑛 𐑯𐑪𐑑 𐑩𐑤𐑬 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑚𐑰 𐑮𐑰𐑑𐑮𐑨𐑒𐑑𐑩𐑛."
+
+#: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:2
+msgid "Account Already Exists"
+msgstr "𐑩𐑒𐑬𐑯𐑑 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕"
+
+#: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:3
+#: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:1
+#: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:1
+msgid "Invalid user"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑿𐑟𐑼"
+
+#: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:4
+#: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:2
+msgid "Specify User"
+msgstr "𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑿𐑟𐑼"
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:6
+msgid "You have already given proxy permissions to this user."
+msgstr "𐑿 𐑣𐑨𐑝 𐑷𐑤𐑮𐑧𐑛𐑦 𐑜𐑦𐑝𐑩𐑯 𐑐𐑮𐑪𐑒𐑕𐑦 𐑐𐑻𐑥𐑦𐑖𐑪𐑯𐑟 𐑑 𐑞𐑦𐑕 𐑿𐑟𐑼."
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:8
+msgid "You have to specify a valid user name to give proxy rights."
+msgstr "𐑿 𐑣𐑨𐑝 𐑑 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑩 𐑝𐑨𐑤𐑦𐑛 𐑿𐑟𐑼 𐑯𐑱𐑥 𐑑 𐑜𐑦𐑝 𐑐𐑮𐑪𐑒𐑕𐑦 𐑮𐑲𐑑𐑕."
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:4
+msgid "You have to specify a user name which you want to add to the list"
+msgstr "𐑿 𐑣𐑨𐑝 𐑑 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑩 𐑿𐑟𐑼 𐑯𐑱𐑥 𐑢𐑦𐑗 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑨𐑛 𐑑 𐑞 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
+msgid "Do you want to retract the original item?"
+msgstr "𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑮𐑰𐑑𐑮𐑨𐑒𐑑 𐑞 𐑼𐑦𐑡𐑩𐑯𐑩𐑤 𐑲𐑑𐑩𐑥?"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
+msgid "The original will be removed from the recipient's mailbox."
+msgstr "𐑞 𐑼𐑦𐑡𐑩𐑯𐑩𐑤 𐑢𐑦𐑤 𐑚𐑰 𐑮𐑦𐑥𐑵𐑝𐑛 𐑓𐑮𐑪𐑥 𐑞 𐑮𐑩𐑕𐑦𐑐𐑰𐑩𐑯𐑑'𐑕 𐑥𐑱𐑤𐑚𐑪𐑒𐑕."
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
+msgid "This is a recurring meeting"
+msgstr "𐑞𐑦𐑕 𐑦𐑟 𐑩 𐑮𐑦𐑒𐑻𐑦𐑙 𐑥𐑰𐑑𐑦𐑙"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
+msgid "This will create a new meeting using the existing meeting details."
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑤 𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙 𐑿𐑟𐑦𐑙 𐑞 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑛𐑰𐑑𐑱𐑤𐑟."
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
+msgid ""
+"This will create a new meeting with the existing meeting details. The "
+"recurrence rule needs to be re-entered."
+msgstr ""
+"𐑞𐑦𐑕 𐑢𐑦𐑤 𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙 𐑢𐑦𐑞 𐑞 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑛𐑰𐑑𐑱𐑤𐑟. 𐑞 𐑮𐑦𐑒𐑻𐑩𐑯𐑕 𐑮𐑵𐑤 𐑯𐑰𐑛𐑟 𐑑 "
+"𐑚𐑰 𐑮𐑰-𐑧𐑯𐑑𐑻𐑛."
+
+#. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
+msgid "Would you like to accept it?"
+msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑨𐑒𐑕𐑧𐑐𐑑 𐑦𐑑?"
+
+#. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:11
+msgid "Would you like to decline it?"
+msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑛𐑦𐑒𐑤𐑲𐑯 𐑦𐑑?"
+
+#: ../plugins/groupwise-features/properties.glade.h:1
+msgid "<b>Users:</b>"
+msgstr "<b>𐑿𐑟𐑼𐑟:</b>"
+
+#: ../plugins/groupwise-features/properties.glade.h:5
+#: ../widgets/table/e-table-click-to-add.c:512
+msgid "Message"
+msgstr "𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/groupwise-features/properties.glade.h:6
+msgid "Shared Folder Notification"
+msgstr "𐑖𐑺𐑛 𐑓𐑴𐑤𐑛𐑼 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/groupwise-features/properties.glade.h:8
+msgid "The participants will receive the following notification.\n"
+msgstr "𐑞 𐑐𐑭𐑮𐑑𐑦𐑕𐑩𐑐𐑩𐑯𐑑𐑕 𐑢𐑦𐑤 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯.\n"
+
+#: ../plugins/groupwise-features/properties.glade.h:12
+msgid "_Not Shared"
+msgstr "_𐑯𐑪𐑑 𐑖𐑺𐑛"
+
+#: ../plugins/groupwise-features/properties.glade.h:14
+msgid "_Shared With..."
+msgstr "_𐑖𐑺𐑛 𐑢𐑦𐑞..."
+
+#: ../plugins/groupwise-features/properties.glade.h:15
+msgid "_Sharing"
+msgstr "_𐑖𐑺𐑦𐑙"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
+msgid "<b>Name</b>"
+msgstr "<b>𐑯𐑱𐑥</b>"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
+msgid "Access Rights"
+msgstr "𐑨𐑒𐑕𐑧𐑕 𐑮𐑲𐑑𐑕"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:3
+msgid "Add/Edit"
+msgstr "𐑨𐑛/𐑧𐑛𐑦𐑑"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
+msgid "Modify _folders/options/rules/"
+msgstr "𐑥𐑪𐑛𐑦𐑓𐑲 _𐑓𐑴𐑤𐑛𐑼𐑟/𐑪𐑐𐑖𐑩𐑯𐑟/𐑮𐑵𐑤𐑟/"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
+msgid "Read items marked _private"
+msgstr "𐑮𐑧𐑛 𐑲𐑑𐑩𐑥𐑟 𐑥𐑸𐑒𐑑 _𐑐𐑮𐑲𐑝𐑩𐑑"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
+msgid "Reminder Notes"
+msgstr "𐑮𐑦𐑥𐑲𐑯𐑛𐑼 𐑯𐑴𐑑𐑕"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
+msgid "Subscribe to my _alarms"
+msgstr "𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑑 𐑥𐑲 _𐑩𐑤𐑸𐑥𐑟"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
+msgid "Subscribe to my _notifications"
+msgstr "𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑑 𐑥𐑲 _𐑯𐑴𐑑𐑩𐑓𐑩𐑒𐑱𐑖𐑩𐑯𐑟"
+
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
+msgid "_Write"
+msgstr "_𐑮𐑲𐑑"
+
+#. To Translators: strip the part in front of the | and the | itself
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
+msgid "permission to read|_Read"
+msgstr "_𐑮𐑰𐑛"
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy-listing.glade.h:2
+msgid "Proxy"
+msgstr "𐑐𐑮𐑪𐑒𐑕𐑦"
+
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
+msgid "<b>Account Name</b>"
+msgstr "<b>𐑩𐑒𐑬𐑯𐑑 𐑯𐑱𐑥</b>"
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
+msgid "Proxy Login"
+msgstr "𐑐𐑮𐑪𐑒𐑕𐑦 𐑤𐑪𐑜𐑦𐑯"
+
+#: ../plugins/groupwise-features/proxy-login.c:209
+#: ../plugins/groupwise-features/proxy-login.c:252
+#: ../plugins/groupwise-features/proxy.c:487
+#: ../plugins/groupwise-features/send-options.c:86
+#, c-format
+msgid "%sEnter password for %s (user %s)"
+msgstr "%s𐑧𐑯𐑑𐑻 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 %s (𐑿𐑟𐑼 %s)"
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy.c:688
+msgid "The Proxy tab will be available only when the account is online."
+msgstr "𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑑𐑨𐑚 𐑢𐑦𐑤 𐑚𐑰 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑦𐑟 𐑪𐑯𐑤𐑲𐑯."
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy.c:694
+msgid "The Proxy tab will be available only when the account is enabled."
+msgstr "𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑑𐑨𐑚 𐑢𐑦𐑤 𐑚𐑰 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑦𐑟 𐑦𐑯𐑱𐑚𐑩𐑤𐑛."
+
+#: ../plugins/groupwise-features/proxy.c:931
+#: ../plugins/groupwise-features/share-folder.c:713
+msgid "Add User"
+msgstr "𐑨𐑛 𐑿𐑟𐑼"
+
+#: ../plugins/groupwise-features/send-options.c:214
+msgid "Advanced send options"
+msgstr "𐑩𐑛𐑝𐑭𐑯𐑕𐑑 𐑕𐑧𐑯𐑛 𐑪𐑐𐑖𐑩𐑯𐑟"
+
+#: ../plugins/groupwise-features/share-folder-common.c:318
+#: ../plugins/groupwise-features/share-folder.c:748
+msgid "Users"
+msgstr "𐑿𐑟𐑼𐑟"
+
+#: ../plugins/groupwise-features/share-folder-common.c:319
+msgid "Enter the users and set permissions"
+msgstr "𐑧𐑯𐑑𐑼 𐑞 𐑿𐑟𐑼𐑟 𐑯 𐑕𐑧𐑑 𐑐𐑻𐑥𐑦𐑖𐑪𐑯𐑟"
+
+#: ../plugins/groupwise-features/share-folder-common.c:416
+msgid "Sharing"
+msgstr "𐑖𐑺𐑦𐑙"
+
+#: ../plugins/groupwise-features/share-folder.c:531
+msgid "Custom Notification"
+msgstr "𐑒𐑳𐑕𐑑𐑩𐑥 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/groupwise-features/share-folder.c:753
+msgid "Add   "
+msgstr "𐑨𐑛   "
+
+#: ../plugins/groupwise-features/share-folder.c:759
+msgid "Modify"
+msgstr "𐑥𐑪𐑛𐑦𐑓𐑲"
+
+#: ../plugins/groupwise-features/status-track.c:124
+msgid "Message Status"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑕𐑑𐑱𐑑𐑫𐑕"
+
+#. Subject
+#: ../plugins/groupwise-features/status-track.c:138
+msgid "Subject:"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑:"
+
+#: ../plugins/groupwise-features/status-track.c:152
+msgid "From:"
+msgstr "𐑓𐑮𐑪𐑥:"
+
+#: ../plugins/groupwise-features/status-track.c:167
+msgid "Creation date:"
+msgstr "𐑒𐑮𐑰𐑱𐑖𐑩𐑯 𐑛𐑱𐑑:"
+
+#: ../plugins/groupwise-features/status-track.c:206
+msgid "Recipient: "
+msgstr "𐑮𐑩𐑕𐑦𐑐𐑰𐑩𐑯𐑑: "
+
+#: ../plugins/groupwise-features/status-track.c:213
+msgid "Delivered: "
+msgstr "𐑛𐑩𐑤𐑦𐑝𐑼𐑛: "
+
+#: ../plugins/groupwise-features/status-track.c:219
+msgid "Opened: "
+msgstr "𐑴𐑐𐑩𐑯𐑛: "
+
+#: ../plugins/groupwise-features/status-track.c:224
+msgid "Accepted: "
+msgstr "𐑨𐑒𐑕𐑧𐑐𐑑𐑩𐑛: "
+
+#: ../plugins/groupwise-features/status-track.c:229
+msgid "Deleted: "
+msgstr "𐑛𐑦𐑤𐑰𐑑𐑩𐑛: "
+
+#: ../plugins/groupwise-features/status-track.c:234
+msgid "Declined: "
+msgstr "𐑛𐑦𐑒𐑤𐑲𐑯𐑛: "
+
+#: ../plugins/groupwise-features/status-track.c:239
+msgid "Completed: "
+msgstr "𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛: "
+
+#: ../plugins/groupwise-features/status-track.c:244
+msgid "Undelivered: "
+msgstr "𐑩𐑯𐑛𐑦𐑤𐑦𐑝𐑻𐑛: "
+
+#: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
+msgid "Add Hula support to Evolution."
+msgstr "𐑨𐑛 ·𐑣𐑵𐑤𐑩 𐑕𐑩𐑐𐑹𐑑 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
+msgid "Hula Support"
+msgstr "·𐑣𐑵𐑤𐑩 𐑕𐑩𐑐𐑹𐑑"
+
+#: ../plugins/imap-features/imap-headers.c:331
+msgid "Custom Headers"
+msgstr "𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟"
+
+#: ../plugins/imap-features/imap-headers.c:344
+msgid "IMAP Headers"
+msgstr "IMAP 𐑣𐑧𐑛𐑼𐑟"
+
+#: ../plugins/imap-features/imap-headers.glade.h:1
+msgid "<b>Custom Headers</b>"
+msgstr "<b>𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟</b>"
+
+#: ../plugins/imap-features/imap-headers.glade.h:2
+msgid "<b>IMAP Headers</b>"
+msgstr "<b>IMAP 𐑣𐑧𐑛𐑼𐑟</b>"
+
+#: ../plugins/imap-features/imap-headers.glade.h:3
+msgid "Basic and _Mailing List Headers (Default)"
+msgstr "𐑚𐑱𐑕𐑦𐑒 𐑯 _𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑣𐑧𐑛𐑼𐑟 (𐑛𐑦𐑓𐑷𐑤𐑑)"
+
+#: ../plugins/imap-features/imap-headers.glade.h:4
+msgid ""
+"Give the extra headers that you need to fetch in addition to the above "
+"standard headers. \n"
+"You can ignore this if you choose \"All Headers\"."
+msgstr ""
+"𐑜𐑦𐑝 𐑞 𐑧𐑒𐑕𐑑𐑮𐑩 𐑣𐑧𐑛𐑼𐑟 𐑞𐑨𐑑 𐑿 𐑯𐑰𐑛 𐑑 𐑓𐑧𐑗 𐑦𐑯 𐑩𐑛𐑦𐑖𐑩𐑯 𐑑 𐑞 𐑩𐑚𐑳𐑝 𐑕𐑑𐑨𐑯𐑛𐑼𐑛 𐑣𐑧𐑛𐑼𐑟. \n"
+"𐑿 𐑒𐑨𐑯 𐑦𐑜𐑯𐑹 𐑞𐑦𐑕 𐑦𐑓 𐑿 𐑗𐑵𐑟 \"𐑷𐑤 𐑣𐑧𐑛𐑼𐑟\"."
+
+#: ../plugins/imap-features/imap-headers.glade.h:6
+msgid ""
+"Select your IMAP Header Preferences. \n"
+"The more headers you have the more time it will take to download."
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑 𐑿𐑼 IMAP 𐑣𐑧𐑛𐑼 𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟. \n"
+"𐑞 𐑥𐑹 𐑣𐑧𐑛𐑼𐑟 𐑿 𐑣𐑨𐑝 𐑞 𐑥𐑹 𐑑𐑲𐑥 𐑦𐑑 𐑢𐑦𐑤 𐑑𐑱𐑒 𐑑 𐑛𐑬𐑯𐑤𐑴𐑛."
+
+#: ../plugins/imap-features/imap-headers.glade.h:8
+msgid ""
+"_Basic Headers - (Fastest) \n"
+"Use this if you do not have filters based on mailing lists"
+msgstr ""
+"_𐑚𐑱𐑕𐑦𐑒 𐑣𐑧𐑛𐑼𐑟 - (𐑓𐑨𐑕𐑑𐑩𐑕𐑑) \n"
+"𐑿𐑕 𐑞𐑦𐑕 𐑦𐑓 𐑿 𐑛𐑵 𐑯𐑪𐑑 𐑣𐑨𐑝 𐑓𐑦𐑤𐑑𐑼𐑟 𐑚𐑱𐑕𐑑 𐑪𐑯 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑𐑕"
+
+#: ../plugins/imap-features/imap-headers.glade.h:10
+msgid "_Fetch All Headers"
+msgstr "_𐑓𐑧𐑗 𐑷𐑤 𐑣𐑧𐑛𐑼𐑟"
+
+#: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
+msgid "Fine-tune your IMAP accounts."
+msgstr "𐑓𐑲𐑯-𐑑𐑿𐑯 𐑿𐑼 IMAP 𐑩𐑒𐑬𐑯𐑑𐑕."
+
+#: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
+msgid "IMAP Features"
+msgstr "IMAP 𐑓𐑰𐑗𐑼𐑟"
+
+#: ../plugins/itip-formatter/itip-formatter.c:492
+#: ../plugins/itip-formatter/itip-formatter.c:617
+#, c-format
+msgid "Failed to load the calendar '%s'"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑤𐑴𐑛 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s'"
+
+#: ../plugins/itip-formatter/itip-formatter.c:637
+#, c-format
+msgid "An appointment in the calendar '%s' conflicts with this meeting"
+msgstr "𐑩𐑯 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑦𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s' 𐑒𐑩𐑯𐑓𐑤𐑦𐑒𐑑𐑕 𐑢𐑦𐑞 𐑞𐑦𐑕 𐑥𐑰𐑑𐑦𐑙"
+
+#: ../plugins/itip-formatter/itip-formatter.c:673
+#, c-format
+msgid "Found the appointment in the calendar '%s'"
+msgstr "𐑓𐑬𐑯𐑛 𐑞 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑦𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s'"
+
+#: ../plugins/itip-formatter/itip-formatter.c:772
+msgid "Unable to find any calendars"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑓𐑲𐑯𐑛 𐑧𐑯𐑦 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
+
+#: ../plugins/itip-formatter/itip-formatter.c:779
+msgid "Unable to find this meeting in any calendar"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑓𐑲𐑯𐑛 𐑞𐑦𐑕 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯 𐑧𐑯𐑦 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../plugins/itip-formatter/itip-formatter.c:783
+msgid "Unable to find this task in any task list"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑓𐑲𐑯𐑛 𐑞𐑦𐑕 𐑑𐑭𐑕𐑒 𐑦𐑯 𐑧𐑯𐑦 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:787
+msgid "Unable to find this memo in any memo list"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑓𐑲𐑯𐑛 𐑞𐑦𐑕 𐑥𐑧𐑥𐑴 𐑦𐑯 𐑧𐑯𐑦 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:858
+msgid "Opening the calendar. Please wait.."
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼. 𐑐𐑤𐑰𐑟 𐑢𐑱𐑑.."
+
+#: ../plugins/itip-formatter/itip-formatter.c:861
+msgid "Searching for an existing version of this appointment"
+msgstr "𐑕𐑻𐑗𐑦𐑙 𐑓𐑹 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑝𐑻𐑠𐑩𐑯 𐑝 𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1043
+msgid "Unable to parse item"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑐𐑸𐑕 𐑲𐑑𐑩𐑥"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1130
+#, c-format
+msgid "Unable to send item to calendar '%s'.  %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑕𐑧𐑯𐑛 𐑲𐑑𐑩𐑥 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s'.  %s"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1142
+#, c-format
+msgid "Sent to calendar '%s' as accepted"
+msgstr "𐑕𐑧𐑯𐑑 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s' 𐑨𐑟 𐑨𐑒𐑕𐑧𐑐𐑑𐑩𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1146
+#, c-format
+msgid "Sent to calendar '%s' as tentative"
+msgstr "𐑕𐑧𐑯𐑑 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s' 𐑨𐑟 𐑑𐑧𐑯𐑑𐑩𐑑𐑦𐑝"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1151
+#, c-format
+msgid "Sent to calendar '%s' as declined"
+msgstr "𐑕𐑧𐑯𐑑 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s' 𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1156
+#, c-format
+msgid "Sent to calendar '%s' as canceled"
+msgstr "𐑕𐑧𐑯𐑑 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 '%s' 𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1250
+#, c-format
+msgid "Organizer has removed the delegate %s "
+msgstr "𐑹𐑜𐑩𐑯𐑲𐑟𐑼 𐑣𐑨𐑟 𐑮𐑦𐑥𐑵𐑝𐑛 𐑞 𐑛𐑧𐑤𐑩𐑜𐑱𐑑 %s "
+
+#: ../plugins/itip-formatter/itip-formatter.c:1367
+msgid "Attendee status could not be updated because the status is invalid"
+msgstr "𐑩𐑑𐑧𐑯𐑛𐑰 𐑕𐑑𐑱𐑑𐑫𐑕 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑳𐑐𐑛𐑱𐑑𐑩𐑛 𐑚𐑦𐑒𐑪𐑟 𐑞 𐑕𐑑𐑱𐑑𐑫𐑕 𐑦𐑟 𐑦𐑯𐑝𐑨𐑤𐑦𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1396
+#, c-format
+msgid "Unable to update attendee. %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑳𐑐𐑛𐑱𐑑 𐑩𐑑𐑧𐑯𐑛𐑰. %s"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1400
+msgid "Attendee status updated"
+msgstr "𐑩𐑑𐑧𐑯𐑛𐑰 𐑕𐑑𐑱𐑑𐑫𐑕 𐑳𐑐𐑛𐑱𐑑𐑩𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1426
+msgid "Meeting information sent"
+msgstr "𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑕𐑧𐑯𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1429
+msgid "Task information sent"
+msgstr "𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑕𐑧𐑯𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1432
+msgid "Memo information sent"
+msgstr "𐑥𐑧𐑥𐑴 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑕𐑧𐑯𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1441
+msgid "Unable to send meeting information, the meeting does not exist"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑕𐑧𐑯𐑛 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯, 𐑞 𐑥𐑰𐑑𐑦𐑙 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑧𐑒𐑟𐑦𐑕𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1444
+msgid "Unable to send task information, the task does not exist"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑕𐑧𐑯𐑛 𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯, 𐑞 𐑑𐑭𐑕𐑒 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑧𐑒𐑟𐑦𐑕𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1447
+msgid "Unable to send memo information, the memo does not exist"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑕𐑧𐑯𐑛 𐑥𐑧𐑥𐑴 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯, 𐑞 𐑥𐑧𐑥𐑴 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑧𐑒𐑟𐑦𐑕𐑑"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1515
+#: ../plugins/itip-formatter/itip-formatter.c:1526
+msgid "The calendar attached is not valid"
+msgstr "𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑩𐑑𐑨𐑗𐑑 𐑦𐑟 𐑯𐑪𐑑 𐑝𐑨𐑤𐑦𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1567
+#: ../plugins/itip-formatter/itip-formatter.c:1595
+#: ../plugins/itip-formatter/itip-formatter.c:1687
+msgid "The item in the calendar is not valid"
+msgstr "𐑞 𐑲𐑑𐑩𐑥 𐑦𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑦𐑟 𐑯𐑪𐑑 𐑝𐑨𐑤𐑦𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1568
+#: ../plugins/itip-formatter/itip-formatter.c:1596
+#: ../plugins/itip-formatter/itip-formatter.c:1688
+msgid ""
+"The message does contain a calendar, but the calendar contains no events, "
+"tasks or free/busy information"
+msgstr ""
+"𐑞 𐑥𐑧𐑕𐑦𐑡 𐑛𐑳𐑟 𐑒𐑩𐑯𐑑𐑱𐑯 𐑩 𐑒𐑨𐑤𐑩𐑯𐑛𐑼, 𐑚𐑳𐑑 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑯𐑴 𐑦𐑝𐑧𐑯𐑑𐑕, 𐑑𐑭𐑕𐑒𐑕 𐑹 𐑓𐑮𐑰/"
+"𐑚𐑦𐑟𐑰 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1607
+msgid "The calendar attached contains multiple items"
+msgstr "𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑩𐑑𐑨𐑗𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑥𐑳𐑤𐑑𐑦𐑐𐑩𐑤 𐑲𐑑𐑩𐑥𐑟"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1608
+msgid ""
+"To process all of these items, the file should be saved and the calendar "
+"imported"
+msgstr "𐑑 𐑐𐑮𐑴𐑕𐑧𐑕 𐑷𐑤 𐑝 𐑞𐑰𐑟 𐑲𐑑𐑩𐑥𐑟, 𐑞 𐑓𐑲𐑤 𐑖𐑫𐑛 𐑚𐑰 𐑕𐑱𐑝𐑛 𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑦𐑥𐑐𐑹𐑑𐑩𐑛"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2353
+msgid "This meeting recurs"
+msgstr "𐑞𐑦𐑕 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑒𐑻𐑟"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2356
+msgid "This task recurs"
+msgstr "𐑞𐑦𐑕 𐑑𐑭𐑕𐑒 𐑮𐑦𐑒𐑻𐑟"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2359
+msgid "This memo recurs"
+msgstr "𐑞𐑦𐑕 𐑥𐑧𐑥𐑴 𐑮𐑦𐑒𐑻𐑟"
+
+#. Delete message after acting
+#. FIXME Need a schema for this
+#: ../plugins/itip-formatter/itip-formatter.c:2589
+msgid "_Delete message after acting"
+msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑕𐑦𐑡 𐑭𐑓𐑑𐑼 𐑨𐑒𐑑𐑦𐑙"
+
+#: ../plugins/itip-formatter/itip-formatter.c:2599
+#: ../plugins/itip-formatter/itip-formatter.c:2632
+msgid "Conflict Search"
+msgstr "𐑒𐑩𐑯𐑓𐑤𐑦𐑒𐑑 𐑕𐑻𐑗"
+
+#. Source selector
+#: ../plugins/itip-formatter/itip-formatter.c:2614
+msgid "Select the calendars to search for meeting conflicts"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 𐑕𐑻𐑗 𐑓𐑹 𐑥𐑰𐑑𐑦𐑙 𐑒𐑩𐑯𐑓𐑤𐑦𐑒𐑑𐑕"
+
+#. strftime format of a time,
+#. in 24-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:196
+msgid "Today %H:%M"
+msgstr "𐑑𐑫𐑛𐑱 %H:%M"
+
+#. strftime format of a time,
+#. in 24-hour format.
+#: ../plugins/itip-formatter/itip-view.c:200
+msgid "Today %H:%M:%S"
+msgstr "𐑑𐑫𐑛𐑱 %H:%M:%s"
+
+#. strftime format of a time,
+#. in 12-hour format.
+#: ../plugins/itip-formatter/itip-view.c:209
+msgid "Today %l:%M:%S %p"
+msgstr "𐑑𐑫𐑛𐑱 %l:%M:%s %p"
+
+#. strftime format of a time,
+#. in 24-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:224
+msgid "Tomorrow %H:%M"
+msgstr "𐑑𐑫𐑥𐑪𐑮𐑴 %H:%M"
+
+#. strftime format of a time,
+#. in 24-hour format.
+#: ../plugins/itip-formatter/itip-view.c:228
+msgid "Tomorrow %H:%M:%S"
+msgstr "𐑑𐑫𐑥𐑪𐑮𐑴 %H:%M:%s"
+
+#. strftime format of a time,
+#. in 12-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:233
+msgid "Tomorrow %l:%M %p"
+msgstr "𐑑𐑫𐑥𐑪𐑮𐑴 %l:%M %p"
+
+#. strftime format of a time,
+#. in 12-hour format.
+#: ../plugins/itip-formatter/itip-view.c:237
+msgid "Tomorrow %l:%M:%S %p"
+msgstr "𐑑𐑫𐑥𐑪𐑮𐑴 %l:%M:%S %p"
+
+#. strftime format of a weekday.
+#: ../plugins/itip-formatter/itip-view.c:256
+#, c-format
+msgid "%A"
+msgstr "%A"
+
+#. strftime format of a weekday and a
+#. time, in 24-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:261
+msgid "%A %H:%M"
+msgstr "%A %H:%M"
+
+#. strftime format of a weekday and a
+#. time, in 24-hour format.
+#: ../plugins/itip-formatter/itip-view.c:265
+msgid "%A %H:%M:%S"
+msgstr "%A %H:%M:%S"
+
+#. strftime format of a weekday and a
+#. time, in 12-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:270
+msgid "%A %l:%M %p"
+msgstr "%A %l:%M %p"
+
+#. strftime format of a weekday and a
+#. time, in 12-hour format.
+#: ../plugins/itip-formatter/itip-view.c:274
+msgid "%A %l:%M:%S %p"
+msgstr "%A %l:%M:%S %p"
+
+#. strftime format of a weekday and a date
+#. without a year.
+#: ../plugins/itip-formatter/itip-view.c:283
+msgid "%A, %B %e"
+msgstr "%A, %B %e"
+
+#. strftime format of a weekday, a date
+#. without a year and a time,
+#. in 24-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:289
+msgid "%A, %B %e %H:%M"
+msgstr "%A, %B %e %H:%M"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 24-hour format.
+#: ../plugins/itip-formatter/itip-view.c:293
+msgid "%A, %B %e %H:%M:%S"
+msgstr "%A, %B %e %H:%M:%S"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 12-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:298
+msgid "%A, %B %e %l:%M %p"
+msgstr "%A, %B %e %l:%M %p"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 12-hour format.
+#: ../plugins/itip-formatter/itip-view.c:302
+msgid "%A, %B %e %l:%M:%S %p"
+msgstr "%A, %B %e %l:%M:%s %p"
+
+#. strftime format of a weekday and a date.
+#: ../plugins/itip-formatter/itip-view.c:308
+msgid "%A, %B %e, %Y"
+msgstr "%A, %B %e, %Y"
+
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:313
+msgid "%A, %B %e, %Y %H:%M"
+msgstr "%A, %B %e, %Y %H:%M"
+
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
+#: ../plugins/itip-formatter/itip-view.c:317
+msgid "%A, %B %e, %Y %H:%M:%S"
+msgstr "%A, %B %e, %Y %H:%M:%s"
+
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
+#: ../plugins/itip-formatter/itip-view.c:322
+msgid "%A, %B %e, %Y %l:%M %p"
+msgstr "%A, %B %e, %Y %l:%M %p"
+
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
+#: ../plugins/itip-formatter/itip-view.c:326
+msgid "%A, %B %e, %Y %l:%M:%S %p"
+msgstr "%A, %B %e, %Y %l:%M:%s %p"
+
+#: ../plugins/itip-formatter/itip-view.c:351
+#: ../plugins/itip-formatter/itip-view.c:439
+#: ../plugins/itip-formatter/itip-view.c:527
+#, c-format
+msgid "Please respond on behalf of <b>%s</b>"
+msgstr "𐑐𐑤𐑰𐑟 𐑮𐑰𐑕𐑐𐑪𐑯𐑛 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 <b>%s</b>"
+
+#: ../plugins/itip-formatter/itip-view.c:353
+#: ../plugins/itip-formatter/itip-view.c:441
+#: ../plugins/itip-formatter/itip-view.c:529
+#, c-format
+msgid "Received on behalf of <b>%s</b>"
+msgstr "𐑮𐑦𐑕𐑰𐑝𐑛 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 <b>%s</b>"
+
+#: ../plugins/itip-formatter/itip-view.c:358
+#, c-format
+msgid "<b>%s</b> through %s has published the following meeting information:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯:"
+
+#: ../plugins/itip-formatter/itip-view.c:360
+#, c-format
+msgid "<b>%s</b> has published the following meeting information:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯:"
+
+#: ../plugins/itip-formatter/itip-view.c:365
+#, c-format
+msgid "<b>%s</b> has delegated the following meeting to you:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑛𐑧𐑤𐑩𐑜𐑱𐑑𐑩𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑑 𐑿:"
+
+#: ../plugins/itip-formatter/itip-view.c:368
+#, c-format
+msgid "<b>%s</b> through %s requests your presence at the following meeting:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:370
+#, c-format
+msgid "<b>%s</b> requests your presence at the following meeting:"
+msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:376
+#, c-format
+msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:378
+#, c-format
+msgid "<b>%s</b> wishes to add to an existing meeting:"
+msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:382
+#, c-format
+msgid ""
+"<b>%s</b> through %s wishes to receive the latest information for the "
+"following meeting:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:384
+#, c-format
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:388
+#, c-format
+msgid "<b>%s</b> through %s has sent back the following meeting response:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+
+#: ../plugins/itip-formatter/itip-view.c:390
+#, c-format
+msgid "<b>%s</b> has sent back the following meeting response:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+
+#: ../plugins/itip-formatter/itip-view.c:394
+#, c-format
+msgid "<b>%s</b> through %s has canceled the following meeting:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+
+#: ../plugins/itip-formatter/itip-view.c:396
+#, c-format
+msgid "<b>%s</b> has canceled the following meeting."
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙."
+
+#: ../plugins/itip-formatter/itip-view.c:400
+#, c-format
+msgid "<b>%s</b> through %s has proposed the following meeting changes."
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
+
+#: ../plugins/itip-formatter/itip-view.c:402
+#, c-format
+msgid "<b>%s</b> has proposed the following meeting changes."
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
+
+#: ../plugins/itip-formatter/itip-view.c:406
+#, c-format
+msgid "<b>%s</b> through %s has declined the following meeting changes:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟:"
+
+#: ../plugins/itip-formatter/itip-view.c:408
+#, c-format
+msgid "<b>%s</b> has declined the following meeting changes."
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
+
+#: ../plugins/itip-formatter/itip-view.c:446
+#, c-format
+msgid "<b>%s</b> through %s has published the following task:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:448
+#, c-format
+msgid "<b>%s</b> has published the following task:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:453
+#, c-format
+msgid "<b>%s</b> requests the assignment of %s to the following task:"
+msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑞 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑝 %s 𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:456
+#, c-format
+msgid "<b>%s</b> through %s has assigned you a task:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑨𐑟𐑕𐑲𐑯𐑛 𐑿 𐑩 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:458
+#, c-format
+msgid "<b>%s</b> has assigned you a task:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑨𐑟𐑕𐑲𐑯𐑛 𐑿 𐑩 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:464
+#, c-format
+msgid "<b>%s</b> through %s wishes to add to an existing task:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:466
+#, c-format
+msgid "<b>%s</b> wishes to add to an existing task:"
+msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:470
+#, c-format
+msgid ""
+"<b>%s</b> through %s wishes to receive the latest information for the "
+"following assigned task:"
+msgstr ""
+"<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:472
+#, c-format
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following "
+"assigned task:"
+msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:476
+#, c-format
+msgid ""
+"<b>%s</b> through %s has sent back the following assigned task response:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+
+#: ../plugins/itip-formatter/itip-view.c:478
+#, c-format
+msgid "<b>%s</b> has sent back the following assigned task response:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+
+#: ../plugins/itip-formatter/itip-view.c:482
+#, c-format
+msgid "<b>%s</b> through %s has canceled the following assigned task:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:484
+#, c-format
+msgid "<b>%s</b> has canceled the following assigned task:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:488
+#, c-format
+msgid ""
+"<b>%s</b> through %s has proposed the following task assignment changes:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑗𐑱𐑯𐑡𐑩𐑟:"
+
+#: ../plugins/itip-formatter/itip-view.c:490
+#, c-format
+msgid "<b>%s</b> has proposed the following task assignment changes:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑗𐑱𐑯𐑡𐑩𐑟:"
+
+#: ../plugins/itip-formatter/itip-view.c:494
+#, c-format
+msgid "<b>%s</b> through %s has declined the following assigned task:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:496
+#, c-format
+msgid "<b>%s</b> has declined the following assigned task:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+
+#: ../plugins/itip-formatter/itip-view.c:534
+#, c-format
+msgid "<b>%s</b> through %s has published the following memo:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑧𐑥𐑴:"
+
+#: ../plugins/itip-formatter/itip-view.c:536
+#, c-format
+msgid "<b>%s</b> has published the following memo:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑧𐑥𐑴:"
+
+#: ../plugins/itip-formatter/itip-view.c:541
+#, c-format
+msgid "<b>%s</b> through %s wishes to add to an existing memo:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑧𐑥𐑴:"
+
+#: ../plugins/itip-formatter/itip-view.c:543
+#, c-format
+msgid "<b>%s</b> wishes to add to an existing memo:"
+msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑧𐑥𐑴:"
+
+#: ../plugins/itip-formatter/itip-view.c:547
+#, c-format
+msgid "<b>%s</b> through %s has canceled the following shared memo:"
+msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
+
+#: ../plugins/itip-formatter/itip-view.c:549
+#, c-format
+msgid "<b>%s</b> has canceled the following shared memo:"
+msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
+
+#. Everything gets the open button
+#: ../plugins/itip-formatter/itip-view.c:822
+msgid "_Open Calendar"
+msgstr "_𐑴𐑐𐑩𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../plugins/itip-formatter/itip-view.c:828
+#: ../plugins/itip-formatter/itip-view.c:832
+#: ../plugins/itip-formatter/itip-view.c:838
+#: ../plugins/itip-formatter/itip-view.c:855
+#: ../plugins/itip-formatter/itip-view.c:860
+msgid "_Decline"
+msgstr "_𐑛𐑦𐑒𐑤𐑲𐑯"
+
+#: ../plugins/itip-formatter/itip-view.c:829
+#: ../plugins/itip-formatter/itip-view.c:834
+#: ../plugins/itip-formatter/itip-view.c:841
+#: ../plugins/itip-formatter/itip-view.c:857
+#: ../plugins/itip-formatter/itip-view.c:862
+msgid "_Accept"
+msgstr "_𐑨𐑒𐑕𐑧𐑐𐑑"
+
+#: ../plugins/itip-formatter/itip-view.c:832
+msgid "_Decline all"
+msgstr "_𐑛𐑦𐑒𐑤𐑲𐑯 𐑷𐑤"
+
+#: ../plugins/itip-formatter/itip-view.c:833
+msgid "_Tentative all"
+msgstr "_𐑑𐑧𐑯𐑑𐑩𐑑𐑦𐑝 𐑷𐑤"
+
+#: ../plugins/itip-formatter/itip-view.c:833
+#: ../plugins/itip-formatter/itip-view.c:839
+#: ../plugins/itip-formatter/itip-view.c:856
+#: ../plugins/itip-formatter/itip-view.c:861
+msgid "_Tentative"
+msgstr "_𐑑𐑧𐑯𐑑𐑩𐑑𐑦𐑝"
+
+#: ../plugins/itip-formatter/itip-view.c:834
+msgid "_Accept all"
+msgstr "_𐑨𐑒𐑕𐑧𐑐𐑑 𐑷𐑤"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:845
+msgid "_Send Information"
+msgstr "_𐑕𐑧𐑯𐑛 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#. FIXME Is this really the right button?
+#: ../plugins/itip-formatter/itip-view.c:849
+msgid "_Update Attendee Status"
+msgstr "_𐑳𐑐𐑛𐑱𐑑 𐑩𐑑𐑧𐑯𐑛𐑰 𐑕𐑑𐑱𐑑𐑫𐑕"
+
+#: ../plugins/itip-formatter/itip-view.c:852
+msgid "_Update"
+msgstr "_𐑳𐑐𐑛𐑱𐑑"
+
+#. Start time
+#: ../plugins/itip-formatter/itip-view.c:1032
+msgid "Start time:"
+msgstr "𐑕𐑑𐑸𐑑 𐑑𐑲𐑥:"
+
+#. End time
+#: ../plugins/itip-formatter/itip-view.c:1043
+msgid "End time:"
+msgstr "𐑧𐑯𐑛 𐑑𐑲𐑥:"
+
+#. Comment
+#: ../plugins/itip-formatter/itip-view.c:1063
+#: ../plugins/itip-formatter/itip-view.c:1117
+msgid "Comment:"
+msgstr "𐑒𐑳𐑥𐑥𐑩𐑯𐑑:"
+
+#: ../plugins/itip-formatter/itip-view.c:1102
+msgid "Send _reply to sender"
+msgstr "𐑕𐑧𐑯𐑛 _𐑮𐑦𐑐𐑤𐑲 𐑑 𐑕𐑧𐑯𐑛𐑻"
+
+#: ../plugins/itip-formatter/itip-view.c:1132
+msgid "Send _updates to attendees"
+msgstr "𐑕𐑧𐑯𐑛 _𐑳𐑐𐑛𐑱𐑑𐑕 𐑑 𐑩𐑑𐑧𐑯𐑛𐑰𐑟"
+
+#: ../plugins/itip-formatter/itip-view.c:1141
+msgid "_Apply to all instances"
+msgstr "_𐑩𐑐𐑤𐑲 𐑑 𐑷𐑤 𐑦𐑯𐑕𐑑𐑨𐑯𐑕𐑩𐑟"
+
+#: ../plugins/itip-formatter/itip-view.c:1150
+msgid "Show time as _free"
+msgstr "𐑖𐑴 𐑑𐑲𐑥 𐑨𐑟 _𐑓𐑮𐑰"
+
+#: ../plugins/itip-formatter/itip-view.c:1153
+msgid "_Preserve my reminder"
+msgstr "_𐑐𐑮𐑦𐑟𐑻𐑝 𐑥𐑲 𐑮𐑦𐑥𐑲𐑯𐑛𐑼"
+
+#. To Translators: This is a check box to inherit a reminder.
+#: ../plugins/itip-formatter/itip-view.c:1159
+msgid "_Inherit reminder"
+msgstr "_𐑦𐑯𐑣𐑧𐑮𐑩𐑑 𐑮𐑦𐑥𐑲𐑯𐑛𐑼"
+
+#: ../plugins/itip-formatter/itip-view.c:1911
+msgid "_Tasks:"
+msgstr "_𐑑𐑭𐑕𐑒𐑕:"
+
+#: ../plugins/itip-formatter/itip-view.c:1913
+msgid "_Memos:"
+msgstr "_𐑥𐑧𐑥𐑴𐑟:"
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
+msgid "Display \"text/calendar\" MIME parts in mail messages."
+msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 \"text/calendar\" MIME 𐑐𐑸𐑑𐑕 𐑦𐑯 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
+msgid "This meeting has been delegated"
+msgstr "𐑞𐑦𐑕 𐑥𐑰𐑑𐑦𐑙 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑛𐑧𐑤𐑩𐑜𐑱𐑑𐑩𐑛"
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
+msgid ""
+"This response is not from a current attendee. Add the sender as an attendee?"
+msgstr "𐑞𐑦𐑕 𐑮𐑦𐑕𐑐𐑪𐑯𐑕 𐑦𐑟 𐑯𐑪𐑑 𐑓𐑮𐑪𐑥 𐑩 𐑒𐑳𐑮𐑩𐑯𐑑 𐑩𐑑𐑧𐑯𐑛𐑰. 𐑨𐑛 𐑞 𐑕𐑧𐑯𐑛𐑻 𐑨𐑟 𐑩𐑯 𐑩𐑑𐑧𐑯𐑛𐑰?"
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
+msgid "Beep or play sound file."
+msgstr "𐑚𐑰𐑐 𐑹 𐑐𐑤𐑱 𐑕𐑬𐑯𐑛 𐑓𐑲𐑤."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
+msgid "Blink icon in notification area."
+msgstr "𐑚𐑤𐑦𐑙𐑒 𐑲𐑒𐑪𐑯 𐑦𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑺𐑦𐑩."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
+msgid "Enable D-Bus messages."
+msgstr "𐑦𐑯𐑱𐑚𐑩𐑤 D-Bus 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
+msgid "Enable icon in notification area."
+msgstr "𐑦𐑯𐑱𐑚𐑩𐑤 𐑲𐑒𐑪𐑯 𐑦𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑺𐑦𐑩."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
+msgid "Generates a D-Bus message when new mail messages arrive."
+msgstr "𐑡𐑧𐑯𐑼𐑱𐑑𐑕 𐑩 D-Bus 𐑥𐑧𐑕𐑦𐑡 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
+msgid ""
+"If \"true\", then beep, otherwise will play sound file when new messages "
+"arrive."
+msgstr "𐑦𐑓 \"𐑑𐑮𐑵\", 𐑞𐑧𐑯 𐑚𐑰𐑐, 𐑳𐑞𐑼𐑢𐑲𐑟 𐑢𐑦𐑤 𐑐𐑤𐑱 𐑕𐑬𐑯𐑛 𐑓𐑲𐑤 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
+msgid "Play sound when new messages arrive."
+msgstr "𐑐𐑤𐑱 𐑕𐑬𐑯𐑛 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
+msgid "Play themed sound when new messages arrive, if not in beep mode."
+msgstr "𐑐𐑤𐑱 𐑔𐑰𐑥𐑛 𐑕𐑬𐑯𐑛 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝, 𐑦𐑓 𐑯𐑪𐑑 𐑦𐑯 𐑚𐑰𐑐 𐑥𐑴𐑛."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
+msgid "Popup message together with the icon."
+msgstr "𐑐𐑪𐑐𐑳𐑐 𐑥𐑧𐑕𐑦𐑡 𐑑𐑫𐑜𐑧𐑞𐑼 𐑢𐑦𐑞 𐑞 𐑲𐑒𐑪𐑯."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
+msgid "Show new mail icon in notification area when new messages arrive."
+msgstr "𐑖𐑴 𐑯𐑿 𐑥𐑱𐑤 𐑲𐑒𐑪𐑯 𐑦𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑺𐑦𐑩 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
+msgid "Sound file name to be played."
+msgstr "𐑕𐑬𐑯𐑛 𐑓𐑲𐑤 𐑯𐑱𐑥 𐑑 𐑚𐑰 𐑐𐑤𐑱𐑛."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
+msgid "Sound file to be played when new messages arrive, if not in beep mode."
+msgstr "𐑕𐑬𐑯𐑛 𐑓𐑲𐑤 𐑑 𐑚𐑰 𐑐𐑤𐑱𐑛 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝, 𐑦𐑓 𐑯𐑪𐑑 𐑦𐑯 𐑚𐑰𐑐 𐑥𐑴𐑛."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
+msgid "Use sound theme"
+msgstr "𐑿𐑟 𐑕𐑬𐑯𐑛 𐑔𐑰𐑥"
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
+msgid "Whether play sound or beep when new messages arrive."
+msgstr "𐑢𐑧𐑞𐑼 𐑐𐑤𐑱 𐑕𐑬𐑯𐑛 𐑹 𐑚𐑰𐑐 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
+msgid "Whether show message over the icon when new messages arrive."
+msgstr "𐑢𐑧𐑞𐑼 𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 𐑴𐑝𐑼 𐑞 𐑲𐑒𐑪𐑯 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:17
+msgid "Whether the icon should blink or not."
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑲𐑒𐑪𐑯 𐑖𐑫𐑛 𐑚𐑤𐑦𐑙𐑒 𐑹 𐑯𐑪𐑑."
+
+#: ../plugins/mail-notification/mail-notification.c:341
+msgid "Evolution's Mail Notification"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯'𐑕 𐑥𐑱𐑤 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/mail-notification/mail-notification.c:363
+msgid "Mail Notification Properties"
+msgstr "𐑥𐑱𐑤 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+
+#. To translators: '%d' is the count of mails received and '%s' is the name of the folder
+#: ../plugins/mail-notification/mail-notification.c:492
+#, c-format
+msgid ""
+"You have received %d new message\n"
+"in %s."
+msgid_plural ""
+"You have received %d new messages\n"
+"in %s."
+msgstr[0] ""
+"𐑿 𐑣𐑨𐑝 𐑮𐑦𐑕𐑰𐑝𐑛 %d 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡\n"
+"𐑦𐑯 %s."
+msgstr[1] ""
+"𐑿 𐑣𐑨𐑝 𐑮𐑦𐑕𐑰𐑝𐑛 %d 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑧𐑟\n"
+"𐑦𐑯 %s."
+
+#. To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com"
+#: ../plugins/mail-notification/mail-notification.c:503
+#, c-format
+msgid "From: %s"
+msgstr "𐑓𐑮𐑪𐑥: %s"
+
+#. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
+#: ../plugins/mail-notification/mail-notification.c:515
+#, c-format
+msgid "Subject: %s"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑: %s"
+
+#: ../plugins/mail-notification/mail-notification.c:524
+#, c-format
+msgid "You have received %d new message."
+msgid_plural "You have received %d new messages."
+msgstr[0] "𐑿 𐑣𐑨𐑝 𐑮𐑦𐑕𐑰𐑝𐑛 %d 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡."
+msgstr[1] "𐑿 𐑣𐑨𐑝 𐑮𐑦𐑕𐑰𐑝𐑛 %d 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑧𐑟."
+
+#: ../plugins/mail-notification/mail-notification.c:541
+#: ../plugins/mail-notification/mail-notification.c:546
+msgid "New email"
+msgstr "𐑯𐑿 𐑰𐑥𐑱𐑤"
+
+#: ../plugins/mail-notification/mail-notification.c:599
+msgid "Show icon in _notification area"
+msgstr "𐑖𐑴 𐑲𐑒𐑪𐑯 𐑦𐑯 _𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑺𐑦𐑩"
+
+#: ../plugins/mail-notification/mail-notification.c:637
+msgid "Popup _message together with the icon"
+msgstr "𐑐𐑪𐑐𐑳𐑐 _𐑥𐑧𐑕𐑦𐑡 𐑑𐑫𐑜𐑧𐑞𐑼 𐑢𐑦𐑞 𐑞 𐑲𐑒𐑪𐑯"
+
+#: ../plugins/mail-notification/mail-notification.c:816
+msgid "_Play sound when new messages arrive"
+msgstr "_𐑐𐑤𐑱 𐑕𐑬𐑯𐑛 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝"
+
+#: ../plugins/mail-notification/mail-notification.c:845
+msgid "_Beep"
+msgstr "_𐑚𐑰𐑐"
+
+#: ../plugins/mail-notification/mail-notification.c:858
+msgid "Use sound _theme"
+msgstr "𐑿𐑟 𐑕𐑬𐑯𐑛 _𐑔𐑰𐑥"
+
+#: ../plugins/mail-notification/mail-notification.c:877
+msgid "Play _file:"
+msgstr "𐑐𐑤𐑱 _𐑓𐑲𐑤:"
+
+#: ../plugins/mail-notification/mail-notification.c:888
+msgid "Select sound file"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑕𐑬𐑯𐑛 𐑓𐑲𐑤"
+
+#: ../plugins/mail-notification/mail-notification.c:955
+msgid "Generate a _D-Bus message"
+msgstr "𐑡𐑧𐑯𐑼𐑱𐑑 𐑩 _D-Bus 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
+msgid "Mail Notification"
+msgstr "𐑥𐑱𐑤 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
+msgid "Notifies you when new mail messages arrive."
+msgstr "𐑯𐑴𐑑𐑦𐑓𐑲𐑟 𐑿 𐑢𐑧𐑯 𐑯𐑿 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑼𐑲𐑝."
+
+#. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
+#: ../plugins/mail-to-task/mail-to-task.c:184
+#, c-format
+msgid "Created from a mail by %s"
+msgstr "𐑒𐑮𐑦𐑱𐑑𐑩𐑛 𐑓𐑮𐑪𐑥 𐑩 𐑥𐑱𐑤 𐑚𐑲 %s"
+
+#: ../plugins/mail-to-task/mail-to-task.c:439
+#, c-format
+msgid ""
+"Selected calendar contains event '%s' already. Would you like to edit the "
+"old event?"
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑦𐑝𐑧𐑯𐑑 '%s' 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑧𐑛𐑦𐑑 𐑞 𐑴𐑤𐑛 𐑦𐑝𐑧𐑯𐑑?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:442
+#, c-format
+msgid ""
+"Selected task list contains task '%s' already. Would you like to edit the "
+"old task?"
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑑𐑭𐑕𐑒 '%s' 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑧𐑛𐑦𐑑 𐑞 𐑴𐑤𐑛 𐑑𐑭𐑕𐑒?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:445
+#, c-format
+msgid ""
+"Selected memo list contains memo '%s' already. Would you like to edit the "
+"old memo?"
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑥𐑧𐑥𐑴 '%s' 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑧𐑛𐑦𐑑 𐑞 𐑴𐑤𐑛 𐑥𐑧𐑥𐑴?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:462
+msgid ""
+"Selected calendar contains some events for the given mails already. Would "
+"you like to create new events anyway?"
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑳𐑥 𐑦𐑝𐑧𐑯𐑑𐑕 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤𐑟 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 "
+"𐑒𐑮𐑦𐑱𐑑 𐑯𐑿 𐑦𐑝𐑧𐑯𐑑𐑕 𐑧𐑯𐑦𐑢𐑱?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:465
+msgid ""
+"Selected task list contains some tasks for the given mails already. Would "
+"you like to create new tasks anyway?"
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑳𐑥 𐑑𐑭𐑕𐑒𐑕 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤𐑟 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 "
+"𐑒𐑮𐑦𐑱𐑑 𐑯𐑿 𐑑𐑭𐑕𐑒𐑕 𐑧𐑯𐑦𐑢𐑱?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:468
+msgid ""
+"Selected memo list contains some memos for the given mails already. Would "
+"you like to create new memos anyway?"
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑳𐑥 𐑥𐑧𐑥𐑴𐑟 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤𐑟 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 "
+"𐑒𐑮𐑦𐑱𐑑 𐑯𐑿 𐑥𐑧𐑥𐑴𐑟 𐑧𐑯𐑦𐑢𐑱?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:486
+msgid ""
+"Selected calendar contains an event for the given mail already. Would you "
+"like to create new event anyway?"
+msgid_plural ""
+"Selected calendar contains events for the given mails already. Would you "
+"like to create new events anyway?"
+msgstr[0] ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑩𐑯 𐑦𐑝𐑧𐑯𐑑 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑒𐑮𐑦𐑱𐑑 "
+"𐑯𐑿 𐑦𐑝𐑧𐑯𐑑 𐑧𐑯𐑦𐑢𐑱?"
+msgstr[1] ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑦𐑝𐑧𐑯𐑑𐑕 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑒𐑮𐑦𐑱𐑑 "
+"𐑯𐑿 𐑦𐑝𐑧𐑯𐑑 𐑧𐑯𐑦𐑢𐑱?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:492
+msgid ""
+"Selected task list contains a task for the given mail already. Would you "
+"like to create new task anyway?"
+msgid_plural ""
+"Selected task list contains tasks for the given mails already. Would you "
+"like to create new tasks anyway?"
+msgstr[0] ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑩 𐑑𐑭𐑕𐑒 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑒𐑮𐑦𐑱𐑑 "
+"𐑯𐑿 𐑑𐑭𐑕𐑒 𐑧𐑯𐑦𐑢𐑱?"
+msgstr[1] ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑑𐑭𐑕𐑒𐑕 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑒𐑮𐑦𐑱𐑑 "
+"𐑯𐑿 𐑑𐑭𐑕𐑒 𐑧𐑯𐑦𐑢𐑱?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:498
+msgid ""
+"Selected memo list contains a memo for the given mail already. Would you "
+"like to create new memo anyway?"
+msgid_plural ""
+"Selected memo list contains memos for the given mails already. Would you "
+"like to create new memos anyway?"
+msgstr[0] ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑩 𐑥𐑧𐑥𐑴 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑒𐑮𐑦𐑱𐑑 "
+"𐑯𐑿 𐑥𐑧𐑥𐑴 𐑧𐑯𐑦𐑢𐑱?"
+msgstr[1] ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑩 𐑥𐑧𐑥𐑴 𐑓𐑹 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑥𐑱𐑤𐑟 𐑷𐑤𐑮𐑧𐑛𐑦. 𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑒𐑮𐑦𐑱𐑑 "
+"𐑯𐑿 𐑥𐑧𐑥𐑴 𐑧𐑯𐑦𐑢𐑱?"
+
+#: ../plugins/mail-to-task/mail-to-task.c:557
+msgid "[No Summary]"
+msgstr "[𐑯𐑴 𐑕𐑳𐑥𐑼𐑦]"
+
+#: ../plugins/mail-to-task/mail-to-task.c:568
+msgid "Invalid object returned from a server"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑩𐑚𐑡𐑧𐑒𐑑 𐑮𐑦𐑑𐑻𐑯𐑛 𐑓𐑮𐑪𐑥 𐑩 𐑕𐑻𐑝𐑼"
+
+#: ../plugins/mail-to-task/mail-to-task.c:639
+#, c-format
+msgid "An error occurred during processing: %s"
+msgstr "𐑩𐑯 𐑻𐑼 𐑪𐑒𐑻𐑛 𐑛𐑘𐑫𐑼𐑦𐑙 𐑐𐑮𐑴𐑕𐑧𐑕𐑦𐑙: %s"
+
+#: ../plugins/mail-to-task/mail-to-task.c:668
+#, c-format
+msgid "Cannot open calendar. %s"
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼. %s"
+
+#: ../plugins/mail-to-task/mail-to-task.c:675
+msgid ""
+"Selected source is read only, thus cannot create event there. Select other "
+"source, please."
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑕𐑹𐑕 𐑦𐑟 𐑮𐑧𐑛 𐑴𐑯𐑤𐑦, 𐑞𐑳𐑕 𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑦𐑝𐑧𐑯𐑑 𐑞𐑺. 𐑕𐑩𐑤𐑧𐑒𐑑 𐑳𐑞𐑼 𐑕𐑹𐑕, 𐑐𐑤𐑰𐑟."
+
+#: ../plugins/mail-to-task/mail-to-task.c:678
+msgid ""
+"Selected source is read only, thus cannot create task there. Select other "
+"source, please."
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑕𐑹𐑕 𐑦𐑟 𐑮𐑧𐑛 𐑴𐑯𐑤𐑦, 𐑞𐑳𐑕 𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑑𐑭𐑕𐑒 𐑞𐑺. 𐑕𐑩𐑤𐑧𐑒𐑑 𐑳𐑞𐑼 𐑕𐑹𐑕, 𐑐𐑤𐑰𐑟."
+
+#: ../plugins/mail-to-task/mail-to-task.c:681
+msgid ""
+"Selected source is read only, thus cannot create memo there. Select other "
+"source, please."
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑕𐑹𐑕 𐑦𐑟 𐑮𐑧𐑛 𐑴𐑯𐑤𐑦, 𐑞𐑳𐑕 𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑥𐑧𐑥𐑴 𐑞𐑺. 𐑕𐑩𐑤𐑧𐑒𐑑 𐑳𐑞𐑼 𐑕𐑹𐑕, 𐑐𐑤𐑰𐑟."
+
+#: ../plugins/mail-to-task/mail-to-task.c:886
+#, c-format
+msgid "Cannot get source list. %s"
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑜𐑧𐑑 𐑕𐑹𐑕 𐑤𐑦𐑕𐑑. %s"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1005
+msgid "Create an _Event"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩𐑯 _𐑦𐑝𐑧𐑯𐑑"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1007
+msgid "Create a new event from the selected message"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑦𐑝𐑧𐑯𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1014
+msgid "Create a new memo from the selected message"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑧𐑥𐑴 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1019
+msgid "Create a _Task"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 _𐑑𐑭𐑕𐑒"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1021
+msgid "Create a new task from the selected message"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑑𐑭𐑕𐑒 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1029
+msgid "Create a _Meeting"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 _𐑥𐑰𐑑𐑦𐑙"
+
+#: ../plugins/mail-to-task/mail-to-task.c:1031
+msgid "Create a new meeting from the selected message"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
+msgid "Convert a mail message to a task."
+msgstr "𐑒𐑩𐑯𐑝𐑻𐑑 𐑩 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑩 𐑑𐑭𐑕𐑒."
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:276
+msgid "Get List _Archive"
+msgstr "𐑜𐑧𐑑 𐑤𐑦𐑕𐑑 _𐑸𐑒𐑲𐑝"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:278
+msgid "Get an archive of the list this message belongs to"
+msgstr "𐑜𐑧𐑑 𐑩𐑯 𐑸𐑒𐑲𐑝 𐑝 𐑞 𐑤𐑦𐑕𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑚𐑦𐑤𐑪𐑙𐑟 𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:283
+msgid "Get List _Usage Information"
+msgstr "𐑜𐑧𐑑 𐑤𐑦𐑕𐑑 _𐑿𐑕𐑦𐑡 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:285
+msgid "Get information about the usage of the list this message belongs to"
+msgstr "𐑜𐑧𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑩𐑚𐑬𐑑 𐑞 𐑿𐑕𐑦𐑡 𐑝 𐑞 𐑤𐑦𐑕𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑚𐑦𐑤𐑪𐑙𐑟 𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:290
+msgid "Contact List _Owner"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑 _𐑴𐑯𐑼"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:292
+msgid "Contact the owner of the mailing list this message belongs to"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑞 𐑴𐑯𐑼 𐑝 𐑞 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑚𐑦𐑤𐑪𐑙𐑟 𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:297
+msgid "_Post Message to List"
+msgstr "_𐑐𐑴𐑕𐑑 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:299
+msgid "Post a message to the mailing list this message belongs to"
+msgstr "𐑐𐑴𐑕𐑑 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑞 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑚𐑦𐑤𐑪𐑙𐑟 𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:304
+msgid "_Subscribe to List"
+msgstr "_𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:306
+msgid "Subscribe to the mailing list this message belongs to"
+msgstr "𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑑 𐑞 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑚𐑦𐑤𐑪𐑙𐑟 𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:311
+msgid "_Unsubscribe from List"
+msgstr "_𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑓𐑮𐑪𐑥 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:313
+msgid "Unsubscribe from the mailing list this message belongs to"
+msgstr "𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑓𐑮𐑪𐑥 𐑞 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑚𐑦𐑤𐑪𐑙𐑟 𐑑"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:320
+msgid "Mailing _List"
+msgstr "𐑥𐑱𐑤𐑦𐑙 _𐑤𐑦𐑕𐑑"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
+msgid "Mailing List Actions"
+msgstr "𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑨𐑒𐑖𐑩𐑯𐑟"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
+msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
+msgstr "𐑐𐑼𐑓𐑹𐑥 𐑒𐑪𐑥𐑩𐑯 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑨𐑒𐑖𐑩𐑯𐑟 (𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚, 𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚, 𐑧𐑑𐑕.)."
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
+msgid "Action not available"
+msgstr "𐑨𐑒𐑖𐑩𐑯 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
+msgid ""
+"An e-mail message will be sent to the URL \"{0}\". You can either send the "
+"message automatically, or see and change it first.\n"
+"\n"
+"You should receive an answer from the mailing list shortly after the message "
+"has been sent."
+msgstr ""
+"𐑩𐑯 𐑧-𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡 𐑢𐑦𐑤 𐑚𐑰 𐑕𐑧𐑯𐑑 𐑑 𐑞 URL \"{0}\". 𐑿 𐑒𐑨𐑯 𐑲𐑞𐑼 𐑕𐑧𐑯𐑛 𐑞 𐑥𐑧𐑕𐑦𐑡 "
+"𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦, 𐑹 𐑕𐑰 𐑯 𐑗𐑱𐑯𐑡 𐑦𐑑 𐑓𐑻𐑕𐑑.\n"
+"\n"
+"𐑿 𐑖𐑫𐑛 𐑮𐑦𐑕𐑰𐑝 𐑩𐑯 𐑭𐑯𐑕𐑼 𐑓𐑮𐑪𐑥 𐑞 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑖𐑹𐑑𐑤𐑦 𐑭𐑓𐑑𐑼 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑕𐑧𐑯𐑑."
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
+msgid "Malformed header"
+msgstr "𐑥𐑨𐑤𐑓𐑹𐑥𐑛 𐑣𐑧𐑛𐑼"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
+msgid "No e-mail action"
+msgstr "𐑯𐑴 𐑧-𐑥𐑱𐑤 𐑨𐑒𐑖𐑩𐑯"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:7
+msgid "Posting not allowed"
+msgstr "𐑐𐑴𐑕𐑑𐑦𐑙 𐑯𐑪𐑑 𐑩𐑤𐑬𐑛"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:8
+msgid ""
+"Posting to this mailing list is not allowed. Possibly, this is a read-only "
+"mailing list. Contact the list owner for details."
+msgstr ""
+"𐑐𐑴𐑕𐑑𐑦𐑙 𐑑 𐑞𐑦𐑕 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑤𐑬𐑛. 𐑐𐑪𐑕𐑩𐑚𐑩𐑤𐑦, 𐑞𐑦𐑕 𐑦𐑟 𐑩 𐑮𐑧𐑛-𐑴𐑯𐑤𐑦 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑. "
+"𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑞 𐑤𐑦𐑕𐑑 𐑴𐑯𐑼 𐑓𐑹 𐑛𐑰𐑑𐑱𐑤𐑟."
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
+msgid "Send e-mail message to mailing list?"
+msgstr "𐑕𐑧𐑯𐑛 𐑧-𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑?"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
+msgid ""
+"The action could not be performed. The header for this action did not "
+"contain any action that could be processed.\n"
+"\n"
+"Header: {0}"
+msgstr ""
+"𐑞 𐑨𐑒𐑖𐑩𐑯 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑐𐑼𐑓𐑹𐑥𐑛. 𐑞 𐑣𐑧𐑛𐑼 𐑓𐑹 𐑞𐑦𐑕 𐑨𐑒𐑖𐑩𐑯 𐑛𐑦𐑛 𐑯𐑪𐑑 𐑒𐑩𐑯𐑑𐑱𐑯 𐑧𐑯𐑦 𐑨𐑒𐑖𐑩𐑯 𐑞𐑨𐑑 "
+"𐑒𐑫𐑛 𐑚𐑰 𐑐𐑮𐑴𐑕𐑧𐑕𐑑.\n"
+"\n"
+"𐑣𐑧𐑛𐑼: {0}"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
+msgid ""
+"The {0} header of this message is malformed and could not be processed.\n"
+"\n"
+"Header: {1}"
+msgstr ""
+"𐑞 {0} 𐑣𐑧𐑛𐑼 𐑝 𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑦𐑟 𐑥𐑨𐑤𐑓𐑹𐑥𐑛 𐑯 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑐𐑮𐑴𐑕𐑧𐑕𐑑.\n"
+"\n"
+"𐑣𐑧𐑛𐑼: {1}"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
+msgid ""
+"This message does not contain the header information required for this "
+"action."
+msgstr "𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑒𐑩𐑯𐑑𐑱𐑯 𐑞 𐑣𐑧𐑛𐑼 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑮𐑦𐑒𐑢𐑲𐑼𐑛 𐑓𐑹 𐑞𐑦𐑕 𐑨𐑒𐑖𐑩𐑯."
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
+msgid "_Edit message"
+msgstr "_𐑧𐑛𐑦𐑑 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
+msgid "_Send message"
+msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../plugins/mark-all-read/mark-all-read.c:186
+msgid "In Current _Folder Only"
+msgstr "𐑦𐑯 𐑒𐑳𐑮𐑩𐑯𐑑 _𐑓𐑴𐑤𐑛𐑼 𐑴𐑯𐑤𐑦"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
+msgid "Mark All Read"
+msgstr "𐑥𐑸𐑒 𐑷𐑤 𐑮𐑧𐑛"
+
+#: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
+msgid "Mark all messages in a folder as read."
+msgstr "𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑩 𐑓𐑴𐑤𐑛𐑼 𐑨𐑟 𐑮𐑧𐑛."
+
+#: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
+msgid "Manage your Evolution plugins."
+msgstr "𐑥𐑨𐑯𐑦𐑡 𐑿𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑤𐑳𐑜𐑦𐑯𐑟."
+
+#: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
+#: ../plugins/plugin-manager/plugin-manager.c:244
+msgid "Plugin Manager"
+msgstr "𐑐𐑤𐑳𐑜𐑦𐑯 𐑥𐑨𐑯𐑩𐑡𐑼"
+
+#: ../plugins/plugin-manager/plugin-manager.c:59
+msgid "Author(s)"
+msgstr "𐑷𐑔𐑼(𐑟)"
+
+#: ../plugins/plugin-manager/plugin-manager.c:146
+msgid "Configuration"
+msgstr "𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯"
+
+#: ../plugins/plugin-manager/plugin-manager.c:259
+msgid "Note: Some changes will not take effect until restart"
+msgstr "𐑯𐑴𐑑: 𐑕𐑳𐑥 𐑗𐑱𐑯𐑡𐑩𐑟 𐑢𐑦𐑤 𐑯𐑪𐑑 𐑑𐑱𐑒 𐑦𐑓𐑧𐑒𐑑 𐑳𐑯𐑑𐑦𐑤 𐑮𐑰𐑕𐑑𐑸𐑑"
+
+#: ../plugins/plugin-manager/plugin-manager.c:285
+msgid "Overview"
+msgstr "𐑴𐑝𐑻𐑝𐑘𐑵"
+
+#: ../plugins/plugin-manager/plugin-manager.c:356
+#: ../plugins/plugin-manager/plugin-manager.c:418
+msgid "Plugin"
+msgstr "𐑐𐑤𐑳𐑜𐑦𐑯"
+
+#: ../plugins/plugin-manager/plugin-manager.c:430
+msgid "_Plugins"
+msgstr "_𐑐𐑤𐑳𐑜𐑦𐑯𐑟"
+
+#: ../plugins/plugin-manager/plugin-manager.c:432
+msgid "Enable and disable plugins"
+msgstr "𐑦𐑯𐑱𐑚𐑩𐑤 𐑯 𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑐𐑤𐑳𐑜𐑦𐑯𐑟"
+
+#. but then we also need to create our own section frame
+#: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:2
+msgid "Plain Text Mode"
+msgstr "𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑 𐑥𐑴𐑛"
+
+#: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:3
+msgid "Prefer Plain Text"
+msgstr "𐑐𐑮𐑦𐑓𐑻 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑"
+
+#: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
+msgid "View mail messages as plain text, even if they contain HTML content."
+msgstr "𐑝𐑿 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑, 𐑰𐑝𐑩𐑯 𐑦𐑓 𐑞𐑱 𐑒𐑩𐑯𐑑𐑱𐑯 HTML 𐑒𐑪𐑯𐑑𐑧𐑯𐑑."
+
+#: ../plugins/prefer-plain/prefer-plain.c:201
+msgid "Show HTML if present"
+msgstr "𐑖𐑴 HTML 𐑦𐑓 𐑐𐑮𐑧𐑟𐑩𐑯𐑑"
+
+#: ../plugins/prefer-plain/prefer-plain.c:201
+msgid "Let Evolution choose the best part to show."
+msgstr "𐑤𐑧𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑗𐑵𐑟 𐑞 𐑚𐑧𐑕𐑑 𐑐𐑸𐑑 𐑑 𐑖𐑴."
+
+#: ../plugins/prefer-plain/prefer-plain.c:202
+msgid "Show plain text if present"
+msgstr "𐑖𐑴 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑 𐑦𐑓 𐑐𐑮𐑧𐑟𐑩𐑯𐑑"
+
+#: ../plugins/prefer-plain/prefer-plain.c:202
+msgid ""
+"Show plain text part, if present, otherwise let Evolution choose the best "
+"part to show."
+msgstr ""
+"𐑖𐑴 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑 𐑐𐑸𐑑, 𐑦𐑓 𐑐𐑮𐑧𐑟𐑩𐑯𐑑, 𐑳𐑞𐑼𐑢𐑲𐑟 𐑤𐑧𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑗𐑵𐑟 𐑞 𐑚𐑧𐑕𐑑 𐑐𐑸𐑑 𐑑 𐑖𐑴."
+
+#: ../plugins/prefer-plain/prefer-plain.c:203
+msgid "Only ever show plain text"
+msgstr "𐑴𐑯𐑤𐑦 𐑧𐑝𐑼 𐑖𐑴 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑"
+
+#: ../plugins/prefer-plain/prefer-plain.c:203
+msgid ""
+"Always show plain text part and make attachments from other parts, if "
+"requested."
+msgstr "𐑷𐑤𐑢𐑱𐑟 𐑖𐑴 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑 𐑐𐑸𐑑 𐑯 𐑥𐑱𐑒 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕 𐑓𐑮𐑪𐑥 𐑳𐑞𐑼 𐑐𐑸𐑑𐑕, 𐑦𐑓 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛."
+
+#: ../plugins/prefer-plain/prefer-plain.c:270
+msgid "HTML _Mode"
+msgstr "HTML _𐑥𐑴𐑛"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
+msgid "Evolution Profiler"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑮𐑴𐑓𐑲𐑤𐑼"
+
+#: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
+msgid "Profile data events in Evolution (for developers only)."
+msgstr "𐑐𐑮𐑴𐑓𐑲𐑤 𐑛𐑱𐑑𐑩 𐑦𐑝𐑧𐑯𐑑𐑕 𐑦𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 (𐑓𐑹 𐑛𐑦𐑝𐑧𐑤𐑩𐑐𐑼𐑟 𐑴𐑯𐑤𐑦)."
+
+#: ../plugins/pst-import/pst-importer.c:299
+msgid "_Mail"
+msgstr "_𐑥𐑱𐑤"
+
+#. Address book
+#: ../plugins/pst-import/pst-importer.c:317
+msgid "_Address Book"
+msgstr "_𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#. Tasks
+#: ../plugins/pst-import/pst-importer.c:330 ../views/tasks/galview.xml.h:3
+msgid "_Tasks"
+msgstr "_𐑑𐑭𐑕𐑒𐑕"
+
+#. Journal
+#: ../plugins/pst-import/pst-importer.c:336
+msgid "_Journal entries"
+msgstr "_𐑡𐑻𐑯𐑩𐑤 𐑧𐑯𐑑𐑮𐑦𐑟"
+
+#: ../plugins/pst-import/pst-importer.c:351
+msgid "Importing Outlook data"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑬𐑑𐑤𐑫𐑒 𐑛𐑱𐑑𐑩"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
+msgid "Calendar Publishing"
+msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑐𐑳𐑚𐑤𐑦𐑖𐑦𐑙"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
+msgid "Locations"
+msgstr "𐑤𐑴𐑒𐑱𐑖𐑩𐑯𐑟"
+
+#: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
+msgid "Publish calendars to the web."
+msgstr "𐑐𐑳𐑚𐑤𐑦𐑖 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 𐑞 𐑢𐑧𐑚."
+
+#: ../plugins/publish-calendar/publish-calendar.c:94
+#: ../plugins/publish-calendar/publish-calendar.c:336
+#, c-format
+msgid "Could not open %s:"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 %s:"
+
+#: ../plugins/publish-calendar/publish-calendar.c:96
+#, c-format
+msgid "Could not open %s: Unknown error"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 %s: 𐑳𐑯𐑴𐑯 𐑻𐑼"
+
+#: ../plugins/publish-calendar/publish-calendar.c:116
+#, c-format
+msgid "There was an error while publishing to %s:"
+msgstr "𐑞𐑺 𐑢𐑪𐑟 𐑩𐑯 𐑻𐑼 𐑢𐑲𐑤 𐑐𐑳𐑚𐑤𐑦𐑖𐑦𐑙 𐑑 %s:"
+
+#: ../plugins/publish-calendar/publish-calendar.c:118
+#, c-format
+msgid "Publishing to %s finished successfully"
+msgstr "𐑐𐑳𐑚𐑤𐑦𐑖𐑦𐑙 𐑑 %s 𐑓𐑦𐑯𐑦𐑖𐑑 𐑕𐑩𐑒𐑕𐑧𐑕𐑓𐑩𐑤𐑦"
+
+#: ../plugins/publish-calendar/publish-calendar.c:163
+#, c-format
+msgid "Mount of %s failed:"
+msgstr "𐑥𐑬𐑯𐑑 𐑝 %s 𐑓𐑱𐑤𐑛:"
+
+#: ../plugins/publish-calendar/publish-calendar.c:629
+msgid "Are you sure you want to remove this location?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑮𐑦𐑥𐑵𐑝 𐑞𐑦𐑕 𐑤𐑴𐑒𐑱𐑖𐑩𐑯?"
+
+#: ../plugins/publish-calendar/publish-calendar.c:943
+msgid "Could not create publish thread."
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑐𐑳𐑚𐑤𐑦𐑖 𐑔𐑮𐑧𐑛."
+
+#: ../plugins/publish-calendar/publish-calendar.c:950
+msgid "_Publish Calendar Information"
+msgstr "_𐑐𐑳𐑚𐑤𐑦𐑖 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:2
+msgid "<span weight=\"bold\">Location</span>"
+msgstr "<span weight=\"bold\">𐑤𐑴𐑒𐑱𐑖𐑩𐑯</span>"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:4
+msgid "<span weight=\"bold\">Sources</span>"
+msgstr "<span weight=\"bold\">𐑕𐑹𐑕𐑩𐑟</span>"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:6
+msgid ""
+"Daily\n"
+"Weekly\n"
+"Manual (via Actions menu)"
+msgstr ""
+"𐑛𐑱𐑤𐑦\n"
+"𐑢𐑰𐑒𐑤𐑰\n"
+"𐑥𐑨𐑯𐑘𐑫𐑩𐑤 (𐑝𐑲𐑩 𐑨𐑒𐑖𐑩𐑯𐑟 𐑥𐑧𐑯𐑿)"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:11
+msgid "Publishing Location"
+msgstr "𐑐𐑳𐑚𐑤𐑦𐑖𐑦𐑙 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:12
+msgid "Publishing _Frequency:"
+msgstr "𐑐𐑳𐑚𐑤𐑦𐑖𐑦𐑙 _𐑓𐑮𐑰𐑒𐑢𐑩𐑯𐑕𐑰:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:20
+msgid "Service _type:"
+msgstr "𐑕𐑻𐑝𐑦𐑕 _𐑑𐑲𐑐:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:21
+msgid "Time _duration:"
+msgstr "𐑑𐑲𐑥 _𐑛𐑫𐑮𐑱𐑖𐑩𐑯:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:23
+msgid "_File:"
+msgstr "_𐑓𐑲𐑤:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:24
+msgid "_Password:"
+msgstr "_𐑐𐑭𐑕𐑢𐑼𐑛:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:25
+msgid "_Publish as:"
+msgstr "_𐑐𐑳𐑚𐑤𐑦𐑖 𐑨𐑟:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:26
+msgid "_Remember password"
+msgstr "_𐑮𐑦𐑥𐑧𐑥𐑚𐑼 𐑐𐑭𐑕𐑢𐑼𐑛"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:28
+msgid "_Username:"
+msgstr "_𐑿𐑟𐑼𐑯𐑱𐑥:"
+
+#: ../plugins/publish-calendar/publish-calendar.glade.h:29
+msgid ""
+"days\n"
+"weeks\n"
+"months"
+msgstr ""
+"𐑛𐑱𐑟\n"
+"𐑢𐑰𐑒𐑕\n"
+"𐑥𐑳𐑯𐑔𐑕"
+
+#: ../plugins/publish-calendar/publish-format-fb.c:69
+#: ../plugins/publish-calendar/publish-format-ical.c:82
+#, c-format
+msgid "Could not publish calendar: Calendar backend no longer exists"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑐𐑳𐑚𐑤𐑦𐑖 𐑒𐑨𐑤𐑩𐑯𐑛𐑼: 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑚𐑨𐑒𐑧𐑯𐑛 𐑯𐑴 𐑤𐑪𐑙𐑜𐑼 𐑧𐑒𐑟𐑦𐑕𐑑𐑕"
+
+#: ../plugins/publish-calendar/url-editor-dialog.c:481
+msgid "New Location"
+msgstr "𐑯𐑿 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/publish-calendar/url-editor-dialog.c:483
+msgid "Edit Location"
+msgstr "𐑧𐑛𐑦𐑑 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
+
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:134
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:142
+#, c-format
+msgid "Failed to create pipe: %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑐𐑲𐑐: %s"
+
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:181
+#, c-format
+msgid "Error after fork: %s"
+msgstr "𐑻𐑼 𐑭𐑓𐑑𐑼 𐑓𐑹𐑒: %s"
+
+#.
+#. * Translator: the %F %T is the thirth argument for a strftime function.
+#. * It lets you define the formatting of the date in the csv-file.
+#. *
+#: ../plugins/save-calendar/csv-format.c:159
+msgid "%F %T"
+msgstr "%F %T"
+
+#: ../plugins/save-calendar/csv-format.c:357
+msgid "Description List"
+msgstr "𐑛𐑦𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/save-calendar/csv-format.c:358
+msgid "Categories List"
+msgstr "𐑒𐑨𐑑𐑩𐑜𐑪𐑮𐑰𐑟 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/save-calendar/csv-format.c:359
+msgid "Comment List"
+msgstr "𐑒𐑳𐑥𐑥𐑩𐑯𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/save-calendar/csv-format.c:362
+msgid "Contact List"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/save-calendar/csv-format.c:363
+msgid "Start"
+msgstr "𐑕𐑑𐑸𐑑"
+
+#: ../plugins/save-calendar/csv-format.c:364
+msgid "End"
+msgstr "𐑧𐑯𐑛"
+
+#: ../plugins/save-calendar/csv-format.c:366
+msgid "percent Done"
+msgstr "𐑐𐑻𐑕𐑧𐑯𐑑 𐑛𐑳𐑯"
+
+#: ../plugins/save-calendar/csv-format.c:368
+msgid "URL"
+msgstr "URL"
+
+#: ../plugins/save-calendar/csv-format.c:369
+msgid "Attendees List"
+msgstr "𐑩𐑑𐑧𐑯𐑛𐑰𐑟 𐑤𐑦𐑕𐑑"
+
+#: ../plugins/save-calendar/csv-format.c:371
+msgid "Modified"
+msgstr "𐑥𐑪𐑛𐑦𐑓𐑲𐑛"
+
+#: ../plugins/save-calendar/csv-format.c:552
+msgid "_Encapsulate values with:"
+msgstr "_𐑧𐑯𐑒𐑨𐑐𐑕𐑩𐑤𐑱𐑑 𐑝𐑨𐑤𐑿𐑟 𐑢𐑦𐑞:"
+
+#: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
+msgid "Save Selected"
+msgstr "𐑕𐑱𐑝 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛"
+
+#: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
+msgid "Save a calendar or task list to disk."
+msgstr "𐑕𐑱𐑝 𐑩 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑹 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑑 𐑛𐑦𐑕𐑒."
+
+#: ../plugins/save-calendar/save-calendar.c:111
+msgid "_Format:"
+msgstr "_𐑓𐑹𐑥𐑨𐑑:"
+
+#: ../plugins/save-calendar/save-calendar.c:172
+msgid "Select destination file"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑛𐑧𐑕𐑑𐑦𐑯𐑱𐑖𐑩𐑯 𐑓𐑲𐑤"
+
+#: ../plugins/save-calendar/save-calendar.c:323
+msgid "Save the selected calendar to disk"
+msgstr "𐑕𐑱𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑑 𐑛𐑦𐑕𐑒"
+
+#: ../plugins/save-calendar/save-calendar.c:358
+msgid "Save the selected memo list to disk"
+msgstr "𐑕𐑱𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑 𐑑 𐑛𐑦𐑕𐑒"
+
+#: ../plugins/save-calendar/save-calendar.c:393
+msgid "Save the selected task list to disk"
+msgstr "𐑕𐑱𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑑 𐑛𐑦𐑕𐑒"
+
+#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
+msgid "Guides you through your initial account setup."
+msgstr "𐑜𐑲𐑛𐑟 𐑿 𐑔𐑮𐑵 𐑿𐑼 𐑦𐑯𐑦𐑖𐑩𐑤 𐑩𐑒𐑬𐑯𐑑 𐑕𐑧𐑑𐑳𐑐."
+
+#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
+msgid "Setup Assistant"
+msgstr "𐑕𐑧𐑑𐑳𐑐 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑"
+
+#: ../plugins/startup-wizard/startup-wizard.c:87
+msgid "Evolution Setup Assistant"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑳𐑐 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑"
+
+#: ../plugins/startup-wizard/startup-wizard.c:92
+msgid "Welcome"
+msgstr "𐑢𐑧𐑤𐑒𐑩𐑥"
+
+#: ../plugins/startup-wizard/startup-wizard.c:97
+msgid ""
+"Welcome to Evolution. The next few screens will allow Evolution to connect "
+"to your email accounts, and to import files from other applications. \n"
+"\n"
+"Please click the \"Forward\" button to continue. "
+msgstr ""
+"𐑢𐑧𐑤𐑒𐑩𐑥 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑞 𐑯𐑧𐑒𐑕𐑑 𐑓𐑿 𐑕𐑒𐑮𐑰𐑯𐑟 𐑢𐑦𐑤 𐑩𐑤𐑬 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑 𐑿𐑼 𐑰𐑥𐑱𐑤 "
+"𐑩𐑒𐑬𐑯𐑑𐑕, 𐑯 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑓𐑲𐑤𐑟 𐑓𐑮𐑪𐑥 𐑳𐑞𐑼 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯𐑟. \n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑒𐑤𐑦𐑒 𐑞 \"𐑓𐑹𐑢𐑼𐑛\" 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑒𐑩𐑯𐑑𐑦𐑯𐑿. "
+
+#: ../plugins/startup-wizard/startup-wizard.c:135
+#: ../widgets/misc/e-import-assistant.c:370
+msgid "Please select the information that you would like to import:"
+msgstr "𐑐𐑤𐑰𐑟 𐑕𐑩𐑤𐑧𐑒𐑑 𐑞 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑞𐑨𐑑 𐑿 𐑢𐑫𐑛 𐑤𐑲𐑒 𐑑 𐑦𐑥𐑐𐑹𐑑:"
+
+#: ../plugins/startup-wizard/startup-wizard.c:150
+#: ../widgets/misc/e-import-assistant.c:462
+#, c-format
+msgid "From %s:"
+msgstr "𐑓𐑮𐑪𐑥 %s:"
+
+#: ../plugins/startup-wizard/startup-wizard.c:167
+msgid "Importing files"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑓𐑲𐑤𐑟"
+
+#: ../plugins/startup-wizard/startup-wizard.c:230
+msgid "Importing data."
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑛𐑱𐑑𐑩."
+
+#: ../plugins/startup-wizard/startup-wizard.c:232
+msgid "Please wait"
+msgstr "𐑐𐑤𐑰𐑟 𐑢𐑱𐑑"
+
+#: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
+msgid "Sort mail message threads by subject."
+msgstr "𐑕𐑹𐑑 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡 𐑔𐑮𐑧𐑛𐑟 𐑚𐑲 𐑕𐑳𐑚𐑡𐑧𐑒𐑑."
+
+#: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
+msgid "Subject Threading"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑔𐑮𐑧𐑛𐑦𐑙"
+
+#: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
+msgid "Thread messages by subject"
+msgstr "𐑔𐑮𐑧𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑚𐑲 𐑕𐑳𐑚𐑡𐑧𐑒𐑑"
+
+#: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
+msgid ""
+"List of keyword/value pairs for the Templates plugin to substitute in a "
+"message body."
+msgstr ""
+"𐑤𐑦𐑕𐑑 𐑝 𐑒𐑰𐑢𐑻𐑛/𐑝𐑨𐑤𐑿 𐑐𐑺𐑟 𐑓𐑹 𐑞 𐑑𐑧𐑥𐑐𐑤𐑱𐑑𐑕 𐑐𐑤𐑳𐑜𐑦𐑯 𐑑 𐑕𐑳𐑚𐑕𐑑𐑦𐑑𐑿𐑑 𐑦𐑯 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑚𐑪𐑛𐑦."
+
+#: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
+msgid "Drafts based template plugin"
+msgstr "𐑛𐑮𐑭𐑓𐑑𐑕 𐑚𐑱𐑕𐑑 𐑑𐑧𐑥𐑐𐑤𐑱𐑑 𐑐𐑤𐑳𐑜𐑦𐑯"
+
+#: ../plugins/templates/templates.c:582
+msgid "No Title"
+msgstr "𐑯𐑴 𐑑𐑲𐑑𐑩𐑤"
+
+#: ../plugins/templates/templates.c:653
+msgid "Save as _Template"
+msgstr "𐑕𐑱𐑝 𐑨𐑟 _𐑑𐑧𐑥𐑐𐑤𐑱𐑑"
+
+#: ../plugins/templates/templates.c:655
+msgid "Save as Template"
+msgstr "𐑕𐑱𐑝 𐑨𐑟 𐑑𐑧𐑥𐑐𐑤𐑱𐑑"
+
+#: ../plugins/vcard-inline/vcard-inline.c:224
+msgid "There is one other contact."
+msgstr "𐑞𐑺 𐑦𐑟 𐑢𐑳𐑯 𐑳𐑞𐑼 𐑒𐑪𐑯𐑑𐑨𐑒𐑑."
+
+#: ../plugins/vcard-inline/vcard-inline.c:233
+#, c-format
+msgid "There is %d other contact."
+msgid_plural "There are %d other contacts."
+msgstr[0] "𐑞𐑺 𐑦𐑟 %d 𐑳𐑞𐑼 𐑒𐑪𐑯𐑑𐑨𐑒𐑑."
+msgstr[1] "𐑞𐑺 𐑦𐑟 %d 𐑳𐑞𐑼 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕."
+
+#: ../plugins/vcard-inline/vcard-inline.c:254
+msgid "Save in Address Book"
+msgstr "𐑕𐑱𐑝 𐑦𐑯 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:295
+msgid "URL:"
+msgstr "URL:"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:1
+msgid "Authenticate proxy server connections"
+msgstr "𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑑 𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑻𐑝𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯𐑟"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:2
+msgid "Automatic proxy configuration URL"
+msgstr "𐑷𐑑𐑴𐑥𐑨𐑑𐑦𐑒 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 URL"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:3
+msgid "Configuration version"
+msgstr "𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑝𐑻𐑠𐑩𐑯"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:4
+msgid "Default sidebar width"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑕𐑲𐑛𐑚𐑭𐑮 𐑢𐑦𐑛𐑔"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:5
+msgid "Default window X coordinate"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 X 𐑒𐑴𐑹𐑛𐑩𐑯𐑱𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:6
+msgid "Default window Y coordinate"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 Y 𐑒𐑴𐑹𐑛𐑩𐑯𐑱𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:7
+msgid "Default window height"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 𐑣𐑲𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:8
+msgid "Default window state"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 𐑕𐑑𐑱𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:9
+msgid "Default window width"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 𐑢𐑦𐑛𐑔"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:10
+msgid ""
+"Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
+msgstr ""
+"𐑦𐑯𐑱𐑚𐑩𐑤𐑟 𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑧𐑑𐑦𐑙𐑟 𐑢𐑧𐑯 𐑨𐑒𐑕𐑧𐑕𐑦𐑙 HTTP/𐑕𐑦𐑒𐑘𐑫𐑼 HTTP 𐑴𐑝𐑼 𐑞 ·𐑦𐑯𐑑𐑼𐑯𐑧𐑑."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:11
+msgid "HTTP proxy host name"
+msgstr "HTTP 𐑐𐑮𐑪𐑒𐑕𐑦 𐑣𐑴𐑕𐑑 𐑯𐑱𐑥"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:12
+msgid "HTTP proxy password"
+msgstr "HTTP 𐑐𐑮𐑪𐑒𐑕𐑦 𐑐𐑭𐑕𐑢𐑼𐑛"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:13
+msgid "HTTP proxy port"
+msgstr "HTTP 𐑐𐑮𐑪𐑒𐑕𐑦 𐑐𐑹𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:14
+msgid "HTTP proxy username"
+msgstr "HTTP 𐑐𐑮𐑪𐑒𐑕𐑦 𐑿𐑟𐑼𐑯𐑱𐑥"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:15
+msgid "ID or alias of the component to be shown by default at start-up."
+msgstr "ID 𐑹 𐑱𐑤𐑰𐑩𐑕 𐑝 𐑞 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑑 𐑚𐑰 𐑖𐑴𐑯 𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑 𐑨𐑑 𐑕𐑑𐑸𐑑-𐑳𐑐."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:17
+msgid "Initial attachment view"
+msgstr "𐑦𐑯𐑦𐑖𐑩𐑤 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑝𐑿"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:20
+msgid ""
+"Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
+"View."
+msgstr "𐑦𐑯𐑦𐑖𐑩𐑤 𐑝𐑿 𐑓𐑹 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑚𐑸 𐑢𐑦𐑡𐑩𐑑𐑕. \"0\" 𐑦𐑟 𐑲𐑒𐑪𐑯 𐑝𐑿, \"1\" 𐑦𐑟 𐑤𐑦𐑕𐑑 𐑝𐑿."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:21
+msgid "Last upgraded configuration version"
+msgstr "𐑤𐑭𐑕𐑑 𐑩𐑐𐑜𐑮𐑱𐑛𐑩𐑛 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑝𐑻𐑠𐑩𐑯"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:22
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
+msgstr "𐑤𐑦𐑕𐑑 𐑝 𐑐𐑭𐑞𐑟 𐑓𐑹 𐑞 𐑓𐑴𐑤𐑛𐑼𐑟 𐑑 𐑚𐑰 𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑲𐑟𐑛 𐑑 𐑛𐑦𐑕𐑒 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑿𐑕𐑦𐑡"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:23
+msgid "Non-proxy hosts"
+msgstr "𐑯𐑪𐑯-𐑐𐑮𐑪𐑒𐑕𐑦 𐑣𐑴𐑕𐑑𐑕"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:24
+msgid "Password to pass as authentication when doing HTTP proxying."
+msgstr "𐑐𐑭𐑕𐑢𐑼𐑛 𐑑 𐑐𐑭𐑕 𐑨𐑟 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑢𐑧𐑯 𐑛𐑵𐑦𐑙 HTTP 𐑐𐑮𐑪𐑒𐑕𐑦𐑦𐑙."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:25
+msgid "Proxy configuration mode"
+msgstr "𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑥𐑴𐑛"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:26
+msgid "SOCKS proxy host name"
+msgstr "·𐑕𐑪𐑒𐑕 𐑐𐑮𐑪𐑒𐑕𐑦 𐑣𐑴𐑕𐑑 𐑯𐑱𐑥"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:27
+msgid "SOCKS proxy port"
+msgstr "·𐑕𐑪𐑒𐑕 𐑐𐑮𐑪𐑒𐑕𐑦 𐑐𐑹𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:28
+msgid "Secure HTTP proxy host name"
+msgstr "𐑕𐑦𐑒𐑘𐑫𐑼 HTTP 𐑐𐑮𐑪𐑒𐑕𐑦 𐑣𐑴𐑕𐑑 𐑯𐑱𐑥"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:29
+msgid "Secure HTTP proxy port"
+msgstr "𐑕𐑦𐑒𐑘𐑫𐑼 HTTP 𐑐𐑮𐑪𐑒𐑕𐑦 𐑐𐑹𐑑"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:31
+msgid "Sidebar is visible"
+msgstr "𐑕𐑲𐑛𐑚𐑭𐑮 𐑦𐑟 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:32
+msgid "Skip development warning dialog"
+msgstr "𐑕𐑒𐑦𐑐 𐑛𐑦𐑝𐑧𐑤𐑩𐑐𐑥𐑩𐑯𐑑 𐑢𐑹𐑯𐑦𐑙 𐑛𐑲𐑩𐑤𐑪𐑜"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:316
+msgid "Start in offline mode"
+msgstr "𐑕𐑑𐑸𐑑 𐑦𐑯 𐑪𐑓𐑤𐑲𐑯 𐑥𐑴𐑛"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:35
+msgid ""
+"The configuration version of Evolution, with major/minor/configuration level "
+"(for example \"2.6.0\")."
+msgstr ""
+"𐑞 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑝𐑻𐑠𐑩𐑯 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑢𐑦𐑞 𐑥𐑱𐑡𐑼/𐑥𐑲𐑯𐑼/𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑤𐑧𐑝𐑩𐑤 (𐑓𐑹 "
+"𐑦𐑜𐑟𐑭𐑥𐑐𐑩𐑤 \"2.6.0\")."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:36
+msgid "The default X coordinate for the main window."
+msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 X 𐑒𐑴𐑹𐑛𐑩𐑯𐑱𐑑 𐑓𐑹 𐑞 𐑥𐑱𐑯 𐑢𐑦𐑯𐑛𐑴."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:37
+msgid "The default Y coordinate for the main window."
+msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 Y 𐑒𐑴𐑹𐑛𐑩𐑯𐑱𐑑 𐑓𐑹 𐑞 𐑥𐑱𐑯 𐑢𐑦𐑯𐑛𐑴."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:38
+msgid "The default height for the main window, in pixels."
+msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑣𐑲𐑑 𐑓𐑹 𐑞 𐑥𐑱𐑯 𐑢𐑦𐑯𐑛𐑴, 𐑦𐑯 𐑐𐑦𐑒𐑕𐑩𐑤𐑟."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:39
+msgid "The default width for the main window, in pixels."
+msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑛𐑔 𐑓𐑹 𐑞 𐑥𐑱𐑯 𐑢𐑦𐑯𐑛𐑴, 𐑦𐑯 𐑐𐑦𐑒𐑕𐑩𐑤𐑟."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:40
+msgid "The default width for the sidebar, in pixels."
+msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑛𐑔 𐑓𐑹 𐑞 𐑕𐑲𐑛𐑚𐑭𐑮, 𐑦𐑯 𐑐𐑦𐑒𐑕𐑩𐑤𐑟."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:41
+msgid ""
+"The last upgraded configuration version of Evolution, with major/minor/"
+"configuration level (for example \"2.6.0\")."
+msgstr ""
+"𐑞 𐑤𐑭𐑕𐑑 𐑩𐑐𐑜𐑮𐑱𐑛𐑩𐑛 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑝𐑻𐑠𐑩𐑯 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑢𐑦𐑞 𐑥𐑱𐑡𐑼/𐑥𐑲𐑯𐑼/𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 "
+"𐑤𐑧𐑝𐑩𐑤 (𐑓𐑹 𐑦𐑜𐑟𐑭𐑥𐑐𐑩𐑤 \"2.6.0\")."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:42
+msgid "The machine name to proxy HTTP through."
+msgstr "𐑞 𐑥𐑩𐑖𐑰𐑯 𐑯𐑱𐑥 𐑑 𐑐𐑮𐑪𐑒𐑕𐑦 HTTP 𐑔𐑮𐑵."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:43
+msgid "The machine name to proxy secure HTTP through."
+msgstr "𐑞 𐑥𐑩𐑖𐑰𐑯 𐑯𐑱𐑥 𐑑 𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑦𐑒𐑘𐑫𐑼 HTTP 𐑔𐑮𐑵."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:44
+msgid "The machine name to proxy socks through."
+msgstr "𐑞 𐑥𐑩𐑖𐑰𐑯 𐑯𐑱𐑥 𐑑 𐑐𐑮𐑪𐑒𐑕𐑦 ·𐑕𐑪𐑒𐑕 𐑔𐑮𐑵."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:45
+msgid ""
+"The port on the machine defined by \"/apps/evolution/shell/network_config/"
+"http_host\" that you proxy through."
+msgstr ""
+"𐑞 𐑐𐑹𐑑 𐑪𐑯 𐑞 𐑥𐑩𐑖𐑰𐑯 𐑛𐑦𐑓𐑲𐑯𐑛 𐑚𐑲 \"/apps/evolution/shell/network_config/http_host\" "
+"𐑞𐑨𐑑 𐑿 𐑐𐑮𐑪𐑒𐑕𐑦 𐑔𐑮𐑵."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:46
+msgid ""
+"The port on the machine defined by \"/apps/evolution/shell/network_config/"
+"secure_host\" that you proxy through."
+msgstr ""
+"𐑞 𐑐𐑹𐑑 𐑪𐑯 𐑞 𐑥𐑩𐑖𐑰𐑯 𐑛𐑦𐑓𐑲𐑯𐑛 𐑚𐑲 \"/apps/evolution/shell/network_config/secure_host\" "
+"𐑞𐑨𐑑 𐑿 𐑐𐑮𐑪𐑒𐑕𐑦 𐑔𐑮𐑵."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:47
+msgid ""
+"The port on the machine defined by \"/apps/evolution/shell/network_config/"
+"socks_host\" that you proxy through."
+msgstr ""
+"𐑞 𐑐𐑹𐑑 𐑪𐑯 𐑞 𐑥𐑩𐑖𐑰𐑯 𐑛𐑦𐑓𐑲𐑯𐑛 𐑚𐑲 \"/apps/evolution/shell/network_config/socks_host\" "
+"𐑞𐑨𐑑 𐑿 𐑐𐑮𐑪𐑒𐑕𐑦 𐑔𐑮𐑵."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:48
+msgid ""
+"The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
+"\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
+"by the GNOME toolbar setting."
+msgstr ""
+"𐑞 𐑕𐑑𐑲𐑤 𐑝 𐑞 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟. 𐑒𐑨𐑯 𐑚𐑰 \"text\", \"icons\", \"both\", \"toolbar\". 𐑦𐑓 "
+"\"toolbar\" 𐑦𐑟 𐑕𐑧𐑑, 𐑞 𐑕𐑑𐑲𐑤 𐑝 𐑞 𐑚𐑳𐑑𐑩𐑯𐑟 𐑦𐑟 𐑛𐑦𐑑𐑻𐑥𐑦𐑯𐑛 𐑚𐑲 𐑞 ·𐑜𐑯𐑴𐑥 𐑑𐑵𐑤𐑚𐑸 𐑕𐑧𐑑𐑦𐑙."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:50
+msgid "Toolbar is visible"
+msgstr "𐑑𐑵𐑤𐑚𐑸 𐑦𐑟 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:51
+msgid "URL that provides proxy configuration values."
+msgstr "URL 𐑞𐑨𐑑 𐑐𐑮𐑩𐑝𐑲𐑛𐑟 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑝𐑨𐑤𐑿𐑟."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:52
+msgid "Use HTTP proxy"
+msgstr "𐑿𐑟 HTTP 𐑐𐑮𐑪𐑒𐑕𐑦"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:53
+msgid "User name to pass as authentication when doing HTTP proxying."
+msgstr "𐑿𐑟𐑼 𐑯𐑱𐑥 𐑑 𐑐𐑭𐑕 𐑨𐑟 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑢𐑧𐑯 𐑛𐑵𐑦𐑙 HTTP 𐑐𐑮𐑪𐑒𐑕𐑦𐑦𐑙."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:54
+msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgstr "𐑢𐑧𐑞𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑕𐑑𐑸𐑑 𐑳𐑐 𐑦𐑯 𐑪𐑓𐑤𐑲𐑯 𐑥𐑴𐑛 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑪𐑯𐑤𐑲𐑯 𐑥𐑴𐑛."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:55
+msgid "Whether or not the window should be maximized."
+msgstr "𐑢𐑧𐑞𐑼 𐑹 𐑯𐑪𐑑 𐑞 𐑢𐑦𐑯𐑛𐑴 𐑖𐑫𐑛 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:56
+msgid "Whether the sidebar should be visible."
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑕𐑲𐑛𐑚𐑭𐑮 𐑖𐑫𐑛 𐑚𐑰 𐑝𐑦𐑕𐑦𐑚𐑩𐑤."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:57
+msgid "Whether the status bar should be visible."
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑕𐑑𐑱𐑑𐑫𐑕 𐑚𐑸 𐑖𐑫𐑛 𐑚𐑰 𐑝𐑦𐑕𐑦𐑚𐑩𐑤."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:58
+msgid "Whether the toolbar should be visible."
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑑𐑵𐑤𐑚𐑸 𐑖𐑫𐑛 𐑚𐑰 𐑝𐑦𐑕𐑦𐑚𐑩𐑤."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:59
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑢𐑹𐑯𐑦𐑙 𐑛𐑲𐑩𐑤𐑪𐑜 𐑦𐑯 𐑛𐑦𐑝𐑧𐑤𐑩𐑐𐑥𐑩𐑯𐑑 𐑝𐑻𐑠𐑩𐑯𐑟 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑕𐑒𐑦𐑐𐑑."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:60
+msgid "Whether the window buttons should be visible."
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑖𐑫𐑛 𐑚𐑰 𐑝𐑦𐑕𐑦𐑚𐑩𐑤."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:61
+msgid "Window button style"
+msgstr "𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯 𐑕𐑑𐑲𐑤"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:62
+msgid "Window buttons are visible"
+msgstr "𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑸 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#. Scope Combo Widgets
+#. Translators: This is part of the quick search interface.
+#. * example: Search: [_______________] in [ Current Folder ]
+#: ../shell/e-shell-content.c:939
+msgid "i_n"
+msgstr "𐑦_𐑯"
+
+#: ../shell/e-shell-content.c:1362
+msgid "Advanced Search"
+msgstr "𐑩𐑛𐑝𐑭𐑯𐑕𐑑 𐑕𐑻𐑗"
+
+#: ../shell/e-shell-content.c:1419 ../shell/e-shell-content.c:1420
+msgid "Searches"
+msgstr "𐑕𐑻𐑗𐑩𐑟"
+
+#: ../shell/e-shell-content.c:1465
+msgid "Save Search"
+msgstr "𐑕𐑱𐑝 𐑕𐑻𐑗"
+
+#: ../shell/e-shell-switcher.c:446
+msgid "Toolbar Style"
+msgstr "𐑑𐑵𐑤𐑚𐑸 𐑕𐑑𐑲𐑤"
+
+#: ../shell/e-shell-switcher.c:447
+msgid "The switcher's toolbar style"
+msgstr "𐑞 𐑕𐑢𐑦𐑗𐑻'𐑕 𐑑𐑵𐑤𐑚𐑸 𐑕𐑑𐑲𐑤"
+
+#: ../shell/e-shell-switcher.c:463
+msgid "Toolbar Visible"
+msgstr "𐑑𐑵𐑤𐑚𐑸 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#: ../shell/e-shell-switcher.c:464
+msgid "Whether the switcher is visible"
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑕𐑢𐑦𐑗𐑻 𐑦𐑟 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#: ../shell/e-shell-view.c:485
+msgid "Switcher Action"
+msgstr "𐑕𐑢𐑦𐑗𐑻 𐑨𐑒𐑖𐑩𐑯"
+
+#: ../shell/e-shell-view.c:486
+msgid "The switcher action for this shell view"
+msgstr "𐑞 𐑕𐑢𐑦𐑗𐑻 𐑨𐑒𐑖𐑩𐑯 𐑓𐑹 𐑞𐑦𐑕 𐑖𐑧𐑤 𐑝𐑿"
+
+#: ../shell/e-shell-view.c:501
+msgid "Page Number"
+msgstr "𐑐𐑱𐑡 𐑯𐑳𐑥𐑚𐑼"
+
+#: ../shell/e-shell-view.c:502
+msgid "The notebook page number of the shell view"
+msgstr "𐑞 𐑯𐑴𐑑𐑚𐑫𐑒 𐑐𐑱𐑡 𐑯𐑳𐑥𐑚𐑼 𐑝 𐑞 𐑖𐑧𐑤 𐑝𐑿"
+
+#: ../shell/e-shell-view.c:520
+msgid "The title of the shell view"
+msgstr "𐑞 𐑑𐑲𐑑𐑩𐑤 𐑝 𐑞 𐑖𐑧𐑤 𐑝𐑿"
+
+#: ../shell/e-shell-view.c:550
+msgid "Shell Content Widget"
+msgstr "𐑖𐑧𐑤 𐑒𐑪𐑯𐑑𐑧𐑯𐑑 𐑢𐑦𐑡𐑩𐑑"
+
+#: ../shell/e-shell-view.c:551
+msgid "The content widget appears in a shell window's right pane"
+msgstr "𐑞 𐑒𐑪𐑯𐑑𐑧𐑯𐑑 𐑢𐑦𐑡𐑩𐑑 𐑩𐑐𐑽𐑟 𐑦𐑯 𐑩 𐑖𐑧𐑤 𐑢𐑦𐑯𐑛𐑴'𐑕 𐑮𐑲𐑑 𐑐𐑱𐑯"
+
+#: ../shell/e-shell-view.c:567
+msgid "Shell Sidebar Widget"
+msgstr "𐑖𐑧𐑤 𐑕𐑲𐑛𐑚𐑭𐑮 𐑢𐑦𐑡𐑩𐑑"
+
+#: ../shell/e-shell-view.c:568
+msgid "The sidebar widget appears in a shell window's left pane"
+msgstr "𐑞 𐑕𐑲𐑛𐑚𐑭𐑮 𐑢𐑦𐑡𐑩𐑑 𐑩𐑐𐑽𐑟 𐑦𐑯 𐑩 𐑖𐑧𐑤 𐑢𐑦𐑯𐑛𐑴'𐑕 𐑤𐑧𐑓𐑑 𐑐𐑱𐑯"
+
+#: ../shell/e-shell-view.c:583
+msgid "Shell Taskbar Widget"
+msgstr "𐑖𐑧𐑤 𐑑𐑭𐑕𐑒𐑚𐑸 𐑢𐑦𐑡𐑩𐑑"
+
+#: ../shell/e-shell-view.c:584
+msgid "The taskbar widget appears at the bottom of a shell window"
+msgstr "𐑞 𐑑𐑭𐑕𐑒𐑚𐑸 𐑢𐑦𐑡𐑩𐑑 𐑩𐑐𐑽𐑟 𐑨𐑑 𐑞 𐑚𐑪𐑑𐑫𐑥 𐑝 𐑩 𐑖𐑧𐑤 𐑢𐑦𐑯𐑛𐑴"
+
+#: ../shell/e-shell-view.c:599
+msgid "Shell Window"
+msgstr "𐑖𐑧𐑤 𐑢𐑦𐑯𐑛𐑴"
+
+#: ../shell/e-shell-view.c:600
+msgid "The window to which the shell view belongs"
+msgstr "𐑞 𐑢𐑦𐑯𐑛𐑴 𐑑 𐑢𐑦𐑗 𐑞 𐑖𐑧𐑤 𐑝𐑿 𐑚𐑦𐑤𐑪𐑙𐑟"
+
+#: ../shell/e-shell-view.c:615
+msgid "Current View ID"
+msgstr "𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿 ID"
+
+#: ../shell/e-shell-view.c:616
+msgid "The current GAL view ID"
+msgstr "𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 GAL 𐑝𐑿 ID"
+
+#. The translator-credits string is for translators to list
+#. * per-language credits for translation, displayed in the
+#. * about dialog.
+#: ../shell/e-shell-window-actions.c:643
+msgid "translator-credits"
+msgstr "·𐑑𐑪𐑥𐑩𐑕 ·𐑔𐑻𐑥𐑩𐑯"
+
+#: ../shell/e-shell-window-actions.c:654
+msgid "Evolution Website"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑧𐑚𐑕𐑲𐑑"
+
+#: ../shell/e-shell-window-actions.c:1280
+msgid "Bug Buddy is not installed."
+msgstr "·𐑚𐑳𐑜 ·𐑚𐑩𐑛𐑰 𐑦𐑟 𐑯𐑪𐑑 𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
+
+#: ../shell/e-shell-window-actions.c:1282
+msgid "Bug Buddy could not be run."
+msgstr "·𐑚𐑳𐑜 ·𐑚𐑩𐑛𐑰 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑮𐑳𐑯."
+
+#: ../shell/e-shell-window-actions.c:1384
+msgid "GNOME Pilot is not installed."
+msgstr "·𐑜𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 𐑦𐑟 𐑯𐑪𐑑 𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
+
+#: ../shell/e-shell-window-actions.c:1386
+msgid "GNOME Pilot could not be run."
+msgstr "·𐑜𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑮𐑳𐑯."
+
+#: ../shell/e-shell-window-actions.c:1480
+msgid "Show information about Evolution"
+msgstr "𐑖𐑴 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑩𐑚𐑬𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../shell/e-shell-window-actions.c:1485
+msgid "_Close Window"
+msgstr "_𐑒𐑤𐑴𐑟 𐑢𐑦𐑯𐑛𐑴"
+
+#: ../shell/e-shell-window-actions.c:1492
+msgid "_Contents"
+msgstr "_𐑒𐑪𐑯𐑑𐑩𐑯𐑑𐑕"
+
+#: ../shell/e-shell-window-actions.c:1494
+msgid "Open the Evolution User Guide"
+msgstr "𐑴𐑐𐑩𐑯 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑿𐑟𐑼 𐑜𐑲𐑛"
+
+#: ../shell/e-shell-window-actions.c:1506
+msgid "_Forget Passwords"
+msgstr "_𐑓𐑼𐑜𐑧𐑑 𐑐𐑭𐑕𐑢𐑼𐑛𐑟"
+
+#: ../shell/e-shell-window-actions.c:1508
+msgid "Forget all remembered passwords"
+msgstr "𐑓𐑼𐑜𐑧𐑑 𐑷𐑤 𐑮𐑦𐑥𐑧𐑥𐑚𐑼𐑛 𐑐𐑭𐑕𐑢𐑼𐑛𐑟"
+
+#: ../shell/e-shell-window-actions.c:1515
+msgid "Import data from other programs"
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑛𐑱𐑑𐑩 𐑓𐑮𐑪𐑥 𐑳𐑞𐑼 𐑐𐑮𐑴𐑜𐑮𐑨𐑥𐑟"
+
+#: ../shell/e-shell-window-actions.c:1520
+msgid "New _Window"
+msgstr "𐑯𐑿 _𐑢𐑦𐑯𐑛𐑴"
+
+#: ../shell/e-shell-window-actions.c:1522
+msgid "Create a new window displaying this view"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑢𐑦𐑯𐑛𐑴 𐑛𐑦𐑕𐑐𐑤𐑱𐑦𐑙 𐑞𐑦𐑕 𐑝𐑿"
+
+#: ../shell/e-shell-window-actions.c:1529
+msgid "Configure Evolution"
+msgstr "𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../shell/e-shell-window-actions.c:1534
+msgid "_Quick Reference"
+msgstr "_𐑒𐑢𐑦𐑒 𐑮𐑧𐑓𐑼𐑩𐑯𐑕"
+
+#: ../shell/e-shell-window-actions.c:1536
+msgid "Show Evolution's shortcut keys"
+msgstr "𐑖𐑴 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯'𐑕 𐑕𐑹𐑑𐑒𐑳𐑑 𐑒𐑰𐑟"
+
+#: ../shell/e-shell-window-actions.c:1543
+msgid "Exit the program"
+msgstr "𐑧𐑜𐑟𐑦𐑑 𐑞 𐑐𐑮𐑴𐑜𐑮𐑨𐑥"
+
+#: ../shell/e-shell-window-actions.c:1548
+msgid "_Advanced Search..."
+msgstr "_𐑩𐑛𐑝𐑭𐑯𐑕𐑑 𐑕𐑻𐑗..."
+
+#: ../shell/e-shell-window-actions.c:1550
+msgid "Construct a more advanced search"
+msgstr "𐑒𐑩𐑯𐑕𐑑𐑮𐑳𐑒𐑑 𐑩 𐑥𐑹 𐑩𐑛𐑝𐑭𐑯𐑕𐑑 𐑕𐑻𐑗"
+
+#: ../shell/e-shell-window-actions.c:1557
+msgid "Clear the current search parameters"
+msgstr "𐑒𐑤𐑽 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑕𐑻𐑗 𐑐𐑼𐑨𐑥𐑩𐑑𐑼𐑟"
+
+#: ../shell/e-shell-window-actions.c:1562
+msgid "_Edit Saved Searches..."
+msgstr "_𐑧𐑛𐑦𐑑 𐑕𐑱𐑝𐑛 𐑕𐑻𐑗𐑩𐑟..."
+
+#: ../shell/e-shell-window-actions.c:1564
+msgid "Manage your saved searches"
+msgstr "𐑥𐑨𐑯𐑦𐑡 𐑿𐑼 𐑕𐑱𐑝𐑛 𐑕𐑻𐑗𐑩𐑟"
+
+#: ../shell/e-shell-window-actions.c:1571
+msgid "Click here to change the search type"
+msgstr "𐑒𐑤𐑦𐑒 𐑣𐑽 𐑑 𐑗𐑱𐑯𐑡 𐑞 𐑕𐑻𐑗 𐑑𐑲𐑐"
+
+#: ../shell/e-shell-window-actions.c:1576
+msgid "_Find Now"
+msgstr "_𐑓𐑲𐑯𐑛 𐑯𐑬"
+
+#. Block the default Ctrl+F.
+#: ../shell/e-shell-window-actions.c:1578
+msgid "Execute the current search parameters"
+msgstr "𐑧𐑒𐑕𐑩𐑒𐑿𐑑 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑕𐑻𐑗 𐑐𐑼𐑨𐑥𐑩𐑑𐑼𐑟"
+
+#: ../shell/e-shell-window-actions.c:1583
+msgid "_Save Search..."
+msgstr "_𐑕𐑱𐑝 𐑕𐑻𐑗..."
+
+#: ../shell/e-shell-window-actions.c:1585
+msgid "Save the current search parameters"
+msgstr "𐑕𐑱𐑝 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑕𐑻𐑗 𐑐𐑼𐑨𐑥𐑩𐑑𐑼𐑟"
+
+#: ../shell/e-shell-window-actions.c:1590
+msgid "Send / _Receive"
+msgstr "𐑕𐑧𐑯𐑛 / _𐑮𐑦𐑕𐑰𐑝"
+
+#: ../shell/e-shell-window-actions.c:1592
+msgid "Send queued items and retrieve new items"
+msgstr "𐑕𐑧𐑯𐑛 𐑒𐑿𐑛 𐑲𐑑𐑩𐑥𐑟 𐑯 𐑮𐑦𐑑𐑮𐑰𐑝 𐑯𐑿 𐑲𐑑𐑩𐑥𐑟"
+
+#: ../shell/e-shell-window-actions.c:1597
+msgid "Submit _Bug Report..."
+msgstr "𐑕𐑩𐑚𐑥𐑦𐑑 _𐑚𐑳𐑜 𐑮𐑩𐑐𐑹𐑑..."
+
+#: ../shell/e-shell-window-actions.c:1599
+msgid "Submit a bug report using Bug Buddy"
+msgstr "𐑕𐑩𐑚𐑥𐑦𐑑 𐑩 𐑚𐑳𐑜 𐑮𐑩𐑐𐑹𐑑 𐑿𐑟𐑦𐑙 ·𐑚𐑳𐑜 ·𐑚𐑩𐑛𐑰"
+
+#: ../shell/e-shell-window-actions.c:1604
+msgid "_Synchronization Options..."
+msgstr "_𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑩𐑟𐑱𐑖𐑩𐑯 𐑪𐑐𐑖𐑩𐑯𐑟..."
+
+#: ../shell/e-shell-window-actions.c:1606
+msgid "Set up Pilot configuration"
+msgstr "𐑕𐑧𐑑 𐑳𐑐 ·𐑐𐑲𐑤𐑩𐑑 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯"
+
+#: ../shell/e-shell-window-actions.c:1611
+msgid "_Work Offline"
+msgstr "_𐑢𐑻𐑒 𐑪𐑓𐑤𐑲𐑯"
+
+#: ../shell/e-shell-window-actions.c:1613
+msgid "Put Evolution into offline mode"
+msgstr "𐑐𐑫𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑯𐑑𐑫 𐑪𐑓𐑤𐑲𐑯 𐑥𐑴𐑛"
+
+#: ../shell/e-shell-window-actions.c:1618
+msgid "_Work Online"
+msgstr "_𐑢𐑻𐑒 𐑪𐑯𐑤𐑲𐑯"
+
+#: ../shell/e-shell-window-actions.c:1620
+msgid "Put Evolution into online mode"
+msgstr "𐑐𐑫𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑯𐑑𐑫 𐑪𐑯𐑤𐑲𐑯 𐑥𐑴𐑛"
+
+#: ../shell/e-shell-window-actions.c:1655
+msgid "_New"
+msgstr "_𐑯𐑿"
+
+#: ../shell/e-shell-window-actions.c:1662
+msgid "_Search"
+msgstr "_𐑕𐑻𐑗"
+
+#: ../shell/e-shell-window-actions.c:1669
+msgid "_Switcher Appearance"
+msgstr "_𐑕𐑢𐑦𐑗𐑻 𐑩𐑐𐑽𐑩𐑯𐑕"
+
+#: ../shell/e-shell-window-actions.c:1683
+msgid "_Window"
+msgstr "_𐑢𐑦𐑯𐑛𐑴"
+
+#: ../shell/e-shell-window-actions.c:1693
+msgid "Show Side _Bar"
+msgstr "𐑖𐑴 𐑕𐑲𐑛 _𐑚𐑸"
+
+#: ../shell/e-shell-window-actions.c:1695
+msgid "Show the side bar"
+msgstr "𐑖𐑴 𐑞 𐑕𐑲𐑛 𐑚𐑸"
+
+#: ../shell/e-shell-window-actions.c:1701
+msgid "Show _Status Bar"
+msgstr "𐑖𐑴 _𐑕𐑑𐑱𐑑𐑫𐑕 𐑚𐑸"
+
+#: ../shell/e-shell-window-actions.c:1703
+msgid "Show the status bar"
+msgstr "𐑖𐑴 𐑞 𐑕𐑑𐑱𐑑𐑫𐑕 𐑚𐑸"
+
+#: ../shell/e-shell-window-actions.c:1709
+msgid "Show _Buttons"
+msgstr "𐑖𐑴 _𐑚𐑳𐑑𐑩𐑯𐑟"
+
+#: ../shell/e-shell-window-actions.c:1711
+msgid "Show the switcher buttons"
+msgstr "𐑖𐑴 𐑞 𐑕𐑢𐑦𐑗𐑻 𐑚𐑳𐑑𐑩𐑯𐑟"
+
+#: ../shell/e-shell-window-actions.c:1717
+msgid "Show _Tool Bar"
+msgstr "𐑖𐑴 _𐑑𐑵𐑤 𐑚𐑸"
+
+#: ../shell/e-shell-window-actions.c:1719
+msgid "Show the toolbar"
+msgstr "𐑖𐑴 𐑞 𐑑𐑵𐑤𐑚𐑸"
+
+#: ../shell/e-shell-window-actions.c:1741
+msgid "_Icons Only"
+msgstr "_𐑲𐑒𐑪𐑯𐑟 𐑴𐑯𐑤𐑦"
+
+#: ../shell/e-shell-window-actions.c:1743
+msgid "Display window buttons with icons only"
+msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑢𐑦𐑞 𐑲𐑒𐑪𐑯𐑟 𐑴𐑯𐑤𐑦"
+
+#: ../shell/e-shell-window-actions.c:1748
+msgid "_Text Only"
+msgstr "_𐑑𐑧𐑒𐑕𐑑 𐑴𐑯𐑤𐑦"
+
+#: ../shell/e-shell-window-actions.c:1750
+msgid "Display window buttons with text only"
+msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑢𐑦𐑞 𐑑𐑧𐑒𐑕𐑑 𐑴𐑯𐑤𐑦"
+
+#: ../shell/e-shell-window-actions.c:1755
+msgid "Icons _and Text"
+msgstr "𐑲𐑒𐑪𐑯𐑟 _𐑯 𐑑𐑧𐑒𐑕𐑑"
+
+#: ../shell/e-shell-window-actions.c:1757
+msgid "Display window buttons with icons and text"
+msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑢𐑦𐑞 𐑲𐑒𐑪𐑯𐑟 𐑯 𐑑𐑧𐑒𐑕𐑑"
+
+#: ../shell/e-shell-window-actions.c:1764
+msgid "Display window buttons using the desktop toolbar setting"
+msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑿𐑟𐑦𐑙 𐑞 𐑛𐑧𐑕𐑒𐑑𐑪𐑐 𐑑𐑵𐑤𐑚𐑸 𐑕𐑧𐑑𐑦𐑙"
+
+#: ../shell/e-shell-window-actions.c:1772
+msgid "Define Views..."
+msgstr "𐑛𐑦𐑓𐑲𐑯 𐑝𐑿𐑟..."
+
+#: ../shell/e-shell-window-actions.c:1774
+msgid "Create or edit views"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑹 𐑧𐑛𐑦𐑑 𐑝𐑿𐑟"
+
+#: ../shell/e-shell-window-actions.c:1779
+msgid "Save Custom View..."
+msgstr "𐑕𐑱𐑝 𐑒𐑳𐑕𐑑𐑩𐑥 𐑝𐑿..."
+
+#: ../shell/e-shell-window-actions.c:1781
+msgid "Save current custom view"
+msgstr "𐑕𐑱𐑝 𐑒𐑳𐑮𐑩𐑯𐑑 𐑒𐑳𐑕𐑑𐑩𐑥 𐑝𐑿"
+
+#: ../shell/e-shell-window-actions.c:1798
+msgid "Custom View"
+msgstr "𐑒𐑳𐑕𐑑𐑩𐑥 𐑝𐑿"
+
+#: ../shell/e-shell-window-actions.c:1800
+msgid "Current view is a customized view"
+msgstr "𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿 𐑦𐑟 𐑩 𐑒𐑩𐑕𐑑𐑩𐑥𐑲𐑟𐑛 𐑝𐑿"
+
+#: ../shell/e-shell-window-actions.c:1810
+msgid "Change the page settings for your current printer"
+msgstr "𐑗𐑱𐑯𐑡 𐑞 𐑐𐑱𐑡 𐑕𐑧𐑑𐑦𐑙𐑟 𐑓𐑹 𐑿𐑼 𐑒𐑳𐑮𐑩𐑯𐑑 𐑐𐑮𐑦𐑯𐑑𐑼"
+
+#: ../shell/e-shell-window-actions.c:2082
+#, c-format
+msgid "Switch to %s"
+msgstr "𐑕𐑢𐑦𐑗 𐑑 %s"
+
+#: ../shell/e-shell-window-actions.c:2285
+msgid "Execute these search parameters"
+msgstr "𐑧𐑒𐑕𐑩𐑒𐑿𐑑 𐑞𐑰𐑟 𐑕𐑻𐑗 𐑐𐑼𐑨𐑥𐑩𐑑𐑼𐑟"
+
+#: ../shell/e-shell-window-private.c:254
+msgid "New"
+msgstr "𐑯𐑿"
+
+#. Translators: This is used for the main window title.
+#: ../shell/e-shell-window-private.c:571
+#, c-format
+msgid "%s - Evolution"
+msgstr "%s - ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../shell/e-shell-window.c:292
+msgid "Active Shell View"
+msgstr "𐑨𐑒𐑑𐑦𐑝 𐑖𐑧𐑤 𐑝𐑿"
+
+#: ../shell/e-shell-window.c:293
+msgid "Name of the active shell view"
+msgstr "𐑯𐑱𐑥 𐑝 𐑞 𐑨𐑒𐑑𐑦𐑝 𐑖𐑧𐑤 𐑝𐑿"
+
+#: ../shell/e-shell-window.c:307
+msgid "Safe Mode"
+msgstr "𐑕𐑱𐑓 𐑥𐑴𐑛"
+
+#: ../shell/e-shell-window.c:308
+msgid "Whether the shell window is in safe mode"
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑖𐑧𐑤 𐑢𐑦𐑯𐑛𐑴 𐑦𐑟 𐑦𐑯 𐑕𐑱𐑓 𐑥𐑴𐑛"
+
+#: ../shell/e-shell.c:207
+msgid "Preparing to go offline..."
+msgstr "𐑐𐑮𐑰𐑐𐑺𐑦𐑙 𐑑 𐑜𐑴 𐑪𐑓𐑤𐑲𐑯..."
+
+#: ../shell/e-shell.c:261
+msgid "Preparing to go online..."
+msgstr "𐑐𐑮𐑰𐑐𐑺𐑦𐑙 𐑑 𐑜𐑴 𐑪𐑯𐑤𐑲𐑯..."
+
+#: ../shell/e-shell.c:324
+msgid "Preparing to quit..."
+msgstr "𐑐𐑮𐑰𐑐𐑺𐑦𐑙 𐑑 𐑒𐑢𐑦𐑑..."
+
+#: ../shell/e-shell.c:688
+msgid "Network Available"
+msgstr "𐑯𐑧𐑑𐑢𐑻𐑒 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤"
+
+#: ../shell/e-shell.c:689
+msgid "Whether the network is available"
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑯𐑧𐑑𐑢𐑻𐑒 𐑦𐑟 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤"
+
+#: ../shell/e-shell.c:704 ../widgets/misc/e-online-button.c:130
+msgid "Online"
+msgstr "𐑪𐑯𐑤𐑲𐑯"
+
+#: ../shell/e-shell.c:705
+msgid "Whether the shell is online"
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑖𐑧𐑤 𐑦𐑟 𐑪𐑯𐑤𐑲𐑯"
+
+#: ../shell/main.c:189
+msgid ""
+"Thanks\n"
+"The Evolution Team\n"
+msgstr ""
+"𐑔𐑨𐑙𐑒𐑕\n"
+"𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑𐑰𐑥\n"
+
+#: ../shell/main.c:196
+msgid "Do not tell me again"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑑𐑧𐑤 𐑥𐑰 𐑩𐑜𐑱𐑯"
+
+#: ../shell/main.c:314
+msgid "Start Evolution activating the specified component"
+msgstr "𐑕𐑑𐑸𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑨𐑒𐑑𐑩𐑝𐑱𐑑𐑦𐑙 𐑞 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑛 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑"
+
+#: ../shell/main.c:318
+msgid "Start in online mode"
+msgstr "𐑕𐑑𐑸𐑑 𐑦𐑯 𐑪𐑯𐑤𐑲𐑯 𐑥𐑴𐑛"
+
+#: ../shell/main.c:321
+msgid "Forcibly shut down Evolution"
+msgstr "𐑓𐑪𐑮𐑕𐑩𐑚𐑤𐑰 𐑖𐑳𐑑 𐑛𐑬𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+
+#: ../shell/main.c:325
+msgid "Forcibly re-migrate from Evolution 1.4"
+msgstr "𐑓𐑪𐑮𐑕𐑩𐑚𐑤𐑰 𐑮𐑰-𐑥𐑲𐑜𐑮𐑱𐑑 𐑓𐑮𐑪𐑥 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 1.4"
+
+#: ../shell/main.c:328
+msgid "Send the debugging output of all components to a file."
+msgstr "𐑕𐑧𐑯𐑛 𐑞 𐑛𐑰𐑚𐑳𐑜𐑦𐑙 𐑬𐑑𐑐𐑫𐑑 𐑝 𐑷𐑤 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑𐑕 𐑑 𐑩 𐑓𐑲𐑤."
+
+#: ../shell/main.c:330
+msgid "Disable loading of any plugins."
+msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑤𐑴𐑛𐑦𐑙 𐑝 𐑧𐑯𐑦 𐑐𐑤𐑳𐑜𐑦𐑯𐑟."
+
+#: ../shell/main.c:332
+msgid "Disable preview pane of Mail, Contacts and Tasks."
+msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑝 𐑥𐑱𐑤, 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑯 𐑑𐑭𐑕𐑒𐑕."
+
+#: ../shell/main.c:540
+#, c-format
+msgid ""
+"%s: --online and --offline cannot be used together.\n"
+"  Use %s --help for more information.\n"
+msgstr ""
+"%s: --𐑪𐑯𐑤𐑲𐑯 𐑯 --𐑪𐑓𐑤𐑲𐑯 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑿𐑟𐑛 𐑑𐑫𐑜𐑧𐑞𐑼.\n"
+"  𐑿𐑟 %s --𐑣𐑧𐑤𐑐 𐑓𐑹 𐑥𐑹 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯.\n"
+
+#: ../shell/shell.error.xml.h:1
+msgid "Are you sure you want to forget all remembered passwords?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑓𐑼𐑜𐑧𐑑 𐑷𐑤 𐑮𐑦𐑥𐑧𐑥𐑚𐑼𐑛 𐑐𐑭𐑕𐑢𐑼𐑛𐑟?"
+
+#: ../shell/shell.error.xml.h:2
+msgid "Continue"
+msgstr "𐑒𐑩𐑯𐑑𐑦𐑯𐑿"
+
+#: ../shell/shell.error.xml.h:3
+msgid "Delete old data from version {0}?"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑴𐑤𐑛 𐑛𐑱𐑑𐑩 𐑓𐑮𐑪𐑥 𐑝𐑻𐑠𐑩𐑯 {0}?"
+
+#: ../shell/shell.error.xml.h:6
+msgid "Insufficient disk space for upgrade."
+msgstr "𐑦𐑯𐑕𐑩𐑓𐑦𐑖𐑩𐑯𐑑 𐑛𐑦𐑕𐑒 𐑕𐑐𐑱𐑕 𐑓𐑹 𐑳𐑐𐑜𐑮𐑱𐑛."
+
+#: ../shell/shell.error.xml.h:7
+msgid "Really delete old data?"
+msgstr "𐑮𐑾𐑤𐑦 𐑛𐑦𐑤𐑰𐑑 𐑴𐑤𐑛 𐑛𐑱𐑑𐑩?"
+
+#: ../shell/shell.error.xml.h:18
+msgid "Upgrade from previous version failed:"
+msgstr "𐑳𐑐𐑜𐑮𐑱𐑛 𐑓𐑮𐑪𐑥 𐑐𐑮𐑰𐑝𐑦𐑩𐑕 𐑝𐑻𐑠𐑩𐑯 𐑓𐑱𐑤𐑛:"
+
+#: ../shell/shell.error.xml.h:19
+msgid ""
+"Upgrading your data and settings will require up to {0} of disk space, but "
+"you only have {1} available.\n"
+"\n"
+"You will need to make more space available in your home directory before you "
+"can continue."
+msgstr ""
+"𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑿𐑼 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑢𐑦𐑤 𐑮𐑦𐑒𐑢𐑲𐑼 𐑳𐑐 𐑑 {0} 𐑝 𐑛𐑦𐑕𐑒 𐑕𐑐𐑱𐑕, 𐑚𐑳𐑑 𐑿 𐑴𐑯𐑤𐑦 𐑣𐑨𐑝 "
+"{1} 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤.\n"
+"\n"
+"𐑿 𐑢𐑦𐑤 𐑯𐑰𐑛 𐑑 𐑥𐑱𐑒 𐑥𐑹 𐑕𐑐𐑱𐑕 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑦𐑯 𐑿𐑼 𐑣𐑴𐑥 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 𐑚𐑦𐑓𐑹 𐑿 𐑒𐑨𐑯 𐑒𐑩𐑯𐑑𐑦𐑯𐑿."
+
+#: ../shell/shell.error.xml.h:22
+msgid "_Forget"
+msgstr "_𐑓𐑼𐑜𐑧𐑑"
+
+#: ../shell/shell.error.xml.h:23
+msgid "_Keep Data"
+msgstr "_𐑒𐑰𐑐 𐑛𐑱𐑑𐑩"
+
+#: ../shell/shell.error.xml.h:24
+msgid "_Remind Me Later"
+msgstr "_𐑮𐑦𐑥𐑲𐑯𐑛 𐑥𐑰 𐑤𐑱𐑑𐑼"
+
+#: ../shell/shell.error.xml.h:25
+msgid ""
+"{0}\n"
+"\n"
+"If you choose to continue, you may not have access to some of your old data."
+"\n"
+msgstr ""
+"{0}\n"
+"\n"
+"𐑦𐑓 𐑿 𐑗𐑵𐑟 𐑑 𐑒𐑩𐑯𐑑𐑦𐑯𐑿, 𐑿 𐑥𐑱 𐑯𐑪𐑑 𐑣𐑨𐑝 𐑨𐑒𐑕𐑧𐑕 𐑑 𐑕𐑳𐑥 𐑝 𐑿𐑼 𐑴𐑤𐑛 𐑛𐑱𐑑𐑩.\n"
+
+#: ../shell/test/e-test-shell-backend.c:60
+msgctxt "New"
+msgid "_Test Item"
+msgstr "_𐑑𐑧𐑕𐑑 𐑲𐑑𐑩𐑥"
+
+#: ../shell/test/e-test-shell-backend.c:62
+msgid "Create a new test item"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑑𐑧𐑕𐑑 𐑲𐑑𐑩𐑥"
+
+#: ../shell/test/e-test-shell-backend.c:70
+msgctxt "New"
+msgid "Test _Source"
+msgstr "𐑑𐑧𐑕𐑑 _𐑕𐑹𐑕"
+
+#: ../shell/test/e-test-shell-backend.c:72
+msgid "Create a new test source"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑑𐑧𐑕𐑑 𐑕𐑹𐑕"
+
+#: ../smclient/eggdesktopfile.c:165
+#, c-format
+msgid "File is not a valid .desktop file"
+msgstr "𐑓𐑲𐑤 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑝𐑨𐑤𐑦𐑛 .𐑛𐑧𐑕𐑒𐑑𐑪𐑐 𐑓𐑲𐑤"
+
+#: ../smclient/eggdesktopfile.c:188
+#, c-format
+msgid "Unrecognized desktop file Version '%s'"
+msgstr "𐑩𐑯𐑮𐑧𐑒𐑩𐑜𐑯𐑲𐑟𐑛 𐑛𐑧𐑕𐑒𐑑𐑪𐑐 𐑓𐑲𐑤 𐑝𐑻𐑠𐑩𐑯 '%s'"
+
+#: ../smclient/eggdesktopfile.c:958
+#, c-format
+msgid "Starting %s"
+msgstr "𐑕𐑑𐑸𐑑𐑦𐑙 %s"
+
+#: ../smclient/eggdesktopfile.c:1100
+#, c-format
+msgid "Application does not accept documents on command line"
+msgstr "𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑨𐑒𐑕𐑧𐑐𐑑 𐑛𐑪𐑒𐑿𐑥𐑩𐑯𐑑𐑕 𐑪𐑯 𐑒𐑩𐑥𐑭𐑯𐑛 𐑤𐑲𐑯"
+
+#: ../smclient/eggdesktopfile.c:1168
+#, c-format
+msgid "Unrecognized launch option: %d"
+msgstr "𐑩𐑯𐑮𐑧𐑒𐑩𐑜𐑯𐑲𐑟𐑛 𐑤𐑷𐑯𐑗 𐑪𐑐𐑖𐑩𐑯: %d"
+
+#: ../smclient/eggsmclient.c:225
+msgid "Disable connection to session manager"
+msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯 𐑑 𐑕𐑧𐑖𐑩𐑯 𐑥𐑨𐑯𐑩𐑡𐑼"
+
+#: ../smclient/eggsmclient.c:228
+msgid "Specify file containing saved configuration"
+msgstr "𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑓𐑲𐑤 𐑒𐑩𐑯𐑑𐑱𐑯𐑦𐑙 𐑕𐑱𐑝𐑛 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯"
+
+#: ../smclient/eggsmclient.c:228
+msgid "FILE"
+msgstr "𐑓𐑲𐑤"
+
+#: ../smclient/eggsmclient.c:231
+msgid "Specify session management ID"
+msgstr "𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑕𐑧𐑖𐑩𐑯 𐑥𐑨𐑯𐑩𐑡𐑥𐑩𐑯𐑑 ID"
+
+#: ../smclient/eggsmclient.c:231
+msgid "ID"
+msgstr "ID"
+
+#: ../smclient/eggsmclient.c:252
+msgid "Session management options:"
+msgstr "𐑕𐑧𐑖𐑩𐑯 𐑥𐑨𐑯𐑩𐑡𐑥𐑩𐑯𐑑 𐑪𐑐𐑖𐑩𐑯𐑟:"
+
+#: ../smclient/eggsmclient.c:253
+msgid "Show session management options"
+msgstr "𐑖𐑴 𐑕𐑧𐑖𐑩𐑯 𐑥𐑨𐑯𐑩𐑡𐑥𐑩𐑯𐑑 𐑪𐑐𐑖𐑩𐑯𐑟"
+
+#: ../smime/gui/ca-trust-dialog.c:102
+#, c-format
+msgid ""
+"Certificate '%s' is a CA certificate.\n"
+"\n"
+"Edit trust settings:"
+msgstr ""
+"𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 '%s' 𐑦𐑟 𐑩 𐑒𐑩 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑.\n"
+"\n"
+"𐑧𐑛𐑦𐑑 𐑑𐑮𐑳𐑕𐑑 𐑕𐑧𐑑𐑦𐑙𐑟:"
+
+#: ../smime/gui/cert-trust-dialog.c:150
+msgid ""
+"Because you trust the certificate authority that issued this certificate, "
+"then you trust the authenticity of this certificate unless otherwise "
+"indicated here"
+msgstr ""
+"𐑚𐑦𐑒𐑪𐑟 𐑿 𐑑𐑮𐑳𐑕𐑑 𐑞 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰 𐑞𐑨𐑑 𐑦𐑖𐑵𐑛 𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑, 𐑞𐑧𐑯 𐑿 𐑑𐑮𐑳𐑕𐑑 𐑞 "
+"𐑪𐑔𐑩𐑯𐑑𐑦𐑕𐑦𐑑𐑰 𐑝 𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑳𐑯𐑤𐑧𐑕 𐑳𐑞𐑼𐑢𐑲𐑟 𐑦𐑯𐑛𐑦𐑒𐑱𐑑𐑩𐑛 𐑣𐑽"
+
+#: ../smime/gui/cert-trust-dialog.c:154
+msgid ""
+"Because you do not trust the certificate authority that issued this "
+"certificate, then you do not trust the authenticity of this certificate "
+"unless otherwise indicated here"
+msgstr ""
+"𐑚𐑦𐑒𐑪𐑟 𐑿 𐑛𐑵 𐑯𐑪𐑑 𐑑𐑮𐑳𐑕𐑑 𐑞 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰 𐑞𐑨𐑑 𐑦𐑖𐑵𐑛 𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑, 𐑞𐑧𐑯 𐑿 𐑛𐑵 "
+"𐑯𐑪𐑑 𐑑𐑮𐑳𐑕𐑑 𐑞 𐑪𐑔𐑩𐑯𐑑𐑦𐑕𐑦𐑑𐑰 𐑝 𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑳𐑯𐑤𐑧𐑕 𐑳𐑞𐑼𐑢𐑲𐑟 𐑦𐑯𐑛𐑦𐑒𐑱𐑑𐑩𐑛 𐑣𐑽"
+
+#: ../smime/gui/certificate-manager.c:137
+#: ../smime/gui/certificate-manager.c:384
+#: ../smime/gui/certificate-manager.c:612
+msgid "Select a certificate to import..."
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑑 𐑦𐑥𐑐𐑹𐑑..."
+
+#: ../smime/gui/certificate-manager.c:146
+msgid "All PKCS12 files"
+msgstr "𐑷𐑤 PKCS12 𐑓𐑲𐑤𐑟"
+
+#: ../smime/gui/certificate-manager.c:152
+#: ../smime/gui/certificate-manager.c:399
+#: ../smime/gui/certificate-manager.c:626
+msgid "All files"
+msgstr "𐑷𐑤 𐑓𐑲𐑤𐑟"
+
+#: ../smime/gui/certificate-manager.c:276
+#: ../smime/gui/certificate-manager.c:489
+#: ../smime/gui/certificate-manager.c:714
+msgid "Certificate Name"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑯𐑱𐑥"
+
+#: ../smime/gui/certificate-manager.c:285
+#: ../smime/gui/certificate-manager.c:507
+msgid "Purposes"
+msgstr "𐑐𐑻𐑐𐑩𐑕𐑩𐑟"
+
+#: ../smime/gui/certificate-manager.c:294 ../smime/gui/smime-ui.glade.h:37
+#: ../smime/lib/e-cert.c:552
+msgid "Serial Number"
+msgstr "𐑕𐑦𐑮𐑰𐑩𐑤 𐑯𐑳𐑥𐑚𐑼"
+
+#: ../smime/gui/certificate-manager.c:302
+msgid "Expires"
+msgstr "𐑦𐑒𐑕𐑐𐑲𐑻𐑟"
+
+#: ../smime/gui/certificate-manager.c:393
+msgid "All email certificate files"
+msgstr "𐑷𐑤 𐑰𐑥𐑱𐑤 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑓𐑲𐑤𐑟"
+
+#: ../smime/gui/certificate-manager.c:498
+msgid "E-Mail Address"
+msgstr "𐑧-𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕"
+
+#: ../smime/gui/certificate-manager.c:621
+msgid "All CA certificate files"
+msgstr "𐑷𐑤 𐑒𐑩 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑓𐑲𐑤𐑟"
+
+#: ../smime/gui/certificate-manager.c:1052
+msgid "Certificates"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕"
+
+#: ../smime/gui/certificate-viewer.c:338
+#, c-format
+msgid "Certificate Viewer: %s"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑝𐑿𐑼: %s"
+
+#: ../smime/gui/component.c:46
+#, c-format
+msgid "Enter the password for `%s'"
+msgstr "𐑧𐑯𐑑𐑼 𐑞 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 `%s'"
+
+#. we're setting the password initially
+#: ../smime/gui/component.c:69
+msgid "Enter new password for certificate database"
+msgstr "𐑧𐑯𐑑𐑼 𐑯𐑿 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑛𐑱𐑑𐑩𐑚𐑱𐑕"
+
+#: ../smime/gui/component.c:71
+msgid "Enter new password"
+msgstr "𐑧𐑯𐑑𐑼 𐑯𐑿 𐑐𐑭𐑕𐑢𐑼𐑛"
+
+#. FIXME: add serial no, validity date, uses
+#: ../smime/gui/e-cert-selector.c:117
+#, c-format
+msgid ""
+"Issued to:\n"
+"  Subject: %s\n"
+msgstr ""
+"𐑦𐑖𐑵𐑛 𐑑:\n"
+"  𐑕𐑳𐑚𐑡𐑧𐑒𐑑: %s\n"
+
+#: ../smime/gui/e-cert-selector.c:118
+#, c-format
+msgid ""
+"Issued by:\n"
+"  Subject: %s\n"
+msgstr ""
+"𐑦𐑖𐑵𐑛 𐑚𐑲:\n"
+"  𐑕𐑳𐑚𐑡𐑧𐑒𐑑: %s\n"
+
+#: ../smime/gui/e-cert-selector.c:170
+msgid "Select certificate"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:1
+msgid "<Not Part of Certificate>"
+msgstr "<𐑯𐑪𐑑 𐑐𐑸𐑑 𐑝 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑>"
+
+#: ../smime/gui/smime-ui.glade.h:2
+msgid "<b>Certificate Fields</b>"
+msgstr "<b>𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑓𐑰𐑤𐑛𐑟</b>"
+
+#: ../smime/gui/smime-ui.glade.h:3
+msgid "<b>Certificate Hierarchy</b>"
+msgstr "<b>𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑣𐑲𐑻𐑭𐑮𐑒𐑰</b>"
+
+#: ../smime/gui/smime-ui.glade.h:4
+msgid "<b>Field Value</b>"
+msgstr "<b>𐑓𐑰𐑤𐑛 𐑝𐑨𐑤𐑿</b>"
+
+#: ../smime/gui/smime-ui.glade.h:5
+msgid "<b>Fingerprints</b>"
+msgstr "<b>𐑓𐑦𐑙𐑜𐑼𐑐𐑮𐑦𐑯𐑑𐑕</b>"
+
+#: ../smime/gui/smime-ui.glade.h:6
+msgid "<b>Issued By</b>"
+msgstr "<b>𐑦𐑖𐑵𐑛 𐑚𐑲</b>"
+
+#: ../smime/gui/smime-ui.glade.h:7
+msgid "<b>Issued To</b>"
+msgstr "<b>𐑦𐑖𐑵𐑛 𐑑</b>"
+
+#: ../smime/gui/smime-ui.glade.h:8
+msgid "<b>This certificate has been verified for the following uses:</b>"
+msgstr "<b>𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑝𐑧𐑮𐑦𐑓𐑲𐑛 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑿𐑟𐑩𐑟:</b>"
+
+#: ../smime/gui/smime-ui.glade.h:9
+msgid "<b>Validity</b>"
+msgstr "<b>𐑝𐑩𐑤𐑦𐑛𐑩𐑑𐑰</b>"
+
+#: ../smime/gui/smime-ui.glade.h:10
+msgid "Authorities"
+msgstr "𐑷𐑔𐑹𐑦𐑑𐑰𐑟"
+
+#: ../smime/gui/smime-ui.glade.h:11
+msgid "Backup"
+msgstr "𐑚𐑨𐑒𐑳𐑐"
+
+#: ../smime/gui/smime-ui.glade.h:12
+msgid "Backup All"
+msgstr "𐑚𐑨𐑒𐑳𐑐 𐑷𐑤"
+
+#: ../smime/gui/smime-ui.glade.h:13
+msgid ""
+"Before trusting this CA for any purpose, you should examine its certificate "
+"and its policy and procedures (if available)."
+msgstr ""
+"𐑚𐑦𐑓𐑹 𐑑𐑮𐑩𐑕𐑑𐑦𐑙 𐑞𐑦𐑕 𐑒𐑩 𐑓𐑹 𐑧𐑯𐑦 𐑐𐑻𐑐𐑩𐑕, 𐑿 𐑖𐑫𐑛 𐑦𐑜𐑟𐑨𐑥𐑦𐑯 𐑦𐑑𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑯 𐑦𐑑𐑕 𐑐𐑪𐑤𐑦𐑕𐑦 𐑯 "
+"𐑐𐑮𐑩𐑕𐑰𐑡𐑻𐑟 (𐑦𐑓 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤)."
+
+#: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1058
+msgid "Certificate"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:15
+msgid "Certificate Authority Trust"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰 𐑑𐑮𐑳𐑕𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:16
+msgid "Certificate details"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑛𐑰𐑑𐑱𐑤𐑟"
+
+#: ../smime/gui/smime-ui.glade.h:17
+msgid "Certificates Table"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕 𐑑𐑱𐑚𐑩𐑤"
+
+#: ../smime/gui/smime-ui.glade.h:19
+msgid "Contact Certificates"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕"
+
+#: ../smime/gui/smime-ui.glade.h:21
+msgid "Do not trust the authenticity of this certificate"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑑𐑮𐑳𐑕𐑑 𐑞 𐑪𐑔𐑩𐑯𐑑𐑦𐑕𐑦𐑑𐑰 𐑝 𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:22
+msgid "Dummy window only"
+msgstr "𐑛𐑩𐑥𐑰 𐑢𐑦𐑯𐑛𐑴 𐑴𐑯𐑤𐑦"
+
+#: ../smime/gui/smime-ui.glade.h:23
+msgid "Edit"
+msgstr "𐑧𐑛𐑦𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:24
+msgid "Email Certificate Trust Settings"
+msgstr "𐑰𐑥𐑱𐑤 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑑𐑮𐑳𐑕𐑑 𐑕𐑧𐑑𐑦𐑙𐑟"
+
+#: ../smime/gui/smime-ui.glade.h:25
+msgid "Email Recipient Certificate"
+msgstr "𐑰𐑥𐑱𐑤 𐑮𐑩𐑕𐑦𐑐𐑰𐑩𐑯𐑑 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:26
+msgid "Email Signer Certificate"
+msgstr "𐑰𐑥𐑱𐑤 𐑕𐑲𐑯𐑻 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:27
+msgid "Expires On"
+msgstr "𐑦𐑒𐑕𐑐𐑲𐑻𐑟 𐑪𐑯"
+
+#: ../smime/gui/smime-ui.glade.h:29
+msgid "Import"
+msgstr "𐑦𐑥𐑐𐑹𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:30
+msgid "Issued On"
+msgstr "𐑦𐑖𐑵𐑛 𐑪𐑯"
+
+#: ../smime/gui/smime-ui.glade.h:31
+msgid "MD5 Fingerprint"
+msgstr "MD5 𐑓𐑦𐑙𐑜𐑼𐑐𐑮𐑦𐑯𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:32
+msgid "Organization (O)"
+msgstr "𐑹𐑜𐑩𐑯𐑦𐑟𐑱𐑖𐑩𐑯 (O)"
+
+#: ../smime/gui/smime-ui.glade.h:33
+msgid "Organizational Unit (OU)"
+msgstr "𐑪𐑮𐑜𐑩𐑯𐑩𐑟𐑱𐑖𐑩𐑯𐑩𐑤 𐑿𐑯𐑦𐑑 (OU)"
+
+#: ../smime/gui/smime-ui.glade.h:34
+msgid "SHA1 Fingerprint"
+msgstr "SHA1 𐑓𐑦𐑙𐑜𐑼𐑐𐑮𐑦𐑯𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:800
+msgid "SSL Client Certificate"
+msgstr "SSL 𐑒𐑤𐑲𐑩𐑯𐑑 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:804
+msgid "SSL Server Certificate"
+msgstr "SSL 𐑕𐑻𐑝𐑼 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:38
+msgid "Trust the authenticity of this certificate"
+msgstr "𐑑𐑮𐑳𐑕𐑑 𐑞 𐑪𐑔𐑩𐑯𐑑𐑦𐑕𐑦𐑑𐑰 𐑝 𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../smime/gui/smime-ui.glade.h:39
+msgid "Trust this CA to identify email users."
+msgstr "𐑑𐑮𐑳𐑕𐑑 𐑞𐑦𐑕 CA 𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑰𐑥𐑱𐑤 𐑿𐑟𐑼𐑟."
+
+#: ../smime/gui/smime-ui.glade.h:40
+msgid "Trust this CA to identify software developers."
+msgstr "𐑑𐑮𐑳𐑕𐑑 𐑞𐑦𐑕 CA 𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑕𐑪𐑓𐑑𐑢𐑺 𐑛𐑦𐑝𐑧𐑤𐑩𐑐𐑼𐑟."
+
+#: ../smime/gui/smime-ui.glade.h:41
+msgid "Trust this CA to identify web sites."
+msgstr "𐑑𐑮𐑳𐑕𐑑 𐑞𐑦𐑕 CA 𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑢𐑧𐑚 𐑕𐑲𐑑𐑕."
+
+#: ../smime/gui/smime-ui.glade.h:42
+msgid "View"
+msgstr "𐑝𐑿"
+
+#: ../smime/gui/smime-ui.glade.h:43
+msgid "You have certificates from these organizations that identify you:"
+msgstr "𐑿 𐑣𐑨𐑝 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕 𐑓𐑮𐑪𐑥 𐑞𐑰𐑟 𐑹𐑜𐑩𐑯𐑦𐑟𐑱𐑖𐑩𐑯𐑟 𐑞𐑨𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑿:"
+
+#: ../smime/gui/smime-ui.glade.h:44
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
+msgstr "𐑿 𐑣𐑨𐑝 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕 𐑪𐑯 𐑓𐑲𐑤 𐑞𐑨𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑞𐑰𐑟 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑹𐑦𐑑𐑰𐑟:"
+
+#: ../smime/gui/smime-ui.glade.h:45
+msgid "You have certificates on file that identify these people:"
+msgstr "𐑿 𐑣𐑨𐑝 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕 𐑪𐑯 𐑓𐑲𐑤 𐑞𐑨𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑞𐑰𐑟 𐑐𐑰𐑐𐑩𐑤:"
+
+#: ../smime/gui/smime-ui.glade.h:46
+msgid "Your Certificates"
+msgstr "𐑿𐑼 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕"
+
+#: ../smime/gui/smime-ui.glade.h:47
+msgid "_Edit CA Trust"
+msgstr "_𐑧𐑛𐑦𐑑 CA 𐑑𐑮𐑳𐑕𐑑"
+
+#. XXX we shouldn't be popping up dialogs in this code.
+#: ../smime/lib/e-cert-db.c:652
+msgid "Certificate already exists"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕"
+
+#: ../smime/lib/e-cert.c:222 ../smime/lib/e-cert.c:232
+msgid "%d/%m/%Y"
+msgstr "%d/%m/%Y"
+
+#. x509 certificate usage types
+#: ../smime/lib/e-cert.c:407
+msgid "Sign"
+msgstr "𐑕𐑲𐑯"
+
+#: ../smime/lib/e-cert.c:408
+msgid "Encrypt"
+msgstr "𐑦𐑯𐑒𐑮𐑦𐑐𐑑"
+
+#: ../smime/lib/e-cert.c:513
+msgid "Version"
+msgstr "𐑝𐑻𐑠𐑩𐑯"
+
+#: ../smime/lib/e-cert.c:528
+msgid "Version 1"
+msgstr "𐑝𐑻𐑠𐑩𐑯 1"
+
+#: ../smime/lib/e-cert.c:531
+msgid "Version 2"
+msgstr "𐑝𐑻𐑠𐑩𐑯 2"
+
+#: ../smime/lib/e-cert.c:534
+msgid "Version 3"
+msgstr "𐑝𐑻𐑠𐑩𐑯 3"
+
+#: ../smime/lib/e-cert.c:652
+msgid "Certificate Key Usage"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑒𐑰 𐑿𐑕𐑦𐑡"
+
+#: ../smime/lib/e-cert.c:655
+msgid "Netscape Certificate Type"
+msgstr "·𐑯𐑧𐑑𐑕𐑒𐑱𐑐 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑑𐑲𐑐"
+
+#: ../smime/lib/e-cert.c:658
+msgid "Certificate Authority Key Identifier"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰 𐑒𐑰 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲𐑼"
+
+#: ../smime/lib/e-cert.c:670
+#, c-format
+msgid "Object Identifier (%s)"
+msgstr "𐑩𐑚𐑡𐑧𐑒𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲𐑼 (%s)"
+
+#: ../smime/lib/e-cert.c:720
+msgid "Algorithm Identifier"
+msgstr "𐑨𐑤𐑜𐑻𐑦𐑞𐑩𐑥 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲𐑼"
+
+#: ../smime/lib/e-cert.c:728
+msgid "Algorithm Parameters"
+msgstr "𐑨𐑤𐑜𐑻𐑦𐑞𐑩𐑥 𐑐𐑼𐑨𐑥𐑩𐑑𐑼𐑟"
+
+#: ../smime/lib/e-cert.c:750
+msgid "Subject Public Key Info"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑐𐑳𐑚𐑤𐑦𐑒 𐑒𐑰 𐑦𐑯𐑓𐑴"
+
+#: ../smime/lib/e-cert.c:755
+msgid "Subject Public Key Algorithm"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑐𐑳𐑚𐑤𐑦𐑒 𐑒𐑰 𐑨𐑤𐑜𐑻𐑦𐑞𐑩𐑥"
+
+#: ../smime/lib/e-cert.c:770
+msgid "Subject's Public Key"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑'𐑕 𐑐𐑳𐑚𐑤𐑦𐑒 𐑒𐑰"
+
+#: ../smime/lib/e-cert.c:791 ../smime/lib/e-cert.c:840
+msgid "Error: Unable to process extension"
+msgstr "𐑻𐑼: 𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑐𐑮𐑴𐑕𐑧𐑕 𐑩𐑒𐑕𐑑𐑧𐑯𐑖𐑩𐑯"
+
+#: ../smime/lib/e-cert.c:812 ../smime/lib/e-cert.c:824
+msgid "Object Signer"
+msgstr "𐑩𐑚𐑡𐑧𐑒𐑑 𐑕𐑲𐑯𐑻"
+
+#: ../smime/lib/e-cert.c:816
+msgid "SSL Certificate Authority"
+msgstr "SSL 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰"
+
+#: ../smime/lib/e-cert.c:820
+msgid "Email Certificate Authority"
+msgstr "𐑰𐑥𐑱𐑤 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰"
+
+#: ../smime/lib/e-cert.c:848
+msgid "Signing"
+msgstr "𐑕𐑲𐑯𐑦𐑙"
+
+#: ../smime/lib/e-cert.c:852
+msgid "Non-repudiation"
+msgstr "𐑯𐑪𐑯-𐑮𐑦𐑐𐑘𐑵𐑛𐑰𐑱𐑖𐑩𐑯"
+
+#: ../smime/lib/e-cert.c:864
+msgid "Key Agreement"
+msgstr "𐑒𐑰 𐑩𐑜𐑮𐑰𐑥𐑩𐑯𐑑"
+
+#: ../smime/lib/e-cert.c:868
+msgid "Certificate Signer"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑕𐑲𐑯𐑻"
+
+#: ../smime/lib/e-cert.c:920
+msgid "Critical"
+msgstr "𐑒𐑮𐑦𐑑𐑦𐑒𐑩𐑤"
+
+#: ../smime/lib/e-cert.c:922 ../smime/lib/e-cert.c:925
+msgid "Not Critical"
+msgstr "𐑯𐑪𐑑 𐑒𐑮𐑦𐑑𐑦𐑒𐑩𐑤"
+
+#: ../smime/lib/e-cert.c:946
+msgid "Extensions"
+msgstr "𐑩𐑒𐑕𐑑𐑧𐑯𐑖𐑩𐑯𐑟"
+
+#: ../smime/lib/e-cert.c:1017
+#, c-format
+msgid "%s = %s"
+msgstr "%s = %s"
+
+#: ../smime/lib/e-cert.c:1072 ../smime/lib/e-cert.c:1192
+msgid "Certificate Signature Algorithm"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑨𐑤𐑜𐑻𐑦𐑞𐑩𐑥"
+
+#: ../smime/lib/e-cert.c:1081
+msgid "Issuer"
+msgstr "𐑦𐑖𐑵𐑻"
+
+#: ../smime/lib/e-cert.c:1135
+msgid "Issuer Unique ID"
+msgstr "𐑦𐑖𐑵𐑻 𐑿𐑯𐑰𐑒 ID"
+
+#: ../smime/lib/e-cert.c:1154
+msgid "Subject Unique ID"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑿𐑯𐑰𐑒 ID"
+
+#: ../smime/lib/e-cert.c:1197
+msgid "Certificate Signature Value"
+msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑝𐑨𐑤𐑿"
+
+#: ../smime/lib/e-pkcs12.c:249
+msgid "PKCS12 File Password"
+msgstr "PKCS12 𐑓𐑲𐑤 𐑐𐑭𐑕𐑢𐑼𐑛"
+
+#: ../smime/lib/e-pkcs12.c:249
+msgid "Enter password for PKCS12 file:"
+msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 PKCS12 𐑓𐑲𐑤:"
+
+#: ../smime/lib/e-pkcs12.c:348
+msgid "Imported Certificate"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑩𐑛 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
+
+#: ../views/addressbook/galview.xml.h:1
+msgid "By _Company"
+msgstr "𐑚𐑲 _𐑒𐑳𐑥𐑐𐑩𐑯𐑦"
+
+#: ../views/addressbook/galview.xml.h:2
+msgid "_Address Cards"
+msgstr "_𐑩𐑛𐑮𐑧𐑕 𐑒𐑸𐑛𐑟"
+
+#: ../views/addressbook/galview.xml.h:3 ../views/calendar/galview.xml.h:3
+msgid "_List View"
+msgstr "_𐑤𐑦𐑕𐑑 𐑝𐑿"
+
+#: ../views/calendar/galview.xml.h:2
+msgid "_Day View"
+msgstr "_𐑛𐑱 𐑝𐑿"
+
+#: ../views/calendar/galview.xml.h:4
+msgid "_Month View"
+msgstr "_𐑥𐑳𐑯𐑔 𐑝𐑿"
+
+#: ../views/calendar/galview.xml.h:5
+msgid "_Work Week View"
+msgstr "_𐑢𐑻𐑒 𐑢𐑰𐑒 𐑝𐑿"
+
+#: ../views/mail/galview.xml.h:2
+msgid "As _Sent Folder"
+msgstr "𐑨𐑟 _𐑕𐑧𐑯𐑑 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../views/mail/galview.xml.h:6
+msgid "By _Follow Up Flag"
+msgstr "𐑚𐑲 _𐑓𐑪𐑤𐑴 𐑳𐑐 𐑓𐑤𐑨𐑜"
+
+#: ../views/mail/galview.xml.h:7
+msgid "For _Wide View"
+msgstr "𐑓𐑹 _𐑢𐑲𐑛 𐑝𐑿"
+
+#: ../views/mail/galview.xml.h:8
+msgid "_Messages"
+msgstr "_𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../views/memos/galview.xml.h:1
+msgid "_Memos"
+msgstr "_𐑥𐑧𐑥𐑴𐑟"
+
+#: ../views/tasks/galview.xml.h:1
+msgid "With _Due Date"
+msgstr "𐑢𐑦𐑞 _𐑛𐑿 𐑛𐑱𐑑"
+
+#: ../views/tasks/galview.xml.h:2
+msgid "With _Status"
+msgstr "𐑢𐑦𐑞 _𐑕𐑑𐑱𐑑𐑫𐑕"
+
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
+msgid "<b>Time Zones</b>"
+msgstr "<b>𐑑𐑲𐑥 𐑟𐑴𐑯𐑟</b>"
+
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
+msgid "<b>_Selection</b>"
+msgstr "<b>_𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯</b>"
+
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
+msgid "Select a Time Zone"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑑𐑲𐑥 𐑟𐑴𐑯"
+
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
+msgid ""
+"Use the left mouse button to zoom in on an area of the map and select a time "
+"zone.\n"
+"Use the right mouse button to zoom out."
+msgstr ""
+"𐑿𐑟 𐑞 𐑤𐑧𐑓𐑑 𐑥𐑬𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑟𐑵𐑥 𐑦𐑯 𐑪𐑯 𐑩𐑯 𐑺𐑦𐑩 𐑝 𐑞 𐑥𐑨𐑐 𐑯 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑑𐑲𐑥 𐑟𐑴𐑯.\n"
+"𐑿𐑟 𐑞 𐑮𐑲𐑑 𐑥𐑬𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑟𐑵𐑥 𐑬𐑑."
+
+#: ../widgets/menus/gal-define-views-dialog.c:74
+#: ../widgets/menus/gal-define-views-model.c:185
+msgid "Collection"
+msgstr "𐑒𐑩𐑤𐑧𐑒𐑖𐑩𐑯"
+
+#: ../widgets/menus/gal-define-views-dialog.c:356
+#: ../widgets/menus/gal-define-views.glade.h:4
+#, no-c-format
+msgid "Define Views for %s"
+msgstr "𐑛𐑦𐑓𐑲𐑯 𐑝𐑿𐑟 𐑓𐑹 %s"
+
+#: ../widgets/menus/gal-define-views-dialog.c:364
+#: ../widgets/menus/gal-define-views-dialog.c:366
+msgid "Define Views"
+msgstr "𐑛𐑦𐑓𐑲𐑯 𐑝𐑿𐑟"
+
+#: ../widgets/menus/gal-define-views.glade.h:2
+#, no-c-format
+msgid "Define Views for \"%s\""
+msgstr "𐑛𐑦𐑓𐑲𐑯 𐑝𐑿𐑟 𐑓𐑹 \"%s\""
+
+#: ../widgets/menus/gal-view-factory-etable.c:37
+#: ../widgets/table/e-table-scrolled.c:215
+#: ../widgets/table/e-table-scrolled.c:216
+msgid "Table"
+msgstr "𐑑𐑱𐑚𐑩𐑤"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:223
+msgid "Instance"
+msgstr "𐑦𐑯𐑕𐑑𐑨𐑯𐑕"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:281
+msgid "Save Current View"
+msgstr "𐑕𐑱𐑝 𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
+msgid "_Create new view"
+msgstr "_𐑒𐑮𐑦𐑱𐑑 𐑯𐑿 𐑝𐑿"
+
+#: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
+msgid "_Replace existing view"
+msgstr "_𐑮𐑦𐑐𐑤𐑱𐑕 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑝𐑿"
+
+#: ../widgets/menus/gal-view-new-dialog.c:68
+msgid "Factory"
+msgstr "𐑓𐑨𐑒𐑑𐑼𐑦"
+
+#: ../widgets/menus/gal-view-new-dialog.c:103
+msgid "Define New View"
+msgstr "𐑛𐑦𐑓𐑲𐑯 𐑯𐑿 𐑝𐑿"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:1
+msgid "Name of new view:"
+msgstr "𐑯𐑱𐑥 𐑝 𐑯𐑿 𐑝𐑿:"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:2
+msgid "Type of View"
+msgstr "𐑑𐑲𐑐 𐑝 𐑝𐑿"
+
+#: ../widgets/menus/gal-view-new-dialog.glade.h:3
+msgid "Type of view:"
+msgstr "𐑑𐑲𐑐 𐑝 𐑝𐑿:"
+
+#: ../widgets/misc/e-account-tree-view.c:224
+msgid "Account Name"
+msgstr "𐑩𐑒𐑬𐑯𐑑 𐑯𐑱𐑥"
+
+#: ../widgets/misc/e-account-tree-view.c:255
+msgid "Protocol"
+msgstr "𐑐𐑮𐑴𐑑𐑩𐑒𐑪𐑤"
+
+#: ../widgets/misc/e-action-combo-box.c:388
+msgid "Action"
+msgstr "𐑨𐑒𐑖𐑩𐑯"
+
+#. Translators: This is a cancelled activity.
+#: ../widgets/misc/e-activity.c:224
+#, c-format
+msgid "%s (cancelled)"
+msgstr "%s (𐑒𐑨𐑯𐑕𐑩𐑤𐑛)"
+
+#. Translators: This is a completed activity.
+#: ../widgets/misc/e-activity.c:227
+#, c-format
+msgid "%s (completed)"
+msgstr "%s (𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛)"
+
+#. Translators: This is an activity whose percent
+#. * complete is unknown.
+#: ../widgets/misc/e-activity.c:231
+#, c-format
+msgid "%s..."
+msgstr "%s..."
+
+#: ../widgets/misc/e-activity.c:236
+#, c-format
+msgid "%s (%d%% complete)"
+msgstr "%s (%d%% 𐑒𐑩𐑥𐑐𐑤𐑰𐑑)"
+
+#: ../widgets/misc/e-attachment-dialog.c:305
+msgid "Attachment Properties"
+msgstr "𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+
+#: ../widgets/misc/e-attachment-dialog.c:328
+msgid "_Filename:"
+msgstr "_𐑓𐑲𐑤𐑯𐑱𐑥:"
+
+#: ../widgets/misc/e-attachment-dialog.c:363
+msgid "MIME Type:"
+msgstr "MIME 𐑑𐑲𐑐:"
+
+#: ../widgets/misc/e-attachment-handler-image.c:95
+msgid "Could not set as background"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑧𐑑 𐑨𐑟 𐑚𐑨𐑒𐑜𐑮𐑬𐑯𐑛"
+
+#: ../widgets/misc/e-attachment-handler-image.c:147
+msgid "Set as _Background"
+msgstr "𐑕𐑧𐑑 𐑨𐑟 _𐑚𐑨𐑒𐑜𐑮𐑬𐑯𐑛"
+
+#: ../widgets/misc/e-attachment-handler-sendto.c:87
+msgid "Could not send attachment"
+msgid_plural "Could not send attachments"
+msgstr[0] "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑧𐑯𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+msgstr[1] "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑧𐑯𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+
+#: ../widgets/misc/e-attachment-handler-sendto.c:129
+msgid "_Send To..."
+msgstr "_𐑕𐑧𐑯𐑛 𐑑..."
+
+#: ../widgets/misc/e-attachment-handler-sendto.c:131
+msgid "Send the selected attachments somewhere"
+msgstr "𐑕𐑧𐑯𐑛 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕 𐑕𐑳𐑥𐑢𐑺"
+
+#: ../widgets/misc/e-attachment-icon-view.c:480
+#: ../widgets/misc/e-attachment-tree-view.c:517
+msgid "Loading"
+msgstr "𐑤𐑴𐑛𐑦𐑙"
+
+#: ../widgets/misc/e-attachment-icon-view.c:492
+#: ../widgets/misc/e-attachment-tree-view.c:529
+msgid "Saving"
+msgstr "𐑕𐑱𐑝𐑦𐑙"
+
+#: ../widgets/misc/e-attachment-paned.c:87
+msgid "Hide _Attachment Bar"
+msgstr "𐑣𐑲𐑛 _𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑚𐑸"
+
+#: ../widgets/misc/e-attachment-paned.c:89
+#: ../widgets/misc/e-attachment-paned.c:626
+msgid "Show _Attachment Bar"
+msgstr "𐑖𐑴 _𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑚𐑸"
+
+#: ../widgets/misc/e-attachment-store.c:541
+msgid "Add Attachment"
+msgstr "𐑨𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+
+#: ../widgets/misc/e-attachment-store.c:607
+msgid "Save Attachment"
+msgid_plural "Save Attachments"
+msgstr[0] "𐑕𐑱𐑝 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+msgstr[1] "𐑕𐑱𐑝 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+
+#. Translators: Default attachment filename.
+#: ../widgets/misc/e-attachment-store.c:636
+#: ../widgets/misc/e-attachment.c:1773 ../widgets/misc/e-attachment.c:2313
+msgid "attachment.dat"
+msgstr "𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑.dat"
+
+#: ../widgets/misc/e-attachment-view.c:350
+msgid "_Hide"
+msgstr "_𐑣𐑲𐑛"
+
+#: ../widgets/misc/e-attachment-view.c:643
+#, c-format
+msgid "Open with \"%s\""
+msgstr "𐑴𐑐𐑩𐑯 𐑢𐑦𐑞 \"%s\""
+
+#: ../widgets/misc/e-attachment-view.c:646
+#, c-format
+msgid "Open this attachment in %s"
+msgstr "𐑴𐑐𐑩𐑯 𐑞𐑦𐑕 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑦𐑯 %s"
+
+#: ../widgets/misc/e-attachment.c:990
+msgid "Attached message"
+msgstr "𐑩𐑑𐑨𐑗𐑑 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../widgets/misc/e-attachment.c:1822 ../widgets/misc/e-attachment.c:2619
+msgid "A load operation is already in progress"
+msgstr "𐑩 𐑤𐑴𐑛 𐑪𐑐𐑼𐑱𐑖𐑩𐑯 𐑦𐑟 𐑷𐑤𐑮𐑧𐑛𐑦 𐑦𐑯 𐑐𐑮𐑴𐑜𐑮𐑧𐑕"
+
+#: ../widgets/misc/e-attachment.c:1830 ../widgets/misc/e-attachment.c:2627
+msgid "A save operation is already in progress"
+msgstr "𐑩 𐑕𐑱𐑝 𐑪𐑐𐑼𐑱𐑖𐑩𐑯 𐑦𐑟 𐑷𐑤𐑮𐑧𐑛𐑦 𐑦𐑯 𐑐𐑮𐑴𐑜𐑮𐑧𐑕"
+
+#: ../widgets/misc/e-attachment.c:1923
+#, c-format
+msgid "Could not load '%s'"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑤𐑴𐑛 '%s'"
+
+#: ../widgets/misc/e-attachment.c:1926
+#, c-format
+msgid "Could not load the attachment"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑤𐑴𐑛 𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+
+#: ../widgets/misc/e-attachment.c:2190
+#, c-format
+msgid "Could not open '%s'"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 '%s'"
+
+#: ../widgets/misc/e-attachment.c:2193
+#, c-format
+msgid "Could not open the attachment"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+
+#: ../widgets/misc/e-attachment.c:2635
+msgid "Attachment contents not loaded"
+msgstr "𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 𐑒𐑪𐑯𐑑𐑩𐑯𐑑𐑕 𐑯𐑪𐑑 𐑤𐑴𐑛𐑩𐑛"
+
+#: ../widgets/misc/e-attachment.c:2712
+#, c-format
+msgid "Could not save '%s'"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑱𐑝 '%s'"
+
+#: ../widgets/misc/e-attachment.c:2715
+#, c-format
+msgid "Could not save the attachment"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑱𐑝 𐑞 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+
+#. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
+#: ../widgets/misc/e-buffer-tagger.c:359
+msgid "Ctrl-click to open a link"
+msgstr "𐑒𐑪𐑯𐑑𐑮𐑴𐑤-𐑒𐑤𐑦𐑒 𐑑 𐑴𐑐𐑩𐑯 𐑩 𐑤𐑦𐑙𐑒"
+
+#. This is a strftime() format. %B = Month name, %Y = Year.
+#: ../widgets/misc/e-calendar-item.c:1253
+msgid "%B %Y"
+msgstr "%B %Y"
+
+#: ../widgets/misc/e-calendar.c:217
+msgid "Month Calendar"
+msgstr "𐑥𐑳𐑯𐑔 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../widgets/misc/e-canvas-background.c:454
+#: ../widgets/misc/e-canvas-background.c:455 ../widgets/text/e-text.c:3632
+#: ../widgets/text/e-text.c:3633
+msgid "Fill color"
+msgstr "𐑓𐑦𐑤 𐑒𐑳𐑤𐑼"
+
+#: ../widgets/misc/e-canvas-background.c:482
+#: ../widgets/misc/e-canvas-background.c:483
+msgid "X1"
+msgstr "X1"
+
+#: ../widgets/misc/e-canvas-background.c:489
+#: ../widgets/misc/e-canvas-background.c:490
+msgid "X2"
+msgstr "X2"
+
+#: ../widgets/misc/e-canvas-background.c:496
+#: ../widgets/misc/e-canvas-background.c:497
+msgid "Y1"
+msgstr "Y1"
+
+#: ../widgets/misc/e-canvas-background.c:503
+#: ../widgets/misc/e-canvas-background.c:504
+msgid "Y2"
+msgstr "Y2"
+
+#: ../widgets/misc/e-canvas-vbox.c:89
+#: ../widgets/table/e-table-group-container.c:1001
+#: ../widgets/table/e-table-group-leaf.c:649
+#: ../widgets/table/e-table-item.c:3062
+msgid "Minimum width"
+msgstr "𐑥𐑦𐑯𐑩𐑥𐑩𐑥 𐑢𐑦𐑛𐑔"
+
+#: ../widgets/misc/e-canvas-vbox.c:90
+#: ../widgets/table/e-table-group-container.c:1002
+#: ../widgets/table/e-table-group-leaf.c:650
+#: ../widgets/table/e-table-item.c:3063
+msgid "Minimum Width"
+msgstr "𐑥𐑦𐑯𐑩𐑥𐑩𐑥 𐑢𐑦𐑛𐑔"
+
+#: ../widgets/misc/e-canvas-vbox.c:101 ../widgets/misc/e-canvas-vbox.c:102
+msgid "Spacing"
+msgstr "𐑕𐑐𐑱𐑕𐑦𐑙"
+
+#: ../widgets/misc/e-charset-combo-box.c:93
+msgid "Character Encoding"
+msgstr "𐑒𐑸𐑩𐑒𐑑𐑼 𐑧𐑯𐑒𐑴𐑛𐑦𐑙"
+
+#: ../widgets/misc/e-charset-combo-box.c:117
+msgid "Enter the character set to use"
+msgstr "𐑧𐑯𐑑𐑼 𐑞 𐑒𐑸𐑩𐑒𐑑𐑼 𐑕𐑧𐑑 𐑑 𐑿𐑕"
+
+#: ../widgets/misc/e-charset-combo-box.c:336
+msgid "Other..."
+msgstr "𐑳𐑞𐑼..."
+
+#: ../widgets/misc/e-dateedit.c:412
+msgid "Date and Time"
+msgstr "𐑛𐑱𐑑 𐑯 𐑑𐑲𐑥"
+
+#: ../widgets/misc/e-dateedit.c:432
+msgid "Text entry to input date"
+msgstr "𐑑𐑧𐑒𐑕𐑑 𐑧𐑯𐑑𐑮𐑦 𐑑 𐑦𐑯𐑐𐑫𐑑 𐑛𐑱𐑑"
+
+#: ../widgets/misc/e-dateedit.c:454
+msgid "Click this button to show a calendar"
+msgstr "𐑒𐑤𐑦𐑒 𐑞𐑦𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑖𐑴 𐑩 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../widgets/misc/e-dateedit.c:496
+msgid "Drop-down combination box to select time"
+msgstr "𐑛𐑮𐑪𐑐-𐑛𐑬𐑯 𐑒𐑪𐑥𐑚𐑦𐑯𐑱𐑖𐑩𐑯 𐑚𐑪𐑒𐑕 𐑑 𐑕𐑩𐑤𐑧𐑒𐑑 𐑑𐑲𐑥"
+
+#: ../widgets/misc/e-dateedit.c:572
+msgid "No_w"
+msgstr "𐑯_𐑬"
+
+#: ../widgets/misc/e-dateedit.c:578
+msgid "_Today"
+msgstr "_𐑑𐑫𐑛𐑱"
+
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
+#: ../widgets/misc/e-dateedit.c:586
+msgid "_None"
+msgstr "_𐑯𐑳𐑯"
+
+#: ../widgets/misc/e-dateedit.c:1679
+msgid "Invalid Date Value"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑛𐑱𐑑 𐑝𐑨𐑤𐑿"
+
+#: ../widgets/misc/e-dateedit.c:1715
+msgid "Invalid Time Value"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑑𐑲𐑥 𐑝𐑨𐑤𐑿"
+
+#: ../widgets/misc/e-import-assistant.c:223
+msgid ""
+"Choose the file that you want to import into Evolution, and select what type "
+"of file it is from the list."
+msgstr ""
+"𐑗𐑵𐑟 𐑞 𐑓𐑲𐑤 𐑞𐑨𐑑 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑦𐑯𐑑𐑫 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑯 𐑕𐑩𐑤𐑧𐑒𐑑 𐑢𐑪𐑑 𐑑𐑲𐑐 𐑝 𐑓𐑲𐑤 𐑦𐑑 𐑦𐑟 "
+"𐑓𐑮𐑪𐑥 𐑞 𐑤𐑦𐑕𐑑."
+
+#: ../widgets/misc/e-import-assistant.c:250
+msgid "Select a file"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑓𐑲𐑤"
+
+#: ../widgets/misc/e-import-assistant.c:264
+msgid "File _type:"
+msgstr "𐑓𐑲𐑤 _𐑑𐑲𐑐:"
+
+#: ../widgets/misc/e-import-assistant.c:307
+msgid "Choose the destination for this import"
+msgstr "𐑗𐑵𐑟 𐑞 𐑛𐑧𐑕𐑑𐑦𐑯𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞𐑦𐑕 𐑦𐑥𐑐𐑹𐑑"
+
+#: ../widgets/misc/e-import-assistant.c:332
+msgid "Choose the type of importer to run:"
+msgstr "𐑗𐑵𐑟 𐑞 𐑑𐑲𐑐 𐑝 𐑦𐑥𐑐𐑹𐑑𐑼 𐑑 𐑮𐑳𐑯:"
+
+#: ../widgets/misc/e-import-assistant.c:340
+msgid "Import data and settings from _older programs"
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑓𐑮𐑪𐑥 _𐑴𐑤𐑛𐑼 𐑐𐑮𐑴𐑜𐑮𐑨𐑥𐑟"
+
+#: ../widgets/misc/e-import-assistant.c:348
+msgid "Import a _single file"
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑩 _𐑕𐑦𐑙𐑜𐑩𐑤 𐑓𐑲𐑤"
+
+#: ../widgets/misc/e-import-assistant.c:823
+#: ../widgets/misc/e-import-assistant.c:839
+msgid "Evolution Import Assistant"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑥𐑐𐑹𐑑 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑"
+
+#: ../widgets/misc/e-import-assistant.c:832
+msgid ""
+"Welcome to the Evolution Import Assistant.\n"
+"With this assistant you will be guided through the process of importing "
+"external files into Evolution."
+msgstr ""
+"𐑢𐑧𐑤𐑒𐑩𐑥 𐑑 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑥𐑐𐑹𐑑 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑.\n"
+"𐑢𐑦𐑞 𐑞𐑦𐑕 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑 𐑿 𐑢𐑦𐑤 𐑚𐑰 𐑜𐑲𐑛𐑩𐑛 𐑔𐑮𐑵 𐑞 𐑐𐑮𐑴𐑕𐑧𐑕 𐑝 𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑓𐑲𐑤𐑟 𐑦𐑯𐑑𐑫 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../widgets/misc/e-import-assistant.c:848
+msgid "Importer Type"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑼 𐑑𐑲𐑐"
+
+#: ../widgets/misc/e-import-assistant.c:857
+msgid "Select Information to Import"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑑 𐑦𐑥𐑐𐑹𐑑"
+
+#: ../widgets/misc/e-import-assistant.c:865
+msgid "Select a File"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑓𐑲𐑤"
+
+#: ../widgets/misc/e-import-assistant.c:873
+msgid "Import Location"
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
+
+#: ../widgets/misc/e-import-assistant.c:880
+msgid "Click \"Apply\" to begin importing the file into Evolution."
+msgstr "𐑒𐑤𐑦𐑒 \"𐑩𐑐𐑤𐑲\" 𐑑 𐑚𐑩𐑜𐑦𐑯 𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑞 𐑓𐑲𐑤 𐑦𐑯𐑑𐑫 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+
+#: ../widgets/misc/e-import-assistant.c:886
+#: ../widgets/misc/e-import-assistant.c:895
+msgid "Import Data"
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑛𐑱𐑑𐑩"
+
+#: ../widgets/misc/e-map.c:605
+msgid "World Map"
+msgstr "𐑢𐑻𐑤𐑛 𐑥𐑨𐑐"
+
+#: ../widgets/misc/e-online-button.c:27
+msgid "Evolution is currently online.  Click this button to work offline."
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑪𐑯𐑤𐑲𐑯.  𐑒𐑤𐑦𐑒 𐑞𐑦𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑢𐑻𐑒 𐑪𐑓𐑤𐑲𐑯."
+
+#: ../widgets/misc/e-online-button.c:30
+msgid "Evolution is currently offline.  Click this button to work online."
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑪𐑓𐑤𐑲𐑯.  𐑒𐑤𐑦𐑒 𐑞𐑦𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑢𐑻𐑒 𐑪𐑯𐑤𐑲𐑯."
+
+#: ../widgets/misc/e-online-button.c:33
+msgid "Evolution is currently offline because the network is unavailable."
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑪𐑓𐑤𐑲𐑯 𐑚𐑦𐑒𐑪𐑟 𐑞 𐑯𐑧𐑑𐑢𐑻𐑒 𐑦𐑟 𐑩𐑯𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤."
+
+#: ../widgets/misc/e-online-button.c:131
+msgid "The button state is online"
+msgstr "𐑞 𐑚𐑳𐑑𐑩𐑯 𐑕𐑑𐑱𐑑 𐑦𐑟 𐑪𐑯𐑤𐑲𐑯"
+
+#: ../widgets/misc/e-paned.c:234
+msgid "Horizontal Position"
+msgstr "𐑣𐑪𐑮𐑦𐑟𐑪𐑯𐑑𐑩𐑤 𐑐𐑩𐑟𐑦𐑖𐑩𐑯"
+
+#: ../widgets/misc/e-paned.c:235
+msgid "Pane position when oriented horizontally"
+msgstr "𐑐𐑱𐑯 𐑐𐑩𐑟𐑦𐑖𐑩𐑯 𐑢𐑧𐑯 𐑪𐑮𐑰𐑧𐑯𐑑𐑩𐑛 𐑣𐑪𐑮𐑦𐑟𐑪𐑯𐑑𐑩𐑤𐑦"
+
+#: ../widgets/misc/e-paned.c:246
+msgid "Vertical Position"
+msgstr "𐑝𐑻𐑑𐑦𐑒𐑩𐑤 𐑐𐑩𐑟𐑦𐑖𐑩𐑯"
+
+#: ../widgets/misc/e-paned.c:247
+msgid "Pane position when oriented vertically"
+msgstr "𐑐𐑱𐑯 𐑐𐑩𐑟𐑦𐑖𐑩𐑯 𐑢𐑧𐑯 𐑪𐑮𐑰𐑧𐑯𐑑𐑩𐑛 𐑝𐑻𐑑𐑦𐑒𐑩𐑤𐑦"
+
+#: ../widgets/misc/e-pilot-settings.c:99
+msgid "Sync with:"
+msgstr "𐑕𐑦𐑙𐑒 𐑢𐑦𐑞:"
+
+#: ../widgets/misc/e-pilot-settings.c:107
+msgid "Sync Private Records:"
+msgstr "𐑕𐑦𐑙𐑒 𐑐𐑮𐑲𐑝𐑩𐑑 𐑮𐑩𐑒𐑹𐑛𐑟:"
+
+#: ../widgets/misc/e-pilot-settings.c:116
+msgid "Sync Categories:"
+msgstr "𐑕𐑦𐑙𐑒 𐑒𐑨𐑑𐑩𐑜𐑪𐑮𐑰𐑟:"
+
+#: ../widgets/misc/e-popup-action.c:173
+msgid "Source Action"
+msgstr "𐑕𐑹𐑕 𐑨𐑒𐑖𐑩𐑯"
+
+#: ../widgets/misc/e-popup-action.c:174
+msgid "The source action to proxy"
+msgstr "𐑞 𐑕𐑹𐑕 𐑨𐑒𐑖𐑩𐑯 𐑑 𐑐𐑮𐑪𐑒𐑕𐑦"
+
+#: ../widgets/misc/e-preferences-window.c:218
+msgid "Evolution Preferences"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟"
+
+#: ../widgets/misc/e-selection-model-array.c:593
+#: ../widgets/table/e-tree-selection-model.c:803
+msgid "Cursor Row"
+msgstr "𐑒𐑻𐑕𐑼 𐑮𐑴"
+
+#: ../widgets/misc/e-selection-model-array.c:600
+#: ../widgets/table/e-tree-selection-model.c:810
+msgid "Cursor Column"
+msgstr "𐑒𐑻𐑕𐑼 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/misc/e-selection-model.c:208
+msgid "Sorter"
+msgstr "𐑕𐑪𐑮𐑑𐑻"
+
+#: ../widgets/misc/e-selection-model.c:215
+msgid "Selection Mode"
+msgstr "𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯 𐑥𐑴𐑛"
+
+#: ../widgets/misc/e-selection-model.c:223
+msgid "Cursor Mode"
+msgstr "𐑒𐑻𐑕𐑼 𐑥𐑴𐑛"
+
+#: ../widgets/misc/e-send-options.glade.h:1
+msgid "<b>Delivery Options</b>"
+msgstr "<b>𐑛𐑦𐑤𐑦𐑝𐑼𐑦 𐑪𐑐𐑖𐑩𐑯𐑟</b>"
+
+#: ../widgets/misc/e-send-options.glade.h:2
+msgid "<b>Replies</b>"
+msgstr "<b>𐑮𐑦𐑐𐑤𐑲𐑟</b>"
+
+#: ../widgets/misc/e-send-options.glade.h:3
+msgid "<b>Return Notification</b>"
+msgstr "<b>𐑮𐑦𐑑𐑻𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯</b>"
+
+#: ../widgets/misc/e-send-options.glade.h:4
+msgid "<b>Status Tracking</b>"
+msgstr "<b>𐑕𐑑𐑱𐑑𐑫𐑕 𐑑𐑮𐑨𐑒𐑦𐑙</b>"
+
+#: ../widgets/misc/e-send-options.glade.h:9
+msgid ""
+"None\n"
+"Mail Receipt"
+msgstr ""
+"𐑯𐑳𐑯\n"
+"𐑥𐑱𐑤 𐑮𐑦𐑕𐑰𐑑"
+
+#: ../widgets/misc/e-send-options.glade.h:11
+msgid ""
+"Normal\n"
+"Proprietary\n"
+"Confidential\n"
+"Secret\n"
+"Top Secret\n"
+"For Your Eyes Only"
+msgstr ""
+"𐑯𐑹𐑥𐑩𐑤\n"
+"𐑐𐑮𐑩𐑐𐑮𐑲𐑩𐑑𐑧𐑮𐑰\n"
+"𐑒𐑪𐑯𐑓𐑦𐑛𐑧𐑯𐑖𐑩𐑤\n"
+"𐑕𐑰𐑒𐑮𐑩𐑑\n"
+"𐑑𐑪𐑐 𐑕𐑰𐑒𐑮𐑩𐑑\n"
+"𐑓𐑹 𐑿𐑼 𐑲𐑟 𐑴𐑯𐑤𐑦"
+
+#: ../widgets/misc/e-send-options.glade.h:20
+msgid ""
+"Undefined\n"
+"High\n"
+"Standard\n"
+"Low"
+msgstr ""
+"𐑩𐑯𐑛𐑦𐑓𐑲𐑯𐑛\n"
+"𐑣𐑲\n"
+"𐑕𐑑𐑨𐑯𐑛𐑼𐑛\n"
+"𐑤𐑴"
+
+#: ../widgets/misc/e-send-options.glade.h:28
+msgid "_After:"
+msgstr "_𐑭𐑓𐑑𐑼:"
+
+#: ../widgets/misc/e-send-options.glade.h:29
+msgid "_All information"
+msgstr "_𐑷𐑤 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../widgets/misc/e-send-options.glade.h:30
+msgid "_Classification:"
+msgstr "_𐑒𐑤𐑨𐑕𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯:"
+
+#. To translators: This means Delay the message delivery for some time
+#: ../widgets/misc/e-send-options.glade.h:32
+msgid "_Delay message delivery"
+msgstr "_𐑛𐑦𐑤𐑱 𐑥𐑧𐑕𐑦𐑡 𐑛𐑦𐑤𐑦𐑝𐑼𐑦"
+
+#: ../widgets/misc/e-send-options.glade.h:33
+msgid "_Delivered"
+msgstr "_𐑛𐑩𐑤𐑦𐑝𐑼𐑛"
+
+#: ../widgets/misc/e-send-options.glade.h:35
+msgid "_Set expiration date"
+msgstr "_𐑕𐑧𐑑 𐑧𐑒𐑕𐑐𐑻𐑱𐑖𐑩𐑯 𐑛𐑱𐑑"
+
+#: ../widgets/misc/e-send-options.glade.h:36
+msgid "_Until:"
+msgstr "_𐑳𐑯𐑑𐑦𐑤:"
+
+#: ../widgets/misc/e-send-options.glade.h:37
+msgid "_When convenient"
+msgstr "_𐑢𐑧𐑯 𐑒𐑩𐑯𐑝𐑰𐑯𐑦𐑩𐑯𐑑"
+
+#: ../widgets/misc/e-send-options.glade.h:38
+msgid "_When opened:"
+msgstr "_𐑢𐑧𐑯 𐑴𐑐𐑩𐑯𐑛:"
+
+#: ../widgets/misc/e-signature-editor.c:130
+#: ../widgets/misc/e-signature-editor.c:489
+#: ../widgets/misc/e-signature-manager.c:349
+#: ../widgets/misc/e-signature-script-dialog.c:218
+msgid "Unnamed"
+msgstr "𐑩𐑯𐑯𐑱𐑥𐑛"
+
+#: ../widgets/misc/e-signature-editor.c:207
+msgid "_Save and Close"
+msgstr "_𐑕𐑱𐑝 𐑯 𐑒𐑤𐑴𐑕"
+
+#: ../widgets/misc/e-signature-editor.c:361
+msgid "Edit Signature"
+msgstr "𐑧𐑛𐑦𐑑 𐑕𐑦𐑜𐑯𐑩𐑗𐑼"
+
+#: ../widgets/misc/e-signature-editor.c:376
+msgid "_Signature Name:"
+msgstr "_𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑯𐑱𐑥:"
+
+#: ../widgets/misc/e-signature-manager.c:294
+msgid "Add Signature Script"
+msgstr "𐑨𐑛 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑕𐑒𐑮𐑦𐑐𐑑"
+
+#: ../widgets/misc/e-signature-manager.c:359
+msgid "Edit Signature Script"
+msgstr "𐑧𐑛𐑦𐑑 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑕𐑒𐑮𐑦𐑐𐑑"
+
+#: ../widgets/misc/e-signature-manager.c:576
+msgid "Add _Script"
+msgstr "𐑨𐑛 _𐑕𐑒𐑮𐑦𐑐𐑑"
+
+#: ../widgets/misc/e-signature-script-dialog.c:266
+msgid ""
+"The output of this script will be used as your\n"
+"signature. The name you specify will be used\n"
+"for display purposes only."
+msgstr ""
+"𐑞 𐑬𐑑𐑐𐑫𐑑 𐑝 𐑞𐑦𐑕 𐑕𐑒𐑮𐑦𐑐𐑑 𐑢𐑦𐑤 𐑚𐑰 𐑿𐑟𐑛 𐑨𐑟 𐑿𐑼\n"
+"𐑕𐑦𐑜𐑯𐑩𐑗𐑼. 𐑞 𐑯𐑱𐑥 𐑿 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑢𐑦𐑤 𐑚𐑰 𐑿𐑟𐑛\n"
+"𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱 𐑐𐑻𐑐𐑩𐑕𐑩𐑟 𐑴𐑯𐑤𐑦."
+
+#: ../widgets/misc/e-signature-script-dialog.c:342
+msgid "Script file must be executable."
+msgstr "𐑕𐑒𐑮𐑦𐑐𐑑 𐑓𐑲𐑤 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑧𐑒𐑕𐑩𐑒𐑿𐑑𐑩𐑚𐑩𐑤."
+
+#: ../widgets/misc/e-url-entry.c:103
+msgid "Click here to go to URL"
+msgstr "𐑒𐑤𐑦𐑒 𐑣𐑽 𐑑 𐑜𐑴 𐑑 URL"
+
+#: ../widgets/misc/e-web-view.c:305
+msgid "Copy the link to the clipboard"
+msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑤𐑦𐑙𐑒 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
+
+#: ../widgets/misc/e-web-view.c:315
+msgid "Open the link in a web browser"
+msgstr "𐑴𐑐𐑩𐑯 𐑞 𐑤𐑦𐑙𐑒 𐑦𐑯 𐑩 𐑢𐑧𐑚 𐑚𐑮𐑬𐑟𐑼"
+
+#: ../widgets/misc/e-web-view.c:323
+msgid "_Copy Email Address"
+msgstr "_𐑒𐑪𐑐𐑦 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕"
+
+#: ../widgets/misc/e-web-view.c:325
+msgid "Copy the email address to the clipboard"
+msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
+
+#: ../widgets/misc/e-web-view.c:332
+msgid "Send a mail message to this address"
+msgstr "𐑕𐑧𐑯𐑛 𐑩 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑞𐑦𐑕 𐑩𐑛𐑮𐑧𐑕"
+
+#: ../widgets/misc/e-web-view.c:576
+#, c-format
+msgid "Click to mail %s"
+msgstr "𐑒𐑤𐑦𐑒 𐑑 𐑥𐑱𐑤 %s"
+
+#: ../widgets/misc/e-web-view.c:578 ../widgets/misc/e-web-view.c:580
+#: ../widgets/misc/e-web-view.c:582
+#, c-format
+msgid "Click to call %s"
+msgstr "𐑒𐑤𐑦𐑒 𐑑 𐑒𐑷𐑤 %s"
+
+#: ../widgets/misc/e-web-view.c:586
+#, c-format
+msgid "Click to open %s"
+msgstr "𐑒𐑤𐑦𐑒 𐑑 𐑴𐑐𐑩𐑯 %s"
+
+#: ../widgets/misc/ea-calendar-item.c:295
+#: ../widgets/misc/ea-calendar-item.c:301
+msgid "%d %B %Y"
+msgstr "%d %B %Y"
+
+#: ../widgets/misc/ea-calendar-item.c:303
+#, c-format
+msgid "Calendar: from %s to %s"
+msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼: 𐑓𐑮𐑪𐑥 %s 𐑑 %s"
+
+#: ../widgets/misc/ea-calendar-item.c:338
+msgid "evolution calendar item"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑲𐑑𐑩𐑥"
+
+#: ../widgets/table/e-cell-combo.c:171
+msgid "popup list"
+msgstr "𐑐𐑪𐑐𐑳𐑐 𐑤𐑦𐑕𐑑"
+
+#: ../widgets/table/e-cell-date-edit.c:296
+msgid "Now"
+msgstr "𐑯𐑬"
+
+#: ../widgets/table/e-cell-date-edit.c:320
+msgid "OK"
+msgstr "𐑴𐑒𐑱"
+
+#: ../widgets/table/e-cell-date-edit.c:846
+#, c-format
+msgid "The time must be in the format: %s"
+msgstr "𐑞 𐑑𐑲𐑥 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑦𐑯 𐑞 𐑓𐑹𐑥𐑨𐑑: %s"
+
+#: ../widgets/table/e-cell-percent.c:76
+msgid "The percent value must be between 0 and 100, inclusive"
+msgstr "𐑞 𐑐𐑻𐑕𐑧𐑯𐑑 𐑝𐑨𐑤𐑿 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑚𐑦𐑑𐑢𐑰𐑯 0 𐑯 100, 𐑦𐑯𐑒𐑤𐑵𐑕𐑦𐑝"
+
+#: ../widgets/table/e-cell-pixbuf.c:360
+msgid "Selected Column"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-cell-pixbuf.c:367
+msgid "Focused Column"
+msgstr "𐑓𐑴𐑒𐑩𐑕𐑑 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-cell-text.c:1788
+msgid "Strikeout Column"
+msgstr "𐑕𐑑𐑮𐑲𐑒𐑶𐑑 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-cell-text.c:1795
+msgid "Underline Column"
+msgstr "𐑩𐑯𐑛𐑻𐑤𐑲𐑯 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-cell-text.c:1802
+msgid "Bold Column"
+msgstr "𐑚𐑴𐑤𐑛 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-cell-text.c:1809
+msgid "Color Column"
+msgstr "𐑒𐑳𐑤𐑼 𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-table-click-to-add.c:576
+#: ../widgets/table/gal-a11y-e-table-click-to-add.c:58
+#: ../widgets/table/gal-a11y-e-table-click-to-add.c:131
+msgid "click to add"
+msgstr "𐑒𐑤𐑦𐑒 𐑑 𐑨𐑛"
+
+#: ../widgets/table/e-table-config.c:152
+msgid "State"
+msgstr "𐑕𐑑𐑱𐑑"
+
+#: ../widgets/table/e-table-config.c:385 ../widgets/table/e-table-config.c:427
+msgid "(Ascending)"
+msgstr "(𐑩𐑕𐑧𐑯𐑛𐑦𐑙)"
+
+#: ../widgets/table/e-table-config.c:385 ../widgets/table/e-table-config.c:427
+msgid "(Descending)"
+msgstr "(𐑛𐑦𐑕𐑧𐑯𐑛𐑦𐑙)"
+
+#: ../widgets/table/e-table-config.c:392
+msgid "Not sorted"
+msgstr "𐑯𐑪𐑑 𐑕𐑹𐑑𐑩𐑛"
+
+#: ../widgets/table/e-table-config.c:433
+msgid "No grouping"
+msgstr "𐑯𐑴 𐑜𐑮𐑵𐑐𐑦𐑙"
+
+#: ../widgets/table/e-table-config.c:642
+#: ../widgets/table/e-table-config.glade.h:11
+msgid "Show Fields"
+msgstr "𐑖𐑴 𐑓𐑰𐑤𐑛𐑟"
+
+#: ../widgets/table/e-table-config.c:663
+msgid "Available Fields"
+msgstr "𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑓𐑰𐑤𐑛𐑟"
+
+#: ../widgets/table/e-table-config.glade.h:2
+#: ../widgets/table/e-table-header-item.c:1577
+msgid "Ascending"
+msgstr "𐑩𐑕𐑧𐑯𐑛𐑦𐑙"
+
+#: ../widgets/table/e-table-config.glade.h:3
+msgid "Clear All"
+msgstr "𐑒𐑤𐑽 𐑷𐑤"
+
+#: ../widgets/table/e-table-config.glade.h:4
+msgid "Clear _All"
+msgstr "𐑒𐑤𐑽 _𐑷𐑤"
+
+#: ../widgets/table/e-table-config.glade.h:5
+#: ../widgets/table/e-table-header-item.c:1577
+msgid "Descending"
+msgstr "𐑛𐑦𐑕𐑧𐑯𐑛𐑦𐑙"
+
+#: ../widgets/table/e-table-config.glade.h:8
+msgid "Group Items By"
+msgstr "𐑜𐑮𐑵𐑐 𐑲𐑑𐑩𐑥𐑟 𐑚𐑲"
+
+#: ../widgets/table/e-table-config.glade.h:9
+msgid "Move _Down"
+msgstr "𐑥𐑵𐑝 _𐑛𐑬𐑯"
+
+#: ../widgets/table/e-table-config.glade.h:10
+msgid "Move _Up"
+msgstr "𐑥𐑵𐑝 _𐑳𐑐"
+
+#: ../widgets/table/e-table-config.glade.h:12
+msgid "Show _field in View"
+msgstr "𐑖𐑴 _𐑓𐑰𐑤𐑛 𐑦𐑯 𐑝𐑿"
+
+#: ../widgets/table/e-table-config.glade.h:14
+msgid "Show field in _View"
+msgstr "𐑖𐑴 𐑓𐑰𐑤𐑛 𐑦𐑯 _𐑝𐑿"
+
+#: ../widgets/table/e-table-config.glade.h:15
+msgid "Sort"
+msgstr "𐑕𐑹𐑑"
+
+#: ../widgets/table/e-table-config.glade.h:16
+msgid "Sort Items By"
+msgstr "𐑕𐑹𐑑 𐑲𐑑𐑩𐑥𐑟 𐑚𐑲"
+
+#: ../widgets/table/e-table-config.glade.h:17
+msgid "Then By"
+msgstr "𐑞𐑧𐑯 𐑚𐑲"
+
+#: ../widgets/table/e-table-config.glade.h:19
+msgid "_Fields Shown..."
+msgstr "_𐑓𐑰𐑤𐑛𐑟 𐑖𐑴𐑯..."
+
+#: ../widgets/table/e-table-config.glade.h:20
+msgid "_Group By..."
+msgstr "_𐑜𐑮𐑵𐑐 𐑚𐑲..."
+
+#: ../widgets/table/e-table-config.glade.h:22
+msgid "_Show field in View"
+msgstr "_𐑖𐑴 𐑓𐑰𐑤𐑛 𐑦𐑯 𐑝𐑿"
+
+#: ../widgets/table/e-table-config.glade.h:23
+msgid "_Show these fields in order:"
+msgstr "_𐑖𐑴 𐑞𐑰𐑟 𐑓𐑰𐑤𐑛𐑟 𐑦𐑯 𐑹𐑛𐑼:"
+
+#: ../widgets/table/e-table-config.glade.h:24
+msgid "_Sort..."
+msgstr "_𐑕𐑹𐑑..."
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:114
+msgid "Add a column..."
+msgstr "𐑨𐑛 𐑩 𐑒𐑪𐑤𐑩𐑥..."
+
+#: ../widgets/table/e-table-field-chooser.glade.h:2
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr ""
+"𐑑 𐑨𐑛 𐑩 𐑒𐑪𐑤𐑩𐑥 𐑑 𐑿𐑼 𐑑𐑱𐑚𐑩𐑤, 𐑛𐑮𐑨𐑜 𐑦𐑑 𐑦𐑯𐑑𐑫\n"
+"𐑞 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑦𐑯 𐑢𐑦𐑗 𐑿 𐑢𐑪𐑯𐑑 𐑦𐑑 𐑑 𐑩𐑐𐑽."
+
+#: ../widgets/table/e-table-group-container.c:341
+#, c-format
+msgid "%s : %s (%d item)"
+msgid_plural "%s : %s (%d items)"
+msgstr[0] "%s : %s (%d 𐑲𐑑𐑩𐑥)"
+msgstr[1] "%s : %s (%d 𐑲𐑑𐑩𐑥𐑟)"
+
+#: ../widgets/table/e-table-group-container.c:347
+#, c-format
+msgid "%s (%d item)"
+msgid_plural "%s (%d items)"
+msgstr[0] "%s (%d 𐑲𐑑𐑩𐑥)"
+msgstr[1] "%s (%d 𐑲𐑑𐑩𐑥𐑟)"
+
+#: ../widgets/table/e-table-group-container.c:924
+#: ../widgets/table/e-table-group-container.c:925
+#: ../widgets/table/e-table-group-leaf.c:586
+#: ../widgets/table/e-table-group-leaf.c:587
+#: ../widgets/table/e-table-item.c:3020 ../widgets/table/e-table-item.c:3021
+msgid "Alternating Row Colors"
+msgstr "𐑪𐑤𐑑𐑻𐑯𐑱𐑑𐑦𐑙 𐑮𐑴 𐑒𐑳𐑤𐑼𐑟"
+
+#: ../widgets/table/e-table-group-container.c:931
+#: ../widgets/table/e-table-group-container.c:932
+#: ../widgets/table/e-table-group-leaf.c:593
+#: ../widgets/table/e-table-group-leaf.c:594
+#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-tree.c:3339 ../widgets/table/e-tree.c:3340
+msgid "Horizontal Draw Grid"
+msgstr "𐑣𐑪𐑮𐑦𐑟𐑪𐑯𐑑𐑩𐑤 𐑛𐑮𐑷 𐑜𐑮𐑦𐑛"
+
+#: ../widgets/table/e-table-group-container.c:938
+#: ../widgets/table/e-table-group-container.c:939
+#: ../widgets/table/e-table-group-leaf.c:600
+#: ../widgets/table/e-table-group-leaf.c:601
+#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-tree.c:3345 ../widgets/table/e-tree.c:3346
+msgid "Vertical Draw Grid"
+msgstr "𐑝𐑻𐑑𐑦𐑒𐑩𐑤 𐑛𐑮𐑷 𐑜𐑮𐑦𐑛"
+
+#: ../widgets/table/e-table-group-container.c:945
+#: ../widgets/table/e-table-group-container.c:946
+#: ../widgets/table/e-table-group-leaf.c:607
+#: ../widgets/table/e-table-group-leaf.c:608
+#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-tree.c:3351 ../widgets/table/e-tree.c:3352
+msgid "Draw focus"
+msgstr "𐑛𐑮𐑷 𐑓𐑴𐑒𐑩𐑕"
+
+#: ../widgets/table/e-table-group-container.c:952
+#: ../widgets/table/e-table-group-container.c:953
+#: ../widgets/table/e-table-group-leaf.c:614
+#: ../widgets/table/e-table-group-leaf.c:615
+#: ../widgets/table/e-table-item.c:3048 ../widgets/table/e-table-item.c:3049
+msgid "Cursor mode"
+msgstr "𐑒𐑻𐑕𐑼 𐑥𐑴𐑛"
+
+#: ../widgets/table/e-table-group-container.c:959
+#: ../widgets/table/e-table-group-container.c:960
+#: ../widgets/table/e-table-group-leaf.c:628
+#: ../widgets/table/e-table-group-leaf.c:629
+#: ../widgets/table/e-table-item.c:3013 ../widgets/table/e-table-item.c:3014
+msgid "Selection model"
+msgstr "𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯 𐑥𐑪𐑛𐑩𐑤"
+
+#: ../widgets/table/e-table-group-container.c:966
+#: ../widgets/table/e-table-group-container.c:967
+#: ../widgets/table/e-table-group-leaf.c:621
+#: ../widgets/table/e-table-group-leaf.c:622
+#: ../widgets/table/e-table-item.c:3055 ../widgets/table/e-table-item.c:3056
+#: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3333
+#: ../widgets/table/e-tree.c:3334
+msgid "Length Threshold"
+msgstr "𐑤𐑧𐑙𐑔 𐑔𐑮𐑧𐑖𐑴𐑤𐑛"
+
+#: ../widgets/table/e-table-group-container.c:973
+#: ../widgets/table/e-table-group-container.c:974
+#: ../widgets/table/e-table-group-leaf.c:663
+#: ../widgets/table/e-table-group-leaf.c:664
+#: ../widgets/table/e-table-item.c:3089 ../widgets/table/e-table-item.c:3090
+#: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3365
+#: ../widgets/table/e-tree.c:3366
+msgid "Uniform row height"
+msgstr "𐑿𐑯𐑦𐑓𐑹𐑥 𐑮𐑴 𐑣𐑲𐑑"
+
+#: ../widgets/table/e-table-group-container.c:980
+#: ../widgets/table/e-table-group-container.c:981
+#: ../widgets/table/e-table-group-leaf.c:656
+#: ../widgets/table/e-table-group-leaf.c:657
+msgid "Frozen"
+msgstr "𐑓𐑮𐑴𐑟𐑩𐑯"
+
+#: ../widgets/table/e-table-header-item.c:1447
+msgid "Customize Current View"
+msgstr "𐑒𐑩𐑕𐑑𐑩𐑥𐑲𐑟 𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿"
+
+#: ../widgets/table/e-table-header-item.c:1467
+msgid "Sort _Ascending"
+msgstr "𐑕𐑹𐑑 _𐑩𐑕𐑧𐑯𐑛𐑦𐑙"
+
+#: ../widgets/table/e-table-header-item.c:1468
+msgid "Sort _Descending"
+msgstr "𐑕𐑹𐑑 _𐑛𐑦𐑕𐑧𐑯𐑛𐑦𐑙"
+
+#: ../widgets/table/e-table-header-item.c:1471
+msgid "Group By This _Field"
+msgstr "𐑜𐑮𐑵𐑐 𐑚𐑲 𐑞𐑦𐑕 _𐑓𐑰𐑤𐑛"
+
+#: ../widgets/table/e-table-header-item.c:1472
+msgid "Group By _Box"
+msgstr "𐑜𐑮𐑵𐑐 𐑚𐑲 _𐑚𐑪𐑒𐑕"
+
+#: ../widgets/table/e-table-header-item.c:1474
+msgid "Remove This _Column"
+msgstr "𐑮𐑦𐑥𐑵𐑝 𐑞𐑦𐑕 _𐑒𐑪𐑤𐑩𐑥"
+
+#: ../widgets/table/e-table-header-item.c:1537
+msgid "_Sort By"
+msgstr "_𐑕𐑹𐑑 𐑚𐑲"
+
+#. Custom
+#: ../widgets/table/e-table-header-item.c:1555
+msgid "_Custom"
+msgstr "_𐑒𐑳𐑕𐑑𐑩𐑥"
+
+#: ../widgets/table/e-table-item.c:2999 ../widgets/table/e-table-item.c:3000
+msgid "Table header"
+msgstr "𐑑𐑱𐑚𐑩𐑤 𐑣𐑧𐑛𐑼"
+
+#: ../widgets/table/e-table-item.c:3006 ../widgets/table/e-table-item.c:3007
+msgid "Table model"
+msgstr "𐑑𐑱𐑚𐑩𐑤 𐑥𐑪𐑛𐑩𐑤"
+
+#: ../widgets/table/e-table-item.c:3082 ../widgets/table/e-table-item.c:3083
+msgid "Cursor row"
+msgstr "𐑒𐑻𐑕𐑼 𐑮𐑴"
+
+#: ../widgets/table/e-table-sorter.c:172
+msgid "Sort Info"
+msgstr "𐑕𐑹𐑑 𐑦𐑯𐑓𐑴"
+
+#: ../widgets/table/e-table.c:3330 ../widgets/table/e-tree.c:3372
+#: ../widgets/table/e-tree.c:3373
+msgid "Always search"
+msgstr "𐑷𐑤𐑢𐑱𐑟 𐑕𐑻𐑗"
+
+#: ../widgets/table/e-table.c:3337
+msgid "Use click to add"
+msgstr "𐑿𐑟 𐑒𐑤𐑦𐑒 𐑑 𐑨𐑛"
+
+#: ../widgets/table/e-tree-scrolled.c:225
+#: ../widgets/table/e-tree-scrolled.c:226
+msgid "Tree"
+msgstr "𐑑𐑮𐑰"
+
+#: ../widgets/table/e-tree.c:3379
+msgid "Retro Look"
+msgstr "𐑮𐑧𐑑𐑮𐑴 𐑤𐑫𐑒"
+
+#: ../widgets/table/gal-a11y-e-cell-popup.c:121
+msgid "popup"
+msgstr "𐑐𐑪𐑐𐑳𐑐"
+
+#. action name
+#: ../widgets/table/gal-a11y-e-cell-popup.c:122
+msgid "popup a child"
+msgstr "𐑐𐑪𐑐𐑳𐑐 𐑩 𐑗𐑲𐑤𐑛"
+
+#: ../widgets/table/gal-a11y-e-cell-text.c:616
+msgid "edit"
+msgstr "𐑧𐑛𐑦𐑑"
+
+#: ../widgets/table/gal-a11y-e-cell-text.c:617
+msgid "begin editing this cell"
+msgstr "𐑚𐑩𐑜𐑦𐑯 𐑧𐑛𐑦𐑑𐑦𐑙 𐑞𐑦𐑕 𐑕𐑧𐑤"
+
+#: ../widgets/table/gal-a11y-e-cell-toggle.c:169
+msgid "toggle"
+msgstr "𐑑𐑪𐑜𐑩𐑤"
+
+#. action name
+#: ../widgets/table/gal-a11y-e-cell-toggle.c:170
+msgid "toggle the cell"
+msgstr "𐑑𐑪𐑜𐑩𐑤 𐑞 𐑕𐑧𐑤"
+
+#: ../widgets/table/gal-a11y-e-cell-tree.c:210
+msgid "expand"
+msgstr "𐑦𐑒𐑕𐑐𐑨𐑯𐑛"
+
+#: ../widgets/table/gal-a11y-e-cell-tree.c:216
+msgid "collapse"
+msgstr "𐑒𐑩𐑤𐑨𐑐𐑕"
+
+#: ../widgets/table/gal-a11y-e-cell.c:120
+msgid "Table Cell"
+msgstr "𐑑𐑱𐑚𐑩𐑤 𐑕𐑧𐑤"
+
+#: ../widgets/table/gal-a11y-e-table-click-to-add.c:67
+msgid "click"
+msgstr "𐑒𐑤𐑦𐑒"
+
+#: ../widgets/table/gal-a11y-e-table-column-header.c:152
+msgid "sort"
+msgstr "𐑕𐑹𐑑"
+
+#: ../widgets/text/e-text.c:2719
+msgid "Select All"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤"
+
+#: ../widgets/text/e-text.c:2731
+msgid "Input Methods"
+msgstr "𐑦𐑯𐑐𐑫𐑑 𐑥𐑧𐑔𐑩𐑛𐑟"
+
+#: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3549
+msgid "Event Processor"
+msgstr "𐑦𐑝𐑧𐑯𐑑 𐑐𐑮𐑭𐑕𐑧𐑕𐑻"
+
+#: ../widgets/text/e-text.c:3555 ../widgets/text/e-text.c:3556
+msgid "Text"
+msgstr "𐑑𐑧𐑒𐑕𐑑"
+
+#: ../widgets/text/e-text.c:3562 ../widgets/text/e-text.c:3563
+msgid "Bold"
+msgstr "𐑚𐑴𐑤𐑛"
+
+#: ../widgets/text/e-text.c:3569 ../widgets/text/e-text.c:3570
+msgid "Strikeout"
+msgstr "𐑕𐑑𐑮𐑲𐑒𐑶𐑑"
+
+#: ../widgets/text/e-text.c:3576 ../widgets/text/e-text.c:3577
+msgid "Anchor"
+msgstr "𐑨𐑙𐑒𐑼"
+
+#: ../widgets/text/e-text.c:3583 ../widgets/text/e-text.c:3584
+msgid "Justification"
+msgstr "𐑡𐑩𐑕𐑑𐑩𐑓𐑩𐑒𐑱𐑖𐑩𐑯"
+
+#: ../widgets/text/e-text.c:3590 ../widgets/text/e-text.c:3591
+msgid "Clip Width"
+msgstr "𐑒𐑤𐑦𐑐 𐑢𐑦𐑛𐑔"
+
+#: ../widgets/text/e-text.c:3597 ../widgets/text/e-text.c:3598
+msgid "Clip Height"
+msgstr "𐑒𐑤𐑦𐑐 𐑣𐑲𐑑"
+
+#: ../widgets/text/e-text.c:3604 ../widgets/text/e-text.c:3605
+msgid "Clip"
+msgstr "𐑒𐑤𐑦𐑐"
+
+#: ../widgets/text/e-text.c:3611 ../widgets/text/e-text.c:3612
+msgid "Fill clip rectangle"
+msgstr "𐑓𐑦𐑤 𐑒𐑤𐑦𐑐 𐑮𐑧𐑒𐑑𐑨𐑙𐑜𐑩𐑤"
+
+#: ../widgets/text/e-text.c:3618 ../widgets/text/e-text.c:3619
+msgid "X Offset"
+msgstr "𐑧𐑒𐑕 𐑪𐑓𐑕𐑧𐑑"
+
+#: ../widgets/text/e-text.c:3625 ../widgets/text/e-text.c:3626
+msgid "Y Offset"
+msgstr "𐑢𐑲 𐑪𐑓𐑕𐑧𐑑"
+
+#: ../widgets/text/e-text.c:3660 ../widgets/text/e-text.c:3661
+msgid "Text width"
+msgstr "𐑑𐑧𐑒𐑕𐑑 𐑢𐑦𐑛𐑔"
+
+#: ../widgets/text/e-text.c:3667 ../widgets/text/e-text.c:3668
+msgid "Text height"
+msgstr "𐑑𐑧𐑒𐑕𐑑 𐑣𐑲𐑑"
+
+#: ../widgets/text/e-text.c:3695 ../widgets/text/e-text.c:3696
+msgid "Line wrap"
+msgstr "𐑤𐑲𐑯 𐑮𐑨𐑐"
+
+#: ../widgets/text/e-text.c:3702 ../widgets/text/e-text.c:3703
+msgid "Break characters"
+msgstr "𐑚𐑮𐑱𐑒 𐑒𐑸𐑩𐑒𐑑𐑼𐑟"
+
+#: ../widgets/text/e-text.c:3709 ../widgets/text/e-text.c:3710
+msgid "Max lines"
+msgstr "𐑥𐑨𐑒𐑕 𐑤𐑲𐑯𐑟"
+
+#: ../widgets/text/e-text.c:3730 ../widgets/text/e-text.c:3731
+msgid "Draw borders"
+msgstr "𐑛𐑮𐑷 𐑚𐑹𐑛𐑼𐑟"
+
+#: ../widgets/text/e-text.c:3744 ../widgets/text/e-text.c:3745
+msgid "Draw background"
+msgstr "𐑛𐑮𐑷 𐑚𐑨𐑒𐑜𐑮𐑬𐑯𐑛"
+
+#: ../widgets/text/e-text.c:3751 ../widgets/text/e-text.c:3752
+msgid "Draw button"
+msgstr "𐑛𐑮𐑷 𐑚𐑳𐑑𐑩𐑯"
+
+#: ../widgets/text/e-text.c:3758 ../widgets/text/e-text.c:3759
+msgid "Cursor position"
+msgstr "𐑒𐑻𐑕𐑼 𐑐𐑩𐑟𐑦𐑖𐑩𐑯"
+
+#. Translators: Input Method Context
+#: ../widgets/text/e-text.c:3766 ../widgets/text/e-text.c:3768
+msgid "IM Context"
+msgstr "𐑦𐑥 𐑒𐑪𐑯𐑑𐑧𐑒𐑕𐑑"
+
+#: ../widgets/text/e-text.c:3774 ../widgets/text/e-text.c:3775
+msgid "Handle Popup"
+msgstr "𐑣𐑨𐑯𐑛𐑩𐑤 𐑐𐑪𐑐𐑳𐑐"
