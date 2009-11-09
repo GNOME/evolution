@@ -254,7 +254,15 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
 dnl ******************************
-PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk])
+AC_ARG_ENABLE([canberra],
+	[AS_HELP_STRING([--enable-canberra],
+	[Enable Canberra and Canberra-GTK sound @<:@default=yes@:>@])],
+	[enable_canberra="$enableval"], [enable_canberra=yes])
+
+if test $enable_canberra = yes; then
+	PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk])
+	AC_DEFINE(HAVE_CANBERRA, 1, [Define if using Canberra and Canberra-GTK for sound])
+fi
 AC_SUBST(CANBERRA_CFLAGS)
 AC_SUBST(CANBERRA_LIBS)
 

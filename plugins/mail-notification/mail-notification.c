@@ -29,7 +29,10 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
+
+#ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
+#endif
 
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
@@ -659,12 +662,15 @@ get_config_widget_status (void)
 #define GCONF_KEY_SOUND_PLAY_FILE	GCONF_KEY_ROOT "sound-play-file"
 #define GCONF_KEY_SOUND_USE_THEME       GCONF_KEY_ROOT "sound-use-theme"
 
+#ifdef HAVE_CANBERRA
 static ca_context *mailnotification = NULL;
+#endif
 
 static void
 do_play_sound (gboolean beep, gboolean use_theme, const gchar *file)
 {
 	if (!beep) {
+#ifdef HAVE_CANBERRA
 		if (!use_theme && file && *file)
 			ca_context_play(mailnotification, 0,
 			CA_PROP_MEDIA_FILENAME, file,
@@ -673,6 +679,7 @@ do_play_sound (gboolean beep, gboolean use_theme, const gchar *file)
 			ca_context_play(mailnotification, 0,
 			CA_PROP_EVENT_ID,"message-new-email",
 			NULL);
+#endif
 	}
 	else
 		gdk_beep();
@@ -778,6 +785,7 @@ read_notify_sound (EMEventTargetMessage *t)
 static void
 enable_sound (gint enable)
 {
+#ifdef HAVE_CANBERRA
 	if (enable) {
 		ca_context_create(&mailnotification);
 		ca_context_change_props(
@@ -788,6 +796,7 @@ enable_sound (gint enable)
 	}
 	else
 		ca_context_destroy(mailnotification);
+#endif
 }
 
 static GtkWidget *

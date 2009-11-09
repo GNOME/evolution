@@ -33,7 +33,9 @@
 
 #include <gconf/gconf-client.h>
 
+#ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
+#endif
 
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
@@ -462,11 +464,13 @@ get_folder (CamelFilterDriver *d, const gchar *uri, gpointer data, CamelExceptio
 static void
 main_play_sound (CamelFilterDriver *driver, gchar *filename, gpointer user_data)
 {
-	if (filename && *filename)
+	if (filename && *filename) {
+#ifdef HAVE_CANBERRA
 		ca_context_play(ca_gtk_context_get(), 0,
 				CA_PROP_MEDIA_FILENAME, filename,
 				NULL);
-	else
+#endif
+	} else
 		gdk_beep ();
 
 	g_free (filename);

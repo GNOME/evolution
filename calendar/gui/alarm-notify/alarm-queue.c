@@ -30,7 +30,10 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+
+#ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
+#endif
 
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
@@ -1632,9 +1635,11 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 			g_error_free (error);
 		} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 			flag = 1;
+#ifdef HAVE_CANBERRA
 			ca_context_play (
 				ca_gtk_context_get(), 0,
 				CA_PROP_MEDIA_FILENAME, filename, NULL);
+#endif
 		}
 
 		g_free (filename);
