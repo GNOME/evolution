@@ -367,7 +367,7 @@ etss_proxy_model_row_changed (ETableModel *etm, gint row, ETableSubset *etss)
 }
 
 static void
-etss_proxy_model_cell_changed (ETableModel *etm, gint row, gint col, ETableSubset *etss)
+etss_proxy_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_cell_changed)
 		(ETSS_CLASS(etss)->proxy_model_cell_changed) (etss, etm, col, row);
