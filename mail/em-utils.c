@@ -2076,9 +2076,10 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	if (canceled) {
 		g_clear_error (error);
 		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED, "Operation has been canceled.");
-		e_book_cancel_async_op (book, NULL);
-		/* it had been canceled, the above callback may not be called, thus setting flag here */
-		e_flag_set (flag);
+		/* if the operation is cancelled sucessfully set the flag else wait. file, groupwise,.. backend's operations
+		   are not cancellable */
+		if (e_book_cancel_async_op (book, NULL))
+			e_flag_set (flag);
 	}
 
 	e_flag_wait (flag);
