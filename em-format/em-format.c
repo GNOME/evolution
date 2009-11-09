@@ -1632,7 +1632,7 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 
 	link = g_queue_peek_head_link (emf->pending_uri_level->data);
 
-	while (link->next != NULL) {
+	while (link && link->next != NULL) {
 		EMFormatPURI *puri = link->data;
 
 		if (puri->use_count == 0) {
