@@ -91,6 +91,7 @@ e_composer_private_init (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *container;
 	GtkWidget *send_widget;
+	GtkWindow *window;
 	const gchar *path;
 	gchar *filename;
 	gint ii;
@@ -107,6 +108,11 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_widget_hide (widget);
 
 	}
+
+	/* Each composer window gets its own window group. */
+	window = GTK_WINDOW (composer);
+	priv->window_group = gtk_window_group_new ();
+	gtk_window_group_add_window (priv->window_group, window);
 
 	priv->charset_actions = gtk_action_group_new ("charset");
 	priv->composer_actions = gtk_action_group_new ("composer");
@@ -299,6 +305,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->header_table != NULL) {
 		g_object_unref (composer->priv->header_table);
 		composer->priv->header_table = NULL;
+	}
+
+	if (composer->priv->window_group != NULL) {
+		g_object_unref (composer->priv->window_group);
+		composer->priv->window_group = NULL;
 	}
 
 	if (composer->priv->charset_actions != NULL) {

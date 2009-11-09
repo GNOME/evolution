@@ -79,6 +79,11 @@ static gboolean comp_lite = FALSE;
 
 /* Private part of the CompEditor structure */
 struct _CompEditorPrivate {
+
+	/* Each CompEditor window gets its own GtkWindowGroup, so it
+	 * doesn't block the main window or other CompEditor windows. */
+	GtkWindowGroup *window_group;
+
 	/* Client to use */
 	ECal *client;
 
@@ -1275,6 +1280,11 @@ comp_editor_dispose (GObject *object)
 
 	priv = COMP_EDITOR_GET_PRIVATE (object);
 
+	if (priv->window_group != NULL) {
+		g_object_unref (priv->window_group);
+		priv->window_group = NULL;
+	}
+
 	if (priv->client) {
 		g_object_unref (priv->client);
 		priv->client = NULL;
@@ -1547,10 +1557,16 @@ comp_editor_init (CompEditor *editor)
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *scroll;
+	GtkWindow *window;
 	gint n_targets;
 	GError *error = NULL;
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
+
+	/* Each editor window gets its own window group. */
+	window = GTK_WINDOW (editor);
+	priv->window_group = gtk_window_group_new ();
+	gtk_window_group_add_window (priv->window_group, window);
 
 	priv->pages = NULL;
 	priv->changed = FALSE;
