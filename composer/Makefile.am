@@ -56,11 +56,16 @@ libcomposer_la_SOURCES = 			\
 libcomposer_la_LDFLAGS = $(NO_UNDEFINED)
 
 libcomposer_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
+	$(GNOME_PLATFORM_LIBS)				\
+	$(CAMEL_LIBS)					\
+	$(GTKHTML_LIBS)					\
+	$(E_WIDGETS_LIBS)
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui

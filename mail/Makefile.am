@@ -165,9 +165,13 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(top_builddir)/em-format/libemformat.la	\
+	$(top_builddir)/filter/libfilter.la		\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(CAMEL_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
+	$(E_WIDGETS_LIBS)				\
 	$(SMIME_LIBS)
 
 libevolution_mail_la_LDFLAGS = $(NO_UNDEFINED)
