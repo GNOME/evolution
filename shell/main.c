@@ -466,9 +466,19 @@ create_default_shell (void)
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 }
 
+#ifdef G_OS_WIN32
+extern void link_shutdown (void);
+#endif
+
 gint
 main (gint argc, gchar **argv)
 {
+	GConfClient *client;
+#ifdef DEVELOPMENT
+	gboolean skip_warning_dialog;
+#endif
+	GError *error = NULL;
+
 #ifdef G_OS_WIN32
 	if (fileno (stdout) != -1 && _get_osfhandle (fileno (stdout)) != -1) {
 		/* stdout is fine, presumably redirected to a file or pipe */
@@ -479,23 +489,14 @@ main (gint argc, gchar **argv)
 			(AttachConsole_t) GetProcAddress (
 			GetModuleHandle ("kernel32.dll"), "AttachConsole");
 
-		if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS))
-      {
+		if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS)) {
 			freopen ("CONOUT$", "w", stdout);
 			dup2 (fileno (stdout), 1);
 			freopen ("CONOUT$", "w", stderr);
 			dup2 (fileno (stderr), 2);
 		}
 	}
-
-	extern void link_shutdown (void);
 #endif
-
-	GConfClient *client;
-#ifdef DEVELOPMENT
-	gboolean skip_warning_dialog;
-#endif
-	GError *error = NULL;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
