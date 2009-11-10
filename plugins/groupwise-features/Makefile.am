@@ -50,6 +50,7 @@ liborg_gnome_groupwise_features_la_SOURCES = 	\
 
 liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\

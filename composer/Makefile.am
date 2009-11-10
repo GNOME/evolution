@@ -62,10 +62,7 @@ libcomposer_la_LIBADD =					\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(CAMEL_LIBS)					\
-	$(GTKHTML_LIBS)					\
-	$(E_WIDGETS_LIBS)
+	$(EVOLUTION_MAIL_LIBS)
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui

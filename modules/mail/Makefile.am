@@ -49,16 +49,20 @@ libevolution_module_mail_la_SOURCES =					\
 
 libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/filter/libfilter.la				\
+	$(EVOLUTION_MAIL_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(CAMEL_LIBS)							\
 	$(GTKHTML_LIBS)							\

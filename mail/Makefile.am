@@ -168,7 +168,9 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(CAMEL_LIBS)					\
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(CERT_UI_LIBS)					\
+	$(THREADS_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(E_WIDGETS_LIBS)				\

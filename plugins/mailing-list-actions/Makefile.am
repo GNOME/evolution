@@ -17,6 +17,7 @@ liborg_gnome_mailing_list_actions_la_LDFLAGS = -module -avoid-version $(NO_UNDEF
 
 liborg_gnome_mailing_list_actions_la_LIBADD =		\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(GNOME_PLATFORM_LIBS)				\
