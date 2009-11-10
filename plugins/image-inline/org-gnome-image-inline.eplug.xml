@@ -4,7 +4,8 @@
     type="shlib"
     id="org.gnome.evolution.plugin.imageInline"
     location="@PLUGINDIR@/liborg-gnome-image-inline@SOEXT@"
-    _name="Inline Image">
+    _name="Inline Image"
+    system_plugin="true">
 
     <author name="Matthew Barnes" email="mbarnes@redhat.com"/>
     <_description>

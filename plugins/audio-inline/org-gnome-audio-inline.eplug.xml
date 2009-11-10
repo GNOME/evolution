@@ -4,7 +4,8 @@
     type="shlib"
     id="org.gnome.evolution.plugin.audioInline"
     location="@PLUGINDIR@/liborg-gnome-audio-inline@SOEXT@"
-    _name="Inline Audio">
+    _name="Inline Audio"
+    system_plugin="true">
 
     <author name="Radek Doulík" email="rodo@novell.com"/>
     <_description>

@@ -4,7 +4,8 @@
     type="shlib"
     id="org.gnome.evolution.plugin.vcardInline"
     location="@PLUGINDIR@/liborg-gnome-vcard-inline@SOEXT@"
-    _name="Inline vCards">
+    _name="Inline vCards"
+    system_plugin="true">
 
     <author name="Matthew Barnes" email="mbarnes@redhat.com"/>
     <_description>
