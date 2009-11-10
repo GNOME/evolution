@@ -57,7 +57,7 @@ plugin_lib_loadmodule (EPlugin *plugin)
 	}
 
 	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_enable", (gpointer)&enable)) {
-		if (enable (plugin_lib, TRUE) != 0) {
+		if (enable (plugin, TRUE) != 0) {
 			plugin->enabled = FALSE;
 			g_module_close (plugin_lib->module);
 			plugin_lib->module = NULL;
@@ -87,7 +87,7 @@ plugin_lib_invoke (EPlugin *plugin, const gchar *name, gpointer data)
 		return NULL;
 	}
 
-	return cb (plugin_lib, data);
+	return cb (plugin, data);
 }
 
 static gpointer
@@ -162,7 +162,7 @@ plugin_lib_get_configure_widget (EPlugin *plugin)
 	}
 
 	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_get_configure_widget", (gpointer)&get_configure_widget)) {
-		return (GtkWidget*) get_configure_widget (plugin_lib);
+		return (GtkWidget*) get_configure_widget (plugin);
 	}
 	return NULL;
 }
@@ -184,7 +184,7 @@ plugin_lib_enable (EPlugin *plugin, gint state)
 		return;
 
 	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_enable", (gpointer) &enable)) {
-		if (enable (plugin_lib, state) != 0)
+		if (enable (plugin, state) != 0)
 			return;
 	}
 }

@@ -50,14 +50,14 @@ typedef struct _EPluginLib EPluginLib;
 typedef struct _EPluginLibClass EPluginLibClass;
 
 /* The callback signature used for epluginlib methods */
-typedef gpointer (*EPluginLibFunc) (EPluginLib *ep, gpointer data);
+typedef gpointer (*EPluginLibFunc) (EPlugin *ep, gpointer data);
 
 /* The setup method, this will be called when the plugin is
  * initialized.  In the future it may also be called when the plugin
  * is disabled. */
-typedef gint (*EPluginLibEnableFunc) (EPluginLib *ep, gint enable);
+typedef gint (*EPluginLibEnableFunc) (EPlugin *ep, gint enable);
 
-typedef gpointer (*EPluginLibGetConfigureWidgetFunc) (EPluginLib *ep);
+typedef gpointer (*EPluginLibGetConfigureWidgetFunc) (EPlugin *ep);
 
 /**
  * struct _EPluginLib -
