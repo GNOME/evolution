@@ -38,7 +38,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "misc/e-canvas.h"
-#include "misc/e-cursors.h"
 #include "misc/e-gui-utils.h"
 #include "misc/e-popup-menu.h"
 
@@ -120,6 +119,11 @@ ethi_dispose (GObject *object) {
 	ethi_drop_table_header (ethi);
 
 	scroll_off (ethi);
+
+	if (ethi->resize_cursor) {
+		gdk_cursor_unref (ethi->resize_cursor);
+		ethi->resize_cursor = NULL;
+	}
 
 	if (ethi->dnd_code) {
 		g_free (ethi->dnd_code);
@@ -1081,10 +1085,9 @@ set_cursor (ETableHeaderItem *ethi, gint pos)
 	}
 
 	if (resizable)
-		e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
+		gdk_window_set_cursor (canvas->window, ethi->resize_cursor);
 	else
 		gdk_window_set_cursor (canvas->window, NULL);
-	/*		e_cursor_set (canvas->window, E_CURSOR_ARROW);*/
 }
 
 static void
@@ -1695,7 +1698,6 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_LEAVE_NOTIFY:
 		gdk_window_set_cursor (GTK_WIDGET (canvas)->window, NULL);
-		/*		e_cursor_set (GTK_WIDGET (canvas)->window, E_CURSOR_ARROW);*/
 		break;
 
 	case GDK_MOTION_NOTIFY:
@@ -1711,7 +1713,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				gnome_canvas_item_grab (item,
 							GDK_POINTER_MOTION_MASK |
 							GDK_BUTTON_RELEASE_MASK,
-							e_cursor_get (E_CURSOR_SIZE_X),
+							ethi->resize_cursor,
 							e->button.time);
 			}
 
@@ -1951,6 +1953,8 @@ static void
 ethi_init (ETableHeaderItem *ethi)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ethi);
+
+	ethi->resize_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 
 	ethi->resize_col = -1;
 

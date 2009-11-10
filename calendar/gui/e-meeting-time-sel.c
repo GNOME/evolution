@@ -40,7 +40,6 @@
 
 #include "misc/e-dateedit.h"
 #include "e-util/e-binding.h"
-#include "e-util/e-cursor.h"
 #include "e-util/e-util.h"
 
 #include "e-meeting-utils.h"
@@ -1386,8 +1385,16 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 	EMeetingTimeSelector *mts = data;
 
 	if (e_meeting_store_get_num_queries (mts->model) == 0) {
-		e_cursor_set ((GtkWidget *)mts, E_CURSOR_NORMAL);
+		GdkCursor *cursor;
+		GdkWindow *window;
+
+		cursor = gdk_cursor_new (GDK_LEFT_PTR);
+		window = gtk_widget_get_window (GTK_WIDGET (mts));
+		gdk_window_set_cursor (window, cursor);
+		gdk_cursor_unref (cursor);
+
 		mts->last_cursor_set = GDK_LEFT_PTR;
+
 		e_meeting_time_selector_item_set_normal_cursor (E_MEETING_TIME_SELECTOR_ITEM (mts->item_top));
 		e_meeting_time_selector_item_set_normal_cursor (E_MEETING_TIME_SELECTOR_ITEM (mts->item_main));
 	}
@@ -1406,6 +1413,8 @@ void
 e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, gboolean all)
 {
 	EMeetingTime start, end;
+	GdkCursor *cursor;
+	GdkWindow *window;
 
 	start = mts->meeting_start_time;
 	g_date_subtract_days (&start.date, E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE);
@@ -1418,7 +1427,11 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, 
 
 	/*  set the cursor to Busy, We need to reset it to normal once the free busy
 	    queries are complete */
-	e_cursor_set ((GtkWidget *)mts, E_CURSOR_BUSY);
+	cursor = gdk_cursor_new (GDK_WATCH);
+	window = gtk_widget_get_window (GTK_WIDGET (mts));
+	gdk_window_set_cursor (window, cursor);
+	gdk_cursor_unref (cursor);
+
 	mts->last_cursor_set = GDK_WATCH;
 
 	/* Ref ourselves in case we are called back after destruction,

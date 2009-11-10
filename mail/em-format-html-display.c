@@ -58,7 +58,6 @@
 #include <camel/camel-string-utils.h>
 #include <camel/camel-operation.h>
 
-#include <misc/e-cursors.h>
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 

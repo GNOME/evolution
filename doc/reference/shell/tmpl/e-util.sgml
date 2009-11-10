@@ -378,36 +378,6 @@ Miscellaneous Utility Functions
 @Returns: 
 
 
-<!-- ##### ENUM ECursorType ##### -->
-<para>
-
-</para>
-
-@E_CURSOR_FAT_CROSS: 
-@E_CURSOR_THIN_CROSS: 
-@E_CURSOR_ARROW: 
-@E_CURSOR_MOVE: 
-@E_CURSOR_ZOOM_IN: 
-@E_CURSOR_ZOOM_OUT: 
-@E_CURSOR_SIZE_X: 
-@E_CURSOR_SIZE_Y: 
-@E_CURSOR_SIZE_TL: 
-@E_CURSOR_SIZE_TR: 
-@E_CURSOR_PRESS: 
-@E_CURSOR_HAND_OPEN: 
-@E_CURSOR_HAND_CLOSED: 
-@E_CURSOR_XTERM: 
-@E_CURSOR_NUM_CURSORS: 
-
-<!-- ##### FUNCTION e_cursor_set ##### -->
-<para>
-
-</para>
-
-@widget: 
-@cursor: 
-
-
 <!-- ##### FUNCTION e_folder_map_local_folders ##### -->
 <para>
 

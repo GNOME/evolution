@@ -573,8 +573,6 @@ e_util_guess_mime_type
 e_util_read_file
 e_util_get_category_filter_options
 e_charset_add_radio_actions
-ECursorType
-e_cursor_set
 e_folder_map_local_folders
 e_fsutils_usage
 e_fsutils_avail

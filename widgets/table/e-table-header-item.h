@@ -44,6 +44,7 @@ typedef struct {
 	ETableHeader    *eth;
 
 	GdkCursor       *change_cursor;
+	GdkCursor       *resize_cursor;
 
 	short            height, width;
 	PangoFontDescription *font_desc;

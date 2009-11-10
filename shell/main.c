@@ -63,8 +63,6 @@
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 
-#include "widgets/misc/e-cursors.h"
-
 #include <fcntl.h>
 #include <signal.h>
 #include <string.h>
@@ -574,7 +572,6 @@ main (gint argc, gchar **argv)
 	}
 
 	glade_init ();
-	e_cursors_init ();
 	e_icon_factory_init ();
 	e_passwords_init ();
 
@@ -628,7 +625,6 @@ main (gint argc, gchar **argv)
 	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_icon_factory_shutdown ();
-	e_cursors_shutdown ();
 #ifdef G_OS_WIN32
 	link_shutdown ();
 #endif

@@ -406,6 +406,14 @@ EvolutionIntelligentImporter
 intelligent
 
 
+<!-- ##### ENUM ECursorType ##### -->
+<para>
+
+</para>
+
+@E_CURSOR_NORMAL: 
+@E_CURSOR_BUSY: 
+
 <!-- ##### STRUCT ESEvent ##### -->
 <para>
 
@@ -1849,6 +1857,14 @@ intelligent
 @minor: 
 @revision: 
 @Returns: 
+
+<!-- ##### FUNCTION e_cursor_set ##### -->
+<para>
+
+</para>
+
+@widget: 
+@cursor: 
 
 <!-- ##### FUNCTION e_file_dialog_save ##### -->
 <para>

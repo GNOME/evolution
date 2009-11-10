@@ -45,7 +45,6 @@ widgetsinclude_HEADERS =			\
 	e-charset-combo-box.h			\
 	e-colors.h				\
 	e-combo-cell-editable.h			\
-	e-cursors.h				\
 	e-dateedit.h				\
 	e-gui-utils.h				\
 	e-hinted-entry.h			\
@@ -121,7 +120,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-charset-combo-box.c			\
 	e-colors.c				\
 	e-combo-cell-editable.c			\
-	e-cursors.c				\
 	e-dateedit.c				\
 	e-gui-utils.c				\
 	e-hinted-entry.c			\
@@ -226,9 +224,5 @@ EXTRA_DIST =			\
 	e-pilot-settings.h	\
 	e-pilot-settings.c	\
 	ChangeLog.pre-1-4
-
-dist-hook:
-	-mkdir $(distdir)/pixmaps
-	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 
 -include $(top_srcdir)/git.mk
