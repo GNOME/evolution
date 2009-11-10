@@ -1322,7 +1322,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_delete_occurrence_all_cb) },
 
 	{ "event-all-day-new",
-	  NULL,
+	  "stock_new-24h-appointment",
 	  N_("New All Day _Event..."),
 	  NULL,
 	  N_("Create a new all day event"),
@@ -1336,7 +1336,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_forward_cb) },
 
 	{ "event-meeting-new",
-	  NULL,
+	  "stock_new-meeting",
 	  N_("New _Meeting..."),
 	  NULL,
 	  N_("Create a new meeting"),
@@ -1350,7 +1350,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_move_cb) },
 
 	{ "event-new",
-	  NULL,
+	  "appointment-new",
 	  N_("New _Appointment..."),
 	  NULL,
 	  N_("Create a new appointment"),
@@ -1364,7 +1364,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_occurrence_movable_cb) },
 
 	{ "event-open",
-	  NULL,
+	  GTK_STOCK_OPEN,
 	  N_("_Open Appointment"),
 	  "<Control>o",
 	  N_("View the current appointment"),

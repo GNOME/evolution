@@ -77,6 +77,18 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-delete-occurrence-all")
 #define E_SHELL_WINDOW_ACTION_EVENT_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-open")
+#define E_SHELL_WINDOW_ACTION_OCCURRENCE_MOVABLE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-occurrence-movable")
+#define E_SHELL_WINDOW_ACTION_EVENT_DELEGATE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-delegate")
+#define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-schedule")
+#define E_SHELL_WINDOW_ACTION_EVENT_FORWARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-forward")
+#define E_SHELL_WINDOW_ACTION_EVENT_REPLY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-reply")
+#define E_SHELL_WINDOW_ACTION_EVENT_REPLY_ALL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-reply-all")
 
 /* Memo Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_COPY(window) \

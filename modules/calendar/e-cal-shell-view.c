@@ -204,10 +204,66 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	g_free (query);
 }
 
+static icalproperty *
+get_attendee_prop (icalcomponent *icalcomp, const gchar *address)
+{
+
+	icalproperty *prop;
+
+	if (!(address && *address))
+		return NULL;
+
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+			prop;
+			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+		const gchar *attendee = icalproperty_get_attendee (prop);
+
+		if (g_str_equal (itip_strip_mailto (attendee), address)) {
+			return prop;
+		}
+	}
+	return NULL;
+}
+
+static gboolean
+is_delegated (icalcomponent *icalcomp, const gchar *user_email)
+{
+	icalproperty *prop;
+	icalparameter *param;
+	const gchar *delto = NULL;
+
+	prop = get_attendee_prop (icalcomp, user_email);
+
+	if (prop) {
+		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDTO_PARAMETER);
+		if (param)
+			delto = icalparameter_get_delegatedto (param);
+	} else
+		return FALSE;
+
+	prop = get_attendee_prop (icalcomp, itip_strip_mailto (delto));
+
+	if (prop) {
+		const gchar *delfrom = NULL;
+		icalparameter_partstat status = ICAL_PARTSTAT_NONE;
+
+		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
+		if (param)
+			delfrom = icalparameter_get_delegatedfrom (param);
+		param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+		if (param)
+			status = icalparameter_get_partstat (param);
+		if ((delfrom && *delfrom) && g_str_equal (itip_strip_mailto (delfrom), user_email)
+				&& status != ICAL_PARTSTAT_DECLINED)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 cal_shell_view_update_actions (EShellView *shell_view)
 {
-#if 0
 	ECalShellViewPrivate *priv;
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
@@ -224,7 +280,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean user_created_source;
 	gboolean editable = TRUE;
 	gboolean recurring = FALSE;
+	gboolean is_instance = FALSE;
 	gboolean sensitive;
+	gboolean is_meeting = FALSE;
+	gboolean is_delegatable = FALSE;
 	gint n_selected;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
@@ -244,17 +303,53 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	n_selected = g_list_length (list);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalModelComponent *comp_data = iter->data;
-		gboolean read_only;
+		ECalendarViewEvent *event = iter->data;
+		gboolean read_only = TRUE;
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
-		editable &= !read_only;
+		if (!event || !event->comp_data)
+			continue;
 
-		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
-			recurring |= TRUE;
-		else if (e_cal_util_component_is_instance (comp_data->icalcomp))
-			recurring |= TRUE;
+		e_cal_is_read_only (event->comp_data->client, &read_only, NULL);
+		editable = editable && !read_only;
+
+		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+			recurring = TRUE;
+
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp)) {
+			recurring = TRUE;
+			is_instance = TRUE;
+		}
+
+		if (iter == list && !iter->next) {
+			ECalComponent *comp;
+			gchar *user_email = NULL;
+			gboolean user_org = FALSE;
+
+			comp = e_cal_component_new ();
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+			user_email = itip_get_comp_attendee (comp, event->comp_data->client);
+
+			is_meeting = e_cal_util_component_has_attendee (event->comp_data->icalcomp);
+
+			if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
+				if (itip_organizer_is_user (comp, event->comp_data->client)) {
+					user_org = TRUE;
+				}
+			}
+
+			if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED)) {
+				if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))
+					is_delegatable = TRUE;
+				else if (!user_org && !is_delegated (event->comp_data->icalcomp, user_email))
+					is_delegatable = TRUE;
+			}
+
+			g_free (user_email);
+			g_object_unref (comp);
+		}
 	}
+
+	g_list_free (list);
 
 	source = e_source_selector_peek_primary_selection (selector);
 	if (source != NULL)
@@ -274,7 +369,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);
-	sensitive = has_primary_source;
+	sensitive = (source != NULL);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_CLIPBOARD_COPY);
@@ -304,7 +399,30 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (EVENT_OPEN);
 	sensitive = (n_selected == 1);
 	gtk_action_set_sensitive (action, sensitive);
-#endif
+
+	action = ACTION (OCCURRENCE_MOVABLE);
+	sensitive = (n_selected == 1) && editable && recurring && is_instance;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_DELEGATE);
+	sensitive = (n_selected == 1) && editable && is_delegatable && is_meeting;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_SCHEDULE);
+	sensitive = (n_selected == 1) && editable && !is_meeting;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_FORWARD);
+	sensitive = TRUE;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_REPLY);
+	sensitive = (n_selected == 1) && is_meeting;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_REPLY_ALL);
+	sensitive = (n_selected == 1) && is_meeting;
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void

@@ -226,8 +226,26 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
                                GdkEventButton *event)
 {
 	const gchar *widget_path;
+	GList *list;
+	gint n_selected;
+	GnomeCalendar *calendar;
+	ECalendarView *view;
+	ECalShellViewPrivate *priv;
 
-	widget_path = "/calendar-event-popup";
+	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	calendar = e_cal_shell_content_get_calendar (priv->cal_shell_content);
+	view = gnome_calendar_get_calendar_view (calendar, gnome_calendar_get_view (calendar));
+
+	list = e_calendar_view_get_selected_events (view);
+	n_selected = g_list_length (list);
+	g_list_free (list);
+
+	if (n_selected <= 0)
+		widget_path = "/calendar-empty-popup";
+	else
+		widget_path = "/calendar-event-popup";
+
 	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
