@@ -2350,6 +2350,12 @@ attachment_loaded_cb (EAttachment *attachment,
 	 */
 
 	file_info = e_attachment_get_file_info (attachment);
+	if (!file_info) {
+		/* failed to load an attachment file */
+		e_attachment_load_handle_error (attachment, result, parent);
+		return;
+	}
+
 	display_name = g_file_info_get_display_name (file_info);
 	uid = g_object_get_data (G_OBJECT (attachment), "uid");
 
@@ -2593,12 +2599,13 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 		for (attach = mime_attach_list; attach; attach = attach->next) {
 			struct CalMimeAttach *cma = (struct CalMimeAttach *) attach->data;
 
-			attach_list = g_slist_append (attach_list, cma->content_id);
+			attach_list = g_slist_append (attach_list, g_strconcat ("cid:", cma->content_id, NULL));
 		}
 
 		if (attach_list) {
 			e_cal_component_set_attachment_list (send_comp, attach_list);
 
+			g_slist_foreach (attach_list, (GFunc) g_free, NULL);
 			g_slist_free (attach_list);
 		}
 
