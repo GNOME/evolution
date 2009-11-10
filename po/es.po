@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-11-07 13:13+0000\n"
-"PO-Revision-Date: 2009-11-08 15:29+0100\n"
+"PO-Revision-Date: 2009-11-10 22:06+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -18932,7 +18932,7 @@ msgstr "Mostrar HTML si está presente"
 
 #: ../plugins/prefer-plain/prefer-plain.c:201
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "Permitir que Evolution elija la mejor parte para mostrar."
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
 #, fuzzy
@@ -19846,10 +19846,9 @@ msgstr "Los botones de la ventana son visibles"
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-content.c:872
-#, fuzzy
 #| msgid "Sho_w: "
 msgid "Sho_w:"
-msgstr "M_ostrar: "
+msgstr "M_ostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
@@ -19893,7 +19892,7 @@ msgstr "Estilo de la _barra de herramientas"
 
 #: ../shell/e-shell-switcher.c:447
 msgid "The switcher's toolbar style"
-msgstr ""
+msgstr "El estilo de la barra de herramientas del selector"
 
 #: ../shell/e-shell-switcher.c:463
 #, fuzzy
@@ -19915,7 +19914,7 @@ msgstr "Cambiar a %s"
 
 #: ../shell/e-shell-view.c:486
 msgid "The switcher action for this shell view"
-msgstr ""
+msgstr "La acción del selector para esta vista de la shell"
 
 #: ../shell/e-shell-view.c:501
 #, fuzzy
@@ -20002,28 +20001,24 @@ msgid "Evolution Website"
 msgstr "Página web de Evolution"
 
 #: ../shell/e-shell-window-actions.c:1280
-#, fuzzy
 #| msgid "Bug buddy is not installed."
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy no está instalado."
 
 #: ../shell/e-shell-window-actions.c:1282
-#, fuzzy
 #| msgid "Bug buddy could not be run."
 msgid "Bug Buddy could not be run."
-msgstr "No es posible ejecutar Bug Buddy."
+msgstr "No se pudo ejecutar Bug Buddy."
 
 #: ../shell/e-shell-window-actions.c:1384
-#, fuzzy
 #| msgid "Bug buddy is not installed."
 msgid "GNOME Pilot is not installed."
-msgstr "Bug Buddy no está instalado."
+msgstr "GNOME Pilot no está instalado."
 
 #: ../shell/e-shell-window-actions.c:1386
-#, fuzzy
 #| msgid "Bug buddy could not be run."
 msgid "GNOME Pilot could not be run."
-msgstr "No es posible ejecutar Bug Buddy."
+msgstr "No se pudo ejecutar GNOME Pilot."
 
 #: ../shell/e-shell-window-actions.c:1480
 msgid "Show information about Evolution"
@@ -20034,16 +20029,14 @@ msgid "_Close Window"
 msgstr "_Cerrar ventana"
 
 #: ../shell/e-shell-window-actions.c:1492
-#, fuzzy
 #| msgid "A_ppointments"
 msgid "_Contents"
-msgstr "Ci_tas"
+msgstr "Índ_ice"
 
 #: ../shell/e-shell-window-actions.c:1494
-#, fuzzy
 #| msgid "Open Other User's Folder"
 msgid "Open the Evolution User Guide"
-msgstr "Abrir la carpeta de otro usuario"
+msgstr "Abrir la Guía de usuario de Evolution"
 
 #: ../shell/e-shell-window-actions.c:1499
 msgid "Evolution _FAQ"
@@ -20058,10 +20051,9 @@ msgid "_Forget Passwords"
 msgstr "_Olvidar contraseñas"
 
 #: ../shell/e-shell-window-actions.c:1508
-#, fuzzy
 #| msgid "Are you sure you want to forget all remembered passwords?"
 msgid "Forget all remembered passwords"
-msgstr "¿Seguro que quiere olvidar todas las contraseñas almacenadas?"
+msgstr "Olvidar todas las contraseñas recordadas"
 
 #: ../shell/e-shell-window-actions.c:1513
 msgid "I_mport..."
@@ -20076,26 +20068,23 @@ msgid "New _Window"
 msgstr "_Ventana nueva"
 
 #: ../shell/e-shell-window-actions.c:1522
-#, fuzzy
 #| msgid "Create a new window displaying this folder"
 msgid "Create a new window displaying this view"
-msgstr "Crea una ventana nueva mostrando esta carpeta"
+msgstr "Crear una ventana nueva mostrando esta vista"
 
 #: ../shell/e-shell-window-actions.c:1529
-#, fuzzy
 #| msgid "Configuration"
 msgid "Configure Evolution"
-msgstr "Configuración"
+msgstr "Configurar Evolution"
 
 #: ../shell/e-shell-window-actions.c:1534
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
 #: ../shell/e-shell-window-actions.c:1536
-#, fuzzy
 #| msgid "Change Evolution's settings"
 msgid "Show Evolution's shortcut keys"
-msgstr "Cambia la configuración de Evolution"
+msgstr "Mostrar los atajos de teclas de Evolution"
 
 #: ../shell/e-shell-window-actions.c:1543
 msgid "Exit the program"
@@ -20107,23 +20096,21 @@ msgstr "Búsqueda _avanzada…"
 
 #: ../shell/e-shell-window-actions.c:1550
 msgid "Construct a more advanced search"
-msgstr ""
+msgstr "Construir una búsqueda más avanzada"
 
 #: ../shell/e-shell-window-actions.c:1557
-#, fuzzy
 #| msgid "Clear the search"
 msgid "Clear the current search parameters"
-msgstr "Limpiar la búsqueda"
+msgstr "Limpiar los parámetros de búsqueda actuales"
 
 #: ../shell/e-shell-window-actions.c:1562
 msgid "_Edit Saved Searches..."
 msgstr "_Editar búsquedas guardadas…"
 
 #: ../shell/e-shell-window-actions.c:1564
-#, fuzzy
 #| msgid "Manage your email, contacts and schedule"
 msgid "Manage your saved searches"
-msgstr "Gestione su correo-e, contactos y calendario"
+msgstr "Gestionar sus búsquedas guardadas"
 
 #: ../shell/e-shell-window-actions.c:1571
 msgid "Click here to change the search type"
@@ -20136,20 +20123,18 @@ msgstr "B_uscar ahora"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1578
-#, fuzzy
 #| msgid "Cancel the current mail operation"
 msgid "Execute the current search parameters"
-msgstr "Cancela la operación de correo actual"
+msgstr "Ejecutar los parámetros de búsqueda actuales"
 
 #: ../shell/e-shell-window-actions.c:1583
 msgid "_Save Search..."
 msgstr "_Guardar búsqueda…"
 
 #: ../shell/e-shell-window-actions.c:1585
-#, fuzzy
 #| msgid "Save the current file"
 msgid "Save the current search parameters"
-msgstr "Guardar archivo actual"
+msgstr "Guardar los parámetros de búsqueda actuales"
 
 #: ../shell/e-shell-window-actions.c:1590
 msgid "Send / _Receive"
@@ -20160,10 +20145,9 @@ msgid "Send queued items and retrieve new items"
 msgstr "Envía el correo en la cola y obtiene el nuevo"
 
 #: ../shell/e-shell-window-actions.c:1597
-#, fuzzy
 #| msgid "Submit _Bug Report"
 msgid "Submit _Bug Report..."
-msgstr "Enviar informe de _fallos"
+msgstr "Enviar informe de _fallo…"
 
 #: ../shell/e-shell-window-actions.c:1599
 msgid "Submit a bug report using Bug Buddy"
@@ -20222,40 +20206,34 @@ msgid "Show Side _Bar"
 msgstr "Mostrar barra _lateral"
 
 #: ../shell/e-shell-window-actions.c:1695
-#, fuzzy
 #| msgid "Show Side _Bar"
 msgid "Show the side bar"
-msgstr "Mostrar barra _lateral"
+msgstr "Mostrar la barra lateral"
 
 #: ../shell/e-shell-window-actions.c:1701
 msgid "Show _Status Bar"
 msgstr "Mostrar barra de _estado"
 
 #: ../shell/e-shell-window-actions.c:1703
-#, fuzzy
 #| msgid "Show _Status Bar"
 msgid "Show the status bar"
-msgstr "Mostrar barra de _estado"
+msgstr "Mostrar la barra de estado"
 
 #: ../shell/e-shell-window-actions.c:1709
-#, fuzzy
 #| msgid "Show Animations"
 msgid "Show _Buttons"
-msgstr "Mostrar animaciones"
+msgstr "Mostrar _botones"
 
 #: ../shell/e-shell-window-actions.c:1711
-#, fuzzy
 #| msgid "Show the second time zone"
 msgid "Show the switcher buttons"
-msgstr "Muestra la segunda zona horaria"
+msgstr "Mostrar los botones del selector"
 
 #: ../shell/e-shell-window-actions.c:1717
-#| msgid "Show _Toolbar"
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
 #: ../shell/e-shell-window-actions.c:1719
-#| msgid "Show _Toolbar"
 msgid "Show the toolbar"
 msgstr "Mostrar la barra de herramientas"
 
@@ -20322,7 +20300,6 @@ msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
 #: ../shell/e-shell-window-actions.c:1810
-#| msgid "Set up the page settings for your current printer"
 msgid "Change the page settings for your current printer"
 msgstr "Cambiar la configuración de página para la impresora actual"
 
@@ -20350,36 +20327,30 @@ msgid "Active Shell View"
 msgstr "Vista activa de shell"
 
 #: ../shell/e-shell-window.c:293
-#| msgid "Name of new view:"
 msgid "Name of the active shell view"
 msgstr "Nombre de la vista activa de la shell"
 
 #: ../shell/e-shell-window.c:307
-#| msgid "_Caret Mode"
 msgid "Safe Mode"
 msgstr "Modo seguro"
 
 #: ../shell/e-shell-window.c:308
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the shell window is in safe mode"
 msgstr "Indica si la ventana de shell está en modo seguro"
 
 #: ../shell/e-shell-window.c:339
-#| msgid "Manager"
 msgid "UI Manager"
 msgstr "Gestor de IU"
 
 #: ../shell/e-shell-window.c:340
 msgid "The shell window's GtkUIManager"
-msgstr ""
+msgstr "El GtkUIManager de la ventana shell"
 
 #: ../shell/e-shell.c:207
-#| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go offline..."
 msgstr "Preparándose para desconectarse…"
 
 #: ../shell/e-shell.c:261
-#| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go online..."
 msgstr "Preparándose para conectarse…"
 
@@ -20388,12 +20359,10 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
 #: ../shell/e-shell.c:688
-#| msgid "TLS not Available"
 msgid "Network Available"
 msgstr "Red disponible"
 
 #: ../shell/e-shell.c:689
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the network is available"
 msgstr "Indica si la red está disponible"
 
@@ -20402,7 +20371,6 @@ msgid "Online"
 msgstr "En línea"
 
 #: ../shell/e-shell.c:705
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the shell is online"
 msgstr "Indica si la shell está conectada"
 
@@ -20464,7 +20432,6 @@ msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
 #: ../shell/main.c:321
-#| msgid "Forcibly shut down all Evolution components"
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar el cierre de Evolution"
 
@@ -20565,7 +20532,6 @@ msgstr ""
 "evolution&quot; a su conveniencia.\n"
 
 #: ../shell/shell.error.xml.h:18
-#| msgid "Upgrade from previous version failed: {0}"
 msgid "Upgrade from previous version failed:"
 msgstr "Falló la actualización desde la versión anterior:"
 
@@ -20596,11 +20562,6 @@ msgid "_Remind Me Later"
 msgstr "_Recordármelo más tarde"
 
 #: ../shell/shell.error.xml.h:25
-#| msgid ""
-#| "{1}\n"
-#| "\n"
-#| "If you choose to continue, you may not have access to some of your old "
-#| "data.\n"
 msgid ""
 "{0}\n"
 "\n"
@@ -20612,8 +20573,6 @@ msgstr ""
 "Si elige continuar, quizá no tenga acceso a algunos de sus datos antiguos.\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#| msgctxt "New"
-#| msgid "_Test"
 msgctxt "New"
 msgid "_Test Item"
 msgstr "_Probar elemento"
@@ -20623,13 +20582,11 @@ msgid "Create a new test item"
 msgstr "Crea una elemento de prueba nuevo"
 
 #: ../shell/test/e-test-shell-backend.c:70
-#| msgid "Resource"
 msgctxt "New"
 msgid "Test _Source"
 msgstr "Probar _recurso"
 
 #: ../shell/test/e-test-shell-backend.c:72
-#| msgid "Create a new test item"
 msgid "Create a new test source"
 msgstr "Crea una recurso de prueba nuevo"
 
@@ -20645,7 +20602,6 @@ msgstr "No se reconoce la versión «%s» del archivo desktop"
 
 #: ../smclient/eggdesktopfile.c:958
 #, c-format
-#| msgid "Scanning %s"
 msgid "Starting %s"
 msgstr "Iniciando %s"
 
@@ -20667,17 +20623,14 @@ msgstr ""
 
 #: ../smclient/eggdesktopfile.c:1394
 #, c-format
-#| msgid "Editor not launchable"
 msgid "Not a launchable item"
 msgstr "No es un elemento lanzable"
 
 #: ../smclient/eggsmclient.c:225
-#| msgid "_Direct connection to the Internet"
 msgid "Disable connection to session manager"
 msgstr "Desactivar la conexión con el gestor de sesiones"
 
 #: ../smclient/eggsmclient.c:228
-#| msgid "Set up Pilot configuration"
 msgid "Specify file containing saved configuration"
 msgstr "Especificar el archivo que contiene la configuración guardada"
 
@@ -20690,7 +20643,6 @@ msgid "Specify session management ID"
 msgstr "Especificar el ID de gestión de la sesión"
 
 #: ../smclient/eggsmclient.c:231
-#| msgid "UID"
 msgid "ID"
 msgstr "ID"
 
@@ -20699,7 +20651,6 @@ msgid "Session management options:"
 msgstr "Opciones de gestión de la sesión:"
 
 #: ../smclient/eggsmclient.c:253
-#| msgid "Show image animations"
 msgid "Show session management options"
 msgstr "Mostrar las opciones de gestión de la sesión"
 
@@ -21366,7 +21317,6 @@ msgid "De_fault"
 msgstr "_Predeterminada"
 
 #: ../widgets/misc/e-account-tree-view.c:224
-#| msgid "Account name"
 msgid "Account Name"
 msgstr "Nombre de la cuenta"
 
@@ -21375,7 +21325,6 @@ msgid "Protocol"
 msgstr "Protocolo"
 
 #: ../widgets/misc/e-action-combo-box.c:388
-#| msgid "_Actions"
 msgid "Action"
 msgstr "Acción"
 
@@ -21386,14 +21335,12 @@ msgstr "Un GtkRadioAction"
 #. Translators: This is a cancelled activity.
 #: ../widgets/misc/e-activity.c:224
 #, c-format
-#| msgid "Cancelled"
 msgid "%s (cancelled)"
 msgstr "%s (cancelado)"
 
 #. Translators: This is a completed activity.
 #: ../widgets/misc/e-activity.c:227
 #, c-format
-#| msgid "%s (%d%% complete)"
 msgid "%s (completed)"
 msgstr "%s (completado)"
 
@@ -21401,7 +21348,6 @@ msgstr "%s (completado)"
 #. * complete is unknown.
 #: ../widgets/misc/e-activity.c:231
 #, c-format
-#| msgid "%s (...)"
 msgid "%s..."
 msgstr "%s…"
 
@@ -21557,7 +21503,6 @@ msgstr "No se pudo guardar el adjunto"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:359
-#| msgid "Click to open %s"
 msgid "Ctrl-click to open a link"
 msgstr "Pulse Ctrl-botón del ratón para abrir un enlace"
 
@@ -21716,11 +21661,6 @@ msgid "Import a _single file"
 msgstr "Importar un _único archivo"
 
 #: ../widgets/misc/e-import-assistant.c:436
-#| msgid ""
-#| "Evolution checked for settings to import from the following\n"
-#| "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
-#| "settings found. If you would like to\n"
-#| "try again, please click the \"Back\" button.\n"
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
@@ -21737,10 +21677,6 @@ msgid "Evolution Import Assistant"
 msgstr "Asistente de importación de Evolution"
 
 #: ../widgets/misc/e-import-assistant.c:832
-#| msgid ""
-#| "Welcome to the Evolution Import Assistant.\n"
-#| "With this assistant you will be guided through the process of\n"
-#| "importing external files into Evolution."
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -21767,13 +21703,11 @@ msgid "Import Location"
 msgstr "Lugar de importación"
 
 #: ../widgets/misc/e-import-assistant.c:880
-#| msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "Pulse «Aplicar» para comenzar a importar el archivo en Evolution."
 
 #: ../widgets/misc/e-import-assistant.c:886
 #: ../widgets/misc/e-import-assistant.c:895
-#| msgid "Important"
 msgid "Import Data"
 msgstr "Importar datos"
 
@@ -21791,27 +21725,18 @@ msgstr ""
 "seleccionar la zona horaria desde la caja combinada desplegable inferior."
 
 #: ../widgets/misc/e-online-button.c:27
-#| msgid ""
-#| "Evolution is currently online.\n"
-#| "Click on this button to work offline."
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
 "Actualmente Evolution está conectado. Pulse este botón para trabajar "
 "desconectado."
 
 #: ../widgets/misc/e-online-button.c:30
-#| msgid ""
-#| "Evolution is currently offline.\n"
-#| "Click on this button to work online."
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
 "Actualmente Evolution está desconectado. Pulse este botón para trabajar "
 "conectado."
 
 #: ../widgets/misc/e-online-button.c:33
-#| msgid ""
-#| "Evolution is currently offline.\n"
-#| "Click on this button to work online."
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr ""
 "Actualmente Evolution está desconectado porque la red no está disponible."
@@ -21821,7 +21746,6 @@ msgid "The button state is online"
 msgstr "El botón de estado está en línea"
 
 #: ../widgets/misc/e-paned.c:234
-#| msgid "Horizontal pane position"
 msgid "Horizontal Position"
 msgstr "Posición horizontal"
 
@@ -21830,7 +21754,6 @@ msgid "Pane position when oriented horizontally"
 msgstr "Posición del panel cuando está orientado horizontal"
 
 #: ../widgets/misc/e-paned.c:246
-#| msgid "Vertical pane position"
 msgid "Vertical Position"
 msgstr "Posición vertical"
 
@@ -21851,7 +21774,6 @@ msgid "Sync Categories:"
 msgstr "Sincr. categorías:"
 
 #: ../widgets/misc/e-popup-action.c:173
-#| msgid "Source Account"
 msgid "Source Action"
 msgstr "Acción del recurso"
 
@@ -22038,12 +21960,10 @@ msgid "_Signature Name:"
 msgstr "Nombre de la _firma"
 
 #: ../widgets/misc/e-signature-manager.c:294
-#| msgid "Add signature script"
 msgid "Add Signature Script"
 msgstr "Añadir un script de firma"
 
 #: ../widgets/misc/e-signature-manager.c:359
-#| msgid "Edit Signature"
 msgid "Edit Signature Script"
 msgstr "Editar script de firma"
 
@@ -22052,9 +21972,6 @@ msgid "Add _Script"
 msgstr "Añadir _script"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used for display purposes only."
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -22065,12 +21982,10 @@ msgstr ""
 "para mostrarlo por pantalla. "
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
-#| msgid "_Script:"
 msgid "S_cript:"
 msgstr "S_cript:"
 
 #: ../widgets/misc/e-signature-script-dialog.c:342
-#| msgid "The script file must exist and be executable."
 msgid "Script file must be executable."
 msgstr "El script debe ser ejecutable."
 
@@ -22079,27 +21994,22 @@ msgid "Click here to go to URL"
 msgstr "Pulse aquí para ir a la URL"
 
 #: ../widgets/misc/e-web-view.c:305
-#| msgid "Copy things to the clipboard."
 msgid "Copy the link to the clipboard"
 msgstr "Copiar el enlace al portapapeles"
 
 #: ../widgets/misc/e-web-view.c:315
-#| msgid "_Open Link in Browser"
 msgid "Open the link in a web browser"
 msgstr "_Abrir enlace en el navegador"
 
 #: ../widgets/misc/e-web-view.c:323
-#| msgid "Copy _Email Address"
 msgid "_Copy Email Address"
 msgstr "_Copiar dirección de correo-e"
 
 #: ../widgets/misc/e-web-view.c:325
-#| msgid "Copy things to the clipboard."
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../widgets/misc/e-web-view.c:332
-#| msgid "Convert a mail message to a task."
 msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
