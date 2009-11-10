@@ -1699,11 +1699,11 @@ attachment_load_query_info_cb (GFile *file,
 	cancellable = attachment->priv->cancellable;
 
 	file_info = g_file_query_info_finish (file, result, &error);
-	attachment_set_file_info (attachment, file_info);
-	load_context->file_info = file_info;
-
 	if (attachment_load_check_for_error (load_context, error))
 		return;
+
+	attachment_set_file_info (attachment, file_info);
+	load_context->file_info = file_info;
 
 	load_context->total_num_bytes = g_file_info_get_size (file_info);
 
