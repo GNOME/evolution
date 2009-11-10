@@ -36,6 +36,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
+#include "shell/e-shell-utils.h"
 #include "shell/e-shell-window.h"
 
 gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
@@ -124,118 +125,108 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, con
 	return mask;
 }
 
-static gboolean
-epbr_perform_pre_backup_checks (gchar * dir)
+static void
+set_local_only (GtkFileChooser *file_chooser)
 {
-#ifdef G_OS_WIN32
-	return TRUE;
-#else
-	return (g_access (dir, W_OK) == 0);
-#endif
+	/* XXX Has to be a local file, since the backup utility
+	 *     takes a filename argument, not a URI. */
+	gtk_file_chooser_set_local_only (file_chooser, TRUE);
 }
 
 static void
 action_settings_backup_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
-	GtkWidget *dlg;
-	GtkWidget *vbox;
-	GtkWindow *parent;
-	gint response;
+	GFile *file;
+	GFile *parent;
+	GFileInfo *file_info;
+	const gchar *attribute;
+	GError *error = NULL;
 
-	parent = GTK_WINDOW (shell_window);
+	file = e_shell_run_save_dialog (
+		e_shell_window_get_shell (shell_window),
+		_("Select name of the Evolution backup file"),
+		"evolution-backup.tar.gz", (GtkCallback)
+		set_local_only, NULL);
 
-	dlg = e_file_get_save_filesel (
-		parent, _("Select name of the Evolution backup file"),
-		NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
+	if (file == NULL)
+		return;
 
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dlg), "evolution-backup.tar.gz");
+	/* Make sure the parent directory can be written to. */
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_widget_show (vbox);
+	parent = g_file_get_parent (file);
+	attribute = G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE;
 
-	response = gtk_dialog_run (GTK_DIALOG (dlg));
-	if (response == GTK_RESPONSE_OK) {
-		gchar *filename;
-		guint32 mask;
-		gchar *uri = NULL;
-		gchar *dir;
+	/* XXX The query operation blocks the main loop but we
+	 *     know it's a local file, so let it slide for now. */
+	file_info = g_file_query_info (
+		parent, attribute, G_FILE_QUERY_INFO_NONE, NULL, &error);
 
-		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
-		e_file_update_save_path(uri, TRUE);
+	g_object_unref (parent);
 
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
-		dir = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (dlg));
-		gtk_widget_destroy (dlg);
-
-		if (epbr_perform_pre_backup_checks (dir)) {
-
-			mask = dialog_prompt_user (
-				parent, _("_Restart Evolution after backup"),
-				"org.gnome.backup-restore:backup-confirm", NULL);
-			if (mask & BR_OK)
-				backup (filename, (mask & BR_START) ? TRUE: FALSE);
-		} else {
-			e_error_run (parent, "org.gnome.backup-restore:insufficient-permissions", NULL);
-		}
-
-		g_free (filename);
-		g_free (dir);
-
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
 		return;
 	}
 
-	gtk_widget_destroy (dlg);
+	if (g_file_info_get_attribute_boolean (file_info, attribute)) {
+		guint32 mask;
+		gchar *path;
+
+		mask = dialog_prompt_user (
+			GTK_WINDOW (shell_window),
+			_("_Restart Evolution after backup"),
+			"org.gnome.backup-restore:backup-confirm", NULL);
+		if (mask & BR_OK) {
+			path = g_file_get_path (file);
+			backup (path, (mask & BR_START) ? TRUE: FALSE);
+			g_free (path);
+		}
+	} else {
+		e_error_run (
+			GTK_WINDOW (shell_window),
+			"org.gnome.backup-restore:insufficient-permissions", NULL);
+	}
+
+	g_object_unref (file_info);
+	g_object_unref (file);
 }
 
 static void
 action_settings_restore_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
-	GtkWidget *dlg;
-	GtkWidget *vbox;
-	GtkWindow *parent;
-	gint response;
+	GFile *file;
+	gchar *path;
 
-	parent = GTK_WINDOW (shell_window);
-
-	dlg = e_file_get_save_filesel (
-		parent,
+	file = e_shell_run_open_dialog (
+		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file to restore"),
-		NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
+		(GtkCallback) set_local_only, NULL);
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_widget_show (vbox);
-
-	response = gtk_dialog_run (GTK_DIALOG (dlg));
-	if (response == GTK_RESPONSE_OK) {
-		gchar *filename;
-		gchar *uri = NULL;
-
-		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
-		e_file_update_save_path(uri, TRUE);
-
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
-		gtk_widget_destroy (dlg);
-
-		if (sanity_check (filename)) {
-			guint32 mask;
-
-			mask = dialog_prompt_user (
-				parent, _("_Restart Evolution after restore"),
-				"org.gnome.backup-restore:restore-confirm", NULL);
-			if (mask & BR_OK)
-				restore (filename, mask & BR_START);
-		} else {
-			e_error_run (parent, "org.gnome.backup-restore:invalid-backup", NULL);
-		}
-
-		g_free (filename);
-
+	if (file == NULL)
 		return;
+
+	path = g_file_get_path (file);
+
+	if (sanity_check (path)) {
+		guint32 mask;
+
+		mask = dialog_prompt_user (
+			GTK_WINDOW (shell_window),
+			_("_Restart Evolution after restore"),
+			"org.gnome.backup-restore:restore-confirm", NULL);
+		if (mask & BR_OK)
+			restore (path, mask & BR_START);
+	} else {
+		e_error_run (
+			GTK_WINDOW (shell_window),
+			"org.gnome.backup-restore:invalid-backup", NULL);
 	}
 
-	gtk_widget_destroy (dlg);
+	g_object_unref (file);
+	g_free (path);
 }
 
 static void
@@ -255,10 +246,6 @@ static void
 file_changed (GtkFileChooser *chooser, GtkAssistant *assistant)
 {
 	gchar *file = NULL, *prevfile = NULL;
-	gchar *uri = NULL;
-
-	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (chooser));
-	e_file_update_save_path (uri, TRUE);
 
 	file = gtk_file_chooser_get_filename (chooser);
 	prevfile = g_object_get_data ((GObject *)assistant, "restore-file");

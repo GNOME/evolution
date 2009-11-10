@@ -624,7 +624,7 @@ action_task_save_as_cb (GtkAction *action,
 	g_slist_free (list);
 
 	file = e_shell_run_save_dialog (
-		shell, _("Save as iCalendar"), NULL, NULL);
+		shell, _("Save as iCalendar"), NULL, NULL, NULL);
 	if (file == NULL)
 		return;
 

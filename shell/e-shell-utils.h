@@ -32,8 +32,14 @@
 
 G_BEGIN_DECLS
 
+GFile *		e_shell_run_open_dialog		(EShell *shell,
+						 const gchar *title,
+						 GtkCallback customize_func,
+						 gpointer customize_data);
+
 GFile *		e_shell_run_save_dialog		(EShell *shell,
 						 const gchar *title,
+						 const gchar *suggestion,
 						 GtkCallback customize_func,
 						 gpointer customize_data);
 

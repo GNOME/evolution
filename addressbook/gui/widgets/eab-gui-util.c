@@ -281,14 +281,12 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	return source;
 }
 
-void
-eab_suggest_filename (GtkFileChooser *file_chooser,
-                      GList *contact_list)
+gchar *
+eab_suggest_filename (GList *contact_list)
 {
 	gchar *current_name = NULL;
 
-	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
-	g_return_if_fail (contact_list != NULL);
+	g_return_val_if_fail (contact_list != NULL, NULL);
 
 	if (g_list_length (contact_list) == 1) {
 		EContact *contact = E_CONTACT (contact_list->data);
@@ -305,9 +303,7 @@ eab_suggest_filename (GtkFileChooser *file_chooser,
 	if (current_name == NULL)
 		current_name = make_safe_filename (_("list"));
 
-	gtk_file_chooser_set_current_name (file_chooser, current_name);
-
-	g_free (current_name);
+	return current_name;
 }
 
 typedef struct ContactCopyProcess_ ContactCopyProcess;

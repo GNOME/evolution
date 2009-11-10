@@ -129,10 +129,6 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 cairo_font_options_t *
 		get_font_options		(void);
 
-void		e_file_update_save_path		(gchar *uri,
-						 gboolean free);
-gchar *		e_file_get_save_path		(void);
-
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean	e_file_lock_exists		(void);

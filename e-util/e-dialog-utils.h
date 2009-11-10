@@ -29,12 +29,5 @@ void		e_notice			(gpointer parent,
 						 GtkMessageType type,
 						 const gchar *format,
 						 ...);
-GtkWidget *	e_file_get_save_filesel		(GtkWindow *parent,
-						 const gchar *title,
-						 const gchar *name,
-						 GtkFileChooserAction action);
-gboolean	e_file_can_save			(GtkWindow *parent,
-						 const gchar *uri);
-gboolean	e_file_check_local		(const gchar *name);
 
 #endif /* E_DIALOG_UTILS_H */

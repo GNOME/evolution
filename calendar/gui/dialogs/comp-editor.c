@@ -62,7 +62,6 @@
 #include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "../calendar-config-keys.h"
-#include "cal-attachment-select-file.h"
 #include "widgets/misc/e-attachment-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 

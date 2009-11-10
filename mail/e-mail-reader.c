@@ -34,7 +34,7 @@
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
-#include "shell/e-shell.h"
+#include "shell/e-shell-utils.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-menu-tool-action.h"
 
@@ -801,18 +801,50 @@ static void
 action_mail_save_as_cb (GtkAction *action,
                         EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	MessageList *message_list;
+	CamelMessageInfo *info;
 	CamelFolder *folder;
-	GtkWindow *window;
 	GPtrArray *uids;
+	GFile *file;
+	const gchar *title;
+	const gchar *suggestion;
+	gchar *uri;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	window = e_mail_reader_get_window (reader);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = message_list->folder;
 	uids = message_list_get_selected (message_list);
+	g_return_if_fail (uids->len > 0);
 
-	em_utils_save_messages (window, folder, uids);
+	title = ngettext ("Save Message", "Save Messages", uids->len);
+
+	/* Suggest as a filename the subject of the first message. */
+	info = camel_folder_get_message_info (folder, uids->pdata[0]);
+	if (info != NULL) {
+		suggestion = camel_message_info_subject (info);
+		camel_message_info_free (info);
+	} else
+		suggestion = NULL;
+
+	file = e_shell_run_save_dialog (shell, title, suggestion, NULL, NULL);
+
+	if (file == NULL) {
+		em_utils_uids_free (uids);
+		return;
+	}
+
+	uri = g_file_get_uri (file);
+
+	/* This eats the UID array, so do not free it. */
+	mail_save_messages (folder, uids, uri, NULL, NULL);
+
+	g_free (uri);
+
+	g_object_unref (file);
 }
 
 static void

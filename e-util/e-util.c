@@ -1283,66 +1283,6 @@ get_font_options (void)
 	return font_options;
 }
 
-/**
- * e_file_update_save_path:
- * @uri: URI to store
- * @free: If TRUE, free uri
- *
- * Save the save_dir path for evolution.  If free is TRUE, uri gets freed when
- * done.  Genearally, this should be called with the output of
- * gtk_file_chooser_get_current_folder_uri()  The URI must be a path URI, not a
- * file URI.
- **/
-void
-e_file_update_save_path (gchar *uri, gboolean free)
-{
-	GConfClient *gconf = gconf_client_get_default();
-	GError *error = NULL;
-
-	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", uri, &error);
-	if (error != NULL) {
-		g_warning("%s (%s) %s", G_STRLOC, G_STRFUNC, error->message);
-		g_clear_error(&error);
-	}
-	g_object_unref(gconf);
-	if (free)
-		g_free(uri);
-}
-
-/**
- * e_file_get_save_path:
- *
- * Return the save_dir path for evolution.  If there isn't a save_dir, returns
- * the users home directory.  Returns an allocated URI that should be freed by
- * the caller.
- **/
-gchar *
-e_file_get_save_path (void)
-{
-	GConfClient *gconf = gconf_client_get_default();
-	GError *error = NULL;
-	gchar *uri;
-
-	uri = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", &error);
-	if (error != NULL) {
-		g_warning("%s (%s) %s", G_STRLOC, G_STRFUNC, error->message);
-		g_clear_error(&error);
-	}
-	g_object_unref(gconf);
-
-	if (uri == NULL) {
-		GFile *file;
-
-		file = g_file_new_for_path (g_get_home_dir ());
-		if (file) {
-			uri = g_file_get_uri (file);
-			g_object_unref (file);
-		}
-	}
-
-	return (uri);
-}
-
 /* Evolution Locks for crash recovery */
 
 #define LOCK_FILE ".running"

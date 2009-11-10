@@ -1099,7 +1099,7 @@ action_event_save_as_cb (GtkAction *action,
 	icalcomp = event->comp_data->icalcomp;
 
 	file = e_shell_run_save_dialog (
-		shell, _("Save as iCalendar"), NULL, NULL);
+		shell, _("Save as iCalendar"), NULL, NULL, NULL);
 	if (file == NULL)
 		return;
 

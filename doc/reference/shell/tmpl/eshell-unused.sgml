@@ -1866,6 +1866,23 @@ intelligent
 @widget: 
 @cursor: 
 
+<!-- ##### FUNCTION e_file_can_save ##### -->
+<para>
+
+</para>
+
+@parent: 
+@uri: 
+@Returns: 
+
+<!-- ##### FUNCTION e_file_check_local ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
 <!-- ##### FUNCTION e_file_dialog_save ##### -->
 <para>
 
@@ -1874,6 +1891,17 @@ intelligent
 @parent: 
 @title: 
 @fname: 
+@Returns: 
+
+<!-- ##### FUNCTION e_file_get_save_filesel ##### -->
+<para>
+
+</para>
+
+@parent: 
+@title: 
+@name: 
+@action: 
 @Returns: 
 
 <!-- ##### FUNCTION e_shell_backend_get_filename ##### -->

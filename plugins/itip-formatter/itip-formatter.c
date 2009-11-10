@@ -1502,21 +1502,23 @@ save_vcalendar_cb (GtkWidget *button, struct _itip_puri *pitip)
 	EAttachment *attachment;
 	EShell *shell;
 	GFile *file;
+	const gchar *suggestion;
 
 	g_return_if_fail (pitip != NULL);
 	g_return_if_fail (pitip->vcalendar != NULL);
 	g_return_if_fail (pitip->part != NULL);
 
+	suggestion = camel_mime_part_get_filename (pitip->part);
+	if (suggestion == NULL) {
+		/* Translators: This is a default filename for a calendar. */
+		suggestion = _("calendar.ics");
+	}
+
 	shell = e_shell_get_default ();
 	file = e_shell_run_save_dialog (
-		shell, _("Save Calendar"), NULL, NULL);
+		shell, _("Save Calendar"), suggestion, NULL, NULL);
 	if (file == NULL)
 		return;
-
-	if (!camel_mime_part_get_filename (pitip->part)) {
-		/* Translators: This is a default filename for a calendar. */
-		camel_mime_part_set_filename (pitip->part, _("calendar.ics"));
-	}
 
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, pitip->part);

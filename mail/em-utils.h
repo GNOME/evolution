@@ -52,8 +52,6 @@ void em_utils_edit_filters (GtkWidget *parent);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
-void em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
-
 void em_utils_flag_for_followup (EMailReader *reader, CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
