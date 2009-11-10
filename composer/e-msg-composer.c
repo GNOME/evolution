@@ -418,7 +418,8 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 				seen_hidden_list = TRUE;
 			}
 
-			camel_address_decode (CAMEL_ADDRESS (target), text_addr);
+			if (camel_address_decode (CAMEL_ADDRESS (target), text_addr) <= 0)
+				camel_internet_address_add (target, "", text_addr);
 		}
 	}
 
@@ -432,14 +433,16 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 				seen_hidden_list = TRUE;
 			}
 
-			camel_address_decode (CAMEL_ADDRESS (target), text_addr);
+			if (camel_address_decode (CAMEL_ADDRESS (target), text_addr) <= 0)
+				camel_internet_address_add (target, "", text_addr);
 		}
 	}
 
 	for (i = 0; bcc_destv != NULL && bcc_destv[i] != NULL; ++i) {
 		text_addr = e_destination_get_address (bcc_destv[i]);
 		if (text_addr && *text_addr) {
-			camel_address_decode (CAMEL_ADDRESS (bcc_addr), text_addr);
+			if (camel_address_decode (CAMEL_ADDRESS (bcc_addr), text_addr) <= 0)
+				camel_internet_address_add (bcc_addr, "", text_addr);
 		}
 	}
 
@@ -3967,7 +3970,7 @@ e_msg_composer_is_exiting (EMsgComposer *composer)
 void
 e_msg_composer_request_close (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_if_fail (composer != NULL);
 
 	composer->priv->application_exiting = TRUE;
 }

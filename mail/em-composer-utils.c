@@ -279,6 +279,18 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 	g_free (send);
 }
 
+static gboolean
+is_group_definition (const gchar *str)
+{
+	const gchar *colon;
+
+	if (!str || !*str)
+		return FALSE;
+
+	colon = strchr (str, ':');
+	return colon > str && strchr (str, ';') > colon;
+}
+
 static CamelMimeMessage *
 composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
@@ -292,10 +304,11 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	GConfClient *gconf;
 	EAccount *account;
 	gint i;
-	GList *postlist;
 	EMEvent *eme;
 	EMEventTargetComposer *target;
 	EComposerHeaderTable *table;
+	EComposerHeader *post_to_header;
+	GString *invalid_addrs = NULL;
 
 	gconf = mail_config_get_gconf_client ();
 	table = e_msg_composer_get_header_table (composer);
@@ -315,8 +328,35 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 			const gchar *addr = e_destination_get_address (recipients[i]);
 
 			if (addr && addr[0]) {
+				gint len, j;
+
 				camel_address_decode ((CamelAddress *) cia, addr);
-				if (camel_address_length ((CamelAddress *) cia) > 0) {
+				len = camel_address_length ((CamelAddress *) cia);
+
+				if (len > 0) {
+					if (!e_destination_is_evolution_list (recipients[i])) {
+						for (j = 0; j < len; j++) {
+							const gchar *name = NULL, *eml = NULL;
+
+							if (!camel_internet_address_get (cia, j, &name, &eml) ||
+							    !eml ||
+							    strchr (eml, '@') <= eml) {
+								if (!invalid_addrs)
+									invalid_addrs = g_string_new ("");
+								else
+									g_string_append (invalid_addrs, ", ");
+
+								if (name)
+									g_string_append (invalid_addrs, name);
+								if (eml) {
+									g_string_append (invalid_addrs, name ? " <" : "");
+									g_string_append (invalid_addrs, eml);
+									g_string_append (invalid_addrs, name ? ">" : "");
+								}
+							}
+						}
+					}
+
 					camel_address_remove ((CamelAddress *) cia, -1);
 					num++;
 					if (e_destination_is_evolution_list (recipients[i])
@@ -325,6 +365,15 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 					} else {
 						shown++;
 					}
+				} else if (is_group_definition (addr)) {
+					/* like an address, it will not claim on only-bcc */
+					shown++;
+					num++;
+				} else if (!invalid_addrs) {
+					invalid_addrs = g_string_new (addr);
+				} else {
+					g_string_append (invalid_addrs, ", ");
+					g_string_append (invalid_addrs, addr);
 				}
 			}
 		}
@@ -349,15 +398,29 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 	camel_object_unref (cia);
 
-	postlist = e_composer_header_table_get_post_to (table);
-	num_post = g_list_length(postlist);
-	g_list_foreach(postlist, (GFunc)g_free, NULL);
-	g_list_free(postlist);
+	post_to_header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_POST_TO);
+	if (e_composer_header_get_visible (post_to_header)) {
+		GList *postlist;
+
+		postlist = e_composer_header_table_get_post_to (table);
+		num_post = g_list_length (postlist);
+		g_list_foreach (postlist, (GFunc)g_free, NULL);
+		g_list_free (postlist);
+	}
 
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && num_post == 0) {
 		e_error_run((GtkWindow *)composer, "mail:send-no-recipients", NULL);
 		goto finished;
+	}
+
+	if (invalid_addrs) {
+		if (e_error_run ((GtkWindow *)composer, strstr (invalid_addrs->str, ", ") ? "mail:ask-send-invalid-recip-multi" : "mail:ask-send-invalid-recip-one", invalid_addrs->str, NULL) == GTK_RESPONSE_CANCEL) {
+			g_string_free (invalid_addrs, TRUE);
+			goto finished;
+		}
+
+		g_string_free (invalid_addrs, TRUE);
 	}
 
 	if (num > 0 && (num == num_bcc || shown == 0)) {

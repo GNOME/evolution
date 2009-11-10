@@ -15,8 +15,8 @@
     <_primary>Are you sure you want to send a message in HTML format?</_primary>
     <_secondary xml:space="preserve">Please make sure the following recipients are willing and able to receive HTML email:
 {0}</_secondary>
-    <button _label="_Send" response="GTK_RESPONSE_YES"/>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Send" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="ask-send-no-subject" type="question" default="GTK_RESPONSE_YES">
@@ -38,6 +38,22 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   <error id="ask-send-only-bcc" type="warning" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to send a message with only BCC recipients?</_primary>
     <_secondary xml:space="preserve">Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient.</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Send" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="ask-send-invalid-recip-one" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Are you sure you want to send a message with invalid address?</_primary>
+    <_secondary xml:space="preserve">The following recipient was not recognized as a valid mail address:
+{0}</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Send" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="ask-send-invalid-recip-multi" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Are you sure you want to send a message with invalid addresses?</_primary>
+    <_secondary xml:space="preserve">The following recipients were not recognized as valid mail addresses:
+{0}</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
   </error>
