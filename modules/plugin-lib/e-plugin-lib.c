@@ -21,6 +21,10 @@
 
 #include "e-plugin-lib.h"
 
+#ifdef G_OS_WIN32
+#include <libedataserver/e-data-server-util.h> /* for e_util_replace_prefix() */
+#endif
+
 #include <string.h>
 
 static gpointer parent_class;
@@ -122,7 +126,7 @@ plugin_lib_construct (EPlugin *plugin, xmlNodePtr root)
 #ifdef G_OS_WIN32
 	{
 		gchar *mapped_location =
-			e_util_rplugin_libace_prefix (EVOLUTION_PREFIX,
+			e_util_replace_prefix (EVOLUTION_PREFIX,
 					       e_util_get_prefix (),
 					       plugin_lib->location);
 		g_free (plugin_lib->location);

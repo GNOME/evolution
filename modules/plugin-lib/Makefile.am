@@ -4,6 +4,7 @@ libevolution_module_plugin_lib_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-lib\"			\
 	-I$(top_srcdir)						\
+	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
 	$(E_UTIL_CFLAGS)
 
 libevolution_module_plugin_lib_la_SOURCES =			\
