@@ -21,7 +21,7 @@ liborg_gnome_pst_import_la_CPPFLAGS =			\
 	-DLOCALEDIR="\"$(LOCALEDIR)\""			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CFLAGS)				\
-	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(LIBPST_CFLAGS)
 
 liborg_gnome_pst_import_la_SOURCES = pst-importer.c
