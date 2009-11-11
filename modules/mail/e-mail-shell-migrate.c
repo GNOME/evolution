@@ -1030,6 +1030,8 @@ em_migrate_1_2(const gchar *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters,
 	return TRUE;
 }
 
+#endif	/* !G_OS_WIN32 */
+
 /* 1.4 upgrade functions */
 
 #define EM_MIGRATE_SESSION_TYPE     (em_migrate_session_get_type ())
@@ -1089,8 +1091,6 @@ em_migrate_session_new (const gchar *path)
 
 	return session;
 }
-
-#endif	/* !G_OS_WIN32 */
 
 static GtkWidget *window;
 static GtkLabel *label;
