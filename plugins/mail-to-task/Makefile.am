@@ -23,6 +23,7 @@ liborg_gnome_mail_to_task_la_LIBADD =	\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(top_builddir)/mail/libevolution-mail.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)
