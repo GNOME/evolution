@@ -3035,7 +3035,6 @@ e_mail_shell_migrate (EShellBackend *shell_backend,
 		}
 		filters = emm_load_xml (path, "filters.xml");
 		vfolders = emm_load_xml (path, "vfolders.xml");
-		g_free (path);
 
 		if (minor == 0) {
 			if (!em_migrate_1_0 (data_dir, config_xmldb, filters, vfolders, error)) {
