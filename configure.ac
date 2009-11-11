@@ -1243,7 +1243,16 @@ fi
 dnl ******************************
 dnl CERT_UI Flags
 dnl ******************************
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0, $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS, $MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
+dnl
+dnl Here we want the Mozilla flags to go *before* the other ones,
+dnl especially the mozilla-nss -I flags to go before the gnutls ones
+dnl (which are dragged in through libedataserverui), as both
+dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
+dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
+dnl
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0)
+CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
+CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 

@@ -13,7 +13,6 @@ libessmime_la_CPPFLAGS =				\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
 libessmime_la_SOURCES = 	\
