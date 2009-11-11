@@ -384,6 +384,12 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	sensitive = editable;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (EVENT_DELEGATE);
+	sensitive =
+		(n_selected == 1) && editable &&
+		is_delegatable && is_meeting;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (EVENT_DELETE);
 	sensitive = (n_selected > 0) && editable && !recurring;
 	gtk_action_set_sensitive (action, sensitive);
@@ -396,24 +402,26 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	sensitive = (n_selected > 0) && editable && recurring;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (EVENT_FORWARD);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_OCCURRENCE_MOVABLE);
+	sensitive =
+		(n_selected == 1) && editable &&
+		recurring && is_instance;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (EVENT_OPEN);
 	sensitive = (n_selected == 1);
 	gtk_action_set_sensitive (action, sensitive);
 
-	action = ACTION (OCCURRENCE_MOVABLE);
-	sensitive = (n_selected == 1) && editable && recurring && is_instance;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (EVENT_DELEGATE);
-	sensitive = (n_selected == 1) && editable && is_delegatable && is_meeting;
+	action = ACTION (EVENT_PRINT);
+	sensitive = (n_selected == 1);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_SCHEDULE);
 	sensitive = (n_selected == 1) && editable && !is_meeting;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (EVENT_FORWARD);
-	sensitive = TRUE;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_REPLY);
