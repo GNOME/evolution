@@ -1492,7 +1492,7 @@ dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-jun
 plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline"
 
 plugins_standard="$plugins_standard_always"
-dist_plugins_standard="$plugins_standard audio-inline pst-import"
+dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
 
 plugins_experimental_always="face external-editor hula-account-setup"
 

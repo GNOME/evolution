@@ -55,7 +55,6 @@ calendar/gui/dialogs/alarm-dialog.c
 calendar/gui/dialogs/alarm-dialog.glade
 calendar/gui/dialogs/alarm-list-dialog.c
 calendar/gui/dialogs/alarm-list-dialog.glade
-calendar/gui/dialogs/cal-attachment-select-file.c
 calendar/gui/dialogs/cal-prefs-dialog.c
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/calendar-setup.c
@@ -143,11 +142,13 @@ composer/mail-composer.error.xml
 data/evolution-alarm-notify.desktop.in.in
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
+e-util/e-activity.c
 e-util/e-categories-config.c
 e-util/e-charset.c
 e-util/e-datetime-format.c
 e-util/e-dialog-utils.c
 e-util/e-error.c
+e-util/e-file-utils.c
 e-util/e-logger.c
 e-util/e-module.c
 e-util/e-non-intrusive-error-dialog.c
@@ -345,6 +346,7 @@ plugins/groupwise-features/share-folder.c
 plugins/groupwise-features/status-track.c
 plugins/hula-account-setup/camel-hula-listener.c
 plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
+plugins/image-inline/org-gnome-image-inline.eplug.xml
 plugins/imap-features/imap-headers.c
 plugins/imap-features/imap-headers.glade
 plugins/imap-features/org-gnome-imap-features.eplug.xml
@@ -441,7 +443,6 @@ widgets/misc/e-account-manager.c
 widgets/misc/e-account-tree-view.c
 widgets/misc/e-action-combo-box.c
 widgets/misc/e-activity-proxy.c
-widgets/misc/e-activity.c
 widgets/misc/e-attachment-dialog.c
 widgets/misc/e-attachment-handler-image.c
 widgets/misc/e-attachment-handler-sendto.c
