@@ -88,6 +88,7 @@ static gboolean force_migrate = FALSE;
 #endif
 static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
+static gboolean import_uris = FALSE;
 static gboolean idle_cb (gchar **uris);
 
 static gchar *requested_view = NULL;
@@ -238,7 +239,7 @@ idle_cb (gchar **uris)
 	/* These calls do the right thing when another Evolution
 	 * process is running. */
 	if (uris != NULL && *uris != NULL) {
-		if (e_shell_handle_uris (shell, uris) == 0)
+		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
 			gtk_main_quit ();
 	} else
 		e_shell_create_shell_window (shell, requested_view);
@@ -330,6 +331,8 @@ static GOptionEntry entries[] = {
 	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },
 	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
 	  &setup_only, NULL, NULL },
+	{ "import", 'i', 0, G_OPTION_ARG_NONE, &import_uris,
+	  N_("Import URIs or file names given as rest of arguments."), NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
 	{ NULL }
 };

@@ -31,6 +31,7 @@
 
 #include "e-shell-backend.h"
 #include "e-shell-window.h"
+#include "e-shell-utils.h"
 
 #define E_SHELL_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -605,7 +606,23 @@ shell_message_handle_open (EShell *shell,
 	gchar **uris;
 
 	uris = unique_message_data_get_uris (data);
-	e_shell_handle_uris (shell, uris);
+	if (uris && uris[0] && g_str_equal (uris[0], "--import")) {
+		gint ii;
+		GPtrArray *arr = g_ptr_array_new ();
+
+		/* skip the first argument */
+		for (ii = 1; uris[ii] != NULL; ii++) {
+			g_ptr_array_add (arr, uris[ii]);
+		}
+
+		g_ptr_array_add (arr, NULL);
+
+		e_shell_handle_uris (shell, (gchar **)arr->pdata, TRUE);
+
+		g_ptr_array_free (arr, TRUE);
+	} else {
+		e_shell_handle_uris (shell, uris, FALSE);
+	}
 	g_strfreev (uris);
 
 	return TRUE;
@@ -1229,6 +1246,7 @@ unique:  /* Send a message to the other Evolution process. */
  * e_shell_handle_uris:
  * @shell: an #EShell
  * @uris: %NULL-terminated list of URIs
+ * @do_import: request an import of the URIs
  *
  * Emits the #EShell::handle-uri signal for each URI.
  *
@@ -1236,7 +1254,8 @@ unique:  /* Send a message to the other Evolution process. */
  **/
 guint
 e_shell_handle_uris (EShell *shell,
-                     gchar **uris)
+                     gchar **uris,
+		     gboolean do_import)
 {
 	UniqueApp *app;
 	UniqueMessageData *data;
@@ -1251,13 +1270,20 @@ e_shell_handle_uris (EShell *shell,
 	if (unique_app_is_running (app))
 		goto unique;
 
-	for (ii = 0; uris[ii] != NULL; ii++) {
-		gboolean handled;
+	if (do_import) {
+		n_handled = e_shell_utils_import_uris (shell, uris, FALSE);
+	} else {
+		for (ii = 0; uris[ii] != NULL; ii++) {
+			gboolean handled;
 
-		g_signal_emit (
-			shell, signals[HANDLE_URI],
-			0, uris[ii], &handled);
-		n_handled += handled ? 1 : 0;
+			g_signal_emit (
+				shell, signals[HANDLE_URI],
+				0, uris[ii], &handled);
+			n_handled += handled ? 1 : 0;
+		}
+
+		if (n_handled == 0)
+			n_handled = e_shell_utils_import_uris (shell, uris, TRUE);
 	}
 
 	return n_handled;
@@ -1267,7 +1293,23 @@ unique:  /* Send a message to the other Evolution process. */
 	/* XXX Do something with UniqueResponse? */
 
 	data = unique_message_data_new ();
-	unique_message_data_set_uris (data, uris);
+	if (do_import) {
+		GPtrArray *arr = g_ptr_array_new ();
+
+		g_ptr_array_add (arr, (gpointer)"--import");
+
+		for (ii = 0; uris[ii] != NULL; ii++) {
+			g_ptr_array_add (arr, uris[ii]);
+		}
+
+		g_ptr_array_add (arr, NULL);
+
+		unique_message_data_set_uris (data, (gchar **)arr->pdata);
+
+		g_ptr_array_free (arr, TRUE);
+	} else {
+		unique_message_data_set_uris (data, uris);
+	}
 	unique_app_send_message (app, UNIQUE_OPEN, data);
 	unique_message_data_free (data);
 
@@ -1365,8 +1407,10 @@ e_shell_get_active_window (EShell *shell)
 
 	watched_windows = e_shell_get_watched_windows (shell);
 
-	/* Sanity checks */
-	g_return_val_if_fail (watched_windows != NULL, NULL);
+	if (!watched_windows)
+		return NULL;
+
+	/* Sanity check */
 	g_return_val_if_fail (GTK_IS_WINDOW (watched_windows->data), NULL);
 
 	return GTK_WINDOW (watched_windows->data);

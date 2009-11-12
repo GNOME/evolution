@@ -43,6 +43,10 @@ GFile *		e_shell_run_save_dialog		(EShell *shell,
 						 GtkCallback customize_func,
 						 gpointer customize_data);
 
+guint		e_shell_utils_import_uris	(EShell *shell,
+						 gchar **uris,
+						 gboolean preview);
+
 G_END_DECLS
 
 #endif /* E_SHELL_UTILS_H */

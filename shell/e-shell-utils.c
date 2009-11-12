@@ -23,6 +23,8 @@
 
 #include <glib/gi18n-lib.h>
 
+#include "widgets/misc/e-import-assistant.h"
+
 /**
  * e_shell_run_open_dialog:
  * @shell: an #EShell
@@ -179,4 +181,62 @@ exit:
 	gtk_widget_destroy (dialog);
 
 	return chosen_file;
+}
+
+static void
+assistant_weak_notify_cb (EShell *shell, GObject *where_the_object_was)
+{
+	/* close the application if the import assistant was the only window here */
+	if (e_shell_get_watched_windows (shell) == NULL)
+		gtk_main_quit ();
+}
+
+/**
+ * e_shell_utils_import_uris:
+ * @shell: The #EShell instance
+ * @uris: %NULL-terminated list of URIs to import or preview
+ * @preview: rather preview than import given URIs
+ *
+ * Imports given URIs to Evolution, giving user a choice what to import
+ * if more than one importer can be applied, and where to import it, if
+ * the importer itself is configurable. It can preview data, instead of
+ * importing if requested and the imported has that implemented.
+ *
+ * URIs should be either a filename or URI of form file://.
+ * All others are skipped.
+ *
+ * Returns: the number of URIs successfully handled
+ **/
+guint
+e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
+{
+	GtkWindow *parent;
+	GtkWidget *assistant;
+
+	g_return_val_if_fail (shell != NULL, 0);
+	g_return_val_if_fail (uris != NULL, 0);
+
+	parent = e_shell_get_active_window (shell);
+	assistant = e_import_assistant_new_simple (parent, uris, preview);
+
+	if (assistant) {
+		g_signal_connect_after (
+			assistant, "cancel",
+			G_CALLBACK (gtk_widget_destroy), NULL);
+
+		g_signal_connect_after (
+			assistant, "finished",
+			G_CALLBACK (gtk_widget_destroy), NULL);
+
+		g_object_weak_ref (
+			G_OBJECT (assistant), (GWeakNotify)
+			assistant_weak_notify_cb, shell);
+
+		gtk_widget_show (assistant);
+	} else {
+		g_warning ("%s: Cannot %s any of the given URIs", G_STRFUNC, preview ? "preview" : "import");
+	}
+
+	/* like when all of them */
+	return g_strv_length (uris);
 }

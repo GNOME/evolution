@@ -40,10 +40,16 @@
 
 #include <camel/camel-exception.h>
 
+#include "shell/e-shell.h"
+#include "shell/e-shell-window.h"
+#include "shell/e-shell-view.h"
+#include "shell/e-shell-sidebar.h"
+
 #include "mail/e-mail-local.h"
 #include "mail/e-mail-store.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-folder-tree-model.h"
+#include "mail/em-folder-tree.h"
 #include "mail/mail-mt.h"
 
 #include "mail-importer.h"
@@ -74,9 +80,31 @@ static GtkWidget *
 mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
-	const gchar *local_inbox_uri;
+	gchar *select_uri = NULL;
+	EShellWindow *shell_window;
 
-	local_inbox_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX);
+	/* preselect the folder selected in a mail view */
+	shell_window = E_SHELL_WINDOW (e_shell_get_active_window (e_shell_get_default ()));
+	if (shell_window) {
+		const gchar *view = e_shell_window_get_active_view (shell_window);
+
+		if (view && g_str_equal (view, "mail")) {
+			EShellView *shell_view = e_shell_window_get_shell_view (shell_window, view);
+
+			if (shell_view) {
+				EMFolderTree *folder_tree = NULL;
+				EShellSidebar *shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+				g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+				if (folder_tree)
+					select_uri = em_folder_tree_get_selected_uri (folder_tree);
+			}
+		}
+	}
+
+	if (!select_uri)
+		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX));
 
 	hbox = gtk_hbox_new(FALSE, 0);
 
@@ -85,13 +113,16 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	w = em_folder_selection_button_new(
 		_("Select folder"), _("Select folder to import into"));
-	em_folder_selection_button_set_selection((EMFolderSelectionButton *)w, local_inbox_uri);
-	g_signal_connect(w, "selected", G_CALLBACK(folder_selected), target);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
+	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *)target);
+	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
 	w = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start((GtkBox *)w, hbox, FALSE, FALSE, 0);
 	gtk_widget_show_all(w);
+
+	g_free (select_uri);
 
 	return w;
 }
