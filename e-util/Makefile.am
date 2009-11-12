@@ -15,6 +15,7 @@ eutilinclude_HEADERS = 				\
 	e-alert-activity.h			\
 	e-bconf-map.h				\
 	e-binding.h				\
+	e-bit-array.h				\
 	e-categories-config.h			\
 	e-charset.h				\
 	e-config.h				\
@@ -38,10 +39,10 @@ eutilinclude_HEADERS = 				\
 	e-plugin.h				\
 	e-plugin-ui.h				\
 	e-profile-event.h			\
+	e-selection.h				\
 	e-signature.h				\
 	e-signature-list.h			\
 	e-signature-utils.h			\
-	e-bit-array.h				\
 	e-sorter.h				\
 	e-sorter-array.h			\
 	e-text-event-processor-emacs-like.h	\
@@ -88,6 +89,7 @@ libeutil_la_SOURCES =				\
 	e-alert-activity.c			\
 	e-bconf-map.c				\
 	e-binding.c				\
+	e-bit-array.c				\
 	e-categories-config.c			\
 	e-charset.c				\
 	e-config.c				\
@@ -111,10 +113,10 @@ libeutil_la_SOURCES =				\
 	e-plugin.c				\
 	e-print.c				\
 	e-profile-event.c			\
+	e-selection.c				\
 	e-signature.c				\
 	e-signature-list.c			\
 	e-signature-utils.c			\
-	e-bit-array.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\
 	e-text-event-processor-emacs-like.c	\

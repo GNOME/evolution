@@ -33,6 +33,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-error.h>
+#include <e-util/e-selection.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
@@ -45,7 +46,6 @@
 #include "comp-util.h"
 #include "ea-calendar.h"
 #include "e-cal-model-calendar.h"
-#include "e-cal-selection.h"
 #include "e-calendar-view.h"
 #include "itip-utils.h"
 #include "dialogs/comp-editor-util.h"

@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-binding.h"
+#include "e-util/e-selection.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-paned.h"
 
@@ -258,6 +259,7 @@ book_shell_content_check_state (EShellContent *shell_content)
 	ESelectionModel *selection_model;
 	EAddressbookModel *model;
 	EAddressbookView *view;
+	GtkClipboard *clipboard;
 	guint32 state = 0;
 	gint n_contacts;
 	gint n_selected;
@@ -272,6 +274,8 @@ book_shell_content_check_state (EShellContent *shell_content)
 	n_selected = (selection_model != NULL) ?
 		e_selection_model_selected_count (selection_model) : 0;
 
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
 	/* FIXME Finish the rest of the flags. */
 	if (n_selected == 1)
 		state |= E_BOOK_SHELL_CONTENT_SELECTION_SINGLE;
@@ -283,6 +287,8 @@ book_shell_content_check_state (EShellContent *shell_content)
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE;
 	if (n_contacts == 0)
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY;
+	if (e_clipboard_wait_is_directory_available (clipboard))
+		state |= E_BOOK_SHELL_CONTENT_CLIPBOARD_HAS_DIRECTORY;
 
 	return state;
 }

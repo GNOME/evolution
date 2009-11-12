@@ -42,6 +42,7 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <table/e-cell-date.h>
+#include <e-util/e-selection.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <table/e-cell-date-edit.h>
@@ -53,7 +54,6 @@
 #include "dialogs/delete-error.h"
 #include "dialogs/memo-editor.h"
 #include "e-cal-model-memos.h"
-#include "e-cal-selection.h"
 #include "e-memo-table.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"

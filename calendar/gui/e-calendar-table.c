@@ -43,6 +43,7 @@
 #include <table/e-cell-combo.h>
 #include <table/e-cell-date.h>
 #include <e-util/e-binding.h>
+#include <e-util/e-selection.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <table/e-cell-date-edit.h>
@@ -55,7 +56,6 @@
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
 #include "e-cal-model-tasks.h"
-#include "e-cal-selection.h"
 #include "e-calendar-table.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"

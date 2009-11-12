@@ -246,6 +246,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean source_is_busy;
 	gboolean source_is_editable;
 	gboolean source_is_empty;
+	gboolean clipboard_has_directory;
 
 	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -268,6 +269,8 @@ book_shell_view_update_actions (EShellView *shell_view)
 		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE);
 	source_is_empty =
 		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY);
+	clipboard_has_directory =
+		(state & E_BOOK_SHELL_CONTENT_CLIPBOARD_HAS_DIRECTORY);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
@@ -301,7 +304,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_PASTE);
-	sensitive = source_is_editable;
+	sensitive = source_is_editable && clipboard_has_directory;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_COPY);

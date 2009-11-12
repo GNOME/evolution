@@ -20,13 +20,13 @@
  */
 
 /**
- * SECTION: e-cal-selection
- * @short_description: calendar selection utilities
- * @include: calendar/gui/e-cal-selection.h
+ * SECTION: e-selection
+ * @short_description: selection and clipboard utilities
+ * @include: e-util/e-selection.h
  **/
 
-#ifndef E_CAL_SELECTION_H
-#define E_CAL_SELECTION_H
+#ifndef E_SELECTION_H
+#define E_SELECTION_H
 
 #include <gtk/gtk.h>
 
@@ -39,15 +39,29 @@ G_BEGIN_DECLS
 void		e_target_list_add_calendar_targets
 					(GtkTargetList *list,
 					 guint info);
+void		e_target_list_add_directory_targets
+					(GtkTargetList *list,
+					 guint info);
 gboolean	e_selection_data_set_calendar
+					(GtkSelectionData *selection_data,
+					 const gchar *source,
+					 gint length);
+gboolean	e_selection_data_set_directory
 					(GtkSelectionData *selection_data,
 					 const gchar *source,
 					 gint length);
 gchar *		e_selection_data_get_calendar
 					(GtkSelectionData *selection_data);
+gchar *		e_selection_data_get_directory
+					(GtkSelectionData *selection_data);
 gboolean	e_selection_data_targets_include_calendar
 					(GtkSelectionData *selection_data);
+gboolean	e_selection_data_targets_include_directory
+					(GtkSelectionData *selection_data);
 gboolean	e_targets_include_calendar
+					(GdkAtom *targets,
+					 gint n_targets);
+gboolean	e_targets_include_directory
 					(GdkAtom *targets,
 					 gint n_targets);
 
@@ -56,20 +70,27 @@ gboolean	e_targets_include_calendar
 void		e_clipboard_set_calendar(GtkClipboard *clipboard,
 					 const gchar *source,
 					 gint length);
+void		e_clipboard_set_directory
+					(GtkClipboard *clipboard,
+					 const gchar *source,
+					 gint length);
 void		e_clipboard_request_calendar
+					(GtkClipboard *clipboard,
+					 GtkClipboardTextReceivedFunc callback,
+					 gpointer user_data);
+void		e_clipboard_request_directory
 					(GtkClipboard *clipboard,
 					 GtkClipboardTextReceivedFunc callback,
 					 gpointer user_data);
 gchar *		e_clipboard_wait_for_calendar
 					(GtkClipboard *clipboard);
+gchar *		e_clipboard_wait_for_directory
+					(GtkClipboard *clipboard);
 gboolean	e_clipboard_wait_is_calendar_available
 					(GtkClipboard *clipboard);
-
-/* Debugging Functions */
-
-void		e_clipboard_print_targets
+gboolean	e_clipboard_wait_is_directory_available
 					(GtkClipboard *clipboard);
 
 G_END_DECLS
 
-#endif /* E_CAL_SELECTION_H */
+#endif /* E_SELECTION_H */

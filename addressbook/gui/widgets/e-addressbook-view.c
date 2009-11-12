@@ -37,6 +37,7 @@
 #include "ea-addressbook.h"
 
 #include "e-util/e-print.h"
+#include "e-util/e-selection.h"
 #include "e-util/e-util.h"
 #include "libedataserver/e-sexp.h"
 #include <libedataserver/e-categories.h>
@@ -78,15 +79,12 @@ struct _EAddressbookViewPrivate {
 	EAddressbookModel *model;
 	EActivity *activity;
 
-	GList *clipboard_contacts;
 	ESource *source;
 
 	GObject *object;
 	GtkWidget *widget;
 
 	GalViewInstance *view_instance;
-
-	GtkWidget *invisible;
 };
 
 enum {
@@ -116,7 +114,6 @@ static GtkTargetEntry drag_types[] = {
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
-static GdkAtom clipboard_atom = GDK_NONE;
 
 static void
 addressbook_view_emit_open_contact (EAddressbookView *view,
@@ -402,77 +399,6 @@ addressbook_view_display_view_cb (EAddressbookView *view,
 }
 
 static void
-addressbook_view_selection_get_cb (EAddressbookView *view,
-                                   GtkSelectionData *selection_data,
-                                   guint info,
-                                   guint time_stamp)
-{
-	gchar *string;
-
-	string = eab_contact_list_to_string (view->priv->clipboard_contacts);
-
-	gtk_selection_data_set (
-		selection_data, GDK_SELECTION_TYPE_STRING,
-		8, (guchar *) string, strlen (string));
-
-	g_free (string);
-}
-
-static void
-addressbook_view_selection_clear_event_cb (EAddressbookView *view,
-                                           GdkEventSelection *event)
-{
-	GList *list;
-
-	list = view->priv->clipboard_contacts;
-	view->priv->clipboard_contacts = NULL;
-
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
-}
-
-static void
-addressbook_view_selection_received_cb (EAddressbookView *view,
-                                        GtkSelectionData *selection_data,
-                                        guint time)
-{
-	EAddressbookModel *model;
-	GList *list, *iter;
-	EBook *book;
-
-	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
-
-	if (selection_data->length <= 0)
-		return;
-
-	if (selection_data->type != GDK_SELECTION_TYPE_STRING)
-		return;
-
-	if (selection_data->data[selection_data->length - 1] != 0) {
-		gchar *string;
-
-		string = g_malloc0 (selection_data->length + 1);
-		memcpy (string, selection_data->data, selection_data->length);
-		list = eab_contact_list_from_string (string);
-		g_free (string);
-	} else
-		list = eab_contact_list_from_string (
-			(gchar *) selection_data->data);
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		EContact *contact = iter->data;
-
-		/* XXX NULL for a callback /sigh */
-		eab_merging_book_add_contact (
-			book, contact, NULL /* XXX */, NULL);
-	}
-
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
-}
-
-static void
 addressbook_view_set_shell_view (EAddressbookView *view,
                                  EShellView *shell_view)
 {
@@ -575,11 +501,6 @@ addressbook_view_dispose (GObject *object)
 		priv->activity = NULL;
 	}
 
-	if (priv->invisible != NULL) {
-		gtk_widget_destroy (priv->invisible);
-		priv->invisible = NULL;
-	}
-
 	if (priv->source != NULL) {
 		g_object_unref (priv->source);
 		priv->source = NULL;
@@ -589,12 +510,6 @@ addressbook_view_dispose (GObject *object)
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
 	}
-
-	g_list_foreach (
-		priv->clipboard_contacts,
-		(GFunc) g_object_unref, NULL);
-	g_list_free (priv->clipboard_contacts);
-	priv->clipboard_contacts = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -708,9 +623,6 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-	if (clipboard_atom == NULL)
-		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-
 	/* init the accessibility support for e_addressbook_view */
 	eab_view_a11y_init ();
 }
@@ -721,22 +633,6 @@ addressbook_view_init (EAddressbookView *view)
 	view->priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (view);
 
 	view->priv->model = e_addressbook_model_new ();
-
-	view->priv->invisible = gtk_invisible_new ();
-
-	gtk_selection_add_target (
-		view->priv->invisible, clipboard_atom,
-		GDK_SELECTION_TYPE_STRING, 0);
-
-	g_signal_connect_swapped (
-		view->priv->invisible, "selection-get",
-		G_CALLBACK (addressbook_view_selection_get_cb), view);
-	g_signal_connect_swapped (
-		view->priv->invisible, "selection-clear-event",
-		G_CALLBACK (addressbook_view_selection_clear_event_cb), view);
-	g_signal_connect_swapped (
-		view->priv->invisible, "selection-received",
-		G_CALLBACK (addressbook_view_selection_received_cb), view);
 }
 
 GType
@@ -1348,23 +1244,55 @@ e_addressbook_view_cut (EAddressbookView *view)
 void
 e_addressbook_view_copy (EAddressbookView *view)
 {
+	GtkClipboard *clipboard;
+	GList *contact_list;
+	gchar *string;
+
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
-	view->priv->clipboard_contacts = e_addressbook_view_get_selected (view);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	gtk_selection_owner_set (
-		view->priv->invisible,
-		clipboard_atom, GDK_CURRENT_TIME);
+	contact_list = e_addressbook_view_get_selected (view);
+
+	string = eab_contact_list_to_string (contact_list);
+	e_clipboard_set_directory (clipboard, string, -1);
+	g_free (string);
+
+	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+	g_list_free (contact_list);
 }
 
 void
 e_addressbook_view_paste (EAddressbookView *view)
 {
+	EBook *book;
+	EAddressbookModel *model;
+	GtkClipboard *clipboard;
+	GList *contact_list, *iter;
+	gchar *string;
+
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
-	gtk_selection_convert (
-		view->priv->invisible, clipboard_atom,
-		GDK_SELECTION_TYPE_STRING, GDK_CURRENT_TIME);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	if (!e_clipboard_wait_is_directory_available (clipboard))
+		return;
+
+	model = e_addressbook_view_get_model (view);
+	book = e_addressbook_model_get_book (model);
+
+	string = e_clipboard_wait_for_directory (clipboard);
+	contact_list = eab_contact_list_from_string (string);
+	g_free (string);
+
+	for (iter = contact_list; iter != NULL; iter = iter->next) {
+		EContact *contact = iter->data;
+
+		eab_merging_book_add_contact (book, contact, NULL, NULL);
+	}
+
+	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+	g_list_free (contact_list);
 }
 
 void

@@ -18,7 +18,6 @@ ecalendarinclude_HEADERS =			\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
 	e-cal-model.h				\
-	e-cal-selection.h			\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-date-time-list.h                      \
@@ -113,8 +112,6 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-model-memos.h			\
 	e-cal-model-tasks.c			\
 	e-cal-model-tasks.h			\
-	e-cal-selection.c			\
-	e-cal-selection.h			\
 	e-calendar-selector.c			\
 	e-calendar-selector.h			\
 	e-calendar-table.c			\
