@@ -798,7 +798,7 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 	g_free (pdefault);
 }
 
-GtkWidget *
+G_MODULE_EXPORT GtkWidget *
 create_combo_text_widget (void)
 {
 	GtkWidget *widget;
