@@ -45,6 +45,7 @@
 #include "comp-util.h"
 #include "ea-calendar.h"
 #include "e-cal-model-calendar.h"
+#include "e-cal-selection.h"
 #include "e-calendar-view.h"
 #include "itip-utils.h"
 #include "dialogs/comp-editor-util.h"
@@ -96,15 +97,6 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE)
-
-enum TargetType{
-	TARGET_TYPE_VCALENDAR
-};
-
-static GtkTargetEntry target_types[] = {
-	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ (gchar *) "text/calendar",   0, TARGET_TYPE_VCALENDAR }
-};
 
 static void
 calendar_view_set_model (ECalendarView *calendar_view,
@@ -661,34 +653,6 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 }
 
 static void
-clipboard_clear_calendar_cb (GtkClipboard *clipboard,
-			     gpointer data)
-{
-	g_free (data);
-}
-
-static void
-clipboard_get_calendar_cb (GtkClipboard *clipboard,
-			   GtkSelectionData *selection_data,
-			   guint info,
-			   gpointer data)
-{
-	gchar *comp_str = (gchar *) data;
-
-	switch (info) {
-	case TARGET_TYPE_VCALENDAR:
-		gtk_selection_data_set (selection_data,
-					selection_data->target,
-					8,
-					(const guchar *) comp_str,
-					(gint) strlen (comp_str));
-		break;
-	default:
-		break;
-	}
-}
-
-static void
 add_related_timezones (icalcomponent *des_icalcomp, icalcomponent *src_icalcomp, ECal *client)
 {
 	icalproperty_kind look_in[] = {
@@ -778,21 +742,16 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 		icalcomponent_add_component (vcal_comp, new_icalcomp);
 	}
 
-	/* copy the VCALENDAR to the clipboard */
-	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
 	comp_str = icalcomponent_as_ical_string_r (vcal_comp);
 
-	if (!gtk_clipboard_set_with_data (clipboard, target_types, G_N_ELEMENTS (target_types),
-					  clipboard_get_calendar_cb,
-					  clipboard_clear_calendar_cb,
-					  comp_str)) {
-		g_free (comp_str);
-	} else {
-		gtk_clipboard_set_can_store (clipboard, target_types + 1, G_N_ELEMENTS (target_types) - 1);
-	}
+	/* copy the VCALENDAR to the clipboard */
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	e_clipboard_set_calendar (clipboard, comp_str, -1);
+	gtk_clipboard_store (clipboard);
 
 	/* free memory */
 	icalcomponent_free (vcal_comp);
+	g_free (comp_str);
 	g_list_free (selected);
 }
 
@@ -879,39 +838,6 @@ clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
 #endif
 }
 
-static void
-e_calendar_view_paste_text (ECalendarView *cal_view)
-{
-	ECalendarViewClass *class;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
-	g_return_if_fail (class->paste_text != NULL);
-
-	class->paste_text (cal_view);
-}
-
-static void
-clipboard_paste_received_cb (GtkClipboard *clipboard,
-			     GtkSelectionData *selection_data,
-			     gpointer data)
-{
-	if (gtk_clipboard_wait_is_text_available (clipboard)) {
-		e_calendar_view_paste_text (E_CALENDAR_VIEW (data));
-	} else {
-		GdkAtom type = selection_data->type;
-		if (type == gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, TRUE)) {
-			gchar *result = NULL;
-			result = g_strndup ((const gchar *) selection_data->data,
-					    selection_data->length);
-			clipboard_get_calendar_data (E_CALENDAR_VIEW (data), result);
-			g_free (result);
-		}
-	}
-	g_object_unref (data);
-}
-
 void
 e_calendar_view_paste_clipboard (ECalendarView *cal_view)
 {
@@ -919,12 +845,25 @@ e_calendar_view_paste_clipboard (ECalendarView *cal_view)
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
-	g_object_ref (cal_view);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	gtk_clipboard_request_contents (clipboard,
-					gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, FALSE),
-					clipboard_paste_received_cb, cal_view);
+	/* Paste text into an event being edited. */
+	if (gtk_clipboard_wait_is_text_available (clipboard)) {
+		ECalendarViewClass *class;
+
+		class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+		g_return_if_fail (class->paste_text != NULL);
+
+		class->paste_text (cal_view);
+
+	/* Paste iCalendar data into the view. */
+	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
+		gchar *calendar_source;
+
+		calendar_source = e_clipboard_wait_for_calendar (clipboard);
+		clipboard_get_calendar_data (cal_view, calendar_source);
+		g_free (calendar_source);
+	}
 }
 
 static void

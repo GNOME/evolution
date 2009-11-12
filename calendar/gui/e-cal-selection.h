@@ -1,0 +1,75 @@
+/*
+ * e-cal-selection.h
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
+ *
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
+ */
+
+/**
+ * SECTION: e-cal-selection
+ * @short_description: calendar selection utilities
+ * @include: calendar/gui/e-cal-selection.h
+ **/
+
+#ifndef E_CAL_SELECTION_H
+#define E_CAL_SELECTION_H
+
+#include <gtk/gtk.h>
+
+/* This API mimics GTK's API for dealing with text, image and URI data. */
+
+G_BEGIN_DECLS
+
+/* Selection Functions */
+
+void		e_target_list_add_calendar_targets
+					(GtkTargetList *list,
+					 guint info);
+gboolean	e_selection_data_set_calendar
+					(GtkSelectionData *selection_data,
+					 const gchar *source,
+					 gint length);
+gchar *		e_selection_data_get_calendar
+					(GtkSelectionData *selection_data);
+gboolean	e_selection_data_targets_include_calendar
+					(GtkSelectionData *selection_data);
+gboolean	e_targets_include_calendar
+					(GdkAtom *targets,
+					 gint n_targets);
+
+/* Clipboard Functions */
+
+void		e_clipboard_set_calendar(GtkClipboard *clipboard,
+					 const gchar *source,
+					 gint length);
+void		e_clipboard_request_calendar
+					(GtkClipboard *clipboard,
+					 GtkClipboardTextReceivedFunc callback,
+					 gpointer user_data);
+gchar *		e_clipboard_wait_for_calendar
+					(GtkClipboard *clipboard);
+gboolean	e_clipboard_wait_is_calendar_available
+					(GtkClipboard *clipboard);
+
+/* Debugging Functions */
+
+void		e_clipboard_print_targets
+					(GtkClipboard *clipboard);
+
+G_END_DECLS
+
+#endif /* E_CAL_SELECTION_H */

@@ -44,6 +44,7 @@
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-tasks.h"
+#include "calendar/gui/e-cal-selection.h"
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-week-view.h"

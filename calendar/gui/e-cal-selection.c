@@ -1,0 +1,323 @@
+/*
+ * e-cal-selection.c
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
+ *
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
+ */
+
+#include "e-cal-selection.h"
+
+#include <string.h>
+
+typedef struct _RequestCalendarInfo RequestCalendarInfo;
+typedef struct _WaitForDataResults WaitForDataResults;
+
+struct _RequestCalendarInfo {
+	GtkClipboardTextReceivedFunc callback;
+	gpointer user_data;
+};
+
+struct _WaitForDataResults {
+	GMainLoop *loop;
+	gpointer data;
+};
+
+enum {
+	ATOM_CALENDAR,
+	ATOM_X_CALENDAR,
+	ATOM_X_VCALENDAR,
+	NUM_CALENDAR_ATOMS
+};
+
+static GdkAtom calendar_atoms[NUM_CALENDAR_ATOMS];
+
+static void
+init_atoms (void)
+{
+	static gboolean initialized = FALSE;
+
+	if (initialized)
+		return;
+
+	calendar_atoms[ATOM_CALENDAR] =
+		gdk_atom_intern_static_string ("text/calendar");
+
+	calendar_atoms[ATOM_X_CALENDAR] =
+		gdk_atom_intern_static_string ("text/x-calendar");
+
+	calendar_atoms[ATOM_X_VCALENDAR] =
+		gdk_atom_intern_static_string ("text/x-vcalendar");
+
+	initialized = TRUE;
+}
+
+void
+e_target_list_add_calendar_targets (GtkTargetList *list,
+                                    guint info)
+{
+	gint ii;
+
+	g_return_if_fail (list != NULL);
+
+	init_atoms ();
+
+	for (ii = 0; ii < NUM_CALENDAR_ATOMS; ii++)
+		gtk_target_list_add (list, calendar_atoms[ii], 0, info);
+}
+
+gboolean
+e_selection_data_set_calendar (GtkSelectionData *selection_data,
+                               const gchar *source,
+                               gint length)
+{
+	GdkAtom atom;
+	gint ii;
+
+	g_return_val_if_fail (selection_data != NULL, FALSE);
+
+	if (length < 0)
+		length = strlen (source);
+
+	init_atoms ();
+
+	atom = gtk_selection_data_get_target (selection_data);
+
+	/* All calendar atoms are treated the same. */
+	for (ii = 0; ii < NUM_CALENDAR_ATOMS; ii++) {
+		if (atom == calendar_atoms[ii]) {
+			gtk_selection_data_set (
+				selection_data, atom, 8,
+				(guchar *) source, length);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+gchar *
+e_selection_data_get_calendar (GtkSelectionData *selection_data)
+{
+	GdkAtom data_type;
+	const guchar *data = NULL;
+	gint ii;
+
+	/* XXX May need to do encoding and line ending conversions
+	 *     here.  Not worrying about it for now. */
+
+	g_return_val_if_fail (selection_data != NULL, NULL);
+
+	data = gtk_selection_data_get_data (selection_data);
+	data_type = gtk_selection_data_get_data_type (selection_data);
+
+	/* All calendar atoms are treated the same. */
+	for (ii = 0; ii < NUM_CALENDAR_ATOMS; ii++)
+		if (data_type == calendar_atoms[ii])
+			return g_strdup ((gchar *) data);
+
+	return NULL;
+}
+
+gboolean
+e_selection_data_targets_include_calendar (GtkSelectionData *selection_data)
+{
+	GdkAtom *targets;
+	gint n_targets;
+	gboolean result = FALSE;
+
+	g_return_val_if_fail (selection_data != NULL, FALSE);
+
+	if (gtk_selection_data_get_targets (selection_data, &targets, &n_targets)) {
+		result = e_targets_include_calendar (targets, n_targets);
+		g_free (targets);
+	}
+
+	return result;
+}
+
+gboolean
+e_targets_include_calendar (GdkAtom *targets,
+                            gint n_targets)
+{
+	gint ii, jj;
+
+	g_return_val_if_fail (targets != NULL || n_targets == 0, FALSE);
+
+	init_atoms ();
+
+	for (ii = 0; ii < n_targets; ii++)
+		for (jj = 0; jj < NUM_CALENDAR_ATOMS; jj++)
+			if (targets[ii] == calendar_atoms[jj])
+				return TRUE;
+
+	return FALSE;
+}
+
+static void
+clipboard_get_calendar (GtkClipboard *clipboard,
+                        GtkSelectionData *selection_data,
+                        guint info,
+                        gchar *source)
+{
+	e_selection_data_set_calendar (selection_data, source, -1);
+}
+
+static void
+clipboard_clear_calendar (GtkClipboard *clipboard,
+                          gchar *source)
+{
+	g_free (source);
+}
+
+void
+e_clipboard_set_calendar (GtkClipboard *clipboard,
+                          const gchar *source,
+                          gint length)
+{
+	GtkTargetList *list;
+	GtkTargetEntry *targets;
+	gint n_targets;
+
+	g_return_if_fail (clipboard != NULL);
+	g_return_if_fail (source != NULL);
+
+	list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (list, 0);
+
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	if (length < 0)
+		length = strlen (source);
+
+	gtk_clipboard_set_with_data (
+		clipboard, targets, n_targets,
+		(GtkClipboardGetFunc) clipboard_get_calendar,
+		(GtkClipboardClearFunc) clipboard_clear_calendar,
+		g_strndup (source, length));
+
+	gtk_clipboard_set_can_store (clipboard, NULL, 0);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
+}
+
+static void
+clipboard_request_calendar_cb (GtkClipboard *clipboard,
+                               GtkSelectionData *selection_data,
+                               RequestCalendarInfo *info)
+{
+	gchar *source;
+
+	source = e_selection_data_get_calendar (selection_data);
+	info->callback (clipboard, source, info->user_data);
+	g_free (source);
+
+	g_slice_free (RequestCalendarInfo, info);
+}
+
+void
+e_clipboard_request_calendar (GtkClipboard *clipboard,
+                              GtkClipboardTextReceivedFunc callback,
+                              gpointer user_data)
+{
+	RequestCalendarInfo *info;
+
+	g_return_if_fail (clipboard != NULL);
+	g_return_if_fail (callback != NULL);
+
+	info = g_slice_new (RequestCalendarInfo);
+	info->callback = callback;
+	info->user_data = user_data;
+
+	gtk_clipboard_request_contents (
+		clipboard, calendar_atoms[ATOM_CALENDAR],
+		(GtkClipboardReceivedFunc)
+		clipboard_request_calendar_cb, info);
+}
+
+static void
+clipboard_wait_for_calendar_cb (GtkClipboard *clipboard,
+                                const gchar *source,
+                                WaitForDataResults *results)
+{
+	results->data = g_strdup (source);
+	g_main_loop_quit (results->loop);
+}
+
+gchar *
+e_clipboard_wait_for_calendar (GtkClipboard *clipboard)
+{
+	WaitForDataResults results;
+
+	g_return_val_if_fail (clipboard != NULL, NULL);
+
+	results.data = NULL;
+	results.loop = g_main_loop_new (NULL, TRUE);
+
+	e_clipboard_request_calendar (
+		clipboard, (GtkClipboardTextReceivedFunc)
+		clipboard_wait_for_calendar_cb, &results);
+
+	if (g_main_loop_is_running (results.loop)) {
+		GDK_THREADS_LEAVE ();
+		g_main_loop_run (results.loop);
+		GDK_THREADS_ENTER ();
+	}
+
+	g_main_loop_unref (results.loop);
+
+	return results.data;
+}
+
+gboolean
+e_clipboard_wait_is_calendar_available (GtkClipboard *clipboard)
+{
+	GdkAtom *targets;
+	gint n_targets;
+	gboolean result = FALSE;
+
+	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
+		result = e_targets_include_calendar (targets, n_targets);
+		g_free (targets);
+	}
+
+	return result;
+}
+
+void
+e_clipboard_print_targets (GtkClipboard *clipboard)
+{
+	GdkAtom *targets;
+	gchar *target_name;
+	gint n_targets, ii;
+
+	g_return_if_fail (clipboard != NULL);
+
+	gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets);
+
+	g_print ("Clipboard Targets:\n");
+
+	if (n_targets == 0)
+		g_print ("  (none)\n");
+	else for (ii = 0; ii < n_targets; ii++) {
+		target_name = gdk_atom_name (targets[ii]);
+		g_print ("  %s\n", target_name);
+		g_free (target_name);
+	}
+
+	g_free (targets);
+}

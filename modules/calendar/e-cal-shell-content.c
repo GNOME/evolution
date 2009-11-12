@@ -160,51 +160,51 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	task_table = E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
 
 	table = e_memo_table_get_table (memo_table);
-	if (GTK_WIDGET_HAS_FOCUS (table->table_canvas))
+	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
 		return FOCUS_MEMO_TABLE;
 
 	table = e_calendar_table_get_table (task_table);
-	if (GTK_WIDGET_HAS_FOCUS (table->table_canvas))
+	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
 		return FOCUS_TASK_TABLE;
 
 	if (E_IS_DAY_VIEW (calendar_view)) {
 		EDayView *day_view = E_DAY_VIEW (calendar_view);
 
-		if (GTK_WIDGET_HAS_FOCUS (day_view->top_canvas))
+		if (gtk_widget_is_focus (day_view->top_canvas))
 			return FOCUS_CALENDAR;
 
 		if (GNOME_CANVAS (day_view->top_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
-		if (GTK_WIDGET_HAS_FOCUS (day_view->main_canvas))
+		if (gtk_widget_is_focus (day_view->main_canvas))
 			return FOCUS_CALENDAR;
 
 		if (GNOME_CANVAS (day_view->main_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
-		if (GTK_WIDGET_HAS_FOCUS (day_view))
+		if (gtk_widget_is_focus (GTK_WIDGET (day_view)))
 			return FOCUS_CALENDAR;
 
 	} else if (E_IS_WEEK_VIEW (calendar_view)) {
 		EWeekView *week_view = E_WEEK_VIEW (calendar_view);
 
-		if (GTK_WIDGET_HAS_FOCUS (week_view->main_canvas))
+		if (gtk_widget_is_focus (week_view->main_canvas))
 			return FOCUS_CALENDAR;
 
 		if (GNOME_CANVAS (week_view->main_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
-		if (GTK_WIDGET_HAS_FOCUS (week_view))
+		if (gtk_widget_is_focus (GTK_WIDGET (week_view)))
 			return FOCUS_CALENDAR;
 
 	} else if (E_IS_CAL_LIST_VIEW (calendar_view)) {
 		ECalListView *list_view = E_CAL_LIST_VIEW (calendar_view);
 
 		table = e_table_scrolled_get_table (list_view->table_scrolled);
-		if (GTK_WIDGET_HAS_FOCUS (table))
+		if (gtk_widget_is_focus (GTK_WIDGET (table)))
 			return FOCUS_CALENDAR;
 
-		if (GTK_WIDGET_HAS_FOCUS (list_view))
+		if (gtk_widget_is_focus (GTK_WIDGET (list_view)))
 			return FOCUS_CALENDAR;
 	}
 

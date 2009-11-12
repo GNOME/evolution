@@ -284,6 +284,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean sensitive;
 	gboolean is_meeting = FALSE;
 	gboolean is_delegatable = FALSE;
+	gboolean clipboard_has_calendar;
 	gint n_selected;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
@@ -356,6 +357,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		uri = e_source_peek_relative_uri (source);
 	user_created_source = (uri != NULL && strcmp (uri, "system") != 0);
 
+	clipboard_has_calendar =
+		e_clipboard_wait_is_calendar_available (
+		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+
 	action = ACTION (CALENDAR_COPY);
 	sensitive = (source != NULL);
 	gtk_action_set_sensitive (action, sensitive);
@@ -381,7 +386,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_CLIPBOARD_PASTE);
-	sensitive = editable;
+	sensitive = editable && clipboard_has_calendar;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELEGATE);

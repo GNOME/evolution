@@ -53,6 +53,7 @@
 #include "dialogs/delete-error.h"
 #include "dialogs/memo-editor.h"
 #include "e-cal-model-memos.h"
+#include "e-cal-selection.h"
 #include "e-memo-table.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
@@ -83,20 +84,10 @@ enum {
 	LAST_SIGNAL
 };
 
-enum {
-	TARGET_TYPE_VCALENDAR
-};
-
-static GtkTargetEntry target_types[] = {
-	{ (gchar *) "text/calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
-};
-
 static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
-static GdkAtom clipboard_atom;
 
 /* The icons to represent the task. */
 #define NUM_ICONS 2
@@ -721,8 +712,6 @@ memo_table_class_init (EMemoTableClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 static void
@@ -992,26 +981,6 @@ e_memo_table_cut_clipboard (EMemoTable *memo_table)
 	delete_selected_components (memo_table);
 }
 
-static void
-clipboard_get_calendar_cb (GtkClipboard *clipboard,
-			   GtkSelectionData *selection_data,
-			   guint info,
-			   gpointer data)
-{
-	gchar *comp_str = (gchar *) data;
-
-	switch (info) {
-	case TARGET_TYPE_VCALENDAR:
-		gtk_selection_data_set (selection_data,
-					gdk_atom_intern (target_types[info].target, FALSE), 8,
-					(const guchar *) comp_str,
-					(gint) strlen (comp_str));
-		break;
-	default:
-		break;
-	}
-}
-
 /* callback for e_table_selected_row_foreach */
 static void
 copy_row_cb (gint model_row, gpointer data)
@@ -1066,16 +1035,10 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 	etable = e_memo_table_get_table (memo_table);
 	e_table_selected_row_foreach (etable, copy_row_cb, memo_table);
 	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
-	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (memo_table), clipboard_atom);
-	if (!gtk_clipboard_set_with_data (
-		clipboard, target_types, G_N_ELEMENTS (target_types),
-		clipboard_get_calendar_cb, NULL, comp_str)) {
-		/* no-op */
-	} else {
-		gtk_clipboard_set_can_store (
-			clipboard, target_types + 1,
-			G_N_ELEMENTS (target_types) - 1);
-	}
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	e_clipboard_set_calendar (clipboard, comp_str, -1);
+	gtk_clipboard_store (clipboard);
 
 	/* free memory */
 	icalcomponent_free (memo_table->tmp_vcal);
@@ -1164,37 +1127,6 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
 
-static void
-clipboard_paste_received_cb (GtkClipboard *clipboard,
-			     GtkSelectionData *selection_data,
-			     gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ETable *e_table = e_memo_table_get_table (memo_table);
-	GnomeCanvas *canvas = e_table->table_canvas;
-	GnomeCanvasItem *item = GNOME_CANVAS (canvas)->focused_item;
-
-	if (gtk_clipboard_wait_is_text_available (clipboard) &&
-	    GTK_WIDGET_HAS_FOCUS (canvas) &&
-	    E_IS_TABLE_ITEM (item) &&
-	    E_TABLE_ITEM (item)->editing_col >= 0 &&
-	    E_TABLE_ITEM (item)->editing_row >= 0) {
-		ETableItem *eti = E_TABLE_ITEM (item);
-		ECellView *cell_view = eti->cell_views[eti->editing_col];
-		e_cell_text_paste_clipboard (cell_view, eti->editing_col, eti->editing_row);
-	} else {
-		GdkAtom type = selection_data->type;
-		if (type == gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, TRUE)) {
-			gchar *result = NULL;
-			result = g_strndup ((const gchar *) selection_data->data,
-					    selection_data->length);
-			clipboard_get_calendar_data (memo_table, result);
-			g_free (result);
-		}
-	}
-	g_object_unref (memo_table);
-}
-
 /**
  * e_memo_table_paste_clipboard:
  * @memo_table: A calendar table.
@@ -1205,15 +1137,38 @@ void
 e_memo_table_paste_clipboard (EMemoTable *memo_table)
 {
 	GtkClipboard *clipboard;
+	GnomeCanvasItem *item;
+	ETable *etable;
 
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
-	clipboard = gtk_widget_get_clipboard (
-		GTK_WIDGET (memo_table), clipboard_atom);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	gtk_clipboard_request_contents (
-		clipboard, gdk_atom_intern (target_types[0].target, FALSE),
-		clipboard_paste_received_cb, g_object_ref (memo_table));
+	etable = e_memo_table_get_table (memo_table);
+	item = GNOME_CANVAS (etable->table_canvas)->focused_item;
+
+	/* Paste text into a cell being edited. */
+	if (gtk_clipboard_wait_is_text_available (clipboard) &&
+		GTK_WIDGET_HAS_FOCUS (etable->table_canvas) &&
+		E_IS_TABLE_ITEM (item) &&
+		E_TABLE_ITEM (item)->editing_col >= 0 &&
+		E_TABLE_ITEM (item)->editing_row >= 0) {
+
+		ETableItem *etable_item = E_TABLE_ITEM (item);
+
+		e_cell_text_paste_clipboard (
+			etable_item->cell_views[etable_item->editing_col],
+			etable_item->editing_col,
+			etable_item->editing_row);
+
+	/* Paste iCalendar data into the table. */
+	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
+		gchar *calendar_source;
+
+		calendar_source = e_clipboard_wait_for_calendar (clipboard);
+		clipboard_get_calendar_data (memo_table, calendar_source);
+		g_free (calendar_source);
+	}
 }
 
 /* Loads the state of the table (headers shown etc.) from the given file. */
