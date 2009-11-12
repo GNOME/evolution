@@ -79,14 +79,18 @@ folder_selected(EMFolderSelectionButton *button, EImportTargetURI *target)
 static GtkWidget *
 mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	GtkWindow *window;
 	GtkWidget *hbox, *w;
 	gchar *select_uri = NULL;
-	EShellWindow *shell_window;
 
 	/* preselect the folder selected in a mail view */
-	shell_window = E_SHELL_WINDOW (e_shell_get_active_window (e_shell_get_default ()));
-	if (shell_window) {
-		const gchar *view = e_shell_window_get_active_view (shell_window);
+	window = e_shell_get_active_window (e_shell_get_default ());
+	if (E_IS_SHELL_WINDOW (window)) {
+		EShellWindow *shell_window;
+		const gchar *view;
+
+		shell_window = E_SHELL_WINDOW (window);
+		view = e_shell_window_get_active_view (shell_window);
 
 		if (view && g_str_equal (view, "mail")) {
 			EShellView *shell_view = e_shell_window_get_shell_view (shell_window, view);

@@ -183,14 +183,6 @@ exit:
 	return chosen_file;
 }
 
-static void
-assistant_weak_notify_cb (EShell *shell, GObject *where_the_object_was)
-{
-	/* close the application if the import assistant was the only window here */
-	if (e_shell_get_watched_windows (shell) == NULL)
-		gtk_main_quit ();
-}
-
 /**
  * e_shell_utils_import_uris:
  * @shell: The #EShell instance
@@ -228,9 +220,7 @@ e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
 			assistant, "finished",
 			G_CALLBACK (gtk_widget_destroy), NULL);
 
-		g_object_weak_ref (
-			G_OBJECT (assistant), (GWeakNotify)
-			assistant_weak_notify_cb, shell);
+		e_shell_watch_window (shell, GTK_WINDOW (assistant));
 
 		gtk_widget_show (assistant);
 	} else {

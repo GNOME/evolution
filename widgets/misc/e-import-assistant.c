@@ -1144,7 +1144,7 @@ import_assistant_class_init (EImportAssistantClass *class)
 			"is-simple",
 			NULL,
 			NULL,
-			TRUE,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -1332,7 +1332,9 @@ e_import_assistant_new (GtkWindow *parent)
  * Returns: EImportAssistant widget.
  */
 GtkWidget *
-e_import_assistant_new_simple (GtkWindow *parent, gchar **uris, gboolean preview)
+e_import_assistant_new_simple (GtkWindow *parent,
+                               gchar **uris,
+                               gboolean preview)
 {
 	GtkWidget *assistant;
 
