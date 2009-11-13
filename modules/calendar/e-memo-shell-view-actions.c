@@ -682,13 +682,6 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_open_url_cb) },
 
-	{ "memo-save-as",
-	  GTK_STOCK_SAVE_AS,
-	  N_("_Save as iCalendar..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_save_as_cb) },
-
 	/*** Menus ***/
 
 	{ "memo-preview-menu",
@@ -747,11 +740,7 @@ static EPopupActionEntry memo_popup_entries[] = {
 
 	{ "memo-popup-open-url",
 	  NULL,
-	  "memo-open-url" },
-
-	{ "memo-popup-save-as",
-	  NULL,
-	  "memo-save-as" }
+	  "memo-open-url" }
 };
 
 static GtkToggleActionEntry memo_toggle_entries[] = {
@@ -864,11 +853,30 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 	  "memo-print" }
 };
 
+static GtkActionEntry lockdown_save_to_disk_entries[] = {
+
+	{ "memo-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  N_("_Save as iCalendar..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_save_as_cb) },
+};
+
+static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
+
+	{ "memo-popup-save-as",
+	  NULL,
+	  "memo-save-as" }
+};
+
 void
 e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EMemoShellContent *memo_shell_content;
+	ECalComponentPreview *memo_preview;
 	GtkActionGroup *action_group;
 	GConfBridge *bridge;
 	GtkAction *action;
@@ -877,6 +885,9 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
 	/* Memo Actions */
 	action_group = ACTION_GROUP (MEMOS);
@@ -903,10 +914,21 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
 	gtk_action_group_add_actions (
 		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries), memo_shell_view);
+		G_N_ELEMENTS (lockdown_printing_entries),
+		memo_shell_view);
 	e_action_group_add_popup_actions (
 		action_group, lockdown_printing_popup_entries,
 		G_N_ELEMENTS (lockdown_printing_popup_entries));
+
+	/* Lockdown Save-to-Disk Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
+	gtk_action_group_add_actions (
+		action_group, lockdown_save_to_disk_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_entries),
+		memo_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_save_to_disk_popup_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -936,6 +958,15 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	e_binding_new (
 		ACTION (MEMO_PREVIEW), "active",
 		ACTION (MEMO_VIEW_VERTICAL), "sensitive");
+
+	e_web_view_set_open_proxy (
+		E_WEB_VIEW (memo_preview), ACTION (MEMO_OPEN));
+
+	e_web_view_set_print_proxy (
+		E_WEB_VIEW (memo_preview), ACTION (MEMO_PRINT));
+
+	e_web_view_set_save_as_proxy (
+		E_WEB_VIEW (memo_preview), ACTION (MEMO_SAVE_AS));
 }
 
 void

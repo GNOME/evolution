@@ -93,6 +93,9 @@ EAddressbookView *
 void		e_book_shell_content_set_current_view
 					(EBookShellContent *book_shell_content,
 					 EAddressbookView *addressbook_view);
+EABContactDisplay *
+		e_book_shell_content_get_preview
+					(EBookShellContent *book_shell_content);
 EContact *	e_book_shell_content_get_preview_contact
 					(EBookShellContent *book_shell_content);
 void		e_book_shell_content_set_preview_contact

@@ -25,6 +25,7 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
+#include "shell/e-shell-utils.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/misc/e-paned.h"
 
@@ -425,9 +426,7 @@ task_shell_content_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
-		object, "orientation",
-		widget, "orientation");
+	e_binding_new (object, "orientation", widget, "orientation");
 
 	container = widget;
 
@@ -445,15 +444,14 @@ task_shell_content_constructed (GObject *object)
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
-	e_binding_new (
-		object, "preview-visible",
-		widget, "visible");
+	e_binding_new (object, "preview-visible", widget, "visible");
 
 	container = widget;
 
 	widget = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (
 		E_CAL_COMPONENT_PREVIEW (widget), timezone);
+	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_preview = g_object_ref (widget);
 	gtk_widget_show (widget);

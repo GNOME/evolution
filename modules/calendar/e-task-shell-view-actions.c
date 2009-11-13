@@ -829,13 +829,6 @@ static GtkActionEntry task_entries[] = {
 	  N_("Delete completed tasks"),
 	  G_CALLBACK (action_task_purge_cb) },
 
-	{ "task-save-as",
-	  GTK_STOCK_SAVE_AS,
-	  N_("_Save as iCalendar..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_save_as_cb) },
-
 	/*** Menus ***/
 
 	{ "task-actions-menu",
@@ -913,11 +906,7 @@ static EPopupActionEntry task_popup_entries[] = {
 
 	{ "task-popup-open-url",
 	  NULL,
-	  "task-open-url" },
-
-	{ "task-popup-save-as",
-	  NULL,
-	  "task-save-as" },
+	  "task-open-url" }
 };
 
 static GtkToggleActionEntry task_toggle_entries[] = {
@@ -1065,11 +1054,30 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 	  "task-print" }
 };
 
+static GtkActionEntry lockdown_save_to_disk_entries[] = {
+
+	{ "task-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  N_("_Save as iCalendar..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_save_as_cb) }
+};
+
+static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
+
+	{ "task-popup-save-as",
+	  NULL,
+	  "task-save-as" },
+};
+
 void
 e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	ETaskShellContent *task_shell_content;
+	ECalComponentPreview *task_preview;
 	GtkActionGroup *action_group;
 	GConfBridge *bridge;
 	GtkAction *action;
@@ -1078,6 +1086,9 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	/* Task Actions */
 	action_group = ACTION_GROUP (TASKS);
@@ -1104,10 +1115,21 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
 	gtk_action_group_add_actions (
 		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries), task_shell_view);
+		G_N_ELEMENTS (lockdown_printing_entries),
+		task_shell_view);
 	e_action_group_add_popup_actions (
 		action_group, lockdown_printing_popup_entries,
 		G_N_ELEMENTS (lockdown_printing_popup_entries));
+
+	/* Lockdown Save-to-Disk Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
+	gtk_action_group_add_actions (
+		action_group, lockdown_save_to_disk_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_entries),
+		task_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_save_to_disk_popup_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -1137,6 +1159,15 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	e_binding_new (
 		ACTION (TASK_PREVIEW), "active",
 		ACTION (TASK_VIEW_VERTICAL), "sensitive");
+
+	e_web_view_set_open_proxy (
+		E_WEB_VIEW (task_preview), ACTION (TASK_OPEN));
+
+	e_web_view_set_print_proxy (
+		E_WEB_VIEW (task_preview), ACTION (TASK_PRINT));
+
+	e_web_view_set_save_as_proxy (
+		E_WEB_VIEW (task_preview), ACTION (TASK_SAVE_AS));
 }
 
 void

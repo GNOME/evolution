@@ -29,8 +29,12 @@
 #define E_SHELL_UTILS_H
 
 #include <shell/e-shell.h>
+#include <misc/e-web-view.h>
 
 G_BEGIN_DECLS
+
+void		e_shell_configure_web_view	(EShell *shell,
+						 EWebView *web_view);
 
 GFile *		e_shell_run_open_dialog		(EShell *shell,
 						 const gchar *title,

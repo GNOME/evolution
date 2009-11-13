@@ -830,17 +830,10 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "contact-open",
 	  NULL,
-	  N_("_Open"),
+	  N_("_Open Contact"),
 	  "<Control>o",
 	  N_("View the current contact"),
 	  G_CALLBACK (action_contact_open_cb) },
-
-	{ "contact-save-as",
-	  GTK_STOCK_SAVE_AS,
-	  N_("Save as vCard..."),
-	  NULL,
-	  N_("Save selected contacts as a vCard"),
-	  G_CALLBACK (action_contact_save_as_cb) },
 
 	{ "contact-select-all",
 	  GTK_STOCK_SELECT_ALL,
@@ -922,10 +915,6 @@ static EPopupActionEntry contact_popup_entries[] = {
 	{ "contact-popup-open",
 	  NULL,
 	  "contact-open" },
-
-	{ "contact-popup-save-as",
-	  NULL,
-	  "contact-save-as" },
 
 	{ "contact-popup-send-message",
 	  NULL,
@@ -1035,11 +1024,30 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 	  "contact-print" }
 };
 
+static GtkActionEntry lockdown_save_to_disk_entries[] = {
+
+	{ "contact-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  N_("Save as vCard..."),
+	  NULL,
+	  N_("Save selected contacts as a vCard"),
+	  G_CALLBACK (action_contact_save_as_cb) }
+};
+
+static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
+
+	{ "contact-popup-save-as",
+	  NULL,
+	  "contact-save-as" }
+};
+
 void
 e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EBookShellContent *book_shell_content;
+	EABContactDisplay *contact_preview;
 	GtkActionGroup *action_group;
 	GConfBridge *bridge;
 	GtkAction *action;
@@ -1048,6 +1056,9 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	contact_preview = e_book_shell_content_get_preview (book_shell_content);
 
 	/* Contact Actions */
 	action_group = ACTION_GROUP (CONTACTS);
@@ -1074,10 +1085,21 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
 	gtk_action_group_add_actions (
 		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries), book_shell_view);
+		G_N_ELEMENTS (lockdown_printing_entries),
+		book_shell_view);
 	e_action_group_add_popup_actions (
 		action_group, lockdown_printing_popup_entries,
 		G_N_ELEMENTS (lockdown_printing_popup_entries));
+
+	/* Lockdown Save-to-Disk Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
+	gtk_action_group_add_actions (
+		action_group, lockdown_save_to_disk_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_entries),
+		book_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_save_to_disk_popup_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -1107,6 +1129,15 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	e_binding_new (
 		ACTION (CONTACT_PREVIEW), "active",
 		ACTION (CONTACT_VIEW_VERTICAL), "sensitive");
+
+	e_web_view_set_open_proxy (
+		E_WEB_VIEW (contact_preview), ACTION (CONTACT_OPEN));
+
+	e_web_view_set_print_proxy (
+		E_WEB_VIEW (contact_preview), ACTION (CONTACT_PRINT));
+
+	e_web_view_set_save_as_proxy (
+		E_WEB_VIEW (contact_preview), ACTION (CONTACT_SAVE_AS));
 }
 
 void

@@ -65,11 +65,10 @@
     <menuitem action='address-book-popup-properties'/>
   </popup>
   <popup name='contact-popup'>
-    <menuitem action='contact-popup-open'/>
-    <separator/>
     <menuitem action='contact-new'/>
     <menuitem action='contact-new-list'/>
     <separator/>
+    <menuitem action='contact-popup-open'/>
     <menuitem action='contact-popup-save-as'/>
     <menuitem action='contact-popup-forward'/>
     <menuitem action='contact-popup-send-message'/>

@@ -355,7 +355,9 @@ update_actions_cb (EShellView *shell_view, gpointer user_data)
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
 	gchar *folder_uri;
-	gboolean has_unread = FALSE, applicable = FALSE;
+	gboolean has_unread = FALSE;
+	gboolean applicable = FALSE;
+	gboolean visible;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
@@ -368,13 +370,20 @@ update_actions_cb (EShellView *shell_view, gpointer user_data)
 
 		model = em_folder_tree_model_get_default ();
 		if (model) {
-			GtkTreeRowReference *reference = em_folder_tree_model_lookup_uri (model, folder_uri);
+			GtkTreeRowReference *reference;
+
+			reference = em_folder_tree_model_lookup_uri (
+				model, folder_uri);
 			if (reference != NULL) {
-				GtkTreePath *path = gtk_tree_row_reference_get_path (reference);
+				GtkTreePath *path;
 				GtkTreeIter iter;
 
-				gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-				has_unread_mail (GTK_TREE_MODEL (model), &iter, TRUE, &has_unread, &applicable);
+				path = gtk_tree_row_reference_get_path (reference);
+				gtk_tree_model_get_iter (
+					GTK_TREE_MODEL (model), &iter, path);
+				has_unread_mail (
+					GTK_TREE_MODEL (model), &iter,
+					TRUE, &has_unread, &applicable);
 				gtk_tree_path_free (path);
 			}
 		}
@@ -386,7 +395,8 @@ update_actions_cb (EShellView *shell_view, gpointer user_data)
 	action = gtk_action_group_get_action (action_group, entries[0].name);
 	g_return_if_fail (action != NULL);
 
-	gtk_action_set_sensitive (action, has_unread && applicable);
+	visible = has_unread && applicable;
+	gtk_action_set_visible (action, visible);
 
 	g_free (folder_uri);
 	g_object_unref (folder_tree);
@@ -407,7 +417,9 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 		action_group, entries,
 		G_N_ELEMENTS (entries), shell_view);
 
-	g_signal_connect (shell_view, "update-actions", G_CALLBACK (update_actions_cb), NULL);
+	g_signal_connect (
+		shell_view, "update-actions",
+		G_CALLBACK (update_actions_cb), NULL);
 
 	return TRUE;
 }

@@ -29,7 +29,10 @@
 #include <camel/camel-url.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-binding.h"
 #include "e-util/e-plugin-ui.h"
+
+#include "e-popup-action.h"
 
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,6 +44,14 @@ struct _EWebViewPrivate {
 	GList *requests;
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
+
+	GtkAction *open_proxy;
+	GtkAction *print_proxy;
+	GtkAction *save_as_proxy;
+
+	/* Lockdown Options */
+	guint disable_printing     : 1;
+	guint disable_save_to_disk : 1;
 };
 
 struct _EWebViewRequest {
@@ -56,6 +67,11 @@ enum {
 	PROP_0,
 	PROP_ANIMATE,
 	PROP_CARET_MODE,
+	PROP_DISABLE_PRINTING,
+	PROP_DISABLE_SAVE_TO_DISK,
+	PROP_OPEN_PROXY,
+	PROP_PRINT_PROXY,
+	PROP_SAVE_AS_PROXY,
 	PROP_SELECTED_URI
 };
 
@@ -73,15 +89,22 @@ static guint signals[LAST_SIGNAL];
 static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
+"    <menuitem action='clipboard-copy'/>"
+"    <separator/>"
 "    <placeholder name='custom-actions-1'>"
+"      <menuitem action='open'/>"
+"      <menuitem action='save-as'/>"
 "      <menuitem action='http-open'/>"
 "      <menuitem action='send-message'/>"
+"      <menuitem action='print'/>"
 "    </placeholder>"
 "    <placeholder name='custom-actions-2'>"
 "      <menuitem action='uri-copy'/>"
 "      <menuitem action='mailto-copy'/>"
 "    </placeholder>"
 "    <placeholder name='custom-actions-3'/>"
+"    <separator/>"
+"    <menuitem action='select-all'/>"
 "  </popup>"
 "</ui>";
 
@@ -217,6 +240,13 @@ web_view_request_read_cb (GFile *file,
 }
 
 static void
+action_clipboard_copy_cb (GtkAction *action,
+                          EWebView *web_view)
+{
+	e_web_view_clipboard_copy (web_view);
+}
+
+static void
 action_http_open_cb (GtkAction *action,
                      EWebView *web_view)
 {
@@ -263,6 +293,13 @@ action_mailto_copy_cb (GtkAction *action,
 	gtk_clipboard_store (clipboard);
 
 	g_free (text);
+}
+
+static void
+action_select_all_cb (GtkAction *action,
+                      EWebView *web_view)
+{
+	e_web_view_select_all (web_view);
 }
 
 static void
@@ -331,6 +368,26 @@ static GtkActionEntry mailto_entries[] = {
 	  NULL,
 	  N_("Send a mail message to this address"),
 	  G_CALLBACK (action_send_message_cb) }
+};
+
+static GtkActionEntry selection_entries[] = {
+
+	{ "clipboard-copy",
+	  GTK_STOCK_COPY,
+	  NULL,
+	  NULL,
+	  N_("Copy the selection to the clipboard"),
+	  G_CALLBACK (action_clipboard_copy_cb) },
+};
+
+static GtkActionEntry standard_entries[] = {
+
+	{ "select-all",
+	  GTK_STOCK_SELECT_ALL,
+	  NULL,
+	  NULL,
+	  N_("Select all text and images"),
+	  G_CALLBACK (action_select_all_cb) }
 };
 
 static gboolean
@@ -420,6 +477,36 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_DISABLE_PRINTING:
+			e_web_view_set_disable_printing (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_DISABLE_SAVE_TO_DISK:
+			e_web_view_set_disable_save_to_disk (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_OPEN_PROXY:
+			e_web_view_set_open_proxy (
+				E_WEB_VIEW (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_PRINT_PROXY:
+			e_web_view_set_print_proxy (
+				E_WEB_VIEW (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SAVE_AS_PROXY:
+			e_web_view_set_save_as_proxy (
+				E_WEB_VIEW (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SELECTED_URI:
 			e_web_view_set_selected_uri (
 				E_WEB_VIEW (object),
@@ -449,6 +536,36 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
+		case PROP_DISABLE_PRINTING:
+			g_value_set_boolean (
+				value, e_web_view_get_disable_printing (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_DISABLE_SAVE_TO_DISK:
+			g_value_set_boolean (
+				value, e_web_view_get_disable_save_to_disk (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_OPEN_PROXY:
+			g_value_set_object (
+				value, e_web_view_get_open_proxy (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_PRINT_PROXY:
+			g_value_set_object (
+				value, e_web_view_get_print_proxy (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_SAVE_AS_PROXY:
+			g_value_set_object (
+				value, e_web_view_get_save_as_proxy (
+				E_WEB_VIEW (object)));
+			return;
+
 		case PROP_SELECTED_URI:
 			g_value_set_string (
 				value, e_web_view_get_selected_uri (
@@ -469,6 +586,21 @@ web_view_dispose (GObject *object)
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
 		priv->ui_manager = NULL;
+	}
+
+	if (priv->open_proxy != NULL) {
+		g_object_unref (priv->open_proxy);
+		priv->open_proxy = NULL;
+	}
+
+	if (priv->print_proxy != NULL) {
+		g_object_unref (priv->print_proxy);
+		priv->print_proxy = NULL;
+	}
+
+	if (priv->save_as_proxy != NULL) {
+		g_object_unref (priv->save_as_proxy);
+		priv->save_as_proxy = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -639,8 +771,8 @@ web_view_popup_event (EWebView *web_view,
                       GdkEventButton *event,
                       const gchar *uri)
 {
-	if (uri == NULL)
-		return FALSE;
+	if (uri != NULL)
+		e_web_view_unselect_all (web_view);
 
 	e_web_view_set_selected_uri (web_view, uri);
 	e_web_view_show_popup_menu (web_view, event, NULL, NULL);
@@ -661,40 +793,68 @@ web_view_stop_loading (EWebView *web_view)
 static void
 web_view_update_actions (EWebView *web_view)
 {
-	CamelURL *curl;
 	GtkActionGroup *action_group;
-	gboolean scheme_is_http;
-	gboolean scheme_is_mailto;
-	gboolean uri_is_valid;
+	gboolean have_selection;
+	gboolean scheme_is_http = FALSE;
+	gboolean scheme_is_mailto = FALSE;
+	gboolean uri_is_valid = FALSE;
 	gboolean visible;
+	const gchar *group_name;
 	const gchar *uri;
 
 	uri = e_web_view_get_selected_uri (web_view);
-	g_return_if_fail (uri != NULL);
+	have_selection = e_web_view_is_selection_active (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
-	curl = camel_url_new (uri, NULL);
-	uri_is_valid = (curl != NULL);
-	camel_url_free (curl);
+	if (uri != NULL) {
+		CamelURL *curl;
 
-	scheme_is_http =
-		(g_ascii_strncasecmp (uri, "http:", 5) == 0) ||
-		(g_ascii_strncasecmp (uri, "https:", 6) == 0);
+		curl = camel_url_new (uri, NULL);
+		uri_is_valid = (curl != NULL);
+		camel_url_free (curl);
 
-	scheme_is_mailto =
-		(g_ascii_strncasecmp (uri, "mailto:", 7) == 0);
+		scheme_is_http =
+			(g_ascii_strncasecmp (uri, "http:", 5) == 0) ||
+			(g_ascii_strncasecmp (uri, "https:", 6) == 0);
+
+		scheme_is_mailto =
+			(g_ascii_strncasecmp (uri, "mailto:", 7) == 0);
+	}
 
 	/* Allow copying the URI even if it's malformed. */
-	visible = !scheme_is_mailto;
-	action_group = e_web_view_get_action_group (web_view, "uri");
+	group_name = "uri";
+	visible = (uri != NULL) && !scheme_is_mailto;
+	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
 
+	group_name = "http";
 	visible = uri_is_valid && scheme_is_http;
-	action_group = e_web_view_get_action_group (web_view, "http");
+	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
 
+	group_name = "mailto";
 	visible = uri_is_valid && scheme_is_mailto;
-	action_group = e_web_view_get_action_group (web_view, "mailto");
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	gtk_action_group_set_visible (action_group, visible);
+
+	group_name = "selection";
+	visible = have_selection;
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	gtk_action_group_set_visible (action_group, visible);
+
+	group_name = "standard";
+	visible = (uri == NULL);
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	gtk_action_group_set_visible (action_group, visible);
+
+	group_name = "lockdown-printing";
+	visible = (uri == NULL) && !web_view->priv->disable_printing;
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	gtk_action_group_set_visible (action_group, visible);
+
+	group_name = "lockdown-save-to-disk";
+	visible = (uri == NULL) && !web_view->priv->disable_save_to_disk;
+	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
 }
 
@@ -747,6 +907,56 @@ web_view_class_init (EWebViewClass *class)
 			"Caret Mode",
 			NULL,
 			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DISABLE_PRINTING,
+		g_param_spec_boolean (
+			"disable-printing",
+			"Disable Printing",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DISABLE_SAVE_TO_DISK,
+		g_param_spec_boolean (
+			"disable-save-to-disk",
+			"Disable Save-to-Disk",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_OPEN_PROXY,
+		g_param_spec_object (
+			"open-proxy",
+			"Open Proxy",
+			NULL,
+			GTK_TYPE_ACTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PRINT_PROXY,
+		g_param_spec_object (
+			"print-proxy",
+			"Print Proxy",
+			NULL,
+			GTK_TYPE_ACTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SAVE_AS_PROXY,
+		g_param_spec_object (
+			"save-as-proxy",
+			"Save As Proxy",
+			NULL,
+			GTK_TYPE_ACTION,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -804,6 +1014,7 @@ web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	EPopupAction *popup_action;
 	const gchar *domain = GETTEXT_PACKAGE;
 	const gchar *id;
 	GError *error = NULL;
@@ -843,6 +1054,60 @@ web_view_init (EWebView *web_view)
 	gtk_action_group_add_actions (
 		action_group, mailto_entries,
 		G_N_ELEMENTS (mailto_entries), web_view);
+
+	action_group = gtk_action_group_new ("selection");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	gtk_action_group_add_actions (
+		action_group, selection_entries,
+		G_N_ELEMENTS (selection_entries), web_view);
+
+	action_group = gtk_action_group_new ("standard");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	gtk_action_group_add_actions (
+		action_group, standard_entries,
+		G_N_ELEMENTS (standard_entries), web_view);
+
+	popup_action = e_popup_action_new ("open");
+	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
+	g_object_unref (popup_action);
+
+	e_mutual_binding_new (
+		web_view, "open-proxy",
+		popup_action, "related-action");
+
+	/* Support lockdown. */
+
+	action_group = gtk_action_group_new ("lockdown-printing");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	popup_action = e_popup_action_new ("print");
+	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
+	g_object_unref (popup_action);
+
+	e_mutual_binding_new (
+		web_view, "print-proxy",
+		popup_action, "related-action");
+
+	action_group = gtk_action_group_new ("lockdown-save-to-disk");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	popup_action = e_popup_action_new ("save-as");
+	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
+	g_object_unref (popup_action);
+
+	e_mutual_binding_new (
+		web_view, "save-as-proxy",
+		popup_action, "related-action");
 
 	/* Because we are loading from a hard-coded string, there is
 	 * no chance of I/O errors.  Failure here implies a malformed
@@ -960,6 +1225,44 @@ e_web_view_set_caret_mode (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "caret-mode");
 }
 
+gboolean
+e_web_view_get_disable_printing (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return web_view->priv->disable_printing;
+}
+
+void
+e_web_view_set_disable_printing (EWebView *web_view,
+                                 gboolean disable_printing)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	web_view->priv->disable_printing = disable_printing;
+
+	g_object_notify (G_OBJECT (web_view), "disable-printing");
+}
+
+gboolean
+e_web_view_get_disable_save_to_disk (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return web_view->priv->disable_save_to_disk;
+}
+
+void
+e_web_view_set_disable_save_to_disk (EWebView *web_view,
+                                     gboolean disable_save_to_disk)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	web_view->priv->disable_save_to_disk = disable_save_to_disk;
+
+	g_object_notify (G_OBJECT (web_view), "disable-save-to-disk");
+}
+
 const gchar *
 e_web_view_get_selected_uri (EWebView *web_view)
 {
@@ -978,6 +1281,87 @@ e_web_view_set_selected_uri (EWebView *web_view,
 	web_view->priv->selected_uri = g_strdup (selected_uri);
 
 	g_object_notify (G_OBJECT (web_view), "selected-uri");
+}
+
+GtkAction *
+e_web_view_get_open_proxy (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return web_view->priv->open_proxy;
+}
+
+void
+e_web_view_set_open_proxy (EWebView *web_view,
+                           GtkAction *open_proxy)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (open_proxy != NULL) {
+		g_return_if_fail (GTK_IS_ACTION (open_proxy));
+		g_object_ref (open_proxy);
+	}
+
+	if (web_view->priv->open_proxy != NULL)
+		g_object_unref (web_view->priv->open_proxy);
+
+	web_view->priv->open_proxy = open_proxy;
+
+	g_object_notify (G_OBJECT (web_view), "open-proxy");
+}
+
+GtkAction *
+e_web_view_get_print_proxy (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return web_view->priv->print_proxy;
+}
+
+void
+e_web_view_set_print_proxy (EWebView *web_view,
+                            GtkAction *print_proxy)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (print_proxy != NULL) {
+		g_return_if_fail (GTK_IS_ACTION (print_proxy));
+		g_object_ref (print_proxy);
+	}
+
+	if (web_view->priv->print_proxy != NULL)
+		g_object_unref (web_view->priv->print_proxy);
+
+	web_view->priv->print_proxy = print_proxy;
+
+	g_object_notify (G_OBJECT (web_view), "print-proxy");
+}
+
+GtkAction *
+e_web_view_get_save_as_proxy (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return web_view->priv->save_as_proxy;
+}
+
+void
+e_web_view_set_save_as_proxy (EWebView *web_view,
+                              GtkAction *save_as_proxy)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (save_as_proxy != NULL) {
+		g_return_if_fail (GTK_IS_ACTION (save_as_proxy));
+		g_object_ref (save_as_proxy);
+	}
+
+	if (web_view->priv->save_as_proxy != NULL)
+		g_object_unref (web_view->priv->save_as_proxy);
+
+	web_view->priv->save_as_proxy = save_as_proxy;
+
+	g_object_notify (G_OBJECT (web_view), "save-as-proxy");
 }
 
 GtkAction *
@@ -1026,6 +1410,22 @@ e_web_view_extract_uri (EWebView *web_view,
 	return class->extract_uri (web_view, event, frame);
 }
 
+void
+e_web_view_clipboard_copy (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_command (GTK_HTML (web_view), "copy");
+}
+
+gboolean
+e_web_view_is_selection_active (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return gtk_html_command (GTK_HTML (web_view), "is-selection-active");
+}
+
 gboolean
 e_web_view_scroll_forward (EWebView *web_view)
 {
@@ -1040,6 +1440,22 @@ e_web_view_scroll_backward (EWebView *web_view)
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
 	return gtk_html_command (GTK_HTML (web_view), "scroll-backward");
+}
+
+void
+e_web_view_select_all (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_command (GTK_HTML (web_view), "select-all");
+}
+
+void
+e_web_view_unselect_all (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_command (GTK_HTML (web_view), "unselect-all");
 }
 
 GtkUIManager *

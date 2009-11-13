@@ -28,9 +28,9 @@
  * To use:
  *
  * Create an array of EPopupActionEntry structs.  Add the main menu actions
- * that serve as "sources" for the popup actions to an action group first.
- * Then pass the same action group and the EPopupActionEntry array to
- * e_action_group_add_popup_actions() to add popup actions.
+ * that serve as related actions for the popup actions to an action group
+ * first.  Then pass the same action group and the EPopupActionEntry array
+ * to e_action_group_add_popup_actions() to add popup actions.
  */
 
 #ifndef E_POPUP_ACTION_H
@@ -75,15 +75,12 @@ struct _EPopupActionClass {
 
 struct _EPopupActionEntry {
 	const gchar *name;
-	const gchar *label;	/* optional: overrides the source action */
-	const gchar *source;	/* name of the source action */
+	const gchar *label;	/* optional: overrides the related action */
+	const gchar *related;	/* name of the related action */
 };
 
 GType		e_popup_action_get_type		(void);
-EPopupAction *	e_popup_action_new		(const gchar *name,
-						 const gchar *label,
-						 GtkAction *source);
-GtkAction *	e_popup_action_get_source	(EPopupAction *popup_action);
+EPopupAction *	e_popup_action_new		(const gchar *name);
 
 void		e_action_group_add_popup_actions
 						(GtkActionGroup *action_group,

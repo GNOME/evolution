@@ -23,7 +23,36 @@
 
 #include <glib/gi18n-lib.h>
 
+#include "e-util/e-binding.h"
 #include "widgets/misc/e-import-assistant.h"
+
+/**
+ * e_shell_configure_web_view:
+ * @shell: an #EShell
+ * @web_view: an #EWebView
+ *
+ * Adds shell integration to @web_view.  In particular, it configures
+ * @web_view to honor the printing and save-to-disk lockdown options.
+ **/
+void
+e_shell_configure_web_view (EShell *shell,
+                            EWebView *web_view)
+{
+	EShellSettings *shell_settings;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_binding_new (
+		shell_settings, "disable-printing",
+		web_view, "disable-printing");
+
+	e_binding_new (
+		shell_settings, "disable-save-to-disk",
+		web_view, "disable-save-to-disk");
+}
 
 /**
  * e_shell_run_open_dialog:

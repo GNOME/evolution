@@ -26,6 +26,7 @@
 #include "e-util/e-binding.h"
 #include "e-util/e-selection.h"
 #include "e-util/gconf-bridge.h"
+#include "shell/e-shell-utils.h"
 #include "widgets/misc/e-paned.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
@@ -182,6 +183,10 @@ static void
 book_shell_content_constructed (GObject *object)
 {
 	EBookShellContentPrivate *priv;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -192,6 +197,11 @@ book_shell_content_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
+	shell_content = E_SHELL_CONTENT (object);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+
 	container = GTK_WIDGET (object);
 
 	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
@@ -199,9 +209,7 @@ book_shell_content_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
-		object, "orientation",
-		widget, "orientation");
+	e_binding_new (object, "orientation", widget, "orientation");
 
 	container = widget;
 
@@ -221,9 +229,7 @@ book_shell_content_constructed (GObject *object)
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
-	e_binding_new (
-		object, "preview-visible",
-		widget, "visible");
+	e_binding_new (object, "preview-visible", widget, "visible");
 
 	container = widget;
 
@@ -231,12 +237,13 @@ book_shell_content_constructed (GObject *object)
 	eab_contact_display_set_mode (
 		EAB_CONTACT_DISPLAY (widget),
 		EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->preview = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
-		priv->preview, "send-message",
+		widget, "send-message",
 		G_CALLBACK (book_shell_content_send_message_cb), object);
 
 	/* Bind GObject properties to GConf keys. */
@@ -472,6 +479,15 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 
 	gtk_notebook_set_current_page (notebook, page_num);
 	g_object_notify (G_OBJECT (book_shell_content), "current-view");
+}
+
+EABContactDisplay *
+e_book_shell_content_get_preview (EBookShellContent *book_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_BOOK_SHELL_CONTENT (book_shell_content), NULL);
+
+	return EAB_CONTACT_DISPLAY (book_shell_content->priv->preview);
 }
 
 EContact *
