@@ -171,6 +171,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gboolean selection_has_url;
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
+	gboolean clipboard_has_calendar;
 
 	priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -187,6 +188,8 @@ memo_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT);
 	selection_has_url =
 		(state & E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL);
+	clipboard_has_calendar =
+		(state & E_MEMO_SHELL_CONTENT_CLIPBOARD_HAS_CALENDAR);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
@@ -208,7 +211,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_CLIPBOARD_PASTE);
-	sensitive = sources_are_editable;
+	sensitive = sources_are_editable && clipboard_has_calendar;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_DELETE);

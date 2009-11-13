@@ -298,6 +298,11 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 
 	g_signal_connect_swapped (
+		table, "selection-change",
+		G_CALLBACK (e_shell_view_update_actions),
+		task_shell_view);
+
+	g_signal_connect_swapped (
 		task_shell_sidebar, "client-added",
 		G_CALLBACK (task_shell_view_selector_client_added_cb),
 		task_shell_view);

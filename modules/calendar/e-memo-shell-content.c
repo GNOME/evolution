@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-binding.h"
+#include "e-util/e-selection.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/menus/gal-view-etable.h"
@@ -530,6 +531,7 @@ memo_shell_content_check_state (EShellContent *shell_content)
 	EMemoTable *memo_table;
 	ETable *table;
 	GSList *list, *iter;
+	GtkClipboard *clipboard;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
 	gint n_selected;
@@ -556,6 +558,8 @@ memo_shell_content_check_state (EShellContent *shell_content)
 	}
 	g_slist_free (list);
 
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
 	if (n_selected == 1)
 		state |= E_MEMO_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
@@ -564,6 +568,8 @@ memo_shell_content_check_state (EShellContent *shell_content)
 		state |= E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT;
 	if (has_url)
 		state |= E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL;
+	if (e_clipboard_wait_is_calendar_available (clipboard))
+		state |= E_MEMO_SHELL_CONTENT_CLIPBOARD_HAS_CALENDAR;
 
 	return state;
 }

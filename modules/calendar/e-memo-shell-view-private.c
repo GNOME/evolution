@@ -244,6 +244,11 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		memo_shell_view);
 
 	g_signal_connect_swapped (
+		table, "selection-change",
+		G_CALLBACK (e_shell_view_update_actions),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
 		memo_shell_sidebar, "client-added",
 		G_CALLBACK (memo_shell_view_selector_client_added_cb),
 		memo_shell_view);
