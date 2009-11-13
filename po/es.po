@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-13 16:31+0000\n"
-"PO-Revision-Date: 2009-11-13 19:06+0100\n"
+"POT-Creation-Date: 2009-11-13 18:07+0000\n"
+"PO-Revision-Date: 2009-11-13 21:01+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8648,14 +8648,12 @@ msgid "Internal error, unknown error '%s' requested"
 msgstr "Error interno, solicitado un error desconocido «%s»"
 
 #: ../e-util/e-file-utils.c:135
-#| msgid "Filename"
 msgid "(Unknown Filename)"
 msgstr "(Nombre del archivo desconocido)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:139
 #, c-format
-#| msgid "Starting %s"
 msgid "Writing \"%s\""
 msgstr "Escribiendo «%s»"
 
@@ -8663,7 +8661,6 @@ msgstr "Escribiendo «%s»"
 #. * remote file, the second string value is the hostname.
 #: ../e-util/e-file-utils.c:144
 #, c-format
-#| msgid "Copying `%s' to `%s'"
 msgid "Writing \"%s\" to %s"
 msgstr "Escribiendo «%s» a «%s»"
 
@@ -9358,7 +9355,6 @@ msgid "_Move"
 msgstr "_Mover"
 
 #: ../mail/e-mail-reader.c:823
-#| msgid "Save Message..."
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Guardar mensaje"
@@ -13134,12 +13130,10 @@ msgid "Are you sure you want to send a message in HTML format?"
 msgstr "¿Seguro que quiere enviar un mensaje en formato HTML?"
 
 #: ../mail/mail.error.xml.h:16
-#| msgid "Are you sure you want to send a message with only BCC recipients?"
 msgid "Are you sure you want to send a message with invalid address?"
 msgstr "¿Seguro que quiere enviar un mensaje con una dirección no válida?"
 
 #: ../mail/mail.error.xml.h:17
-#| msgid "Are you sure you want to send a message with only BCC recipients?"
 msgid "Are you sure you want to send a message with invalid addresses?"
 msgstr "¿Seguro que quiere enviar un mensaje con direcciones no válidas?"
 
@@ -14148,7 +14142,6 @@ msgid "Previewed Contact"
 msgstr "Contacto previsualizado"
 
 #: ../modules/addressbook/e-book-shell-content.c:337
-#| msgid "Whether to show the preview pane."
 msgid "The contact being shown in the preview pane"
 msgstr "El contacto mostrado en el panel de vista previa"
 
@@ -14156,7 +14149,6 @@ msgstr "El contacto mostrado en el panel de vista previa"
 #: ../modules/calendar/e-memo-shell-content.c:605
 #: ../modules/calendar/e-task-shell-content.c:628
 #: ../modules/mail/e-mail-shell-content.c:725
-#| msgid "Sidebar is visible"
 msgid "Preview is Visible"
 msgstr "La vista previa es visible"
 
@@ -14164,7 +14156,6 @@ msgstr "La vista previa es visible"
 #: ../modules/calendar/e-memo-shell-content.c:606
 #: ../modules/calendar/e-task-shell-content.c:629
 #: ../modules/mail/e-mail-shell-content.c:726
-#| msgid "Whether to show the preview pane."
 msgid "Whether the preview pane is visible"
 msgstr "Indica si se muestra el panel de vista previa"
 
@@ -14251,7 +14242,6 @@ msgstr "No se pudo obtener una lista de libretas de direcciones"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:230
 #: ../modules/addressbook/e-book-shell-view-actions.c:547
-#| msgid "Save as vCard..."
 msgid "Save as vCard"
 msgstr "Guardar como vCard"
 
@@ -14260,7 +14250,6 @@ msgid "Co_py All Contacts To..."
 msgstr "Co_piar todos los contactos a…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:716
-#| msgid "Copy the contacts of the selected folder into another folder"
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Copiar el contenido de la libreta de direcciones seleccionada a otra"
 
@@ -14269,7 +14258,6 @@ msgid "Del_ete Address Book"
 msgstr "_Borrar la libreta de direcciones"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:723
-#| msgid "Delete the selected folder"
 msgid "Delete the selected address book"
 msgstr "Borrar la libreta de direcciones seleccionada"
 
@@ -14278,7 +14266,6 @@ msgid "Mo_ve All Contacts To..."
 msgstr "Mo_ver todos los contactos a…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:730
-#| msgid "Move the contacts of the selected folder into another folder"
 msgid "Move the contacts of the selected address book to another"
 msgstr "Mover los contactos de la libreta de direcciones seleccionada a otra"
 
@@ -14291,7 +14278,6 @@ msgid "Address _Book Properties"
 msgstr "Propiedades de la _libreta de direcciones"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:744
-#| msgid "Change the properties of the selected folder"
 msgid "Show properties of the selected address book"
 msgstr "Mostrar las propiedades de la libreta de direcciones seleccionada"
 
@@ -14304,25 +14290,22 @@ msgid "_Rename..."
 msgstr "_Renombrar…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:751
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected address book"
-msgstr "Renombrar la carpeta seleccionada"
+msgstr "Renombrar la libreta de direcciones seleccionada"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:756
-#, fuzzy
 #| msgid "S_ave Address Book As VCard"
 msgid "S_ave Address Book as vCard"
 msgstr "G_uardar la libreta de direcciones como VCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:758
-#, fuzzy
 #| msgid "Save the contacts of the selected folder as VCard"
 msgid "Save the contacts of the selected address book as a vCard"
-msgstr "Guarda los contactos de la carpeta seleccionada como VCard"
+msgstr ""
+"Guardar los contactos de la libreta de direcciones seleccionada como VCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:765
-#, fuzzy
 #| msgid "Stop Loading"
 msgid "Stop loading"
 msgstr "Parar la carga"
@@ -14343,16 +14326,14 @@ msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:791
-#, fuzzy
 #| msgid "_Copy Contact to..."
 msgid "_Copy Contact To..."
 msgstr "_Copiar contacto a…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:793
-#, fuzzy
 #| msgid "Copy selected contacts to another folder"
 msgid "Copy selected contacts to another address book"
-msgstr "Copiar los contactos seleccionados a otra carpeta"
+msgstr "Copiar los contactos seleccionados a otra libreta de direcciones"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:798
 msgid "_Delete Contact"
@@ -14371,16 +14352,14 @@ msgid "Send selected contacts to another person"
 msgstr "Enviar los contactos seleccionados a otra persona"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:812
-#, fuzzy
 #| msgid "_Move Contact to..."
 msgid "_Move Contact To..."
 msgstr "_Mover contacto a…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:814
-#, fuzzy
 #| msgid "Move selected contacts to another folder"
 msgid "Move selected contacts to another address book"
-msgstr "Mover los contactos seleccionados a otra carpeta"
+msgstr "Mover los contactos seleccionados a otra libreta de direcciones"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:819
 msgid "_New Contact..."
@@ -14391,11 +14370,10 @@ msgid "New Contact _List..."
 msgstr "_Lista de contactos nueva…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:833
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Contact"
 msgid "_Open Contact"
-msgstr "_Contacto"
+msgstr "_Abrir contacto"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:835
 msgid "View the current contact"
@@ -14456,10 +14434,9 @@ msgid "_Classic View"
 msgstr "Vista _clásica"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:951
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show contact preview below the contact list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa del contacto bajo la lista de mensajes"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:956
 #: ../modules/calendar/e-memo-shell-view-actions.c:778
@@ -14469,10 +14446,9 @@ msgid "_Vertical View"
 msgstr "Vista _vertical"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:958
-#, fuzzy
 #| msgid "Show contact preview window"
 msgid "Show contact preview alongside the contact list"
-msgstr "Mostrar una ventana de vista previa de contactos"
+msgstr "Mostrar la vista previa del contacto junto con la lista de contactos"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:966
 #: ../modules/calendar/e-cal-shell-view-actions.c:1569
@@ -14493,7 +14469,6 @@ msgid "Print selected contacts"
 msgstr "Imprimir los contactos seleccionados"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1016
-#, fuzzy
 #| msgid "Previews the contacts to be printed"
 msgid "Preview the contacts to be printed"
 msgstr "Previsualizar los contactos que imprimir"
@@ -14503,10 +14478,9 @@ msgid "Save as vCard..."
 msgstr "Guardar como vCard…"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1033
-#, fuzzy
 #| msgid "Save selected contacts as a VCard"
 msgid "Save selected contacts as a vCard"
-msgstr "Guardar los contactos seleccionados en una VCard"
+msgstr "Guardar los contactos seleccionados como VCard"
 
 #: ../modules/addressbook/e-book-shell-view.c:322
 msgid "_Forward Contacts"
@@ -14908,10 +14882,9 @@ msgstr "Moviendo elementos"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:330
 #: ../modules/calendar/e-memo-shell-view-actions.c:500
 #: ../modules/calendar/e-task-shell-view-actions.c:627
-#, fuzzy
 #| msgid "_Forward as iCalendar..."
 msgid "Save as iCalendar"
-msgstr "Reenviar como i_Calendar…"
+msgstr "Guardar como iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1193
 #: ../modules/calendar/e-memo-shell-view-actions.c:624
@@ -14919,13 +14892,11 @@ msgid "_Copy..."
 msgstr "_Copiar…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1209
-#, fuzzy
 #| msgid "Go back"
 msgid "Go Back"
 msgstr "Retroceder"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1216
-#, fuzzy
 #| msgid "Go forward"
 msgid "Go Forward"
 msgstr "Avanzar"
@@ -14960,13 +14931,11 @@ msgid "Purge old appointments and meetings"
 msgstr "Purgar reuniones y acontecimientos antiguos"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1258
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected calendar"
-msgstr "Renombrar la carpeta seleccionada"
+msgstr "Renombrar el calendario seleccionado"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1263
-#, fuzzy
 #| msgid "Show _only this Calendar"
 msgid "Show _Only This Calendar"
 msgstr "Mostrar _sólo este calendario"
@@ -14984,7 +14953,6 @@ msgid "Delete the appointment"
 msgstr "Borra la cita"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1312
-#, fuzzy
 #| msgid "Delete this _Occurrence"
 msgid "Delete This _Occurrence"
 msgstr "Borrar esta _repetición"
@@ -15002,16 +14970,14 @@ msgid "Delete all occurrences"
 msgstr "Borra todas las repeticiones"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1326
-#, fuzzy
 #| msgid "New All Day _Event"
 msgid "New All Day _Event..."
 msgstr "Acont_ecimiento nuevo para todo el día"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1328
-#, fuzzy
 #| msgid "Create a new all-day appointment"
 msgid "Create a new all day event"
-msgstr "Crea una cita nueva para todo el día"
+msgstr "Crear un acontecimiento nuevo para todo el día"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1333
 #: ../modules/calendar/e-cal-shell-view-memopad.c:322
@@ -15022,16 +14988,14 @@ msgid "_Forward as iCalendar..."
 msgstr "Reenviar como i_Calendar…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1340
-#, fuzzy
 #| msgid "New _Meeting"
 msgid "New _Meeting..."
-msgstr "_Reunión nueva"
+msgstr "_Reunión nueva…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1342
-#, fuzzy
 #| msgid "Create a new meeting request"
 msgid "Create a new meeting"
-msgstr "Crea una solicitud de reunión nueva"
+msgstr "Crear una reunión nueva"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1347
 msgid "Mo_ve to Calendar..."
@@ -15059,10 +15023,9 @@ msgstr "_Responder"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1389
 #: ../modules/calendar/e-cal-shell-view-memopad.c:350
-#, fuzzy
 #| msgid "_Forward as iCalendar..."
 msgid "Save as iCalendar..."
-msgstr "Reenviar como i_Calendar…"
+msgstr "Guardar como iCalendar…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1396
 msgid "_Schedule Meeting..."
@@ -15105,10 +15068,9 @@ msgid "Work Week"
 msgstr "Semana laboral"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1554
-#, fuzzy
 #| msgid "Show one week"
 msgid "Show one work week"
-msgstr "Mostrar una semana"
+msgstr "Mostrar una semana de trabajo"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1562
 msgid "Active Appointments"
@@ -15135,10 +15097,9 @@ msgid "Print this calendar"
 msgstr "Imprime este calendario"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1626
-#, fuzzy
 #| msgid "Previews the calendar to be printed"
 msgid "Preview the calendar to be printed"
-msgstr "Previsualiza el calendario a imprimir"
+msgstr "Previsualizar el calendario que imprimir"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1688
 msgid "Go To"
@@ -15146,10 +15107,9 @@ msgstr "Ir a"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:76
 #: ../modules/calendar/e-memo-shell-view-actions.c:96
-#, fuzzy
 #| msgid "Deleting selected objects..."
 msgid "Deleting selected memos..."
-msgstr "Borrando los objetos seleccionados…"
+msgstr "Borrando las notas seleccionadas…"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:296
 #: ../modules/calendar/e-memo-shell-view-actions.c:591
@@ -15168,10 +15128,9 @@ msgstr "Pegar notas desde el portapapeles"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:315
 #: ../modules/calendar/e-memo-shell-view-actions.c:610
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "_Delete Memo"
-msgstr "_Borrar el mensaje"
+msgstr "_Borrar nota"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:317
 #: ../modules/calendar/e-memo-shell-view-actions.c:612
@@ -15180,10 +15139,9 @@ msgstr "Borra las notas seleccionadas"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:329
 #: ../modules/calendar/e-memo-shell-view-actions.c:666
-#, fuzzy
 #| msgid "New memo"
 msgid "New _Memo"
-msgstr "Nota nueva"
+msgstr "_Nota nueva"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:331
 #: ../modules/calendar/e-memo-shell-backend.c:318
@@ -15210,10 +15168,9 @@ msgstr "Abrir página _web"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:362
 #: ../modules/calendar/e-memo-shell-view-actions.c:845
-#, fuzzy
 #| msgid "View the selected memo"
 msgid "Print the selected memo"
-msgstr "Ver la nota seleccionada"
+msgstr "Imprimir la nota seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:444
 #: ../modules/calendar/e-memo-shell-view.c:220
