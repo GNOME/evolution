@@ -225,17 +225,20 @@ static void
 cal_shell_view_popup_event_cb (EShellView *shell_view,
                                GdkEventButton *event)
 {
-	const gchar *widget_path;
 	GList *list;
-	gint n_selected;
 	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
 	ECalendarView *view;
 	ECalShellViewPrivate *priv;
+	const gchar *widget_path;
+	gint n_selected;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	calendar = e_cal_shell_content_get_calendar (priv->cal_shell_content);
-	view = gnome_calendar_get_calendar_view (calendar, gnome_calendar_get_view (calendar));
+
+	view_type = gnome_calendar_get_view (calendar);
+	view = gnome_calendar_get_calendar_view (calendar, view_type);
 
 	list = e_calendar_view_get_selected_events (view);
 	n_selected = g_list_length (list);
@@ -485,6 +488,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		g_signal_connect_swapped (
 			calendar_view, "popup-event",
 			G_CALLBACK (cal_shell_view_popup_event_cb),
+			cal_shell_view);
+
+		g_signal_connect_swapped (
+			calendar_view, "selection-changed",
+			G_CALLBACK (e_shell_view_update_actions),
 			cal_shell_view);
 
 		g_signal_connect_swapped (

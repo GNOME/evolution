@@ -1303,7 +1303,7 @@ static GtkActionEntry calendar_entries[] = {
 	{ "event-delete",
 	  GTK_STOCK_DELETE,
 	  NULL,
-	  NULL,
+	  "<Control>d",
 	  N_("Delete the appointment"),
 	  G_CALLBACK (action_event_delete_cb) },
 
