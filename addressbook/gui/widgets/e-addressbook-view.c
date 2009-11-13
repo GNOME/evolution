@@ -944,6 +944,7 @@ e_contact_print_button (EPrintable *printable, GtkPrintOperationAction action)
 
 void
 e_addressbook_view_print (EAddressbookView *view,
+                          gboolean selection_only,
                           GtkPrintOperationAction action)
 {
 	GalView *gal_view;
@@ -954,12 +955,21 @@ e_addressbook_view_print (EAddressbookView *view,
 	view_instance = e_addressbook_view_get_view_instance (view);
 	gal_view = gal_view_instance_get_current_view (view_instance);
 
-	if (GAL_IS_VIEW_MINICARD (gal_view)) {
+	/* Print the selected contacts. */
+	if (GAL_IS_VIEW_MINICARD (gal_view) && selection_only) {
+		GList *contact_list;
+
+		contact_list = e_addressbook_view_get_selected (view);
+		e_contact_print (NULL, NULL, contact_list, action);
+		g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+		g_list_free (contact_list);
+
+	/* Print the latest query results. */
+	} else if (GAL_IS_VIEW_MINICARD (gal_view)) {
 		EAddressbookModel *model;
 		EBook *book;
 		EBookQuery *query;
 		gchar *query_string;
-		GList *contact_list;
 
 		model = e_addressbook_view_get_model (view);
 		book = e_addressbook_model_get_book (model);
@@ -971,14 +981,12 @@ e_addressbook_view_print (EAddressbookView *view,
 			query = NULL;
 		g_free (query_string);
 
-		contact_list = e_addressbook_view_get_selected (view);
-		e_contact_print (book, query, contact_list, action);
-		g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-		g_list_free (contact_list);
+		e_contact_print (book, query, NULL, action);
 
 		if (query != NULL)
 			e_book_query_unref (query);
 
+	/* XXX Does this print the entire table or just selected? */
 	} else if (GAL_IS_VIEW_ETABLE (gal_view)) {
 		EPrintable *printable;
 		ETable *table;

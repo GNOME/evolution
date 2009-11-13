@@ -31,6 +31,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "address-book-delete")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_MOVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-move")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PRINT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-print")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PRINT_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-print-preview")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PROPERTIES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-properties")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_RENAME(window) \
@@ -65,8 +69,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-preview")
 #define E_SHELL_WINDOW_ACTION_CONTACT_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-print")
-#define E_SHELL_WINDOW_ACTION_CONTACT_PRINT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-print-preview")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SAVE_AS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-save-as")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SELECT_ALL(window) \

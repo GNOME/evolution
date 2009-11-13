@@ -287,6 +287,14 @@ book_shell_view_update_actions (EShellView *shell_view)
 	sensitive = has_primary_source && !primary_source_is_system;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (ADDRESS_BOOK_PRINT);
+	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (ADDRESS_BOOK_PRINT_PREVIEW);
+	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (ADDRESS_BOOK_RENAME);
 	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
@@ -333,10 +341,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_PRINT);
-	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_PRINT_PREVIEW);
 	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 

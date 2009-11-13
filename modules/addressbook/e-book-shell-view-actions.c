@@ -130,6 +130,38 @@ action_address_book_new_cb (GtkAction *action,
 }
 
 static void
+action_address_book_print_cb (GtkAction *action,
+                              EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	EAddressbookView *view;
+	GtkPrintOperationAction print_action;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
+	g_return_if_fail (view != NULL);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	e_addressbook_view_print (view, FALSE, print_action);
+}
+
+static void
+action_address_book_print_preview_cb (GtkAction *action,
+                                      EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	EAddressbookView *view;
+	GtkPrintOperationAction print_action;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
+	g_return_if_fail (view != NULL);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	e_addressbook_view_print (view, FALSE, print_action);
+}
+
+static void
 action_address_book_properties_cb (GtkAction *action,
                                    EBookShellView *book_shell_view)
 {
@@ -494,23 +526,7 @@ action_contact_print_cb (GtkAction *action,
 	g_return_if_fail (view != NULL);
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	e_addressbook_view_print (view, print_action);
-}
-
-static void
-action_contact_print_preview_cb (GtkAction *action,
-                                 EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-	EAddressbookView *view;
-	GtkPrintOperationAction print_action;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	view = e_book_shell_content_get_current_view (book_shell_content);
-	g_return_if_fail (view != NULL);
-
-	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	e_addressbook_view_print (view, print_action);
+	e_addressbook_view_print (view, TRUE, print_action);
 }
 
 static void
@@ -1002,19 +1018,26 @@ static GtkRadioActionEntry contact_search_entries[] = {
 
 static GtkActionEntry lockdown_printing_entries[] = {
 
-	{ "contact-print",
+	{ "address-book-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
 	  "<Control>p",
-	  N_("Print selected contacts"),
-	  G_CALLBACK (action_contact_print_cb) },
+	  N_("Print all shown contacts"),
+	  G_CALLBACK (action_address_book_print_cb) },
 
-	{ "contact-print-preview",
+	{ "address-book-print-preview",
 	  GTK_STOCK_PRINT_PREVIEW,
 	  NULL,
 	  NULL,
 	  N_("Preview the contacts to be printed"),
-	  G_CALLBACK (action_contact_print_preview_cb) }
+	  G_CALLBACK (action_address_book_print_preview_cb) },
+
+	{ "contact-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  N_("Print selected contacts"),
+	  G_CALLBACK (action_contact_print_cb) }
 };
 
 static EPopupActionEntry lockdown_printing_popup_entries[] = {

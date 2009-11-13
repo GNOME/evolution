@@ -99,6 +99,7 @@ EShellView *	e_addressbook_view_get_shell_view
 ESource *	e_addressbook_view_get_source	(EAddressbookView *view);
 void		e_addressbook_view_view		(EAddressbookView *view);
 void		e_addressbook_view_print	(EAddressbookView *view,
+						 gboolean selection_only,
 						 GtkPrintOperationAction action);
 void		e_addressbook_view_delete_selection
 						(EAddressbookView *view,
