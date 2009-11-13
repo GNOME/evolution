@@ -1988,6 +1988,12 @@ emfh_multipart_related_check(struct _EMFormatHTMLJob *job, gint cancelled)
 
 	link = g_queue_peek_head_link (job->puri_level->data);
 
+	if (!link) {
+		g_string_printf (format->part_id, "%s", oldpartid);
+		g_free (oldpartid);
+		return;
+	}
+
 	while (link->next != NULL) {
 		EMFormatPURI *puri = link->data;
 
