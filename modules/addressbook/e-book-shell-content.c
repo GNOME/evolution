@@ -259,6 +259,23 @@ book_shell_content_constructed (GObject *object)
 	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
+static void
+book_shell_content_check_state_foreach (gint row,
+                                        gpointer user_data)
+{
+	EContact *contact;
+
+	struct {
+		EAddressbookModel *model;
+		GList *list;
+	} *foreach_data = user_data;
+
+	contact = e_addressbook_model_get_contact (foreach_data->model, row);
+	g_return_if_fail (E_IS_CONTACT (contact));
+
+	foreach_data->list = g_list_prepend (foreach_data->list, contact);
+}
+
 static guint32
 book_shell_content_check_state (EShellContent *shell_content)
 {
@@ -267,9 +284,16 @@ book_shell_content_check_state (EShellContent *shell_content)
 	EAddressbookModel *model;
 	EAddressbookView *view;
 	GtkClipboard *clipboard;
+	gboolean has_email = TRUE;
+	gboolean is_contact_list = TRUE;
 	guint32 state = 0;
 	gint n_contacts;
 	gint n_selected;
+
+	struct {
+		EAddressbookModel *model;
+		GList *list;
+	} foreach_data;
 
 	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
 	view = e_book_shell_content_get_current_view (book_shell_content);
@@ -281,13 +305,43 @@ book_shell_content_check_state (EShellContent *shell_content)
 	n_selected = (selection_model != NULL) ?
 		e_selection_model_selected_count (selection_model) : 0;
 
+	foreach_data.model = model;
+	foreach_data.list = NULL;
+
+	if (selection_model != NULL)
+		e_selection_model_foreach (
+			selection_model, (EForeachFunc)
+			book_shell_content_check_state_foreach,
+			&foreach_data);
+
+	while (foreach_data.list != NULL) {
+		EContact *contact = E_CONTACT (foreach_data.list->data);
+		GList *email_list;
+
+		email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+		has_email &= (email_list != NULL);
+		g_list_foreach (email_list, (GFunc) g_free, NULL);
+		g_list_free (email_list);
+
+		is_contact_list &=
+			(e_contact_get (contact, E_CONTACT_IS_LIST) != NULL);
+
+		g_object_unref (contact);
+
+		foreach_data.list = g_list_delete_link (
+			foreach_data.list, foreach_data.list);
+	}
+
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	/* FIXME Finish the rest of the flags. */
 	if (n_selected == 1)
 		state |= E_BOOK_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
 		state |= E_BOOK_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (n_selected > 0 && has_email)
+		state |= E_BOOK_SHELL_CONTENT_SELECTION_HAS_EMAIL;
+	if (n_selected == 1 && is_contact_list)
+		state |= E_BOOK_SHELL_CONTENT_SELECTION_IS_CONTACT_LIST;
 	if (e_addressbook_model_can_stop (model))
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY;
 	if (e_addressbook_model_get_editable (model))
