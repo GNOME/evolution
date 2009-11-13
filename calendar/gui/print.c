@@ -1312,41 +1312,48 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY),
 				   (bottom-top)*0.5/DAY_VIEW_ROW_HEIGHT);
 
-	for (i = 0; i < rows_in_top_display; i++) {
-		if (i < (rows_in_top_display - 1) ||
-			rows_in_top_display >= pdi.long_events->len) {
-			event = &g_array_index (pdi.long_events, EDayViewEvent, i);
-			print_day_long_event (context, font, left, right, top, bottom,
-					      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
-		} else {
-			/* too many events */
-			cairo_t *cr = gtk_print_context_get_cairo_context (context);
-			gint x, y;
+	if (rows_in_top_display > pdi.long_events->len)
+		rows_in_top_display = pdi.long_events->len;
 
-			if (!pixbuf) {
-				const gchar **xpm = (const gchar **)jump_xpm;
-
-				/* this ugly thing is here only to get rid of compiler warning
-				   about unused 'jump_xpm_focused' */
-				if (pixbuf)
-					xpm = (const gchar **)jump_xpm_focused;
-
-				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
-			}
-
-			/* Right align - 10 comes from print_day_long_event  too */
-			x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
-			/* Placing '...' at mid height. 4 and 7 constant come from print_day_long_event
-			   (offsets used to place events boxes in their respective cells) */
-			y = top + DAY_VIEW_ROW_HEIGHT * i + (DAY_VIEW_ROW_HEIGHT - 4 - 7) * 0.5;
-
-			cairo_save (cr);
-			cairo_scale (cr, 0.5, 0.5);
-			gdk_cairo_set_source_pixbuf (cr, pixbuf, x * 2.0, y * 2.0);
-			cairo_paint (cr);
-			cairo_restore (cr);
-		}
+	for (i = 0; i < rows_in_top_display && i < pdi.long_events->len; i++) {
+		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
+		print_day_long_event (context, font, left, right, top, bottom,
+				      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
+
+	if (rows_in_top_display < pdi.long_events->len) {
+		/* too many events */
+		cairo_t *cr = gtk_print_context_get_cairo_context (context);
+		gint x, y;
+
+		rows_in_top_display++;
+
+		if (!pixbuf) {
+			const gchar **xpm = (const gchar **)jump_xpm;
+
+			/* this ugly thing is here only to get rid of compiler warning
+			   about unused 'jump_xpm_focused' */
+			if (pixbuf)
+				xpm = (const gchar **)jump_xpm_focused;
+
+			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+		}
+
+		/* Right align - 10 comes from print_day_long_event  too */
+		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
+		/* Placing '...' at mid height. 4 and 7 constant come from print_day_long_event
+		   (offsets used to place events boxes in their respective cells) */
+		y = top + DAY_VIEW_ROW_HEIGHT * i + (DAY_VIEW_ROW_HEIGHT - 4 - 7) * 0.5;
+
+		cairo_save (cr);
+		cairo_scale (cr, 0.5, 0.5);
+		gdk_cairo_set_source_pixbuf (cr, pixbuf, x * 2.0, y * 2.0);
+		cairo_paint (cr);
+		cairo_restore (cr);
+	}
+
+	if (!rows_in_top_display)
+		rows_in_top_display++;
 
 	/* Draw the border around the long events. */
 	cr = gtk_print_context_get_cairo_context (context);
