@@ -354,19 +354,19 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	e_binding_new_with_negation (
 		shell_settings, "disable-printing",
-		action_group, "sensitive");
+		action_group, "visible");
 
 	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
 
 	e_binding_new_with_negation (
 		shell_settings, "disable-print-setup",
-		action_group, "sensitive");
+		action_group, "visible");
 
 	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
 
 	e_binding_new_with_negation (
 		shell_settings, "disable-save-to-disk",
-		action_group, "sensitive");
+		action_group, "visible");
 
 	/* Bind GObject properties to GObject properties. */
 
