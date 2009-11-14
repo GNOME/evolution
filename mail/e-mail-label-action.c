@@ -40,7 +40,6 @@ mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
 	GtkActivatable *activatable;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *stock_id;
 
 	activatable = GTK_ACTIVATABLE (menu_item);
 	action = gtk_activatable_get_related_action (activatable);
