@@ -126,6 +126,7 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *source;
+	gboolean can_delete = FALSE;
 	gboolean is_system = FALSE;
 	guint32 state = 0;
 
@@ -135,13 +136,20 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 	if (source != NULL) {
 		const gchar *uri;
+		const gchar *delete;
 
 		uri = e_source_peek_relative_uri (source);
 		is_system = (uri == NULL || strcmp (uri, "system") == 0);
+
+		can_delete = !is_system;
+		delete = e_source_get_property (source, "delete");
+		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
 	}
 
 	if (source != NULL)
 		state |= E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
+	if (can_delete)
+		state |= E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
 	if (is_system)
 		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
 

@@ -502,6 +502,42 @@ cal_shell_sidebar_constructed (GObject *object)
 	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
+static guint32
+cal_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
+{
+	ECalShellSidebar *cal_shell_sidebar;
+	ESourceSelector *selector;
+	ESource *source;
+	gboolean can_delete = FALSE;
+	gboolean is_system = FALSE;
+	guint32 state = 0;
+
+	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+
+	if (source != NULL) {
+		const gchar *uri;
+		const gchar *delete;
+
+		uri = e_source_peek_relative_uri (source);
+		is_system = (uri == NULL || strcmp (uri, "system") == 0);
+
+		can_delete = !is_system;
+		delete = e_source_get_property (source, "delete");
+		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
+	}
+
+	if (source != NULL)
+		state |= E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
+	if (can_delete)
+		state |= E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
+	if (is_system)
+		state |= E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+
+	return state;
+}
+
 static void
 cal_shell_sidebar_client_removed (ECalShellSidebar *cal_shell_sidebar,
                                   ECal *client)
@@ -531,6 +567,7 @@ static void
 cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellSidebarPrivate));
@@ -540,6 +577,9 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 	object_class->dispose = cal_shell_sidebar_dispose;
 	object_class->finalize = cal_shell_sidebar_finalize;
 	object_class->constructed = cal_shell_sidebar_constructed;
+
+	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
+	shell_sidebar_class->check_state = cal_shell_sidebar_check_state;
 
 	class->client_removed = cal_shell_sidebar_client_removed;
 

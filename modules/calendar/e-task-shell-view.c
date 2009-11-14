@@ -277,6 +277,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	/* Be descriptive. */
 	gboolean any_tasks_selected;
+	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_tasks_selected;
 	gboolean primary_source_is_system;
@@ -317,6 +318,8 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	can_delete_primary_source =
+		(state & E_TASK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
 	primary_source_is_system =
 		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 
@@ -359,7 +362,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_DELETE);
-	sensitive = has_primary_source && !primary_source_is_system;
+	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_PROPERTIES);

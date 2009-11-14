@@ -237,6 +237,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	/* Be descriptive. */
 	gboolean any_contacts_selected;
+	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_contacts_selected;
 	gboolean primary_source_is_system;
@@ -277,6 +278,8 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	can_delete_primary_source =
+		(state & E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
 	primary_source_is_system =
 		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 
@@ -284,7 +287,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 		(single_contact_selected || multiple_contacts_selected);
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
-	sensitive = has_primary_source && !primary_source_is_system;
+	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT);

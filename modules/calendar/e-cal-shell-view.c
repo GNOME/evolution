@@ -266,26 +266,28 @@ cal_shell_view_update_actions (EShellView *shell_view)
 {
 	ECalShellViewPrivate *priv;
 	ECalShellContent *cal_shell_content;
-	ECalShellSidebar *cal_shell_sidebar;
+	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalendarView *view;
 	ECalModel *model;
-	ESourceSelector *selector;
-	ESource *source;
 	GtkAction *action;
 	GList *list, *iter;
-	const gchar *uri = NULL;
-	gboolean user_created_source;
+	gboolean sensitive;
+	guint32 state;
+	gint n_selected;
+
+	/* Be descriptive. */
+	gboolean can_delete_primary_source;
 	gboolean editable = TRUE;
+	gboolean has_primary_source;
+	gboolean primary_source_is_system;
 	gboolean recurring = FALSE;
 	gboolean is_instance = FALSE;
-	gboolean sensitive;
 	gboolean is_meeting = FALSE;
 	gboolean is_delegatable = FALSE;
 	gboolean clipboard_has_calendar;
-	gint n_selected;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -296,9 +298,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	view_type = gnome_calendar_get_view (calendar);
 	view = gnome_calendar_get_calendar_view (calendar, view_type);
 	model = e_calendar_view_get_model (view);
-
-	cal_shell_sidebar = priv->cal_shell_sidebar;
-	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
 	list = e_calendar_view_get_selected_events (view);
 	n_selected = g_list_length (list);
@@ -352,29 +351,34 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	g_list_free (list);
 
-	source = e_source_selector_peek_primary_selection (selector);
-	if (source != NULL)
-		uri = e_source_peek_relative_uri (source);
-	user_created_source = (uri != NULL && strcmp (uri, "system") != 0);
-
 	clipboard_has_calendar =
 		e_clipboard_wait_is_calendar_available (
 		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	state = e_shell_sidebar_check_state (shell_sidebar);
+
+	has_primary_source =
+		(state & E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	can_delete_primary_source =
+		(state & E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
+	primary_source_is_system =
+		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
+
 	action = ACTION (CALENDAR_COPY);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_DELETE);
-	sensitive = user_created_source;
+	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PROPERTIES);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_CLIPBOARD_COPY);

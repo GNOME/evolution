@@ -54,7 +54,8 @@ typedef struct _EBookShellSidebarPrivate EBookShellSidebarPrivate;
 
 enum {
 	E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE		= 1 << 0,
-	E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM	= 1 << 1
+	E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE	= 1 << 1,
+	E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM	= 1 << 2
 };
 
 struct _EBookShellSidebar {

@@ -165,13 +165,14 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	/* Be descriptive. */
 	gboolean any_memos_selected;
+	gboolean can_delete_primary_source;
+	gboolean clipboard_has_calendar;
 	gboolean has_primary_source;
 	gboolean multiple_memos_selected;
 	gboolean primary_source_is_system;
 	gboolean selection_has_url;
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
-	gboolean clipboard_has_calendar;
 
 	priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -196,6 +197,8 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	can_delete_primary_source =
+		(state & E_MEMO_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
 	primary_source_is_system =
 		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 
@@ -232,7 +235,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_DELETE);
-	sensitive = has_primary_source && !primary_source_is_system;
+	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_PROPERTIES);
