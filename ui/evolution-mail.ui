@@ -109,6 +109,18 @@
       <menuitem action='mail-label-new'/>
     </menu>
     <separator/>
+    <menu action='mail-create-rule-menu'>
+      <menuitem action='mail-filter-on-subject'/>
+      <menuitem action='mail-filter-on-sender'/>
+      <menuitem action='mail-filter-on-recipients'/>
+      <menuitem action='mail-filter-on-mailing-list'/>
+      <separator/>
+      <menuitem action='mail-search-folder-from-subject'/>
+      <menuitem action='mail-search-folder-from-sender'/>
+      <menuitem action='mail-search-folder-from-recipients'/>
+      <menuitem action='mail-search-folder-from-mailing-list'/>
+    </menu>
+    <separator/>
     <placeholder name='mail-message-templates'/>
     <separator/>
     <placeholder name='mail-message-popup-actions'/>
