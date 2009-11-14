@@ -13,6 +13,22 @@
 # I. Felix <ifelix@redhat.com>, 2009.
 # Dr.T.Vasudevan <agnihot3@gmail.com>, 2009.
 # Dr,T,Vasudevan <agnihot3@gmail.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: ta\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
+"POT-Creation-Date: 2009-11-12 11:34+0000\n"
+"PO-Revision-Date: 2009-11-13 09:51+0530\n"
+"Last-Translator: \n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\\n"
+"\n"
+"\n"
+"\n"
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
 msgid ""
