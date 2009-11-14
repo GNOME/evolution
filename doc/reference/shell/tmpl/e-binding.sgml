@@ -17,6 +17,29 @@ GObject Property Bindings
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT EBinding ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT EMutualBinding ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION EBindingTransform ##### -->
+<para>
+
+</para>
+
+@src_value: 
+@dst_value: 
+@user_data: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_binding_new ##### -->
 <para>
 

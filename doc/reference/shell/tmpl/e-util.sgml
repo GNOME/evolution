@@ -371,6 +371,34 @@ Miscellaneous Utility Functions
 @Returns: 
 
 
+<!-- ##### FUNCTION e_file_replace_contents_async ##### -->
+<para>
+
+</para>
+
+@file: 
+@contents: 
+@length: 
+@etag: 
+@make_backup: 
+@flags: 
+@callback: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_file_replace_contents_finish ##### -->
+<para>
+
+</para>
+
+@file: 
+@result: 
+@new_etag: 
+@error: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_fsutils_usage ##### -->
 <para>
 

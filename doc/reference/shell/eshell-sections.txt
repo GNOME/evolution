@@ -13,6 +13,7 @@ e_shell_create_shell_window
 e_shell_handle_uris
 e_shell_watch_window
 e_shell_get_watched_windows
+e_shell_get_active_window
 e_shell_send_receive
 e_shell_get_network_available
 e_shell_set_network_available
@@ -215,6 +216,15 @@ EShellTaskbarPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-shell-utils</FILE>
+<TITLE>Shell Utilities</TITLE>
+e_shell_configure_web_view
+e_shell_run_open_dialog
+e_shell_run_save_dialog
+e_shell_utils_import_uris
+</SECTION>
+
+<SECTION>
 <FILE>e-shell-view</FILE>
 <TITLE>EShellView</TITLE>
 EShellView
@@ -288,7 +298,7 @@ E_SHELL_WINDOW_ACTION_GROUP
 
 <SECTION>
 <FILE>e-account-utils</FILE>
-<TITLE>Mail Account Functions</TITLE>
+<TITLE>Mail Accounts</TITLE>
 e_get_account_list
 e_get_default_account
 e_set_default_account
@@ -299,6 +309,9 @@ e_get_account_by_uid
 <SECTION>
 <FILE>e-binding</FILE>
 <TITLE>GObject Property Bindings</TITLE>
+EBinding
+EMutualBinding
+EBindingTransform
 e_binding_new
 e_binding_new_full
 e_binding_new_with_negation
@@ -309,6 +322,9 @@ e_mutual_binding_new_with_negation
 e_mutual_binding_unbind
 e_binding_transform_color_to_string
 e_binding_transform_string_to_color
+<SUBSECTION Private>
+EBindingBase
+EBindingLink
 </SECTION>
 
 <SECTION>
@@ -342,14 +358,14 @@ e_bit_array_get_type
 
 <SECTION>
 <FILE>e-categories-config</FILE>
-<TITLE>Category Functions</TITLE>
+<TITLE>Categories</TITLE>
 e_categories_config_get_icon_for
 e_categories_config_open_dialog_for_entry
 </SECTION>
 
 <SECTION>
 <FILE>e-datetime-format</FILE>
-<TITLE>Date and Time Formatting Functions</TITLE>
+<TITLE>Date and Time Formatting</TITLE>
 DTFormatKind
 e_datetime_format_add_setup_widget
 e_datetime_format_format
@@ -358,11 +374,8 @@ e_datetime_format_format_tm
 
 <SECTION>
 <FILE>e-dialog-utils</FILE>
-<TITLE>Dialog Window Functions (Legacy)</TITLE>
+<TITLE>Dialog Utilities (Legacy)</TITLE>
 e_notice
-e_file_get_save_filesel
-e_file_can_save
-e_file_check_local
 e_dialog_editable_set
 e_dialog_editable_get
 e_dialog_combo_box_set
@@ -371,7 +384,7 @@ e_dialog_combo_box_get
 
 <SECTION>
 <FILE>e-error</FILE>
-<TITLE>Error Dialog Functions</TITLE>
+<TITLE>Error Dialogs</TITLE>
 E_ERROR_INFO
 E_ERROR_INFO_PRIMARY
 E_ERROR_WARNING
@@ -405,7 +418,7 @@ e_text_to_html
 
 <SECTION>
 <FILE>e-icon-factory</FILE>
-<TITLE>Icon Functions (Legacy)</TITLE>
+<TITLE>Icon Utilities (Legacy)</TITLE>
 e_icon_factory_init
 e_icon_factory_shutdown
 e_icon_factory_get_icon_filename
@@ -459,9 +472,32 @@ EModulePrivate
 
 <SECTION>
 <FILE>e-print</FILE>
-<TITLE>Printing Functions</TITLE>
+<TITLE>Printing</TITLE>
 e_print_operation_new
 e_print_run_page_setup_dialog
+</SECTION>
+
+<SECTION>
+<FILE>e-selection</FILE>
+<TITLE>Selections</TITLE>
+e_target_list_add_calendar_targets
+e_target_list_add_directory_targets
+e_selection_data_set_calendar
+e_selection_data_set_directory
+e_selection_data_get_calendar
+e_selection_data_get_directory
+e_selection_data_targets_include_calendar
+e_selection_data_targets_include_directory
+e_targets_include_calendar
+e_targets_include_directory
+e_clipboard_set_calendar
+e_clipboard_set_directory
+e_clipboard_request_calendar
+e_clipboard_request_directory
+e_clipboard_wait_for_calendar
+e_clipboard_wait_for_directory
+e_clipboard_wait_is_calendar_available
+e_clipboard_wait_is_directory_available
 </SECTION>
 
 <SECTION>
@@ -524,7 +560,7 @@ ESignatureListPrivate
 
 <SECTION>
 <FILE>e-signature-utils</FILE>
-<TITLE>More Signature Functions</TITLE>
+<TITLE>More Signature Utilities</TITLE>
 e_get_signature_list
 e_get_signature_by_name
 e_get_signature_by_uid
@@ -535,7 +571,7 @@ e_run_signature_script
 
 <SECTION>
 <FILE>e-util</FILE>
-<TITLE>Miscellaneous Utility Functions</TITLE>
+<TITLE>Miscellaneous Utilities</TITLE>
 e_get_user_data_dir
 e_get_accels_filename
 e_show_uri
@@ -564,8 +600,6 @@ e_get_weekday_name
 e_flexible_strtod
 e_ascii_dtostr
 get_font_options
-e_file_update_save_path
-e_file_get_save_path
 e_file_lock_create
 e_file_lock_destroy
 e_file_lock_exists
@@ -574,6 +608,8 @@ e_util_read_file
 e_util_get_category_filter_options
 e_charset_add_radio_actions
 e_folder_map_local_folders
+e_file_replace_contents_async
+e_file_replace_contents_finish
 e_fsutils_usage
 e_fsutils_avail
 e_mktemp

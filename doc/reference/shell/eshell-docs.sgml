@@ -22,6 +22,7 @@ url="http://mbarnes.fedorapeople.org/docs/eshell/">http://mbarnes.fedorapeople.o
     <xi:include href="xml/e-shell-taskbar.xml"/>
     <xi:include href="xml/e-shell-settings.xml"/>
     <xi:include href="xml/e-shell-switcher.xml"/>
+    <xi:include href="xml/e-shell-utils.xml"/>
   </chapter>
 
   <chapter>
@@ -38,6 +39,7 @@ url="http://mbarnes.fedorapeople.org/docs/eshell/">http://mbarnes.fedorapeople.o
     <xi:include href="xml/e-logger.xml"/>
     <xi:include href="xml/e-module.xml"/>
     <xi:include href="xml/e-print.xml"/>
+    <xi:include href="xml/e-selection.xml"/>
     <xi:include href="xml/e-signature.xml"/>
     <xi:include href="xml/e-signature-list.xml"/>
     <xi:include href="xml/e-signature-utils.xml"/>

@@ -213,6 +213,15 @@ EShell
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_get_active_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_send_receive ##### -->
 <para>
 
