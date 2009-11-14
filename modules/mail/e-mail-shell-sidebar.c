@@ -560,8 +560,17 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		COL_STRING_URI, &uri, -1);
 
 	if (!is_store && full_name != NULL) {
+		guint32 folder_type;
+
+		/* Is this a virtual junk or trash folder? */
 		is_junk = (strcmp (full_name, CAMEL_VJUNK_NAME) == 0);
 		is_trash = (strcmp (full_name, CAMEL_VTRASH_NAME) == 0);
+
+		/* Is this is a real trash folder? */
+		/* Used by Exchange and GroupWise accounts. */
+		folder_type = (folder_flags & CAMEL_FOLDER_TYPE_MASK);
+		is_trash |= (folder_type == CAMEL_FOLDER_TYPE_TRASH);
+
 		allows_children = !(is_junk || is_trash);
 
 		/* Don't allow deletion of special local folders. */
