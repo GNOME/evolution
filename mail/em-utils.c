@@ -1746,7 +1746,7 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 	g_slist_free (addr_sources);
 
 	e_book_query_unref (query);
-	
+
 	if (!found_any) {
 		g_hash_table_insert (contact_cache, lowercase_addr, NOT_FOUND_BOOK);
 		lowercase_addr = NULL;

@@ -656,7 +656,7 @@ folder_tree_key_press_event (GtkWidget *widget,
 	if (event && event->type == GDK_KEY_PRESS && (event->keyval == GDK_space || event->keyval == '.' || event->keyval == ',' || event->keyval == '[' || event->keyval == ']')) {
 		g_signal_emit (widget, signals [HIDDEN_KEY_EVENT], 0, event);
 
- 		return TRUE;
+		return TRUE;
 	}
 
 	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);

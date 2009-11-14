@@ -341,7 +341,7 @@ filter:
 		string = g_string_sized_new (1024);
 		e_filter_rule_build_code (search_rule, string);
 		temp = g_strconcat ("(and", string->str, query, ")", NULL);
-		
+
 		g_free (query);
 		query = temp;
 
