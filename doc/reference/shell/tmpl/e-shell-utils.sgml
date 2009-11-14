@@ -1,0 +1,66 @@
+<!-- ##### SECTION Title ##### -->
+Shell Utilities
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION e_shell_configure_web_view ##### -->
+<para>
+
+</para>
+
+@shell: 
+@web_view: 
+
+
+<!-- ##### FUNCTION e_shell_run_open_dialog ##### -->
+<para>
+
+</para>
+
+@shell: 
+@title: 
+@customize_func: 
+@customize_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_run_save_dialog ##### -->
+<para>
+
+</para>
+
+@shell: 
+@title: 
+@suggestion: 
+@customize_func: 
+@customize_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_utils_import_uris ##### -->
+<para>
+
+</para>
+
+@shell: 
+@uris: 
+@preview: 
+@Returns: 
+
+
