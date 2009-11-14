@@ -1729,7 +1729,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
 	while (valid) {
-		GtkToggleAction *toggle_action;
+		EMailLabelAction *label_action;
 		GtkAction *action;
 		gchar *action_name;
 		gchar *stock_id;
@@ -1745,25 +1745,26 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		action_name = g_strdup_printf ("mail-label-%d", ii);
 
 		/* XXX Add a tooltip! */
-		toggle_action = gtk_toggle_action_new (
+		label_action = e_mail_label_action_new (
 			action_name, label, NULL, stock_id);
 
 		g_object_set_data_full (
-			G_OBJECT (toggle_action), "tag",
+			G_OBJECT (label_action), "tag",
 			tag, (GDestroyNotify) g_free);
 
 		/* Configure the action before we connect to signals. */
 		mail_shell_view_update_label_action (
-			toggle_action, message_list, uids, tag);
+			GTK_TOGGLE_ACTION (label_action),
+			message_list, uids, tag);
 
 		g_signal_connect (
-			toggle_action, "toggled",
+			label_action, "toggled",
 			G_CALLBACK (action_mail_label_cb), mail_shell_view);
 
 		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (toggle_action);
+		action = GTK_ACTION (label_action);
 		gtk_action_group_add_action (action_group, action);
-		g_object_unref (toggle_action);
+		g_object_unref (label_action);
 
 		gtk_ui_manager_add_ui (
 			ui_manager, merge_id, path, action_name,

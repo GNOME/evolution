@@ -40,6 +40,7 @@ mailinclude_HEADERS =					\
 	e-mail-attachment-bar.h				\
 	e-mail-browser.h				\
 	e-mail-display.h				\
+	e-mail-label-action.h				\
 	e-mail-label-dialog.h				\
 	e-mail-label-list-store.h			\
 	e-mail-label-manager.h				\
@@ -96,6 +97,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-attachment-bar.c				\
 	e-mail-browser.c				\
 	e-mail-display.c				\
+	e-mail-label-action.c				\
 	e-mail-label-dialog.c				\
 	e-mail-label-list-store.c			\
 	e-mail-label-manager.c				\
