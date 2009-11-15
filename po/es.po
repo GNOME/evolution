@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-15 11:14+0000\n"
-"PO-Revision-Date: 2009-11-15 14:50+0100\n"
+"POT-Creation-Date: 2009-11-15 13:51+0000\n"
+"PO-Revision-Date: 2009-11-15 17:34+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1291,7 +1291,7 @@ msgstr "Copiar dirección de _correo-e"
 #: ../addressbook/gui/widgets/eab-contact-display.c:196
 #: ../widgets/misc/e-web-view.c:367
 msgid "_Send New Message To..."
-msgstr "_Enviar un mensaje nuevo a…"
+msgstr "_Enviar un correo nuevo a…"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:206
 #: ../widgets/misc/e-web-view.c:340
@@ -10100,7 +10100,7 @@ msgstr ""
 
 #: ../mail/em-account-editor.c:2527
 msgid "Check for _new messages every"
-msgstr "Comprobar si hay correo _nuevo cada"
+msgstr "Comprobar si hay mensajes _nuevos cada"
 
 #: ../mail/em-account-editor.c:2535
 msgid "minu_tes"
@@ -10819,7 +10819,7 @@ msgstr "Filtros de mensajes"
 #: ../mail/em-utils.c:795
 #, c-format
 msgid "Messages from %s"
-msgstr "Correos de %s"
+msgstr "Mensajes de %s"
 
 #: ../mail/em-vfolder-editor.c:126
 msgid "Search _Folders"
@@ -11216,12 +11216,6 @@ msgstr ""
 "según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#| msgid ""
-#| "Initial maximize state of the \"Send and Receive Mail\" window. The value "
-#| "updates when the user maximizes or unmaximizes the window. Note, this "
-#| "particular value is not used by Evolution since the \"Send and Receive "
-#| "Mail\" window cannot be maximized. This key exists only as an "
-#| "implementation detail."
 msgid ""
 "Initial maximize state of the \"Filter Editor\" window. The value updates "
 "when the user maximizes or unmaximizes the window. Note, this particular "
@@ -11234,12 +11228,6 @@ msgstr ""
 "puede maximizar. Esta clave existe sólo como un detalle de implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:77
-#| msgid ""
-#| "Initial maximize state of the \"Send and Receive Mail\" window. The value "
-#| "updates when the user maximizes or unmaximizes the window. Note, this "
-#| "particular value is not used by Evolution since the \"Send and Receive "
-#| "Mail\" window cannot be maximized. This key exists only as an "
-#| "implementation detail."
 msgid ""
 "Initial maximize state of the \"Search Folder Editor\" window. The value "
 "updates when the user maximizes or unmaximizes the window. Note, this "
@@ -11267,9 +11255,6 @@ msgstr ""
 "implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:79
-#| msgid ""
-#| "Initial width of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window horizontally."
 msgid ""
 "Initial width of the \"Filter Editor\" window. The value updates as the user "
 "resizes the window horizontally."
@@ -11278,9 +11263,6 @@ msgstr ""
 "según el usuario redimensiona horizontalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:80
-#| msgid ""
-#| "Initial width of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window horizontally."
 msgid ""
 "Initial width of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window horizontally."
@@ -11529,11 +11511,11 @@ msgstr "Buscar la foto del remitente en libretas de direcciones locales"
 
 #: ../mail/evolution-mail.schemas.in.h:133
 msgid "Send HTML mail by default"
-msgstr "Enviar correo en HTML por omisión"
+msgstr "Enviar correo en HTML de forma predeterminada"
 
 #: ../mail/evolution-mail.schemas.in.h:134
 msgid "Send HTML mail by default."
-msgstr "Envía el correo en HTML por omisión."
+msgstr "Enviar el correo en HTML de forma predeterminada."
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "Sender email-address column in the message list"
@@ -11581,11 +11563,11 @@ msgstr "Mostrar animaciones"
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid "Show all message headers"
-msgstr "Mostrar todas las cabeceras del correo"
+msgstr "Mostrar todas las cabeceras del mensaje"
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Show all the headers when viewing a messages."
-msgstr "Mostrar todas las cabeceras al ver correos."
+msgstr "Mostrar todas las cabeceras al ver mensajes."
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid "Show animated images as animations."
@@ -12248,7 +12230,7 @@ msgstr "Comprobar orto_grafía mientras se escribe"
 
 #: ../mail/mail-config.glade.h:56
 msgid "Checks incoming mail messages to be Junk"
-msgstr "Comprueba si el correo entrante es SPAM"
+msgstr "Comprueba si los mensajes de correo entrantes son SPAM"
 
 #: ../mail/mail-config.glade.h:57
 msgid "Cle_ar"
@@ -12272,7 +12254,7 @@ msgstr "_Codificación de caracteres predeterminada:"
 
 #: ../mail/mail-config.glade.h:63
 msgid "Delete junk messages on e_xit"
-msgstr "Borrar los correos SPAM al _salir"
+msgstr "Borrar los mensajes SPAM al _salir"
 
 #: ../mail/mail-config.glade.h:65
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -12338,7 +12320,7 @@ msgstr "Nombre _completo:"
 
 #: ../mail/mail-config.glade.h:82
 msgid "HTML Messages"
-msgstr "Correos HTML"
+msgstr "Mensajes HTML"
 
 #: ../mail/mail-config.glade.h:83
 msgid "H_TTP Proxy:"
@@ -12577,7 +12559,7 @@ msgstr "_Mantener la firma por encima del mensaje original al responder"
 
 #: ../mail/mail-config.glade.h:144
 msgid "_Load images in messages from contacts"
-msgstr "_Cargar imágenes en los correo de mis contactos"
+msgstr "_Cargar imágenes en los mensajes de mis contactos"
 
 #: ../mail/mail-config.glade.h:145
 msgid "_Lookup in local address book only"
@@ -12636,7 +12618,7 @@ msgstr "_Mostrar animaciones"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Show the photograph of sender in the message preview"
-msgstr "_Mostrar la foto del remitente en la vista previa del correo-e"
+msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Shrink To / Cc / Bcc headers to "
@@ -12887,7 +12869,7 @@ msgstr "Carpetas locales"
 #: ../mail/mail-ops.c:1864
 #, c-format
 msgid "Retrieving message '%s'"
-msgstr "Obteniendo correo «%s»"
+msgstr "Obteniendo mensaje «%s»"
 
 #: ../mail/mail-ops.c:1982
 #, c-format
@@ -14224,13 +14206,11 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-sidebar.c:601
 #: ../modules/calendar/e-memo-shell-sidebar.c:536
 #: ../modules/calendar/e-task-shell-sidebar.c:534
-#, fuzzy
 #| msgid "Memo Source Selector"
 msgid "Source Selector Widget"
-msgstr "Selector de origen de notas"
+msgstr "Selector de fuentes"
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:182
-#| msgid "Couldn't get list of address books"
 msgid "This widget displays groups of address books"
 msgstr "Este widget muestra grupos de libretas de direcciones"
 
@@ -14430,7 +14410,7 @@ msgstr "Vista _vertical"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:974
 msgid "Show contact preview alongside the contact list"
-msgstr "Mostrar la vista previa del contacto junto con la lista de contactos"
+msgstr "Mostrar la vista previa del contacto junto a la lista de contactos"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:982
 #: ../modules/calendar/e-cal-shell-view-actions.c:1569
@@ -14447,7 +14427,6 @@ msgid "Unmatched"
 msgstr "No coincidente"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1025
-#| msgid "Print selected contacts"
 msgid "Print all shown contacts"
 msgstr "Imprimir todos los contactos mostrados"
 
@@ -15142,7 +15121,6 @@ msgstr "Imprimir la nota seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:444
 #: ../modules/calendar/e-memo-shell-view.c:226
-#| msgid "Delegate To"
 msgid "Delete Memo"
 msgid_plural "Delete Memos"
 msgstr[0] "Borrar nota"
@@ -15150,7 +15128,6 @@ msgstr[1] "Borrar notas"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:99
 #: ../modules/calendar/e-task-shell-view-actions.c:127
-#| msgid "Deleting selected objects..."
 msgid "Deleting selected tasks..."
 msgstr "Borrando las tareas seleccionadas…"
 
@@ -15176,7 +15153,6 @@ msgstr "Pega las tareas del portapapeles"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:389
 #: ../modules/calendar/e-task-shell-view-actions.c:736
-#| msgid "_Delete"
 msgid "_Delete Task"
 msgstr "_Borrar tarea"
 
@@ -15201,7 +15177,6 @@ msgstr "_Marcar como incompleta"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:412
 #: ../modules/calendar/e-task-shell-view-actions.c:801
-#| msgid "Mark selected tasks as complete"
 msgid "Mark selected tasks as incomplete"
 msgstr "Marcar las tareas seleccionadas como incompletas"
 
@@ -15229,19 +15204,16 @@ msgstr "Ver la tarea seleccionada"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:438
 #: ../modules/calendar/e-memo-shell-view-actions.c:860
 #: ../modules/calendar/e-task-shell-view-actions.c:1061
-#| msgid "_Forward as iCalendar..."
 msgid "_Save as iCalendar..."
 msgstr "G_uardar como iCalendar…"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:450
 #: ../modules/calendar/e-task-shell-view-actions.c:1046
-#| msgid "View the selected task"
 msgid "Print the selected task"
 msgstr "Imprimir la tarea seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:555
 #: ../modules/calendar/e-task-shell-view.c:353
-#| msgid "Delegate To"
 msgid "Delete Task"
 msgid_plural "Delete Tasks"
 msgstr[0] "Borrar tarea"
@@ -15253,19 +15225,15 @@ msgid "Mem_o"
 msgstr "_Nota"
 
 #: ../modules/calendar/e-memo-shell-backend.c:323
-#| msgctxt "New"
-#| msgid "_Shared memo"
 msgctxt "New"
 msgid "_Shared Memo"
 msgstr "Nota _compartida"
 
 #: ../modules/calendar/e-memo-shell-backend.c:325
-#| msgid "Create a shared new memo"
 msgid "Create a new shared memo"
 msgstr "Crea una nota compartida nueva"
 
 #: ../modules/calendar/e-memo-shell-backend.c:333
-#| msgid "Memo List"
 msgctxt "New"
 msgid "Memo Li_st"
 msgstr "Li_sta de notas"
@@ -15276,12 +15244,10 @@ msgid "Create a new memo list"
 msgstr "Crea una lista de notas nueva"
 
 #: ../modules/calendar/e-memo-shell-backend.c:584
-#| msgid "Primary memo list"
 msgid "The registry of memo lists"
 msgstr "El registro de lista de notas"
 
 #: ../modules/calendar/e-memo-shell-content.c:602
-#| msgid "Table model"
 msgid "The memo table model"
 msgstr "El modelo de la tabla de notas"
 
@@ -15290,10 +15256,9 @@ msgid "Loading memos"
 msgstr "Cargando notas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:399
-#, fuzzy
 #| msgid "Memo Source Selector"
 msgid "Memo List Selector"
-msgstr "Selector de origen de notas"
+msgstr "Selector de lista de notas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:537
 msgid "This widget displays groups of memo lists"
@@ -15314,38 +15279,32 @@ msgid "_New Memo List"
 msgstr "Lista de notas _nueva"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:654
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected memo list"
-msgstr "Renombrar la carpeta seleccionada"
+msgstr "Renombrar la lista de notas seleccionada"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:659
-#, fuzzy
 #| msgid "Show _only this Memo List"
 msgid "Show _Only This Memo List"
 msgstr "Mostrar _sólo esta lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:750
-#| msgid "_Preview"
 msgid "Memo _Preview"
 msgstr "Vista pre_via de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:752
-#| msgid "Show preview pane"
 msgid "Show memo preview pane"
 msgstr "Mostrar el panel de vista previa de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:773
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show memo preview below the memo list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa de la nota bajo la lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:780
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show memo preview alongside the memo list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa de la nota junto a la lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:831
 msgid "Print the list of memos"
@@ -15473,7 +15432,6 @@ msgid "Show _Only This Task List"
 msgstr "Mostrar _sólo esta lista de tareas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:799
-#, fuzzy
 #| msgid "_Mark as Incomplete"
 msgid "Mar_k as Incomplete"
 msgstr "_Marcar como incompleto"
@@ -15487,22 +15445,19 @@ msgid "Task _Preview"
 msgstr "_Vista previa de tarea"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:918
-#, fuzzy
 #| msgid "Show preview pane"
 msgid "Show task preview pane"
 msgstr "Mostrar el panel de vista previa"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:939
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show task preview below the task list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa de tareas bajo la lista de tareas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:946
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show task preview alongside the task list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa de tareas junto a la lista de tareas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:954
 msgid "Active Tasks"
@@ -15529,10 +15484,9 @@ msgid "Print the list of tasks"
 msgstr "Imprime la lista de tareas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:1039
-#, fuzzy
 #| msgid "Previews the list of tasks to be printed"
 msgid "Preview the list of tasks to be printed"
-msgstr "Vista previa de la lista de tareas a imprimir"
+msgstr "Vista previa de la lista de tareas para imprimir"
 
 #: ../modules/calendar/e-task-shell-view-private.c:511
 #, c-format
@@ -15542,10 +15496,9 @@ msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
 #: ../modules/calendar/e-task-shell-view.c:351
-#, fuzzy
 #| msgid "Completed Tasks"
 msgid "Delete Tasks"
-msgstr "Tareas completadas"
+msgstr "Borrar tareas"
 
 #. Translators: This is only for multiple messages.
 #: ../modules/mail/e-mail-attachment-handler.c:335
@@ -15678,16 +15631,14 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1032
 #: ../modules/mail/e-mail-shell-view.c:510
-#, fuzzy
 #| msgid "Disable Account"
 msgid "_Disable Account"
-msgstr "Desactivar cuenta"
+msgstr "_Desactivar cuenta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1034
-#, fuzzy
 #| msgid "Disable Account"
 msgid "Disable this account"
-msgstr "Desactivar cuenta"
+msgstr "Desactivar esta cuenta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1039
 msgid "C_reate Search Folder From Search..."
@@ -15698,10 +15649,10 @@ msgid "_Download Messages for Offline Usage"
 msgstr "_Descargar mensajes para trabajar sin conexión"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1048
-#, fuzzy
 #| msgid "Download messages of accounts/folders marked for offline"
 msgid "Download messages of accounts and folders marked for offline"
-msgstr "Descargar mensajes para cuentas/carpetas marcadas como sin conexión"
+msgstr ""
+"Descargar correos para las cuentas y carpetas marcadas como sin conexión"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1053
 msgid "Empty _Trash"
@@ -15709,11 +15660,10 @@ msgstr "_Vaciar papelera"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1055
 #: ../modules/mail/e-mail-shell-view-actions.c:1062
-#, fuzzy
 #| msgid "Permanently remove all deleted messages from all folders"
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr ""
-"Elimina permanentemente todos los mensajes borrados de todas las carpetas"
+"Eliminar permanentemente todos los correos borrados de todas las carpetas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1067
 msgid "Fl_ush Outbox"
@@ -15790,7 +15740,7 @@ msgstr "Seleccionar con_versación del mensaje"
 #: ../modules/mail/e-mail-shell-view-actions.c:1146
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Selecciona todos los mensajes en la misma conversación que el mensaje "
+"Selecciona todos los correos en la misma conversación que el correo "
 "seleccionado"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1151
@@ -15806,20 +15756,18 @@ msgid "_Unsubscribe"
 msgstr "Des_uscribir"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1160
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
-msgstr "Renombrar la carpeta seleccionada"
+msgstr "Desuscribirse de la carpeta seleccionada"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1165
 msgid "_New Label"
 msgstr "Etiqueta n_ueva"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1172
-#, fuzzy
 #| msgid "None"
 msgid "N_one"
-msgstr "Ninguno"
+msgstr "Ning_uno"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1179
 msgid "Hide _Read Messages"
@@ -15867,21 +15815,20 @@ msgstr "Expandir todas las conversaciones"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1235
 msgid "_Message Filters"
-msgstr "_Filtros de mensajes"
+msgstr "_Filtros de correos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1237
 msgid "Create or edit rules for filtering new mail"
-msgstr "Crea o edita reglas para el filtrado de mensajes nuevos"
+msgstr "Crear o editar reglas para el filtrado de correos nuevos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1242
 msgid "Search F_olders"
 msgstr "Carpetas de búsque_da"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1244
-#, fuzzy
 #| msgid "Create or edit Search Folder definitions"
 msgid "Create or edit search folder definitions"
-msgstr "Crea o edita definiciones de carpetas de búsqueda"
+msgstr "Crear o edita definiciones para carpetas de búsqueda"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1249
 msgid "_Subscriptions..."
@@ -15905,47 +15852,44 @@ msgstr "Carpeta _nueva…"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1329
 msgid "Hide _Deleted Messages"
-msgstr "Ocultar mensajes _borrados"
+msgstr "Ocultar correos _borrados"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1331
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
-"Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
+"Ocultar los correos borrados en lugar de mostrarlos tachados por una línea"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1338
 msgid "Show Message _Preview"
-msgstr "Mostrar vista _previa del mensaje"
+msgstr "Mostrar vista _previa del correo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1340
-#, fuzzy
 #| msgid "Show message preview window"
 msgid "Show message preview pane"
-msgstr "Mostrar una ventana de vista previa de mensajes"
+msgstr "Mostrar el correo en el panel de vista previa"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1346
 msgid "_Group By Threads"
 msgstr "A_grupar por conversaciones"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1348
-#, fuzzy
 #| msgid "Threaded Message list"
 msgid "Threaded message list"
-msgstr "Lista de mensajes por conversaciones"
+msgstr "Lista de correos por conversaciones"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1369
 msgid "Show message preview below the message list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa del correo bajo la lista de mensajes"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1376
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show message preview alongside the message list"
-msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa del correo junto a la lista de mensajes"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1384
 msgid "All Messages"
-msgstr "Todos los mensajes"
+msgstr "Todos los correos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1391
 msgid "Important Messages"
@@ -15980,7 +15924,6 @@ msgid "Unread Messages"
 msgstr "Mensajes no leídos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1485
-#, fuzzy
 #| msgid "Subject or Addresses contains"
 msgid "Subject or Addresses contain"
 msgstr "El asunto o las direcciones contienen"
@@ -16119,22 +16062,19 @@ msgid "No Junk plugin available"
 msgstr "No hay complemento para SPAM disponible"
 
 #: ../modules/mail/em-mailer-prefs.c:1147
-#, fuzzy
 #| msgid "Table column:"
 msgid "_Table column:"
-msgstr "Columna de tabla:"
+msgstr "Columna de _tabla:"
 
 #: ../modules/mail/em-mailer-prefs.c:1148
-#, fuzzy
 #| msgid "Date header:"
 msgid "_Date header:"
-msgstr "Cabecera de fecha:"
+msgstr "Cabecera de _fecha:"
 
 #: ../modules/mail/em-mailer-prefs.c:1149
-#, fuzzy
 #| msgid "Show _Original Size"
 msgid "Show _original header value"
-msgstr "Mostrar tamaño _original"
+msgstr "Mostrar el valor _original de la cabecera"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
@@ -16212,16 +16152,15 @@ msgstr ""
 "Le recuerda cuando se le olvida añadir un adjunto a un mensaje de correo."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 #| msgid "Inline"
 msgid "Inline Audio"
-msgstr "Incluido en línea"
+msgstr "Sonido en línea"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
-#, fuzzy
 #| msgid "Play audio attachments directly from Evolution."
 msgid "Play audio attachments directly in mail messages."
-msgstr "Reproducir adjuntos de sonido directamente en Evolution."
+msgstr ""
+"Reproducir los adjuntos de sonido directamente en los mensajes de correo."
 
 #: ../plugins/backup-restore/backup-restore.c:148
 msgid "Select name of the Evolution backup file"
@@ -16271,20 +16210,18 @@ msgid "_Backup Settings..."
 msgstr "_Respaldar ajustes…"
 
 #: ../plugins/backup-restore/backup-restore.c:349
-#, fuzzy
 #| msgid "Backup and restore Evolution data and settings"
 msgid "Backup Evolution data and settings to an archive file"
-msgstr "Respaldar y restaurar los datos de Evolution y la configuración"
+msgstr "Respaldar y restaurar los datos y la configuración a un archivador"
 
 #: ../plugins/backup-restore/backup-restore.c:354
 msgid "R_estore Settings..."
 msgstr "R_estaurar ajustes…"
 
 #: ../plugins/backup-restore/backup-restore.c:356
-#, fuzzy
 #| msgid "Backup and restore Evolution data and settings"
 msgid "Restore Evolution data and settings from an archive file"
-msgstr "Respaldar y restaurar los datos de Evolution y la configuración"
+msgstr "Respaldar y restaurar los datos y la configuración desde un archivador"
 
 #: ../plugins/backup-restore/backup.c:62
 msgid "Backup Evolution directory"
@@ -16744,10 +16681,9 @@ msgid "Mark as _default address book"
 msgstr "Marcar como libreta de direcciones pre_determinada"
 
 #: ../plugins/default-source/default-source.c:119
-#, fuzzy
 #| msgid "Show autocompleted name with an address"
 msgid "A_utocomplete with this address book"
-msgstr "Mostrar el nombre autocompletado con la dirección"
+msgstr "A_utocompletar con esta libreta de direcciones"
 
 #: ../plugins/default-source/default-source.c:138
 msgid "Mark as _default calendar"
@@ -16939,16 +16875,14 @@ msgid "Unknown error"
 msgstr "Error desconocido"
 
 #: ../plugins/face/face.c:286
-#, fuzzy
 #| msgid "Select a (48*48) png of size < 700bytes"
 msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
-msgstr "Seleccione un png (48*48) de tamaño < 700bytes"
+msgstr "Seleccionar una imagen png (el mejor tamaño es 48*48 < 720bytes)"
 
 #: ../plugins/face/face.c:296
-#, fuzzy
 #| msgid "Importing files"
 msgid "Image files"
-msgstr "Importando archivos"
+msgstr "Archivos de imágenes"
 
 #: ../plugins/face/face.c:355
 msgid "_Insert Face picture by default"
@@ -16959,44 +16893,38 @@ msgid "Load new _Face picture"
 msgstr "Cargar una nueva imagen de _rostro"
 
 #: ../plugins/face/face.c:415
-#, fuzzy
 #| msgid "Include:"
 msgid "Include _Face"
-msgstr "Incluye:"
+msgstr "Incluir _rostro"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
 msgstr "Adjuntar una imagen pequeña de su rostro en mensajes salientes."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
-#, fuzzy
 #| msgid "Table header"
 msgid "Failed Read"
-msgstr "Cabecera de la tabla"
+msgstr "Lectura fallida"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
-#, fuzzy
 #| msgid "Invalid Date Value"
 msgid "Invalid Image Size"
-msgstr "Valor de fecha inválido"
+msgstr "Tamaño de imagen no válido"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
-#, fuzzy
 #| msgid "_No image"
 msgid "Not an image"
-msgstr "_Sin imagen"
+msgstr "No es una imagen"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
-#, fuzzy
 #| msgid "Please select an image for this contact"
 msgid "Please select an image of size 48 * 48"
-msgstr "Seleccione una imagen para este contacto"
+msgstr "Seleccione una imagen de tamaño 48 * 48"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
-#, fuzzy
 #| msgid "The item could not be sent!\n"
 msgid "The file cannot be read"
-msgstr "El elemento no pudo enviarse.\n"
+msgstr "El archivo no se puede leer"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
@@ -17159,10 +17087,9 @@ msgstr "_Quitar"
 
 #: ../plugins/groupwise-features/mail-retract.c:82
 msgid "Message Retract"
-msgstr "Retirada de mensaje"
+msgstr "Retirada de correo"
 
 #: ../plugins/groupwise-features/mail-retract.c:87
-#, fuzzy
 #| msgid ""
 #| "Retracting a message may remove it from the recipient's mailbox. Are you "
 #| "sure you want to do this ?"
@@ -17170,12 +17097,12 @@ msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this?"
 msgstr ""
-"Retirar un mensaje puede eliminarlo del buzón de correo del destinatario. "
-"¿Está seguro que quiere hacer esto?"
+"Retirar un correo puede eliminarlo del buzón de correo del destinatario. "
+"¿Está seguro de que quiere hacer esto?"
 
 #: ../plugins/groupwise-features/mail-retract.c:106
 msgid "Message retracted successfully"
-msgstr "Mensaje retractado con éxito"
+msgstr "Correo retirado con éxito"
 
 #: ../plugins/groupwise-features/mail-send-options.c:200
 msgid "Insert Send options"
@@ -17183,7 +17110,7 @@ msgstr "Insertar opciones de envío"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to GroupWise messages"
-msgstr "Añadir opciones de envío a los mensajes de GroupWise"
+msgstr "Añadir opciones de envío a los correos de GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "Fine-tune your GroupWise accounts."
@@ -17195,7 +17122,7 @@ msgstr "Características de GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:1
 msgid "Message retract failed"
-msgstr "Falló al retractar el mensaje"
+msgstr "Falló al retirar el correo"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:2
 msgid "The server did not allow the selected message to be retracted."
