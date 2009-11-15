@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-13 23:19+0000\n"
-"PO-Revision-Date: 2009-11-14 11:39+0100\n"
+"POT-Creation-Date: 2009-11-14 10:40+0000\n"
+"PO-Revision-Date: 2009-11-15 12:12+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5258,7 +5258,7 @@ msgstr "%A %e de %B"
 #: ../calendar/gui/e-day-view-top-item.c:874 ../calendar/gui/e-day-view.c:1904
 #: ../calendar/gui/e-week-view-main-item.c:227
 #: ../calendar/gui/ea-gnome-calendar.c:189
-#: ../modules/calendar/e-cal-shell-view-private.c:899
+#: ../modules/calendar/e-cal-shell-view-private.c:907
 msgid "%a %d %b"
 msgstr "%a, %e de %b"
 
@@ -5270,7 +5270,7 @@ msgstr "%a, %e de %b"
 #: ../calendar/gui/e-day-view-top-item.c:878 ../calendar/gui/e-day-view.c:1920
 #: ../calendar/gui/e-week-view-main-item.c:241
 #: ../calendar/gui/ea-gnome-calendar.c:219
-#: ../modules/calendar/e-cal-shell-view-private.c:935
+#: ../modules/calendar/e-cal-shell-view-private.c:943
 msgid "%d %b"
 msgstr "%e de %b"
 
@@ -6021,16 +6021,16 @@ msgid "calendar view for one or more days"
 msgstr "vista de calendario para uno o más días"
 
 #: ../calendar/gui/ea-gnome-calendar.c:186
-#: ../modules/calendar/e-cal-shell-view-private.c:895
+#: ../modules/calendar/e-cal-shell-view-private.c:903
 msgid "%A %d %b %Y"
 msgstr "%A, %e de %b de %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:191
 #: ../calendar/gui/ea-gnome-calendar.c:196
 #: ../calendar/gui/ea-gnome-calendar.c:198
-#: ../modules/calendar/e-cal-shell-view-private.c:902
-#: ../modules/calendar/e-cal-shell-view-private.c:908
-#: ../modules/calendar/e-cal-shell-view-private.c:911
+#: ../modules/calendar/e-cal-shell-view-private.c:910
+#: ../modules/calendar/e-cal-shell-view-private.c:916
+#: ../modules/calendar/e-cal-shell-view-private.c:919
 msgid "%a %d %b %Y"
 msgstr "%a, %e de %b de %Y"
 
@@ -6038,10 +6038,10 @@ msgstr "%a, %e de %b de %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:221
 #: ../calendar/gui/ea-gnome-calendar.c:227
 #: ../calendar/gui/ea-gnome-calendar.c:229
-#: ../modules/calendar/e-cal-shell-view-private.c:928
-#: ../modules/calendar/e-cal-shell-view-private.c:939
-#: ../modules/calendar/e-cal-shell-view-private.c:946
-#: ../modules/calendar/e-cal-shell-view-private.c:949
+#: ../modules/calendar/e-cal-shell-view-private.c:936
+#: ../modules/calendar/e-cal-shell-view-private.c:947
+#: ../modules/calendar/e-cal-shell-view-private.c:954
+#: ../modules/calendar/e-cal-shell-view-private.c:957
 msgid "%d %b %Y"
 msgstr "%e de %B de %Y"
 
@@ -17109,7 +17109,7 @@ msgid "Create folder"
 msgstr "Crear carpeta"
 
 #: ../plugins/groupwise-features/install-shared.c:225
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "The user '%s' has shared a folder with you\n"
 #| "\n"
@@ -17141,7 +17141,7 @@ msgstr ""
 "%s\n"
 "\n"
 "\n"
-"Pulse «Reenviar» para instalar la carpeta compartida\n"
+"Pulse «Aplicar» para instalar la carpeta compartida\n"
 "\n"
 
 #: ../plugins/groupwise-features/install-shared.c:237
@@ -17286,19 +17286,16 @@ msgid "You have to specify a user name which you want to add to the list"
 msgstr "Debe especificar el nombre de usuario que quiere añadir a la lista"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#, fuzzy
 #| msgid "Do you want to resend the meeting ?"
 msgid "Do you want to resend the meeting?"
 msgstr "¿Quiere reenviar la reunión?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#, fuzzy
 #| msgid "Do you want to resend the recurring meeting ?"
 msgid "Do you want to resend the recurring meeting?"
 msgstr "¿Quiere reenviar la reunión repetitiva?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#, fuzzy
 #| msgid "Do you want to retract the original item ?"
 msgid "Do you want to retract the original item?"
 msgstr "¿Quiere retractar el elemento original?"
@@ -17542,16 +17539,14 @@ msgid "Hula Support"
 msgstr "Soporte Hula"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#, fuzzy
 #| msgid "Invalid Date Value"
 msgid "Inline Image"
-msgstr "Valor de fecha inválido"
+msgstr "Imagen en línea"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
-#, fuzzy
 #| msgid "Play audio attachments directly from Evolution."
 msgid "View image attachments directly in mail messages."
-msgstr "Reproducir adjuntos de sonido directamente en Evolution."
+msgstr "Ver los adjuntos directamente en los mensajes de correo."
 
 #: ../plugins/imap-features/imap-headers.c:331
 msgid "Custom Headers"
@@ -17734,16 +17729,14 @@ msgstr "No se puede enviar la información de la nota, la nota no existe"
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1514
-#, fuzzy
 #| msgid "Calendars"
 msgid "calendar.ics"
-msgstr "Calendarios"
+msgstr "calendario.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1519
-#, fuzzy
 #| msgid "New calendar"
 msgid "Save Calendar"
-msgstr "Calendario nuevo"
+msgstr "Guardar calendario"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1572
 #: ../plugins/itip-formatter/itip-formatter.c:1583
@@ -18342,20 +18335,19 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr "Notificar nuevos mensajes sólo para la bandeja de entrada."
+msgstr "Notificar nuevos correos sólo para la bandeja de entrada."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Play sound when new messages arrive."
 msgstr "Reproducir un sonido cuando llegue correo nuevo."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 #| msgid ""
 #| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
-"Archivo que reproducir cuando llega un mensaje nuevo, si no se debe "
-"reproducir un pitido."
+"Reproducir el tema de sonido cuando llega un correo nuevo, si no se está en "
+"el modo pitido."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Popup message together with the icon."
@@ -18378,10 +18370,9 @@ msgstr ""
 "reproducir un pitido."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#, fuzzy
 #| msgid "Use underline"
 msgid "Use sound theme"
-msgstr "Usar subrayado"
+msgstr "Usar un tema de sonido"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether play sound or beep when new messages arrive."
@@ -18430,17 +18421,17 @@ msgstr[1] ""
 
 #. To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:506
-#, fuzzy, c-format
+#, c-format
 #| msgid "From %s:"
 msgid "From: %s"
-msgstr "De %s:"
+msgstr "De: %s"
 
 #. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:518
-#, fuzzy, c-format
+#, c-format
 #| msgid "Subject:"
 msgid "Subject: %s"
-msgstr "Asunto:"
+msgstr "Asunto: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:527
 #, c-format
@@ -18475,16 +18466,14 @@ msgid "_Beep"
 msgstr "_Pitar"
 
 #: ../plugins/mail-notification/mail-notification.c:867
-#, fuzzy
 #| msgid "Use underline"
 msgid "Use sound _theme"
-msgstr "Usar subrayado"
+msgstr "Usar un _tema de sonido"
 
 #: ../plugins/mail-notification/mail-notification.c:886
-#, fuzzy
 #| msgid "Play _sound file"
 msgid "Play _file:"
-msgstr "Reproducir archivo de _sonido"
+msgstr "_Reproducir un archivo:"
 
 #: ../plugins/mail-notification/mail-notification.c:897
 msgid "Select sound file"
@@ -18737,10 +18726,9 @@ msgid "_Unsubscribe from List"
 msgstr "_Desuscribirse de la lista"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:313
-#, fuzzy
 #| msgid "Unsubscribe to the mailing list this message belongs to"
 msgid "Unsubscribe from the mailing list this message belongs to"
-msgstr "Desuscribirse de la lista de correo a la que pertenece este mensaje"
+msgstr "Desuscribirse de la lista de correo a la que pertenece este correo"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:320
 msgid "Mailing _List"
@@ -18928,10 +18916,9 @@ msgid "Let Evolution choose the best part to show."
 msgstr "Permitir que Evolution elija la mejor parte para mostrar."
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
-#, fuzzy
 #| msgid "Show HTML if present"
 msgid "Show plain text if present"
-msgstr "Mostrar HTML si está presente"
+msgstr "Mostrar texto plano si está presente"
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
 msgid ""
@@ -18942,10 +18929,9 @@ msgstr ""
 "Evolution elija la mejor parte para mostrar."
 
 #: ../plugins/prefer-plain/prefer-plain.c:203
-#, fuzzy
 #| msgid "Only ever show PLAIN"
 msgid "Only ever show plain text"
-msgstr "Sólo mostrar sin formato"
+msgstr "Sólo mostrar texto plano"
 
 #: ../plugins/prefer-plain/prefer-plain.c:203
 msgid ""
@@ -19207,10 +19193,10 @@ msgid "Pipe to SpamAssassin failed, error code: %d"
 msgstr "Falló la tubería hacia SpamAssasin, código de error: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:510
-#, fuzzy, c-format
+#, c-format
 #| msgid "SpamAssassin is not available."
 msgid "SpamAssassin is not available. Please install it first."
-msgstr "SpamAssasin no está disponible."
+msgstr "SpamAssasin no está disponible. Instálelo primero."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:930
 msgid "This will make SpamAssassin more reliable, but slower"
@@ -19342,19 +19328,16 @@ msgid "Select destination file"
 msgstr "Seleccione el archivo de destino"
 
 #: ../plugins/save-calendar/save-calendar.c:323
-#, fuzzy
 #| msgid "Save the selected messages as a text file"
 msgid "Save the selected calendar to disk"
-msgstr "Guarda los mensajes como un archivo de texto"
+msgstr "Guardar el calendario seleccionado al disco"
 
 #: ../plugins/save-calendar/save-calendar.c:358
-#, fuzzy
 #| msgid "Save the selected messages as a text file"
 msgid "Save the selected memo list to disk"
-msgstr "Guarda los mensajes como un archivo de texto"
+msgstr "Guardar la lista de notas seleccionada al disco"
 
 #: ../plugins/save-calendar/save-calendar.c:393
-#| msgid "Save a calendar or task list to disk."
 msgid "Save the selected task list to disk"
 msgstr "Guardar la lista de tareas seleccionada al disco"
 
@@ -19440,7 +19423,6 @@ msgid "Drafts based template plugin"
 msgstr "Borradores basados en el complemento de plantillas"
 
 #: ../plugins/templates/templates.c:582
-#| msgid "No title"
 msgid "No Title"
 msgstr "Sin título"
 
@@ -19530,12 +19512,10 @@ msgid "Default sidebar width"
 msgstr "Anchura predeterminada de la barra lateral"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
-#| msgid "Default window state"
 msgid "Default window X coordinate"
 msgstr "Coordenada X predeterminada de la ventana"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
-#| msgid "Default window state"
 msgid "Default window Y coordinate"
 msgstr "Coordenada Y predeterminada de la ventana"
 
@@ -19686,12 +19666,10 @@ msgstr ""
 "menor (por ejemplo \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:36
-#| msgid "The default width for the main window, in pixels."
 msgid "The default X coordinate for the main window."
 msgstr "La coordenada X predeterminada para la ventana principal."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
-#| msgid "The default width for the main window, in pixels."
 msgid "The default Y coordinate for the main window."
 msgstr "La coordenada Y predeterminada para la ventana principal."
 
@@ -19843,7 +19821,6 @@ msgstr "M_ostrar:"
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-content.c:897
-#| msgid "Sear_ch: "
 msgid "Sear_ch:"
 msgstr "B_uscar:"
 
@@ -19851,7 +19828,6 @@ msgstr "B_uscar:"
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-content.c:939
-#| msgid " i_n "
 msgid "i_n"
 msgstr "e_n"
 
@@ -19873,7 +19849,6 @@ msgid "%ld KB"
 msgstr "%ld KiB"
 
 #: ../shell/e-shell-switcher.c:446
-#| msgid "Tool_bar Style"
 msgid "Toolbar Style"
 msgstr "Estilo de la barra de herramientas"
 
@@ -19882,17 +19857,14 @@ msgid "The switcher's toolbar style"
 msgstr "El estilo de la barra de herramientas del selector"
 
 #: ../shell/e-shell-switcher.c:463
-#| msgid "Toolbar is visible"
 msgid "Toolbar Visible"
 msgstr "Barra de herramientas visible"
 
 #: ../shell/e-shell-switcher.c:464
-#| msgid "Whether the sidebar should be visible."
 msgid "Whether the switcher is visible"
 msgstr "Indica si el selector es visible"
 
 #: ../shell/e-shell-view.c:485
-#| msgid "Switch to %s"
 msgid "Switcher Action"
 msgstr "Acción del selector"
 
@@ -19901,7 +19873,6 @@ msgid "The switcher action for this shell view"
 msgstr "La acción del selector para esta vista de la shell"
 
 #: ../shell/e-shell-view.c:501
-#| msgid "Serial Number"
 msgid "Page Number"
 msgstr "Número de página"
 
@@ -19927,7 +19898,6 @@ msgstr ""
 "El widget de contenido aparece en un panel derecho de la ventana de shell"
 
 #: ../shell/e-shell-view.c:567
-#| msgid "Default sidebar width"
 msgid "Shell Sidebar Widget"
 msgstr "Widget de barra lateral de shell"
 
@@ -19948,7 +19918,6 @@ msgstr ""
 "shell"
 
 #: ../shell/e-shell-view.c:599
-#| msgid "New _Window"
 msgid "Shell Window"
 msgstr "Ventana shell"
 
@@ -19957,12 +19926,10 @@ msgid "The window to which the shell view belongs"
 msgstr "La ventana a la que pertenece la shell"
 
 #: ../shell/e-shell-view.c:615
-#| msgid "_Current View"
 msgid "Current View ID"
 msgstr "El ID de la vista actual"
 
 #: ../shell/e-shell-view.c:616
-#| msgid "the current time"
 msgid "The current GAL view ID"
 msgstr "El ID de la vista GAL actual"
 
@@ -20135,7 +20102,6 @@ msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
 #: ../shell/e-shell-window-actions.c:1613
-#| msgid "Start in offline mode"
 msgid "Put Evolution into offline mode"
 msgstr "Poner Evolution en modo desconectado"
 
@@ -20144,7 +20110,6 @@ msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
 #: ../shell/e-shell-window-actions.c:1620
-#| msgid "Start in online mode"
 msgid "Put Evolution into online mode"
 msgstr "Poner Evolution en modo conectado"
 
@@ -21960,12 +21925,10 @@ msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
 #: ../widgets/misc/e-web-view.c:379
-#| msgid "Copy the link to the clipboard"
 msgid "Copy the selection to the clipboard"
 msgstr "Copiar la selección al portapapeles"
 
 #: ../widgets/misc/e-web-view.c:389
-#| msgid "Select all the text in a message"
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
