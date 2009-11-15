@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-14 10:40+0000\n"
-"PO-Revision-Date: 2009-11-15 12:12+0100\n"
+"POT-Creation-Date: 2009-11-15 11:14+0000\n"
+"PO-Revision-Date: 2009-11-15 14:50+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1338,7 +1338,7 @@ msgstr "Charla por vídeo"
 #: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../modules/calendar/e-cal-shell-view-actions.c:214
 #: ../modules/calendar/e-cal-shell-view-actions.c:245
-#: ../modules/calendar/e-cal-shell-view.c:457
+#: ../modules/calendar/e-cal-shell-view.c:461
 #: ../plugins/groupwise-features/camel-gw-listener.c:420
 #: ../plugins/groupwise-features/camel-gw-listener.c:450
 #: ../plugins/groupwise-features/camel-gw-listener.c:563
@@ -5093,7 +5093,7 @@ msgstr "100%"
 #: ../modules/calendar/e-cal-shell-content.c:424
 #: ../modules/calendar/e-task-shell-view-actions.c:284
 #: ../modules/calendar/e-task-shell-view-actions.c:301
-#: ../modules/calendar/e-task-shell-view.c:426
+#: ../modules/calendar/e-task-shell-view.c:429
 #: ../plugins/groupwise-features/camel-gw-listener.c:421
 #: ../plugins/groupwise-features/camel-gw-listener.c:564
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -5908,7 +5908,7 @@ msgstr "Miembro"
 #: ../modules/calendar/e-cal-shell-content.c:453
 #: ../modules/calendar/e-memo-shell-view-actions.c:253
 #: ../modules/calendar/e-memo-shell-view-actions.c:270
-#: ../modules/calendar/e-memo-shell-view.c:279
+#: ../modules/calendar/e-memo-shell-view.c:282
 msgid "Memos"
 msgstr "Notas"
 
@@ -11216,7 +11216,6 @@ msgstr ""
 "según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#, fuzzy
 #| msgid ""
 #| "Initial maximize state of the \"Send and Receive Mail\" window. The value "
 #| "updates when the user maximizes or unmaximizes the window. Note, this "
@@ -11229,14 +11228,12 @@ msgid ""
 "value is not used by Evolution since the \"Filter Editor\" window cannot be "
 "maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Enviar y recibir correo». El valor "
-"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
-"no usa este valor en particular ya que la ventana «Enviar y recibir correo» "
-"no se puede maximizar. Esta clave existe sólo como un detalle de "
-"implementación."
+"Estado inicial maximizado de la ventana «Editor de filtros». El valor se "
+"actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution no "
+"usa este valor en particular ya que la ventana «Editor de filtros» no se "
+"puede maximizar. Esta clave existe sólo como un detalle de implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:77
-#, fuzzy
 #| msgid ""
 #| "Initial maximize state of the \"Send and Receive Mail\" window. The value "
 #| "updates when the user maximizes or unmaximizes the window. Note, this "
@@ -11249,11 +11246,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Search Folder Editor\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Enviar y recibir correo». El valor "
-"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
-"no usa este valor en particular ya que la ventana «Enviar y recibir correo» "
-"no se puede maximizar. Esta clave existe sólo como un detalle de "
-"implementación."
+"Estado inicial maximizado de la ventana «Editor de carpetas de búsqueda». El "
+"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
+"Evolution no usa este valor en particular ya que la ventana «Editor de "
+"carpetas de búsqueda» no se puede maximizar. Esta clave existe sólo como un "
+"detalle de implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid ""
@@ -11270,7 +11267,6 @@ msgstr ""
 "implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:79
-#, fuzzy
 #| msgid ""
 #| "Initial width of the \"Send and Receive Mail\" window. The value updates "
 #| "as the user resizes the window horizontally."
@@ -11278,11 +11274,10 @@ msgid ""
 "Initial width of the \"Filter Editor\" window. The value updates as the user "
 "resizes the window horizontally."
 msgstr ""
-"Anchura inicial de la ventana «Enviar y recibir correo». El valor se "
-"actualiza según el usuario redimensiona horizontalmente la ventana."
+"Anchura inicial de la ventana «Editor de filtros». El valor se actualiza "
+"según el usuario redimensiona horizontalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:80
-#, fuzzy
 #| msgid ""
 #| "Initial width of the \"Send and Receive Mail\" window. The value updates "
 #| "as the user resizes the window horizontally."
@@ -11290,7 +11285,7 @@ msgid ""
 "Initial width of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Anchura inicial de la ventana «Enviar y recibir correo». El valor se "
+"Anchura inicial de la ventana «Editor de carpetas de búsqueda». El valor se "
 "actualiza según el usuario redimensiona horizontalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:81
@@ -14112,7 +14107,7 @@ msgstr "Crea una libreta de direcciones nueva"
 
 #. Create the contacts group
 #: ../modules/addressbook/e-book-shell-backend.c:376
-#: ../modules/addressbook/e-book-shell-view.c:382
+#: ../modules/addressbook/e-book-shell-view.c:385
 #: ../modules/calendar/e-cal-shell-backend.c:121
 #: ../modules/calendar/e-cal-shell-migrate.c:480
 msgid "Contacts"
@@ -14225,20 +14220,19 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus datos Pilot Sync…"
 
-#: ../modules/addressbook/e-book-shell-sidebar.c:173
-#: ../modules/calendar/e-cal-shell-sidebar.c:561
-#: ../modules/calendar/e-memo-shell-sidebar.c:528
-#: ../modules/calendar/e-task-shell-sidebar.c:526
+#: ../modules/addressbook/e-book-shell-sidebar.c:181
+#: ../modules/calendar/e-cal-shell-sidebar.c:601
+#: ../modules/calendar/e-memo-shell-sidebar.c:536
+#: ../modules/calendar/e-task-shell-sidebar.c:534
 #, fuzzy
 #| msgid "Memo Source Selector"
 msgid "Source Selector Widget"
 msgstr "Selector de origen de notas"
 
-#: ../modules/addressbook/e-book-shell-sidebar.c:174
-#, fuzzy
+#: ../modules/addressbook/e-book-shell-sidebar.c:182
 #| msgid "Couldn't get list of address books"
 msgid "This widget displays groups of address books"
-msgstr "No se pudo obtener una lista de libretas de direcciones"
+msgstr "Este widget muestra grupos de libretas de direcciones"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:262
 #: ../modules/addressbook/e-book-shell-view-actions.c:563
@@ -14453,10 +14447,9 @@ msgid "Unmatched"
 msgstr "No coincidente"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1025
-#, fuzzy
 #| msgid "Print selected contacts"
 msgid "Print all shown contacts"
-msgstr "Imprimir los contactos seleccionados"
+msgstr "Imprimir todos los contactos mostrados"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1032
 msgid "Preview the contacts to be printed"
@@ -14474,23 +14467,23 @@ msgstr "Guardar como vCard…"
 msgid "Save selected contacts as a vCard"
 msgstr "Guardar los contactos seleccionados como VCard"
 
-#: ../modules/addressbook/e-book-shell-view.c:330
+#: ../modules/addressbook/e-book-shell-view.c:333
 msgid "_Forward Contacts"
 msgstr "_Reenviar contactos"
 
-#: ../modules/addressbook/e-book-shell-view.c:332
+#: ../modules/addressbook/e-book-shell-view.c:335
 msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
-#: ../modules/addressbook/e-book-shell-view.c:359
+#: ../modules/addressbook/e-book-shell-view.c:362
 msgid "_Send Message to Contacts"
 msgstr "_Enviar un correo a los contactos"
 
-#: ../modules/addressbook/e-book-shell-view.c:361
+#: ../modules/addressbook/e-book-shell-view.c:364
 msgid "_Send Message to List"
 msgstr "_Enviar un correo a la lista"
 
-#: ../modules/addressbook/e-book-shell-view.c:363
+#: ../modules/addressbook/e-book-shell-view.c:366
 msgid "_Send Message to Contact"
 msgstr "_Enviar un correo al contacto"
 
@@ -14810,19 +14803,19 @@ msgstr "Cargando calendarios"
 msgid "Calendar Selector"
 msgstr "Selector de calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:551
+#: ../modules/calendar/e-cal-shell-sidebar.c:591
 msgid "Date Navigator Widget"
-msgstr ""
+msgstr "Widget de navegación de fecha"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:552
+#: ../modules/calendar/e-cal-shell-sidebar.c:592
 msgid "This widget displays a miniature calendar"
 msgstr "Este widget muestra un calendario en miniatura"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:562
+#: ../modules/calendar/e-cal-shell-sidebar.c:602
 msgid "This widget displays groups of calendars"
 msgstr "Este widget muestra grupos de calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:723
+#: ../modules/calendar/e-cal-shell-sidebar.c:763
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Abriendo el calendario en «%s»"
@@ -15148,20 +15141,18 @@ msgid "Print the selected memo"
 msgstr "Imprimir la nota seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:444
-#: ../modules/calendar/e-memo-shell-view.c:223
-#, fuzzy
+#: ../modules/calendar/e-memo-shell-view.c:226
 #| msgid "Delegate To"
 msgid "Delete Memo"
 msgid_plural "Delete Memos"
-msgstr[0] "Delegar en"
-msgstr[1] "Delegar en"
+msgstr[0] "Borrar nota"
+msgstr[1] "Borrar notas"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:99
 #: ../modules/calendar/e-task-shell-view-actions.c:127
-#, fuzzy
 #| msgid "Deleting selected objects..."
 msgid "Deleting selected tasks..."
-msgstr "Borrando los objetos seleccionados…"
+msgstr "Borrando las tareas seleccionadas…"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:361
 #: ../modules/calendar/e-task-shell-view-actions.c:708
@@ -15185,10 +15176,9 @@ msgstr "Pega las tareas del portapapeles"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:389
 #: ../modules/calendar/e-task-shell-view-actions.c:736
-#, fuzzy
 #| msgid "_Delete"
 msgid "_Delete Task"
-msgstr "_Borrar"
+msgstr "_Borrar tarea"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:391
 #: ../modules/calendar/e-task-shell-view-actions.c:738
@@ -15207,14 +15197,13 @@ msgstr "Marcar tareas seleccionadas como terminadas"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:410
 msgid "_Mark as Incomplete"
-msgstr "_Marcar como incompleto"
+msgstr "_Marcar como incompleta"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:412
 #: ../modules/calendar/e-task-shell-view-actions.c:801
-#, fuzzy
 #| msgid "Mark selected tasks as complete"
 msgid "Mark selected tasks as incomplete"
-msgstr "Marcar tareas seleccionadas como terminadas"
+msgstr "Marcar las tareas seleccionadas como incompletas"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:417
 #: ../modules/calendar/e-task-shell-view-actions.c:806
@@ -15240,26 +15229,23 @@ msgstr "Ver la tarea seleccionada"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:438
 #: ../modules/calendar/e-memo-shell-view-actions.c:860
 #: ../modules/calendar/e-task-shell-view-actions.c:1061
-#, fuzzy
 #| msgid "_Forward as iCalendar..."
 msgid "_Save as iCalendar..."
-msgstr "Reenviar como i_Calendar…"
+msgstr "G_uardar como iCalendar…"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:450
 #: ../modules/calendar/e-task-shell-view-actions.c:1046
-#, fuzzy
 #| msgid "View the selected task"
 msgid "Print the selected task"
-msgstr "Ver la tarea seleccionada"
+msgstr "Imprimir la tarea seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:555
-#: ../modules/calendar/e-task-shell-view.c:350
-#, fuzzy
+#: ../modules/calendar/e-task-shell-view.c:353
 #| msgid "Delegate To"
 msgid "Delete Task"
 msgid_plural "Delete Tasks"
-msgstr[0] "Delegar en"
-msgstr[1] "Delegar en"
+msgstr[0] "Borrar tarea"
+msgstr[1] "Borrar tareas"
 
 #: ../modules/calendar/e-memo-shell-backend.c:316
 msgctxt "New"
@@ -15267,7 +15253,6 @@ msgid "Mem_o"
 msgstr "_Nota"
 
 #: ../modules/calendar/e-memo-shell-backend.c:323
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Shared memo"
 msgctxt "New"
@@ -15275,17 +15260,15 @@ msgid "_Shared Memo"
 msgstr "Nota _compartida"
 
 #: ../modules/calendar/e-memo-shell-backend.c:325
-#, fuzzy
 #| msgid "Create a shared new memo"
 msgid "Create a new shared memo"
 msgstr "Crea una nota compartida nueva"
 
 #: ../modules/calendar/e-memo-shell-backend.c:333
-#, fuzzy
 #| msgid "Memo List"
 msgctxt "New"
 msgid "Memo Li_st"
-msgstr "Lista de notas"
+msgstr "Li_sta de notas"
 
 #: ../modules/calendar/e-memo-shell-backend.c:335
 #: ../modules/calendar/e-memo-shell-view-actions.c:640
@@ -15293,16 +15276,14 @@ msgid "Create a new memo list"
 msgstr "Crea una lista de notas nueva"
 
 #: ../modules/calendar/e-memo-shell-backend.c:584
-#, fuzzy
 #| msgid "Primary memo list"
 msgid "The registry of memo lists"
-msgstr "Lista de notas primaria"
+msgstr "El registro de lista de notas"
 
 #: ../modules/calendar/e-memo-shell-content.c:602
-#, fuzzy
 #| msgid "Table model"
 msgid "The memo table model"
-msgstr "Modelo de la tabla"
+msgstr "El modelo de la tabla de notas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:185
 msgid "Loading memos"
@@ -15314,11 +15295,11 @@ msgstr "Cargando notas"
 msgid "Memo List Selector"
 msgstr "Selector de origen de notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:529
+#: ../modules/calendar/e-memo-shell-sidebar.c:537
 msgid "This widget displays groups of memo lists"
 msgstr "Este widget muestra grupos de listas de notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:682
+#: ../modules/calendar/e-memo-shell-sidebar.c:690
 #, c-format
 msgid "Opening memos at %s"
 msgstr "Abriendo notas en %s"
@@ -15345,16 +15326,14 @@ msgid "Show _Only This Memo List"
 msgstr "Mostrar _sólo esta lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:750
-#, fuzzy
 #| msgid "_Preview"
 msgid "Memo _Preview"
-msgstr "Vista _previa"
+msgstr "Vista pre_via de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:752
-#, fuzzy
 #| msgid "Show preview pane"
 msgid "Show memo preview pane"
-msgstr "Mostrar el panel de vista previa"
+msgstr "Mostrar el panel de vista previa de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:773
 #, fuzzy
@@ -15389,7 +15368,7 @@ msgstr[1] "%d notas"
 msgid "%d selected"
 msgstr "%d seleccionada"
 
-#: ../modules/calendar/e-memo-shell-view.c:221
+#: ../modules/calendar/e-memo-shell-view.c:224
 msgid "Delete Memos"
 msgstr "Borrar notas"
 
@@ -15451,11 +15430,11 @@ msgstr "Cargando tareas"
 msgid "Task List Selector"
 msgstr "Selector de listas de tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:527
+#: ../modules/calendar/e-task-shell-sidebar.c:535
 msgid "This widget displays groups of task lists"
 msgstr "Este widget muestra grupos de listas de tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:680
+#: ../modules/calendar/e-task-shell-sidebar.c:688
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Abriendo tareas en %s"
@@ -15562,7 +15541,7 @@ msgid_plural "%d tasks"
 msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
-#: ../modules/calendar/e-task-shell-view.c:348
+#: ../modules/calendar/e-task-shell-view.c:351
 #, fuzzy
 #| msgid "Completed Tasks"
 msgid "Delete Tasks"
@@ -16973,11 +16952,11 @@ msgstr "Importando archivos"
 
 #: ../plugins/face/face.c:355
 msgid "_Insert Face picture by default"
-msgstr ""
+msgstr "_Insertar imagen de rostro de forma predeterminada"
 
 #: ../plugins/face/face.c:366
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "Cargar una nueva imagen de _rostro"
 
 #: ../plugins/face/face.c:415
 #, fuzzy
@@ -16987,7 +16966,7 @@ msgstr "Incluye:"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "Adjuntar una imagen pequeña de su rostro en mensajes salientes."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 #, fuzzy
@@ -17022,6 +17001,7 @@ msgstr "El elemento no pudo enviarse.\n"
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
 msgstr ""
+"El archivo que ha seleccionado no parece una imagen .png válida. Error: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:51
 #: ../plugins/google-account-setup/google-source.c:81
@@ -17110,17 +17090,6 @@ msgstr "Crear carpeta"
 
 #: ../plugins/groupwise-features/install-shared.c:225
 #, c-format
-#| msgid ""
-#| "The user '%s' has shared a folder with you\n"
-#| "\n"
-#| "Message from '%s'\n"
-#| "\n"
-#| "\n"
-#| "%s\n"
-#| "\n"
-#| "\n"
-#| "Click 'Forward' to install the shared folder\n"
-#| "\n"
 msgid ""
 "The user '%s' has shared a folder with you\n"
 "\n"
@@ -17286,17 +17255,14 @@ msgid "You have to specify a user name which you want to add to the list"
 msgstr "Debe especificar el nombre de usuario que quiere añadir a la lista"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#| msgid "Do you want to resend the meeting ?"
 msgid "Do you want to resend the meeting?"
 msgstr "¿Quiere reenviar la reunión?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#| msgid "Do you want to resend the recurring meeting ?"
 msgid "Do you want to resend the recurring meeting?"
 msgstr "¿Quiere reenviar la reunión repetitiva?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#| msgid "Do you want to retract the original item ?"
 msgid "Do you want to retract the original item?"
 msgstr "¿Quiere retractar el elemento original?"
 
@@ -17539,12 +17505,10 @@ msgid "Hula Support"
 msgstr "Soporte Hula"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#| msgid "Invalid Date Value"
 msgid "Inline Image"
 msgstr "Imagen en línea"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
-#| msgid "Play audio attachments directly from Evolution."
 msgid "View image attachments directly in mail messages."
 msgstr "Ver los adjuntos directamente en los mensajes de correo."
 
@@ -17729,12 +17693,10 @@ msgstr "No se puede enviar la información de la nota, la nota no existe"
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1514
-#| msgid "Calendars"
 msgid "calendar.ics"
 msgstr "calendario.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1519
-#| msgid "New calendar"
 msgid "Save Calendar"
 msgstr "Guardar calendario"
 
@@ -18342,8 +18304,6 @@ msgid "Play sound when new messages arrive."
 msgstr "Reproducir un sonido cuando llegue correo nuevo."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#| msgid ""
-#| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Reproducir el tema de sonido cuando llega un correo nuevo, si no se está en "
@@ -18370,7 +18330,6 @@ msgstr ""
 "reproducir un pitido."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#| msgid "Use underline"
 msgid "Use sound theme"
 msgstr "Usar un tema de sonido"
 
@@ -18422,14 +18381,12 @@ msgstr[1] ""
 #. To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:506
 #, c-format
-#| msgid "From %s:"
 msgid "From: %s"
 msgstr "De: %s"
 
 #. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:518
 #, c-format
-#| msgid "Subject:"
 msgid "Subject: %s"
 msgstr "Asunto: %s"
 
@@ -18466,12 +18423,10 @@ msgid "_Beep"
 msgstr "_Pitar"
 
 #: ../plugins/mail-notification/mail-notification.c:867
-#| msgid "Use underline"
 msgid "Use sound _theme"
 msgstr "Usar un _tema de sonido"
 
 #: ../plugins/mail-notification/mail-notification.c:886
-#| msgid "Play _sound file"
 msgid "Play _file:"
 msgstr "_Reproducir un archivo:"
 
@@ -18726,7 +18681,6 @@ msgid "_Unsubscribe from List"
 msgstr "_Desuscribirse de la lista"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:313
-#| msgid "Unsubscribe to the mailing list this message belongs to"
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Desuscribirse de la lista de correo a la que pertenece este correo"
 
@@ -18916,7 +18870,6 @@ msgid "Let Evolution choose the best part to show."
 msgstr "Permitir que Evolution elija la mejor parte para mostrar."
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
-#| msgid "Show HTML if present"
 msgid "Show plain text if present"
 msgstr "Mostrar texto plano si está presente"
 
@@ -18929,7 +18882,6 @@ msgstr ""
 "Evolution elija la mejor parte para mostrar."
 
 #: ../plugins/prefer-plain/prefer-plain.c:203
-#| msgid "Only ever show PLAIN"
 msgid "Only ever show plain text"
 msgstr "Sólo mostrar texto plano"
 
@@ -19194,7 +19146,6 @@ msgstr "Falló la tubería hacia SpamAssasin, código de error: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:510
 #, c-format
-#| msgid "SpamAssassin is not available."
 msgid "SpamAssassin is not available. Please install it first."
 msgstr "SpamAssasin no está disponible. Instálelo primero."
 
@@ -19328,12 +19279,10 @@ msgid "Select destination file"
 msgstr "Seleccione el archivo de destino"
 
 #: ../plugins/save-calendar/save-calendar.c:323
-#| msgid "Save the selected messages as a text file"
 msgid "Save the selected calendar to disk"
 msgstr "Guardar el calendario seleccionado al disco"
 
 #: ../plugins/save-calendar/save-calendar.c:358
-#| msgid "Save the selected messages as a text file"
 msgid "Save the selected memo list to disk"
 msgstr "Guardar la lista de notas seleccionada al disco"
 
