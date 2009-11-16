@@ -80,7 +80,6 @@ struct _GnomeCalendarPrivate {
 
 	/* The clients for display */
 	GHashTable *clients;
-	GList *clients_list;
 	ECal *default_client;
 
 	/*
@@ -1158,18 +1157,21 @@ set_timezone (GnomeCalendar *gcal)
 {
 	ECalModel *model;
 	icaltimezone *timezone;
-	GList *l;
+	GList *clients, *l;
 
 	model = gnome_calendar_get_model (gcal);
 	timezone = e_cal_model_get_timezone (model);
 
-	for (l = gcal->priv->clients_list; l != NULL; l = l->next) {
+	clients = e_cal_model_get_client_list (model);
+	for (l = clients; l != NULL; l = l->next) {
 		ECal *client = l->data;
 
 		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
 			/* FIXME Error checking */
 			e_cal_set_default_timezone (client, timezone, NULL);
 	}
+
+	g_list_free (clients);
 }
 
 struct _mupdate_todo_msg {
@@ -1418,17 +1420,9 @@ gnome_calendar_destroy (GtkObject *object)
 			priv->model = NULL;
 		}
 
-		/* Clean up the clients */
-		for (l = priv->clients_list; l != NULL; l = l->next) {
-			g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, gcal);
-		}
-
 		g_hash_table_destroy (priv->clients);
-		g_list_free (priv->clients_list);
 
 		priv->clients = NULL;
-		priv->clients_list = NULL;
 
 		if (priv->default_client) {
 			g_signal_handlers_disconnect_matched (priv->default_client,
@@ -1929,7 +1923,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
 
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
 		g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
 		g_signal_emit (gcal, signals[SOURCE_REMOVED], 0, source);
@@ -1992,7 +1985,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
 
 		/* FIXME should we do this to prevent multiple error dialogs? */
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
 		g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
 		/* FIXME Is there a better way to handle this? */
@@ -2094,7 +2086,6 @@ backend_died_cb (ECal *ecal, gpointer data)
 	/* Make sure the source doesn't go away on us since we use it below */
 	source = g_object_ref (e_cal_get_source (ecal));
 
-	priv->clients_list = g_list_remove (priv->clients_list, ecal);
 	g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
 	id = g_strdup ("calendar:calendar-crashed");
@@ -2220,7 +2211,6 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, const gchar *uid)
 	if (!client)
 		return TRUE;
 
-	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, gcal);
 
@@ -2550,7 +2540,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 {
 	GnomeCalendarPrivate *priv;
 	gchar *sexp, *start, *end;
-	GList *l;
+	GList *clients, *l;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -2565,7 +2555,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 	/*e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Purging"), -1);  KILL-BONOBO */
 
 	/* FIXME Confirm expunge */
-	for (l = priv->clients_list; l != NULL; l = l->next) {
+	clients = e_cal_model_get_client_list (gnome_calendar_get_model (gcal));
+	for (l = clients; l != NULL; l = l->next) {
 		ECal *client = l->data;
 		GList *objects, *m;
 		gboolean read_only;
@@ -2627,6 +2618,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
 		g_list_free (objects);
 	}
+
+	g_list_free (clients);
 
 	/* e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);  KILL-BONOBO */
 
