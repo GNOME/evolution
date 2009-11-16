@@ -1,3 +1,145 @@
+Evolution 2.29.2 2009-11-16
+---------------------------
+
+Bug Fixes:
+	Bug 600397 - Delete option enabled for undeletable ESource
+	(Matthew Barnes)
+	Bug 600714 - No label colors in popup menu (Matthew Barnes)
+	Bug 600933 - Empty Trash missing for real trash folders
+	(Matthew Barnes)
+	Bug 601601 - No Create Rule in popup menu (Lucian Langa)
+	Bug 601767 - Delete action in calendar view has glitches
+	(Matthew Barnes)
+	Bug 601769 - Print issues in address book (Matthew Barnes)
+	Bug 601774 - "Send Message to Contact" is always disabled
+	(Matthew Barnes)
+	Bug 601785 - Menu glitches in memo and task view (Matthew Barnes)
+	Bug 600133 - Crash on day view print preview without all day events
+	(Milan Crha)
+	Bug 600217 - Crashes in emfh_multipart_related_check (Bharath Acharya)
+	Bug 601626 - pst-import missing link to libeutil (Travis Reitter)
+	Bug 588093 - Allow import of local files from command line (Milan Crha)
+	Bug 601516 - Calendar views missing from calendar popup menu
+	(Matthew Barnes)
+	Bug 593751 - Show correct context menu in calendar views (Milan Crha)
+	Bug 601218 - Accepted meeting doesn't show attachments in calendar
+	view (Milan Crha)
+	Bug 250046 - Composer addresses reading fixes (Milan Crha)
+	Bug 600926 - Fails to build due to missing dependencies
+	(Jonathon Jongsma)
+	Bug 600926 - Fails to build due to missing dependencies (Yan Li)
+	Bug 601219 - Transient dialogs in composer window blocks main window
+	(Matthew Barnes)
+	Bug 271836 - Incorrect signature for "model_cell_changed" signal
+	handler (Li Yuan)
+	Bug 601229 -  Crashes when replying a mail. (Chenthill Palanisamy)
+	Bug 557613 -  evolution crashed with SIGSEGV in try_open_e_book_cb()
+	(Chenthill Palanisamy)
+	Bug 482327 - Save attached calendar with multiple items easily
+	(Milan Crha)
+	Bug 599792 - Anjal composer's Send button doesn't work after pressed
+	Save Drafts button (Yan Li)
+	Bug 598877 - Crash while sending mail, in report_status function
+	(Milan Crha)
+	Bug 573304 - Forward an email shouldn't strip signature (Milan Crha)
+	Bug 597582 - Original Date: header should be given precedence
+	(David Woodhouse)
+	Bug 596027: In Anjal, although invalid mail address warning popup,
+	mail's tab closed automatically (Yan Li)
+	Bug 557505 - [bbdb] hangs and is unresponsive (Milan Crha)
+	Bug 596827 - Don't remove meeting attendees after edit (Milan Crha)
+	Bug 600402 - Clear search is always enabled in calendar/contact/task
+	(Matthew Barnes)
+	Bug 599124 - Signature always includes an empty line in front of
+	text (Milan Crha)
+	Bug 599627 - Crash when adding a new task in a table (C de-Avillez)
+	Bug 464400 - New mail notify should display sender and subject
+	(Milan Crha)
+	Bug 583450 - [prefer-plain] Ability to hide html attachments
+	(Milan Crha)
+	Bug 599890 - Search should not be remembered across folders
+	(Matthew Barnes)
+	Bug 570835 - Custom e-mail headers inserted with double column
+	(Milan Crha)
+	Bug 599837 - Junk plugin combo box is invisible (Matthew Barnes)
+	Bug 561843 - Properly check for filename being set, to not crash
+	(Milan Crha)
+	Bug 600019 - Menu glitches when an account name is selected
+	(Matthew Barnes)
+	Bug 600014 - Remove warnings from ech_config_widget_factory()
+	(Matthew Barnes)
+	Bug 268644 - unread mail shortcut collides with gtk tree search
+	(Milan Crha)
+	Bug 599896 - Flush outbox option is missing (Matthew Barnes)
+	Bug 599882 - Crash in em_folder_tree_select_prev_path() when wrapping
+	to bottom (Matthew Barnes)
+	Bug 599842 - EConfig does not respond to disabling/enabling EPlugins
+	(Matthew Barnes)
+	Bug 552727 - Flooded by spam checking errors if bogofilter not
+	installed (Milan Crha)
+	Bug 550049 - Disable Mark messages as read actions when unusable
+	(Milan Crha)
+	Bug 571039 - Shows all selected messages in a preview pane on a slow
+	network (Milan Crha)
+	Bug 599199 - Hangs regularly when synchro with pidgin is activated
+	(Milan Crha)
+	Bug 599740 - Crashing in g_thread_init (Milan Crha)
+	Bug 598519 - Cannot open task/memo by double click in calendar day
+	view (Milan Crha)
+	Bug 204900 - The sort indication arrows cover up the icons in tab
+	header (Milan Crha)
+
+Other Changes:
+	Update API documentation. (Matthew Barnes)
+	Hide actions when lockdown settings are enabled. (Matthew Barnes)
+	EWebView popup menu enhancements. (Matthew Barnes)
+	Fix a typo in a comment block. (Matthew Barnes)
+	Update the OtherBinaries line in our .desktop file. (Matthew Barnes)
+	Simplify clipboard handling in addressbook. (Matthew Barnes)
+	Simplify clipboard handling in calendar. (Matthew Barnes)
+	More build failures due to missing internal lib dependencies
+	(Jonathon Jongsma)
+	Fix Windows build (Tor Lillqvist)
+	Fix a potential crash in the mail migration code. (Matthew Barnes)
+	Ensure "pkcs12.h" is the mozilla-nss one and not the gnutls one
+	(Tor Lillqvist)
+	Enable building without Canberra-GTK (Tor Lillqvist)
+	Fix EPluginLib callback signatures. (Matthew Barnes)
+	Kill e-cursor(s) (both of them). (Matthew Barnes)
+	EMFormat plugins should always be enabled. (Matthew Barnes)
+	Add zooming and drag-and-drop to the plugin. (Matthew Barnes)
+	Prototype an inline image plugin. (Matthew Barnes)
+	Convert some "Save As" actions to run asynchronously. (Matthew Barnes)
+	Prototype EIOActivity, which integrates with GIO. (Matthew Barnes)
+	Move EActivity and subclasses to e-util. (Matthew Barnes)
+	Support other forward types for Anjal. (Srinivasa Ragavan)
+	Remove redundant URI/filename conversion functions. (Matthew Barnes)
+	Build filename using g_build_filename instead of hardcoding
+	forward-slash (Tobias Mueller)
+	Quote filename during restore to prevent user assisted arbitrary
+	code execution (Tobias Mueller)
+	Sync to disk the outbox, since if we crash, we endup sending mail
+	again. (Srinivasa Ragavan)
+	Add support for Googlemail and hotmail/live/msn.com accounts.
+	(Srinivasa Ragavan)
+	Fix a regression caused by EEvent cleanup (Lucian Langa)
+	Don't update the message list when right-clicking on a folder.
+	(Matthew Barnes)
+	Add a menu to the Forward toolbar button. (Matthew Barnes)
+	Cleanup and rename filter classes. (Matthew Barnes)
+	Prefer GQueue (or GNode) over EDList. (Matthew Barnes)
+	EImport cleanup. (Matthew Barnes)
+	EEvent cleanup. (Matthew Barnes)
+	EConfig cleanup. (Matthew Barnes)
+	Remove some unfinished / unwanted bits from mail-mt. (Matthew Barnes)
+	Prefer GLib mutexes over pthread mutexes. (Matthew Barnes)
+
+Translations:
+	Thomas Thurman (en@shaw)
+	Jorge González (es)
+	Matej Urbančič (sl)
+	vasudeven (ta)
+
 Evolution 2.29.1 2009-10-26
 ----------------------------
 
