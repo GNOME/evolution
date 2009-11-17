@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -363,6 +364,8 @@ dup_item_no_subitems (ESearchBarItem *dest,
 	dest->type = src->type;
 }
 
+/* Build filter bar menu items from system/user rules + custom items +
+   "Advanced Search" */
 static GArray *
 build_items (ESearchBar *esb, ESearchBarItem *items, gint type, gint *start, GPtrArray *rules)
 {
@@ -428,7 +431,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, gint type, gint *start, GPt
 		g_ptr_array_add (rules, rule);
 	}
 
-	/* anything elft in gtksux has gone away, and we need to unref/disconnect from it */
+	/* anything left in gtksux has gone away, and we need to unref/disconnect from it */
 	while (gtksux) {
 		GSList *next;
 
