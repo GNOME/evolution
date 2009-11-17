@@ -177,12 +177,12 @@ action_mail_clipboard_copy_cb (GtkAction *action,
                                EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkHTML *html;
+	EWebView *web_view;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	gtk_html_copy (html);
+	e_web_view_clipboard_copy (web_view);
 }
 
 static void
@@ -880,18 +880,18 @@ action_mail_select_all_cb (GtkAction *action,
                            EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkHTML *html;
+	EWebView *web_view;
 	const gchar *action_name;
 	gboolean selection_active;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	gtk_html_select_all (html);
+	e_web_view_select_all (web_view);
 
 	action_name = "mail-clipboard-copy";
 	action = e_mail_reader_get_action (reader, action_name);
-	selection_active = gtk_html_command (html, "is-selection-active");
+	selection_active = e_web_view_is_selection_active (web_view);
 	gtk_action_set_sensitive (action, selection_active);
 }
 
@@ -992,12 +992,12 @@ action_mail_zoom_100_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkHTML *html;
+	EWebView *web_view;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	gtk_html_zoom_reset (html);
+	e_web_view_zoom_100 (web_view);
 }
 
 static void
@@ -1005,12 +1005,12 @@ action_mail_zoom_in_cb (GtkAction *action,
                         EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkHTML *html;
+	EWebView *web_view;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	gtk_html_zoom_out (html);
+	e_web_view_zoom_in (web_view);
 }
 
 static void
@@ -1018,12 +1018,12 @@ action_mail_zoom_out_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkHTML *html;
+	EWebView *web_view;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	gtk_html_zoom_out (html);
+	e_web_view_zoom_out (web_view);
 }
 
 static void
@@ -1654,12 +1654,14 @@ mail_reader_button_release_event_cb (EMailReader *reader,
                                      GtkHTML *html)
 {
 	GtkAction *action;
+	EWebView *web_view;
 	const gchar *action_name;
 	gboolean selection_active;
 
+	web_view = E_WEB_VIEW (html);
 	action_name = "mail-clipboard-copy";
 	action = e_mail_reader_get_action (reader, action_name);
-	selection_active = gtk_html_command (html, "is-selection-active");
+	selection_active = e_web_view_is_selection_active (web_view);
 	gtk_action_set_sensitive (action, selection_active);
 
 	return FALSE;
@@ -1848,16 +1850,19 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 			mail_reader_message_read_cb, reader);
 
 	} else if (camel_exception_is_set (ex)) {
-		GtkHTMLStream *stream;
+		EWebView *web_view;
+		gchar *string;
+
+		web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 		/* Display the error inline and clear the exception. */
-		stream = gtk_html_begin (
-			EM_FORMAT_HTML (html_display)->html);
-		gtk_html_stream_printf (
-			stream, "<h2>%s</h2><p>%s</p>",
+		string = g_strdup_printf (
+			"<h2>%s</h2><p>%s</p>",
 			_("Unable to retrieve message"),
 			ex->desc);
-		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+		e_web_view_load_string (web_view, string);
+		g_free (string);
+
 		camel_exception_clear (ex);
 	}
 

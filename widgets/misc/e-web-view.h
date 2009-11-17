@@ -124,6 +124,9 @@ gboolean	e_web_view_scroll_forward	(EWebView *web_view);
 gboolean	e_web_view_scroll_backward	(EWebView *web_view);
 void		e_web_view_select_all		(EWebView *web_view);
 void		e_web_view_unselect_all		(EWebView *web_view);
+void		e_web_view_zoom_100		(EWebView *web_view);
+void		e_web_view_zoom_in		(EWebView *web_view);
+void		e_web_view_zoom_out		(EWebView *web_view);
 GtkUIManager *	e_web_view_get_ui_manager	(EWebView *web_view);
 GtkWidget *	e_web_view_get_popup_menu	(EWebView *web_view);
 void		e_web_view_show_popup_menu	(EWebView *web_view,

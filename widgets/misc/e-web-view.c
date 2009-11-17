@@ -1458,6 +1458,30 @@ e_web_view_unselect_all (EWebView *web_view)
 	gtk_html_command (GTK_HTML (web_view), "unselect-all");
 }
 
+void
+e_web_view_zoom_100 (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_command (GTK_HTML (web_view), "zoom-reset");
+}
+
+void
+e_web_view_zoom_in (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_command (GTK_HTML (web_view), "zoom-in");
+}
+
+void
+e_web_view_zoom_out (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_command (GTK_HTML (web_view), "zoom-out");
+}
+
 GtkUIManager *
 e_web_view_get_ui_manager (EWebView *web_view)
 {
