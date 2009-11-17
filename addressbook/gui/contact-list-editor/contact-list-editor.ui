@@ -74,7 +74,6 @@
                 <child>
                   <object class="GtkEntry" id="list-name-entry">
                     <property name="visible">True</property>
-                    <property name="invisible_char">*</property>
                     <signal handler="contact_list_editor_list_name_entry_changed_cb" name="changed"/>
                   </object>
                   <packing>

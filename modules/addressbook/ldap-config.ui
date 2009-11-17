@@ -217,7 +217,6 @@
       <object class="GtkEntry" id="account-editor-display-name-entry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="position">2</property>
@@ -302,7 +301,6 @@
       <object class="GtkEntry" id="server-name-entry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -362,7 +360,6 @@
       <object class="GtkEntry" id="auth-entry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -440,7 +437,6 @@
       <object class="GtkEntry" id="rootdn-entry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -519,7 +515,6 @@
       <object class="GtkEntry" id="search-filter-entry">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
         <child internal-child="accessible">
           <object class="AtkObject" id="search-filter-entry-atkobject">
             <property name="AtkObject::accessible-name" translatable="yes">Search Filter</property>
@@ -671,7 +666,6 @@
       <object class="GtkSpinButton" id="download-limit-spinbutton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="invisible_char">&#x25CF;</property>
         <property name="adjustment">adjustment2</property>
         <property name="climb_rate">1</property>
       </object>
