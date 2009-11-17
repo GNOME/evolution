@@ -107,7 +107,7 @@ DOC_FIGURES =  \
 	figures/sub-pub-fold.png 		\
 	figures/ver_view_a.png
 
-DOC_LINGUAS = cs de el en_GB es eu fr oc ru sv mk
+DOC_LINGUAS = cs de el en_GB es eu fr oc ru sv mk zh_CN
 
 check:
 	xmllint --valid --noout $(top_srcdir)/help/C/evolution.xml
