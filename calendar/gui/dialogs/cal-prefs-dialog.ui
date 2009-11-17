@@ -136,8 +136,10 @@
           <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Time&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Time</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -361,8 +363,10 @@
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Work Week&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Work Week</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -682,8 +686,10 @@
           <object class="GtkLabel" id="label6">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Alerts&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Alerts</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -877,8 +883,10 @@
           <object class="GtkLabel" id="label17">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;General&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">General</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1031,8 +1039,10 @@
           <object class="GtkLabel" id="label18">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Task List&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Task List</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1192,9 +1202,8 @@
         <child>
           <object class="GtkLabel" id="label65">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Date/Time Format&lt;/span&gt;</property>
+            <property name="label" translatable="yes">Date/Time Format</property>
             <property name="use_underline">False</property>
-            <property name="use_markup">True</property>
             <property name="justify">GTK_JUSTIFY_LEFT</property>
             <property name="wrap">False</property>
             <property name="selectable">False</property>
@@ -1206,6 +1215,9 @@
             <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="padding">0</property>
@@ -1284,9 +1296,8 @@
         <child>
           <object class="GtkLabel" id="label67">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Alarms&lt;/span&gt;</property>
+            <property name="label" translatable="yes">Alarms</property>
             <property name="use_underline">False</property>
-            <property name="use_markup">True</property>
             <property name="justify">GTK_JUSTIFY_LEFT</property>
             <property name="wrap">False</property>
             <property name="selectable">False</property>
@@ -1298,6 +1309,9 @@
             <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="padding">0</property>
@@ -1397,8 +1411,10 @@
           <object class="GtkLabel" id="label25">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Default Free/Busy Server&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Default Free/Busy Server</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1456,9 +1472,11 @@
                 <child>
                   <object class="GtkLabel" id="label32">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">&lt;i&gt;%u and %d will be replaced by user and domain from the email address.&lt;/i&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">%u and %d will be replaced by user and domain from the email address.</property>
                     <property name="wrap">True</property>
+                    <attributes>
+                      <attribute name="style" value="italic"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>

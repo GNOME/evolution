@@ -119,9 +119,8 @@ this if you do not have filters based on mailing lists</property>
         <child type="label">
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;b&gt;IMAP Headers&lt;/b&gt;</property>
+            <property name="label" translatable="yes">IMAP Headers</property>
             <property name="use_underline">False</property>
-            <property name="use_markup">True</property>
             <property name="justify">GTK_JUSTIFY_LEFT</property>
             <property name="wrap">False</property>
             <property name="selectable">True</property>
@@ -133,6 +132,9 @@ this if you do not have filters based on mailing lists</property>
             <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
         </child>
       </object>
@@ -300,9 +302,8 @@ can ignore this if you choose "All Headers".</property>
         <child type="label">
           <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;b&gt;Custom Headers&lt;/b&gt;</property>
+            <property name="label" translatable="yes">Custom Headers</property>
             <property name="use_underline">False</property>
-            <property name="use_markup">True</property>
             <property name="justify">GTK_JUSTIFY_LEFT</property>
             <property name="wrap">False</property>
             <property name="selectable">True</property>
@@ -314,6 +315,9 @@ can ignore this if you choose "All Headers".</property>
             <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
         </child>
       </object>

@@ -230,9 +230,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Name</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -244,6 +243,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>

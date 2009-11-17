@@ -270,8 +270,10 @@
                     <child type="label">
                       <object class="GtkLabel" id="label94">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Replies&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Replies</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -456,8 +458,10 @@
                     <child type="label">
                       <object class="GtkLabel" id="label103">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Delivery Options&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Delivery Options</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -678,9 +682,11 @@
                     <child type="label">
                       <object class="GtkLabel" id="label106">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Status Tracking&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Status Tracking</property>
                         <property name="use_underline">True</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -845,9 +851,11 @@
                     <child type="label">
                       <object class="GtkLabel" id="label111">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Return Notification&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Return Notification</property>
                         <property name="use_underline">True</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>

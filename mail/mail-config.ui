@@ -109,8 +109,10 @@
           <object class="GtkLabel" id="label470">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Account Information&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Account Information</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -217,8 +219,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label464">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Required Information&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Required Information</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -340,8 +344,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label466">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Optional Information&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Optional Information</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -629,8 +635,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label472">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Configuration&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Configuration</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -771,9 +779,11 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label515">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Security&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Security</property>
                 <property name="mnemonic_widget">source_auth_dropdown</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -860,9 +870,11 @@ ple: "Work" or "Personal"</property>
                           <object class="GtkLabel" id="label514">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of Evolution&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">SSL is not supported in this build of Evolution</property>
                             <property name="justify">center</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -901,10 +913,12 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label474">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;_Authentication Type&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">_Authentication Type</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">source_auth_dropdown</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1111,8 +1125,10 @@ ple: "Work" or "Personal"</property>
                   <object class="GtkLabel" id="label476">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;span weight="bold"&gt;Server Configuration&lt;/span&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Server Configuration</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1222,8 +1238,10 @@ ple: "Work" or "Personal"</property>
                   <object class="GtkLabel" id="label517">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;span weight="bold"&gt;Security&lt;/span&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Security</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1308,9 +1326,11 @@ ple: "Work" or "Personal"</property>
                               <object class="GtkLabel" id="transport_ssl_disabled_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of Evolution&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">SSL is not supported in this build of Evolution</property>
                                 <property name="justify">center</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1347,8 +1367,10 @@ ple: "Work" or "Personal"</property>
                   <object class="GtkLabel" id="label478">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;span weight="bold"&gt;Authentication&lt;/span&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Authentication</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1544,8 +1566,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label482">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Sent and Draft Messages&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Sent and Draft Messages</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1729,8 +1753,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label484">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Composing Messages&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Composing Messages</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1929,8 +1955,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label578">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Message Receipts&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Message Receipts</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -2015,8 +2043,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label486">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Pretty Good Privacy (PGP/GPG)&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Pretty Good Privacy (PGP/GPG)</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -2171,8 +2201,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label519">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Secure MIME (S/MIME)&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Secure MIME (S/MIME)</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -2604,8 +2636,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label492">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Message Fonts&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Message Fonts</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2754,8 +2788,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label494">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Message Display&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Message Display</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3094,8 +3130,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label496">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Delete Mail&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Delete Mail</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3225,8 +3263,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label530">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;General&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">General</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -3306,8 +3346,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label500">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Loading Images&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Loading Images</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3429,8 +3471,10 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label502">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Labels&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Labels</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -3484,8 +3528,10 @@ ple: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkLabel" id="label587">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Sender Photograph&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Sender Photograph</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -3574,10 +3620,12 @@ ple: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label524">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">&lt;span weight="bold"&gt;Displayed Message _Headers&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="label" translatable="yes">Displayed Message _Headers</property>
             <property name="use_underline">True</property>
             <property name="mnemonic_widget">txtHeaders</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -3698,10 +3746,12 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label591">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Date/Time Format&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Date/Time Format</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">txtHeaders</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3782,8 +3832,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label526">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;General&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">General</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4136,8 +4188,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label504">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Default Behavior&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Default Behavior</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4442,8 +4496,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label506">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Alerts&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Alerts</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4555,9 +4611,11 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label548">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Sig_natures&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Sig_natures</property>
                 <property name="use_underline">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4591,8 +4649,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label551">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Preview&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Preview</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4675,10 +4735,12 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label534">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;_Languages&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">_Languages</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">listSpellCheckLanguage</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4812,8 +4874,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label508">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Options&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Options</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4945,8 +5009,10 @@ ple: "Work" or "Personal"</property>
               <object class="GtkLabel" id="label512">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Printed Fonts&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Printed Fonts</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -5291,8 +5357,10 @@ for display purposes only. </property>
               <object class="GtkLabel" id="label76">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;span weight="bold"&gt;Proxy Settings&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Proxy Settings</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="position">0</property>

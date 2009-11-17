@@ -622,9 +622,8 @@
                         <child type="label">
                           <object class="GtkLabel" id="label400">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Email&lt;/b&gt;</property>
+                            <property name="label" translatable="yes">Email</property>
                             <property name="use_underline">False</property>
-                            <property name="use_markup">True</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
                             <property name="wrap">False</property>
                             <property name="selectable">False</property>
@@ -636,6 +635,9 @@
                             <property name="width_chars">-1</property>
                             <property name="single_line_mode">False</property>
                             <property name="angle">0</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
                           </object>
                         </child>
                       </object>
@@ -973,9 +975,8 @@
                                 <child>
                                   <object class="GtkLabel" id="label399">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Telephone&lt;/b&gt;</property>
+                                    <property name="label" translatable="yes">Telephone</property>
                                     <property name="use_underline">False</property>
-                                    <property name="use_markup">True</property>
                                     <property name="justify">GTK_JUSTIFY_LEFT</property>
                                     <property name="wrap">False</property>
                                     <property name="selectable">False</property>
@@ -987,6 +988,9 @@
                                     <property name="width_chars">-1</property>
                                     <property name="single_line_mode">False</property>
                                     <property name="angle">0</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                   <packing>
                                     <property name="padding">0</property>
@@ -1197,9 +1201,8 @@
                         <child type="label">
                           <object class="GtkLabel" id="label404">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Instant Messaging&lt;/b&gt;</property>
+                            <property name="label" translatable="yes">Instant Messaging</property>
                             <property name="use_underline">False</property>
-                            <property name="use_markup">True</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
                             <property name="wrap">False</property>
                             <property name="selectable">False</property>
@@ -1211,6 +1214,9 @@
                             <property name="width_chars">-1</property>
                             <property name="single_line_mode">False</property>
                             <property name="angle">0</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
                           </object>
                         </child>
                       </object>
@@ -1504,9 +1510,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label410">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Web Addresses&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Web Addresses</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -1518,6 +1523,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -1847,9 +1855,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label417">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Job&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Job</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -1861,6 +1868,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -2090,9 +2100,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label421">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Miscellaneous&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Miscellaneous</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -2104,6 +2113,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -2495,9 +2507,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="frame73">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Home&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Home</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -2509,6 +2520,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -2870,9 +2884,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label460">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Work&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Work</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -2884,6 +2897,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -3245,9 +3261,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label467">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Other&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Other</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -3259,6 +3274,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -3364,9 +3382,8 @@
                     <child type="label">
                       <object class="GtkLabel" id="label475">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Notes&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">Notes</property>
                         <property name="use_underline">False</property>
-                        <property name="use_markup">True</property>
                         <property name="justify">GTK_JUSTIFY_LEFT</property>
                         <property name="wrap">False</property>
                         <property name="selectable">False</property>
@@ -3378,6 +3395,9 @@
                         <property name="width_chars">-1</property>
                         <property name="single_line_mode">False</property>
                         <property name="angle">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>

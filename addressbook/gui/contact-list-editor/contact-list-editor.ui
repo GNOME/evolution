@@ -108,8 +108,10 @@
                   <object class="GtkLabel" id="members-label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property context="yes" name="label" translatable="yes">&lt;b&gt;Members&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property context="yes" name="label" translatable="yes">Members</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
