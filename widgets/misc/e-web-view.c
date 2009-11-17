@@ -272,7 +272,6 @@ action_mailto_copy_cb (GtkAction *action,
 	const gchar *uri;
 	gchar *text;
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
@@ -289,6 +288,7 @@ action_mailto_copy_cb (GtkAction *action,
 	camel_object_unref (inet_addr);
 	camel_url_free (curl);
 
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	gtk_clipboard_set_text (clipboard, text, -1);
 	gtk_clipboard_store (clipboard);
 

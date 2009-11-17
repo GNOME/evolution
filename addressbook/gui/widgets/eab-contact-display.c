@@ -46,14 +46,6 @@
 struct _EABContactDisplayPrivate {
 	EContact *contact;
 	EABContactDisplayMode mode;
-
-	GtkUIManager *ui_manager;
-	GtkActionGroup *email_actions;
-	GtkActionGroup *uri_actions;
-        GtkWidget *invisible;
-
-	gchar *selected_uri;
-	gchar *clipboard_uri;
 };
 
 enum {
@@ -98,11 +90,13 @@ common_location [] =
 
 static const gchar *ui =
 "<ui>"
-"  <popup>"
-"    <menuitem action='open-link'/>"
-"    <menuitem action='copy-link'/>"
-"    <menuitem action='send-message'/>"
-"    <menuitem action='copy-address'/>"
+"  <popup name='context'>"
+"    <placeholder name='custom-actions-1'>"
+"      <menuitem action='contact-send-message'/>"
+"    </placeholder>"
+"    <placeholder name='custom-actions-2'>"
+"      <menuitem action='contact-mailto-copy'/>"
+"    </placeholder>"
 "  </popup>"
 "</ui>";
 
@@ -110,134 +104,84 @@ static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 static void
-action_copy_address_cb (GtkAction *action,
-                        EABContactDisplay *display)
-{
-	EContact *contact;
-	GList *list;
-	const gchar *uri;
-	gchar *html;
-	gint index;
-
-	uri = display->priv->selected_uri;
-	index = atoi (uri + strlen ("internal-mailto:"));
-	contact = eab_contact_display_get_contact (display);
-
-	list = e_contact_get (contact, E_CONTACT_EMAIL);
-	html = e_text_to_html (g_list_nth_data (list, index), 0);
-	g_list_foreach (list, (GFunc) g_free, NULL);
-	g_list_free (list);
-
-	display->priv->clipboard_uri = html;
-	display->priv->selected_uri = NULL;
-
-	gtk_selection_owner_set (
-		display->priv->invisible, GDK_SELECTION_PRIMARY,
-		gtk_get_current_event_time ());
-	gtk_selection_owner_set (
-		display->priv->invisible, GDK_SELECTION_CLIPBOARD,
-		gtk_get_current_event_time ());
-}
-
-static void
-action_copy_link_cb (GtkAction *action,
-                     EABContactDisplay *display)
-{
-	display->priv->clipboard_uri = display->priv->selected_uri;
-	display->priv->selected_uri = NULL;
-
-	gtk_selection_owner_set (
-		display->priv->invisible, GDK_SELECTION_PRIMARY,
-		gtk_get_current_event_time ());
-	gtk_selection_owner_set (
-		display->priv->invisible, GDK_SELECTION_CLIPBOARD,
-		gtk_get_current_event_time ());
-}
-
-static void
-action_open_link_cb (GtkAction *action,
-                     EABContactDisplay *display)
-{
-	/* XXX Pass a parent window. */
-	e_show_uri (NULL, display->priv->selected_uri);
-}
-
-static void
-action_send_message_cb (GtkAction *action,
-                        EABContactDisplay *display)
+contact_display_emit_send_message (EABContactDisplay *display,
+                                   gint email_num)
 {
 	EDestination *destination;
 	EContact *contact;
-	const gchar *uri;
-	gint row;
 
-	uri = display->priv->selected_uri;
-	row = atoi (uri + strlen ("internal-mailto:"));
-	g_return_if_fail (row >= 0);
+	g_return_if_fail (email_num >= 0);
 
 	destination = e_destination_new ();
 	contact = eab_contact_display_get_contact (display);
-	e_destination_set_contact (destination, contact, row);
+	e_destination_set_contact (destination, contact, email_num);
 	g_signal_emit (display, signals[SEND_MESSAGE], 0, destination);
 	g_object_unref (destination);
 }
 
-static GtkActionEntry email_entries[] = {
+static void
+action_contact_mailto_copy_cb (GtkAction *action,
+                               EABContactDisplay *display)
+{
+	GtkClipboard *clipboard;
+	EWebView *web_view;
+	EContact *contact;
+	GList *list;
+	const gchar *text;
+	const gchar *uri;
+	gint index;
 
-	{ "copy-address",
-	  NULL,
+	web_view = E_WEB_VIEW (display);
+	uri = e_web_view_get_selected_uri (web_view);
+	g_return_if_fail (uri != NULL);
+
+	index = atoi (uri + strlen ("internal-mailto:"));
+	g_return_if_fail (index >= 0);
+
+	contact = eab_contact_display_get_contact (display);
+	list = e_contact_get (contact, E_CONTACT_EMAIL);
+	text = g_list_nth_data (list, index);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_text (clipboard, text, -1);
+	gtk_clipboard_store (clipboard);
+
+	g_list_foreach (list, (GFunc) g_free, NULL);
+	g_list_free (list);
+}
+
+static void
+action_contact_send_message_cb (GtkAction *action,
+                                EABContactDisplay *display)
+{
+	EWebView *web_view;
+	const gchar *uri;
+	gint index;
+
+	web_view = E_WEB_VIEW (display);
+	uri = e_web_view_get_selected_uri (web_view);
+	g_return_if_fail (uri != NULL);
+
+	index = atoi (uri + strlen ("internal-mailto:"));
+	contact_display_emit_send_message (display, index);
+}
+
+static GtkActionEntry internal_mailto_entries[] = {
+
+	{ "contact-mailto-copy",
+	  GTK_STOCK_COPY,
 	  N_("Copy _Email Address"),
 	  NULL,
-	  NULL,
-	  G_CALLBACK (action_copy_address_cb) },
+	  N_("Copy the email address to the clipboard"),
+	  G_CALLBACK (action_contact_mailto_copy_cb) },
 
-	{ "send-message",
-	  NULL,
+	{ "contact-send-message",
+	  "mail-message-new",
 	  N_("_Send New Message To..."),
 	  NULL,
-	  NULL,
-	  G_CALLBACK (action_send_message_cb) }
+	  N_("Send a mail message to this address"),
+	  G_CALLBACK (action_contact_send_message_cb) }
 };
-
-static GtkActionEntry uri_entries[] = {
-
-	{ "copy-link",
-	  NULL,
-	  N_("_Copy Link Location"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_copy_link_cb) },
-
-	{ "open-link",
-	  NULL,
-	  N_("_Open Link in Browser"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_open_link_cb) }
-};
-
-static void
-contact_display_selection_get (EABContactDisplay *display,
-                               GtkSelectionData *data,
-                               guint info,
-                               guint time_stamp)
-{
-	if (display->priv->clipboard_uri == NULL)
-		return;
-
-	gtk_selection_data_set (
-		data, data->target, 8,
-		(guchar *) display->priv->clipboard_uri,
-		strlen (display->priv->clipboard_uri));
-}
-
-static void
-contact_display_selection_clear_event (EABContactDisplay *display,
-                                       GdkEventSelection *event)
-{
-	g_free (display->priv->clipboard_uri);
-	display->priv->clipboard_uri = NULL;
-}
 
 static void
 render_name_value (GtkHTMLStream *html_stream, const gchar *label, const gchar *str, const gchar *icon, guint html_flags)
@@ -823,54 +767,6 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 	gtk_html_end (GTK_HTML (display), html_stream, GTK_HTML_STREAM_OK);
 }
 
-static gint
-contact_display_button_press_event (GtkWidget *widget,
-                                    GdkEvent *event,
-                                    EABContactDisplay *display)
-{
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GtkWidget *menu;
-	gboolean has_email;
-	gchar *uri;
-
-	if (event->button.button != 3)
-		return FALSE;
-
-	uri = gtk_html_get_url_at (
-		GTK_HTML (widget),
-		event->button.x, event->button.y);
-
-	if (uri == NULL)
-		return FALSE;
-
-	g_free (display->priv->selected_uri);
-	display->priv->selected_uri = uri;
-
-	ui_manager = display->priv->ui_manager;
-	menu = gtk_ui_manager_get_widget (ui_manager, "/popup");
-	g_return_val_if_fail (GTK_IS_MENU (menu), FALSE);
-
-	has_email = (g_ascii_strncasecmp (uri, "internal-mailto:", 16) == 0);
-
-	/* Show the appropriate actions. */
-	action_group = display->priv->email_actions;
-	gtk_action_group_set_visible (action_group, has_email);
-	action_group = display->priv->uri_actions;
-	gtk_action_group_set_visible (action_group, !has_email);
-
-        if (event != NULL)
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			event->button.button, event->button.time);
-	else
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			0, gtk_get_current_event_time ());
-
-	return TRUE;
-}
-
 static void
 contact_display_set_property (GObject *object,
                               guint property_id,
@@ -929,26 +825,6 @@ contact_display_dispose (GObject *object)
 		priv->contact = NULL;
 	}
 
-	if (priv->ui_manager != NULL) {
-		g_object_unref (priv->ui_manager);
-		priv->ui_manager = NULL;
-	}
-
-	if (priv->email_actions != NULL) {
-		g_object_unref (priv->email_actions);
-		priv->email_actions = NULL;
-	}
-
-	if (priv->uri_actions != NULL) {
-		g_object_unref (priv->uri_actions);
-		priv->uri_actions = NULL;
-	}
-
-	if (priv->invisible != NULL) {
-		g_object_unref (priv->invisible);
-		priv->invisible = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -960,30 +836,35 @@ contact_display_finalize (GObject *object)
 
 	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (object);
 
-	g_free (priv->selected_uri);
-	g_free (priv->clipboard_uri);
-
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
 contact_display_url_requested (GtkHTML *html,
-                               const gchar *url,
+                               const gchar *uri,
                                GtkHTMLStream *handle)
 {
-	EABContactDisplayPrivate *priv;
+	EABContactDisplay *display;
+	GtkHTMLClass *class;
+	gsize length;
 
-	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (html);
+	display = EAB_CONTACT_DISPLAY (html);
+	class = GTK_HTML_CLASS (parent_class);
 
-	if (strcmp (url, "internal-contact-photo:") == 0) {
+	/* internal-contact-photo: */
+	if (strcmp (uri, "internal-contact-photo:") == 0) {
 		EContactPhoto *photo;
+		EContact *contact;
 
-		photo = e_contact_get (priv->contact, E_CONTACT_PHOTO);
-		if (!photo)
-			photo = e_contact_get (priv->contact, E_CONTACT_LOGO);
+		contact = eab_contact_display_get_contact (display);
+		photo = e_contact_get (contact, E_CONTACT_PHOTO);
+		if (photo == NULL)
+			photo = e_contact_get (contact, E_CONTACT_LOGO);
 
-		gtk_html_stream_write (handle, (gchar *)photo->data.inlined.data, photo->data.inlined.length);
+		gtk_html_stream_write (
+			handle, (gchar *) photo->data.inlined.data,
+			photo->data.inlined.length);
 
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 
@@ -992,26 +873,39 @@ contact_display_url_requested (GtkHTML *html,
 		return;
 	}
 
-	if (strncmp (url, "evo-icon:", strlen ("evo-icon:")) == 0) {
-		gchar *data;
-		gsize data_length;
-		gchar *filename;
+	/* evo-icon:<<themed-icon-name>> */
+	length = strlen ("evo-icon:");
+	if (g_ascii_strncasecmp (uri, "evo-icon:", length) == 0) {
+		GtkIconTheme *icon_theme;
+		GtkIconInfo *icon_info;
+		const gchar *filename;
+		gchar *icon_uri;
+		GError *error = NULL;
 
-		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), GTK_ICON_SIZE_MENU);
-		if (g_file_get_contents (filename, &data, &data_length, NULL)) {
-			gtk_html_stream_write (handle, data, data_length);
-			g_free (data);
+		icon_theme = gtk_icon_theme_get_default ();
+		icon_info = gtk_icon_theme_lookup_icon (
+			icon_theme, uri + length, GTK_ICON_SIZE_MENU, 0);
+		g_return_if_fail (icon_info != NULL);
+
+		filename = gtk_icon_info_get_filename (icon_info);
+		icon_uri = g_filename_to_uri (filename, NULL, &error);
+
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
 		}
 
-		gtk_html_stream_close (handle, GTK_HTML_STREAM_OK);
+		/* Chain up with the URI for the icon file. */
+		class->url_requested (html, icon_uri, handle);
 
-		g_free (filename);
+		gtk_icon_info_free (icon_info);
+		g_free (icon_uri);
 
 		return;
 	}
 
-	/* Chain up to parent's url_requested() method. */
-	GTK_HTML_CLASS (parent_class)->url_requested (html, url, handle);
+	/* Chain up to parent's uri_requested() method. */
+	class->url_requested (html, uri, handle);
 }
 
 static void
@@ -1019,31 +913,85 @@ contact_display_link_clicked (GtkHTML *html,
                               const gchar *uri)
 {
 	EABContactDisplay *display;
+	gsize length;
 
 	display = EAB_CONTACT_DISPLAY (html);
 
-#ifdef HANDLE_MAILTO_INTERNALLY
-	if (!strncmp (uri, "internal-mailto:", strlen ("internal-mailto:"))) {
-		EDestination *destination;
-		EContact *contact;
-		gint email_num;
+	length = strlen ("internal-mailto:");
+	if (g_ascii_strncasecmp (uri, "internal-mailto:", length) == 0) {
+		gint index;
 
-		email_num = atoi (uri + strlen ("internal-mailto:"));
-		if (email_num == -1)
-			return;
-
-		destination = e_destination_new ();
-		contact = eab_contact_display_get_contact (display);
-		e_destination_set_contact (destination, contact, email_num);
-		g_signal_emit (display, signals[SEND_MESSAGE], 0, destination);
-		g_object_unref (destination);
-
+		index = atoi (uri + length);
+		contact_display_emit_send_message (display, index);
 		return;
 	}
-#endif
 
 	/* Chain up to parent's link_clicked() method. */
 	GTK_HTML_CLASS (parent_class)->link_clicked (html, uri);
+}
+
+static void
+contact_display_on_url (GtkHTML *html,
+                        const gchar *uri)
+{
+	EABContactDisplay *display;
+	EContact *contact;
+	const gchar *name;
+	gchar *message;
+
+	if (uri == NULL || *uri == '\0')
+		goto chainup;
+
+	if (!g_str_has_prefix (uri, "internal-mailto:"))
+		goto chainup;
+
+	display = EAB_CONTACT_DISPLAY (html);
+	contact = eab_contact_display_get_contact (display);
+
+	name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+	if (name == NULL)
+		e_contact_get_const (contact, E_CONTACT_FULL_NAME);
+	g_return_if_fail (name != NULL);
+
+	message = g_strdup_printf (_("Click to mail %s"), name);
+	e_web_view_status_message (E_WEB_VIEW (html), message);
+	g_free (message);
+
+	return;
+
+chainup:
+	/* Chain up to parent's on_url() method. */
+	GTK_HTML_CLASS (parent_class)->on_url (html, uri);
+}
+
+static void
+contact_display_update_actions (EWebView *web_view)
+{
+	GtkActionGroup *action_group;
+	gboolean scheme_is_internal_mailto;
+	gboolean visible;
+	const gchar *group_name;
+	const gchar *uri;
+
+	/* Chain up to parent's update_actions() method. */
+	E_WEB_VIEW_CLASS (parent_class)->update_actions (web_view);
+
+	uri = e_web_view_get_selected_uri (web_view);
+
+	scheme_is_internal_mailto = (uri == NULL) ? FALSE :
+		(g_ascii_strncasecmp (uri, "internal-mailto:", 16) == 0);
+
+	/* Override how EWebView treats internal-mailto URIs. */
+	group_name = "uri";
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	visible = gtk_action_group_get_visible (action_group);
+	visible &= !scheme_is_internal_mailto;
+	gtk_action_group_set_visible (action_group, visible);
+
+	group_name = "internal-mailto";
+	visible = scheme_is_internal_mailto;
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	gtk_action_group_set_visible (action_group, visible);
 }
 
 static void
@@ -1051,6 +999,7 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 {
 	GObjectClass *object_class;
 	GtkHTMLClass *html_class;
+	EWebViewClass *web_view_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EABContactDisplayPrivate));
@@ -1064,6 +1013,10 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	html_class = GTK_HTML_CLASS (class);
 	html_class->url_requested = contact_display_url_requested;
 	html_class->link_clicked = contact_display_link_clicked;
+	html_class->on_url = contact_display_on_url;
+
+	web_view_class = E_WEB_VIEW_CLASS (class);
+	web_view_class->update_actions = contact_display_update_actions;
 
 	g_object_class_install_property (
 		object_class,
@@ -1102,65 +1055,33 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 static void
 eab_contact_display_init (EABContactDisplay *display)
 {
+	EWebView *web_view;
+	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	GtkHTML *html;
-	const gchar *id;
+	const gchar *domain = GETTEXT_PACKAGE;
+	GError *error = NULL;
 
 	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-	display->priv->ui_manager = gtk_ui_manager_new ();
-	display->priv->invisible = gtk_invisible_new ();
 
-	g_object_ref_sink (display->priv->invisible);
+	web_view = E_WEB_VIEW (display);
+	ui_manager = e_web_view_get_ui_manager (web_view);
 
-	action_group = gtk_action_group_new ("email");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
+	action_group = gtk_action_group_new ("internal-mailto");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
 	gtk_action_group_add_actions (
-		action_group, email_entries,
-		G_N_ELEMENTS (email_entries), display);
-	gtk_ui_manager_insert_action_group (
-		display->priv->ui_manager, action_group, 0);
-	display->priv->email_actions = action_group;
+		action_group, internal_mailto_entries,
+		G_N_ELEMENTS (internal_mailto_entries), display);
 
-	action_group = gtk_action_group_new ("uri");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, uri_entries,
-		G_N_ELEMENTS (uri_entries), display);
-	gtk_ui_manager_insert_action_group (
-		display->priv->ui_manager, action_group, 0);
-	display->priv->uri_actions = action_group;
-
-	gtk_ui_manager_add_ui_from_string (
-		display->priv->ui_manager, ui, -1, NULL);
-
-	html = GTK_HTML (display);
-	gtk_html_construct (html);
-	gtk_html_set_editable (html, FALSE);
-	gtk_html_set_default_content_type (html, "text/html; charset=utf-8");
-
-	g_signal_connect (
-		display, "button-press-event",
-		G_CALLBACK (contact_display_button_press_event), display);
-
-	g_signal_connect_swapped (
-		display->priv->invisible, "selection-get",
-		G_CALLBACK (contact_display_selection_get), display);
-	g_signal_connect_swapped (
-		display->priv->invisible, "selection-clear-event",
-		G_CALLBACK (contact_display_selection_clear_event), display);
-	gtk_selection_add_target (
-		display->priv->invisible,
-		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
-	gtk_selection_add_target (
-		display->priv->invisible,
-		GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
-
-	id = "org.gnome.evolution.contact-display";
-	e_plugin_ui_register_manager (display->priv->ui_manager, id, display);
-	e_plugin_ui_enable_manager (display->priv->ui_manager, id);
+	/* Because we are loading from a hard-coded string, there is
+	 * no chance of I/O errors.  Failure here implies a malformed
+	 * UI definition.  Full stop. */
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+	if (error != NULL)
+		g_error ("%s", error->message);
 }
 
 GType
