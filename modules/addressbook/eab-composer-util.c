@@ -77,14 +77,12 @@ eab_send_as_to (GList *destinations)
 	e_composer_header_table_set_destinations_to (
 		table, convert.destinations);
 	g_ptr_array_free (to_array, FALSE);
-	e_destination_freev (convert.destinations);
 
 	/* Add "Bcc" destinations. */
 	convert.pdata = bcc_array->pdata;
 	e_composer_header_table_set_destinations_bcc (
 		table, convert.destinations);
 	g_ptr_array_free (bcc_array, FALSE);
-	e_destination_freev (convert.destinations);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
