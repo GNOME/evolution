@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -197,14 +198,21 @@ rule_context_load (ERuleContext *context,
 
 	systemdoc = e_xml_parse_file (system);
 	if (systemdoc == NULL) {
-		rule_context_set_error (context, g_strdup_printf ("Unable to load system rules '%s': %s",
-							     system, g_strerror (errno)));
+		gchar * err_msg = g_strdup_printf("Unable to load system rules '%s': %s",
+						  system, g_strerror(errno));
+		g_warning(err_msg);
+		rule_context_set_error(context, err_msg);
+		/* no need to free err_msg here */
 		return -1;
 	}
 
 	root = xmlDocGetRootElement (systemdoc);
 	if (root == NULL || strcmp ((gchar *)root->name, "filterdescription")) {
-		rule_context_set_error (context, g_strdup_printf ("Unable to load system rules '%s': Invalid format", system));
+		gchar * err_msg = g_strdup_printf ("Unable to load system rules '%s': Invalid format",
+						   system);
+		g_warning(err_msg);
+		rule_context_set_error(context, err_msg);
+		/* no need to free err_msg here */
 		xmlFreeDoc (systemdoc);
 		return -1;
 	}
