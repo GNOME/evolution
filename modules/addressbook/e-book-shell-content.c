@@ -595,23 +595,19 @@ void
 e_book_shell_content_clipboard_copy (EBookShellContent *book_shell_content)
 {
 	EAddressbookView *addressbook_view;
-	GtkHTML *html;
-	gchar *selection;
+	EWebView *web_view;
 
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 
-	html = GTK_HTML (book_shell_content->priv->preview);
+	web_view = E_WEB_VIEW (book_shell_content->priv->preview);
 	addressbook_view =
 		e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (addressbook_view != NULL);
 
-	if (!GTK_WIDGET_HAS_FOCUS (html)) {
+	if (!GTK_WIDGET_HAS_FOCUS (web_view)) {
 		e_addressbook_view_copy (addressbook_view);
 		return;
 	}
 
-	selection = gtk_html_get_selection_html (html, NULL);
-	if (selection != NULL)
-		gtk_html_copy (html);
-	g_free (selection);
+	e_web_view_clipboard_copy (web_view);
 }
