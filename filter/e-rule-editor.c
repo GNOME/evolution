@@ -806,7 +806,6 @@ e_rule_editor_construct (ERuleEditor *editor,
 	GObject *object;
 	GList *list;
 	gint i;
-	gchar *tmp;
 
 	g_return_if_fail (E_IS_RULE_EDITOR (editor));
 	g_return_if_fail (E_IS_RULE_CONTEXT (context));
@@ -859,9 +858,7 @@ e_rule_editor_construct (ERuleEditor *editor,
 		G_CALLBACK (double_click), editor);
 
 	widget = e_builder_get_widget (builder, "rule_label");
-	tmp = alloca(strlen(label)+8);
-	sprintf(tmp, "<b>%s</b>", label);
-	gtk_label_set_label (GTK_LABEL (widget), tmp);
+	gtk_label_set_label (GTK_LABEL (widget), label);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), GTK_WIDGET (editor->list));
 

@@ -637,9 +637,9 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 
 	set_sensitive(data);
 
-	g_object_unref(builder);
-
 	gtk_box_pack_start(GTK_BOX(widget), frame, TRUE, TRUE, 3);
+
+	g_object_unref (builder);
 
 	return widget;
 }
