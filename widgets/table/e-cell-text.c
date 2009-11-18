@@ -55,13 +55,13 @@
 #include "misc/e-canvas.h"
 #include "e-util/e-unicode.h"
 
+#include "e-table.h"
 #include "e-cell-text.h"
 #include "e-table-item.h"
 #include "e-table-tooltip.h"
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
-#define VERTICAL_PADDING 3  /* Padding for top and bottom */
 
 #if d(!)0
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
@@ -704,6 +704,17 @@ show_pango_rectangle (CellEdit *edit, PangoRectangle rect)
 	return FALSE;
 }
 
+static gint
+get_vertical_spacing (GtkWidget *widget)
+{
+	GtkStyle *style = gtk_rc_get_style (widget);
+	gint vspacing = 0;
+
+	gtk_style_get (style, E_TABLE_TYPE, "vertical-spacing", &vspacing, NULL);
+
+	return vspacing;
+}
+
 /*
  * ECell::draw method
  */
@@ -720,7 +731,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkColor *foreground;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	GdkRectangle clip_rect;
-	gint x_origin, y_origin;
+	gint x_origin, y_origin, vspacing;
 
 	selected = flags & E_CELL_SELECTED;
 
@@ -747,10 +758,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	gdk_gc_set_foreground (text_view->gc, foreground);
 
+	vspacing = get_vertical_spacing (canvas);
+
 	x1 += 4;
-	y1 += VERTICAL_PADDING;
+	y1 += vspacing;
 	x2 -= 4;
-	y2 -= VERTICAL_PADDING;
+	y2 -= vspacing;
 
 	x_origin = x1 + ect->x + text_view->xofs - (edit ? edit->xofs_edit : 0);
 	y_origin = y1 + ect->y + text_view->yofs - (edit ? edit->yofs_edit : 0);
@@ -1146,7 +1159,7 @@ ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 	layout = generate_layout (text_view, model_col, view_col, row, 0);
 	pango_layout_get_pixel_size (layout, NULL, &height);
 	g_object_unref (layout);
-	return height + (VERTICAL_PADDING * 2);
+	return height + (get_vertical_spacing (GTK_WIDGET (text_view->canvas)) * 2);
 }
 
 /*

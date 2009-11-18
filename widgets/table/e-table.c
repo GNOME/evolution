@@ -3346,6 +3346,15 @@ e_table_class_init (ETableClass *class)
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READABLE));
 
+	gtk_widget_class_install_style_property (widget_class,
+					 g_param_spec_int ("vertical-spacing",
+							   _("Vertical Row Spacing"),
+							   _("Vertical space between rows. It is added to top and to bottom of a row"),
+							   0,
+							   G_MAXINT,
+							   3,
+							   G_PARAM_READABLE | G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+
 	gal_a11y_e_table_init ();
 }
 
