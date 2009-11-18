@@ -1391,18 +1391,15 @@ comp_editor_finalize (GObject *object)
 }
 
 static void
-comp_editor_map (GtkWidget *widget)
+comp_editor_bind_gconf (CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (widget);
 	GConfBridge *bridge;
 	GtkAction *action;
 	const gchar *key;
 
-	bridge = gconf_bridge_get ();
+	g_return_if_fail (editor != NULL);
 
-	/* Give subclasses a chance to construct their pages before
-	 * we fiddle with their widgets.  That's why we don't do this
-	 * until after object construction. */
+	bridge = gconf_bridge_get ();
 
 	key = "/apps/evolution/calendar/display/show_categories";
 	action = comp_editor_get_action (editor, "view-categories");
@@ -1427,9 +1424,6 @@ comp_editor_map (GtkWidget *widget)
 	key = "/apps/evolution/calendar/display/show_type";
 	action = comp_editor_get_action (editor, "view-type");
 	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
-
-	/* Chain up to parent's map() method. */
-	GTK_WIDGET_CLASS (comp_editor_parent_class)->map (widget);
 }
 
 static gboolean
@@ -1525,7 +1519,6 @@ comp_editor_class_init (CompEditorClass *class)
 	object_class->finalize = comp_editor_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->map = comp_editor_map;
 	widget_class->delete_event = comp_editor_delete_event;
 	widget_class->key_press_event = comp_editor_key_press_event;
 	widget_class->drag_motion = comp_editor_drag_motion;
@@ -1816,6 +1809,8 @@ comp_editor_init (CompEditor *editor)
 	g_signal_connect_swapped (
 		store, "row-inserted",
 		G_CALLBACK (attachment_store_changed_cb), editor);
+
+	comp_editor_bind_gconf (editor);
 
 	/* FIXME Shell should be passed in. */
 	shell = e_shell_get_default ();

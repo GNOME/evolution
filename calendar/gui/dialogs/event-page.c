@@ -47,7 +47,6 @@
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-dialog-widgets.h"
-#include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 
 #include "../e-meeting-attendee.h"
