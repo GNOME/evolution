@@ -204,6 +204,19 @@ message_push (Message *msg)
 G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, GTK_TYPE_VBOX)
 
 static void
+gcal_update_status_message (GnomeCalendar *gcal, const gchar *message, gdouble percent)
+{
+	ECalModel *model;
+
+	g_return_if_fail (gcal != NULL);
+
+	model = gnome_calendar_get_model (gcal);
+	g_return_if_fail (model != NULL);
+
+	e_cal_model_update_status_message (model, message, percent);
+}
+
+static void
 update_adjustment (GnomeCalendar *gcal,
                    GtkAdjustment *adjustment,
                    EWeekView *week_view)
@@ -280,12 +293,7 @@ view_progress_cb (ECalModel *model,
                   ECalSourceType type,
                   GnomeCalendar *gcal)
 {
-#if 0  /* KILL-BONOBO */
-	ECalendarView *view;
-
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
-	e_calendar_view_set_status_message (view, message, percent);
-#endif
+	gcal_update_status_message (gcal, message, percent);
 }
 
 static void
@@ -294,12 +302,7 @@ view_done_cb (ECalModel *model,
               ECalSourceType type,
               GnomeCalendar *gcal)
 {
-#if 0  /* KILL-BONOBO */
-	ECalendarView *view;
-
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
-	e_calendar_view_set_status_message (view, NULL, -1);
-#endif
+	gcal_update_status_message (gcal, NULL, -1);
 }
 
 static void
@@ -1884,6 +1887,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	case E_CALENDAR_STATUS_BUSY:
 		if (state == E_CAL_LOAD_NOT_LOADED)
 			e_cal_open_async (ecal, FALSE);
+		else
+			gcal_update_status_message (gcal, NULL, -1);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
 		id = g_strdup ("calendar:server-version");
@@ -1891,6 +1896,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		if (g_hash_table_lookup(non_intrusive_error_table, id)) {
 			/* We already have it */
 			g_message("Error occurred while existing dialog active:\n");
+			gcal_update_status_message (gcal, NULL, -1);
 			return;
 		}
 
@@ -1912,6 +1918,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		if (g_hash_table_lookup(non_intrusive_error_table, id)) {
 			/* We already have it */
 			g_message("Error occurred while existing dialog active:\n");
+			gcal_update_status_message (gcal, NULL, -1);
 			return;
 		}
 
@@ -1929,6 +1936,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
+		gcal_update_status_message (gcal, NULL, -1);
 
 		return;
 	}
@@ -1936,7 +1944,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
 
 	msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
-	/*e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);  KILL-BONOBO */
+	gcal_update_status_message (gcal, msg, -1);
 	g_free (msg);
 
 	/* add client to the views */
@@ -1946,7 +1954,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	/* update date navigator query */
 	gnome_calendar_update_query (gcal);
 
-	/*e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);  KILL-BONOBO */
+	gcal_update_status_message (gcal, NULL, -1);
 }
 
 static void
@@ -1971,6 +1979,8 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	case E_CALENDAR_STATUS_BUSY:
 		if (state == E_CAL_LOAD_NOT_LOADED)
 			e_cal_open_async (ecal, FALSE);
+		else
+			gcal_update_status_message (gcal, NULL, -1.0);
 		return;
 	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
 		/* try to reopen calendar - it'll ask for a password once again */
@@ -1996,6 +2006,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
+		gcal_update_status_message (gcal, NULL, -1.0);
 
 		return;
 	}
@@ -2004,6 +2015,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 	model = gnome_calendar_get_model (gcal);
 	e_cal_model_set_default_client (model, ecal);
+	gcal_update_status_message (gcal, NULL, -1.0);
 }
 
 typedef void (*open_func) (ECal *, ECalendarStatus, GnomeCalendar *);
@@ -2021,7 +2033,7 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 	e_cal_set_default_timezone (cal, zone, NULL);
 
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
-	/*e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);  KILL-BONOBO */
+	gcal_update_status_message (gcal, msg, -1.0);
 
 	g_free (msg);
 
@@ -2090,7 +2102,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	id = g_strdup ("calendar:calendar-crashed");
 
-	/* e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1); KILL-BONOBO */
+	gcal_update_status_message (gcal, NULL, -1);
 
 	g_signal_emit (gcal, signals[SOURCE_REMOVED], 0, source);
 
@@ -2552,7 +2564,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				"                      (make-time \"%s\"))",
 				start, end);
 
-	/*e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Purging"), -1);  KILL-BONOBO */
+	gcal_update_status_message (gcal, _("Purging"), -1);
 
 	/* FIXME Confirm expunge */
 	clients = e_cal_model_get_client_list (gnome_calendar_get_model (gcal));
@@ -2621,7 +2633,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 
 	g_list_free (clients);
 
-	/* e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);  KILL-BONOBO */
+	gcal_update_status_message (gcal, NULL, -1);
 
 	g_free (sexp);
 	g_free (start);

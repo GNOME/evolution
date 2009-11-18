@@ -700,9 +700,9 @@ memo_table_class_init (EMemoTableClass *class)
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EMemoTableClass, status_message),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__STRING,
-		G_TYPE_NONE, 1,
-		G_TYPE_STRING);
+		e_marshal_VOID__STRING_DOUBLE,
+		G_TYPE_NONE, 2,
+		G_TYPE_STRING, G_TYPE_DOUBLE);
 
 	signals[USER_CREATED] = g_signal_new (
 		"user-created",

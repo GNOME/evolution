@@ -139,6 +139,7 @@ enum {
 	COMPS_DELETED,
 	CAL_VIEW_PROGRESS,
 	CAL_VIEW_DONE,
+	STATUS_MESSAGE,
 	LAST_SIGNAL
 };
 
@@ -440,6 +441,15 @@ e_cal_model_class_init (ECalModelClass *class)
 			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
+	signals[STATUS_MESSAGE] = g_signal_new (
+		"status-message",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalModelClass, status_message),
+		NULL, NULL,
+		e_marshal_VOID__STRING_DOUBLE,
+		G_TYPE_NONE, 2,
+		G_TYPE_STRING, G_TYPE_DOUBLE);
 }
 
 static void
@@ -2075,6 +2085,14 @@ try_again:
 	e_cal_view_start (client_data->query);
 }
 
+void
+e_cal_model_update_status_message (ECalModel *model, const gchar *message, gdouble percent)
+{
+	g_return_if_fail (model != NULL);
+
+	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message, percent);
+}
+
 static void
 backend_died_cb (ECal *client, gpointer user_data)
 {
@@ -2098,8 +2116,11 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		e_cal_model_remove_client (model, client);
+		e_cal_model_update_status_message (model, NULL, -1.0);
 		return;
 	}
+
+	e_cal_model_update_status_message (model, NULL, -1.0);
 
 	/* Stop listening for this calendar to be opened */
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA, 0, 0, NULL, cal_opened_cb, model);
@@ -2153,6 +2174,12 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		update_e_cal_view_for_client (model, client_data);
 	} else {
+		gchar *msg;
+
+		msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (client));
+		e_cal_model_update_status_message (model, msg, -1.0);
+		g_free (msg);
+
 		g_signal_connect (client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
 		e_cal_open_async (client, TRUE);
 	}

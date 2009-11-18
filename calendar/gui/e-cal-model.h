@@ -164,6 +164,9 @@ struct _ECalModelClass {
 	void		(*cal_view_done)	(ECalModel *model,
 						 ECalendarStatus status,
 						 ECalSourceType type);
+	void		(*status_message)	(ECalModel *model,
+						 const gchar *message,
+						 gdouble percent);
 };
 
 typedef time_t (*ECalModelDefaultTimeFunc) (ECalModel *model, gpointer user_data);
@@ -261,6 +264,10 @@ void		e_cal_model_update_comp_time	(ECalModel *model,
 						 icalproperty_kind kind,
 						 void (*set_func)(icalproperty *prop, struct icaltimetype v),
 						 icalproperty * (*new_func)(struct icaltimetype v));
+
+void		e_cal_model_update_status_message (ECalModel *model,
+						 const gchar *message,
+						 gdouble percent);
 
 G_END_DECLS
 

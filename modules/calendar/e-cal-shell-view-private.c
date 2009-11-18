@@ -507,6 +507,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 
 	g_signal_connect_swapped (
+		model, "status-message",
+		G_CALLBACK (e_cal_shell_view_set_status_message),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
 		model, "notify::timezone",
 		G_CALLBACK (e_cal_shell_view_update_timezone),
 		cal_shell_view);
@@ -707,12 +712,10 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 			g_object_unref (activity);
 			activity = NULL;
 		}
-
 	} else if (activity == NULL) {
 		activity = e_activity_new (status_message);
 		e_activity_set_percent (activity, percent);
 		e_shell_backend_add_activity (shell_backend, activity);
-
 	} else {
 		e_activity_set_percent (activity, percent);
 		e_activity_set_primary_text (activity, status_message);
