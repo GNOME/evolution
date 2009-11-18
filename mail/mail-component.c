@@ -829,8 +829,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 	CamelFolder *folder;
 	guint32 unsent;
 
-	if (!e_msg_composer_request_close_all())
-		return FALSE;
+	e_msg_composer_request_close_all ();
 
 	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
 	if (folder != NULL
@@ -919,6 +918,10 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		/* Falls through */
 	case MC_QUIT_SYNC:
 		if (mc->priv->quit_count > 0 || mc->priv->mail_sync_in_progress > 0)
+			return FALSE;
+
+		/* messages are autosaved, there is no prompt for cancelling */
+		if (!e_msg_composer_all_closed ())
 			return FALSE;
 
 		mail_cancel_all();

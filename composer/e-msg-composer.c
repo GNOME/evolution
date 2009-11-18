@@ -3931,12 +3931,12 @@ e_msg_composer_is_exiting (EMsgComposer *composer)
 void
 e_msg_composer_request_close (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_if_fail (composer != NULL);
 
 	composer->priv->application_exiting = TRUE;
 }
 
-gboolean
+void
 e_msg_composer_request_close_all (void)
 {
 	GSList *iter, *next;
@@ -3960,9 +3960,20 @@ e_msg_composer_request_close_all (void)
 		e_composer_autosave_snapshot_async (composer,
 						    (GAsyncReadyCallback) e_composer_autosave_snapshot_finish,
 						    NULL);
-		gtk_action_activate (ACTION (CLOSE));
 	}
+}
 
+void
+e_msg_composer_close (EMsgComposer *composer)
+{
+	g_return_if_fail (composer != NULL);
+
+	gtk_action_activate (ACTION (CLOSE));
+}
+
+gboolean
+e_msg_composer_all_closed (void)
+{
 	return (all_composers == NULL);
 }
 
@@ -4195,14 +4206,16 @@ e_save_spell_languages (GList *spell_languages)
 	}
 }
 
-void e_msg_composer_set_mail_sent (EMsgComposer *composer, gboolean mail_sent)
+void
+e_msg_composer_set_mail_sent (EMsgComposer *composer, gboolean mail_sent)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_if_fail (composer != NULL);
 
 	composer->priv->mail_sent = mail_sent;
 }
 
-gboolean e_msg_composer_get_mail_sent (EMsgComposer *composer)
+gboolean
+e_msg_composer_get_mail_sent (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, FALSE);
 

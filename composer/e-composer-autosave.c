@@ -473,6 +473,9 @@ e_composer_autosave_snapshot_finish (EMsgComposer *composer,
 	g_simple_async_result_propagate_error (simple, error);
 	g_object_unref (simple);
 
+	if (e_msg_composer_is_exiting (composer))
+		e_msg_composer_close (composer);
+
 	return success;
 }
 
