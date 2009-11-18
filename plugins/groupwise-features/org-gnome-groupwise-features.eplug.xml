@@ -60,7 +60,7 @@
 				</popup>
 			</ui-manager>
 
-			<ui-manager id="org.gnome.evolution.calendar" callback="gw_ui_calendar_event_popup">
+			<ui-manager id="org.gnome.evolution.calendars" callback="gw_ui_calendar_event_popup">
 				<popup name="calendar-event-popup">
 					<placeholder name="event-popup-actions">
 						<menuitem action="gw-meeting-accept"/>
