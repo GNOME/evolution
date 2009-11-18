@@ -304,14 +304,6 @@ plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
 plugins/email-custom-header/email-custom-header.c
 plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml
 plugins/email-custom-header/org-gnome-email-custom-header.ui
-plugins/exchange-operations/e-foreign-folder-dialog.ui
-plugins/exchange-operations/exchange-change-password.ui
-plugins/exchange-operations/exchange-delegates.ui
-plugins/exchange-operations/exchange-folder-tree.ui
-plugins/exchange-operations/exchange-oof.ui
-plugins/exchange-operations/exchange-passwd-expiry.ui
-plugins/exchange-operations/exchange-permissions-dialog.ui
-plugins/exchange-operations/exchange-send-options.ui
 plugins/external-editor/apps-evolution-external-editor.schemas.in
 plugins/external-editor/external-editor.c
 plugins/external-editor/org-gnome-external-editor.eplug.xml
