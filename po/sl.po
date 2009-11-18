@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-11-17 08:48+0000\n"
-"PO-Revision-Date: 2009-11-17 13:10+0100\n"
+"PO-Revision-Date: 2009-11-18 14:14+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -16870,18 +16870,16 @@ msgid "Construct a more advanced search"
 msgstr "Sestavljanje naprednejšega iskanja"
 
 #: ../shell/e-shell-window-actions.c:1557
-#, fuzzy
 msgid "Clear the current search parameters"
-msgstr "počisti iskanje"
+msgstr "Počisti trenutna določila iskanja"
 
 #: ../shell/e-shell-window-actions.c:1562
 msgid "_Edit Saved Searches..."
 msgstr "_Uredi shranjena iskanja ..."
 
 #: ../shell/e-shell-window-actions.c:1564
-#, fuzzy
 msgid "Manage your saved searches"
-msgstr "Upravljajte s pošto, stiki in nalogami"
+msgstr "Upravljanje s shranjenimi iskanji"
 
 #: ../shell/e-shell-window-actions.c:1571
 msgid "Click here to change the search type"
@@ -16893,18 +16891,16 @@ msgstr "_Išči sedaj"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1578
-#, fuzzy
 msgid "Execute the current search parameters"
-msgstr "Prekliči trenutno opravilo pošte"
+msgstr "Izvedi trenutna določila iskanja"
 
 #: ../shell/e-shell-window-actions.c:1583
 msgid "_Save Search..."
 msgstr "_Shrani iskanje ..."
 
 #: ../shell/e-shell-window-actions.c:1585
-#, fuzzy
 msgid "Save the current search parameters"
-msgstr "Shrani trenutno datoteko"
+msgstr "Shrani trenutna določila iskanja"
 
 #: ../shell/e-shell-window-actions.c:1590
 msgid "Send / _Receive"
@@ -17071,7 +17067,7 @@ msgstr "Preklopi na %s"
 
 #: ../shell/e-shell-window-actions.c:2285
 msgid "Execute these search parameters"
-msgstr "Izvedi parametre iskanja"
+msgstr "Izvedi določila iskanja"
 
 #: ../shell/e-shell-window-private.c:254
 msgid "New"
@@ -17096,9 +17092,8 @@ msgid "Safe Mode"
 msgstr "Varni način"
 
 #: ../shell/e-shell-window.c:308
-#, fuzzy
 msgid "Whether the shell window is in safe mode"
-msgstr "Ali je vstavek omogočen"
+msgstr "Ali je okno lupine v varnem načinu"
 
 #: ../shell/e-shell-window.c:339
 msgid "UI Manager"
@@ -17109,14 +17104,12 @@ msgid "The shell window's GtkUIManager"
 msgstr "GtkUIManager okna lupine"
 
 #: ../shell/e-shell.c:208
-#, fuzzy
 msgid "Preparing to go offline..."
-msgstr "Priprava računa '%s' za delo brez povezave"
+msgstr "Priprava za delo brez povezave ..."
 
 #: ../shell/e-shell.c:262
-#, fuzzy
 msgid "Preparing to go online..."
-msgstr "Priprava računa '%s' za delo brez povezave"
+msgstr "Priprava za delo v povezavi ..."
 
 #: ../shell/e-shell.c:325
 msgid "Preparing to quit..."
@@ -17127,9 +17120,8 @@ msgid "Network Available"
 msgstr "Omrežje je na voljo"
 
 #: ../shell/e-shell.c:706
-#, fuzzy
 msgid "Whether the network is available"
-msgstr "Ali je vstavek omogočen"
+msgstr "Ali je omrežje na voljo"
 
 #: ../shell/e-shell.c:721
 #: ../widgets/misc/e-online-button.c:130
@@ -17137,9 +17129,8 @@ msgid "Online"
 msgstr "Povezano"
 
 #: ../shell/e-shell.c:722
-#, fuzzy
 msgid "Whether the shell is online"
-msgstr "Ali je vstavek omogočen"
+msgstr "Ali je lupina povezana v omrežje"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:163
@@ -17198,9 +17189,8 @@ msgid "Start in online mode"
 msgstr "Začni v mrežnem načinu"
 
 #: ../shell/main.c:319
-#, fuzzy
 msgid "Forcibly shut down Evolution"
-msgstr "Prisilno končaj vse komponente Evolutiona"
+msgstr "Vsiljeno končaj program Evolution"
 
 #: ../shell/main.c:323
 msgid "Forcibly re-migrate from Evolution 1.4"
@@ -17320,25 +17310,22 @@ msgstr ""
 "V primeru nadaljevanja bo morda dostop do nekaterih starih podatkov nemogoč.\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#, fuzzy
 msgctxt "New"
 msgid "_Test Item"
-msgstr "_Test"
+msgstr "Preizkusni _predmet"
 
 #: ../shell/test/e-test-shell-backend.c:62
 msgid "Create a new test item"
 msgstr "Ustvari nov preizkusni predmet"
 
 #: ../shell/test/e-test-shell-backend.c:70
-#, fuzzy
 msgctxt "New"
 msgid "Test _Source"
-msgstr "Vir"
+msgstr "Preizkusni _vir"
 
 #: ../shell/test/e-test-shell-backend.c:72
-#, fuzzy
 msgid "Create a new test source"
-msgstr "Ustvari nov preizkusni predmet"
+msgstr "Ustvari nov preizkusni vir"
 
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
@@ -17590,7 +17577,7 @@ msgstr "Označevalnik algoritma"
 
 #: ../smime/lib/e-cert.c:728
 msgid "Algorithm Parameters"
-msgstr "Parametri algoritma"
+msgstr "Določila algoritma"
 
 #: ../smime/lib/e-cert.c:750
 msgid "Subject Public Key Info"
@@ -18179,13 +18166,8 @@ msgid "Select what type of file you want to import from the list."
 msgstr ""
 
 #: ../widgets/misc/e-import-assistant.c:518
-#, fuzzy
 msgid "Evolution checked for settings to import from the following applications: Pine, Netscape, Elm, iCalendar. No importable settings found. If you would like to try again, please click the \"Back\" button."
-msgstr ""
-"Evolution je preveril nastavitve za uvoz iz naslednjih programov:\n"
-"Pine, Netscape, Elm in iCalendar, vendar ni uspel najti\n"
-"nobenih nastavitev, ki bi se jih dalo uvoziti. Če želite\n"
-"poskusiti znova, kliknite gumb \"Nazaj\".\n"
+msgstr "Evolution je iskal nastavitve programov Pine, Netscape, Elm in iCalendar, vendar jih ni mogoče najti. V primeru, da želite poskusiti znova, kliknite gumb \"Nazaj\"."
 
 #: ../widgets/misc/e-import-assistant.c:1182
 #: ../widgets/misc/e-import-assistant.c:1209
@@ -18198,14 +18180,12 @@ msgid "Import Location"
 msgstr "Uvozi mesto"
 
 #: ../widgets/misc/e-import-assistant.c:1202
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing external files into Evolution."
 msgstr ""
-"Pozdravljeni v Pomočniku za uvoz v Evolution.\n"
-"Pomočnik vas vodi skozi uvoz\n"
-"zunanjih datotek v Evolution."
+"Pozdravljeni v Pomočniku za uvoz podatkov v program Evolution.\n"
+"Pomočnik vas vodi skozipostopek uvoza zunanjih datotek v program Evolution."
 
 #: ../widgets/misc/e-import-assistant.c:1218
 msgid "Importer Type"
@@ -18220,7 +18200,6 @@ msgid "Select a File"
 msgstr "Izberite datoteko"
 
 #: ../widgets/misc/e-import-assistant.c:1250
-#, fuzzy
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "Kliknite \"Uvozi\" za začetek uvoza datoteke v Evolution. "
 
@@ -18238,25 +18217,16 @@ msgid "Mouse-based interactive map widget for selecting timezone. Keyboard users
 msgstr "Gradnik za interaktivni izbor časovnega pasu z miško na zemljevidu. Uporabniki tipkovnice lahko časovni pas izberejo iz spodnjega spustnega polja."
 
 #: ../widgets/misc/e-online-button.c:27
-#, fuzzy
 msgid "Evolution is currently online.  Click this button to work offline."
-msgstr ""
-"Program Evolution deluje v povezanem načinu.\n"
-"Kliknite na ta gumb za delo brez povezave."
+msgstr "Program Evolution je povezan v omrežje. Kliknite na gumb za delo brez povezave."
 
 #: ../widgets/misc/e-online-button.c:30
-#, fuzzy
 msgid "Evolution is currently offline.  Click this button to work online."
-msgstr ""
-"Program Evolution trenutno ni povezan.\n"
-"Kliknite na ta gumb za povezavo."
+msgstr "Program Evolution trenutno ni povezan. Kliknite na gumb za povezavo."
 
 #: ../widgets/misc/e-online-button.c:33
-#, fuzzy
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr ""
-"Program Evolution trenutno ni povezan.\n"
-"Kliknite na ta gumb za povezavo."
+msgstr "Program Evolution trenutno ni povezan, ker omrežna povezava ni na voljo."
 
 #: ../widgets/misc/e-online-button.c:131
 msgid "The button state is online"
@@ -18394,14 +18364,12 @@ msgid "Send a mail message to this address"
 msgstr "Pošlji sporočilo na ta naslov"
 
 #: ../widgets/misc/e-web-view.c:379
-#, fuzzy
 msgid "Copy the selection to the clipboard"
 msgstr "Kopiraj izbiro v odložišče"
 
 #: ../widgets/misc/e-web-view.c:389
-#, fuzzy
 msgid "Select all text and images"
-msgstr "Izberi vso besedilo v sporočilu"
+msgstr "Izberi besedilo in slike"
 
 #: ../widgets/misc/e-web-view.c:708
 #, c-format
