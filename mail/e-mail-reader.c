@@ -23,8 +23,6 @@
 
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/gtkhtml-stream.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>

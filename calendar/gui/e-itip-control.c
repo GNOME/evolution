@@ -33,7 +33,6 @@
 #include <glib/gstdio.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
-#include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <libical/ical.h>
@@ -50,10 +49,11 @@
 #include "itip-utils.h"
 #include "e-itip-control.h"
 #include "common/authentication.h"
+#include "widgets/misc/e-web-view.h"
 #include <shell/e-shell.h>
 
 struct _EItipControlPrivate {
-	GtkWidget *html;
+	GtkWidget *web_view;
 
 	ESourceList *source_lists[E_CAL_SOURCE_TYPE_LAST];
 	GHashTable *ecals[E_CAL_SOURCE_TYPE_LAST];
@@ -109,7 +109,6 @@ struct _EItipControlPrivate {
 static void e_itip_control_destroy	(GtkObject               *obj);
 
 static void find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_partstat *status);
-static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
 static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
 static void ok_clicked_cb (GtkWidget *widget, gpointer data);
 
@@ -386,7 +385,7 @@ html_destroyed (gpointer data)
 
 	priv = itip->priv;
 
-	priv->html = NULL;
+	priv->web_view = NULL;
 }
 
 static void
@@ -423,11 +422,8 @@ e_itip_control_init (EItipControl *itip)
 	priv->view_only = 0;
 
 	/* Html Widget */
-	priv->html = gtk_html_new ();
-	gtk_html_set_default_content_type (GTK_HTML (priv->html),
-					   "text/html; charset=utf-8");
-	gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
-	gtk_widget_show (priv->html);
+	priv->web_view = e_web_view_new ();
+	gtk_widget_show (priv->web_view);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -435,14 +431,17 @@ e_itip_control_init (EItipControl *itip)
 					GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (scrolled_window);
 
-	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->html);
-	g_object_weak_ref (G_OBJECT (priv->html), (GWeakNotify)html_destroyed, itip);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->web_view);
+	g_object_weak_ref (G_OBJECT (priv->web_view), (GWeakNotify)html_destroyed, itip);
 	gtk_widget_set_size_request (scrolled_window, 600, 400);
 	gtk_box_pack_start (GTK_BOX (itip), scrolled_window, FALSE, FALSE, 6);
 
-	g_signal_connect (priv->html, "url_requested", G_CALLBACK (url_requested_cb), itip);
-	g_signal_connect (priv->html, "object_requested", G_CALLBACK (object_requested_cb), itip);
-	g_signal_connect (priv->html, "submit", G_CALLBACK (ok_clicked_cb), itip);
+	g_signal_connect (
+		priv->web_view, "object-requested",
+		G_CALLBACK (object_requested_cb), itip);
+	g_signal_connect (
+		priv->web_view, "submit",
+		G_CALLBACK (ok_clicked_cb), itip);
 }
 
 static void
@@ -511,9 +510,9 @@ e_itip_control_destroy (GtkObject *obj)
 			}
 		}
 
-		if (priv->html) {
-			g_signal_handlers_disconnect_matched (priv->html, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, itip);
-			g_object_weak_unref (G_OBJECT (priv->html), (GWeakNotify)html_destroyed, itip);
+		if (priv->web_view) {
+			g_signal_handlers_disconnect_matched (priv->web_view, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, itip);
+			g_object_weak_unref (G_OBJECT (priv->web_view), (GWeakNotify)html_destroyed, itip);
 		}
 
 		g_free (priv);
@@ -891,16 +890,15 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 }
 
 static void
-set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
-		ECalComponent *comp)
+set_date_label (EItipControl *itip,
+                GString *buffer,
+                ECalComponent *comp)
 {
 	ECalComponentDateTime datetime;
-	GString *buffer;
 	gchar *str;
 	gboolean wrote = FALSE, task_completed = FALSE;
 	ECalComponentVType type;
 
-	buffer = g_string_sized_new (1024);
 	type = e_cal_component_get_vtype (comp);
 
 	e_cal_component_get_dtstart (comp, &datetime);
@@ -908,37 +906,25 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		/* For Translators : 'Starts' is part of "Starts: date", showing when the event starts */
 		str = g_strdup_printf ("<b>%s:</b>", _("Starts"));
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
-		gtk_html_write (html, html_stream, buffer->str, buffer->len);
 		wrote = TRUE;
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&datetime);
-
-	/* Reset the buffer. */
-	g_string_truncate (buffer, 0);
 
 	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value) {
 		/* For Translators : 'Ends' is part of "Ends: date", showing when the event ends */
 		str = g_strdup_printf ("<b>%s:</b>", _("Ends"));
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
-		gtk_html_write (html, html_stream, buffer->str, buffer->len);
 		wrote = TRUE;
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&datetime);
 
-	/* Reset the buffer. */
-	g_string_truncate (buffer, 0);
-
 	if (e_cal_component_has_recurrences (comp)) {
 		write_recurrence_piece (itip, comp, buffer);
-		gtk_html_write (html, html_stream, buffer->str, buffer->len);
 		wrote = TRUE;
 	}
-
-	/* Reset the buffer. */
-	g_string_truncate (buffer, 0);
 
 	datetime.tzid = NULL;
 	e_cal_component_get_completed (comp, &datetime.value);
@@ -948,21 +934,16 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		str = g_strdup_printf ("<b>%s:</b>", _("Completed"));
 		datetime.value->is_utc = TRUE;
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
-		gtk_html_write (html, html_stream, buffer->str, buffer->len);
 		wrote = TRUE;
 		task_completed = TRUE;
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&datetime);
 
-	/* Reset the buffer. */
-	g_string_truncate (buffer, 0);
-
 	e_cal_component_get_due (comp, &datetime);
 	if (type == E_CAL_COMPONENT_TODO && !task_completed && datetime.value) {
 		str = g_strdup_printf ("<b>%s:</b>", _("Due"));
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
-		gtk_html_write (html, html_stream, buffer->str, buffer->len);
 		wrote = TRUE;
 		g_free (str);
 	}
@@ -970,21 +951,24 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	e_cal_component_free_datetime (&datetime);
 
 	if (wrote)
-		gtk_html_stream_printf (html_stream, "<br>");
-
-	g_string_free (buffer, TRUE);
+		g_string_append (buffer, "<br>");
 }
 
 static void
-set_message (GtkHTML *html, GtkHTMLStream *html_stream, const gchar *message, gboolean err)
+set_message (GString *buffer,
+             const gchar *message,
+             gboolean err)
 {
 	if (message == NULL)
 		return;
 
 	if (err) {
-		gtk_html_stream_printf (html_stream, "<b><font color=\"#ff0000\">%s</font></b><br><br>", message);
+		g_string_append_printf (
+			buffer, "<b><font color=\"#ff0000\">%s</font></b>"
+			"<br><br>", message);
 	} else {
-		gtk_html_stream_printf (html_stream, "<b>%s</b><br><br>", message);
+		g_string_append_printf (
+			buffer, "<b>%s</b><br><br>", message);
 	}
 }
 
@@ -992,91 +976,96 @@ static void
 write_error_html (EItipControl *itip, const gchar *itip_err)
 {
 	EItipControlPrivate *priv;
-	GtkHTMLStream *html_stream;
+	GString *buffer;
 	gchar *filename;
 
 	priv = itip->priv;
 
-	/* Html widget */
-	html_stream = gtk_html_begin (GTK_HTML (priv->html));
-	gtk_html_stream_printf (html_stream,
-				"<html><head><title>%s</title></head>",
-				_("iCalendar Information"));
+	buffer = g_string_sized_new (1024);
 
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_BODY_START, strlen(HTML_BODY_START));
+	g_string_append_printf (
+		buffer, "<html><head><title>%s</title></head>",
+		_("iCalendar Information"));
+
+	g_string_append (buffer, HTML_BODY_START);
 
 	/* The table */
-	gtk_html_stream_printf (html_stream, "<table width=450 cellspacing=\"0\" cellpadding=\"4\" border=\"0\">");
+	g_string_append (
+		buffer, "<table width=450 cellspacing=\"0\" "
+		"cellpadding=\"4\" border=\"0\">");
 	/* The column for the image */
-	gtk_html_stream_printf (html_stream, "<tr><td width=48 align=\"center\" valign=\"top\" rowspan=\"8\">");
+	g_string_append (
+		buffer, "<tr><td width=48 align=\"center\" "
+		"valign=\"top\" rowspan=\"8\">");
 	/* The image */
-	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", GTK_ICON_SIZE_DIALOG);
-	gtk_html_stream_printf (html_stream, "<img src=\"%s\"></td>", filename);
+	filename = e_icon_factory_get_icon_filename (
+		"stock_new-meeting", GTK_ICON_SIZE_DIALOG);
+	g_string_append_printf (
+		buffer, "<img src=\"%s\"></td>", filename);
 	g_free (filename);
 
-	gtk_html_stream_printf (html_stream, "<td align=\"left\" valign=\"top\">");
+	g_string_append (buffer, "<td align=\"left\" valign=\"top\">");
 
 	/* Title */
-	set_message (GTK_HTML (priv->html), html_stream, _("iCalendar Error"), TRUE);
+	set_message (buffer, _("iCalendar Error"), TRUE);
 
 	/* Error */
-	gtk_html_write (GTK_HTML (priv->html), html_stream, itip_err, strlen(itip_err));
+	g_string_append_printf (buffer, "%s", itip_err);
 
 	/* Clean up */
-	gtk_html_stream_printf (html_stream, "</td></tr></table>");
+	g_string_append (buffer, "</td></tr></table>");
 
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_BODY_END, strlen(HTML_BODY_END));
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_FOOTER, strlen(HTML_FOOTER));
+	g_string_append (buffer, HTML_BODY_END);
+	g_string_append (buffer, HTML_FOOTER);
 
-	gtk_html_end (GTK_HTML (priv->html), html_stream, GTK_HTML_STREAM_OK);
+	e_web_view_load_string (E_WEB_VIEW (priv->web_view), buffer->str);
+
+	g_string_free (buffer, TRUE);
 }
 
 static void
 write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title, const gchar *options)
 {
 	EItipControlPrivate *priv;
-	GtkHTMLStream *html_stream;
 	ECalComponentText text;
 	ECalComponentOrganizer organizer;
 	ECalComponentAttendee *attendee;
 	GSList *attendees, *l = NULL;
+	GString *buffer;
 	const gchar *string;
 	gchar *html;
-	const gchar *const_html;
 	gchar *filename;
 	gchar *str;
 
 	priv = itip->priv;
 
-	if (priv->html == NULL)
+	if (priv->web_view == NULL)
 		return;
 
-	/* Html widget */
-	html_stream = gtk_html_begin (GTK_HTML (priv->html));
-	gtk_html_stream_printf (html_stream,
-				"<html><head><title>%s</title></head>",
-				_("iCalendar Information"));
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_BODY_START, strlen(HTML_BODY_START));
+	buffer = g_string_sized_new (4096);
+
+	g_string_append_printf (
+		buffer, "<html><head><title>%s</title></head>",
+		_("iCalendar Information"));
+	g_string_append (buffer, HTML_BODY_START);
 
 	/* The table */
-	const_html = "<table width=450 cellspacing=\"0\" cellpadding=\"4\" border=\"0\">";
-	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
+	g_string_append (
+		buffer, "<table width=450 cellspacing=\"0\" "
+		"cellpadding=\"4\" border=\"0\">");
 
 	/* The column for the image */
-	const_html = "<tr><td width=48 align=\"center\" valign=\"top\" rowspan=\"8\">";
-	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
+	g_string_append (
+		buffer, "<tr><td width=48 align=\"center\" "
+		"valign=\"top\" rowspan=\"8\">");
 
 	/* The image */
-	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", GTK_ICON_SIZE_DIALOG);
-	gtk_html_stream_printf (html_stream, "<img src=\"%s\"></td>", filename);
+	filename = e_icon_factory_get_icon_filename (
+		"stock_new-meeting", GTK_ICON_SIZE_DIALOG);
+	g_string_append_printf (buffer, "<img src=\"%s\"></td>", filename);
 	g_free (filename);
 
-	const_html = "<td align=\"left\" valign=\"top\">";
-	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
+	g_string_append (buffer, "<td align=\"left\" valign=\"top\">");
 
 	switch (priv->method) {
 	case ICAL_METHOD_REFRESH:
@@ -1137,30 +1126,30 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 			html = g_strdup_printf (itip_desc, _("An unknown person"));
 		break;
 	}
-	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_string_append_printf (buffer, "%s", html);
 	g_free (html);
 
 	/* Describe what the user can do */
-	const_html = _("<br> Please review the following information, "
-			"and then select an action from the menu below.");
-	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
+	g_string_append (
+		buffer, _("<br> Please review the following information, "
+		"and then select an action from the menu below."));
 
 	/* Separator */
-	gtk_html_write (GTK_HTML (priv->html), html_stream, HTML_SEP, strlen (HTML_SEP));
+	g_string_append (buffer, HTML_SEP);
 
 	/* Title */
-	set_message (GTK_HTML (priv->html), html_stream, itip_title, FALSE);
+	set_message (buffer, itip_title, FALSE);
 
 	/* Date information */
-	set_date_label (itip, GTK_HTML (priv->html), html_stream, priv->comp);
+	set_date_label (itip, buffer, priv->comp);
 
 	/* Summary */
 	e_cal_component_get_summary (priv->comp, &text);
 	str = g_strdup_printf ("<i>%s:</i>", _("None"));
 
 	html = text.value ? e_text_to_html_full (text.value, E_TEXT_TO_HTML_CONVERT_NL, 0) : str;
-	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
-				_("Summary:"), html);
+	g_string_append_printf (
+		buffer, "<b>%s</b><br>%s<br><br>", _("Summary:"), html);
 	g_free (str);
 	if (text.value)
 		g_free (html);
@@ -1169,8 +1158,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	e_cal_component_get_location (priv->comp, &string);
 	if (string != NULL) {
 		html = e_text_to_html_full (string, E_TEXT_TO_HTML_CONVERT_NL, 0);
-		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
-					_("Location:"), html);
+		g_string_append_printf (
+			buffer, "<b>%s</b><br>%s<br><br>",
+			_("Location:"), html);
 		g_free (html);
 	}
 
@@ -1183,25 +1173,29 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		if (alist != NULL) {
 			ECalComponentAttendee *a = alist->data;
 
-			gtk_html_stream_printf (html_stream, "<b>%s</b><br>",
-						_("Status:"));
+			g_string_append_printf (
+				buffer, "<b>%s</b><br>", _("Status:"));
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
-				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							_("Accepted"));
+				g_string_append_printf (
+					buffer, "%s<br><br>",
+					_("Accepted"));
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
-				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							_("Tentatively Accepted"));
+				g_string_append_printf (
+					buffer, "%s<br><br>",
+					_("Tentatively Accepted"));
 				break;
 			case ICAL_PARTSTAT_DECLINED:
-				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							_("Declined"));
+				g_string_append_printf (
+					buffer, "%s<br><br>",
+					_("Declined"));
 				break;
 			default:
-				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							_("Unknown"));
+				g_string_append_printf (
+					buffer, "%s<br><br>",
+					_("Unknown"));
 			}
 		}
 
@@ -1214,34 +1208,35 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		text = *((ECalComponentText *)l->data);
 
 	if (l && text.value) {
-		html = e_text_to_html_full (text.value, E_TEXT_TO_HTML_CONVERT_NL, 0);
-		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s",
-					_("Description:"), html);
+		html = e_text_to_html_full (
+			text.value, E_TEXT_TO_HTML_CONVERT_NL, 0);
+		g_string_append_printf (
+			buffer, "<b>%s</b><br>%s",
+			_("Description:"), html);
 		g_free (html);
 	}
 	e_cal_component_free_text_list (l);
 
 	/* Separator */
-	gtk_html_write (GTK_HTML (priv->html), html_stream, HTML_SEP, strlen (HTML_SEP));
+	g_string_append (buffer, HTML_SEP);
 
 	/* Options */
 	if (!e_itip_control_get_view_only (itip)) {
 		if (options != NULL) {
-			const_html = "</td></tr><tr><td valign=\"center\">";
-			gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen (const_html));
-			gtk_html_write (GTK_HTML (priv->html), html_stream, options, strlen (options));
+			g_string_append (
+				buffer, "</td></tr><tr><td valign=\"center\">");
+			g_string_append_printf (buffer, "%s", options);
 		}
 	}
 
-	const_html = "</td></tr></table>";
-	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
+	g_string_append (buffer, "</td></tr></table>");
 
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_BODY_END, strlen(HTML_BODY_END));
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_FOOTER, strlen(HTML_FOOTER));
+	g_string_append (buffer, HTML_BODY_END);
+	g_string_append (buffer, HTML_FOOTER);
 
-	gtk_html_end (GTK_HTML (priv->html), html_stream, GTK_HTML_STREAM_OK);
+	e_web_view_load_string (E_WEB_VIEW (priv->web_view), buffer->str);
+
+	g_string_free (buffer, TRUE);
 }
 
 static gchar *
@@ -1684,7 +1679,7 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	clean_up (itip);
 
 	if (text == NULL || *text == '\0') {
-		gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
+		e_web_view_clear (E_WEB_VIEW (priv->web_view));
 		return;
 	}
 
@@ -2173,31 +2168,6 @@ send_freebusy (EItipControl *itip)
 	}
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
-}
-
-static void
-url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data)
-{	guchar buffer[4096];
-	gint len, fd;
-
-	if ((fd = g_open (url, O_RDONLY|O_BINARY, 0)) == -1) {
-		g_warning ("%s", g_strerror (errno));
-		return;
-	}
-
-	while ((len = read (fd, buffer, 4096)) > 0) {
-		gtk_html_write (html, handle, (gchar *)buffer, len);
-	}
-
-	if (len < 0) {
-		/* check to see if we stopped because of an error */
-		gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
-		g_warning ("%s", g_strerror (errno));
-		return;
-	}
-	/* done with no errors */
-	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
-	close (fd);
 }
 
 static GtkWidget *

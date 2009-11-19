@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
-#include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
@@ -79,7 +78,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 }
 
 static void
-cal_component_preview_write_html (GtkHTMLStream *stream,
+cal_component_preview_write_html (GString *buffer,
                                   ECal *ecal,
                                   ECalComponent *comp,
                                   icaltimezone *default_zone)
@@ -101,19 +100,19 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	e_cal_component_get_summary (comp, &text);
 
 	if (text.value)
-		gtk_html_stream_printf (stream,
-					"<HTML><BODY><H1>%s</H1>",
-					text.value);
+		g_string_append_printf (
+			buffer, "<HTML><BODY><H1>%s</H1>",
+			text.value);
 	else
-		gtk_html_stream_printf (stream,
-					"<HTML><BODY><H1><I>%s</I></H1>",
-					_("Untitled"));
+		g_string_append_printf (
+			buffer, "<HTML><BODY><H1><I>%s</I></H1>",
+			_("Untitled"));
 
 	/* write icons for the categories */
 	string = g_string_new (NULL);
 	e_cal_component_get_categories_list (comp, &list);
 	if (list != NULL)
-		gtk_html_stream_printf (stream, "<H3>%s ", _("Categories:"));
+		g_string_append_printf (buffer, "<H3>%s ", _("Categories:"));
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category = iter->data;
 		const gchar *icon_file;
@@ -123,8 +122,8 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 			gchar *uri;
 
 			uri = g_filename_to_uri (icon_file, NULL, NULL);
-			gtk_html_stream_printf (
-				stream, "<IMG ALT=\"%s\" SRC=\"%s\">",
+			g_string_append_printf (
+				buffer, "<IMG ALT=\"%s\" SRC=\"%s\">",
 				category, uri);
 			g_free (uri);
 		} else {
@@ -134,28 +133,34 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 		}
 	}
 	if (string->len > 0)
-		gtk_html_stream_printf (stream, "%s", string->str);
+		g_string_append_printf (buffer, "%s", string->str);
 	if (list != NULL)
-		gtk_html_stream_printf (stream, "</H3>");
+		g_string_append (buffer, "</H3>");
 	e_cal_component_free_categories_list (list);
 	g_string_free (string, TRUE);
 
 	/* Start table */
-	gtk_html_stream_printf (stream, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
-				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"></TD></TR>");
+	g_string_append (
+		buffer, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
+		"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\">"
+		"</TD></TR>");
 
 	/* write location */
 	e_cal_component_get_location (comp, &location);
 	if (location)
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"><B>%s</B></TD><TD>%s</TD></TR>",
-					_("Summary:"), text.value);
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" "
+			"WIDTH=\"15%%\"><B>%s</B></TD><TD>%s</TD></TR>",
+			_("Summary:"), text.value);
 
 	/* write start date */
 	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (&dt, ecal, default_zone);
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
-					_("Start Date:"), str);
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD><TD>%s</TD></TR>",
+			_("Start Date:"), str);
 
 		g_free (str);
 	}
@@ -165,8 +170,10 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	e_cal_component_get_dtend (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (&dt, ecal, default_zone);
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
-					_("Start Date:"), str);
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD><TD>%s</TD></TR>",
+			_("Start Date:"), str);
 
 		g_free (str);
 	}
@@ -176,8 +183,10 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	e_cal_component_get_due (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (&dt, ecal, default_zone);
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
-					_("Due Date:"), str);
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD><TD>%s</TD></TR>",
+			_("Due Date:"), str);
 
 		g_free (str);
 	}
@@ -188,7 +197,9 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	icalprop = icalcomponent_get_first_property (
 		icalcomp, ICAL_STATUS_PROPERTY);
 	if (icalprop != NULL) {
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Status:"));
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD>", _("Status:"));
 		e_cal_component_get_status (comp, &status);
 		switch (status) {
 		case ICAL_STATUS_INPROCESS :
@@ -206,14 +217,16 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 			break;
 		}
 
-		gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
+		g_string_append_printf (buffer, "<TD>%s</TD></TR>", str);
 		g_free (str);
 	}
 
 	/* write priority */
 	e_cal_component_get_priority (comp, &priority_value);
 	if (priority_value && *priority_value != 0) {
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Priority:"));
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD>", _("Priority:"));
 		if (*priority_value <= 4)
 			str = g_strdup (_("High"));
 		else if (*priority_value == 5)
@@ -221,7 +234,7 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 		else
 			str = g_strdup (_("Low"));
 
-		gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
+		g_string_append_printf (buffer, "<TD>%s</TD></TR>", str);
 
 		g_free (str);
 	}
@@ -230,29 +243,36 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 		e_cal_component_free_priority (priority_value);
 
 	/* write description and URL */
-	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
+	g_string_append (buffer, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
 
 	e_cal_component_get_description_list (comp, &list);
 	if (list) {
 		GSList *node;
 
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD>", _("Description:"));
 
-		gtk_html_stream_printf (stream, "<TD><TT>");
+		g_string_append (buffer, "<TD><TT>");
 
 		for (node = list; node != NULL; node = node->next) {
 			gchar *html;
 
 			text = * (ECalComponentText *) node->data;
-			html = camel_text_to_html (text.value ? text.value : "", CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+			html = camel_text_to_html (
+				text.value ? text.value : "",
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 
 			if (html)
-				gtk_html_stream_printf (stream, "%s", html);
+				g_string_append_printf (buffer, "%s", html);
 
 			g_free (html);
 		}
 
-		gtk_html_stream_printf (stream, "</TT></TD></TR>");
+		g_string_append (buffer, "</TT></TD></TR>");
 
 		e_cal_component_free_text_list (list);
 	}
@@ -260,14 +280,18 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	/* URL */
 	e_cal_component_get_url (comp, (const gchar **) &str);
 	if (str) {
-		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
-		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);
+		g_string_append_printf (
+			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+			"<B>%s</B></TD>", _("Web Page:"));
+		g_string_append_printf (
+			buffer, "<TD><A HREF=\"%s\">%s</A></TD></TR>",
+			str, str);
 	}
 
-	gtk_html_stream_printf (stream, "</TABLE>");
+	g_string_append (buffer, "</TABLE>");
 
 	/* close document */
-	gtk_html_stream_printf (stream, "</BODY></HTML>");
+	g_string_append (buffer, "</BODY></HTML>");
 }
 
 static void
@@ -347,13 +371,16 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
                                  ECal *ecal,
                                  ECalComponent *comp)
 {
-	GtkHTMLStream *stream;
+	GString *buffer;
 
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	stream = gtk_html_begin (GTK_HTML (preview));
+	/* XXX The initial buffer size is arbitrary.  Tune it. */
+
+	buffer = g_string_sized_new (4096);
 	cal_component_preview_write_html (
-		stream, ecal, comp, preview->priv->zone);
-	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+		buffer, ecal, comp, preview->priv->zone);
+	e_web_view_load_string (E_WEB_VIEW (preview), buffer->str);
+	g_string_free (buffer, TRUE);
 }
