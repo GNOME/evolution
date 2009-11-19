@@ -1386,10 +1386,11 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
 	g_list_free (selected);
 
 	/* We can't return until we have results, so crank
-	 * the main loop until the callback gets triggered. */
+	 * the main loop until the callback gets triggered.
+	 * Note: Don't test for main loop exit.  There is
+	 * some kind of nested main loop at work here. */
 	while (!status.done)
-		if (gtk_main_iteration ())
-			break;
+		gtk_main_iteration ();
 
 	if (status.uris != NULL)
 		gtk_selection_data_set_uris (selection, status.uris);
