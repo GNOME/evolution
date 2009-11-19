@@ -682,6 +682,26 @@ attachment_view_update_actions (EAttachmentView *view)
 }
 
 static void
+attachment_view_add_handler (GType type,
+                             EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+	EAttachmentHandler *handler;
+	const GtkTargetEntry *targets;
+	guint n_targets;
+
+	priv = e_attachment_view_get_private (view);
+
+	handler = g_object_new (type, "view", view, NULL);
+
+	targets = e_attachment_handler_get_target_table (handler, &n_targets);
+	gtk_target_list_add_table (priv->target_list, targets, n_targets);
+	priv->drag_actions |= e_attachment_handler_get_drag_actions (handler);
+
+	g_ptr_array_add (priv->handlers, handler);
+}
+
+static void
 attachment_view_init_handlers (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
@@ -702,21 +722,8 @@ attachment_view_init_handlers (EAttachmentView *view)
 
 	children = g_type_children (E_TYPE_ATTACHMENT_HANDLER, NULL);
 
-	for (ii = 0; children[ii] != G_TYPE_INVALID; ii++) {
-		EAttachmentHandler *handler;
-		const GtkTargetEntry *targets;
-		guint n_targets;
-
-		handler = g_object_new (children[ii], "view", view, NULL);
-
-		targets = e_attachment_handler_get_target_table (
-			handler, &n_targets);
-		gtk_target_list_add_table (target_list, targets, n_targets);
-		priv->drag_actions |=
-			e_attachment_handler_get_drag_actions (handler);
-
-		g_ptr_array_add (priv->handlers, handler);
-	}
+	for (ii = 0; children[ii] != G_TYPE_INVALID; ii++)
+		attachment_view_add_handler (children[ii], view);
 
 	g_free (children);
 }
