@@ -243,7 +243,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_RENAME);
-	sensitive = has_primary_source;
+	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_OPEN);
