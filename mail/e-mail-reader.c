@@ -386,8 +386,12 @@ action_mail_forward_cb (GtkAction *action,
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
+	g_return_if_fail (uids != NULL);
 
-	em_utils_forward_messages (folder, uids, folder_uri);
+	if (em_utils_ask_open_many (window, uids->len))
+		em_utils_forward_messages (folder, uids, folder_uri);
+	else
+		message_list_free_uids (message_list, uids);
 }
 
 static void
@@ -406,8 +410,12 @@ action_mail_forward_attached_cb (GtkAction *action,
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
+	g_return_if_fail (uids != NULL);
 
-	em_utils_forward_attached (folder, uids, folder_uri);
+	if (em_utils_ask_open_many (window, uids->len))
+		em_utils_forward_attached (folder, uids, folder_uri);
+	else
+		message_list_free_uids (message_list, uids);
 }
 
 static void
@@ -426,8 +434,12 @@ action_mail_forward_inline_cb (GtkAction *action,
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
+	g_return_if_fail (uids != NULL);
 
-	em_utils_forward_inline (folder, uids, folder_uri);
+	if (em_utils_ask_open_many (window, uids->len))
+		em_utils_forward_inline (folder, uids, folder_uri);
+	else
+		message_list_free_uids (message_list, uids);
 }
 
 static void
@@ -446,8 +458,12 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
+	g_return_if_fail (uids != NULL);
 
-	em_utils_forward_quoted (folder, uids, folder_uri);
+	if (em_utils_ask_open_many (window, uids->len))
+		em_utils_forward_quoted (folder, uids, folder_uri);
+	else
+		message_list_free_uids (message_list, uids);
 }
 
 static void

@@ -209,22 +209,9 @@ e_mail_reader_open_selected (EMailReader *reader)
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
 
-	if (uids->len >= 10) {
-		gchar *len_str;
-		gboolean proceed;
-
-		len_str = g_strdup_printf ("%d", uids->len);
-
-		proceed = em_utils_prompt_user (
-			window, "/apps/evolution/mail/prompts/open_many",
-			"mail:ask-open-many", len_str, NULL);
-
-		g_free (len_str);
-
-		if (!proceed) {
-			message_list_free_uids (message_list, uids);
-			return 0;
-		}
+	if (!em_utils_ask_open_many (window, uids->len)) {
+		message_list_free_uids (message_list, uids);
+		return 0;
 	}
 
 	if (em_utils_folder_is_drafts (folder, folder_uri) ||

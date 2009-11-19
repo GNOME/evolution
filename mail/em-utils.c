@@ -79,6 +79,10 @@
 #include "em-format-quote.h"
 #include "e-mail-local.h"
 
+/* How many is too many? */
+/* Used in em_util_ask_open_many() */
+#define TOO_MANY 10
+
 static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
 
 #define d(x)
@@ -111,6 +115,25 @@ em_utils_get_config_dir (void)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	return e_shell_backend_get_config_dir (shell_backend);
+}
+
+gboolean
+em_utils_ask_open_many (GtkWindow *parent,
+                        gint how_many)
+{
+	gchar *string;
+	gboolean proceed;
+
+	if (how_many < TOO_MANY)
+		return TRUE;
+
+	string = g_strdup_printf ("%d", how_many);
+	proceed = em_utils_prompt_user (
+		parent, "/apps/evolution/mail/prompts/open_many",
+		"mail:ask-open-many", string, NULL);
+	g_free (string);
+
+	return proceed;
 }
 
 /**

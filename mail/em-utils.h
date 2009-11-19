@@ -41,6 +41,7 @@ struct _EMFormat;
 const gchar *	em_utils_get_data_dir		(void);
 const gchar *	em_utils_get_config_dir		(void);
 
+gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
 gboolean em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
