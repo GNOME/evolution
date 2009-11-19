@@ -55,7 +55,6 @@
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-plugin.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-profile-event.h"
@@ -475,6 +474,7 @@ extern void link_shutdown (void);
 gint
 main (gint argc, gchar **argv)
 {
+	GtkIconTheme *icon_theme;
 	GConfClient *client;
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
@@ -574,8 +574,10 @@ main (gint argc, gchar **argv)
 			g_warning ("Could not set up debugging output file.");
 	}
 
-	e_icon_factory_init ();
 	e_passwords_init ();
+
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 
 	gtk_window_set_default_icon_name ("evolution");
 
@@ -626,7 +628,6 @@ main (gint argc, gchar **argv)
 
 	gtk_accel_map_save (e_get_accels_filename ());
 
-	e_icon_factory_shutdown ();
 #ifdef G_OS_WIN32
 	link_shutdown ();
 #endif

@@ -111,6 +111,7 @@ evolution_CPPFLAGS =						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
+	-DEVOLUTION_ICONDIR=\""$(icondir)"\"			\
 	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\
 	-DEVOLUTION_RULEDIR=\""$(privdatadir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\

@@ -1394,9 +1394,6 @@ AC_SUBST(privdatadir)
 privincludedir='${includedir}'/evolution-$BASE_VERSION
 AC_SUBST(privincludedir)
 
-componentdir="$privlibdir/components"
-AC_SUBST(componentdir)
-
 moduledir="$privlibdir/modules"
 AC_SUBST(moduledir)
 
@@ -1406,11 +1403,11 @@ AC_SUBST(uidir)
 evolutionhelpdir="$privdatadir/help"
 AC_SUBST(evolutionhelpdir)
 
+icondir="$privdatadir/icons"
+AC_SUBST(icondir)
+
 imagesdir="$privdatadir/images"
 AC_SUBST(imagesdir)
-
-images16dir="$privdatadir/images/16x16"
-AC_SUBST(images16dir)
 
 if test "$os_win32" = yes; then
 	dnl On Win32 there is no "rpath" mechanism. We install the private
@@ -1419,37 +1416,10 @@ if test "$os_win32" = yes; then
 	dnl also means gnome_win32_get_prefixes() will be able to deduce the
 	dnl installation folder correctly.
 	privsolibdir=$libdir
-	dnl On Win32, use a relative path to the executables in .server
-	dnl files. The path is relative to the folder where the .server file
-	dnl is, i.e. $prefix/lib/bonobo/servers.
-	bindir_in_server_file=../../../bin
-	privlibexecdir_in_server_file=../../../libexec/evolution/$BASE_VERSION
-	componentdir_in_server_file=../../../lib/evolution/$BASE_VERSION/components
 else
 	privsolibdir=$privlibdir
-	bindir_in_server_file="$bindir"
-	privlibexecdir_in_server_file='${libexecdir}'/evolution/$BASE_VERSION
-	componentdir_in_server_file="$componentdir"
 fi
 AC_SUBST(privsolibdir)
-AC_SUBST(bindir_in_server_file)
-AC_SUBST(privlibexecdir_in_server_file)
-AC_SUBST(componentdir_in_server_file)
-
-dnl images18dir="$privdatadir/images/18x18"
-dnl AC_SUBST(images18dir)
-
-dnl images20dir="$privdatadir/images/20x20"
-dnl AC_SUBST(images20dir)
-
-dnl images24dir="$privdatadir/images/24x24"
-dnl AC_SUBST(images24dir)
-
-dnl images32dir="$privdatadir/images/32x32"
-dnl AC_SUBST(images32dir)
-
-images48dir="$privdatadir/images/48x48"
-AC_SUBST(images48dir)
 
 soundsdir="$privdatadir/sounds"
 AC_SUBST(soundsdir)

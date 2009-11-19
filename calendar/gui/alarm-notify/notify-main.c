@@ -35,7 +35,6 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 #include "alarm.h"
 #include "alarm-queue.h"
@@ -60,8 +59,6 @@ main (gint argc, gchar **argv)
 
 	if (unique_app_is_running (app))
 		goto exit;
-
-	e_icon_factory_init ();
 
 	alarm_notify_service = alarm_notify_new ();
 

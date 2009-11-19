@@ -1858,6 +1858,18 @@ intelligent
 @revision: 
 @Returns: 
 
+<!-- ##### FUNCTION e_icon_factory_init ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION e_icon_factory_shutdown ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### FUNCTION e_shell_backend_get_filename ##### -->
 <para>
 

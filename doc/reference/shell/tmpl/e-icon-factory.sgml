@@ -17,20 +17,6 @@ Icon Functions (Legacy)
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### FUNCTION e_icon_factory_init ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### FUNCTION e_icon_factory_shutdown ##### -->
-<para>
-
-</para>
-
-
-
 <!-- ##### FUNCTION e_icon_factory_get_icon_filename ##### -->
 <para>
 
