@@ -97,12 +97,9 @@ task_shell_view_execute_search (EShellView *shell_view)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	GtkRadioAction *action;
-	GString *string;
 	ECalComponentPreview *task_preview;
 	ECalendarTable *task_table;
 	ECalModel *model;
-	const gchar *format;
-	const gchar *text;
 	time_t start_range;
 	time_t end_range;
 	gchar *start, *end;
@@ -111,40 +108,51 @@ task_shell_view_execute_search (EShellView *shell_view)
 	gint value;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	text = e_shell_content_get_search_text (shell_content);
-
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
 
-	if (text == NULL || *text == '\0') {
-		text = "";
-		value = TASK_SEARCH_SUMMARY_CONTAINS;
-	}
+	if (value == TASK_SEARCH_ADVANCED) {
+		query = e_shell_content_get_search_rule_as_string (shell_content);
 
-	switch (value) {
-		default:
+		if (!query)
+			query = g_strdup ("");
+	} else {
+		const gchar *format;
+		const gchar *text;
+		GString *string;
+
+		text = e_shell_content_get_search_text (shell_content);
+
+		if (text == NULL || *text == '\0') {
 			text = "";
-			/* fall through */
+			value = TASK_SEARCH_SUMMARY_CONTAINS;
+		}
 
-		case TASK_SEARCH_SUMMARY_CONTAINS:
-			format = "(contains? \"summary\" %s)";
-			break;
+		switch (value) {
+			default:
+				text = "";
+				/* fall through */
 
-		case TASK_SEARCH_DESCRIPTION_CONTAINS:
-			format = "(contains? \"description\" %s)";
-			break;
+			case TASK_SEARCH_SUMMARY_CONTAINS:
+				format = "(contains? \"summary\" %s)";
+				break;
 
-		case TASK_SEARCH_ANY_FIELD_CONTAINS:
-			format = "(contains? \"any\" %s)";
-			break;
+			case TASK_SEARCH_DESCRIPTION_CONTAINS:
+				format = "(contains? \"description\" %s)";
+				break;
+
+			case TASK_SEARCH_ANY_FIELD_CONTAINS:
+				format = "(contains? \"any\" %s)";
+				break;
+		}
+
+		/* Build the query. */
+		string = g_string_new ("");
+		e_sexp_encode_string (string, text);
+		query = g_strdup_printf (format, string->str);
+		g_string_free (string, TRUE);
 	}
-
-	/* Build the query. */
-	string = g_string_new ("");
-	e_sexp_encode_string (string, text);
-	query = g_strdup_printf (format, string->str);
-	g_string_free (string, TRUE);
 
 	/* Apply selected filter. */
 	value = e_shell_content_get_filter_value (shell_content);
@@ -245,11 +253,6 @@ task_shell_view_execute_search (EShellView *shell_view)
 		g_free (temp);
 		query = temp2;
 	}
-
-	/* XXX This is wrong.  We need to programmatically construct an
-	 *     EFilterRule, tell it to build code, and pass the resulting
-	 *     expression string to ECalModel. */
-	e_shell_content_set_search_rule (shell_content, NULL);
 
 	/* Submit the query. */
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);

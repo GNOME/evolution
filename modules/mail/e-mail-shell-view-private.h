@@ -108,6 +108,7 @@ enum {
 
 /* Search items are displayed in ascending order. */
 enum {
+	MAIL_SEARCH_ADVANCED = -1,
 	MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN,
 	MAIL_SEARCH_RECIPIENTS_CONTAIN,
 	MAIL_SEARCH_MESSAGE_CONTAINS,

@@ -90,6 +90,7 @@ enum {
 
 /* Search items are displayed in ascending order. */
 enum {
+	TASK_SEARCH_ADVANCED = -1,
 	TASK_SEARCH_SUMMARY_CONTAINS,
 	TASK_SEARCH_DESCRIPTION_CONTAINS,
 	TASK_SEARCH_ANY_FIELD_CONTAINS

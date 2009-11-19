@@ -159,6 +159,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-reply-list")
 #define E_SHELL_WINDOW_ACTION_MAIL_REPLY_SENDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-reply-sender")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_ADVANCED_HIDDEN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-search-advanced-hidden")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_MAILING_LIST(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-mailing-list")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_RECIPIENTS(window) \

@@ -81,6 +81,7 @@ enum {
 
 /* Search items are displayed in ascending order. */
 enum {
+	MEMO_SEARCH_ADVANCED = -1,
 	MEMO_SEARCH_SUMMARY_CONTAINS,
 	MEMO_SEARCH_DESCRIPTION_CONTAINS,
 	MEMO_SEARCH_ANY_FIELD_CONTAINS

@@ -197,6 +197,7 @@ hinted_entry_init (EHintedEntry *entry)
 {
 	entry->priv = E_HINTED_ENTRY_GET_PRIVATE (entry);
 	entry->priv->hint = g_strdup ("");  /* hint must never be NULL */
+	hinted_entry_show_hint (entry);
 }
 
 GType

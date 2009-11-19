@@ -1044,6 +1044,7 @@ action_search_clear_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellContent *shell_content;
+	GtkRadioAction *search_action;
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
@@ -1052,6 +1053,11 @@ action_search_clear_cb (GtkAction *action,
 
 	e_shell_content_set_search_rule (shell_content, NULL);
 	e_shell_content_set_search_text (shell_content, NULL);
+
+	/* change from Advanced Search to the first one, so filling a text will do something */
+	search_action = e_shell_content_get_search_radio_action (shell_content);
+	if (search_action && gtk_radio_action_get_current_value (search_action) == -1)
+		gtk_radio_action_set_current_value (search_action, 0);
 
 	e_shell_view_execute_search (shell_view);
 
@@ -1118,11 +1124,20 @@ static void
 action_search_quick_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
+	EShellContent *shell_content;
 	EShellView *shell_view;
+	GtkRadioAction *radio_action;
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	radio_action = e_shell_content_get_search_radio_action (shell_content);
+	if (radio_action && gtk_radio_action_get_current_value (radio_action) == -1) {
+		/* change Advanced Search to a default search type automatically */
+		gtk_radio_action_set_current_value (radio_action, 0);
+	}
 
 	e_shell_view_execute_search (shell_view);
 }

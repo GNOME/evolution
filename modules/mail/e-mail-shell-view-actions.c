@@ -648,29 +648,6 @@ action_mail_label_none_cb (GtkAction *action,
 }
 
 static void
-action_mail_search_cb (GtkRadioAction *action,
-                       GtkRadioAction *current,
-                       EMailShellView *mail_shell_view)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	const gchar *search_hint;
-
-	/* XXX Figure out a way to handle this in EShellContent
-	 *     instead of every shell view having to handle it.
-	 *     The problem is EShellContent does not know what
-	 *     the search option actions are for this view.  It
-	 *     would have to dig up the popup menu and retrieve
-	 *     the action for each menu item.  Seems messy. */
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	search_hint = gtk_action_get_label (GTK_ACTION (current));
-	e_shell_content_set_search_hint (shell_content, search_hint);
-}
-
-static void
 action_mail_show_hidden_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
@@ -960,31 +937,6 @@ action_search_filter_cb (GtkRadioAction *action,
 	}
 
 	e_shell_view_execute_search (shell_view);
-}
-
-static void
-action_search_quick_cb (GtkAction *action,
-                        EMailShellView *mail_shell_view)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellContent *shell_content;
-	EFilterRule *search_rule;
-	gint value;
-
-	/* Set the search rule in EShellContent so that "Create
-	 * Search Folder from Search" works for quick searches. */
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
-	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
-	g_return_if_fail (value >= 0 && value < MAIL_NUM_SEARCH_RULES);
-	search_rule = mail_shell_view->priv->search_rules[value];
-
-	e_shell_content_set_search_rule (shell_content, search_rule);
 }
 
 static void
@@ -1445,6 +1397,13 @@ static GtkRadioActionEntry mail_filter_entries[] = {
 
 static GtkRadioActionEntry mail_search_entries[] = {
 
+	{ "mail-search-advanced-hidden",
+	  NULL,
+	  N_("Advanced search"),
+	  NULL,
+	  NULL,
+	  MAIL_SEARCH_ADVANCED },
+
 	{ "mail-search-body-contains",
 	  NULL,
 	  N_("Body contains"),
@@ -1548,8 +1507,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	gtk_action_group_add_radio_actions (
 		action_group, mail_search_entries,
 		G_N_ELEMENTS (mail_search_entries),
-		MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN,
-		G_CALLBACK (action_mail_search_cb), mail_shell_view);
+		-1, NULL, NULL);
 	gtk_action_group_add_radio_actions (
 		action_group, mail_scope_entries,
 		G_N_ELEMENTS (mail_scope_entries),
@@ -1559,6 +1517,12 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	radio_action = GTK_RADIO_ACTION (ACTION (MAIL_SCOPE_ALL_ACCOUNTS));
 	e_shell_content_set_scope_action (shell_content, radio_action);
 	e_shell_content_set_scope_visible (shell_content, TRUE);
+
+	/* Advanced Search action */
+	radio_action = GTK_RADIO_ACTION (ACTION (MAIL_SEARCH_ADVANCED_HIDDEN));
+	e_shell_content_set_search_radio_action (shell_content, radio_action);
+	gtk_action_set_visible (GTK_ACTION (radio_action), FALSE);
+	gtk_radio_action_set_current_value (radio_action, MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 
 	/* Bind GObject properties for GConf keys. */
 
@@ -1622,10 +1586,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
 		G_CALLBACK (action_gal_save_custom_view_cb), mail_shell_view);
-
-	g_signal_connect (
-		ACTION (SEARCH_QUICK), "activate",
-		G_CALLBACK (action_search_quick_cb), mail_shell_view);
 }
 
 /* Helper for e_mail_shell_view_update_popup_labels() */

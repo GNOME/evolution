@@ -139,6 +139,7 @@
     <menuitem action='calendar-taskpad-delete'/>
   </popup>
   <popup name='calendar-search-options'>
+    <menuitem action='calendar-search-advanced-hidden'/>
     <menuitem action='calendar-search-summary-contains'/>
     <menuitem action='calendar-search-description-contains'/>
     <menuitem action='calendar-search-any-field-contains'/>

@@ -67,6 +67,7 @@
     <menuitem action='memo-list-popup-properties'/>
   </popup>
   <popup name='memo-search-options'>
+    <menuitem action='memo-search-advanced-hidden'/>
     <menuitem action='memo-search-summary-contains'/>
     <menuitem action='memo-search-description-contains'/>
     <menuitem action='memo-search-any-field-contains'/>

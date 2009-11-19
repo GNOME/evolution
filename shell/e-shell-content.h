@@ -112,6 +112,8 @@ void		e_shell_content_set_search_hint	(EShellContent *shell_content,
 EFilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);
 void		e_shell_content_set_search_rule (EShellContent *shell_content,
 						 EFilterRule *search_rule);
+gchar *		e_shell_content_get_search_rule_as_string
+						(EShellContent *shell_content);
 const gchar *	e_shell_content_get_search_text	(EShellContent *shell_content);
 void		e_shell_content_set_search_text	(EShellContent *shell_content,
 						 const gchar *search_text);
@@ -131,6 +133,11 @@ gboolean	e_shell_content_get_scope_visible
 void		e_shell_content_set_scope_visible
 						(EShellContent *shell_content,
 						 gboolean scope_visible);
+void		e_shell_content_set_search_radio_action
+						(EShellContent *shell_content,
+						 GtkRadioAction *search_action);
+GtkRadioAction *e_shell_content_get_search_radio_action
+						(EShellContent *shell_content);
 const gchar *	e_shell_content_get_view_id	(EShellContent *shell_content);
 void		e_shell_content_set_view_id	(EShellContent *shell_content,
 						 const gchar *view_id);

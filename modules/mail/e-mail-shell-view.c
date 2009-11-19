@@ -94,7 +94,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailShellContent *mail_shell_content;
 	MessageList *message_list;
 	EFilterRule *rule;
-	EFilterRule *search_rule;
 	EMailReader *reader;
 	CamelFolder *folder;
 	GtkAction *action;
@@ -156,19 +155,28 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	model = e_shell_settings_get_object (
 		shell_settings, "mail-label-list-store");
 
+	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
+	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+
 	text = e_shell_content_get_search_text (shell_content);
-	if (text == NULL || *text == '\0') {
-		query = g_strdup ("");
+	if (value == MAIL_SEARCH_ADVANCED || text == NULL || *text == '\0') {
+		query = e_shell_content_get_search_rule_as_string (shell_content);
+
+		if (!query)
+			query = g_strdup ("");
+
 		goto filter;
 	}
 
 	/* Replace variables in the selected rule with the
 	 * current search text and extract a query string. */
 
-	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
-	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
 	g_return_if_fail (value >= 0 && value < MAIL_NUM_SEARCH_RULES);
 	rule = priv->search_rules[value];
+
+	/* Set the search rule in EShellContent so that "Create
+	 * Search Folder from Search" works for quick searches. */
+	e_shell_content_set_search_rule (shell_content, rule);
 
 	for (iter = rule->parts; iter != NULL; iter = iter->next) {
 		EFilterPart *part = iter->data;
@@ -335,18 +343,6 @@ filter:
 			g_free (query);
 			query = temp;
 			break;
-	}
-
-	search_rule = e_shell_content_get_search_rule (shell_content);
-	if (search_rule != NULL) {
-		string = g_string_sized_new (1024);
-		e_filter_rule_build_code (search_rule, string);
-		temp = g_strconcat ("(and", string->str, query, ")", NULL);
-
-		g_free (query);
-		query = temp;
-
-		g_string_free (string, TRUE);
 	}
 
 	message_list_set_search (message_list, query);

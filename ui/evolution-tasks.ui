@@ -78,6 +78,7 @@
     <menuitem action='task-list-popup-properties'/>
   </popup>
   <popup name='task-search-options'>
+    <menuitem action='task-search-advanced-hidden'/>
     <menuitem action='task-search-summary-contains'/>
     <menuitem action='task-search-description-contains'/>
     <menuitem action='task-search-any-field-contains'/>

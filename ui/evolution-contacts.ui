@@ -83,6 +83,7 @@
     <menuitem action='contact-popup-delete'/>
   </popup>
   <popup name='contact-search-options'>
+    <menuitem action='contact-search-advanced-hidden'/>
     <menuitem action='contact-search-name-contains'/>
     <menuitem action='contact-search-email-begins-with'/>
     <menuitem action='contact-search-any-field-contains'/>

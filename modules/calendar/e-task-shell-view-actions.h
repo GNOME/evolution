@@ -93,6 +93,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-tasks-with-attachments")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_UNMATCHED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-unmatched")
+#define E_SHELL_WINDOW_ACTION_TASK_SEARCH_ADVANCED_HIDDEN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-search-advanced-hidden")
 #define E_SHELL_WINDOW_ACTION_TASK_SEARCH_ANY_FIELD_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-search-any-field-contains")
 #define E_SHELL_WINDOW_ACTION_TASK_SEARCH_DESCRIPTION_CONTAINS(window) \

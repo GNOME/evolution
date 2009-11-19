@@ -151,6 +151,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-next-7-days-appointments")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_UNMATCHED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-unmatched")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_ADVANCED_HIDDEN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-advanced-hidden")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_ANY_FIELD_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-search-any-field-contains")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_DESCRIPTION_CONTAINS(window) \

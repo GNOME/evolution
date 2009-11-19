@@ -59,6 +59,7 @@ struct _EShellContentPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *scope_label;
 	GtkWidget *scope_combo_box;
+	GtkRadioAction *search_radio; /* to be able to manage radio here */
 };
 
 enum {
@@ -74,6 +75,7 @@ enum {
 	PROP_SCOPE_ACTION,
 	PROP_SCOPE_VALUE,
 	PROP_SCOPE_VISIBLE,
+	PROP_SEARCH_RADIO_ACTION,
 	PROP_SHELL_VIEW
 };
 
@@ -94,17 +96,19 @@ shell_content_dialog_rule_changed (GtkWidget *dialog,
 }
 
 static void
-shell_content_execute_search_cb (EShellView *shell_view,
-                                 EShellContent *shell_content)
+shell_content_update_search_widgets (EShellContent *shell_content)
 {
+	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkAction *action;
 	GtkWidget *widget;
 	const gchar *search_text;
 	gboolean sensitive;
 
-	if (!e_shell_view_is_active (shell_view))
-		return;
+	g_return_if_fail (shell_content != NULL);
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	g_return_if_fail (shell_view != NULL);
 
 	/* EShellView subclasses are responsible for actually
 	 * executing the search.  This is all cosmetic stuff. */
@@ -113,7 +117,11 @@ shell_content_execute_search_cb (EShellView *shell_view,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	search_text = e_shell_content_get_search_text (shell_content);
 
-	if (search_text != NULL && *search_text != '\0') {
+	sensitive =
+		(search_text != NULL && *search_text != '\0') ||
+		(e_shell_content_get_search_rule (shell_content) != NULL);
+
+	if (sensitive) {
 		GtkStyle *style;
 		const GdkColor *color;
 
@@ -122,28 +130,30 @@ shell_content_execute_search_cb (EShellView *shell_view,
 		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, color);
 
 		style = gtk_widget_get_style (widget);
-		color = &style->text[GTK_STATE_SELECTED];
+		color = &style->text[(search_text != NULL && *search_text != '\0') ? GTK_STATE_SELECTED : GTK_STATE_INSENSITIVE];
 		gtk_widget_modify_text (widget, GTK_STATE_NORMAL, color);
 	} else {
 		/* Text color will be updated when we move the focus. */
 		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, NULL);
 	}
 
-	/* XXX The intent here is to distinguish between custom searches
-	 *     and stock searches (from the "Show" combo) and only enable
-	 *     the "search-clear" action for custom searches.  I'm not
-	 *     sure this logic is adequate though.  It needs to account
-	 *     for quick searches, advanced searches and saved searches.
-	 *     We'll probably wind up having to explicitly say whether
-	 *     the search is custom, but this is good enough for now. */
-	sensitive =
-		(search_text != NULL && *search_text != '\0') ||
-		(e_shell_content_get_search_rule (shell_content) != NULL);
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
-	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_sensitive (action, sensitive);
+}
+
+static void
+shell_content_execute_search_cb (EShellView *shell_view,
+                                 EShellContent *shell_content)
+{
+	GtkWidget *widget;
+
+	shell_content_update_search_widgets (shell_content);
+
+	if (!e_shell_view_is_active (shell_view))
+		return;
 
 	/* Direct the focus away from the search entry, so that a
 	 * focus-in event is required before the text can be changed.
@@ -322,6 +332,25 @@ shell_content_init_search_context (EShellContent *shell_content)
 }
 
 static void
+shell_content_activate_advanced_search (EShellContent *shell_content)
+{
+	GtkRadioAction *radio_action;
+	const gchar *search_text;
+
+	g_return_if_fail (shell_content != NULL);
+	g_return_if_fail (shell_content->priv->search_entry != NULL);
+
+	/* cannot mix text search with an Advanced Search, thus unsetting search text */
+	search_text = e_shell_content_get_search_text (shell_content);
+	if (search_text)
+		e_shell_content_set_search_text (shell_content, NULL);
+
+	radio_action = e_shell_content_get_search_radio_action (shell_content);
+	if (radio_action)
+		g_object_set (G_OBJECT (radio_action), "current-value", -1, NULL);
+}
+
+static void
 shell_content_set_shell_view (EShellContent *shell_content,
                               EShellView *shell_view)
 {
@@ -399,6 +428,12 @@ shell_content_set_property (GObject *object,
 			e_shell_content_set_scope_visible (
 				E_SHELL_CONTENT (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_SEARCH_RADIO_ACTION:
+			e_shell_content_set_search_radio_action (
+				E_SHELL_CONTENT (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_SHELL_VIEW:
@@ -484,6 +519,12 @@ shell_content_get_property (GObject *object,
 				E_SHELL_CONTENT (object)));
 			return;
 
+		case PROP_SEARCH_RADIO_ACTION:
+			g_value_set_object (
+				value, e_shell_content_get_search_radio_action (
+				E_SHELL_CONTENT (object)));
+			return;
+
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
 				value, e_shell_content_get_shell_view (
@@ -510,6 +551,14 @@ shell_content_dispose (GObject *object)
 	if (priv->search_context != NULL) {
 		g_object_unref (priv->search_context);
 		priv->search_context = NULL;
+	}
+
+	if (priv->search_radio) {
+		/* actions are freed before contents, thus skip it here */
+		/*g_signal_handlers_disconnect_matched (
+			priv->search_radio, G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+			NULL, object);*/
+		priv->search_radio = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -819,6 +868,16 @@ shell_content_class_init (EShellContentClass *class)
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SEARCH_RADIO_ACTION,
+		g_param_spec_object (
+			"search-radio-action",
+			NULL,
+			NULL,
+			GTK_TYPE_RADIO_ACTION,
+			G_PARAM_READWRITE));
 
 	/**
 	 * EShellContent:shell-view
@@ -1197,7 +1256,28 @@ e_shell_content_set_search_rule (EShellContent *shell_content,
 
 	shell_content->priv->search_rule = search_rule;
 
+	shell_content_update_search_widgets (shell_content);
 	g_object_notify (G_OBJECT (shell_content), "search-rule");
+}
+
+/* free returned string with g_free */
+gchar *
+e_shell_content_get_search_rule_as_string (EShellContent *shell_content)
+{
+	EFilterRule *rule;
+	GString *str;
+
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+
+	rule = e_shell_content_get_search_rule (shell_content);
+
+	if (!rule)
+		return NULL;
+
+	str = g_string_new ("");
+	e_filter_rule_build_code (rule, str);
+
+	return g_string_free (str, FALSE);
 }
 
 const gchar *
@@ -1224,6 +1304,7 @@ e_shell_content_set_search_text (EShellContent *shell_content,
 
 	e_hinted_entry_set_text (entry, search_text);
 
+	shell_content_update_search_widgets (shell_content);
 	g_object_notify (G_OBJECT (shell_content), "search-text");
 }
 
@@ -1329,6 +1410,57 @@ e_shell_content_set_scope_visible (EShellContent *shell_content,
 	g_object_notify (G_OBJECT (shell_content), "scope-visible");
 }
 
+static void
+search_radio_changed_cb (GtkRadioAction *action,
+                       GtkRadioAction *current,
+                       EShellContent *shell_content)
+{
+	gint current_value;
+	gchar *search_text;
+
+	e_shell_content_set_search_hint (shell_content, gtk_action_get_label (GTK_ACTION (current)));
+
+	current_value = gtk_radio_action_get_current_value (current);
+	search_text = g_strdup (e_shell_content_get_search_text (shell_content));
+
+	if (current_value != -1) {
+		e_shell_content_set_search_rule (shell_content, NULL);
+		e_shell_content_set_search_text (shell_content, search_text);
+		if (search_text && *search_text)
+			e_shell_view_execute_search (e_shell_content_get_shell_view (shell_content));
+	} else if (search_text) {
+		e_shell_content_set_search_text (shell_content, NULL);
+	}
+
+	g_free (search_text);
+}
+
+void
+e_shell_content_set_search_radio_action (EShellContent *shell_content, GtkRadioAction *search_action)
+{
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	if (shell_content->priv->search_radio)
+		g_signal_handlers_disconnect_matched (
+			shell_content->priv->search_radio, G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+			search_radio_changed_cb, shell_content);
+
+	shell_content->priv->search_radio = search_action;
+
+	if (shell_content->priv->search_radio)
+		g_signal_connect (shell_content->priv->search_radio, "changed", G_CALLBACK (search_radio_changed_cb), shell_content);
+
+	g_object_notify (G_OBJECT (shell_content), "search-radio-action");
+}
+
+GtkRadioAction *
+e_shell_content_get_search_radio_action (EShellContent *shell_content)
+{
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+
+	return shell_content->priv->search_radio;
+}
+
 void
 e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 {
@@ -1389,6 +1521,7 @@ run:
 
 	e_shell_content_set_search_rule (shell_content, rule);
 
+	shell_content_activate_advanced_search (shell_content);
 	e_shell_view_execute_search (shell_view);
 
 	if (response == GTK_RESPONSE_APPLY) {
@@ -1553,7 +1686,8 @@ e_shell_content_restore_state (EShellContent *shell_content,
 
 	key = STATE_KEY_SEARCH_TEXT;
 	string = g_key_file_get_string (key_file, group_name, key, NULL);
-	e_shell_content_set_search_text (shell_content, string);
+	if (g_strcmp0 (string ? string : "", e_shell_content_get_search_text (shell_content)) != 0)
+		e_shell_content_set_search_text (shell_content, string);
 	g_free (string);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);

@@ -81,6 +81,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-view-vertical")
 
 /* Search Actions */
+#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_ADVANCED_HIDDEN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-search-advanced-hidden")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_ANY_FIELD_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-search-any-field-contains")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_EMAIL_BEGINS_WITH(window) \

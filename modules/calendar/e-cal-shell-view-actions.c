@@ -363,29 +363,6 @@ action_calendar_rename_cb (GtkAction *action,
 }
 
 static void
-action_calendar_search_cb (GtkRadioAction *action,
-                           GtkRadioAction *current,
-                           ECalShellView *cal_shell_view)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	const gchar *search_hint;
-
-	/* XXX Figure out a way to handle this in EShellContent
-	 *     instead of every shell view having to handle it.
-	 *     The problem is EShellContent does not know what
-	 *     the search option actions are for this view.  It
-	 *     would have to dig up the popup menu and retrieve
-	 *     the action for each menu item.  Seems messy. */
-
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	search_hint = gtk_action_get_label (GTK_ACTION (current));
-	e_shell_content_set_search_hint (shell_content, search_hint);
-}
-
-static void
 action_calendar_select_one_cb (GtkAction *action,
                                ECalShellView *cal_shell_view)
 {
@@ -1588,6 +1565,13 @@ static GtkRadioActionEntry calendar_filter_entries[] = {
 
 static GtkRadioActionEntry calendar_search_entries[] = {
 
+	{ "calendar-search-advanced-hidden",
+	  NULL,
+	  N_("Advanced search"),
+	  NULL,
+	  NULL,
+	  CALENDAR_SEARCH_ADVANCED },
+
 	{ "calendar-search-any-field-contains",
 	  NULL,
 	  N_("Any field contains"),
@@ -1648,6 +1632,7 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkAction *action;
+	GtkRadioAction *radio_action;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1667,8 +1652,13 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	gtk_action_group_add_radio_actions (
 		action_group, calendar_search_entries,
 		G_N_ELEMENTS (calendar_search_entries),
-		CALENDAR_SEARCH_SUMMARY_CONTAINS,
-		G_CALLBACK (action_calendar_search_cb), cal_shell_view);
+		-1, NULL, NULL);
+
+	/* Advanced Search action */
+	radio_action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ADVANCED_HIDDEN));
+	e_shell_content_set_search_radio_action (e_shell_view_get_shell_content (shell_view), radio_action);
+	gtk_action_set_visible (GTK_ACTION (radio_action), FALSE);
+	gtk_radio_action_set_current_value (radio_action, CALENDAR_SEARCH_SUMMARY_CONTAINS);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);

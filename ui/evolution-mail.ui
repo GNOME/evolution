@@ -126,6 +126,7 @@
     <placeholder name='mail-message-popup-actions'/>
   </popup>
   <popup name='mail-search-options'>
+    <menuitem action='mail-search-advanced-hidden'/>
     <menuitem action='mail-search-subject-or-addresses-contain'/>
     <menuitem action='mail-search-recipients-contain'/>
     <menuitem action='mail-search-message-contains'/>

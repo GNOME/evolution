@@ -62,9 +62,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	GnomeCalendar *calendar;
 	ECalendar *date_navigator;
 	GtkRadioAction *action;
-	GString *string;
-	const gchar *format;
-	const gchar *text;
 	time_t start_range;
 	time_t end_range;
 	gboolean range_search;
@@ -80,36 +77,47 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
 
-	text = e_shell_content_get_search_text (shell_content);
+	if (value == CALENDAR_SEARCH_ADVANCED) {
+		query = e_shell_content_get_search_rule_as_string (shell_content);
 
-	if (text == NULL || *text == '\0') {
-		text = "";
-		value = CALENDAR_SEARCH_SUMMARY_CONTAINS;
-	}
+		if (!query)
+			query = g_strdup ("");
+	} else {
+		const gchar *format;
+		const gchar *text;
+		GString *string;
 
-	switch (value) {
-		default:
+		text = e_shell_content_get_search_text (shell_content);
+
+		if (text == NULL || *text == '\0') {
 			text = "";
-			/* fall through */
+			value = CALENDAR_SEARCH_SUMMARY_CONTAINS;
+		}
 
-		case CALENDAR_SEARCH_SUMMARY_CONTAINS:
-			format = "(contains? \"summary\" %s)";
-			break;
+		switch (value) {
+			default:
+				text = "";
+				/* fall through */
 
-		case CALENDAR_SEARCH_DESCRIPTION_CONTAINS:
-			format = "(contains? \"description\" %s)";
-			break;
+			case CALENDAR_SEARCH_SUMMARY_CONTAINS:
+				format = "(contains? \"summary\" %s)";
+				break;
 
-		case CALENDAR_SEARCH_ANY_FIELD_CONTAINS:
-			format = "(contains? \"any\" %s)";
-			break;
+			case CALENDAR_SEARCH_DESCRIPTION_CONTAINS:
+				format = "(contains? \"description\" %s)";
+				break;
+
+			case CALENDAR_SEARCH_ANY_FIELD_CONTAINS:
+				format = "(contains? \"any\" %s)";
+				break;
+		}
+
+		/* Build the query. */
+		string = g_string_new ("");
+		e_sexp_encode_string (string, text);
+		query = g_strdup_printf (format, string->str);
+		g_string_free (string, TRUE);
 	}
-
-	/* Build the query. */
-	string = g_string_new ("");
-	e_sexp_encode_string (string, text);
-	query = g_strdup_printf (format, string->str);
-	g_string_free (string, TRUE);
 
 	range_search = FALSE;
 	start_range = end_range = 0;
@@ -177,11 +185,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			break;
 		}
 	}
-
-	/* XXX This is wrong.  We need to programmatically construct an
-	 *     EFilterRule, tell it to build code, and pass the resulting
-	 *     expressing string to ECalModel. */
-	e_shell_content_set_search_rule (shell_content, NULL);
 
 	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
 	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
