@@ -758,11 +758,11 @@ e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 			break;
 
 		case FOCUS_MEMO_TABLE:
-			e_memo_table_copy_clipboard (memo_table);
+			e_memo_table_paste_clipboard (memo_table);
 			break;
 
 		case FOCUS_TASK_TABLE:
-			e_calendar_table_copy_clipboard (task_table);
+			e_calendar_table_paste_clipboard (task_table);
 			break;
 
 		default:
