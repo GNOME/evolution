@@ -1451,8 +1451,8 @@ attachment_load_context_new (EAttachment *attachment,
 static void
 attachment_load_context_free (LoadContext *load_context)
 {
-	/* Do not free the GSimpleAsyncResult. */
 	g_object_unref (load_context->attachment);
+	g_object_unref (load_context->simple);
 
 	if (load_context->input_stream != NULL)
 		g_object_unref (load_context->input_stream);
@@ -1475,10 +1475,7 @@ attachment_load_check_for_error (LoadContext *load_context,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the result. */
 	simple = load_context->simple;
-	load_context->simple = NULL;
-
 	g_simple_async_result_set_from_error (simple, error);
 	g_simple_async_result_complete (simple);
 	g_error_free (error);
@@ -1507,9 +1504,7 @@ attachment_load_finish (LoadContext *load_context)
 	gpointer data;
 	gsize size;
 
-	/* Steal the result. */
 	simple = load_context->simple;
-	load_context->simple = NULL;
 
 	file_info = load_context->file_info;
 	attachment = load_context->attachment;
@@ -1789,15 +1784,13 @@ attachment_load_from_mime_part (LoadContext *load_context)
 
 	attachment_set_file_info (attachment, file_info);
 
-	/* Steal the result. */
-	simple = load_context->simple;
-	load_context->simple = NULL;
-
 	camel_object_ref (mime_part);
+
+	simple = load_context->simple;
 	g_simple_async_result_set_op_res_gpointer (
 		simple, mime_part,
 		(GDestroyNotify) camel_object_unref);
-	g_simple_async_result_complete_in_idle (simple);
+	g_simple_async_result_complete (simple);
 
 	attachment_load_context_free (load_context);
 }
@@ -1813,7 +1806,6 @@ e_attachment_load_async (EAttachment *attachment,
 	GFile *file;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-	g_return_if_fail (callback != NULL);
 
 	if (e_attachment_get_loading (attachment)) {
 		g_simple_async_report_error_in_idle (
@@ -1869,7 +1861,6 @@ e_attachment_load_finish (EAttachment *attachment,
 	if (mime_part != NULL)
 		e_attachment_set_mime_part (attachment, mime_part);
 	g_simple_async_result_propagate_error (simple, error);
-	g_object_unref (simple);
 
 	attachment_set_loading (attachment, FALSE);
 
@@ -1972,8 +1963,8 @@ attachment_open_context_new (EAttachment *attachment,
 static void
 attachment_open_context_free (OpenContext *open_context)
 {
-	/* Do not free the GSimpleAsyncResult. */
 	g_object_unref (open_context->attachment);
+	g_object_unref (open_context->simple);
 
 	if (open_context->app_info != NULL)
 		g_object_unref (open_context->app_info);
@@ -1990,10 +1981,7 @@ attachment_open_check_for_error (OpenContext *open_context,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the result. */
 	simple = open_context->simple;
-	open_context->simple = NULL;
-
 	g_simple_async_result_set_from_error (simple, error);
 	g_simple_async_result_complete (simple);
 	g_error_free (error);
@@ -2012,9 +2000,7 @@ attachment_open_file (GFile *file,
 	gboolean success;
 	GError *error = NULL;
 
-	/* Steal the result. */
 	simple = open_context->simple;
-	open_context->simple = NULL;
 
 	context = gdk_app_launch_context_new ();
 
@@ -2115,7 +2101,6 @@ e_attachment_open_async (EAttachment *attachment,
 	GFile *file;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-	g_return_if_fail (callback != NULL);
 
 	file = e_attachment_get_file (attachment);
 	mime_part = e_attachment_get_mime_part (attachment);
@@ -2151,7 +2136,6 @@ e_attachment_open_finish (EAttachment *attachment,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	success = g_simple_async_result_get_op_res_gboolean (simple);
 	g_simple_async_result_propagate_error (simple, error);
-	g_object_unref (simple);
 
 	return success;
 }
@@ -2254,8 +2238,8 @@ attachment_save_context_new (EAttachment *attachment,
 static void
 attachment_save_context_free (SaveContext *save_context)
 {
-	/* Do not free the GSimpleAsyncResult. */
 	g_object_unref (save_context->attachment);
+	g_object_unref (save_context->simple);
 
 	if (save_context->directory != NULL)
 		g_object_unref (save_context->directory);
@@ -2281,10 +2265,7 @@ attachment_save_check_for_error (SaveContext *save_context,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the result. */
 	simple = save_context->simple;
-	save_context->simple = NULL;
-
 	g_simple_async_result_set_from_error (simple, error);
 	g_simple_async_result_complete (simple);
 	g_error_free (error);
@@ -2409,14 +2390,11 @@ attachment_save_read_cb (GInputStream *input_stream,
 		GSimpleAsyncResult *simple;
 		GFile *destination;
 
-		/* Steal the result. */
-		simple = save_context->simple;
-		save_context->simple = NULL;
-
 		/* Steal the destination. */
 		destination = save_context->destination;
 		save_context->destination = NULL;
 
+		simple = save_context->simple;
 		g_simple_async_result_set_op_res_gpointer (
 			simple, destination, (GDestroyNotify) g_object_unref);
 		g_simple_async_result_complete (simple);
@@ -2610,7 +2588,6 @@ e_attachment_save_async (EAttachment *attachment,
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (G_IS_FILE (destination));
-	g_return_if_fail (callback != NULL);
 
 	if (e_attachment_get_loading (attachment)) {
 		g_simple_async_report_error_in_idle (
@@ -2666,7 +2643,6 @@ e_attachment_save_finish (EAttachment *attachment,
 	if (destination != NULL)
 		g_object_ref (destination);
 	g_simple_async_result_propagate_error (simple, error);
-	g_object_unref (simple);
 
 	attachment_set_saving (attachment, FALSE);
 

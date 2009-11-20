@@ -278,6 +278,7 @@ static void
 autosave_data_free (AutosaveData *data)
 {
 	g_object_unref (data->composer);
+	g_object_unref (data->simple);
 
 	if (data->input_stream != NULL)
 		g_object_unref (data->input_stream);
@@ -294,10 +295,7 @@ autosave_snapshot_check_for_error (AutosaveData *data,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the result. */
 	simple = data->simple;
-	data->simple = NULL;
-
 	g_simple_async_result_set_from_error (simple, error);
 	g_simple_async_result_set_op_res_gboolean (simple, FALSE);
 	g_simple_async_result_complete (simple);
@@ -321,10 +319,7 @@ autosave_snapshot_splice_cb (GOutputStream *output_stream,
 	if (autosave_snapshot_check_for_error (data, error))
 		return;
 
-	/* Steal the result. */
 	simple = data->simple;
-	data->simple = NULL;
-
 	g_simple_async_result_set_op_res_gboolean (simple, TRUE);
 	g_simple_async_result_complete (simple);
 
@@ -353,11 +348,8 @@ autosave_snapshot_cb (GFile *file,
 	if (message == NULL) {
 		GSimpleAsyncResult *simple;
 
-		/* Steal the result. */
-		simple = data->simple;
-		data->simple = NULL;
-
 		/* FIXME Need to set a GError here. */
+		simple = data->simple;
 		g_simple_async_result_set_op_res_gboolean (simple, FALSE);
 		g_simple_async_result_complete (simple);
 		g_object_unref (output_stream);
@@ -463,7 +455,6 @@ e_composer_autosave_snapshot_finish (EMsgComposer *composer,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	success = g_simple_async_result_get_op_res_gboolean (simple);
 	g_simple_async_result_propagate_error (simple, error);
-	g_object_unref (simple);
 
 	return success;
 }
