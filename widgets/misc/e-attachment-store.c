@@ -649,23 +649,6 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	return destination;
 }
 
-/***************** e_attachment_store_add_mime_parts_async() *****************/
-
-void
-e_attachment_store_add_mime_parts_async (EAttachmentStore *store,
-                                         GList *mime_parts,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
-{
-}
-
-gboolean
-e_attachment_store_add_mime_parts_finish (EAttachmentStore *store,
-                                          GAsyncResult *result,
-                                          GError **error)
-{
-}
-
 /******************** e_attachment_store_get_uris_async() ********************/
 
 typedef struct _UriContext UriContext;
@@ -919,6 +902,172 @@ e_attachment_store_get_uris_finish (EAttachmentStore *store,
 	g_object_unref (simple);
 
 	return uris;
+}
+
+/********************** e_attachment_store_load_async() **********************/
+
+typedef struct _LoadContext LoadContext;
+
+struct _LoadContext {
+	GSimpleAsyncResult *simple;
+	GList *attachment_list;
+	GError *error;
+};
+
+static LoadContext *
+attachment_store_load_context_new (EAttachmentStore *store,
+                                   GList *attachment_list,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
+{
+	LoadContext *load_context;
+	GSimpleAsyncResult *simple;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (store), callback, user_data,
+		e_attachment_store_load_async);
+
+	load_context = g_slice_new0 (LoadContext);
+	load_context->simple = simple;
+	load_context->attachment_list = g_list_copy (attachment_list);
+
+	g_list_foreach (
+		load_context->attachment_list,
+		(GFunc) g_object_ref, NULL);
+
+	return load_context;
+}
+
+static void
+attachment_store_load_context_free (LoadContext *load_context)
+{
+	/* Do not free the GSimpleAsyncResult. */
+
+	/* The attachment list should be empty now. */
+	g_warn_if_fail (load_context->attachment_list == NULL);
+
+	/* So should the error. */
+	g_warn_if_fail (load_context->error == NULL);
+
+	g_slice_free (LoadContext, load_context);
+}
+
+static void
+attachment_store_load_ready_cb (EAttachment *attachment,
+                                GAsyncResult *result,
+                                LoadContext *load_context)
+{
+	GSimpleAsyncResult *simple;
+	GError *error = NULL;
+
+	e_attachment_load_finish (attachment, result, &error);
+
+	/* Remove the attachment from the list. */
+	load_context->attachment_list = g_list_remove (
+		load_context->attachment_list, attachment);
+	g_object_unref (attachment);
+
+	if (error != NULL) {
+		/* If this is the first error, cancel the other jobs. */
+		if (load_context->error == NULL) {
+			g_propagate_error (&load_context->error, error);
+			g_list_foreach (
+				load_context->attachment_list,
+				(GFunc) e_attachment_cancel, NULL);
+			error = NULL;
+
+		/* Otherwise, we can only report back one error.  So if
+		 * this is something other than cancellation, dump it to
+		 * the terminal. */
+		} else if (!g_error_matches (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s", error->message);
+	}
+
+	if (error != NULL)
+		g_error_free (error);
+
+	/* If there's still jobs running, let them finish. */
+	if (load_context->attachment_list != NULL)
+		return;
+
+	/* Steal the result. */
+	simple = load_context->simple;
+	load_context->simple = NULL;
+
+	/* And the error. */
+	error = load_context->error;
+	load_context->error = NULL;
+
+	if (error == NULL)
+		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+	else {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+
+	g_simple_async_result_complete (simple);
+
+	attachment_store_load_context_free (load_context);
+}
+
+void
+e_attachment_store_load_async (EAttachmentStore *store,
+                               GList *attachment_list,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
+{
+	LoadContext *load_context;
+	GList *iter;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (callback != NULL);
+
+	load_context = attachment_store_load_context_new (
+		store, attachment_list, callback, user_data);
+
+	if (attachment_list == NULL) {
+		GSimpleAsyncResult *simple;
+
+		/* Steal the result. */
+		simple = load_context->simple;
+		load_context->simple = NULL;
+
+		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+		g_simple_async_result_complete (simple);
+		attachment_store_load_context_free (load_context);
+		return;
+	}
+
+	for (iter = attachment_list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = E_ATTACHMENT (iter->data);
+
+		e_attachment_store_add_attachment (store, attachment);
+
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			attachment_store_load_ready_cb,
+			load_context);
+	}
+}
+
+gboolean
+e_attachment_store_load_finish (EAttachmentStore *store,
+                                GAsyncResult *result,
+                                GError **error)
+{
+	GSimpleAsyncResult *simple;
+	gboolean success;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	success = g_simple_async_result_get_op_res_gboolean (simple);
+	g_simple_async_result_propagate_error (simple, error);
+	g_object_unref (simple);
+
+	return success;
 }
 
 /********************** e_attachment_store_save_async() **********************/

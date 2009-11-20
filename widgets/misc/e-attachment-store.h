@@ -109,15 +109,6 @@ GFile *		e_attachment_store_run_save_dialog
 						 GtkWindow *parent);
 
 /* Asynchronous Operations */
-void		e_attachment_store_add_mime_parts_async
-						(EAttachmentStore *store,
-						 GList *mime_parts,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
-gboolean	e_attachment_store_add_mime_parts_finish
-						(EAttachmentStore *store,
-						 GAsyncResult *result,
-						 GError **error);
 void		e_attachment_store_get_uris_async
 						(EAttachmentStore *store,
 						 GList *attachment_list,
@@ -125,6 +116,13 @@ void		e_attachment_store_get_uris_async
 						 gpointer user_data);
 gchar **	e_attachment_store_get_uris_finish
 						(EAttachmentStore *store,
+						 GAsyncResult *result,
+						 GError **error);
+void		e_attachment_store_load_async	(EAttachmentStore *store,
+						 GList *attachment_list,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_attachment_store_load_finish	(EAttachmentStore *store,
 						 GAsyncResult *result,
 						 GError **error);
 void		e_attachment_store_save_async	(EAttachmentStore *store,

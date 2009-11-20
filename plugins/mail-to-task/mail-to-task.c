@@ -262,7 +262,7 @@ set_organizer (ECalComponent *comp)
 }
 
 static void
-attachment_load_finished (EAttachment *attachment,
+attachment_load_finished (EAttachmentStore *store,
                           GAsyncResult *result,
                           gpointer user_data)
 {
@@ -273,7 +273,7 @@ attachment_load_finished (EAttachment *attachment,
 
 	/* XXX Should be no need to check for error here.
 	 *     This is just to reset state in the EAttachment. */
-	e_attachment_load_finish (attachment, result, NULL);
+	e_attachment_store_load_finish (store, result, NULL);
 
 	status->done = TRUE;
 }
@@ -307,7 +307,8 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	CamelDataWrapper *content;
 	CamelMultipart *multipart;
 	GFile *destination;
-	GSList *list = NULL;
+	GList *attachment_list = NULL;
+	GSList *uri_list = NULL;
 	const gchar *comp_uid = NULL;
 	const gchar *local_store;
 	gint ii, n_parts;
@@ -339,28 +340,30 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 
 	for (ii = 1; ii < n_parts; ii++) {
-		CamelMimePart *mime_part;
 		EAttachment *attachment;
-
-		status.done = FALSE;
+		CamelMimePart *mime_part;
 
 		attachment = e_attachment_new ();
 		mime_part = camel_multipart_get_part (multipart, ii);
 		e_attachment_set_mime_part (attachment, mime_part);
 
-		e_attachment_load_async (
-			attachment, (GAsyncReadyCallback)
-			attachment_load_finished, &status);
-
-		/* Loading should be instantaneous since we already have
-		 * the full content, but we still have to crank the main
-		 * loop until the callback gets triggered. */
-		while (!status.done)
-			gtk_main_iteration ();
-
-		e_attachment_store_add_attachment (store, attachment);
-		g_object_unref (attachment);
+		attachment_list = g_list_append (attachment_list, attachment);
 	}
+
+	status.done = FALSE;
+
+	e_attachment_store_load_async (
+		store, attachment_list, (GAsyncReadyCallback)
+		attachment_load_finished, &status);
+
+	/* Loading should be instantaneous since we already have
+	 * the full content, but we still have to crank the main
+	 * loop until the callback gets triggered. */
+	while (!status.done)
+		gtk_main_iteration ();
+
+	g_list_foreach (attachment_list, (GFunc) g_object_unref, NULL);
+	g_list_free (attachment_list);
 
 	status.uris = NULL;
 	status.done = FALSE;
@@ -378,14 +381,14 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 
 	/* Transfer the URI strings to the GSList. */
 	for (ii = 0; status.uris[ii] != NULL; ii++) {
-		list = g_slist_prepend (list, status.uris[ii]);
+		uri_list = g_slist_prepend (uri_list, status.uris[ii]);
 		status.uris[ii] = NULL;
 	}
 
 	g_free (status.uris);
 
 	/* XXX Does this take ownership of the list? */
-	e_cal_component_set_attachment_list (comp, list);
+	e_cal_component_set_attachment_list (comp, uri_list);
 
 	g_object_unref (destination);
 	g_object_unref (store);
