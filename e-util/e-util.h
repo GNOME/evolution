@@ -143,11 +143,6 @@ gboolean	e_file_lock_exists		(void);
 gchar *		e_util_guess_mime_type		(const gchar *filename,
                                                  gboolean localfile);
 
-gboolean	e_util_read_file		(const gchar *filename,
-						 gboolean filename_is_uri,
-						 gchar **buffer,
-						 gsize *read,
-						 GError **error);
 GSList *	e_util_get_category_filter_options
 						(void);
 

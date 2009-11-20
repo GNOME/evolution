@@ -241,6 +241,32 @@ image_drag_drop_cb (GtkWidget *widget,
 }
 
 static void
+image_chooser_file_loaded_cb (GFile *file,
+                              GAsyncResult *result,
+                              EImageChooser *chooser)
+{
+	gchar *contents;
+	gsize length;
+	GError *error = NULL;
+
+	g_file_load_contents_finish (
+		file, result, &contents, &length, NULL, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		goto exit;
+	}
+
+	set_image_from_data (chooser, contents, length);
+
+	g_free (contents);
+
+exit:
+	g_object_unref (chooser);
+}
+
+static void
 image_drag_data_received_cb (GtkWidget *widget,
                              GdkDragContext *context,
                              gint x,
@@ -250,29 +276,28 @@ image_drag_data_received_cb (GtkWidget *widget,
                              guint time,
                              EImageChooser *chooser)
 {
+	GFile *file;
 	gboolean handled = FALSE;
 	gchar **uris;
-	gchar *buf = NULL;
-	gsize read = 0;
-	GError *error = NULL;
 
 	uris = gtk_selection_data_get_uris (selection_data);
 
 	if (uris == NULL)
 		goto exit;
 
-	if (e_util_read_file (uris[0], TRUE, &buf, &read, &error) && read > 0 && buf)
-		handled = set_image_from_data (chooser, buf, read);
+	file = g_file_new_for_uri (uris[0]);
 
-	if (!handled)
-		g_free (buf);
+	/* XXX Not cancellable. */
+	g_file_load_contents_async (
+		file, NULL, (GAsyncReadyCallback)
+		image_chooser_file_loaded_cb,
+		g_object_ref (chooser));
 
+	g_object_unref (file);
 	g_strfreev (uris);
 
-	if (error) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	/* Assume success.  We won't know til later. */
+	handled = TRUE;
 
 exit:
 	gtk_drag_finish (context, handled, FALSE, time);
