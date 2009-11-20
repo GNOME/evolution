@@ -156,6 +156,8 @@ paned_realize (GtkWidget *widget)
 {
 	EPanedPrivate *priv;
 	GtkWidget *toplevel;
+	GdkWindowState state;
+	GdkWindow *window;
 
 	priv = E_PANED_GET_PRIVATE (widget);
 
@@ -167,10 +169,18 @@ paned_realize (GtkWidget *widget)
 	 *     to make that happen. */
 
 	toplevel = gtk_widget_get_toplevel (widget);
+	window = gtk_widget_get_window (toplevel);
+	state = gdk_window_get_state (window);
 
-	priv->wse_handler_id = g_signal_connect_swapped (
-		toplevel, "window-state-event",
-		G_CALLBACK (paned_window_state_event_cb), widget);
+	/* If the window is withdrawn, wait for it to be shown before
+	 * setting the pane position.  If the window is already shown,
+	 * it's safe to set the pane position immediately. */
+	if (state & GDK_WINDOW_STATE_WITHDRAWN)
+		priv->wse_handler_id = g_signal_connect_swapped (
+			toplevel, "window-state-event",
+			G_CALLBACK (paned_window_state_event_cb), widget);
+	else
+		priv->toplevel_ready = TRUE;
 }
 
 static void
