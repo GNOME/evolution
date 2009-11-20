@@ -108,95 +108,148 @@ struct _ECalendarViewClass {
 	GtkTableClass parent_class;
 
 	/* Notification signals */
-	void (* popup_event) (ECalendarView *cal_view, GdkEventButton *event);
-	void (* selection_changed) (ECalendarView *cal_view);
-	void (* selected_time_changed) (ECalendarView *cal_view);
-	void (* timezone_changed) (ECalendarView *cal_view, icaltimezone *old_zone, icaltimezone *new_zone);
-	void (* event_changed) (ECalendarView *day_view, ECalendarViewEvent *event);
-	void (* event_added) (ECalendarView *day_view, ECalendarViewEvent *event);
-	void (* user_created) (ECalendarView *cal_view);
+	void		(*popup_event)		(ECalendarView *cal_view,
+						 GdkEventButton *event);
+	void		(*selection_changed)	(ECalendarView *cal_view);
+	void		(*selected_time_changed)(ECalendarView *cal_view);
+	void		(*timezone_changed)	(ECalendarView *cal_view,
+						 icaltimezone *old_zone,
+						 icaltimezone *new_zone);
+	void		(*event_changed)	(ECalendarView *day_view,
+						 ECalendarViewEvent *event);
+	void		(*event_added)		(ECalendarView *day_view,
+						 ECalendarViewEvent *event);
+	void		(*user_created)		(ECalendarView *cal_view);
 
 	/* Virtual methods */
-	GList * (* get_selected_events) (ECalendarView *cal_view); /* a GList of ECalendarViewEvent's */
-	gboolean (* get_selected_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
-	void (* set_selected_time_range) (ECalendarView *cal_view, time_t start_time, time_t end_time);
-	gboolean (* get_visible_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
-	void (* update_query) (ECalendarView *cal_view);
-	void (* open_event) (ECalendarView *cal_view);
-	void (* paste_text) (ECalendarView *cal_view);
+	GList *		(*get_selected_events)	(ECalendarView *cal_view);
+	gboolean	(*get_selected_time_range)
+						(ECalendarView *cal_view,
+						 time_t *start_time,
+						 time_t *end_time);
+	void		(*set_selected_time_range)
+						(ECalendarView *cal_view,
+						 time_t start_time,
+						 time_t end_time);
+	gboolean	(*get_visible_time_range)
+						(ECalendarView *cal_view,
+						 time_t *start_time,
+						 time_t *end_time);
+	void		(*update_query)		(ECalendarView *cal_view);
+	void		(*open_event)		(ECalendarView *cal_view);
+	void		(*paste_text)		(ECalendarView *cal_view);
 };
 
-GType          e_calendar_view_get_type (void);
+GType		e_calendar_view_get_type	(void);
+GnomeCalendar *	e_calendar_view_get_calendar	(ECalendarView *cal_view);
+void		e_calendar_view_set_calendar	(ECalendarView *cal_view,
+						 GnomeCalendar *calendar);
+ECalModel *	e_calendar_view_get_model	(ECalendarView *cal_view);
+icaltimezone *	e_calendar_view_get_timezone	(ECalendarView *cal_view);
+void		e_calendar_view_set_timezone	(ECalendarView *cal_view,
+						 icaltimezone *zone);
+const gchar *	e_calendar_view_get_default_category
+						(ECalendarView *cal_view);
+void		e_calendar_view_set_default_category
+						(ECalendarView *cal_view,
+						 const gchar *category);
+void		e_calendar_view_set_status_message
+						(ECalendarView *cal_view,
+						 const gchar *message,
+						 gint percent);
 
-GnomeCalendar *e_calendar_view_get_calendar (ECalendarView *cal_view);
-void           e_calendar_view_set_calendar (ECalendarView *cal_view, GnomeCalendar *calendar);
-ECalModel     *e_calendar_view_get_model (ECalendarView *cal_view);
-icaltimezone  *e_calendar_view_get_timezone (ECalendarView *cal_view);
-void           e_calendar_view_set_timezone (ECalendarView *cal_view, icaltimezone *zone);
-const gchar    *e_calendar_view_get_default_category (ECalendarView *cal_view);
-void           e_calendar_view_set_default_category (ECalendarView *cal_view, const gchar *category);
-void           e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message, gint percent);
+GList *		e_calendar_view_get_selected_events
+						(ECalendarView *cal_view);
+gboolean	e_calendar_view_get_selected_time_range
+						(ECalendarView *cal_view,
+						 time_t *start_time,
+						 time_t *end_time);
+void		e_calendar_view_set_selected_time_range
+						(ECalendarView *cal_view,
+						 time_t start_time,
+						 time_t end_time);
+gboolean	e_calendar_view_get_visible_time_range
+						(ECalendarView *cal_view,
+						 time_t *start_time,
+						 time_t *end_time);
+void		e_calendar_view_update_query	(ECalendarView *cal_view);
 
-GList         *e_calendar_view_get_selected_events (ECalendarView *cal_view);
-gboolean       e_calendar_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
-void           e_calendar_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time);
-gboolean       e_calendar_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
-void           e_calendar_view_update_query (ECalendarView *cal_view);
+void		e_calendar_view_cut_clipboard	(ECalendarView *cal_view);
+void		e_calendar_view_copy_clipboard	(ECalendarView *cal_view);
+void		e_calendar_view_paste_clipboard	(ECalendarView *cal_view);
+void		e_calendar_view_delete_selected_event
+						(ECalendarView *cal_view);
+void		e_calendar_view_delete_selected_events
+						(ECalendarView *cal_view);
+void		e_calendar_view_delete_selected_occurrence
+						(ECalendarView *cal_view);
+CompEditor *	e_calendar_view_open_event_with_flags
+						(ECalendarView *cal_view,
+						 ECal *client,
+						 icalcomponent *icalcomp,
+						 guint32 flags);
 
-void           e_calendar_view_cut_clipboard (ECalendarView *cal_view);
-void           e_calendar_view_copy_clipboard (ECalendarView *cal_view);
-void           e_calendar_view_paste_clipboard (ECalendarView *cal_view);
-void           e_calendar_view_delete_selected_event (ECalendarView *cal_view);
-void           e_calendar_view_delete_selected_events (ECalendarView *cal_view);
-void           e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view);
-CompEditor*    e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
-
-void           e_calendar_view_popup_event	(ECalendarView *cal_view,
+void		e_calendar_view_popup_event	(ECalendarView *cal_view,
 						 GdkEventButton *event);
 
-void           e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart,
-				     icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas);
-void           e_calendar_view_new_appointment_for (ECalendarView *cal_view,
-						    time_t dtstart,
-						    time_t dtend,
-						    gboolean all_day,
-						    gboolean meeting);
-void           e_calendar_view_new_appointment_full (ECalendarView *cal_view,
-						     gboolean all_day,
-						     gboolean meeting,
-						     gboolean no_past_date);
-void           e_calendar_view_new_appointment (ECalendarView *cal_view);
-void           e_calendar_view_edit_appointment (ECalendarView *cal_view,
-					    ECal *client,
-					    icalcomponent *icalcomp,
-					    gboolean meeting);
-void           e_calendar_view_open_event (ECalendarView *cal_view);
-void           e_calendar_view_modify_and_send (ECalComponent *comp,
-					       ECal *client,
-					       CalObjModType mod,
-					       GtkWindow *toplevel,
-					       gboolean new);
-void e_calendar_utils_show_error_silent (GtkWidget *widget);
-void e_calendar_utils_show_info_silent(GtkWidget *widget);
+void		e_calendar_view_add_event	(ECalendarView *cal_view,
+						 ECal *client,
+						 time_t dtstart,
+						 icaltimezone *default_zone,
+						 icalcomponent *icalcomp,
+						 gboolean in_top_canvas);
+void		e_calendar_view_new_appointment_for
+						(ECalendarView *cal_view,
+						 time_t dtstart,
+						 time_t dtend,
+						 gboolean all_day,
+						 gboolean meeting);
+void		e_calendar_view_new_appointment_full
+						(ECalendarView *cal_view,
+						 gboolean all_day,
+						 gboolean meeting,
+						 gboolean no_past_date);
+void		e_calendar_view_new_appointment	(ECalendarView *cal_view);
+void		e_calendar_view_edit_appointment(ECalendarView *cal_view,
+						 ECal *client,
+						 icalcomponent *icalcomp,
+						 gboolean meeting);
+void		e_calendar_view_open_event	(ECalendarView *cal_view);
+void		e_calendar_view_modify_and_send	(ECalComponent *comp,
+						 ECal *client,
+						 CalObjModType mod,
+						 GtkWindow *toplevel,
+						 gboolean new);
+void		e_calendar_utils_show_error_silent
+						(GtkWidget *widget);
+void		e_calendar_utils_show_info_silent
+						(GtkWidget *widget);
 
-gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
+gboolean	e_calendar_view_get_tooltips	(ECalendarViewEventData *data);
 
-void           e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y);
+void		e_calendar_view_move_tip	(GtkWidget *widget,
+						 gint x,
+						 gint y);
 
-const gchar *e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text);
-gchar *e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client);
+const gchar *	e_calendar_view_get_icalcomponent_summary
+						(ECal *ecal,
+						 icalcomponent *icalcomp,
+						 gboolean *free_text);
+gchar *		e_calendar_view_get_attendees_status_info
+						(ECalComponent *comp,
+						 ECal *client);
 
 void		e_calendar_view_emit_user_created
 						(ECalendarView *cal_view);
 
-void           draw_curved_rectangle (cairo_t *cr,
-                                      double x0,
-                                      double y0,
-                                      double rect_width,
-                                      double rect_height,
-                                      double radius);
+void		draw_curved_rectangle		(cairo_t *cr,
+						 gdouble x0,
+						 gdouble y0,
+						 gdouble rect_width,
+						 gdouble rect_height,
+						 gdouble radius);
 
-GdkColor get_today_background (GdkColor event_background);
+GdkColor	get_today_background		(GdkColor event_background);
 
 G_END_DECLS
 
