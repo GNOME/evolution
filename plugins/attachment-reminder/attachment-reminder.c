@@ -24,7 +24,6 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <glade/glade-xml.h>
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-util.h>

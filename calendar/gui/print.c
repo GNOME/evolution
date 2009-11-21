@@ -52,8 +52,6 @@
 #include "gnome-cal.h"
 #include "print.h"
 
-#include <glade/glade-xml.h>
-
 #include "art/jump.xpm"
 
 typedef struct PrintCompItem PrintCompItem;
