@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-11-21 23:32+0000\n"
-"PO-Revision-Date: 2009-11-22 01:04+0100\n"
+"PO-Revision-Date: 2009-11-22 09:34+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12490,7 +12490,6 @@ msgstr ""
 "para mostrarlo por pantalla. "
 
 #: ../mail/mail-config.ui.h:126
-#, fuzzy
 #| msgid ""
 #| "Type the name by which you would like to refer to this account.\n"
 #| "For example: \"Work\" or \"Personal\""
@@ -12637,7 +12636,6 @@ msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
 #: ../mail/mail-config.ui.h:163 ../smime/gui/smime-ui.ui.h:49
-#, fuzzy
 #| msgid "am"
 msgid "a"
 msgstr "am"
@@ -12647,7 +12645,6 @@ msgid "addresses"
 msgstr "direcciones"
 
 #: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:50
-#, fuzzy
 #| msgid "by"
 msgid "b"
 msgstr "por"
@@ -12749,7 +12746,6 @@ msgid "Specific folders"
 msgstr "Carpetas específicas"
 
 #: ../mail/mail-dialogs.ui.h:25
-#, fuzzy
 #| msgid ""
 #| "The messages you have selected for follow up are listed below.\n"
 #| "Please select a follow up action from the \"Flag\" menu."
@@ -12758,7 +12754,7 @@ msgid ""
 "elect a follow up action from the \"Flag\" menu."
 msgstr ""
 "Los mensajes que ha seleccionado para seguir se listan abajo.\n"
-"Por favor, seleccione una acción de seguimiento desde el menú «Marcar»."
+"Seleccione una acción de seguimiento desde el menú «Marcar»."
 
 #: ../mail/mail-dialogs.ui.h:27
 msgid "_Accept License"
@@ -17331,7 +17327,6 @@ msgid "Basic and _Mailing List Headers (Default)"
 msgstr "Cabeceras básicas y de _listas de correo predeterminadas"
 
 #: ../plugins/imap-features/imap-headers.ui.h:3
-#, fuzzy
 #| msgid ""
 #| "Give the extra headers that you need to fetch in addition to the above "
 #| "standard headers. \n"
@@ -17346,7 +17341,6 @@ msgstr ""
 "Puede ignorar esto si elige «Todas las cabeceras»"
 
 #: ../plugins/imap-features/imap-headers.ui.h:6
-#, fuzzy
 #| msgid ""
 #| "Select your IMAP Header Preferences. \n"
 #| "The more headers you have the more time it will take to download."
@@ -17358,7 +17352,6 @@ msgstr ""
 "Cuantas más cabeceras tenga más tiempo se tardará en descargar."
 
 #: ../plugins/imap-features/imap-headers.ui.h:8
-#, fuzzy
 #| msgid ""
 #| "_Basic Headers - (Fastest) \n"
 #| "Use this if you do not have filters based on mailing lists"
@@ -17366,7 +17359,7 @@ msgid ""
 "_Basic Headers - (Fastest) \n"
 "this if you do not have filters based on mailing lists"
 msgstr ""
-"Cabeceras _básicas - (Rápido) \n"
+"Cabeceras _básicas - (rápido) \n"
 "Use esto si no tiene filtros basados en listas de correo"
 
 #: ../plugins/imap-features/imap-headers.ui.h:10
@@ -18812,42 +18805,35 @@ msgid "_Publish Calendar Information"
 msgstr "_Publicar información del calendario"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
-#, fuzzy
 #| msgid "Custom Notification"
 msgid "Custom Location"
-msgstr "Notificación personalizada"
+msgstr "Ubicación personalizado"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
-#, fuzzy
 #| msgid "Day"
 msgid "Daily"
-msgstr "Día"
+msgstr "Diariamente"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "FTP (with login)"
 msgstr "FTP (con registro)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#, fuzzy
 #| msgid ""
 #| "Daily\n"
 #| "Weekly\n"
 #| "Manual (via Actions menu)"
 msgid "Manual (via Actions menu)"
-msgstr ""
-"Diariamente\n"
-"Semanalmente\n"
-"Manual (por medio del menú Acciones)"
+msgstr "Manual (por medio del menú Acciones)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "P_ort:"
 msgstr "_Puerto:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
-#, fuzzy
 #| msgid "Public"
 msgid "Public FTP"
-msgstr "Público"
+msgstr "FTP público"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "Publishing Location"
@@ -18870,32 +18856,28 @@ msgid "Service _type:"
 msgstr "_Tipo de servicio:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
-#, fuzzy
 #| msgid "Source"
 msgid "Sources"
-msgstr "Fuente"
+msgstr "Orígenes"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
 msgstr "_Duración:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
-#, fuzzy
 #| msgid "WebDAV"
 msgid "WebDAV (HTTP)"
-msgstr "WebDAV"
+msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
-#, fuzzy
 #| msgid "Week"
 msgid "Weekly"
-msgstr "Semana"
+msgstr "Semanalmente"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
-#, fuzzy
 #| msgid "_Window"
 msgid "Windows share"
-msgstr "_Ventana"
+msgstr "Compartición Windows"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_File:"
@@ -18918,10 +18900,9 @@ msgid "_Username:"
 msgstr "_Usuario:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
-#, fuzzy
 #| msgid "Call"
 msgid "iCal"
-msgstr "Llamar"
+msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-format-fb.c:69
 #: ../plugins/publish-calendar/publish-format-ical.c:82
@@ -20518,16 +20499,14 @@ msgid "Certificate Authority Trust"
 msgstr "Confianza en la autoridad certificadora"
 
 #: ../smime/gui/smime-ui.ui.h:8
-#, fuzzy
 #| msgid "<b>Certificate Fields</b>"
 msgid "Certificate Fields"
-msgstr "<b>Campos del certificado</b>"
+msgstr "Campos del certificado"
 
 #: ../smime/gui/smime-ui.ui.h:9
-#, fuzzy
 #| msgid "<b>Certificate Hierarchy</b>"
 msgid "Certificate Hierarchy"
-msgstr "<b>Jerarquía del certificado</b>"
+msgstr "Jerarquía del certificado"
 
 #: ../smime/gui/smime-ui.ui.h:10
 msgid "Certificate details"
@@ -20574,36 +20553,32 @@ msgid "Expires On"
 msgstr "Caduca el"
 
 #: ../smime/gui/smime-ui.ui.h:22
-#, fuzzy
 #| msgid "Field Name"
 msgid "Field Value"
-msgstr "Nombre del campo"
+msgstr "Valor del campo"
 
 #: ../smime/gui/smime-ui.ui.h:23
-#, fuzzy
 #| msgid "MD5 Fingerprint"
 msgid "Fingerprints"
-msgstr "Huella MD5"
+msgstr "Huellas"
 
 #: ../smime/gui/smime-ui.ui.h:25
 msgid "Import"
 msgstr "Importar"
 
 #: ../smime/gui/smime-ui.ui.h:26
-#, fuzzy
 #| msgid "Issued On"
 msgid "Issued By"
-msgstr "Emitido el"
+msgstr "Emitido por"
 
 #: ../smime/gui/smime-ui.ui.h:27
 msgid "Issued On"
 msgstr "Emitido el"
 
 #: ../smime/gui/smime-ui.ui.h:28
-#, fuzzy
 #| msgid "Issued On"
 msgid "Issued To"
-msgstr "Emitido el"
+msgstr "Emitido a"
 
 #: ../smime/gui/smime-ui.ui.h:29
 msgid "MD5 Fingerprint"
@@ -20630,10 +20605,9 @@ msgid "SSL Server Certificate"
 msgstr "Certificado de servidor SSL"
 
 #: ../smime/gui/smime-ui.ui.h:36
-#, fuzzy
 #| msgid "<b>This certificate has been verified for the following uses:</b>"
 msgid "This certificate has been verified for the following uses:"
-msgstr "<b>Este certificado ha sido verificado para los siguientes usos:</b>"
+msgstr "Este certificado ha sido verificado para los siguientes usos:"
 
 #: ../smime/gui/smime-ui.ui.h:37
 msgid "Trust the authenticity of this certificate"
@@ -20652,10 +20626,9 @@ msgid "Trust this CA to identify web sites."
 msgstr "Confiar en esta AC para identificar sitios web."
 
 #: ../smime/gui/smime-ui.ui.h:41
-#, fuzzy
 #| msgid "<b>Validity</b>"
 msgid "Validity"
-msgstr "<b>Validez</b>"
+msgstr "Validez"
 
 #: ../smime/gui/smime-ui.ui.h:42
 msgid "View"
@@ -20950,10 +20923,9 @@ msgid "Select a Time Zone"
 msgstr "Seleccione una zona horaria"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
-#, fuzzy
 #| msgid "Time _Zone"
 msgid "Time Zones"
-msgstr "_Zona horaria"
+msgstr "Zonas horarias"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
 msgid "Timezone drop-down combination box"
@@ -20970,10 +20942,9 @@ msgstr ""
 "Use el botón derecho del ratón para reducir el mapa al tamaño anterior."
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:7
-#, fuzzy
 #| msgid "Selection Mode"
 msgid "_Selection"
-msgstr "Modo de selección"
+msgstr "_Selección"
 
 #: ../widgets/menus/gal-define-views-dialog.c:74
 #: ../widgets/menus/gal-define-views-model.c:185
@@ -21541,14 +21512,11 @@ msgid "Gene_ral Options"
 msgstr "Opciones gene_rales"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#, fuzzy
 #| msgid ""
 #| "None\n"
 #| "Mail Receipt"
 msgid "Mail Receipt"
-msgstr ""
-"Ninguno\n"
-"Recibos de correo"
+msgstr "Destinatario del correo"
 
 #: ../widgets/misc/e-send-options.ui.h:13
 msgid "Proprietary"
@@ -21567,19 +21535,16 @@ msgid "Sta_tus Tracking"
 msgstr "Seguimiento de es_tado"
 
 #: ../widgets/misc/e-send-options.ui.h:20
-#, fuzzy
 #| msgid "S_tandard Font:"
 msgid "Standard"
-msgstr "Tipografía _estándar:"
+msgstr "Estándar"
 
 #: ../widgets/misc/e-send-options.ui.h:21
-#, fuzzy
 #| msgid "Sta_tus Tracking"
 msgid "Status Tracking"
-msgstr "Seguimiento de es_tado"
+msgstr "Seguimiento de estado"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#, fuzzy
 #| msgid "Top secret"
 msgid "Top Secret"
 msgstr "Alto secreto"
