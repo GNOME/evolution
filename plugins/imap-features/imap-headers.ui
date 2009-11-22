@@ -34,7 +34,7 @@
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Select your IMAP Header Preferences. 
-more headers you have the more time it will take to download.</property>
+The more headers you have the more time it will take to download.</property>
                     <property name="use_underline">False</property>
                     <property name="use_markup">False</property>
                     <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -78,7 +78,7 @@ more headers you have the more time it will take to download.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="label" translatable="yes">_Basic Headers - (Fastest) 
-this if you do not have filters based on mailing lists</property>
+Use this if you do not have filters based on mailing lists</property>
                     <property name="use_underline">True</property>
                     <property name="relief">GTK_RELIEF_NORMAL</property>
                     <property name="focus_on_click">True</property>
@@ -173,7 +173,7 @@ this if you do not have filters based on mailing lists</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="label" translatable="yes">Give the extra headers that you need to fetch in addition to the above standard headers. 
-can ignore this if you choose "All Headers".</property>
+You can ignore this if you choose "All Headers".</property>
                     <property name="use_underline">False</property>
                     <property name="use_markup">False</property>
                     <property name="justify">GTK_JUSTIFY_LEFT</property>
