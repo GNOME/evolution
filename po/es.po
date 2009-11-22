@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-21 23:32+0000\n"
-"PO-Revision-Date: 2009-11-22 09:34+0100\n"
+"POT-Creation-Date: 2009-11-22 14:51+0000\n"
+"PO-Revision-Date: 2009-11-22 17:21+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3418,9 +3418,6 @@ msgstr "Sólo fecha:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:2
 #, no-c-format
-#| msgid ""
-#| "<i>%u and %d will be replaced by user and domain from the email address.</"
-#| "i>"
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
 "%u y %d se reemplazarán por el usuario y el dominio de la dirección de "
@@ -3469,7 +3466,6 @@ msgid "Days"
 msgstr "Días"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:14
-#| msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgid "Default Free/Busy Server"
 msgstr "Servidor de disponibilidad predeterminado"
 
@@ -9121,10 +9117,10 @@ msgstr "Mostrar filtros para el correo:"
 #: ../filter/filter.ui.h:4
 #| msgid ""
 #| "The message's date will be compared against\n"
-#| "12:00am of the date specified."
+#| "0am of the date specified."
 msgid ""
 "The message's date will be compared against\n"
-"0am of the date specified."
+"12:00am of the date specified."
 msgstr ""
 "La fecha del mensaje se comparará con las\n"
 "00:00 de la fecha aquí especificada."
@@ -9132,34 +9128,30 @@ msgstr ""
 #: ../filter/filter.ui.h:6
 #| msgid ""
 #| "The message's date will be compared against\n"
-#| "the current time when filtering occurs."
+#| "me relative to when filtering occurs."
 msgid ""
 "The message's date will be compared against\n"
-"current time when filtering occurs."
+"a time relative to when filtering occurs."
 msgstr ""
-"La fecha del mensaje se comparará con la\n"
-"fecha actual del momento del filtrado."
+"La fecha del mensaje se comparará con una\n"
+"fecha relativa al momento del filtrado."
 
 #: ../filter/filter.ui.h:8
 #| msgid ""
 #| "The message's date will be compared against\n"
-#| "a time relative to when filtering occurs."
+#| "current time when filtering occurs."
 msgid ""
 "The message's date will be compared against\n"
-"me relative to when filtering occurs."
+"the current time when filtering occurs."
 msgstr ""
-"La fecha del mensaje se comparará con una\n"
-"fecha relativa al momento del filtrado."
+"La fecha del mensaje se comparará con la\n"
+"fecha actual del momento del filtrado."
 
 #: ../filter/filter.ui.h:11 ../mail/em-filter-editor.c:185
 msgid "_Filter Rules"
 msgstr "Reglas de _filtrado"
 
 #: ../filter/filter.ui.h:12
-#| msgid ""
-#| "the current time\n"
-#| "the time you specify\n"
-#| "a time relative to the current time"
 msgid "a time relative to the current time"
 msgstr "una fecha relativa al momento actual"
 
@@ -9168,9 +9160,6 @@ msgid "ago"
 msgstr "atrás"
 
 #: ../filter/filter.ui.h:16
-#| msgid ""
-#| "ago\n"
-#| "in the future"
 msgid "in the future"
 msgstr "en el futuro"
 
@@ -9184,7 +9173,6 @@ msgid "seconds"
 msgstr "segundos"
 
 #: ../filter/filter.ui.h:20
-#| msgid "Save the current file"
 msgid "the current time"
 msgstr "la hora actual"
 
@@ -12040,7 +12028,6 @@ msgid "<b>Top Posting Option</b> (Not Recommended)"
 msgstr "<b>Opción publicar por encima</b> (no se recomienda)"
 
 #: ../mail/mail-config.ui.h:3
-#| msgid "No Information"
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
@@ -12121,7 +12108,6 @@ msgid "Color for _misspelled words:"
 msgstr "Color para las palabras _mal escritas:"
 
 #: ../mail/mail-config.ui.h:25
-#| msgid "Compose Message"
 msgid "Composing Messages"
 msgstr "Redactar mensajes"
 
@@ -12134,7 +12120,6 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Confirmar antes de compactar una carpeta"
 
 #: ../mail/mail-config.ui.h:29
-#| msgid "Default Priority:"
 msgid "Default Behavior"
 msgstr "Comportamiento predeterminado"
 
@@ -12143,8 +12128,6 @@ msgid "Default character e_ncoding:"
 msgstr "_Codificación de caracteres predeterminada:"
 
 #: ../mail/mail-config.ui.h:32
-#| msgid "Delete Memo"
-#| msgid_plural "Delete Memos"
 msgid "Delete Mail"
 msgstr "Borrar correo-e"
 
@@ -12157,7 +12140,6 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Firmar digitalmente los mensajes s_alientes (por omisión)"
 
 #: ../mail/mail-config.ui.h:36
-#| msgid "All Message _Headers"
 msgid "Displayed Message _Headers"
 msgstr "Ca_beceras mostradas del mensaje"
 
@@ -12241,7 +12223,6 @@ msgid "Highlight _quotations with"
 msgstr "Resaltar texto _citado con este color:"
 
 #: ../mail/mail-config.ui.h:59
-#| msgid "_Inline"
 msgid "Inline"
 msgstr "En línea"
 
@@ -12262,7 +12243,6 @@ msgid "Languages Table"
 msgstr "Tabla de idiomas"
 
 #: ../mail/mail-config.ui.h:65
-#| msgid "_Load Images"
 msgid "Loading Images"
 msgstr "Cargando imágenes"
 
@@ -12275,17 +12255,14 @@ msgid "Mailbox location"
 msgstr "Dirección del buzón"
 
 #: ../mail/mail-config.ui.h:68
-#| msgid "Messages"
 msgid "Message Display"
 msgstr "Mostrado de mensajes"
 
 #: ../mail/mail-config.ui.h:69
-#| msgid "Message contains"
 msgid "Message Fonts"
 msgstr "Tipografías del mensaje"
 
 #: ../mail/mail-config.ui.h:70
-#| msgid "Message Retract"
 msgid "Message Receipts"
 msgstr "Destinatarios del mensaje"
 
@@ -12307,7 +12284,6 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:75
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
-#| msgid "Personal Information"
 msgid "Optional Information"
 msgstr "Información opcional"
 
@@ -12332,12 +12308,10 @@ msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Preguntar al enviar mensajes que tan sólo tengan definido el _Cco"
 
 #: ../mail/mail-config.ui.h:83
-#| msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:85
-#| msgid "Print selected contacts"
 msgid "Printed Fonts"
 msgstr "Tipografías imprimidas"
 
@@ -12366,7 +12340,6 @@ msgid "Required Information"
 msgstr "Información requerida"
 
 #: ../mail/mail-config.ui.h:94
-#| msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgid "SSL is not supported in this build of Evolution"
 msgstr "Esta compilación de Evolution no soporta SSL"
 
@@ -12427,7 +12400,6 @@ msgid "Sent _Messages Folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
 #: ../mail/mail-config.ui.h:110
-#| msgid "Sent Messages"
 msgid "Sent and Draft Messages"
 msgstr "Mensajes enviados y borradores"
 
@@ -12492,10 +12464,10 @@ msgstr ""
 #: ../mail/mail-config.ui.h:126
 #| msgid ""
 #| "Type the name by which you would like to refer to this account.\n"
-#| "For example: \"Work\" or \"Personal\""
+#| "ple: \"Work\" or \"Personal\""
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
-"ple: \"Work\" or \"Personal\""
+"For example: \"Work\" or \"Personal\""
 msgstr ""
 "Teclee el nombre por el que quiere identificar a esta cuenta.\n"
 "Por ejemplo: «Trabajo» o «Personal»"
@@ -12553,7 +12525,6 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
 
 #: ../mail/mail-config.ui.h:140
-#| msgid "Language"
 msgid "_Languages"
 msgstr "_Idiomas"
 
@@ -12636,7 +12607,6 @@ msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
 #: ../mail/mail-config.ui.h:163 ../smime/gui/smime-ui.ui.h:49
-#| msgid "am"
 msgid "a"
 msgstr "am"
 
@@ -12645,7 +12615,6 @@ msgid "addresses"
 msgstr "direcciones"
 
 #: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:50
-#| msgid "by"
 msgid "b"
 msgstr "por"
 
@@ -12683,7 +12652,6 @@ msgid "Co_mpleted"
 msgstr "_Terminado"
 
 #: ../mail/mail-dialogs.ui.h:7
-#| msgid "Edit Signature"
 msgid "Digital Signature"
 msgstr "Firma digital"
 
@@ -12692,7 +12660,6 @@ msgid "Do Not Forward"
 msgstr "No reenviar"
 
 #: ../mail/mail-dialogs.ui.h:9
-#| msgid "Encrypt"
 msgid "Encryption"
 msgstr "Cifrado"
 
@@ -12733,7 +12700,6 @@ msgid "S_erver:"
 msgstr "S_ervidor:"
 
 #: ../mail/mail-dialogs.ui.h:22
-#| msgid "Search Folder source"
 msgid "Search Folder Sources"
 msgstr "Orígenes de las carpetas de búsqueda"
 
@@ -12748,10 +12714,10 @@ msgstr "Carpetas específicas"
 #: ../mail/mail-dialogs.ui.h:25
 #| msgid ""
 #| "The messages you have selected for follow up are listed below.\n"
-#| "Please select a follow up action from the \"Flag\" menu."
+#| "elect a follow up action from the \"Flag\" menu."
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
-"elect a follow up action from the \"Flag\" menu."
+"Please select a follow up action from the \"Flag\" menu."
 msgstr ""
 "Los mensajes que ha seleccionado para seguir se listan abajo.\n"
 "Seleccione una acción de seguimiento desde el menú «Marcar»."
@@ -14521,7 +14487,6 @@ msgid "Lo_gin:"
 msgstr "_Inicio de sesión:"
 
 #: ../modules/addressbook/ldap-config.ui.h:11
-#| msgid "Online"
 msgid "One"
 msgstr "Uno"
 
@@ -14555,7 +14520,6 @@ msgid "Supported Search Bases"
 msgstr "Bases de búsqueda soportadas"
 
 #: ../modules/addressbook/ldap-config.ui.h:20
-#| msgid "Distinguished name"
 msgid "Using distinguished name (DN)"
 msgstr "Usando Nombre distintivo (DN)"
 
@@ -16945,7 +16909,6 @@ msgid "Email:"
 msgstr "Correo-e:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
-#| msgid "_Junk List"
 msgid "Junk List:"
 msgstr "Lista de SPAM:"
 
@@ -17330,11 +17293,11 @@ msgstr "Cabeceras básicas y de _listas de correo predeterminadas"
 #| msgid ""
 #| "Give the extra headers that you need to fetch in addition to the above "
 #| "standard headers. \n"
-#| "You can ignore this if you choose \"All Headers\"."
+#| "can ignore this if you choose \"All Headers\"."
 msgid ""
 "Give the extra headers that you need to fetch in addition to the above "
 "standard headers. \n"
-"can ignore this if you choose \"All Headers\"."
+"You can ignore this if you choose \"All Headers\"."
 msgstr ""
 "Proporcione las cabeceras extra que necesite obtener además de las cabeceras "
 "estándar anteriores.\n"
@@ -17343,10 +17306,10 @@ msgstr ""
 #: ../plugins/imap-features/imap-headers.ui.h:6
 #| msgid ""
 #| "Select your IMAP Header Preferences. \n"
-#| "The more headers you have the more time it will take to download."
+#| "more headers you have the more time it will take to download."
 msgid ""
 "Select your IMAP Header Preferences. \n"
-"more headers you have the more time it will take to download."
+"The more headers you have the more time it will take to download."
 msgstr ""
 "Seleccione sus preferencias para las cabeceras IMAP. \n"
 "Cuantas más cabeceras tenga más tiempo se tardará en descargar."
@@ -17354,10 +17317,10 @@ msgstr ""
 #: ../plugins/imap-features/imap-headers.ui.h:8
 #| msgid ""
 #| "_Basic Headers - (Fastest) \n"
-#| "Use this if you do not have filters based on mailing lists"
+#| "this if you do not have filters based on mailing lists"
 msgid ""
 "_Basic Headers - (Fastest) \n"
-"this if you do not have filters based on mailing lists"
+"Use this if you do not have filters based on mailing lists"
 msgstr ""
 "Cabeceras _básicas - (rápido) \n"
 "Use esto si no tiene filtros basados en listas de correo"
@@ -18805,12 +18768,10 @@ msgid "_Publish Calendar Information"
 msgstr "_Publicar información del calendario"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
-#| msgid "Custom Notification"
 msgid "Custom Location"
 msgstr "Ubicación personalizado"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
-#| msgid "Day"
 msgid "Daily"
 msgstr "Diariamente"
 
@@ -18819,10 +18780,6 @@ msgid "FTP (with login)"
 msgstr "FTP (con registro)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#| msgid ""
-#| "Daily\n"
-#| "Weekly\n"
-#| "Manual (via Actions menu)"
 msgid "Manual (via Actions menu)"
 msgstr "Manual (por medio del menú Acciones)"
 
@@ -18831,7 +18788,6 @@ msgid "P_ort:"
 msgstr "_Puerto:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
-#| msgid "Public"
 msgid "Public FTP"
 msgstr "FTP público"
 
@@ -18856,7 +18812,6 @@ msgid "Service _type:"
 msgstr "_Tipo de servicio:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
-#| msgid "Source"
 msgid "Sources"
 msgstr "Orígenes"
 
@@ -18865,17 +18820,14 @@ msgid "Time _duration:"
 msgstr "_Duración:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
-#| msgid "WebDAV"
 msgid "WebDAV (HTTP)"
 msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
-#| msgid "Week"
 msgid "Weekly"
 msgstr "Semanalmente"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
-#| msgid "_Window"
 msgid "Windows share"
 msgstr "Compartición Windows"
 
@@ -18900,7 +18852,6 @@ msgid "_Username:"
 msgstr "_Usuario:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
-#| msgid "Call"
 msgid "iCal"
 msgstr "iCal"
 
@@ -20499,12 +20450,10 @@ msgid "Certificate Authority Trust"
 msgstr "Confianza en la autoridad certificadora"
 
 #: ../smime/gui/smime-ui.ui.h:8
-#| msgid "<b>Certificate Fields</b>"
 msgid "Certificate Fields"
 msgstr "Campos del certificado"
 
 #: ../smime/gui/smime-ui.ui.h:9
-#| msgid "<b>Certificate Hierarchy</b>"
 msgid "Certificate Hierarchy"
 msgstr "Jerarquía del certificado"
 
@@ -20553,12 +20502,10 @@ msgid "Expires On"
 msgstr "Caduca el"
 
 #: ../smime/gui/smime-ui.ui.h:22
-#| msgid "Field Name"
 msgid "Field Value"
 msgstr "Valor del campo"
 
 #: ../smime/gui/smime-ui.ui.h:23
-#| msgid "MD5 Fingerprint"
 msgid "Fingerprints"
 msgstr "Huellas"
 
@@ -20567,7 +20514,6 @@ msgid "Import"
 msgstr "Importar"
 
 #: ../smime/gui/smime-ui.ui.h:26
-#| msgid "Issued On"
 msgid "Issued By"
 msgstr "Emitido por"
 
@@ -20576,7 +20522,6 @@ msgid "Issued On"
 msgstr "Emitido el"
 
 #: ../smime/gui/smime-ui.ui.h:28
-#| msgid "Issued On"
 msgid "Issued To"
 msgstr "Emitido a"
 
@@ -20605,7 +20550,6 @@ msgid "SSL Server Certificate"
 msgstr "Certificado de servidor SSL"
 
 #: ../smime/gui/smime-ui.ui.h:36
-#| msgid "<b>This certificate has been verified for the following uses:</b>"
 msgid "This certificate has been verified for the following uses:"
 msgstr "Este certificado ha sido verificado para los siguientes usos:"
 
@@ -20626,7 +20570,6 @@ msgid "Trust this CA to identify web sites."
 msgstr "Confiar en esta AC para identificar sitios web."
 
 #: ../smime/gui/smime-ui.ui.h:41
-#| msgid "<b>Validity</b>"
 msgid "Validity"
 msgstr "Validez"
 
@@ -20923,7 +20866,6 @@ msgid "Select a Time Zone"
 msgstr "Seleccione una zona horaria"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
-#| msgid "Time _Zone"
 msgid "Time Zones"
 msgstr "Zonas horarias"
 
@@ -20942,7 +20884,6 @@ msgstr ""
 "Use el botón derecho del ratón para reducir el mapa al tamaño anterior."
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:7
-#| msgid "Selection Mode"
 msgid "_Selection"
 msgstr "_Selección"
 
@@ -21512,9 +21453,6 @@ msgid "Gene_ral Options"
 msgstr "Opciones gene_rales"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#| msgid ""
-#| "None\n"
-#| "Mail Receipt"
 msgid "Mail Receipt"
 msgstr "Destinatario del correo"
 
@@ -21535,17 +21473,14 @@ msgid "Sta_tus Tracking"
 msgstr "Seguimiento de es_tado"
 
 #: ../widgets/misc/e-send-options.ui.h:20
-#| msgid "S_tandard Font:"
 msgid "Standard"
 msgstr "Estándar"
 
 #: ../widgets/misc/e-send-options.ui.h:21
-#| msgid "Sta_tus Tracking"
 msgid "Status Tracking"
 msgstr "Seguimiento de estado"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#| msgid "Top secret"
 msgid "Top Secret"
 msgstr "Alto secreto"
 
