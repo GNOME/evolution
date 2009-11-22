@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-21 20:37+0000\n"
-"PO-Revision-Date: 2009-11-22 00:31+0100\n"
+"POT-Creation-Date: 2009-11-21 23:32+0000\n"
+"PO-Revision-Date: 2009-11-22 01:04+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -302,7 +302,6 @@ msgid "Ca_tegories..."
 msgstr "Ca_tegorías…"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:4
-#| msgid "_Calendar:"
 msgid "Calendar:"
 msgstr "Calendario:"
 
@@ -331,7 +330,6 @@ msgid "Email"
 msgstr "Correo-e"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:8
-#| msgid "_Free/Busy:"
 msgid "Free/Busy:"
 msgstr "Disponibilidad:"
 
@@ -346,7 +344,6 @@ msgid "Home"
 msgstr "Domicilio"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
-#| msgid "_Home Page:"
 msgid "Home Page:"
 msgstr "Página personal:"
 
@@ -355,7 +352,6 @@ msgid "Image"
 msgstr "Imagen"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
-#| msgid "<b>Instant Messaging</b>"
 msgid "Instant Messaging"
 msgstr "Mensajería instantánea"
 
@@ -401,17 +397,14 @@ msgid "Telephone"
 msgstr "Teléfono"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:22
-#| msgid "_Video Chat:"
 msgid "Video Chat:"
 msgstr "Charla por vídeo:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:23
-#| msgid "<b>Web Addresses</b>"
 msgid "Web Addresses"
 msgstr "Páginas web"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
-#| msgid "_Web Log:"
 msgid "Web Log:"
 msgstr "Diario web:"
 
@@ -770,7 +763,6 @@ msgid "Contact List Editor"
 msgstr "Editor de listas de contactos"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#| msgid "_Members"
 msgid "Members"
 msgstr "Miembros"
 
@@ -3276,7 +3268,6 @@ msgid "Add Alarm"
 msgstr "Añadir alerta"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
-#| msgid "Alarms"
 msgid "Alarm"
 msgstr "Alerta"
 
@@ -3297,7 +3288,6 @@ msgid "Options"
 msgstr "Opciones"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
-#| msgid "<b>Repeat</b>"
 msgid "Repeat"
 msgstr "Repetir"
 
@@ -3330,7 +3320,6 @@ msgid "after"
 msgstr "después del"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:15
-#| msgid "is before"
 msgid "before"
 msgstr "antes del"
 
@@ -3371,7 +3360,6 @@ msgid "minute(s)"
 msgstr "minuto(s)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
-#| msgid "location of appointment"
 msgid "start of appointment"
 msgstr "inicio de la cita"
 
@@ -3429,46 +3417,40 @@ msgid "Date only:"
 msgstr "Sólo fecha:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid ""
 #| "<i>%u and %d will be replaced by user and domain from the email address.</"
 #| "i>"
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
-"<i>%u y %d se reemplazarán por el usuario y el dominio de la dirección de "
-"correo-e.</i>"
+"%u y %d se reemplazarán por el usuario y el dominio de la dirección de "
+"correo-e."
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:3
 msgid "(Shown in a Day View)"
 msgstr "(Mostrado en la Vista diaria)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:4
-#| msgid "minutes"
 msgid "05 minutes"
 msgstr "05 minutos"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:5
-#| msgid "minutes"
 msgid "10 minutes"
 msgstr "10 minutos"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:6
-#| msgid "minutes"
 msgid "15 minutes"
 msgstr "15 minutos"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:7
-#| msgid "minutes"
 msgid "30 minutes"
 msgstr "30 minutos"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:8
-#| msgid "minutes"
 msgid "60 minutes"
 msgstr "60 minutos"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:10 ../mail/mail-config.ui.h:6
-#| msgid "Alarms"
 msgid "Alerts"
 msgstr "Alertas"
 
@@ -3483,15 +3465,13 @@ msgid "Day _ends:"
 msgstr "La jornada _acaba a las:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:13
-#| msgid "Day"
 msgid "Days"
 msgstr "Días"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:14
-#, fuzzy
 #| msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgid "Default Free/Busy Server"
-msgstr "<span weight=\"bold\">Servidor de disponibilidad predeterminado</span>"
+msgstr "Servidor de disponibilidad predeterminado"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:15
 msgid "Display"
@@ -3520,13 +3500,10 @@ msgid "General"
 msgstr "General"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:20
-#| msgid "hours"
-#| msgid_plural "hours"
 msgid "Hours"
 msgstr "Horas"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:21
-#| msgid "minutes"
 msgid "Minutes"
 msgstr "Minutos"
 
@@ -4378,9 +4355,6 @@ msgstr "durante"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:22
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:11
-#| msgid ""
-#| "for\n"
-#| "until"
 msgid "until"
 msgstr "hasta"
 
@@ -4602,12 +4576,10 @@ msgid "Every"
 msgstr "Cada"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:2
-#| msgid "<b>Exceptions</b>"
 msgid "Exceptions"
 msgstr "Excepciones"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:3 ../mail/mail-config.ui.h:84
-#| msgid "_Preview"
 msgid "Preview"
 msgstr "Vista previa"
 
@@ -9147,7 +9119,6 @@ msgid "Show filters for mail:"
 msgstr "Mostrar filtros para el correo:"
 
 #: ../filter/filter.ui.h:4
-#, fuzzy
 #| msgid ""
 #| "The message's date will be compared against\n"
 #| "12:00am of the date specified."
@@ -9156,10 +9127,9 @@ msgid ""
 "0am of the date specified."
 msgstr ""
 "La fecha del mensaje se comparará con las\n"
-"12:00am de la fecha especificada aquí."
+"00:00 de la fecha aquí especificada."
 
 #: ../filter/filter.ui.h:6
-#, fuzzy
 #| msgid ""
 #| "The message's date will be compared against\n"
 #| "the current time when filtering occurs."
@@ -9171,7 +9141,6 @@ msgstr ""
 "fecha actual del momento del filtrado."
 
 #: ../filter/filter.ui.h:8
-#, fuzzy
 #| msgid ""
 #| "The message's date will be compared against\n"
 #| "a time relative to when filtering occurs."
@@ -9187,30 +9156,23 @@ msgid "_Filter Rules"
 msgstr "Reglas de _filtrado"
 
 #: ../filter/filter.ui.h:12
-#, fuzzy
 #| msgid ""
 #| "the current time\n"
 #| "the time you specify\n"
 #| "a time relative to the current time"
 msgid "a time relative to the current time"
-msgstr ""
-"el momento actual\n"
-"el hora que especifique\n"
-"una fecha relativa al momento actual"
+msgstr "una fecha relativa al momento actual"
 
 #: ../filter/filter.ui.h:13
 msgid "ago"
 msgstr "atrás"
 
 #: ../filter/filter.ui.h:16
-#, fuzzy
 #| msgid ""
 #| "ago\n"
 #| "in the future"
 msgid "in the future"
-msgstr ""
-"hace\n"
-"en el futuro"
+msgstr "en el futuro"
 
 #: ../filter/filter.ui.h:18
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -9222,10 +9184,9 @@ msgid "seconds"
 msgstr "segundos"
 
 #: ../filter/filter.ui.h:20
-#, fuzzy
 #| msgid "Save the current file"
 msgid "the current time"
-msgstr "Guardar archivo actual"
+msgstr "la hora actual"
 
 #: ../filter/filter.ui.h:21
 msgid "the time you specify"
@@ -12079,10 +12040,9 @@ msgid "<b>Top Posting Option</b> (Not Recommended)"
 msgstr "<b>Opción publicar por encima</b> (no se recomienda)"
 
 #: ../mail/mail-config.ui.h:3
-#, fuzzy
 #| msgid "No Information"
 msgid "Account Information"
-msgstr "Sin información"
+msgstr "Información de la cuenta"
 
 #: ../mail/mail-config.ui.h:4
 msgid "Add Ne_w Signature..."
@@ -12161,10 +12121,9 @@ msgid "Color for _misspelled words:"
 msgstr "Color para las palabras _mal escritas:"
 
 #: ../mail/mail-config.ui.h:25
-#, fuzzy
 #| msgid "Compose Message"
 msgid "Composing Messages"
-msgstr "Redactar un mensaje"
+msgstr "Redactar mensajes"
 
 #: ../mail/mail-config.ui.h:26 ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
@@ -12175,21 +12134,19 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Confirmar antes de compactar una carpeta"
 
 #: ../mail/mail-config.ui.h:29
-#, fuzzy
 #| msgid "Default Priority:"
 msgid "Default Behavior"
-msgstr "Prioridad predeterminada:"
+msgstr "Comportamiento predeterminado"
 
 #: ../mail/mail-config.ui.h:30
 msgid "Default character e_ncoding:"
 msgstr "_Codificación de caracteres predeterminada:"
 
 #: ../mail/mail-config.ui.h:32
-#, fuzzy
 #| msgid "Delete Memo"
 #| msgid_plural "Delete Memos"
 msgid "Delete Mail"
-msgstr "Borrar nota"
+msgstr "Borrar correo-e"
 
 #: ../mail/mail-config.ui.h:33
 msgid "Delete junk messages on e_xit"
@@ -12200,10 +12157,9 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Firmar digitalmente los mensajes s_alientes (por omisión)"
 
 #: ../mail/mail-config.ui.h:36
-#, fuzzy
 #| msgid "All Message _Headers"
 msgid "Displayed Message _Headers"
-msgstr "_Todas las cabeceras del mensaje"
+msgstr "Ca_beceras mostradas del mensaje"
 
 #: ../mail/mail-config.ui.h:37
 msgid "Do not format messages when text si_ze exceeds"
@@ -12285,10 +12241,9 @@ msgid "Highlight _quotations with"
 msgstr "Resaltar texto _citado con este color:"
 
 #: ../mail/mail-config.ui.h:59
-#, fuzzy
 #| msgid "_Inline"
 msgid "Inline"
-msgstr "_Incluido en línea"
+msgstr "En línea"
 
 #: ../mail/mail-config.ui.h:60
 msgid "Inline (Outlook style)"
@@ -12307,10 +12262,9 @@ msgid "Languages Table"
 msgstr "Tabla de idiomas"
 
 #: ../mail/mail-config.ui.h:65
-#, fuzzy
 #| msgid "_Load Images"
 msgid "Loading Images"
-msgstr "Cargar _imágenes"
+msgstr "Cargando imágenes"
 
 #: ../mail/mail-config.ui.h:66
 msgid "Mail Headers Table"
@@ -12321,22 +12275,19 @@ msgid "Mailbox location"
 msgstr "Dirección del buzón"
 
 #: ../mail/mail-config.ui.h:68
-#, fuzzy
 #| msgid "Messages"
 msgid "Message Display"
-msgstr "Mensajes"
+msgstr "Mostrado de mensajes"
 
 #: ../mail/mail-config.ui.h:69
-#, fuzzy
 #| msgid "Message contains"
 msgid "Message Fonts"
-msgstr "El mensaje contiene"
+msgstr "Tipografías del mensaje"
 
 #: ../mail/mail-config.ui.h:70
-#, fuzzy
 #| msgid "Message Retract"
 msgid "Message Receipts"
-msgstr "Retirada de correo"
+msgstr "Destinatarios del mensaje"
 
 #: ../mail/mail-config.ui.h:71
 msgid "No _Proxy for:"
@@ -12356,10 +12307,9 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:75
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
-#, fuzzy
 #| msgid "Personal Information"
 msgid "Optional Information"
-msgstr "Información personal"
+msgstr "Información opcional"
 
 #: ../mail/mail-config.ui.h:77
 msgid "Or_ganization:"
@@ -12382,19 +12332,16 @@ msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Preguntar al enviar mensajes que tan sólo tengan definido el _Cco"
 
 #: ../mail/mail-config.ui.h:83
-#, fuzzy
 #| msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgid "Pretty Good Privacy (PGP/GPG)"
-msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
+msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:85
-#, fuzzy
 #| msgid "Print selected contacts"
 msgid "Printed Fonts"
-msgstr "Imprimir los contactos seleccionados"
+msgstr "Tipografías imprimidas"
 
 #: ../mail/mail-config.ui.h:86
-#| msgid "Junk Settings"
 msgid "Proxy Settings"
 msgstr "Ajustes del proxy"
 
@@ -12415,15 +12362,13 @@ msgid "Remember _password"
 msgstr "Recordar _contraseña"
 
 #: ../mail/mail-config.ui.h:92
-#| msgid "Server Information"
 msgid "Required Information"
 msgstr "Información requerida"
 
 #: ../mail/mail-config.ui.h:94
-#, fuzzy
 #| msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgid "SSL is not supported in this build of Evolution"
-msgstr "<b>SSL no está soportado en esta compilación de Evolution</b>"
+msgstr "Esta compilación de Evolution no soporta SSL"
 
 #: ../mail/mail-config.ui.h:95
 msgid "S_earch for sender photograph only in local address books"
@@ -12470,7 +12415,6 @@ msgid "Select Sent Folder"
 msgstr "Seleccionar la carpeta de enviados"
 
 #: ../mail/mail-config.ui.h:107
-#| msgid "<b>Sender Photograph</b>"
 msgid "Sender Photograph"
 msgstr "Foto del remitente"
 
@@ -12483,17 +12427,15 @@ msgid "Sent _Messages Folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
 #: ../mail/mail-config.ui.h:110
-#, fuzzy
 #| msgid "Sent Messages"
 msgid "Sent and Draft Messages"
-msgstr "Mensajes enviados"
+msgstr "Mensajes enviados y borradores"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Ser_ver requires authentication"
 msgstr "El ser_vidor requiere autenticación"
 
 #: ../mail/mail-config.ui.h:112
-#| msgid "Server Information"
 msgid "Server Configuration"
 msgstr "Configuración del servidor"
 
@@ -12502,7 +12444,6 @@ msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
 #: ../mail/mail-config.ui.h:114
-#| msgid "Signatures"
 msgid "Sig_natures"
 msgstr "_Firmas"
 
@@ -12613,10 +12554,9 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
 
 #: ../mail/mail-config.ui.h:140
-#, fuzzy
 #| msgid "Language"
 msgid "_Languages"
-msgstr "Idioma"
+msgstr "_Idiomas"
 
 #: ../mail/mail-config.ui.h:141
 msgid "_Load images in messages from contacts"
@@ -12746,17 +12686,15 @@ msgid "Co_mpleted"
 msgstr "_Terminado"
 
 #: ../mail/mail-dialogs.ui.h:7
-#, fuzzy
 #| msgid "Edit Signature"
 msgid "Digital Signature"
-msgstr "Editar firma"
+msgstr "Firma digital"
 
 #: ../mail/mail-dialogs.ui.h:8
 msgid "Do Not Forward"
 msgstr "No reenviar"
 
 #: ../mail/mail-dialogs.ui.h:9
-#, fuzzy
 #| msgid "Encrypt"
 msgid "Encryption"
 msgstr "Cifrado"
@@ -12798,10 +12736,9 @@ msgid "S_erver:"
 msgstr "S_ervidor:"
 
 #: ../mail/mail-dialogs.ui.h:22
-#, fuzzy
 #| msgid "Search Folder source"
 msgid "Search Folder Sources"
-msgstr "Origen de la carpeta de búsqueda"
+msgstr "Orígenes de las carpetas de búsqueda"
 
 #: ../mail/mail-dialogs.ui.h:23
 msgid "Security Information"
@@ -14588,10 +14525,9 @@ msgid "Lo_gin:"
 msgstr "_Inicio de sesión:"
 
 #: ../modules/addressbook/ldap-config.ui.h:11
-#, fuzzy
 #| msgid "Online"
 msgid "One"
-msgstr "En línea"
+msgstr "Uno"
 
 #: ../modules/addressbook/ldap-config.ui.h:13
 msgid "Search Filter"
@@ -14623,10 +14559,9 @@ msgid "Supported Search Bases"
 msgstr "Bases de búsqueda soportadas"
 
 #: ../modules/addressbook/ldap-config.ui.h:20
-#, fuzzy
 #| msgid "Distinguished name"
 msgid "Using distinguished name (DN)"
-msgstr "Nombre distintivo"
+msgstr "Usando Nombre distintivo (DN)"
 
 #: ../modules/addressbook/ldap-config.ui.h:21
 msgid "Using email address"
@@ -17014,10 +16949,9 @@ msgid "Email:"
 msgstr "Correo-e:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
-#, fuzzy
 #| msgid "_Junk List"
 msgid "Junk List:"
-msgstr "Lista de _SPAM"
+msgstr "Lista de SPAM:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:5
 #: ../plugins/publish-calendar/publish-calendar.c:484
@@ -21595,7 +21529,6 @@ msgid "Deli_vered and opened"
 msgstr "_Entregado y abierto"
 
 #: ../widgets/misc/e-send-options.ui.h:5
-#| msgid "<b>Delivery Options</b>"
 msgid "Delivery Options"
 msgstr "Opciones de entrega"
 
@@ -21618,7 +21551,6 @@ msgstr ""
 "Recibos de correo"
 
 #: ../widgets/misc/e-send-options.ui.h:13
-#| msgid "Priority"
 msgid "Proprietary"
 msgstr "Propietario"
 
@@ -21627,7 +21559,6 @@ msgid "R_eply requested"
 msgstr "_Respuesta solicitada"
 
 #: ../widgets/misc/e-send-options.ui.h:16
-#| msgid "<b>Return Notification</b>"
 msgid "Return Notification"
 msgstr "Devolver notificación"
 
