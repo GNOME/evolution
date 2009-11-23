@@ -1646,6 +1646,7 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 G_LOCK_DEFINE_STATIC (contact_cache);
 static GHashTable *contact_cache = NULL; /* key is lowercased contact email; value is EBook pointer (just for comparison) where it comes from */
 static GHashTable *emu_books_hash = NULL; /* key is source ID; value is pointer to EBook */
+static GHashTable *emu_broken_books_hash = NULL; /* key is source ID; value is same pointer as key; this is hash of broken books, which failed to open for some reason */
 static ESourceList *emu_books_source_list = NULL;
 
 static gboolean
@@ -1665,6 +1666,7 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 	if (!emu_books_source_list) {
 		mail_call_main (MAIL_CALL_p_p, (MailMainFunc)emu_addr_setup, &emu_books_source_list);
 		emu_books_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+		emu_broken_books_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 		contact_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	}
 
@@ -1710,6 +1712,12 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 		gboolean cached_book = FALSE;
 		GError *err = NULL;
 
+		/* failed to load this book last time, skip it now */
+		if (g_hash_table_lookup (emu_broken_books_hash, e_source_peek_uid (source)) != NULL) {
+			d(printf ("%s: skipping broken book '%s'\n", G_STRFUNC, e_source_peek_name (source)));
+			continue;
+		}
+
 		d(printf(" checking '%s'\n", e_source_get_uri(source)));
 
 		hook_book = mail_cancel_hook_add (emu_addr_cancel_book, book);
@@ -1723,7 +1731,11 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 				if (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
 					stop = TRUE;
 				} else if (err) {
-					g_warning ("%s: Unable to create addressbook: %s", G_STRFUNC, err->message);
+					gchar *source_uid = g_strdup (e_source_peek_uid (source));
+
+					g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
+
+					g_warning ("%s: Unable to create addressbook '%s': %s", G_STRFUNC, e_source_peek_name (source), err->message);
 				}
 				g_clear_error (&err);
 			} else if (!stop && !try_open_e_book (book, TRUE, &err)) {
@@ -1733,7 +1745,11 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 				if (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
 					stop = TRUE;
 				} else if (err) {
-					g_warning ("%s: Unable to open addressbook: %s", G_STRFUNC, err->message);
+					gchar *source_uid = g_strdup (e_source_peek_uid (source));
+
+					g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
+
+					g_warning ("%s: Unable to open addressbook '%s': %s", G_STRFUNC, e_source_peek_name (source), err->message);
 				}
 				g_clear_error (&err);
 			}
@@ -1765,8 +1781,13 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 			}
 		} else if (book) {
 			stop = stop || (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED));
-			if (err && !stop)
-				g_warning ("%s: Can't get contacts: %s", G_STRFUNC, err->message);
+			if (err && !stop) {
+				gchar *source_uid = g_strdup (e_source_peek_uid (source));
+
+				g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
+
+				g_warning ("%s: Can't get contacts from '%s': %s", G_STRFUNC, e_source_peek_name (source), err->message);
+			}
 			g_clear_error (&err);
 		}
 
@@ -1988,6 +2009,11 @@ emu_free_mail_cache (void)
 	if (emu_books_hash) {
 		g_hash_table_destroy (emu_books_hash);
 		emu_books_hash = NULL;
+	}
+
+	if (emu_broken_books_hash) {
+		g_hash_table_destroy (emu_broken_books_hash);
+		emu_broken_books_hash = NULL;
 	}
 
 	if (emu_books_source_list) {
