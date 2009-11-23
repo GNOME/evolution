@@ -249,6 +249,7 @@
       <applyto>/apps/evolution/shell/network_config/proxy_type</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>0</default>
       <locale name="C">
         <short>Proxy configuration mode</short>
         <long>Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 representing "use system settings", "no proxy", "use manual proxy configuration" and "use proxy configuration provided in the autoconfig url" respectively.</long>
