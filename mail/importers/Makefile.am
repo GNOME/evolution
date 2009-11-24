@@ -29,6 +29,7 @@ libevolution_mail_importers_la_LDFLAGS = $(NO_UNDEFINED)
 libevolution_mail_importers_la_LIBADD =				\
 	$(WIN32_BOOTSTRAP_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(GNOME_PLATFORM_LIBS)					\
