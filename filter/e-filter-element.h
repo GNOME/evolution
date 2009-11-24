@@ -27,6 +27,7 @@
 #include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
+#include <e-util/e-error.h>
 
 #define E_TYPE_FILTER_ELEMENT \
 	(e_filter_element_get_type ())
@@ -68,7 +69,7 @@ struct _EFilterElementClass {
 	GObjectClass parent_class;
 
 	gboolean	(*validate)		(EFilterElement *element,
-						 GtkWindow *error_parent);
+						 EError **error);
 	gint		(*eq)			(EFilterElement *element_a,
 						 EFilterElement *element_b);
 
@@ -95,7 +96,7 @@ EFilterElement	*e_filter_element_new		(void);
 void		e_filter_element_set_data	(EFilterElement *element,
 						 gpointer data);
 gboolean	e_filter_element_validate	(EFilterElement *element,
-						 GtkWindow *error_parent);
+						 EError **error);
 gint		e_filter_element_eq		(EFilterElement *element_a,
 						 EFilterElement *element_b);
 void		e_filter_element_xml_create	(EFilterElement *element,

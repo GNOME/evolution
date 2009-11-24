@@ -299,14 +299,17 @@ button_clicked (GtkButton *button, EFilterDatespec *fds)
 
 static gboolean
 filter_datespec_validate (EFilterElement *element,
-                          GtkWindow *error_parent)
+                          EError **error)
 {
 	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
 	gboolean valid;
 
+	g_warn_if_fail (error == NULL || *error == NULL);
+
 	valid = fds->type != FDST_UNKNOWN;
 	if (!valid) {
-		e_error_run (error_parent, "filter:no-date", NULL);
+		if (error)
+			*error = e_error_new ("filter:no-date", NULL);
 	}
 
 	return valid;

@@ -239,11 +239,14 @@ more_parts (GtkWidget *button,
 	if (data->rule->parts) {
 		EFilterPart *part;
 		GList *l;
+		EError *error = NULL;
 
 		l = g_list_last (data->rule->parts);
 		part = l->data;
-		if (!e_filter_part_validate (part, GTK_WINDOW (gtk_widget_get_toplevel (button))))
+		if (!e_filter_part_validate (part, &error)) {
+			e_error_run_dialog (GTK_WINDOW (gtk_widget_get_toplevel (button)), error);
 			return;
+		}
 	}
 
 	/* create a new rule entry, use the first type of rule */
@@ -353,13 +356,15 @@ filter_rule_finalize (GObject *object)
 
 static gint
 filter_rule_validate (EFilterRule *rule,
-                      GtkWindow *error_parent)
+                      EError **error)
 {
 	gint valid = TRUE;
 	GList *parts;
 
+	g_warn_if_fail (error == NULL || *error == NULL);
 	if (!rule->name || !*rule->name) {
-		e_error_run (error_parent, "filter:no-name", NULL);
+		if (error)
+			*error = e_error_new ("filter:no-name", NULL);
 
 		return FALSE;
 	}
@@ -368,7 +373,7 @@ filter_rule_validate (EFilterRule *rule,
 	parts = rule->parts;
 	valid = parts != NULL;
 	while (parts && valid) {
-		valid = e_filter_part_validate ((EFilterPart *) parts->data, error_parent);
+		valid = e_filter_part_validate ((EFilterPart *) parts->data, error);
 		parts = parts->next;
 	}
 
@@ -907,7 +912,7 @@ e_filter_rule_set_source (EFilterRule *rule,
 
 gint
 e_filter_rule_validate (EFilterRule *rule,
-                        GtkWindow *error_parent)
+                        EError **error)
 {
 	EFilterRuleClass *class;
 
@@ -916,7 +921,7 @@ e_filter_rule_validate (EFilterRule *rule,
 	class = E_FILTER_RULE_GET_CLASS (rule);
 	g_return_val_if_fail (class->validate != NULL, FALSE);
 
-	return class->validate (rule, error_parent);
+	return class->validate (rule, error);
 }
 
 gint

@@ -92,14 +92,17 @@ new_rule_response (GtkWidget *dialog,
 	if (button == GTK_RESPONSE_OK) {
 		EFilterRule *rule = g_object_get_data ((GObject *) dialog, "rule");
 		gchar *user = g_object_get_data ((GObject *) dialog, "path");
+		EError *error = NULL;
 
-		if (!e_filter_rule_validate (rule, GTK_WINDOW (dialog))) {
-			/* no need to popup a dialog because the validate code does that. */
-			return;
+		if (!e_filter_rule_validate (rule, &error)) {
+			e_error_run_dialog (GTK_WINDOW (dialog), error);
+			e_error_free (error);
 		}
 
 		if (e_rule_context_find_rule (context, rule->name, rule->source)) {
-			e_error_run ((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
+			e_error_run_dialog_for_args ((GtkWindow *)dialog,
+						     "filter:bad-name-notunique",
+						     rule->name, NULL);
 
 			return;
 		}

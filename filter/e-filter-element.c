@@ -42,7 +42,7 @@ static gpointer parent_class;
 
 static gboolean
 filter_element_validate (EFilterElement *element,
-                         GtkWindow *error_parent)
+                         EError **error)
 {
 	return TRUE;
 }
@@ -249,22 +249,16 @@ e_filter_element_new (void)
 
 gboolean
 e_filter_element_validate (EFilterElement *element,
-                           GtkWindow *error_parent)
+                           EError **error)
 {
 	EFilterElementClass *class;
 
 	g_return_val_if_fail (E_IS_FILTER_ELEMENT (element), FALSE);
 
-	/* Warn but proceed if no parent window was given. */
-	if (error_parent != NULL)
-		g_return_val_if_fail (GTK_IS_WINDOW (error_parent), FALSE);
-	else
-		g_warning ("%s() called with no parent window", G_STRFUNC);
-
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
 	g_return_val_if_fail (class->validate != NULL, FALSE);
 
-	return class->validate (element, error_parent);
+	return class->validate (element, error);
 }
 
 gint

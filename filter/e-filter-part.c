@@ -105,7 +105,7 @@ e_filter_part_new (void)
 
 gboolean
 e_filter_part_validate (EFilterPart *part,
-                        GtkWindow *error_parent)
+                        EError **error)
 {
 	GList *link;
 
@@ -115,7 +115,7 @@ e_filter_part_validate (EFilterPart *part,
 	for (link = part->elements; link != NULL; link = g_list_next (link)) {
 		EFilterElement *element = link->data;
 
-		if (!e_filter_element_validate (element, error_parent))
+		if (!e_filter_element_validate (element, error))
 			return FALSE;
 	}
 

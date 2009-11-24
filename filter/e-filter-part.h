@@ -71,7 +71,7 @@ struct _EFilterPartClass {
 GType		e_filter_part_get_type		(void);
 EFilterPart *	e_filter_part_new		(void);
 gboolean	e_filter_part_validate		(EFilterPart *part,
-						 GtkWindow *error_parent);
+						 EError **error);
 gint		e_filter_part_eq		(EFilterPart *part_a,
 						 EFilterPart *part_b);
 gint		e_filter_part_xml_create	(EFilterPart *part,
