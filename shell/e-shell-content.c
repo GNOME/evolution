@@ -1472,6 +1472,7 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	ERuleContext *context;
 	const gchar *user_filename;
 	gint response;
+	EError *error = NULL;
 
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
@@ -1516,8 +1517,12 @@ run:
 	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_APPLY)
 		goto exit;
 
-	if (!e_filter_rule_validate (rule, GTK_WINDOW (dialog)))
+	if (!e_filter_rule_validate (rule, &error)) {
+		e_error_run_dialog (GTK_WINDOW (dialog), error);
+		e_error_free (error);
+		error = NULL;
 		goto run;
+	}
 
 	e_shell_content_set_search_rule (shell_content, rule);
 
@@ -1571,6 +1576,7 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	const gchar *user_filename;
 	gchar *search_name;
 	gint response;
+	EError *error = NULL;
 
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
@@ -1619,8 +1625,12 @@ run:
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
 
-	if (!e_filter_rule_validate (rule, GTK_WINDOW (dialog)))
+	if (!e_filter_rule_validate (rule, &error)) {
+		e_error_run_dialog (GTK_WINDOW (dialog), error);
+		e_error_free (error);
+		error = NULL;
 		goto run;
+	}
 
 	e_rule_context_add_rule (context, rule);
 	e_rule_context_save (context, user_filename);

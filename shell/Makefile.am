@@ -134,6 +134,7 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/filter/libfilter.la				\
 	$(TZDIALOG_LIBS)						\
 	$(SHELL_LIBS) \
 	$(EVOLUTIONICONRC)

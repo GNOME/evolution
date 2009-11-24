@@ -752,7 +752,7 @@ action_forget_passwords_cb (GtkAction *action,
 {
 	gint response;
 
-	response = e_error_run (
+	response = e_error_run_dialog_for_args (
 		GTK_WINDOW (shell_window), "shell:forget-passwords", NULL);
 
 	if (response == GTK_RESPONSE_OK)
