@@ -431,7 +431,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 			l = l->next;
 		}
 
-		dialog = e_error_new (e_shell_get_active_window (NULL), "mail:filter-updated", s->str, euri, NULL);
+		dialog = e_error_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", s->str, euri, NULL);
 		g_string_free(s, TRUE);
 		em_utils_show_info_silent (dialog);
 

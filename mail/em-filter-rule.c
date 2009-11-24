@@ -35,7 +35,7 @@
 
 #define d(x)
 
-static gint validate(EFilterRule *fr, GtkWindow *error_parent);
+static gint validate(EFilterRule *fr, EError **error);
 static gint filter_eq(EFilterRule *fr, EFilterRule *cm);
 static xmlNodePtr xml_encode(EFilterRule *fr);
 static gint xml_decode(EFilterRule *fr, xmlNodePtr, ERuleContext *rc);
@@ -172,18 +172,18 @@ em_filter_rule_build_action(EMFilterRule *fr, GString *out)
 }
 
 static gint
-validate(EFilterRule *fr, GtkWindow *error_parent)
+validate(EFilterRule *fr, EError **error)
 {
 	EMFilterRule *ff =(EMFilterRule *)fr;
 	GList *parts;
 	gint valid;
 
-        valid = E_FILTER_RULE_CLASS(parent_class)->validate (fr, error_parent);
+	valid = E_FILTER_RULE_CLASS(parent_class)->validate (fr, error);
 
 	/* validate rule actions */
 	parts = ff->actions;
 	while (parts && valid) {
-		valid = e_filter_part_validate ((EFilterPart *)parts->data, error_parent);
+		valid = e_filter_part_validate ((EFilterPart *)parts->data, error);
 		parts = parts->next;
 	}
 

@@ -269,10 +269,10 @@ mail_msg_check_error (gpointer msg)
 
 	if (m->info->desc
 	    && (what = m->info->desc (m))) {
-		gd = (GtkDialog *)e_error_new(parent, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *)e_error_new_dialog_for_args (parent, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
 		g_free(what);
 	} else
-		gd = (GtkDialog *)e_error_new(parent, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *)e_error_new_dialog_for_args (parent, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
 
 	g_hash_table_insert(active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);

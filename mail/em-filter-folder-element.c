@@ -40,7 +40,7 @@
 
 #define d(x)
 
-static gboolean validate(EFilterElement *fe, GtkWindow *error_parent);
+static gboolean validate(EFilterElement *fe, EError **error);
 static gint folder_eq(EFilterElement *fe, EFilterElement *cm);
 static void xml_create(EFilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(EFilterElement *fe);
@@ -139,14 +139,17 @@ em_filter_folder_element_set_value(EMFilterFolderElement *ff, const gchar *uri)
 }
 
 static gboolean
-validate(EFilterElement *fe, GtkWindow *error_parent)
+validate(EFilterElement *fe, EError **error)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+
+	g_warn_if_fail (error == NULL || *error == NULL);
 
 	if (ff->uri && *ff->uri) {
 		return TRUE;
 	} else {
-		e_error_run (error_parent, "mail:no-folder", NULL);
+		if (error)
+			*error = e_error_new ("mail:no-folder", NULL);
 
 		return FALSE;
 	}

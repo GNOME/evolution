@@ -352,7 +352,7 @@ user_message_exec (struct _user_message_msg *m)
 			g_return_if_reached ();
 	}
 
-	user_message_dialog = e_error_new (
+	user_message_dialog = e_error_new_dialog_for_args (
 		e_shell_get_active_window (NULL), error_type, m->prompt, NULL);
 	g_object_set (
 		user_message_dialog, "allow_shrink", TRUE,
@@ -362,7 +362,7 @@ user_message_exec (struct _user_message_msg *m)
 	 * emit a status bar message or present the dialog immediately, the
 	 * thought being if there's more than one button then something is
 	 * probably blocked until the user responds. */
-	if (e_error_count_buttons (user_message_dialog) > 1) {
+	if (e_error_dialog_count_buttons (user_message_dialog) > 1) {
 		if (m->ismain) {
 			gint response;
 

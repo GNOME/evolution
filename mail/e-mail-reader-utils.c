@@ -96,7 +96,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	if (!prompt_delete_in_vfolder)
 		return TRUE;
 
-	dialog = e_error_new (
+	dialog = e_error_new_dialog_for_args (
 		window, "mail:ask-delete-vfolder-msg",
 		folder->full_name, NULL);
 

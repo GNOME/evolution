@@ -44,7 +44,7 @@
 
 #define d(x)
 
-static gint validate(EFilterRule *, GtkWindow *error_parent);
+static gint validate(EFilterRule *, EError **error);
 static gint vfolder_eq(EFilterRule *fr, EFilterRule *cm);
 static xmlNodePtr xml_encode(EFilterRule *);
 static gint xml_decode(EFilterRule *, xmlNodePtr, ERuleContext *f);
@@ -101,7 +101,7 @@ em_vfolder_rule_class_init(EMVFolderRuleClass *klass)
 	object_class->finalize = em_vfolder_rule_finalise;
 
 	/* override methods */
-	fr_class->validate   = validate;
+	fr_class->validate = validate;
 	fr_class->eq = vfolder_eq;
 	fr_class->xml_encode = xml_encode;
 	fr_class->xml_decode = xml_decode;
@@ -208,23 +208,26 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const gchar *last)
 }
 
 static gint
-validate(EFilterRule *fr, GtkWindow *error_parent)
+validate(EFilterRule *fr, EError **error)
 {
 	g_return_val_if_fail(fr != NULL, 0);
+	g_warn_if_fail (error == NULL || *error == NULL);
 
 	if (!fr->name || !*fr->name) {
-		e_error_run (error_parent, "mail:no-name-vfolder", NULL);
+		if (error)
+			*error = e_error_new ("mail:no-name-vfolder", NULL);
 		return 0;
 	}
 
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
 	if (((EMVFolderRule *)fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC && ((EMVFolderRule *)fr)->sources == NULL) {
-		e_error_run (error_parent, "mail:vfolder-no-source", NULL);
+		if (error)
+			*error = e_error_new ("mail:vfolder-no-source", NULL);
 		return 0;
 	}
 
-	return E_FILTER_RULE_CLASS(parent_class)->validate (fr, error_parent);
+	return E_FILTER_RULE_CLASS(parent_class)->validate (fr, error);
 }
 
 static gint

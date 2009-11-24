@@ -439,7 +439,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 
 	/* Check for invalid characters. */
 	if (strchr (new_name, '/') != NULL) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
 			old_name, new_name,
 			_("Folder names cannot contain '/'"), NULL);
@@ -458,7 +458,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	folder_info = camel_store_get_folder_info (
 		store, new_full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
 	if (folder_info != NULL) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			parent, "mail:no-rename-folder-exists",
 			old_name, new_name, NULL);
 		camel_store_free_folder_info (store, folder_info);
@@ -468,7 +468,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	/* XXX This needs to be asynchronous. */
 	camel_store_rename_folder (store, old_full_name, new_full_name, &ex);
 	if (camel_exception_is_set (&ex)) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
 			old_full_name, new_full_name, ex.desc, NULL);
 		goto exit;

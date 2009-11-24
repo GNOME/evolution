@@ -410,12 +410,12 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && num_post == 0) {
-		e_error_run((GtkWindow *)composer, "mail:send-no-recipients", NULL);
+		e_error_run_dialog_for_args ((GtkWindow *)composer, "mail:send-no-recipients", NULL);
 		goto finished;
 	}
 
 	if (invalid_addrs) {
-		if (e_error_run ((GtkWindow *)composer, strstr (invalid_addrs->str, ", ") ? "mail:ask-send-invalid-recip-multi" : "mail:ask-send-invalid-recip-one", invalid_addrs->str, NULL) == GTK_RESPONSE_CANCEL) {
+		if (e_error_run_dialog_for_args ((GtkWindow *)composer, strstr (invalid_addrs->str, ", ") ? "mail:ask-send-invalid-recip-multi" : "mail:ask-send-invalid-recip-one", invalid_addrs->str, NULL) == GTK_RESPONSE_CANCEL) {
 			g_string_free (invalid_addrs, TRUE);
 			goto finished;
 		}
@@ -521,7 +521,7 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 	if (!account || !account->enabled) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			"mail:send-no-account-enabled", NULL);
 		return;
@@ -680,7 +680,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 		mail_msg_wait (id);
 
 		if (!folder || !account->enabled) {
-			if (e_error_run((GtkWindow *)composer, "mail:ask-default-drafts", NULL) != GTK_RESPONSE_YES) {
+			if (e_error_run_dialog_for_args ((GtkWindow *)composer, "mail:ask-default-drafts", NULL) != GTK_RESPONSE_YES) {
 				g_object_unref(composer);
 				camel_object_unref(msg);
 				if (sdi->emcs)
@@ -1505,7 +1505,7 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	}
 
 	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
-	    && e_error_run (e_shell_get_active_window (NULL), "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
+	    && e_error_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
 		em_utils_send_receipt(folder, msg);
 }
 

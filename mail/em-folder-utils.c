@@ -282,7 +282,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	local_store = e_mail_local_get_store ();
 
 	if (!(fromstore = camel_session_get_store (session, cfd->fi->uri, &ex))) {
-		e_error_run (e_shell_get_active_window (NULL),
+		e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
 	}
@@ -290,7 +290,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
 		GtkWidget *w;
 
-		w = e_error_new (
+		w = e_error_new_dialog_for_args (
 			e_shell_get_active_window (NULL), "mail:no-rename-special-folder",
 			cfd->fi->full_name, NULL);
 		em_utils_show_error_silent (w);
@@ -298,7 +298,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	}
 
 	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
-		e_error_run (e_shell_get_active_window (NULL),
+		e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
 			    cfd->delete?"mail:no-move-folder-to-notexist":"mail:no-copy-folder-to-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
 	}
@@ -405,7 +405,7 @@ emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, gpo
 	if (ex && camel_exception_is_set (ex)) {
 		GtkWidget *w;
 
-		w = e_error_new (
+		w = e_error_new_dialog_for_args (
 			e_shell_get_active_window (NULL), "mail:no-delete-folder",
 			folder->full_name, camel_exception_get_description (ex), NULL);
 		em_utils_show_error_silent (w);
@@ -441,7 +441,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 	local_store = e_mail_local_get_store ();
 
 	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
-		dialog = e_error_new (
+		dialog = e_error_new_dialog_for_args (
 			parent, "mail:no-delete-special-folder",
 			folder->full_name, NULL);
 		em_utils_show_error_silent (dialog);
@@ -450,13 +450,13 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 
 	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
 	{
-		e_error_run (parent,"mail:no-delete-special-folder", folder->name, NULL);
+		e_error_run_dialog_for_args (parent,"mail:no-delete-special-folder", folder->name, NULL);
 		return;
 	}
 
 	camel_object_ref (folder);
 
-	dialog = e_error_new (parent,
+	dialog = e_error_new_dialog_for_args (parent,
 			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
 			     folder->full_name, NULL);
 	g_object_set_data_full ((GObject *) dialog, "folder", folder, camel_object_unref);
