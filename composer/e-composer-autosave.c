@@ -123,7 +123,7 @@ composer_autosave_finish_cb (EMsgComposer *composer,
 	e_composer_autosave_snapshot_finish (composer, result, &error);
 
 	if (error != NULL) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			"mail-composer:no-autosave",
 			"", error->message, NULL);

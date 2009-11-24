@@ -78,7 +78,7 @@ action_close_cb (GtkAction *action,
 	if (subject == NULL || *subject == '\0')
 		subject = _("Untitled Message");
 
-	response = e_error_run (
+	response = e_error_run_dialog_for_args (
 		GTK_WINDOW (composer),
 		"mail-composer:exit-unsaved",
 		subject, NULL);
@@ -162,14 +162,14 @@ action_save_cb (GtkAction *action,
 		if (g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
 			gint response;
 
-			response = e_error_run (
+			response = e_error_run_dialog_for_args (
 				GTK_WINDOW (composer),
 				E_ERROR_ASK_FILE_EXISTS_OVERWRITE,
 				filename, NULL);
 			if (response != GTK_RESPONSE_OK)
 				return;
 		} else {
-			e_error_run (
+			e_error_run_dialog_for_args (
 				GTK_WINDOW (composer),
 				E_ERROR_NO_SAVE_FILE, filename,
 				g_strerror (errno_saved), NULL);
@@ -179,7 +179,7 @@ action_save_cb (GtkAction *action,
 		close (fd);
 
 	if (!gtkhtml_editor_save (editor, filename, TRUE, &error)) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			E_ERROR_NO_SAVE_FILE,
 			filename, error->message, NULL);
