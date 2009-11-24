@@ -108,7 +108,9 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 				goto done;
 			}
 		} else if (status == E_BOOK_ERROR_INVALID_SERVER_VERSION) {
-			e_error_run (e_shell_get_active_window (NULL), "addressbook:server-version", NULL);
+			e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+						     "addressbook:server-version",
+						     NULL);
 			status = E_BOOK_ERROR_OK;
 			goto done;
 		} else if (status == E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD) {

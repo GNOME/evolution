@@ -894,7 +894,7 @@ backend_died (EAddressbookView *view)
 	model = e_addressbook_view_get_model (view);
 	book = e_addressbook_model_get_book (model);
 
-	e_error_run (
+	e_error_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"addressbook:backend-died",
 		e_book_get_uri (book), NULL);
@@ -1013,7 +1013,9 @@ delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 		case E_BOOK_ERROR_CANCELLED :
 			break;
 		case E_BOOK_ERROR_PERMISSION_DENIED :
-			e_error_run (e_shell_get_active_window (NULL), "addressbook:contact-delete-error-perm", NULL);
+			e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+						     "addressbook:contact-delete-error-perm",
+						     NULL);
 			break;
 		default :
 			/* Unknown error */

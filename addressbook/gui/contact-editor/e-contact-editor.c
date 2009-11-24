@@ -2344,7 +2344,11 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 					width = gdk_pixbuf_get_width (pixbuf);
 					if ((height > 96 || width > 96)) {
 
-						prompt_response = e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL);
+						prompt_response =
+							e_error_run_dialog_for_args
+							(GTK_WINDOW (editor->app),
+							 "addressbook:prompt-resize",
+							 NULL);
 
 						if (prompt_response == GTK_RESPONSE_YES) {
 							if ( width > height) {
@@ -2769,7 +2773,9 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 		g_free (categories);
 		return;
 	}else if (!(dialog = GTK_DIALOG (e_categories_dialog_new (categories)))) {
-		e_error_run (GTK_WINDOW (editor->app), "addressbook:edit-categories", NULL);
+		e_error_run_dialog_for_args (GTK_WINDOW (editor->app),
+					     "addressbook:edit-categories",
+					     NULL);
 		g_free (categories);
 		return;
 	}
@@ -3055,7 +3061,9 @@ save_contact (EContactEditor *ce, gboolean should_close)
 		return;
 
 	if (ce->target_editable && !e_book_is_writable (ce->source_book)) {
-		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
+		if (e_error_run_dialog_for_args (GTK_WINDOW (ce->app),
+						 "addressbook:prompt-move",
+						 NULL) == GTK_RESPONSE_NO)
 			return;
 	}
 
@@ -3201,8 +3209,10 @@ e_contact_editor_is_valid (EABEditor *editor)
 
 	if (validation_error) {
 		g_string_append (errmsg, ".");
-		e_error_run (GTK_WINDOW (ce->app), "addressbook:generic-error",
-			     _("Invalid contact."), errmsg->str, NULL);
+		e_error_run_dialog_for_args (GTK_WINDOW (ce->app),
+					     "addressbook:generic-error",
+					     _("Invalid contact."), errmsg->str,
+					     NULL);
 		g_string_free (errmsg, TRUE);
 		return FALSE;
 	}

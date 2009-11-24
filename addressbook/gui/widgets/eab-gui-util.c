@@ -86,7 +86,9 @@ eab_error_dialog (const gchar *msg, EBookStatus status)
 		status_str = status_to_string [status];
 
 	if (status_str)
-		e_error_run (e_shell_get_active_window (NULL), "addressbook:generic-error", msg, _(status_str), NULL);
+		e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+					     "addressbook:generic-error",
+					     msg, _(status_str), NULL);
 }
 
 void
@@ -145,7 +147,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 		}
 	}
 
-	dialog  = e_error_new ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
+	dialog  = e_error_new_dialog_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 
 	gtk_widget_show (dialog);
@@ -187,13 +189,13 @@ eab_search_result_dialog      (GtkWidget *parent,
 		g_return_if_reached ();
 	}
 
-	e_error_run ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
+	e_error_run_dialog_for_args ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
 }
 
 gint
 eab_prompt_save_dialog (GtkWindow *parent)
 {
-	return e_error_run (parent, "addressbook:prompt-save", NULL);
+	return e_error_run_dialog_for_args (parent, "addressbook:prompt-save", NULL);
 }
 
 static gchar *

@@ -153,7 +153,8 @@ e_contact_list_model_add_email (EContactListModel *model,
 	g_return_if_fail (email != NULL);
 
 	if (e_contact_list_model_has_email (model, email))
-		if (e_error_run (e_shell_get_active_window (NULL), tag, email, NULL) != GTK_RESPONSE_YES)
+		if (e_error_run_dialog_for_args (e_shell_get_active_window
+						 (NULL), tag, email, NULL) != GTK_RESPONSE_YES)
 			return;
 
 	destination = e_destination_new ();

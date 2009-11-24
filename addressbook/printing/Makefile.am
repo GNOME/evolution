@@ -41,6 +41,7 @@ contact_print_test_LDADD =	\
 	libecontactprint.la					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 EXTRA_DIST = 		\

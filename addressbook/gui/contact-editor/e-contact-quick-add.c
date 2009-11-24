@@ -129,7 +129,10 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 		if (e_book_is_writable (book))
 			eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
 		else
-			e_error_run (e_shell_get_active_window (NULL), "addressbook:error-read-only", e_source_peek_name (e_book_get_source (book)), NULL);
+			e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+						     "addressbook:error-read-only",
+						     e_source_peek_name (e_book_get_source (book)),
+						     NULL);
 
 		if (qa->cb)
 			qa->cb (qa->contact, qa->closure);
