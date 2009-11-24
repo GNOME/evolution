@@ -39,6 +39,23 @@
 
 #define d(x)
 
+struct _EError
+{
+	gchar *tag;
+	GPtrArray *args;
+};
+
+void
+e_error_free (EError *error)
+{
+	if (error == NULL)
+		return;
+	g_free (error->tag);
+	/* arg strings will be freed automatically since we set a free func when
+	 * creating the ptr array */
+	g_ptr_array_free (error->args, TRUE);
+}
+
 struct _e_error_button {
 	struct _e_error_button *next;
 	const gchar *stock;
@@ -403,8 +420,50 @@ ee_response(GtkWidget *w, guint button, struct _e_error *e)
 	}
 }
 
+EError *
+e_error_newv(const gchar *tag, const gchar *arg0, va_list ap)
+{
+	gchar *tmp;
+	GPtrArray *args;
+	EError *err = g_slice_new0 (EError);
+	err->tag = g_strdup (tag);
+	err->args = g_ptr_array_new_with_free_func (g_free);
+
+	tmp = (gchar *)arg0;
+	while (tmp) {
+		g_ptr_array_add(args, g_strdup (tmp));
+		tmp = va_arg(ap, gchar *);
+	}
+
+	return err;
+}
+
+/**
+ * e_error_new:
+ * @tag: error identifier
+ * @arg0: The first argument for the error formatter.  The list must
+ * be NULL terminated.
+ *
+ * Creates a new EError.  The @tag argument is used to determine
+ * which error to use, it is in the format domain:error-id.  The NULL
+ * terminated list of arguments, starting with @arg0 is used to fill
+ * out the error definition.
+ **/
+EError *
+e_error_new(const gchar *tag, const gchar *arg0, ...)
+{
+	EError *e;
+	va_list ap;
+
+	va_start(ap, arg0);
+	e = e_error_newv(tag, arg0, ap);
+	va_end(ap);
+
+	return e;
+}
+
 GtkWidget *
-e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
+e_error_new_dialog(GtkWindow *parent, EError *error)
 {
 	struct _e_error_table *table;
 	struct _e_error *e;
@@ -414,9 +473,10 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	GtkWidget *content_area;
 	gchar *tmp, *domain, *id;
 	GString *out, *oerr;
-	GPtrArray *args;
 	GtkDialog *dialog;
 	gchar *str, *perr=NULL, *serr=NULL;
+
+	g_return_val_if_fail (error != NULL, NULL);
 
 	if (error_table == NULL)
 		ee_load_tables();
@@ -438,8 +498,8 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 			"Something called %s() with a NULL parent window.  "
 			"This is no longer legal, please fix it.", G_STRFUNC);
 
-	domain = alloca(strlen(tag)+1);
-	strcpy(domain, tag);
+	domain = alloca(strlen(error->tag)+1);
+	strcpy(domain, error->tag);
 	id = strchr(domain, ':');
 	if (id)
 		*id++ = 0;
@@ -448,7 +508,7 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	     || (table = g_hash_table_lookup(error_table, domain)) == NULL
 	     || (e = g_hash_table_lookup(table->errors, id)) == NULL) {
 		/* setup a dummy error */
-		str = g_strdup_printf(_("Internal error, unknown error '%s' requested"), tag);
+		str = g_strdup_printf(_("Internal error, unknown error '%s' requested"), error->tag);
 		tmp = g_strdup_printf("<span weight=\"bold\">%s</span>", str);
 		g_free(str);
 		w = gtk_label_new(NULL);
@@ -505,17 +565,10 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.0);
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 12);
 
-	args = g_ptr_array_new();
-	tmp = (gchar *)arg0;
-	while (tmp) {
-		g_ptr_array_add(args, tmp);
-		tmp = va_arg(ap, gchar *);
-	}
-
 	out = g_string_new("");
 
 	if (e->title && *e->title) {
-		ee_build_label(out, e->title, args, FALSE);
+		ee_build_label(out, e->title, error->args, FALSE);
 		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
@@ -523,23 +576,22 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
-		ee_build_label(out, e->primary, args, TRUE);
+		ee_build_label(out, e->primary, error->args, TRUE);
 		g_string_append(out, "</span>\n\n");
 		oerr = g_string_new("");
-		ee_build_label(oerr, e->primary, args, FALSE);
+		ee_build_label(oerr, e->primary, error->args, FALSE);
 		perr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	} else
 		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
 
 	if (e->secondary) {
-		ee_build_label(out, e->secondary, args, TRUE);
+		ee_build_label(out, e->secondary, error->args, TRUE);
 		oerr = g_string_new("");
-		ee_build_label(oerr, e->secondary, args, TRUE);
+		ee_build_label(oerr, e->secondary, error->args, TRUE);
 		serr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	}
-	g_ptr_array_free(args, TRUE);
 
 	if (e->scroll) {
 		scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -567,41 +619,13 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	return (GtkWidget *)dialog;
 }
 
-/**
- * e_error_new:
- * @parent:
- * @tag: error identifier
- * @arg0: The first argument for the error formatter.  The list must
- * be NULL terminated.
- *
- * Creates a new error widget.  The @tag argument is used to determine
- * which error to use, it is in the format domain:error-id.  The NULL
- * terminated list of arguments, starting with @arg0 is used to fill
- * out the error definition.
- *
- * Return value: A GtkDialog which can be used for showing an error
- * dialog asynchronously.
- **/
-GtkWidget *
-e_error_new(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
-{
-	GtkWidget *w;
-	va_list ap;
-
-	va_start(ap, arg0);
-	w = e_error_newv(parent, tag, arg0, ap);
-	va_end(ap);
-
-	return w;
-}
-
 gint
-e_error_runv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
+e_error_run_dialog(GtkWindow *parent, EError *error)
 {
 	GtkWidget *w;
 	gint res;
 
-	w = e_error_newv(parent, tag, arg0, ap);
+	w = e_error_new_dialog(parent, error);
 
 	res = gtk_dialog_run((GtkDialog *)w);
 	gtk_widget_destroy(w);
@@ -610,35 +634,7 @@ e_error_runv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 }
 
 /**
- * e_error_run:
- * @parent:
- * @tag:
- * @arg0:
- *
- * Sets up, displays, runs and destroys a standard evolution error
- * dialog based on @tag, which is in the format domain:error-id.
- *
- * Return value: The response id of the button pressed.
- **/
-gint
-e_error_run(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
-{
-	GtkWidget *w;
-	va_list ap;
-	gint res;
-
-	va_start(ap, arg0);
-	w = e_error_newv(parent, tag, arg0, ap);
-	va_end(ap);
-
-	res = gtk_dialog_run((GtkDialog *)w);
-	gtk_widget_destroy(w);
-
-	return res;
-}
-
-/**
- * e_error_count_buttons:
+ * e_error_dialog_count_buttons:
  * @dialog: a #GtkDialog
  *
  * Counts the number of buttons in @dialog's action area.
@@ -646,7 +642,7 @@ e_error_run(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
  * Returns: number of action area buttons
  **/
 guint
-e_error_count_buttons (GtkDialog *dialog)
+e_error_dialog_count_buttons (GtkDialog *dialog)
 {
 	GtkWidget *container;
 	GList *children, *iter;
@@ -665,4 +661,38 @@ e_error_count_buttons (GtkDialog *dialog)
 	g_list_free (children);
 
 	return n_buttons;
+}
+
+GtkWidget *
+e_error_new_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+{
+	GtkWidget *w;
+	EError *e;
+	va_list ap;
+
+	va_start(ap, arg0);
+	e = e_error_newv(tag, arg0, ap);
+	va_end(ap);
+
+	w = e_error_new_dialog (parent, e);
+	e_error_free (e);
+
+	return w;
+}
+
+gint
+e_error_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+{
+	EError *e;
+	va_list ap;
+	gint response;
+
+	va_start(ap, arg0);
+	e = e_error_newv(tag, arg0, ap);
+	va_end(ap);
+
+	response = e_error_run_dialog (parent, e);
+	e_error_free (e);
+
+	return response;
 }

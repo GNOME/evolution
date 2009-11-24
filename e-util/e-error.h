@@ -47,13 +47,20 @@
 /* takes filename, reason */
 #define E_ERROR_NO_LOAD_FILE "system:no-save-file"
 
-/* Note that all errors returned are standard GtkDialoge's */
-GtkWidget *e_error_new(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
-GtkWidget *e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
+typedef struct _EError EError;
 
-gint e_error_run(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
-gint e_error_runv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
+EError *e_error_new(const gchar *tag, const gchar *arg0, ...);
+EError *e_error_newv(const gchar *tag, const gchar *arg0, va_list ap);
 
-guint e_error_count_buttons (GtkDialog *dialog);
+void e_error_free (EError *error);
+
+/* Convenience functions for displaying the error in a GtkDialog */
+GtkWidget *e_error_new_dialog(GtkWindow *parent, EError *error);
+GtkWidget *e_error_new_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+
+gint e_error_run_dialog(GtkWindow *parent, EError *error);
+gint e_error_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+
+guint e_error_dialog_count_buttons (GtkDialog *dialog);
 
 #endif /* !_E_ERROR_H */
