@@ -89,7 +89,7 @@ action_close_cb (GtkAction *action,
 	if (something_changed) {
 		gint response;
 
-		response = e_error_run (
+		response = e_error_run_dialog_for_args (
 			GTK_WINDOW (editor),
 			"mail:ask-signature-changed", NULL);
 		if (response == GTK_RESPONSE_YES) {
@@ -144,7 +144,7 @@ action_save_and_close_cb (GtkAction *action,
 	gtkhtml_editor_save (GTKHTML_EDITOR (editor), filename, html, &error);
 
 	if (error != NULL) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (editor),
 			"mail:no-save-signature",
 			error->message, NULL);
@@ -159,7 +159,7 @@ action_save_and_close_cb (GtkAction *action,
 
 	/* Make sure the signature name is not blank. */
 	if (*signature_name == '\0') {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (editor),
 			"mail:blank-signature", NULL);
 		gtk_widget_grab_focus (entry);
@@ -172,7 +172,7 @@ action_save_and_close_cb (GtkAction *action,
 	same_name = (ESignature *) e_signature_list_find (
 		signature_list, E_SIGNATURE_FIND_NAME, signature_name);
 	if (same_name != NULL && !e_signature_is_equal (signature, same_name)) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (editor),
 			"mail:signature-already-exists",
 			signature_name, NULL);
