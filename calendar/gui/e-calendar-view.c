@@ -1202,7 +1202,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	if (e_cal_is_read_only (default_client, &readonly, NULL) && readonly) {
 		GtkWidget *widget;
 
-		widget = e_error_new (parent, "calendar:prompt-read-only-cal", e_source_peek_name (e_cal_get_source (default_client)), NULL);
+		widget = e_error_new_dialog_for_args (parent, "calendar:prompt-read-only-cal", e_source_peek_name (e_cal_get_source (default_client)), NULL);
 
 		g_signal_connect ((GtkDialog *)widget, "response", G_CALLBACK (gtk_widget_destroy),
 				  widget);

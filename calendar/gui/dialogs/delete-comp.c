@@ -159,7 +159,7 @@ delete_component_dialog (ECalComponent *comp,
 			arg0 = g_strdup_printf ("%d", n_comps);
 	}
 
-	response = e_error_run ((GtkWindow *) gtk_widget_get_toplevel (widget), id, arg0, NULL);
+	response = e_error_run_dialog_for_args ((GtkWindow *) gtk_widget_get_toplevel (widget), id, arg0, NULL);
 	g_free (arg0);
 
 	return response == GTK_RESPONSE_YES;

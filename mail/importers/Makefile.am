@@ -32,6 +32,7 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
+	$(top_builddir)/shell/libeshell.la			\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(IMPORTERS_LIBS)
 

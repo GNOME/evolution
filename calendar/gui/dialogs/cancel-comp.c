@@ -105,7 +105,7 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 		return FALSE;
 	}
 
-	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
+	if (e_error_run_dialog_for_args (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else
 		return FALSE;

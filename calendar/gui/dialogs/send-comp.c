@@ -154,7 +154,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 		strip_alarms = NULL;
 	}
 
-	dialog = e_error_new (parent, id, NULL);
+	dialog = e_error_new_dialog_for_args (parent, id, NULL);
 
 	if (strip_alarms)
 		sa_checkbox = add_checkbox (GTK_BOX (GTK_DIALOG (dialog)->vbox), _("Send my alarms with this event"));
@@ -199,7 +199,7 @@ send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *c
 		return FALSE;
 	}
 
-	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
+	if (e_error_run_dialog_for_args (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else
 		return FALSE;

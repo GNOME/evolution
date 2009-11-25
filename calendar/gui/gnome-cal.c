@@ -1900,7 +1900,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			return;
 		}
 
-		w = e_error_new(parent, "calendar:server-version", NULL);
+		w = e_error_new_dialog_for_args (parent, "calendar:server-version", NULL);
 		/*e_calendar_utils_show_error_silent (w);  KILL-BONOBO */
 		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
 		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
@@ -1922,7 +1922,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			return;
 		}
 
-		w = e_error_new(parent, "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
+		w = e_error_new_dialog_for_args (parent, "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
 		/*e_calendar_utils_show_error_silent (w);  KILL-BONOBO */
 		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
 		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
@@ -1987,7 +1987,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
-		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:server-version", NULL);
+		e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:server-version", NULL);
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
@@ -2114,7 +2114,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 		return;
 	}
 
-	w = e_error_new(parent, "calendar:backend_died", NULL);
+	w = e_error_new_dialog_for_args (parent, "calendar:backend_died", NULL);
 	/* e_calendar_utils_show_error_silent (w); KILL-BONOBO */
 	g_hash_table_insert (non_intrusive_error_table, (gpointer) id, g_object_ref(w));
 	g_signal_connect((GtkObject *)w, "destroy", G_CALLBACK(non_intrusive_error_remove), (gpointer) id);
