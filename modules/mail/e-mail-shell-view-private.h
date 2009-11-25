@@ -141,6 +141,9 @@ struct _EMailShellViewPrivate {
 	/* Filter rules correspond to the search entry menu. */
 	EFilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
 
+	/* EShell::prepare-for-quit */
+	gulong prepare_for_quit_handler_id;
+
 	guint show_deleted : 1;
 };
 

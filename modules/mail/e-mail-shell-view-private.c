@@ -312,6 +312,36 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 }
 
 static void
+mail_shell_view_prepare_for_quit_done_cb (CamelFolder *folder,
+                                          gpointer user_data)
+{
+	g_object_unref (E_ACTIVITY (user_data));
+}
+
+static void
+mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
+                                     EActivity *activity)
+{
+	EMailReader *reader;
+	MessageList *message_list;
+
+	/* If we got here, it means the application is shutting down
+	 * and this is the last EMailShellView instance.  Synchronize
+	 * the currently selected folder before we terminate. */
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	if (message_list->folder == NULL)
+		return;
+
+	mail_sync_folder (
+		message_list->folder,
+		mail_shell_view_prepare_for_quit_done_cb,
+		g_object_ref (activity));
+}
+
+static void
 mail_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -520,6 +550,15 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		G_CALLBACK (mail_shell_view_reader_status_message_cb),
 		mail_shell_view);
 
+	/* Need to keep the handler ID so we can disconnect it in
+	 * dispose().  The shell outlives us and we don't want it
+	 * invoking callbacks on finalized shell views. */
+	priv->prepare_for_quit_handler_id =
+		g_signal_connect_swapped (
+			shell, "prepare-for-quit",
+			G_CALLBACK (mail_shell_view_prepare_for_quit_cb),
+			mail_shell_view);
+
 	e_mail_shell_view_actions_init (mail_shell_view);
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 	e_mail_reader_init (reader);
@@ -544,6 +583,21 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
 	gint ii;
+
+	/* XXX It's a little awkward to have to dig up the
+	 *     shell this late in the game.  Should we just
+	 *     keep a direct reference to it?  Not sure. */
+	if (priv->prepare_for_quit_handler_id > 0) {
+		EShellBackend *shell_backend;
+		EShell *shell;
+
+		shell_backend = E_SHELL_BACKEND (priv->mail_shell_backend);
+		shell = e_shell_backend_get_shell (shell_backend);
+
+		g_signal_handler_disconnect (
+			shell, priv->prepare_for_quit_handler_id);
+		priv->prepare_for_quit_handler_id = 0;
+	}
 
 	DISPOSE (priv->mail_shell_backend);
 	DISPOSE (priv->mail_shell_content);
