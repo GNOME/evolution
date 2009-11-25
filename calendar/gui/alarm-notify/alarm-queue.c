@@ -159,6 +159,7 @@ struct _Message {
 	MessageFunc func;
 };
 
+/*
 static void
 message_proxy (Message *msg)
 {
@@ -170,18 +171,17 @@ message_proxy (Message *msg)
 static gpointer
 create_thread_pool (void)
 {
-	/* once created, run forever */
 	return g_thread_pool_new ((GFunc) message_proxy, NULL, 1, FALSE, NULL);
-}
+}*/
 
 static void
 message_push (Message *msg)
 {
-	static GOnce once = G_ONCE_INIT;
-
-	g_once (&once, (GThreadFunc) create_thread_pool, NULL);
-
-	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
+	/* This used be pushed through the thread pool. This fix is made to work-around
+	the crashers in dbus due to threading. The threading is not completely removed as
+	its better to have alarm daemon running in a thread rather than blocking main thread. 
+	 This is the reason the creation of thread pool is commented out */
+	msg->func (msg);
 }
 
 /* Queues an alarm trigger for midnight so that we can load the next day's worth
