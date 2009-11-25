@@ -52,7 +52,7 @@ mail_junk_hook_idle_cb (struct ErrorData *data)
 {
 	GtkWidget *widget;
 
-	widget = e_error_new (e_shell_get_active_window (NULL),
+	widget = e_error_new_dialog_for_args (e_shell_get_active_window (NULL),
 		data->error_message, data->error->message, NULL);
 	em_utils_show_error_silent (widget);
 

@@ -87,7 +87,7 @@ action_calendar_delete_cb (GtkAction *action,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* Ask for confirmation. */
-	response = e_error_run (
+	response = e_error_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-calendar",
 		e_source_peek_name (source));

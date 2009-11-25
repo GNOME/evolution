@@ -116,7 +116,7 @@ memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
 	g_hash_table_remove (client_table, uid);
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, NULL);
 
-	e_error_run (
+	e_error_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:memos-crashed", NULL);
 
@@ -197,7 +197,7 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 			break;
 
 		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-			e_error_run (
+			e_error_run_dialog_for_args (
 				GTK_WINDOW (shell_window),
 				"calendar:prompt-no-contents-offline-memos",
 				NULL);

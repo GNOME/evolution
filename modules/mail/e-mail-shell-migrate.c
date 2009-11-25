@@ -1598,7 +1598,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 			if (errno == EEXIST) {
 				gint save = errno;
 
-				switch (e_error_run (e_shell_get_active_window (NULL), "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
+				switch (e_error_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
 				case GTK_RESPONSE_ACCEPT:
 					mode = CP_OVERWRITE;
 					goto retry_copy;

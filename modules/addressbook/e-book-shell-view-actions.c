@@ -68,7 +68,7 @@ action_address_book_delete_cb (GtkAction *action,
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	response = e_error_run (
+	response = e_error_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"addressbook:ask-delete-addressbook",
 		e_source_peek_name (source));
@@ -84,7 +84,7 @@ action_address_book_delete_cb (GtkAction *action,
 	}
 
 	if (!e_book_remove (book, NULL)) {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"addressbook:remove-addressbook", NULL);
 		g_object_unref (book);
