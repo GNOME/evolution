@@ -122,7 +122,7 @@ emla_list_action_do (CamelFolder *folder,
 
 	if (!header) {
 		/* there was no header matching the action */
-		e_error_run (parent, MESSAGE_NO_HEADER, NULL);
+		e_error_run_dialog_for_args (parent, MESSAGE_NO_HEADER, NULL);
 		goto exit;
 	}
 
@@ -131,7 +131,7 @@ emla_list_action_do (CamelFolder *folder,
 	if (action == EMLA_ACTION_POST) {
 		while (*headerpos == ' ') headerpos++;
 		if (g_ascii_strcasecmp (headerpos, "NO") == 0) {
-			e_error_run (parent, MESSAGE_POSTING_NOT_ALLOWED, NULL);
+			e_error_run_dialog_for_args (parent, MESSAGE_POSTING_NOT_ALLOWED, NULL);
 			goto exit;
 		}
 	}
@@ -141,7 +141,7 @@ emla_list_action_do (CamelFolder *folder,
 		/* skip whitespace */
 		while (*headerpos == ' ') headerpos++;
 		if (*headerpos != '<' || (end = strchr (headerpos++, '>')) == NULL) {
-			e_error_run (
+			e_error_run_dialog_for_args (
 				parent, MESSAGE_MALFORMED_HEADER,
 				emla_action_headers[t].header, header, NULL);
 			goto exit;
@@ -154,7 +154,7 @@ emla_list_action_do (CamelFolder *folder,
 			if (emla_action_headers[t].interactive)
 				send_message_response = GTK_RESPONSE_NO;
 			else
-				send_message_response = e_error_run (
+				send_message_response = e_error_run_dialog_for_args (
 					parent, MESSAGE_ASK_SEND_MESSAGE,
 					url, NULL);
 
@@ -188,7 +188,7 @@ emla_list_action_do (CamelFolder *folder,
 	}
 
 	/* if we got here, there's no valid action */
-	e_error_run (parent, MESSAGE_NO_ACTION, header, NULL);
+	e_error_run_dialog_for_args (parent, MESSAGE_NO_ACTION, header, NULL);
 
 exit:
 	g_object_unref (action_data->reader);

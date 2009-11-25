@@ -1319,9 +1319,10 @@ update_attendee_status (struct _itip_puri *pitip)
 				if ((a->status == ICAL_PARTSTAT_DELEGATED) && (del_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->delto))) && !(find_attendee (icalcomp, itip_strip_mailto (a->delto)))) {
 					gint response;
 					delegate = icalproperty_get_attendee (del_prop);
-					response = e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)), "org.gnome.itip-formatter:add-delegate",
-								itip_strip_mailto (a->value),
-								itip_strip_mailto (delegate), NULL);
+					response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
+										"org.gnome.itip-formatter:add-delegate",
+										itip_strip_mailto (a->value),
+										itip_strip_mailto (delegate), NULL);
 					if (response == GTK_RESPONSE_YES) {
 						icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
 						e_cal_component_rescan (comp);
@@ -1337,9 +1338,10 @@ update_attendee_status (struct _itip_puri *pitip)
 					gint response;
 
 					if (a->delfrom && *a->delfrom) {
-						response = e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)), "org.gnome.itip-formatter:add-delegate",
-									itip_strip_mailto (a->delfrom),
-									itip_strip_mailto (a->value), NULL);
+						response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
+											"org.gnome.itip-formatter:add-delegate",
+											itip_strip_mailto (a->delfrom),
+											itip_strip_mailto (a->value), NULL);
 						if (response == GTK_RESPONSE_YES) {
 							/* Already declared in this function */
 							icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
@@ -1356,7 +1358,8 @@ update_attendee_status (struct _itip_puri *pitip)
 						}
 					}
 
-					response = e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)), "org.gnome.itip-formatter:add-unknown-attendee", NULL);
+					response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
+										"org.gnome.itip-formatter:add-unknown-attendee", NULL);
 
 					if (response == GTK_RESPONSE_YES) {
 						change_status (icalcomp, itip_strip_mailto (a->value), a->status);

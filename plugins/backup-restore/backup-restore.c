@@ -101,10 +101,14 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, con
 	va_list ap;
 	gint button;
 	guint32 mask = 0;
+	EError *error = NULL;
 
 	va_start(ap, arg0);
-	mbox = e_error_newv(parent, tag, arg0, ap);
+	error = e_error_newv(tag, arg0, ap);
 	va_end(ap);
+
+	mbox = e_error_new_dialog (parent, error);
+	e_error_free (error);
 
 	check = gtk_check_button_new_with_mnemonic (string);
 	/* We should hardcode this to true */
@@ -184,7 +188,7 @@ action_settings_backup_cb (GtkAction *action,
 			g_free (path);
 		}
 	} else {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"org.gnome.backup-restore:insufficient-permissions", NULL);
 	}
@@ -220,7 +224,7 @@ action_settings_restore_cb (GtkAction *action,
 		if (mask & BR_OK)
 			restore (path, mask & BR_START);
 	} else {
-		e_error_run (
+		e_error_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"org.gnome.backup-restore:invalid-backup", NULL);
 	}
@@ -327,7 +331,9 @@ backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target)
 
 	if (state) {
 		if (!file || !sanity_check (file)) {
-			e_error_run ((GtkWindow *)assistant, "org.gnome.backup-restore:invalid-backup", NULL);
+			e_error_run_dialog_for_args ((GtkWindow *)assistant,
+						     "org.gnome.backup-restore:invalid-backup",
+						     NULL);
 		} else {
 			restore (file, TRUE);
 		}

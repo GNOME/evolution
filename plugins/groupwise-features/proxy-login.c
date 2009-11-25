@@ -320,7 +320,9 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	if (email[i]=='@')
 		name = g_strndup(email, i);
 	else {
-		e_error_run (error_parent, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
+		e_error_run_dialog_for_args (error_parent,
+					     "org.gnome.evolution.proxy-login:invalid-user",
+					     email, NULL);
 		return;
 	}
 
@@ -328,7 +330,9 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	   If so, it is violating the (li)unix philosophy of User creation. So dont care about that scenario*/
 
 	if (e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, email) != NULL) {
-		e_error_run (error_parent, "org.gnome.evolution.proxy-login:already-loggedin", email, NULL);
+		e_error_run_dialog_for_args (error_parent,
+					     "org.gnome.evolution.proxy-login:already-loggedin",
+					     email, NULL);
 		g_free (name);
 		return;
 	}
@@ -363,7 +367,9 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 		g_free (parent_source_url);
 		camel_url_free (parent);
 	} else {
-		e_error_run (error_parent, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
+		e_error_run_dialog_for_args (error_parent,
+					     "org.gnome.evolution.proxy-login:invalid-user",
+					     email, NULL);
 		return;
 	}
 
