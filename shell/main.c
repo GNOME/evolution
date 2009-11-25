@@ -89,6 +89,7 @@ static gboolean disable_preview = FALSE;
 static gboolean import_uris = FALSE;
 static gboolean idle_cb (gchar **uris);
 
+static gchar *geometry = NULL;
 static gchar *requested_view = NULL;
 static gchar *evolution_debug_log = NULL;
 static gchar **remaining_args;
@@ -309,6 +310,8 @@ setup_segv_redirect (void)
 static GOptionEntry entries[] = {
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	  N_("Start Evolution activating the specified component"), NULL },
+	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
+	  N_("Apply the given geometry to the main window"), "GEOMETRY" },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
 	  N_("Start in offline mode"), NULL },
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
@@ -451,6 +454,7 @@ create_default_shell (void)
 	shell = g_object_new (
 		E_TYPE_SHELL,
 		"name", "org.gnome.Evolution",
+		"geometry", geometry,
 		"online", online,
 		NULL);
 

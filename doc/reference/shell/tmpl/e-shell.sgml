@@ -94,6 +94,11 @@ EShell
 
 @eshell: the object which received the signal.
 
+<!-- ##### ARG EShell:geometry ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShell:network-available ##### -->
 <para>
 

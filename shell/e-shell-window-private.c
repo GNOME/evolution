@@ -334,14 +334,17 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkAction *action;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
+	GtkWindow *window;
 	GObject *object;
 	const gchar *key;
 	const gchar *id;
 
+	window = GTK_WINDOW (shell_window);
+
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_shell_watch_window (shell, GTK_WINDOW (shell_window));
+	e_shell_watch_window (shell, window);
 
 	/* Create the switcher actions before we set the initial
 	 * shell view, because the shell view relies on them for
@@ -408,10 +411,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	bridge = gconf_bridge_get ();
 
-	key = "/apps/evolution/shell/view_defaults/window";
-	gconf_bridge_bind_window (
-		bridge, key, GTK_WINDOW (shell_window), TRUE, TRUE);
-
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/component_id";
 	gconf_bridge_bind_property (bridge, key, object, "active-view");
@@ -435,6 +434,22 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	object = G_OBJECT (ACTION (SHOW_TOOLBAR));
 	key = "/apps/evolution/shell/view_defaults/toolbar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	/* Configure the initial size and position of the window by way
+	 * of either a user-supplied geometry string or the last recorded
+	 * values.  Note that if a geometry string is applied, the window
+	 * size and position are -not- recorded. */
+	if (priv->geometry != NULL) {
+		if (!gtk_window_parse_geometry (window, priv->geometry))
+			g_printerr (
+				"Failed to parse geometry '%s'\n",
+				priv->geometry);
+		g_free (priv->geometry);
+		priv->geometry = NULL;
+	} else {
+		key = "/apps/evolution/shell/view_defaults/window";
+		gconf_bridge_bind_window (bridge, key, window, TRUE, TRUE);
+	}
 
 	shell_window_init_switcher_style (shell_window);
 
@@ -495,6 +510,8 @@ e_shell_window_private_finalize (EShellWindow *shell_window)
 	EShellWindowPrivate *priv = shell_window->priv;
 
 	g_hash_table_destroy (priv->loaded_views);
+
+	g_free (priv->geometry);
 }
 
 void

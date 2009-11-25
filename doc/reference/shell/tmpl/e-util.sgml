@@ -317,19 +317,6 @@ Miscellaneous Utility Functions
 @Returns: 
 
 
-<!-- ##### FUNCTION e_util_read_file ##### -->
-<para>
-
-</para>
-
-@filename: 
-@filename_is_uri: 
-@buffer: 
-@read: 
-@error: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_util_get_category_filter_options ##### -->
 <para>
 

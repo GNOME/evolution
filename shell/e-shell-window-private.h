@@ -98,6 +98,8 @@ struct _EShellWindowPrivate {
 	/* Shell signal handlers. */
 	GArray *signal_handler_ids;
 
+	gchar *geometry;
+
 	guint destroyed : 1;  /* XXX Do we still need this? */
 	guint safe_mode : 1;
 };

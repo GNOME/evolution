@@ -28,6 +28,11 @@ EShellWindow
 
 </para>
 
+<!-- ##### ARG EShellWindow:geometry ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellWindow:safe-mode ##### -->
 <para>
 
@@ -50,6 +55,7 @@ EShellWindow
 
 @shell: 
 @safe_mode: 
+@geometry: 
 @Returns: 
 
 

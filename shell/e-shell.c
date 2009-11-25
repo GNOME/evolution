@@ -51,6 +51,8 @@ struct _EShellPrivate {
 	gpointer preparing_for_line_change;  /* weak pointer */
 	gpointer preparing_for_quit;         /* weak pointer */
 
+	gchar *geometry;
+
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
 	guint online		: 1;
@@ -60,6 +62,7 @@ struct _EShellPrivate {
 
 enum {
 	PROP_0,
+	PROP_GEOMETRY,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
 	PROP_SHELL_SETTINGS
@@ -459,12 +462,27 @@ shell_sm_quit_cb (EShell *shell,
 }
 
 static void
+shell_set_geometry (EShell *shell,
+                    const gchar *geometry)
+{
+	g_return_if_fail (shell->priv->geometry == NULL);
+
+	shell->priv->geometry = g_strdup (geometry);
+}
+
+static void
 shell_set_property (GObject *object,
                     guint property_id,
                     const GValue *value,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_GEOMETRY:
+			shell_set_geometry (
+				E_SHELL (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_NETWORK_AVAILABLE:
 			e_shell_set_network_available (
 				E_SHELL (object),
@@ -559,6 +577,8 @@ shell_finalize (GObject *object)
 	/* Indicates a clean shut down to the next session. */
 	if (!unique_app_is_running (UNIQUE_APP (object)))
 		e_file_lock_destroy ();
+
+	g_free (priv->geometry);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -691,6 +711,23 @@ shell_class_init (EShellClass *class)
 
 	unique_app_class = UNIQUE_APP_CLASS (class);
 	unique_app_class->message_received = shell_message_received;
+
+	/**
+	 * EShell:geometry
+	 *
+	 * User-specified initial window geometry string to apply
+	 * to the first #EShellWindow created.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_GEOMETRY,
+		g_param_spec_string (
+			"geometry",
+			_("Geometry"),
+			_("Initial window geometry string"),
+			NULL,
+			G_PARAM_WRITABLE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	/**
 	 * EShell:network-available
@@ -1221,7 +1258,15 @@ e_shell_create_shell_window (EShell *shell,
 		}
 	}
 
-	shell_window = e_shell_window_new (shell, shell->priv->safe_mode);
+	shell_window = e_shell_window_new (
+		shell,
+		shell->priv->safe_mode,
+		shell->priv->geometry);
+
+	/* Clear the first-time-only options. */
+	shell->priv->safe_mode = FALSE;
+	g_free (shell->priv->geometry);
+	shell->priv->geometry = NULL;
 
 	gtk_widget_show (shell_window);
 

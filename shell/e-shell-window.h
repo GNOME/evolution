@@ -75,7 +75,8 @@ struct _EShellWindowClass {
 
 GType		e_shell_window_get_type		(void);
 GtkWidget *	e_shell_window_new		(EShell *shell,
-						 gboolean safe_mode);
+						 gboolean safe_mode,
+						 const gchar *geometry);
 EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
 struct _EShellView *
 		e_shell_window_get_shell_view	(EShellWindow *shell_window,

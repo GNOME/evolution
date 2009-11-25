@@ -29,6 +29,7 @@
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_GEOMETRY,
 	PROP_SAFE_MODE,
 	PROP_SHELL,
 	PROP_UI_MANAGER
@@ -142,6 +143,15 @@ shell_window_update_close_action_cb (EShellWindow *shell_window)
 }
 
 static void
+shell_window_set_geometry (EShellWindow *shell_window,
+                           const gchar *geometry)
+{
+	g_return_if_fail (shell_window->priv->geometry == NULL);
+
+	shell_window->priv->geometry = g_strdup (geometry);
+}
+
+static void
 shell_window_set_shell (EShellWindow *shell_window,
                         EShell *shell)
 {
@@ -185,6 +195,12 @@ shell_window_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_ACTIVE_VIEW:
 			e_shell_window_set_active_view (
+				E_SHELL_WINDOW (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_GEOMETRY:
+			shell_window_set_geometry (
 				E_SHELL_WINDOW (object),
 				g_value_get_string (value));
 			return;
@@ -295,6 +311,22 @@ shell_window_class_init (EShellWindowClass *class)
 			G_PARAM_READWRITE));
 
 	/**
+	 * EShellWindow:geometry
+	 *
+	 * User-specified initial window geometry string.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_GEOMETRY,
+		g_param_spec_string (
+			"geometry",
+			_("Geometry"),
+			_("Initial window geometry string"),
+			NULL,
+			G_PARAM_WRITABLE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
 	 * EShellWindow:safe-mode
 	 *
 	 * Whether the shell window is in safe mode.
@@ -380,6 +412,7 @@ e_shell_window_get_type (void)
  * e_shell_window_new:
  * @shell: an #EShell
  * @safe_mode: whether to initialize the window to "safe mode"
+ * @geometry: initial window geometry string, or %NULL
  *
  * Returns a new #EShellWindow.
  *
@@ -397,11 +430,13 @@ e_shell_window_get_type (void)
  **/
 GtkWidget *
 e_shell_window_new (EShell *shell,
-                    gboolean safe_mode)
+                    gboolean safe_mode,
+                    const gchar *geometry)
 {
 	return g_object_new (
 		E_TYPE_SHELL_WINDOW,
-		"shell", shell, "safe-mode", safe_mode, NULL);
+		"shell", shell, "geometry", geometry,
+		"safe-mode", safe_mode, NULL);
 }
 
 /**
