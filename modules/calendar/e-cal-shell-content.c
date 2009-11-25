@@ -152,6 +152,10 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	EMemoTable *memo_table;
 	ETable *table;
 
+	/* XXX This function is silly.  Certainly there are better ways
+	 *     of directing user input to the focused area than polling
+	 *     a bunch of widgets to see what's focused. */
+
 	calendar = GNOME_CALENDAR (cal_shell_content->priv->calendar);
 	view_type = gnome_calendar_get_view (calendar);
 	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
@@ -201,7 +205,11 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 		ECalListView *list_view = E_CAL_LIST_VIEW (calendar_view);
 
 		table = e_table_scrolled_get_table (list_view->table_scrolled);
+
 		if (gtk_widget_is_focus (GTK_WIDGET (table)))
+			return FOCUS_CALENDAR;
+
+		if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
 			return FOCUS_CALENDAR;
 
 		if (gtk_widget_is_focus (GTK_WIDGET (list_view)))
