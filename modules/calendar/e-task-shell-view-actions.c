@@ -589,9 +589,7 @@ action_task_purge_cb (GtkAction *action,
 		e_task_shell_view_set_confirm_purge (task_shell_view, FALSE);
 
 purge:
-
-	/* FIXME KILL-BONOBO */
-        ;
+	e_task_shell_view_delete_completed (task_shell_view);
 }
 
 static void

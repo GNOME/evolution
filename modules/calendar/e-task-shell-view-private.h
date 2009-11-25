@@ -126,6 +126,8 @@ void		e_task_shell_view_actions_init
 void		e_task_shell_view_open_task
 					(ETaskShellView *task_shell_view,
 					 ECalModelComponent *comp_data);
+void		e_task_shell_view_delete_completed
+					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_set_status_message
 					(ETaskShellView *task_shell_view,
 					 const gchar *status_message,

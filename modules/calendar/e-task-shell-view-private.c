@@ -374,7 +374,7 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 	DISPOSE (priv->task_shell_sidebar);
 
 	if (task_shell_view->priv->activity != NULL) {
-		/* XXX Activity is no cancellable. */
+		/* XXX Activity is not cancellable. */
 		e_activity_complete (task_shell_view->priv->activity);
 		g_object_unref (task_shell_view->priv->activity);
 		task_shell_view->priv->activity = NULL;
@@ -444,6 +444,62 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 
 exit:
 	gtk_window_present (GTK_WINDOW (editor));
+}
+
+void
+e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
+{
+	ETaskShellSidebar *task_shell_sidebar;
+	GList *list, *iter;
+	const gchar *sexp;
+
+	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
+
+	sexp = "(is-completed?)";
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	list = e_task_shell_sidebar_get_clients (task_shell_sidebar);
+
+	e_task_shell_view_set_status_message (
+		task_shell_view, _("Expunging"), -1.0);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECal *client = E_CAL (iter->data);
+		GList *objects;
+		gboolean read_only = TRUE;
+		GError *error = NULL;
+
+		if (!e_cal_is_read_only (client, &read_only, &error)) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			continue;
+		}
+
+		if (read_only)
+			continue;
+
+		if (!e_cal_get_object_list (client, sexp, &objects, &error)) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			continue;
+		}
+
+		while (objects != NULL) {
+			icalcomponent *component = objects->data;
+			const gchar *uid;
+
+			uid = icalcomponent_get_uid (component);
+			if (!e_cal_remove_object (client, uid, &error)) {
+				g_warning ("%s", error->message);
+				g_clear_error (&error);
+			}
+
+			icalcomponent_free (component);
+			objects = g_list_delete_link (objects, objects);
+		}
+	}
+
+	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
 }
 
 void
