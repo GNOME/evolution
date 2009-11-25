@@ -101,6 +101,8 @@
     <menuitem action='mail-popup-mark-junk'/>
     <menuitem action='mail-popup-mark-notjunk'/>
     <menuitem action='mail-popup-flag-for-followup'/>
+    <menuitem action="mail-popup-flag-clear"/>
+    <menuitem action="mail-popup-flag-completed"/>
     <menu action='mail-label-menu'>
       <menuitem action='mail-label-none'/>
       <separator/>

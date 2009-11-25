@@ -1582,6 +1582,14 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  NULL,
 	  "mail-delete" },
 
+	{ "mail-popup-flag-clear",
+	  NULL,
+	  "mail-flag-clear" },
+
+	{ "mail-popup-flag-completed",
+	  NULL,
+	  "mail-flag-completed" },
+
 	{ "mail-popup-flag-for-followup",
 	  N_("Mark for Follo_w Up..."),
 	  "mail-flag-for-followup" },
@@ -2121,6 +2129,21 @@ mail_reader_update_actions (EMailReader *reader)
 
 	action_name = "mail-find";
 	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-flag-clear";
+	sensitive = enable_flag_clear;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-flag-completed";
+	sensitive = enable_flag_completed;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-flag-for-followup";
+	sensitive = enable_flag_for_followup;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2727,7 +2750,7 @@ e_mail_reader_check_state (EMailReader *reader)
 			can_clear_flags = TRUE;
 			tag = camel_message_info_user_tag (
 				info, "completed-on");
-			if (tag != NULL && *tag != '\0')
+			if (tag == NULL || *tag == '\0')
 				can_flag_completed = TRUE;
 		} else
 			can_flag_for_followup = TRUE;
