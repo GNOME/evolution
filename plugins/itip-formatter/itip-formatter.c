@@ -2374,7 +2374,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 		start_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
 
-		itip_view_set_start (ITIP_VIEW (info->view), &start_tm);
+		itip_view_set_start (ITIP_VIEW (info->view), &start_tm, datetime.value->is_date);
 		info->start_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
 
@@ -2408,9 +2408,16 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		else
 			from_zone = NULL;
 
+		if (datetime.value->is_date) {
+			/* RFC says the DTEND is not inclusive, thus subtract one day
+			   if we have a date */
+
+			icaltime_adjust (datetime.value, -1, 0, 0, 0);
+		}
+
 		end_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
 
-		itip_view_set_end (ITIP_VIEW (info->view), &end_tm);
+		itip_view_set_end (ITIP_VIEW (info->view), &end_tm, datetime.value->is_date);
 		info->end_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
 	e_cal_component_free_datetime (&datetime);

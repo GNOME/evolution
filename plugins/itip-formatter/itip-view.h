@@ -132,11 +132,11 @@ const gchar *itip_view_get_comment (ItipView *view);
 void itip_view_set_description (ItipView *view, const gchar *description);
 const gchar *itip_view_get_description (ItipView *view);
 
-void itip_view_set_start (ItipView *view, struct tm *start);
-const struct tm *itip_view_get_start (ItipView *view);
+void itip_view_set_start (ItipView *view, struct tm *start, gboolean is_date);
+const struct tm *itip_view_get_start (ItipView *view, gboolean *is_date);
 
-void itip_view_set_end (ItipView *view, struct tm *end);
-const struct tm *itip_view_get_end (ItipView *view);
+void itip_view_set_end (ItipView *view, struct tm *end, gboolean is_date);
+const struct tm *itip_view_get_end (ItipView *view, gboolean *is_date);
 
 guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message);
 guint itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType, const gchar *format, ...) G_GNUC_PRINTF (3, 4);
