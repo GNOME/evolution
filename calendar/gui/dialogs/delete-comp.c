@@ -64,6 +64,7 @@ delete_component_dialog (ECalComponent *comp,
 	const gchar *id;
 	gchar *arg0 = NULL;
 	gint response;
+	gboolean attendees;
 
 	if (comp) {
 		g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
@@ -91,10 +92,18 @@ delete_component_dialog (ECalComponent *comp,
 
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-			if (arg0)
-				id = "calendar:prompt-delete-titled-appointment";
-			else
-				id = "calendar:prompt-delete-appointment";
+                        attendees = e_cal_component_has_attendees (comp);
+			if (arg0) {
+				if (attendees)
+					id = "calendar:prompt-delete-titled-meeting";
+				else
+					id = "calendar:prompt-delete-titled-appointment";
+			} else {
+				if (attendees)
+					id = "calendar:prompt-delete-meeting";
+				else
+					id = "calendar:prompt-delete-appointment";
+			}
 			break;
 
 		case E_CAL_COMPONENT_TODO:

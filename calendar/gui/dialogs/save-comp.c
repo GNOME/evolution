@@ -44,10 +44,15 @@ GtkResponseType
 save_component_dialog (GtkWindow *parent, ECalComponent *comp)
 {
 	ECalComponentVType vtype = e_cal_component_get_vtype(comp);
+	CompEditorFlags flags;
 
 	switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-			return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
+			flags = comp_editor_get_flags (COMP_EDITOR(parent));
+			if (flags & COMP_EDITOR_MEETING)
+				return e_error_run (parent, "calendar:prompt-save-meeting", NULL);
+			else
+				return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
 		case E_CAL_COMPONENT_TODO:
 			return e_error_run (parent, "calendar:prompt-save-task", NULL);
 		case E_CAL_COMPONENT_JOURNAL:
