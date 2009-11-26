@@ -1645,10 +1645,21 @@ e_shell_quit (EShell *shell)
 	if (unique_app_is_running (app))
 		goto unique;
 
+	/* This handles the case where a --quit command-line option
+	 * was given and no other Evolution process is running. */
+	if (e_shell_get_watched_windows (shell) == NULL)
+		goto bypass;
+
 	if (!shell_request_quit (shell))
 		return FALSE;
 
 	shell_prepare_for_quit (shell);
+
+	return TRUE;
+
+bypass:  /* Bypass our usual shutdown procedure. */
+
+	gtk_main_quit ();
 
 	return TRUE;
 
