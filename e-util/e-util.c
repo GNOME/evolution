@@ -1323,7 +1323,8 @@ get_lock_filename (void)
 	static gchar *filename = NULL;
 
 	if (G_UNLIKELY (filename == NULL))
-		filename = g_build_filename (e_get_user_data_dir (), LOCK_FILE, NULL);
+		filename = g_build_filename (
+			e_get_user_data_dir (), LOCK_FILE, NULL);
 
 	return filename;
 }
@@ -1331,15 +1332,21 @@ get_lock_filename (void)
 gboolean
 e_file_lock_create (void)
 {
-	const gchar *fname = get_lock_filename ();
+	const gchar *filename = get_lock_filename ();
 	gboolean status = FALSE;
+	FILE *file;
 
-	gint fd = g_creat (fname, S_IRUSR|S_IWUSR);
-	if (fd == -1) {
-		g_warning ("Lock file '%s' creation failed, error %d\n", fname, errno);
-	} else {
+	file = g_fopen (filename, "w");
+	if (file != NULL) {
+		/* The lock file also serves as a PID file. */
+		g_fprintf (
+			file, "%" G_GINT64_FORMAT "\n",
+			(gint64) getpid ());
+		fclose (file);
 		status = TRUE;
-		close (fd);
+	} else {
+		const gchar *errmsg = g_strerror (errno);
+		g_warning ("Lock file creation failed: %s", errmsg);
 	}
 
 	return status;
@@ -1348,19 +1355,20 @@ e_file_lock_create (void)
 void
 e_file_lock_destroy (void)
 {
-	const gchar *fname = get_lock_filename ();
+	const gchar *filename = get_lock_filename ();
 
-	if (g_unlink (fname) == -1) {
-		g_warning ("Lock destroy: failed to unlink file '%s'!",fname);
+	if (g_unlink (filename) == -1) {
+		const gchar *errmsg = g_strerror (errno);
+		g_warning ("Lock file deletion failed: %s", errmsg);
 	}
 }
 
 gboolean
 e_file_lock_exists (void)
 {
-	const gchar *fname = get_lock_filename ();
+	const gchar *filename = get_lock_filename ();
 
-	return g_file_test (fname, G_FILE_TEST_EXISTS);
+	return g_file_test (filename, G_FILE_TEST_EXISTS);
 }
 
 /**
