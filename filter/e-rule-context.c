@@ -200,7 +200,7 @@ rule_context_load (ERuleContext *context,
 	if (systemdoc == NULL) {
 		gchar * err_msg = g_strdup_printf("Unable to load system rules '%s': %s",
 						  system, g_strerror(errno));
-		g_warning(err_msg);
+		g_warning ("%s: %s", G_STRFUNC, err_msg);
 		rule_context_set_error(context, err_msg);
 		/* no need to free err_msg here */
 		return -1;
@@ -210,7 +210,7 @@ rule_context_load (ERuleContext *context,
 	if (root == NULL || strcmp ((gchar *)root->name, "filterdescription")) {
 		gchar * err_msg = g_strdup_printf ("Unable to load system rules '%s': Invalid format",
 						   system);
-		g_warning(err_msg);
+		g_warning ("%s: %s", G_STRFUNC, err_msg);
 		rule_context_set_error(context, err_msg);
 		/* no need to free err_msg here */
 		xmlFreeDoc (systemdoc);
