@@ -58,6 +58,8 @@ m4_define([dbus_glib_minimum_version], [0.74])
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
 m4_define([hal_minimum_version], [0.5.4])
+m4_define([champlain_minimum_version], [0.4])
+m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
 m4_define([gweather_minimum_version], [2.25.3])
@@ -195,6 +197,8 @@ case "$host" in
 	DL_LIB=''
 	SOFTOKN3_LIB=''
 	HAL_REQUIREMENT=''
+	CHAMPLAIN_REQUIREMENT=''
+	GEOCLUE_REQUIREMENT=''
 	;;
 *)
 	os_win32=no
@@ -1154,6 +1158,28 @@ dnl ********************************
 FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0"
 
 dnl ******************************
+dnl libchamplain and geoclue?
+dnl ******************************
+
+PKG_CHECK_MODULES( [CHAMPLAIN], [champlain-gtk-0.5 >= champlain_minimum_version], [HAVE_CHAMPLAIN="yes"], [HAVE_CHAMPLAIN="no"] )
+if test "x$HAVE_CHAMPLAIN" = "xno"; then
+	PKG_CHECK_MODULES( [CHAMPLAIN], [champlain-gtk-0.4 >= champlain_minimum_version], [HAVE_CHAMPLAIN="yes"], [HAVE_CHAMPLAIN="no"] )
+fi
+PKG_CHECK_MODULES( [GEOCLUE], [geoclue >= geoclue_minimum_version], [HAVE_GEOCLUE="yes"], [HAVE_GEOCLUE="no"] )
+if test "x$HAVE_CHAMPLAIN" = "xyes" -a "x$HAVE_GEOCLUE" = "xyes"; then
+    AC_DEFINE( HAVE_CHAMPLAIN, 1, [champlain-gtk available] )
+    CHAMPLAIN_REQUIREMENTS="champlain-gtk"
+    AC_DEFINE( HAVE_GEOCLUE, 1, [geoclue available] )
+    GEOCLUE_REQUIREMENTS="geoclue"
+    CONTACTS_MAP="contacts-map"
+else
+    CHAMPLAIN_REQUIREMENTS=""
+    GEOCLUE_REQUIREMENTS=""
+    CONTACTS_MAP=""
+fi
+    
+
+dnl ******************************
 dnl TNEF implementation
 dnl ******************************
 AC_MSG_CHECKING([for yTNEF])
@@ -1462,7 +1488,7 @@ dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
 plugins_experimental_always="face external-editor hula-account-setup"
 
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
-dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments"
+dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments contacts-map"
 
 dnl ******************************
 dnl Profiling support
@@ -1785,6 +1811,7 @@ plugins/templates/Makefile
 plugins/tnef-attachments/Makefile
 plugins/vcard-inline/Makefile
 plugins/webdav-account-setup/Makefile
+plugins/contacts-map/Makefile
 smclient/Makefile
 smime/Makefile
 smime/lib/Makefile
@@ -1820,4 +1847,6 @@ echo "
 	User documentation:	$with_help
 	Mono bindings:		$enable_mono
 	Python bindings:	$enable_python
+	Libchamplain:		$HAVE_CHAMPLAIN
+	Geoclue:		$HAVE_GEOCLUE 
 "

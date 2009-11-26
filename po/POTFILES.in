@@ -295,6 +295,8 @@ plugins/calendar-http/calendar-http.c
 plugins/calendar-http/org-gnome-calendar-http.eplug.xml
 plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
+plugins/contacts-map/contacts-map.c
+plugins/contacts-map/org-gnome-contacts-map.eplug.xml
 plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in
 plugins/default-mailer/org-gnome-default-mailer.eplug.xml
 plugins/default-mailer/org-gnome-default-mailer.error.xml

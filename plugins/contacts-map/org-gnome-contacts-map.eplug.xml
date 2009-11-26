@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+    <e-plugin id="org.gnome.evolution.contacts_maps" type="shlib" _name="Map for contacts"
+        location="@PLUGINDIR@/liborg-gnome-contacts-map@SOEXT@">
+        <author name="Cedric Bosdonnat" email="cedric.bosdonnat.ooo@free.fr"/>
+        <_description>Add a map showing the location of contacts when possible.</_description>
+      
+	<hook class="org.gnome.evolution.ui:1.0">
+        <ui-manager id="org.gnome.evolution.contacts" callback="addressbook_map_init">
+          <!-- Add something for contact-popup -->
+          <popup name="address-book-popup">
+            <menuitem action="contacts-map"/>
+          </popup>
+        </ui-manager>
+      </hook>
+
+    </e-plugin>
+</e-plugin-list>
+
