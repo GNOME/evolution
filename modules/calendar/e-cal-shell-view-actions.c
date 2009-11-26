@@ -1105,8 +1105,7 @@ exit:
 }
 
 static void
-action_event_schedule_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+edit_event_as (ECalShellView *cal_shell_view, gboolean as_meeting)
 {
 	ECalShellContent *cal_shell_content;
 	GnomeCalendarViewType view_type;
@@ -1129,10 +1128,47 @@ action_event_schedule_cb (GtkAction *action,
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
+	if (!as_meeting && icalcomp) {
+		/* remove organizer and all attendees */
+		icalproperty *prop;
+
+		/* do it on a copy, as user can cancel changes */
+		icalcomp = icalcomponent_new_clone (icalcomp);
+
+		#define remove_all(_kind)									\
+			while (prop = icalcomponent_get_first_property (icalcomp, _kind), prop != NULL) {	\
+				icalcomponent_remove_property (icalcomp, prop);					\
+				icalproperty_free (prop);							\
+			}
+
+		remove_all (ICAL_ATTENDEE_PROPERTY);
+		remove_all (ICAL_ORGANIZER_PROPERTY);
+
+		#undef remove_all
+	}
+
 	e_calendar_view_edit_appointment (
-		calendar_view, client, icalcomp, TRUE);
+		calendar_view, client, icalcomp, as_meeting);
+
+	if (!as_meeting && icalcomp) {
+		icalcomponent_free (icalcomp);
+	}
 
 	g_list_free (selected);
+}
+
+static void
+action_event_schedule_cb (GtkAction *action,
+                          ECalShellView *cal_shell_view)
+{
+	edit_event_as (cal_shell_view, TRUE);
+}
+
+static void
+action_event_schedule_appointment_cb (GtkAction *action,
+                          ECalShellView *cal_shell_view)
+{
+	edit_event_as (cal_shell_view, FALSE);
 }
 
 static void
@@ -1372,8 +1408,15 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,
 	  N_("_Schedule Meeting..."),
 	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Converts an appointment to a meeting"),
 	  G_CALLBACK (action_event_schedule_cb) },
+
+	{ "event-schedule-appointment",
+	  NULL,
+	  N_("Conv_ert to Appointment..."),
+	  NULL,
+	  N_("Converts a meeting to an appointment"),
+	  G_CALLBACK (action_event_schedule_appointment_cb) },
 
 	/*** Menus ***/
 
@@ -1481,7 +1524,11 @@ static EPopupActionEntry calendar_popup_entries[] = {
 
 	{ "event-popup-schedule",
 	  NULL,
-	  "event-schedule" }
+	  "event-schedule" },
+
+	{ "event-popup-schedule-appointment",
+	  NULL,
+	  "event-schedule-appointment" }
 };
 
 static GtkRadioActionEntry calendar_view_entries[] = {

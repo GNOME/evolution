@@ -436,6 +436,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	sensitive = (n_selected == 1) && editable && !is_meeting;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (EVENT_SCHEDULE_APPOINTMENT);
+	sensitive = (n_selected == 1) && editable && is_meeting;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (EVENT_REPLY);
 	sensitive = (n_selected == 1) && is_meeting;
 	gtk_action_set_sensitive (action, sensitive);

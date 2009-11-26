@@ -85,6 +85,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-print")
 #define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-schedule")
+#define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE_APPOINTMENT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-schedule-appointment")
 #define E_SHELL_WINDOW_ACTION_EVENT_REPLY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-reply")
 #define E_SHELL_WINDOW_ACTION_EVENT_REPLY_ALL(window) \

@@ -92,6 +92,7 @@
     <menuitem action='event-popup-move'/>
     <menuitem action='event-popup-delegate'/>
     <menuitem action='event-popup-schedule'/>
+    <menuitem action='event-popup-schedule-appointment'/>
     <menuitem action='event-popup-forward'/>
     <menuitem action='event-popup-reply'/>
     <menuitem action='event-popup-reply-all'/>
