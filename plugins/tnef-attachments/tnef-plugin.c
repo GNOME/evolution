@@ -55,12 +55,11 @@
 gint verbose = 0;
 gint saveRTF = 0;
 gint saveintermediate = 0;
-gchar *filepath = NULL;
 gboolean loaded = FALSE;
-void processTnef(TNEFStruct *tnef);
-void saveVCalendar(TNEFStruct *tnef);
-void saveVCard(TNEFStruct *tnef);
-void saveVTask(TNEFStruct *tnef);
+void processTnef(TNEFStruct *tnef, const gchar *tmpdir);
+void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir);
+void saveVCard(TNEFStruct *tnef, const gchar *tmpdir);
+void saveVTask(TNEFStruct *tnef, const gchar *tmpdir);
 
 void org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t);
 
@@ -78,7 +77,7 @@ gchar * getRruleDayname(guchar a);
 void
 org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 {
-	gchar *tmpdir = NULL, *name = NULL;
+	gchar *tmpdir, *name;
 	CamelStream *out;
 	struct dirent *d;
 	DIR *dir;
@@ -86,14 +85,11 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	CamelMimePart *mainpart;
 	CamelDataWrapper *content;
 	gint len;
-	TNEFStruct *tnef;
-	tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
+	TNEFStruct tnef;
 
 	tmpdir = e_mkdtemp("tnef-attachment-XXXXXX");
 	if (tmpdir == NULL)
 		return;
-
-	filepath = tmpdir;
 
 	name = g_build_filename(tmpdir, ".evo-attachment.tnef", NULL);
 
@@ -111,14 +107,14 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	camel_object_unref(out);
 
 	/* Extracting the winmail.dat */
-        TNEFInitialize(tnef);
-	tnef->Debug = verbose;
-        if (TNEFParseFile(name, tnef) == -1) {
+        TNEFInitialize(&tnef);
+	tnef.Debug = verbose;
+        if (TNEFParseFile(name, &tnef) == -1) {
             printf("ERROR processing file\n");
         }
-	processTnef(tnef);
+	processTnef(&tnef, tmpdir);
 
-        TNEFFree(tnef);
+        TNEFFree(&tnef);
 	/* Extraction done */
 
 	dir = opendir(tmpdir);
@@ -167,6 +163,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 		g_free(path);
 
 		camel_multipart_add_part(mp, part);
+		camel_object_unref(part);
 	}
 
 	closedir(dir);
@@ -181,6 +178,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 
 	g_string_truncate(t->format->part_id, len);
 
+	camel_object_unref(mp);
 	camel_object_unref(mainpart);
 
 	goto ok;
@@ -209,30 +207,29 @@ e_plugin_lib_enable(EPlugin *ep, gint enable)
     return 0;
 }
 
-void processTnef(TNEFStruct *tnef) {
+void processTnef(TNEFStruct *tnef, const gchar *tmpdir) {
     variableLength *filename;
     variableLength *filedata;
     Attachment *p;
     gint RealAttachment;
     gint object;
-    gchar * ifilename;
+    gchar ifilename[256];
     gint i, count;
     gint foundCal=0;
 
     FILE *fptr;
-    ifilename = (gchar *) g_malloc(sizeof(gchar) * 256);
 
     /* First see if this requires special processing. */
     /* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
     if (tnef->messageClass[0] != 0)  {
         if (strcmp(tnef->messageClass, "IPM.Contact") == 0) {
-            saveVCard(tnef);
+            saveVCard(tnef, tmpdir);
         }
         if (strcmp(tnef->messageClass, "IPM.Task") == 0) {
-            saveVTask(tnef);
+            saveVTask(tnef, tmpdir);
         }
         if (strcmp(tnef->messageClass, "IPM.Appointment") == 0) {
-            saveVCalendar(tnef);
+            saveVCalendar(tnef, tmpdir);
             foundCal = 1;
         }
     }
@@ -242,7 +239,7 @@ void processTnef(TNEFStruct *tnef) {
         if (strcmp(filename->data, "IPM.Appointment") == 0) {
              /* If it's "indicated" twice, we don't want to save 2 calendar entries. */
             if (foundCal == 0) {
-                saveVCalendar(tnef);
+                saveVCalendar(tnef, tmpdir);
             }
         }
     }
@@ -253,16 +250,9 @@ void processTnef(TNEFStruct *tnef) {
             if ((filename=MAPIFindProperty(&(tnef->MapiProperties),
 					   PROP_TAG(PT_BINARY, PR_RTF_COMPRESSED)))
                     != MAPI_UNDEFINED) {
-                variableLength *buf;
-		buf = (variableLength *)g_malloc (sizeof(variableLength));
-		buf->data[0]='\0';
-		buf->size=0;
-                if ((buf->data = (gchar *) DecompressRTF(filename, &(buf->size))) != NULL) {
-                    if (filepath == NULL) {
-                        sprintf(ifilename, "%s.rtf", tnef->subject.data);
-                    } else {
-                        sprintf(ifilename, "%s/%s.rtf", filepath, tnef->subject.data);
-                    }
+                variableLength buf;
+                if ((buf.data = (gchar *) DecompressRTF(filename, &buf.size)) != NULL) {
+                    sprintf(ifilename, "%s/%s.rtf", tmpdir, tnef->subject.data);
                     for (i=0; i<strlen(ifilename); i++)
                         if (ifilename[i] == ' ')
                             ifilename[i] = '_';
@@ -270,15 +260,13 @@ void processTnef(TNEFStruct *tnef) {
                     if ((fptr = fopen(ifilename, "wb"))==NULL) {
                         printf("ERROR: Error writing file to disk!");
                     } else {
-                        fwrite(buf->data,
+                        fwrite(buf.data,
                                 sizeof(BYTE),
-                                buf->size,
+                                buf.size,
                                 fptr);
                         fclose(fptr);
                     }
-                    free(buf->data);
-		    buf->data[0]='\0';
-		    buf->size=0;
+                    free(buf.data);
                 }
             }
 	}
@@ -311,39 +299,38 @@ void processTnef(TNEFStruct *tnef) {
             if (object == 1) {
                 /*  This is an "embedded object", so skip the */
                 /* 16-byte identifier first. */
-                TNEFStruct *emb_tnef;
+                TNEFStruct emb_tnef;
                 DWORD signature;
-		emb_tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
                 memcpy(&signature, filedata->data+16, sizeof(DWORD));
                 if (TNEFCheckForSignature(signature) == 0) {
                     /* Has a TNEF signature, so process it. */
-                    TNEFInitialize(emb_tnef);
-                    emb_tnef->Debug = tnef->Debug;
+                    TNEFInitialize(&emb_tnef);
+                    emb_tnef.Debug = tnef->Debug;
                     if (TNEFParseMemory((guchar *) filedata->data+16,
-                             filedata->size-16, emb_tnef) != -1) {
-                        processTnef(emb_tnef);
+                             filedata->size-16, &emb_tnef) != -1) {
+                        processTnef(&emb_tnef, tmpdir);
                         RealAttachment = 0;
                     }
-                    TNEFFree(emb_tnef);
+                    TNEFFree(&emb_tnef);
                 }
             } else {
-                TNEFStruct *emb_tnef;
+                TNEFStruct emb_tnef;
                 DWORD signature;
-		emb_tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
                 memcpy(&signature, filedata->data, sizeof(DWORD));
                 if (TNEFCheckForSignature(signature) == 0) {
                     /* Has a TNEF signature, so process it. */
-                    TNEFInitialize(emb_tnef);
-                    emb_tnef->Debug = tnef->Debug;
+                    TNEFInitialize(&emb_tnef);
+                    emb_tnef.Debug = tnef->Debug;
                     if (TNEFParseMemory((guchar *) filedata->data,
-                            filedata->size, emb_tnef) != -1) {
-                        processTnef(emb_tnef);
+                            filedata->size, &emb_tnef) != -1) {
+                        processTnef(&emb_tnef, tmpdir);
                         RealAttachment = 0;
                     }
-                    TNEFFree(emb_tnef);
+                    TNEFFree(&emb_tnef);
                 }
             }
             if ((RealAttachment == 1) || (saveintermediate == 1)) {
+ 		char tmpname[20];
                 /* Ok, it's not an embedded stream, so now we */
 		/* process it. */
                 if ((filename = MAPIFindProperty(&(p->MAPI),
@@ -356,16 +343,11 @@ void processTnef(TNEFStruct *tnef) {
                     }
                 }
                 if (filename->size == 1) {
-                    filename = (variableLength*)malloc(sizeof(variableLength));
                     filename->size = 20;
-                    filename->data = (gchar *)malloc(20);
-                    sprintf(filename->data, "file_%03i.dat", count);
+                    sprintf(tmpname, "file_%03i.dat", count);
+                    filename->data = tmpname;
                 }
-                if (filepath == NULL) {
-                    sprintf(ifilename, "%s", filename->data);
-                } else {
-                    sprintf(ifilename, "%s/%s", filepath, filename->data);
-                }
+                sprintf(ifilename, "%s/%s", tmpdir, filename->data);
                 for (i=0; i<strlen(ifilename); i++)
                     if (ifilename[i] == ' ')
                         ifilename[i] = '_';
@@ -390,11 +372,9 @@ void processTnef(TNEFStruct *tnef) {
         } /* if size>0 */
         p=p->next;
     } /* while p!= null */
-
-    g_free (ifilename);
 }
 
-void saveVCard(TNEFStruct *tnef) {
+void saveVCard(TNEFStruct *tnef, const gchar *tmpdir) {
     gchar ifilename[512];
     FILE *fptr;
     variableLength *vl;
@@ -405,31 +385,15 @@ void saveVCard(TNEFStruct *tnef) {
     if ((vl = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_DISPLAY_NAME))) == MAPI_UNDEFINED) {
         if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_COMPANY_NAME))) == MAPI_UNDEFINED) {
             if (tnef->subject.size > 0) {
-                if (filepath == NULL) {
-                    sprintf(ifilename, "%s.vcard", tnef->subject.data);
-                } else {
-                    sprintf(ifilename, "%s/%s.vcard", filepath, tnef->subject.data);
-                }
+                sprintf(ifilename, "%s/%s.vcard", tmpdir, tnef->subject.data);
             } else {
-                if (filepath == NULL) {
-                    sprintf(ifilename, "unknown.vcard");
-                } else {
-                    sprintf(ifilename, "%s/unknown.vcard", filepath);
-                }
+                sprintf(ifilename, "%s/unknown.vcard", tmpdir);
             }
         } else {
-            if (filepath == NULL) {
-                sprintf(ifilename, "%s.vcard", vl->data);
-            } else {
-                sprintf(ifilename, "%s/%s.vcard", filepath, vl->data);
-            }
+            sprintf(ifilename, "%s/%s.vcard", tmpdir, vl->data);
         }
     } else {
-        if (filepath == NULL) {
-            sprintf(ifilename, "%s.vcard", vl->data);
-        } else {
-            sprintf(ifilename, "%s/%s.vcard", filepath, vl->data);
-        }
+        sprintf(ifilename, "%s/%s.vcard", tmpdir, vl->data);
     }
     for (i=0; i<strlen(ifilename); i++)
         if (ifilename[i] == ' ')
@@ -688,6 +652,7 @@ void saveVCard(TNEFStruct *tnef) {
             fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
         }
         fprintf(fptr, "END:VCARD\n");
+        fclose(fptr);
     }
 }
 
@@ -873,7 +838,7 @@ void printRrule(FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
     fprintf(fptr, "\n");
 }
 
-void saveVCalendar(TNEFStruct *tnef) {
+void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
     gchar ifilename[256];
     variableLength *filename;
     gchar *charptr, *charptr2;
@@ -883,11 +848,7 @@ void saveVCalendar(TNEFStruct *tnef) {
     DDWORD ddword_val;
     dtr thedate;
 
-    if (filepath == NULL) {
-        sprintf(ifilename, "calendar.vcf");
-    } else {
-        sprintf(ifilename, "%s/calendar.vcf", filepath);
-    }
+    sprintf(ifilename, "%s/calendar.vcf", tmpdir);
     printf("%s\n", ifilename);
 
     if ((fptr = fopen(ifilename, "wb"))==NULL) {
@@ -1039,12 +1000,11 @@ void saveVCalendar(TNEFStruct *tnef) {
         if ((filename=MAPIFindProperty(&(tnef->MapiProperties),
                                 PROP_TAG(PT_BINARY, PR_RTF_COMPRESSED)))
                 != MAPI_UNDEFINED) {
-            variableLength *buf;
-	    buf = (variableLength *)g_malloc (sizeof(variableLength));
-            if ((buf->data = (gchar *) DecompressRTF(filename, &(buf->size))) != NULL) {
+            variableLength buf;
+            if ((buf.data = (gchar *) DecompressRTF(filename, &buf.size)) != NULL) {
                 fprintf(fptr, "DESCRIPTION:");
-                printRtf(fptr, buf);
-                free(buf->data);
+                printRtf(fptr, &buf);
+                free(buf.data);
             }
 
         }
@@ -1130,7 +1090,7 @@ void saveVCalendar(TNEFStruct *tnef) {
     }
 }
 
-void saveVTask(TNEFStruct *tnef) {
+void saveVTask(TNEFStruct *tnef, const gchar *tmpdir) {
     variableLength *vl;
     variableLength *filename;
     gint index,i;
@@ -1151,11 +1111,7 @@ void saveVTask(TNEFStruct *tnef) {
     while (vl->data[index] == ' ')
             vl->data[index--] = 0;
 
-    if (filepath == NULL) {
-        sprintf(ifilename, "%s.vcf", vl->data);
-    } else {
-        sprintf(ifilename, "%s/%s.vcf", filepath, vl->data);
-    }
+    sprintf(ifilename, "%s/%s.vcf", tmpdir, vl->data);
     for (i=0; i<strlen(ifilename); i++)
         if (ifilename[i] == ' ')
             ifilename[i] = '_';
