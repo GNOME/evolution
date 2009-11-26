@@ -87,7 +87,7 @@ static gboolean force_migrate = FALSE;
 static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean import_uris = FALSE;
-static gboolean idle_cb (gchar **uris);
+static gboolean quit = FALSE;
 
 static gchar *geometry = NULL;
 static gchar *requested_view = NULL;
@@ -237,7 +237,9 @@ idle_cb (gchar **uris)
 
 	/* These calls do the right thing when another Evolution
 	 * process is running. */
-	if (uris != NULL && *uris != NULL) {
+	if (quit)
+		e_shell_quit (shell);
+	else if (uris != NULL && *uris != NULL) {
 		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
 			gtk_main_quit ();
 	} else
@@ -334,6 +336,8 @@ static GOptionEntry entries[] = {
 	  &setup_only, NULL, NULL },
 	{ "import", 'i', 0, G_OPTION_ARG_NONE, &import_uris,
 	  N_("Import URIs or file names given as rest of arguments."), NULL },
+	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
+	  N_("Request a running Evolution process to quit"), NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
 	{ NULL }
 };

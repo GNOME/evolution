@@ -606,7 +606,7 @@ shell_constructed (GObject *object)
 		shell_add_backend, object);
 }
 
-static gboolean
+static UniqueResponse
 shell_message_handle_new (EShell *shell,
                           UniqueMessageData *data)
 {
@@ -616,10 +616,10 @@ shell_message_handle_new (EShell *shell,
 	e_shell_create_shell_window (shell, view_name);
 	g_free (view_name);
 
-	return TRUE;
+	return UNIQUE_RESPONSE_OK;
 }
 
-static gboolean
+static UniqueResponse
 shell_message_handle_open (EShell *shell,
                            UniqueMessageData *data)
 {
@@ -645,16 +645,21 @@ shell_message_handle_open (EShell *shell,
 	}
 	g_strfreev (uris);
 
-	return TRUE;
+	return UNIQUE_RESPONSE_OK;
 }
 
-static gboolean
+static UniqueResponse
 shell_message_handle_close (EShell *shell,
                             UniqueMessageData *data)
 {
-	e_shell_quit (shell);
+	UniqueResponse response;
 
-	return TRUE;
+	if (e_shell_quit (shell))
+		response = UNIQUE_RESPONSE_OK;
+	else
+		response = UNIQUE_RESPONSE_CANCEL;
+
+	return response;
 }
 
 static UniqueResponse
@@ -670,19 +675,13 @@ shell_message_received (UniqueApp *app,
 			break;  /* use the default behavior */
 
 		case UNIQUE_NEW:
-			if (shell_message_handle_new (shell, data))
-				return UNIQUE_RESPONSE_OK;
-			break;
+			return shell_message_handle_new (shell, data);
 
 		case UNIQUE_OPEN:
-			if (shell_message_handle_open (shell, data))
-				return UNIQUE_RESPONSE_OK;
-			break;
+			return shell_message_handle_open (shell, data);
 
 		case UNIQUE_CLOSE:
-			if (shell_message_handle_close (shell, data))
-				return UNIQUE_RESPONSE_OK;
-			break;
+			return shell_message_handle_close (shell, data);
 
 		default:
 			break;
@@ -1611,15 +1610,53 @@ e_shell_event (EShell *shell,
 	g_signal_emit (shell, signals[EVENT], detail, event_data);
 }
 
-void
+/**
+ * e_shell_quit:
+ * @shell: an #EShell
+ *
+ * Requests an application shutdown.  This happens in two phases: the
+ * first is synchronous, the second is asynchronous.
+ *
+ * In the first phase, the @shell emits a #EShell::quit-requested signal
+ * to potentially give the user a chance to cancel shutdown.  If the user
+ * cancels shutdown, the function returns %FALSE.  Otherwise it proceeds
+ * into the second phase.
+ *
+ * In the second phase, the @shell emits a #EShell::prepare-for-quit
+ * signal and immediately returns %TRUE.  Signal handlers may delay the
+ * actual application shutdown while they clean up resources, but there
+ * is no way to cancel shutdown at this point.
+ *
+ * Consult the documentation for these two signals for details on how
+ * to handle them.
+ *
+ * Returns: %TRUE if shutdown is underway, %FALSE if it was cancelled
+ **/
+gboolean
 e_shell_quit (EShell *shell)
 {
-	g_return_if_fail (E_IS_SHELL (shell));
+	UniqueApp *app;
+	UniqueResponse response;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	app = UNIQUE_APP (shell);
+
+	if (unique_app_is_running (app))
+		goto unique;
 
 	if (!shell_request_quit (shell))
-		return;
+		return FALSE;
 
 	shell_prepare_for_quit (shell);
+
+	return TRUE;
+
+unique:  /* Send a message to the other Evolution process. */
+
+	response = unique_app_send_message (app, UNIQUE_CLOSE, NULL);
+
+	return (response == UNIQUE_RESPONSE_OK);
 }
 
 /**

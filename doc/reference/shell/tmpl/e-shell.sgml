@@ -297,6 +297,7 @@ EShell
 </para>
 
 @shell: 
+@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_cancel_quit ##### -->
