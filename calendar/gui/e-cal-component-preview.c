@@ -394,6 +394,7 @@ cal_component_preview_class_init (ECalComponentPreviewClass *class)
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalComponentPreviewPrivate));
 
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = cal_component_preview_finalize;
 }
 
