@@ -415,13 +415,6 @@ shell_force_shutdown (void)
 }
 
 static void
-shell_window_destroyed_cb (EShell *shell)
-{
-	if (e_shell_get_watched_windows (shell) == NULL)
-		gtk_main_quit ();
-}
-
-static void
 create_default_shell (void)
 {
 	EShell *shell;
@@ -461,10 +454,6 @@ create_default_shell (void)
 		"geometry", geometry,
 		"online", online,
 		NULL);
-
-	g_signal_connect (
-		shell, "window-destroyed",
-		G_CALLBACK (shell_window_destroyed_cb), NULL);
 
 	g_object_unref (client);
 

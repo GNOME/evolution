@@ -30,6 +30,9 @@
 
 #include <unique/unique.h>
 #include <gconf/gconf-client.h>
+
+#include <e-util/e-activity.h>
+
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>
 #include <shell/e-shell-settings.h>
@@ -72,6 +75,21 @@ struct _EShell {
 
 struct _EShellClass {
 	UniqueAppClass parent_class;
+
+	gboolean	(*handle_uri)		(EShell *shell,
+						 const gchar *uri);
+	void		(*prepare_for_offline)	(EShell *shell,
+						 EActivity *activity);
+	void		(*prepare_for_online)	(EShell *shell,
+						 EActivity *activity);
+	void		(*prepare_for_quit)	(EShell *shell,
+						 EActivity *activity);
+	void		(*quit_requested)	(EShell *shell);
+	void		(*send_receive)		(EShell *shell,
+						 GtkWindow *parent);
+	void		(*window_created)	(EShell *shell,
+						 GtkWindow *window);
+	void		(*window_destroyed)	(EShell *shell);
 };
 
 GType		e_shell_get_type		(void);

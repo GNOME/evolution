@@ -304,6 +304,15 @@ shell_ready_for_quit (EShell *shell,
 
 	g_message ("Quit preparations complete.");
 
+	/* This handles a strange corner case where --quit is given on
+	 * the command-line but no other Evolution process is running.
+	 * We bring all the shell backends up and then immediately run
+	 * the shutdown procedure, which gets us here.  But because no
+	 * windows have been shown yet, the usual "main loop ends when
+	 * the last window is destroyed" trick won't work. */
+	if (e_shell_get_watched_windows (shell) == NULL)
+		gtk_main_quit ();
+
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a
 	 * watched window will modify the watched windows list, which
@@ -693,6 +702,13 @@ shell_message_received (UniqueApp *app,
 }
 
 static void
+shell_window_destroyed (EShell *shell)
+{
+	if (e_shell_get_watched_windows (shell) == NULL)
+		gtk_main_quit ();
+}
+
+static void
 shell_class_init (EShellClass *class)
 {
 	GObjectClass *object_class;
@@ -710,6 +726,8 @@ shell_class_init (EShellClass *class)
 
 	unique_app_class = UNIQUE_APP_CLASS (class);
 	unique_app_class->message_received = shell_message_received;
+
+	class->window_destroyed = shell_window_destroyed;
 
 	/**
 	 * EShell:geometry
@@ -809,7 +827,8 @@ shell_class_init (EShellClass *class)
 		"handle-uri",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		0, g_signal_accumulator_true_handled, NULL,
+		G_STRUCT_OFFSET (EShellClass, handle_uri),
+		g_signal_accumulator_true_handled, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1,
 		G_TYPE_STRING);
@@ -834,7 +853,8 @@ shell_class_init (EShellClass *class)
 		"prepare-for-offline",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, prepare_for_offline),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_ACTIVITY);
@@ -859,7 +879,8 @@ shell_class_init (EShellClass *class)
 		"prepare-for-online",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, prepare_for_online),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_ACTIVITY);
@@ -884,7 +905,8 @@ shell_class_init (EShellClass *class)
 		"prepare-for-quit",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, prepare_for_quit),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_ACTIVITY);
@@ -906,7 +928,8 @@ shell_class_init (EShellClass *class)
 		"quit-requested",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, quit_requested),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
@@ -922,7 +945,8 @@ shell_class_init (EShellClass *class)
 		"send-receive",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, send_receive),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		GTK_TYPE_WINDOW);
@@ -938,7 +962,8 @@ shell_class_init (EShellClass *class)
 		"window-created",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, window_created),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		GTK_TYPE_WINDOW);
@@ -953,7 +978,8 @@ shell_class_init (EShellClass *class)
 		"window-destroyed",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EShellClass, window_destroyed),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }
@@ -1645,21 +1671,10 @@ e_shell_quit (EShell *shell)
 	if (unique_app_is_running (app))
 		goto unique;
 
-	/* This handles the case where a --quit command-line option
-	 * was given and no other Evolution process is running. */
-	if (e_shell_get_watched_windows (shell) == NULL)
-		goto bypass;
-
 	if (!shell_request_quit (shell))
 		return FALSE;
 
 	shell_prepare_for_quit (shell);
-
-	return TRUE;
-
-bypass:  /* Bypass our usual shutdown procedure. */
-
-	gtk_main_quit ();
 
 	return TRUE;
 
