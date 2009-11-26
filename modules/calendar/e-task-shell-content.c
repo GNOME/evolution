@@ -203,7 +203,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
-		e_web_view_clear (E_WEB_VIEW (task_preview));
+		e_cal_component_preview_clear (task_preview);
 		return;
 	}
 
@@ -232,7 +232,7 @@ task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1)
-		e_web_view_clear (E_WEB_VIEW (task_preview));
+		e_cal_component_preview_clear (task_preview);
 }
 
 static void

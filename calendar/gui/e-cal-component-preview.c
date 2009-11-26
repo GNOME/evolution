@@ -41,9 +41,90 @@
 
 struct _ECalComponentPreviewPrivate {
 	icaltimezone *zone;
+
+	/* information about currently showing component in a preview;
+	   if it didn't change then the preview is not updated */
+	gchar *cal_uid;
+	gchar *comp_uid;
+	struct icaltimetype comp_last_modified;
+	gint comp_sequence;
 };
 
 static gpointer parent_class;
+
+static void
+clear_comp_info (ECalComponentPreview *preview)
+{
+	ECalComponentPreviewPrivate *priv;
+
+	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
+
+	priv = preview->priv;
+
+	g_free (priv->cal_uid);
+	priv->cal_uid = NULL;
+	g_free (priv->comp_uid);
+	priv->comp_uid = NULL;
+	priv->comp_last_modified = icaltime_null_time ();
+	priv->comp_sequence = -1;
+}
+
+/* Stores information about actually shown component and
+   returns whether component in the preview changed */
+static gboolean
+update_comp_info (ECalComponentPreview *preview, ECal *ecal, ECalComponent *comp)
+{
+	ECalComponentPreviewPrivate *priv;
+	gboolean changed;
+
+	g_return_val_if_fail (preview != NULL, TRUE);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview), TRUE);
+
+	priv = preview->priv;
+
+	if (!E_IS_CAL_COMPONENT (comp) || !E_IS_CAL (ecal)) {
+		changed = !priv->cal_uid;
+		clear_comp_info (preview);
+	} else {
+		const gchar *uid;
+		gchar *cal_uid;
+		gchar *comp_uid;
+		struct icaltimetype comp_last_modified, *itm = NULL;
+		gint *sequence = NULL;
+		gint comp_sequence;
+
+		cal_uid = g_strdup (e_source_peek_uid (e_cal_get_source (ecal)));
+		e_cal_component_get_uid (comp, &uid);
+		comp_uid = g_strdup (uid);
+		e_cal_component_get_last_modified (comp, &itm);
+		if (itm) {
+			comp_last_modified = *itm;
+			e_cal_component_free_icaltimetype (itm);
+		} else
+			comp_last_modified = icaltime_null_time ();
+		e_cal_component_get_sequence (comp, &sequence);
+		if (sequence) {
+			comp_sequence = *sequence;
+			e_cal_component_free_sequence (sequence);
+		} else
+			comp_sequence = 0;
+
+		changed = !priv->cal_uid || !priv->comp_uid || !cal_uid || !comp_uid ||
+			  !g_str_equal (priv->cal_uid, cal_uid) ||
+			  !g_str_equal (priv->comp_uid, comp_uid) ||
+			  priv->comp_sequence != comp_sequence ||
+			  icaltime_compare (priv->comp_last_modified, comp_last_modified) != 0;
+
+		clear_comp_info (preview);
+
+		priv->cal_uid = cal_uid;
+		priv->comp_uid = comp_uid;
+		priv->comp_sequence = comp_sequence;
+		priv->comp_last_modified = comp_last_modified;
+	}
+
+	return changed;
+}
 
 /* Converts a time_t to a string, relative to the specified timezone */
 static gchar *
@@ -295,10 +376,25 @@ cal_component_preview_write_html (GString *buffer,
 }
 
 static void
+cal_component_preview_finalize (GObject *object)
+{
+	ECalComponentPreview *preview;
+
+	clear_comp_info (E_CAL_COMPONENT_PREVIEW (preview));
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 cal_component_preview_class_init (ECalComponentPreviewClass *class)
 {
+	GObjectClass *object_class;
+
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalComponentPreviewPrivate));
+
+	object_class->finalize = cal_component_preview_finalize;
 }
 
 static void
@@ -376,6 +472,11 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
+	/* do not update preview when setting the same component as last time,
+	   which even didn't change */
+	if (!update_comp_info (preview, ecal, comp))
+		return;
+
 	/* XXX The initial buffer size is arbitrary.  Tune it. */
 
 	buffer = g_string_sized_new (4096);
@@ -383,4 +484,13 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
 		buffer, ecal, comp, preview->priv->zone);
 	e_web_view_load_string (E_WEB_VIEW (preview), buffer->str);
 	g_string_free (buffer, TRUE);
+}
+
+void
+e_cal_component_preview_clear (ECalComponentPreview *preview)
+{
+	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
+
+	clear_comp_info (preview);
+	e_web_view_clear (E_WEB_VIEW (preview));
 }

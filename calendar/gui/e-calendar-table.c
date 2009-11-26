@@ -1462,6 +1462,7 @@ hide_completed_rows (ECalModel *model, GList *clients_list, gchar *hide_sexp, GP
 	GList *l, *m, *objects;
 	ECal *client;
 	gint pos;
+	gboolean changed = FALSE;
 
 	for (l = clients_list; l != NULL; l = l->next) {
 		client = l->data;
@@ -1484,6 +1485,7 @@ hide_completed_rows (ECalModel *model, GList *clients_list, gchar *hide_sexp, GP
 				e_table_model_pre_change (E_TABLE_MODEL (model));
 				pos = get_position_in_array (comp_objects, comp_data);
 				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+				changed = TRUE;
 
 				if (g_ptr_array_remove (comp_objects, comp_data))
 					e_cal_model_free_component_data (comp_data);
@@ -1494,7 +1496,9 @@ hide_completed_rows (ECalModel *model, GList *clients_list, gchar *hide_sexp, GP
 
 		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
 		g_list_free (objects);
+	}
 
+	if (changed) {
 		/* to notify about changes, because in call of row_deleted there are still all events */
 		e_table_model_changed (E_TABLE_MODEL (model));
 	}

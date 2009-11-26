@@ -75,6 +75,7 @@ void		e_cal_component_preview_set_default_timezone
 void		e_cal_component_preview_display	(ECalComponentPreview *preview,
 						 ECal *ecal,
 						 ECalComponent *comp);
+void		e_cal_component_preview_clear	(ECalComponentPreview *preview);
 
 G_END_DECLS
 

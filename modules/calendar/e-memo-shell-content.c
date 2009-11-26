@@ -202,7 +202,7 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
-		e_web_view_clear (E_WEB_VIEW (memo_preview));
+		e_cal_component_preview_clear (memo_preview);
 		return;
 	}
 
@@ -233,7 +233,7 @@ memo_shell_content_selection_change_cb (EMemoShellContent *memo_shell_content,
 	/* XXX Old code emits a "selection-changed" signal here. */
 
 	if (e_table_selected_count (table) != 1)
-		e_web_view_clear (E_WEB_VIEW (memo_preview));
+		e_cal_component_preview_clear (memo_preview);
 }
 
 static void

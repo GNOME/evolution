@@ -263,7 +263,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 	task_preview =
 		e_task_shell_content_get_task_preview (task_shell_content);
-	e_web_view_clear (E_WEB_VIEW (task_preview));
+	e_cal_component_preview_clear (task_preview);
 }
 
 static void

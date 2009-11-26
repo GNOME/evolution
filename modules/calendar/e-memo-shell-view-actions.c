@@ -97,7 +97,7 @@ action_memo_delete_cb (GtkAction *action,
 	e_memo_table_delete_selected (memo_table);
 	e_memo_shell_view_set_status_message (memo_shell_view, NULL, -1.0);
 
-	e_web_view_clear (E_WEB_VIEW (memo_preview));
+	e_cal_component_preview_clear (memo_preview);
 }
 
 static void

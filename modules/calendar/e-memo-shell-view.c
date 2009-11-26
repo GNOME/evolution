@@ -151,7 +151,7 @@ memo_shell_view_execute_search (EShellView *shell_view)
 
 	memo_preview =
 		e_memo_shell_content_get_memo_preview (memo_shell_content);
-	e_web_view_clear (E_WEB_VIEW (memo_preview));
+	e_cal_component_preview_clear (memo_preview);
 }
 
 static void
