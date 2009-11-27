@@ -1109,36 +1109,42 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 			e_cal_component_alarm_get_trigger (alarm, &trigger);
 			e_cal_component_alarm_free (alarm);
 
-			if ((trigger.type == E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START
-			     && trigger.u.rel_duration.is_neg)) {
-				local->appt->advanceUnits = advMinutes;
-				local->appt->advance =
-					trigger.u.rel_duration.minutes
-					+ trigger.u.rel_duration.hours * 60
-					+ trigger.u.rel_duration.days * 60 * 24
-					+ trigger.u.rel_duration.weeks * 7 * 60 * 24;
-
-				if (local->appt->advance > PILOT_MAX_ADVANCE) {
-					local->appt->advanceUnits = advHours;
+			if (trigger.type == E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START) {
+				if (trigger.u.rel_duration.is_neg) {
+					local->appt->advanceUnits = advMinutes;
 					local->appt->advance =
-						trigger.u.rel_duration.minutes / 60
-						+ trigger.u.rel_duration.hours
-						+ trigger.u.rel_duration.days * 24
-						+ trigger.u.rel_duration.weeks * 7 * 24;
+						trigger.u.rel_duration.minutes
+						+ trigger.u.rel_duration.hours * 60
+						+ trigger.u.rel_duration.days * 60 * 24
+						+ trigger.u.rel_duration.weeks * 7 * 60 * 24;
+	
+					if (local->appt->advance > PILOT_MAX_ADVANCE) {
+						local->appt->advanceUnits = advHours;
+						local->appt->advance =
+							trigger.u.rel_duration.minutes / 60
+							+ trigger.u.rel_duration.hours
+							+ trigger.u.rel_duration.days * 24
+							+ trigger.u.rel_duration.weeks * 7 * 24;
+					}
+					if (local->appt->advance > PILOT_MAX_ADVANCE) {
+						local->appt->advanceUnits = advDays;
+						local->appt->advance =
+							trigger.u.rel_duration.minutes / (60 * 24)
+							+ trigger.u.rel_duration.hours / 24
+							+ trigger.u.rel_duration.days
+							+ trigger.u.rel_duration.weeks * 7;
+					}
+					if (local->appt->advance > PILOT_MAX_ADVANCE)
+						local->appt->advance = PILOT_MAX_ADVANCE;
+	
+					local->appt->alarm = 1;
+					break;
+				} else if (icaldurationtype_is_null_duration (trigger.u.rel_duration)) {
+					local->appt->advanceUnits = advMinutes;
+					local->appt->advance = 0;
+					local->appt->alarm = 1;
+					break;
 				}
-				if (local->appt->advance > PILOT_MAX_ADVANCE) {
-					local->appt->advanceUnits = advDays;
-					local->appt->advance =
-						trigger.u.rel_duration.minutes / (60 * 24)
-						+ trigger.u.rel_duration.hours / 24
-						+ trigger.u.rel_duration.days
-						+ trigger.u.rel_duration.weeks * 7;
-				}
-				if (local->appt->advance > PILOT_MAX_ADVANCE)
-					local->appt->advance = PILOT_MAX_ADVANCE;
-
-				local->appt->alarm = 1;
-				break;
 			}
 		}
 		cal_obj_uid_list_free (uids);
