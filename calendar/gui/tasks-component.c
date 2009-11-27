@@ -472,7 +472,7 @@ mark_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 static EPopupItem etc_source_popups[] = {
 	{ E_POPUP_ITEM, (gchar *) "10.new", (gchar *) N_("_New Task List"), new_task_list_cb, NULL, (gchar *) "stock_todo", 0, 0 },
 	{ E_POPUP_ITEM, (gchar *) "15.copy", (gchar *) N_("_Copy..."), copy_task_list_cb, NULL, (gchar *) "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, (gchar *) "18.rename", (gchar *) N_("_Rename..."), rename_task_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "18.rename", (gchar *) N_("_Rename..."), rename_task_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
 
 	{ E_POPUP_BAR, (gchar *) "20.bar" },
 	{ E_POPUP_ITEM, (gchar *) "20.delete", (gchar *) N_("_Delete"), delete_task_list_cb, NULL, (gchar *) "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
