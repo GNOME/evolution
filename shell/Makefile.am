@@ -114,12 +114,12 @@ evolution_CPPFLAGS =						\
 	-DEVOLUTION_ICONDIR=\""$(icondir)"\"			\
 	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\
 	-DEVOLUTION_RULEDIR=\""$(privdatadir)"\"		\
+	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\
 	-DPREFIX=\""$(prefix)"\"				\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(datadir)"\"				\
-	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 
@@ -141,6 +141,22 @@ evolution_LDADD =							\
 if OS_WIN32
 evolution_LDFLAGS = -mwindows
 endif
+
+# Killev utility
+
+if OS_WIN32
+else
+privlibexec_PROGRAMS = killev
+endif
+
+killev_CPPFLAGS =						\
+	$(AM_CPPFLAGS)						\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
+	$(GNOME_PLATFORM_CFLAGS)
+
+killev_SOURCES = killev.c
+
+killev_LDADD = $(GNOME_PLATFORM_LIBS)
 
 # Misc stuff
 

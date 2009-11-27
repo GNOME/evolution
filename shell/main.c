@@ -390,26 +390,10 @@ set_paths (void)
 static void G_GNUC_NORETURN
 shell_force_shutdown (void)
 {
-	gchar *program;
+	gchar *filename;
 
-	/* This is not as destructive as it was in the Bonobo era.
-	 * The Evolution-Data-Server D-Bus services should not be killed
-	 * because other programs may be using them.  The alarm daemon is
-	 * an autostart program now and Evolution no longer spawns it, so
-	 * that should not be killed either.  The only thing left to do
-	 * really is shoot ourselves. */
-
-	/* XXX Maybe --force-shutdown should be deprecated. */
-
-	program = g_find_program_in_path ("pkill");
-
-	if (program == NULL) {
-		g_printerr ("Could not find `pkill' program in path.\n");
-		exit (1);
-	}
-
-	/* This does not return. */
-	execl (program, "pkill", "evolution", NULL);
+	filename = g_build_filename (EVOLUTION_TOOLSDIR, "killev", NULL);
+	execl (filename, "killev", NULL);
 
 	g_assert_not_reached ();
 }
