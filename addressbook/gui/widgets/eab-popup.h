@@ -84,7 +84,9 @@ enum _eab_popup_target_uri_t {
 enum _eab_popup_target_source_t {
 	EAB_POPUP_SOURCE_PRIMARY = 1<<0,
 	EAB_POPUP_SOURCE_SYSTEM = 1<<1,	/* system folder */
-	EAB_POPUP_SOURCE_USER = 1<<2	/* user folder (!system) */
+	EAB_POPUP_SOURCE_USER = 1<<2,	/* user folder (!system) */
+	EAB_POPUP_SOURCE_DELETE = 1<<3,
+	EAB_POPUP_SOURCE_NO_DELETE = 1<<4
 };
 
 typedef struct _EABPopupTargetSelect EABPopupTargetSelect;

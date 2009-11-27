@@ -217,6 +217,7 @@ eab_popup_target_new_source(EABPopup *eabp, ESourceSelector *selector)
 	guint32 mask = ~0;
 	const gchar *source_uri;
 	ESource *source;
+	const gchar *delete = NULL;
 
 	/* TODO: this is duplicated for calendar and tasks too */
 
@@ -234,6 +235,17 @@ eab_popup_target_new_source(EABPopup *eabp, ESourceSelector *selector)
 		mask &= ~EAB_POPUP_SOURCE_SYSTEM;
 	else
 		mask &= ~EAB_POPUP_SOURCE_USER;
+
+	
+	/*check for delete_status property here*/
+	delete = e_source_get_property (source, "delete");
+
+	if (delete && strcmp (delete,"no") == 0) {
+		/*set the menu item to non deletable */
+		mask &= ~EAB_POPUP_SOURCE_NO_DELETE;
+	}
+	else
+		mask &= ~EAB_POPUP_SOURCE_DELETE;
 
 	t->target.mask = mask;
 

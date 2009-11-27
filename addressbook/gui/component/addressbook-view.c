@@ -454,11 +454,17 @@ folder_can_delete (AddressbookView *view)
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source;
 	const gchar *source_uri;
+	const gchar *delete = NULL;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	if (source) {
 		source_uri = e_source_peek_relative_uri (source);
+		/*check for delete_status property here*/
+		delete = e_source_get_property (source, "delete");
+
 		if (source_uri && !strcmp("system", source_uri))
+			return 0;
+		else if (delete && strcmp (delete,"no") == 0)
 			return 0;
 		else
 			return 1;
@@ -951,7 +957,7 @@ static EPopupItem abv_source_popups[] = {
 	{ E_POPUP_ITEM, (gchar *) "25.rename", (gchar *) N_("_Rename..."), rename_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR,  (gchar *) "30.bar" },
-	{ E_POPUP_ITEM, (gchar *) "30.delete", (gchar *) N_("_Delete"), delete_addressbook_cb, NULL, (gchar *) "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "30.delete", (gchar *) N_("_Delete"), delete_addressbook_cb, NULL, (gchar *) "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY|EAB_POPUP_SOURCE_DELETE },
 
 	{ E_POPUP_BAR,  (gchar *) "99.bar" },
 	{ E_POPUP_ITEM, (gchar *) "99.properties", (gchar *) N_("_Properties"), edit_addressbook_cb, NULL, (gchar *) "document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
