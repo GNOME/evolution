@@ -913,7 +913,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		due = tm_to_icaltimetype (&todo.due, TRUE);
 		dt.value = &due;
 		e_cal_component_set_due (comp, &dt);
-	}
+	} else
+		e_cal_component_set_due (comp, NULL);
 
 	switch (todo.priority) {
 	case 1:
