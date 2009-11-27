@@ -378,9 +378,7 @@ cal_component_preview_write_html (GString *buffer,
 static void
 cal_component_preview_finalize (GObject *object)
 {
-	ECalComponentPreview *preview;
-
-	clear_comp_info (E_CAL_COMPONENT_PREVIEW (preview));
+	clear_comp_info (E_CAL_COMPONENT_PREVIEW (object));
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
