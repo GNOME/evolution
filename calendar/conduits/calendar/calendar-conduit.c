@@ -1117,7 +1117,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 						+ trigger.u.rel_duration.hours * 60
 						+ trigger.u.rel_duration.days * 60 * 24
 						+ trigger.u.rel_duration.weeks * 7 * 60 * 24;
-	
+
 					if (local->appt->advance > PILOT_MAX_ADVANCE) {
 						local->appt->advanceUnits = advHours;
 						local->appt->advance =
@@ -1136,7 +1136,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 					}
 					if (local->appt->advance > PILOT_MAX_ADVANCE)
 						local->appt->advance = PILOT_MAX_ADVANCE;
-	
+
 					local->appt->alarm = 1;
 					break;
 				} else if (icaldurationtype_is_null_duration (trigger.u.rel_duration)) {

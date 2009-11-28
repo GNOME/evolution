@@ -9,7 +9,7 @@
 #include <champlain-gtk/champlain-gtk.h>
 #include <clutter-gtk/clutter-gtk.h>
 
-void 
+void
 get_min_max (gdouble *min_lat, gdouble *max_lat,
         gdouble *min_lng, gdouble *max_lng,
         gdouble lat, gdouble lng);

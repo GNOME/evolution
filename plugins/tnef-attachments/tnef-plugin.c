@@ -330,7 +330,7 @@ void processTnef(TNEFStruct *tnef, const gchar *tmpdir) {
                 }
             }
             if ((RealAttachment == 1) || (saveintermediate == 1)) {
- 		char tmpname[20];
+		gchar tmpname[20];
                 /* Ok, it's not an embedded stream, so now we */
 		/* process it. */
                 if ((filename = MAPIFindProperty(&(p->MAPI),

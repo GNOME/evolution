@@ -179,7 +179,7 @@ message_push (Message *msg)
 {
 	/* This used be pushed through the thread pool. This fix is made to work-around
 	the crashers in dbus due to threading. The threading is not completely removed as
-	its better to have alarm daemon running in a thread rather than blocking main thread. 
+	its better to have alarm daemon running in a thread rather than blocking main thread.
 	 This is the reason the creation of thread pool is commented out */
 	msg->func (msg);
 }

@@ -30,7 +30,6 @@
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
 
-
 /* Plugin entry points */
 
 gboolean addressbook_map_init (GtkUIManager *ui_manager, EShellView *shell_view);
@@ -39,7 +38,7 @@ void show_map_general (ESourceSelector *selector);
 
 /* Implementations */
 
-gboolean 
+gboolean
 addressbook_map_init (GtkUIManager *ui_manager, EShellView *shell_view)
 {
 	EShell *shell;
@@ -77,7 +76,6 @@ addressbook_map_init (GtkUIManager *ui_manager, EShellView *shell_view)
 	return TRUE;
 }
 
-
 void
 action_show_ebook_map (GtkAction *action, EShellView *shell_view)
 {
@@ -92,7 +90,6 @@ action_show_ebook_map (GtkAction *action, EShellView *shell_view)
 
 	g_object_unref (selector);
 }
-
 
 void
 show_map_general (ESourceSelector *selector)
@@ -110,7 +107,7 @@ show_map_general (ESourceSelector *selector)
 	gdouble lat = 0;
 	gdouble lng = 0;
 
-	GtkWidget *map_widget; 
+	GtkWidget *map_widget;
 	ChamplainView  *view;
 	ChamplainLayer *layer;
 
@@ -123,11 +120,11 @@ show_map_general (ESourceSelector *selector)
 	uri = e_source_get_uri (primary_source);
 	book = e_book_new_from_uri (uri, NULL);
 
-	if (!book || !e_book_open (book, TRUE, NULL)) 
+	if (!book || !e_book_open (book, TRUE, NULL))
 	{
 		g_warning ("Couldn't load addressbook %s", uri);
 		return;
-	} 
+	}
 
 	/* Get all the contacts with an address */
 	query = e_book_query_field_exists (E_CONTACT_ADDRESS);
@@ -154,7 +151,7 @@ show_map_general (ESourceSelector *selector)
 			fields = geoclue_geocode_address_to_position (geocoder, details,
 					&lat, &lng, NULL, &accuracy, &error);
 
-			if (!error && 
+			if (!error &&
 			    (fields & GEOCLUE_POSITION_FIELDS_LATITUDE) != 0 &&
 			    (fields & GEOCLUE_POSITION_FIELDS_LONGITUDE) != 0) {
 				/* Add the marker to the map */

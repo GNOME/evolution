@@ -33,13 +33,13 @@ add_marker (ChamplainLayer *layer, gdouble lat, gdouble lng, EContact *contact)
 	champlain_layer_add_marker (layer, CHAMPLAIN_BASE_MARKER(marker));
 }
 
-GeoclueGeocode* 
+GeoclueGeocode*
 get_geocoder (void)
 {
 	GeoclueGeocode *geocoder = NULL;
 
 	/* Create new GeoclueGeocode */
-	geocoder = geoclue_geocode_new ("org.freedesktop.Geoclue.Providers.Yahoo", 
+	geocoder = geoclue_geocode_new ("org.freedesktop.Geoclue.Providers.Yahoo",
 			"/org/freedesktop/Geoclue/Providers/Yahoo");
 
 	return geocoder;
