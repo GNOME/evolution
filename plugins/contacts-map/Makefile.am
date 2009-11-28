@@ -1,14 +1,15 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-contacts-map.eplug
+plugin_LTLIBRARIES = liborg-gnome-contacts-map.la
+
+liborg_gnome_contacts_map_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CHAMPLAIN_CFLAGS)				\
 	$(GEOCLUE_CFLAGS)
-
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-contacts-map.eplug
-plugin_LTLIBRARIES = liborg-gnome-contacts-map.la
 
 liborg_gnome_contacts_map_la_SOURCES = \
 		contacts-map.c \
@@ -23,7 +24,7 @@ liborg_gnome_contacts_map_la_LIBADD =	\
 	$(GEOCLUE_LIBS)			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-EXTRA_DIST = org-gnome-contacts-maps.eplug.xml
+EXTRA_DIST = org-gnome-contacts-map.eplug.xml
 
 BUILT_SOURCES = $(plugin_DATA)
 CLEANFILES = $(BUILT_SOURCES)

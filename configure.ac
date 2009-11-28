@@ -1158,28 +1158,6 @@ dnl ********************************
 FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0"
 
 dnl ******************************
-dnl libchamplain and geoclue?
-dnl ******************************
-
-PKG_CHECK_MODULES( [CHAMPLAIN], [champlain-gtk-0.5 >= champlain_minimum_version], [HAVE_CHAMPLAIN="yes"], [HAVE_CHAMPLAIN="no"] )
-if test "x$HAVE_CHAMPLAIN" = "xno"; then
-	PKG_CHECK_MODULES( [CHAMPLAIN], [champlain-gtk-0.4 >= champlain_minimum_version], [HAVE_CHAMPLAIN="yes"], [HAVE_CHAMPLAIN="no"] )
-fi
-PKG_CHECK_MODULES( [GEOCLUE], [geoclue >= geoclue_minimum_version], [HAVE_GEOCLUE="yes"], [HAVE_GEOCLUE="no"] )
-if test "x$HAVE_CHAMPLAIN" = "xyes" -a "x$HAVE_GEOCLUE" = "xyes"; then
-    AC_DEFINE( HAVE_CHAMPLAIN, 1, [champlain-gtk available] )
-    CHAMPLAIN_REQUIREMENTS="champlain-gtk"
-    AC_DEFINE( HAVE_GEOCLUE, 1, [geoclue available] )
-    GEOCLUE_REQUIREMENTS="geoclue"
-    CONTACTS_MAP="contacts-map"
-else
-    CHAMPLAIN_REQUIREMENTS=""
-    GEOCLUE_REQUIREMENTS=""
-    CONTACTS_MAP=""
-fi
-    
-
-dnl ******************************
 dnl TNEF implementation
 dnl ******************************
 AC_MSG_CHECKING([for yTNEF])
@@ -1551,6 +1529,41 @@ if test "x$enable_weather" = "xyes"; then
 	fi
 fi
 
+dnl ******************************************************
+dnl contacts-map plugin requires champlain-gtk and geoclue
+dnl N.B. The plugin is experimental so only require these
+dnl      packages if we are building experimental plugins.
+dnl ******************************************************
+if test "x$enable_plugins" = "xexperimental"; then
+	AC_ARG_ENABLE([contacts-map],
+		[AS_HELP_STRING([--enable-contacts-map],
+		[Enable contacts-map plugin @<:@default=yes@:>@])],
+		[enable_contacts_map="$enableval"], [enable_contacts_map=yes])
+
+	if test "x$enable_contacts_map" = "xyes"; then
+		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.5 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+		if test "x$have_champlain" = "xno"; then
+			PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.4 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+		fi
+		AC_SUBST(CHAMPLAIN_CFLAGS)
+		AC_SUBST(CHAMPLAIN_LIBS)
+
+		if test "x$have_champlain" = "xno"; then
+			AC_MSG_ERROR([champlain-gtk is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+		fi
+
+		PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
+		AC_SUBST(GEOCLUE_CFLAGS)
+		AC_SUBST(GEOCLUE_LIBS)
+
+		if test "x$have_geoclue" = "xno"; then
+			AC_MSG_ERROR([geoclue is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+		fi
+
+		plugins_standard="$plugins_standard contacts-map"
+	fi
+fi
+
 dnl *****************************************
 dnl image-inline plugin requires gtkimageview
 dnl *****************************************
@@ -1847,6 +1860,4 @@ echo "
 	User documentation:	$with_help
 	Mono bindings:		$enable_mono
 	Python bindings:	$enable_python
-	Libchamplain:		$HAVE_CHAMPLAIN
-	Geoclue:		$HAVE_GEOCLUE 
 "
