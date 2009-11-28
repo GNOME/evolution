@@ -419,8 +419,6 @@ e_text_to_html
 <SECTION>
 <FILE>e-icon-factory</FILE>
 <TITLE>Icon Utilities (Legacy)</TITLE>
-e_icon_factory_init
-e_icon_factory_shutdown
 e_icon_factory_get_icon_filename
 e_icon_factory_get_icon
 e_icon_factory_pixbuf_scale
@@ -578,7 +576,6 @@ e_show_uri
 e_display_help
 e_lookup_action
 e_lookup_action_group
-e_load_ui_definition
 e_action_compare_by_label
 e_action_group_remove_all_actions
 e_radio_action_get_current_action
@@ -604,7 +601,6 @@ e_file_lock_create
 e_file_lock_destroy
 e_file_lock_exists
 e_util_guess_mime_type
-e_util_read_file
 e_util_get_category_filter_options
 e_charset_add_radio_actions
 e_folder_map_local_folders
