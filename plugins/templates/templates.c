@@ -698,7 +698,7 @@ update_actions_cb (EShellView *shell_view)
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolderInfo *folder_info;
 	CamelFolder *folder;
 	CamelStore *store;
@@ -726,8 +726,8 @@ update_actions_cb (EShellView *shell_view)
 	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
-	uids = message_list_get_selected (message_list);
+	folder = MESSAGE_LIST (message_list)->folder;
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	if (uids->len != 1)
 		goto exit;
@@ -745,7 +745,8 @@ update_actions_cb (EShellView *shell_view)
 	build_template_menus_recurse (
 		ui_manager, action_group,
 		"/mail-message-popup/mail-message-templates",
-		&action_count, merge_id, folder_info, message_list->folder, uids->pdata[0]);
+		&action_count, merge_id, folder_info,
+		MESSAGE_LIST (message_list)->folder, uids->pdata[0]);
 
 exit:
 	em_utils_uids_free (uids);

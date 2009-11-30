@@ -79,6 +79,10 @@
 #include "em-format-quote.h"
 #include "e-mail-local.h"
 
+/* XXX This is a dirty hack on a dirty hack.  We really need
+ *     to rework or get rid of the functions that use this. */
+extern const gchar *shell_builtin_backend;
+
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */
 #define TOO_MANY 10
@@ -97,7 +101,8 @@ em_utils_get_data_dir (void)
 	 *     better way.  Ideally, nothing below the module layer
 	 *     should need to know about the user data directory. */
 	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
 
 	return e_shell_backend_get_data_dir (shell_backend);
 }
@@ -112,7 +117,8 @@ em_utils_get_config_dir (void)
 	 *     better way.  Ideally, nothing below the module layer
 	 *     should need to know about the user config directory. */
 	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
 
 	return e_shell_backend_get_config_dir (shell_backend);
 }
@@ -2074,7 +2080,8 @@ em_utils_show_error_silent (GtkWidget *widget)
 	EActivity *activity;
 
 	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
 
 	activity = e_alert_activity_new_warning (widget);
 	e_shell_backend_add_activity (shell_backend, activity);
@@ -2094,7 +2101,8 @@ em_utils_show_info_silent (GtkWidget *widget)
 	EActivity *activity;
 
 	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
 
 	activity = e_alert_activity_new_info (widget);
 	e_shell_backend_add_activity (shell_backend, activity);

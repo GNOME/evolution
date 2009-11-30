@@ -35,6 +35,7 @@
 #include "em-utils.h"
 #include "mail-config.h"
 #include "mail-ops.h"
+#include "message-list.h"
 
 #include "e-mail-reader.h"
 #include "e-mail-search-bar.h"

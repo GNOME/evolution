@@ -193,8 +193,9 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
                                   const gchar *uid)
 {
 	EMFormatHTMLDisplay *html_display;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelMessageInfo *info;
+	CamelFolder *folder;
 	EMailReader *reader;
 
 	if (uid == NULL)
@@ -203,7 +204,9 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	reader = E_MAIL_READER (browser);
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-	info = camel_folder_get_message_info (message_list->folder, uid);
+
+	folder = MESSAGE_LIST (message_list)->folder;
+	info = camel_folder_get_message_info (folder, uid);
 
 	if (info == NULL)
 		return;
@@ -214,7 +217,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	gtk_widget_grab_focus (
 		GTK_WIDGET (((EMFormatHTML *) html_display)->html));
 
-	camel_folder_free_message_info (message_list->folder, info);
+	camel_folder_free_message_info (folder, info);
 }
 
 static gboolean
@@ -558,14 +561,14 @@ mail_browser_get_html_display (EMailReader *reader)
 	return priv->html_display;
 }
 
-static MessageList *
+static GtkWidget *
 mail_browser_get_message_list (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
 
-	return MESSAGE_LIST (priv->message_list);
+	return priv->message_list;
 }
 
 static GtkMenu *
@@ -603,7 +606,7 @@ mail_browser_set_message (EMailReader *reader,
                           const gchar *uid)
 {
 	EMailReaderIface *iface;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 
@@ -618,7 +621,7 @@ mail_browser_set_message (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
+	folder = MESSAGE_LIST (message_list)->folder;
 	info = camel_folder_get_message_info (folder, uid);
 
 	if (info != NULL) {

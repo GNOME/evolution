@@ -57,6 +57,7 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
+#include "message-list.h"
 
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-content.h"

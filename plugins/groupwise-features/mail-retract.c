@@ -32,6 +32,7 @@
 #include <e-util/e-alert.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/message-list.h>
 
 #include "gw-ui.h"
 #include "share-folder.h"
@@ -41,7 +42,7 @@ get_selected_info (EShellView *shell_view, CamelFolder **folder, gchar **selecte
 {
 	EShellContent *shell_content;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GPtrArray *selected;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -50,13 +51,13 @@ get_selected_info (EShellView *shell_view, CamelFolder **folder, gchar **selecte
 	message_list = e_mail_reader_get_message_list (reader);
 	g_return_val_if_fail (message_list != NULL, FALSE);
 
-	selected = message_list_get_selected (message_list);
+	selected = message_list_get_selected (MESSAGE_LIST (message_list));
 	if (selected && selected->len == 1) {
-		*folder = message_list->folder;
+		*folder = MESSAGE_LIST (message_list)->folder;
 		*selected_uid = g_strdup (g_ptr_array_index (selected, 0));
 	}
 
-	message_list_free_uids (message_list, selected);
+	message_list_free_uids (MESSAGE_LIST (message_list), selected);
 
 	return *selected_uid != NULL;
 }

@@ -83,7 +83,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EMailReader *reader;
 	EShellView *shell_view;
 	EShellContent *shell_content;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
 	const gchar *folder_uri;
@@ -104,7 +104,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 
 	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = message_list->folder_uri;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
 
 	search_rule = vfolder_clone_rule (search_rule);
 	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
@@ -195,19 +195,21 @@ action_mail_folder_expunge_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	CamelFolder *folder;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	g_return_if_fail (message_list->folder != NULL);
 
-	em_utils_expunge_folder (
-		GTK_WIDGET (shell_window), message_list->folder);
+	folder = MESSAGE_LIST (message_list)->folder;
+	g_return_if_fail (folder != NULL);
+
+	em_utils_expunge_folder (GTK_WIDGET (shell_window), folder);
 }
 
 static void
@@ -215,7 +217,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	CamelFolder *folder;
@@ -231,7 +233,8 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder = message_list->folder;
+
+	folder = MESSAGE_LIST (message_list)->folder;
 	g_return_if_fail (folder != NULL);
 
 	key = "/apps/evolution/mail/prompts/mark_all_read";
@@ -240,7 +243,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	if (!em_utils_prompt_user (parent, key, prompt, NULL))
 		return;
 
-	uids = message_list_get_uids (message_list);
+	uids = message_list_get_uids (MESSAGE_LIST (message_list));
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++)
@@ -249,7 +252,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 			CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	camel_folder_thaw (folder);
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 }
 
 static void
@@ -356,10 +359,10 @@ action_mail_folder_rename_cb (GtkAction *action,
 
 /* Helper for action_mail_folder_select_all_cb() */
 static gboolean
-action_mail_folder_select_all_timeout_cb (MessageList *message_list)
+action_mail_folder_select_all_timeout_cb (GtkWidget *message_list)
 {
-	message_list_select_all (message_list);
-	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+	message_list_select_all (MESSAGE_LIST (message_list));
+	gtk_widget_grab_focus (message_list);
 
 	return FALSE;
 }
@@ -369,7 +372,7 @@ action_mail_folder_select_all_cb (GtkAction *action,
                                   EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 
@@ -379,7 +382,7 @@ action_mail_folder_select_all_cb (GtkAction *action,
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (message_list->threaded) {
+	if (MESSAGE_LIST (message_list)->threaded) {
 		gtk_action_activate (ACTION (MAIL_THREADS_EXPAND_ALL));
 
 		/* XXX The timeout below is added so that the execution
@@ -400,26 +403,26 @@ static void
 action_mail_folder_select_thread_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_thread (message_list);
+	message_list_select_thread (MESSAGE_LIST (message_list));
 }
 
 static void
 action_mail_folder_select_subthread_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_subthread (message_list);
+	message_list_select_subthread (MESSAGE_LIST (message_list));
 }
 
 static void
@@ -442,7 +445,7 @@ static void
 action_mail_hide_deleted_cb (GtkToggleAction *action,
                              EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 	gboolean active;
 
@@ -450,21 +453,21 @@ action_mail_hide_deleted_cb (GtkToggleAction *action,
 	message_list = e_mail_reader_get_message_list (reader);
 
 	active = gtk_toggle_action_get_active (action);
-	message_list_set_hidedeleted (message_list, active);
+	message_list_set_hidedeleted (MESSAGE_LIST (message_list), active);
 }
 
 static void
 action_mail_hide_read_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_hide_add (
-		message_list,
+		MESSAGE_LIST (message_list),
 		"(match-all (system-flag \"seen\"))",
 		ML_HIDE_SAME, ML_HIDE_SAME);
 }
@@ -473,16 +476,16 @@ static void
 action_mail_hide_selected_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 	GPtrArray *uids;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	uids = message_list_get_selected (message_list);
-	message_list_hide_uids (message_list, uids);
-	message_list_free_uids (message_list, uids);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	message_list_hide_uids (MESSAGE_LIST (message_list), uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 }
 
 static void
@@ -490,7 +493,7 @@ action_mail_label_cb (GtkToggleAction *action,
                       EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *tag;
@@ -501,9 +504,9 @@ action_mail_label_cb (GtkToggleAction *action,
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder = message_list->folder;
+	folder = MESSAGE_LIST (message_list)->folder;
 
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	for (ii = 0; ii < uids->len; ii++) {
 		if (gtk_toggle_action_get_active (action))
@@ -517,7 +520,7 @@ action_mail_label_cb (GtkToggleAction *action,
 		}
 	}
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 }
 
 static void
@@ -531,7 +534,7 @@ action_mail_label_new_cb (GtkAction *action,
 	EMailLabelDialog *label_dialog;
 	EMailLabelListStore *store;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -578,15 +581,15 @@ action_mail_label_new_cb (GtkAction *action,
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder = message_list->folder;
 
-	uids = message_list_get_selected (message_list);
+	folder = MESSAGE_LIST (message_list)->folder;
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	for (ii = 0; ii < uids->len; ii++)
 		camel_folder_set_message_user_flag (
 			folder, uids->pdata[ii], label_tag, TRUE);
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 
 	g_free (label_tag);
 
@@ -603,7 +606,7 @@ action_mail_label_none_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GtkTreeModel *tree_model;
 	CamelFolder *folder;
 	GtkTreeIter iter;
@@ -621,8 +624,8 @@ action_mail_label_none_cb (GtkAction *action,
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	uids = message_list_get_selected (message_list);
-	folder = message_list->folder;
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	folder = MESSAGE_LIST (message_list)->folder;
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
@@ -644,20 +647,20 @@ action_mail_label_none_cb (GtkAction *action,
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 }
 
 static void
 action_mail_show_hidden_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_hide_clear (message_list);
+	message_list_hide_clear (MESSAGE_LIST (message_list));
 }
 
 static void
@@ -672,7 +675,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 	EMFolderTree *folder_tree;
 	EMFormatHTMLDisplay *html_display;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
 	GtkHTML *html;
 	gboolean caret_mode;
@@ -709,18 +712,21 @@ action_mail_smart_backward_cb (GtkAction *action,
 	/* XXX Are two separate calls really necessary? */
 
 	if (message_list_select (
-		message_list, MESSAGE_LIST_SELECT_PREVIOUS,
+		MESSAGE_LIST (message_list),
+		MESSAGE_LIST_SELECT_PREVIOUS,
 		0, CAMEL_MESSAGE_SEEN))
 		return;
 
 	if (message_list_select (
-		message_list, MESSAGE_LIST_SELECT_PREVIOUS |
-		MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN))
+		MESSAGE_LIST (message_list),
+		MESSAGE_LIST_SELECT_PREVIOUS |
+		MESSAGE_LIST_SELECT_WRAP, 0,
+		CAMEL_MESSAGE_SEEN))
 		return;
 
 	em_folder_tree_select_prev_path (folder_tree, TRUE);
 
-	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+	gtk_widget_grab_focus (message_list);
 }
 
 static void
@@ -735,7 +741,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 	EMFolderTree *folder_tree;
 	EMFormatHTMLDisplay *html_display;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
 	GtkHTML *html;
 	gboolean caret_mode;
@@ -772,18 +778,21 @@ action_mail_smart_forward_cb (GtkAction *action,
 	/* XXX Are two separate calls really necessary? */
 
 	if (message_list_select (
-		message_list, MESSAGE_LIST_SELECT_NEXT,
+		MESSAGE_LIST (message_list),
+		MESSAGE_LIST_SELECT_NEXT,
 		0, CAMEL_MESSAGE_SEEN))
 		return;
 
 	if (message_list_select (
-		message_list, MESSAGE_LIST_SELECT_NEXT |
-		MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN))
+		MESSAGE_LIST (message_list),
+		MESSAGE_LIST_SELECT_NEXT |
+		MESSAGE_LIST_SELECT_WRAP,
+		0, CAMEL_MESSAGE_SEEN))
 		return;
 
 	em_folder_tree_select_next_path (folder_tree, TRUE);
 
-	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+	gtk_widget_grab_focus (message_list);
 }
 
 static void
@@ -797,26 +806,26 @@ static void
 action_mail_threads_collapse_all_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_collapse_all (message_list);
+	message_list_set_threaded_collapse_all (MESSAGE_LIST (message_list));
 }
 
 static void
 action_mail_threads_expand_all_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_expand_all (message_list);
+	message_list_set_threaded_expand_all (MESSAGE_LIST (message_list));
 }
 
 static void
@@ -824,7 +833,7 @@ action_mail_threads_group_by_cb (GtkToggleAction *action,
                                  EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 	gboolean active;
 
@@ -834,7 +843,7 @@ action_mail_threads_group_by_cb (GtkToggleAction *action,
 	reader = E_MAIL_READER (mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded (message_list, active);
+	message_list_set_threaded (MESSAGE_LIST (message_list), active);
 }
 
 static void
@@ -909,7 +918,7 @@ action_search_filter_cb (GtkRadioAction *action,
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
@@ -919,7 +928,7 @@ action_search_filter_cb (GtkRadioAction *action,
 
 	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = message_list->folder_uri;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
 
 	if (folder_uri != NULL) {
 		const gchar *key;
@@ -947,7 +956,7 @@ action_search_scope_cb (GtkRadioAction *action,
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
@@ -957,7 +966,7 @@ action_search_scope_cb (GtkRadioAction *action,
 
 	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = message_list->folder_uri;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
 
 	if (folder_uri != NULL) {
 		const gchar *key;
@@ -1651,7 +1660,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkTreeModel *tree_model;
@@ -1684,7 +1693,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
@@ -1715,7 +1724,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		/* Configure the action before we connect to signals. */
 		mail_shell_view_update_label_action (
 			GTK_TOGGLE_ACTION (label_action),
-			message_list, uids, tag);
+			MESSAGE_LIST (message_list), uids, tag);
 
 		g_signal_connect (
 			label_action, "toggled",
@@ -1738,7 +1747,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		ii++;
 	}
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 
 	g_object_unref (tree_model);
 }

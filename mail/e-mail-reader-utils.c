@@ -40,6 +40,7 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-vfolder.h"
+#include "mail/message-list.h"
 
 void
 e_mail_reader_activate (EMailReader *reader,
@@ -64,10 +65,10 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
-	MessageList *message_list;
 	CamelFolder *folder;
 	GtkWidget *check_button;
 	GtkWidget *content_area;
+	GtkWidget *message_list;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	const gchar *label;
@@ -85,7 +86,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	folder = message_list->folder;
+	folder = MESSAGE_LIST (message_list)->folder;
 
 	prompt_delete_in_vfolder = e_shell_settings_get_boolean (
 		shell_settings, "mail-prompt-delete-in-vfolder");
@@ -130,7 +131,7 @@ e_mail_reader_mark_as_read (EMailReader *reader,
                             const gchar *uid)
 {
 	EMFormatHTMLDisplay *html_display;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	guint32 mask, set;
 	guint32 flags;
@@ -141,7 +142,7 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
+	folder = MESSAGE_LIST (message_list)->folder;
 	flags = camel_folder_get_message_flags (folder, uid);
 
 	if (!(flags & CAMEL_MESSAGE_SEEN)) {
@@ -161,7 +162,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
                              guint32 mask,
                              guint32 set)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	guint ii;
@@ -170,18 +171,18 @@ e_mail_reader_mark_selected (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
+	folder = MESSAGE_LIST (message_list)->folder;
 	if (folder == NULL)
 		return 0;
 
 	camel_folder_freeze (folder);
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	for (ii = 0; ii < uids->len; ii++)
 		camel_folder_set_message_flags (
 			folder, uids->pdata[ii], mask, set);
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 	camel_folder_thaw (folder);
 
 	return ii;
@@ -191,7 +192,7 @@ guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
 	EShellBackend *shell_backend;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *views;
@@ -205,12 +206,12 @@ e_mail_reader_open_selected (EMailReader *reader)
 	shell_backend = e_mail_reader_get_shell_backend (reader);
 	window = e_mail_reader_get_window (reader);
 
-	folder = message_list->folder;
-	folder_uri = message_list->folder_uri;
-	uids = message_list_get_selected (message_list);
+	folder = MESSAGE_LIST (message_list)->folder;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	if (!em_utils_ask_open_many (window, uids->len)) {
-		message_list_free_uids (message_list, uids);
+		message_list_free_uids (MESSAGE_LIST (message_list), uids);
 		return 0;
 	}
 
@@ -273,7 +274,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 	g_ptr_array_free (views, TRUE);
 
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 
 	return ii;
 }
@@ -282,7 +283,7 @@ void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMFormatHTMLDisplay *html_display;
 	EMFormatHTMLPrint *html_print;
 	CamelFolder *folder;
@@ -293,11 +294,11 @@ e_mail_reader_print (EMailReader *reader,
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
+	folder = MESSAGE_LIST (message_list)->folder;
 	g_return_if_fail (folder != NULL);
 
 	/* XXX Learn to handle len > 1. */
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 	if (uids->len != 1)
 		goto exit;
 
@@ -310,7 +311,7 @@ e_mail_reader_print (EMailReader *reader,
 	g_object_unref (html_print);
 
 exit:
-	message_list_free_uids (message_list, uids);
+	message_list_free_uids (MESSAGE_LIST (message_list), uids);
 }
 
 /* Helper for e_mail_reader_reply_to_message()
@@ -361,7 +362,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
                                 gint reply_mode)
 {
 	EMFormatHTMLDisplay *html_display;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
 	CamelMimeMessage *src_message;
 	CamelFolder *folder;
@@ -384,8 +385,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
-	folder = message_list->folder;
-	uid = message_list->cursor_uid;
+	folder = MESSAGE_LIST (message_list)->folder;
+	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
 	if (!gtk_html_command (html, "is-selection-active"))
@@ -437,7 +438,7 @@ void
 e_mail_reader_select_next_message (EMailReader *reader,
                                    gboolean or_else_previous)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	gboolean hide_deleted;
 	gboolean success;
 
@@ -447,11 +448,13 @@ e_mail_reader_select_next_message (EMailReader *reader,
 	message_list = e_mail_reader_get_message_list (reader);
 
 	success = message_list_select (
-		message_list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
+		MESSAGE_LIST (message_list),
+		MESSAGE_LIST_SELECT_NEXT, 0, 0);
 
 	if (!success && (hide_deleted || or_else_previous))
 		message_list_select (
-			message_list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+			MESSAGE_LIST (message_list),
+			MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 }
 
 /* Helper for e_mail_reader_create_filter_from_selected() */
@@ -477,7 +480,7 @@ void
 e_mail_reader_create_filter_from_selected (EMailReader *reader,
                                            gint filter_type)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	const gchar *folder_uri;
@@ -492,8 +495,8 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
-	folder_uri = message_list->folder_uri;
+	folder = MESSAGE_LIST (message_list)->folder;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
 
 	if (em_utils_folder_is_sent (folder, folder_uri))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
@@ -502,7 +505,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;
 
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	if (uids->len == 1) {
 		filter_data = g_malloc (sizeof (*filter_data));
@@ -542,7 +545,7 @@ void
 e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
                                             gint vfolder_type)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *folder_uri;
 	GPtrArray *uids;
@@ -556,10 +559,10 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
-	folder_uri = message_list->folder_uri;
+	folder = MESSAGE_LIST (message_list)->folder;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
 
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));

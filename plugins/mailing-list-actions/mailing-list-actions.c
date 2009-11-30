@@ -44,6 +44,7 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-config.h"
+#include "mail/message-list.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert.h"
 #include "shell/e-shell-view.h"
@@ -201,7 +202,7 @@ static void
 emla_list_action (EMailReader *reader,
                   EmlaAction action)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	emla_action_data *data;
@@ -209,9 +210,9 @@ emla_list_action (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = message_list->folder;
-	folder_uri = message_list->folder_uri;
-	uids = message_list_get_selected (message_list);
+	folder = MESSAGE_LIST (message_list)->folder;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 	g_return_if_fail (uids->len == 1);
 
 	data = g_malloc (sizeof (emla_action_data));

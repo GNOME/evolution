@@ -348,7 +348,7 @@ static gchar *
 format_url (const gchar *internal_url, const gchar *account_name)
 {
 	CamelURL *url;
-	gchar *pretty_url;
+	gchar *pretty_url = NULL;
 
 	url = camel_url_new(internal_url, NULL);
 	if (account_name) {

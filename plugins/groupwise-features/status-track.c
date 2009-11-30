@@ -38,6 +38,7 @@
 #include <camel/camel-mime-message.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/message-list.h>
 
 #include <e-gw-connection.h>
 
@@ -63,7 +64,7 @@ get_selected_message (EShellView *shell_view, CamelFolder **folder, gchar **sele
 	CamelMimeMessage *msg = NULL;
 	EShellContent *shell_content;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GPtrArray *selected;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -72,15 +73,15 @@ get_selected_message (EShellView *shell_view, CamelFolder **folder, gchar **sele
 	message_list = e_mail_reader_get_message_list (reader);
 	g_return_val_if_fail (message_list != NULL, NULL);
 
-	selected = message_list_get_selected (message_list);
+	selected = message_list_get_selected (MESSAGE_LIST (message_list));
 	if (selected && selected->len == 1) {
-		*folder = message_list->folder;
+		*folder = MESSAGE_LIST (message_list)->folder;
 		*selected_uid = g_strdup (g_ptr_array_index (selected, 0));
 
 		msg = camel_folder_get_message (*folder, *selected_uid, NULL);
 	}
 
-	message_list_free_uids (message_list, selected);
+	message_list_free_uids (MESSAGE_LIST (message_list), selected);
 
 	return msg;
 }

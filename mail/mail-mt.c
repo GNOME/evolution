@@ -46,6 +46,10 @@
 /*#define MALLOC_CHECK*/
 #define d(x)
 
+/* XXX This is a dirty hack on a dirty hack.  We really need
+ *     to rework or get rid of the functions that use this. */
+const gchar *shell_builtin_backend = "mail";
+
 static void mail_operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data);
 
 /* background operation status stuff */
@@ -96,7 +100,8 @@ end_event_callback (CamelObject *o, EActivity *activity, gpointer error)
 	EShellBackend *shell_backend;
 
 	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
 
 	if (activity != NULL) {
 		e_activity_complete (activity);
@@ -846,7 +851,8 @@ op_status_exec (struct _op_status_msg *m)
 	g_return_if_fail (mail_in_main_thread ());
 
 	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
 
 	g_mutex_lock (mail_msg_lock);
 

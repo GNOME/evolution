@@ -22,10 +22,16 @@
 #ifndef E_MAIL_READER_H
 #define E_MAIL_READER_H
 
+/* XXX Anjal uses a different message list widget than Evolution, so
+ *     avoid including <mail/message-list.h> in this file.  This makes
+ *     the get_message_list() method a little awkward since it returns
+ *     a GtkWidget pointer which almost always has to be type casted.
+ *     Consider adding get_folder() and get_folder_uri() methods to
+ *     take some pressure off get_message_list(). */
+
 #include <gtk/gtk.h>
 #include <camel/camel-folder.h>
 #include <mail/em-format-html-display.h>
-#include <mail/message-list.h>
 #include <shell/e-shell-backend.h>
 
 /* Standard GObject macros */
@@ -82,7 +88,7 @@ struct _EMailReaderIface {
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	EMFormatHTMLDisplay *
 			(*get_html_display)	(EMailReader *reader);
-	MessageList *	(*get_message_list)	(EMailReader *reader);
+	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
 	EShellBackend *	(*get_shell_backend)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
@@ -110,7 +116,7 @@ GtkActionGroup *
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 EMFormatHTMLDisplay *
 		e_mail_reader_get_html_display	(EMailReader *reader);
-MessageList *	e_mail_reader_get_message_list	(EMailReader *reader);
+GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);

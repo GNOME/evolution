@@ -365,29 +365,6 @@ mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
 }
 
 static void
-tree_hidden_key_event_cb (EMFolderTree *emft, GdkEvent *event, EShellView *shell_view)
-{
-	if (event && event->type == GDK_KEY_PRESS && shell_view) {
-		MessageList *msg_list = e_mail_reader_get_message_list (E_MAIL_READER (e_shell_view_get_shell_content (shell_view)));
-
-		g_return_if_fail (msg_list != NULL);
-
-		switch (event->key.keyval) {
-		case '[':
-		case ',':
-			gtk_widget_grab_focus ((GtkWidget *) msg_list);
-			message_list_select (msg_list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
-			break;
-		case ']':
-		case '.':
-			gtk_widget_grab_focus ((GtkWidget *) msg_list);
-			message_list_select (msg_list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
-			break;
-		}
-	}
-}
-
-static void
 mail_shell_sidebar_get_property (GObject *object,
                                  guint property_id,
                                  GValue *value,
@@ -483,8 +460,6 @@ mail_shell_sidebar_constructed (GObject *object)
 	e_binding_new (
 		shell_settings, "mail-side-bar-search",
 		widget, "enable-search");
-
-	g_signal_connect (widget, "hidden-key-event", G_CALLBACK (tree_hidden_key_event_cb), shell_view);
 
 	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);

@@ -93,7 +93,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
 	EMailShellContent *mail_shell_content;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
 	CamelFolder *folder;
@@ -126,8 +126,8 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	folder_uri = message_list->folder_uri;
-	folder = message_list->folder;
+	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	folder = MESSAGE_LIST (message_list)->folder;
 
 	if (folder_uri != NULL) {
 		GKeyFile *key_file;
@@ -346,7 +346,7 @@ filter:
 			break;
 	}
 
-	message_list_set_search (message_list, query);
+	message_list_set_search (MESSAGE_LIST (message_list), query);
 
 	e_mail_shell_content_set_search_strings (
 		mail_shell_content, search_strings);
@@ -464,7 +464,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
 		EMFolderTreeModel *model;
-		MessageList *message_list;
+		GtkWidget *message_list;
+		const gchar *folder_uri;
+
+		message_list = e_mail_reader_get_message_list (reader);
+		folder_uri = MESSAGE_LIST (message_list)->folder_uri;
 
 		/* XXX If the user right-clicks on a folder other than what
 		 *     the message list is showing, disable folder rename.
@@ -473,9 +477,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		 *     back to where it was to avoid cancelling the inline
 		 *     folder tree editing, it's just too hairy to try to
 		 *     get right.  So we're punting. */
-		message_list = e_mail_reader_get_message_list (reader);
 		folder_tree_and_message_list_agree =
-			(g_strcmp0 (uri, message_list->folder_uri) == 0);
+			(g_strcmp0 (uri, folder_uri) == 0);
 
 		account = mail_config_get_account_by_source_url (uri);
 

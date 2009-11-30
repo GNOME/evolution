@@ -50,6 +50,7 @@
 #include <mail/em-utils.h>
 #include <mail/em-format-html.h>
 #include <mail/mail-config.h>
+#include <mail/message-list.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <calendar/common/authentication.h>
@@ -925,7 +926,7 @@ mail_to_event (ECalSourceType source_type,
                gboolean with_attendees,
                EMailReader *reader)
 {
-	MessageList *message_list;
+	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *selected;
 	ESourceList *source_list = NULL;
@@ -935,8 +936,8 @@ mail_to_event (ECalSourceType source_type,
 	GError *error = NULL;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	selected = message_list_get_selected (message_list);
-	folder = message_list->folder;
+	selected = message_list_get_selected (MESSAGE_LIST (message_list));
+	folder = MESSAGE_LIST (message_list)->folder;
 
 	if (!e_cal_get_sources (&source_list, source_type, &error)) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));

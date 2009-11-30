@@ -26,6 +26,7 @@
 #include <mail/e-mail-reader.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-tree-model.h>
+#include <mail/message-list.h>
 
 #include <calendar/gui/e-calendar-view.h>
 #include <calendar/gui/gnome-cal.h>
@@ -202,19 +203,19 @@ update_mmp_entries_cb (EShellView *shell_view, gpointer user_data)
 	if (visible) {
 		EShellContent *shell_content;
 		EMailReader *reader;
-		MessageList *message_list;
+		GtkWidget *message_list;
 		GPtrArray *selected;
 
 		shell_content = e_shell_view_get_shell_content (shell_view);
 
 		reader = (EMailReader *) (shell_content);
 		message_list = e_mail_reader_get_message_list (reader);
-		selected = message_list_get_selected (message_list);
+		selected = message_list_get_selected (MESSAGE_LIST (message_list));
 
 		if (selected)
 			n_selected = selected->len;
 
-		message_list_free_uids (message_list, selected);
+		message_list_free_uids (MESSAGE_LIST (message_list), selected);
 
 		visible = n_selected > 0;
 	}

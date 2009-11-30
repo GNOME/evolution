@@ -264,8 +264,12 @@ e_mail_store_init (const gchar *data_dir)
 {
 	static gboolean initialized = FALSE;
 
-	g_return_if_fail (!initialized);
 	g_return_if_fail (data_dir != NULL);
+
+	/* This function is idempotent, but there should
+	 * be no need to call it more than once. */
+	if (initialized)
+		return;
 
 	/* Initialize global variables. */
 
