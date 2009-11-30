@@ -1225,7 +1225,7 @@ AM_CONDITIONAL([NM_SUPPORT], [test "$NM_SUPPORT" = yes])
 dnl ******************************
 dnl Camel Flags
 dnl ******************************
-EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE, $MANUAL_NSS_CFLAGS, MOZILLA_NSS_CFLAGS)
+EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE, $MANUAL_NSS_CFLAGS, $MOZILLA_NSS_CFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
