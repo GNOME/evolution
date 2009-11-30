@@ -424,18 +424,17 @@ EAlert *
 e_alert_newv(const gchar *tag, const gchar *arg0, va_list ap)
 {
 	gchar *tmp;
-	GPtrArray *args;
-	EAlert *err = g_slice_new0 (EAlert);
-	err->tag = g_strdup (tag);
-	err->args = g_ptr_array_new_with_free_func (g_free);
+	EAlert *alert = g_slice_new0 (EAlert);
+	alert->tag = g_strdup (tag);
+	alert->args = g_ptr_array_new_with_free_func (g_free);
 
 	tmp = (gchar *)arg0;
 	while (tmp) {
-		g_ptr_array_add(args, g_strdup (tmp));
+		g_ptr_array_add(alert->args, g_strdup (tmp));
 		tmp = va_arg(ap, gchar *);
 	}
 
-	return err;
+	return alert;
 }
 
 /**
