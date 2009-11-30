@@ -54,7 +54,6 @@
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-error.h"
 #include "e-util/e-plugin.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-profile-event.h"

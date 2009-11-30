@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "e-util/e-error.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util-private.h"
 

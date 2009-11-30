@@ -23,7 +23,6 @@
 #define __E_ERROR_DIALOG_H__
 
 #include <glib-object.h>
-#include "e-error.h"
 #include "e-icon-factory.h"
 #include "e-logger.h"
 

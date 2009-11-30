@@ -38,7 +38,6 @@
 #include <glib/gstdio.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
 #include "mail-config.h"

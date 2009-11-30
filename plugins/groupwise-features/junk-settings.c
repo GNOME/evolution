@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
-#include <e-util/e-error.h>
 #include <e-util/e-util-private.h>
 #include <e-gw-connection.h>
 #define ROOTNODE "vboxSettings"

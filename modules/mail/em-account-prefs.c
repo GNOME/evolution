@@ -34,7 +34,7 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 
 #include "e-mail-store.h"
 #include "em-config.h"
@@ -82,7 +82,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tree_view));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		parent, "mail:ask-delete-proxy-accounts", NULL);
 
 	if (response != GTK_RESPONSE_YES) {
@@ -201,7 +201,7 @@ account_prefs_delete_account (EAccountManager *manager)
 	has_proxies =
 		e_account_list_account_has_proxies (account_list, account);
 
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		parent, has_proxies ?
 		"mail:ask-delete-account-with-proxies" :
 		"mail:ask-delete-account", NULL);

@@ -22,7 +22,7 @@ eutilinclude_HEADERS = 				\
 	e-datetime-format.h			\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
-	e-error.h				\
+	e-alert.h				\
 	e-event.h				\
 	e-file-utils.h				\
 	e-folder-map.h				\
@@ -95,7 +95,7 @@ libeutil_la_SOURCES =				\
 	e-datetime-format.c			\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
-	e-error.c				\
+	e-alert.c				\
 	e-event.c				\
 	e-file-utils.c				\
 	e-folder-map.c				\

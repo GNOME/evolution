@@ -35,7 +35,6 @@
 #include <string.h>
 
 #include "format-handler.h"
-#include "e-util/e-error.h"
 
 static void
 display_error_message (GtkWidget *parent, const gchar *message)

@@ -49,7 +49,6 @@
 #include <em-format/em-format.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-utils.h>
-#include <e-util/e-error.h>
 #include <e-util/e-mktemp.h>
 
 gint verbose = 0;

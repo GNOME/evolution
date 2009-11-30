@@ -25,7 +25,10 @@
 #define E_FILTER_PART_H
 
 #include <gtk/gtk.h>
-#include "e-filter-input.h"
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
+#include "e-util/e-alert.h"
+#include "e-filter-element.h"
 
 /* Standard GObject macros */
 #define E_TYPE_FILTER_PART \
@@ -71,7 +74,7 @@ struct _EFilterPartClass {
 GType		e_filter_part_get_type		(void);
 EFilterPart *	e_filter_part_new		(void);
 gboolean	e_filter_part_validate		(EFilterPart *part,
-						 EError **error);
+						 EAlert **alert);
 gint		e_filter_part_eq		(EFilterPart *part_a,
 						 EFilterPart *part_b);
 gint		e_filter_part_xml_create	(EFilterPart *part,

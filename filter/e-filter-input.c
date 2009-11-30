@@ -34,7 +34,7 @@
 
 #include <libedataserver/e-sexp.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 
 #include "e-filter-input.h"
 
@@ -70,12 +70,12 @@ filter_input_finalize (GObject *object)
 
 static gboolean
 filter_input_validate (EFilterElement *element,
-                       EError **error)
+                       EAlert **alert)
 {
 	EFilterInput *input = E_FILTER_INPUT (element);
 	gboolean valid = TRUE;
 
-	g_warn_if_fail (error == NULL || *error == NULL);
+	g_warn_if_fail (alert == NULL || *alert == NULL);
 
 	if (input->values && !strcmp (input->type, "regex")) {
 		const gchar *pattern;
@@ -85,7 +85,7 @@ filter_input_validate (EFilterElement *element,
 		pattern = input->values->data;
 
 		if ((regerr = regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE))) {
-			if (error) {
+			if (alert) {
 				gsize reglen;
 				gchar *regmsg;
 
@@ -95,7 +95,7 @@ filter_input_validate (EFilterElement *element,
 				regmsg = g_malloc0 (reglen + 1);
 				regerror (regerr, &regexpat, regmsg, reglen);
 
-				*error = e_error_new ("filter:bad-regexp",
+				*alert = e_alert_new ("filter:bad-regexp",
 						      pattern, regmsg, NULL);
 				g_free (regmsg);
 			}

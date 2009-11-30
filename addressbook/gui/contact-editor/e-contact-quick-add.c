@@ -33,7 +33,7 @@
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
 #include "eab-contact-merging.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 
 typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {
@@ -129,7 +129,7 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 		if (e_book_is_writable (book))
 			eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
 		else
-			e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+			e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
 						     "addressbook:error-read-only",
 						     e_source_peek_name (e_book_get_source (book)),
 						     NULL);

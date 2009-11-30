@@ -47,7 +47,7 @@
 #include <gconf/gconf-client.h>
 
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
@@ -174,7 +174,7 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, c
 	va_list ap;
 	gint button;
 	GConfClient *gconf = gconf_client_get_default ();
-	EError *error = NULL;
+	EAlert *alert = NULL;
 
 	if (promptkey
 	    && !gconf_client_get_bool(gconf, promptkey, NULL)) {
@@ -183,11 +183,11 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, c
 	}
 
 	va_start(ap, arg0);
-	error = e_error_newv(tag, arg0, ap);
+	alert = e_alert_newv(tag, arg0, ap);
 	va_end(ap);
 
-	mbox = e_error_new_dialog (parent, error);
-	e_error_free (error);
+	mbox = e_alert_new_dialog (parent, alert);
+	e_alert_free (alert);
 
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
@@ -1085,7 +1085,7 @@ skip_content:
 	camel_object_unref (new);
 
 	if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
-		e_error_run_dialog_for_args ((GtkWindow *)composer, "mail-composer:no-build-message",
+		e_alert_run_dialog_for_args ((GtkWindow *)composer, "mail-composer:no-build-message",
 			    camel_exception_get_description (&ex), NULL);
 	}
 
@@ -1377,7 +1377,7 @@ autosave_load_draft_cb (EMsgComposer *composer,
 		g_unlink (filename);
 
 	else {
-		e_error_run_dialog_for_args (
+		e_alert_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			"mail-composer:no-autosave",
 			(filename != NULL) ? filename : "",
@@ -4020,7 +4020,7 @@ e_msg_composer_check_autosave (GtkWindow *parent)
 	}
 
 	/* Ask if the user wants to recover the orphaned files. */
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		parent, "mail-composer:recover-autosave", NULL);
 
 	/* Based on the user's response, recover or delete them. */

@@ -33,7 +33,6 @@
 #include <mail/mail-ops.h>
 #include <mail/mail-mt.h>
 #include <camel/camel-vee-folder.h>
-#include "e-util/e-error.h"
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>

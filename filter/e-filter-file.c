@@ -31,7 +31,7 @@
 
 #include <libedataserver/e-sexp.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 
 #include "e-filter-file.h"
 #include "e-filter-part.h"
@@ -65,15 +65,15 @@ filter_file_finalize (GObject *object)
 
 static gboolean
 filter_file_validate (EFilterElement *element,
-                      EError **error)
+                      EAlert **alert)
 {
 	EFilterFile *file = E_FILTER_FILE (element);
 
-	g_warn_if_fail (error == NULL || *error == NULL);
+	g_warn_if_fail (alert == NULL || *alert == NULL);
 
 	if (!file->path) {
-		if (error)
-			*error = e_error_new ("filter:no-file", NULL);
+		if (alert)
+			*alert = e_alert_new ("filter:no-file", NULL);
 		return FALSE;
 	}
 
@@ -81,8 +81,8 @@ filter_file_validate (EFilterElement *element,
 
 	if (g_strcmp0 (file->type, "file") == 0) {
 		if (!g_file_test (file->path, G_FILE_TEST_IS_REGULAR)) {
-			if (error)
-				*error = e_error_new ( "filter:bad-file",
+			if (alert)
+				*alert = e_alert_new ( "filter:bad-file",
 						       file->path, NULL);
 			return FALSE;
 		}

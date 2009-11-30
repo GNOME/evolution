@@ -48,7 +48,6 @@
 #include <editor/gtkhtml-spell-language.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-charset-combo-box.h"
 #include "widgets/misc/e-signature-editor.h"

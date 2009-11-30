@@ -28,7 +28,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "cancel-comp.h"
 
 
@@ -105,7 +105,7 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 		return FALSE;
 	}
 
-	if (e_error_run_dialog_for_args (parent, id, NULL) == GTK_RESPONSE_YES)
+	if (e_alert_run_dialog_for_args (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else
 		return FALSE;

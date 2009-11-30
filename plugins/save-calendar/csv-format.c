@@ -34,8 +34,6 @@
 #include "calendar/common/authentication.h"
 #include <string.h>
 
-#include "e-util/e-error.h"
-
 #include "format-handler.h"
 
 typedef struct _CsvConfig CsvConfig;

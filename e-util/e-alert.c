@@ -35,35 +35,35 @@
 
 #include "e-util.h"
 #include "e-util-private.h"
-#include "e-error.h"
+#include "e-alert.h"
 
 #define d(x)
 
-struct _EError
+struct _EAlert
 {
 	gchar *tag;
 	GPtrArray *args;
 };
 
 void
-e_error_free (EError *error)
+e_alert_free (EAlert *alert)
 {
-	if (error == NULL)
+	if (alert == NULL)
 		return;
-	g_free (error->tag);
+	g_free (alert->tag);
 	/* arg strings will be freed automatically since we set a free func when
 	 * creating the ptr array */
-	g_ptr_array_free (error->args, TRUE);
+	g_ptr_array_free (alert->args, TRUE);
 }
 
-struct _e_error_button {
-	struct _e_error_button *next;
+struct _e_alert_button {
+	struct _e_alert_button *next;
 	const gchar *stock;
 	const gchar *label;
 	gint response;
 };
 
-struct _e_error {
+struct _e_alert {
 	guint32 flags;
 	const gchar *id;
 	gint type;
@@ -73,24 +73,24 @@ struct _e_error {
 	const gchar *secondary;
 	const gchar *help_uri;
 	gboolean scroll;
-	struct _e_error_button *buttons;
+	struct _e_alert_button *buttons;
 };
 
-struct _e_error_table {
+struct _e_alert_table {
 	const gchar *domain;
 	const gchar *translation_domain;
-	GHashTable *errors;
+	GHashTable *alerts;
 };
 
-static GHashTable *error_table;
+static GHashTable *alert_table;
 
 /* ********************************************************************** */
 
-static struct _e_error_button default_ok_button = {
+static struct _e_alert_button default_ok_button = {
 	NULL, "gtk-ok", NULL, GTK_RESPONSE_OK
 };
 
-static struct _e_error default_errors[] = {
+static struct _e_alert default_alerts[] = {
 	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", "{1}", NULL, FALSE, &default_ok_button },
 	{ GTK_DIALOG_MODAL, "error-primary", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", NULL, NULL, FALSE, &default_ok_button },
 	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", "{1}", NULL, FALSE, &default_ok_button },
@@ -170,9 +170,9 @@ ee_load(const gchar *path)
 {
 	xmlDocPtr doc = NULL;
 	xmlNodePtr root, error, scan;
-	struct _e_error *e;
-	struct _e_error_button *lastbutton;
-	struct _e_error_table *table;
+	struct _e_alert *e;
+	struct _e_alert_button *lastbutton;
+	struct _e_alert_table *table;
 	gchar *tmp;
 
 	d(printf("loading error file %s\n", path));
@@ -192,14 +192,14 @@ ee_load(const gchar *path)
 		return;
 	}
 
-	table = g_hash_table_lookup(error_table, tmp);
+	table = g_hash_table_lookup(alert_table, tmp);
 	if (table == NULL) {
 		gchar *tmp2;
 
 		table = g_malloc0(sizeof(*table));
 		table->domain = g_strdup(tmp);
-		table->errors = g_hash_table_new(g_str_hash, g_str_equal);
-		g_hash_table_insert(error_table, (gpointer) table->domain, table);
+		table->alerts = g_hash_table_new(g_str_hash, g_str_equal);
+		g_hash_table_insert(alert_table, (gpointer) table->domain, table);
 
 		tmp2 = (gchar *)xmlGetProp(root, (const guchar *)"translation-domain");
 		if (tmp2) {
@@ -227,7 +227,7 @@ ee_load(const gchar *path)
 			e->scroll = FALSE;
 
 			xmlFree(tmp);
-			lastbutton = (struct _e_error_button *)&e->buttons;
+			lastbutton = (struct _e_alert_button *)&e->buttons;
 
 			tmp = (gchar *)xmlGetProp(error, (const guchar *)"modal");
 			if (tmp) {
@@ -277,7 +277,7 @@ ee_load(const gchar *path)
 						xmlFree(tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "button")) {
-					struct _e_error_button *b;
+					struct _e_alert_button *b;
 					gchar *label = NULL;
 					gchar *stock = NULL;
 
@@ -312,7 +312,7 @@ ee_load(const gchar *path)
 				}
 			}
 
-			g_hash_table_insert(table->errors, (gpointer) e->id, e);
+			g_hash_table_insert(table->alerts, (gpointer) e->id, e);
 		}
 	}
 
@@ -325,23 +325,23 @@ ee_load_tables(void)
 	GDir *dir;
 	const gchar *d;
 	gchar *base;
-	struct _e_error_table *table;
+	struct _e_alert_table *table;
 	gint i;
 
-	if (error_table != NULL)
+	if (alert_table != NULL)
 		return;
 
-	error_table = g_hash_table_new(g_str_hash, g_str_equal);
+	alert_table = g_hash_table_new(g_str_hash, g_str_equal);
 
-	/* setup system error types */
+	/* setup system alert types */
 	table = g_malloc0(sizeof(*table));
 	table->domain = "builtin";
-	table->errors = g_hash_table_new(g_str_hash, g_str_equal);
-	for (i = 0; i < G_N_ELEMENTS (default_errors); i++)
-		g_hash_table_insert(table->errors, (gpointer) default_errors[i].id, &default_errors[i]);
-	g_hash_table_insert(error_table, (gpointer) table->domain, table);
+	table->alerts = g_hash_table_new(g_str_hash, g_str_equal);
+	for (i = 0; i < G_N_ELEMENTS (default_alerts); i++)
+		g_hash_table_insert(table->alerts, (gpointer) default_alerts[i].id, &default_alerts[i]);
+	g_hash_table_insert(alert_table, (gpointer) table->domain, table);
 
-	/* look for installed error tables */
+	/* look for installed alert tables */
 	base = g_build_filename (EVOLUTION_PRIVDATADIR, "errors", NULL);
 	dir = g_dir_open(base, 0, NULL);
 	if (dir == NULL) {
@@ -412,7 +412,7 @@ ee_build_label(GString *out, const gchar *fmt, GPtrArray *args,
 }
 
 static void
-ee_response(GtkWidget *w, guint button, struct _e_error *e)
+ee_response(GtkWidget *w, guint button, struct _e_alert *e)
 {
 	if (button == GTK_RESPONSE_HELP) {
 		g_signal_stop_emission_by_name(w, "response");
@@ -420,12 +420,12 @@ ee_response(GtkWidget *w, guint button, struct _e_error *e)
 	}
 }
 
-EError *
-e_error_newv(const gchar *tag, const gchar *arg0, va_list ap)
+EAlert *
+e_alert_newv(const gchar *tag, const gchar *arg0, va_list ap)
 {
 	gchar *tmp;
 	GPtrArray *args;
-	EError *err = g_slice_new0 (EError);
+	EAlert *err = g_slice_new0 (EAlert);
 	err->tag = g_strdup (tag);
 	err->args = g_ptr_array_new_with_free_func (g_free);
 
@@ -439,35 +439,35 @@ e_error_newv(const gchar *tag, const gchar *arg0, va_list ap)
 }
 
 /**
- * e_error_new:
- * @tag: error identifier
- * @arg0: The first argument for the error formatter.  The list must
+ * e_alert_new:
+ * @tag: alert identifier
+ * @arg0: The first argument for the alert formatter.  The list must
  * be NULL terminated.
  *
- * Creates a new EError.  The @tag argument is used to determine
- * which error to use, it is in the format domain:error-id.  The NULL
+ * Creates a new EAlert.  The @tag argument is used to determine
+ * which alert to use, it is in the format domain:alert-id.  The NULL
  * terminated list of arguments, starting with @arg0 is used to fill
- * out the error definition.
+ * out the alert definition.
  **/
-EError *
-e_error_new(const gchar *tag, const gchar *arg0, ...)
+EAlert *
+e_alert_new(const gchar *tag, const gchar *arg0, ...)
 {
-	EError *e;
+	EAlert *e;
 	va_list ap;
 
 	va_start(ap, arg0);
-	e = e_error_newv(tag, arg0, ap);
+	e = e_alert_newv(tag, arg0, ap);
 	va_end(ap);
 
 	return e;
 }
 
 GtkWidget *
-e_error_new_dialog(GtkWindow *parent, EError *error)
+e_alert_new_dialog(GtkWindow *parent, EAlert *alert)
 {
-	struct _e_error_table *table;
-	struct _e_error *e;
-	struct _e_error_button *b;
+	struct _e_alert_table *table;
+	struct _e_alert *e;
+	struct _e_alert_button *b;
 	GtkWidget *hbox, *w, *scroll=NULL;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
@@ -476,9 +476,9 @@ e_error_new_dialog(GtkWindow *parent, EError *error)
 	GtkDialog *dialog;
 	gchar *str, *perr=NULL, *serr=NULL;
 
-	g_return_val_if_fail (error != NULL, NULL);
+	g_return_val_if_fail (alert != NULL, NULL);
 
-	if (error_table == NULL)
+	if (alert_table == NULL)
 		ee_load_tables();
 
 	dialog = (GtkDialog *)gtk_dialog_new();
@@ -498,17 +498,17 @@ e_error_new_dialog(GtkWindow *parent, EError *error)
 			"Something called %s() with a NULL parent window.  "
 			"This is no longer legal, please fix it.", G_STRFUNC);
 
-	domain = alloca(strlen(error->tag)+1);
-	strcpy(domain, error->tag);
+	domain = alloca(strlen(alert->tag)+1);
+	strcpy(domain, alert->tag);
 	id = strchr(domain, ':');
 	if (id)
 		*id++ = 0;
 
 	if ( id == NULL
-	     || (table = g_hash_table_lookup(error_table, domain)) == NULL
-	     || (e = g_hash_table_lookup(table->errors, id)) == NULL) {
-		/* setup a dummy error */
-		str = g_strdup_printf(_("Internal error, unknown error '%s' requested"), error->tag);
+	     || (table = g_hash_table_lookup(alert_table, domain)) == NULL
+	     || (e = g_hash_table_lookup(table->alerts, id)) == NULL) {
+		/* setup a dummy alert */
+		str = g_strdup_printf(_("Internal error, unknown error '%s' requested"), alert->tag);
 		tmp = g_strdup_printf("<span weight=\"bold\">%s</span>", str);
 		g_free(str);
 		w = gtk_label_new(NULL);
@@ -568,7 +568,7 @@ e_error_new_dialog(GtkWindow *parent, EError *error)
 	out = g_string_new("");
 
 	if (e->title && *e->title) {
-		ee_build_label(out, e->title, error->args, FALSE);
+		ee_build_label(out, e->title, alert->args, FALSE);
 		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
@@ -576,19 +576,19 @@ e_error_new_dialog(GtkWindow *parent, EError *error)
 
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
-		ee_build_label(out, e->primary, error->args, TRUE);
+		ee_build_label(out, e->primary, alert->args, TRUE);
 		g_string_append(out, "</span>\n\n");
 		oerr = g_string_new("");
-		ee_build_label(oerr, e->primary, error->args, FALSE);
+		ee_build_label(oerr, e->primary, alert->args, FALSE);
 		perr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	} else
 		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
 
 	if (e->secondary) {
-		ee_build_label(out, e->secondary, error->args, TRUE);
+		ee_build_label(out, e->secondary, alert->args, TRUE);
 		oerr = g_string_new("");
-		ee_build_label(oerr, e->secondary, error->args, TRUE);
+		ee_build_label(oerr, e->secondary, alert->args, TRUE);
 		serr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	}
@@ -620,12 +620,12 @@ e_error_new_dialog(GtkWindow *parent, EError *error)
 }
 
 gint
-e_error_run_dialog(GtkWindow *parent, EError *error)
+e_alert_run_dialog(GtkWindow *parent, EAlert *alert)
 {
 	GtkWidget *w;
 	gint res;
 
-	w = e_error_new_dialog(parent, error);
+	w = e_alert_new_dialog(parent, alert);
 
 	res = gtk_dialog_run((GtkDialog *)w);
 	gtk_widget_destroy(w);
@@ -634,7 +634,7 @@ e_error_run_dialog(GtkWindow *parent, EError *error)
 }
 
 /**
- * e_error_dialog_count_buttons:
+ * e_alert_dialog_count_buttons:
  * @dialog: a #GtkDialog
  *
  * Counts the number of buttons in @dialog's action area.
@@ -642,7 +642,7 @@ e_error_run_dialog(GtkWindow *parent, EError *error)
  * Returns: number of action area buttons
  **/
 guint
-e_error_dialog_count_buttons (GtkDialog *dialog)
+e_alert_dialog_count_buttons (GtkDialog *dialog)
 {
 	GtkWidget *container;
 	GList *children, *iter;
@@ -664,35 +664,35 @@ e_error_dialog_count_buttons (GtkDialog *dialog)
 }
 
 GtkWidget *
-e_error_new_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+e_alert_new_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *w;
-	EError *e;
+	EAlert *e;
 	va_list ap;
 
 	va_start(ap, arg0);
-	e = e_error_newv(tag, arg0, ap);
+	e = e_alert_newv(tag, arg0, ap);
 	va_end(ap);
 
-	w = e_error_new_dialog (parent, e);
-	e_error_free (e);
+	w = e_alert_new_dialog (parent, e);
+	e_alert_free (e);
 
 	return w;
 }
 
 gint
-e_error_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
 {
-	EError *e;
+	EAlert *e;
 	va_list ap;
 	gint response;
 
 	va_start(ap, arg0);
-	e = e_error_newv(tag, arg0, ap);
+	e = e_alert_newv(tag, arg0, ap);
 	va_end(ap);
 
-	response = e_error_run_dialog (parent, e);
-	e_error_free (e);
+	response = e_alert_run_dialog (parent, e);
+	e_alert_free (e);
 
 	return response;
 }

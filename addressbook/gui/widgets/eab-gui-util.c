@@ -35,7 +35,7 @@
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include <libebook/e-destination.h>
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-html-utils.h"
 #include "shell/e-shell.h"
 #include "misc/e-image-chooser.h"
@@ -86,7 +86,7 @@ eab_error_dialog (const gchar *msg, EBookStatus status)
 		status_str = status_to_string [status];
 
 	if (status_str)
-		e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+		e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
 					     "addressbook:generic-error",
 					     msg, _(status_str), NULL);
 }
@@ -147,7 +147,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 		}
 	}
 
-	dialog  = e_error_new_dialog_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
+	dialog  = e_alert_new_dialog_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 
 	gtk_widget_show (dialog);
@@ -189,13 +189,13 @@ eab_search_result_dialog      (GtkWidget *parent,
 		g_return_if_reached ();
 	}
 
-	e_error_run_dialog_for_args ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
+	e_alert_run_dialog_for_args ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
 }
 
 gint
 eab_prompt_save_dialog (GtkWindow *parent)
 {
-	return e_error_run_dialog_for_args (parent, "addressbook:prompt-save", NULL);
+	return e_alert_run_dialog_for_args (parent, "addressbook:prompt-save", NULL);
 }
 
 static gchar *

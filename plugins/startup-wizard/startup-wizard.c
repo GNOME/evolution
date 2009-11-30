@@ -24,7 +24,7 @@
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
 #include "shell/es-event.h"
@@ -227,7 +227,7 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 		import_iterator = import_importers;
 		import_importer = import_iterator->data;
 
-		import_dialog = e_error_new (e_shell_get_active_window (shell), "shell:importing", _("Importing data."), NULL);
+		import_dialog = e_alert_new_dialog_for_args (e_shell_get_active_window (shell), "shell:importing", _("Importing data."), NULL);
 		g_signal_connect(import_dialog, "response", G_CALLBACK(import_dialog_response), NULL);
 		import_label = gtk_label_new(_("Please wait"));
 		import_progress = gtk_progress_bar_new();

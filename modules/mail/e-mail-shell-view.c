@@ -20,6 +20,7 @@
  */
 
 #include "e-mail-shell-view-private.h"
+#include "filter/e-filter-input.h"
 
 static gpointer parent_class;
 static GType mail_shell_view_type;

@@ -32,7 +32,7 @@
 #include <camel/camel-vtrash-folder.h>
 #include <libedataserver/e-account-list.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-account-utils.h"
 
@@ -600,7 +600,7 @@ done:
 		const gchar *data_dir;
 		gchar *user;
 
-		dialog = e_error_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
+		dialog = e_alert_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
 		data_dir = em_utils_get_data_dir ();
@@ -1094,7 +1094,7 @@ vfolder_edit_rule(const gchar *uri)
 		GtkWidget *w;
 
 		/* TODO: we should probably just create it ... */
-		w = e_error_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:vfolder-notexist", uri, NULL);
+		w = e_alert_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:vfolder-notexist", uri, NULL);
 		em_utils_show_error_silent (w);
 	}
 
@@ -1109,16 +1109,16 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 		const gchar *data_dir;
 		gchar *user;
 		EFilterRule *rule = g_object_get_data((GObject *)w, "rule");
-		EError *error = NULL;
+		EAlert *alert = NULL;
 
-		if (!e_filter_rule_validate (rule, &error)) {
-			e_error_run_dialog (GTK_WINDOW (w), error);
-			e_error_free (error);
+		if (!e_filter_rule_validate (rule, &alert)) {
+			e_alert_run_dialog (GTK_WINDOW (w), alert);
+			e_alert_free (alert);
 			return;
 		}
 
 		if (e_rule_context_find_rule ((ERuleContext *)context, rule->name, rule->source)) {
-			e_error_run_dialog_for_args ((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
+			e_alert_run_dialog_for_args ((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
 			return;
 		}
 

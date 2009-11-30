@@ -45,7 +45,7 @@
 #include "addressbook-config.h"
 
 #include "e-util/e-util.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-util-private.h"
 
 #include "addressbook/gui/widgets/eab-config.h"
@@ -267,7 +267,7 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 		return NULL;
 
 	if (!(ldap = ldap_init (host, port))) {
-		e_error_run ((GtkWindow *) window, "addressbook:ldap-init", NULL);
+		e_alert_run_dialog_for_args ((GtkWindow *) window, "addressbook:ldap-init", NULL);
 		goto done;
 	}
 
@@ -290,7 +290,7 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 	/* XXX use auth info from source */
 	ldap_error = ldap_simple_bind_s (ldap, NULL, NULL);
 	if (LDAP_SUCCESS != ldap_error)
-		e_error_run ((GtkWindow *) window, "addressbook:ldap-auth", NULL);
+		e_alert_run_dialog_for_args ((GtkWindow *) window, "addressbook:ldap-auth", NULL);
 
 	return ldap_error;
 }
@@ -310,7 +310,7 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 					"(objectclass=*)",
 					(gchar **) attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
 	if (LDAP_SUCCESS != ldap_error)
-		e_error_run (GTK_WINDOW (dialog->window), "addressbook:ldap-search-base", NULL);
+		e_alert_run_dialog_for_args (GTK_WINDOW (dialog->window), "addressbook:ldap-search-base", NULL);
 
 	return ldap_error;
 }
@@ -342,7 +342,7 @@ do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, E
 
 	values = ldap_get_values (ldap, resp, "namingContexts");
 	if (!values || values[0] == NULL || strlen (values[0]) == 0) {
-		e_error_run (GTK_WINDOW (sdialog->window), "addressbook:ldap-search-base", NULL);
+		e_alert_run_dialog_for_args (GTK_WINDOW (sdialog->window), "addressbook:ldap-search-base", NULL);
 		goto fail;
 	}
 

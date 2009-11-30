@@ -19,6 +19,7 @@
  *
  */
 
+#include "e-util/e-alert.h"
 #include "e-cal-shell-view-private.h"
 
 /* This is for radio action groups whose value is persistent.  We
@@ -87,7 +88,7 @@ action_calendar_delete_cb (GtkAction *action,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* Ask for confirmation. */
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-calendar",
 		e_source_peek_name (source));

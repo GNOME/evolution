@@ -36,11 +36,11 @@
 #include "mail/em-utils.h"
 #include "filter/e-filter-part.h"
 #include "libedataserver/e-sexp.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 
 #define d(x)
 
-static gboolean validate(EFilterElement *fe, EError **error);
+static gboolean validate(EFilterElement *fe, EAlert **alert);
 static gint folder_eq(EFilterElement *fe, EFilterElement *cm);
 static void xml_create(EFilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(EFilterElement *fe);
@@ -139,17 +139,17 @@ em_filter_folder_element_set_value(EMFilterFolderElement *ff, const gchar *uri)
 }
 
 static gboolean
-validate(EFilterElement *fe, EError **error)
+validate(EFilterElement *fe, EAlert **alert)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 
-	g_warn_if_fail (error == NULL || *error == NULL);
+	g_warn_if_fail (alert == NULL || *alert == NULL);
 
 	if (ff->uri && *ff->uri) {
 		return TRUE;
 	} else {
-		if (error)
-			*error = e_error_new ("mail:no-folder", NULL);
+		if (alert)
+			*alert = e_alert_new ("mail:no-folder", NULL);
 
 		return FALSE;
 	}

@@ -23,7 +23,7 @@
 #include "e-preferences-window.h"
 
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <e-util/e-print.h>
 #include <gal-define-views-dialog.h>
 
@@ -752,7 +752,7 @@ action_forget_passwords_cb (GtkAction *action,
 {
 	gint response;
 
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window), "shell:forget-passwords", NULL);
 
 	if (response == GTK_RESPONSE_OK)

@@ -35,7 +35,6 @@
 #include "e-util/e-selection.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-file-utils.h"
-#include "e-util/e-error.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/misc/e-popup-action.h"

@@ -284,13 +284,13 @@ ivcal_import_items(gpointer d)
 	case E_CAL_SOURCE_TYPE_EVENT:
 		prepare_events (ici->icalcomp, NULL);
 		if (!update_objects (ici->client, ici->icalcomp)) {
-			/* FIXME: e_error ... */;
+			/* FIXME: e_alert ... */;
 		}
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
 		prepare_tasks (ici->icalcomp, NULL);
 		if (!update_objects (ici->client, ici->icalcomp)) {
-			/* FIXME: e_error ... */;
+			/* FIXME: e_alert ... */;
 		}
 		break;
 	default:

@@ -42,7 +42,7 @@ static gpointer parent_class;
 
 static gboolean
 filter_element_validate (EFilterElement *element,
-                         EError **error)
+                         EAlert **alert)
 {
 	return TRUE;
 }
@@ -249,7 +249,7 @@ e_filter_element_new (void)
 
 gboolean
 e_filter_element_validate (EFilterElement *element,
-                           EError **error)
+                           EAlert **alert)
 {
 	EFilterElementClass *class;
 
@@ -258,7 +258,7 @@ e_filter_element_validate (EFilterElement *element,
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
 	g_return_val_if_fail (class->validate != NULL, FALSE);
 
-	return class->validate (element, error);
+	return class->validate (element, alert);
 }
 
 gint

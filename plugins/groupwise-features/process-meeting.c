@@ -30,7 +30,7 @@
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-calendar-view.h>
@@ -176,7 +176,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 			else
 				msg = "org.gnome.evolution.process_meeting:recurrence-decline";
 
-			response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel ((GtkWidget *)cal_view)),
+			response = e_alert_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel ((GtkWidget *)cal_view)),
 								msg, NULL);
 			if (response == GTK_RESPONSE_YES) {
 				icalproperty *prop;
@@ -347,7 +347,7 @@ object_created_cb (CompEditor *ce, gpointer data)
 
 	gtk_widget_hide (GTK_WIDGET (ce));
 
-	response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel ((GtkWidget *)ce)),
+	response = e_alert_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel ((GtkWidget *)ce)),
 						"org.gnome.evolution.process_meeting:resend-retract",
 						NULL);
 	if (response == GTK_RESPONSE_NO) {
@@ -392,7 +392,7 @@ gw_resend_meeting_cb (GtkAction *action, EShellView *shell_view)
 		else
 			msg = "org.gnome.evolution.process_meeting:resend";
 
-		response = e_error_run_dialog_for_args (GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
+		response = e_alert_run_dialog_for_args (GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
 							msg, NULL);
 		if (response == GTK_RESPONSE_YES) {
 			mod = CALOBJ_MOD_ALL;

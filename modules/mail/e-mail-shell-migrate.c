@@ -58,7 +58,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-bconf-map.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-plugin.h"
 #include "e-util/e-signature-utils.h"
@@ -1598,7 +1598,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 			if (errno == EEXIST) {
 				gint save = errno;
 
-				switch (e_error_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
+				switch (e_alert_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
 				case GTK_RESPONSE_ACCEPT:
 					mode = CP_OVERWRITE;
 					goto retry_copy;

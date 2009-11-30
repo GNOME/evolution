@@ -42,7 +42,6 @@
 #include <mail/mail-session.h>
 #include <mail/mail-ops.h>
 #include <mail/message-list.h>
-#include <e-util/e-error.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-util.h>
 #include <shell/e-shell-view.h>

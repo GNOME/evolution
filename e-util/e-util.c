@@ -1426,6 +1426,7 @@ e_util_guess_mime_type (const gchar *filename, gboolean localfile)
 	return mime_type;
 }
 
+/* XXX: Should e-util/ really depend on filter/ ?? */
 GSList *
 e_util_get_category_filter_options (void)
 {

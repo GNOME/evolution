@@ -47,7 +47,6 @@
 
 #include "mail/mail-mt.h"
 #include "e-util/e-import.h"
-#include "e-util/e-error.h"
 
 #define d(x)
 

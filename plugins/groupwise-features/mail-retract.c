@@ -29,7 +29,7 @@
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
 
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 
 #include <mail/e-mail-reader.h>
 
@@ -100,7 +100,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 		if (n == GTK_RESPONSE_YES) {
 
 			if (e_gw_connection_retract_request (cnc, id, NULL, FALSE, FALSE) != E_GW_CONNECTION_STATUS_OK )
-				e_error_run_dialog_for_args (GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
+				e_alert_run_dialog_for_args (GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
 							     "org.gnome.evolution.message.retract:retract-failure",
 							     NULL);
 			else {

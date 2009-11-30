@@ -70,7 +70,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-alert-activity.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "shell/e-shell.h"
 #include "widgets/misc/e-attachment.h"
 
@@ -140,7 +140,7 @@ em_utils_ask_open_many (GtkWindow *parent,
  * em_utils_prompt_user:
  * @parent: parent window
  * @promptkey: gconf key to check if we should prompt the user or not.
- * @tag: e_error tag.
+ * @tag: e_alert tag.
  * @arg0: The first of a NULL terminated list of arguments for the error.
  *
  * Convenience function to query the user with a Yes/No dialog and a
@@ -157,18 +157,18 @@ em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag
 	va_list ap;
 	gint button;
 	GConfClient *gconf = mail_config_get_gconf_client();
-	EError *error = NULL;
+	EAlert *alert = NULL;
 
 	if (promptkey
 	    && !gconf_client_get_bool(gconf, promptkey, NULL))
 		return TRUE;
 
 	va_start(ap, arg0);
-	error = e_error_newv (tag, arg0, ap);
+	alert = e_alert_newv (tag, arg0, ap);
 	va_end(ap);
 
-	mbox = e_error_new_dialog (parent, error);
-	e_error_free (error);
+	mbox = e_alert_new_dialog (parent, alert);
+	e_alert_free (alert);
 
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
@@ -316,7 +316,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	g_free (system);
 
 	if (((ERuleContext *) fc)->error) {
-		GtkWidget *w = e_error_new_dialog_for_args ((GtkWindow *)parent, "mail:filter-load-error", ((ERuleContext *)fc)->error, NULL);
+		GtkWidget *w = e_alert_new_dialog_for_args ((GtkWindow *)parent, "mail:filter-load-error", ((ERuleContext *)fc)->error, NULL);
 		em_utils_show_error_silent (w);
 		return;
 	}
@@ -944,7 +944,7 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
 	if (tmpdir == NULL) {
-		w = e_error_new_dialog_for_args ((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
+		w = e_alert_new_dialog_for_args ((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
 		em_utils_show_error_silent (w);
 		return NULL;
 	}

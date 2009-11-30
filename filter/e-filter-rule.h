@@ -96,7 +96,7 @@ struct _EFilterRuleClass {
 
 	/* virtual methods */
 	gint		(*validate)		(EFilterRule *rule,
-						 EError **error);
+						 EAlert **alert);
 	gint		(*eq)			(EFilterRule *rule_a,
 						 EFilterRule *rule_b);
 
@@ -126,7 +126,7 @@ void		e_filter_rule_set_name		(EFilterRule *rule,
 void		e_filter_rule_set_source	(EFilterRule *rule,
 						 const gchar *source);
 gint		e_filter_rule_validate		(EFilterRule *rule,
-						 EError **error);
+						 EAlert **alert);
 gint		e_filter_rule_eq		(EFilterRule *rule_a,
 						 EFilterRule *rule_b);
 xmlNodePtr	e_filter_rule_xml_encode	(EFilterRule *rule);

@@ -29,7 +29,7 @@
 #include <mail/em-config.h>
 #include <mail/em-composer-utils.h>
 #include <mail/mail-config.h>
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <e-msg-composer.h>
 #include <camel/camel-mime-filter-tohtml.h>
 
@@ -208,7 +208,7 @@ run_error_dialog (struct run_error_dialog_data *data)
 {
 	g_return_val_if_fail (data != NULL, FALSE);
 
-	e_error_run (GTK_WINDOW (data->composer), data->text, NULL);
+	e_alert_run_dialog_for_args (GTK_WINDOW (data->composer), data->text, NULL);
 	enable_composer (data->composer);
 
 	g_free (data);
@@ -430,7 +430,7 @@ static gboolean
 delete_cb (GtkWidget *widget, EMsgComposer *composer)
 {
 	if (editor_running()) {
-		e_error_run (NULL, "org.gnome.evolution.plugins.external-editor:editor-still-running", NULL);
+		e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.external-editor:editor-still-running", NULL);
 		return TRUE;
 	}
 

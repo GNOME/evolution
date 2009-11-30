@@ -27,7 +27,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
-#include <e-util/e-error.h>
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"

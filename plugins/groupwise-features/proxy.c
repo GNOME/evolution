@@ -31,7 +31,7 @@
 #include <libedataserverui/e-contact-store.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <e-util/e-util-private.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
@@ -330,7 +330,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 				tmp = destinations;
 
 				if (!tmp) {
-					e_error_run_dialog_for_args (parent,
+					e_alert_run_dialog_for_args (parent,
 								     "org.gnome.evolution.proxy:no-user",
 								     NULL, NULL);
 					return -1;
@@ -344,13 +344,13 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 						continue;
 
 					if (g_strrstr (email, "@") == NULL) {
-						e_error_run_dialog_for_args (parent,
+						e_alert_run_dialog_for_args (parent,
 									     "org.gnome.evolution.proxy:invalid-user",
 									     email, NULL);
 						return -1;
 					}
 					if (! g_ascii_strcasecmp(e_gw_connection_get_user_email (prd->cnc), email)) {
-						e_error_run_dialog_for_args (parent,
+						e_alert_run_dialog_for_args (parent,
 									     "org.gnome.evolution.proxy:invalid-user",
 									     email, NULL);
 						return -1;
@@ -371,7 +371,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 								return 0;
 							}
 
-							e_error_run_dialog_for_args (parent,
+							e_alert_run_dialog_for_args (parent,
 										     "org.gnome.evolution.proxy:user-is-proxy",
 										     email, NULL);
 							return -1;

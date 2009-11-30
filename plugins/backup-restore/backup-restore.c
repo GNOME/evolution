@@ -33,7 +33,7 @@
 #include <glib/gstdio.h>
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
 #include "shell/e-shell-utils.h"
@@ -101,14 +101,14 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, con
 	va_list ap;
 	gint button;
 	guint32 mask = 0;
-	EError *error = NULL;
+	EAlert *alert = NULL;
 
 	va_start(ap, arg0);
-	error = e_error_newv(tag, arg0, ap);
+	alert = e_alert_newv(tag, arg0, ap);
 	va_end(ap);
 
-	mbox = e_error_new_dialog (parent, error);
-	e_error_free (error);
+	mbox = e_alert_new_dialog (parent, alert);
+	e_alert_free (alert);
 
 	check = gtk_check_button_new_with_mnemonic (string);
 	/* We should hardcode this to true */
@@ -188,7 +188,7 @@ action_settings_backup_cb (GtkAction *action,
 			g_free (path);
 		}
 	} else {
-		e_error_run_dialog_for_args (
+		e_alert_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"org.gnome.backup-restore:insufficient-permissions", NULL);
 	}
@@ -224,7 +224,7 @@ action_settings_restore_cb (GtkAction *action,
 		if (mask & BR_OK)
 			restore (path, mask & BR_START);
 	} else {
-		e_error_run_dialog_for_args (
+		e_alert_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"org.gnome.backup-restore:invalid-backup", NULL);
 	}
@@ -331,7 +331,7 @@ backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target)
 
 	if (state) {
 		if (!file || !sanity_check (file)) {
-			e_error_run_dialog_for_args ((GtkWindow *)assistant,
+			e_alert_run_dialog_for_args ((GtkWindow *)assistant,
 						     "org.gnome.backup-restore:invalid-backup",
 						     NULL);
 		} else {

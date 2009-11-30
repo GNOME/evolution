@@ -29,7 +29,7 @@
 #include  <camel/camel-i18n.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-passwords.h>
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include <libedataserver/e-account.h>
 #include <libecal/e-cal.h>
 #include <shell/e-shell.h>
@@ -542,7 +542,7 @@ get_addressbook_names_from_server (gchar *source_url)
 
 	/*FIXME: This error message should be relocated to addressbook and should reflect
 	 * that it actually failed to get the addressbooks*/
-	e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+	e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
 				     "mail:gw-accountsetup-error", poa_address,
 				     NULL);
 	return NULL;
@@ -656,7 +656,7 @@ add_addressbook_sources (EAccount *account)
 
 	if (!is_frequent_contacts) {
 		/* display warning message */
-		e_error_run_dialog_for_args (e_shell_get_active_window (NULL),
+		e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
 					     "addressbook:gw-book-list-init", NULL);
 	}
 	return TRUE;

@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "save-comp.h"
 #include "comp-editor.h"
 
@@ -50,13 +50,13 @@ save_component_dialog (GtkWindow *parent, ECalComponent *comp)
 		case E_CAL_COMPONENT_EVENT:
 			flags = comp_editor_get_flags (COMP_EDITOR(parent));
 			if (flags & COMP_EDITOR_MEETING)
-				return e_error_run_dialog_for_args (parent, "calendar:prompt-save-meeting", NULL);
+				return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-meeting", NULL);
 			else
-				return e_error_run_dialog_for_args (parent, "calendar:prompt-save-appointment", NULL);
+				return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-appointment", NULL);
 		case E_CAL_COMPONENT_TODO:
-			return e_error_run_dialog_for_args (parent, "calendar:prompt-save-task", NULL);
+			return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-task", NULL);
 		case E_CAL_COMPONENT_JOURNAL:
-			return e_error_run_dialog_for_args (parent, "calendar:prompt-save-memo", NULL);
+			return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-memo", NULL);
 		default:
 			return GTK_RESPONSE_NO;
 	}

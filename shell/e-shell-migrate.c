@@ -28,7 +28,7 @@
 #include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-util.h"
 
@@ -70,7 +70,7 @@ shell_migrate_attempt (EShell *shell,
 		if (error != NULL) {
 			gint response;
 
-			response = e_error_run_dialog_for_args (
+			response = e_alert_run_dialog_for_args (
 				e_shell_get_active_window (shell), "shell:upgrade-failed",
 				error->message, NULL);
 
@@ -242,7 +242,7 @@ e_shell_migrate_attempt (EShell *shell)
 			need = g_strdup_printf (_("%ld KB"), usage);
 			have = g_strdup_printf (_("%ld KB"), avail);
 
-			e_error_run_dialog_for_args (
+			e_alert_run_dialog_for_args (
 				e_shell_get_active_window (shell), "shell:upgrade-nospace",
 				need, have, NULL);
 
@@ -285,13 +285,13 @@ check_old:
 
 		string = g_strdup_printf (
 			"%d.%d.%d", last_major, last_minor, last_micro);
-		response = e_error_run_dialog_for_args (
+		response = e_alert_run_dialog_for_args (
 			e_shell_get_active_window (shell), "shell:upgrade-remove-1-4", string, NULL);
 		g_free (string);
 
 		switch (response) {
 			case GTK_RESPONSE_OK:  /* delete */
-				response = e_error_run_dialog_for_args (
+				response = e_alert_run_dialog_for_args (
 					e_shell_get_active_window (shell),
 					"shell:upgrade-remove-1-4-confirm",
 					NULL);

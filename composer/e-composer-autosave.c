@@ -22,7 +22,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <e-util/e-util.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
@@ -123,7 +123,7 @@ composer_autosave_finish_cb (EMsgComposer *composer,
 	e_composer_autosave_snapshot_finish (composer, result, &error);
 
 	if (error != NULL) {
-		e_error_run_dialog_for_args (
+		e_alert_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			"mail-composer:no-autosave",
 			"", error->message, NULL);

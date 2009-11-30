@@ -33,7 +33,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <string.h>
 
 #include <shell/e-shell-sidebar.h>
@@ -239,7 +239,7 @@ open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 	if (err && err->code == G_IO_ERROR_EXISTS) {
 		g_clear_error (&err);
 
-		if (e_error_run_dialog_for_args (parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, uri, NULL) == GTK_RESPONSE_OK) {
+		if (e_alert_run_dialog_for_args (parent, E_ALERT_ASK_FILE_EXISTS_OVERWRITE, uri, NULL) == GTK_RESPONSE_OK) {
 			fostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &err);
 
 			if (err && fostream) {

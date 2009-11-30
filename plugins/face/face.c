@@ -29,7 +29,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <mail/em-event.h>
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <e-util/e-util.h>
 #include <e-util/e-icon-factory.h>
 
@@ -172,7 +172,7 @@ prepare_image (const gchar *image_filename, gchar **file_contents, gsize *length
 				err = error->message;
 
 			if (can_claim)
-				e_error_run (NULL, "org.gnome.evolution.plugins.face:not-an-image", err, NULL);
+				e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.face:not-an-image", err, NULL);
 
 			if (error)
 				g_error_free (error);
@@ -184,7 +184,7 @@ prepare_image (const gchar *image_filename, gchar **file_contents, gsize *length
 
 			if (height <= 0 || width <= 0) {
 				if (can_claim)
-					e_error_run (NULL, "org.gnome.evolution.plugins.face:invalid-image-size", NULL, NULL);
+					e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.face:invalid-image-size", NULL, NULL);
 			} else if (height != 48 || width != 48) {
 				GdkPixbuf *copy, *scale;
 				guchar *pixels;
@@ -242,7 +242,7 @@ prepare_image (const gchar *image_filename, gchar **file_contents, gsize *length
 		g_object_unref (loader);
 	} else {
 		if (can_claim)
-			e_error_run (NULL, "org.gnome.evolution.plugins.face:file-not-found", NULL, NULL);
+			e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.face:file-not-found", NULL, NULL);
 	}
 
 	return res;

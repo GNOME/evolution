@@ -38,9 +38,7 @@
 #include <libxml/xpath.h>
 #include <string.h>
 
-#include "e-util/e-error.h"
 #include "calendar/common/authentication.c"
-
 #include "format-handler.h"
 
 static void

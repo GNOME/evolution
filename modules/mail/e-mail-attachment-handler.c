@@ -25,7 +25,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "mail/em-composer-utils.h"
 #include "mail/mail-tools.h"
 
@@ -358,7 +358,7 @@ exit:
 		else
 			folder_name = g_strdup (data);
 
-		e_error_run_dialog_for_args (
+		e_alert_run_dialog_for_args (
 			parent, "mail-composer:attach-nomessages",
 			folder_name, camel_exception_get_description (&ex),
 			NULL);

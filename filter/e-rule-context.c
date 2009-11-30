@@ -40,7 +40,7 @@
 
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-xml-utils.h"
 
 #include "e-filter-code.h"
@@ -92,15 +92,15 @@ new_rule_response (GtkWidget *dialog,
 	if (button == GTK_RESPONSE_OK) {
 		EFilterRule *rule = g_object_get_data ((GObject *) dialog, "rule");
 		gchar *user = g_object_get_data ((GObject *) dialog, "path");
-		EError *error = NULL;
+		EAlert *alert = NULL;
 
-		if (!e_filter_rule_validate (rule, &error)) {
-			e_error_run_dialog (GTK_WINDOW (dialog), error);
-			e_error_free (error);
+		if (!e_filter_rule_validate (rule, &alert)) {
+			e_alert_run_dialog (GTK_WINDOW (dialog), alert);
+			e_alert_free (alert);
 		}
 
 		if (e_rule_context_find_rule (context, rule->name, rule->source)) {
-			e_error_run_dialog_for_args ((GtkWindow *)dialog,
+			e_alert_run_dialog_for_args ((GtkWindow *)dialog,
 						     "filter:bad-name-notunique",
 						     rule->name, NULL);
 

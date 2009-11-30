@@ -21,7 +21,7 @@
 
 #include "e-book-shell-view-private.h"
 
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <e-util/e-util.h>
 #include <filter/e-filter-rule.h>
 
@@ -68,7 +68,7 @@ action_address_book_delete_cb (GtkAction *action,
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"addressbook:ask-delete-addressbook",
 		e_source_peek_name (source));
@@ -84,7 +84,7 @@ action_address_book_delete_cb (GtkAction *action,
 	}
 
 	if (!e_book_remove (book, NULL)) {
-		e_error_run_dialog_for_args (
+		e_alert_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"addressbook:remove-addressbook", NULL);
 		g_object_unref (book);
@@ -274,7 +274,7 @@ action_address_book_save_as_cb (GtkAction *action,
 
 	/* XXX No callback means errors are discarded.
 	 *
-	 *     There's an EError for this which I'm not using
+	 *     There's an EAlert for this which I'm not using
 	 *     until I figure out a better way to display errors:
 	 *
 	 *     "addressbook:save-error"
@@ -575,7 +575,7 @@ action_contact_save_as_cb (GtkAction *action,
 
 	/* XXX No callback means errors are discarded.
 	 *
-	 *     There an EError for this which I'm not using
+	 *     There an EAlert for this which I'm not using
 	 *     until I figure out a better way to display errors:
 	 *
 	 *     "addressbook:save-error"

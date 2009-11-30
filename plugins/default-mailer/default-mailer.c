@@ -25,7 +25,6 @@
 #include <string.h>
 
 #include <gconf/gconf-client.h>
-#include <e-util/e-error.h>
 
 #include <mail/em-utils.h>
 #include <shell/es-event.h>

@@ -105,7 +105,7 @@ e_filter_part_new (void)
 
 gboolean
 e_filter_part_validate (EFilterPart *part,
-                        EError **error)
+                        EAlert **alert)
 {
 	GList *link;
 
@@ -115,7 +115,7 @@ e_filter_part_validate (EFilterPart *part,
 	for (link = part->elements; link != NULL; link = g_list_next (link)) {
 		EFilterElement *element = link->data;
 
-		if (!e_filter_element_validate (element, error))
+		if (!e_filter_element_validate (element, alert))
 			return FALSE;
 	}
 

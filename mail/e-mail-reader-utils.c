@@ -29,7 +29,7 @@
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vee-store.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "filter/e-filter-rule.h"
 
 #include "mail/e-mail-browser.h"
@@ -96,7 +96,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	if (!prompt_delete_in_vfolder)
 		return TRUE;
 
-	dialog = e_error_new_dialog_for_args (
+	dialog = e_alert_new_dialog_for_args (
 		window, "mail:ask-delete-vfolder-msg",
 		folder->full_name, NULL);
 

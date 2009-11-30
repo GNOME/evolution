@@ -29,7 +29,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-binding.h"
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
@@ -673,7 +673,7 @@ mail_shell_backend_quit_requested_cb (EShell *shell,
 	if (unsent == 0)
 		return;
 
-	response = e_error_run_dialog_for_args (e_shell_get_active_window (shell), "mail:exit-unsaved", NULL);
+	response = e_alert_run_dialog_for_args (e_shell_get_active_window (shell), "mail:exit-unsaved", NULL);
 
 	if (response == GTK_RESPONSE_YES)
 		return;

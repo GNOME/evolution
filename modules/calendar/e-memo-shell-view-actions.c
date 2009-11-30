@@ -19,6 +19,7 @@
  *
  */
 
+#include "e-util/e-alert.h"
 #include "e-memo-shell-view-private.h"
 
 static void
@@ -188,7 +189,7 @@ action_memo_list_delete_cb (GtkAction *action,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* Ask for confirmation. */
-	response = e_error_run_dialog_for_args (
+	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-memo-list",
 		e_source_peek_name (source));

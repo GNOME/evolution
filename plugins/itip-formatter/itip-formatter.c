@@ -52,7 +52,7 @@
 #include <mail/mail-tools.h>
 #include <mail/mail-mt.h>
 #include <libedataserver/e-account-list.h>
-#include <e-util/e-error.h>
+#include <e-util/e-alert.h>
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
@@ -1319,7 +1319,7 @@ update_attendee_status (struct _itip_puri *pitip)
 				if ((a->status == ICAL_PARTSTAT_DELEGATED) && (del_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->delto))) && !(find_attendee (icalcomp, itip_strip_mailto (a->delto)))) {
 					gint response;
 					delegate = icalproperty_get_attendee (del_prop);
-					response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
+					response = e_alert_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
 										"org.gnome.itip-formatter:add-delegate",
 										itip_strip_mailto (a->value),
 										itip_strip_mailto (delegate), NULL);
@@ -1338,7 +1338,7 @@ update_attendee_status (struct _itip_puri *pitip)
 					gint response;
 
 					if (a->delfrom && *a->delfrom) {
-						response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
+						response = e_alert_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
 											"org.gnome.itip-formatter:add-delegate",
 											itip_strip_mailto (a->delfrom),
 											itip_strip_mailto (a->value), NULL);
@@ -1358,7 +1358,7 @@ update_attendee_status (struct _itip_puri *pitip)
 						}
 					}
 
-					response = e_error_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
+					response = e_alert_run_dialog_for_args (GTK_WINDOW (gtk_widget_get_toplevel (pitip->view)),
 										"org.gnome.itip-formatter:add-unknown-attendee", NULL);
 
 					if (response == GTK_RESPONSE_YES) {

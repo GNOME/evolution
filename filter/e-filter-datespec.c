@@ -33,7 +33,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-error.h"
+#include "e-util/e-alert.h"
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
@@ -299,17 +299,17 @@ button_clicked (GtkButton *button, EFilterDatespec *fds)
 
 static gboolean
 filter_datespec_validate (EFilterElement *element,
-                          EError **error)
+                          EAlert **alert)
 {
 	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
 	gboolean valid;
 
-	g_warn_if_fail (error == NULL || *error == NULL);
+	g_warn_if_fail (alert == NULL || *alert == NULL);
 
 	valid = fds->type != FDST_UNKNOWN;
 	if (!valid) {
-		if (error)
-			*error = e_error_new ("filter:no-date", NULL);
+		if (alert)
+			*alert = e_alert_new ("filter:no-date", NULL);
 	}
 
 	return valid;
