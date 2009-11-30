@@ -1,3 +1,114 @@
+Evolution 2.29.3 2009-11-30
+---------------------------
+
+Bug Fixes:
+
+Calendar:
+	#558030 - Convert meeting to appointment popup menu option(Milan Crha)
+	#550025 - Add error dialogs for Meetings (Paul Bolle)
+	#598166 - All Day Meeting String Improvement (Milan Crha)
+	#602907 - Cannot delete meetings or appointments in list view 
+	(Matthew Barnes)
+	#602102 - [regression] evolution-alarm-notify segv on login to desktop 
+	(Chenthill Palanisamy)
+	#602081 - Runtime warnings when going to Tasks (Milan Crha)
+	#602165 - Meeting window doesn't show status, role fields (Milan Crha)
+	#602098 - No progress notification from GnomeCalendar (Milan Crha)
+	#602081 - Calendar purge doesn't seem to work (Milan Crha)
+	Bug 494394 -  No way for the user to refresh a calendar (Milan Crha)
+
+Tasks:
+	#591330 - Do not clear task preview every minute (Milan Crha)
+	#602704 - Actions->Purge in task view doesn't work (Matthew Barnes)
+
+Mailer:
+	#602799 - "Mark for Follow Up" menu item glitches (Matthew Barnes)
+	#602844 - Flags not saved to IMAP account on exit (Matthew Barnes)
+	#563555 - Confirm before forwarding many emails inline 
+	(Ritesh Khadgaray)
+	#579599 - Let the Advanced Search work again (Milan Crha)
+	#602178 - Missing widget in Search folder dialog (Milan Crha)
+	#590127 - Define ETable::vertical-spacing style property (Milan Crha)
+	#592294 - Output an error message on system filter rules loading error
+	(Yan Li)
+
+Contacts:
+	#361156 - contacts-map plugin (Cedric Bosdonnat)
+	#602803 - New Contact enabled for read-only address books 
+	(Matthew Barnes)
+	#474502 - Don't check for contacts in broken address books (Milan Crha)
+	#364618, solve the chinese character issue. (Jeff Cai)
+
+Plugins:
+	#602177 - Plug leaks. Fix race. (Paul Bolle)
+	#601517 - Accept/decline options are missing on event right click
+	(Milan Crha)
+
+Conduits:
+	#551603 - Special case "positive zero alarms" (Paul Bolle)
+	#554779 - Removal of task due date does not sync from Palm.
+	(Matt McCutchen 2)
+
+Misc:
+	#602920 - In German translation (Mario Blättermann)
+	#602719 - Default /evolution/shell/network_config/proxy_type to 0 
+		  explicitly(Milan Crha)
+	#602625 - Typos in translation messages (Matthew Barnes)
+	#360461 - Do not hardcode invisible_char in ui files (Claude Paroz)
+	#589153 - Use GtkBuilder instead of libglade (Matthew Barnes)
+	
+Other Changes:
+
+Calendar:
+	Fix uninitialized variable from a patch for bug #591330 (Milan Crha)
+	Header file cleanup. (Matthew Barnes)
+	Disallow renaming a non-deletable ESource. (Matthew Barnes)
+
+Contacts:
+	Remove some redundancy from EABContactDisplay. (Matthew Barnes)
+	Don't unref destinations in eab_send_as_to(). (Matthew Barnes)
+
+Plugins:
+	Rewrite champlain-gtk and geoclue detection. (Matthew Barnes)
+	Remove unused files after GtkBuilder merge (Milan Crha)
+
+Shell:
+	Implement a new 'killev' program. (Matthew Barnes)
+	Make EShell more subclassable. (Matthew Barnes)
+	Add a --quit command-line option. (Matthew Barnes)
+	Add a --geometry command-line option. (Matthew Barnes)
+
+Mailer:
+	Fix a build error. (Matthew Barnes)
+
+Misc:
+	Update API documentation. (Matthew Barnes)
+	Coding style and whitespace cleanups. (Matthew Barnes)
+	Fix compile time warnings in filter/e-rule-context.c (Milan Crha)
+	Add Evolution's process ID to ~/.evolution/.running. (Matthew Barnes)
+	Restore some lost characters in filter.ui. (Matthew Barnes)
+	Add gettext/glade prefix before ui files in POTFILES.in (Claude Paroz)
+	Remove the last traces of libglade. (Matthew Barnes)
+	Fix typos in e_cal_shell_content_paste_clipboard(). (Matthew Barnes)
+	Fix some details in our asynchronous functions. (Matthew Barnes)
+	Still tweaking pane position restoration. (Matthew Barnes)
+	Kill e_util_read_file(). (Matthew Barnes)
+	Add e_attachment_store_load_async(). (Matthew Barnes)
+	Kill Evolution's icon cache once and for all. (Matthew Barnes)
+	Assemble HTML code in a GString instead of a GtkHTMLStream.
+	(Matthew Barnes)
+	Prefer EWebView calls over direct GtkHTML calls. (Matthew Barnes)
+	Updated POTFILES.in/skip after GTKBuilder migration (Claude Paroz)
+
+Translations:
+	Jorge González (es)
+	Ivar Smolin (et)
+	Mattias Põldaru (et)
+	Claude Paroz (fr)
+	Bruno Brouard (fr)
+	Matej Urbančič (sl)
+	Zhang Miao (zh_CN)
+
 Evolution 2.29.2 2009-11-16
 ---------------------------
 
