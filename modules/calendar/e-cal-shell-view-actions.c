@@ -350,6 +350,35 @@ exit:
 }
 
 static void
+action_calendar_refresh_cb (GtkAction *action,
+                           ECalShellView *cal_shell_view)
+{
+	ECal *client;
+	ECalModel *model;
+	ESource *source;
+	gchar *uri;
+	GError *error = NULL;
+
+	model = e_cal_shell_content_get_model (cal_shell_view->priv->cal_shell_content);
+	source = e_source_selector_peek_primary_selection (e_cal_shell_sidebar_get_selector (cal_shell_view->priv->cal_shell_sidebar));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	uri = e_source_get_uri (source);
+	client = e_cal_model_get_client_for_uri (model, uri);
+	g_free (uri);
+
+	if (client == NULL)
+		return;
+
+	g_return_if_fail (e_cal_get_refresh_supported (client));
+
+	if (!e_cal_refresh (client, &error) && error) {
+		g_warning ("%s: Failed to refresh '%s', %s\n", G_STRFUNC, e_source_peek_name (source), error->message);
+		g_error_free (error);
+	}
+}
+
+static void
 action_calendar_rename_cb (GtkAction *action,
                            ECalShellView *cal_shell_view)
 {
@@ -1264,6 +1293,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Purge old appointments and meetings"),
 	  G_CALLBACK (action_calendar_purge_cb) },
 
+	{ "calendar-refresh",
+	  GTK_STOCK_REFRESH,
+	  N_("Re_fresh"),
+	  NULL,
+	  N_("Refresh the selected calendar"),
+	  G_CALLBACK (action_calendar_refresh_cb) },
+
 	{ "calendar-rename",
 	  NULL,
 	  N_("_Rename..."),
@@ -1453,6 +1489,10 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "calendar-popup-properties",
 	  NULL,
 	  "calendar-properties" },
+
+	{ "calendar-popup-refresh",
+	  NULL,
+	  "calendar-refresh" },
 
 	{ "calendar-popup-rename",
 	  NULL,

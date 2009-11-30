@@ -176,6 +176,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gboolean selection_has_url;
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
+	gboolean refresh_supported;
 
 	priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -204,6 +205,8 @@ memo_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MEMO_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
 	primary_source_is_system =
 		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
+	refresh_supported =
+		(state & E_MEMO_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
 	any_memos_selected =
 		(single_memo_selected || multiple_memos_selected);
@@ -243,6 +246,10 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MEMO_LIST_PROPERTIES);
 	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_LIST_REFRESH);
+	sensitive = refresh_supported;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_RENAME);

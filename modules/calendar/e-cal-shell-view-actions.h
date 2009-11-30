@@ -47,6 +47,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-properties")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PURGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-purge")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_REFRESH(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-refresh")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-rename")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SELECT_ONE(window) \

@@ -291,6 +291,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean is_meeting = FALSE;
 	gboolean is_delegatable = FALSE;
 	gboolean clipboard_has_calendar;
+	gboolean refresh_supported = FALSE;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -367,6 +368,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
 	primary_source_is_system =
 		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
+	refresh_supported =
+		(state & E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
 	action = ACTION (CALENDAR_COPY);
 	sensitive = has_primary_source;
@@ -378,6 +381,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (CALENDAR_PROPERTIES);
 	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_REFRESH);
+	sensitive = refresh_supported;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);

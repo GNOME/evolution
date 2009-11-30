@@ -453,6 +453,7 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	ESource *source;
 	gboolean can_delete = FALSE;
 	gboolean is_system = FALSE;
+	gboolean refresh_supported = FALSE;
 	guint32 state = 0;
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
@@ -460,6 +461,7 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	source = e_source_selector_peek_primary_selection (selector);
 
 	if (source != NULL) {
+		ECal *client;
 		const gchar *uri;
 		const gchar *delete;
 
@@ -469,6 +471,9 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		can_delete = !is_system;
 		delete = e_source_get_property (source, "delete");
 		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
+
+		client = g_hash_table_lookup (task_shell_sidebar->priv->client_table, e_source_peek_uid (source));
+		refresh_supported = client && e_cal_get_refresh_supported (client);
 	}
 
 	if (source != NULL)
@@ -477,6 +482,8 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		state |= E_TASK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
 	if (is_system)
 		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+	if (refresh_supported)
+		state |= E_TASK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH;
 
 	return state;
 }

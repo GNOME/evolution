@@ -323,6 +323,35 @@ action_task_list_properties_cb (GtkAction *action,
 }
 
 static void
+action_task_list_refresh_cb (GtkAction *action,
+                            ETaskShellView *task_shell_view)
+{
+	ECal *client;
+	ECalModel *model;
+	ESource *source;
+	gchar *uri;
+	GError *error = NULL;
+
+	model = e_task_shell_content_get_task_model (task_shell_view->priv->task_shell_content);
+	source = e_source_selector_peek_primary_selection (e_task_shell_sidebar_get_selector (task_shell_view->priv->task_shell_sidebar));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	uri = e_source_get_uri (source);
+	client = e_cal_model_get_client_for_uri (model, uri);
+	g_free (uri);
+
+	if (client == NULL)
+		return;
+
+	g_return_if_fail (e_cal_get_refresh_supported (client));
+
+	if (!e_cal_refresh (client, &error) && error) {
+		g_warning ("%s: Failed to refresh '%s', %s\n", G_STRFUNC, e_source_peek_name (source), error->message);
+		g_error_free (error);
+	}
+}
+
+static void
 action_task_list_rename_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
@@ -748,6 +777,13 @@ static GtkActionEntry task_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_properties_cb) },
 
+	{ "task-list-refresh",
+	  GTK_STOCK_REFRESH,
+	  N_("Re_fresh"),
+	  NULL,
+	  N_("Refresh the selected task list"),
+	  G_CALLBACK (action_task_list_refresh_cb) },
+
 	{ "task-list-rename",
 	  NULL,
 	  N_("_Rename..."),
@@ -834,6 +870,10 @@ static EPopupActionEntry task_popup_entries[] = {
 	{ "task-list-popup-properties",
 	  NULL,
 	  "task-list-properties" },
+
+	{ "task-list-popup-refresh",
+	  NULL,
+	  "task-list-refresh" },
 
 	{ "task-list-popup-rename",
 	  NULL,

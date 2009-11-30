@@ -50,6 +50,7 @@
     <menuitem action='calendar-new'/>
     <menuitem action='calendar-popup-copy'/>
     <menuitem action='calendar-popup-rename'/>
+    <menuitem action='calendar-popup-refresh'/>
     <separator/>
     <menuitem action='calendar-popup-delete'/>
     <menuitem action='calendar-popup-select-one'/>

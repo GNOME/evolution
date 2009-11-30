@@ -73,6 +73,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-list-print-preview")
 #define E_SHELL_WINDOW_ACTION_TASK_LIST_PROPERTIES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-list-properties")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_REFRESH(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-refresh")
 #define E_SHELL_WINDOW_ACTION_TASK_LIST_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-list-rename")
 #define E_SHELL_WINDOW_ACTION_TASK_LIST_SELECT_ONE(window) \

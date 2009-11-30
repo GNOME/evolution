@@ -70,6 +70,7 @@
     <menuitem action='task-list-new'/>
     <menuitem action='task-list-popup-copy'/>
     <menuitem action='task-list-popup-rename'/>
+    <menuitem action='task-list-popup-refresh'/>
     <separator/>
     <menuitem action='task-list-popup-delete'/>
     <menuitem action='task-list-popup-select-one'/>

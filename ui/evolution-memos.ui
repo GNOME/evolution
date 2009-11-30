@@ -59,6 +59,7 @@
     <menuitem action='memo-list-new'/>
     <menuitem action='memo-list-popup-copy'/>
     <menuitem action='memo-list-popup-rename'/>
+    <menuitem action='memo-list-popup-refresh'/>
     <separator/>
     <menuitem action='memo-list-popup-delete'/>
     <menuitem action='memo-list-popup-select-one'/>

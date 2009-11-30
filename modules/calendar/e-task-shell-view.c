@@ -291,6 +291,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gboolean some_tasks_incomplete;
 	gboolean sources_are_editable;
 	gboolean clipboard_has_calendar;
+	gboolean refresh_supported;
 
 	priv = E_TASK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -325,6 +326,8 @@ task_shell_view_update_actions (EShellView *shell_view)
 		(state & E_TASK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
 	primary_source_is_system =
 		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
+	refresh_supported =
+		(state & E_TASK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
 	any_tasks_selected =
 		(single_task_selected || multiple_tasks_selected);
@@ -370,6 +373,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (TASK_LIST_PROPERTIES);
 	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (TASK_LIST_REFRESH);
+	sensitive = refresh_supported;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_RENAME);
