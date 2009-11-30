@@ -60,6 +60,7 @@ m4_define([nm_minimum_version],[0.7])
 m4_define([hal_minimum_version], [0.5.4])
 m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
+m4_define([clutter_gtk_minimum_version], [0.10.0])
 m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
 m4_define([gweather_minimum_version], [2.25.3])
@@ -1558,6 +1559,12 @@ if test "x$enable_plugins" = "xexperimental"; then
 
 		if test "x$have_geoclue" = "xno"; then
 			AC_MSG_ERROR([geoclue is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+		fi
+
+		PKG_CHECK_MODULES( [CLUTTER_GTK], [clutter-gtk-0.10 >= clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
+
+		if test "x$have_clutter_gtk" = "xno"; then
+			AC_MSG_ERROR([clutter_gtk is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
 		plugins_standard="$plugins_standard contacts-map"
