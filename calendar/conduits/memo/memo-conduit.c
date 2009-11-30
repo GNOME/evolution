@@ -225,6 +225,7 @@ struct _EMemoConduitContext {
 	GList *locals;
 
 	EPilotMap *map;
+	gchar *pilot_charset;
 };
 
 static EMemoConduitContext *
@@ -243,6 +244,7 @@ e_memo_context_new (guint32 pilot_id)
 	ctxt->changed = NULL;
 	ctxt->locals = NULL;
 	ctxt->map = NULL;
+	ctxt->pilot_charset = NULL;
 
 	return ctxt;
 }
@@ -576,7 +578,7 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 	}
 
 	/*Category support*/
-	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category));
+	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category), ctxt->pilot_charset);
 
 	/* STOP: don't replace these with g_strdup, since free_Memo
 	   uses free to deallocate */
@@ -585,7 +587,7 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 	if (d_list) {
 		description = (ECalComponentText *) d_list->data;
 		if (description && description->value) {
-			local->memo->text = e_pilot_utf8_to_pchar (description->value);
+			local->memo->text = e_pilot_utf8_to_pchar (description->value, ctxt->pilot_charset);
 		}
 		else{
 			local->memo->text = NULL;
@@ -645,7 +647,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
 			 ECalComponent *in_comp,
 			 icaltimezone *timezone,
-			 struct MemoAppInfo *ai)
+			 struct MemoAppInfo *ai,
+			 const gchar *pilot_charset)
 {
 	ECalComponent *comp;
 	struct Memo memo;
@@ -690,7 +693,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	e_cal_component_set_last_modified (comp, &now);
 
 	/*Category support*/
-	e_pilot_remote_category_to_local(remote->category, comp, &(ai->category));
+	e_pilot_remote_category_to_local(remote->category, comp, &(ai->category), pilot_charset);
 
 	/* The iCal description field */
 	if (!memo.text) {
@@ -724,10 +727,10 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 		}
 
-		sumText.value = txt3 = e_pilot_utf8_from_pchar(txt2);
+		sumText.value = txt3 = e_pilot_utf8_from_pchar(txt2, pilot_charset);
 		sumText.altrep = NULL;
 
-		text.value = txt = e_pilot_utf8_from_pchar (memo.text);
+		text.value = txt = e_pilot_utf8_from_pchar (memo.text, pilot_charset);
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
@@ -806,6 +809,13 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->dbi = dbi;
 	ctxt->client = NULL;
+
+#ifdef PILOT_LINK_0_12
+	if(NULL == dbi->pilotInfo->pilot_charset)
+		ctxt->pilot_charset = NULL;
+	else
+		ctxt->pilot_charset = g_strdup(dbi->pilotInfo->pilot_charset);
+#endif
 
 	if (start_calendar_server (ctxt) != 0) {
 		WARN(_("Could not start evolution-data-server"));
@@ -973,7 +983,8 @@ post_sync (GnomePilotConduit *conduit,
 	if (e_cal_get_changes (ctxt->client, change_id, &changed, NULL))
 		e_cal_free_change_list (changed);
 	g_free (change_id);
-
+	if (ctxt->pilot_charset)
+		g_free (ctxt->pilot_charset);
 	LOG (g_message ( "---------------------------------------------------------\n" ));
 
 	return 0;
@@ -1174,7 +1185,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
 
-	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone, &(ctxt->ai));
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone, &(ctxt->ai), ctxt->pilot_charset);
 
 	/* Give it a new UID otherwise it will be the uid of the default comp */
 	uid = e_cal_component_gen_uid ();
@@ -1204,7 +1215,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ("replace_record: replace %s with %s\n",
 			print_local (local), print_remote (remote)));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone, &(ctxt->ai));
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone, &(ctxt->ai), ctxt->pilot_charset);
 	g_object_unref (local->comp);
 	local->comp = new_comp;
 

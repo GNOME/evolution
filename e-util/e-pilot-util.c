@@ -31,7 +31,7 @@
 #include "e-pilot-util.h"
 
 gchar *
-e_pilot_utf8_to_pchar (const gchar *string)
+e_pilot_utf8_to_pchar (const gchar *string, const gchar *pilot_charset)
 {
 	gchar *pstring = NULL;
 	gint res;
@@ -39,7 +39,12 @@ e_pilot_utf8_to_pchar (const gchar *string)
 	if (!string)
 		return NULL;
 
-	res = convert_ToPilotChar ("UTF-8", string, strlen (string), &pstring);
+#ifdef PILOT_LINK_0_12
+    res = convert_ToPilotChar_WithCharset ("UTF-8", string, strlen (string), 
+          &pstring, pilot_charset);
+#else
+    res = convert_ToPilotChar ("UTF-8", string, strlen (string), &pstring);
+#endif
 
 	if (res != 0)
 		pstring = strdup (string);
@@ -48,7 +53,7 @@ e_pilot_utf8_to_pchar (const gchar *string)
 }
 
 gchar *
-e_pilot_utf8_from_pchar (const gchar *string)
+e_pilot_utf8_from_pchar (const gchar *string, const gchar *pilot_charset)
 {
 	gchar *ustring = NULL;
 	gint res;
@@ -56,7 +61,12 @@ e_pilot_utf8_from_pchar (const gchar *string)
 	if (!string)
 		return NULL;
 
-	res = convert_FromPilotChar ("UTF-8", string, strlen (string), &ustring);
+#ifdef PILOT_LINK_0_12
+    res = convert_FromPilotChar_WithCharset ("UTF-8", string, strlen (string), 
+          &ustring, pilot_charset);
+#else
+    res = convert_FromPilotChar ("UTF-8", string, strlen (string), &ustring);
+#endif
 
 	if (res != 0)
 		ustring = strdup (string);

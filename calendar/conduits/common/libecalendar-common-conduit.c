@@ -126,7 +126,7 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 /*
  *conversion from an evolution category to a palm category
  */
-void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category)
+void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category, const gchar *pilot_charset)
 {
 	GSList *c_list = NULL;
 	gchar * category_string;
@@ -134,7 +134,7 @@ void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp,
 	e_cal_component_get_categories_list (comp, &c_list);
 	if (c_list) {
 		/* list != 0, so at least 1 category is assigned */
-		category_string = e_pilot_utf8_to_pchar((const gchar *)c_list->data);
+		category_string = e_pilot_utf8_to_pchar((const gchar *)c_list->data, pilot_charset);
 		if (c_list->next != 0) {
 			LOG (g_message ("Note: item has more categories in evolution, first chosen"));
 		}
@@ -162,13 +162,13 @@ void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp,
 /*
  *conversion from a palm category to an evolution category
  */
-void e_pilot_remote_category_to_local(gint pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category)
+void e_pilot_remote_category_to_local(gint pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category, const gchar *pilot_charset)
 {
 	gchar *category_string = NULL;
 
 	if (pilotCategory != 0) {
 		/* pda has category assigned */
-		category_string = e_pilot_utf8_from_pchar(category->name[pilotCategory]);
+		category_string = e_pilot_utf8_from_pchar(category->name[pilotCategory], pilot_charset);
 
 		LOG(g_message("Category: %s\n", category_string));
 

@@ -29,8 +29,8 @@
 #ifndef E_PILOT_UTIL_H
 #define E_PILOT_UTIL_H
 
-gchar *e_pilot_utf8_to_pchar (const gchar *string);
-gchar *e_pilot_utf8_from_pchar (const gchar *string);
+gchar *e_pilot_utf8_to_pchar (const gchar *string, const gchar *pilot_charset);
+gchar *e_pilot_utf8_from_pchar (const gchar *string, const gchar *pilot_charset);
 
 ESource *e_pilot_get_sync_source (ESourceList *source_list);
 void e_pilot_set_sync_source (ESourceList *source_list, ESource *source);

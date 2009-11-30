@@ -286,6 +286,7 @@ struct _EToDoConduitContext {
 	GList *locals;
 
 	EPilotMap *map;
+	gchar *pilot_charset;
 };
 
 static EToDoConduitContext *
@@ -305,6 +306,7 @@ e_todo_context_new (guint32 pilot_id)
 	ctxt->changed = NULL;
 	ctxt->locals = NULL;
 	ctxt->map = NULL;
+	ctxt->pilot_charset = NULL;
 
 	return ctxt;
 }
@@ -391,7 +393,7 @@ print_local (EToDoLocalRecord *local)
 	return buff;
 }
 
-static gchar *print_remote (GnomePilotRecord *remote)
+static gchar *print_remote (GnomePilotRecord *remote, const gchar *pilot_charset)
 {
 	static gchar buff[ 4096 ];
 	struct ToDo todo;
@@ -425,9 +427,9 @@ static gchar *print_remote (GnomePilotRecord *remote)
 		    todo.priority,
 		    todo.complete,
 		    todo.description ?
-		    e_pilot_utf8_from_pchar(todo.description) : "",
+		    e_pilot_utf8_from_pchar(todo.description, pilot_charset) : "",
 		    todo.note ?
-		    e_pilot_utf8_from_pchar(todo.note) : "",
+		    e_pilot_utf8_from_pchar(todo.note, pilot_charset) : "",
 		    remote->category);
 
 	free_ToDo (&todo);
@@ -707,19 +709,19 @@ local_record_from_comp (EToDoLocalRecord *local, ECalComponent *comp, EToDoCondu
 	}
 
 	/*Category support*/
-	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category));
+	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category), ctxt->pilot_charset);
 
 	/* STOP: don't replace these with g_strdup, since free_ToDo
 	   uses free to deallocate */
 	e_cal_component_get_summary (comp, &summary);
 	if (summary.value)
-		local->todo->description = e_pilot_utf8_to_pchar (summary.value);
+		local->todo->description = e_pilot_utf8_to_pchar (summary.value, ctxt->pilot_charset);
 
 	e_cal_component_get_description_list (comp, &d_list);
 	if (d_list) {
 		description = (ECalComponentText *) d_list->data;
 		if (description && description->value)
-			local->todo->note = e_pilot_utf8_to_pchar (description->value);
+			local->todo->note = e_pilot_utf8_to_pchar (description->value, ctxt->pilot_charset);
 		else
 			local->todo->note = NULL;
 	} else {
@@ -814,7 +816,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
 			 ECalComponent *in_comp,
 			 icaltimezone *timezone,
-			 struct ToDoAppInfo *ai)
+			 struct ToDoAppInfo *ai,
+			 const gchar *pilot_charset)
 {
 	ECalComponent *comp;
 	struct ToDo todo;
@@ -861,12 +864,12 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	e_cal_component_set_last_modified (comp, &now);
 
-	summary.value = txt = e_pilot_utf8_from_pchar (todo.description);
+	summary.value = txt = e_pilot_utf8_from_pchar (todo.description, pilot_charset);
 	e_cal_component_set_summary (comp, &summary);
 	free (txt);
 
 	/*Category support*/
-	e_pilot_remote_category_to_local(remote->category, comp, &(ai->category));
+	e_pilot_remote_category_to_local(remote->category, comp, &(ai->category), pilot_charset);
 
 	/* The iCal description field */
 	if (!todo.note) {
@@ -875,7 +878,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		GSList l;
 		ECalComponentText text;
 
-		text.value = txt = e_pilot_utf8_from_pchar (todo.note);
+		text.value = txt = e_pilot_utf8_from_pchar (todo.note, pilot_charset);
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
@@ -1001,6 +1004,13 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->dbi = dbi;
 	ctxt->client = NULL;
+
+#ifdef PILOT_LINK_0_12
+	if(NULL == dbi->pilotInfo->pilot_charset)
+		ctxt->pilot_charset = NULL;
+	else
+		ctxt->pilot_charset = g_strdup(dbi->pilotInfo->pilot_charset);
+#endif
 
 	/* Get the timezone */
 	ctxt->timezone = get_default_timezone ();
@@ -1162,7 +1172,8 @@ post_sync (GnomePilotConduit *conduit,
 	if (e_cal_get_changes (ctxt->client, change_id, &changed, NULL))
 		e_cal_free_change_list (changed);
 	g_free (change_id);
-
+	if (ctxt->pilot_charset)
+		g_free (ctxt->pilot_charset);	
 	LOG (g_message ( "---------------------------------------------------------\n" ));
 
 	return 0;
@@ -1329,7 +1340,7 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	gint retval = 0;
 
 	LOG (g_message ("compare: local=%s remote=%s...\n",
-			print_local (local), print_remote (remote)));
+			print_local (local), print_remote (remote, ctxt->pilot_charset)));
 
 	g_return_val_if_fail (local!=NULL,-1);
 	g_return_val_if_fail (remote!=NULL,-1);
@@ -1359,9 +1370,9 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	g_return_val_if_fail (remote != NULL, -1);
 
-	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
+	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote, ctxt->pilot_charset) ));
 
-	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone, &(ctxt->ai));
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone, &(ctxt->ai), ctxt->pilot_charset);
 
 	/* Give it a new UID otherwise it will be the uid of the default comp */
 	uid = e_cal_component_gen_uid ();
@@ -1390,9 +1401,9 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 	LOG (g_message ("replace_record: replace %s with %s\n",
-			print_local (local), print_remote (remote)));
+			print_local (local), print_remote (remote, ctxt->pilot_charset)));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone, &(ctxt->ai));
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone, &(ctxt->ai), ctxt->pilot_charset);
 	g_object_unref (local->comp);
 	local->comp = new_comp;
 
@@ -1452,7 +1463,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	const gchar *uid;
 
 	LOG (g_message ("match: looking for local copy of %s\n",
-			print_remote (remote)));
+			print_remote (remote, ctxt->pilot_charset)));
 
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);

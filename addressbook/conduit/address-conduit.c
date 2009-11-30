@@ -256,7 +256,8 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
  */
 static
 void e_pilot_local_category_to_remote(gint * pilotCategory,
-    EContact *contact, struct CategoryAppInfo *category)
+    EContact *contact, struct CategoryAppInfo *category,
+	const gchar *pilot_charset)
 {
 	GList *c_list = NULL, *l;
 	gchar * category_string, *first_category = NULL;
@@ -265,12 +266,12 @@ void e_pilot_local_category_to_remote(gint * pilotCategory,
 	c_list = e_contact_get (contact, E_CONTACT_CATEGORY_LIST);
 	if (c_list) {
 		/* remember the first category */
-		first_category = e_pilot_utf8_to_pchar((const gchar *)c_list->data);
+		first_category = e_pilot_utf8_to_pchar((const gchar *)c_list->data, pilot_charset);
 	}
 	l = c_list;
 	while (l && *pilotCategory == 0) {
 		/* list != 0, so at least 1 category is assigned */
-		category_string = e_pilot_utf8_to_pchar((const gchar *)l->data);
+		category_string = e_pilot_utf8_to_pchar((const gchar *)l->data, pilot_charset);
 		for (i=0; i < PILOT_MAX_CATEGORIES; i++) {
 			/* only 15 chars + nul in palm category name */
 			if (strncmp(category_string,category->name[i], 15) == 0) {
@@ -301,14 +302,15 @@ void e_pilot_local_category_to_remote(gint * pilotCategory,
  */
 static
 void e_pilot_remote_category_to_local(gint pilotCategory,
-    EContact *contact, struct CategoryAppInfo *category)
+    EContact *contact, struct CategoryAppInfo *category,
+	const gchar *pilot_charset)
 {
 	gchar *category_string = NULL;
 
 	if (pilotCategory != 0) {
 		/* pda has category assigned */
 		category_string = e_pilot_utf8_from_pchar(
-		    category->name[pilotCategory]);
+		    category->name[pilotCategory], pilot_charset);
 
 		LOG(g_message("PDA Category: %s\n", category_string));
 
@@ -658,6 +660,8 @@ struct _EAddrConduitContext {
 	GList *locals;
 
 	EPilotMap *map;
+
+	gchar * pilot_charset;
 };
 
 static EAddrConduitContext *
@@ -675,6 +679,7 @@ e_addr_context_new (guint32 pilot_id)
 	ctxt->changed = NULL;
 	ctxt->locals = NULL;
 	ctxt->map = NULL;
+	ctxt->pilot_charset = NULL;
 
 	return ctxt;
 }
@@ -1032,12 +1037,13 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 }
 
 static void
-set_contact_text (EContact *contact, EContactField field, struct Address address, gint entry)
+set_contact_text (EContact *contact, EContactField field, struct Address address, 
+	gint entry, const gchar *pilot_charset)
 {
 	gchar *text = NULL;
 
 	if (address.entry[entry])
-		text = e_pilot_utf8_from_pchar (address.entry[entry]);
+		text = e_pilot_utf8_from_pchar (address.entry[entry], pilot_charset);
 
 	e_contact_set (contact, field, text);
 
@@ -1045,10 +1051,10 @@ set_contact_text (EContact *contact, EContactField field, struct Address address
 }
 
 static gchar *
-get_entry_text (struct Address address, gint entry)
+get_entry_text (struct Address address, gint entry, const gchar *pilot_charset)
 {
 	if (address.entry[entry])
-		return e_pilot_utf8_from_pchar (address.entry[entry]);
+		return e_pilot_utf8_from_pchar (address.entry[entry], pilot_charset);
 
 	return NULL;
 }
@@ -1208,12 +1214,12 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	}
 
 	/*Category support*/
-	e_pilot_local_category_to_remote(&(local->local.category), contact, &(ctxt->ai.category));
+	e_pilot_local_category_to_remote(&(local->local.category), contact, &(ctxt->ai.category), ctxt->pilot_charset);
 
-	local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_GIVEN_NAME));
-	local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_FAMILY_NAME));
-	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_ORG));
-	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_TITLE));
+	local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_GIVEN_NAME), ctxt->pilot_charset);
+	local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_FAMILY_NAME), ctxt->pilot_charset);
+	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_ORG), ctxt->pilot_charset);
+	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_TITLE), ctxt->pilot_charset);
 
 	/* See if the default has something in it */
 	if ((address = e_contact_get (contact, ctxt->cfg->default_address))) {
@@ -1239,13 +1245,13 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			add = g_strdup (address->street);
 			LOG (g_warning ("Address has only one line: [%s]\n", add));
 		}
-		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (add);
+		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (add, ctxt->pilot_charset);
 		g_free (add);
 
-		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (address->locality);
-		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (address->region);
-		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (address->code);
-		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (address->country);
+		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (address->locality, ctxt->pilot_charset);
+		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (address->region, ctxt->pilot_charset);
+		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (address->code, ctxt->pilot_charset);
+		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (address->country, ctxt->pilot_charset);
 
 		e_contact_address_free (address);
 	}
@@ -1266,7 +1272,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			phone_str = e_contact_get_const (contact, priority[i]);
 			if (phone_str && *phone_str) {
 				clear_entry_text (*local->addr, phone);
-				local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
+				local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str, ctxt->pilot_charset);
 				local->addr->phoneLabel[phone - entryPhone1] = priority_label[i];
 				phone++;
 			}
@@ -1315,13 +1321,13 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 
 			if (phone_str && *phone_str) {
 				clear_entry_text (*local->addr, i);
-				local->addr->entry[i] = e_pilot_utf8_to_pchar (phone_str);
+				local->addr->entry[i] = e_pilot_utf8_to_pchar (phone_str, ctxt->pilot_charset);
 			}
 		}
 	}
 
 	/* Note */
-	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_NOTE));
+	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_NOTE), ctxt->pilot_charset);
 }
 
 static void
@@ -1396,12 +1402,12 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		contact = e_contact_duplicate (in_contact);
 
 	/*Category support*/
-	e_pilot_remote_category_to_local(remote->category, contact, &(ctxt->ai.category));
+	e_pilot_remote_category_to_local(remote->category, contact, &(ctxt->ai.category), ctxt->pilot_charset);
 
 	/* Name */
 	name = e_contact_name_new ();
-	name->given = get_entry_text (address, entryFirstname);
-	name->family = get_entry_text (address, entryLastname);
+	name->given = get_entry_text (address, entryFirstname, ctxt->pilot_charset);
+	name->family = get_entry_text (address, entryLastname, ctxt->pilot_charset);
 
 	/* set the name, respecting the pilot's given/family names */
 	e_contact_set (contact, E_CONTACT_NAME, name);
@@ -1412,13 +1418,13 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	/* File As */
 	if (!full_name || !*full_name)
-		set_contact_text (contact, E_CONTACT_FILE_AS, address, entryCompany);
+		set_contact_text (contact, E_CONTACT_FILE_AS, address, entryCompany, ctxt->pilot_charset);
 
 	g_free (full_name);
 
 	/* Title and Company */
-	set_contact_text (contact, E_CONTACT_TITLE, address, entryTitle);
-	set_contact_text (contact, E_CONTACT_ORG, address, entryCompany);
+	set_contact_text (contact, E_CONTACT_TITLE, address, entryTitle, ctxt->pilot_charset);
+	set_contact_text (contact, E_CONTACT_ORG, address, entryCompany, ctxt->pilot_charset);
 
 	/* Address */
 	mailing_address = -1;
@@ -1440,7 +1446,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	eaddress = g_new0 (EContactAddress, 1);
 
-	txt = get_entry_text (address, entryAddress);
+	txt = get_entry_text (address, entryAddress, ctxt->pilot_charset);
 	if (txt && (find = strchr (txt, '\n')) != NULL) {
 		*find = '\0';
 		find++;
@@ -1450,10 +1456,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	eaddress->street = txt;
 	eaddress->ext = find != NULL ? g_strdup (find) : g_strdup ("");
-	eaddress->locality = get_entry_text (address, entryCity);
-	eaddress->region = get_entry_text (address, entryState);
-	eaddress->country = get_entry_text (address, entryCountry);
-	eaddress->code = get_entry_text (address, entryZip);
+	eaddress->locality = get_entry_text (address, entryCity, ctxt->pilot_charset);
+	eaddress->region = get_entry_text (address, entryState, ctxt->pilot_charset);
+	eaddress->country = get_entry_text (address, entryCountry, ctxt->pilot_charset);
+	eaddress->code = get_entry_text (address, entryZip, ctxt->pilot_charset);
 
 	e_contact_set (contact, mailing_address, eaddress);
 	e_contact_address_free (eaddress);
@@ -1464,7 +1470,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		gint phonelabel = address.phoneLabel[i - entryPhone1];
-		gchar *phonenum = get_entry_text (address, i);
+		gchar *phonenum = get_entry_text (address, i, ctxt->pilot_charset);
 
 		if (phonelabel == LABEL_EMAIL && !is_next_done (next_mail)) {
 			e_contact_set (contact, next_mail, phonenum);
@@ -1496,7 +1502,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	}
 
 	/* Note */
-	set_contact_text (contact, E_CONTACT_NOTE, address, entryNote);
+	set_contact_text (contact, E_CONTACT_NOTE, address, entryNote, ctxt->pilot_charset);
 
 	free_Address(&address);
 
@@ -1602,6 +1608,13 @@ pre_sync (GnomePilotConduit *conduit,
 	/* g_message ("Addressbook Conduit v.%s", CONDUIT_VERSION); */
 
 	ctxt->dbi = dbi;
+
+#ifdef PILOT_LINK_0_12
+	if(NULL == dbi->pilotInfo->pilot_charset)
+		ctxt->pilot_charset = NULL;
+	else
+		ctxt->pilot_charset = g_strdup(dbi->pilotInfo->pilot_charset);
+#endif
 
 	if (ctxt->cfg->source) {
 		ctxt->ebook = e_book_new (ctxt->cfg->source, NULL);
@@ -1759,7 +1772,8 @@ post_sync (GnomePilotConduit *conduit,
 	if (e_book_get_changes (ctxt->ebook, change_id, &changed, NULL))
 		e_book_free_change_list (changed);
 	g_free (change_id);
-
+	if (ctxt->pilot_charset)
+		g_free (ctxt->pilot_charset);
 	LOG (g_message ( "---------------------------------------------------------\n" ));
 
 	return 0;

@@ -305,6 +305,8 @@ struct _ECalConduitContext {
 	GList *locals;
 
 	EPilotMap *map;
+
+	gchar *pilot_charset;
 };
 
 static ECalConduitContext *
@@ -947,19 +949,19 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 	}
 
 	/*Category support*/
-	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category));
+	e_pilot_local_category_to_remote(&(local->local.category), comp, &(ctxt->ai.category), ctxt->pilot_charset);
 
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocate */
 	e_cal_component_get_summary (comp, &summary);
 	if (summary.value)
-		local->appt->description = e_pilot_utf8_to_pchar (summary.value);
+		local->appt->description = e_pilot_utf8_to_pchar (summary.value, ctxt->pilot_charset);
 
 	e_cal_component_get_description_list (comp, &d_list);
 	if (d_list) {
 		description = (ECalComponentText *) d_list->data;
 		if (description && description->value)
-			local->appt->note = e_pilot_utf8_to_pchar (description->value);
+			local->appt->note = e_pilot_utf8_to_pchar (description->value, ctxt->pilot_charset);
 		else
 			local->appt->note = NULL;
 	} else {
@@ -1200,7 +1202,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 ECalComponent *in_comp,
 			 ECal *client,
 			 icaltimezone *timezone,
-			 struct CategoryAppInfo *category)
+			 struct CategoryAppInfo *category,
+			 const gchar *pilot_charset)
 {
 	ECalComponent *comp;
 	struct Appointment appt;
@@ -1243,12 +1246,12 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	e_cal_component_set_last_modified (comp, &now);
 
-	summary.value = txt = e_pilot_utf8_from_pchar (appt.description);
+	summary.value = txt = e_pilot_utf8_from_pchar (appt.description, pilot_charset);
 	e_cal_component_set_summary (comp, &summary);
 	free (txt);
 
 	/*Category support*/
-	e_pilot_remote_category_to_local(remote->category, comp, category);
+	e_pilot_remote_category_to_local(remote->category, comp, category, pilot_charset);
 
 	/* The iCal description field */
 	if (!appt.note) {
@@ -1257,7 +1260,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		GSList l;
 		ECalComponentText text;
 
-		text.value = txt = e_pilot_utf8_from_pchar (appt.note);
+		text.value = txt = e_pilot_utf8_from_pchar (appt.note, pilot_charset);
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
@@ -1511,6 +1514,12 @@ pre_sync (GnomePilotConduit *conduit,
 	LOG (g_message ( "pre_sync: Calendar Conduit v.%s", CONDUIT_VERSION ));
 
 	ctxt->dbi = dbi;
+#ifdef PILOT_LINK_0_12
+	if(NULL == dbi->pilotInfo->pilot_charset)
+		ctxt->pilot_charset = NULL;
+	else
+		 ctxt->pilot_charset = g_strdup(dbi->pilotInfo->pilot_charset);
+#endif
 	ctxt->client = NULL;
 
 	/* Get the timezone */
@@ -1696,6 +1705,8 @@ post_sync (GnomePilotConduit *conduit,
 	if (e_cal_get_changes (ctxt->client, change_id, &changed, NULL))
 		e_cal_free_change_list (changed);
 	g_free (change_id);
+	if (ctxt->pilot_charset)
+		g_free (ctxt->pilot_charset);
 
 	LOG (g_message ( "---------------------------------------------------------\n" ));
 
@@ -1895,7 +1906,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
 
-	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->client, ctxt->timezone, &(ctxt->ai.category));
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->client, ctxt->timezone, &(ctxt->ai.category), ctxt->pilot_charset);
 
 	/* Give it a new UID otherwise it will be the uid of the default comp */
 	uid = e_cal_component_gen_uid ();
@@ -1927,7 +1938,8 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ("replace_record: replace %s with %s\n",
 			print_local (local), print_remote (remote)));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->client, ctxt->timezone, &(ctxt->ai.category));
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->client, ctxt->timezone, &(ctxt->ai.category),
+ctxt->pilot_charset);
 	g_object_unref (local->comp);
 	local->comp = new_comp;
 
