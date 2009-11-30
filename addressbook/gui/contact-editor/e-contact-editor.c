@@ -38,7 +38,6 @@
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 
-#include <camel/camel.h>
 
 #include "addressbook/util/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"

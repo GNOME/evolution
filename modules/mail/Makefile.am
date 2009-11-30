@@ -7,6 +7,7 @@ libevolution_module_mail_la_CPPFLAGS =					\
 	-I$(top_srcdir)/widgets						\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(EVOLUTION_MAIL_CFLAGS)					\
+	$(CAMEL_CFLAGS)							\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
