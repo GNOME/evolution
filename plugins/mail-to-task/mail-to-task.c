@@ -926,18 +926,16 @@ mail_to_event (ECalSourceType source_type,
                gboolean with_attendees,
                EMailReader *reader)
 {
-	GtkWidget *message_list;
 	CamelFolder *folder;
-	GPtrArray *selected;
+	GPtrArray *uids;
 	ESourceList *source_list = NULL;
 	gboolean done = FALSE;
 	GSList *groups, *p;
 	ESource *source = NULL;
 	GError *error = NULL;
 
-	message_list = e_mail_reader_get_message_list (reader);
-	selected = message_list_get_selected (MESSAGE_LIST (message_list));
-	folder = MESSAGE_LIST (message_list)->folder;
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (!e_cal_get_sources (&source_list, source_type, &error)) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));
@@ -1005,10 +1003,10 @@ mail_to_event (ECalSourceType source_type,
 		data = g_new0 (AsyncData, 1);
 		data->client = client;
 		data->folder = folder;
-		data->uids = selected;
+		data->uids = uids;
 		data->with_attendees = with_attendees;
 
-		if (selected->len == 1)
+		if (uids->len == 1)
 			data->selected_text = get_selected_text (reader);
 		else
 			data->selected_text = NULL;

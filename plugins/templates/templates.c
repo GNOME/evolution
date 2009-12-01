@@ -698,8 +698,8 @@ update_actions_cb (EShellView *shell_view)
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
-	GtkWidget *message_list;
 	CamelFolderInfo *folder_info;
+	CamelFolder *templates_folder;
 	CamelFolder *folder;
 	CamelStore *store;
 	EMailReader *reader;
@@ -724,10 +724,8 @@ update_actions_cb (EShellView *shell_view)
 		return;
 
 	reader = E_MAIL_READER (shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len != 1)
 		goto exit;
@@ -735,10 +733,10 @@ update_actions_cb (EShellView *shell_view)
 	/* Now recursively build template submenus in the pop-up menu. */
 
 	store = e_mail_local_get_store ();
-	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
 	folder_info = camel_store_get_folder_info (
-		store, folder->full_name,
+		store, templates_folder->full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 
@@ -746,7 +744,7 @@ update_actions_cb (EShellView *shell_view)
 		ui_manager, action_group,
 		"/mail-message-popup/mail-message-templates",
 		&action_count, merge_id, folder_info,
-		MESSAGE_LIST (message_list)->folder, uids->pdata[0]);
+		folder, uids->pdata[0]);
 
 exit:
 	em_utils_uids_free (uids);

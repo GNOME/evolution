@@ -399,7 +399,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 	EShellBackend *shell_backend;
 	EShell *shell;
 	GtkWidget *editor;
-	GtkWindow *parent;
+	GtkWindow *window;
 	CamelTag *tags;
 	gint i;
 
@@ -408,8 +408,8 @@ em_utils_flag_for_followup (EMailReader *reader,
 	g_return_if_fail (uids != NULL);
 
 	editor = e_mail_tag_editor_new ();
-	parent = e_mail_reader_get_window (reader);
-	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
+	window = e_mail_reader_get_window (reader);
+	gtk_window_set_transient_for (GTK_WINDOW (editor), window);
 
 	shell_backend = e_mail_reader_get_shell_backend (reader);
 	shell = e_shell_backend_get_shell (shell_backend);

@@ -193,7 +193,6 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
                                   const gchar *uid)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkWidget *message_list;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 	EMailReader *reader;
@@ -202,10 +201,9 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		return;
 
 	reader = E_MAIL_READER (browser);
+	folder = e_mail_reader_get_folder (reader);
 	html_display = e_mail_reader_get_html_display (reader);
-	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
 	info = camel_folder_get_message_info (folder, uid);
 
 	if (info == NULL)
@@ -606,7 +604,6 @@ mail_browser_set_message (EMailReader *reader,
                           const gchar *uid)
 {
 	EMailReaderIface *iface;
-	GtkWidget *message_list;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 
@@ -619,9 +616,7 @@ mail_browser_set_message (EMailReader *reader,
 		return;
 	}
 
-	message_list = e_mail_reader_get_message_list (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
+	folder = e_mail_reader_get_folder (reader);
 	info = camel_folder_get_message_info (folder, uid);
 
 	if (info != NULL) {

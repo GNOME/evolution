@@ -123,11 +123,10 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 
 	reader = E_MAIL_READER (shell_content);
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
-	folder = MESSAGE_LIST (message_list)->folder;
 
 	if (folder_uri != NULL) {
 		GKeyFile *key_file;
@@ -464,11 +463,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
 		EMFolderTreeModel *model;
-		GtkWidget *message_list;
 		const gchar *folder_uri;
 
-		message_list = e_mail_reader_get_message_list (reader);
-		folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+		folder_uri = e_mail_reader_get_folder_uri (reader);
 
 		/* XXX If the user right-clicks on a folder other than what
 		 *     the message list is showing, disable folder rename.

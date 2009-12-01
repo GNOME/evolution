@@ -135,7 +135,7 @@ mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 	EMailShellContentPrivate *priv = mail_shell_content->priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	EMailReader *reader;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
@@ -150,8 +150,8 @@ mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (mail_shell_content);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = message_list->folder_uri;
 
 	if (folder_uri == NULL)
 		goto skip;
@@ -166,7 +166,8 @@ mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 
 		position = g_key_file_get_double (
 			key_file, group_name, key, NULL);
-		message_list_set_scrollbar_position (message_list, position);
+		message_list_set_scrollbar_position (
+			MESSAGE_LIST (message_list), position);
 	}
 
 	g_free (group_name);
@@ -275,14 +276,15 @@ mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
                                     GalView *gal_view)
 {
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 
 	reader = E_MAIL_READER (mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	if (GAL_IS_VIEW_ETABLE (gal_view))
 		gal_view_etable_attach_tree (
-			GAL_VIEW_ETABLE (gal_view), message_list->tree);
+			GAL_VIEW_ETABLE (gal_view),
+			MESSAGE_LIST (message_list)->tree);
 }
 
 static void
@@ -444,7 +446,7 @@ mail_shell_content_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	EMailReader *reader;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -588,14 +590,14 @@ mail_shell_content_get_html_display (EMailReader *reader)
 	return priv->html_display;
 }
 
-static MessageList *
+static GtkWidget *
 mail_shell_content_get_message_list (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
-	return MESSAGE_LIST (priv->message_list);
+	return priv->message_list;
 }
 
 static GtkMenu *
@@ -650,18 +652,19 @@ mail_shell_content_set_folder (EMailReader *reader,
 {
 	EMailShellContentPrivate *priv;
 	EMailReaderIface *default_iface;
-	MessageList *message_list;
+	GtkWidget *message_list;
+	CamelFolder *old_folder;
 	gboolean different_folder;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
+	old_folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_freeze (message_list);
+	message_list_freeze (MESSAGE_LIST (message_list));
 
 	different_folder =
-		message_list->folder != NULL &&
-		folder != message_list->folder;
+		(old_folder != NULL && folder != old_folder);
 
 	/* Chain up to interface's default set_folder() method. */
 	default_iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
@@ -679,14 +682,15 @@ mail_shell_content_set_folder (EMailReader *reader,
 		priv->suppress_message_selection = FALSE;
 
 	/* This is a one-time-only callback. */
-	if (message_list->cursor_uid == NULL && priv->message_list_built_id == 0)
+	if (MESSAGE_LIST (message_list)->cursor_uid == NULL &&
+		priv->message_list_built_id == 0)
 		priv->message_list_built_id = g_signal_connect_swapped (
 			message_list, "message-list-built",
 			G_CALLBACK (mail_shell_content_message_list_built_cb),
 			reader);
 
 exit:
-	message_list_thaw (message_list);
+	message_list_thaw (MESSAGE_LIST (message_list));
 }
 
 static void
@@ -847,12 +851,12 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	 * message if necessary, so we don't get an empty preview. */
 	if (preview_visible) {
 		EMailReader *reader;
-		MessageList *message_list;
+		GtkWidget *message_list;
 		const gchar *cursor_uid;
 
 		reader = E_MAIL_READER (mail_shell_content);
 		message_list = e_mail_reader_get_message_list (reader);
-		cursor_uid = message_list->cursor_uid;
+		cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
 
 		if (cursor_uid != NULL)
 			e_mail_reader_set_message (reader, cursor_uid);
@@ -925,11 +929,12 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	EShellViewClass *shell_view_class;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
-	MessageList *message_list;
+	CamelFolder *folder;
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
 	gboolean outgoing_folder;
 	gboolean show_vertical_view;
+	const gchar *folder_uri;
 	gchar *view_id;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
@@ -940,21 +945,22 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	view_collection = shell_view_class->view_collection;
 
 	reader = E_MAIL_READER (mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	/* If no folder is selected, return silently. */
-	if (message_list->folder == NULL)
+	if (folder == NULL)
 		return;
 
 	/* If we have a folder, we should also have a URI. */
-	g_return_if_fail (message_list->folder_uri != NULL);
+	g_return_if_fail (folder_uri != NULL);
 
 	if (mail_shell_content->priv->view_instance != NULL) {
 		g_object_unref (mail_shell_content->priv->view_instance);
 		mail_shell_content->priv->view_instance = NULL;
 	}
 
-	view_id = mail_config_folder_to_safe_url (message_list->folder);
+	view_id = mail_config_folder_to_safe_url (folder);
 	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
 	mail_shell_content->priv->view_instance = view_instance;
 
@@ -992,12 +998,9 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	g_free (view_id);
 
 	outgoing_folder =
-		em_utils_folder_is_drafts (
-			message_list->folder, message_list->folder_uri) ||
-		em_utils_folder_is_outbox (
-			message_list->folder, message_list->folder_uri) ||
-		em_utils_folder_is_sent (
-			message_list->folder, message_list->folder_uri);
+		em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_outbox (folder, folder_uri) ||
+		em_utils_folder_is_sent (folder, folder_uri);
 
 	if (outgoing_folder) {
 		if (show_vertical_view)
@@ -1017,7 +1020,7 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 		gchar *state_filename;
 
 		state_filename = mail_config_folder_to_cachename (
-			message_list->folder, "et-header-");
+			folder, "et-header-");
 
 		if (g_file_test (state_filename, G_FILE_TEST_IS_REGULAR)) {
 			ETableSpecification *spec;

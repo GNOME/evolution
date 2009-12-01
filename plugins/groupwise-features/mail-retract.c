@@ -43,22 +43,19 @@ get_selected_info (EShellView *shell_view, CamelFolder **folder, gchar **selecte
 {
 	EShellContent *shell_content;
 	EMailReader *reader;
-	GtkWidget *message_list;
-	GPtrArray *selected;
+	GPtrArray *uids;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	reader = (EMailReader *) (shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	g_return_val_if_fail (message_list != NULL, FALSE);
+	reader = E_MAIL_READER (shell_content);
+	uids = e_mail_reader_get_selected_uids (reader);
 
-	selected = message_list_get_selected (MESSAGE_LIST (message_list));
-	if (selected && selected->len == 1) {
-		*folder = MESSAGE_LIST (message_list)->folder;
-		*selected_uid = g_strdup (g_ptr_array_index (selected, 0));
+	if (uids && uids->len == 1) {
+		*folder = e_mail_reader_get_folder (reader);
+		*selected_uid = g_strdup (g_ptr_array_index (uids, 0));
 	}
 
-	em_utils_uids_free (selected);
+	em_utils_uids_free (uids);
 
 	return *selected_uid != NULL;
 }

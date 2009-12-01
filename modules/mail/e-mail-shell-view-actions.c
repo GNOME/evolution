@@ -83,7 +83,6 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EMailReader *reader;
 	EShellView *shell_view;
 	EShellContent *shell_content;
-	GtkWidget *message_list;
 	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
 	const gchar *folder_uri;
@@ -103,8 +102,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 		search_text = "''";
 
 	reader = E_MAIL_READER (shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	search_rule = vfolder_clone_rule (search_rule);
 	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
@@ -195,7 +193,6 @@ action_mail_folder_expunge_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	GtkWidget *message_list;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	CamelFolder *folder;
@@ -204,9 +201,8 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
+	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
 	em_utils_expunge_folder (GTK_WIDGET (shell_window), folder);
@@ -217,7 +213,6 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	GtkWidget *message_list;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	CamelFolder *folder;
@@ -232,9 +227,8 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	parent = GTK_WINDOW (shell_window);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
+	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
 	key = "/apps/evolution/mail/prompts/mark_all_read";
@@ -243,7 +237,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	if (!em_utils_prompt_user (parent, key, prompt, NULL))
 		return;
 
-	uids = message_list_get_uids (MESSAGE_LIST (message_list));
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++)
@@ -482,8 +476,8 @@ action_mail_hide_selected_cb (GtkAction *action,
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 	message_list_hide_uids (MESSAGE_LIST (message_list), uids);
 	em_utils_uids_free (uids);
 }
@@ -493,7 +487,6 @@ action_mail_label_cb (GtkToggleAction *action,
                       EMailShellView *mail_shell_view)
 {
 	EMailReader *reader;
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *tag;
@@ -503,10 +496,8 @@ action_mail_label_cb (GtkToggleAction *action,
 	g_return_if_fail (tag != NULL);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	folder = MESSAGE_LIST (message_list)->folder;
-
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	for (ii = 0; ii < uids->len; ii++) {
 		if (gtk_toggle_action_get_active (action))
@@ -534,7 +525,6 @@ action_mail_label_new_cb (GtkAction *action,
 	EMailLabelDialog *label_dialog;
 	EMailLabelListStore *store;
 	EMailReader *reader;
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -580,10 +570,8 @@ action_mail_label_new_cb (GtkAction *action,
 	label_tag = e_mail_label_list_store_get_tag (store, &iter);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	for (ii = 0; ii < uids->len; ii++)
 		camel_folder_set_message_user_flag (
@@ -606,7 +594,6 @@ action_mail_label_none_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
 	EMailReader *reader;
-	GtkWidget *message_list;
 	GtkTreeModel *tree_model;
 	CamelFolder *folder;
 	GtkTreeIter iter;
@@ -623,9 +610,8 @@ action_mail_label_none_cb (GtkAction *action,
 		shell_settings, "mail-label-list-store");
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
-	folder = MESSAGE_LIST (message_list)->folder;
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
@@ -918,7 +904,6 @@ action_search_filter_cb (GtkRadioAction *action,
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EMailReader *reader;
-	GtkWidget *message_list;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
@@ -927,8 +912,7 @@ action_search_filter_cb (GtkRadioAction *action,
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (folder_uri != NULL) {
 		const gchar *key;
@@ -956,7 +940,6 @@ action_search_scope_cb (GtkRadioAction *action,
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EMailReader *reader;
-	GtkWidget *message_list;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
@@ -965,8 +948,7 @@ action_search_scope_cb (GtkRadioAction *action,
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (folder_uri != NULL) {
 		const gchar *key;
@@ -1600,7 +1582,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 /* Helper for e_mail_shell_view_update_popup_labels() */
 static void
 mail_shell_view_update_label_action (GtkToggleAction *action,
-                                     MessageList *message_list,
+                                     EMailReader *reader,
                                      GPtrArray *uids,
                                      const gchar *label_tag)
 {
@@ -1610,7 +1592,7 @@ mail_shell_view_update_label_action (GtkToggleAction *action,
 	gboolean sensitive;
 	guint ii;
 
-	folder = message_list->folder;
+	folder = e_mail_reader_get_folder (reader);
 
 	/* Figure out the proper label action state for the selected
 	 * messages.  If all the selected messages have the given label,
@@ -1660,7 +1642,6 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMailReader *reader;
-	GtkWidget *message_list;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkTreeModel *tree_model;
@@ -1692,8 +1673,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	e_action_group_remove_all_actions (action_group);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
@@ -1724,7 +1704,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		/* Configure the action before we connect to signals. */
 		mail_shell_view_update_label_action (
 			GTK_TOGGLE_ACTION (label_action),
-			MESSAGE_LIST (message_list), uids, tag);
+			reader, uids, tag);
 
 		g_signal_connect (
 			label_action, "toggled",

@@ -108,12 +108,12 @@ emla_list_action_do (CamelFolder *folder,
 	EMsgComposer *composer;
 	gint send_message_response;
 	EAccount *account;
-	GtkWindow *parent;
+	GtkWindow *window;
 
 	if (msg == NULL)
 		return;
 
-	parent = e_mail_reader_get_window (action_data->reader);
+	window = e_mail_reader_get_window (action_data->reader);
 
 	for (t = 0; t < G_N_ELEMENTS (emla_action_headers); t++) {
 		if (emla_action_headers[t].action == action &&
@@ -123,7 +123,7 @@ emla_list_action_do (CamelFolder *folder,
 
 	if (!header) {
 		/* there was no header matching the action */
-		e_alert_run_dialog_for_args (parent, MESSAGE_NO_HEADER, NULL);
+		e_alert_run_dialog_for_args (window, MESSAGE_NO_HEADER, NULL);
 		goto exit;
 	}
 
@@ -132,7 +132,7 @@ emla_list_action_do (CamelFolder *folder,
 	if (action == EMLA_ACTION_POST) {
 		while (*headerpos == ' ') headerpos++;
 		if (g_ascii_strcasecmp (headerpos, "NO") == 0) {
-			e_alert_run_dialog_for_args (parent, MESSAGE_POSTING_NOT_ALLOWED, NULL);
+			e_alert_run_dialog_for_args (window, MESSAGE_POSTING_NOT_ALLOWED, NULL);
 			goto exit;
 		}
 	}
@@ -143,7 +143,7 @@ emla_list_action_do (CamelFolder *folder,
 		while (*headerpos == ' ') headerpos++;
 		if (*headerpos != '<' || (end = strchr (headerpos++, '>')) == NULL) {
 			e_alert_run_dialog_for_args (
-				parent, MESSAGE_MALFORMED_HEADER,
+				window, MESSAGE_MALFORMED_HEADER,
 				emla_action_headers[t].header, header, NULL);
 			goto exit;
 		}
@@ -156,7 +156,7 @@ emla_list_action_do (CamelFolder *folder,
 				send_message_response = GTK_RESPONSE_NO;
 			else
 				send_message_response = e_alert_run_dialog_for_args (
-					parent, MESSAGE_ASK_SEND_MESSAGE,
+					window, MESSAGE_ASK_SEND_MESSAGE,
 					url, NULL);
 
 			if (send_message_response == GTK_RESPONSE_YES) {
@@ -174,7 +174,7 @@ emla_list_action_do (CamelFolder *folder,
 
 			goto exit;
 		} else {
-			e_show_uri (parent, url);
+			e_show_uri (window, url);
 			goto exit;
 		}
 		g_free (url);
@@ -189,7 +189,7 @@ emla_list_action_do (CamelFolder *folder,
 	}
 
 	/* if we got here, there's no valid action */
-	e_alert_run_dialog_for_args (parent, MESSAGE_NO_ACTION, header, NULL);
+	e_alert_run_dialog_for_args (window, MESSAGE_NO_ACTION, header, NULL);
 
 exit:
 	g_object_unref (action_data->reader);
@@ -202,17 +202,15 @@ static void
 emla_list_action (EMailReader *reader,
                   EmlaAction action)
 {
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	emla_action_data *data;
 	const gchar *folder_uri;
 
-	message_list = e_mail_reader_get_message_list (reader);
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 	g_return_if_fail (uids->len == 1);
 
 	data = g_malloc (sizeof (emla_action_data));

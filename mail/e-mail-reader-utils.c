@@ -68,7 +68,6 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	CamelFolder *folder;
 	GtkWidget *check_button;
 	GtkWidget *content_area;
-	GtkWidget *message_list;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	const gchar *label;
@@ -79,14 +78,12 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
 
-	message_list = e_mail_reader_get_message_list (reader);
+	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 
 	shell_backend = e_mail_reader_get_shell_backend (reader);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
-
-	folder = MESSAGE_LIST (message_list)->folder;
 
 	prompt_delete_in_vfolder = e_shell_settings_get_boolean (
 		shell_settings, "mail-prompt-delete-in-vfolder");
@@ -131,7 +128,6 @@ e_mail_reader_mark_as_read (EMailReader *reader,
                             const gchar *uid)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	guint32 mask, set;
 	guint32 flags;
@@ -139,10 +135,9 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (uid != NULL);
 
+	folder = e_mail_reader_get_folder (reader);
 	html_display = e_mail_reader_get_html_display (reader);
-	message_list = e_mail_reader_get_message_list (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
 	flags = camel_folder_get_message_flags (folder, uid);
 
 	if (!(flags & CAMEL_MESSAGE_SEEN)) {
@@ -162,21 +157,19 @@ e_mail_reader_mark_selected (EMailReader *reader,
                              guint32 mask,
                              guint32 set)
 {
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	guint ii;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
-	message_list = e_mail_reader_get_message_list (reader);
+	folder = e_mail_reader_get_folder (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
 	if (folder == NULL)
 		return 0;
 
 	camel_folder_freeze (folder);
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	for (ii = 0; ii < uids->len; ii++)
 		camel_folder_set_message_flags (
@@ -192,7 +185,6 @@ guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
 	EShellBackend *shell_backend;
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *views;
@@ -202,13 +194,11 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
-	message_list = e_mail_reader_get_message_list (reader);
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	if (!em_utils_ask_open_many (window, uids->len)) {
 		em_utils_uids_free (uids);
@@ -283,7 +273,6 @@ void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
-	GtkWidget *message_list;
 	EMFormatHTMLDisplay *html_display;
 	EMFormatHTMLPrint *html_print;
 	CamelFolder *folder;
@@ -291,16 +280,15 @@ e_mail_reader_print (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	html_display = e_mail_reader_get_html_display (reader);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
+	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
 	/* XXX Learn to handle len > 1. */
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	uids = e_mail_reader_get_selected_uids (reader);
 	if (uids->len != 1)
 		goto exit;
+
+	html_display = e_mail_reader_get_html_display (reader);
 
 	html_print = em_format_html_print_new (
 		(EMFormatHTML *) html_display, action);
@@ -382,10 +370,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	html_display = e_mail_reader_get_html_display (reader);
 	html = ((EMFormatHTML *) html_display)->html;
 
+	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
-	folder = MESSAGE_LIST (message_list)->folder;
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
@@ -480,7 +468,6 @@ void
 e_mail_reader_create_filter_from_selected (EMailReader *reader,
                                            gint filter_type)
 {
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	const gchar *folder_uri;
@@ -493,10 +480,8 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	message_list = e_mail_reader_get_message_list (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (em_utils_folder_is_sent (folder, folder_uri))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
@@ -505,7 +490,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;
 
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
 		filter_data = g_malloc (sizeof (*filter_data));
@@ -545,7 +530,6 @@ void
 e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
                                             gint vfolder_type)
 {
-	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *folder_uri;
 	GPtrArray *uids;
@@ -557,12 +541,9 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	message_list = e_mail_reader_get_message_list (reader);
-
-	folder = MESSAGE_LIST (message_list)->folder;
-	folder_uri = MESSAGE_LIST (message_list)->folder_uri;
-
-	uids = message_list_get_selected (MESSAGE_LIST (message_list));
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));

@@ -68,16 +68,15 @@ gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 	gchar *msg;
 	EShellContent *shell_content;
 	EMailReader *reader;
-	GtkWidget *message_list;
+	CamelFolder *folder;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	reader = (EMailReader *) (shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	g_return_if_fail (message_list != NULL);
-	g_return_if_fail (MESSAGE_LIST (message_list)->folder != NULL);
+	reader = E_MAIL_READER (shell_content);
+	folder = e_mail_reader_get_folder (reader);
+	g_return_if_fail (folder != NULL);
 
-	cnc = get_cnc (MESSAGE_LIST (message_list)->folder->parent_store);
+	cnc = get_cnc (folder->parent_store);
 
 	dialog =  gtk_dialog_new_with_buttons (_("Junk Settings"),
 			NULL,

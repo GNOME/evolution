@@ -90,9 +90,12 @@ struct _EMailReaderIface {
 			(*get_html_display)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
+	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
 	EShellBackend *	(*get_shell_backend)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
+	CamelFolder *	(*get_folder)		(EMailReader *reader);
+	const gchar *	(*get_folder_uri)	(EMailReader *reader);
 	void		(*set_folder)		(EMailReader *reader,
 						 CamelFolder *folder,
 						 const gchar *folder_uri);
@@ -118,8 +121,11 @@ EMFormatHTMLDisplay *
 		e_mail_reader_get_html_display	(EMailReader *reader);
 GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
+GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
+CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
+const gchar *	e_mail_reader_get_folder_uri	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder,
 						 const gchar *folder_uri);

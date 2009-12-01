@@ -204,19 +204,17 @@ update_mmp_entries_cb (EShellView *shell_view, gpointer user_data)
 	if (visible) {
 		EShellContent *shell_content;
 		EMailReader *reader;
-		GtkWidget *message_list;
-		GPtrArray *selected;
+		GPtrArray *uids;
 
 		shell_content = e_shell_view_get_shell_content (shell_view);
 
-		reader = (EMailReader *) (shell_content);
-		message_list = e_mail_reader_get_message_list (reader);
-		selected = message_list_get_selected (MESSAGE_LIST (message_list));
+		reader = E_MAIL_READER (shell_content);
+		uids = e_mail_reader_get_selected_uids (reader);
 
-		if (selected)
-			n_selected = selected->len;
+		if (uids)
+			n_selected = uids->len;
 
-		em_utils_uids_free (selected);
+		em_utils_uids_free (uids);
 
 		visible = n_selected > 0;
 	}
