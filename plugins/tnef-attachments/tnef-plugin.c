@@ -847,7 +847,7 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
     DDWORD ddword_val;
     dtr thedate;
 
-    sprintf(ifilename, "%s/calendar.vcf", tmpdir);
+    sprintf(ifilename, "%s/calendar.ics", tmpdir);
     printf("%s\n", ifilename);
 
     if ((fptr = fopen(ifilename, "wb"))==NULL) {
@@ -1110,7 +1110,7 @@ void saveVTask(TNEFStruct *tnef, const gchar *tmpdir) {
     while (vl->data[index] == ' ')
             vl->data[index--] = 0;
 
-    sprintf(ifilename, "%s/%s.vcf", tmpdir, vl->data);
+    sprintf(ifilename, "%s/%s.ics", tmpdir, vl->data);
     for (i=0; i<strlen(ifilename); i++)
         if (ifilename[i] == ' ')
             ifilename[i] = '_';
