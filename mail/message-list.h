@@ -194,7 +194,6 @@ void	       message_list_thaw(MessageList *ml);
 GPtrArray     *message_list_get_uids(MessageList *message_list);
 GPtrArray     *message_list_get_selected(MessageList *ml);
 void           message_list_set_selected(MessageList *ml, GPtrArray *uids);
-void	       message_list_free_uids(MessageList *ml, GPtrArray *uids);
 
 /* select next/prev message helpers */
 gboolean       message_list_select     (MessageList *message_list,

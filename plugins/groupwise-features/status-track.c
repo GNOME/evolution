@@ -38,6 +38,7 @@
 #include <camel/camel-mime-message.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/em-utils.h>
 #include <mail/message-list.h>
 
 #include <e-gw-connection.h>
@@ -81,7 +82,7 @@ get_selected_message (EShellView *shell_view, CamelFolder **folder, gchar **sele
 		msg = camel_folder_get_message (*folder, *selected_uid, NULL);
 	}
 
-	message_list_free_uids (MESSAGE_LIST (message_list), selected);
+	em_utils_uids_free (selected);
 
 	return msg;
 }

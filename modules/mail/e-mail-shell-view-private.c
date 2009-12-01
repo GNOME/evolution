@@ -893,7 +893,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			num_visible), num_visible);
 	}
 
-	message_list_free_uids (message_list, selected);
+	em_utils_uids_free (selected);
 
 	/* Choose a suitable folder name for displaying. */
 	if (folder->parent_store == local_store && (

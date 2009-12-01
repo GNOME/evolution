@@ -252,7 +252,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 			CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	camel_folder_thaw (folder);
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 static void
@@ -485,7 +485,7 @@ action_mail_hide_selected_cb (GtkAction *action,
 
 	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 	message_list_hide_uids (MESSAGE_LIST (message_list), uids);
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 static void
@@ -520,7 +520,7 @@ action_mail_label_cb (GtkToggleAction *action,
 		}
 	}
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 static void
@@ -589,7 +589,7 @@ action_mail_label_new_cb (GtkAction *action,
 		camel_folder_set_message_user_flag (
 			folder, uids->pdata[ii], label_tag, TRUE);
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 
 	g_free (label_tag);
 
@@ -647,7 +647,7 @@ action_mail_label_none_cb (GtkAction *action,
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 static void
@@ -1747,7 +1747,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		ii++;
 	}
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 
 	g_object_unref (tree_model);
 }

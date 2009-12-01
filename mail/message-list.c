@@ -496,7 +496,7 @@ static void
 clear_selection(MessageList *ml, struct _MLSelection *selection)
 {
 	if (selection->uids) {
-		message_list_free_uids(ml, selection->uids);
+		em_utils_uids_free(selection->uids);
 		selection->uids = NULL;
 	}
 	if (selection->folder) {
@@ -846,7 +846,7 @@ message_list_copy(MessageList *ml, gboolean cut)
 		p->clipboard.folder_uri = g_strdup(ml->folder_uri);
 		gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
 	} else {
-		message_list_free_uids(ml, uids);
+		em_utils_uids_free(uids);
 		gtk_selection_owner_set(NULL, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
 	}
 }
@@ -2046,7 +2046,7 @@ ml_tree_drag_data_get (ETree *tree, gint row, ETreePath path, gint col,
 		}
 	}
 
-	message_list_free_uids(ml, uids);
+	em_utils_uids_free(uids);
 }
 
 /* TODO: merge this with the folder tree stuff via empopup targets */
@@ -2891,7 +2891,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
 #ifdef BROKEN_ETREE
 		message_list_set_selected(ml, selected);
-		message_list_free_uids(ml, selected);
+		em_utils_uids_free(selected);
 #else
 	} else {
 		static gint tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp);
@@ -3216,7 +3216,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
 #ifdef BROKEN_ETREE
 		message_list_set_selected(ml, selected);
-		message_list_free_uids(ml, selected);
+		em_utils_uids_free(selected);
 #else
 	}
 #endif
@@ -3618,7 +3618,7 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 
 	ml->last_sel_single = uids->len == 1;
 
-	message_list_free_uids(ml, uids);
+	em_utils_uids_free(uids);
 }
 
 static gint
@@ -3748,15 +3748,6 @@ message_list_thaw(MessageList *ml)
 		g_free(ml->frozen_search);
 		ml->frozen_search = NULL;
 	}
-}
-
-void message_list_free_uids(MessageList *ml, GPtrArray *uids)
-{
-	gint i;
-
-	for (i=0;i<uids->len;i++)
-		g_free(uids->pdata[i]);
-	g_ptr_array_free(uids, TRUE);
 }
 
 /* set whether we are in threaded view or flat view */

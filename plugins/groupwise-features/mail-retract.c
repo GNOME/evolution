@@ -32,6 +32,7 @@
 #include <e-util/e-alert.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/em-utils.h>
 #include <mail/message-list.h>
 
 #include "gw-ui.h"
@@ -57,7 +58,7 @@ get_selected_info (EShellView *shell_view, CamelFolder **folder, gchar **selecte
 		*selected_uid = g_strdup (g_ptr_array_index (selected, 0));
 	}
 
-	message_list_free_uids (MESSAGE_LIST (message_list), selected);
+	em_utils_uids_free (selected);
 
 	return *selected_uid != NULL;
 }

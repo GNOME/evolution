@@ -392,7 +392,7 @@ action_mail_forward_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (folder, uids, folder_uri);
 	else
-		message_list_free_uids (MESSAGE_LIST (message_list), uids);
+		em_utils_uids_free (uids);
 }
 
 static void
@@ -416,7 +416,7 @@ action_mail_forward_attached_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_attached (folder, uids, folder_uri);
 	else
-		message_list_free_uids (MESSAGE_LIST (message_list), uids);
+		em_utils_uids_free (uids);
 }
 
 static void
@@ -440,7 +440,7 @@ action_mail_forward_inline_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_inline (folder, uids, folder_uri);
 	else
-		message_list_free_uids (MESSAGE_LIST (message_list), uids);
+		em_utils_uids_free (uids);
 }
 
 static void
@@ -464,7 +464,7 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_quoted (folder, uids, folder_uri);
 	else
-		message_list_free_uids (MESSAGE_LIST (message_list), uids);
+		em_utils_uids_free (uids);
 }
 
 static void
@@ -969,7 +969,7 @@ action_mail_show_source_cb (GtkAction *action,
 	e_mail_reader_set_message (reader, uids->pdata[0]);
 	gtk_widget_show (browser);
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 static void
@@ -1003,7 +1003,7 @@ action_mail_toggle_important_cb (GtkAction *action,
 
 	camel_folder_thaw (folder);
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 static void

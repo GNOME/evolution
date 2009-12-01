@@ -26,6 +26,7 @@
 #include <mail/e-mail-reader.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-tree-model.h>
+#include <mail/em-utils.h>
 #include <mail/message-list.h>
 
 #include <calendar/gui/e-calendar-view.h>
@@ -215,7 +216,7 @@ update_mmp_entries_cb (EShellView *shell_view, gpointer user_data)
 		if (selected)
 			n_selected = selected->len;
 
-		message_list_free_uids (MESSAGE_LIST (message_list), selected);
+		em_utils_uids_free (selected);
 
 		visible = n_selected > 0;
 	}

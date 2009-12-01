@@ -182,7 +182,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
 		camel_folder_set_message_flags (
 			folder, uids->pdata[ii], mask, set);
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 	camel_folder_thaw (folder);
 
 	return ii;
@@ -211,7 +211,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	uids = message_list_get_selected (MESSAGE_LIST (message_list));
 
 	if (!em_utils_ask_open_many (window, uids->len)) {
-		message_list_free_uids (MESSAGE_LIST (message_list), uids);
+		em_utils_uids_free (uids);
 		return 0;
 	}
 
@@ -274,7 +274,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 	g_ptr_array_free (views, TRUE);
 
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 
 	return ii;
 }
@@ -311,7 +311,7 @@ e_mail_reader_print (EMailReader *reader,
 	g_object_unref (html_print);
 
 exit:
-	message_list_free_uids (MESSAGE_LIST (message_list), uids);
+	em_utils_uids_free (uids);
 }
 
 /* Helper for e_mail_reader_reply_to_message()
