@@ -81,6 +81,8 @@ const gchar *	e_shell_taskbar_get_message	(EShellTaskbar *shell_taskbar);
 void		e_shell_taskbar_set_message	(EShellTaskbar *shell_taskbar,
 						 const gchar *message);
 void		e_shell_taskbar_unset_message	(EShellTaskbar *shell_taskbar);
+guint		e_shell_taskbar_get_activity_count
+						(EShellTaskbar *shell_taskbar);
 
 G_END_DECLS
 

@@ -435,3 +435,19 @@ e_shell_taskbar_unset_message (EShellTaskbar *shell_taskbar)
 
 	e_shell_taskbar_set_message (shell_taskbar, NULL);
 }
+
+/**
+ * e_shell_taskbar_get_activity_count:
+ * @shell_taskbar: an #EShellTaskbar
+ *
+ * Returns the number of active #EActivity instances being tracked.
+ *
+ * Returns: the number of #EActivity instances
+ **/
+guint
+e_shell_taskbar_get_activity_count (EShellTaskbar *shell_taskbar)
+{
+	g_return_val_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar), 0);
+
+	return g_hash_table_size (shell_taskbar->priv->proxy_table);
+}
