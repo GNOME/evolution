@@ -25,9 +25,7 @@
 /* XXX Anjal uses a different message list widget than Evolution, so
  *     avoid including <mail/message-list.h> in this file.  This makes
  *     the get_message_list() method a little awkward since it returns
- *     a GtkWidget pointer which almost always has to be type casted.
- *     Consider adding get_folder() and get_folder_uri() methods to
- *     take some pressure off get_message_list(). */
+ *     a GtkWidget pointer which almost always has to be type casted. */
 
 #include <gtk/gtk.h>
 #include <camel/camel-folder.h>
