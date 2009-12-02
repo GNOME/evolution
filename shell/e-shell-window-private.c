@@ -160,7 +160,8 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 	EShellWindowClass *class;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
-	g_return_val_if_fail (class->construct_menubar != NULL, NULL);
+	if (class->construct_menubar == NULL)
+		return NULL;
 
 	return class->construct_menubar (shell_window);
 }
@@ -171,7 +172,8 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	EShellWindowClass *class;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
-	g_return_val_if_fail (class->construct_toolbar != NULL, NULL);
+	if (class->construct_toolbar == NULL)
+		return NULL;
 
 	return class->construct_toolbar (shell_window);
 }
@@ -182,7 +184,8 @@ shell_window_construct_sidebar (EShellWindow *shell_window)
 	EShellWindowClass *class;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
-	g_return_val_if_fail (class->construct_sidebar != NULL, NULL);
+	if (class->construct_sidebar == NULL)
+		return NULL;
 
 	return class->construct_sidebar (shell_window);
 }
@@ -193,7 +196,8 @@ shell_window_construct_content (EShellWindow *shell_window)
 	EShellWindowClass *class;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
-	g_return_val_if_fail (class->construct_content != NULL, NULL);
+	if (class->construct_content == NULL)
+		return NULL;
 
 	return class->construct_content (shell_window);
 }
@@ -204,7 +208,8 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 	EShellWindowClass *class;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
-	g_return_val_if_fail (class->construct_taskbar != NULL, NULL);
+	if (class->construct_taskbar == NULL)
+		return NULL;
 
 	return class->construct_taskbar (shell_window);
 }
@@ -269,7 +274,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkAction *action;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
-	GtkWidget *container;
+	GtkBox *box;
+	GtkPaned *paned;
 	GtkWidget *widget;
 	GtkWindow *window;
 	GObject *object;
@@ -289,29 +295,34 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	gtk_container_add (GTK_CONTAINER (shell_window), widget);
 	gtk_widget_show (widget);
 
-	container = widget;
+	box = GTK_BOX (widget);
 
 	widget = shell_window_construct_menubar (shell_window);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	if (widget != NULL)
+		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
 	widget = shell_window_construct_toolbar (shell_window);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	if (widget != NULL)
+		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
 	widget = gtk_hpaned_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	priv->content_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = shell_window_construct_taskbar (shell_window);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	if (widget != NULL)
+		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
-	container = priv->content_pane;
+	paned = GTK_PANED (priv->content_pane);
 
 	widget = shell_window_construct_sidebar (shell_window);
-	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
+	if (widget != NULL)
+		gtk_paned_pack1 (paned, widget, FALSE, FALSE);
 
 	widget = shell_window_construct_content (shell_window);
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
+	if (widget != NULL)
+		gtk_paned_pack2 (paned, widget, TRUE, FALSE);
 
 	/* Create the switcher actions before we set the initial
 	 * shell view, because the shell view relies on them for
