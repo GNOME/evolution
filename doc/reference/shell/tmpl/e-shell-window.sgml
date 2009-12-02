@@ -43,6 +43,26 @@ EShellWindow
 
 </para>
 
+<!-- ##### ARG EShellWindow:sidebar-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellWindow:switcher-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellWindow:taskbar-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellWindow:toolbar-visible ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellWindow:ui-manager ##### -->
 <para>
 
@@ -170,6 +190,78 @@ EShellWindow
 
 @shell_window: 
 @group_name: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_sidebar_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_set_sidebar_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@sidebar_visible: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_switcher_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_set_switcher_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@switcher_visible: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_taskbar_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_set_taskbar_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@taskbar_visible: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_toolbar_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_set_toolbar_visible ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@toolbar_visible: 
 
 
 <!-- ##### FUNCTION e_shell_window_register_new_item_actions ##### -->

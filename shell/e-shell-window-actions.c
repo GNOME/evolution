@@ -1192,40 +1192,6 @@ action_send_receive_cb (GtkAction *action,
  *
  * Main menu item: View -> Layout -> Show Side Bar
  **/
-static void
-action_show_sidebar_cb (GtkToggleAction *action,
-                        EShellWindow *shell_window)
-{
-	GtkPaned *paned;
-	GtkWidget *widget;
-	gboolean active;
-
-	paned = GTK_PANED (shell_window->priv->content_pane);
-
-	widget = gtk_paned_get_child1 (paned);
-	active = gtk_toggle_action_get_active (action);
-	g_object_set (widget, "visible", active, NULL);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the status bar is visible.
- *
- * Main menu item: View -> Layout -> Show Status Bar
- **/
-static void
-action_show_statusbar_cb (GtkToggleAction *action,
-                          EShellWindow *shell_window)
-{
-	GtkWidget *widget;
-	gboolean active;
-
-	widget = shell_window->priv->status_area;
-	active = gtk_toggle_action_get_active (action);
-	g_object_set (widget, "visible", active, NULL);
-}
 
 /**
  * E_SHELL_WINDOW_ACTION_SHOW_SWITCHER:
@@ -1235,17 +1201,15 @@ action_show_statusbar_cb (GtkToggleAction *action,
  *
  * Main menu item: View -> Switcher Appearance -> Show Buttons
  **/
-static void
-action_show_switcher_cb (GtkToggleAction *action,
-                         EShellWindow *shell_window)
-{
-	EShellSwitcher *switcher;
-	gboolean active;
 
-	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
-	active = gtk_toggle_action_get_active (action);
-	e_shell_switcher_set_visible (switcher, active);
-}
+/**
+ * E_SHELL_WINDOW_ACTION_SHOW_TASKBAR:
+ * @window: an #EShellWindow
+ *
+ * This toggle action controls whether the task bar is visible.
+ *
+ * Main menu item: View -> Layout -> Show Status Bar
+ **/
 
 /**
  * E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR:
@@ -1255,17 +1219,6 @@ action_show_switcher_cb (GtkToggleAction *action,
  *
  * Main menu item: View -> Layout -> Show Tool Bar
  **/
-static void
-action_show_toolbar_cb (GtkToggleAction *action,
-                        EShellWindow *shell_window)
-{
-	GtkWidget *widget;
-	gboolean active;
-
-	widget = shell_window->priv->main_toolbar;
-	active = gtk_toggle_action_get_active (action);
-	g_object_set (widget, "visible", active, NULL);
-}
 
 /**
  * E_SHELL_WINDOW_ACTION_SUBMIT_BUG:
@@ -1708,15 +1661,7 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	  N_("Show Side _Bar"),
 	  NULL,
 	  N_("Show the side bar"),
-	  G_CALLBACK (action_show_sidebar_cb),
-	  TRUE },
-
-	{ "show-statusbar",
 	  NULL,
-	  N_("Show _Status Bar"),
-	  NULL,
-	  N_("Show the status bar"),
-	  G_CALLBACK (action_show_statusbar_cb),
 	  TRUE },
 
 	{ "show-switcher",
@@ -1724,15 +1669,23 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	  N_("Show _Buttons"),
 	  NULL,
 	  N_("Show the switcher buttons"),
-	  G_CALLBACK (action_show_switcher_cb),
+	  NULL,
+	  TRUE },
+
+	{ "show-taskbar",
+	  NULL,
+	  N_("Show _Status Bar"),
+	  NULL,
+	  N_("Show the status bar"),
+	  NULL,
 	  TRUE },
 
 	{ "show-toolbar",
 	  NULL,
 	  N_("Show _Tool Bar"),
 	  NULL,
-	  N_("Show the toolbar"),
-	  G_CALLBACK (action_show_toolbar_cb),
+	  N_("Show the tool bar"),
+	  NULL,
 	  TRUE }
 };
 
@@ -1931,6 +1884,22 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
 
 	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
+
+	e_mutual_binding_new (
+		shell_window, "sidebar-visible",
+		ACTION (SHOW_SIDEBAR), "active");
+
+	e_mutual_binding_new (
+		shell_window, "switcher-visible",
+		ACTION (SHOW_SWITCHER), "active");
+
+	e_mutual_binding_new (
+		shell_window, "taskbar-visible",
+		ACTION (SHOW_TASKBAR), "active");
+
+	e_mutual_binding_new (
+		shell_window, "toolbar-visible",
+		ACTION (SHOW_TOOLBAR), "active");
 
 	e_binding_new (
 		ACTION (SHOW_SIDEBAR), "active",

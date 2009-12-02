@@ -193,7 +193,7 @@ Shell Actions
 @window: 
 
 
-<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR ##### -->
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SHOW_SWITCHER ##### -->
 <para>
 
 </para>
@@ -201,7 +201,7 @@ Shell Actions
 @window: 
 
 
-<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SHOW_SWITCHER ##### -->
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SHOW_TASKBAR ##### -->
 <para>
 
 </para>

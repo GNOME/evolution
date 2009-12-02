@@ -28,12 +28,12 @@ url="http://mbarnes.fedorapeople.org/docs/eshell/">http://mbarnes.fedorapeople.o
   <chapter>
     <title>Basic Utility Functions</title>
     <xi:include href="xml/e-account-utils.xml"/>
+    <xi:include href="xml/e-alert.xml"/>
     <xi:include href="xml/e-bit-array.xml"/>
     <xi:include href="xml/e-binding.xml"/>
     <xi:include href="xml/e-categories-config.xml"/>
     <xi:include href="xml/e-datetime-format.xml"/>
     <xi:include href="xml/e-dialog-utils.xml"/>
-    <xi:include href="xml/e-error.xml"/>
     <xi:include href="xml/e-html-utils.xml"/>
     <xi:include href="xml/e-icon-factory.xml"/>
     <xi:include href="xml/e-logger.xml"/>

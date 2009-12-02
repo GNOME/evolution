@@ -77,3 +77,12 @@ EShellTaskbar
 @shell_taskbar: 
 
 
+<!-- ##### FUNCTION e_shell_taskbar_get_activity_count ##### -->
+<para>
+
+</para>
+
+@shell_taskbar: 
+@Returns: 
+
+

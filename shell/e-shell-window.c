@@ -32,92 +32,68 @@ enum {
 	PROP_GEOMETRY,
 	PROP_SAFE_MODE,
 	PROP_SHELL,
+	PROP_SIDEBAR_VISIBLE,
+	PROP_SWITCHER_VISIBLE,
+	PROP_TASKBAR_VISIBLE,
+	PROP_TOOLBAR_VISIBLE,
 	PROP_UI_MANAGER
 };
 
 static gpointer parent_class;
 
-static EShellView *
-shell_window_new_view (EShellBackend *shell_backend,
-                       EShellWindow *shell_window)
+static void
+shell_window_menubar_update_new_menu (EShellWindow *shell_window)
 {
-	GHashTable *loaded_views;
-	EShellView *shell_view;
-	GtkUIManager *ui_manager;
-	GtkNotebook *notebook;
-	GtkAction *action;
+	GtkWidget *menu;
 	GtkWidget *widget;
-	const gchar *name;
-	const gchar *id;
+	const gchar *path;
+
+	/* Update the "File -> New" submenu. */
+	path = "/main-menu/file-menu/new-menu";
+	menu = e_shell_window_create_new_menu (shell_window);
+	widget = e_shell_window_get_managed_widget (shell_window, path);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), menu);
+	gtk_widget_show (widget);
+}
+
+static void
+shell_window_toolbar_update_new_menu (EShellWindow *shell_window,
+                                      GParamSpec *pspec,
+                                      GtkMenuToolButton *menu_tool_button)
+{
+	GtkWidget *menu;
+
+	/* Update the "New" menu tool button submenu. */
+	menu = e_shell_window_create_new_menu (shell_window);
+	gtk_menu_tool_button_set_menu (menu_tool_button, menu);
+}
+
+static void
+shell_window_set_notebook_page (EShellWindow *shell_window,
+                                GParamSpec *pspec,
+                                GtkNotebook *notebook)
+{
+	EShellView *shell_view;
+	const gchar *view_name;
 	gint page_num;
-	GType type;
 
-	name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
-	type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->shell_view_type;
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
-	/* First off, start the shell backend. */
-	e_shell_backend_start (shell_backend);
+	page_num = e_shell_view_get_page_num (shell_view);
+	g_return_if_fail (page_num >= 0);
 
-	/* Determine the page number for the new shell view. */
-	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	page_num = gtk_notebook_get_n_pages (notebook);
+	gtk_notebook_set_current_page (notebook, page_num);
+}
 
-	/* Get the switcher action for this view. */
-	action = e_shell_window_get_shell_view_action (shell_window, name);
-
-	/* Create the shell view. */
-	shell_view = g_object_new (
-		type, "action", action, "page-num",page_num,
-		"shell-window", shell_window, NULL);
-
-	/* Register the shell view. */
-	loaded_views = shell_window->priv->loaded_views;
-	g_hash_table_insert (loaded_views, g_strdup (name), shell_view);
-
-	/* Register the GtkUIManager ID for the shell view. */
-	id = E_SHELL_VIEW_GET_CLASS (shell_view)->ui_manager_id;
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_plugin_ui_register_manager (ui_manager, id, shell_view);
-
-	/* Add pages to the various shell window notebooks. */
-
-	/* We can't determine the shell view's page number until after the
-	 * shell view is fully initialized because the shell view may load
-	 * other shell views during initialization, and those other shell
-	 * views will append their widgets to the notebooks before us. */
-	page_num = gtk_notebook_get_n_pages (notebook);
-	e_shell_view_set_page_num (shell_view, page_num);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	widget = GTK_WIDGET (e_shell_view_get_shell_content (shell_view));
-	gtk_notebook_append_page (notebook, widget, NULL);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
-	widget = GTK_WIDGET (e_shell_view_get_shell_sidebar (shell_view));
-	gtk_notebook_append_page (notebook, widget, NULL);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
-	widget = GTK_WIDGET (e_shell_view_get_shell_taskbar (shell_view));
-	gtk_notebook_append_page (notebook, widget, NULL);
-
-	/* Listen for changes that affect the shell window. */
-
-	g_signal_connect_swapped (
-		action, "notify::icon-name",
-		G_CALLBACK (e_shell_window_update_icon), shell_window);
-
-	g_signal_connect_swapped (
-		shell_view, "notify::title",
-		G_CALLBACK (e_shell_window_update_title), shell_window);
-
-	g_signal_connect_swapped (
-		shell_view, "notify::view-id",
-		G_CALLBACK (e_shell_window_update_view_menu), shell_window);
-
-	/* Execute an initial search. */
-	e_shell_view_execute_search (shell_view);
-
-	return shell_view;
+static void
+shell_window_online_button_clicked_cb (EOnlineButton *button,
+                                       EShellWindow *shell_window)
+{
+	if (e_online_button_get_online (button))
+		gtk_action_activate (ACTION (WORK_OFFLINE));
+	else
+		gtk_action_activate (ACTION (WORK_ONLINE));
 }
 
 static void
@@ -216,6 +192,30 @@ shell_window_set_property (GObject *object,
 				E_SHELL_WINDOW (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_SIDEBAR_VISIBLE:
+			e_shell_window_set_sidebar_visible (
+				E_SHELL_WINDOW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SWITCHER_VISIBLE:
+			e_shell_window_set_switcher_visible (
+				E_SHELL_WINDOW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TASKBAR_VISIBLE:
+			e_shell_window_set_taskbar_visible (
+				E_SHELL_WINDOW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TOOLBAR_VISIBLE:
+			e_shell_window_set_toolbar_visible (
+				E_SHELL_WINDOW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -243,6 +243,30 @@ shell_window_get_property (GObject *object,
 		case PROP_SHELL:
 			g_value_set_object (
 				value, e_shell_window_get_shell (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_SIDEBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_window_get_sidebar_visible (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_SWITCHER_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_window_get_switcher_visible (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_TASKBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_window_get_taskbar_visible (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_TOOLBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_window_get_toolbar_visible (
 				E_SHELL_WINDOW (object)));
 			return;
 
@@ -280,6 +304,273 @@ shell_window_constructed (GObject *object)
 	e_shell_window_private_constructed (E_SHELL_WINDOW (object));
 }
 
+static GtkWidget *
+shell_window_construct_menubar (EShellWindow *shell_window)
+{
+	GtkWidget *main_menu;
+
+	main_menu = e_shell_window_get_managed_widget (
+		shell_window, "/main-menu");
+	gtk_widget_show (main_menu);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
+
+	return main_menu;
+}
+
+static GtkWidget *
+shell_window_construct_toolbar (EShellWindow *shell_window)
+{
+	GtkUIManager *ui_manager;
+	GtkWidget *main_toolbar;
+	GtkToolItem *item;
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+
+	main_toolbar = e_shell_window_get_managed_widget (
+		shell_window, "/main-toolbar");
+
+	e_binding_new (
+		shell_window, "toolbar-visible",
+		main_toolbar, "visible");
+
+	/* XXX Having this separator in the UI definition doesn't work
+	 *     because GtkUIManager is unaware of the "New" button, so
+	 *     it makes the separator invisible.  One possibility is to
+	 *     define a GtkAction subclass for which create_tool_item()
+	 *     return an EMenuToolButton.  Then both this separator
+	 *     and the "New" button could be added to the UI definition.
+	 *     Tempting, but the "New" button and its dynamically
+	 *     generated menu is already a complex beast, and I'm not
+	 *     convinced having it proxy some new type of GtkAction
+	 *     is worth the extra effort. */
+	item = gtk_separator_tool_item_new ();
+	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, 0);
+	gtk_widget_show (GTK_WIDGET (item));
+
+	item = e_menu_tool_button_new (_("New"));
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (item), TRUE);
+	gtk_widget_add_accelerator (
+		GTK_WIDGET (item), "clicked",
+		gtk_ui_manager_get_accel_group (ui_manager),
+		GDK_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, 0);
+	gtk_widget_show (GTK_WIDGET (item));
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (shell_window_toolbar_update_new_menu),
+		GTK_MENU_TOOL_BUTTON (item));
+
+	return main_toolbar;
+}
+
+static GtkWidget *
+shell_window_construct_sidebar (EShellWindow *shell_window)
+{
+	GtkWidget *notebook;
+	GtkWidget *switcher;
+
+	switcher = e_shell_switcher_new ();
+	shell_window->priv->switcher = g_object_ref_sink (switcher);
+
+	e_binding_new (
+		shell_window, "sidebar-visible",
+		switcher, "visible");
+
+	e_binding_new (
+		shell_window, "switcher-visible",
+		switcher, "toolbar-visible");
+
+	notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_container_add (GTK_CONTAINER (switcher), notebook);
+	shell_window->priv->sidebar_notebook = g_object_ref (notebook);
+	gtk_widget_show (notebook);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (shell_window_set_notebook_page), notebook);
+
+	return switcher;
+}
+
+static GtkWidget *
+shell_window_construct_content (EShellWindow *shell_window)
+{
+	GtkWidget *notebook;
+
+	notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
+	shell_window->priv->content_notebook = g_object_ref_sink (notebook);
+	gtk_widget_show (notebook);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (shell_window_set_notebook_page), notebook);
+
+	return notebook;
+}
+
+static GtkWidget *
+shell_window_construct_taskbar (EShellWindow *shell_window)
+{
+	EShell *shell;
+	GtkWidget *notebook;
+	GtkWidget *status_area;
+	GtkWidget *online_button;
+	GtkWidget *tooltip_label;
+	gint height;
+
+	shell = e_shell_window_get_shell (shell_window);
+
+	status_area = gtk_hbox_new (FALSE, 3);
+	gtk_container_set_border_width (GTK_CONTAINER (status_area), 3);
+
+	e_binding_new (
+		shell_window, "taskbar-visible",
+		status_area, "visible");
+
+	/* Make the status area as large as the task bar. */
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
+	gtk_widget_set_size_request (status_area, -1, (height * 2) + 6);
+
+	online_button = e_online_button_new ();
+	gtk_box_pack_start (
+		GTK_BOX (status_area), online_button, FALSE, TRUE, 0);
+	gtk_widget_show (online_button);
+
+	e_binding_new (
+		shell, "online",
+		online_button, "online");
+
+	e_binding_new (
+		shell, "network-available",
+		online_button, "sensitive");
+
+	g_signal_connect (
+		online_button, "clicked",
+		G_CALLBACK (shell_window_online_button_clicked_cb),
+		shell_window);
+
+	tooltip_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (tooltip_label), 0.0, 0.5);
+	gtk_box_pack_start (
+		GTK_BOX (status_area), tooltip_label, TRUE, TRUE, 0);
+	shell_window->priv->tooltip_label = g_object_ref (tooltip_label);
+	gtk_widget_hide (tooltip_label);
+
+	notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_box_pack_start (GTK_BOX (status_area), notebook, TRUE, TRUE, 0);
+	shell_window->priv->status_notebook = g_object_ref (notebook);
+	gtk_widget_show (notebook);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (shell_window_set_notebook_page), notebook);
+
+	return status_area;
+}
+
+static EShellView *
+shell_window_create_shell_view (EShellWindow *shell_window,
+                                const gchar *view_name)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	GHashTable *loaded_views;
+	GtkUIManager *ui_manager;
+	GtkNotebook *notebook;
+	GtkAction *action;
+	GtkWidget *widget;
+	const gchar *name;
+	const gchar *id;
+	gint page_num;
+	GType type;
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_backend = e_shell_get_backend_by_name (shell, view_name);
+
+	if (shell_backend == NULL) {
+		g_critical ("Unknown shell view name: %s", view_name);
+		return NULL;
+	}
+
+	name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
+	type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->shell_view_type;
+
+	/* First off, start the shell backend. */
+	e_shell_backend_start (shell_backend);
+
+	/* Determine the page number for the new shell view. */
+	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
+	page_num = gtk_notebook_get_n_pages (notebook);
+
+	/* Get the switcher action for this view. */
+	action = e_shell_window_get_shell_view_action (shell_window, name);
+
+	/* Create the shell view. */
+	shell_view = g_object_new (
+		type, "action", action, "page-num", page_num,
+		"shell-window", shell_window, NULL);
+
+	/* Register the shell view. */
+	loaded_views = shell_window->priv->loaded_views;
+	g_hash_table_insert (loaded_views, g_strdup (name), shell_view);
+
+	/* Register the GtkUIManager ID for the shell view. */
+	id = E_SHELL_VIEW_GET_CLASS (shell_view)->ui_manager_id;
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	e_plugin_ui_register_manager (ui_manager, id, shell_view);
+
+	/* Add pages to the various shell window notebooks. */
+
+	/* We can't determine the shell view's page number until after the
+	 * shell view is fully initialized because the shell view may load
+	 * other shell views during initialization, and those other shell
+	 * views will append their widgets to the notebooks before us. */
+	page_num = gtk_notebook_get_n_pages (notebook);
+	e_shell_view_set_page_num (shell_view, page_num);
+
+	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
+	widget = GTK_WIDGET (e_shell_view_get_shell_content (shell_view));
+	gtk_notebook_append_page (notebook, widget, NULL);
+
+	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
+	widget = GTK_WIDGET (e_shell_view_get_shell_sidebar (shell_view));
+	gtk_notebook_append_page (notebook, widget, NULL);
+
+	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
+	widget = GTK_WIDGET (e_shell_view_get_shell_taskbar (shell_view));
+	gtk_notebook_append_page (notebook, widget, NULL);
+
+	/* Listen for changes that affect the shell window. */
+
+	g_signal_connect_swapped (
+		action, "notify::icon-name",
+		G_CALLBACK (e_shell_window_update_icon), shell_window);
+
+	g_signal_connect_swapped (
+		shell_view, "notify::title",
+		G_CALLBACK (e_shell_window_update_title), shell_window);
+
+	g_signal_connect_swapped (
+		shell_view, "notify::view-id",
+		G_CALLBACK (e_shell_window_update_view_menu), shell_window);
+
+	/* Execute an initial search. */
+	e_shell_view_execute_search (shell_view);
+
+	return shell_view;
+}
+
 static void
 shell_window_class_init (EShellWindowClass *class)
 {
@@ -294,6 +585,13 @@ shell_window_class_init (EShellWindowClass *class)
 	object_class->dispose = shell_window_dispose;
 	object_class->finalize = shell_window_finalize;
 	object_class->constructed = shell_window_constructed;
+
+	class->construct_menubar = shell_window_construct_menubar;
+	class->construct_toolbar = shell_window_construct_toolbar;
+	class->construct_sidebar = shell_window_construct_sidebar;
+	class->construct_content = shell_window_construct_content;
+	class->construct_taskbar = shell_window_construct_taskbar;
+	class->create_shell_view = shell_window_create_shell_view;
 
 	/**
 	 * EShellWindow:active-view
@@ -357,6 +655,67 @@ shell_window_class_init (EShellWindowClass *class)
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShellWindow:sidebar-visible
+	 *
+	 * Whether the shell window's side bar is visible.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SIDEBAR_VISIBLE,
+		g_param_spec_boolean (
+			"sidebar-visible",
+			_("Sidebar Visible"),
+			_("Whether the shell window's side bar is visible"),
+			TRUE,
+			G_PARAM_READWRITE));
+
+	/**
+	 * EShellWindow:switcher-visible
+	 *
+	 * Whether the shell window's switcher buttons are visible.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SWITCHER_VISIBLE,
+		g_param_spec_boolean (
+			"switcher-visible",
+			_("Switcher Visible"),
+			_("Whether the shell window's "
+			  "switcher buttons are visible"),
+			TRUE,
+			G_PARAM_READWRITE));
+
+	/**
+	 * EShellWindow:taskbar-visible
+	 *
+	 * Whether the shell window's task bar is visible.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_TASKBAR_VISIBLE,
+		g_param_spec_boolean (
+			"taskbar-visible",
+			_("Taskbar Visible"),
+			_("Whether the shell window's task bar is visible"),
+			TRUE,
+			G_PARAM_READWRITE));
+
+	/**
+	 * EShellWindow:toolbar-visible
+	 *
+	 * Whether the shell window's tool bar is visible.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_TOOLBAR_VISIBLE,
+		g_param_spec_boolean (
+			"toolbar-visible",
+			_("Toolbar Visible"),
+			_("Whether the shell window's tool bar is visible"),
+			TRUE,
+			G_PARAM_READWRITE));
 
 	/**
 	 * EShellWindow:ui-manager
@@ -475,9 +834,8 @@ EShellView *
 e_shell_window_get_shell_view (EShellWindow *shell_window,
                                const gchar *view_name)
 {
-	EShell *shell;
 	EShellView *shell_view;
-	EShellBackend *shell_backend;
+	EShellWindowClass *class;
 	GHashTable *loaded_views;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
@@ -489,15 +847,10 @@ e_shell_window_get_shell_view (EShellWindow *shell_window,
 	if (shell_view != NULL)
 		return shell_view;
 
-	shell = e_shell_window_get_shell (shell_window);
-	shell_backend = e_shell_get_backend_by_name (shell, view_name);
+	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class->create_shell_view != NULL, NULL);
 
-	if (shell_backend == NULL) {
-		g_critical ("Unknown shell view name: %s", view_name);
-		return NULL;
-	}
-
-	return shell_window_new_view (shell_backend, shell_window);
+	return class->create_shell_view (shell_window, view_name);
 }
 
 /**
@@ -750,6 +1103,142 @@ e_shell_window_add_action_group (EShellWindow *shell_window,
 }
 
 /**
+ * e_shell_window_get_sidebar_visible:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window<!-- -->'s side bar is visible.
+ *
+ * Returns: %TRUE is the side bar is visible
+ **/
+gboolean
+e_shell_window_get_sidebar_visible (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->sidebar_visible;
+}
+
+/**
+ * e_shell_window_set_sidebar_visible:
+ * @shell_window: an #EShellWindow
+ * @sidebar_visible: whether the side bar should be visible
+ *
+ * Makes @shell_window<!-- -->'s side bar visible or invisible.
+ **/
+void
+e_shell_window_set_sidebar_visible (EShellWindow *shell_window,
+                                    gboolean sidebar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	shell_window->priv->sidebar_visible = sidebar_visible;
+
+	g_object_notify (G_OBJECT (shell_window), "sidebar-visible");
+}
+
+/**
+ * e_shell_window_get_switcher_visible:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window<!-- -->'s switcher buttons are visible.
+ *
+ * Returns: %TRUE is the switcher buttons are visible
+ **/
+gboolean
+e_shell_window_get_switcher_visible (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->switcher_visible;
+}
+
+/**
+ * e_shell_window_set_switcher_visible:
+ * @shell_window: an #EShellWindow
+ * @switcher_visible: whether the switcher buttons should be visible
+ *
+ * Makes @shell_window<!-- -->'s switcher buttons visible or invisible.
+ **/
+void
+e_shell_window_set_switcher_visible (EShellWindow *shell_window,
+                                     gboolean switcher_visible)
+{
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	shell_window->priv->switcher_visible = switcher_visible;
+
+	g_object_notify (G_OBJECT (shell_window), "switcher-visible");
+}
+
+/**
+ * e_shell_window_get_taskbar_visible:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window<!-- -->'s task bar is visible.
+ *
+ * Returns: %TRUE is the task bar is visible
+ **/
+gboolean
+e_shell_window_get_taskbar_visible (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->taskbar_visible;
+}
+
+/**
+ * e_shell_window_set_taskbar_visible:
+ * @shell_window: an #EShellWindow
+ * @taskbar_visible: whether the task bar should be visible
+ *
+ * Makes @shell_window<!-- -->'s task bar visible or invisible.
+ **/
+void
+e_shell_window_set_taskbar_visible (EShellWindow *shell_window,
+                                    gboolean taskbar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	shell_window->priv->taskbar_visible = taskbar_visible;
+
+	g_object_notify (G_OBJECT (shell_window), "taskbar-visible");
+}
+
+/**
+ * e_shell_window_get_toolbar_visible:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window<!-- -->'s tool bar is visible.
+ *
+ * Returns: %TRUE if the tool bar is visible
+ **/
+gboolean
+e_shell_window_get_toolbar_visible (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->toolbar_visible;
+}
+
+/**
+ * e_shell_window_set_toolbar_visible:
+ * @shell_window: an #EShellWindow
+ * @toolbar_visible: whether the tool bar should be visible
+ *
+ * Makes @shell_window<!-- -->'s tool bar visible or invisible.
+ **/
+void
+e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
+                                    gboolean toolbar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	shell_window->priv->toolbar_visible = toolbar_visible;
+
+	g_object_notify (G_OBJECT (shell_window), "toolbar-visible");
+}
+
+/**
  * e_shell_window_register_new_item_actions:
  * @shell_window: an #EShellWindow
  * @backend_name: name of an #EShellBackend
@@ -834,8 +1323,6 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 				G_OBJECT (action),
 				"primary", GINT_TO_POINTER (TRUE));
 	}
-
-	e_shell_window_update_new_menu (shell_window);
 }
 
 /**
@@ -913,6 +1400,4 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 			G_OBJECT (action),
 			"backend-name", (gpointer) backend_name);
 	}
-
-	e_shell_window_update_new_menu (shell_window);
 }

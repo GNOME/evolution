@@ -70,6 +70,30 @@ EActivityHandler
 e-config-upgrade
 
 
+<!-- ##### SECTION ./tmpl/e-error.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-error.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-error.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-error.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-error.sgml:Title ##### -->
+Error Dialog Functions
+
+
 <!-- ##### SECTION ./tmpl/e-shell-common.sgml:Long_Description ##### -->
 <para>
 
@@ -764,6 +788,13 @@ intelligent
 @window: 
 
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE ##### -->
+<para>
+
+</para>
+
+@window: 
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR ##### -->
 <para>
 
 </para>

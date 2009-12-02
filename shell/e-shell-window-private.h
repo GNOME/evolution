@@ -81,15 +81,10 @@ struct _EShellWindowPrivate {
 
 	/*** Widgetry ***/
 
-	GtkWidget *main_menu;
-	GtkWidget *main_toolbar;
-	GtkWidget *menu_tool_button;
 	GtkWidget *content_pane;
 	GtkWidget *content_notebook;
 	GtkWidget *sidebar_notebook;
 	GtkWidget *switcher;
-	GtkWidget *status_area;
-	GtkWidget *online_button;
 	GtkWidget *tooltip_label;
 	GtkWidget *status_notebook;
 
@@ -100,8 +95,12 @@ struct _EShellWindowPrivate {
 
 	gchar *geometry;
 
-	guint destroyed : 1;  /* XXX Do we still need this? */
-	guint safe_mode : 1;
+	guint destroyed        : 1;  /* XXX Do we still need this? */
+	guint safe_mode        : 1;
+	guint sidebar_visible  : 1;
+	guint switcher_visible : 1;
+	guint taskbar_visible  : 1;
+	guint toolbar_visible  : 1;
 };
 
 void		e_shell_window_private_init	(EShellWindow *shell_window);

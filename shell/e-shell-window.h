@@ -71,6 +71,16 @@ struct _EShellWindow {
 
 struct _EShellWindowClass {
 	GtkWindowClass parent_class;
+
+	/* These are all protected methods.  Not for public use. */
+	GtkWidget *	(*construct_menubar)	(EShellWindow *shell_window);
+	GtkWidget *	(*construct_toolbar)	(EShellWindow *shell_window);
+	GtkWidget *	(*construct_sidebar)	(EShellWindow *shell_window);
+	GtkWidget *	(*construct_content)	(EShellWindow *shell_window);
+	GtkWidget *	(*construct_taskbar)	(EShellWindow *shell_window);
+	struct _EShellView *
+			(*create_shell_view)	(EShellWindow *shell_window,
+						 const gchar *view_name);
 };
 
 GType		e_shell_window_get_type		(void);
@@ -100,6 +110,26 @@ void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
 void		e_shell_window_add_action_group (EShellWindow *shell_window,
 						 const gchar *group_name);
+gboolean	e_shell_window_get_sidebar_visible
+						(EShellWindow *shell_window);
+void		e_shell_window_set_sidebar_visible
+						(EShellWindow *shell_window,
+						 gboolean sidebar_visible);
+gboolean	e_shell_window_get_switcher_visible
+						(EShellWindow *shell_window);
+void		e_shell_window_set_switcher_visible
+						(EShellWindow *shell_window,
+						 gboolean switcher_visible);
+gboolean	e_shell_window_get_taskbar_visible
+						(EShellWindow *shell_window);
+void		e_shell_window_set_taskbar_visible
+						(EShellWindow *shell_window,
+						 gboolean taskbar_visible);
+gboolean	e_shell_window_get_toolbar_visible
+						(EShellWindow *shell_window);
+void		e_shell_window_set_toolbar_visible
+						(EShellWindow *shell_window,
+						 gboolean toolbar_visible);
 
 /* These should be called from the shell backend's window_created() handler. */
 

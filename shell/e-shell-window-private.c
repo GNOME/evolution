@@ -154,14 +154,59 @@ shell_window_connect_proxy_cb (EShellWindow *shell_window,
 		shell_window);
 }
 
-static void
-shell_window_online_button_clicked_cb (EOnlineButton *button,
-                                       EShellWindow *shell_window)
+static GtkWidget *
+shell_window_construct_menubar (EShellWindow *shell_window)
 {
-	if (e_online_button_get_online (button))
-		gtk_action_activate (ACTION (WORK_OFFLINE));
-	else
-		gtk_action_activate (ACTION (WORK_ONLINE));
+	EShellWindowClass *class;
+
+	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class->construct_menubar != NULL, NULL);
+
+	return class->construct_menubar (shell_window);
+}
+
+static GtkWidget *
+shell_window_construct_toolbar (EShellWindow *shell_window)
+{
+	EShellWindowClass *class;
+
+	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class->construct_toolbar != NULL, NULL);
+
+	return class->construct_toolbar (shell_window);
+}
+
+static GtkWidget *
+shell_window_construct_sidebar (EShellWindow *shell_window)
+{
+	EShellWindowClass *class;
+
+	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class->construct_sidebar != NULL, NULL);
+
+	return class->construct_sidebar (shell_window);
+}
+
+static GtkWidget *
+shell_window_construct_content (EShellWindow *shell_window)
+{
+	EShellWindowClass *class;
+
+	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class->construct_content != NULL, NULL);
+
+	return class->construct_content (shell_window);
+}
+
+static GtkWidget *
+shell_window_construct_taskbar (EShellWindow *shell_window)
+{
+	EShellWindowClass *class;
+
+	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class->construct_taskbar != NULL, NULL);
+
+	return class->construct_taskbar (shell_window);
 }
 
 void
@@ -171,11 +216,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	GHashTable *loaded_views;
 	GArray *signal_handler_ids;
 	GtkAccelGroup *accel_group;
-	GtkToolItem *item;
-	GtkWidget *container;
-	GtkWidget *widget;
 	guint merge_id;
-	gint height;
 
 	loaded_views = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -216,112 +257,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	g_signal_connect_swapped (
 		priv->ui_manager, "connect-proxy",
 		G_CALLBACK (shell_window_connect_proxy_cb), shell_window);
-
-	/* Construct window widgets. */
-
-	widget = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (shell_window), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_shell_window_get_managed_widget (
-		shell_window, "/main-menu");
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->main_menu = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_window_get_managed_widget (
-		shell_window, "/main-toolbar");
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->main_toolbar = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	/* XXX Having this separator in the UI definition doesn't work
-	 *     because GtkUIManager is unaware of the "New" button, so
-	 *     it makes the separator invisible.  One possibility is to
-	 *     define a GtkAction subclass for which create_tool_item()
-	 *     returns an EMenuToolButton.  Then both this separator
-	 *     and the "New" button could be added to the UI definition.
-	 *     Tempting, but the "New" button and its dynamically
-	 *     generated menu is already a complex beast, and I'm not
-	 *     convinced having it proxy some new type of GtkAction
-	 *     is worth the extra effort. */
-	item = gtk_separator_tool_item_new ();
-	gtk_toolbar_insert (GTK_TOOLBAR (widget), item, 0);
-	gtk_widget_show (GTK_WIDGET (item));
-
-	item = e_menu_tool_button_new (_("New"));
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (item), TRUE);
-	gtk_widget_add_accelerator (
-		GTK_WIDGET (item), "clicked",
-		gtk_ui_manager_get_accel_group (priv->ui_manager),
-		GDK_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-	gtk_toolbar_insert (GTK_TOOLBAR (widget), item, 0);
-	priv->menu_tool_button = g_object_ref (item);
-	gtk_widget_show (GTK_WIDGET (item));
-
-	widget = gtk_hpaned_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->content_pane = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_hbox_new (FALSE, 3);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->status_area = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	/* Make the status area as large as the task bar. */
-	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
-	gtk_widget_set_size_request (widget, -1, (height * 2) + 6);
-
-	container = priv->content_pane;
-
-	widget = e_shell_switcher_new ();
-	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
-	priv->switcher = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
-	priv->content_notebook = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = priv->switcher;
-
-	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->sidebar_notebook = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = priv->status_area;
-
-	widget = e_online_button_new ();
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (shell_window_online_button_clicked_cb),
-		shell_window);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-	priv->online_button = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->tooltip_label = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
-	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->status_notebook = g_object_ref (widget);
-	gtk_widget_show (widget);
 }
 
 void
@@ -334,6 +269,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkAction *action;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
+	GtkWidget *container;
+	GtkWidget *widget;
 	GtkWindow *window;
 	GObject *object;
 	const gchar *key;
@@ -346,10 +283,58 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	e_shell_watch_window (shell, window);
 
+	/* Construct window widgets. */
+
+	widget = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (shell_window), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = shell_window_construct_menubar (shell_window);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+
+	widget = shell_window_construct_toolbar (shell_window);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+
+	widget = gtk_hpaned_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	priv->content_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = shell_window_construct_taskbar (shell_window);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+
+	container = priv->content_pane;
+
+	widget = shell_window_construct_sidebar (shell_window);
+	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
+
+	widget = shell_window_construct_content (shell_window);
+	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
+
 	/* Create the switcher actions before we set the initial
 	 * shell view, because the shell view relies on them for
 	 * default settings during construction. */
 	e_shell_window_create_switcher_actions (shell_window);
+
+	/* Bunch of chores to do when the active view changes. */
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (e_shell_window_update_icon), NULL);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (e_shell_window_update_title), NULL);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (e_shell_window_update_view_menu), NULL);
+
+	g_signal_connect (
+		shell_window, "notify::active-view",
+		G_CALLBACK (e_shell_window_update_search_menu), NULL);
 
 	/* Support lockdown. */
 
@@ -399,14 +384,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		shell, "network-available",
 		action, "sensitive");
 
-	e_binding_new (
-		shell, "online",
-		priv->online_button, "online");
-
-	e_binding_new (
-		shell, "network-available",
-		priv->online_button, "sensitive");
-
 	/* Bind GObject properties to GConf keys. */
 
 	bridge = gconf_bridge_get ();
@@ -419,21 +396,21 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	key = "/apps/evolution/shell/view_defaults/folder_bar/width";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 
-	object = G_OBJECT (ACTION (SHOW_SIDEBAR));
+	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/sidebar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	gconf_bridge_bind_property (bridge, key, object, "sidebar-visible");
 
-	object = G_OBJECT (ACTION (SHOW_STATUSBAR));
+	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/statusbar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	gconf_bridge_bind_property (bridge, key, object, "taskbar-visible");
 
-	object = G_OBJECT (ACTION (SHOW_SWITCHER));
+	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/buttons_visible";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	gconf_bridge_bind_property (bridge, key, object, "switcher-visible");
 
-	object = G_OBJECT (ACTION (SHOW_TOOLBAR));
+	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/toolbar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	gconf_bridge_bind_property (bridge, key, object, "toolbar-visible");
 
 	/* Configure the initial size and position of the window by way
 	 * of either a user-supplied geometry string or the last recorded
@@ -489,15 +466,10 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 
 	g_hash_table_remove_all (priv->loaded_views);
 
-	DISPOSE (priv->main_menu);
-	DISPOSE (priv->main_toolbar);
-	DISPOSE (priv->menu_tool_button);
 	DISPOSE (priv->content_pane);
 	DISPOSE (priv->content_notebook);
 	DISPOSE (priv->sidebar_notebook);
 	DISPOSE (priv->switcher);
-	DISPOSE (priv->status_area);
-	DISPOSE (priv->online_button);
 	DISPOSE (priv->tooltip_label);
 	DISPOSE (priv->status_notebook);
 
@@ -518,35 +490,15 @@ void
 e_shell_window_switch_to_view (EShellWindow *shell_window,
                                const gchar *view_name)
 {
-	GtkNotebook *notebook;
 	EShellView *shell_view;
-	gint page_num;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (view_name != NULL);
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
-	page_num = e_shell_view_get_page_num (shell_view);
-	g_return_if_fail (page_num >= 0);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	gtk_notebook_set_current_page (notebook, page_num);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
-	gtk_notebook_set_current_page (notebook, page_num);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
-	gtk_notebook_set_current_page (notebook, page_num);
-
 	shell_window->priv->active_view = view_name;
 	g_object_notify (G_OBJECT (shell_window), "active-view");
-
-	e_shell_window_update_icon (shell_window);
-	e_shell_window_update_title (shell_window);
-	e_shell_window_update_new_menu (shell_window);
-	e_shell_window_update_view_menu (shell_window);
-	e_shell_window_update_search_menu (shell_window);
 
 	e_shell_view_update_actions (shell_view);
 }
@@ -588,26 +540,4 @@ e_shell_window_update_title (EShellWindow *shell_window)
 	window_title = g_strdup_printf (_("%s - Evolution"), view_title);
 	gtk_window_set_title (GTK_WINDOW (shell_window), window_title);
 	g_free (window_title);
-}
-
-void
-e_shell_window_update_new_menu (EShellWindow *shell_window)
-{
-	GtkWidget *menu;
-	GtkWidget *widget;
-	const gchar *path;
-
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	/* Update the "File -> New" submenu. */
-	path = "/main-menu/file-menu/new-menu";
-	menu = e_shell_window_create_new_menu (shell_window);
-	widget = e_shell_window_get_managed_widget (shell_window, path);
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), menu);
-	gtk_widget_show (widget);
-
-	/* Update the "New" menu tool button submenu. */
-	menu = e_shell_window_create_new_menu (shell_window);
-	widget = shell_window->priv->menu_tool_button;
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (widget), menu);
 }

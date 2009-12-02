@@ -38,7 +38,7 @@
       <menu action='window-menu'/>
       <menu action='layout-menu'>
         <menuitem action='show-toolbar'/>
-        <menuitem action='show-statusbar'/>
+        <menuitem action='show-taskbar'/>
         <menuitem action='show-sidebar'/>
       </menu>
       <placeholder name='view-custom-menus'/>
