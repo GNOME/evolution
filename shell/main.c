@@ -93,9 +93,6 @@ static gchar *requested_view = NULL;
 static gchar *evolution_debug_log = NULL;
 static gchar **remaining_args;
 
-/* Defined in <e-shell.h> */
-extern EShell *default_shell;
-
 static void
 categories_icon_theme_hack (void)
 {
@@ -397,7 +394,7 @@ shell_force_shutdown (void)
 	g_assert_not_reached ();
 }
 
-static void
+static EShell *
 create_default_shell (void)
 {
 	EShell *shell;
@@ -441,11 +438,9 @@ create_default_shell (void)
 
 	g_object_unref (client);
 
-	/* EShell keeps its own reference to the first instance for use
-	 * in e_shell_get_default(), so it's safe to unreference here. */
-	g_object_unref (shell);
-
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
+
+	return shell;
 }
 
 #ifdef G_OS_WIN32
@@ -455,6 +450,7 @@ extern void link_shutdown (void);
 gint
 main (gint argc, gchar **argv)
 {
+	EShell *shell;
 	GtkIconTheme *icon_theme;
 	GConfClient *client;
 #ifdef DEVELOPMENT
@@ -580,7 +576,7 @@ main (gint argc, gchar **argv)
 
 	g_object_unref (client);
 
-	create_default_shell ();
+	shell = create_default_shell ();
 
 	if (!disable_eplugin) {
 		/* Register built-in plugin hook types. */
@@ -597,14 +593,16 @@ main (gint argc, gchar **argv)
 
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
-	e_shell_migrate_attempt (default_shell);
+	e_shell_migrate_attempt (shell);
 
 	gtk_main ();
 
 	/* Drop what should be the last reference to the shell.
-	 * Emit a warning if references are leaking somewhere. */
-	g_object_unref (default_shell);
-	if (E_IS_SHELL (default_shell))
+	 * That will cause e_shell_get_default() to henceforth
+	 * return NULL.  Use that to check for reference leaks. */
+	g_object_unref (shell);
+
+	if (e_shell_get_default () != NULL)
 		g_warning ("Shell not finalized on exit");
 
 	gtk_accel_map_save (e_get_accels_filename ());

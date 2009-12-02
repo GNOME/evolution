@@ -91,8 +91,8 @@ static GDebugKey debug_keys[] = {
 	{ "settings",	DEBUG_KEY_SETTINGS }
 };
 
-EShell *default_shell = NULL;
 static gpointer parent_class;
+static gpointer default_shell;
 static guint signals[LAST_SIGNAL];
 
 #if defined(NM_SUPPORT) && NM_SUPPORT
@@ -624,8 +624,10 @@ static void
 shell_constructed (GObject *object)
 {
 	/* The first EShell instance is the default. */
-	if (default_shell == NULL)
-		default_shell = g_object_ref (object);
+	if (default_shell == NULL) {
+		default_shell = object;
+		g_object_add_weak_pointer (object, &default_shell);
+	}
 
 	/* UniqueApp will have by this point determined whether we're
 	 * the only Evolution process running.  If so, proceed normally.
@@ -1148,9 +1150,6 @@ e_shell_get_type (void)
 EShell *
 e_shell_get_default (void)
 {
-	/* Emit a warning if we call this too early. */
-	g_return_val_if_fail (default_shell != NULL, NULL);
-
 	return default_shell;
 }
 
