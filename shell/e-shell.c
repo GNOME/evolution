@@ -52,6 +52,7 @@ struct _EShellPrivate {
 	gpointer preparing_for_quit;         /* weak pointer */
 
 	gchar *geometry;
+	gchar *module_directory;
 
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
@@ -63,6 +64,7 @@ struct _EShellPrivate {
 enum {
 	PROP_0,
 	PROP_GEOMETRY,
+	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
 	PROP_SHELL_SETTINGS
@@ -373,15 +375,18 @@ shell_request_quit (EShell *shell)
 static void
 shell_load_modules (EShell *shell)
 {
-	GList *modules;
+	const gchar *module_directory;
+	GList *modules = NULL;
 
 	/* Load all shared library modules. */
-	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
 
-	while (modules != NULL) {
-		g_type_module_unuse (G_TYPE_MODULE (modules->data));
-		modules = g_list_delete_link (modules, modules);
-	}
+	module_directory = e_shell_get_module_directory (shell);
+	g_return_if_fail (module_directory != NULL);
+
+	modules = e_module_load_all_in_directory (module_directory);
+
+	g_list_foreach (modules, (GFunc) g_type_module_unuse, NULL);
+	g_list_free (modules);
 }
 
 /* Helper for shell_add_backend() */
@@ -480,6 +485,15 @@ shell_set_geometry (EShell *shell,
 }
 
 static void
+shell_set_module_directory (EShell *shell,
+                            const gchar *module_directory)
+{
+	g_return_if_fail (shell->priv->module_directory == NULL);
+
+	shell->priv->module_directory = g_strdup (module_directory);
+}
+
+static void
 shell_set_property (GObject *object,
                     guint property_id,
                     const GValue *value,
@@ -488,6 +502,12 @@ shell_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_GEOMETRY:
 			shell_set_geometry (
+				E_SHELL (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_MODULE_DIRECTORY:
+			shell_set_module_directory (
 				E_SHELL (object),
 				g_value_get_string (value));
 			return;
@@ -515,6 +535,12 @@ shell_get_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODULE_DIRECTORY:
+			g_value_set_string (
+				value, e_shell_get_module_directory (
+				E_SHELL (object)));
+			return;
+
 		case PROP_NETWORK_AVAILABLE:
 			g_value_set_boolean (
 				value, e_shell_get_network_available (
@@ -588,6 +614,7 @@ shell_finalize (GObject *object)
 		e_file_lock_destroy ();
 
 	g_free (priv->geometry);
+	g_free (priv->module_directory);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -744,6 +771,22 @@ shell_class_init (EShellClass *class)
 			_("Initial window geometry string"),
 			NULL,
 			G_PARAM_WRITABLE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShell:module-directory
+	 *
+	 * The directory from which to load #EModule<!-- -->s.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_MODULE_DIRECTORY,
+		g_param_spec_string (
+			"module-directory",
+			_("Module Directory"),
+			_("The directory from which to load EModules"),
+			NULL,
+			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
 	/**
@@ -1501,6 +1544,22 @@ e_shell_send_receive (EShell *shell,
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 
 	g_signal_emit (shell, signals[SEND_RECEIVE], 0, parent);
+}
+
+/**
+ * e_shell_get_module_directory:
+ * @shell: an #EShell
+ *
+ * Returns the directory from which #EModule<!-- -->s were loaded.
+ *
+ * Returns: the #EModule directory
+ **/
+const gchar *
+e_shell_get_module_directory (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->module_directory;
 }
 
 /**

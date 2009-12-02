@@ -435,6 +435,7 @@ create_default_shell (void)
 		E_TYPE_SHELL,
 		"name", "org.gnome.Evolution",
 		"geometry", geometry,
+		"module-directory", EVOLUTION_MODULEDIR,
 		"online", online,
 		NULL);
 

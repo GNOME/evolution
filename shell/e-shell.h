@@ -114,6 +114,7 @@ GList *		e_shell_get_watched_windows	(EShell *shell);
 GtkWindow *     e_shell_get_active_window	(EShell *shell);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
+const gchar *	e_shell_get_module_directory	(EShell *shell);
 gboolean	e_shell_get_network_available	(EShell *shell);
 void		e_shell_set_network_available	(EShell *shell,
 						 gboolean network_available);
