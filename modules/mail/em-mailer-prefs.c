@@ -1148,11 +1148,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
-	e_datetime_format_add_setup_widget (table, 0, "mail", "header", DTFormatKindDateTime, _("Date header:"));
-	e_datetime_format_add_setup_widget (table, 1, "mail", "table",  DTFormatKindDateTime, _("Table column:"));
+	e_datetime_format_add_setup_widget (table, 0, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
+	e_datetime_format_add_setup_widget (table, 1, "mail", "header", DTFormatKindDateTime, _("_Date header:"));
 	widget = gtk_check_button_new_with_mnemonic (_("Show _original header value"));
 	gtk_widget_show (widget);
-	gtk_table_attach ((GtkTable *) table, widget, 0, 3, 1, 2, GTK_EXPAND | GTK_FILL, 0, 12, 0);
+	gtk_table_attach ((GtkTable *) table, widget, 0, 3, 2, 3, GTK_EXPAND | GTK_FILL, 0, 12, 0);
 	e_mutual_binding_new (
 		shell_settings, "mail-show-real-date",
 		widget, "active");
