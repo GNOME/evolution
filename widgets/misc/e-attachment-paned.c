@@ -84,9 +84,9 @@ attachment_paned_notify_cb (EAttachmentPaned *paned,
 
 	/* Update the expander label. */
 	if (gtk_expander_get_expanded (expander))
-		text = _("Hide _Attachment Bar");
+		text = _("Hide Attachment _Bar");
 	else
-		text = _("Show _Attachment Bar");
+		text = _("Show Attachment _Bar");
 
 	gtk_label_set_text_with_mnemonic (label, text);
 }
