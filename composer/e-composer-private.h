@@ -22,6 +22,8 @@
 
 #include "e-msg-composer.h"
 
+#include <errno.h>
+
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 
@@ -31,6 +33,8 @@
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
 #include "e-util/e-binding.h"
+#include "e-util/e-mktemp.h"
+#include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
@@ -140,6 +144,10 @@ void		e_composer_private_finalize	(EMsgComposer *composer);
 void		e_composer_actions_init		(EMsgComposer *composer);
 gchar *		e_composer_find_data_file	(const gchar *basename);
 gchar *		e_composer_get_default_charset	(void);
+gboolean	e_composer_paste_image		(EMsgComposer *composer,
+						 GtkClipboard *clipboard);
+gboolean	e_composer_paste_uris		(EMsgComposer *composer,
+						 GtkClipboard *clipboard);
 
 G_END_DECLS
 

@@ -46,7 +46,6 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <fcntl.h>
-#include <errno.h>
 
 #include <glib.h>
 
@@ -1826,19 +1825,11 @@ static void
 msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 {
 	EMsgComposer *composer;
-	EAttachmentView *view;
-	EAttachmentStore *store;
 	GtkClipboard *clipboard;
-	GdkPixbuf *pixbuf;
 	GtkWidget *parent;
 	GtkWidget *widget;
-	gchar *filename;
-	gchar *uri;
-	GError *error = NULL;
 
 	composer = E_MSG_COMPOSER (editor);
-	view = e_msg_composer_get_attachment_view (composer);
-	store = e_attachment_view_get_store (view);
 
 	widget = gtk_window_get_focus (GTK_WINDOW (editor));
 	parent = gtk_widget_get_parent (widget);
@@ -1850,60 +1841,16 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 
 	clipboard = gtk_widget_get_clipboard (widget, GDK_SELECTION_CLIPBOARD);
 
-	/* Assume the clipboard has an image.  The return
-	 * value will be NULL we we assumed wrong. */
-	pixbuf = gtk_clipboard_wait_for_image (clipboard);
-	if (!GDK_IS_PIXBUF (pixbuf))
-		goto chainup;
-
-	/* Reserve a temporary file. */
-	filename = e_mktemp (NULL);
-	if (filename == NULL) {
-		g_warning ("%s", g_strerror (errno));
-		g_object_unref (pixbuf);
-		g_error_free (error);
+	if (gtk_clipboard_wait_is_image_available (clipboard)) {
+		e_composer_paste_image (composer, clipboard);
 		return;
 	}
 
-	/* Save the pixbuf as a temporary file in image/png format. */
-	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL)) {
-		g_warning ("%s", error->message);
-		g_object_unref (pixbuf);
-		g_error_free (error);
-		g_free (filename);
+	if (gtk_clipboard_wait_is_uris_available (clipboard)) {
+		e_composer_paste_uris (composer, clipboard);
 		return;
 	}
 
-	/* Convert the filename to a URI. */
-	uri = g_filename_to_uri (filename, NULL, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_object_unref (pixbuf);
-		g_error_free (error);
-		g_free (filename);
-		return;
-	}
-
-	if (gtkhtml_editor_get_html_mode (editor))
-		gtkhtml_editor_insert_image (editor, uri);
-	else {
-		EAttachment *attachment;
-
-		attachment = e_attachment_new_for_uri (uri);
-		e_attachment_store_add_attachment (store, attachment);
-		e_attachment_load_async (
-			attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, composer);
-		g_object_unref (attachment);
-	}
-
-	g_object_unref (pixbuf);
-	g_free (filename);
-	g_free (uri);
-
-	return;
-
-chainup:
 	/* Chain up to parent's paste_clipboard() method. */
 	GTKHTML_EDITOR_CLASS (parent_class)->paste_clipboard (editor);
 }
