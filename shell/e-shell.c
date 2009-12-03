@@ -1446,6 +1446,7 @@ e_shell_watch_window (EShell *shell,
                       GtkWindow *window)
 {
 	GList *list;
+	gchar *role;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (GTK_IS_WINDOW (window));
@@ -1460,6 +1461,15 @@ e_shell_watch_window (EShell *shell,
 	shell->priv->watched_windows = list;
 
 	unique_app_watch_window (UNIQUE_APP (shell), window);
+
+	/* We use the window's own type name and memory
+	 * address to form a unique window role for X11. */
+	role = g_strdup_printf (
+		"%s-%" G_GINTPTR_FORMAT,
+		G_OBJECT_TYPE_NAME (window),
+		(gintptr) window);
+	gtk_window_set_role (window, role);
+	g_free (role);
 
 	g_signal_connect_swapped (
 		window, "delete-event",
