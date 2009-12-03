@@ -426,3 +426,110 @@ e_composer_get_default_charset (void)
 	return charset;
 }
 
+gboolean
+e_composer_paste_image (EMsgComposer *composer,
+                        GtkClipboard *clipboard)
+{
+	GtkhtmlEditor *editor;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	GdkPixbuf *pixbuf = NULL;
+	gchar *filename = NULL;
+	gchar *uri = NULL;
+	gboolean success = FALSE;
+	GError *error = NULL;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
+
+	editor = GTKHTML_EDITOR (composer);
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+
+	/* Extract the image data from the clipboard. */
+	pixbuf = gtk_clipboard_wait_for_image (clipboard);
+	g_return_val_if_fail (pixbuf != NULL, FALSE);
+
+	/* Reserve a temporary file. */
+	filename = e_mktemp (NULL);
+	if (filename == NULL) {
+		g_set_error (
+			&error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"Could not create temporary file: %s",
+			g_strerror (errno));
+		goto exit;
+	}
+
+	/* Save the pixbuf as a temporary file in image/png format. */
+	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL))
+		goto exit;
+
+	/* Convert the filename to a URI. */
+	uri = g_filename_to_uri (filename, NULL, &error);
+	if (uri == NULL)
+		goto exit;
+
+	/* In HTML mode, paste the image into the message body.
+	 * In text mode, add the image to the attachment store. */
+	if (gtkhtml_editor_get_html_mode (editor))
+		gtkhtml_editor_insert_image (editor, uri);
+	else {
+		EAttachment *attachment;
+
+		attachment = e_attachment_new_for_uri (uri);
+		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, composer);
+		g_object_unref (attachment);
+	}
+
+	success = TRUE;
+
+exit:
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_object_unref (pixbuf);
+	g_free (filename);
+	g_free (uri);
+
+	return success;
+}
+
+gboolean
+e_composer_paste_uris (EMsgComposer *composer,
+                       GtkClipboard *clipboard)
+{
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	gchar **uris;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
+
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+
+	/* Extract the URI data from the clipboard. */
+	uris = gtk_clipboard_wait_for_uris (clipboard);
+	g_return_val_if_fail (uris != NULL, FALSE);
+
+	/* Add the URIs to the attachment store. */
+	for (ii = 0; uris[ii] != NULL; ii++) {
+		EAttachment *attachment;
+
+		attachment = e_attachment_new_for_uri (uris[ii]);
+		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, composer);
+		g_object_unref (attachment);
+	}
+
+	return TRUE;
+}
