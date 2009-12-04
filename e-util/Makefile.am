@@ -12,7 +12,9 @@ privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 eutilinclude_HEADERS = 				\
 	e-account-utils.h			\
 	e-activity.h				\
+	e-alert.h				\
 	e-alert-activity.h			\
+	e-alert-dialog.h			\
 	e-bconf-map.h				\
 	e-binding.h				\
 	e-bit-array.h				\
@@ -22,7 +24,6 @@ eutilinclude_HEADERS = 				\
 	e-datetime-format.h			\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
-	e-alert.h				\
 	e-event.h				\
 	e-file-utils.h				\
 	e-folder-map.h				\
@@ -85,7 +86,9 @@ libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-account-utils.c			\
 	e-activity.c				\
+	e-alert.c				\
 	e-alert-activity.c			\
+	e-alert-dialog.c			\
 	e-bconf-map.c				\
 	e-binding.c				\
 	e-bit-array.c				\
@@ -95,7 +98,6 @@ libeutil_la_SOURCES =				\
 	e-datetime-format.c			\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
-	e-alert.c				\
 	e-event.c				\
 	e-file-utils.c				\
 	e-folder-map.c				\
