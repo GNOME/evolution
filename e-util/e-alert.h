@@ -14,9 +14,11 @@
  *
  *
  * Authors:
- *		Michael Zucchi <notzed@ximian.com>
+ *   Michael Zucchi <notzed@ximian.com>
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2009 Intel Corporation
  *
  */
 
@@ -47,20 +49,68 @@
 /* takes filename, reason */
 #define E_ALERT_NO_LOAD_FILE "system:no-save-file"
 
+G_BEGIN_DECLS
+
+#define E_TYPE_ALERT e_alert_get_type()
+
+#define E_ALERT(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+  E_TYPE_ALERT, EAlert))
+
+#define E_ALERT_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST ((klass), \
+  E_TYPE_ALERT, EAlertClass))
+
+#define E_IS_ALERT(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+  E_TYPE_ALERT))
+
+#define E_IS_ALERT_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
+  E_TYPE_ALERT))
+
+#define E_ALERT_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
+  E_TYPE_ALERT, EAlertClass))
+
 typedef struct _EAlert EAlert;
+typedef struct _EAlertClass EAlertClass;
+typedef struct _EAlertPrivate EAlertPrivate;
+
+struct _e_alert_button {
+	struct _e_alert_button *next;
+	const gchar *stock;
+	const gchar *label;
+	gint response;
+};
+
+struct _EAlert
+{
+  GObject parent;
+  EAlertPrivate *priv;
+};
+
+struct _EAlertClass
+{
+  GObjectClass parent_class;
+};
+
+GType e_alert_get_type (void);
 
 EAlert *e_alert_new(const gchar *tag, const gchar *arg0, ...);
-EAlert *e_alert_newv(const gchar *tag, const gchar *arg0, va_list ap);
+EAlert *e_alert_new_valist(const gchar *tag, const gchar *arg0, va_list ap);
+EAlert *e_alert_new_array(const gchar *tag, GPtrArray *args);
 
-void e_alert_free (EAlert *alert);
+guint32 e_alert_get_flags (EAlert *alert);
+const gchar *e_alert_peek_stock_image (EAlert *alert);
+gint e_alert_get_default_response (EAlert *alert);
+gchar *e_alert_get_title (EAlert *alert);
+gchar *e_alert_get_primary_text (EAlert *alert);
+gchar *e_alert_get_secondary_text (EAlert *alert);
+const gchar *e_alert_peek_help_uri (EAlert *alert);
+gboolean e_alert_get_scroll (EAlert *alert);
+struct _e_alert_button *e_alert_get_buttons (EAlert *alert);
 
-/* Convenience functions for displaying the alert in a GtkDialog */
-GtkWidget *e_alert_new_dialog(GtkWindow *parent, EAlert *alert);
-GtkWidget *e_alert_new_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+G_END_DECLS
 
-gint e_alert_run_dialog(GtkWindow *parent, EAlert *alert);
-gint e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
-
-guint e_alert_dialog_count_buttons (GtkDialog *dialog);
-
-#endif /* !_E_ALERT_H */
+#endif /* _E_ALERT_H */

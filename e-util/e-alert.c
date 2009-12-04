@@ -14,9 +14,11 @@
  *
  *
  * Authors:
- *		Michael Zucchi <notzed@ximian.com>
+ *   Michael Zucchi <notzed@ximian.com>
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2009 Intel Corporation
  *
  */
 
@@ -38,30 +40,6 @@
 #include "e-alert.h"
 
 #define d(x)
-
-struct _EAlert
-{
-	gchar *tag;
-	GPtrArray *args;
-};
-
-void
-e_alert_free (EAlert *alert)
-{
-	if (alert == NULL)
-		return;
-	g_free (alert->tag);
-	/* arg strings will be freed automatically since we set a free func when
-	 * creating the ptr array */
-	g_ptr_array_free (alert->args, TRUE);
-}
-
-struct _e_alert_button {
-	struct _e_alert_button *next;
-	const gchar *stock;
-	const gchar *label;
-	gint response;
-};
 
 struct _e_alert {
 	guint32 flags;
@@ -150,6 +128,26 @@ map_type(const gchar *name)
 	return 3;
 }
 
+
+G_DEFINE_TYPE (EAlert, e_alert, G_TYPE_OBJECT)
+
+#define ALERT_PRIVATE(o) \
+  (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT, EAlertPrivate))
+
+enum
+{
+	PROP_0,
+	PROP_TAG,
+	PROP_ARGS
+};
+
+struct _EAlertPrivate
+{
+	gchar *tag;
+	GPtrArray *args;
+	struct _e_alert *definition;
+};
+
 /*
   XML format:
 
@@ -166,7 +164,7 @@ map_type(const gchar *name)
 
 */
 static void
-ee_load(const gchar *path)
+e_alert_load(const gchar *path)
 {
 	xmlDocPtr doc = NULL;
 	xmlNodePtr root, error, scan;
@@ -320,7 +318,7 @@ ee_load(const gchar *path)
 }
 
 static void
-ee_load_tables(void)
+e_alert_load_tables(void)
 {
 	GDir *dir;
 	const gchar *d;
@@ -356,7 +354,7 @@ ee_load_tables(void)
 			continue;
 
 		path = g_build_filename(base, d, NULL);
-		ee_load(path);
+		e_alert_load(path);
 		g_free(path);
 	}
 
@@ -364,77 +362,129 @@ ee_load_tables(void)
 	g_free (base);
 }
 
-/* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
 static void
-ee_append_text(GString *out, const gchar *text)
+e_alert_get_property (GObject *object, guint property_id,
+		      GValue *value, GParamSpec *pspec)
 {
-	gchar c;
+	EAlert *alert = (EAlert*) object;
 
-	while ( (c=*text++) ) {
-		if (c == '<')
-			g_string_append(out, "&lt;");
-		else if (c == '>')
-			g_string_append(out, "&gt;");
-		else if (c == '"')
-			g_string_append(out, "&quot;");
-		else if (c == '\'')
-			g_string_append(out, "&apos;");
-		else if (c == '&')
-			g_string_append(out, "&amp;");
-		else
-			g_string_append_c(out, c);
+	switch (property_id)
+	{
+		case PROP_TAG:
+			g_value_set_string (value, alert->priv->tag);
+			break;
+		case PROP_ARGS:
+			g_value_set_boxed (value, alert->priv->args);
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 	}
 }
 
 static void
-ee_build_label(GString *out, const gchar *fmt, GPtrArray *args,
-               gboolean escape_args)
+e_alert_set_property (GObject *object, guint property_id,
+		      const GValue *value, GParamSpec *pspec)
 {
-	const gchar *end, *newstart;
-	gint id;
+	EAlert *alert = (EAlert*) object;
 
-	while (fmt
-	       && (newstart = strchr(fmt, '{'))
-	       && (end = strchr(newstart+1, '}'))) {
-		g_string_append_len(out, fmt, newstart-fmt);
-		id = atoi(newstart+1);
-		if (id < args->len) {
-			if (escape_args)
-				ee_append_text(out, args->pdata[id]);
-			else
-				g_string_append(out, args->pdata[id]);
-		} else
-			g_warning("Error references argument %d not supplied by caller", id);
-		fmt = end+1;
+	switch (property_id)
+	{
+		case PROP_TAG:
+			alert->priv->tag = g_value_dup_string (value);
+			break;
+		case PROP_ARGS:
+			alert->priv->args = g_value_dup_boxed (value);
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 	}
-
-	g_string_append(out, fmt);
 }
 
 static void
-ee_response(GtkWidget *w, guint button, struct _e_alert *e)
+e_alert_dispose (GObject *object)
 {
-	if (button == GTK_RESPONSE_HELP) {
-		g_signal_stop_emission_by_name(w, "response");
-		e_display_help (GTK_WINDOW (w), e->help_uri);
+	EAlert *alert = (EAlert*) object;
+
+	if (alert->priv->tag) {
+		g_free (alert->priv->tag);
+		alert->priv->tag = NULL;
 	}
+
+	if (alert->priv->args) {
+		/* arg strings will be freed automatically since we set a free func when
+		 * creating the ptr array */
+		g_boxed_free (G_TYPE_PTR_ARRAY, alert->priv->args);
+		alert->priv->args = NULL;
+	}
+
+	G_OBJECT_CLASS (e_alert_parent_class)->dispose (object);
 }
 
-EAlert *
-e_alert_newv(const gchar *tag, const gchar *arg0, va_list ap)
+static void
+e_alert_constructed (GObject *obj)
 {
-	gchar *tmp;
-	EAlert *alert = g_slice_new0 (EAlert);
-	alert->tag = g_strdup (tag);
-	alert->args = g_ptr_array_new_with_free_func (g_free);
+	EAlert *alert = E_ALERT (obj);
 
-	tmp = (gchar *)arg0;
-	while (tmp) {
-		g_ptr_array_add(alert->args, g_strdup (tmp));
-		tmp = va_arg(ap, gchar *);
-	}
+	struct _e_alert_table *table;
+	gchar *domain, *id;
 
-	return alert;
+	g_return_if_fail (alert_table);
+	g_return_if_fail (alert->priv->tag);
+
+	domain = alloca(strlen(alert->priv->tag)+1);
+	strcpy(domain, alert->priv->tag);
+	id = strchr(domain, ':');
+	if (id)
+		*id++ = 0;
+
+	table = g_hash_table_lookup(alert_table, domain);
+	g_return_if_fail (table);
+
+	alert->priv->definition = g_hash_table_lookup(table->alerts, id);
+
+	g_warn_if_fail(alert->priv->definition);
+
+
+}
+
+static void
+e_alert_class_init (EAlertClass *klass)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	g_type_class_add_private (klass, sizeof (EAlertPrivate));
+
+	object_class->get_property = e_alert_get_property;
+	object_class->set_property = e_alert_set_property;
+	object_class->dispose = e_alert_dispose;
+	object_class->constructed = e_alert_constructed;
+
+	g_object_class_install_property (object_class,
+					 PROP_TAG,
+					 g_param_spec_string ("tag",
+							      "alert tag",
+							      "A tag describing the alert",
+							      "",
+							      G_PARAM_READWRITE |
+							      G_PARAM_CONSTRUCT_ONLY |
+							      G_PARAM_STATIC_STRINGS));
+	g_object_class_install_property (object_class,
+					 PROP_ARGS,
+					 g_param_spec_boxed ("args",
+							     "Arguments",
+							     "Arguments for formatting the alert",
+							     G_TYPE_PTR_ARRAY,
+							     G_PARAM_READWRITE |
+							     G_PARAM_CONSTRUCT_ONLY |
+							     G_PARAM_STATIC_STRINGS));
+
+	e_alert_load_tables ();
+}
+
+static void
+e_alert_init (EAlert *self)
+{
+	self->priv = ALERT_PRIVATE (self);
 }
 
 /**
@@ -455,243 +505,162 @@ e_alert_new(const gchar *tag, const gchar *arg0, ...)
 	va_list ap;
 
 	va_start(ap, arg0);
-	e = e_alert_newv(tag, arg0, ap);
+	e = e_alert_new_valist(tag, arg0, ap);
 	va_end(ap);
 
 	return e;
 }
 
-GtkWidget *
-e_alert_new_dialog(GtkWindow *parent, EAlert *alert)
+EAlert *
+e_alert_new_valist(const gchar *tag, const gchar *arg0, va_list ap)
 {
-	struct _e_alert_table *table;
-	struct _e_alert *e;
-	struct _e_alert_button *b;
-	GtkWidget *hbox, *w, *scroll=NULL;
-	GtkWidget *action_area;
-	GtkWidget *content_area;
-	gchar *tmp, *domain, *id;
-	GString *out, *oerr;
-	GtkDialog *dialog;
-	gchar *str, *perr=NULL, *serr=NULL;
+	gchar *tmp;
+	GPtrArray *args = g_ptr_array_new_with_free_func (g_free);
 
-	g_return_val_if_fail (alert != NULL, NULL);
-
-	if (alert_table == NULL)
-		ee_load_tables();
-
-	dialog = (GtkDialog *)gtk_dialog_new();
-	action_area = gtk_dialog_get_action_area (dialog);
-	content_area = gtk_dialog_get_content_area (dialog);
-
-	gtk_dialog_set_has_separator(dialog, FALSE);
-
-	gtk_widget_ensure_style ((GtkWidget *)dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
-	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
-
-	if (parent)
-		gtk_window_set_transient_for ((GtkWindow *)dialog, parent);
-	else
-		g_warning (
-			"Something called %s() with a NULL parent window.  "
-			"This is no longer legal, please fix it.", G_STRFUNC);
-
-	domain = alloca(strlen(alert->tag)+1);
-	strcpy(domain, alert->tag);
-	id = strchr(domain, ':');
-	if (id)
-		*id++ = 0;
-
-	if ( id == NULL
-	     || (table = g_hash_table_lookup(alert_table, domain)) == NULL
-	     || (e = g_hash_table_lookup(table->alerts, id)) == NULL) {
-		/* setup a dummy alert */
-		str = g_strdup_printf(_("Internal error, unknown error '%s' requested"), alert->tag);
-		tmp = g_strdup_printf("<span weight=\"bold\">%s</span>", str);
-		g_free(str);
-		w = gtk_label_new(NULL);
-		gtk_label_set_selectable((GtkLabel *)w, TRUE);
-		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
-		gtk_label_set_markup((GtkLabel *)w, tmp);
-		GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
-		gtk_widget_show(w);
-		gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 12);
-
-		return (GtkWidget *)dialog;
+	tmp = (gchar *)arg0;
+	while (tmp) {
+		g_ptr_array_add(args, g_strdup (tmp));
+		tmp = va_arg(ap, gchar *);
 	}
 
-	if (e->flags & GTK_DIALOG_MODAL)
-		gtk_window_set_modal((GtkWindow *)dialog, TRUE);
-	gtk_window_set_destroy_with_parent((GtkWindow *)dialog, TRUE);
+	return e_alert_new_array (tag, args);
+}
 
-	if (e->help_uri) {
-		w = gtk_dialog_add_button(dialog, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
-		g_signal_connect(dialog, "response", G_CALLBACK(ee_response), e);
+EAlert *
+e_alert_new_array(const gchar *tag, GPtrArray *args)
+{
+	return g_object_new (E_TYPE_ALERT, "tag", tag, "args", args, NULL);
+}
+
+
+/* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
+static void
+e_alert_append_text_escaped (GString *out, const gchar *text)
+{
+	gchar c;
+
+	while ( (c=*text++) ) {
+		if (c == '<')
+			g_string_append(out, "&lt;");
+		else if (c == '>')
+			g_string_append(out, "&gt;");
+		else if (c == '"')
+			g_string_append(out, "&quot;");
+		else if (c == '\'')
+			g_string_append(out, "&apos;");
+		else if (c == '&')
+			g_string_append(out, "&amp;");
+		else
+			g_string_append_c(out, c);
+	}
+}
+
+static void
+e_alert_format_string (GString *out, const gchar *fmt, GPtrArray *args, gboolean escape_args)
+{
+	const gchar *end, *newstart;
+	gint id;
+
+	while (fmt
+	       && (newstart = strchr(fmt, '{'))
+	       && (end = strchr(newstart+1, '}'))) {
+		g_string_append_len(out, fmt, newstart-fmt);
+		id = atoi(newstart+1);
+		if (id < args->len) {
+			if (escape_args)
+				e_alert_append_text_escaped(out, args->pdata[id]);
+			else
+				g_string_append(out, args->pdata[id]);
+		} else
+			g_warning("Error references argument %d not supplied by caller", id);
+		fmt = end+1;
 	}
 
-	b = e->buttons;
-	if (b == NULL) {
-		gtk_dialog_add_button(dialog, GTK_STOCK_OK, GTK_RESPONSE_OK);
-	} else {
-		for (b = e->buttons;b;b=b->next) {
-			if (b->stock) {
-				if (b->label) {
-#if 0
-					/* FIXME: So although this looks like it will work, it wont.
-					   Need to do it the hard way ... it also breaks the
-					   default_response stuff */
-					w = gtk_button_new_from_stock(b->stock);
-					gtk_button_set_label((GtkButton *)w, b->label);
-					gtk_widget_show(w);
-					gtk_dialog_add_action_widget(dialog, w, b->response);
-#endif
-					gtk_dialog_add_button(dialog, b->label, b->response);
-				} else
-					gtk_dialog_add_button(dialog, b->stock, b->response);
-			} else
-				gtk_dialog_add_button(dialog, b->label, b->response);
-		}
-	}
+	g_string_append(out, fmt);
+}
 
-	if (e->default_response)
-		gtk_dialog_set_default_response(dialog, e->default_response);
 
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_set_border_width((GtkContainer *)hbox, 12);
+guint32
+e_alert_get_flags (EAlert *alert)
+{
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, 0);
+	return alert->priv->definition->flags;
+}
 
-	w = gtk_image_new_from_stock(type_map[e->type].icon, GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.0);
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 12);
-
-	out = g_string_new("");
-
-	if (e->title && *e->title) {
-		ee_build_label(out, e->title, alert->args, FALSE);
-		gtk_window_set_title((GtkWindow *)dialog, out->str);
-		g_string_truncate(out, 0);
-	} else
-		gtk_window_set_title((GtkWindow *)dialog, out->str);
-
-	if (e->primary) {
-		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
-		ee_build_label(out, e->primary, alert->args, TRUE);
-		g_string_append(out, "</span>\n\n");
-		oerr = g_string_new("");
-		ee_build_label(oerr, e->primary, alert->args, FALSE);
-		perr = g_strdup (oerr->str);
-		g_string_free (oerr, TRUE);
-	} else
-		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
-
-	if (e->secondary) {
-		ee_build_label(out, e->secondary, alert->args, TRUE);
-		oerr = g_string_new("");
-		ee_build_label(oerr, e->secondary, alert->args, TRUE);
-		serr = g_strdup (oerr->str);
-		g_string_free (oerr, TRUE);
-	}
-
-	if (e->scroll) {
-		scroll = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scroll, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	}
-	w = gtk_label_new(NULL);
-	gtk_label_set_selectable((GtkLabel *)w, TRUE);
-	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
-	gtk_label_set_markup((GtkLabel *)w, out->str);
-	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
-	g_string_free(out, TRUE);
-	if (e->scroll) {
-		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
-		gtk_box_pack_start((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
-		gtk_window_set_default_size ((GtkWindow *)dialog, 360, 180);
-	} else
-		gtk_box_pack_start((GtkBox *)hbox, w, TRUE, TRUE, 0);
-
-	gtk_widget_show_all(hbox);
-
-	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
-	g_object_set_data_full ((GObject *) dialog, "primary", perr, g_free);
-	g_object_set_data_full ((GObject *) dialog, "secondary", serr, g_free);
-
-	return (GtkWidget *)dialog;
+const gchar *
+e_alert_peek_stock_image (EAlert *alert)
+{
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
+	return type_map[alert->priv->definition->type].icon;
 }
 
 gint
-e_alert_run_dialog(GtkWindow *parent, EAlert *alert)
+e_alert_get_default_response (EAlert *alert)
 {
-	GtkWidget *w;
-	gint res;
-
-	w = e_alert_new_dialog(parent, alert);
-
-	res = gtk_dialog_run((GtkDialog *)w);
-	gtk_widget_destroy(w);
-
-	return res;
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, 0);
+	return alert->priv->definition->default_response;
 }
 
-/**
- * e_alert_dialog_count_buttons:
- * @dialog: a #GtkDialog
- *
- * Counts the number of buttons in @dialog's action area.
- *
- * Returns: number of action area buttons
- **/
-guint
-e_alert_dialog_count_buttons (GtkDialog *dialog)
+gchar *
+e_alert_get_title (EAlert *alert)
 {
-	GtkWidget *container;
-	GList *children, *iter;
-	guint n_buttons = 0;
+	GString *formatted;
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 
-	g_return_val_if_fail (GTK_DIALOG (dialog), 0);
-
-	container = gtk_dialog_get_action_area (dialog);
-	children = gtk_container_get_children (GTK_CONTAINER (container));
-
-	/* Iterate over the children looking for buttons. */
-	for (iter = children; iter != NULL; iter = iter->next)
-		if (GTK_IS_BUTTON (iter->data))
-			n_buttons++;
-
-	g_list_free (children);
-
-	return n_buttons;
+	formatted = g_string_new ("");
+	e_alert_format_string (formatted, alert->priv->definition->title,
+			       alert->priv->args, FALSE);
+	return g_string_free (formatted, FALSE);
 }
 
-GtkWidget *
-e_alert_new_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+gchar *
+e_alert_get_primary_text (EAlert *alert)
 {
-	GtkWidget *w;
-	EAlert *e;
-	va_list ap;
+	GString *formatted;
+	g_return_val_if_fail (alert && alert->priv, NULL);
 
-	va_start(ap, arg0);
-	e = e_alert_newv(tag, arg0, ap);
-	va_end(ap);
+	formatted = g_string_new ("");
+	if (alert->priv->definition)
+		e_alert_format_string (formatted, alert->priv->definition->primary,
+				       alert->priv->args, FALSE);
+	else {
+		g_string_append_printf(formatted,
+				       _("Internal error, unknown error '%s' requested"),
+				       alert->priv->tag);
+	}
 
-	w = e_alert_new_dialog (parent, e);
-	e_alert_free (e);
-
-	return w;
+	return g_string_free (formatted, FALSE);
 }
 
-gint
-e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+gchar *
+e_alert_get_secondary_text (EAlert *alert)
 {
-	EAlert *e;
-	va_list ap;
-	gint response;
+	GString *formatted;
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 
-	va_start(ap, arg0);
-	e = e_alert_newv(tag, arg0, ap);
-	va_end(ap);
+	formatted = g_string_new ("");
+	e_alert_format_string (formatted, alert->priv->definition->secondary,
+			       alert->priv->args, TRUE);
+	return g_string_free (formatted, FALSE);
+}
 
-	response = e_alert_run_dialog (parent, e);
-	e_alert_free (e);
+const gchar *
+e_alert_peek_help_uri (EAlert *alert)
+{
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
+	return alert->priv->definition->help_uri;
+}
 
-	return response;
+gboolean
+e_alert_get_scroll (EAlert *alert)
+{
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, FALSE);
+	return alert->priv->definition->scroll;
+}
+
+struct _e_alert_button *
+e_alert_get_buttons (EAlert *alert)
+{
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
+	return alert->priv->definition->buttons;
 }
