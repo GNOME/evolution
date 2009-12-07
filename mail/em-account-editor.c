@@ -2704,7 +2704,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	/*if (old)
 	  return old;*/
-	if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT)
+	if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT && emae->type != EMAE_PAGES)
 		return NULL;
 
 	account = em_account_editor_get_modified_account (emae);
