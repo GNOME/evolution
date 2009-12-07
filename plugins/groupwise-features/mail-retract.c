@@ -29,7 +29,7 @@
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
 
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 
 #include <mail/e-mail-reader.h>
 #include <mail/em-utils.h>

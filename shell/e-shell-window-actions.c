@@ -23,7 +23,7 @@
 #include "e-preferences-window.h"
 
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-print.h>
 #include <gal-define-views-dialog.h>
 
@@ -320,6 +320,7 @@ static const gchar *authors[] = {
 	"Jonas Borgstr",
 	"Jonathan Blandford",
 	"Jonathan Dieter",
+	"Jonathon Jongsma",
 	"Jos Dehaes",
 	"Josselin Mouette",
 	"JP Rosvear",

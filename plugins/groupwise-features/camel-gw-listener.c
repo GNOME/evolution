@@ -29,7 +29,7 @@
 #include  <camel/camel-i18n.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-passwords.h>
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include <libedataserver/e-account.h>
 #include <libecal/e-cal.h>
 #include <shell/e-shell.h>

@@ -33,7 +33,7 @@
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
 #include "eab-contact-merging.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 
 typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {

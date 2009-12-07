@@ -21,7 +21,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 
 static void
 action_attach_cb (GtkAction *action,

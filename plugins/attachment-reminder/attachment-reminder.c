@@ -39,7 +39,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-multipart.h>
 
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-plugin.h>
 
 #include <mail/em-utils.h>
@@ -122,7 +122,7 @@ ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 	GtkDialog *dialog = NULL;
 	gint response;
 
-	dialog = (GtkDialog*)e_alert_new_dialog_for_args(window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
+	dialog = (GtkDialog*)e_alert_dialog_new_for_args(window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
 
 	/*Check buttons*/
 	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));

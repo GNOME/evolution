@@ -24,7 +24,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-signature-utils.h>
 
 #define E_SIGNATURE_EDITOR_GET_PRIVATE(obj) \

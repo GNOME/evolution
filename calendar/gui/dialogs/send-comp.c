@@ -27,7 +27,7 @@
 #endif
 
 #include <glib/gi18n-lib.h>
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "send-comp.h"
 
 
@@ -154,7 +154,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 		strip_alarms = NULL;
 	}
 
-	dialog = e_alert_new_dialog_for_args (parent, id, NULL);
+	dialog = e_alert_dialog_new_for_args (parent, id, NULL);
 
 	if (strip_alarms)
 		sa_checkbox = add_checkbox (GTK_BOX (GTK_DIALOG (dialog)->vbox), _("Send my alarms with this event"));

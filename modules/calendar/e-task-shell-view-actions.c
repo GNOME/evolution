@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-task-shell-view-private.h"
 
 static void

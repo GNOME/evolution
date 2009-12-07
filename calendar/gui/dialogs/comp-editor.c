@@ -65,7 +65,7 @@
 #include "widgets/misc/e-attachment-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 
 #define COMP_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -32,7 +32,7 @@
 #include <camel/camel-vtrash-folder.h>
 #include <libedataserver/e-account-list.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-account-utils.h"
 
@@ -600,7 +600,7 @@ done:
 		const gchar *data_dir;
 		gchar *user;
 
-		dialog = e_alert_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
+		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
 		data_dir = em_utils_get_data_dir ();
@@ -1094,7 +1094,7 @@ vfolder_edit_rule(const gchar *uri)
 		GtkWidget *w;
 
 		/* TODO: we should probably just create it ... */
-		w = e_alert_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:vfolder-notexist", uri, NULL);
+		w = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:vfolder-notexist", uri, NULL);
 		em_utils_show_error_silent (w);
 	}
 
@@ -1113,7 +1113,7 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 
 		if (!e_filter_rule_validate (rule, &alert)) {
 			e_alert_run_dialog (GTK_WINDOW (w), alert);
-			e_alert_free (alert);
+			g_object_unref (alert);
 			return;
 		}
 

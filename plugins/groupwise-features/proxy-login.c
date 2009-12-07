@@ -38,7 +38,7 @@
 #include <mail/mail-ops.h>
 #include <libedataserver/e-account.h>
 #include <e-util/e-util.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-account-utils.h>

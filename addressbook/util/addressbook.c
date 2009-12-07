@@ -30,7 +30,7 @@
 #include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"
 #include "addressbook.h"
 

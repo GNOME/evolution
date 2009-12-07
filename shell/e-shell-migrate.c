@@ -28,7 +28,7 @@
 #include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-util.h"
 

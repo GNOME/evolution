@@ -51,7 +51,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-icon-factory.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
 
 #include "em-vfolder-rule.h"

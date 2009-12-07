@@ -46,7 +46,7 @@
 #include "mail/mail-config.h"
 #include "mail/message-list.h"
 #include "e-util/e-util.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-window.h"
 #include "shell/e-shell-window-actions.h"

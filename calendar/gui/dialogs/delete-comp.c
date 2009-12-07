@@ -27,7 +27,7 @@
 #endif
 
 #include <glib/gi18n.h>
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "../calendar-config.h"
 #include "delete-comp.h"
 

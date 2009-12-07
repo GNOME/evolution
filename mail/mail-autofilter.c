@@ -33,7 +33,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "em-utils.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "em-vfolder-context.h"
@@ -432,7 +432,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 			l = l->next;
 		}
 
-		dialog = e_alert_new_dialog_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", s->str, euri, NULL);
+		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", s->str, euri, NULL);
 		g_string_free(s, TRUE);
 		em_utils_show_info_silent (dialog);
 

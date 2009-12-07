@@ -22,7 +22,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-util.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>

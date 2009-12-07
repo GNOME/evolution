@@ -46,7 +46,7 @@
 #include <gconf/gconf-client.h>
 
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-account-utils.h"
@@ -168,7 +168,8 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 static gboolean
 emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...)
 {
-	GtkWidget *mbox, *check = NULL;
+	GtkDialog *mbox;
+	GtkWidget *check = NULL;
 	va_list ap;
 	gint button;
 	GConfClient *gconf = gconf_client_get_default ();
@@ -181,24 +182,24 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, c
 	}
 
 	va_start(ap, arg0);
-	alert = e_alert_newv(tag, arg0, ap);
+	alert = e_alert_new_valist(tag, arg0, ap);
 	va_end(ap);
 
-	mbox = e_alert_new_dialog (parent, alert);
-	e_alert_free (alert);
+	mbox = (GtkDialog*) e_alert_dialog_new (parent, alert);
+	g_object_unref (alert);
 
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
 		gtk_container_set_border_width((GtkContainer *)check, 12);
-		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *)mbox->vbox, check, TRUE, TRUE, 0);
 		gtk_widget_show (check);
 	}
 
-	button = gtk_dialog_run ((GtkDialog *) mbox);
+	button = gtk_dialog_run (mbox);
 	if (promptkey)
 		gconf_client_set_bool(gconf, promptkey, !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)), NULL);
 
-	gtk_widget_destroy(mbox);
+	gtk_widget_destroy((GtkWidget*) mbox);
 	g_object_unref (gconf);
 
 	return button == GTK_RESPONSE_YES;

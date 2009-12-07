@@ -48,7 +48,7 @@
 
 #include "shell/e-shell.h"
 #include "e-util/e-util.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-list.h"
 #include "e-util/e-signature-utils.h"
@@ -1894,7 +1894,7 @@ static void emae_check_authtype (GtkWidget *w, EMAccountEditorService *service)
 	uri = e_account_get_string (account, emae_service_info[service->type].account_uri_key);
 	g_object_ref (emae);
 
-	service->check_dialog = e_alert_new_dialog_for_args (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : (GtkWindow *)gtk_widget_get_toplevel (w),
+	service->check_dialog = e_alert_dialog_new_for_args (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : (GtkWindow *)gtk_widget_get_toplevel (w),
 					    "mail:checking-service", NULL);
 	g_signal_connect (service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
 	gtk_widget_show (service->check_dialog);

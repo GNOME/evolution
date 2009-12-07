@@ -21,7 +21,7 @@
 
 #include "e-book-shell-view-private.h"
 
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-util.h>
 #include <filter/e-filter-rule.h>
 

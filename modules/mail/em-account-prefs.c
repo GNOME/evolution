@@ -34,7 +34,7 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 
 #include "e-mail-store.h"
 #include "em-config.h"

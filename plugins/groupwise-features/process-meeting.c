@@ -30,7 +30,7 @@
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-calendar-view.h>

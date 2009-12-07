@@ -24,7 +24,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-paned.h"

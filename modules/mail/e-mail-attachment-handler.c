@@ -25,7 +25,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "mail/em-composer-utils.h"
 #include "mail/mail-tools.h"
 

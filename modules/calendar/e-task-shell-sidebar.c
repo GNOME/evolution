@@ -25,7 +25,7 @@
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"

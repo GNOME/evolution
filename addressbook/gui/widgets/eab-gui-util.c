@@ -35,7 +35,7 @@
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include <libebook/e-destination.h>
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-html-utils.h"
 #include "shell/e-shell.h"
 #include "misc/e-image-chooser.h"
@@ -147,7 +147,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 		}
 	}
 
-	dialog  = e_alert_new_dialog_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
+	dialog  = e_alert_dialog_new_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 
 	gtk_widget_show (dialog);

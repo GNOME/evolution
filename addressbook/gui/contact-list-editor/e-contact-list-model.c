@@ -23,7 +23,7 @@
 #include <string.h>
 
 #include "e-contact-list-model.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"
 
 static gpointer parent_class;

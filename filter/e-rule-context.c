@@ -40,7 +40,7 @@
 
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-xml-utils.h"
 
 #include "e-filter-code.h"
@@ -96,7 +96,7 @@ new_rule_response (GtkWidget *dialog,
 
 		if (!e_filter_rule_validate (rule, &alert)) {
 			e_alert_run_dialog (GTK_WINDOW (dialog), alert);
-			e_alert_free (alert);
+			g_object_unref (alert);
 		}
 
 		if (e_rule_context_find_rule (context, rule->name, rule->source)) {

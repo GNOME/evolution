@@ -35,9 +35,9 @@
 
 #include "shell/e-shell.h"
 #include "misc/e-gui-utils.h"
-#include "e-util/e-alert.h"
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-alert-activity.h"
+#include "e-util/e-alert-dialog.h"
+#include "e-util/e-icon-factory.h"
 
 #include "mail-config.h"
 #include "mail-session.h"
@@ -274,10 +274,10 @@ mail_msg_check_error (gpointer msg)
 
 	if (m->info->desc
 	    && (what = m->info->desc (m))) {
-		gd = (GtkDialog *)e_alert_new_dialog_for_args (parent, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *)e_alert_dialog_new_for_args (parent, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
 		g_free(what);
 	} else
-		gd = (GtkDialog *)e_alert_new_dialog_for_args (parent, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *)e_alert_dialog_new_for_args (parent, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
 
 	g_hash_table_insert(active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);

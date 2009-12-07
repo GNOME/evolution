@@ -24,7 +24,7 @@
 #include <glib/gi18n.h>
 #include <camel/camel-junk-plugin.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"
 
 #include "mail/em-junk.h"
@@ -52,7 +52,7 @@ mail_junk_hook_idle_cb (struct ErrorData *data)
 {
 	GtkWidget *widget;
 
-	widget = e_alert_new_dialog_for_args (e_shell_get_active_window (NULL),
+	widget = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL),
 		data->error_message, data->error->message, NULL);
 	em_utils_show_error_silent (widget);
 

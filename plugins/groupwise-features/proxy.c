@@ -31,7 +31,7 @@
 #include <libedataserverui/e-contact-store.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-util-private.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>

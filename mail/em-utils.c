@@ -70,7 +70,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-alert-activity.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"
 #include "widgets/misc/e-attachment.h"
 
@@ -170,11 +170,11 @@ em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag
 		return TRUE;
 
 	va_start(ap, arg0);
-	alert = e_alert_newv (tag, arg0, ap);
+	alert = e_alert_new_valist (tag, arg0, ap);
 	va_end(ap);
 
-	mbox = e_alert_new_dialog (parent, alert);
-	e_alert_free (alert);
+	mbox = e_alert_dialog_new (parent, alert);
+	g_object_unref (alert);
 
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
@@ -322,7 +322,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	g_free (system);
 
 	if (((ERuleContext *) fc)->error) {
-		GtkWidget *w = e_alert_new_dialog_for_args ((GtkWindow *)parent, "mail:filter-load-error", ((ERuleContext *)fc)->error, NULL);
+		GtkWidget *w = e_alert_dialog_new_for_args ((GtkWindow *)parent, "mail:filter-load-error", ((ERuleContext *)fc)->error, NULL);
 		em_utils_show_error_silent (w);
 		return;
 	}
@@ -950,7 +950,7 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
 	if (tmpdir == NULL) {
-		w = e_alert_new_dialog_for_args ((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
+		w = e_alert_dialog_new_for_args ((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
 		em_utils_show_error_silent (w);
 		return NULL;
 	}

@@ -33,7 +33,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <string.h>
 
 #include <shell/e-shell-sidebar.h>

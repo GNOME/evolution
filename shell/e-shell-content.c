@@ -25,6 +25,7 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/e-util.h"
+#include "e-util/e-alert-dialog.h"
 #include "filter/e-rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
@@ -1519,7 +1520,7 @@ run:
 
 	if (!e_filter_rule_validate (rule, &alert)) {
 		e_alert_run_dialog (GTK_WINDOW (dialog), alert);
-		e_alert_free (alert);
+		g_object_unref (alert);
 		alert = NULL;
 		goto run;
 	}
@@ -1627,7 +1628,7 @@ run:
 
 	if (!e_filter_rule_validate (rule, &alert)) {
 		e_alert_run_dialog (GTK_WINDOW (dialog), alert);
-		e_alert_free (alert);
+		g_object_unref (alert);
 		alert = NULL;
 		goto run;
 	}

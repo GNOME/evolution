@@ -31,7 +31,7 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 
@@ -146,7 +146,7 @@ add_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
 		EAlert *alert = NULL;
 		if (!e_filter_rule_validate (editor->edit, &alert)) {
 			e_alert_run_dialog (GTK_WINDOW (dialog), alert);
-			e_alert_free (alert);
+			g_object_unref (alert);
 			return;
 		}
 
@@ -294,7 +294,7 @@ edit_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
 		EAlert *alert = NULL;
 		if (!e_filter_rule_validate (editor->edit, &alert)) {
 			e_alert_run_dialog (GTK_WINDOW (dialog), alert);
-			e_alert_free (alert);
+			g_object_unref (alert);
 			return;
 		}
 

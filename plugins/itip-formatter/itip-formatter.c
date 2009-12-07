@@ -52,7 +52,7 @@
 #include <mail/mail-tools.h>
 #include <mail/mail-mt.h>
 #include <libedataserver/e-account-list.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>

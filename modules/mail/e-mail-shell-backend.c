@@ -29,7 +29,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-binding.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"

@@ -52,7 +52,7 @@
 #include "e-addressbook-table-adapter.h"
 #include "eab-contact-merging.h"
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include <gdk/gdkkeysyms.h>

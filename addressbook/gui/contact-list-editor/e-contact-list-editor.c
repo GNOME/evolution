@@ -24,7 +24,7 @@
 
 #include "e-contact-list-editor.h"
 #include <e-util/e-util-private.h>
-#include <e-util/e-alert.h>
+#include <e-util/e-alert-dialog.h>
 #include "shell/e-shell.h"
 
 #include <string.h>

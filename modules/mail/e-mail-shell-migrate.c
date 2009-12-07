@@ -58,7 +58,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-bconf-map.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-plugin.h"
 #include "e-util/e-signature-utils.h"

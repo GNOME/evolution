@@ -33,7 +33,7 @@
 #include <glib/gstdio.h>
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
 #include "shell/e-shell-utils.h"
@@ -104,11 +104,11 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, con
 	EAlert *alert = NULL;
 
 	va_start(ap, arg0);
-	alert = e_alert_newv(tag, arg0, ap);
+	alert = e_alert_new_valist(tag, arg0, ap);
 	va_end(ap);
 
-	mbox = e_alert_new_dialog (parent, alert);
-	e_alert_free (alert);
+	mbox = e_alert_dialog_new (parent, alert);
+	g_object_unref (alert);
 
 	check = gtk_check_button_new_with_mnemonic (string);
 	/* We should hardcode this to true */

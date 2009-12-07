@@ -48,7 +48,7 @@
 
 #include "e-util/e-mktemp.h"
 
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 
 #include "em-vfolder-rule.h"
 
@@ -290,7 +290,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
 		GtkWidget *w;
 
-		w = e_alert_new_dialog_for_args (
+		w = e_alert_dialog_new_for_args (
 			e_shell_get_active_window (NULL), "mail:no-rename-special-folder",
 			cfd->fi->full_name, NULL);
 		em_utils_show_error_silent (w);
@@ -405,7 +405,7 @@ emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, gpo
 	if (ex && camel_exception_is_set (ex)) {
 		GtkWidget *w;
 
-		w = e_alert_new_dialog_for_args (
+		w = e_alert_dialog_new_for_args (
 			e_shell_get_active_window (NULL), "mail:no-delete-folder",
 			folder->full_name, camel_exception_get_description (ex), NULL);
 		em_utils_show_error_silent (w);
@@ -441,7 +441,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 	local_store = e_mail_local_get_store ();
 
 	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
-		dialog = e_alert_new_dialog_for_args (
+		dialog = e_alert_dialog_new_for_args (
 			parent, "mail:no-delete-special-folder",
 			folder->full_name, NULL);
 		em_utils_show_error_silent (dialog);
@@ -456,7 +456,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 
 	camel_object_ref (folder);
 
-	dialog = e_alert_new_dialog_for_args (parent,
+	dialog = e_alert_dialog_new_for_args (parent,
 			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
 			     folder->full_name, NULL);
 	g_object_set_data_full ((GObject *) dialog, "folder", folder, camel_object_unref);

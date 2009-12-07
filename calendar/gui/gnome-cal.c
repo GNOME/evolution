@@ -46,7 +46,7 @@
 #include <widgets/menus/gal-define-views-dialog.h>
 #include "e-util/e-binding.h"
 #include "e-util/e-util.h"
-#include "e-util/e-alert.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 #include "shell/e-shell.h"
 #include "dialogs/delete-error.h"
@@ -1900,7 +1900,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			return;
 		}
 
-		w = e_alert_new_dialog_for_args (parent, "calendar:server-version", NULL);
+		w = e_alert_dialog_new_for_args (parent, "calendar:server-version", NULL);
 		/*e_calendar_utils_show_error_silent (w);  KILL-BONOBO */
 		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
 		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
@@ -1922,7 +1922,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			return;
 		}
 
-		w = e_alert_new_dialog_for_args (parent, "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
+		w = e_alert_dialog_new_for_args (parent, "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
 		/*e_calendar_utils_show_error_silent (w);  KILL-BONOBO */
 		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
 		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
@@ -2114,7 +2114,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 		return;
 	}
 
-	w = e_alert_new_dialog_for_args (parent, "calendar:backend_died", NULL);
+	w = e_alert_dialog_new_for_args (parent, "calendar:backend_died", NULL);
 	/* e_calendar_utils_show_error_silent (w); KILL-BONOBO */
 	g_hash_table_insert (non_intrusive_error_table, (gpointer) id, g_object_ref(w));
 	g_signal_connect((GtkObject *)w, "destroy", G_CALLBACK(non_intrusive_error_remove), (gpointer) id);
