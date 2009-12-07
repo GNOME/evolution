@@ -111,7 +111,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 
 	gtk_widget_show(GTK_WIDGET(widget));
 
-	gtk_window_set_title (GTK_WINDOW (e_table_field_chooser_dialog), _("Add a column..."));
+	gtk_window_set_title (GTK_WINDOW (e_table_field_chooser_dialog), _("Add a Column"));
 }
 
 GtkWidget*
