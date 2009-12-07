@@ -28,6 +28,11 @@ EShellWindow
 
 </para>
 
+<!-- ##### ARG EShellWindow:focus-tracker ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellWindow:geometry ##### -->
 <para>
 

@@ -55,6 +55,7 @@
 #include "shell/e-shell.h"
 #include "em-format/em-format.h"
 #include "em-format/em-format-quote.h"
+#include "misc/e-web-view.h"
 
 #include <camel/camel-charset-map.h>
 #include <camel/camel-cipher-context.h>
@@ -92,6 +93,11 @@
 	((obj), E_TYPE_MSG_COMPOSER, EMsgComposerPrivate))
 
 enum {
+	PROP_0,
+	PROP_FOCUS_TRACKER
+};
+
+enum {
 	SEND,
 	SAVE_DRAFT,
 	PRINT,
@@ -117,6 +123,14 @@ static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart,
 static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
 static void handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, gint depth);
 static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
+
+static void	msg_composer_drag_data_received	(GtkWidget *widget,
+						 GdkDragContext *context,
+						 gint x,
+						 gint y,
+						 GtkSelectionData *selection,
+						 guint info,
+						 guint time);
 
 /**
  * emcu_part_to_html:
@@ -1514,31 +1528,89 @@ msg_composer_notify_header_cb (EMsgComposer *composer)
 	gtkhtml_editor_set_changed (editor, TRUE);
 }
 
-static GObject *
-msg_composer_constructor (GType type,
-                          guint n_construct_properties,
-                          GObjectConstructParam *construct_properties)
+static void
+msg_composer_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_FOCUS_TRACKER:
+			g_value_set_object (
+				value, e_msg_composer_get_focus_tracker (
+				E_MSG_COMPOSER (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+msg_composer_dispose (GObject *object)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (object);
+
+	e_composer_private_dispose (composer);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+msg_composer_finalize (GObject *object)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (object);
+
+	e_composer_autosave_unregister (composer);
+	e_composer_private_finalize (composer);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+msg_composer_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	GObject *object;
+	GtkhtmlEditor *editor;
 	EMsgComposer *composer;
+	EAttachmentView *view;
+	EAttachmentStore *store;
+	EComposerHeaderTable *table;
+	GdkDragAction drag_actions;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
+	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
+	GtkHTML *html;
 	GArray *array;
+	const gchar *id;
 	gboolean active;
 	guint binding_id;
+	gint n_targets;
 
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
+	editor = GTKHTML_EDITOR (object);
 	composer = E_MSG_COMPOSER (object);
-	array = composer->priv->gconf_bridge_binding_ids;
 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	e_composer_private_constructed (composer);
+
+	html = gtkhtml_editor_get_html (editor);
+	ui_manager = gtkhtml_editor_get_ui_manager (editor);
+	view = e_msg_composer_get_attachment_view (composer);
+	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
+
+	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
+	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
+
+	e_shell_watch_window (shell, GTK_WINDOW (object));
+
 	/* Restore Persistent State */
+
+	array = composer->priv->gconf_bridge_binding_ids;
 
 	binding_id = gconf_bridge_bind_property (
 		gconf_bridge_get (),
@@ -1563,32 +1635,77 @@ msg_composer_constructor (GType type,
 		shell_settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
 
-	e_shell_watch_window (shell, GTK_WINDOW (object));
+	/* Drag-and-Drop Support */
 
-	return object;
-}
+	target_list = e_attachment_view_get_target_list (view);
+	drag_actions = e_attachment_view_get_drag_actions (view);
 
-static void
-msg_composer_dispose (GObject *object)
-{
-	EMsgComposer *composer = E_MSG_COMPOSER (object);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
 
-	e_composer_private_dispose (composer);
+	gtk_drag_dest_set (
+		GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
+		targets, n_targets, drag_actions);
 
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
+	g_signal_connect (
+		html, "drag-data-received",
+		G_CALLBACK (msg_composer_drag_data_received), NULL);
 
-static void
-msg_composer_finalize (GObject *object)
-{
-	EMsgComposer *composer = E_MSG_COMPOSER (object);
+	gtk_target_table_free (targets, n_targets);
 
-	e_composer_autosave_unregister (composer);
-	e_composer_private_finalize (composer);
+	/* Configure Headers */
 
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	e_composer_header_table_set_account_list (
+		table, e_get_account_list ());
+	e_composer_header_table_set_signature_list (
+		table, e_get_signature_list ());
+
+	g_signal_connect_swapped (
+		table, "notify::account",
+		G_CALLBACK (msg_composer_account_changed_cb), composer);
+	g_signal_connect_swapped (
+		table, "notify::destinations-bcc",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
+	g_signal_connect_swapped (
+		table, "notify::destinations-cc",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
+	g_signal_connect_swapped (
+		table, "notify::destinations-to",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
+	g_signal_connect_swapped (
+		table, "notify::reply-to",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
+	g_signal_connect_swapped (
+		table, "notify::signature",
+		G_CALLBACK (e_msg_composer_show_sig_file), composer);
+	g_signal_connect_swapped (
+		table, "notify::subject",
+		G_CALLBACK (msg_composer_subject_changed_cb), composer);
+	g_signal_connect_swapped (
+		table, "notify::subject",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
+
+	msg_composer_account_changed_cb (composer);
+
+	/* Attachments */
+
+	store = e_attachment_view_get_store (view);
+
+	g_signal_connect_swapped (
+		store, "row-deleted",
+		G_CALLBACK (attachment_store_changed_cb), composer);
+
+	g_signal_connect_swapped (
+		store, "row-inserted",
+		G_CALLBACK (attachment_store_changed_cb), composer);
+
+	e_composer_autosave_register (composer);
+
+	/* Initialization may have tripped the "changed" state. */
+	gtkhtml_editor_set_changed (editor, FALSE);
+
+	id = "org.gnome.evolution.composer";
+	e_plugin_ui_register_manager (ui_manager, id, composer);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 static void
@@ -2045,9 +2162,10 @@ msg_composer_class_init (EMsgComposerClass *class)
 	g_type_class_add_private (class, sizeof (EMsgComposerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = msg_composer_constructor;
+	object_class->get_property = msg_composer_get_property;
 	object_class->dispose = msg_composer_dispose;
 	object_class->finalize = msg_composer_finalize;
+	object_class->constructed = msg_composer_constructed;
 
 	gtk_object_class = GTK_OBJECT_CLASS (class);
 	gtk_object_class->destroy = msg_composer_destroy;
@@ -2070,6 +2188,16 @@ msg_composer_class_init (EMsgComposerClass *class)
 	editor_class->link_clicked = msg_composer_link_clicked;
 	editor_class->object_deleted = msg_composer_object_deleted;
 	editor_class->uri_requested = msg_composer_uri_requested;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FOCUS_TRACKER,
+		g_param_spec_object (
+			"focus-tracker",
+			NULL,
+			NULL,
+			E_TYPE_FOCUS_TRACKER,
+			G_PARAM_READABLE));
 
 	signals[SEND] = g_signal_new (
 		"send",
@@ -2100,103 +2228,8 @@ msg_composer_class_init (EMsgComposerClass *class)
 static void
 msg_composer_init (EMsgComposer *composer)
 {
-	EAttachmentView *view;
-	EAttachmentStore *store;
-	EComposerHeaderTable *table;
-	GdkDragAction drag_actions;
-	GtkTargetList *target_list;
-	GtkTargetEntry *targets;
-	GtkUIManager *ui_manager;
-	GtkhtmlEditor *editor;
-	GtkHTML *html;
-	const gchar *id;
-	gint n_targets;
-
 	composer->lite = composer_lite;
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
-
-	e_composer_private_init (composer);
-
-	editor = GTKHTML_EDITOR (composer);
-	html = gtkhtml_editor_get_html (editor);
-	ui_manager = gtkhtml_editor_get_ui_manager (editor);
-	view = e_msg_composer_get_attachment_view (composer);
-	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
-
-	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
-	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
-
-	/* Drag-and-Drop Support */
-
-	target_list = e_attachment_view_get_target_list (view);
-	drag_actions = e_attachment_view_get_drag_actions (view);
-
-	targets = gtk_target_table_new_from_list (target_list, &n_targets);
-
-	gtk_drag_dest_set (
-		GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
-		targets, n_targets, drag_actions);
-
-	g_signal_connect (
-		html, "drag-data-received",
-		G_CALLBACK (msg_composer_drag_data_received), NULL);
-
-	gtk_target_table_free (targets, n_targets);
-
-	/* Configure Headers */
-
-	e_composer_header_table_set_account_list (
-		table, e_get_account_list ());
-	e_composer_header_table_set_signature_list (
-		table, e_get_signature_list ());
-
-	g_signal_connect_swapped (
-		table, "notify::account",
-		G_CALLBACK (msg_composer_account_changed_cb), composer);
-	g_signal_connect_swapped (
-		table, "notify::destinations-bcc",
-		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
-		table, "notify::destinations-cc",
-		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
-		table, "notify::destinations-to",
-		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
-		table, "notify::reply-to",
-		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
-		table, "notify::signature",
-		G_CALLBACK (e_msg_composer_show_sig_file), composer);
-	g_signal_connect_swapped (
-		table, "notify::subject",
-		G_CALLBACK (msg_composer_subject_changed_cb), composer);
-	g_signal_connect_swapped (
-		table, "notify::subject",
-		G_CALLBACK (msg_composer_notify_header_cb), composer);
-
-	msg_composer_account_changed_cb (composer);
-
-	/* Attachments */
-
-	store = e_attachment_view_get_store (view);
-
-	g_signal_connect_swapped (
-		store, "row-deleted",
-		G_CALLBACK (attachment_store_changed_cb), composer);
-
-	g_signal_connect_swapped (
-		store, "row-inserted",
-		G_CALLBACK (attachment_store_changed_cb), composer);
-
-	e_composer_autosave_register (composer);
-
-	/* Initialization may have tripped the "changed" state. */
-	gtkhtml_editor_set_changed (editor, FALSE);
-
-	id = "org.gnome.evolution.composer";
-	e_plugin_ui_register_manager (ui_manager, id, composer);
-	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 GType
@@ -2237,7 +2270,9 @@ e_msg_composer_get_type (void)
 EMsgComposer *
 e_msg_composer_new (void)
 {
-	return g_object_new (E_TYPE_MSG_COMPOSER, NULL);
+	return g_object_new (
+		E_TYPE_MSG_COMPOSER,
+		"html", e_web_view_new (), NULL);
 }
 
 void
@@ -2263,6 +2298,14 @@ e_msg_composer_lite_new (void)
 	composer = e_msg_composer_new ();
 
 	return composer;
+}
+
+EFocusTracker *
+e_msg_composer_get_focus_tracker (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	return composer->priv->focus_tracker;
 }
 
 static void

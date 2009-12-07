@@ -353,48 +353,6 @@ action_mail_folder_rename_cb (GtkAction *action,
 	em_folder_tree_edit_selected (folder_tree);
 }
 
-/* Helper for action_mail_folder_select_all_cb() */
-static gboolean
-action_mail_folder_select_all_timeout_cb (GtkWidget *message_list)
-{
-	message_list_select_all (MESSAGE_LIST (message_list));
-	gtk_widget_grab_focus (message_list);
-
-	return FALSE;
-}
-
-static void
-action_mail_folder_select_all_cb (GtkAction *action,
-                                  EMailShellView *mail_shell_view)
-{
-	EMailReader *reader;
-	GtkWidget *message_list;
-	EShellWindow *shell_window;
-	EShellView *shell_view;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	if (MESSAGE_LIST (message_list)->threaded) {
-		gtk_action_activate (ACTION (MAIL_THREADS_EXPAND_ALL));
-
-		/* XXX The timeout below is added so that the execution
-		 *     thread to expand all conversation threads would
-		 *     have completed.  The timeout 505 is just to ensure
-		 *     that the value is a small delta more than the
-		 *     timeout value in mail_regen_list(). */
-		g_timeout_add (
-			505, (GSourceFunc)
-			action_mail_folder_select_all_timeout_cb,
-			message_list);
-	} else
-		/* If there is no threading, just select all immediately. */
-		action_mail_folder_select_all_timeout_cb (message_list);
-}
-
 static void
 action_mail_folder_select_thread_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
@@ -1058,13 +1016,6 @@ static GtkActionEntry mail_entries[] = {
 	  "F2",
 	  N_("Change the name of this folder"),
 	  G_CALLBACK (action_mail_folder_rename_cb) },
-
-	{ "mail-folder-select-all",
-	  NULL,
-	  N_("Select _All Messages"),
-	  "<Control>a",
-	  N_("Select all visible messages"),
-	  G_CALLBACK (action_mail_folder_select_all_cb) },
 
 	{ "mail-folder-select-thread",
 	  NULL,

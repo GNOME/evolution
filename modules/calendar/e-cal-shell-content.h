@@ -26,6 +26,7 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
+#include <calendar/gui/e-calendar-table.h>
 #include <calendar/gui/e-memo-table.h>
 #include <calendar/gui/gnome-cal.h>
 #include <menus/gal-view-instance.h>
@@ -95,12 +96,6 @@ EShellSearchbar *
 					(ECalShellContent *cal_shell_content);
 GalViewInstance *
 		e_cal_shell_content_get_view_instance
-					(ECalShellContent *cal_shell_content);
-void		e_cal_shell_content_copy_clipboard
-					(ECalShellContent *cal_shell_content);
-void		e_cal_shell_content_cut_clipboard
-					(ECalShellContent *cal_shell_content);
-void		e_cal_shell_content_paste_clipboard
 					(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_delete_selection
 					(ECalShellContent *cal_shell_content);

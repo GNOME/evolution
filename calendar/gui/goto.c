@@ -26,6 +26,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"

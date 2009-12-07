@@ -46,6 +46,7 @@ widgetsinclude_HEADERS =			\
 	e-colors.h				\
 	e-combo-cell-editable.h			\
 	e-dateedit.h				\
+	e-focus-tracker.h			\
 	e-gui-utils.h				\
 	e-hinted-entry.h			\
 	e-hsv-utils.h				\
@@ -60,6 +61,7 @@ widgetsinclude_HEADERS =			\
 	e-popup-menu.h				\
 	e-preferences-window.h			\
 	e-printable.h				\
+	e-selectable.h				\
 	e-selection-model.h			\
 	e-selection-model-array.h		\
 	e-selection-model-simple.h		\
@@ -121,6 +123,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-colors.c				\
 	e-combo-cell-editable.c			\
 	e-dateedit.c				\
+	e-focus-tracker.c			\
 	e-gui-utils.c				\
 	e-hinted-entry.c			\
 	e-hsv-utils.c				\
@@ -135,6 +138,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-popup-menu.c				\
 	e-preferences-window.c			\
 	e-printable.c				\
+	e-selectable.c				\
 	e-selection-model.c			\
 	e-selection-model-array.c		\
 	e-selection-model-simple.c		\

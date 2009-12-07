@@ -74,45 +74,6 @@ action_task_assign_cb (GtkAction *action,
 }
 
 static void
-action_task_clipboard_copy_cb (GtkAction *action,
-                               ETaskShellView *task_shell_view)
-{
-	ETaskShellContent *task_shell_content;
-	ECalendarTable *task_table;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-
-	e_calendar_table_copy_clipboard (task_table);
-}
-
-static void
-action_task_clipboard_cut_cb (GtkAction *action,
-                              ETaskShellView *task_shell_view)
-{
-	ETaskShellContent *task_shell_content;
-	ECalendarTable *task_table;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-
-	e_calendar_table_cut_clipboard (task_table);
-}
-
-static void
-action_task_clipboard_paste_cb (GtkAction *action,
-                                ETaskShellView *task_shell_view)
-{
-	ETaskShellContent *task_shell_content;
-	ECalendarTable *task_table;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-
-	e_calendar_table_paste_clipboard (task_table);
-}
-
-static void
 action_task_delete_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
@@ -714,27 +675,6 @@ static GtkActionEntry task_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_assign_cb) },
 
-	{ "task-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy selected tasks"),
-	  G_CALLBACK (action_task_clipboard_copy_cb) },
-
-	{ "task-clipboard-cut",
-	  GTK_STOCK_CUT,
-	  NULL,
-	  NULL,
-	  N_("Cut selected tasks"),
-	  G_CALLBACK (action_task_clipboard_cut_cb) },
-
-	{ "task-clipboard-paste",
-	  GTK_STOCK_PASTE,
-	  NULL,
-	  NULL,
-	  N_("Paste tasks from the clipboard"),
-	  G_CALLBACK (action_task_clipboard_paste_cb) },
-
 	{ "task-delete",
 	  GTK_STOCK_DELETE,
 	  N_("_Delete Task"),
@@ -886,18 +826,6 @@ static EPopupActionEntry task_popup_entries[] = {
 	{ "task-popup-assign",
 	  NULL,
 	  "task-assign" },
-
-	{ "task-popup-clipboard-copy",
-	  NULL,
-	  "task-clipboard-copy" },
-
-	{ "task-popup-clipboard-cut",
-	  NULL,
-	  "task-clipboard-cut" },
-
-	{ "task-popup-clipboard-paste",
-	  NULL,
-	  "task-clipboard-paste" },
 
 	{ "task-popup-delete",
 	  NULL,

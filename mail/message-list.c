@@ -52,6 +52,7 @@
 #include "e-util/e-util.h"
 
 #include "misc/e-gui-utils.h"
+#include "misc/e-selectable.h"
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-settings.h"
@@ -126,6 +127,8 @@ enum {
 	PROP_SHELL_BACKEND
 };
 
+static gpointer parent_class;
+
 static struct {
 	const gchar *target;
 	GdkAtom atom;
@@ -196,8 +199,6 @@ struct _EMailAddress {
 
 typedef struct _EMailAddress EMailAddress;
 #endif /* SMART_ADDRESS_COMPARE */
-
-G_DEFINE_TYPE (MessageList, message_list, E_TREE_TYPE)
 
 static void on_cursor_activated_cmd (ETree *tree, gint row, ETreePath path, gpointer user_data);
 static void on_selection_changed_cmd(ETree *tree, MessageList *ml);
@@ -718,6 +719,18 @@ message_list_select_next_thread (MessageList *ml)
 	}
 }
 
+static gboolean
+message_list_select_all_timeout_cb (MessageList *message_list)
+{
+	ESelectionModel *etsm;
+
+	etsm = e_tree_get_selection_model (E_TREE (message_list));
+
+	e_selection_model_select_all (etsm);
+
+	return FALSE;
+}
+
 /**
  * message_list_select_all:
  * @message_list: Message List widget
@@ -727,11 +740,21 @@ message_list_select_next_thread (MessageList *ml)
 void
 message_list_select_all (MessageList *message_list)
 {
-	ESelectionModel *etsm;
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	etsm = e_tree_get_selection_model (E_TREE (message_list));
-
-	e_selection_model_select_all (etsm);
+	if (message_list->threaded) {
+		/* XXX The timeout below is added so that the execution
+		 *     thread to expand all conversation threads would
+		 *     have completed.  The timeout 505 is just to ensure
+		 *     that the value is a small delta more than the
+		 *     timeout value in mail_regen_list(). */
+		g_timeout_add (
+			505, (GSourceFunc)
+			message_list_select_all_timeout_cb,
+			message_list);
+	} else
+		/* If there is no threading, just select all immediately. */
+		message_list_select_all_timeout_cb (message_list);
 }
 
 typedef struct thread_select_info {
@@ -2295,9 +2318,6 @@ message_list_init (MessageList *message_list)
 
 	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
-/*	adjustment = (GtkAdjustment *) gtk_adjustment_new (0.0, 0.0, G_MAXDOUBLE, 0.0, 0.0, 0.0);
-	gtk_scrolled_window_set_vadjustment ((GtkScrolledWindow *) message_list, adjustment);*/
-
 	message_list->normalised_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
@@ -2390,7 +2410,7 @@ message_list_destroy(GtkObject *object)
 	}
 
 	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (message_list_parent_class)->destroy(object);
+	GTK_OBJECT_CLASS (parent_class)->destroy(object);
 }
 
 static void
@@ -2440,7 +2460,7 @@ message_list_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (message_list_parent_class)->dispose (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -2480,13 +2500,32 @@ message_list_finalize (GObject *object)
 	clear_selection(message_list, &priv->clipboard);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
 message_list_built (MessageList *message_list)
 {
 	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+}
+
+static void
+message_list_selectable_update_actions (ESelectable *selectable,
+                                        EFocusTracker *focus_tracker,
+                                        GdkAtom *clipboard_targets,
+                                        gint n_clipboard_targets)
+{
+	GtkAction *action;
+
+	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	gtk_action_set_tooltip (action, _("Select all visible messages"));
+	gtk_action_set_sensitive (action, TRUE);
+}
+
+static void
+message_list_selectable_select_all (ESelectable *selectable)
+{
+	message_list_select_all (MESSAGE_LIST (selectable));
 }
 
 static void
@@ -2499,6 +2538,7 @@ message_list_class_init (MessageListClass *class)
 	for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
 		ml_drag_info[i].atom = gdk_atom_intern(ml_drag_info[i].target, FALSE);
 
+	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (MessageListPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -2544,6 +2584,13 @@ message_list_class_init (MessageListClass *class)
 			      G_TYPE_NONE, 0);
 
 	message_list_init_images ();
+}
+
+static void
+message_list_selectable_init (ESelectableInterface *interface)
+{
+	interface->update_actions = message_list_selectable_update_actions;
+	interface->select_all = message_list_selectable_select_all;
 }
 
 static gboolean
@@ -2666,6 +2713,41 @@ message_list_construct (MessageList *message_list)
 		e_tree_get_table_adapter (E_TREE (message_list)),
 		"sorting_changed",
 		G_CALLBACK (ml_tree_sorting_changed), message_list);
+}
+
+GType
+message_list_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (MessageListClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) message_list_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (MessageList),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) message_list_init,
+			NULL   /* value_table */
+		};
+
+		static const GInterfaceInfo selectable_info = {
+			(GInterfaceInitFunc) message_list_selectable_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
+		type = g_type_register_static (
+			E_TREE_TYPE, "MessageList", &type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_SELECTABLE, &selectable_info);
+	}
+
+	return type;
 }
 
 /**

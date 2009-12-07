@@ -54,8 +54,6 @@
 
 #define COLUMN_HEADER_HEIGHT 16
 
-G_DEFINE_TYPE (ETree, e_tree, GTK_TYPE_TABLE)
-
 #define d(x)
 
 #if d(!)0
@@ -75,6 +73,11 @@ enum {
 	START_DRAG,
 	STATE_CHANGE,
 	WHITE_SPACE_EVENT,
+
+	CUT_CLIPBOARD,
+	COPY_CLIPBOARD,
+	PASTE_CLIPBOARD,
+	SELECT_ALL,
 
 	TREE_DRAG_BEGIN,
 	TREE_DRAG_END,
@@ -244,6 +247,8 @@ static void scroll_on (ETree *et, guint scroll_direction);
 static void hover_off (ETree *et);
 static void hover_on (ETree *et, gint x, gint y);
 static void context_destroyed (gpointer data, GObject *ctx);
+
+G_DEFINE_TYPE (ETree, e_tree, GTK_TYPE_TABLE)
 
 static void
 et_disconnect_from_etta (ETree *et)

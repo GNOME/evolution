@@ -47,45 +47,6 @@ action_calendar_taskpad_assign_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_clipboard_copy_cb (GtkAction *action,
-                                           ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-
-	e_calendar_table_copy_clipboard (task_table);
-}
-
-static void
-action_calendar_taskpad_clipboard_cut_cb (GtkAction *action,
-                                          ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-
-	e_calendar_table_cut_clipboard (task_table);
-}
-
-static void
-action_calendar_taskpad_clipboard_paste_cb (GtkAction *action,
-                                            ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-
-	e_calendar_table_paste_clipboard (task_table);
-}
-
-static void
 action_calendar_taskpad_delete_cb (GtkAction *action,
                                    ECalShellView *cal_shell_view)
 {
@@ -366,27 +327,6 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_taskpad_assign_cb) },
 
-	{ "calendar-taskpad-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy selected tasks"),
-	  G_CALLBACK (action_calendar_taskpad_clipboard_copy_cb) },
-
-	{ "calendar-taskpad-clipboard-cut",
-	  GTK_STOCK_CUT,
-	  NULL,
-	  NULL,
-	  N_("Cut selected tasks"),
-	  G_CALLBACK (action_calendar_taskpad_clipboard_cut_cb) },
-
-	{ "calendar-taskpad-clipboard-paste",
-	  GTK_STOCK_PASTE,
-	  NULL,
-	  NULL,
-	  N_("Paste tasks from the clipboard"),
-	  G_CALLBACK (action_calendar_taskpad_clipboard_paste_cb) },
-
 	{ "calendar-taskpad-delete",
 	  GTK_STOCK_DELETE,
 	  N_("_Delete Task"),
@@ -536,18 +476,6 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_TASKPAD_ASSIGN);
 	sensitive = (n_selected == 1) && editable && assignable;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CALENDAR_TASKPAD_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CALENDAR_TASKPAD_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0) && editable;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CALENDAR_TASKPAD_CLIPBOARD_PASTE);
-	sensitive = editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_DELETE);

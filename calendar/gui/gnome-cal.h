@@ -33,7 +33,7 @@
 #include <libecal/e-cal.h>
 #include <shell/e-shell-settings.h>
 
-#include "e-calendar-table.h"
+#include "e-cal-model.h"
 
 /* Standard GObject macros */
 #define GNOME_TYPE_CALENDAR \

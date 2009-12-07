@@ -24,6 +24,7 @@
 
 #include <gtkhtml-editor.h>
 #include <e-util/e-signature.h>
+#include <misc/e-focus-tracker.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_EDITOR \
@@ -61,6 +62,8 @@ struct _ESignatureEditorClass {
 
 GType		e_signature_editor_get_type	 (void);
 GtkWidget *	e_signature_editor_new		 (void);
+EFocusTracker *	e_signature_editor_get_focus_tracker
+						 (ESignatureEditor *editor);
 ESignature *	e_signature_editor_get_signature (ESignatureEditor *editor);
 void		e_signature_editor_set_signature (ESignatureEditor *editor,
 						  ESignature *signature);

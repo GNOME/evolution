@@ -296,8 +296,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean is_instance = FALSE;
 	gboolean is_meeting = FALSE;
 	gboolean is_delegatable = FALSE;
-	gboolean clipboard_has_calendar;
 	gboolean refresh_supported = FALSE;
+
+	/* Chain up to parent's update_actions() method. */
+	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -361,10 +363,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	g_list_free (list);
 
-	clipboard_has_calendar =
-		e_clipboard_wait_is_calendar_available (
-		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
 
@@ -395,18 +393,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (CALENDAR_RENAME);
 	sensitive = can_delete_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (EVENT_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (EVENT_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0) && editable;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (EVENT_CLIPBOARD_PASTE);
-	sensitive = editable && clipboard_has_calendar;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELEGATE);

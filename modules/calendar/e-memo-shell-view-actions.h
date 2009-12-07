@@ -25,12 +25,6 @@
 #include <shell/e-shell-window-actions.h>
 
 /* Memo Actions */
-#define E_SHELL_WINDOW_ACTION_MEMO_CLIPBOARD_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "memo-clipboard-copy")
-#define E_SHELL_WINDOW_ACTION_MEMO_CLIPBOARD_CUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "memo-clipboard-cut")
-#define E_SHELL_WINDOW_ACTION_MEMO_CLIPBOARD_PASTE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "memo-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_MEMO_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-delete")
 #define E_SHELL_WINDOW_ACTION_MEMO_FORWARD(window) \

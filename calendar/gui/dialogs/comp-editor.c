@@ -80,6 +80,9 @@ struct _CompEditorPrivate {
 
 	gpointer shell;  /* weak pointer */
 
+	/* EFocusTracker keeps selection actions up-to-date. */
+	EFocusTracker *focus_tracker;
+
 	/* Each CompEditor window gets its own GtkWindowGroup, so it
 	 * doesn't block the main window or other CompEditor windows. */
 	GtkWindowGroup *window_group;
@@ -133,6 +136,7 @@ enum {
 	PROP_CHANGED,
 	PROP_CLIENT,
 	PROP_FLAGS,
+	PROP_FOCUS_TRACKER,
 	PROP_SHELL,
 	PROP_SUMMARY
 };
@@ -149,9 +153,10 @@ static const gchar *ui =
 "      <menuitem action='close'/>"
 "    </menu>"
 "    <menu action='edit-menu'>"
-"      <menuitem action='cut'/>"
-"      <menuitem action='copy'/>"
-"      <menuitem action='paste'/>"
+"      <menuitem action='cut-clipboard'/>"
+"      <menuitem action='copy-clipboard'/>"
+"      <menuitem action='paste-clipboard'/>"
+"      <menuitem action='delete-selection'/>"
 "      <separator/>"
 "      <menuitem action='select-all'/>"
 "    </menu>"
@@ -677,55 +682,10 @@ action_close_cb (GtkAction *action,
 }
 
 static void
-action_copy_cb (GtkAction *action,
-                CompEditor *editor)
-{
-	GtkWidget *focus;
-
-	focus = gtk_window_get_focus (GTK_WINDOW (editor));
-
-	if (GTK_IS_ENTRY (focus))
-		gtk_editable_copy_clipboard (GTK_EDITABLE (focus));
-
-	if (GTK_IS_TEXT_VIEW (focus))
-		g_signal_emit_by_name (focus, "copy-clipboard");
-}
-
-static void
-action_cut_cb (GtkAction *action,
-               CompEditor *editor)
-{
-	GtkWidget *focus;
-
-	focus = gtk_window_get_focus (GTK_WINDOW (editor));
-
-	if (GTK_IS_ENTRY (focus))
-		gtk_editable_cut_clipboard (GTK_EDITABLE (focus));
-
-	if (GTK_IS_TEXT_VIEW (focus))
-		g_signal_emit_by_name (focus, "cut-clipboard");
-}
-
-static void
 action_help_cb (GtkAction *action,
                 CompEditor *editor)
 {
 	comp_editor_show_help (editor);
-}
-
-static void
-action_paste_cb (GtkAction *action,
-                 CompEditor *editor)
-{
-	GtkWidget *focus;
-
-	focus = gtk_window_get_focus (GTK_WINDOW (editor));
-
-	if (GTK_IS_ENTRY (focus))
-		gtk_editable_paste_clipboard (GTK_EDITABLE (focus));
-
-	if (GTK_IS_TEXT_VIEW (focus))
-		g_signal_emit_by_name (focus, "paste-clipboard");
 }
 
 static void
@@ -886,23 +846,6 @@ action_save_cb (GtkAction *action,
 }
 
 static void
-action_select_all_cb (GtkAction *action,
-                      CompEditor *editor)
-{
-	GtkWidget *focus;
-
-	focus = gtk_window_get_focus (GTK_WINDOW (editor));
-
-	if (GTK_IS_ENTRY (focus)) {
-		gtk_editable_set_position (GTK_EDITABLE (focus), -1);
-		gtk_editable_select_region (GTK_EDITABLE (focus), 0, -1);
-	}
-
-	if (GTK_IS_TEXT_VIEW (focus))
-		g_signal_emit_by_name (focus, "select-all", TRUE);
-}
-
-static void
 action_view_categories_cb (GtkToggleAction *action,
                            CompEditor *editor)
 {
@@ -995,19 +938,26 @@ static GtkActionEntry core_entries[] = {
 	  N_("Click here to close the current window"),
 	  G_CALLBACK (action_close_cb) },
 
-	{ "copy",
+	{ "copy-clipboard",
 	  GTK_STOCK_COPY,
 	  NULL,
 	  NULL,
-	  N_("Copy selected text to the clipboard"),
-	  G_CALLBACK (action_copy_cb) },
+	  N_("Copy the selection"),
+	  NULL },  /* Handled by EFocusTracker */
 
-	{ "cut",
+	{ "cut-clipboard",
 	  GTK_STOCK_CUT,
 	  NULL,
 	  NULL,
-	  N_("Cut selected text to the clipboard"),
-	  G_CALLBACK (action_cut_cb) },
+	  N_("Cut the selection"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "delete-selection",
+	  GTK_STOCK_DELETE,
+	  NULL,
+	  NULL,
+	  N_("Delete the selection"),
+	  NULL },  /* Handled by EFocusTracker */
 
 	{ "help",
 	  GTK_STOCK_HELP,
@@ -1016,12 +966,12 @@ static GtkActionEntry core_entries[] = {
 	  N_("Click here to view help available"),
 	  G_CALLBACK (action_help_cb) },
 
-	{ "paste",
+	{ "paste-clipboard",
 	  GTK_STOCK_PASTE,
 	  NULL,
 	  NULL,
-	  N_("Paste text from the clipboard"),
-	  G_CALLBACK (action_paste_cb) },
+	  N_("Paste the clipboard"),
+	  NULL },  /* Handled by EFocusTracker */
 
 	{ "print",
 	  GTK_STOCK_PRINT,
@@ -1047,9 +997,9 @@ static GtkActionEntry core_entries[] = {
 	{ "select-all",
 	  GTK_STOCK_SELECT_ALL,
 	  NULL,
-	  NULL,
+	  "<Control>a",
 	  N_("Select all text"),
-	  G_CALLBACK (action_select_all_cb) },
+	  NULL },  /* Handled by EFocusTracker */
 
 	/* Menus */
 
@@ -1302,6 +1252,12 @@ comp_editor_get_property (GObject *object,
 				COMP_EDITOR (object)));
 			return;
 
+		case PROP_FOCUS_TRACKER:
+			g_value_set_object (
+				value, comp_editor_get_focus_tracker (
+				COMP_EDITOR (object)));
+			return;
+
 		case PROP_SHELL:
 			g_value_set_object (
 				value, comp_editor_get_shell (
@@ -1329,6 +1285,11 @@ comp_editor_dispose (GObject *object)
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->shell), &priv->shell);
 		priv->shell = NULL;
+	}
+
+	if (priv->focus_tracker != NULL) {
+		g_object_unref (priv->focus_tracker);
+		priv->focus_tracker = NULL;
 	}
 
 	if (priv->window_group != NULL) {
@@ -1566,6 +1527,16 @@ comp_editor_class_init (CompEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_FOCUS_TRACKER,
+		g_param_spec_object (
+			"focus-tracker",
+			NULL,
+			NULL,
+			E_TYPE_FOCUS_TRACKER,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SHELL,
 		g_param_spec_object (
 			"shell",
@@ -1601,6 +1572,7 @@ comp_editor_init (CompEditor *editor)
 	CompEditorPrivate *priv;
 	EAttachmentView *view;
 	EAttachmentStore *store;
+	EFocusTracker *focus_tracker;
 	GdkDragAction drag_actions;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
@@ -1683,6 +1655,27 @@ comp_editor_init (CompEditor *editor)
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
+
+	/* Configure an EFocusTracker to manage selection actions. */
+
+	focus_tracker = e_focus_tracker_new (GTK_WINDOW (editor));
+
+	action = comp_editor_get_action (editor, "cut-clipboard");
+	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
+
+	action = comp_editor_get_action (editor, "copy-clipboard");
+	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
+
+	action = comp_editor_get_action (editor, "paste-clipboard");
+	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
+
+	action = comp_editor_get_action (editor, "delete-selection");
+	e_focus_tracker_set_delete_selection_action (focus_tracker, action);
+
+	action = comp_editor_get_action (editor, "select-all");
+	e_focus_tracker_set_select_all_action (focus_tracker, action);
+
+	priv->focus_tracker = focus_tracker;
 
 	/* Fine Tuning */
 
@@ -2091,6 +2084,14 @@ comp_editor_get_changed (CompEditor *editor)
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	return editor->priv->changed;
+}
+
+EFocusTracker *
+comp_editor_get_focus_tracker (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	return editor->priv->focus_tracker;
 }
 
 void

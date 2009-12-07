@@ -55,8 +55,6 @@
 
 #define COLUMN_HEADER_HEIGHT 16
 
-G_DEFINE_TYPE (ETable, e_table, GTK_TYPE_TABLE)
-
 #define d(x)
 
 #if d(!)0
@@ -76,6 +74,11 @@ enum {
 	START_DRAG,
 	STATE_CHANGE,
 	WHITE_SPACE_EVENT,
+
+	CUT_CLIPBOARD,
+	COPY_CLIPBOARD,
+	PASTE_CLIPBOARD,
+	SELECT_ALL,
 
 	TABLE_DRAG_BEGIN,
 	TABLE_DRAG_END,
@@ -158,6 +161,8 @@ static gint et_focus (GtkWidget *container, GtkDirectionType direction);
 
 static void scroll_off (ETable *et);
 static void scroll_on (ETable *et, guint scroll_direction);
+
+G_DEFINE_TYPE (ETable, e_table, GTK_TYPE_TABLE)
 
 static void
 et_disconnect_model (ETable *et)
@@ -3357,4 +3362,3 @@ e_table_class_init (ETableClass *class)
 
 	gal_a11y_e_table_init ();
 }
-

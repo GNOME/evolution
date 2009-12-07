@@ -11,10 +11,6 @@
     </menu>
     <menu action='edit-menu'>
       <placeholder name='edit-actions'>
-        <menuitem action='event-clipboard-cut'/>
-        <menuitem action='event-clipboard-copy'/>
-        <menuitem action='event-clipboard-paste'/>
-        <separator/>
         <menuitem action='event-delete'/>
         <menuitem action='event-delete-occurrence'/>
         <menuitem action='event-delete-occurrence-all'/>
@@ -66,7 +62,7 @@
     <separator/>
     <menuitem action='event-popup-print'/>
     <separator/>
-    <menuitem action='event-popup-clipboard-paste'/>
+    <menuitem action='popup-paste-clipboard'/>
     <separator/>
     <menu action='gal-view-menu'>
       <menuitem action='calendar-view-day'/>
@@ -85,9 +81,9 @@
     <menuitem action='event-popup-save-as'/>
     <menuitem action='event-popup-print'/>
     <separator/>
-    <menuitem action='event-popup-clipboard-cut'/>
-    <menuitem action='event-popup-clipboard-copy'/>
-    <menuitem action='event-popup-clipboard-paste'/>
+    <menuitem action='popup-cut-clipboard'/>
+    <menuitem action='popup-copy-clipboard'/>
+    <menuitem action='popup-paste-clipboard'/>
     <separator/>
     <menuitem action='event-popup-copy'/>
     <menuitem action='event-popup-move'/>
@@ -113,9 +109,9 @@
     <menuitem action='calendar-memopad-save-as'/>
     <menuitem action='calendar-memopad-print'/>
     <separator/>
-    <menuitem action='calendar-memopad-clipboard-cut'/>
-    <menuitem action='calendar-memopad-clipboard-copy'/>
-    <menuitem action='calendar-memopad-clipboard-paste'/>
+    <menuitem action='popup-cut-clipboard'/>
+    <menuitem action='popup-copy-clipboard'/>
+    <menuitem action='popup-paste-clipboard'/>
     <separator/>
     <menuitem action='calendar-memopad-forward'/>
     <separator/>
@@ -129,9 +125,9 @@
     <menuitem action='calendar-taskpad-save-as'/>
     <menuitem action='calendar-taskpad-print'/>
     <separator/>
-    <menuitem action='calendar-taskpad-clipboard-cut'/>
-    <menuitem action='calendar-taskpad-clipboard-copy'/>
-    <menuitem action='calendar-taskpad-clipboard-paste'/>
+    <menuitem action='popup-cut-clipboard'/>
+    <menuitem action='popup-copy-clipboard'/>
+    <menuitem action='popup-paste-clipboard'/>
     <separator/>
     <menuitem action='calendar-taskpad-assign'/>
     <menuitem action='calendar-taskpad-forward'/>

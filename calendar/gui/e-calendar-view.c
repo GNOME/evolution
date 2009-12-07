@@ -39,6 +39,7 @@
 #include <e-util/e-icon-factory.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
+#include <misc/e-selectable.h>
 #include <shell/e-shell.h>
 
 #include "common/authentication.h"
@@ -94,9 +95,8 @@ enum {
 	LAST_SIGNAL
 };
 
+static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
-
-G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE)
 
 static void
 calendar_view_set_model (ECalendarView *calendar_view,
@@ -158,7 +158,7 @@ calendar_view_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_calendar_view_parent_class)->dispose (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -171,11 +171,352 @@ calendar_view_finalize (GObject *object)
 	g_free (priv->default_category);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_calendar_view_parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-e_calendar_view_class_init (ECalendarViewClass *class)
+calendar_view_update_actions (ESelectable *selectable,
+                              EFocusTracker *focus_tracker,
+                              GdkAtom *clipboard_targets,
+                              gint n_clipboard_targets)
+{
+	ECalendarView *view;
+	GtkAction *action;
+	GList *list, *iter;
+	gboolean sources_are_editable = TRUE;
+	gboolean clipboard_has_calendar;
+	gboolean sensitive;
+	const gchar *tooltip;
+	gint n_selected;
+
+	view = E_CALENDAR_VIEW (selectable);
+
+	list = e_calendar_view_get_selected_events (view);
+	n_selected = g_list_length (list);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalendarViewEvent *event = iter->data;
+		gboolean read_only;
+
+		if (event == NULL || event->comp_data == NULL)
+			continue;
+
+		e_cal_is_read_only (event->comp_data->client, &read_only, NULL);
+		sources_are_editable &= !read_only;
+	}
+
+	g_list_free (list);
+
+	clipboard_has_calendar = (clipboard_targets != NULL) &&
+		e_targets_include_calendar (
+		clipboard_targets, n_clipboard_targets);
+
+	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+	sensitive = (n_selected > 0) && sources_are_editable;
+	tooltip = _("Cut selected events to the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	sensitive = (n_selected > 0);
+	tooltip = _("Copy selected events to the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+	sensitive = sources_are_editable && clipboard_has_calendar;
+	tooltip = _("Paste events from the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+}
+
+static void
+calendar_view_cut_clipboard (ESelectable *selectable)
+{
+	ECalendarView *cal_view;
+	GList *selected, *l;
+	const gchar *uid;
+
+	cal_view = E_CALENDAR_VIEW (selectable);
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+#if 0  /* KILL-BONOBO */
+	e_calendar_view_set_status_message (cal_view, _("Deleting selected objects"), -1);
+#endif
+
+	e_selectable_copy_clipboard (selectable);
+
+	for (l = selected; l != NULL; l = l->next) {
+		ECalComponent *comp;
+		ECalendarViewEvent *event = (ECalendarViewEvent *) l->data;
+		GError *error = NULL;
+
+		if (!event)
+			continue;
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
+		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
+						event->comp_data->client, comp, TRUE))
+			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
+					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+
+		e_cal_component_get_uid (comp, &uid);
+		if (e_cal_component_is_instance (comp)) {
+			gchar *rid = NULL;
+			icalcomponent *icalcomp;
+
+			/* when cutting detached instances, only cut that instance */
+			rid = e_cal_component_get_recurid_as_string (comp);
+			if (e_cal_get_object (event->comp_data->client, uid, rid, &icalcomp, NULL)) {
+				e_cal_remove_object_with_mod (event->comp_data->client, uid,
+							      rid, CALOBJ_MOD_THIS,
+							      &error);
+				icalcomponent_free (icalcomp);
+			} else
+				e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL,
+						CALOBJ_MOD_ALL, &error);
+			g_free (rid);
+		} else
+			e_cal_remove_object (event->comp_data->client, uid, &error);
+		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+
+		g_clear_error (&error);
+
+		g_object_unref (comp);
+	}
+
+#if 0  /* KILL-BONOBO */
+	e_calendar_view_set_status_message (cal_view, NULL, -1);
+#endif
+
+	g_list_free (selected);
+}
+
+static void
+add_related_timezones (icalcomponent *des_icalcomp, icalcomponent *src_icalcomp, ECal *client)
+{
+	icalproperty_kind look_in[] = {
+		ICAL_DTSTART_PROPERTY,
+		ICAL_DTEND_PROPERTY,
+		ICAL_NO_PROPERTY
+	};
+	gint i;
+
+	g_return_if_fail (des_icalcomp != NULL);
+	g_return_if_fail (src_icalcomp != NULL);
+	g_return_if_fail (client != NULL);
+
+	for (i = 0; look_in[i] != ICAL_NO_PROPERTY; i++) {
+		icalproperty *prop = icalcomponent_get_first_property (src_icalcomp, look_in[i]);
+
+		if (prop) {
+			icalparameter *par = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+			if (par) {
+				const gchar *tzid = icalparameter_get_tzid (par);
+
+				if (tzid) {
+					GError *error = NULL;
+					icaltimezone *zone = NULL;
+
+					if (!e_cal_get_timezone (client, tzid, &zone, &error)) {
+						g_warning ("%s: Cannot get timezone for '%s'. %s", G_STRFUNC, tzid, error ? error->message : "");
+						if (error)
+							g_error_free (error);
+					} else if (zone &&
+						icalcomponent_get_timezone (des_icalcomp, icaltimezone_get_tzid (zone)) == NULL) {
+						/* do not duplicate timezones in the component */
+						icalcomponent *vtz_comp;
+
+						vtz_comp = icaltimezone_get_component (zone);
+						if (vtz_comp)
+							icalcomponent_add_component (des_icalcomp, icalcomponent_new_clone (vtz_comp));
+					}
+				}
+			}
+		}
+	}
+}
+
+static void
+calendar_view_copy_clipboard (ESelectable *selectable)
+{
+	ECalendarView *cal_view;
+	GList *selected, *l;
+	gchar *comp_str;
+	icalcomponent *vcal_comp;
+	icalcomponent *new_icalcomp;
+	ECalendarViewEvent *event;
+	GtkClipboard *clipboard;
+
+	cal_view = E_CALENDAR_VIEW (selectable);
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	/* create top-level VCALENDAR component and add VTIMEZONE's */
+	vcal_comp = e_cal_util_new_top_level ();
+	for (l = selected; l != NULL; l = l->next) {
+		event = (ECalendarViewEvent *) l->data;
+
+		if (event) {
+			e_cal_util_add_timezones_from_component (vcal_comp, event->comp_data->icalcomp);
+
+			add_related_timezones (vcal_comp, event->comp_data->icalcomp, event->comp_data->client);
+		}
+	}
+
+	for (l = selected; l != NULL; l = l->next) {
+		event = (ECalendarViewEvent *) l->data;
+
+		new_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+		/* remove RECURRENCE-IDs from copied objects */
+		if (e_cal_util_component_is_instance (new_icalcomp)) {
+			icalproperty *prop;
+
+			prop = icalcomponent_get_first_property (new_icalcomp, ICAL_RECURRENCEID_PROPERTY);
+			if (prop)
+				icalcomponent_remove_property (new_icalcomp, prop);
+		}
+		icalcomponent_add_component (vcal_comp, new_icalcomp);
+	}
+
+	comp_str = icalcomponent_as_ical_string_r (vcal_comp);
+
+	/* copy the VCALENDAR to the clipboard */
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	e_clipboard_set_calendar (clipboard, comp_str, -1);
+	gtk_clipboard_store (clipboard);
+
+	/* free memory */
+	icalcomponent_free (vcal_comp);
+	g_free (comp_str);
+	g_list_free (selected);
+}
+
+static void
+clipboard_get_calendar_data (ECalendarView *cal_view,
+                             const gchar *text)
+{
+	icalcomponent *icalcomp;
+	icalcomponent_kind kind;
+	time_t selected_time_start, selected_time_end;
+	icaltimezone *default_zone;
+	ECal *client;
+	gboolean in_top_canvas;
+
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	if (!text || !*text)
+		return;
+
+	icalcomp = icalparser_parse_string ((const gchar *) text);
+	if (!icalcomp)
+		return;
+
+	default_zone = calendar_config_get_icaltimezone ();
+	client = e_cal_model_get_default_client (cal_view->priv->model);
+
+	/* check the type of the component */
+	/* FIXME An error dialog if we return? */
+	kind = icalcomponent_isa (icalcomp);
+	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
+		return;
+
+#if 0  /* KILL-BONOBO */
+	e_calendar_view_set_status_message (cal_view, _("Updating objects"), -1);
+#endif
+	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
+
+	if ((selected_time_end - selected_time_start) == 60 * 60 * 24)
+		in_top_canvas = TRUE;
+	else
+		in_top_canvas = FALSE;
+
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		icalcomponent *subcomp;
+
+		/* add timezones first, to have them ready */
+		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VTIMEZONE_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VTIMEZONE_COMPONENT)) {
+			icaltimezone *zone;
+			GError *error = NULL;
+
+			zone = icaltimezone_new ();
+			icaltimezone_set_component (zone, subcomp);
+			if (!e_cal_add_timezone (client, zone, &error)) {
+				icalproperty *tzidprop = icalcomponent_get_first_property (subcomp, ICAL_TZID_PROPERTY);
+
+				g_warning ("%s: Add zone '%s' failed. %s", G_STRFUNC, tzidprop ? icalproperty_get_tzid (tzidprop) : "???", error ? error->message : "");
+				if (error)
+					g_error_free (error);
+			}
+
+			icaltimezone_free (zone, 1);
+		}
+
+		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VEVENT_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VEVENT_COMPONENT)) {
+			if (e_cal_util_component_has_recurrences (subcomp)) {
+				icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
+				if (icalprop)
+					icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
+			}
+
+			e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, subcomp, in_top_canvas);
+		}
+
+		icalcomponent_free (icalcomp);
+	} else {
+		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
+	}
+
+#if 0  /* KILL-BONOBO */
+	e_calendar_view_set_status_message (cal_view, NULL, -1);
+#endif
+}
+
+static void
+calendar_view_paste_clipboard (ESelectable *selectable)
+{
+	ECalendarView *cal_view;
+	GtkClipboard *clipboard;
+
+	cal_view = E_CALENDAR_VIEW (selectable);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	/* Paste text into an event being edited. */
+	if (gtk_clipboard_wait_is_text_available (clipboard)) {
+		ECalendarViewClass *class;
+
+		class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+		g_return_if_fail (class->paste_text != NULL);
+
+		class->paste_text (cal_view);
+
+	/* Paste iCalendar data into the view. */
+	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
+		gchar *calendar_source;
+
+		calendar_source = e_clipboard_wait_for_calendar (clipboard);
+		clipboard_get_calendar_data (cal_view, calendar_source);
+		g_free (calendar_source);
+	}
+}
+
+static void
+calendar_view_class_init (ECalendarViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkBindingSet *binding_set;
@@ -290,9 +631,7 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-        /*
-         * Key bindings
-         */
+	/* Key bindings */
 
 	binding_set = gtk_binding_set_by_class (class);
 
@@ -304,9 +643,54 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 }
 
 static void
-e_calendar_view_init (ECalendarView *calendar_view)
+calendar_view_init (ECalendarView *calendar_view)
 {
 	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
+}
+
+static void
+calendar_view_selectable_init (ESelectableInterface *interface)
+{
+	interface->update_actions = calendar_view_update_actions;
+	interface->cut_clipboard = calendar_view_cut_clipboard;
+	interface->copy_clipboard = calendar_view_copy_clipboard;
+	interface->paste_clipboard = calendar_view_paste_clipboard;
+}
+
+GType
+e_calendar_view_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (ECalendarViewClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) calendar_view_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (ECalendarView),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) calendar_view_init,
+			NULL   /* value_table */
+		};
+
+		static const GInterfaceInfo selectable_info = {
+			(GInterfaceInitFunc) calendar_view_selectable_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_TABLE, "ECalendarView", &type_info,
+			G_TYPE_FLAG_ABSTRACT);
+
+		g_type_add_interface_static (
+			type, E_TYPE_SELECTABLE, &selectable_info);
+	}
+
+	return type;
 }
 
 void
@@ -584,286 +968,6 @@ e_calendar_view_update_query (ECalendarView *cal_view)
 	g_return_if_fail (class->update_query != NULL);
 
 	class->update_query (cal_view);
-}
-
-void
-e_calendar_view_cut_clipboard (ECalendarView *cal_view)
-{
-	GList *selected, *l;
-	const gchar *uid;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-#if 0  /* KILL-BONOBO */
-	e_calendar_view_set_status_message (cal_view, _("Deleting selected objects"), -1);
-#endif
-
-	e_calendar_view_copy_clipboard (cal_view);
-	for (l = selected; l != NULL; l = l->next) {
-		ECalComponent *comp;
-		ECalendarViewEvent *event = (ECalendarViewEvent *) l->data;
-		GError *error = NULL;
-
-		if (!event)
-			continue;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
-		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-						event->comp_data->client, comp, TRUE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
-
-		e_cal_component_get_uid (comp, &uid);
-		if (e_cal_component_is_instance (comp)) {
-			gchar *rid = NULL;
-			icalcomponent *icalcomp;
-
-			/* when cutting detached instances, only cut that instance */
-			rid = e_cal_component_get_recurid_as_string (comp);
-			if (e_cal_get_object (event->comp_data->client, uid, rid, &icalcomp, NULL)) {
-				e_cal_remove_object_with_mod (event->comp_data->client, uid,
-							      rid, CALOBJ_MOD_THIS,
-							      &error);
-				icalcomponent_free (icalcomp);
-			} else
-				e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL,
-						CALOBJ_MOD_ALL, &error);
-			g_free (rid);
-		} else
-			e_cal_remove_object (event->comp_data->client, uid, &error);
-		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-
-		g_clear_error (&error);
-
-		g_object_unref (comp);
-	}
-
-#if 0  /* KILL-BONOBO */
-	e_calendar_view_set_status_message (cal_view, NULL, -1);
-#endif
-
-	g_list_free (selected);
-}
-
-static void
-add_related_timezones (icalcomponent *des_icalcomp, icalcomponent *src_icalcomp, ECal *client)
-{
-	icalproperty_kind look_in[] = {
-		ICAL_DTSTART_PROPERTY,
-		ICAL_DTEND_PROPERTY,
-		ICAL_NO_PROPERTY
-	};
-	gint i;
-
-	g_return_if_fail (des_icalcomp != NULL);
-	g_return_if_fail (src_icalcomp != NULL);
-	g_return_if_fail (client != NULL);
-
-	for (i = 0; look_in[i] != ICAL_NO_PROPERTY; i++) {
-		icalproperty *prop = icalcomponent_get_first_property (src_icalcomp, look_in[i]);
-
-		if (prop) {
-			icalparameter *par = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
-
-			if (par) {
-				const gchar *tzid = icalparameter_get_tzid (par);
-
-				if (tzid) {
-					GError *error = NULL;
-					icaltimezone *zone = NULL;
-
-					if (!e_cal_get_timezone (client, tzid, &zone, &error)) {
-						g_warning ("%s: Cannot get timezone for '%s'. %s", G_STRFUNC, tzid, error ? error->message : "");
-						if (error)
-							g_error_free (error);
-					} else if (zone &&
-						icalcomponent_get_timezone (des_icalcomp, icaltimezone_get_tzid (zone)) == NULL) {
-						/* do not duplicate timezones in the component */
-						icalcomponent *vtz_comp;
-
-						vtz_comp = icaltimezone_get_component (zone);
-						if (vtz_comp)
-							icalcomponent_add_component (des_icalcomp, icalcomponent_new_clone (vtz_comp));
-					}
-				}
-			}
-		}
-	}
-}
-
-void
-e_calendar_view_copy_clipboard (ECalendarView *cal_view)
-{
-	GList *selected, *l;
-	gchar *comp_str;
-	icalcomponent *vcal_comp;
-	icalcomponent *new_icalcomp;
-	ECalendarViewEvent *event;
-	GtkClipboard *clipboard;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	/* create top-level VCALENDAR component and add VTIMEZONE's */
-	vcal_comp = e_cal_util_new_top_level ();
-	for (l = selected; l != NULL; l = l->next) {
-		event = (ECalendarViewEvent *) l->data;
-
-		if (event) {
-			e_cal_util_add_timezones_from_component (vcal_comp, event->comp_data->icalcomp);
-
-			add_related_timezones (vcal_comp, event->comp_data->icalcomp, event->comp_data->client);
-		}
-	}
-
-	for (l = selected; l != NULL; l = l->next) {
-		event = (ECalendarViewEvent *) l->data;
-
-		new_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
-
-		/* remove RECURRENCE-IDs from copied objects */
-		if (e_cal_util_component_is_instance (new_icalcomp)) {
-			icalproperty *prop;
-
-			prop = icalcomponent_get_first_property (new_icalcomp, ICAL_RECURRENCEID_PROPERTY);
-			if (prop)
-				icalcomponent_remove_property (new_icalcomp, prop);
-		}
-		icalcomponent_add_component (vcal_comp, new_icalcomp);
-	}
-
-	comp_str = icalcomponent_as_ical_string_r (vcal_comp);
-
-	/* copy the VCALENDAR to the clipboard */
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	e_clipboard_set_calendar (clipboard, comp_str, -1);
-	gtk_clipboard_store (clipboard);
-
-	/* free memory */
-	icalcomponent_free (vcal_comp);
-	g_free (comp_str);
-	g_list_free (selected);
-}
-
-static void
-clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
-{
-	icalcomponent *icalcomp;
-	icalcomponent_kind kind;
-	time_t selected_time_start, selected_time_end;
-	icaltimezone *default_zone;
-	ECal *client;
-	gboolean in_top_canvas;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	if (!text || !*text)
-		return;
-
-	icalcomp = icalparser_parse_string ((const gchar *) text);
-	if (!icalcomp)
-		return;
-
-	default_zone = calendar_config_get_icaltimezone ();
-	client = e_cal_model_get_default_client (cal_view->priv->model);
-
-	/* check the type of the component */
-	/* FIXME An error dialog if we return? */
-	kind = icalcomponent_isa (icalcomp);
-	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
-		return;
-
-#if 0  /* KILL-BONOBO */
-	e_calendar_view_set_status_message (cal_view, _("Updating objects"), -1);
-#endif
-	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
-
-	if ((selected_time_end - selected_time_start) == 60 * 60 * 24)
-		in_top_canvas = TRUE;
-	else
-		in_top_canvas = FALSE;
-
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent *subcomp;
-
-		/* add timezones first, to have them ready */
-		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VTIMEZONE_COMPONENT);
-		     subcomp;
-		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VTIMEZONE_COMPONENT)) {
-			icaltimezone *zone;
-			GError *error = NULL;
-
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
-			if (!e_cal_add_timezone (client, zone, &error)) {
-				icalproperty *tzidprop = icalcomponent_get_first_property (subcomp, ICAL_TZID_PROPERTY);
-
-				g_warning ("%s: Add zone '%s' failed. %s", G_STRFUNC, tzidprop ? icalproperty_get_tzid (tzidprop) : "???", error ? error->message : "");
-				if (error)
-					g_error_free (error);
-			}
-
-			icaltimezone_free (zone, 1);
-		}
-
-		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VEVENT_COMPONENT);
-		     subcomp;
-		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VEVENT_COMPONENT)) {
-			if (e_cal_util_component_has_recurrences (subcomp)) {
-				icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
-				if (icalprop)
-					icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
-			}
-
-			e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, subcomp, in_top_canvas);
-		}
-
-		icalcomponent_free (icalcomp);
-	} else {
-		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
-	}
-
-#if 0  /* KILL-BONOBO */
-	e_calendar_view_set_status_message (cal_view, NULL, -1);
-#endif
-}
-
-void
-e_calendar_view_paste_clipboard (ECalendarView *cal_view)
-{
-	GtkClipboard *clipboard;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
-	/* Paste text into an event being edited. */
-	if (gtk_clipboard_wait_is_text_available (clipboard)) {
-		ECalendarViewClass *class;
-
-		class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
-		g_return_if_fail (class->paste_text != NULL);
-
-		class->paste_text (cal_view);
-
-	/* Paste iCalendar data into the view. */
-	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
-		gchar *calendar_source;
-
-		calendar_source = e_clipboard_wait_for_calendar (clipboard);
-		clipboard_get_calendar_data (cal_view, calendar_source);
-		g_free (calendar_source);
-	}
 }
 
 static void

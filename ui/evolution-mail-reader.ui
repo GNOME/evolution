@@ -11,10 +11,6 @@
     </menu>
     <menu action='edit-menu'>
       <placeholder name='edit-actions'>
-        <menuitem action='mail-clipboard-copy'/>
-        <separator/>
-        <menuitem action='mail-select-all'/>
-        <separator/>
         <menuitem action='mail-delete'/>
         <menuitem action='mail-undelete'/>
         <separator/>
@@ -145,8 +141,6 @@
     </placeholder>
   </popup>
   <popup name='mail-preview-popup'>
-    <menuitem action='mail-popup-clipboard-copy'/>
-    <separator/>
     <menuitem action='mail-popup-reply-sender'/>
     <menuitem action='mail-popup-reply-all'/>
     <menuitem action='mail-popup-forward'/>

@@ -27,12 +27,6 @@
 /* Task Actions */
 #define E_SHELL_WINDOW_ACTION_TASK_ASSIGN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-assign")
-#define E_SHELL_WINDOW_ACTION_TASK_CLIPBOARD_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "task-clipboard-copy")
-#define E_SHELL_WINDOW_ACTION_TASK_CLIPBOARD_CUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "task-clipboard-cut")
-#define E_SHELL_WINDOW_ACTION_TASK_CLIPBOARD_PASTE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "task-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_TASK_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-delete")
 #define E_SHELL_WINDOW_ACTION_TASK_FORWARD(window) \

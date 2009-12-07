@@ -20,6 +20,12 @@
       <menuitem action='quit'/>
     </menu>
     <menu action='edit-menu'>
+      <menuitem action='cut-clipboard'/>
+      <menuitem action='copy-clipboard'/>
+      <menuitem action='paste-clipboard'/>
+      <separator/>
+      <menuitem action='select-all'/>
+      <separator/>
       <placeholder name='edit-actions'/>
       <separator/>
       <menuitem action='sync-options'/>

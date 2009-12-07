@@ -92,11 +92,6 @@ EShellView *	e_calendar_table_get_shell_view	(ECalendarTable *cal_table);
 void		e_calendar_table_delete_selected(ECalendarTable *cal_table);
 GSList *	e_calendar_table_get_selected	(ECalendarTable *cal_table);
 
-/* Clipboard related functions */
-void		e_calendar_table_cut_clipboard	(ECalendarTable *cal_table);
-void		e_calendar_table_copy_clipboard	(ECalendarTable *cal_table);
-void		e_calendar_table_paste_clipboard(ECalendarTable *cal_table);
-
 ECalModelComponent *
 		e_calendar_table_get_selected_comp
 						(ECalendarTable *cal_table);

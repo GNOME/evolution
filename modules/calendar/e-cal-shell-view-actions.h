@@ -65,12 +65,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-view-workweek")
 
 /* Event Actions */
-#define E_SHELL_WINDOW_ACTION_EVENT_CLIPBOARD_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-clipboard-copy")
-#define E_SHELL_WINDOW_ACTION_EVENT_CLIPBOARD_CUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-clipboard-cut")
-#define E_SHELL_WINDOW_ACTION_EVENT_CLIPBOARD_PASTE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_EVENT_DELEGATE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-delegate")
 #define E_SHELL_WINDOW_ACTION_EVENT_DELETE(window) \
@@ -97,12 +91,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-occurrence-movable")
 
 /* Memo Pad Actions */
-#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_COPY(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-clipboard-copy")
-#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_CUT(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-clipboard-cut")
-#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_PASTE(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_DELETE(window) \
         E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-delete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_FORWARD(window) \
@@ -121,12 +109,6 @@
 /* Task Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_ASSIGN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-assign")
-#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_CLIPBOARD_COPY(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-clipboard-copy")
-#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_CLIPBOARD_CUT(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-clipboard-cut")
-#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_CLIPBOARD_PASTE(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_DELETE(window) \
         E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-delete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_FORWARD(window) \

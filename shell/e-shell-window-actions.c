@@ -1437,6 +1437,27 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Open the Evolution User Guide"),
 	  G_CALLBACK (action_contents_cb) },
 
+	{ "copy-clipboard",
+	  GTK_STOCK_COPY,
+	  NULL,
+	  NULL,
+	  N_("Copy the selection"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "cut-clipboard",
+	  GTK_STOCK_CUT,
+	  NULL,
+	  NULL,
+	  N_("Cut the selection"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "delete-selection",
+	  GTK_STOCK_DELETE,
+	  NULL,
+	  NULL,
+	  N_("Delete the selection"),
+	  NULL },  /* Handled by EFocusTracker */
+
 	{ "faq",
 	  "help-faq",
 	  N_("Evolution _FAQ"),
@@ -1464,6 +1485,13 @@ static GtkActionEntry shell_entries[] = {
 	  "<Control><Shift>w",
 	  N_("Create a new window displaying this view"),
 	  G_CALLBACK (action_new_window_cb) },
+
+	{ "paste-clipboard",
+	  GTK_STOCK_PASTE,
+	  NULL,
+	  NULL,
+	  N_("Paste the clipboard"),
+	  NULL },  /* Handled by EFocusTracker */
 
 	{ "preferences",
 	  GTK_STOCK_PREFERENCES,
@@ -1527,6 +1555,13 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Save the current search parameters"),
 	  G_CALLBACK (action_search_save_cb) },
+
+	{ "select-all",
+	  GTK_STOCK_SELECT_ALL,
+	  NULL,
+	  "<Control>a",
+	  N_("Select all text"),
+	  NULL },  /* Handled by EFocusTracker */
 
 	{ "send-receive",
 	  "mail-send-receive",
@@ -1627,6 +1662,25 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static EPopupActionEntry shell_popup_entries[] = {
+
+	{ "popup-copy-clipboard",
+	  NULL,
+	  "copy-clipboard" },
+
+	{ "popup-cut-clipboard",
+	  NULL,
+	  "cut-clipboard" },
+
+	{ "popup-delete-selection",
+	  NULL,
+	  "delete-selection" },
+
+	{ "popup-paste-clipboard",
+	  NULL,
+	  "paste-clipboard" }
 };
 
 static GtkToggleActionEntry shell_toggle_entries[] = {
@@ -1811,6 +1865,7 @@ void
 e_shell_window_actions_init (EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;
+	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
@@ -1824,6 +1879,9 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_group_add_actions (
 		action_group, shell_entries,
 		G_N_ELEMENTS (shell_entries), shell_window);
+	e_action_group_add_popup_actions (
+		action_group, shell_popup_entries,
+		G_N_ELEMENTS (shell_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, shell_toggle_entries,
 		G_N_ELEMENTS (shell_toggle_entries), shell_window);
@@ -1853,6 +1911,21 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		action_group, shell_lockdown_print_setup_entries,
 		G_N_ELEMENTS (shell_lockdown_print_setup_entries),
 		shell_window);
+
+	/* Configure an EFocusTracker to manage selection actions. */
+
+	focus_tracker = e_focus_tracker_new (GTK_WINDOW (shell_window));
+	e_focus_tracker_set_cut_clipboard_action (
+		focus_tracker, ACTION (CUT_CLIPBOARD));
+	e_focus_tracker_set_copy_clipboard_action (
+		focus_tracker, ACTION (COPY_CLIPBOARD));
+	e_focus_tracker_set_paste_clipboard_action (
+		focus_tracker, ACTION (PASTE_CLIPBOARD));
+	e_focus_tracker_set_delete_selection_action (
+		focus_tracker, ACTION (DELETE_SELECTION));
+	e_focus_tracker_set_select_all_action (
+		focus_tracker, ACTION (SELECT_ALL));
+	shell_window->priv->focus_tracker = focus_tracker;
 
 	/* Fine tuning. */
 

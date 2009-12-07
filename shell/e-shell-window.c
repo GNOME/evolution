@@ -29,6 +29,7 @@
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_FOCUS_TRACKER,
 	PROP_GEOMETRY,
 	PROP_SAFE_MODE,
 	PROP_SHELL,
@@ -231,6 +232,12 @@ shell_window_get_property (GObject *object,
 		case PROP_ACTIVE_VIEW:
 			g_value_set_string (
 				value, e_shell_window_get_active_view (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_FOCUS_TRACKER:
+			g_value_set_object (
+				value, e_shell_window_get_focus_tracker (
 				E_SHELL_WINDOW (object)));
 			return;
 
@@ -609,6 +616,21 @@ shell_window_class_init (EShellWindowClass *class)
 			G_PARAM_READWRITE));
 
 	/**
+	 * EShellWindow:focus-tracker
+	 *
+	 * The shell window's #EFocusTracker.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_FOCUS_TRACKER,
+		g_param_spec_object (
+			"focus-tracker",
+			_("Focus Tracker"),
+			_("The shell window's EFocusTracker"),
+			E_TYPE_FOCUS_TRACKER,
+			G_PARAM_READABLE));
+
+	/**
 	 * EShellWindow:geometry
 	 *
 	 * User-specified initial window geometry string.
@@ -883,6 +905,24 @@ e_shell_window_get_shell_view_action (EShellWindow *shell_window,
 	g_free (action_name);
 
 	return action;
+}
+
+/**
+ * e_shell_window_get_focus_tracker:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns @shell_window<!-- -->'s focus tracker, which directs
+ * Cut, Copy, Paste and Select All main menu activations to the
+ * appropriate editable or selectable widget.
+ *
+ * Returns: the #EFocusTracker for @shell_window
+ **/
+EFocusTracker *
+e_shell_window_get_focus_tracker (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	return shell_window->priv->focus_tracker;
 }
 
 /**

@@ -94,6 +94,7 @@ struct _EMsgComposerPrivate {
 	GtkWidget *header_table;
 	GtkWidget *attachment_paned;
 
+	EFocusTracker *focus_tracker;
 	GtkWindowGroup *window_group;
 
 	GtkActionGroup *charset_actions;
@@ -130,7 +131,7 @@ struct _EMsgComposerPrivate {
 	gboolean mail_sent;
 };
 
-void		e_composer_private_init		(EMsgComposer *composer);
+void		e_composer_private_constructed	(EMsgComposer *composer);
 void		e_composer_private_dispose	(EMsgComposer *composer);
 void		e_composer_private_finalize	(EMsgComposer *composer);
 

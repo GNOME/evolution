@@ -11,10 +11,6 @@
     </menu>
     <menu action='edit-menu'>
       <placeholder name='edit-actions'>
-        <menuitem action='memo-clipboard-cut'/>
-        <menuitem action='memo-clipboard-copy'/>
-        <menuitem action='memo-clipboard-paste'/>
-        <separator/>
         <menuitem action='memo-delete'/>
       </placeholder>
     </menu>
@@ -31,9 +27,9 @@
   </menubar>
   <toolbar name='main-toolbar'>
     <placeholder name='toolbar-actions'>
-      <toolitem action='memo-clipboard-cut'/>
-      <toolitem action='memo-clipboard-copy'/>
-      <toolitem action='memo-clipboard-paste'/>
+      <toolitem action='cut-clipboard'/>
+      <toolitem action='copy-clipboard'/>
+      <toolitem action='paste-clipboard'/>
       <separator/>
       <toolitem action='memo-list-print'/>
       <toolitem action='memo-delete'/>
@@ -47,9 +43,9 @@
     <menuitem action='memo-popup-save-as'/>
     <menuitem action='memo-popup-print'/>
     <separator/>
-    <menuitem action='memo-popup-clipboard-cut'/>
-    <menuitem action='memo-popup-clipboard-copy'/>
-    <menuitem action='memo-popup-clipboard-paste'/>
+    <menuitem action='popup-cut-clipboard'/>
+    <menuitem action='popup-copy-clipboard'/>
+    <menuitem action='popup-paste-clipboard'/>
     <separator/>
     <menuitem action='memo-popup-forward'/>
     <separator/>

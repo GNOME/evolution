@@ -62,9 +62,7 @@ enum {
 	E_BOOK_SHELL_CONTENT_SELECTION_HAS_EMAIL	= 1 << 2,
 	E_BOOK_SHELL_CONTENT_SELECTION_IS_CONTACT_LIST	= 1 << 3,
 	E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY		= 1 << 4,
-	E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE		= 1 << 5,
-	E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY		= 1 << 6,
-	E_BOOK_SHELL_CONTENT_CLIPBOARD_HAS_DIRECTORY	= 1 << 7
+	E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE		= 1 << 5
 };
 
 struct _EBookShellContent {
@@ -107,8 +105,6 @@ void		e_book_shell_content_set_preview_visible
 					 gboolean preview_visible);
 EShellSearchbar *
 		e_book_shell_content_get_searchbar
-					(EBookShellContent *book_shell_content);
-void		e_book_shell_content_clipboard_copy
 					(EBookShellContent *book_shell_content);
 
 G_END_DECLS

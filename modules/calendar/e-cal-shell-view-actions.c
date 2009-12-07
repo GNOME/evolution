@@ -482,36 +482,6 @@ action_event_all_day_new_cb (GtkAction *action,
 }
 
 static void
-action_event_clipboard_copy_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	e_cal_shell_content_copy_clipboard (cal_shell_content);
-}
-
-static void
-action_event_clipboard_cut_cb (GtkAction *action,
-                               ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	e_cal_shell_content_cut_clipboard (cal_shell_content);
-}
-
-static void
-action_event_clipboard_paste_cb (GtkAction *action,
-                                 ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	e_cal_shell_content_paste_clipboard (cal_shell_content);
-}
-
-static void
 action_event_copy_cb (GtkAction *action,
                       ECalShellView *cal_shell_view)
 {
@@ -1314,27 +1284,6 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_select_one_cb) },
 
-	{ "event-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy the selection"),
-	  G_CALLBACK (action_event_clipboard_copy_cb) },
-
-	{ "event-clipboard-cut",
-	  GTK_STOCK_CUT,
-	  NULL,
-	  NULL,
-	  N_("Cut the selection"),
-	  G_CALLBACK (action_event_clipboard_cut_cb) },
-
-	{ "event-clipboard-paste",
-	  GTK_STOCK_PASTE,
-	  NULL,
-	  NULL,
-	  N_("Paste the clipboard"),
-	  G_CALLBACK (action_event_clipboard_paste_cb) },
-
 	{ "event-copy",
 	  NULL,
 	  N_("Cop_y to Calendar..."),
@@ -1501,18 +1450,6 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "calendar-popup-select-one",
 	  NULL,
 	  "calendar-select-one" },
-
-	{ "event-popup-clipboard-copy",
-	  NULL,
-	  "event-clipboard-copy" },
-
-	{ "event-popup-clipboard-cut",
-	  NULL,
-	  "event-clipboard-cut" },
-
-	{ "event-popup-clipboard-paste",
-	  NULL,
-	  "event-clipboard-paste" },
 
 	{ "event-popup-copy",
 	  NULL,

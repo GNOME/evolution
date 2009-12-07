@@ -30,6 +30,7 @@
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
 #include <shell/e-shell.h>
+#include <misc/e-focus-tracker.h>
 
 /* Standard GObject macros */
 #define TYPE_COMP_EDITOR \
@@ -92,6 +93,7 @@ GType		comp_editor_get_type		(void);
 void		comp_editor_set_changed		(CompEditor *editor,
 						 gboolean changed);
 gboolean	comp_editor_get_changed		(CompEditor *editor);
+EFocusTracker *	comp_editor_get_focus_tracker	(CompEditor *editor);
 void		comp_editor_set_needs_send	(CompEditor *editor,
 						 gboolean needs_send);
 gboolean	comp_editor_get_needs_send	(CompEditor *editor);

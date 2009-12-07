@@ -535,7 +535,6 @@ task_shell_content_check_state (EShellContent *shell_content)
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
 	GSList *list, *iter;
-	GtkClipboard *clipboard;
 	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
@@ -580,8 +579,6 @@ task_shell_content_check_state (EShellContent *shell_content)
 	}
 	g_slist_free (list);
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
 	if (n_selected == 1)
 		state |= E_TASK_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
@@ -596,8 +593,6 @@ task_shell_content_check_state (EShellContent *shell_content)
 		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE;
 	if (has_url)
 		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_URL;
-	if (e_clipboard_wait_is_calendar_available (clipboard))
-		state |= E_TASK_SHELL_CONTENT_CLIPBOARD_HAS_CALENDAR;
 
 	return state;
 }

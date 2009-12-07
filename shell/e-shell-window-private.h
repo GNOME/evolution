@@ -34,6 +34,7 @@
 #include <widgets/misc/e-import-assistant.h>
 #include <widgets/misc/e-menu-tool-button.h>
 #include <widgets/misc/e-online-button.h>
+#include <widgets/misc/e-popup-action.h>
 
 #include <e-shell.h>
 #include <e-shell-content.h>
@@ -70,6 +71,7 @@ struct _EShellWindowPrivate {
 
 	/*** UI Management ***/
 
+	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
 	guint custom_rule_merge_id;
 	guint gal_view_merge_id;

@@ -440,6 +440,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
 
+	/* Chain up to parent's update_actions() method. */
+	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
+
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -552,10 +555,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive =
 		!folder_is_store && folder_can_be_deleted &&
 		folder_tree_and_message_list_agree;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (MAIL_FOLDER_SELECT_ALL);
-	sensitive = !folder_is_store;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_SELECT_THREAD);

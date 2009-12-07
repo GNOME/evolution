@@ -103,10 +103,6 @@ void		e_addressbook_view_print	(EAddressbookView *view,
 void		e_addressbook_view_delete_selection
 						(EAddressbookView *view,
 						 gboolean is_delete);
-void		e_addressbook_view_cut		(EAddressbookView *view);
-void		e_addressbook_view_copy		(EAddressbookView *view);
-void		e_addressbook_view_paste	(EAddressbookView *view);
-void		e_addressbook_view_select_all	(EAddressbookView *view);
 void		e_addressbook_view_show_all	(EAddressbookView *view);
 void		e_addressbook_view_stop		(EAddressbookView *view);
 void		e_addressbook_view_copy_to_folder

@@ -537,7 +537,6 @@ memo_shell_content_check_state (EShellContent *shell_content)
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	GSList *list, *iter;
-	GtkClipboard *clipboard;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
 	gint n_selected;
@@ -563,8 +562,6 @@ memo_shell_content_check_state (EShellContent *shell_content)
 	}
 	g_slist_free (list);
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
 	if (n_selected == 1)
 		state |= E_MEMO_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
@@ -573,8 +570,6 @@ memo_shell_content_check_state (EShellContent *shell_content)
 		state |= E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT;
 	if (has_url)
 		state |= E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL;
-	if (e_clipboard_wait_is_calendar_available (clipboard))
-		state |= E_MEMO_SHELL_CONTENT_CLIPBOARD_HAS_CALENDAR;
 
 	return state;
 }

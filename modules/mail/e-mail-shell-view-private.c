@@ -443,6 +443,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	shell = e_shell_window_get_shell (shell_window);

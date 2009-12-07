@@ -13,12 +13,6 @@
     </menu>
     <menu action='edit-menu'>
       <placeholder name='edit-actions'>
-        <menuitem action='contact-select-all'/>
-        <separator/>
-        <menuitem action='contact-clipboard-cut'/>
-        <menuitem action='contact-clipboard-copy'/>
-        <menuitem action='contact-clipboard-paste'/>
-        <separator/>
         <menuitem action='contact-delete'/>
         <menuitem action='address-book-delete'/>
       </placeholder>
@@ -77,9 +71,9 @@
     <menuitem action='contact-popup-copy'/>
     <menuitem action='contact-popup-move'/>
     <separator/>
-    <menuitem action='contact-popup-clipboard-cut'/>
-    <menuitem action='contact-popup-clipboard-copy'/>
-    <menuitem action='contact-popup-clipboard-paste'/>
+    <menuitem action='popup-cut-clipboard'/>
+    <menuitem action='popup-copy-clipboard'/>
+    <menuitem action='popup-paste-clipboard'/>
     <menuitem action='contact-popup-delete'/>
   </popup>
   <popup name='contact-search-options'>

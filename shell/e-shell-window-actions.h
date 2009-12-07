@@ -35,6 +35,12 @@
 	E_SHELL_WINDOW_ACTION ((window), "close")
 #define E_SHELL_WINDOW_ACTION_CONTENTS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contents")
+#define E_SHELL_WINDOW_ACTION_COPY_CLIPBOARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "copy-clipboard")
+#define E_SHELL_WINDOW_ACTION_CUT_CLIPBOARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "cut-clipboard")
+#define E_SHELL_WINDOW_ACTION_DELETE_SELECTION(window) \
+	E_SHELL_WINDOW_ACTION ((window), "delete-selection")
 #define E_SHELL_WINDOW_ACTION_FAQ(window) \
 	E_SHELL_WINDOW_ACTION ((window), "faq")
 #define E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS(window) \
@@ -51,6 +57,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "new-window")
 #define E_SHELL_WINDOW_ACTION_PAGE_SETUP(window) \
 	E_SHELL_WINDOW_ACTION ((window), "page-setup")
+#define E_SHELL_WINDOW_ACTION_PASTE_CLIPBOARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "paste-clipboard")
 #define E_SHELL_WINDOW_ACTION_PREFERENCES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "preferences")
 #define E_SHELL_WINDOW_ACTION_QUICK_REFERENCE(window) \
@@ -69,6 +77,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "search-quick")
 #define E_SHELL_WINDOW_ACTION_SEARCH_SAVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-save")
+#define E_SHELL_WINDOW_ACTION_SELECT_ALL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "select-all")
 #define E_SHELL_WINDOW_ACTION_SEND_RECEIVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "send-receive")
 #define E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR(window) \

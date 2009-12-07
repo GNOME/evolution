@@ -166,19 +166,6 @@ action_mail_check_for_junk_cb (GtkAction *action,
 }
 
 static void
-action_mail_clipboard_copy_cb (GtkAction *action,
-                               EMailReader *reader)
-{
-	EMFormatHTMLDisplay *html_display;
-	EWebView *web_view;
-
-	html_display = e_mail_reader_get_html_display (reader);
-	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
-
-	e_web_view_clipboard_copy (web_view);
-}
-
-static void
 action_mail_copy_cb (GtkAction *action,
                      EMailReader *reader)
 {
@@ -875,26 +862,6 @@ action_mail_search_folder_from_subject_cb (GtkAction *action,
 }
 
 static void
-action_mail_select_all_cb (GtkAction *action,
-                           EMailReader *reader)
-{
-	EMFormatHTMLDisplay *html_display;
-	EWebView *web_view;
-	const gchar *action_name;
-	gboolean selection_active;
-
-	html_display = e_mail_reader_get_html_display (reader);
-	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
-
-	e_web_view_select_all (web_view);
-
-	action_name = "mail-clipboard-copy";
-	action = e_mail_reader_get_action (reader, action_name);
-	selection_active = e_web_view_is_selection_active (web_view);
-	gtk_action_set_sensitive (action, selection_active);
-}
-
-static void
 action_mail_show_all_headers_cb (GtkToggleAction *action,
                                  EMailReader *reader)
 {
@@ -1111,13 +1078,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  NULL,
 	  N_("Filter the selected messages for junk status"),
 	  G_CALLBACK (action_mail_check_for_junk_cb) },
-
-	{ "mail-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy selected messages to the clipboard"),
-	  G_CALLBACK (action_mail_clipboard_copy_cb) },
 
 	{ "mail-copy",
 	  "mail-copy",
@@ -1441,13 +1401,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Create a search folder for this subject"),
 	  G_CALLBACK (action_mail_search_folder_from_subject_cb) },
 
-	{ "mail-select-all",
-	  NULL,
-	  N_("Select _All Text"),
-	  "<Shift><Control>x",
-	  N_("Select all the text in a message"),
-	  G_CALLBACK (action_mail_select_all_cb) },
-
 	{ "mail-show-source",
 	  NULL,
 	  N_("_Message Source"),
@@ -1544,10 +1497,6 @@ static GtkActionEntry mail_reader_entries[] = {
 
 static EPopupActionEntry mail_reader_popup_entries[] = {
 
-	{ "mail-popup-clipboard-copy",
-	  NULL,
-	  "mail-clipboard-copy" },
-
 	{ "mail-popup-copy",
 	  NULL,
 	  "mail-copy" },
@@ -1643,25 +1592,6 @@ static GtkToggleActionEntry mail_reader_toggle_entries[] = {
 	  G_CALLBACK (action_mail_show_all_headers_cb),
 	  FALSE }
 };
-
-static gboolean
-mail_reader_button_release_event_cb (EMailReader *reader,
-                                     GdkEventButton *button,
-                                     GtkHTML *html)
-{
-	GtkAction *action;
-	EWebView *web_view;
-	const gchar *action_name;
-	gboolean selection_active;
-
-	web_view = E_WEB_VIEW (html);
-	action_name = "mail-clipboard-copy";
-	action = e_mail_reader_get_action (reader, action_name);
-	selection_active = e_web_view_is_selection_active (web_view);
-	gtk_action_set_sensitive (action, selection_active);
-
-	return FALSE;
-}
 
 static void
 mail_reader_double_click_cb (EMailReader *reader,
@@ -2377,11 +2307,6 @@ mail_reader_update_actions (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-select-all";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
 	action_name = "mail-show-source";
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -2585,10 +2510,6 @@ e_mail_reader_init (EMailReader *reader)
 
 	/* Fine tuning. */
 
-	action_name = "mail-clipboard-copy";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, FALSE);
-
 	action_name = "mail-delete";
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Delete"), NULL);
@@ -2659,10 +2580,6 @@ e_mail_reader_init (EMailReader *reader)
 		web_view, "caret-mode");
 
 	/* Connect signals. */
-
-	g_signal_connect_swapped (
-		web_view, "button-release-event",
-		G_CALLBACK (mail_reader_button_release_event_cb), reader);
 
 	g_signal_connect_swapped (
 		web_view, "key-press-event",

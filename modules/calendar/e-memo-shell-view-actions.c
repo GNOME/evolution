@@ -43,45 +43,6 @@ action_gal_save_custom_view_cb (GtkAction *action,
 }
 
 static void
-action_memo_clipboard_copy_cb (GtkAction *action,
-                               EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-
-	e_memo_table_copy_clipboard (memo_table);
-}
-
-static void
-action_memo_clipboard_cut_cb (GtkAction *action,
-                              EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-
-	e_memo_table_cut_clipboard (memo_table);
-}
-
-static void
-action_memo_clipboard_paste_cb (GtkAction *action,
-                                EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-
-	e_memo_table_paste_clipboard (memo_table);
-}
-
-static void
 action_memo_delete_cb (GtkAction *action,
                        EMemoShellView *memo_shell_view)
 {
@@ -590,27 +551,6 @@ action_search_filter_cb (GtkRadioAction *action,
 
 static GtkActionEntry memo_entries[] = {
 
-	{ "memo-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy selected memo"),
-	  G_CALLBACK (action_memo_clipboard_copy_cb) },
-
-	{ "memo-clipboard-cut",
-	  GTK_STOCK_CUT,
-	  NULL,
-	  NULL,
-	  N_("Cut selected memo"),
-	  G_CALLBACK (action_memo_clipboard_cut_cb) },
-
-	{ "memo-clipboard-paste",
-	  GTK_STOCK_PASTE,
-	  NULL,
-	  NULL,
-	  N_("Paste memo from the clipboard"),
-	  G_CALLBACK (action_memo_clipboard_paste_cb) },
-
 	{ "memo-delete",
 	  GTK_STOCK_DELETE,
 	  N_("_Delete Memo"),
@@ -730,18 +670,6 @@ static EPopupActionEntry memo_popup_entries[] = {
 	{ "memo-list-popup-select-one",
 	  NULL,
 	  "memo-list-select-one" },
-
-	{ "memo-popup-clipboard-copy",
-	  NULL,
-	  "memo-clipboard-copy" },
-
-	{ "memo-popup-clipboard-cut",
-	  NULL,
-	  "memo-clipboard-cut" },
-
-	{ "memo-popup-clipboard-paste",
-	  NULL,
-	  "memo-clipboard-paste" },
 
 	{ "memo-popup-delete",
 	  NULL,

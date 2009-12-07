@@ -36,7 +36,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <e-util/e-binding.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
+#include <misc/e-selectable.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
@@ -179,6 +180,33 @@ memo_table_model_cal_view_done_cb (EMemoTable *memo_table,
                                    ECalSourceType type)
 {
 	memo_table_emit_status_message (memo_table, NULL, -1.0);
+}
+
+/* Deletes all of the selected components in the table */
+static void
+delete_selected_components (EMemoTable *memo_table)
+{
+	GSList *objs, *l;
+	const gchar *status_message;
+
+	objs = e_memo_table_get_selected (memo_table);
+
+	status_message = _("Deleting selected objects");
+	memo_table_emit_status_message (memo_table, status_message, -1.0);
+
+	for (l = objs; l; l = l->next) {
+		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
+		GError *error = NULL;
+
+		e_cal_remove_object (comp_data->client,
+				     icalcomponent_get_uid (comp_data->icalcomp), &error);
+		delete_error_dialog (error, E_CAL_COMPONENT_JOURNAL);
+		g_clear_error (&error);
+	}
+
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
+
+	g_slist_free (objs);
 }
 
 static void
@@ -629,6 +657,270 @@ memo_table_right_click (ETable *table,
 }
 
 static void
+memo_table_update_actions (ESelectable *selectable,
+                           EFocusTracker *focus_tracker,
+                           GdkAtom *clipboard_targets,
+                           gint n_clipboard_targets)
+{
+	EMemoTable *memo_table;
+	GtkAction *action;
+	GSList *list, *iter;
+	gboolean sources_are_editable = TRUE;
+	gboolean clipboard_has_calendar;
+	gboolean sensitive;
+	const gchar *tooltip;
+	gint n_selected;
+
+	memo_table = E_MEMO_TABLE (selectable);
+	n_selected = e_table_selected_count (E_TABLE (memo_table));
+
+	list = e_memo_table_get_selected (memo_table);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		gboolean read_only;
+
+		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		sources_are_editable &= !read_only;
+	}
+	g_slist_free (list);
+
+	clipboard_has_calendar = (clipboard_targets != NULL) &&
+		e_targets_include_calendar (
+		clipboard_targets, n_clipboard_targets);
+
+	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+	sensitive = (n_selected > 0) && sources_are_editable;
+	tooltip = _("Cut selected memos to the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	sensitive = (n_selected > 0);
+	tooltip = _("Copy selected memos to the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+	sensitive = sources_are_editable && clipboard_has_calendar;
+	tooltip = _("Paste memos from the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	sensitive = TRUE;
+	tooltip = _("Select all visible memos");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+}
+
+static void
+memo_table_cut_clipboard (ESelectable *selectable)
+{
+	EMemoTable *memo_table;
+
+	memo_table = E_MEMO_TABLE (selectable);
+
+	e_selectable_copy_clipboard (selectable);
+	delete_selected_components (memo_table);
+}
+
+/* Helper for memo_table_copy_clipboard() */
+static void
+copy_row_cb (gint model_row, gpointer data)
+{
+	EMemoTable *memo_table;
+	ECalModelComponent *comp_data;
+	ECalModel *model;
+	gchar *comp_str;
+	icalcomponent *child;
+
+	memo_table = E_MEMO_TABLE (data);
+
+	g_return_if_fail (memo_table->tmp_vcal != NULL);
+
+	model = e_memo_table_get_model (memo_table);
+	comp_data = e_cal_model_get_component_at (model, model_row);
+	if (comp_data == NULL)
+		return;
+
+	/* Add timezones to the VCALENDAR component. */
+	e_cal_util_add_timezones_from_component (
+		memo_table->tmp_vcal, comp_data->icalcomp);
+
+	/* Add the new component to the VCALENDAR component. */
+	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
+	child = icalparser_parse_string (comp_str);
+	if (child) {
+		icalcomponent_add_component (
+			memo_table->tmp_vcal,
+			icalcomponent_new_clone (child));
+		icalcomponent_free (child);
+	}
+	g_free (comp_str);
+}
+
+static void
+memo_table_copy_clipboard (ESelectable *selectable)
+{
+	EMemoTable *memo_table;
+	GtkClipboard *clipboard;
+	gchar *comp_str;
+
+	memo_table = E_MEMO_TABLE (selectable);
+
+	/* Create a temporary VCALENDAR object. */
+	memo_table->tmp_vcal = e_cal_util_new_top_level ();
+
+	e_table_selected_row_foreach (
+		E_TABLE (memo_table), copy_row_cb, memo_table);
+	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	e_clipboard_set_calendar (clipboard, comp_str, -1);
+	gtk_clipboard_store (clipboard);
+
+	g_free (comp_str);
+
+	icalcomponent_free (memo_table->tmp_vcal);
+	memo_table->tmp_vcal = NULL;
+}
+
+/* Helper for memo_table_paste_clipboard() */
+static void
+clipboard_get_calendar_data (EMemoTable *memo_table,
+                             const gchar *text)
+{
+	icalcomponent *icalcomp;
+	gchar *uid;
+	ECalComponent *comp;
+	ECal *client;
+	ECalModel *model;
+	icalcomponent_kind kind;
+	const gchar *status_message;
+
+	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+
+	if (!text || !*text)
+		return;
+
+	icalcomp = icalparser_parse_string (text);
+	if (!icalcomp)
+		return;
+
+	/* check the type of the component */
+	kind = icalcomponent_isa (icalcomp);
+	if (kind != ICAL_VCALENDAR_COMPONENT &&
+	    kind != ICAL_VEVENT_COMPONENT &&
+	    kind != ICAL_VTODO_COMPONENT &&
+	    kind != ICAL_VJOURNAL_COMPONENT) {
+		return;
+	}
+
+	model = e_memo_table_get_model (memo_table);
+	client = e_cal_model_get_default_client (model);
+
+	status_message = _("Updating objects");
+	memo_table_emit_status_message (memo_table, status_message, -1.0);
+
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		icalcomponent_kind child_kind;
+		icalcomponent *subcomp;
+		icalcomponent *vcal_comp;
+
+		vcal_comp = icalcomp;
+		subcomp = icalcomponent_get_first_component (
+			vcal_comp, ICAL_ANY_COMPONENT);
+		while (subcomp) {
+			child_kind = icalcomponent_isa (subcomp);
+			if (child_kind == ICAL_VEVENT_COMPONENT ||
+			    child_kind == ICAL_VTODO_COMPONENT ||
+			    child_kind == ICAL_VJOURNAL_COMPONENT) {
+				ECalComponent *tmp_comp;
+
+				uid = e_cal_component_gen_uid ();
+				tmp_comp = e_cal_component_new ();
+				e_cal_component_set_icalcomponent (
+					tmp_comp,
+					icalcomponent_new_clone (subcomp));
+				e_cal_component_set_uid (tmp_comp, uid);
+				free (uid);
+
+				/* FIXME Should we convert start/due/complete
+				 *       times?  Also, need error handling.*/
+				e_cal_create_object (
+					client, e_cal_component_get_icalcomponent (tmp_comp),
+					NULL, NULL);
+
+				g_object_unref (tmp_comp);
+			}
+			subcomp = icalcomponent_get_next_component (
+				vcal_comp, ICAL_ANY_COMPONENT);
+		}
+	} else {
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomp);
+		uid = e_cal_component_gen_uid ();
+		e_cal_component_set_uid (comp, (const gchar *) uid);
+		free (uid);
+
+		e_cal_create_object (
+			client, e_cal_component_get_icalcomponent (comp),
+			NULL, NULL);
+
+		g_object_unref (comp);
+	}
+
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
+}
+
+static void
+memo_table_paste_clipboard (ESelectable *selectable)
+{
+	EMemoTable *memo_table;
+	GtkClipboard *clipboard;
+	GnomeCanvasItem *item;
+	GnomeCanvas *table_canvas;
+
+	memo_table = E_MEMO_TABLE (selectable);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	table_canvas = E_TABLE (memo_table)->table_canvas;
+	item = table_canvas->focused_item;
+
+	/* XXX Should ECellText implement GtkEditable? */
+
+	/* Paste text into a cell being edited. */
+	if (gtk_clipboard_wait_is_text_available (clipboard) &&
+		GTK_WIDGET_HAS_FOCUS (table_canvas) &&
+		E_IS_TABLE_ITEM (item) &&
+		E_TABLE_ITEM (item)->editing_col >= 0 &&
+		E_TABLE_ITEM (item)->editing_row >= 0) {
+
+		ETableItem *etable_item = E_TABLE_ITEM (item);
+
+		e_cell_text_paste_clipboard (
+			etable_item->cell_views[etable_item->editing_col],
+			etable_item->editing_col,
+			etable_item->editing_row);
+
+	/* Paste iCalendar data into the table. */
+	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
+		gchar *calendar_source;
+
+		calendar_source = e_clipboard_wait_for_calendar (clipboard);
+		clipboard_get_calendar_data (memo_table, calendar_source);
+		g_free (calendar_source);
+	}
+}
+
+static void
+memo_table_select_all (ESelectable *selectable)
+{
+	e_table_select_all (E_TABLE (selectable));
+}
+
+static void
 memo_table_class_init (EMemoTableClass *class)
 {
 	GObjectClass *object_class;
@@ -720,6 +1012,16 @@ memo_table_init (EMemoTable *memo_table)
 	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
 }
 
+static void
+memo_table_selectable_init (ESelectableInterface *interface)
+{
+	interface->update_actions = memo_table_update_actions;
+	interface->cut_clipboard = memo_table_cut_clipboard;
+	interface->copy_clipboard = memo_table_copy_clipboard;
+	interface->paste_clipboard = memo_table_paste_clipboard;
+	interface->select_all = memo_table_select_all;
+}
+
 GType
 e_memo_table_get_type (void)
 {
@@ -739,8 +1041,17 @@ e_memo_table_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo selectable_info = {
+			(GInterfaceInitFunc) memo_table_selectable_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			E_TABLE_TYPE, "EMemoTable", &type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_SELECTABLE, &selectable_info);
 	}
 
 	return type;
@@ -847,33 +1158,6 @@ add_uid_cb (gint model_row, gpointer data)
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
 }
 
-/* Deletes all of the selected components in the table */
-static void
-delete_selected_components (EMemoTable *memo_table)
-{
-	GSList *objs, *l;
-	const gchar *status_message;
-
-	objs = e_memo_table_get_selected (memo_table);
-
-	status_message = _("Deleting selected objects");
-	memo_table_emit_status_message (memo_table, status_message, -1.0);
-
-	for (l = objs; l; l = l->next) {
-		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
-		GError *error = NULL;
-
-		e_cal_remove_object (comp_data->client,
-				     icalcomponent_get_uid (comp_data->icalcomp), &error);
-		delete_error_dialog (error, E_CAL_COMPONENT_JOURNAL);
-		g_clear_error (&error);
-	}
-
-	memo_table_emit_status_message (memo_table, NULL, -1.0);
-
-	g_slist_free (objs);
-}
-
 /**
  * e_memo_table_delete_selected:
  * @memo_table: A memo table.
@@ -936,210 +1220,6 @@ e_memo_table_get_selected (EMemoTable *memo_table)
 		E_TABLE (memo_table), add_uid_cb, &closure);
 
 	return closure.objects;
-}
-
-/**
- * e_memo_table_cut_clipboard:
- * @memo_table: A calendar table.
- *
- * Cuts selected tasks in the given calendar table
- */
-void
-e_memo_table_cut_clipboard (EMemoTable *memo_table)
-{
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	e_memo_table_copy_clipboard (memo_table);
-	delete_selected_components (memo_table);
-}
-
-/* callback for e_table_selected_row_foreach */
-static void
-copy_row_cb (gint model_row, gpointer data)
-{
-	EMemoTable *memo_table;
-	ECalModelComponent *comp_data;
-	ECalModel *model;
-	gchar *comp_str;
-	icalcomponent *child;
-
-	memo_table = E_MEMO_TABLE (data);
-
-	g_return_if_fail (memo_table->tmp_vcal != NULL);
-
-	model = e_memo_table_get_model (memo_table);
-	comp_data = e_cal_model_get_component_at (model, model_row);
-	if (!comp_data)
-		return;
-
-	/* add timezones to the VCALENDAR component */
-	e_cal_util_add_timezones_from_component (memo_table->tmp_vcal, comp_data->icalcomp);
-
-	/* add the new component to the VCALENDAR component */
-	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
-	child = icalparser_parse_string (comp_str);
-	if (child) {
-		icalcomponent_add_component (memo_table->tmp_vcal,
-					     icalcomponent_new_clone (child));
-		icalcomponent_free (child);
-	}
-	g_free (comp_str);
-}
-
-/**
- * e_memo_table_copy_clipboard:
- * @memo_table: A calendar table.
- *
- * Copies selected tasks into the clipboard
- */
-void
-e_memo_table_copy_clipboard (EMemoTable *memo_table)
-{
-	GtkClipboard *clipboard;
-	gchar *comp_str;
-
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	/* create temporary VCALENDAR object */
-	memo_table->tmp_vcal = e_cal_util_new_top_level ();
-
-	e_table_selected_row_foreach (
-		E_TABLE (memo_table), copy_row_cb, memo_table);
-	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	e_clipboard_set_calendar (clipboard, comp_str, -1);
-	gtk_clipboard_store (clipboard);
-
-	/* free memory */
-	icalcomponent_free (memo_table->tmp_vcal);
-	g_free (comp_str);
-	memo_table->tmp_vcal = NULL;
-}
-
-static void
-clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
-{
-	icalcomponent *icalcomp;
-	gchar *uid;
-	ECalComponent *comp;
-	ECal *client;
-	ECalModel *model;
-	icalcomponent_kind kind;
-	const gchar *status_message;
-
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	if (!text || !*text)
-		return;
-
-	icalcomp = icalparser_parse_string (text);
-	if (!icalcomp)
-		return;
-
-	/* check the type of the component */
-	kind = icalcomponent_isa (icalcomp);
-	if (kind != ICAL_VCALENDAR_COMPONENT &&
-	    kind != ICAL_VEVENT_COMPONENT &&
-	    kind != ICAL_VTODO_COMPONENT &&
-	    kind != ICAL_VJOURNAL_COMPONENT) {
-		return;
-	}
-
-	model = e_memo_table_get_model (memo_table);
-	client = e_cal_model_get_default_client (model);
-
-	status_message = _("Updating objects");
-	memo_table_emit_status_message (memo_table, status_message, -1.0);
-
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent_kind child_kind;
-		icalcomponent *subcomp;
-		icalcomponent *vcal_comp;
-
-		vcal_comp = icalcomp;
-		subcomp = icalcomponent_get_first_component (
-			vcal_comp, ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT ||
-			    child_kind == ICAL_VTODO_COMPONENT ||
-			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				ECalComponent *tmp_comp;
-
-				uid = e_cal_component_gen_uid ();
-				tmp_comp = e_cal_component_new ();
-				e_cal_component_set_icalcomponent (
-					tmp_comp, icalcomponent_new_clone (subcomp));
-				e_cal_component_set_uid (tmp_comp, uid);
-				free (uid);
-
-				/* FIXME should we convert start/due/complete times? */
-				/* FIXME Error handling */
-				e_cal_create_object (client, e_cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
-
-				g_object_unref (tmp_comp);
-			}
-			subcomp = icalcomponent_get_next_component (
-				vcal_comp, ICAL_ANY_COMPONENT);
-		}
-	} else {
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomp);
-		uid = e_cal_component_gen_uid ();
-		e_cal_component_set_uid (comp, (const gchar *) uid);
-		free (uid);
-
-		e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
-
-		g_object_unref (comp);
-	}
-
-	memo_table_emit_status_message (memo_table, NULL, -1.0);
-}
-
-/**
- * e_memo_table_paste_clipboard:
- * @memo_table: A calendar table.
- *
- * Pastes tasks currently in the clipboard into the given calendar table
- */
-void
-e_memo_table_paste_clipboard (EMemoTable *memo_table)
-{
-	GtkClipboard *clipboard;
-	GnomeCanvasItem *item;
-	GnomeCanvas *table_canvas;
-
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
-	table_canvas = E_TABLE (memo_table)->table_canvas;
-	item = table_canvas->focused_item;
-
-	/* Paste text into a cell being edited. */
-	if (gtk_clipboard_wait_is_text_available (clipboard) &&
-		GTK_WIDGET_HAS_FOCUS (table_canvas) &&
-		E_IS_TABLE_ITEM (item) &&
-		E_TABLE_ITEM (item)->editing_col >= 0 &&
-		E_TABLE_ITEM (item)->editing_row >= 0) {
-
-		ETableItem *etable_item = E_TABLE_ITEM (item);
-
-		e_cell_text_paste_clipboard (
-			etable_item->cell_views[etable_item->editing_col],
-			etable_item->editing_col,
-			etable_item->editing_row);
-
-	/* Paste iCalendar data into the table. */
-	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
-		gchar *calendar_source;
-
-		calendar_source = e_clipboard_wait_for_calendar (clipboard);
-		clipboard_get_calendar_data (memo_table, calendar_source);
-		g_free (calendar_source);
-	}
 }
 
 /* Returns the current time, for the ECellDateEdit items.

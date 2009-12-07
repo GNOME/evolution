@@ -83,12 +83,13 @@ composer_setup_recent_menu (EMsgComposer *composer)
 }
 
 void
-e_composer_private_init (EMsgComposer *composer)
+e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
-
+	EFocusTracker *focus_tracker;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
+	GtkAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *send_widget;
@@ -156,6 +157,24 @@ e_composer_private_init (EMsgComposer *composer)
 		g_critical ("%s", error->message);
 		g_clear_error (&error);
 	}
+
+	/* Configure an EFocusTracker to manage selection actions. */
+
+	focus_tracker = e_focus_tracker_new (GTK_WINDOW (composer));
+
+	action = gtkhtml_editor_get_action (editor, "cut");
+	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
+
+	action = gtkhtml_editor_get_action (editor, "copy");
+	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
+
+	action = gtkhtml_editor_get_action (editor, "paste");
+	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
+
+	action = gtkhtml_editor_get_action (editor, "select-all");
+	e_focus_tracker_set_select_all_action (focus_tracker, action);
+
+	priv->focus_tracker = focus_tracker;
 
 	/* Construct the header table. */
 
@@ -312,6 +331,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->attachment_paned != NULL) {
 		g_object_unref (composer->priv->attachment_paned);
 		composer->priv->attachment_paned = NULL;
+	}
+
+	if (composer->priv->focus_tracker != NULL) {
+		g_object_unref (composer->priv->focus_tracker);
+		composer->priv->focus_tracker = NULL;
 	}
 
 	if (composer->priv->window_group != NULL) {

@@ -46,7 +46,7 @@ m4_define([gtk_minimum_version], [2.16.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
-m4_define([libgtkhtml_minimum_version], [3.29.2])
+m4_define([libgtkhtml_minimum_version], [3.29.5])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])	dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])

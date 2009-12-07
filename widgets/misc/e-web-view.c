@@ -33,6 +33,7 @@
 #include "e-util/e-plugin-ui.h"
 
 #include "e-popup-action.h"
+#include "e-selectable.h"
 
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -89,7 +90,7 @@ static guint signals[LAST_SIGNAL];
 static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
-"    <menuitem action='clipboard-copy'/>"
+"    <menuitem action='copy-clipboard'/>"
 "    <separator/>"
 "    <placeholder name='custom-actions-1'>"
 "      <menuitem action='open'/>"
@@ -240,10 +241,10 @@ web_view_request_read_cb (GFile *file,
 }
 
 static void
-action_clipboard_copy_cb (GtkAction *action,
+action_copy_clipboard_cb (GtkAction *action,
                           EWebView *web_view)
 {
-	e_web_view_clipboard_copy (web_view);
+	e_web_view_copy_clipboard (web_view);
 }
 
 static void
@@ -372,12 +373,12 @@ static GtkActionEntry mailto_entries[] = {
 
 static GtkActionEntry selection_entries[] = {
 
-	{ "clipboard-copy",
+	{ "copy-clipboard",
 	  GTK_STOCK_COPY,
 	  NULL,
 	  NULL,
-	  N_("Copy the selection to the clipboard"),
-	  G_CALLBACK (action_clipboard_copy_cb) },
+	  N_("Copy the selection"),
+	  G_CALLBACK (action_copy_clipboard_cb) },
 };
 
 static GtkActionEntry standard_entries[] = {
@@ -859,6 +860,52 @@ web_view_update_actions (EWebView *web_view)
 }
 
 static void
+web_view_selectable_update_actions (ESelectable *selectable,
+                                    EFocusTracker *focus_tracker,
+                                    GdkAtom *clipboard_targets,
+                                    gint n_clipboard_targets)
+{
+	EWebView *web_view;
+	GtkAction *action;
+	const gchar *tooltip;
+	gboolean sensitive;
+
+	web_view = E_WEB_VIEW (selectable);
+
+	/* Copy Clipboard */
+
+	action = e_web_view_get_action (web_view, "copy-clipboard");
+	sensitive = gtk_action_get_sensitive (action);
+	tooltip = gtk_action_get_tooltip (action);
+
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	/* Select All */
+
+	action = e_web_view_get_action (web_view, "select-all");
+	sensitive = gtk_action_get_sensitive (action);
+	tooltip = gtk_action_get_tooltip (action);
+
+	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+}
+
+static void
+web_view_selectable_copy_clipboard (ESelectable *selectable)
+{
+	e_web_view_copy_clipboard (E_WEB_VIEW (selectable));
+}
+
+static void
+web_view_selectable_select_all (ESelectable *selectable)
+{
+	e_web_view_select_all (E_WEB_VIEW (selectable));
+}
+
+static void
 web_view_class_init (EWebViewClass *class)
 {
 	GObjectClass *object_class;
@@ -1010,6 +1057,14 @@ web_view_class_init (EWebViewClass *class)
 }
 
 static void
+web_view_selectable_init (ESelectableInterface *interface)
+{
+	interface->update_actions = web_view_selectable_update_actions;
+	interface->copy_clipboard = web_view_selectable_copy_clipboard;
+	interface->select_all = web_view_selectable_select_all;
+}
+
+static void
 web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
@@ -1140,8 +1195,17 @@ e_web_view_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo selectable_info = {
+			(GInterfaceInitFunc) web_view_selectable_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			GTK_TYPE_HTML, "EWebView", &type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_SELECTABLE, &selectable_info);
 	}
 
 	return type;
@@ -1411,7 +1475,7 @@ e_web_view_extract_uri (EWebView *web_view,
 }
 
 void
-e_web_view_clipboard_copy (EWebView *web_view)
+e_web_view_copy_clipboard (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 

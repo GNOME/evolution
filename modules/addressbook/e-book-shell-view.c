@@ -268,8 +268,9 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean selection_has_email;
 	gboolean source_is_busy;
 	gboolean source_is_editable;
-	gboolean source_is_empty;
-	gboolean clipboard_has_directory;
+
+	/* Chain up to parent's update_actions() method. */
+	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
 	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -290,10 +291,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY);
 	source_is_editable =
 		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE);
-	source_is_empty =
-		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY);
-	clipboard_has_directory =
-		(state & E_BOOK_SHELL_CONTENT_CLIPBOARD_HAS_DIRECTORY);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
@@ -326,18 +323,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (ADDRESS_BOOK_STOP);
 	sensitive = source_is_busy;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_CLIPBOARD_COPY);
-	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_CLIPBOARD_CUT);
-	sensitive = source_is_editable && any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_CLIPBOARD_PASTE);
-	sensitive = source_is_editable && clipboard_has_directory;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_COPY);
@@ -379,10 +364,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (CONTACT_SAVE_AS);
 	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_SELECT_ALL);
-	sensitive = !(source_is_empty);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SEND_MESSAGE);

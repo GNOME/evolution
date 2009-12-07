@@ -118,7 +118,7 @@ GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,
 gchar *		e_web_view_extract_uri		(EWebView *web_view,
 						 GdkEventButton *event,
 						 GtkHTML *frame);
-void		e_web_view_clipboard_copy	(EWebView *web_view);
+void		e_web_view_copy_clipboard	(EWebView *web_view);
 gboolean	e_web_view_is_selection_active	(EWebView *web_view);
 gboolean	e_web_view_scroll_forward	(EWebView *web_view);
 gboolean	e_web_view_scroll_backward	(EWebView *web_view);

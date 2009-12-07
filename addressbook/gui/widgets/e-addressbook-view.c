@@ -28,6 +28,7 @@
 #include <table/e-table-model.h>
 #include <table/e-cell-date.h>
 #include <misc/e-gui-utils.h>
+#include <misc/e-selectable.h>
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <filter/e-rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
@@ -539,6 +540,140 @@ addressbook_view_constructed (GObject *object)
 }
 
 static void
+addressbook_view_update_actions (ESelectable *selectable,
+                                 EFocusTracker *focus_tracker,
+                                 GdkAtom *clipboard_targets,
+                                 gint n_clipboard_targets)
+{
+	EAddressbookView *view;
+	EAddressbookModel *model;
+	ESelectionModel *selection_model;
+	GtkAction *action;
+	gboolean clipboard_has_directory;
+	gboolean source_is_editable;
+	gboolean sensitive;
+	const gchar *tooltip;
+	gint n_contacts;
+	gint n_selected;
+
+	view = E_ADDRESSBOOK_VIEW (selectable);
+	model = e_addressbook_view_get_model (view);
+	selection_model = e_addressbook_view_get_selection_model (view);
+
+	source_is_editable = e_addressbook_model_get_editable (model);
+	n_contacts = (selection_model != NULL) ?
+		e_selection_model_row_count (selection_model) : 0;
+	n_selected = (selection_model != NULL) ?
+		e_selection_model_selected_count (selection_model) : 0;
+
+	clipboard_has_directory = (clipboard_targets != NULL) &&
+		e_targets_include_directory (
+		clipboard_targets, n_clipboard_targets);
+
+	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+	sensitive = source_is_editable && (n_selected > 0);
+	tooltip = _("Cut selected contacts to the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	sensitive = (n_selected > 0);
+	tooltip = _("Copy selected contacts to the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+	sensitive = source_is_editable && clipboard_has_directory;
+	tooltip = _("Paste contacts from the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	sensitive = (n_contacts > 0);
+	tooltip = _("Select all visible contacts");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+}
+
+static void
+addressbook_view_cut_clipboard (ESelectable *selectable)
+{
+	EAddressbookView *view;
+
+	view = E_ADDRESSBOOK_VIEW (selectable);
+
+	e_selectable_copy_clipboard (selectable);
+	e_addressbook_view_delete_selection (view, FALSE);
+}
+
+static void
+addressbook_view_copy_clipboard (ESelectable *selectable)
+{
+	EAddressbookView *view;
+	GtkClipboard *clipboard;
+	GList *contact_list;
+	gchar *string;
+
+	view = E_ADDRESSBOOK_VIEW (selectable);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	contact_list = e_addressbook_view_get_selected (view);
+
+	string = eab_contact_list_to_string (contact_list);
+	e_clipboard_set_directory (clipboard, string, -1);
+	g_free (string);
+
+	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+	g_list_free (contact_list);
+}
+
+static void
+addressbook_view_paste_clipboard (ESelectable *selectable)
+{
+	EBook *book;
+	EAddressbookView *view;
+	EAddressbookModel *model;
+	GtkClipboard *clipboard;
+	GList *contact_list, *iter;
+	gchar *string;
+
+	view = E_ADDRESSBOOK_VIEW (selectable);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	if (!e_clipboard_wait_is_directory_available (clipboard))
+		return;
+
+	model = e_addressbook_view_get_model (view);
+	book = e_addressbook_model_get_book (model);
+
+	string = e_clipboard_wait_for_directory (clipboard);
+	contact_list = eab_contact_list_from_string (string);
+	g_free (string);
+
+	for (iter = contact_list; iter != NULL; iter = iter->next) {
+		EContact *contact = iter->data;
+
+		eab_merging_book_add_contact (book, contact, NULL, NULL);
+	}
+
+	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+	g_list_free (contact_list);
+}
+
+static void
+addressbook_view_select_all (ESelectable *selectable)
+{
+	EAddressbookView *view;
+	ESelectionModel *selection_model;
+
+	view = E_ADDRESSBOOK_VIEW (selectable);
+	selection_model = e_addressbook_view_get_selection_model (view);
+
+	if (selection_model != NULL)
+		e_selection_model_select_all (selection_model);
+}
+
+static void
 addressbook_view_class_init (EAddressbookViewClass *class)
 {
 	GObjectClass *object_class;
@@ -641,6 +776,16 @@ addressbook_view_init (EAddressbookView *view)
 		GTK_SCROLLED_WINDOW (view), GTK_SHADOW_IN);
 }
 
+static void
+addressbook_view_selectable_init (ESelectableInterface *interface)
+{
+	interface->update_actions = addressbook_view_update_actions;
+	interface->cut_clipboard = addressbook_view_cut_clipboard;
+	interface->copy_clipboard = addressbook_view_copy_clipboard;
+	interface->paste_clipboard = addressbook_view_paste_clipboard;
+	interface->select_all = addressbook_view_select_all;
+}
+
 GType
 e_addressbook_view_get_type (void)
 {
@@ -660,9 +805,18 @@ e_addressbook_view_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo selectable_info = {
+			(GInterfaceInitFunc) addressbook_view_selectable_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			GTK_TYPE_SCROLLED_WINDOW, "EAddressbookView",
 			&type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_SELECTABLE, &selectable_info);
 	}
 
 	return type;
@@ -1235,82 +1389,6 @@ e_addressbook_view_view (EAddressbookView *view)
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
-}
-
-void
-e_addressbook_view_cut (EAddressbookView *view)
-{
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	e_addressbook_view_copy (view);
-	e_addressbook_view_delete_selection (view, FALSE);
-}
-
-void
-e_addressbook_view_copy (EAddressbookView *view)
-{
-	GtkClipboard *clipboard;
-	GList *contact_list;
-	gchar *string;
-
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
-	contact_list = e_addressbook_view_get_selected (view);
-
-	string = eab_contact_list_to_string (contact_list);
-	e_clipboard_set_directory (clipboard, string, -1);
-	g_free (string);
-
-	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-	g_list_free (contact_list);
-}
-
-void
-e_addressbook_view_paste (EAddressbookView *view)
-{
-	EBook *book;
-	EAddressbookModel *model;
-	GtkClipboard *clipboard;
-	GList *contact_list, *iter;
-	gchar *string;
-
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
-	if (!e_clipboard_wait_is_directory_available (clipboard))
-		return;
-
-	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
-
-	string = e_clipboard_wait_for_directory (clipboard);
-	contact_list = eab_contact_list_from_string (string);
-	g_free (string);
-
-	for (iter = contact_list; iter != NULL; iter = iter->next) {
-		EContact *contact = iter->data;
-
-		eab_merging_book_add_contact (book, contact, NULL, NULL);
-	}
-
-	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-	g_list_free (contact_list);
-}
-
-void
-e_addressbook_view_select_all (EAddressbookView *view)
-{
-	ESelectionModel *model;
-
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	model = e_addressbook_view_get_selection_model (view);
-	g_return_if_fail (model);
-
-	e_selection_model_select_all (model);
 }
 
 void

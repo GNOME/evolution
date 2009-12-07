@@ -312,44 +312,6 @@ action_address_book_stop_cb (GtkAction *action,
 }
 
 static void
-action_contact_clipboard_copy_cb (GtkAction *action,
-                                  EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	e_book_shell_content_clipboard_copy (book_shell_content);
-}
-
-static void
-action_contact_clipboard_cut_cb (GtkAction *action,
-                                 EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-	EAddressbookView *view;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	view = e_book_shell_content_get_current_view (book_shell_content);
-	g_return_if_fail (view != NULL);
-
-	e_addressbook_view_cut (view);
-}
-
-static void
-action_contact_clipboard_paste_cb (GtkAction *action,
-                                   EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-	EAddressbookView *view;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	view = e_book_shell_content_get_current_view (book_shell_content);
-	g_return_if_fail (view != NULL);
-
-	e_addressbook_view_paste (view);
-}
-
-static void
 action_contact_copy_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
@@ -599,20 +561,6 @@ exit:
 }
 
 static void
-action_contact_select_all_cb (GtkAction *action,
-                              EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-	EAddressbookView *view;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	view = e_book_shell_content_get_current_view (book_shell_content);
-	g_return_if_fail (view != NULL);
-
-	e_addressbook_view_select_all (view);
-}
-
-static void
 action_contact_send_message_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
@@ -758,27 +706,6 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Stop loading"),
 	  G_CALLBACK (action_address_book_stop_cb) },
 
-	{ "contact-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy the selection"),
-	  G_CALLBACK (action_contact_clipboard_copy_cb) },
-
-	{ "contact-clipboard-cut",
-	  GTK_STOCK_CUT,
-	  NULL,
-	  NULL,
-	  N_("Cut the selection"),
-	  G_CALLBACK (action_contact_clipboard_cut_cb) },
-
-	{ "contact-clipboard-paste",
-	  GTK_STOCK_PASTE,
-	  NULL,
-	  NULL,
-	  N_("Paste the clipboard"),
-	  G_CALLBACK (action_contact_clipboard_paste_cb) },
-
 	{ "contact-copy",
 	  NULL,
 	  N_("_Copy Contact To..."),
@@ -828,13 +755,6 @@ static GtkActionEntry contact_entries[] = {
 	  N_("View the current contact"),
 	  G_CALLBACK (action_contact_open_cb) },
 
-	{ "contact-select-all",
-	  GTK_STOCK_SELECT_ALL,
-	  NULL,
-	  NULL,
-	  N_("Select all contacts"),
-	  G_CALLBACK (action_contact_select_all_cb) },
-
 	{ "contact-send-message",
 	  "mail-message-new",
 	  N_("_Send Message to Contact..."),
@@ -876,18 +796,6 @@ static EPopupActionEntry contact_popup_entries[] = {
 	{ "address-book-popup-save-as",
 	  N_("_Save as vCard..."),
 	  "address-book-save-as" },
-
-	{ "contact-popup-clipboard-copy",
-	  NULL,
-	  "contact-clipboard-copy" },
-
-	{ "contact-popup-clipboard-cut",
-	  NULL,
-	  "contact-clipboard-cut" },
-
-	{ "contact-popup-clipboard-paste",
-	  NULL,
-	  "contact-clipboard-paste" },
 
 	{ "contact-popup-copy",
 	  NULL,

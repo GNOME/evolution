@@ -42,7 +42,6 @@
         <menuitem action='mail-folder-copy'/>
         <menuitem action='mail-folder-move'/>
         <separator/>
-        <menuitem action='mail-folder-select-all'/>
         <menuitem action='mail-folder-select-thread'/>
         <menuitem action='mail-folder-select-subthread'/>
         <menuitem action='mail-folder-mark-all-as-read'/>

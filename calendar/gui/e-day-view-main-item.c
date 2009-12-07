@@ -33,6 +33,7 @@
 #include <e-calendar-view.h>
 
 #include "e-util/e-categories-config.h"
+#include "e-util/e-util.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 #include "ea-calendar.h"

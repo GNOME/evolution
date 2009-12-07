@@ -507,21 +507,6 @@ shell_view_constructed (GObject *object)
 }
 
 static void
-shell_view_clear_search (EShellView *shell_view)
-{
-	e_shell_view_set_search_rule (shell_view, NULL);
-	e_shell_view_execute_search (shell_view);
-}
-
-static void
-shell_view_custom_search (EShellView *shell_view,
-                          EFilterRule *custom_rule)
-{
-	e_shell_view_set_search_rule (shell_view, custom_rule);
-	e_shell_view_execute_search (shell_view);
-}
-
-static void
 shell_view_toggled (EShellView *shell_view)
 {
 	EShellViewPrivate *priv = shell_view->priv;
@@ -553,6 +538,33 @@ shell_view_toggled (EShellView *shell_view)
 }
 
 static void
+shell_view_clear_search (EShellView *shell_view)
+{
+	e_shell_view_set_search_rule (shell_view, NULL);
+	e_shell_view_execute_search (shell_view);
+}
+
+static void
+shell_view_custom_search (EShellView *shell_view,
+                          EFilterRule *custom_rule)
+{
+	e_shell_view_set_search_rule (shell_view, custom_rule);
+	e_shell_view_execute_search (shell_view);
+}
+
+static void
+shell_view_update_actions (EShellView *shell_view)
+{
+	EShellWindow *shell_window;
+	EFocusTracker *focus_tracker;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	focus_tracker = e_shell_window_get_focus_tracker (shell_window);
+
+	e_focus_tracker_update_actions (focus_tracker);
+}
+
+static void
 shell_view_class_init (EShellViewClass *class)
 {
 	GObjectClass *object_class;
@@ -574,9 +586,10 @@ shell_view_class_init (EShellViewClass *class)
 	class->new_shell_sidebar = e_shell_sidebar_new;
 	class->new_shell_taskbar = e_shell_taskbar_new;
 
+	class->toggled = shell_view_toggled;
 	class->clear_search = shell_view_clear_search;
 	class->custom_search = shell_view_custom_search;
-	class->toggled = shell_view_toggled;
+	class->update_actions = shell_view_update_actions;
 
 	/**
 	 * EShellView:action:

@@ -24,45 +24,6 @@
 /* Much of this file is based on e-memo-shell-view-actions.c. */
 
 static void
-action_calendar_memopad_clipboard_copy_cb (GtkAction *action,
-                                           ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-
-	e_memo_table_copy_clipboard (memo_table);
-}
-
-static void
-action_calendar_memopad_clipboard_cut_cb (GtkAction *action,
-                                          ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-
-	e_memo_table_cut_clipboard (memo_table);
-}
-
-static void
-action_calendar_memopad_clipboard_paste_cb (GtkAction *action,
-                                            ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-
-	e_memo_table_paste_clipboard (memo_table);
-}
-
-static void
 action_calendar_memopad_delete_cb (GtkAction *action,
                                    ECalShellView *cal_shell_view)
 {
@@ -292,27 +253,6 @@ action_calendar_memopad_save_as_cb (GtkAction *action,
 
 static GtkActionEntry calendar_memopad_entries[] = {
 
-	{ "calendar-memopad-clipboard-copy",
-	  GTK_STOCK_COPY,
-	  NULL,
-	  NULL,
-	  N_("Copy selected memo"),
-	  G_CALLBACK (action_calendar_memopad_clipboard_copy_cb) },
-
-	{ "calendar-memopad-clipboard-cut",
-	  GTK_STOCK_CUT,
-	  NULL,
-	  NULL,
-	  N_("Cut selected memo"),
-	  G_CALLBACK (action_calendar_memopad_clipboard_cut_cb) },
-
-	{ "calendar-memopad-clipboard-paste",
-	  GTK_STOCK_PASTE,
-	  NULL,
-	  NULL,
-	  N_("Paste memo from the clipboard"),
-	  G_CALLBACK (action_calendar_memopad_clipboard_paste_cb) },
-
 	{ "calendar-memopad-delete",
 	  GTK_STOCK_DELETE,
 	  N_("_Delete Memo"),
@@ -426,18 +366,6 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 		has_url |= (prop != NULL);
 	}
 	g_slist_free (list);
-
-	action = ACTION (CALENDAR_MEMOPAD_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CALENDAR_MEMOPAD_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0) && editable;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CALENDAR_MEMOPAD_CLIPBOARD_PASTE);
-	sensitive = editable;
-	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_DELETE);
 	sensitive = (n_selected > 0) && editable;

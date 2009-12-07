@@ -45,12 +45,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "address-book-stop")
 
 /* Contact Actions */
-#define E_SHELL_WINDOW_ACTION_CONTACT_CLIPBOARD_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-clipboard-copy")
-#define E_SHELL_WINDOW_ACTION_CONTACT_CLIPBOARD_CUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-clipboard-cut")
-#define E_SHELL_WINDOW_ACTION_CONTACT_CLIPBOARD_PASTE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_CONTACT_COPY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-copy")
 #define E_SHELL_WINDOW_ACTION_CONTACT_DELETE(window) \
@@ -71,8 +65,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-print")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SAVE_AS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-save-as")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SELECT_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-select-all")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEND_MESSAGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-send-message")
 #define E_SHELL_WINDOW_ACTION_CONTACT_VIEW_CLASSIC(window) \

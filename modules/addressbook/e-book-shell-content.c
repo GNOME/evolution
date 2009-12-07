@@ -284,11 +284,9 @@ book_shell_content_check_state (EShellContent *shell_content)
 	ESelectionModel *selection_model;
 	EAddressbookModel *model;
 	EAddressbookView *view;
-	GtkClipboard *clipboard;
 	gboolean has_email = TRUE;
 	gboolean is_contact_list = TRUE;
 	guint32 state = 0;
-	gint n_contacts;
 	gint n_selected;
 
 	struct {
@@ -301,8 +299,6 @@ book_shell_content_check_state (EShellContent *shell_content)
 	model = e_addressbook_view_get_model (view);
 
 	selection_model = e_addressbook_view_get_selection_model (view);
-	n_contacts = (selection_model != NULL) ?
-		e_selection_model_row_count (selection_model) : 0;
 	n_selected = (selection_model != NULL) ?
 		e_selection_model_selected_count (selection_model) : 0;
 
@@ -333,8 +329,6 @@ book_shell_content_check_state (EShellContent *shell_content)
 			foreach_data.list, foreach_data.list);
 	}
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
 	if (n_selected == 1)
 		state |= E_BOOK_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
@@ -347,10 +341,6 @@ book_shell_content_check_state (EShellContent *shell_content)
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY;
 	if (e_addressbook_model_get_editable (model))
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE;
-	if (n_contacts == 0)
-		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY;
-	if (e_clipboard_wait_is_directory_available (clipboard))
-		state |= E_BOOK_SHELL_CONTENT_CLIPBOARD_HAS_DIRECTORY;
 
 	return state;
 }
@@ -648,25 +638,4 @@ e_book_shell_content_get_searchbar (EBookShellContent *book_shell_content)
 	widget = e_shell_content_get_searchbar (shell_content);
 
 	return E_SHELL_SEARCHBAR (widget);
-}
-
-void
-e_book_shell_content_clipboard_copy (EBookShellContent *book_shell_content)
-{
-	EAddressbookView *addressbook_view;
-	EWebView *web_view;
-
-	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
-
-	web_view = E_WEB_VIEW (book_shell_content->priv->preview);
-	addressbook_view =
-		e_book_shell_content_get_current_view (book_shell_content);
-	g_return_if_fail (addressbook_view != NULL);
-
-	if (!GTK_WIDGET_HAS_FOCUS (web_view)) {
-		e_addressbook_view_copy (addressbook_view);
-		return;
-	}
-
-	e_web_view_clipboard_copy (web_view);
 }

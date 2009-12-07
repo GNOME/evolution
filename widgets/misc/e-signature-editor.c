@@ -26,6 +26,7 @@
 
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-signature-utils.h>
+#include <misc/e-web-view.h>
 
 #define E_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -33,11 +34,13 @@
 
 enum {
 	PROP_0,
+	PROP_FOCUS_TRACKER,
 	PROP_SIGNATURE
 };
 
 struct _ESignatureEditorPrivate {
 	GtkActionGroup *action_group;
+	EFocusTracker *focus_tracker;
 	ESignature *signature;
 	GtkWidget *entry;
 	gchar *original_name;
@@ -255,6 +258,12 @@ signature_editor_get_property (GObject *object,
                                GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FOCUS_TRACKER:
+			g_value_set_object (
+				value, e_signature_editor_get_focus_tracker (
+				E_SIGNATURE_EDITOR (object)));
+			return;
+
 		case PROP_SIGNATURE:
 			g_value_set_object (
 				value, e_signature_editor_get_signature (
@@ -275,6 +284,11 @@ signature_editor_dispose (GObject *object)
 	if (priv->action_group != NULL) {
 		g_object_unref (priv->action_group);
 		priv->action_group = NULL;
+	}
+
+	if (priv->focus_tracker != NULL) {
+		g_object_unref (priv->focus_tracker);
+		priv->focus_tracker = NULL;
 	}
 
 	if (priv->signature != NULL) {
@@ -320,6 +334,16 @@ signature_editor_class_init (ESignatureEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_FOCUS_TRACKER,
+		g_param_spec_object (
+			"focus-tracker",
+			NULL,
+			NULL,
+			E_TYPE_FOCUS_TRACKER,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SIGNATURE,
 		g_param_spec_object (
 			"signature",
@@ -333,7 +357,10 @@ static void
 signature_editor_init (ESignatureEditor *editor)
 {
 	GtkActionGroup *action_group;
+	EFocusTracker *focus_tracker;
+	GtkhtmlEditor *gtkhtml_editor;
 	GtkUIManager *ui_manager;
+	GtkAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *vbox;
@@ -342,7 +369,8 @@ signature_editor_init (ESignatureEditor *editor)
 	editor->priv = E_SIGNATURE_EDITOR_GET_PRIVATE (editor);
 	vbox = GTKHTML_EDITOR (editor)->vbox;
 
-	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (editor));
+	gtkhtml_editor = GTKHTML_EDITOR (editor);
+	ui_manager = gtkhtml_editor_get_ui_manager (gtkhtml_editor);
 
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	handle_error (&error);
@@ -383,6 +411,28 @@ signature_editor_init (ESignatureEditor *editor)
 		G_CALLBACK (signature_editor_delete_event_cb), NULL);
 
 	e_signature_editor_set_signature (editor, NULL);
+
+	/* Configure an EFocusTracker to manage selection actions.
+	 *
+	 * XXX GtkhtmlEditor does not manage its own selection actions,
+	 *     which is technically a bug but works in our favor here
+	 *     because it won't cause any conflicts with EFocusTracker. */
+
+	focus_tracker = e_focus_tracker_new (GTK_WINDOW (editor));
+
+	action = gtkhtml_editor_get_action (gtkhtml_editor, "cut");
+	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
+
+	action = gtkhtml_editor_get_action (gtkhtml_editor, "copy");
+	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
+
+	action = gtkhtml_editor_get_action (gtkhtml_editor, "paste");
+	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
+
+	action = gtkhtml_editor_get_action (gtkhtml_editor, "select-all");
+	e_focus_tracker_set_select_all_action (focus_tracker, action);
+
+	editor->priv->focus_tracker = focus_tracker;
 }
 
 GType
@@ -415,7 +465,17 @@ e_signature_editor_get_type (void)
 GtkWidget *
 e_signature_editor_new (void)
 {
-	return g_object_new (E_TYPE_SIGNATURE_EDITOR, NULL);
+	return g_object_new (
+		E_TYPE_SIGNATURE_EDITOR,
+		"html", e_web_view_new (), NULL);
+}
+
+EFocusTracker *
+e_signature_editor_get_focus_tracker (ESignatureEditor *editor)
+{
+	g_return_val_if_fail (E_IS_SIGNATURE_EDITOR (editor), NULL);
+
+	return editor->priv->focus_tracker;
 }
 
 ESignature *

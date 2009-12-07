@@ -297,8 +297,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gboolean some_tasks_complete;
 	gboolean some_tasks_incomplete;
 	gboolean sources_are_editable;
-	gboolean clipboard_has_calendar;
 	gboolean refresh_supported;
+
+	/* Chain up to parent's update_actions() method. */
+	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
 	priv = E_TASK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -321,8 +323,6 @@ task_shell_view_update_actions (EShellView *shell_view)
 		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE);
 	selection_has_url =
 		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_URL);
-	clipboard_has_calendar =
-		(state & E_TASK_SHELL_CONTENT_CLIPBOARD_HAS_CALENDAR);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
@@ -343,18 +343,6 @@ task_shell_view_update_actions (EShellView *shell_view)
 	sensitive =
 		single_task_selected && sources_are_editable &&
 		selection_is_assignable;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (TASK_CLIPBOARD_COPY);
-	sensitive = any_tasks_selected;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (TASK_CLIPBOARD_CUT);
-	sensitive = any_tasks_selected && sources_are_editable;
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (TASK_CLIPBOARD_PASTE);
-	sensitive = sources_are_editable && clipboard_has_calendar;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_DELETE);
