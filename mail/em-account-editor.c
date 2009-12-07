@@ -2704,6 +2704,8 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	/*if (old)
 	  return old;*/
+	if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT)
+		return NULL;
 
 	account = em_account_editor_get_modified_account (emae);
 
@@ -2741,8 +2743,12 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	emae_setup_receipt_policy (emae, builder);
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Defaults")));
-
+	if (emae->type == EMAE_PAGES) {
+		gtk_box_pack_start ((GtkBox *)emae->pages[4], w, TRUE, TRUE, 0);
+		gtk_widget_show  (w);
+	}else {
+		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Defaults")));
+	}
 	emae_queue_widgets (emae, builder, "vbox184", "table8", NULL);
 
 	g_object_unref (builder);
@@ -2917,6 +2923,10 @@ static EMConfigItem emae_assistant_items[] = {
 	{ E_CONFIG_SECTION, (gchar *) "30.send/10.config", (gchar *) "vbox12", emae_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "30.send/20.security", (gchar *) "vbox183", emae_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "30.send/30.auth", (gchar *) "vbox61", emae_widget_glade },
+
+	{ E_CONFIG_PAGE, (gchar *) "40.defaults", (gchar *) "vboxFoldersBorder", emae_defaults_page },
+	{ E_CONFIG_SECTION, (gchar *) "40.defaults/00.folders", (gchar *) "vbox184", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "table8", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "40.management", (gchar *) "management_frame", emae_management_page },
 
