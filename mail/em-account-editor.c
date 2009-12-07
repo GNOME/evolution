@@ -2470,8 +2470,24 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 	    || emae->priv->source.provider->extra_conf == NULL)
 		return NULL;
 
-	if (old)
+	if (old) {
+		if (emae->type == EMAE_PAGES) {
+			GtkWidget *box = gtk_hbox_new (FALSE, 12);
+			gtk_widget_reparent (old, box);
+			gtk_widget_show(box);
+			gtk_box_set_child_packing ((GtkBox *)box, old, TRUE, TRUE, 12, GTK_PACK_START);			
+			gtk_box_pack_end ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
+		}
 		return old;
+	}
+
+	if (emae->type == EMAE_PAGES)  {
+		GtkWidget *box = gtk_hbox_new (FALSE, 12);
+		gtk_widget_reparent (parent, box);
+		gtk_widget_show(box);
+		gtk_box_set_child_packing ((GtkBox *)box, parent, TRUE, TRUE, 12, GTK_PACK_START);
+		gtk_box_pack_start ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
+	}
 
 	/* We have to add the automatic mail check item with the rest of the receive options */
 	row = ((GtkTable *)parent)->nrows;
@@ -2513,6 +2529,13 @@ emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *par
 	if (emae->priv->source.provider == NULL
 	    || emae->priv->source.provider->extra_conf == NULL)
 		return NULL;
+	if (emae->type == EMAE_PAGES) {
+		GtkWidget *box = gtk_hbox_new (FALSE, 12);
+		gtk_widget_reparent (parent, box);
+		gtk_widget_show(box);
+		gtk_box_set_child_packing ((GtkBox *)box, parent, TRUE, TRUE, 12, GTK_PACK_START);
+		gtk_box_pack_start ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
+	}
 
 	entries = emae->priv->source.provider->extra_conf;
 	for (i=0;entries && entries[i].type != CAMEL_PROVIDER_CONF_END;i++)
@@ -2524,7 +2547,6 @@ emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *par
 	return NULL;
 section:
 	d (printf ("Building extra section '%s'\n", eitem->path));
-
 	url = emae_account_url (emae, emae_service_info[service->type].account_uri_key);
 	item->extra_table = g_hash_table_new (g_str_hash, g_str_equal);
 	extra = g_hash_table_new (g_str_hash, g_str_equal);
@@ -2653,7 +2675,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *)emae->pages[2], w, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *)emae->pages[3], w, TRUE, TRUE, 0);
 	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "transport_page", old);
 
@@ -3353,6 +3375,7 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 		emae->editor = e_config_create_window ((EConfig *)ec, NULL, type==EMAE_NOTEBOOK?_("Account Editor"):_("Evolution Account Assistant"));
 		g_signal_connect (emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
 	} else {
-		e_config_create_widget ((EConfig *)ec);
+		GtkWidget *noshow = e_config_create_widget ((EConfig *)ec);
+		gtk_widget_hide (noshow);
 	}
 }
