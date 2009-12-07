@@ -42,7 +42,6 @@ view_minicard_column_width_changed (EAddressbookView *address_view,
 	GalViewMinicard *view_minicard;
 	GtkScrolledWindow *scrolled_window;
 	GtkAdjustment *adjustment;
-	GtkWidget *widget;
 	gdouble value, lower, upper;
 	gdouble page_increment, page_size;
 
@@ -54,20 +53,6 @@ view_minicard_column_width_changed (EAddressbookView *address_view,
 		view_minicard->column_width = width;
 		gal_view_changed (view);
 	}
-
-	widget = e_addressbook_view_get_view_widget (address_view);
-	scrolled_window = GTK_SCROLLED_WINDOW (widget);
-	adjustment = gtk_scrolled_window_get_hadjustment (scrolled_window);
-
-	value = gtk_adjustment_get_value (adjustment);
-	lower = gtk_adjustment_get_lower (adjustment);
-	upper = gtk_adjustment_get_upper (adjustment);
-	page_increment = gtk_adjustment_get_page_increment (adjustment);
-	page_size = gtk_adjustment_get_page_size (adjustment);
-
-	adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (
-		value, lower, upper, page_size, page_increment, page_size));
-	gtk_scrolled_window_set_hadjustment (scrolled_window, adjustment);
 }
 
 static void

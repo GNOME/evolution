@@ -173,7 +173,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	EShellWindow *shell_window;
 	EMemoTable *memo_table;
 	ECalModel *model;
-	ETable *table;
 	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
@@ -193,7 +192,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	model = e_memo_table_get_model (memo_table);
-	table = e_memo_table_get_table (memo_table);
 
 	memo_shell_sidebar = E_MEMO_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
@@ -211,6 +209,16 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	g_signal_connect_swapped (
 		memo_table, "popup-event",
 		G_CALLBACK (memo_shell_view_table_popup_event_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		memo_table, "selection-change",
+		G_CALLBACK (e_memo_shell_view_update_sidebar),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		memo_table, "selection-change",
+		G_CALLBACK (e_shell_view_update_actions),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
@@ -236,16 +244,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	g_signal_connect_swapped (
 		model, "model-rows-inserted",
 		G_CALLBACK (e_memo_shell_view_update_sidebar),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
-		table, "selection-change",
-		G_CALLBACK (e_memo_shell_view_update_sidebar),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
-		table, "selection-change",
-		G_CALLBACK (e_shell_view_update_actions),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
@@ -394,7 +392,6 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 	EShellSidebar *shell_sidebar;
 	EMemoTable *memo_table;
 	ECalModel *model;
-	ETable *table;
 	GString *string;
 	const gchar *format;
 	gint n_rows;
@@ -407,10 +404,9 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
 	model = e_memo_table_get_model (memo_table);
-	table = e_memo_table_get_table (memo_table);
 
 	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
-	n_selected = e_table_selected_count (table);
+	n_selected = e_table_selected_count (E_TABLE (memo_table));
 
 	string = g_string_sized_new (64);
 

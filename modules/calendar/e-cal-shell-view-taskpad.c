@@ -481,7 +481,6 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	ECalendarTable *task_table;
-	ETable *table;
 	GtkAction *action;
 	GSList *list, *iter;
 	const gchar *label;
@@ -499,8 +498,7 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	table = e_calendar_table_get_table (task_table);
-	n_selected = e_table_selected_count (table);
+	n_selected = e_table_selected_count (E_TABLE (task_table));
 
 	list = e_calendar_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {

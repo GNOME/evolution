@@ -178,26 +178,6 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 	}
 }
 
-#if 0
-static void
-gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
-{
-	gint row;
-	GtkWidget *scrolled;
-	ETable *etable;
-
-	scrolled = e_builder_get_widget(dialog->builder, "custom-table");
-	etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(scrolled));
-	row = e_table_get_cursor_row (E_TABLE(etable));
-
-	if (row != -1) {
-		gal_define_views_model_copy_view(GAL_DEFINE_VIEWS_MODEL(dialog->model),
-						 row);
-	}
-
-}
-#endif
-
 static void
 gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
@@ -271,9 +251,6 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gdvd_connect_signal (dialog, "button-new",    "clicked", G_CALLBACK (gdvd_button_new_callback));
 	gdvd_connect_signal (dialog, "button-modify", "clicked", G_CALLBACK (gdvd_button_modify_callback));
 	gdvd_connect_signal (dialog, "button-delete", "clicked", G_CALLBACK (gdvd_button_delete_callback));
-#if 0
-	gdvd_connect_signal (dialog, "button-copy",   "clicked", G_CALLBACK (gdvd_button_copy_callback));
-#endif
 	gdvd_connect_signal (dialog, "treeview1", "cursor-changed", G_CALLBACK (gdvd_cursor_changed_callback));
 	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), NULL);
 

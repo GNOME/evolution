@@ -134,7 +134,7 @@ static void
 e_cal_list_view_init (ECalListView *cal_list_view)
 {
 	cal_list_view->query = NULL;
-	cal_list_view->table_scrolled = NULL;
+	cal_list_view->table = NULL;
 	cal_list_view->cursor_event = NULL;
 	cal_list_view->set_table_id = 0;
 }
@@ -173,7 +173,7 @@ e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename)
 	g_return_if_fail (filename != NULL);
 
 	if (g_stat (filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
-		e_table_load_state (e_table_scrolled_get_table (cal_list_view->table_scrolled), filename);
+		e_table_load_state (cal_list_view->table, filename);
 }
 
 void
@@ -183,7 +183,7 @@ e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename)
 	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
 	g_return_if_fail (filename != NULL);
 
-	e_table_save_state (e_table_scrolled_get_table (cal_list_view->table_scrolled), filename);
+	e_table_save_state (cal_list_view->table, filename);
 }
 
 static void
@@ -195,6 +195,8 @@ setup_e_table (ECalListView *cal_list_view)
 	ECell *cell, *popup_cell;
 	GnomeCanvas *canvas;
 	GtkStyle *style;
+	GtkWidget *container;
+	GtkWidget *widget;
 	gchar *etspecfile;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view));
@@ -276,19 +278,33 @@ setup_e_table (ECalListView *cal_list_view)
 
 	/* Create table view */
 
-	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-				       "e-cal-list-view.etspec",
-				       NULL);
-	cal_list_view->table_scrolled = E_TABLE_SCROLLED (
-		e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (model),
-						     extras,
-						     etspecfile,
-						     NULL));
+	container = GTK_WIDGET (cal_list_view);
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_table_attach (
+		GTK_TABLE (container), widget, 0, 2, 0, 2,
+		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 1);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	etspecfile = g_build_filename (
+		EVOLUTION_ETSPECDIR, "e-cal-list-view.etspec", NULL);
+	widget = e_table_new_from_spec_file (
+		E_TABLE_MODEL (model), extras, etspecfile, NULL);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	cal_list_view->table = E_TABLE (widget);
+	gtk_widget_show (widget);
 	g_free (etspecfile);
 
 	/* Make sure text is readable on top of our color coding */
 
-	canvas = GNOME_CANVAS (e_table_scrolled_get_table (cal_list_view->table_scrolled)->table_canvas);
+	canvas = GNOME_CANVAS (cal_list_view->table->table_canvas);
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
 	style->fg [GTK_STATE_SELECTED] = style->text [GTK_STATE_NORMAL];
@@ -296,18 +312,18 @@ setup_e_table (ECalListView *cal_list_view)
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 
 	/* Connect signals */
-	g_signal_connect (e_table_scrolled_get_table (cal_list_view->table_scrolled),
-			  "double_click", G_CALLBACK (e_cal_list_view_on_table_double_click), cal_list_view);
-	g_signal_connect (e_table_scrolled_get_table (cal_list_view->table_scrolled),
-			  "right-click", G_CALLBACK (e_cal_list_view_on_table_right_click), cal_list_view);
-	g_signal_connect_after (e_table_scrolled_get_table (cal_list_view->table_scrolled),
-				"cursor_change", G_CALLBACK (e_cal_list_view_cursor_change_cb), cal_list_view);
-
-	/* Attach and show widget */
-
-	gtk_table_attach (GTK_TABLE (cal_list_view), GTK_WIDGET (cal_list_view->table_scrolled),
-			  0, 2, 0, 2, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 1);
-	gtk_widget_show (GTK_WIDGET (cal_list_view->table_scrolled));
+	g_signal_connect (
+		cal_list_view->table, "double_click",
+		G_CALLBACK (e_cal_list_view_on_table_double_click),
+		cal_list_view);
+	g_signal_connect (
+		cal_list_view->table, "right-click",
+		G_CALLBACK (e_cal_list_view_on_table_right_click),
+		cal_list_view);
+	g_signal_connect_after (
+		cal_list_view->table, "cursor_change",
+		G_CALLBACK (e_cal_list_view_cursor_change_cb),
+		cal_list_view);
 }
 
 /**
@@ -354,9 +370,9 @@ e_cal_list_view_destroy (GtkObject *object)
 		cal_list_view->cursor_event = NULL;
 	}
 
-	if (cal_list_view->table_scrolled) {
-		gtk_widget_destroy (GTK_WIDGET (cal_list_view->table_scrolled));
-		cal_list_view->table_scrolled = NULL;
+	if (cal_list_view->table) {
+		gtk_widget_destroy (GTK_WIDGET (cal_list_view->table));
+		cal_list_view->table = NULL;
 	}
 
 	GTK_OBJECT_CLASS (e_cal_list_view_parent_class)->destroy (object);
@@ -476,7 +492,8 @@ e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 		E_CAL_LIST_VIEW (cal_view)->cursor_event = NULL;
 	}
 
-	cursor_row = e_table_get_cursor_row (e_table_scrolled_get_table (E_CAL_LIST_VIEW (cal_view)->table_scrolled));
+	cursor_row = e_table_get_cursor_row (
+		E_CAL_LIST_VIEW (cal_view)->table);
 
 	if (cursor_row >= 0) {
 		ECalendarViewEvent *event;

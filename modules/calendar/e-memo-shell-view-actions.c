@@ -243,15 +243,13 @@ action_memo_list_print_cb (GtkAction *action,
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ETable *table;
-	GtkPrintOperationAction print_action;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	print_table (table, _("Print Memos"), _("Memos"), print_action);
+	print_table (
+		E_TABLE (memo_table), _("Print Memos"), _("Memos"),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
@@ -260,15 +258,13 @@ action_memo_list_print_preview_cb (GtkAction *action,
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ETable *table;
-	GtkPrintOperationAction print_action;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	print_table (table, _("Print Memos"), _("Memos"), print_action);
+	print_table (
+		E_TABLE (memo_table), _("Print Memos"), _("Memos"),
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void

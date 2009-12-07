@@ -393,7 +393,6 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMemoTable *memo_table;
-	ETable *table;
 	GtkAction *action;
 	GSList *list, *iter;
 	const gchar *label;
@@ -408,8 +407,7 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	table = e_memo_table_get_table (memo_table);
-	n_selected = e_table_selected_count (table);
+	n_selected = e_table_selected_count (E_TABLE (memo_table));
 
 	list = e_memo_table_get_selected (memo_table);
 	for (iter = list; iter != NULL; iter = iter->next) {

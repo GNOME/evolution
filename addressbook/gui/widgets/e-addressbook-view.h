@@ -59,12 +59,12 @@ typedef struct _EAddressbookViewClass EAddressbookViewClass;
 typedef struct _EAddressbookViewPrivate EAddressbookViewPrivate;
 
 struct _EAddressbookView {
-	GtkVBox parent;
+	GtkScrolledWindow parent;
 	EAddressbookViewPrivate *priv;
 };
 
 struct _EAddressbookViewClass {
-	GtkVBoxClass parent_class;
+	GtkScrolledWindowClass parent_class;
 
 	/* Signals */
 	void	(*open_contact)			(EAddressbookView *view,
@@ -87,8 +87,6 @@ GalViewInstance *
 		e_addressbook_view_get_view_instance
 						(EAddressbookView *view);
 GObject *	e_addressbook_view_get_view_object
-						(EAddressbookView *view);
-GtkWidget *	e_addressbook_view_get_view_widget
 						(EAddressbookView *view);
 GList *		e_addressbook_view_get_selected	(EAddressbookView *view);
 ESelectionModel *

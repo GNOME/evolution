@@ -930,24 +930,6 @@ eti_show_cursor (ETableItem *eti, gint delay)
 }
 
 static void
-eti_check_cursor_on_screen (ETableItem *eti)
-{
-	if (eti->cursor_x1 == -1 ||
-	    eti->cursor_y1 == -1 ||
-	    eti->cursor_x2 == -1 ||
-	    eti->cursor_y2 == -1)
-		return;
-
-	eti->cursor_on_screen = e_canvas_item_area_shown (GNOME_CANVAS_ITEM(eti),
-							  eti->cursor_x1,
-							  eti->cursor_y1,
-							  eti->cursor_x2,
-							  eti->cursor_y2);
-
-	d(g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
-}
-
-static void
 eti_check_cursor_bounds (ETableItem *eti)
 {
 	gint x1, y1, x2, y2;
@@ -1653,16 +1635,6 @@ eti_init (ETableItem *eti)
 static const gchar gray50_bits[] = {
 	0x02, 0x01, };
 
-static void
-adjustment_changed (GtkAdjustment *adjustment, ETableItem *eti)
-{
-	/* FIXME: It is the ugliest of hack to set the focus to scroll. Fix this up when moving away from e-tree */
-	if (g_object_get_data ((GObject *) ((GnomeCanvasItem *) eti)->canvas, "freeze-cursor"))
-		eti_maybe_show_cursor (eti, 0);
-
-	eti_check_cursor_on_screen (eti);
-}
-
 static gboolean
 eti_tree_unfreeze (GtkWidget *widget,  GdkEvent *event, ETableItem *eti)
 {
@@ -1701,19 +1673,6 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_set_ts_origin (eti->focus_gc, 0, 0);
 	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
 	gdk_gc_set_fill (eti->focus_gc, GDK_OPAQUE_STIPPLED);
-
-	eti->hadjustment_change_id =
-		g_signal_connect (gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas)), "changed",
-				  G_CALLBACK (adjustment_changed), eti);
-	eti->hadjustment_value_change_id =
-		g_signal_connect (gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas)), "value_changed",
-				  G_CALLBACK (adjustment_changed), eti);
-	eti->vadjustment_change_id =
-		g_signal_connect (gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas)), "changed",
-				  G_CALLBACK (adjustment_changed), eti);
-	eti->vadjustment_value_change_id =
-		g_signal_connect (gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas)), "value_changed",
-				  G_CALLBACK (adjustment_changed), eti);
 
 	g_signal_connect (GTK_LAYOUT(item->canvas), "scroll_event", G_CALLBACK (eti_tree_unfreeze), eti);
 
@@ -1794,15 +1753,6 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti_unrealize_cell_views (eti);
 
 	eti->height = 0;
-
-	g_signal_handler_disconnect(gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas)),
-				    eti->hadjustment_change_id);
-	g_signal_handler_disconnect(gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas)),
-				    eti->hadjustment_value_change_id);
-	g_signal_handler_disconnect(gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas)),
-				    eti->vadjustment_change_id);
-	g_signal_handler_disconnect(gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas)),
-				    eti->vadjustment_value_change_id);
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);

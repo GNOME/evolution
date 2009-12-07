@@ -23,9 +23,9 @@
 #ifndef _E_CALENDAR_TABLE_H_
 #define _E_CALENDAR_TABLE_H_
 
-#include <shell/e-shell-view.h>
-#include <table/e-table-scrolled.h>
+#include <table/e-table.h>
 #include <table/e-cell-date-edit.h>
+#include <shell/e-shell-view.h>
 #include "e-cal-model.h"
 
 /*
@@ -59,9 +59,7 @@ typedef struct _ECalendarTableClass ECalendarTableClass;
 typedef struct _ECalendarTablePrivate ECalendarTablePrivate;
 
 struct _ECalendarTable {
-	GtkTable parent;
-
-	GtkWidget *etable;
+	ETable parent;
 
 	/* The ECell used to view & edit dates. */
 	ECellDateEdit *dates_cell;
@@ -73,7 +71,7 @@ struct _ECalendarTable {
 };
 
 struct _ECalendarTableClass {
-	GtkTableClass parent_class;
+	ETableClass parent_class;
 
 	/* Signals */
 	void	(*open_component)		(ECalendarTable *cal_table,
@@ -90,7 +88,6 @@ GType		e_calendar_table_get_type	(void);
 GtkWidget *	e_calendar_table_new		(EShellView *shell_view,
 						 ECalModel *model);
 ECalModel *	e_calendar_table_get_model	(ECalendarTable *cal_table);
-ETable *	e_calendar_table_get_table	(ECalendarTable *cal_table);
 EShellView *	e_calendar_table_get_shell_view	(ECalendarTable *cal_table);
 void		e_calendar_table_delete_selected(ECalendarTable *cal_table);
 GSList *	e_calendar_table_get_selected	(ECalendarTable *cal_table);
@@ -99,13 +96,6 @@ GSList *	e_calendar_table_get_selected	(ECalendarTable *cal_table);
 void		e_calendar_table_cut_clipboard	(ECalendarTable *cal_table);
 void		e_calendar_table_copy_clipboard	(ECalendarTable *cal_table);
 void		e_calendar_table_paste_clipboard(ECalendarTable *cal_table);
-
-/* These load and save the state of the table (headers shown etc.) to/from
-   the given file. */
-void		e_calendar_table_load_state	(ECalendarTable *cal_table,
-						 const gchar *filename);
-void		e_calendar_table_save_state	(ECalendarTable *cal_table,
-						 const gchar *filename);
 
 ECalModelComponent *
 		e_calendar_table_get_selected_comp

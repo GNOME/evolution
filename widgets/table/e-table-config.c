@@ -41,7 +41,6 @@
 
 #include "e-table-config.h"
 #include "e-table-memory-store.h"
-#include "e-table-scrolled.h"
 #include "e-table-without.h"
 
 G_DEFINE_TYPE (ETableConfig, e_table_config, G_TYPE_OBJECT)
@@ -629,13 +628,14 @@ e_table_proxy_etable_shown_new (ETableModel *store)
 {
 	ETableModel *model = NULL;
 	GtkWidget *widget;
-	ETableScrolled *ets;
 
 	model = e_table_subset_variable_new (store);
 
-	widget = e_table_scrolled_new (model, NULL, spec, NULL);
-	ets = E_TABLE_SCROLLED (widget);
-	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Show Fields"));
+	widget = e_table_new (model, NULL, spec, NULL);
+
+	atk_object_set_name (
+		gtk_widget_get_accessible (widget),
+		_("Show Fields"));
 
 	return widget;
 }
@@ -645,16 +645,17 @@ e_table_proxy_etable_available_new (ETableModel *store)
 {
 	ETableModel *model;
 	GtkWidget *widget;
-	ETableScrolled *ets;
 
-	model = e_table_without_new (store,
-				     NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	model = e_table_without_new (
+		store, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	e_table_without_show_all (E_TABLE_WITHOUT (model));
 
-	widget = e_table_scrolled_new (model, NULL, spec, NULL);
-	ets = E_TABLE_SCROLLED (widget);
-	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Available Fields"));
+	widget = e_table_new (model, NULL, spec, NULL);
+
+	atk_object_set_name (
+		gtk_widget_get_accessible (widget),
+		_("Available Fields"));
 
 	return widget;
 }
@@ -1153,29 +1154,32 @@ static void
 configure_fields_dialog (ETableConfig *config, GtkBuilder *builder)
 {
 	GtkWidget *scrolled;
+	GtkWidget *etable;
 	ETableModel *store = create_store (config);
 
 	/* "custom-available" widget */
-	scrolled = e_table_proxy_etable_available_new (store);
-	gtk_widget_show (scrolled);
-	gtk_box_pack_start (GTK_BOX (e_builder_get_widget (builder, "vbox4")), scrolled, TRUE, TRUE, 0);
-	config->available = e_table_scrolled_get_table (E_TABLE_SCROLLED (scrolled));
+	etable = e_table_proxy_etable_available_new (store);
+	gtk_widget_show (etable);
+	scrolled = e_builder_get_widget (builder, "available-scrolled");
+	gtk_container_add (GTK_CONTAINER (scrolled), etable);
+	config->available = E_TABLE (etable);
 	g_object_get (config->available,
 		      "model", &config->available_model,
 		      NULL);
-	gtk_widget_show_all (scrolled);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-available")), scrolled);
+	gtk_widget_show_all (etable);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-available")), etable);
 
 	/* "custom-shown" widget */
-	scrolled = e_table_proxy_etable_shown_new (store);
-	gtk_widget_show (scrolled);
-	gtk_box_pack_start (GTK_BOX (e_builder_get_widget (builder, "vbox5")), scrolled, TRUE, TRUE, 0);
-	config->shown = e_table_scrolled_get_table (E_TABLE_SCROLLED (scrolled));
+	etable = e_table_proxy_etable_shown_new (store);
+	gtk_widget_show (etable);
+	scrolled = e_builder_get_widget (builder, "shown-scrolled");
+	gtk_container_add (GTK_CONTAINER (scrolled), etable);
+	config->shown = E_TABLE (etable);
 	g_object_get (config->shown,
 		      "model", &config->shown_model,
 		      NULL);
-	gtk_widget_show_all (scrolled);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-displayed")), scrolled);
+	gtk_widget_show_all (etable);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-displayed")), etable);
 
 	connect_button (config, builder, "button-add",    G_CALLBACK (config_button_add));
 	connect_button (config, builder, "button-remove", G_CALLBACK (config_button_remove));

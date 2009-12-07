@@ -92,15 +92,13 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 
 	if (GAL_IS_VIEW_ETABLE (gal_view)) {
 		ECalendarView *calendar_view;
-		ETable *table;
 
 		view_type = GNOME_CAL_LIST_VIEW;
 		calendar_view = gnome_calendar_get_calendar_view (
 			calendar, view_type);
-		table = e_table_scrolled_get_table (
-			E_CAL_LIST_VIEW (calendar_view)->table_scrolled);
 		gal_view_etable_attach_table (
-			GAL_VIEW_ETABLE (gal_view), table);
+			GAL_VIEW_ETABLE (gal_view),
+			E_CAL_LIST_VIEW (calendar_view)->table);
 	} else {
 		view_type = calendar_view_get_view_type (
 			CALENDAR_VIEW (gal_view));
@@ -163,11 +161,11 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	memo_table = E_MEMO_TABLE (cal_shell_content->priv->memo_table);
 	task_table = E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
 
-	table = e_memo_table_get_table (memo_table);
+	table = E_TABLE (memo_table);
 	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
 		return FOCUS_MEMO_TABLE;
 
-	table = e_calendar_table_get_table (task_table);
+	table = E_TABLE (task_table);
 	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
 		return FOCUS_TASK_TABLE;
 
@@ -204,12 +202,10 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	} else if (E_IS_CAL_LIST_VIEW (calendar_view)) {
 		ECalListView *list_view = E_CAL_LIST_VIEW (calendar_view);
 
-		table = e_table_scrolled_get_table (list_view->table_scrolled);
-
-		if (gtk_widget_is_focus (GTK_WIDGET (table)))
+		if (gtk_widget_is_focus (GTK_WIDGET (list_view->table)))
 			return FOCUS_CALENDAR;
 
-		if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
+		if (gtk_widget_is_focus (GTK_WIDGET (list_view->table->table_canvas)))
 			return FOCUS_CALENDAR;
 
 		if (gtk_widget_is_focus (GTK_WIDGET (list_view)))
@@ -435,13 +431,24 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = e_calendar_table_new (shell_view, task_model);
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = e_calendar_table_new (shell_view, task_model);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	filename = g_build_filename (config_dir, "TaskPad", NULL);
-	e_calendar_table_load_state (E_CALENDAR_TABLE (widget), filename);
+	e_table_load_state (E_TABLE (widget), filename);
 	g_free (filename);
 
 	g_signal_connect_swapped (
@@ -464,13 +471,24 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = e_memo_table_new (shell_view, memo_model);
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = e_memo_table_new (shell_view, memo_model);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	filename = g_build_filename (config_dir, "MemoPad", NULL);
-	e_memo_table_load_state (E_MEMO_TABLE (widget), filename);
+	e_table_load_state (E_TABLE (widget), filename);
 	g_free (filename);
 
 	g_signal_connect_swapped (

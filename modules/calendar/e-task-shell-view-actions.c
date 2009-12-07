@@ -274,15 +274,13 @@ action_task_list_print_cb (GtkAction *action,
 {
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
-	ETable *table;
-	GtkPrintOperationAction print_action;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_calendar_table_get_table (task_table);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	print_table (table, _("Print Tasks"), _("Tasks"), print_action);
+	print_table (
+		E_TABLE (task_table), _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
@@ -291,15 +289,13 @@ action_task_list_print_preview_cb (GtkAction *action,
 {
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
-	ETable *table;
-	GtkPrintOperationAction print_action;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_calendar_table_get_table (task_table);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	print_table (table, _("Print Tasks"), _("Tasks"), print_action);
+	print_table (
+		E_TABLE (task_table), _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void

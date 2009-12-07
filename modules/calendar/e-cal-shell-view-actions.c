@@ -207,11 +207,9 @@ action_calendar_print_cb (GtkAction *action,
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 
 	if (E_IS_CAL_LIST_VIEW (view)) {
-		ECalListView *list_view;
 		ETable *table;
 
-		list_view = E_CAL_LIST_VIEW (view);
-		table = e_table_scrolled_get_table (list_view->table_scrolled);
+		table = E_CAL_LIST_VIEW (view)->table;
 		print_table (table, _("Print"), _("Calendar"), print_action);
 	} else {
 		time_t start;
@@ -238,11 +236,9 @@ action_calendar_print_preview_cb (GtkAction *action,
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
 
 	if (E_IS_CAL_LIST_VIEW (view)) {
-		ECalListView *list_view;
 		ETable *table;
 
-		list_view = E_CAL_LIST_VIEW (view);
-		table = e_table_scrolled_get_table (list_view->table_scrolled);
+		table = E_CAL_LIST_VIEW (view)->table;
 		print_table (table, _("Print"), _("Calendar"), print_action);
 	} else {
 		time_t start;

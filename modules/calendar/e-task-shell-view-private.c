@@ -223,7 +223,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	EShellWindow *shell_window;
 	ECalendarTable *task_table;
 	ECalModel *model;
-	ETable *table;
 	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
@@ -247,7 +246,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	model = e_calendar_table_get_model (task_table);
-	table = e_calendar_table_get_table (task_table);
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
@@ -265,6 +263,16 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	g_signal_connect_swapped (
 		task_table, "popup-event",
 		G_CALLBACK (task_shell_view_table_popup_event_cb),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "selection-change",
+		G_CALLBACK (e_task_shell_view_update_sidebar),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "selection-change",
+		G_CALLBACK (e_shell_view_update_actions),
 		task_shell_view);
 
 	g_signal_connect_swapped (
@@ -290,16 +298,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	g_signal_connect_swapped (
 		model, "model-rows-inserted",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view);
-
-	g_signal_connect_swapped (
-		table, "selection-change",
-		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view);
-
-	g_signal_connect_swapped (
-		table, "selection-change",
-		G_CALLBACK (e_shell_view_update_actions),
 		task_shell_view);
 
 	g_signal_connect_swapped (
@@ -545,7 +543,6 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	EShellSidebar *shell_sidebar;
 	ECalendarTable *task_table;
 	ECalModel *model;
-	ETable *table;
 	GString *string;
 	const gchar *format;
 	gint n_rows;
@@ -558,10 +555,9 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
 	model = e_calendar_table_get_model (task_table);
-	table = e_calendar_table_get_table (task_table);
 
 	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
-	n_selected = e_table_selected_count (table);
+	n_selected = e_table_selected_count (E_TABLE (task_table));
 
 	string = g_string_sized_new (64);
 

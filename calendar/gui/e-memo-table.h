@@ -25,9 +25,9 @@
 #ifndef _E_MEMO_TABLE_H_
 #define _E_MEMO_TABLE_H_
 
-#include <shell/e-shell-view.h>
-#include <table/e-table-scrolled.h>
+#include <table/e-table.h>
 #include <table/e-cell-date-edit.h>
+#include <shell/e-shell-view.h>
 #include "e-cal-model.h"
 
 /*
@@ -65,9 +65,7 @@ typedef struct _EMemoTableClass EMemoTableClass;
 typedef struct _EMemoTablePrivate EMemoTablePrivate;
 
 struct _EMemoTable {
-	GtkTable parent;
-
-	GtkWidget *etable;
+	ETable parent;
 
 	/* The ECell used to view & edit dates. */
 	ECellDateEdit *dates_cell;
@@ -79,7 +77,7 @@ struct _EMemoTable {
 };
 
 struct _EMemoTableClass {
-	GtkTableClass parent_class;
+	ETableClass parent_class;
 
 	/* Signals */
 	void	(*open_component)		(EMemoTable *memo_table,
@@ -96,7 +94,6 @@ GType		e_memo_table_get_type		(void);
 GtkWidget *	e_memo_table_new		(EShellView *shell_view,
 						 ECalModel *model);
 ECalModel *	e_memo_table_get_model		(EMemoTable *memo_table);
-ETable *	e_memo_table_get_table		(EMemoTable *memo_table);
 EShellView *	e_memo_table_get_shell_view	(EMemoTable *memo_table);
 icaltimezone *	e_memo_table_get_timezone	(EMemoTable *memo_table);
 void		e_memo_table_set_timezone	(EMemoTable *memo_table,
@@ -113,13 +110,6 @@ GSList *	e_memo_table_get_selected	(EMemoTable *memo_table);
 void		e_memo_table_cut_clipboard	(EMemoTable *memo_table);
 void		e_memo_table_copy_clipboard	(EMemoTable *memo_table);
 void		e_memo_table_paste_clipboard	(EMemoTable *memo_table);
-
-/* These load and save the state of the table (headers shown etc.) to/from
-   the given file. */
-void		e_memo_table_load_state		(EMemoTable *memo_table,
-						 const gchar *filename);
-void		e_memo_table_save_state		(EMemoTable *memo_table,
-						 const gchar *filename);
 
 G_END_DECLS
 

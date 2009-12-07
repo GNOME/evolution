@@ -86,15 +86,14 @@ task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
                                     GalView *gal_view)
 {
 	ECalendarTable *task_table;
-	ETable *table;
 
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_calendar_table_get_table (task_table);
 
-	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
+	gal_view_etable_attach_table (
+		GAL_VIEW_ETABLE (gal_view), E_TABLE (task_table));
 }
 
 static void
@@ -146,7 +145,6 @@ task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content
                                            guint time)
 {
 	ECalendarTable *task_table;
-	ETable *table;
 
 	struct {
 		ECalModel *model;
@@ -157,13 +155,13 @@ task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content
 		return;
 
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_calendar_table_get_table (task_table);
 
 	foreach_data.model = e_calendar_table_get_model (task_table);
 	foreach_data.list = NULL;
 
 	e_table_selected_row_foreach (
-		table, task_shell_content_table_foreach_cb,
+		E_TABLE (task_table),
+		task_shell_content_table_foreach_cb,
 		&foreach_data);
 
 	if (foreach_data.list != NULL) {
@@ -242,7 +240,6 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 {
 	ECalModelComponent *comp_data;
 	ECalendarTable *task_table;
-	ETable *table;
 	const gchar *current_uid;
 	const gchar *uid;
 
@@ -259,9 +256,9 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 		return;
 
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_calendar_table_get_table (task_table);
 
-	task_shell_content_cursor_change_cb (task_shell_content, 0, table);
+	task_shell_content_cursor_change_cb (
+		task_shell_content, 0, E_TABLE (task_table));
 }
 
 static GtkOrientation
@@ -395,7 +392,6 @@ task_shell_content_constructed (GObject *object)
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
 	icaltimezone *timezone;
-	ETable *table;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -429,12 +425,25 @@ task_shell_content_constructed (GObject *object)
 
 	e_binding_new (object, "orientation", widget, "orientation");
 
+	container = priv->paned;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_widget_show (widget);
+
 	container = widget;
 
 	widget = e_calendar_table_new (shell_view, priv->task_model);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	container = priv->paned;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -464,33 +473,31 @@ task_shell_content_constructed (GObject *object)
 
 	/* Configure the task table. */
 
-	widget = E_CALENDAR_TABLE (priv->task_table)->etable;
-	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-
-	e_table_set_state (table, E_CALENDAR_TABLE_DEFAULT_STATE);
+	e_table_set_state (
+		E_TABLE (priv->task_table), E_CALENDAR_TABLE_DEFAULT_STATE);
 
 	e_table_drag_source_set (
-		table, GDK_BUTTON1_MASK,
-		drag_types, G_N_ELEMENTS (drag_types),
+		E_TABLE (priv->task_table),
+		GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS (drag_types),
 		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
 
 	g_signal_connect_swapped (
-		table, "table-drag-data-get",
+		priv->task_table, "table-drag-data-get",
 		G_CALLBACK (task_shell_content_table_drag_data_get_cb),
 		object);
 
 	g_signal_connect_swapped (
-		table, "table-drag-data-delete",
+		priv->task_table, "table-drag-data-delete",
 		G_CALLBACK (task_shell_content_table_drag_data_delete_cb),
 		object);
 
 	g_signal_connect_swapped (
-		table, "cursor-change",
+		priv->task_table, "cursor-change",
 		G_CALLBACK (task_shell_content_cursor_change_cb),
 		object);
 
 	g_signal_connect_swapped (
-		table, "selection-change",
+		priv->task_table, "selection-change",
 		G_CALLBACK (task_shell_content_selection_change_cb),
 		object);
 
@@ -527,7 +534,6 @@ task_shell_content_check_state (EShellContent *shell_content)
 {
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
-	ETable *table;
 	GSList *list, *iter;
 	GtkClipboard *clipboard;
 	gboolean assignable = TRUE;
@@ -541,8 +547,7 @@ task_shell_content_check_state (EShellContent *shell_content)
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	table = e_calendar_table_get_table (task_table);
-	n_selected = e_table_selected_count (table);
+	n_selected = e_table_selected_count (E_TABLE (task_table));
 
 	list = e_calendar_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {

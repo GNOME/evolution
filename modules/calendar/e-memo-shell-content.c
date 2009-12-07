@@ -85,15 +85,14 @@ memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
                                     GalView *gal_view)
 {
 	EMemoTable *memo_table;
-	ETable *table;
 
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
-	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
+	gal_view_etable_attach_table (
+		GAL_VIEW_ETABLE (gal_view), E_TABLE (memo_table));
 }
 
 static void
@@ -145,7 +144,6 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
                                            guint time)
 {
 	EMemoTable *memo_table;
-	ETable *table;
 
 	struct {
 		ECalModel *model;
@@ -156,13 +154,13 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
 		return;
 
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
 	foreach_data.model = e_memo_table_get_model (memo_table);
 	foreach_data.list = NULL;
 
 	e_table_selected_row_foreach (
-		table, memo_shell_content_table_foreach_cb,
+		E_TABLE (memo_table),
+		memo_shell_content_table_foreach_cb,
 		&foreach_data);
 
 	if (foreach_data.list != NULL) {
@@ -243,7 +241,6 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 {
 	ECalModelComponent *comp_data;
 	EMemoTable *memo_table;
-	ETable *table;
 	const gchar *current_uid;
 	const gchar *uid;
 
@@ -260,9 +257,9 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 		return;
 
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
-	memo_shell_content_cursor_change_cb (memo_shell_content, 0, table);
+	memo_shell_content_cursor_change_cb (
+		memo_shell_content, 0, E_TABLE (memo_table));
 }
 
 static GtkOrientation
@@ -396,7 +393,6 @@ memo_shell_content_constructed (GObject *object)
 	EShellTaskbar *shell_taskbar;
 	GalViewInstance *view_instance;
 	icaltimezone *timezone;
-	ETable *table;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -431,12 +427,25 @@ memo_shell_content_constructed (GObject *object)
 
 	e_binding_new (object, "orientation", widget, "orientation");
 
+	container = priv->paned;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_widget_show (widget);
+
 	container = widget;
 
 	widget = e_memo_table_new (shell_view, priv->memo_model);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	container = priv->paned;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -466,33 +475,31 @@ memo_shell_content_constructed (GObject *object)
 
 	/* Configure the memo table. */
 
-	widget = E_MEMO_TABLE (priv->memo_table)->etable;
-	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-
-	e_table_set_state (table, E_MEMO_TABLE_DEFAULT_STATE);
+	e_table_set_state (
+		E_TABLE (priv->memo_table), E_MEMO_TABLE_DEFAULT_STATE);
 
 	e_table_drag_source_set (
-		table, GDK_BUTTON1_MASK,
-		drag_types, G_N_ELEMENTS (drag_types),
+		E_TABLE (priv->memo_table),
+		GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS (drag_types),
 		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
 
 	g_signal_connect_swapped (
-		table, "table-drag-data-get",
+		priv->memo_table, "table-drag-data-get",
 		G_CALLBACK (memo_shell_content_table_drag_data_get_cb),
 		object);
 
 	g_signal_connect_swapped (
-		table, "table-drag-data-delete",
+		priv->memo_table, "table-drag-data-delete",
 		G_CALLBACK (memo_shell_content_table_drag_data_delete_cb),
 		object);
 
 	g_signal_connect_swapped (
-		table, "cursor-change",
+		priv->memo_table, "cursor-change",
 		G_CALLBACK (memo_shell_content_cursor_change_cb),
 		object);
 
 	g_signal_connect_swapped (
-		table, "selection-change",
+		priv->memo_table, "selection-change",
 		G_CALLBACK (memo_shell_content_selection_change_cb),
 		object);
 
@@ -529,7 +536,6 @@ memo_shell_content_check_state (EShellContent *shell_content)
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ETable *table;
 	GSList *list, *iter;
 	GtkClipboard *clipboard;
 	gboolean editable = TRUE;
@@ -540,8 +546,7 @@ memo_shell_content_check_state (EShellContent *shell_content)
 	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	table = e_memo_table_get_table (memo_table);
-	n_selected = e_table_selected_count (table);
+	n_selected = e_table_selected_count (E_TABLE (memo_table));
 
 	list = e_memo_table_get_selected (memo_table);
 	for (iter = list; iter != NULL; iter = iter->next) {

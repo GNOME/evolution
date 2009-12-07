@@ -49,7 +49,6 @@ libetable_la_SOURCES = 				\
 	e-table-memory.c			\
 	e-table-model.c				\
 	e-table-one.c				\
-	e-table-scrolled.c			\
 	e-table-search.c			\
 	e-table-selection-model.c		\
 	e-table-sort-info.c			\
@@ -128,7 +127,6 @@ libetableinclude_HEADERS = 			\
 	e-table-memory.h			\
 	e-table-model.h				\
 	e-table-one.h				\
-	e-table-scrolled.h			\
 	e-table-search.h			\
 	e-table-selection-model.h		\
 	e-table-sort-info.h			\

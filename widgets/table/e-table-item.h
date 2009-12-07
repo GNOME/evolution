@@ -80,11 +80,6 @@ typedef struct {
 	/* View row, -1 means unknown */
 	gint              old_cursor_row;
 
-	gint              hadjustment_change_id;
-	gint              hadjustment_value_change_id;
-	gint              vadjustment_change_id;
-	gint              vadjustment_value_change_id;
-
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
 	GdkGC           *focus_gc;

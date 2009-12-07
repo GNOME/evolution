@@ -557,6 +557,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 
 	g_signal_connect_swapped (
+		memo_table, "selection-change",
+		G_CALLBACK (e_cal_shell_view_memopad_actions_update),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
 		memo_table, "status-message",
 		G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
 		cal_shell_view);
@@ -572,12 +577,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 
 	g_signal_connect_swapped (
-		e_memo_table_get_table (memo_table), "selection-change",
-		G_CALLBACK (e_cal_shell_view_memopad_actions_update),
-		cal_shell_view);
-
-	g_signal_connect_swapped (
-		e_calendar_table_get_table (task_table), "selection-change",
+		task_table, "selection-change",
 		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
 		cal_shell_view);
 

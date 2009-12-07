@@ -62,7 +62,7 @@ struct _ECalListView {
 	ECalendarView parent;
 
 	/* The main display table */
-	ETableScrolled *table_scrolled;
+	ETable *table;
 
 	/* S-expression for query and the query object */
 	ECalView *query;
