@@ -67,7 +67,6 @@ libetable_la_SOURCES = 				\
 	e-tree-memory-callbacks.c		\
 	e-tree-memory.c				\
 	e-tree-model.c				\
-	e-tree-scrolled.c			\
 	e-tree-selection-model.c		\
 	e-tree-sorted.c				\
 	e-tree-table-adapter.c			\
@@ -148,7 +147,6 @@ libetableinclude_HEADERS = 			\
 	e-tree-memory-callbacks.h		\
 	e-tree-memory.h				\
 	e-tree-model.h				\
-	e-tree-scrolled.h			\
 	e-tree-selection-model.h		\
 	e-tree-sorted.h				\
 	e-tree-table-adapter.h			\

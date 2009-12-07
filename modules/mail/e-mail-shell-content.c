@@ -51,6 +51,7 @@
 
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
+	GtkWidget *scrolled_window;
 	GtkWidget *message_list;
 	GtkWidget *search_bar;
 
@@ -90,7 +91,7 @@ mail_shell_content_etree_unfreeze (MessageList *message_list,
 	ETableItem *item;
 	GObject *object;
 
-	item = e_tree_get_item (message_list->tree);
+	item = e_tree_get_item (E_TREE (message_list));
 	object = G_OBJECT (((GnomeCanvasItem *) item)->canvas);
 
 	g_object_set_data (object, "freeze-cursor", 0);
@@ -98,19 +99,21 @@ mail_shell_content_etree_unfreeze (MessageList *message_list,
 
 static void
 mail_shell_content_message_list_scrolled_cb (EMailShellContent *mail_shell_content,
-                                             MessageList *message_list)
+                                             GtkScrollbar *vscrollbar)
 {
 	EShellContent *shell_content;
 	EShellView *shell_view;
+	EMailReader *reader;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 	const gchar *key;
 	gchar *group_name;
-	gdouble position;
+	gdouble value;
 
 	/* Save the scrollbar position for the current folder. */
 
-	folder_uri = message_list->folder_uri;
+	reader = E_MAIL_READER (mail_shell_content);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (folder_uri == NULL)
 		return;
@@ -121,9 +124,9 @@ mail_shell_content_message_list_scrolled_cb (EMailShellContent *mail_shell_conte
 
 	key = STATE_KEY_SCROLLBAR_POSITION;
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
-	position = message_list_get_scrollbar_position (message_list);
+	value = gtk_range_get_value (GTK_RANGE (vscrollbar));
 
-	g_key_file_set_double (key_file, group_name, key, position);
+	g_key_file_set_double (key_file, group_name, key, value);
 	e_shell_view_set_state_dirty (shell_view);
 
 	g_free (group_name);
@@ -135,7 +138,9 @@ mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 	EMailShellContentPrivate *priv = mail_shell_content->priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
+	GtkScrolledWindow *scrolled_window;
 	GtkWidget *message_list;
+	GtkWidget *vscrollbar;
 	EMailReader *reader;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
@@ -153,6 +158,9 @@ mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
+	vscrollbar = gtk_scrolled_window_get_vscrollbar (scrolled_window);
+
 	if (folder_uri == NULL)
 		goto skip;
 
@@ -162,19 +170,18 @@ mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
 
 	if (g_key_file_has_key (key_file, group_name, key, NULL)) {
-		gdouble position;
+		gdouble value;
 
-		position = g_key_file_get_double (
+		value = g_key_file_get_double (
 			key_file, group_name, key, NULL);
-		message_list_set_scrollbar_position (
-			MESSAGE_LIST (message_list), position);
+		gtk_range_set_value (GTK_RANGE (vscrollbar), value);
 	}
 
 	g_free (group_name);
 
 skip:
 	priv->message_list_scrolled_id = g_signal_connect_swapped (
-		message_list, "message-list-scrolled",
+		vscrollbar, "value-changed",
 		G_CALLBACK (mail_shell_content_message_list_scrolled_cb),
 		mail_shell_content);
 
@@ -202,6 +209,9 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	shell_content = E_SHELL_CONTENT (mail_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
+	vscrollbar = gtk_scrolled_window_get_vscrollbar (scrolled_window);
 
 	if (message_list->cursor_uid != NULL)
 		uid = NULL;
@@ -257,14 +267,12 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	 *       It gets restored in the timeout handler we just added. */
 	if (priv->message_list_scrolled_id > 0) {
 		g_signal_handler_disconnect (
-			message_list, priv->message_list_scrolled_id);
+			vscrollbar, priv->message_list_scrolled_id);
 		priv->message_list_scrolled_id = 0;
 	}
 
 	/* FIXME This is another ugly hack to hide a side-effect of the
 	 *       previous workaround. */
-	scrolled_window = GTK_SCROLLED_WINDOW (message_list);
-	vscrollbar = gtk_scrolled_window_get_vscrollbar (scrolled_window);
 	g_signal_connect_swapped (
 		vscrollbar, "button-press-event",
 		G_CALLBACK (mail_shell_content_etree_unfreeze),
@@ -284,7 +292,7 @@ mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
 	if (GAL_IS_VIEW_ETABLE (gal_view))
 		gal_view_etable_attach_tree (
 			GAL_VIEW_ETABLE (gal_view),
-			MESSAGE_LIST (message_list)->tree);
+			E_TREE (message_list));
 }
 
 static void
@@ -413,6 +421,11 @@ mail_shell_content_dispose (GObject *object)
 		priv->paned = NULL;
 	}
 
+	if (priv->scrolled_window != NULL) {
+		g_object_unref (priv->scrolled_window);
+		priv->scrolled_window = NULL;
+	}
+
 	if (priv->message_list != NULL) {
 		g_object_unref (priv->message_list);
 		priv->message_list = NULL;
@@ -481,12 +494,26 @@ mail_shell_content_constructed (GObject *object)
 		object, "orientation",
 		widget, "orientation");
 
+	container = priv->paned;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	priv->scrolled_window = g_object_ref (widget);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_widget_show (widget);
+
 	container = widget;
 
 	widget = message_list_new (shell_backend);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	container = priv->paned;
 
 	widget = gtk_vbox_new (FALSE, 1);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);

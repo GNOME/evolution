@@ -330,13 +330,17 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 {
 	CamelFolder *folder;
 	EMailReader *reader;
+	GtkWidget *message_list;
 
 	/* If we got here, it means the application is shutting down
 	 * and this is the last EMailShellView instance.  Synchronize
 	 * the currently selected folder before we terminate. */
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 	folder = e_mail_reader_get_folder (reader);
+
+	message_list_save_state (MESSAGE_LIST (message_list));
 
 	if (folder == NULL)
 		return;
@@ -485,17 +489,17 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view);
 
 	g_signal_connect_swapped (
-		MESSAGE_LIST (message_list)->tree, "key-press",
+		message_list, "key-press",
 		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
 		mail_shell_view);
 
 	g_signal_connect_swapped (
-		MESSAGE_LIST (message_list)->tree, "popup-menu",
+		message_list, "popup-menu",
 		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
 		mail_shell_view);
 
 	g_signal_connect_swapped (
-		MESSAGE_LIST (message_list)->tree, "right-click",
+		message_list, "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
 		mail_shell_view);
 

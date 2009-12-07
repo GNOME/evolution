@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel-folder-thread.h>
 
-#include <table/e-tree-scrolled.h>
+#include <table/e-tree.h>
 
 #include <camel/camel-folder.h>
 #include <shell/e-shell-backend.h>
@@ -89,13 +89,12 @@ typedef struct _MessageListClass MessageListClass;
 typedef struct _MessageListPrivate MessageListPrivate;
 
 struct _MessageList {
-	ETreeScrolled parent;
+	ETree parent;
 
 	MessageListPrivate *priv;
 
 	/* The table */
 	ETreeModel   *model;
-	ETree        *tree;
 	ETreePath     tree_root;
 	ETableExtras *extras;
 
@@ -168,7 +167,7 @@ struct _MessageList {
 };
 
 struct _MessageListClass {
-	ETreeScrolledClass parent_class;
+	ETreeClass parent_class;
 
 	/* signals - select a message */
 	void (*message_selected) (MessageList *ml, const gchar *uid);
@@ -235,9 +234,6 @@ void	       message_list_set_search (MessageList *ml, const gchar *search);
 void	       message_list_ensure_message (MessageList *ml, const gchar *uid);
 
 void           message_list_save_state (MessageList *ml);
-
-gdouble         message_list_get_scrollbar_position (MessageList *ml);
-void           message_list_set_scrollbar_position (MessageList *ml, double pos);
 
 #define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
 #define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)

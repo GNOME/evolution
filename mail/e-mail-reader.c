@@ -2637,15 +2637,15 @@ e_mail_reader_init (EMailReader *reader)
 		G_CALLBACK (mail_reader_emit_folder_loaded), reader);
 
 	g_signal_connect_swapped (
-		MESSAGE_LIST (message_list)->tree, "double-click",
+		message_list, "double-click",
 		G_CALLBACK (mail_reader_double_click_cb), reader);
 
 	g_signal_connect_swapped (
-		MESSAGE_LIST (message_list)->tree, "key-press",
+		message_list, "key-press",
 		G_CALLBACK (mail_reader_key_press_cb), reader);
 
 	g_signal_connect_swapped (
-		MESSAGE_LIST (message_list)->tree, "selection-change",
+		message_list, "selection-change",
 		G_CALLBACK (e_mail_reader_changed), reader);
 }
 
