@@ -57,7 +57,6 @@ m4_define([dbus_glib_minimum_version], [0.74])
 
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
-m4_define([hal_minimum_version], [0.5.4])
 m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([clutter_gtk_minimum_version], [0.10.0])
@@ -197,7 +196,6 @@ case "$host" in
 	BF_JUNK_PLUGIN=''
 	DL_LIB=''
 	SOFTOKN3_LIB=''
-	HAL_REQUIREMENT=''
 	CHAMPLAIN_REQUIREMENT=''
 	GEOCLUE_REQUIREMENT=''
 	;;
@@ -209,7 +207,6 @@ case "$host" in
 	BF_JUNK_PLUGIN=bogo-junk-plugin
 	DL_LIB='-ldl'
 	SOFTOKN3_LIB='-lsoftokn3'
-	HAL_REQUIREMENT='hal'
 	;;
 esac
 AC_MSG_RESULT([$os_win32])
@@ -1340,7 +1337,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
