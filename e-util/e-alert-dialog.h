@@ -76,6 +76,7 @@ gint e_alert_run_dialog(GtkWindow *parent, EAlert *alert);
 gint e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
 
 guint e_alert_dialog_count_buttons (EAlertDialog *dialog);
+EAlert *e_alert_dialog_get_alert (EAlertDialog *dialog);
 
 G_END_DECLS
 

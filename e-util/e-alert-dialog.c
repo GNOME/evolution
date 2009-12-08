@@ -125,7 +125,6 @@ e_alert_dialog_constructed (GObject *obj)
 	GtkWidget *action_area;
 	GtkWidget *content_area;
 	GString *out;
-	gchar *perr=NULL, *serr=NULL;
 	gchar *title, *primary, *secondary;
 
 	g_return_if_fail (self != NULL);
@@ -203,15 +202,11 @@ e_alert_dialog_constructed (GObject *obj)
 		g_string_append_printf (out,
 					"<span weight=\"bold\" size=\"larger\">%s</span>\n\n",
 					primary);
-		/* FIXME: What is this used for? */
-		perr = g_strdup (primary);
-	} else
-		perr = g_strdup (title); /* XXX: why? */
+	}
 
 	secondary = e_alert_get_secondary_text (alert);
 	if (secondary) {
 		g_string_append (out, secondary);
-		serr = g_strdup (secondary);
 	}
 
 	g_free (secondary);
@@ -238,9 +233,6 @@ e_alert_dialog_constructed (GObject *obj)
 	gtk_widget_show_all(hbox);
 
 	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
-	/* FIXME: What is this used for? */
-	g_object_set_data_full ((GObject *) self, "primary", perr, g_free);
-	g_object_set_data_full ((GObject *) self, "secondary", serr, g_free);
 }
 
 static void
@@ -333,7 +325,7 @@ e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *a
 
 /**
  * e_alert_dialog_count_buttons:
- * @dialog: a #GtkDialog
+ * @dialog: a #EAlertDialog
  *
  * Counts the number of buttons in @dialog's action area.
  *
@@ -359,4 +351,25 @@ e_alert_dialog_count_buttons (EAlertDialog *dialog)
 	g_list_free (children);
 
 	return n_buttons;
+}
+
+/**
+ * e_alert_dialog_get_alert:
+ * @dialog: a #EAlertDialog
+ *
+ * Convenience API for getting the #EAlert associated with @dialog
+ *
+ * Return value: the #EAlert associated with @dialog.  The alert should be
+ * unreffed when no longer needed.
+ */
+EAlert *
+e_alert_dialog_get_alert (EAlertDialog *dialog)
+{
+	EAlert *alert = NULL;
+
+	g_return_val_if_fail (dialog != NULL, NULL);
+
+	g_object_get (dialog, "alert", &alert,
+		      NULL);
+	return alert;
 }

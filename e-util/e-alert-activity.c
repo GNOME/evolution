@@ -14,12 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
+ * Authors:
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2009 Intel Corporation
  *
  */
 
 #include "e-alert-activity.h"
+#include "e-alert-dialog.h"
 
 #define E_ALERT_ACTIVITY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -100,20 +104,26 @@ alert_activity_constructed (GObject *object)
 {
 	EActivity *activity;
 	EAlertActivity *alert_activity;
+	EAlert *alert;
 	GtkWidget *message_dialog;
-	const gchar *primary_text;
-	const gchar *secondary_text;
+	gchar *primary_text;
+	gchar *secondary_text;
 
 	alert_activity = E_ALERT_ACTIVITY (object);
 	message_dialog = e_alert_activity_get_message_dialog (alert_activity);
 
 	object = G_OBJECT (message_dialog);
-	primary_text = g_object_get_data (object, "primary");
-	secondary_text = g_object_get_data (object, "secondary");
+	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (message_dialog));
+	primary_text = e_alert_get_primary_text (alert);
+	secondary_text = e_alert_get_secondary_text (alert);
+	g_object_unref (alert);
 
 	activity = E_ACTIVITY (alert_activity);
 	e_activity_set_primary_text (activity, primary_text);
 	e_activity_set_secondary_text (activity, secondary_text);
+
+	g_free (primary_text);
+	g_free (secondary_text);
 
 	/* This is a constructor property, so can't do it in init().
 	 * XXX What we really want to do is override the property's
