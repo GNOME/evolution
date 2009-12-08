@@ -201,7 +201,7 @@ e_alert_dialog_constructed (GObject *obj)
 	primary = e_alert_get_primary_text (alert);
 	if (primary) {
 		g_string_append_printf (out,
-					"<span weight=\"bold\" size=\"larger\">%s</span>",
+					"<span weight=\"bold\" size=\"larger\">%s</span>\n\n",
 					primary);
 		/* FIXME: What is this used for? */
 		perr = g_strdup (primary);
