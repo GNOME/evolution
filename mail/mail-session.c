@@ -23,7 +23,6 @@
 
 #include <config.h>
 
-#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -40,20 +39,20 @@
 
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
-#include <libedataserver/e-xml-utils.h>
 
 #include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
 #include <camel/camel-filter-driver.h>
 #include <camel/camel-i18n.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
 #include "e-account-combo-box.h"
 #include "shell/e-shell.h"
 
 #include "em-composer-utils.h"
+#include "em-filter-context.h"
+#include "em-filter-rule.h"
 #include "em-utils.h"
 #include "mail-config.h"
 #include "mail-mt.h"
@@ -70,13 +69,6 @@ static gint session_check_junk_notify_id = -1;
 #define MAIL_SESSION(obj)     (CAMEL_CHECK_CAST((obj), MAIL_SESSION_TYPE, MailSession))
 #define MAIL_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_SESSION_TYPE, MailSessionClass))
 #define MAIL_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), MAIL_SESSION_TYPE))
-
-/* FIXME: temporarily copied here from e-filter-rule.h */
-#define E_FILTER_SOURCE_INCOMING "incoming" /* performed on incoming email */
-#define E_FILTER_SOURCE_DEMAND   "demand"   /* performed on the selected folder
-					     * when the user asks for it */
-#define E_FILTER_SOURCE_OUTGOING  "outgoing"/* performed on outgoing mail */
-#define E_FILTER_SOURCE_JUNKTEST  "junktest"/* perform only junktest on incoming mail */
 
 typedef struct _MailSession {
 	CamelSession parent_object;
@@ -514,134 +506,25 @@ session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 			       driver, user_data, NULL);
 }
 
-typedef struct {
-	gchar *name;
-	gchar *match_query;
-	gchar *action_query;
-} FilterDescription;
-
-static void
-filter_description_free (FilterDescription *f)
-{
-	g_return_if_fail (f);
-
-	xmlFree (f->name);
-	xmlFree (f->match_query);
-	xmlFree (f->action_query);
-}
-
-static GPtrArray*
-load_saved_incoming_rules (const gchar *system_file, const gchar *user_file)
-{
-	xmlNodePtr set, rule, root;
-	xmlDocPtr docs[2];
-	GPtrArray *rules;
-	int i;
-
-	docs[0] = e_xml_parse_file (system_file);
-	if (docs[0] == NULL) {
-		g_warning ("%s: Unable to load system rules '%s': %s", G_STRFUNC, system_file, g_strerror(errno));
-		return NULL;
-	}
-
-	/* doesn't matter if this doesn't exist */
-	docs[1] = NULL;
-	if (g_file_test (user_file, G_FILE_TEST_IS_REGULAR))
-		docs[1] = e_xml_parse_file (user_file);
-
-	rules = g_ptr_array_new_with_free_func ((GDestroyNotify) filter_description_free);
-
-	for (i = 0; i < G_N_ELEMENTS (docs); i++)
-	{
-		xmlDocPtr doc = docs[i];
-		if (!doc)
-			break;
-
-		root = xmlDocGetRootElement (doc);
-		if (root == NULL
-		    || (strcmp ((gchar *)root->name, "filterdescription") != 0
-			&& strcmp ((gchar *)root->name, "filteroptions") != 0)) {
-			g_warning ("%s: Unable to load filter rules: Invalid root element '%s'",
-				   G_STRFUNC, root ? (gchar*) root->name : "(none)");
-			xmlFreeDoc (docs[i]);
-			continue;
-		}
-
-		set = root->children;
-		while (set) {
-			/* FIXME: hard-coding 'ruleset' for now, but in theory the
-			 * ruleset element might be named something different (see
-			 * e_rule_context_add_rule_set()). But in practice it's always
-			 * set to 'ruleset'.  Need to resolve this potential conflict
-			 * somehow, but we don't want to depend on ERuleContext in the
-			 * backend...  */
-			if (strcmp ((gchar *)set->name, "ruleset") == 0) {
-				rule = set->children;
-				while (rule) {
-					if (strcmp ((gchar *)rule->name, "rule") == 0) {
-						gchar *source = e_xml_get_string_prop_by_name (rule, (xmlChar*) "source");
-						if (strcmp (source, "incoming") == 0) {
-							xmlNode *name_node, *partset, *actionset, *code;
-							gchar *name;
-							FilterDescription *filter = g_new0 (FilterDescription, 1);
-
-							name_node = e_xml_get_child_by_name (rule, (xmlChar*) "title");
-							name = (gchar*) xmlNodeGetContent (rule);
-
-							partset = e_xml_get_child_by_name (rule, (xmlChar*) "partset");
-							actionset = e_xml_get_child_by_name (rule, (xmlChar*) "actionset");
-
-							filter->name = name;
-
-							if (partset) {
-								code = e_xml_get_child_by_name (partset, (xmlChar*) "code");
-								if (!code) {
-									g_warning ("Saved rule does not have a cached match s-expression");
-									filter_description_free (filter);
-									continue;
-								} else {
-									filter->match_query = (gchar*) xmlNodeGetContent (code);
-								}
-							}
-							if (actionset) {
-								code = e_xml_get_child_by_name (actionset, (xmlChar*) "code");
-								if (!code) {
-									g_warning ("Saved rule does not have a cached action s-expression");
-									filter_description_free (filter);
-									continue;
-								} else {
-									filter->action_query = (gchar*) xmlNodeGetContent (code);
-								}
-							}
-							g_ptr_array_add (rules, filter);
-						}
-						g_free (source);
-					}
-					rule = rule->next;
-				}
-			}
-			set = set->next;
-		}
-
-		xmlFreeDoc (doc);
-	}
-
-	return rules;
-}
-
-static void
-add_filter_description_to_driver (FilterDescription *filter, CamelFilterDriver *driver)
-{
-	camel_filter_driver_add_rule (driver, filter->name, filter->match_query, filter->action_query);
-}
-
 static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
 {
 	CamelFilterDriver *driver;
+	EFilterRule *rule = NULL;
+	const gchar *data_dir;
+	gchar *user, *system;
 	GConfClient *gconf;
+	ERuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
+
+	data_dir = e_shell_backend_get_data_dir (session_shell_backend);
+	user = g_build_filename (data_dir, "filters.xml", NULL);
+	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
+	fc = (ERuleContext *) em_filter_context_new ();
+	e_rule_context_load (fc, system, user);
+	g_free (system);
+	g_free (user);
 
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
@@ -674,25 +557,33 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 	}
 
 	if (strcmp (type, E_FILTER_SOURCE_JUNKTEST) != 0) {
-		const gchar *data_dir;
-		gchar *user, *system;
-		GPtrArray *rules;
+		GString *fsearch, *faction;
 
-		data_dir = e_shell_backend_get_data_dir (session_shell_backend);
-		user = g_build_filename (data_dir, "filters.xml", NULL);
-		system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-		rules = load_saved_incoming_rules (system, user);
-		g_free (system);
-		g_free (user);
+		fsearch = g_string_new ("");
+		faction = g_string_new ("");
 
 		if (!strcmp (type, E_FILTER_SOURCE_DEMAND))
 			type = E_FILTER_SOURCE_INCOMING;
 
 		/* add the user-defined rules next */
-		g_ptr_array_foreach (rules, (GFunc) add_filter_description_to_driver, driver);
+		while ((rule = e_rule_context_next_rule (fc, rule, type))) {
+			g_string_truncate (fsearch, 0);
+			g_string_truncate (faction, 0);
 
-		g_ptr_array_free (rules, TRUE);
+			/* skip disabled rules */
+			if (!rule->enabled)
+				continue;
+
+			e_filter_rule_build_code (rule, fsearch);
+			em_filter_rule_build_action ((EMFilterRule *) rule, faction);
+			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
+		}
+
+		g_string_free (fsearch, TRUE);
+		g_string_free (faction, TRUE);
 	}
+
+	g_object_unref (fc);
 
 	return driver;
 }
