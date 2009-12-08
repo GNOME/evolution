@@ -659,7 +659,7 @@ e_alert_get_scroll (EAlert *alert)
 }
 
 struct _e_alert_button *
-e_alert_get_buttons (EAlert *alert)
+e_alert_peek_buttons (EAlert *alert)
 {
 	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 	return alert->priv->definition->buttons;

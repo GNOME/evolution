@@ -158,7 +158,7 @@ e_alert_dialog_constructed (GObject *obj)
 		g_signal_connect(self, "response", G_CALLBACK(dialog_response_cb), NULL);
 	}
 
-	b = e_alert_get_buttons (alert);
+	b = e_alert_peek_buttons (alert);
 	if (b == NULL) {
 		gtk_dialog_add_button((GtkDialog*) self, GTK_STOCK_OK, GTK_RESPONSE_OK);
 	} else {

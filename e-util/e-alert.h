@@ -109,7 +109,7 @@ gchar *e_alert_get_primary_text (EAlert *alert);
 gchar *e_alert_get_secondary_text (EAlert *alert);
 const gchar *e_alert_peek_help_uri (EAlert *alert);
 gboolean e_alert_get_scroll (EAlert *alert);
-struct _e_alert_button *e_alert_get_buttons (EAlert *alert);
+struct _e_alert_button *e_alert_peek_buttons (EAlert *alert);
 
 G_END_DECLS
 
