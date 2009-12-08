@@ -608,8 +608,11 @@ e_alert_get_title (EAlert *alert)
 	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 
 	formatted = g_string_new ("");
-	e_alert_format_string (formatted, alert->priv->definition->title,
-			       alert->priv->args, FALSE);
+	if (alert->priv->definition->title) {
+		e_alert_format_string (formatted,
+				       alert->priv->definition->title,
+				       alert->priv->args, FALSE);
+	}
 	return g_string_free (formatted, FALSE);
 }
 
@@ -621,8 +624,15 @@ e_alert_get_primary_text (EAlert *alert)
 
 	formatted = g_string_new ("");
 	if (alert->priv->definition)
-		e_alert_format_string (formatted, alert->priv->definition->primary,
-				       alert->priv->args, FALSE);
+		if (alert->priv->definition->primary) {
+			e_alert_format_string (formatted,
+					       alert->priv->definition->primary,
+					       alert->priv->args, FALSE);
+		} else {
+			char *title = e_alert_get_title (alert);
+			g_string_append (formatted, title);
+			g_free (title);
+		}
 	else {
 		g_string_append_printf(formatted,
 				       _("Internal error, unknown error '%s' requested"),
@@ -639,8 +649,11 @@ e_alert_get_secondary_text (EAlert *alert)
 	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 
 	formatted = g_string_new ("");
-	e_alert_format_string (formatted, alert->priv->definition->secondary,
-			       alert->priv->args, TRUE);
+	if (alert->priv->definition->secondary) {
+		e_alert_format_string (formatted,
+				       alert->priv->definition->secondary,
+				       alert->priv->args, TRUE);
+	}
 	return g_string_free (formatted, FALSE);
 }
 
