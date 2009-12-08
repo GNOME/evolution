@@ -629,7 +629,7 @@ e_alert_get_primary_text (EAlert *alert)
 					       alert->priv->definition->primary,
 					       alert->priv->args, FALSE);
 		} else {
-			char *title = e_alert_get_title (alert);
+			gchar *title = e_alert_get_title (alert);
 			g_string_append (formatted, title);
 			g_free (title);
 		}
