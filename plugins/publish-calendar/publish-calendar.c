@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
@@ -40,6 +44,10 @@
 #include "publish-format-fb.h"
 #include "publish-format-ical.h"
 
+#ifdef HAVE_LIBNOTIFY
+#include <libnotify/notify.h>
+#endif
+
 static GtkListStore *store = NULL;
 static GHashTable *uri_timeouts = NULL;
 static GSList *publish_uris = NULL;
@@ -55,6 +63,110 @@ gint          e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget   *publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void  update_timestamp (EPublishUri *uri);
 static void publish (EPublishUri *uri, gboolean can_report_success);
+
+static GtkStatusIcon *status_icon = NULL;
+static guint status_icon_timeout_id = 0;
+#ifdef HAVE_LIBNOTIFY
+static NotifyNotification *notify = NULL;
+
+static gboolean
+show_notify_cb (gpointer data)
+{
+	return notify && !notify_notification_show (notify, NULL);
+}
+#endif
+
+static gboolean
+remove_notification (gpointer data)
+{
+	if (status_icon_timeout_id)
+		g_source_remove (status_icon_timeout_id);
+	status_icon_timeout_id = 0;
+
+#ifdef HAVE_LIBNOTIFY
+	if (notify)
+		notify_notification_close (notify, NULL);
+	notify = NULL;
+#endif
+
+	gtk_status_icon_set_visible (status_icon, FALSE);
+	g_object_unref (status_icon);
+	status_icon = NULL;
+
+	return FALSE;
+}
+
+static void
+update_publish_notification (GtkMessageType msg_type, const gchar *msg_text)
+{
+	static GString *actual_msg = NULL;
+	static gboolean can_notify = TRUE;
+	gboolean new_icon = !status_icon;
+	const gchar *stock_name;
+
+	g_return_if_fail (msg_text != NULL);
+
+	if (new_icon) {
+		status_icon = gtk_status_icon_new ();
+		if (actual_msg) {
+			g_string_free (actual_msg, TRUE);
+			actual_msg = NULL;
+		}
+	} else if (status_icon_timeout_id) {
+		g_source_remove (status_icon_timeout_id);
+	}
+
+	switch (msg_type) {
+	case GTK_MESSAGE_WARNING:
+		stock_name = GTK_STOCK_DIALOG_WARNING;
+		break;
+	case GTK_MESSAGE_ERROR:
+		stock_name = GTK_STOCK_DIALOG_ERROR;
+		break;
+	default:
+		stock_name = GTK_STOCK_DIALOG_INFO;
+		break;
+	}
+
+	if (!actual_msg) {
+		actual_msg = g_string_new (msg_text);
+	} else {
+		g_string_append (actual_msg, "\n");
+		g_string_append (actual_msg, msg_text);
+	}
+
+	gtk_status_icon_set_from_stock (status_icon, stock_name);
+	gtk_status_icon_set_tooltip_text (status_icon, actual_msg->str);
+
+	#ifdef HAVE_LIBNOTIFY
+	if (can_notify) {
+		if (notify) {
+			notify_notification_update (notify, _("Calendar Publishing"), actual_msg->str, stock_name);
+		} else {
+			if (!notify_init ("evolution-publish-calendar")) {
+				can_notify = FALSE;
+				return;
+			}
+
+			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name, NULL);
+			notify_notification_attach_to_status_icon (notify, status_icon);
+			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
+			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
+			g_timeout_add (500, show_notify_cb, NULL);
+
+			g_signal_connect (notify, "closed", G_CALLBACK (remove_notification), NULL);
+		}
+	}
+	#endif
+
+	status_icon_timeout_id = g_timeout_add_seconds (15, remove_notification, NULL);
+
+	if (new_icon) {
+		g_signal_connect (
+			status_icon, "activate",
+			G_CALLBACK (remove_notification), NULL);
+	}
+}
 
 static void
 publish_no_succ_info (EPublishUri *uri)
@@ -159,7 +271,6 @@ mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 	g_file_mount_enclosing_volume_finish (G_FILE (source_object), res, &error);
 
 	if (error) {
-
 		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms->uri->location), error);
 
 		if (ms)
@@ -698,7 +809,6 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	PublishUIData *ui = g_new0 (PublishUIData, 1);
 	GSList *l;
 	GtkTreeIter iter;
-	GConfClient *client;
 
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "publish-calendar.ui");
@@ -740,7 +850,6 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_button_set_image (GTK_BUTTON (ui->url_enable), gtk_image_new_from_stock (GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_use_underline (GTK_BUTTON (ui->url_enable), TRUE);
 
-	client = gconf_client_get_default ();
 	l = publish_uris;
 	while (l) {
 		EPublishUri *url = (EPublishUri *) l->data;
@@ -898,9 +1007,7 @@ error_queue_show_idle (gpointer user_data)
 	g_static_mutex_unlock (&error_queue_lock);
 
 	if (info) {
-		e_notice (NULL,
-			  has_error && has_info ? GTK_MESSAGE_WARNING : has_error ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO,
-			  "%s", info->str, NULL);
+		update_publish_notification (has_error && has_info ? GTK_MESSAGE_WARNING : has_error ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO, info->str);
 
 		g_string_free (info, TRUE);
 	}
