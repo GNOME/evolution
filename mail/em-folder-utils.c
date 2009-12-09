@@ -448,7 +448,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 		return;
 	}
 
-	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
+	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (), folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
 	{
 		e_alert_run_dialog_for_args (parent,"mail:no-delete-special-folder", folder->name, NULL);
 		return;

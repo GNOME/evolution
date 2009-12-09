@@ -2117,7 +2117,8 @@ in_proper_folder (CamelFolder *folder)
 
 	uri = mail_tools_folder_to_url (folder);
 
-	if (mail_folder_cache_get_folder_info_flags (folder, &flags)) {
+	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (),
+						     folder, &flags)) {
 		/* it should be neither trash nor junk folder, */
 		res = ((flags & CAMEL_FOLDER_TYPE_TRASH) !=  CAMEL_FOLDER_TYPE_TRASH &&
 		       (flags & CAMEL_FOLDER_TYPE_JUNK) != CAMEL_FOLDER_TYPE_JUNK &&

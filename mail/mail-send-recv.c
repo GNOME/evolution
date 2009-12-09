@@ -960,7 +960,7 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 	struct _send_info *info = data;
 
 	if (store) {
-		mail_note_store(
+		mail_folder_cache_note_store(mail_folder_cache_get_default (),
 			store, info->cancel,
 			receive_update_got_folderinfo, info);
 	} else {

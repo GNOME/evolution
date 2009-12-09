@@ -255,7 +255,9 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 
 	/* we dont try lookup the cache if we are removing it, its no longer there */
 
-	if (!m->remove && !mail_note_get_folder_from_uri(m->uri, &folder)) {
+	if (!m->remove &&
+	    !mail_folder_cache_get_folder_from_uri(mail_folder_cache_get_default (),
+						   m->uri, &folder)) {
 		g_warning("Folder '%s' disappeared while I was adding/remove it to/from my vfolder", m->uri);
 		return;
 	}
@@ -707,7 +709,8 @@ rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
 	while (l) {
 		gchar *curi = em_uri_to_camel(l->data);
 
-		if (mail_note_get_folder_from_uri(curi, &newfolder)) {
+		if (mail_folder_cache_get_folder_from_uri
+		    (mail_folder_cache_get_default (), curi, &newfolder)) {
 			if (newfolder)
 				sources_folder = g_list_append(sources_folder, newfolder);
 			else

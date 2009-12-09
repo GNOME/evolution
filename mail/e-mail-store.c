@@ -147,9 +147,9 @@ mail_store_note_store_cb (CamelStore *store,
 	if (!store_info->removed) {
 		/* This keeps message counters up-to-date. */
 		if (store_info->vtrash != NULL)
-			mail_note_folder (store_info->vtrash);
+			mail_folder_cache_note_folder (mail_folder_cache_get_default (), store_info->vtrash);
 		if (store_info->vjunk != NULL)
-			mail_note_folder (store_info->vjunk);
+			mail_folder_cache_note_folder (mail_folder_cache_get_default (), store_info->vjunk);
 	}
 
 	store_info_unref (store_info);
@@ -177,7 +177,7 @@ mail_store_add (CamelStore *store,
 	em_folder_tree_model_add_store (
 		default_model, store, store_info->display_name);
 
-	mail_note_store (
+	mail_folder_cache_note_store (mail_folder_cache_get_default (),
 		store, NULL,
 		mail_store_note_store_cb,
 		store_info_ref (store_info));
@@ -194,7 +194,7 @@ mail_store_add_local_done_cb (CamelStore *store,
 	for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
 		folder = e_mail_local_get_folder (ii);
 		if (folder != NULL)
-			mail_note_folder (folder);
+			mail_folder_cache_note_folder (mail_folder_cache_get_default (), folder);
 	}
 }
 
@@ -367,7 +367,7 @@ e_mail_store_remove (CamelStore *store)
 	camel_object_ref (store);
 
 	g_hash_table_remove (store_table, store);
-	mail_note_store_remove (store);
+	mail_folder_cache_note_store_remove (mail_folder_cache_get_default (), store);
 
 	default_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_remove_store (default_model, store);

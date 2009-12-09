@@ -550,7 +550,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	/* HACK2: We do the same to the draft folder */
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread;
-	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
+	if (mail_folder_cache_get_folder_from_uri(mail_folder_cache_get_default (),
+						fi->uri, &folder) && folder) {
 		is_drafts = em_utils_folder_is_drafts (folder, fi->uri);
 
 		if (is_drafts || em_utils_folder_is_outbox (folder, fi->uri)) {

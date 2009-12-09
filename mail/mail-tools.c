@@ -349,7 +349,7 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
 	}
 
 	if (folder)
-		mail_note_folder (folder);
+		mail_folder_cache_note_folder (mail_folder_cache_get_default (), folder);
 
 	camel_url_free (url);
 	g_free(curi);
