@@ -929,9 +929,8 @@ set_date_label (EItipControl *itip,
 	datetime.tzid = NULL;
 	e_cal_component_get_completed (comp, &datetime.value);
 	if (type == E_CAL_COMPONENT_TODO && datetime.value) {
-		/* Pass TRUE as is_utc, so it gets converted to the current
-		   timezone. */
 		str = g_strdup_printf ("<b>%s:</b>", _("Completed"));
+		/* Pass TRUE as is_utc, so it gets converted to the current timezone. */
 		datetime.value->is_utc = TRUE;
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
 		wrote = TRUE;

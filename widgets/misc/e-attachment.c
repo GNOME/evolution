@@ -987,6 +987,10 @@ e_attachment_new_for_message (CamelMimeMessage *message)
 	camel_mime_part_set_disposition (mime_part, "inline");
 	subject = camel_mime_message_get_subject (message);
 
+	/* To Translators: This text is set as a description of an attached message,
+	   when, for example, attaching it to a composer. When the message to be
+	   attached has also filled Subject, then this text is of form
+	   "Attached message - Subject", otherwise it's left as is. */
 	description = g_string_new (_("Attached message"));
 	if (subject != NULL)
 		g_string_append_printf (description, " - %s", subject);

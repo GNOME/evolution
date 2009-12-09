@@ -72,10 +72,10 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">One</col>
+        <col id="0" translatable="yes" comments="To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.">One</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Sub</col>
+        <col id="0" translatable="yes" comments="To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.">Sub</col>
       </row>
     </data>
   </object>

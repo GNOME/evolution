@@ -1148,7 +1148,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
+	/* To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list */
 	e_datetime_format_add_setup_widget (table, 0, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
+	/* To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview */
 	e_datetime_format_add_setup_widget (table, 1, "mail", "header", DTFormatKindDateTime, _("_Date header:"));
 	widget = gtk_check_button_new_with_mnemonic (_("Show _original header value"));
 	gtk_widget_show (widget);

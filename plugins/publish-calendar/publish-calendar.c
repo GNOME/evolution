@@ -1042,8 +1042,12 @@ action_calendar_publish_cb (GtkAction *action,
 	GError *error = NULL;
 
 	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
-	if (!thread)
+	if (!thread) {
+		/* To Translators: This is shown to a user when creation of a new thread,
+		   where the publishing should be done, fails. Basically, this shouldn't
+		   ever happen, and if so, then something is really wrong. */
 		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
+	}
 }
 
 static GtkActionEntry entries[] = {

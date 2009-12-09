@@ -15,16 +15,16 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">High</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task priority">High</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Normal</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task priority">Normal</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Low</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task priority">Low</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Undefined</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task priority">Undefined</col>
       </row>
     </data>
   </object>
@@ -34,16 +34,16 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Not Started</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task status">Not Started</col>
       </row>
       <row>
-        <col id="0" translatable="yes">In Progress</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task status">In Progress</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Completed</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task status">Completed</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Canceled</col>
+        <col id="0" translatable="yes" comments="To Translators: This is task status">Canceled</col>
       </row>
     </data>
   </object>

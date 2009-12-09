@@ -494,12 +494,10 @@ widgets/table/e-table-group-container.c
 widgets/table/e-table-group-leaf.c
 widgets/table/e-table-header-item.c
 widgets/table/e-table-item.c
-widgets/table/e-table-scrolled.c
 widgets/table/e-table-selection-model.c
 widgets/table/e-table-sorter.c
 widgets/table/e-table-utils.c
 widgets/table/e-table.c
-widgets/table/e-tree-scrolled.c
 widgets/table/e-tree-selection-model.c
 widgets/table/e-tree.c
 widgets/table/gal-a11y-e-cell-popup.c
