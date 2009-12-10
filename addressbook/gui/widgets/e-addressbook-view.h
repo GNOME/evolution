@@ -29,6 +29,7 @@
 #include <menus/gal-view-instance.h>
 #include <misc/e-selection-model.h>
 #include <shell/e-shell-view.h>
+#include <filter/e-filter-rule.h>
 
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"
@@ -116,6 +117,18 @@ void		e_addressbook_view_move_to_folder
 						 gboolean all);
 
 gboolean	e_addressbook_view_can_create	(EAddressbookView *view);
+
+void		e_addressbook_view_set_search	(EAddressbookView *view,
+						 gint filter_id,
+						 gint search_id,
+						 const gchar *search_text,
+						 EFilterRule *advanced_search);
+
+void		e_addressbook_view_get_search	(EAddressbookView *view,
+						 gint *filter_id,
+						 gint *search_id,
+						 gchar **search_text,
+						 EFilterRule **advanced_search);
 
 G_END_DECLS
 

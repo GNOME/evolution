@@ -28,6 +28,7 @@
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/misc/e-paned.h"
+#include "e-book-shell-view.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -519,9 +520,10 @@ void
 e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
                                        EAddressbookView *addressbook_view)
 {
+	EBookShellView *book_shell_view;
 	GtkNotebook *notebook;
 	GtkWidget *child;
-	gint page_num;
+	gint page_num, old_page_num;
 
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (addressbook_view));
@@ -531,7 +533,33 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 	page_num = gtk_notebook_page_num (notebook, child);
 	g_return_if_fail (page_num >= 0);
 
+	old_page_num = gtk_notebook_get_current_page (notebook);
 	gtk_notebook_set_current_page (notebook, page_num);
+
+	if (old_page_num != page_num) {
+		EShellContent *shell_content;
+		gint filter_id = 0, search_id = 0;
+		gchar *search_text = NULL;
+		EFilterRule *advanced_search = NULL;
+		GtkRadioAction *radio_action;
+
+		shell_content = E_SHELL_CONTENT (book_shell_content);
+		book_shell_view = E_BOOK_SHELL_VIEW (e_shell_content_get_shell_view (shell_content));
+
+		e_book_shell_view_disable_searching (book_shell_view);
+		e_addressbook_view_get_search (addressbook_view, &filter_id, &search_id, &search_text, &advanced_search);
+		if (e_shell_content_get_filter_action (shell_content))
+			e_shell_content_set_filter_value (shell_content, filter_id);
+		radio_action = e_shell_content_get_search_radio_action (shell_content);
+		gtk_radio_action_set_current_value (radio_action, search_id);
+		e_shell_content_set_search_text	(shell_content, search_text ? search_text : "");
+		e_shell_content_set_search_rule (shell_content, advanced_search);
+		g_free (search_text);
+		if (advanced_search)
+			g_object_unref (advanced_search);
+		e_book_shell_view_enable_searching (book_shell_view);
+	}
+
 	g_object_notify (G_OBJECT (book_shell_content), "current-view");
 }
 

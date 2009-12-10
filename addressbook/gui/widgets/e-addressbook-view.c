@@ -84,6 +84,12 @@ struct _EAddressbookViewPrivate {
 	GObject *object;
 
 	GalViewInstance *view_instance;
+
+	/* stored search setup for this view */
+	gint filter_id;
+	gchar *search_text;
+	gint search_id;
+	EFilterRule *advanced_search;
 };
 
 enum {
@@ -490,6 +496,19 @@ addressbook_view_dispose (GObject *object)
 	if (priv->view_instance != NULL) {
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
+	}
+
+	priv->filter_id = 0;
+	priv->search_id = 0;
+
+	if (priv->search_text) {
+		g_free (priv->search_text);
+		priv->search_text = NULL;
+	}
+
+	if (priv->advanced_search) {
+		g_object_unref (priv->advanced_search);
+		priv->advanced_search = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1343,4 +1362,46 @@ void
 e_addressbook_view_move_to_folder (EAddressbookView *view, gboolean all)
 {
 	view_transfer_contacts (view, TRUE, all);
+}
+
+void
+e_addressbook_view_set_search (EAddressbookView *view, gint filter_id, gint search_id, const gchar *search_text, EFilterRule *advanced_search)
+{
+	EAddressbookViewPrivate *priv;
+
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
+
+	priv = view->priv;
+
+	if (priv->search_text)
+		g_free (priv->search_text);
+	if (priv->advanced_search)
+		g_object_unref (priv->advanced_search);
+
+	priv->filter_id = filter_id;
+	priv->search_id = search_id;
+	priv->search_text = g_strdup (search_text);
+	priv->advanced_search = advanced_search ? e_filter_rule_clone (advanced_search) : NULL;
+}
+
+/* free returned values for search_text and advanced_search, if not NULL, as these are new copies */
+void
+e_addressbook_view_get_search (EAddressbookView *view, gint *filter_id, gint *search_id, gchar **search_text, EFilterRule **advanced_search)
+{
+	EAddressbookViewPrivate *priv;
+
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
+	g_return_if_fail (filter_id != NULL);
+	g_return_if_fail (search_id != NULL);
+	g_return_if_fail (search_text != NULL);
+	g_return_if_fail (advanced_search != NULL);
+
+	priv = view->priv;
+
+	*filter_id = priv->filter_id;
+	*search_id = priv->search_id;
+	*search_text = g_strdup (priv->search_text);
+	*advanced_search = priv->advanced_search ? e_filter_rule_clone (priv->advanced_search) : NULL;
 }

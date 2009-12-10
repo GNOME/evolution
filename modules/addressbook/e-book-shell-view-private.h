@@ -108,6 +108,8 @@ struct _EBookShellViewPrivate {
 	GHashTable *uid_to_editor;
 
 	gint preview_index;
+
+	gint search_locked; /* can track whether search changed while locked, but it is not usable at the moment */
 };
 
 void		e_book_shell_view_private_init

@@ -132,20 +132,28 @@ book_shell_view_execute_search (EShellView *shell_view)
 	EAddressbookModel *model;
 	gchar *query;
 	gchar *temp;
-	gint value;
+	gint filter_id, search_id;
+	gchar *search_text = NULL;
+	EFilterRule *advanced_search = NULL;
 
 	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	if (priv->search_locked)
+		return;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	action = GTK_RADIO_ACTION (ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS));
-	value = gtk_radio_action_get_current_value (action);
+	search_id = gtk_radio_action_get_current_value (action);
 
-	if (value == CONTACT_SEARCH_ADVANCED) {
+	if (search_id == CONTACT_SEARCH_ADVANCED) {
 		query = e_shell_content_get_search_rule_as_string (shell_content);
 
 		if (!query)
 			query = g_strdup ("");
+
+		/* internal pointer, no need to free it */
+		advanced_search = e_shell_content_get_search_rule (shell_content);
 	} else {
 		const gchar *text;
 		const gchar *format;
@@ -155,10 +163,12 @@ book_shell_view_execute_search (EShellView *shell_view)
 
 		if (text == NULL || *text == '\0') {
 			text = "";
-			value = CONTACT_SEARCH_ANY_FIELD_CONTAINS;
+			search_id = CONTACT_SEARCH_ANY_FIELD_CONTAINS;
 		}
 
-		switch (value) {
+		search_text = text && *text ? g_strdup (text) : NULL;
+
+		switch (search_id) {
 			case CONTACT_SEARCH_NAME_CONTAINS:
 				format = "(contains \"full_name\" %s)";
 				break;
@@ -184,8 +194,8 @@ book_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Apply selected filter. */
-	value = e_shell_content_get_filter_value (shell_content);
-	switch (value) {
+	filter_id = e_shell_content_get_filter_value (shell_content);
+	switch (filter_id) {
 		case CONTACT_FILTER_ANY_CATEGORY:
 			break;
 
@@ -204,7 +214,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 			const gchar *category_name;
 
 			categories = e_categories_get_list ();
-			category_name = g_list_nth_data (categories, value);
+			category_name = g_list_nth_data (categories, filter_id);
 			g_list_free (categories);
 
 			temp = g_strdup_printf (
@@ -220,7 +230,9 @@ book_shell_view_execute_search (EShellView *shell_view)
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	model = e_addressbook_view_get_model (view);
 	e_addressbook_model_set_query (model, query);
+	e_addressbook_view_set_search (view, filter_id, search_id, search_text, advanced_search);
 	g_free (query);
+	g_free (search_text);
 
 	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
 	priv->preview_index = -1;
@@ -440,4 +452,30 @@ e_book_shell_view_register_type (GTypeModule *type_module)
 	book_shell_view_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_VIEW,
 		"EBookShellView", &type_info, 0);
+}
+
+void
+e_book_shell_view_disable_searching (EBookShellView *book_shell_view)
+{
+	EBookShellViewPrivate *priv;
+
+	g_return_if_fail (book_shell_view != NULL);
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view));
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
+	priv->search_locked++;
+}
+
+void
+e_book_shell_view_enable_searching (EBookShellView *book_shell_view)
+{
+	EBookShellViewPrivate *priv;
+
+	g_return_if_fail (book_shell_view != NULL);
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view));
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
+	g_return_if_fail (priv->search_locked > 0);
+
+	priv->search_locked--;
 }

@@ -61,6 +61,9 @@ struct _EBookShellViewClass {
 GType		e_book_shell_view_get_type	(void);
 void		e_book_shell_view_register_type	(GTypeModule *type_module);
 
+void		e_book_shell_view_disable_searching (EBookShellView *book_shell_view);
+void		e_book_shell_view_enable_searching (EBookShellView *book_shell_view);
+
 G_END_DECLS
 
 #endif /* E_BOOK_SHELL_VIEW_H */
