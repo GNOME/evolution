@@ -49,6 +49,7 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include "shell/e-shell.h"
+#include "e-util/e-marshal.h"
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
@@ -93,6 +94,17 @@ struct _MailFolderCachePrivate
 	gint count_sent;
 	gint count_trash;
 };
+
+enum
+{
+	FOLDER_AVAILABLE,
+	FOLDER_UNAVAILABLE,
+	FOLDER_DELETED,
+	FOLDER_RENAMED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
 
 struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
@@ -1197,6 +1209,77 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 
 	object_class->dispose = mail_folder_cache_dispose;
 	object_class->finalize = mail_folder_cache_finalize;
+
+	/**
+	 * MailFolderCache::folder-available
+	 * @store: the #CamelStore containing the folder
+	 * @uri: the uri of the folder
+	 *
+	 * Emitted when a folder becomes available
+	 **/
+	signals[FOLDER_AVAILABLE] =
+		g_signal_new ("folder-available",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      0, /* struct offset */
+			      NULL, NULL, /* accumulator */
+			      e_marshal_VOID__POINTER_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_STRING);
+
+	/**
+	 * MailFolderCache::folder-unavailable
+	 * @store: the #CamelStore containing the folder
+	 * @uri: the uri of the folder
+	 *
+	 * Emitted when a folder becomes unavailable.  This represents a
+	 * transient condition.  See MailFolderCache::folder-deleted to be
+	 * notified when a folder is permanently removed.
+	 **/
+	signals[FOLDER_UNAVAILABLE] =
+		g_signal_new ("folder-unavailable",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      0, /* struct offset */
+			      NULL, NULL, /* accumulator */
+			      e_marshal_VOID__POINTER_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_STRING);
+
+	/**
+	 * MailFolderCache::folder-deleted
+	 * @store: the #CamelStore containing the folder
+	 * @uri: the uri of the folder
+	 *
+	 * Emitted when a folder is deleted
+	 **/
+	signals[FOLDER_DELETED] =
+		g_signal_new ("folder-deleted",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      0, /* struct offset */
+			      NULL, NULL, /* accumulator */
+			      e_marshal_VOID__POINTER_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_STRING);
+
+	/**
+	 * MailFolderCache::folder-renamed
+	 * @store: the #CamelStore containing the folder
+	 * @old_uri: the old uri of the folder
+	 * @new_uri: the new uri of the folder
+	 *
+	 * Emitted when a folder is renamed
+	 **/
+	signals[FOLDER_RENAMED] =
+		g_signal_new ("folder-renamed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      0, /* struct offset */
+			      NULL, NULL, /* accumulator */
+			      e_marshal_VOID__POINTER_STRING_STRING,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
 }
 
 static void
