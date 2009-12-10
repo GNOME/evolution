@@ -860,3 +860,22 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 
 	g_object_unref (master);
 }
+
+gchar *
+icalcomp_suggest_filename (icalcomponent *icalcomp, const gchar *default_name)
+{
+	icalproperty *prop;
+	const gchar *summary = NULL;
+
+	if (!icalcomp)
+		return g_strconcat (default_name, ".ics", NULL);
+
+	prop = icalcomponent_get_first_property (icalcomp, ICAL_SUMMARY_PROPERTY);
+	if (prop)
+		summary = icalproperty_get_summary (prop);
+
+	if (!summary || !*summary)
+		summary = default_name;
+
+	return g_strconcat (summary, ".ics", NULL);
+}

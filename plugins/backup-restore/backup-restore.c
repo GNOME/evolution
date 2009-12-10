@@ -150,7 +150,7 @@ action_settings_backup_cb (GtkAction *action,
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file"),
-		"evolution-backup.tar.gz", (GtkCallback)
+		"evolution-backup.tar.gz", "*.tar.gz", (GtkCallback)
 		set_local_only, NULL);
 
 	if (file == NULL)

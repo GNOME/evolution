@@ -259,7 +259,7 @@ action_address_book_save_as_cb (GtkAction *action,
 
 	string = eab_suggest_filename (list);
 	file = e_shell_run_save_dialog (
-		shell, _("Save as vCard"), string, NULL, NULL);
+		shell, _("Save as vCard"), string, "*.vcf:text/x-vcard,text/directory", NULL, NULL);
 	g_free (string);
 
 	if (file == NULL)
@@ -560,7 +560,7 @@ action_contact_save_as_cb (GtkAction *action,
 
 	string = eab_suggest_filename (list);
 	file = e_shell_run_save_dialog (
-		shell, _("Save as vCard"), string, NULL, NULL);
+		shell, _("Save as vCard"), string, "*.vcf:text/x-vcard,text/directory", NULL, NULL);
 	g_free (string);
 
 	if (file == NULL)

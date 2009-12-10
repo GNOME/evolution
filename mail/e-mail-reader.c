@@ -799,7 +799,7 @@ action_mail_save_as_cb (GtkAction *action,
 	GPtrArray *uids;
 	GFile *file;
 	const gchar *title;
-	const gchar *suggestion;
+	gchar *suggestion = NULL;
 	gchar *uri;
 
 	folder = e_mail_reader_get_folder (reader);
@@ -813,13 +813,23 @@ action_mail_save_as_cb (GtkAction *action,
 	/* Suggest as a filename the subject of the first message. */
 	info = camel_folder_get_message_info (folder, uids->pdata[0]);
 	if (info != NULL) {
-		suggestion = camel_message_info_subject (info);
+		const gchar *subject = camel_message_info_subject (info);
+
+		if (subject)
+			suggestion = g_strconcat (subject, ".mbox", NULL);
 		camel_message_info_free (info);
-	} else
-		suggestion = NULL;
+	}
+	
+	if (!suggestion) {
+		/* To Translators: This is a part of a suggested file name used when saving
+		   a message or multiple messages to an mbox format, when the first message
+		   doesn't have a Subject. The extension ".mbox" is appended to this string,
+		   thus it will be something like "Message.mbox" at the end. */
+		suggestion = g_strconcat (ngettext ("Message", "Messages", uids->len), ".mbox", NULL);
+	}
 
 	shell = e_shell_backend_get_shell (shell_backend);
-	file = e_shell_run_save_dialog (shell, title, suggestion, NULL, NULL);
+	file = e_shell_run_save_dialog (shell, title, suggestion, "*.mbox:application/mbox,message/rfc822", NULL, NULL);
 
 	if (file == NULL) {
 		em_utils_uids_free (uids);

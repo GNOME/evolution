@@ -135,6 +135,7 @@ exit:
  * @shell: an #EShell
  * @title: file chooser dialog title
  * @suggestion: file name suggestion, or %NULL
+ * @filters: Possible filters for dialog, or %NULL
  * @customize_func: optional dialog customization function
  * @customize_data: optional data to pass to @customize_func
  *
@@ -145,12 +146,18 @@ exit:
  * @customize_data is the second).  If the user cancels the dialog the
  * function will return %NULL.
  *
+ * With non-%NULL @filters will be added also file filters to the dialog.
+ * The string format is "pat1:mt1;pat2:mt2:...", where 'pat' is a pattern
+ * and 'mt' is a MIME type for the pattern to be used.
+ * There can be more than one MIME type, those are separated by comma.
+ *
  * Returns: the #GFile to save to, or %NULL
  **/
 GFile *
 e_shell_run_save_dialog (EShell *shell,
                          const gchar *title,
                          const gchar *suggestion,
+			 const gchar *filters,
                          GtkCallback customize_func,
                          gpointer customize_data)
 {
@@ -191,6 +198,54 @@ e_shell_run_save_dialog (EShell *shell,
 
 	if (suggestion != NULL)
 		gtk_file_chooser_set_current_name (file_chooser, suggestion);
+
+	if (filters != NULL) {
+		gchar **flts = g_strsplit (filters, ";", -1);
+		gint i;
+
+		for (i = 0; flts [i]; i++) {
+			GtkFileFilter *filter = gtk_file_filter_new ();
+			gchar *flt = flts [i];
+			gchar *delim = strchr (flt, ':'), *next = NULL;
+
+			if (delim) {
+				*delim = 0;
+				next = strchr (delim + 1, ',');
+			}
+
+			gtk_file_filter_add_pattern (filter, flt);
+			if (g_ascii_strcasecmp (flt, "*.mbox") == 0)
+				gtk_file_filter_set_name (filter, _("Berkeley Mailbox (mbox)")); 
+			else if (g_ascii_strcasecmp (flt, "*.vcf") == 0)
+				gtk_file_filter_set_name (filter, _("vCard (.vcf)"));
+			else if (g_ascii_strcasecmp (flt, "*.ics") == 0)
+				gtk_file_filter_set_name (filter, _("iCalendar (.ics)"));
+
+			while (delim) {
+				delim++;
+				if (next)
+					*next = 0;
+
+				gtk_file_filter_add_mime_type (filter, delim);
+
+				delim = next;
+				if (next)
+					next = strchr (next + 1, ',');
+			}
+
+			gtk_file_chooser_add_filter (file_chooser, filter);
+		}
+
+		if (flts && flts [0]) {
+			GtkFileFilter *filter = gtk_file_filter_new ();
+
+			gtk_file_filter_add_pattern (filter, "*");
+			gtk_file_filter_set_name (filter, _("All Files (*)"));
+			gtk_file_chooser_add_filter (file_chooser, filter);
+		}
+
+		g_strfreev (flts);
+	}
 
 	/* Allow further customizations before running the dialog. */
 	if (customize_func != NULL)

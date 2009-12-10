@@ -1519,7 +1519,7 @@ save_vcalendar_cb (GtkWidget *button, struct _itip_puri *pitip)
 
 	shell = e_shell_get_default ();
 	file = e_shell_run_save_dialog (
-		shell, _("Save Calendar"), suggestion, NULL, NULL);
+		shell, _("Save Calendar"), suggestion, "*.ics:text/calendar", NULL, NULL);
 	if (file == NULL)
 		return;
 

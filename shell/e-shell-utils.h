@@ -44,6 +44,7 @@ GFile *		e_shell_run_open_dialog		(EShell *shell,
 GFile *		e_shell_run_save_dialog		(EShell *shell,
 						 const gchar *title,
 						 const gchar *suggestion,
+						 const gchar *filters,
 						 GtkCallback customize_func,
 						 gpointer customize_data);
 

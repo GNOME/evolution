@@ -647,8 +647,11 @@ action_task_save_as_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
+	/* To Translators: Default filename part saving a task to a file when no summary is filed, the '.ics' extension is concatenated to it */
+	string = icalcomp_suggest_filename (comp_data->icalcomp, _("task"));
 	file = e_shell_run_save_dialog (
-		shell, _("Save as iCalendar"), NULL, NULL, NULL);
+		shell, _("Save as iCalendar"), string, "*.ics:text/calendar", NULL, NULL);
+	g_free (string);
 	if (file == NULL)
 		return;
 

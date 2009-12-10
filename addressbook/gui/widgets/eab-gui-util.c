@@ -286,7 +286,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 gchar *
 eab_suggest_filename (GList *contact_list)
 {
-	gchar *current_name = NULL;
+	gchar *current_name = NULL, *res;
 
 	g_return_val_if_fail (contact_list != NULL, NULL);
 
@@ -305,7 +305,10 @@ eab_suggest_filename (GList *contact_list)
 	if (current_name == NULL)
 		current_name = make_safe_filename (_("list"));
 
-	return current_name;
+	res = g_strconcat (current_name, ".vcf", NULL);
+	g_free (current_name);
+
+	return res;
 }
 
 typedef struct ContactCopyProcess_ ContactCopyProcess;
