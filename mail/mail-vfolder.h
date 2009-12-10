@@ -44,8 +44,8 @@ void vfolder_gui_add_from_address (CamelInternetAddress *addr, gint flags, const
 GList * mail_vfolder_get_sources_local (void);
 GList * mail_vfolder_get_sources_remote (void);
 
-/* add a uri that is now (un)available to vfolders in a transient manner */
-void mail_vfolder_add_uri(CamelStore *store, const gchar *uri, gint remove);
+void mail_vfolder_notify_uri_available(CamelStore *store, const gchar *uri);
+void mail_vfolder_notify_uri_unavailable(CamelStore *store, const gchar *uri);
 
 /* note that a folder has changed name (uri) */
 void mail_vfolder_rename_uri(CamelStore *store, const gchar *from, const gchar *to);

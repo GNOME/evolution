@@ -36,6 +36,7 @@
 #include <time.h>
 
 #include <glib.h>
+#include <glib-object.h>
 #include <glib/gstdio.h>
 
 #include <glib/gi18n.h>
@@ -47,7 +48,6 @@
 #include <camel/camel-disco-store.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "e-util/e-util.h"
 #include "shell/e-shell.h"
 
 #include "mail-mt.h"
@@ -66,7 +66,6 @@
 #include "em-utils.h"
 
 #include "e-mail-local.h"
-#include "e-mail-store.h"
 
 #define w(x)
 #define d(x)
@@ -80,12 +79,15 @@ G_DEFINE_TYPE (MailFolderCache, mail_folder_cache, G_TYPE_OBJECT)
 
 struct _MailFolderCachePrivate
 {
+	/* source id for the ping timeout callback */
 	guint ping_id;
 	/* Store to storeinfo table, active stores */
 	GHashTable *stores;
+	/* mutex to protect access to the stores hash */
 	GMutex *stores_mutex;
 	/* List of folder changes to be executed in gui thread */
 	GQueue updates;
+	/* event id for the async event of flushing all pending updates */
 	gint update_id;
 	/* hack for people who LIKE to have unsent count */
 	gint count_sent;
@@ -173,13 +175,14 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 		g_mutex_unlock (self->priv->stores_mutex);
 
 		if (up->remove) {
+			/* XXX: what's going on here? */
 			if (up->delete) {
 				mail_vfolder_delete_uri(up->store, up->uri);
 				mail_filter_delete_uri(up->store, up->uri);
 				mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->uri);
 
 			} else
-				mail_vfolder_add_uri(up->store, up->uri, TRUE);
+				mail_vfolder_notify_uri_unavailable (up->store, up->uri);
 		} else {
 			/* We can tell the vfolder code though */
 			if (up->olduri && up->add) {
@@ -191,7 +194,7 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 			}
 
 			if (!up->olduri && up->add)
-				mail_vfolder_add_uri(up->store, up->uri, FALSE);
+				mail_vfolder_notify_uri_available (up->store, up->uri);
 		}
 
 		/* update unread counts */
@@ -533,6 +536,13 @@ folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 	/* Dont do anything, do it from the store rename event? */
 }
 
+/**
+ * mail_folder_cache_note_folder:
+ *
+ * When a folder has been opened, notify it for watching.  The folder must have
+ * already been created on the store (which has already been noted) before the
+ * folder can be opened
+ */
 void mail_folder_cache_note_folder(MailFolderCache *self, CamelFolder *folder)
 {
 	CamelStore *store = folder->parent_store;
@@ -815,6 +825,11 @@ free_folder_info_hash(gchar *path, struct _folder_info *mfi, gpointer data)
 	free_folder_info(mfi);
 }
 
+/**
+ * mail_folder_cache_note_store_remove:
+ *
+ * Notify the cache that the specified @store can be removed from the cache
+ */
 void
 mail_folder_cache_note_store_remove(MailFolderCache *self, CamelStore *store)
 {
@@ -987,9 +1002,16 @@ store_online_cb (CamelStore *store, gpointer data)
 	g_mutex_unlock (ud->cache->priv->stores_mutex);
 }
 
+/**
+ * mail_folder_cache_note_store:
+ *
+ * Add a store whose folders should appear in the shell The folders are scanned
+ * from the store, and/or added at runtime via the folder_created event.  The
+ * @done function returns if we can free folder info.
+ */
 void
 mail_folder_cache_note_store(MailFolderCache *self, CamelStore *store, CamelOperation *op,
-		NoteDoneFunc done, gpointer data)
+			     NoteDoneFunc done, gpointer data)
 {
 	struct _store_info *si;
 	struct _update_data *ud;
@@ -1078,8 +1100,14 @@ static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si
 	}
 }
 
-/* returns TRUE if the uri is available, folderp is set to a
-   reffed folder if the folder has also already been opened */
+/**
+ * mail_folder_cache_get_folder_from_uri:
+ *
+ * Gets the #CamelFolder for the supplied @uri.
+ *
+ * Return value: TRUE if the uri is available, folderp is set to a reffed folder if
+ * the folder has also already been opened
+ */
 gboolean
 mail_folder_cache_get_folder_from_uri(MailFolderCache *self, const gchar *uri, CamelFolder **folderp)
 {

@@ -425,8 +425,24 @@ uri_is_spethal(CamelStore *store, const gchar *uri)
 	return res;
 }
 
-/* called when a new uri becomes (un)available */
-void
+/**
+ * mail_vfolder_add_uri:
+ *
+ * @store: a #CamelStore containing the uri
+ * @curi: an email uri to be added/removed
+ * @remove: Whether the uri should be removed or added
+ *
+ * Called when a new uri becomes (un)available.  If @store is not a
+ * CamelVeeStore, the uri is added/removed from the list of cached source
+ * folders.  Then each vfolder rule is checked to see if the specified uri
+ * matches a source of the rule.  It builds a list of vfolders that use (or
+ * would use) the specified uri as a source.  It then adds (or removes) this uri
+ * to (from) those vfolders via camel_vee_folder_add/remove_folder() but does
+ * not modify the actual filters or write changes to disk.
+ *
+ * NOTE: This function must be called from the main thread.
+ */
+static void
 mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 {
 	EFilterRule *rule;
@@ -525,7 +541,53 @@ done:
 	g_free(uri);
 }
 
-/* called when a uri is deleted from a store */
+/**
+ * mail_vfolder_uri_available:
+ * @store: a #CamelStore containing the uri
+ * @uri: uri of a folder that became available
+ *
+ * Adds @uri to the list of folders searched if any vfolder source matches the
+ * uri.  This function has a transient effect and does not permanently modify
+ * the vfolder filter rules on disk.
+ */
+void
+mail_vfolder_notify_uri_available (CamelStore *store, const gchar *uri)
+{
+	mail_vfolder_add_uri (store, uri, FALSE);
+}
+
+/**
+ * mail_vfolder_uri_available:
+ * @store: a #CamelStore containing the uri
+ * @uri: uri of a folder that became unavailable
+ *
+ * Removes @uri from the list of folders searched if any vfolder source matches the
+ * uri.  This function has a transient effect and does not permanently modify
+ * the vfolder filter rules on disk.
+ */
+void
+mail_vfolder_notify_uri_unavailable (CamelStore *store, const gchar *uri)
+{
+	mail_vfolder_add_uri (store, uri, TRUE);
+}
+
+/**
+ * mail_vfolder_delete_uri:
+ *
+ * @store: a #CamelStore containing the uri
+ * @curi: an email uri that has been deleted
+ *
+ * Looks through all vfolder rules to see if @curi is listed as a source for any
+ * vfolder rules.  If the uri is found in the source for any rule, it is removed
+ * and the user is alerted to the fact that the vfolder rules have been updated.
+ * The new vfolder rules are written to disk.
+ *
+ * XXX: It doesn't appear that the changes to the vfolder rules are sent down to
+ * the camel level, however. So the actual vfolders will not change behavior
+ * until evolution is restarted (?)
+ *
+ * NOTE: This function must be called from the main thread.
+ */
 void
 mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 {
