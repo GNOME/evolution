@@ -98,6 +98,7 @@ enum
 	FOLDER_UNAVAILABLE,
 	FOLDER_DELETED,
 	FOLDER_RENAMED,
+	FOLDER_UNREAD_UPDATED,
 	LAST_SIGNAL
 };
 
@@ -198,8 +199,8 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 		}
 
 		/* update unread counts */
-		em_folder_tree_model_set_unread_count (
-			default_model, up->store, up->full_name, up->unread);
+		g_signal_emit (self, signals[FOLDER_UNREAD_UPDATED], 0,
+			       up->store, up->full_name, up->unread);
 
 		if (up->uri) {
 			EMEvent *e = em_event_peek();
@@ -1268,6 +1269,24 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      e_marshal_VOID__POINTER_STRING_STRING,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
+
+	/**
+	 * MailFolderCache::folder-unread-updated
+	 * @store: the #CamelStore containing the folder
+	 * @name: the name of the folder
+	 * @unread: the number of unread mails in the folder
+	 *
+	 * Emitted when a we receive an update to the unread count for a folder
+	 **/
+	signals[FOLDER_UNREAD_UPDATED] =
+		g_signal_new ("folder-unread-updated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      0, /* struct offset */
+			      NULL, NULL, /* accumulator */
+			      e_marshal_VOID__POINTER_STRING_INT,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_INT);
 }
 
 static void

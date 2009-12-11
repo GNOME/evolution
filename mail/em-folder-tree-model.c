@@ -372,6 +372,69 @@ folder_tree_model_class_init (EMFolderTreeModelClass *class)
 }
 
 static void
+em_folder_tree_model_set_unread_count (EMFolderTreeModel *model,
+                                       CamelStore *store,
+                                       const gchar *full,
+                                       gint unread)
+{
+	EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *reference;
+	GtkTreeModel *tree_model;
+	GtkTreePath *path;
+	GtkTreeIter parent;
+	GtkTreeIter iter;
+	guint old_unread = 0;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (full != NULL);
+
+	if (unread < 0)
+		return;
+
+	si = em_folder_tree_model_lookup_store_info (model, store);
+	if (si == NULL)
+		return;
+
+	reference = g_hash_table_lookup (si->full_hash, full);
+	if (!gtk_tree_row_reference_valid (reference))
+		return;
+
+	tree_model = GTK_TREE_MODEL (model);
+
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (tree_model, &iter, path);
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (
+		tree_model, &iter,
+		COL_UINT_UNREAD_LAST_SEL, &old_unread, -1);
+
+	gtk_tree_store_set (
+		GTK_TREE_STORE (model), &iter,
+		COL_UINT_UNREAD, unread,
+		COL_UINT_UNREAD_LAST_SEL, MIN (old_unread, unread), -1);
+
+	/* Folders are displayed with a bold weight to indicate that
+	 * they contain unread messages.  We signal that parent rows
+	 * have changed here to update them. */
+	while (gtk_tree_model_iter_parent (tree_model, &parent, &iter)) {
+		path = gtk_tree_model_get_path (tree_model, &parent);
+		gtk_tree_model_row_changed (tree_model, path, &parent);
+		gtk_tree_path_free (path);
+		iter = parent;
+	}
+}
+
+static void
+folder_unread_updated_cb (MailFolderCache *cache, CamelStore *store,
+			  const gchar *full_name, int unread, gpointer user_data)
+{
+	EMFolderTreeModel *model = (EMFolderTreeModel*) user_data;
+	em_folder_tree_model_set_unread_count (model, store, full_name, unread);
+}
+
+static void
 folder_tree_model_init (EMFolderTreeModel *model)
 {
 	GHashTable *store_index;
@@ -425,6 +488,10 @@ folder_tree_model_init (EMFolderTreeModel *model)
 	model->priv->account_removed_id = g_signal_connect (
 		model->priv->accounts, "account-removed",
 		G_CALLBACK (account_removed_cb), model);
+
+	g_signal_connect (mail_folder_cache_get_default (),
+			  "folder-unread-updated",
+			  G_CALLBACK (folder_unread_updated_cb), model);
 }
 
 GType
@@ -1171,61 +1238,6 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model,
 		COL_STRING_DISPLAY_NAME, &name, -1);
 
 	return name;
-}
-
-void
-em_folder_tree_model_set_unread_count (EMFolderTreeModel *model,
-                                       CamelStore *store,
-                                       const gchar *full,
-                                       gint unread)
-{
-	EMFolderTreeModelStoreInfo *si;
-	GtkTreeRowReference *reference;
-	GtkTreeModel *tree_model;
-	GtkTreePath *path;
-	GtkTreeIter parent;
-	GtkTreeIter iter;
-	guint old_unread = 0;
-
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (full != NULL);
-
-	if (unread < 0)
-		return;
-
-	si = em_folder_tree_model_lookup_store_info (model, store);
-	if (si == NULL)
-		return;
-
-	reference = g_hash_table_lookup (si->full_hash, full);
-	if (!gtk_tree_row_reference_valid (reference))
-		return;
-
-	tree_model = GTK_TREE_MODEL (model);
-
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (tree_model, &iter, path);
-	gtk_tree_path_free (path);
-
-	gtk_tree_model_get (
-		tree_model, &iter,
-		COL_UINT_UNREAD_LAST_SEL, &old_unread, -1);
-
-	gtk_tree_store_set (
-		GTK_TREE_STORE (model), &iter,
-		COL_UINT_UNREAD, unread,
-		COL_UINT_UNREAD_LAST_SEL, MIN (old_unread, unread), -1);
-
-	/* Folders are displayed with a bold weight to indicate that
-	 * they contain unread messages.  We signal that parent rows
-	 * have changed here to update them. */
-	while (gtk_tree_model_iter_parent (tree_model, &parent, &iter)) {
-		path = gtk_tree_model_get_path (tree_model, &parent);
-		gtk_tree_model_row_changed (tree_model, path, &parent);
-		gtk_tree_path_free (path);
-		iter = parent;
-	}
 }
 
 EMFolderTreeModelStoreInfo *

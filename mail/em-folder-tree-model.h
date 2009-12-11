@@ -137,11 +137,6 @@ void		em_folder_tree_model_remove_folders
 					(EMFolderTreeModel *model,
 					 EMFolderTreeModelStoreInfo *si,
 					 GtkTreeIter *toplevel);
-void		em_folder_tree_model_set_unread_count
-					(EMFolderTreeModel *model,
-					 CamelStore *store,
-					 const gchar *path,
-					 gint unread);
 gboolean	em_folder_tree_model_is_type_inbox
 					(EMFolderTreeModel *model,
 					 CamelStore *store,
