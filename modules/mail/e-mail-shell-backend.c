@@ -56,7 +56,9 @@
 #include "em-mailer-prefs.h"
 #include "em-network-prefs.h"
 #include "em-utils.h"
+#include "mail-autofilter.h"
 #include "mail-config.h"
+#include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
@@ -768,6 +770,18 @@ mail_shell_backend_window_created_cb (EShell *shell,
 }
 
 static void
+folder_deleted_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
+{
+	mail_filter_delete_uri(store, uri);
+}
+
+static void
+folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
+{
+	mail_filter_rename_uri(store, olduri, newuri);
+}
+
+static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EMailShellBackendPrivate *priv;
@@ -832,6 +846,14 @@ mail_shell_backend_constructed (GObject *object)
 		shell, "window-created",
 		G_CALLBACK (mail_shell_backend_window_created_cb),
 		shell_backend);
+
+	g_signal_connect (
+		mail_folder_cache_get_default (), "folder-deleted",
+		G_CALLBACK (folder_deleted_cb), NULL);
+
+	g_signal_connect (
+		mail_folder_cache_get_default (), "folder-renamed",
+		G_CALLBACK (folder_renamed_cb), NULL);
 
 	mail_config_init ();
 	mail_msg_init ();

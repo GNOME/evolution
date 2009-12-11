@@ -85,10 +85,6 @@ gint mail_config_get_address_count (void);
 
 EAccountService  *mail_config_get_default_transport (void);
 
-/* uri's got changed by the store, etc */
-void mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new);
-void mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri);
-
 /* static utility functions */
 gchar *mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix);
 gchar *mail_config_folder_to_safe_url (CamelFolder *folder);

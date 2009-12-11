@@ -550,7 +550,7 @@ done:
  * uri.  This function has a transient effect and does not permanently modify
  * the vfolder filter rules on disk.
  */
-void
+static void
 mail_vfolder_notify_uri_available (CamelStore *store, const gchar *uri)
 {
 	mail_vfolder_add_uri (store, uri, FALSE);
@@ -565,7 +565,7 @@ mail_vfolder_notify_uri_available (CamelStore *store, const gchar *uri)
  * uri.  This function has a transient effect and does not permanently modify
  * the vfolder filter rules on disk.
  */
-void
+static void
 mail_vfolder_notify_uri_unavailable (CamelStore *store, const gchar *uri)
 {
 	mail_vfolder_add_uri (store, uri, TRUE);
@@ -588,7 +588,7 @@ mail_vfolder_notify_uri_unavailable (CamelStore *store, const gchar *uri)
  *
  * NOTE: This function must be called from the main thread.
  */
-void
+static void
 mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 {
 	EFilterRule *rule;
@@ -679,7 +679,7 @@ done:
 }
 
 /* called when a uri is renamed in a store */
-void
+static void
 mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 {
 	EFilterRule *rule;
@@ -972,6 +972,30 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 	}
 }
 
+static void
+folder_available_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
+{
+	mail_vfolder_notify_uri_available (store, uri);
+}
+
+static void
+folder_unavailable_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
+{
+	mail_vfolder_notify_uri_unavailable (store, uri);
+}
+
+static void
+folder_deleted_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
+{
+	mail_vfolder_delete_uri (store, uri);
+}
+
+static void
+folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
+{
+	mail_vfolder_rename_uri (store, olduri, newuri);
+}
+
 void
 vfolder_load_storage(void)
 {
@@ -1049,6 +1073,15 @@ vfolder_load_storage(void)
 	gconf = mail_config_get_gconf_client();
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", NULL))
 		gconf_client_set_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", TRUE, NULL);
+
+	g_signal_connect (mail_folder_cache_get_default (), "folder-available",
+			  (GCallback) folder_available_cb, NULL);
+	g_signal_connect (mail_folder_cache_get_default (), "folder-unavailable",
+			  (GCallback) folder_unavailable_cb, NULL);
+	g_signal_connect (mail_folder_cache_get_default (), "folder-deleted",
+			  (GCallback) folder_deleted_cb, NULL);
+	g_signal_connect (mail_folder_cache_get_default (), "folder-renamed",
+			  (GCallback) folder_renamed_cb, NULL);
 }
 
 void

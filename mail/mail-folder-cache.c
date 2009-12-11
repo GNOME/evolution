@@ -58,9 +58,6 @@
 #include "mail-tools.h"
 
 /* For notifications of changes */
-#include "mail-vfolder.h"
-#include "mail-autofilter.h"
-#include "mail-config.h"
 #include "em-folder-tree-model.h"
 
 #include "em-event.h"
@@ -187,26 +184,17 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 		g_mutex_unlock (self->priv->stores_mutex);
 
 		if (up->remove) {
-			/* XXX: what's going on here? */
 			if (up->delete) {
-				mail_vfolder_delete_uri(up->store, up->uri);
-				mail_filter_delete_uri(up->store, up->uri);
-				mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->uri);
-
+				g_signal_emit (self, signals[FOLDER_DELETED], 0, up->store, up->uri);
 			} else
-				mail_vfolder_notify_uri_unavailable (up->store, up->uri);
+				g_signal_emit (self, signals[FOLDER_UNAVAILABLE], 0, up->store, up->uri);
 		} else {
-			/* We can tell the vfolder code though */
 			if (up->olduri && up->add) {
-				d(printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri));
-				mail_vfolder_rename_uri(up->store, up->olduri, up->uri);
-				mail_filter_rename_uri(up->store, up->olduri, up->uri);
-				mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name,
-							up->olduri, up->uri);
+				g_signal_emit (self, signals[FOLDER_RENAMED], 0, up->store, up->olduri, up->uri);
 			}
 
 			if (!up->olduri && up->add)
-				mail_vfolder_notify_uri_available (up->store, up->uri);
+				g_signal_emit (self, signals[FOLDER_AVAILABLE], 0, up->store, up->uri);
 		}
 
 		/* update unread counts */

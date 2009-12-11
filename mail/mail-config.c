@@ -58,12 +58,13 @@
 
 #include <libedataserverui/e-passwords.h>
 
-#include "mail-session.h"
-#include "mail-config.h"
-#include "mail-mt.h"
-#include "mail-tools.h"
-#include "em-utils.h"
 #include "e-mail-local.h"
+#include "em-utils.h"
+#include "mail-config.h"
+#include "mail-folder-cache.h"
+#include "mail-mt.h"
+#include "mail-session.h"
+#include "mail-tools.h"
 
 typedef struct {
 	GConfClient *gconf;
@@ -249,131 +250,6 @@ gconf_int_value_changed (GConfClient *client,
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
-}
-
-/* Config struct routines */
-void
-mail_config_init (void)
-{
-	GConfClientNotifyFunc func;
-	const gchar *key;
-
-	if (config)
-		return;
-
-	config = g_new0 (MailConfig, 1);
-	config->gconf = gconf_client_get_default ();
-	config->gtkrc = g_build_filename (
-		e_get_user_data_dir (), "mail",
-		"config", "gtkrc-mail-fonts", NULL);
-
-	mail_config_clear ();
-
-	gtk_rc_parse (config->gtkrc);
-
-	/* Composer Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, "/apps/evolution/mail/composer",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/composer/spell_color";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	key = "/apps/evolution/mail/composer/outlook_filenames";
-	func = (GConfClientNotifyFunc) gconf_outlook_filenames_changed;
-	gconf_outlook_filenames_changed (config->gconf, 0, NULL, NULL);
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	/* Display Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, "/apps/evolution/mail/display",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/display/address_compress";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->address_compress, NULL, NULL);
-	config->address_compress =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/display/address_count";
-	func = (GConfClientNotifyFunc) gconf_int_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->address_count, NULL, NULL);
-	config->address_count =
-		gconf_client_get_int (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/display/citation_colour";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	key = "/apps/evolution/mail/display/mark_citations";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	/* Font Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, "/apps/evolution/mail/display/fonts",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/display/fonts";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	/* Junk Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, "/apps/evolution/mail/junk",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/junk/check_custom_header";
-	func = (GConfClientNotifyFunc) gconf_jh_check_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-	config->jh_check =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/junk/custom_header";
-	func = (GConfClientNotifyFunc) gconf_jh_headers_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	key = "/apps/evolution/mail/junk/lookup_addressbook";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->book_lookup, NULL, NULL);
-	config->book_lookup =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/junk/lookup_addressbook_local_only";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->book_lookup_local_only, NULL, NULL);
-	config->book_lookup_local_only =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
-	key = "/desktop/gnome/lockdown/disable_command_line";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->scripts_disabled, NULL, NULL);
-	config->scripts_disabled =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
-	gconf_jh_check_changed (config->gconf, 0, NULL, config);
 }
 
 void
@@ -578,7 +454,7 @@ uri_to_evname (const gchar *uri, const gchar *prefix)
 	return tmp;
 }
 
-void
+static void
 mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new)
 {
 	EAccountList *account_list;
@@ -633,7 +509,7 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *ne
 		mail_config_write ();
 }
 
-void
+static void
 mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
 {
 	EAccountList *account_list;
@@ -736,4 +612,147 @@ mail_config_get_lookup_book_local_only (void)
 		mail_config_init ();
 
 	return config->book_lookup_local_only;
+}
+
+static void
+folder_deleted_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
+{
+	mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name, uri);
+}
+
+static void
+folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
+{
+	mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name,
+				olduri, newuri);
+}
+
+/* Config struct routines */
+void
+mail_config_init (void)
+{
+	GConfClientNotifyFunc func;
+	const gchar *key;
+
+	if (config)
+		return;
+
+	config = g_new0 (MailConfig, 1);
+	config->gconf = gconf_client_get_default ();
+	config->gtkrc = g_build_filename (
+		e_get_user_data_dir (), "mail",
+		"config", "gtkrc-mail-fonts", NULL);
+
+	mail_config_clear ();
+
+	gtk_rc_parse (config->gtkrc);
+
+	/* Composer Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/composer",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/composer/spell_color";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/composer/outlook_filenames";
+	func = (GConfClientNotifyFunc) gconf_outlook_filenames_changed;
+	gconf_outlook_filenames_changed (config->gconf, 0, NULL, NULL);
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Display Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/display",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/display/address_compress";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->address_compress, NULL, NULL);
+	config->address_compress =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/address_count";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->address_count, NULL, NULL);
+	config->address_count =
+		gconf_client_get_int (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/citation_colour";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/display/mark_citations";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Font Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/display/fonts",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/display/fonts";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Junk Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/junk",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/junk/check_custom_header";
+	func = (GConfClientNotifyFunc) gconf_jh_check_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+	config->jh_check =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/junk/custom_header";
+	func = (GConfClientNotifyFunc) gconf_jh_headers_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/junk/lookup_addressbook";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->book_lookup, NULL, NULL);
+	config->book_lookup =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/junk/lookup_addressbook_local_only";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->book_lookup_local_only, NULL, NULL);
+	config->book_lookup_local_only =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/desktop/gnome/lockdown/disable_command_line";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->scripts_disabled, NULL, NULL);
+	config->scripts_disabled =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	gconf_jh_check_changed (config->gconf, 0, NULL, config);
+
+	g_signal_connect (mail_folder_cache_get_default (), "folder-deleted",
+			  (GCallback) folder_deleted_cb, NULL);
+	g_signal_connect (mail_folder_cache_get_default (), "folder-renamed",
+			  (GCallback) folder_renamed_cb, NULL);
 }
