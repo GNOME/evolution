@@ -100,7 +100,9 @@ static void
 update_publish_notification (GtkMessageType msg_type, const gchar *msg_text)
 {
 	static GString *actual_msg = NULL;
+	#ifdef HAVE_LIBNOTIFY
 	static gboolean can_notify = TRUE;
+	#endif
 	gboolean new_icon = !status_icon;
 	const gchar *stock_name;
 
