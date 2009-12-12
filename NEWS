@@ -1,3 +1,74 @@
+Evolution 2.28.2 2009-12-14
+---------------------------
+
+Bug Fixes:
+	#271836 - Incorrect signature for "model_cell_changed" signal handler
+	          (Li Yuan)
+	#397265 - Image loading for new contact requires restarting Evolution
+	          (Milan Crha)
+	#411768 - Drag and drop header columns (Milan Crha)
+	#468736 - Prevent recursion in em-format (Milan Crha)
+	#474502 - Don't check for contacts in broken address books (Milan Crha)
+	#551464 - Paste files into composer as attachments (Matthew Barnes)
+	#551603 - Special case "positive zero alarms" (Paul Bolle)
+	#554779 - Removal of task due date does not sync from Palm
+	          (Matt McCutchen 2)
+	#555901 - Preserve Start/End/Due timezone when editing in list view
+	          (Milan Crha)
+	#557613 - evolution crashed with SIGSEGV in try_open_e_book_cb()
+	          (Chenthill Palanisamy)
+	#570835 - Custom e-mail headers inserted with double column
+	          (Milan Crha)
+	#590127 - Define ETable::vertical-spacing style property (Milan Crha)
+	#596027 - In Anjal, although invalid mail address warning popup, mail's
+	          tab closed automatically (Yan Li)
+	#596566 - Crash on quit with composer window opened (Milan Crha)
+	#596827 - Don't remove meeting attendees after edit (Milan Crha)
+	#597582 - Original Date: header should be given precedence
+	          (David Woodhouse)
+	#599124 - Signature always includes an empty line in front of text
+	          (Milan Crha)
+	#599190 - Drag and drop broken for received MIME parts (Matthew Barnes)
+	#599245 - Use bitwise AND instead of logical AND for checking flags
+	          (Thomas Andersen)
+	#599627 - Crash when adding a new task in a table (C de-Avillez)
+	#599792 - Anjal composer's Send button doesn't work after pressed Save
+	          Drafts button (Yan Li)
+	#599882 - Crash in em_folder_tree_select_prev_path() when wrapping to
+	          bottom (Matthew Barnes)
+	#600132 - Direct print from composer fails when special characters used
+	          (Milan Crha)
+	#600133 - Crash on day view print preview without all day events
+	          (Milan Crha)
+	#601202 - Evo deletes system addressbook (Bharath Acharya)
+	#601218 - Accepted meeting doesn't show attachments in calendar view
+	          (Milan Crha)
+	#601219 - Transient dialogs in composer window blocks main window
+	          (Matthew Barnes)
+	#601644 - Disable rename for system folders (Bharath Acharya)
+
+Other Changes:
+	Synchronize with attachment logic in Evolution 2.29. (Matthew Barnes)
+	Improve comments: widgets/misc/e-filter-bar.c (Yan Li)
+	[PATCH] Output an error message on system filter rules loading
+	error (Yan Li)
+	Use same macro name for consistency (Tor Lillqvist)
+	Add mail_component_show_status_bar (Tor Lillqvist)
+	Explicitly dllimport/export comp_editor_registry on Windows
+	(Tor Lillqvist)
+	Support other forward types for Anjal. (Srinivasa Ragavan)
+	Sync to disk the outbox, since if we crash, we endup sending mail
+	again. (Srinivasa Ragavan)
+	Add support for Googlemail and hotmail/live/msn.com accounts.
+	(Srinivasa Ragavan)
+
+Translations:
+	Mario Blättermann (de)
+	Ivar Smolin (et)
+	Åsmund Skjæveland (nn)
+	A S Alam (pa)
+
+
 Evolution 2.28.1 2009-10-19
 ---------------------------
 
