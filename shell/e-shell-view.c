@@ -64,6 +64,7 @@ enum {
 	PROP_SHELL_SIDEBAR,
 	PROP_SHELL_TASKBAR,
 	PROP_SHELL_WINDOW,
+	PROP_STATE_KEY_FILE,
 	PROP_VIEW_ID
 };
 
@@ -319,6 +320,12 @@ shell_view_get_property (GObject *object,
 		case PROP_SHELL_WINDOW:
 			g_value_set_object (
 				value, e_shell_view_get_shell_window (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_STATE_KEY_FILE:
+			g_value_set_pointer (
+				value, e_shell_view_get_state_key_file (
 				E_SHELL_VIEW (object)));
 			return;
 
@@ -602,6 +609,20 @@ shell_view_class_init (EShellViewClass *class)
 			E_TYPE_SHELL_WINDOW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShellView:state-key-file
+	 *
+	 * The #GKeyFile holding widget state data.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_STATE_KEY_FILE,
+		g_param_spec_pointer (
+			"state-key-file",
+			"State Key File",
+			_("The key file holding widget state data"),
+			G_PARAM_READABLE));
 
 	/**
 	 * EShellView:view-id

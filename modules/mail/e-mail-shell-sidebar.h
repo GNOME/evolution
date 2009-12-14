@@ -51,15 +51,6 @@ typedef struct _EMailShellSidebar EMailShellSidebar;
 typedef struct _EMailShellSidebarClass EMailShellSidebarClass;
 typedef struct _EMailShellSidebarPrivate EMailShellSidebarPrivate;
 
-enum {
-	E_MAIL_SHELL_SIDEBAR_FOLDER_ALLOWS_CHILDREN	= 1 << 0,
-	E_MAIL_SHELL_SIDEBAR_FOLDER_CAN_DELETE		= 1 << 1,
-	E_MAIL_SHELL_SIDEBAR_FOLDER_IS_JUNK		= 1 << 2,
-	E_MAIL_SHELL_SIDEBAR_FOLDER_IS_OUTBOX		= 1 << 3,
-	E_MAIL_SHELL_SIDEBAR_FOLDER_IS_STORE		= 1 << 4,
-	E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH		= 1 << 5
-};
-
 struct _EMailShellSidebar {
 	EShellSidebar parent;
 	EMailShellSidebarPrivate *priv;

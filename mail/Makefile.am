@@ -48,6 +48,7 @@ mailinclude_HEADERS =					\
 	e-mail-reader.h					\
 	e-mail-reader-utils.h				\
 	e-mail-search-bar.h				\
+	e-mail-sidebar.h				\
 	e-mail-store.h					\
 	e-mail-tag-editor.h				\
 	e-searching-tokenizer.h				\
@@ -104,6 +105,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-reader.c					\
 	e-mail-reader-utils.c				\
 	e-mail-search-bar.c				\
+	e-mail-sidebar.c				\
 	e-mail-store.c					\
 	e-mail-tag-editor.c				\
 	e-searching-tokenizer.c				\

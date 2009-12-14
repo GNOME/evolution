@@ -46,6 +46,7 @@ Shell Utilities
 @shell: 
 @title: 
 @suggestion: 
+@filters: 
 @customize_func: 
 @customize_data: 
 @Returns: 

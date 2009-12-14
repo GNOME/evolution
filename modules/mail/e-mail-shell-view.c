@@ -448,17 +448,17 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	state = e_shell_sidebar_check_state (shell_sidebar);
 
 	folder_allows_children =
-		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_ALLOWS_CHILDREN);
+		(state & E_MAIL_SIDEBAR_FOLDER_ALLOWS_CHILDREN);
 	folder_can_be_deleted =
-		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_CAN_DELETE);
+		(state & E_MAIL_SIDEBAR_FOLDER_CAN_DELETE);
 	folder_is_junk =
-		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_JUNK);
+		(state & E_MAIL_SIDEBAR_FOLDER_IS_JUNK);
 	folder_is_outbox =
-		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_OUTBOX);
+		(state & E_MAIL_SIDEBAR_FOLDER_IS_OUTBOX);
 	folder_is_store =
-		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_STORE);
+		(state & E_MAIL_SIDEBAR_FOLDER_IS_STORE);
 	folder_is_trash =
-		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH);
+		(state & E_MAIL_SIDEBAR_FOLDER_IS_TRASH);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {

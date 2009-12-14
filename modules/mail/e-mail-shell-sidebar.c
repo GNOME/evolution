@@ -21,22 +21,14 @@
 
 #include "e-mail-shell-sidebar.h"
 
-#include <string.h>
-#include <camel/camel.h>
-
 #include "e-util/e-binding.h"
 
-#include "em-utils.h"
-#include "em-folder-utils.h"
-
-#include "e-mail-local.h"
-#include "e-mail-store.h"
+#include "mail/e-mail-sidebar.h"
+#include "mail/em-folder-utils.h"
 
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
-
-#define STATE_KEY_EXPANDED	"Expanded"
 
 struct _EMailShellSidebarPrivate {
 	GtkWidget *folder_tree;
@@ -51,270 +43,6 @@ static gpointer parent_class;
 static GType mail_shell_sidebar_type;
 
 static void
-mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
-{
-	EShellView *shell_view;
-	EShellSidebar *shell_sidebar;
-	EMFolderTree *folder_tree;
-	GtkTreeModel *tree_model;
-	GtkTreeView *tree_view;
-	GtkTreeIter iter;
-	GKeyFile *key_file;
-	gboolean valid;
-	gchar *selected;
-	gchar **groups;
-	gint ii;
-
-	shell_sidebar = E_SHELL_SIDEBAR (mail_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	tree_model = gtk_tree_view_get_model (tree_view);
-
-	/* Restore selected folder. */
-
-	selected = g_key_file_get_string (
-		key_file, "Folder Tree", "Selected", NULL);
-	if (selected != NULL) {
-		em_folder_tree_set_selected (folder_tree, selected, FALSE);
-		g_free (selected);
-	}
-
-	/* Set the initial folder tree expanded state in two stages:
-	 *
-	 * 1) Iterate over the "Store" and "Folder" state file groups
-	 *    and apply the "Expanded" keys where possible.
-	 *
-	 * 2) Iterate over the top-level nodes in the folder tree
-	 *    (these are all stores) and expand those that have no
-	 *    corresponding "Expanded" key in the state file.  This
-	 *    ensures that new stores are expanded by default.
-	 */
-
-	/* Stage 1 */
-
-	groups = g_key_file_get_groups (key_file, NULL);
-
-	for (ii = 0; groups[ii] != NULL; ii++) {
-		GtkTreeRowReference *reference;
-		GtkTreePath *path;
-		GtkTreeIter iter;
-		const gchar *group_name = groups[ii];
-		const gchar *key = STATE_KEY_EXPANDED;
-		const gchar *uri;
-		gboolean expanded;
-
-		if (g_str_has_prefix (group_name, "Store ")) {
-			uri = group_name + 6;
-			expanded = TRUE;
-		} else if (g_str_has_prefix (group_name, "Folder ")) {
-			uri = group_name + 7;
-			expanded = FALSE;
-		} else
-			continue;
-
-		if (g_key_file_has_key (key_file, group_name, key, NULL))
-			expanded = g_key_file_get_boolean (
-				key_file, group_name, key, NULL);
-
-		if (!expanded)
-			continue;
-
-		reference = em_folder_tree_model_lookup_uri (
-			EM_FOLDER_TREE_MODEL (tree_model), uri);
-		if (reference == NULL)
-			continue;
-
-		path = gtk_tree_row_reference_get_path (reference);
-		gtk_tree_model_get_iter (tree_model, &iter, path);
-		gtk_tree_view_expand_row (tree_view, path, FALSE);
-		gtk_tree_path_free (path);
-	}
-
-	g_strfreev (groups);
-
-	/* Stage 2 */
-
-	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
-
-	while (valid) {
-		const gchar *key = STATE_KEY_EXPANDED;
-		gchar *group_name;
-		gchar *uri;
-
-		gtk_tree_model_get (
-			tree_model, &iter, COL_STRING_URI, &uri, -1);
-
-		if (uri == NULL)
-			goto next;
-
-		group_name = g_strdup_printf ("Store %s", uri);
-
-		if (!g_key_file_has_key (key_file, group_name, key, NULL)) {
-			GtkTreePath *path;
-
-			path = gtk_tree_model_get_path (tree_model, &iter);
-			gtk_tree_view_expand_row (tree_view, path, FALSE);
-			gtk_tree_path_free (path);
-		}
-
-		g_free (group_name);
-		g_free (uri);
-
-	next:
-		valid = gtk_tree_model_iter_next (tree_model, &iter);
-	}
-}
-
-static void
-mail_shell_sidebar_row_collapsed_cb (EShellSidebar *shell_sidebar,
-                                     GtkTreeIter *iter,
-                                     GtkTreePath *path,
-                                     GtkTreeView *tree_view)
-{
-	EShellView *shell_view;
-	GtkTreeModel *model;
-	GKeyFile *key_file;
-	const gchar *key;
-	gboolean is_folder;
-	gboolean is_store;
-	gchar *group_name;
-	gchar *uri;
-
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	model = gtk_tree_view_get_model (tree_view);
-
-	gtk_tree_model_get (
-		model, iter,
-		COL_STRING_URI, &uri,
-		COL_BOOL_IS_STORE, &is_store,
-		COL_BOOL_IS_FOLDER, &is_folder, -1);
-
-	g_return_if_fail (is_store || is_folder);
-
-	key = STATE_KEY_EXPANDED;
-	if (is_store)
-		group_name = g_strdup_printf ("Store %s", uri);
-	else
-		group_name = g_strdup_printf ("Folder %s", uri);
-
-	g_key_file_set_boolean (key_file, group_name, key, FALSE);
-	e_shell_view_set_state_dirty (shell_view);
-
-	g_free (group_name);
-	g_free (uri);
-}
-
-static void
-mail_shell_sidebar_row_expanded_cb (EShellSidebar *shell_sidebar,
-                                    GtkTreeIter *unused,
-                                    GtkTreePath *path,
-                                    GtkTreeView *tree_view)
-{
-	EShellView *shell_view;
-	GtkTreeModel *model;
-	GKeyFile *key_file;
-	const gchar *key;
-	gboolean is_folder;
-	gboolean is_store;
-	gchar *group_name;
-	gchar *uri;
-
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	path = gtk_tree_path_copy (path);
-	model = gtk_tree_view_get_model (tree_view);
-
-	/* Expand the node and all ancestors. */
-	while (gtk_tree_path_get_depth (path) > 0) {
-		GtkTreeIter iter;
-
-		gtk_tree_model_get_iter (model, &iter, path);
-
-		gtk_tree_model_get (
-			model, &iter,
-			COL_STRING_URI, &uri,
-			COL_BOOL_IS_STORE, &is_store,
-			COL_BOOL_IS_FOLDER, &is_folder, -1);
-
-		g_return_if_fail (is_store || is_folder);
-
-		key = STATE_KEY_EXPANDED;
-		if (is_store)
-			group_name = g_strdup_printf ("Store %s", uri);
-		else
-			group_name = g_strdup_printf ("Folder %s", uri);
-
-		g_key_file_set_boolean (key_file, group_name, key, TRUE);
-		e_shell_view_set_state_dirty (shell_view);
-
-		g_free (group_name);
-		g_free (uri);
-
-		gtk_tree_path_up (path);
-	}
-
-	gtk_tree_path_free (path);
-}
-
-static void
-mail_shell_sidebar_model_loaded_row_cb (EMailShellSidebar *mail_shell_sidebar,
-                                        GtkTreePath *path,
-                                        GtkTreeIter *iter,
-                                        GtkTreeModel *model)
-{
-	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
-	GtkTreeView *tree_view;
-	GKeyFile *key_file;
-	gboolean is_folder;
-	gboolean is_store;
-	const gchar *key;
-	gchar *group_name;
-	gchar *uri;
-	gboolean expanded;
-
-	shell_sidebar = E_SHELL_SIDEBAR (mail_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
-
-	gtk_tree_model_get (
-		model, iter,
-		COL_STRING_URI, &uri,
-		COL_BOOL_IS_STORE, &is_store,
-		COL_BOOL_IS_FOLDER, &is_folder, -1);
-
-	g_return_if_fail (is_store || is_folder);
-
-	key = STATE_KEY_EXPANDED;
-	if (is_store) {
-		group_name = g_strdup_printf ("Store %s", uri);
-		expanded = TRUE;
-	} else {
-		group_name = g_strdup_printf ("Folder %s", uri);
-		expanded = FALSE;
-	}
-
-	if (g_key_file_has_key (key_file, group_name, key, NULL))
-		expanded = g_key_file_get_boolean (
-			key_file, group_name, key, NULL);
-
-	if (expanded)
-		gtk_tree_view_expand_row (tree_view, path, FALSE);
-
-	g_free (group_name);
-	g_free (uri);
-}
-
-static void
 mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
                                          GtkTreeSelection *selection)
 {
@@ -322,33 +50,20 @@ mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
 	EShellViewClass *shell_view_class;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	GKeyFile *key_file;
 	const gchar *icon_name;
 	gchar *display_name = NULL;
-	gchar *uri = NULL;
 	gboolean is_folder = FALSE;
 	guint flags = 0;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (
 			model, &iter,
 			COL_STRING_DISPLAY_NAME, &display_name,
-			COL_STRING_URI, &uri,
 			COL_BOOL_IS_FOLDER, &is_folder,
 			COL_UINT_FLAGS, &flags, -1);
-
-	if (uri != NULL)
-		g_key_file_set_string (
-			key_file, "Folder Tree", "Selected", uri);
-	else
-		g_key_file_remove_key (
-			key_file, "Folder Tree", "Selected", NULL);
-
-	e_shell_view_set_state_dirty (shell_view);
 
 	if (is_folder)
 		icon_name = em_folder_utils_get_icon_name (flags);
@@ -361,7 +76,6 @@ mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
 	e_shell_sidebar_set_primary_text (shell_sidebar, display_name);
 
 	g_free (display_name);
-	g_free (uri);
 }
 
 static void
@@ -398,17 +112,6 @@ mail_shell_sidebar_dispose (GObject *object)
 }
 
 static void
-mail_shell_sidebar_finalize (GObject *object)
-{
-	EMailShellSidebarPrivate *priv;
-
-	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
 mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebar *mail_shell_sidebar;
@@ -419,7 +122,6 @@ mail_shell_sidebar_constructed (GObject *object)
 	EShell *shell;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
-	GtkTreeModel *model;
 	GtkWidget *container;
 	GtkWidget *widget;
 
@@ -450,40 +152,25 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = em_folder_tree_new ();
-	em_folder_tree_set_excluded (EM_FOLDER_TREE (widget), 0);
-	em_folder_tree_enable_drag_and_drop (EM_FOLDER_TREE (widget));
+	widget = e_mail_sidebar_new ();
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	e_binding_new (
+		shell_view, "state-key-file",
+		widget, "key-file");
+
+	e_binding_new (
 		shell_settings, "mail-side-bar-search",
 		widget, "enable-search");
 
+	g_signal_connect_swapped (
+		widget, "key-file-changed",
+		G_CALLBACK (e_shell_view_set_state_dirty), shell_view);
+
 	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
-	model = gtk_tree_view_get_model (tree_view);
-
-	mail_shell_sidebar_restore_state (mail_shell_sidebar);
-
-	em_folder_tree_model_set_selection (
-		EM_FOLDER_TREE_MODEL (model), selection);
-
-	g_signal_connect_swapped (
-		tree_view, "row-collapsed",
-		G_CALLBACK (mail_shell_sidebar_row_collapsed_cb),
-		shell_sidebar);
-
-	g_signal_connect_swapped (
-		tree_view, "row-expanded",
-		G_CALLBACK (mail_shell_sidebar_row_expanded_cb),
-		shell_sidebar);
-
-	g_signal_connect_swapped (
-		model, "loaded-row",
-		G_CALLBACK (mail_shell_sidebar_model_loaded_row_cb),
-		shell_sidebar);
 
 	g_signal_connect_swapped (
 		selection, "changed",
@@ -494,87 +181,13 @@ mail_shell_sidebar_constructed (GObject *object)
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
-	EMailShellSidebar *mail_shell_sidebar;
-	EShellView *shell_view;
-	EMFolderTree *folder_tree;
-	GtkTreeSelection *selection;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	CamelStore *local_store;
-	CamelStore *store;
-	gchar *full_name;
-	gchar *uri;
-	gboolean allows_children = TRUE;
-	gboolean can_delete = TRUE;
-	gboolean is_junk = FALSE;
-	gboolean is_outbox = FALSE;
-	gboolean is_store;
-	gboolean is_trash = FALSE;
-	guint32 folder_flags = 0;
-	guint32 state = 0;
+	EMailShellSidebarPrivate *priv;
+	EMailSidebar *sidebar;
 
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	sidebar = E_MAIL_SIDEBAR (priv->folder_tree);
 
-	local_store = e_mail_local_get_store ();
-
-	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	tree_view = GTK_TREE_VIEW (folder_tree);
-
-	selection = gtk_tree_view_get_selection (tree_view);
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return 0;
-
-	gtk_tree_model_get (
-		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_BOOL_IS_STORE, &is_store,
-		COL_UINT_FLAGS, &folder_flags,
-		COL_STRING_URI, &uri, -1);
-
-	if (!is_store && full_name != NULL) {
-		guint32 folder_type;
-
-		/* Is this a virtual junk or trash folder? */
-		is_junk = (strcmp (full_name, CAMEL_VJUNK_NAME) == 0);
-		is_trash = (strcmp (full_name, CAMEL_VTRASH_NAME) == 0);
-
-		/* Is this is a real trash folder? */
-		/* Used by Exchange and GroupWise accounts. */
-		folder_type = (folder_flags & CAMEL_FOLDER_TYPE_MASK);
-		is_trash |= (folder_type == CAMEL_FOLDER_TYPE_TRASH);
-
-		allows_children = !(is_junk || is_trash);
-
-		/* Don't allow deletion of special local folders. */
-		if (store == local_store)
-			can_delete =
-				(strcmp (full_name, "Drafts") != 0) &&
-				(strcmp (full_name, "Inbox") != 0) &&
-				(strcmp (full_name, "Outbox") != 0) &&
-				(strcmp (full_name, "Sent") != 0) &&
-				(strcmp (full_name, "Templates") != 0);
-
-		is_outbox = em_utils_folder_is_outbox (NULL, uri);
-		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
-	}
-
-	if (allows_children)
-		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_ALLOWS_CHILDREN;
-	if (can_delete)
-		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_CAN_DELETE;
-	if (is_junk)
-		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_JUNK;
-	if (is_outbox)
-		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_OUTBOX;
-	if (is_store)
-		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_STORE;
-	if (is_trash)
-		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH;
-
-	return state;
+	return e_mail_sidebar_check_state (sidebar);
 }
 
 static void
@@ -589,7 +202,6 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_shell_sidebar_get_property;
 	object_class->dispose = mail_shell_sidebar_dispose;
-	object_class->finalize = mail_shell_sidebar_finalize;
 	object_class->constructed = mail_shell_sidebar_constructed;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);

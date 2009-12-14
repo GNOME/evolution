@@ -381,6 +381,154 @@ folder_tree_select_func (GtkTreeSelection *selection,
 	return (flags & priv->excluded) == 0;
 }
 
+/* NOTE: Removes and frees the selected uri structure */
+static void
+folder_tree_select_uri (EMFolderTree *folder_tree,
+                        GtkTreePath *path,
+                        struct _selected_uri *u)
+{
+	EMFolderTreePrivate *priv = folder_tree->priv;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_select_path(selection, path);
+	if (!priv->cursor_set) {
+		gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
+		priv->cursor_set = TRUE;
+	}
+	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.8f, 0.0f);
+	g_hash_table_remove(priv->select_uris_table, u->key);
+	priv->select_uris = g_slist_remove(priv->select_uris, u);
+	folder_tree_free_select_uri(u);
+}
+
+static void
+folder_tree_expand_node (const gchar *key,
+                         EMFolderTree *folder_tree)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *row;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	EAccount *account;
+	CamelStore *store;
+	const gchar *p;
+	gchar *uid;
+	gsize n;
+	struct _selected_uri *u;
+
+	if (!(p = strchr (key, '/')))
+		n = strlen (key);
+	else
+		n = (p - key);
+
+	uid = g_alloca (n + 1);
+	memcpy (uid, key, n);
+	uid[n] = '\0';
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	model = gtk_tree_view_get_model (tree_view);
+
+	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
+		CamelException ex;
+
+		camel_exception_init (&ex);
+		store = (CamelStore *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
+		camel_exception_clear (&ex);
+
+		if (store == NULL)
+			return;
+	} else if (!strcmp (uid, "vfolder")) {
+		if (!(store = vfolder_store))
+			return;
+
+		camel_object_ref (store);
+	} else if (!strcmp (uid, "local")) {
+		if (!(store = e_mail_local_get_store ()))
+			return;
+
+		camel_object_ref (store);
+	} else {
+		return;
+	}
+
+	si = em_folder_tree_model_lookup_store_info (
+		EM_FOLDER_TREE_MODEL (model), store);
+	if (si == NULL) {
+		camel_object_unref (store);
+		return;
+	}
+
+	camel_object_unref (store);
+
+	if (p != NULL) {
+		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
+			return;
+	} else
+		row = si->row;
+
+	path = gtk_tree_row_reference_get_path (row);
+	gtk_tree_view_expand_to_path (tree_view, path);
+
+	u = g_hash_table_lookup(folder_tree->priv->select_uris_table, key);
+	if (u)
+		folder_tree_select_uri(folder_tree, path, u);
+
+	gtk_tree_path_free (path);
+}
+
+static void
+folder_tree_maybe_expand_row (EMFolderTreeModel *model,
+                              GtkTreePath *tree_path,
+                              GtkTreeIter *iter,
+                              EMFolderTree *folder_tree)
+{
+	EMFolderTreePrivate *priv = folder_tree->priv;
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeView *tree_view;
+	gboolean is_store;
+	CamelStore *store;
+	EAccount *account;
+	gchar *full_name;
+	gchar *key;
+	struct _selected_uri *u;
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+
+	gtk_tree_model_get ((GtkTreeModel *) model, iter,
+			    COL_STRING_FULL_NAME, &full_name,
+			    COL_POINTER_CAMEL_STORE, &store,
+			    COL_BOOL_IS_STORE, &is_store,
+			    -1);
+
+	si = em_folder_tree_model_lookup_store_info (model, store);
+	if ((account = e_get_account_by_name (si->display_name))) {
+		key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
+	} else if (CAMEL_IS_VEE_STORE (store)) {
+		/* vfolder store */
+		key = g_strdup_printf ("vfolder/%s", full_name ? full_name : "");
+	} else {
+		/* local store */
+		key = g_strdup_printf ("local/%s", full_name ? full_name : "");
+	}
+
+	u = g_hash_table_lookup(priv->select_uris_table, key);
+	if (u) {
+		gchar *c = strrchr (key, '/');
+
+		*c = '\0';
+		folder_tree_expand_node (key, folder_tree);
+
+		folder_tree_select_uri(folder_tree, tree_path, u);
+	}
+
+	g_free (full_name);
+	g_free (key);
+}
+
 static void
 folder_tree_clear_selected_list(EMFolderTree *folder_tree)
 {
@@ -854,57 +1002,6 @@ folder_tree_class_init (EMFolderTreeClass *class)
 			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
 }
 
-static void
-folder_tree_init (EMFolderTree *folder_tree)
-{
-	GtkTreeSelection *selection;
-	GHashTable *select_uris_table;
-	EMFolderTreeModel *model;
-	gulong handler_id;
-
-	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
-
-	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
-	folder_tree->priv->select_uris_table = select_uris_table;
-
-	model = em_folder_tree_model_get_default ();
-	gtk_tree_view_set_model (GTK_TREE_VIEW (folder_tree), GTK_TREE_MODEL (model));
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
-
-	handler_id = g_signal_connect_swapped (
-		selection, "changed",
-		G_CALLBACK (folder_tree_selection_changed_cb), folder_tree);
-
-	folder_tree->priv->selection_changed_handler_id = handler_id;
-}
-
-GType
-em_folder_tree_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFolderTreeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) folder_tree_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFolderTree),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) folder_tree_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TREE_VIEW, "EMFolderTree", &type_info, 0);
-	}
-
-	return type;
-}
-
 static gboolean
 subdirs_contain_unread (GtkTreeModel *model, GtkTreeIter *root)
 {
@@ -1144,171 +1241,79 @@ em_folder_tree_construct (EMFolderTree *folder_tree)
 	gtk_widget_show (GTK_WIDGET (folder_tree));
 }
 
-/* NOTE: Removes and frees the selected uri structure */
 static void
-folder_tree_select_uri(EMFolderTree *folder_tree, GtkTreePath *path, struct _selected_uri *u)
+folder_tree_init (EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
+	GHashTable *select_uris_table;
+	EMFolderTreeModel *model;
+	gulong handler_id;
+	AtkObject *a11y;
+
+	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
+
+	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
+	folder_tree->priv->select_uris_table = select_uris_table;
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
+	model = em_folder_tree_model_get_default ();
 	selection = gtk_tree_view_get_selection (tree_view);
-	gtk_tree_selection_select_path(selection, path);
-	if (!priv->cursor_set) {
-		gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
-		priv->cursor_set = TRUE;
-	}
-	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.8f, 0.0f);
-	g_hash_table_remove(priv->select_uris_table, u->key);
-	priv->select_uris = g_slist_remove(priv->select_uris, u);
-	folder_tree_free_select_uri(u);
+
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (model));
+
+	handler_id = g_signal_connect (
+		model, "loading-row",
+		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
+	folder_tree->priv->loading_row_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "loaded-row",
+		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
+	folder_tree->priv->loaded_row_id = handler_id;
+
+	handler_id = g_signal_connect_swapped (
+		selection, "changed",
+		G_CALLBACK (folder_tree_selection_changed_cb), folder_tree);
+	folder_tree->priv->selection_changed_handler_id = handler_id;
+
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (folder_tree));
+	atk_object_set_name (a11y, _("Mail Folder Tree"));
+
+	/* FIXME Kill this thing. */
+	em_folder_tree_construct (folder_tree);
 }
 
-static void
-folder_tree_expand_node (const gchar *key, EMFolderTree *folder_tree)
+GType
+em_folder_tree_get_type (void)
 {
-	struct _EMFolderTreeModelStoreInfo *si;
-	GtkTreeRowReference *row;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	EAccount *account;
-	CamelStore *store;
-	const gchar *p;
-	gchar *uid;
-	gsize n;
-	struct _selected_uri *u;
+	static GType type = 0;
 
-	if (!(p = strchr (key, '/')))
-		n = strlen (key);
-	else
-		n = (p - key);
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMFolderTreeClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) folder_tree_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFolderTree),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) folder_tree_init,
+			NULL   /* value_table */
+		};
 
-	uid = g_alloca (n + 1);
-	memcpy (uid, key, n);
-	uid[n] = '\0';
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	model = gtk_tree_view_get_model (tree_view);
-
-	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
-		CamelException ex;
-
-		camel_exception_init (&ex);
-		store = (CamelStore *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
-		camel_exception_clear (&ex);
-
-		if (store == NULL)
-			return;
-	} else if (!strcmp (uid, "vfolder")) {
-		if (!(store = vfolder_store))
-			return;
-
-		camel_object_ref (store);
-	} else if (!strcmp (uid, "local")) {
-		if (!(store = e_mail_local_get_store ()))
-			return;
-
-		camel_object_ref (store);
-	} else {
-		return;
+		type = g_type_register_static (
+			GTK_TYPE_TREE_VIEW, "EMFolderTree", &type_info, 0);
 	}
 
-	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), store);
-	if (si == NULL) {
-		camel_object_unref (store);
-		return;
-	}
-
-	camel_object_unref (store);
-
-	if (p != NULL) {
-		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
-			return;
-	} else
-		row = si->row;
-
-	path = gtk_tree_row_reference_get_path (row);
-	gtk_tree_view_expand_to_path (tree_view, path);
-
-	u = g_hash_table_lookup(folder_tree->priv->select_uris_table, key);
-	if (u)
-		folder_tree_select_uri(folder_tree, path, u);
-
-	gtk_tree_path_free (path);
-}
-
-static void
-folder_tree_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *folder_tree)
-{
-	EMFolderTreePrivate *priv = folder_tree->priv;
-	struct _EMFolderTreeModelStoreInfo *si;
-	GtkTreeView *tree_view;
-	gboolean is_store;
-	CamelStore *store;
-	EAccount *account;
-	gchar *full_name;
-	gchar *key;
-	struct _selected_uri *u;
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
-
-	gtk_tree_model_get ((GtkTreeModel *) model, iter,
-			    COL_STRING_FULL_NAME, &full_name,
-			    COL_POINTER_CAMEL_STORE, &store,
-			    COL_BOOL_IS_STORE, &is_store,
-			    -1);
-
-	si = em_folder_tree_model_lookup_store_info (model, store);
-	if ((account = e_get_account_by_name (si->display_name))) {
-		key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
-	} else if (CAMEL_IS_VEE_STORE (store)) {
-		/* vfolder store */
-		key = g_strdup_printf ("vfolder/%s", full_name ? full_name : "");
-	} else {
-		/* local store */
-		key = g_strdup_printf ("local/%s", full_name ? full_name : "");
-	}
-
-	u = g_hash_table_lookup(priv->select_uris_table, key);
-	if (u) {
-		gchar *c = strrchr (key, '/');
-
-		*c = '\0';
-		folder_tree_expand_node (key, folder_tree);
-
-		folder_tree_select_uri(folder_tree, tree_path, u);
-	}
-
-	g_free (full_name);
-	g_free (key);
+	return type;
 }
 
 GtkWidget *
 em_folder_tree_new (void)
 {
-	EMFolderTree *folder_tree;
-	GtkTreeModel *model;
-	AtkObject *a11y;
-
-	folder_tree = g_object_new (EM_TYPE_FOLDER_TREE, NULL);
-	em_folder_tree_construct (folder_tree);
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
-
-	folder_tree->priv->loading_row_id = g_signal_connect (
-		model, "loading-row",
-		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
-	folder_tree->priv->loaded_row_id = g_signal_connect (
-		model, "loaded-row",
-		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
-
-	a11y = gtk_widget_get_accessible (GTK_WIDGET (folder_tree));
-	atk_object_set_name (a11y, _("Mail Folder Tree"));
-
-	return (GtkWidget *) folder_tree;
+	return g_object_new (EM_TYPE_FOLDER_TREE, NULL);
 }
 
 static void

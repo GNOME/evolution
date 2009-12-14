@@ -99,6 +99,11 @@ EShell
 
 </para>
 
+<!-- ##### ARG EShell:module-directory ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShell:network-available ##### -->
 <para>
 
@@ -234,6 +239,15 @@ EShell
 
 @shell: 
 @parent: 
+
+
+<!-- ##### FUNCTION e_shell_get_module_directory ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_get_network_available ##### -->

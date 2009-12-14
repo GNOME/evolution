@@ -9,12 +9,10 @@ User Alert Handling
 
 </para>
 
-
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
-
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -87,53 +85,14 @@ User Alert Handling
 
 </para>
 
+@parent: 
+@priv: 
 
 <!-- ##### FUNCTION e_alert_new ##### -->
 <para>
 
 </para>
 
-@tag: 
-@arg0: 
-@Varargs: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_alert_newv ##### -->
-<para>
-
-</para>
-
-@tag: 
-@arg0: 
-@ap: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_alert_free ##### -->
-<para>
-
-</para>
-
-@alert: 
-
-
-<!-- ##### FUNCTION e_alert_new_dialog ##### -->
-<para>
-
-</para>
-
-@parent: 
-@alert: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_alert_new_dialog_for_args ##### -->
-<para>
-
-</para>
-
-@parent: 
 @tag: 
 @arg0: 
 @Varargs: 
