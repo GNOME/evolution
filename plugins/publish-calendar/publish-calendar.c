@@ -590,11 +590,10 @@ url_list_changed (PublishUIData *ui)
 static void
 update_url_enable_button (EPublishUri *url, GtkWidget *url_enable)
 {
-	g_return_if_fail (url != NULL);
 	g_return_if_fail (url_enable != NULL);
 	g_return_if_fail (GTK_IS_BUTTON (url_enable));
 
-	gtk_button_set_label (GTK_BUTTON (url_enable), url->enabled ? _("_Disable") : _("E_nable"));
+	gtk_button_set_label (GTK_BUTTON (url_enable), url && url->enabled ? _("_Disable") : _("E_nable"));
 }
 
 static void
@@ -639,13 +638,13 @@ selection_changed (GtkTreeSelection *selection, PublishUIData *ui)
 		gtk_widget_set_sensitive (ui->url_edit, TRUE);
 		gtk_widget_set_sensitive (ui->url_remove, TRUE);
 		gtk_widget_set_sensitive (ui->url_enable, TRUE);
-
-		update_url_enable_button (url, ui->url_enable);
 	} else {
 		gtk_widget_set_sensitive (ui->url_edit, FALSE);
 		gtk_widget_set_sensitive (ui->url_remove, FALSE);
 		gtk_widget_set_sensitive (ui->url_enable, FALSE);
 	}
+
+	update_url_enable_button (url, ui->url_enable);
 }
 
 static void
@@ -759,6 +758,8 @@ url_remove_clicked (GtkButton *button, PublishUIData *ui)
 			gtk_widget_set_sensitive (ui->url_edit, FALSE);
 			gtk_widget_set_sensitive (ui->url_remove, FALSE);
 			gtk_widget_set_sensitive (ui->url_enable, FALSE);
+
+			update_url_enable_button (NULL, ui->url_enable);
 		}
 
 		publish_uris = g_slist_remove (publish_uris, url);
@@ -841,6 +842,7 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->url_edit = e_builder_get_widget (builder, "url edit");
 	ui->url_remove = e_builder_get_widget (builder, "url remove");
 	ui->url_enable = e_builder_get_widget (builder, "url enable");
+	update_url_enable_button (NULL, ui->url_enable);
 	g_signal_connect (G_OBJECT (ui->url_add), "clicked", G_CALLBACK (url_add_clicked), ui);
 	g_signal_connect (G_OBJECT (ui->url_edit), "clicked", G_CALLBACK (url_edit_clicked), ui);
 	g_signal_connect (G_OBJECT (ui->url_remove), "clicked", G_CALLBACK (url_remove_clicked), ui);
