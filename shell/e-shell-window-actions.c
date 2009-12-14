@@ -2226,12 +2226,21 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	guint merge_id;
 	gint ii = 0;
 
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+
+	/* Check for a NULL shell view before proceeding.  This can
+	 * happen if the initial view name from GConf is unrecognized.
+	 * Without this we would crash at E_SHELL_VIEW_GET_CLASS(). */
+	g_return_if_fail (shell_view != NULL);
+
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	context = e_shell_content_get_search_context (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
 	source = E_FILTER_SOURCE_INCOMING;
 
 	/* Update sensitivity of search actions. */
