@@ -451,7 +451,6 @@ gint
 main (gint argc, gchar **argv)
 {
 	EShell *shell;
-	GtkIconTheme *icon_theme;
 	GConfClient *client;
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
@@ -552,9 +551,6 @@ main (gint argc, gchar **argv)
 	}
 
 	e_passwords_init ();
-
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 
 	gtk_window_set_default_icon_name ("evolution");
 

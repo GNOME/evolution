@@ -1034,6 +1034,7 @@ shell_init (EShell *shell)
 {
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
+	GtkIconTheme *icon_theme;
 	EggSMClient *sm_client;
 
 	shell->priv = E_SHELL_GET_PRIVATE (shell);
@@ -1053,6 +1054,11 @@ shell_init (EShell *shell)
 #if defined(NM_SUPPORT) && NM_SUPPORT
 	e_shell_dbus_initialize (shell);
 #endif
+
+	/* Add our icon directory to the theme's search path
+	 * here instead of in main() so Anjal picks it up. */
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 
 	shell_parse_debug_string (shell);
 
