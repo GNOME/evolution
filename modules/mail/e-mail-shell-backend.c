@@ -50,6 +50,7 @@
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
+#include "em-event.h"
 #include "em-folder-utils.h"
 #include "em-format-hook.h"
 #include "em-format-html-display.h"
@@ -782,6 +783,56 @@ folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *oldur
 }
 
 static void
+folder_changed_cb (MailFolderCache *cache,
+		   CamelStore *store,
+		   const gchar *folder_uri,
+		   const gchar *folder_fullname,
+		   int new_messages,
+		   const gchar *msg_uid,
+		   const gchar *msg_sender,
+		   const gchar *msg_subject,
+		   gpointer user_data)
+{
+	EShell *shell = (EShell*) user_data;
+	CamelFolder *folder = NULL;
+	gint flags = 0;
+	EMEvent *e = em_event_peek();
+	EMEventTargetFolder *t;
+	EMFolderTreeModel *model;
+
+	g_return_if_fail (shell);
+
+	if (!mail_folder_cache_get_folder_from_uri (cache, folder_uri, &folder)) {
+		if (!mail_folder_cache_get_folder_info_flags (cache, folder, &flags)) {
+			g_return_if_reached ();
+		}
+	}
+
+	t = em_event_target_new_folder(e, folder_uri, new_messages, msg_uid,
+				       msg_sender, msg_subject);
+
+	t->is_inbox = ((flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX);
+
+	model = em_folder_tree_model_get_default ();
+	t->name = em_folder_tree_model_get_folder_name (model, store,
+							folder_fullname);
+
+	if (t->new > 0)
+		e_shell_event (
+			       shell, "mail-icon",
+			       (gpointer) "mail-unread");
+
+	/** @Event: folder.changed
+	 * @Title: Folder changed
+	 * @Target: EMEventTargetFolder
+	 *
+	 * folder.changed is emitted whenever a folder changes.  There is no detail on how the folder has changed.
+	 * UPDATE: We tell the number of new UIDs added rather than the new mails received
+	 */
+	e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
+}
+
+static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EMailShellBackendPrivate *priv;
@@ -854,6 +905,10 @@ mail_shell_backend_constructed (GObject *object)
 	g_signal_connect (
 		mail_folder_cache_get_default (), "folder-renamed",
 		G_CALLBACK (folder_renamed_cb), NULL);
+
+	g_signal_connect (
+		mail_folder_cache_get_default (), "folder-changed",
+		G_CALLBACK (folder_changed_cb), shell);
 
 	mail_config_init ();
 	mail_msg_init ();

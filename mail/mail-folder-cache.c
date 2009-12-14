@@ -48,7 +48,6 @@
 #include <camel/camel-disco-store.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "shell/e-shell.h"
 #include "e-util/e-marshal.h"
 
 #include "mail-mt.h"
@@ -57,12 +56,7 @@
 #include "mail-session.h"
 #include "mail-tools.h"
 
-/* For notifications of changes */
-#include "em-folder-tree-model.h"
-
-#include "em-event.h"
 #include "em-utils.h"
-
 #include "e-mail-local.h"
 
 #define w(x)
@@ -99,6 +93,7 @@ enum
 	FOLDER_DELETED,
 	FOLDER_RENAMED,
 	FOLDER_UNREAD_UPDATED,
+	FOLDER_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -172,13 +167,8 @@ free_update(struct _folder_update *up)
 static void
 real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 {
-	EShell *shell;
-	EMFolderTreeModel *default_model;
 	struct _folder_update *up;
 	MailFolderCache *self = (MailFolderCache*) o;
-
-	shell = e_shell_get_default ();
-	default_model = em_folder_tree_model_get_default ();
 
 	g_mutex_lock (self->priv->stores_mutex);
 	while ((up = g_queue_pop_head (&self->priv->updates)) != NULL) {
@@ -202,28 +192,10 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 		g_signal_emit (self, signals[FOLDER_UNREAD_UPDATED], 0,
 			       up->store, up->full_name, up->unread);
 
+		/* indicate that the folder has changed (new mail received, etc) */
 		if (up->uri) {
-			EMEvent *e = em_event_peek();
-			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new, up->msg_uid, up->msg_sender, up->msg_subject);
-
-			t->is_inbox = em_folder_tree_model_is_type_inbox (
-				default_model, up->store, up->full_name);
-			t->name = em_folder_tree_model_get_folder_name (
-				default_model, up->store, up->full_name);
-
-			if (t->new > 0)
-				e_shell_event (
-					shell, "mail-icon",
-					(gpointer) "mail-unread");
-
-			/** @Event: folder.changed
-			 * @Title: Folder changed
-			 * @Target: EMEventTargetFolder
-			 *
-			 * folder.changed is emitted whenever a folder changes.  There is no detail on how the folder has changed.
-			 * UPDATE: We tell the number of new UIDs added rather than the new mails received
-			 */
-			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
+			g_signal_emit (self, signals[FOLDER_CHANGED], 0, up->store,
+				       up->uri, up->full_name, up->new, up->msg_uid, up->msg_sender, up->msg_subject);
 		}
 
 		if (CAMEL_IS_VEE_STORE (up->store) && !up->remove) {
@@ -1287,6 +1259,30 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      e_marshal_VOID__POINTER_STRING_INT,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_INT);
+
+	/**
+	 * MailFolderCache::folder-changed
+	 * @store: the #CamelStore containing the folder
+	 * @folder_uri: the uri of the folder
+	 * @folder_fullname: the full name of the folder
+	 * @new_messages: the number of new messages for the folder
+	 * @msg_uid: uid of the new message, or NULL
+	 * @msg_sender: sender of the new message, or NULL
+	 * @msg_subject: subject of the new message, or NULL
+	 *
+	 * Emitted when a folder has changed.  If @new_messages is not exactly 1,
+	 * @msgt_uid, @msg_sender, and @msg_subject will be NULL.
+	 **/
+	signals[FOLDER_CHANGED] =
+		g_signal_new ("folder-changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      0, /* struct offset */
+			      NULL, NULL, /* accumulator */
+			      e_marshal_VOID__POINTER_STRING_STRING_INT_STRING_STRING_STRING,
+			      G_TYPE_NONE, 7,
+			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
+			      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 }
 
 static void
