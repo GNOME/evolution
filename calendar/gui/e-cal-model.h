@@ -192,6 +192,13 @@ gboolean e_cal_model_test_row_editable (ECalModel *model, gint row);
 
 void e_cal_model_set_default_time_func (ECalModel *model, ECalModelDefaultTimeFunc func, gpointer user_data);
 
+void		e_cal_model_update_comp_time	(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 gconstpointer time_value,
+						 icalproperty_kind kind,
+						 void (*set_func)(icalproperty *prop, struct icaltimetype v),
+						 icalproperty * (*new_func)(struct icaltimetype v));
+
 G_END_DECLS
 
 #endif

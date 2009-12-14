@@ -224,55 +224,9 @@ ecmc_value_at (ETableModel *etm, gint col, gint row)
 }
 
 static void
-set_dtend (ECalModelComponent *comp_data, gconstpointer value)
+set_dtend (ECalModel* model, ECalModelComponent *comp_data, gconstpointer value)
 {
-	ECellDateEditValue *dv = (ECellDateEditValue *) value;
-	icalproperty *prop;
-	icalparameter *param;
-	const gchar *tzid;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
-	if (prop)
-		param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
-	else
-		param = NULL;
-
-	/* If we are setting the property to NULL (i.e. removing it), then
-	   we remove it if it exists. */
-	if (!dv) {
-		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
-		}
-
-		return;
-	}
-
-	/* If the TZID is set to "UTC", we set the is_utc flag. */
-	tzid = dv->zone ? icaltimezone_get_tzid (dv->zone) : "UTC";
-	if (tzid && !strcmp (tzid, "UTC"))
-		dv->tt.is_utc = 1;
-	else
-		dv->tt.is_utc = 0;
-
-	if (prop) {
-		icalproperty_set_dtend (prop, dv->tt);
-	} else {
-		prop = icalproperty_new_dtend (dv->tt);
-		icalcomponent_add_property (comp_data->icalcomp, prop);
-	}
-
-	/* If the TZID is set to "UTC", we don't want to save the TZID. */
-	if (tzid && strcmp (tzid, "UTC")) {
-		if (param) {
-			icalparameter_set_tzid (param, (gchar *) tzid);
-		} else {
-			param = icalparameter_new_tzid ((gchar *) tzid);
-			icalproperty_add_parameter (prop, param);
-		}
-	} else if (param) {
-		icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
-	}
+	e_cal_model_update_comp_time (model, comp_data, value, ICAL_DTEND_PROPERTY, icalproperty_set_dtend, icalproperty_new_dtend);
 }
 
 static void
@@ -371,7 +325,7 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		set_dtend (comp_data, value);
+		set_dtend ((ECalModel *)model, comp_data, value);
 		break;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 		set_location (comp_data, value);
@@ -559,7 +513,7 @@ ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 	g_return_if_fail (comp_data != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 
-	set_dtend (comp_data,
+	set_dtend (model, comp_data,
 		   e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
 	set_location (comp_data,
 		      e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));

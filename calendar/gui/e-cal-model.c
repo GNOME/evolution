@@ -678,14 +678,45 @@ set_description (ECalModelComponent *comp_data, const gchar *value)
 }
 
 static void
-set_dtstart (ECalModel *model, ECalModelComponent *comp_data, gconstpointer value)
+datetime_to_zone (ECal *client, struct icaltimetype *tt, icaltimezone *tt_zone, const gchar *tzid)
 {
-	ECellDateEditValue *dv = (ECellDateEditValue *) value;
+	icaltimezone *from, *to;
+	const gchar *tt_tzid = NULL;
+
+	g_return_if_fail (tt != NULL);
+
+	if (tt_zone)
+		tt_tzid = icaltimezone_get_tzid (tt_zone);
+
+	if (tt_tzid == NULL || tzid == NULL ||
+	    tt_tzid == tzid || g_str_equal (tt_tzid, tzid))
+		return;
+
+	from = tt_zone;
+	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!to) {
+		/* do not check failure here, maybe the zone is not available there */
+		e_cal_get_timezone (client, tzid, &to, NULL);
+	}
+
+	icaltimezone_convert_time (tt, from, to);
+}
+
+/* updates time in a component, and keeps the timezone used in it, if exists */
+void
+e_cal_model_update_comp_time (ECalModel *model, ECalModelComponent *comp_data, gconstpointer time_value, icalproperty_kind kind, void (*set_func)(icalproperty *prop, struct icaltimetype v), icalproperty * (*new_func)(struct icaltimetype v))
+{
+	ECellDateEditValue *dv = (ECellDateEditValue *) time_value;
 	icalproperty *prop;
 	icalparameter *param;
-	const gchar *tzid;
+	struct icaltimetype tt;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (comp_data != NULL);
+	g_return_if_fail (set_func != NULL);
+	g_return_if_fail (new_func != NULL);
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, kind);
 	if (prop)
 		param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
 	else
@@ -702,31 +733,37 @@ set_dtstart (ECalModel *model, ECalModelComponent *comp_data, gconstpointer valu
 		return;
 	}
 
-	/* If the TZID is set to "UTC", we set the is_utc flag. */
-	tzid = dv->zone ? icaltimezone_get_tzid (dv->zone) : "UTC";
-	if (tzid && !strcmp (tzid, "UTC"))
-		dv->tt.is_utc = 1;
-	else
-		dv->tt.is_utc = 0;
+	tt = dv->tt;
+	datetime_to_zone (comp_data->client, &tt, e_cal_model_get_timezone (model), param ? icalparameter_get_tzid (param) : NULL);
 
 	if (prop) {
-		icalproperty_set_dtstart (prop, dv->tt);
+		set_func (prop, tt);
 	} else {
-		prop = icalproperty_new_dtstart (dv->tt);
+		prop = new_func (tt);
 		icalcomponent_add_property (comp_data->icalcomp, prop);
 	}
 
-	/* If the TZID is set to "UTC", we don't want to save the TZID. */
-	if (tzid && strcmp (tzid, "UTC")) {
-		if (param) {
-			icalparameter_set_tzid (param, (gchar *) tzid);
+	if (param) {
+		const gchar *tzid = icalparameter_get_tzid (param);
+
+		/* If the TZID is set to "UTC", we don't want to save the TZID. */
+		if (tzid && strcmp (tzid, "UTC")) {
+			if (param) {
+				icalparameter_set_tzid (param, (gchar *) tzid);
+			} else {
+				param = icalparameter_new_tzid ((gchar *) tzid);
+				icalproperty_add_parameter (prop, param);
+			}
 		} else {
-			param = icalparameter_new_tzid ((gchar *) tzid);
-			icalproperty_add_parameter (prop, param);
+			icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
 		}
-	} else if (param) {
-		icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
 	}
+}
+
+static void
+set_dtstart (ECalModel *model, ECalModelComponent *comp_data, gconstpointer value)
+{
+	e_cal_model_update_comp_time (model, comp_data, value, ICAL_DTSTART_PROPERTY, icalproperty_set_dtstart, icalproperty_new_dtstart);
 }
 
 static void
