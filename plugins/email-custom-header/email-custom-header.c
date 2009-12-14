@@ -280,7 +280,6 @@ epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptions
 	CustomSubHeader temp_header_value_details =  {NULL};
 	GSList *header_list,*q;
 	gchar *buffer;
-	gchar *str_colon;
 	gint index,pos;
 
 	priv = mch->priv;
@@ -294,13 +293,11 @@ epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptions
 		temp_header_details.sub_header_type_value = g_array_new (TRUE, TRUE, sizeof (CustomSubHeader));
 		buffer = q->data;
 		parse_header_list = g_strsplit_set (buffer, "=;,", -1);
-		str_colon = g_strconcat (parse_header_list[0], ":", NULL);
 		temp_header_details.header_type_value = g_string_new("");
 		if (temp_header_details.header_type_value) {
-			g_string_assign(temp_header_details.header_type_value, str_colon);
+			g_string_assign(temp_header_details.header_type_value, parse_header_list[0]);
 		}
 
-		g_free (str_colon);
 		for (index = 0; parse_header_list[index+1] ; ++index) {
 			temp_header_value_details.sub_header_string_value = g_string_new("");
 
@@ -616,9 +613,12 @@ commit_changes (ConfigData *cd)
 
 	while (valid) {
 		gchar *keyword = NULL, *value = NULL;
-		gtk_tree_model_get (model, &iter, HEADER_KEY_COLUMN, &keyword, -1);
-		/* Check if the keyword is not empty */
-		gtk_tree_model_get (model, &iter, HEADER_VALUE_COLUMN, &value, -1);
+
+		gtk_tree_model_get (model, &iter,
+			HEADER_KEY_COLUMN, &keyword,
+			HEADER_VALUE_COLUMN, &value,
+			-1);
+
                 /* Check if the keyword is not empty */
                 if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0)) {
                         if ((value) && (g_utf8_strlen(g_strstrip(value), -1) > 0)) {
@@ -626,7 +626,10 @@ commit_changes (ConfigData *cd)
                         }
                         header_config_list = g_slist_append (header_config_list, g_strdup(keyword));
                 }
+
 		g_free (keyword);
+		g_free (value);
+
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
@@ -743,7 +746,6 @@ header_add_clicked (GtkButton *button, ConfigData *cd)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gchar *new_header = NULL;
 	GtkTreeViewColumn *focus_col;
 	GtkTreePath *path;
 
@@ -753,12 +755,11 @@ header_add_clicked (GtkButton *button, ConfigData *cd)
 	/* Disconnect from signal so that we can create an empty row */
 	g_signal_handlers_disconnect_matched(G_OBJECT(model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, header_isempty, cd);
 
-	new_header = g_strdup ("");
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-			    HEADER_KEY_COLUMN, new_header, -1);
+			    HEADER_KEY_COLUMN, "", -1);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-			    HEADER_VALUE_COLUMN, new_header, -1);
+			    HEADER_VALUE_COLUMN, "", -1);
 
 	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), HEADER_KEY_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
@@ -878,7 +879,6 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkTreeModel *model;
 	gint index;
         gchar *buffer;
-        gchar *str_colon = NULL, *str1_colon = NULL;
         GtkTreeViewColumn *col;
 	gint col_pos;
 
@@ -950,17 +950,15 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
                 buffer = list->data;
 		gtk_list_store_append (cd->store, &iter);
+
                 parse_header_list = g_strsplit_set (buffer, "=,", -1);
-                str_colon = g_strconcat (parse_header_list[0], "", NULL);
-                gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, str_colon, -1);
+
+                gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, parse_header_list[0], -1);
 
 		for (index = 0; parse_header_list[index+1] ; ++index) {
-                        str1_colon = g_strconcat (parse_header_list[index+1], "", NULL);
-                        gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, str1_colon, -1);
+                        gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index+1], -1);
                 }
 	}
-	g_free (str_colon);
-	g_free (str1_colon);
 
 	if (header_list) {
 		g_slist_foreach (header_list, (GFunc) g_free, NULL);
