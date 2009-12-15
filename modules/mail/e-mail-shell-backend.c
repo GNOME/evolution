@@ -37,13 +37,13 @@
 #include "composer/e-msg-composer.h"
 #include "widgets/misc/e-preferences-window.h"
 
-#include "e-mail-shell-migrate.h"
 #include "e-mail-shell-settings.h"
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
 
 #include "e-mail-browser.h"
 #include "e-mail-local.h"
+#include "e-mail-migrate.h"
 #include "e-mail-reader.h"
 #include "e-mail-store.h"
 #include "em-account-editor.h"
@@ -896,7 +896,7 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 	shell_backend_class->sort_order = 200;
 	shell_backend_class->preferences_page = "mail-accounts";
 	shell_backend_class->start = mail_shell_backend_start;
-	shell_backend_class->migrate = e_mail_shell_migrate;
+	shell_backend_class->migrate = e_mail_migrate;
 }
 
 static void

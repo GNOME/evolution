@@ -45,6 +45,7 @@ mailinclude_HEADERS =					\
 	e-mail-label-manager.h				\
 	e-mail-label-tree-view.h			\
 	e-mail-local.h					\
+	e-mail-migrate.h				\
 	e-mail-reader.h					\
 	e-mail-reader-utils.h				\
 	e-mail-search-bar.h				\
@@ -102,6 +103,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-label-manager.c				\
 	e-mail-label-tree-view.c			\
 	e-mail-local.c					\
+	e-mail-migrate.c				\
 	e-mail-reader.c					\
 	e-mail-reader-utils.c				\
 	e-mail-search-bar.c				\

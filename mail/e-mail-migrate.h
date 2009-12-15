@@ -1,5 +1,5 @@
 /*
- * e-mail-shell-migrate.h
+ * e-mail-migrate.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@
 
 G_BEGIN_DECLS
 
-gboolean	e_mail_shell_migrate		(EShellBackend *shell_backend,
+gboolean	e_mail_migrate			(EShellBackend *shell_backend,
 						 gint major,
 						 gint minor,
 						 gint micro,

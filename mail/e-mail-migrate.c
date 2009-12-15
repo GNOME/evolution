@@ -1,5 +1,5 @@
 /*
- * e-mail-shell-migrate.c
+ * e-mail-migrate.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-mail-shell-migrate.h"
+#include "e-mail-migrate.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,7 +63,6 @@
 #include "e-util/e-plugin.h"
 #include "e-util/e-signature-utils.h"
 
-#include "e-mail-shell-backend.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-migrate.h"
 
@@ -2993,11 +2992,11 @@ migrate_to_db (EShellBackend *shell_backend)
 }
 
 gboolean
-e_mail_shell_migrate (EShellBackend *shell_backend,
-                      gint major,
-                      gint minor,
-                      gint micro,
-                      GError **error)
+e_mail_migrate (EShellBackend *shell_backend,
+                gint major,
+                gint minor,
+                gint micro,
+                GError **error)
 {
 	struct stat st;
 	const gchar *data_dir;
