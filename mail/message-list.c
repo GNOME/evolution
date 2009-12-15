@@ -3468,6 +3468,11 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		message_list->idle_id = 0;
 	}
 
+	if (message_list->seen_id) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
+	}
+
 	/* reset the normalised sort performance hack */
 	g_hash_table_remove_all (message_list->normalised_hash);
 

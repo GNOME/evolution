@@ -1782,6 +1782,24 @@ mail_reader_message_read_cb (EMailReader *reader)
 }
 
 static void
+update_webview_content (EMailReader *reader, const gchar *content)
+{
+	EMFormatHTMLDisplay *html_display;
+	EWebView *web_view;
+
+	g_return_if_fail (reader != NULL);
+	g_return_if_fail (content != NULL);
+
+	html_display = e_mail_reader_get_html_display (reader);
+	g_return_if_fail (html_display != NULL);
+
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
+	g_return_if_fail (web_view != NULL);
+
+	e_web_view_load_string (web_view, content);
+}
+
+static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
                                const gchar *message_uid,
                                CamelMimeMessage *message,
@@ -1843,8 +1861,10 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		G_OBJECT (reader), "mark-read-uid",
 		g_strdup (message_uid), (GDestroyNotify) g_free);
 
-	if (MESSAGE_LIST (message_list)->seen_id > 0)
+	if (MESSAGE_LIST (message_list)->seen_id > 0) {
 		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
+		MESSAGE_LIST (message_list)->seen_id = 0;
+	}
 
 	if (message != NULL && mark_read) {
 		MESSAGE_LIST (message_list)->seen_id = g_timeout_add (
@@ -1852,17 +1872,14 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 			mail_reader_message_read_cb, reader);
 
 	} else if (camel_exception_is_set (ex)) {
-		EWebView *web_view;
 		gchar *string;
-
-		web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 		/* Display the error inline and clear the exception. */
 		string = g_strdup_printf (
 			"<h2>%s</h2><p>%s</p>",
 			_("Unable to retrieve message"),
 			ex->desc);
-		e_web_view_load_string (web_view, string);
+		update_webview_content (reader, string);
 		g_free (string);
 
 		camel_exception_clear (ex);
@@ -1903,6 +1920,11 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 		if (html_display_visible && selected_uid_changed) {
 			gint op_id;
+			gchar *string;
+
+			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
+			update_webview_content (reader, string);
+			g_free (string);
 
 			op_id = mail_get_messagex (
 				folder, cursor_uid,
@@ -1931,12 +1953,20 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	GSource *source;
 	const gchar *key;
 	gpointer data;
+	MessageList *message_list;
 
 	/* First cancel any previous message fetching. */
 	key = "preview-get-message-op-id";
 	data = g_object_get_data (G_OBJECT (reader), key);
 	if (data != NULL)
 		mail_msg_cancel (GPOINTER_TO_INT (data));
+
+	/* then cancel the seen timer */
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	if (message_list && message_list->seen_id) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
+	}
 
 	/* XXX This is kludgy, but we have no other place to store timeout
 	 * state information.  Addendum: See EAttachmentView for an example
