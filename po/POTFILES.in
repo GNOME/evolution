@@ -179,6 +179,7 @@ mail/e-mail-label-list-store.c
 mail/e-mail-label-manager.c
 mail/e-mail-label-tree-view.c
 mail/e-mail-local.c
+mail/e-mail-migrate.c
 mail/e-mail-reader-utils.c
 mail/e-mail-reader.c
 mail/e-mail-search-bar.c
@@ -263,7 +264,6 @@ modules/mail/e-mail-attachment-handler.c
 modules/mail/e-mail-junk-hook.c
 modules/mail/e-mail-shell-backend.c
 modules/mail/e-mail-shell-content.c
-modules/mail/e-mail-shell-migrate.c
 modules/mail/e-mail-shell-view-actions.c
 modules/mail/e-mail-shell-view-private.c
 modules/mail/e-mail-shell-view.c
@@ -402,6 +402,7 @@ shell/e-shell-backend.c
 shell/e-shell-content.c
 shell/e-shell-migrate.c
 shell/e-shell-switcher.c
+shell/e-shell-utils.c
 shell/e-shell-view.c
 shell/e-shell-window-actions.c
 shell/e-shell-window-private.c
