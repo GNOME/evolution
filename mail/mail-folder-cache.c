@@ -49,6 +49,7 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include "e-util/e-marshal.h"
+#include "e-util/e-util.h"
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
@@ -1184,9 +1185,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__POINTER_STRING,
+			      e_marshal_VOID__BOXED_STRING,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_STRING);
+			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-unavailable
@@ -1203,9 +1204,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__POINTER_STRING,
+			      e_marshal_VOID__BOXED_STRING,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_STRING);
+			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-deleted
@@ -1220,9 +1221,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__POINTER_STRING,
+			      e_marshal_VOID__BOXED_STRING,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_STRING);
+			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-renamed
@@ -1238,9 +1239,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__POINTER_STRING_STRING,
+			      e_marshal_VOID__BOXED_STRING_STRING,
 			      G_TYPE_NONE, 3,
-			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
+			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-unread-updated
@@ -1256,9 +1257,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__POINTER_STRING_INT,
+			      e_marshal_VOID__BOXED_STRING_INT,
 			      G_TYPE_NONE, 3,
-			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_INT);
+			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING, G_TYPE_INT);
 
 	/**
 	 * MailFolderCache::folder-changed
@@ -1279,9 +1280,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__POINTER_STRING_STRING_INT_STRING_STRING_STRING,
+			      e_marshal_VOID__BOXED_STRING_STRING_INT_STRING_STRING_STRING,
 			      G_TYPE_NONE, 7,
-			      G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
+			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
 			      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 }
 
