@@ -513,18 +513,21 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 	if (SECSuccess != CERT_FilterCertListByUsage(certlist, certUsageEmailRecipient, PR_FALSE)) {
 		/* XXX gerror */
 		CERT_DestroyCertificate(any_cert);
-		/* XXX free certlist? */
+		CERT_DestroyCertList (certlist);
 		return NULL;
 	}
 
 	if (CERT_LIST_END(CERT_LIST_HEAD(certlist), certlist)) {
 		/* XXX gerror */
 		CERT_DestroyCertificate(any_cert);
-		/* XXX free certlist? */
+		CERT_DestroyCertList (certlist);
 		return NULL;
 	}
 
-	cert = e_cert_new (CERT_LIST_HEAD(certlist)->cert);
+	cert = e_cert_new (CERT_DupCertificate (CERT_LIST_HEAD(certlist)->cert));
+
+	CERT_DestroyCertList (certlist);
+	CERT_DestroyCertificate (any_cert);
 
 	return cert;
 }

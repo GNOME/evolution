@@ -114,6 +114,7 @@ composer_header_constructor (GType type,
 		tmp = gtk_label_new (NULL);
 		str = g_strdup_printf ("<span foreground='blue' underline='single' underline_color='blue'  >%s</span>", header->priv->addaction_text);
 		gtk_label_set_markup((GtkLabel *)tmp, str);
+		g_free (str);
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		gtk_container_add((GtkContainer *)header->action_widget, box);
 		gtk_widget_show_all(header->action_widget);

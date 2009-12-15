@@ -100,6 +100,8 @@ shell_settings_pspec_for_key (const gchar *property_name,
 				/* We'll fail in the next switch statement. */
 				break;
 		}
+	} else {
+		default_value = gconf_value_copy (default_value);
 	}
 
 	switch (value_type) {
@@ -151,6 +153,7 @@ shell_settings_pspec_for_key (const gchar *property_name,
 	}
 
 	gconf_value_free (default_value);
+	gconf_schema_free (schema);
 
 	return pspec;
 

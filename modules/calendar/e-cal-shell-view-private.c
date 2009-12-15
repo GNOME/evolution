@@ -851,8 +851,8 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	struct tm start_tm, end_tm;
 	struct icaltimetype start_tt, end_tt;
 	icaltimezone *timezone;
-	gchar buffer[512];
-	gchar end_buffer[512];
+	gchar buffer[512] = { 0 };
+	gchar end_buffer[512] = { 0 };
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
@@ -868,8 +868,10 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	view_type = gnome_calendar_get_view (calendar);
 	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
 
-	e_calendar_view_get_visible_time_range (
-		calendar_view, &start_time, &end_time);
+	if (!e_calendar_view_get_visible_time_range (calendar_view, &start_time, &end_time)) {
+		e_shell_sidebar_set_secondary_text (shell_sidebar, "");
+		return;
+	}
 
 	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, timezone);
 	start_tm.tm_year = start_tt.year - 1900;

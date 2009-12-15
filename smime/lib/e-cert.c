@@ -140,6 +140,11 @@ e_cert_dispose (GObject *object)
 		}
 	}
 
+	if (ec->priv->cert) {
+		CERT_DestroyCertificate (ec->priv->cert);
+		ec->priv->cert = NULL;
+	}
+
 	g_free (ec->priv);
 	ec->priv = NULL;
 
@@ -257,6 +262,7 @@ e_cert_new (CERTCertificate *cert)
 {
 	ECert *ecert = E_CERT (g_object_new (E_TYPE_CERT, NULL));
 
+	/* ECert owns a reference to the 'cert', which will be freed on ECert finalize */
 	ecert->priv->cert = cert;
 
 	e_cert_populate (ecert);
@@ -468,6 +474,8 @@ e_cert_get_chain (ECert *ecert)
 		next_cert = CERT_FindCertIssuer (cert, PR_Now(), certUsageSSLClient);
 		if (!next_cert)
 			break;
+
+		/* next_cert has a reference already */
 		ecert = e_cert_new (next_cert);
 	}
 
@@ -477,14 +485,19 @@ e_cert_get_chain (ECert *ecert)
 ECert *
 e_cert_get_ca_cert(ECert *ecert)
 {
-	CERTCertificate *cert, *next = e_cert_get_internal_cert(ecert);
+	CERTCertificate *cert, *next = e_cert_get_internal_cert(ecert), *internal;
 
+	cert = next;
+	internal = cert;
 	do {
+		if (cert != next && cert != internal)
+			CERT_DestroyCertificate (cert);
+
 		cert = next;
 		next = CERT_FindCertIssuer (cert, PR_Now(), certUsageAnyCA);
 	} while (next && next != cert);
 
-	if (cert == e_cert_get_internal_cert(ecert))
+	if (cert == internal)
 		return g_object_ref(ecert);
 	else
 		return e_cert_new(cert);

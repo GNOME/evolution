@@ -746,6 +746,7 @@ update_actions_cb (EShellView *shell_view)
 		&action_count, merge_id, folder_info,
 		folder, uids->pdata[0]);
 
+	camel_store_free_folder_info (store, folder_info);
 exit:
 	em_utils_uids_free (uids);
 }

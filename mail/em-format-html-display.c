@@ -193,7 +193,7 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 	ECert *ec = NULL;
 
 	if (info->cert_data)
-		ec = e_cert_new (info->cert_data);
+		ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
 	if (ec != NULL) {
 		GtkWidget *w = certificate_viewer_show(ec);
@@ -251,7 +251,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
 
 			if (info->cert_data)
-				ec = e_cert_new (info->cert_data);
+				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
 			if (ec == NULL)
 				gtk_widget_set_sensitive(w, FALSE);
