@@ -265,10 +265,10 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	GConfClient *gconf;
 	EAccount *account;
 	gint i;
-	GList *postlist;
 	EMEvent *eme;
 	EMEventTargetComposer *target;
 	EComposerHeaderTable *table;
+	EComposerHeader *post_to_header;
 
 	gconf = mail_config_get_gconf_client ();
 	table = e_msg_composer_get_header_table (composer);
@@ -322,10 +322,15 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 	camel_object_unref (cia);
 
-	postlist = e_composer_header_table_get_post_to (table);
-	num_post = g_list_length(postlist);
-	g_list_foreach(postlist, (GFunc)g_free, NULL);
-	g_list_free(postlist);
+	post_to_header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_POST_TO);
+	if (e_composer_header_get_visible (post_to_header)) {
+		GList *postlist;
+
+		postlist = e_composer_header_table_get_post_to (table);
+		num_post = g_list_length (postlist);
+		g_list_foreach (postlist, (GFunc)g_free, NULL);
+		g_list_free (postlist);
+	}
 
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && num_post == 0) {
