@@ -428,7 +428,7 @@
     </schema>   
 
     <schema>
-      <key>/schema/apps/evolution/mail/display/show_all_headers</key>
+      <key>/schemas/apps/evolution/mail/display/show_all_headers</key>
       <applyto>/apps/evolution/mail/display/show_all_headers</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
