@@ -1168,35 +1168,6 @@ em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 		local_outbox_folder_uri, uri);
 }
 
-/**
- * em_utils_adjustment_page:
- * @adj:
- * @down:
- *
- * Move an adjustment up/down forward/back one page.
- **/
-void
-em_utils_adjustment_page(GtkAdjustment *adj, gboolean down)
-{
-	gfloat page_size = adj->page_size - adj->step_increment;
-
-	if (down) {
-		if (adj->value < adj->upper - adj->page_size - page_size)
-			adj->value += page_size;
-		else if (adj->upper >= adj->page_size)
-			adj->value = adj->upper - adj->page_size;
-		else
-			adj->value = adj->lower;
-	} else {
-		if (adj->value > adj->lower + page_size)
-			adj->value -= page_size;
-		else
-			adj->value = adj->lower;
-	}
-
-	gtk_adjustment_value_changed(adj);
-}
-
 /* ********************************************************************** */
 static EProxy *emu_proxy = NULL;
 static GStaticMutex emu_proxy_lock = G_STATIC_MUTEX_INIT;

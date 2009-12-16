@@ -75,8 +75,6 @@ gboolean em_utils_folder_is_templates(CamelFolder *folder, const gchar *uri);
 gboolean em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri);
 gboolean em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri);
 
-void em_utils_adjustment_page(GtkAdjustment *adj, gboolean down);
-
 gchar *em_utils_get_proxy_uri (const gchar *uri);
 
 /* FIXME: should this have an override charset? */
