@@ -63,9 +63,9 @@ enum {
 	COL_BOOL_SENSITIVE
 };
 
-typedef void (*process_message_cb) (GObject *dialog, guint status_code, const gchar *msg_body, gpointer user_data);
+typedef void (*process_message_cb) (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *msg_body, gpointer user_data);
 
-static void send_xml_message (xmlDocPtr doc, const gchar *msg_type, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info);
+static void send_xml_message (xmlDocPtr doc, gboolean depth_1, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info);
 
 static gchar *
 xpath_get_string (xmlXPathContextPtr xpctx, const gchar *path_format, ...)
@@ -315,7 +315,7 @@ add_collection_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent_iter, cons
 
 /* called with "caldav-thread-mutex" unlocked; 'user_data' is parent tree iter, NULL for "User's calendars" */
 static void
-traverse_users_calendars_cb (GObject *dialog, guint status_code, const gchar *msg_body, gpointer user_data)
+traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *msg_body, gpointer user_data)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpctx;
@@ -324,10 +324,11 @@ traverse_users_calendars_cb (GObject *dialog, guint status_code, const gchar *ms
 
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
-	g_return_if_fail (msg_body != NULL);
 
 	if (!check_soup_status (dialog, status_code, msg_body, TRUE))
 		return;
+
+	g_return_if_fail (msg_body != NULL);
 
 	doc = xmlReadMemory (msg_body, strlen (msg_body), "response.xml", NULL, 0);
 	if (!doc) {
@@ -484,8 +485,19 @@ traverse_users_calendars_cb (GObject *dialog, guint status_code, const gchar *ms
 		}
 
 		if (user_data == NULL) {
-			/* it was checking for user's calendars, thus add node for browsing from the base url */
-			add_collection_node_to_tree (store, NULL, g_object_get_data (dialog, "caldav-base-url"));
+			/* it was checking for user's calendars, thus add node for browsing from the base url path or the msg_path*/
+			if (msg_path && *msg_path) {
+				add_collection_node_to_tree (store, NULL, msg_path);
+			} else {
+				SoupURI *suri;
+
+				suri = soup_uri_new (g_object_get_data (dialog, "caldav-base-url"));
+
+				add_collection_node_to_tree (store, NULL, (suri && suri->path && *suri->path) ? suri->path : "/");
+
+				if (suri)
+					soup_uri_free (suri);
+			}
 		}
 	}
 
@@ -542,7 +554,7 @@ fetch_folder_content (GObject *dialog, const gchar *relative_path, const GtkTree
 			g_free (key);
 		}
 
-		send_xml_message (doc, "PROPFIND", url, G_OBJECT (dialog), traverse_users_calendars_cb, par_iter, op_info);
+		send_xml_message (doc, TRUE, url, G_OBJECT (dialog), traverse_users_calendars_cb, par_iter, op_info);
 	} else {
 		report_error (dialog, TRUE, _("Failed to get server URL."));
 	}
@@ -554,18 +566,20 @@ fetch_folder_content (GObject *dialog, const gchar *relative_path, const GtkTree
 
 /* called with "caldav-thread-mutex" unlocked; user_data is not NULL when called second time on principal */
 static void
-find_users_calendar_cb (GObject *dialog, guint status_code, const gchar *msg_body, gpointer user_data)
+find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *msg_body, gpointer user_data)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpctx;
 	gchar *calendar_home_set, *url;
+	gboolean base_url_is_calendar = FALSE;
 
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
-	g_return_if_fail (msg_body != NULL);
 
 	if (!check_soup_status (dialog, status_code, msg_body, TRUE))
 		return;
+
+	g_return_if_fail (msg_body != NULL);
 
 	doc = xmlReadMemory (msg_body, strlen (msg_body), "response.xml", NULL, 0);
 	if (!doc) {
@@ -577,6 +591,9 @@ find_users_calendar_cb (GObject *dialog, guint status_code, const gchar *msg_bod
 	xmlXPathRegisterNs (xpctx, XC "D", XC "DAV:");
 	xmlXPathRegisterNs (xpctx, XC "C", XC "urn:ietf:params:xml:ns:caldav");
 
+	if (user_data == NULL)
+		base_url_is_calendar = xpath_exists (xpctx, NULL, "/D:multistatus/D:response/D:propstat/D:prop/D:resourcetype/C:calendar");
+		
 	calendar_home_set = xpath_get_string (xpctx, "/D:multistatus/D:response/D:propstat/D:prop/C:calendar-home-set/D:href");
 	if (user_data == NULL && (!calendar_home_set || !*calendar_home_set)) {
 		g_free (calendar_home_set);
@@ -608,7 +625,7 @@ find_users_calendar_cb (GObject *dialog, guint status_code, const gchar *msg_bod
 
 			url = change_url_path (g_object_get_data (dialog, "caldav-base-url"), calendar_home_set);
 			if (url) {
-				send_xml_message (doc, "PROPFIND", url, dialog, find_users_calendar_cb, GINT_TO_POINTER (1), _("Searching for user's calendars..."));
+				send_xml_message (doc, TRUE, url, dialog, find_users_calendar_cb, GINT_TO_POINTER (1), _("Searching for user's calendars..."));
 			} else {
 				report_error (dialog, TRUE, _("Failed to get server URL."));
 			}
@@ -623,6 +640,27 @@ find_users_calendar_cb (GObject *dialog, guint status_code, const gchar *msg_bod
 	} else {
 		xmlXPathFreeContext (xpctx);
 		xmlFreeDoc (doc);
+	}
+
+	if (base_url_is_calendar && (!calendar_home_set || !*calendar_home_set)) {
+		SoupURI *suri = soup_uri_new (g_object_get_data (dialog, "caldav-base-url"));
+		if (suri) {
+			if (suri->path && *suri->path) {
+				gchar *slash;
+
+				while (slash = strrchr (suri->path, '/'), slash && slash != suri->path) {
+					if (slash[1] != 0) {
+						slash[1] = 0;
+						g_free (calendar_home_set);
+						calendar_home_set = g_strdup (suri->path);
+						break;
+					}
+
+					*slash = 0;
+				}
+			}
+			soup_uri_free (suri);
+		}
 	}
 
 	if (!calendar_home_set || !*calendar_home_set) {
@@ -850,6 +888,7 @@ poll_for_message_sent_cb (gpointer data)
 	SoupMessage *sent_message;
 	gboolean again = TRUE;
 	guint status_code = -1;
+	gchar *msg_path = NULL;
 	gchar *msg_body = NULL;
 
 	g_return_val_if_fail (data != NULL, FALSE);
@@ -874,8 +913,13 @@ poll_for_message_sent_cb (gpointer data)
 		g_object_set_data (pd->dialog, "caldav-thread-message", NULL);
 
 		if (pd->cb) {
+			const SoupURI *suri = soup_message_get_uri (pd->message);
+
 			status_code = pd->message->status_code;
 			msg_body = g_strndup (pd->message->response_body->data, pd->message->response_body->length);
+
+			if (suri && suri->path)
+				msg_path = g_strdup (suri->path);
 		}
 
 		g_object_unref (pd->message);
@@ -888,17 +932,18 @@ poll_for_message_sent_cb (gpointer data)
 
 	g_mutex_unlock (mutex);
 
-	if (!again && pd->cb && msg_body) {
-		(*pd->cb) (pd->dialog, status_code, msg_body, pd->cb_user_data);
+	if (!again && pd->cb) {
+		(*pd->cb) (pd->dialog, msg_path, status_code, msg_body, pd->cb_user_data);
 	}
 
 	g_free (msg_body);
+	g_free (msg_path);
 
 	return again;
 }
 
 static void
-send_xml_message (xmlDocPtr doc, const gchar *msg_type, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info)
+send_xml_message (xmlDocPtr doc, gboolean depth_1, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info)
 {
 	GCond *cond;
 	GMutex *mutex;
@@ -909,7 +954,6 @@ send_xml_message (xmlDocPtr doc, const gchar *msg_type, const gchar *url, GObjec
 	struct poll_data *pd;
 
 	g_return_if_fail (doc != NULL);
-	g_return_if_fail (msg_type != NULL);
 	g_return_if_fail (url != NULL);
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
@@ -922,7 +966,7 @@ send_xml_message (xmlDocPtr doc, const gchar *msg_type, const gchar *url, GObjec
 	g_return_if_fail (mutex != NULL);
 	g_return_if_fail (session != NULL);
 
-	message = soup_message_new (msg_type, url);
+	message = soup_message_new ("PROPFIND", url);
 	if (!check_message (GTK_WINDOW (dialog), message, url))
 		return;
 
@@ -931,7 +975,7 @@ send_xml_message (xmlDocPtr doc, const gchar *msg_type, const gchar *url, GObjec
 	xmlOutputBufferFlush (buf);
 
 	soup_message_headers_append (message->request_headers, "User-Agent", "Evolution/" VERSION);
-	soup_message_headers_append (message->request_headers, "Depth", "1");
+	soup_message_headers_append (message->request_headers, "Depth", depth_1 ? "1" : "0");
 	soup_message_set_request (message, "application/xml", SOUP_MEMORY_COPY, (const gchar *) buf->buffer->content, buf->buffer->use);
 
 	/* Clean up the memory */
@@ -1223,9 +1267,10 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 		node = xmlNewTextChild (root, nsdav, XC "prop", NULL);
 		xmlNewTextChild (node, nsdav, XC "current-user-principal", NULL);
 		xmlNewTextChild (node, nsdav, XC "principal-URL", NULL);
+		xmlNewTextChild (node, nsdav, XC "resourcetype", NULL);
 		xmlNewTextChild (node, nsc, XC "calendar-home-set", NULL);
 
-		send_xml_message (doc, "PROPFIND", url, G_OBJECT (dialog), find_users_calendar_cb, NULL, _("Searching for user's calendars..."));
+		send_xml_message (doc, FALSE, url, G_OBJECT (dialog), find_users_calendar_cb, NULL, _("Searching for user's calendars..."));
 
 		xmlFreeDoc (doc);
 	}
