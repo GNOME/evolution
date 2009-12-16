@@ -47,16 +47,13 @@
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
-#include "em-event.h"
 #include "em-folder-utils.h"
 #include "em-format-hook.h"
 #include "em-format-html-display.h"
 #include "em-mailer-prefs.h"
 #include "em-network-prefs.h"
 #include "em-utils.h"
-#include "mail-autofilter.h"
 #include "mail-config.h"
-#include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
@@ -475,68 +472,6 @@ mail_shell_backend_window_created_cb (EShell *shell,
 }
 
 static void
-folder_deleted_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
-{
-	mail_filter_delete_uri(store, uri);
-}
-
-static void
-folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
-{
-	mail_filter_rename_uri(store, olduri, newuri);
-}
-
-static void
-folder_changed_cb (MailFolderCache *cache,
-		   CamelStore *store,
-		   const gchar *folder_uri,
-		   const gchar *folder_fullname,
-		   int new_messages,
-		   const gchar *msg_uid,
-		   const gchar *msg_sender,
-		   const gchar *msg_subject,
-		   gpointer user_data)
-{
-	EShell *shell = (EShell*) user_data;
-	CamelFolder *folder = NULL;
-	gint flags = 0;
-	EMEvent *e = em_event_peek();
-	EMEventTargetFolder *t;
-	EMFolderTreeModel *model;
-
-	g_return_if_fail (shell);
-
-	if (!mail_folder_cache_get_folder_from_uri (cache, folder_uri, &folder)) {
-		if (!mail_folder_cache_get_folder_info_flags (cache, folder, &flags)) {
-			g_return_if_reached ();
-		}
-	}
-
-	t = em_event_target_new_folder(e, folder_uri, new_messages, msg_uid,
-				       msg_sender, msg_subject);
-
-	t->is_inbox = ((flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX);
-
-	model = em_folder_tree_model_get_default ();
-	t->name = em_folder_tree_model_get_folder_name (model, store,
-							folder_fullname);
-
-	if (t->new > 0)
-		e_shell_event (
-			       shell, "mail-icon",
-			       (gpointer) "mail-unread");
-
-	/** @Event: folder.changed
-	 * @Title: Folder changed
-	 * @Target: EMEventTargetFolder
-	 *
-	 * folder.changed is emitted whenever a folder changes.  There is no detail on how the folder has changed.
-	 * UPDATE: We tell the number of new UIDs added rather than the new mails received
-	 */
-	e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
-}
-
-static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EMailShellBackendPrivate *priv;
@@ -580,18 +515,6 @@ mail_shell_backend_constructed (GObject *object)
 		shell, "window-created",
 		G_CALLBACK (mail_shell_backend_window_created_cb),
 		shell_backend);
-
-	g_signal_connect (
-		mail_folder_cache_get_default (), "folder-deleted",
-		G_CALLBACK (folder_deleted_cb), NULL);
-
-	g_signal_connect (
-		mail_folder_cache_get_default (), "folder-renamed",
-		G_CALLBACK (folder_renamed_cb), NULL);
-
-	g_signal_connect (
-		mail_folder_cache_get_default (), "folder-changed",
-		G_CALLBACK (folder_changed_cb), shell);
 
 	e_mail_shell_settings_init (shell);
 

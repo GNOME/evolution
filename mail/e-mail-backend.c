@@ -31,7 +31,11 @@
 #include "mail/e-mail-local.h"
 #include "mail/e-mail-migrate.h"
 #include "mail/e-mail-store.h"
+#include "mail/em-event.h"
+#include "mail/em-folder-tree-model.h"
 #include "mail/em-utils.h"
+#include "mail/mail-autofilter.h"
+#include "mail/mail-folder-cache.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-session.h"
 #include "mail/mail-vfolder.h"
@@ -286,10 +290,79 @@ mail_backend_quit_requested_cb (EShell *shell,
 }
 
 static void
+mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
+                                CamelStore *store,
+                                const gchar *uri)
+{
+	mail_filter_delete_uri (store, uri);
+}
+
+static void
+mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
+                                CamelStore *store,
+                                const gchar *old_uri,
+                                const gchar *new_uri)
+{
+	mail_filter_rename_uri (store, old_uri, new_uri);
+}
+
+static void
+mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
+                                CamelStore *store,
+                                const gchar *folder_uri,
+                                const gchar *folder_fullname,
+                                gint new_messages,
+                                const gchar *msg_uid,
+                                const gchar *msg_sender,
+                                const gchar *msg_subject,
+                                EShell *shell)
+{
+	CamelFolder *folder = NULL;
+	EMEvent *event = em_event_peek ();
+	EMEventTargetFolder *target;
+	EMFolderTreeModel *model;
+	gint folder_type;
+	gint flags = 0;
+
+	if (!mail_folder_cache_get_folder_from_uri (folder_cache, folder_uri, &folder))
+		if (!mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags))
+			g_return_if_reached ();
+
+	target = em_event_target_new_folder (
+		event, folder_uri, new_messages,
+		msg_uid, msg_sender, msg_subject);
+
+	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
+	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);
+
+	model = em_folder_tree_model_get_default ();
+	target->name = em_folder_tree_model_get_folder_name (
+		model, store, folder_fullname);
+
+	if (target->new > 0)
+		e_shell_event (shell, "mail-icon", (gpointer) "mail-unread");
+
+	/** @Event: folder.changed
+	 * @Title: Folder changed
+	 * @Target: EMEventTargetFolder
+	 *
+	 * folder.changed is emitted whenever a folder changes.  There is no
+	 * detail on how the folder has changed.
+	 *
+	 * UPDATE: We tell the number of new UIDs added rather than the new
+	 * mails received.
+	 */
+	e_event_emit (
+		(EEvent *) event, "folder.changed",
+		(EEventTarget *) target);
+}
+
+static void
 mail_backend_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	MailFolderCache *folder_cache;
 	const gchar *data_dir;
 
 	shell_backend = E_SHELL_BACKEND (object);
@@ -297,6 +370,8 @@ mail_backend_constructed (GObject *object)
 
 	/* This also initializes Camel, so it needs to happen early. */
 	mail_session_init (shell_backend);
+
+	folder_cache = mail_folder_cache_get_default ();
 
 	g_signal_connect (
 		shell, "notify::online",
@@ -322,6 +397,18 @@ mail_backend_constructed (GObject *object)
 		shell, "quit-requested",
 		G_CALLBACK (mail_backend_quit_requested_cb),
 		shell_backend);
+
+	g_signal_connect (
+		folder_cache, "folder-deleted",
+		G_CALLBACK (mail_backend_folder_deleted_cb), NULL);
+
+	g_signal_connect (
+		folder_cache, "folder-renamed",
+		G_CALLBACK (mail_backend_folder_renamed_cb), NULL);
+
+	g_signal_connect (
+		folder_cache, "folder-changed",
+		G_CALLBACK (mail_backend_folder_changed_cb), shell);
 
 	mail_config_init ();
 	mail_msg_init ();
