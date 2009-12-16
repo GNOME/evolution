@@ -755,39 +755,6 @@ mail_session_shutdown (void)
 	camel_shutdown ();
 }
 
-gboolean
-mail_session_get_interactive (void)
-{
-	return MAIL_SESSION (session)->interactive;
-}
-
-void
-mail_session_set_interactive (gboolean interactive)
-{
-	MAIL_SESSION (session)->interactive = interactive;
-
-	if (!interactive) {
-		struct _user_message_msg *msg;
-
-		d(printf ("Gone non-interactive, checking for outstanding interactive tasks\n"));
-
-		e_passwords_cancel();
-
-		/* flush/cancel pending user messages */
-		while (!g_queue_is_empty (&user_message_queue)) {
-			msg = g_queue_pop_head (&user_message_queue);
-			e_flag_set (msg->done);
-			mail_msg_unref (msg);
-		}
-
-		/* and the current */
-		if (user_message_dialog) {
-			d(printf("Destroying message dialogue\n"));
-			gtk_widget_destroy ((GtkWidget *) user_message_dialog);
-		}
-	}
-}
-
 void
 mail_session_flush_filter_log (void)
 {

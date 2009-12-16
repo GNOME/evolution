@@ -536,9 +536,6 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	/* XXX Do we really still need this flag? */
-	mail_session_set_interactive (TRUE);
-
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
 	if (enable_search_folders)

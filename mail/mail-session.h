@@ -31,8 +31,6 @@ G_BEGIN_DECLS
 
 void mail_session_init (EShellBackend *shell_backend);
 void mail_session_shutdown (void);
-gboolean mail_session_get_interactive (void);
-void mail_session_set_interactive (gboolean interactive);
 gchar *mail_session_request_dialog (const gchar *prompt, gboolean secret,
 				   const gchar *key, gboolean async);
 gboolean mail_session_accept_dialog (const gchar *prompt, const gchar *key,

@@ -249,10 +249,6 @@ mail_msg_check_error (gpointer msg)
 	checkmem(m->priv);
 #endif
 
-	/* don't report any errors if we are not in interactive mode */
-	if (!mail_session_get_interactive ())
-		return;
-
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL
 	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID
