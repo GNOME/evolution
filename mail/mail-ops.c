@@ -256,7 +256,7 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	filename = g_build_filename (data_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
 
@@ -1796,7 +1796,7 @@ empty_trash_exec (struct _empty_trash_msg *m)
 	if (m->account) {
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &m->base.ex);
 	} else {
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		uri = g_strdup_printf ("mbox:%s/local", data_dir);
 		trash = mail_tool_get_trash (uri, TRUE, &m->base.ex);
 		g_free (uri);

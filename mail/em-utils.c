@@ -78,6 +78,7 @@
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
 #include "e-mail-local.h"
+#include "mail-session.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
  *     to rework or get rid of the functions that use this. */
@@ -90,38 +91,6 @@ extern const gchar *shell_builtin_backend;
 static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
 
 #define d(x)
-
-const gchar *
-em_utils_get_data_dir (void)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-
-	/* XXX This is a temporary solution until I can figure out a
-	 *     better way.  Ideally, nothing below the module layer
-	 *     should need to know about the user data directory. */
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	return e_shell_backend_get_data_dir (shell_backend);
-}
-
-const gchar *
-em_utils_get_config_dir (void)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-
-	/* XXX This is a temporary solution until I can figure out a
-	 *     better way.  Ideally, nothing below the module layer
-	 *     should need to know about the user config directory. */
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	return e_shell_backend_get_config_dir (shell_backend);
-}
 
 gboolean
 em_utils_ask_open_many (GtkWindow *parent,
@@ -274,7 +243,7 @@ em_filter_editor_response (GtkWidget *dialog, gint button, gpointer user_data)
 		const gchar *data_dir;
 		gchar *user;
 
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		fc = g_object_get_data ((GObject *) dialog, "context");
 		user = g_strdup_printf ("%s/filters.xml", data_dir);
 		e_rule_context_save ((ERuleContext *) fc, user);
@@ -312,7 +281,7 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 
 	fc = em_filter_context_new ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);

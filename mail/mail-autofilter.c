@@ -32,6 +32,7 @@
 
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
+#include "mail-session.h"
 #include "em-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
@@ -352,7 +353,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint fl
 	g_return_if_fail (msg != NULL);
 
 	fc = em_filter_context_new ();
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *)fc, system, user);
@@ -380,7 +381,7 @@ mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newu
 	enewuri = em_uri_from_camel(newuri);
 
 	fc = em_filter_context_new ();
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *)fc, system, user);
@@ -413,7 +414,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 	euri = em_uri_from_camel(uri);
 
 	fc = em_filter_context_new ();
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *)fc, system, user);

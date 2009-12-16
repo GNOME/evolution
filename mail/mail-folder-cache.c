@@ -701,7 +701,7 @@ rename_folders(MailFolderCache *self, struct _store_info *si, const gchar *oldba
 #endif
 
 	/* rename the meta-data we maintain ourselves */
-	config_dir = em_utils_get_config_dir ();
+	config_dir = mail_session_get_config_dir ();
 	olduri = folder_to_url(si->store, old);
 	e_filename_make_safe(olduri);
 	newuri = folder_to_url(si->store, fi->full_name);

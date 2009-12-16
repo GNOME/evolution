@@ -50,7 +50,7 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 #include "e-mail-local.h"
-#include "em-utils.h"
+#include "mail-session.h"
 
 #include "mail-importer.h"
 
@@ -292,7 +292,7 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 	if (dir == NULL)
 		return;
 
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);

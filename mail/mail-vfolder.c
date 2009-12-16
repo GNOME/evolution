@@ -46,6 +46,7 @@
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
+#include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
@@ -66,8 +67,6 @@ static GHashTable *vfolder_hash;
 /* This is a slightly hacky solution to shutting down, we poll this variable in various
    loops, and just quit processing if it is set. */
 static volatile gint shutdown;		/* are we shutting down? */
-/* more globals ... */
-extern CamelSession *session;
 
 static void rule_changed(EFilterRule *rule, CamelFolder *folder);
 
@@ -667,7 +666,7 @@ done:
 		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		e_rule_context_save ((ERuleContext *) context, user);
 		g_free (user);
@@ -735,7 +734,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 		gchar *user;
 
 		d(printf("Vfolders updated from renamed folder\n"));
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
@@ -914,7 +913,7 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 		g_object_unref(rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
@@ -960,7 +959,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 		e_filter_rule_set_name(rule, info->new->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
@@ -1021,7 +1020,7 @@ vfolder_load_storage(void)
 	G_UNLOCK (vfolder_hash);
 
 	/* first, create the vfolder store, and set it up */
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
 	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
@@ -1091,7 +1090,7 @@ vfolder_revert(void)
 	gchar *user;
 
 	d(printf("vfolder_revert\n"));
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	user = g_build_filename (data_dir, "vfolders.xml", NULL);
 	e_rule_context_revert((ERuleContext *)context, user);
 	g_free(user);
@@ -1145,7 +1144,7 @@ edit_rule_response(GtkWidget *w, gint button, gpointer data)
 		EFilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
 		e_filter_rule_copy(orig, rule);
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
@@ -1222,7 +1221,7 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 
 		g_object_ref(rule);
 		e_rule_context_add_rule((ERuleContext *)context, rule);
-		data_dir = em_utils_get_data_dir ();
+		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);

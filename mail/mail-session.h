@@ -50,6 +50,9 @@ void mail_session_add_junk_plugin (const gchar *plugin_name, CamelJunkPlugin *ju
 const GList * mail_session_get_junk_plugins (void);
 void mail_session_set_junk_headers (const gchar **name, const gchar **value, gint len);
 
+const gchar * mail_session_get_data_dir (void);
+const gchar * mail_session_get_config_dir (void);
+
 extern CamelSession *session;
 
 G_END_DECLS

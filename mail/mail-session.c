@@ -834,3 +834,20 @@ mail_session_set_junk_headers (const gchar **name, const gchar **value, gint len
 
 	camel_session_set_junk_headers (session, name, value, len);
 }
+
+const gchar *
+mail_session_get_data_dir (void)
+{
+	g_return_val_if_fail (session_shell_backend, NULL);
+
+	return e_shell_backend_get_data_dir (session_shell_backend);
+}
+
+const gchar *
+mail_session_get_config_dir (void)
+{
+	g_return_val_if_fail (session_shell_backend, NULL);
+
+	return e_shell_backend_get_config_dir (session_shell_backend);
+}
+

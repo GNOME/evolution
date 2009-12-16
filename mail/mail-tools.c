@@ -129,7 +129,7 @@ mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((gint) *c))
 			*c = '_';
 
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 	path = g_build_filename (data_dir, "spool", NULL);
 
 	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0777) == -1) {

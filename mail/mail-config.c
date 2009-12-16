@@ -59,7 +59,6 @@
 #include <libedataserverui/e-passwords.h>
 
 #include "e-mail-local.h"
-#include "em-utils.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
@@ -441,7 +440,7 @@ uri_to_evname (const gchar *uri, const gchar *prefix)
 	gchar *safe;
 	gchar *tmp;
 
-	data_dir = em_utils_get_data_dir ();
+	data_dir = mail_session_get_data_dir ();
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
@@ -573,7 +572,7 @@ mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 	gchar *url, *basename, *filename;
 	const gchar *config_dir;
 
-	config_dir = em_utils_get_config_dir ();
+	config_dir = mail_session_get_config_dir ();
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
 	filename = g_build_filename (config_dir, basename, NULL);
