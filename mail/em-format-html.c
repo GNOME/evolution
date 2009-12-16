@@ -1595,11 +1595,23 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 		g_free(classid);
 
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-			camel_stream_printf(stream, "%s<br>", _(smime_sign_table[valid->sign.status].shortdesc));
+			gchar *signers;
+
+			camel_stream_printf (stream, "%s", _(smime_sign_table[valid->sign.status].shortdesc));
+
+			signers = em_format_html_format_cert_infos ((CamelCipherCertInfo *)valid->sign.signers.head);
+			if (signers && *signers) {
+				camel_stream_printf (stream, " (%s)", signers);
+			}
+			g_free (signers);
 		}
 
 		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
-			camel_stream_printf(stream, "%s<br>", _(smime_encrypt_table[valid->encrypt.status].shortdesc));
+			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+				camel_stream_printf (stream, "<br>");
+			}
+
+			camel_stream_printf (stream, "%s", _(smime_encrypt_table[valid->encrypt.status].shortdesc));
 		}
 
 		camel_stream_printf(stream, "</td></tr></table>");
@@ -2775,4 +2787,49 @@ efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 
 	emf->valid = save;
 	emf->valid_parent = save_parent;
+}
+
+gchar *
+em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo)
+{
+	GString *res = NULL;
+	CamelCipherCertInfo *cinfo;
+
+	if (!first_cinfo)
+		return NULL;
+
+	#define append(x) G_STMT_START {		\
+		if (!res) {				\
+			res = g_string_new (x);		\
+		} else {				\
+			g_string_append (res, x);	\
+		}					\
+	} G_STMT_END
+
+	for (cinfo = first_cinfo; cinfo && cinfo->next; cinfo = cinfo->next) {
+		if (!cinfo->name && !cinfo->email)
+			continue;
+
+		if (res)
+			append (", ");
+
+		if (cinfo->name && *cinfo->name) {
+			append (cinfo->name);
+
+			if (cinfo->email && *cinfo->email) {
+				append (" &lt;");
+				append (cinfo->email);
+				append ("&gt;");
+			}
+		} else if (cinfo->email && *cinfo->email) {
+			append (cinfo->email);
+		}
+	}
+
+	#undef append
+
+	if (!res)
+		return NULL;
+
+	return g_string_free (res, FALSE);
 }

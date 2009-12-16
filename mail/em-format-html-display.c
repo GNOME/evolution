@@ -565,12 +565,20 @@ efhd_format_secure (EMFormat *emf,
 		g_free (classid);
 
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+			gchar *signers;
 			const gchar *desc;
 			gint status;
 
 			status = valid->sign.status;
 			desc = smime_sign_table[status].shortdesc;
+
 			camel_stream_printf (stream, "%s", gettext (desc));
+
+			signers = em_format_html_format_cert_infos ((CamelCipherCertInfo *)valid->sign.signers.head);
+			if (signers && *signers) {
+				camel_stream_printf (stream, " (%s)", signers);
+			}
+			g_free (signers);
 		}
 
 		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {

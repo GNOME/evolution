@@ -282,6 +282,8 @@ gboolean	em_format_html_get_show_real_date(EMFormatHTML *efh);
 void		em_format_html_set_show_real_date(EMFormatHTML *efh,
 						 gboolean show_real_date);
 
+gchar *		em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo);
+
 G_END_DECLS
 
 #endif /* EM_FORMAT_HTML_H */
