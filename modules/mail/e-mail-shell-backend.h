@@ -22,7 +22,7 @@
 #ifndef E_MAIL_SHELL_BACKEND_H
 #define E_MAIL_SHELL_BACKEND_H
 
-#include <shell/e-shell-backend.h>
+#include <mail/e-mail-backend.h>
 
 #include <camel/camel-folder.h>
 #include <camel/camel-store.h>
@@ -55,12 +55,12 @@ typedef struct _EMailShellBackendClass EMailShellBackendClass;
 typedef struct _EMailShellBackendPrivate EMailShellBackendPrivate;
 
 struct _EMailShellBackend {
-	EShellBackend parent;
+	EMailBackend parent;
 	EMailShellBackendPrivate *priv;
 };
 
 struct _EMailShellBackendClass {
-	EShellBackendClass parent_class;
+	EMailBackendClass parent_class;
 };
 
 GType		e_mail_shell_backend_get_type	(void);

@@ -29,7 +29,6 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-binding.h"
-#include "e-util/e-alert-dialog.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
@@ -42,8 +41,6 @@
 #include "e-mail-shell-view.h"
 
 #include "e-mail-browser.h"
-#include "e-mail-local.h"
-#include "e-mail-migrate.h"
 #include "e-mail-reader.h"
 #include "e-mail-store.h"
 #include "em-account-editor.h"
@@ -71,17 +68,14 @@
 	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
 
 #define BACKEND_NAME "mail"
-#define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailShellBackendPrivate {
 	gint mail_sync_in_progress;
-	guint mail_sync_timeout_source_id;
+	guint mail_sync_source_id;
 };
 
 static gpointer parent_class;
 static GType mail_shell_backend_type;
-
-extern gint camel_application_is_exiting;
 
 static void
 mail_shell_backend_init_importers (void)
@@ -103,7 +97,7 @@ mail_shell_backend_init_importers (void)
 
 static void
 mail_shell_backend_mail_icon_cb (EShellWindow *shell_window,
-                                const gchar *icon_name)
+                                 const gchar *icon_name)
 {
 	GtkAction *action;
 
@@ -249,25 +243,29 @@ static void
 mail_shell_backend_sync_store_cb (CamelStore *store,
                                   EMailShellBackend *mail_shell_backend)
 {
-	if (!camel_application_is_exiting) {
-		mail_shell_backend->priv->mail_sync_in_progress++;
-		mail_sync_store (
-			store, FALSE,
-			mail_shell_backend_sync_store_done_cb,
-			mail_shell_backend);
-	}
+	mail_shell_backend->priv->mail_sync_in_progress++;
+
+	mail_sync_store (
+		store, FALSE,
+		mail_shell_backend_sync_store_done_cb,
+		mail_shell_backend);
 }
 
 static gboolean
 mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 {
-	if (camel_application_is_exiting)
-		return FALSE;
+	EShell *shell;
+	EShellBackend *shell_backend;
 
-	if (mail_shell_backend->priv->mail_sync_in_progress)
+	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	/* Obviously we can only sync in online mode. */
+	if (!e_shell_get_online (shell))
 		goto exit;
 
-	if (session == NULL || !camel_session_is_online (session))
+	/* If a sync is still in progress, skip this round. */
+	if (mail_shell_backend->priv->mail_sync_in_progress)
 		goto exit;
 
 	e_mail_store_foreach (
@@ -275,18 +273,7 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 		mail_shell_backend);
 
 exit:
-	return !camel_application_is_exiting;
-}
-
-static void
-mail_shell_backend_notify_online_cb (EShell *shell,
-                                    GParamSpec *pspec,
-                                    EShellBackend *shell_backend)
-{
-	gboolean online;
-
-	online = e_shell_get_online (shell);
-	camel_session_set_online (session, online);
+	return TRUE;
 }
 
 static void
@@ -385,309 +372,26 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 	return handled;
 }
 
-/* Helper for mail_shell_backend_prepare_for_[off|on]line_cb() */
-static void
-mail_shell_store_line_transition_done_cb (CamelStore *store,
-                                          gpointer user_data)
-{
-	EActivity *activity = user_data;
-
-	g_object_unref (activity);
-}
-
-/* Helper for mail_shell_backend_prepare_for_offline_cb() */
-static void
-mail_shell_store_prepare_for_offline_cb (CamelService *service,
-                                         gpointer unused,
-                                         EActivity *activity)
-{
-	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
-		mail_store_set_offline (
-			CAMEL_STORE (service), TRUE,
-			mail_shell_store_line_transition_done_cb,
-			g_object_ref (activity));
-}
-
-static void
-mail_shell_backend_prepare_for_offline_cb (EShell *shell,
-                                           EActivity *activity,
-                                           EMailShellBackend *mail_shell_backend)
-{
-	gboolean synchronize = FALSE;
-
-	if (e_shell_get_network_available (shell))
-		synchronize = em_utils_prompt_user (
-			e_shell_get_active_window (shell), NULL,
-			"mail:ask-quick-offline", NULL);
-
-	if (!synchronize) {
-		mail_cancel_all ();
-		camel_session_set_network_state (session, FALSE);
-	}
-
-	e_mail_store_foreach (
-		(GHFunc) mail_shell_store_prepare_for_offline_cb, activity);
-}
-
-/* Helper for mail_shell_backend_prepare_for_online_cb() */
-static void
-mail_shell_store_prepare_for_online_cb (CamelService *service,
-                                        gpointer unused,
-                                        EActivity *activity)
-{
-	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
-		mail_store_set_offline (
-			CAMEL_STORE (service), FALSE,
-			mail_shell_store_line_transition_done_cb,
-			g_object_ref (activity));
-}
-
-static void
-mail_shell_backend_prepare_for_online_cb (EShell *shell,
-                                          EActivity *activity,
-                                          EMailShellBackend *mail_shell_backend)
-{
-	camel_session_set_online (session, TRUE);
-
-	e_mail_store_foreach (
-		(GHFunc) mail_shell_store_prepare_for_online_cb, activity);
-}
-
-/* Helper for mail_shell_backend_prepare_for_quit_cb() */
-static void
-mail_shell_backend_empty_junk (CamelStore *store,
-                               gpointer opaque_store_info,
-                               EMailShellBackend *mail_shell_backend)
-{
-	CamelFolder *folder;
-	GPtrArray *uids;
-	guint32 flags;
-	guint32 mask;
-	guint ii;
-
-	folder = camel_store_get_junk (store, NULL);
-	if (folder == NULL)
-		return;
-
-	uids = camel_folder_get_uids (folder);
-	flags = mask = CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN;
-
-	camel_folder_freeze (folder);
-
-	for (ii = 0; ii < uids->len; ii++) {
-		const gchar *uid = uids->pdata[ii];
-		camel_folder_set_message_flags (folder, uid, flags, mask);
-	}
-
-	camel_folder_thaw (folder);
-
-	camel_folder_free_uids (folder, uids);
-}
-
-/* Helper for mail_shell_backend_final_sync() */
-static void
-mail_shell_backend_final_sync_done_cb (CamelStore *store,
-                                       gpointer user_data)
-{
-	g_object_unref (E_ACTIVITY (user_data));
-}
-
-/* Helper for mail_shell_backend_prepare_for_quit_cb() */
-static void
-mail_shell_backend_final_sync (CamelStore *store,
-                               gpointer opaque_store_info,
-                               gpointer user_data)
-{
-	struct {
-		EActivity *activity;
-		gboolean empty_trash;
-	} *sync_data = user_data;
-
-	/* Reffing the activity delays quitting; the reference count
-	 * acts like a counting semaphore. */
-	mail_sync_store (
-		store, sync_data->empty_trash,
-		mail_shell_backend_final_sync_done_cb,
-		g_object_ref (sync_data->activity));
-}
-
-/* Helper for mail_shell_backend_prepare_for_quit_cb() */
-static gboolean
-mail_shell_backend_poll_to_quit (EActivity *activity)
-{
-	return mail_msg_active ((guint) -1);
-}
-
-/* Helper for mail_shell_backend_prepare_for_quit_cb() */
-static void
-mail_shell_backend_ready_to_quit (EActivity *activity)
-{
-	mail_session_shutdown ();
-	g_object_unref (activity);
-	emu_free_mail_cache ();
-}
-
 static void
 mail_shell_backend_prepare_for_quit_cb (EShell *shell,
                                         EActivity *activity,
-                                        EMailShellBackend *mail_shell_backend)
+                                        EShellBackend *shell_backend)
 {
-	EShellSettings *shell_settings;
-	EAccountList *account_list;
-	GConfClient *client;
-	const gchar *key;
-	gboolean empty_junk;
-	gboolean empty_trash;
-	gint empty_date;
-	gint empty_days;
-	gint now;
-	GError *error = NULL;
+	EMailShellBackendPrivate *priv;
 
-	struct {
-		EActivity *activity;
-		gboolean empty_trash;
-	} sync_data;
+	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
-	client = e_shell_get_gconf_client (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	camel_application_is_exiting = TRUE;
-	now = time (NULL) / 60 / 60 / 24;
-
-	account_list = e_get_account_list ();
-	e_account_list_prune_proxies (account_list);
-
-	mail_vfolder_shutdown ();
-
-	empty_junk = e_shell_settings_get_boolean (
-		shell_settings, "mail-empty-junk-on-exit");
-
-	empty_trash = e_shell_settings_get_boolean (
-		shell_settings, "mail-empty-trash-on-exit");
-
-	/* XXX No EShellSettings properties for these keys. */
-
-	empty_date = empty_days = 0;
-
-	if (empty_junk) {
-		key = "/apps/evolution/mail/junk/empty_on_exit_days";
-		empty_days = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-			empty_trash = FALSE;
-		}
+	/* Prevent a sync from starting while trying to shutdown. */
+	if (priv->mail_sync_source_id > 0) {
+		g_source_remove (priv->mail_sync_source_id);
+		priv->mail_sync_source_id = 0;
 	}
-
-	if (empty_junk) {
-		key = "/apps/evolution/mail/junk/empty_date";
-		empty_date = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-			empty_trash = FALSE;
-		}
-	}
-
-	empty_junk &= (empty_days = 0) || (empty_date + empty_days <= now);
-
-	if (empty_junk) {
-		e_mail_store_foreach (
-			(GHFunc) mail_shell_backend_empty_junk,
-			mail_shell_backend);
-
-		key = "/apps/evolution/mail/junk/empty_date";
-		gconf_client_set_int (client, key, now, NULL);
-	}
-
-	empty_date = empty_days = 0;
-
-	if (empty_trash) {
-		key = "/apps/evolution/mail/trash/empty_on_exit_days";
-		empty_days = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-			empty_trash = FALSE;
-		}
-	}
-
-	if (empty_trash) {
-		key = "/apps/evolution/mail/trash/empty_date";
-		empty_date = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-			empty_trash = FALSE;
-		}
-	}
-
-	empty_trash &= (empty_days == 0) || (empty_date + empty_days <= now);
-
-	sync_data.activity = activity;
-	sync_data.empty_trash = empty_trash;
-
-	e_mail_store_foreach (
-		(GHFunc) mail_shell_backend_final_sync, &sync_data);
-
-	if (empty_trash) {
-		key = "/apps/evolution/mail/trash/empty_date";
-		gconf_client_set_int (client, key, now, NULL);
-	}
-
-	/* Cancel all activities. */
-	mail_cancel_all ();
-
-	/* Now we poll until all activities are actually cancelled.
-	 * Reffing the activity delays quitting; the reference count
-	 * acts like a counting semaphore. */
-	if (mail_msg_active ((guint) -1))
-		g_timeout_add_seconds_full (
-			G_PRIORITY_DEFAULT, QUIT_POLL_INTERVAL,
-			(GSourceFunc) mail_shell_backend_poll_to_quit,
-			g_object_ref (activity),
-			(GDestroyNotify) mail_shell_backend_ready_to_quit);
-	else
-		mail_shell_backend_ready_to_quit (g_object_ref (activity));
-}
-
-static void
-mail_shell_backend_quit_requested_cb (EShell *shell,
-                                      EShellBackend *shell_backend)
-{
-	CamelFolder *folder;
-	guint32 unsent;
-	gint response;
-
-	/* We can quit immediately if offline. */
-	if (!camel_session_is_online (session))
-		return;
-
-	/* Check Outbox for any unsent messages. */
-
-	folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	if (folder == NULL)
-		return;
-
-	if (camel_object_get (
-		folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) != 0)
-		return;
-
-	if (unsent == 0)
-		return;
-
-	response = e_alert_run_dialog_for_args (e_shell_get_active_window (shell), "mail:exit-unsaved", NULL);
-
-	if (response == GTK_RESPONSE_YES)
-		return;
-
-	e_shell_cancel_quit (shell);
 }
 
 static void
 mail_shell_backend_send_receive_cb (EShell *shell,
-                                   GtkWindow *parent,
-                                   EShellBackend *shell_backend)
+                                    GtkWindow *parent,
+                                    EShellBackend *shell_backend)
 {
 	em_utils_clear_get_password_canceled_accounts_flag ();
 	mail_send_receive (parent);
@@ -695,7 +399,7 @@ mail_shell_backend_send_receive_cb (EShell *shell,
 
 static void
 mail_shell_backend_window_weak_notify_cb (EShell *shell,
-                                         GObject *where_the_object_was)
+                                          GObject *where_the_object_was)
 {
 	g_signal_handlers_disconnect_by_func (
 		shell, mail_shell_backend_mail_icon_cb,
@@ -704,8 +408,8 @@ mail_shell_backend_window_weak_notify_cb (EShell *shell,
 
 static void
 mail_shell_backend_window_created_cb (EShell *shell,
-                                     GtkWindow *window,
-                                     EShellBackend *shell_backend)
+                                      GtkWindow *window,
+                                      EShellBackend *shell_backend)
 {
 	EShellSettings *shell_settings;
 	static gboolean first_time = TRUE;
@@ -838,15 +542,14 @@ mail_shell_backend_constructed (GObject *object)
 	EMailShellBackendPrivate *priv;
 	EShell *shell;
 	EShellBackend *shell_backend;
-	const gchar *data_dir;
 
 	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (object);
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	/* This also initializes Camel, so it needs to happen early. */
-	mail_session_init (shell_backend);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	/* Register format types for EMFormatHook. */
 	em_format_hook_register_type (em_format_get_type ());
@@ -859,33 +562,13 @@ mail_shell_backend_constructed (GObject *object)
 	mail_shell_backend_init_importers ();
 
 	g_signal_connect (
-		shell, "notify::online",
-		G_CALLBACK (mail_shell_backend_notify_online_cb),
-		shell_backend);
-
-	g_signal_connect (
 		shell, "handle-uri",
 		G_CALLBACK (mail_shell_backend_handle_uri_cb),
 		shell_backend);
 
 	g_signal_connect (
-		shell, "prepare-for-offline",
-		G_CALLBACK (mail_shell_backend_prepare_for_offline_cb),
-		shell_backend);
-
-	g_signal_connect (
-		shell, "prepare-for-online",
-		G_CALLBACK (mail_shell_backend_prepare_for_online_cb),
-		shell_backend);
-
-	g_signal_connect (
 		shell, "prepare-for-quit",
 		G_CALLBACK (mail_shell_backend_prepare_for_quit_cb),
-		shell_backend);
-
-	g_signal_connect (
-		shell, "quit-requested",
-		G_CALLBACK (mail_shell_backend_quit_requested_cb),
 		shell_backend);
 
 	g_signal_connect (
@@ -909,12 +592,6 @@ mail_shell_backend_constructed (GObject *object)
 	g_signal_connect (
 		mail_folder_cache_get_default (), "folder-changed",
 		G_CALLBACK (folder_changed_cb), shell);
-
-	mail_config_init ();
-	mail_msg_init ();
-
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	e_mail_store_init (data_dir);
 
 	e_mail_shell_settings_init (shell);
 
@@ -947,10 +624,124 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	mail_autoreceive_init (shell_backend, session);
 
 	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
-		priv->mail_sync_timeout_source_id = g_timeout_add_seconds (
+		priv->mail_sync_source_id = g_timeout_add_seconds (
 			mail_config_get_sync_timeout (),
 			(GSourceFunc) mail_shell_backend_mail_sync,
 			shell_backend);
+}
+
+static gboolean
+mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	GConfClient *client;
+	const gchar *key;
+	gboolean delete_junk;
+	gint empty_date;
+	gint empty_days;
+	gint now;
+	GError *error = NULL;
+
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	client = e_shell_get_gconf_client (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	now = time (NULL) / 60 / 60 / 24;
+
+	delete_junk = e_shell_settings_get_boolean (
+		shell_settings, "mail-empty-junk-on-exit");
+
+	/* XXX No EShellSettings properties for these keys. */
+
+	empty_date = empty_days = 0;
+
+	if (delete_junk) {
+		key = "/apps/evolution/mail/junk/empty_on_exit_days";
+		empty_days = gconf_client_get_int (client, key, &error);
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			return FALSE;
+		}
+	}
+
+	if (delete_junk) {
+		key = "/apps/evolution/mail/junk/empty_date";
+		empty_date = gconf_client_get_int (client, key, &error);
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			return FALSE;
+		}
+	}
+
+	delete_junk &= (empty_days == 0) || (empty_date + empty_days <= now);
+
+	if (delete_junk) {
+		key = "/apps/evolution/mail/junk/empty_date";
+		gconf_client_set_int (client, key, now, NULL);
+	}
+
+	return delete_junk;
+}
+
+static gboolean
+mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	GConfClient *client;
+	const gchar *key;
+	gboolean empty_trash;
+	gint empty_date;
+	gint empty_days;
+	gint now;
+	GError *error = NULL;
+
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	client = e_shell_get_gconf_client (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	now = time (NULL) / 60 / 60 / 24;
+
+	empty_trash = e_shell_settings_get_boolean (
+		shell_settings, "mail-empty-trash-on-exit");
+
+	/* XXX No EShellSettings properties for these keys. */
+
+	empty_date = empty_days = 0;
+
+	if (empty_trash) {
+		key = "/apps/evolution/mail/trash/empty_on_exit_days";
+		empty_days = gconf_client_get_int (client, key, &error);
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			return FALSE;
+		}
+	}
+
+	if (empty_trash) {
+		key = "/apps/evolution/mail/trash/empty_date";
+		empty_date = gconf_client_get_int (client, key, &error);
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+			return FALSE;
+		}
+	}
+
+	empty_trash &= (empty_days == 0) || (empty_date + empty_days <= now);
+
+	if (empty_trash) {
+		key = "/apps/evolution/mail/trash/empty_date";
+		gconf_client_set_int (client, key, now, NULL);
+	}
+
+	return empty_trash;
 }
 
 static void
@@ -958,6 +749,7 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
+	EMailBackendClass *mail_backend_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellBackendPrivate));
@@ -973,7 +765,12 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 	shell_backend_class->sort_order = 200;
 	shell_backend_class->preferences_page = "mail-accounts";
 	shell_backend_class->start = mail_shell_backend_start;
-	shell_backend_class->migrate = e_mail_migrate;
+
+	mail_backend_class = E_MAIL_BACKEND_CLASS (class);
+	mail_backend_class->delete_junk_policy_decision =
+		mail_shell_backend_delete_junk_policy_decision;
+	mail_backend_class->empty_trash_policy_decision =
+		mail_shell_backend_empty_trash_policy_decision;
 }
 
 static void
@@ -1006,7 +803,7 @@ e_mail_shell_backend_register_type (GTypeModule *type_module)
 	};
 
 	mail_shell_backend_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_BACKEND,
+		type_module, E_TYPE_MAIL_BACKEND,
 		"EMailShellBackend", &type_info, 0);
 }
 
