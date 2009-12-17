@@ -49,7 +49,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
-#include "misc/e-account-combo-box.h"
 #include "shell/e-shell.h"
 
 #include "em-composer-utils.h"
@@ -812,7 +811,6 @@ mail_session_init (EShellBackend *shell_backend)
 	camel_provider_init();
 
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
-	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
 	mail_data_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);

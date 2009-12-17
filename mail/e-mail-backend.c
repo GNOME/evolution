@@ -29,6 +29,8 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 
+#include "misc/e-account-combo-box.h"
+
 #include "shell/e-shell.h"
 
 #include "mail/e-mail-local.h"
@@ -385,6 +387,7 @@ mail_backend_constructed (GObject *object)
 
 	/* This also initializes Camel, so it needs to happen early. */
 	mail_session_init (shell_backend);
+	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 
 	folder_cache = mail_folder_cache_get_default ();
 
