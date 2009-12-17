@@ -52,7 +52,8 @@ eutilinclude_HEADERS = 				\
 	e-timeout-activity.h			\
 	e-util.h				\
 	e-unicode.h				\
-	e-xml-utils.h
+	e-xml-utils.h				\
+	gconf-bridge.h
 
 libeutil_la_CPPFLAGS =							\
 	$(AM_CPPFLAGS)							\
@@ -128,7 +129,6 @@ libeutil_la_SOURCES =				\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	gconf-bridge.c				\
-	gconf-bridge.h				\
 	$(PLATFORM_SOURCES)
 
 MARSHAL_GENERATED = e-marshal.c e-marshal.h
