@@ -968,3 +968,10 @@ mail_operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer 
 	m->data = data;
 	mail_msg_main_loop_push(m);
 }
+
+void
+mail_mt_set_backend (char *backend)
+{
+	shell_builtin_backend = backend;
+}
+
