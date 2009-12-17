@@ -22,6 +22,8 @@
 
 #include "e-composer-header.h"
 
+#include <glib/gi18n.h>
+
 #define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
@@ -48,6 +50,11 @@ struct _EComposerHeaderPrivate {
 	gchar *addaction_text;
 	gboolean addaction; /*For Add button.*/
 	GtkWidget *action_label;
+
+	GtkWidget *add_icon;
+	GtkWidget *remove_icon;
+	GtkWidget *show_label;
+	GtkWidget *hide_label;
 
 	guint sensitive : 1;
 	guint visible   : 1;
@@ -109,13 +116,24 @@ composer_header_constructor (GType type,
 		header->priv->action_label = gtk_label_new (NULL);
 		header->action_widget = gtk_button_new ();
 		box = gtk_hbox_new (FALSE, 0);
-		tmp = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_BUTTON);
+		tmp = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
+		header->priv->add_icon = tmp;
+		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
+		tmp = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
+		header->priv->remove_icon = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		tmp = gtk_label_new (NULL);
-		str = g_strdup_printf ("<span foreground='blue' underline='single' underline_color='blue'  >%s</span>", header->priv->addaction_text);
+		str = g_strdup_printf ("<span>%s %s</span>", _("Show"), header->priv->addaction_text);
 		gtk_label_set_markup((GtkLabel *)tmp, str);
 		g_free (str);
+		header->priv->show_label = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
+		tmp = gtk_label_new (NULL);
+		str = g_strdup_printf ("<span>%s %s</span>", _("Hide"), header->priv->addaction_text);
+		gtk_label_set_markup((GtkLabel *)tmp, str);
+		header->priv->hide_label = tmp;
+		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
+
 		gtk_container_add((GtkContainer *)header->action_widget, box);
 		gtk_widget_show_all(header->action_widget);
 		g_signal_connect (
@@ -427,20 +445,19 @@ e_composer_header_set_visible (EComposerHeader *header,
 
 	header->priv->visible = visible;
 
-#if 0  /* FIXME This is horrible.  Needs completely rethought. */
 	if (header->priv->action_label) {
 		if (!visible) {
-			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
-			gtk_widget_show (g_object_get_data((GObject *) header->priv->action_label, "add"));
-			gtk_widget_hide (g_object_get_data((GObject *) header->priv->action_label, "remove"));
-
-		}else {
-			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
-			gtk_widget_hide (g_object_get_data((GObject *) header->priv->action_label, "add"));
-			gtk_widget_show (g_object_get_data((GObject *) header->priv->action_label, "remove"));
+			gtk_widget_show (header->priv->add_icon);
+			gtk_widget_show (header->priv->show_label);
+			gtk_widget_hide (header->priv->remove_icon);
+			gtk_widget_hide (header->priv->hide_label);
+		} else {
+			gtk_widget_hide (header->priv->add_icon);
+			gtk_widget_hide (header->priv->show_label);
+			gtk_widget_show (header->priv->remove_icon);
+			gtk_widget_show (header->priv->hide_label);
 		}
 	}
-#endif
 
 	g_object_notify (G_OBJECT (header), "visible");
 }

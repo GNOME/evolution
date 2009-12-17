@@ -966,13 +966,13 @@ composer_header_table_init (EComposerHeaderTable *table)
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
 	header = e_composer_name_header_new_with_action (
-		_("_Cc:"), _("Show CC"), name_selector);
+		_("_Cc:"), _("CC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
 	header = e_composer_name_header_new_with_action (
-		_("_Bcc:"), _("Show BCC"), name_selector);
+		_("_Bcc:"), _("BCC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
