@@ -49,7 +49,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
-#include "shell/e-shell.h"
 
 #include "em-composer-utils.h"
 #include "em-filter-context.h"
@@ -358,8 +357,10 @@ user_message_exec (struct _user_message_msg *m)
 			g_return_if_reached ();
 	}
 
-	user_message_dialog = e_alert_dialog_new_for_args (
-		e_shell_get_active_window (NULL), error_type, m->prompt, NULL);
+	/* The mail daemon won't have a window here, so there's nothing to set
+	 * as the parent */
+	user_message_dialog =
+		e_alert_dialog_new_for_args (NULL, error_type, m->prompt, NULL);
 	g_object_set (
 		user_message_dialog, "allow_shrink", TRUE,
 		"allow_grow", TRUE, NULL);
