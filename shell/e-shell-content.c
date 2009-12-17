@@ -54,13 +54,14 @@ struct _EShellContentPrivate {
 	GtkWidget *search_bar;
 
 	/* Search bar children (not referenced) */
-	GtkWidget *filter_label;
 	GtkWidget *filter_combo_box;
-	GtkWidget *search_label;
 	GtkWidget *search_entry;
-	GtkWidget *scope_label;
 	GtkWidget *scope_combo_box;
 	GtkRadioAction *search_radio; /* to be able to manage radio here */
+
+	guint filter_visible : 1;
+	guint search_visible : 1;
+	guint scope_visible  : 1;
 };
 
 enum {
@@ -563,10 +564,10 @@ shell_content_dispose (GObject *object)
 	}
 
 	if (priv->search_radio) {
-		/* actions are freed before contents, thus skip it here */
-		/*g_signal_handlers_disconnect_matched (
-			priv->search_radio, G_SIGNAL_MATCH_DATA, 0, 0, NULL,
-			NULL, object);*/
+		g_signal_handlers_disconnect_matched (
+			priv->search_radio, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->search_radio);
 		priv->search_radio = NULL;
 	}
 
@@ -929,7 +930,10 @@ shell_content_init (EShellContent *shell_content)
 
 	widget = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+
+	e_binding_new (
+		shell_content, "filter-visible",
+		widget, "visible");
 
 	box = GTK_BOX (widget);
 
@@ -939,7 +943,6 @@ shell_content_init (EShellContent *shell_content)
 	 * "Important Messages", or "Active Appointments". */
 	widget = gtk_label_new_with_mnemonic (_("Sho_w:"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->filter_label = widget;
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -956,7 +959,10 @@ shell_content_init (EShellContent *shell_content)
 
 	widget = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
+
+	e_binding_new (
+		shell_content, "search-visible",
+		widget, "visible");
 
 	box = GTK_BOX (widget);
 
@@ -964,7 +970,6 @@ shell_content_init (EShellContent *shell_content)
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->search_label = widget;
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -1002,11 +1007,21 @@ shell_content_init (EShellContent *shell_content)
 
 	/* Scope Combo Widgets */
 
+	box = GTK_BOX (shell_content->priv->search_bar);
+
+	widget = gtk_hbox_new (FALSE, 3);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	e_binding_new (
+		shell_content, "scope-visible",
+		widget, "visible");
+
+	box = GTK_BOX (widget);
+
 	/* Translators: This is part of the quick search interface.
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("i_n"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->scope_label = widget;
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -1162,7 +1177,7 @@ e_shell_content_get_filter_visible (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), FALSE);
 
-	return GTK_WIDGET_VISIBLE (shell_content->priv->filter_combo_box);
+	return shell_content->priv->filter_visible;
 }
 
 void
@@ -1171,13 +1186,9 @@ e_shell_content_set_filter_visible (EShellContent *shell_content,
 {
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	if (filter_visible) {
-		gtk_widget_show (shell_content->priv->filter_label);
-		gtk_widget_show (shell_content->priv->filter_combo_box);
-	} else {
-		gtk_widget_hide (shell_content->priv->filter_label);
-		gtk_widget_hide (shell_content->priv->filter_combo_box);
-	}
+	shell_content->priv->filter_visible = filter_visible;
+
+	g_object_notify (G_OBJECT (shell_content), "filter-visible");
 }
 
 void
@@ -1322,7 +1333,7 @@ e_shell_content_get_search_visible (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), FALSE);
 
-	return GTK_WIDGET_VISIBLE (shell_content->priv->search_entry);
+	return shell_content->priv->search_visible;
 }
 
 void
@@ -1331,13 +1342,9 @@ e_shell_content_set_search_visible (EShellContent *shell_content,
 {
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	if (search_visible) {
-		gtk_widget_show (shell_content->priv->search_label);
-		gtk_widget_show (shell_content->priv->search_entry);
-	} else {
-		gtk_widget_hide (shell_content->priv->search_label);
-		gtk_widget_hide (shell_content->priv->search_entry);
-	}
+	shell_content->priv->search_visible = search_visible;
+
+	g_object_notify (G_OBJECT (shell_content), "search-visible");
 }
 
 GtkRadioAction *
@@ -1399,7 +1406,7 @@ e_shell_content_get_scope_visible (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), FALSE);
 
-	return GTK_WIDGET_VISIBLE (shell_content->priv->scope_combo_box);
+	return shell_content->priv->scope_visible;
 }
 
 void
@@ -1408,56 +1415,64 @@ e_shell_content_set_scope_visible (EShellContent *shell_content,
 {
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	if (scope_visible) {
-		gtk_widget_show (shell_content->priv->scope_label);
-		gtk_widget_show (shell_content->priv->scope_combo_box);
-	} else {
-		gtk_widget_hide (shell_content->priv->scope_label);
-		gtk_widget_hide (shell_content->priv->scope_combo_box);
-	}
+	shell_content->priv->scope_visible = scope_visible;
 
 	g_object_notify (G_OBJECT (shell_content), "scope-visible");
 }
 
 static void
 search_radio_changed_cb (GtkRadioAction *action,
-                       GtkRadioAction *current,
-                       EShellContent *shell_content)
+                         GtkRadioAction *current,
+                         EShellContent *shell_content)
 {
+	EShellView *shell_view;
+	const gchar *search_text;
+	const gchar *label;
 	gint current_value;
-	gchar *search_text;
 
-	e_shell_content_set_search_hint (shell_content, gtk_action_get_label (GTK_ACTION (current)));
+	shell_view = e_shell_content_get_shell_view (shell_content);
+
+	label = gtk_action_get_label (GTK_ACTION (current));
+	e_shell_content_set_search_hint (shell_content, label);
 
 	current_value = gtk_radio_action_get_current_value (current);
-	search_text = g_strdup (e_shell_content_get_search_text (shell_content));
+	search_text = e_shell_content_get_search_text (shell_content);
 
 	if (current_value != -1) {
 		e_shell_content_set_search_rule (shell_content, NULL);
 		e_shell_content_set_search_text (shell_content, search_text);
-		if (search_text && *search_text)
-			e_shell_view_execute_search (e_shell_content_get_shell_view (shell_content));
-	} else if (search_text) {
+		if (search_text != NULL && *search_text != '\0')
+			e_shell_view_execute_search (shell_view);
+	} else if (search_text != NULL) {
 		e_shell_content_set_search_text (shell_content, NULL);
 	}
-
-	g_free (search_text);
 }
 
 void
-e_shell_content_set_search_radio_action (EShellContent *shell_content, GtkRadioAction *search_action)
+e_shell_content_set_search_radio_action (EShellContent *shell_content,
+                                         GtkRadioAction *search_action)
 {
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	if (shell_content->priv->search_radio)
+	if (search_action != NULL) {
+		g_return_if_fail (GTK_IS_RADIO_ACTION (search_action));
+		g_object_ref (search_action);
+	}
+
+	if (shell_content->priv->search_radio) {
 		g_signal_handlers_disconnect_matched (
-			shell_content->priv->search_radio, G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+			shell_content->priv->search_radio,
+			G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 			search_radio_changed_cb, shell_content);
+		g_object_unref (shell_content->priv->search_radio);
+	}
 
 	shell_content->priv->search_radio = search_action;
 
-	if (shell_content->priv->search_radio)
-		g_signal_connect (shell_content->priv->search_radio, "changed", G_CALLBACK (search_radio_changed_cb), shell_content);
+	if (shell_content->priv->search_radio != NULL)
+		g_signal_connect (
+			shell_content->priv->search_radio, "changed",
+			G_CALLBACK (search_radio_changed_cb), shell_content);
 
 	g_object_notify (G_OBJECT (shell_content), "search-radio-action");
 }
@@ -1658,6 +1673,7 @@ e_shell_content_restore_state (EShellContent *shell_content,
 	GKeyFile *key_file;
 	GtkAction *action;
 	GtkWidget *widget;
+	const gchar *search_text;
 	const gchar *key;
 	gchar *string;
 
@@ -1706,7 +1722,10 @@ e_shell_content_restore_state (EShellContent *shell_content,
 
 	key = STATE_KEY_SEARCH_TEXT;
 	string = g_key_file_get_string (key_file, group_name, key, NULL);
-	if (g_strcmp0 (string ? string : "", e_shell_content_get_search_text (shell_content)) != 0)
+	search_text = e_shell_content_get_search_text (shell_content);
+	if (search_text != NULL && *search_text == '\0')
+		search_text = NULL;
+	if (g_strcmp0 (string, search_text) != 0)
 		e_shell_content_set_search_text (shell_content, string);
 	g_free (string);
 
