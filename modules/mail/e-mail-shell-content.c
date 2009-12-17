@@ -46,7 +46,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
 
-#define STATE_KEY_SCROLLBAR_POSITION	"ScrollbarPosition"
 #define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
 
 struct _EMailShellContentPrivate {
@@ -63,11 +62,9 @@ struct _EMailShellContentPrivate {
 	gdouble default_scrollbar_position;
 
 	guint paned_binding_id;
-	guint scroll_timeout_id;
 
 	/* Signal handler IDs */
 	guint message_list_built_id;
-	guint message_list_scrolled_id;
 
 	guint preview_visible			: 1;
 	guint suppress_message_selection	: 1;
@@ -83,112 +80,6 @@ enum {
 
 static gpointer parent_class;
 static GType mail_shell_content_type;
-
-static void
-mail_shell_content_etree_unfreeze (MessageList *message_list,
-                                   GdkEvent *event)
-{
-	ETableItem *item;
-	GObject *object;
-
-	item = e_tree_get_item (E_TREE (message_list));
-	object = G_OBJECT (((GnomeCanvasItem *) item)->canvas);
-
-	g_object_set_data (object, "freeze-cursor", 0);
-}
-
-static void
-mail_shell_content_message_list_scrolled_cb (EMailShellContent *mail_shell_content,
-                                             GtkScrollbar *vscrollbar)
-{
-	EShellContent *shell_content;
-	EShellView *shell_view;
-	EMailReader *reader;
-	GKeyFile *key_file;
-	const gchar *folder_uri;
-	const gchar *key;
-	gchar *group_name;
-	gdouble value;
-
-	/* Save the scrollbar position for the current folder. */
-
-	reader = E_MAIL_READER (mail_shell_content);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
-
-	if (folder_uri == NULL)
-		return;
-
-	shell_content = E_SHELL_CONTENT (mail_shell_content);
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	key = STATE_KEY_SCROLLBAR_POSITION;
-	group_name = g_strdup_printf ("Folder %s", folder_uri);
-	value = gtk_range_get_value (GTK_RANGE (vscrollbar));
-
-	g_key_file_set_double (key_file, group_name, key, value);
-	e_shell_view_set_state_dirty (shell_view);
-
-	g_free (group_name);
-}
-
-static gboolean
-mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
-{
-	EMailShellContentPrivate *priv = mail_shell_content->priv;
-	EShellContent *shell_content;
-	EShellView *shell_view;
-	GtkScrolledWindow *scrolled_window;
-	GtkWidget *message_list;
-	GtkWidget *vscrollbar;
-	EMailReader *reader;
-	GKeyFile *key_file;
-	const gchar *folder_uri;
-	const gchar *key;
-	gchar *group_name;
-
-	/* Initialize the scrollbar position for the current folder
-	 * and setup a callback to handle scrollbar position changes. */
-
-	shell_content = E_SHELL_CONTENT (mail_shell_content);
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	reader = E_MAIL_READER (mail_shell_content);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
-	vscrollbar = gtk_scrolled_window_get_vscrollbar (scrolled_window);
-
-	if (folder_uri == NULL)
-		goto skip;
-
-	/* Restore the message list scrollbar position. */
-
-	key = STATE_KEY_SCROLLBAR_POSITION;
-	group_name = g_strdup_printf ("Folder %s", folder_uri);
-
-	if (g_key_file_has_key (key_file, group_name, key, NULL)) {
-		gdouble value;
-
-		value = g_key_file_get_double (
-			key_file, group_name, key, NULL);
-		gtk_range_set_value (GTK_RANGE (vscrollbar), value);
-	}
-
-	g_free (group_name);
-
-skip:
-	priv->message_list_scrolled_id = g_signal_connect_swapped (
-		vscrollbar, "value-changed",
-		G_CALLBACK (mail_shell_content_message_list_scrolled_cb),
-		mail_shell_content);
-
-	priv->scroll_timeout_id = 0;
-
-	return FALSE;
-}
 
 static void
 mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
@@ -250,33 +141,6 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 
 		g_free (uid);
 	}
-
-	/* FIXME This is a gross workaround for an ETable bug that I can't
-	 *       fix (Ximian bug #55303).
-	 *
-	 *       Since e_canvas_item_region_show_relay() uses a timeout,
-	 *       we have to use a timeout of the same interval but a lower
-	 *       priority. */
-	priv->scroll_timeout_id = g_timeout_add_full (
-		G_PRIORITY_LOW, 250, (GSourceFunc)
-		mail_shell_content_scroll_timeout_cb,
-		mail_shell_content, NULL);
-
-	/* FIXME This prevents the message list from saving the scrollbar
-	 *       position before we've had a chance to restore the position.
-	 *       It gets restored in the timeout handler we just added. */
-	if (priv->message_list_scrolled_id > 0) {
-		g_signal_handler_disconnect (
-			vscrollbar, priv->message_list_scrolled_id);
-		priv->message_list_scrolled_id = 0;
-	}
-
-	/* FIXME This is another ugly hack to hide a side-effect of the
-	 *       previous workaround. */
-	g_signal_connect_swapped (
-		vscrollbar, "button-press-event",
-		G_CALLBACK (mail_shell_content_etree_unfreeze),
-		message_list);
 }
 
 static void

@@ -3462,12 +3462,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 
 	camel_exception_init (&ex);
 
-	/* remove the cursor activate idle handler */
-	if (message_list->idle_id != 0) {
-		g_source_remove (message_list->idle_id);
-		message_list->idle_id = 0;
-	}
-
 	if (message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
@@ -3486,6 +3480,12 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 	e_tree_memory_freeze(E_TREE_MEMORY(etm));
 	clear_tree (message_list, TRUE);
 	e_tree_memory_thaw(E_TREE_MEMORY(etm));
+
+	/* remove the cursor activate idle handler */
+	if (message_list->idle_id != 0) {
+		g_source_remove (message_list->idle_id);
+		message_list->idle_id = 0;
+	}
 
 	if (message_list->folder) {
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
