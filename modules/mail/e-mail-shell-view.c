@@ -160,6 +160,9 @@ mail_shell_view_execute_search (EShellView *shell_view)
 
 	text = e_shell_content_get_search_text (shell_content);
 	if (value == MAIL_SEARCH_ADVANCED || text == NULL || *text == '\0') {
+		if (value != MAIL_SEARCH_ADVANCED)
+			e_shell_content_set_search_rule (shell_content, NULL);
+
 		query = e_shell_content_get_search_rule_as_string (shell_content);
 
 		if (!query)

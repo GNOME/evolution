@@ -52,6 +52,8 @@ struct _EShellViewPrivate {
 	GtkWidget *shell_content;
 	GtkWidget *shell_sidebar;
 	GtkWidget *shell_taskbar;
+
+	guint execute_search_blocked;
 };
 
 enum {
@@ -1121,7 +1123,40 @@ e_shell_view_execute_search (EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	g_signal_emit (shell_view, signals[EXECUTE_SEARCH], 0);
+	if (!shell_view->priv->execute_search_blocked)
+		g_signal_emit (shell_view, signals[EXECUTE_SEARCH], 0);
+}
+
+/**
+ * e_shell_view_block_execute_search:
+ * @shell_view: an #EShellView
+ *
+ * Blocks e_shell_view_execute_search in a way it does nothing.
+ * Pair function for this is e_shell_view_unblock_execute_search.
+ **/
+void
+e_shell_view_block_execute_search (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view->priv->execute_search_blocked + 1 != 0);
+
+	shell_view->priv->execute_search_blocked++;
+}
+
+/**
+ * e_shell_view_unblock_execute_search:
+ * @shell_view: an #EShellView
+ *
+ * Unblocks previously blocked e_shell_view_execute_search with
+ * function e_shell_view_block_execute_search.
+ **/
+void
+e_shell_view_unblock_execute_search (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view->priv->execute_search_blocked > 0);
+
+	shell_view->priv->execute_search_blocked--;
 }
 
 /**

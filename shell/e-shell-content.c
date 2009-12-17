@@ -127,7 +127,7 @@ shell_content_update_search_widgets (EShellContent *shell_content)
 		const GdkColor *color;
 
 		style = gtk_widget_get_style (widget);
-		color = &style->base[GTK_STATE_SELECTED];
+		color = &style->light[GTK_STATE_SELECTED];
 		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, color);
 
 		style = gtk_widget_get_style (widget);
@@ -172,11 +172,17 @@ shell_content_entry_activate_cb (EShellContent *shell_content,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkAction *action;
+	const gchar *text;
 
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
+	text = gtk_entry_get_text (entry);
+	if (text && *text)
+		action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
+	else
+		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+
 	gtk_action_activate (action);
 }
 
@@ -1664,6 +1670,7 @@ e_shell_content_restore_state (EShellContent *shell_content,
 	 * the search action until the state is fully restored. */
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_block_activate (action);
+	e_shell_view_block_execute_search (shell_view);
 
 	key = STATE_KEY_SEARCH_FILTER;
 	string = g_key_file_get_string (key_file, group_name, key, NULL);
@@ -1703,6 +1710,7 @@ e_shell_content_restore_state (EShellContent *shell_content,
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_unblock_activate (action);
+	e_shell_view_unblock_execute_search (shell_view);
 
 	/* Now execute the search. */
 	e_shell_view_execute_search (shell_view);

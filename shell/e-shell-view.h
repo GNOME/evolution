@@ -179,6 +179,8 @@ EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 GKeyFile *	e_shell_view_get_state_key_file	(EShellView *shell_view);
 void		e_shell_view_set_state_dirty	(EShellView *shell_view);
 void		e_shell_view_execute_search	(EShellView *shell_view);
+void		e_shell_view_block_execute_search (EShellView *shell_view);
+void		e_shell_view_unblock_execute_search (EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 GtkWidget *	e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,
