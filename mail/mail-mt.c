@@ -23,24 +23,17 @@
 #include <errno.h>
 
 #include <glib.h>
-
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
 
-#include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 
-#include <camel/camel-url.h>
+#include <camel/camel-object.h>
 #include <camel/camel-operation.h>
 
 #include "shell/e-shell.h"
-#include "misc/e-gui-utils.h"
 #include "e-util/e-alert-activity.h"
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-icon-factory.h"
 
-#include "mail-config.h"
-#include "mail-session.h"
 #include "mail-mt.h"
 
 /*#define MALLOC_CHECK*/

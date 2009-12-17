@@ -24,7 +24,6 @@
 #define _MAIL_MT
 
 #include "camel/camel-exception.h"
-#include "camel/camel-object.h"
 #include "camel/camel-operation.h"
 
 typedef struct _MailMsg MailMsg;

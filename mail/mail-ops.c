@@ -16,8 +16,8 @@
  *
  *
  * Authors:
- *		Dan Winship <danw@ximian.com>
- *	Jeffrey Stedfast <fejj@ximian.com>
+ *      Dan Winship <danw@ximian.com>
+ *      Jeffrey Stedfast <fejj@ximian.com>
  *      Peter Williams <peterw@ximian.com>
  *      Michael Zucchi <notzed@ximian.com>
  *
@@ -27,47 +27,32 @@
 
 #include <config.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <string.h>
 #include <errno.h>
 
 #include <glib.h>
 #include <glib/gstdio.h>
-
 #include <glib/gi18n.h>
 
-#include <camel/camel-mime-filter-from.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-stream-vfs.h>
-#include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-offline-folder.h>
-#include <camel/camel-offline-store.h>
 #include <camel/camel-disco-folder.h>
 #include <camel/camel-disco-store.h>
-#include <camel/camel-operation.h>
-#include <camel/camel-vtrash-folder.h>
-#include <camel/camel-vee-store.h>
+#include <camel/camel-mime-filter-from.h>
+#include <camel/camel-offline-folder.h>
+#include <camel/camel-offline-store.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-stream-vfs.h>
 #include <camel/camel-transport.h>
-#include <camel/camel-multipart.h>
-
-#include "composer/e-msg-composer.h"
+#include <camel/camel-vee-folder.h>
+#include <camel/camel-vee-store.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
-#include "e-util/e-util-private.h"
 
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-session.h"
 #include "mail-tools.h"
-#include "mail-vfolder.h"
 
 #include "e-mail-local.h"
 

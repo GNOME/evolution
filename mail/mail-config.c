@@ -14,10 +14,12 @@
  *
  *
  * Authors:
- *		Jeffrey Stedfast <fejj@ximian.com>
- *      Radek Doulik <rodo@ximian.com>
+ *   Jeffrey Stedfast <fejj@ximian.com>
+ *   Radek Doulik <rodo@ximian.com>
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2009 Intel Corporation
  *
  */
 
@@ -25,43 +27,19 @@
 #include <config.h>
 #endif
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <errno.h>
-
-#include <string.h>
-#include <ctype.h>
-
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
-#include <glib/gi18n-lib.h>
-
-#include <gtkhtml/gtkhtml.h>
-
-#include <libxml/tree.h>
-#include <libxml/parser.h>
 
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
-#include <misc/e-gui-utils.h>
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-utils.h"
 
-#include <camel/camel-service.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-stream-filter.h>
-
-#include <libedataserverui/e-passwords.h>
+#include <gconf/gconf-client.h>
 
 #include "e-mail-local.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
-#include "mail-mt.h"
 #include "mail-session.h"
 #include "mail-tools.h"
 

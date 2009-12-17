@@ -34,29 +34,16 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
-
 #include <glib/gi18n.h>
 
-#include <camel/camel-file-utils.h>
+#include <camel/camel-store.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-movemail.h>
-#include <camel/camel-vee-folder.h>
 
-#include "filter/e-filter-option.h"
-#include "filter/e-filter-input.h"
-
-#include <libedataserver/e-data-server-util.h>
 #include "em-utils.h"
-#include "em-vfolder-context.h"
-#include "em-vfolder-rule.h"
-#include "mail-config.h"
 #include "mail-folder-cache.h"
-#include "mail-mt.h"
 #include "mail-session.h"
 #include "mail-tools.h"
-#include "mail-vfolder.h"
 
 /* **************************************** */
 

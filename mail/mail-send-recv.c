@@ -31,26 +31,25 @@
 
 #include "libedataserver/e-account-list.h"
 
-#include "em-filter-rule.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-operation.h"
 #include "camel/camel-store.h"
-
-#include "mail-mt.h"
-#include "mail-config.h"
-#include "mail-session.h"
-#include "mail-tools.h"
-#include "mail-ops.h"
-#include "mail-send-recv.h"
-#include "mail-folder-cache.h"
-#include "em-event.h"
 
 #include "shell/e-shell.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/gconf-bridge.h"
 
 #include "e-mail-local.h"
+#include "em-event.h"
+#include "em-filter-rule.h"
+#include "mail-config.h"
+#include "mail-folder-cache.h"
+#include "mail-mt.h"
+#include "mail-ops.h"
+#include "mail-send-recv.h"
+#include "mail-session.h"
+#include "mail-tools.h"
 
 #define d(x)
 
