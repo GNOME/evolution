@@ -49,13 +49,14 @@
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
-#include "e-account-combo-box.h"
+#include "misc/e-account-combo-box.h"
 #include "shell/e-shell.h"
 
 #include "em-composer-utils.h"
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
+#include "e-mail-local.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -637,13 +638,91 @@ static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, 
 }
 
 static void
+ms_forward_to_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
+		  gint queued, const gchar *appended_uid, gpointer data)
+{
+	camel_message_info_free (info);
+	/* do not call mail send, just pile them all in the outbox */
+	/* mail_send (); */
+}
+
+static void
 ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex)
 {
-	g_return_if_fail (session != NULL);
+	EAccount *account;
+	CamelMimeMessage *forward;
+	CamelStream *mem;
+	CamelInternetAddress *addr;
+	CamelFolder *out_folder;
+	CamelMessageInfo *info;
+	struct _camel_header_raw *xev;
+	gchar *subject;
+
+	g_return_if_fail (folder != NULL);
 	g_return_if_fail (message != NULL);
 	g_return_if_fail (address != NULL);
 
-	em_utils_forward_message_raw (folder, message, address, ex);
+	if (!*address) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("No destination address provided, forward of the message has been cancelled."));
+		return;
+	}
+
+	account = em_utils_guess_account_with_recipients (message, folder);
+	if (!account) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("No account found to use, forward of the message has been cancelled."));
+		return;
+	}
+
+	forward = camel_mime_message_new ();
+
+	/* make copy of the message, because we are going to modify it */
+	mem = camel_stream_mem_new ();
+	camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, mem);
+	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET);
+	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)forward, mem);
+	camel_object_unref (mem);
+
+	/* clear previous recipients */
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
+
+	/* remove all delivery and notification headers */
+	while (camel_medium_get_header (CAMEL_MEDIUM (forward), "Disposition-Notification-To"))
+		camel_medium_remove_header (CAMEL_MEDIUM (forward), "Disposition-Notification-To");
+
+	while (camel_medium_get_header (CAMEL_MEDIUM (forward), "Delivered-To"))
+		camel_medium_remove_header (CAMEL_MEDIUM (forward), "Delivered-To");
+
+	/* remove any X-Evolution-* headers that may have been set */
+	xev = mail_tool_remove_xevolution_headers (forward);
+	camel_header_raw_clear (&xev);
+
+	/* from */
+	addr = camel_internet_address_new ();
+	camel_internet_address_add (addr, account->id->name, account->id->address);
+	camel_mime_message_set_from (forward, addr);
+	camel_object_unref (addr);
+
+	/* to */
+	addr = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (addr), address);
+	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, addr);
+	camel_object_unref (addr);
+
+	/* subject */
+	subject = mail_tool_generate_forward_subject (message);
+	camel_mime_message_set_subject (forward, subject);
+	g_free (subject);
+
+	/* and send it */
+	info = camel_message_info_new (NULL);
+	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	mail_append_mail (out_folder, forward, info, ms_forward_to_cb, NULL);
 }
 
 gchar *

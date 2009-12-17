@@ -78,8 +78,6 @@
 
 #define GCONF_KEY_TEMPLATE_PLACEHOLDERS "/apps/evolution/mail/template_placeholders"
 
-static EAccount * guess_account (CamelMimeMessage *message, CamelFolder *folder);
-
 static void em_utils_composer_send_cb (EMsgComposer *composer);
 static void em_utils_composer_save_draft_cb (EMsgComposer *composer);
 
@@ -1399,7 +1397,7 @@ redirect_get_composer (CamelMimeMessage *message)
 	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Delivered-To"))
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "Delivered-To");
 
-	account = guess_account (message, NULL);
+	account = em_utils_guess_account_with_recipients (message, NULL);
 
 	composer = e_msg_composer_new_redirect (message, account ? account->name : NULL);
 
@@ -1494,7 +1492,7 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	camel_message_info_set_user_flag(info, "receipt-handled", TRUE);
 	camel_message_info_free(info);
 
-	account = guess_account(msg, folder);
+	account = em_utils_guess_account_with_recipients (msg, folder);
 
 	/* TODO: should probably decode/format the address, it could be in rfc2047 format */
 	if (addr == NULL) {
@@ -1521,7 +1519,7 @@ void
 em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 {
 	/* See RFC #3798 for a description of message receipts */
-	EAccount *account = guess_account (message, folder);
+	EAccount *account = em_utils_guess_account_with_recipients (message, folder);
 	CamelMimeMessage *receipt = camel_mime_message_new ();
 	CamelMultipart *body = camel_multipart_new ();
 	CamelMimePart *part;
@@ -1650,151 +1648,7 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);
 }
 
-static void
-emu_forward_raw_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
-		       gint queued, const gchar *appended_uid, gpointer data)
-{
-	camel_message_info_free (info);
-	/* do not call mail send, just pile them all in the outbox */
-	/* mail_send (); */
-}
-
-/**
- * em_utils_forward_message_raw:
- * @param folder Where's a message located.
- * @param message Message to forward.
- * @param address Forward to whom.
- * @param ex Exception.
- * Forwards message to the address, in very similar way as redirect does.
- **/
-void
-em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex)
-{
-	EAccount *account;
-	CamelMimeMessage *forward;
-	CamelStream *mem;
-	CamelInternetAddress *addr;
-	CamelFolder *out_folder;
-	CamelMessageInfo *info;
-	struct _camel_header_raw *xev;
-	gchar *subject;
-
-	g_return_if_fail (folder != NULL);
-	g_return_if_fail (message != NULL);
-	g_return_if_fail (address != NULL);
-
-	if (!*address) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("No destination address provided, forward of the message has been cancelled."));
-		return;
-	}
-
-	account = guess_account (message, folder);
-	if (!account) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("No account found to use, forward of the message has been cancelled."));
-		return;
-	}
-
-	forward = camel_mime_message_new ();
-
-	/* make copy of the message, because we are going to modify it */
-	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, mem);
-	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET);
-	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)forward, mem);
-	camel_object_unref (mem);
-
-	/* clear previous recipients */
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
-
-	/* remove all delivery and notification headers */
-	while (camel_medium_get_header (CAMEL_MEDIUM (forward), "Disposition-Notification-To"))
-		camel_medium_remove_header (CAMEL_MEDIUM (forward), "Disposition-Notification-To");
-
-	while (camel_medium_get_header (CAMEL_MEDIUM (forward), "Delivered-To"))
-		camel_medium_remove_header (CAMEL_MEDIUM (forward), "Delivered-To");
-
-	/* remove any X-Evolution-* headers that may have been set */
-	xev = mail_tool_remove_xevolution_headers (forward);
-	camel_header_raw_clear (&xev);
-
-	/* from */
-	addr = camel_internet_address_new ();
-	camel_internet_address_add (addr, account->id->name, account->id->address);
-	camel_mime_message_set_from (forward, addr);
-	camel_object_unref (addr);
-
-	/* to */
-	addr = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (addr), address);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, addr);
-	camel_object_unref (addr);
-
-	/* subject */
-	subject = mail_tool_generate_forward_subject (message);
-	camel_mime_message_set_subject (forward, subject);
-	g_free (subject);
-
-	/* and send it */
-	info = camel_message_info_new (NULL);
-	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	mail_append_mail (out_folder, forward, info, emu_forward_raw_done, NULL);
-}
-
 /* Replying to messages... */
-
-static GHashTable *
-generate_account_hash (void)
-{
-	GHashTable *account_hash;
-	EAccount *account, *def;
-	EAccountList *accounts;
-	EIterator *iter;
-
-	accounts = e_get_account_list ();
-	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-
-	def = e_get_default_account ();
-
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-
-		if (account->id->address) {
-			EAccount *acnt;
-
-			/* Accounts with identical email addresses that are enabled
-			 * take precedence over the accounts that aren't. If all
-			 * accounts with matching email addresses are disabled, then
-			 * the first one in the list takes precedence. The default
-			 * account always takes precedence no matter what.
-			 */
-			acnt = g_hash_table_lookup (account_hash, account->id->address);
-			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
-				g_hash_table_remove (account_hash, acnt->id->address);
-				acnt = NULL;
-			}
-
-			if (!acnt)
-				g_hash_table_insert (account_hash, (gchar *) account->id->address, (gpointer) account);
-		}
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	/* The default account has to be there if none of the enabled accounts are present */
-	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
-		g_hash_table_insert (account_hash, (gchar *) def->id->address, (gpointer) def);
-
-	return account_hash;
-}
 
 EDestination **
 em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
@@ -1913,41 +1767,6 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	return composer;
 }
 
-static EAccount *
-guess_account (CamelMimeMessage *message, CamelFolder *folder)
-{
-	GHashTable *account_hash = NULL;
-	EAccount *account = NULL;
-	const gchar *tmp;
-	gint i, j;
-	const gchar *types[2] = {
-		CAMEL_RECIPIENT_TYPE_TO,
-		CAMEL_RECIPIENT_TYPE_CC
-	};
-
-	account = em_utils_guess_account (message, folder);
-	if (account)
-		return account;
-
-	/* finally recipient (to/cc) in account table */
-	account_hash = generate_account_hash ();
-	for (j=0;account == NULL && j<2;j++) {
-		const CamelInternetAddress *to;
-
-		to = camel_mime_message_get_recipients(message, types[j]);
-		if (to) {
-			for (i = 0; camel_internet_address_get(to, i, NULL, &tmp); i++) {
-				account = g_hash_table_lookup(account_hash, tmp);
-				if (account && account->enabled)
-					break;
-			}
-		}
-	}
-	g_hash_table_destroy(account_hash);
-
-	return account;
-}
-
 static void
 get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
 {
@@ -2049,7 +1868,7 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 			camel_address_decode((CamelAddress *)postto, posthdr);
 	}
 
-	rcpt_hash = generate_account_hash ();
+	rcpt_hash = em_utils_generate_account_hash ();
 
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (!reply_to)
@@ -2435,7 +2254,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	to = camel_internet_address_new();
 	cc = camel_internet_address_new();
 
-	account = guess_account (message, folder);
+	account = em_utils_guess_account_with_recipients (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
 	switch (mode) {

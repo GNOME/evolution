@@ -45,6 +45,7 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-url-scanner.h>
 #include <camel/camel-file-utils.h>
+#include <camel/camel-string-utils.h>
 
 #include <libebook/e-book.h>
 
@@ -2094,6 +2095,94 @@ guess_account_folder (CamelFolder *folder)
 	tmp = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
 	account = mail_config_get_account_by_source_url (tmp);
 	g_free (tmp);
+
+	return account;
+}
+
+GHashTable *
+em_utils_generate_account_hash (void)
+{
+	GHashTable *account_hash;
+	EAccount *account, *def;
+	EAccountList *accounts;
+	EIterator *iter;
+
+	accounts = e_get_account_list ();
+	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+
+	def = e_get_default_account ();
+
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+
+		if (account->id->address) {
+			EAccount *acnt;
+
+			/* Accounts with identical email addresses that are enabled
+			 * take precedence over the accounts that aren't. If all
+			 * accounts with matching email addresses are disabled, then
+			 * the first one in the list takes precedence. The default
+			 * account always takes precedence no matter what.
+			 */
+			acnt = g_hash_table_lookup (account_hash, account->id->address);
+			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
+				g_hash_table_remove (account_hash, acnt->id->address);
+				acnt = NULL;
+			}
+
+			if (!acnt)
+				g_hash_table_insert (account_hash, (gchar *) account->id->address, (gpointer) account);
+		}
+
+		e_iterator_next (iter);
+	}
+
+	g_object_unref (iter);
+
+	/* The default account has to be there if none of the enabled accounts are present */
+	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
+		g_hash_table_insert (account_hash, (gchar *) def->id->address, (gpointer) def);
+
+	return account_hash;
+}
+
+EAccount *
+em_utils_guess_account_with_recipients (CamelMimeMessage *message, CamelFolder *folder)
+{
+	GHashTable *account_hash = NULL;
+	EAccount *account = NULL;
+	const gchar *tmp;
+	gint i;
+	GList *l, *recipients = NULL;
+	const CamelInternetAddress *addr;
+
+	account = em_utils_guess_account (message, folder);
+	if (account)
+		return account;
+	addr = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO);
+	if (addr)
+		recipients = g_list_append (recipients, (gpointer) addr);
+	addr = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC);
+	if (addr)
+		recipients = g_list_append (recipients, (gpointer) addr);
+
+
+	/* finally recipient (to/cc) in account table */
+	account_hash = em_utils_generate_account_hash ();
+	for (l = recipients; l == NULL; l = l->next) {
+		const CamelInternetAddress *to;
+
+		to = (CamelInternetAddress*)l->data;
+		if (to) {
+			for (i = 0; camel_internet_address_get(to, i, NULL, &tmp); i++) {
+				account = g_hash_table_lookup(account_hash, tmp);
+				if (account && account->enabled)
+					break;
+			}
+		}
+	}
+	g_hash_table_destroy(account_hash);
 
 	return account;
 }
