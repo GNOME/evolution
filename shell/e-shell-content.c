@@ -200,7 +200,7 @@ shell_content_entry_changed_cb (EShellContent *shell_content,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	text = gtk_entry_get_text (entry);
-	sensitive = (text != NULL && *text != '\0');
+	sensitive = (text != NULL && *text != '\0' && !e_hinted_entry_get_hint_shown (E_HINTED_ENTRY (entry)));
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_set_sensitive (action, sensitive);
