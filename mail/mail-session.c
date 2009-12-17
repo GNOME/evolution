@@ -798,12 +798,7 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 void
 mail_session_init (EShellBackend *shell_backend)
 {
-	EShell *shell;
 	GConfClient *gconf;
-	gboolean online;
-
-	shell = e_shell_backend_get_shell (shell_backend);
-	online = e_shell_get_online (shell);
 
 	if (camel_init (e_get_user_data_dir (), TRUE) != 0)
 		exit (0);
@@ -826,7 +821,6 @@ mail_session_init (EShellBackend *shell_backend)
 								session, NULL, NULL);
 	session->junk_plugin = NULL;
 
-	camel_session_set_online ((CamelSession *) session, online);
 	mail_config_reload_junk_headers ();
 }
 
