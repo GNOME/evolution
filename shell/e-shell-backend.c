@@ -186,6 +186,7 @@ shell_backend_finalize (GObject *object)
 
 	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
 
+	g_free (priv->config_dir);
 	g_free (priv->data_dir);
 
 	/* Chain up to parent's finalize() method. */
