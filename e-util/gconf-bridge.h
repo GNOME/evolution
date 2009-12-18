@@ -70,6 +70,24 @@ guint        gconf_bridge_bind_property_full     (GConfBridge  *bridge,
         gconf_bridge_bind_property_full ((bridge), (key), \
                                          (object), (prop), TRUE)
 
+/**
+ * gconf_bridge_block_property_bindings
+ * @bridge: A #GConfBridge
+ * @key: A GConf key to be blocked
+ *
+ * Blocks property bindings for @key. To unblock it call #gconf_bridge_unblock_property_bindings.
+ **/
+void         gconf_bridge_block_property_bindings (GConfBridge  *bridge, const gchar *key);
+
+/**
+ * gconf_bridge_unblock_property_bindings
+ * @bridge: A #GConfBridge
+ * @key: A GConf key to be unblocked
+ *
+ * Unblocks property bindings for @key, these should be previously blocked with #gconf_bridge_unblock_property_bindings.
+ **/
+void         gconf_bridge_unblock_property_bindings (GConfBridge  *bridge, const gchar *key);
+
 guint        gconf_bridge_bind_window            (GConfBridge  *bridge,
                                                   const gchar   *key_prefix,
                                                   GtkWindow    *window,

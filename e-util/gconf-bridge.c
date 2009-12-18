@@ -550,6 +550,46 @@ gconf_bridge_bind_property_full (GConfBridge *bridge,
         return binding->id;
 }
 
+static void
+prop_binding_block_cb (gpointer hkey, PropBinding *binding, const gchar *key)
+{
+	g_return_if_fail (binding != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (binding->key != NULL);
+
+	if (binding->type == BINDING_PROP && g_ascii_strcasecmp (binding->key, key) == 0)
+		g_signal_handler_block (binding->object, binding->prop_notify_id);
+}
+
+static void
+prop_binding_unblock_cb (gpointer hkey, PropBinding *binding, const gchar *key)
+{
+	g_return_if_fail (binding != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (binding->key != NULL);
+
+	if (binding->type == BINDING_PROP && g_ascii_strcasecmp (binding->key, key) == 0)
+		g_signal_handler_unblock (binding->object, binding->prop_notify_id);
+}
+
+void
+gconf_bridge_block_property_bindings (GConfBridge  *bridge, const gchar *key)
+{
+        g_return_if_fail (bridge != NULL);
+        g_return_if_fail (key != NULL);
+
+	g_hash_table_foreach (bridge->bindings, (GHFunc) prop_binding_block_cb, (gpointer)key);
+}
+
+void
+gconf_bridge_unblock_property_bindings (GConfBridge  *bridge, const gchar *key)
+{
+        g_return_if_fail (bridge != NULL);
+        g_return_if_fail (key != NULL);
+
+	g_hash_table_foreach (bridge->bindings, (GHFunc) prop_binding_unblock_cb, (gpointer)key);
+}
+
 /* Unbinds a property binding */
 static void
 prop_binding_unbind (PropBinding *binding)

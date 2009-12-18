@@ -483,6 +483,28 @@ action_mail_hide_selected_cb (GtkAction *action,
 }
 
 static void
+action_mail_preview_cb (GtkToggleAction *action, EMailShellView *mail_shell_view)
+{
+	const gchar *folder_uri;
+	EMailReader *reader;
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+
+	if (folder_uri) {
+		GKeyFile *key_file;
+		const gchar *key;
+		gchar *group_name;
+
+		key_file = e_shell_view_get_state_key_file (E_SHELL_VIEW (mail_shell_view));
+		key = STATE_KEY_PREVIEW;
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		g_key_file_set_boolean (key_file, group_name, key, gtk_toggle_action_get_active (action));
+		g_free (group_name);
+	}
+}
+
+static void
 action_mail_label_cb (GtkToggleAction *action,
                       EMailShellView *mail_shell_view)
 {
@@ -821,6 +843,7 @@ action_mail_threads_group_by_cb (GtkToggleAction *action,
 	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	const gchar *folder_uri;
 	gboolean active;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -830,6 +853,20 @@ action_mail_threads_group_by_cb (GtkToggleAction *action,
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_set_threaded (MESSAGE_LIST (message_list), active);
+
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+
+	if (folder_uri) {
+		GKeyFile *key_file;
+		const gchar *key;
+		gchar *group_name;
+
+		key_file = e_shell_view_get_state_key_file (E_SHELL_VIEW (mail_shell_view));
+		key = STATE_KEY_THREAD_LIST;
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		g_key_file_set_boolean (key_file, group_name, key, active);
+		g_free (group_name);
+	}
 }
 
 static void
@@ -1281,7 +1318,7 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  N_("Show Message _Preview"),
 	  "<Control>m",
 	  N_("Show message preview pane"),
-	  NULL,  /* Handled by property bindings */
+	  G_CALLBACK (action_mail_preview_cb),  /* Also handled by property bindings */
 	  TRUE },
 
 	{ "mail-threads-group-by",

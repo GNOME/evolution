@@ -23,6 +23,49 @@
 
 #include "widgets/menus/gal-view-factory-etable.h"
 
+static gboolean
+restore_action_bool_state (gpointer view, GtkToggleAction *action, GKeyFile *key_file, const gchar *group_name, const gchar *key, const gchar *gconf_key)
+{
+	gboolean value;
+	GConfBridge *bridge;
+
+	g_return_val_if_fail (action != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_TOGGLE_ACTION (action), FALSE);
+	g_return_val_if_fail (key_file != NULL, FALSE);
+	g_return_val_if_fail (group_name != NULL, FALSE);
+	g_return_val_if_fail (key != NULL, FALSE);
+	g_return_val_if_fail (gconf_key != NULL, FALSE);
+
+	bridge = gconf_bridge_get ();
+
+	if (g_key_file_has_key (key_file, group_name, key, NULL)) {
+		value = g_key_file_get_boolean (key_file, group_name, key, NULL);
+	} else {
+		GError *error = NULL;
+
+		value = gconf_client_get_bool (gconf_bridge_get_client (bridge), gconf_key, &error);
+
+		if (error) {
+			g_error_free (error);
+			value = gtk_toggle_action_get_active (action);
+		}
+	}
+
+	if (value != gtk_toggle_action_get_active (action)) {
+		/* block bindings to not store this change to gconf */
+		gconf_bridge_block_property_bindings (bridge, gconf_key);
+		/* block action to not store to key file for the previous folder */
+		g_signal_handlers_block_matched (action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+
+		gtk_toggle_action_set_active (action, value);
+
+		g_signal_handlers_unblock_matched (action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		gconf_bridge_unblock_property_bindings (bridge, gconf_key);
+	}
+
+	return value;
+}
+
 static void
 mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          const gchar *full_name,
@@ -47,6 +90,33 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 		e_mail_reader_set_folder (reader, NULL, NULL);
 
 	e_shell_view_update_actions (shell_view);
+
+	if (folder_selected && uri) {
+		EShellWindow *shell_window;
+		GtkToggleAction *action;
+		GKeyFile *key_file;
+		gchar *group_name;
+		gboolean value;
+
+		shell_window = e_shell_view_get_shell_window (shell_view);
+		key_file = e_shell_view_get_state_key_file (shell_view);
+		group_name = g_strdup_printf ("Folder %s", uri);
+
+		action = GTK_TOGGLE_ACTION (ACTION (MAIL_PREVIEW));
+		restore_action_bool_state (mail_shell_view, action,
+			key_file, group_name, STATE_KEY_PREVIEW,
+			"/apps/evolution/mail/display/show_preview");
+
+		action = GTK_TOGGLE_ACTION (ACTION (MAIL_THREADS_GROUP_BY));
+		value = restore_action_bool_state (mail_shell_view, action,
+			key_file, group_name, STATE_KEY_THREAD_LIST,
+			"/apps/evolution/mail/display/thread_list");
+
+		/* because the change is not propagated due to blocking the action signal */
+		message_list_set_threaded (MESSAGE_LIST (e_mail_reader_get_message_list (reader)), value);
+
+		g_free (group_name);
+	}
 }
 
 static gboolean

@@ -46,6 +46,9 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentClass))
 
+#define STATE_KEY_PREVIEW "Preview"
+#define STATE_KEY_THREAD_LIST "ThreadList"
+
 G_BEGIN_DECLS
 
 typedef struct _EMailShellContent EMailShellContent;
