@@ -843,8 +843,8 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
     gchar *charptr, *charptr2;
     FILE *fptr;
     gint index;
-    DDWORD *ddword_ptr;
-    DDWORD ddword_val;
+    DWORD *dword_ptr;
+    DWORD dword_val;
     dtr thedate;
 
     sprintf(ifilename, "%s/calendar.ics", tmpdir);
@@ -901,8 +901,8 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
         filename = NULL;
         if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_LONG, 0x8201))) != MAPI_UNDEFINED) {
-            ddword_ptr = (DDWORD*)filename->data;
-            fprintf(fptr, "SEQUENCE:%i\n", (gint) *ddword_ptr);
+            dword_ptr = (DWORD*)filename->data;
+            fprintf(fptr, "SEQUENCE:%i\n", (gint) *dword_ptr);
         }
         if ((filename=MAPIFindProperty(&(tnef->MapiProperties),
                         PROP_TAG(PT_BINARY, PR_SENDER_SEARCH_KEY)))
@@ -1066,10 +1066,10 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
         filename = NULL;
         if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_BOOLEAN, 0x8506))) != MAPI_UNDEFINED) {
-            ddword_ptr = (DDWORD*)filename->data;
-            ddword_val = SwapDDWord((BYTE*)ddword_ptr);
+            dword_ptr = (DWORD*)filename->data;
+            dword_val = SwapDWord((BYTE*)dword_ptr);
             fprintf(fptr, "CLASS:" );
-            if (*ddword_ptr == 1) {
+            if (*dword_ptr == 1) {
                 fprintf(fptr,"PRIVATE\n");
             } else {
                 fprintf(fptr,"PUBLIC\n");
@@ -1097,8 +1097,8 @@ void saveVTask(TNEFStruct *tnef, const gchar *tmpdir) {
     gchar *charptr, *charptr2;
     dtr thedate;
     FILE *fptr;
-    DDWORD *ddword_ptr;
-    DDWORD ddword_val;
+    DWORD *dword_ptr;
+    DWORD dword_val;
 
     vl = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_CONVERSATION_TOPIC));
 
@@ -1197,10 +1197,10 @@ void saveVTask(TNEFStruct *tnef, const gchar *tmpdir) {
         filename = MAPIFindUserProp(&(tnef->MapiProperties), \
                         PROP_TAG(PT_BOOLEAN, 0x8506));
         if (filename != MAPI_UNDEFINED) {
-            ddword_ptr = (DDWORD*)filename->data;
-            ddword_val = SwapDDWord((BYTE*)ddword_ptr);
+            dword_ptr = (DWORD*)filename->data;
+            dword_val = SwapDWord((BYTE*)dword_ptr);
             fprintf(fptr, "CLASS:" );
-            if (*ddword_ptr == 1) {
+            if (*dword_ptr == 1) {
                 fprintf(fptr,"PRIVATE\n");
             } else {
                 fprintf(fptr,"PUBLIC\n");
