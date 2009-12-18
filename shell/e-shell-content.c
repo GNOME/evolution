@@ -124,15 +124,17 @@ shell_content_update_search_widgets (EShellContent *shell_content)
 
 	if (sensitive) {
 		GtkStyle *style;
-		const GdkColor *color;
+		const GdkColor *fg_color, *bg_color;
 
 		style = gtk_widget_get_style (widget);
-		color = &style->light[GTK_STATE_SELECTED];
-		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, color);
+		fg_color = &style->text[(search_text != NULL && *search_text != '\0') ? GTK_STATE_SELECTED : GTK_STATE_INSENSITIVE];
+		bg_color = &style->mid[GTK_STATE_SELECTED];
 
-		style = gtk_widget_get_style (widget);
-		color = &style->text[(search_text != NULL && *search_text != '\0') ? GTK_STATE_SELECTED : GTK_STATE_INSENSITIVE];
-		gtk_widget_modify_text (widget, GTK_STATE_NORMAL, color);
+		if (gdk_color_equal (fg_color, bg_color))
+			bg_color = &style->base[GTK_STATE_SELECTED];
+
+		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, bg_color);
+		gtk_widget_modify_text (widget, GTK_STATE_NORMAL, fg_color);
 	} else {
 		/* Text color will be updated when we move the focus. */
 		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, NULL);
