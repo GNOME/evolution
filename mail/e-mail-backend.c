@@ -14,8 +14,11 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
+ * Authors:
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2009 Intel Corporation
  *
  */
 
@@ -54,6 +57,18 @@ static gpointer parent_class;
 
 /* FIXME Kill this thing.  It's a horrible hack. */
 extern gint camel_application_is_exiting;
+
+static const gchar *
+mail_shell_backend_get_data_dir (EShellBackend *backend)
+{
+	return mail_session_get_data_dir ();
+}
+
+static const gchar *
+mail_shell_backend_get_config_dir (EShellBackend *backend)
+{
+	return mail_session_get_config_dir ();
+}
 
 /* Callback for various asynchronous CamelStore operations where
  * the EActivity's reference count is used as a counting semaphore. */
@@ -431,6 +446,8 @@ mail_backend_class_init (EMailBackendClass *class)
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
 	shell_backend_class->migrate = e_mail_migrate;
+	shell_backend_class->get_data_dir = mail_shell_backend_get_data_dir;
+	shell_backend_class->get_config_dir = mail_shell_backend_get_config_dir;
 }
 
 static void

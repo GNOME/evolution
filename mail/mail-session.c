@@ -14,8 +14,10 @@
  *
  *
  * Authors:
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2009 Intel Corporation
  *
  */
 
@@ -85,8 +87,9 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
-static EShellBackend *session_shell_backend;
 static CamelSessionClass *ms_parent_class;
+static gchar * mail_data_dir;
+static gchar * mail_config_dir;
 
 static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex);
@@ -113,6 +116,9 @@ finalise (MailSession *session)
 		gconf_client_notify_remove (mail_config_get_gconf_client (), session_check_junk_notify_id);
 
 	mail_async_event_destroy(session->async);
+
+	g_free (mail_data_dir);
+	g_free (mail_config_dir);
 }
 
 static void
@@ -518,7 +524,7 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 
 	gconf = mail_config_get_gconf_client ();
 
-	data_dir = e_shell_backend_get_data_dir (session_shell_backend);
+	data_dir = mail_session_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (ERuleContext *) em_filter_context_new ();
@@ -717,15 +723,11 @@ mail_session_init (EShellBackend *shell_backend)
 	EShell *shell;
 	GConfClient *gconf;
 	gboolean online;
-	const gchar *data_dir;
-
-	session_shell_backend = shell_backend;
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	online = e_shell_get_online (shell);
 
-	data_dir = e_get_user_data_dir ();
-	if (camel_init (data_dir, TRUE) != 0)
+	if (camel_init (e_get_user_data_dir (), TRUE) != 0)
 		exit (0);
 
 	camel_provider_init();
@@ -734,8 +736,10 @@ mail_session_init (EShellBackend *shell_backend)
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	camel_session_construct (session, data_dir);
+	mail_data_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
+	mail_config_dir = g_build_filename (mail_data_dir, "config", NULL);
+
+	camel_session_construct (session, mail_data_dir);
 
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -805,16 +809,12 @@ mail_session_set_junk_headers (const gchar **name, const gchar **value, gint len
 const gchar *
 mail_session_get_data_dir (void)
 {
-	g_return_val_if_fail (session_shell_backend, NULL);
-
-	return e_shell_backend_get_data_dir (session_shell_backend);
+	return mail_data_dir;
 }
 
 const gchar *
 mail_session_get_config_dir (void)
 {
-	g_return_val_if_fail (session_shell_backend, NULL);
-
-	return e_shell_backend_get_config_dir (session_shell_backend);
+	return mail_config_dir;
 }
 
