@@ -797,7 +797,7 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 void
-mail_session_init (EShellBackend *shell_backend)
+mail_session_init (void)
 {
 	GConfClient *gconf;
 
