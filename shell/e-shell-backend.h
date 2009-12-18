@@ -117,6 +117,8 @@ struct _EShellBackendClass {
 						 gint minor,
 						 gint micro,
 						 GError **error);
+	const gchar *	(*get_config_dir)	(EShellBackend *shell_backend);
+	const gchar *	(*get_data_dir)		(EShellBackend *shell_backend);
 };
 
 GType		e_shell_backend_get_type	(void);
