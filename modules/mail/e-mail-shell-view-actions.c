@@ -80,9 +80,10 @@ static void
 action_mail_create_search_folder_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
 	EShellView *shell_view;
-	EShellContent *shell_content;
+	EShellSearchbar *searchbar;
 	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
 	const gchar *folder_uri;
@@ -92,16 +93,17 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	vfolder_load_storage ();
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	search_rule = e_shell_content_get_search_rule (shell_content);
-	search_text = e_shell_content_get_search_text (shell_content);
-
+	search_rule = e_shell_view_get_search_rule (shell_view);
 	g_return_if_fail (search_rule != NULL);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
+	search_text = e_shell_searchbar_get_search_text (searchbar);
 
 	if (search_text == NULL || *search_text == '\0')
 		search_text = "''";
 
-	reader = E_MAIL_READER (shell_content);
+	reader = E_MAIL_READER (mail_shell_content);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	search_rule = vfolder_clone_rule (search_rule);
@@ -1427,7 +1429,7 @@ static GtkRadioActionEntry mail_search_entries[] = {
 
 	{ "mail-search-advanced-hidden",
 	  NULL,
-	  N_("Advanced search"),
+	  N_("Advanced Search"),
 	  NULL,
 	  NULL,
 	  MAIL_SEARCH_ADVANCED },
@@ -1502,11 +1504,13 @@ static GtkRadioActionEntry mail_scope_entries[] = {
 void
 e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellContent *shell_content;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
+	GtkAction *action;
 	GConfBridge *bridge;
 	GObject *object;
 	const gchar *key;
@@ -1515,7 +1519,9 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
 	/* Mail Actions */
 	action_group = ACTION_GROUP (MAIL);
@@ -1542,15 +1548,19 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		MAIL_SCOPE_CURRENT_FOLDER,
 		G_CALLBACK (action_search_scope_cb), mail_shell_view);
 
-	radio_action = GTK_RADIO_ACTION (ACTION (MAIL_SCOPE_ALL_ACCOUNTS));
-	e_shell_content_set_scope_action (shell_content, radio_action);
-	e_shell_content_set_scope_visible (shell_content, TRUE);
+	action = ACTION (MAIL_SCOPE_ALL_ACCOUNTS);
+	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+	e_action_combo_box_set_action (combo_box, GTK_RADIO_ACTION (action));
+	e_shell_searchbar_set_scope_visible (searchbar, TRUE);
 
-	/* Advanced Search action */
-	radio_action = GTK_RADIO_ACTION (ACTION (MAIL_SEARCH_ADVANCED_HIDDEN));
-	e_shell_content_set_search_radio_action (shell_content, radio_action);
-	gtk_action_set_visible (GTK_ACTION (radio_action), FALSE);
-	gtk_radio_action_set_current_value (radio_action, MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
+	/* Advanced Search Action */
+	action = ACTION (MAIL_SEARCH_ADVANCED_HIDDEN);
+	gtk_action_set_visible (action, FALSE);
+	e_shell_searchbar_set_search_option (
+		searchbar, GTK_RADIO_ACTION (action));
+	gtk_radio_action_set_current_value (
+		GTK_RADIO_ACTION (action),
+		MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 
 	/* Bind GObject properties for GConf keys. */
 
@@ -1588,7 +1598,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	e_mutual_binding_new (
 		ACTION (MAIL_PREVIEW), "active",
-		shell_content, "preview-visible");
+		mail_shell_content, "preview-visible");
 
 	e_binding_new (
 		ACTION (MAIL_PREVIEW), "active",
@@ -1601,7 +1611,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	/* XXX The boolean sense of the GConf key is the inverse of
 	 *     the menu item, so we have to maintain two properties. */
 	e_mutual_binding_new_with_negation (
-		shell_content, "show-deleted",
+		mail_shell_content, "show-deleted",
 		ACTION (MAIL_HIDE_DELETED), "active");
 
 	/* Keep the sensitivity of "Create Search Folder from Search"
@@ -1772,11 +1782,13 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 void
 e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EShell *shell;
-	EShellContent *shell_content;
-	EShellSettings *shell_settings;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
 	GtkTreeModel *tree_model;
@@ -1789,7 +1801,6 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
@@ -1849,13 +1860,16 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 	}
 
 	/* Use any action in the group; doesn't matter which. */
-	e_shell_content_set_filter_action (shell_content, radio_action);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	e_action_combo_box_set_action (combo_box, radio_action);
 
 	ii = MAIL_FILTER_UNREAD_MESSAGES;
-	e_shell_content_add_filter_separator_after (shell_content, ii);
+	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	ii = MAIL_FILTER_READ_MESSAGES;
-	e_shell_content_add_filter_separator_before (shell_content, ii);
+	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	g_object_unref (tree_model);
 }

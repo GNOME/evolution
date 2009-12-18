@@ -26,6 +26,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-plugin-ui.h"
+#include "filter/e-rule-context.h"
 
 #include "e-shell-window-actions.h"
 
@@ -53,6 +54,7 @@ struct _EShellViewPrivate {
 	GtkWidget *shell_sidebar;
 	GtkWidget *shell_taskbar;
 
+	EFilterRule *search_rule;
 	guint execute_search_blocked;
 };
 
@@ -60,18 +62,21 @@ enum {
 	PROP_0,
 	PROP_ACTION,
 	PROP_PAGE_NUM,
-	PROP_TITLE,
+	PROP_SEARCH_RULE,
 	PROP_SHELL_BACKEND,
 	PROP_SHELL_CONTENT,
 	PROP_SHELL_SIDEBAR,
 	PROP_SHELL_TASKBAR,
 	PROP_SHELL_WINDOW,
 	PROP_STATE_KEY_FILE,
+	PROP_TITLE,
 	PROP_VIEW_ID
 };
 
 enum {
 	TOGGLED,
+	CLEAR_SEARCH,
+	CUSTOM_SEARCH,
 	EXECUTE_SEARCH,
 	UPDATE_ACTIONS,
 	LAST_SIGNAL
@@ -79,6 +84,61 @@ enum {
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static void
+shell_view_init_search_context (EShellViewClass *class)
+{
+	EShellBackend *shell_backend;
+	ERuleContext *search_context;
+	EFilterRule *rule;
+	EFilterPart *part;
+	const gchar *data_dir;
+	gchar *system_filename;
+	gchar *user_filename;
+
+	shell_backend = class->shell_backend;
+
+	/* Sanity check the class fields we need. */
+	g_return_if_fail (class->search_rules != NULL);
+	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
+
+	/* The basename for built-in searches is specified in the
+	 * shell view class.  All built-in search rules live in the
+	 * same directory. */
+	system_filename = g_build_filename (
+		EVOLUTION_RULEDIR, class->search_rules, NULL);
+
+	/* The filename for custom saved searches is always of
+	 * the form "$(shell_backend_data_dir)/searches.xml". */
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	user_filename = g_build_filename (data_dir, "searches.xml", NULL);
+
+	/* Create the search context instance.  Subclasses may override
+	 * the GType so check that it's really an ERuleContext instance. */
+	search_context = g_object_new (class->search_context_type, NULL);
+	g_return_if_fail (E_IS_RULE_CONTEXT (search_context));
+	class->search_context = search_context;
+
+	e_rule_context_add_part_set (
+		search_context, "partset", E_TYPE_FILTER_PART,
+		e_rule_context_add_part, e_rule_context_next_part);
+	e_rule_context_add_rule_set (
+		search_context, "ruleset", E_TYPE_FILTER_RULE,
+		e_rule_context_add_rule, e_rule_context_next_rule);
+	e_rule_context_load (search_context, system_filename, user_filename);
+
+	rule = e_filter_rule_new ();
+	part = e_rule_context_next_part (search_context, NULL);
+	if (part == NULL)
+		g_warning (
+			"Could not load %s search: no parts",
+			G_OBJECT_CLASS_NAME (class));
+	else
+		e_filter_rule_add_part (rule, e_filter_part_clone (part));
+
+	g_free (system_filename);
+	g_free (user_filename);
+}
 
 static void
 shell_view_init_view_collection (EShellViewClass *class)
@@ -249,16 +309,22 @@ shell_view_set_property (GObject *object,
 				g_value_get_int (value));
 			return;
 
-		case PROP_TITLE:
-			e_shell_view_set_title (
+		case PROP_SEARCH_RULE:
+			e_shell_view_set_search_rule (
 				E_SHELL_VIEW (object),
-				g_value_get_string (value));
+				g_value_get_object (value));
 			return;
 
 		case PROP_SHELL_WINDOW:
 			shell_view_set_shell_window (
 				E_SHELL_VIEW (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_TITLE:
+			e_shell_view_set_title (
+				E_SHELL_VIEW (object),
+				g_value_get_string (value));
 			return;
 
 		case PROP_VIEW_ID:
@@ -290,9 +356,9 @@ shell_view_get_property (GObject *object,
 				E_SHELL_VIEW (object)));
 			return;
 
-		case PROP_TITLE:
-			g_value_set_string (
-				value, e_shell_view_get_title (
+		case PROP_SEARCH_RULE:
+			g_value_set_object (
+				value, e_shell_view_get_search_rule (
 				E_SHELL_VIEW (object)));
 			return;
 
@@ -328,6 +394,12 @@ shell_view_get_property (GObject *object,
 		case PROP_STATE_KEY_FILE:
 			g_value_set_pointer (
 				value, e_shell_view_get_state_key_file (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_TITLE:
+			g_value_set_string (
+				value, e_shell_view_get_title (
 				E_SHELL_VIEW (object)));
 			return;
 
@@ -374,6 +446,11 @@ shell_view_dispose (GObject *object)
 	if (priv->shell_taskbar != NULL) {
 		g_object_unref (priv->shell_taskbar);
 		priv->shell_taskbar = NULL;
+	}
+
+	if (priv->search_rule != NULL) {
+		g_object_unref (priv->search_rule);
+		priv->search_rule = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -430,6 +507,21 @@ shell_view_constructed (GObject *object)
 }
 
 static void
+shell_view_clear_search (EShellView *shell_view)
+{
+	e_shell_view_set_search_rule (shell_view, NULL);
+	e_shell_view_execute_search (shell_view);
+}
+
+static void
+shell_view_custom_search (EShellView *shell_view,
+                          EFilterRule *custom_rule)
+{
+	e_shell_view_set_search_rule (shell_view, custom_rule);
+	e_shell_view_execute_search (shell_view);
+}
+
+static void
 shell_view_toggled (EShellView *shell_view)
 {
 	EShellViewPrivate *priv = shell_view->priv;
@@ -475,11 +567,15 @@ shell_view_class_init (EShellViewClass *class)
 	object_class->finalize = shell_view_finalize;
 	object_class->constructed = shell_view_constructed;
 
+	class->search_context_type = E_TYPE_RULE_CONTEXT;
+
 	/* Default Factories */
 	class->new_shell_content = e_shell_content_new;
 	class->new_shell_sidebar = e_shell_sidebar_new;
 	class->new_shell_taskbar = e_shell_taskbar_new;
 
+	class->clear_search = shell_view_clear_search;
+	class->custom_search = shell_view_custom_search;
 	class->toggled = shell_view_toggled;
 
 	/**
@@ -516,23 +612,22 @@ shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READWRITE));
 
 	/**
-	 * EShellView:title
+	 * EShellView:search-rule
 	 *
-	 * The title of the shell view.  Also serves as the #EShellWindow
-	 * title when the shell view is active.
+	 * Criteria for the current search results.
 	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_TITLE,
-		g_param_spec_string (
-			"title",
-			_("Title"),
-			_("The title of the shell view"),
-			NULL,
+		PROP_SEARCH_RULE,
+		g_param_spec_object (
+			"search-rule",
+			_("Search Rule"),
+			_("Criteria for the current search results"),
+			E_TYPE_FILTER_RULE,
 			G_PARAM_READWRITE));
 
 	/**
-	 * EShellView::shell-backend
+	 * EShellView:shell-backend
 	 *
 	 * The #EShellBackend for this shell view.
 	 **/
@@ -627,6 +722,22 @@ shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READABLE));
 
 	/**
+	 * EShellView:title
+	 *
+	 * The title of the shell view.  Also serves as the #EShellWindow
+	 * title when the shell view is active.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_TITLE,
+		g_param_spec_string (
+			"title",
+			_("Title"),
+			_("The title of the shell view"),
+			NULL,
+			G_PARAM_READWRITE));
+
+	/**
 	 * EShellView:view-id
 	 *
 	 * The current #GalView ID.
@@ -663,6 +774,40 @@ shell_view_class_init (EShellViewClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	/**
+	 * EShellView::clear-search
+	 * @shell_view: the #EShellView which emitted the signal
+	 *
+	 * Clears the current search.  See e_shell_view_clear_search() for
+	 * details.
+	 **/
+	signals[CLEAR_SEARCH] = g_signal_new (
+		"clear-search",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EShellViewClass, clear_search),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	/**
+	 * EShellView::custom-search
+	 * @shell_view: the #EShellView which emitted the signal
+	 * @custom_rule: criteria for the custom search
+	 *
+	 * Emitted when an advanced or saved search is about to be executed.
+	 * See e_shell_view_custom_search() for details.
+	 **/
+	signals[CUSTOM_SEARCH] = g_signal_new (
+		"custom-search",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EShellViewClass, custom_search),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_FILTER_RULE);
 
 	/**
 	 * EShellView::execute-search
@@ -708,6 +853,9 @@ shell_view_init (EShellView *shell_view,
                  EShellViewClass *class)
 {
 	GtkSizeGroup *size_group;
+
+	if (class->search_context == NULL)
+		shell_view_init_search_context (class);
 
 	if (class->view_collection == NULL)
 		shell_view_init_view_collection (class);
@@ -963,6 +1111,78 @@ e_shell_view_set_page_num (EShellView *shell_view,
 }
 
 /**
+ * e_shell_view_get_search_rule:
+ * @shell_view: an #EShellView
+ *
+ * Returns the search criteria used to generate the current search results.
+ *
+ * Returns: the current search criteria
+ **/
+EFilterRule *
+e_shell_view_get_search_rule (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->search_rule;
+}
+
+/**
+ * e_shell_view_set_search_rule:
+ * @shell_view: an #EShellView
+ * @search_rule: an #EFilterRule
+ *
+ * Sets the search criteria used to generate the current search results.
+ * Note that this will not trigger a search.  e_shell_view_execute_search()
+ * must be called explicitly.
+ **/
+void
+e_shell_view_set_search_rule (EShellView *shell_view,
+                              EFilterRule *search_rule)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (search_rule != NULL) {
+		g_return_if_fail (E_IS_FILTER_RULE (search_rule));
+		g_object_ref (search_rule);
+	}
+
+	if (shell_view->priv->search_rule != NULL)
+		g_object_unref (shell_view->priv->search_rule);
+
+	shell_view->priv->search_rule = search_rule;
+
+	g_object_notify (G_OBJECT (shell_view), "search-rule");
+}
+
+/**
+ * e_shell_view_get_search_query:
+ * @shell_view: an #EShellView
+ *
+ * Converts the #EShellView:search-rule property to a newly-allocated
+ * S-expression string.  If the #EShellView:search-rule property is %NULL
+ * the function returns %NULL.
+ *
+ * Returns: an S-expression string, or %NULL
+ **/
+gchar *
+e_shell_view_get_search_query (EShellView *shell_view)
+{
+	EFilterRule *rule;
+	GString *string;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	rule = e_shell_view_get_search_rule (shell_view);
+	if (rule == NULL)
+		return NULL;
+
+	string = g_string_sized_new (1024);
+	e_filter_rule_build_code (rule, string);
+
+	return g_string_free (string, FALSE);
+}
+
+/**
  * e_shell_view_get_size_group:
  * @shell_view: an #EShellView
  *
@@ -1106,6 +1326,44 @@ e_shell_view_set_state_dirty (EShellView *shell_view)
 		shell_view_state_timeout_cb, shell_view);
 
 	shell_view->priv->state_save_source_id = source_id;
+}
+
+/**
+ * e_shell_view_clear_search:
+ * @shell_view: an #EShellView
+ *
+ * Emits the #EShellView::clear-search signal.
+ *
+ * The default method sets the #EShellView:search-rule property to
+ * %NULL and then emits the #EShellView::execute-search signal.
+ **/
+void
+e_shell_view_clear_search (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	g_signal_emit (shell_view, signals[CLEAR_SEARCH], 0);
+}
+
+/**
+ * e_shell_view_custom_search:
+ * @shell_view: an #EShellView
+ * @custom_rule: an #EFilterRule
+ *
+ * Emits the #EShellView::custom-search signal to indicate an advanced
+ * or saved search is about to be executed.
+ *
+ * The default method sets the #EShellView:search-rule property to
+ * @custom_rule and then emits the #EShellView::execute-search signal.
+ **/
+void
+e_shell_view_custom_search (EShellView *shell_view,
+                            EFilterRule *custom_rule)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_FILTER_RULE (custom_rule));
+
+	g_signal_emit (shell_view, signals[CUSTOM_SEARCH], 0, custom_rule);
 }
 
 /**

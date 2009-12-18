@@ -22,6 +22,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-backend.h			\
 	e-shell-common.h			\
 	e-shell-content.h			\
+	e-shell-searchbar.h			\
 	e-shell-settings.h			\
 	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
@@ -64,6 +65,7 @@ libeshell_la_SOURCES =				\
 	e-shell.c				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
+	e-shell-searchbar.c			\
 	e-shell-settings.c			\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\

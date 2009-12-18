@@ -23,6 +23,21 @@ EShellView
 </para>
 
 
+<!-- ##### SIGNAL EShellView::clear-search ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+
+<!-- ##### SIGNAL EShellView::custom-search ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+@arg1: 
+
 <!-- ##### SIGNAL EShellView::execute-search ##### -->
 <para>
 
@@ -50,6 +65,11 @@ EShellView
 </para>
 
 <!-- ##### ARG EShellView:page-num ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:search-rule ##### -->
 <para>
 
 </para>
@@ -104,6 +124,8 @@ EShellView
 @icon_name: 
 @ui_definition: 
 @ui_manager_id: 
+@search_context_type: 
+@search_context: 
 @search_options: 
 @search_rules: 
 @view_collection: 
@@ -112,6 +134,8 @@ EShellView
 @new_shell_sidebar: 
 @new_shell_taskbar: 
 @toggled: 
+@clear_search: 
+@custom_search: 
 @execute_search: 
 @update_actions: 
 
@@ -196,6 +220,33 @@ EShellView
 @page_num: 
 
 
+<!-- ##### FUNCTION e_shell_view_get_search_rule ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_set_search_rule ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@search_rule: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_search_query ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_view_get_size_group ##### -->
 <para>
 
@@ -267,7 +318,40 @@ EShellView
 @shell_view: 
 
 
+<!-- ##### FUNCTION e_shell_view_clear_search ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
+<!-- ##### FUNCTION e_shell_view_custom_search ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@custom_rule: 
+
+
 <!-- ##### FUNCTION e_shell_view_execute_search ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
+<!-- ##### FUNCTION e_shell_view_block_execute_search ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
+<!-- ##### FUNCTION e_shell_view_unblock_execute_search ##### -->
 <para>
 
 </para>

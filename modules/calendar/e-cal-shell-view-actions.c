@@ -1654,7 +1654,7 @@ static GtkRadioActionEntry calendar_search_entries[] = {
 
 	{ "calendar-search-advanced-hidden",
 	  NULL,
-	  N_("Advanced search"),
+	  N_("Advanced Search"),
 	  NULL,
 	  NULL,
 	  CALENDAR_SEARCH_ADVANCED },
@@ -1715,14 +1715,18 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 void
 e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 {
+	ECalShellContent *cal_shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellSearchbar *searchbar;
 	GtkActionGroup *action_group;
 	GtkAction *action;
-	GtkRadioAction *radio_action;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
 
 	/* Calendar Actions */
 	action_group = ACTION_GROUP (CALENDAR);
@@ -1741,11 +1745,14 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 		G_N_ELEMENTS (calendar_search_entries),
 		-1, NULL, NULL);
 
-	/* Advanced Search action */
-	radio_action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ADVANCED_HIDDEN));
-	e_shell_content_set_search_radio_action (e_shell_view_get_shell_content (shell_view), radio_action);
-	gtk_action_set_visible (GTK_ACTION (radio_action), FALSE);
-	gtk_radio_action_set_current_value (radio_action, CALENDAR_SEARCH_SUMMARY_CONTAINS);
+	/* Advanced Search Action */
+	action = ACTION (CALENDAR_SEARCH_ADVANCED_HIDDEN);
+	gtk_action_set_visible (action, FALSE);
+	e_shell_searchbar_set_search_option (
+		searchbar, GTK_RADIO_ACTION (action));
+	gtk_radio_action_set_current_value (
+		GTK_RADIO_ACTION (action),
+		CALENDAR_SEARCH_SUMMARY_CONTAINS);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1794,9 +1801,11 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 void
 e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 {
-	EShellContent *shell_content;
-	EShellWindow *shell_window;
+	ECalShellContent *cal_shell_content;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
 	GList *list, *iter;
@@ -1804,7 +1813,6 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	action_group = ACTION_GROUP (CALENDAR_FILTER);
@@ -1868,11 +1876,14 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 	g_list_free (list);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_shell_content_set_filter_action (shell_content, radio_action);
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	e_action_combo_box_set_action (combo_box, radio_action);
 
 	ii = CALENDAR_FILTER_UNMATCHED;
-	e_shell_content_add_filter_separator_after (shell_content, ii);
+	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	ii = CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS;
-	e_shell_content_add_filter_separator_after (shell_content, ii);
+	e_action_combo_box_add_separator_after (combo_box, ii);
 }

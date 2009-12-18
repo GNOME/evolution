@@ -750,6 +750,21 @@ e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
 	g_object_notify (G_OBJECT (task_shell_content), "preview-visible");
 }
 
+EShellSearchbar *
+e_task_shell_content_get_searchbar (ETaskShellContent *task_shell_content)
+{
+	EShellContent *shell_content;
+	GtkWidget *widget;
+
+	g_return_val_if_fail (
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
+
+	shell_content = E_SHELL_CONTENT (task_shell_content);
+	widget = e_shell_content_get_searchbar (shell_content);
+
+	return E_SHELL_SEARCHBAR (widget);
+}
+
 GalViewInstance *
 e_task_shell_content_get_view_instance (ETaskShellContent *task_shell_content)
 {

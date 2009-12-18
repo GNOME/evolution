@@ -727,6 +727,21 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
 	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");
 }
 
+EShellSearchbar *
+e_memo_shell_content_get_searchbar (EMemoShellContent *memo_shell_content)
+{
+	EShellContent *shell_content;
+	GtkWidget *widget;
+
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+
+	shell_content = E_SHELL_CONTENT (memo_shell_content);
+	widget = e_shell_content_get_searchbar (shell_content);
+
+	return E_SHELL_SEARCHBAR (widget);
+}
+
 GalViewInstance *
 e_memo_shell_content_get_view_instance (EMemoShellContent *memo_shell_content)
 {

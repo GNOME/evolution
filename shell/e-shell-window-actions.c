@@ -705,7 +705,6 @@ action_custom_rule_cb (GtkAction *action,
 {
 	EFilterRule *rule;
 	EShellView *shell_view;
-	EShellContent *shell_content;
 	const gchar *view_name;
 
 	rule = g_object_get_data (G_OBJECT (action), "rule");
@@ -713,14 +712,11 @@ action_custom_rule_cb (GtkAction *action,
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	rule = g_object_get_data (G_OBJECT (action), "rule");
 	g_return_if_fail (E_IS_FILTER_RULE (rule));
 
-	e_shell_content_set_search_rule (shell_content, rule);
-
-	e_shell_view_execute_search (shell_view);
+	e_shell_view_custom_search (shell_view, rule);
 }
 
 /**
@@ -1044,25 +1040,12 @@ action_search_clear_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
 	EShellView *shell_view;
-	EShellContent *shell_content;
-	GtkRadioAction *search_action;
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	e_shell_content_set_search_rule (shell_content, NULL);
-	e_shell_content_set_search_text (shell_content, NULL);
-
-	/* change from Advanced Search to the first one, so filling a text will do something */
-	search_action = e_shell_content_get_search_radio_action (shell_content);
-	if (search_action && gtk_radio_action_get_current_value (search_action) == -1)
-		gtk_radio_action_set_current_value (search_action, 0);
-
-	e_shell_view_execute_search (shell_view);
-
-	e_shell_window_update_search_menu (shell_window);
+	e_shell_view_clear_search (shell_view);
 }
 
 /**
@@ -1125,20 +1108,11 @@ static void
 action_search_quick_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
-	EShellContent *shell_content;
 	EShellView *shell_view;
-	GtkRadioAction *radio_action;
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	radio_action = e_shell_content_get_search_radio_action (shell_content);
-	if (radio_action && gtk_radio_action_get_current_value (radio_action) == -1) {
-		/* change Advanced Search to a default search type automatically */
-		gtk_radio_action_set_current_value (radio_action, 0);
-	}
 
 	e_shell_view_execute_search (shell_view);
 }
@@ -2213,7 +2187,6 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 void
 e_shell_window_update_search_menu (EShellWindow *shell_window)
 {
-	EShellContent *shell_content;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	ERuleContext *context;
@@ -2237,15 +2210,14 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	 * Without this we would crash at E_SHELL_VIEW_GET_CLASS(). */
 	g_return_if_fail (shell_view != NULL);
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	context = e_shell_content_get_search_context (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	context = shell_view_class->search_context;
 
 	source = E_FILTER_SOURCE_INCOMING;
 
 	/* Update sensitivity of search actions. */
 
-	sensitive = (e_shell_content_get_search_rule (shell_content) != NULL);
+	sensitive = (e_shell_view_get_search_rule (shell_view) != NULL);
 	gtk_action_set_sensitive (ACTION (SEARCH_CLEAR), sensitive);
 	gtk_action_set_sensitive (ACTION (SEARCH_SAVE), sensitive);
 

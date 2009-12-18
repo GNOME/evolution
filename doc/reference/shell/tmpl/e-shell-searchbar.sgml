@@ -1,0 +1,223 @@
+<!-- ##### SECTION Title ##### -->
+EShellSearchbar
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT EShellSearchbar ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellSearchbar:filter-combo-box ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:filter-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:scope-combo-box ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:scope-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:search-hint ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:search-option ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:search-text ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:search-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSearchbar:shell-view ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION e_shell_searchbar_new ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_shell_view ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_filter_combo_box ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_filter_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_filter_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@filter_visible: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_search_hint ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_search_hint ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@search_hint: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_search_option ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_search_option ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@search_option: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_search_text ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_search_text ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@search_text: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_search_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_search_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@search_visible: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_scope_combo_box ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_scope_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_scope_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@scope_visible: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_restore_state ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@group_name: 
+
+

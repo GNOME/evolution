@@ -509,7 +509,79 @@ intelligent
 </para>
 
 
+<!-- ##### ARG EShellContent:filter-action ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:filter-value ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:filter-visible ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:scope-action ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:scope-value ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:scope-visible ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:search-context ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:search-hint ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:search-radio-action ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:search-rule ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:search-text ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### ARG EShellContent:search-value ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:search-visible ##### -->
 <para>
 
 </para>
@@ -2068,7 +2140,103 @@ intelligent
 @shell_backend: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_content_add_filter_separator_after ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@action_value: 
+
+<!-- ##### FUNCTION e_shell_content_add_filter_separator_before ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@action_value: 
+
 <!-- ##### FUNCTION e_shell_content_get_context ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_filter_action ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_filter_value ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_filter_visible ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_scope_action ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_scope_value ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_scope_visible ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_search_context ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_search_hint ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_search_rule ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_search_text ##### -->
 <para>
 
 </para>
@@ -2084,6 +2252,22 @@ intelligent
 @shell_content: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_content_get_search_visible ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_restore_state ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@group_name: 
+
 <!-- ##### FUNCTION e_shell_content_set_context ##### -->
 <para>
 
@@ -2092,6 +2276,78 @@ intelligent
 @shell_content: 
 @context: 
 
+<!-- ##### FUNCTION e_shell_content_set_filter_action ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@filter_action: 
+
+<!-- ##### FUNCTION e_shell_content_set_filter_value ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@filter_value: 
+
+<!-- ##### FUNCTION e_shell_content_set_filter_visible ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@filter_visible: 
+
+<!-- ##### FUNCTION e_shell_content_set_scope_action ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@scope_action: 
+
+<!-- ##### FUNCTION e_shell_content_set_scope_value ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@scope_value: 
+
+<!-- ##### FUNCTION e_shell_content_set_scope_visible ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@scope_visible: 
+
+<!-- ##### FUNCTION e_shell_content_set_search_hint ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@search_hint: 
+
+<!-- ##### FUNCTION e_shell_content_set_search_rule ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@search_rule: 
+
+<!-- ##### FUNCTION e_shell_content_set_search_text ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@search_text: 
+
 <!-- ##### FUNCTION e_shell_content_set_search_value ##### -->
 <para>
 
@@ -2099,6 +2355,14 @@ intelligent
 
 @shell_content: 
 @search_value: 
+
+<!-- ##### FUNCTION e_shell_content_set_search_visible ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@search_visible: 
 
 <!-- ##### FUNCTION e_shell_create_window ##### -->
 <para>

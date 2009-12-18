@@ -96,6 +96,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 	ETaskShellContent *task_shell_content;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	ECalComponentPreview *task_preview;
 	ECalendarTable *task_table;
@@ -107,13 +109,17 @@ task_shell_view_execute_search (EShellView *shell_view)
 	gchar *temp;
 	gint value;
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	searchbar = e_task_shell_content_get_searchbar (task_shell_content);
+
 	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
 
 	if (value == TASK_SEARCH_ADVANCED) {
-		query = e_shell_content_get_search_rule_as_string (shell_content);
+		query = e_shell_view_get_search_query (shell_view);
 
 		if (!query)
 			query = g_strdup ("");
@@ -122,7 +128,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 		const gchar *text;
 		GString *string;
 
-		text = e_shell_content_get_search_text (shell_content);
+		text = e_shell_searchbar_get_search_text (searchbar);
 
 		if (text == NULL || *text == '\0') {
 			text = "";
@@ -155,7 +161,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Apply selected filter. */
-	value = e_shell_content_get_filter_value (shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	value = e_action_combo_box_get_current_value (combo_box);
 	switch (value) {
 		case TASK_FILTER_ANY_CATEGORY:
 			break;

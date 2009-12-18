@@ -24,8 +24,9 @@
 
 #include <libebook/e-contact.h>
 
-#include "shell/e-shell-content.h"
-#include "shell/e-shell-view.h"
+#include <shell/e-shell-content.h>
+#include <shell/e-shell-searchbar.h>
+#include <shell/e-shell-view.h>
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "eab-composer-util.h"
@@ -104,6 +105,9 @@ gboolean	e_book_shell_content_get_preview_visible
 void		e_book_shell_content_set_preview_visible
 					(EBookShellContent *book_shell_content,
 					 gboolean preview_visible);
+EShellSearchbar *
+		e_book_shell_content_get_searchbar
+					(EBookShellContent *book_shell_content);
 void		e_book_shell_content_clipboard_copy
 					(EBookShellContent *book_shell_content);
 

@@ -35,6 +35,8 @@
 #include <shell/e-shell-taskbar.h>
 #include <shell/e-shell-window.h>
 
+#include <filter/e-filter-rule.h>
+#include <filter/e-rule-context.h>
 #include <menus/gal-view-collection.h>
 #include <menus/gal-view-instance.h>
 
@@ -88,6 +90,11 @@ struct _EShellView {
  * @ui_manager_id:	The #GtkUIManager ID for #EPluginUI.  Plugins
  *			should use to this ID in their "eplug" files to
  *			add menu and toolbar items to the shell view.
+ * @search_context_type:GType of the search context, which should be an
+ *			instance of ERuleContextClass or a custom subclass.
+ * @search_context:	A unique @search_context_type instance is created
+ *			automatically for each subclass and shared across
+ *			all instances of that subclass.
  * @search_options:	Widget path in the UI definition to the search
  *			options popup menu.  The menu gets shown when the
  *			user clicks the "find" icon in the search entry.
@@ -111,6 +118,11 @@ struct _EShellView {
  * @toggled:		Class method for the #EShellView::toggled signal.
  *			Subclasses should rarely need to override the
  *			default behavior.
+ * @custom_search:	Class method for the #EShellView::custom-search
+ *			signal.  This is emitted prior to executing an
+ *			advanced or saved search.  The default method sets
+ *			the #EShellView:search-rule property and then emits
+ *			the #EShellView::execute-search signal.
  * @execute_search:	Class method for the #EShellView::execute-search
  *			signal.  There is no default behavior; subclasses
  *			should override this.
@@ -134,6 +146,11 @@ struct _EShellViewClass {
 	 * Usually "org.gnome.evolution.$(VIEW_NAME)". */
 	const gchar *ui_manager_id;
 
+	/* Search context.  Subclasses may override the type.
+	 * A unique instance is created for each subclass. */
+	GType search_context_type;
+	ERuleContext *search_context;
+
 	/* Widget path to the search options popup menu. */
 	const gchar *search_options;
 
@@ -153,6 +170,9 @@ struct _EShellViewClass {
 
 	/* Signals */
 	void		(*toggled)		(EShellView *shell_view);
+	void		(*clear_search)		(EShellView *shell_view);
+	void		(*custom_search)	(EShellView *shell_view,
+						 EFilterRule *custom_rule);
 	void		(*execute_search)	(EShellView *shell_view);
 	void		(*update_actions)	(EShellView *shell_view);
 };
@@ -170,6 +190,10 @@ gboolean	e_shell_view_is_active		(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
 void		e_shell_view_set_page_num	(EShellView *shell_view,
 						 gint page_num);
+EFilterRule *	e_shell_view_get_search_rule	(EShellView *shell_view);
+void		e_shell_view_set_search_rule	(EShellView *shell_view,
+						 EFilterRule *search_rule);
+gchar *		e_shell_view_get_search_query	(EShellView *shell_view);
 GtkSizeGroup *	e_shell_view_get_size_group	(EShellView *shell_view);
 EShellBackend *	e_shell_view_get_shell_backend	(EShellView *shell_view);
 EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
@@ -178,9 +202,14 @@ EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 GKeyFile *	e_shell_view_get_state_key_file	(EShellView *shell_view);
 void		e_shell_view_set_state_dirty	(EShellView *shell_view);
+void		e_shell_view_clear_search	(EShellView *shell_view);
+void		e_shell_view_custom_search	(EShellView *shell_view,
+						 EFilterRule *custom_rule);
 void		e_shell_view_execute_search	(EShellView *shell_view);
-void		e_shell_view_block_execute_search (EShellView *shell_view);
-void		e_shell_view_unblock_execute_search (EShellView *shell_view);
+void		e_shell_view_block_execute_search
+						(EShellView *shell_view);
+void		e_shell_view_unblock_execute_search
+						(EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 GtkWidget *	e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,

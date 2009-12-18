@@ -23,6 +23,7 @@
 #define E_TASK_SHELL_CONTENT_H
 
 #include <shell/e-shell-content.h>
+#include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-cal-model.h>
@@ -92,6 +93,9 @@ gboolean	e_task_shell_content_get_preview_visible
 void		e_task_shell_content_set_preview_visible
 					(ETaskShellContent *task_shell_content,
 					 gboolean preview_visible);
+EShellSearchbar *
+		e_task_shell_content_get_searchbar
+					(ETaskShellContent *task_shell_content);
 GalViewInstance *
 		e_task_shell_content_get_view_instance
 					(ETaskShellContent *task_shell_content);

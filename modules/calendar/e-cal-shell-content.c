@@ -679,6 +679,21 @@ e_cal_shell_content_get_task_table (ECalShellContent *cal_shell_content)
 	return E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
 }
 
+EShellSearchbar *
+e_cal_shell_content_get_searchbar (ECalShellContent *cal_shell_content)
+{
+	EShellContent *shell_content;
+	GtkWidget *widget;
+
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
+
+	shell_content = E_SHELL_CONTENT (cal_shell_content);
+	widget = e_shell_content_get_searchbar (shell_content);
+
+	return E_SHELL_SEARCHBAR (widget);
+}
+
 GalViewInstance *
 e_cal_shell_content_get_view_instance (ECalShellContent *cal_shell_content)
 {

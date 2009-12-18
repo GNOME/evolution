@@ -23,6 +23,7 @@
 #define E_MEMO_SHELL_CONTENT_H
 
 #include <shell/e-shell-content.h>
+#include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-memo-table.h>
@@ -88,6 +89,9 @@ gboolean	e_memo_shell_content_get_preview_visible
 void		e_memo_shell_content_set_preview_visible
 					(EMemoShellContent *memo_shell_content,
 					 gboolean preview_visible);
+EShellSearchbar *
+		e_memo_shell_content_get_searchbar
+					(EMemoShellContent *memo_shell_content);
 GalViewInstance *
 		e_memo_shell_content_get_view_instance
 					(EMemoShellContent *memo_shell_content);

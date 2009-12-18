@@ -87,12 +87,14 @@ static void
 mail_shell_view_execute_search (EShellView *shell_view)
 {
 	EMailShellViewPrivate *priv;
+	EMailShellContent *mail_shell_content;
 	EShell *shell;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSettings *shell_settings;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	EMFormatHTMLDisplay *html_display;
-	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
@@ -121,6 +123,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
 	reader = E_MAIL_READER (shell_content);
 	folder = e_mail_reader_get_folder (reader);
@@ -137,7 +140,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 		key_file = e_shell_view_get_state_key_file (shell_view);
 
 		key = STATE_KEY_SEARCH_TEXT;
-		string = e_shell_content_get_search_text (shell_content);
+		string = e_shell_searchbar_get_search_text (searchbar);
 		group_name = g_strdup_printf ("Folder %s", folder_uri);
 
 		if (string != NULL && *string != '\0')
@@ -158,12 +161,12 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
 
-	text = e_shell_content_get_search_text (shell_content);
+	text = e_shell_searchbar_get_search_text (searchbar);
 	if (value == MAIL_SEARCH_ADVANCED || text == NULL || *text == '\0') {
 		if (value != MAIL_SEARCH_ADVANCED)
-			e_shell_content_set_search_rule (shell_content, NULL);
+			e_shell_view_set_search_rule (shell_view, NULL);
 
-		query = e_shell_content_get_search_rule_as_string (shell_content);
+		query = e_shell_view_get_search_query (shell_view);
 
 		if (!query)
 			query = g_strdup ("");
@@ -177,9 +180,9 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	g_return_if_fail (value >= 0 && value < MAIL_NUM_SEARCH_RULES);
 	rule = priv->search_rules[value];
 
-	/* Set the search rule in EShellContent so that "Create
+	/* Set the search rule in EShellView so that "Create
 	 * Search Folder from Search" works for quick searches. */
-	e_shell_content_set_search_rule (shell_content, rule);
+	e_shell_view_set_search_rule (shell_view, rule);
 
 	for (iter = rule->parts; iter != NULL; iter = iter->next) {
 		EFilterPart *part = iter->data;
@@ -220,7 +223,8 @@ filter:
 
 	/* Apply selected filter. */
 
-	value = e_shell_content_get_filter_value (shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	value = e_action_combo_box_get_current_value (combo_box);
 	switch (value) {
 		case MAIL_FILTER_ALL_MESSAGES:
 			break;
@@ -593,6 +597,7 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	shell_view_class->icon_name = "evolution-mail";
 	shell_view_class->ui_definition = "evolution-mail.ui";
 	shell_view_class->ui_manager_id = "org.gnome.evolution.mail";
+	shell_view_class->search_context_type = EM_SEARCH_TYPE_CONTEXT;
 	shell_view_class->search_options = "/mail-search-options";
 	shell_view_class->search_rules = "searchtypes.xml";
 	shell_view_class->new_shell_content = e_mail_shell_content_new;

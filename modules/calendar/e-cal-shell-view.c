@@ -59,6 +59,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GnomeCalendar *calendar;
 	ECalendar *date_navigator;
 	GtkRadioAction *action;
@@ -74,11 +76,16 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
+
+	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
+
 	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
 
 	if (value == CALENDAR_SEARCH_ADVANCED) {
-		query = e_shell_content_get_search_rule_as_string (shell_content);
+		query = e_shell_view_get_search_query (shell_view);
 
 		if (!query)
 			query = g_strdup ("");
@@ -87,7 +94,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 		const gchar *text;
 		GString *string;
 
-		text = e_shell_content_get_search_text (shell_content);
+		text = e_shell_searchbar_get_search_text (searchbar);
 
 		if (text == NULL || *text == '\0') {
 			text = "";
@@ -123,7 +130,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	start_range = end_range = 0;
 
 	/* Apply selected filter. */
-	value = e_shell_content_get_filter_value (shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	value = e_action_combo_box_get_current_value (combo_box);
 	switch (value) {
 		case CALENDAR_FILTER_ANY_CATEGORY:
 			break;
@@ -186,7 +194,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 		}
 	}
 
-	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
 	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
 
 	if (range_search) {
@@ -200,7 +207,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	gnome_calendar_set_search_query (
 		calendar, query, range_search, start_range, end_range);

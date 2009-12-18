@@ -37,6 +37,7 @@
 #include "e-util/e-file-utils.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-content.h"
+#include "shell/e-shell-searchbar.h"
 #include "shell/e-shell-sidebar.h"
 #include "shell/e-shell-utils.h"
 #include "misc/e-popup-action.h"

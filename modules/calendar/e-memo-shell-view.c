@@ -57,6 +57,8 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	EMemoShellContent *memo_shell_content;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
@@ -67,11 +69,15 @@ memo_shell_view_execute_search (EShellView *shell_view)
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	searchbar = e_memo_shell_content_get_searchbar (memo_shell_content);
+
 	action = GTK_RADIO_ACTION (ACTION (MEMO_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
 
 	if (value == MEMO_SEARCH_ADVANCED) {
-		query = e_shell_content_get_search_rule_as_string (shell_content);
+		query = e_shell_view_get_search_query (shell_view);
 
 		if (!query)
 			query = g_strdup ("");
@@ -80,7 +86,7 @@ memo_shell_view_execute_search (EShellView *shell_view)
 		const gchar *text;
 		GString *string;
 
-		text = e_shell_content_get_search_text (shell_content);
+		text = e_shell_searchbar_get_search_text (searchbar);
 
 		if (text == NULL || *text == '\0') {
 			text = "";
@@ -113,7 +119,8 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Apply selected filter. */
-	value = e_shell_content_get_filter_value (shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	value = e_action_combo_box_get_current_value (combo_box);
 	switch (value) {
 		case MEMO_FILTER_ANY_CATEGORY:
 			break;
@@ -143,7 +150,6 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	model = e_memo_table_get_model (memo_table);
 	e_cal_model_set_search_query (model, query);

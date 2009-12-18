@@ -646,7 +646,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	/* Populate built-in rules for search entry popup menu.
 	 * Keep the assertions, please.  If the conditions aren't
 	 * met we're going to crash anyway, just more mysteriously. */
-	context = e_shell_content_get_search_context (shell_content);
+	context = E_SHELL_VIEW_GET_CLASS (shell_view)->search_context;
 	source = E_FILTER_SOURCE_DEMAND;
 	while ((rule = e_rule_context_next_rule (context, rule, source))) {
 		g_assert (ii < MAIL_NUM_SEARCH_RULES);
@@ -696,8 +696,8 @@ e_mail_shell_view_private_finalize (EMailShellView *mail_shell_view)
 void
 e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 {
-	EShellView *shell_view;
-	EShellContent *shell_content;
+	EMailShellContent *mail_shell_content;
+	EShellSearchbar *searchbar;
 	EMailReader *reader;
 	const gchar *folder_uri;
 	gchar *group_name;
@@ -706,17 +706,17 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
-	reader = E_MAIL_READER (shell_content);
+	reader = E_MAIL_READER (mail_shell_content);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (folder_uri == NULL)
 		return;
 
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
-	e_shell_content_restore_state (shell_content, group_name);
+	e_shell_searchbar_restore_state (searchbar, group_name);
 	g_free (group_name);
 }
 

@@ -31,7 +31,6 @@
 #include "widgets/menus/gal-view-instance.h"
 #include "widgets/misc/e-paned.h"
 
-#include "em-search-context.h"
 #include "em-utils.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -610,7 +609,6 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	object_class->constructed = mail_shell_content_constructed;
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
-	shell_content_class->new_search_context = em_search_context_new;
 	shell_content_class->check_state = mail_shell_content_check_state;
 
 	g_object_class_install_property (
@@ -756,6 +754,21 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	mail_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (mail_shell_content), "preview-visible");
+}
+
+EShellSearchbar *
+e_mail_shell_content_get_searchbar (EMailShellContent *mail_shell_content)
+{
+	EShellContent *shell_content;
+	GtkWidget *widget;
+
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	widget = e_shell_content_get_searchbar (shell_content);
+
+	return E_SHELL_SEARCHBAR (widget);
 }
 
 gboolean

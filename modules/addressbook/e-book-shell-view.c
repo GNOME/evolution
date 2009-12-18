@@ -127,6 +127,8 @@ book_shell_view_execute_search (EShellView *shell_view)
 	EBookShellContent *book_shell_content;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	EAddressbookView *view;
 	EAddressbookModel *model;
@@ -141,25 +143,29 @@ book_shell_view_execute_search (EShellView *shell_view)
 	if (priv->search_locked)
 		return;
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
+	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
+
 	action = GTK_RADIO_ACTION (ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS));
 	search_id = gtk_radio_action_get_current_value (action);
 
 	if (search_id == CONTACT_SEARCH_ADVANCED) {
-		query = e_shell_content_get_search_rule_as_string (shell_content);
+		query = e_shell_view_get_search_query (shell_view);
 
-		if (!query)
+		if (query == NULL)
 			query = g_strdup ("");
 
 		/* internal pointer, no need to free it */
-		advanced_search = e_shell_content_get_search_rule (shell_content);
+		advanced_search = e_shell_view_get_search_rule (shell_view);
 	} else {
 		const gchar *text;
 		const gchar *format;
 		GString *string;
 
-		text = e_shell_content_get_search_text (shell_content);
+		text = e_shell_searchbar_get_search_text (searchbar);
 
 		if (text == NULL || *text == '\0') {
 			text = "";
@@ -194,7 +200,8 @@ book_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Apply selected filter. */
-	filter_id = e_shell_content_get_filter_value (shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	filter_id = e_action_combo_box_get_current_value (combo_box);
 	switch (filter_id) {
 		case CONTACT_FILTER_ANY_CATEGORY:
 			break;
@@ -226,11 +233,11 @@ book_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	model = e_addressbook_view_get_model (view);
 	e_addressbook_model_set_query (model, query);
-	e_addressbook_view_set_search (view, filter_id, search_id, search_text, advanced_search);
+	e_addressbook_view_set_search (
+		view, filter_id, search_id, search_text, advanced_search);
 	g_free (query);
 	g_free (search_text);
 

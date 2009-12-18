@@ -520,6 +520,9 @@ void
 e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
                                        EAddressbookView *addressbook_view)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSearchbar *searchbar;
 	EBookShellView *book_shell_view;
 	GtkNotebook *notebook;
 	GtkWidget *child;
@@ -527,6 +530,12 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (addressbook_view));
+
+	shell_content = E_SHELL_CONTENT (book_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+
+	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
+	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
 
 	notebook = GTK_NOTEBOOK (book_shell_content->priv->notebook);
 	child = GTK_WIDGET (addressbook_view);
@@ -537,26 +546,33 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 	gtk_notebook_set_current_page (notebook, page_num);
 
 	if (old_page_num != page_num) {
-		EShellContent *shell_content;
+		EActionComboBox *combo_box;
+		GtkRadioAction *action;
 		gint filter_id = 0, search_id = 0;
 		gchar *search_text = NULL;
 		EFilterRule *advanced_search = NULL;
-		GtkRadioAction *radio_action;
-
-		shell_content = E_SHELL_CONTENT (book_shell_content);
-		book_shell_view = E_BOOK_SHELL_VIEW (e_shell_content_get_shell_view (shell_content));
 
 		e_book_shell_view_disable_searching (book_shell_view);
-		e_addressbook_view_get_search (addressbook_view, &filter_id, &search_id, &search_text, &advanced_search);
-		if (e_shell_content_get_filter_action (shell_content))
-			e_shell_content_set_filter_value (shell_content, filter_id);
-		radio_action = e_shell_content_get_search_radio_action (shell_content);
-		gtk_radio_action_set_current_value (radio_action, search_id);
-		e_shell_content_set_search_text	(shell_content, search_text ? search_text : "");
-		e_shell_content_set_search_rule (shell_content, advanced_search);
+
+		e_addressbook_view_get_search (
+			addressbook_view, &filter_id, &search_id,
+			&search_text, &advanced_search);
+
+		combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+		e_action_combo_box_set_current_value (combo_box, filter_id);
+
+		action = e_shell_searchbar_get_search_option (searchbar);
+		gtk_radio_action_set_current_value (action, search_id);
+
+		e_shell_searchbar_set_search_text (searchbar, search_text);
+
+		e_shell_view_set_search_rule (shell_view, advanced_search);
+
 		g_free (search_text);
+
 		if (advanced_search)
 			g_object_unref (advanced_search);
+
 		e_book_shell_view_enable_searching (book_shell_view);
 	}
 
@@ -617,6 +633,21 @@ e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
 	book_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (book_shell_content), "preview-visible");
+}
+
+EShellSearchbar *
+e_book_shell_content_get_searchbar (EBookShellContent *book_shell_content)
+{
+	EShellContent *shell_content;
+	GtkWidget *widget;
+
+	g_return_val_if_fail (
+		E_IS_BOOK_SHELL_CONTENT (book_shell_content), NULL);
+
+	shell_content = E_SHELL_CONTENT (book_shell_content);
+	widget = e_shell_content_get_searchbar (shell_content);
+
+	return E_SHELL_SEARCHBAR (widget);
 }
 
 void

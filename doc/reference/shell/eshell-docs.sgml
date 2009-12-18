@@ -20,6 +20,7 @@ url="http://mbarnes.fedorapeople.org/docs/eshell/">http://mbarnes.fedorapeople.o
     <xi:include href="xml/e-shell-content.xml"/>
     <xi:include href="xml/e-shell-sidebar.xml"/>
     <xi:include href="xml/e-shell-taskbar.xml"/>
+    <xi:include href="xml/e-shell-searchbar.xml"/>
     <xi:include href="xml/e-shell-settings.xml"/>
     <xi:include href="xml/e-shell-switcher.xml"/>
     <xi:include href="xml/e-shell-utils.xml"/>

@@ -973,7 +973,7 @@ static GtkRadioActionEntry contact_search_entries[] = {
 
 	{ "contact-search-advanced-hidden",
 	  NULL,
-	  N_("Advanced search"),
+	  N_("Advanced Search"),
 	  NULL,
 	  NULL,
 	  CONTACT_SEARCH_ADVANCED },
@@ -1051,14 +1051,14 @@ static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
 void
 e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EBookShellContent *book_shell_content;
+	EShellSearchbar *searchbar;
 	EABContactDisplay *contact_preview;
 	GtkActionGroup *action_group;
 	GConfBridge *bridge;
 	GtkAction *action;
-	GtkRadioAction *radio_action;
 	GObject *object;
 	const gchar *key;
 
@@ -1066,6 +1066,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
+	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
 	contact_preview = e_book_shell_content_get_preview (book_shell_content);
 
 	/* Contact Actions */
@@ -1088,11 +1089,14 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		G_N_ELEMENTS (contact_search_entries),
 		-1, NULL, NULL);
 
-	/* Advanced Search action */
-	radio_action = GTK_RADIO_ACTION (ACTION (CONTACT_SEARCH_ADVANCED_HIDDEN));
-	e_shell_content_set_search_radio_action (e_shell_view_get_shell_content (shell_view), radio_action);
-	gtk_action_set_visible (GTK_ACTION (radio_action), FALSE);
-	gtk_radio_action_set_current_value (radio_action, CONTACT_SEARCH_NAME_CONTAINS);
+	/* Advanced Search Action */
+	action = ACTION (CONTACT_SEARCH_ADVANCED_HIDDEN);
+	gtk_action_set_visible (action, FALSE);
+	e_shell_searchbar_set_search_option (
+		searchbar, GTK_RADIO_ACTION (action));
+	gtk_radio_action_set_current_value (
+		GTK_RADIO_ACTION (action),
+		CONTACT_SEARCH_NAME_CONTAINS);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1156,9 +1160,11 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 void
 e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EShellView *shell_view;
-	EShellContent *shell_content;
 	EShellWindow *shell_window;
+	EShellSearchbar *searchbar;
+	EActionComboBox *combo_box;
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
 	GList *list, *iter;
@@ -1166,7 +1172,6 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	action_group = ACTION_GROUP (CONTACTS_FILTER);
@@ -1230,8 +1235,11 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	g_list_free (list);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_shell_content_set_filter_action (shell_content, radio_action);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	e_action_combo_box_set_action (combo_box, radio_action);
 
 	ii = CONTACT_FILTER_UNMATCHED;
-	e_shell_content_add_filter_separator_after (shell_content, ii);
+	e_action_combo_box_add_separator_after (combo_box, ii);
 }

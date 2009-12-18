@@ -29,8 +29,6 @@
 #define E_SHELL_CONTENT_H
 
 #include <shell/e-shell-common.h>
-#include <filter/e-filter-rule.h>
-#include <filter/e-rule-context.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_CONTENT \
@@ -74,81 +72,30 @@ struct _EShellContent {
 struct _EShellContentClass {
 	GtkBinClass parent_class;
 
-	/* Factory Methods */
-	ERuleContext *	(*new_search_context)	(void);
-
+	/* Methods */
 	guint32		(*check_state)		(EShellContent *shell_content);
+	gchar *		(*get_search_name)	(EShellContent *shell_content);
+
+	/* This is a protected method.  Not for public use. */
+	GtkWidget *	(*construct_searchbar)	(EShellContent *shell_content);
 };
 
 GType		e_shell_content_get_type	(void);
 GtkWidget *	e_shell_content_new		(struct _EShellView *shell_view);
+GtkWidget *	e_shell_content_get_searchbar	(EShellContent *shell_content);
 guint32		e_shell_content_check_state	(EShellContent *shell_content);
 struct _EShellView *
 		e_shell_content_get_shell_view	(EShellContent *shell_content);
-GtkRadioAction *e_shell_content_get_filter_action
-						(EShellContent *shell_content);
-void		e_shell_content_set_filter_action
-						(EShellContent *shell_content,
-						 GtkRadioAction *filter_action);
-gint		e_shell_content_get_filter_value(EShellContent *shell_content);
-void		e_shell_content_set_filter_value(EShellContent *shell_content,
-						 gint filter_value);
-gboolean	e_shell_content_get_filter_visible
-						(EShellContent *shell_content);
-void		e_shell_content_set_filter_visible
-						(EShellContent *shell_content,
-						 gboolean filter_visible);
-void		e_shell_content_add_filter_separator_before
-						(EShellContent *shell_content,
-						 gint action_value);
-void		e_shell_content_add_filter_separator_after
-						(EShellContent *shell_content,
-						 gint action_value);
-ERuleContext *	e_shell_content_get_search_context
-						(EShellContent *shell_content);
-const gchar *	e_shell_content_get_search_hint	(EShellContent *shell_content);
-void		e_shell_content_set_search_hint	(EShellContent *shell_content,
-						 const gchar *search_hint);
-EFilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);
-void		e_shell_content_set_search_rule (EShellContent *shell_content,
-						 EFilterRule *search_rule);
-gchar *		e_shell_content_get_search_rule_as_string
-						(EShellContent *shell_content);
-const gchar *	e_shell_content_get_search_text	(EShellContent *shell_content);
-void		e_shell_content_set_search_text	(EShellContent *shell_content,
-						 const gchar *search_text);
-gboolean	e_shell_content_get_search_visible
-						(EShellContent *shell_content);
-void		e_shell_content_set_search_visible
-						(EShellContent *shell_content,
-						 gboolean search_visible);
-GtkRadioAction *e_shell_content_get_scope_action(EShellContent *shell_content);
-void		e_shell_content_set_scope_action(EShellContent *shell_content,
-						 GtkRadioAction *scope_action);
-gint		e_shell_content_get_scope_value	(EShellContent *shell_content);
-void		e_shell_content_set_scope_value	(EShellContent *shell_content,
-						 gint scope_value);
-gboolean	e_shell_content_get_scope_visible
-						(EShellContent *shell_content);
-void		e_shell_content_set_scope_visible
-						(EShellContent *shell_content,
-						 gboolean scope_visible);
-void		e_shell_content_set_search_radio_action
-						(EShellContent *shell_content,
-						 GtkRadioAction *search_action);
-GtkRadioAction *e_shell_content_get_search_radio_action
-						(EShellContent *shell_content);
 const gchar *	e_shell_content_get_view_id	(EShellContent *shell_content);
 void		e_shell_content_set_view_id	(EShellContent *shell_content,
 						 const gchar *view_id);
+gchar *		e_shell_content_get_search_name	(EShellContent *shell_content);
 void		e_shell_content_run_advanced_search_dialog
 						(EShellContent *shell_content);
 void		e_shell_content_run_edit_searches_dialog
 						(EShellContent *shell_content);
 void		e_shell_content_run_save_search_dialog
 						(EShellContent *shell_content);
-void		e_shell_content_restore_state	(EShellContent *shell_content,
-						 const gchar *group_name);
 
 G_END_DECLS
 

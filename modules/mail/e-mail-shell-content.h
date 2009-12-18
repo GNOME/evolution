@@ -23,6 +23,7 @@
 #define E_MAIL_SHELL_CONTENT_H
 
 #include <shell/e-shell-content.h>
+#include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
 #include <mail/em-format-html-display.h>
@@ -73,6 +74,9 @@ gboolean	e_mail_shell_content_get_preview_visible
 void		e_mail_shell_content_set_preview_visible
 					(EMailShellContent *mail_shell_content,
 						 gboolean preview_visible);
+EShellSearchbar *
+		e_mail_shell_content_get_searchbar
+					(EMailShellContent *mail_shell_content);
 gboolean	e_mail_shell_content_get_show_deleted
 					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_show_deleted
