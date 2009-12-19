@@ -133,6 +133,7 @@ calendar/importers/icalendar-importer.c
 calendar/zones.h
 composer/e-composer-actions.c
 composer/e-composer-autosave.c
+composer/e-composer-header.c
 composer/e-composer-header-table.c
 composer/e-composer-name-header.c
 composer/e-composer-post-header.c
@@ -401,6 +402,7 @@ shell/e-config-upgrade.c
 shell/e-shell-backend.c
 shell/e-shell-content.c
 shell/e-shell-migrate.c
+shell/e-shell-searchbar.c
 shell/e-shell-switcher.c
 shell/e-shell-utils.c
 shell/e-shell-view.c
