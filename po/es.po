@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-12-19 05:50+0000\n"
-"PO-Revision-Date: 2009-12-19 17:20+0100\n"
+"POT-Creation-Date: 2009-12-19 16:22+0000\n"
+"PO-Revision-Date: 2009-12-19 17:51+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -930,7 +930,7 @@ msgstr "Error al modificar la tarjeta"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:570
 #: ../calendar/gui/e-calendar-table.c:888 ../calendar/gui/e-memo-table.c:671
 msgid "Shell View"
-msgstr "Vista de shell"
+msgstr "Vista de «shell»"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:581
 msgid "Source"
@@ -4977,7 +4977,7 @@ msgstr "No"
 #: ../calendar/gui/e-cal-model.c:363 ../calendar/gui/gnome-cal.c:524
 #: ../shell/e-shell.c:836
 msgid "Shell Settings"
-msgstr "Configuración de Shell"
+msgstr "Configuración de «shell»"
 
 #: ../calendar/gui/e-cal-model.c:364 ../calendar/gui/gnome-cal.c:525
 #: ../shell/e-shell.c:837
@@ -9237,11 +9237,11 @@ msgstr "Vista de lista"
 
 #: ../mail/e-mail-browser.c:663
 msgid "Shell Module"
-msgstr "Modo de shell"
+msgstr "Modo de «shell»"
 
 #: ../mail/e-mail-browser.c:664 ../mail/message-list.c:2521
 msgid "The mail shell backend"
-msgstr "El «backend» de la shell de correo"
+msgstr "El «backend» de la «shell» de correo"
 
 #: ../mail/e-mail-browser.c:674
 msgid "Show Deleted"
@@ -9503,7 +9503,6 @@ msgstr[1] "Guardar mensajes"
 #. thus it will be something like "Message.mbox" at the end.
 #: ../mail/e-mail-reader.c:828 ../plugins/groupwise-features/properties.ui.h:5
 #: ../widgets/table/e-table-click-to-add.c:512
-#| msgid "Message"
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensaje"
@@ -13841,7 +13840,7 @@ msgstr "%e de %b de %Y"
 
 #: ../mail/message-list.c:2520 ../shell/e-shell-view.c:639
 msgid "Shell Backend"
-msgstr "«Backend» de la shell"
+msgstr "«Backend» de la «shell»"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:4271 ../mail/message-list.c:4757
@@ -14837,7 +14836,6 @@ msgstr "Moviendo elementos"
 
 #. To Translators: Default filename part saving an event to a file when no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-actions.c:1105
-#| msgid "Sent"
 msgid "event"
 msgstr "acontecimiento"
 
@@ -14898,7 +14896,6 @@ msgid "Re_fresh"
 msgstr "Actuali_zar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1300
-#| msgid "Rename the selected calendar"
 msgid "Refresh the selected calendar"
 msgstr "Actualizar el calendario seleccionado"
 
@@ -15083,7 +15080,6 @@ msgstr "Borrando las notas seleccionadas…"
 #. To Translators: Default filename part saving a memo to a file when no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-memopad.c:262
 #: ../modules/calendar/e-memo-shell-view-actions.c:526
-#| msgid "Memo"
 msgid "memo"
 msgstr "nota"
 
@@ -15160,7 +15156,6 @@ msgstr "Borrando las tareas seleccionadas…"
 #. To Translators: Default filename part saving a task to a file when no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:330
 #: ../modules/calendar/e-task-shell-view-actions.c:651
-#| msgid "Task"
 msgid "task"
 msgstr "tarea"
 
@@ -15311,7 +15306,6 @@ msgid "_New Memo List"
 msgstr "Lista de notas _nueva"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:660
-#| msgid "Rename the selected memo list"
 msgid "Refresh the selected memo list"
 msgstr "Actualizar la lista de notas seleccionada"
 
@@ -15457,7 +15451,6 @@ msgid "_New Task List"
 msgstr "Lista de tareas _nueva"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:784
-#| msgid "Rename the selected task list"
 msgid "Refresh the selected task list"
 msgstr "Actualizar la lista de tareas seleccionada"
 
@@ -15577,7 +15570,6 @@ msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #: ../modules/mail/e-mail-shell-content.c:702
-#| msgid "_Group By Threads"
 msgid "Group by Threads"
 msgstr "Agrupar por conversaciones"
 
@@ -16013,7 +16005,6 @@ msgstr "Columna de _tabla:"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1154
-#| msgid "Date header:"
 msgid "_Date header:"
 msgstr "Cabecera de _fecha:"
 
@@ -16465,38 +16456,29 @@ msgstr "Error desconocido"
 
 #: ../plugins/caldav/caldav-browse-server.c:335
 #: ../plugins/caldav/caldav-browse-server.c:586
-#| msgid "Failed to update delegates:"
 msgid "Failed to parse server response."
 msgstr "Falló al analizar la respuesta del servidor."
 
 #: ../plugins/caldav/caldav-browse-server.c:429
-#| msgid "Ends"
 msgid "Events"
 msgstr "Acontecimientos"
 
 #: ../plugins/caldav/caldav-browse-server.c:451
-#| msgid "Web Calendars"
 msgid "User's calendars"
 msgstr "Calendarios del usuario"
 
 #: ../plugins/caldav/caldav-browse-server.c:559
 #: ../plugins/caldav/caldav-browse-server.c:630
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to get server URL."
 msgstr "Falló al obtener el URL del servidor."
 
 #: ../plugins/caldav/caldav-browse-server.c:628
 #: ../plugins/caldav/caldav-browse-server.c:669
 #: ../plugins/caldav/caldav-browse-server.c:1273
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Searching for the Contacts..."
 msgid "Searching for user's calendars..."
 msgstr "Buscando los calendarios del usuario…"
 
 #: ../plugins/caldav/caldav-browse-server.c:667
-#| msgid "Unable to find any calendars"
 msgid "Could not find any user calendar."
 msgstr "No se pudo encontrar ningún calendario del usuario."
 
@@ -16512,60 +16494,51 @@ msgstr "El intento anterior falló con el código %d"
 
 #: ../plugins/caldav/caldav-browse-server.c:800
 #, c-format
-#| msgid "Enter password for %s (user %s)"
 msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
 msgstr ""
 "Introduzca la contraseña para el usuario <b>%s</b> en el servidor <b>%s</b>"
 
 #: ../plugins/caldav/caldav-browse-server.c:857
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Cannot create output file: %s:\n"
 #| " %s"
 msgid "Cannot create soup message for URL '%s'"
-msgstr ""
-"No es posible crear el archivo de salida: %s:\n"
-" %s"
+msgstr "No se puede crear el mensaje «soup» para el URL «%s»"
 
 #. fetch content
 #: ../plugins/caldav/caldav-browse-server.c:1092
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "\n"
 #| "Searching for the Contacts..."
 msgid "Searching folder content..."
-msgstr ""
-"\n"
-"\n"
-"Buscando contactos…"
+msgstr "Buscando el contenido de la carpeta…"
 
 #: ../plugins/caldav/caldav-browse-server.c:1135
-#, fuzzy
 #| msgid "Loading calendars"
 msgid "List of available calendars:"
-msgstr "Cargando calendarios"
+msgstr "Lista de calendarios disponibles:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1172
-#, fuzzy
 #| msgid "Suppliers"
 msgid "Supports"
-msgstr "Proveedores"
+msgstr "Soporta"
 
 #: ../plugins/caldav/caldav-browse-server.c:1250
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to create pipe: %s"
 msgid "Failed to create thread: %s"
-msgstr "Falló al crear la tubería: %s"
+msgstr "Falló al crear la conversación: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:1358
 #, c-format
 msgid "Server URL '%s' is not a valid URL"
-msgstr ""
+msgstr "El URL del servidor «%s» no es un URL válido"
 
 #: ../plugins/caldav/caldav-browse-server.c:1364
 msgid "Browse for a CalDAV calendar"
-msgstr ""
+msgstr "Examinar para calendarios CalDAV"
 
 #: ../plugins/caldav/caldav-source.c:66
 msgid "CalDAV"
@@ -16583,7 +16556,7 @@ msgstr "Usar _SSL"
 
 #: ../plugins/caldav/caldav-source.c:468
 msgid "Brows_e server for a calendar"
-msgstr ""
+msgstr "_Examinar el servidor para un calendario"
 
 #. add refresh option
 #: ../plugins/caldav/caldav-source.c:480
@@ -19793,22 +19766,19 @@ msgid "Whether the switcher is visible"
 msgstr "Indica si el selector es visible"
 
 #: ../shell/e-shell-utils.c:220
-#, fuzzy
 #| msgid "vCard (.vcf, .gcrd)"
 msgid "vCard (.vcf)"
-msgstr "vCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:222
-#, fuzzy
 #| msgid "iCalendar files (.ics)"
 msgid "iCalendar (.ics)"
-msgstr "Archivos iCalendar (.ics)"
+msgstr "iCalendar (.ics)"
 
 #: ../shell/e-shell-utils.c:243
-#, fuzzy
 #| msgid "All files"
 msgid "All Files (*)"
-msgstr "Todos los archivos"
+msgstr "Todos los archivos (*)"
 
 #: ../shell/e-shell-view.c:591
 msgid "Switcher Action"
@@ -19816,7 +19786,7 @@ msgstr "Acción del selector"
 
 #: ../shell/e-shell-view.c:592
 msgid "The switcher action for this shell view"
-msgstr "La acción del selector para esta vista de la shell"
+msgstr "La acción del selector para esta vista de la «shell»"
 
 #: ../shell/e-shell-view.c:607
 msgid "Page Number"
@@ -19824,68 +19794,66 @@ msgstr "Número de página"
 
 #: ../shell/e-shell-view.c:608
 msgid "The notebook page number of the shell view"
-msgstr "El número de página del libro de notas para esta vista de shell"
+msgstr "El número de página del libro de notas para esta vista de «shell»"
 
 #: ../shell/e-shell-view.c:624
-#, fuzzy
 #| msgid "Search Filter"
 msgid "Search Rule"
-msgstr "Filtro de búsqueda"
+msgstr "Regla de búsqueda"
 
 #: ../shell/e-shell-view.c:625
-#, fuzzy
 #| msgid "Clear the current search parameters"
 msgid "Criteria for the current search results"
-msgstr "Limpiar los parámetros de búsqueda actuales"
+msgstr "Criterio para los resultados de búsqueda actuales"
 
 #: ../shell/e-shell-view.c:640
 msgid "The EShellBackend for this shell view"
-msgstr "El «EShellBackend» para esta vista de shell"
+msgstr "El «EShellBackend» para esta vista de «shell»"
 
 #: ../shell/e-shell-view.c:655
 msgid "Shell Content Widget"
-msgstr "Widget de contenido shell"
+msgstr "Widget de contenido «shell»"
 
 #: ../shell/e-shell-view.c:656
 msgid "The content widget appears in a shell window's right pane"
 msgstr ""
-"El widget de contenido aparece en un panel derecho de la ventana de shell"
+"El widget de contenido aparece en un panel derecho de la ventana de «shell»"
 
 #: ../shell/e-shell-view.c:672
 msgid "Shell Sidebar Widget"
-msgstr "Widget de barra lateral de shell"
+msgstr "Widget de barra lateral de «shell»"
 
 #: ../shell/e-shell-view.c:673
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr ""
 "El widget de barra lateral aparee en un panel izquierdo de la ventana de "
-"shell"
+"«shell»"
 
 #: ../shell/e-shell-view.c:688
 msgid "Shell Taskbar Widget"
-msgstr "Widget de barra de tareas de shell"
+msgstr "Widget de barra de tareas de «shell»"
 
 #: ../shell/e-shell-view.c:689
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr ""
 "El widget de barra de tareas aparece en la parte inferior de una ventana de "
-"shell"
+"«shell»"
 
 #: ../shell/e-shell-view.c:704
 msgid "Shell Window"
-msgstr "Ventana shell"
+msgstr "Ventana «shell»"
 
 #: ../shell/e-shell-view.c:705
 msgid "The window to which the shell view belongs"
-msgstr "La ventana a la que pertenece la shell"
+msgstr "La ventana a la que pertenece la «shell»"
 
 #: ../shell/e-shell-view.c:721
 msgid "The key file holding widget state data"
-msgstr ""
+msgstr "El archivo clave que tiene los datos de estado del «widget»"
 
 #: ../shell/e-shell-view.c:736
 msgid "The title of the shell view"
-msgstr "El título de esta vista de shell"
+msgstr "El título de esta vista de «shell»"
 
 #: ../shell/e-shell-view.c:750
 msgid "Current View ID"
@@ -20124,7 +20092,6 @@ msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
 #: ../shell/e-shell-window-actions.c:1662
-#, fuzzy
 #| msgid "Show the toolbar"
 msgid "Show the tool bar"
 msgstr "Mostrar la barra de herramientas"
@@ -20216,11 +20183,11 @@ msgstr "Nuevo"
 
 #: ../shell/e-shell-window.c:606
 msgid "Active Shell View"
-msgstr "Vista activa de shell"
+msgstr "Vista activa de «shell»"
 
 #: ../shell/e-shell-window.c:607
 msgid "Name of the active shell view"
-msgstr "Nombre de la vista activa de la shell"
+msgstr "Nombre de la vista activa de la «shell»"
 
 #: ../shell/e-shell-window.c:621 ../shell/e-shell.c:772
 msgid "Geometry"
@@ -20236,49 +20203,42 @@ msgstr "Modo seguro"
 
 #: ../shell/e-shell-window.c:638
 msgid "Whether the shell window is in safe mode"
-msgstr "Indica si la ventana de shell está en modo seguro"
+msgstr "Indica si la ventana de «shell» está en modo seguro"
 
 #: ../shell/e-shell-window.c:669
-#, fuzzy
 #| msgid "Sidebar is visible"
 msgid "Sidebar Visible"
-msgstr "La barra lateral es visible"
+msgstr "Barra lateral visible"
 
 #: ../shell/e-shell-window.c:670
-#, fuzzy
 #| msgid "Whether the switcher is visible"
 msgid "Whether the shell window's side bar is visible"
-msgstr "Indica si el selector es visible"
+msgstr "Indica si la barra lateral de la ventana de «shell» es visible"
 
 #: ../shell/e-shell-window.c:684
-#, fuzzy
 #| msgid "Sidebar is visible"
 msgid "Switcher Visible"
-msgstr "La barra lateral es visible"
+msgstr "Selector visible"
 
 #: ../shell/e-shell-window.c:685
-#, fuzzy
 #| msgid "Whether the window buttons should be visible."
 msgid "Whether the shell window's switcher buttons are visible"
-msgstr "Indica si la los botones de la ventana deben ser visibles."
+msgstr "Indica si los botones del selector de la ventana «shell» son visibles"
 
 #: ../shell/e-shell-window.c:700
-#, fuzzy
 #| msgid "Toolbar Visible"
 msgid "Taskbar Visible"
-msgstr "Barra de herramientas visible"
+msgstr "Barra de tareas visible"
 
 #: ../shell/e-shell-window.c:701
-#, fuzzy
 #| msgid "Whether the switcher is visible"
 msgid "Whether the shell window's task bar is visible"
-msgstr "Indica si el selector es visible"
+msgstr "Indica si la barra de tareas de la ventana de «shell» es visible"
 
 #: ../shell/e-shell-window.c:716
-#, fuzzy
 #| msgid "Whether the switcher is visible"
 msgid "Whether the shell window's tool bar is visible"
-msgstr "Indica si el selector es visible"
+msgstr "Indica si la barra de herramientas de la ventana de «shell» es visible"
 
 #: ../shell/e-shell-window.c:730
 msgid "UI Manager"
@@ -20286,7 +20246,7 @@ msgstr "Gestor de IU"
 
 #: ../shell/e-shell-window.c:731
 msgid "The shell window's GtkUIManager"
-msgstr "El GtkUIManager de la ventana shell"
+msgstr "El GtkUIManager de la ventana «shell»"
 
 #: ../shell/e-shell.c:213
 msgid "Preparing to go offline..."
@@ -20301,14 +20261,13 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
 #: ../shell/e-shell.c:788
-#, fuzzy
 #| msgid "Save directory"
 msgid "Module Directory"
-msgstr "Directorio donde guardar"
+msgstr "Directorio de módulos"
 
 #: ../shell/e-shell.c:789
 msgid "The directory from which to load EModules"
-msgstr ""
+msgstr "El directorio del cuál cargar los módulos de evolution"
 
 #: ../shell/e-shell.c:804
 msgid "Network Available"
@@ -20324,7 +20283,7 @@ msgstr "En línea"
 
 #: ../shell/e-shell.c:821
 msgid "Whether the shell is online"
-msgstr "Indica si la shell está conectada"
+msgstr "Indica si la «shell» está conectada"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:159
@@ -22140,10 +22099,9 @@ msgid "_Sort..."
 msgstr "_Ordenar…"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
-#, fuzzy
 #| msgid "Add a C_olumn..."
 msgid "Add a Column"
-msgstr "Añadir una c_olumna…"
+msgstr "Añadir una columna"
 
 #: ../widgets/table/e-table-field-chooser.c:151
 msgid ""
