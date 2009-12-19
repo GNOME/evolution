@@ -107,7 +107,7 @@ gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyn
 /* wait for all outstanding async events to complete */
 gint mail_async_event_destroy(MailAsyncEvent *ea);
 
-void mail_mt_set_backend (char *backend);
+void mail_mt_set_backend (gchar *backend);
 
 /* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
 typedef enum {

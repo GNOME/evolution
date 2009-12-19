@@ -970,7 +970,7 @@ mail_operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer 
 }
 
 void
-mail_mt_set_backend (char *backend)
+mail_mt_set_backend (gchar *backend)
 {
 	shell_builtin_backend = backend;
 }

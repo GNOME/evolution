@@ -819,7 +819,7 @@ action_mail_save_as_cb (GtkAction *action,
 			suggestion = g_strconcat (subject, ".mbox", NULL);
 		camel_message_info_free (info);
 	}
-	
+
 	if (!suggestion) {
 		/* To Translators: This is a part of a suggested file name used when saving
 		   a message or multiple messages to an mbox format, when the first message

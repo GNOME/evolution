@@ -19,7 +19,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -431,7 +430,7 @@ traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint statu
 							g_string_append (supports, _("Tasks"));
 						else if (g_str_equal (comp, "VJOURNAL"))
 							g_string_append (supports, _("Memos"));
-						
+
 						g_free (comp);
 					}
 				}
@@ -593,7 +592,7 @@ find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_cod
 
 	if (user_data == NULL)
 		base_url_is_calendar = xpath_exists (xpctx, NULL, "/D:multistatus/D:response/D:propstat/D:prop/D:resourcetype/C:calendar");
-		
+
 	calendar_home_set = xpath_get_string (xpctx, "/D:multistatus/D:response/D:propstat/D:prop/C:calendar-home-set/D:href");
 	if (user_data == NULL && (!calendar_home_set || !*calendar_home_set)) {
 		g_free (calendar_home_set);

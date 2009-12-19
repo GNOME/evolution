@@ -428,7 +428,7 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 
 static void
 folder_unread_updated_cb (MailFolderCache *cache, CamelStore *store,
-			  const gchar *full_name, int unread, gpointer user_data)
+			  const gchar *full_name, gint unread, gpointer user_data)
 {
 	EMFolderTreeModel *model = (EMFolderTreeModel*) user_data;
 	em_folder_tree_model_set_unread_count (model, store, full_name, unread);

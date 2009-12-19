@@ -40,7 +40,7 @@ e_pilot_utf8_to_pchar (const gchar *string, const gchar *pilot_charset)
 		return NULL;
 
 #ifdef PILOT_LINK_0_12
-    res = convert_ToPilotChar_WithCharset ("UTF-8", string, strlen (string), 
+    res = convert_ToPilotChar_WithCharset ("UTF-8", string, strlen (string),
           &pstring, pilot_charset);
 #else
     res = convert_ToPilotChar ("UTF-8", string, strlen (string), &pstring);
@@ -62,7 +62,7 @@ e_pilot_utf8_from_pchar (const gchar *string, const gchar *pilot_charset)
 		return NULL;
 
 #ifdef PILOT_LINK_0_12
-    res = convert_FromPilotChar_WithCharset ("UTF-8", string, strlen (string), 
+    res = convert_FromPilotChar_WithCharset ("UTF-8", string, strlen (string),
           &ustring, pilot_charset);
 #else
     res = convert_FromPilotChar ("UTF-8", string, strlen (string), &ustring);

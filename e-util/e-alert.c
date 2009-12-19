@@ -128,7 +128,6 @@ map_type(const gchar *name)
 	return 3;
 }
 
-
 G_DEFINE_TYPE (EAlert, e_alert, G_TYPE_OBJECT)
 
 #define ALERT_PRIVATE(o) \
@@ -444,7 +443,6 @@ e_alert_constructed (GObject *obj)
 
 	g_warn_if_fail(alert->priv->definition);
 
-
 }
 
 static void
@@ -532,7 +530,6 @@ e_alert_new_array(const gchar *tag, GPtrArray *args)
 	return g_object_new (E_TYPE_ALERT, "tag", tag, "args", args, NULL);
 }
 
-
 /* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
 static void
 e_alert_append_text_escaped (GString *out, const gchar *text)
@@ -578,7 +575,6 @@ e_alert_format_string (GString *out, const gchar *fmt, GPtrArray *args, gboolean
 
 	g_string_append(out, fmt);
 }
-
 
 guint32
 e_alert_get_flags (EAlert *alert)

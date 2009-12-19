@@ -143,7 +143,6 @@ struct _store_info {
 	GQueue folderinfo_updates;
 };
 
-
 static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data);
@@ -1134,7 +1133,6 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self, CamelFolder *fol
 
 	return fi.fi != NULL;
 }
-
 
 static void
 mail_folder_cache_dispose (GObject *object)

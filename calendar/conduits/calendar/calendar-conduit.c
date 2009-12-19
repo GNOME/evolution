@@ -1515,7 +1515,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->dbi = dbi;
 #ifdef PILOT_LINK_0_12
-	if(NULL == dbi->pilotInfo->pilot_charset)
+	if (NULL == dbi->pilotInfo->pilot_charset)
 		ctxt->pilot_charset = NULL;
 	else
 		 ctxt->pilot_charset = g_strdup(dbi->pilotInfo->pilot_charset);

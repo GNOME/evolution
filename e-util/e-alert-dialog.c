@@ -267,7 +267,6 @@ e_alert_dialog_class_init (EAlertDialogClass *klass)
 							     G_PARAM_STATIC_STRINGS));
 }
 
-
 GtkWidget*
 e_alert_dialog_new (GtkWindow *parent, EAlert *alert)
 {
@@ -290,7 +289,6 @@ e_alert_dialog_new_for_args (GtkWindow *parent, const gchar *tag, const gchar *a
 
 	return d;
 }
-
 
 gint
 e_alert_run_dialog(GtkWindow *parent, EAlert *alert)
