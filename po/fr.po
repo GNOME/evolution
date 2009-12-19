@@ -11842,8 +11842,8 @@ msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
-"Evolution ne peut pas afficher ce courriel car il trop volumineux pour être "
-"traiter. Vous pouvez l'afficher non formaté ou avec un éditeur de texte "
+"Evolution ne peut pas afficher ce courriel car il est trop volumineux pour être "
+"traité. Vous pouvez l'afficher non formaté ou avec un éditeur de texte "
 "externe."
 
 #: ../mail/em-format-html-print.c:157
