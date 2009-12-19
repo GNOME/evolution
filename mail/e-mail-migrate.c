@@ -836,10 +836,8 @@ static e_gconf_map_t mail_accounts_map[] = {
 static e_gconf_map_t mail_display_map[] = {
 	/* /Mail/Display */
 	{ "side_bar_search", "mail/display/side_bar_search", E_GCONF_MAP_BOOL },
-	{ "thread_list", "mail/display/thread_list", E_GCONF_MAP_BOOL },
 	{ "thread_subject", "mail/display/thread_subject", E_GCONF_MAP_BOOL },
 	{ "hide_deleted", "mail/display/show_deleted", E_GCONF_MAP_BOOLNOT },
-	{ "preview_pane", "mail/display/show_preview", E_GCONF_MAP_BOOL },
 	{ "paned_size", "mail/display/paned_size", E_GCONF_MAP_INT },
 	{ "seen_timeout", "mail/display/mark_seen_timeout", E_GCONF_MAP_INT },
 	{ "do_seen_timeout", "mail/display/mark_seen", E_GCONF_MAP_BOOL },

@@ -47,9 +47,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentClass))
 
-#define STATE_KEY_PREVIEW "Preview"
-#define STATE_KEY_THREAD_LIST "ThreadList"
-
 G_BEGIN_DECLS
 
 typedef struct _EMailShellContent EMailShellContent;
@@ -69,6 +66,11 @@ GType		e_mail_shell_content_get_type	(void);
 void		e_mail_shell_content_register_type
 					(GTypeModule *type_module);
 GtkWidget *	e_mail_shell_content_new(EShellView *shell_view);
+gboolean	e_mail_shell_content_get_group_by_threads
+					(EMailShellContent *mail_shell_content);
+void		e_mail_shell_content_set_group_by_threads
+					(EMailShellContent *mail_shell_content,
+					 gboolean group_by_threads);
 gboolean	e_mail_shell_content_get_preview_visible
 					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_preview_visible

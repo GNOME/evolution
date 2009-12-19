@@ -45,7 +45,9 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
 
+#define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
 #define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
+#define STATE_KEY_PREVIEW_VISIBLE	"PreviewVisible"
 
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
@@ -65,6 +67,7 @@ struct _EMailShellContentPrivate {
 	/* Signal handler IDs */
 	guint message_list_built_id;
 
+	guint group_by_threads			: 1;
 	guint preview_visible			: 1;
 	guint suppress_message_selection	: 1;
 	guint show_deleted			: 1;
@@ -72,6 +75,7 @@ struct _EMailShellContentPrivate {
 
 enum {
 	PROP_0,
+	PROP_GROUP_BY_THREADS,
 	PROP_ORIENTATION,
 	PROP_PREVIEW_VISIBLE,
 	PROP_SHOW_DELETED
@@ -79,6 +83,35 @@ enum {
 
 static gpointer parent_class;
 static GType mail_shell_content_type;
+
+static void
+mail_shell_content_save_boolean (EMailShellContent *mail_shell_content,
+                                 const gchar *key,
+                                 gboolean value)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EMailReader *reader;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+	gchar *group_name;
+
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	reader = E_MAIL_READER (mail_shell_content);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+
+	if (folder_uri == NULL)
+		return;
+
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+	g_key_file_set_boolean (key_file, group_name, key, value);
+	g_free (group_name);
+
+	e_shell_view_set_state_dirty (shell_view);
+}
 
 static void
 mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
@@ -218,6 +251,12 @@ mail_shell_content_set_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_GROUP_BY_THREADS:
+			e_mail_shell_content_set_group_by_threads (
+				E_MAIL_SHELL_CONTENT (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_ORIENTATION:
 			mail_shell_content_set_orientation (
 				E_MAIL_SHELL_CONTENT (object),
@@ -247,6 +286,13 @@ mail_shell_content_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_GROUP_BY_THREADS:
+			g_value_set_boolean (
+				value,
+				e_mail_shell_content_get_group_by_threads (
+				E_MAIL_SHELL_CONTENT (object)));
+			return;
+
 		case PROP_ORIENTATION:
 			g_value_set_enum (
 				value,
@@ -540,11 +586,18 @@ mail_shell_content_set_folder (EMailReader *reader,
                                CamelFolder *folder,
                                const gchar *folder_uri)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
 	EMailShellContentPrivate *priv;
 	EMailReaderIface *default_iface;
 	GtkWidget *message_list;
 	CamelFolder *old_folder;
+	GKeyFile *key_file;
+	gchar *group_name;
+	const gchar *key;
 	gboolean different_folder;
+	gboolean value;
+	GError *error = NULL;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
@@ -579,6 +632,36 @@ mail_shell_content_set_folder (EMailReader *reader,
 			G_CALLBACK (mail_shell_content_message_list_built_cb),
 			reader);
 
+	/* Restore the folder's preview and threaded state. */
+
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+
+	key_file = e_shell_view_get_state_key_file (shell_view);
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+	key = STATE_KEY_GROUP_BY_THREADS;
+	value = g_key_file_get_boolean (key_file, group_name, key, &error);
+	if (error != NULL) {
+		value = FALSE;
+		g_clear_error (&error);
+	}
+
+	e_mail_shell_content_set_group_by_threads (
+		E_MAIL_SHELL_CONTENT (shell_content), value);
+
+	key = STATE_KEY_PREVIEW_VISIBLE;
+	value = g_key_file_get_boolean (key_file, group_name, key, &error);
+	if (error != NULL) {
+		value = TRUE;
+		g_clear_error (&error);
+	}
+
+	e_mail_shell_content_set_preview_visible (
+		E_MAIL_SHELL_CONTENT (shell_content), value);
+
+	g_free (group_name);
+
 exit:
 	message_list_thaw (MESSAGE_LIST (message_list));
 }
@@ -610,6 +693,16 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = mail_shell_content_check_state;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_GROUP_BY_THREADS,
+		g_param_spec_boolean (
+			"group-by-threads",
+			_("Group by Threads"),
+			_("Whether to group messages by threads"),
+			FALSE,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -718,6 +811,42 @@ e_mail_shell_content_new (EShellView *shell_view)
 }
 
 gboolean
+e_mail_shell_content_get_group_by_threads (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), FALSE);
+
+	return mail_shell_content->priv->group_by_threads;
+}
+
+void
+e_mail_shell_content_set_group_by_threads (EMailShellContent *mail_shell_content,
+                                           gboolean group_by_threads)
+{
+	EMailReader *reader;
+	GtkWidget *message_list;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
+
+	if (group_by_threads == mail_shell_content->priv->group_by_threads)
+		return;
+
+	mail_shell_content->priv->group_by_threads = group_by_threads;
+
+	mail_shell_content_save_boolean (
+		mail_shell_content,
+		STATE_KEY_GROUP_BY_THREADS, group_by_threads);
+
+	/* XXX MessageList should define a property for this. */
+	reader = E_MAIL_READER (mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	message_list_set_threaded (
+		MESSAGE_LIST (message_list), group_by_threads);
+
+	g_object_notify (G_OBJECT (mail_shell_content), "group-by-threads");
+}
+
+gboolean
 e_mail_shell_content_get_preview_visible (EMailShellContent *mail_shell_content)
 {
 	g_return_val_if_fail (
@@ -752,6 +881,10 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	}
 
 	mail_shell_content->priv->preview_visible = preview_visible;
+
+	mail_shell_content_save_boolean (
+		mail_shell_content,
+		STATE_KEY_PREVIEW_VISIBLE, preview_visible);
 
 	g_object_notify (G_OBJECT (mail_shell_content), "preview-visible");
 }

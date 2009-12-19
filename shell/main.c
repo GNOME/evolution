@@ -530,7 +530,6 @@ main (gint argc, gchar **argv)
 #endif
 
 	if (disable_preview) {
-		gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
 		gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
 		gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
 		gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
