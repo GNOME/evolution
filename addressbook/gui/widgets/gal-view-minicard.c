@@ -40,10 +40,6 @@ view_minicard_column_width_changed (EAddressbookView *address_view,
 	GalView *view;
 	GalViewInstance *view_instance;
 	GalViewMinicard *view_minicard;
-	GtkScrolledWindow *scrolled_window;
-	GtkAdjustment *adjustment;
-	gdouble value, lower, upper;
-	gdouble page_increment, page_size;
 
 	view_instance = e_addressbook_view_get_view_instance (address_view);
 	view = gal_view_instance_get_current_view (view_instance);
