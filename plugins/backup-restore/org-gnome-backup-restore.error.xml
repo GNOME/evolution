@@ -2,7 +2,7 @@
 <error-list domain="org.gnome.backup-restore">
 
  <error id="invalid-backup" type="warning">
-  <_title>Invalid Evolution backup file</_title>
+  <_primary>Invalid Evolution backup file</_primary>
   <_secondary>Please select a valid backup file to restore.</_secondary>
  </error>
    <error id="backup-confirm" type="warning" default="GTK_RESPONSE_NO">
@@ -18,7 +18,7 @@
     <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
   </error>  
    <error id="insufficient-permissions" type="error">
-   	<_title>Insufficient Permissions</_title>
+   	<_primary>Insufficient Permissions</_primary>
 	<_secondary>The selected folder is not writable.</_secondary>
    </error>
 </error-list>

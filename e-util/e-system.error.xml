@@ -2,7 +2,6 @@
 <error-list domain="system">
 
  <error id="ask-save-file-exists-overwrite" type="error" default="GTK_RESPONSE_CANCEL">
-  <_title>Overwrite file?</_title>
   <_primary>File exists "{0}".</_primary>
   <_secondary>Do you wish to overwrite it?</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>

@@ -22,7 +22,6 @@
  </error>
 
  <error id="recover-autosave" type="question" default="GTK_RESPONSE_YES">
-  <_title>Unfinished messages found</_title>
   <_primary>Do you want to recover unfinished messages?</_primary>
   <_secondary>Evolution quit unexpectedly while you were composing a new message. Recovering the message will allow you to continue where you left off.</_secondary>
   <button _label="_Do not Recover" response="GTK_RESPONSE_CANCEL"/>
@@ -42,7 +41,6 @@
  </error>
 
  <error id="exit-unsaved" modal="true" type="warning" default="GTK_RESPONSE_YES">
-  <_title>Warning: Modified Message</_title>
   <_primary>Are you sure you want to discard the message, titled '{0}', you are composing?</_primary>
   <_secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</_secondary>
   <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
