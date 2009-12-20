@@ -228,7 +228,7 @@ msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Fins que no torneu a iniciar l'Evolution no estaran disponibles els vostres "
-"contactes per a {0}"
+"contactes per a {0}."
 
 #: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:519
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
@@ -712,7 +712,7 @@ msgstr "_Primer:"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Last:"
-msgstr "_Últim:"
+msgstr "Ú_ltim:"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Middle:"
@@ -1570,7 +1570,7 @@ msgstr ""
 "No s'ha pogut obrir la llibreta d'adreces. Això significa que la llibreta no "
 "està marcada per a ser utilitzada fora de línia, o que encara no s'ha "
 "baixat. Carregueu la llibreta d'adreces un cop estigueu en línia per a poder "
-"baixar el seu contingut"
+"baixar el seu contingut."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:113
 #, c-format
@@ -2416,7 +2416,7 @@ msgstr "No hi ha cap informació d'ubicació disponible."
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1496
 #, c-format
 msgid "You have %d alarms"
-msgstr "Teniu %d alarmes."
+msgstr "Teniu %d alarmes"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1666
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1694
