@@ -28,20 +28,28 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_PANED, EPanedPrivate))
 
+#define SYNC_REQUEST_NONE		0
+#define SYNC_REQUEST_POSITION		1
+#define SYNC_REQUEST_PROPORTION		2
+
 struct _EPanedPrivate {
 	gint hposition;
 	gint vposition;
+	gdouble proportion;
 
 	gulong wse_handler_id;
 
-	guint sync_position	: 1;
+	guint fixed_resize	: 1;
+	guint sync_request	: 2;
 	guint toplevel_ready	: 1;
 };
 
 enum {
 	PROP_0,
 	PROP_HPOSITION,
-	PROP_VPOSITION
+	PROP_VPOSITION,
+	PROP_PROPORTION,
+	PROP_FIXED_RESIZE
 };
 
 static gpointer parent_class;
@@ -61,8 +69,8 @@ paned_window_state_event_cb (EPaned *paned,
 	 * Set a flag so we know it's safe to set GtkPaned position. */
 	paned->priv->toplevel_ready = TRUE;
 
-	paned->priv->sync_position = TRUE;
-	gtk_widget_queue_resize (GTK_WIDGET (paned));
+	if (paned->priv->sync_request != SYNC_REQUEST_NONE)
+		gtk_widget_queue_resize (GTK_WIDGET (paned));
 
 	/* We don't need to listen for window state events anymore. */
 	g_signal_handler_disconnect (toplevel, paned->priv->wse_handler_id);
@@ -75,7 +83,10 @@ static void
 paned_notify_orientation_cb (EPaned *paned)
 {
 	/* Ignore the next "notify::position" emission. */
-	paned->priv->sync_position = TRUE;
+	if (e_paned_get_fixed_resize (paned))
+		paned->priv->sync_request = SYNC_REQUEST_POSITION;
+	else
+		paned->priv->sync_request = SYNC_REQUEST_PROPORTION;
 	gtk_widget_queue_resize (GTK_WIDGET (paned));
 }
 
@@ -85,9 +96,11 @@ paned_notify_position_cb (EPaned *paned)
 	GtkAllocation *allocation;
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
+	gdouble proportion;
 	gint position;
 
-	if (paned->priv->sync_position)
+	/* If a sync has already been requested, do nothing. */
+	if (paned->priv->sync_request != SYNC_REQUEST_NONE)
 		return;
 
 	orientable = GTK_ORIENTABLE (paned);
@@ -96,13 +109,31 @@ paned_notify_position_cb (EPaned *paned)
 	allocation = &GTK_WIDGET (paned)->allocation;
 	position = gtk_paned_get_position (GTK_PANED (paned));
 
+	g_object_freeze_notify (G_OBJECT (paned));
+
 	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
 		position = MAX (0, allocation->width - position);
-		e_paned_set_hposition (paned, position);
+		proportion = (gdouble) position / allocation->width;
+
+		paned->priv->hposition = position;
+		g_object_notify (G_OBJECT (paned), "hposition");
 	} else {
 		position = MAX (0, allocation->height - position);
-		e_paned_set_vposition (paned, position);
+		proportion = (gdouble) position / allocation->height;
+
+		paned->priv->vposition = position;
+		g_object_notify (G_OBJECT (paned), "vposition");
 	}
+
+	paned->priv->proportion = proportion;
+	g_object_notify (G_OBJECT (paned), "proportion");
+
+	if (e_paned_get_fixed_resize (paned))
+		paned->priv->sync_request = SYNC_REQUEST_POSITION;
+	else
+		paned->priv->sync_request = SYNC_REQUEST_PROPORTION;
+
+	g_object_thaw_notify (G_OBJECT (paned));
 }
 
 static void
@@ -122,6 +153,18 @@ paned_set_property (GObject *object,
 			e_paned_set_vposition (
 				E_PANED (object),
 				g_value_get_int (value));
+			return;
+
+		case PROP_PROPORTION:
+			e_paned_set_proportion (
+				E_PANED (object),
+				g_value_get_double (value));
+			return;
+
+		case PROP_FIXED_RESIZE:
+			e_paned_set_fixed_resize (
+				E_PANED (object),
+				g_value_get_boolean (value));
 			return;
 	}
 
@@ -144,6 +187,18 @@ paned_get_property (GObject *object,
 		case PROP_VPOSITION:
 			g_value_set_int (
 				value, e_paned_get_vposition (
+				E_PANED (object)));
+			return;
+
+		case PROP_PROPORTION:
+			g_value_set_double (
+				value, e_paned_get_proportion (
+				E_PANED (object)));
+			return;
+
+		case PROP_FIXED_RESIZE:
+			g_value_set_boolean (
+				value, e_paned_get_fixed_resize (
 				E_PANED (object)));
 			return;
 	}
@@ -190,6 +245,7 @@ paned_size_allocate (GtkWidget *widget,
 	EPaned *paned = E_PANED (widget);
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
+	gdouble proportion;
 	gint allocated;
 	gint position;
 
@@ -199,7 +255,7 @@ paned_size_allocate (GtkWidget *widget,
 	if (!paned->priv->toplevel_ready)
 		return;
 
-	if (!paned->priv->sync_position)
+	if (paned->priv->sync_request == SYNC_REQUEST_NONE)
 		return;
 
 	orientable = GTK_ORIENTABLE (paned);
@@ -213,10 +269,16 @@ paned_size_allocate (GtkWidget *widget,
 		position = e_paned_get_vposition (paned);
 	}
 
-	position = MAX (0, allocated - position);
+	proportion = e_paned_get_proportion (paned);
+
+	if (paned->priv->sync_request == SYNC_REQUEST_POSITION)
+		position = MAX (0, allocated - position);
+	else
+		position = (1.0 - proportion) * allocated;
+
 	gtk_paned_set_position (GTK_PANED (paned), position);
 
-	paned->priv->sync_position = FALSE;
+	paned->priv->sync_request = SYNC_REQUEST_NONE;
 }
 
 static void
@@ -259,12 +321,37 @@ paned_class_init (EPanedClass *class)
 			G_MAXINT,
 			0,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PROPORTION,
+		g_param_spec_double (
+			"proportion",
+			_("Proportion"),
+			_("Proportion of the 2nd pane size"),
+			0.0,
+			1.0,
+			0.0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FIXED_RESIZE,
+		g_param_spec_boolean (
+			"fixed-resize",
+			_("Fixed Resize"),
+			_("Keep the 2nd pane fixed during resize"),
+			TRUE,
+			G_PARAM_READWRITE));
 }
 
 static void
 paned_init (EPaned *paned)
 {
 	paned->priv = E_PANED_GET_PRIVATE (paned);
+
+	paned->priv->proportion = 0.5;
+	paned->priv->fixed_resize = TRUE;
 
 	g_signal_connect (
 		paned, "notify::orientation",
@@ -335,7 +422,7 @@ e_paned_set_hposition (EPaned *paned,
 	orientation = gtk_orientable_get_orientation (orientable);
 
 	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
-		paned->priv->sync_position = TRUE;
+		paned->priv->sync_request = SYNC_REQUEST_POSITION;
 		gtk_widget_queue_resize (GTK_WIDGET (paned));
 	}
 }
@@ -368,7 +455,52 @@ e_paned_set_vposition (EPaned *paned,
 	orientation = gtk_orientable_get_orientation (orientable);
 
 	if (orientation == GTK_ORIENTATION_VERTICAL) {
-		paned->priv->sync_position = TRUE;
+		paned->priv->sync_request = SYNC_REQUEST_POSITION;
 		gtk_widget_queue_resize (GTK_WIDGET (paned));
 	}
+}
+
+gdouble
+e_paned_get_proportion (EPaned *paned)
+{
+	g_return_val_if_fail (E_IS_PANED (paned), 0.5);
+
+	return paned->priv->proportion;
+}
+
+void
+e_paned_set_proportion (EPaned *paned,
+                        gdouble proportion)
+{
+	g_return_if_fail (E_IS_PANED (paned));
+	g_return_if_fail (CLAMP (proportion, 0.0, 1.0) == proportion);
+
+	paned->priv->proportion = proportion;
+
+	paned->priv->sync_request = SYNC_REQUEST_PROPORTION;
+	gtk_widget_queue_resize (GTK_WIDGET (paned));
+
+	g_object_notify (G_OBJECT (paned), "proportion");
+}
+
+gboolean
+e_paned_get_fixed_resize (EPaned *paned)
+{
+	g_return_val_if_fail (E_IS_PANED (paned), FALSE);
+
+	return paned->priv->fixed_resize;
+}
+
+void
+e_paned_set_fixed_resize (EPaned *paned,
+                          gboolean fixed_resize)
+{
+	g_return_if_fail (E_IS_PANED (paned));
+
+	if (fixed_resize == paned->priv->fixed_resize)
+		return;
+
+	paned->priv->fixed_resize = fixed_resize;
+
+	g_object_notify (G_OBJECT (paned), "fixed-resize");
 }

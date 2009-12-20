@@ -66,6 +66,12 @@ void		e_paned_set_hposition		(EPaned *paned,
 gint		e_paned_get_vposition		(EPaned *paned);
 void		e_paned_set_vposition		(EPaned *paned,
 						 gint vposition);
+gdouble		e_paned_get_proportion		(EPaned *paned);
+void		e_paned_set_proportion		(EPaned *paned,
+						 gdouble proportion);
+gboolean	e_paned_get_fixed_resize	(EPaned *paned);
+void		e_paned_set_fixed_resize	(EPaned *paned,
+						 gboolean fixed_resize);
 
 G_END_DECLS
 

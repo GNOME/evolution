@@ -383,7 +383,8 @@ cal_shell_content_constructed (GObject *object)
 
 	/* FIXME Need to deal with saving and restoring the position.
 	 *       Month view has its own position. */
-	widget = gtk_vpaned_new ();
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
+	e_paned_set_fixed_resize (E_PANED (widget), FALSE);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
 	priv->vpaned = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -517,8 +518,8 @@ cal_shell_content_constructed (GObject *object)
 	bridge = gconf_bridge_get ();
 
 	object = G_OBJECT (priv->vpaned);
-	key = "/apps/evolution/calendar/display/vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+	key = "/apps/evolution/calendar/display/tag_vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "proportion");
 
 	g_object_unref (memo_model);
 	g_object_unref (task_model);
