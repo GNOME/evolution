@@ -11,11 +11,6 @@
   <_primary>The file `{0}' is not a regular file and cannot be sent in a message.</_primary>
  </error>
 
- <error id="attach-directory">
-  <_primary>Directories can not be attached to Messages.</_primary>
-  <_secondary>To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it.</_secondary>
- </error>
-
  <error id="attach-nomessages" type="error">
   <_primary>Could not retrieve messages to attach from {0}.</_primary>
   <_secondary>Because &quot;{1}&quot;.</_secondary>
