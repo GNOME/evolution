@@ -159,7 +159,7 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 {
 	EShellWindowClass *class;
 
-	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	class = g_type_class_peek_parent(E_SHELL_WINDOW_GET_CLASS (shell_window));
 	if (class->construct_menubar == NULL)
 		return NULL;
 
@@ -171,7 +171,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 {
 	EShellWindowClass *class;
 
-	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	class = g_type_class_peek_parent (E_SHELL_WINDOW_GET_CLASS (shell_window));
 	if (class->construct_toolbar == NULL)
 		return NULL;
 
