@@ -24,6 +24,9 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#include <glib/gi18n-lib.h>
+#else
+#include <glib/gi18n.h>
 #endif
 
 #include <gdk/gdkkeysyms.h>
@@ -31,7 +34,6 @@
 #include <misc/e-unicode.h>
 #include <misc/e-gui-utils.h>
 
-#include <glib/gi18n.h>
 
 #include <bonobo/bonobo-ui-util.h>
 

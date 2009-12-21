@@ -7,6 +7,7 @@ AM_CPPFLAGS =								\
 	-I$(top_srcdir)/a11y/widgets					\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(EVOLUTION_MAIL_CFLAGS)					\

@@ -23,6 +23,9 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#include <glib/gi18n-lib.h>
+#else
+#include <glib/gi18n.h>
 #endif
 
 #include <string.h>
@@ -30,7 +33,6 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include <glib/gi18n.h>
 
 #include "e-dropdown-button.h"
 #include "e-filter-bar.h"
@@ -910,6 +912,9 @@ class_init (EFilterBarClass *klass)
 	g_object_class_install_property (object_class, PROP_STATE, pspec);
 
 	/*gtk_object_add_arg_type ("EFilterBar::query", G_TYPE_STRING, GTK_ARG_READABLE, ARG_QUERY);*/
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 #if 0
 	esb_signals [QUERY_CHANGED] =

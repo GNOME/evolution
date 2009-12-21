@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -36,9 +37,11 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#include <glib/gi18n-lib.h>
+#else
+#include <glib/gi18n.h>
 #endif
 
-#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <string.h>
@@ -234,6 +237,9 @@ emae_finalise (GObject *o)
 static void
 emae_class_init (GObjectClass *klass)
 {
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+
 	klass->finalize = emae_finalise;
 }
 
@@ -400,7 +406,7 @@ emae_display_license (EMAccountEditor *emae, CamelProvider *prov)
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-dialogs.glade",
 				      NULL);
-	xml = glade_xml_new (gladefile, "license_dialog", NULL);
+	xml = glade_xml_new (gladefile, "license_dialog", GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	dialog = glade_xml_get_widget (xml, "license_dialog");
@@ -1828,7 +1834,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
+	xml = glade_xml_new (gladefile, item->label, GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	/* Management & Identity fields, in the druid the management frame is relocated to the last page later on */
@@ -1864,7 +1870,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 					      "mail-config.glade",
 					      NULL);
-		druidxml = glade_xml_new (gladefile, "identity_page", NULL);
+		druidxml = glade_xml_new (gladefile, "identity_page", GETTEXT_PACKAGE);
 		g_free (gladefile);
 
 		page = glade_xml_get_widget (druidxml, "identity_page");
@@ -1899,7 +1905,7 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
+	xml = glade_xml_new (gladefile, item->label, GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	gui->source.type = CAMEL_PROVIDER_STORE;
@@ -1915,7 +1921,7 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 					      "mail-config.glade",
 					      NULL);
-		druidxml = glade_xml_new (gladefile, "source_page", NULL);
+		druidxml = glade_xml_new (gladefile, "source_page", GETTEXT_PACKAGE);
 		g_free (gladefile);
 
 		page = glade_xml_get_widget (druidxml, "source_page");
@@ -2390,7 +2396,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
+	xml = glade_xml_new (gladefile, item->label, GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	/* Transport */
@@ -2407,7 +2413,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 					      "mail-config.glade",
 					      NULL);
-		druidxml = glade_xml_new (gladefile, "transport_page", NULL);
+		druidxml = glade_xml_new (gladefile, "transport_page", GETTEXT_PACKAGE);
 		g_free (gladefile);
 
 		page = glade_xml_get_widget (druidxml, "transport_page");
@@ -2442,7 +2448,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
+	xml = glade_xml_new (gladefile, item->label, GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	/* Special folders */
@@ -2502,7 +2508,7 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
+	xml = glade_xml_new (gladefile, item->label, GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	/* Security */
@@ -2616,7 +2622,7 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 					      "mail-config.glade",
 					      NULL);
-		druidxml = glade_xml_new (gladefile, "management_page", NULL);
+		druidxml = glade_xml_new (gladefile, "management_page", GETTEXT_PACKAGE);
 		g_free (gladefile);
 
 		page = glade_xml_get_widget (druidxml, "management_page");
@@ -2644,7 +2650,7 @@ emae_widget_druid_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkW
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
-	druidxml = glade_xml_new (gladefile, item->label, NULL);
+	druidxml = glade_xml_new (gladefile, item->label, GETTEXT_PACKAGE);
 	g_free (gladefile);
 
 	w = glade_xml_get_widget (druidxml, item->label);

@@ -22,6 +22,9 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#include <glib/gi18n-lib.h>
+#else
+#include <glib/gi18n.h>
 #endif
 
 #include <string.h>
@@ -29,7 +32,6 @@
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
 
 #include "em-popup.h"
 #include "libedataserver/e-msgport.h"

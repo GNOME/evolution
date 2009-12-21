@@ -22,21 +22,21 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#include <glib/gi18n-lib.h>
+#else
+#include <glib/gi18n.h>
 #endif
 
 #include <string.h>
 #include <stdlib.h>
 
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
 
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include <libgnomeui/gnome-druid-page-edge.h>
 
 #include "e-config.h"
-
-#include <glib/gi18n.h>
 
 #define d(x)
 
@@ -429,7 +429,7 @@ ec_rebuild(EConfig *emp)
 		d(printf(" '%s'\n", item->path));
 
 		if (item->label != NULL)
-			translated_label = gettext (item->label);
+			translated_label = _(item->label);
 
 		/* If the last section doesn't contain anything, hide it */
 		if (sectionnode != NULL
