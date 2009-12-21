@@ -555,9 +555,8 @@ prop_binding_block_cb (gpointer hkey, PropBinding *binding, const gchar *key)
 {
 	g_return_if_fail (binding != NULL);
 	g_return_if_fail (key != NULL);
-	g_return_if_fail (binding->key != NULL);
 
-	if (binding->type == BINDING_PROP && g_ascii_strcasecmp (binding->key, key) == 0)
+	if (binding->type == BINDING_PROP && binding->key && g_ascii_strcasecmp (binding->key, key) == 0)
 		g_signal_handler_block (binding->object, binding->prop_notify_id);
 }
 
@@ -566,9 +565,8 @@ prop_binding_unblock_cb (gpointer hkey, PropBinding *binding, const gchar *key)
 {
 	g_return_if_fail (binding != NULL);
 	g_return_if_fail (key != NULL);
-	g_return_if_fail (binding->key != NULL);
 
-	if (binding->type == BINDING_PROP && g_ascii_strcasecmp (binding->key, key) == 0)
+	if (binding->type == BINDING_PROP && binding->key && g_ascii_strcasecmp (binding->key, key) == 0)
 		g_signal_handler_unblock (binding->object, binding->prop_notify_id);
 }
 
