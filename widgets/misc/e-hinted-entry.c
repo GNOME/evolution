@@ -41,11 +41,11 @@ static gpointer parent_class;
 static void
 hinted_entry_hide_hint (EHintedEntry *entry)
 {
+	entry->priv->hint_shown = FALSE;
+
 	gtk_entry_set_text (GTK_ENTRY (entry), "");
 
 	gtk_widget_modify_text (GTK_WIDGET (entry), GTK_STATE_NORMAL, NULL);
-
-	entry->priv->hint_shown = FALSE;
 
 	g_object_notify (G_OBJECT (entry), "hint-shown");
 }
@@ -57,14 +57,14 @@ hinted_entry_show_hint (EHintedEntry *entry)
 	const GdkColor *color;
 	const gchar *hint;
 
+	entry->priv->hint_shown = TRUE;
+
 	hint = e_hinted_entry_get_hint (entry);
 	gtk_entry_set_text (GTK_ENTRY (entry), hint);
 
 	style = gtk_widget_get_style (GTK_WIDGET (entry));
 	color = &style->text[GTK_STATE_INSENSITIVE];
 	gtk_widget_modify_text (GTK_WIDGET (entry), GTK_STATE_NORMAL, color);
-
-	entry->priv->hint_shown = TRUE;
 
 	g_object_notify (G_OBJECT (entry), "hint-shown");
 }
