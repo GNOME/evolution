@@ -1,3 +1,67 @@
+Evolution 2.29.4 2009-12-21
+---------------------------
+
+Bug Fixes:
+
+Mailer:
+	#596967 - Per-folder setting for threading and preview panel (Milan Crha)
+	#604884 - Use proper colors in Search bar when is search activated (Milan Crha)
+	#593896 - "Search -> Find now" should not be always enabled (Milan Crha)
+	#593700 - Restore folder's last selected message as expected (Milan Crha)
+	#603184 - Various problems with search box in folders (Milan Crha)
+	#604761 - Select certificate doesn't work (Milan Crha)
+	#553057 - Show signer's information in a message window/preview (Matthew W. S. Bell)
+	#602505 - Incorrect information in message window (Milan Crha)
+	#551464 - Paste files into composer as attachments (Matthew Barnes)
+
+Calendar:
+	#596947 - Calendar view forgets memo pane height (Matthew Barnes)
+	#359755 - Do not fetch content of a CalDAV calendar when given it (Milan Crha)
+	#604512 - Calendar publishing tab misses button label (Milan Crha)
+	#604182 - Do not block UI with publish-calendar messages (Milan Crha)
+	#359755 - Support for CalDAV collections (Milan Crha)
+	#603682 - Duplicate mnemonic in meeting window (Matthew Barnes)
+	#603061 - Use .ics for temp vcalendar files (Paul Bolle)
+
+Contacts:
+	#602998 - Contacts searches are supposed to be per address book (Milan Crha)
+	
+Misc:
+	#604838 - Drop unused alert dialog (Paul Bolle)
+	#604822 - Drop more alert titles. Drop all alert titles to be found in *.error.xml. 
+	iHIG suggests alerts (Paul Bolle).
+	#603701 - Don't treat 4 byte values as DDWORDs (Paul Bolle)
+	#603342 - Memory leak fixes (Milan Crha)
+	#604562 - Typo in gconf schema (Christophe Fergeau)
+	#604182 - Hide variable used only with HAVE_LIBNOTIFY (Milan Crha)
+	#499322 - Use extension for "Save as" suggested file name (Milan Crha)
+	#603972 - Proper title for dialog (Paul Bolle)
+	#591938 - Update translator's comments (Milan Crha)
+	#604098 - Missing \n in EAlert
+	#603592 - X11 window roles should be set (Matthew Barnes)
+	#602963 - Migrate to new EError Apis (Jonathon Jongsma)	
+
+Misc Fixes
+	Punctuation fixes (Jordi Mas)
+	EShellContent cleanups. (Matthew Barnes)
+	Fix distcheck errors. (Matthew Barnes)
+	Fix a small memory leak in EShellBackend (Jonathon Jongsma)
+	Add get_data_dir(), get_config_dir() vfuncs to EShellBackend (Jonathon Jongsma)
+	Merge some composer header changes for Anjal. (Matthew Barnes)
+	Introduce EMailBackend into libevolution-mail. (Matthew Barnes)
+	Use the boxed CamelObject type for signal params in MailFolderCache (Jonathon Jongsma)
+	Remove mail-config, vfolder, and filter deps from mail-folder-cache (Jonathon Jongsma)
+	Kill ETableScrolled. (Matthew Barnes)
+	Bump glib requirement to 2.22.0 (Jonathon Jongsma)
+	Remove libhal requirement from configure (Bastien Nocera)
+
+Translations:
+	Jorge González (es)
+	Daniel Nylander (sv)
+	Matej Urbančič (sl)
+	Kjartan Maraas (nb)
+	Ray Wang (zh_CN)
+
 Evolution 2.29.3 2009-11-30
 ---------------------------
 
