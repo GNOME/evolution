@@ -980,14 +980,18 @@ static void
 emae_account_entry_changed (GtkEntry *entry, EMAccountEditor *emae)
 {
 	EAccount *account;
-	const gchar *text;
+	gchar *text;
 	gpointer data;
 
 	account = em_account_editor_get_modified_account (emae);
 	data = g_object_get_data (G_OBJECT (entry), "account-item");
-	text = gtk_entry_get_text (entry);
+	text = g_strdup (gtk_entry_get_text (entry));
+
+	g_strstrip (text);
 
 	e_account_set_string (account, GPOINTER_TO_INT (data), text);
+
+	g_free (text);
 }
 
 static GtkEntry *
@@ -1386,7 +1390,9 @@ emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelU
         CamelServiceAuthType *authtype;
 
         CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-        const gchar *text = gtk_entry_get_text (entry);
+        gchar *text = g_strdup (gtk_entry_get_text (entry));
+
+	g_strstrip (text);
 
         setval (url, (text && text[0])?text:NULL);
 
@@ -1407,6 +1413,7 @@ emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelU
 
         emae_uri_changed (service, url);
         camel_url_free (url);
+	g_free (text);
 }
 
 static void
