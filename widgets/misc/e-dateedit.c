@@ -434,7 +434,7 @@ date_edit_class_init (EDateEditClass *class)
 			"set-none",
 			"Sets None as selected date",
 			NULL,
-			TRUE,
+			FALSE,
 			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
 
 	signals[CHANGED] = g_signal_new (

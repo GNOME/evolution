@@ -311,6 +311,20 @@ cal_shell_content_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static time_t
+gc_get_default_time (ECalModel *model, gpointer user_data)
+{
+	GnomeCalendar *gcal = user_data;
+	time_t res = 0, end;
+
+	g_return_val_if_fail (model != NULL, 0);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (user_data), 0);
+
+	gnome_calendar_get_current_time_range (gcal, &res, &end);
+
+	return res;
+}
+
 static void
 cal_shell_content_constructed (GObject *object)
 {
@@ -491,6 +505,8 @@ cal_shell_content_constructed (GObject *object)
 	filename = g_build_filename (config_dir, "MemoPad", NULL);
 	e_table_load_state (E_TABLE (widget), filename);
 	g_free (filename);
+
+	e_cal_model_set_default_time_func (e_memo_table_get_model (E_MEMO_TABLE (widget)), gc_get_default_time, calendar);
 
 	g_signal_connect_swapped (
 		widget, "open-component",
