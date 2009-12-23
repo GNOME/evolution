@@ -1460,7 +1460,7 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	GtkToggleAction *action;
 	ESignature *signature;
 	EAccount *account;
-	gboolean active;
+	gboolean active, can_sign;
 	const gchar *uid;
 
 	table = e_msg_composer_get_header_table (composer);
@@ -1469,14 +1469,15 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	if (account == NULL)
 		goto exit;
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	active = account->pgp_always_sign &&
-		(!account->pgp_no_imip_sign || p->mime_type == NULL ||
+	can_sign = (!account->pgp_no_imip_sign || p->mime_type == NULL ||
 		g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) != 0);
+
+	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+	active = account->pgp_always_sign && can_sign;
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	active = account->smime_sign_default;
+	active = account->smime_sign_default && can_sign;
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
@@ -3369,6 +3370,9 @@ e_msg_composer_set_body (EMsgComposer *composer,
 			GtkToggleAction *action;
 
 			action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+			gtk_toggle_action_set_active (action, FALSE);
+
+			action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
 			gtk_toggle_action_set_active (action, FALSE);
 		}
 	}
