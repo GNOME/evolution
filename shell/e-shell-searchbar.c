@@ -55,6 +55,7 @@ struct _EShellSearchbarPrivate {
 	guint filter_visible : 1;
 	guint search_visible : 1;
 	guint scope_visible  : 1;
+	guint label_visible  : 1;
 };
 
 enum {
@@ -67,7 +68,8 @@ enum {
 	PROP_SEARCH_VISIBLE,
 	PROP_SCOPE_COMBO_BOX,
 	PROP_SCOPE_VISIBLE,
-	PROP_SHELL_VIEW
+	PROP_SHELL_VIEW,
+	PROP_LABEL_VISIBLE,
 };
 
 static gpointer parent_class;
@@ -321,6 +323,11 @@ shell_searchbar_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_LABEL_VISIBLE:
+			e_shell_searchbar_set_label_visible (
+				E_SHELL_SEARCHBAR (object),
+				g_value_get_boolean (value));
+			return;
 		case PROP_FILTER_VISIBLE:
 			e_shell_searchbar_set_filter_visible (
 				E_SHELL_SEARCHBAR (object),
@@ -380,6 +387,12 @@ shell_searchbar_get_property (GObject *object,
 				E_SHELL_SEARCHBAR (object)));
 			return;
 
+		case PROP_LABEL_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_searchbar_get_label_visible (
+				E_SHELL_SEARCHBAR (object)));
+			return;
+			
 		case PROP_FILTER_VISIBLE:
 			g_value_set_boolean (
 				value, e_shell_searchbar_get_filter_visible (
@@ -543,6 +556,17 @@ shell_searchbar_class_init (EShellSearchbarClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_LABEL_VISIBLE,
+		g_param_spec_boolean (
+			"label-visible",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FILTER_VISIBLE,
 		g_param_spec_boolean (
 			"filter-visible",
@@ -691,6 +715,9 @@ shell_searchbar_init (EShellSearchbar *searchbar)
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
+	e_binding_new (
+		searchbar, "label-visible",
+		widget, "visible");
 
 	widget = e_hinted_entry_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
@@ -816,6 +843,25 @@ e_shell_searchbar_get_filter_combo_box (EShellSearchbar *searchbar)
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
 
 	return E_ACTION_COMBO_BOX (searchbar->priv->filter_combo_box);
+}
+
+gboolean
+e_shell_searchbar_get_label_visible (EShellSearchbar *searchbar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
+
+	return searchbar->priv->label_visible;
+}
+
+void
+e_shell_searchbar_set_label_visible (EShellSearchbar *searchbar,
+                                      gboolean label_visible)
+{
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	searchbar->priv->label_visible = label_visible;
+
+	g_object_notify (G_OBJECT (searchbar), "label-visible");
 }
 
 gboolean
