@@ -373,6 +373,9 @@ get_rule_part_widget(EMFilterContext *f, EFilterPart *newpart, EFilterRule *fr)
 	data->part = newpart;
 
 	hbox = gtk_hbox_new(FALSE, 0);
+	/* only set to automatically clean up the memory and for less_parts */
+	g_object_set_data_full ((GObject *) hbox, "data", data, g_free);
+
 	p = e_filter_part_get_widget(newpart);
 
 	data->partwidget = p;
@@ -412,6 +415,7 @@ less_parts(GtkWidget *button, struct _rule_data *data)
 {
 	EFilterPart *part;
 	GtkWidget *rule;
+	struct _part_data *part_data;
 	GList *l;
 
 	l =((EMFilterRule *)data->fr)->actions;
@@ -419,7 +423,11 @@ less_parts(GtkWidget *button, struct _rule_data *data)
 		return;
 
 	rule = g_object_get_data((GObject *)button, "rule");
-	part = g_object_get_data((GObject *)rule, "part");
+	part_data = g_object_get_data ((GObject *) rule, "data");
+
+	g_return_if_fail (part_data != NULL);
+
+	part = part_data->part;
 
 	/* remove the part from the list */
 	em_filter_rule_remove_action((EMFilterRule *)data->fr, part);
@@ -440,7 +448,6 @@ attach_rule(GtkWidget *rule, struct _rule_data *data, EFilterPart *part, gint ro
 
 	remove = gtk_button_new_from_stock(GTK_STOCK_REMOVE);
 	g_object_set_data((GObject *)remove, "rule", rule);
-	g_object_set_data((GObject *)rule, "part", part);
 	/*gtk_button_set_relief(GTK_BUTTON(remove), GTK_RELIEF_NONE);*/
 	g_signal_connect(remove, "clicked", G_CALLBACK(less_parts), data);
 	gtk_table_attach(GTK_TABLE(data->parts), remove, 1, 2, row, row + 1,
@@ -543,6 +550,9 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 	data->f =(EMFilterContext *)rc;
 	data->fr = fr;
 	data->parts = parts;
+
+	/* only set to automatically clean up the memory */
+	g_object_set_data_full ((GObject *) hbox, "data", data, g_free);
 
 	hbox = gtk_hbox_new(FALSE, 3);
 
