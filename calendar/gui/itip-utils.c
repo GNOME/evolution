@@ -1205,6 +1205,35 @@ append_cal_attachments (EMsgComposer *composer,
 	g_slist_free (attach_list);
 }
 
+static EAccount *
+find_enabled_account (EAccountList *accounts, const gchar *id_address)
+{
+	EIterator *it;
+	EAccount *account = NULL;
+
+	g_return_val_if_fail (accounts != NULL, NULL);
+
+	if (!id_address)
+		return NULL;
+
+	for (it = e_list_get_iterator ((EList *)accounts);
+	     e_iterator_is_valid (it);
+	     e_iterator_next (it)) {
+		account = (EAccount *)e_iterator_get (it);
+
+		if (account
+		    && account->enabled
+		    && account->id
+		    && account->id->address
+		    && g_ascii_strcasecmp (account->id->address, id_address) == 0)
+			break;
+
+		account = NULL;
+	}
+
+	return account;
+}
+
 static void
 setup_from (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, EComposerHeaderTable *table)
 {
@@ -1220,7 +1249,7 @@ setup_from (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, E
 
 			e_cal_component_get_organizer (comp, &organizer);
 			if (organizer.value != NULL) {
-				account = (EAccount *) e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, itip_strip_mailto (organizer.value));
+				account = find_enabled_account (accounts, itip_strip_mailto (organizer.value));
 			}
 		}
 
@@ -1228,7 +1257,7 @@ setup_from (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, E
 			gchar *from = comp_from (method, comp);
 
 			if (from)
-				account = (EAccount *) e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, from);
+				account = find_enabled_account (accounts, from);
 
 			g_free (from);
 		}
