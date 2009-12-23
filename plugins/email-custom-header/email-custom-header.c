@@ -376,7 +376,9 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 				str);
 		}
 
-		gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box), _("None"));
+		/* Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
+		   indicating the header will not be added to a mail message */
+		gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box), C_("email-custom-header", "None"));
 		gtk_widget_show (sub_combo_box_ptr->header_value_combo_box);
 	}
 }

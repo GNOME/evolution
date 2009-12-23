@@ -2937,7 +2937,8 @@ init_widgets (EventPage *epage)
 	}
 
 	gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("Customize"));
-	gtk_combo_box_prepend_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("None"));
+	/* Translators: "None" for "No alarm set" */
+	gtk_combo_box_prepend_text (GTK_COMBO_BOX (priv->alarm_time_combo), C_("cal-alarms", "None"));
 
 	g_signal_connect_swapped (
 		priv->alarm_time_combo, "changed",

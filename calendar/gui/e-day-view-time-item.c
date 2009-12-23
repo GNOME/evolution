@@ -795,7 +795,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
 
 	group = NULL;
-	item = gtk_radio_menu_item_new_with_label (group, _("None"));
+	item = gtk_radio_menu_item_new_with_label (group, C_("cal-second-zone", "None"));
 	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 	if (!time_item->priv->second_zone)
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);

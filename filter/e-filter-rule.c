@@ -741,6 +741,7 @@ filter_rule_get_widget (EFilterRule *rule,
 	}
 
 	if (context->flags & E_RULE_CONTEXT_THREADING) {
+		/* Translators: "None" for not including threads; part of "Include threads: None" */
 		const gchar *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
 
 		label = gtk_label_new_with_mnemonic (_("I_nclude threads"));

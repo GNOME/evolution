@@ -724,7 +724,11 @@ set_status (ECalModelComponent *comp_data, const gchar *value)
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
 
 	/* an empty string is the same as 'None' */
-	if (!value[0] || !e_util_utf8_strcasecmp (value, _("None")))
+	if (!value[0])
+		return;
+
+	/* Translators: "None" for task's status */
+	if (!e_util_utf8_strcasecmp (value, C_("cal-task-status", "None")))
 		return;
 	else if (!e_util_utf8_strcasecmp (value, _("Not Started")))
 		status = ICAL_STATUS_NEEDSACTION;

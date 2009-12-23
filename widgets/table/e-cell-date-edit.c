@@ -309,7 +309,8 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 			    ecde);
 	ecde->today_button = today_button;
 
-	none_button = gtk_button_new_with_label (_("None"));
+	/* Translators: "None" as a label of a button to unset date in a date table cell */
+	none_button = gtk_button_new_with_label (C_("table-date", "None"));
 	gtk_container_add (GTK_CONTAINER (bbox), none_button);
         gtk_widget_show (none_button);
 	g_signal_connect((none_button), "clicked",

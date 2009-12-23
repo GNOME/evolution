@@ -188,7 +188,7 @@
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkButton" id="day_second_zone">
-                        <property name="label" translatable="yes">None</property>
+                        <property name="label" translatable="yes" context="cal-second-zone">None</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

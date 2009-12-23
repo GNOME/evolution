@@ -862,7 +862,8 @@ emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 
 	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter, 0, _("None"), 1, NULL, -1);
+	/* Translators: "None" as an option for a default signature of an account, part of "Signature: None" */
+	gtk_list_store_set (store, &iter, 0, C_("mail-signature", "None"), 1, NULL, -1);
 
 	signatures = e_get_signature_list ();
 
@@ -1678,7 +1679,8 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 	/* We just special case each type here, its just easier */
 	if (service->type == CAMEL_PROVIDER_STORE) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, _("None"), 1, NULL, -1);
+		/* Translators: "None" for receiving account type, beside of IMAP, POP3, ... */
+		gtk_list_store_set (store, &iter, 0, C_("mail-receiving", "None"), 1, NULL, -1);
 		i++;
 	}
 

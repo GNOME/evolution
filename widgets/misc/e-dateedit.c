@@ -1674,7 +1674,8 @@ field_set_to_none (const gchar *text)
 	while (n = (gint)((guchar)*pos), isspace (n))
 		pos++;
 
-	none_string = _("None");
+	/* Translators: "None" for date field of a date edit, shown when there is no date set */
+	none_string = C_("date", "None");
 
 	if (*pos == '\0' || !strncmp (pos, none_string, strlen (none_string)))
 		return TRUE;
@@ -1891,7 +1892,7 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 	priv = dedit->priv;
 
 	if (priv->date_set_to_none || !priv->date_is_valid) {
-		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
+		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), C_("date", "None"));
 	} else {
 		/* This is a strftime() format for a short date.
 		   %x the preferred date representation for the current locale without the time,

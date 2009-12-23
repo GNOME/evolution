@@ -103,7 +103,8 @@ update_day_second_zone_caption (CalendarPrefsDialog *prefs)
 
 	g_return_if_fail (prefs != NULL);
 
-	caption = _("None");
+	/* Translators: "None" indicates no second time zone set for a day view */
+	caption = C_("cal-second-zone", "None");
 
 	location = calendar_config_get_day_second_zone ();
 	if (location && *location) {
@@ -152,7 +153,7 @@ day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
 	g_free (location);
 
 	group = NULL;
-	item = gtk_radio_menu_item_new_with_label (group, _("None"));
+	item = gtk_radio_menu_item_new_with_label (group, C_("cal-second-zone", "None"));
 	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 	if (!second_zone)
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);

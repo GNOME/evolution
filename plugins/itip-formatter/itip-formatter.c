@@ -2298,7 +2298,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	}
 
 	e_cal_component_get_summary (info->comp, &text);
-	itip_view_set_summary (ITIP_VIEW (info->view), text.value ? text.value : _("None"));
+	itip_view_set_summary (ITIP_VIEW (info->view), text.value ? text.value : C_("cal-itip", "None"));
 
 	e_cal_component_get_location (info->comp, &string);
 	itip_view_set_location (ITIP_VIEW (info->view), string);

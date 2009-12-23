@@ -1144,7 +1144,8 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Summary */
 	e_cal_component_get_summary (priv->comp, &text);
-	str = g_strdup_printf ("<i>%s:</i>", _("None"));
+	/* Translators: "None" used as a default value for events without Summary received by mail */
+	str = g_strdup_printf ("<i>%s</i>", C_("cal-itip", "None"));
 
 	html = text.value ? e_text_to_html_full (text.value, E_TEXT_TO_HTML_CONVERT_NL, 0) : str;
 	g_string_append_printf (

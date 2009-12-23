@@ -321,7 +321,8 @@ location_clicked (GtkButton *button, ESource *source)
 
 		label = GTK_WIDGET (gtk_bin_get_child (GTK_BIN (button)));
 		text = gtk_label_get_text (GTK_LABEL (label));
-		if (strcmp ((const gchar *)text, _("None")) == 0)
+		/* Translators: "None" location for a weather calendar */
+		if (strcmp ((const gchar *)text, C_("weather-cal-location", "None")) == 0)
 			e_source_set_relative_uri (source, "");
 	}
 
@@ -374,8 +375,9 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gchar *location = build_location_path (iter);
 		text = gtk_label_new (location);
 		g_free (location);
-	} else
-		text = gtk_label_new (_("None"));
+	} else {
+		text = gtk_label_new (C_("weather-cal-location", "None"));
+	}
 	gtk_widget_show (text);
 	gtk_label_set_ellipsize (GTK_LABEL (text), PANGO_ELLIPSIZE_START);
 	gtk_container_add (GTK_CONTAINER (button), text);

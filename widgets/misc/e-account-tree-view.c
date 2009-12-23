@@ -121,7 +121,7 @@ account_tree_view_refresh_cb (EAccountList *account_list,
 		if (url != NULL && url->protocol != NULL)
 			protocol = url->protocol;
 		else
-			protocol = _("None");
+			protocol = C_("mail-receiving", "None");
 
 		gtk_list_store_append (store, &tree_iter);
 		gtk_list_store_set (

@@ -84,8 +84,10 @@ mail_junk_hook_get_name (CamelJunkPlugin *junk_plugin)
 
 	interface = (EMJunkInterface *) junk_plugin;
 
-	if (!interface->hook->plugin->enabled)
-		return _("None");
+	if (!interface->hook->plugin->enabled) {
+		/* Translators: "None" for a junk hook name, when the junk plugin is not enabled */
+		return C_("mail-junk-hook", "None");
+	}
 
 	return interface->hook->plugin->name;
 }

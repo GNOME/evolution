@@ -72,7 +72,7 @@ signature_combo_box_refresh_cb (ESignatureList *signature_list,
 	gtk_list_store_append (store, &tree_iter);
 	gtk_list_store_set (
 		store, &tree_iter,
-		COLUMN_STRING, _("None"),
+		COLUMN_STRING, C_("mail-signature", "None"),
 		COLUMN_SIGNATURE, NULL, -1);
 
 	if (signature_list == NULL)

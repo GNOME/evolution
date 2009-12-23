@@ -66,7 +66,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">None</col>
+        <col id="0" translatable="yes" context="send-options" comments="Translators: Used in send options dialog">None</col>
       </row>
       <row>
         <col id="0" translatable="yes">Mail Receipt</col>
@@ -79,7 +79,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">None</col>
+        <col id="0" translatable="yes" context="send-options">None</col>
       </row>
       <row>
         <col id="0" translatable="yes">Mail Receipt</col>
@@ -92,7 +92,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">None</col>
+        <col id="0" translatable="yes" context="send-options">None</col>
       </row>
       <row>
         <col id="0" translatable="yes">Mail Receipt</col>
@@ -105,7 +105,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">None</col>
+        <col id="0" translatable="yes" context="send-options">None</col>
       </row>
       <row>
         <col id="0" translatable="yes">Mail Receipt</col>
