@@ -1206,13 +1206,23 @@ append_cal_attachments (EMsgComposer *composer,
 }
 
 static void
-setup_from (ECalComponentItipMethod method, ECalComponent *comp, EComposerHeaderTable *table)
+setup_from (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, EComposerHeaderTable *table)
 {
 	EAccountList *accounts;
 
 	accounts = e_composer_header_table_get_account_list (table);
 	if (accounts) {
 		EAccount *account = NULL;
+
+		/* always use organizer's email when user is an organizer */
+		if (itip_organizer_is_user (comp, client)) {
+			ECalComponentOrganizer organizer = {0};
+
+			e_cal_component_get_organizer (comp, &organizer);
+			if (organizer.value != NULL) {
+				account = (EAccount *) e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, itip_strip_mailto (organizer.value));
+			}
+		}
 
 		if (!account) {
 			gchar *from = comp_from (method, comp);
@@ -1284,7 +1294,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
-	setup_from (method, send_comp, table);
+	setup_from (method, send_comp, client, table);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
@@ -1386,7 +1396,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
-	setup_from (method, send_comp, table);
+	setup_from (method, send_comp, client, table);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
