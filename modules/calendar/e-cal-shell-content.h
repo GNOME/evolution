@@ -26,8 +26,8 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <calendar/gui/e-calendar-table.h>
 #include <calendar/gui/e-memo-table.h>
+#include <calendar/gui/e-task-table.h>
 #include <calendar/gui/gnome-cal.h>
 #include <menus/gal-view-instance.h>
 
@@ -89,7 +89,7 @@ GnomeCalendar *	e_cal_shell_content_get_calendar
 					(ECalShellContent *cal_shell_content);
 EMemoTable *	e_cal_shell_content_get_memo_table
 					(ECalShellContent *cal_shell_content);
-ECalendarTable *e_cal_shell_content_get_task_table
+ETaskTable *	e_cal_shell_content_get_task_table
 					(ECalShellContent *cal_shell_content);
 EShellSearchbar *
 		e_cal_shell_content_get_searchbar

@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef _E_CALENDAR_TABLE_H_
-#define _E_CALENDAR_TABLE_H_
+#ifndef E_TASK_TABLE_H
+#define E_TASK_TABLE_H
 
 #include <table/e-table.h>
 #include <table/e-cell-date-edit.h>
@@ -29,36 +29,39 @@
 #include "e-cal-model.h"
 
 /*
- * ECalendarTable - displays the iCalendar objects in a table (an ETable).
- * Used for calendar events and tasks.
+ * ETaskTable - displays the iCalendar objects in a table (an ETable).
+ *
+ * XXX ETaskTable and EMemoTable have lots of duplicate code.  We should
+ *     look at merging them, or at least bringing back ECalendarTable as
+ *     a common base class.
  */
 
 /* Standard GObject macros */
-#define E_TYPE_CALENDAR_TABLE \
-	(e_calendar_table_get_type ())
-#define E_CALENDAR_TABLE(obj) \
+#define E_TYPE_TASK_TABLE \
+	(e_task_table_get_type ())
+#define E_TASK_TABLE(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_CALENDAR_TABLE, ECalendarTable))
-#define E_CALENDAR_TABLE_CLASS(cls) \
+	((obj), E_TYPE_TASK_TABLE, ETaskTable))
+#define E_TASK_TABLE_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_CALENDAR_TABLE, ECalendarTableClass))
+	((cls), E_TYPE_TASK_TABLE, ETaskTableClass))
 #define E_IS_CALENDAR_TABLE(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_CALENDAR_TABLE))
+	((obj), E_TYPE_TASK_TABLE))
 #define E_IS_CALENDAR_TABLE_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_CALENDAR_TABLE))
-#define E_CALENDAR_TABLE_GET_CLASS(obj) \
+	((cls), E_TYPE_TASK_TABLE))
+#define E_TASK_TABLE_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_CALENDAR_TABLE, ECalendarTableClass))
+	((obj), E_TYPE_TASK_TABLE, ETaskTableClass))
 
 G_BEGIN_DECLS
 
-typedef struct _ECalendarTable ECalendarTable;
-typedef struct _ECalendarTableClass ECalendarTableClass;
-typedef struct _ECalendarTablePrivate ECalendarTablePrivate;
+typedef struct _ETaskTable ETaskTable;
+typedef struct _ETaskTableClass ETaskTableClass;
+typedef struct _ETaskTablePrivate ETaskTablePrivate;
 
-struct _ECalendarTable {
+struct _ETaskTable {
 	ETable parent;
 
 	/* The ECell used to view & edit dates. */
@@ -67,43 +70,42 @@ struct _ECalendarTable {
 	/* Fields used for cut/copy/paste */
 	icalcomponent *tmp_vcal;
 
-	ECalendarTablePrivate *priv;
+	ETaskTablePrivate *priv;
 };
 
-struct _ECalendarTableClass {
+struct _ETaskTableClass {
 	ETableClass parent_class;
 
 	/* Signals */
-	void	(*open_component)		(ECalendarTable *cal_table,
+	void	(*open_component)		(ETaskTable *task_table,
 						 ECalModelComponent *comp_data);
-	void	(*popup_event)			(ECalendarTable *cal_table,
+	void	(*popup_event)			(ETaskTable *task_table,
 						 GdkEvent *event);
-	void	(*status_message)		(ECalendarTable *cal_table,
+	void	(*status_message)		(ETaskTable *task_table,
 						 const gchar *message,
 						 gdouble percent);
-	void	(*user_created)			(ECalendarTable *cal_table);
+	void	(*user_created)			(ETaskTable *task_table);
 };
 
-GType		e_calendar_table_get_type	(void);
-GtkWidget *	e_calendar_table_new		(EShellView *shell_view,
+GType		e_task_table_get_type		(void);
+GtkWidget *	e_task_table_new		(EShellView *shell_view,
 						 ECalModel *model);
-ECalModel *	e_calendar_table_get_model	(ECalendarTable *cal_table);
-EShellView *	e_calendar_table_get_shell_view	(ECalendarTable *cal_table);
-void		e_calendar_table_delete_selected(ECalendarTable *cal_table);
-GSList *	e_calendar_table_get_selected	(ECalendarTable *cal_table);
-
+ECalModel *	e_task_table_get_model		(ETaskTable *task_table);
+EShellView *	e_task_table_get_shell_view	(ETaskTable *task_table);
+void		e_task_table_delete_selected	(ETaskTable *task_table);
+GSList *	e_task_table_get_selected	(ETaskTable *task_table);
 ECalModelComponent *
-		e_calendar_table_get_selected_comp
-						(ECalendarTable *cal_table);
-void		e_calendar_table_hide_completed_tasks
-						(ECalendarTable *table,
+		e_task_table_get_selected_comp
+						(ETaskTable *task_table);
+void		e_task_table_hide_completed_tasks
+						(ETaskTable *table,
 						 GList *clients_list,
 						 gboolean config_changed);
-void		e_calendar_table_process_completed_tasks
-						(ECalendarTable *table,
+void		e_task_table_process_completed_tasks
+						(ETaskTable *table,
 						 GList *clients_list,
 						 gboolean config_changed);
 
 G_END_DECLS
 
-#endif /* _E_CALENDAR_TABLE_H_ */
+#endif /* E_TASK_TABLE_H */

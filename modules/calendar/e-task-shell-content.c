@@ -32,13 +32,12 @@
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-tasks.h"
-#include "calendar/gui/e-calendar-table.h"
 
 #define E_TASK_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate))
 
-#define E_CALENDAR_TABLE_DEFAULT_STATE \
+#define E_TASK_TABLE_DEFAULT_STATE \
 	"<?xml version=\"1.0\"?>" \
 	"<ETableState>" \
 	"  <column source=\"13\"/>" \
@@ -85,7 +84,7 @@ static void
 task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
                                     GalView *gal_view)
 {
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
@@ -144,7 +143,7 @@ task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content
                                            guint info,
                                            guint time)
 {
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 
 	struct {
 		ECalModel *model;
@@ -156,7 +155,7 @@ task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content
 
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	foreach_data.model = e_calendar_table_get_model (task_table);
+	foreach_data.model = e_task_table_get_model (task_table);
 	foreach_data.list = NULL;
 
 	e_table_selected_row_foreach (
@@ -190,7 +189,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
                                      ETable *table)
 {
 	ECalComponentPreview *task_preview;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *task_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
@@ -239,7 +238,7 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
                                          ETableModel *model)
 {
 	ECalModelComponent *comp_data;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	const gchar *current_uid;
 	const gchar *uid;
 
@@ -438,7 +437,7 @@ task_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_calendar_table_new (shell_view, priv->task_model);
+	widget = e_task_table_new (shell_view, priv->task_model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -474,7 +473,7 @@ task_shell_content_constructed (GObject *object)
 	/* Configure the task table. */
 
 	e_table_set_state (
-		E_TABLE (priv->task_table), E_CALENDAR_TABLE_DEFAULT_STATE);
+		E_TABLE (priv->task_table), E_TASK_TABLE_DEFAULT_STATE);
 
 	e_table_drag_source_set (
 		E_TABLE (priv->task_table),
@@ -533,7 +532,7 @@ static guint32
 task_shell_content_check_state (EShellContent *shell_content)
 {
 	ETaskShellContent *task_shell_content;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	GSList *list, *iter;
 	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
@@ -548,7 +547,7 @@ task_shell_content_check_state (EShellContent *shell_content)
 
 	n_selected = e_table_selected_count (E_TABLE (task_table));
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		icalproperty *prop;
@@ -716,13 +715,13 @@ e_task_shell_content_get_task_preview (ETaskShellContent *task_shell_content)
 		task_shell_content->priv->task_preview);
 }
 
-ECalendarTable *
+ETaskTable *
 e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
 		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return E_CALENDAR_TABLE (task_shell_content->priv->task_table);
+	return E_TASK_TABLE (task_shell_content->priv->task_table);
 }
 
 gboolean

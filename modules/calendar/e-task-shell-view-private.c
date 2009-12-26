@@ -28,7 +28,7 @@ task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	GList *clients;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
@@ -37,7 +37,7 @@ task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
 
-	e_calendar_table_process_completed_tasks (task_table, clients, TRUE);
+	e_task_table_process_completed_tasks (task_table, clients, TRUE);
 
 	/* Search query takes whether to show completed tasks into account,
 	 * so if the preference has changed we need to update the query. */
@@ -58,7 +58,7 @@ task_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 static void
 task_shell_view_table_user_created_cb (ETaskShellView *task_shell_view,
-                                       ECalendarTable *task_table)
+                                       ETaskTable *task_table)
 {
 	ETaskShellSidebar *task_shell_sidebar;
 	ECalModel *model;
@@ -67,7 +67,7 @@ task_shell_view_table_user_created_cb (ETaskShellView *task_shell_view,
 
 	/* This is the "Click to Add" handler. */
 
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 	client = e_cal_model_get_default_client (model);
 	source = e_cal_get_source (client);
 
@@ -82,12 +82,12 @@ task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
                                           ECal *client)
 {
 	ETaskShellContent *task_shell_content;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 
 	e_cal_model_add_client (model, client);
 	e_task_shell_view_update_timezone (task_shell_view);
@@ -98,12 +98,12 @@ task_shell_view_selector_client_removed_cb (ETaskShellView *task_shell_view,
                                             ECal *client)
 {
 	ETaskShellContent *task_shell_content;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 
 	e_cal_model_remove_client (model, client);
 }
@@ -126,18 +126,18 @@ task_shell_view_update_timeout_cb (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	GList *clients;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
 
-	e_calendar_table_process_completed_tasks (task_table, clients, FALSE);
+	e_task_table_process_completed_tasks (task_table, clients, FALSE);
 	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
 
 	g_list_free (clients);
@@ -221,7 +221,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	EShellTaskbar *shell_taskbar;
 	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	ESourceSelector *selector;
 
@@ -245,7 +245,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
@@ -542,7 +542,7 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	ETaskShellContent *task_shell_content;
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	GString *string;
 	const gchar *format;
@@ -555,7 +555,7 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 
 	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
 	n_selected = e_table_selected_count (E_TABLE (task_table));

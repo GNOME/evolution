@@ -100,7 +100,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	ECalComponentPreview *task_preview;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	time_t start_range;
 	time_t end_range;
@@ -264,7 +264,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	/* Submit the query. */
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_calendar_table_get_model (task_table);
+	model = e_task_table_get_model (task_table);
 	e_cal_model_set_search_query (model, query);
 	g_free (query);
 

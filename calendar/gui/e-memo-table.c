@@ -24,7 +24,6 @@
 
 /*
  * EMemoTable - displays the ECalComponent objects in a table (an ETable).
- * Used for calendar events and tasks.
  */
 
 #ifdef HAVE_CONFIG_H

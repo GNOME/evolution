@@ -114,8 +114,6 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-model-tasks.h			\
 	e-calendar-selector.c			\
 	e-calendar-selector.h			\
-	e-calendar-table.c			\
-	e-calendar-table.h			\
 	e-calendar-view.c			\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
@@ -159,6 +157,8 @@ libevolution_calendar_la_SOURCES = \
 	e-select-names-renderer.h		\
 	e-task-list-selector.c			\
 	e-task-list-selector.h			\
+	e-task-table.c				\
+	e-task-table.h				\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\

@@ -33,7 +33,6 @@
 #include "calendar/gui/calendar-view.h"
 #include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-calendar.h"
-#include "calendar/gui/e-calendar-table.h"
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-week-view.h"
@@ -61,8 +60,8 @@ struct _ECalShellContentPrivate {
 enum {
 	PROP_0,
 	PROP_CALENDAR,
-	PROP_TASK_TABLE,
-	PROP_MEMO_TABLE
+	PROP_MEMO_TABLE,
+	PROP_TASK_TABLE
 };
 
 /* Used to indicate who has the focus within the calendar view. */
@@ -146,8 +145,8 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	GnomeCalendar *calendar;
 	GnomeCalendarViewType view_type;
 	ECalendarView *calendar_view;
-	ECalendarTable *task_table;
 	EMemoTable *memo_table;
+	ETaskTable *task_table;
 	ETable *table;
 
 	/* XXX This function is silly.  Certainly there are better ways
@@ -159,7 +158,7 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
 
 	memo_table = E_MEMO_TABLE (cal_shell_content->priv->memo_table);
-	task_table = E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
+	task_table = E_TASK_TABLE (cal_shell_content->priv->task_table);
 
 	table = E_TABLE (memo_table);
 	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
@@ -239,14 +238,16 @@ cal_shell_content_get_property (GObject *object,
 				value, e_cal_shell_content_get_calendar (
 				E_CAL_SHELL_CONTENT (object)));
 			return;
-		case PROP_TASK_TABLE:
-			g_value_set_object (
-				value, e_cal_shell_content_get_task_table (
-				E_CAL_SHELL_CONTENT (object)));
-			return;
+
 		case PROP_MEMO_TABLE:
 			g_value_set_object (
 				value, e_cal_shell_content_get_memo_table (
+				E_CAL_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_TASK_TABLE:
+			g_value_set_object (
+				value, e_cal_shell_content_get_task_table (
 				E_CAL_SHELL_CONTENT (object)));
 			return;
 	}
@@ -457,7 +458,7 @@ cal_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_calendar_table_new (shell_view, task_model);
+	widget = e_task_table_new (shell_view, task_model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -591,16 +592,6 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_TASK_TABLE,
-		g_param_spec_object (
-			"task-table",
-			NULL,
-			NULL,
-			E_TYPE_CALENDAR_TABLE,
-			G_PARAM_READABLE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_MEMO_TABLE,
 		g_param_spec_object (
 			"memo-table",
@@ -609,6 +600,15 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 			E_TYPE_MEMO_TABLE,
 			G_PARAM_READABLE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_TASK_TABLE,
+		g_param_spec_object (
+			"task-table",
+			NULL,
+			NULL,
+			E_TYPE_TASK_TABLE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -688,13 +688,13 @@ e_cal_shell_content_get_memo_table (ECalShellContent *cal_shell_content)
 	return E_MEMO_TABLE (cal_shell_content->priv->memo_table);
 }
 
-ECalendarTable *
+ETaskTable *
 e_cal_shell_content_get_task_table (ECalShellContent *cal_shell_content)
 {
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
-	return E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
+	return E_TASK_TABLE (cal_shell_content->priv->task_table);
 }
 
 EShellSearchbar *
@@ -726,7 +726,7 @@ e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 {
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	GnomeCalendarViewType view_type;
 	ECalendarView *calendar_view;
 
@@ -749,7 +749,7 @@ e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 			break;
 
 		case FOCUS_TASK_TABLE:
-			e_calendar_table_delete_selected (task_table);
+			e_task_table_delete_selected (task_table);
 			break;
 
 		default:

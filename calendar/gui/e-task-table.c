@@ -22,8 +22,7 @@
  */
 
 /*
- * ECalendarTable - displays the ECalComponent objects in a table (an ETable).
- * Used for calendar events and tasks.
+ * ETaskTable - displays the ECalComponent objects in a table (an ETable).
  */
 
 #ifdef HAVE_CONFIG_H
@@ -57,18 +56,18 @@
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
 #include "e-cal-model-tasks.h"
-#include "e-calendar-table.h"
+#include "e-task-table.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
 #include "misc.h"
 
-#define E_CALENDAR_TABLE_GET_PRIVATE(obj) \
+#define E_TASK_TABLE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CALENDAR_TABLE, ECalendarTablePrivate))
+	((obj), E_TYPE_TASK_TABLE, ETaskTablePrivate))
 
-struct _ECalendarTablePrivate {
+struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
 };
@@ -87,7 +86,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data);
+static struct tm e_task_table_get_current_time (ECellDateEdit *ecde, gpointer data);
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
@@ -103,44 +102,44 @@ static const gchar *icon_names[NUM_ICONS] = {
 static GdkPixbuf *icon_pixbufs[NUM_ICONS] = { NULL };
 
 static void
-calendar_table_emit_open_component (ECalendarTable *cal_table,
-                                    ECalModelComponent *comp_data)
+task_table_emit_open_component (ETaskTable *task_table,
+                                ECalModelComponent *comp_data)
 {
 	guint signal_id = signals[OPEN_COMPONENT];
 
-	g_signal_emit (cal_table, signal_id, 0, comp_data);
+	g_signal_emit (task_table, signal_id, 0, comp_data);
 }
 
 static void
-calendar_table_emit_popup_event (ECalendarTable *cal_table,
-                                 GdkEvent *event)
+task_table_emit_popup_event (ETaskTable *task_table,
+                             GdkEvent *event)
 {
 	guint signal_id = signals[POPUP_EVENT];
 
-	g_signal_emit (cal_table, signal_id, 0, event);
+	g_signal_emit (task_table, signal_id, 0, event);
 }
 
 static void
-calendar_table_emit_status_message (ECalendarTable *cal_table,
-                                    const gchar *message,
-                                    gdouble percent)
+task_table_emit_status_message (ETaskTable *task_table,
+                                const gchar *message,
+                                gdouble percent)
 {
 	guint signal_id = signals[STATUS_MESSAGE];
 
-	g_signal_emit (cal_table, signal_id, 0, message, percent);
+	g_signal_emit (task_table, signal_id, 0, message, percent);
 }
 
 static void
-calendar_table_emit_user_created (ECalendarTable *cal_table)
+task_table_emit_user_created (ETaskTable *task_table)
 {
 	guint signal_id = signals[USER_CREATED];
 
-	g_signal_emit (cal_table, signal_id, 0);
+	g_signal_emit (task_table, signal_id, 0);
 }
 
 static gint
-calendar_table_date_compare_cb (gconstpointer a,
-                                gconstpointer b)
+task_table_date_compare_cb (gconstpointer a,
+                            gconstpointer b)
 {
 	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
 	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
@@ -168,8 +167,8 @@ calendar_table_date_compare_cb (gconstpointer a,
 }
 
 static gint
-calendar_table_percent_compare_cb (gconstpointer a,
-                                   gconstpointer b)
+task_table_percent_compare_cb (gconstpointer a,
+                               gconstpointer b)
 {
 	gint percent1 = GPOINTER_TO_INT (a);
 	gint percent2 = GPOINTER_TO_INT (b);
@@ -178,8 +177,8 @@ calendar_table_percent_compare_cb (gconstpointer a,
 }
 
 static gint
-calendar_table_priority_compare_cb (gconstpointer a,
-                                    gconstpointer b)
+task_table_priority_compare_cb (gconstpointer a,
+                                gconstpointer b)
 {
 	gint priority1, priority2;
 
@@ -197,8 +196,8 @@ calendar_table_priority_compare_cb (gconstpointer a,
 }
 
 static gint
-calendar_table_status_compare_cb (gconstpointer a,
-                                  gconstpointer b)
+task_table_status_compare_cb (gconstpointer a,
+                              gconstpointer b)
 {
 	const gchar *string_a = a;
 	const gchar *string_b = b;
@@ -231,35 +230,35 @@ calendar_table_status_compare_cb (gconstpointer a,
 }
 
 static void
-calendar_table_model_cal_view_progress_cb (ECalendarTable *cal_table,
-                                           const gchar *message,
-                                           gint progress,
-                                           ECalSourceType type)
+task_table_model_cal_view_progress_cb (ETaskTable *task_table,
+                                       const gchar *message,
+                                       gint progress,
+                                       ECalSourceType type)
 {
 	gdouble percent = (gdouble) progress;
 
-	calendar_table_emit_status_message (cal_table, message, percent);
+	task_table_emit_status_message (task_table, message, percent);
 }
 
 static void
-calendar_table_model_cal_view_done_cb (ECalendarTable *cal_table,
-                                       ECalendarStatus status,
-                                       ECalSourceType type)
+task_table_model_cal_view_done_cb (ETaskTable *task_table,
+                                   ECalendarStatus status,
+                                   ECalSourceType type)
 {
-	calendar_table_emit_status_message (cal_table, NULL, -1.0);
+	task_table_emit_status_message (task_table, NULL, -1.0);
 }
 
 /* Deletes all of the selected components in the table */
 static void
-delete_selected_components (ECalendarTable *cal_table)
+delete_selected_components (ETaskTable *task_table)
 {
 	GSList *objs, *l;
 	const gchar *status_message;
 
-	objs = e_calendar_table_get_selected (cal_table);
+	objs = e_task_table_get_selected (task_table);
 
 	status_message = _("Deleting selected objects");
-	calendar_table_emit_status_message (cal_table, status_message, -1.0);
+	task_table_emit_status_message (task_table, status_message, -1.0);
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
@@ -271,62 +270,62 @@ delete_selected_components (ECalendarTable *cal_table)
 		g_clear_error (&error);
 	}
 
-	calendar_table_emit_status_message (cal_table, NULL, -1.0);
+	task_table_emit_status_message (task_table, NULL, -1.0);
 
 	g_slist_free (objs);
 }
 static void
-calendar_table_set_model (ECalendarTable *cal_table,
-                          ECalModel *model)
+task_table_set_model (ETaskTable *task_table,
+                      ECalModel *model)
 {
-	g_return_if_fail (cal_table->priv->model == NULL);
+	g_return_if_fail (task_table->priv->model == NULL);
 
-	cal_table->priv->model = g_object_ref (model);
+	task_table->priv->model = g_object_ref (model);
 
 	g_signal_connect_swapped (
 		model, "row_appended",
-		G_CALLBACK (calendar_table_emit_user_created), cal_table);
+		G_CALLBACK (task_table_emit_user_created), task_table);
 
 	g_signal_connect_swapped (
 		model, "cal-view-progress",
-		G_CALLBACK (calendar_table_model_cal_view_progress_cb),
-		cal_table);
+		G_CALLBACK (task_table_model_cal_view_progress_cb),
+		task_table);
 
 	g_signal_connect_swapped (
 		model, "cal-view-done",
-		G_CALLBACK (calendar_table_model_cal_view_done_cb),
-		cal_table);
+		G_CALLBACK (task_table_model_cal_view_done_cb),
+		task_table);
 }
 
 static void
-calendar_table_set_shell_view (ECalendarTable *cal_table,
-                               EShellView *shell_view)
+task_table_set_shell_view (ETaskTable *task_table,
+                           EShellView *shell_view)
 {
-	g_return_if_fail (cal_table->priv->shell_view == NULL);
+	g_return_if_fail (task_table->priv->shell_view == NULL);
 
-	cal_table->priv->shell_view = shell_view;
+	task_table->priv->shell_view = shell_view;
 
 	g_object_add_weak_pointer (
 		G_OBJECT (shell_view),
-		&cal_table->priv->shell_view);
+		&task_table->priv->shell_view);
 }
 
 static void
-calendar_table_set_property (GObject *object,
-                             guint property_id,
-                             const GValue *value,
-                             GParamSpec *pspec)
+task_table_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_MODEL:
-			calendar_table_set_model (
-				E_CALENDAR_TABLE (object),
+			task_table_set_model (
+				E_TASK_TABLE (object),
 				g_value_get_object (value));
 			return;
 
 		case PROP_SHELL_VIEW:
-			calendar_table_set_shell_view (
-				E_CALENDAR_TABLE (object),
+			task_table_set_shell_view (
+				E_TASK_TABLE (object),
 				g_value_get_object (value));
 			return;
 	}
@@ -335,22 +334,22 @@ calendar_table_set_property (GObject *object,
 }
 
 static void
-calendar_table_get_property (GObject *object,
-                             guint property_id,
-                             GValue *value,
-                             GParamSpec *pspec)
+task_table_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_MODEL:
 			g_value_set_object (
-				value, e_calendar_table_get_model (
-				E_CALENDAR_TABLE (object)));
+				value, e_task_table_get_model (
+				E_TASK_TABLE (object)));
 			return;
 
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
-				value, e_calendar_table_get_shell_view (
-				E_CALENDAR_TABLE (object)));
+				value, e_task_table_get_shell_view (
+				E_TASK_TABLE (object)));
 			return;
 	}
 
@@ -358,11 +357,11 @@ calendar_table_get_property (GObject *object,
 }
 
 static void
-calendar_table_dispose (GObject *object)
+task_table_dispose (GObject *object)
 {
-	ECalendarTablePrivate *priv;
+	ETaskTablePrivate *priv;
 
-	priv = E_CALENDAR_TABLE_GET_PRIVATE (object);
+	priv = E_TASK_TABLE_GET_PRIVATE (object);
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -380,9 +379,9 @@ calendar_table_dispose (GObject *object)
 }
 
 static void
-calendar_table_constructed (GObject *object)
+task_table_constructed (GObject *object)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	ECell *cell, *popup_cell;
 	ETableExtras *extras;
@@ -392,8 +391,8 @@ calendar_table_constructed (GObject *object)
 	AtkObject *a11y;
 	gchar *etspecfile;
 
-	cal_table = E_CALENDAR_TABLE (object);
-	model = e_calendar_table_get_model (cal_table);
+	task_table = E_TASK_TABLE (object);
+	model = e_task_table_get_model (task_table);
 
 	/* Create the header columns */
 
@@ -438,11 +437,11 @@ calendar_table_constructed (GObject *object)
 		popup_cell, "use-24-hour-format");
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
-	cal_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
+	task_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
 	e_cell_date_edit_set_get_time_callback (
 		E_CELL_DATE_EDIT (popup_cell),
-		e_calendar_table_get_current_time, cal_table, NULL);
+		e_task_table_get_current_time, task_table, NULL);
 
 	/*
 	 * Combo fields.
@@ -567,13 +566,13 @@ calendar_table_constructed (GObject *object)
 	e_table_extras_add_cell (extras, "calstatus", popup_cell);
 
 	e_table_extras_add_compare (extras, "date-compare",
-				    calendar_table_date_compare_cb);
+				    task_table_date_compare_cb);
 	e_table_extras_add_compare (extras, "percent-compare",
-				    calendar_table_percent_compare_cb);
+				    task_table_percent_compare_cb);
 	e_table_extras_add_compare (extras, "priority-compare",
-				    calendar_table_priority_compare_cb);
+				    task_table_priority_compare_cb);
 	e_table_extras_add_compare (extras, "status-compare",
-				    calendar_table_status_compare_cb);
+				    task_table_status_compare_cb);
 
 	/* Create pixmaps */
 
@@ -599,36 +598,36 @@ calendar_table_constructed (GObject *object)
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-calendar-table.etspec", NULL);
 	e_table_construct_from_spec_file (
-		E_TABLE (cal_table), E_TABLE_MODEL (model),
+		E_TABLE (task_table), E_TABLE_MODEL (model),
 		extras, etspecfile, NULL);
 	g_free (etspecfile);
 
-	gtk_widget_set_has_tooltip (GTK_WIDGET (cal_table), TRUE);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (task_table), TRUE);
 
-	a11y = gtk_widget_get_accessible (GTK_WIDGET (cal_table));
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (task_table));
 	if (a11y)
 		atk_object_set_name (a11y, _("Tasks"));
 }
 
 static gboolean
-calendar_table_popup_menu (GtkWidget *widget)
+task_table_popup_menu (GtkWidget *widget)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 
-	cal_table = E_CALENDAR_TABLE (widget);
-	calendar_table_emit_popup_event (cal_table, NULL);
+	task_table = E_TASK_TABLE (widget);
+	task_table_emit_popup_event (task_table, NULL);
 
 	return TRUE;
 }
 
 static gboolean
-calendar_table_query_tooltip (GtkWidget *widget,
+task_table_query_tooltip (GtkWidget *widget,
                               gint x,
                               gint y,
                               gboolean keyboard_mode,
                               GtkTooltip *tooltip)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 	gint row = -1, col = -1;
@@ -653,19 +652,19 @@ calendar_table_query_tooltip (GtkWidget *widget,
 	if (keyboard_mode)
 		return FALSE;
 
-	cal_table = E_CALENDAR_TABLE (widget);
+	task_table = E_TASK_TABLE (widget);
 
-	e_table_get_mouse_over_cell (E_TABLE (cal_table), &row, &col);
+	e_table_get_mouse_over_cell (E_TABLE (task_table), &row, &col);
 	if (row == -1)
 		return FALSE;
 
 	/* Respect sorting option; the 'e_table_get_mouse_over_cell'
 	 * returns sorted row, not the model one. */
-	esm = e_table_get_selection_model (E_TABLE (cal_table));
+	esm = e_table_get_selection_model (E_TABLE (task_table));
 	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
 		row = e_sorter_sorted_to_model (esm->sorter, row);
 
-	model = e_calendar_table_get_model (cal_table);
+	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, row);
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
@@ -843,42 +842,42 @@ calendar_table_query_tooltip (GtkWidget *widget,
 }
 
 static void
-calendar_table_double_click (ETable *table,
-                             gint row,
-                             gint col,
-                             GdkEvent *event)
+task_table_double_click (ETable *table,
+                         gint row,
+                         gint col,
+                         GdkEvent *event)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 
-	cal_table = E_CALENDAR_TABLE (table);
-	model = e_calendar_table_get_model (cal_table);
+	task_table = E_TASK_TABLE (table);
+	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, row);
-	calendar_table_emit_open_component (cal_table, comp_data);
+	task_table_emit_open_component (task_table, comp_data);
 }
 
 static gint
-calendar_table_right_click (ETable *table,
-                            gint row,
-                            gint col,
-                            GdkEvent *event)
+task_table_right_click (ETable *table,
+                        gint row,
+                        gint col,
+                        GdkEvent *event)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 
-	cal_table = E_CALENDAR_TABLE (table);
-	calendar_table_emit_popup_event (cal_table, event);
+	task_table = E_TASK_TABLE (table);
+	task_table_emit_popup_event (task_table, event);
 
 	return TRUE;
 }
 
 static void
-calendar_table_update_actions (ESelectable *selectable,
-                               EFocusTracker *focus_tracker,
-                               GdkAtom *clipboard_targets,
-                               gint n_clipboard_targets)
+task_table_update_actions (ESelectable *selectable,
+                           EFocusTracker *focus_tracker,
+                           GdkAtom *clipboard_targets,
+                           gint n_clipboard_targets)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	GtkAction *action;
 	GSList *list, *iter;
 	gboolean sources_are_editable = TRUE;
@@ -887,10 +886,10 @@ calendar_table_update_actions (ESelectable *selectable,
 	const gchar *tooltip;
 	gint n_selected;
 
-	cal_table = E_CALENDAR_TABLE (selectable);
-	n_selected = e_table_selected_count (E_TABLE (cal_table));
+	task_table = E_TASK_TABLE (selectable);
+	n_selected = e_table_selected_count (E_TABLE (task_table));
 
-	list = e_calendar_table_get_selected (cal_table);
+	list = e_task_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		gboolean read_only;
@@ -930,45 +929,45 @@ calendar_table_update_actions (ESelectable *selectable,
 }
 
 static void
-calendar_table_cut_clipboard (ESelectable *selectable)
+task_table_cut_clipboard (ESelectable *selectable)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 
-	cal_table = E_CALENDAR_TABLE (selectable);
+	task_table = E_TASK_TABLE (selectable);
 
 	e_selectable_copy_clipboard (selectable);
-	delete_selected_components (cal_table);
+	delete_selected_components (task_table);
 }
 
-/* Helper for calendar_table_copy_clipboard() */
+/* Helper for task_table_copy_clipboard() */
 static void
 copy_row_cb (gint model_row, gpointer data)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	ECalModelComponent *comp_data;
 	ECalModel *model;
 	gchar *comp_str;
 	icalcomponent *child;
 
-	cal_table = E_CALENDAR_TABLE (data);
+	task_table = E_TASK_TABLE (data);
 
-	g_return_if_fail (cal_table->tmp_vcal != NULL);
+	g_return_if_fail (task_table->tmp_vcal != NULL);
 
-	model = e_calendar_table_get_model (cal_table);
+	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, model_row);
 	if (!comp_data)
 		return;
 
 	/* Add timezones to the VCALENDAR component. */
 	e_cal_util_add_timezones_from_component (
-		cal_table->tmp_vcal, comp_data->icalcomp);
+		task_table->tmp_vcal, comp_data->icalcomp);
 
 	/* Add the new component to the VCALENDAR component. */
 	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
 	child = icalparser_parse_string (comp_str);
 	if (child) {
 		icalcomponent_add_component (
-			cal_table->tmp_vcal,
+			task_table->tmp_vcal,
 			icalcomponent_new_clone (child));
 		icalcomponent_free (child);
 	}
@@ -976,20 +975,20 @@ copy_row_cb (gint model_row, gpointer data)
 }
 
 static void
-calendar_table_copy_clipboard (ESelectable *selectable)
+task_table_copy_clipboard (ESelectable *selectable)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	GtkClipboard *clipboard;
 	gchar *comp_str;
 
-	cal_table = E_CALENDAR_TABLE (selectable);
+	task_table = E_TASK_TABLE (selectable);
 
 	/* Create a temporary VCALENDAR object. */
-	cal_table->tmp_vcal = e_cal_util_new_top_level ();
+	task_table->tmp_vcal = e_cal_util_new_top_level ();
 
 	e_table_selected_row_foreach (
-		E_TABLE (cal_table), copy_row_cb, cal_table);
-	comp_str = icalcomponent_as_ical_string_r (cal_table->tmp_vcal);
+		E_TABLE (task_table), copy_row_cb, task_table);
+	comp_str = icalcomponent_as_ical_string_r (task_table->tmp_vcal);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	e_clipboard_set_calendar (clipboard, comp_str, -1);
@@ -997,13 +996,13 @@ calendar_table_copy_clipboard (ESelectable *selectable)
 
 	g_free (comp_str);
 
-	icalcomponent_free (cal_table->tmp_vcal);
-	cal_table->tmp_vcal = NULL;
+	icalcomponent_free (task_table->tmp_vcal);
+	task_table->tmp_vcal = NULL;
 }
 
 /* Helper for calenable_table_paste_clipboard() */
 static void
-clipboard_get_calendar_data (ECalendarTable *cal_table,
+clipboard_get_calendar_data (ETaskTable *task_table,
                              const gchar *text)
 {
 	icalcomponent *icalcomp;
@@ -1014,7 +1013,7 @@ clipboard_get_calendar_data (ECalendarTable *cal_table,
 	icalcomponent_kind kind;
 	const gchar *status_message;
 
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+	g_return_if_fail (E_IS_CALENDAR_TABLE (task_table));
 
 	if (!text || !*text)
 		return;
@@ -1032,11 +1031,11 @@ clipboard_get_calendar_data (ECalendarTable *cal_table,
 		return;
 	}
 
-	model = e_calendar_table_get_model (cal_table);
+	model = e_task_table_get_model (task_table);
 	client = e_cal_model_get_default_client (model);
 
 	status_message = _("Updating objects");
-	calendar_table_emit_status_message (cal_table, status_message, -1.0);
+	task_table_emit_status_message (task_table, status_message, -1.0);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -1086,22 +1085,22 @@ clipboard_get_calendar_data (ECalendarTable *cal_table,
 		g_object_unref (comp);
 	}
 
-	calendar_table_emit_status_message (cal_table, NULL, -1.0);
+	task_table_emit_status_message (task_table, NULL, -1.0);
 }
 
 static void
-calendar_table_paste_clipboard (ESelectable *selectable)
+task_table_paste_clipboard (ESelectable *selectable)
 {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	GtkClipboard *clipboard;
 	GnomeCanvasItem *item;
 	GnomeCanvas *table_canvas;
 
-	cal_table = E_CALENDAR_TABLE (selectable);
+	task_table = E_TASK_TABLE (selectable);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	table_canvas = E_TABLE (cal_table)->table_canvas;
+	table_canvas = E_TABLE (task_table)->table_canvas;
 	item = table_canvas->focused_item;
 
 	/* XXX Should ECellText implement GtkEditable? */
@@ -1125,40 +1124,40 @@ calendar_table_paste_clipboard (ESelectable *selectable)
 		gchar *calendar_source;
 
 		calendar_source = e_clipboard_wait_for_calendar (clipboard);
-		clipboard_get_calendar_data (cal_table, calendar_source);
+		clipboard_get_calendar_data (task_table, calendar_source);
 		g_free (calendar_source);
 	}
 }
 
 static void
-calendar_table_select_all (ESelectable *selectable)
+task_table_select_all (ESelectable *selectable)
 {
 	e_table_select_all (E_TABLE (selectable));
 }
 
 static void
-calendar_table_class_init (ECalendarTableClass *class)
+task_table_class_init (ETaskTableClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	ETableClass *table_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (ECalendarTablePrivate));
+	g_type_class_add_private (class, sizeof (ETaskTablePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = calendar_table_set_property;
-	object_class->get_property = calendar_table_get_property;
-	object_class->dispose = calendar_table_dispose;
-	object_class->constructed = calendar_table_constructed;
+	object_class->set_property = task_table_set_property;
+	object_class->get_property = task_table_get_property;
+	object_class->dispose = task_table_dispose;
+	object_class->constructed = task_table_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->popup_menu = calendar_table_popup_menu;
-	widget_class->query_tooltip = calendar_table_query_tooltip;
+	widget_class->popup_menu = task_table_popup_menu;
+	widget_class->query_tooltip = task_table_query_tooltip;
 
 	table_class = E_TABLE_CLASS (class);
-	table_class->double_click = calendar_table_double_click;
-	table_class->right_click = calendar_table_right_click;
+	table_class->double_click = task_table_double_click;
+	table_class->right_click = task_table_right_click;
 
 	g_object_class_install_property (
 		object_class,
@@ -1186,7 +1185,7 @@ calendar_table_class_init (ECalendarTableClass *class)
 		"open-component",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, open_component),
+		G_STRUCT_OFFSET (ETaskTableClass, open_component),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
@@ -1196,7 +1195,7 @@ calendar_table_class_init (ECalendarTableClass *class)
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, popup_event),
+		G_STRUCT_OFFSET (ETaskTableClass, popup_event),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
@@ -1206,7 +1205,7 @@ calendar_table_class_init (ECalendarTableClass *class)
 		"status-message",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, status_message),
+		G_STRUCT_OFFSET (ETaskTableClass, status_message),
 		NULL, NULL,
 		e_marshal_VOID__STRING_DOUBLE,
 		G_TYPE_NONE, 2,
@@ -1216,55 +1215,55 @@ calendar_table_class_init (ECalendarTableClass *class)
 		"user-created",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, user_created),
+		G_STRUCT_OFFSET (ETaskTableClass, user_created),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }
 
 static void
-calendar_table_init (ECalendarTable *cal_table)
+task_table_init (ETaskTable *task_table)
 {
-	cal_table->priv = E_CALENDAR_TABLE_GET_PRIVATE (cal_table);
+	task_table->priv = E_TASK_TABLE_GET_PRIVATE (task_table);
 }
 
 static void
-calendar_table_selectable_init (ESelectableInterface *interface)
+task_table_selectable_init (ESelectableInterface *interface)
 {
-	interface->update_actions = calendar_table_update_actions;
-	interface->cut_clipboard = calendar_table_cut_clipboard;
-	interface->copy_clipboard = calendar_table_copy_clipboard;
-	interface->paste_clipboard = calendar_table_paste_clipboard;
-	interface->select_all = calendar_table_select_all;
+	interface->update_actions = task_table_update_actions;
+	interface->cut_clipboard = task_table_cut_clipboard;
+	interface->copy_clipboard = task_table_copy_clipboard;
+	interface->paste_clipboard = task_table_paste_clipboard;
+	interface->select_all = task_table_select_all;
 }
 
 GType
-e_calendar_table_get_type (void)
+e_task_table_get_type (void)
 {
 	static GType type = 0;
 
 	if (G_UNLIKELY (type == 0)) {
 		static const GTypeInfo type_info = {
-			sizeof (ECalendarTableClass),
+			sizeof (ETaskTableClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) calendar_table_class_init,
+			(GClassInitFunc) task_table_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,  /* class_data */
-			sizeof (ECalendarTable),
+			sizeof (ETaskTable),
 			0,     /* n_preallocs */
-			(GInstanceInitFunc) calendar_table_init,
+			(GInstanceInitFunc) task_table_init,
 			NULL   /* value_table */
 		};
 
 		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) calendar_table_selectable_init,
+			(GInterfaceInitFunc) task_table_selectable_init,
 			(GInterfaceFinalizeFunc) NULL,
 			NULL   /* interface_data */
 		};
 
 		type = g_type_register_static (
-			E_TABLE_TYPE, "ECalendarTable", &type_info, 0);
+			E_TABLE_TYPE, "ETaskTable", &type_info, 0);
 
 		g_type_add_interface_static (
 			type, E_TYPE_SELECTABLE, &selectable_info);
@@ -1274,48 +1273,48 @@ e_calendar_table_get_type (void)
 }
 
 /**
- * e_calendar_table_new:
+ * e_task_table_new:
  * @shell_view: an #EShellView
  * @model: an #ECalModel for the table
  *
- * Returns a new #ECalendarTable.
+ * Returns a new #ETaskTable.
  *
- * Returns: a new #ECalendarTable
+ * Returns: a new #ETaskTable
  **/
 GtkWidget *
-e_calendar_table_new (EShellView *shell_view,
-                      ECalModel *model)
+e_task_table_new (EShellView *shell_view,
+                  ECalModel *model)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	return g_object_new (
-		E_TYPE_CALENDAR_TABLE,
+		E_TYPE_TASK_TABLE,
 		"model", model, "shell-view", shell_view, NULL);
 }
 
 /**
- * e_calendar_table_get_model:
- * @cal_table: A calendar table.
+ * e_task_table_get_model:
+ * @task_table: A calendar table.
  *
  * Queries the calendar data model that a calendar table is using.
  *
  * Return value: A calendar model.
  **/
 ECalModel *
-e_calendar_table_get_model (ECalendarTable *cal_table)
+e_task_table_get_model (ETaskTable *task_table)
 {
-	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
+	g_return_val_if_fail (E_IS_CALENDAR_TABLE (task_table), NULL);
 
-	return cal_table->priv->model;
+	return task_table->priv->model;
 }
 
 EShellView *
-e_calendar_table_get_shell_view (ECalendarTable *cal_table)
+e_task_table_get_shell_view (ETaskTable *task_table)
 {
-	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
+	g_return_val_if_fail (E_IS_CALENDAR_TABLE (task_table), NULL);
 
-	return cal_table->priv->shell_view;
+	return task_table->priv->shell_view;
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
@@ -1335,25 +1334,25 @@ get_selected_row_cb (gint model_row, gpointer data)
  * one and only one selected row.
  */
 static ECalModelComponent *
-get_selected_comp (ECalendarTable *cal_table)
+get_selected_comp (ETaskTable *task_table)
 {
 	ECalModel *model;
 	gint row;
 
-	model = e_calendar_table_get_model (cal_table);
-	if (e_table_selected_count (E_TABLE (cal_table)) != 1)
+	model = e_task_table_get_model (task_table);
+	if (e_table_selected_count (E_TABLE (task_table)) != 1)
 		return NULL;
 
 	row = -1;
 	e_table_selected_row_foreach (
-		E_TABLE (cal_table), get_selected_row_cb, &row);
+		E_TABLE (task_table), get_selected_row_cb, &row);
 	g_return_val_if_fail (row != -1, NULL);
 
 	return e_cal_model_get_component_at (model, row);
 }
 
 struct get_selected_uids_closure {
-	ECalendarTable *cal_table;
+	ETaskTable *task_table;
 	GSList *objects;
 };
 
@@ -1365,7 +1364,7 @@ add_uid_cb (gint model_row, gpointer data)
 	ECalModelComponent *comp_data;
 	ECalModel *model;
 
-	model = e_calendar_table_get_model (closure->cal_table);
+	model = e_task_table_get_model (closure->task_table);
 	comp_data = e_cal_model_get_component_at (model, model_row);
 
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
@@ -1410,13 +1409,13 @@ check_for_retract (ECalComponent *comp, ECal *client)
 }
 
 /**
- * e_calendar_table_delete_selected:
- * @cal_table: A calendar table.
+ * e_task_table_delete_selected:
+ * @task_table: A calendar table.
  *
  * Deletes the selected components in the table; asks the user first.
  **/
 void
-e_calendar_table_delete_selected (ECalendarTable *cal_table)
+e_task_table_delete_selected (ETaskTable *task_table)
 {
 	gint n_selected;
 	ECalModelComponent *comp_data;
@@ -1424,15 +1423,15 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 	gboolean delete = FALSE;
 	GError *error = NULL;
 
-	g_return_if_fail (cal_table != NULL);
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+	g_return_if_fail (task_table != NULL);
+	g_return_if_fail (E_IS_CALENDAR_TABLE (task_table));
 
-	n_selected = e_table_selected_count (E_TABLE (cal_table));
+	n_selected = e_table_selected_count (E_TABLE (task_table));
 	if (n_selected <= 0)
 		return;
 
 	if (n_selected == 1)
-		comp_data = get_selected_comp (cal_table);
+		comp_data = get_selected_comp (task_table);
 	else
 		comp_data = NULL;
 
@@ -1447,7 +1446,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		gchar *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_table), &retract);
+		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (task_table), &retract);
 		if (retract) {
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
@@ -1473,11 +1472,11 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 
 		}
 	} else {
-		delete = delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO, GTK_WIDGET (cal_table));
+		delete = delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO, GTK_WIDGET (task_table));
 	}
 
 	if (delete)
-		delete_selected_components (cal_table);
+		delete_selected_components (task_table);
 
 	/* free memory */
 	if (comp)
@@ -1485,8 +1484,8 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 }
 
 /**
- * e_calendar_table_get_selected:
- * @cal_table:
+ * e_task_table_get_selected:
+ * @task_table:
  *
  * Get the currently selected ECalModelComponent's on the table.
  *
@@ -1494,15 +1493,15 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
  * g_slist_free'd when finished with.
  **/
 GSList *
-e_calendar_table_get_selected (ECalendarTable *cal_table)
+e_task_table_get_selected (ETaskTable *task_table)
 {
 	struct get_selected_uids_closure closure;
 
-	closure.cal_table = cal_table;
+	closure.task_table = task_table;
 	closure.objects = NULL;
 
 	e_table_selected_row_foreach (
-		E_TABLE (cal_table), add_uid_cb, &closure);
+		E_TABLE (task_table), add_uid_cb, &closure);
 
 	return closure.objects;
 }
@@ -1601,16 +1600,16 @@ show_completed_rows (ECalModel *model, GList *clients_list, gchar *show_sexp, GP
    FIXME: Should probably use the timezone of the item rather than the
    current timezone, though that may be difficult to get from here. */
 static struct tm
-e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
+e_task_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 {
-	ECalendarTable *cal_table = data;
+	ETaskTable *task_table = data;
 	ECalModel *model;
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
 	/* Get the current timezone. */
-	model = e_calendar_table_get_model (cal_table);
+	model = e_task_table_get_model (task_table);
 	zone = e_cal_model_get_timezone (model);
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
@@ -1628,16 +1627,16 @@ e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 }
 
 /**
- * e_calendar_table_hide_completed_tasks:
+ * e_task_table_hide_completed_tasks:
  * @table: A calendar table model.
  * @client_list: Clients List
  *
  * Hide completed tasks.
  */
 void
-e_calendar_table_process_completed_tasks (ECalendarTable *table,
-                                          GList *clients_list,
-                                          gboolean config_changed)
+e_task_table_process_completed_tasks (ETaskTable *task_table,
+                                      GList *clients_list,
+                                      gboolean config_changed)
 {
 	ECalModel *model;
 	static GMutex *mutex = NULL;
@@ -1649,7 +1648,7 @@ e_calendar_table_process_completed_tasks (ECalendarTable *table,
 
 	g_mutex_lock (mutex);
 
-	model = e_calendar_table_get_model (table);
+	model = e_task_table_get_model (task_table);
 	comp_objects = e_cal_model_get_object_array (model);
 
 	hide_sexp = calendar_config_get_hide_completed_tasks_sexp (TRUE);

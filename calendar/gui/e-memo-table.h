@@ -22,8 +22,8 @@
  *
  */
 
-#ifndef _E_MEMO_TABLE_H_
-#define _E_MEMO_TABLE_H_
+#ifndef E_MEMO_TABLE_H
+#define E_MEMO_TABLE_H
 
 #include <table/e-table.h>
 #include <table/e-cell-date-edit.h>
@@ -32,11 +32,10 @@
 
 /*
  * EMemoTable - displays the iCalendar objects in a table (an ETable).
- * Used for memo events and tasks.
  *
- * XXX We should look at merging this back into ECalendarTable, or at
- *     least making ECalendarTable subclassable so we don't have so
- *     much duplicate code.
+ * XXX EMemoTable and ETaskTable have lots of duplicate code.  We should
+ *     look at merging them, or at least bringing back ECalendarTable as
+ *     a common base class.
  */
 
 /* Standard GObject macros */
@@ -108,4 +107,4 @@ GSList *	e_memo_table_get_selected	(EMemoTable *memo_table);
 
 G_END_DECLS
 
-#endif /* _E_MEMO_TABLE_H_ */
+#endif /* E_MEMO_TABLE_H */

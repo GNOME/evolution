@@ -443,7 +443,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	GnomeCalendar *calendar;
 	ECalendar *date_navigator;
 	EMemoTable *memo_table;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ESourceSelector *selector;
 	ECalModel *model;
 	gint ii;

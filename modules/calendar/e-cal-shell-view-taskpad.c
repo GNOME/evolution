@@ -28,14 +28,14 @@ action_calendar_taskpad_assign_cb (GtkAction *action,
                                    ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -51,14 +51,14 @@ action_calendar_taskpad_delete_cb (GtkAction *action,
                                    ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
 	e_cal_shell_view_taskpad_set_status_message (
 		cal_shell_view, _("Deleting selected tasks..."), -1.0);
-	e_calendar_table_delete_selected (task_table);
+	e_task_table_delete_selected (task_table);
 	e_cal_shell_view_taskpad_set_status_message (
 		cal_shell_view, NULL, -1.0);
 }
@@ -68,8 +68,8 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	ECalComponent *comp;
 	icalcomponent *clone;
 	GSList *list;
@@ -77,7 +77,7 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -97,14 +97,14 @@ action_calendar_taskpad_mark_complete_cb (GtkAction *action,
                                           ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	GSList *list, *iter;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	list = e_calendar_table_get_selected (task_table);
-	model = e_calendar_table_get_model (task_table);
+	list = e_task_table_get_selected (task_table);
+	model = e_task_table_get_model (task_table);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
@@ -120,14 +120,14 @@ action_calendar_taskpad_mark_incomplete_cb (GtkAction *action,
                                             ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	GSList *list, *iter;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	list = e_calendar_table_get_selected (task_table);
-	model = e_calendar_table_get_model (task_table);
+	list = e_task_table_get_selected (task_table);
+	model = e_task_table_get_model (task_table);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
@@ -146,8 +146,8 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	ECal *client;
 	ECalComponent *comp;
 	CompEditor *editor;
@@ -160,7 +160,7 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -181,14 +181,14 @@ action_calendar_taskpad_open_cb (GtkAction *action,
                                  ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -204,8 +204,8 @@ action_calendar_taskpad_open_url_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	icalproperty *prop;
 	const gchar *uri;
 	GSList *list;
@@ -216,7 +216,7 @@ action_calendar_taskpad_open_url_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 
@@ -234,8 +234,8 @@ action_calendar_taskpad_print_cb (GtkAction *action,
                                   ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	ECalComponent *comp;
 	icalcomponent *clone;
 	GtkPrintOperationAction print_action;
@@ -244,7 +244,7 @@ action_calendar_taskpad_print_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -267,8 +267,8 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	ETaskTable *task_table;
 	EActivity *activity;
 	GSList *list;
 	GFile *file;
@@ -282,7 +282,7 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -425,7 +425,7 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	ECalShellContent *cal_shell_content;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	ECalendarTable *task_table;
+	ETaskTable *task_table;
 	GtkAction *action;
 	GSList *list, *iter;
 	const gchar *label;
@@ -445,7 +445,7 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 
 	n_selected = e_table_selected_count (E_TABLE (task_table));
 
-	list = e_calendar_table_get_selected (task_table);
+	list = e_task_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		icalproperty *prop;

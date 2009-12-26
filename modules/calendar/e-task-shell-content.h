@@ -27,8 +27,8 @@
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-cal-model.h>
-#include <calendar/gui/e-calendar-table.h>
 #include <calendar/gui/e-cal-component-preview.h>
+#include <calendar/gui/e-task-table.h>
 
 #include <menus/gal-view-instance.h>
 
@@ -85,7 +85,7 @@ ECalModel *	e_task_shell_content_get_task_model
 ECalComponentPreview *
 		e_task_shell_content_get_task_preview
 					(ETaskShellContent *task_shell_content);
-ECalendarTable *e_task_shell_content_get_task_table
+ETaskTable *	e_task_shell_content_get_task_table
 					(ETaskShellContent *task_shell_content);
 gboolean	e_task_shell_content_get_preview_visible
 					(ETaskShellContent *task_shell_content);
