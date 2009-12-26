@@ -354,7 +354,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	e_task_shell_view_update_search_filter (task_shell_view);
 	e_task_shell_view_update_timezone (task_shell_view);
 
-	/* call this when everything is ready, like actions in action groups and such */
+	/* Call this when everything is ready, like actions in
+	 * action groups and such. */
 	task_shell_view_update_timeout_cb (task_shell_view);
 	priv->update_timeout = g_timeout_add_full (
 		G_PRIORITY_LOW, 60000, (GSourceFunc)

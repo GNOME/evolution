@@ -392,7 +392,7 @@ shell_searchbar_get_property (GObject *object,
 				value, e_shell_searchbar_get_label_visible (
 				E_SHELL_SEARCHBAR (object)));
 			return;
-			
+
 		case PROP_FILTER_VISIBLE:
 			g_value_set_boolean (
 				value, e_shell_searchbar_get_filter_visible (

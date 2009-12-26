@@ -45,7 +45,8 @@ G_BEGIN_DECLS
    of a normal event. */
 #define E_DAY_VIEW_LONG_EVENT		E_DAY_VIEW_MAX_DAYS
 
-/* The maximum number of columns of appointments within a day in multi-day view. */
+/* The maximum number of columns of appointments within a day in multi-day
+   view. */
 #define E_DAY_VIEW_MULTI_DAY_MAX_COLUMNS 6
 
 /* minimum width of the event in one-day view in pixels */
@@ -533,7 +534,8 @@ gint	   e_day_view_get_work_day_end_minute	(EDayView *day_view);
 void	   e_day_view_set_work_day_end_minute	(EDayView *day_view,
 						 gint work_day_end_minute);
 
-/* Whether we display the Marcus Bains Line in the main canvas and time canvas. */
+/* Whether we display the Marcus Bains Line in the main canvas and time
+   canvas. */
 void	   e_day_view_marcus_bains_update	(EDayView *day_view);
 gboolean   e_day_view_marcus_bains_get_show_line(EDayView *day_view);
 void	   e_day_view_marcus_bains_set_show_line(EDayView *day_view,

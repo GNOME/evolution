@@ -170,12 +170,17 @@ action_calendar_jump_to_cb (GtkAction *action,
                             ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
 	GnomeCalendar *calendar;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-	goto_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (cal_shell_content))), calendar);
+	goto_dialog (GTK_WINDOW (shell_window), calendar);
 }
 
 static void
@@ -350,14 +355,22 @@ static void
 action_calendar_refresh_cb (GtkAction *action,
                            ECalShellView *cal_shell_view)
 {
+	ECalShellContent *cal_shell_content;
+	ECalShellSidebar *cal_shell_sidebar;
+	ESourceSelector *selector;
 	ECal *client;
 	ECalModel *model;
 	ESource *source;
 	gchar *uri;
 	GError *error = NULL;
 
-	model = e_cal_shell_content_get_model (cal_shell_view->priv->cal_shell_content);
-	source = e_source_selector_peek_primary_selection (e_cal_shell_sidebar_get_selector (cal_shell_view->priv->cal_shell_sidebar));
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
+
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+
+	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	uri = e_source_get_uri (source);
@@ -370,7 +383,10 @@ action_calendar_refresh_cb (GtkAction *action,
 	g_return_if_fail (e_cal_get_refresh_supported (client));
 
 	if (!e_cal_refresh (client, &error) && error) {
-		g_warning ("%s: Failed to refresh '%s', %s\n", G_STRFUNC, e_source_peek_name (source), error->message);
+		g_warning (
+			"%s: Failed to refresh '%s', %s\n",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
 		g_error_free (error);
 	}
 }
@@ -1071,10 +1087,12 @@ action_event_save_as_cb (GtkAction *action,
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
-	/* To Translators: Default filename part saving an event to a file when no summary is filed, the '.ics' extension is concatenated to it */
+	/* Translators: Default filename part saving an event to a file when
+	 * no summary is filed, the '.ics' extension is concatenated to it. */
 	string = icalcomp_suggest_filename (icalcomp, _("event"));
 	file = e_shell_run_save_dialog (
-		shell, _("Save as iCalendar"), string, "*.ics:text/calendar", NULL, NULL);
+		shell, _("Save as iCalendar"), string,
+		"*.ics:text/calendar", NULL, NULL);
 	g_free (string);
 	if (file == NULL)
 		return;
@@ -1134,16 +1152,25 @@ edit_event_as (ECalShellView *cal_shell_view, gboolean as_meeting)
 		/* do it on a copy, as user can cancel changes */
 		icalcomp = icalcomponent_new_clone (icalcomp);
 
-		#define remove_all(_kind)									\
-			while (prop = icalcomponent_get_first_property (icalcomp, _kind), prop != NULL) {	\
-				icalcomponent_remove_property (icalcomp, prop);					\
-				icalproperty_free (prop);							\
-			}
+		prop = icalcomponent_get_first_property (
+			icalcomp, ICAL_ATTENDEE_PROPERTY);
+		while (prop != NULL) {
+			icalcomponent_remove_property (icalcomp, prop);
+			icalproperty_free (prop);
 
-		remove_all (ICAL_ATTENDEE_PROPERTY);
-		remove_all (ICAL_ORGANIZER_PROPERTY);
+			prop = icalcomponent_get_first_property (
+				icalcomp, ICAL_ATTENDEE_PROPERTY);
+		}
 
-		#undef remove_all
+		prop = icalcomponent_get_first_property (
+			icalcomp, ICAL_ORGANIZER_PROPERTY);
+		while (prop != NULL) {
+			icalcomponent_remove_property (icalcomp, prop);
+			icalproperty_free (prop);
+
+			prop = icalcomponent_get_first_property (
+				icalcomp, ICAL_ORGANIZER_PROPERTY);
+		}
 	}
 
 	e_calendar_view_edit_appointment (

@@ -72,7 +72,9 @@ clear_comp_info (ECalComponentPreview *preview)
 /* Stores information about actually shown component and
    returns whether component in the preview changed */
 static gboolean
-update_comp_info (ECalComponentPreview *preview, ECal *ecal, ECalComponent *comp)
+update_comp_info (ECalComponentPreview *preview,
+                  ECal *ecal,
+                  ECalComponent *comp)
 {
 	ECalComponentPreviewPrivate *priv;
 	gboolean changed;

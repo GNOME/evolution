@@ -242,8 +242,12 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		widget = e_addressbook_view_new (shell_view, source);
 		gtk_widget_show (widget);
 
-		/* default searching options for a new view */
-		e_addressbook_view_set_search (E_ADDRESSBOOK_VIEW (widget), CONTACT_FILTER_ANY_CATEGORY, CONTACT_SEARCH_NAME_CONTAINS, NULL, NULL);
+		/* Default searching options for a new view. */
+		e_addressbook_view_set_search (
+			E_ADDRESSBOOK_VIEW (widget),
+			CONTACT_FILTER_ANY_CATEGORY,
+			CONTACT_SEARCH_NAME_CONTAINS,
+			NULL, NULL);
 
 		e_book_shell_content_insert_view (
 			book_shell_content,

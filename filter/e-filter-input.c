@@ -84,7 +84,10 @@ filter_input_validate (EFilterElement *element,
 
 		pattern = input->values->data;
 
-		if ((regerr = regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE))) {
+		regerr = regcomp (
+			&regexpat, pattern,
+			REG_EXTENDED | REG_NEWLINE | REG_ICASE);
+		if (regerr != 0) {
 			if (alert) {
 				gsize reglen;
 				gchar *regmsg;

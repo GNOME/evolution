@@ -260,7 +260,8 @@ shell_content_forall (GtkContainer *container,
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
 
-	if (include_internals && priv->searchbar != NULL && container == (GtkContainer *)priv->searchbar->parent)
+	if (include_internals && priv->searchbar != NULL &&
+		container == GTK_CONTAINER (priv->searchbar->parent))
 		callback (priv->searchbar, callback_data);
 
 	/* Chain up to parent's forall() method. */

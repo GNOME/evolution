@@ -308,9 +308,10 @@ e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
 
 		gtk_widget_show (assistant);
 	} else {
-		g_warning ("%s: Cannot %s any of the given URIs", G_STRFUNC, preview ? "preview" : "import");
+		g_warning (
+			"%s: Cannot %s any of the given URIs",
+			G_STRFUNC, preview ? "preview" : "import");
 	}
 
-	/* like when all of them */
 	return g_strv_length (uris);
 }

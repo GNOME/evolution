@@ -256,7 +256,9 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	for (row = start_row; row <= end_row; row++) {
 		/* resize the array if necessary */
 		if (e_bit_array_bit_count (grid [row]) <= free_col)
-			e_bit_array_insert (grid [row], e_bit_array_bit_count (grid [row]), free_col - e_bit_array_bit_count (grid [row]) + 1);
+			e_bit_array_insert (
+				grid [row], e_bit_array_bit_count (grid [row]),
+				free_col - e_bit_array_bit_count (grid [row]) + 1);
 
 		e_bit_array_change_one_row (grid [row], free_col, TRUE);
 		cols_per_row[row]++;

@@ -2477,7 +2477,7 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 			GtkWidget *box = gtk_hbox_new (FALSE, 12);
 			gtk_widget_reparent (old, box);
 			gtk_widget_show(box);
-			gtk_box_set_child_packing ((GtkBox *)box, old, TRUE, TRUE, 12, GTK_PACK_START);			
+			gtk_box_set_child_packing ((GtkBox *)box, old, TRUE, TRUE, 12, GTK_PACK_START);
 			gtk_box_pack_end ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
 		}
 		return old;

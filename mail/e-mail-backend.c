@@ -381,6 +381,7 @@ mail_backend_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
 	const gchar *data_dir;
+	gboolean online;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -388,7 +389,8 @@ mail_backend_constructed (GObject *object)
 	/* This also initializes Camel, so it needs to happen early. */
 	mail_session_init ();
 
-	camel_session_set_online ((CamelSession *) session, e_shell_get_online (shell));
+	online = e_shell_get_online (shell);
+	camel_session_set_online (CAMEL_SESSION (session), online);
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 
 	folder_cache = mail_folder_cache_get_default ();

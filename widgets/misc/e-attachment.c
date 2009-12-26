@@ -107,6 +107,7 @@ static gboolean
 create_system_thumbnail (EAttachment *attachment, GIcon **icon)
 {
 	GFile *file;
+	GFile *icon_file;
 	gchar *thumbnail = NULL;
 
 	g_return_val_if_fail (attachment != NULL, FALSE);
@@ -122,27 +123,33 @@ create_system_thumbnail (EAttachment *attachment, GIcon **icon)
 		}
 	}
 
-	if (thumbnail) {
-		GFile *gf = g_file_new_for_path (thumbnail);
+	if (thumbnail == NULL)
+		return FALSE;
 
-		g_return_val_if_fail (gf != NULL, FALSE);
-		if (*icon)
-			g_object_unref (*icon);
+	icon_file = g_file_new_for_path (thumbnail);
 
-		*icon = g_file_icon_new (gf);
-		g_object_unref (gf);
+	if (*icon)
+		g_object_unref (*icon);
 
-		if (file) {
-			GFileInfo *fi = e_attachment_get_file_info (attachment);
+	*icon = g_file_icon_new (icon_file);
 
-			if (fi)
-				g_file_info_set_attribute_byte_string (fi, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, thumbnail);
-		}
+	g_object_unref (icon_file);
+
+	if (file) {
+		GFileInfo *file_info;
+		const gchar *attribute;
+
+		file_info = e_attachment_get_file_info (attachment);
+		attribute = G_FILE_ATTRIBUTE_THUMBNAIL_PATH;
+
+		if (file_info != NULL)
+			g_file_info_set_attribute_byte_string (
+				file_info, attribute, thumbnail);
 	}
 
 	g_free (thumbnail);
 
-	return thumbnail != NULL;
+	return TRUE;
 }
 
 static gchar *

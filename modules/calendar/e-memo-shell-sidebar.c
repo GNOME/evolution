@@ -474,8 +474,11 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		delete = e_source_get_property (source, "delete");
 		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
 
-		client = g_hash_table_lookup (memo_shell_sidebar->priv->client_table, e_source_peek_uid (source));
-		refresh_supported = client && e_cal_get_refresh_supported (client);
+		client = g_hash_table_lookup (
+			memo_shell_sidebar->priv->client_table,
+			e_source_peek_uid (source));
+		refresh_supported =
+			client && e_cal_get_refresh_supported (client);
 	}
 
 	if (source != NULL)

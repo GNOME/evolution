@@ -190,7 +190,8 @@ e_filter_part_xml_create (EFilterPart *part,
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp ((gchar *)n->name, "title") || !strcmp ((gchar *)n->name, "_title")) {
+		} else if (!strcmp ((gchar *)n->name, "title") ||
+			   !strcmp ((gchar *)n->name, "_title")) {
 			if (!part->title) {
 				str = (gchar *)xmlNodeGetContent (n);
 				part->title = g_strdup (str);

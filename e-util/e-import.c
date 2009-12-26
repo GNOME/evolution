@@ -365,8 +365,9 @@ e_import_target_new_uri (EImport *import,
                          const gchar *uri_src,
                          const gchar *uri_dst)
 {
-	EImportTargetURI *t = e_import_target_new (import, E_IMPORT_TARGET_URI, sizeof (*t));
+	EImportTargetURI *t;
 
+	t = e_import_target_new (import, E_IMPORT_TARGET_URI, sizeof (*t));
 	t->uri_src = g_strdup (uri_src);
 	t->uri_dest = g_strdup (uri_dst);
 
@@ -542,8 +543,11 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 			ihook = emph_construct_importer (eph, node);
 			if (ihook) {
-				e_import_class_add_importer (class, &ihook->importer, eih_free_importer, eph);
-				emph->importers = g_slist_append (emph->importers, ihook);
+				e_import_class_add_importer (
+					class, &ihook->importer,
+					eih_free_importer, eph);
+				emph->importers = g_slist_append (
+					emph->importers, ihook);
 			}
 		}
 		node = node->next;

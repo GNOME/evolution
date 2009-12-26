@@ -127,7 +127,9 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 		y -= max_height;
 		len = g_list_length (rows[i]);
 		if (!icons_only)
-			extra_width = (allocation->width - (len * max_width ) - (len * H_PADDING)) / len;
+			extra_width =
+				(allocation->width - (len * max_width) -
+				(len * H_PADDING)) / len;
 		else
 			extra_width = 0;
 		for (p = rows [i]; p != NULL; p = p->next) {

@@ -27,7 +27,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-/* This isn't as portable as, say, the stuff in GNU coreutils.  But I care not for OSF1. */
+/* This isn't as portable as, say, the stuff in GNU coreutils.
+ * But I care not for OSF1. */
 #ifdef HAVE_STATVFS
 # ifdef HAVE_SYS_STATVFS_H
 #  include <sys/statvfs.h>

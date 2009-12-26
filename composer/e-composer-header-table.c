@@ -512,23 +512,34 @@ composer_header_table_constructor (GType type,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
 		if (composer_lite && ii == E_COMPOSER_HEADER_TO) {
 			GtkWidget *box = gtk_hbox_new (FALSE, 0);
-			g_object_set_data ((GObject *)priv->headers[ii]->input_widget, "parent", object);
-			gtk_box_pack_start ((GtkBox *)box, priv->headers[ii]->input_widget, TRUE, TRUE, 3);
-			gtk_box_pack_start ((GtkBox *)box, (GtkWidget *)priv->actions_container, FALSE, FALSE, 0);
+			g_object_set_data (
+				G_OBJECT (priv->headers[ii]->input_widget),
+				"parent", object);
+			gtk_box_pack_start (
+				GTK_BOX (box), priv->headers[ii]->input_widget,
+				TRUE, TRUE, 3);
+			gtk_box_pack_start (
+				GTK_BOX (box),
+				GTK_WIDGET (priv->actions_container),
+				FALSE, FALSE, 0);
 			gtk_widget_show (box);
 			gtk_table_attach (
-				GTK_TABLE (object), box,
-				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+				GTK_TABLE (object), box, 1, 4, ii, ii + 1,
+				GTK_FILL | GTK_EXPAND, 0, 0, 3);
 
 		} else {
 			gtk_table_attach (
-				GTK_TABLE (object), priv->headers[ii]->input_widget,
-				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+				GTK_TABLE (object),
+				priv->headers[ii]->input_widget, 1, 4,
+				ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
 		}
 		if (composer_lite && priv->headers[ii]->action_widget) {
-			/* Pack the widgets to the end. Helps formatting when hiding the From field */
-			gtk_box_pack_end ((GtkBox *)priv->actions_container, priv->headers[ii]->action_widget,
-					    FALSE, FALSE, 6);
+			/* Pack the widgets to the end. Helps formatting
+			 * when hiding the From field. */
+			gtk_box_pack_end (
+				GTK_BOX (priv->actions_container),
+				priv->headers[ii]->action_widget,
+				FALSE, FALSE, 6);
 		}
 	}
 

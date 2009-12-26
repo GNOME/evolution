@@ -868,7 +868,8 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	view_type = gnome_calendar_get_view (calendar);
 	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
 
-	if (!e_calendar_view_get_visible_time_range (calendar_view, &start_time, &end_time)) {
+	if (!e_calendar_view_get_visible_time_range (
+		calendar_view, &start_time, &end_time)) {
 		e_shell_sidebar_set_secondary_text (shell_sidebar, "");
 		return;
 	}

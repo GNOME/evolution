@@ -2167,7 +2167,6 @@ em_utils_guess_account_with_recipients (CamelMimeMessage *message, CamelFolder *
 	if (addr)
 		recipients = g_list_append (recipients, (gpointer) addr);
 
-
 	/* finally recipient (to/cc) in account table */
 	account_hash = em_utils_generate_account_hash ();
 	for (l = recipients; l == NULL; l = l->next) {

@@ -506,7 +506,8 @@ cal_shell_content_constructed (GObject *object)
 	e_table_load_state (E_TABLE (widget), filename);
 	g_free (filename);
 
-	e_cal_model_set_default_time_func (e_memo_table_get_model (E_MEMO_TABLE (widget)), gc_get_default_time, calendar);
+	e_cal_model_set_default_time_func (
+		memo_model, gc_get_default_time, calendar);
 
 	g_signal_connect_swapped (
 		widget, "open-component",

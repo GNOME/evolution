@@ -44,7 +44,9 @@ struct _EggSMClientPrivate {
   GKeyFile *state_file;
 };
 
-#define EGG_SM_CLIENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), EGG_TYPE_SM_CLIENT, EggSMClientPrivate))
+#define EGG_SM_CLIENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EGG_TYPE_SM_CLIENT, EggSMClientPrivate))
 
 G_DEFINE_TYPE (EggSMClient, egg_sm_client, G_TYPE_OBJECT)
 

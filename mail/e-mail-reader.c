@@ -808,15 +808,22 @@ action_mail_save_as_cb (GtkAction *action,
 	}
 
 	if (!suggestion) {
-		/* To Translators: This is a part of a suggested file name used when saving
-		   a message or multiple messages to an mbox format, when the first message
-		   doesn't have a Subject. The extension ".mbox" is appended to this string,
-		   thus it will be something like "Message.mbox" at the end. */
-		suggestion = g_strconcat (ngettext ("Message", "Messages", uids->len), ".mbox", NULL);
+		const gchar *basename;
+
+		/* Translators: This is a part of a suggested file name
+		 * used when saving a message or multiple messages to an
+		 * mbox format, when the first message doesn't have a
+		 * Subject. The extension ".mbox" is appended to this
+		 * string, thus it will be something like "Message.mbox"
+		 * at the end. */
+		basename = ngettext ("Message", "Messages", uids->len);
+		suggestion = g_strconcat (basename, ".mbox", NULL);
 	}
 
 	shell = e_shell_backend_get_shell (shell_backend);
-	file = e_shell_run_save_dialog (shell, title, suggestion, "*.mbox:application/mbox,message/rfc822", NULL, NULL);
+	file = e_shell_run_save_dialog (
+		shell, title, suggestion,
+		"*.mbox:application/mbox,message/rfc822", NULL, NULL);
 
 	if (file == NULL) {
 		em_utils_uids_free (uids);

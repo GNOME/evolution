@@ -101,7 +101,10 @@ struct _EContactListEditorPrivate {
 	GtkBuilder *builder;
 	GtkTreeModel *model;
 	ENameSelector *name_selector;
-	ENameSelectorEntry *email_entry; /* it's kept here, because the builder has an old widget, which was changed with this one */
+
+	/* This is kept here because the builder has an old widget
+	 * which was changed with this one. */
+	ENameSelectorEntry *email_entry;
 
 	/* Whether we are editing a new contact or an existing one. */
 	guint is_new_list : 1;
@@ -866,7 +869,7 @@ contact_list_editor_tree_view_key_press_event_cb (GtkWidget *widget,
 	return FALSE;
 }
 
-/*********************** GtkBuilder Custom Widgets Functions ***********************/
+/******************** GtkBuilder Custom Widgets Functions ********************/
 
 static gpointer
 contact_editor_fudge_new (EBook *book,
@@ -938,7 +941,9 @@ setup_custom_widgets (EContactListEditor *editor)
 	name_selector_entry = e_name_selector_peek_section_entry (
 		name_selector, "Members");
 
-	gtk_widget_set_name (GTK_WIDGET (name_selector_entry), gtk_widget_get_name (old));
+	gtk_widget_set_name (
+		GTK_WIDGET (name_selector_entry),
+		gtk_widget_get_name (old));
 	parent = gtk_widget_get_parent (old);
 
 	gtk_container_child_get (GTK_CONTAINER (parent), old,
@@ -955,9 +960,12 @@ setup_custom_widgets (EContactListEditor *editor)
 	/* only hide it... */
 	gtk_widget_hide (old);
 
-	/* ... and place the new name selector to the exact place as is the old one in UI file */
+	/* ... and place the new name selector to the
+	 * exact place as is the old one in UI file */
 	gtk_widget_show (GTK_WIDGET (name_selector_entry));
-	gtk_table_attach (GTK_TABLE (parent), GTK_WIDGET (name_selector_entry), la, ra, ta, ba, xo, yo, xp, yp);
+	gtk_table_attach (
+		GTK_TABLE (parent), GTK_WIDGET (name_selector_entry),
+		la, ra, ta, ba, xo, yo, xp, yp);
 	priv->email_entry = name_selector_entry;
 
 	e_name_selector_entry_set_contact_editor_func (

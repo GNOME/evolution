@@ -542,9 +542,13 @@ e_signature_to_xml (ESignature *signature)
 
 		string = e_signature_get_filename (signature);
 		if (string != NULL) {
-			node = xmlNewTextChild (root, NULL, (xmlChar *) "filename", (xmlChar *) string);
+			node = xmlNewTextChild (
+				root, NULL, (xmlChar *) "filename",
+				(xmlChar *) string);
 			if (e_signature_get_is_script (signature))
-				xmlSetProp (node, (xmlChar *) "script", (xmlChar *) "true");
+				xmlSetProp (
+					node, (xmlChar *) "script",
+					(xmlChar *) "true");
 		}
 	} else {
 		/* this is to make Evolution-1.4 and older 1.5 versions happy */

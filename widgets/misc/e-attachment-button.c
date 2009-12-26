@@ -109,11 +109,13 @@ attachment_button_menu_position (GtkMenu *menu,
 	else if (menu_requisition.width > widget->allocation.width)
 		*x -= menu_requisition.width - widget->allocation.width;
 
-	if ((*y + toggle_button->allocation.height + menu_requisition.height) <= monitor.y + monitor.height)
+	if ((*y + toggle_button->allocation.height +
+		menu_requisition.height) <= monitor.y + monitor.height)
 		*y += toggle_button->allocation.height;
 	else if ((*y - menu_requisition.height) >= monitor.y)
 		*y -= menu_requisition.height;
-	else if (monitor.y + monitor.height - (*y + toggle_button->allocation.height) > *y)
+	else if (monitor.y + monitor.height -
+		(*y + toggle_button->allocation.height) > *y)
 		*y += toggle_button->allocation.height;
 	else
 		*y -= menu_requisition.height;

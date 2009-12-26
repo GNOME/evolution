@@ -103,12 +103,11 @@ gboolean	e_shell_searchbar_get_search_visible
 void		e_shell_searchbar_set_search_visible
 						(EShellSearchbar *searchbar,
 						 gboolean search_visible);
-gboolean	e_shell_searchbar_get_label_visible 
+gboolean	e_shell_searchbar_get_label_visible
 						(EShellSearchbar *searchbar);
-void		e_shell_searchbar_set_label_visible 
+void		e_shell_searchbar_set_label_visible
 						(EShellSearchbar *searchbar,
-                                      		 gboolean label_visible);
-
+						 gboolean label_visible);
 EActionComboBox *
 		e_shell_searchbar_get_scope_combo_box
 						(EShellSearchbar *searchbar);

@@ -1339,7 +1339,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 		/* Right align - 10 comes from print_day_long_event  too */
 		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
-		/* Placing '...' over the last all day event entry printed. '-1 -1' comes 
+		/* Placing '...' over the last all day event entry printed. '-1 -1' comes
 			from print_long_day_event (top/bottom spacing in each cell) */
 		y = top + LONG_DAY_EVENTS_TOP_SPACING + DAY_VIEW_ROW_HEIGHT * (i - 1) + (DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
 
@@ -1358,7 +1358,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
 		print_border (context, left, right,
-		      top, 
+		      top,
 		      top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT + LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING,
 		      1.0, -1.0);
 

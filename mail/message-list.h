@@ -196,7 +196,7 @@ GPtrArray *	message_list_get_selected	(MessageList *message_list);
 void		message_list_set_selected	(MessageList *message_list,
 						 GPtrArray *uids);
 gboolean	message_list_select		(MessageList *message_list,
-					 	 MessageListSelectDirection direction,
+						 MessageListSelectDirection direction,
 						 guint32 flags,
 						 guint32 mask);
 gboolean	message_list_can_select		(MessageList *message_list,
