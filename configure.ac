@@ -124,17 +124,10 @@ AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AM_PROG_LEX
-AC_PROG_YACC
 AC_PROG_AWK
 AC_PATH_PROG([PERL], [perl])
 AC_SUBST(PERL)
 
-case $YACC in
-*yacc*)
-	AC_MSG_ERROR([You need bison to build Evolution])
-	;;
-esac
 AC_ARG_PROGRAM
 
 dnl ******************************
