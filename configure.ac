@@ -34,11 +34,6 @@ AC_LANG(C)
 dnl Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-dnl Some requirements have versioned package names
-dnl XXX In the spirit of getting rid of versioned
-dnl     files, can we please drop these suffixes?
-GTKHTML_PACKAGE=3.14
-
 dnl Required Packages
 m4_define([glib_minimum_version], [2.22.0])
 m4_define([gtk_minimum_version], [2.16.0])
@@ -681,10 +676,6 @@ dnl *************************
 PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-3.14 >= libgtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.14`
-AC_SUBST(GTKHTML_DATADIR)
-GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.14`
-AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api version])
 
 dnl ******************************
 dnl Pilot checking
@@ -1275,7 +1266,7 @@ AC_SUBST(LIBFILTER_LIBS)
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-1.2)
+EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-3.14 unique-1.0 libedataserverui-1.2)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -1283,7 +1274,7 @@ AC_SUBST(SHELL_LIBS)
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-$GTKHTML_PACKAGE libebook-1.2 libedataserverui-1.2 camel-1.2 gtkhtml-editor unique-1.0"
+EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-3.14 libebook-1.2 libedataserverui-1.2 camel-1.2 gtkhtml-editor unique-1.0"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1316,7 +1307,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-$GTKHTML_PACKAGE libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2 unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2 unique-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1329,7 +1320,7 @@ fi
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor $mozilla_nss libebook-1.2 libedataserverui-1.2 unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-3.14 gtkhtml-editor $mozilla_nss libebook-1.2 libedataserverui-1.2 unique-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
