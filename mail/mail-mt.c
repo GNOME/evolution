@@ -854,7 +854,7 @@ op_status_exec (struct _op_status_msg *m)
 
 	data = msg->priv;
 
-	out = alloca (strlen (m->what) * 2 + 1);
+	out = g_alloca (strlen (m->what) * 2 + 1);
 	o = out;
 	p = m->what;
 	while ((c = *p++)) {

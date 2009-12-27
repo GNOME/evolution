@@ -98,7 +98,7 @@ static const gchar *ignored_tags[] = {
 static gint
 ignore_tag (const gchar *tag)
 {
-	gchar *t = alloca(strlen(tag)+1), c, *out;
+	gchar *t = g_alloca(strlen(tag)+1), c, *out;
 	const gchar *in;
 	gint i;
 
@@ -163,7 +163,7 @@ struct _trie {
 static void
 dump_trie (struct _state *s, gint d)
 {
-	gchar *p = alloca(d*2+1);
+	gchar *p = g_alloca(d*2+1);
 	struct _match *m;
 
 	memset(p, ' ', d*2);
@@ -890,9 +890,9 @@ search_info_to_searcher (struct _search_info *si)
 	else
 		col = si->color;
 
-	tags = alloca(20+strlen(col));
+	tags = g_alloca(20+strlen(col));
 	sprintf(tags, "%c<font color=\"%s\">", TAG_ESCAPE, col);
-	tage = alloca(20);
+	tage = g_alloca(20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
 
 	return searcher_new (si->flags, si->strv->len, (guchar **)si->strv->pdata, tags, tage);

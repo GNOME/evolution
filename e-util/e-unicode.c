@@ -29,9 +29,6 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <iconv.h>
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>

@@ -358,7 +358,7 @@ em_format_fallback_handler(EMFormat *emf, const gchar *mime_type)
 	else {
 		gsize len = (s-mime_type)+1;
 
-		mime = alloca(len+2);
+		mime = g_alloca(len+2);
 		strncpy(mime, mime_type, len);
 		strcpy(mime+len, "*");
 	}

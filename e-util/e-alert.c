@@ -430,7 +430,7 @@ e_alert_constructed (GObject *obj)
 	g_return_if_fail (alert_table);
 	g_return_if_fail (alert->priv->tag);
 
-	domain = alloca(strlen(alert->priv->tag)+1);
+	domain = g_alloca(strlen(alert->priv->tag)+1);
 	strcpy(domain, alert->priv->tag);
 	id = strchr(domain, ':');
 	if (id)

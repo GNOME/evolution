@@ -2376,7 +2376,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 	gchar *str_field = NULL;
 	gint i;
 
-	name = alloca(strlen(header->name)+1);
+	name = g_alloca(strlen(header->name)+1);
 	strcpy(name, header->name);
 	canon_header_name (name);
 

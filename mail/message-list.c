@@ -4380,13 +4380,13 @@ regen_list_exec (struct _regen_list_msg *m)
 	} else if (m->hidedel) {
 		if (m->hidejunk) {
 			if (m->search) {
-				expr = alloca(strlen(m->search) + 92);
+				expr = g_alloca(strlen(m->search) + 92);
 				sprintf(expr, "(and (match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))\n %s)", m->search);
 			} else
 				expr = (gchar *) "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
 		} else {
 			if (m->search) {
-				expr = alloca(strlen(m->search) + 64);
+				expr = g_alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
 			} else
 				expr = (gchar *) "(match-all (not (system-flag \"deleted\")))";
@@ -4394,7 +4394,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	} else {
 		if (m->hidejunk) {
 			if (m->search) {
-				expr = alloca(strlen(m->search) + 64);
+				expr = g_alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
 			} else
 				expr = (gchar *) "(match-all (not (system-flag \"junk\")))";

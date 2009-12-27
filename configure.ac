@@ -387,11 +387,6 @@ AC_RUN_IFELSE([AC_LANG_SOURCE([[
 CFLAGS="$save_CFLAGS"
 LIBS="$save_LIBS"
 
-dnl ***********
-dnl alloca()
-dnl ***********
-AC_FUNC_ALLOCA
-
 dnl **************
 dnl waitpid() etc
 dnl **************

@@ -778,7 +778,7 @@ folder_subscribed (CamelStore *store,
 		goto done;
 
 	/* get our parent folder's path */
-	dirname = alloca(strlen(fi->full_name)+1);
+	dirname = g_alloca(strlen(fi->full_name)+1);
 	strcpy(dirname, fi->full_name);
 	p = strrchr(dirname, '/');
 	if (p == NULL) {

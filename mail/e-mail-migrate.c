@@ -1322,13 +1322,13 @@ get_local_store_uri (const gchar *dirname, gchar **namep, gint *indexp)
 		if (node->name && !strcmp ((gchar *)node->name, "folder")) {
 			tmp = (gchar *)xmlGetProp (node, (const guchar *)"type");
 			if (tmp) {
-				protocol = alloca(strlen(tmp)+1);
+				protocol = g_alloca(strlen(tmp)+1);
 				strcpy(protocol, tmp);
 				xmlFree(tmp);
 			}
 			tmp = (gchar *)xmlGetProp (node, (const guchar *)"name");
 			if (tmp) {
-				name = alloca(strlen(tmp)+1);
+				name = g_alloca(strlen(tmp)+1);
 				strcpy(name, tmp);
 				xmlFree(tmp);
 			}

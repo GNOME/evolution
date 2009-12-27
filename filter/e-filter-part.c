@@ -493,7 +493,7 @@ e_filter_part_expand_code (EFilterPart *part,
                            GString *out)
 {
 	const gchar *newstart, *start, *end;
-	gchar *name = alloca (32);
+	gchar *name = g_alloca (32);
 	gint len, namelen = 32;
 
 	g_return_if_fail (E_IS_FILTER_PART (part));

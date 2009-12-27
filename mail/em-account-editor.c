@@ -3153,7 +3153,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				emae->priv->management_set = 1;
 				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				len = strlen (tmp);
-				template = alloca (len + 14);
+				template = g_alloca (len + 14);
 				strcpy (template, tmp);
 				while (e_get_account_by_name (template))
 					sprintf (template + len, " (%d)", i++);
