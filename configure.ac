@@ -643,21 +643,6 @@ else
 fi
 AM_CONDITIONAL(SUNLDAP, [test x$with_sunldap != xno])
 
-dnl **************************************************
-dnl NNTP support.
-dnl **************************************************
-AC_ARG_ENABLE([nntp],
-	AS_HELP_STRING([--enable-nntp],
-	[Build Usenet news (NNTP) backend]),
-	[enable_nntp=$enableval],[enable_nntp=yes])
-if test "x$enable_nntp" = "xyes"; then
-	AC_DEFINE(ENABLE_NNTP,1,[Build NNTP backend])
-	msg_nntp=yes
-else
-	msg_nntp=no
-fi
-AM_CONDITIONAL(ENABLE_NNTP, [test x$enable_nntp = xyes])
-
 AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
 
 dnl **************************************************
@@ -1854,7 +1839,6 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	NetworkManager:		$NM_SUPPORT
-	NNTP support:		$msg_nntp
 	Pilot conduits:		$msg_pilot
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
