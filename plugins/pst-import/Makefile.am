@@ -31,9 +31,10 @@ liborg_gnome_pst_import_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_pst_import_la_LIBADD =			\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(GNOME_PLATFORM_LIBS)				\
+	$(CAMEL_LIBS)					\
 	$(EVOLUTION_CALENDAR_LIBS)			\
 	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(LIBPST_LIBS)
 
 EXTRA_DIST = org-gnome-pst-import.eplug.xml

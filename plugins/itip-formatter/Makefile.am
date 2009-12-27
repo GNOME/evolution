@@ -22,9 +22,9 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/em-format/libemformat.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(GNOME_PLATFORM_LIBS)					\
 	$(CAMEL_LIBS)						\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 error_DATA = org-gnome-itip-formatter.error
 errordir = $(privdatadir)/errors
@@ -36,7 +36,5 @@ CLEANFILES = $(BUILT_SOURCES)
 EXTRA_DIST = \
 	org-gnome-itip-formatter.eplug.xml \
 	org-gnome-itip-formatter.error.xml
-
-
 
 -include $(top_srcdir)/git.mk

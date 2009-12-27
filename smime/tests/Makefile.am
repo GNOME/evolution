@@ -3,6 +3,7 @@ noinst_PROGRAMS=import-cert
 TEST_CPPFLAGS=						\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/smime/lib			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 

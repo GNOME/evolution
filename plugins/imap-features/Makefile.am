@@ -12,6 +12,7 @@ liborg_gnome_imap_features_la_CPPFLAGS = 		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/mail				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CAMEL_IMAP_CFLAGS)				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
@@ -22,7 +23,8 @@ liborg_gnome_imap_features_la_SOURCES = imap-headers.c
 liborg_gnome_imap_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la 		\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_imap_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

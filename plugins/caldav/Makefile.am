@@ -21,7 +21,8 @@ liborg_gnome_evolution_caldav_la_LIBADD = 	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(EVOLUTION_CALENDAR_LIBS)		\
 	$(EPLUGIN_LIBS)				\
-	$(LIBSOUP_LIBS)
+	$(LIBSOUP_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_evolution_caldav_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

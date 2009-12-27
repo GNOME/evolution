@@ -30,8 +30,8 @@ liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-attachment-reminder.schemas.in

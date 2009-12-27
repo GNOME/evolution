@@ -7,13 +7,16 @@ plugin_LTLIBRARIES = liborg-gnome-addressbook-file.la
 liborg_gnome_addressbook_file_la_CPPFLAGS =	\
 	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
+	$(GNOME_PLATFORM_CFLAGS)		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 liborg_gnome_addressbook_file_la_SOURCES = addressbook-file.c
 
 liborg_gnome_addressbook_file_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-liborg_gnome_addressbook_file_la_LIBADD = $(EVOLUTION_ADDRESSBOOK_LIBS)
+liborg_gnome_addressbook_file_la_LIBADD =	\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-addressbook-file.eplug.xml
 

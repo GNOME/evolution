@@ -8,14 +8,16 @@ liborg_gnome_evolution_webdav_la_CPPFLAGS = 	\
 	$(AM_CPPFLAGS)				\
 	-I .					\
 	-I$(top_srcdir)				\
+	$(GNOME_PLATFORM_CFLAGS)		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 liborg_gnome_evolution_webdav_la_SOURCES = \
 	webdav-contacts-source.c
 
-liborg_gnome_evolution_webdav_la_LIBADD = \
-	$(EPLUGIN_LIBS)	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)	
+liborg_gnome_evolution_webdav_la_LIBADD =	\
+	$(EPLUGIN_LIBS)				\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_evolution_webdav_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

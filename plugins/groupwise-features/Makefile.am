@@ -58,9 +58,8 @@ liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)					\
-	$(CAMEL_GROUPWISE_LIBS)
-
-
+	$(CAMEL_GROUPWISE_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

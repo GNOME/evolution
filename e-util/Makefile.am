@@ -80,6 +80,7 @@ libeutil_la_CPPFLAGS =							\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
+	$(GNOME_PLATFORM_CFLAGS)					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
 
@@ -140,6 +141,7 @@ libeutil_la_LIBADD = 		\
 	$(ICONV_LIBS)		\
 	$(E_UTIL_LIBS)		\
 	$(GNOME_PILOT_LIBS)	\
+	$(GNOME_PLATFORM_LIBS)	\
 	$(INTLLIBS)
 
 econdinclude_HEADERS =		\

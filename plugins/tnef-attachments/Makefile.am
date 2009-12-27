@@ -29,8 +29,8 @@ liborg_gnome_tnef_attachments_la_LDFLAGS = -module -avoid-version  $(NO_UNDEFINE
 liborg_gnome_tnef_attachments_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/em-format/libemformat.la	\
-	$(GNOME_PLATFORM_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)				\
 	-lytnef
 
 EXTRA_DIST = org-gnome-tnef-attachments.eplug.xml

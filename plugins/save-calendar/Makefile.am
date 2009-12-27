@@ -8,6 +8,7 @@ liborg_gnome_save_calendar_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 liborg_gnome_save_calendar_la_SOURCES = \
@@ -21,7 +22,8 @@ liborg_gnome_save_calendar_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_save_calendar_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/shell/libeshell.la	\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-save-calendar.eplug.xml
 

@@ -12,6 +12,7 @@ liborg_gnome_face_la_CPPFLAGS =				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/mail				\
 	-I$(top_builddir)/composer			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DCONNECTOR_UIDIR=\""$(uidir)"\"
@@ -22,7 +23,8 @@ liborg_gnome_face_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_face_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

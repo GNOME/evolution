@@ -62,10 +62,10 @@ libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(EVOLUTION_MAIL_LIBS)						\
-	$(GNOME_PLATFORM_LIBS)						\
 	$(CAMEL_LIBS)							\
 	$(GTKHTML_LIBS)							\
-	$(E_WIDGETS_LIBS)
+	$(E_WIDGETS_LIBS)						\
+	$(GNOME_PLATFORM_LIBS)
 
 libevolution_module_mail_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)

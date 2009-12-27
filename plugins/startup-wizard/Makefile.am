@@ -10,6 +10,7 @@ liborg_gnome_evolution_startup_wizard_la_CPPFLAGS =	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/shell				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
@@ -24,7 +25,8 @@ liborg_gnome_evolution_startup_wizard_la_LIBADD =			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)						\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_evolution_startup_wizard_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

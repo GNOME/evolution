@@ -8,6 +8,7 @@ liborg_gnome_bogo_junk_plugin_la_CPPFLAGS =					\
 	$(AM_CPPFLAGS)								\
 	-I$(top_srcdir)								\
 	-DWELCOME_MESSAGE=\""$(privdatadir)/default/C/mail/local/Inbox"\" 	\
+	$(GNOME_PLATFORM_CFLAGS)						\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 liborg_gnome_bogo_junk_plugin_la_SOURCES = bf-junk-filter.c

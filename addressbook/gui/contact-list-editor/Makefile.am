@@ -14,6 +14,7 @@ libecontactlisteditor_la_CPPFLAGS =			\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 libecontactlisteditor_la_SOURCES = 		\
@@ -24,14 +25,15 @@ libecontactlisteditor_la_SOURCES = 		\
 
 libecontactlisteditor_la_LDFLAGS = $(NO_UNDEFINED)
 
-libecontactlisteditor_la_LIBADD =						\
-	$(top_builddir)/addressbook/util/libeabutil.la				\
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la	\
-	$(top_builddir)/widgets/table/libetable.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la				\
-	$(top_builddir)/e-util/libeutil.la					\
-	$(top_builddir)/shell/libeshell.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)
+libecontactlisteditor_la_LIBADD =				\
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/widgets/table/libetable.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/shell/libeshell.la			\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 ui_DATA  = contact-list-editor.ui
 

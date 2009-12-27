@@ -15,6 +15,7 @@ libecontacteditor_la_CPPFLAGS =				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-editor\"		\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 libecontacteditor_la_SOURCES = 			\
@@ -36,7 +37,8 @@ libecontacteditor_la_LIBADD =						\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 ui_DATA = 				\
 	contact-editor.ui		\

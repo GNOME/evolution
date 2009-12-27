@@ -23,8 +23,9 @@ libevolution_module_addressbook_la_CPPFLAGS =			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\
 	-DPREFIX=\""$(prefix)"\"				\
-	$(LDAP_CFLAGS)						\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)				\
+	$(LDAP_CFLAGS)
 
 libevolution_module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\
@@ -57,24 +58,26 @@ if ENABLE_SMIME
 SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-libevolution_module_addressbook_la_LIBADD =						\
-	$(SMIME_LIB)									\
-	$(top_builddir)/e-util/libeutil.la						\
-	$(top_builddir)/composer/libcomposer.la					\
-	$(top_builddir)/addressbook/printing/libecontactprint.la			\
-	$(top_builddir)/shell/libeshell.la						\
-	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\
-	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la			\
-	$(top_builddir)/filter/libfilter.la						\
-	$(top_builddir)/addressbook/util/libeabutil.la					\
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
-	$(top_builddir)/widgets/table/libetable.la					\
-	$(top_builddir)/widgets/text/libetext.la					\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
-	$(top_builddir)/widgets/menus/libmenus.la					\
-	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
+libevolution_module_addressbook_la_LIBADD =			\
+	$(SMIME_LIB)						\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/composer/libcomposer.la			\
+	$(top_builddir)/addressbook/printing/libecontactprint.la \
+	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la \
+	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la \
+	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(top_builddir)/widgets/table/libetable.la		\
+	$(top_builddir)/widgets/text/libetext.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/widgets/menus/libmenus.la		\
+	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la \
+	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(LDAP_LIBS)
 
 
 libevolution_module_addressbook_la_LDFLAGS = \

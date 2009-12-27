@@ -170,14 +170,14 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/filter/libfilter.la		\
-	$(GNOME_PLATFORM_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(THREADS_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(E_WIDGETS_LIBS)				\
-	$(SMIME_LIBS)
+	$(SMIME_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 libevolution_mail_la_LDFLAGS = $(NO_UNDEFINED)
 

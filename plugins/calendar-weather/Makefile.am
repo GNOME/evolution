@@ -9,6 +9,7 @@ liborg_gnome_calendar_weather_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
+	$(GNOME_PLATFORM_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)				\
 	$(SOURCE_SEL_CFLAGS)					\
 	-DWEATHER_DATADIR=\""$(weatherdatadir)"\"		\
@@ -21,7 +22,8 @@ liborg_gnome_calendar_weather_la_LIBADD =			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_CALENDAR_LIBS)				\
-	$(LIBGWEATHER_LIBS)
+	$(LIBGWEATHER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST =					\
 	org-gnome-calendar-weather.eplug.xml	\

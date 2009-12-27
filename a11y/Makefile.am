@@ -5,6 +5,7 @@ privsolib_LTLIBRARIES = libevolution-a11y.la
 
 libevolution_a11y_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)	\
 	$(A11Y_CFLAGS)
 
 libevolution_a11y_la_SOURCES =		\

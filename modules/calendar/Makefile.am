@@ -77,9 +77,9 @@ libevolution_module_calendar_la_LIBADD =		\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/widgets/table/libetable.la			\
-	$(GNOME_PLATFORM_LIBS)						\
 	$(CAMEL_LIBS)							\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 libevolution_module_calendar_la_LDFLAGS =		\
 	-module -avoid-version $(NO_UNDEFINED)

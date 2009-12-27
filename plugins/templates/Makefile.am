@@ -24,8 +24,8 @@ liborg_gnome_templates_la_LIBADD =	\
 	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-template-placeholders.schemas.in

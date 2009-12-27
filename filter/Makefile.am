@@ -57,8 +57,8 @@ libfilter_la_LDFLAGS = $(NO_UNDEFINED)
 
 libfilter_la_LIBADD = 				\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(GNOME_PLATFORM_LIBS)			\
 	$(LIBFILTER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)			\
 	$(REGEX_LIBS)
 
 EXTRA_DIST =					\

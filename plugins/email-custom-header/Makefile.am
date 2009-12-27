@@ -23,11 +23,11 @@ liborg_gnome_email_custom_header_la_SOURCES = 		\
 
 liborg_gnome_email_custom_header_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
-	$(top_builddir)/composer/libcomposer.la 			\
+	$(top_builddir)/composer/libcomposer.la 		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
-	$(GNOME_PLATFORM_LIBS)					\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 liborg_gnome_email_custom_header_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

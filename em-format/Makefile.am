@@ -11,6 +11,7 @@ libemformat_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 libemformat_la_SOURCES =				\
@@ -24,6 +25,7 @@ libemformat_la_LDFLAGS = $(NO_UNDEFINED)
 libemformat_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 -include $(top_srcdir)/git.mk

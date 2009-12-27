@@ -9,6 +9,8 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CAMEL_CFLAGS)					\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(CANBERRA_CFLAGS)
 
@@ -36,7 +38,8 @@ evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(CANBERRA_LIBS)
+	$(CANBERRA_LIBS)						\
+	$(GNOME_PLATFORM_LIBS)
 
 if OS_WIN32
 evolution_alarm_notify_LDFLAGS = -mwindows

@@ -16,6 +16,7 @@ liborg_gnome_evolution_bbdb_la_CPPFLAGS =		\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
@@ -28,7 +29,8 @@ liborg_gnome_evolution_bbdb_la_LIBADD =		\
 	$(top_builddir)/composer/libcomposer.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(EVOLUTION_ADDRESSBOOK_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-bbdb.eplug.xml
 

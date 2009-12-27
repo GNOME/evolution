@@ -31,8 +31,8 @@ liborg_gnome_mail_notification_la_LIBADD = 		\
 	$(LIBNOTIFY_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la 		\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/shell/libeshell.la	\
-	$(EVOLUTION_MAIL_LIBS)		\
+	$(top_builddir)/shell/libeshell.la		\
+	$(EVOLUTION_MAIL_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

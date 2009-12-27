@@ -15,6 +15,7 @@ liborg_gnome_vcard_inline_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
@@ -28,8 +29,9 @@ liborg_gnome_vcard_inline_la_LIBADD =	\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la		\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la		\
 	$(top_builddir)/addressbook/printing/libecontactprint.la		\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)	\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-vcard-inline.eplug.xml
 

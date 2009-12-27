@@ -7,6 +7,7 @@ plugin_LTLIBRARIES = liborg-gnome-evolution-hula-account-setup.la
 liborg_gnome_evolution_hula_account_setup_la_CPPFLAGS =	\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"
@@ -23,7 +24,8 @@ liborg_gnome_evolution_hula_account_setup_la_LIBADD=			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/filter/libfilter.la			\
 	$(EVOLUTION_CALENDAR_LIBS)				\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-hula-account-setup.eplug.xml
 
