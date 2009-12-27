@@ -37,7 +37,6 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl Some requirements have versioned package names
 dnl XXX In the spirit of getting rid of versioned
 dnl     files, can we please drop these suffixes?
-EDS_PACKAGE=1.2
 GTKHTML_PACKAGE=3.14
 
 dnl Required Packages
@@ -242,14 +241,14 @@ AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
 PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
-	[libebook-$EDS_PACKAGE >= eds_minimum_version
-	 libecal-$EDS_PACKAGE >= eds_minimum_version
-	 libedataserver-$EDS_PACKAGE >= eds_minimum_version
-	 libedataserverui-$EDS_PACKAGE >= eds_minimum_version
-	 libegroupwise-$EDS_PACKAGE >= eds_minimum_version
-	 libebackend-$EDS_PACKAGE >= eds_minimum_version
-	 libgdata-$EDS_PACKAGE >= eds_minimum_version
-	 libgdata-google-$EDS_PACKAGE >= eds_minimum_version])
+	[libebook-1.2 >= eds_minimum_version
+	 libecal-1.2 >= eds_minimum_version
+	 libedataserver-1.2 >= eds_minimum_version
+	 libedataserverui-1.2 >= eds_minimum_version
+	 libegroupwise-1.2 >= eds_minimum_version
+	 libebackend-1.2 >= eds_minimum_version
+	 libgdata-1.2 >= eds_minimum_version
+	 libgdata-google-1.2 >= eds_minimum_version])
 
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
@@ -1208,11 +1207,11 @@ AM_CONDITIONAL([NM_SUPPORT], [test "$NM_SUPPORT" = yes])
 dnl ******************************
 dnl Camel Flags
 dnl ******************************
-EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE, $MANUAL_NSS_CFLAGS, $MOZILLA_NSS_CFLAGS)
+EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NSS_CFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libegroupwise-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-1.2 libedataserver-1.2 libegroupwise-1.2)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
@@ -1235,7 +1234,7 @@ dnl (which are dragged in through libedataserverui), as both
 dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE gthread-2.0)
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-1.2 gthread-2.0)
 CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
 CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
@@ -1244,7 +1243,7 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserver-1.2 libedataserverui-1.2 camel-1.2 $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1253,35 +1252,35 @@ E_UTIL_LIBS="$E_UTIL_LIBS $MATH_LIB"
 dnl **************
 dnl TZDIALOG Flags
 dnl **************
-EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE camel-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-1.2 camel-1.2)
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
 dnl ***************
 dnl E_WIDGETS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-1.2 libedataserver-1.2 gtkhtml-editor)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libebook-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-1.2 camel-provider-1.2 camel-1.2 libebook-1.2)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
 dnl ***************
 dnl LIBFILTER Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libedataserver-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libedataserver-1.2 camel-1.2)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-1.2)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -1289,7 +1288,7 @@ AC_SUBST(SHELL_LIBS)
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor unique-1.0"
+EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-$GTKHTML_PACKAGE libebook-1.2 libedataserverui-1.2 camel-1.2 gtkhtml-editor unique-1.0"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1322,7 +1321,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-$GTKHTML_PACKAGE libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2 unique-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1335,7 +1334,7 @@ fi
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor $mozilla_nss libebook-1.2 libedataserverui-1.2 unique-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
