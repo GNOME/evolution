@@ -20,7 +20,6 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
-	$(THREADS_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
@@ -172,7 +171,6 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/filter/libfilter.la		\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(CERT_UI_LIBS)					\
-	$(THREADS_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(E_WIDGETS_LIBS)				\

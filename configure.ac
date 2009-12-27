@@ -42,6 +42,7 @@ m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libgtkhtml_minimum_version], [3.29.5])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
+m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])	dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
@@ -129,18 +130,6 @@ AC_PATH_PROG([PERL], [perl])
 AC_SUBST(PERL)
 
 AC_ARG_PROGRAM
-
-dnl ******************************
-dnl  Test whether jw is installed
-dnl ******************************
-AC_PATH_PROG(JW,jw,no)
-if test x$JW = xno; then
-	HAVE_JW="no"
-else
-	HAVE_JW="yes"
-fi
-AM_CONDITIONAL(HAVE_JW, [test x$HAVE_JW = xyes])
-AC_SUBST(HAVE_JW)
 
 dnl ******************************
 dnl I18N stuff
@@ -627,32 +616,6 @@ AM_CONDITIONAL(SUNLDAP, [test x$with_sunldap != xno])
 
 AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
 
-dnl **************************************************
-dnl Posix thread support
-dnl **************************************************
-
-dnl GLIB_CONFIG=${GLIB_CONFIG-glib-config}
-dnl GNOME_PTHREAD_CHECK
-
-dnl if test "x$PTHREAD_LIB" = "x" ; then
-dnl 	AC_MSG_ERROR([POSIX threads are currently required for Evolution])
-dnl fi
-
-dnl
-dnl Notice that this is a hack, and we wont be able to use this forever, but
-dnl at least for some time
-dnl
-
-EVO_PTHREAD_CHECK
-
-THREADS_LIBS="$PTHREAD_LIB"
-THREADS_CFLAGS="$PTHREAD_CFLAGS"
-
-AC_SUBST(THREADS_LIBS)
-AC_SUBST(THREADS_CFLAGS)
-AC_DEFINE(ENABLE_THREADS,1,[Required])
-
-
 dnl ************
 dnl regex check
 dnl ************
@@ -1097,11 +1060,6 @@ dnl We use AC_SUBST_FILE because AC_SUBST won't deal with newlines
 EVO_MARSHAL_RULE=$srcdir/marshal.mk
 AC_SUBST_FILE(EVO_MARSHAL_RULE)
 
-dnl *************************
-dnl Orbit / Bonobo
-dnl *************************
-AM_PATH_ORBIT2(2.9.8)
-
 dnl *****************************************************************
 dnl Utility macro to set compiler flags for a specific lib.
 dnl EVO_SET_COMPILE_FLAGS(VAR-PREFIX, DEPS, EXTRA-CFLAGS, EXTRA-LIBS)
@@ -1111,12 +1069,6 @@ AC_DEFUN([EVO_SET_COMPILE_FLAGS], [
 	$1_CFLAGS="[$]$1_CFLAGS $3"
 	$1_LIBS="[$]$1_LIBS $4"
 ])
-
-dnl ********************************
-dnl Flags to get all the GNOME stuff
-dnl ********************************
-
-FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0"
 
 dnl ******************************
 dnl TNEF implementation
@@ -1222,7 +1174,7 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserver-1.2 libedataserverui-1.2 camel-1.2 $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserverui-1.2 camel-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1238,14 +1190,14 @@ AC_SUBST(TZDIALOG_LIBS)
 dnl ***************
 dnl E_WIDGETS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-1.2 libedataserver-1.2 gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-1.2 gtkhtml-editor)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-1.2 camel-provider-1.2 camel-1.2 libebook-1.2)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-1.2 camel-provider-1.2 libebook-1.2)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1260,7 +1212,6 @@ dnl ***********
 dnl Shell Flags
 dnl ***********
 EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-3.14 unique-1.0 libedataserverui-1.2)
-
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
@@ -1296,11 +1247,11 @@ AC_SUBST(LIBNOTIFY_LIBS)
 dnl **************
 dnl Calendar Flags
 dnl **************
-EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
+EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= libsoup_minimum_version)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2 unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2 unique-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1320,9 +1271,6 @@ AC_SUBST(EVOLUTION_MAIL_LIBS)
 dnl ***************************
 dnl Evolution-Data-Server Flags
 dnl ***************************
-AC_DEFINE(DATASERVER_API_VERSION, "1.2", evolution-data-server API version)
-AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`${PKG_CONFIG} --modversion evolution-data-server-1.2`", evolution-data-server version)
-
 DATASERVER_EXEC_VERSION=`${PKG_CONFIG} --variable=execversion evolution-data-server-1.2`
 AC_SUBST(DATASERVER_EXEC_VERSION)
 
@@ -1395,7 +1343,7 @@ AC_SUBST(etspecdir)
 viewsdir="$privdatadir/views"
 AC_SUBST(viewsdir)
 
-privconduitdir='${libdir}'/evolution/$BASE_VERSION/conduits
+privconduitdir="$privlibdir/conduits"
 AC_SUBST(privconduitdir)
 
 dnl ************************
@@ -1613,13 +1561,6 @@ AC_ARG_WITH([sub-version],
 	[Specify a sub-version string]))
 
 AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version", [Version substring, for packagers])
-
-AC_ARG_ENABLE([default-binary],
-	AS_HELP_STRING([--disable-default-binary],
-	[Do not install as the default "evolution" binary]),,
-	[enable_default_binary=no])
-
-AM_CONDITIONAL(DEFAULT_BINARY, test x$enable_default_binary = xyes)
 
 dnl ********************
 dnl KDE applnk directory
