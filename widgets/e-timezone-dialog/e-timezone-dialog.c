@@ -810,24 +810,6 @@ timezone_combo_set_active_text (GtkComboBox *combo, const gchar *zone_name)
 	return (id != NULL);
 }
 
-/**
- * e_timezone_dialog_reparent:
- * @etd: #ETimezoneDialog.
- * @new_parent: The new parent widget.
- *
- * Takes the internal widgets out of the dialog and put them into @new_parent
- */
-void
-e_timezone_dialog_reparent (ETimezoneDialog *etd,
-			    GtkWidget *new_parent)
-{
-	ETimezoneDialogPrivate *priv;
-
-	priv = etd->priv;
-
-	gtk_widget_reparent (priv->table, new_parent);
-}
-
 static void
 map_destroy_cb(gpointer data, GObject *where_object_was)
 {
