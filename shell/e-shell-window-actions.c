@@ -1306,7 +1306,7 @@ action_switcher_style_cb (GtkRadioAction *action,
  *
  * Activation of this action opens the Gnome Pilot settings.
  *
- * Main menu item: Edit -> Synchronization Options...
+ * Main menu item: Edit -> GNOME Pilot Synchronization...
  **/
 static void
 action_sync_options_cb (GtkAction *action,
@@ -1579,9 +1579,9 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "sync-options",
 	  NULL,
-	  N_("_Synchronization Options..."),
+	  N_("GNOME Pilot _Synchronization..."),
 	  NULL,
-	  N_("Set up Pilot configuration"),
+	  N_("Set up GNOME Pilot configuration"),
 	  G_CALLBACK (action_sync_options_cb) },
 
 	{ "work-offline",
@@ -1978,6 +1978,12 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	path = g_find_program_in_path ("bug-buddy");
 	if (path == NULL)
 		gtk_action_set_visible (ACTION (SUBMIT_BUG), FALSE);
+	g_free (path);
+
+	/* Sychronizing your Palm PDA requires gnome-pilot. */
+	path = g_find_program_in_path ("gpilotd-control-applet");
+	if (path == NULL)
+		gtk_action_set_visible (ACTION (SYNC_OPTIONS), FALSE);
 	g_free (path);
 }
 
