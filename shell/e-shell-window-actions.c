@@ -1867,6 +1867,7 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
+	gchar *path;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
@@ -1972,6 +1973,12 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	e_binding_new (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_MENU), "sensitive");
+
+	/* Submitting bug reports requires bug-buddy. */
+	path = g_find_program_in_path ("bug-buddy");
+	if (path == NULL)
+		gtk_action_set_visible (ACTION (SUBMIT_BUG), FALSE);
+	g_free (path);
 }
 
 GtkWidget *
