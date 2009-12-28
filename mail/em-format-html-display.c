@@ -799,9 +799,23 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	EAttachment *attachment;
 	GtkWidget *widget;
 	gpointer parent;
+	EMFormat *emf = (EMFormat *) efh;
+	CamelMessageInfo *mi = NULL;
+	CamelMessageContentInfo *ci = NULL;
+	GFileInfo *fileinfo;
+	guint32 size;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
+
+	mi = camel_folder_summary_uid (emf->folder->summary, emf->uid);
+	ci = camel_folder_summary_guess_content_info (mi, ((CamelDataWrapper *)pobject->part)->mime_type);
+	if (ci) {
+		size = ci->size;
+		/* what if its not encoded in base64 ? is it a case to consider? */
+		if (ci->encoding && !g_ascii_strcasecmp (ci->encoding, "base64"))
+			size = size/1.37;
+	}
 
 	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
 
@@ -828,6 +842,11 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	e_attachment_load_async (
 		info->attachment, (GAsyncReadyCallback)
 		e_attachment_load_handle_error, parent);
+	if (size != 0) {
+		fileinfo = e_attachment_get_file_info (info->attachment);
+		g_file_info_set_size (fileinfo, size);
+		e_attachment_set_file_info (info->attachment, fileinfo);
+	}
 
 	widget = e_attachment_button_new (view);
 	e_attachment_button_set_attachment (

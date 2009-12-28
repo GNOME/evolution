@@ -400,8 +400,8 @@ attachment_update_progress_columns (EAttachment *attachment)
 		-1);
 }
 
-static void
-attachment_set_file_info (EAttachment *attachment,
+void
+e_attachment_set_file_info (EAttachment *attachment,
                           GFileInfo *file_info)
 {
 	GtkTreeRowReference *reference;
@@ -1560,7 +1560,7 @@ attachment_load_finish (LoadContext *load_context)
 	/* Correctly report the size of zero length special files. */
 	if (g_file_info_get_size (file_info) == 0) {
 		g_file_info_set_size (file_info, size);
-		attachment_set_file_info (attachment, file_info);
+		e_attachment_set_file_info (attachment, file_info);
 	}
 
 	g_simple_async_result_set_op_res_gpointer (
@@ -1708,7 +1708,7 @@ attachment_load_query_info_cb (GFile *file,
 	if (attachment_load_check_for_error (load_context, error))
 		return;
 
-	attachment_set_file_info (attachment, file_info);
+	e_attachment_set_file_info (attachment, file_info);
 	load_context->file_info = file_info;
 
 	load_context->total_num_bytes = g_file_info_get_size (file_info);
@@ -1730,7 +1730,6 @@ attachment_load_from_mime_part (LoadContext *load_context)
 	const gchar *attribute;
 	const gchar *string;
 	gchar *allocated;
-	goffset size;
 
 	attachment = load_context->attachment;
 	mime_part = e_attachment_get_mime_part (attachment);
@@ -1785,15 +1784,10 @@ attachment_load_from_mime_part (LoadContext *load_context)
 		g_file_info_set_attribute_string (
 			file_info, attribute, string);
 
-	/* FIXME This can cause Camel to block while downloading the
-	 *       MIME part in order to determine the content size. */
-	size = (goffset) camel_mime_part_get_content_size (mime_part);
-	g_file_info_set_size (file_info, size);
-
 	string = camel_mime_part_get_disposition (mime_part);
 	e_attachment_set_disposition (attachment, string);
 
-	attachment_set_file_info (attachment, file_info);
+	e_attachment_set_file_info (attachment, file_info);
 
 	camel_object_ref (mime_part);
 
