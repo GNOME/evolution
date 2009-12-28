@@ -40,6 +40,17 @@
 #include "e-cell-tree.h"
 #include "e-table-extras.h"
 
+#define E_TABLE_EXTRAS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_EXTRAS, ETableExtrasPrivate))
+
+struct _ETableExtrasPrivate {
+	GHashTable *cells;
+	GHashTable *compares;
+	GHashTable *pixbufs;
+	GHashTable *searches;
+};
+
 /* workaround for avoiding API breakage */
 #define ete_get_type e_table_extras_get_type
 G_DEFINE_TYPE (ETableExtras, ete, G_TYPE_OBJECT)
@@ -73,28 +84,32 @@ ete_finalize (GObject *object)
 }
 
 static void
-ete_class_init (ETableExtrasClass *klass)
+ete_class_init (ETableExtrasClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (ETableExtrasPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = ete_finalize;
 }
 
 static gint
-e_strint_compare(gconstpointer data1, gconstpointer data2)
+e_strint_compare (gconstpointer data1,
+                  gconstpointer data2)
 {
 	gint int1 = atoi(data1);
 	gint int2 = atoi(data2);
 
-	return e_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
+	return e_int_compare (GINT_TO_POINTER (int1), GINT_TO_POINTER (int2));
 }
 
 /* UTF-8 strncasecmp - not optimized */
 
 static gint
 g_utf8_strncasecmp (const gchar *s1,
-		    const gchar *s2,
-		    guint n)
+                    const gchar *s2,
+                    guint n)
 {
 	gunichar c1, c2;
 
@@ -124,7 +139,8 @@ g_utf8_strncasecmp (const gchar *s1,
 }
 
 static gboolean
-e_string_search(gconstpointer haystack, const gchar *needle)
+e_string_search (gconstpointer haystack,
+                 const gchar *needle)
 {
 	gint length;
 	if (haystack == NULL)
@@ -147,22 +163,24 @@ safe_unref (gpointer object)
 static void
 ete_init (ETableExtras *extras)
 {
-	extras->cells = g_hash_table_new_full (
+	extras->priv = E_TABLE_EXTRAS_GET_PRIVATE (extras);
+
+	extras->priv->cells = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) safe_unref);
 
-	extras->compares = g_hash_table_new_full (
+	extras->priv->compares = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	extras->searches = g_hash_table_new_full (
+	extras->priv->searches = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	extras->pixbufs = g_hash_table_new_full (
+	extras->priv->pixbufs = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) safe_unref);
@@ -187,71 +205,99 @@ ete_init (ETableExtras *extras)
 ETableExtras *
 e_table_extras_new (void)
 {
-	ETableExtras *ete = g_object_new (E_TABLE_EXTRAS_TYPE, NULL);
-
-	return (ETableExtras *) ete;
+	return g_object_new (E_TYPE_TABLE_EXTRAS, NULL);
 }
 
 void
-e_table_extras_add_cell     (ETableExtras *extras,
-			     const gchar  *id,
-			     ECell        *cell)
+e_table_extras_add_cell (ETableExtras *extras,
+                         const gchar *id,
+                         ECell *cell)
 {
-	if (cell)
+	g_return_if_fail (E_IS_TABLE_EXTRAS (extras));
+	g_return_if_fail (id != NULL);
+
+	if (cell != NULL)
 		g_object_ref_sink (cell);
-	g_hash_table_insert (extras->cells, g_strdup(id), cell);
+
+	g_hash_table_insert (extras->priv->cells, g_strdup (id), cell);
 }
 
 ECell *
-e_table_extras_get_cell     (ETableExtras *extras,
-			     const gchar  *id)
+e_table_extras_get_cell (ETableExtras *extras,
+                         const gchar *id)
 {
-	return g_hash_table_lookup(extras->cells, id);
+	g_return_val_if_fail (E_IS_TABLE_EXTRAS (extras), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	return g_hash_table_lookup (extras->priv->cells, id);
 }
 
 void
-e_table_extras_add_compare  (ETableExtras *extras,
-			     const gchar  *id,
-			     GCompareFunc  compare)
+e_table_extras_add_compare (ETableExtras *extras,
+                            const gchar *id,
+                            GCompareFunc compare)
 {
-	g_hash_table_insert(extras->compares, g_strdup(id), (gpointer) compare);
+	g_return_if_fail (E_IS_TABLE_EXTRAS (extras));
+	g_return_if_fail (id != NULL);
+
+	g_hash_table_insert (
+		extras->priv->compares,
+		g_strdup (id), (gpointer) compare);
 }
 
 GCompareFunc
-e_table_extras_get_compare  (ETableExtras *extras,
-			     const gchar  *id)
+e_table_extras_get_compare (ETableExtras *extras,
+                            const gchar *id)
 {
-	return (GCompareFunc) g_hash_table_lookup(extras->compares, id);
+	g_return_val_if_fail (E_IS_TABLE_EXTRAS (extras), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	return g_hash_table_lookup (extras->priv->compares, id);
 }
 
 void
-e_table_extras_add_search  (ETableExtras     *extras,
-			    const gchar      *id,
-			    ETableSearchFunc  search)
+e_table_extras_add_search (ETableExtras *extras,
+                           const gchar *id,
+                           ETableSearchFunc search)
 {
-	g_hash_table_insert(extras->searches, g_strdup(id), search);
+	g_return_if_fail (E_IS_TABLE_EXTRAS (extras));
+	g_return_if_fail (id != NULL);
+
+	g_hash_table_insert (
+		extras->priv->searches,
+		g_strdup (id), (gpointer) search);
 }
 
 ETableSearchFunc
-e_table_extras_get_search  (ETableExtras *extras,
-			    const gchar  *id)
+e_table_extras_get_search (ETableExtras *extras,
+                           const gchar *id)
 {
-	return g_hash_table_lookup(extras->searches, id);
+	g_return_val_if_fail (E_IS_TABLE_EXTRAS (extras), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	return g_hash_table_lookup (extras->priv->searches, id);
 }
 
 void
-e_table_extras_add_pixbuf     (ETableExtras *extras,
-			       const gchar  *id,
-			       GdkPixbuf    *pixbuf)
+e_table_extras_add_pixbuf (ETableExtras *extras,
+                           const gchar *id,
+                           GdkPixbuf *pixbuf)
 {
-	if (pixbuf)
-		g_object_ref(pixbuf);
-	g_hash_table_insert (extras->pixbufs, g_strdup(id), pixbuf);
+	g_return_if_fail (E_IS_TABLE_EXTRAS (extras));
+	g_return_if_fail (id != NULL);
+
+	if (pixbuf != NULL)
+		g_object_ref (pixbuf);
+
+	g_hash_table_insert (extras->priv->pixbufs, g_strdup (id), pixbuf);
 }
 
 GdkPixbuf *
-e_table_extras_get_pixbuf     (ETableExtras *extras,
-			       const gchar  *id)
+e_table_extras_get_pixbuf (ETableExtras *extras,
+                           const gchar *id)
 {
-	return g_hash_table_lookup(extras->pixbufs, id);
+	g_return_val_if_fail (E_IS_TABLE_EXTRAS (extras), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	return g_hash_table_lookup (extras->priv->pixbufs, id);
 }

@@ -21,62 +21,74 @@
  *
  */
 
-#ifndef _E_TABLE_EXTRAS_H_
-#define _E_TABLE_EXTRAS_H_
+#ifndef E_TABLE_EXTRAS_H
+#define E_TABLE_EXTRAS_H
 
-#include <glib-object.h>
 #include <table/e-cell.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#define E_TYPE_TABLE_EXTRAS \
+	(e_table_extras_get_type ())
+#define E_TABLE_EXTRAS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_EXTRAS, ETableExtras))
+#define E_TABLE_EXTRAS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_EXTRAS, ETableExtrasClass))
+#define E_IS_TABLE_EXTRAS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_EXTRAS))
+#define E_IS_TABLE_EXTRAS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_EXTRAS))
+#define E_TABLE_EXTRAS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_EXTRAS, ETableExtrasClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_EXTRAS_TYPE        (e_table_extras_get_type ())
-#define E_TABLE_EXTRAS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_EXTRAS_TYPE, ETableExtras))
-#define E_TABLE_EXTRAS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_EXTRAS_TYPE, ETableExtrasClass))
-#define E_IS_TABLE_EXTRAS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_EXTRAS_TYPE))
-#define E_IS_TABLE_EXTRAS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_EXTRAS_TYPE))
-#define E_TABLE_EXTRAS_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_TABLE_EXTRAS_TYPE, ETableExtrasClass))
+typedef struct _ETableExtras ETableExtras;
+typedef struct _ETableExtrasClass ETableExtrasClass;
+typedef struct _ETableExtrasPrivate ETableExtrasPrivate;
 
-typedef struct {
-	GObject base;
+struct _ETableExtras {
+	GObject parent;
+	ETableExtrasPrivate *priv;
 
 	GHashTable *cells;
 	GHashTable *compares;
 	GHashTable *pixbufs;
 	GHashTable *searches;
-} ETableExtras;
+};
 
-typedef struct {
+struct _ETableExtrasClass {
 	GObjectClass parent_class;
-} ETableExtrasClass;
+};
 
-GType             e_table_extras_get_type     (void);
-ETableExtras     *e_table_extras_new          (void);
-
-void              e_table_extras_add_cell     (ETableExtras     *extras,
-					       const gchar      *id,
-					       ECell            *cell);
-ECell            *e_table_extras_get_cell     (ETableExtras     *extras,
-					       const gchar      *id);
-
-void              e_table_extras_add_compare  (ETableExtras     *extras,
-					       const gchar      *id,
-					       GCompareFunc      compare);
-GCompareFunc      e_table_extras_get_compare  (ETableExtras     *extras,
-					       const gchar      *id);
-
-void              e_table_extras_add_search   (ETableExtras     *extras,
-					       const gchar      *id,
-					       ETableSearchFunc  search);
-ETableSearchFunc  e_table_extras_get_search   (ETableExtras     *extras,
-					       const gchar      *id);
-
-void              e_table_extras_add_pixbuf   (ETableExtras     *extras,
-					       const gchar      *id,
-					       GdkPixbuf        *pixbuf);
-GdkPixbuf        *e_table_extras_get_pixbuf   (ETableExtras     *extras,
-					       const gchar      *id);
+GType		e_table_extras_get_type		(void);
+ETableExtras *	e_table_extras_new		(void);
+void		e_table_extras_add_cell		(ETableExtras *extras,
+						 const gchar *id,
+						 ECell *cell);
+ECell *		e_table_extras_get_cell		(ETableExtras *extras,
+						 const gchar *id);
+void		e_table_extras_add_compare	(ETableExtras *extras,
+						 const gchar *id,
+						 GCompareFunc compare);
+GCompareFunc	e_table_extras_get_compare	(ETableExtras *extras,
+						 const gchar *id);
+void		e_table_extras_add_search	(ETableExtras *extras,
+						 const gchar *id,
+						 ETableSearchFunc search);
+ETableSearchFunc
+		e_table_extras_get_search	(ETableExtras *extras,
+						 const gchar *id);
+void		e_table_extras_add_pixbuf	(ETableExtras *extras,
+						 const gchar *id,
+						 GdkPixbuf *pixbuf);
+GdkPixbuf *	e_table_extras_get_pixbuf	(ETableExtras *extras,
+						 const gchar *id);
 
 G_END_DECLS
 
-#endif /* _E_TABLE_EXTRAS_H_ */
+#endif /* E_TABLE_EXTRAS_H */
