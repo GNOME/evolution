@@ -805,8 +805,10 @@ table_interface_is_row_selected (AtkTable *table,
 		return FALSE;
 	if ((row < 0)&&(row + 1 > week_view->weeks_shown ))
 		return FALSE;
-	if (((week_view->selection_start_day < row*7)&&(week_view->selection_end_day<row*7))
-		||((week_view->selection_start_day > row*7+6)&&(week_view->selection_end_day > row*7+6)))
+	if (((week_view->selection_start_day < row * 7) &&
+		(week_view->selection_end_day < row * 7)) ||
+		((week_view->selection_start_day > row * 7 + 6) &&
+		(week_view->selection_end_day > row * 7 + 6)))
 		return FALSE;
 	else
 		return TRUE;
@@ -817,7 +819,8 @@ table_interface_is_selected (AtkTable *table,
 			     gint     row,
 			     gint     column)
 {
-	return table_interface_is_row_selected (table, row) && table_interface_is_column_selected(table, column);
+	return table_interface_is_row_selected (table, row) &&
+		table_interface_is_column_selected (table, column);
 }
 
 static gboolean

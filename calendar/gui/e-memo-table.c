@@ -84,8 +84,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
-
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
@@ -131,6 +129,37 @@ memo_table_emit_user_created (EMemoTable *memo_table)
 	guint signal_id = signals[USER_CREATED];
 
 	g_signal_emit (memo_table, signal_id, 0);
+}
+
+/* Returns the current time, for the ECellDateEdit items.
+   FIXME: Should probably use the timezone of the item rather than the
+   current timezone, though that may be difficult to get from here. */
+static struct tm
+memo_table_get_current_time (ECellDateEdit *ecde,
+                             gpointer user_data)
+{
+	EMemoTable *memo_table = user_data;
+	ECalModel *model;
+	icaltimezone *zone;
+	struct tm tmp_tm = { 0 };
+	struct icaltimetype tt;
+
+	/* Get the current timezone. */
+	model = e_memo_table_get_model (memo_table);
+	zone = e_cal_model_get_timezone (model);
+
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+
+	/* Now copy it to the struct tm and return it. */
+	tmp_tm.tm_year  = tt.year - 1900;
+	tmp_tm.tm_mon   = tt.month - 1;
+	tmp_tm.tm_mday  = tt.day;
+	tmp_tm.tm_hour  = tt.hour;
+	tmp_tm.tm_min   = tt.minute;
+	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_isdst = -1;
+
+	return tmp_tm;
 }
 
 static gint
@@ -364,7 +393,7 @@ memo_table_constructed (GObject *object)
 
 	e_cell_date_edit_set_get_time_callback (
 		E_CELL_DATE_EDIT (popup_cell),
-		e_memo_table_get_current_time, memo_table, NULL);
+		memo_table_get_current_time, memo_table, NULL);
 
 	/* Sorting */
 	e_table_extras_add_compare (
@@ -515,11 +544,15 @@ memo_table_query_tooltip (GtkWidget *widget,
 
 		if (ptr) {
 			ptr++;
-			/* To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
-			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
+			/* Translators: It will display
+			 * "Organizer: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (
+				_("Organizer: %s <%s>"), organizer.cn, ptr);
 		} else {
-			/* With SunOne accounts, there may be no ':' in organiser.value */
-			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
+			/* With SunOne accounts, there may be no ':' in
+			 * organizer.value */
+			tmp = g_strdup_printf (
+				_("Organizer: %s"), organizer.cn);
 		}
 
 		l = gtk_label_new (tmp);
@@ -535,7 +568,9 @@ memo_table_query_tooltip (GtkWidget *widget,
 	default_zone = e_cal_model_get_timezone (model);
 
 	if (dtstart.tzid) {
-		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
+		zone = icalcomponent_get_timezone (
+			e_cal_component_get_icalcomponent (new_comp),
+			dtstart.tzid);
 		if (!zone)
 			e_cal_get_timezone (
 				comp_data->client, dtstart.tzid, &zone, NULL);
@@ -1186,11 +1221,13 @@ e_memo_table_delete_selected (EMemoTable *memo_table)
 
 	if (comp_data) {
 		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (comp_data->icalcomp));
 	}
 
-	if (delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_JOURNAL,
-				     GTK_WIDGET (memo_table)))
+	if (delete_component_dialog (
+		comp, FALSE, n_selected, E_CAL_COMPONENT_JOURNAL,
+		GTK_WIDGET (memo_table)))
 		delete_selected_components (memo_table);
 
 	/* free memory */
@@ -1219,34 +1256,4 @@ e_memo_table_get_selected (EMemoTable *memo_table)
 		E_TABLE (memo_table), add_uid_cb, &closure);
 
 	return closure.objects;
-}
-
-/* Returns the current time, for the ECellDateEdit items.
-   FIXME: Should probably use the timezone of the item rather than the
-   current timezone, though that may be difficult to get from here. */
-static struct tm
-e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
-{
-	EMemoTable *memo_table = data;
-	ECalModel *model;
-	icaltimezone *zone;
-	struct tm tmp_tm = { 0 };
-	struct icaltimetype tt;
-
-	/* Get the current timezone. */
-	model = e_memo_table_get_model (memo_table);
-	zone = e_cal_model_get_timezone (model);
-
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
-
-	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year  = tt.year - 1900;
-	tmp_tm.tm_mon   = tt.month - 1;
-	tmp_tm.tm_mday  = tt.day;
-	tmp_tm.tm_hour  = tt.hour;
-	tmp_tm.tm_min   = tt.minute;
-	tmp_tm.tm_sec   = tt.second;
-	tmp_tm.tm_isdst = -1;
-
-	return tmp_tm;
 }

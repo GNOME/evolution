@@ -116,20 +116,26 @@ composer_header_constructor (GType type,
 		header->priv->action_label = gtk_label_new (NULL);
 		header->action_widget = gtk_button_new ();
 		box = gtk_hbox_new (FALSE, 0);
-		tmp = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
+		tmp = gtk_image_new_from_stock (
+			GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
 		header->priv->add_icon = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
-		tmp = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
+		tmp = gtk_image_new_from_stock (
+			GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
 		header->priv->remove_icon = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		tmp = gtk_label_new (NULL);
-		str = g_strdup_printf ("<span>%s %s</span>", _("Show"), header->priv->addaction_text);
+		str = g_strdup_printf (
+			"<span>%s %s</span>", _("Show"),
+			header->priv->addaction_text);
 		gtk_label_set_markup((GtkLabel *)tmp, str);
 		g_free (str);
 		header->priv->show_label = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		tmp = gtk_label_new (NULL);
-		str = g_strdup_printf ("<span>%s %s</span>", _("Hide"), header->priv->addaction_text);
+		str = g_strdup_printf (
+			"<span>%s %s</span>", _("Hide"),
+			header->priv->addaction_text);
 		gtk_label_set_markup((GtkLabel *)tmp, str);
 		header->priv->hide_label = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);

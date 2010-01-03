@@ -283,7 +283,9 @@ ea_day_view_cell_get_parent (AtkObject *accessible)
 		return NULL;
 
 	cell = E_DAY_VIEW_CELL (g_obj);
-	return atk_gobject_accessible_for_object (G_OBJECT (cell->day_view->main_canvas_item));
+
+	return atk_gobject_accessible_for_object (
+		G_OBJECT (cell->day_view->main_canvas_item));
 }
 
 static gint

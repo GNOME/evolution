@@ -171,15 +171,16 @@ e_table_memory_callbacks_init (ETableMemoryCalbacks *etmc)
  * @value_to_string:
  * @data: closure pointer.
  *
- * This initializes a new ETableMemoryCalbacksModel object.  ETableMemoryCalbacksModel is
- * an implementaiton of the abstract class ETableModel.  The ETableMemoryCalbacksModel
- * is designed to allow people to easily create ETableModels without having
- * to create a new GType derived from ETableModel every time they need one.
+ * This initializes a new ETableMemoryCalbacksModel object.
+ * ETableMemoryCalbacksModel is an implementaiton of the abstract class
+ * ETableModel.  The ETableMemoryCalbacksModel is designed to allow people
+ * to easily create ETableModels without having to create a new GType
+ * derived from ETableModel every time they need one.
  *
- * Instead, ETableMemoryCalbacksModel uses a setup based in callback functions, every
- * callback function signature mimics the signature of each ETableModel method
- * and passes the extra @data pointer to each one of the method to provide them
- * with any context they might want to use.
+ * Instead, ETableMemoryCalbacksModel uses a setup based in callback
+ * functions, every callback function signature mimics the signature of
+ * each ETableModel method and passes the extra @data pointer to each one
+ * of the method to provide them with any context they might want to use.
  *
  * Returns: An ETableMemoryCalbacksModel object (which is also an ETableModel
  * object).

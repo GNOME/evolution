@@ -198,7 +198,11 @@ GalView *
 gal_view_etable_new (ETableSpecification *spec,
 		     const gchar *title)
 {
-	return gal_view_etable_construct (g_object_new (GAL_VIEW_ETABLE_TYPE, NULL), spec, title);
+	GalViewEtable *view;
+
+	view = g_object_new (GAL_VIEW_ETABLE_TYPE, NULL);
+
+	return gal_view_etable_construct (view, spec, title);
 }
 
 /**

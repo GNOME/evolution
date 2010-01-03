@@ -365,7 +365,10 @@ filter:
 }
 
 static void
-has_unread_mail (GtkTreeModel *model, GtkTreeIter *parent, gboolean is_root, gboolean *has_unread)
+has_unread_mail (GtkTreeModel *model,
+                 GtkTreeIter *parent,
+                 gboolean is_root,
+                 gboolean *has_unread)
 {
 	guint unread = 0;
 	GtkTreeIter iter, child;
@@ -472,6 +475,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
+		GtkTreeRowReference *reference;
 		EMFolderTreeModel *model;
 		const gchar *folder_uri;
 
@@ -495,16 +499,18 @@ mail_shell_view_update_actions (EShellView *shell_view)
 			account != NULL && account->parent_uid != NULL;
 
 		model = em_folder_tree_model_get_default ();
-		if (model) {
-			GtkTreeRowReference *reference = em_folder_tree_model_lookup_uri (model, uri);
-			if (reference != NULL) {
-				GtkTreePath *path = gtk_tree_row_reference_get_path (reference);
-				GtkTreeIter iter;
+		reference = em_folder_tree_model_lookup_uri (model, uri);
+		if (reference != NULL) {
+			GtkTreePath *path;
+			GtkTreeIter iter;
 
-				gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-				has_unread_mail (GTK_TREE_MODEL (model), &iter, TRUE, &folder_has_unread_rec);
-				gtk_tree_path_free (path);
-			}
+			path = gtk_tree_row_reference_get_path (reference);
+			gtk_tree_model_get_iter (
+				GTK_TREE_MODEL (model), &iter, path);
+			has_unread_mail (
+				GTK_TREE_MODEL (model), &iter,
+				TRUE, &folder_has_unread_rec);
+			gtk_tree_path_free (path);
 		}
 
 		g_free (uri);

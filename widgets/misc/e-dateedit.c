@@ -586,12 +586,14 @@ create_children			(EDateEdit	*dedit)
 		"widget \"*.e-dateedit-timecombo\" style \"e-dateedit-timecombo-style\"");
 
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
-	priv->time_combo = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (time_store), 0);
+	priv->time_combo = gtk_combo_box_entry_new_with_model (
+		GTK_TREE_MODEL (time_store), 0);
 	g_object_unref (time_store);
 
-	/* We need to make sure labels are right-aligned, since we want digits to line up,
-	 * and with a nonproportional font, the width of a space != width of a digit.
-	 * Technically, only 12-hour format needs this, but we do it always, for consistency. */
+	/* We need to make sure labels are right-aligned, since we want
+	 * digits to line up, and with a nonproportional font, the width
+	 * of a space != width of a digit.  Technically, only 12-hour
+	 * format needs this, but we do it always, for consistency. */
 	g_object_set (GTK_BIN (priv->time_combo)->child, "xalign", 1.0, NULL);
 	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (priv->time_combo));
 	if (cells) {
@@ -1412,16 +1414,18 @@ position_date_popup		(EDateEdit	*dedit)
 
 	gtk_widget_size_request (dedit->priv->date_button, &button_req);
 	bwidth = button_req.width;
-	gtk_widget_size_request (gtk_widget_get_parent (dedit->priv->date_button), &button_req);
+	gtk_widget_size_request (
+		gtk_widget_get_parent (dedit->priv->date_button), &button_req);
 	bheight = button_req.height;
 
-	gtk_widget_translate_coordinates (dedit->priv->date_button,
-					  gtk_widget_get_toplevel (dedit->priv->date_button),
-					  bwidth - cal_req.width, bheight,
-					  &x, &y);
+	gtk_widget_translate_coordinates (
+		dedit->priv->date_button,
+		gtk_widget_get_toplevel (dedit->priv->date_button),
+		bwidth - cal_req.width, bheight, &x, &y);
 
-	gdk_window_get_origin (gtk_widget_get_toplevel (dedit->priv->date_button)->window,
-			       &win_x, &win_y);
+	gdk_window_get_origin (
+		gtk_widget_get_toplevel (dedit->priv->date_button)->window,
+		&win_x, &win_y);
 
 	x += win_x;
 	y += win_y;
@@ -1592,8 +1596,8 @@ rebuild_time_popup			(EDateEdit	*dedit)
 
 	for (hour = priv->lower_hour; hour <= priv->upper_hour; hour++) {
 
-		/* We don't want to display midnight at the end, since that is
-		   really in the next day. */
+		/* We don't want to display midnight at the end,
+		 * since that is really in the next day. */
 		if (hour == 24)
 			break;
 
@@ -1605,14 +1609,22 @@ rebuild_time_popup			(EDateEdit	*dedit)
 			tmp_tm.tm_min  = min;
 
 			if (priv->use_24_hour_format)
-				/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-				e_time_format_time (&tmp_tm, 1, 0, buffer, sizeof (buffer));
+				/* This is a strftime() format.
+				 * %H = hour (0-23), %M = minute. */
+				e_time_format_time (
+					&tmp_tm, 1, 0,
+					buffer, sizeof (buffer));
 			else
-				/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-				e_time_format_time (&tmp_tm, 0, 0, buffer, sizeof (buffer));
+				/* This is a strftime() format.
+				 * %I = hour (1-12), %M = minute,
+				 * %p = am/pm string. */
+				e_time_format_time (
+					&tmp_tm, 0, 0,
+					buffer, sizeof (buffer));
 
-			/* For 12-hour am/pm format, we want space padding, not zero padding. This
-			 * can be done with strftime's %l, but it's a potentially unportable extension. */
+			/* For 12-hour am/pm format, we want space padding,
+			 * not zero padding. This can be done with strftime's
+			 * %l, but it's a potentially unportable extension. */
 			if (!priv->use_24_hour_format && buffer[0] == '0')
 				buffer[0] = ' ';
 
@@ -1635,8 +1647,9 @@ e_date_edit_parse_date (EDateEdit *dedit,
 		time_t t = time (NULL);
 		struct tm *today_tm = localtime (&t);
 
-		/* it was only 2 digit year in dedit and it was interpreted as in the future,
-		   but we don't want it as this, so decrease by 100 years to last century */
+		/* It was only 2 digit year in dedit and it was interpreted as
+		 * in the future, but we don't want it as this, so decrease by
+		 * 100 years to last century. */
 		if (date_tm->tm_year > today_tm->tm_year)
 			date_tm->tm_year -= 100;
 	}
@@ -1674,7 +1687,8 @@ field_set_to_none (const gchar *text)
 	while (n = (gint)((guchar)*pos), isspace (n))
 		pos++;
 
-	/* Translators: "None" for date field of a date edit, shown when there is no date set */
+	/* Translators: "None" for date field of a date edit, shown when
+	 * there is no date set. */
 	none_string = C_("date", "None");
 
 	if (*pos == '\0' || !strncmp (pos, none_string, strlen (none_string)))
@@ -1798,15 +1812,23 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 						    "%s", _("Invalid Date Value"));
 		gtk_dialog_run (GTK_DIALOG(msg_dialog));
 		gtk_widget_destroy (msg_dialog);
-		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
-		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
+		e_date_edit_get_date (
+			dedit, &tmp_tm.tm_year,
+			&tmp_tm.tm_mon, &tmp_tm.tm_mday);
+		e_date_edit_set_date (
+			dedit, tmp_tm.tm_year,
+			tmp_tm.tm_mon, tmp_tm.tm_mday);
 		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		return FALSE;
-	} else if (e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday)) {
-		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
+	} else if (e_date_edit_get_date (
+		dedit, &tmp_tm.tm_year, &tmp_tm.tm_mon, &tmp_tm.tm_mday)) {
+
+		e_date_edit_set_date (
+			dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
 
 		if (dedit->priv->has_been_changed) {
-			/* the previous one didn't emit changed signal, but we want it even here, thus doing itself */
+			/* The previous one didn't emit changed signal,
+			 * but we want it even here, thus doing itself. */
 			g_signal_emit (dedit, signals [CHANGED], 0);
 			dedit->priv->has_been_changed = FALSE;
 		}

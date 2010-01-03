@@ -629,7 +629,8 @@ e_meeting_attendee_get_edit_level (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEditLevel level)
+e_meeting_attendee_set_edit_level (EMeetingAttendee *ia,
+                                   EMeetingAttendeeEditLevel level)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -706,7 +707,8 @@ e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia, gboolean has_calendar_info)
+e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia,
+                                          gboolean has_calendar_info)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -901,8 +903,11 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 
 	g_array_append_val (priv->busy_periods, period);
 
-	period_in_days = g_date_get_julian (&period.end.date) - g_date_get_julian (&period.start.date) + 1;
-	priv->longest_period_in_days = MAX (priv->longest_period_in_days, period_in_days);
+	period_in_days =
+		g_date_get_julian (&period.end.date) -
+		g_date_get_julian (&period.start.date) + 1;
+	priv->longest_period_in_days =
+		MAX (priv->longest_period_in_days, period_in_days);
 
 done:
 	priv->has_calendar_info = TRUE;

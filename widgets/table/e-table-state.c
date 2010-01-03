@@ -245,21 +245,27 @@ e_table_state_save_to_node      (ETableState *state,
 	xmlNode *node;
 
 	if (parent)
-		node = xmlNewChild (parent, NULL, (const guchar *)"ETableState", NULL);
+		node = xmlNewChild (
+			parent, NULL, (const guchar *) "ETableState", NULL);
 	else
-		node = xmlNewNode (NULL, (const guchar *)"ETableState");
+		node = xmlNewNode (NULL, (const guchar *) "ETableState");
 
-	e_xml_set_double_prop_by_name(node, (const guchar *)"state-version", STATE_VERSION);
+	e_xml_set_double_prop_by_name (
+		node, (const guchar *)"state-version", STATE_VERSION);
 
 	for (i = 0; i < state->col_count; i++) {
 		gint column = state->columns[i];
 		double expansion = state->expansions[i];
 		xmlNode *new_node;
 
-		new_node = xmlNewChild(node, NULL, (const guchar *)"column", NULL);
-		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"source", column);
+		new_node = xmlNewChild (
+			node, NULL, (const guchar *) "column", NULL);
+		e_xml_set_integer_prop_by_name (
+			new_node, (const guchar *) "source", column);
 		if (expansion >= -1)
-			e_xml_set_double_prop_by_name(new_node, (const guchar *)"expansion", expansion);
+			e_xml_set_double_prop_by_name (
+				new_node, (const guchar *)
+				"expansion", expansion);
 	}
 
 	e_table_sort_info_save_to_node(state->sort_info, node);

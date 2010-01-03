@@ -157,7 +157,8 @@ setup_timeout (void)
 
 }
 
-/* Used from g_list_insert_sorted(); compares the trigger times of two AlarmRecord structures. */
+/* Used from g_list_insert_sorted(); compares the
+ * trigger times of two AlarmRecord structures. */
 static gint
 compare_alarm_by_time (gconstpointer a, gconstpointer b)
 {

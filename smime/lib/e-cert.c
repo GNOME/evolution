@@ -212,7 +212,8 @@ e_cert_populate (ECert *cert)
 	cert->priv->cn = CERT_GetCommonName (&c->subject);
 	cert->priv->issuer_cn = CERT_GetCommonName (&c->issuer);
 
-	if (SECSuccess == CERT_GetCertTimes (c, &cert->priv->issued_on, &cert->priv->expires_on)) {
+	if (SECSuccess == CERT_GetCertTimes (
+		c, &cert->priv->issued_on, &cert->priv->expires_on)) {
 		PRExplodedTime explodedTime;
 		struct tm exploded_tm;
 		gchar buf[32];
@@ -723,7 +724,8 @@ process_sec_algorithm_id (SECAlgorithmID  *algID,
 
 	get_oid_text (&algID->algorithm, &text);
 
-	if (!algID->parameters.len || algID->parameters.data[0] == E_ASN1_OBJECT_TYPE_NULL) {
+	if (!algID->parameters.len ||
+		algID->parameters.data[0] == E_ASN1_OBJECT_TYPE_NULL) {
 		e_asn1_object_set_display_value (sequence, text);
 		e_asn1_object_set_valid_container (sequence, FALSE);
 	} else {
@@ -1130,7 +1132,8 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	e_asn1_object_append_child (sequence, subitem);
 	g_object_unref (subitem);
 
-	if (!process_subject_public_key_info (&cert->priv->cert->subjectPublicKeyInfo, sequence))
+	if (!process_subject_public_key_info (
+		&cert->priv->cert->subjectPublicKeyInfo, sequence))
 		return FALSE;
 
 	/* Is there an issuerUniqueID? */
@@ -1200,14 +1203,17 @@ create_asn1_struct (ECert *cert)
 	e_asn1_object_append_child (cert->priv->asn1, sequence);
 	g_object_unref (sequence);
 
-	if (!process_sec_algorithm_id (&cert->priv->cert->signatureWrap.signatureAlgorithm, &sequence))
+	if (!process_sec_algorithm_id (
+		&cert->priv->cert->signatureWrap.signatureAlgorithm, &sequence))
 		return FALSE;
-	e_asn1_object_set_display_name (sequence, _("Certificate Signature Algorithm"));
+	e_asn1_object_set_display_name (
+		sequence, _("Certificate Signature Algorithm"));
 	e_asn1_object_append_child (cert->priv->asn1, sequence);
 	g_object_unref (sequence);
 
 	sequence = e_asn1_object_new ();
-	e_asn1_object_set_display_name (sequence, _("Certificate Signature Value"));
+	e_asn1_object_set_display_name (
+		sequence, _("Certificate Signature Value"));
 
 	/* The signatureWrap is encoded as a bit string.
 	   The function ProcessRawBytes expects the

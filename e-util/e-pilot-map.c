@@ -53,7 +53,11 @@ typedef struct
 } EPilotMapWriteData;
 
 static void
-real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const gchar *uid, gboolean archived, gboolean touch)
+real_e_pilot_map_insert (EPilotMap *map,
+                         guint32 pid,
+                         const gchar *uid,
+                         gboolean archived,
+                         gboolean touch)
 {
 	gchar *new_uid;
 	guint32 *new_pid = NULL;
@@ -371,7 +375,9 @@ e_pilot_map_write (const gchar *filename, EPilotMap *map)
 		g_warning ("Pilot map file could not be created\n");
 		return -1;
 	}
-	xmlDocSetRootElement (doc, xmlNewDocNode(doc, NULL, (const guchar *)"PilotMap", NULL));
+	xmlDocSetRootElement (
+		doc, xmlNewDocNode (
+		doc, NULL, (const guchar *)"PilotMap", NULL));
 	map->since = time (NULL);
 	map_set_node_timet (xmlDocGetRootElement (doc), "timestamp", map->since);
 

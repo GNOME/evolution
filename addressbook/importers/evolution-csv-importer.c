@@ -696,7 +696,9 @@ csv_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
 	g_object_unref (source_list);
 
-	g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
+	g_signal_connect (
+		selector, "primary_selection_changed",
+		G_CALLBACK (primary_selection_changed_cb), target);
 
 	gtk_widget_show_all (vbox);
 

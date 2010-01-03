@@ -306,11 +306,15 @@ parseLine (LDIFImporter *gci, EContact *contact,
 		/* handle objectclass/dn/member out here */
 		if (!field_handled) {
 			if (!g_ascii_strcasecmp (ptr, "dn"))
-				g_hash_table_insert (gci->dn_contact_hash, g_strdup(ldif_value->str), contact);
-			else if (!g_ascii_strcasecmp (ptr, "objectclass") && !g_ascii_strcasecmp (ldif_value->str, "groupofnames")) {
-				e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
-			}
-			else if (!g_ascii_strcasecmp (ptr, "member")) {
+				g_hash_table_insert (
+					gci->dn_contact_hash,
+					g_strdup (ldif_value->str), contact);
+			else if (!g_ascii_strcasecmp (ptr, "objectclass") &&
+				!g_ascii_strcasecmp (ldif_value->str, "groupofnames")) {
+				e_contact_set (
+					contact, E_CONTACT_IS_LIST,
+					GINT_TO_POINTER (TRUE));
+			} else if (!g_ascii_strcasecmp (ptr, "member")) {
 				GList *email;
 
 				email = e_contact_get (contact, E_CONTACT_EMAIL);
@@ -326,8 +330,8 @@ parseLine (LDIFImporter *gci, EContact *contact,
 		*colon = ':';
 
 		g_string_free (ldif_value, TRUE);
-	}
-	else {
+
+	} else {
 		g_warning ("unrecognized entry %s", ptr);
 		return FALSE;
 	}
@@ -508,7 +512,9 @@ ldif_import_contacts(gpointer d)
 		ldif_import_done(gci);
 		return FALSE;
 	} else {
-		e_import_status(gci->import, gci->target, _("Importing..."), ftell(gci->file) * 100 / gci->size);
+		e_import_status (
+			gci->import, gci->target, _("Importing..."),
+			ftell (gci->file) * 100 / gci->size);
 		return TRUE;
 	}
 }
@@ -542,12 +548,17 @@ ldif_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (primary == NULL) {
 		primary = e_source_list_peek_source_any (source_list);
 		g_object_ref(primary);
-		g_datalist_set_data_full(&target->data, "ldif-source", primary, g_object_unref);
+		g_datalist_set_data_full (
+			&target->data, "ldif-source", primary,
+			(GDestroyNotify) g_object_unref);
 	}
-	e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
+	e_source_selector_set_primary_selection (
+		E_SOURCE_SELECTOR (selector), primary);
 	g_object_unref (source_list);
 
-	g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
+	g_signal_connect (
+		selector, "primary_selection_changed",
+		G_CALLBACK (primary_selection_changed_cb), target);
 
 	gtk_widget_show_all (vbox);
 

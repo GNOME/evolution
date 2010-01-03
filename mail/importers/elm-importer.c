@@ -302,7 +302,9 @@ mail_importer_elm_import(EImport *ei, EImportTarget *target)
 static void
 checkbox_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
 {
-	g_datalist_set_data(&target->data, "elm-do-mail", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
+	g_datalist_set_data (
+		&target->data, "elm-do-mail",
+		GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static GtkWidget *
@@ -313,10 +315,12 @@ elm_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gboolean done_mail;
 
 	gconf = gconf_client_get_default ();
-	done_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/elm/mail", NULL);
+	done_mail = gconf_client_get_bool (
+		gconf, "/apps/evolution/importer/elm/mail", NULL);
 	g_object_unref(gconf);
 
-	g_datalist_set_data(&target->data, "elm-do-mail", GINT_TO_POINTER(!done_mail));
+	g_datalist_set_data (
+		&target->data, "elm-do-mail", GINT_TO_POINTER(!done_mail));
 
 	box = gtk_vbox_new(FALSE, 2);
 

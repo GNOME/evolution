@@ -200,7 +200,10 @@ static void
 on_toggle_24_hour_clicked	(GtkWidget	*button,
 				 EDateEdit	*dedit)
 {
-	e_date_edit_set_use_24_hour_format (dedit, !e_date_edit_get_use_24_hour_format (dedit));
+	gboolean use_24_hour_format;
+
+	use_24_hour_format = e_date_edit_get_use_24_hour_format (dedit);
+	e_date_edit_set_use_24_hour_format (dedit, !use_24_hour_format);
 }
 
 #if 0

@@ -31,14 +31,28 @@
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
 
-static G_CONST_RETURN gchar * ea_gnome_calendar_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_gnome_calendar_get_description (AtkObject *accessible);
 static gint ea_gnome_calendar_get_n_children (AtkObject* obj);
 static AtkObject * ea_gnome_calendar_ref_child (AtkObject *obj, gint i);
 
 static void ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data);
 
 static gpointer parent_class = NULL;
+
+static G_CONST_RETURN gchar *
+ea_gnome_calendar_get_name (AtkObject *accessible)
+{
+	if (accessible->name)
+		return accessible->name;
+	return _("Gnome Calendar");
+}
+
+static G_CONST_RETURN gchar *
+ea_gnome_calendar_get_description (AtkObject *accessible)
+{
+	if (accessible->description)
+		return accessible->description;
+	return _("Gnome Calendar");
+}
 
 GType
 ea_gnome_calendar_get_type (void)
@@ -235,22 +249,6 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 		g_return_val_if_reached (NULL);
 	}
 	return buffer;
-}
-
-static G_CONST_RETURN gchar *
-ea_gnome_calendar_get_name (AtkObject *accessible)
-{
-	if (accessible->name)
-		return accessible->name;
-	return _("Gnome Calendar");
-}
-
-static G_CONST_RETURN gchar *
-ea_gnome_calendar_get_description (AtkObject *accessible)
-{
-	if (accessible->description)
-		return accessible->description;
-	return _("Gnome Calendar");
 }
 
 static gint

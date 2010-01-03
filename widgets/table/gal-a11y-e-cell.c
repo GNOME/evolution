@@ -35,7 +35,6 @@
 #include "gal-a11y-e-cell-vbox.h"
 #include "gal-a11y-e-table-item.h"
 
-#define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellClass))
 static GObjectClass *parent_class;
 #define PARENT_TYPE (atk_object_get_type ())
 
@@ -209,8 +208,10 @@ gal_a11y_e_cell_grab_focus (AtkComponent *component)
 	atk_selection_clear_selection (ATK_SELECTION (a11yTableItem));
 	atk_selection_add_selection (ATK_SELECTION (a11yTableItem), index);
 
-	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
+	gtk_widget_grab_focus (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
+	toplevel = gtk_widget_get_toplevel (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
 	if (toplevel && GTK_WIDGET_TOPLEVEL (toplevel))
 		gtk_window_present (GTK_WINDOW (toplevel));
 

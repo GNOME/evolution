@@ -1264,7 +1264,8 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	widget = gtk_bin_get_child (GTK_BIN (view));
 
 	if (GAL_IS_VIEW_MINICARD (gal_view)) {
-		card_view = e_minicard_view_widget_get_view (E_MINICARD_VIEW_WIDGET(view->priv->object));
+		card_view = e_minicard_view_widget_get_view (
+			E_MINICARD_VIEW_WIDGET (view->priv->object));
 		selection_model = e_addressbook_view_get_selection_model (view);
 		row = e_selection_model_cursor_row (selection_model);
 	}
@@ -1408,25 +1409,29 @@ e_addressbook_view_stop (EAddressbookView *view)
 }
 
 static void
-view_transfer_contacts (EAddressbookView *view, gboolean delete_from_source, gboolean all)
+view_transfer_contacts (EAddressbookView *view,
+                        gboolean delete_from_source,
+                        gboolean all)
 {
 	EBook *book;
 	GList *contacts = NULL;
-	GtkWindow *parent_window;
+	GtkWindow *parent;
 
 	book = e_addressbook_model_get_book (view->priv->model);
 
 	if (all) {
-		EBookQuery *query = e_book_query_any_field_contains("");
-		e_book_get_contacts(book, query, &contacts, NULL);
-		e_book_query_unref(query);
-	}
-	else {
+		EBookQuery *query;
+
+		query = e_book_query_any_field_contains ("");
+		e_book_get_contacts (book, query, &contacts, NULL);
+		e_book_query_unref (query);
+	} else {
 		contacts = e_addressbook_view_get_selected (view);
 	}
-	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
 
-	eab_transfer_contacts (book, contacts, delete_from_source, parent_window);
+	parent = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
+	eab_transfer_contacts (book, contacts, delete_from_source, parent);
+
 	g_object_unref(book);
 }
 
@@ -1443,7 +1448,11 @@ e_addressbook_view_move_to_folder (EAddressbookView *view, gboolean all)
 }
 
 void
-e_addressbook_view_set_search (EAddressbookView *view, gint filter_id, gint search_id, const gchar *search_text, EFilterRule *advanced_search)
+e_addressbook_view_set_search (EAddressbookView *view,
+                               gint filter_id,
+                               gint search_id,
+                               const gchar *search_text,
+                               EFilterRule *advanced_search)
 {
 	EAddressbookViewPrivate *priv;
 
@@ -1460,12 +1469,21 @@ e_addressbook_view_set_search (EAddressbookView *view, gint filter_id, gint sear
 	priv->filter_id = filter_id;
 	priv->search_id = search_id;
 	priv->search_text = g_strdup (search_text);
-	priv->advanced_search = advanced_search ? e_filter_rule_clone (advanced_search) : NULL;
+
+	if (advanced_search != NULL)
+		priv->advanced_search = e_filter_rule_clone (advanced_search);
+	else
+		priv->advanced_search = NULL;
 }
 
-/* free returned values for search_text and advanced_search, if not NULL, as these are new copies */
+/* Free returned values for search_text and advanced_search,
+ * if not NULL, as these are new copies. */
 void
-e_addressbook_view_get_search (EAddressbookView *view, gint *filter_id, gint *search_id, gchar **search_text, EFilterRule **advanced_search)
+e_addressbook_view_get_search (EAddressbookView *view,
+                               gint *filter_id,
+                               gint *search_id,
+                               gchar **search_text,
+                               EFilterRule **advanced_search)
 {
 	EAddressbookViewPrivate *priv;
 
@@ -1481,5 +1499,9 @@ e_addressbook_view_get_search (EAddressbookView *view, gint *filter_id, gint *se
 	*filter_id = priv->filter_id;
 	*search_id = priv->search_id;
 	*search_text = g_strdup (priv->search_text);
-	*advanced_search = priv->advanced_search ? e_filter_rule_clone (priv->advanced_search) : NULL;
+
+	if (priv->advanced_search != NULL)
+		*advanced_search = e_filter_rule_clone (priv->advanced_search);
+	else
+		*advanced_search = NULL;
 }

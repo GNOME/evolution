@@ -80,7 +80,10 @@ esm_dispose (GObject *object)
 }
 
 static void
-esm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+esm_get_property (GObject *object,
+                  guint prop_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 
@@ -100,14 +103,19 @@ esm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 }
 
 static void
-esm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+esm_set_property (GObject *object,
+                  guint prop_id,
+                  const GValue *value,
+                  GParamSpec *pspec)
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 
 	switch (prop_id) {
 	case PROP_SORTER:
 		drop_sorter(esm);
-		add_sorter(esm, g_value_get_object (value) ? E_SORTER(g_value_get_object(value)) : NULL);
+		add_sorter (
+			esm, g_value_get_object (value) ?
+			E_SORTER (g_value_get_object (value)) : NULL);
 		break;
 
 	case PROP_SELECTION_MODE:

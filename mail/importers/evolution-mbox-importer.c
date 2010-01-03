@@ -230,7 +230,9 @@ mbox_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	importer->cancel = camel_operation_new(mbox_status, importer);
 
 	filename = g_filename_from_uri(((EImportTargetURI *)target)->uri_src, NULL, NULL);
-	mail_importer_import_mbox(filename, ((EImportTargetURI *)target)->uri_dest, importer->cancel, mbox_import_done, importer);
+	mail_importer_import_mbox (
+		filename, ((EImportTargetURI *)target)->uri_dest,
+		importer->cancel, mbox_import_done, importer);
 	g_free(filename);
 }
 

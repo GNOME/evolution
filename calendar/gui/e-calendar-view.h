@@ -98,7 +98,9 @@ struct _ECalendarView {
 };
 
 typedef struct {
-	ECalendarViewEvent * (* get_view_event) (ECalendarView *view, gint day, gint event_num);
+	ECalendarViewEvent * (*get_view_event)	(ECalendarView *view,
+						 gint day,
+						 gint event_num);
 	ECalendarView *cal_view;
 	gint day;
 	gint event_num;

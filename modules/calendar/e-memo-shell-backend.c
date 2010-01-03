@@ -96,16 +96,18 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	g_free (filename);
 
 	if (strlen (base_uri) > 7) {
-		/* compare only file:// part. If user home dir name changes we do not want to create
-		   one more group  */
+		/* Compare only file:// part. If user home dir name
+		 * changes we do not want to create one more group. */
 		base_uri_seventh = base_uri[7];
 		base_uri[7] = 0;
 	} else {
 		base_uri_seventh = -1;
 	}
 
-	on_this_computer = e_source_list_ensure_group (priv->source_list, _("On This Computer"), base_uri, TRUE);
-	e_source_list_ensure_group (priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
+	on_this_computer = e_source_list_ensure_group (
+		priv->source_list, _("On This Computer"), base_uri, TRUE);
+	e_source_list_ensure_group (
+		priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
 
 	if (base_uri_seventh != -1) {
 		base_uri[7] = base_uri_seventh;

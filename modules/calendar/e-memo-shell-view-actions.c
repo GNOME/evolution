@@ -251,16 +251,24 @@ action_memo_list_properties_cb (GtkAction *action,
 
 static void
 action_memo_list_refresh_cb (GtkAction *action,
-                            EMemoShellView *memo_shell_view)
+                             EMemoShellView *memo_shell_view)
 {
+	EMemoShellContent *memo_shell_content;
+	EMemoShellSidebar *memo_shell_sidebar;
+	ESourceSelector *selector;
 	ECal *client;
 	ECalModel *model;
 	ESource *source;
 	gchar *uri;
 	GError *error = NULL;
 
-	model = e_memo_shell_content_get_memo_model (memo_shell_view->priv->memo_shell_content);
-	source = e_source_selector_peek_primary_selection (e_memo_shell_sidebar_get_selector (memo_shell_view->priv->memo_shell_sidebar));
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+
+	model = e_memo_shell_content_get_memo_model (memo_shell_content);
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+
+	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	uri = e_source_get_uri (source);
@@ -273,7 +281,10 @@ action_memo_list_refresh_cb (GtkAction *action,
 	g_return_if_fail (e_cal_get_refresh_supported (client));
 
 	if (!e_cal_refresh (client, &error) && error) {
-		g_warning ("%s: Failed to refresh '%s', %s\n", G_STRFUNC, e_source_peek_name (source), error->message);
+		g_warning (
+			"%s: Failed to refresh '%s', %s\n",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
 		g_error_free (error);
 	}
 }
@@ -483,10 +494,12 @@ action_memo_save_as_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
-	/* To Translators: Default filename part saving a memo to a file when no summary is filed, the '.ics' extension is concatenated to it */
+	/* Translators: Default filename part saving a memo to a file when
+	 * no summary is filed, the '.ics' extension is concatenated to it. */
 	string = icalcomp_suggest_filename (comp_data->icalcomp, _("memo"));
 	file = e_shell_run_save_dialog (
-		shell, _("Save as iCalendar"), string, "*.ics:text/calendar", NULL, NULL);
+		shell, _("Save as iCalendar"), string,
+		"*.ics:text/calendar", NULL, NULL);
 	g_free (string);
 	if (file == NULL)
 		return;

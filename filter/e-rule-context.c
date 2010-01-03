@@ -201,8 +201,11 @@ rule_context_load (ERuleContext *context,
 
 	systemdoc = e_xml_parse_file (system);
 	if (systemdoc == NULL) {
-		gchar * err_msg = g_strdup_printf("Unable to load system rules '%s': %s",
-						  system, g_strerror(errno));
+		gchar * err_msg;
+
+		err_msg = g_strdup_printf (
+			"Unable to load system rules '%s': %s",
+			system, g_strerror (errno));
 		g_warning ("%s: %s", G_STRFUNC, err_msg);
 		rule_context_set_error(context, err_msg);
 		/* no need to free err_msg here */
@@ -211,8 +214,11 @@ rule_context_load (ERuleContext *context,
 
 	root = xmlDocGetRootElement (systemdoc);
 	if (root == NULL || strcmp ((gchar *)root->name, "filterdescription")) {
-		gchar * err_msg = g_strdup_printf ("Unable to load system rules '%s': Invalid format",
-						   system);
+		gchar * err_msg;
+
+		err_msg = g_strdup_printf (
+			"Unable to load system rules '%s': "
+			"Invalid format", system);
 		g_warning ("%s: %s", G_STRFUNC, err_msg);
 		rule_context_set_error(context, err_msg);
 		/* no need to free err_msg here */
@@ -447,9 +453,9 @@ rule_context_new_element (ERuleContext *context,
 		return (EFilterElement *) e_filter_int_new ();
 	} else if (!strcmp (type, "regex")) {
 		return (EFilterElement *) e_filter_input_new_type_name (type);
-	}else if (!strcmp (type, "completedpercent")) {
-                 return (EFilterElement *) e_filter_int_new_type ("completedpercent", 0,100);
-
+	} else if (!strcmp (type, "completedpercent")) {
+		return (EFilterElement *) e_filter_int_new_type (
+			"completedpercent", 0,100);
 	} else {
 		g_warning ("Unknown filter type '%s'", type);
 		return NULL;
@@ -768,7 +774,8 @@ e_rule_context_add_rule (ERuleContext *context,
 	}
 }
 
-/* add a rule, with a gui, asking for confirmation first ... optionally save to path */
+/* Add a rule, with a gui, asking for confirmation first,
+ * and optionally save to path. */
 void
 e_rule_context_add_rule_gui (ERuleContext *context,
                              EFilterRule *rule,

@@ -331,7 +331,10 @@ addressbook_load_default_book (EBookCallback cb, gpointer closure)
 
 	book = e_book_new_default_addressbook (NULL);
 	if (!book)
-		load_source_cb (NULL, E_BOOK_ERROR_OTHER_ERROR, load_source_data); /* XXX we should just use a GError and it's error code here */
+		/* XXX We should just use a GError and its error code here. */
+		load_source_cb (
+			NULL, E_BOOK_ERROR_OTHER_ERROR, load_source_data);
 	else
-		e_book_async_open (book, FALSE, default_book_cb, load_source_data);
+		e_book_async_open (
+			book, FALSE, default_book_cb, load_source_data);
 }

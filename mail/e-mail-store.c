@@ -147,9 +147,13 @@ mail_store_note_store_cb (CamelStore *store,
 	if (!store_info->removed) {
 		/* This keeps message counters up-to-date. */
 		if (store_info->vtrash != NULL)
-			mail_folder_cache_note_folder (mail_folder_cache_get_default (), store_info->vtrash);
+			mail_folder_cache_note_folder (
+				mail_folder_cache_get_default (),
+				store_info->vtrash);
 		if (store_info->vjunk != NULL)
-			mail_folder_cache_note_folder (mail_folder_cache_get_default (), store_info->vjunk);
+			mail_folder_cache_note_folder (
+				mail_folder_cache_get_default (),
+				store_info->vjunk);
 	}
 
 	store_info_unref (store_info);

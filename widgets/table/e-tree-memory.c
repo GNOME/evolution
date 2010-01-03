@@ -65,7 +65,11 @@ struct ETreeMemoryPath {
 
 struct ETreeMemoryPriv {
 	ETreeMemoryPath *root;
-	gboolean         expanded_default; /* whether nodes are created expanded or collapsed by default */
+
+	/* whether nodes are created expanded
+	 * or collapsed by default */
+	gboolean         expanded_default;
+
 	gint             frozen;
 	GFunc            destroy_func;
 	gpointer         destroy_user_data;
@@ -97,7 +101,9 @@ e_tree_memory_path_depth (ETreeMemoryPath *path)
 }
 
 static void
-e_tree_memory_path_insert (ETreeMemoryPath *parent, gint position, ETreeMemoryPath *child)
+e_tree_memory_path_insert (ETreeMemoryPath *parent,
+                           gint position,
+                           ETreeMemoryPath *child)
 {
 	g_return_if_fail (position <= parent->num_children && position >= -1);
 
@@ -522,9 +528,14 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 	return new_path;
 }
 
-ETreePath e_tree_memory_node_insert_id     (ETreeMemory *etree, ETreePath parent, gint position, gpointer node_data, gchar *id)
+ETreePath
+e_tree_memory_node_insert_id (ETreeMemory *etree,
+                              ETreePath parent,
+                              gint position,
+                              gpointer node_data,
+                              gchar *id)
 {
-	return e_tree_memory_node_insert(etree, parent, position, node_data);
+	return e_tree_memory_node_insert (etree, parent, position, node_data);
 }
 
 /**

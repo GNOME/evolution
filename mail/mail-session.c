@@ -428,7 +428,6 @@ lookup_addressbook(CamelSession *session, const gchar *name)
 static gboolean
 alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *prompt, gboolean cancel)
 {
-	MailSession *mail_session = MAIL_SESSION (session);
 	struct _user_message_msg *m;
 	gboolean result = TRUE;
 

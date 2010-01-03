@@ -228,7 +228,8 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
  * @x: X insertion point for the string.
  * @y: Y insertion point for the string's baseline.
  * @layout: the PangoLayout to draw.
- * @str: the string we're drawing, passed in so we can change the layout if it needs eliding.
+ * @str: the string we're drawing, passed in so we can change the layout if
+ *       it needs eliding.
  * @max_width: Maximum width in which the string must fit.
  * @center: Whether to center the string in the available area if it does fit.
  *

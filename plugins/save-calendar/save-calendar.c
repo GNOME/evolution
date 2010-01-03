@@ -237,10 +237,16 @@ open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 	fostream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
 
 	if (err && err->code == G_IO_ERROR_EXISTS) {
+		gint response;
 		g_clear_error (&err);
 
-		if (e_alert_run_dialog_for_args (parent, E_ALERT_ASK_FILE_EXISTS_OVERWRITE, uri, NULL) == GTK_RESPONSE_OK) {
-			fostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &err);
+		response = e_alert_run_dialog_for_args (
+			parent, E_ALERT_ASK_FILE_EXISTS_OVERWRITE,
+			uri, NULL);
+		if (response == GTK_RESPONSE_OK) {
+			fostream = g_file_replace (
+				file, NULL, FALSE, G_FILE_CREATE_NONE,
+				NULL, &err);
 
 			if (err && fostream) {
 				g_object_unref (fostream);

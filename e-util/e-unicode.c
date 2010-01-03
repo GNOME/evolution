@@ -281,7 +281,8 @@ e_unicode_get_utf8 (const gchar *text, gunichar *out)
 }
 
 gchar *
-e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent,
+                                               const xmlChar *prop_name)
 {
 	xmlChar *prop;
 	gchar *ret_val = NULL;

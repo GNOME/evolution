@@ -34,9 +34,11 @@ static AtkObject* ea_cal_view_get_parent (AtkObject *accessible);
 static void ea_cal_view_real_initialize (AtkObject *accessible, gpointer data);
 
 static void ea_cal_view_event_changed_cb (ECalendarView *cal_view,
-                                          ECalendarViewEvent *event, gpointer data);
+                                          ECalendarViewEvent *event,
+                                          gpointer data);
 static void ea_cal_view_event_added_cb (ECalendarView *cal_view,
-                                        ECalendarViewEvent *event, gpointer data);
+                                        ECalendarViewEvent *event,
+                                        gpointer data);
 
 static gboolean idle_dates_changed (gpointer data);
 static void ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data);

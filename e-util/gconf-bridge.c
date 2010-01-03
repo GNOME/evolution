@@ -70,7 +70,7 @@ typedef struct {
 
         GtkWindow *window;
         gulong configure_event_id;
-	gulong window_state_event_id;
+        gulong window_state_event_id;
         gulong unmap_id;
         guint sync_timeout_id;
 } WindowBinding;
@@ -551,41 +551,55 @@ gconf_bridge_bind_property_full (GConfBridge *bridge,
 }
 
 static void
-prop_binding_block_cb (gpointer hkey, PropBinding *binding, const gchar *key)
+prop_binding_block_cb (gpointer hkey,
+                       PropBinding *binding,
+                       const gchar *key)
 {
-	g_return_if_fail (binding != NULL);
-	g_return_if_fail (key != NULL);
+        g_return_if_fail (binding != NULL);
+        g_return_if_fail (key != NULL);
 
-	if (binding->type == BINDING_PROP && binding->key && g_ascii_strcasecmp (binding->key, key) == 0)
-		g_signal_handler_block (binding->object, binding->prop_notify_id);
+        if (binding->type == BINDING_PROP && binding->key &&
+                g_ascii_strcasecmp (binding->key, key) == 0)
+                g_signal_handler_block (
+                        binding->object, binding->prop_notify_id);
 }
 
 static void
-prop_binding_unblock_cb (gpointer hkey, PropBinding *binding, const gchar *key)
+prop_binding_unblock_cb (gpointer hkey,
+                         PropBinding *binding,
+                         const gchar *key)
 {
-	g_return_if_fail (binding != NULL);
-	g_return_if_fail (key != NULL);
+        g_return_if_fail (binding != NULL);
+        g_return_if_fail (key != NULL);
 
-	if (binding->type == BINDING_PROP && binding->key && g_ascii_strcasecmp (binding->key, key) == 0)
-		g_signal_handler_unblock (binding->object, binding->prop_notify_id);
+        if (binding->type == BINDING_PROP && binding->key &&
+                g_ascii_strcasecmp (binding->key, key) == 0)
+                g_signal_handler_unblock (
+                        binding->object, binding->prop_notify_id);
 }
 
 void
-gconf_bridge_block_property_bindings (GConfBridge  *bridge, const gchar *key)
+gconf_bridge_block_property_bindings (GConfBridge  *bridge,
+                                      const gchar *key)
 {
         g_return_if_fail (bridge != NULL);
         g_return_if_fail (key != NULL);
 
-	g_hash_table_foreach (bridge->bindings, (GHFunc) prop_binding_block_cb, (gpointer)key);
+        g_hash_table_foreach (
+                bridge->bindings, (GHFunc)
+                prop_binding_block_cb, (gpointer)key);
 }
 
 void
-gconf_bridge_unblock_property_bindings (GConfBridge  *bridge, const gchar *key)
+gconf_bridge_unblock_property_bindings (GConfBridge  *bridge,
+                                        const gchar *key)
 {
         g_return_if_fail (bridge != NULL);
         g_return_if_fail (key != NULL);
 
-	g_hash_table_foreach (bridge->bindings, (GHFunc) prop_binding_unblock_cb, (gpointer)key);
+        g_hash_table_foreach (
+                bridge->bindings, (GHFunc)
+                prop_binding_unblock_cb, (gpointer)key);
 }
 
 /* Unbinds a property binding */
@@ -687,16 +701,16 @@ window_binding_configure_event_cb (GtkWindow         *window,
                                    GdkEventConfigure *event,
                                    WindowBinding     *binding)
 {
-	/* re-postpone by cancel of the previous request */
-	if (binding->sync_timeout_id > 0)
-		g_source_remove (binding->sync_timeout_id);
+        /* re-postpone by cancel of the previous request */
+        if (binding->sync_timeout_id > 0)
+                g_source_remove (binding->sync_timeout_id);
 
-	/* Schedule a sync */
-	binding->sync_timeout_id = g_timeout_add_seconds (WINDOW_BINDING_SYNC_DELAY,
-		(GSourceFunc) window_binding_perform_scheduled_sync,
-		binding);
+        /* Schedule a sync */
+        binding->sync_timeout_id = g_timeout_add_seconds (WINDOW_BINDING_SYNC_DELAY,
+                (GSourceFunc) window_binding_perform_scheduled_sync,
+                binding);
 
-	return FALSE;
+        return FALSE;
 }
 
 /* Called when the window state is being changed */
@@ -897,7 +911,7 @@ window_binding_unbind (WindowBinding *binding)
                 g_signal_handler_disconnect (binding->window,
                                              binding->configure_event_id);
                 g_signal_handler_disconnect (binding->window,
-					     binding->window_state_event_id);
+                                             binding->window_state_event_id);
                 g_signal_handler_disconnect (binding->window,
                                              binding->unmap_id);
 
@@ -1276,7 +1290,7 @@ error_handler (GConfClient *client,
                 gtk_widget_destroy (dlg);
 
                 shown_dialog = TRUE;
-	}
+        }
 }
 
 /**

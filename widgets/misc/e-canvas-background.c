@@ -365,7 +365,12 @@ ecb_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-ecb_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
+ecb_draw (GnomeCanvasItem *item,
+          GdkDrawable *drawable,
+          gint x,
+          gint y,
+          gint width,
+          gint height)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 	gint x1, x2, y1, y2;
@@ -421,12 +426,15 @@ ecb_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 }
 
 static void
-ecb_style_set (ECanvasBackground *ecb, GtkStyle *previous_style)
+ecb_style_set (ECanvasBackground *ecb,
+               GtkStyle *previous_style)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
 
 	if (GTK_WIDGET_REALIZED (item->canvas)) {
-		gdk_gc_set_foreground (ecb->priv->gc, &GTK_WIDGET(item->canvas)->style->base[GTK_STATE_NORMAL]);
+		gdk_gc_set_foreground (
+			ecb->priv->gc, &GTK_WIDGET(item->canvas)->
+			style->base[GTK_STATE_NORMAL]);
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
 	}
 }

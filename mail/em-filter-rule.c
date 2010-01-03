@@ -331,7 +331,9 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 	gint index, i;
 
 	index = gtk_combo_box_get_active (combobox);
-	for (i = 0, part = em_filter_context_next_action (data->f, part); part && i < index; i++, part = em_filter_context_next_action (data->f, part)) {
+	for (i = 0, part = em_filter_context_next_action (data->f, part);
+		part && i < index;
+		i++, part = em_filter_context_next_action (data->f, part)) {
 		/* traverse until reached index */
 	}
 
@@ -557,8 +559,9 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 	hbox = gtk_hbox_new(FALSE, 3);
 
 	add = gtk_button_new_with_mnemonic (_("Add Ac_tion"));
-	gtk_button_set_image (GTK_BUTTON (add), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
-	/* gtk_button_set_relief(GTK_BUTTON(add), GTK_RELIEF_NONE); */
+	gtk_button_set_image (
+		GTK_BUTTON (add), gtk_image_new_from_stock (
+		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
 	g_signal_connect(add, "clicked", G_CALLBACK(more_parts), data);
 	gtk_box_pack_start(GTK_BOX(hbox), add, FALSE, FALSE, 0);
 

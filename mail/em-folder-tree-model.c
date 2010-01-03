@@ -209,7 +209,9 @@ account_changed_cb (EAccountList *accounts,
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+	store = (CamelStore *) camel_session_get_service (
+		session, uri, CAMEL_PROVIDER_STORE, &ex);
+	if (store == NULL) {
 		camel_exception_clear (&ex);
 		return;
 	}
@@ -601,7 +603,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	tree_store = GTK_TREE_STORE (model);
 
 	if (!fully_loaded)
-		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
+		load = (fi->child == NULL) && !(fi->flags &
+			(CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
 	uri_row = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
@@ -613,12 +616,14 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	g_hash_table_insert (
 		si->full_hash, g_strdup (fi->full_name), path_row);
 
-	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
-	/* HACK2: We do the same to the draft folder */
-	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
+	/* XXX If we have the folder, and its the Outbox folder, we need
+	 *     the total count, not unread.  We do the same for Drafts. */
+
+	/* XXX This is duplicated in mail-folder-cache too, should perhaps
+	 *     be functionised. */
 	unread = fi->unread;
-	if (mail_folder_cache_get_folder_from_uri(mail_folder_cache_get_default (),
-						fi->uri, &folder) && folder) {
+	if (mail_folder_cache_get_folder_from_uri (
+		mail_folder_cache_get_default (), fi->uri, &folder) && folder) {
 		is_drafts = em_utils_folder_is_drafts (folder, fi->uri);
 
 		if (is_drafts || em_utils_folder_is_outbox (folder, fi->uri)) {
@@ -637,7 +642,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		camel_object_unref(folder);
 	}
 
-	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */
+	/* TODO Maybe this should be handled by mail_get_folderinfo
+	 *      (except em-folder-tree doesn't use it, duh) */
 	flags = fi->flags;
 	name = fi->name;
 	if (si->store == e_mail_local_get_store ()) {
@@ -700,8 +706,12 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_BOOL_IS_DRAFT, is_drafts,
 		-1);
 
-	target = em_event_target_new_custom_icon (em_event_peek(), tree_store, iter, fi->full_name, EM_EVENT_CUSTOM_ICON);
-	e_event_emit ((EEvent *)em_event_peek (), "folder.customicon", (EEventTarget *) target);
+	target = em_event_target_new_custom_icon (
+		em_event_peek (), tree_store, iter,
+		fi->full_name, EM_EVENT_CUSTOM_ICON);
+	e_event_emit (
+		(EEvent *) em_event_peek (), "folder.customicon",
+		(EEventTarget *) target);
 
 	if (unread != ~0)
 		gtk_tree_store_set (

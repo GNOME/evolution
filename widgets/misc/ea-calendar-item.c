@@ -284,23 +284,32 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (g_obj), NULL);
 
 	calitem = E_CALENDAR_ITEM (g_obj);
-	if (e_calendar_item_get_date_range (calitem,
-					    &start_year, &start_month, &start_day,
-                                            &end_year, &end_month, &end_day)) {
+	if (e_calendar_item_get_date_range (
+		calitem,
+		&start_year, &start_month, &start_day,
+		&end_year, &end_month, &end_day)) {
 
-                day_start.tm_year = start_year - 1900;
-                day_start.tm_mon = start_month;
-                day_start.tm_mday = start_day;
-                day_start.tm_isdst = -1;
-                e_utf8_strftime (buffer_start, sizeof (buffer_start), _("%d %B %Y"), &day_start);
+		day_start.tm_year = start_year - 1900;
+		day_start.tm_mon = start_month;
+		day_start.tm_mday = start_day;
+		day_start.tm_isdst = -1;
 
-                day_end.tm_year = end_year - 1900;
-                day_end.tm_mon = end_month;
-                day_end.tm_mday = end_day;
-                day_end.tm_isdst = -1;
-                e_utf8_strftime (buffer_end, sizeof (buffer_end), _("%d %B %Y"), &day_end);
+		e_utf8_strftime (
+			buffer_start, sizeof (buffer_start),
+			_("%d %B %Y"), &day_start);
 
-		name_str = g_strdup_printf (_("Calendar: from %s to %s"), buffer_start, buffer_end);
+		day_end.tm_year = end_year - 1900;
+		day_end.tm_mon = end_month;
+		day_end.tm_mday = end_day;
+		day_end.tm_isdst = -1;
+
+		e_utf8_strftime (
+			buffer_end, sizeof (buffer_end),
+			_("%d %B %Y"), &day_end);
+
+		name_str = g_strdup_printf (
+			_("Calendar: from %s to %s"),
+			buffer_start, buffer_end);
         }
 
 #if 0

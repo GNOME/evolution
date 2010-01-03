@@ -587,7 +587,10 @@ e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
 
 	/* get current focused item, if e-calendar has had focus */
 	if (GTK_WIDGET_HAS_FOCUS (widget) || e_calendar_button_has_focus (cal))
-		for (index = 0; canvas->focused_item && index < E_CALENDAR_FOCUS_CHILDREN_NUM; ++index) {
+		for (index = 0; index < E_CALENDAR_FOCUS_CHILDREN_NUM; ++index) {
+			if (canvas->focused_item == NULL)
+				break;
+
 			if (children[index] == canvas->focused_item) {
 				focused_index = index;
 				break;

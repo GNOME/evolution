@@ -122,7 +122,8 @@ e_asn1_object_get_type (void)
 			(GInstanceInitFunc) e_asn1_object_init,
 		};
 
-		asn1_object_type = g_type_register_static (PARENT_TYPE, "EASN1Object", &asn1_object_info, 0);
+		asn1_object_type = g_type_register_static (
+			PARENT_TYPE, "EASN1Object", &asn1_object_info, 0);
 	}
 
 	return asn1_object_type;

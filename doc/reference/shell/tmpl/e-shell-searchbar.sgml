@@ -33,6 +33,11 @@ EShellSearchbar
 
 </para>
 
+<!-- ##### ARG EShellSearchbar:label-visible ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellSearchbar:scope-combo-box ##### -->
 <para>
 

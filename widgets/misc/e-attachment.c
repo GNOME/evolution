@@ -402,7 +402,7 @@ attachment_update_progress_columns (EAttachment *attachment)
 
 void
 e_attachment_set_file_info (EAttachment *attachment,
-                          GFileInfo *file_info)
+                            GFileInfo *file_info)
 {
 	GtkTreeRowReference *reference;
 	GIcon *icon;

@@ -99,7 +99,8 @@ pixbuf_kill_view (ECellView *ecell_view)
     ECellPixbufView *pixbuf_view = (ECellPixbufView *) ecell_view;
 
     if (pixbuf_view->cell_view.kill_view_cb)
-        (pixbuf_view->cell_view.kill_view_cb)(ecell_view, pixbuf_view->cell_view.kill_view_cb_data);
+        pixbuf_view->cell_view.kill_view_cb (
+            ecell_view, pixbuf_view->cell_view.kill_view_cb_data);
 
     if (pixbuf_view->cell_view.kill_view_cb_data)
         g_list_free(pixbuf_view->cell_view.kill_view_cb_data);

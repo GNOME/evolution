@@ -163,7 +163,10 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 			gchar *class = e_plugin_xml_prop(node, "class");
 
 			if (class == NULL) {
-				g_warning("Plugin '%s' load failed in '%s', missing class property for hook", ep->id, ep->path);
+				g_warning (
+					"Plugin '%s' load failed in '%s', "
+					"missing class property for hook",
+					ep->id, ep->path);
 				goto fail;
 			}
 
@@ -382,7 +385,8 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 		return NULL;
 	}
 
-	/* If we can't find a plugin, add it to a pending list which is checked when a new type is registered */
+	/* If we can't find a plugin, add it to a pending list
+	 * which is checked when a new type is registered. */
 	class = g_hash_table_lookup(ep_types, prop);
 	if (class == NULL) {
 		pd(printf("Delaying loading of plugin '%s' unknown type '%s'\n", id, prop));
@@ -991,7 +995,9 @@ e_plugin_hook_enable (EPluginHook *eph, gint state)
  * integer values of the corresponding string id's stored in the @map.
  **/
 guint32
-e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop)
+e_plugin_hook_mask (xmlNodePtr root,
+                    const struct _EPluginHookTargetKey *map,
+                    const gchar *prop)
 {
 	gchar *val, *p, *start, c;
 	guint32 mask = 0;
@@ -1042,7 +1048,9 @@ e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, con
  * integer value, if not, then ~0.
  **/
 guint32
-e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop)
+e_plugin_hook_id (xmlNodePtr root,
+                  const struct _EPluginHookTargetKey *map,
+                  const gchar *prop)
 {
 	gchar *val;
 	gint i;

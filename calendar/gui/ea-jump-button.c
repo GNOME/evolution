@@ -74,7 +74,8 @@ ea_jump_button_get_type (void)
 
 		/*
 		 * Figure out the size of the class and instance
-		 * we are run-time deriving from (atk object for GNOME_TYPE_CANVAS_ITEM, in this case)
+		 * we are run-time deriving from (atk object for
+		 * GNOME_TYPE_CANVAS_ITEM, in this case)
 		 */
 
 		factory = atk_registry_get_factory (atk_get_default_registry (),

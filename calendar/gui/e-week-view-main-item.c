@@ -243,20 +243,25 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 
 	cairo_save (cr);
 	if (selected) {
-		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
+		gdk_cairo_set_source_color (
+			cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	} else if (week_view->multi_week_view) {
 		if (today) {
-			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+			gdk_cairo_set_source_color (
+				cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
 		} else {
-			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+			gdk_cairo_set_source_color (
+				cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 		}
 	} else {
-		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+		gdk_cairo_set_source_color (
+			cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}
 
 	if (today) {
-		g_date_strftime (buffer, sizeof (buffer),
-				 format_string ? format_string : "<b>%d</b>", date);
+		g_date_strftime (
+			buffer, sizeof (buffer),
+			 format_string ? format_string : "<b>%d</b>", date);
 		pango_cairo_update_context (cr, pango_context);
 		layout = pango_cairo_create_layout (cr);
 		pango_layout_set_font_description (layout, font_desc);
@@ -284,7 +289,8 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	/* Draw the line under the date. */
 	if (!week_view->multi_week_view) {
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+		gdk_cairo_set_source_color (
+			cr, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
 		cairo_set_line_width (cr, 0.7);
 		cairo_move_to (cr, x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y);
 		cairo_line_to (cr, right_edge, line_y);

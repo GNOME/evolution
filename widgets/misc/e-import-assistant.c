@@ -685,7 +685,9 @@ prepare_file_page (GtkAssistant *assistant,
 }
 
 static GtkWidget *
-create_importer_control (EImport *import, EImportTarget *target, EImportImporter *importer)
+create_importer_control (EImport *import,
+                         EImportTarget *target,
+                         EImportImporter *importer)
 {
 	GtkWidget *control;
 
@@ -730,6 +732,7 @@ prepare_progress_page (GtkAssistant *assistant,
 	EImportAssistantPrivate *priv;
 	EImportCompleteFunc done = NULL;
 	ImportSelectionPage *page;
+	gboolean intelligent_import;
 	gboolean is_simple = FALSE;
 
 	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
@@ -741,11 +744,14 @@ prepare_progress_page (GtkAssistant *assistant,
 
 	g_object_get (G_OBJECT (assistant), "is-simple", &is_simple, NULL);
 
+	intelligent_import = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (priv->type_page.intelligent));
+
 	if (is_simple) {
 		priv->import_importer = priv->simple_page.importer;
 		priv->import_target = (EImportTarget *)priv->simple_page.target;
 		done = import_simple_done;
-	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->type_page.intelligent))) {
+	} else if (intelligent_import) {
 		page->current = page->importers;
 		if (page->current) {
 			priv->import_target = (EImportTarget *) page->target;
@@ -793,7 +799,8 @@ simple_filetype_changed_cb (GtkComboBox *combo_box, GtkAssistant *assistant)
 	if (page->control)
 		gtk_widget_destroy (page->control);
 
-	control = create_importer_control (priv->import, (EImportTarget *)page->target, page->importer);
+	control = create_importer_control (
+		priv->import, (EImportTarget *)page->target, page->importer);
 	page->control = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_widget_show (page->control);
 	gtk_container_add (GTK_CONTAINER (page->control), control);
@@ -1349,7 +1356,8 @@ e_import_assistant_new_simple (GtkWindow *parent,
 		return NULL;
 	}
 
-	/* FIXME Implement the 'preview' mode, probably by adding a new function to an importer */
+	/* FIXME Implement the 'preview' mode, probably
+	 *       by adding a new function to an importer */
 
 	return assistant;
 }

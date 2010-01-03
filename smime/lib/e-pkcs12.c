@@ -246,7 +246,9 @@ import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
 	*aWantRetry = FALSE;
 
 	passwd.data = NULL;
-	rv = prompt_for_password (_("PKCS12 File Password"), _("Enter password for PKCS12 file:"), &passwd);
+	rv = prompt_for_password (
+		_("PKCS12 File Password"),
+		_("Enter password for PKCS12 file:"), &passwd);
 	if (!rv) goto finish;
 	if (passwd.data == NULL) {
 		handle_error (PKCS12_USER_CANCELED);
@@ -332,7 +334,10 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error)
 }
 
 gboolean
-e_pkcs12_export_to_file (EPKCS12 *pkcs12, const gchar *path, GList *certs, GError **error)
+e_pkcs12_export_to_file (EPKCS12 *pkcs12,
+                         const gchar *path,
+                         GList *certs,
+                         GError **error)
 {
 	return FALSE;
 }

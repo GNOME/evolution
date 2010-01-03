@@ -119,7 +119,9 @@ filter_int_xml_decode (EFilterElement *element,
 	filter_int->type = g_strdup (type);
 	xmlFree (type);
 
-	intval = (gchar *)xmlGetProp (node, (xmlChar *)(filter_int->type ? filter_int->type : "integer"));
+	intval = (gchar *)xmlGetProp (
+		node, (xmlChar *) (filter_int->type ?
+		filter_int->type : "integer"));
 	if (intval) {
 		filter_int->val = atoi (intval);
 		xmlFree (intval);
