@@ -26,7 +26,6 @@
 
 #include "e-minicard.h"
 #include <e-util/e-util.h>
-#include <misc/e-gui-utils.h>
 #include "addressbook/printing/e-contact-print.h"
 
 struct _EAddressbookReflowAdapterPrivate {

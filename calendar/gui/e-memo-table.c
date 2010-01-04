@@ -35,7 +35,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <e-util/e-binding.h>
-#include <misc/e-gui-utils.h>
 #include <misc/e-selectable.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>

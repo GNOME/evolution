@@ -34,7 +34,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <misc/e-gui-utils.h>
 #include <e-util/e-binding.h>
 #include <table/e-table-memory-store.h>
 #include <table/e-cell-checkbox.h>

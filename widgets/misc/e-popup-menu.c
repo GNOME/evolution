@@ -30,7 +30,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include "e-gui-utils.h"
 #include "e-popup-menu.h"
 
 /*

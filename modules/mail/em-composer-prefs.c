@@ -39,8 +39,6 @@
 
 #include <camel/camel-iconv.h>
 
-#include <misc/e-gui-utils.h>
-
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 

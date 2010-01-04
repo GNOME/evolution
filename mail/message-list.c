@@ -51,7 +51,6 @@
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 
-#include "misc/e-gui-utils.h"
 #include "misc/e-selectable.h"
 
 #include "shell/e-shell.h"

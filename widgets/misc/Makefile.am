@@ -47,7 +47,6 @@ widgetsinclude_HEADERS =			\
 	e-combo-cell-editable.h			\
 	e-dateedit.h				\
 	e-focus-tracker.h			\
-	e-gui-utils.h				\
 	e-hinted-entry.h			\
 	e-hsv-utils.h				\
 	e-image-chooser.h			\
@@ -124,7 +123,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-combo-cell-editable.c			\
 	e-dateedit.c				\
 	e-focus-tracker.c			\
-	e-gui-utils.c				\
 	e-hinted-entry.c			\
 	e-hsv-utils.c				\
 	e-image-chooser.c			\

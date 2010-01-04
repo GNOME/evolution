@@ -24,7 +24,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
-#include <misc/e-gui-utils.h>
 
 #include <camel/camel-url.h>
 #include <camel/camel-store.h>

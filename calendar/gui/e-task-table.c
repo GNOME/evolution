@@ -35,7 +35,6 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <misc/e-gui-utils.h>
 #include <misc/e-selectable.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>

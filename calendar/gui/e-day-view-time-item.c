@@ -28,7 +28,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <misc/e-gui-utils.h>
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"
 #include <libecal/e-cal-time-util.h>

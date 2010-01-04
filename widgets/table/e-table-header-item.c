@@ -38,7 +38,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "misc/e-canvas.h"
-#include "misc/e-gui-utils.h"
 #include "misc/e-popup-menu.h"
 
 #include "e-table.h"
@@ -1596,7 +1595,11 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	g_object_ref_sink (popup);
 	g_signal_connect (popup, "selection-done",
 			  G_CALLBACK (free_popup_info), info);
-	e_popup_menu (popup, (GdkEvent *) event);
+
+	gtk_menu_popup (
+		GTK_MENU (popup),
+		NULL, NULL, NULL, NULL,
+		event->button, event->time);
 }
 
 static void
@@ -1828,7 +1831,10 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			g_object_ref_sink (popup);
 			g_signal_connect (popup, "selection-done",
 					  G_CALLBACK (free_popup_info), info);
-			e_popup_menu (popup, NULL);
+			gtk_menu_popup (
+				GTK_MENU (popup),
+				NULL, NULL, NULL, NULL,
+				0, GDK_CURRENT_TIME);
 		} else if (e->key.keyval == GDK_space) {
 			ETableCol *ecol;
 

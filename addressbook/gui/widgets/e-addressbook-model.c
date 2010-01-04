@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 #include "e-addressbook-model.h"
 #include <e-util/e-util.h>
-#include <misc/e-gui-utils.h>
 #include "eab-gui-util.h"
 
 #define E_ADDRESSBOOK_MODEL_GET_PRIVATE(obj) \

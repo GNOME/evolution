@@ -27,7 +27,6 @@
 #include <table/e-table.h>
 #include <table/e-table-model.h>
 #include <table/e-cell-date.h>
-#include <misc/e-gui-utils.h>
 #include <misc/e-selectable.h>
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <filter/e-rule-editor.h>
