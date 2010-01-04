@@ -43,7 +43,6 @@ widgetsinclude_HEADERS =			\
 	e-canvas-vbox.h				\
 	e-cell-renderer-combo.h			\
 	e-charset-combo-box.h			\
-	e-colors.h				\
 	e-combo-cell-editable.h			\
 	e-dateedit.h				\
 	e-focus-tracker.h			\
@@ -119,7 +118,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-canvas-vbox.c				\
 	e-cell-renderer-combo.c			\
 	e-charset-combo-box.c			\
-	e-colors.c				\
 	e-combo-cell-editable.c			\
 	e-dateedit.c				\
 	e-focus-tracker.c			\
