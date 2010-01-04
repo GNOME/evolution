@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-hsv-utils.h - utilites for manipulating colours in HSV space
+ * e-hsv-utils.h - utilites for manipulating colors in HSV space
  * Copyright (C) 1995-2001 Seth Nickell, Peter Mattis, Spencer Kimball and Josh MacDonald
  *
  * Authors:
@@ -24,25 +24,11 @@
 #ifndef _E_HSV_UTILS_H_
 #define _E_HSV_UTILS_H_
 
-#include <gdk/gdk.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-void  e_hsv_to_rgb  (gdouble   h,
-		     gdouble   s,
-		     gdouble   v,
-		     gdouble  *r,
-		     gdouble  *g,
-		     gdouble  *b);
-
-void  e_rgb_to_hsv  (gdouble   r,
-		     gdouble   g,
-		     gdouble   b,
-		     gdouble  *h,
-		     gdouble  *s,
-		     gdouble  *v);
-
-void  e_hsv_tweak   (GdkColor *colour,
+void  e_hsv_tweak   (GdkColor *color,
 		     gdouble   delta_h,
 		     gdouble   delta_s,
 		     gdouble   delta_v);
