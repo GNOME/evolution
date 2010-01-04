@@ -73,7 +73,7 @@ enum _filter_threading_t {
 #define E_FILTER_SOURCE_DEMAND   "demand"   /* performed on the selected folder
 					     * when the user asks for it */
 #define E_FILTER_SOURCE_OUTGOING  "outgoing"/* performed on outgoing mail */
-#define E_FILTER_SOURCE_JUNKTEST  "junktest"/* perform only junktest on incoming mail */
+#define E_FILTER_SOURCE_JUNKTEST  "junktest"/* check incoming mail for junk */
 
 struct _EFilterRule {
 	GObject parent_object;

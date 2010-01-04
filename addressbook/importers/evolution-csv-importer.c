@@ -657,7 +657,9 @@ csv_import_contacts(gpointer d) {
 		return FALSE;
 	}
 	else {
-		e_import_status(gci->import, gci->target, _("Importing..."), ftell(gci->file) *100 / gci->size);
+		e_import_status (
+			gci->import, gci->target, _("Importing..."),
+			ftell (gci->file) * 100 / gci->size);
 		return TRUE;
 	}
 }

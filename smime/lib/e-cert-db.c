@@ -93,9 +93,57 @@ struct _ECertDBPrivate {
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class;
 
-static CERTDERCerts* e_cert_db_get_certs_from_package (PRArenaPool *arena, gchar *data, guint32 length);
+static SECStatus PR_CALLBACK
+collect_certs(gpointer arg, SECItem **certs, gint numcerts)
+{
+	CERTDERCerts *collectArgs;
+	SECItem *cert;
+	SECStatus rv;
 
-
+	collectArgs = (CERTDERCerts *)arg;
+
+	collectArgs->numcerts = numcerts;
+	collectArgs->rawCerts = (SECItem *) PORT_ArenaZAlloc(
+		collectArgs->arena, sizeof (SECItem) * numcerts);
+	if ( collectArgs->rawCerts == NULL )
+		return(SECFailure);
+
+	cert = collectArgs->rawCerts;
+
+	while ( numcerts-- ) {
+		rv = SECITEM_CopyItem(collectArgs->arena, cert, *certs);
+		if ( rv == SECFailure )
+			return(SECFailure);
+		cert++;
+		certs++;
+	}
+
+	return (SECSuccess);
+}
+
+static CERTDERCerts*
+e_cert_db_get_certs_from_package (PRArenaPool *arena,
+				  gchar *data,
+				  guint32 length)
+{
+	/*nsNSSShutDownPreventionLock locker;*/
+	CERTDERCerts *collectArgs =
+		(CERTDERCerts *)PORT_ArenaZAlloc(arena, sizeof(CERTDERCerts));
+	SECStatus sec_rv;
+
+	if (!collectArgs)
+		return NULL;
+
+	collectArgs->arena = arena;
+	sec_rv = CERT_DecodeCertPackage(data,
+					length, collect_certs,
+					(gpointer)collectArgs);
+
+	if (sec_rv != SECSuccess)
+		return NULL;
+
+	return collectArgs;
+}
 
 static void
 e_cert_db_dispose (GObject *object)
@@ -490,16 +538,19 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 {
 	/*  nsNSSShutDownPreventionLock locker; */
 	ECert *cert;
-	CERTCertificate *any_cert = CERT_FindCertByNicknameOrEmailAddr(CERT_GetDefaultCertDB(),
-								       (gchar *)email);
+	CERTCertificate *any_cert;
 	CERTCertList *certlist;
+
+	any_cert = CERT_FindCertByNicknameOrEmailAddr (
+		CERT_GetDefaultCertDB(), (gchar *) email);
 
 	if (!any_cert) {
 		/* XXX gerror */
 		return NULL;
 	}
 
-	/* any_cert now contains a cert with the right subject, but it might not have the correct usage */
+	/* any_cert now contains a cert with the right subject,
+	 * but it might not have the correct usage. */
 	certlist = CERT_CreateSubjectCertList(NULL,
 					      CERT_GetDefaultCertDB(),
 					      &any_cert->derSubject,
@@ -510,7 +561,8 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 		return NULL;
 	}
 
-	if (SECSuccess != CERT_FilterCertListByUsage(certlist, certUsageEmailRecipient, PR_FALSE)) {
+	if (SECSuccess != CERT_FilterCertListByUsage (
+		certlist, certUsageEmailRecipient, PR_FALSE)) {
 		/* XXX gerror */
 		CERT_DestroyCertificate(any_cert);
 		CERT_DestroyCertList (certlist);
@@ -533,7 +585,11 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 }
 
 static gboolean
-confirm_download_ca_cert (ECertDB *cert_db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign)
+confirm_download_ca_cert (ECertDB *cert_db,
+                          ECert *cert,
+                          gboolean *trust_ssl,
+                          gboolean *trust_email,
+                          gboolean *trust_objsign)
 {
 	gboolean rv = FALSE;
 
@@ -662,7 +718,9 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		SECStatus srv;
 		CERTCertTrust trust;
 
-		if (!confirm_download_ca_cert (cert_db, certToShow, &trust_ssl, &trust_email, &trust_objsign)) {
+		if (!confirm_download_ca_cert (
+			cert_db, certToShow, &trust_ssl,
+			&trust_email, &trust_objsign)) {
 			/* XXX gerror */
 			return FALSE;
 		}
@@ -1210,63 +1268,11 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 
 		PK11_SetPasswordFunc(pk11_password);
 		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {
-			printf ("PK11_Authenticate failed (err = %d/%d)\n", PORT_GetError(), PORT_GetError() + 0x2000);
+			printf ("PK11_Authenticate failed (err = %d/%d)\n",
+				PORT_GetError(), PORT_GetError() + 0x2000);
 			return FALSE;
 		}
 	}
 
 	return TRUE;
-}
-
-
-
-static SECStatus PR_CALLBACK
-collect_certs(gpointer arg, SECItem **certs, gint numcerts)
-{
-	CERTDERCerts *collectArgs;
-	SECItem *cert;
-	SECStatus rv;
-
-	collectArgs = (CERTDERCerts *)arg;
-
-	collectArgs->numcerts = numcerts;
-	collectArgs->rawCerts = (SECItem *) PORT_ArenaZAlloc(collectArgs->arena, sizeof(SECItem) * numcerts);
-	if ( collectArgs->rawCerts == NULL )
-		return(SECFailure);
-
-	cert = collectArgs->rawCerts;
-
-	while ( numcerts-- ) {
-		rv = SECITEM_CopyItem(collectArgs->arena, cert, *certs);
-		if ( rv == SECFailure )
-			return(SECFailure);
-		cert++;
-		certs++;
-	}
-
-	return (SECSuccess);
-}
-
-static CERTDERCerts*
-e_cert_db_get_certs_from_package (PRArenaPool *arena,
-				  gchar *data,
-				  guint32 length)
-{
-	/*nsNSSShutDownPreventionLock locker;*/
-	CERTDERCerts *collectArgs =
-		(CERTDERCerts *)PORT_ArenaZAlloc(arena, sizeof(CERTDERCerts));
-	SECStatus sec_rv;
-
-	if (!collectArgs)
-		return NULL;
-
-	collectArgs->arena = arena;
-	sec_rv = CERT_DecodeCertPackage(data,
-					length, collect_certs,
-					(gpointer)collectArgs);
-
-	if (sec_rv != SECSuccess)
-		return NULL;
-
-	return collectArgs;
 }

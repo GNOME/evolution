@@ -93,19 +93,23 @@ struct _GnomeCalendarClass {
 	GtkVBoxClass parent_class;
 
 	/* Notification signals */
-	void (* dates_shown_changed)    (GnomeCalendar *gcal);
+	void	(*dates_shown_changed)		(GnomeCalendar *gcal);
 
-	void (* calendar_selection_changed) (GnomeCalendar *gcal);
+	void	(*calendar_selection_changed)	(GnomeCalendar *gcal);
 
-	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
-	void (* change_view) (GnomeCalendar *gcal,
-			       GnomeCalendarViewType view_type);
+	void	(*calendar_focus_change)	(GnomeCalendar *gcal,
+						 gboolean in);
+	void	(*change_view)			(GnomeCalendar *gcal,
+						 GnomeCalendarViewType view_type);
 
-        void (* source_added)           (GnomeCalendar *gcal, ESource *source);
-        void (* source_removed)         (GnomeCalendar *gcal, ESource *source);
+	void	(*source_added)			(GnomeCalendar *gcal,
+						 ESource *source);
+	void	(*source_removed)		(GnomeCalendar *gcal,
+						 ESource *source);
 
 	/* Action signals */
-        void (* goto_date)              (GnomeCalendar *gcal, GnomeCalendarGotoDateType date);
+        void	(*goto_date)			(GnomeCalendar *gcal,
+						 GnomeCalendarGotoDateType date);
 };
 
 GType		gnome_calendar_get_type		(void);

@@ -187,7 +187,10 @@ etcta_dispose (GObject *object)
 }
 
 static void
-etcta_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+etcta_set_property (GObject *object,
+                    guint prop_id,
+                    const GValue *value,
+                    GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ETableClickToAdd *etcta;
@@ -311,7 +314,11 @@ etcta_unrealize (GnomeCanvasItem *item)
 static void finish_editing (ETableClickToAdd *etcta);
 
 static gint
-item_key_press (ETableItem *item, gint row, gint col, GdkEvent *event, ETableClickToAdd *etcta)
+item_key_press (ETableItem *item,
+                gint row,
+                gint col,
+                GdkEvent *event,
+                ETableClickToAdd *etcta)
 {
 	switch (event->key.keyval) {
 		case GDK_Return:
@@ -368,9 +375,8 @@ finish_editing (ETableClickToAdd *etcta)
 	}
 }
 
-/*
- * Handles the events on the ETableClickToAdd, particularly it creates the ETableItem and passes in some events.
- */
+/* Handles the events on the ETableClickToAdd, particularly
+ * it creates the ETableItem and passes in some events. */
 static gint
 etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 {

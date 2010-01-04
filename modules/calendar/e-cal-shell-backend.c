@@ -109,18 +109,22 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	g_free (filename);
 
 	if (strlen (base_uri) > 7) {
-		/* compare only file:// part. If user home dir name changes we do not want to create
-		   one more group  */
+		/* Compare only file:// part. If user home dir name
+		 * changes we do not want to create one more group. */
 		base_uri_seventh = base_uri[7];
 		base_uri[7] = 0;
 	} else {
 		base_uri_seventh = -1;
 	}
 
-	on_this_computer = e_source_list_ensure_group (priv->source_list, _("On This Computer"), base_uri, TRUE);
-	contacts = e_source_list_ensure_group (priv->source_list, _("Contacts"), CONTACTS_BASE_URI, TRUE);
-	e_source_list_ensure_group (priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
-	e_source_list_ensure_group (priv->source_list, _("Weather"), WEATHER_BASE_URI, FALSE);
+	on_this_computer = e_source_list_ensure_group (
+		priv->source_list, _("On This Computer"), base_uri, TRUE);
+	contacts = e_source_list_ensure_group (
+		priv->source_list, _("Contacts"), CONTACTS_BASE_URI, TRUE);
+	e_source_list_ensure_group (
+		priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
+	e_source_list_ensure_group (
+		priv->source_list, _("Weather"), WEATHER_BASE_URI, FALSE);
 
 	if (base_uri_seventh != -1) {
 		base_uri[7] = base_uri_seventh;
@@ -267,7 +271,11 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 }
 
 static void
-cal_new_event (ECal *cal, ECalendarStatus status, EShell *shell, CompEditorFlags flags, gboolean all_day)
+cal_shell_backend_new_event (ECal *cal,
+                             ECalendarStatus status,
+                             EShell *shell,
+                             CompEditorFlags flags,
+                             gboolean all_day)
 {
 	ECalComponent *comp;
 	CompEditor *editor;
@@ -293,7 +301,10 @@ cal_shell_backend_event_new_cb (ECal *cal,
                                 ECalendarStatus status,
                                 EShell *shell)
 {
-	cal_new_event (cal, status, shell, COMP_EDITOR_USER_ORG, FALSE);
+	CompEditorFlags flags;
+
+	flags = COMP_EDITOR_USER_ORG;
+	cal_shell_backend_new_event (cal, status, shell, flags, FALSE);
 
 	g_object_unref (cal);
 }
@@ -303,7 +314,10 @@ cal_shell_backend_event_all_day_new_cb (ECal *cal,
                                         ECalendarStatus status,
                                         EShell *shell)
 {
-	cal_new_event (cal, status, shell, COMP_EDITOR_USER_ORG, TRUE);
+	CompEditorFlags flags;
+
+	flags = COMP_EDITOR_USER_ORG;
+	cal_shell_backend_new_event (cal, status, shell, flags, TRUE);
 
 	g_object_unref (cal);
 }
@@ -313,7 +327,10 @@ cal_shell_backend_event_meeting_new_cb (ECal *cal,
                                         ECalendarStatus status,
                                         EShell *shell)
 {
-	cal_new_event (cal, status, shell, COMP_EDITOR_USER_ORG | COMP_EDITOR_MEETING, FALSE);
+	CompEditorFlags flags;
+
+	flags = COMP_EDITOR_USER_ORG | COMP_EDITOR_MEETING;
+	cal_shell_backend_new_event (cal, status, shell, flags, FALSE);
 
 	g_object_unref (cal);
 }
@@ -328,13 +345,17 @@ action_event_new_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	EShellView *shell_view;
 	EShell *shell;
+	const gchar *view_name;
 	const gchar *action_name;
 	gchar *uid;
 
-	/* With a 'calendar' active shell view pass the new appointment request to it,
-	   thus the event will inherit selected time from the view. */
-	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
-	if (shell_view && g_ascii_strcasecmp (e_shell_view_get_name (shell_view), "calendar") == 0) {
+	/* With a 'calendar' active shell view pass the new appointment
+	 * request to it, thus the event will inherit selected time from
+	 * the view. */
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+
+	if (shell_view && g_ascii_strcasecmp (view_name, "calendar") == 0) {
 		EShellContent *shell_content;
 		GnomeCalendar *gcal;
 		GnomeCalendarViewType view_type;
@@ -342,7 +363,8 @@ action_event_new_cb (GtkAction *action,
 
 		shell_content = e_shell_view_get_shell_content (shell_view);
 
-		gcal = e_cal_shell_content_get_calendar (E_CAL_SHELL_CONTENT (shell_content));
+		gcal = e_cal_shell_content_get_calendar (
+			E_CAL_SHELL_CONTENT (shell_content));
 
 		view_type = gnome_calendar_get_view (gcal);
 		view = gnome_calendar_get_calendar_view (gcal, view_type);

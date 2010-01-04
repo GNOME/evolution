@@ -316,49 +316,52 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalendarViewEvent *event = iter->data;
+		ECal *client;
+		ECalComponent *comp;
+		icalcomponent *icalcomp;
+		gchar *user_email = NULL;
+		gboolean user_org = FALSE;
 		gboolean read_only = TRUE;
 
 		if (!event || !event->comp_data)
 			continue;
 
-		e_cal_is_read_only (event->comp_data->client, &read_only, NULL);
+		client = event->comp_data->client;
+		icalcomp = event->comp_data->icalcomp;
+
+		e_cal_is_read_only (client, &read_only, NULL);
 		editable = editable && !read_only;
 
-		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
-			recurring = TRUE;
+		is_instance |= e_cal_util_component_is_instance (icalcomp);
 
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp)) {
-			recurring = TRUE;
-			is_instance = TRUE;
-		}
+		recurring |=
+			e_cal_util_component_is_instance (icalcomp) ||
+			e_cal_util_component_has_recurrences (icalcomp);
 
-		if (iter == list && !iter->next) {
-			ECalComponent *comp;
-			gchar *user_email = NULL;
-			gboolean user_org = FALSE;
+		/* The following tests only apply if one event is selected. */
+		if (iter != list || n_selected > 1)
+			continue;
 
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-			user_email = itip_get_comp_attendee (comp, event->comp_data->client);
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (icalcomp));
+		user_email = itip_get_comp_attendee (comp, client);
 
-			is_meeting = e_cal_util_component_has_attendee (event->comp_data->icalcomp);
+		is_meeting = e_cal_util_component_has_attendee (icalcomp);
 
-			if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
-				if (itip_organizer_is_user (comp, event->comp_data->client)) {
-					user_org = TRUE;
-				}
-			}
+		user_org =
+			e_cal_util_component_has_organizer (icalcomp) &&
+			itip_organizer_is_user (comp, client);
 
-			if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED)) {
-				if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))
-					is_delegatable = TRUE;
-				else if (!user_org && !is_delegated (event->comp_data->icalcomp, user_email))
-					is_delegatable = TRUE;
-			}
+		is_delegatable =
+			e_cal_get_static_capability (
+				client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED) &&
+			((e_cal_get_static_capability (
+				client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) ||
+			(!user_org && !is_delegated (icalcomp, user_email)));
 
-			g_free (user_email);
-			g_object_unref (comp);
-		}
+		g_free (user_email);
+		g_object_unref (comp);
 	}
 
 	g_list_free (list);

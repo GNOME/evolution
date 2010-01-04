@@ -724,7 +724,9 @@ e_format_number (gint number)
 	}
 
 	if (list) {
-		value = g_new(gchar, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
+		value = g_new (
+			gchar, 1 + char_length + (group_count - 1) *
+			strlen (locality->thousands_sep));
 
 		iterator = list;
 		value_iterator = value;
@@ -1232,23 +1234,34 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 }
 
 /* font options cache */
-static gchar *fo_antialiasing = NULL, *fo_hinting = NULL, *fo_subpixel_order = NULL;
+static gchar *fo_antialiasing = NULL;
+static gchar *fo_hinting = NULL;
+static gchar *fo_subpixel_order = NULL;
 static GStaticMutex fo_lock = G_STATIC_MUTEX_INIT;
 
 static void
-fo_option_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+fo_option_changed (GConfClient *client,
+                   guint cnxn_id,
+                   GConfEntry *entry,
+                   gpointer user_data)
 {
-	#define update_value(key,variable)	\
-		g_free (variable);		\
-		variable = gconf_client_get_string (client, "/desktop/gnome/font_rendering/" key, NULL);
+	const gchar *key;
 
 	g_static_mutex_lock (&fo_lock);
-	update_value ("antialiasing", fo_antialiasing);
-	update_value ("hinting", fo_hinting);
-	update_value ("rgba_order", fo_subpixel_order);
-	g_static_mutex_unlock (&fo_lock);
 
-	#undef update_value
+	g_free (fo_antialiasing);
+	key = "/desktop/gnome/font_rendering/antialiasing";
+	fo_antialiasing = gconf_client_get_string (client, key, NULL);
+
+	g_free (fo_hinting);
+	key = "/desktop/gnome/font_rendering/hinting";
+	fo_hinting = gconf_client_get_string (client, key, NULL);
+
+	g_free (fo_subpixel_order);
+	key = "/desktop/gnome/font_rendering/rgba_order";
+	fo_subpixel_order = gconf_client_get_string (client, key, NULL);
+
+	g_static_mutex_unlock (&fo_lock);
 }
 
 cairo_font_options_t *
@@ -1258,12 +1271,25 @@ get_font_options (void)
 	cairo_font_options_t *font_options = cairo_font_options_create ();
 
 	if (fo_gconf == NULL) {
+		const gchar *key;
+
 		fo_gconf = gconf_client_get_default ();
 
-		gconf_client_add_dir (fo_gconf, "/desktop/gnome/font_rendering", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-		gconf_client_notify_add (fo_gconf, "/desktop/gnome/font_rendering/antialiasing", fo_option_changed, NULL, NULL, NULL);
-		gconf_client_notify_add (fo_gconf, "/desktop/gnome/font_rendering/hinting", fo_option_changed, NULL, NULL, NULL);
-		gconf_client_notify_add (fo_gconf, "/desktop/gnome/font_rendering/rgba_order", fo_option_changed, NULL, NULL, NULL);
+		key = "/desktop/gnome/font_rendering";
+		gconf_client_add_dir (
+			fo_gconf, key, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+		key = "/desktop/gnome/font_rendering/antialiasing";
+		gconf_client_notify_add (
+			fo_gconf, key, fo_option_changed, NULL, NULL, NULL);
+
+		key = "/desktop/gnome/font_rendering/hinting";
+		gconf_client_notify_add (
+			fo_gconf, key, fo_option_changed, NULL, NULL, NULL);
+
+		key = "/desktop/gnome/font_rendering/rgba_order";
+		gconf_client_notify_add (
+			fo_gconf, key, fo_option_changed, NULL, NULL, NULL);
 
 		fo_option_changed (fo_gconf, 0, NULL, NULL);
 	}
@@ -1391,24 +1417,23 @@ e_util_guess_mime_type (const gchar *filename, gboolean localfile)
 
 	if (localfile) {
 		GFile *file;
+		GFileInfo *fi;
 
 		if (strstr (filename, "://"))
 			file = g_file_new_for_uri (filename);
 		else
 			file = g_file_new_for_path (filename);
 
-		if (file) {
-			GFileInfo *fi;
-
-			fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-			if (fi) {
-				mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
-
-				g_object_unref (fi);
-			}
-
-			g_object_unref (file);
+		fi = g_file_query_info (
+			file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+			G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		if (fi) {
+			mime_type = g_content_type_get_mime_type (
+				g_file_info_get_content_type (fi));
+			g_object_unref (fi);
 		}
+
+		g_object_unref (file);
 	}
 
 	if (!mime_type) {
@@ -1456,7 +1481,8 @@ e_util_get_category_filter_options (void)
  * Sets an #ESourceList of a given GConf path to an #ESourceComboBox.
  **/
 void
-e_util_set_source_combo_box_list (GtkWidget *source_combo_box, const gchar *source_gconf_path)
+e_util_set_source_combo_box_list (GtkWidget *source_combo_box,
+                                  const gchar *source_gconf_path)
 {
 	ESourceList *source_list;
 	GConfClient *gconf_client;
@@ -1465,8 +1491,9 @@ e_util_set_source_combo_box_list (GtkWidget *source_combo_box, const gchar *sour
 	g_return_if_fail (source_gconf_path != NULL);
 
 	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (gconf_client, source_gconf_path);
-	g_object_set (G_OBJECT (source_combo_box), "source-list", source_list, NULL);
+	source_list = e_source_list_new_for_gconf (
+		gconf_client, source_gconf_path);
+	g_object_set (source_combo_box, "source-list", source_list, NULL);
 	g_object_unref (source_list);
 	g_object_unref (gconf_client);
 }

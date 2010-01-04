@@ -149,7 +149,8 @@ filter_option_xml_create (EFilterElement *element,
 			value = (gchar *)xmlGetProp (n, (xmlChar *)"value");
 			work = n->children;
 			while (work) {
-				if (!strcmp ((gchar *)work->name, "title") || !strcmp ((gchar *)work->name, "_title")) {
+				if (!strcmp ((gchar *)work->name, "title") ||
+					!strcmp ((gchar *)work->name, "_title")) {
 					if (!title) {
 						if (!(tmp = (gchar *)xmlNodeGetContent (work)))
 							tmp = (gchar *)xmlStrdup ((xmlChar *)"");
@@ -175,7 +176,10 @@ filter_option_xml_create (EFilterElement *element,
 			g_free (code);
 		} else if (g_str_equal ((gchar *)n->name, "dynamic")) {
 			if (option->dynamic_func) {
-				g_warning ("Only one 'dynamic' node is acceptable in the optionlist '%s'", element->name);
+				g_warning (
+					"Only one 'dynamic' node is "
+					"acceptable in the optionlist '%s'",
+					element->name);
 			} else {
 				/* Expecting only one <dynamic func="cb" /> in the option list,
 				   The 'cb' should be of this prototype:
@@ -205,7 +209,10 @@ filter_option_xml_create (EFilterElement *element,
 
 					g_slist_free (items);
 				} else {
-					g_warning ("Missing 'func' attribute within '%s' node in optionlist '%s'", n->name, element->name);
+					g_warning (
+						"Missing 'func' attribute within "
+						"'%s' node in optionlist '%s'",
+						n->name, element->name);
 				}
 
 				xmlFree (fn);

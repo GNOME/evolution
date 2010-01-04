@@ -739,7 +739,9 @@ task_table_query_tooltip (GtkWidget *widget,
 	use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
 
 	if (dtstart.tzid) {
-		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
+		zone = icalcomponent_get_timezone (
+			e_cal_component_get_icalcomponent (new_comp),
+			dtstart.tzid);
 		if (!zone)
 			e_cal_get_timezone (
 				comp_data->client, dtstart.tzid, &zone, NULL);
@@ -1390,20 +1392,23 @@ check_for_retract (ECalComponent *comp, ECal *client)
 	ECalComponentOrganizer org;
 	gchar *email = NULL;
 	const gchar *strip = NULL;
-	gboolean ret_val = FALSE;
+	gboolean ret_val;
 
-	if (!(e_cal_component_has_attendees (comp) &&
-				e_cal_get_save_schedules (client)))
-		return ret_val;
+	if (!e_cal_component_has_attendees (comp))
+		return FALSE;
+
+	if (!e_cal_get_save_schedules (client))
+		return FALSE;
 
 	e_cal_component_get_organizer (comp, &org);
 	strip = itip_strip_mailto (org.value);
 
-	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
-		ret_val = TRUE;
-	}
+	ret_val =
+		e_cal_get_cal_address (client, &email, NULL) &&
+		g_ascii_strcasecmp (email, strip) == 0;
 
 	g_free (email);
+
 	return ret_val;
 }
 
@@ -1438,14 +1443,17 @@ e_task_table_delete_selected (ETaskTable *task_table)
 
 	if (comp_data) {
 		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (comp_data->icalcomp));
 	}
 
 	if ((n_selected == 1) && comp && check_for_retract (comp, comp_data->client)) {
 		gchar *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (task_table), &retract);
+		delete = prompt_retract_dialog (
+			comp, &retract_comment,
+			GTK_WIDGET (task_table), &retract);
 		if (retract) {
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
@@ -1471,7 +1479,9 @@ e_task_table_delete_selected (ETaskTable *task_table)
 
 		}
 	} else {
-		delete = delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO, GTK_WIDGET (task_table));
+		delete = delete_component_dialog (
+			comp, FALSE, n_selected,
+			E_CAL_COMPONENT_TODO, GTK_WIDGET (task_table));
 	}
 
 	if (delete)
@@ -1506,7 +1516,10 @@ e_task_table_get_selected (ETaskTable *task_table)
 }
 
 static void
-hide_completed_rows (ECalModel *model, GList *clients_list, gchar *hide_sexp, GPtrArray *comp_objects)
+hide_completed_rows (ECalModel *model,
+                     GList *clients_list,
+                     gchar *hide_sexp,
+                     GPtrArray *comp_objects)
 {
 	GList *l, *m, *objects;
 	ECal *client;
@@ -1548,13 +1561,17 @@ hide_completed_rows (ECalModel *model, GList *clients_list, gchar *hide_sexp, GP
 	}
 
 	if (changed) {
-		/* to notify about changes, because in call of row_deleted there are still all events */
+		/* To notify about changes, because in call of
+		 * row_deleted there are still all events. */
 		e_table_model_changed (E_TABLE_MODEL (model));
 	}
 }
 
 static void
-show_completed_rows (ECalModel *model, GList *clients_list, gchar *show_sexp, GPtrArray *comp_objects)
+show_completed_rows (ECalModel *model,
+                     GList *clients_list,
+                     gchar *show_sexp,
+                     GPtrArray *comp_objects)
 {
 	GList *l, *m, *objects;
 	ECal *client;
@@ -1583,7 +1600,10 @@ show_completed_rows (ECalModel *model, GList *clients_list, gchar *show_sexp, GP
 				comp_data->icalcomp = icalcomponent_new_clone (m->data);
 				e_cal_model_set_instance_times (comp_data,
 						e_cal_model_get_timezone (model));
-				comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
+				comp_data->dtstart = NULL;
+				comp_data->dtend = NULL;
+				comp_data->due = NULL;
+				comp_data->completed = NULL;
 				comp_data->color = NULL;
 
 				g_ptr_array_add (comp_objects, comp_data);

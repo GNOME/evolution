@@ -67,16 +67,25 @@ struct _CompEditorClass {
 	const gchar *help_section;
 
 	/* Virtual functions */
-	void (*edit_comp) (CompEditor *page, ECalComponent *comp);
-	void (*object_created) (CompEditor *page);
-	gboolean (*send_comp) (CompEditor *page, ECalComponentItipMethod method, gboolean strip_alarms);
+	void		(*edit_comp)		(CompEditor *page,
+						 ECalComponent *comp);
+	void		(*object_created)	(CompEditor *page);
+	gboolean	(*send_comp)		(CompEditor *page,
+						 ECalComponentItipMethod method,
+						 gboolean strip_alarms);
 
-	void (*show_categories) (CompEditor *editor, gboolean visible);
-	void (*show_role) (CompEditor *editor, gboolean visible);
-	void (*show_rsvp) (CompEditor *editor, gboolean visible);
-	void (*show_status) (CompEditor *editor, gboolean visible);
-	void (*show_time_zone) (CompEditor *editor, gboolean visible);
-	void (*show_type) (CompEditor *editor, gboolean visible);
+	void		(*show_categories)	(CompEditor *editor,
+						 gboolean visible);
+	void		(*show_role)		(CompEditor *editor,
+						 gboolean visible);
+	void		(*show_rsvp)		(CompEditor *editor,
+						 gboolean visible);
+	void		(*show_status)		(CompEditor *editor,
+						 gboolean visible);
+	void		(*show_time_zone)	(CompEditor *editor,
+						 gboolean visible);
+	void		(*show_type)		(CompEditor *editor,
+						 gboolean visible);
 };
 
 typedef enum {

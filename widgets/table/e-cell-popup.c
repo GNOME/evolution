@@ -212,14 +212,16 @@ ecp_kill_view (ECellView *ecv)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
-        if (ecp_view->cell_view.kill_view_cb)
-            (ecp_view->cell_view.kill_view_cb)(ecv, ecp_view->cell_view.kill_view_cb_data);
+	if (ecp_view->cell_view.kill_view_cb)
+		ecp_view->cell_view.kill_view_cb (
+			ecv, ecp_view->cell_view.kill_view_cb_data);
 
-        if (ecp_view->cell_view.kill_view_cb_data)
-            g_list_free(ecp_view->cell_view.kill_view_cb_data);
+	if (ecp_view->cell_view.kill_view_cb_data)
+		g_list_free (ecp_view->cell_view.kill_view_cb_data);
 
 	if (ecp_view->child_view)
 		e_cell_kill_view (ecp_view->child_view);
+
 	g_free (ecp_view);
 }
 
@@ -261,14 +263,18 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecv->ecell);
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
-	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas);
+	GtkWidget *canvas;
 	GtkShadowType shadow;
 	GdkRectangle rect;
 	gboolean show_popup_arrow;
 
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas);
+
 	/* Display the popup arrow if we are the cursor cell, or the popup
 	   is shown for this cell. */
-	show_popup_arrow = e_table_model_is_cell_editable (ecv->e_table_model, model_col, row) &&
+	show_popup_arrow =
+		e_table_model_is_cell_editable (
+			ecv->e_table_model, model_col, row) &&
 		(flags & E_CELL_CURSOR ||
 		 (ecp->popup_shown && ecp->popup_view_col == view_col
 		  && ecp->popup_row == row
@@ -486,10 +492,13 @@ e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
 void
 e_cell_popup_queue_cell_redraw (ECellPopup *ecp)
 {
-       ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	ETableItem *eti;
 
-       e_table_item_redraw_range (eti, ecp->popup_view_col, ecp->popup_row,
-                                  ecp->popup_view_col, ecp->popup_row);
+	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+
+	e_table_item_redraw_range (
+		eti, ecp->popup_view_col, ecp->popup_row,
+		ecp->popup_view_col, ecp->popup_row);
 }
 
 void

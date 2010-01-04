@@ -69,9 +69,15 @@ typedef enum {
 } EmlaAction;
 
 typedef struct {
-	EmlaAction action;    /* action enumeration */
-	gboolean interactive; /* whether the user needs to edit a mailto: message (e.g. for post action) */
-	const gchar * header;   /* header representing the action */
+	/* action enumeration */
+	EmlaAction action;
+
+	/* whether the user needs to edit a mailto:
+	 * message (e.g. for post action) */
+	gboolean interactive;
+
+	/* header representing the action */
+	const gchar *header;
 } EmlaActionHeader;
 
 const EmlaActionHeader emla_action_headers[] = {
@@ -117,7 +123,8 @@ emla_list_action_do (CamelFolder *folder,
 
 	for (t = 0; t < G_N_ELEMENTS (emla_action_headers); t++) {
 		if (emla_action_headers[t].action == action &&
-		    (header = camel_medium_get_header (CAMEL_MEDIUM (msg), emla_action_headers[t].header)) != NULL)
+		    (header = camel_medium_get_header (CAMEL_MEDIUM (msg),
+			emla_action_headers[t].header)) != NULL)
 			break;
 	}
 
@@ -132,7 +139,8 @@ emla_list_action_do (CamelFolder *folder,
 	if (action == EMLA_ACTION_POST) {
 		while (*headerpos == ' ') headerpos++;
 		if (g_ascii_strcasecmp (headerpos, "NO") == 0) {
-			e_alert_run_dialog_for_args (window, MESSAGE_POSTING_NOT_ALLOWED, NULL);
+			e_alert_run_dialog_for_args (
+				window, MESSAGE_POSTING_NOT_ALLOWED, NULL);
 			goto exit;
 		}
 	}

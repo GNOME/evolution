@@ -125,7 +125,9 @@ clear_drag_data (EMinicardView *view)
 }
 
 static gint
-e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event, EMinicardView *view)
+e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter,
+                            GdkEvent *event,
+                            EMinicardView *view)
 {
 	GdkDragContext *context;
 	GtkTargetList *target_list;
@@ -197,13 +199,16 @@ set_empty_message (EMinicardView *view)
 }
 
 static void
-writable_status_change (EAddressbookModel *model, gboolean writable, EMinicardView *view)
+writable_status_change (EAddressbookModel *model,
+                        gboolean writable,
+                        EMinicardView *view)
 {
 	set_empty_message (view);
 }
 
 static void
-stop_state_changed (EAddressbookModel *model, EMinicardView *view)
+stop_state_changed (EAddressbookModel *model,
+                    EMinicardView *view)
 {
 	set_empty_message (view);
 }
@@ -410,7 +415,9 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gint
-e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event)
+e_minicard_view_selection_event (EReflow *reflow,
+                                 GnomeCanvasItem *item,
+                                 GdkEvent *event)
 {
 	EMinicardView *view;
 	gint return_val = FALSE;
@@ -651,7 +658,9 @@ static void
 add_to_list (gint index, gpointer closure)
 {
 	ModelAndList *mal = closure;
-	mal->list = g_list_prepend (mal->list, e_addressbook_reflow_adapter_get_contact (mal->adapter, index));
+	mal->list = g_list_prepend (
+		mal->list, e_addressbook_reflow_adapter_get_contact (
+		mal->adapter, index));
 }
 
 GList *

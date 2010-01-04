@@ -37,12 +37,23 @@
 
 #include <gdk/gdk.h>
 
-#define EGG_TYPE_SM_CLIENT_XSMP            (egg_sm_client_xsmp_get_type ())
-#define EGG_SM_CLIENT_XSMP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMP))
-#define EGG_SM_CLIENT_XSMP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMPClass))
-#define EGG_IS_SM_CLIENT_XSMP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EGG_TYPE_SM_CLIENT_XSMP))
-#define EGG_IS_SM_CLIENT_XSMP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EGG_TYPE_SM_CLIENT_XSMP))
-#define EGG_SM_CLIENT_XSMP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMPClass))
+#define EGG_TYPE_SM_CLIENT_XSMP \
+	(egg_sm_client_xsmp_get_type ())
+#define EGG_SM_CLIENT_XSMP(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMP))
+#define EGG_SM_CLIENT_XSMP_CLASS(class) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((class), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMPClass))
+#define EGG_IS_SM_CLIENT_XSMP(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EGG_TYPE_SM_CLIENT_XSMP))
+#define EGG_IS_SM_CLIENT_XSMP_CLASS(class) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((class), EGG_TYPE_SM_CLIENT_XSMP))
+#define EGG_SM_CLIENT_XSMP_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EGG_TYPE_SM_CLIENT_XSMP, EggSMClientXSMPClass))
 
 typedef struct _EggSMClientXSMP        EggSMClientXSMP;
 typedef struct _EggSMClientXSMPClass   EggSMClientXSMPClass;
@@ -179,9 +190,9 @@ egg_sm_client_xsmp_init (EggSMClientXSMP *xsmp)
 }
 
 static void
-egg_sm_client_xsmp_class_init (EggSMClientXSMPClass *klass)
+egg_sm_client_xsmp_class_init (EggSMClientXSMPClass *class)
 {
-  EggSMClientClass *sm_client_class = EGG_SM_CLIENT_CLASS (klass);
+  EggSMClientClass *sm_client_class = EGG_SM_CLIENT_CLASS (class);
 
   sm_client_class->startup             = sm_client_xsmp_startup;
   sm_client_class->set_restart_command = sm_client_xsmp_set_restart_command;
@@ -603,7 +614,8 @@ fix_broken_state (EggSMClientXSMP *xsmp, const gchar *message,
   if (send_save_yourself_done)
     SmcSaveYourselfDone (xsmp->connection, True);
 
-  xsmp->state = send_save_yourself_done ? XSMP_STATE_SAVE_YOURSELF_DONE : XSMP_STATE_IDLE;
+  xsmp->state = send_save_yourself_done ?
+    XSMP_STATE_SAVE_YOURSELF_DONE : XSMP_STATE_IDLE;
 }
 
 /* SM callbacks */
@@ -704,7 +716,8 @@ xsmp_save_yourself (SmcConn   smc_conn,
    * emit ::quit_requested if the application isn't listening to the
    * signal.
    */
-  wants_quit_requested = g_signal_has_handler_pending (xsmp, g_signal_lookup ("quit_requested", EGG_TYPE_SM_CLIENT), 0, FALSE);
+  wants_quit_requested = g_signal_has_handler_pending (
+    xsmp, g_signal_lookup ("quit_requested", EGG_TYPE_SM_CLIENT), 0, FALSE);
 
   xsmp->need_save_state     = (save_type != SmSaveGlobal);
   xsmp->need_quit_requested = (shutdown && wants_quit_requested &&

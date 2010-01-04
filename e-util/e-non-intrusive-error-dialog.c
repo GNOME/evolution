@@ -171,7 +171,10 @@ eni_error_level_value_changed (GtkComboBox *w, gpointer *data)
 }
 
 void
-eni_show_logger(ELogger *logger, GtkWidget *top,const gchar *error_timeout_path, const gchar *error_level_path)
+eni_show_logger (ELogger *logger,
+                 GtkWidget *top,
+                 const gchar *error_timeout_path,
+                 const gchar *error_level_path)
 {
 	GtkWidget *container;
 	GtkWidget *label;
@@ -233,8 +236,10 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const gchar *error_timeout_path,
 	widget = gtk_combo_box_new_text ();
 	for (i = E_LOG_ERROR; i <= E_LOG_DEBUG; i++)
 		gtk_combo_box_append_text (
-				GTK_COMBO_BOX (widget), ldata[i].text);
-	gtk_combo_box_set_active ((GtkComboBox *) widget, eni_config_get_error_level(error_level_path));
+			GTK_COMBO_BOX (widget), ldata[i].text);
+	gtk_combo_box_set_active (
+		GTK_COMBO_BOX (widget),
+		eni_config_get_error_level (error_level_path));
 
 	g_signal_connect (
 		widget, "changed",

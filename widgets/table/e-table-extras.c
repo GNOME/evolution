@@ -163,6 +163,8 @@ safe_unref (gpointer object)
 static void
 ete_init (ETableExtras *extras)
 {
+	ECell *cell;
+
 	extras->priv = E_TABLE_EXTRAS_GET_PRIVATE (extras);
 
 	extras->priv->cells = g_hash_table_new_full (
@@ -193,13 +195,27 @@ ete_init (ETableExtras *extras)
 
 	e_table_extras_add_search(extras, "string", e_string_search);
 
-	e_table_extras_add_cell(extras, "checkbox", e_cell_checkbox_new());
-	e_table_extras_add_cell(extras, "date", e_cell_date_new (NULL, GTK_JUSTIFY_LEFT));
-	e_table_extras_add_cell(extras, "number", e_cell_number_new (NULL, GTK_JUSTIFY_RIGHT));
-	e_table_extras_add_cell(extras, "pixbuf", e_cell_pixbuf_new ());
-	e_table_extras_add_cell(extras, "size", e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT));
-	e_table_extras_add_cell(extras, "string", e_cell_text_new (NULL, GTK_JUSTIFY_LEFT));
-	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
+	cell = e_cell_checkbox_new ();
+	e_table_extras_add_cell(extras, "checkbox", cell);
+
+	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
+	e_table_extras_add_cell(extras, "date", cell);
+
+	cell = e_cell_number_new (NULL, GTK_JUSTIFY_RIGHT);
+	e_table_extras_add_cell(extras, "number", cell);
+
+	cell = e_cell_pixbuf_new ();
+	e_table_extras_add_cell(extras, "pixbuf", cell);
+
+	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
+	e_table_extras_add_cell(extras, "size", cell);
+
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	e_table_extras_add_cell(extras, "string", cell);
+
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	cell = e_cell_tree_new (NULL, NULL, TRUE, cell);
+	e_table_extras_add_cell(extras, "tree-string", cell);
 }
 
 ETableExtras *

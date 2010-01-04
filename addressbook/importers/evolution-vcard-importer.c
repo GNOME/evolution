@@ -249,7 +249,9 @@ vcard_import_contacts(gpointer data)
 		vcard_import_done(gci);
 		return FALSE;
 	} else {
-		e_import_status(gci->import, gci->target, _("Importing..."), gci->count * 100 / gci->total);
+		e_import_status (
+			gci->import, gci->target, _("Importing..."),
+			gci->count * 100 / gci->total);
 		return TRUE;
 	}
 }
@@ -397,12 +399,17 @@ vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (primary == NULL) {
 		primary = e_source_list_peek_source_any (source_list);
 		g_object_ref(primary);
-		g_datalist_set_data_full(&target->data, "vcard-source", primary, g_object_unref);
+		g_datalist_set_data_full (
+			&target->data, "vcard-source", primary,
+			(GDestroyNotify) g_object_unref);
 	}
-	e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
+	e_source_selector_set_primary_selection (
+		E_SOURCE_SELECTOR (selector), primary);
 	g_object_unref (source_list);
 
-	g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
+	g_signal_connect (
+		selector, "primary_selection_changed",
+		G_CALLBACK (primary_selection_changed_cb), target);
 
 	gtk_widget_show_all (vbox);
 
@@ -469,7 +476,8 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	encoding = guess_vcard_encoding(filename);
 	if (encoding == VCARD_ENCODING_NONE) {
 		g_free (filename);
-		/* this check is superfluous, we've already checked otherwise we can't get here ... */
+		/* This check is superfluous, we've already
+		 * checked otherwise we can't get here ... */
 		e_import_complete(ei, target);
 		return;
 	}

@@ -239,7 +239,9 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 		g_hash_table_insert (index, (gchar *)(l->data), GINT_TO_POINTER (i));
 	}
 
-	g_object_set_data_full (G_OBJECT (list_store), "index", index, (GDestroyNotify) g_hash_table_destroy);
+	g_object_set_data_full (
+		G_OBJECT (list_store), "index", index,
+		(GDestroyNotify) g_hash_table_destroy);
 
 	gtk_combo_box_set_model (combo, (GtkTreeModel *) list_store);
 
@@ -272,12 +274,16 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 	e_load_ui_builder_definition (priv->builder, "e-timezone-dialog.ui");
 
 	if (!get_widgets (etd)) {
-		g_message ("e_timezone_dialog_construct(): Could not find all widgets in the XML file!");
+		g_message (
+			"%s(): Could not find all widgets in the XML file!",
+			G_STRFUNC);
 		goto error;
 	}
 
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (priv->app)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (priv->app)->action_area), 12);
+	gtk_container_set_border_width (
+		GTK_CONTAINER (GTK_DIALOG (priv->app)->vbox), 0);
+	gtk_container_set_border_width (
+		GTK_CONTAINER (GTK_DIALOG (priv->app)->action_area), 12);
 
 	priv->map = e_map_new ();
 	map = GTK_WIDGET (priv->map);
@@ -296,12 +302,22 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 	/* Ensure a reasonable minimum amount of map is visible */
 	gtk_widget_set_size_request (priv->map_window, 200, 200);
 
-        g_signal_connect (map, "motion-notify-event", G_CALLBACK (on_map_motion), etd);
-        g_signal_connect (map, "leave-notify-event", G_CALLBACK (on_map_leave), etd);
-        g_signal_connect (map, "visibility-notify-event", G_CALLBACK (on_map_visibility_changed), etd);
-	g_signal_connect (map, "button-press-event", G_CALLBACK (on_map_button_pressed), etd);
+	g_signal_connect (
+		map, "motion-notify-event",
+		G_CALLBACK (on_map_motion), etd);
+	g_signal_connect (
+		map, "leave-notify-event",
+		G_CALLBACK (on_map_leave), etd);
+	g_signal_connect (
+		map, "visibility-notify-event",
+		G_CALLBACK (on_map_visibility_changed), etd);
+	g_signal_connect (
+		map, "button-press-event",
+		G_CALLBACK (on_map_button_pressed), etd);
 
-	g_signal_connect (GTK_COMBO_BOX (priv->timezone_combo), "changed", G_CALLBACK (on_combo_changed), etd);
+	g_signal_connect (
+		priv->timezone_combo, "changed",
+		G_CALLBACK (on_combo_changed), etd);
 
 	return etd;
 

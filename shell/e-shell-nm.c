@@ -149,7 +149,8 @@ e_shell_dbus_initialize (EShell *shell)
 	dbus_connection_setup_with_g_main (dbus_connection, NULL);
 	dbus_connection_set_exit_on_disconnect (dbus_connection, FALSE);
 
-	if (!dbus_connection_add_filter (dbus_connection, e_shell_network_monitor, shell, NULL))
+	if (!dbus_connection_add_filter (
+		dbus_connection, e_shell_network_monitor, shell, NULL))
 		goto exception;
 
 	check_initial_state (shell);

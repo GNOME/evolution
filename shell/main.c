@@ -139,19 +139,26 @@ show_development_warning(void)
 	gchar *text;
 
 	warning_dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Evolution " VERSION);
-	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
-	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
+	gtk_window_set_title (
+		GTK_WINDOW (warning_dialog), "Evolution " VERSION);
+	gtk_window_set_modal (
+		GTK_WINDOW (warning_dialog), TRUE);
+	gtk_dialog_add_button (
+		GTK_DIALOG (warning_dialog),
+		GTK_STOCK_OK, GTK_RESPONSE_OK);
+	gtk_dialog_set_has_separator (
+		GTK_DIALOG (warning_dialog), FALSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (warning_dialog), FALSE);
-
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->action_area), 12);
+	gtk_container_set_border_width (
+		GTK_CONTAINER (GTK_DIALOG (warning_dialog)->vbox), 0);
+	gtk_container_set_border_width (
+		GTK_CONTAINER (GTK_DIALOG (warning_dialog)->action_area), 12);
 
 	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), vbox,
-			    TRUE, TRUE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (GTK_DIALOG (warning_dialog)->vbox),
+		vbox, TRUE, TRUE, 0);
 
 	text = g_strdup_printf(
 		/* xgettext:no-c-format */
@@ -504,17 +511,19 @@ main (gint argc, gchar **argv)
 
 #ifdef G_OS_WIN32
 	if (strcmp (gettext (""), "") == 0) {
-		/* No message catalog installed for the current locale language,
-		 * so don't bother with the localisations provided by other things then
-		 * either. Reset thread locale to "en-US" and C library locale to "C".
-		 */
+		/* No message catalog installed for the current locale
+		 * language, so don't bother with the localisations
+		 * provided by other things then either. Reset thread
+		 * locale to "en-US" and C library locale to "C". */
 		SetThreadLocale (MAKELCID (MAKELANGID (LANG_ENGLISH, SUBLANG_ENGLISH_US),
 					   SORT_DEFAULT));
 		setlocale (LC_ALL, "C");
 	}
 #endif
 	if (start_online && start_offline) {
-		g_printerr (_("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
+		g_printerr (
+			_("%s: --online and --offline cannot be used "
+			  "together.\n  Use %s --help for more information.\n"),
 			 argv[0], argv[0]);
 		exit (1);
 	}
@@ -530,9 +539,16 @@ main (gint argc, gchar **argv)
 #endif
 
 	if (disable_preview) {
-		gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
-		gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
-		gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
+		const gchar *key;
+
+		key = "/apps/evolution/mail/display/safe_list";
+		gconf_client_set_bool (client, key, TRUE, NULL);
+
+		key = "/apps/evolution/addressbook/display/show_preview";
+		gconf_client_set_bool (client, key, FALSE, NULL);
+
+		key = "/apps/evolution/calendar/display/show_task_preview";
+		gconf_client_set_bool (client, key, FALSE, NULL);
 	}
 
 	setup_segv_redirect ();

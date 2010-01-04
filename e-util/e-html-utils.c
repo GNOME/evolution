@@ -496,7 +496,10 @@ main (gint argc, gchar **argv)
 	gchar *html, *url, *p;
 
 	for (i = 0; i < num_url_tests; i++) {
-		html = e_text_to_html (url_tests[i].text, E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+		html = e_text_to_html (
+			url_tests[i].text,
+			E_TEXT_TO_HTML_CONVERT_URLS |
+			E_TEXT_TO_HTML_CONVERT_ADDRESSES);
 
 		url = strstr (html, "href=\"");
 		if (url) {

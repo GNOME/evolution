@@ -93,7 +93,10 @@ logger_set_name (ELogger *logger,
 	logger->priv->timer = 0;
 
 	if (!logger->priv->fp)
-		g_warning ("%s: Failed to open log file '%s' for writing.", G_STRFUNC, logger->priv->logfile ? logger->priv->logfile : "[null]");
+		g_warning (
+			"%s: Failed to open log file '%s' for writing.",
+			G_STRFUNC, logger->priv->logfile ?
+			logger->priv->logfile : "[null]");
 
 	g_free (temp);
 }
@@ -260,7 +263,10 @@ e_logger_get_logs (ELogger *logger,
 	fp = g_fopen (logger->priv->logfile, "r");
 
 	if (!fp) {
-		g_warning ("%s: Cannot open log file '%s' for reading! No flush yet?\n", G_STRFUNC, logger->priv->logfile ? logger->priv->logfile : "[null]");
+		g_warning (
+			"%s: Cannot open log file '%s' for reading! "
+			"No flush yet?\n", G_STRFUNC, logger->priv->logfile ?
+			logger->priv->logfile : "[null]");
 		return;
 	}
 

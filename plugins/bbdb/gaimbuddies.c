@@ -300,7 +300,9 @@ bbdb_sync_buddy_list (void)
 
 	g_thread_create (bbdb_sync_buddy_list_in_thread, std, FALSE, &error);
 	if (error) {
-		g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
+		g_warning (
+			"%s: Creation of the thread failed with error: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 
 		G_UNLOCK (syncing);
@@ -355,7 +357,9 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 			photo = g_new0 (EContactPhoto, 1);
 			photo->type = E_CONTACT_PHOTO_TYPE_INLINED;
 
-			if (! g_file_get_contents (b->icon, &contents, &photo->data.inlined.length, &error)) {
+			if (!g_file_get_contents (
+				b->icon, &contents,
+				&photo->data.inlined.length, &error)) {
 				g_warning ("bbdb: Could not read buddy icon: %s\n", error->message);
 				g_error_free (error);
 				for (l = ims; l != NULL; l = l->next)
@@ -544,7 +548,9 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 	}
 
 	if (buddy == NULL) {
-		fprintf (stderr, "bbdb: Could not find buddy in contact. Malformed Pidgin buddy list file.\n");
+		fprintf (
+			stderr, "bbdb: Could not find buddy in contact. "
+			"Malformed Pidgin buddy list file.\n");
 		return;
 	}
 
@@ -563,7 +569,9 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 			g_free (setting_type);
 		} else if (! strcmp ((const gchar *)child->name, "name")) {
 			gb->account_name = get_node_text (child);
-			is_blocked = g_slist_find_custom (blocked, gb->account_name, (GCompareFunc)strcmp) != NULL;
+			is_blocked = g_slist_find_custom (
+				blocked, gb->account_name,
+				(GCompareFunc) strcmp) != NULL;
 		} else if (! strcmp ((const gchar *)child->name, "alias"))
 			gb->alias = get_node_text (child);
 
