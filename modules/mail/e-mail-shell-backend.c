@@ -759,6 +759,14 @@ e_mail_labels_get_filter_options (void)
 		name = e_mail_label_list_store_get_name (list_store, &iter);
 		tag = e_mail_label_list_store_get_tag (list_store, &iter);
 
+		if (g_str_has_prefix (tag, "$Label")) {
+			gchar *tmp = tag;
+
+			tag = g_strdup (tag + 6);
+
+			g_free (tmp);
+		}
+
 		option = g_new0 (struct _filter_option, 1);
 		option->title = e_str_without_underscores (name);
 		option->value = tag;  /* takes ownership */

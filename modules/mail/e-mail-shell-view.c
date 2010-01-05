@@ -112,6 +112,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	gchar *query;
 	gchar *temp;
 	gchar *tag;
+	const gchar *use_tag;
 	gint value;
 
 	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
@@ -247,12 +248,15 @@ filter:
 				tag = e_mail_label_list_store_get_tag (
 					E_MAIL_LABEL_LIST_STORE (model),
 					&tree_iter);
+				use_tag = tag;
+				if (g_str_has_prefix (use_tag, "$Label"))
+					use_tag += 6;
 				g_string_append_printf (
 					string, " (match-all (not (or "
 					"(= (user-tag \"label\") \"%s\") "
 					"(user-flag \"$Label%s\") "
 					"(user-flag \"%s\"))))",
-					tag, tag, tag);
+					use_tag, use_tag, use_tag);
 				g_free (tag);
 
 				valid = gtk_tree_model_iter_next (
@@ -339,12 +343,15 @@ filter:
 
 			tag = e_mail_label_list_store_get_tag (
 				E_MAIL_LABEL_LIST_STORE (model), &tree_iter);
+			use_tag = tag;
+			if (g_str_has_prefix (use_tag, "$Label"))
+				use_tag += 6;
 			temp = g_strdup_printf (
 				"(and %s (match-all (or "
 				"(= (user-tag \"label\") \"%s\") "
 				"(user-flag \"$Label%s\") "
 				"(user-flag \"%s\"))))",
-				query, tag, tag, tag);
+				query, use_tag, use_tag, use_tag);
 			g_free (tag);
 
 			g_free (query);
