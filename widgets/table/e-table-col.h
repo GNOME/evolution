@@ -21,20 +21,32 @@
  *
  */
 
-#ifndef _E_TABLE_COL_H_
-#define _E_TABLE_COL_H_
+#ifndef E_TABLE_COL_H
+#define E_TABLE_COL_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <table/e-cell.h>
 
-G_BEGIN_DECLS
+/* Standard GObject macros */
+#define E_TYPE_TABLE_COL \
+	(e_table_col_get_type ())
+#define E_TABLE_COL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_COL, ETableCol))
+#define E_TABLE_COL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_COL, ETableColClass))
+#define E_IS_TABLE_COL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_COL))
+#define E_IS_TABLE_COL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_COL))
+#define E_TABLE_COL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_COL, ETableColClass))
 
-#define E_TABLE_COL_TYPE        (e_table_col_get_type ())
-#define E_TABLE_COL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_COL_TYPE, ETableCol))
-#define E_TABLE_COL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_COL_TYPE, ETableColClass))
-#define E_IS_TABLE_COL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_COL_TYPE))
-#define E_IS_TABLE_COL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_COL_TYPE))
-#define E_TABLE_COL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_COL_TYPE, ETableColClass))
+G_BEGIN_DECLS
 
 typedef enum {
 	E_TABLE_COL_ARROW_NONE = 0,
@@ -42,60 +54,57 @@ typedef enum {
 	E_TABLE_COL_ARROW_DOWN
 } ETableColArrow;
 
+typedef struct _ETableCol ETableCol;
+typedef struct _ETableColClass ETableColClass;
+
 /*
  * Information about a single column
  */
-typedef struct {
-	GObject         base;
-	gchar             *text;
-	GdkPixbuf        *pixbuf;
-	gint               min_width;
-	gint               width;
-	double            expansion;
-	short             x;
-	GCompareFunc      compare;
-	ETableSearchFunc  search;
-	guint      is_pixbuf:1;
-	guint      selected:1;
-	guint      resizable:1;
-	guint      disabled:1;
-	guint      sortable:1;
-	guint      groupable:1;
-	gint               col_idx;
-	gint               compare_col;
-	gint               priority;
+struct _ETableCol {
+	GObject parent;
 
-	GtkJustification  justification;
+	gchar *text;
+	gchar *icon_name;
+	GdkPixbuf *pixbuf;
+	gint min_width;
+	gint width;
+	gdouble expansion;
+	gshort x;
+	GCompareFunc compare;
+	ETableSearchFunc search;
 
-	ECell            *ecell;
-} ETableCol;
+	guint selected:1;
+	guint resizable:1;
+	guint disabled:1;
+	guint sortable:1;
+	guint groupable:1;
 
-typedef struct {
+	gint col_idx;
+	gint compare_col;
+	gint priority;
+
+	GtkJustification justification;
+
+	ECell *ecell;
+};
+
+struct _ETableColClass {
 	GObjectClass parent_class;
-} ETableColClass;
+};
 
-GType      e_table_col_get_type         (void);
-ETableCol *e_table_col_new              (gint           col_idx,
-					 const gchar   *text,
-					 double        expansion,
-					 gint           min_width,
-					 ECell        *ecell,
-					 GCompareFunc  compare,
-					 gboolean      resizable,
-					 gboolean      disabled,
-					 gint           priority);
-ETableCol *e_table_col_new_with_pixbuf  (gint           col_idx,
-					 const gchar   *text,
-					 GdkPixbuf    *pixbuf,
-					 double        expansion,
-					 gint           min_width,
-					 ECell        *ecell,
-					 GCompareFunc  compare,
-					 gboolean      resizable,
-					 gboolean      disabled,
-					 gint           priority);
+GType		e_table_col_get_type		(void);
+ETableCol *	e_table_col_new			(gint col_idx,
+						 const gchar *text,
+						 const gchar *icon_name,
+						 double expansion,
+						 gint min_width,
+						 ECell *ecell,
+						 GCompareFunc compare,
+						 gboolean resizable,
+						 gboolean disabled,
+						 gint priority);
 
 G_END_DECLS
 
-#endif /* _E_TABLE_COL_H_ */
+#endif /* E_TABLE_COL_H */
 

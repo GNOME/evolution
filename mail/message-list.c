@@ -77,8 +77,6 @@
 #include "mail-tools.h"
 #include "message-list.h"
 
-#include "art/empty.xpm"
-
 /*#define TIMEIT */
 
 #ifdef TIMEIT
@@ -225,29 +223,40 @@ enum {
 
 static guint message_list_signals [LAST_SIGNAL] = {0, };
 
-static struct {
-	const gchar *icon_name;
-	GdkPixbuf *pixbuf;
-} states_pixmaps[] = {
-	{ "mail-unread",                       NULL },
-	{ "mail-read",                         NULL },
-	{ "mail-replied",                      NULL },
-	{ "mail-forward",                      NULL },
-	{ "stock_mail-unread-multiple",        NULL },
-	{ "stock_mail-open-multiple",          NULL },
-	{ NULL,                                NULL },
-	{ "mail-attachment",                   NULL },
-	{ "emblem-important",                  NULL },
-	{ "stock_score-lowest",                NULL },
-	{ "stock_score-lower",                 NULL },
-	{ "stock_score-low",                   NULL },
-	{ "stock_score-normal",                NULL },
-	{ "stock_score-high",                  NULL },
-	{ "stock_score-higher",                NULL },
-	{ "stock_score-highest",               NULL },
-	{ "stock_mail-flag-for-followup",      NULL },
-	{ "stock_mail-flag-for-followup-done", NULL },
-	{ "stock_new-meeting",                 NULL }
+static const gchar *status_icons[] = {
+	"mail-unread",
+	"mail-read",
+	"mail-replied",
+	"mail-forward",
+	"stock_mail-unread-multiple",
+	"stock_mail-open-multiple"
+};
+
+static const gchar *score_icons[] = {
+	"stock_score-lowest",
+	"stock_score-lower",
+	"stock_score-low",
+	"stock_score-normal",
+	"stock_score-high",
+	"stock_score-higher",
+	"stock_score-highest"
+};
+
+static const gchar *attachment_icons[] = {
+	NULL,  /* empty icon */
+	"mail-attachment",
+	"stock_new-meeting"
+};
+
+static const gchar *flagged_icons[] = {
+	NULL,  /* empty icon */
+	"emblem-important"
+};
+
+static const gchar *followup_icons[] = {
+	NULL,  /* empty icon */
+	"stock_mail-flag-for-followup",
+	"stock_mail-flag-for-followup-done"
 };
 
 /* FIXME: junk prefs */
@@ -1721,25 +1730,6 @@ ml_tree_is_cell_editable (ETreeModel *etm, ETreePath path, gint col, gpointer mo
 	return FALSE;
 }
 
-static void
-message_list_init_images (void)
-{
-	gint i;
-
-	/*
-	 * Only load once, and share
-	 */
-	if (states_pixmaps[0].pixbuf)
-		return;
-
-	for (i = 0; i < G_N_ELEMENTS (states_pixmaps); i++) {
-		if (states_pixmaps[i].icon_name)
-			states_pixmaps[i].pixbuf = e_icon_factory_get_icon (states_pixmaps[i].icon_name, GTK_ICON_SIZE_MENU);
-		else
-			states_pixmaps[i].pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) empty_xpm);
-	}
-}
-
 static gchar *
 filter_date (time_t date)
 {
@@ -1805,11 +1795,9 @@ filter_date (time_t date)
 static ECell * create_composite_cell (gint col)
 {
 	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *cell_tree, *cell_attach;
-	GdkPixbuf *images [7];
 	GConfClient *gconf;
 	gchar *fixed_name = NULL;
 	gboolean show_email;
-	gint i;
 	gint alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
 	gboolean same_font = FALSE;
 
@@ -1823,9 +1811,8 @@ static ECell * create_composite_cell (gint col)
 
 	cell_hbox = e_cell_hbox_new ();
 
-	for (i = 0; i < 2; i++)
-		images [i] = states_pixmaps [i + 6].pixbuf;
-	cell_attach = e_cell_toggle_new (0, 2, images);
+	/* Exclude the meeting icon. */
+	cell_attach = e_cell_toggle_new (attachment_icons, 2);
 
 	cell_date = e_cell_date_new (NULL, GTK_JUSTIFY_RIGHT);
 	e_cell_date_set_format_component (E_CELL_DATE (cell_date), "mail");
@@ -1872,42 +1859,37 @@ composite_cell_set_strike_col (ECell *cell, gint col)
 static ETableExtras *
 message_list_create_extras (void)
 {
-	gint i;
-	GdkPixbuf *images [7];
 	ETableExtras *extras;
 	ECell *cell;
 
 	extras = e_table_extras_new ();
-	e_table_extras_add_pixbuf (extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf (extras, "score", states_pixmaps [14].pixbuf);
-	e_table_extras_add_pixbuf (extras, "attachment", states_pixmaps [7].pixbuf);
-	e_table_extras_add_pixbuf (extras, "flagged", states_pixmaps [8].pixbuf);
-	e_table_extras_add_pixbuf (extras, "followup", states_pixmaps [16].pixbuf);
+	e_table_extras_add_icon_name (extras, "status", "mail-unread");
+	e_table_extras_add_icon_name (extras, "score", "stock_score-higher");
+	e_table_extras_add_icon_name (extras, "attachment", "mail-attachment");
+	e_table_extras_add_icon_name (extras, "flagged", "emblem-important");
+	e_table_extras_add_icon_name (extras, "followup", "stock_mail-flag-for-followup");
 
 	e_table_extras_add_compare (extras, "address_compare", address_compare);
 
-	for (i = 0; i < 6; i++)
-		images [i] = states_pixmaps [i].pixbuf;
+	cell = e_cell_toggle_new (
+		status_icons, G_N_ELEMENTS (status_icons));
+	e_table_extras_add_cell (extras, "render_message_status", cell);
 
-	e_table_extras_add_cell (extras, "render_message_status", e_cell_toggle_new (0, 6, images));
+	cell = e_cell_toggle_new (
+		attachment_icons, G_N_ELEMENTS (attachment_icons));
+	e_table_extras_add_cell (extras, "render_attachment", cell);
 
-	for (i = 0; i < 2; i++)
-		images [i] = states_pixmaps [i + 6].pixbuf;
-	images [2] = states_pixmaps [18].pixbuf;
+	cell = e_cell_toggle_new (
+		flagged_icons, G_N_ELEMENTS (flagged_icons));
+	e_table_extras_add_cell (extras, "render_flagged", cell);
 
-	e_table_extras_add_cell (extras, "render_attachment", e_cell_toggle_new (0, 3, images));
+	cell = e_cell_toggle_new (
+		followup_icons, G_N_ELEMENTS (followup_icons));
+	e_table_extras_add_cell (extras, "render_flag_status", cell);
 
-	images [1] = states_pixmaps [8].pixbuf;
-	e_table_extras_add_cell (extras, "render_flagged", e_cell_toggle_new (0, 2, images));
-
-	images[1] = states_pixmaps [16].pixbuf;
-	images[2] = states_pixmaps [17].pixbuf;
-	e_table_extras_add_cell (extras, "render_flag_status", e_cell_toggle_new (0, 3, images));
-
-	for (i = 0; i < 7; i++)
-		images[i] = states_pixmaps [i + 8].pixbuf;
-
-	e_table_extras_add_cell (extras, "render_score", e_cell_toggle_new (0, 7, images));
+	cell = e_cell_toggle_new (
+		score_icons, G_N_ELEMENTS (score_icons));
+	e_table_extras_add_cell (extras, "render_score", cell);
 
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
@@ -2581,8 +2563,6 @@ message_list_class_init (MessageListClass *class)
 			      NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
-	message_list_init_images ();
 }
 
 static void

@@ -84,7 +84,7 @@ e_table_header_compute_height (ETableCol *ecol, GtkWidget *widget)
 
 	pango_layout_get_pixel_size (layout, NULL, &height);
 
-	if (ecol->is_pixbuf) {
+	if (ecol->icon_name != NULL) {
 		g_return_val_if_fail (ecol->pixbuf != NULL, -1);
 		height = MAX (height, gdk_pixbuf_get_height (ecol->pixbuf));
 	}
@@ -389,7 +389,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		arrow_width = MIN (MIN_ARROW_SIZE, inner_width);
 		arrow_height = MIN (MIN_ARROW_SIZE, inner_height);
 
-		if (!ecol->is_pixbuf)
+		if (ecol->icon_name == NULL)
 			inner_width -= arrow_width + HEADER_PADDING;
 		break;
 	default:
@@ -402,7 +402,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	layout = build_header_layout (widget, ecol->text);
 
 	/* Pixbuf or label */
-	if (ecol->is_pixbuf) {
+	if (ecol->icon_name != NULL) {
 		gint pwidth, pheight;
 		gint clip_width, clip_height;
 		gint xpos;
@@ -462,13 +462,13 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	case E_TABLE_COL_ARROW_UP:
 	case E_TABLE_COL_ARROW_DOWN: {
-		if (!ecol->is_pixbuf)
+		if (ecol->icon_name == NULL)
 			inner_width += arrow_width + HEADER_PADDING;
 
 		gtk_paint_arrow (style, drawable, state,
 				 GTK_SHADOW_NONE, NULL, widget, "header",
 				 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
-				 !ecol->is_pixbuf,
+				 (ecol->icon_name == NULL),
 				 inner_x + inner_width - arrow_width,
 				 inner_y + (inner_height - arrow_height) / 2,
 				 arrow_width, arrow_height);

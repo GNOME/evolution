@@ -54,11 +54,6 @@ typedef struct _ETableExtrasPrivate ETableExtrasPrivate;
 struct _ETableExtras {
 	GObject parent;
 	ETableExtrasPrivate *priv;
-
-	GHashTable *cells;
-	GHashTable *compares;
-	GHashTable *pixbufs;
-	GHashTable *searches;
 };
 
 struct _ETableExtrasClass {
@@ -83,10 +78,10 @@ void		e_table_extras_add_search	(ETableExtras *extras,
 ETableSearchFunc
 		e_table_extras_get_search	(ETableExtras *extras,
 						 const gchar *id);
-void		e_table_extras_add_pixbuf	(ETableExtras *extras,
+void		e_table_extras_add_icon_name	(ETableExtras *extras,
 						 const gchar *id,
-						 GdkPixbuf *pixbuf);
-GdkPixbuf *	e_table_extras_get_pixbuf	(ETableExtras *extras,
+						 const gchar *icon_name);
+const gchar *	e_table_extras_get_icon_name	(ETableExtras *extras,
 						 const gchar *id);
 
 G_END_DECLS

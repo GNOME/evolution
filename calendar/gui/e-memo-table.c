@@ -87,12 +87,10 @@ static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 /* The icons to represent the task. */
-#define NUM_ICONS 2
-static const gchar *icon_names[NUM_ICONS] = {
+static const gchar *icon_names[] = {
 	"stock_notes",
 	"stock_insert-note"
 };
-static GdkPixbuf *icon_pixbufs[NUM_ICONS] = { NULL };
 
 static void
 memo_table_emit_open_component (EMemoTable *memo_table,
@@ -347,7 +345,6 @@ memo_table_constructed (GObject *object)
 	ECalModel *model;
 	ECell *cell, *popup_cell;
 	ETableExtras *extras;
-	gint i;
 	AtkObject *a11y;
 	gchar *etspecfile;
 
@@ -400,14 +397,9 @@ memo_table_constructed (GObject *object)
 
 	/* Create pixmaps */
 
-	if (!icon_pixbufs[0])
-		for (i = 0; i < NUM_ICONS; i++) {
-			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], GTK_ICON_SIZE_MENU);
-		}
-
-	cell = e_cell_toggle_new (0, NUM_ICONS, icon_pixbufs);
+	cell = e_cell_toggle_new (icon_names, G_N_ELEMENTS (icon_names));
 	e_table_extras_add_cell (extras, "icon", cell);
-	e_table_extras_add_pixbuf (extras, "icon", icon_pixbufs[0]);
+	e_table_extras_add_icon_name (extras, "icon", "stock_notes");
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");

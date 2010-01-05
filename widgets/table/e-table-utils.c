@@ -95,24 +95,34 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		title = g_strdup (title);
 
 		if (col_spec->pixbuf && *col_spec->pixbuf) {
-			GdkPixbuf *pixbuf;
+			const gchar *icon_name;
 
-			pixbuf = e_table_extras_get_pixbuf(
+			icon_name = e_table_extras_get_icon_name (
 				ete, col_spec->pixbuf);
-			if (pixbuf) {
-				col = e_table_col_new_with_pixbuf (
-					col_spec->model_col, title,
-					pixbuf, col_spec->expansion,
+			if (icon_name != NULL) {
+				col = e_table_col_new (
+					col_spec->model_col,
+					title, icon_name,
+					col_spec->expansion,
 					col_spec->minimum_width,
-					cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
+					cell, compare,
+					col_spec->resizable,
+					col_spec->disabled,
+					col_spec->priority);
 			}
 		}
+
 		if (col == NULL && col_spec->title && *col_spec->title) {
 			col = e_table_col_new (
-				col_spec->model_col, title,
-				col_spec->expansion, col_spec->minimum_width,
-				cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
+				col_spec->model_col, title, NULL,
+				col_spec->expansion,
+				col_spec->minimum_width,
+				cell, compare,
+				col_spec->resizable,
+				col_spec->disabled,
+				col_spec->priority);
 		}
+
 		col->search = search;
 		if (col_spec->sortable && !strcmp(col_spec->sortable, "false"))
 			col->sortable = FALSE;

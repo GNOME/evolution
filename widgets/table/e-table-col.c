@@ -35,6 +35,27 @@ enum {
 };
 
 static void
+etc_load_icon (ETableCol *etc)
+{
+	/* FIXME This ignores theme changes. */
+
+	GtkIconTheme *icon_theme;
+	gint width, height;
+	GError *error = NULL;
+
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, &height);
+
+	etc->pixbuf = gtk_icon_theme_load_icon (
+		icon_theme, etc->icon_name, height, 0, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
 etc_dispose (GObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
@@ -47,9 +68,11 @@ etc_dispose (GObject *object)
 		g_object_unref (etc->pixbuf);
 	etc->pixbuf = NULL;
 
-	if (etc->text)
-		g_free (etc->text);
+	g_free (etc->text);
 	etc->text = NULL;
+
+	g_free (etc->icon_name);
+	etc->icon_name = NULL;
 
 	if (G_OBJECT_CLASS (e_table_col_parent_class)->dispose)
 		G_OBJECT_CLASS (e_table_col_parent_class)->dispose (object);
@@ -115,6 +138,7 @@ e_table_col_init (ETableCol *etc)
  * e_table_col_new:
  * @col_idx: the column we represent in the model
  * @text: a title for this column
+ * @icon_name: name of the icon to be used for the header, or %NULL
  * @expansion: FIXME
  * @min_width: minimum width in pixels for this column
  * @ecell: the renderer to be used for this column
@@ -139,8 +163,16 @@ e_table_col_init (ETableCol *etc)
  * Returns: the newly created ETableCol object.
  */
 ETableCol *
-e_table_col_new (gint col_idx, const gchar *text, double expansion, gint min_width,
-		 ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, gint priority)
+e_table_col_new (gint col_idx,
+                 const gchar *text,
+                 const gchar *icon_name,
+                 double expansion,
+                 gint min_width,
+                 ECell *ecell,
+                 GCompareFunc compare,
+                 gboolean resizable,
+                 gboolean disabled,
+                 gint priority)
 {
 	ETableCol *etc;
 
@@ -150,13 +182,12 @@ e_table_col_new (gint col_idx, const gchar *text, double expansion, gint min_wid
 	g_return_val_if_fail (compare != NULL, NULL);
 	g_return_val_if_fail (text != NULL, NULL);
 
-	etc = g_object_new (E_TABLE_COL_TYPE, NULL);
-
-	etc->is_pixbuf = FALSE;
+	etc = g_object_new (E_TYPE_TABLE_COL, NULL);
 
 	etc->col_idx = col_idx;
 	etc->compare_col = col_idx;
 	etc->text = g_strdup (text);
+	etc->icon_name = g_strdup (icon_name);
 	etc->pixbuf = NULL;
 	etc->expansion = expansion;
 	etc->min_width = min_width;
@@ -170,67 +201,8 @@ e_table_col_new (gint col_idx, const gchar *text, double expansion, gint min_wid
 
 	g_object_ref (etc->ecell);
 
-	return etc;
-}
-
-/**
- * e_table_col_new_with_pixbuf:
- * @col_idx: the column we represent in the model
- * @pixbuf: the image to be used for the header
- * @expansion: FIXME
- * @min_width: minimum width in pixels for this column
- * @ecell: the renderer to be used for this column
- * @compare: comparision function for the elements stored in this column
- * @resizable: whether the column can be resized interactively by the user
- *
- * The ETableCol represents a column to be used inside an ETable.  The
- * ETableCol objects are inserted inside an ETableHeader (which is just a collection
- * of ETableCols).  The ETableHeader is the definition of the order in which
- * columns are shown to the user.
- *
- * The @text argument is the the text that will be shown as a header to the
- * user. @col_idx reflects where the data for this ETableCol object will
- * be fetch from an ETableModel.  So even if the user changes the order
- * of the columns being viewed (the ETableCols in the ETableHeader), the
- * column will always point to the same column inside the ETableModel.
- *
- * The @ecell argument is an ECell object that needs to know how to render the
- * data in the ETableModel for this specific row.
- *
- * Returns: the newly created ETableCol object.
- */
-ETableCol *
-e_table_col_new_with_pixbuf (gint col_idx, const gchar *text, GdkPixbuf *pixbuf, double expansion, gint min_width,
-			     ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, gint priority)
-{
-	ETableCol *etc;
-
-	g_return_val_if_fail (expansion >= 0, NULL);
-	g_return_val_if_fail (min_width >= 0, NULL);
-	g_return_val_if_fail (ecell != NULL, NULL);
-	g_return_val_if_fail (compare != NULL, NULL);
-	g_return_val_if_fail (pixbuf != NULL, NULL);
-
-	etc = g_object_new (E_TABLE_COL_TYPE, NULL);
-
-	etc->is_pixbuf = TRUE;
-
-	etc->col_idx = col_idx;
-	etc->compare_col = col_idx;
-	etc->text = g_strdup(text);
-	etc->pixbuf = pixbuf;
-	etc->expansion = expansion;
-	etc->min_width = min_width;
-	etc->ecell = ecell;
-	etc->compare = compare;
-	etc->disabled = disabled;
-	etc->priority = priority;
-
-	etc->selected = 0;
-	etc->resizable = resizable;
-
-	g_object_ref (etc->ecell);
-	g_object_ref (etc->pixbuf);
+	if (etc->icon_name != NULL)
+		etc_load_icon (etc);
 
 	return etc;
 }

@@ -23,41 +23,56 @@
  *
  */
 
-#ifndef _E_CELL_TOGGLE_H_
-#define _E_CELL_TOGGLE_H_
+#ifndef E_CELL_TOGGLE_H
+#define E_CELL_TOGGLE_H
 
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <table/e-cell.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_TOGGLE \
+	(e_cell_toggle_get_type ())
+#define E_CELL_TOGGLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_TOGGLE, ECellToggle))
+#define E_CELL_TOGGLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_TOGGLE, ECellToggleClass))
+#define E_IS_CELL_TOGGLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_TOGGLE))
+#define E_IS_CELL_TOGGLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_TOGGLE))
+#define E_CELL_TOGGLE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_TOGGLE, ECellToggleClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_TOGGLE_TYPE        (e_cell_toggle_get_type ())
-#define E_CELL_TOGGLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TOGGLE_TYPE, ECellToggle))
-#define E_CELL_TOGGLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TOGGLE_TYPE, ECellToggleClass))
-#define E_IS_CELL_TOGGLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TOGGLE_TYPE))
-#define E_IS_CELL_TOGGLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TOGGLE_TYPE))
+typedef struct _ECellToggle ECellToggle;
+typedef struct _ECellToggleClass ECellToggleClass;
+typedef struct _ECellTogglePrivate ECellTogglePrivate;
 
-typedef struct {
+struct _ECellToggle {
 	ECell parent;
+	ECellTogglePrivate *priv;
+};
 
-	gint        border;
-	gint        n_states;
-	GdkPixbuf **images;
-
-	gint        height;
-} ECellToggle;
-
-typedef struct {
+struct _ECellToggleClass {
 	ECellClass parent_class;
-} ECellToggleClass;
+};
 
-GType      e_cell_toggle_get_type  (void);
-ECell     *e_cell_toggle_new       (gint border, gint n_states, GdkPixbuf **images);
-void       e_cell_toggle_construct (ECellToggle *etog, gint border,
-				    gint n_states, GdkPixbuf **images);
+GType		e_cell_toggle_get_type		(void);
+ECell *		e_cell_toggle_new		(const gchar **icon_names,
+						 guint n_icon_names);
+void		e_cell_toggle_construct		(ECellToggle *cell_toggle,
+						 const gchar **icon_names,
+						 guint n_icon_names);
+GPtrArray *	e_cell_toggle_get_pixbufs	(ECellToggle *cell_toggle);
 
 G_END_DECLS
 
-#endif /* _E_CELL_TOGGLE_H_ */
+#endif /* E_CELL_TOGGLE_H */
 

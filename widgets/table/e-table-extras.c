@@ -47,7 +47,7 @@
 struct _ETableExtrasPrivate {
 	GHashTable *cells;
 	GHashTable *compares;
-	GHashTable *pixbufs;
+	GHashTable *icon_names;
 	GHashTable *searches;
 };
 
@@ -58,26 +58,28 @@ G_DEFINE_TYPE (ETableExtras, ete, G_TYPE_OBJECT)
 static void
 ete_finalize (GObject *object)
 {
-	ETableExtras *ete = E_TABLE_EXTRAS (object);
+	ETableExtrasPrivate *priv;
 
-	if (ete->cells) {
-		g_hash_table_destroy (ete->cells);
-		ete->cells = NULL;
+	priv = E_TABLE_EXTRAS_GET_PRIVATE (object);
+
+	if (priv->cells) {
+		g_hash_table_destroy (priv->cells);
+		priv->cells = NULL;
 	}
 
-	if (ete->compares) {
-		g_hash_table_destroy (ete->compares);
-		ete->compares = NULL;
+	if (priv->compares) {
+		g_hash_table_destroy (priv->compares);
+		priv->compares = NULL;
 	}
 
-	if (ete->searches) {
-		g_hash_table_destroy (ete->searches);
-		ete->searches = NULL;
+	if (priv->searches) {
+		g_hash_table_destroy (priv->searches);
+		priv->searches = NULL;
 	}
 
-	if (ete->pixbufs) {
-		g_hash_table_destroy (ete->pixbufs);
-		ete->pixbufs = NULL;
+	if (priv->icon_names) {
+		g_hash_table_destroy (priv->icon_names);
+		priv->icon_names = NULL;
 	}
 
 	G_OBJECT_CLASS (ete_parent_class)->finalize (object);
@@ -177,15 +179,15 @@ ete_init (ETableExtras *extras)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
+	extras->priv->icon_names = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
 	extras->priv->searches = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
-
-	extras->priv->pixbufs = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) safe_unref);
 
 	e_table_extras_add_compare(extras, "string", e_str_compare);
 	e_table_extras_add_compare(extras, "stringcase", e_str_case_compare);
@@ -295,25 +297,24 @@ e_table_extras_get_search (ETableExtras *extras,
 }
 
 void
-e_table_extras_add_pixbuf (ETableExtras *extras,
-                           const gchar *id,
-                           GdkPixbuf *pixbuf)
+e_table_extras_add_icon_name (ETableExtras *extras,
+                              const gchar *id,
+                              const gchar *icon_name)
 {
 	g_return_if_fail (E_IS_TABLE_EXTRAS (extras));
 	g_return_if_fail (id != NULL);
 
-	if (pixbuf != NULL)
-		g_object_ref (pixbuf);
-
-	g_hash_table_insert (extras->priv->pixbufs, g_strdup (id), pixbuf);
+	g_hash_table_insert (
+		extras->priv->icon_names,
+		g_strdup (id), g_strdup (icon_name));
 }
 
-GdkPixbuf *
-e_table_extras_get_pixbuf (ETableExtras *extras,
-                           const gchar *id)
+const gchar *
+e_table_extras_get_icon_name (ETableExtras *extras,
+                              const gchar *id)
 {
 	g_return_val_if_fail (E_IS_TABLE_EXTRAS (extras), NULL);
 	g_return_val_if_fail (id != NULL, NULL);
 
-	return g_hash_table_lookup (extras->priv->pixbufs, id);
+	return g_hash_table_lookup (extras->priv->icon_names, id);
 }

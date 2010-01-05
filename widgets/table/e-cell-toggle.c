@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
+#include "art/empty.xpm"
+
 #include "gal-a11y-e-cell-toggle.h"
 #include "gal-a11y-e-cell-registry.h"
 #include "e-util/e-util.h"
@@ -36,21 +38,107 @@
 #include "e-cell-toggle.h"
 #include "e-table-item.h"
 
+#define E_CELL_TOGGLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CELL_TOGGLE, ECellTogglePrivate))
+
+struct _ECellTogglePrivate {
+	gchar **icon_names;
+	guint n_icon_names;
+
+	GdkPixbuf *empty;
+	GPtrArray *pixbufs;
+	gint height;
+};
+
 G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_CELL_TYPE)
 
 typedef struct {
-	ECellView     cell_view;
-	GdkGC        *gc;
-	GnomeCanvas  *canvas;
+	ECellView cell_view;
+	GdkGC *gc;
+	GnomeCanvas *canvas;
 } ECellToggleView;
 
-#define CACHE_SEQ_COUNT 6
+static void
+cell_toggle_load_icons (ECellToggle *cell_toggle)
+{
+	GtkIconTheme *icon_theme;
+	gint width, height;
+	gint max_height = 0;
+	guint ii;
+	GError *error = NULL;
 
-/*
- * ECell::realize method
- */
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, &height);
+
+	g_ptr_array_set_size (cell_toggle->priv->pixbufs, 0);
+
+	for (ii = 0; ii < cell_toggle->priv->n_icon_names; ii++) {
+		const gchar *icon_name = cell_toggle->priv->icon_names[ii];
+		GdkPixbuf *pixbuf = NULL;
+
+		if (icon_name != NULL)
+			pixbuf = gtk_icon_theme_load_icon (
+				icon_theme, icon_name, height, 0, &error);
+
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+		}
+
+		if (pixbuf == NULL)
+			pixbuf = g_object_ref (cell_toggle->priv->empty);
+
+		g_ptr_array_add (cell_toggle->priv->pixbufs, pixbuf);
+		max_height = MAX (max_height, gdk_pixbuf_get_height (pixbuf));
+	}
+
+	cell_toggle->priv->height = max_height;
+}
+
+static void
+cell_toggle_dispose (GObject *object)
+{
+	ECellTogglePrivate *priv;
+
+	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
+
+	if (priv->empty != NULL) {
+		g_object_unref (priv->empty);
+		priv->empty = NULL;
+	}
+
+	/* This unrefs all the elements. */
+	g_ptr_array_set_size (priv->pixbufs, 0);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_cell_toggle_parent_class)->dispose (object);
+}
+
+static void
+cell_toggle_finalize (GObject *object)
+{
+	ECellTogglePrivate *priv;
+	guint ii;
+
+	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
+
+	/* The array is not NULL-terminated,
+	 * so g_strfreev() will not work. */
+	for (ii = 0; ii < priv->n_icon_names; ii++)
+		g_free (priv->icon_names[ii]);
+	g_free (priv->icon_names);
+
+	g_ptr_array_free (priv->pixbufs, TRUE);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cell_toggle_parent_class)->finalize (object);
+}
+
 static ECellView *
-etog_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+cell_toggle_new_view (ECell *ecell,
+                      ETableModel *table_model,
+                      gpointer e_table_item_view)
 {
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
 	ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
@@ -59,61 +147,59 @@ etog_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_vie
 	toggle_view->cell_view.ecell = ecell;
 	toggle_view->cell_view.e_table_model = table_model;
 	toggle_view->cell_view.e_table_item_view = e_table_item_view;
-        toggle_view->cell_view.kill_view_cb = NULL;
-        toggle_view->cell_view.kill_view_cb_data = NULL;
+	toggle_view->cell_view.kill_view_cb = NULL;
+	toggle_view->cell_view.kill_view_cb_data = NULL;
 	toggle_view->canvas = canvas;
 
 	return (ECellView *) toggle_view;
 }
 
 static void
-etog_kill_view (ECellView *ecell_view)
+cell_toggle_kill_view (ECellView *ecell_view)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 
-        if (toggle_view->cell_view.kill_view_cb)
-            (toggle_view->cell_view.kill_view_cb)(ecell_view, toggle_view->cell_view.kill_view_cb_data);
+	if (toggle_view->cell_view.kill_view_cb)
+		toggle_view->cell_view.kill_view_cb (
+			ecell_view, toggle_view->cell_view.kill_view_cb_data);
 
-        if (toggle_view->cell_view.kill_view_cb_data)
-            g_list_free(toggle_view->cell_view.kill_view_cb_data);
+	if (toggle_view->cell_view.kill_view_cb_data)
+		g_list_free (toggle_view->cell_view.kill_view_cb_data);
 
 	g_free (ecell_view);
 }
 
 static void
-etog_realize (ECellView *ecell_view)
+cell_toggle_realize (ECellView *ecell_view)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 
 	toggle_view->gc = gdk_gc_new (GTK_WIDGET (toggle_view->canvas)->window);
 }
 
-/*
- * ECell::unrealize method
- */
 static void
-etog_unrealize (ECellView *ecv)
+cell_toggle_unrealize (ECellView *ecell_view)
 {
-	ECellToggleView *toggle_view = (ECellToggleView *) ecv;
+	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 
 	g_object_unref (toggle_view->gc);
 	toggle_view->gc = NULL;
 }
 
-#define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
-			   ((color).green & 0xff00) | \
-			   ((color).blue & 0xff00) >> 8)
-
-/*
- * ECell::draw method
- */
 static void
-etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  gint model_col, gint view_col, gint row, ECellFlags flags,
-	  gint x1, gint y1, gint x2, gint y2)
+cell_toggle_draw (ECellView *ecell_view,
+                  GdkDrawable *drawable,
+                  gint model_col,
+                  gint view_col,
+                  gint row,
+                  ECellFlags flags,
+                  gint x1,
+                  gint y1,
+                  gint x2,
+                  gint y2)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
-	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
+	ECellTogglePrivate *priv;
+	ECellToggleView *toggle_view;
 	GdkPixbuf *image;
 	gint x, y, width, height;
 	gint cache_seq;
@@ -122,9 +208,12 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	const gint value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
-	if (value < 0 || value >= toggle->n_states) {
+	toggle_view = (ECellToggleView *) ecell_view;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+
+	if (value < 0 || value >= priv->pixbufs->len) {
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
-			   value, toggle->n_states);
+			   value, priv->pixbufs->len);
 		return;
 	}
 
@@ -139,7 +228,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (E_TABLE_ITEM (ecell_view->e_table_item_view)->alternating_row_colors && (row % 2) == 0)
 		cache_seq += 3;
 
-	image = toggle->images[value];
+	image = g_ptr_array_index (priv->pixbufs, value);
 
 	if ((x2 - x1) < gdk_pixbuf_get_width (image)) {
 		x = x1;
@@ -167,32 +256,36 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 }
 
 static void
-etog_set_value (ECellToggleView *toggle_view, gint model_col, gint view_col, gint row, gint value)
+etog_set_value (ECellToggleView *toggle_view,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gint value)
 {
-	ECell *ecell = toggle_view->cell_view.ecell;
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell);
+	ECellTogglePrivate *priv;
 
-	if (value >= toggle->n_states)
+	priv = E_CELL_TOGGLE_GET_PRIVATE (toggle_view->cell_view.ecell);
+
+	if (value >= priv->pixbufs->len)
 		value = 0;
 
-	e_table_model_set_value_at (toggle_view->cell_view.e_table_model,
-				    model_col, row, GINT_TO_POINTER (value));
+	e_table_model_set_value_at (
+		toggle_view->cell_view.e_table_model,
+		model_col, row, GINT_TO_POINTER (value));
 }
 
-/*
- * ECell::event method
- */
 static gint
-etog_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+cell_toggle_event (ECellView *ecell_view,
+                   GdkEvent *event,
+                   gint model_col,
+                   gint view_col,
+                   gint row,
+                   ECellFlags flags,
+                   ECellActions *actions)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	gpointer _value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	const gint value = GPOINTER_TO_INT (_value);
-
-#if 0
-	if (!(flags & E_CELL_EDITING))
-		return FALSE;
-#endif
 
 	switch (event->type) {
 	case GDK_KEY_PRESS:
@@ -211,39 +304,45 @@ etog_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_co
 	}
 }
 
-/*
- * ECell::height method
- */
 static gint
-etog_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+cell_toggle_height (ECellView *ecell_view,
+                    gint model_col,
+                    gint view_col,
+                    gint row)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+	ECellTogglePrivate *priv;
 
-	return toggle->height;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+
+	return priv->height;
 }
 
-/*
- * ECell::print method
- */
 static void
-etog_print (ECellView *ecell_view, GtkPrintContext *context,
-	    gint model_col, gint view_col, gint row,
-	    double width, double height)
+cell_toggle_print (ECellView *ecell_view,
+                   GtkPrintContext *context,
+                   gint model_col,
+                   gint view_col,
+                   gint row,
+                   gdouble width,
+                   gdouble height)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE(ecell_view->ecell);
+	ECellTogglePrivate *priv;
 	GdkPixbuf *image;
-	double image_width, image_height;
+	gdouble image_width, image_height;
 	const gint value = GPOINTER_TO_INT (
 			e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	cairo_t *cr;
-	if (value >= toggle->n_states) {
+
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+
+	if (value >= priv->pixbufs->len) {
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
-				value, toggle->n_states);
+				value, priv->pixbufs->len);
 		return;
 	}
 
-	image = toggle->images[value];
+	image = g_ptr_array_index (priv->pixbufs, value);
 	if (image) {
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_save(cr);
@@ -262,137 +361,152 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-etog_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		   gint model_col, gint view_col, gint row,
-		   double width)
+cell_toggle_print_height (ECellView *ecell_view,
+                          GtkPrintContext *context,
+                          gint model_col,
+                          gint view_col,
+                          gint row,
+                          gdouble width)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+	ECellTogglePrivate *priv;
 
-	return toggle->height;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+
+	return priv->height;
 }
 
-/*
- * ECell::max_width method
- */
 static gint
-etog_max_width (ECellView *ecell_view, gint model_col, gint view_col)
+cell_toggle_max_width (ECellView *ecell_view,
+                       gint model_col,
+                       gint view_col)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+	ECellTogglePrivate *priv;
 	gint max_width = 0;
 	gint number_of_rows;
 	gint row;
 
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 	for (row = 0; row < number_of_rows; row++) {
-		gpointer value = e_table_model_value_at (ecell_view->e_table_model,
-						      model_col, row);
-		max_width = MAX (max_width, gdk_pixbuf_get_width (toggle->images[GPOINTER_TO_INT (value)]));
+		GdkPixbuf *pixbuf;
+		gpointer value;
+
+		value = e_table_model_value_at (
+			ecell_view->e_table_model, model_col, row);
+		pixbuf = g_ptr_array_index (
+			priv->pixbufs, GPOINTER_TO_INT (value));
+
+		max_width = MAX (max_width, gdk_pixbuf_get_width (pixbuf));
 	}
 
 	return max_width;
 }
 
 static void
-etog_finalize (GObject *object)
+e_cell_toggle_class_init (ECellToggleClass *class)
 {
-	ECellToggle *etog = E_CELL_TOGGLE (object);
-	gint i;
+	GObjectClass *object_class;
+	ECellClass *cell_class;
 
-	for (i = 0; i < etog->n_states; i++)
-		g_object_unref (etog->images [i]);
+	g_type_class_add_private (class, sizeof (ECellTogglePrivate));
 
-	g_free (etog->images);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = cell_toggle_dispose;
+	object_class->finalize = cell_toggle_finalize;
 
-	etog->images = NULL;
-	etog->n_states = 0;
+	cell_class = E_CELL_CLASS (class);
+	cell_class->new_view = cell_toggle_new_view;
+	cell_class->kill_view = cell_toggle_kill_view;
+	cell_class->realize = cell_toggle_realize;
+	cell_class->unrealize = cell_toggle_unrealize;
+	cell_class->draw = cell_toggle_draw;
+	cell_class->event = cell_toggle_event;
+	cell_class->height = cell_toggle_height;
+	cell_class->print = cell_toggle_print;
+	cell_class->print_height = cell_toggle_print_height;
+	cell_class->max_width = cell_toggle_max_width;
 
-	G_OBJECT_CLASS (e_cell_toggle_parent_class)->finalize (object);
+	gal_a11y_e_cell_registry_add_cell_type (
+		NULL, E_TYPE_CELL_TOGGLE, gal_a11y_e_cell_toggle_new);
 }
 
 static void
-e_cell_toggle_class_init (ECellToggleClass *klass)
+e_cell_toggle_init (ECellToggle *cell_toggle)
 {
-	ECellClass *ecc = E_CELL_CLASS (klass);
+	cell_toggle->priv = E_CELL_TOGGLE_GET_PRIVATE (cell_toggle);
 
-	G_OBJECT_CLASS (klass)->finalize = etog_finalize;
+	cell_toggle->priv->empty =
+		gdk_pixbuf_new_from_xpm_data (empty_xpm);
 
-	ecc->new_view   = etog_new_view;
-	ecc->kill_view  = etog_kill_view;
-	ecc->realize    = etog_realize;
-	ecc->unrealize  = etog_unrealize;
-	ecc->draw       = etog_draw;
-	ecc->event      = etog_event;
-	ecc->height     = etog_height;
-	ecc->print      = etog_print;
-	ecc->print_height = etog_print_height;
-	ecc->max_width  = etog_max_width;
-
-	gal_a11y_e_cell_registry_add_cell_type (NULL,
-						 E_CELL_TOGGLE_TYPE,
-                                                gal_a11y_e_cell_toggle_new);
-}
-
-static void
-e_cell_toggle_init (ECellToggle *etog)
-{
-	etog->images = NULL;
-	etog->n_states = 0;
+	cell_toggle->priv->pixbufs =
+		g_ptr_array_new_with_free_func (g_object_unref);
 }
 
 /**
  * e_cell_toggle_construct:
- * @etog: a fresh ECellToggle object
- * @border: number of pixels used as a border
- * @n_states: number of states the toggle will have
- * @images: a collection of @n_states images, one for each state.
+ * @cell_toggle: a fresh ECellToggle object
+ * @icon_names: array of icon names, some of which may be %NULL
+ * @n_icon_names: length of the @icon_names array
  *
- * Constructs the @etog object with the @border, @n_staes, and @images
+ * Constructs the @cell_toggle object with the @icon_names and @n_icon_names
  * arguments.
  */
 void
-e_cell_toggle_construct (ECellToggle *etog, gint border, gint n_states, GdkPixbuf **images)
+e_cell_toggle_construct (ECellToggle *cell_toggle,
+                         const gchar **icon_names,
+                         guint n_icon_names)
 {
-	gint max_height =  0;
-	gint i;
+	guint ii;
 
-	etog->border = border;
-	etog->n_states = n_states;
+	g_return_if_fail (E_IS_CELL_TOGGLE (cell_toggle));
+	g_return_if_fail (icon_names != NULL);
+	g_return_if_fail (n_icon_names > 0);
 
-	etog->images = g_new (GdkPixbuf *, n_states);
+	cell_toggle->priv->icon_names = g_new (gchar *, n_icon_names);
+	cell_toggle->priv->n_icon_names = n_icon_names;
 
-	for (i = 0; i < n_states; i++) {
-		etog->images [i] = images [i];
-		if (images[i]) {
-		g_object_ref (images [i]);
+	for (ii = 0; ii < n_icon_names; ii++)
+		cell_toggle->priv->icon_names[ii] = g_strdup (icon_names[ii]);
 
-		if (gdk_pixbuf_get_height (images [i]) > max_height)
-			max_height = gdk_pixbuf_get_height (images [i]);
-		}
-	}
-
-	etog->height = max_height;
+	cell_toggle_load_icons (cell_toggle);
 }
 
 /**
- * e_cell_checkbox_new:
- * @border: number of pixels used as a border
- * @n_states: number of states the toggle will have
- * @images: a collection of @n_states images, one for each state.
+ * e_cell_toggle_new:
+ * @icon_names: array of icon names, some of which may be %NULL
+ * @n_icon_names: length of the @icon_names array
  *
  * Creates a new ECell renderer that can be used to render toggle
- * buttons with the images specified in @images.  The value returned
- * by ETableModel::get_value is typecase into an integer and clamped
- * to the [0..n_states) range.  That will select the image rendered.
+ * buttons with the icons specified in @icon_names.  The value returned
+ * by ETableModel::get_value is typecast into an integer and clamped
+ * to the [0..n_icon_names) range.  That will select the image rendered.
+ *
+ * %NULL elements in @icon_names will show no icon for the corresponding
+ * integer value.
  *
  * Returns: an ECell object that can be used to render multi-state
  * toggle cells.
  */
 ECell *
-e_cell_toggle_new (gint border, gint n_states, GdkPixbuf **images)
+e_cell_toggle_new (const gchar **icon_names,
+                   guint n_icon_names)
 {
-	ECellToggle *etog = g_object_new (E_CELL_TOGGLE_TYPE, NULL);
+	ECellToggle *cell_toggle;
 
-	e_cell_toggle_construct (etog, border, n_states, images);
+	g_return_val_if_fail (icon_names != NULL, NULL);
+	g_return_val_if_fail (n_icon_names > 0, NULL);
 
-	return (ECell *) etog;
+	cell_toggle = g_object_new (E_TYPE_CELL_TOGGLE, NULL);
+	e_cell_toggle_construct (cell_toggle, icon_names, n_icon_names);
+
+	return (ECell *) cell_toggle;
+}
+
+GPtrArray *
+e_cell_toggle_get_pixbufs (ECellToggle *cell_toggle)
+{
+	g_return_val_if_fail (E_IS_CELL_TOGGLE (cell_toggle), NULL);
+
+	return cell_toggle->priv->pixbufs;
 }

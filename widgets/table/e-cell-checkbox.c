@@ -35,7 +35,7 @@
 #include "check-empty.xpm"
 #include "check-filled.xpm"
 
-G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_CELL_TOGGLE_TYPE)
+G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_TYPE_CELL_TOGGLE)
 
 static GdkPixbuf *checks [2];
 
@@ -73,6 +73,12 @@ e_cell_checkbox_class_init (ECellCheckboxClass *klass)
 static void
 e_cell_checkbox_init (ECellCheckbox *eccb)
 {
+	GPtrArray *pixbufs;
+
+	pixbufs = e_cell_toggle_get_pixbufs (E_CELL_TOGGLE (eccb));
+
+	g_ptr_array_add (pixbufs, g_object_ref (checks[0]));
+	g_ptr_array_add (pixbufs, g_object_ref (checks[1]));
 }
 
 /**
@@ -87,9 +93,5 @@ e_cell_checkbox_init (ECellCheckbox *eccb)
 ECell *
 e_cell_checkbox_new (void)
 {
-	ECellCheckbox *eccb = g_object_new (E_CELL_CHECKBOX_TYPE, NULL);
-
-	e_cell_toggle_construct (E_CELL_TOGGLE (eccb), 2, 2, checks);
-
-	return (ECell *) eccb;
+	return g_object_new (E_CELL_CHECKBOX_TYPE, NULL);
 }
