@@ -95,8 +95,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+static void calendar_view_selectable_init (ESelectableInterface *interface);
+
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE,
+	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, calendar_view_selectable_init));
 
 static void
 calendar_view_set_model (ECalendarView *calendar_view,
@@ -158,7 +162,7 @@ calendar_view_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_calendar_view_parent_class)->dispose (object);
 }
 
 static void
@@ -171,7 +175,7 @@ calendar_view_finalize (GObject *object)
 	g_free (priv->default_category);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_calendar_view_parent_class)->finalize (object);
 }
 
 static void
@@ -516,7 +520,7 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 }
 
 static void
-calendar_view_class_init (ECalendarViewClass *class)
+e_calendar_view_class_init (ECalendarViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkBindingSet *binding_set;
@@ -643,7 +647,7 @@ calendar_view_class_init (ECalendarViewClass *class)
 }
 
 static void
-calendar_view_init (ECalendarView *calendar_view)
+e_calendar_view_init (ECalendarView *calendar_view)
 {
 	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
 }
@@ -655,42 +659,6 @@ calendar_view_selectable_init (ESelectableInterface *interface)
 	interface->cut_clipboard = calendar_view_cut_clipboard;
 	interface->copy_clipboard = calendar_view_copy_clipboard;
 	interface->paste_clipboard = calendar_view_paste_clipboard;
-}
-
-GType
-e_calendar_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ECalendarViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) calendar_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECalendarView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) calendar_view_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) calendar_view_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TABLE, "ECalendarView", &type_info,
-			G_TYPE_FLAG_ABSTRACT);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
 }
 
 void
