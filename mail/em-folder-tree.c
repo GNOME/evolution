@@ -2062,7 +2062,12 @@ emft_popup_flush_outbox (EPopup *ep, EPopupItem *pitem, gpointer data)
 static void
 emft_popup_empty_trash (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
-	em_utils_empty_trash (data);
+	EMFolderTree *emft = data;
+	CamelFolder *folder;
+
+	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
+		em_utils_expunge_folder (gtk_widget_get_toplevel ((GtkWidget *)emft), folder);
+	}
 }
 
 static void
