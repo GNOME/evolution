@@ -600,7 +600,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_minicard->button_x = -1;
 			e_minicard->button_y = -1;
 
-			if (GTK_WIDGET_HAS_GRAB (GNOME_CANVAS_ITEM (e_minicard)->canvas)) {
+			if (gtk_widget_has_grab (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas))) {
 				gtk_grab_remove (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas));
 				gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (e_minicard), event->button.time);
 			}

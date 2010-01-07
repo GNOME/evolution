@@ -195,7 +195,7 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	attachment = e_attachment_new_for_message (message);
 	e_attachment_store_add_attachment (store, attachment);
@@ -248,7 +248,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	uids = g_ptr_array_new ();
 

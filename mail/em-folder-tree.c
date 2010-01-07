@@ -568,7 +568,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	camel_exception_init (&ex);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (folder_tree));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);

@@ -389,7 +389,7 @@ component_interface_grab_focus (AtkComponent *comp)
         gtk_widget_queue_draw (day_view->main_canvas);
 
         toplevel = gtk_widget_get_toplevel (GTK_WIDGET (day_view));
-        if (GTK_WIDGET_TOPLEVEL (toplevel))
+        if (gtk_widget_is_toplevel (toplevel))
                 gtk_window_present (GTK_WINDOW (toplevel));
 
         return TRUE;

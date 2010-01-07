@@ -218,8 +218,8 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 			    G_CALLBACK (e_sendoptions_clicked_cb), account);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (data->parent));
-	if (!GTK_WIDGET_TOPLEVEL (parent))
-	parent = NULL;
+	if (!gtk_widget_is_toplevel (parent))
+		parent = NULL;
 
 	gtk_widget_set_size_request (button, 10, -1);
 	gtk_box_pack_start (GTK_BOX (vbox), frame, 0, 0, 0);

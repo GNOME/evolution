@@ -465,7 +465,7 @@ do_grab_focus_cb (GtkWidget *widget, gpointer data)
 	if (*done)
 		return;
 
-	if (widget && GTK_WIDGET_CAN_FOCUS (widget)) {
+	if (widget && gtk_widget_get_can_focus (widget)) {
 		*done = TRUE;
 		gtk_widget_grab_focus (widget);
 	}

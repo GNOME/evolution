@@ -378,7 +378,7 @@ component_interface_grab_focus (AtkComponent *component)
 
 	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas));
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas));
-	if (toplevel && GTK_WIDGET_TOPLEVEL (toplevel))
+	if (toplevel && gtk_widget_is_toplevel (toplevel))
 		gtk_window_present (GTK_WINDOW (toplevel));
 
 	return TRUE;

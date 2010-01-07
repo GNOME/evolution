@@ -1463,7 +1463,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			thiswidth = widget->allocation.width - GTK_CONTAINER (widget)->border_width * 2;
 			thisheight = widget->allocation.height - GTK_CONTAINER (widget)->border_width * 2;
 
-			if (GTK_WIDGET_HAS_DEFAULT (widget) &&
+			if (gtk_widget_has_default (widget) &&
 			    GTK_BUTTON (widget)->relief == GTK_RELIEF_NORMAL)
 				{
 					gtk_paint_box (widget->style, drawable,
@@ -1472,7 +1472,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						       thisx + xoff, thisy + yoff, thiswidth, thisheight);
 				}
 
-			if (GTK_WIDGET_CAN_DEFAULT (widget)) {
+			if (gtk_widget_get_can_default (widget)) {
 				thisx += widget->style->xthickness;
 				thisy += widget->style->ythickness;
 				thiswidth -= 2 * thisx + default_spacing;

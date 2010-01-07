@@ -255,7 +255,7 @@ action_http_open_cb (GtkAction *action,
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
@@ -311,7 +311,7 @@ action_send_message_cb (GtkAction *action,
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
@@ -684,7 +684,7 @@ web_view_link_clicked (GtkHTML *html,
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (html));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	e_show_uri (parent, uri);
 }

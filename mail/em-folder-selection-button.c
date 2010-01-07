@@ -213,7 +213,7 @@ folder_selection_button_clicked (GtkButton *button)
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	emft = (EMFolderTree *) em_folder_tree_new ();
 	emu_restore_folder_tree_state (emft);

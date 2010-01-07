@@ -219,7 +219,7 @@ timezone_entry_mnemonic_activate (GtkWidget *widget,
 
 	priv = E_TIMEZONE_ENTRY_GET_PRIVATE (widget);
 
-	if (GTK_WIDGET_CAN_FOCUS (widget)) {
+	if (gtk_widget_get_can_focus (widget)) {
 		if (priv->button != NULL)
 			gtk_widget_grab_focus (priv->button);
 	}

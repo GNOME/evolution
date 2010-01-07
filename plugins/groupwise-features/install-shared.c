@@ -167,7 +167,7 @@ apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (assistant));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	accept_data = g_new0(struct AcceptData, 1);
 	folder_tree = (EMFolderTree *) em_folder_tree_new ();

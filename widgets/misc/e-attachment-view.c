@@ -75,7 +75,7 @@ action_add_cb (GtkAction *action,
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	store = e_attachment_view_get_store (view);
 	e_attachment_store_run_load_dialog (store, parent);
@@ -150,7 +150,7 @@ action_properties_cb (GtkAction *action,
 	attachment = selected->data;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	dialog = e_attachment_dialog_new (parent, attachment);
 	gtk_dialog_run (GTK_DIALOG (dialog));
@@ -174,7 +174,7 @@ action_recent_cb (GtkAction *action,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	uri = gtk_recent_chooser_get_current_uri (chooser);
 	attachment = e_attachment_new_for_uri (uri);
@@ -204,7 +204,7 @@ action_save_all_cb (GtkAction *action,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	/* XXX We lose the previous selection. */
 	e_attachment_view_select_all (view);
@@ -244,7 +244,7 @@ action_save_as_cb (GtkAction *action,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 
@@ -398,7 +398,7 @@ attachment_view_netscape_url (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	attachment = e_attachment_new_for_uri (strv[0]);
 	e_attachment_store_add_attachment (store, attachment);
@@ -453,7 +453,7 @@ attachment_view_text_calendar (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, mime_part);
@@ -509,7 +509,7 @@ attachment_view_text_x_vcard (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, mime_part);
@@ -548,7 +548,7 @@ attachment_view_uris (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	for (ii = 0; uris[ii] != NULL; ii++) {
 		EAttachment *attachment;
@@ -1012,7 +1012,7 @@ e_attachment_view_open_path (EAttachmentView *view,
 	gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	e_attachment_open_async (
 		attachment, app_info, (GAsyncReadyCallback)

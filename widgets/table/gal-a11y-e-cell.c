@@ -212,7 +212,7 @@ gal_a11y_e_cell_grab_focus (AtkComponent *component)
 		GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
 	toplevel = gtk_widget_get_toplevel (
 		GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
-	if (toplevel && GTK_WIDGET_TOPLEVEL (toplevel))
+	if (toplevel && gtk_widget_is_toplevel (toplevel))
 		gtk_window_present (GTK_WINDOW (toplevel));
 
 	return TRUE;

@@ -86,7 +86,7 @@ action_image_set_as_background_saved_cb (EAttachment *attachment,
 
 error:
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	dialog = gtk_message_dialog_new_with_markup (
 		parent, GTK_DIALOG_DESTROY_WITH_PARENT,

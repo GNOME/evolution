@@ -80,7 +80,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view)
 		return;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tree_view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	response = e_alert_run_dialog_for_args (
 		parent, "mail:ask-delete-proxy-accounts", NULL);
@@ -110,7 +110,7 @@ account_prefs_add_account (EAccountManager *manager)
 	}
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	/** @HookPoint-EMConfig: New Mail Account Assistant
 	 * @Id: org.gnome.evolution.mail.config.accountAssistant
@@ -153,7 +153,7 @@ account_prefs_edit_account (EAccountManager *manager)
 	g_return_if_fail (account != NULL);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	/** @HookPoint-EMConfig: Mail Account Editor
 	 * @Id: org.gnome.evolution.mail.config.accountEditor
@@ -196,7 +196,7 @@ account_prefs_delete_account (EAccountManager *manager)
 		return;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	has_proxies =
 		e_account_list_account_has_proxies (account_list, account);

@@ -1873,7 +1873,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	priv = gcal->priv;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	source = e_cal_get_source (ecal);
 	state = e_cal_get_load_state (ecal);
@@ -2056,7 +2056,7 @@ backend_error_cb (ECal *client, const gchar *message, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	uristr = get_uri_without_password (e_cal_get_uri (client));
 	id = g_strdup ("calendar:error-on-loading-the-calendar");
@@ -2091,7 +2091,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	priv = gcal->priv;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	/* FIXME What about default sources? */
 

@@ -1260,7 +1260,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (cal_view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	priv = cal_view->priv;
 

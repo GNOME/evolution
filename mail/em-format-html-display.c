@@ -834,7 +834,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	e_attachment_set_can_show (attachment, info->handle != NULL);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	view = em_format_html_display_get_attachment_view (efhd);
 	gtk_widget_show (GTK_WIDGET (view));

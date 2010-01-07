@@ -511,7 +511,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (widget);
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	emft =(EMFolderTree *) em_folder_tree_new ();
 	emu_restore_folder_tree_state (emft);

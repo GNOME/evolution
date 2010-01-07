@@ -315,7 +315,7 @@ weekday_picker_focus (GtkWidget *widget,
 	wp = WEEKDAY_PICKER (widget);
 	priv = wp->priv;
 
-	if (!GTK_WIDGET_CAN_FOCUS (widget))
+	if (!gtk_widget_get_can_focus (widget))
 		return FALSE;
 
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {

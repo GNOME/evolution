@@ -100,7 +100,7 @@ signature_manager_run_script_dialog (ESignatureManager *manager,
 	gchar *path;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	dialog = e_signature_script_dialog_new (parent);
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
@@ -317,7 +317,7 @@ signature_manager_editor_created (ESignatureManager *manager,
 
 	position = GTK_WIN_POS_CENTER_ON_PARENT;
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 	gtk_window_set_position (GTK_WINDOW (editor), position);

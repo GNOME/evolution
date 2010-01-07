@@ -84,7 +84,7 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 	 *       finally resolved. */
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (combo_box));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	object = G_OBJECT (combo_box->priv->other_action);
 	charset = g_object_get_data (object, "charset");

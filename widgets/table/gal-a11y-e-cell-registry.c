@@ -122,7 +122,7 @@ gal_a11y_e_cell_registry_get_object     (GalA11yECellRegistry     *registry,
 		registry = default_registry;
 	}
 
-	type = GTK_OBJECT_TYPE (cell_view->ecell);
+	type = G_OBJECT_TYPE (cell_view->ecell);
 	while (func == NULL && type != 0) {
 		func = g_hash_table_lookup (registry->priv->table, GINT_TO_POINTER (type));
 		type = g_type_parent (type);

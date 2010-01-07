@@ -578,7 +578,7 @@ e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
 	cal = E_CALENDAR (widget);
 	canvas = GNOME_CANVAS (widget);
 
-	if (!GTK_WIDGET_CAN_FOCUS (widget))
+	if (!gtk_widget_get_can_focus (widget))
 		return FALSE;
 
 	children[0] = GNOME_CANVAS_ITEM (cal->calitem);

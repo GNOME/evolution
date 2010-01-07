@@ -329,7 +329,7 @@ attachment_handler_import_to_calendar (GtkAction *action,
 	view = e_attachment_handler_get_view (handler);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -356,7 +356,7 @@ attachment_handler_import_to_tasks (GtkAction *action,
 	view = e_attachment_handler_get_view (handler);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);

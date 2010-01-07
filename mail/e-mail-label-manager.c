@@ -159,7 +159,7 @@ mail_label_manager_add_label (EMailLabelManager *manager)
 	const gchar *label_name;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 	dialog = e_mail_label_dialog_new (parent);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));

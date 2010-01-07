@@ -561,7 +561,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too)
 
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-	g_return_if_fail (GTK_WIDGET_CAN_FOCUS (GTK_WIDGET (item->canvas)));
+	g_return_if_fail (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)));
 
 	focused_item = item->canvas->focused_item;
 

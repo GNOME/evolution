@@ -827,7 +827,7 @@ emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	parent = gtk_widget_get_toplevel (widget);
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	html_mode = e_shell_settings_get_boolean (
 		shell_settings, "composer-format-html");
