@@ -142,11 +142,23 @@ show_map_general (ESourceSelector *selector)
 			EContact *contact;
 			EContactAddress *addr;
 			GHashTable *details;
+			gint i;
+			const gint addr_fields[] = {
+				E_CONTACT_ADDRESS_HOME,
+				E_CONTACT_ADDRESS_WORK,
+				E_CONTACT_ADDRESS_OTHER
+			};
 
 			contact = tmp->data;
 
 			/* Get the lat & lng and add the marker asynchronously */
-			addr = e_contact_get (contact, E_CONTACT_ADDRESS_HOME);
+			i = 0;
+			addr = NULL;
+			while (!addr && i<G_N_ELEMENTS(addr_fields)) {
+				addr = e_contact_get(contact, addr_fields[i]);
+				i++;
+			}
+
 			details = (GHashTable*) get_geoclue_from_address (addr);
 			fields = geoclue_geocode_address_to_position (geocoder, details,
 					&lat, &lng, NULL, &accuracy, &error);
