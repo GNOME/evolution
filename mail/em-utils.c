@@ -2210,3 +2210,38 @@ em_utils_guess_account (CamelMimeMessage *message, CamelFolder *folder)
 
 	return account;
 }
+
+void
+emu_restore_folder_tree_state (EMFolderTree *folder_tree)
+{
+	EShell *shell;
+	EShellBackend *backend;
+	GKeyFile *key_file;
+	const gchar *config_dir;
+	gchar *filename;
+	GError *error = NULL;
+
+	g_return_if_fail (folder_tree != NULL);
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	shell = e_shell_get_default ();
+	backend = e_shell_get_backend_by_name (shell, "mail");
+	g_return_if_fail (backend != NULL);
+
+	config_dir = e_shell_backend_get_config_dir (backend);
+	g_return_if_fail (config_dir != NULL);
+
+	filename = g_build_filename (config_dir, "state", NULL);
+
+	key_file = g_key_file_new ();
+	g_key_file_load_from_file (key_file, filename, 0, &error);
+	g_free (filename);
+
+	if (error) {
+		g_error_free (error);
+	} else {
+		em_folder_tree_restore_state (folder_tree, key_file);
+	}
+
+	g_key_file_free (key_file);
+}

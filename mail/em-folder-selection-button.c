@@ -216,6 +216,7 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 	emft = (EMFolderTree *) em_folder_tree_new ();
+	emu_restore_folder_tree_state (emft);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
 	if (priv->multiple_select)

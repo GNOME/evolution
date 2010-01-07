@@ -374,6 +374,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 	/* XXX Do we leak this reference. */
 	emft = (EMFolderTree *) em_folder_tree_new ();
+	emu_restore_folder_tree_state (emft);
 
 	em_folder_tree_set_excluded_func (
 		emft, emfu_copy_folder_exclude, cfd);
@@ -651,6 +652,7 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 	GtkWidget *dialog;
 
 	folder_tree = (EMFolderTree *) em_folder_tree_new ();
+	emu_restore_folder_tree_state (folder_tree);
 
 	dialog = em_folder_selector_create_new (
 		parent, folder_tree, 0,

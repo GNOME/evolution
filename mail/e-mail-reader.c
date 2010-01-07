@@ -181,6 +181,7 @@ action_mail_copy_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	folder_tree = em_folder_tree_new ();
+	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
 
 	em_folder_tree_set_excluded (
 		EM_FOLDER_TREE (folder_tree),
@@ -558,6 +559,7 @@ action_mail_move_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 
 	folder_tree = em_folder_tree_new ();
+	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
 
 	em_folder_tree_set_excluded (
 		EM_FOLDER_TREE (folder_tree),

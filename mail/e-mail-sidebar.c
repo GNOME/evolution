@@ -31,8 +31,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate))
 
-#define STATE_KEY_EXPANDED	"Expanded"
-
 struct _EMailSidebarPrivate {
 	GKeyFile *key_file;  /* not owned */
 };
@@ -55,13 +53,8 @@ mail_sidebar_restore_state (EMailSidebar *sidebar)
 {
 	EMFolderTree *folder_tree;
 	GtkTreeModel *tree_model;
-	GtkTreeView *tree_view;
-	GtkTreeIter iter;
 	GKeyFile *key_file;
-	gboolean valid;
 	gchar *selected;
-	gchar **groups;
-	gint ii;
 
 	key_file = e_mail_sidebar_get_key_file (sidebar);
 
@@ -70,9 +63,7 @@ mail_sidebar_restore_state (EMailSidebar *sidebar)
 		return;
 
 	folder_tree = EM_FOLDER_TREE (sidebar);
-
-	tree_view = GTK_TREE_VIEW (sidebar);
-	tree_model = gtk_tree_view_get_model (tree_view);
+	tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (sidebar));
 
 	/* Restore selected folder. */
 
@@ -83,93 +74,7 @@ mail_sidebar_restore_state (EMailSidebar *sidebar)
 		g_free (selected);
 	}
 
-	/* Set the initial folder tree expanded state in two stages:
-	 *
-	 * 1) Iterate over the "Store" and "Folder" state file groups
-	 *    and apply the "Expanded" keys where possible.
-	 *
-	 * 2) Iterate over the top-level nodes in the folder tree
-	 *    (these are all stores) and expand those that have no
-	 *    corresponding "Expanded" key in the state file.  This
-	 *    ensures that new stores are expanded by default.
-	 */
-
-	/* Stage 1 */
-
-	/* Collapse all so we have a clean slate. */
-	gtk_tree_view_collapse_all (tree_view);
-
-	groups = g_key_file_get_groups (key_file, NULL);
-
-	for (ii = 0; groups[ii] != NULL; ii++) {
-		GtkTreeRowReference *reference;
-		GtkTreePath *path;
-		GtkTreeIter iter;
-		const gchar *group_name = groups[ii];
-		const gchar *key = STATE_KEY_EXPANDED;
-		const gchar *uri;
-		gboolean expanded;
-
-		if (g_str_has_prefix (group_name, "Store ")) {
-			uri = group_name + 6;
-			expanded = TRUE;
-		} else if (g_str_has_prefix (group_name, "Folder ")) {
-			uri = group_name + 7;
-			expanded = FALSE;
-		} else
-			continue;
-
-		if (g_key_file_has_key (key_file, group_name, key, NULL))
-			expanded = g_key_file_get_boolean (
-				key_file, group_name, key, NULL);
-
-		if (!expanded)
-			continue;
-
-		reference = em_folder_tree_model_lookup_uri (
-			EM_FOLDER_TREE_MODEL (tree_model), uri);
-		if (reference == NULL)
-			continue;
-
-		path = gtk_tree_row_reference_get_path (reference);
-		gtk_tree_model_get_iter (tree_model, &iter, path);
-		gtk_tree_view_expand_row (tree_view, path, FALSE);
-		gtk_tree_path_free (path);
-	}
-
-	g_strfreev (groups);
-
-	/* Stage 2 */
-
-	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
-
-	while (valid) {
-		const gchar *key = STATE_KEY_EXPANDED;
-		gchar *group_name;
-		gchar *uri;
-
-		gtk_tree_model_get (
-			tree_model, &iter, COL_STRING_URI, &uri, -1);
-
-		if (uri == NULL)
-			goto next;
-
-		group_name = g_strdup_printf ("Store %s", uri);
-
-		if (!g_key_file_has_key (key_file, group_name, key, NULL)) {
-			GtkTreePath *path;
-
-			path = gtk_tree_model_get_path (tree_model, &iter);
-			gtk_tree_view_expand_row (tree_view, path, FALSE);
-			gtk_tree_path_free (path);
-		}
-
-		g_free (group_name);
-		g_free (uri);
-
-	next:
-		valid = gtk_tree_model_iter_next (tree_model, &iter);
-	}
+	em_folder_tree_restore_state (folder_tree, key_file);
 }
 
 static void

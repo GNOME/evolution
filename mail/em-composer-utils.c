@@ -2309,6 +2309,7 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	GList *list;
 
 	folder_tree = em_folder_tree_new ();
+	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);

@@ -53,6 +53,8 @@ typedef struct _EMFolderTree EMFolderTree;
 typedef struct _EMFolderTreeClass EMFolderTreeClass;
 typedef struct _EMFolderTreePrivate EMFolderTreePrivate;
 
+#define STATE_KEY_EXPANDED	"Expanded"
+
 /* not sure this api is the best, but its the easiest to implement and will cover what we need */
 #define EMFT_EXCLUDE_NOSELECT CAMEL_FOLDER_NOSELECT
 #define EMFT_EXCLUDE_NOINFERIORS CAMEL_FOLDER_NOINFERIORS
@@ -122,6 +124,8 @@ void		em_folder_tree_set_skip_double_click
 						(EMFolderTree *folder_tree,
 						 gboolean skip);
 
+void		em_folder_tree_restore_state	(EMFolderTree *folder_tree,
+						 GKeyFile *key_file);
 G_END_DECLS
 
 #endif /* EM_FOLDER_TREE_H */

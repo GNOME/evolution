@@ -514,6 +514,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 	emft =(EMFolderTree *) em_folder_tree_new ();
+	emu_restore_folder_tree_state (emft);
 	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT);
 
 	dialog = em_folder_selector_new (

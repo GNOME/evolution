@@ -33,6 +33,7 @@
 #include <camel/camel-stream.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/em-folder-tree.h>
 
 G_BEGIN_DECLS
 
@@ -108,6 +109,8 @@ struct _EAccount *em_utils_guess_account_with_recipients (CamelMimeMessage *mess
 void emu_remove_from_mail_cache (const GSList *addresses);
 void emu_remove_from_mail_cache_1 (const gchar *address);
 void emu_free_mail_cache (void);
+
+void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 
 G_END_DECLS
 
