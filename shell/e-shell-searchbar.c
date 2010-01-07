@@ -166,7 +166,8 @@ shell_searchbar_execute_search_cb (EShellView *shell_view,
 	 * focus-in event is required before the text can be changed.
 	 * This will reset the entry to the appropriate visual state. */
 	widget = searchbar->priv->search_entry;
-	gtk_widget_child_focus (widget, GTK_DIR_TAB_FORWARD);
+	if (gtk_widget_is_focus (widget))
+		gtk_widget_child_focus (widget, GTK_DIR_TAB_FORWARD);
 }
 
 static void
