@@ -194,6 +194,23 @@ e_info_label_new(const gchar *icon)
 	return (GtkWidget *)el;
 }
 
+static gchar *
+ensure_utf8 (const gchar *text)
+{
+	gchar *res = g_strdup (text), *p;
+
+	if (!text)
+		return res;
+
+	p = res;
+	while (!g_utf8_validate (p, -1, (const gchar **) &p)) {
+		/* make all invalid characters appear as question marks */
+		*p = '?';
+	}
+
+	return res;
+}
+
 /**
  * e_info_label_set_info:
  * @el:
@@ -210,6 +227,7 @@ void
 e_info_label_set_info(EInfoLabel *el, const gchar *location, const gchar *info)
 {
 	gchar *markup;
+	gchar *tmp;
 
 	if (el->location == NULL) {
 		el->location = gtk_label_new (NULL);
@@ -235,12 +253,15 @@ e_info_label_set_info(EInfoLabel *el, const gchar *location, const gchar *info)
 		gtk_widget_set_state (GTK_WIDGET (el), GTK_STATE_ACTIVE);
 	}
 
-	markup = g_markup_printf_escaped ("<b>%s</b>", location);
+	tmp = ensure_utf8 (location);
+	markup = g_markup_printf_escaped ("<b>%s</b>", tmp);
 	gtk_label_set_markup (GTK_LABEL (el->location), markup);
 	g_free (markup);
+	g_free (tmp);
 
-	markup = g_markup_printf_escaped ("<small>%s</small>", info);
+	tmp = ensure_utf8 (info);
+	markup = g_markup_printf_escaped ("<small>%s</small>", tmp);
 	gtk_label_set_markup (GTK_LABEL (el->info), markup);
 	g_free (markup);
+	g_free (tmp);
 }
-
