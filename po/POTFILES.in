@@ -93,7 +93,6 @@ calendar/gui/e-cal-list-view.etspec
 calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
 calendar/gui/e-cal-model.c
-calendar/gui/e-calendar-table.c
 calendar/gui/e-calendar-table.etspec
 calendar/gui/e-calendar-view.c
 calendar/gui/e-cell-date-edit-text.c
@@ -109,6 +108,7 @@ calendar/gui/e-meeting-time-sel.c
 calendar/gui/e-meeting-time-sel.etspec
 calendar/gui/e-memo-table.c
 calendar/gui/e-memo-table.etspec
+calendar/gui/e-task-table.c
 calendar/gui/e-timezone-entry.c
 calendar/gui/e-week-view-main-item.c
 calendar/gui/e-week-view.c
@@ -461,6 +461,7 @@ widgets/misc/e-canvas-background.c
 widgets/misc/e-canvas-vbox.c
 widgets/misc/e-charset-combo-box.c
 widgets/misc/e-dateedit.c
+widgets/misc/e-focus-tracker.c
 widgets/misc/e-image-chooser.c
 widgets/misc/e-import-assistant.c
 widgets/misc/e-map.c
