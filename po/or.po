@@ -1,21 +1,22 @@
-# translation of evolution.gnome-2-28.or.po to Oriya
+# translation of or.po to Oriya
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #: ../shell/main.c:631
 # Subhransu Behera <arya_subhransu@yahoo.co.in>, 2006.
-# Manoj Kumar Giri <mgiri@redhat.com>, 2009.
+# Manoj Kumar Giri <mgiri@redhat.com>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.gnome-2-28.or\n"
+"Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-17 15:31+0530\n"
+"PO-Revision-Date: 2010-01-07 17:44+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -4641,7 +4642,7 @@ msgid ""
 "Hours\n"
 "Days"
 msgstr ""
-"ମିିନିଟ\n"
+"ମିନିଟ\n"
 "ଘଣ୍ଟା\n"
 "ଦିନ"
 
@@ -10868,11 +10869,11 @@ msgstr "ସେଟ ହୋଇଛି"
 #: ../mail/em-filter-i18n.h:41 ../mail/mail-config.glade.h:102
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Junk"
+msgstr "ଜଙ୍କ"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Junk Test"
-msgstr "Junk ପରୀକ୍ଷା"
+msgstr "ଜଙ୍କ ପରୀକ୍ଷା"
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Label"
@@ -12015,7 +12016,7 @@ msgstr "ସ୍ବୟଂଚାଳିତ ସଂଯୋଗ ମାନ୍ୟତା"
 
 #: ../mail/evolution-mail.schemas.in.h:9
 msgid "Check incoming mail being junk"
-msgstr "ଆସୁଥିବା junk ମେଲକୁ ଯାଞ୍ଚ କରନ୍ତୁ"
+msgstr "ଆସୁଥିବା ଅଦରକାରୀ ମେଲକୁ ଯାଞ୍ଚ କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:10
 msgid "Citation highlight color"
@@ -12458,19 +12459,19 @@ msgstr "ସନ୍ଦେଶ-ପ୍ରଦର୍ଶନ ଶୈଳୀ (\"normal\", \"
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid "Minimum days between emptying the junk on exit"
-msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ଦିନ"
+msgstr "ପ୍ରସ୍ଥାନରେ ଅଦରକାରୀକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ଦିନ"
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Minimum days between emptying the trash on exit"
-msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ଦିନ"
+msgstr "ପ୍ରସ୍ଥାନରେ ଅଦରକାରୀକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ଦିନ"
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ସମୟ, ଦିନ ଆକାରରେ।"
+msgstr "ପ୍ରସ୍ଥାନରେ ଅଦରକାରୀକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ସମୟ, ଦିନ ଆକାରରେ।"
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ସମୟ, ଦିନ ଆକାରରେ।"
+msgstr "ପ୍ରସ୍ଥାନରେ ଅଦରକାରୀକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ସମୟ, ଦିନ ଆକାରରେ।"
 
 #: ../mail/evolution-mail.schemas.in.h:100
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -12547,7 +12548,7 @@ msgstr "ପାଠ୍ୟଗୁଡ଼ିକରେ ସଂଯୋଗକୁ ଚିହ�
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Run junk test on incoming mail."
-msgstr "ଆସୁଥିବା ମେଲରେ junk ପରୀକ୍ଷଣ ଚଲାନ୍ତୁ।"
+msgstr "ଆସୁଥିବା ମେଲରେ ଅଦରକାରୀ ପରୀକ୍ଷଣ ଚଲାନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Save directory"
@@ -13021,8 +13022,8 @@ msgstr[1] "%d ବିଲୋପ ହୋଇଛି"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d junk"
-msgstr[1] "%d junk"
+msgstr[0] "%d ଅଦରକାରୀ"
+msgstr[1] "%d ଅଦରକାରୀ"
 
 #: ../mail/mail-component.c:587
 #, c-format
@@ -13291,11 +13292,11 @@ msgstr "ସମର୍ଥିତ ପ୍ରକାର ପାଇଁ ଯାଞ୍ଚ �
 
 #: ../mail/mail-config.glade.h:57
 msgid "Check cu_stom headers for junk"
-msgstr "junk ପାଇଁ ଇଚ୍ଛାମୁତାବକ ଶୀର୍ଷକ ଯାଞ୍ଚ କରନ୍ତୁ (_s)"
+msgstr "ଅଦରକାରୀ ପାଇଁ ଇଚ୍ଛାମୁତାବକ ଶୀର୍ଷକ ଯାଞ୍ଚ କରନ୍ତୁ (_s)"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Check incoming _messages for junk"
-msgstr "junk ପାଇଁ ଆସୁଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ଯାଞ୍ଚ କରନ୍ତୁ (_m)"
+msgstr "ଅଦରକାରୀ ପାଇଁ ଆସୁଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ଯାଞ୍ଚ କରନ୍ତୁ (_m)"
 
 #: ../mail/mail-config.glade.h:59
 msgid "Check spelling while I _type"
@@ -13347,7 +13348,7 @@ msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଅକ୍ଷର ସା
 
 #: ../mail/mail-config.glade.h:74
 msgid "Delete junk messages on e_xit"
-msgstr "ପ୍ରସ୍ଥାନ କରିବା ସମୟରେ junk ସନ୍ଦେଶଗୁଡ଼ିକୁ ଅପସାରଣ କରନ୍ତୁ (_x)"
+msgstr "ପ୍ରସ୍ଥାନ କରିବା ସମୟରେ ଅଦରକାରୀ ସନ୍ଦେଶଗୁଡ଼ିକୁ ଅପସାରଣ କରନ୍ତୁ (_x)"
 
 #: ../mail/mail-config.glade.h:76
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -13702,7 +13703,7 @@ msgstr "ସର୍ବଦା ଇଣ୍ଟରନେଟରୁ ପ୍ରତିଛବ�
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Default junk plugin:"
-msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ junk ପ୍ଲଗଇନ (_D):"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଅଦରକାରୀ ପ୍ଲଗଇନ (_D):"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Direct connection to the Internet"
@@ -20284,11 +20285,11 @@ msgstr "ବସ୍ତୁ"
 
 #: ../smime/lib/e-cert.c:816
 msgid "SSL Certificate Authority"
-msgstr "SSL"
+msgstr "SSL ପ୍ରମାଣପତ୍ର ଅଧିକାରୀ"
 
 #: ../smime/lib/e-cert.c:820
 msgid "Email Certificate Authority"
-msgstr "ଇ-ଡାକ"
+msgstr "ଇ-ଡାକ ପ୍ରମାଣପତ୍ର ଅଧିକାରୀ"
 
 #: ../smime/lib/e-cert.c:848
 msgid "Signing"
@@ -21668,7 +21669,7 @@ msgstr "କେବଳ ପାଠ୍ୟ (_T)"
 
 #: ../ui/evolution.xml.h:56
 msgid "_Window"
-msgstr "ଓ୍ବିଣ୍ଡୋ (_W)"
+msgstr "ୱିଣ୍ଡୋ (_W)"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
