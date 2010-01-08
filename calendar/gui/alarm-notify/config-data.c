@@ -209,9 +209,11 @@ config_data_get_timezone (void)
 
 	ensure_inited ();
 
-	location = gconf_client_get_string (conf_client,
-					    "/apps/evolution/calendar/display/timezone",
-					    NULL);
+	if (gconf_client_get_bool (conf_client, "/apps/evolution/calendar/display/use_system_timezone", NULL))
+		location = e_cal_util_get_system_timezone_location ();
+	else 
+		location = gconf_client_get_string (conf_client, "/apps/evolution/calendar/display/timezone", NULL);
+
 	if (location && location[0]) {
 		local_timezone = icaltimezone_get_builtin_timezone (location);
 	} else {
