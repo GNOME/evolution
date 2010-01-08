@@ -211,6 +211,32 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 }
 
 /**
+ * e_utf8_ensure_valid:
+ * @string String to make valid UTF-8.
+ *
+ * Ensures the returned string will be valid UTF-8 string, thus gtk functions expecting
+ * only valid UTF-8 texts will not crash.
+ *
+ * Returned pointer should be freed with g_free.
+ **/
+gchar *
+e_utf8_ensure_valid (const gchar *string)
+{
+	gchar *res = g_strdup (string), *p;
+
+	if (!res)
+		return res;
+
+	p = res;
+	while (!g_utf8_validate (p, -1, (const gchar **) &p)) {
+		/* make all invalid characters appear as question marks */
+		*p = '?';
+	}
+
+	return res;
+}
+
+/**
  * e_unichar_to_utf8:
  * @c: a ISO10646 character code
  * @outbuf: output buffer, must have at least 6 bytes of space.

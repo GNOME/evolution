@@ -47,6 +47,7 @@ gchar       *e_utf8_to_charset_string_sized                 (const gchar   *char
 							     gint           bytes);
 gchar       *e_utf8_from_locale_string_sized                (const gchar   *string,
 							     gint           bytes);
+gchar       *e_utf8_ensure_valid			    (const gchar   *string);
 /*
  * These are simple wrappers that save us some typing
  */

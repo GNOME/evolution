@@ -41,6 +41,7 @@
 #include <mail/em-format-html.h>
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-util.h>
+#include <e-util/e-unicode.h>
 #include <calendar/gui/itip-utils.h>
 #include "itip-view.h"
 
@@ -1246,25 +1247,6 @@ itip_view_get_item_type (ItipView *view)
 	return priv->type;
 }
 
-/* ensures the returned text will be valid UTF-8 text, thus gtk functions expecting
-   only valid UTF-8 texts will not crash. Returned pointer should be freed with g_free. */
-static gchar *
-ensure_utf8 (const gchar *text)
-{
-	gchar *res = g_strdup (text), *p;
-
-	if (!text)
-		return res;
-
-	p = res;
-	while (!g_utf8_validate (p, -1, (const gchar **) &p)) {
-		/* make all invalid characters appear as question marks */
-		*p = '?';
-	}
-
-	return res;
-}
-
 void
 itip_view_set_organizer (ItipView *view, const gchar *organizer)
 {
@@ -1278,7 +1260,7 @@ itip_view_set_organizer (ItipView *view, const gchar *organizer)
 	if (priv->organizer)
 		g_free (priv->organizer);
 
-	priv->organizer = ensure_utf8 (organizer);
+	priv->organizer = e_utf8_ensure_valid (organizer);
 
 	set_sender_text (view);
 }
@@ -1309,7 +1291,7 @@ itip_view_set_organizer_sentby (ItipView *view, const gchar *sentby)
 	if (priv->organizer_sentby)
 		g_free (priv->organizer_sentby);
 
-	priv->organizer_sentby = ensure_utf8 (sentby);
+	priv->organizer_sentby = e_utf8_ensure_valid (sentby);
 
 	set_sender_text (view);
 }
@@ -1340,7 +1322,7 @@ itip_view_set_attendee (ItipView *view, const gchar *attendee)
 	if (priv->attendee)
 		g_free (priv->attendee);
 
-	priv->attendee = ensure_utf8 (attendee);
+	priv->attendee = e_utf8_ensure_valid (attendee);
 
 	set_sender_text (view);
 }
@@ -1371,7 +1353,7 @@ itip_view_set_attendee_sentby (ItipView *view, const gchar *sentby)
 	if (priv->attendee_sentby)
 		g_free (priv->attendee_sentby);
 
-	priv->attendee_sentby = ensure_utf8 (sentby);
+	priv->attendee_sentby = e_utf8_ensure_valid (sentby);
 
 	set_sender_text (view);
 }
@@ -1402,7 +1384,7 @@ itip_view_set_proxy (ItipView *view, const gchar *proxy)
 	if (priv->proxy)
 		g_free (priv->proxy);
 
-	priv->proxy = ensure_utf8 (proxy);
+	priv->proxy = e_utf8_ensure_valid (proxy);
 
 	set_sender_text (view);
 }
@@ -1433,7 +1415,7 @@ itip_view_set_delegator (ItipView *view, const gchar *delegator)
 	if (priv->delegator)
 		g_free (priv->delegator);
 
-	priv->delegator = ensure_utf8 (delegator);
+	priv->delegator = e_utf8_ensure_valid (delegator);
 
 	set_sender_text (view);
 }
@@ -1464,7 +1446,7 @@ itip_view_set_summary (ItipView *view, const gchar *summary)
 	if (priv->summary)
 		g_free (priv->summary);
 
-	priv->summary = summary ? g_strstrip (ensure_utf8 (summary)) : NULL;
+	priv->summary = summary ? g_strstrip (e_utf8_ensure_valid (summary)) : NULL;
 
 	set_summary_text (view);
 }
@@ -1495,7 +1477,7 @@ itip_view_set_location (ItipView *view, const gchar *location)
 	if (priv->location)
 		g_free (priv->location);
 
-	priv->location = location ? g_strstrip (ensure_utf8 (location)) : NULL;
+	priv->location = location ? g_strstrip (e_utf8_ensure_valid (location)) : NULL;
 
 	set_location_text (view);
 }
@@ -1526,7 +1508,7 @@ itip_view_set_status (ItipView *view, const gchar *status)
 	if (priv->status)
 		g_free (priv->status);
 
-	priv->status = status ? g_strstrip (ensure_utf8 (status)) : NULL;
+	priv->status = status ? g_strstrip (e_utf8_ensure_valid (status)) : NULL;
 
 	set_status_text (view);
 }
@@ -1557,7 +1539,7 @@ itip_view_set_comment (ItipView *view, const gchar *comment)
 	if (priv->comment)
 		g_free (priv->comment);
 
-	priv->comment = comment ? g_strstrip (ensure_utf8 (comment)) : NULL;
+	priv->comment = comment ? g_strstrip (e_utf8_ensure_valid (comment)) : NULL;
 
 	set_comment_text (view);
 }
@@ -1588,7 +1570,7 @@ itip_view_set_description (ItipView *view, const gchar *description)
 	if (priv->description)
 		g_free (priv->description);
 
-	priv->description = description ? g_strstrip (ensure_utf8 (description)) : NULL;
+	priv->description = description ? g_strstrip (e_utf8_ensure_valid (description)) : NULL;
 
 	set_description_text (view);
 }
@@ -1702,7 +1684,7 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	item = g_new0 (ItipViewInfoItem, 1);
 
 	item->type = type;
-	item->message = ensure_utf8 (message);
+	item->message = e_utf8_ensure_valid (message);
 	item->id = priv->next_info_item_id++;
 
 	priv->upper_info_items = g_slist_append (priv->upper_info_items, item);
@@ -1797,7 +1779,7 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	item = g_new0 (ItipViewInfoItem, 1);
 
 	item->type = type;
-	item->message = ensure_utf8 (message);
+	item->message = e_utf8_ensure_valid (message);
 	item->id = priv->next_info_item_id++;
 
 	priv->lower_info_items = g_slist_append (priv->lower_info_items, item);

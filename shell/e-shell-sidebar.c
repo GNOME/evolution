@@ -22,6 +22,7 @@
 #include "e-shell-sidebar.h"
 
 #include <e-util/e-binding.h>
+#include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 
 #define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
@@ -604,7 +605,7 @@ e_shell_sidebar_set_primary_text (EShellSidebar *shell_sidebar,
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
 	g_free (shell_sidebar->priv->primary_text);
-	shell_sidebar->priv->primary_text = g_strdup (primary_text);
+	shell_sidebar->priv->primary_text = e_utf8_ensure_valid (primary_text);
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
 	g_object_notify (G_OBJECT (shell_sidebar), "primary-text");
@@ -650,7 +651,7 @@ e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
 	g_free (shell_sidebar->priv->secondary_text);
-	shell_sidebar->priv->secondary_text = g_strdup (secondary_text);
+	shell_sidebar->priv->secondary_text = e_utf8_ensure_valid (secondary_text);
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
 	g_object_notify (G_OBJECT (shell_sidebar), "secondary-text");
