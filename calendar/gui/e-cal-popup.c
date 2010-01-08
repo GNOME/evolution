@@ -219,8 +219,9 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 {
 	ECalPopupTargetSelect *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
-	ECal *client;
+	ECal *client = NULL;
 	gboolean read_only, user_org = FALSE;
+	ECalModelComponent *comp_data = NULL;
 
 	/* FIXME: This is duplicated in e-cal-menu */
 
@@ -230,8 +231,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 
 	if (t->events->len == 0) {
 		client = e_cal_model_get_default_client(t->model);
-	} else {
-		ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[0];
+	} else if ((comp_data = (ECalModelComponent *)t->events->pdata[0]) != NULL) {
 		ECalComponent *comp;
 		gchar *user_email = NULL;
 
