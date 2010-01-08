@@ -1154,7 +1154,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 	if (uids)
 		setup_forward_attached_callbacks (composer, folder, uids);
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	if (!e_msg_composer_get_lite())
 		gtk_widget_show (GTK_WIDGET (composer));
@@ -1243,7 +1243,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 				}
 
 				emu_update_composers_security (composer, validity_found);
-				composer_set_no_change (composer, TRUE, FALSE);
+				composer_set_no_change (composer, TRUE, TRUE);
 				if (!e_msg_composer_get_lite())
 					gtk_widget_show (GTK_WIDGET (composer));
 			}
@@ -1422,7 +1422,7 @@ em_utils_redirect_message (CamelMimeMessage *message)
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 }
 
 static void
@@ -2291,7 +2291,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	emcs_set_folder_info (emcs, folder, uid, flags, flags);
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	if (!e_msg_composer_get_lite())
 		gtk_widget_show (GTK_WIDGET (composer));
