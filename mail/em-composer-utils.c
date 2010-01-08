@@ -1065,7 +1065,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 	if (uids)
 		setup_forward_attached_callbacks (composer, folder, uids);
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	if (!e_msg_composer_get_lite())
 		gtk_widget_show (GTK_WIDGET (composer));
@@ -1148,7 +1148,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 				if (uids && uids->pdata[i])
 					em_composer_utils_setup_callbacks (composer, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED, NULL, NULL);
 
-				composer_set_no_change (composer, TRUE, FALSE);
+				composer_set_no_change (composer, TRUE, TRUE);
 				if (!e_msg_composer_get_lite())
 					gtk_widget_show (GTK_WIDGET (composer));
 			}
@@ -1329,7 +1329,7 @@ em_utils_redirect_message (CamelMimeMessage *message)
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 }
 
 static void
@@ -2410,7 +2410,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	if (!e_msg_composer_get_lite())
 		gtk_widget_show (GTK_WIDGET (composer));
