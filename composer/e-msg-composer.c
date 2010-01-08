@@ -57,25 +57,6 @@
 #include "em-format/em-format-quote.h"
 #include "misc/e-web-view.h"
 
-#include <camel/camel-charset-map.h>
-#include <camel/camel-cipher-context.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-gpg-context.h>
-#include <camel/camel-iconv.h>
-#include <camel/camel-mime-filter-basic.h>
-#include <camel/camel-mime-filter-canon.h>
-#include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-mime-filter-tohtml.h>
-#include <camel/camel-multipart-encrypted.h>
-#include <camel/camel-multipart-signed.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-string-utils.h>
-#if defined (HAVE_NSS)
-#include <camel/camel-smime-context.h>
-#endif
-
 #include "e-msg-composer.h"
 #include "e-attachment.h"
 #include "e-composer-autosave.h"
@@ -2099,58 +2080,6 @@ msg_composer_object_deleted (GtkhtmlEditor *editor)
 }
 
 static void
-msg_composer_uri_requested (GtkhtmlEditor *editor,
-                            const gchar *uri,
-                            GtkHTMLStream *stream)
-{
-	GtkhtmlEditorClass *editor_class;
-	EMsgComposer *composer;
-	GHashTable *hash_table;
-	GByteArray *array;
-	CamelDataWrapper *wrapper;
-	CamelStream *camel_stream;
-	CamelMimePart *part;
-	GtkHTML *html;
-
-	/* XXX It's unfortunate we have to expose GtkHTML structs here.
-	 *     Maybe we could rework this to use a GOutputStream. */
-
-	composer = E_MSG_COMPOSER (editor);
-	html = gtkhtml_editor_get_html (editor);
-
-	hash_table = composer->priv->inline_images_by_url;
-	part = g_hash_table_lookup (hash_table, uri);
-
-	if (part == NULL) {
-		hash_table = composer->priv->inline_images;
-		part = g_hash_table_lookup (hash_table, uri);
-	}
-
-	if (part == NULL)
-		goto chainup;
-
-	array = g_byte_array_new ();
-	camel_stream = camel_stream_mem_new_with_byte_array (array);
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	camel_data_wrapper_decode_to_stream (wrapper, camel_stream);
-
-	gtk_html_write (
-		gtkhtml_editor_get_html (editor), stream,
-		(gchar *) array->data, array->len);
-
-	camel_object_unref (camel_stream);
-
-	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
-
-	return;
-
-chainup:
-	/* Chain up to parent's uri_requested() method. */
-	editor_class = GTKHTML_EDITOR_CLASS (parent_class);
-	editor_class->uri_requested (editor, uri, stream);
-}
-
-static void
 msg_composer_class_init (EMsgComposerClass *class)
 {
 	GObjectClass *object_class;
@@ -2187,7 +2116,6 @@ msg_composer_class_init (EMsgComposerClass *class)
 	editor_class->image_uri = msg_composer_image_uri;
 	editor_class->link_clicked = msg_composer_link_clicked;
 	editor_class->object_deleted = msg_composer_object_deleted;
-	editor_class->uri_requested = msg_composer_uri_requested;
 
 	g_object_class_install_property (
 		object_class,

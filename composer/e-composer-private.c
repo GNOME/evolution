@@ -82,6 +82,47 @@ composer_setup_recent_menu (EMsgComposer *composer)
 	gtk_ui_manager_ensure_update (ui_manager);
 }
 
+static void
+msg_composer_url_requested_cb (GtkHTML *html,
+                               const gchar *uri,
+                               GtkHTMLStream *stream,
+                               EMsgComposer *composer)
+{
+	GByteArray *array;
+	GHashTable *hash_table;
+	CamelDataWrapper *wrapper;
+	CamelStream *camel_stream;
+	CamelMimePart *mime_part;
+
+	hash_table = composer->priv->inline_images_by_url;
+	mime_part = g_hash_table_lookup (hash_table, uri);
+
+	if (mime_part == NULL) {
+		hash_table = composer->priv->inline_images;
+		mime_part = g_hash_table_lookup (hash_table, uri);
+	}
+
+	/* If this is not an inline image request,
+	 * allow the signal emission to continue. */
+	if (mime_part == NULL)
+		return;
+
+	array = g_byte_array_new ();
+	camel_stream = camel_stream_mem_new_with_byte_array (array);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	camel_data_wrapper_decode_to_stream (wrapper, camel_stream);
+
+	gtk_html_write (html, stream, (gchar *) array->data, array->len);
+
+	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
+
+	camel_object_unref (camel_stream);
+
+	/* gtk_html_end() destroys the GtkHTMLStream, so we need to
+	 * stop the signal emission so nothing else tries to use it. */
+	g_signal_stop_emission_by_name (html, "url-requested");
+}
+
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
@@ -94,12 +135,14 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *send_widget;
 	GtkWindow *window;
+	GtkHTML *html;
 	const gchar *path;
 	gchar *filename;
 	gint ii;
 	GError *error = NULL;
 
 	editor = GTKHTML_EDITOR (composer);
+	html = gtkhtml_editor_get_html (editor);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
 	if (composer->lite) {
@@ -303,6 +346,21 @@ e_composer_private_constructed (EMsgComposer *composer)
 			header, "visible",
 			action, "active");
 	}
+
+	/* Install a handler for inline images. */
+
+	/* XXX We no longer use GtkhtmlEditor::uri-requested because it
+	 *     conflicts with EWebView's url_requested() method, which
+	 *     unconditionally launches an async operation.  I changed
+	 *     GtkHTML::url-requested to be a G_SIGNAL_RUN_LAST so that
+	 *     our handler runs first.  If we can handle the request
+	 *     we'll stop the signal emission to prevent EWebView from
+	 *     launching an async operation.  Messy, but works until we
+	 *     switch to WebKit.  --mbarnes */
+
+	g_signal_connect (
+		html, "url-requested",
+		G_CALLBACK (msg_composer_url_requested_cb), composer);
 
 	priv->mail_sent = FALSE;
 }
