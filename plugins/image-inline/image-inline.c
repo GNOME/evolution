@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include <stdlib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <camel/camel-medium.h>
@@ -48,6 +49,82 @@ struct _ImageInlinePObject {
 	GdkPixbuf *pixbuf;
 	GtkWidget *widget;
 };
+
+static void
+auto_rotate (ImageInlinePObject *image_object)
+{
+	GdkPixbuf *pixbuf;
+	GdkPixbufRotation rotation;
+	const gchar *orientation;
+	gboolean flip;
+
+	/* Check for an "orientation" pixbuf option and honor it. */
+
+	pixbuf = image_object->pixbuf;
+	orientation = gdk_pixbuf_get_option (pixbuf, "orientation");
+
+	if (orientation == NULL)
+		return;
+
+	switch (strtol (orientation, NULL, 10)) {
+		case 1: /* top - left */
+			rotation = GDK_PIXBUF_ROTATE_NONE;
+			flip = FALSE;
+			break;
+
+		case 2: /* top - right */
+			rotation = GDK_PIXBUF_ROTATE_NONE;
+			flip = TRUE;
+			break;
+
+		case 3: /* bottom - right */
+			rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+			flip = FALSE;
+			break;
+
+		case 4: /* bottom - left */
+			rotation = GDK_PIXBUF_ROTATE_UPSIDEDOWN;
+			flip = TRUE;
+			break;
+
+		case 5: /* left/top */
+			rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+			flip = TRUE;
+			break;
+
+		case 6: /* right/top */
+			rotation = GDK_PIXBUF_ROTATE_CLOCKWISE;
+			flip = FALSE;
+			break;
+
+		case 7: /* right/bottom */
+			rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+			flip = TRUE;
+			break;
+
+		case 8: /* left/bottom */
+			rotation = GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE;
+			flip = FALSE;
+			break;
+
+		default:
+			g_return_if_reached ();
+	}
+
+	if (rotation != GDK_PIXBUF_ROTATE_NONE) {
+		pixbuf = gdk_pixbuf_rotate_simple (pixbuf, rotation);
+		g_return_if_fail (pixbuf != NULL);
+		g_object_unref (image_object->pixbuf);
+		image_object->pixbuf = pixbuf;
+	}
+
+	if (flip) {
+		pixbuf = gdk_pixbuf_flip (pixbuf, TRUE);
+		g_return_if_fail (pixbuf != NULL);
+		g_object_unref (image_object->pixbuf);
+		image_object->pixbuf = pixbuf;
+	}
+}
 
 static void
 set_drag_source (GtkImageView *image_view)
@@ -238,8 +315,10 @@ org_gnome_image_inline_decode (ImageInlinePObject *image_object)
 	}
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-	if (pixbuf != NULL)
+	if (pixbuf != NULL) {
 		image_object->pixbuf = g_object_ref (pixbuf);
+		auto_rotate (image_object);
+	}
 
 	gdk_pixbuf_loader_close (loader, &error);
 
