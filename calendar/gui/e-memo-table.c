@@ -731,6 +731,12 @@ memo_table_update_actions (ESelectable *selectable,
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
+	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
+	sensitive = (n_selected > 0) && sources_are_editable;
+	tooltip = _("Delete selected memos");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
 	sensitive = TRUE;
 	tooltip = _("Select all visible memos");
@@ -939,6 +945,77 @@ memo_table_paste_clipboard (ESelectable *selectable)
 	}
 }
 
+/* Used from e_table_selected_row_foreach(); puts the selected row number in an
+ * gint pointed to by the closure data.
+ */
+static void
+get_selected_row_cb (gint model_row, gpointer data)
+{
+	gint *row;
+
+	row = data;
+	*row = model_row;
+}
+
+/*
+ * Returns the component that is selected in the table; only works if there is
+ * one and only one selected row.
+ */
+static ECalModelComponent *
+get_selected_comp (EMemoTable *memo_table)
+{
+	ECalModel *model;
+	gint row;
+
+	model = e_memo_table_get_model (memo_table);
+	if (e_table_selected_count (E_TABLE (memo_table)) != 1)
+		return NULL;
+
+	row = -1;
+	e_table_selected_row_foreach (
+		E_TABLE (memo_table), get_selected_row_cb, &row);
+	g_return_val_if_fail (row != -1, NULL);
+
+	return e_cal_model_get_component_at (model, row);
+}
+
+static void
+memo_table_delete_selection (ESelectable *selectable)
+{
+	EMemoTable *memo_table;
+	ECalComponent *comp = NULL;
+	ECalModelComponent *comp_data;
+	gint n_selected;
+
+	memo_table = E_MEMO_TABLE (selectable);
+
+	n_selected = e_table_selected_count (E_TABLE (memo_table));
+	if (n_selected <= 0)
+		return;
+
+	if (n_selected == 1)
+		comp_data = get_selected_comp (memo_table);
+	else
+		comp_data = NULL;
+
+	/* FIXME: this may be something other than a TODO component */
+
+	if (comp_data) {
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (comp_data->icalcomp));
+	}
+
+	if (delete_component_dialog (
+		comp, FALSE, n_selected, E_CAL_COMPONENT_JOURNAL,
+		GTK_WIDGET (memo_table)))
+		delete_selected_components (memo_table);
+
+	/* free memory */
+	if (comp)
+		g_object_unref (comp);
+}
+
 static void
 memo_table_select_all (ESelectable *selectable)
 {
@@ -1044,6 +1121,7 @@ memo_table_selectable_init (ESelectableInterface *interface)
 	interface->cut_clipboard = memo_table_cut_clipboard;
 	interface->copy_clipboard = memo_table_copy_clipboard;
 	interface->paste_clipboard = memo_table_paste_clipboard;
+	interface->delete_selection = memo_table_delete_selection;
 	interface->select_all = memo_table_select_all;
 }
 
@@ -1128,40 +1206,6 @@ e_memo_table_get_shell_view (EMemoTable *memo_table)
 	return memo_table->priv->shell_view;
 }
 
-/* Used from e_table_selected_row_foreach(); puts the selected row number in an
- * gint pointed to by the closure data.
- */
-static void
-get_selected_row_cb (gint model_row, gpointer data)
-{
-	gint *row;
-
-	row = data;
-	*row = model_row;
-}
-
-/*
- * Returns the component that is selected in the table; only works if there is
- * one and only one selected row.
- */
-static ECalModelComponent *
-get_selected_comp (EMemoTable *memo_table)
-{
-	ECalModel *model;
-	gint row;
-
-	model = e_memo_table_get_model (memo_table);
-	if (e_table_selected_count (E_TABLE (memo_table)) != 1)
-		return NULL;
-
-	row = -1;
-	e_table_selected_row_foreach (
-		E_TABLE (memo_table), get_selected_row_cb, &row);
-	g_return_val_if_fail (row != -1, NULL);
-
-	return e_cal_model_get_component_at (model, row);
-}
-
 struct get_selected_uids_closure {
 	EMemoTable *memo_table;
 	GSList *objects;
@@ -1181,49 +1225,6 @@ add_uid_cb (gint model_row, gpointer data)
 	comp_data = e_cal_model_get_component_at (model, model_row);
 
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
-}
-
-/**
- * e_memo_table_delete_selected:
- * @memo_table: A memo table.
- *
- * Deletes the selected components in the table; asks the user first.
- **/
-void
-e_memo_table_delete_selected (EMemoTable *memo_table)
-{
-	gint n_selected;
-	ECalModelComponent *comp_data;
-	ECalComponent *comp = NULL;
-
-	g_return_if_fail (memo_table != NULL);
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	n_selected = e_table_selected_count (E_TABLE (memo_table));
-	if (n_selected <= 0)
-		return;
-
-	if (n_selected == 1)
-		comp_data = get_selected_comp (memo_table);
-	else
-		comp_data = NULL;
-
-	/* FIXME: this may be something other than a TODO component */
-
-	if (comp_data) {
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (comp_data->icalcomp));
-	}
-
-	if (delete_component_dialog (
-		comp, FALSE, n_selected, E_CAL_COMPONENT_JOURNAL,
-		GTK_WIDGET (memo_table)))
-		delete_selected_components (memo_table);
-
-	/* free memory */
-	if (comp)
-		g_object_unref (comp);
 }
 
 /**

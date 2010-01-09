@@ -28,6 +28,7 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/misc/e-paned.h"
+#include "widgets/misc/e-selectable.h"
 
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-view.h"
@@ -137,81 +138,6 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 		bridge, key, G_OBJECT (paned), "hposition");
 
 	cal_shell_content->priv->paned_binding_id = binding_id;
-}
-
-static FocusLocation
-cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
-{
-	GnomeCalendar *calendar;
-	GnomeCalendarViewType view_type;
-	ECalendarView *calendar_view;
-	EMemoTable *memo_table;
-	ETaskTable *task_table;
-	ETable *table;
-
-	/* XXX This function is silly.  Certainly there are better ways
-	 *     of directing user input to the focused area than polling
-	 *     a bunch of widgets to see what's focused. */
-
-	calendar = GNOME_CALENDAR (cal_shell_content->priv->calendar);
-	view_type = gnome_calendar_get_view (calendar);
-	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
-
-	memo_table = E_MEMO_TABLE (cal_shell_content->priv->memo_table);
-	task_table = E_TASK_TABLE (cal_shell_content->priv->task_table);
-
-	table = E_TABLE (memo_table);
-	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
-		return FOCUS_MEMO_TABLE;
-
-	table = E_TABLE (task_table);
-	if (gtk_widget_is_focus (GTK_WIDGET (table->table_canvas)))
-		return FOCUS_TASK_TABLE;
-
-	if (E_IS_DAY_VIEW (calendar_view)) {
-		EDayView *day_view = E_DAY_VIEW (calendar_view);
-
-		if (gtk_widget_is_focus (day_view->top_canvas))
-			return FOCUS_CALENDAR;
-
-		if (GNOME_CANVAS (day_view->top_canvas)->focused_item != NULL)
-			return FOCUS_CALENDAR;
-
-		if (gtk_widget_is_focus (day_view->main_canvas))
-			return FOCUS_CALENDAR;
-
-		if (GNOME_CANVAS (day_view->main_canvas)->focused_item != NULL)
-			return FOCUS_CALENDAR;
-
-		if (gtk_widget_is_focus (GTK_WIDGET (day_view)))
-			return FOCUS_CALENDAR;
-
-	} else if (E_IS_WEEK_VIEW (calendar_view)) {
-		EWeekView *week_view = E_WEEK_VIEW (calendar_view);
-
-		if (gtk_widget_is_focus (week_view->main_canvas))
-			return FOCUS_CALENDAR;
-
-		if (GNOME_CANVAS (week_view->main_canvas)->focused_item != NULL)
-			return FOCUS_CALENDAR;
-
-		if (gtk_widget_is_focus (GTK_WIDGET (week_view)))
-			return FOCUS_CALENDAR;
-
-	} else if (E_IS_CAL_LIST_VIEW (calendar_view)) {
-		ECalListView *list_view = E_CAL_LIST_VIEW (calendar_view);
-
-		if (gtk_widget_is_focus (GTK_WIDGET (list_view->table)))
-			return FOCUS_CALENDAR;
-
-		if (gtk_widget_is_focus (GTK_WIDGET (list_view->table->table_canvas)))
-			return FOCUS_CALENDAR;
-
-		if (gtk_widget_is_focus (GTK_WIDGET (list_view)))
-			return FOCUS_CALENDAR;
-	}
-
-	return FOCUS_OTHER;
 }
 
 static void
@@ -719,61 +645,4 @@ e_cal_shell_content_get_view_instance (ECalShellContent *cal_shell_content)
 		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
 	return cal_shell_content->priv->view_instance;
-}
-
-void
-e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
-{
-	GnomeCalendar *calendar;
-	EMemoTable *memo_table;
-	ETaskTable *task_table;
-	GnomeCalendarViewType view_type;
-	ECalendarView *calendar_view;
-
-	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
-
-	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-
-	view_type = gnome_calendar_get_view (calendar);
-	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
-
-	switch (cal_shell_content_get_focus_location (cal_shell_content)) {
-		case FOCUS_CALENDAR:
-			e_calendar_view_delete_selected_events (calendar_view);
-			break;
-
-		case FOCUS_MEMO_TABLE:
-			e_memo_table_delete_selected (memo_table);
-			break;
-
-		case FOCUS_TASK_TABLE:
-			e_task_table_delete_selected (task_table);
-			break;
-
-		default:
-			g_return_if_reached ();
-	}
-}
-
-void
-e_cal_shell_content_delete_selected_occurrence (ECalShellContent *cal_shell_content)
-{
-	GnomeCalendar *calendar;
-	GnomeCalendarViewType view_type;
-	ECalendarView *calendar_view;
-	FocusLocation focus;
-
-	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
-
-	focus = cal_shell_content_get_focus_location (cal_shell_content);
-	if (focus != FOCUS_CALENDAR)
-		return;
-
-	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
-	view_type = gnome_calendar_get_view (calendar);
-	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
-
-	e_calendar_view_delete_selected_occurrence (calendar_view);
 }

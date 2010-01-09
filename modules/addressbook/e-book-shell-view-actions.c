@@ -337,7 +337,7 @@ action_contact_delete_cb (GtkAction *action,
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
-	e_addressbook_view_delete_selection (view, TRUE);
+	e_selectable_delete_selection (E_SELECTABLE (view));
 }
 
 static void
@@ -661,7 +661,7 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-delete",
 	  GTK_STOCK_DELETE,
-	  N_("Del_ete Address Book"),
+	  N_("D_elete Address Book"),
 	  NULL,
 	  N_("Delete the selected address book"),
 	  G_CALLBACK (action_address_book_delete_cb) },
@@ -802,10 +802,6 @@ static EPopupActionEntry contact_popup_entries[] = {
 	{ "contact-popup-copy",
 	  NULL,
 	  "contact-copy" },
-
-	{ "contact-popup-delete",
-	  NULL,
-	  "contact-delete" },
 
 	{ "contact-popup-forward",
 	  NULL,
@@ -1041,9 +1037,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
 	/* Fine tuning. */
-
-	action = ACTION (CONTACT_DELETE);
-	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

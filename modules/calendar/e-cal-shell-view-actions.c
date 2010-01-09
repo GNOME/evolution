@@ -659,9 +659,17 @@ action_event_delete_cb (GtkAction *action,
                         ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	e_cal_shell_content_delete_selection (cal_shell_content);
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_selectable_delete_selection (E_SELECTABLE (calendar_view));
 }
 
 static void
@@ -669,20 +677,17 @@ action_event_delete_occurrence_cb (GtkAction *action,
                                    ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	e_cal_shell_content_delete_selected_occurrence (cal_shell_content);
-}
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-static void
-action_event_delete_occurrence_all_cb (GtkAction *action,
-                                       ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
 
-	/* XXX Same as "event-delete". */
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	e_cal_shell_content_delete_selection (cal_shell_content);
+	e_calendar_view_delete_selected_occurrence (calendar_view);
 }
 
 static void
@@ -1236,9 +1241,9 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-delete",
 	  GTK_STOCK_DELETE,
+	  N_("D_elete Calendar"),
 	  NULL,
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Delete the selected calendar"),
 	  G_CALLBACK (action_calendar_delete_cb) },
 
 	{ "calendar-go-back",
@@ -1327,9 +1332,9 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-delete",
 	  GTK_STOCK_DELETE,
-	  NULL,
+	  N_("_Delete Appointment"),
 	  "<Control>d",
-	  N_("Delete the appointment"),
+	  N_("Delete selected appointments"),
 	  G_CALLBACK (action_event_delete_cb) },
 
 	{ "event-delete-occurrence",
@@ -1341,10 +1346,10 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-delete-occurrence-all",
 	  GTK_STOCK_DELETE,
-	  N_("Delete _All Occurrences"),
+	  N_("Delete All Occ_urrences"),
 	  NULL,
 	  N_("Delete all occurrences"),
-	  G_CALLBACK (action_event_delete_occurrence_all_cb) },
+	  G_CALLBACK (action_event_delete_cb) },
 
 	{ "event-all-day-new",
 	  "stock_new-24h-appointment",
@@ -1451,7 +1456,7 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	  "calendar-copy" },
 
 	{ "calendar-popup-delete",
-	  NULL,
+	  N_("_Delete"),
 	  "calendar-delete" },
 
 	{ "calendar-popup-go-today",
@@ -1749,9 +1754,6 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_VIEW_WORKWEEK);
 	g_object_set (action, "is-important", TRUE, NULL);
-
-	action = ACTION (EVENT_DELETE);
-	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

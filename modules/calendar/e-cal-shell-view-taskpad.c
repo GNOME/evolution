@@ -47,23 +47,6 @@ action_calendar_taskpad_assign_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_delete_cb (GtkAction *action,
-                                   ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ETaskTable *task_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-
-	e_cal_shell_view_taskpad_set_status_message (
-		cal_shell_view, _("Deleting selected tasks..."), -1.0);
-	e_task_table_delete_selected (task_table);
-	e_cal_shell_view_taskpad_set_status_message (
-		cal_shell_view, NULL, -1.0);
-}
-
-static void
 action_calendar_taskpad_forward_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
@@ -329,13 +312,6 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_taskpad_assign_cb) },
 
-	{ "calendar-taskpad-delete",
-	  GTK_STOCK_DELETE,
-	  N_("_Delete Task"),
-	  NULL,
-	  N_("Delete selected tasks"),
-	  G_CALLBACK (action_calendar_taskpad_delete_cb) },
-
 	{ "calendar-taskpad-forward",
 	  "mail-forward",
 	  N_("_Forward as iCalendar..."),
@@ -428,7 +404,6 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	ETaskTable *task_table;
 	GtkAction *action;
 	GSList *list, *iter;
-	const gchar *label;
 	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
@@ -479,12 +454,6 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	action = ACTION (CALENDAR_TASKPAD_ASSIGN);
 	sensitive = (n_selected == 1) && editable && assignable;
 	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CALENDAR_TASKPAD_DELETE);
-	sensitive = (n_selected > 0) && editable;
-	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext ("Delete Task", "Delete Tasks", n_selected);
-	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (CALENDAR_TASKPAD_FORWARD);
 	sensitive = (n_selected == 1);

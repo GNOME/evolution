@@ -97,10 +97,6 @@ EShellSearchbar *
 GalViewInstance *
 		e_cal_shell_content_get_view_instance
 					(ECalShellContent *cal_shell_content);
-void		e_cal_shell_content_delete_selection
-					(ECalShellContent *cal_shell_content);
-void		e_cal_shell_content_delete_selected_occurrence
-					(ECalShellContent *cal_shell_content);
 
 G_END_DECLS
 

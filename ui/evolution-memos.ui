@@ -12,6 +12,7 @@
     <menu action='edit-menu'>
       <placeholder name='edit-actions'>
         <menuitem action='memo-delete'/>
+        <menuitem action='memo-list-delete'/>
       </placeholder>
     </menu>
     <menu action='view-menu'>
@@ -32,7 +33,7 @@
       <toolitem action='paste-clipboard'/>
       <separator/>
       <toolitem action='memo-list-print'/>
-      <toolitem action='memo-delete'/>
+      <toolitem action='delete-selection'/>
     </placeholder>
   </toolbar>
   <popup name='memo-popup'>
@@ -49,7 +50,7 @@
     <separator/>
     <menuitem action='memo-popup-forward'/>
     <separator/>
-    <menuitem action='memo-popup-delete'/>
+    <menuitem action='popup-delete-selection'/>
   </popup>
   <popup name='memo-list-popup'>
     <menuitem action='memo-list-new'/>

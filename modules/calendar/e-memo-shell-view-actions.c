@@ -47,19 +47,12 @@ action_memo_delete_cb (GtkAction *action,
                        EMemoShellView *memo_shell_view)
 {
 	EMemoShellContent *memo_shell_content;
-	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
-	e_memo_shell_view_set_status_message (
-		memo_shell_view, _("Deleting selected memos..."), -1.0);
-	e_memo_table_delete_selected (memo_table);
-	e_memo_shell_view_set_status_message (memo_shell_view, NULL, -1.0);
-
-	e_cal_component_preview_clear (memo_preview);
+	e_selectable_delete_selection (E_SELECTABLE (memo_table));
 }
 
 static void
@@ -587,9 +580,9 @@ static GtkActionEntry memo_entries[] = {
 
 	{ "memo-list-delete",
 	  GTK_STOCK_DELETE,
-	  N_("_Delete"),
+	  N_("D_elete Memo List"),
 	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Delete the selected memo list"),
 	  G_CALLBACK (action_memo_list_delete_cb) },
 
 	{ "memo-list-new",
@@ -665,7 +658,7 @@ static EPopupActionEntry memo_popup_entries[] = {
 	  "memo-list-copy" },
 
 	{ "memo-list-popup-delete",
-	  NULL,
+	  N_("_Delete"),
 	  "memo-list-delete" },
 
 	{ "memo-list-popup-properties",
@@ -683,10 +676,6 @@ static EPopupActionEntry memo_popup_entries[] = {
 	{ "memo-list-popup-select-one",
 	  NULL,
 	  "memo-list-select-one" },
-
-	{ "memo-popup-delete",
-	  NULL,
-	  "memo-delete" },
 
 	{ "memo-popup-forward",
 	  NULL,
@@ -918,9 +907,6 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
 	/* Fine tuning. */
-
-	action = ACTION (MEMO_DELETE);
-	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

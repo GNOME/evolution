@@ -24,23 +24,6 @@
 /* Much of this file is based on e-memo-shell-view-actions.c. */
 
 static void
-action_calendar_memopad_delete_cb (GtkAction *action,
-                                   ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-
-	e_cal_shell_view_memopad_set_status_message (
-		cal_shell_view, _("Deleting selected memos..."), -1.0);
-	e_memo_table_delete_selected (memo_table);
-	e_cal_shell_view_memopad_set_status_message (
-		cal_shell_view, NULL, -1.0);
-}
-
-static void
 action_calendar_memopad_forward_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
@@ -255,13 +238,6 @@ action_calendar_memopad_save_as_cb (GtkAction *action,
 
 static GtkActionEntry calendar_memopad_entries[] = {
 
-	{ "calendar-memopad-delete",
-	  GTK_STOCK_DELETE,
-	  N_("_Delete Memo"),
-	  NULL,
-	  N_("Delete selected memos"),
-	  G_CALLBACK (action_calendar_memopad_delete_cb) },
-
 	{ "calendar-memopad-forward",
 	  "mail-forward",
 	  N_("_Forward as iCalendar..."),
@@ -340,7 +316,6 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 	EMemoTable *memo_table;
 	GtkAction *action;
 	GSList *list, *iter;
-	const gchar *label;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
 	gboolean sensitive;
@@ -368,12 +343,6 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 		has_url |= (prop != NULL);
 	}
 	g_slist_free (list);
-
-	action = ACTION (CALENDAR_MEMOPAD_DELETE);
-	sensitive = (n_selected > 0) && editable;
-	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext ("Delete Memo", "Delete Memos", n_selected);
-	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (CALENDAR_MEMOPAD_FORWARD);
 	sensitive = (n_selected == 1);

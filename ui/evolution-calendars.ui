@@ -14,6 +14,7 @@
         <menuitem action='event-delete'/>
         <menuitem action='event-delete-occurrence'/>
         <menuitem action='event-delete-occurrence-all'/>
+        <menuitem action='calendar-delete'/>
       </placeholder>
     </menu>
     <menu action='view-menu'>
@@ -28,7 +29,7 @@
   </menubar>
   <toolbar name='main-toolbar'>
     <toolitem action='calendar-print'/>
-    <toolitem action='event-delete'/>
+    <toolitem action='delete-selection'/>
     <separator/>
     <toolitem action='calendar-go-back'/>
     <toolitem action='calendar-go-today'/>
@@ -115,7 +116,7 @@
     <separator/>
     <menuitem action='calendar-memopad-forward'/>
     <separator/>
-    <menuitem action='calendar-memopad-delete'/>
+    <menuitem action='popup-delete-selection'/>
   </popup>
   <popup name='calendar-taskpad-popup'>
     <menuitem action='calendar-taskpad-new'/>
@@ -134,7 +135,7 @@
     <menuitem action='calendar-taskpad-mark-complete'/>
     <menuitem action='calendar-taskpad-mark-incomplete'/>
     <separator/>
-    <menuitem action='calendar-taskpad-delete'/>
+    <menuitem action='popup-delete-selection'/>
   </popup>
   <popup name='calendar-search-options'>
     <menuitem action='calendar-search-advanced-hidden'/>

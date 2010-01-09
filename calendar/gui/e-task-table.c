@@ -271,6 +271,7 @@ delete_selected_components (ETaskTable *task_table)
 
 	g_slist_free (objs);
 }
+
 static void
 task_table_set_model (ETaskTable *task_table,
                       ECalModel *model)
@@ -911,6 +912,12 @@ task_table_update_actions (ESelectable *selectable,
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
+	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
+	sensitive = (n_selected > 0) && sources_are_editable;
+	tooltip = _("Delete selected tasks");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
 	sensitive = TRUE;
 	tooltip = _("Select all visible tasks");
@@ -1119,6 +1126,155 @@ task_table_paste_clipboard (ESelectable *selectable)
 	}
 }
 
+/* Used from e_table_selected_row_foreach(); puts the selected row number in an
+ * gint pointed to by the closure data.
+ */
+static void
+get_selected_row_cb (gint model_row, gpointer data)
+{
+	gint *row;
+
+	row = data;
+	*row = model_row;
+}
+
+/*
+ * Returns the component that is selected in the table; only works if there is
+ * one and only one selected row.
+ */
+static ECalModelComponent *
+get_selected_comp (ETaskTable *task_table)
+{
+	ECalModel *model;
+	gint row;
+
+	model = e_task_table_get_model (task_table);
+	if (e_table_selected_count (E_TABLE (task_table)) != 1)
+		return NULL;
+
+	row = -1;
+	e_table_selected_row_foreach (
+		E_TABLE (task_table), get_selected_row_cb, &row);
+	g_return_val_if_fail (row != -1, NULL);
+
+	return e_cal_model_get_component_at (model, row);
+}
+
+static void
+add_retract_data (ECalComponent *comp, const gchar *retract_comment)
+{
+	icalcomponent *icalcomp = NULL;
+	icalproperty *icalprop = NULL;
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	if (retract_comment && *retract_comment)
+		icalprop = icalproperty_new_x (retract_comment);
+	else
+		icalprop = icalproperty_new_x ("0");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
+	icalcomponent_add_property (icalcomp, icalprop);
+}
+
+static gboolean
+check_for_retract (ECalComponent *comp, ECal *client)
+{
+	ECalComponentOrganizer org;
+	gchar *email = NULL;
+	const gchar *strip = NULL;
+	gboolean ret_val;
+
+	if (!e_cal_component_has_attendees (comp))
+		return FALSE;
+
+	if (!e_cal_get_save_schedules (client))
+		return FALSE;
+
+	e_cal_component_get_organizer (comp, &org);
+	strip = itip_strip_mailto (org.value);
+
+	ret_val =
+		e_cal_get_cal_address (client, &email, NULL) &&
+		g_ascii_strcasecmp (email, strip) == 0;
+
+	g_free (email);
+
+	return ret_val;
+}
+
+static void
+task_table_delete_selection (ESelectable *selectable)
+{
+	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	ECalComponent *comp = NULL;
+	gboolean delete = FALSE;
+	gint n_selected;
+	GError *error = NULL;
+
+	task_table = E_TASK_TABLE (selectable);
+
+	n_selected = e_table_selected_count (E_TABLE (task_table));
+	if (n_selected <= 0)
+		return;
+
+	if (n_selected == 1)
+		comp_data = get_selected_comp (task_table);
+	else
+		comp_data = NULL;
+
+	/* FIXME: this may be something other than a TODO component */
+
+	if (comp_data) {
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (comp_data->icalcomp));
+	}
+
+	if ((n_selected == 1) && comp && check_for_retract (comp, comp_data->client)) {
+		gchar *retract_comment = NULL;
+		gboolean retract = FALSE;
+
+		delete = prompt_retract_dialog (
+			comp, &retract_comment,
+			GTK_WIDGET (task_table), &retract);
+		if (retract) {
+			GList *users = NULL;
+			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
+
+			add_retract_data (comp, retract_comment);
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+			if (!e_cal_send_objects (comp_data->client, icalcomp, &users,
+						&mod_comp, &error))	{
+				delete_error_dialog (error, E_CAL_COMPONENT_TODO);
+				g_clear_error (&error);
+				error = NULL;
+			} else {
+
+				if (mod_comp)
+					icalcomponent_free (mod_comp);
+
+				if (users) {
+					g_list_foreach (users, (GFunc) g_free, NULL);
+					g_list_free (users);
+				}
+			}
+
+		}
+	} else {
+		delete = delete_component_dialog (
+			comp, FALSE, n_selected,
+			E_CAL_COMPONENT_TODO, GTK_WIDGET (task_table));
+	}
+
+	if (delete)
+		delete_selected_components (task_table);
+
+	/* free memory */
+	if (comp)
+		g_object_unref (comp);
+}
+
 static void
 task_table_select_all (ESelectable *selectable)
 {
@@ -1224,6 +1380,7 @@ task_table_selectable_init (ESelectableInterface *interface)
 	interface->cut_clipboard = task_table_cut_clipboard;
 	interface->copy_clipboard = task_table_copy_clipboard;
 	interface->paste_clipboard = task_table_paste_clipboard;
+	interface->delete_selection = task_table_delete_selection;
 	interface->select_all = task_table_select_all;
 }
 
@@ -1307,40 +1464,6 @@ e_task_table_get_shell_view (ETaskTable *task_table)
 	return task_table->priv->shell_view;
 }
 
-/* Used from e_table_selected_row_foreach(); puts the selected row number in an
- * gint pointed to by the closure data.
- */
-static void
-get_selected_row_cb (gint model_row, gpointer data)
-{
-	gint *row;
-
-	row = data;
-	*row = model_row;
-}
-
-/*
- * Returns the component that is selected in the table; only works if there is
- * one and only one selected row.
- */
-static ECalModelComponent *
-get_selected_comp (ETaskTable *task_table)
-{
-	ECalModel *model;
-	gint row;
-
-	model = e_task_table_get_model (task_table);
-	if (e_table_selected_count (E_TABLE (task_table)) != 1)
-		return NULL;
-
-	row = -1;
-	e_table_selected_row_foreach (
-		E_TABLE (task_table), get_selected_row_cb, &row);
-	g_return_val_if_fail (row != -1, NULL);
-
-	return e_cal_model_get_component_at (model, row);
-}
-
 struct get_selected_uids_closure {
 	ETaskTable *task_table;
 	GSList *objects;
@@ -1358,127 +1481,6 @@ add_uid_cb (gint model_row, gpointer data)
 	comp_data = e_cal_model_get_component_at (model, model_row);
 
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
-}
-
-static void
-add_retract_data (ECalComponent *comp, const gchar *retract_comment)
-{
-	icalcomponent *icalcomp = NULL;
-	icalproperty *icalprop = NULL;
-
-	icalcomp = e_cal_component_get_icalcomponent (comp);
-	if (retract_comment && *retract_comment)
-		icalprop = icalproperty_new_x (retract_comment);
-	else
-		icalprop = icalproperty_new_x ("0");
-	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
-	icalcomponent_add_property (icalcomp, icalprop);
-}
-
-static gboolean
-check_for_retract (ECalComponent *comp, ECal *client)
-{
-	ECalComponentOrganizer org;
-	gchar *email = NULL;
-	const gchar *strip = NULL;
-	gboolean ret_val;
-
-	if (!e_cal_component_has_attendees (comp))
-		return FALSE;
-
-	if (!e_cal_get_save_schedules (client))
-		return FALSE;
-
-	e_cal_component_get_organizer (comp, &org);
-	strip = itip_strip_mailto (org.value);
-
-	ret_val =
-		e_cal_get_cal_address (client, &email, NULL) &&
-		g_ascii_strcasecmp (email, strip) == 0;
-
-	g_free (email);
-
-	return ret_val;
-}
-
-/**
- * e_task_table_delete_selected:
- * @task_table: A calendar table.
- *
- * Deletes the selected components in the table; asks the user first.
- **/
-void
-e_task_table_delete_selected (ETaskTable *task_table)
-{
-	gint n_selected;
-	ECalModelComponent *comp_data;
-	ECalComponent *comp = NULL;
-	gboolean delete = FALSE;
-	GError *error = NULL;
-
-	g_return_if_fail (task_table != NULL);
-	g_return_if_fail (E_IS_CALENDAR_TABLE (task_table));
-
-	n_selected = e_table_selected_count (E_TABLE (task_table));
-	if (n_selected <= 0)
-		return;
-
-	if (n_selected == 1)
-		comp_data = get_selected_comp (task_table);
-	else
-		comp_data = NULL;
-
-	/* FIXME: this may be something other than a TODO component */
-
-	if (comp_data) {
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (comp_data->icalcomp));
-	}
-
-	if ((n_selected == 1) && comp && check_for_retract (comp, comp_data->client)) {
-		gchar *retract_comment = NULL;
-		gboolean retract = FALSE;
-
-		delete = prompt_retract_dialog (
-			comp, &retract_comment,
-			GTK_WIDGET (task_table), &retract);
-		if (retract) {
-			GList *users = NULL;
-			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
-
-			add_retract_data (comp, retract_comment);
-			icalcomp = e_cal_component_get_icalcomponent (comp);
-			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_send_objects (comp_data->client, icalcomp, &users,
-						&mod_comp, &error))	{
-				delete_error_dialog (error, E_CAL_COMPONENT_TODO);
-				g_clear_error (&error);
-				error = NULL;
-			} else {
-
-				if (mod_comp)
-					icalcomponent_free (mod_comp);
-
-				if (users) {
-					g_list_foreach (users, (GFunc) g_free, NULL);
-					g_list_free (users);
-				}
-			}
-
-		}
-	} else {
-		delete = delete_component_dialog (
-			comp, FALSE, n_selected,
-			E_CAL_COMPONENT_TODO, GTK_WIDGET (task_table));
-	}
-
-	if (delete)
-		delete_selected_components (task_table);
-
-	/* free memory */
-	if (comp)
-		g_object_unref (comp);
 }
 
 /**

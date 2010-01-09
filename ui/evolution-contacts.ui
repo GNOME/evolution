@@ -45,7 +45,7 @@
   </menubar>
   <toolbar name='main-toolbar'>
     <toolitem action='address-book-print'/>
-    <toolitem action='contact-delete'/>
+    <toolitem action='delete-selection'/>
     <toolitem action='address-book-stop'/>
   </toolbar>
   <popup name='address-book-popup'>
@@ -64,17 +64,18 @@
     <separator/>
     <menuitem action='contact-popup-open'/>
     <menuitem action='contact-popup-save-as'/>
-    <menuitem action='contact-popup-forward'/>
-    <menuitem action='contact-popup-send-message'/>
     <menuitem action='contact-popup-print'/>
-    <separator/>
-    <menuitem action='contact-popup-copy'/>
-    <menuitem action='contact-popup-move'/>
     <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>
     <menuitem action='popup-paste-clipboard'/>
-    <menuitem action='contact-popup-delete'/>
+    <separator/>
+    <menuitem action='contact-popup-copy'/>
+    <menuitem action='contact-popup-move'/>
+    <menuitem action='contact-popup-forward'/>
+    <menuitem action='contact-popup-send-message'/>
+    <separator/>
+    <menuitem action='popup-delete-selection'/>
   </popup>
   <popup name='contact-search-options'>
     <menuitem action='contact-search-advanced-hidden'/>

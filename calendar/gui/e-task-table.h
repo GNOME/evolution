@@ -92,7 +92,6 @@ GtkWidget *	e_task_table_new		(EShellView *shell_view,
 						 ECalModel *model);
 ECalModel *	e_task_table_get_model		(ETaskTable *task_table);
 EShellView *	e_task_table_get_shell_view	(ETaskTable *task_table);
-void		e_task_table_delete_selected	(ETaskTable *task_table);
 GSList *	e_task_table_get_selected	(ETaskTable *task_table);
 ECalModelComponent *
 		e_task_table_get_selected_comp

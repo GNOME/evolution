@@ -78,19 +78,12 @@ action_task_delete_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ECalComponentPreview *task_preview;
 	ETaskTable *task_table;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
-	e_task_shell_view_set_status_message (
-		task_shell_view, _("Deleting selected tasks..."), -1.0);
-	e_task_table_delete_selected (task_table);
-	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
-
-	e_cal_component_preview_clear (task_preview);
+	e_selectable_delete_selection (E_SELECTABLE (task_table));
 }
 
 static void
@@ -711,9 +704,9 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-list-delete",
 	  GTK_STOCK_DELETE,
-	  N_("_Delete"),
+	  N_("D_elete Task List"),
 	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Delete the selected task list"),
 	  G_CALLBACK (action_task_list_delete_cb) },
 
 	{ "task-list-new",
@@ -817,7 +810,7 @@ static EPopupActionEntry task_popup_entries[] = {
 	  "task-list-copy" },
 
 	{ "task-list-popup-delete",
-	  NULL,
+	  N_("_Delete"),
 	  "task-list-delete" },
 
 	{ "task-list-popup-properties",
@@ -839,10 +832,6 @@ static EPopupActionEntry task_popup_entries[] = {
 	{ "task-popup-assign",
 	  NULL,
 	  "task-assign" },
-
-	{ "task-popup-delete",
-	  NULL,
-	  "task-delete" },
 
 	{ "task-popup-forward",
 	  NULL,
@@ -1117,9 +1106,6 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
 	/* Fine tuning. */
-
-	action = ACTION (TASK_DELETE);
-	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

@@ -587,6 +587,12 @@ addressbook_view_update_actions (ESelectable *selectable,
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
+	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
+	sensitive = source_is_editable && (n_selected > 0);
+	tooltip = _("Delete selected contacts");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
 	sensitive = (n_contacts > 0);
 	tooltip = _("Select all visible contacts");
@@ -657,6 +663,16 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 
 	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
 	g_list_free (contact_list);
+}
+
+static void
+addressbook_view_delete_selection (ESelectable *selectable)
+{
+	EAddressbookView *view;
+
+	view = E_ADDRESSBOOK_VIEW (selectable);
+
+	e_addressbook_view_delete_selection (view, TRUE);
 }
 
 static void
@@ -782,6 +798,7 @@ addressbook_view_selectable_init (ESelectableInterface *interface)
 	interface->cut_clipboard = addressbook_view_cut_clipboard;
 	interface->copy_clipboard = addressbook_view_copy_clipboard;
 	interface->paste_clipboard = addressbook_view_paste_clipboard;
+	interface->delete_selection = addressbook_view_delete_selection;
 	interface->select_all = addressbook_view_select_all;
 }
 

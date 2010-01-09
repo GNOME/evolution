@@ -41,6 +41,7 @@
 #include "shell/e-shell-sidebar.h"
 #include "shell/e-shell-utils.h"
 #include "misc/e-popup-action.h"
+#include "misc/e-selectable.h"
 
 #include "addressbook/util/eab-book-util.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"

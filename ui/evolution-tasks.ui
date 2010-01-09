@@ -12,6 +12,7 @@
     <menu action='edit-menu'>
       <placeholder name='edit-actions'>
         <menuitem action='task-delete'/>
+        <menuitem action='task-list-delete'/>
         <separator/>
         <menuitem action='task-mark-complete'/>
         <menuitem action='task-mark-incomplete'/>
@@ -41,7 +42,7 @@
     <toolitem action='paste-clipboard'/>
     <separator/>
     <toolitem action='task-print'/>
-    <toolitem action='task-delete'/>
+    <toolitem action='delete-selection'/>
   </toolbar>
   <popup name='task-popup'>
     <menuitem action='task-new'/>
@@ -60,7 +61,7 @@
     <menuitem action='task-popup-mark-complete'/>
     <menuitem action='task-popup-mark-incomplete'/>
     <separator/>
-    <menuitem action='task-popup-delete'/>
+    <menuitem action='popup-delete-selection'/>
   </popup>
   <popup name='task-list-popup'>
     <menuitem action='task-list-new'/>

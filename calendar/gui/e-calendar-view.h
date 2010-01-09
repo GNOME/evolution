@@ -176,10 +176,6 @@ gboolean	e_calendar_view_get_visible_time_range
 						 time_t *end_time);
 void		e_calendar_view_update_query	(ECalendarView *cal_view);
 
-void		e_calendar_view_delete_selected_event
-						(ECalendarView *cal_view);
-void		e_calendar_view_delete_selected_events
-						(ECalendarView *cal_view);
 void		e_calendar_view_delete_selected_occurrence
 						(ECalendarView *cal_view);
 CompEditor *	e_calendar_view_open_event_with_flags

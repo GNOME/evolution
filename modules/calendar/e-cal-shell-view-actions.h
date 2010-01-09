@@ -91,8 +91,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-occurrence-movable")
 
 /* Memo Pad Actions */
-#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_DELETE(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-delete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_FORWARD(window) \
         E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-forward")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_NEW(window) \
@@ -109,8 +107,6 @@
 /* Task Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_ASSIGN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-assign")
-#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_DELETE(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-delete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_FORWARD(window) \
         E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-forward")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_MARK_COMPLETE(window) \

@@ -35,7 +35,8 @@
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
-#include "widgets/misc/e-popup-action.h"
+#include "misc/e-popup-action.h"
+#include "misc/e-selectable.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"

@@ -103,6 +103,138 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, calendar_view_selectable_init));
 
 static void
+calendar_view_add_retract_data (ECalComponent *comp,
+                                const gchar *retract_comment,
+                                CalObjModType mod)
+{
+	icalcomponent *icalcomp = NULL;
+	icalproperty *icalprop = NULL;
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	if (retract_comment && *retract_comment)
+		icalprop = icalproperty_new_x (retract_comment);
+	else
+		icalprop = icalproperty_new_x ("0");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
+	icalcomponent_add_property (icalcomp, icalprop);
+
+	if (mod == CALOBJ_MOD_ALL)
+		icalprop = icalproperty_new_x ("All");
+	else
+		icalprop = icalproperty_new_x ("This");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RECUR-MOD");
+	icalcomponent_add_property (icalcomp, icalprop);
+}
+
+static gboolean
+calendar_view_check_for_retract (ECalComponent *comp,
+                                 ECal *client)
+{
+	ECalComponentOrganizer organizer;
+	const gchar *strip;
+	gchar *email = NULL;
+	gboolean ret_val;
+
+	if (!e_cal_component_has_attendees (comp))
+		return FALSE;
+
+	if (!e_cal_get_save_schedules (client))
+		return FALSE;
+
+	e_cal_component_get_organizer (comp, &organizer);
+	strip = itip_strip_mailto (organizer.value);
+
+	ret_val =
+		e_cal_get_cal_address (client, &email, NULL) &&
+		(g_ascii_strcasecmp (email, strip) == 0);
+
+	g_free (email);
+
+	return ret_val;
+}
+
+static void
+calendar_view_delete_event (ECalendarView *cal_view,
+                            ECalendarViewEvent *event)
+{
+	ECalComponent *comp;
+	ECalComponentVType vtype;
+	gboolean  delete = FALSE;
+	GError *error = NULL;
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	vtype = e_cal_component_get_vtype (comp);
+
+	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */
+	if (!e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
+		e_cal_component_set_recurid (comp, NULL);
+
+	/*FIXME Retract should be moved to Groupwise features plugin */
+	if (calendar_view_check_for_retract (comp, event->comp_data->client)) {
+		gchar *retract_comment = NULL;
+		gboolean retract = FALSE;
+
+		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view), &retract);
+		if (retract) {
+			GList *users = NULL;
+			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
+
+			calendar_view_add_retract_data (
+				comp, retract_comment, CALOBJ_MOD_ALL);
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users,
+						&mod_comp, &error))	{
+				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+				g_clear_error (&error);
+				error = NULL;
+			} else {
+
+				if (mod_comp)
+					icalcomponent_free (mod_comp);
+
+				if (users) {
+					g_list_foreach (users, (GFunc) g_free, NULL);
+					g_list_free (users);
+				}
+			}
+		}
+	} else
+		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+
+	if (delete) {
+		const gchar *uid;
+		gchar *rid = NULL;
+
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
+		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
+						event->comp_data->client,
+						comp, TRUE))
+			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
+					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+
+		e_cal_component_get_uid (comp, &uid);
+		if (!uid || !*uid) {
+			g_object_unref (comp);
+			return;
+		}
+		rid = e_cal_component_get_recurid_as_string (comp);
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+			e_cal_remove_object_with_mod (event->comp_data->client, uid,
+				rid, CALOBJ_MOD_ALL, &error);
+		else
+			e_cal_remove_object (event->comp_data->client, uid, &error);
+
+		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+		g_clear_error (&error);
+		g_free (rid);
+	}
+
+	g_object_unref (comp);
+}
+
+static void
 calendar_view_set_model (ECalendarView *calendar_view,
                          ECalModel *model)
 {
@@ -189,6 +321,7 @@ calendar_view_update_actions (ESelectable *selectable,
 	GList *list, *iter;
 	gboolean sources_are_editable = TRUE;
 	gboolean clipboard_has_calendar;
+	gboolean recurring = FALSE;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_selected;
@@ -200,13 +333,22 @@ calendar_view_update_actions (ESelectable *selectable,
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalendarViewEvent *event = iter->data;
+		ECal *client;
+		icalcomponent *icalcomp;
 		gboolean read_only;
 
 		if (event == NULL || event->comp_data == NULL)
 			continue;
 
-		e_cal_is_read_only (event->comp_data->client, &read_only, NULL);
+		client = event->comp_data->client;
+		icalcomp = event->comp_data->icalcomp;
+
+		e_cal_is_read_only (client, &read_only, NULL);
 		sources_are_editable &= !read_only;
+
+		recurring |=
+			e_cal_util_component_is_instance (icalcomp) ||
+			e_cal_util_component_has_recurrences (icalcomp);
 	}
 
 	g_list_free (list);
@@ -230,6 +372,12 @@ calendar_view_update_actions (ESelectable *selectable,
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
 	sensitive = sources_are_editable && clipboard_has_calendar;
 	tooltip = _("Paste events from the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
+
+	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
+	sensitive = (n_selected > 0) && sources_are_editable && !recurring;
+	tooltip = _("Delete selected events");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 }
@@ -520,6 +668,29 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 }
 
 static void
+calendar_view_delete_selection (ESelectable *selectable)
+{
+	ECalendarView *cal_view;
+	GList *selected, *iter;
+
+	cal_view = E_CALENDAR_VIEW (selectable);
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		ECalendarViewEvent *event = iter->data;
+
+		/* XXX Why would this ever be NULL? */
+		if (event == NULL)
+			continue;
+
+		calendar_view_delete_event (cal_view, event);
+	}
+
+	g_list_free (selected);
+}
+
+static void
 e_calendar_view_class_init (ECalendarViewClass *class)
 {
 	GObjectClass *object_class;
@@ -659,6 +830,7 @@ calendar_view_selectable_init (ESelectableInterface *interface)
 	interface->cut_clipboard = calendar_view_cut_clipboard;
 	interface->copy_clipboard = calendar_view_copy_clipboard;
 	interface->paste_clipboard = calendar_view_paste_clipboard;
+	interface->delete_selection = calendar_view_delete_selection;
 }
 
 void
@@ -938,166 +1110,6 @@ e_calendar_view_update_query (ECalendarView *cal_view)
 	class->update_query (cal_view);
 }
 
-static void
-add_retract_data (ECalComponent *comp, const gchar *retract_comment, CalObjModType mod)
-{
-	icalcomponent *icalcomp = NULL;
-	icalproperty *icalprop = NULL;
-
-	icalcomp = e_cal_component_get_icalcomponent (comp);
-	if (retract_comment && *retract_comment)
-		icalprop = icalproperty_new_x (retract_comment);
-	else
-		icalprop = icalproperty_new_x ("0");
-	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
-	icalcomponent_add_property (icalcomp, icalprop);
-
-	if (mod == CALOBJ_MOD_ALL)
-		icalprop = icalproperty_new_x ("All");
-	else
-		icalprop = icalproperty_new_x ("This");
-	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RECUR-MOD");
-	icalcomponent_add_property (icalcomp, icalprop);
-}
-
-static gboolean
-check_for_retract (ECalComponent *comp, ECal *client)
-{
-	ECalComponentOrganizer org;
-	gchar *email = NULL;
-	const gchar *strip = NULL;
-	gboolean ret_val = FALSE;
-
-	if (!(e_cal_component_has_attendees (comp) &&
-				e_cal_get_save_schedules (client)))
-		return ret_val;
-
-	e_cal_component_get_organizer (comp, &org);
-	strip = itip_strip_mailto (org.value);
-
-	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
-		ret_val = TRUE;
-	}
-
-	g_free (email);
-	return ret_val;
-}
-
-static void
-delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
-{
-	ECalComponent *comp;
-	ECalComponentVType vtype;
-	gboolean  delete = FALSE;
-	GError *error = NULL;
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	vtype = e_cal_component_get_vtype (comp);
-
-	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */
-	if (!e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
-		e_cal_component_set_recurid (comp, NULL);
-
-	/*FIXME Retract should be moved to Groupwise features plugin */
-	if (check_for_retract (comp, event->comp_data->client)) {
-		gchar *retract_comment = NULL;
-		gboolean retract = FALSE;
-
-		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view), &retract);
-		if (retract) {
-			GList *users = NULL;
-			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
-
-			add_retract_data (comp, retract_comment, CALOBJ_MOD_ALL);
-			icalcomp = e_cal_component_get_icalcomponent (comp);
-			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users,
-						&mod_comp, &error))	{
-				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-				g_clear_error (&error);
-				error = NULL;
-			} else {
-
-				if (mod_comp)
-					icalcomponent_free (mod_comp);
-
-				if (users) {
-					g_list_foreach (users, (GFunc) g_free, NULL);
-					g_list_free (users);
-				}
-			}
-		}
-	} else
-		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
-
-	if (delete) {
-		const gchar *uid;
-		gchar *rid = NULL;
-
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
-		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-						event->comp_data->client,
-						comp, TRUE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
-
-		e_cal_component_get_uid (comp, &uid);
-		if (!uid || !*uid) {
-			g_object_unref (comp);
-			return;
-		}
-		rid = e_cal_component_get_recurid_as_string (comp);
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
-			e_cal_remove_object_with_mod (event->comp_data->client, uid,
-				rid, CALOBJ_MOD_ALL, &error);
-		else
-			e_cal_remove_object (event->comp_data->client, uid, &error);
-
-		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-		g_clear_error (&error);
-		g_free (rid);
-	}
-
-	g_object_unref (comp);
-}
-
-void
-e_calendar_view_delete_selected_event (ECalendarView *cal_view)
-{
-	GList *selected;
-	ECalendarViewEvent *event;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	event = (ECalendarViewEvent *) selected->data;
-	if (event)
-		delete_event (cal_view, event);
-
-	g_list_free (selected);
-}
-
-void
-e_calendar_view_delete_selected_events (ECalendarView *cal_view)
-{
-	GList *selected, *l;
-	ECalendarViewEvent *event;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	for (l = selected; l != NULL; l = l->next) {
-		event = (ECalendarViewEvent *) l->data;
-		if (event)
-			delete_event (cal_view, event);
-	}
-
-	g_list_free (selected);
-}
-
 void
 e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 {
@@ -1117,7 +1129,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	vtype = e_cal_component_get_vtype (comp);
 
 	/*FIXME Retract should be moved to Groupwise features plugin */
-	if (check_for_retract (comp, event->comp_data->client)) {
+	if (calendar_view_check_for_retract (comp, event->comp_data->client)) {
 		gchar *retract_comment = NULL;
 		gboolean retract = FALSE;
 
@@ -1126,7 +1138,8 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
 
-			add_retract_data (comp, retract_comment, CALOBJ_MOD_THIS);
+			calendar_view_add_retract_data (
+				comp, retract_comment, CALOBJ_MOD_THIS);
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
 			if (!e_cal_send_objects (event->comp_data->client, icalcomp, &users,
