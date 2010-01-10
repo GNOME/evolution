@@ -1848,10 +1848,9 @@ msg_composer_cut_clipboard (GtkhtmlEditor *editor)
 	widget = gtk_window_get_focus (GTK_WINDOW (editor));
 	parent = gtk_widget_get_parent (widget);
 
-	if (parent == composer->priv->header_table) {
-		gtk_editable_cut_clipboard (GTK_EDITABLE (widget));
+	/* EFocusTracker handles the header widgets. */
+	if (parent == composer->priv->header_table)
 		return;
-	}
 
 	/* Chain up to parent's cut_clipboard() method. */
 	GTKHTML_EDITOR_CLASS (parent_class)->cut_clipboard (editor);
@@ -1868,10 +1867,9 @@ msg_composer_copy_clipboard (GtkhtmlEditor *editor)
 	widget = gtk_window_get_focus (GTK_WINDOW (editor));
 	parent = gtk_widget_get_parent (widget);
 
-	if (parent == composer->priv->header_table) {
-		gtk_editable_copy_clipboard (GTK_EDITABLE (widget));
+	/* EFocusTracker handles the header widgets. */
+	if (parent == composer->priv->header_table)
 		return;
-	}
 
 	/* Chain up to parent's copy_clipboard() method. */
 	GTKHTML_EDITOR_CLASS (parent_class)->copy_clipboard (editor);
@@ -1890,10 +1888,9 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 	widget = gtk_window_get_focus (GTK_WINDOW (editor));
 	parent = gtk_widget_get_parent (widget);
 
-	if (parent == composer->priv->header_table) {
-		gtk_editable_paste_clipboard (GTK_EDITABLE (widget));
+	/* EFocusTracker handles the header widgets. */
+	if (parent == composer->priv->header_table)
 		return;
-	}
 
 	clipboard = gtk_widget_get_clipboard (widget, GDK_SELECTION_CLIPBOARD);
 
@@ -1922,12 +1919,12 @@ msg_composer_select_all (GtkhtmlEditor *editor)
 	widget = gtk_window_get_focus (GTK_WINDOW (editor));
 	parent = gtk_widget_get_parent (widget);
 
-	if (parent == composer->priv->header_table) {
-		gtk_editable_set_position (GTK_EDITABLE (widget), -1);
-		gtk_editable_select_region (GTK_EDITABLE (widget), 0, -1);
-	} else
-		/* Chain up to the parent's select_all() method. */
-		GTKHTML_EDITOR_CLASS (parent_class)->select_all (editor);
+	/* EFocusTracker handles the header widgets. */
+	if (parent == composer->priv->header_table)
+		return;
+
+	/* Chain up to the parent's select_all() method. */
+	GTKHTML_EDITOR_CLASS (parent_class)->select_all (editor);
 }
 
 static void
