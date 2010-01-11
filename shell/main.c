@@ -445,8 +445,6 @@ create_default_shell (void)
 
 	g_object_unref (client);
 
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
-
 	return shell;
 }
 
@@ -605,6 +603,8 @@ main (gint argc, gchar **argv)
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
 	e_shell_migrate_attempt (shell);
+
+	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 
 	gtk_main ();
 
