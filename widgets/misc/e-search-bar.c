@@ -246,13 +246,7 @@ clear_verb_cb (BonoboUIComponent *ui_component,
 	ESearchBar *esb;
 	esb = E_SEARCH_BAR (data);
 
-	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
-	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
-	gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
-	gtk_widget_set_sensitive (esb->clear_button, FALSE);
-
-	clear_search (esb);
-	gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
+	e_search_bar_clear_search (esb);
 	gtk_widget_grab_focus (esb->entry);
 }
 
@@ -1614,6 +1608,20 @@ e_search_bar_set_ids (ESearchBar *search_bar, gint item_id, gint subitem_id)
 	search_bar->item_id = item_id;
 	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->option), item_row);
 
+}
+
+void
+e_search_bar_clear_search (ESearchBar *esb)
+{
+	g_return_if_fail (E_IS_SEARCH_BAR (esb));
+
+	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_set_sensitive (esb->clear_button, FALSE);
+
+	clear_search (esb);
+	gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
 }
 
 /**

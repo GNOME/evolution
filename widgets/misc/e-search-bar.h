@@ -185,6 +185,8 @@ GtkWidget *e_search_bar_get_selected_viewitem (ESearchBar *search_bar);
 
 gint e_search_bar_get_search_scope (ESearchBar *search_bar);
 
+void e_search_bar_clear_search (ESearchBar *esb);
+
 void  e_search_bar_set_text  (ESearchBar *search_bar,
 			      const gchar *text);
 gchar *e_search_bar_get_text  (ESearchBar *search_bar);

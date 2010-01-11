@@ -2152,7 +2152,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri)
 				|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
 				|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
 
-			e_search_bar_set_text ((ESearchBar *)emfb->search, "");
+			e_search_bar_clear_search ((ESearchBar *)emfb->search);
 
 			if (outgoing) {
 				e_search_bar_set_item_id ((ESearchBar *)emfb->search, 1);
