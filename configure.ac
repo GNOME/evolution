@@ -56,7 +56,7 @@ m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([clutter_gtk_minimum_version], [0.10.0])
 m4_define([libnotify_minimum_version], [0.3.0])
-m4_define([gnome_pilot_minimum_version], [2.0.15])
+m4_define([gnome_pilot_minimum_version], [2.0.16])
 m4_define([gweather_minimum_version], [2.25.3])
 m4_define([gtkimageview_minimum_version], [1.6])
 
