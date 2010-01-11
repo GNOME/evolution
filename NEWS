@@ -1,3 +1,75 @@
+Evolution 2.29.5 2010-01-11
+---------------------------
+
+Bug Fixes:
+	#329693 - Add contexts to translated "None" words (Milan Crha)
+	#342935 - Do not choose disabled accounts for meeting requests
+	          (Milan Crha)
+	#361145 - Evolution hangs when formatting message - fixes part of it
+	          (Chenthill Palanisamy)
+	#372921 - Meeting invites sent from wrong email account (Milan Crha)
+	#520816 - S/MIME shares "Do not sign meeting requests" with PGP
+	          (Milan Crha)
+	#549988 - "Empty Trash" in Trash popup empties all Trash folders
+	          (Milan Crha)
+	#592117 - Calendar Day view All Day events print improvements (pepp)
+	#595501 - Crash on a changed mail filter action removal (Milan Crha)
+	#597816 - Read/save search folders with labels properly (Milan Crha)
+	#598305 - Use Exif data to rotate inlined photos (Matthew Barnes)
+	#599794 - Set composer as not changed on reply or forward action
+	          (Milan Crha)
+	#600521 - Remove trailing spaces from particular account fields
+	          (Milan Crha)
+	#603452 - Increase gnome-pilot version to 2.0.16 (H.Habighorst)
+	#603469 - Crash in contacts-map with no Home address filled
+	          (Cedric Bosdonnat)
+	#604520 - Create first account window hidden behind main window
+	          (Matthew Barnes)
+	#604994 - Folder state not preserved in Copy/Move Folder dialog
+	          (Milan Crha)
+	#605192 - New memo window has start date as None (Milan Crha)
+	#605392 - pkg-config files reference libraries that are not used
+	          anymore (Vincent Untz)
+	#605600 - Meeting reminders with wrong times (Milan Crha)
+	#605645 - Crash on exit in calendar_view_dispose (Milan Crha)
+	#606250 - Remove usage of deprecated GTK+ symbols (Matthew Barnes)
+	#606316 - Mail with an attachment in a Junk folder crashes Evo
+	          (Milan Crha)
+	#606340 - Crash on non-utf8 letter in mail folder name (Milan Crha)
+	#606344 - Clicking "Reply to All" button causes Evo to dump core
+	          (Matthew Barnes)
+	#606449 - empty mail-notification popups (Lucian Langa)
+	#606542 - Broken paste action on to/cc/subject fields (Matthew Barnes)
+
+Other Changes:
+	Various changes to support Anjal. (Srinivasa Ragavan)
+	Introduce ESelectable and EFocusTracker. (Matthew Barnes)
+	Remove dbus-glib-1 from evolution-shell.pc.in. (Matthew Barnes)
+	Rename ECalendarTable to ETaskTable. (Matthew Barnes)
+	Remove useless --enable-nntp configure option. (Matthew Barnes)
+	Hard code "EDS_PACKAGE" since it will never change. (Matthew Barnes)
+	Replace alloca() with g_alloca(). (Matthew Barnes)
+	Hard code "GTKHTML_PACKAGE". (Matthew Barnes)
+	Evolution does not need flex and bison. (Matthew Barnes)
+	Hide "Submit Bug Report" if bug-buddy is not present. (Matthew Barnes)
+	Clarify "Synchronization Options" menu item. (Matthew Barnes)
+	Kill redundant RGB/HSV color conversion utilities. (Matthew Barnes)
+	Kill e_popup_menu(). (Matthew Barnes)
+	Kill widgets/misc/e-colors.[ch]. (Matthew Barnes)
+	Teach ETable to prefer themed icon names over pixbufs. (Matthew Barnes)
+	Do not focus in a search entry when it is not having a focus
+	(Milan Crha)
+	Cleanup delete actions in shell views. (Matthew Barnes)
+
+Translations:
+	Jiri Eischmann (cs)
+	Jorge González (es)
+	Kjartan Maraas (nb)
+	Tomasz Dominikowski (pl)
+	Matej Urbančič (sl)
+	Daniel Nylander (sv)
+	krishnababu k (te)
+
 Evolution 2.29.4 2009-12-21
 ---------------------------
 
