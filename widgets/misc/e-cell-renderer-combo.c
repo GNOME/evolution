@@ -62,14 +62,22 @@ ecrc_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 	ECellRendererCombo *combo_cell = E_CELL_RENDERER_COMBO (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
 	EComboCellEditable *editable;
+	gboolean is_editable;
+	gchar *text;
 
-	if (!text_cell->editable)
+	g_object_get (text_cell, "editable", &is_editable, NULL);
+
+	if (!is_editable)
 		return NULL;
 
+	g_object_get (text_cell, "text", &text, NULL);
+
 	editable = E_COMBO_CELL_EDITABLE (e_combo_cell_editable_new ());
-	e_combo_cell_editable_set_text (editable, text_cell->text);
+	e_combo_cell_editable_set_text (editable, text);
 	e_combo_cell_editable_set_list (editable, combo_cell->priv->list);
 	gtk_widget_show (GTK_WIDGET (editable));
+
+	g_free (text);
 
 	g_signal_connect (editable, "editing-done", G_CALLBACK (ecrc_editing_done), combo_cell);
 

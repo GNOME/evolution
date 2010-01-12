@@ -337,11 +337,14 @@ static void
 ecb_realize (GnomeCanvasItem *item)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
+	GdkWindow *bin_window;
 
 	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize)
                 GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize (item);
 
-	ecb->priv->gc = gdk_gc_new (item->canvas->layout.bin_window);
+	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (item->canvas));
+
+	ecb->priv->gc = gdk_gc_new (bin_window);
 	get_color (ecb);
 	if (!item->canvas->aa)
 		gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
@@ -430,11 +433,13 @@ ecb_style_set (ECanvasBackground *ecb,
                GtkStyle *previous_style)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
+	GtkStyle *style;
+
+	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
 
 	if (GTK_WIDGET_REALIZED (item->canvas)) {
 		gdk_gc_set_foreground (
-			ecb->priv->gc, &GTK_WIDGET(item->canvas)->
-			style->base[GTK_STATE_NORMAL]);
+			ecb->priv->gc, &style->base[GTK_STATE_NORMAL]);
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
 	}
 }

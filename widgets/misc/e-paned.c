@@ -93,7 +93,7 @@ paned_notify_orientation_cb (EPaned *paned)
 static void
 paned_notify_position_cb (EPaned *paned)
 {
-	GtkAllocation *allocation;
+	GtkAllocation allocation;
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
 	gdouble proportion;
@@ -106,20 +106,20 @@ paned_notify_position_cb (EPaned *paned)
 	orientable = GTK_ORIENTABLE (paned);
 	orientation = gtk_orientable_get_orientation (orientable);
 
-	allocation = &GTK_WIDGET (paned)->allocation;
+	gtk_widget_get_allocation (GTK_WIDGET (paned), &allocation);
 	position = gtk_paned_get_position (GTK_PANED (paned));
 
 	g_object_freeze_notify (G_OBJECT (paned));
 
 	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
-		position = MAX (0, allocation->width - position);
-		proportion = (gdouble) position / allocation->width;
+		position = MAX (0, allocation.width - position);
+		proportion = (gdouble) position / allocation.width;
 
 		paned->priv->hposition = position;
 		g_object_notify (G_OBJECT (paned), "hposition");
 	} else {
-		position = MAX (0, allocation->height - position);
-		proportion = (gdouble) position / allocation->height;
+		position = MAX (0, allocation.height - position);
+		proportion = (gdouble) position / allocation.height;
 
 		paned->priv->vposition = position;
 		g_object_notify (G_OBJECT (paned), "vposition");

@@ -34,18 +34,15 @@
 
 typedef struct _EMap EMap;
 typedef struct _EMapClass EMapClass;
+typedef struct _EMapPrivate EMapPrivate;
 typedef struct _EMapPoint EMapPoint;
 
-struct _EMap
-{
+struct _EMap {
 	GtkWidget widget;
-
-	/* Private data */
-	gpointer priv;
+	EMapPrivate *priv;
 };
 
-struct _EMapClass
-{
+struct _EMapClass {
 	GtkWidgetClass parent_class;
 
 	/* Notification signals */

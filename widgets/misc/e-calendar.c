@@ -308,6 +308,7 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 {
 	ECalendar *cal;
 	GtkStyle *style;
+	GtkAllocation old_allocation;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -330,8 +331,9 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 	/* Set the scroll region to its allocated size, if changed. */
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (cal),
 					NULL, NULL, &old_x2, &old_y2);
-	new_x2 = widget->allocation.width - 1;
-	new_y2 = widget->allocation.height - 1;
+	gtk_widget_get_allocation (widget, &old_allocation);
+	new_x2 = old_allocation.width - 1;
+	new_y2 = old_allocation.height - 1;
 	if (old_x2 != new_x2 || old_y2 != new_y2)
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (cal),
 						0, 0, new_x2, new_y2);

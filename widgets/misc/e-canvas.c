@@ -458,6 +458,7 @@ static gint
 e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 {
 	GnomeCanvas *canvas;
+	GdkWindow *bin_window;
 	gint mask;
 	gint retval;
 
@@ -468,6 +469,7 @@ e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 	retval = FALSE;
 
 	canvas = GNOME_CANVAS (widget);
+	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 
 	d(g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
 		   event->button,
@@ -477,7 +479,7 @@ e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 
         /* dispatch normally regardless of the event's window if an item has
            has a pointer grab in effect */
-	if (!canvas->grabbed_item && event->window != canvas->layout.bin_window)
+	if (!canvas->grabbed_item && event->window != bin_window)
 		return retval;
 
 	switch (event->button) {
@@ -557,17 +559,20 @@ void
 e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too)
 {
 	GnomeCanvasItem *focused_item;
+	GdkWindow *bin_window;
 	GdkEvent ev;
 
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)));
 
+	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (item->canvas));
+
 	focused_item = item->canvas->focused_item;
 
 	if (focused_item) {
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
-		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
+		ev.focus_change.window = bin_window;
 		ev.focus_change.send_event = FALSE;
 		ev.focus_change.in = FALSE;
 
@@ -582,7 +587,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too)
 
 	if (item) {
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
-		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
+		ev.focus_change.window = bin_window;
 		ev.focus_change.send_event = FALSE;
 		ev.focus_change.in = TRUE;
 
@@ -665,13 +670,16 @@ static void
 e_canvas_realize (GtkWidget *widget)
 {
 	ECanvas *ecanvas = E_CANVAS (widget);
+	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_canvas_parent_class)->realize)
 		(* GTK_WIDGET_CLASS (e_canvas_parent_class)->realize) (widget);
 
-	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
+	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
+	gdk_window_set_back_pixmap (window, NULL, FALSE);
 
-	gtk_im_context_set_client_window (ecanvas->im_context, widget->window);
+	window = gtk_widget_get_window (widget);
+	gtk_im_context_set_client_window (ecanvas->im_context, window);
 }
 
 static void

@@ -260,7 +260,7 @@ sensitize_widgets (ESendOptionsDialog *sod)
 }
 
 static void
-expiration_toggled_cb (GtkWidget *toggle, gpointer data)
+expiration_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -269,13 +269,13 @@ expiration_toggled_cb (GtkWidget *toggle, gpointer data)
 	sod = data;
 	priv = sod->priv;
 
-	active = GTK_TOGGLE_BUTTON (toggle)->active;
+	active = gtk_toggle_button_get_active (toggle);
 
 	gtk_widget_set_sensitive (priv->expire_after, active);
 }
 
 static void
-reply_request_toggled_cb (GtkWidget *toggle, gpointer data)
+reply_request_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -283,7 +283,7 @@ reply_request_toggled_cb (GtkWidget *toggle, gpointer data)
 
 	sod = data;
 	priv = sod->priv;
-	active = GTK_TOGGLE_BUTTON (toggle)->active;
+	active = gtk_toggle_button_get_active (toggle);
 
 	gtk_widget_set_sensitive (priv->reply_convenient, active);
 	gtk_widget_set_sensitive (priv->reply_within, active);
@@ -292,7 +292,7 @@ reply_request_toggled_cb (GtkWidget *toggle, gpointer data)
 }
 
 static void
-delay_delivery_toggled_cb (GtkWidget *toggle, gpointer data)
+delay_delivery_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -300,13 +300,13 @@ delay_delivery_toggled_cb (GtkWidget *toggle, gpointer data)
 
 	sod = data;
 	priv = sod->priv;
-	active = GTK_TOGGLE_BUTTON (toggle)->active;
+	active = gtk_toggle_button_get_active (toggle);
 
 	gtk_widget_set_sensitive (priv->delay_until, active);
 }
 
 static void
-sent_item_toggled_cb (GtkWidget *toggle, gpointer data)
+sent_item_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -314,7 +314,7 @@ sent_item_toggled_cb (GtkWidget *toggle, gpointer data)
 
 	sod = data;
 	priv = sod->priv;
-	active = GTK_TOGGLE_BUTTON (toggle)->active;
+	active = gtk_toggle_button_get_active (toggle);
 
 	gtk_widget_set_sensitive (priv->delivered, active);
 	gtk_widget_set_sensitive (priv->delivered_opened, active);

@@ -55,8 +55,7 @@ EMapZoomState;
 
 /* Private part of the EMap structure */
 
-typedef struct
-{
+struct _EMapPrivate {
 	/* Pointer to map image */
 	GdkPixbuf *map_pixbuf, *map_render_pixbuf;
 
@@ -76,8 +75,7 @@ typedef struct
 
 	/* Dots */
 	GPtrArray *points;
-}
-EMapPrivate;
+};
 
 /* Internal prototypes */
 
@@ -293,7 +291,10 @@ e_map_unmap (GtkWidget *widget)
 static void
 e_map_realize (GtkWidget *widget)
 {
+	GtkAllocation allocation;
 	GdkWindowAttr attr;
+	GdkWindow *window;
+	GtkStyle *style;
 	gint attr_mask;
 
 	g_return_if_fail (widget != NULL);
@@ -301,11 +302,13 @@ e_map_realize (GtkWidget *widget)
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
+	gtk_widget_get_allocation (widget, &allocation);
+
 	attr.window_type = GDK_WINDOW_CHILD;
-	attr.x = widget->allocation.x;
-	attr.y = widget->allocation.y;
-	attr.width = widget->allocation.width;
-	attr.height = widget->allocation.height;
+	attr.x = allocation.x;
+	attr.y = allocation.y;
+	attr.width = allocation.width;
+	attr.height = allocation.height;
 	attr.wclass = GDK_INPUT_OUTPUT;
 	attr.visual = gdk_rgb_get_visual ();
 	attr.colormap = gdk_rgb_get_colormap ();
@@ -315,12 +318,16 @@ e_map_realize (GtkWidget *widget)
 
 	attr_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
 
-	widget->window = gdk_window_new (gtk_widget_get_parent_window (widget), &attr, attr_mask);
-	gdk_window_set_user_data (widget->window, widget);
+	window = gdk_window_new (
+		gtk_widget_get_parent_window (widget), &attr, attr_mask);
+	gtk_widget_set_window (widget, window);
+	gdk_window_set_user_data (window, widget);
 
-	widget->style = gtk_style_attach (widget->style, widget->window);
+	style = gtk_widget_get_style (widget);
+	style = gtk_style_attach (style, window);
+	gtk_widget_set_style (widget, style);
 
-	gdk_window_set_back_pixmap (widget->window, NULL, FALSE);
+	gdk_window_set_back_pixmap (window, NULL, FALSE);
 	update_render_pixbuf (E_MAP (widget), GDK_INTERP_BILINEAR, TRUE);
 }
 
@@ -373,11 +380,16 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	/* Resize the window */
 
-	widget->allocation = *allocation;
+	gtk_widget_set_allocation (widget, allocation);
 
-	if (GTK_WIDGET_REALIZED (widget))
-	{
-		gdk_window_move_resize (widget->window, allocation->x, allocation->y, allocation->width, allocation->height);
+	if (GTK_WIDGET_REALIZED (widget)) {
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (widget);
+
+		gdk_window_move_resize (
+			window, allocation->x, allocation->y,
+			allocation->width, allocation->height);
 
 		area.x = 0;
 		area.y = 0;
@@ -558,18 +570,25 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	if (do_scroll)
 	{
+		gint page_size;
+		gint upper;
 		gint x, y;
 
-		x = CLAMP (priv->xofs + xofs, 0, priv->hadj->upper - priv->hadj->page_size);
-		y = CLAMP (priv->yofs + yofs, 0, priv->vadj->upper - priv->vadj->page_size);
+		page_size = gtk_adjustment_get_page_size (priv->hadj);
+		upper = gtk_adjustment_get_upper (priv->hadj);
+		x = CLAMP (priv->xofs + xofs, 0, upper - page_size);
+
+		page_size = gtk_adjustment_get_page_size (priv->vadj);
+		upper = gtk_adjustment_get_upper (priv->vadj);
+		y = CLAMP (priv->yofs + yofs, 0, upper - page_size);
 
 		scroll_to (view, x, y);
 
 		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 
-		priv->hadj->value = x;
-		priv->vadj->value = y;
+		gtk_adjustment_set_value (priv->hadj, x);
+		gtk_adjustment_set_value (priv->vadj, y);
 
 		g_signal_emit_by_name (priv->hadj, "value_changed");
 		g_signal_emit_by_name (priv->vadj, "value_changed");
@@ -830,15 +849,17 @@ gboolean
 e_map_point_is_in_view (EMap *map, EMapPoint *point)
 {
 	EMapPrivate *priv;
+	GtkAllocation allocation;
 	double x, y;
 
 	priv = map->priv;
 	if (!priv->map_render_pixbuf) return FALSE;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &x, &y);
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
-	if (x >= 0 && x < GTK_WIDGET (map)->allocation.width &&
-	    y >= 0 && y < GTK_WIDGET (map)->allocation.height)
+	if (x >= 0 && x < allocation.width &&
+	    y >= 0 && y < allocation.height)
 		return TRUE;
 
 	return FALSE;
@@ -882,11 +903,14 @@ static void
 repaint_visible (EMap *map)
 {
 	GdkRectangle area;
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
 	area.x = 0;
 	area.y = 0;
-	area.width = GTK_WIDGET (map)->allocation.width;
-	area.height = GTK_WIDGET (map)->allocation.height;
+	area.width = allocation.width;
+	area.height = allocation.height;
 
 	request_paint_area (map, &area);
 }
@@ -918,36 +942,39 @@ load_map_background (EMap *view, gchar *name)
 }
 
 static void
-update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
+update_render_pixbuf (EMap *map,
+                      GdkInterpType interp,
+                      gboolean render_overlays)
 {
 	EMapPrivate *priv;
 	EMapPoint *point;
+	GtkAllocation allocation;
 	gint width, height, orig_width, orig_height;
 	double zoom;
 	gint i;
 
-	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (map))) return;
+	if (!GTK_WIDGET_REALIZED (map))
+		return;
+
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
 	/* Set up value shortcuts */
 
 	priv = map->priv;
-	width = GTK_WIDGET (map)->allocation.width;
-	height = GTK_WIDGET (map)->allocation.height;
+	width = allocation.width;
+	height = allocation.height;
 	orig_width = gdk_pixbuf_get_width (priv->map_pixbuf);
 	orig_height = gdk_pixbuf_get_height (priv->map_pixbuf);
 
 	/* Compute scaled width and height based on the extreme dimension */
 
 	if ((double) width / orig_width > (double) height / orig_height)
-	{
 		zoom = (double) width / (double) orig_width;
-	}
 	else
-	{
 		zoom = (double) height / (double) orig_height;
-	}
 
-	if (priv->zoom_state == E_MAP_ZOOMED_IN) zoom *= 2.0;
+	if (priv->zoom_state == E_MAP_ZOOMED_IN)
+		zoom *= 2.0;
 	height = (orig_height * zoom) + 0.5;
 	width = (orig_width * zoom) + 0.5;
 
@@ -1014,12 +1041,22 @@ request_paint_area (EMap *view, GdkRectangle *area)
 	if (gdk_pixbuf_get_colorspace (priv->map_render_pixbuf) == GDK_COLORSPACE_RGB && !gdk_pixbuf_get_has_alpha (priv->map_render_pixbuf) &&
 	    gdk_pixbuf_get_bits_per_sample (priv->map_render_pixbuf) == 8)
 	{
+		GtkStyle *style;
+		GdkWindow *window;
 		guchar *pixels;
 		gint rowstride;
 
+		style = gtk_widget_get_style (GTK_WIDGET (view));
+		window = gtk_widget_get_window (GTK_WIDGET (view));
+
 		rowstride = gdk_pixbuf_get_rowstride (priv->map_render_pixbuf);
-		pixels = gdk_pixbuf_get_pixels (priv->map_render_pixbuf) + (area->y + priv->yofs) * rowstride + 3 * (area->x + priv->xofs);
-		gdk_draw_rgb_image_dithalign (GTK_WIDGET (view)->window, GTK_WIDGET (view)->style->black_gc, area->x, area->y, width, height, GDK_RGB_DITHER_NORMAL, pixels, rowstride, 0, 0);
+		pixels = gdk_pixbuf_get_pixels (priv->map_render_pixbuf) +
+			(area->y + priv->yofs) * rowstride + 3 *
+			(area->x + priv->xofs);
+		gdk_draw_rgb_image_dithalign (
+			window, style->black_gc, area->x, area->y,
+			width, height, GDK_RGB_DITHER_NORMAL, pixels,
+			rowstride, 0, 0);
 		return;
 	}
 
@@ -1112,23 +1149,22 @@ static void
 center_at (EMap *map, gint x, gint y, gboolean scroll)
 {
 	EMapPrivate *priv;
-	gint pb_width, pb_height,
-	    view_width, view_height;
+	GtkAllocation allocation;
+	gint pb_width, pb_height;
 
 	priv = map->priv;
 
 	pb_width = E_MAP_GET_WIDTH (map);
 	pb_height = E_MAP_GET_HEIGHT (map);
 
-	view_width = GTK_WIDGET (map)->allocation.width;
-	view_height = GTK_WIDGET (map)->allocation.height;
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
-	x = CLAMP (x - (view_width / 2), 0, pb_width - view_width);
-	y = CLAMP (y - (view_height / 2), 0, pb_height - view_height);
+	x = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
+	y = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
 
-	if (scroll) scroll_to (map, x, y);
-	else
-	{
+	if (scroll)
+		scroll_to (map, x, y);
+	else {
 		priv->xofs = x;
 		priv->yofs = y;
 	}
@@ -1138,8 +1174,8 @@ static void
 smooth_center_at (EMap *map, gint x, gint y)
 {
 	EMapPrivate *priv;
-	gint pb_width, pb_height,
-	    view_width, view_height;
+	GtkAllocation allocation;
+	gint pb_width, pb_height;
 	gint dx, dy;
 
 	priv = map->priv;
@@ -1147,15 +1183,15 @@ smooth_center_at (EMap *map, gint x, gint y)
 	pb_width = E_MAP_GET_WIDTH (map);
 	pb_height = E_MAP_GET_HEIGHT (map);
 
-	view_width = GTK_WIDGET (map)->allocation.width;
-	view_height = GTK_WIDGET (map)->allocation.height;
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
-	x = CLAMP (x - (view_width / 2), 0, pb_width - view_width);
-	y = CLAMP (y - (view_height / 2), 0, pb_height - view_height);
+	x = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
+	y = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
 
 	for (;;)
 	{
-		if (priv->xofs == x && priv->yofs == y) break;
+		if (priv->xofs == x && priv->yofs == y)
+			break;
 
 		dx = (x < priv->xofs) ? -1 : (x > priv->xofs) ? 1 : 0;
 		dy = (y < priv->yofs) ? -1 : (y > priv->yofs) ? 1 : 0;
@@ -1172,8 +1208,8 @@ scroll_to (EMap *view, gint x, gint y)
 	EMapPrivate *priv;
 	gint xofs, yofs;
 	GdkWindow *window;
+	GtkAllocation allocation;
 	GdkGC *gc;
-	gint width, height;
 	gint src_x, src_y;
 	gint dest_x, dest_y;
 #if 0  /* see comment below */
@@ -1187,30 +1223,31 @@ scroll_to (EMap *view, gint x, gint y)
 	xofs = x - priv->xofs;
 	yofs = y - priv->yofs;
 
-	if (xofs == 0 && yofs == 0) return;
+	if (xofs == 0 && yofs == 0)
+		return;
 
 	priv->xofs = x;
 	priv->yofs = y;
 
-	if (!GTK_WIDGET_DRAWABLE (view)) return;
+	if (!GTK_WIDGET_DRAWABLE (view))
+		return;
 
-	width = GTK_WIDGET (view)->allocation.width;
-	height = GTK_WIDGET (view)->allocation.height;
+	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
 
-	if (abs (xofs) >= width || abs (yofs) >= height)
+	if (abs (xofs) >= allocation.width || abs (yofs) >= allocation.height)
 	{
 		GdkRectangle area;
 
 		area.x = 0;
 		area.y = 0;
-		area.width = width;
-		area.height = height;
+		area.width = allocation.width;
+		area.height = allocation.height;
 
 		request_paint_area (view, &area);
 		return;
 	}
 
-	window = GTK_WIDGET (view)->window;
+	window = gtk_widget_get_window (GTK_WIDGET (view));
 
 	/* Copy the window area */
 
@@ -1222,7 +1259,12 @@ scroll_to (EMap *view, gint x, gint y)
 	gc = gdk_gc_new (window);
 	gdk_gc_set_exposures (gc, TRUE);
 
-	gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), src_x, src_y, dest_x, dest_y, width - abs (xofs), height - abs (yofs));
+	gdk_draw_drawable (
+		GDK_DRAWABLE (window),
+		gc, GDK_DRAWABLE (window),
+		src_x, src_y, dest_x, dest_y,
+		allocation.width - abs (xofs),
+		allocation.height - abs (yofs));
 
 	g_object_unref (gc);
 
@@ -1232,10 +1274,10 @@ scroll_to (EMap *view, gint x, gint y)
 	{
 		GdkRectangle r;
 
-		r.x = xofs < 0 ? 0 : width - xofs;
+		r.x = xofs < 0 ? 0 : allocation.width - xofs;
 		r.y = 0;
 		r.width = abs (xofs);
-		r.height = height;
+		r.height = allocation.height;
 
 		request_paint_area (view, &r);
 	}
@@ -1245,8 +1287,8 @@ scroll_to (EMap *view, gint x, gint y)
 		GdkRectangle r;
 
 		r.x = 0;
-		r.y = yofs < 0 ? 0 : height - yofs;
-		r.width = width;
+		r.y = yofs < 0 ? 0 : allocation.height - yofs;
+		r.width = allocation.width;
 		r.height = abs (yofs);
 
 		request_paint_area (view, &r);
@@ -1493,6 +1535,7 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 static void
 zoom_in_smooth (EMap *map)
 {
+	GtkAllocation allocation;
 	GdkRectangle area;
 	EMapPrivate *priv;
 	GdkWindow *window;
@@ -1502,13 +1545,15 @@ zoom_in_smooth (EMap *map)
 	g_return_if_fail (map);
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
 
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
 	area.x = 0;
 	area.y = 0;
-	area.width = GTK_WIDGET (map)->allocation.width;
-	area.height = GTK_WIDGET (map)->allocation.height;
+	area.width = allocation.width;
+	area.height = allocation.height;
 
 	priv = map->priv;
-	window = GTK_WIDGET (map)->window;
+	window = gtk_widget_get_window (GTK_WIDGET (map));
 	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
 	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
@@ -1549,24 +1594,33 @@ zoom_in_smooth (EMap *map)
 static void
 zoom_in (EMap *map)
 {
+	GtkAllocation allocation;
 	GdkRectangle area;
 	EMapPrivate *priv;
 	double x, y;
 
 	priv = map->priv;
 
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
 	area.x = 0;
 	area.y = 0;
-	area.width = GTK_WIDGET (map)->allocation.width;
-	area.height = GTK_WIDGET (map)->allocation.height;
+	area.width = allocation.width;
+	area.height = allocation.height;
 
 	priv->zoom_state = E_MAP_ZOOMED_IN;
 
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
 
-	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
-	priv->xofs = CLAMP (priv->xofs + x - area.width / 2.0, 0, E_MAP_GET_WIDTH (map) - area.width);
-	priv->yofs = CLAMP (priv->yofs + y - area.height / 2.0, 0, E_MAP_GET_HEIGHT (map) - area.height);
+	e_map_world_to_window (
+		map, priv->zoom_target_long,
+		priv->zoom_target_lat, &x, &y);
+	priv->xofs = CLAMP (
+		priv->xofs + x - area.width / 2.0,
+		0, E_MAP_GET_WIDTH (map) - area.width);
+	priv->yofs = CLAMP (
+		priv->yofs + y - area.height / 2.0,
+		0, E_MAP_GET_HEIGHT (map) - area.height);
 
 	request_paint_area (map, &area);
 }
@@ -1574,6 +1628,7 @@ zoom_in (EMap *map)
 static void
 zoom_out (EMap *map)
 {
+	GtkAllocation allocation;
 	GdkRectangle area;
 	EMapPrivate *priv;
 	double longitude, latitude;
@@ -1581,15 +1636,18 @@ zoom_out (EMap *map)
 
 	priv = map->priv;
 
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
 	area.x = 0;
 	area.y = 0;
-	area.width = GTK_WIDGET (map)->allocation.width;
-	area.height = GTK_WIDGET (map)->allocation.height;
+	area.width = allocation.width;
+	area.height = allocation.height;
 
 	/* Must be done before update_render_pixbuf() */
 
-	e_map_window_to_world (map, area.width / 2, area.height / 2,
-			       &longitude, &latitude);
+	e_map_window_to_world (
+		map, area.width / 2, area.height / 2,
+		&longitude, &latitude);
 
 	priv->zoom_state = E_MAP_ZOOMED_OUT;
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
@@ -1632,65 +1690,78 @@ static void
 adjustment_changed_cb (GtkAdjustment *adj, gpointer data)
 {
 	EMap *view;
-	EMapPrivate *priv;
+	gint hadj_value;
+	gint vadj_value;
 
 	view = E_MAP (data);
-	priv = view->priv;
 
-	scroll_to (view, priv->hadj->value, priv->vadj->value);
+	hadj_value = gtk_adjustment_get_value (view->priv->hadj);
+	vadj_value = gtk_adjustment_get_value (view->priv->vadj);
+
+	scroll_to (view, hadj_value, vadj_value);
 }
 
 static void
 set_scroll_area (EMap *view)
 {
 	EMapPrivate *priv;
+	GtkAllocation allocation;
+	gint upper, page_size;
 
 	priv = view->priv;
 
 	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (view))) return;
 	if (!priv->hadj || !priv->vadj) return;
 
+	g_object_freeze_notify (G_OBJECT (priv->hadj));
+	g_object_freeze_notify (G_OBJECT (priv->vadj));
+
+	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
+
 	/* Set scroll increments */
 
-	priv->hadj->page_size = GTK_WIDGET (view)->allocation.width;
-	priv->hadj->page_increment = GTK_WIDGET (view)->allocation.width / 2;
-	priv->hadj->step_increment = SCROLL_STEP_SIZE;
+	gtk_adjustment_set_page_size (priv->hadj, allocation.width);
+	gtk_adjustment_set_page_increment (priv->hadj, allocation.width / 2);
+	gtk_adjustment_set_step_increment (priv->hadj, SCROLL_STEP_SIZE);
 
-	priv->vadj->page_size = GTK_WIDGET (view)->allocation.height;
-	priv->vadj->page_increment = GTK_WIDGET (view)->allocation.height / 2;
-	priv->vadj->step_increment = SCROLL_STEP_SIZE;
+	gtk_adjustment_set_page_size (priv->vadj, allocation.height);
+	gtk_adjustment_set_page_increment (priv->vadj, allocation.height / 2);
+	gtk_adjustment_set_step_increment (priv->vadj, SCROLL_STEP_SIZE);
 
 	/* Set scroll bounds and new offsets */
 
-	priv->hadj->lower = 0;
-	if (priv->map_render_pixbuf)
-		priv->hadj->upper = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-
-	priv->vadj->lower = 0;
-	if (priv->map_render_pixbuf)
-		priv->vadj->upper = gdk_pixbuf_get_height (priv->map_render_pixbuf);
-
-	g_signal_emit_by_name (priv->hadj, "changed");
-	g_signal_emit_by_name (priv->vadj, "changed");
-
-	priv->xofs = CLAMP (priv->xofs, 0, priv->hadj->upper - priv->hadj->page_size);
-	priv->yofs = CLAMP (priv->yofs, 0, priv->vadj->upper - priv->vadj->page_size);
-
-	if (priv->hadj->value != priv->xofs)
-	{
-		priv->hadj->value = priv->xofs;
-
-		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
-		g_signal_emit_by_name (priv->hadj, "value_changed");
-		g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+	gtk_adjustment_set_lower (priv->hadj, 0);
+	if (priv->map_render_pixbuf) {
+		gint width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
+		gtk_adjustment_set_upper (priv->hadj, width);
 	}
 
-	if (priv->vadj->value != priv->yofs)
-	{
-		priv->vadj->value = priv->yofs;
-
-		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
-		g_signal_emit_by_name (priv->vadj, "value_changed");
-		g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+	gtk_adjustment_set_lower (priv->vadj, 0);
+	if (priv->map_render_pixbuf) {
+		gint height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
+		gtk_adjustment_set_upper (priv->vadj, height);
 	}
+
+	g_object_thaw_notify (G_OBJECT (priv->hadj));
+	g_object_thaw_notify (G_OBJECT (priv->vadj));
+
+	upper = gtk_adjustment_get_upper (priv->hadj);
+	page_size = gtk_adjustment_get_page_size (priv->hadj);
+	priv->xofs = CLAMP (priv->xofs, 0, upper - page_size);
+
+	upper = gtk_adjustment_get_upper (priv->vadj);
+	page_size = gtk_adjustment_get_page_size (priv->vadj);
+	priv->yofs = CLAMP (priv->yofs, 0, upper - page_size);
+
+	g_signal_handlers_block_matched (
+		priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+	gtk_adjustment_set_value (priv->hadj, priv->xofs);
+	g_signal_handlers_unblock_matched (
+		priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+
+	g_signal_handlers_block_matched (
+		priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+	gtk_adjustment_set_value (priv->vadj, priv->yofs);
+	g_signal_handlers_unblock_matched (
+		priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 }

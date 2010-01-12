@@ -81,6 +81,7 @@ attachment_button_menu_position (GtkMenu *menu,
 {
 	GtkRequisition menu_requisition;
 	GtkTextDirection direction;
+	GtkAllocation allocation;
 	GdkRectangle monitor;
 	GdkScreen *screen;
 	GdkWindow *window;
@@ -99,24 +100,28 @@ attachment_button_menu_position (GtkMenu *menu,
 		monitor_num = 0;
 	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
 
+	gtk_widget_get_allocation (widget, &allocation);
+
 	gdk_window_get_origin (window, x, y);
-	*x += widget->allocation.x;
-	*y += widget->allocation.y;
+	*x += allocation.x;
+	*y += allocation.y;
 
 	direction = gtk_widget_get_direction (widget);
 	if (direction == GTK_TEXT_DIR_LTR)
-		*x += MAX (widget->allocation.width - menu_requisition.width, 0);
-	else if (menu_requisition.width > widget->allocation.width)
-		*x -= menu_requisition.width - widget->allocation.width;
+		*x += MAX (allocation.width - menu_requisition.width, 0);
+	else if (menu_requisition.width > allocation.width)
+		*x -= menu_requisition.width - allocation.width;
 
-	if ((*y + toggle_button->allocation.height +
+	gtk_widget_get_allocation (toggle_button, &allocation);
+
+	if ((*y + allocation.height +
 		menu_requisition.height) <= monitor.y + monitor.height)
-		*y += toggle_button->allocation.height;
+		*y += allocation.height;
 	else if ((*y - menu_requisition.height) >= monitor.y)
 		*y -= menu_requisition.height;
 	else if (monitor.y + monitor.height -
-		(*y + toggle_button->allocation.height) > *y)
-		*y += toggle_button->allocation.height;
+		(*y + allocation.height) > *y)
+		*y += allocation.height;
 	else
 		*y -= menu_requisition.height;
 

@@ -898,7 +898,7 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 		item_class->update (item, affine, clip_path, flags);
 
 	calitem = E_CALENDAR_ITEM (item);
-	style = GTK_WIDGET (item->canvas)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
 
@@ -1037,7 +1037,7 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 		 x, y, width, height);
 #endif
 	calitem = E_CALENDAR_ITEM (canvas_item);
-	style = GTK_WIDGET (canvas_item->canvas)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (canvas_item->canvas));
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
@@ -1172,7 +1172,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 #endif
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = widget->style;
+	style = gtk_widget_get_style (widget);
 
 	cr = gdk_cairo_create (drawable);
 
@@ -1419,7 +1419,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = widget->style;
+	style = gtk_widget_get_style (widget);
 
 	cr = gdk_cairo_create (drawable);
 
@@ -1952,7 +1952,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	PangoLayout *layout;
 
 	canvas_item = GNOME_CANVAS_ITEM (calitem);
-	style = GTK_WIDGET (canvas_item->canvas)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (canvas_item->canvas));
 
 	if (!style)
 		return;
@@ -2062,7 +2062,7 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 	GtkStyle *style;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas);
-	style = widget->style;
+	style = gtk_widget_get_style (widget);
 
 	*bg_color = NULL;
 	*fg_color = NULL;
@@ -2075,7 +2075,7 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 		*box_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX];
 
 	if (prev_or_next_month)
-		*fg_color = &style->mid[GTK_WIDGET_STATE (widget)];
+		*fg_color = &style->mid[gtk_widget_get_state (widget)];
 
 	if (selected) {
 		if (has_focus) {
@@ -2400,7 +2400,7 @@ e_calendar_item_convert_position_to_day	(ECalendarItem	*calitem,
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = widget->style;
+	style = gtk_widget_get_style (widget);
 
 	font_desc = calitem->font_desc;
 	if (!font_desc)
@@ -3181,21 +3181,24 @@ e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
 void
 e_calendar_item_style_set (GtkWidget *widget, ECalendarItem *calitem)
 {
+	GtkStyle *style;
 	GdkColor *color;
 
-	color = &widget->style->bg[GTK_STATE_SELECTED];
+	style = gtk_widget_get_style (widget);
+
+	color = &style->bg[GTK_STATE_SELECTED];
 	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX] = *color;
 
-	color = &widget->style->base[GTK_STATE_NORMAL];
+	color = &style->base[GTK_STATE_NORMAL];
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG] = *color;
 
-	color = &widget->style->bg[GTK_STATE_SELECTED];
+	color = &style->bg[GTK_STATE_SELECTED];
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED] = *color;
 
-	color = &widget->style->fg[GTK_STATE_INSENSITIVE];
+	color = &style->fg[GTK_STATE_INSENSITIVE];
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG] = *color;
 
-	color = &widget->style->fg[GTK_STATE_INSENSITIVE];
+	color = &style->fg[GTK_STATE_INSENSITIVE];
 	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG] = *color;
 }
 
@@ -3376,13 +3379,16 @@ static void
 e_calendar_item_on_menu_item_activate	(GtkWidget	*menuitem,
 					 ECalendarItem	*calitem)
 {
+	GtkWidget *parent;
 	gint year, month_offset, month;
 	gpointer data;
 
-	data = g_object_get_data (G_OBJECT (menuitem->parent), "year");
+	parent = gtk_widget_get_parent (menuitem);
+	data = g_object_get_data (G_OBJECT (parent), "year");
 	year = GPOINTER_TO_INT (data);
 
-	data = g_object_get_data (G_OBJECT (menuitem->parent), "month_offset");
+	parent = gtk_widget_get_parent (menuitem);
+	data = g_object_get_data (G_OBJECT (parent), "month_offset");
 	month_offset = GPOINTER_TO_INT (data);
 
 	data = g_object_get_data (G_OBJECT (menuitem), "month");

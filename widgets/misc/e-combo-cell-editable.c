@@ -73,14 +73,16 @@ static gboolean
 popup_button_press_cb (GtkWidget *widget, GdkEventButton *event, EComboCellEditable *ecce)
 {
 	GtkAllocation alloc;
+	GdkWindow *window;
 	gdouble rel_x, rel_y;
 	gint win_x, win_y;
 
 	if (event->button != 1)
 		return FALSE;
 
-	gdk_window_get_root_origin (widget->window, &win_x, &win_y);
-	alloc = ecce->priv->popup->allocation;
+	window = gtk_widget_get_window (widget);
+	gdk_window_get_root_origin (window, &win_x, &win_y);
+	gtk_widget_get_allocation (ecce->priv->popup, &alloc);
 
 	rel_x = event->x_root - win_x - alloc.x;
 	rel_y = event->y_root - win_y - alloc.y;
@@ -217,6 +219,7 @@ show_popup (EComboCellEditable *ecce)
 {
 	gint row;
 	GtkAllocation  alloc;
+	GdkWindow *window;
 	gint x, y;
 
 	if (!ecce->priv->list)
@@ -227,14 +230,18 @@ show_popup (EComboCellEditable *ecce)
 	set_cursor (ecce->priv->tree_view, row);
 
 	gtk_editable_select_region (GTK_EDITABLE (ecce->priv->entry), 0, 0);
-	gdk_window_get_origin (GTK_WIDGET (ecce)->window, &x, &y);
-	alloc = GTK_WIDGET (ecce)->allocation;
+
+	window = gtk_widget_get_window (GTK_WIDGET (ecce));
+	gtk_widget_get_allocation (GTK_WIDGET (ecce), &alloc);
+	gdk_window_get_origin (window, &x, &y);
 
 	position_popup (ecce, x, y + alloc.height, alloc.height);
 
-	gtk_grab_add (GTK_WIDGET (ecce->priv->popup));
+	gtk_grab_add (ecce->priv->popup);
 	gtk_widget_grab_focus (GTK_WIDGET (ecce->priv->tree_view));
-	grab_popup (GTK_WIDGET (ecce->priv->popup)->window);
+
+	window = gtk_widget_get_window (ecce->priv->popup);
+	grab_popup (window);
 }
 
 static void

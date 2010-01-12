@@ -418,6 +418,10 @@ reset_layout (EText *text)
 		create_layout (text);
 	}
 	else {
+		GtkStyle *style;
+
+		style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
+
 		context = pango_layout_get_context (text->layout);
 
 		font_options = get_font_options();
@@ -426,14 +430,14 @@ reset_layout (EText *text)
 		pango_layout_context_changed (text->layout);
 
 		text->font_desc = pango_font_description_new ();
-		if (!pango_font_description_get_size_is_absolute ((GTK_WIDGET (item->canvas))->style->font_desc))
+		if (!pango_font_description_get_size_is_absolute (style->font_desc))
 			pango_font_description_set_size (text->font_desc,
-				pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
+				pango_font_description_get_size (style->font_desc));
 		else
 			pango_font_description_set_absolute_size (text->font_desc,
-				pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
+				pango_font_description_get_size (style->font_desc));
 		pango_font_description_set_family (text->font_desc,
-			pango_font_description_get_family ((GTK_WIDGET (item->canvas))->style->font_desc));
+			pango_font_description_get_family (style->font_desc));
 		pango_layout_set_font_description (text->layout, text->font_desc);
 
 		pango_layout_set_text (text->layout, text->text, -1);
@@ -1240,6 +1244,7 @@ static void
 e_text_realize (GnomeCanvasItem *item)
 {
 	EText *text;
+	GdkWindow *bin_window;
 
 	text = E_TEXT (item);
 
@@ -1248,7 +1253,9 @@ e_text_realize (GnomeCanvasItem *item)
 
 	create_layout (text);
 
-	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (item->canvas));
+	text->gc = gdk_gc_new (bin_window);
+
 /* FIXME: Color brokenness ... */
 #if 0
 	gdk_color_context_query_color (item->canvas->cc, &text->color);
@@ -1380,13 +1387,19 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GdkGC *main_gc;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
+	GdkWindow *window;
+	GtkStyle *style;
+	GtkStateType state;
 
 	text = E_TEXT (item);
 	canvas = GNOME_CANVAS_ITEM(text)->canvas;
 	widget = GTK_WIDGET(canvas);
+	state = gtk_widget_get_state (widget);
+	style = gtk_widget_get_style (widget);
+	window = gtk_widget_get_window (widget);
 
 	if (text->draw_background || text->draw_button) {
-		main_gc = widget->style->fg_gc[GTK_WIDGET_STATE (widget)];
+		main_gc = style->fg_gc[state];
 	} else {
 		main_gc = text->gc;
 	}
@@ -1404,7 +1417,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		if (text->draw_borders) {
 
-			gtk_paint_shadow (widget->style, drawable,
+			gtk_paint_shadow (style, drawable,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
 					  NULL, widget, "entry",
 					  thisx, thisy, thiswidth, thisheight);
@@ -1412,47 +1425,56 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 
 		if (text->draw_background) {
-			gtk_paint_flat_box (widget->style, drawable,
-					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
+			gtk_paint_flat_box (style, drawable,
+					    state, GTK_SHADOW_NONE,
 					    NULL, widget, "entry_bg",
-					    thisx + widget->style->xthickness,
-					    thisy + widget->style->ythickness,
-					    thiswidth - widget->style->xthickness * 2,
-					    thisheight - widget->style->ythickness * 2);
+					    thisx + style->xthickness,
+					    thisy + style->ythickness,
+					    thiswidth - style->xthickness * 2,
+					    thisheight - style->ythickness * 2);
 		}
 	}
 	if (text->draw_button) {
+		GtkAllocation allocation;
 		gint xoff = item->x1 - x;
 		gint yoff = item->y1 - y;
 
 		widget = GTK_WIDGET (item->canvas);
+		gtk_widget_get_allocation (widget, &allocation);
 
-		xoff -= widget->allocation.x;
-		yoff -= widget->allocation.y;
+		xoff -= allocation.x;
+		yoff -= allocation.y;
 
-		widget = widget->parent;
+		widget = gtk_widget_get_parent (widget);
 
 		while (widget && !GTK_IS_BUTTON(widget)) {
 			if (!GTK_WIDGET_NO_WINDOW (widget)) {
 				widget = NULL;
 				break;
 			}
-			widget = widget->parent;
+			widget = gtk_widget_get_parent (widget);
 		}
 		if (widget) {
-			GtkButton *button = GTK_BUTTON (widget);
 			GtkShadowType shadow_type;
+			GtkAllocation allocation;
+			GtkReliefStyle relief;
+			guint border_width;
 			gint thisx, thisy, thisheight, thiswidth;
 			gint default_spacing;
 			GdkRectangle area;
+
 			area.x = 0;
 			area.y = 0;
 			area.width = width;
 			area.height = height;
 
+			gtk_widget_get_allocation (widget, &allocation);
+			relief = gtk_button_get_relief (GTK_BUTTON (widget));
+			border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
+
 #define DEFAULT_SPACING   7
 #if 0
-			default_spacing = gtk_style_get_prop_experimental (widget->style,
+			default_spacing = gtk_style_get_prop_experimental (style,
 									   "GtkButton::default_spacing",
 									   DEFAULT_SPACING);
 #endif
@@ -1460,21 +1482,21 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			thisx = 0;
 			thisy = 0;
-			thiswidth = widget->allocation.width - GTK_CONTAINER (widget)->border_width * 2;
-			thisheight = widget->allocation.height - GTK_CONTAINER (widget)->border_width * 2;
+			thiswidth = allocation.width - border_width * 2;
+			thisheight = allocation.height - border_width * 2;
 
 			if (gtk_widget_has_default (widget) &&
-			    GTK_BUTTON (widget)->relief == GTK_RELIEF_NORMAL)
+			    relief == GTK_RELIEF_NORMAL)
 				{
-					gtk_paint_box (widget->style, drawable,
+					gtk_paint_box (style, drawable,
 						       GTK_STATE_NORMAL, GTK_SHADOW_IN,
 						       &area, widget, "buttondefault",
 						       thisx + xoff, thisy + yoff, thiswidth, thisheight);
 				}
 
 			if (gtk_widget_get_can_default (widget)) {
-				thisx += widget->style->xthickness;
-				thisy += widget->style->ythickness;
+				thisx += style->xthickness;
+				thisy += style->ythickness;
 				thiswidth -= 2 * thisx + default_spacing;
 				thisheight -= 2 * thisy + default_spacing;
 				thisx += (1 + default_spacing) / 2;
@@ -1488,18 +1510,18 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				thisheight -= 2;
 			}
 
-			if (GTK_WIDGET_STATE (widget) == GTK_STATE_ACTIVE)
+			if (state == GTK_STATE_ACTIVE)
 				shadow_type = GTK_SHADOW_IN;
 			else
 				shadow_type = GTK_SHADOW_OUT;
 
-			if ((button->relief != GTK_RELIEF_NONE) ||
-			    ((GTK_WIDGET_STATE(widget) != GTK_STATE_NORMAL) &&
-			     (GTK_WIDGET_STATE(widget) != GTK_STATE_INSENSITIVE)))
-			gtk_paint_box (widget->style, drawable,
-				       GTK_WIDGET_STATE (widget),
+			if ((relief != GTK_RELIEF_NONE) ||
+			    ((state != GTK_STATE_NORMAL) &&
+			     (state != GTK_STATE_INSENSITIVE)))
+			gtk_paint_box (style, drawable, state,
 				       shadow_type, &area, widget, "button",
-				       thisx + xoff, thisy + yoff, thiswidth, thisheight);
+				       thisx + xoff, thisy + yoff,
+				       thiswidth, thisheight);
 
 			if (GTK_WIDGET_HAS_FOCUS (widget)) {
 				thisx -= 1;
@@ -1507,9 +1529,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				thiswidth += 2;
 				thisheight += 2;
 
-				gtk_paint_focus (widget->style, widget->window, GTK_WIDGET_STATE (widget),
+				gtk_paint_focus (style, window, state,
 						 &area, widget, "button",
-						 thisx + xoff, thisy + yoff, thiswidth - 1, thisheight - 1);
+						 thisx + xoff, thisy + yoff,
+						 thiswidth - 1, thisheight - 1);
 			}
 		}
 	}
@@ -1572,11 +1595,11 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			end_index = g_utf8_offset_to_pointer(text->text, end_index) - text->text;
 
 			if (text->has_selection) {
-				selection_gc = widget->style->base_gc [GTK_STATE_SELECTED];
-				text_gc = widget->style->text_gc[GTK_STATE_SELECTED];
+				selection_gc = style->base_gc [GTK_STATE_SELECTED];
+				text_gc = style->text_gc[GTK_STATE_SELECTED];
 			} else {
-				selection_gc = widget->style->base_gc [GTK_STATE_ACTIVE];
-				text_gc = widget->style->text_gc[GTK_STATE_ACTIVE];
+				selection_gc = style->base_gc [GTK_STATE_ACTIVE];
+				text_gc = style->text_gc[GTK_STATE_ACTIVE];
 			}
 
 			gdk_gc_set_clip_rectangle (selection_gc, clip_rect);
@@ -1952,6 +1975,7 @@ _do_tooltip (gpointer data)
 	ArtPoint origin = {0, 0};
 	ArtPoint pixel_origin;
 	gint canvas_x, canvas_y;
+	GnomeCanvas *text_canvas;
 	GnomeCanvasItem *tooltip_text;
 	double tooltip_width;
 	double tooltip_height;
@@ -1961,11 +1985,15 @@ _do_tooltip (gpointer data)
 	double x1, x2, y1, y2;
 #endif
 	GnomeCanvasItem *rect;
+	GtkAdjustment *adjustment;
 	GtkWidget *tooltip_window;      /* GtkWindow for displaying the tooltip */
+	GdkWindow *window;
 
 	text->tooltip_count = 0;
 
-	if (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas)->tooltip_window || text->editing || !text->num_lines) {
+	text_canvas = GNOME_CANVAS_ITEM (text)->canvas;
+
+	if (E_CANVAS(text_canvas)->tooltip_window || text->editing || !text->num_lines) {
 		text->tooltip_timeout = 0;
 		return FALSE;
 	}
@@ -1990,11 +2018,14 @@ _do_tooltip (gpointer data)
 	gnome_canvas_item_i2c_affine(GNOME_CANVAS_ITEM(text), i2c);
 	art_affine_point (&pixel_origin, &origin, i2c);
 
-	gdk_window_get_origin (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas)->window, &canvas_x, &canvas_y);
+	window = gtk_widget_get_window (GTK_WIDGET (text_canvas));
+	gdk_window_get_origin (window, &canvas_x, &canvas_y);
 	pixel_origin.x += canvas_x;
 	pixel_origin.y += canvas_y;
-	pixel_origin.x -= (gint) gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
-	pixel_origin.y -= (gint) gtk_layout_get_vadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
+	adjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (text_canvas));
+	pixel_origin.x -= (gint) gtk_adjustment_get_value (adjustment);
+	adjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (text_canvas));
+	pixel_origin.y -= (gint) gtk_adjustment_get_value (adjustment);
 
 	tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (tooltip_window), 1);
@@ -2118,13 +2149,17 @@ _do_tooltip (gpointer data)
 			   tooltip_destroy, text);
 	g_object_ref (text);
 
-	e_canvas_popup_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas),
-				tooltip_window,
-				pixel_origin.x - 2 + tooltip_x,
-				pixel_origin.y - 2 + tooltip_y);
-	gdk_keyboard_grab (tooltip_window->window, FALSE, GDK_CURRENT_TIME);
+	e_canvas_popup_tooltip (
+		E_CANVAS (text_canvas), tooltip_window,
+		pixel_origin.x - 2 + tooltip_x,
+		pixel_origin.y - 2 + tooltip_y);
 
-	g_signal_connect (tooltip_window, "key-press-event", G_CALLBACK (tooltip_ungrab), text);
+	window = gtk_widget_get_window (tooltip_window);
+	gdk_keyboard_grab (window, FALSE, GDK_CURRENT_TIME);
+
+	g_signal_connect (
+		tooltip_window, "key-press-event",
+		G_CALLBACK (tooltip_ungrab), text);
 
 	text->tooltip_owner = TRUE;
 
@@ -2144,8 +2179,13 @@ start_editing (EText *text)
 
 	text->editing = TRUE;
 	if (text->pointer_in) {
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (
+			GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas));
+
 		if (text->default_cursor_shown && (!text->draw_borders)) {
-			gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->window, text->i_cursor);
+			gdk_window_set_cursor (window, text->i_cursor);
 			text->default_cursor_shown = FALSE;
 		}
 	}
@@ -2170,7 +2210,11 @@ e_text_stop_editing (EText *text)
 
 	text->editing = FALSE;
 	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
-		gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->window, text->default_cursor);
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (
+			GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas));
+		gdk_window_set_cursor (window, text->default_cursor);
 		text->default_cursor_shown = TRUE;
 	}
 	if (text->timer) {
@@ -2200,6 +2244,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	EText *text = E_TEXT(item);
 	ETextEventProcessorEvent e_tep_event;
+	GdkWindow *window;
 
 	static EText *save_text = NULL;
 
@@ -2207,6 +2252,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	if (!text->model)
 		return 0;
+
+	window = gtk_widget_get_window (GTK_WIDGET (item->canvas));
 
 	e_tep_event.type = event->type;
 	switch (event->type) {
@@ -2463,7 +2510,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		text->pointer_in = TRUE;
 		if (text->editing || text->draw_borders) {
 			if ( text->default_cursor_shown ) {
-				gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->i_cursor);
+				gdk_window_set_cursor(window, text->i_cursor);
 				text->default_cursor_shown = FALSE;
 			}
 		}
@@ -2481,7 +2528,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		text->pointer_in = FALSE;
 		if (text->editing || text->draw_borders) {
 			if ( ! text->default_cursor_shown ) {
-				gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->default_cursor);
+				gdk_window_set_cursor(window, text->default_cursor);
 				text->default_cursor_shown = TRUE;
 			}
 		}
@@ -2666,7 +2713,10 @@ popup_menu_placement_cb (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 	GnomeCanvas *parent = item->canvas;
 
 	if (parent) {
-		gdk_window_get_origin (((GtkWidget*) parent)->window, x, y);
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (GTK_WIDGET (parent));
+		gdk_window_get_origin (window, x, y);
 		*x += item->x1 + text->width / 2;
 		*y += item->y1 + text->height / 2;
 	}

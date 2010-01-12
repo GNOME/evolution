@@ -1166,7 +1166,7 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = widget->style;
+	style = gtk_widget_get_style (widget);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;

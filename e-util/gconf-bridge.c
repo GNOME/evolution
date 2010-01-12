@@ -648,8 +648,10 @@ window_binding_perform_scheduled_sync (WindowBinding *binding)
                 gint width, height;
                 gchar *key;
                 GdkWindowState state;
+                GdkWindow *window;
 
-                state = gdk_window_get_state (GTK_WIDGET (binding->window)->window);
+                window = gtk_widget_get_window (GTK_WIDGET (binding->window));
+                state = gdk_window_get_state (window);
 
                 if (state & GDK_WINDOW_STATE_MAXIMIZED) {
                         key = g_strconcat (binding->key_prefix, "_maximized", NULL);
