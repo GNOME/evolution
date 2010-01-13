@@ -14,6 +14,7 @@
 #define gdk_drag_context_get_suggested_action(context)	(context)->suggested_action
 #define gdk_drag_context_get_selected_action(context)	(context)->action
 #define gdk_drag_context_list_targets(context)		(context)->targets
+#define gdk_visual_get_depth(visual)			(visual)->depth
 
 #define gtk_accessible_get_widget(accessible) \
 	(GTK_ACCESSIBLE (accessible)->widget)

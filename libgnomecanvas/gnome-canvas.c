@@ -91,6 +91,7 @@
 #include "gnome-canvas-marshal.h"
 #include "gnome-canvas-marshal.c"
 
+#include <e-util/gtk-compat.h>
 
 /* We must run our idle update handler *before* GDK wants to redraw. */
 #define CANVAS_IDLE_PRIORITY (GDK_PRIORITY_REDRAW - 5)
@@ -168,7 +169,7 @@ gnome_canvas_item_get_type (void)
 static void
 gnome_canvas_item_init (GnomeCanvasItem *item)
 {
-	item->object.flags |= GNOME_CANVAS_ITEM_VISIBLE;
+	item->flags |= GNOME_CANVAS_ITEM_VISIBLE;
 }
 
 /**
@@ -300,7 +301,7 @@ gnome_canvas_item_construct (GnomeCanvasItem *item, GnomeCanvasGroup *parent,
 static void
 redraw_if_visible (GnomeCanvasItem *item)
 {
-	if (item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+	if (item->flags & GNOME_CANVAS_ITEM_VISIBLE)
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2 + 1, item->y2 + 1);
 }
 
@@ -339,10 +340,10 @@ gnome_canvas_item_dispose (GObject *object)
 
 	/* Normal destroy stuff */
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_MAPPED)
+	if (item->flags & GNOME_CANVAS_ITEM_MAPPED)
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_REALIZED)
+	if (item->flags & GNOME_CANVAS_ITEM_REALIZED)
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->unrealize) (item);
 
 	if (item->parent)
@@ -361,7 +362,7 @@ gnome_canvas_item_dispose (GObject *object)
 static void
 gnome_canvas_item_realize (GnomeCanvasItem *item)
 {
-	GTK_OBJECT_SET_FLAGS (item, GNOME_CANVAS_ITEM_REALIZED);
+	item->flags |= GNOME_CANVAS_ITEM_REALIZED;
 
 	gnome_canvas_item_request_update (item);
 }
@@ -370,31 +371,31 @@ gnome_canvas_item_realize (GnomeCanvasItem *item)
 static void
 gnome_canvas_item_unrealize (GnomeCanvasItem *item)
 {
-	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_REALIZED);
+	item->flags &= ~GNOME_CANVAS_ITEM_REALIZED;
 }
 
 /* Map handler for canvas items */
 static void
 gnome_canvas_item_map (GnomeCanvasItem *item)
 {
-	GTK_OBJECT_SET_FLAGS (item, GNOME_CANVAS_ITEM_MAPPED);
+	item->flags |= GNOME_CANVAS_ITEM_MAPPED;
 }
 
 /* Unmap handler for canvas items */
 static void
 gnome_canvas_item_unmap (GnomeCanvasItem *item)
 {
-	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_MAPPED);
+	item->flags &= ~GNOME_CANVAS_ITEM_MAPPED;
 }
 
 /* Update handler for canvas items */
 static void
 gnome_canvas_item_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_NEED_UPDATE);
-	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_NEED_AFFINE);
-	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_NEED_CLIP);
-	GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_NEED_VIS);
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_UPDATE;
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_AFFINE;
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_CLIP;
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_VIS;
 }
 
 #define noHACKISH_AFFINE
@@ -423,13 +424,13 @@ gnome_canvas_item_invoke_update (GnomeCanvasItem *item, double *p2cpx, ArtSVP *c
 #endif
 
 	child_flags = flags;
-	if (!(item->object.flags & GNOME_CANVAS_ITEM_VISIBLE))
+	if (!(item->flags & GNOME_CANVAS_ITEM_VISIBLE))
 		child_flags &= ~GNOME_CANVAS_UPDATE_IS_VISIBLE;
 
 	/* Calculate actual item transformation matrix */
 
 	if (item->xform) {
-		if (item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
+		if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
 			/* Item has full affine */
 			art_affine_multiply (i2cpx, item->xform, p2cpx);
 		} else {
@@ -455,16 +456,16 @@ gnome_canvas_item_invoke_update (GnomeCanvasItem *item, double *p2cpx, ArtSVP *c
 
 	child_flags &= ~GNOME_CANVAS_UPDATE_REQUESTED;
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_NEED_UPDATE)
+	if (item->flags & GNOME_CANVAS_ITEM_NEED_UPDATE)
 		child_flags |= GNOME_CANVAS_UPDATE_REQUESTED;
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_NEED_AFFINE)
+	if (item->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)
 		child_flags |= GNOME_CANVAS_UPDATE_AFFINE;
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_NEED_CLIP)
+	if (item->flags & GNOME_CANVAS_ITEM_NEED_CLIP)
 		child_flags |= GNOME_CANVAS_UPDATE_CLIP;
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_NEED_VIS)
+	if (item->flags & GNOME_CANVAS_ITEM_NEED_VIS)
 		child_flags |= GNOME_CANVAS_UPDATE_VISIBILITY;
 
 	if (child_flags & GCI_UPDATE_MASK) {
@@ -486,7 +487,7 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, int c
 	/* Calculate x & y in item local coordinates */
 
 	if (item->xform) {
-		if (item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
+		if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
 			gdouble p2i[6], t;
 			/* Item has full affine */
 			art_affine_invert (p2i, item->xform);
@@ -589,7 +590,7 @@ gnome_canvas_item_affine_relative (GnomeCanvasItem *item, const double affine[6]
 	/* Calculate actual item transformation matrix */
 
 	if (item->xform) {
-		if (item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
+		if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
 			/* Item has full affine */
 			art_affine_multiply (i2p, affine, item->xform);
 		} else {
@@ -632,14 +633,14 @@ gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const double i2p[6])
 	}
 
 	if (i2p) {
-		if (item->xform && !(item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL)) {
+		if (item->xform && !(item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)) {
 			/* We do not want to deal with translation-only affines */
 			g_free (item->xform);
 			item->xform = NULL;
 		}
 		if (!item->xform) item->xform = g_new (gdouble, 6);
 		memcpy (item->xform, i2p, 6 * sizeof (gdouble));
-		item->object.flags |= GNOME_CANVAS_ITEM_AFFINE_FULL;
+		item->flags |= GNOME_CANVAS_ITEM_AFFINE_FULL;
 	} else {
 		if (item->xform) {
 			g_free (item->xform);
@@ -647,9 +648,9 @@ gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const double i2p[6])
 		}
 	}
 
-	if (!(item->object.flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
+	if (!(item->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
 		/* Request update */
-		item->object.flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
+		item->flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
 		gnome_canvas_item_request_update (item);
 	}
 
@@ -877,8 +878,8 @@ gnome_canvas_item_show (GnomeCanvasItem *item)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	if (!(item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
-		item->object.flags |= GNOME_CANVAS_ITEM_VISIBLE;
+	if (!(item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
+		item->flags |= GNOME_CANVAS_ITEM_VISIBLE;
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2 + 1, item->y2 + 1);
 		item->canvas->need_repick = TRUE;
 	}
@@ -897,8 +898,8 @@ gnome_canvas_item_hide (GnomeCanvasItem *item)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	if (item->object.flags & GNOME_CANVAS_ITEM_VISIBLE) {
-		item->object.flags &= ~GNOME_CANVAS_ITEM_VISIBLE;
+	if (item->flags & GNOME_CANVAS_ITEM_VISIBLE) {
+		item->flags &= ~GNOME_CANVAS_ITEM_VISIBLE;
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2 + 1, item->y2 + 1);
 		item->canvas->need_repick = TRUE;
 	}
@@ -926,6 +927,8 @@ gnome_canvas_item_hide (GnomeCanvasItem *item)
 int
 gnome_canvas_item_grab (GnomeCanvasItem *item, guint event_mask, GdkCursor *cursor, guint32 etime)
 {
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 	int retval;
 
 	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), GDK_GRAB_NOT_VIEWABLE);
@@ -934,10 +937,13 @@ gnome_canvas_item_grab (GnomeCanvasItem *item, guint event_mask, GdkCursor *curs
 	if (item->canvas->grabbed_item)
 		return GDK_GRAB_ALREADY_GRABBED;
 
-	if (!(item->object.flags & GNOME_CANVAS_ITEM_VISIBLE))
+	if (!(item->flags & GNOME_CANVAS_ITEM_VISIBLE))
 		return GDK_GRAB_NOT_VIEWABLE;
 
-	retval = gdk_pointer_grab (item->canvas->layout.bin_window,
+	layout = GTK_LAYOUT (item->canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+
+	retval = gdk_pointer_grab (bin_window,
 				   FALSE,
 				   event_mask,
 				   NULL,
@@ -995,7 +1001,7 @@ gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, double affine[6])
 
 	while (item) {
 		if (item->xform != NULL) {
-			if (item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
+			if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
 				art_affine_multiply (affine, affine, item->xform);
 			} else {
 				affine[4] += item->xform[0];
@@ -1153,8 +1159,14 @@ gnome_canvas_item_grab_focus (GnomeCanvasItem *item)
 	focused_item = item->canvas->focused_item;
 
 	if (focused_item) {
+		GtkLayout *layout;
+		GdkWindow *bin_window;
+
+		layout = GTK_LAYOUT (item->canvas);
+		bin_window = gtk_layout_get_bin_window (layout);
+
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
-		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
+		ev.focus_change.window = bin_window;
 		ev.focus_change.send_event = FALSE;
 		ev.focus_change.in = FALSE;
 
@@ -1165,8 +1177,14 @@ gnome_canvas_item_grab_focus (GnomeCanvasItem *item)
 	gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 
 	if (focused_item) {                                                     
+		GtkLayout *layout;
+		GdkWindow *bin_window;
+
+		layout = GTK_LAYOUT (item->canvas);
+		bin_window = gtk_layout_get_bin_window (layout);
+
 		ev.focus_change.type = GDK_FOCUS_CHANGE;                        
-		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
+		ev.focus_change.window = bin_window;
 		ev.focus_change.send_event = FALSE;                             
 		ev.focus_change.in = TRUE;                                      
 
@@ -1206,7 +1224,7 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item, double *x1, double *y1, dou
 
 	/* Make the bounds relative to the item's parent coordinate system */
 
-	if (item->xform && (item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL)) {
+	if (item->xform && (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)) {
 		p1.x = p2.x = tx1;
 		p1.y = p4.y = ty1;
 		p3.x = p4.x = tx2;
@@ -1286,10 +1304,10 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item, double *x1, double *y1, dou
 void
 gnome_canvas_item_request_update (GnomeCanvasItem *item)
 {
-	if (item->object.flags & GNOME_CANVAS_ITEM_NEED_UPDATE)
+	if (item->flags & GNOME_CANVAS_ITEM_NEED_UPDATE)
 		return;
 
-	item->object.flags |= GNOME_CANVAS_ITEM_NEED_UPDATE;
+	item->flags |= GNOME_CANVAS_ITEM_NEED_UPDATE;
 
 	if (item->parent != NULL) {
 		/* Recurse up the tree */
@@ -1437,12 +1455,12 @@ static double *
 gnome_canvas_ensure_translate (GnomeCanvasItem *item)
 {
 	if (item->xform == NULL) {
-		GTK_OBJECT_UNSET_FLAGS (item, GNOME_CANVAS_ITEM_AFFINE_FULL);
+		item->flags &= ~GNOME_CANVAS_ITEM_AFFINE_FULL;
 		item->xform = g_new (double, 2);
 		item->xform[0] = 0.0;
 		item->xform[1] = 0.0;
 		return item->xform;
-	} else if (item->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
+	} else if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
 		return item->xform + 4;
 	} else {
 		return item->xform;
@@ -1493,7 +1511,7 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 	case GROUP_PROP_X:
 		if (item->xform == NULL)
 			g_value_set_double (value, 0);
-		else if (GTK_OBJECT (gobject)->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)
+		else if (GNOME_CANVAS_ITEM (gobject)->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)
 			g_value_set_double (value, item->xform[4]);
 		else
 			g_value_set_double (value, item->xform[0]);
@@ -1502,7 +1520,7 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 	case GROUP_PROP_Y:
 		if (item->xform == NULL)
 			g_value_set_double (value, 0);
-		else if (GTK_OBJECT (gobject)->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)
+		else if (GNOME_CANVAS_ITEM (gobject)->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)
 			g_value_set_double (value, item->xform[5]);
 		else
 			g_value_set_double (value, item->xform[1]);
@@ -1581,7 +1599,7 @@ gnome_canvas_group_realize (GnomeCanvasItem *item)
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
 
-		if (!(i->object.flags & GNOME_CANVAS_ITEM_REALIZED))
+		if (!(i->flags & GNOME_CANVAS_ITEM_REALIZED))
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->realize) (i);
 	}
 
@@ -1601,7 +1619,7 @@ gnome_canvas_group_unrealize (GnomeCanvasItem *item)
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
 
-		if (i->object.flags & GNOME_CANVAS_ITEM_REALIZED)
+		if (i->flags & GNOME_CANVAS_ITEM_REALIZED)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->unrealize) (i);
 	}
 
@@ -1621,7 +1639,7 @@ gnome_canvas_group_map (GnomeCanvasItem *item)
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
 
-		if (!(i->object.flags & GNOME_CANVAS_ITEM_MAPPED))
+		if (!(i->flags & GNOME_CANVAS_ITEM_MAPPED))
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->map) (i);
 	}
 
@@ -1641,7 +1659,7 @@ gnome_canvas_group_unmap (GnomeCanvasItem *item)
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
 
-		if (i->object.flags & GNOME_CANVAS_ITEM_MAPPED)
+		if (i->flags & GNOME_CANVAS_ITEM_MAPPED)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->unmap) (i);
 	}
 
@@ -1662,12 +1680,12 @@ gnome_canvas_group_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if (((child->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
 		     && ((child->x1 < (x + width))
 			 && (child->y1 < (y + height))
 			 && (child->x2 > x)
 			 && (child->y2 > y)))
-		    || ((GTK_OBJECT_FLAGS (child) & GNOME_CANVAS_ITEM_ALWAYS_REDRAW)
+		    || ((child->flags & GNOME_CANVAS_ITEM_ALWAYS_REDRAW)
 			&& (child->x1 < child->canvas->redraw_x2)
 			&& (child->y1 < child->canvas->redraw_y2)
 			&& (child->x2 > child->canvas->redraw_x1)
@@ -1714,7 +1732,7 @@ gnome_canvas_group_point (GnomeCanvasItem *item, double x, double y, int cx, int
 
 		point_item = NULL; /* cater for incomplete item implementations */
 
-		if ((child->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if ((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
 		    && GNOME_CANVAS_ITEM_GET_CLASS (child)->point) {
 			dist = gnome_canvas_item_invoke_point (child, gx, gy, cx, cy, &point_item);
 			has_point = TRUE;
@@ -1755,7 +1773,7 @@ gnome_canvas_group_bounds (GnomeCanvasItem *item, double *x1, double *y1, double
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if (child->object.flags & GNOME_CANVAS_ITEM_VISIBLE) {
+		if (child->flags & GNOME_CANVAS_ITEM_VISIBLE) {
 			set = TRUE;
 			gnome_canvas_item_get_bounds (child, &minx, &miny, &maxx, &maxy);
 			break;
@@ -1776,7 +1794,7 @@ gnome_canvas_group_bounds (GnomeCanvasItem *item, double *x1, double *y1, double
 	for (; list; list = list->next) {
 		child = list->data;
 
-		if (!(child->object.flags & GNOME_CANVAS_ITEM_VISIBLE))
+		if (!(child->flags & GNOME_CANVAS_ITEM_VISIBLE))
 			continue;
 
 		gnome_canvas_item_get_bounds (child, &tx1, &ty1, &tx2, &ty2);
@@ -1813,12 +1831,12 @@ gnome_canvas_group_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if (((child->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
 		     && ((child->x1 < buf->rect.x1)
 			 && (child->y1 < buf->rect.y1)
 			 && (child->x2 > buf->rect.x0)
 			 && (child->y2 > buf->rect.y0)))
-		    || ((GTK_OBJECT_FLAGS (child) & GNOME_CANVAS_ITEM_ALWAYS_REDRAW)
+		    || ((child->flags & GNOME_CANVAS_ITEM_ALWAYS_REDRAW)
 			&& (child->x1 < child->canvas->redraw_x2)
 			&& (child->y1 < child->canvas->redraw_y2)
 			&& (child->x2 > child->canvas->redraw_x1)
@@ -1841,10 +1859,10 @@ group_add (GnomeCanvasGroup *group, GnomeCanvasItem *item)
 	} else
 		group->item_list_end = g_list_append (group->item_list_end, item)->next;
 
-	if (group->item.object.flags & GNOME_CANVAS_ITEM_REALIZED)
+	if (group->item.flags & GNOME_CANVAS_ITEM_REALIZED)
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->realize) (item);
 
-	if (group->item.object.flags & GNOME_CANVAS_ITEM_MAPPED)
+	if (group->item.flags & GNOME_CANVAS_ITEM_MAPPED)
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->map) (item);
 
 	g_object_notify (G_OBJECT (item), "parent");
@@ -1861,10 +1879,10 @@ group_remove (GnomeCanvasGroup *group, GnomeCanvasItem *item)
 
 	for (children = group->item_list; children; children = children->next)
 		if (children->data == item) {
-			if (item->object.flags & GNOME_CANVAS_ITEM_MAPPED)
+			if (item->flags & GNOME_CANVAS_ITEM_MAPPED)
 				(* GNOME_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
 
-			if (item->object.flags & GNOME_CANVAS_ITEM_REALIZED)
+			if (item->flags & GNOME_CANVAS_ITEM_REALIZED)
 				(* GNOME_CANVAS_ITEM_GET_CLASS (item)->unrealize) (item);
 
 			/* Unparent the child */
@@ -2092,7 +2110,13 @@ panic_root_destroyed (GtkObject *object, gpointer data)
 static void
 gnome_canvas_init (GnomeCanvas *canvas)
 {
-	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
+	GtkLayout *layout;
+	guint layout_width, layout_height;
+
+	layout = GTK_LAYOUT (canvas);
+	gtk_layout_get_size (layout, &layout_width, &layout_height);
+
+	gtk_widget_set_can_focus (GTK_WIDGET (canvas), TRUE);
 
 	canvas->need_update = FALSE;
 	canvas->need_redraw = FALSE;
@@ -2101,8 +2125,8 @@ gnome_canvas_init (GnomeCanvas *canvas)
 
 	canvas->scroll_x1 = 0.0;
 	canvas->scroll_y1 = 0.0;
-	canvas->scroll_x2 = canvas->layout.width;
-	canvas->scroll_y2 = canvas->layout.height;
+	canvas->scroll_x2 = layout_width;
+	canvas->scroll_y2 = layout_height;
 
 	canvas->pixels_per_unit = 1.0;
 
@@ -2283,6 +2307,8 @@ static void
 gnome_canvas_realize (GtkWidget *widget)
 {
 	GnomeCanvas *canvas;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 
@@ -2293,8 +2319,11 @@ gnome_canvas_realize (GtkWidget *widget)
 
 	canvas = GNOME_CANVAS (widget);
 
-	gdk_window_set_events (canvas->layout.bin_window,
-			       (gdk_window_get_events (canvas->layout.bin_window)
+	layout = GTK_LAYOUT (canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+
+	gdk_window_set_events (bin_window,
+			       (gdk_window_get_events (bin_window)
 				 | GDK_EXPOSURE_MASK
 				 | GDK_BUTTON_PRESS_MASK
 				 | GDK_BUTTON_RELEASE_MASK
@@ -2307,7 +2336,7 @@ gnome_canvas_realize (GtkWidget *widget)
 
 	/* Create our own temporary pixmap gc and realize all the items */
 
-	canvas->pixmap_gc = gdk_gc_new (canvas->layout.bin_window);
+	canvas->pixmap_gc = gdk_gc_new (bin_window);
 
 	(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->realize) (canvas->root);
 }
@@ -2341,14 +2370,27 @@ gnome_canvas_unrealize (GtkWidget *widget)
 static void
 scroll_to (GnomeCanvas *canvas, int cx, int cy)
 {
+	GtkWidget *widget;
+	GtkLayout *layout;
+	GtkAllocation allocation;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+	guint layout_width, layout_height;
 	int scroll_width, scroll_height;
 	int right_limit, bottom_limit;
 	int old_zoom_xofs, old_zoom_yofs;
-	int changed_x = FALSE, changed_y = FALSE;
 	int canvas_width, canvas_height;
 
-	canvas_width = GTK_WIDGET (canvas)->allocation.width;
-	canvas_height = GTK_WIDGET (canvas)->allocation.height;
+	widget = GTK_WIDGET (canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+
+	layout = GTK_LAYOUT (canvas);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+	gtk_layout_get_size (layout, &layout_width, &layout_height);
+
+	canvas_width = allocation.width;
+	canvas_height = allocation.height;
 
 	scroll_width = floor ((canvas->scroll_x2 - canvas->scroll_x1) * canvas->pixels_per_unit
 			      + 0.5);
@@ -2401,41 +2443,31 @@ scroll_to (GnomeCanvas *canvas, int cx, int cy)
 		/* The reason is, that coverage UTA will be invalidated by offset change */
 		/* fixme: Strictly this is not correct - we have to remove our own idle (Lauris) */
 		/* More stuff - we have to mark root as needing fresh affine (Lauris) */
-		if (!(canvas->root->object.flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
-			canvas->root->object.flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
+		if (!(canvas->root->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
+			canvas->root->flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
 			gnome_canvas_request_update (canvas);
 		}
 		gtk_widget_queue_draw (GTK_WIDGET (canvas));
 	}
 
-	if (canvas->layout.hadjustment && ((int) canvas->layout.hadjustment->value) != cx) {
-		canvas->layout.hadjustment->value = cx;
-		changed_x = TRUE;
-	}
+	if (hadjustment)
+		gtk_adjustment_set_value (hadjustment, cx);
 
-	if (canvas->layout.vadjustment && ((int) canvas->layout.vadjustment->value) != cy) {
-		canvas->layout.vadjustment->value = cy;
-		changed_y = TRUE;
-	}
+	if (vadjustment)
+		gtk_adjustment_set_value (vadjustment, cy);
 
-	if ((scroll_width != (int) canvas->layout.width)
-	    || (scroll_height != (int) canvas->layout.height))
+	if ((scroll_width != (int) layout_width)
+	    || (scroll_height != (int) layout_height))
 		gtk_layout_set_size (GTK_LAYOUT (canvas), scroll_width, scroll_height);
-
-	/* Signal GtkLayout that it should do a redraw. */
-
-	if (changed_x)
-		g_signal_emit_by_name (canvas->layout.hadjustment, "value_changed");
-
-	if (changed_y)
-		g_signal_emit_by_name (canvas->layout.vadjustment, "value_changed");
 }
 
 /* Size allocation handler for the canvas */
 static void
 gnome_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-	GnomeCanvas *canvas;
+	GtkLayout *layout;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
 
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (allocation != NULL);
@@ -2443,22 +2475,27 @@ gnome_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	if (GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate)
 		(* GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate) (widget, allocation);
 
-	canvas = GNOME_CANVAS (widget);
+	layout = GTK_LAYOUT (widget);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
 
 	/* Recenter the view, if appropriate */
 
-	canvas->layout.hadjustment->page_size = allocation->width;
-	canvas->layout.hadjustment->page_increment = allocation->width / 2;
+	g_object_freeze_notify (G_OBJECT (hadjustment));
+	g_object_freeze_notify (G_OBJECT (vadjustment));
 
-	canvas->layout.vadjustment->page_size = allocation->height;
-	canvas->layout.vadjustment->page_increment = allocation->height / 2;
+	gtk_adjustment_set_page_size (hadjustment, allocation->width);
+	gtk_adjustment_set_page_increment (hadjustment, allocation->width / 2);
 
-	scroll_to (canvas,
-		   canvas->layout.hadjustment->value,
-		   canvas->layout.vadjustment->value);
+	gtk_adjustment_set_page_size (vadjustment, allocation->height);
+	gtk_adjustment_set_page_increment (vadjustment, allocation->height / 2);
 
-	g_signal_emit_by_name (canvas->layout.hadjustment, "changed");
-	g_signal_emit_by_name (canvas->layout.vadjustment, "changed");
+	scroll_to (GNOME_CANVAS (widget),
+		   gtk_adjustment_get_value (hadjustment),
+		   gtk_adjustment_get_value (vadjustment));
+
+	g_object_thaw_notify (G_OBJECT (hadjustment));
+	g_object_thaw_notify (G_OBJECT (vadjustment));
 }
 
 /* Emits an event for an item in the canvas, be it the current item, grabbed
@@ -2681,7 +2718,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 
 		/* find the closest item */
 
-		if (canvas->root->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
 			gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy,
 							&canvas->new_current_item);
 		else
@@ -2739,6 +2776,8 @@ static gint
 gnome_canvas_button (GtkWidget *widget, GdkEventButton *event)
 {
 	GnomeCanvas *canvas;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 	int mask;
 	int retval;
 
@@ -2749,11 +2788,14 @@ gnome_canvas_button (GtkWidget *widget, GdkEventButton *event)
 
 	canvas = GNOME_CANVAS (widget);
 
+	layout = GTK_LAYOUT (canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+
 	/*
 	 * dispatch normally regardless of the event's window if an item has
 	 * has a pointer grab in effect
 	 */
-	if (!canvas->grabbed_item && event->window != canvas->layout.bin_window)
+	if (!canvas->grabbed_item && event->window != bin_window)
 		return retval;
 
 	switch (event->button) {
@@ -2813,13 +2855,18 @@ static gint
 gnome_canvas_motion (GtkWidget *widget, GdkEventMotion *event)
 {
 	GnomeCanvas *canvas;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	canvas = GNOME_CANVAS (widget);
 
-	if (event->window != canvas->layout.bin_window)
+	layout = GTK_LAYOUT (widget);
+	bin_window = gtk_layout_get_bin_window (layout);
+
+	if (event->window != bin_window)
 		return FALSE;
 
 	canvas->state = event->state;
@@ -2863,13 +2910,18 @@ static gint
 gnome_canvas_crossing (GtkWidget *widget, GdkEventCrossing *event)
 {
 	GnomeCanvas *canvas;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	canvas = GNOME_CANVAS (widget);
 
-	if (event->window != canvas->layout.bin_window)
+	layout = GTK_LAYOUT (canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+
+	if (event->window != bin_window)
 		return FALSE;
 
 	canvas->state = event->state;
@@ -2882,7 +2934,11 @@ gnome_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 
+	/* XXX Can't access flags directly anymore, but is it really needed?
+	 *     If so, could we call gtk_widget_send_focus_change() instead? */
+#if 0
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
+#endif
 
 	canvas = GNOME_CANVAS (widget);
 
@@ -2898,7 +2954,11 @@ gnome_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 
+	/* XXX Can't access flags directly anymore, but is it really needed?
+	 *     If so, could we call gtk_widget_send_focus_change() instead? */
+#if 0
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
+#endif
 
 	canvas = GNOME_CANVAS (widget);
 
@@ -2914,18 +2974,34 @@ static void
 gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1)
 {
 	GtkWidget *widget;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
+	GtkAllocation allocation;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
 	gint draw_x1, draw_y1;
 	gint draw_x2, draw_y2;
 	gint draw_width, draw_height;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
 
 	g_return_if_fail (!canvas->need_update);
 
 	widget = GTK_WIDGET (canvas);
+	gtk_widget_get_allocation (widget, &allocation);
 
-	draw_x1 = MAX (x0, canvas->layout.hadjustment->value - canvas->zoom_xofs);
-	draw_y1 = MAX (y0, canvas->layout.vadjustment->value - canvas->zoom_yofs);
-	draw_x2 = MIN (draw_x1 + GTK_WIDGET (canvas)->allocation.width, x1);
-	draw_y2 = MIN (draw_y1 + GTK_WIDGET (canvas)->allocation.height, y1);
+	layout = GTK_LAYOUT (canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
+
+	draw_x1 = MAX (x0, hadjustment_value - canvas->zoom_xofs);
+	draw_y1 = MAX (y0, vadjustment_value - canvas->zoom_yofs);
+	draw_x2 = MIN (draw_x1 + allocation.width, x1);
+	draw_y2 = MIN (draw_y1 + allocation.height, y1);
 
 	draw_width = draw_x2 - draw_x1;
 	draw_height = draw_y2 - draw_y1;
@@ -2944,6 +3020,7 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 		GnomeCanvasBuf buf;
 		guchar *px;
 		GdkColor *color;
+		GtkStyle *style;
 
 		px = g_new (guchar, draw_width * 3 * draw_height);
 
@@ -2953,26 +3030,27 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 		buf.rect.y0 = draw_y1;
 		buf.rect.x1 = draw_x2;
 		buf.rect.y1 = draw_y2;
-		color = &widget->style->bg[GTK_STATE_NORMAL];
+		style = gtk_widget_get_style (widget);
+		color = &style->bg[GTK_STATE_NORMAL];
 		buf.bg_color = (((color->red & 0xff00) << 8) | (color->green & 0xff00) | (color->blue >> 8));
 		buf.is_bg = 1;
 		buf.is_buf = 0;
 
 		g_signal_emit (G_OBJECT (canvas), canvas_signals[RENDER_BACKGROUND], 0, &buf);
 
-		if (canvas->root->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->render) (canvas->root, &buf);
 
 		if (buf.is_bg) {
 			gdk_gc_set_rgb_fg_color (canvas->pixmap_gc, color);
-			gdk_draw_rectangle (canvas->layout.bin_window,
+			gdk_draw_rectangle (bin_window,
 					    canvas->pixmap_gc,
 					    TRUE,
 					    (draw_x1 + canvas->zoom_xofs),
 					    (draw_y1 + canvas->zoom_yofs),
 					    draw_width, draw_height);
 		} else {
-			gdk_draw_rgb_image_dithalign (canvas->layout.bin_window,
+			gdk_draw_rgb_image_dithalign (bin_window,
 						      canvas->pixmap_gc,
 						      (draw_x1 + canvas->zoom_xofs),
 						      (draw_y1 + canvas->zoom_yofs),
@@ -2986,15 +3064,19 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 		g_free (px);
 	} else {
 		GdkPixmap *pixmap;
+		GdkVisual *visual;
+		gint depth;
 
-		pixmap = gdk_pixmap_new (canvas->layout.bin_window,
-					 draw_width, draw_height,
-					 gtk_widget_get_visual (widget)->depth);
+		visual = gtk_widget_get_visual (widget);
+		depth = gdk_visual_get_depth (visual);
+
+		pixmap = gdk_pixmap_new (bin_window,
+					 draw_width, draw_height, depth);
 
 		g_signal_emit (G_OBJECT (canvas), canvas_signals[DRAW_BACKGROUND], 0, pixmap,
 			       draw_x1, draw_y1, draw_width, draw_height);
 
-		if (canvas->root->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->draw) (
 				canvas->root, pixmap,
 				draw_x1, draw_y1,
@@ -3002,7 +3084,7 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 
 		/* Copy the pixmap to the window and clean up */
 
-		gdk_draw_drawable (canvas->layout.bin_window,
+		gdk_draw_drawable (bin_window,
 				   canvas->pixmap_gc,
 				   pixmap,
 				   0, 0,
@@ -3019,13 +3101,18 @@ static gint
 gnome_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 {
 	GnomeCanvas *canvas;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 	GdkRectangle *rects;
 	gint n_rects;
 	int i;
 
 	canvas = GNOME_CANVAS (widget);
 
-	if (!gtk_widget_is_drawable (widget) || (event->window != canvas->layout.bin_window))
+	layout = GTK_LAYOUT (canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+
+	if (!gtk_widget_is_drawable (widget) || (event->window != bin_window))
 		return FALSE;
 
 #ifdef VERBOSE
@@ -3068,10 +3155,29 @@ gnome_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 static void
 paint (GnomeCanvas *canvas)
 {
+	GtkWidget *widget;
+	GtkLayout *layout;
+	GdkWindow *bin_window;
+	GtkAllocation allocation;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
 	ArtIRect *rects;
 	gint n_rects, i;
 	ArtIRect visible_rect;
 	GdkRegion *region;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
+
+	widget = GTK_WIDGET (canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+
+	layout = GTK_LAYOUT (canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
 	/* Extract big rectangles from the microtile array */
 
@@ -3085,10 +3191,10 @@ paint (GnomeCanvas *canvas)
 
 	/* Turn those rectangles into a GdkRegion for exposing */
 
-	visible_rect.x0 = canvas->layout.hadjustment->value - canvas->zoom_xofs;
-	visible_rect.y0 = canvas->layout.vadjustment->value - canvas->zoom_yofs;
-	visible_rect.x1 = visible_rect.x0 + GTK_WIDGET (canvas)->allocation.width;
-	visible_rect.y1 = visible_rect.y0 + GTK_WIDGET (canvas)->allocation.height;
+	visible_rect.x0 = hadjustment_value - canvas->zoom_xofs;
+	visible_rect.y0 = vadjustment_value - canvas->zoom_yofs;
+	visible_rect.x1 = visible_rect.x0 + allocation.width;
+	visible_rect.y1 = visible_rect.y0 + allocation.height;
 
 	region = gdk_region_new ();
 
@@ -3105,7 +3211,7 @@ paint (GnomeCanvas *canvas)
 			gdkrect.height = clipped.y1 - clipped.y0;
 
 			region = gdk_region_rectangle (&gdkrect);
-			gdk_window_invalidate_region (canvas->layout.bin_window, region, FALSE);
+			gdk_window_invalidate_region (bin_window, region, FALSE);
 			gdk_region_destroy (region);
 		}
 	}
@@ -3122,9 +3228,13 @@ static void
 gnome_canvas_draw_background (GnomeCanvas *canvas, GdkDrawable *drawable,
 			      int x, int y, int width, int height)
 {
+	GtkStyle *style;
+
+	style = gtk_widget_get_style (GTK_WIDGET (canvas));
+
 	/* By default, we use the style background. */
 	gdk_gc_set_foreground (canvas->pixmap_gc,
-			       &GTK_WIDGET (canvas)->style->bg[GTK_STATE_NORMAL]);
+			       &style->bg[GTK_STATE_NORMAL]);
 	gdk_draw_rectangle (drawable,
 			    canvas->pixmap_gc,
 			    TRUE,
@@ -3243,10 +3353,22 @@ gnome_canvas_root (GnomeCanvas *canvas)
 void
 gnome_canvas_set_scroll_region (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
 {
+	GtkLayout *layout;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
 	double wxofs, wyofs;
 	int xofs, yofs;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
+
+	layout = GTK_LAYOUT (canvas);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
 	/*
 	 * Set the new scrolling region.  If possible, do not move the visible contents of the
@@ -3254,8 +3376,8 @@ gnome_canvas_set_scroll_region (GnomeCanvas *canvas, double x1, double y1, doubl
 	 */
 
 	gnome_canvas_c2w (canvas,
-			  GTK_LAYOUT (canvas)->hadjustment->value + canvas->zoom_xofs,
-			  GTK_LAYOUT (canvas)->vadjustment->value + canvas->zoom_yofs,
+			  hadjustment_value + canvas->zoom_xofs,
+			  vadjustment_value + canvas->zoom_yofs,
 			  /*canvas->zoom_xofs,
 			  canvas->zoom_yofs,*/
 			  &wxofs, &wyofs);
@@ -3320,13 +3442,24 @@ gnome_canvas_get_scroll_region (GnomeCanvas *canvas, double *x1, double *y1, dou
 void
 gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas, gboolean center_scroll_region)
 {
+	GtkLayout *layout;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
+
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
+
+	layout = GTK_LAYOUT (canvas);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
 	canvas->center_scroll_region = center_scroll_region != 0;
 
-	scroll_to (canvas,
-		   canvas->layout.hadjustment->value,
-		   canvas->layout.vadjustment->value);
+	scroll_to (canvas, hadjustment_value, vadjustment_value);
 }
 
 /**
@@ -3365,6 +3498,9 @@ gnome_canvas_get_center_scroll_region (GnomeCanvas *canvas)
 void
 gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, double n)
 {
+	GtkLayout *layout;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
 	double ax, ay;
 	int x1, y1;
 	int anchor_x, anchor_y;
@@ -3372,20 +3508,30 @@ gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, double n)
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	g_return_if_fail (n > GNOME_CANVAS_EPSILON);
 
+	layout = GTK_LAYOUT (canvas);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+
 	if (canvas->center_scroll_region) {
-		anchor_x = GTK_WIDGET (canvas)->allocation.width / 2;
-		anchor_y = GTK_WIDGET (canvas)->allocation.height / 2;
+		GtkAllocation allocation;
+
+		gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
+
+		anchor_x = allocation.width / 2;
+		anchor_y = allocation.height / 2;
 	} else
 		anchor_x = anchor_y = 0;
 
 	/* Find the coordinates of the anchor point in units. */
-	if(canvas->layout.hadjustment) {
-		ax = (canvas->layout.hadjustment->value + anchor_x) / canvas->pixels_per_unit + canvas->scroll_x1 + canvas->zoom_xofs;
+	if(hadjustment) {
+		gdouble value = gtk_adjustment_get_value (hadjustment);
+		ax = (value + anchor_x) / canvas->pixels_per_unit + canvas->scroll_x1 + canvas->zoom_xofs;
 	} else {
 		ax = (0.0                               + anchor_x) / canvas->pixels_per_unit + canvas->scroll_x1 + canvas->zoom_xofs;
 	}
-	if(canvas->layout.hadjustment) {
-		ay = (canvas->layout.vadjustment->value + anchor_y) / canvas->pixels_per_unit + canvas->scroll_y1 + canvas->zoom_yofs;
+	if(vadjustment) {
+		gdouble value = gtk_adjustment_get_value (vadjustment);
+		ay = (value + anchor_y) / canvas->pixels_per_unit + canvas->scroll_y1 + canvas->zoom_yofs;
 	} else {
 		ay = (0.0                               + anchor_y) / canvas->pixels_per_unit + canvas->scroll_y1 + canvas->zoom_yofs;
 	}
@@ -3398,8 +3544,8 @@ gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, double n)
 
 	scroll_to (canvas, x1, y1);
 
-	if (!(canvas->root->object.flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
-		canvas->root->object.flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
+	if (!(canvas->root->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
+		canvas->root->flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
 		gnome_canvas_request_update (canvas);
 	}
 
@@ -3437,13 +3583,22 @@ gnome_canvas_scroll_to (GnomeCanvas *canvas, int cx, int cy)
 void
 gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, int *cx, int *cy)
 {
+	GtkLayout *layout;
+	GtkAdjustment *adjustment;
+
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	if (cx)
-		*cx = canvas->layout.hadjustment->value;
+	layout = GTK_LAYOUT (canvas);
 
-	if (cy)
-		*cy = canvas->layout.vadjustment->value;
+	if (cx) {
+		adjustment = gtk_layout_get_hadjustment (layout);
+		*cx = (gint) gtk_adjustment_get_value (adjustment);
+	}
+
+	if (cy) {
+		adjustment = gtk_layout_get_vadjustment (layout);
+		*cy = (gint) gtk_adjustment_get_value (adjustment);
+	}
 }
 
 /**
@@ -3640,10 +3795,26 @@ uta_union_clip (ArtUta *uta1, ArtUta *uta2, ArtIRect *clip)
 static inline void
 get_visible_region (GnomeCanvas *canvas, ArtIRect *visible)
 {
-	visible->x0 = canvas->layout.hadjustment->value - canvas->zoom_xofs;
-	visible->y0 = canvas->layout.vadjustment->value - canvas->zoom_yofs;
-	visible->x1 = visible->x0 + GTK_WIDGET (canvas)->allocation.width;
-	visible->y1 = visible->y0 + GTK_WIDGET (canvas)->allocation.height;
+	GtkLayout *layout;
+	GtkAllocation allocation;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
+
+	gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
+
+	layout = GTK_LAYOUT (canvas);
+	hadjustment = gtk_layout_get_hadjustment (layout);
+	vadjustment = gtk_layout_get_vadjustment (layout);
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
+
+	visible->x0 = hadjustment_value - canvas->zoom_xofs;
+	visible->y0 = vadjustment_value - canvas->zoom_yofs;
+	visible->x1 = visible->x0 + allocation.width;
+	visible->y1 = visible->y0 + allocation.height;
 }
 
 /**

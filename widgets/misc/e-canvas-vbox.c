@@ -256,7 +256,7 @@ e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 	e_canvas_vbox->items = g_list_append(e_canvas_vbox->items, item);
 	g_object_weak_ref (G_OBJECT (item),
 			   e_canvas_vbox_remove_item, e_canvas_vbox);
-	if (GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED) {
+	if (GNOME_CANVAS_ITEM (e_canvas_vbox)->flags & GNOME_CANVAS_ITEM_REALIZED) {
 		gnome_canvas_item_set(item,
 				      "width", (gdouble) e_canvas_vbox->minimum_width,
 				      NULL);
@@ -270,7 +270,7 @@ e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *i
 	e_canvas_vbox->items = g_list_prepend(e_canvas_vbox->items, item);
 	g_object_weak_ref (G_OBJECT (item),
 			   e_canvas_vbox_remove_item, e_canvas_vbox);
-	if (GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED) {
+	if (GNOME_CANVAS_ITEM (e_canvas_vbox)->flags & GNOME_CANVAS_ITEM_REALIZED) {
 		gnome_canvas_item_set(item,
 				      "width", (gdouble) e_canvas_vbox->minimum_width,
 				      NULL);
@@ -297,7 +297,7 @@ static void
 e_canvas_vbox_reflow( GnomeCanvasItem *item, gint flags )
 {
 	ECanvasVbox *e_canvas_vbox = E_CANVAS_VBOX(item);
-	if (GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED) {
+	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
 
 		gdouble old_height;
 		gdouble running_height;
