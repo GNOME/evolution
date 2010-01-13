@@ -1541,6 +1541,9 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	if (!receipt_address)
 		return;
 
+	/* the 'account' should be always set */
+	g_return_if_fail (account != NULL);
+
 	/* Collect information for the receipt */
 
 	/* We use camel_header_msgid_generate () to get a canonical
@@ -1632,14 +1635,9 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	camel_object_unref (addr);
 
 	camel_medium_set_header (CAMEL_MEDIUM (receipt), "Return-Path", "<>");
-	if (account) {
-		camel_medium_set_header (CAMEL_MEDIUM (receipt),
-					"X-Evolution-Account", account->uid);
-		camel_medium_set_header (CAMEL_MEDIUM (receipt),
-					"X-Evolution-Transport", account->transport->url);
-		camel_medium_set_header (CAMEL_MEDIUM (receipt),
-					"X-Evolution-Fcc",  account->sent_folder_uri);
-	}
+	camel_medium_set_header (CAMEL_MEDIUM (receipt), "X-Evolution-Account", account->uid);
+	camel_medium_set_header (CAMEL_MEDIUM (receipt), "X-Evolution-Transport", account->transport->url);
+	camel_medium_set_header (CAMEL_MEDIUM (receipt), "X-Evolution-Fcc",  account->sent_folder_uri);
 
 	/* Send the receipt */
 	info = camel_message_info_new (NULL);
