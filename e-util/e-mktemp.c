@@ -167,7 +167,7 @@ gchar *
 e_mktemp (const gchar *template)
 {
 	GString *path;
-	gchar *ret;
+	gint fd;
 
 	path = get_dir (TRUE);
 	if (!path)
@@ -179,10 +179,14 @@ e_mktemp (const gchar *template)
 	else
 		g_string_append (path, "unknown-XXXXXX");
 
-	ret = mktemp (path->str);
-	g_string_free(path, ret == NULL);
+	fd = g_mkstemp (path->str);
 
-	return ret;
+	if (fd != -1) {
+		close (fd);
+		g_unlink (path->str);
+	}
+
+	return g_string_free (path, fd == -1);
 }
 
 gint
@@ -226,7 +230,17 @@ e_mkdtemp (const gchar *template)
 #ifdef HAVE_MKDTEMP
 	tmpdir = mkdtemp (path->str);
 #else
-	tmpdir = mktemp (path->str);
+	{
+		gint fd = g_mkstemp (path->str);
+		if (fd == -1) {
+			tmpdir = NULL;
+		} else {
+			close (fd);
+			tmpdir = path->str;
+			g_unlink (tmpdir);
+		}
+	}
+
 	if (tmpdir) {
 		if (g_mkdir (tmpdir, S_IRWXU) == -1)
 			tmpdir = NULL;

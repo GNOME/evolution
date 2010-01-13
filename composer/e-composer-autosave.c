@@ -91,6 +91,7 @@ static gboolean
 composer_autosave_state_open (AutosaveState *state)
 {
 	gchar *path;
+	gint fd;
 
 	if (state->file != NULL)
 		return TRUE;
@@ -100,12 +101,15 @@ composer_autosave_state_open (AutosaveState *state)
 
 	/* Since GIO doesn't have support for creating temporary files
 	 * from a template (and in a given directory), we have to use
-	 * mktemp(), which brings a small risk of overwriting another
+	 * g_mkstemp(), which brings a small risk of overwriting another
 	 * autosave file.  The risk is, however, miniscule. */
-	if (mktemp (path) == NULL) {
+	fd = g_mkstemp (path);
+	if (fd == -1) {
 		g_free (path);
 		return FALSE;
 	}
+
+	close (fd);
 
 	/* Create the GFile */
 	state->file = g_file_new_for_path (path);
