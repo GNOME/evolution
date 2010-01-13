@@ -1307,9 +1307,13 @@ gnome_canvas_text_get_property (GObject            *object,
 static void
 gnome_canvas_text_apply_font_desc (GnomeCanvasText *text)
 {
-	PangoFontDescription *font_desc =
-		pango_font_description_copy (
-			GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->style->font_desc);
+	PangoFontDescription *font_desc;
+	GtkWidget *widget;
+	GtkStyle *style;
+
+	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas);
+	style = gtk_widget_get_style (widget);
+	font_desc = pango_font_description_copy (style->font_desc);
 
 	if (text->font_desc)
 		pango_font_description_merge (font_desc, text->font_desc, TRUE);
@@ -1423,6 +1427,8 @@ gnome_canvas_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_pa
 static void
 gnome_canvas_text_realize (GnomeCanvasItem *item)
 {
+	GtkLayout *layout;
+	GdkWindow *bin_window;
 	GnomeCanvasText *text;
 
 	text = GNOME_CANVAS_TEXT (item);
@@ -1430,7 +1436,10 @@ gnome_canvas_text_realize (GnomeCanvasItem *item)
 	if (parent_class->realize)
 		(* parent_class->realize) (item);
 
-	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+	layout = GTK_LAYOUT (item->canvas);
+	bin_window = gtk_layout_get_bin_window (layout);
+
+	text->gc = gdk_gc_new (bin_window);
 }
 
 /* Unrealize handler for the text item */

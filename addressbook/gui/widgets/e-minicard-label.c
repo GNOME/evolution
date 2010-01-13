@@ -414,7 +414,9 @@ e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 static void
 set_colors (EMinicardLabel *label)
 {
-	if ((GTK_OBJECT_FLAGS (label) & GNOME_CANVAS_ITEM_REALIZED)) {
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (label);
+
+	if ((item->flags & GNOME_CANVAS_ITEM_REALIZED)) {
 		GnomeCanvas *canvas;
 		GtkStyle *style;
 

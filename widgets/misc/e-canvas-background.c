@@ -266,7 +266,7 @@ ecb_set_property (GObject *object,
 	if (color_changed) {
 		ecb->priv->color = color;
 
-		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item)) {
+		if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
 			get_color (ecb);
 			if (!item->canvas->aa) {
 				gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);

@@ -1522,8 +1522,14 @@ gnome_canvas_rich_text_event(GnomeCanvasItem *item, GdkEvent *event)
 		return gnome_canvas_rich_text_button_release_event(
 			item, (GdkEventButton *) event);
 	case GDK_FOCUS_CHANGE:
-		if (((GdkEventFocus *) event)->window !=
-		    item->canvas->layout.bin_window)
+	{
+		GtkLayout *layout;
+		GdkWindow *bin_window;
+
+		layout = GTK_LAYOUT (item->canvas);
+		bin_window = gtk_layout_get_bin_window (layout);
+
+		if (((GdkEventFocus *) event)->window != bin_window)
 			return FALSE;
 
 		if (((GdkEventFocus *) event)->in)
@@ -1532,6 +1538,7 @@ gnome_canvas_rich_text_event(GnomeCanvasItem *item, GdkEvent *event)
 		else
 			return gnome_canvas_rich_text_focus_out_event(
 				item, (GdkEventFocus *) event);
+	}
 	default:
 		return FALSE;
 	}
@@ -1705,8 +1712,13 @@ scale_fonts(GtkTextTag *tag, gpointer data)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(data);
 
+	/* XXX GtkTextTag::values is sealed with apparently no way
+	 *     to access it.  This looks like a small optimization
+	 *     anyway. */
+#if 0
 	if (!tag->values)
 		return;
+#endif
 
 	g_object_set(
 		G_OBJECT(tag), "scale", 
@@ -1919,7 +1931,7 @@ gnome_canvas_rich_text_ensure_layout(GnomeCanvasRichText *text)
 		style = gtk_text_attributes_new();
 
 		gnome_canvas_rich_text_set_attributes_from_style(
-			text, style, canvas->style);
+			text, style, gtk_widget_get_style (canvas));
 
 		style->pixels_above_lines = text->_priv->pixels_above_lines;
 		style->pixels_below_lines = text->_priv->pixels_below_lines;
@@ -2120,6 +2132,8 @@ gnome_canvas_rich_text_draw(GnomeCanvasItem *item, GdkDrawable *drawable,
 			    int x, int y, int width, int height)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
+	GtkStyle *style;
+	GtkWidget *widget;
 	double i2w[6], w2c[6], i2c[6];
 	double ax, ay;
 	int x1, y1, x2, y2;
@@ -2145,13 +2159,16 @@ gnome_canvas_rich_text_draw(GnomeCanvasItem *item, GdkDrawable *drawable,
 	y2 = c2.y;
 
 	gtk_text_layout_set_screen_width(text->_priv->layout, x2 - x1);
-      
+
+	widget = GTK_WIDGET (item->canvas);
+	style = gtk_widget_get_style (widget);
+
         /* FIXME: should last arg be NULL? */
 	gtk_text_layout_draw(
 		text->_priv->layout,
-		GTK_WIDGET(item->canvas),
+		widget,
 		drawable,
-		GTK_WIDGET (item->canvas)->style->text_gc[GTK_STATE_NORMAL],
+		style->text_gc[GTK_STATE_NORMAL],
 		x - x1, y - y1,
 		0, 0, (x2 - x1) - (x - x1), (y2 - y1) - (y - y1),
 		NULL);

@@ -1363,7 +1363,11 @@ e_week_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 
 	week_view = E_WEEK_VIEW (widget);
 
+	/* XXX Can't access flags directly anymore, but is it really needed?
+	 *     If so, could we call gtk_widget_send_focus_change() instead? */
+#if 0
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
+#endif
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
@@ -1381,7 +1385,11 @@ e_week_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	week_view = E_WEEK_VIEW (widget);
 
+	/* XXX Can't access flags directly anymore, but is it really needed?
+	 *     If so, could we call gtk_widget_send_focus_change() instead? */
+#if 0
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
+#endif
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
@@ -4676,7 +4684,7 @@ e_week_view_is_jump_button_visible (EWeekView *week_view, gint day)
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
 	if ((day >= 0) && (day < E_WEEK_VIEW_MAX_WEEKS * 7))
-		return week_view->jump_buttons[day]->object.flags & GNOME_CANVAS_ITEM_VISIBLE;
+		return week_view->jump_buttons[day]->flags & GNOME_CANVAS_ITEM_VISIBLE;
 	return FALSE;
 }
 

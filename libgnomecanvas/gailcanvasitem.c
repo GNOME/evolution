@@ -199,7 +199,7 @@ gail_canvas_item_ref_state_set (AtkObject         *obj)
     {
       item = GNOME_CANVAS_ITEM (g_obj);
 
-      if (item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+      if (item->flags & GNOME_CANVAS_ITEM_VISIBLE)
         {
           atk_state_set_add_state (state_set, ATK_STATE_VISIBLE);
           if (is_item_on_screen (item))
@@ -482,14 +482,16 @@ is_item_in_window (GnomeCanvasItem   *item,
                    gint              height)
 {
   GtkWidget *widget;
+  GdkWindow *window;
   gboolean retval;
 
   widget = GTK_WIDGET (item->canvas);
-  if (widget->window)
+  window = gtk_widget_get_window (widget);
+  if (window)
     {
       int window_width, window_height;
  
-      gdk_window_get_geometry (widget->window, NULL, NULL, 
+      gdk_window_get_geometry (window, NULL, NULL, 
                                &window_width, &window_height, NULL);
       /*
        * Check whether rectangles intersect

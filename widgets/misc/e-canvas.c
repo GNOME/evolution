@@ -399,7 +399,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 
 		/* find the closest item */
 
-		if (canvas->root->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
 			gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy,
 							&canvas->new_current_item);
 		else
@@ -593,7 +593,11 @@ e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	canvas = GNOME_CANVAS (widget);
 	ecanvas = E_CANVAS (widget);
 
+	/* XXX Can't access flags directly anymore, but is it really needed?
+	 *     If so, could we call gtk_widget_send_focus_change() instead? */
+#if 0
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
+#endif
 
 	gtk_im_context_focus_in (ecanvas->im_context);
 
@@ -616,7 +620,11 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	canvas = GNOME_CANVAS (widget);
 	ecanvas = E_CANVAS (widget);
 
+	/* XXX Can't access flags directly anymore, but is it really needed?
+	 *     If so, could we call gtk_widget_send_focus_change() instead? */
+#if 0
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
+#endif
 
 	gtk_im_context_focus_out (ecanvas->im_context);
 
@@ -700,12 +708,12 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, gint flags)
 		group = GNOME_CANVAS_GROUP (item);
 		for (list = group->item_list; list; list = list->next) {
 			child = GNOME_CANVAS_ITEM (list->data);
-			if (child->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
+			if (child->flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
 				e_canvas_item_invoke_reflow (child, flags);
 		}
 	}
 
-	if (item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
+	if (item->flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
 		ECanvasItemReflowFunc func;
 		func = (ECanvasItemReflowFunc)
 			g_object_get_data (G_OBJECT (item),
@@ -714,14 +722,14 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, gint flags)
 			func (item, flags);
 	}
 
-	item->object.flags &= ~E_CANVAS_ITEM_NEEDS_REFLOW;
-	item->object.flags &= ~E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
+	item->flags &= ~E_CANVAS_ITEM_NEEDS_REFLOW;
+	item->flags &= ~E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
 }
 
 static void
 do_reflow (ECanvas *canvas)
 {
-	if (GNOME_CANVAS(canvas)->root->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
+	if (GNOME_CANVAS(canvas)->root->flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
 		e_canvas_item_invoke_reflow (GNOME_CANVAS(canvas)->root, 0);
 }
 
@@ -761,10 +769,10 @@ add_idle (ECanvas *canvas)
 static void
 e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
 {
-	if (item->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
+	if (item->flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
 		return;
 
-	item->object.flags |= E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
+	item->flags |= E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
 	if (item->parent)
 		e_canvas_item_descendent_needs_reflow(item->parent);
 }
@@ -772,8 +780,8 @@ e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
 void
 e_canvas_item_request_reflow (GnomeCanvasItem *item)
 {
-	if (item->object.flags & GNOME_CANVAS_ITEM_REALIZED) {
-		item->object.flags |= E_CANVAS_ITEM_NEEDS_REFLOW;
+	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
+		item->flags |= E_CANVAS_ITEM_NEEDS_REFLOW;
 		e_canvas_item_descendent_needs_reflow(item);
 		add_idle(E_CANVAS(item->canvas));
 	}
