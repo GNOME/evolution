@@ -75,6 +75,8 @@ main (gint argc, gchar **argv)
 	gint IsCSV = FALSE;
 	gint IsVCard = FALSE;
 
+	g_type_init ();
+
 	/*i18n-lize */
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
