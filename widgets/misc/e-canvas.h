@@ -112,16 +112,6 @@ void       e_canvas_item_request_reflow                  (GnomeCanvasItem       
 void       e_canvas_item_request_parent_reflow           (GnomeCanvasItem                 *item);
 void       e_canvas_item_set_reflow_callback             (GnomeCanvasItem                 *item,
 							  ECanvasItemReflowFunc            func);
-void       e_canvas_item_set_selection_callback          (GnomeCanvasItem                 *item,
-							  ECanvasItemSelectionFunc         func);
-void       e_canvas_item_set_selection_compare_callback  (GnomeCanvasItem                 *item,
-							  ECanvasItemSelectionCompareFunc  func);
-void       e_canvas_item_set_cursor                      (GnomeCanvasItem                 *item,
-							  gpointer                         id);
-void       e_canvas_item_add_selection                   (GnomeCanvasItem                 *item,
-							  gpointer                         id);
-void       e_canvas_item_remove_selection                (GnomeCanvasItem                 *item,
-							  gpointer                         id);
 
 gint        e_canvas_item_grab                            (ECanvas                         *canvas,
 							  GnomeCanvasItem                 *item,
@@ -135,8 +125,6 @@ void       e_canvas_item_ungrab                          (ECanvas               
 							  guint32                          etime);
 
 /* Not implemented yet. */
-void       e_canvas_item_set_cursor_end                  (GnomeCanvasItem                 *item,
-							  gpointer                         id);
 void       e_canvas_popup_tooltip                        (ECanvas                         *canvas,
 							  GtkWidget                       *widget,
 							  gint                              x,
