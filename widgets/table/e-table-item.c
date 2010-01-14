@@ -1413,26 +1413,6 @@ eti_dispose (GObject *object)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
 
-	if (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas))
-		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-
-	if (eti->tooltip) {
-		if (eti->tooltip->background)
-			gdk_color_free (eti->tooltip->background);
-		eti->tooltip->background = NULL;
-
-		if (eti->tooltip->foreground)
-			gdk_color_free (eti->tooltip->foreground);
-		eti->tooltip->foreground = NULL;
-
-		if (eti->tooltip->timer) {
-			g_source_remove (eti->tooltip->timer);
-			eti->tooltip->timer = 0;
-		}
-		g_free (eti->tooltip);
-		eti->tooltip = NULL;
-	}
-
 	if (G_OBJECT_CLASS (eti_parent_class)->dispose)
 		(*G_OBJECT_CLASS (eti_parent_class)->dispose) (object);
 }
@@ -1597,12 +1577,6 @@ eti_init (ETableItem *eti)
 
 	eti->in_key_press              = 0;
 
-	eti->tooltip                   = g_new0 (ETableTooltip, 1);
-	eti->tooltip->timer            = 0;
-	eti->tooltip->eti              = GNOME_CANVAS_ITEM (eti);
-	eti->tooltip->background       = NULL;
-	eti->tooltip->foreground       = NULL;
-
 	eti->maybe_did_something       = TRUE;
 
 	eti->grabbed_count             = 0;
@@ -1724,22 +1698,6 @@ eti_unrealize (GnomeCanvasItem *item)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
 	eti->height_cache_idle_count = 0;
-
-	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-	if (eti->tooltip) {
-		if (eti->tooltip->background) {
-			gdk_color_free (eti->tooltip->background);
-			eti->tooltip->background = NULL;
-		}
-		if (eti->tooltip->foreground) {
-			gdk_color_free (eti->tooltip->foreground);
-			eti->tooltip->foreground = NULL;
-		}
-		if (eti->tooltip->timer) {
-			g_source_remove (eti->tooltip->timer);
-			eti->tooltip->timer = 0;
-		}
-	}
 
 	g_object_unref (eti->fill_gc);
 	eti->fill_gc = NULL;
@@ -2216,11 +2174,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		d(g_print("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
 
-		if (eti->tooltip->timer) {
-			g_source_remove (eti->tooltip->timer);
-			eti->tooltip->timer = 0;
-		}
-
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:
@@ -2357,11 +2310,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			}
 		}
 
-		if (eti->tooltip->timer) {
-			g_source_remove (eti->tooltip->timer);
-			eti->tooltip->timer = 0;
-		}
-		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:
@@ -2515,8 +2463,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			     "cursor_col", &cursor_col,
 			     NULL);
 
-		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-
 		flags = 0;
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)) {
 			flags = E_CELL_EDITING | E_CELL_CURSOR;
@@ -2545,12 +2491,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			     "cursor_row", &cursor_row,
 			     "cursor_col", &cursor_col,
 			     NULL);
-
-		if (eti->tooltip->timer) {
-			g_source_remove (eti->tooltip->timer);
-			eti->tooltip->timer = 0;
-		}
-		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 		if (cursor_row == -1 && cursor_col == -1)
 			return FALSE;
@@ -2769,9 +2709,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		d(leave = TRUE);
 	case GDK_ENTER_NOTIFY:
 		d(g_print("%s: %s received\n", __FUNCTION__, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
-		if (eti->tooltip->timer)
-			g_source_remove (eti->tooltip->timer);
-		eti->tooltip->timer = 0;
 		if (eti->motion_row != -1 && eti->motion_col != -1)
 			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
 						       e, e->crossing.time,

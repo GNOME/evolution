@@ -138,7 +138,6 @@ libetableinclude_HEADERS = 			\
 	e-table-state.h				\
 	e-table-subset.h			\
 	e-table-subset-variable.h		\
-	e-table-tooltip.h			\
 	e-table-utils.h				\
 	e-table-without.h			\
 	e-table.h				\

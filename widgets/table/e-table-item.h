@@ -29,7 +29,6 @@
 #include <table/e-table-model.h>
 #include <table/e-table-header.h>
 #include <table/e-table-defines.h>
-#include <table/e-table-tooltip.h>
 #include <misc/e-selection-model.h>
 #include <misc/e-printable.h>
 
@@ -158,11 +157,6 @@ typedef struct {
 
 	gint grabbed_col, grabbed_row;
 	gint grabbed_count;
-
-	/*
-	 * Tooltip
-	 */
-	ETableTooltip *tooltip;
 
 } ETableItem;
 

@@ -26,7 +26,6 @@
 
 #include <gtk/gtk.h>
 #include <table/e-table-model.h>
-#include <table/e-table-tooltip.h>
 
 G_BEGIN_DECLS
 

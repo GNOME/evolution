@@ -36,10 +36,6 @@ static gint e_canvas_key            (GtkWidget        *widget,
 static gint e_canvas_button         (GtkWidget        *widget,
 				     GdkEventButton   *event);
 
-static gint e_canvas_visibility     (GtkWidget        *widget,
-				     GdkEventVisibility *event,
-				     ECanvas          *canvas);
-
 static gint e_canvas_focus_in       (GtkWidget        *widget,
 				     GdkEventFocus    *event);
 static gint e_canvas_focus_out      (GtkWidget        *widget,
@@ -130,8 +126,6 @@ e_canvas_dispose (GObject *object)
 		g_object_unref (canvas->im_context);
 		canvas->im_context = NULL;
 	}
-
-	e_canvas_hide_tooltip(canvas);
 
 	if ((G_OBJECT_CLASS (e_canvas_parent_class))->dispose)
 		(*(G_OBJECT_CLASS (e_canvas_parent_class))->dispose) (object);
@@ -534,18 +528,6 @@ e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 	return retval;
 }
 
-/* Key event handler for the canvas */
-static gint
-e_canvas_visibility (GtkWidget *widget, GdkEventVisibility *event, ECanvas *canvas)
-{
-	if (! canvas->visibility_first) {
-		e_canvas_hide_tooltip(canvas);
-	}
-	canvas->visibility_first = FALSE;
-
-	return FALSE;
-}
-
 /**
  * e_canvas_item_grab_focus:
  * @item: A canvas item.
@@ -799,37 +781,6 @@ void
 e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc func)
 {
 	g_object_set_data(G_OBJECT(item), "ECanvasItem::reflow_callback", (gpointer) func);
-}
-
-void
-e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, gint x, gint y)
-{
-	if (canvas->tooltip_window && canvas->tooltip_window != widget) {
-		e_canvas_hide_tooltip(canvas);
-	}
-	canvas->tooltip_window = widget;
-	canvas->visibility_first = TRUE;
-	if (canvas->toplevel == NULL) {
-		canvas->toplevel = gtk_widget_get_toplevel (GTK_WIDGET(canvas));
-		if (canvas->toplevel) {
-			gtk_widget_add_events(canvas->toplevel, GDK_VISIBILITY_NOTIFY_MASK);
-			g_object_ref (canvas->toplevel);
-			canvas->visibility_notify_id =
-				g_signal_connect (canvas->toplevel, "visibility_notify_event",
-						  G_CALLBACK (e_canvas_visibility), canvas);
-		}
-	}
-	gtk_window_move (GTK_WINDOW (widget), x, y);
-	gtk_widget_show (widget);
-}
-
-void
-e_canvas_hide_tooltip  (ECanvas *canvas)
-{
-	if (canvas->tooltip_window) {
-		gtk_widget_destroy (canvas->tooltip_window);
-		canvas->tooltip_window = NULL;
-	}
 }
 
 static gboolean

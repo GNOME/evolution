@@ -58,7 +58,6 @@
 #include "e-table.h"
 #include "e-cell-text.h"
 #include "e-table-item.h"
-#include "e-table-tooltip.h"
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)

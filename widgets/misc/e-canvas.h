@@ -83,8 +83,6 @@ struct _ECanvas
 	gint                   visibility_notify_id;
 	GtkWidget            *toplevel;
 
-	guint visibility_first : 1;
-
 	/* Input context for dead key support */
 	GtkIMContext *im_context;
 
@@ -123,13 +121,6 @@ gint        e_canvas_item_grab                            (ECanvas              
 void       e_canvas_item_ungrab                          (ECanvas                         *canvas,
 							  GnomeCanvasItem                 *item,
 							  guint32                          etime);
-
-/* Not implemented yet. */
-void       e_canvas_popup_tooltip                        (ECanvas                         *canvas,
-							  GtkWidget                       *widget,
-							  gint                              x,
-							  gint                              y);
-void       e_canvas_hide_tooltip                         (ECanvas                         *canvas);
 
 G_END_DECLS
 
