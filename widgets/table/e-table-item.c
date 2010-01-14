@@ -2165,71 +2165,6 @@ eti_cursor_move_right (ETableItem *eti)
 	eti_cursor_move (eti, model_to_view_row(eti, cursor_row), model_to_view_col(eti, cursor_col) + 1);
 }
 
-#ifdef DO_TOOLTIPS
-static gint
-_do_tooltip (ETableItem *eti)
-{
-	ECellView *ecell_view;
-	gboolean free_color;
-	ETableCol *ecol;
-	gboolean selected;
-	gint cursor_row, cursor_col;
-
-	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-
-	if (eti_editing (eti))
-		return FALSE;
-
-	ecell_view = eti->cell_views[eti->tooltip->col];
-
-	eti->tooltip->x = e_table_header_col_diff (eti->header, 0, eti->tooltip->col);
-
-	eti->tooltip->y = e_table_item_row_diff (eti, 0, eti->tooltip->row);
-	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, eti->tooltip->row);
-
-	selected = e_selection_model_is_row_selected(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti,eti->tooltip->row));
-
-	if (eti->tooltip->foreground)
-		gdk_color_free (eti->tooltip->foreground);
-	if (eti->tooltip->background)
-		gdk_color_free (eti->tooltip->background);
-
-	switch (eti->cursor_mode) {
-	case E_CURSOR_SIMPLE:
-	case E_CURSOR_SPREADSHEET:
-		ecol = e_table_header_get_column (eti->header, eti->tooltip->col);
-
-		g_object_get(eti->selection,
-			     "cursor_row", &cursor_row,
-			     "cursor_col", &cursor_col,
-			     NULL);
-
-		if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, eti->tooltip->row))
-			selected = !selected;
-		break;
-	case E_CURSOR_LINE:
-				/* Nothing */
-		break;
-	}
-
-	eti->tooltip->background = eti_get_cell_background_color (eti, eti->tooltip->row, eti->tooltip->col, selected, &free_color);
-	if (!free_color)
-		eti->tooltip->background = gdk_color_copy(eti->tooltip->background);
-
-	eti->tooltip->foreground = eti_get_cell_foreground_color (eti, eti->tooltip->row, eti->tooltip->col, selected, &free_color);
-	if (!free_color)
-		eti->tooltip->foreground = gdk_color_copy(eti->tooltip->foreground);
-
-	e_cell_show_tooltip (ecell_view,
-			     view_to_model_col (eti, eti->tooltip->col),
-			     eti->tooltip->col,
-			     eti->tooltip->row,
-			     eti->header->columns[eti->tooltip->col]->width,
-			     eti->tooltip);
-	return FALSE;
-}
-#endif
-
 static gint
 eti_e_cell_event     (ETableItem *item, ECellView *ecell_view, GdkEvent *event, gint time, gint model_col, gint view_col, gint row, ECellFlags flags)
 {
@@ -2581,18 +2516,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			     NULL);
 
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-
-#ifdef DO_TOOLTIPS
-		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
-			if (eti->tooltip->timer)
-				g_source_remove (eti->tooltip->timer);
-			eti->tooltip->col = col;
-			eti->tooltip->row = row;
-			eti->tooltip->cx = e->motion.x;
-			eti->tooltip->cy = e->motion.y;
-			eti->tooltip->timer = g_timeout_add (100, (GSourceFunc)_do_tooltip, eti);
-		}
-#endif
 
 		flags = 0;
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)) {
