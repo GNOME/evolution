@@ -41,6 +41,7 @@ ecalendarinclude_HEADERS =			\
 	e-week-view-titles-item.h		\
 	e-week-view.h				\
 	e-timezone-entry.h			\
+	gnome-cal.h				\
 	goto.h					\
 	itip-utils.h				\
 	misc.h					\
