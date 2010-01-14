@@ -127,12 +127,6 @@ ec_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, g
 }
 
 static void
-ec_show_tooltip (ECellView *ecell_view, gint model_col, gint view_col, gint row, gint col_width, ETableTooltip *tooltip)
-{
-	/* Do nothing */
-}
-
-static void
 e_cell_class_init (ECellClass *klass)
 {
 	klass->realize = ec_realize;
@@ -153,7 +147,6 @@ e_cell_class_init (ECellClass *klass)
 	klass->print_height = NULL;
 	klass->max_width = NULL;
 	klass->max_width_by_row = NULL;
-	klass->show_tooltip = ec_show_tooltip;
 }
 
 static void
@@ -471,14 +464,6 @@ gboolean
 e_cell_max_width_by_row_implemented (ECellView *ecell_view)
 {
 	return (ECVIEW_EC_CLASS(ecell_view)->max_width_by_row != NULL);
-}
-
-void
-e_cell_show_tooltip (ECellView *ecell_view, gint model_col, gint view_col,
-		     gint row, gint col_width, ETableTooltip *tooltip)
-{
-	ECVIEW_EC_CLASS(ecell_view)->show_tooltip
-		(ecell_view, model_col, view_col, row, col_width, tooltip);
 }
 
 gchar *

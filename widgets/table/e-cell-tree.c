@@ -637,27 +637,6 @@ ect_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 }
 
 /*
- * ECellView::show_tooltip method
- */
-static void
-ect_show_tooltip (ECellView *ecell_view, gint model_col, gint view_col, gint row,
-		  gint col_width, ETableTooltip *tooltip)
-{
-	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
-	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-	gint offset = offset_of_node (ecell_view->e_table_model, row);
-	GdkPixbuf *node_image;
-
-	node_image = e_tree_model_icon_at (tree_model, node);
-	if (node_image)
-		offset += gdk_pixbuf_get_width (node_image);
-
-	tooltip->x += offset;
-	e_cell_show_tooltip (tree_view->subcell_view, model_col, view_col, row, col_width - offset, tooltip);
-}
-
-/*
  * ECellView::get_bg_color method
  */
 static gchar *
@@ -839,7 +818,6 @@ e_cell_tree_class_init (ECellTreeClass *klass)
 	ecc->print            = ect_print;
 	ecc->print_height     = ect_print_height;
 	ecc->max_width        = ect_max_width;
-	ecc->show_tooltip     = ect_show_tooltip;
 	ecc->get_bg_color     = ect_get_bg_color;
 
         gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TREE_TYPE, gal_a11y_e_cell_tree_new);

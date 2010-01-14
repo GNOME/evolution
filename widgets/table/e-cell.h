@@ -114,7 +114,6 @@ typedef struct {
 					gint model_col, gint view_col, gint row, gdouble width);
 	gint        (*max_width)        (ECellView *ecell_view, gint model_col, gint view_col);
 	gint        (*max_width_by_row) (ECellView *ecell_view, gint model_col, gint view_col, gint row);
-	void       (*show_tooltip)     (ECellView *ecell_view, gint model_col, gint view_col, gint row, gint col_width, ETableTooltip *tooltip);
 	gchar     *(*get_bg_color)     (ECellView *ecell_view, gint row);
 
 	void       (*style_set)        (ECellView *ecell_view, GtkStyle *previous_style);
@@ -169,12 +168,6 @@ gint        e_cell_max_width_by_row              (ECellView         *ecell_view,
 						 gint                view_col,
 						 gint                row);
 gboolean   e_cell_max_width_by_row_implemented  (ECellView         *ecell_view);
-void       e_cell_show_tooltip                  (ECellView         *ecell_view,
-						 gint                model_col,
-						 gint                view_col,
-						 gint                row,
-						 gint                col_width,
-						 ETableTooltip     *tooltip);
 gchar     *e_cell_get_bg_color                  (ECellView         *ecell_view,
 						 gint                row);
 void       e_cell_style_set                     (ECellView         *ecell_view,

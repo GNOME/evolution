@@ -99,12 +99,6 @@ static gdouble	ecp_print_height	(ECellView	*ecv,
 static gint	ecp_max_width		(ECellView	*ecv,
 					 gint		 model_col,
 					 gint		 view_col);
-static void	ecp_show_tooltip	(ECellView	*ecv,
-					 gint		 model_col,
-					 gint		 view_col,
-					 gint		 row,
-					 gint		 col_width,
-					 ETableTooltip	*tooltip);
 static gchar *ecp_get_bg_color (ECellView *ecell_view, gint row);
 
 static gint e_cell_popup_do_popup	(ECellPopupView	*ecp_view,
@@ -133,7 +127,6 @@ e_cell_popup_class_init		(ECellPopupClass	*klass)
 	ecc->print        = ecp_print;
 	ecc->print_height = ecp_print_height;
 	ecc->max_width	  = ecp_max_width;
-	ecc->show_tooltip = ecp_show_tooltip;
 	ecc->get_bg_color = ecp_get_bg_color;
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
@@ -422,20 +415,6 @@ ecp_max_width (ECellView *ecv,
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
 	return e_cell_max_width (ecp_view->child_view, model_col, view_col);
-}
-
-static void
-ecp_show_tooltip (ECellView *ecv,
-		  gint model_col,
-		  gint view_col,
-		  gint row,
-		  gint col_width,
-		  ETableTooltip *tooltip)
-{
-	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
-
-	e_cell_show_tooltip (ecp_view->child_view, model_col, view_col, row,
-			     col_width, tooltip);
 }
 
 static gchar *
