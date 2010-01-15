@@ -62,7 +62,7 @@ e_selectable_update_actions (ESelectable *selectable,
 	interface = E_SELECTABLE_GET_INTERFACE (selectable);
 	g_return_if_fail (interface->update_actions != NULL);
 
-	return interface->update_actions (
+	interface->update_actions (
 		selectable, focus_tracker,
 		clipboard_targets, n_clipboard_targets);
 }
