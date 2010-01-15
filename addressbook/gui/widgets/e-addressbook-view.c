@@ -1252,7 +1252,6 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	ETable *etable = NULL;
 	EAddressbookModel *model;
 	EBook *book;
-	EMinicardView *card_view;
 	ESelectionModel *selection_model = NULL;
 	GalViewInstance *view_instance;
 	GalView *gal_view;
@@ -1280,8 +1279,6 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	widget = gtk_bin_get_child (GTK_BIN (view));
 
 	if (GAL_IS_VIEW_MINICARD (gal_view)) {
-		card_view = e_minicard_view_widget_get_view (
-			E_MINICARD_VIEW_WIDGET (view->priv->object));
 		selection_model = e_addressbook_view_get_selection_model (view);
 		row = e_selection_model_cursor_row (selection_model);
 	}
@@ -1363,18 +1360,11 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 void
 e_addressbook_view_view (EAddressbookView *view)
 {
-	EAddressbookModel *model;
-	EBook *book;
 	GList *list, *iter;
-	gboolean editable;
 	gint response;
 	guint length;
 
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
-	editable = e_addressbook_model_get_editable (model);
 
 	list = e_addressbook_view_get_selected (view);
 	length = g_list_length (list);

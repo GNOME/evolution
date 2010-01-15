@@ -1147,7 +1147,6 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 {
 	EContactAddress *address = NULL;
 	gint phone = entryPhone1;
-	EContactField field;
 	gboolean syncable;
 	gint i;
 
@@ -1222,9 +1221,10 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_TITLE), ctxt->pilot_charset);
 
 	/* See if the default has something in it */
-	if ((address = e_contact_get (contact, ctxt->cfg->default_address))) {
-		field = ctxt->cfg->default_address;
-	} else {
+	address = e_contact_get (contact, ctxt->cfg->default_address);
+	if (address == NULL) {
+		EContactField field;
+
 		/* Try to find a non-empty address field */
 		for (field = E_CONTACT_FIRST_ADDRESS_ID; field <= E_CONTACT_LAST_ADDRESS_ID; field++) {
 			if ((address = e_contact_get (contact, field)))

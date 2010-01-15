@@ -306,7 +306,6 @@ filter_option_get_widget (EFilterElement *element)
 
 		old_ops = option->options;
 		old_cur = option->current;
-		l = old_ops;
 
 		/* start with an empty list */
 		option->current = NULL;

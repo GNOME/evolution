@@ -321,8 +321,6 @@ static void e_day_view_reshape_day_event (EDayView *day_view,
 					  gint	day,
 					  gint	event_num);
 static void e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view);
-static void e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view);
-static void e_day_view_reshape_resize_rect_item (EDayView *day_view);
 
 static void e_day_view_ensure_events_sorted (EDayView *day_view);
 
@@ -1975,17 +1973,12 @@ e_day_view_foreach_event		(EDayView	*day_view,
 					 EDayViewForeachEventCallback callback,
 					 gpointer	 data)
 {
-	/* event is never used after being set in the for loop below, why? */
-	EDayViewEvent *event;
 	gint day, event_num;
 
 	for (day = 0; day < day_view->days_shown; day++) {
 		for (event_num = day_view->events[day]->len - 1;
 		     event_num >= 0;
 		     event_num--) {
-			event = &g_array_index (day_view->events[day],
-						EDayViewEvent, event_num);
-
 			if (!(*callback) (day_view, day, event_num, data))
 				return;
 		}
@@ -1994,9 +1987,6 @@ e_day_view_foreach_event		(EDayView	*day_view,
 	for (event_num = day_view->long_events->len - 1;
 	     event_num >= 0;
 	     event_num--) {
-		event = &g_array_index (day_view->long_events,
-					EDayViewEvent, event_num);
-
 		if (!(*callback) (day_view, E_DAY_VIEW_LONG_EVENT, event_num,
 				  data))
 			return;
@@ -3520,9 +3510,6 @@ e_day_view_on_long_event_click (EDayView *day_view,
 			day_view->resize_start_row = start_day;
 			day_view->resize_end_row = end_day;
 
-			/* Create the edit rect if necessary. */
-			e_day_view_reshape_resize_long_event_rect_item (day_view);
-
 			/* Raise the event's item, above the rect as well. */
 			gnome_canvas_item_raise_to_top (event->canvas_item);
 		}
@@ -3598,9 +3585,6 @@ e_day_view_on_event_click (EDayView *day_view,
 			day_view->resize_bars_event_day = day;
 			day_view->resize_bars_event_num = event_num;
 
-			/* Create the edit rect if necessary. */
-			e_day_view_reshape_resize_rect_item (day_view);
-
 			e_day_view_reshape_main_canvas_resize_bars (day_view);
 
 			/* Raise the event's item, above the rect as well. */
@@ -3623,56 +3607,6 @@ e_day_view_on_event_click (EDayView *day_view,
 		start_row = event->start_minute / day_view->mins_per_row;
 		day_view->drag_event_offset = row - start_row;
 	}
-}
-
-static void
-e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view)
-{
-	gint event_num, start_day, end_day;
-	gint item_x, item_y, item_w, item_h;
-	gdouble x1, y1, x2, y2;
-
-	event_num = day_view->resize_event_num;
-
-	/* If we're not resizing an event, or the event is not shown,
-	   hide the resize bars. */
-	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
-	    || !e_day_view_get_long_event_position (day_view, event_num,
-						    &start_day, &end_day,
-						    &item_x, &item_y,
-						    &item_w, &item_h)) {
-		return;
-	}
-
-	x1 = item_x;
-	y1 = item_y;
-	x2 = item_x + item_w - 1;
-	y2 = item_y + item_h - 1;
-}
-
-static void
-e_day_view_reshape_resize_rect_item (EDayView *day_view)
-{
-	gint day, event_num;
-	gint item_x, item_y, item_w, item_h;
-	gdouble x1, y1, x2, y2;
-
-	day = day_view->resize_event_day;
-	event_num = day_view->resize_event_num;
-
-	/* If we're not resizing an event, or the event is not shown,
-	   hide the resize bars. */
-	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
-	    || !e_day_view_get_event_position (day_view, day, event_num,
-					       &item_x, &item_y,
-					       &item_w, &item_h)) {
-		return;
-	}
-
-	x1 = item_x;
-	y1 = item_y;
-	x2 = item_x + item_w - 1;
-	y2 = item_y + item_h - 1;
 }
 
 static void
@@ -4012,8 +3946,6 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		   && day_view->pressed_event_day != E_DAY_VIEW_LONG_EVENT) {
 		GtkTargetList *target_list;
 
-		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
-
 		if ((abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
 			|| abs (canvas_y - day_view->drag_event_y)
@@ -4176,8 +4108,6 @@ static void
 e_day_view_update_long_event_resize (EDayView *day_view,
 				     gint day)
 {
-	/* event is never used here either, what's up? */
-	EDayViewEvent *event;
 	gint event_num;
 	gboolean need_reshape = FALSE;
 
@@ -4186,8 +4116,6 @@ e_day_view_update_long_event_resize (EDayView *day_view,
 #endif
 
 	event_num = day_view->resize_event_num;
-	event = &g_array_index (day_view->long_events, EDayViewEvent,
-				event_num);
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE) {
 		day = MIN (day, day_view->resize_end_row);
@@ -4207,7 +4135,6 @@ e_day_view_update_long_event_resize (EDayView *day_view,
 	/* FIXME: Optimise? */
 	if (need_reshape) {
 		e_day_view_reshape_long_event (day_view, event_num);
-		e_day_view_reshape_resize_long_event_rect_item (day_view);
 		gtk_widget_queue_draw (day_view->top_canvas);
 	}
 }
@@ -4256,7 +4183,6 @@ e_day_view_update_resize (EDayView *day_view,
 	/* FIXME: Optimise? */
 	if (need_reshape) {
 		e_day_view_reshape_day_event (day_view, day, event_num);
-		e_day_view_reshape_resize_rect_item (day_view);
 		e_day_view_reshape_main_canvas_resize_bars (day_view);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
@@ -5407,18 +5333,13 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 		return;
 	else {
 		/* These are never used after being set? */
-		gint work_start_row,work_end_row,selection_start_row,selection_end_row;
+		gint work_start_row,selection_start_row;
 
-		work_start_row =
-			e_day_view_convert_time_to_row (day_view,
-							day_view->work_day_start_hour,
-							day_view->work_day_start_minute);
-		work_end_row =
-			e_day_view_convert_time_to_row (day_view,
-							day_view->work_day_end_hour - 1,
-							day_view->work_day_end_minute + 30);
+		work_start_row = e_day_view_convert_time_to_row (
+			day_view,
+			day_view->work_day_start_hour,
+			day_view->work_day_start_minute);
 		selection_start_row = day_view->selection_start_row;
-		selection_end_row = day_view->selection_end_row;
 		if (selection_start_row < work_start_row)
 			day_view->selection_end_row = work_start_row - 1;
 		else day_view->selection_start_row = work_start_row;
@@ -5444,16 +5365,13 @@ e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 	if (day_view->selection_in_top_canvas)
 		return;
 	else {
-		gint work_start_row,work_end_row,selection_start_row,selection_end_row;
-		work_start_row =
-			e_day_view_convert_time_to_row (day_view,
-							day_view->work_day_start_hour,
-							day_view->work_day_start_minute);
-		work_end_row = e_day_view_convert_time_to_row (day_view,
-							      day_view->work_day_end_hour-1,
-							      day_view->work_day_end_minute+30);
+		gint work_end_row,selection_start_row;
+
+		work_end_row = e_day_view_convert_time_to_row (
+			day_view,
+			day_view->work_day_end_hour-1,
+			day_view->work_day_end_minute+30);
 		selection_start_row = day_view->selection_start_row;
-		selection_end_row = day_view->selection_end_row;
 		if (selection_start_row <= work_end_row)
 			day_view->selection_end_row = work_end_row;
 		else {

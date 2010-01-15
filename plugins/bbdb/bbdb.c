@@ -315,7 +315,6 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	EBookQuery *query;
 	GList *contacts, *l;
 	EContact *contact;
-	gboolean status;
 	GError *error = NULL;
 
 	g_return_if_fail (book != NULL);
@@ -337,7 +336,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	query = e_book_query_from_string (query_string);
 	g_free (query_string);
 
-	status = e_book_get_contacts (book, query, &contacts, NULL);
+	e_book_get_contacts (book, query, &contacts, NULL);
 	if (query)
 		e_book_query_unref (query);
 	if (contacts != NULL) {
@@ -366,7 +365,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	query = e_book_query_from_string (query_string);
 	g_free (query_string);
 
-	status = e_book_get_contacts (book, query, &contacts, NULL);
+	e_book_get_contacts (book, query, &contacts, NULL);
 	if (query)
 		e_book_query_unref (query);
 	if (contacts != NULL) {

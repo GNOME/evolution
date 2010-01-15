@@ -115,7 +115,6 @@ cell_date_edit_text_get_text (ECellText *cell,
 {
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ECellDateEditValue *dv = e_table_model_value_at (model, col, row);
-	gboolean use_24_hour_format;
 	icaltimezone *timezone;
 	struct tm tmp_tm;
 
@@ -123,7 +122,6 @@ cell_date_edit_text_get_text (ECellText *cell,
 		return g_strdup ("");
 
 	timezone = e_cell_date_edit_text_get_timezone (ecd);
-	use_24_hour_format = e_cell_date_edit_text_get_use_24_hour_format (ecd);
 
 	/* Note that although the property may be in a different
 	   timezone, we convert it to the current timezone to display

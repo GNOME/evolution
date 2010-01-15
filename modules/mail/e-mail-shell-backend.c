@@ -474,11 +474,8 @@ mail_shell_backend_window_created_cb (EShell *shell,
 static void
 mail_shell_backend_constructed (GObject *object)
 {
-	EMailShellBackendPrivate *priv;
 	EShell *shell;
 	EShellBackend *shell_backend;
-
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (object);
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);

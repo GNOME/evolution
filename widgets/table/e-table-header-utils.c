@@ -472,8 +472,6 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 				 inner_x + inner_width - arrow_width,
 				 inner_y + (inner_height - arrow_height) / 2,
 				 arrow_width, arrow_height);
-
-		inner_width -= arrow_width + HEADER_PADDING;
 		break;
 	}
 

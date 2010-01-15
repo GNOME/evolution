@@ -983,7 +983,6 @@ remodel( EMinicard *e_minicard )
 						count = 5;
 					else
 						count = count + g_list_length (email);
-					is_email=FALSE;
 					g_list_free (email);
 				} else {
 					string = e_contact_get(e_minicard->contact, field);

@@ -189,14 +189,12 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
                                      ETable *table)
 {
 	ECalComponentPreview *task_preview;
-	ETaskTable *task_table;
 	ECalModel *task_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
 	task_model = e_task_shell_content_get_task_model (task_shell_content);
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1) {

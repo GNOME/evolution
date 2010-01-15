@@ -314,7 +314,6 @@ init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
-	gint col;
 
 	g_return_val_if_fail (label_tree != NULL, NULL);
 	g_return_val_if_fail (prefs != NULL, NULL);
@@ -323,7 +322,7 @@ init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (label_tree), GTK_TREE_MODEL (store));
 
 	renderer = gtk_cell_renderer_text_new ();
-	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();

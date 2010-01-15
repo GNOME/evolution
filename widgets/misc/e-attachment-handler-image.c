@@ -154,7 +154,6 @@ static void
 attachment_handler_image_update_actions_cb (EAttachmentView *view,
                                             EAttachmentHandler *handler)
 {
-	EAttachmentHandlerImagePrivate *priv;
 	EAttachment *attachment;
 	GFileInfo *file_info;
 	GtkActionGroup *action_group;
@@ -162,8 +161,6 @@ attachment_handler_image_update_actions_cb (EAttachmentView *view,
 	gchar *mime_type;
 	GList *selected;
 	gboolean visible = FALSE;
-
-	priv = E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE (handler);
 
 	selected = e_attachment_view_get_selected_attachments (view);
 
@@ -199,7 +196,6 @@ exit:
 static void
 attachment_handler_image_constructed (GObject *object)
 {
-	EAttachmentHandlerImagePrivate *priv;
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
 	GtkActionGroup *action_group;
@@ -207,7 +203,6 @@ attachment_handler_image_constructed (GObject *object)
 	GError *error = NULL;
 
 	handler = E_ATTACHMENT_HANDLER (object);
-	priv = E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);

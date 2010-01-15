@@ -171,11 +171,9 @@ static void
 mail_label_list_store_constructed (GObject *object)
 {
 	EMailLabelListStore *store;
-	GtkTreeModel *model;
 	GConfBridge *bridge;
 	const gchar *key;
 
-	model = GTK_TREE_MODEL (object);
 	store = E_MAIL_LABEL_LIST_STORE (object);
 
 	bridge = gconf_bridge_get ();

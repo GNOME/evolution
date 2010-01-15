@@ -312,8 +312,6 @@ gboolean
 calendar_save_as_init (GtkUIManager *ui_manager,
                        EShellView *shell_view)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -322,8 +320,6 @@ calendar_save_as_init (GtkUIManager *ui_manager,
 	const gchar *name;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	name = "calendar-save-as";
 	tooltip = _("Save the selected calendar to disk");
@@ -347,8 +343,6 @@ gboolean
 memo_list_save_as_init (GtkUIManager *ui_manager,
                         EShellView *shell_view)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -357,8 +351,6 @@ memo_list_save_as_init (GtkUIManager *ui_manager,
 	const gchar *name;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	name = "memo-list-save-as";
 	tooltip = _("Save the selected memo list to disk");
@@ -382,8 +374,6 @@ gboolean
 task_list_save_as_init (GtkUIManager *ui_manager,
                         EShellView *shell_view)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -392,8 +382,6 @@ task_list_save_as_init (GtkUIManager *ui_manager,
 	const gchar *name;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	name = "task-list-save-as";
 	tooltip = _("Save the selected task list to disk");

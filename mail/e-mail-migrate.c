@@ -2918,7 +2918,6 @@ migrate_to_db (EShellBackend *shell_backend)
 	store = setup_local_store (shell_backend, session);
 	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
 	if (info) {
-		GThread *thread;
 		struct migrate_folders_to_db_structure migrate_dbs;
 
 		if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
@@ -2931,7 +2930,7 @@ migrate_to_db (EShellBackend *shell_backend)
 		migrate_dbs.store = store;
 		migrate_dbs.done = FALSE;
 
-		thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+		g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
 		while (!migrate_dbs.done)
 			g_main_context_iteration (NULL, TRUE);
 	}
@@ -2959,7 +2958,6 @@ migrate_to_db (EShellBackend *shell_backend)
 			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
 			if (info) {
-				GThread *thread;
 				struct migrate_folders_to_db_structure migrate_dbs;
 
 				migrate_dbs.ex = ex;
@@ -2968,7 +2966,7 @@ migrate_to_db (EShellBackend *shell_backend)
 				migrate_dbs.store = store;
 				migrate_dbs.done = FALSE;
 
-				thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+				g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
 				while (!migrate_dbs.done)
 					g_main_context_iteration (NULL, TRUE);
 			} else

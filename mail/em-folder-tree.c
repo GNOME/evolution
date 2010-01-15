@@ -248,7 +248,6 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	gtk_tree_model_iter_children (model, &iter, &root);
 
 	/* Traverse to the last valid iter, or the "Loading..." node */
-	titer = iter;
 	do {
 		gboolean is_store_node = FALSE, is_folder_node = FALSE;
 
@@ -488,15 +487,12 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	GtkTreeView *tree_view;
 	gboolean is_store;
 	CamelStore *store;
 	EAccount *account;
 	gchar *full_name;
 	gchar *key;
 	struct _selected_uri *u;
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
 
 	gtk_tree_model_get ((GtkTreeModel *) model, iter,
 			    COL_STRING_FULL_NAME, &full_name,
@@ -2029,7 +2025,6 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 void
 em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv;
 	GtkTreeView *tree_view;
 	static gint setup = 0;
 	gint i;
@@ -2038,7 +2033,6 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 
-	priv = folder_tree->priv;
 	if (!setup) {
 		for (i=0; i<NUM_DRAG_TYPES; i++)
 			drag_atoms[i] = gdk_atom_intern(drag_types[i].target, FALSE);

@@ -924,7 +924,6 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
 	       write them out. */
             if (filename->size > 1) {
                 charptr = filename->data-1;
-                charptr2=strstr(charptr+1, ";");
                 while (charptr != NULL) {
                     charptr++;
                     charptr2 = strstr(charptr, ";");
@@ -946,7 +945,6 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
                     /* The list of optional participants */
                 if (filename->size > 1) {
                     charptr = filename->data-1;
-                    charptr2=strstr(charptr+1, ";");
                     while (charptr != NULL) {
                         charptr++;
                         charptr2 = strstr(charptr, ";");
@@ -967,7 +965,6 @@ void saveVCalendar(TNEFStruct *tnef, const gchar *tmpdir) {
                         PROP_TAG(PT_STRING8, 0x8238))) != MAPI_UNDEFINED) {
             if (filename->size > 1) {
                 charptr = filename->data-1;
-                charptr2=strstr(charptr+1, ";");
                 while (charptr != NULL) {
                     charptr++;
                     charptr2 = strstr(charptr, ";");
@@ -1139,7 +1136,6 @@ void saveVTask(TNEFStruct *tnef, const gchar *tmpdir) {
         }
         if ((filename != MAPI_UNDEFINED) && (filename->size > 1)) {
             charptr = filename->data-1;
-            charptr2=strstr(charptr+1, ";");
             while (charptr != NULL) {
                 charptr++;
                 charptr2 = strstr(charptr, ";");

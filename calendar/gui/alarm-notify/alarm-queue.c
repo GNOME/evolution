@@ -212,11 +212,10 @@ queue_midnight_refresh (void)
 static void
 add_client_alarms_cb (gpointer key, gpointer value, gpointer data)
 {
-	ClientAlarms *ca = (ClientAlarms *)data;
+	ClientAlarms *ca = (ClientAlarms *) value;
 
 	d(printf("%s:%d (add_client_alarms_cb) - Adding %p\n",__FILE__, __LINE__, ca));
 
-	ca = value;
 	load_alarms_for_today (ca);
 }
 

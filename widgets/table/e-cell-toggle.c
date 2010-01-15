@@ -199,16 +199,13 @@ cell_toggle_draw (ECellView *ecell_view,
                   gint y2)
 {
 	ECellTogglePrivate *priv;
-	ECellToggleView *toggle_view;
 	GdkPixbuf *image;
-	gint x, y, width, height;
-	gint cache_seq;
+	gint x, y;
 	cairo_t *cr;
 
 	const gint value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
-	toggle_view = (ECellToggleView *) ecell_view;
 	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	if (value < 0 || value >= priv->pixbufs->len) {
@@ -217,34 +214,17 @@ cell_toggle_draw (ECellView *ecell_view,
 		return;
 	}
 
-	if (flags & E_CELL_SELECTED) {
-		if (GTK_WIDGET_HAS_FOCUS (toggle_view->canvas))
-			cache_seq = 0;
-		else
-			cache_seq = 1;
-	} else
-		cache_seq = 2;
-
-	if (E_TABLE_ITEM (ecell_view->e_table_item_view)->alternating_row_colors && (row % 2) == 0)
-		cache_seq += 3;
-
 	image = g_ptr_array_index (priv->pixbufs, value);
 
-	if ((x2 - x1) < gdk_pixbuf_get_width (image)) {
+	if ((x2 - x1) < gdk_pixbuf_get_width (image))
 		x = x1;
-		width = x2 - x1;
-	} else {
+	else
 		x = x1 + ((x2 - x1) - gdk_pixbuf_get_width (image)) / 2;
-		width = gdk_pixbuf_get_width (image);
-	}
 
-	if ((y2 - y1) < gdk_pixbuf_get_height (image)) {
+	if ((y2 - y1) < gdk_pixbuf_get_height (image))
 		y = y1;
-		height = y2 - y1;
-	} else {
+	else
 		y = y1 + ((y2 - y1) - gdk_pixbuf_get_height (image)) / 2;
-		height = gdk_pixbuf_get_height (image);
-	}
 
 	cr = gdk_cairo_create (drawable);
 	cairo_save (cr);

@@ -120,8 +120,6 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	EMailShellContentPrivate *priv = mail_shell_content->priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
-	GtkScrolledWindow *scrolled_window;
-	GtkWidget *vscrollbar;
 	GKeyFile *key_file;
 	gchar *uid;
 
@@ -132,9 +130,6 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	shell_content = E_SHELL_CONTENT (mail_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
-	vscrollbar = gtk_scrolled_window_get_vscrollbar (scrolled_window);
 
 	if (message_list->cursor_uid != NULL)
 		uid = NULL;
@@ -366,14 +361,12 @@ mail_shell_content_constructed (GObject *object)
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
-	EShellViewClass *shell_view_class;
 	EMailReader *reader;
 	GtkWidget *message_list;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
 	EWebView *web_view;
-	GalViewCollection *view_collection;
 	const gchar *key;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
@@ -384,9 +377,7 @@ mail_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	view_collection = shell_view_class->view_collection;
 
 	web_view = E_WEB_VIEW (EM_FORMAT_HTML (priv->html_display)->html);
 

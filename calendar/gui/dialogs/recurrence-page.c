@@ -708,7 +708,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 			r.by_day[i++] = ICAL_FRIDAY_WEEKDAY;
 
 		if (day_mask & (1 << 6))
-			r.by_day[i++] = ICAL_SATURDAY_WEEKDAY;
+			r.by_day[i] = ICAL_SATURDAY_WEEKDAY;
 
 		break;
 	}

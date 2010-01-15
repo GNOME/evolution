@@ -153,7 +153,7 @@ e_alert_dialog_constructed (GObject *obj)
 	gtk_window_set_destroy_with_parent((GtkWindow *)self, TRUE);
 
 	if (e_alert_peek_help_uri (alert)) {
-		w = gtk_dialog_add_button((GtkDialog*) self, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
+		gtk_dialog_add_button((GtkDialog*) self, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
 		g_signal_connect(self, "response", G_CALLBACK(dialog_response_cb), NULL);
 	}
 

@@ -916,17 +916,6 @@ contact_display_dispose (GObject *object)
 }
 
 static void
-contact_display_finalize (GObject *object)
-{
-	EABContactDisplayPrivate *priv;
-
-	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (object);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
 contact_display_url_requested (GtkHTML *html,
                                const gchar *uri,
                                GtkHTMLStream *handle)
@@ -1094,7 +1083,6 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	object_class->set_property = contact_display_set_property;
 	object_class->get_property = contact_display_get_property;
 	object_class->dispose = contact_display_dispose;
-	object_class->finalize = contact_display_finalize;
 
 	html_class = GTK_HTML_CLASS (class);
 	html_class->url_requested = contact_display_url_requested;

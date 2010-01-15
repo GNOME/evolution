@@ -517,14 +517,13 @@ static void
 set_journal_sender_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	const gchar *organizer, *attendee;
+	const gchar *organizer;
 	gchar *sender = NULL;
 	gchar *on_behalf_of = NULL;
 
 	priv = view->priv;
 
 	organizer = priv->organizer ? priv->organizer : _("An unknown person");
-	attendee = priv->attendee ? priv->attendee : _("An unknown person");
 
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)

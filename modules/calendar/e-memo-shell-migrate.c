@@ -171,7 +171,7 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 		return;
 	soap_port = camel_url_get_param (url, "soap_port");
 
-	if (!soap_port || strlen (soap_port) == 0)
+	if (soap_port == NULL || *soap_port == '\0')
 		soap_port = "7191";
 
 	use_ssl = camel_url_get_param (url, "use_ssl");
@@ -185,7 +185,7 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
 	e_source_set_property (source, "username", url->user);
-	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
+	e_source_set_property (source, "port", soap_port);
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );

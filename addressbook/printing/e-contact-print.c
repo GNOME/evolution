@@ -211,12 +211,6 @@ e_contact_print_letter_heading (EContactPrintContext *ctxt, gchar *letter)
 static void
 e_contact_start_new_page (EContactPrintContext *ctxt)
 {
-	cairo_t *cr;
-
-	cr = gtk_print_context_get_cairo_context (ctxt->context);
-
-	/*cairo_show_page (cr);*/
-
 	ctxt->x = ctxt->y = .0;
 	ctxt->column = 0;
 	ctxt->pages++;

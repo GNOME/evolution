@@ -844,13 +844,11 @@ action_search_filter_cb (GtkRadioAction *action,
                          EShellView *shell_view)
 {
 	EShellContent *shell_content;
-	EShellWindow *shell_window;
 	EMailReader *reader;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (shell_content);
@@ -880,13 +878,11 @@ action_search_scope_cb (GtkRadioAction *action,
                         EShellView *shell_view)
 {
 	EShellContent *shell_content;
-	EShellWindow *shell_window;
 	EMailReader *reader;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (shell_content);

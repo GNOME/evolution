@@ -609,7 +609,7 @@ static void
 etgc_increment (ETableGroup *etg, gint position, gint amount)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
-	GList *list = etgc->children;
+	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
 		e_table_group_increment (((ETableGroupContainerChildNode *)list->data)->child,
@@ -620,7 +620,7 @@ static void
 etgc_decrement (ETableGroup *etg, gint position, gint amount)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
-	GList *list = etgc->children;
+	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
 		e_table_group_decrement (((ETableGroupContainerChildNode *)list->data)->child,
@@ -1116,7 +1116,7 @@ e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, gpointer c
 {
 	if (E_IS_TABLE_GROUP_CONTAINER (etg)) {
 		ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-		GList *list = etgc->children;
+		GList *list;
 
 		/* Protect from unrefs in the callback functions */
 		g_object_ref (etg);
@@ -1168,7 +1168,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 				     ETGCPrintContext *groupcontext)
 {
 	cairo_t *cr;
-	gdouble yd = height;
+	gdouble yd;
 	gdouble child_height;
 	ETableGroupContainerChildNode *child_node;
 	GList *child;
@@ -1180,7 +1180,6 @@ e_table_group_container_print_page  (EPrintable *ep,
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
 	yd = 6.5 * 72;
-	height = 5 * 72;
 
 	if (child_printable) {
 		if (child)

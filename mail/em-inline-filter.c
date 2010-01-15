@@ -196,7 +196,7 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 	EMInlineFilter *emif = (EMInlineFilter *)f;
 	gchar *inptr = in, *inend = in+len;
 	gchar *data_start = in;
-	gchar *start = in;
+	gchar *start;
 
 	while (inptr < inend) {
 		start = inptr;

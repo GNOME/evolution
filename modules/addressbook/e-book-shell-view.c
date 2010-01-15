@@ -248,7 +248,6 @@ book_shell_view_execute_search (EShellView *shell_view)
 static void
 book_shell_view_update_actions (EShellView *shell_view)
 {
-	EBookShellViewPrivate *priv;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
@@ -262,7 +261,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_contacts_selected;
-	gboolean primary_source_is_system;
 	gboolean single_contact_selected;
 	gboolean selection_is_contact_list;
 	gboolean selection_has_email;
@@ -271,8 +269,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
-
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -299,8 +295,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 		(state & E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
 	can_delete_primary_source =
 		(state & E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
-	primary_source_is_system =
-		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 
 	any_contacts_selected =
 		(single_contact_selected || multiple_contacts_selected);

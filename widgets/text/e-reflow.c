@@ -1114,7 +1114,6 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->draw (item, drawable, x, y, width, height);
 	column_width = reflow->column_width;
 	running_width = E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
-	x_rect = running_width;
 	y_rect = E_REFLOW_BORDER_WIDTH;
 	width_rect = E_REFLOW_DIVIDER_WIDTH;
 	height_rect = reflow->height - (E_REFLOW_BORDER_WIDTH * 2);
@@ -1150,7 +1149,6 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		running_width -= start_line * (column_width + E_REFLOW_FULL_GUTTER);
 		i += start_line * (column_width + E_REFLOW_FULL_GUTTER);
 		running_width += E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
-		x_rect = running_width;
 		y_rect = E_REFLOW_BORDER_WIDTH;
 		width_rect = E_REFLOW_DIVIDER_WIDTH;
 		height_rect = reflow->height - (E_REFLOW_BORDER_WIDTH * 2);

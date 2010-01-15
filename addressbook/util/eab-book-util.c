@@ -214,7 +214,7 @@ eab_contact_list_from_string (const gchar *str)
 		p++;
 	}
 
-	q = p = str_stripped = g_string_free (gstr, FALSE);
+	p = str_stripped = g_string_free (gstr, FALSE);
 
 	/* Note: The vCard standard says
 	 *

@@ -190,17 +190,6 @@ folder_selection_button_finalize (GObject *object)
 }
 
 static void
-folder_selection_button_destroy (GtkObject *object)
-{
-	EMFolderSelectionButtonPrivate *priv;
-
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
-
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-static void
 folder_selection_button_clicked (GtkButton *button)
 {
 	EMFolderSelectionButtonPrivate *priv;
@@ -269,7 +258,6 @@ static void
 folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkButtonClass *button_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -279,9 +267,6 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 	object_class->set_property = folder_selection_button_set_property;
 	object_class->get_property = folder_selection_button_get_property;
 	object_class->finalize = folder_selection_button_finalize;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = folder_selection_button_destroy;
 
 	button_class = GTK_BUTTON_CLASS (class);
 	button_class->clicked = folder_selection_button_clicked;

@@ -512,10 +512,7 @@ contact_list_editor_drag_drop_cb (GtkWidget *widget,
                                   gint x, gint y,
                                   guint time)
 {
-	EContactListEditor *editor;
 	GList *iter;
-
-	editor = contact_list_editor_extract (widget);
 
 	for (iter = context->targets; iter != NULL; iter = iter->next) {
 		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
@@ -547,10 +544,7 @@ contact_list_editor_drag_motion_cb (GtkWidget *widget,
                                     gint x, gint y,
                                     guint time)
 {
-	EContactListEditor *editor;
 	GList *iter;
-
-	editor = contact_list_editor_extract (widget);
 
 	for (iter = context->targets; iter != NULL; iter = iter->next) {
 		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);

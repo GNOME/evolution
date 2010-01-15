@@ -233,7 +233,6 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	ESourceList *source_list;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
 	/* GtkWidget *label; */
 	GtkWidget *selector;
 	GtkWidget *scrolled_window;
@@ -247,7 +246,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 					      NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 300);
 
-	cancel_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	ok_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
 	gtk_widget_set_sensitive (ok_button, FALSE);
 

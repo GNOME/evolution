@@ -506,8 +506,6 @@ et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, 
 		e_tree_table_adapter_show_node (et->priv->etta, found);
 		model_row = e_tree_table_adapter_row_of_node (et->priv->etta, found);
 
-		cursor = found;
-
 		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 		return TRUE;
 	} else if (cursor && !(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {

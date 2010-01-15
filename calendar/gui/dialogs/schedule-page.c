@@ -252,12 +252,10 @@ static gboolean
 schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	SchedulePage *spage;
-	SchedulePagePrivate *priv;
 	ECalComponentDateTime start_date, end_date;
 	gboolean validated = TRUE;
 
 	spage = SCHEDULE_PAGE (page);
-	priv = spage->priv;
 
 	/* Clean the screen */
 	clear_widgets (spage);
@@ -291,10 +289,8 @@ static void
 schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
 	SchedulePage *spage;
-	SchedulePagePrivate *priv;
 
 	spage = SCHEDULE_PAGE (page);
-	priv = spage->priv;
 
 	comp_editor_page_set_updating (page, TRUE);
 	update_time (spage, dates->start, dates->end);

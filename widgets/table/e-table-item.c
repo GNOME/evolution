@@ -1752,8 +1752,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	 * First column to draw, last column to draw
 	 */
 	first_col = -1;
-	last_col = x_offset = 0;
-	x1 = x2 = floor (eti_base.x);
+	x_offset = 0;
+	x1 = floor (eti_base.x);
 	for (col = 0; col < cols; col++, x1 = x2) {
 		ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
@@ -3443,10 +3443,8 @@ e_table_item_print_page  (EPrintable *ep,
 		gp_draw_rect(context, xd, height, 1, yd - height);
 	}
 
-	if (next_page) {
+	if (next_page)
 		cairo_show_page (cr);
-		next_page = 0;
-	}
 
 	g_free (widths);
 }

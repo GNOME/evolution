@@ -66,14 +66,11 @@ struct _pine_import_msg {
 static gboolean
 pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	EImportTargetHome *s;
 	gchar *maildir, *addrfile;
 	gboolean md_exists, addr_exists;
 
 	if (target->type != E_IMPORT_TARGET_HOME)
 		return FALSE;
-
-	s = (EImportTargetHome *)target;
 
 	maildir = g_build_filename(g_get_home_dir (), "mail", NULL);
 	md_exists = g_file_test(maildir, G_FILE_TEST_IS_DIR);

@@ -1472,10 +1472,9 @@ pst_process_task (PstImporter *m, pst_item *item)
 static void
 pst_process_journal (PstImporter *m, pst_item *item)
 {
-	struct pst_item_journal *j;
 	ECalComponent *ec;
 
-	j = item->journal;
+	/*j = item->journal;*/
 	ec = e_cal_component_new ();
 	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_JOURNAL);
 

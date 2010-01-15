@@ -679,7 +679,6 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 		if (*y - row_height > avail_height) {
 			/* We don't, so we show the popup above the cell
 			   instead of below it. */
-			avail_height = *y - row_height;
 			*y -= (popup_requisition.height + row_height);
 			if (*y < 0)
 				*y = 0;

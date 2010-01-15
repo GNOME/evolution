@@ -513,7 +513,7 @@ static void
 rule_bottom (GtkWidget *widget, ERuleEditor *editor)
 {
 	gint pos;
-	gint index = -1, count = 0;
+	gint count = 0;
 	EFilterRule *rule = NULL;
 
 	update_selected_rule(editor);
@@ -521,11 +521,8 @@ rule_bottom (GtkWidget *widget, ERuleEditor *editor)
 	pos = e_rule_context_get_rank_rule (
 		editor->context, editor->current, editor->source);
 	/* There's probably a better/faster way to get the count of the list here */
-	while ((rule = e_rule_context_next_rule (editor->context, rule, editor->source))) {
-		if (rule == editor->current)
-			index = count;
+	while ((rule = e_rule_context_next_rule (editor->context, rule, editor->source)))
 		count++;
-	}
 	count--;
 	if (pos >= 0)
 		rule_move (editor, pos, count);
@@ -777,14 +774,12 @@ rule_able_toggled (GtkCellRendererToggle *renderer,
                    gpointer user_data)
 {
 	GtkWidget *table = user_data;
-	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
 	path = gtk_tree_path_new_from_string (path_string);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (table));
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (table));
 
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
 		EFilterRule *rule = NULL;

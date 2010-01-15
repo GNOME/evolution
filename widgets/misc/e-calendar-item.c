@@ -1023,7 +1023,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 {
 	ECalendarItem *calitem;
 	GtkStyle *style;
-	GdkGC *base_gc, *bg_gc;
 	gint char_height, row, col, row_y, bar_height, col_x;
 	gint xthickness, ythickness;
 	PangoFontDescription *font_desc;
@@ -1052,8 +1051,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
-	base_gc = style->base_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
 
 	base = style->base[GTK_STATE_NORMAL];
 	bg = style->bg[GTK_STATE_NORMAL];
@@ -1164,7 +1161,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	cairo_t *cr;
-	GdkColor fg;
 
 #if 0
 	g_print ("In e_calendar_item_draw_month: %i,%i %ix%i row:%i col:%i\n",
@@ -1190,8 +1186,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-
-	fg = style->fg[GTK_STATE_NORMAL];
 
 	pango_font_metrics_unref (font_metrics);
 
@@ -1396,7 +1390,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
 	GtkStyle *style;
-	PangoFontDescription *font_desc, *wkfont_desc;
+	PangoFontDescription *font_desc;
 	GdkGC *fg_gc;
 	GdkColor *bg_color, *fg_color, *box_color;
 	struct tm today_tm;
@@ -1427,9 +1421,6 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	font_desc = calitem->font_desc;
 	if (!font_desc)
 		font_desc = style->font_desc;
-	wkfont_desc = calitem->week_number_font_desc;
-	if (!wkfont_desc)
-		wkfont_desc = font_desc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 
 	pango_context = gtk_widget_get_pango_context (widget);
@@ -1732,8 +1723,6 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 			g_date_add_days (&date, 7 - weekday);
 		else
 			g_date_subtract_days (&date, weekday);
-
-		weekday = g_date_get_weekday (&date) - 1;
 	}
 
 	/* Calculate the day of the year, from 0 to 365. */

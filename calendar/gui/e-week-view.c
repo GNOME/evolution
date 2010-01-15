@@ -3528,7 +3528,6 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
-	start_dt = event->start;
 	end_dt = event->end;
 	start_time = icalcomponent_get_dtstart (event->comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (event->comp_data->icalcomp);

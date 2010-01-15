@@ -331,7 +331,7 @@ e_run_signature_script (const gchar *filename)
 				/* ...still hanging, set phasers to KILL. */
 				kill (pid, SIGKILL);
 				sleep (1);
-				result = waitpid (pid, &status, WNOHANG);
+				waitpid (pid, &status, WNOHANG);
 			}
 		}
 

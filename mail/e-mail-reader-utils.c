@@ -354,7 +354,6 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	CamelMimeMessage *new_message;
 	CamelMimeMessage *src_message;
 	CamelFolder *folder;
-	GtkWindow *window;
 	GtkHTML *html;
 	struct _camel_header_raw *header;
 	const gchar *uid;
@@ -372,7 +371,6 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-	window = e_mail_reader_get_window (reader);
 
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);

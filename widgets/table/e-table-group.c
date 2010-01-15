@@ -601,6 +601,7 @@ etg_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_FOCUS_CHANGE:
 		etg->has_focus = event->focus_change.in;
 		return_val = FALSE;
+		break;
 
 	default:
 		return_val = FALSE;

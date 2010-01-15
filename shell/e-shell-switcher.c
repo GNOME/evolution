@@ -91,7 +91,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 		/* If using text buttons, we want to try to have a
 		 * completely filled-in grid, but if we can't, we want
 		 * the odd row to have just a single button. */
-		while (num_btns % btns_per_row > 1)
+		while (btns_per_row > 0 && num_btns % btns_per_row > 1)
 			btns_per_row--;
 	}
 

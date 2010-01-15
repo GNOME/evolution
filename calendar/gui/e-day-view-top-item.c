@@ -71,7 +71,6 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	GdkGC *gc;
 	GdkColor bg_color;
 	GdkPoint points[3];
 	gint c1, c2;
@@ -80,8 +79,6 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	cr = gdk_cairo_create (drawable);
 
 	day_view = e_day_view_top_item_get_day_view (top_item);
-
-	gc = day_view->main_gc;
 
 	points[0].x = x;
 	points[0].y = y;
@@ -165,7 +162,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	cairo_t *cr;
 	cairo_pattern_t *pat;
 	guint16 red, green, blue;
-	GdkColor fg;
 	gdouble cc = 65535.0;
 	gboolean gradient;
 	gfloat alpha;
@@ -197,7 +193,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	fg = style->fg[GTK_STATE_NORMAL];
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -584,14 +579,14 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	EDayViewTopItem *top_item;
 	EDayView *day_view;
 	GtkStyle *style;
-	GdkGC *gc, *fg_gc, *bg_gc, *light_gc, *dark_gc;
+	GdkGC *fg_gc;
 	gchar buffer[128];
 	GdkRectangle clip_rect;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
 	PangoLayout *layout;
 	cairo_t *cr;
-	GdkColor fg, bg, light, dark;
+	GdkColor bg, light, dark;
 	gboolean show_dates;
 
 	top_item = E_DAY_VIEW_TOP_ITEM (canvas_item);
@@ -602,17 +597,12 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	cr = gdk_cairo_create (drawable);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	light_gc = style->light_gc[GTK_STATE_NORMAL];
-	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
 	canvas_height = (show_dates ? 1 : (MAX (1, day_view->rows_in_top_display) + 1)) * day_view->top_row_height;
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
-	fg = style->fg[GTK_STATE_NORMAL];
 	bg = style->bg[GTK_STATE_NORMAL];
 	light = style->light[GTK_STATE_NORMAL];
 	dark = style->dark[GTK_STATE_NORMAL];

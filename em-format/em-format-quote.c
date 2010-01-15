@@ -533,10 +533,7 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *enriched;
-	CamelDataWrapper *dw;
 	guint32 flags = 0;
-
-	dw = camel_medium_get_content_object((CamelMedium *)part);
 
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;

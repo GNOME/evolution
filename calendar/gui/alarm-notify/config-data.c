@@ -174,12 +174,9 @@ config_data_replace_string_list (const gchar *key,
 	for (tmp = source; tmp; tmp = tmp->next) {
 
 		if (strcmp (tmp->data, old) == 0) {
-			gboolean state;
-
 			g_free (tmp->data);
 			tmp->data = g_strdup ((gchar *) new);
-			/* Should this be checked somewhere? */
-			state = gconf_client_set_list (conf_client,
+			gconf_client_set_list (conf_client,
 					       key,
 					       GCONF_VALUE_STRING,
 					       source,

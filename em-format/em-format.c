@@ -250,9 +250,8 @@ static void
 merge_missing (gpointer key, gpointer value, gpointer userdata)
 {
 	struct _class_handlers *classes = (struct _class_handlers *) userdata;
-	EMFormatHandler *info, *oldinfo;
+	EMFormatHandler *info;
 
-	oldinfo = (EMFormatHandler *) value;
 	info = g_hash_table_lookup (classes->new->type_handlers, key);
 	if (!info) {
 		/* Might be from a plugin */
@@ -1783,7 +1782,7 @@ emf_application_mbox (EMFormat *emf,
 		camel_object_unref (message);
 
 		/* Skip past CAMEL_MIME_PARSER_STATE_FROM_END. */
-		state = camel_mime_parser_step (parser, NULL, NULL);
+		camel_mime_parser_step (parser, NULL, NULL);
 
 		state = camel_mime_parser_step (parser, NULL, NULL);
 	}

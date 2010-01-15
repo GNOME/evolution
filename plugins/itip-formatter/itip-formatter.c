@@ -866,7 +866,6 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 	}
 
 	for (; l != NULL; l = l->next) {
-		ECal *ecal;
 		source = l->data;
 
 		if (!fd) {
@@ -896,7 +895,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 		if (current_source == source)
 			pitip->current_ecal = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
 		else
-			ecal = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
+			start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
 
 	}
 
@@ -2519,7 +2518,6 @@ puri_free (EMFormatPURI *puri)
 void
 format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
-	EMFormatHTMLPObject *pobj;
 	GConfClient *gconf;
 	gchar *classid;
 	struct _itip_puri *puri;
@@ -2535,7 +2533,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	puri = (struct _itip_puri *)em_format_add_puri(target->format, sizeof(struct _itip_puri), classid, target->part, itip_attachment_frame);
 
-	pobj = em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
+	em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
 
 	gconf = gconf_client_get_default ();
 	puri->delete_message = gconf_client_get_bool (gconf, GCONF_KEY_DELETE, NULL);

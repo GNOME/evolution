@@ -222,8 +222,8 @@ prompt_for_password (gchar *title, gchar *prompt, SECItem *pwd)
 			*outptr++ = ((gchar *) &c)[1];
 		}
 
-		*outptr++ = 0;
-		*outptr++ = 0;
+		outptr[0] = 0;
+		outptr[1] = 0;
 
 		memset (passwd, 0, strlen (passwd));
 		g_free (passwd);

@@ -348,7 +348,6 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
 			ESource *source;
-			ECal *ecal;
 
 			source = m->data;
 
@@ -360,7 +359,7 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 			}
 			fd->count++;
 			/* Check this return too? */
-			ecal = start_calendar_server (itip, source, priv->type, find_cal_opened_cb, fd);
+			start_calendar_server (itip, source, priv->type, find_cal_opened_cb, fd);
 		}
 	}
 }
@@ -2004,6 +2003,7 @@ update_attendee_status (EItipControl *itip)
 				GTK_BUTTONS_OK,
 				"%s", _("Object is invalid and "
 				"cannot be updated\n"));
+			goto run;
 		} else {
 			e_cal_component_get_attendee_list (priv->comp, &attendees);
 			if (attendees != NULL) {

@@ -42,7 +42,7 @@ static gpointer parent_class;
 static EFilterRule *
 vfolder_editor_create_rule (ERuleEditor *rule_editor)
 {
-	EFilterRule *rule = e_filter_rule_new ();
+	EFilterRule *rule;
 	EFilterPart *part;
 
 	/* create a rule with 1 part in it */

@@ -328,12 +328,10 @@ action_mail_flag_for_followup_cb (GtkAction *action,
                                   EMailReader *reader)
 {
 	CamelFolder *folder;
-	GtkWindow *window;
 	GPtrArray *uids;
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
-	window = e_mail_reader_get_window (reader);
 
 	em_utils_flag_for_followup (reader, folder, uids);
 }
@@ -515,12 +513,10 @@ action_mail_message_edit_cb (GtkAction *action,
                              EMailReader *reader)
 {
 	CamelFolder *folder;
-	GtkWindow *window;
 	GPtrArray *uids;
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
-	window = e_mail_reader_get_window (reader);
 
 	em_utils_edit_messages (folder, uids, FALSE);
 }
@@ -743,12 +739,10 @@ action_mail_redirect_cb (GtkAction *action,
 {
 	GtkWidget *message_list;
 	CamelFolder *folder;
-	GtkWindow *window;
 	const gchar *uid;
 
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-	window = e_mail_reader_get_window (reader);
 
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
@@ -2021,7 +2015,6 @@ mail_reader_update_actions (EMailReader *reader)
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	GtkAction *action;
-	GtkActionGroup *action_group;
 	const gchar *action_name;
 	gboolean sensitive;
 	guint32 state;
@@ -2045,7 +2038,6 @@ mail_reader_update_actions (EMailReader *reader)
 	gboolean selection_is_mailing_list;
 	gboolean single_message_selected;
 
-	action_group = e_mail_reader_get_action_group (reader);
 	state = e_mail_reader_check_state (reader);
 
 	shell_backend = e_mail_reader_get_shell_backend (reader);

@@ -280,7 +280,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalendarView *view;
-	ECalModel *model;
 	GtkAction *action;
 	GList *list, *iter;
 	gboolean sensitive;
@@ -291,7 +290,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean can_delete_primary_source;
 	gboolean editable = TRUE;
 	gboolean has_primary_source;
-	gboolean primary_source_is_system;
 	gboolean recurring = FALSE;
 	gboolean is_instance = FALSE;
 	gboolean is_meeting = FALSE;
@@ -309,7 +307,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	view_type = gnome_calendar_get_view (calendar);
 	view = gnome_calendar_get_calendar_view (calendar, view_type);
-	model = e_calendar_view_get_model (view);
 
 	list = e_calendar_view_get_selected_events (view);
 	n_selected = g_list_length (list);
@@ -373,8 +370,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
 	can_delete_primary_source =
 		(state & E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
-	primary_source_is_system =
-		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 	refresh_supported =
 		(state & E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 

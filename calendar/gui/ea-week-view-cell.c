@@ -208,7 +208,7 @@ ea_week_view_cell_get_name (AtkObject *accessible)
 	if (!accessible->name) {
 		AtkObject *ea_main_item;
 		GnomeCanvasItem *main_item;
-		gchar *new_name = g_strdup ("");
+		gchar *new_name;
 		const gchar *row_label, *column_label;
                 gint new_column, new_row;
                 gint start_day;

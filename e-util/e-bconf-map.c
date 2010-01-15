@@ -54,7 +54,7 @@ static gchar hexnib[256] = {
 gchar *
 e_bconf_hex_decode (const gchar *val)
 {
-	const guchar *p = (const guchar *) val;
+	const guchar *p;
 	gchar *o, *res;
 
 	o = res = g_malloc (strlen (val) / 2 + 1);

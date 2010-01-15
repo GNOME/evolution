@@ -472,7 +472,6 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	GdkGC *gc;
 	GdkPoint points[3];
 	gint c1, c2;
 	cairo_t *cr;
@@ -485,7 +484,6 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
 
-	gc = week_view->main_gc;
 	cr = gdk_cairo_create (drawable);
 
 	points[0].x = x;
@@ -700,7 +698,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	cr = gdk_cairo_create (drawable);
 	gradient = calendar_config_get_display_events_gradient ();
 
-	icon_x = 0;
 	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
 
 	/* Get the start & end times in 24-hour format. */

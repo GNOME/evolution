@@ -114,7 +114,7 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
              gint x1, gint y1, gint x2, gint y2)
 {
     GdkPixbuf *cell_pixbuf;
-    gint real_x, real_y, real_w, real_h;
+    gint real_x, real_y;
     gint pix_w, pix_h;
     cairo_t *cr;
 
@@ -136,19 +136,15 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
     if (x2 - x1 > pix_w) {
         gint diff = (x2 - x1) - pix_w;
         real_x = x1 + diff/2;
-        real_w = pix_w;
     } else {
         real_x = x1;
-        real_w = x2 - x1;
     }
 
     if (y2 - y1 > pix_h) {
         gint diff = (y2 - y1) - pix_h;
         real_y = y1 + diff/2;
-        real_h = pix_h;
     } else {
         real_y = y1;
-        real_h = y2 - y1;
     }
 
     cr = gdk_cairo_create (drawable);

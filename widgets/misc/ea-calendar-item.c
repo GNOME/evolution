@@ -1124,7 +1124,6 @@ ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem, gint column,
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	ECalendarItem *calitem;
 	const gchar *abbr_name;
 
 	g_return_val_if_fail (ea_calitem, FALSE);
@@ -1135,7 +1134,6 @@ ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem, gint column,
 		return FALSE;
 
 	/* Columns are 0 = Monday ... 6 = Sunday */
-	calitem = E_CALENDAR_ITEM (g_obj);
 	abbr_name = e_get_weekday_name (column + 1, TRUE);
 	g_strlcpy (buffer, abbr_name, buffer_size);
 

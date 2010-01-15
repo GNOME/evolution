@@ -401,7 +401,7 @@ image_chooser_finalize (GObject *object)
 static void
 e_image_chooser_class_init (EImageChooserClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EImageChooserPrivate));

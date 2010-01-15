@@ -24,10 +24,6 @@
 void
 e_book_shell_backend_init_settings (EShell *shell)
 {
-	EShellSettings *shell_settings;
-
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	e_shell_settings_install_property_for_key (
 		"book-completion-show-address",
 		"/apps/evolution/addressbook/completion/show_address");

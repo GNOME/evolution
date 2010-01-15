@@ -157,7 +157,7 @@ shell_migrate_remove_dir (const gchar *root,
 {
 	GDir *dir;
 	const gchar *basename;
-	gchar *filename;
+	gchar *filename = NULL;
 	gint result = -1;
 
 	/* Recursively removes a directory and its contents. */

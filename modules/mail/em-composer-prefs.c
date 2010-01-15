@@ -365,14 +365,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
-	GConfBridge *bridge;
 	GConfClient *client;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
 	gint i;
 
-	bridge = gconf_bridge_get ();
 	client = mail_config_get_gconf_client ();
 	shell_settings = e_shell_get_shell_settings (shell);
 

@@ -990,8 +990,6 @@ process_name (CERTName *name, gchar **value)
 
 	rdns = name->rdns;
 
-	lastRdn = rdns;
-
 	/* find last RDN */
 	lastRdn = rdns;
 	while (*lastRdn) lastRdn++;

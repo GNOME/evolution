@@ -711,7 +711,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_one_resource_item = menuitem;
-	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Required people and _one resource"));
 	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "activate",

@@ -408,7 +408,6 @@ account_added (EAccountList *account_listener, EAccount *account)
 
 	HulaAccountInfo *info;
 	EAccount *parent;
-	CamelURL *parent_url;
 
 	if (!is_hula_account (account) || !is_hula_caldav_account (account))
 		return;
@@ -423,7 +422,6 @@ account_added (EAccountList *account_listener, EAccount *account)
 		if (!parent)
 			return;
 
-		parent_url = camel_url_new (e_account_get_string(parent, E_ACCOUNT_SOURCE_URL), NULL);
 	} else
 		add_calendar_sources (info);
 

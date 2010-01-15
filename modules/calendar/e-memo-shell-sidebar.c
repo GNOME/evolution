@@ -163,9 +163,6 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
-	ESource *source;
-
-	source = e_cal_get_source (client);
 
 	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -713,7 +710,6 @@ void
 e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
                                     ESource *source)
 {
-	ESourceSelector *selector;
 	GHashTable *client_table;
 	ECal *client;
 	const gchar *uid;
@@ -722,7 +718,6 @@ e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	client_table = memo_shell_sidebar->priv->client_table;
-	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);

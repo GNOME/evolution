@@ -189,11 +189,9 @@ web_view_request_stream_read_cb (GInputStream *input_stream,
                                  GAsyncResult *result,
                                  EWebViewRequest *request)
 {
-	GtkHTML *html;
 	gssize bytes_read;
 	GError *error = NULL;
 
-	html = GTK_HTML (request->web_view);
 	bytes_read = g_input_stream_read_finish (input_stream, result, &error);
 
 	if (web_view_request_check_for_error (request, error))

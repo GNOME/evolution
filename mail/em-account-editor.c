@@ -2413,7 +2413,6 @@ emae_option_options (EMAccountEditorService *service, CamelURL *url, const gchar
 	/* value and caption */
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 
-	p = values;
 	for (p = values, i = 0; p; i++) {
 		gchar *vl, *cp;
 

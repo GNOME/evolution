@@ -298,18 +298,11 @@ static EContactDate*
 date_from_string (const gchar *str)
 {
 	EContactDate* date;
-	gint length;
-	gchar *t;
 	gint i = 0;
 
 	g_return_val_if_fail (str != NULL, NULL);
 
 	date = e_contact_date_new();
-	/* ignore time part */
-	if ((t = strchr (str, 'T')) != NULL)
-		length = t - str;
-	else
-		length = strlen(str);
 
 	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i+1])) {
 		date->month = str[i] * 10 + str[i+1] - '0' * 11;

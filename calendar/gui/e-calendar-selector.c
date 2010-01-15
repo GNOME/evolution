@@ -110,22 +110,14 @@ calendar_selector_data_dropped (ESourceSelector *selector,
                                 GdkDragAction action,
                                 guint info)
 {
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
 	GtkTreePath *path = NULL;
 	ECal *client;
 	icalcomponent *icalcomp;
 	const gchar *string;
-	gboolean remove_from_source;
 	gboolean success = FALSE;
 	gpointer object = NULL;
 
-	tree_view = GTK_TREE_VIEW (selector);
-	model = gtk_tree_view_get_model (tree_view);
-
 	string = (const gchar *) selection_data->data;
-	remove_from_source = (action == GDK_ACTION_MOVE);
-
 	icalcomp = icalparser_parse_string (string);
 
 	if (icalcomp == NULL)
@@ -143,10 +135,8 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 		destination, E_CAL_SOURCE_TYPE_EVENT);
 
 	if (client != NULL) {
-		if (e_cal_open (client, TRUE, NULL)) {
-			success = TRUE;
+		if (e_cal_open (client, TRUE, NULL))
 			calendar_selector_update_objects (client, icalcomp);
-		}
 
 		g_object_unref (client);
 	}
@@ -162,7 +152,7 @@ exit:
 	if (object != NULL)
 		g_object_unref (object);
 
-	return TRUE;
+	return success;
 }
 
 static void

@@ -213,7 +213,7 @@ add_esource (const gchar *conf_key, GwAccountInfo *info,  const gchar *source_na
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
 	e_source_set_property (source, "username", url->user);
-	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
+	e_source_set_property (source, "port", soap_port);
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
 
@@ -433,7 +433,6 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 {
 	CamelURL *url;
 	gchar *relative_uri;
-        const gchar *soap_port;
 	const gchar *poa_address;
 
 	url = camel_url_new (info->source_url, NULL);
@@ -441,10 +440,6 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return;
-
-	soap_port = camel_url_get_param (url, "soap_port");
-	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
 
 	relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
 	remove_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), relative_uri);
@@ -755,7 +750,6 @@ remove_addressbook_sources (GwAccountInfo *existing_account_info)
 	gboolean found_group;
 	CamelURL *url;
 	gchar *base_uri;
-	const gchar *soap_port;
 	GConfClient *client;
 	const gchar *poa_address;
 
@@ -768,9 +762,6 @@ remove_addressbook_sources (GwAccountInfo *existing_account_info)
 	if (!poa_address || strlen (poa_address) ==0)
 		return;
 
-	soap_port = camel_url_get_param (url, "soap_port");
-	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7191";
 	base_uri =  g_strdup_printf ("groupwise://%s@%s", url->user,  poa_address);
 	client = gconf_client_get_default ();
 	list = e_source_list_new_for_gconf (client, "/apps/evolution/addressbook/sources" );

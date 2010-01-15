@@ -218,7 +218,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellTaskbar *shell_taskbar;
 	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
 	ETaskTable *task_table;
@@ -229,7 +228,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
-	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);

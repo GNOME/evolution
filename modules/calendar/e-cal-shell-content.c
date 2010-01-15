@@ -227,17 +227,6 @@ cal_shell_content_dispose (GObject *object)
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-static void
-cal_shell_content_finalize (GObject *object)
-{
-	ECalShellContentPrivate *priv;
-
-	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
 static time_t
 gc_get_default_time (ECalModel *model, gpointer user_data)
 {
@@ -500,7 +489,6 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 	object_class->set_property = cal_shell_content_set_property;
 	object_class->get_property = cal_shell_content_get_property;
 	object_class->dispose = cal_shell_content_dispose;
-	object_class->finalize = cal_shell_content_finalize;
 	object_class->constructed = cal_shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);

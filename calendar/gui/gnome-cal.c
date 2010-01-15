@@ -1307,12 +1307,9 @@ update_todo_view_cb (GnomeCalendar *gcal)
 static gboolean
 update_marcus_bains_line_cb (GnomeCalendar *gcal)
 {
-	GnomeCalendarPrivate *priv;
 	GnomeCalendarViewType view_type;
 	ECalendarView *view;
 	time_t now, day_begin;
-
-	priv = gcal->priv;
 
 	view_type = gnome_calendar_get_view (gcal);
 	view = gnome_calendar_get_calendar_view (gcal, view_type);
@@ -1905,7 +1902,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
 		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
 
-		status = E_CALENDAR_STATUS_OK;
 		break;
 	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
 		/* try to reopen calendar - it'll ask for a password once again */
@@ -2023,11 +2019,8 @@ typedef void (*open_func) (ECal *, ECalendarStatus, GnomeCalendar *);
 static gboolean
 open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of)
 {
-	GnomeCalendarPrivate *priv;
 	gchar *msg;
 	icaltimezone *zone;
-
-	priv = gcal->priv;
 
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (cal, zone, NULL);
@@ -2550,13 +2543,10 @@ check_instance_cb (ECalComponent *comp,
 void
 gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 {
-	GnomeCalendarPrivate *priv;
 	gchar *sexp, *start, *end;
 	GList *clients, *l;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	priv = gcal->priv;
 
 	start = isodate_from_time_t (0);
 	end = isodate_from_time_t (older_than);

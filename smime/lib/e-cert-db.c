@@ -913,7 +913,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		rv = FALSE;
 		goto loser;
 	}
-	srv = CERT_SaveSMimeProfile(cert, NULL, NULL);
+	CERT_SaveSMimeProfile(cert, NULL, NULL);
 	PORT_Free(rawCerts);
  loser:
 	if (cert)

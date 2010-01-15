@@ -92,21 +92,19 @@ epech_get_widgets_data (CustomHeaderOptionsDialog *mch)
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	HeaderValueComboBox *sub_combo_box_get;
 	gint selected_item;
-	gint index_row,index_column;
+	gint index_column;
 
 	priv = mch->priv;
 	priv->header_index_type = g_array_new (FALSE, FALSE, sizeof (gint));
 	priv->flag++;
 
-	for (index_row = 0,index_column = 0;
+	for (index_column = 0;
 		index_column < priv->email_custom_header_details->len; index_column++) {
 
 		sub_combo_box_get = &g_array_index(priv->combo_box_header_value, HeaderValueComboBox,index_column);
 		selected_item = gtk_combo_box_get_active((GtkComboBox *)sub_combo_box_get->header_value_combo_box);
 		g_array_append_val (priv->header_index_type, selected_item);
 	}
-
-	return;
 }
 
 static gboolean
@@ -134,12 +132,12 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	HeaderValueComboBox *sub_combo_box_fill;
-	gint set_index_row,set_index_column;
+	gint set_index_column;
 
 	priv = mch->priv;
 	priv->help_section = g_strdup ("usage-mail");
 
-	for (set_index_row = 0,set_index_column = 0;
+	for (set_index_column = 0;
 		set_index_column < priv->email_custom_header_details->len;set_index_column++) {
 		sub_combo_box_fill = &g_array_index(priv->combo_box_header_value, HeaderValueComboBox,set_index_column);
 
@@ -312,7 +310,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	HeaderValueComboBox sub_combo_box = {NULL};
 	HeaderValueComboBox *sub_combo_box_ptr;
 	gint sub_index,row_combo,column_combo;
-	gint header_section_id,sub_type_index,row,column,label_row;
+	gint header_section_id,sub_type_index,row,column;
 	gint i;
 	gchar *str;
 	static const gchar *security_field = N_("Security:");
@@ -331,7 +329,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	priv = mch->priv;
 	priv->combo_box_header_value = g_array_new (TRUE, FALSE, sizeof (HeaderValueComboBox));
 
-	for (header_section_id = 0,label_row = 0,row = 0,column = 1;
+	for (header_section_id = 0,row = 0,column = 1;
 		header_section_id < priv->email_custom_header_details->len; header_section_id++,row++,column++) {
 
 		/* To create an empty label widget. Text will be added dynamically. */
@@ -458,14 +456,14 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	EmailCustomHeaderDetails *temp_header_ptr;
 	CustomSubHeader *temp_header_value_ptr;
-	gint index, index_subtype,sub_type_index;
+	gint index_subtype,sub_type_index;
 
 	composer = (EMsgComposer *)data;
 	priv = dialog->priv;
 
 	if (state == GTK_RESPONSE_OK) {
 
-		for (index = 0,index_subtype = 0; index_subtype < priv->email_custom_header_details->len; index_subtype++) {
+		for (index_subtype = 0; index_subtype < priv->email_custom_header_details->len; index_subtype++) {
 
 			temp_header_ptr = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,index_subtype);
 

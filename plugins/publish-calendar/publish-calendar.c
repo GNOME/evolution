@@ -601,7 +601,6 @@ url_list_enable_toggled (GtkCellRendererToggle *renderer,
                          const gchar            *path_string,
 			 PublishUIData         *ui)
 {
-	GtkTreeSelection *selection;
 	EPublishUri *url = NULL;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -609,7 +608,6 @@ url_list_enable_toggled (GtkCellRendererToggle *renderer,
 
 	path = gtk_tree_path_new_from_string (path_string);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);

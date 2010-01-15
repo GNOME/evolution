@@ -208,12 +208,9 @@ attachment_button_update_pixbufs (EAttachmentButton *button)
 {
 	GtkCellLayout *cell_layout;
 	GtkCellRenderer *renderer;
-	GtkIconTheme *icon_theme;
 	GdkPixbuf *pixbuf_expander_open;
 	GdkPixbuf *pixbuf_expander_closed;
 	GList *list;
-
-	icon_theme = gtk_icon_theme_get_default ();
 
 	/* Grab the first cell renderer. */
 	cell_layout = GTK_CELL_LAYOUT (button->priv->cell_view);

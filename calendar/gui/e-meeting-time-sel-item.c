@@ -508,7 +508,6 @@ static void
 e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, GDate *date, gint x, gint scroll_y, gint width, gint height)
 {
 	EMeetingTimeSelector *mts;
-	EMeetingAttendee *ia;
 	EMeetingFreeBusyType busy_type;
 	gint row, y;
 	GdkGC *gc;
@@ -526,11 +525,8 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 
 	/* Get the first visible busy periods for all the attendees. */
 	first_periods = g_new (gint, e_meeting_store_count_actual_attendees (mts->model));
-	for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
-		/* This is never used */
-		ia = e_meeting_store_find_attendee_at_row (mts->model, row);
+	for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++)
 		first_periods[row] = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, row);
-	}
 
 	for (busy_type = 0;
 	     busy_type < E_MEETING_FREE_BUSY_LAST;
@@ -713,11 +709,9 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 	EMeetingAttendee *ia;
 	const GArray *busy_periods;
 	EMeetingFreeBusyPeriod *period;
-	GdkGC *gc;
 	gint period_num, x1, x2, x2_within_day, x2_within_col;
 
 	mts = mts_item->mts;
-	gc = mts_item->main_gc;
 
 	ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 

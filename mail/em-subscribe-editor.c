@@ -475,20 +475,9 @@ static void sub_do_changed(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *
 static void
 sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 {
-	gint dosub = TRUE, dounsub = TRUE;
-
 	sub->selected_count = 0;
 	sub->selected_subscribed_count = 0;
 	gtk_tree_selection_selected_foreach(selection, sub_do_changed, sub);
-
-	if (sub->selected_count == 0) {
-		dosub = FALSE;
-		dounsub = FALSE;
-	} else if (sub->selected_subscribed_count == sub->selected_count)
-		dosub = FALSE;
-	else if (sub->selected_subscribed_count == 0)
-		dounsub = FALSE;
-
 }
 
 /* double-clicking causes a node item to be evaluated directly */

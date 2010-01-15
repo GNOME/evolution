@@ -581,7 +581,7 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	gint day, weekday, week_start_day;
 	gchar buf[100];
 	struct tm tm;
-	double font_size, max_font_size;
+	double font_size;
 	double header_size, col_width, row_height, text_xpad, w;
 	double cell_top, cell_bottom, cell_left, cell_right, text_right;
 
@@ -612,14 +612,6 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 
 	/* First we need to calculate a reasonable font size. We start with a
 	   rough guess of just under the height of each row. */
-	font_size = row_height;
-
-	/* Check that it isn't going to be too wide. The characters are about
-	   twice as high as they are wide, but we need to fit two characters
-	   into each cell, so we don't want to go over col_width. */
-	max_font_size = col_width * 0.65;
-
-	/* Why calculate this if we're not using it? */
 	font_size = row_height;
 
 	/* get month days */
@@ -1532,7 +1524,7 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 	gint span_num;
 	gchar *text;
 	gint num_days, start_x, start_y, start_h, end_x, end_y, end_h;
-	double x1, x2, y1, y2;
+	double x1, x2, y1;
 	double red, green, blue;
 	GdkPixbuf *pixbuf = NULL;
 
@@ -1578,7 +1570,6 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 			y1 = top + start_y * cell_height
 				 + psi->header_row_height
 				 + span->row * (psi->row_height + 2);
-			y2 = y1 + psi->row_height * 0.5;
 
 			red = .9;
 			green = .9;
@@ -2088,7 +2079,6 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	gint i, days = 1;
 	double todo, l;
 	gchar buf[100];
-	cairo_t *cr;
 	gdouble width, height;
 
 	setup = gtk_print_context_get_page_setup (context);
@@ -2098,8 +2088,6 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	for (i = 0; i < days; i++) {
 		todo = width * 0.75;
-
-		cr = gtk_print_context_get_cairo_context (context);
 
 		/* Print the main view with all the events in. */
 		print_day_details (context, gcal, date,

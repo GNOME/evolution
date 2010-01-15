@@ -94,7 +94,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EShellSettings *shell_settings;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	EMFormatHTMLDisplay *html_display;
 	GtkWidget *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
@@ -129,7 +128,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	reader = E_MAIL_READER (shell_content);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
-	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	if (folder_uri != NULL) {
@@ -443,7 +441,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean account_is_groupwise = FALSE;
 	gboolean folder_allows_children;
 	gboolean folder_can_be_deleted;
-	gboolean folder_is_junk;
 	gboolean folder_is_outbox;
 	gboolean folder_is_store;
 	gboolean folder_is_trash;
@@ -471,8 +468,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_FOLDER_ALLOWS_CHILDREN);
 	folder_can_be_deleted =
 		(state & E_MAIL_SIDEBAR_FOLDER_CAN_DELETE);
-	folder_is_junk =
-		(state & E_MAIL_SIDEBAR_FOLDER_IS_JUNK);
 	folder_is_outbox =
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_OUTBOX);
 	folder_is_store =

@@ -1299,17 +1299,6 @@ ect_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
 	g_free (save_state);
 }
 
-#define FONT_NAME "Sans Regular"
-
-static PangoFontDescription *
-get_font_description_for_size (double h)
-{
-	PangoFontDescription *font_des = pango_font_description_new ();
-	pango_font_description_set_family (font_des, FONT_NAME);
-	pango_font_description_set_size (font_des, h * PANGO_SCALE);
-	return font_des;
-}
-
 static void
 get_font_size (PangoLayout *layout, PangoFontDescription *font, const gchar *text,
 		double *width, double *height)
@@ -1334,7 +1323,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	   gint model_col, gint view_col, gint row,
 	   double width, double height)
 {
-	PangoFontDescription *font_des = get_font_description_for_size (12);
+	PangoFontDescription *font_des;
 	PangoLayout *layout;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;

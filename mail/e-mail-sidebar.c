@@ -52,7 +52,6 @@ static void
 mail_sidebar_restore_state (EMailSidebar *sidebar)
 {
 	EMFolderTree *folder_tree;
-	GtkTreeModel *tree_model;
 	GKeyFile *key_file;
 	gchar *selected;
 
@@ -63,7 +62,6 @@ mail_sidebar_restore_state (EMailSidebar *sidebar)
 		return;
 
 	folder_tree = EM_FOLDER_TREE (sidebar);
-	tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (sidebar));
 
 	/* Restore selected folder. */
 

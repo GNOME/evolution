@@ -530,8 +530,6 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gchar *source_uid = NULL;
 	gchar *comp_uid = NULL;
 	gchar *comp_rid = NULL;
-	time_t startdate = -1;
-	time_t enddate = -1;
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
@@ -565,11 +563,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		content_len = strcspn (cp, "&");
 
 		content = g_strndup (cp, content_len);
-		if (g_ascii_strcasecmp (header, "startdate") == 0)
-			startdate = time_from_isodate (content);
-		else if (g_ascii_strcasecmp (header, "enddate") == 0)
-			enddate = time_from_isodate (content);
-		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
+		if (g_ascii_strcasecmp (header, "source-uid") == 0)
 			source_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
 			comp_uid = g_strdup (content);

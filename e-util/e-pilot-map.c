@@ -256,7 +256,6 @@ e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 void
 e_pilot_map_remove_by_uid (EPilotMap *map, const gchar *uid)
 {
-	EPilotMapPidNode *pnode;
 	EPilotMapUidNode *unode;
 
 	g_return_if_fail (map != NULL);
@@ -265,8 +264,6 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const gchar *uid)
         unode = g_hash_table_lookup (map->uid_map, uid);
         if (unode == NULL)
 		return;
-
-        pnode = g_hash_table_lookup (map->pid_map, &unode->pid);
 
 	g_hash_table_remove (map->pid_map, &unode->pid);
 	g_hash_table_remove (map->uid_map, uid);

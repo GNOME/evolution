@@ -2193,12 +2193,10 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 void
 e_cal_model_add_client (ECalModel *model, ECal *client)
 {
-	ECalModelClient *client_data;
-
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL (client));
-	/* Check this return value or drop the assignment? */
-	client_data = add_new_client (model, client, TRUE);
+
+	add_new_client (model, client, TRUE);
 }
 
 static void

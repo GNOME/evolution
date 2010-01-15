@@ -67,10 +67,6 @@ e_pilot_settings_get_type (void)
 static void
 class_init (EPilotSettingsClass *klass)
 {
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (klass);
-
 	parent_class = g_type_class_ref (GTK_TYPE_TABLE);
 }
 
@@ -129,10 +125,8 @@ GtkWidget *
 e_pilot_settings_new (ESourceList *source_list)
 {
 	EPilotSettings *ps;
-	EPilotSettingsPrivate *priv;
 
 	ps = g_object_new (E_TYPE_PILOT_SETTINGS, NULL);
-	priv = ps->priv;
 
 	build_ui (ps, source_list);
 

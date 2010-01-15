@@ -136,7 +136,6 @@ account_prefs_edit_account (EAccountManager *manager)
 	EMAccountPrefsPrivate *priv;
 	EMAccountEditor *emae;
 	EAccountTreeView *tree_view;
-	EAccountList *account_list;
 	EAccount *account;
 	gpointer parent;
 
@@ -147,7 +146,6 @@ account_prefs_edit_account (EAccountManager *manager)
 		return;
 	}
 
-	account_list = e_account_manager_get_account_list (manager);
 	tree_view = e_account_manager_get_tree_view (manager);
 	account = e_account_tree_view_get_selected (tree_view);
 	g_return_if_fail (account != NULL);

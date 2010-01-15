@@ -992,8 +992,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 {
 	EDayViewMainItem *main_item;
 	EDayView *day_view;
-	GtkStyle *style;
-	GdkGC *gc;
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
 	gint work_day_start_y, work_day_end_y;
@@ -1012,7 +1010,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	day_view = e_day_view_main_item_get_day_view (main_item);
 	g_return_if_fail (day_view != NULL);
 
-	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	rect.x = 0;
 	rect.y = 0;
 	rect.width = width;
@@ -1021,7 +1018,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Paint the background colors. */
 	work_day_start_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute) - y;
-	gc = day_view->main_gc;
 	work_day_end_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute) - y;
 
 	today_tt = icaltime_from_timet_with_zone (time (NULL), FALSE,

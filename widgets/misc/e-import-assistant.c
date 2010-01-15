@@ -168,7 +168,6 @@ filename_changed (GtkWidget *widget,
 					first = eii;
 				}
 				gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, TRUE, -1);
-				fileok = TRUE;
 			} else {
 				if (page->importer == eii)
 					page->importer = NULL;

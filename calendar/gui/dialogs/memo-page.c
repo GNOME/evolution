@@ -488,14 +488,12 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
-			const gchar *name, *attendee = NULL;
+			const gchar *attendee = NULL;
 
-			name = e_destination_get_name (dest);
-
-			/* If we couldn't get the attendee prior, get the email address as the default */
-			if (attendee == NULL || *attendee == '\0') {
+			/* If we couldn't get the attendee prior,
+			 * get the email address as the default. */
+			if (attendee == NULL || *attendee == '\0')
 				attendee = e_destination_get_email (dest);
-			}
 
 			if (attendee == NULL || *attendee == '\0')
 				continue;

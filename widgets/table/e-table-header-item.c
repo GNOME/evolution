@@ -1516,7 +1516,6 @@ static void
 ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
-	ETableCol *col;
 	GtkMenu *popup;
 	gint ncol, sort_count, sort_col;
 	GtkWidget *menu_item, *sub_menu;
@@ -1526,7 +1525,6 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
-	col = e_table_header_get_column (ethi->eth, info->col);
 
 	popup = e_popup_menu_create_with_domain (ethi_context_menu,
 						 1 +

@@ -163,7 +163,6 @@ memo_shell_view_execute_search (EShellView *shell_view)
 static void
 memo_shell_view_update_actions (EShellView *shell_view)
 {
-	EMemoShellViewPrivate *priv;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
@@ -177,7 +176,6 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_memos_selected;
-	gboolean primary_source_is_system;
 	gboolean selection_has_url;
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
@@ -185,8 +183,6 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
-
-	priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -209,8 +205,6 @@ memo_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
 	can_delete_primary_source =
 		(state & E_MEMO_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
-	primary_source_is_system =
-		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 	refresh_supported =
 		(state & E_MEMO_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 

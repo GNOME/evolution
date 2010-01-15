@@ -358,15 +358,13 @@ thread_start (gpointer data)
 static gboolean
 idle_cb(gpointer data)
 {
-	GThread *t;
-
 	if (gui_arg) {
 		/* Show progress dialog */
 		gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
 		g_timeout_add (50, pbar_update, NULL);
 	}
 
-	t = g_thread_create (thread_start, NULL, FALSE, NULL);
+	g_thread_create (thread_start, NULL, FALSE, NULL);
 
 	return FALSE;
 }

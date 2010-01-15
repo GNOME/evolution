@@ -115,7 +115,6 @@ ea_gnome_calendar_new (GtkWidget *widget)
 {
 	GObject *object;
 	AtkObject *accessible;
-	GnomeCalendar *gcal;
 
 	g_return_val_if_fail (GNOME_IS_CALENDAR (widget), NULL);
 
@@ -125,8 +124,6 @@ ea_gnome_calendar_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 	accessible->role = ATK_ROLE_FILLER;
-
-	gcal = GNOME_CALENDAR (widget);
 
 	/* listen on view type change
 	 */

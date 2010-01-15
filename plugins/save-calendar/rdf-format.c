@@ -207,7 +207,7 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 		xmlBufferPtr buffer=xmlBufferCreate();
 		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
-		xmlNodePtr fnode = doc->children;
+		xmlNodePtr fnode;
 
 		doc->children = xmlNewDocNode (doc, NULL, (const guchar *)"rdf:RDF", NULL);
 		xmlSetProp (doc->children, (const guchar *)"xmlns:rdf", (const guchar *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#");

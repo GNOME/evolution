@@ -1191,7 +1191,6 @@ em_format_html_file_part(EMFormatHTML *efh, const gchar *mime_type, const gchar 
 	if (stream == NULL)
 		return NULL;
 
-	part = camel_mime_part_new();
 	dw = camel_data_wrapper_new();
 	camel_data_wrapper_construct_from_stream(dw, stream);
 	camel_object_unref(stream);
@@ -1741,10 +1740,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *enriched;
-	CamelDataWrapper *dw;
 	guint32 flags = 0;
-
-	dw = camel_medium_get_content_object((CamelMedium *)part);
 
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
@@ -1799,8 +1795,6 @@ static void
 efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	const gchar *location;
-	/* This is set but never used for anything */
-	EMFormatPURI *puri;
 	gchar *cid = NULL;
 
 	camel_stream_printf (
@@ -1839,7 +1833,7 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 		}
 	}
 
-	puri = em_format_add_puri((EMFormat *)efh, sizeof(EMFormatPURI), cid, part, efh_write_text_html);
+	em_format_add_puri((EMFormat *)efh, sizeof(EMFormatPURI), cid, part, efh_write_text_html);
 	d(printf("adding iframe, location %s\n", cid));
 	camel_stream_printf(stream,
 			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>\n"

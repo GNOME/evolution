@@ -281,7 +281,6 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	GFile *file;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
@@ -300,8 +299,6 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 	g_hash_table_insert (
 		store->priv->attachment_index,
 		g_object_ref (attachment), reference);
-
-	file = e_attachment_get_file (attachment);
 
 	/* This lets the attachment tell us when to update. */
 	e_attachment_set_reference (attachment, reference);

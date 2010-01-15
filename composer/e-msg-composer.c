@@ -2241,22 +2241,14 @@ e_msg_composer_set_pending_body (EMsgComposer *composer,
 	g_object_set_data_full (
 		G_OBJECT (composer), "body:text",
 		text, (GDestroyNotify) g_free);
-
-	g_object_set_data (
-		G_OBJECT (composer), "body:length",
-		GSIZE_TO_POINTER (length));
 }
 
 static void
 e_msg_composer_flush_pending_body (EMsgComposer *composer)
 {
 	const gchar *body;
-	gpointer data;
-	gssize length;
 
 	body = g_object_get_data (G_OBJECT (composer), "body:text");
-	data = g_object_get_data (G_OBJECT (composer), "body:length");
-	length = GPOINTER_TO_SIZE (data);
 
 	if (body != NULL)
 		set_editor_text (composer, body, FALSE);
@@ -3749,13 +3741,11 @@ void
 e_msg_composer_show_sig_file (EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
-	GtkHTML *html;
 	gchar *html_text;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = GTKHTML_EDITOR (composer);
-	html = gtkhtml_editor_get_html (editor);
 
 	if (composer->priv->redirect)
 		return;

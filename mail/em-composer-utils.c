@@ -2031,7 +2031,7 @@ attribution_format (const gchar *format, CamelMimeMessage *message)
 
 	gmtime_r (&date, &tm);
 
-	start = inptr = format;
+	inptr = format;
 	while (*inptr != '\0') {
 		start = inptr;
 		while (*inptr && strncmp (inptr, "${", 2) != 0)

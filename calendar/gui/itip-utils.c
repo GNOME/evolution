@@ -632,12 +632,16 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 		switch (e_cal_component_get_vtype (comp)) {
 		case E_CAL_COMPONENT_EVENT:
 			description = _("Event information");
+			break;
 		case E_CAL_COMPONENT_TODO:
 			description = _("Task information");
+			break;
 		case E_CAL_COMPONENT_JOURNAL:
 			description = _("Memo information");
+			break;
 		case E_CAL_COMPONENT_FREEBUSY:
 			description = _("Free/Busy information");
+			break;
 		default:
 			description = _("Calendar information");
 		}
@@ -896,7 +900,6 @@ comp_limit_attendees (ECalComponent *comp)
 
 		if (!match)
 			list = g_slist_prepend (list, prop);
-		match = FALSE;
 	}
 
 	for (l = list; l != NULL; l = l->next) {
@@ -1555,10 +1558,9 @@ itip_publish_begin (ECalComponent *pub_comp, ECal *client,
 
 	if (e_cal_component_get_vtype (pub_comp) == E_CAL_COMPONENT_FREEBUSY) {
 
-		if (!cloned) {
+		if (!cloned)
 			*clone = e_cal_component_clone (pub_comp);
-			cloned = TRUE;
-		} else {
+		else {
 
 			icomp = e_cal_component_get_icalcomponent (pub_comp);
 			icomp_clone = e_cal_component_get_icalcomponent (*clone);

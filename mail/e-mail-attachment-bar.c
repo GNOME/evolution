@@ -99,7 +99,6 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	GtkActivatable *activatable;
-	GtkExpander *expander;
 	GtkAction *action;
 	GtkLabel *label;
 	gint num_attachments;
@@ -109,7 +108,6 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 
 	view = E_ATTACHMENT_VIEW (bar);
 	store = e_attachment_view_get_store (view);
-	expander = GTK_EXPANDER (bar->priv->expander);
 	label = GTK_LABEL (bar->priv->status_label);
 
 	num_attachments = e_attachment_store_get_num_attachments (store);

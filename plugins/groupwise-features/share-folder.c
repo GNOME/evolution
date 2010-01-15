@@ -482,7 +482,6 @@ not_ok_clicked(GtkButton *button, ShareFolder *sf)
 	GtkTextIter *start, *end;
 	GtkTextBuffer *buffer;
 
-	buffer = gtk_text_buffer_new (NULL);
 	start = g_new0 (GtkTextIter, 1);
 	end = g_new0 (GtkTextIter, 1);
 	subj = g_strdup (gtk_entry_get_text (sf->subject));

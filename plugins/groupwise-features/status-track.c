@@ -177,7 +177,6 @@ gw_track_message_status_cb (GtkAction *action, EShellView *shell_view)
 	/* spacing */
 	widget = gtk_label_new ("");
 	gtk_table_attach (table, widget, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
-	row++;
 
 	/* Table headers */
 	row = 0;

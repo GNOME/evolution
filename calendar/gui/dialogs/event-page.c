@@ -1655,17 +1655,17 @@ edit_clicked_cb (GtkButton *btn, EventPage *epage)
 	EventPagePrivate *priv;
 	GtkTreePath *path = NULL;
 	GtkTreeViewColumn *focus_col;
-	gint row = 0;
 
 	priv = epage->priv;
 
-	gtk_tree_view_get_cursor (GTK_TREE_VIEW (priv->list_view), &path, NULL);
+	gtk_tree_view_get_cursor (
+		GTK_TREE_VIEW (priv->list_view), &path, NULL);
 	g_return_if_fail (path != NULL);
 
-	row = gtk_tree_path_get_indices (path)[0];
-
-	gtk_tree_view_get_cursor (GTK_TREE_VIEW (priv->list_view), &path, &focus_col);
-	gtk_tree_view_set_cursor (GTK_TREE_VIEW (priv->list_view), path, focus_col, TRUE);
+	gtk_tree_view_get_cursor (
+		GTK_TREE_VIEW (priv->list_view), &path, &focus_col);
+	gtk_tree_view_set_cursor (
+		GTK_TREE_VIEW (priv->list_view), path, focus_col, TRUE);
 	gtk_tree_path_free (path);
 }
 
@@ -2472,13 +2472,11 @@ start_timezone_changed_cb (GtkWidget *widget,
                            EventPage *epage)
 {
 	EventPagePrivate *priv = epage->priv;
-	icaltimezone *zone;
 
 	if (priv->sync_timezones) {
-		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 		comp_editor_page_set_updating (COMP_EDITOR_PAGE (epage), TRUE);
 		/*the earlier method caused an infinite recursion*/
-		priv->end_timezone=priv->start_timezone;
+		priv->end_timezone = priv->start_timezone;
 		gtk_widget_show_all (priv->end_timezone);
 		comp_editor_page_set_updating (COMP_EDITOR_PAGE (epage), FALSE);
 	}

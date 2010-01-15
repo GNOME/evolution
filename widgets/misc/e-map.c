@@ -535,9 +535,6 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 	view = E_MAP (widget);
 	priv = view->priv;
 
-	do_scroll = FALSE;
-	xofs = yofs = 0;
-
 	switch (event->keyval)
 	{
 		case GDK_Up:

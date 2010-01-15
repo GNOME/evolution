@@ -221,7 +221,6 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 
 	if (!have_autogen) {
 		new_sigs = add_autogen (signature_list, new_sigs);
-		have_autogen = TRUE;
 		resave = TRUE;
 	}
 

@@ -790,8 +790,6 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 		return;
 	}
 
-	/* Remove from total_extra the amount used for this column. */
-	total_extra -= size - (eth->columns[idx]->min_width + eth->width_extras);
 	for (i = idx + 1; i < eth->col_count; i++) {
 		if (eth->columns[idx]->resizable) {
 			/* old_expansion != 0 by (2) */

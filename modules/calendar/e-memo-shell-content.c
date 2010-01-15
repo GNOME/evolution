@@ -189,14 +189,12 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
                                      ETable *table)
 {
 	ECalComponentPreview *memo_preview;
-	EMemoTable *memo_table;
 	ECalModel *memo_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
 	memo_model = e_memo_shell_content_get_memo_model (memo_shell_content);
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
