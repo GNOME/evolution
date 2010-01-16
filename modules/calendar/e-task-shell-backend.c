@@ -431,9 +431,11 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 	client = auth_new_cal_from_source (source, source_type);
 	if (client == NULL || !e_cal_open (client, TRUE, &error)) {
-		g_printerr ("%s\n", error->message);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			g_error_free (error);
+		}
 		g_object_unref (source_list);
-		g_error_free (error);
 		goto exit;
 	}
 
