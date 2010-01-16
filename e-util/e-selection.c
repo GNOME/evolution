@@ -48,8 +48,14 @@ enum {
 	NUM_DIRECTORY_ATOMS
 };
 
+enum {
+	ATOM_HTML,
+	NUM_HTML_ATOMS
+};
+
 static GdkAtom calendar_atoms[NUM_CALENDAR_ATOMS];
 static GdkAtom directory_atoms[NUM_DIRECTORY_ATOMS];
+static GdkAtom html_atoms[NUM_HTML_ATOMS];
 
 static void
 init_atoms (void)
@@ -74,6 +80,11 @@ init_atoms (void)
 
 	directory_atoms[ATOM_X_VCARD] =
 		gdk_atom_intern_static_string ("text/x-vcard");
+
+	/* HTML Atoms */
+
+	html_atoms[ATOM_HTML] =
+		gdk_atom_intern_static_string ("text/html");
 
 	initialized = TRUE;
 }
@@ -115,6 +126,20 @@ e_target_list_add_directory_targets (GtkTargetList *list,
 		gtk_target_list_add (list, directory_atoms[ii], 0, info);
 }
 
+void
+e_target_list_add_html_targets (GtkTargetList *list,
+                                guint info)
+{
+	gint ii;
+
+	g_return_if_fail (list != NULL);
+
+	init_atoms ();
+
+	for (ii = 0; ii < NUM_HTML_ATOMS; ii++)
+		gtk_target_list_add (list, html_atoms[ii], 0, info);
+}
+
 gboolean
 e_selection_data_set_calendar (GtkSelectionData *selection_data,
                                const gchar *source,
@@ -124,6 +149,7 @@ e_selection_data_set_calendar (GtkSelectionData *selection_data,
 	gint ii;
 
 	g_return_val_if_fail (selection_data != NULL, FALSE);
+	g_return_val_if_fail (source != NULL, FALSE);
 
 	if (length < 0)
 		length = strlen (source);
@@ -154,6 +180,7 @@ e_selection_data_set_directory (GtkSelectionData *selection_data,
 	gint ii;
 
 	g_return_val_if_fail (selection_data != NULL, FALSE);
+	g_return_val_if_fail (source != NULL, FALSE);
 
 	if (length < 0)
 		length = strlen (source);
@@ -165,6 +192,37 @@ e_selection_data_set_directory (GtkSelectionData *selection_data,
 	/* All directory atoms are treated the same. */
 	for (ii = 0; ii < NUM_DIRECTORY_ATOMS; ii++) {
 		if (atom == directory_atoms[ii]) {
+			gtk_selection_data_set (
+				selection_data, atom, 8,
+				(guchar *) source, length);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+gboolean
+e_selection_data_set_html (GtkSelectionData *selection_data,
+                           const gchar *source,
+                           gint length)
+{
+	GdkAtom atom;
+	gint ii;
+
+	g_return_val_if_fail (selection_data != NULL, FALSE);
+	g_return_val_if_fail (source != NULL, FALSE);
+
+	if (length < 0)
+		length = strlen (source);
+
+	init_atoms ();
+
+	atom = gtk_selection_data_get_target (selection_data);
+
+	/* All HTML atoms are treated the same. */
+	for (ii = 0; ii < NUM_HTML_ATOMS; ii++) {
+		if (atom == html_atoms[ii]) {
 			gtk_selection_data_set (
 				selection_data, atom, 8,
 				(guchar *) source, length);
@@ -221,6 +279,29 @@ e_selection_data_get_directory (GtkSelectionData *selection_data)
 	return NULL;
 }
 
+gchar *
+e_selection_data_get_html (GtkSelectionData *selection_data)
+{
+	GdkAtom data_type;
+	const guchar *data = NULL;
+	gint ii;
+
+	/* XXX May need to do encoding conversions here.
+	 *     Not worrying about it for now. */
+
+	g_return_val_if_fail (selection_data != NULL, NULL);
+
+	data = gtk_selection_data_get_data (selection_data);
+	data_type = gtk_selection_data_get_data_type (selection_data);
+
+	/* All HTML atoms are treated the same. */
+	for (ii = 0; ii < NUM_HTML_ATOMS; ii++)
+		if (data_type == html_atoms[ii])
+			return g_strdup ((gchar *) data);
+
+	return NULL;
+}
+
 gboolean
 e_selection_data_targets_include_calendar (GtkSelectionData *selection_data)
 {
@@ -249,6 +330,23 @@ e_selection_data_targets_include_directory (GtkSelectionData *selection_data)
 
 	if (gtk_selection_data_get_targets (selection_data, &targets, &n_targets)) {
 		result = e_targets_include_directory (targets, n_targets);
+		g_free (targets);
+	}
+
+	return result;
+}
+
+gboolean
+e_selection_data_targets_include_html (GtkSelectionData *selection_data)
+{
+	GdkAtom *targets;
+	gint n_targets;
+	gboolean result = FALSE;
+
+	g_return_val_if_fail (selection_data != NULL, FALSE);
+
+	if (gtk_selection_data_get_targets (selection_data, &targets, &n_targets)) {
+		result = e_targets_include_html (targets, n_targets);
 		g_free (targets);
 	}
 
@@ -286,6 +384,24 @@ e_targets_include_directory (GdkAtom *targets,
 	for (ii = 0; ii < n_targets; ii++)
 		for (jj = 0; jj < NUM_DIRECTORY_ATOMS; jj++)
 			if (targets[ii] == directory_atoms[jj])
+				return TRUE;
+
+	return FALSE;
+}
+
+gboolean
+e_targets_include_html (GdkAtom *targets,
+                        gint n_targets)
+{
+	gint ii, jj;
+
+	g_return_val_if_fail (targets != NULL || n_targets == 0, FALSE);
+
+	init_atoms ();
+
+	for (ii = 0; ii < n_targets; ii++)
+		for (jj = 0; jj < NUM_HTML_ATOMS; jj++)
+			if (targets[ii] == html_atoms[jj])
 				return TRUE;
 
 	return FALSE;
@@ -388,6 +504,54 @@ e_clipboard_set_directory (GtkClipboard *clipboard,
 }
 
 static void
+clipboard_get_html (GtkClipboard *clipboard,
+                    GtkSelectionData *selection_data,
+                    guint info,
+                    gchar *source)
+{
+	e_selection_data_set_html (selection_data, source, -1);
+}
+
+static void
+clipboard_clear_html (GtkClipboard *clipboard,
+                      gchar *source)
+{
+	g_free (source);
+}
+
+void
+e_clipboard_set_html (GtkClipboard *clipboard,
+                      const gchar *source,
+                      gint length)
+{
+	GtkTargetList *list;
+	GtkTargetEntry *targets;
+	gint n_targets;
+
+	g_return_if_fail (clipboard != NULL);
+	g_return_if_fail (source != NULL);
+
+	list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_html_targets (list, 0);
+
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	if (length < 0)
+		length = strlen (source);
+
+	gtk_clipboard_set_with_data (
+		clipboard, targets, n_targets,
+		(GtkClipboardGetFunc) clipboard_get_html,
+		(GtkClipboardClearFunc) clipboard_clear_html,
+		g_strndup (source, length));
+
+	gtk_clipboard_set_can_store (clipboard, NULL, 0);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
+}
+
+static void
 clipboard_request_calendar_cb (GtkClipboard *clipboard,
                                GtkSelectionData *selection_data,
                                RequestTextInfo *info)
@@ -410,6 +574,8 @@ e_clipboard_request_calendar (GtkClipboard *clipboard,
 
 	g_return_if_fail (clipboard != NULL);
 	g_return_if_fail (callback != NULL);
+
+	init_atoms ();
 
 	info = g_slice_new (RequestTextInfo);
 	info->callback = callback;
@@ -445,6 +611,8 @@ e_clipboard_request_directory (GtkClipboard *clipboard,
 	g_return_if_fail (clipboard != NULL);
 	g_return_if_fail (callback != NULL);
 
+	init_atoms ();
+
 	info = g_slice_new (RequestTextInfo);
 	info->callback = callback;
 	info->user_data = user_data;
@@ -453,6 +621,42 @@ e_clipboard_request_directory (GtkClipboard *clipboard,
 		clipboard, directory_atoms[ATOM_DIRECTORY],
 		(GtkClipboardReceivedFunc)
 		clipboard_request_directory_cb, info);
+}
+
+static void
+clipboard_request_html_cb (GtkClipboard *clipboard,
+                           GtkSelectionData *selection_data,
+                           RequestTextInfo *info)
+{
+	gchar *source;
+
+	source = e_selection_data_get_html (selection_data);
+	info->callback (clipboard, source, info->user_data);
+	g_free (source);
+
+	g_slice_free (RequestTextInfo, info);
+}
+
+void
+e_clipboard_request_html (GtkClipboard *clipboard,
+                          GtkClipboardTextReceivedFunc callback,
+                          gpointer user_data)
+{
+	RequestTextInfo *info;
+
+	g_return_if_fail (clipboard != NULL);
+	g_return_if_fail (callback != NULL);
+
+	init_atoms ();
+
+	info = g_slice_new (RequestTextInfo);
+	info->callback = callback;
+	info->user_data = user_data;
+
+	gtk_clipboard_request_contents (
+		clipboard, html_atoms[ATOM_HTML],
+		(GtkClipboardReceivedFunc)
+		clipboard_request_html_cb, info);
 }
 
 gchar *
@@ -505,6 +709,31 @@ e_clipboard_wait_for_directory (GtkClipboard *clipboard)
 	return results.data;
 }
 
+gchar *
+e_clipboard_wait_for_html (GtkClipboard *clipboard)
+{
+	WaitForDataResults results;
+
+	g_return_val_if_fail (clipboard != NULL, NULL);
+
+	results.data = NULL;
+	results.loop = g_main_loop_new (NULL, TRUE);
+
+	e_clipboard_request_html (
+		clipboard, (GtkClipboardTextReceivedFunc)
+		clipboard_wait_for_text_cb, &results);
+
+	if (g_main_loop_is_running (results.loop)) {
+		GDK_THREADS_LEAVE ();
+		g_main_loop_run (results.loop);
+		GDK_THREADS_ENTER ();
+	}
+
+	g_main_loop_unref (results.loop);
+
+	return results.data;
+}
+
 gboolean
 e_clipboard_wait_is_calendar_available (GtkClipboard *clipboard)
 {
@@ -529,6 +758,21 @@ e_clipboard_wait_is_directory_available (GtkClipboard *clipboard)
 
 	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
 		result = e_targets_include_directory (targets, n_targets);
+		g_free (targets);
+	}
+
+	return result;
+}
+
+gboolean
+e_clipboard_wait_is_html_available (GtkClipboard *clipboard)
+{
+	GdkAtom *targets;
+	gint n_targets;
+	gboolean result = FALSE;
+
+	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
+		result = e_targets_include_html (targets, n_targets);
 		g_free (targets);
 	}
 
