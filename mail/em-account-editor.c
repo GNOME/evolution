@@ -1748,8 +1748,8 @@ emae_authtype_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 	gint id = gtk_combo_box_get_active (dropdown);
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	CamelServiceAuthType *authtype;
 	CamelURL *url;
+	gboolean sensitive = FALSE;
 
 	if (id == -1)
 		return;
@@ -1759,19 +1759,24 @@ emae_authtype_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 	url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
 	model = gtk_combo_box_get_model (dropdown);
 	if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
+		CamelServiceAuthType *authtype;
+
 		gtk_tree_model_get (model, &iter, 1, &authtype, -1);
 		if (authtype)
 			camel_url_set_authmech (url, authtype->authproto);
 		else
 			camel_url_set_authmech (url, NULL);
 		emae_uri_changed (service, url);
+
+		sensitive =
+			authtype != NULL &&
+			authtype->need_password &&
+			e_account_writable (account,
+			emae_service_info[service->type].save_passwd_key);
 	}
 	camel_url_free (url);
 
-	gtk_widget_set_sensitive ((GtkWidget *)service->remember,
-				 authtype
-				 ?(authtype->need_password && e_account_writable (account, emae_service_info[service->type].save_passwd_key))
-				 :FALSE);
+	gtk_widget_set_sensitive ((GtkWidget *)service->remember, sensitive);
 }
 
 static void
