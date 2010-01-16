@@ -356,6 +356,8 @@ get_local_timezone(void)
 
 	if (location)
 		zone = icaltimezone_get_builtin_timezone (location);
+	else
+		zone = icaltimezone_get_utc_timezone ();
 
 	g_free (location);
 
@@ -697,11 +699,8 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
-	if (!zone) {
-		zone = (icaltimezone *)get_local_timezone();
-		if (!zone)
-			zone = icaltimezone_get_utc_timezone();
-	}
+	if (!zone)
+		zone = get_local_timezone();
 
 	if (zone)
 		display = zone_display_name_with_offset(zone);
