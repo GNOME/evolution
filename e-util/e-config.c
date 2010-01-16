@@ -1587,7 +1587,7 @@ ech_config_section_factory (EConfig *config,
                             gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
-	GtkWidget *label;
+	GtkWidget *label = NULL;
 	GtkWidget *widget;
 	EPlugin *plugin;
 
