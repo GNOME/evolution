@@ -101,7 +101,7 @@ plugin_python_invoke (EPlugin *plugin,
 	EPluginPython *plugin_python;
 	EPluginPythonPrivate *priv;
 	PyObject *pModuleName, *pFunc;
-	PyObject *pInstance, *pValue = NULL;
+	PyObject *pValue = NULL;
 
 	plugin_python = E_PLUGIN_PYTHON (plugin);
 	priv = plugin_python->priv;
@@ -144,10 +144,12 @@ plugin_python_invoke (EPlugin *plugin,
 
 	if (priv->pClass) {
 
-		if (PyCallable_Check (priv->pClass))
-			pInstance = PyObject_CallObject (priv->pClass, NULL);
+		if (PyCallable_Check (priv->pClass)) {
+			PyObject *pInstance;
 
-		pValue = PyObject_CallMethod (pInstance, (gchar *) name, NULL);
+			pInstance = PyObject_CallObject (priv->pClass, NULL);
+			pValue = PyObject_CallMethod (pInstance, (gchar *) name, NULL);
+		}
 
 	} else {
 
