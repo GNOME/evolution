@@ -439,7 +439,7 @@ e_signature_list_find (ESignatureList *signatures,
 	for (it = e_list_get_iterator ((EList *) signatures);
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
-		const gchar *value;
+		const gchar *value = NULL;
 
 		/* XXX EIterator misuses const. */
 		signature = (ESignature *) e_iterator_get (it);
