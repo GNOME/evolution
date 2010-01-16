@@ -1944,7 +1944,7 @@ static void
 format_sender (GString *str, const gchar *attr, CamelMimeMessage *message)
 {
 	const CamelInternetAddress *sender;
-	const gchar *name, *addr;
+	const gchar *name, *addr = NULL;
 
 	sender = camel_mime_message_get_from (message);
 	if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
