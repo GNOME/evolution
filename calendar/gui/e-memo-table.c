@@ -67,11 +67,16 @@
 struct _EMemoTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
+
+	GtkTargetList *copy_target_list;
+	GtkTargetList *paste_target_list;
 };
 
 enum {
 	PROP_0,
+	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
+	PROP_PASTE_TARGET_LIST,
 	PROP_SHELL_VIEW
 };
 
@@ -300,9 +305,21 @@ memo_table_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_memo_table_get_copy_target_list (
+				E_MEMO_TABLE (object)));
+			return;
+
 		case PROP_MODEL:
 			g_value_set_object (
 				value, e_memo_table_get_model (
+				E_MEMO_TABLE (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_memo_table_get_paste_target_list (
 				E_MEMO_TABLE (object)));
 			return;
 
@@ -332,6 +349,16 @@ memo_table_dispose (GObject *object)
 	if (priv->model != NULL) {
 		g_object_unref (priv->model);
 		priv->model = NULL;
+	}
+
+	if (priv->copy_target_list != NULL) {
+		gtk_target_list_unref (priv->copy_target_list);
+		priv->copy_target_list = NULL;
+	}
+
+	if (priv->paste_target_list != NULL) {
+		gtk_target_list_unref (priv->paste_target_list);
+		priv->paste_target_list = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -689,12 +716,14 @@ memo_table_update_actions (ESelectable *selectable,
 {
 	EMemoTable *memo_table;
 	GtkAction *action;
+	GtkTargetList *target_list;
 	GSList *list, *iter;
+	gboolean can_paste = FALSE;
 	gboolean sources_are_editable = TRUE;
-	gboolean clipboard_has_calendar;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_selected;
+	gint ii;
 
 	memo_table = E_MEMO_TABLE (selectable);
 	n_selected = e_table_selected_count (E_TABLE (memo_table));
@@ -709,9 +738,10 @@ memo_table_update_actions (ESelectable *selectable,
 	}
 	g_slist_free (list);
 
-	clipboard_has_calendar = (clipboard_targets != NULL) &&
-		e_targets_include_calendar (
-		clipboard_targets, n_clipboard_targets);
+	target_list = e_selectable_get_paste_target_list (selectable);
+	for (ii = 0; ii < n_clipboard_targets && !can_paste; ii++)
+		can_paste = gtk_target_list_find (
+			target_list, clipboard_targets[ii], NULL);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	sensitive = (n_selected > 0) && sources_are_editable;
@@ -726,7 +756,7 @@ memo_table_update_actions (ESelectable *selectable,
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = sources_are_editable && clipboard_has_calendar;
+	sensitive = sources_are_editable && can_paste;
 	tooltip = _("Paste memos from the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
@@ -1046,6 +1076,12 @@ memo_table_class_init (EMemoTableClass *class)
 	table_class->double_click = memo_table_double_click;
 	table_class->right_click = memo_table_right_click;
 
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
 	g_object_class_install_property (
 		object_class,
 		PROP_MODEL,
@@ -1056,6 +1092,12 @@ memo_table_class_init (EMemoTableClass *class)
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
@@ -1111,7 +1153,17 @@ memo_table_class_init (EMemoTableClass *class)
 static void
 memo_table_init (EMemoTable *memo_table)
 {
+	GtkTargetList *target_list;
+
 	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	memo_table->priv->copy_target_list = target_list;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	memo_table->priv->paste_target_list = target_list;
 }
 
 static void
@@ -1248,4 +1300,20 @@ e_memo_table_get_selected (EMemoTable *memo_table)
 		E_TABLE (memo_table), add_uid_cb, &closure);
 
 	return closure.objects;
+}
+
+GtkTargetList *
+e_memo_table_get_copy_target_list (EMemoTable *memo_table)
+{
+	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
+
+	return memo_table->priv->copy_target_list;
+}
+
+GtkTargetList *
+e_memo_table_get_paste_target_list (EMemoTable *memo_table)
+{
+	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
+
+	return memo_table->priv->paste_target_list;
 }

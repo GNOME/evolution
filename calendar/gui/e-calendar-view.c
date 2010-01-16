@@ -74,11 +74,16 @@ struct _ECalendarViewPrivate {
 
 	/* The default category */
 	gchar *default_category;
+
+	GtkTargetList *copy_target_list;
+	GtkTargetList *paste_target_list;
 };
 
 enum {
 	PROP_0,
-	PROP_MODEL
+	PROP_COPY_TARGET_LIST,
+	PROP_MODEL,
+	PROP_PASTE_TARGET_LIST
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
@@ -268,9 +273,21 @@ calendar_view_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_calendar_view_get_copy_target_list (
+				E_CALENDAR_VIEW (object)));
+			return;
+
 		case PROP_MODEL:
 			g_value_set_object (
 				value, e_calendar_view_get_model (
+				E_CALENDAR_VIEW (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_calendar_view_get_paste_target_list (
 				E_CALENDAR_VIEW (object)));
 			return;
 	}
@@ -291,6 +308,16 @@ calendar_view_dispose (GObject *object)
 			0, 0, NULL, NULL, object);
 		g_object_unref (priv->model);
 		priv->model = NULL;
+	}
+
+	if (priv->copy_target_list != NULL) {
+		gtk_target_list_unref (priv->copy_target_list);
+		priv->copy_target_list = NULL;
+	}
+
+	if (priv->paste_target_list != NULL) {
+		gtk_target_list_unref (priv->paste_target_list);
+		priv->paste_target_list = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -318,13 +345,15 @@ calendar_view_update_actions (ESelectable *selectable,
 {
 	ECalendarView *view;
 	GtkAction *action;
+	GtkTargetList *target_list;
 	GList *list, *iter;
+	gboolean can_paste = FALSE;
 	gboolean sources_are_editable = TRUE;
-	gboolean clipboard_has_calendar;
 	gboolean recurring = FALSE;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_selected;
+	gint ii;
 
 	view = E_CALENDAR_VIEW (selectable);
 
@@ -353,9 +382,10 @@ calendar_view_update_actions (ESelectable *selectable,
 
 	g_list_free (list);
 
-	clipboard_has_calendar = (clipboard_targets != NULL) &&
-		e_targets_include_calendar (
-		clipboard_targets, n_clipboard_targets);
+	target_list = e_selectable_get_paste_target_list (selectable);
+	for (ii = 0; ii < n_clipboard_targets && !can_paste; ii++)
+		can_paste = gtk_target_list_find (
+			target_list, clipboard_targets[ii], NULL);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	sensitive = (n_selected > 0) && sources_are_editable;
@@ -370,7 +400,7 @@ calendar_view_update_actions (ESelectable *selectable,
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = sources_are_editable && clipboard_has_calendar;
+	sensitive = sources_are_editable && can_paste;
 	tooltip = _("Paste events from the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
@@ -718,6 +748,12 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 	class->open_event = e_calendar_view_open_event;
 	class->paste_text = NULL;
 
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
 	g_object_class_install_property (
 		object_class,
 		PROP_MODEL,
@@ -728,6 +764,12 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
@@ -820,7 +862,17 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 static void
 e_calendar_view_init (ECalendarView *calendar_view)
 {
+	GtkTargetList *target_list;
+
 	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	calendar_view->priv->copy_target_list = target_list;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	calendar_view->priv->paste_target_list = target_list;
 }
 
 static void
@@ -1017,7 +1069,8 @@ const gchar *
 e_calendar_view_get_default_category (ECalendarView *cal_view)
 {
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
-	return (const gchar *) cal_view->priv->default_category;
+
+	return cal_view->priv->default_category;
 }
 
 /**
@@ -1029,14 +1082,29 @@ e_calendar_view_get_default_category (ECalendarView *cal_view)
  * components from the given calendar view.
  */
 void
-e_calendar_view_set_default_category (ECalendarView *cal_view, const gchar *category)
+e_calendar_view_set_default_category (ECalendarView *cal_view,
+                                      const gchar *category)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (cal_view->priv->default_category)
-		g_free (cal_view->priv->default_category);
-
+	g_free (cal_view->priv->default_category);
 	cal_view->priv->default_category = g_strdup (category);
+}
+
+GtkTargetList *
+e_calendar_view_get_copy_target_list (ECalendarView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
+
+	return cal_view->priv->copy_target_list;
+}
+
+GtkTargetList *
+e_calendar_view_get_paste_target_list (ECalendarView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
+
+	return cal_view->priv->paste_target_list;
 }
 
 GList *

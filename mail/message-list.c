@@ -117,10 +117,15 @@ struct _MessageListPrivate {
 
 	gboolean thread_latest;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
+
+	GtkTargetList *copy_target_list;
+	GtkTargetList *paste_target_list;
 };
 
 enum {
 	PROP_0,
+	PROP_COPY_TARGET_LIST,
+	PROP_PASTE_TARGET_LIST,
 	PROP_SHELL_BACKEND
 };
 
@@ -2295,6 +2300,7 @@ static void
 message_list_init (MessageList *message_list)
 {
 	MessageListPrivate *p;
+	GtkTargetList *target_list;
 	GdkAtom matom;
 
 	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
@@ -2336,6 +2342,14 @@ message_list_init (MessageList *message_list)
 	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(ml_selection_get), message_list);
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(ml_selection_clear_event), message_list);
 	g_signal_connect(p->invisible, "selection_received", G_CALLBACK(ml_selection_received), message_list);
+
+	/* FIXME This is currently unused. */
+	target_list = gtk_target_list_new (NULL, 0);
+	message_list->priv->copy_target_list = target_list;
+
+	/* FIXME This is currently unused. */
+	target_list = gtk_target_list_new (NULL, 0);
+	message_list->priv->paste_target_list = target_list;
 }
 
 static void
@@ -2418,6 +2432,18 @@ message_list_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value, message_list_get_copy_target_list (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value, message_list_get_paste_target_list (
+				MESSAGE_LIST (object)));
+			return;
+
 		case PROP_SHELL_BACKEND:
 			g_value_set_object (
 				value, message_list_get_shell_backend (
@@ -2438,6 +2464,16 @@ message_list_dispose (GObject *object)
 	if (priv->shell_backend != NULL) {
 		g_object_unref (priv->shell_backend);
 		priv->shell_backend = NULL;
+	}
+
+	if (priv->copy_target_list != NULL) {
+		g_object_unref (priv->copy_target_list);
+		priv->copy_target_list = NULL;
+	}
+
+	if (priv->paste_target_list != NULL) {
+		g_object_unref (priv->paste_target_list);
+		priv->paste_target_list = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -2532,6 +2568,18 @@ message_list_class_init (MessageListClass *class)
 	gtk_object_class->destroy = message_list_destroy;
 
 	class->message_list_built = message_list_built;
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
@@ -3612,6 +3660,22 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		if (message_list->frozen == 0)
 			mail_regen_list (message_list, message_list->search, NULL, NULL);
 	}
+}
+
+GtkTargetList *
+message_list_get_copy_target_list (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+
+	return message_list->priv->copy_target_list;
+}
+
+GtkTargetList *
+message_list_get_paste_target_list (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+
+	return message_list->priv->paste_target_list;
 }
 
 static gboolean

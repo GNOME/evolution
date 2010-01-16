@@ -21,6 +21,28 @@
 
 #include "e-selectable.h"
 
+static void
+selectable_class_init (ESelectableInterface *interface)
+{
+	g_object_interface_install_property (
+		interface,
+		g_param_spec_boxed (
+			"copy-target-list",
+			"Copy Target List",
+			NULL,
+			GTK_TYPE_TARGET_LIST,
+			G_PARAM_READABLE));
+
+	g_object_interface_install_property (
+		interface,
+		g_param_spec_boxed (
+			"paste-target-list",
+			"Paste Target List",
+			NULL,
+			GTK_TYPE_TARGET_LIST,
+			G_PARAM_READABLE));
+}
+
 GType
 e_selectable_get_type (void)
 {
@@ -31,7 +53,7 @@ e_selectable_get_type (void)
 			sizeof (ESelectableInterface),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
+			(GClassInitFunc) selectable_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,  /* class_data */
 			0,     /* instance_size */
@@ -43,7 +65,7 @@ e_selectable_get_type (void)
 		type = g_type_register_static (
 			G_TYPE_INTERFACE, "ESelectable", &type_info, 0);
 
-		g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
+		g_type_interface_add_prerequisite (type, GTK_TYPE_WIDGET);
 	}
 
 	return type;
@@ -130,4 +152,36 @@ e_selectable_select_all (ESelectable *selectable)
 
 	if (interface->select_all != NULL)
 		interface->select_all (selectable);
+}
+
+GtkTargetList *
+e_selectable_get_copy_target_list (ESelectable *selectable)
+{
+	GtkTargetList *target_list;
+
+	g_return_val_if_fail (E_IS_SELECTABLE (selectable), NULL);
+
+	g_object_get (selectable, "copy-target-list", &target_list, NULL);
+
+	/* We want to return a borrowed reference to the target
+	 * list, so undo the reference that g_object_get() added. */
+	gtk_target_list_unref (target_list);
+
+	return target_list;
+}
+
+GtkTargetList *
+e_selectable_get_paste_target_list (ESelectable *selectable)
+{
+	GtkTargetList *target_list;
+
+	g_return_val_if_fail (E_IS_SELECTABLE (selectable), NULL);
+
+	g_object_get (selectable, "paste-target-list", &target_list, NULL);
+
+	/* We want to return a borrowed reference to the target
+	 * list, so undo the reference that g_object_get() added. */
+	gtk_target_list_unref (target_list);
+
+	return target_list;
 }

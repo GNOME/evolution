@@ -45,10 +45,10 @@
 #define E_TASK_TABLE_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
 	((cls), E_TYPE_TASK_TABLE, ETaskTableClass))
-#define E_IS_CALENDAR_TABLE(obj) \
+#define E_IS_TASK_TABLE(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_TASK_TABLE))
-#define E_IS_CALENDAR_TABLE_CLASS(cls) \
+#define E_IS_TASK_TABLE_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((cls), E_TYPE_TASK_TABLE))
 #define E_TASK_TABLE_GET_CLASS(obj) \
@@ -93,6 +93,10 @@ GtkWidget *	e_task_table_new		(EShellView *shell_view,
 ECalModel *	e_task_table_get_model		(ETaskTable *task_table);
 EShellView *	e_task_table_get_shell_view	(ETaskTable *task_table);
 GSList *	e_task_table_get_selected	(ETaskTable *task_table);
+GtkTargetList *	e_task_table_get_copy_target_list
+						(ETaskTable *task_table);
+GtkTargetList *	e_task_table_get_paste_target_list
+						(ETaskTable *task_table);
 ECalModelComponent *
 		e_task_table_get_selected_comp
 						(ETaskTable *task_table);

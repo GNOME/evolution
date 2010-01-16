@@ -509,6 +509,27 @@ e_composer_get_default_charset (void)
 }
 
 gboolean
+e_composer_paste_html (EMsgComposer *composer,
+                       GtkClipboard *clipboard)
+{
+	GtkhtmlEditor *editor;
+	gchar *html;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
+
+	html = e_clipboard_wait_for_html (clipboard);
+	g_return_val_if_fail (html != NULL, FALSE);
+
+	editor = GTKHTML_EDITOR (composer);
+	gtkhtml_editor_insert_html (editor, html);
+
+	g_free (html);
+
+	return TRUE;
+}
+
+gboolean
 e_composer_paste_image (EMsgComposer *composer,
                         GtkClipboard *clipboard)
 {
@@ -580,6 +601,27 @@ exit:
 	g_free (uri);
 
 	return success;
+}
+
+gboolean
+e_composer_paste_text (EMsgComposer *composer,
+                       GtkClipboard *clipboard)
+{
+	GtkhtmlEditor *editor;
+	gchar *text;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
+
+	text = gtk_clipboard_wait_for_text (clipboard);
+	g_return_val_if_fail (text != NULL, FALSE);
+
+	editor = GTKHTML_EDITOR (composer);
+	gtkhtml_editor_insert_text (editor, text);
+
+	g_free (text);
+
+	return TRUE;
 }
 
 gboolean

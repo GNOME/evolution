@@ -70,6 +70,10 @@ void		e_selectable_copy_clipboard	(ESelectable *selectable);
 void		e_selectable_paste_clipboard	(ESelectable *selectable);
 void		e_selectable_delete_selection	(ESelectable *selectable);
 void		e_selectable_select_all		(ESelectable *selectable);
+GtkTargetList *	e_selectable_get_copy_target_list
+						(ESelectable *selectable);
+GtkTargetList *	e_selectable_get_paste_target_list
+						(ESelectable *selectable);
 
 G_END_DECLS
 

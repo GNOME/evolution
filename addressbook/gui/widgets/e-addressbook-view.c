@@ -36,6 +36,7 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "ea-addressbook.h"
 
+#include "e-util/e-binding.h"
 #include "e-util/e-print.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-util.h"
@@ -90,11 +91,16 @@ struct _EAddressbookViewPrivate {
 	gchar *search_text;
 	gint search_id;
 	EFilterRule *advanced_search;
+
+	GtkTargetList *copy_target_list;
+	GtkTargetList *paste_target_list;
 };
 
 enum {
 	PROP_0,
+	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
+	PROP_PASTE_TARGET_LIST,
 	PROP_SHELL_VIEW,
 	PROP_SOURCE
 };
@@ -437,21 +443,38 @@ addressbook_view_get_property (GObject *object,
                                GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value,
+				e_addressbook_view_get_copy_target_list (
+				E_ADDRESSBOOK_VIEW (object)));
+			return;
+
 		case PROP_MODEL:
 			g_value_set_object (
-				value, e_addressbook_view_get_model (
+				value,
+				e_addressbook_view_get_model (
+				E_ADDRESSBOOK_VIEW (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value,
+				e_addressbook_view_get_paste_target_list (
 				E_ADDRESSBOOK_VIEW (object)));
 			return;
 
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
-				value, e_addressbook_view_get_shell_view (
+				value,
+				e_addressbook_view_get_shell_view (
 				E_ADDRESSBOOK_VIEW (object)));
 			return;
 
 		case PROP_SOURCE:
 			g_value_set_object (
-				value, e_addressbook_view_get_source (
+				value,
+				e_addressbook_view_get_source (
 				E_ADDRESSBOOK_VIEW (object)));
 			return;
 	}
@@ -511,6 +534,16 @@ addressbook_view_dispose (GObject *object)
 		priv->advanced_search = NULL;
 	}
 
+	if (priv->copy_target_list != NULL) {
+		gtk_target_list_unref (priv->copy_target_list);
+		priv->copy_target_list = NULL;
+	}
+
+	if (priv->paste_target_list != NULL) {
+		gtk_target_list_unref (priv->paste_target_list);
+		priv->paste_target_list = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -548,12 +581,14 @@ addressbook_view_update_actions (ESelectable *selectable,
 	EAddressbookModel *model;
 	ESelectionModel *selection_model;
 	GtkAction *action;
-	gboolean clipboard_has_directory;
+	GtkTargetList *target_list;
+	gboolean can_paste = FALSE;
 	gboolean source_is_editable;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_contacts;
 	gint n_selected;
+	gint ii;
 
 	view = E_ADDRESSBOOK_VIEW (selectable);
 	model = e_addressbook_view_get_model (view);
@@ -565,9 +600,10 @@ addressbook_view_update_actions (ESelectable *selectable,
 	n_selected = (selection_model != NULL) ?
 		e_selection_model_selected_count (selection_model) : 0;
 
-	clipboard_has_directory = (clipboard_targets != NULL) &&
-		e_targets_include_directory (
-		clipboard_targets, n_clipboard_targets);
+	target_list = e_selectable_get_paste_target_list (selectable);
+	for (ii = 0; ii < n_clipboard_targets && !can_paste; ii++)
+		can_paste = gtk_target_list_find (
+			target_list, clipboard_targets[ii], NULL);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	sensitive = source_is_editable && (n_selected > 0);
@@ -582,7 +618,7 @@ addressbook_view_update_actions (ESelectable *selectable,
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = source_is_editable && clipboard_has_directory;
+	sensitive = source_is_editable && can_paste;
 	tooltip = _("Paste contacts from the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
@@ -702,6 +738,12 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 	object_class->dispose = addressbook_view_dispose;
 	object_class->constructed = addressbook_view_constructed;
 
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
 	g_object_class_install_property (
 		object_class,
 		PROP_MODEL,
@@ -711,6 +753,12 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 			NULL,
 			E_TYPE_ADDRESSBOOK_MODEL,
 			G_PARAM_READABLE));
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
@@ -780,9 +828,19 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 static void
 addressbook_view_init (EAddressbookView *view)
 {
+	GtkTargetList *target_list;
+
 	view->priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (view);
 
 	view->priv->model = e_addressbook_model_new ();
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_directory_targets (target_list, 0);
+	view->priv->copy_target_list = target_list;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_directory_targets (target_list, 0);
+	view->priv->paste_target_list = target_list;
 
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (view),
@@ -970,6 +1028,22 @@ e_addressbook_view_get_source (EAddressbookView *view)
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
 
 	return view->priv->source;
+}
+
+GtkTargetList *
+e_addressbook_view_get_copy_target_list (EAddressbookView *view)
+{
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
+
+	return view->priv->copy_target_list;
+}
+
+GtkTargetList *
+e_addressbook_view_get_paste_target_list (EAddressbookView *view)
+{
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
+
+	return view->priv->paste_target_list;
 }
 
 static void

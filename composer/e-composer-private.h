@@ -52,6 +52,7 @@
 #include "e-util/e-binding.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-mktemp.h"
+#include "e-util/e-selection.h"
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-attachment-icon-view.h"
@@ -157,7 +158,11 @@ void		e_composer_private_finalize	(EMsgComposer *composer);
 void		e_composer_actions_init		(EMsgComposer *composer);
 gchar *		e_composer_find_data_file	(const gchar *basename);
 gchar *		e_composer_get_default_charset	(void);
+gboolean	e_composer_paste_html		(EMsgComposer *composer,
+						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_image		(EMsgComposer *composer,
+						 GtkClipboard *clipboard);
+gboolean	e_composer_paste_text		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_uris		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);

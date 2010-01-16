@@ -50,6 +50,9 @@ struct _EWebViewPrivate {
 	GtkAction *print_proxy;
 	GtkAction *save_as_proxy;
 
+	GtkTargetList *copy_target_list;
+	GtkTargetList *paste_target_list;
+
 	/* Lockdown Options */
 	guint disable_printing     : 1;
 	guint disable_save_to_disk : 1;
@@ -68,15 +71,21 @@ enum {
 	PROP_0,
 	PROP_ANIMATE,
 	PROP_CARET_MODE,
+	PROP_COPY_TARGET_LIST,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
+	PROP_EDITABLE,
 	PROP_OPEN_PROXY,
+	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
 	PROP_SELECTED_URI
 };
 
 enum {
+	COPY_CLIPBOARD,
+	CUT_CLIPBOARD,
+	PASTE_CLIPBOARD,
 	POPUP_EVENT,
 	STATUS_MESSAGE,
 	STOP_LOADING,
@@ -488,6 +497,12 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_EDITABLE:
+			e_web_view_set_editable (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_OPEN_PROXY:
 			e_web_view_set_open_proxy (
 				E_WEB_VIEW (object),
@@ -535,6 +550,12 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_web_view_get_copy_target_list (
+				E_WEB_VIEW (object)));
+			return;
+
 		case PROP_DISABLE_PRINTING:
 			g_value_set_boolean (
 				value, e_web_view_get_disable_printing (
@@ -547,9 +568,21 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
+		case PROP_EDITABLE:
+			g_value_set_boolean (
+				value, e_web_view_get_editable (
+				E_WEB_VIEW (object)));
+			return;
+
 		case PROP_OPEN_PROXY:
 			g_value_set_object (
 				value, e_web_view_get_open_proxy (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_web_view_get_paste_target_list (
 				E_WEB_VIEW (object)));
 			return;
 
@@ -600,6 +633,16 @@ web_view_dispose (GObject *object)
 	if (priv->save_as_proxy != NULL) {
 		g_object_unref (priv->save_as_proxy);
 		priv->save_as_proxy = NULL;
+	}
+
+	if (priv->copy_target_list != NULL) {
+		gtk_target_list_unref (priv->copy_target_list);
+		priv->copy_target_list = NULL;
+	}
+
+	if (priv->paste_target_list != NULL) {
+		gtk_target_list_unref (priv->paste_target_list);
+		priv->paste_target_list = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -765,6 +808,26 @@ web_view_extract_uri (EWebView *web_view,
 	return uri;
 }
 
+static void
+web_view_copy_clipboard (EWebView *web_view)
+{
+	gtk_html_command (GTK_HTML (web_view), "copy");
+}
+
+static void
+web_view_cut_clipboard (EWebView *web_view)
+{
+	if (e_web_view_get_editable (web_view))
+		gtk_html_command (GTK_HTML (web_view), "cut");
+}
+
+static void
+web_view_paste_clipboard (EWebView *web_view)
+{
+	if (e_web_view_get_editable (web_view))
+		gtk_html_command (GTK_HTML (web_view), "paste");
+}
+
 static gboolean
 web_view_popup_event (EWebView *web_view,
                       GdkEventButton *event,
@@ -865,36 +928,73 @@ web_view_selectable_update_actions (ESelectable *selectable,
 {
 	EWebView *web_view;
 	GtkAction *action;
-	const gchar *tooltip;
+	/*GtkTargetList *target_list;*/
+	gboolean can_paste = FALSE;
+	gboolean editable;
+	gboolean have_selection;
 	gboolean sensitive;
+	const gchar *tooltip;
+	/*gint ii;*/
 
 	web_view = E_WEB_VIEW (selectable);
+	editable = e_web_view_get_editable (web_view);
+	have_selection = e_web_view_is_selection_active (web_view);
 
-	/* Copy Clipboard */
+	/* XXX GtkHtml implements its own clipboard instead of using
+	 *     GDK_SELECTION_CLIPBOARD, so we don't get notifications
+	 *     when the clipboard contents change.  The logic below
+	 *     is what we would do if GtkHtml worked properly.
+	 *     Instead, we need to keep the Paste action sensitive so
+	 *     its accelerator overrides GtkHtml's key binding. */
+#if 0
+	target_list = e_selectable_get_paste_target_list (selectable);
+	for (ii = 0; ii < n_clipboard_targets && !can_paste; ii++)
+		can_paste = gtk_target_list_find (
+			target_list, clipboard_targets[ii], NULL);
+#endif
+	can_paste = TRUE;
 
-	action = e_web_view_get_action (web_view, "copy-clipboard");
-	sensitive = gtk_action_get_sensitive (action);
-	tooltip = gtk_action_get_tooltip (action);
+	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+	sensitive = editable && have_selection;
+	tooltip = _("Cut the selection");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	sensitive = have_selection;
+	tooltip = _("Copy the selection");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
-	/* Select All */
-
-	action = e_web_view_get_action (web_view, "select-all");
-	sensitive = gtk_action_get_sensitive (action);
-	tooltip = gtk_action_get_tooltip (action);
+	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+	sensitive = editable && can_paste;
+	tooltip = _("Paste the clipboard");
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	sensitive = TRUE;
+	tooltip = _("Select all text and images");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
+}
+
+static void
+web_view_selectable_cut_clipboard (ESelectable *selectable)
+{
+	e_web_view_cut_clipboard (E_WEB_VIEW (selectable));
 }
 
 static void
 web_view_selectable_copy_clipboard (ESelectable *selectable)
 {
 	e_web_view_copy_clipboard (E_WEB_VIEW (selectable));
+}
+
+static void
+web_view_selectable_paste_clipboard (ESelectable *selectable)
+{
+	e_web_view_paste_clipboard (E_WEB_VIEW (selectable));
 }
 
 static void
@@ -930,6 +1030,9 @@ web_view_class_init (EWebViewClass *class)
 	html_class->iframe_created = web_view_iframe_created;
 
 	class->extract_uri = web_view_extract_uri;
+	class->copy_clipboard = web_view_copy_clipboard;
+	class->cut_clipboard = web_view_cut_clipboard;
+	class->paste_clipboard = web_view_paste_clipboard;
 	class->popup_event = web_view_popup_event;
 	class->stop_loading = web_view_stop_loading;
 	class->update_actions = web_view_update_actions;
@@ -954,6 +1057,12 @@ web_view_class_init (EWebViewClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
 	g_object_class_install_property (
 		object_class,
 		PROP_DISABLE_PRINTING,
@@ -976,6 +1085,16 @@ web_view_class_init (EWebViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_OPEN_PROXY,
 		g_param_spec_object (
 			"open-proxy",
@@ -983,6 +1102,12 @@ web_view_class_init (EWebViewClass *class)
 			NULL,
 			GTK_TYPE_ACTION,
 			G_PARAM_READWRITE));
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
@@ -1013,6 +1138,33 @@ web_view_class_init (EWebViewClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
+
+	signals[COPY_CLIPBOARD] = g_signal_new (
+		"copy-clipboard",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EWebViewClass, copy_clipboard),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[CUT_CLIPBOARD] = g_signal_new (
+		"cut-clipboard",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EWebViewClass, cut_clipboard),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[PASTE_CLIPBOARD] = g_signal_new (
+		"paste-clipboard",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EWebViewClass, paste_clipboard),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
@@ -1058,7 +1210,9 @@ static void
 web_view_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = web_view_selectable_update_actions;
+	interface->cut_clipboard = web_view_selectable_cut_clipboard;
 	interface->copy_clipboard = web_view_selectable_copy_clipboard;
+	interface->paste_clipboard = web_view_selectable_paste_clipboard;
 	interface->select_all = web_view_selectable_select_all;
 }
 
@@ -1067,6 +1221,7 @@ web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GtkTargetList *target_list;
 	EPopupAction *popup_action;
 	const gchar *domain = GETTEXT_PACKAGE;
 	const gchar *id;
@@ -1080,6 +1235,12 @@ web_view_init (EWebView *web_view)
 	g_signal_connect_swapped (
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
+
+	target_list = gtk_target_list_new (NULL, 0);
+	web_view->priv->copy_target_list = target_list;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	web_view->priv->paste_target_list = target_list;
 
 	action_group = gtk_action_group_new ("uri");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1287,6 +1448,14 @@ e_web_view_set_caret_mode (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "caret-mode");
 }
 
+GtkTargetList *
+e_web_view_get_copy_target_list (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	return web_view->priv->copy_target_list;
+}
+
 gboolean
 e_web_view_get_disable_printing (EWebView *web_view)
 {
@@ -1323,6 +1492,32 @@ e_web_view_set_disable_save_to_disk (EWebView *web_view,
 	web_view->priv->disable_save_to_disk = disable_save_to_disk;
 
 	g_object_notify (G_OBJECT (web_view), "disable-save-to-disk");
+}
+
+gboolean
+e_web_view_get_editable (EWebView *web_view)
+{
+	/* XXX This is just here to maintain symmetry
+	 *     with e_web_view_set_editable(). */
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return gtk_html_get_editable (GTK_HTML (web_view));
+}
+
+void
+e_web_view_set_editable (EWebView *web_view,
+                         gboolean editable)
+{
+	/* XXX GtkHTML does not utilize GObject properties as well
+	 *     as it could.  This just wraps gtk_html_set_editable()
+	 *     so we can get a "notify::editable" signal. */
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_set_editable (GTK_HTML (web_view), editable);
+
+	g_object_notify (G_OBJECT (web_view), "editable");
 }
 
 const gchar *
@@ -1370,6 +1565,14 @@ e_web_view_set_open_proxy (EWebView *web_view,
 	web_view->priv->open_proxy = open_proxy;
 
 	g_object_notify (G_OBJECT (web_view), "open-proxy");
+}
+
+GtkTargetList *
+e_web_view_get_paste_target_list (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	return web_view->priv->paste_target_list;
 }
 
 GtkAction *
@@ -1477,7 +1680,15 @@ e_web_view_copy_clipboard (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	gtk_html_command (GTK_HTML (web_view), "copy");
+	g_signal_emit (web_view, signals[COPY_CLIPBOARD], 0);
+}
+
+void
+e_web_view_cut_clipboard (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	g_signal_emit (web_view, signals[CUT_CLIPBOARD], 0);
 }
 
 gboolean
@@ -1486,6 +1697,14 @@ e_web_view_is_selection_active (EWebView *web_view)
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
 	return gtk_html_command (GTK_HTML (web_view), "is-selection-active");
+}
+
+void
+e_web_view_paste_clipboard (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	g_signal_emit (web_view, signals[PASTE_CLIPBOARD], 0);
 }
 
 gboolean

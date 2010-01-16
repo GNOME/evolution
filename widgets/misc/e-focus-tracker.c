@@ -360,6 +360,10 @@ focus_tracker_dispose (GObject *object)
 		gtk_clipboard_get (GDK_SELECTION_PRIMARY),
 		G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, object);
 
+	g_signal_handlers_disconnect_matched (
+		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+		G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, object);
+
 	if (priv->window != NULL) {
 		g_signal_handlers_disconnect_matched (
 			priv->window, G_SIGNAL_MATCH_DATA,
@@ -423,6 +427,16 @@ focus_tracker_constructed (GObject *object)
 	 * other notification mechanism. */
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+
+	g_signal_connect_swapped (
+		clipboard, "owner-change",
+		G_CALLBACK (e_focus_tracker_update_actions), object);
+
+	/* Listen for "owner-change" signals from the default clipboard
+	 * so we can update the paste action when the user cuts or copies
+	 * something.  This is how GEdit does it. */
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	g_signal_connect_swapped (
 		clipboard, "owner-change",

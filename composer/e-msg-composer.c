@@ -1488,6 +1488,60 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	e_msg_composer_show_sig_file (composer);
 }
 
+static void
+msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
+                                         GdkAtom *targets,
+                                         gint n_targets,
+                                         EMsgComposer *composer)
+{
+	GtkhtmlEditor *editor;
+	gboolean html_mode;
+
+	editor = GTKHTML_EDITOR (composer);
+	html_mode = gtkhtml_editor_get_html_mode (editor);
+
+	/* Order is important here to ensure common use cases are
+	 * handled correctly.  See GNOME bug #603715 for details. */
+
+	if (gtk_targets_include_uri (targets, n_targets)) {
+		e_composer_paste_uris (composer, clipboard);
+		return;
+	}
+
+	/* Only paste HTML content in HTML mode. */
+	if (html_mode) {
+		if (e_targets_include_html (targets, n_targets)) {
+			e_composer_paste_html (composer, clipboard);
+			return;
+		}
+	}
+
+	if (gtk_targets_include_text (targets, n_targets)) {
+		e_composer_paste_text (composer, clipboard);
+		return;
+	}
+
+	if (gtk_targets_include_image (targets, n_targets, TRUE)) {
+		e_composer_paste_image (composer, clipboard);
+		return;
+	}
+}
+
+static void
+msg_composer_paste_clipboard_cb (EWebView *web_view,
+                                 EMsgComposer *composer)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		msg_composer_paste_clipboard_targets_cb, composer);
+
+	g_signal_stop_emission_by_name (web_view, "paste-clipboard");
+}
+
 struct _drop_data {
 	EMsgComposer *composer;
 
@@ -1615,6 +1669,12 @@ msg_composer_constructed (GObject *object)
 	active = e_shell_settings_get_boolean (
 		shell_settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
+
+	/* Clipboard Support */
+
+	g_signal_connect (
+		html, "paste-clipboard",
+		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
 
 	/* Drag-and-Drop Support */
 
@@ -1840,91 +1900,25 @@ msg_composer_drag_data_received (GtkWidget *widget,
 static void
 msg_composer_cut_clipboard (GtkhtmlEditor *editor)
 {
-	EMsgComposer *composer;
-	GtkWidget *parent;
-	GtkWidget *widget;
-
-	composer = E_MSG_COMPOSER (editor);
-	widget = gtk_window_get_focus (GTK_WINDOW (editor));
-	parent = gtk_widget_get_parent (widget);
-
-	/* EFocusTracker handles the header widgets. */
-	if (parent == composer->priv->header_table)
-		return;
-
-	/* Chain up to parent's cut_clipboard() method. */
-	GTKHTML_EDITOR_CLASS (parent_class)->cut_clipboard (editor);
+	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void
 msg_composer_copy_clipboard (GtkhtmlEditor *editor)
 {
-	EMsgComposer *composer;
-	GtkWidget *parent;
-	GtkWidget *widget;
-
-	composer = E_MSG_COMPOSER (editor);
-	widget = gtk_window_get_focus (GTK_WINDOW (editor));
-	parent = gtk_widget_get_parent (widget);
-
-	/* EFocusTracker handles the header widgets. */
-	if (parent == composer->priv->header_table)
-		return;
-
-	/* Chain up to parent's copy_clipboard() method. */
-	GTKHTML_EDITOR_CLASS (parent_class)->copy_clipboard (editor);
+	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void
 msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 {
-	EMsgComposer *composer;
-	GtkClipboard *clipboard;
-	GtkWidget *parent;
-	GtkWidget *widget;
-
-	composer = E_MSG_COMPOSER (editor);
-
-	widget = gtk_window_get_focus (GTK_WINDOW (editor));
-	parent = gtk_widget_get_parent (widget);
-
-	/* EFocusTracker handles the header widgets. */
-	if (parent == composer->priv->header_table)
-		return;
-
-	clipboard = gtk_widget_get_clipboard (widget, GDK_SELECTION_CLIPBOARD);
-
-	if (gtk_clipboard_wait_is_image_available (clipboard)) {
-		e_composer_paste_image (composer, clipboard);
-		return;
-	}
-
-	if (gtk_clipboard_wait_is_uris_available (clipboard)) {
-		e_composer_paste_uris (composer, clipboard);
-		return;
-	}
-
-	/* Chain up to parent's paste_clipboard() method. */
-	GTKHTML_EDITOR_CLASS (parent_class)->paste_clipboard (editor);
+	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void
 msg_composer_select_all (GtkhtmlEditor *editor)
 {
-	EMsgComposer *composer;
-	GtkWidget *parent;
-	GtkWidget *widget;
-
-	composer = E_MSG_COMPOSER (editor);
-	widget = gtk_window_get_focus (GTK_WINDOW (editor));
-	parent = gtk_widget_get_parent (widget);
-
-	/* EFocusTracker handles the header widgets. */
-	if (parent == composer->priv->header_table)
-		return;
-
-	/* Chain up to the parent's select_all() method. */
-	GTKHTML_EDITOR_CLASS (parent_class)->select_all (editor);
+	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void

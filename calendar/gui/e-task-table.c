@@ -69,11 +69,16 @@
 struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
+
+	GtkTargetList *copy_target_list;
+	GtkTargetList *paste_target_list;
 };
 
 enum {
 	PROP_0,
+	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
+	PROP_PASTE_TARGET_LIST,
 	PROP_SHELL_VIEW
 };
 
@@ -338,9 +343,21 @@ task_table_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_task_table_get_copy_target_list (
+				E_TASK_TABLE (object)));
+			return;
+
 		case PROP_MODEL:
 			g_value_set_object (
 				value, e_task_table_get_model (
+				E_TASK_TABLE (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value, e_task_table_get_paste_target_list (
 				E_TASK_TABLE (object)));
 			return;
 
@@ -370,6 +387,16 @@ task_table_dispose (GObject *object)
 	if (priv->model != NULL) {
 		g_object_unref (priv->model);
 		priv->model = NULL;
+	}
+
+	if (priv->copy_target_list != NULL) {
+		gtk_target_list_unref (priv->copy_target_list);
+		priv->copy_target_list = NULL;
+	}
+
+	if (priv->paste_target_list != NULL) {
+		gtk_target_list_unref (priv->paste_target_list);
+		priv->paste_target_list = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -870,12 +897,14 @@ task_table_update_actions (ESelectable *selectable,
 {
 	ETaskTable *task_table;
 	GtkAction *action;
+	GtkTargetList *target_list;
 	GSList *list, *iter;
+	gboolean can_paste = FALSE;
 	gboolean sources_are_editable = TRUE;
-	gboolean clipboard_has_calendar;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_selected;
+	gint ii;
 
 	task_table = E_TASK_TABLE (selectable);
 	n_selected = e_table_selected_count (E_TABLE (task_table));
@@ -890,9 +919,10 @@ task_table_update_actions (ESelectable *selectable,
 	}
 	g_slist_free (list);
 
-	clipboard_has_calendar = (clipboard_targets != NULL) &&
-		e_targets_include_calendar (
-		clipboard_targets, n_clipboard_targets);
+	target_list = e_selectable_get_paste_target_list (selectable);
+	for (ii = 0; ii < n_clipboard_targets && !can_paste; ii++)
+		can_paste = gtk_target_list_find (
+			target_list, clipboard_targets[ii], NULL);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	sensitive = (n_selected > 0) && sources_are_editable;
@@ -907,7 +937,7 @@ task_table_update_actions (ESelectable *selectable,
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = sources_are_editable && clipboard_has_calendar;
+	sensitive = sources_are_editable && can_paste;
 	tooltip = _("Paste tasks from the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
@@ -1010,7 +1040,7 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 	icalcomponent_kind kind;
 	const gchar *status_message;
 
-	g_return_if_fail (E_IS_CALENDAR_TABLE (task_table));
+	g_return_if_fail (E_IS_TASK_TABLE (task_table));
 
 	if (!text || !*text)
 		return;
@@ -1305,6 +1335,12 @@ task_table_class_init (ETaskTableClass *class)
 	table_class->double_click = task_table_double_click;
 	table_class->right_click = task_table_right_click;
 
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
 	g_object_class_install_property (
 		object_class,
 		PROP_MODEL,
@@ -1315,6 +1351,12 @@ task_table_class_init (ETaskTableClass *class)
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
@@ -1370,7 +1412,17 @@ task_table_class_init (ETaskTableClass *class)
 static void
 task_table_init (ETaskTable *task_table)
 {
+	GtkTargetList *target_list;
+
 	task_table->priv = E_TASK_TABLE_GET_PRIVATE (task_table);
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	task_table->priv->copy_target_list = target_list;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	task_table->priv->paste_target_list = target_list;
 }
 
 static void
@@ -1451,7 +1503,7 @@ e_task_table_new (EShellView *shell_view,
 ECalModel *
 e_task_table_get_model (ETaskTable *task_table)
 {
-	g_return_val_if_fail (E_IS_CALENDAR_TABLE (task_table), NULL);
+	g_return_val_if_fail (E_IS_TASK_TABLE (task_table), NULL);
 
 	return task_table->priv->model;
 }
@@ -1459,7 +1511,7 @@ e_task_table_get_model (ETaskTable *task_table)
 EShellView *
 e_task_table_get_shell_view (ETaskTable *task_table)
 {
-	g_return_val_if_fail (E_IS_CALENDAR_TABLE (task_table), NULL);
+	g_return_val_if_fail (E_IS_TASK_TABLE (task_table), NULL);
 
 	return task_table->priv->shell_view;
 }
@@ -1504,6 +1556,22 @@ e_task_table_get_selected (ETaskTable *task_table)
 		E_TABLE (task_table), add_uid_cb, &closure);
 
 	return closure.objects;
+}
+
+GtkTargetList *
+e_task_table_get_copy_target_list (ETaskTable *task_table)
+{
+	g_return_val_if_fail (E_IS_TASK_TABLE (task_table), NULL);
+
+	return task_table->priv->copy_target_list;
+}
+
+GtkTargetList *
+e_task_table_get_paste_target_list (ETaskTable *task_table)
+{
+	g_return_val_if_fail (E_IS_TASK_TABLE (task_table), NULL);
+
+	return task_table->priv->paste_target_list;
 }
 
 static void

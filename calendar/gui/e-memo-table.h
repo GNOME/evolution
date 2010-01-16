@@ -103,6 +103,10 @@ void		e_memo_table_set_use_24_hour_format
 						(EMemoTable *memo_table,
 						 gboolean use_24_hour_format);
 GSList *	e_memo_table_get_selected	(EMemoTable *memo_table);
+GtkTargetList *	e_memo_table_get_copy_target_list
+						(EMemoTable *memo_table);
+GtkTargetList *	e_memo_table_get_paste_target_list
+						(EMemoTable *memo_table);
 
 G_END_DECLS
 

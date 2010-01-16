@@ -71,6 +71,9 @@ struct _EWebViewClass {
 						 GtkHTML *frame);
 
 	/* Signals */
+	void		(*copy_clipboard)	(EWebView *web_view);
+	void		(*cut_clipboard)	(EWebView *web_view);
+	void		(*paste_clipboard)	(EWebView *web_view);
 	gboolean	(*popup_event)		(EWebView *web_view,
 						 GdkEventButton *event,
 						 const gchar *uri);
@@ -91,6 +94,7 @@ void		e_web_view_set_animate		(EWebView *web_view,
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
 void		e_web_view_set_caret_mode	(EWebView *web_view,
 						 gboolean caret_mode);
+GtkTargetList *	e_web_view_get_copy_target_list	(EWebView *web_view);
 gboolean	e_web_view_get_disable_printing	(EWebView *web_view);
 void		e_web_view_set_disable_printing	(EWebView *web_view,
 						 gboolean disable_printing);
@@ -99,12 +103,16 @@ gboolean	e_web_view_get_disable_save_to_disk
 void		e_web_view_set_disable_save_to_disk
 						(EWebView *web_view,
 						 gboolean disable_save_to_disk);
+gboolean	e_web_view_get_editable		(EWebView *web_view);
+void		e_web_view_set_editable		(EWebView *web_view,
+						 gboolean editable);
 const gchar *	e_web_view_get_selected_uri	(EWebView *web_view);
 void		e_web_view_set_selected_uri	(EWebView *web_view,
 						 const gchar *selected_uri);
 GtkAction *	e_web_view_get_open_proxy	(EWebView *web_view);
 void		e_web_view_set_open_proxy	(EWebView *web_view,
 						 GtkAction *open_proxy);
+GtkTargetList *	e_web_view_get_paste_target_list(EWebView *web_view);
 GtkAction *	e_web_view_get_print_proxy	(EWebView *web_view);
 void		e_web_view_set_print_proxy	(EWebView *web_view,
 						 GtkAction *print_proxy);
@@ -119,7 +127,9 @@ gchar *		e_web_view_extract_uri		(EWebView *web_view,
 						 GdkEventButton *event,
 						 GtkHTML *frame);
 void		e_web_view_copy_clipboard	(EWebView *web_view);
+void		e_web_view_cut_clipboard	(EWebView *web_view);
 gboolean	e_web_view_is_selection_active	(EWebView *web_view);
+void		e_web_view_paste_clipboard	(EWebView *web_view);
 gboolean	e_web_view_scroll_forward	(EWebView *web_view);
 gboolean	e_web_view_scroll_backward	(EWebView *web_view);
 void		e_web_view_select_all		(EWebView *web_view);

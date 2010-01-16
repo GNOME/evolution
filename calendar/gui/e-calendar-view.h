@@ -159,6 +159,10 @@ void		e_calendar_view_set_status_message
 						(ECalendarView *cal_view,
 						 const gchar *message,
 						 gint percent);
+GtkTargetList *	e_calendar_view_get_copy_target_list
+						(ECalendarView *cal_view);
+GtkTargetList *	e_calendar_view_get_paste_target_list
+						(ECalendarView *cal_view);
 
 GList *		e_calendar_view_get_selected_events
 						(ECalendarView *cal_view);
