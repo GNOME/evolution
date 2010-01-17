@@ -27,6 +27,8 @@
 /* Memo Actions */
 #define E_SHELL_WINDOW_ACTION_MEMO_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-delete")
+#define E_SHELL_WINDOW_ACTION_MEMO_FIND(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-find")
 #define E_SHELL_WINDOW_ACTION_MEMO_FORWARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-forward")
 #define E_SHELL_WINDOW_ACTION_MEMO_NEW(window) \

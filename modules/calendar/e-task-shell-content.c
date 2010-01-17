@@ -29,8 +29,10 @@
 #include "shell/e-shell-utils.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/misc/e-paned.h"
+#include "widgets/misc/e-preview-pane.h"
 
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-cal-model-tasks.h"
 
 #define E_TASK_SHELL_CONTENT_GET_PRIVATE(obj) \
@@ -50,7 +52,7 @@
 struct _ETaskShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *task_table;
-	GtkWidget *task_preview;
+	GtkWidget *preview_pane;
 
 	ECalModel *task_model;
 	GalViewInstance *view_instance;
@@ -192,10 +194,15 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	ECalModel *task_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
 	const gchar *uid;
 
 	task_model = e_task_shell_content_get_task_model (task_shell_content);
-	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
+	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	if (e_table_selected_count (table) != 1) {
 		e_cal_component_preview_clear (task_preview);
@@ -223,8 +230,13 @@ task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
                                         ETable *table)
 {
 	ECalComponentPreview *task_preview;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
 
-	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
+	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	if (e_table_selected_count (table) != 1)
 		e_cal_component_preview_clear (task_preview);
@@ -345,9 +357,9 @@ task_shell_content_dispose (GObject *object)
 		priv->task_table = NULL;
 	}
 
-	if (priv->task_preview != NULL) {
-		g_object_unref (priv->task_preview);
-		priv->task_preview = NULL;
+	if (priv->preview_pane != NULL) {
+		g_object_unref (priv->preview_pane);
+		priv->preview_pane = NULL;
 	}
 
 	if (priv->task_model != NULL) {
@@ -442,31 +454,23 @@ task_shell_content_constructed (GObject *object)
 
 	container = priv->paned;
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	gtk_widget_show (widget);
-
-	e_binding_new (object, "preview-visible", widget, "visible");
-
-	container = widget;
-
 	widget = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (
 		E_CAL_COMPONENT_PREVIEW (widget), timezone);
 	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->task_preview = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
 		widget, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
 		shell_taskbar);
+
+	widget = e_preview_pane_new (E_WEB_VIEW (widget));
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	e_binding_new (object, "preview-visible", widget, "visible");
 
 	/* Configure the task table. */
 
@@ -703,16 +707,6 @@ e_task_shell_content_get_task_model (ETaskShellContent *task_shell_content)
 	return task_shell_content->priv->task_model;
 }
 
-ECalComponentPreview *
-e_task_shell_content_get_task_preview (ETaskShellContent *task_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
-
-	return E_CAL_COMPONENT_PREVIEW (
-		task_shell_content->priv->task_preview);
-}
-
 ETaskTable *
 e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 {
@@ -720,6 +714,15 @@ e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
 	return E_TASK_TABLE (task_shell_content->priv->task_table);
+}
+
+EPreviewPane *
+e_task_shell_content_get_preview_pane (ETaskShellContent *task_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
+
+	return E_PREVIEW_PANE (task_shell_content->priv->preview_pane);
 }
 
 gboolean

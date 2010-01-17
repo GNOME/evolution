@@ -13,6 +13,8 @@
       <placeholder name='edit-actions'>
         <menuitem action='memo-delete'/>
         <menuitem action='memo-list-delete'/>
+        <separator/>
+        <menuitem action='memo-find'/>
       </placeholder>
     </menu>
     <menu action='view-menu'>

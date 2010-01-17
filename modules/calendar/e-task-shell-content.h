@@ -27,10 +27,10 @@
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-cal-model.h>
-#include <calendar/gui/e-cal-component-preview.h>
 #include <calendar/gui/e-task-table.h>
 
 #include <menus/gal-view-instance.h>
+#include <misc/e-preview-pane.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_CONTENT \
@@ -82,10 +82,9 @@ void		e_task_shell_content_register_type
 GtkWidget *	e_task_shell_content_new(EShellView *shell_view);
 ECalModel *	e_task_shell_content_get_task_model
 					(ETaskShellContent *task_shell_content);
-ECalComponentPreview *
-		e_task_shell_content_get_task_preview
-					(ETaskShellContent *task_shell_content);
 ETaskTable *	e_task_shell_content_get_task_table
+					(ETaskShellContent *task_shell_content);
+EPreviewPane *	e_task_shell_content_get_preview_pane
 					(ETaskShellContent *task_shell_content);
 gboolean	e_task_shell_content_get_preview_visible
 					(ETaskShellContent *task_shell_content);

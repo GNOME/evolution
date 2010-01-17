@@ -29,10 +29,10 @@
 #include "e-util/e-plugin-ui.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
+#include "widgets/misc/e-preview-pane.h"
 
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
-#include "mail/e-mail-search-bar.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
@@ -388,6 +388,7 @@ mail_browser_constructed (GObject *object)
 	EMailReader *reader;
 	EShellBackend *shell_backend;
 	EShell *shell;
+	ESearchBar *search_bar;
 	GConfBridge *bridge;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
@@ -468,15 +469,6 @@ mail_browser_constructed (GObject *object)
 	priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = e_mail_search_bar_new (web_view);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->search_bar = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
-	g_signal_connect_swapped (
-		widget, "changed",
-		G_CALLBACK (em_format_redraw), html_display);
-
 	widget = gtk_ui_manager_get_widget (ui_manager, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->main_menu = g_object_ref (widget);
@@ -487,20 +479,18 @@ mail_browser_constructed (GObject *object)
 	priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_widget_show (GTK_WIDGET (web_view));
+
+	widget = e_preview_pane_new (web_view);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	container = widget;
+	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
+	priv->search_bar = g_object_ref (search_bar);
 
-	widget = GTK_WIDGET (EM_FORMAT_HTML (html_display)->html);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
+	g_signal_connect_swapped (
+		search_bar, "changed",
+		G_CALLBACK (em_format_redraw), priv->html_display);
 
 	/* Bind GObject properties to GConf keys. */
 

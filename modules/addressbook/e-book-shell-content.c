@@ -28,6 +28,7 @@
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/misc/e-paned.h"
+#include "widgets/misc/e-preview-pane.h"
 #include "e-book-shell-view.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
@@ -37,7 +38,7 @@
 struct _EBookShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *notebook;
-	GtkWidget *preview;
+	GtkWidget *preview_pane;
 
 	GtkOrientation orientation;
 
@@ -171,9 +172,9 @@ book_shell_content_dispose (GObject *object)
 		priv->notebook = NULL;
 	}
 
-	if (priv->preview != NULL) {
-		g_object_unref (priv->preview);
-		priv->preview = NULL;
+	if (priv->preview_pane != NULL) {
+		g_object_unref (priv->preview_pane);
+		priv->preview_pane = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -221,31 +222,23 @@ book_shell_content_constructed (GObject *object)
 	priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	gtk_widget_show (widget);
-
-	e_binding_new (object, "preview-visible", widget, "visible");
-
-	container = widget;
-
 	widget = eab_contact_display_new ();
 	eab_contact_display_set_mode (
 		EAB_CONTACT_DISPLAY (widget),
 		EAB_CONTACT_DISPLAY_RENDER_NORMAL);
 	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->preview = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
 		widget, "send-message",
 		G_CALLBACK (book_shell_content_send_message_cb), object);
+
+	widget = e_preview_pane_new (E_WEB_VIEW (widget));
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	e_binding_new (object, "preview-visible", widget, "visible");
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -569,24 +562,19 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 	g_object_notify (G_OBJECT (book_shell_content), "current-view");
 }
 
-EABContactDisplay *
-e_book_shell_content_get_preview (EBookShellContent *book_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_BOOK_SHELL_CONTENT (book_shell_content), NULL);
-
-	return EAB_CONTACT_DISPLAY (book_shell_content->priv->preview);
-}
-
 EContact *
 e_book_shell_content_get_preview_contact (EBookShellContent *book_shell_content)
 {
+	EPreviewPane *preview_pane;
 	EABContactDisplay *display;
+	EWebView *web_view;
 
 	g_return_val_if_fail (
 		E_IS_BOOK_SHELL_CONTENT (book_shell_content), NULL);
 
-	display = EAB_CONTACT_DISPLAY (book_shell_content->priv->preview);
+	preview_pane = E_PREVIEW_PANE (book_shell_content->priv->preview_pane);
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	display = EAB_CONTACT_DISPLAY (web_view);
 
 	return eab_contact_display_get_contact (display);
 }
@@ -595,14 +583,27 @@ void
 e_book_shell_content_set_preview_contact (EBookShellContent *book_shell_content,
                                           EContact *preview_contact)
 {
+	EPreviewPane *preview_pane;
 	EABContactDisplay *display;
+	EWebView *web_view;
 
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 
-	display = EAB_CONTACT_DISPLAY (book_shell_content->priv->preview);
+	preview_pane = E_PREVIEW_PANE (book_shell_content->priv->preview_pane);
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	display = EAB_CONTACT_DISPLAY (web_view);
 
 	eab_contact_display_set_contact (display, preview_contact);
 	g_object_notify (G_OBJECT (book_shell_content), "preview-contact");
+}
+
+EPreviewPane *
+e_book_shell_content_get_preview_pane (EBookShellContent *book_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_BOOK_SHELL_CONTENT (book_shell_content), NULL);
+
+	return E_PREVIEW_PANE (book_shell_content->priv->preview_pane);
 }
 
 gboolean

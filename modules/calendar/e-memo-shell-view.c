@@ -61,7 +61,9 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	ECalComponentPreview *memo_preview;
+	EPreviewPane *preview_pane;
 	EMemoTable *memo_table;
+	EWebView *web_view;
 	ECalModel *model;
 	gchar *query;
 	gchar *temp;
@@ -155,8 +157,11 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	e_cal_model_set_search_query (model, query);
 	g_free (query);
 
-	memo_preview =
-		e_memo_shell_content_get_memo_preview (memo_shell_content);
+	preview_pane =
+		e_memo_shell_content_get_preview_pane (memo_shell_content);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 	e_cal_component_preview_clear (memo_preview);
 }
 
@@ -219,6 +224,10 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	else
 		label = _("Delete Memo");
 	g_object_set (action, "label", label, NULL);
+
+	action = ACTION (MEMO_FIND);
+	sensitive = single_memo_selected;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_FORWARD);
 	sensitive = single_memo_selected;

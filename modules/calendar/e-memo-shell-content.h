@@ -27,9 +27,9 @@
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-memo-table.h>
-#include <calendar/gui/e-cal-component-preview.h>
 
 #include <menus/gal-view-instance.h>
+#include <misc/e-preview-pane.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_CONTENT \
@@ -78,10 +78,9 @@ void		e_memo_shell_content_register_type
 GtkWidget *	e_memo_shell_content_new(EShellView *shell_view);
 ECalModel *	e_memo_shell_content_get_memo_model
 					(EMemoShellContent *memo_shell_conent);
-ECalComponentPreview *
-		e_memo_shell_content_get_memo_preview
-					(EMemoShellContent *memo_shell_content);
 EMemoTable *	e_memo_shell_content_get_memo_table
+					(EMemoShellContent *memo_shell_content);
+EPreviewPane *	e_memo_shell_content_get_preview_pane
 					(EMemoShellContent *memo_shell_content);
 gboolean	e_memo_shell_content_get_preview_visible
 					(EMemoShellContent *memo_shell_content);

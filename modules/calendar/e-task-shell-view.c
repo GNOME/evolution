@@ -100,7 +100,9 @@ task_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	ECalComponentPreview *task_preview;
+	EPreviewPane *preview_pane;
 	ETaskTable *task_table;
+	EWebView *web_view;
 	ECalModel *model;
 	time_t start_range;
 	time_t end_range;
@@ -268,8 +270,11 @@ task_shell_view_execute_search (EShellView *shell_view)
 	e_cal_model_set_search_query (model, query);
 	g_free (query);
 
-	task_preview =
-		e_task_shell_content_get_task_preview (task_shell_content);
+	preview_pane =
+		e_task_shell_content_get_preview_pane (task_shell_content);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 	e_cal_component_preview_clear (task_preview);
 }
 
@@ -347,6 +352,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 	else
 		label = _("Delete Task");
 	g_object_set (action, "label", label, NULL);
+
+	action = ACTION (TASK_FIND);
+	sensitive = single_task_selected;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_FORWARD);
 	sensitive = single_task_selected;

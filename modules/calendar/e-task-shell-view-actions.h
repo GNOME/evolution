@@ -29,6 +29,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-assign")
 #define E_SHELL_WINDOW_ACTION_TASK_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-delete")
+#define E_SHELL_WINDOW_ACTION_TASK_FIND(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-find")
 #define E_SHELL_WINDOW_ACTION_TASK_FORWARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-forward")
 #define E_SHELL_WINDOW_ACTION_TASK_MARK_COMPLETE(window) \

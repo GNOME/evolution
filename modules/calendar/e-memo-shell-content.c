@@ -29,8 +29,10 @@
 #include "shell/e-shell-utils.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/misc/e-paned.h"
+#include "widgets/misc/e-preview-pane.h"
 
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
 
@@ -50,7 +52,7 @@
 struct _EMemoShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *memo_table;
-	GtkWidget *memo_preview;
+	GtkWidget *preview_pane;
 
 	ECalModel *memo_model;
 	GalViewInstance *view_instance;
@@ -192,10 +194,15 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	ECalModel *memo_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
 	const gchar *uid;
 
 	memo_model = e_memo_shell_content_get_memo_model (memo_shell_content);
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
+	preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_content);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	if (e_table_selected_count (table) != 1) {
 		e_cal_component_preview_clear (memo_preview);
@@ -223,8 +230,13 @@ memo_shell_content_selection_change_cb (EMemoShellContent *memo_shell_content,
                                         ETable *table)
 {
 	ECalComponentPreview *memo_preview;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
 
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
+	preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_content);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	/* XXX Old code emits a "selection-changed" signal here. */
 
@@ -347,9 +359,9 @@ memo_shell_content_dispose (GObject *object)
 		priv->memo_table = NULL;
 	}
 
-	if (priv->memo_preview != NULL) {
-		g_object_unref (priv->memo_preview);
-		priv->memo_preview = NULL;
+	if (priv->preview_pane != NULL) {
+		g_object_unref (priv->preview_pane);
+		priv->preview_pane = NULL;
 	}
 
 	if (priv->memo_model != NULL) {
@@ -445,31 +457,23 @@ memo_shell_content_constructed (GObject *object)
 
 	container = priv->paned;
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	gtk_widget_show (widget);
-
-	e_binding_new (object, "preview-visible", widget, "visible");
-
-	container = widget;
-
 	widget = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (
 		E_CAL_COMPONENT_PREVIEW (widget), timezone);
 	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->memo_preview = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
 		widget, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
 		shell_taskbar);
+
+	widget = e_preview_pane_new (E_WEB_VIEW (widget));
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	e_binding_new (object, "preview-visible", widget, "visible");
 
 	/* Configure the memo table. */
 
@@ -681,16 +685,6 @@ e_memo_shell_content_get_memo_model (EMemoShellContent *memo_shell_content)
 	return memo_shell_content->priv->memo_model;
 }
 
-ECalComponentPreview *
-e_memo_shell_content_get_memo_preview (EMemoShellContent *memo_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
-
-	return E_CAL_COMPONENT_PREVIEW (
-		memo_shell_content->priv->memo_preview);
-}
-
 EMemoTable *
 e_memo_shell_content_get_memo_table (EMemoShellContent *memo_shell_content)
 {
@@ -698,6 +692,15 @@ e_memo_shell_content_get_memo_table (EMemoShellContent *memo_shell_content)
 		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
 
 	return E_MEMO_TABLE (memo_shell_content->priv->memo_table);
+}
+
+EPreviewPane *
+e_memo_shell_content_get_preview_pane (EMemoShellContent *memo_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+
+	return E_PREVIEW_PANE (memo_shell_content->priv->preview_pane);
 }
 
 gboolean

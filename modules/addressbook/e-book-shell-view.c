@@ -327,6 +327,10 @@ book_shell_view_update_actions (EShellView *shell_view)
 	sensitive = source_is_editable && any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (CONTACT_FIND);
+	sensitive = single_contact_selected;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (CONTACT_FORWARD);
 	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);

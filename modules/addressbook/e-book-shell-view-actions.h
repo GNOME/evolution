@@ -49,6 +49,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-copy")
 #define E_SHELL_WINDOW_ACTION_CONTACT_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-delete")
+#define E_SHELL_WINDOW_ACTION_CONTACT_FIND(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-find")
 #define E_SHELL_WINDOW_ACTION_CONTACT_FORWARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-forward")
 #define E_SHELL_WINDOW_ACTION_CONTACT_MOVE(window) \

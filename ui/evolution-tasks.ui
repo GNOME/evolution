@@ -14,6 +14,8 @@
         <menuitem action='task-delete'/>
         <menuitem action='task-list-delete'/>
         <separator/>
+        <menuitem action='task-find'/>
+        <separator/>
         <menuitem action='task-mark-complete'/>
         <menuitem action='task-mark-incomplete'/>
       </placeholder>

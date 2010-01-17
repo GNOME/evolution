@@ -341,6 +341,19 @@ action_contact_delete_cb (GtkAction *action,
 }
 
 static void
+action_contact_find_cb (GtkAction *action,
+                        EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	EPreviewPane *preview_pane;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	preview_pane = e_book_shell_content_get_preview_pane (book_shell_content);
+
+	e_preview_pane_show_search_bar (preview_pane);
+}
+
+static void
 action_contact_forward_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
@@ -722,6 +735,13 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Delete selected contacts"),
 	  G_CALLBACK (action_contact_delete_cb) },
 
+	{ "contact-find",
+	  GTK_STOCK_FIND,
+	  N_("_Find in Contact..."),
+	  "<Shift><Control>f",
+	  N_("Search for text in the displayed contact"),
+	  G_CALLBACK (action_contact_find_cb) },
+
 	{ "contact-forward",
 	  "mail-forward",
 	  N_("_Forward Contact..."),
@@ -961,7 +981,8 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
-	EABContactDisplay *contact_preview;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
 	GtkActionGroup *action_group;
 	GConfBridge *bridge;
 	GtkAction *action;
@@ -973,7 +994,8 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
-	contact_preview = e_book_shell_content_get_preview (book_shell_content);
+	preview_pane = e_book_shell_content_get_preview_pane (book_shell_content);
+	web_view = e_preview_pane_get_web_view (preview_pane);
 
 	/* Contact Actions */
 	action_group = ACTION_GROUP (CONTACTS);
@@ -1050,14 +1072,9 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		ACTION (CONTACT_PREVIEW), "active",
 		ACTION (CONTACT_VIEW_VERTICAL), "sensitive");
 
-	e_web_view_set_open_proxy (
-		E_WEB_VIEW (contact_preview), ACTION (CONTACT_OPEN));
-
-	e_web_view_set_print_proxy (
-		E_WEB_VIEW (contact_preview), ACTION (CONTACT_PRINT));
-
-	e_web_view_set_save_as_proxy (
-		E_WEB_VIEW (contact_preview), ACTION (CONTACT_SAVE_AS));
+	e_web_view_set_open_proxy (web_view, ACTION (CONTACT_OPEN));
+	e_web_view_set_print_proxy (web_view, ACTION (CONTACT_PRINT));
+	e_web_view_set_save_as_proxy (web_view, ACTION (CONTACT_SAVE_AS));
 }
 
 void

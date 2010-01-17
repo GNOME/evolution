@@ -87,6 +87,19 @@ action_task_delete_cb (GtkAction *action,
 }
 
 static void
+action_task_find_cb (GtkAction *action,
+                     ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	EPreviewPane *preview_pane;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+
+	e_preview_pane_show_search_bar (preview_pane);
+}
+
+static void
 action_task_forward_cb (GtkAction *action,
                         ETaskShellView *task_shell_view)
 {
@@ -688,6 +701,13 @@ static GtkActionEntry task_entries[] = {
 	  N_("Delete selected tasks"),
 	  G_CALLBACK (action_task_delete_cb) },
 
+	{ "task-find",
+	  GTK_STOCK_FIND,
+	  N_("_Find in Task..."),
+	  "<Shift><Control>f",
+	  N_("Search for text in the displayed task"),
+	  G_CALLBACK (action_task_find_cb) },
+
 	{ "task-forward",
 	  "mail-forward",
 	  N_("_Forward as iCalendar..."),
@@ -1030,7 +1050,8 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
-	ECalComponentPreview *task_preview;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
 	GtkActionGroup *action_group;
 	GConfBridge *bridge;
 	GtkAction *action;
@@ -1042,7 +1063,8 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	searchbar = e_task_shell_content_get_searchbar (task_shell_content);
-	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
+	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+	web_view = e_preview_pane_get_web_view (preview_pane);
 
 	/* Task Actions */
 	action_group = ACTION_GROUP (TASKS);
@@ -1119,14 +1141,9 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		ACTION (TASK_PREVIEW), "active",
 		ACTION (TASK_VIEW_VERTICAL), "sensitive");
 
-	e_web_view_set_open_proxy (
-		E_WEB_VIEW (task_preview), ACTION (TASK_OPEN));
-
-	e_web_view_set_print_proxy (
-		E_WEB_VIEW (task_preview), ACTION (TASK_PRINT));
-
-	e_web_view_set_save_as_proxy (
-		E_WEB_VIEW (task_preview), ACTION (TASK_SAVE_AS));
+	e_web_view_set_open_proxy (web_view, ACTION (TASK_OPEN));
+	e_web_view_set_print_proxy (web_view, ACTION (TASK_PRINT));
+	e_web_view_set_save_as_proxy (web_view, ACTION (TASK_SAVE_AS));
 }
 
 void

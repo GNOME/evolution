@@ -30,6 +30,8 @@
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"
 #include "widgets/misc/e-paned.h"
+#include "widgets/misc/e-preview-pane.h"
+#include "widgets/misc/e-search-bar.h"
 
 #include "em-utils.h"
 #include "mail-config.h"
@@ -37,7 +39,6 @@
 #include "message-list.h"
 
 #include "e-mail-reader.h"
-#include "e-mail-search-bar.h"
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
 
@@ -361,6 +362,7 @@ mail_shell_content_constructed (GObject *object)
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
+	ESearchBar *search_bar;
 	EMailReader *reader;
 	GtkWidget *message_list;
 	GConfBridge *bridge;
@@ -390,9 +392,7 @@ mail_shell_content_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
-		object, "orientation",
-		widget, "orientation");
+	e_binding_new (object, "orientation", widget, "orientation");
 
 	container = priv->paned;
 
@@ -415,34 +415,19 @@ mail_shell_content_constructed (GObject *object)
 
 	container = priv->paned;
 
-	widget = gtk_vbox_new (FALSE, 1);
+	gtk_widget_show (GTK_WIDGET (web_view));
+
+	widget = e_preview_pane_new (web_view);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
-	e_binding_new (
-		object, "preview-visible",
-		widget, "visible");
+	e_binding_new (object, "preview-visible", widget, "visible");
 
-	container = widget;
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (web_view));
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (web_view));
-	gtk_widget_show (widget);
-
-	widget = e_mail_search_bar_new (web_view);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->search_bar = g_object_ref (widget);
-	gtk_widget_hide (widget);
+	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
+	priv->search_bar = g_object_ref (search_bar);
 
 	g_signal_connect_swapped (
-		widget, "changed",
+		search_bar, "changed",
 		G_CALLBACK (em_format_redraw), priv->html_display);
 
 	/* Load the view instance. */
@@ -928,13 +913,13 @@ void
 e_mail_shell_content_set_search_strings (EMailShellContent *mail_shell_content,
                                          GSList *search_strings)
 {
-	EMailSearchBar *search_bar;
+	ESearchBar *search_bar;
 	ESearchingTokenizer *tokenizer;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
 
-	search_bar = E_MAIL_SEARCH_BAR (mail_shell_content->priv->search_bar);
-	tokenizer = e_mail_search_bar_get_tokenizer (search_bar);
+	search_bar = E_SEARCH_BAR (mail_shell_content->priv->search_bar);
+	tokenizer = e_search_bar_get_tokenizer (search_bar);
 
 	e_searching_tokenizer_set_secondary_case_sensitivity (tokenizer, FALSE);
 	e_searching_tokenizer_set_secondary_search_string (tokenizer, NULL);
@@ -945,7 +930,7 @@ e_mail_shell_content_set_search_strings (EMailShellContent *mail_shell_content,
 		search_strings = g_slist_next (search_strings);
 	}
 
-	e_mail_search_bar_changed (search_bar);
+	e_search_bar_changed (search_bar);
 }
 
 void
