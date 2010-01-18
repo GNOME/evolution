@@ -60,6 +60,10 @@ plugin_lib_loadmodule (EPlugin *plugin)
 		return -1;
 	}
 
+	/* If the plugin is disabled, we're done. */
+	if (!plugin->enabled)
+		return 0;
+
 	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_enable", (gpointer)&enable)) {
 		if (enable (plugin, TRUE) != 0) {
 			plugin->enabled = FALSE;
