@@ -24,6 +24,7 @@
 #include <errno.h>
 #include <config.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <camel/camel-iconv.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-mime-message.h>
@@ -2054,12 +2055,29 @@ attachment_open_save_finished_cb (EAttachment *attachment,
                                   OpenContext *open_context)
 {
 	GFile *file;
+	gchar *path;
 	GError *error = NULL;
 
 	file = e_attachment_save_finish (attachment, result, &error);
 
 	if (attachment_open_check_for_error (open_context, error))
 		return;
+
+	/* Make the temporary file read-only.
+	 *
+	 * This step is non-critical, so if an error occurs just
+	 * emit a warning and move on.
+	 *
+	 * XXX I haven't figured out how to do this through GIO.
+	 *     Attempting to set the "access::can-write" attribute via
+	 *     g_file_set_attribute() returned G_IO_ERROR_NOT_SUPPORTED
+	 *     and the only other possibility I see is "unix::mode",
+	 *     which is obviously not portable.
+	 */
+	path = g_file_get_path (file);
+	if (g_chmod (path, S_IRUSR | S_IRGRP | S_IROTH) < 0)
+		g_warning ("%s", g_strerror (errno));
+	g_free (path);
 
 	attachment_open_file (file, open_context);
 	g_object_unref (file);
