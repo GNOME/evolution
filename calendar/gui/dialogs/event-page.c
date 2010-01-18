@@ -910,6 +910,27 @@ get_current_account (EventPage *epage)
 	return NULL;
 }
 
+static void
+organizer_changed_cb (GtkEntry *entry, EventPage *epage)
+{
+	EAccount *account;
+
+	g_return_if_fail (entry != NULL);
+	g_return_if_fail (GTK_IS_ENTRY (entry));
+	g_return_if_fail (epage != NULL);
+	g_return_if_fail (IS_EVENT_PAGE (epage));
+
+	if (!epage->priv->ia)
+		return;
+
+	account = get_current_account (epage);
+	if (!account || !account->id)
+		return;
+
+	e_meeting_attendee_set_address (epage->priv->ia, g_strdup_printf ("MAILTO:%s", account->id->address));
+	e_meeting_attendee_set_cn (epage->priv->ia, g_strdup (account->id->name));
+}
+
 /* fill_widgets handler for the event page */
 static gboolean
 event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
@@ -1021,6 +1042,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				else
 					string = g_strdup (strip);
 
+				g_signal_handlers_block_by_func (gtk_bin_get_child (GTK_BIN (priv->organizer)), organizer_changed_cb, epage);
+
 				if (!priv->user_org) {
 					gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
 					gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), string);
@@ -1029,6 +1052,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				} else {
 					gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), string);
 				}
+
+				g_signal_handlers_unblock_by_func (gtk_bin_get_child (GTK_BIN (priv->organizer)), organizer_changed_cb, epage);
 
 				g_free (string);
 				priv->existing = TRUE;
@@ -3029,8 +3054,12 @@ event_page_select_organizer (EventPage *epage, const gchar *backend_address)
 
 	if (default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
-			gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), default_address);
+			GtkEntry *entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer)));
+
+			g_signal_handlers_block_by_func (entry, organizer_changed_cb, epage);
+			gtk_entry_set_text (entry, default_address);
 			gtk_widget_set_sensitive (priv->organizer, !subscribed_cal);
+			g_signal_handlers_unblock_by_func (entry, organizer_changed_cb, epage);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -3093,6 +3122,8 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 			gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), l->data);
 
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+
+		g_signal_connect (gtk_bin_get_child (GTK_BIN (priv->organizer)), "changed", (GCallback) organizer_changed_cb, epage);
 	} else
 		g_warning ("No potential organizers!");
 
