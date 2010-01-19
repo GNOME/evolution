@@ -2467,12 +2467,12 @@ message_list_dispose (GObject *object)
 	}
 
 	if (priv->copy_target_list != NULL) {
-		g_object_unref (priv->copy_target_list);
+		gtk_target_list_unref (priv->copy_target_list);
 		priv->copy_target_list = NULL;
 	}
 
 	if (priv->paste_target_list != NULL) {
-		g_object_unref (priv->paste_target_list);
+		gtk_target_list_unref (priv->paste_target_list);
 		priv->paste_target_list = NULL;
 	}
 
