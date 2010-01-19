@@ -26,6 +26,7 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-signature-combo-box.h"
 
+#include "e-composer-private.h"
 #include "e-composer-from-header.h"
 #include "e-composer-name-header.h"
 #include "e-composer-post-header.h"
@@ -46,8 +47,6 @@ extern gboolean composer_lite;
 	_("Enter the addresses that will receive a " \
 	  "carbon copy of the message without appearing " \
 	  "in the recipient list of the message")
-
-#define GCONF_KEY_PREFIX	"/apps/evolution/mail/composer"
 
 enum {
 	PROP_0,
@@ -304,19 +303,19 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 
 		switch (ii) {
 			case E_COMPOSER_HEADER_BCC:
-				key = GCONF_KEY_PREFIX "/show_mail_bcc";
+				key = COMPOSER_GCONF_PREFIX "/show_mail_bcc";
 				break;
 
 			case E_COMPOSER_HEADER_CC:
-				key = GCONF_KEY_PREFIX "/show_mail_cc";
+				key = COMPOSER_GCONF_PREFIX "/show_mail_cc";
 				break;
 
 			case E_COMPOSER_HEADER_FROM:
-				key = GCONF_KEY_PREFIX "/show_mail_from";
+				key = COMPOSER_GCONF_PREFIX "/show_mail_from";
 				break;
 
 			case E_COMPOSER_HEADER_REPLY_TO:
-				key = GCONF_KEY_PREFIX "/show_mail_reply_to";
+				key = COMPOSER_GCONF_PREFIX "/show_mail_reply_to";
 				break;
 
 			default:
@@ -372,11 +371,11 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 
 		switch (ii) {
 			case E_COMPOSER_HEADER_FROM:
-				key = GCONF_KEY_PREFIX "/show_post_from";
+				key = COMPOSER_GCONF_PREFIX "/show_post_from";
 				break;
 
 			case E_COMPOSER_HEADER_REPLY_TO:
-				key = GCONF_KEY_PREFIX "/show_post_reply_to";
+				key = COMPOSER_GCONF_PREFIX "/show_post_reply_to";
 				break;
 
 			default:
