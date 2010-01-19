@@ -275,7 +275,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 {
 	gchar *query_string, *delim, *temp_name = NULL;
 	EBookQuery *query;
-	GList *contacts, *l;
+	GList *contacts = NULL, *l;
 	EContact *contact;
 	gboolean status;
 	GError *error = NULL;
@@ -302,7 +302,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	status = e_book_get_contacts (book, query, &contacts, NULL);
 	if (query)
 		e_book_query_unref (query);
-	if (contacts != NULL) {
+	if (contacts != NULL || !status) {
 		for (l = contacts; l != NULL; l = l->next)
 			g_object_unref ((GObject *)l->data);
 		g_list_free (contacts);
@@ -331,12 +331,12 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	status = e_book_get_contacts (book, query, &contacts, NULL);
 	if (query)
 		e_book_query_unref (query);
-	if (contacts != NULL) {
+	if (contacts != NULL || !status) {
 
 		/* FIXME: If there's more than one contact with this
 		   name, just give up; we're not smart enough for
 		   this. */
-		if (contacts->next != NULL) {
+		if (!status || contacts->next != NULL) {
 			for (l = contacts; l != NULL; l = l->next)
 				g_object_unref ((GObject *)l->data);
 			g_list_free (contacts);
