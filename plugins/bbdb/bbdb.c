@@ -268,19 +268,35 @@ bbdb_do_thread (const gchar *name, const gchar *email)
 static void
 walk_destinations_and_free (EDestination **dests)
 {
+	const gchar *name, *addr;
 	gint i;
 
 	if (!dests)
 		return;
 
 	for (i = 0; dests[i] != NULL; i++) {
-		const gchar *name, *addr;
+		if (e_destination_is_evolution_list (dests[i])) {
+			const GList *members;
 
-		name = e_destination_get_name (dests[i]);
-		addr = e_destination_get_email (dests[i]);
+			for (members = e_destination_list_get_dests (dests[i]); members; members = members->next) {
+				const EDestination *member = members->data;
 
-		if (name || addr)
-			bbdb_do_thread (name, addr);
+				if (!member)
+					continue;
+
+				name = e_destination_get_name (member);
+				addr = e_destination_get_email (member);
+
+				if (name || addr)
+					bbdb_do_thread (name, addr);
+			}
+		} else {
+			name = e_destination_get_name (dests[i]);
+			addr = e_destination_get_email (dests[i]);
+
+			if (name || addr)
+				bbdb_do_thread (name, addr);
+		}
 	}
 
 	e_destination_freev (dests);
