@@ -998,9 +998,10 @@ epl_loadmodule(EPlugin *ep, gboolean fatal)
 		return 0;
 
 	if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-		if (fatal)
+		if (fatal) {
 			g_warning("can't load plugin '%s': %s", epl->location, g_module_error());
-		else
+			ep->enabled = FALSE;
+		} else
 			missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
 		return -1;
 	}
