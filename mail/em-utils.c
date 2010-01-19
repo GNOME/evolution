@@ -1404,6 +1404,7 @@ gchar *em_uri_to_camel(const gchar *euri)
 	EAccountService *service;
 	CamelProvider *provider;
 	CamelURL *eurl, *curl;
+	CamelException ex = CAMEL_EXCEPTION_INITIALISER;
 	gchar *uid, *curi;
 
 	if (strncmp(euri, "email:", 6) != 0) {
@@ -1464,8 +1465,11 @@ gchar *em_uri_to_camel(const gchar *euri)
 	}
 
 	service = account->source;
-	if (!(provider = camel_provider_get (service->url, NULL)))
+	if (!(provider = camel_provider_get (service->url, &ex))) {
+		camel_exception_clear (&ex);
 		return g_strdup (euri);
+	}
+	camel_exception_clear (&ex);
 
 	curl = camel_url_new(service->url, NULL);
 	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
