@@ -532,7 +532,38 @@ focus_tracker_class_init (EFocusTrackerClass *class)
 static void
 focus_tracker_init (EFocusTracker *focus_tracker)
 {
+	GtkAction *action;
+
 	focus_tracker->priv = E_FOCUS_TRACKER_GET_PRIVATE (focus_tracker);
+
+	/* Define dummy actions.  These will most likely be overridden,
+	 * but for cases where they're not it ensures ESelectable objects
+	 * will always get a valid GtkAction when they ask us for one. */
+
+	action = gtk_action_new (
+		"cut-clipboard", NULL,
+		_("Cut the selection"), GTK_STOCK_CUT);
+	focus_tracker->priv->cut_clipboard = action;
+
+	action = gtk_action_new (
+		"copy-clipboard", NULL,
+		_("Copy the selection"), GTK_STOCK_COPY);
+	focus_tracker->priv->copy_clipboard = action;
+
+	action = gtk_action_new (
+		"paste-clipboard", NULL,
+		_("Paste the clipboard"), GTK_STOCK_PASTE);
+	focus_tracker->priv->paste_clipboard = action;
+
+	action = gtk_action_new (
+		"delete-selection", NULL,
+		_("Delete the selection"), GTK_STOCK_DELETE);
+	focus_tracker->priv->delete_selection = action;
+
+	action = gtk_action_new (
+		"select-all", NULL,
+		_("Select all text"), GTK_STOCK_SELECT_ALL);
+	focus_tracker->priv->select_all = action;
 }
 
 GType

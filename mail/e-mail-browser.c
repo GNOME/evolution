@@ -29,6 +29,7 @@
 #include "e-util/e-plugin-ui.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
+#include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-preview-pane.h"
 
 #include "mail/e-mail-reader.h"
@@ -45,6 +46,7 @@
 
 struct _EMailBrowserPrivate {
 	GtkUIManager *ui_manager;
+	EFocusTracker *focus_tracker;
 	EShellBackend *shell_backend;
 	GtkActionGroup *action_group;
 	EMFormatHTMLDisplay *html_display;
@@ -60,6 +62,7 @@ struct _EMailBrowserPrivate {
 
 enum {
 	PROP_0,
+	PROP_FOCUS_TRACKER,
 	PROP_SHELL_BACKEND,
 	PROP_SHOW_DELETED,
 	PROP_UI_MANAGER
@@ -77,6 +80,15 @@ static const gchar *ui =
 "      <placeholder name='print-actions'/>"
 "      <separator/>"
 "      <menuitem action='close'/>"
+"    </menu>"
+"    <menu action='edit-menu'>"
+"      <placeholder name='selection-actions'>"
+"        <menuitem action='cut-clipboard'/>"
+"        <menuitem action='copy-clipboard'/>"
+"        <menuitem action='paste-clipboard'/>"
+"        <separator/>"
+"        <menuitem action='select-all'/>"
+"      </placeholder>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -96,6 +108,34 @@ static GtkActionEntry mail_browser_entries[] = {
 	  NULL,
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
+
+	{ "copy-clipboard",
+	  GTK_STOCK_COPY,
+	  NULL,
+	  NULL,
+	  N_("Copy the selection"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "cut-clipboard",
+	  GTK_STOCK_CUT,
+	  NULL,
+	  NULL,
+	  N_("Cut the selection"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "paste-clipboard",
+	  GTK_STOCK_PASTE,
+	  NULL,
+	  NULL,
+	  N_("Paste the clipboard"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "select-all",
+	  GTK_STOCK_SELECT_ALL,
+	  NULL,
+	  NULL,
+	  N_("Select all text"),
+	  NULL },  /* Handled by EFocusTracker */
 
 	/*** Menus ***/
 
@@ -119,6 +159,13 @@ static GtkActionEntry mail_browser_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static EPopupActionEntry mail_browser_popup_entries[] = {
+
+	{ "popup-copy-clipboard",
+	  NULL,
+	  "copy-clipboard" }
 };
 
 static void
@@ -302,6 +349,12 @@ mail_browser_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FOCUS_TRACKER:
+			g_value_set_object (
+				value, e_mail_browser_get_focus_tracker (
+				E_MAIL_BROWSER (object)));
+			return;
+
 		case PROP_SHELL_BACKEND:
 			g_value_set_object (
 				value, e_mail_reader_get_shell_backend (
@@ -334,6 +387,11 @@ mail_browser_dispose (GObject *object)
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
 		priv->ui_manager = NULL;
+	}
+
+	if (priv->focus_tracker != NULL) {
+		g_object_unref (priv->focus_tracker);
+		priv->focus_tracker = NULL;
 	}
 
 	if (priv->shell_backend != NULL) {
@@ -388,10 +446,12 @@ mail_browser_constructed (GObject *object)
 	EMailReader *reader;
 	EShellBackend *shell_backend;
 	EShell *shell;
+	EFocusTracker *focus_tracker;
 	ESearchBar *search_bar;
 	GConfBridge *bridge;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
+	GtkAction *action;
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -440,6 +500,9 @@ mail_browser_constructed (GObject *object)
 	gtk_action_group_add_actions (
 		action_group, mail_browser_entries,
 		G_N_ELEMENTS (mail_browser_entries), object);
+	e_action_group_add_popup_actions (
+		action_group, mail_browser_popup_entries,
+		G_N_ELEMENTS (mail_browser_popup_entries));
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
@@ -454,6 +517,19 @@ mail_browser_constructed (GObject *object)
 	g_signal_connect_swapped (
 		ui_manager, "connect-proxy",
 		G_CALLBACK (mail_browser_connect_proxy_cb), object);
+
+	/* Configure an EFocusTracker to manage selection actions. */
+
+	focus_tracker = e_focus_tracker_new (GTK_WINDOW (object));
+	action = gtk_action_group_get_action (action_group, "cut-clipboard");
+	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
+	action = gtk_action_group_get_action (action_group, "copy-clipboard");
+	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
+	action = gtk_action_group_get_action (action_group, "paste-clipboard");
+	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
+	action = gtk_action_group_get_action (action_group, "select-all");
+	e_focus_tracker_set_select_all_action (focus_tracker, action);
+	priv->focus_tracker = focus_tracker;
 
 	/* Construct window widgets. */
 
@@ -647,6 +723,16 @@ mail_browser_class_init (EMailBrowserClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_FOCUS_TRACKER,
+		g_param_spec_object (
+			"focus-tracker",
+			_("Focus Tracker"),
+			NULL,
+			E_TYPE_FOCUS_TRACKER,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SHELL_BACKEND,
 		g_param_spec_object (
 			"shell-backend",
@@ -770,6 +856,14 @@ e_mail_browser_set_show_deleted (EMailBrowser *browser,
 	browser->priv->show_deleted = show_deleted;
 
 	g_object_notify (G_OBJECT (browser), "show-deleted");
+}
+
+EFocusTracker *
+e_mail_browser_get_focus_tracker (EMailBrowser *browser)
+{
+	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), NULL);
+
+	return browser->priv->focus_tracker;
 }
 
 GtkUIManager *
