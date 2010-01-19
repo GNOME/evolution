@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.29.x\n"
-"Report-Msgid-Bugs-To:\n"
-"POT-Creation-Date: 2010-01-19 17:47+0100\n"
-"PO-Revision-Date: 2010-01-19 17:52+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-19 18:35+0100\n"
+"PO-Revision-Date: 2010-01-19 18:37+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -21379,6 +21379,51 @@ msgstr "Synkroniser kategorier:"
 #: ../widgets/misc/e-preferences-window.c:218
 msgid "Evolution Preferences"
 msgstr "Evolution brukervalg"
+
+#: ../widgets/misc/e-search-bar.c:77
+#, c-format
+msgid "Matches: %d"
+msgstr "Treff på: %d"
+
+#: ../widgets/misc/e-search-bar.c:554
+msgid "Close the find bar"
+msgstr "Lukk søkelinjen"
+
+#: ../widgets/misc/e-search-bar.c:562
+msgid "Fin_d:"
+msgstr "Fin_n:"
+
+#: ../widgets/misc/e-search-bar.c:574
+msgid "Clear the search"
+msgstr "Tøm søket"
+
+#: ../widgets/misc/e-search-bar.c:597
+msgid "_Previous"
+msgstr "_Forrige"
+
+#: ../widgets/misc/e-search-bar.c:603
+msgid "Find the previous occurrence of the phrase"
+msgstr "Finn forrige oppføring av teksten"
+
+#: ../widgets/misc/e-search-bar.c:613
+msgid "_Next"
+msgstr "_Neste"
+
+#: ../widgets/misc/e-search-bar.c:619
+msgid "Find the next occurrence of the phrase"
+msgstr "Finn neste oppføring av teksten"
+
+#: ../widgets/misc/e-search-bar.c:629
+msgid "Mat_ch case"
+msgstr "Tre_ff på små/store bokstaver"
+
+#: ../widgets/misc/e-search-bar.c:657
+msgid "Reached bottom of page, continued from top"
+msgstr "Nådde bunnen av siden og fortsatte fra toppen"
+
+#: ../widgets/misc/e-search-bar.c:679
+msgid "Reached top of page, continued from bottom"
+msgstr "Nådde toppen av siden og fortsatte fra bunnen"
 
 #: ../widgets/misc/e-selection-model-array.c:593
 #: ../widgets/table/e-tree-selection-model.c:803
