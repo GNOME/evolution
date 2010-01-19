@@ -617,8 +617,8 @@ mail_config_init (void)
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
 	config->gtkrc = g_build_filename (
-		e_get_user_data_dir (), "mail",
-		"config", "gtkrc-mail-fonts", NULL);
+		mail_session_get_config_dir (),
+		"gtkrc-mail-fonts", NULL);
 
 	mail_config_clear ();
 

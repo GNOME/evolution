@@ -25,6 +25,7 @@
 
 #include <config.h>
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -87,8 +88,8 @@ typedef struct _MailSessionClass {
 } MailSessionClass;
 
 static CamelSessionClass *ms_parent_class;
-static gchar * mail_data_dir;
-static gchar * mail_config_dir;
+static gchar *mail_data_dir;
+static gchar *mail_config_dir;
 
 static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex);
@@ -805,10 +806,7 @@ mail_session_init (void)
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
-	mail_data_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
-	mail_config_dir = g_build_filename (mail_data_dir, "config", NULL);
-
-	camel_session_construct (session, mail_data_dir);
+	camel_session_construct (session, mail_session_get_data_dir ());
 
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -877,12 +875,26 @@ mail_session_set_junk_headers (const gchar **name, const gchar **value, gint len
 const gchar *
 mail_session_get_data_dir (void)
 {
+	if (G_UNLIKELY (mail_data_dir == NULL))
+		mail_data_dir = g_build_filename (
+			e_get_user_data_dir (), "mail", NULL);
+
 	return mail_data_dir;
 }
 
 const gchar *
 mail_session_get_config_dir (void)
 {
+	if (G_UNLIKELY (mail_config_dir == NULL)) {
+		mail_config_dir = g_build_filename (
+			mail_session_get_data_dir (), "config", NULL);
+
+		if (g_mkdir_with_parents (mail_config_dir, 0777) != 0)
+			g_critical (
+				"Cannot create directory %s: %s",
+				mail_config_dir, g_strerror (errno));
+	}
+
 	return mail_config_dir;
 }
 
