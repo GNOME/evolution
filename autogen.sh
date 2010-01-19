@@ -19,7 +19,7 @@ REQUIRED_INTLTOOL_VERSION=0.35.5
 }
 
 which gnome-autogen.sh || {
-    echo "You need to install gnome-common from the GNOME CVS"
+    echo "You need to install gnome-common from the GNOME git"
     exit 1
 }
 USE_GNOME2_MACROS=1 . gnome-autogen.sh
