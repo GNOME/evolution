@@ -51,11 +51,13 @@ plugin_lib_loadmodule (EPlugin *plugin)
 		return 0;
 
 	if (plugin_lib->location == NULL) {
+		plugin->enabled = FALSE;
 		g_warning ("Location not set in plugin '%s'", plugin->name);
 		return -1;
 	}
 
 	if ((plugin_lib->module = g_module_open (plugin_lib->location, 0)) == NULL) {
+		plugin->enabled = FALSE;
 		g_warning ("can't load plugin '%s': %s", plugin_lib->location, g_module_error ());
 		return -1;
 	}
