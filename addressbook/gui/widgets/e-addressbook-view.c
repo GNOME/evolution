@@ -138,6 +138,12 @@ static void
 addressbook_view_emit_popup_event (EAddressbookView *view,
                                    GdkEvent *event)
 {
+	/* Grab focus so that EFocusTracker asks us to update the
+	 * selection-related actions before showing the popup menu.
+	 * Apparently ETable doesn't automatically grab focus on
+	 * right-clicks (is that a bug?). */
+	gtk_widget_grab_focus (GTK_WIDGET (view));
+
 	g_signal_emit (view, signals[POPUP_EVENT], 0, event);
 }
 
