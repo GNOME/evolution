@@ -79,7 +79,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 {
 	ETableCol *col = NULL;
 	ECell *cell = NULL;
-	GCompareFunc compare = NULL;
+	GCompareDataFunc compare = NULL;
 	ETableSearchFunc search = NULL;
 
 	if (col_spec->cell)

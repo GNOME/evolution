@@ -24,6 +24,8 @@
 
 #include <string.h>
 
+#include <camel/camel-string-utils.h>
+
 #include "e-util/e-util.h"
 
 #include "e-table-sorting-utils.h"
@@ -32,7 +34,7 @@
 
 /* This takes source rows. */
 static gint
-etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint row1, gint row2)
+etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint row1, gint row2, gpointer cmp_cache)
 {
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count(sort_info);
@@ -46,7 +48,8 @@ etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		comp_val = (*col->compare)(e_table_model_value_at (source, col->compare_col, row1),
-					   e_table_model_value_at (source, col->compare_col, row2));
+					   e_table_model_value_at (source, col->compare_col, row2),
+					   cmp_cache);
 		ascending = column.ascending;
 		if (comp_val != 0)
 			break;
@@ -66,13 +69,15 @@ typedef struct {
 	gint cols;
 	gpointer *vals;
 	gint *ascending;
-	GCompareFunc *compare;
+	GCompareDataFunc *compare;
+	gpointer cmp_cache;
 } ETableSortClosure;
 
 typedef struct {
 	ETreeModel *tree;
 	ETableSortInfo *sort_info;
 	ETableHeader *full_header;
+	gpointer cmp_cache;
 } ETreeSortClosure;
 
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
@@ -88,7 +93,7 @@ e_sort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 	gint comp_val = 0;
 	gint ascending = 1;
 	for (j = 0; j < sort_count; j++) {
-		comp_val = (*(closure->compare[j]))(closure->vals[closure->cols * row1 + j], closure->vals[closure->cols * row2 + j]);
+		comp_val = (*(closure->compare[j]))(closure->vals[closure->cols * row1 + j], closure->vals[closure->cols * row2 + j], closure->cmp_cache);
 		ascending = closure->ascending[j];
 		if (comp_val != 0)
 			break;
@@ -126,7 +131,8 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 
 	closure.vals = g_new(gpointer , total_rows * cols);
 	closure.ascending = g_new(int, cols);
-	closure.compare = g_new(GCompareFunc, cols);
+	closure.compare = g_new(GCompareDataFunc, cols);
+	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
@@ -147,6 +153,7 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 	g_free(closure.vals);
 	g_free(closure.ascending);
 	g_free(closure.compare);
+	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 }
 
 gboolean
@@ -181,11 +188,14 @@ gint
 e_table_sorting_utils_insert(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows, gint row)
 {
 	gint i;
+	gpointer cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	i = 0;
 	/* handle insertions when we have a 'sort group' */
-	while (i < rows && etsu_compare(source, sort_info, full_header, map_table[i], row) < 0)
+	while (i < rows && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
 		i++;
+
+	e_table_sorting_utils_free_cmp_cache (cmp_cache);
 
 	return i;
 }
@@ -196,26 +206,31 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 {
 	gint i;
 	gint row;
+	gpointer cmp_cache;
 
 	i = view_row;
 	row = map_table[i];
+	cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	i = view_row;
-	if (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i + 1], row) < 0) {
+	if (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i + 1], row, cmp_cache) < 0) {
 		i ++;
-		while (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i], row) < 0)
+		while (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
 			i ++;
-	} else if (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i - 1], row) > 0) {
+	} else if (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i - 1], row, cmp_cache) > 0) {
 		i --;
-		while (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i], row) > 0)
+		while (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) > 0)
 			i --;
 	}
+
+	e_table_sorting_utils_free_cmp_cache (cmp_cache);
+
 	return i;
 }
 
 /* This takes source rows. */
 static gint
-etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath path1, ETreePath path2)
+etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath path1, ETreePath path2, gpointer cmp_cache)
 {
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count(sort_info);
@@ -229,7 +244,8 @@ etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *f
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		comp_val = (*col->compare)(e_tree_model_value_at (source, path1, col->compare_col),
-					   e_tree_model_value_at (source, path2, col->compare_col));
+					   e_tree_model_value_at (source, path2, col->compare_col),
+					   cmp_cache);
 		ascending = column.ascending;
 		if (comp_val != 0)
 			break;
@@ -246,7 +262,7 @@ e_sort_tree_callback(gconstpointer data1, gconstpointer data2, gpointer user_dat
 	ETreePath *path2 = *(ETreePath *)data2;
 	ETreeSortClosure *closure = user_data;
 
-	return etsu_tree_compare(closure->tree, closure->sort_info, closure->full_header, path1, path2);
+	return etsu_tree_compare (closure->tree, closure->sort_info, closure->full_header, path1, path2, closure->cmp_cache);
 }
 
 void
@@ -269,7 +285,8 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 
 	closure.vals = g_new(gpointer , count * cols);
 	closure.ascending = g_new(int, cols);
-	closure.compare = g_new(GCompareFunc, cols);
+	closure.compare = g_new (GCompareDataFunc, cols);
+	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
@@ -308,6 +325,7 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 	g_free(closure.vals);
 	g_free(closure.ascending);
 	g_free(closure.compare);
+	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 }
 
 /* FIXME: This could be done in time log n instead of time n with a binary search. */
@@ -316,19 +334,23 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 {
 	gint i;
 	ETreePath path;
+	gpointer cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	i = old_index;
 	path = map_table[i];
 
-	if (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i + 1], path) < 0) {
+	if (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i + 1], path, cmp_cache) < 0) {
 		i ++;
-		while (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path) < 0)
+		while (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path, cmp_cache) < 0)
 			i ++;
-	} else if (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i - 1], path) > 0) {
+	} else if (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i - 1], path, cmp_cache) > 0) {
 		i --;
-		while (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path) > 0)
+		while (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path, cmp_cache) > 0)
 			i --;
 	}
+
+	e_table_sorting_utils_free_cmp_cache (cmp_cache);
+
 	return i;
 }
 
@@ -343,7 +365,80 @@ e_table_sorting_utils_tree_insert(ETreeModel *source, ETableSortInfo *sort_info,
 	closure.tree = source;
 	closure.sort_info = sort_info;
 	closure.full_header = full_header;
+	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	e_bsearch(&path, map_table, count, sizeof(ETreePath), e_sort_tree_callback, &closure, &start, &end);
+
+	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
+
 	return end;
+}
+
+/**
+ * e_table_sorting_utils_create_cmp_cache:
+ *
+ * Creates a new compare cache, which is storing pairs of string keys and string values.
+ * This can be accessed by @ref e_table_sorting_utils_lookup_cmp_cache and
+ * @ref e_table_sorting_utils_add_to_cmp_cache.
+ *
+ * Returned pointer should be freed with @ref e_table_sorting_utils_free_cmp_cache.
+ **/
+gpointer
+e_table_sorting_utils_create_cmp_cache (void)
+{
+	return g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) camel_pstring_free, g_free);
+}
+
+/**
+ * e_table_sorting_utils_free_cmp_cache:
+ * @cmp_cache: a compare cache; cannot be %NULL
+ *
+ * Frees a compare cache previously created
+ * with @ref e_table_sorting_utils_create_cmp_cache.
+ **/
+void
+e_table_sorting_utils_free_cmp_cache (gpointer cmp_cache)
+{
+	g_return_if_fail (cmp_cache != NULL);
+
+	g_hash_table_destroy (cmp_cache);
+}
+
+/**
+ * e_table_sorting_utils_add_to_cmp_cache:
+ * @cmp_cache: a compare cache; cannot be %NULL
+ * @key: unique key to a cache; cannot be %NULL
+ * @value: value to store for a key
+ *
+ * Adds a new value for a given key to a compare cache. If such key
+ * already exists in a cache then its value will be replaced.
+ * Note: Given @value will be stolen and later freed with g_free.
+ **/
+void
+e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache, const gchar *key, gchar *value)
+{
+	g_return_if_fail (cmp_cache != NULL);
+	g_return_if_fail (key != NULL);
+
+	g_hash_table_insert (cmp_cache, (gchar *) camel_pstring_strdup (key), value);
+}
+
+/**
+ * e_table_sorting_utils_lookup_cmp_cache:
+ * @cmp_cache: a compare cache
+ * @key: unique key to a cache
+ *
+ * Lookups for a key in a compare cache, which is passed in GCompareDataFunc as 'data'.
+ * Returns %NULL when not found or the cache wasn't provided, otherwise value stored
+ * with a key.
+ **/
+const gchar *
+e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache, const gchar *key)
+{
+	g_return_val_if_fail (key != NULL, NULL);
+
+	if (!cmp_cache)
+		return NULL;
+
+	return g_hash_table_lookup (cmp_cache, key);
 }

@@ -81,6 +81,8 @@ void		e_cell_date_edit_text_set_use_24_hour_format
 						(ECellDateEditText *ecd,
 						 gboolean use_24_hour);
 
+gint		e_cell_date_edit_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache);
+
 G_END_DECLS
 
 #endif /* _E_CELL_DATE_EDIT_TEXT_H_ */

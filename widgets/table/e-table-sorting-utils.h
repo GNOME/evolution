@@ -69,6 +69,11 @@ gint       e_table_sorting_utils_tree_insert          (ETreeModel     *source,
 						      gint             count,
 						      ETreePath       path);
 
+gpointer     e_table_sorting_utils_create_cmp_cache (void);
+void         e_table_sorting_utils_free_cmp_cache (gpointer cmp_cache);
+void         e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache, const gchar *key, gchar *value);
+const gchar *e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache, const gchar *key);
+
 G_END_DECLS
 
 #endif /* _E_TABLE_SORTING_UTILS_H_ */

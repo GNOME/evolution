@@ -101,34 +101,6 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	view_class->get_visible_time_range = e_cal_list_view_get_visible_time_range;
 }
 
-static gint
-date_compare_cb (gconstpointer a, gconstpointer b)
-{
-	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
-	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
-	struct icaltimetype tt;
-
-	/* First check if either is NULL. NULL dates sort last. */
-	if (!dv1 || !dv2) {
-		if (dv1 == dv2)
-			return 0;
-		else if (dv1)
-			return -1;
-		else
-			return 1;
-	}
-
-	/* Copy the 2nd value and convert it to the same timezone as the
-	   first. */
-	tt = dv2->tt;
-
-	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
-
-	/* Now we can compare them. */
-
-	return icaltime_compare (dv1->tt, tt);
-}
-
 static void
 e_cal_list_view_init (ECalListView *cal_list_view)
 {
@@ -269,7 +241,7 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Sorting */
 
 	e_table_extras_add_compare (extras, "date-compare",
-				    date_compare_cb);
+				    e_cell_date_edit_compare_cb);
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");

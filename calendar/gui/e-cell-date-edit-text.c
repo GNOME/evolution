@@ -361,3 +361,28 @@ e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 	g_object_notify (G_OBJECT (ecd), "use-24-hour-format");
 }
 
+gint
+e_cell_date_edit_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
+{
+	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
+	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
+	struct icaltimetype tt;
+
+	/* First check if either is NULL. NULL dates sort last. */
+	if (!dv1 || !dv2) {
+		if (dv1 == dv2)
+			return 0;
+		else if (dv1)
+			return -1;
+		else
+			return 1;
+	}
+
+	/* Copy the 2nd value and convert it to the same timezone as the first. */
+	tt = dv2->tt;
+
+	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
+
+	/* Now we can compare them. */
+	return icaltime_compare (dv1->tt, tt);
+}

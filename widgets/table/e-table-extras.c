@@ -39,6 +39,7 @@
 #include "e-cell-text.h"
 #include "e-cell-tree.h"
 #include "e-table-extras.h"
+#include "e-table-sorting-utils.h"
 
 #define E_TABLE_EXTRAS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -155,6 +156,72 @@ e_string_search (gconstpointer haystack,
 		return FALSE;
 }
 
+static gint
+e_table_str_case_compare (gconstpointer x, gconstpointer y, gpointer cmp_cache)
+{
+	const gchar *cx = NULL, *cy = NULL;
+
+	if (!cmp_cache)
+		return e_str_case_compare (x, y);
+
+	if (x == NULL || y == NULL) {
+		if (x == y)
+			return 0;
+		else
+			return x ? -1 : 1;
+	}
+
+	#define prepare_value(_z, _cz)						\
+		_cz = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, _z);	\
+		if (!_cz) {							\
+			gchar *tmp = g_utf8_casefold (_z, -1);			\
+			_cz = g_utf8_collate_key (tmp, -1);			\
+			g_free (tmp);						\
+										\
+			e_table_sorting_utils_add_to_cmp_cache (		\
+				cmp_cache, _z, (gchar *) _cz);			\
+		}
+
+	prepare_value (x, cx);
+	prepare_value (y, cy);
+
+	#undef prepare_value
+
+	return strcmp (cx, cy);
+}
+
+static gint
+e_table_collate_compare (gconstpointer x, gconstpointer y, gpointer cmp_cache)
+{
+	const gchar *cx = NULL, *cy = NULL;
+
+	if (!cmp_cache)
+		return e_collate_compare (x, y);
+
+	if (x == NULL || y == NULL) {
+		if (x == y)
+			return 0;
+		else
+			return x ? -1 : 1;
+	}
+
+	#define prepare_value(_z, _cz)						\
+		_cz = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, _z);	\
+		if (!_cz) {							\
+			_cz = g_utf8_collate_key (_z, -1);			\
+										\
+			e_table_sorting_utils_add_to_cmp_cache (		\
+				cmp_cache, _z, (gchar *) _cz);			\
+		}
+
+	prepare_value (x, cx);
+	prepare_value (y, cy);
+
+	#undef prepare_value
+
+	return strcmp (cx, cy);
+}
+
 static void
 safe_unref (gpointer object)
 {
@@ -189,11 +256,11 @@ ete_init (ETableExtras *extras)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	e_table_extras_add_compare(extras, "string", e_str_compare);
-	e_table_extras_add_compare(extras, "stringcase", e_str_case_compare);
-	e_table_extras_add_compare(extras, "collate", e_collate_compare);
-	e_table_extras_add_compare(extras, "integer", e_int_compare);
-	e_table_extras_add_compare(extras, "string-integer", e_strint_compare);
+	e_table_extras_add_compare(extras, "string", (GCompareDataFunc) e_str_compare);
+	e_table_extras_add_compare(extras, "stringcase", e_table_str_case_compare);
+	e_table_extras_add_compare(extras, "collate", e_table_collate_compare);
+	e_table_extras_add_compare(extras, "integer", (GCompareDataFunc) e_int_compare);
+	e_table_extras_add_compare(extras, "string-integer", (GCompareDataFunc) e_strint_compare);
 
 	e_table_extras_add_search(extras, "string", e_string_search);
 
@@ -253,7 +320,7 @@ e_table_extras_get_cell (ETableExtras *extras,
 void
 e_table_extras_add_compare (ETableExtras *extras,
                             const gchar *id,
-                            GCompareFunc compare)
+                            GCompareDataFunc compare)
 {
 	g_return_if_fail (E_IS_TABLE_EXTRAS (extras));
 	g_return_if_fail (id != NULL);
@@ -263,7 +330,7 @@ e_table_extras_add_compare (ETableExtras *extras,
 		g_strdup (id), (gpointer) compare);
 }
 
-GCompareFunc
+GCompareDataFunc
 e_table_extras_get_compare (ETableExtras *extras,
                             const gchar *id)
 {

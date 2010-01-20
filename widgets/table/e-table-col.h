@@ -70,7 +70,7 @@ struct _ETableCol {
 	gint width;
 	gdouble expansion;
 	gshort x;
-	GCompareFunc compare;
+	GCompareDataFunc compare;
 	ETableSearchFunc search;
 
 	guint selected:1;
@@ -99,7 +99,7 @@ ETableCol *	e_table_col_new			(gint col_idx,
 						 double expansion,
 						 gint min_width,
 						 ECell *ecell,
-						 GCompareFunc compare,
+						 GCompareDataFunc compare,
 						 gboolean resizable,
 						 gboolean disabled,
 						 gint priority);

@@ -164,35 +164,6 @@ memo_table_get_current_time (ECellDateEdit *ecde,
 	return tmp_tm;
 }
 
-static gint
-memo_table_date_compare_cb (gconstpointer a,
-                            gconstpointer b)
-{
-	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
-	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
-	struct icaltimetype tt;
-
-	/* First check if either is NULL. NULL dates sort last. */
-	if (!dv1 || !dv2) {
-		if (dv1 == dv2)
-			return 0;
-		else if (dv1)
-			return -1;
-		else
-			return 1;
-	}
-
-	/* Copy the 2nd value and convert it to the same timezone as the
-	   first. */
-	tt = dv2->tt;
-
-	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
-
-	/* Now we can compare them. */
-
-	return icaltime_compare (dv1->tt, tt);
-}
-
 static void
 memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
                                        const gchar *message,
@@ -420,7 +391,7 @@ memo_table_constructed (GObject *object)
 
 	/* Sorting */
 	e_table_extras_add_compare (
-		extras, "date-compare", memo_table_date_compare_cb);
+		extras, "date-compare", e_cell_date_edit_compare_cb);
 
 	/* Create pixmaps */
 

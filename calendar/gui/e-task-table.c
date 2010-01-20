@@ -47,6 +47,7 @@
 #include <e-util/e-util-private.h>
 #include <table/e-cell-date-edit.h>
 #include <table/e-cell-percent.h>
+#include <table/e-table-sorting-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-time-utils.h>
 
@@ -140,37 +141,7 @@ task_table_emit_user_created (ETaskTable *task_table)
 }
 
 static gint
-task_table_date_compare_cb (gconstpointer a,
-                            gconstpointer b)
-{
-	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
-	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
-	struct icaltimetype tt;
-
-	/* First check if either is NULL. NULL dates sort last. */
-	if (!dv1 || !dv2) {
-		if (dv1 == dv2)
-			return 0;
-		else if (dv1)
-			return -1;
-		else
-			return 1;
-	}
-
-	/* Copy the 2nd value and convert it to the same timezone as the
-	   first. */
-	tt = dv2->tt;
-
-	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
-
-	/* Now we can compare them. */
-
-	return icaltime_compare (dv1->tt, tt);
-}
-
-static gint
-task_table_percent_compare_cb (gconstpointer a,
-                               gconstpointer b)
+task_table_percent_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
 {
 	gint percent1 = GPOINTER_TO_INT (a);
 	gint percent2 = GPOINTER_TO_INT (b);
@@ -179,8 +150,7 @@ task_table_percent_compare_cb (gconstpointer a,
 }
 
 static gint
-task_table_priority_compare_cb (gconstpointer a,
-                                gconstpointer b)
+task_table_priority_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
 {
 	gint priority1, priority2;
 
@@ -197,9 +167,42 @@ task_table_priority_compare_cb (gconstpointer a,
 	return (priority1 < priority2) ? -1 : (priority1 > priority2);
 }
 
+static const gchar *
+get_cache_str (gpointer cmp_cache, const gchar *str)
+{
+	const gchar *value;
+
+	if (!cmp_cache || !str)
+		return str;
+
+	value = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, str);
+	if (!value) {
+		gchar *ckey;
+
+		ckey = g_utf8_collate_key (str, -1);
+		e_table_sorting_utils_add_to_cmp_cache (cmp_cache, (gchar *) str, ckey);
+		value = ckey;
+	}
+
+	return value;
+}
+
+static gboolean
+same_cache_string (gpointer cmp_cache, const gchar *str_a, const gchar *str_b)
+{
+	if (!cmp_cache)
+		return g_utf8_collate (str_a, str_b) == 0;
+
+	str_b = get_cache_str (cmp_cache, str_b);
+
+	g_return_val_if_fail (str_a != NULL, FALSE);
+	g_return_val_if_fail (str_b != NULL, FALSE);
+
+	return strcmp (str_a, str_b) == 0;
+}
+
 static gint
-task_table_status_compare_cb (gconstpointer a,
-                              gconstpointer b)
+task_table_status_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
 {
 	const gchar *string_a = a;
 	const gchar *string_b = b;
@@ -208,25 +211,33 @@ task_table_status_compare_cb (gconstpointer a,
 
 	if (string_a == NULL || *string_a == '\0')
 		status_a = -1;
-	else if (!g_utf8_collate (string_a, _("Not Started")))
-		status_a = 0;
-	else if (!g_utf8_collate (string_a, _("In Progress")))
-		status_a = 1;
-	else if (!g_utf8_collate (string_a, _("Completed")))
-		status_a = 2;
-	else if (!g_utf8_collate (string_a, _("Canceled")))
-		status_a = 3;
+	else {
+		const gchar *cache_str = get_cache_str (cmp_cache, string_a);
+
+		if (same_cache_string (cmp_cache, cache_str, _("Not Started")))
+			status_a = 0;
+		else if (same_cache_string (cmp_cache, cache_str, _("In Progress")))
+			status_a = 1;
+		else if (same_cache_string (cmp_cache, cache_str, _("Completed")))
+			status_a = 2;
+		else if (same_cache_string (cmp_cache, cache_str, _("Canceled")))
+			status_a = 3;
+	}
 
 	if (string_b == NULL || *string_b == '\0')
 		status_b = -1;
-	else if (!g_utf8_collate (string_b, _("Not Started")))
-		status_b = 0;
-	else if (!g_utf8_collate (string_b, _("In Progress")))
-		status_b = 1;
-	else if (!g_utf8_collate (string_b, _("Completed")))
-		status_b = 2;
-	else if (!g_utf8_collate (string_b, _("Canceled")))
-		status_b = 3;
+	else {
+		const gchar *cache_str = get_cache_str (cmp_cache, string_b);
+
+		if (same_cache_string (cmp_cache, cache_str, _("Not Started")))
+			status_b = 0;
+		else if (same_cache_string (cmp_cache, cache_str, _("In Progress")))
+			status_b = 1;
+		else if (same_cache_string (cmp_cache, cache_str, _("Completed")))
+			status_b = 2;
+		else if (same_cache_string (cmp_cache, cache_str, _("Canceled")))
+			status_b = 3;
+	}
 
 	return (status_a < status_b) ? -1 : (status_a > status_b);
 }
@@ -589,7 +600,7 @@ task_table_constructed (GObject *object)
 	e_table_extras_add_cell (extras, "calstatus", popup_cell);
 
 	e_table_extras_add_compare (extras, "date-compare",
-				    task_table_date_compare_cb);
+				    e_cell_date_edit_compare_cb);
 	e_table_extras_add_compare (extras, "percent-compare",
 				    task_table_percent_compare_cb);
 	e_table_extras_add_compare (extras, "priority-compare",

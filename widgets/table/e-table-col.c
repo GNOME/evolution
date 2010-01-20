@@ -160,6 +160,9 @@ e_table_col_init (ETableCol *etc)
  * The @ecell argument is an ECell object that needs to know how to render the
  * data in the ETableModel for this specific row.
  *
+ * Data passed to @compare can be (if not %NULL) a cmp_cache, which can be accessed
+ * by @ref e_table_sorting_utils_add_to_cmp_cache and @ref e_table_sorting_utils_lookup_cmp_cache.
+ *
  * Returns: the newly created ETableCol object.
  */
 ETableCol *
@@ -169,7 +172,7 @@ e_table_col_new (gint col_idx,
                  double expansion,
                  gint min_width,
                  ECell *ecell,
-                 GCompareFunc compare,
+                 GCompareDataFunc compare,
                  gboolean resizable,
                  gboolean disabled,
                  gint priority)

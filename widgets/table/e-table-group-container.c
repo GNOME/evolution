@@ -37,6 +37,7 @@
 #include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
+#include "e-table-sorting-utils.h"
 
 #define TITLE_HEIGHT         16
 
@@ -465,7 +466,8 @@ etgc_add (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
-	GCompareFunc comp = etgc->ecol->compare;
+	GCompareDataFunc comp = etgc->ecol->compare;
+	gpointer cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 	GList *list = etgc->children;
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
@@ -475,8 +477,9 @@ etgc_add (ETableGroup *etg, gint row)
 		gint comp_val;
 
 		child_node = list->data;
-		comp_val = (*comp)(child_node->key, val);
+		comp_val = (*comp)(child_node->key, val, cmp_cache);
 		if (comp_val == 0) {
+			e_table_sorting_utils_free_cmp_cache (cmp_cache);
 			child = child_node->child;
 			child_node->count ++;
 			e_table_group_add (child, row);
@@ -487,6 +490,7 @@ etgc_add (ETableGroup *etg, gint row)
 		    (comp_val < 0 && (!etgc->ascending)))
 			break;
 	}
+	e_table_sorting_utils_free_cmp_cache (cmp_cache);
 	child_node = create_child_node (etgc, val);
 	child = child_node->child;
 	child_node->count = 1;
@@ -508,7 +512,8 @@ etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	gpointer lastval = NULL;
 	gint laststart = 0;
-	GCompareFunc comp = etgc->ecol->compare;
+	GCompareDataFunc comp = etgc->ecol->compare;
+	gpointer cmp_cache;
 	ETableGroupContainerChildNode *child_node;
 	ETableGroup *child;
 
@@ -517,6 +522,7 @@ etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 
 	e_table_group_container_list_free (etgc);
 	etgc->children = NULL;
+	cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	lastval = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[0]);
 
@@ -524,7 +530,7 @@ etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 		gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[i]);
 		gint comp_val;
 
-		comp_val = (*comp)(lastval, val);
+		comp_val = (*comp)(lastval, val, cmp_cache);
 		if (comp_val != 0) {
 			child_node = create_child_node(etgc, lastval);
 			child = child_node->child;
@@ -538,6 +544,8 @@ etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 			lastval = val;
 		}
 	}
+
+	e_table_sorting_utils_free_cmp_cache (cmp_cache);
 
 	child_node = create_child_node(etgc, lastval);
 	child = child_node->child;

@@ -29,6 +29,7 @@
 #include "e-util/e-util.h"
 
 #include "e-table-sorter.h"
+#include "e-table-sorting-utils.h"
 
 #define d(x)
 
@@ -260,26 +261,30 @@ ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 	ets_clean(ets);
 }
 
-static ETableSorter *ets_closure;
-static gpointer *vals_closure;
-static gint cols_closure;
-static gint *ascending_closure;
-static GCompareFunc *compare_closure;
+struct qsort_data {
+	ETableSorter *ets;
+	gpointer *vals;
+	gint cols;
+	gint *ascending;
+	GCompareDataFunc *compare;
+	gpointer cmp_cache;
+};
 
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static gint
-qsort_callback(gconstpointer data1, gconstpointer data2)
+qsort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
+	struct qsort_data *qd = (struct qsort_data *) user_data;
 	gint row1 = *(gint *)data1;
 	gint row2 = *(gint *)data2;
 	gint j;
-	gint sort_count = e_table_sort_info_sorting_get_count(ets_closure->sort_info) + e_table_sort_info_grouping_get_count(ets_closure->sort_info);
+	gint sort_count = e_table_sort_info_sorting_get_count (qd->ets->sort_info) + e_table_sort_info_grouping_get_count (qd->ets->sort_info);
 	gint comp_val = 0;
 	gint ascending = 1;
 	for (j = 0; j < sort_count; j++) {
-		comp_val = (*(compare_closure[j]))(vals_closure[cols_closure * row1 + j], vals_closure[cols_closure * row2 + j]);
-		ascending = ascending_closure[j];
+		comp_val = (*(qd->compare[j]))(qd->vals[qd->cols * row1 + j], qd->vals[qd->cols * row2 + j], qd->cmp_cache);
+		ascending = qd->ascending[j];
 		if (comp_val != 0)
 			break;
 	}
@@ -314,6 +319,7 @@ ets_sort(ETableSorter *ets)
 	gint j;
 	gint cols;
 	gint group_cols;
+	struct qsort_data qd;
 
 	if (ets->sorted)
 		return;
@@ -326,12 +332,13 @@ ets_sort(ETableSorter *ets)
 	for (i = 0; i < rows; i++)
 		ets->sorted[i] = i;
 
-	cols_closure = cols;
-	ets_closure = ets;
+	qd.cols = cols;
+	qd.ets = ets;
 
-	vals_closure = g_new(gpointer , rows * cols);
-	ascending_closure = g_new(int, cols);
-	compare_closure = g_new(GCompareFunc, cols);
+	qd.vals = g_new (gpointer , rows * cols);
+	qd.ascending = g_new (int, cols);
+	qd.compare = g_new (GCompareDataFunc, cols);
+	qd.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
 		ETableSortColumn column;
@@ -347,18 +354,19 @@ ets_sort(ETableSorter *ets)
 			col = e_table_header_get_column (ets->full_header, e_table_header_count (ets->full_header) - 1);
 
 		for (i = 0; i < rows; i++) {
-			vals_closure[i * cols + j] = e_table_model_value_at (ets->source, col->col_idx, i);
+			qd.vals[i * cols + j] = e_table_model_value_at (ets->source, col->col_idx, i);
 		}
 
-		compare_closure[j] = col->compare;
-		ascending_closure[j] = column.ascending;
+		qd.compare[j] = col->compare;
+		qd.ascending[j] = column.ascending;
 	}
 
-		qsort(ets->sorted, rows, sizeof(gint), qsort_callback);
+	g_qsort_with_data (ets->sorted, rows, sizeof(gint), qsort_callback, &qd);
 
-	g_free(vals_closure);
-	g_free(ascending_closure);
-	g_free(compare_closure);
+	g_free (qd.vals);
+	g_free (qd.ascending);
+	g_free (qd.compare);
+	e_table_sorting_utils_free_cmp_cache (qd.cmp_cache);
 }
 
 static void

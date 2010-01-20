@@ -64,10 +64,9 @@
 #include "table/e-cell-toggle.h"
 #include "table/e-cell-tree.h"
 #include "table/e-cell-vbox.h"
+#include "table/e-table-sorting-utils.h"
 #include "table/e-tree-memory-callbacks.h"
 #include "table/e-tree-memory.h"
-#include "table/e-cell-vbox.h"
-#include "table/e-cell-hbox.h"
 
 #include "e-mail-label-list-store.h"
 #include "em-utils.h"
@@ -366,7 +365,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 #endif /* SMART_ADDRESS_COMPARE */
 
 static gint
-address_compare (gconstpointer address1, gconstpointer address2)
+address_compare (gconstpointer address1, gconstpointer address2, gpointer cmp_cache)
 {
 #ifdef SMART_ADDRESS_COMPARE
 	EMailAddress *addr1, *addr2;
@@ -4208,6 +4207,7 @@ struct sort_array_data {
 	MessageList *ml;
 	GPtrArray *sort_columns; /* struct sort_column_data in order of sorting */
 	GHashTable *message_infos; /* uid -> struct sort_message_info_data */
+	gpointer cmp_cache;
 };
 
 static gint
@@ -4248,7 +4248,7 @@ cmp_array_uids (gconstpointer a, gconstpointer b, gpointer user_data)
 		}
 
 		if (v1 != NULL && v2 != NULL) {
-			res = (*scol->col->compare) (v1, v2);
+			res = (*scol->col->compare) (v1, v2, sort_data->cmp_cache);
 		} else if (v1 != NULL || v2 != NULL) {
 			res = v1 == NULL ? -1 : 1;
 		}
@@ -4318,6 +4318,7 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 	sort_data.ml = ml;
 	sort_data.sort_columns = g_ptr_array_sized_new (len);
 	sort_data.message_infos = g_hash_table_new (g_str_hash, g_str_equal);
+	sort_data.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (i = 0; i < len; i++) {
 		ETableSortColumn scol;
@@ -4354,6 +4355,8 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 
 	g_ptr_array_foreach (sort_data.sort_columns, (GFunc) g_free, NULL);
 	g_ptr_array_free (sort_data.sort_columns, TRUE);
+
+	e_table_sorting_utils_free_cmp_cache (sort_data.cmp_cache);
 }
 
 /* ** REGENERATE MESSAGELIST ********************************************** */
