@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-20 14:19+0200\n"
-"PO-Revision-Date: 2010-01-20 14:09+0200\n"
+"PO-Revision-Date: 2010-01-20 14:33+0200\n"
 "Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -3423,7 +3423,7 @@ msgstr "Денят прикл_ючва в:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:13
 msgid "Days"
-msgstr "Дни"
+msgstr "дни"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:14
 msgid "Default Free/Busy Server"
@@ -3457,11 +3457,11 @@ msgstr "Основни"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:20
 msgid "Hours"
-msgstr "Часове"
+msgstr "часа"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:21
 msgid "Minutes"
-msgstr "Минути"
+msgstr "минути"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:22
 #: ../calendar/gui/dialogs/recurrence-page.c:1109
@@ -8670,7 +8670,7 @@ msgstr "преди %d дни"
 #: ../e-util/e-datetime-format.c:283 ../e-util/e-datetime-format.c:293
 #: ../e-util/e-datetime-format.c:302
 msgid "Use locale default"
-msgstr "Използване на стандартния за локала"
+msgstr "стандартното за локала"
 
 #: ../e-util/e-datetime-format.c:496
 msgid "Format:"
