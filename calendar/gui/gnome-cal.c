@@ -2498,6 +2498,7 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		priv->visible_start = start_time;
 		priv->visible_end = end_time;
 
+		gtk_widget_queue_draw (GTK_WIDGET (calendar_view));
 		g_signal_emit (gcal, signals[DATES_SHOWN_CHANGED], 0);
 	}
 	update_memo_view (gcal);
