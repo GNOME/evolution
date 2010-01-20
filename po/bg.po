@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-20 14:19+0200\n"
-"PO-Revision-Date: 2010-01-20 14:33+0200\n"
+"PO-Revision-Date: 2010-01-20 14:37+0200\n"
 "Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -8512,7 +8512,7 @@ msgstr "Evolution"
 
 #: ../data/evolution.desktop.in.in.h:2
 msgid "Evolution Mail and Calendar"
-msgstr "Пощенски клиент и календар (Evolution)"
+msgstr "E-поща и календар (Evolution)"
 
 #: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:653
 msgid "Groupware Suite"
