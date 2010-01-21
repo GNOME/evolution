@@ -132,19 +132,6 @@ action_mail_download_cb (GtkAction *action,
 }
 
 static void
-action_mail_empty_trashes_cb (GtkAction *action,
-                              EMailShellView *mail_shell_view)
-{
-	EShellWindow *shell_window;
-	EShellView *shell_view;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	em_utils_empty_trash (GTK_WIDGET (shell_window));
-}
-
-static void
 action_mail_flush_outbox_cb (GtkAction *action,
                              EMailShellView *mail_shell_view)
 {
@@ -194,17 +181,27 @@ static void
 action_mail_folder_expunge_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	EMailReader *reader;
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	CamelFolder *folder;
 
+	/* This handles both the "folder-expunge" and "account-expunge"
+	 * actions. */
+
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	/* Get the folder from the folder tree, not the message list.
+	 * This correctly handles the use case of right-clicking on
+	 * the "Trash" folder and selecting "Empty Trash" without
+	 * actually selecting the folder.  In that case the message
+	 * list would not contain the correct folder to expunge. */
 
-	folder = e_mail_reader_get_folder (reader);
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder = em_folder_tree_get_selected_folder (folder_tree);
 	g_return_if_fail (folder != NULL);
 
 	em_utils_expunge_folder (GTK_WIDGET (shell_window), folder);
@@ -393,6 +390,19 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 	em_folder_utils_unsubscribe_folder (folder_uri);
 	g_free (folder_uri);
+}
+
+static void
+action_mail_global_expunge_cb (GtkAction *action,
+                               EMailShellView *mail_shell_view)
+{
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	em_utils_empty_trash (GTK_WIDGET (shell_window));
 }
 
 static void
@@ -915,6 +925,13 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Disable this account"),
 	  G_CALLBACK (action_mail_account_disable_cb) },
 
+	{ "mail-account-expunge",
+	  NULL,
+	  N_("_Empty Trash"),
+	  NULL,
+	  N_("Permanently remove all the deleted messages from all folders"),
+	  G_CALLBACK (action_mail_folder_expunge_cb) },
+
 	{ "mail-create-search-folder",
 	  NULL,
 	  N_("C_reate Search Folder From Search..."),
@@ -928,20 +945,6 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Download messages of accounts and folders marked for offline"),
 	  G_CALLBACK (action_mail_download_cb) },
-
-	{ "mail-empty-trashes", /* this is File->Empty Trash action */
-	  NULL,
-	  N_("Empty _Trash"),
-	  NULL,
-	  N_("Permanently remove all the deleted messages from all folders"),
-	  G_CALLBACK (action_mail_empty_trashes_cb) },
-
-	{ "mail-empty-trash", /* this is a popup action over the trash folder */
-	  NULL,
-	  N_("_Empty Trash"),
-	  NULL,
-	  N_("Permanently remove all the deleted messages from all folders"),
-	  G_CALLBACK (action_mail_folder_expunge_cb) },
 
 	{ "mail-flush-outbox",
 	  "mail-send",
@@ -1033,6 +1036,13 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Unsubscribe from the selected folder"),
 	  G_CALLBACK (action_mail_folder_unsubscribe_cb) },
+
+	{ "mail-global-expunge",
+	  NULL,
+	  N_("Empty _Trash"),
+	  NULL,
+	  N_("Permanently remove all the deleted messages from all accounts"),
+	  G_CALLBACK (action_mail_global_expunge_cb) },
 
 	{ "mail-label-new",
 	  NULL,
@@ -1155,9 +1165,9 @@ static EPopupActionEntry mail_popup_entries[] = {
 	  NULL,
 	  "mail-account-disable" },
 
-	{ "mail-popup-empty-trash",
+	{ "mail-popup-account-expunge",
 	  NULL,
-	  "mail-empty-trash" },
+	  "mail-account-expunge" },
 
 	{ "mail-popup-flush-outbox",
 	  NULL,

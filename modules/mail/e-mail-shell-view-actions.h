@@ -27,6 +27,8 @@
 /* Mail Actions */
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_DISABLE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-disable")
+#define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_EXPUNGE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-account-expunge")
 #define E_SHELL_WINDOW_ACTION_MAIL_ADD_SENDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-add-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_CARET_MODE(window) \
@@ -43,8 +45,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-delete")
 #define E_SHELL_WINDOW_ACTION_MAIL_DOWNLOAD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-download")
-#define E_SHELL_WINDOW_ACTION_MAIL_EMPTY_TRASH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-empty-trash")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ON_MAILING_LIST(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-on-mailing-list")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ON_RECIPIENTS(window) \

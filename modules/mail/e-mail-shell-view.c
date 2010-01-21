@@ -527,7 +527,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 	g_object_set (action, "label", label, NULL);
 
-	action = ACTION (MAIL_EMPTY_TRASH);
+	action = ACTION (MAIL_ACCOUNT_EXPUNGE);
 	sensitive = folder_is_trash;
 	gtk_action_set_sensitive (action, sensitive);
 

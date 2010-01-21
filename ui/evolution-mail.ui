@@ -2,7 +2,7 @@
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='long-running-actions'>
-        <menuitem action='mail-empty-trashes'/>
+        <menuitem action='mail-global-expunge'/>
         <menuitem action='mail-download'/>
       </placeholder>
     </menu>
@@ -78,7 +78,7 @@
     <menuitem action='mail-popup-folder-rename'/>
     <menuitem action='mail-popup-folder-refresh'/>
     <menuitem action='mail-popup-flush-outbox'/>
-    <menuitem action='mail-popup-empty-trash'/>
+    <menuitem action='mail-popup-account-expunge'/>
     <menuitem action='mail-popup-account-disable'/>
     <separator/>
     <menuitem action='mail-popup-folder-unsubscribe'/>
