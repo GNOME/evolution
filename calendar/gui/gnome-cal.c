@@ -2155,6 +2155,9 @@ gnome_calendar_set_date_navigator (GnomeCalendar *gcal,
 
 	gcal->priv->date_navigator = date_navigator;
 
+	/* Update the new date navigator */
+	gnome_calendar_update_date_navigator (gcal);
+
 	g_object_notify (G_OBJECT (gcal), "date-navigator");
 }
 
