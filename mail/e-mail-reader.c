@@ -105,9 +105,11 @@ action_add_to_address_book_cb (GtkAction *action,
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMFormatHTMLDisplay *html_display;
+	CamelInternetAddress *cia;
 	EWebView *web_view;
 	CamelURL *curl;
 	const gchar *uri;
+	gchar *email;
 
 	/* This action is defined in EMailDisplay. */
 
@@ -125,11 +127,23 @@ action_add_to_address_book_cb (GtkAction *action,
 	if (curl->path == NULL || *curl->path == '\0')
 		goto exit;
 
+	cia = camel_internet_address_new ();
+	if (camel_address_decode (CAMEL_ADDRESS (cia), curl->path) < 0) {
+		camel_object_unref (cia);
+		goto exit;
+	}
+
+	email = camel_address_format (CAMEL_ADDRESS (cia));
+
 	/* XXX EBookShellBackend should be listening for this
 	 *     event.  Kind of kludgey, but works for now. */
 	shell = e_shell_backend_get_shell (shell_backend);
-	e_shell_event (shell, "contact-quick-add-email", curl->path);
+	e_shell_event (shell, "contact-quick-add-email", email);
 	emu_remove_from_mail_cache_1 (curl->path);
+
+	camel_object_unref (cia);
+	g_free (email);
+
 exit:
 	camel_url_free (curl);
 }

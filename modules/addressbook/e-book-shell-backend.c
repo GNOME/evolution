@@ -387,7 +387,7 @@ book_shell_backend_quick_add_email_cb (EShell *shell,
 	/* XXX This is an ugly hack but it's the only way I could think
 	 *     of to integrate this feature with other shell modules. */
 
-	e_contact_quick_add_free_form (email, NULL, NULL);
+	e_contact_quick_add_email (email, NULL, NULL);
 }
 
 static void

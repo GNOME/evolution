@@ -589,6 +589,31 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 }
 
 void
+e_contact_quick_add_email (const gchar *email, EContactQuickAddCallback cb, gpointer closure)
+{
+	gchar *name = NULL;
+	gchar *addr = NULL;
+	gchar *lt, *gt;
+
+	/* Handle something of the form "Foo <foo@bar.com>".  This is more
+	 * more forgiving than the free-form parser, allowing for unquoted
+	 * whitespace since we know the whole string is an email address. */
+
+	lt = (email != NULL) ? strchr (email, '<') : NULL;
+	gt = (lt != NULL) ? strchr (email, '>') : NULL;
+
+	if (lt != NULL && gt != NULL && (gt - lt) > 0) {
+		name = g_strndup (email, lt - email);
+		addr = g_strndup (lt + 1, gt - lt - 1);
+	}
+
+	e_contact_quick_add (name, addr, cb, closure);
+
+	g_free (name);
+	g_free (addr);
+}
+
+void
 e_contact_quick_add_vcard (const gchar *vcard, EContactQuickAddCallback cb, gpointer closure)
 {
 	QuickAdd *qa;

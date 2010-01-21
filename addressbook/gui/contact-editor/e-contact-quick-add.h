@@ -32,6 +32,8 @@ void e_contact_quick_add (const gchar *name, const gchar *email,
 
 void e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer closure);
 
+void e_contact_quick_add_email (const gchar *email, EContactQuickAddCallback cb, gpointer closure);
+
 void e_contact_quick_add_vcard (const gchar *vcard, EContactQuickAddCallback cb, gpointer closure);
 
 #endif /* __E_CONTACT_QUICK_ADD_H__ */
