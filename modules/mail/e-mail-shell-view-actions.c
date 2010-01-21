@@ -943,7 +943,7 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("_Download Messages for Offline Usage"),
 	  NULL,
-	  N_("Download messages of accounts and folders marked for offline"),
+	  N_("Download messages of accounts and folders marked for offline usage"),
 	  G_CALLBACK (action_mail_download_cb) },
 
 	{ "mail-flush-outbox",
@@ -1409,6 +1409,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShell *shell;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
 	GtkActionGroup *action_group;
@@ -1421,6 +1422,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
@@ -1518,6 +1520,10 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_binding_new (
 		ACTION (SEARCH_SAVE), "sensitive",
 		ACTION (MAIL_CREATE_SEARCH_FOLDER), "sensitive");
+
+	e_binding_new (
+		shell, "online",
+		ACTION (MAIL_DOWNLOAD), "sensitive");
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
