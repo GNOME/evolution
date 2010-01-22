@@ -54,6 +54,7 @@
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-import.h"
 #include "e-util/e-plugin.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-profile-event.h"
@@ -590,6 +591,7 @@ main (gint argc, gchar **argv)
 	if (!disable_eplugin) {
 		/* Register built-in plugin hook types. */
 		es_event_hook_get_type ();
+		e_import_hook_get_type ();
 #ifdef ENABLE_PROFILING
 		e_profile_event_hook_get_type ();
 #endif
