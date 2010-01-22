@@ -564,6 +564,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ (gchar *) "text/enriched", (EMFormatFunc)emfq_text_enriched },
 	{ (gchar *) "text/richtext", (EMFormatFunc)emfq_text_enriched },
 	{ (gchar *) "text/html", (EMFormatFunc)emfq_text_html },
+	{ (gchar *) "text/*", (EMFormatFunc)emfq_text_plain },
 /*	{ (gchar *) "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
 	{ (gchar *) "message/external-body", (EMFormatFunc)emfq_ignore },
 	{ (gchar *) "multipart/appledouble", (EMFormatFunc)emfq_ignore },
