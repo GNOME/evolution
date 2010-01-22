@@ -96,7 +96,10 @@ struct _EMCopyFolders {
 static gchar *
 emft_copy_folders__desc (struct _EMCopyFolders *m, gint complete)
 {
-	return g_strdup_printf (_("Copying `%s' to `%s'"), m->frombase, m->tobase);
+	if (m->delete)
+		return g_strdup_printf (_("Moving folder %s"), m->frombase);
+	else
+		return g_strdup_printf (_("Copying folder %s"), m->frombase);
 }
 
 static void
