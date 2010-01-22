@@ -100,14 +100,24 @@ e_icon_factory_get_icon (const gchar *icon_name,
 	icon_theme = gtk_icon_theme_get_default ();
 
 	if (!gtk_icon_size_lookup (icon_size, &width, &height))
-		return NULL;
+		width = height = 16;
 
 	pixbuf = gtk_icon_theme_load_icon (
 		icon_theme, icon_name, height, 0, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
-		g_error_free (error);
+		g_clear_error (&error);
+
+		/* Fallback to missing image */
+                pixbuf = gtk_icon_theme_load_icon (
+                        icon_theme, GTK_STOCK_MISSING_IMAGE,
+			height, 0, &error);
+
+                if (error != NULL) {
+			g_error ("%s", error->message);
+			g_clear_error (&error);
+                }
 	}
 
 	return pixbuf;
