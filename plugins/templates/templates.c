@@ -767,6 +767,15 @@ init_composer_actions (GtkUIManager *ui_manager,
 	return TRUE;
 }
 
+static void
+mail_shell_view_created_cb (EShellWindow *shell_window,
+                            EShellView *shell_view)
+{
+	g_signal_connect (
+		shell_view, "update-actions",
+		G_CALLBACK (update_actions_cb), NULL);
+}
+
 gboolean
 init_shell_actions (GtkUIManager *ui_manager,
                     EShellWindow *shell_window)
@@ -774,8 +783,6 @@ init_shell_actions (GtkUIManager *ui_manager,
 	EShellView *shell_view;
 	GtkActionGroup *action_group;
 	guint merge_id;
-
-	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
 
 	/* This is where we keep dynamically-built menu items. */
 	e_shell_window_add_action_group (shell_window, "templates");
@@ -787,9 +794,14 @@ init_shell_actions (GtkUIManager *ui_manager,
 		G_OBJECT (action_group), "merge-id",
 		GUINT_TO_POINTER (merge_id));
 
-	g_signal_connect (
-		shell_view, "update-actions",
-		G_CALLBACK (update_actions_cb), NULL);
+	/* Be careful not to instantiate the mail view ourselves. */
+	shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
+	if (shell_view != NULL)
+		mail_shell_view_created_cb (shell_window, shell_view);
+	else
+		g_signal_connect (
+			shell_window, "shell-view-created::mail",
+			G_CALLBACK (mail_shell_view_created_cb), NULL);
 
 	return TRUE;
 }

@@ -40,7 +40,13 @@ enum {
 	PROP_UI_MANAGER
 };
 
+enum {
+	SHELL_VIEW_CREATED,
+	LAST_SIGNAL
+};
+
 static gpointer parent_class;
+static gulong signals[LAST_SIGNAL];
 
 static void
 shell_window_menubar_update_new_menu (EShellWindow *shell_window)
@@ -753,6 +759,26 @@ shell_window_class_init (EShellWindowClass *class)
 			_("The shell window's GtkUIManager"),
 			GTK_TYPE_UI_MANAGER,
 			G_PARAM_READABLE));
+
+	/**
+	 * EShellWindow::shell-view-created
+	 * @shell_window: the #EShellWindow which emitted the signal
+	 * @shell_view: the new #EShellView
+	 *
+	 * Emitted when a new #EShellView is instantiated by way of
+	 * e_shell_window_get_shell_view().  The signal detail denotes
+	 * the new view name, which can be used to obtain notification
+	 * of when a particular #EShellView is created.
+	 **/
+	signals[SHELL_VIEW_CREATED] = g_signal_new (
+		"shell-view-created",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED,
+		G_STRUCT_OFFSET (EShellWindowClass, shell_view_created),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SHELL_VIEW);
 }
 
 static void
@@ -849,6 +875,9 @@ e_shell_window_get_shell (EShellWindow *shell_window)
  * active view name, as returned by e_shell_window_get_active_view(),
  * should be requested.
  *
+ * The function emits a #EShellWindow::shell-view-created signal with
+ * @view_name as the signal detail when it instantiates an #EShellView.
+ *
  * Returns: the requested #EShellView, or %NULL if no such view is
  *          registered
  **/
@@ -858,21 +887,52 @@ e_shell_window_get_shell_view (EShellWindow *shell_window,
 {
 	EShellView *shell_view;
 	EShellWindowClass *class;
-	GHashTable *loaded_views;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (view_name != NULL, NULL);
 
-	loaded_views = shell_window->priv->loaded_views;
-	shell_view = g_hash_table_lookup (loaded_views, view_name);
-
+	shell_view = e_shell_window_peek_shell_view (shell_window, view_name);
 	if (shell_view != NULL)
 		return shell_view;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
 	g_return_val_if_fail (class->create_shell_view != NULL, NULL);
 
-	return class->create_shell_view (shell_window, view_name);
+	shell_view = class->create_shell_view (shell_window, view_name);
+
+	g_signal_emit (
+		shell_window, signals[SHELL_VIEW_CREATED],
+		g_quark_from_string (view_name), shell_view);
+
+	return shell_view;
+}
+
+/**
+ * e_shell_window_peek_shell_view:
+ * @shell_window: an #EShellWindow
+ * @view_name: name of a shell view
+ *
+ * Returns the #EShellView named @view_name (see the
+ * <structfield>name</structfield> field in #EShellBackendInfo), or
+ * %NULL if the requested view has not yet been instantiated.  Unlike
+ * e_shell_window_get_shell_view(), this function will not instantiate
+ * the view itself.
+ *
+ * Returns: the requested #EShellView, or %NULL if no such view is
+ *          instantiated
+ **/
+EShellView *
+e_shell_window_peek_shell_view (EShellWindow *shell_window,
+                                const gchar *view_name)
+{
+	GHashTable *loaded_views;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+	g_return_val_if_fail (view_name != NULL, NULL);
+
+	loaded_views = shell_window->priv->loaded_views;
+
+	return g_hash_table_lookup (loaded_views, view_name);
 }
 
 /**

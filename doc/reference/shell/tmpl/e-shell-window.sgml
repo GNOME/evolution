@@ -23,6 +23,14 @@ EShellWindow
 </para>
 
 
+<!-- ##### SIGNAL EShellWindow::shell-view-created ##### -->
+<para>
+
+</para>
+
+@eshellwindow: the object which received the signal.
+@arg1: 
+
 <!-- ##### ARG EShellWindow:active-view ##### -->
 <para>
 
@@ -94,6 +102,16 @@ EShellWindow
 
 
 <!-- ##### FUNCTION e_shell_window_get_shell_view ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@view_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_peek_shell_view ##### -->
 <para>
 
 </para>

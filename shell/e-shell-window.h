@@ -73,6 +73,10 @@ struct _EShellWindow {
 struct _EShellWindowClass {
 	GtkWindowClass parent_class;
 
+	/* Signals */
+	void		(*shell_view_created)	(EShellWindow *shell_window,
+						 struct _EShellView *shell_view);
+
 	/* These are all protected methods.  Not for public use. */
 	GtkWidget *	(*construct_menubar)	(EShellWindow *shell_window);
 	GtkWidget *	(*construct_toolbar)	(EShellWindow *shell_window);
@@ -91,6 +95,9 @@ GtkWidget *	e_shell_window_new		(EShell *shell,
 EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
 struct _EShellView *
 		e_shell_window_get_shell_view	(EShellWindow *shell_window,
+						 const gchar *view_name);
+struct _EShellView *
+		e_shell_window_peek_shell_view	(EShellWindow *shell_window,
 						 const gchar *view_name);
 GtkAction *	e_shell_window_get_shell_view_action
 						(EShellWindow *shell_window,
