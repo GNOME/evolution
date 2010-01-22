@@ -1876,7 +1876,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	state = e_cal_get_load_state (ecal);
 
 	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
-		auth_cal_forget_password (ecal);
+		e_auth_cal_forget_password (ecal);
 
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
@@ -1967,7 +1967,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	state = e_cal_get_load_state (ecal);
 
 	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
-		auth_cal_forget_password (ecal);
+		e_auth_cal_forget_password (ecal);
 
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
@@ -2277,7 +2277,7 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source)
 	if (client) {
 		priv->default_client = g_object_ref (client);
 	} else {
-		priv->default_client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+		priv->default_client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 		if (!priv->default_client)
 			return FALSE;
 	}

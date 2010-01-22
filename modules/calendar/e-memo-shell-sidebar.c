@@ -170,7 +170,7 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 
 	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
 		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
-		auth_cal_forget_password (client);
+		e_auth_cal_forget_password (client);
 
 	switch (status) {
 		case E_CALENDAR_STATUS_OK:
@@ -677,7 +677,7 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	if (client != NULL)
 		return;
 
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
+	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
 	g_return_if_fail (client != NULL);
 
 	g_signal_connect_swapped (

@@ -2564,7 +2564,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	source = e_source_combo_box_get_active (source_combo_box);
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 
 	if (client) {
 		icaltimezone *zone;

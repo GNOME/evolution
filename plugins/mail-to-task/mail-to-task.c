@@ -988,7 +988,7 @@ mail_to_event (ECalSourceType source_type,
 		AsyncData *data = NULL;
 		GThread *thread = NULL;
 
-		client = auth_new_cal_from_source (source, source_type);
+		client = e_auth_new_cal_from_source (source, source_type);
 		if (!client) {
 			gchar *uri = e_source_get_uri (source);
 

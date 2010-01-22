@@ -298,7 +298,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 	if (source == NULL)
 		goto exit;
 
-	client = auth_new_cal_from_source (source, source_type);
+	client = e_auth_new_cal_from_source (source, source_type);
 	if (client == NULL)
 		goto exit;
 

@@ -1675,7 +1675,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
 
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 	if (client) {
 		icaltimezone *zone;
 

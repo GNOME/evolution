@@ -529,7 +529,7 @@ action_event_copy_cb (GtkAction *action,
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = auth_new_cal_from_source (
+	destination_client = e_auth_new_cal_from_source (
 		destination_source, E_CAL_SOURCE_TYPE_EVENT);
 	if (destination_client == NULL)
 		goto exit;
@@ -784,7 +784,7 @@ action_event_move_cb (GtkAction *action,
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = auth_new_cal_from_source (
+	destination_client = e_auth_new_cal_from_source (
 		destination_source, E_CAL_SOURCE_TYPE_EVENT);
 	if (destination_client == NULL)
 		goto exit;

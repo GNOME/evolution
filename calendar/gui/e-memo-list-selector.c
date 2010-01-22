@@ -156,7 +156,7 @@ memo_list_selector_process_data (ESourceSelector *selector,
 	if (!E_IS_SOURCE (source) || e_source_get_readonly (source))
 		goto exit;
 
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
+	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
 	if (client == NULL) {
 		g_message ("Cannot create source client to remove old memo");
 		goto exit;
@@ -187,7 +187,7 @@ memo_list_selector_data_dropped (ESourceSelector *selector,
 	GSList *list, *iter;
 	gboolean success = FALSE;
 
-	client = auth_new_cal_from_source (
+	client = e_auth_new_cal_from_source (
 		destination, E_CAL_SOURCE_TYPE_JOURNAL);
 
 	if (client == NULL || !e_cal_open (client, TRUE, NULL))

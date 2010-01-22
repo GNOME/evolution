@@ -76,7 +76,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GEr
 
 	source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source)
-		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+		client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 	if (!client) {
 		if (error)
 			*error = g_error_new (e_calendar_error_quark (), E_CALENDAR_STATUS_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));

@@ -855,7 +855,7 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	flags = comp_editor_get_flags (editor);
 
 	source = e_source_combo_box_get_active (source_combo_box);
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
+	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
 
 	if (!client || !e_cal_open (client, FALSE, NULL)) {
 		GtkWidget *dialog;

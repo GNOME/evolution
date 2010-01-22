@@ -321,7 +321,7 @@ ivcal_import(EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
 
 	type = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "primary-type"));
 
-	client = auth_new_cal_from_source (g_datalist_get_data(&target->data, "primary-source"), type);
+	client = e_auth_new_cal_from_source (g_datalist_get_data(&target->data, "primary-source"), type);
 	if (client) {
 		ICalImporter *ici = g_malloc0(sizeof(*ici));
 
@@ -629,13 +629,13 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	/* Try to open the default calendar & tasks folders. */
 	if (do_calendar) {
-		calendar_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_EVENT);
+		calendar_client = e_auth_new_cal_from_default (E_CAL_SOURCE_TYPE_EVENT);
 		if (!calendar_client)
 			goto out;
 	}
 
 	if (do_tasks) {
-		tasks_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_TODO);
+		tasks_client = e_auth_new_cal_from_default (E_CAL_SOURCE_TYPE_TODO);
 		if (!tasks_client)
 			goto out;
 	}

@@ -131,7 +131,7 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 		icalcomponent_set_uid (icalcomp, uid);
 	}
 
-	client = auth_new_cal_from_source (
+	client = e_auth_new_cal_from_source (
 		destination, E_CAL_SOURCE_TYPE_EVENT);
 
 	if (client != NULL) {

@@ -1,5 +1,9 @@
 noinst_LTLIBRARIES = libevolution-calendarprivate.la
 
+ecalendarcommonincludedir = $(privincludedir)/calendar/common
+ecalendarcommoninclude_HEADERS =			\
+	authentication.h
+
 libevolution_calendarprivate_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\

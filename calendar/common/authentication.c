@@ -73,7 +73,7 @@ build_pass_key (ECal *ecal)
 }
 
 void
-auth_cal_forget_password (ECal *ecal)
+e_auth_cal_forget_password (ECal *ecal)
 {
 	ESource *source = NULL;
 	const gchar *auth_domain = NULL, *component_name = NULL,  *auth_type = NULL;
@@ -95,7 +95,7 @@ auth_cal_forget_password (ECal *ecal)
 }
 
 ECal *
-auth_new_cal_from_default (ECalSourceType type)
+e_auth_new_cal_from_default (ECalSourceType type)
 {
 	ECal *ecal = NULL;
 
@@ -106,7 +106,7 @@ auth_new_cal_from_default (ECalSourceType type)
 }
 
 ECal *
-auth_new_cal_from_source (ESource *source, ECalSourceType type)
+e_auth_new_cal_from_source (ESource *source, ECalSourceType type)
 {
 	ECal *cal;
 
@@ -118,7 +118,7 @@ auth_new_cal_from_source (ESource *source, ECalSourceType type)
 }
 
 ECal *
-auth_new_cal_from_uri (const gchar *uri, ECalSourceType type)
+e_auth_new_cal_from_uri (const gchar *uri, ECalSourceType type)
 {
 	ESourceGroup *group = NULL;
 	ESource *source = NULL;
@@ -172,7 +172,7 @@ auth_new_cal_from_uri (const gchar *uri, ECalSourceType type)
 		}
 	}
 
-	cal = auth_new_cal_from_source (source, type);
+	cal = e_auth_new_cal_from_source (source, type);
 
 	g_object_unref (source);
 	if (group)

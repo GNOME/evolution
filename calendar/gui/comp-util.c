@@ -749,7 +749,7 @@ cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDr
 				source_source = e_source_list_peek_source_by_uid (source_list, source_uid);
 
 				if (source_source && !E_IS_SOURCE_GROUP (source_source) && !e_source_get_readonly (source_source)) {
-					source_client = auth_new_cal_from_source (source_source, e_cal_get_source_type (destination));
+					source_client = e_auth_new_cal_from_source (source_source, e_cal_get_source_type (destination));
 
 					if (source_client) {
 						gboolean read_only = TRUE;

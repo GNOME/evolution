@@ -545,7 +545,7 @@ start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalSourceType
 		return ecal;
 	}
 
-	ecal = auth_new_cal_from_source (source, type);
+	ecal = e_auth_new_cal_from_source (source, type);
 
 	if (!ecal)
 		return NULL;

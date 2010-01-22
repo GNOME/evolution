@@ -402,12 +402,12 @@ action_event_new_cb (GtkAction *action,
 
 		source = e_source_list_peek_source_by_uid (source_list, uid);
 		if (source != NULL)
-			cal = auth_new_cal_from_source (source, source_type);
+			cal = e_auth_new_cal_from_source (source, source_type);
 		g_free (uid);
 	}
 
 	if (cal == NULL)
-		cal = auth_new_cal_from_default (source_type);
+		cal = e_auth_new_cal_from_default (source_type);
 
 	g_return_if_fail (cal != NULL);
 
@@ -598,7 +598,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	client = auth_new_cal_from_source (source, source_type);
+	client = e_auth_new_cal_from_source (source, source_type);
 	if (client == NULL || !e_cal_open (client, TRUE, &error)) {
 		if (error != NULL) {
 			g_printerr ("%s\n", error->message);

@@ -384,7 +384,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		}
 	}
 
-	client = auth_new_cal_from_source (source, source_type);
+	client = e_auth_new_cal_from_source (source, source_type);
 
 	if (client) {
 		d (printf("%s:%d (alarm_notify_add_calendar) %s - Calendar Open Async... %p\n", __FILE__, __LINE__, str_uri, client));

@@ -184,7 +184,7 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type,
 		return ecal;
 	}
 
-	ecal = auth_new_cal_from_source (source, type);
+	ecal = e_auth_new_cal_from_source (source, type);
 
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (ecal, zone, NULL);
