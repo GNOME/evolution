@@ -91,7 +91,8 @@ dequeue_idle (ETableHeader *eth)
 	gint column, width;
 
 	dequeue (eth, &column, &width);
-	while (eth->change_queue && ((struct two_ints *) eth->change_queue->data)->column == column)
+	while (eth->change_queue && ((struct two_ints *)
+		eth->change_queue->data)->column == column)
 		dequeue (eth, &column, &width);
 
 	if (column == -1)
@@ -207,7 +208,9 @@ eth_set_property (GObject *object, guint prop_id, const GValue *val, GParamSpec 
 	case PROP_SORT_INFO:
 		if (eth->sort_info) {
 			if (eth->sort_info_group_change_id)
-				g_signal_handler_disconnect(G_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
+				g_signal_handler_disconnect (
+					G_OBJECT(eth->sort_info),
+					eth->sort_info_group_change_id);
 			g_object_unref (eth->sort_info);
 		}
 		eth->sort_info = E_TABLE_SORT_INFO(g_value_get_object (val));
@@ -631,7 +634,9 @@ e_table_header_move (ETableHeader *eth, gint source_index, gint target_index)
 	g_return_if_fail (source_index >= 0);
 	g_return_if_fail (target_index >= 0);
 	g_return_if_fail (source_index < eth->col_count);
-	g_return_if_fail (target_index < eth->col_count + 1); /* Can be moved beyond the last item. */
+
+	/* Can be moved beyond the last item. */
+	g_return_if_fail (target_index < eth->col_count + 1);
 
 	if (source_index < target_index)
 		target_index --;
@@ -769,7 +774,9 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 	old_expansion = expansion;
 	old_expansion -= eth->columns[idx]->expansion;
 	/* Set the new expansion so that it will generate the desired size. */
-	eth->columns[idx]->expansion = expansion * (((double)(size - (eth->columns[idx]->min_width + eth->width_extras)))/((double)total_extra));
+	eth->columns[idx]->expansion =
+		expansion * (((double)(size - (eth->columns[idx]->min_width +
+		eth->width_extras))) / ((double)total_extra));
 	/* The expansion left for the columns on the right. */
 	expansion -= eth->columns[idx]->expansion;
 
@@ -861,7 +868,9 @@ eth_calc_widths (ETableHeader *eth)
 		extra -= e_table_sort_info_grouping_get_count(eth->sort_info) * GROUP_INDENT;
 	if (expansion != 0 && extra > 0) {
 		for (i = 0; i < last_resizable; i++) {
-			next_position += extra * (eth->columns[i]->resizable ? eth->columns[i]->expansion : 0)/expansion;
+			next_position +=
+				extra * (eth->columns[i]->resizable ?
+				eth->columns[i]->expansion : 0) / expansion;
 			widths[i] += next_position - last_position;
 			last_position = next_position;
 		}
@@ -927,7 +936,9 @@ e_table_header_prioritized_column (ETableHeader *eth)
 }
 
 ETableCol *
-e_table_header_prioritized_column_selected (ETableHeader *eth, ETableColCheckFunc check_func, gpointer user_data)
+e_table_header_prioritized_column_selected (ETableHeader *eth,
+                                            ETableColCheckFunc check_func,
+                                            gpointer user_data)
 {
 	ETableCol *best_col = NULL;
 	gint best_priority = G_MININT;
@@ -940,7 +951,8 @@ e_table_header_prioritized_column_selected (ETableHeader *eth, ETableColCheckFun
 	for (i = 1; i < count; i++) {
 		ETableCol *col = e_table_header_get_column (eth, i);
 		if (col) {
-			if ((best_col == NULL || col->priority > best_priority) && check_func (col, user_data)) {
+			if ((best_col == NULL || col->priority > best_priority)
+			   && check_func (col, user_data)) {
 				best_priority = col->priority;
 				best_col = col;
 			}

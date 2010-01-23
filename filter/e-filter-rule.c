@@ -91,7 +91,9 @@ part_combobox_changed (GtkComboBox *combobox,
 	gint index, i;
 
 	index = gtk_combo_box_get_active (combobox);
-	for (i = 0, part = e_rule_context_next_part (data->context, part); part && i < index; i++, part = e_rule_context_next_part (data->context, part)) {
+	for (i = 0, part = e_rule_context_next_part (data->context, part);
+		part && i < index;
+		i++, part = e_rule_context_next_part (data->context, part)) {
 		/* traverse until reached index */
 	}
 
@@ -430,7 +432,9 @@ filter_rule_xml_encode (EFilterRule *rule)
 
 	node = xmlNewNode (NULL, (xmlChar *)"rule");
 
-	xmlSetProp (node, (xmlChar *)"enabled", (xmlChar *)(rule->enabled ? "true" : "false"));
+	xmlSetProp (
+		node, (xmlChar *)"enabled",
+		(xmlChar *)(rule->enabled ? "true" : "false"));
 
 	switch (rule->grouping) {
 	case E_FILTER_GROUP_ALL:
@@ -542,7 +546,9 @@ filter_rule_xml_decode (EFilterRule *rule,
 	while (work) {
 		if (!strcmp ((gchar *)work->name, "partset")) {
 			filter_rule_load_set (work, rule, context);
-		} else if (!strcmp ((gchar *)work->name, "title") || !strcmp ((gchar *)work->name, "_title")) {
+		} else if (!strcmp ((gchar *)work->name, "title") ||
+			!strcmp ((gchar *)work->name, "_title")) {
+
 			if (!rule->name) {
 				gchar *str, *decstr = NULL;
 
@@ -679,7 +685,8 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
-	text = g_strdup_printf ("<b>%s</b>", _("Find items that meet the following conditions"));
+	text = g_strdup_printf ("<b>%s</b>",
+		_("Find items that meet the following conditions"));
 	label = gtk_label_new (text);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
@@ -714,12 +721,17 @@ filter_rule_get_widget (EFilterRule *rule,
 	hbox = gtk_hbox_new (FALSE, 3);
 
 	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
-	gtk_button_set_image (GTK_BUTTON (add), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+	gtk_button_set_image (
+		GTK_BUTTON (add), gtk_image_new_from_stock (
+		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 
 	if (context->flags & E_RULE_CONTEXT_GROUPING) {
-		const gchar *thread_types[] = { N_("If all conditions are met"), N_("If any conditions are met") };
+		const gchar *thread_types[] = {
+			N_("If all conditions are met"),
+			N_("If any conditions are met")
+		};
 
 		label = gtk_label_new_with_mnemonic (_("_Find items:"));
 		combobox = gtk_combo_box_new_text ();
@@ -741,8 +753,15 @@ filter_rule_get_widget (EFilterRule *rule,
 	}
 
 	if (context->flags & E_RULE_CONTEXT_THREADING) {
-		/* Translators: "None" for not including threads; part of "Include threads: None" */
-		const gchar *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
+		const gchar *thread_types[] = {
+			/* Translators: "None" for not including threads;
+			 * part of "Include threads: None" */
+			N_("None"),
+			N_("All related"),
+			N_("Replies"),
+			N_("Replies and parents"),
+			N_("No reply or parent")
+		};
 
 		label = gtk_label_new_with_mnemonic (_("I_nclude threads"));
 		combobox = gtk_combo_box_new_text ();
@@ -776,12 +795,14 @@ filter_rule_get_widget (EFilterRule *rule,
 
 	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
 	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
-	scrolledwindow = gtk_scrolled_window_new (GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
+	scrolledwindow = gtk_scrolled_window_new (
+		GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolledwindow),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
+	gtk_scrolled_window_add_with_viewport (
+		GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 
 	gtk_box_pack_start (GTK_BOX (inruleame), scrolledwindow, TRUE, TRUE, 3);
 

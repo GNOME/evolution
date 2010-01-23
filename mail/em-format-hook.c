@@ -63,7 +63,10 @@ static const EPluginHookTargetKey emfh_flag_map[] = {
 };
 
 static void
-emfh_format_format(EMFormat *md, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emfh_format_format (EMFormat *md,
+                    CamelStream *stream,
+                    CamelMimePart *part,
+                    const EMFormatHandler *info)
 {
 	struct _EMFormatHookItem *item = (EMFormatHookItem *)info;
 
@@ -182,8 +185,10 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 					for (;l;l=g_slist_next(l)) {
 						EMFormatHookItem *item = l->data;
 						/* TODO: only add handlers if enabled? */
-						/* Well, disabling is handled by the callback, if we leave as is,
-						   then we can enable the plugin after startup and it will start working automagically */
+						/* Well, disabling is handled by the callback,
+						 * if we leave as is, then we can enable the
+						 * plugin after startup and it will start
+						 * working automagically */
 						em_format_class_add_handler(klass, &item->handler);
 					}
 				}

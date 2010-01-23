@@ -232,7 +232,9 @@ static gboolean atk_action_interface_do_action (AtkAction *iface, gint i)
 {
 	EMinicard *minicard = NULL;
 
-	minicard = E_MINICARD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (iface)));
+	minicard = E_MINICARD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (iface)));
 	if ( minicard == NULL )
 		return FALSE;
 

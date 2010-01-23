@@ -144,7 +144,9 @@ ea_day_view_get_name (AtkObject *accessible)
 	if (n_events >= 1)
 		/* To translators: Here, "It" is either like "Work Week View: July
 		10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
-		event_str = g_strdup_printf (ngettext ("It has %d event.", "It has %d events.", n_events), n_events);
+		event_str = g_strdup_printf (
+			ngettext ("It has %d event.",
+			"It has %d events.", n_events), n_events);
 	else
 		/* To translators: Here, "It" is either like "Work Week View: July
 		10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
@@ -243,7 +245,8 @@ ea_day_view_ref_child (AtkObject *accessible, gint index)
 
 	if (index == 0) {
 		/* index == 0 is the main item */
-		atk_object = atk_gobject_accessible_for_object (G_OBJECT (day_view->main_canvas_item));
+		atk_object = atk_gobject_accessible_for_object (
+			G_OBJECT (day_view->main_canvas_item));
 		g_object_ref (atk_object);
 	}
 	else {

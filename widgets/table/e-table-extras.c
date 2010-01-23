@@ -101,8 +101,8 @@ static gint
 e_strint_compare (gconstpointer data1,
                   gconstpointer data2)
 {
-	gint int1 = atoi(data1);
-	gint int2 = atoi(data2);
+	gint int1 = atoi (data1);
+	gint int2 = atoi (data2);
 
 	return e_int_compare (GINT_TO_POINTER (int1), GINT_TO_POINTER (int2));
 }
@@ -256,35 +256,45 @@ ete_init (ETableExtras *extras)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	e_table_extras_add_compare(extras, "string", (GCompareDataFunc) e_str_compare);
-	e_table_extras_add_compare(extras, "stringcase", e_table_str_case_compare);
-	e_table_extras_add_compare(extras, "collate", e_table_collate_compare);
-	e_table_extras_add_compare(extras, "integer", (GCompareDataFunc) e_int_compare);
-	e_table_extras_add_compare(extras, "string-integer", (GCompareDataFunc) e_strint_compare);
+	e_table_extras_add_compare (
+		extras, "string",
+		(GCompareDataFunc) e_str_compare);
+	e_table_extras_add_compare (
+		extras, "stringcase",
+		(GCompareDataFunc) e_table_str_case_compare);
+	e_table_extras_add_compare (
+		extras, "collate",
+		(GCompareDataFunc) e_table_collate_compare);
+	e_table_extras_add_compare (
+		extras, "integer",
+		(GCompareDataFunc) e_int_compare);
+	e_table_extras_add_compare (
+		extras, "string-integer",
+		(GCompareDataFunc) e_strint_compare);
 
-	e_table_extras_add_search(extras, "string", e_string_search);
+	e_table_extras_add_search (extras, "string", e_string_search);
 
 	cell = e_cell_checkbox_new ();
-	e_table_extras_add_cell(extras, "checkbox", cell);
+	e_table_extras_add_cell (extras, "checkbox", cell);
 
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
-	e_table_extras_add_cell(extras, "date", cell);
+	e_table_extras_add_cell (extras, "date", cell);
 
 	cell = e_cell_number_new (NULL, GTK_JUSTIFY_RIGHT);
-	e_table_extras_add_cell(extras, "number", cell);
+	e_table_extras_add_cell (extras, "number", cell);
 
 	cell = e_cell_pixbuf_new ();
-	e_table_extras_add_cell(extras, "pixbuf", cell);
+	e_table_extras_add_cell (extras, "pixbuf", cell);
 
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
-	e_table_extras_add_cell(extras, "size", cell);
+	e_table_extras_add_cell (extras, "size", cell);
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	e_table_extras_add_cell(extras, "string", cell);
+	e_table_extras_add_cell (extras, "string", cell);
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	cell = e_cell_tree_new (NULL, NULL, TRUE, cell);
-	e_table_extras_add_cell(extras, "tree-string", cell);
+	e_table_extras_add_cell (extras, "tree-string", cell);
 }
 
 ETableExtras *

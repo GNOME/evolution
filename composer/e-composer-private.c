@@ -263,13 +263,17 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
 		tmp1 = gtk_label_new_with_mnemonic (_("S_end"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 6);
-		gtk_widget_show_all(tmp);
+		gtk_widget_show_all (tmp);
 		gtk_widget_reparent (send_widget, tmp_box);
-		gtk_box_set_child_packing ((GtkBox *)tmp_box, send_widget, FALSE, FALSE, 6, GTK_PACK_END);
+		gtk_box_set_child_packing (
+			GTK_BOX (tmp_box), send_widget,
+			FALSE, FALSE, 6, GTK_PACK_END);
 		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
 		send_widget = gtk_bin_get_child ((GtkBin *)send_widget);
-		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
-		gtk_container_add((GtkContainer *)send_widget, tmp);
+		gtk_container_remove (
+			GTK_CONTAINER (send_widget),
+			gtk_bin_get_child (GTK_BIN (send_widget)));
+		gtk_container_add ((GtkContainer *)send_widget, tmp);
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
 		path = "/main-toolbar/pre-main-toolbar/save-draft";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
@@ -279,16 +283,20 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
 		tmp1 = gtk_label_new_with_mnemonic (_("Save draft"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
-		gtk_widget_show_all(tmp);
+		gtk_widget_show_all (tmp);
 		gtk_widget_reparent (send_widget, tmp_box);
-		gtk_box_set_child_packing ((GtkBox *)tmp_box, send_widget, FALSE, FALSE, 6, GTK_PACK_END);
+		gtk_box_set_child_packing (
+			GTK_BOX (tmp_box), send_widget,
+			FALSE, FALSE, 6, GTK_PACK_END);
 		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
 		send_widget = gtk_bin_get_child ((GtkBin *)send_widget);
-		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
-		gtk_container_add((GtkContainer *)send_widget, tmp);
+		gtk_container_remove (
+			GTK_CONTAINER (send_widget),
+			gtk_bin_get_child (GTK_BIN (send_widget)));
+		gtk_container_add ((GtkContainer *)send_widget, tmp);
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
 
-		gtk_widget_show(tmp_box);
+		gtk_widget_show (tmp_box);
 		gtk_box_pack_end (GTK_BOX (container), tmp_box, FALSE, FALSE, 3);
 	}
 

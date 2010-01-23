@@ -170,7 +170,10 @@ EEvent *e_event_construct(EEvent *ep, const gchar *id)
  * Return value: An opaque key which can later be passed to remove_items.
  **/
 gpointer
-e_event_add_items(EEvent *event, GSList *items, EEventItemsFunc freefunc, gpointer data)
+e_event_add_items (EEvent *event,
+                   GSList *items,
+                   EEventItemsFunc freefunc,
+                   gpointer data)
 {
 	struct _event_node *node;
 
@@ -234,7 +237,8 @@ ee_cmp(gconstpointer ap, gconstpointer bp)
  * e_event_emit:
  * @ee: An initialised EEvent, potentially with registered event listeners.
  * @id: Event name.  This will be compared against EEventItem.id.
- * @target: The target describing the event context.  This will be implementation defined.
+ * @target: The target describing the event context.  This will be
+ * implementation defined.
  *
  * Emit an event.  @target will automatically be freed once its
  * emission is complete.
@@ -280,7 +284,8 @@ e_event_emit(EEvent *event, const gchar *id, EEventTarget *target)
 		struct _event_info *info = events->data;
 		EEventItem *item = info->item;
 
-		d(printf("event '%s' mask %08x target %08x\n", item->id, item->enable, target->mask));
+		d(printf("event '%s' mask %08x target %08x\n",
+			item->id, item->enable, target->mask));
 
 		if (item->enable & target->mask)
 			continue;
@@ -553,7 +558,9 @@ e_event_hook_get_type(void)
  * map enumerates a single target type and th eenable mask bit names,
  * so that the type can be loaded automatically by the base EEvent class.
  **/
-void e_event_hook_class_add_target_map(EEventHookClass *class, const EEventHookTargetMap *map)
+void e_event_hook_class_add_target_map (EEventHookClass *class,
+                                        const EEventHookTargetMap *map)
 {
-	g_hash_table_insert(class->target_map, (gpointer)map->type, (gpointer)map);
+	g_hash_table_insert (
+		class->target_map, (gpointer)map->type, (gpointer)map);
 }
