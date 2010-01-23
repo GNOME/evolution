@@ -346,9 +346,9 @@ static GtkActionEntry entries[] = {
 	  NULL,
 	  NULL },
 
-	{ "security-menu",
+	{ "options-menu",
 	  NULL,
-	  N_("_Security"),
+	  N_("_Options"),
 	  NULL,
 	  NULL,
 	  NULL }

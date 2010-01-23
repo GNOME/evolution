@@ -29,7 +29,7 @@ composer_setup_charset_menu (EMsgComposer *composer)
 	guint merge_id;
 
 	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
-	path = "/main-menu/edit-menu/pre-spell-check/charset-menu";
+	path = "/main-menu/options-menu/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
 	list = gtk_action_group_list_actions (composer->priv->charset_actions);

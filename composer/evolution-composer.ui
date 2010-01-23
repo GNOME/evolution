@@ -20,12 +20,6 @@
         <menuitem action='close'/>
       </menu>
     </placeholder>
-    <menu action='edit-menu'>
-      <placeholder name='pre-spell-check'>
-        <menu action='charset-menu'/>
-        <separator/>
-      </placeholder>
-    </menu>
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
         <menuitem action='view-from'/>
@@ -42,15 +36,17 @@
         <placeholder name='send-options'/>
         <separator/>
       </placeholder>
-      <separator/>
-      <menuitem action='request-read-receipt'/>
-      <menuitem action='prioritize-message'/>
     </menu>
-    <menu action='security-menu'>
+    <menu action='options-menu'>
       <menuitem action='pgp-sign'/>
       <menuitem action='pgp-encrypt'/>
       <menuitem action='smime-sign'/>
       <menuitem action='smime-encrypt'/>
+      <separator/>
+      <menuitem action='request-read-receipt'/>
+      <menuitem action='prioritize-message'/>
+      <separator/>
+      <menu action='charset-menu'/>
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
