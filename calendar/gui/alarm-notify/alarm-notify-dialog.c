@@ -114,7 +114,7 @@ an_update_hrs_label (GtkSpinButton *sb, gpointer data)
 	an = (AlarmNotify *) data;
 
 	snooze_timeout_hrs  = gtk_spin_button_get_value_as_int (sb);
-	new_label = g_strdup (ngettext ("hours", "hours", snooze_timeout_hrs));
+	new_label = g_strdup (ngettext ("hour", "hours", snooze_timeout_hrs));
 	gtk_label_set_text (GTK_LABEL (an->hrs_label), new_label);
 	g_free (new_label);
 }
