@@ -1067,13 +1067,14 @@ emu_update_composers_security (EMsgComposer *composer, guint32 validity_found)
 
 	g_return_if_fail (composer != NULL);
 
-	if (validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) {
+	/* Pre-set only for encrypted messages, not for signed */
+	/*if (validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) {
 		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
 			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
 		else
 			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
 		gtk_toggle_action_set_active (action, TRUE);
-	}
+	}*/
 
 	if (validity_found & EM_FORMAT_VALIDITY_FOUND_ENCRYPTED) {
 		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
