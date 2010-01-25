@@ -1,3 +1,87 @@
+Evolution 2.29.6 2010-01-25
+---------------------------
+
+Bug Fixes:
+	#607952 - "Hours" used as both singular and plural form(Matthew Barnes)
+	#606342 - PST option not offered in single file import (Matthew Barnes)
+	#607804 - Fallback to missing image, when a stock icon could not be 
+		  found (Gustavo Noronha Silva)
+	#607087 - Not all inlined text attachments are included in replies 
+		  (Matthew Barnes)
+	#607741 - Move folder to claims it's copying in status bar 
+		  (Matthew Barnes)
+	#607591 - Revert commit for bug #516000 (Matthew Barnes)
+	#607572 - Date navigator should be synced with the GnomeCalendar upon 
+		  setting (Gustavo Noronha)
+	#549558 - "Download Messages for Offline Usage" still sensitive in 
+		  offline mode (Viswanath Sivakumar)
+	#607608 - Empty Trash does not work unless Trash is selected 
+		  (Matthew Barnes)
+	#607542 - Sometimes delete in pop up doesn't get displayed 
+		  (Matthew Barnes)
+	#606301 - Slow sort by subject (Milan Crha)
+	#607409 - ~/.evolution/mail/config not created on demand 
+		  (Matthew Barnes)
+	#603480 - [bbdb] Traverse lists in destinations properly (Milan Crha)
+	#602827 - Disable broken plugins automatically (Milan Crha)
+	#603480 - [bbdb] Crash on unref of uninitialized memory (Milan Crha)
+	#607360 - [regression] Runtime warnings at exit (Matthew Barnes)
+	#606940 - plugin_lib_loadmodule() always enables the plugin 
+		  (Matthew Barnes)
+	#607234 - Open received attachments as read-only (Matthew Barnes)
+	#390973 - Changing meeting organizer should also change default 
+		  attendee (Milan Crha)
+	#606937 - void function should not have a return value. (Wang Xin)
+	#605120 -  evolution-exchange requires libcomposer. (Wang Xin)
+	#606874 - mktemp disabled in latest glibc-2.11.90-8 (Milan Crha)
+	#605633 - A little code inconsistency in em_utils_send_receipt
+		  (Milan Crha)
+	#604670 - addressbook-export segfaults when specifying addressbook
+		  (Milan Crha)
+
+Other Changes:
+	Rearrange composer options. (Matthew Barnes)
+	Coding style and whitespace cleanups. (Matthew Barnes)
+	Add a EShellWindow::shell-view-created signal. (Matthew Barnes)
+	Add focus tracking to EMailBrowser. (Matthew Barnes)
+	Move e-search-bar around. (Kjartan Maraas)
+	A bit less 'camel_exception_get_id called with NULL parameter' on 
+	console (Milan Crha)
+	Don't stomp on GConf's identifier namespace. (Jan Holesovsky)
+	Fix mention of CVS in autogen.sh. (Jan Holesovsky)
+	EShellBackend cleanup. (Matthew Barnes)
+	Give all preview panes a search bar. (Matthew Barnes)
+	Improve clipboard behavior. (Matthew Barnes)
+	Add selection utilities for "text/html" targets. (Matthew Barnes)
+	Fix a potential uninitialized variable use in em-composer-utils.c.
+	(Matthew Barnes)
+	Fix a potential uninitialized variable use in emae_authtype_changed().
+	(Matthew Barnes)
+	Fix a potential uninitialized return value in e-timezone-dialog.c.
+	(Matthew Barnes)
+	Fix a potential uninitialized argument in ech_config_section_factory().
+	(Matthew Barnes)
+	Fix a potential uninitialized argument in e_signature_list_find().
+	(Matthew Barnes)
+	Fix a potential uninitialized argument in e-plugin-python.c.
+	(Matthew Barnes)
+	Remove dead assignments found by clang. (Matthew Barnes)
+	Remove unused tooltip support from ECanvas/ETable/EText.
+	(Matthew Barnes)
+	Remove unused ECell::show_tooltip method. (Matthew Barnes)
+	Remove dead ETableItem code. (Matthew Barnes)
+	Remove unused ECanvas functions. (Matthew Barnes)
+	Also ship gnome-cal.h as a public header (Gustavo Noronha Silva)
+	Baby steps toward GSEAL compliance. (Matthew Barnes)
+
+Translations:
+	Chao-Hsiung Liao (zh_HK) (zh_TW)
+	Alexander Shopov (bg)
+	Krasimir Chonov (bg)
+	Jorge González (es)
+	Kjartan Maraas (nb)
+	Milan Crha (nb)
+
 Evolution 2.29.5 2010-01-11
 ---------------------------
 
