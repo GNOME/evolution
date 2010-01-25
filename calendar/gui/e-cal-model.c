@@ -291,7 +291,7 @@ cal_model_finalize (GObject *object)
 			g_warning ("comp_data is null\n");
 			continue;
 		}
-		e_cal_model_free_component_data (comp_data);
+		g_object_unref (comp_data);
 	}
 	g_ptr_array_free (priv->objects, FALSE);
 
@@ -2761,28 +2761,6 @@ e_cal_model_component_get_type (void)
 	}
 
 	return e_cal_model_component_type;
-}
-
-/**
- * e_cal_model_copy_component_data
- */
-ECalModelComponent *
-e_cal_model_copy_component_data (ECalModelComponent *comp_data)
-{
-	g_return_val_if_fail (comp_data != NULL, NULL);
-
-	return g_object_ref (comp_data);
-}
-
-/**
- * e_cal_model_free_component_data
- */
-void
-e_cal_model_free_component_data (ECalModelComponent *comp_data)
-{
-	g_return_if_fail (comp_data != NULL);
-
-	g_object_unref (comp_data);
 }
 
 /**

@@ -1620,7 +1620,7 @@ hide_completed_rows (ECalModel *model,
 				changed = TRUE;
 
 				if (g_ptr_array_remove (comp_objects, comp_data))
-					e_cal_model_free_component_data (comp_data);
+					g_object_unref (comp_data);
 			}
 			e_cal_component_free_id (id);
 			g_object_unref (comp);

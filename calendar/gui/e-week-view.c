@@ -2165,7 +2165,7 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	if (week_view->popup_event_num == event_num)
 		week_view->popup_event_num = -1;
 
-	e_cal_model_free_component_data (event->comp_data);
+	g_object_unref (event->comp_data);
 	event->comp_data = NULL;
 
 	if (week_view->spans) {
@@ -2603,7 +2603,7 @@ e_week_view_free_events (EWeekView *week_view)
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		e_cal_model_free_component_data (event->comp_data);
+		g_object_unref (event->comp_data);
 	}
 
 	g_array_set_size (week_view->events, 0);
@@ -2672,7 +2672,7 @@ e_week_view_add_event (ECalComponent *comp,
 						e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
 
 	if (add_event_data->comp_data) {
-		event.comp_data = e_cal_model_copy_component_data (add_event_data->comp_data);
+		event.comp_data = g_object_ref (add_event_data->comp_data);
 	} else {
 		event.comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 

@@ -2074,7 +2074,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	if (event->canvas_item)
 		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
 
-	e_cal_model_free_component_data (event->comp_data);
+	g_object_unref (event->comp_data);
 	event->comp_data = NULL;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
@@ -4466,7 +4466,7 @@ e_day_view_free_event_array (EDayView *day_view,
 		if (event->canvas_item)
 			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
 
-		e_cal_model_free_component_data (event->comp_data);
+		g_object_unref (event->comp_data);
 	}
 
 	g_array_set_size (array, 0);
@@ -4506,7 +4506,7 @@ e_day_view_add_event (ECalComponent *comp,
 						e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view)));
 
 	if (add_event_data->comp_data) {
-		event.comp_data = e_cal_model_copy_component_data (add_event_data->comp_data);
+		event.comp_data = g_object_ref (add_event_data->comp_data);
 	} else {
 		event.comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 
