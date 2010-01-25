@@ -1051,6 +1051,7 @@ e_shell_searchbar_restore_state (EShellSearchbar *searchbar,
 
 	e_shell_view_block_execute_search (shell_view);
 
+	e_shell_view_set_search_rule (shell_view, NULL);
 	key = STATE_KEY_SEARCH_FILTER;
 	string = g_key_file_get_string (key_file, group_name, key, NULL);
 	if (string != NULL && *string != '\0')
