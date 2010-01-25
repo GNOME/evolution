@@ -282,7 +282,7 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 	GtkWidget *message_list;
 	gboolean magic_spacebar;
 
-	if (html->binding_handled)
+	if (html->binding_handled || gtk_html_get_caret_mode (html))
 		return;
 
 	if (orientation != GTK_ORIENTATION_VERTICAL)
