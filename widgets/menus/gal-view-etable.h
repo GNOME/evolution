@@ -25,7 +25,7 @@
 #define _GAL_VIEW_ETABLE_H_
 
 #include <gtk/gtk.h>
-#include <widgets/menus/gal-view.h>
+#include <menus/gal-view.h>
 #include <table/e-table-state.h>
 #include <table/e-table-specification.h>
 #include <table/e-table.h>
