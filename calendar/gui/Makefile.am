@@ -18,6 +18,7 @@ ecalendarinclude_HEADERS =			\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
 	e-cal-model.h				\
+	e-calendar-selector.h			\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-date-time-list.h                      \
