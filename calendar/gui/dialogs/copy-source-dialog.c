@@ -49,6 +49,31 @@ show_error (GtkWindow *parent, const gchar *msg)
 	gtk_widget_destroy (dialog);
 }
 
+struct ForeachTzidData
+{
+	ECal *source_client;
+	ECal *dest_client;
+};
+
+static void
+add_timezone_to_cal_cb (icalparameter *param, gpointer data)
+{
+	struct ForeachTzidData *ftd = data;
+	icaltimezone *tz = NULL;
+	const gchar *tzid;
+
+	g_return_if_fail (ftd != NULL);
+	g_return_if_fail (ftd->source_client != NULL);
+	g_return_if_fail (ftd->dest_client != NULL);
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || !*tzid)
+		return;
+
+	if (e_cal_get_timezone (ftd->source_client, tzid, &tz, NULL) && tz)
+		e_cal_add_timezone (ftd->dest_client, tz, NULL);
+}
+
 static gboolean
 copy_source (CopySourceDialogData *csdd)
 {
@@ -84,8 +109,11 @@ copy_source (CopySourceDialogData *csdd)
 	} else {
 		if (e_cal_get_object_list (source_client, "#t", &obj_list, NULL)) {
 			GList *l;
-			const gchar *uid;
 			icalcomponent *icalcomp;
+			struct ForeachTzidData ftd;
+
+			ftd.source_client = source_client;
+			ftd.dest_client = dest_client;
 
 			for (l = obj_list; l != NULL; l = l->next) {
 				/* FIXME: process recurrences */
@@ -95,8 +123,23 @@ copy_source (CopySourceDialogData *csdd)
 					e_cal_modify_object (dest_client, l->data, CALOBJ_MOD_ALL, NULL);
 					icalcomponent_free (icalcomp);
 				} else {
-					e_cal_create_object (dest_client, l->data, (gchar **) &uid, NULL);
-					g_free ((gpointer) uid);
+					gchar *uid = NULL;
+					GError *error = NULL;
+
+					icalcomp = l->data;
+
+					/* add timezone information from source ECal to the destination ECal */
+					icalcomponent_foreach_tzid (icalcomp, add_timezone_to_cal_cb, &ftd);
+
+					if (e_cal_create_object (dest_client, icalcomp, &uid, &error)) {
+						g_free (uid);
+					} else {
+						if (error) {
+							show_error (NULL, error->message);
+							g_error_free (error);
+						}
+						break;
+					}
 				}
 			}
 
