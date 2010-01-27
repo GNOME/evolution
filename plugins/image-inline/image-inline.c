@@ -276,6 +276,15 @@ org_gnome_image_inline_pobject_free (EMFormatHTMLPObject *object)
 	}
 
 	if (image_object->widget != NULL) {
+		GtkWidget *parent;
+
+		g_signal_handlers_disconnect_by_func (image_object->widget, button_press_press_cb, image_object);
+		g_signal_handlers_disconnect_by_func (image_object->widget, drag_data_get_cb, image_object);
+
+		parent = gtk_widget_get_parent (image_object->widget);
+		if (parent)
+			g_signal_handlers_disconnect_by_func (parent, size_allocate_cb, image_object);
+
 		g_object_unref (image_object->widget);
 		image_object->widget = NULL;
 	}
