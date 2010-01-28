@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:foaf="http://xmlns.com/foaf/0.1/"
@@ -8,6 +9,8 @@
   <shortdesc xml:lang="en">Manage your email, contacts and schedule</shortdesc>
   <homepage rdf:resource="http://projects.gnome.org/evolution" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/evolution-list" />
+  <download-page rdf:resource="http://download.gnome.org/sources/evolution" />
+  <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=evolution" />
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
 
   <!-- Project Leads -->
