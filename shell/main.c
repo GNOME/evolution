@@ -331,7 +331,7 @@ static GOptionEntry entries[] = {
 	  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
 #endif
 	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log,
-	  N_("Send the debugging output of all components to a file."), NULL },
+	  N_("Send the debugging output of all components to a file."), "FILE" },
 	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
 	  N_("Disable loading of any plugins."), NULL },
 	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
