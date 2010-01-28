@@ -82,9 +82,11 @@ static void e_calendar_view_set_property (GObject *object, guint property_id, co
 static void e_calendar_view_destroy (GtkObject *object);
 
 #ifdef G_OS_WIN32
-__declspec(dllimport)
-#endif
+const ECompEditorRegistry * const comp_editor_get_registry();
+#define comp_editor_registry comp_editor_get_registry()
+#else
 extern ECompEditorRegistry *comp_editor_registry;
+#endif
 
 /* Property IDs */
 enum props {

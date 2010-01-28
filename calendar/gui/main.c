@@ -63,9 +63,16 @@
 #define COMP_EDITOR_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION
 
 #ifdef G_OS_WIN32
-__declspec(dllexport)
+static
 #endif
 ECompEditorRegistry *comp_editor_registry = NULL;
+
+#ifdef G_OS_WIN32
+const ECompEditorRegistry * const comp_editor_get_registry()
+{
+	return comp_editor_registry;
+}
+#endif
 
 /* The component editor factory */
 static CompEditorFactory *comp_editor_factory = NULL;

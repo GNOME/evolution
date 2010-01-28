@@ -78,9 +78,11 @@ static GtkTargetEntry target_types[] = {
 static guint n_target_types = G_N_ELEMENTS (target_types);
 
 #ifdef G_OS_WIN32
-__declspec(dllimport)
-#endif
+const ECompEditorRegistry * const comp_editor_get_registry();
+#define comp_editor_registry comp_editor_get_registry()
+#else
 extern ECompEditorRegistry *comp_editor_registry;
+#endif
 
 static void e_calendar_table_destroy		(GtkObject	*object);
 

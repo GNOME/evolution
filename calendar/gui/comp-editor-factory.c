@@ -41,9 +41,11 @@
 #include "dialogs/task-editor.h"
 
 #ifdef G_OS_WIN32
-__declspec(dllimport)
-#endif
+const ECompEditorRegistry * const comp_editor_get_registry();
+#define comp_editor_registry comp_editor_get_registry()
+#else
 extern ECompEditorRegistry *comp_editor_registry;
+#endif
 
 
 

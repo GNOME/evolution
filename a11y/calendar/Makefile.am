@@ -6,7 +6,8 @@
 if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = 					\
 	$(top_builddir)/win32/libetext.la		\
-	$(top_builddir)/win32/libevolution-calendar.la
+	$(top_builddir)/win32/libevolution-calendar.la \
+	$(top_builddir)/win32/libevolution-cal-shared.la
 endif
 
 privsolib_LTLIBRARIES = libevolution-calendar-a11y.la
