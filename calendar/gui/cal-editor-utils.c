@@ -30,16 +30,6 @@
 #include "dialogs/task-editor.h"
 #include "dialogs/memo-editor.h"
 
-<<<<<<< HEAD
-=======
-#ifdef G_OS_WIN32
-const ECompEditorRegistry * const comp_editor_get_registry();
-#define comp_editor_registry comp_editor_get_registry()
-#else
-extern ECompEditorRegistry *comp_editor_registry;
-#endif
-
->>>>>>> 90cd900... Without this evo 2.28.2 will not link/run at all
 /**
  * open_component_editor:
  * @client: Already opened #ECal, where to store the component

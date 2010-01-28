@@ -80,46 +80,6 @@ enum {
 	PROP_SHELL_VIEW
 };
 
-<<<<<<< HEAD
-=======
-#ifdef G_OS_WIN32
-const ECompEditorRegistry * const comp_editor_get_registry();
-#define comp_editor_registry comp_editor_get_registry()
-#else
-extern ECompEditorRegistry *comp_editor_registry;
-#endif
-
-static void e_memo_table_destroy		(GtkObject	*object);
-
-static void e_memo_table_on_double_click	(ETable		*table,
-						 gint		 row,
-						 gint		 col,
-						 GdkEvent	*event,
-						 EMemoTable *memo_table);
-static gint e_memo_table_show_popup_menu	(ETable *table,
-						 GdkEvent *gdk_event,
-						 EMemoTable *memo_table);
-
-static gint e_memo_table_on_right_click		(ETable		*table,
-						 gint		 row,
-						 gint		 col,
-						 GdkEvent       *event,
-						 EMemoTable *memo_table);
-static gboolean e_memo_table_on_popup_menu	(GtkWidget *widget,
-						 gpointer data);
-
-static gint e_memo_table_on_key_press		(ETable		*table,
-						 gint		 row,
-						 gint		 col,
-						 GdkEventKey	*event,
-						 EMemoTable *memo_table);
-static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
-
-static ECalModelComponent *get_selected_comp (EMemoTable *memo_table);
-static void open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data);
-
-/* Signal IDs */
->>>>>>> 90cd900... Without this evo 2.28.2 will not link/run at all
 enum {
 	OPEN_COMPONENT,
 	POPUP_EVENT,

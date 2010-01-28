@@ -1,16 +1,15 @@
 EXPORTS
 	composer_lite DATA
-	e_attachment_handler_mail_get_type
 	e_composer_actions_init
 	e_composer_autosave_find_orphans
 	e_composer_autosave_get_enabled
+	e_composer_autosave_get_fd
 	e_composer_autosave_get_filename
 	e_composer_autosave_get_saved
 	e_composer_autosave_register
 	e_composer_autosave_set_enabled
 	e_composer_autosave_set_saved
-	e_composer_autosave_snapshot_async
-	e_composer_autosave_snapshot_finish
+	e_composer_autosave_snapshot
 	e_composer_autosave_unregister
 	e_composer_find_data_file
 	e_composer_from_header_get_account_list
@@ -18,7 +17,6 @@ EXPORTS
 	e_composer_from_header_get_active_name
 	e_composer_from_header_get_type
 	e_composer_from_header_new
-	e_composer_from_header_new_with_action
 	e_composer_from_header_set_account_list
 	e_composer_from_header_set_active
 	e_composer_from_header_set_active_name
@@ -87,22 +85,6 @@ EXPORTS
 	e_composer_text_header_new_label
 	e_composer_text_header_set_text
 	e_load_spell_languages
-	e_mail_attachment_bar_get_active_view
-	e_mail_attachment_bar_get_expanded
-	e_mail_attachment_bar_get_type
-	e_mail_attachment_bar_new
-	e_mail_attachment_bar_set_active_view
-	e_mail_attachment_bar_set_expanded
-	e_mail_search_bar_changed
-	e_mail_search_bar_clear
-	e_mail_search_bar_get_case_sensitive
-	e_mail_search_bar_get_html
-	e_mail_search_bar_get_text
-	e_mail_search_bar_get_tokenizer
-	e_mail_search_bar_get_type
-	e_mail_search_bar_new
-	e_mail_search_bar_set_case_sensitive
-	e_mail_search_bar_set_text
 	e_msg_composer_add_header
 	e_msg_composer_add_inline_image_from_file
 	e_msg_composer_add_inline_image_from_mime_part
@@ -493,7 +475,6 @@ EXPORTS
 	mail_send
 	mail_send_queue
 	mail_send_receive
-	mail_send_receive_dialog
 	mail_servers DATA
 	mail_session_add_junk_plugin
 	mail_session_add_password
