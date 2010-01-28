@@ -9,23 +9,6 @@ EXPORTS
 	TC_GNOME_Evolution_MailComponent_struct DATA
 	_ORBIT_skel_small_GNOME_Evolution_MailComponent_test
 	create_combo_text_widget
-	e_attachment_handler_mail_get_type
-	e_mail_attachment_bar_get_active_view
-	e_mail_attachment_bar_get_expanded
-	e_mail_attachment_bar_get_type
-	e_mail_attachment_bar_new
-	e_mail_attachment_bar_set_active_view
-	e_mail_attachment_bar_set_expanded
-	e_mail_search_bar_changed
-	e_mail_search_bar_clear
-	e_mail_search_bar_get_case_sensitive
-	e_mail_search_bar_get_html
-	e_mail_search_bar_get_text
-	e_mail_search_bar_get_tokenizer
-	e_mail_search_bar_get_type
-	e_mail_search_bar_new
-	e_mail_search_bar_set_case_sensitive
-	e_mail_search_bar_set_text
 	e_searching_tokenizer_add_primary_search_string
 	e_searching_tokenizer_add_secondary_search_string
 	e_searching_tokenizer_get_type
@@ -172,3 +155,4 @@ EXPORTS
 	message_list_thaw
 	status_check
 	vfolder_store DATA
+	x_mailer DATA

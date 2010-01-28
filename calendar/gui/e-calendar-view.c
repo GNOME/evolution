@@ -75,9 +75,18 @@ struct _ECalendarViewPrivate {
 	/* The default category */
 	gchar *default_category;
 
+<<<<<<< HEAD
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
 };
+=======
+#ifdef G_OS_WIN32
+const ECompEditorRegistry * const comp_editor_get_registry();
+#define comp_editor_registry comp_editor_get_registry()
+#else
+extern ECompEditorRegistry *comp_editor_registry;
+#endif
+>>>>>>> 90cd900... Without this evo 2.28.2 will not link/run at all
 
 enum {
 	PROP_0,

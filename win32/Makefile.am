@@ -5,6 +5,7 @@ EXTRA_DIST =				\
 	libetext.def			\
 	libevolution-addressbook.def	\
 	libevolution-calendar.def	\
+	libevolution-cal-shared.def \
 	libevolution-mail.def		\
 	libfilter.def
 
@@ -15,6 +16,7 @@ BOOTSTRAP_LIBS =			\
 	libetext.la			\
 	libevolution-addressbook.la	\
 	libevolution-calendar.la	\
+	libevolution-cal-shared.la	\
 	libevolution-mail.la		\
 	libfilter.la
 endif
@@ -50,6 +52,11 @@ libevolution-calendar.la: dummy.la libevolution-calendar.def
 	sed -e s!%DLL%!libevolution-calendar! -e s!%LIB%!libevolution-calendar! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
 	$(DLLTOOL) --output-lib=.libs/libevolution-calendar.dll.a --dllname=libevolution-calendar.dll --input-def=libevolution-calendar.def
+
+libevolution-cal-shared.la: dummy.la libevolution-cal-shared.def
+	sed -e s!%DLL%!libevolution-cal-shared-0! -e s!%LIB%!libevolution-cal-shared! -e s!%PFX%!$(prefix)! <dummy.la >$@
+	mkdir -p .libs
+	$(DLLTOOL) --output-lib=.libs/libevolution-cal-shared.dll.a --dllname=libevolution-cal-shared-0.dll --input-def=libevolution-cal-shared.def
 
 libevolution-mail.la: dummy.la libevolution-mail.def
 	sed -e s!%DLL%!libevolution-mail! -e s!%LIB%!libevolution-mail! -e s!%PFX%!$(prefix)! <dummy.la >$@
