@@ -114,10 +114,15 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 	total_size = e_attachment_store_get_total_size (store);
 	display_size = g_format_size_for_display (total_size);
 
-	markup = g_strdup_printf (
-		"<b>%d</b> %s (%s)", num_attachments, ngettext (
-		"Attachment", "Attachments", num_attachments),
-		display_size);
+	if (total_size > 0)
+		markup = g_strdup_printf (
+			"<b>%d</b> %s (%s)", num_attachments, ngettext (
+			"Attachment", "Attachments", num_attachments),
+			display_size);
+	else
+		markup = g_strdup_printf (
+			"<b>%d</b> %s", num_attachments, ngettext (
+			"Attachment", "Attachments", num_attachments));
 	gtk_label_set_markup (label, markup);
 	g_free (markup);
 
