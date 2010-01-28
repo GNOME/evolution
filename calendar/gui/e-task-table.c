@@ -87,7 +87,6 @@ enum {
 	OPEN_COMPONENT,
 	POPUP_EVENT,
 	STATUS_MESSAGE,
-	USER_CREATED,
 	LAST_SIGNAL
 };
 
@@ -130,14 +129,6 @@ task_table_emit_status_message (ETaskTable *task_table,
 	guint signal_id = signals[STATUS_MESSAGE];
 
 	g_signal_emit (task_table, signal_id, 0, message, percent);
-}
-
-static void
-task_table_emit_user_created (ETaskTable *task_table)
-{
-	guint signal_id = signals[USER_CREATED];
-
-	g_signal_emit (task_table, signal_id, 0);
 }
 
 static gint
@@ -295,10 +286,6 @@ task_table_set_model (ETaskTable *task_table,
 	g_return_if_fail (task_table->priv->model == NULL);
 
 	task_table->priv->model = g_object_ref (model);
-
-	g_signal_connect_swapped (
-		model, "row_appended",
-		G_CALLBACK (task_table_emit_user_created), task_table);
 
 	g_signal_connect_swapped (
 		model, "cal-view-progress",
@@ -1409,15 +1396,6 @@ task_table_class_init (ETaskTableClass *class)
 		e_marshal_VOID__STRING_DOUBLE,
 		G_TYPE_NONE, 2,
 		G_TYPE_STRING, G_TYPE_DOUBLE);
-
-	signals[USER_CREATED] = g_signal_new (
-		"user-created",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ETaskTableClass, user_created),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
 }
 
 static void

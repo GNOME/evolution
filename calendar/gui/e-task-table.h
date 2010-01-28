@@ -84,7 +84,6 @@ struct _ETaskTableClass {
 	void	(*status_message)		(ETaskTable *task_table,
 						 const gchar *message,
 						 gdouble percent);
-	void	(*user_created)			(ETaskTable *task_table);
 };
 
 GType		e_task_table_get_type		(void);

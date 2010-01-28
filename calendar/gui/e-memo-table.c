@@ -84,7 +84,6 @@ enum {
 	OPEN_COMPONENT,
 	POPUP_EVENT,
 	STATUS_MESSAGE,
-	USER_CREATED,
 	LAST_SIGNAL
 };
 
@@ -123,14 +122,6 @@ memo_table_emit_status_message (EMemoTable *memo_table,
 	guint signal_id = signals[STATUS_MESSAGE];
 
 	g_signal_emit (memo_table, signal_id, 0, message, percent);
-}
-
-static void
-memo_table_emit_user_created (EMemoTable *memo_table)
-{
-	guint signal_id = signals[USER_CREATED];
-
-	g_signal_emit (memo_table, signal_id, 0);
 }
 
 /* Returns the current time, for the ECellDateEdit items.
@@ -217,10 +208,6 @@ memo_table_set_model (EMemoTable *memo_table,
 	g_return_if_fail (memo_table->priv->model == NULL);
 
 	memo_table->priv->model = g_object_ref (model);
-
-	g_signal_connect_swapped (
-		model, "row-appended",
-		G_CALLBACK (memo_table_emit_user_created), memo_table);
 
 	g_signal_connect_swapped (
 		model, "cal-view-progress",
@@ -1110,15 +1097,6 @@ memo_table_class_init (EMemoTableClass *class)
 		e_marshal_VOID__STRING_DOUBLE,
 		G_TYPE_NONE, 2,
 		G_TYPE_STRING, G_TYPE_DOUBLE);
-
-	signals[USER_CREATED] = g_signal_new (
-		"user-created",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EMemoTableClass, user_created),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
 }
 
 static void

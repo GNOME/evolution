@@ -24,6 +24,25 @@
 #include "widgets/menus/gal-view-factory-etable.h"
 
 static void
+task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
+                                       ECalModel *model)
+{
+	ETaskShellSidebar *task_shell_sidebar;
+	ECal *client;
+	ESource *source;
+
+	/* This is the "Click to Add" handler. */
+
+	client = e_cal_model_get_default_client (model);
+	source = e_cal_get_source (client);
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	e_task_shell_sidebar_add_source (task_shell_sidebar, source);
+
+	e_cal_model_add_client (model, client);
+}
+
+static void
 task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
@@ -54,27 +73,6 @@ task_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 	widget_path = "/task-popup";
 	e_shell_view_show_popup_menu (shell_view, widget_path, event);
-}
-
-static void
-task_shell_view_table_user_created_cb (ETaskShellView *task_shell_view,
-                                       ETaskTable *task_table)
-{
-	ETaskShellSidebar *task_shell_sidebar;
-	ECalModel *model;
-	ECal *client;
-	ESource *source;
-
-	/* This is the "Click to Add" handler. */
-
-	model = e_task_table_get_model (task_table);
-	client = e_cal_model_get_default_client (model);
-	source = e_cal_get_source (client);
-
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	e_task_shell_sidebar_add_source (task_shell_sidebar, source);
-
-	e_cal_model_add_client (model, client);
 }
 
 static void
@@ -254,6 +252,11 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 
 	g_signal_connect_swapped (
+		model, "row-appended",
+		G_CALLBACK (task_shell_view_model_row_appended_cb),
+		task_shell_view);
+
+	g_signal_connect_swapped (
 		task_table, "open-component",
 		G_CALLBACK (e_task_shell_view_open_task),
 		task_shell_view);
@@ -276,11 +279,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	g_signal_connect_swapped (
 		task_table, "status-message",
 		G_CALLBACK (e_task_shell_view_set_status_message),
-		task_shell_view);
-
-	g_signal_connect_swapped (
-		task_table, "user-created",
-		G_CALLBACK (task_shell_view_table_user_created_cb),
 		task_shell_view);
 
 	g_signal_connect_swapped (

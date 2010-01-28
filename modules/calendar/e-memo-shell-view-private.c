@@ -24,27 +24,15 @@
 #include "widgets/menus/gal-view-factory-etable.h"
 
 static void
-memo_shell_view_table_popup_event_cb (EShellView *shell_view,
-                                      GdkEventButton *event)
-{
-	const gchar *widget_path;
-
-	widget_path = "/memo-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
-}
-
-static void
-memo_shell_view_table_user_created_cb (EMemoShellView *memo_shell_view,
-                                       EMemoTable *memo_table)
+memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
+                                       ECalModel *model)
 {
 	EMemoShellSidebar *memo_shell_sidebar;
-	ECalModel *model;
 	ECal *client;
 	ESource *source;
 
 	/* This is the "Click to Add" handler. */
 
-	model = e_memo_table_get_model (memo_table);
 	client = e_cal_model_get_default_client (model);
 	source = e_cal_get_source (client);
 
@@ -52,6 +40,16 @@ memo_shell_view_table_user_created_cb (EMemoShellView *memo_shell_view,
 	e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
 
 	e_cal_model_add_client (model, client);
+}
+
+static void
+memo_shell_view_table_popup_event_cb (EShellView *shell_view,
+                                      GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/memo-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
 static void
@@ -202,6 +200,11 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		memo_shell_view);
 
 	g_signal_connect_swapped (
+		model, "row-appended",
+		G_CALLBACK (memo_shell_view_model_row_appended_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
 		memo_table, "open-component",
 		G_CALLBACK (e_memo_shell_view_open_memo),
 		memo_shell_view);
@@ -224,11 +227,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	g_signal_connect_swapped (
 		memo_table, "status-message",
 		G_CALLBACK (e_memo_shell_view_set_status_message),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
-		memo_table, "user-created",
-		G_CALLBACK (memo_shell_view_table_user_created_cb),
 		memo_shell_view);
 
 	g_signal_connect_swapped (

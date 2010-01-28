@@ -86,7 +86,6 @@ struct _EMemoTableClass {
 	void	(*status_message)		(EMemoTable *memo_table,
 						 const gchar *message,
 						 gdouble percent);
-	void	(*user_created)			(EMemoTable *memo_table);
 };
 
 GType		e_memo_table_get_type		(void);
