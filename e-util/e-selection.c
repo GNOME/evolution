@@ -284,7 +284,10 @@ e_selection_data_get_html (GtkSelectionData *selection_data)
 {
 	GdkAtom data_type;
 	const guchar *data = NULL;
+	gchar *utf8_text;
+	gint length;
 	gint ii;
+	GError *error = NULL;
 
 	/* XXX May need to do encoding conversions here.
 	 *     Not worrying about it for now. */
@@ -292,12 +295,28 @@ e_selection_data_get_html (GtkSelectionData *selection_data)
 	g_return_val_if_fail (selection_data != NULL, NULL);
 
 	data = gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
 	data_type = gtk_selection_data_get_data_type (selection_data);
+
+	/* First validate the data.  Assume it's UTF-8 or UTF-16. */
+	if (g_utf8_validate ((const gchar *) data, length - 1, NULL))
+		utf8_text = g_strdup ((const gchar *) data);
+	else
+		utf8_text = g_convert (
+			(const gchar *) data, length,
+			"UTF-8", "UTF-16", NULL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 
 	/* All HTML atoms are treated the same. */
 	for (ii = 0; ii < NUM_HTML_ATOMS; ii++)
 		if (data_type == html_atoms[ii])
-			return g_strdup ((gchar *) data);
+			return utf8_text;
+
+	g_free (utf8_text);
 
 	return NULL;
 }
