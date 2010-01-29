@@ -54,7 +54,6 @@ struct _EMSyncStream {
 	GString *buffer;
 	gboolean cancel;
 	guint idle_id;
-	gboolean in_finalize;
 };
 
 struct _EMSyncStreamClass {

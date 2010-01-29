@@ -124,7 +124,7 @@ static void
 em_html_stream_finalize (EMHTMLStream *emhs)
 {
 	if (emhs->html_stream) {
-		emhs->sync.in_finalize = TRUE;
+		/* set 'in finalise' flag */
 		camel_stream_close (CAMEL_STREAM (emhs));
 	}
 }

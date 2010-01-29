@@ -127,7 +127,7 @@ emss_stream_write (CamelStream *stream, const gchar *string, gsize len)
 	if (emss->cancel)
 		return -1;
 
-	if (emss->in_finalize || mail_in_main_thread ()) {
+	if (mail_in_main_thread ()) {
 		EMSS_CLASS (emss)->sync_write (stream, string, len);
 	} else if (emss->buffer != NULL) {
 		if (len < (emss->buffer->allocated_len - emss->buffer->len))
@@ -149,7 +149,7 @@ emss_stream_flush (CamelStream *stream)
 	if (emss->cancel)
 		return -1;
 
-	if (emss->in_finalize || mail_in_main_thread ())
+	if (mail_in_main_thread ())
 		return EMSS_CLASS (emss)->sync_flush (stream);
 	else
 		emss_sync_op (emss, EMSS_FLUSH, NULL, 0);
@@ -167,7 +167,7 @@ emss_stream_close (CamelStream *stream)
 
 	emss->idle_id = 0;
 
-	if (emss->in_finalize || mail_in_main_thread ())
+	if (mail_in_main_thread ())
 		return EMSS_CLASS (emss)->sync_close (stream);
 	else
 		emss_sync_op (emss, EMSS_CLOSE, NULL, 0);
@@ -190,7 +190,6 @@ em_sync_stream_class_init (EMSyncStreamClass *class)
 static void
 em_sync_stream_finalize (EMSyncStream *emss)
 {
-	emss->in_finalize = TRUE;
 	if (emss->buffer != NULL)
 		g_string_free (emss->buffer, TRUE);
 	if (emss->idle_id)
