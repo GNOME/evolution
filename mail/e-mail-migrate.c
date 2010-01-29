@@ -1455,7 +1455,7 @@ cp_r (const gchar *src, const gchar *dest, const gchar *pattern, gint mode)
 	struct stat st;
 	DIR *dir;
 
-	if (g_mkdir_with_parents (dest, 0777) == -1)
+	if (g_mkdir_with_parents (dest, 0700) == -1)
 		return FALSE;
 
 	if (!(dir = opendir (src)))
@@ -1579,7 +1579,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 		slen = src->len;
 		dlen = dest->len;
 
-		if (g_mkdir_with_parents (dest->str, 0777) == -1 && errno != EEXIST) {
+		if (g_mkdir_with_parents (dest->str, 0700) == -1 && errno != EEXIST) {
 			g_set_error (
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
@@ -2028,7 +2028,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 	g_free (cache_dir);
 
 	cache_dir = g_build_filename (data_dir, "pop", NULL);
-	if (g_mkdir_with_parents (cache_dir, 0777) == -1) {
+	if (g_mkdir_with_parents (cache_dir, 0700) == -1) {
 		g_set_error (
 			error, E_SHELL_MIGRATE_ERROR,
 			E_SHELL_MIGRATE_ERROR_FAILED,
@@ -2059,7 +2059,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 		/* strip the trailing '_' */
 		g_string_truncate (newpath, newpath->len - 1);
 
-		if (g_mkdir_with_parents (newpath->str, 0777) == -1
+		if (g_mkdir_with_parents (newpath->str, 0700) == -1
 		    || !cp(oldpath->str, (g_string_append(newpath, "/uid-cache"))->str, FALSE, CP_UNIQUE)) {
 			g_set_error (
 				error, E_SHELL_MIGRATE_ERROR,
@@ -2122,7 +2122,7 @@ em_migrate_folder_expand_state_1_4 (const gchar *data_dir, GError **error)
 
 	destpath = g_string_new (data_dir);
 	g_string_append (destpath, "/config");
-	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
+	if (g_mkdir_with_parents (destpath->str, 0700) == -1 || !(dir = opendir (srcpath->str))) {
 		g_string_free (destpath, TRUE);
 		g_string_free (srcpath, TRUE);
 		return TRUE;
@@ -2220,7 +2220,7 @@ em_migrate_folder_view_settings_1_4 (const gchar *data_dir, GError **error)
 
 	destpath = g_string_new (data_dir);
 	g_string_append (destpath, "/views");
-	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
+	if (g_mkdir_with_parents (destpath->str, 0700) == -1 || !(dir = opendir (srcpath->str))) {
 		g_string_free (destpath, TRUE);
 		g_string_free (srcpath, TRUE);
 		return TRUE;
@@ -2436,7 +2436,7 @@ em_migrate_imap_cmeta_1_4(const gchar *data_dir, GError **error)
 							       url->host?url->host:"");
 
 					dir = e_path_to_physical(base, path);
-					if (g_mkdir_with_parents(dir, 0777) == 0) {
+					if (g_mkdir_with_parents(dir, 0700) == 0) {
 						gchar *cmeta;
 						FILE *fp;
 
@@ -2531,7 +2531,7 @@ em_migrate_1_4 (const gchar *data_dir, xmlDocPtr filters, xmlDocPtr vfolders, GE
 
 	path = g_strdup_printf ("mbox:%s/.evolution/mail/local", g_get_home_dir ());
 	if (stat (path + 5, &st) == -1) {
-		if (errno != ENOENT || g_mkdir_with_parents (path + 5, 0777) == -1) {
+		if (errno != ENOENT || g_mkdir_with_parents (path + 5, 0700) == -1) {
 			g_set_error (
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
@@ -2647,7 +2647,7 @@ emm_setup_initial(const gchar *data_dir)
 	d(printf("Setting up initial mail tree\n"));
 
 	base = g_build_filename(data_dir, "local", NULL);
-	if (g_mkdir_with_parents(base, 0777) == -1 && errno != EEXIST) {
+	if (g_mkdir_with_parents(base, 0700) == -1 && errno != EEXIST) {
 		g_free(base);
 		return FALSE;
 	}
@@ -3001,7 +3001,7 @@ e_mail_migrate (EShellBackend *shell_backend,
 	/* make sure ~/.evolution/mail exists */
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	if (g_stat (data_dir, &st) == -1) {
-		if (errno != ENOENT || g_mkdir_with_parents (data_dir, 0777) == -1) {
+		if (errno != ENOENT || g_mkdir_with_parents (data_dir, 0700) == -1) {
 			g_set_error (
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,

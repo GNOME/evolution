@@ -194,6 +194,47 @@ fail:
 	return result;
 }
 
+static void
+change_dir_modes (const gchar *path)
+{
+	GDir *dir;
+	GError *err = NULL;
+	const char *file = NULL;
+
+	dir = g_dir_open (path, 0, &err);
+	if (err) {
+		g_warning ("Error opening directory %s: %s \n", path, err->message);
+		g_clear_error (&err);
+		return;
+	}
+
+	while ((file = g_dir_read_name (dir))) {
+		gchar *full_path = g_build_filename (path, file, NULL);
+
+		if (g_file_test (full_path, G_FILE_TEST_IS_DIR))
+			change_dir_modes (full_path);
+
+		g_free (full_path);
+	}
+
+	g_chmod (path, 0700);	
+	g_dir_close (dir);
+}
+
+static void
+fix_folder_permissions (const char *data_dir)
+{
+	struct stat sb;
+
+	if (g_stat (data_dir, &sb) == -1) {
+		g_warning ("error stat: %s \n", data_dir);
+		return;	
+	}
+
+	if (((guint32) sb.st_mode & 0777) != 0700)
+		change_dir_modes (data_dir);
+}
+
 gboolean
 e_shell_migrate_attempt (EShell *shell)
 {
@@ -220,6 +261,10 @@ e_shell_migrate_attempt (EShell *shell)
 	curr_micro = atoi (UPGRADE_REVISION);
 
 	shell_migrate_get_version (shell, &major, &minor, &micro);
+
+	/* This sets the folder permissions to S_IRWXU if needed */
+	if (curr_major <= 2 && curr_minor <= 30)
+		fix_folder_permissions (e_get_user_data_dir ());
 
 	if (!(curr_major > major ||
 		(curr_major == major && curr_minor > minor) ||

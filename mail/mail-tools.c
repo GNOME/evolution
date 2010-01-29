@@ -119,7 +119,7 @@ mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 	data_dir = mail_session_get_data_dir ();
 	path = g_build_filename (data_dir, "spool", NULL);
 
-	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0777) == -1) {
+	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0700) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory `%s': %s"),
 				     path, g_strerror(errno));
 		g_free(path);

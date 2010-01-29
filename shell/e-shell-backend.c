@@ -162,7 +162,7 @@ shell_backend_get_config_dir (EShellBackend *shell_backend)
 
 		/* Create the user configuration directory for this backend,
 		 * which should also create the user data directory. */
-		if (g_mkdir_with_parents (config_dir, 0777) != 0)
+		if (g_mkdir_with_parents (config_dir, 0700) != 0)
 			g_critical (
 				"Cannot create directory %s: %s",
 				config_dir, g_strerror (errno));
