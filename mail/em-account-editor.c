@@ -77,6 +77,17 @@
 
 #define d(x)
 
+static ServerData mail_servers[] = {
+	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
+	{"googlemail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
+	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
+	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},
+	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never"},
+	{"hotmail", "pop3.live.com", "smtp.live.com", "pop", "always"},
+	{"live.com", "pop3.live.com", "smtp.live.com", "pop", "always"},
+
+};
+
 /* econfig item for the extra config hings */
 struct _receive_options_item {
 	EMConfigItem item;
@@ -190,6 +201,8 @@ struct _EMAccountEditorPrivate {
 	guint receive_set:1;
 	guint send_set:1;
 	guint management_set:1;
+
+	ServerData *selected_server;
 };
 
 enum {
@@ -202,6 +215,7 @@ enum {
 static void emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service);
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
+static ServerData * emae_check_servers (const gchar *email);
 
 static gpointer parent_class;
 
@@ -371,6 +385,8 @@ emae_init (EMAccountEditor *emae)
 {
 	emae->priv = EM_ACCOUNT_EDITOR_GET_PRIVATE (emae);
 
+	emae->priv->selected_server = NULL;
+	emae->emae_check_servers = emae_check_servers;
 	emae->priv->source.emae = emae;
 	emae->priv->transport.emae = emae;
 }
@@ -3010,34 +3026,21 @@ enum {
 	YAHOO,
 	AOL
 };
-struct _server_prefill {
-	const gchar *key;
-	const gchar *recv;
-	const gchar *send;
-	const gchar *proto;
-	const gchar *ssl;
-} mail_servers [] = {
-	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
-	{"googlemail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
-	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
-	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},
-	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never"},
-	{"hotmail", "pop3.live.com", "smtp.live.com", "pop", "always"},
-	{"live.com", "pop3.live.com", "smtp.live.com", "pop", "always"},
 
-};
-
-static gint
-check_servers (gchar *server)
+static ServerData *
+emae_check_servers (const gchar *email)
 {
 	gint len = G_N_ELEMENTS(mail_servers), i;
+	char *server = strchr (email, '@');
+
+	server++;
 
 	for (i=0; i<len; i++) {
 		if (strstr (server, mail_servers[i].key) != NULL)
-			return i;
+			return &mail_servers[i];
 	}
 
-	return -1;
+	return NULL;
 }
 
 static gboolean
@@ -3077,8 +3080,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 			}
 		} else if (!strcmp (pageid, "10.receive")) {
 			if (!emae->priv->receive_set) {
+				ServerData *sdata;
 				gchar *user, *at;
-				gint index;
 				gchar *uri = g_strdup (e_account_get_string (account, E_ACCOUNT_SOURCE_URL));
 				CamelURL *url;
 
@@ -3090,18 +3093,23 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				user[at-tmp] = 0;
 				at++;
 
-				index = check_servers (at);
-				gtk_entry_set_text (emae->priv->source.username, user);
-				gtk_entry_set_text (emae->priv->transport.username, user);
+				sdata = emae->priv->selected_server = emae->emae_check_servers (tmp);
+				gtk_entry_set_text (emae->priv->source.username, sdata && sdata->recv_user && *sdata->recv_user ? sdata->recv_user : user);
+				gtk_entry_set_text (emae->priv->transport.username, sdata && sdata->send_user && *sdata->send_user ? sdata->send_user: user);
 				if (new_account && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
-					camel_url_set_user (url, user);
-					if (index != -1) {
-						camel_url_set_protocol (url, mail_servers[index].proto);
-						camel_url_set_param (url, "use_ssl", mail_servers[index].ssl);
-						camel_url_set_host (url, mail_servers[index].recv);
-						gtk_entry_set_text (emae->priv->source.hostname, mail_servers[index].recv);
-						gtk_entry_set_text (emae->priv->transport.hostname, mail_servers[index].send);
+					if (sdata && sdata->recv_user && *sdata->recv_user)
+						camel_url_set_user (url, sdata->recv_user);
+					else
+						camel_url_set_user (url, user);
+					if (sdata != NULL) {
+						camel_url_set_protocol (url, sdata->proto);
+						camel_url_set_param (url, "use_ssl", sdata->ssl);
+						camel_url_set_host (url, sdata->recv);
+						if (sdata->recv_port && *sdata->recv_port)
+							camel_url_set_port (url, atoi(sdata->recv_port));
+						gtk_entry_set_text (emae->priv->source.hostname, sdata->recv);
+						gtk_entry_set_text (emae->priv->transport.hostname, sdata->send);
 					} else {
 						camel_url_set_host (url, "");
 					}
@@ -3118,8 +3126,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 			if (!emae->priv->send_set) {
 				CamelURL *url;
 				gchar *at, *user;
-				gint index;
 				gchar *uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
+				ServerData *sdata;
 
 				emae->priv->send_set = 1;
 				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
@@ -3129,17 +3137,26 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				user[at-tmp] = 0;
 				at++;
 
-				index = check_servers (at);
-				if (index != -1 && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+				sdata = emae->priv->selected_server;
+				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
-					camel_url_set_param (url, "use_ssl", mail_servers[index].ssl);
-					camel_url_set_host (url, mail_servers[index].send);
-					camel_url_set_user (url, user);
+					camel_url_set_param (url, "use_ssl", sdata->ssl);
+					camel_url_set_host (url, sdata->send);
+					if (sdata->recv_port && *sdata->recv_port)
+						camel_url_set_port (url, atoi(sdata->recv_port));
+
+					if (sdata->send_user && *sdata->send_user)
+						camel_url_set_user (url, sdata->send_user);
+					else
+						camel_url_set_user (url, user);
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_TRANSPORT_URL, uri);
 					g_free (uri);
 					camel_url_free (url);
+					gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
+					emae_authtype_changed(emae->priv->transport.authtype, &emae->priv->transport);
+					uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				}
 			}
 

@@ -52,6 +52,19 @@ typedef struct _EMAccountEditor EMAccountEditor;
 typedef struct _EMAccountEditorClass EMAccountEditorClass;
 typedef struct _EMAccountEditorPrivate EMAccountEditorPrivate;
 
+typedef struct _server_data ServerData;
+struct _server_data {
+	const gchar *key;
+	const gchar *recv;
+	const gchar *send;
+	const gchar *proto;
+	const gchar *ssl;
+	const gchar *send_user;
+	const gchar *recv_user;
+	const gchar *send_port;
+	const gchar *recv_port;
+};
+
 typedef enum {
 	EMAE_NOTEBOOK,
 	EMAE_ASSISTANT,
@@ -71,6 +84,7 @@ struct _EMAccountEditor {
 	GtkWidget **pages; /* Pages for Anjal's page type editor */
 
 	guint do_signature:1;	/* allow editing signature */
+	ServerData * (*emae_check_servers) (const char *email);
 };
 
 struct _EMAccountEditorClass {
