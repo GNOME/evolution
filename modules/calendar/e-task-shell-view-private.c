@@ -38,8 +38,6 @@ task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	e_task_shell_sidebar_add_source (task_shell_sidebar, source);
-
-	e_cal_model_add_client (model, client);
 }
 
 static void
@@ -326,10 +324,14 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 
 	/* Listen for configuration changes. */
-
 	e_mutual_binding_new (
 		shell_settings, "cal-confirm-purge",
 		task_shell_view, "confirm-purge");
+
+	/* Keep the ECalModel in sync with the sidebar. */
+	e_binding_new (
+		shell_sidebar, "default-client",
+		model, "default-client");
 
 	/* Hide Completed Tasks (enable/units/value) */
 	g_signal_connect_swapped (

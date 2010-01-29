@@ -84,6 +84,8 @@ void		e_task_shell_sidebar_register_type
 GtkWidget *	e_task_shell_sidebar_new(EShellView *shell_view);
 GList *		e_task_shell_sidebar_get_clients
 					(ETaskShellSidebar *task_shell_sidebar);
+ECal *		e_task_shell_sidebar_get_default_client
+					(ETaskShellSidebar *task_shell_sidebar);
 ESourceSelector *
 		e_task_shell_sidebar_get_selector
 					(ETaskShellSidebar *task_shell_sidebar);

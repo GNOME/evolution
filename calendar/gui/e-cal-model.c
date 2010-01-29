@@ -127,6 +127,7 @@ static void remove_client (ECalModel *model, ECalModelClient *client_data);
 
 enum {
 	PROP_0,
+	PROP_DEFAULT_CLIENT,
 	PROP_SHELL_SETTINGS,
 	PROP_TIMEZONE,
 	PROP_USE_24_HOUR_FORMAT,
@@ -165,6 +166,12 @@ cal_model_set_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DEFAULT_CLIENT:
+			e_cal_model_set_default_client (
+				E_CAL_MODEL (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SHELL_SETTINGS:
 			cal_model_set_shell_settings (
 				E_CAL_MODEL (object),
@@ -200,6 +207,13 @@ cal_model_get_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DEFAULT_CLIENT:
+			g_value_set_object (
+				value,
+				e_cal_model_get_default_client (
+				E_CAL_MODEL (object)));
+			return;
+
 		case PROP_SHELL_SETTINGS:
 			g_value_set_object (
 				value,
@@ -354,6 +368,16 @@ e_cal_model_class_init (ECalModelClass *class)
 
 	class->get_color_for_component = ecm_get_color_for_component;
 	class->fill_component_from_model = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_CLIENT,
+		g_param_spec_object (
+			"default-client",
+			_("Default Client"),
+			NULL,
+			E_TYPE_CAL,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1516,10 +1540,10 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 	ECalModelPrivate *priv;
 	ECalModelClient *client_data;
 
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (E_IS_CAL (client));
+
+	if (client != NULL)
+		g_return_if_fail (E_IS_CAL (client));
 
 	priv = model->priv;
 
@@ -1533,11 +1557,16 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 		}
 	}
 
-	/* Make sure its in the model */
-	client_data = add_new_client (model, client, FALSE);
+	if (client != NULL) {
+		/* Make sure its in the model */
+		client_data = add_new_client (model, client, FALSE);
 
-	/* Store the default client */
-	priv->default_client = client_data->client;
+		/* Store the default client */
+		priv->default_client = client_data->client;
+	} else
+		priv->default_client = NULL;
+
+	g_object_notify (G_OBJECT (model), "default-client");
 }
 
 GList *
@@ -2147,11 +2176,6 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 	/* Look to see if we already have this client */
 	client_data = find_client_data (model, client);
 	if (client_data) {
-		if (do_query && client_data->client == priv->default_client) {
-			g_warning ("%s: %s: You shouldn't request a query on a default client", G_STRLOC, G_STRFUNC);
-			return client_data;
-		}
-
 		if (client_data->do_query)
 			return client_data;
 		else

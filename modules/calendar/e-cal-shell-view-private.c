@@ -566,6 +566,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
         e_cal_shell_view_update_search_filter (cal_shell_view);
 	e_cal_shell_view_update_timezone (cal_shell_view);
 
+	/* Keep the ECalModel in sync with the sidebar. */
+	e_binding_new (
+		shell_sidebar, "default-client",
+		model, "default-client");
+
 	/* Keep the toolbar view buttons in sync with the calendar. */
 	e_mutual_binding_new (
 		calendar, "view",

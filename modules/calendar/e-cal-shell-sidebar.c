@@ -34,8 +34,8 @@
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/misc.h"
 
-#include "e-cal-shell-backend.h"
 #include "e-cal-shell-view.h"
+#include "e-cal-shell-backend.h"
 
 #define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -48,11 +48,21 @@ struct _ECalShellSidebarPrivate {
 
 	/* UID -> Client */
 	GHashTable *client_table;
+
+	/* The default client is for ECalModel.  It follows the
+	 * sidebar's primary selection, even if the highlighted
+	 * source is not selected.  The tricky part is we don't
+	 * update the property until the client is successfully
+	 * opened.  So the user first highlights a source, then
+	 * sometime later we update our default-client property
+	 * which is bound by an EBinding to ECalModel. */
+	ECal *default_client;
 };
 
 enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
+	PROP_DEFAULT_CLIENT,
 	PROP_SELECTOR
 };
 
@@ -166,6 +176,7 @@ cal_shell_sidebar_client_opened_cb (ECalShellSidebar *cal_shell_sidebar,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
+	const gchar *message;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -175,39 +186,121 @@ cal_shell_sidebar_client_opened_cb (ECalShellSidebar *cal_shell_sidebar,
 		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		e_auth_cal_forget_password (client);
 
+	/* Handle errors. */
 	switch (status) {
 		case E_CALENDAR_STATUS_OK:
-			g_signal_handlers_disconnect_matched (
-				client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-				cal_shell_sidebar_client_opened_cb, NULL);
-
-			cal_shell_sidebar_emit_status_message (
-				cal_shell_sidebar, _("Loading calendars"));
-			cal_shell_sidebar_emit_client_added (
-				cal_shell_sidebar, client);
-			cal_shell_sidebar_emit_status_message (
-				cal_shell_sidebar, NULL);
 			break;
 
 		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
 			e_cal_open_async (client, FALSE);
-			break;
+			return;
 
 		case E_CALENDAR_STATUS_BUSY:
-			break;
+			return;
 
 		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 			e_alert_run_dialog_for_args (
 				GTK_WINDOW (shell_window),
 				"calendar:prompt-no-contents-offline-calendar",
 				NULL);
-			break;
+			/* fall through */
 
 		default:
-			cal_shell_sidebar_emit_client_removed (
-				cal_shell_sidebar, client);
-			break;
+			e_cal_shell_sidebar_remove_source (
+				cal_shell_sidebar,
+				e_cal_get_source (client));
+			return;
 	}
+
+	g_assert (status == E_CALENDAR_STATUS_OK);
+
+	g_signal_handlers_disconnect_matched (
+		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		cal_shell_sidebar_client_opened_cb, NULL);
+
+	message = _("Loading calendars");
+	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
+	cal_shell_sidebar_emit_client_added (cal_shell_sidebar, client);
+	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
+}
+
+static void
+cal_shell_sidebar_default_opened_cb (ECalShellSidebar *cal_shell_sidebar,
+                                     ECalendarStatus status,
+                                     ECal *client)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSidebar *shell_sidebar;
+
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
+		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		e_auth_cal_forget_password (client);
+
+	/* Handle errors. */
+	switch (status) {
+		case E_CALENDAR_STATUS_OK:
+			break;
+
+		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+			e_cal_open_async (client, FALSE);
+			return;
+
+		case E_CALENDAR_STATUS_BUSY:
+			return;
+
+		default:
+			e_cal_shell_sidebar_remove_source (
+				cal_shell_sidebar,
+				e_cal_get_source (client));
+			return;
+	}
+
+	g_assert (status == E_CALENDAR_STATUS_OK);
+
+	g_signal_handlers_disconnect_matched (
+		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		cal_shell_sidebar_default_opened_cb, NULL);
+
+	g_object_notify (G_OBJECT (cal_shell_sidebar), "default-client");
+}
+
+static void
+cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
+                               ESource *source)
+{
+	ECalSourceType source_type;
+	GHashTable *client_table;
+	ECal *client;
+	const gchar *uid;
+
+	source_type = E_CAL_SOURCE_TYPE_EVENT;
+	client_table = cal_shell_sidebar->priv->client_table;
+
+	uid = e_source_peek_uid (source);
+	client = g_hash_table_lookup (client_table, uid);
+
+	if (cal_shell_sidebar->priv->default_client != NULL)
+		g_object_unref (cal_shell_sidebar->priv->default_client);
+
+	if (client != NULL)
+		g_object_ref (client);
+	else
+		client = e_auth_new_cal_from_source (source, source_type);
+
+	cal_shell_sidebar->priv->default_client = client;
+	g_return_if_fail (client != NULL);
+
+	g_signal_connect_swapped (
+		client, "cal-opened",
+		G_CALLBACK (cal_shell_sidebar_default_opened_cb),
+		cal_shell_sidebar);
+
+	e_cal_open_async (client, FALSE);
 }
 
 static void
@@ -295,6 +388,8 @@ cal_shell_sidebar_primary_selection_changed_cb (ECalShellSidebar *cal_shell_side
 	e_shell_settings_set_string (
 		shell_settings, "cal-primary-calendar",
 		e_source_peek_uid (source));
+
+	cal_shell_sidebar_set_default (cal_shell_sidebar, source);
 }
 
 static void
@@ -306,13 +401,22 @@ cal_shell_sidebar_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_DATE_NAVIGATOR:
 			g_value_set_object (
-				value, e_cal_shell_sidebar_get_date_navigator (
+				value,
+				e_cal_shell_sidebar_get_date_navigator (
+				E_CAL_SHELL_SIDEBAR (object)));
+			return;
+
+		case PROP_DEFAULT_CLIENT:
+			g_value_set_object (
+				value,
+				e_cal_shell_sidebar_get_default_client (
 				E_CAL_SHELL_SIDEBAR (object)));
 			return;
 
 		case PROP_SELECTOR:
 			g_value_set_object (
-				value, e_cal_shell_sidebar_get_selector (
+				value,
+				e_cal_shell_sidebar_get_selector (
 				E_CAL_SHELL_SIDEBAR (object)));
 			return;
 	}
@@ -340,6 +444,11 @@ cal_shell_sidebar_dispose (GObject *object)
 	if (priv->date_navigator != NULL) {
 		g_object_unref (priv->date_navigator);
 		priv->date_navigator = NULL;
+	}
+
+	if (priv->default_client != NULL) {
+		g_object_unref (priv->default_client);
+		priv->default_client = NULL;
 	}
 
 	g_hash_table_remove_all (priv->client_table);
@@ -370,18 +479,11 @@ cal_shell_sidebar_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
-	ESourceSelector *selector;
 	ESourceList *source_list;
-	ESource *source;
 	ECalendarItem *calitem;
-	GConfBridge *bridge;
-	GtkTreeModel *model;
 	GtkWidget *container;
 	GtkWidget *widget;
 	AtkObject *a11y;
-	GSList *list, *iter;
-	const gchar *key;
-	gchar *uid;
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
@@ -443,16 +545,55 @@ cal_shell_sidebar_constructed (GObject *object)
 	e_binding_new (
 		shell_settings, "cal-week-start-day",
 		calitem, "week-start-day");
+}
 
-	/* Restore the selector state from the last session. */
+static void
+cal_shell_sidebar_realize (GtkWidget *widget)
+{
+	ECalShellSidebarPrivate *priv;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
+	ESourceSelector *selector;
+	ESourceList *source_list;
+	ESource *source;
+	GConfBridge *bridge;
+	GtkTreeModel *model;
+	GSList *list, *iter;
+	GObject *object;
+	const gchar *key;
+	gchar *uid;
+
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (widget);
+
+	/* Restore the selector state from the last session.  We do this
+	 * in realize() instead of constructed() so the shell view has a
+	 * chance to connect handlers to our signals. */
+
+	shell_sidebar = E_SHELL_SIDEBAR (widget);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	selector = E_SOURCE_SELECTOR (priv->selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
 
+	source_list = e_cal_shell_backend_get_source_list (
+		E_CAL_SHELL_BACKEND (shell_backend));
+
 	g_signal_connect_swapped (
 		model, "row-changed",
 		G_CALLBACK (cal_shell_sidebar_row_changed_cb),
-		object);
+		shell_sidebar);
+
+	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
+		shell_sidebar);
 
 	source = NULL;
 	uid = e_shell_settings_get_string (
@@ -483,12 +624,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	g_signal_connect_swapped (
 		selector, "selection-changed",
 		G_CALLBACK (cal_shell_sidebar_selection_changed_cb),
-		object);
-
-	g_signal_connect_swapped (
-		selector, "primary-selection-changed",
-		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
-		object);
+		shell_sidebar);
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -497,6 +633,9 @@ cal_shell_sidebar_constructed (GObject *object)
 	object = G_OBJECT (priv->paned);
 	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+
+	/* Chain up to parent's realize() method. */
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static guint32
@@ -562,10 +701,10 @@ cal_shell_sidebar_client_removed (ECalShellSidebar *cal_shell_sidebar,
 		NULL, NULL, cal_shell_sidebar);
 
 	source = e_cal_get_source (client);
-	e_source_selector_unselect_source (selector, source);
-
 	uid = e_source_peek_uid (source);
+
 	g_hash_table_remove (client_table, uid);
+	e_source_selector_unselect_source (selector, source);
 
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 }
@@ -574,6 +713,7 @@ static void
 cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -584,6 +724,9 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 	object_class->dispose = cal_shell_sidebar_dispose;
 	object_class->finalize = cal_shell_sidebar_finalize;
 	object_class->constructed = cal_shell_sidebar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = cal_shell_sidebar_realize;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = cal_shell_sidebar_check_state;
@@ -598,6 +741,16 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 			_("Date Navigator Widget"),
 			_("This widget displays a miniature calendar"),
 			E_TYPE_CALENDAR,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_CLIENT,
+		g_param_spec_object (
+			"default-client",
+			_("Default Calendar Client"),
+			_("Default client for calendar operations"),
+			E_TYPE_CAL,
 			G_PARAM_READABLE));
 
 	g_object_class_install_property (
@@ -718,6 +871,15 @@ e_cal_shell_sidebar_get_date_navigator (ECalShellSidebar *cal_shell_sidebar)
 	return E_CALENDAR (cal_shell_sidebar->priv->date_navigator);
 }
 
+ECal *
+e_cal_shell_sidebar_get_default_client (ECalShellSidebar *cal_shell_sidebar)
+{
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
+
+	return cal_shell_sidebar->priv->default_client;
+}
+
 ESourceSelector *
 e_cal_shell_sidebar_get_selector (ECalShellSidebar *cal_shell_sidebar)
 {
@@ -731,8 +893,10 @@ void
 e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
                                 ESource *source)
 {
+	ECalSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
+	ECal *default_client;
 	ECal *client;
 	const gchar *uid;
 	const gchar *uri;
@@ -741,7 +905,9 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	g_return_if_fail (E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
+	source_type = E_CAL_SOURCE_TYPE_EVENT;
 	client_table = cal_shell_sidebar->priv->client_table;
+	default_client = cal_shell_sidebar->priv->default_client;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
 	uid = e_source_peek_uid (source);
@@ -750,7 +916,20 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	if (client != NULL)
 		return;
 
-	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+	if (default_client != NULL) {
+		ESource *default_source;
+		const gchar *default_uid;
+
+		default_source = e_cal_get_source (default_client);
+		default_uid = e_source_peek_uid (default_source);
+
+		if (g_strcmp0 (uid, default_uid) == 0)
+			client = g_object_ref (default_client);
+	}
+
+	if (client == NULL)
+		client = e_auth_new_cal_from_source (source, source_type);
+
 	g_return_if_fail (client != NULL);
 
 	g_signal_connect_swapped (

@@ -86,6 +86,8 @@ GList *		e_cal_shell_sidebar_get_clients
 					(ECalShellSidebar *cal_shell_sidebar);
 ECalendar *	e_cal_shell_sidebar_get_date_navigator
 					(ECalShellSidebar *cal_shell_sidebar);
+ECal *		e_cal_shell_sidebar_get_default_client
+					(ECalShellSidebar *cal_shell_sidebar);
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector
 					(ECalShellSidebar *cal_shell_sidebar);

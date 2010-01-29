@@ -32,8 +32,8 @@
 #include "calendar/gui/e-task-list-selector.h"
 #include "calendar/gui/misc.h"
 
-#include "e-task-shell-backend.h"
 #include "e-task-shell-view.h"
+#include "e-task-shell-backend.h"
 
 #define E_TASK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -44,10 +44,20 @@ struct _ETaskShellSidebarPrivate {
 
 	/* UID -> Client */
 	GHashTable *client_table;
+
+	/* The default client is for ECalModel.  It follows the
+	 * sidebar's primary selection, even if the highlighted
+	 * source is not selected.  The tricky part is we don't
+	 * update the property until the client is successfully
+	 * opened.  So the user first highlights a source, then
+	 * sometime later we update our default-client property
+	 * which is bound by an EBinding to ECalModel. */
+	ECal *default_client;
 };
 
 enum {
 	PROP_0,
+	PROP_DEFAULT_CLIENT,
 	PROP_SELECTOR
 };
 
@@ -161,6 +171,7 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
+	const gchar *message;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -170,39 +181,121 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		e_auth_cal_forget_password (client);
 
+	/* Handle errors. */
 	switch (status) {
 		case E_CALENDAR_STATUS_OK:
-			g_signal_handlers_disconnect_matched (
-				client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-				task_shell_sidebar_client_opened_cb, NULL);
-
-			task_shell_sidebar_emit_status_message (
-				task_shell_sidebar, _("Loading tasks"));
-			task_shell_sidebar_emit_client_added (
-				task_shell_sidebar, client);
-			task_shell_sidebar_emit_status_message (
-				task_shell_sidebar, NULL);
 			break;
 
 		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
 			e_cal_open_async (client, FALSE);
-			break;
+			return;
 
 		case E_CALENDAR_STATUS_BUSY:
-			break;
+			return;
 
 		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 			e_alert_run_dialog_for_args (
 				GTK_WINDOW (shell_window),
 				"calendar:prompt-no-contents-offline-tasks",
 				NULL);
-			break;
+			/* fall through */
 
 		default:
-			task_shell_sidebar_emit_client_removed (
-				task_shell_sidebar, client);
-			break;
+			e_task_shell_sidebar_remove_source (
+				task_shell_sidebar,
+				e_cal_get_source (client));
+			return;
 	}
+
+	g_assert (status == E_CALENDAR_STATUS_OK);
+
+	g_signal_handlers_disconnect_matched (
+		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		task_shell_sidebar_client_opened_cb, NULL);
+
+	message = _("Loading tasks");
+	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
+	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
+	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
+}
+
+static void
+task_shell_sidebar_default_opened_cb (ETaskShellSidebar *task_shell_sidebar,
+                                      ECalendarStatus status,
+                                      ECal *client)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSidebar *shell_sidebar;
+
+	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
+		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		e_auth_cal_forget_password (client);
+
+	/* Handle errors. */
+	switch (status) {
+		case E_CALENDAR_STATUS_OK:
+			break;
+
+		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+			e_cal_open_async (client, FALSE);
+			return;
+
+		case E_CALENDAR_STATUS_BUSY:
+			return;
+
+		default:
+			e_task_shell_sidebar_remove_source (
+				task_shell_sidebar,
+				e_cal_get_source (client));
+			return;
+	}
+
+	g_assert (status == E_CALENDAR_STATUS_OK);
+
+	g_signal_handlers_disconnect_matched (
+		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		task_shell_sidebar_default_opened_cb, NULL);
+
+	g_object_notify (G_OBJECT (task_shell_sidebar), "default-client");
+}
+
+static void
+task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
+                                ESource *source)
+{
+	ECalSourceType source_type;
+	GHashTable *client_table;
+	ECal *client;
+	const gchar *uid;
+
+	source_type = E_CAL_SOURCE_TYPE_TODO;
+	client_table = task_shell_sidebar->priv->client_table;
+
+	uid = e_source_peek_uid (source);
+	client = g_hash_table_lookup (client_table, uid);
+
+	if (task_shell_sidebar->priv->default_client != NULL)
+		g_object_unref (task_shell_sidebar->priv->default_client);
+
+	if (client != NULL)
+		g_object_ref (client);
+	else
+		client = e_auth_new_cal_from_source (source, source_type);
+
+	task_shell_sidebar->priv->default_client = client;
+	g_return_if_fail (client != NULL);
+
+	g_signal_connect_swapped (
+		client, "cal-opened",
+		G_CALLBACK (task_shell_sidebar_default_opened_cb),
+		task_shell_sidebar);
+
+	e_cal_open_async (client, FALSE);
 }
 
 static void
@@ -290,6 +383,8 @@ task_shell_sidebar_primary_selection_changed_cb (ETaskShellSidebar *task_shell_s
 	e_shell_settings_set_string (
 		shell_settings, "cal-primary-task-list",
 		e_source_peek_uid (source));
+
+	task_shell_sidebar_set_default (task_shell_sidebar, source);
 }
 
 static void
@@ -299,9 +394,17 @@ task_shell_sidebar_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DEFAULT_CLIENT:
+			g_value_set_object (
+				value,
+				e_task_shell_sidebar_get_default_client (
+				E_TASK_SHELL_SIDEBAR (object)));
+			return;
+
 		case PROP_SELECTOR:
 			g_value_set_object (
-				value, e_task_shell_sidebar_get_selector (
+				value,
+				e_task_shell_sidebar_get_selector (
 				E_TASK_SHELL_SIDEBAR (object)));
 			return;
 	}
@@ -319,6 +422,11 @@ task_shell_sidebar_dispose (GObject *object)
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
 		priv->selector = NULL;
+	}
+
+	if (priv->default_client != NULL) {
+		g_object_unref (priv->default_client);
+		priv->default_client = NULL;
 	}
 
 	g_hash_table_remove_all (priv->client_table);
@@ -344,20 +452,13 @@ static void
 task_shell_sidebar_constructed (GObject *object)
 {
 	ETaskShellSidebarPrivate *priv;
-	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
-	ESourceSelector *selector;
 	ESourceList *source_list;
-	ESource *source;
 	GtkContainer *container;
-	GtkTreeModel *model;
 	GtkWidget *widget;
 	AtkObject *a11y;
-	GSList *list, *iter;
-	gchar *uid;
 
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
@@ -367,9 +468,6 @@ task_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_list = e_task_shell_backend_get_source_list (
 		E_TASK_SHELL_BACKEND (shell_backend));
@@ -394,16 +492,52 @@ task_shell_sidebar_constructed (GObject *object)
 	atk_object_set_name (a11y, _("Task List Selector"));
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
+}
 
-	/* Restore the selector state from the last session. */
+static void
+task_shell_sidebar_realize (GtkWidget *widget)
+{
+	ETaskShellSidebarPrivate *priv;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
+	ESourceSelector *selector;
+	ESourceList *source_list;
+	ESource *source;
+	GtkTreeModel *model;
+	GSList *list, *iter;
+	gchar *uid;
+
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (widget);
+
+	/* Restore the selector state from the last session.  We do this
+	 * in realize() instead of constructed() so the shell view has a
+	 * chance to connect handlers to our signals. */
+
+	shell_sidebar = E_SHELL_SIDEBAR (widget);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	selector = E_SOURCE_SELECTOR (priv->selector);
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
+
+	source_list = e_task_shell_backend_get_source_list (
+		E_TASK_SHELL_BACKEND (shell_backend));
 
 	g_signal_connect_swapped (
 		model, "row-changed",
 		G_CALLBACK (task_shell_sidebar_row_changed_cb),
-		object);
+		shell_sidebar);
+
+	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (task_shell_sidebar_primary_selection_changed_cb),
+		shell_sidebar);
 
 	source = NULL;
 	uid = e_shell_settings_get_string (
@@ -432,14 +566,12 @@ task_shell_sidebar_constructed (GObject *object)
 	/* Listen for subsequent changes to the selector. */
 
 	g_signal_connect_swapped (
-		widget, "selection-changed",
+		selector, "selection-changed",
 		G_CALLBACK (task_shell_sidebar_selection_changed_cb),
-		object);
+		shell_sidebar);
 
-	g_signal_connect_swapped (
-		widget, "primary-selection-changed",
-		G_CALLBACK (task_shell_sidebar_primary_selection_changed_cb),
-		object);
+	/* Chain up to parent's realize() method. */
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static guint32
@@ -505,10 +637,10 @@ task_shell_sidebar_client_removed (ETaskShellSidebar *task_shell_sidebar,
 		NULL, NULL, task_shell_sidebar);
 
 	source = e_cal_get_source (client);
-	e_source_selector_unselect_source (selector, source);
-
 	uid = e_source_peek_uid (source);
+
 	g_hash_table_remove (client_table, uid);
+	e_source_selector_unselect_source (selector, source);
 
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
 }
@@ -517,6 +649,7 @@ static void
 task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -528,10 +661,23 @@ task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 	object_class->finalize = task_shell_sidebar_finalize;
 	object_class->constructed = task_shell_sidebar_constructed;
 
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = task_shell_sidebar_realize;
+
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = task_shell_sidebar_check_state;
 
 	class->client_removed = task_shell_sidebar_client_removed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_CLIENT,
+		g_param_spec_object (
+			"default-client",
+			_("Default Task Client"),
+			_("Default client for task operations"),
+			E_TYPE_CAL,
+			G_PARAM_READABLE));
 
 	g_object_class_install_property (
 		object_class,
@@ -643,6 +789,15 @@ e_task_shell_sidebar_get_clients (ETaskShellSidebar *task_shell_sidebar)
 	return g_hash_table_get_values (client_table);
 }
 
+ECal *
+e_task_shell_sidebar_get_default_client (ETaskShellSidebar *task_shell_sidebar)
+{
+	g_return_val_if_fail (
+		E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar), NULL);
+
+	return task_shell_sidebar->priv->default_client;
+}
+
 ESourceSelector *
 e_task_shell_sidebar_get_selector (ETaskShellSidebar *task_shell_sidebar)
 {
@@ -656,8 +811,10 @@ void
 e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
                                  ESource *source)
 {
+	ECalSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
+	ECal *default_client;
 	ECal *client;
 	const gchar *uid;
 	const gchar *uri;
@@ -666,7 +823,9 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
+	source_type = E_CAL_SOURCE_TYPE_TODO;
 	client_table = task_shell_sidebar->priv->client_table;
+	default_client = task_shell_sidebar->priv->default_client;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 
 	uid = e_source_peek_uid (source);
@@ -675,7 +834,20 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	if (client != NULL)
 		return;
 
-	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	if (default_client != NULL) {
+		ESource *default_source;
+		const gchar *default_uid;
+
+		default_source = e_cal_get_source (default_client);
+		default_uid = e_source_peek_uid (default_source);
+
+		if (g_strcmp0 (uid, default_uid) == 0)
+			client = g_object_ref (default_client);
+	}
+
+	if (client == NULL)
+		client = e_auth_new_cal_from_source (source, source_type);
+
 	g_return_if_fail (client != NULL);
 
 	g_signal_connect_swapped (

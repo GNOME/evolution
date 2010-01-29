@@ -38,8 +38,6 @@ memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
-
-	e_cal_model_add_client (model, client);
 }
 
 static void
@@ -272,6 +270,11 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	e_categories_add_change_hook (
 		(GHookFunc) e_memo_shell_view_update_search_filter,
 		memo_shell_view);
+
+	/* Keep the ECalModel in sync with the sidebar. */
+	e_binding_new (
+		shell_sidebar, "default-client",
+		model, "default-client");
 
 	e_memo_shell_view_actions_init (memo_shell_view);
 	e_memo_shell_view_update_sidebar (memo_shell_view);

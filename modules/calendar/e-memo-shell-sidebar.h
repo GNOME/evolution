@@ -84,6 +84,8 @@ void		e_memo_shell_sidebar_register_type
 GtkWidget *	e_memo_shell_sidebar_new(EShellView *shell_view);
 GList *		e_memo_shell_sidebar_get_clients
 					(EMemoShellSidebar *memo_shell_sidebar);
+ECal *		e_memo_shell_sidebar_get_default_client
+					(EMemoShellSidebar *memo_shell_sidebar);
 ESourceSelector *
 		e_memo_shell_sidebar_get_selector
 					(EMemoShellSidebar *memo_shell_sidebar);
