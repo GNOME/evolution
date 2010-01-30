@@ -373,8 +373,8 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	gboolean show_vscroll = FALSE, show_hscroll = FALSE;
 	gint avail_height, avail_width, min_height, work_height, screen_width;
 	gint column_width, row_height, scrollbar_width;
-	double x1, y1;
-	double wx, wy;
+	gdouble x1, y1;
+	gdouble wx, wy;
 
 	/* This code is practically copied from GtkCombo. */
 	popup  = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);

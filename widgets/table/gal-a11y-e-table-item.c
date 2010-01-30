@@ -799,7 +799,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         /* Compare with previously saved column headers. */
         for ( i = 0; i < n_cols && cols[i]; i ++ ) {
                 for ( j = 0; j < prev_n_cols && prev_cols[j]; j ++ ) {
-                        if ( prev_cols [j] == cols[i] && i != j ) {
+                        if (prev_cols [j] == cols[i] && i != j) {
 
                                 reorder_found = TRUE;
                                 state [i] = ETI_HEADER_REORDERED;
@@ -813,7 +813,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
                 }
 
                 /* cols[i] is new added column. */
-                if ( j == prev_n_cols ) {
+                if (j == prev_n_cols) {
 			added_found = TRUE;
                         state[i] = ETI_HEADER_NEW_ADDED;
                 }
@@ -822,11 +822,11 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         /* Now try to find if there are removed columns. */
         for (i = 0; i < prev_n_cols && prev_cols[i]; i ++) {
                 for (j = 0; j < n_cols && cols[j]; j ++)
-                        if ( prev_cols [j] == cols[i] )
+                        if (prev_cols [j] == cols[i])
 				break;
 
                 /* Removed columns found. */
-                if ( j == n_cols ) {
+                if (j == n_cols) {
 			removed_found = TRUE;
 			prev_state[j] = ETI_HEADER_REMOVED;
                 }

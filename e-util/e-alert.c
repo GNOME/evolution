@@ -346,7 +346,7 @@ e_alert_load_tables(void)
 		return;
 	}
 
-	while ( (d = g_dir_read_name(dir)) ) {
+	while ((d = g_dir_read_name(dir))) {
 		gchar *path;
 
 		if (d[0] == '.')
@@ -536,7 +536,7 @@ e_alert_append_text_escaped (GString *out, const gchar *text)
 {
 	gchar c;
 
-	while ( (c=*text++) ) {
+	while ((c=*text++)) {
 		if (c == '<')
 			g_string_append(out, "&lt;");
 		else if (c == '>')

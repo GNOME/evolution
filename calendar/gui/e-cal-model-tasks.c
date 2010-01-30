@@ -686,7 +686,7 @@ show_geo_warning (void)
 static void
 set_geo (ECalModelComponent *comp_data, const gchar *value)
 {
-	double latitude, longitude;
+	gdouble latitude, longitude;
 	gint matched;
 	struct icalgeotype geo;
 	icalproperty *prop;

@@ -172,7 +172,7 @@ egg_desktop_file_new_from_key_file (GKeyFile    *key_file,
 				  NULL);
   if (version)
     {
-      double version_num;
+      gdouble version_num;
       gchar *end;
 
       version_num = g_ascii_strtod (version, &end);

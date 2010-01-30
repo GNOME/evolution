@@ -147,7 +147,7 @@ eab_nickname_query (EBook                 *book,
 	g_return_val_if_fail (nickname != NULL, 0);
 
 	/* The empty-string case shouldn't generate a warning. */
-	if (! *nickname)
+	if (!*nickname)
 		return 0;
 
 	query_string = g_strdup_printf ("(is \"nickname\" \"%s\")", nickname);

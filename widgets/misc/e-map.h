@@ -59,7 +59,7 @@ struct _EMapClass {
 struct _EMapPoint
 {
 	gchar *name;  /* Can be NULL */
-	double longitude, latitude;
+	gdouble longitude, latitude;
 	guint32 rgba;
 	gpointer user_data;
 };
@@ -80,15 +80,15 @@ void e_map_thaw (EMap *map);
 
 /* Translates window-relative coords to lat/long */
 void e_map_window_to_world (EMap *map,
-			    double win_x, double win_y,
-			    double *world_longitude, double *world_latitude);
+			    gdouble win_x, gdouble win_y,
+			    gdouble *world_longitude, gdouble *world_latitude);
 
 /* Translates lat/long to window-relative coordinates. Note that the
  * returned coordinates can be negative or greater than the current size
  * of the allocation area */
 void e_map_world_to_window (EMap *map,
-			    double world_longitude, double world_latitude,
-			    double *win_x, double *win_y);
+			    gdouble world_longitude, gdouble world_latitude,
+			    gdouble *win_x, gdouble *win_y);
 
 /* --- Zoom --- */
 
@@ -101,7 +101,7 @@ void e_map_set_smooth_zoom (EMap *map, gboolean state);
 gboolean e_map_get_smooth_zoom (EMap *map);
 
 /* NB: Function definition will change shortly */
-void e_map_zoom_to_location (EMap *map, double longitude, double latitude);
+void e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude);
 
 /* Zoom to mag factor 1.0 */
 void e_map_zoom_out (EMap *map);
@@ -109,13 +109,13 @@ void e_map_zoom_out (EMap *map);
 /* --- Points --- */
 
 EMapPoint *e_map_add_point (EMap *map, gchar *name,
-			    double longitude, double latitude,
+			    gdouble longitude, gdouble latitude,
 			    guint32 color_rgba);
 
 void e_map_remove_point (EMap *map, EMapPoint *point);
 
 void e_map_point_get_location (EMapPoint *point,
-			       double *longitude, double *latitude);
+			       gdouble *longitude, gdouble *latitude);
 
 gchar *e_map_point_get_name (EMapPoint *point);
 
@@ -129,7 +129,7 @@ gpointer e_map_point_get_data (EMapPoint *point);
 
 gboolean e_map_point_is_in_view (EMap *map, EMapPoint *point);
 
-EMapPoint *e_map_get_closest_point (EMap *map, double longitude, double latitude,
+EMapPoint *e_map_get_closest_point (EMap *map, gdouble longitude, gdouble latitude,
 				    gboolean in_view);
 
 #endif

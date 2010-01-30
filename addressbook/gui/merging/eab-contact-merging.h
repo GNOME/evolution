@@ -45,4 +45,4 @@ gboolean eab_merging_book_find_contact (EBook                 *book,
 
 G_END_DECLS
 
-#endif /* ! __EAB_CONTACT_MERGING_H__ */
+#endif /* __EAB_CONTACT_MERGING_H__ */

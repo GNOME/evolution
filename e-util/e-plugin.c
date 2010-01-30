@@ -595,7 +595,7 @@ e_plugin_load_plugins(void)
 				continue;
 			}
 
-			while ( (d = g_dir_read_name(dir)) ) {
+			while ((d = g_dir_read_name(dir))) {
 				if (g_str_has_suffix  (d, ".eplug")) {
 					gchar * name = g_build_filename(path, d, NULL);
 

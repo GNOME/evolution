@@ -42,7 +42,7 @@ typedef struct {
 	ETableSortInfo *sort_info;
 	gint             col_count;
 	gint            *columns;
-	double         *expansions;
+	gdouble         *expansions;
 } ETableState;
 
 typedef struct {

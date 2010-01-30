@@ -2344,7 +2344,7 @@ static GtkWidget *
 emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gchar *name, const gchar *fmt, const gchar *info)
 {
 	GtkWidget *hbox, *check, *spin, *label = NULL;
-	double min, def, max;
+	gdouble min, def, max;
 	gchar *pre, *post;
 	const gchar *val;
 	gchar on;
@@ -3031,7 +3031,7 @@ static ServerData *
 emae_check_servers (const gchar *email)
 {
 	gint len = G_N_ELEMENTS(mail_servers), i;
-	char *server = strchr (email, '@');
+	gchar *server = strchr (email, '@');
 
 	server++;
 

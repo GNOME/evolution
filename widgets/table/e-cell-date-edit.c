@@ -644,7 +644,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 	GtkRequisition popup_requisition;
 	gint avail_height, screen_width, column_width, row_height;
-	double x1, y1, wx, wy;
+	gdouble x1, y1, wx, wy;
 
 	gdk_window_get_origin (canvas->window, x, y);
 

@@ -684,8 +684,8 @@ e_table_header_set_selection (ETableHeader *eth, gboolean allow_selection)
 static void
 eth_set_size (ETableHeader *eth, gint idx, gint size)
 {
-	double expansion;
-	double old_expansion;
+	gdouble expansion;
+	gdouble old_expansion;
 	gint min_width;
 	gint left_width;
 	gint total_extra;
@@ -775,8 +775,8 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 	old_expansion -= eth->columns[idx]->expansion;
 	/* Set the new expansion so that it will generate the desired size. */
 	eth->columns[idx]->expansion =
-		expansion * (((double)(size - (eth->columns[idx]->min_width +
-		eth->width_extras))) / ((double)total_extra));
+		expansion * (((gdouble)(size - (eth->columns[idx]->min_width +
+		eth->width_extras))) / ((gdouble)total_extra));
 	/* The expansion left for the columns on the right. */
 	expansion -= eth->columns[idx]->expansion;
 
@@ -845,9 +845,9 @@ eth_calc_widths (ETableHeader *eth)
 {
 	gint i;
 	gint extra;
-	double expansion;
+	gdouble expansion;
 	gint last_position = 0;
-	double next_position = 0;
+	gdouble next_position = 0;
 	gint last_resizable = -1;
 	gint *widths;
 	gboolean changed;

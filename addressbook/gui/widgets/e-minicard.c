@@ -316,7 +316,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 		if (e_minicard->width != g_value_get_double (value)) {
 			e_minicard->width = g_value_get_double (value);
 			e_minicard_resize_children(e_minicard);
-			if ( GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED )
+			if (GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED)
 				e_canvas_item_request_reflow(item);
 		}
 	  break;
@@ -327,7 +327,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 				gnome_canvas_item_set(E_MINICARD_FIELD(e_minicard->fields->data)->label,
 						      "has_focus", g_value_get_int (value),
 						      NULL);
-			} else if ( g_value_get_int (value) == E_FOCUS_END ) {
+			} else if (g_value_get_int (value) == E_FOCUS_END) {
 				gnome_canvas_item_set(E_MINICARD_FIELD(g_list_last(e_minicard->fields)->data)->label,
 						      "has_focus", g_value_get_int (value),
 						      NULL);
@@ -462,7 +462,7 @@ e_minicard_finalize (GObject *object)
 static void
 e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style)
 {
-	if ( (GTK_OBJECT_FLAGS( minicard ) & GNOME_CANVAS_ITEM_REALIZED) )
+	if ((GTK_OBJECT_FLAGS( minicard ) & GNOME_CANVAS_ITEM_REALIZED))
 		set_selected (minicard, minicard->selected);
 }
 
@@ -548,7 +548,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	e_minicard = E_MINICARD (item);
 
-	switch ( event->type ) {
+	switch (event->type) {
 	case GDK_FOCUS_CHANGE:
 		{
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
@@ -903,7 +903,7 @@ static void
 remodel( EMinicard *e_minicard )
 {
 	gint count = 0;
-	if ( !(GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED) )
+	if (!(GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
 	if (e_minicard->contact) {
 		EContactField field;

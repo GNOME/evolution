@@ -57,7 +57,7 @@ static void e_calendar_item_realize	(GnomeCanvasItem *item);
 static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
 static void e_calendar_item_unmap	(GnomeCanvasItem *item);
 static void e_calendar_item_update	(GnomeCanvasItem *item,
-					 double		 *affine,
+					 gdouble		 *affine,
 					 ArtSVP		 *clip_path,
 					 gint		  flags);
 static void e_calendar_item_draw	(GnomeCanvasItem *item,
@@ -85,9 +85,9 @@ static void e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 					      gint		 start_weekday,
 					      gint		 cells_x,
 					      gint		 cells_y);
-static double e_calendar_item_point	(GnomeCanvasItem *item,
-					 double		  x,
-					 double		  y,
+static gdouble e_calendar_item_point	(GnomeCanvasItem *item,
+					 gdouble		  x,
+					 gdouble		  y,
 					 gint		  cx,
 					 gint		  cy,
 					 GnomeCanvasItem **actual_item);
@@ -100,8 +100,8 @@ static gint e_calendar_item_key_press_event (ECalendarItem *item,
 					     GdkEvent *event);
 static gint e_calendar_item_event	(GnomeCanvasItem *item,
 					 GdkEvent	 *event);
-static void e_calendar_item_bounds (GnomeCanvasItem *item, double *x1, double *y1,
-				    double *x2, double *y2);
+static void e_calendar_item_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1,
+				    gdouble *x2, gdouble *y2);
 
 static gboolean e_calendar_item_button_press	(ECalendarItem	*calitem,
 						 GdkEvent	*event);
@@ -880,7 +880,7 @@ e_calendar_item_unmap		(GnomeCanvasItem *item)
 
 static void
 e_calendar_item_update		(GnomeCanvasItem *item,
-				 double		 *affine,
+				 gdouble		 *affine,
 				 ArtSVP		 *clip_path,
 				 gint		  flags)
 {
@@ -1749,7 +1749,7 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
    Since we are the only item we just return ourself and 0 for the distance.
    This is needed so that we get button/motion events. */
 static double
-e_calendar_item_point (GnomeCanvasItem *item, double x, double y,
+e_calendar_item_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 			   gint cx, gint cy,
 			   GnomeCanvasItem **actual_item)
 {
@@ -1912,8 +1912,8 @@ e_calendar_item_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static void
-e_calendar_item_bounds (GnomeCanvasItem *item, double *x1, double *y1,
-			double *x2, double *y2)
+e_calendar_item_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1,
+			gdouble *x2, gdouble *y2)
 {
 	ECalendarItem *calitem;
 

@@ -57,7 +57,7 @@ struct _GalViewMinicard {
 	GalView              parent;
 
 	gchar                *title;
-	double               column_width;
+	gdouble               column_width;
 
 	EMinicardViewWidget *emvw;
 	guint                emvw_column_width_changed_id;

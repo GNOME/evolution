@@ -136,7 +136,7 @@ typedef struct {
 
 	gint xofs, yofs;                 /* This gets added to the x
                                            and y for the cell text. */
-	double ellipsis_width[2];      /* The width of the ellipsis. */
+	gdouble ellipsis_width[2];      /* The width of the ellipsis. */
 } ECellTextView;
 
 struct _CellEdit {
@@ -289,7 +289,7 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 	text = edit->text;
 	if (edit->tep)
 		g_object_unref (edit->tep);
-	if (! edit->default_cursor_shown) {
+	if (!edit->default_cursor_shown) {
 		gdk_window_set_cursor (GTK_WIDGET(text_view->canvas)->window, NULL);
 		edit->default_cursor_shown = TRUE;
 	}
@@ -1132,7 +1132,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		text_view->pointer_in = FALSE;
 #endif
 		if (edit_display) {
-			if (! edit->default_cursor_shown) {
+			if (!edit->default_cursor_shown) {
 				gdk_window_set_cursor (canvas->window, NULL);
 				edit->default_cursor_shown = TRUE;
 			}
@@ -1301,7 +1301,7 @@ ect_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
 
 static void
 get_font_size (PangoLayout *layout, PangoFontDescription *font, const gchar *text,
-		double *width, double *height)
+		gdouble *width, gdouble *height)
 {
 	gint w;
 	gint h;
@@ -1314,14 +1314,14 @@ get_font_size (PangoLayout *layout, PangoFontDescription *font, const gchar *tex
 
 	pango_layout_get_size (layout, &w, &h);
 
-	*width = (double)w/(double)PANGO_SCALE;
-	*height = (double)h/(double)PANGO_SCALE;
+	*width = (gdouble)w/(gdouble)PANGO_SCALE;
+	*height = (gdouble)h/(gdouble)PANGO_SCALE;
 }
 
 static void
 ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	   gint model_col, gint view_col, gint row,
-	   double width, double height)
+	   gdouble width, gdouble height)
 {
 	PangoFontDescription *font_des;
 	PangoLayout *layout;
@@ -1334,7 +1334,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	gboolean strikeout, underline;
 	cairo_t *cr;
 	gchar *string;
-	double ty, ly, text_width = 0.0, text_height = 0.0;
+	gdouble ty, ly, text_width = 0.0, text_height = 0.0;
 
 	cr = gtk_print_context_get_cairo_context (context);
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
@@ -1354,9 +1354,9 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	pango_context = gtk_widget_get_pango_context (canvas);
 	font_metrics = pango_context_get_metrics (pango_context,
 		       canvas->style->font_desc, pango_context_get_language(pango_context));
-	ty =  (double)(text_height
+	ty =  (gdouble)(text_height
 		       - pango_font_metrics_get_ascent (font_metrics)
-		       - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(double)PANGO_SCALE;
+		       - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(gdouble)PANGO_SCALE;
 
 	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
 		e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_column, row);
@@ -1366,7 +1366,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	dir = pango_find_base_dir (string, strlen(string));
 
 	if (underline) {
-		ly = ty + (double)pango_font_metrics_get_underline_position (font_metrics)/(double)PANGO_SCALE;
+		ly = ty + (gdouble)pango_font_metrics_get_underline_position (font_metrics)/(gdouble)PANGO_SCALE;
 		cairo_new_path (cr);
 		if (dir == PANGO_DIRECTION_RTL) {
 			cairo_move_to (cr, width - 2, ly + text_height + 6);
@@ -1376,12 +1376,12 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			cairo_move_to (cr, 2, ly + text_height + 6);
 			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
-		cairo_set_line_width (cr, (double)pango_font_metrics_get_underline_thickness (font_metrics)/(double)PANGO_SCALE);
+		cairo_set_line_width (cr, (gdouble)pango_font_metrics_get_underline_thickness (font_metrics)/(gdouble)PANGO_SCALE);
 		cairo_stroke (cr);
 	}
 
 	if (strikeout) {
-		ly = ty + (double)pango_font_metrics_get_strikethrough_position (font_metrics)/(double)PANGO_SCALE;
+		ly = ty + (gdouble)pango_font_metrics_get_strikethrough_position (font_metrics)/(gdouble)PANGO_SCALE;
 		cairo_new_path (cr);
 		if (dir == PANGO_DIRECTION_RTL) {
 			cairo_move_to (cr, width - 2, ly + text_height + 6);
@@ -1391,7 +1391,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			cairo_move_to (cr, 2, ly + text_height + 6);
 			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
-			cairo_set_line_width (cr,(double)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(double)PANGO_SCALE);
+			cairo_set_line_width (cr,(gdouble)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(gdouble)PANGO_SCALE);
 
 			cairo_stroke (cr);
 	}
@@ -1409,7 +1409,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 static gdouble
 ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		  gint model_col, gint view_col, gint row,
-		  double width)
+		  gdouble width)
 {
 	/*
 	 * Font size is 16 by default. To leave some margin for cell

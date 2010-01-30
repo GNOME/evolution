@@ -191,11 +191,11 @@ static AtkStateSet *ea_minicard_ref_state_set (AtkObject *obj)
 	GObject *gobj = NULL;
 
 	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
-	if ( !state_set )
+	if (!state_set)
 		state_set = atk_state_set_new ();
 
 	gobj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj));
-	if ( !gobj )
+	if (!gobj)
 		return state_set;
 
 	atk_state_set_add_state (state_set, ATK_STATE_SELECTABLE);
@@ -235,10 +235,10 @@ static gboolean atk_action_interface_do_action (AtkAction *iface, gint i)
 	minicard = E_MINICARD (
 		atk_gobject_accessible_get_object (
 		ATK_GOBJECT_ACCESSIBLE (iface)));
-	if ( minicard == NULL )
+	if (minicard == NULL)
 		return FALSE;
 
-	if ( i >= G_N_ELEMENTS (action_name) || i < 0 )
+	if (i >= G_N_ELEMENTS (action_name) || i < 0)
 		return FALSE;
 
 	switch (i) {

@@ -53,4 +53,4 @@ GType      gal_a11y_e_text_get_type  (void);
 
 void       gal_a11y_e_text_init (void);
 
-#endif /* ! __GAL_A11Y_E_TEXT_H__ */
+#endif /* __GAL_A11Y_E_TEXT_H__ */

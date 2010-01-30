@@ -24,9 +24,9 @@
 #include "e-canvas-utils.h"
 
 void
-e_canvas_item_move_absolute (GnomeCanvasItem *item, double dx, double dy)
+e_canvas_item_move_absolute (GnomeCanvasItem *item, gdouble dx, gdouble dy)
 {
-	double translate[6];
+	gdouble translate[6];
 
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
@@ -64,7 +64,7 @@ compute_offset(gint top, gint bottom, gint page_top, gint page_bottom)
 }
 
 static void
-e_canvas_show_area (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
+e_canvas_show_area (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gdouble y2)
 {
 	GtkAdjustment *h, *v;
 	gint dx = 0, dy = 0;
@@ -96,7 +96,7 @@ e_canvas_show_area (GnomeCanvas *canvas, double x1, double y1, double x2, double
 }
 
 void
-e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2, double y2)
+e_canvas_item_show_area (GnomeCanvasItem *item, gdouble x1, gdouble y1, gdouble x2, gdouble y2)
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
@@ -108,7 +108,7 @@ e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2,
 }
 
 static gboolean
-e_canvas_area_shown (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
+e_canvas_area_shown (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gdouble y2)
 {
 	GtkAdjustment *h, *v;
 	gint dx = 0, dy = 0;
@@ -141,7 +141,7 @@ e_canvas_area_shown (GnomeCanvas *canvas, double x1, double y1, double x2, doubl
 }
 
 gboolean
-e_canvas_item_area_shown (GnomeCanvasItem *item, double x1, double y1, double x2, double y2)
+e_canvas_item_area_shown (GnomeCanvasItem *item, gdouble x1, gdouble y1, gdouble x2, gdouble y2)
 {
 	g_return_val_if_fail (item != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), FALSE);
@@ -153,10 +153,10 @@ e_canvas_item_area_shown (GnomeCanvasItem *item, double x1, double y1, double x2
 }
 
 typedef struct {
-	double x1;
-	double y1;
-	double x2;
-	double y2;
+	gdouble x1;
+	gdouble y1;
+	gdouble x2;
+	gdouble y2;
 	GnomeCanvas *canvas;
 } DoubsAndCanvas;
 
@@ -172,7 +172,7 @@ show_area_timeout (gpointer data)
 }
 
 void
-e_canvas_item_show_area_delayed (GnomeCanvasItem *item, double x1, double y1, double x2, double y2, gint delay)
+e_canvas_item_show_area_delayed (GnomeCanvasItem *item, gdouble x1, gdouble y1, gdouble x2, gdouble y2, gint delay)
 {
 	DoubsAndCanvas *dac;
 

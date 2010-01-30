@@ -876,7 +876,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		g_free (existing_account_info->source_url);
 		g_free (existing_account_info);
 
-	} else if ( existing_account_info != NULL && is_gw_account ) {
+	} else if (existing_account_info != NULL && is_gw_account) {
 
 		if (!account->enabled) {
 			account_removed (account_listener, account);

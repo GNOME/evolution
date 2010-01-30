@@ -36,10 +36,10 @@ G_BEGIN_DECLS
  *							or NULL pointer for no color (transparent)
  * fill_color_gdk	GdkColor*	RW		Allocated GdkColor for fill
  * fill_stipple		GdkBitmap*	RW		Stipple pattern for fill
- * x1                   double		RW              Coordinates for edges of background rectangle
- * x2                   double		RW              Default is all of them = -1.
- * y1                   double		RW              Which means that the entire space is shown.
- * y2                   double		RW              If you need the rectangle to have negative coordinates, use an affine.
+ * x1                   gdouble		RW              Coordinates for edges of background rectangle
+ * x2                   gdouble		RW              Default is all of them = -1.
+ * y1                   gdouble		RW              Which means that the entire space is shown.
+ * y2                   gdouble		RW              If you need the rectangle to have negative coordinates, use an affine.
  */
 
 #define E_CANVAS_BACKGROUND_TYPE            (e_canvas_background_get_type ())

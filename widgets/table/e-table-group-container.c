@@ -1084,10 +1084,10 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 							    running_height);
 
 				gnome_canvas_item_set (GNOME_CANVAS_ITEM(child_node->rect),
-						      "x1", (double) 0,
-						      "x2", (double) running_width + GROUP_INDENT,
-						      "y1", (double) running_height - extra_height,
-						      "y2", (double) running_height + item_height,
+						      "x1", (gdouble) 0,
+						      "x2", (gdouble) running_width + GROUP_INDENT,
+						      "y1", (gdouble) running_height - extra_height,
+						      "y2", (gdouble) running_height + item_height,
 						      NULL);
 
 				running_height += item_height + extra_height;
@@ -1154,7 +1154,7 @@ typedef struct {
 
 #if 0
 static gint
-gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double height)
+gp_draw_rect (GtkPrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height)
 {
 	cairo_t *cr;
 	cr = gtk_print_context_get_cairo_context (context);

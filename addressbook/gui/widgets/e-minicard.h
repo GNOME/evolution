@@ -68,7 +68,7 @@ struct _EMinicard
 	GnomeCanvasItem *list_icon;
 
 	GdkPixbuf *list_icon_pixbuf;
-	double list_icon_size;
+	gdouble list_icon_size;
 
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;
@@ -88,8 +88,8 @@ struct _EMinicard
 	gint button_x;
 	gint button_y;
 
-	double width;
-	double height;
+	gdouble width;
+	gdouble height;
 };
 
 struct _EMinicardClass

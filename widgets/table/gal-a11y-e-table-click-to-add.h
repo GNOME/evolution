@@ -52,4 +52,4 @@ GType      gal_a11y_e_table_click_to_add_get_type  (void);
 AtkObject *gal_a11y_e_table_click_to_add_new       (GObject *widget);
 
 void       gal_a11y_e_table_click_to_add_init      (void);
-#endif /* ! __GAL_A11Y_E_TABLE_CLICK_TO_ADD_H__ */
+#endif /* __GAL_A11Y_E_TABLE_CLICK_TO_ADD_H__ */

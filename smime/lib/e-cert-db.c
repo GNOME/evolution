@@ -105,14 +105,14 @@ collect_certs(gpointer arg, SECItem **certs, gint numcerts)
 	collectArgs->numcerts = numcerts;
 	collectArgs->rawCerts = (SECItem *) PORT_ArenaZAlloc(
 		collectArgs->arena, sizeof (SECItem) * numcerts);
-	if ( collectArgs->rawCerts == NULL )
+	if (collectArgs->rawCerts == NULL)
 		return(SECFailure);
 
 	cert = collectArgs->rawCerts;
 
-	while ( numcerts-- ) {
+	while (numcerts--) {
 		rv = SECITEM_CopyItem(collectArgs->arena, cert, *certs);
-		if ( rv == SECFailure )
+		if (rv == SECFailure)
 			return(SECFailure);
 		cert++;
 		certs++;
@@ -895,7 +895,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	}
 	numcerts = certCollection->numcerts;
 	rawCerts = (SECItem **) PORT_Alloc(sizeof(SECItem *) * numcerts);
-	if ( !rawCerts ) {
+	if (!rawCerts) {
 		/* XXX g_error */
 		rv = FALSE;
 		goto loser;
@@ -908,7 +908,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	srv = CERT_ImportCerts(CERT_GetDefaultCertDB(), certUsageEmailSigner,
 			       numcerts, rawCerts, NULL, PR_TRUE, PR_FALSE,
 			       NULL);
-	if ( srv != SECSuccess ) {
+	if (srv != SECSuccess) {
 		/* XXX g_error */
 		rv = FALSE;
 		goto loser;
@@ -940,17 +940,17 @@ default_nickname (CERTCertificate *cert)
 	CERTCertDBHandle *defaultcertdb = CERT_GetDefaultCertDB();
 
 	username = CERT_GetCommonName(&cert->subject);
-	if ( username == NULL )
+	if (username == NULL)
 		username = PL_strdup("");
 
-	if ( username == NULL )
+	if (username == NULL)
 		goto loser;
 
 	caname = CERT_GetOrgName(&cert->issuer);
-	if ( caname == NULL )
+	if (caname == NULL)
 		caname = PL_strdup("");
 
-	if ( caname == NULL )
+	if (caname == NULL)
 		goto loser;
 
 	count = 1;
@@ -974,12 +974,12 @@ default_nickname (CERTCertificate *cert)
 		tmp = NULL;
 	}
 	tmp = nickname;
-	while ( 1 ) {
-		if ( count > 1 ) {
+	while (1) {
+		if (count > 1) {
 			nickname = PR_smprintf("%s #%d", tmp, count);
 		}
 
-		if ( nickname == NULL )
+		if (nickname == NULL)
 			goto loser;
 
 		if (PK11_IsInternal(slot)) {
@@ -1007,7 +1007,7 @@ default_nickname (CERTCertificate *cert)
 				}
 			}
 		}
-		if ( dummycert == NULL )
+		if (dummycert == NULL)
 			goto done;
 
 		/* found a cert, destroy it and loop */
@@ -1017,15 +1017,15 @@ default_nickname (CERTCertificate *cert)
 	} /* end of while (1) */
 
  loser:
-	if ( nickname ) {
+	if (nickname) {
 		PR_Free(nickname);
 	}
 	nickname = NULL;
  done:
-	if ( caname ) {
+	if (caname) {
 		PR_Free(caname);
 	}
-	if ( username )  {
+	if (username)  {
 		PR_Free(username);
 	}
 	if (slot != NULL) {
@@ -1064,7 +1064,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	CERTCertificate * cert=NULL;
 
 	arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
-	if ( arena == NULL ) {
+	if (arena == NULL) {
 		/* XXX g_error */
 		goto loser;
 	}
@@ -1083,7 +1083,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	}
 
 	slot = PK11_KeyForCertExists(cert, NULL, NULL);
-	if ( slot == NULL ) {
+	if (slot == NULL) {
 		/* XXX g_error */
 		goto loser;
 	}
@@ -1111,7 +1111,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 
 	if (numCACerts) {
 		CACerts = collectArgs->rawCerts+1;
-		if ( ! CERT_ImportCAChain(CACerts, numCACerts, certUsageUserCertImport) ) {
+		if (!CERT_ImportCAChain(CACerts, numCACerts, certUsageUserCertImport)) {
 			rv = TRUE;
 		}
 	}
@@ -1120,7 +1120,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	if (arena) {
 		PORT_FreeArena(arena, PR_FALSE);
 	}
-	if ( cert ) {
+	if (cert) {
 		CERT_DestroyCertificate(cert);
 	}
 	return rv;

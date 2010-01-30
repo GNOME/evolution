@@ -323,7 +323,7 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 	if (a->family && b->family && *a->family && *b->family) {
 		++possible;
 		/* We don't allow "loose matching" (i.e. John vs. Jon) on family names */
-		if (! e_utf8_casefold_collate (a->family, b->family)) {
+		if (!e_utf8_casefold_collate (a->family, b->family)) {
 			++matches;
 			family_match = TRUE;
 		}

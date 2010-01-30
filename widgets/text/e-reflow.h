@@ -36,9 +36,9 @@ G_BEGIN_DECLS
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
- * minimum_width double         RW              minimum width of the reflow.  width >= minimum_width
- * width        double          R               width of the reflow
- * height       double          RW              height of the reflow
+ * minimum_width gdouble         RW              minimum width of the reflow.  width >= minimum_width
+ * width        gdouble          R               width of the reflow
+ * height       gdouble          RW              height of the reflow
  */
 
 #define E_REFLOW_TYPE			(e_reflow_get_type ())
@@ -86,11 +86,11 @@ struct _EReflow
 	GnomeCanvasItem *empty_text;
 	gchar *empty_message;
 
-	double minimum_width;
-	double width;
-	double height;
+	gdouble minimum_width;
+	gdouble width;
+	gdouble height;
 
-	double column_width;
+	gdouble column_width;
 
 	gint incarnate_idle_id;
 	gint do_adjustment_idle_id;
@@ -98,8 +98,8 @@ struct _EReflow
 	/* These are all for when the column is being dragged. */
 	gdouble start_x;
 	gint which_column_dragged;
-	double temp_column_width;
-	double previous_temp_column_width;
+	gdouble temp_column_width;
+	gdouble previous_temp_column_width;
 
 	gint cursor_row;
 
@@ -124,7 +124,7 @@ struct _EReflowClass
 	GnomeCanvasGroupClass parent_class;
 
 	gint (*selection_event) (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event);
-	void (*column_width_changed) (EReflow *reflow, double width);
+	void (*column_width_changed) (EReflow *reflow, gdouble width);
 };
 
 /*

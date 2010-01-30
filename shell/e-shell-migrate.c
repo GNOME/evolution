@@ -199,7 +199,7 @@ change_dir_modes (const gchar *path)
 {
 	GDir *dir;
 	GError *err = NULL;
-	const char *file = NULL;
+	const gchar *file = NULL;
 
 	dir = g_dir_open (path, 0, &err);
 	if (err) {
@@ -217,18 +217,18 @@ change_dir_modes (const gchar *path)
 		g_free (full_path);
 	}
 
-	g_chmod (path, 0700);	
+	g_chmod (path, 0700);
 	g_dir_close (dir);
 }
 
 static void
-fix_folder_permissions (const char *data_dir)
+fix_folder_permissions (const gchar *data_dir)
 {
 	struct stat sb;
 
 	if (g_stat (data_dir, &sb) == -1) {
 		g_warning ("error stat: %s \n", data_dir);
-		return;	
+		return;
 	}
 
 	if (((guint32) sb.st_mode & 0777) != 0700)

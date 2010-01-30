@@ -191,7 +191,7 @@ pixbuf_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 static void
 pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 	      gint model_col, gint view_col, gint row,
-	      double width, double height)
+	      gdouble width, gdouble height)
 {
 	GdkPixbuf *pixbuf;
 	gint scale;
@@ -203,8 +203,8 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 
 	scale = gdk_pixbuf_get_height (pixbuf);
 	cairo_save (cr);
-	cairo_translate (cr, 0, (double)(height - scale) / (double)2);
-	gdk_cairo_set_source_pixbuf (cr, pixbuf, (double)scale, (double)scale);
+	cairo_translate (cr, 0, (gdouble)(height - scale) / (gdouble)2);
+	gdk_cairo_set_source_pixbuf (cr, pixbuf, (gdouble)scale, (gdouble)scale);
 	cairo_paint (cr);
 	cairo_restore (cr);
 }
@@ -212,7 +212,7 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 static gdouble
 pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		     gint model_col, gint view_col, gint row,
-		     double width)
+		     gdouble width)
 {
 	GdkPixbuf *pixbuf;
 

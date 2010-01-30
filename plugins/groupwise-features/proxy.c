@@ -349,7 +349,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 									     email, NULL);
 						return -1;
 					}
-					if (! g_ascii_strcasecmp(e_gw_connection_get_user_email (prd->cnc), email)) {
+					if (!g_ascii_strcasecmp(e_gw_connection_get_user_email (prd->cnc), email)) {
 						e_alert_run_dialog_for_args (parent,
 									     "org.gnome.evolution.proxy:invalid-user",
 									     email, NULL);
@@ -361,7 +361,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 
 					for (;existing_list; existing_list = g_list_next(existing_list)) {
 						new_proxy = (proxyHandler *) existing_list->data;
-						if ( !g_ascii_strcasecmp (new_proxy->proxy_email, email) ) {
+						if (!g_ascii_strcasecmp (new_proxy->proxy_email, email)) {
 							if (new_proxy->flags & E_GW_PROXY_DELETED) {
 								new_proxy->permissions = proxy_get_permissions_from_dialog (account);
 								if (new_proxy->flags & E_GW_PROXY_NEW)
@@ -621,7 +621,7 @@ proxy_update_tree_view (EAccount *account)
 	for (;list_iter; list_iter = g_list_next(list_iter)) {
 		aclInstance = (proxyHandler *) list_iter->data;
 
-		if (! (aclInstance->flags & E_GW_PROXY_DELETED )) {
+		if (!(aclInstance->flags & E_GW_PROXY_DELETED )) {
 			gtk_tree_store_append (priv->store, &iter, NULL);
 			gtk_tree_store_set (priv->store, &iter, 0, broken_image, 1, g_strconcat(aclInstance->proxy_name,"\n",aclInstance->proxy_email, NULL), -1);
 		}

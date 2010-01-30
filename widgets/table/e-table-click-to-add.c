@@ -242,10 +242,10 @@ create_rect_and_text (ETableClickToAdd *etcta)
 	if (!etcta->rect)
 		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
 					    gnome_canvas_rect_get_type(),
-					    "x1", (double) 0,
-					    "y1", (double) 0,
-					    "x2", (double) etcta->width - 1,
-					    "y2", (double) etcta->height - 1,
+					    "x1", (gdouble) 0,
+					    "y1", (gdouble) 0,
+					    "x2", (gdouble) etcta->width - 1,
+					    "y2", (gdouble) etcta->height - 1,
 					    "outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL],
 					    "fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
 					    NULL);
@@ -458,7 +458,7 @@ etcta_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
-	double old_height = etcta->height;
+	gdouble old_height = etcta->height;
 
 	if (etcta->text) {
 		g_object_get(etcta->text,

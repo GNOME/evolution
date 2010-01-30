@@ -64,8 +64,8 @@ et_get_extents (AtkComponent *component,
 		AtkCoordType coord_type)
 {
 	EText *item = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component)));
-	double real_width;
-	double real_height;
+	gdouble real_width;
+	gdouble real_height;
 	gint fake_width;
 	gint fake_height;
 
@@ -166,7 +166,7 @@ find_word_start (const gchar *text,
 		current = g_utf8_get_char_validated (at_offset, -1);
 		at_offset = g_utf8_offset_to_pointer (text, offset-1);
 		previous = g_utf8_get_char_validated (at_offset, -1);
-		if ((! is_a_seperator (current)) && is_a_seperator (previous))
+		if ((!is_a_seperator (current)) && is_a_seperator (previous))
 			break;
 		offset += step;
 	}
@@ -192,7 +192,7 @@ find_word_end (const gchar *text,
 		current = g_utf8_get_char_validated (at_offset, -1);
 		at_offset = g_utf8_offset_to_pointer (text, offset-1);
 		previous = g_utf8_get_char_validated (at_offset, -1);
-		if (is_a_seperator (current) && (! is_a_seperator (previous)))
+		if (is_a_seperator (current) && (!is_a_seperator (previous)))
 			break;
 		offset += step;
 	}

@@ -42,7 +42,7 @@ typedef struct {
 	ETableHeader    *header;
 	ETableHeader    *combined_header;
 
-	double           height, width;
+	gdouble           height, width;
 
 	PangoFontDescription *font_desc;
 

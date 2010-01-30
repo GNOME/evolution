@@ -1031,7 +1031,7 @@ config_button_remove (GtkWidget *widget, ETableConfig *config)
 		gint row = GPOINTER_TO_INT (column->data);
 
 		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (gint) * (config->temp_state->col_count - row - 1));
-		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (double) * (config->temp_state->col_count - row - 1));
+		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (gdouble) * (config->temp_state->col_count - row - 1));
 		config->temp_state->col_count --;
 	}
 	config->temp_state->columns = g_renew (int, config->temp_state->columns, config->temp_state->col_count);
@@ -1048,9 +1048,9 @@ config_button_up (GtkWidget *widget, ETableConfig *config)
 	GList *columns = NULL;
 	GList *column;
 	gint *new_shown;
-	double *new_expansions;
+	gdouble *new_expansions;
 	gint next_col;
-	double next_expansion;
+	gdouble next_expansion;
 	gint i;
 
 	e_table_selected_row_foreach (config->shown, add_column, &columns);
@@ -1103,9 +1103,9 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 	GList *columns = NULL;
 	GList *column;
 	gint *new_shown;
-	double *new_expansions;
+	gdouble *new_expansions;
 	gint next_col;
-	double next_expansion;
+	gdouble next_expansion;
 	gint i;
 
 	e_table_selected_row_foreach (config->shown, add_column, &columns);

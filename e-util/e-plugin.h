@@ -265,5 +265,5 @@ typedef enum _EPluginFlags {
 	E_PLUGIN_FLAGS_SYSTEM_PLUGIN = 1 << 0
 } EPluginFlags;
 
-#endif /* ! _E_PLUGIN_H */
+#endif /* _E_PLUGIN_H */
 

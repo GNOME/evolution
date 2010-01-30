@@ -701,9 +701,9 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 
 	/* see if any rules directly reference this removed uri */
 	rule = NULL;
-	while ( (rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL)) ) {
+	while ((rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL))) {
 		source = NULL;
-		while ( (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source)) ) {
+		while ((source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source))) {
 			gchar *csource = em_uri_to_camel(source);
 
 			/* Remove all sources that match, ignore changed events though
@@ -1057,7 +1057,7 @@ vfolder_load_storage(void)
 
 	/* and setup the rules we have */
 	rule = NULL;
-	while ( (rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL)) ) {
+	while ((rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL))) {
 		if (rule->name) {
 			d(printf("rule added: %s\n", rule->name));
 			context_rule_added((ERuleContext *)context, rule);

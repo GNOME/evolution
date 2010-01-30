@@ -587,7 +587,7 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		gtk_tree_path_free (path);
 		return;
 	}
-	if (! usr->flag)  /* if user was already existing one change the flag to update*/
+	if (!usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;
 	user = usr->user_node;
 	if (!right) {
@@ -620,7 +620,7 @@ edit_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		gtk_tree_path_free (path);
 		return;
 	}
-	if (! usr->flag)  /* if user was already existing one change the flag to update*/
+	if (!usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;
 	user = usr->user_node;
 
@@ -654,7 +654,7 @@ delete_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		gtk_tree_path_free (path);
 		return;
 	}
-	if (! usr->flag)  /* if user was already existing one change the flag to update*/
+	if (!usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;
 	user = usr->user_node;
 	if (!right) {

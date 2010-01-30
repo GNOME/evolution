@@ -46,4 +46,4 @@ struct _GalA11yETreeFactoryClass {
 /* Standard Glib function */
 GType              gal_a11y_e_tree_factory_get_type         (void);
 
-#endif /* ! __GAL_A11Y_E_TREE_FACTORY_H__ */
+#endif /* __GAL_A11Y_E_TREE_FACTORY_H__ */

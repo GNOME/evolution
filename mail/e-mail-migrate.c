@@ -2810,7 +2810,7 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 	CamelFolder *folder;
 
 	while (fi) {
-		double progress;
+		gdouble progress;
 		gchar *tmp;
 
 		*nth_folder = *nth_folder + 1;

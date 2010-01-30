@@ -50,10 +50,10 @@ struct _ECanvasBackgroundPrivate {
 	GdkColor color;		/* Fill color */
 	GdkBitmap *stipple;	/* Stipple for fill */
 	GdkGC *gc;			/* GC for filling */
-	double x1;
-	double x2;
-	double y1;
-	double y2;
+	gdouble x1;
+	gdouble x2;
+	gdouble y1;
+	gdouble y2;
 
 	guint needs_redraw : 1;
 };
@@ -88,9 +88,9 @@ get_color(ECanvasBackground *ecb)
 }
 
 static void
-ecb_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+ecb_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
-	double   i2c [6];
+	gdouble   i2c [6];
 	ArtPoint c1, c2, i1, i2;
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
@@ -106,16 +106,16 @@ ecb_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
 	art_affine_point (&c2, &i2, i2c);
 
 	if (ecb->priv->x1 < 0)
-		c1.x = -(double)UINT_MAX;
+		c1.x = -(gdouble)UINT_MAX;
 
 	if (ecb->priv->y1 < 0)
-		c1.y = -(double)UINT_MAX;
+		c1.y = -(gdouble)UINT_MAX;
 
 	if (ecb->priv->x2 < 0)
-		c2.x = (double)UINT_MAX;
+		c2.x = (gdouble)UINT_MAX;
 
 	if (ecb->priv->y2 < 0)
-		c2.y = (double)UINT_MAX;
+		c2.y = (gdouble)UINT_MAX;
 
 	*x1 = c1.x;
 	*y1 = c1.y;
@@ -127,7 +127,7 @@ ecb_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
  * GnomeCanvasItem::update method
  */
 static void
-ecb_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
+ecb_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	ArtPoint o1, o2;
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
@@ -377,7 +377,7 @@ ecb_draw (GnomeCanvasItem *item,
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 	gint x1, x2, y1, y2;
-	double i2c [6];
+	gdouble i2c [6];
 	ArtPoint upper_left, lower_right, ecb_base_point;
 
 	/*
@@ -410,7 +410,7 @@ ecb_draw (GnomeCanvasItem *item,
 }
 
 static double
-ecb_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
+ecb_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
 	   GnomeCanvasItem **actual_item)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);

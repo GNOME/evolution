@@ -422,13 +422,13 @@ select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 	GSList *group = NULL;
 	gint i = 0;
 
-	if ( !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) )
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		return;
 
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
 	for (i=0; i< g_slist_length(group); i++) {
-		if ( g_slist_nth_data (group, with = i) == widget )
+		if (g_slist_nth_data (group, with = i) == widget)
 			break;
 	}
 

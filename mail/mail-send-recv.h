@@ -44,4 +44,4 @@ void		mail_autoreceive_init		(EShellBackend *shell_backend,
 
 G_END_DECLS
 
-#endif /* ! MAIL_SEND_RECV_H */
+#endif /* MAIL_SEND_RECV_H */

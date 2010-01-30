@@ -60,4 +60,4 @@ AtkObject *gal_a11y_e_cell_text_new        (ETableItem *item,
 					    gint         view_col,
 					    gint         row);
 
-#endif /* ! __GAL_A11Y_E_CELL_TEXT_H__ */
+#endif /* __GAL_A11Y_E_CELL_TEXT_H__ */

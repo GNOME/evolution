@@ -176,7 +176,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 static void
 e_text_style_set (EText *text, GtkStyle *previous_style)
 {
-	if ( text->line_wrap ) {
+	if (text->line_wrap) {
 		text->needs_split_into_lines = 1;
 	} else {
 		text->needs_calc_height = 1;
@@ -236,12 +236,12 @@ e_text_dispose (GObject *object)
 		text->timer = NULL;
 	}
 
-	if ( text->dbl_timeout ) {
+	if (text->dbl_timeout) {
 		g_source_remove (text->dbl_timeout);
 		text->dbl_timeout = 0;
 	}
 
-	if ( text->tpl_timeout ) {
+	if (text->tpl_timeout) {
 		g_source_remove (text->tpl_timeout);
 		text->tpl_timeout = 0;
 	}
@@ -492,10 +492,10 @@ e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer 
 }
 
 static void
-get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
+get_bounds (EText *text, gdouble *px1, gdouble *py1, gdouble *px2, gdouble *py2)
 {
 	GnomeCanvasItem *item;
-	double wx, wy, clip_width, clip_height;
+	gdouble wx, wy, clip_width, clip_height;
 
 	item = GNOME_CANVAS_ITEM (text);
 
@@ -512,7 +512,7 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	else
 		clip_width = text->clip_width;
 
-	if ( text->clip_height < 0 )
+	if (text->clip_height < 0)
 		clip_height = text->height;
 	else
 		clip_height = text->clip_height;
@@ -688,11 +688,11 @@ e_text_set_property (GObject *object,
 	switch (prop_id) {
 	case PROP_MODEL:
 
-		if ( text->model_changed_signal_id )
+		if (text->model_changed_signal_id)
 			g_signal_handler_disconnect (text->model,
 					     text->model_changed_signal_id);
 
-		if ( text->model_repos_signal_id )
+		if (text->model_repos_signal_id)
 			g_signal_handler_disconnect (text->model,
 						     text->model_repos_signal_id);
 
@@ -720,10 +720,10 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_EVENT_PROCESSOR:
-		if ( text->tep && text->tep_command_id )
+		if (text->tep && text->tep_command_id)
 			g_signal_handler_disconnect(text->tep,
 						    text->tep_command_id);
-		if ( text->tep ) {
+		if (text->tep) {
 			g_object_unref(text->tep);
 		}
 		text->tep = E_TEXT_EVENT_PROCESSOR(g_value_get_object (value));
@@ -778,7 +778,7 @@ e_text_set_property (GObject *object,
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
-		if ( text->line_wrap ) {
+		if (text->line_wrap) {
 			if (text->layout)
 				pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
 			text->needs_split_into_lines = 1;
@@ -802,7 +802,7 @@ e_text_set_property (GObject *object,
 	case PROP_CLIP:
 		text->clip = g_value_get_boolean (value);
 		calc_ellipsis (text);
-		if ( text->line_wrap )
+		if (text->line_wrap)
 			text->needs_split_into_lines = 1;
 		else {
 			text->needs_calc_height = 1;
@@ -897,11 +897,11 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_BREAK_CHARACTERS:
-		if ( text->break_characters ) {
+		if (text->break_characters) {
 			g_free(text->break_characters);
 			text->break_characters = NULL;
 		}
-		if ( g_value_get_string (value) )
+		if (g_value_get_string (value))
 			text->break_characters = g_strdup( g_value_get_string (value) );
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
@@ -916,7 +916,7 @@ e_text_set_property (GObject *object,
 	case PROP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
-		if ( text->line_wrap ) {
+		if (text->line_wrap) {
 			if (text->layout) {
 				pango_layout_set_width (text->layout, text->width < 0 ? -1 : text->width * PANGO_SCALE);
 			}
@@ -1003,9 +1003,9 @@ e_text_set_property (GObject *object,
 	       needs_update = 1;
 	}
 
-	if ( needs_reflow )
+	if (needs_reflow)
 		e_canvas_item_request_reflow (item);
-	if ( needs_update )
+	if (needs_update)
 		gnome_canvas_item_request_update (item);
 }
 
@@ -1181,7 +1181,7 @@ e_text_reflow (GnomeCanvasItem *item, gint flags)
 		text->needs_calc_height = 1;
 	}
 
-	if ( text->needs_calc_height ) {
+	if (text->needs_calc_height) {
 		calc_height (text);
 		gnome_canvas_item_request_update(item);
 		text->needs_calc_height = 0;
@@ -1191,10 +1191,10 @@ e_text_reflow (GnomeCanvasItem *item, gint flags)
 
 /* Update handler for the text item */
 static void
-e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
+e_text_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	EText *text;
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	text = E_TEXT (item);
 
@@ -1224,7 +1224,7 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint fl
 		}
 		text->needs_recalc_bounds = 0;
 	}
-	if ( text->needs_redraw ) {
+	if (text->needs_redraw) {
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 		text->needs_redraw = 0;
 	}
@@ -1678,12 +1678,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 /* Point handler for the text item */
 static double
-e_text_point (GnomeCanvasItem *item, double x, double y,
+e_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	      gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	EText *text;
-	double clip_width;
-	double clip_height;
+	gdouble clip_width;
+	gdouble clip_height;
 
 	text = E_TEXT (item);
 
@@ -1700,7 +1700,7 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	else
 		clip_width = text->clip_width;
 
-	if ( text->clip_height < 0 )
+	if (text->clip_height < 0)
 		clip_height = text->height;
 	else
 		clip_height = text->clip_height;
@@ -1728,10 +1728,10 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 
 /* Bounds handler for the text item */
 static void
-e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+e_text_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
 	EText *text;
-	double width, height;
+	gdouble width, height;
 
 	text = E_TEXT (item);
 
@@ -1744,7 +1744,7 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 	if (text->clip) {
 		if (text->clip_width >= 0)
 			width = text->clip_width;
-		if ( text->clip_height >= 0 )
+		if (text->clip_height >= 0)
 			height = text->clip_height;
 	}
 
@@ -1945,7 +1945,7 @@ e_text_stop_editing (EText *text)
 	text->revert = NULL;
 
 	text->editing = FALSE;
-	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
+	if ((!text->default_cursor_shown) && (!text->draw_borders)) {
 		GdkWindow *window;
 
 		window = gtk_widget_get_window (
@@ -2059,7 +2059,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 					gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 				}
 			}
-			if ( text->line_wrap )
+			if (text->line_wrap)
 				text->needs_split_into_lines = 1;
 			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 		}
@@ -2223,7 +2223,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_ENTER_NOTIFY:
 		text->pointer_in = TRUE;
 		if (text->editing || text->draw_borders) {
-			if ( text->default_cursor_shown ) {
+			if (text->default_cursor_shown) {
 				gdk_window_set_cursor(window, text->i_cursor);
 				text->default_cursor_shown = FALSE;
 			}
@@ -2232,7 +2232,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_LEAVE_NOTIFY:
 		text->pointer_in = FALSE;
 		if (text->editing || text->draw_borders) {
-			if ( ! text->default_cursor_shown ) {
+			if (!text->default_cursor_shown) {
 				gdk_window_set_cursor(window, text->default_cursor);
 				text->default_cursor_shown = TRUE;
 			}
@@ -3163,7 +3163,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 
 		if (cur_line) {
 			gint xpos, ypos;
-			double clip_width, clip_height;
+			gdouble clip_width, clip_height;
 			/* gboolean trailing = FALSE; */
 			PangoRectangle pango_pos;
 
@@ -3206,7 +3206,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 				ypos = pango_pos.y + pango_pos.height;
 			}
 
-			if ( text->clip_height < 0 )
+			if (text->clip_height < 0)
 				clip_height = text->height;
 			else
 				clip_height = text->clip_height;

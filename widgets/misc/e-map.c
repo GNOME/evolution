@@ -71,7 +71,7 @@ struct _EMapPrivate {
 
 	/* Realtime zoom data */
 	EMapZoomState zoom_state;
-	double zoom_target_long, zoom_target_lat;
+	gdouble zoom_target_long, zoom_target_lat;
 
 	/* Dots */
 	GPtrArray *points;
@@ -633,7 +633,7 @@ e_map_new (void)
  * Latitude  E <-90, 90]   */
 
 void
-e_map_window_to_world (EMap *map, double win_x, double win_y, double *world_longitude, double *world_latitude)
+e_map_window_to_world (EMap *map, gdouble win_x, gdouble win_y, gdouble *world_longitude, gdouble *world_latitude)
 {
 	EMapPrivate *priv;
 	gint width, height;
@@ -646,14 +646,14 @@ e_map_window_to_world (EMap *map, double win_x, double win_y, double *world_long
 	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
 	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
-	*world_longitude = (win_x + priv->xofs - (double) width / 2.0) /
-		((double) width / 2.0) * 180.0;
-	*world_latitude = ((double) height / 2.0 - win_y - priv->yofs) /
-		((double) height / 2.0) * 90.0;
+	*world_longitude = (win_x + priv->xofs - (gdouble) width / 2.0) /
+		((gdouble) width / 2.0) * 180.0;
+	*world_latitude = ((gdouble) height / 2.0 - win_y - priv->yofs) /
+		((gdouble) height / 2.0) * 90.0;
 }
 
 void
-e_map_world_to_window (EMap *map, double world_longitude, double world_latitude, double *win_x, double *win_y)
+e_map_world_to_window (EMap *map, gdouble world_longitude, gdouble world_latitude, gdouble *win_x, gdouble *win_y)
 {
 	EMapPrivate *priv;
 	gint width, height;
@@ -689,7 +689,7 @@ e_map_get_magnification (EMap *map)
 }
 
 void
-e_map_zoom_to_location (EMap *map, double longitude, double latitude)
+e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
 {
 	EMapPrivate *priv;
 
@@ -753,7 +753,7 @@ e_map_thaw (EMap *map)
 /* --- Point manipulation --- */
 
 EMapPoint *
-e_map_add_point (EMap *map, gchar *name, double longitude, double latitude, guint32 color_rgba)
+e_map_add_point (EMap *map, gchar *name, gdouble longitude, gdouble latitude, guint32 color_rgba)
 {
 	EMapPrivate *priv;
 	EMapPoint *point;
@@ -798,7 +798,7 @@ e_map_remove_point (EMap *map, EMapPoint *point)
 }
 
 void
-e_map_point_get_location (EMapPoint *point, double *longitude, double *latitude)
+e_map_point_get_location (EMapPoint *point, gdouble *longitude, gdouble *latitude)
 {
 	*longitude = point->longitude;
 	*latitude = point->latitude;
@@ -847,7 +847,7 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;
-	double x, y;
+	gdouble x, y;
 
 	priv = map->priv;
 	if (!priv->map_render_pixbuf) return FALSE;
@@ -863,12 +863,12 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 }
 
 EMapPoint *
-e_map_get_closest_point (EMap *map, double longitude, double latitude, gboolean in_view)
+e_map_get_closest_point (EMap *map, gdouble longitude, gdouble latitude, gboolean in_view)
 {
 	EMapPrivate *priv;
 	EMapPoint *point_chosen = NULL, *point;
-	double min_dist = 0.0, dist;
-	double dx, dy;
+	gdouble min_dist = 0.0, dist;
+	gdouble dx, dy;
 	gint i;
 
 	priv = map->priv;
@@ -947,7 +947,7 @@ update_render_pixbuf (EMap *map,
 	EMapPoint *point;
 	GtkAllocation allocation;
 	gint width, height, orig_width, orig_height;
-	double zoom;
+	gdouble zoom;
 	gint i;
 
 	if (!GTK_WIDGET_REALIZED (map))
@@ -965,10 +965,10 @@ update_render_pixbuf (EMap *map,
 
 	/* Compute scaled width and height based on the extreme dimension */
 
-	if ((double) width / orig_width > (double) height / orig_height)
-		zoom = (double) width / (double) orig_width;
+	if ((gdouble) width / orig_width > (gdouble) height / orig_height)
+		zoom = (gdouble) width / (gdouble) orig_width;
 	else
-		zoom = (double) height / (double) orig_height;
+		zoom = (gdouble) height / (gdouble) orig_height;
 
 	if (priv->zoom_state == E_MAP_ZOOMED_IN)
 		zoom *= 2.0;
@@ -1097,7 +1097,7 @@ update_render_point (EMap *map, EMapPoint *point)
 {
 	EMapPrivate *priv;
 	GdkPixbuf *pb;
-	double px, py;
+	gdouble px, py;
 
 	priv = map->priv;
 	pb = priv->map_render_pixbuf;
@@ -1129,7 +1129,7 @@ static void
 repaint_point (EMap *map, EMapPoint *point)
 {
 	GdkRectangle area;
-	double px, py;
+	gdouble px, py;
 
 	if (!e_map_point_is_in_view (map, point)) return;
 
@@ -1434,14 +1434,14 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 	if (area_width > area_height)
 	{
 		strong_axis = AXIS_X;
-		axis_factor = (double) area_height / (double) area_width;
+		axis_factor = (gdouble) area_height / (gdouble) area_width;
 		zoom_chunk = MAX (1, area_width / 250);
 		i = (area_width * (zoom_factor - 1.0)) / zoom_chunk;
 	}
 	else
 	{
 		strong_axis = AXIS_Y;
-		axis_factor = (double) area_width / (double) area_height;
+		axis_factor = (gdouble) area_width / (gdouble) area_height;
 		zoom_chunk = MAX (1, area_height / 250);
 		i = (area_height * (zoom_factor - 1.0)) / zoom_chunk;
 	}
@@ -1537,7 +1537,7 @@ zoom_in_smooth (EMap *map)
 	EMapPrivate *priv;
 	GdkWindow *window;
 	gint width, height;
-	double x, y;
+	gdouble x, y;
 
 	g_return_if_fail (map);
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
@@ -1594,7 +1594,7 @@ zoom_in (EMap *map)
 	GtkAllocation allocation;
 	GdkRectangle area;
 	EMapPrivate *priv;
-	double x, y;
+	gdouble x, y;
 
 	priv = map->priv;
 
@@ -1628,8 +1628,8 @@ zoom_out (EMap *map)
 	GtkAllocation allocation;
 	GdkRectangle area;
 	EMapPrivate *priv;
-	double longitude, latitude;
-	double x, y;
+	gdouble longitude, latitude;
+	gdouble x, y;
 
 	priv = map->priv;
 

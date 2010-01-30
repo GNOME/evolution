@@ -256,9 +256,9 @@ e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 	e_canvas_vbox->items = g_list_append(e_canvas_vbox->items, item);
 	g_object_weak_ref (G_OBJECT (item),
 			   e_canvas_vbox_remove_item, e_canvas_vbox);
-	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
+	if (GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED) {
 		gnome_canvas_item_set(item,
-				      "width", (double) e_canvas_vbox->minimum_width,
+				      "width", (gdouble) e_canvas_vbox->minimum_width,
 				      NULL);
 		e_canvas_item_request_reflow(item);
 	}
@@ -270,9 +270,9 @@ e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *i
 	e_canvas_vbox->items = g_list_prepend(e_canvas_vbox->items, item);
 	g_object_weak_ref (G_OBJECT (item),
 			   e_canvas_vbox_remove_item, e_canvas_vbox);
-	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
+	if (GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED) {
 		gnome_canvas_item_set(item,
-				      "width", (double) e_canvas_vbox->minimum_width,
+				      "width", (gdouble) e_canvas_vbox->minimum_width,
 				      NULL);
 		e_canvas_item_request_reflow(item);
 	}
@@ -288,7 +288,7 @@ e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 	for ( list = e_canvas_vbox->items; list; list = list->next ) {
 		GnomeCanvasItem *child = GNOME_CANVAS_ITEM(list->data);
 		gnome_canvas_item_set(child,
-				      "width", (double) e_canvas_vbox->minimum_width,
+				      "width", (gdouble) e_canvas_vbox->minimum_width,
 				      NULL);
 	}
 }
@@ -297,7 +297,7 @@ static void
 e_canvas_vbox_reflow( GnomeCanvasItem *item, gint flags )
 {
 	ECanvasVbox *e_canvas_vbox = E_CANVAS_VBOX(item);
-	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
+	if (GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED) {
 
 		gdouble old_height;
 		gdouble running_height;
@@ -322,8 +322,8 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, gint flags )
 				      "width", &item_width,
 				      NULL);
 			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
-						    (double) 0,
-						    (double) running_height);
+						    (gdouble) 0,
+						    (gdouble) running_height);
 			running_height += item_height;
 			if (max_width < item_width)
 				max_width = item_width;
@@ -338,8 +338,8 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, gint flags )
 					      NULL);
 
 				e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
-							    (double) 0,
-							    (double) running_height);
+							    (gdouble) 0,
+							    (gdouble) running_height);
 
 				running_height += item_height;
 				if (max_width < item_width)

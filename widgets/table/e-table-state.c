@@ -145,7 +145,7 @@ e_table_state_load_from_string  (ETableState *state,
 
 typedef struct {
 	gint column;
-	double expansion;
+	gdouble expansion;
 } int_and_double;
 
 void
@@ -255,7 +255,7 @@ e_table_state_save_to_node      (ETableState *state,
 
 	for (i = 0; i < state->col_count; i++) {
 		gint column = state->columns[i];
-		double expansion = state->expansions[i];
+		gdouble expansion = state->expansions[i];
 		xmlNode *new_node;
 
 		new_node = xmlNewChild (

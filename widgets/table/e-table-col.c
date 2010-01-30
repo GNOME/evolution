@@ -169,7 +169,7 @@ ETableCol *
 e_table_col_new (gint col_idx,
                  const gchar *text,
                  const gchar *icon_name,
-                 double expansion,
+                 gdouble expansion,
                  gint min_width,
                  ECell *ecell,
                  GCompareDataFunc compare,

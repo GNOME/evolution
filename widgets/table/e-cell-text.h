@@ -56,7 +56,7 @@ typedef struct {
 	GtkJustification  justify;
 	gchar             *font_name;
 
-	double x, y;			/* Position at anchor */
+	gdouble x, y;			/* Position at anchor */
 
 	gulong pixel;			/* Fill color */
 

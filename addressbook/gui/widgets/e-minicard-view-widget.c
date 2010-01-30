@@ -421,7 +421,7 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 		GTK_WIDGET_CLASS(parent_class)->size_allocate (widget, allocation);
 
 	if (GTK_WIDGET_REALIZED(widget)) {
-		double width;
+		gdouble width;
 		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
 
 		gnome_canvas_item_set( view->emv,
@@ -441,7 +441,7 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 static void
 e_minicard_view_widget_reflow(ECanvas *canvas)
 {
-	double width;
+	gdouble width;
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(canvas);
 
 	if (E_CANVAS_CLASS(parent_class)->reflow)

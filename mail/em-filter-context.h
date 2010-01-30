@@ -56,4 +56,4 @@ EFilterPart *em_filter_context_find_action (EMFilterContext *fc, const gchar *na
 EFilterPart *em_filter_context_create_action (EMFilterContext *fc, const gchar *name);
 EFilterPart *em_filter_context_next_action (EMFilterContext *fc, EFilterPart *last);
 
-#endif /* ! _EM_FILTER_CONTEXT_H */
+#endif /* _EM_FILTER_CONTEXT_H */

@@ -88,14 +88,14 @@ static void	ecp_print		(ECellView	*ecv,
 					 gint		 model_col,
 					 gint		 view_col,
 					 gint		 row,
-					 double		 width,
-					 double		 height);
+					 gdouble		 width,
+					 gdouble		 height);
 static gdouble	ecp_print_height	(ECellView	*ecv,
 					 GtkPrintContext *context,
 					 gint		 model_col,
 					 gint		 view_col,
 					 gint		 row,
-					 double		 width);
+					 gdouble		 width);
 static gint	ecp_max_width		(ECellView	*ecv,
 					 gint		 model_col,
 					 gint		 view_col);
@@ -388,7 +388,7 @@ ecp_leave_edit (ECellView *ecv, gint model_col, gint view_col, gint row,
 
 static void
 ecp_print (ECellView *ecv, GtkPrintContext *context,
-	   gint model_col, gint view_col, gint row, double width, double height)
+	   gint model_col, gint view_col, gint row, gdouble width, gdouble height)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -399,7 +399,7 @@ ecp_print (ECellView *ecv, GtkPrintContext *context,
 static gdouble
 ecp_print_height (ECellView *ecv, GtkPrintContext *context,
 		  gint model_col, gint view_col, gint row,
-		  double width)
+		  gdouble width)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 

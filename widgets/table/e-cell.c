@@ -283,7 +283,7 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 void
 e_cell_print (ECellView *ecell_view, GtkPrintContext *context,
 	      gint model_col, gint view_col, gint row,
-	      double width, double height)
+	      gdouble width, gdouble height)
 {
 	if (ECVIEW_EC_CLASS(ecell_view)->print)
 		ECVIEW_EC_CLASS(ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
@@ -297,7 +297,7 @@ e_cell_print (ECellView *ecell_view, GtkPrintContext *context,
 gdouble
 e_cell_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		     gint model_col, gint view_col, gint row,
-		     double width)
+		     gdouble width)
 {
 	if (ECVIEW_EC_CLASS(ecell_view)->print_height)
 		return ECVIEW_EC_CLASS(ecell_view)->print_height

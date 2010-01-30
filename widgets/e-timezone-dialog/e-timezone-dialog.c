@@ -504,14 +504,14 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
-	double longitude, latitude;
+	gdouble longitude, latitude;
 	icaltimezone *new_zone;
 	gchar *display=NULL;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
-	e_map_window_to_world (priv->map, (double) event->x, (double) event->y,
+	e_map_window_to_world (priv->map, (gdouble) event->x, (gdouble) event->y,
 			       &longitude, &latitude);
 
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
@@ -594,12 +594,12 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
-	double longitude, latitude;
+	gdouble longitude, latitude;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
-	e_map_window_to_world (priv->map, (double) event->x, (double) event->y,
+	e_map_window_to_world (priv->map, (gdouble) event->x, (gdouble) event->y,
 			       &longitude, &latitude);
 
 	if (event->button != 1) {
@@ -630,7 +630,7 @@ get_zone_from_point (ETimezoneDialog *etd,
 		     EMapPoint *point)
 {
 	icalarray *zones;
-	double longitude, latitude;
+	gdouble longitude, latitude;
 	gint i;
 
 	if (point == NULL)
@@ -643,7 +643,7 @@ get_zone_from_point (ETimezoneDialog *etd,
 
 	for (i = 0; i < zones->num_elements; i++) {
 		icaltimezone *zone;
-		double zone_longitude, zone_latitude;
+		gdouble zone_longitude, zone_latitude;
 
 		zone = icalarray_element_at (zones, i);
 		zone_longitude = icaltimezone_get_longitude (zone);
@@ -736,7 +736,7 @@ set_map_timezone (ETimezoneDialog *etd, icaltimezone *zone)
 {
 	ETimezoneDialogPrivate *priv;
 	EMapPoint *point;
-	double zone_longitude, zone_latitude;
+	gdouble zone_longitude, zone_latitude;
 
 	priv = etd->priv;
 

@@ -90,11 +90,11 @@ etfci_dispose (GObject *object)
 }
 
 static gint
-etfci_find_button (ETableFieldChooserItem *etfci, double loc)
+etfci_find_button (ETableFieldChooserItem *etfci, gdouble loc)
 {
 	gint i;
 	gint count;
-	double height = 0;
+	gdouble height = 0;
 
 	count = e_table_header_count(etfci->combined_header);
 	for (i = 0; i < count; i++) {
@@ -137,7 +137,7 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 		ETableCol *ecol = e_table_header_get_column (etfci->full_header, i);
 		if (ecol->disabled)
 			continue;
-		if (! (GPOINTER_TO_INT (g_hash_table_lookup (hash, GINT_TO_POINTER (ecol->col_idx)))))
+		if (!(GPOINTER_TO_INT (g_hash_table_lookup (hash, GINT_TO_POINTER (ecol->col_idx)))))
 			e_table_header_add_column (etfci->combined_header, ecol, -1);
 	}
 
@@ -148,10 +148,10 @@ static void
 etfci_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-	double old_height;
+	gdouble old_height;
 	gint i;
 	gint count;
-	double height = 0;
+	gdouble height = 0;
 
 	etfci_rebuild_combined (etfci);
 
@@ -176,10 +176,10 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 }
 
 static void
-etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
+etfci_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-	double   i2c [6];
+	gdouble   i2c [6];
 	ArtPoint c1, c2, i1, i2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update)
@@ -493,7 +493,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint w
 }
 
 static double
-etfci_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
+etfci_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
 	    GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -514,7 +514,7 @@ etfci_maybe_start_drag (ETableFieldChooserItem *etfci, gint x, gint y)
 }
 
 static void
-etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, double y)
+etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdouble y)
 {
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
 	GtkTargetList *list;

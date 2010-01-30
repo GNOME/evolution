@@ -419,9 +419,9 @@ eti_detach_cell_views (ETableItem *eti)
 }
 
 static void
-eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+eti_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
-	double   i2c [6];
+	gdouble   i2c [6];
 	ArtPoint c1, c2, i1, i2;
 	ETableItem *eti = E_TABLE_ITEM (item);
 
@@ -474,7 +474,7 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
  * GnomeCanvasItem::update method
  */
 static void
-eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
+eti_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	ArtPoint o1, o2;
 	ETableItem *eti = E_TABLE_ITEM (item);
@@ -782,7 +782,7 @@ eti_item_region_redraw (ETableItem *eti, gint x0, gint y0, gint x1, gint y1)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 	ArtDRect rect;
-	double i2c [6];
+	gdouble i2c [6];
 
 	rect.x0 = x0;
 	rect.y0 = y0;
@@ -1728,7 +1728,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	gint x1, x2;
 	gint f_x1, f_x2, f_y1, f_y2;
 	gboolean f_found;
-	double i2c [6];
+	gdouble i2c [6];
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET(item->canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
@@ -2015,7 +2015,7 @@ exit:
 }
 
 static double
-eti_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
+eti_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
 	   GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -2024,7 +2024,7 @@ eti_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 }
 
 static gboolean
-find_cell (ETableItem *eti, double x, double y, gint *view_col_res, gint *view_row_res, double *x1_res, double *y1_res)
+find_cell (ETableItem *eti, gdouble x, gdouble y, gint *view_col_res, gint *view_row_res, gdouble *x1_res, gdouble *y1_res)
 {
 	const gint cols = eti->cols;
 	const gint rows = eti->rows;
@@ -2164,8 +2164,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	switch (e->type) {
 	case GDK_BUTTON_PRESS: {
-		double x1, y1;
-		double realx, realy;
+		gdouble x1, y1;
+		gdouble realx, realy;
 		GdkEventButton button;
 		gint col, row;
 		gint cursor_row, cursor_col;
@@ -2288,7 +2288,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 
 	case GDK_BUTTON_RELEASE: {
-		double x1, y1;
+		gdouble x1, y1;
 		gint col, row;
 		gint cursor_row, cursor_col;
 
@@ -2367,7 +2367,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_2BUTTON_PRESS: {
 		gint model_col, model_row;
 #if 0
-		double x1, y1;
+		gdouble x1, y1;
 #endif
 
 		d(g_print("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
@@ -2422,7 +2422,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 	case GDK_MOTION_NOTIFY: {
 		gint col, row, flags;
-		double x1, y1;
+		gdouble x1, y1;
 		gint cursor_col, cursor_row;
 
 		gnome_canvas_item_w2i (item, &e->motion.x, &e->motion.y);
@@ -3079,7 +3079,7 @@ eti_cursor_change (ESelectionModel *selection, gint row, gint col, ETableItem *e
 		return;
 	}
 
-	if (! e_table_model_has_change_pending (eti->table_model)) {
+	if (!e_table_model_has_change_pending (eti->table_model)) {
 		if (!eti->in_key_press) {
 			eti_maybe_show_cursor(eti, DOUBLE_CLICK_TIME + 10);
 		} else {
@@ -3111,7 +3111,7 @@ eti_cursor_activated (ESelectionModel *selection, gint row, gint col, ETableItem
 	view_col = model_to_view_col(eti, col);
 
 	if (view_row != -1 && view_col != -1) {
-		if (! e_table_model_has_change_pending (eti->table_model)) {
+		if (!e_table_model_has_change_pending (eti->table_model)) {
 			if (!eti->in_key_press) {
 				eti_show_cursor(eti, DOUBLE_CLICK_TIME + 10);
 			} else {
@@ -3254,7 +3254,7 @@ e_table_item_compute_mouse_over (ETableItem        *eti,
 				 gint               *row,
 				 gint               *col)
 {
-	double realx, realy;
+	gdouble realx, realy;
 	/* Save the grabbed row but make sure that we don't get flawed
            results because the cursor is grabbed. */
 	gint grabbed_row = eti->grabbed_row;
@@ -3307,8 +3307,8 @@ static gdouble *
 e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
 {
 	gint i;
-	double extra;
-	double expansion;
+	gdouble extra;
+	gdouble expansion;
 	gint last_resizable = -1;
 	gdouble scale = 1.0L;
 	gdouble *widths = g_new(gdouble, e_table_header_count(eth));
@@ -3348,7 +3348,7 @@ eti_printed_row_height (ETableItem *eti, gdouble *widths, GtkPrintContext *conte
 #define CHECK(x) if((x) == -1) return -1;
 
 static gint
-gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double height)
+gp_draw_rect (GtkPrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height)
 {
 	cairo_t *cr;
 	cr = gtk_print_context_get_cairo_context (context);
@@ -3363,8 +3363,8 @@ gp_draw_rect (GtkPrintContext *context, double x, double y, double width, double
 static void
 e_table_item_print_page  (EPrintable *ep,
 			  GtkPrintContext *context,
-			  double width,
-			  double height,
+			  gdouble width,
+			  gdouble height,
 			  gboolean quantize,
 			  ETableItemPrintContext *itemcontext)
 {
@@ -3374,7 +3374,7 @@ e_table_item_print_page  (EPrintable *ep,
 	gdouble max_height;
 	gint rows_printed = itemcontext->rows_printed;
 	gint row, col, next_page = 0;
-	double yd = height;
+	gdouble yd = height;
 	cairo_t *cr;
 	gdouble *widths;
 

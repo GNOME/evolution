@@ -46,4 +46,4 @@ struct _GalA11yETextFactoryClass {
 /* Standard Glib function */
 GType              gal_a11y_e_text_factory_get_type         (void);
 
-#endif /* ! __GAL_A11Y_E_TEXT_FACTORY_H__ */
+#endif /* __GAL_A11Y_E_TEXT_FACTORY_H__ */

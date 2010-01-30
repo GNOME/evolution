@@ -69,7 +69,7 @@ expire_dir_rec(const gchar *base, time_t now)
 	path = g_string_new(base);
 	len = path->len;
 
-	while ( (d = g_dir_read_name(dir)) ) {
+	while ((d = g_dir_read_name(dir))) {
 		g_string_truncate(path, len);
 		g_string_append_printf(path, "/%s", d);
 		d(printf("Checking '%s' for expiry\n", path->str));

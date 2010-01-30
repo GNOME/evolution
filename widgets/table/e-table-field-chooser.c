@@ -101,10 +101,10 @@ ensure_nonzero_step_increments (ETableFieldChooser *etfc)
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)
 {
-	double height;
+	gdouble height;
 	etfc->last_alloc = *allocation;
 	gnome_canvas_item_set( etfc->item,
-			       "width", (double) allocation->width,
+			       "width", (gdouble) allocation->width,
 			       NULL );
 	g_object_get(etfc->item,
 		     "height", &height,
@@ -112,15 +112,15 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETab
 	height = MAX(height, allocation->height);
 	gnome_canvas_set_scroll_region(GNOME_CANVAS( etfc->canvas ), 0, 0, allocation->width - 1, height - 1);
 	gnome_canvas_item_set( etfc->rect,
-			       "x2", (double) allocation->width,
-			       "y2", (double) height,
+			       "x2", (gdouble) allocation->width,
+			       "y2", (gdouble) height,
 			       NULL );
 	ensure_nonzero_step_increments (etfc);
 }
 
 static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
 {
-	double height;
+	gdouble height;
 	g_object_get(etfc->item,
 		     "height", &height,
 		     NULL);
@@ -129,8 +129,8 @@ static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS(etfc->canvas), 0, 0, etfc->last_alloc.width - 1, height - 1);
 	gnome_canvas_item_set( etfc->rect,
-			       "x2", (double) etfc->last_alloc.width,
-			       "y2", (double) height,
+			       "x2", (gdouble) etfc->last_alloc.width,
+			       "y2", (gdouble) height,
 			       NULL );
 	ensure_nonzero_step_increments (etfc);
 }
@@ -187,16 +187,16 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 
 	etfc->rect = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS( etfc->canvas ) ),
 					   gnome_canvas_rect_get_type(),
-					   "x1", (double) 0,
-					   "y1", (double) 0,
-					   "x2", (double) 100,
-					   "y2", (double) 100,
+					   "x1", (gdouble) 0,
+					   "y1", (gdouble) 0,
+					   "x2", (gdouble) 100,
+					   "y2", (gdouble) 100,
 					   "fill_color", "white",
 					   NULL );
 
 	etfc->item = gnome_canvas_item_new(gnome_canvas_root(etfc->canvas),
 					   e_table_field_chooser_item_get_type(),
-					   "width", (double) 100,
+					   "width", (gdouble) 100,
 					   "full_header", etfc->full_header,
 					   "header", etfc->header,
 					   "dnd_code", etfc->dnd_code,

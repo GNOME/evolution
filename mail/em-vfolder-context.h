@@ -49,4 +49,4 @@ GType em_vfolder_context_get_type (void);
 
 EMVFolderContext *em_vfolder_context_new (void);
 
-#endif /* ! _EM_VFOLDER_CONTEXT_H */
+#endif /* _EM_VFOLDER_CONTEXT_H */

@@ -273,7 +273,7 @@ async_external_editor (EMsgComposer *composer)
 	gconf = gconf_client_get_default ();
 	editor_cmd = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
 	if (!editor_cmd) {
-		if (! (editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
+		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
 			/* Make gedit the default external editor,
 			   if the default schemas are not installed
 			   and no $EDITOR is set. */

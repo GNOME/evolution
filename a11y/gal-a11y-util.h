@@ -33,4 +33,4 @@ GType  gal_a11y_type_register_static_with_private  (GType        parent_type,
 						    gint          priv_size,
 						    gint        *priv_offset);
 
-#endif /* ! __GAL_A11Y_UTIL_H__ */
+#endif /* __GAL_A11Y_UTIL_H__ */

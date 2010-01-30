@@ -3437,7 +3437,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 #endif
 
 }
-#endif /* ! BROKEN_ETREE */
+#endif /* BROKEN_ETREE */
 
 static void
 mail_folder_hide_by_flag (CamelFolder *folder, MessageList *ml, CamelFolderChangeInfo **changes, gint flag)

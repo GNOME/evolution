@@ -111,7 +111,7 @@ addressbook_value_at (ETableModel *etc, gint col, gint row)
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	const gchar *value;
 
-	if ( col >= COLS || row >= e_addressbook_model_contact_count (priv->model) )
+	if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
 		return NULL;
 
 	value = e_contact_get_const((EContact*)e_addressbook_model_contact_at (priv->model, row), col);

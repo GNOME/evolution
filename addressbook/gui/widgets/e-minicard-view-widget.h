@@ -51,7 +51,7 @@ struct _EMinicardViewWidget
 	gchar *query;
 	guint editable : 1;
 
-	double column_width;
+	gdouble column_width;
 };
 
 struct _EMinicardViewWidgetClass

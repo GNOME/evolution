@@ -593,7 +593,7 @@ et_focus (GtkWidget *container, GtkDirectionType direction)
 static void
 set_header_canvas_width (ETable *e_table)
 {
-	double oldwidth, oldheight, width;
+	gdouble oldwidth, oldheight, width;
 
 	if (!(e_table->header_item && e_table->header_canvas && e_table->table_canvas))
 		return;
@@ -997,7 +997,7 @@ changed_idle (gpointer data)
 			gtk_object_destroy (GTK_OBJECT (et->group));
 		et_build_groups(et);
 		g_object_set (et->canvas_vbox,
-			      "width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
+			      "width", (gdouble) GTK_WIDGET (et->table_canvas)->allocation.width,
 			      NULL);
 
 		if (GTK_WIDGET_REALIZED(et->table_canvas))
@@ -1308,7 +1308,7 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 
 	connect_header (e_table, state);
 
-	g_value_set_double (val, (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width));
+	g_value_set_double (val, (gdouble) (GTK_WIDGET(e_table->table_canvas)->allocation.width));
 	g_object_set_property (G_OBJECT (e_table->header), "width", val);
 	g_free (val);
 
@@ -2586,10 +2586,10 @@ e_table_drag_highlight (ETable *table,
 						       NULL);
 		}
 		gnome_canvas_item_set (table->drop_highlight,
-				       "x1", (double) x,
-				       "x2", (double) x + width - 1,
-				       "y1", (double) y,
-				       "y2", (double) y + height - 1,
+				       "x1", (gdouble) x,
+				       "x2", (gdouble) x + width - 1,
+				       "y1", (gdouble) y,
+				       "y2", (gdouble) y + height - 1,
 				       NULL);
 	} else {
 		if (table->drop_highlight) {
@@ -2884,7 +2884,7 @@ scroll_timeout (gpointer data)
 	ETable *et = data;
 	gint dx = 0, dy = 0;
 	GtkAdjustment *h, *v;
-	double hvalue, vvalue;
+	gdouble hvalue, vvalue;
 
 	if (et->scroll_direction & ET_SCROLL_DOWN)
 		dy += 20;

@@ -663,7 +663,7 @@ et_focus (GtkWidget *container, GtkDirectionType direction)
 static void
 set_header_canvas_width (ETree *e_tree)
 {
-	double oldwidth, oldheight, width;
+	gdouble oldwidth, oldheight, width;
 
 	if (!(e_tree->priv->header_item && e_tree->priv->header_canvas && e_tree->priv->table_canvas))
 		return;
@@ -1165,7 +1165,7 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 
 	connect_header (e_tree, state);
 
-	g_value_set_double (val, (double) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width));
+	g_value_set_double (val, (gdouble) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width));
 	g_object_set_property (G_OBJECT (e_tree->priv->header), "width", val);
 	g_free (val);
 
@@ -2378,10 +2378,10 @@ e_tree_drag_highlight (ETree *tree,
 						       NULL);
 		}
 		gnome_canvas_item_set (tree->priv->drop_highlight,
-				       "x1", (double) x,
-				       "x2", (double) x + width - 1,
-				       "y1", (double) y,
-				       "y2", (double) y + height - 1,
+				       "x1", (gdouble) x,
+				       "x2", (gdouble) x + width - 1,
+				       "y1", (gdouble) y,
+				       "y2", (gdouble) y + height - 1,
 				       NULL);
 	} else {
 		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
@@ -2747,7 +2747,7 @@ scroll_timeout (gpointer data)
 	ETree *et = data;
 	gint dx = 0, dy = 0;
 	GtkAdjustment *v, *h;
-	double vvalue, hvalue;
+	gdouble vvalue, hvalue;
 
 	if (et->priv->scroll_direction & ET_SCROLL_DOWN)
 		dy += 20;
@@ -3399,7 +3399,7 @@ e_tree_class_init (ETreeClass *class)
 static void
 tree_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *tree)
 {
-	double width;
+	gdouble width;
 
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (tree->priv != NULL);
@@ -3444,8 +3444,8 @@ e_tree_set_info_message (ETree *tree, const gchar *info_message)
 						"justification", GTK_JUSTIFY_LEFT,
 						"text", info_message,
 						"draw_background", FALSE,
-						"width", (double) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
-						"clip_width", (double) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
+						"width", (gdouble) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
+						"clip_width", (gdouble) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
 						NULL);
 
 		e_canvas_item_move_absolute (tree->priv->info_text, 30, 30);

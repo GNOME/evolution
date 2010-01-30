@@ -56,4 +56,4 @@ void            em_filter_rule_replace_action (EMFilterRule *fr, EFilterPart *fp
 
 void            em_filter_rule_build_action   (EMFilterRule *fr, GString *out);
 
-#endif /* ! _EM_FILTER_RULE_H */
+#endif /* _EM_FILTER_RULE_H */

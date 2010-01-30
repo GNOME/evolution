@@ -151,8 +151,8 @@ void       e_cell_print                         (ECellView         *ecell_view,
 						 gint                model_col,
 						 gint                view_col,
 						 gint                row,
-						 double             width,
-						 double             height);
+						 gdouble             width,
+						 gdouble             height);
 gdouble    e_cell_print_height                  (ECellView         *ecell_view,
 						 GtkPrintContext *context,
 						 gint                model_col,

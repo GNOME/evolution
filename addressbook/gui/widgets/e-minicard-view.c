@@ -382,7 +382,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	view = E_MINICARD_VIEW (item);
 
-	switch ( event->type ) {
+	switch (event->type) {
 	case GDK_2BUTTON_PRESS:
 		if (((GdkEventButton *)event)->button == 1) {
 			gboolean editable;

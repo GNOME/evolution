@@ -25,4 +25,4 @@
 
 GtkWidget *em_subscribe_editor_new(void);
 
-#endif /* ! _EM_SUBSCRIBE_EDITOR_H */
+#endif /* _EM_SUBSCRIBE_EDITOR_H */

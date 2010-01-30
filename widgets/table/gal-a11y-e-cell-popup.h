@@ -58,4 +58,4 @@ AtkObject *gal_a11y_e_cell_popup_new        (ETableItem *item,
 					    gint         view_col,
 					    gint         row);
 
-#endif /* ! __GAL_A11Y_E_CELL_POPUP_H__ */
+#endif /* __GAL_A11Y_E_CELL_POPUP_H__ */

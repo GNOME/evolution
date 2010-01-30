@@ -34,9 +34,9 @@ G_BEGIN_DECLS
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
- * width        double          RW              width of the CanvasVbox
- * height       double          R               height of the CanvasVbox
- * spacing      double          RW              Spacing between items.
+ * width        gdouble          RW              width of the CanvasVbox
+ * height       gdouble          R               height of the CanvasVbox
+ * spacing      gdouble          RW              Spacing between items.
  */
 
 #define E_CANVAS_VBOX_TYPE			(e_canvas_vbox_get_type ())
@@ -55,10 +55,10 @@ struct _ECanvasVbox
 	/* item specific fields */
 	GList *items; /* Of type GnomeCanvasItem */
 
-	double width;
-	double minimum_width;
-	double height;
-	double spacing;
+	gdouble width;
+	gdouble minimum_width;
+	gdouble height;
+	gdouble spacing;
 };
 
 struct _ECanvasVboxClass

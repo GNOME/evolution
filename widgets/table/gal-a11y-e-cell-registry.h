@@ -68,4 +68,4 @@ void       gal_a11y_e_cell_registry_add_cell_type  (GalA11yECellRegistry     *re
 						    GType                     type,
 						    GalA11yECellRegistryFunc  func);
 
-#endif /* ! __GAL_A11Y_E_CELL_REGISTRY_H__ */
+#endif /* __GAL_A11Y_E_CELL_REGISTRY_H__ */

@@ -28,27 +28,27 @@
 G_BEGIN_DECLS
 
 void      e_canvas_item_move_absolute      (GnomeCanvasItem *item,
-					    double           dx,
-					    double           dy);
+					    gdouble           dx,
+					    gdouble           dy);
 void      e_canvas_item_show_area          (GnomeCanvasItem *item,
-					    double           x1,
-					    double           y1,
-					    double           x2,
-					    double           y2);
+					    gdouble           x1,
+					    gdouble           y1,
+					    gdouble           x2,
+					    gdouble           y2);
 void      e_canvas_item_show_area_delayed  (GnomeCanvasItem *item,
-					    double           x1,
-					    double           y1,
-					    double           x2,
-					    double           y2,
+					    gdouble           x1,
+					    gdouble           y1,
+					    gdouble           x2,
+					    gdouble           y2,
 					    gint             delay);
 /* Returns TRUE if the area is already shown on the screen (including
    spacing.)  This is equivelent to returning FALSE iff show_area
    would do anything. */
 gboolean  e_canvas_item_area_shown         (GnomeCanvasItem *item,
-					    double           x1,
-					    double           y1,
-					    double           x2,
-					    double           y2);
+					    gdouble           x1,
+					    gdouble           y1,
+					    gdouble           x2,
+					    gdouble           y2);
 
 G_END_DECLS
 

@@ -54,9 +54,9 @@ struct _EMinicardLabel
 	GnomeCanvasGroup parent;
 
 	/* item specific fields */
-	double width;
-	double height;
-	double max_field_name_length;
+	gdouble width;
+	gdouble height;
+	gdouble max_field_name_length;
 	guint editable : 1;
 	GnomeCanvasItem *fieldname;
 	GnomeCanvasItem *field;

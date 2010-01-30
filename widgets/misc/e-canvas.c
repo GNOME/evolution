@@ -279,11 +279,11 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 #define HACKISH_AFFINE
 
 static double
-gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
+gnome_canvas_item_invoke_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
 				GnomeCanvasItem **actual_item)
 {
 #ifdef HACKISH_AFFINE
-	double i2w[6], w2c[6], i2c[6], c2i[6];
+	gdouble i2w[6], w2c[6], i2c[6], c2i[6];
 	ArtPoint c, i;
 #endif
 
@@ -312,7 +312,7 @@ static gint
 pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 {
 	gint button_down;
-	double x, y;
+	gdouble x, y;
 	gint cx, cy;
 	gint retval;
 

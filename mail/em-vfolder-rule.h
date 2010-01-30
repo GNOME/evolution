@@ -65,4 +65,4 @@ void         em_vfolder_rule_remove_source (EMVFolderRule *vr, const gchar *uri)
 const gchar  *em_vfolder_rule_find_source   (EMVFolderRule *vr, const gchar *uri);
 const gchar  *em_vfolder_rule_next_source   (EMVFolderRule *vr, const gchar *last);
 
-#endif /* ! _EM_VFOLDER_RULE_H */
+#endif /* _EM_VFOLDER_RULE_H */

@@ -183,11 +183,11 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 }
 
 static void
-ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
+ethi_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 
-	double   i2c [6];
+	gdouble   i2c [6];
 	ArtPoint c1, c2, i1, i2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
@@ -526,7 +526,7 @@ static gchar gray50_bits [] = {
 static void
 ethi_add_destroy_marker (ETableHeaderItem *ethi)
 {
-	double x1;
+	gdouble x1;
 
 	if (ethi->remove_item)
 		gtk_object_destroy (GTK_OBJECT (ethi->remove_item));
@@ -535,7 +535,7 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 		ethi->stipple = gdk_bitmap_create_from_data  (
 			NULL, gray50_bits, gray50_width, gray50_height);
 
-	x1 = (double) e_table_header_col_diff (ethi->eth, 0, ethi->drag_col);
+	x1 = (gdouble) e_table_header_col_diff (ethi->eth, 0, ethi->drag_col);
 	if (ethi->drag_col > 0)
 		x1 += ethi->group_indent_width;
 
@@ -543,11 +543,11 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 		GNOME_CANVAS_GROUP (GNOME_CANVAS_ITEM (ethi)->canvas->root),
 		gnome_canvas_rect_get_type (),
 		"x1", x1 + 1,
-		"y1", (double) 1,
-		"x2", (double) x1 + e_table_header_col_diff (
+		"y1", (gdouble) 1,
+		"x2", (gdouble) x1 + e_table_header_col_diff (
 			ethi->eth, ethi->drag_col, ethi->drag_col+1) - 2,
 
-		"y2", (double) ethi->height - 2,
+		"y2", (gdouble) ethi->height - 2,
 		"fill_color", "red",
 		"fill_stipple", ethi->stipple,
 		NULL);
@@ -630,7 +630,7 @@ scroll_timeout (gpointer data)
 	ETableHeaderItem *ethi = data;
 	gint dx = 0;
 	GtkAdjustment *h, *v;
-	double value;
+	gdouble value;
 
 	if (ethi->scroll_direction & ET_SCROLL_RIGHT)
 		dx += 20;
@@ -1001,7 +1001,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wi
 }
 
 static double
-ethi_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
+ethi_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
 	    GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -1626,7 +1626,7 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
 		if (model_col == column.column || model_col == -1) {
 			gint ascending = column.ascending;
-			ascending = ! ascending;
+			ascending = !ascending;
 			column.ascending = ascending;
 			e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
 			found = TRUE;

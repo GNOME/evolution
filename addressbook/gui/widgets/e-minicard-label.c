@@ -347,7 +347,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	e_minicard_label = E_MINICARD_LABEL (item);
 
-	switch ( event->type ) {
+	switch (event->type) {
 	case GDK_KEY_PRESS:
 		if (event->key.keyval == GDK_Escape) {
 			GnomeCanvasItem *parent;
@@ -392,9 +392,9 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 {
-	double left_width;
-	double fieldnamewidth;
-	double fieldwidth;
+	gdouble left_width;
+	gdouble fieldnamewidth;
+	gdouble fieldwidth;
 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 	if (e_minicard_label->max_field_name_length != -1 && ((e_minicard_label->width / 2) - 4 > e_minicard_label->max_field_name_length))
 		left_width = e_minicard_label->max_field_name_length;
@@ -414,7 +414,7 @@ e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 static void
 set_colors (EMinicardLabel *label)
 {
-	if ( (GTK_OBJECT_FLAGS( label ) & GNOME_CANVAS_ITEM_REALIZED) ) {
+	if ((GTK_OBJECT_FLAGS( label ) & GNOME_CANVAS_ITEM_REALIZED)) {
 		GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (label)->canvas);
 		GtkStyle *style = gtk_widget_get_style (canvas);
 		if (label->has_focus) {

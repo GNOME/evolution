@@ -53,4 +53,4 @@ EMFilterFolderElement *em_filter_folder_element_new (void);
 /* methods */
 void em_filter_folder_element_set_value (EMFilterFolderElement *ff, const gchar *uri);
 
-#endif /* ! _EM_FILTER_FOLDER_ELEMENT_H */
+#endif /* _EM_FILTER_FOLDER_ELEMENT_H */

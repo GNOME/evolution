@@ -558,7 +558,7 @@ ec_rebuild (EConfig *emp)
 			|| item->type == E_CONFIG_PAGE
 			|| item->type == E_CONFIG_SECTION
 			|| item->type == E_CONFIG_SECTION_TABLE)) {
-			if ( (sectionnode->empty = itemno == 0) ) {
+			if ((sectionnode->empty = itemno == 0)) {
 				gtk_widget_hide(sectionnode->frame);
 				sectionno--;
 			} else
@@ -572,7 +572,7 @@ ec_rebuild (EConfig *emp)
 		    && (item->type == E_CONFIG_PAGE_START
 			|| item->type == E_CONFIG_PAGE_FINISH
 			|| item->type == E_CONFIG_PAGE)) {
-			if ( (pagenode->empty = sectionno == 0) ) {
+			if ((pagenode->empty = sectionno == 0)) {
 				gtk_widget_hide(pagenode->frame);
 				pageno--;
 			} else
@@ -894,7 +894,7 @@ ec_rebuild (EConfig *emp)
 
 	/* If the last section doesn't contain anything, hide it */
 	if (sectionnode != NULL && sectionnode->frame != NULL) {
-		if ( (sectionnode->empty = itemno == 0) ) {
+		if ((sectionnode->empty = itemno == 0)) {
 			gtk_widget_hide(sectionnode->frame);
 			sectionno--;
 		} else
@@ -904,7 +904,7 @@ ec_rebuild (EConfig *emp)
 
 	/* If the last page doesn't contain anything, hide it */
 	if (pagenode != NULL && pagenode->frame != NULL) {
-		if ( (pagenode->empty = sectionno == 0) ) {
+		if ((pagenode->empty = sectionno == 0)) {
 			gtk_widget_hide(pagenode->frame);
 			pageno--;
 		} else

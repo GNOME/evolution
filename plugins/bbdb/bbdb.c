@@ -343,7 +343,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 		return;
 
 	/* don't miss the entry if the mail has only e-mail id and no name */
-	if (name == NULL || ! strcmp (name, "")) {
+	if (name == NULL || !strcmp (name, "")) {
 		temp_name = g_strndup (email, delim - email);
 		name = temp_name;
 	}
@@ -400,7 +400,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);
-		if (! e_book_commit_contact (book, contact, &error)) {
+		if (!e_book_commit_contact (book, contact, &error)) {
 			g_warning ("bbdb: Could not modify contact: %s\n", error->message);
 			g_error_free (error);
 		}
@@ -419,7 +419,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	add_email_to_contact (contact, email);
 	g_free (temp_name);
 
-	if (! e_book_add_contact (book, contact, &error)) {
+	if (!e_book_add_contact (book, contact, &error)) {
 		g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
 		g_error_free (error);
 		return;

@@ -67,16 +67,16 @@ G_BEGIN_DECLS
  * fill_color		string			W		X color specification for text
  * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
  * fill_stipple		GdkBitmap*		RW		Stipple pattern for filling the text
- * clip_width		double			RW		Width of clip rectangle
- * clip_height		double			RW		Height of clip rectangle
+ * clip_width		gdouble			RW		Width of clip rectangle
+ * clip_height		gdouble			RW		Height of clip rectangle
  * clip			boolean			RW		Use clipping rectangle?
  * fill_clip_rect       boolean                 RW              Whether the text item represents itself as being the size of the clipping rectangle.
- * x_offset		double			RW		Horizontal offset distance from anchor position
- * y_offset		double			RW		Vertical offset distance from anchor position
- * text_width		double			R		Used to query the width of the rendered text
- * text_height		double			R		Used to query the rendered height of the text
- * width                double                  RW              A synonym for clip_width
- * height               double                  R               A synonym for text_height
+ * x_offset		gdouble			RW		Horizontal offset distance from anchor position
+ * y_offset		gdouble			RW		Vertical offset distance from anchor position
+ * text_width		gdouble			R		Used to query the width of the rendered text
+ * text_height		gdouble			R		Used to query the rendered height of the text
+ * width                gdouble                  RW              A synonym for clip_width
+ * height               gdouble                  R               A synonym for text_height
  *
  * These are currently ignored in the AA version:
  * editable             boolean                 RW              Can this item be edited
@@ -117,10 +117,10 @@ struct _EText {
 	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
 
-	double clip_width;		/* Width of optional clip rectangle */
-	double clip_height;		/* Height of optional clip rectangle */
+	gdouble clip_width;		/* Width of optional clip rectangle */
+	gdouble clip_height;		/* Height of optional clip rectangle */
 
-	double xofs, yofs;		/* Text offset distance from anchor position */
+	gdouble xofs, yofs;		/* Text offset distance from anchor position */
 
 	GdkColor color;		/* Fill color */
 	GdkBitmap *stipple;		/* Stipple for text */
@@ -135,10 +135,10 @@ struct _EText {
 	gint height;			/* Rendered text height in pixels */
 
 	guint32 rgba;			/* RGBA color for text */
-	double affine[6];               /* The item -> canvas affine */
+	gdouble affine[6];               /* The item -> canvas affine */
 
 	gchar *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
-	double ellipsis_width;          /* The width of the ellipsis. */
+	gdouble ellipsis_width;          /* The width of the ellipsis. */
 
 	gint xofs_edit;                  /* Offset because of editing */
 	gint yofs_edit;                  /* Offset because of editing */

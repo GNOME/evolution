@@ -194,7 +194,7 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 	e_source_group_add_source (group, source, -1);
 
 	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, &error);
-	if ( error != NULL ) {
+	if (error != NULL) {
 		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
 		g_error_free(error);
 	}

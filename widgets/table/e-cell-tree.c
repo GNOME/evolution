@@ -674,7 +674,7 @@ ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
 static void
 ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	   gint model_col, gint view_col, gint row,
-	   double width, double height)
+	   gdouble width, gdouble height)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
@@ -769,7 +769,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 static gdouble
 ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		  gint model_col, gint view_col, gint row,
-		  double width)
+		  gdouble width)
 {
 	return 12; /* XXX */
 }

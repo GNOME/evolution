@@ -126,4 +126,4 @@ gpointer mail_call_main(mail_call_t type, MailMainFunc func, ...);
 /* Note that almost all objects care about the lifecycle of their events, so this cannot be used */
 extern MailAsyncEvent *mail_async_event;
 
-#endif /* ! _MAIL_MT */
+#endif /* _MAIL_MT */

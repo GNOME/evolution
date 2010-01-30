@@ -52,7 +52,7 @@ e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableSta
 
 	for (column = 0; column < state->col_count; column++) {
 		gint col;
-		double expansion;
+		gdouble expansion;
 		ETableCol *table_col;
 
 		col = state->columns[column];

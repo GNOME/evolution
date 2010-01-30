@@ -2016,10 +2016,10 @@ e_calendar_view_emit_user_created (ECalendarView *cal_view)
 
 void
 draw_curved_rectangle (cairo_t *cr, double x0, double y0,
-			double rect_width, double rect_height,
-			double radius)
+			gdouble rect_width, double rect_height,
+			gdouble radius)
 {
-	double x1, y1;
+	gdouble x1, y1;
 
 	x1 = x0 + rect_width;
 	y1 = y0 + rect_height;

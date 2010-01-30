@@ -252,7 +252,7 @@ alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 	e_cal_component_alarm_get_repeat (dialog->alarm, &repeat);
 
-	if ( repeat.repetitions ) {
+	if (repeat.repetitions) {
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (dialog->repeat_toggle), TRUE);
 		gtk_spin_button_set_value (
@@ -261,21 +261,21 @@ alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	} else
 		return;
 
-	if ( repeat.duration.minutes ) {
+	if (repeat.duration.minutes) {
 		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_MINUTES, duration_units_map);
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->repeat_value),
 			repeat.duration.minutes);
 	}
 
-	if ( repeat.duration.hours ) {
+	if (repeat.duration.hours) {
 		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_HOURS, duration_units_map);
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->repeat_value),
 			repeat.duration.hours);
 	}
 
-	if ( repeat.duration.days ) {
+	if (repeat.duration.days) {
 		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_DAYS, duration_units_map);
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->repeat_value),
@@ -353,7 +353,7 @@ alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	url = icalattach_get_url (attach);
 	icalattach_unref (attach);
 
-	if ( !(url && *url) )
+	if (!(url && *url))
 		return;
 
 	gtk_toggle_button_set_active (
@@ -553,7 +553,7 @@ alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	url = icalattach_get_url (attach);
 	icalattach_unref (attach);
 
-	if ( !(url && *url) )
+	if (!(url && *url))
 		return;
 
 	e_dialog_editable_set (dialog->palarm_program, url);
@@ -620,13 +620,13 @@ populate_widgets_from_alarm (Dialog *dialog)
 	e_cal_component_alarm_get_trigger (dialog->alarm, trigger);
 	g_return_if_fail ( trigger != NULL );
 
-	if ( *action == E_CAL_COMPONENT_ALARM_NONE )
+	if (*action == E_CAL_COMPONENT_ALARM_NONE)
 		return;
 
 	gtk_window_set_title (GTK_WINDOW (dialog->toplevel),_("Edit Alarm"));
 
 	/* Alarm Types */
-	switch ( trigger->type ) {
+	switch (trigger->type) {
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
 		e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 		break;
@@ -638,7 +638,7 @@ populate_widgets_from_alarm (Dialog *dialog)
                 g_warning ("%s: Unexpected alarm type (%d)", G_STRLOC, trigger->type);
 	}
 
-	switch ( trigger->u.rel_duration.is_neg ) {
+	switch (trigger->u.rel_duration.is_neg) {
 	case 1:
 		e_dialog_combo_box_set (dialog->relative_combo, BEFORE, relative_map);
 		break;
@@ -648,17 +648,17 @@ populate_widgets_from_alarm (Dialog *dialog)
 		break;
 	}
 
-	if ( trigger->u.rel_duration.days ) {
+	if (trigger->u.rel_duration.days) {
 		e_dialog_combo_box_set (dialog->value_units_combo, DAYS, value_map);
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->interval_value),
 			trigger->u.rel_duration.days);
-	} else if ( trigger->u.rel_duration.hours ) {
+	} else if (trigger->u.rel_duration.hours) {
 		e_dialog_combo_box_set (dialog->value_units_combo, HOURS, value_map);
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->interval_value),
 			trigger->u.rel_duration.hours);
-	} else if ( trigger->u.rel_duration.minutes ) {
+	} else if (trigger->u.rel_duration.minutes) {
 		e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->interval_value),
@@ -970,9 +970,9 @@ check_custom_sound (Dialog *dialog)
 	str = gtk_file_chooser_get_filename (
 		GTK_FILE_CHOOSER (dialog->aalarm_file_chooser));
 
-	if ( str && *str ) {
+	if (str && *str) {
 		dir = g_path_get_dirname (str);
-		if ( dir && *dir ) {
+		if (dir && *dir) {
 			calendar_config_set_dir_path (dir);
 		}
 	}
@@ -1139,7 +1139,7 @@ action_changed_cb (GtkWidget *action_combo, gpointer data)
 	switch (action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
 		dir = calendar_config_get_dir_path ();
-		if ( dir && *dir )
+		if (dir && *dir)
 			gtk_file_chooser_set_current_folder (
 				GTK_FILE_CHOOSER (dialog->aalarm_file_chooser),
 				dir);
