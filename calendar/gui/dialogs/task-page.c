@@ -1332,6 +1332,7 @@ get_widgets (TaskPage *tpage)
 	TaskPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
+	GtkWidget *parent;
 	GtkWidget *sw;
 	GtkTreeSelection *selection;
 
@@ -1349,7 +1350,8 @@ get_widgets (TaskPage *tpage)
 		page->accel_group = g_object_ref (accel_groups->data);
 
 	g_object_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	parent = gtk_widget_get_parent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (parent), priv->main);
 
 	priv->info_hbox = e_builder_get_widget (priv->builder, "generic-info");
 	priv->info_icon = e_builder_get_widget (priv->builder, "generic-info-image");

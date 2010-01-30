@@ -201,7 +201,7 @@ shell_content_size_allocate (GtkWidget *widget,
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
 
-	widget->allocation = *allocation;
+	gtk_widget_set_allocation (widget, allocation);
 
 	child = priv->searchbar;
 
@@ -254,11 +254,13 @@ shell_content_forall (GtkContainer *container,
                       gpointer callback_data)
 {
 	EShellContentPrivate *priv;
+	GtkWidget *parent;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
+	parent = gtk_widget_get_parent (priv->searchbar);
 
 	if (include_internals && priv->searchbar != NULL &&
-		container == GTK_CONTAINER (priv->searchbar->parent))
+		container == GTK_CONTAINER (parent))
 		callback (priv->searchbar, callback_data);
 
 	/* Chain up to parent's forall() method. */
@@ -409,6 +411,7 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	GtkWidget *content_area;
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	EFilterRule *rule;
@@ -445,8 +448,8 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 300);
 
-	gtk_box_pack_start (
-		GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
 	g_signal_connect_swapped (
 		rule, "changed", G_CALLBACK (
@@ -510,6 +513,7 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	GtkWidget *content_area;
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	EFilterRule *rule;
@@ -547,8 +551,8 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 300);
 
-	gtk_box_pack_start (
-		GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
 	g_signal_connect_swapped (
 		rule, "changed", G_CALLBACK (

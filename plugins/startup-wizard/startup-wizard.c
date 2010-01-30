@@ -228,6 +228,7 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
+	GtkWidget *content_area;
 	gchar *location;
 
 	shell = e_shell_get_default ();
@@ -245,15 +246,27 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 		import_iterator = import_importers;
 		import_importer = import_iterator->data;
 
-		import_dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (shell), "shell:importing", _("Importing data."), NULL);
-		g_signal_connect(import_dialog, "response", G_CALLBACK(import_dialog_response), NULL);
+		import_dialog = e_alert_dialog_new_for_args (
+			e_shell_get_active_window (shell),
+			"shell:importing", _("Importing data."), NULL);
+		content_area = gtk_dialog_get_content_area (
+			GTK_DIALOG (import_dialog));
+		g_signal_connect (
+			import_dialog, "response",
+			G_CALLBACK (import_dialog_response), NULL);
 		import_label = gtk_label_new(_("Please wait"));
 		import_progress = gtk_progress_bar_new();
-		gtk_box_pack_start(GTK_BOX(((GtkDialog *)import_dialog)->vbox), import_label, FALSE, FALSE, 0);
-		gtk_box_pack_start(GTK_BOX(((GtkDialog *)import_dialog)->vbox), import_progress, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (content_area),
+			import_label, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (content_area),
+			import_progress, FALSE, FALSE, 0);
 		gtk_widget_show_all(import_dialog);
 
-		e_import_import(import, (EImportTarget *)import_target, import_importer, import_status, import_done, NULL);
+		e_import_import (
+			import, (EImportTarget *) import_target,
+			import_importer, import_status, import_done, NULL);
 	} else {
 		gtk_main_quit();
 	}

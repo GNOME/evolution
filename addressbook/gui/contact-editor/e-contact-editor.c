@@ -3457,24 +3457,7 @@ expand_phone_toggle (EContactEditor *ce)
 	GtkWidget *phone_ext_table;
 
 	phone_ext_table = e_builder_get_widget (ce->builder, "table-phone-extended");
-#if GTK_CHECK_VERSION(2,19,7)
 	expand_phone (ce, !gtk_widget_get_visible (phone_ext_table));
-#else
-	expand_phone (ce, !GTK_WIDGET_VISIBLE (phone_ext_table));
-#endif
-}
-
-static void
-expand_mail_toggle (EContactEditor *ce)
-{
-	GtkWidget *mail;
-
-	mail = e_builder_get_widget (ce->builder, "entry-email-4");
-#if GTK_CHECK_VERSION(2,19,7)
-	expand_mail (ce, !gtk_widget_get_visible (mail));
-#else
-	expand_mail (ce, !GTK_WIDGET_VISIBLE (mail));
-#endif
 }
 
 static void
@@ -3482,6 +3465,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GtkBuilder *builder;
 	EShell *shell;
+	GtkWidget *container;
 	GtkWidget *widget, *label;
 	GtkEntryCompletion *completion;
 
@@ -3512,8 +3496,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	gtk_widget_ensure_style (widget);
 	gtk_window_set_type_hint (GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_NORMAL);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->action_area), 12);
+	container = gtk_dialog_get_action_area (GTK_DIALOG (widget));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (widget));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	init_all (e_contact_editor);
 
@@ -3909,9 +3895,12 @@ static void
 e_contact_editor_raise (EABEditor *editor)
 {
 	EContactEditor *ce = E_CONTACT_EDITOR (editor);
+	GdkWindow *window;
 
-	if (GTK_WIDGET (ce->app)->window)
-		gdk_window_raise (GTK_WIDGET (ce->app)->window);
+	window = gtk_widget_get_window (ce->app);
+
+	if (window != NULL)
+		gdk_window_raise (window);
 }
 
 /**

@@ -131,6 +131,7 @@ gboolean
 em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...)
 {
 	GtkWidget *mbox, *check = NULL;
+	GtkWidget *container;
 	va_list ap;
 	gint button;
 	GConfClient *gconf = mail_config_get_gconf_client();
@@ -150,7 +151,8 @@ em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
 		gtk_container_set_border_width((GtkContainer *)check, 12);
-		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
+		container = gtk_dialog_get_content_area (GTK_DIALOG (mbox));
+		gtk_box_pack_start (GTK_BOX (container), check, TRUE, TRUE, 0);
 		gtk_widget_show (check);
 	}
 
@@ -279,7 +281,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	EMFilterContext *fc;
 
 	if (filter_editor) {
-		gdk_window_raise (GTK_WIDGET (filter_editor)->window);
+		gtk_window_present (GTK_WINDOW (filter_editor));
 		return;
 	}
 
@@ -636,19 +638,23 @@ void
 em_utils_selection_set_mailbox(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids)
 {
 	CamelStream *stream;
+	GdkAtom target;
+
+	target = gtk_selection_data_get_target (data);
 
 	stream = camel_stream_mem_new();
 	if (em_utils_write_messages_to_stream(folder, uids, stream) == 0)
-		gtk_selection_data_set(data, data->target, 8,
-				       ((CamelStreamMem *)stream)->buffer->data,
-				       ((CamelStreamMem *)stream)->buffer->len);
+		gtk_selection_data_set(
+			data, target, 8,
+			((CamelStreamMem *)stream)->buffer->data,
+			((CamelStreamMem *)stream)->buffer->len);
 
 	camel_object_unref(stream);
 }
 
 /**
  * em_utils_selection_get_mailbox:
- * @data: selection data
+ * @selection_data: selection data
  * @folder:
  *
  * Receive a mailbox selection/dnd
@@ -657,39 +663,53 @@ em_utils_selection_set_mailbox(GtkSelectionData *data, CamelFolder *folder, GPtr
  * FIXME: Exceptions?
  **/
 void
-em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder)
+em_utils_selection_get_mailbox (GtkSelectionData *selection_data,
+                                CamelFolder *folder)
 {
 	CamelStream *stream;
+	const guchar *data;
+	gint length;
 
-	if (data->data == NULL || data->length == -1)
+	data = gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	if (data == NULL || length == -1)
 		return;
 
 	/* TODO: a stream mem with read-only access to existing data? */
 	/* NB: Although copying would let us run this async ... which it should */
-	stream = (CamelStream *)camel_stream_mem_new_with_buffer((gchar *)data->data, data->length);
+	stream = (CamelStream *)
+		camel_stream_mem_new_with_buffer ((gchar *) data, length);
 	em_utils_read_messages_from_stream(folder, stream);
 	camel_object_unref(stream);
 }
 
 /**
  * em_utils_selection_get_message:
- * @data:
+ * @selection_data:
  * @folder:
  *
  * get a message/rfc822 data.
  **/
 void
-em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
+em_utils_selection_get_message (GtkSelectionData *selection_data,
+                                CamelFolder *folder)
 {
 	CamelStream *stream;
 	CamelException *ex;
 	CamelMimeMessage *msg;
+	const guchar *data;
+	gint length;
 
-	if (data->data == NULL || data->length == -1)
+	data = gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	if (data == NULL || length == -1)
 		return;
 
 	ex = camel_exception_new();
-	stream = (CamelStream *)camel_stream_mem_new_with_buffer((gchar *)data->data, data->length);
+	stream = (CamelStream *)
+		camel_stream_mem_new_with_buffer ((gchar *)data, length);
 	msg = camel_mime_message_new();
 	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) == 0)
 		camel_folder_append_message(folder, msg, NULL, NULL, ex);
@@ -700,7 +720,7 @@ em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
 
 /**
  * em_utils_selection_set_uidlist:
- * @data: selection data
+ * @selection_data: selection data
  * @uri:
  * @uids:
  *
@@ -709,9 +729,12 @@ em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
  * FIXME: be nice if this could take a folder argument rather than uri
  **/
 void
-em_utils_selection_set_uidlist(GtkSelectionData *data, const gchar *uri, GPtrArray *uids)
+em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
+                                const gchar *uri,
+                                GPtrArray *uids)
 {
 	GByteArray *array = g_byte_array_new();
+	GdkAtom target;
 	gint i;
 
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn\0" */
@@ -721,7 +744,9 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const gchar *uri, GPtrArr
 	for (i=0; i<uids->len; i++)
 		g_byte_array_append(array, uids->pdata[i], strlen(uids->pdata[i])+1);
 
-	gtk_selection_data_set(data, data->target, 8, array->data, array->len);
+	target = gtk_selection_data_get_target (selection_data);
+	gtk_selection_data_set (
+		selection_data, target, 8, array->data, array->len);
 	g_byte_array_free(array, TRUE);
 }
 
@@ -735,27 +760,37 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const gchar *uri, GPtrArr
  * Warning: Could take some time to run.
  **/
 void
-em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, gint move, CamelException *ex)
+em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
+                                CamelFolder *dest,
+                                gint move,
+                                CamelException *ex)
 {
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
 	gchar *inptr, *inend;
 	GPtrArray *uids;
 	CamelFolder *folder;
+	const guchar *data;
+	gint length;
 
-	if (data == NULL || data->data == NULL || data->length == -1)
+	g_return_if_fail (selection_data != NULL);
+
+	data = gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	if (data == NULL || length == -1)
 		return;
 
 	uids = g_ptr_array_new();
 
-	inptr = (gchar *)data->data;
-	inend = (gchar *)(data->data + data->length);
+	inptr = (gchar *) data;
+	inend = (gchar *) (data + length);
 	while (inptr < inend) {
 		gchar *start = inptr;
 
 		while (inptr < inend && *inptr)
 			inptr++;
 
-		if (start > (gchar *)data->data)
+		if (start > (gchar *) data)
 			g_ptr_array_add(uids, g_strndup(start, inptr-start));
 
 		inptr++;
@@ -766,7 +801,7 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, gint m
 		return;
 	}
 
-	folder = mail_tool_uri_to_folder((gchar *)data->data, 0, ex);
+	folder = mail_tool_uri_to_folder((gchar *) data, 0, ex);
 	if (folder) {
 		camel_folder_transfer_messages_to(folder, uids, dest, NULL, move, ex);
 		camel_object_unref(folder);
@@ -832,8 +867,10 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 		if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0) {
 			/* terminate with \r\n to be compliant with the spec */
 			gchar *uri_crlf = g_strconcat(uri, "\r\n", NULL);
+			GdkAtom target;
 
-			gtk_selection_data_set(data, data->target, 8, (guchar *)uri_crlf, strlen(uri_crlf));
+			target = gtk_selection_data_get_target (data);
+			gtk_selection_data_set(data, target, 8, (guchar *)uri_crlf, strlen(uri_crlf));
 			g_free(uri_crlf);
 		}
 
@@ -855,17 +892,23 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
  * automatically cleaned up when the application quits.
  **/
 void
-em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
+em_utils_selection_get_urilist (GtkSelectionData *selection_data,
+                                CamelFolder *folder)
 {
 	CamelStream *stream;
 	CamelURL *url;
 	gint fd, i, res = 0;
 	gchar *tmp, **uris;
+	const guchar *data;
+	gint length;
 
 	d(printf(" * drop uri list\n"));
 
-	tmp = g_strndup((gchar *)data->data, data->length);
-	uris = g_strsplit(tmp, "\n", 0);
+	data = gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	tmp = g_strndup ((gchar *) data, length);
+	uris = g_strsplit (tmp, "\n", 0);
 	g_free(tmp);
 	for (i=0;res == 0 && uris[i];i++) {
 		g_strstrip(uris[i]);

@@ -533,7 +533,7 @@ et_get_character_extents (AtkText *text,
         etext = E_TEXT(obj);
         canvas = GNOME_CANVAS_ITEM(etext)->canvas;
         widget = GTK_WIDGET(canvas);
-        window = widget->window;
+        window = gtk_widget_get_window (widget);
         gdk_window_get_origin (window, &x_widget, &y_widget);
 
 	pango_layout_index_to_pos (etext->layout, offset, &pango_pos);
@@ -611,7 +611,7 @@ et_get_offset_at_point (AtkText *text,
         etext = E_TEXT(obj);
         canvas = GNOME_CANVAS_ITEM(etext)->canvas;
         widget = GTK_WIDGET(canvas);
-	window = widget->window;
+	window = gtk_widget_get_window (widget);
 	gdk_window_get_origin (window, &x_widget, &y_widget);
 
 	if (coords == ATK_XY_SCREEN) {

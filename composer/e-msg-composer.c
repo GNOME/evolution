@@ -165,6 +165,7 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, .
 {
 	GtkDialog *mbox;
 	GtkWidget *check = NULL;
+	GtkWidget *container;
 	va_list ap;
 	gint button;
 	GConfClient *gconf = gconf_client_get_default ();
@@ -186,7 +187,8 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, .
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
 		gtk_container_set_border_width((GtkContainer *)check, 12);
-		gtk_box_pack_start ((GtkBox *)mbox->vbox, check, TRUE, TRUE, 0);
+		container = gtk_dialog_get_content_area (mbox);
+		gtk_box_pack_start (GTK_BOX (container), check, TRUE, TRUE, 0);
 		gtk_widget_show (check);
 	}
 

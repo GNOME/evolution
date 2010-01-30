@@ -267,26 +267,31 @@ e_minicard_init (EMinicard *minicard)
 static void
 set_selected (EMinicard *minicard, gboolean selected)
 {
-	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(minicard)->canvas);
+	GnomeCanvas *canvas;
+	GtkStyle *style;
+
+	canvas = GNOME_CANVAS_ITEM (minicard)->canvas;
+	style = gtk_widget_get_style (GTK_WIDGET (canvas));
+
 	if (selected) {
 		gnome_canvas_item_set (minicard->rect,
-				       "outline_color_gdk", &canvas->style->bg[GTK_STATE_ACTIVE],
+				       "outline_color_gdk", &style->bg[GTK_STATE_ACTIVE],
 				       NULL);
 		gnome_canvas_item_set (minicard->header_rect,
-				       "fill_color_gdk", &canvas->style->bg[GTK_STATE_SELECTED],
+				       "fill_color_gdk", &style->bg[GTK_STATE_SELECTED],
 				       NULL);
 		gnome_canvas_item_set (minicard->header_text,
-				       "fill_color_gdk", &canvas->style->text[GTK_STATE_SELECTED],
+				       "fill_color_gdk", &style->text[GTK_STATE_SELECTED],
 				       NULL);
 	} else {
 		gnome_canvas_item_set (minicard->rect,
 				       "outline_color", NULL,
 				       NULL);
 		gnome_canvas_item_set (minicard->header_rect,
-				       "fill_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
+				       "fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
 				       NULL);
 		gnome_canvas_item_set (minicard->header_text,
-				       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
+				       "fill_color_gdk", &style->text[GTK_STATE_NORMAL],
 				       NULL);
 	}
 	minicard->selected = selected;
@@ -471,11 +476,14 @@ e_minicard_realize (GnomeCanvasItem *item)
 {
 	EMinicard *e_minicard;
 	GnomeCanvasGroup *group;
-	GtkWidget *canvas;
+	GnomeCanvas *canvas;
+	GtkStyle *style;
 
 	e_minicard = E_MINICARD (item);
-	group = GNOME_CANVAS_GROUP( item );
-	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
+	group = GNOME_CANVAS_GROUP (item);
+
+	canvas = GNOME_CANVAS_ITEM (item)->canvas;
+	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->realize) (item);
@@ -497,7 +505,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "y1", (double) 2,
 				 "x2", (double) MAX (e_minicard->width - 3, 0),
 				 "y2", (double) MAX (e_minicard->height - 3, 0),
-				 "fill_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
+				 "fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
 				 NULL );
 
 	e_minicard->header_text =
@@ -507,7 +515,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "width", (double) MAX( e_minicard->width - 12, 0 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-				 "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
+				 "fill_color_gdk", &style->fg[GTK_STATE_NORMAL],
 				 "text", "",
 				 "draw_background", FALSE,
 				 NULL );

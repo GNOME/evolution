@@ -283,12 +283,16 @@ emnp_free(EConfig *ec, GSList *items, gpointer data)
 static void
 emnp_set_markups (EMNetworkPrefs *prefs)
 {
-	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->sys_proxy)->child), TRUE);
-	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->no_proxy)->child), TRUE);
-	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->manual_proxy)->child), TRUE);
-#if 0
-	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->auto_proxy)->child), TRUE);
-#endif
+	GtkWidget *child;
+
+	child = gtk_bin_get_child (GTK_BIN (prefs->sys_proxy));
+	gtk_label_set_use_markup (GTK_LABEL (child), TRUE);
+
+	child = gtk_bin_get_child (GTK_BIN (prefs->no_proxy));
+	gtk_label_set_use_markup (GTK_LABEL (child), TRUE);
+
+	child = gtk_bin_get_child (GTK_BIN (prefs->manual_proxy));
+	gtk_label_set_use_markup (GTK_LABEL (child), TRUE);
 }
 
 static void

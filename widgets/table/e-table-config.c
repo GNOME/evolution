@@ -549,18 +549,27 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 static void
 do_fields_config_dialog (ETableConfig *config)
 {
+	GtkDialog *dialog;
+	GtkWidget *widget;
 	gint response, running = 1;
 
+	dialog = GTK_DIALOG (config->dialog_show_fields);
+
 	gtk_widget_ensure_style (config->dialog_show_fields);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_show_fields)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_show_fields)->action_area), 12);
+
+	widget = gtk_dialog_get_content_area (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+
+	widget = gtk_dialog_get_action_area (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 
 	config->temp_state = e_table_state_duplicate (config->state);
 
 	setup_fields (config);
 
-	gtk_window_set_transient_for (GTK_WINDOW (config->dialog_show_fields),
-				      GTK_WINDOW (config->dialog_toplevel));
+	gtk_window_set_transient_for (
+		GTK_WINDOW (config->dialog_show_fields),
+		GTK_WINDOW (config->dialog_toplevel));
 
 	do {
 		response = gtk_dialog_run (GTK_DIALOG(config->dialog_show_fields));
@@ -759,6 +768,7 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
+	GtkToggleButton *toggle_button;
 	gint idx = sort - base;
 	gchar *s;
 
@@ -775,8 +785,9 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 			return;
 		}
 
-		c.ascending = GTK_TOGGLE_BUTTON (
-			config->sort [idx].radio_ascending)->active;
+		toggle_button = GTK_TOGGLE_BUTTON (
+			config->sort[idx].radio_ascending);
+		c.ascending = gtk_toggle_button_get_active (toggle_button);
 		c.column = col;
 		e_table_sort_info_sorting_set_nth (sort_info, idx, c);
 
@@ -799,7 +810,7 @@ sort_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *sort)
 	ETableSortColumn c;
 
 	c = e_table_sort_info_sorting_get_nth (si, idx);
-	c.ascending = t->active;
+	c.ascending = gtk_toggle_button_get_active (t);
 	e_table_sort_info_sorting_set_nth (si, idx, c);
 }
 
@@ -877,6 +888,7 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 	s = configure_combo_box_get_active (combo_box);
 
 	if (s != NULL) {
+		GtkToggleButton *toggle_button;
 		ETableSortColumn c;
 		gint col;
 
@@ -887,8 +899,9 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 			return;
 		}
 
-		c.ascending = GTK_TOGGLE_BUTTON (
-			config->group [idx].radio_ascending)->active;
+		toggle_button = GTK_TOGGLE_BUTTON (
+			config->group[idx].radio_ascending);
+		c.ascending = gtk_toggle_button_get_active (toggle_button);
 		c.column = col;
 		e_table_sort_info_grouping_set_nth (sort_info, idx, c);
 
@@ -911,7 +924,7 @@ group_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *group)
 	ETableSortColumn c;
 
 	c = e_table_sort_info_grouping_get_nth (si, idx);
-	c.ascending = t->active;
+	c.ascending = gtk_toggle_button_get_active (t);
 	e_table_sort_info_grouping_set_nth (si, idx, c);
 }
 
@@ -1324,15 +1337,23 @@ e_table_config_new (const gchar          *header,
 		    GtkWindow           *parent_window)
 {
 	ETableConfig *config = g_object_new (E_TABLE_CONFIG_TYPE, NULL);
+	GtkDialog *dialog;
+	GtkWidget *widget;
 
 	if (e_table_config_construct (config, header, spec, state, parent_window) == NULL) {
 		g_object_unref (config);
 		return NULL;
 	}
 
+	dialog = GTK_DIALOG (config->dialog_toplevel);
+
 	gtk_widget_ensure_style (config->dialog_toplevel);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_toplevel)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_toplevel)->action_area), 12);
+
+	widget = gtk_dialog_get_content_area (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+
+	widget = gtk_dialog_get_action_area (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
 					   GTK_RESPONSE_APPLY, FALSE);
@@ -1350,6 +1371,9 @@ e_table_config_new (const gchar          *header,
 void
 e_table_config_raise (ETableConfig *config)
 {
-	gdk_window_raise (GTK_WIDGET (config->dialog_toplevel)->window);
+	GdkWindow *window;
+
+	window = gtk_widget_get_window (GTK_WIDGET (config->dialog_toplevel));
+	gdk_window_raise (window);
 }
 

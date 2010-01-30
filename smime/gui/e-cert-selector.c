@@ -148,6 +148,7 @@ e_cert_selector_new(gint type, const gchar *currentid)
 	CERTCertList *certlist;
 	CERTCertListNode *node;
 	GtkBuilder *builder;
+	GtkWidget *content_area;
 	GtkWidget *w;
 	gint n=0, active=0;
 
@@ -161,7 +162,8 @@ e_cert_selector_new(gint type, const gchar *currentid)
 	p->description = e_builder_get_widget(builder, "cert_description");
 
 	w = e_builder_get_widget(builder, "cert_selector_vbox");
-	gtk_box_pack_start((GtkBox *)((GtkDialog *)ecs)->vbox, w, TRUE, TRUE, 3);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ecs));
+	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
 	gtk_window_set_title(GTK_WINDOW(ecs), _("Select certificate"));
 
 	switch (type) {

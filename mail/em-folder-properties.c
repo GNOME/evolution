@@ -288,6 +288,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
                               gpointer data)
 {
 	GtkWidget *dialog, *w;
+	GtkWidget *content_area;
 	struct _prop_data *prop_data;
 	GSList *l;
 	gint32 count, i,deleted;
@@ -396,8 +397,11 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
+
 	gtk_widget_ensure_style (dialog);
-	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 12);
 
 	/** @HookPoint-EMConfig: Folder Properties Window
 	 * @Id: org.gnome.evolution.mail.folderConfig
@@ -418,7 +422,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
 	w = e_config_create_widget((EConfig *)ec);
 
-	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, w, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 0);
 
 	/* we do 'apply on ok' ... since instant apply may apply some very long running tasks */
 

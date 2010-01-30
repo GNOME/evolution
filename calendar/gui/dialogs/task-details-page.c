@@ -448,6 +448,7 @@ get_widgets (TaskDetailsPage *tdpage)
 	TaskDetailsPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
+	GtkWidget *parent;
 
 	priv = tdpage->priv;
 
@@ -465,7 +466,8 @@ get_widgets (TaskDetailsPage *tdpage)
 		page->accel_group = g_object_ref (accel_groups->data);
 
 	g_object_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	parent = gtk_widget_get_parent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (parent), priv->main);
 
 	priv->status_combo = GW ("status-combobox");
 	priv->priority_combo = GW ("priority-combobox");
@@ -661,6 +663,7 @@ static void
 init_widgets (TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
+	GtkAdjustment *adjustment;
 
 	priv = tdpage->priv;
 
@@ -677,13 +680,15 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */
-	g_signal_connect (GTK_COMBO_BOX (priv->status_combo),
-			    "changed",
-			    G_CALLBACK (status_changed), tdpage);
+	g_signal_connect (
+		GTK_COMBO_BOX (priv->status_combo), "changed",
+		G_CALLBACK (status_changed), tdpage);
 
-	g_signal_connect((GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
-			    "value_changed",
-			    G_CALLBACK (percent_complete_changed), tdpage);
+	adjustment = gtk_spin_button_get_adjustment (
+		GTK_SPIN_BUTTON (priv->percent_complete));
+	g_signal_connect (
+		adjustment, "value_changed",
+		G_CALLBACK (percent_complete_changed), tdpage);
 
 	/* Priority */
 	g_signal_connect_swapped (

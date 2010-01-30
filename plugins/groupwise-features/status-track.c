@@ -94,6 +94,7 @@ gw_track_message_status_cb (GtkAction *action,
 	GtkDialog *d;
 	GtkTable *table;
 	GtkWidget *widget;
+	GtkWidget *content_area;
 	GtkScrolledWindow *win;
 	GtkVBox *vbox;
 
@@ -117,12 +118,13 @@ gw_track_message_status_cb (GtkAction *action,
 
 	/* Create the dialog */
 	d = (GtkDialog *) gtk_dialog_new ();
+	content_area = gtk_dialog_get_content_area (d);
 	gtk_dialog_add_button (d, GTK_STOCK_OK, GTK_RESPONSE_OK);
 	gtk_window_set_title (GTK_WINDOW (d), _("Message Status"));
 
 	table = (GtkTable *) gtk_table_new (1, 2, FALSE);
 	win = (GtkScrolledWindow *) gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG(d)->vbox), GTK_WIDGET (win));
+	gtk_container_add (GTK_CONTAINER (content_area), GTK_WIDGET (win));
 	vbox = (GtkVBox *) gtk_vbox_new (FALSE, 12);
 	gtk_scrolled_window_add_with_viewport (win, GTK_WIDGET(vbox));
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (table), FALSE, TRUE, 0);

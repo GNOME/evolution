@@ -349,12 +349,12 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gtk_container_add (GTK_CONTAINER (window), button);
 		gtk_widget_ensure_style (window);
 		gtk_widget_ensure_style (button);
-		g_label = GTK_BIN(button)->child;
+		g_label = gtk_bin_get_child (GTK_BIN (button));
 		g_object_add_weak_pointer (G_OBJECT (g_label), &g_label);
 		gtk_widget_ensure_style (g_label);
 	}
 
-	gc = GTK_WIDGET (g_label)->style->fg_gc[state];
+	gc = gtk_widget_get_style (GTK_WIDGET (g_label))->fg_gc[state];
 
 	gdk_gc_set_clip_rectangle (gc, NULL);
 

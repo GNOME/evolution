@@ -1209,6 +1209,7 @@ gboolean
 alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 {
 	Dialog dialog;
+	GtkWidget *container;
 	gint response_id;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
@@ -1234,8 +1235,12 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	alarm_to_dialog (&dialog);
 
 	gtk_widget_ensure_style (dialog.toplevel);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->action_area), 12);
+
+	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog.toplevel));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog.toplevel));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	gtk_window_set_icon_name (
 		GTK_WINDOW (dialog.toplevel), "x-office-calendar");

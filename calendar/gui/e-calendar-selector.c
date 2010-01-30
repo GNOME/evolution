@@ -105,12 +105,12 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 	GtkTreePath *path = NULL;
 	ECal *client;
 	icalcomponent *icalcomp;
-	const gchar *string;
+	const guchar *data;
 	gboolean success = FALSE;
 	gpointer object = NULL;
 
-	string = (const gchar *) selection_data->data;
-	icalcomp = icalparser_parse_string (string);
+	data = gtk_selection_data_get_data (selection_data);
+	icalcomp = icalparser_parse_string ((const gchar *) data);
 
 	if (icalcomp == NULL)
 		goto exit;

@@ -295,7 +295,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
 	g_return_val_if_fail (priv->current_view != NULL, FALSE);
 
-	string = (const gchar *) selection_data->data;
+	string = (const gchar *) gtk_selection_data_get_data (selection_data);
 	remove_from_source = (action == GDK_ACTION_MOVE);
 
 	target_book = e_book_new (destination, NULL);

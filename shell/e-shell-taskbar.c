@@ -64,20 +64,26 @@ static void
 shell_taskbar_activity_remove (EShellTaskbar *shell_taskbar,
                                EActivity *activity)
 {
-	GtkBox *box;
 	GtkWidget *proxy;
+	GtkContainer *container;
 	GHashTable *proxy_table;
+	GList *children;
 
-	box = GTK_BOX (shell_taskbar->priv->hbox);
 	proxy_table = shell_taskbar->priv->proxy_table;
 	proxy = g_hash_table_lookup (proxy_table, activity);
 	g_return_if_fail (proxy != NULL);
 
 	g_hash_table_remove (proxy_table, activity);
-	gtk_container_remove (GTK_CONTAINER (box), proxy);
 
-	if (box->children == NULL)
-		gtk_widget_hide (GTK_WIDGET (box));
+	container = GTK_CONTAINER (shell_taskbar->priv->hbox);
+	gtk_container_remove (container, proxy);
+
+	children = gtk_container_get_children (container);
+
+	if (children == NULL)
+		gtk_widget_hide (GTK_WIDGET (container));
+
+	g_list_free (children);
 }
 
 static void

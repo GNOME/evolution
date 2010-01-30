@@ -85,17 +85,20 @@ e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)
 static void
 e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_chooser_dialog)
 {
+	GtkDialog *dialog;
+	GtkWidget *content_area;
 	GtkWidget *widget;
+
+	dialog = GTK_DIALOG (e_table_field_chooser_dialog);
 
 	e_table_field_chooser_dialog->etfc = NULL;
 	e_table_field_chooser_dialog->dnd_code = g_strdup("");
 	e_table_field_chooser_dialog->full_header = NULL;
 	e_table_field_chooser_dialog->header = NULL;
 
-	gtk_dialog_add_button(GTK_DIALOG(e_table_field_chooser_dialog),
-			      GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
+	gtk_dialog_add_button (dialog, GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
 
-	gtk_window_set_resizable(GTK_WINDOW(e_table_field_chooser_dialog), TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
 	widget = e_table_field_chooser_new();
 	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER(widget);
@@ -106,12 +109,12 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 		     "header", e_table_field_chooser_dialog->header,
 		     NULL);
 
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(e_table_field_chooser_dialog)->vbox),
-			   widget, TRUE, TRUE, 0);
+	content_area = gtk_dialog_get_content_area (dialog);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
-	gtk_widget_show(GTK_WIDGET(widget));
+	gtk_widget_show (GTK_WIDGET(widget));
 
-	gtk_window_set_title (GTK_WINDOW (e_table_field_chooser_dialog), _("Add a Column"));
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Add a Column"));
 }
 
 GtkWidget*

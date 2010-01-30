@@ -126,6 +126,7 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	AtkObject *a11y;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
+	GtkScrolledWindow *scrolled_window;
 
 	/* We create one popup window for the ECell, since there will only
 	   ever be one popup in use at a time. */
@@ -140,11 +141,17 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	gtk_widget_show (frame);
 
 	ecc->popup_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window),
+	scrolled_window = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
+
+	gtk_scrolled_window_set_policy (scrolled_window,
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	GTK_WIDGET_UNSET_FLAGS (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)->hscrollbar, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)->vscrollbar, GTK_CAN_FOCUS);
+	GTK_WIDGET_UNSET_FLAGS (
+		gtk_scrolled_window_get_hscrollbar (scrolled_window),
+		GTK_CAN_FOCUS);
+	GTK_WIDGET_UNSET_FLAGS (
+		gtk_scrolled_window_get_vscrollbar (scrolled_window),
+		GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (frame), ecc->popup_scrolled_window);
 	gtk_widget_show (ecc->popup_scrolled_window);
 
@@ -330,24 +337,33 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 static void
 e_cell_combo_show_popup			(ECellCombo	*ecc, gint row, gint view_col)
 {
+	GdkWindow *window;
+	GtkAllocation allocation;
 	gint x, y, width, height, old_width, old_height;
 
+	gtk_widget_get_allocation (ecc->popup_window, &allocation);
+
 	/* This code is practically copied from GtkCombo. */
-	old_width = ecc->popup_window->allocation.width;
-	old_height  = ecc->popup_window->allocation.height;
+	old_width = allocation.width;
+	old_height = allocation.height;
 
 	e_cell_combo_get_popup_pos (ecc, row, view_col, &x, &y, &height, &width);
 
 	/* workaround for gtk_scrolled_window_size_allocate bug */
 	if (old_width != width || old_height != height) {
-		gtk_widget_hide (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)->hscrollbar);
-		gtk_widget_hide (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)->vscrollbar);
+		gtk_widget_hide (
+			gtk_scrolled_window_get_hscrollbar (
+			GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
+		gtk_widget_hide (
+			gtk_scrolled_window_get_vscrollbar (
+			GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
 	}
 
 	gtk_window_move (GTK_WINDOW (ecc->popup_window), x, y);
 	gtk_widget_set_size_request (ecc->popup_window, width, height);
 	gtk_widget_realize (ecc->popup_window);
-	gdk_window_resize (ecc->popup_window->window, width, height);
+	window = gtk_widget_get_window (ecc->popup_window);
+	gdk_window_resize (window, width, height);
 	gtk_widget_show (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), TRUE);
@@ -367,8 +383,15 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
+	GtkWidget *widget;
+	GtkWidget *popwin_child;
+	GtkWidget *popup_child;
+	GtkStyle *popwin_style;
+	GtkStyle *popup_style;
+	GdkWindow *window;
 	GtkBin *popwin;
 	GtkScrolledWindow *popup;
+	GtkRequisition requisition;
 	GtkRequisition list_requisition;
 	gboolean show_vscroll = FALSE, show_hscroll = FALSE;
 	gint avail_height, avail_width, min_height, work_height, screen_width;
@@ -380,7 +403,8 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	popup  = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
 	popwin = GTK_BIN (ecc->popup_window);
 
-	gdk_window_get_origin (canvas->window, x, y);
+	window = gtk_widget_get_window (canvas);
+	gdk_window_get_origin (window, x, y);
 
 	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
 	y1 = e_table_item_row_diff (eti, 0, row + 1);
@@ -402,10 +426,16 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we add 1. */
 	*y += y1 + 1
-		- (gint)((GnomeCanvas *)canvas)->layout.vadjustment->value
+		- (gint)gtk_adjustment_get_value (
+			gtk_layout_get_vadjustment (
+			&((GnomeCanvas *)canvas)->layout))
 		+ ((GnomeCanvas *)canvas)->zoom_yofs;
 
-	scrollbar_width = popup->vscrollbar->requisition.width
+	widget = gtk_scrolled_window_get_vscrollbar (popup);
+	gtk_widget_get_child_requisition (widget, &requisition);
+
+	scrollbar_width =
+		requisition.width
 		+ GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
 
 	avail_height = gdk_screen_height () - *y;
@@ -415,19 +445,27 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	screen_width = gdk_screen_width ();
 	avail_width = screen_width - scrollbar_width;
 
+	widget = gtk_scrolled_window_get_vscrollbar (popup);
+	gtk_widget_get_child_requisition (widget, &requisition);
+
 	gtk_widget_size_request (ecc->popup_tree_view, &list_requisition);
-	min_height = MIN (list_requisition.height,
-			  popup->vscrollbar->requisition.height);
+	min_height = MIN (list_requisition.height, requisition.height);
 	if (!gtk_tree_model_iter_n_children (gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view)), NULL))
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;
 
+	popwin_child = gtk_bin_get_child (popwin);
+	popwin_style = gtk_widget_get_style (popwin_child);
+
+	popup_child = gtk_bin_get_child (GTK_BIN (popup));
+	popup_style = gtk_widget_get_style (popup_child);
+
 	/* Calculate the desired width. */
 	*width = list_requisition.width
-		+ 2 * popwin->child->style->xthickness
-		+ 2 * GTK_CONTAINER (popwin->child)->border_width
-		+ 2 * GTK_CONTAINER (popup)->border_width
-		+ 2 * GTK_CONTAINER (GTK_BIN (popup)->child)->border_width
-		+ 2 * GTK_BIN (popup)->child->style->xthickness;
+		+ 2 * popwin_style->xthickness
+		+ 2 * gtk_container_get_border_width (GTK_CONTAINER (popwin_child))
+		+ 2 * gtk_container_get_border_width (GTK_CONTAINER (popup))
+		+ 2 * gtk_container_get_border_width (GTK_CONTAINER (popup_child))
+		+ 2 * popup_style->xthickness;
 
 	/* Use at least the same width as the column. */
 	if (*width < column_width)
@@ -441,15 +479,19 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	}
 
 	/* Calculate all the borders etc. that we need to add to the height. */
-	work_height = (2 * popwin->child->style->ythickness
-		       + 2 * GTK_CONTAINER (popwin->child)->border_width
-		       + 2 * GTK_CONTAINER (popup)->border_width
-		       + 2 * GTK_CONTAINER (GTK_BIN (popup)->child)->border_width
-		       + 2 * GTK_BIN (popup)->child->style->xthickness);
+	work_height = (2 * popwin_style->ythickness
+		       + 2 * gtk_container_get_border_width (GTK_CONTAINER (popwin_child))
+		       + 2 * gtk_container_get_border_width (GTK_CONTAINER (popup))
+		       + 2 * gtk_container_get_border_width (GTK_CONTAINER (popup_child))
+		       + 2 * popup_style->xthickness);
+
+	widget = gtk_scrolled_window_get_hscrollbar (popup);
+	gtk_widget_get_child_requisition (widget, &requisition);
 
 	/* Add on the height of the horizontal scrollbar if we need it. */
 	if (show_hscroll)
-		work_height += popup->hscrollbar->requisition.height +
+		work_height +=
+			requisition.height +
 			GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
 
 	/* Check if it fits in the available height. */
@@ -494,11 +536,7 @@ e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc)
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (!gtk_widget_get_realized (ecc->popup_window) || !gtk_tree_selection_get_selected (selection, &model, &iter))
-#else
-	if (!GTK_WIDGET_REALIZED (ecc->popup_window) || !gtk_tree_selection_get_selected (selection, &model, &iter))
-#endif
 		return;
 
 	e_cell_combo_update_cell (ecc);
@@ -526,7 +564,7 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 	   presses outside the application will be reported to this window,
 	   which is why we hide the popup in this case. */
 	while (event_widget) {
-		event_widget = event_widget->parent;
+		event_widget = gtk_widget_get_parent (event_widget);
 		if (event_widget == ecc->popup_tree_view)
 			return FALSE;
 	}
@@ -564,7 +602,7 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 
 	/* See if the button was released in the list (or its children). */
 	while (event_widget && event_widget != ecc->popup_tree_view)
-		event_widget = event_widget->parent;
+		event_widget = gtk_widget_get_parent (event_widget);
 
 	/* If it wasn't, then we just ignore the event. */
 	if (event_widget != ecc->popup_tree_view)
@@ -601,11 +639,7 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	    && event->keyval != GDK_3270_Enter)
 		return FALSE;
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (event->keyval == GDK_Escape && (!ecc->popup_window||!gtk_widget_get_visible (ecc->popup_window)))
-#else
-	if (event->keyval == GDK_Escape && (!ecc->popup_window||!GTK_WIDGET_VISIBLE (ecc->popup_window)))
-#endif
 		return FALSE;
 
 	gtk_grab_remove (ecc->popup_window);

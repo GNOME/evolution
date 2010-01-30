@@ -808,6 +808,7 @@ em_subscribe_editor_new(void)
 	EIterator *iter;
 	GtkBuilder *builder;
 	GtkWidget *w;
+	GtkWidget *container;
 	GtkCellRenderer *cell;
 	GtkListStore *store;
 	GtkTreeIter gtiter;
@@ -823,8 +824,12 @@ em_subscribe_editor_new(void)
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
 
 	gtk_widget_ensure_style ((GtkWidget *)se->dialog);
-	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
-	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
+
+	container = gtk_dialog_get_action_area (GTK_DIALOG (se->dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (se->dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	se->vbox = e_builder_get_widget(builder, "tree_box");
 

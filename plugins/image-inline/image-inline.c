@@ -232,6 +232,7 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
                   GtkAllocation *allocation,
                   ImageInlinePObject *image_object)
 {
+	GtkAllocation image_allocation;
 	GtkWidget *widget;
 	gint pixbuf_width;
 	gint pixbuf_height;
@@ -240,7 +241,8 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
 	gdouble zoom = 1.0;
 
 	widget = GTK_WIDGET (image_object->object.format->html);
-	widget_width = widget->allocation.width - 12;
+	gtk_widget_get_allocation (widget, &image_allocation);
+	widget_width = image_allocation.width - 12;
 
 	pixbuf_width = gdk_pixbuf_get_width (image_object->pixbuf);
 	pixbuf_height = gdk_pixbuf_get_height (image_object->pixbuf);

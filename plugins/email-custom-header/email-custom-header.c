@@ -534,8 +534,9 @@ destroy_compo_data (gpointer data)
 static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *composer)
 
 {
-	GtkUIManager  *ui_manager;
-	GtkWidget     *menuitem;
+	GtkUIManager *ui_manager;
+	GtkWidget *menuitem;
+	GdkWindow *window;
 	CustomHeaderOptionsDialog *dialog = NULL;
 	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
 
@@ -544,14 +545,15 @@ static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *comp
 
 	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
 
-	if (epech_check_existing_composer_window(new_email_custom_header_window,menuitem->window) == 0) {
+	window = gtk_widget_get_window (menuitem);
+	if (epech_check_existing_composer_window(new_email_custom_header_window,window) == 0) {
 		dialog = new_email_custom_header_window->epech_dialog;
 	} else {
 		dialog = epech_dialog_new ();
 		if (dialog) {
                         EmailCustomHeaderWindow *new_email_custom_header_window;
                         new_email_custom_header_window = g_new0(EmailCustomHeaderWindow, 1);
-                        new_email_custom_header_window->epech_window =  menuitem->window;
+                        new_email_custom_header_window->epech_window = window;
                         new_email_custom_header_window->epech_dialog = dialog;
                         g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
 		}

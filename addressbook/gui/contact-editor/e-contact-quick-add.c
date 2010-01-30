@@ -342,6 +342,7 @@ build_quick_add_dialog (QuickAdd *qa)
 {
 	ESourceList *source_list;
 	GConfClient *gconf_client;
+	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkTable *table;
@@ -350,19 +351,21 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	g_return_val_if_fail (qa != NULL, NULL);
 
-	dialog = gtk_dialog_new_with_buttons (_("Contact Quick-Add"),
-					      e_shell_get_active_window (NULL),
-					      GTK_DIALOG_NO_SEPARATOR,
-					      _("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK,
-					      NULL);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Contact Quick-Add"),
+		e_shell_get_active_window (NULL),
+		GTK_DIALOG_NO_SEPARATOR,
+		_("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
 	gtk_widget_ensure_style (dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
-					0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
-					12);
+
+	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	g_signal_connect (dialog, "response", G_CALLBACK (clicked_cb), qa);
 
@@ -460,11 +463,10 @@ build_quick_add_dialog (QuickAdd *qa)
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
-	gtk_container_set_border_width (GTK_CONTAINER (table),
-					12);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-			    GTK_WIDGET (table),
-			    FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (table), 12);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (
+		GTK_BOX (container), GTK_WIDGET (table), FALSE, FALSE, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	return dialog;

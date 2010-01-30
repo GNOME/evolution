@@ -245,22 +245,22 @@ inline static GdkColor *
 eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean selected, gboolean *allocatedp)
 {
 	ECellView *ecell_view = eti->cell_views [col];
-	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
+	GtkWidget *canvas;
 	GdkColor *background, bg;
+	GtkStyle *style;
 	gchar *color_spec = NULL;
 	gboolean allocated = FALSE;
 
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
+	style = gtk_widget_get_style (canvas);
+
 	if (selected) {
-#if GTK_CHECK_VERSION(2,19,7)
 		if (gtk_widget_has_focus (canvas))
-#else
-		if (GTK_WIDGET_HAS_FOCUS(canvas))
-#endif
-			background = &canvas->style->bg [GTK_STATE_SELECTED];
+			background = &style->bg [GTK_STATE_SELECTED];
 		else
-			background = &canvas->style->bg [GTK_STATE_ACTIVE];
+			background = &style->bg [GTK_STATE_ACTIVE];
 	} else {
-		background = &canvas->style->base [GTK_STATE_NORMAL];
+		background = &style->base [GTK_STATE_NORMAL];
 	}
 
 	color_spec = e_cell_get_bg_color (ecell_view, row);
@@ -268,7 +268,7 @@ eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean sel
 	if (color_spec != NULL) {
 		if (gdk_color_parse (color_spec, &bg)) {
 			background = gdk_color_copy (&bg);
-			gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background,
+			gdk_colormap_alloc_color (gtk_widget_get_colormap (canvas), background,
 						  FALSE, TRUE);
 			allocated = TRUE;
 		}
@@ -283,7 +283,7 @@ eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean sel
 				allocated = TRUE;
 			}
 			e_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
-			gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background,
+			gdk_colormap_alloc_color (gtk_widget_get_colormap (canvas), background,
 						  FALSE, TRUE);
 		}
 	}
@@ -296,23 +296,23 @@ eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean sel
 inline static GdkColor *
 eti_get_cell_foreground_color (ETableItem *eti, gint row, gint col, gboolean selected, gboolean *allocated)
 {
-	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
+	GtkWidget *canvas;
 	GdkColor *foreground;
+	GtkStyle *style;
+
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
+	style = gtk_widget_get_style (canvas);
 
 	if (allocated)
 		*allocated = FALSE;
 
 	if (selected) {
-#if GTK_CHECK_VERSION(2,19,7)
 		if (gtk_widget_has_focus (canvas))
-#else
-		if (GTK_WIDGET_HAS_FOCUS (canvas))
-#endif
-			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
+			foreground = &style->fg [GTK_STATE_SELECTED];
 		else
-			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
+			foreground = &style->fg [GTK_STATE_ACTIVE];
 	} else {
-		foreground = &canvas->style->text [GTK_STATE_NORMAL];
+		foreground = &style->text [GTK_STATE_NORMAL];
 	}
 
 	return foreground;
@@ -1631,8 +1631,9 @@ static void
 eti_realize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-	GtkWidget *canvas_widget = GTK_WIDGET (item->canvas);
 	GdkWindow *window;
+	GtkWidget *widget;
+	GtkStyle *style;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
@@ -1642,15 +1643,17 @@ eti_realize (GnomeCanvasItem *item)
 	/*
 	 * Gdk Resource allocation
 	 */
-	window = canvas_widget->window;
+	widget = GTK_WIDGET (item->canvas);
+	style = gtk_widget_get_style (widget);
+	window = gtk_widget_get_window (widget);
 
 	eti->fill_gc = gdk_gc_new (window);
 
 	eti->grid_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->dark [GTK_STATE_NORMAL]);
+	gdk_gc_set_foreground (eti->grid_gc, &style->dark [GTK_STATE_NORMAL]);
 	eti->focus_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (eti->focus_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);
-	gdk_gc_set_background (eti->focus_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
+	gdk_gc_set_foreground (eti->focus_gc, &style->bg [GTK_STATE_NORMAL]);
+	gdk_gc_set_background (eti->focus_gc, &style->fg [GTK_STATE_NORMAL]);
 	eti->stipple = gdk_bitmap_create_from_data (NULL, gray50_bits, gray50_width, gray50_height);
 	gdk_gc_set_ts_origin (eti->focus_gc, 0, 0);
 	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
@@ -1933,11 +1936,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 				gdk_color_free (background);
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
-#if GTK_CHECK_VERSION(2,19,7)
 			flags |= gtk_widget_has_focus (canvas) ? E_CELL_FOCUSED : 0;
-#else
-			flags |= GTK_WIDGET_HAS_FOCUS(canvas) ? E_CELL_FOCUSED : 0;
-#endif
 			flags |= cursor ? E_CELL_CURSOR : 0;
 
 			switch (ecol->justification) {

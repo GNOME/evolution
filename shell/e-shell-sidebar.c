@@ -258,7 +258,7 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
 
-	widget->allocation = *allocation;
+	gtk_widget_set_allocation (widget, allocation);
 
 	child = priv->event_box;
 	gtk_widget_size_request (child, &child_requisition);

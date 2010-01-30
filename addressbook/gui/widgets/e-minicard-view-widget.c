@@ -361,11 +361,14 @@ static void
 e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
+	GtkStyle *style;
+
+	style = gtk_widget_get_style (widget);
 
 	if (view->background)
-		gnome_canvas_item_set (view->background,
-				       "fill_color_gdk", &widget->style->base[GTK_STATE_NORMAL],
-				       NULL );
+		gnome_canvas_item_set (
+			view->background, "fill_color_gdk",
+			&style->base[GTK_STATE_NORMAL], NULL);
 
 	if (GTK_WIDGET_CLASS(parent_class)->style_set)
 		GTK_WIDGET_CLASS(parent_class)->style_set (widget, previous_style);
@@ -420,11 +423,7 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 	if (GTK_WIDGET_CLASS(parent_class)->size_allocate)
 		GTK_WIDGET_CLASS(parent_class)->size_allocate (widget, allocation);
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (gtk_widget_get_realized (widget)) {
-#else
-	if (GTK_WIDGET_REALIZED(widget)) {
-#endif
 		gdouble width;
 		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
 
@@ -447,15 +446,18 @@ e_minicard_view_widget_reflow(ECanvas *canvas)
 {
 	gdouble width;
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(canvas);
+	GtkAllocation allocation;
 
 	if (E_CANVAS_CLASS(parent_class)->reflow)
 		E_CANVAS_CLASS(parent_class)->reflow (canvas);
 
-	g_object_get(view->emv,
-		     "width", &width,
-		     NULL);
-	width = MAX(width, GTK_WIDGET(canvas)->allocation.width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS(canvas), 0, 0, width - 1, GTK_WIDGET(canvas)->allocation.height - 1);
+	g_object_get (view->emv, "width", &width, NULL);
+	gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
+
+	gnome_canvas_set_scroll_region (
+		GNOME_CANVAS(canvas), 0, 0,
+		MAX (width, allocation.width) - 1,
+		allocation.height - 1);
 }
 
 ESelectionModel *

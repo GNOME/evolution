@@ -216,8 +216,15 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	GtkWidget *dialog, *l1, *l2, *entry1, *entry2, *vbox, *hbox;
+	GtkWidget *content_area;
 	gint response;
-	dialog = gtk_dialog_new_with_buttons (_("Add Custom Junk Header"), (GtkWindow *)gtk_widget_get_toplevel (widget), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+	dialog = gtk_dialog_new_with_buttons (
+		_("Add Custom Junk Header"),
+		(GtkWindow *) gtk_widget_get_toplevel (widget),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
 	vbox = gtk_vbox_new (FALSE, 6);
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -235,7 +242,8 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
 
 	gtk_widget_show_all (vbox);
-	gtk_container_add ((GtkContainer *)((GtkDialog *)dialog)->vbox, vbox);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_add (GTK_CONTAINER (content_area), vbox);
 	response = gtk_dialog_run ((GtkDialog *)dialog);
 	if (response == GTK_RESPONSE_ACCEPT) {
 		const gchar *name = gtk_entry_get_text ((GtkEntry *)entry1);

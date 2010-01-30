@@ -277,6 +277,8 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 		ecp->popup_arrow_shown = show_popup_arrow;
 
 	if (show_popup_arrow) {
+		GtkStyle *style;
+
 		e_cell_draw (ecp_view->child_view, drawable, model_col,
 			     view_col, row, flags,
 			     x1, y1, x2 - E_CELL_POPUP_ARROW_WIDTH, y2);
@@ -291,11 +293,13 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 		else
 			shadow = GTK_SHADOW_OUT;
 
-		gtk_paint_box (canvas->style, drawable,
+		style = gtk_widget_get_style (canvas);
+
+		gtk_paint_box (style, drawable,
 			       GTK_STATE_NORMAL, shadow,
 			       &rect, canvas, "ecellpopup",
 			       rect.x, rect.y, rect.width, rect.height);
-		gtk_paint_arrow (canvas->style, drawable,
+		gtk_paint_arrow (style, drawable,
 				 GTK_STATE_NORMAL, GTK_SHADOW_NONE,
 				 &rect, canvas, NULL,
 				 GTK_ARROW_DOWN, TRUE,

@@ -126,9 +126,10 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	EWeekView *week_view;
 	GtkStyle *style;
 	GdkGC *fg_gc, *light_gc, *dark_gc;
-	gint canvas_width, canvas_height, col_width, col, date_width, date_x;
+	gint col_width, col, date_width, date_x;
 	gchar buffer[128];
 	GdkRectangle clip_rect;
+	GtkAllocation allocation;
 	gboolean abbreviated;
 	gint weekday;
 	PangoLayout *layout;
@@ -137,28 +138,29 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	week_view = e_week_view_titles_item_get_week_view (titles_item);
 	g_return_if_fail (week_view != NULL);
 
+	gtk_widget_get_allocation (
+		GTK_WIDGET (canvas_item->canvas), &allocation);
+
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	light_gc = style->light_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
-	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
-	canvas_height = GTK_WIDGET (canvas_item->canvas)->allocation.height;
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 
 	/* Draw the shadow around the dates. */
 	gdk_draw_line (drawable, light_gc,
 		       1 - x, 1 - y,
-		       canvas_width - 2 - x, 1 - y);
+		       allocation.width - 2 - x, 1 - y);
 	gdk_draw_line (drawable, light_gc,
 		       1 - x, 2 - y,
-		       1 - x, canvas_height - 1 - y);
+		       1 - x, allocation.height - 1 - y);
 
 	gdk_draw_rectangle (drawable, dark_gc, FALSE,
 			    0 - x, 0 - y,
-			    canvas_width - 1, canvas_height);
+			    allocation.width - 1, allocation.height);
 
 	/* Determine the format to use. */
-	col_width = canvas_width / week_view->columns;
+	col_width = allocation.width / week_view->columns;
 	abbreviated = (week_view->max_day_width + 2 >= col_width);
 
 	/* Shift right one pixel to account for the shadow around the main
@@ -182,7 +184,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 		clip_rect.x = week_view->col_offsets[col] - x;
 		clip_rect.y = 2 - y;
 		clip_rect.width = week_view->col_widths[col];
-		clip_rect.height = canvas_height - 2;
+		clip_rect.height = allocation.height - 2;
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 		if (weekday == 5 && week_view->compress_weekend)
@@ -212,22 +214,22 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 				       week_view->col_offsets[col] - x,
 				       4 - y,
 				       week_view->col_offsets[col] - x,
-				       canvas_height - 4 - y);
+				       allocation.height - 4 - y);
 
 			gdk_draw_line (drawable, dark_gc,
 				       week_view->col_offsets[col] - 1 - x,
 				       4 - y,
 				       week_view->col_offsets[col] - 1 - x,
-				       canvas_height - 4 - y);
+				       allocation.height - 4 - y);
 		}
 
 		/* Draw the lines between each column. */
 		if (col != 0) {
 			gdk_draw_line (drawable, style->black_gc,
 				       week_view->col_offsets[col] - x,
-				       canvas_height - y,
+				       allocation.height - y,
 				       week_view->col_offsets[col] - x,
-				       canvas_height - y);
+				       allocation.height - y);
 		}
 
 		if (weekday == 5 && week_view->compress_weekend)

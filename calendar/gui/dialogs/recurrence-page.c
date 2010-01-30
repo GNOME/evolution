@@ -532,6 +532,7 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	gboolean recurs, sens = TRUE;
+	GtkWidget *child;
 	GtkWidget *label;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
@@ -548,8 +549,9 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	else
 		gtk_widget_set_sensitive (priv->preview_calendar, TRUE && sens);
 
-	if (GTK_BIN (priv->custom_warning_bin)->child)
-		gtk_widget_destroy (GTK_BIN (priv->custom_warning_bin)->child);
+	child = gtk_bin_get_child (GTK_BIN (priv->custom_warning_bin));
+	if (child != NULL)
+		gtk_widget_destroy (child);
 
 	if (recurs && priv->custom) {
 		gtk_widget_set_sensitive (priv->params, FALSE);
@@ -681,7 +683,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		guint8 day_mask;
 		gint i;
 
-		g_return_if_fail (GTK_BIN (priv->special)->child != NULL);
+		g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) != NULL);
 		g_return_if_fail (priv->weekday_picker != NULL);
 		g_return_if_fail (IS_WEEKDAY_PICKER (priv->weekday_picker));
 
@@ -717,7 +719,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		enum month_num_options month_num;
 		enum month_day_options month_day;
 
-		g_return_if_fail (GTK_BIN (priv->special)->child != NULL);
+		g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) != NULL);
 		g_return_if_fail (priv->month_day_combo != NULL);
 		g_return_if_fail (GTK_IS_COMBO_BOX (priv->month_day_combo));
 		g_return_if_fail (priv->month_num_combo != NULL);
@@ -901,11 +903,7 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 	e_cal_component_set_exdate_list (comp, list);
 	e_cal_component_free_exdate_list (list);
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (gtk_widget_get_visible (priv->ending_combo) && gtk_widget_get_sensitive (priv->ending_combo) &&
-#else
-	if (GTK_WIDGET_VISIBLE (priv->ending_combo) && GTK_WIDGET_IS_SENSITIVE (priv->ending_combo) &&
-#endif
 	    e_dialog_combo_box_get (priv->ending_combo, ending_types_map) == ENDING_UNTIL) {
 		/* check whether the "until" date is in the future */
 		struct icaltimetype tt;
@@ -950,7 +948,7 @@ make_weekly_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_return_if_fail (GTK_BIN (priv->special)->child == NULL);
+	g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) == NULL);
 	g_return_if_fail (priv->weekday_picker == NULL);
 
 	/* Create the widgets */
@@ -1228,7 +1226,7 @@ make_monthly_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_return_if_fail (GTK_BIN (priv->special)->child == NULL);
+	g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) == NULL);
 	g_return_if_fail (priv->month_day_combo == NULL);
 
 	/* Create the widgets */
@@ -1282,6 +1280,7 @@ make_recurrence_special (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv;
 	icalrecurrencetype_frequency frequency;
+	GtkWidget *child;
 
 	priv = rpage->priv;
 
@@ -1289,8 +1288,10 @@ make_recurrence_special (RecurrencePage *rpage)
 		gtk_widget_destroy (priv->month_num_combo);
 		priv->month_num_combo = NULL;
 	}
-	if (GTK_BIN (priv->special)->child != NULL) {
-		gtk_widget_destroy (GTK_BIN (priv->special)->child);
+
+	child = gtk_bin_get_child (GTK_BIN (priv->special));
+	if (child != NULL) {
+		gtk_widget_destroy (child);
 
 		priv->weekday_picker = NULL;
 		priv->month_day_combo = NULL;
@@ -1345,7 +1346,7 @@ make_ending_until_special (RecurrencePage *rpage)
 	EDateEdit *de;
 	ECalComponentDateTime dt_start;
 
-	g_return_if_fail (GTK_BIN (priv->ending_special)->child == NULL);
+	g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->ending_special)) == NULL);
 	g_return_if_fail (priv->ending_date_edit == NULL);
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
@@ -1394,7 +1395,7 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-	g_return_if_fail (GTK_BIN (priv->ending_special)->child == NULL);
+	g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->ending_special)) == NULL);
 	g_return_if_fail (priv->ending_count_spin == NULL);
 
 	/* Create the widgets */
@@ -1435,11 +1436,13 @@ make_ending_special (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv;
 	enum ending_type ending_type;
+	GtkWidget *child;
 
 	priv = rpage->priv;
 
-	if (GTK_BIN (priv->ending_special)->child != NULL) {
-		gtk_widget_destroy (GTK_BIN (priv->ending_special)->child);
+	child = gtk_bin_get_child (GTK_BIN (priv->ending_special));
+	if (child != NULL) {
+		gtk_widget_destroy (child);
 
 		priv->ending_date_edit = NULL;
 		priv->ending_count_spin = NULL;
@@ -1985,6 +1988,7 @@ get_widgets (RecurrencePage *rpage)
 	RecurrencePagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
+	GtkWidget *parent;
 
 	priv = rpage->priv;
 
@@ -2002,7 +2006,8 @@ get_widgets (RecurrencePage *rpage)
 		page->accel_group = g_object_ref (accel_groups->data);
 
 	g_object_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	parent = gtk_widget_get_parent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (parent), priv->main);
 
 	priv->recurs = GW ("recurs");
 	priv->params = GW ("params");
@@ -2096,7 +2101,8 @@ create_exception_dialog (RecurrencePage *rpage, const gchar *title, GtkWidget **
 
 	*date_edit = comp_editor_new_date_edit (TRUE, FALSE, TRUE);
 	gtk_widget_show (*date_edit);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), *date_edit, FALSE, TRUE, 6);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (container), *date_edit, FALSE, TRUE, 6);
 
 	return dialog;
 }

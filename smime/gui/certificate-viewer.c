@@ -317,6 +317,8 @@ GtkWidget*
 certificate_viewer_show (ECert *cert)
 {
 	CertificateViewerData *cvm_data;
+	GtkDialog *dialog;
+	GtkWidget *action_area;
 	gchar *title;
 
 	cvm_data = g_new0 (CertificateViewerData, 1);
@@ -327,13 +329,14 @@ certificate_viewer_show (ECert *cert)
 	cvm_data->dialog = e_builder_get_widget (cvm_data->builder, "certificate-viewer-dialog");
 
 	gtk_widget_realize (cvm_data->dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (cvm_data->dialog)->action_area), 12);
 
-	title = g_strdup_printf (_("Certificate Viewer: %s"), e_cert_get_window_title (cert));
+	dialog = GTK_DIALOG (cvm_data->dialog);
+	action_area = gtk_dialog_get_action_area (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 
-	gtk_window_set_title (GTK_WINDOW (cvm_data->dialog),
-			      title);
-
+	title = g_strdup_printf (
+		_("Certificate Viewer: %s"), e_cert_get_window_title (cert));
+	gtk_window_set_title (GTK_WINDOW (cvm_data->dialog), title);
 	g_free (title);
 
 	fill_in_general (cvm_data, cert);

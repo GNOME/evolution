@@ -146,6 +146,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 {
 	ETableCol *col;
 	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
+	GtkWidget *widget;
 	GtkStyle *style;
 
 	col = e_table_header_get_column_by_col_idx(full_header, column.column);
@@ -160,7 +161,8 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->n = n;
 	etgc->ascending = column.ascending;
 
-	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style;
+	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas);
+	style = gtk_widget_get_style (widget);
 	etgc->font_desc = pango_font_description_copy (style->font_desc);
 
 	etgc->open = TRUE;

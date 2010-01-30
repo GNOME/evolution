@@ -66,6 +66,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 	CamelStore *store;
 	gchar *id = NULL;
 	GtkWidget *confirm_dialog, *confirm_warning;
+	GtkWidget *content_area;
 	gint n;
 
 	g_return_if_fail (get_selected_info (shell_view, &folder, &id));
@@ -76,16 +77,21 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 	cnc = get_cnc (store);
 
 	if (cnc && E_IS_GW_CONNECTION(cnc)) {
-		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
-				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_STOCK_YES, GTK_RESPONSE_YES,
-				GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
+		confirm_dialog = gtk_dialog_new_with_buttons (
+			_("Message Retract"),
+			GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_STOCK_YES, GTK_RESPONSE_YES,
+			GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
+
+		content_area = gtk_dialog_get_content_area (
+			GTK_DIALOG (confirm_dialog));
 
 		confirm_warning = gtk_label_new (_("Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this?"));
 		gtk_label_set_line_wrap (GTK_LABEL (confirm_warning), TRUE);
 		gtk_label_set_selectable (GTK_LABEL (confirm_warning), TRUE);
 
-		gtk_container_add (GTK_CONTAINER ((GTK_DIALOG(confirm_dialog))->vbox), confirm_warning);
+		gtk_container_add (GTK_CONTAINER (content_area), confirm_warning);
 		gtk_widget_set_size_request (confirm_dialog, 400, 100);
 		gtk_widget_show_all (confirm_dialog);
 

@@ -532,6 +532,7 @@ action_task_purge_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	GtkWidget *content_area;
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	gboolean active;
@@ -556,9 +557,9 @@ action_task_purge_cb (GtkAction *action,
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
 
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	widget = gtk_check_button_new_with_label (_("Do not ask me again"));
-	gtk_box_pack_start (
-		GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 6);
 	gtk_widget_show (widget);
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));

@@ -234,6 +234,7 @@ eab_select_source (ESource *except_source, const gchar *title, const gchar *mess
 {
 	ESource *source;
 	ESourceList *source_list;
+	GtkWidget *content_area;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
 	/* GtkWidget *label; */
@@ -272,8 +273,8 @@ eab_select_source (ESource *except_source, const gchar *title, const gchar *mess
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (scrolled_window), selector);
 
-	/* gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 4); */
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 4);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), scrolled_window, TRUE, TRUE, 4);
 
 	gtk_widget_show_all (dialog);
 	response = gtk_dialog_run (GTK_DIALOG (dialog));

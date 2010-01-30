@@ -1654,6 +1654,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 static void
 mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 {
+	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWidget *label;
 
@@ -1674,7 +1675,9 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 				 "configured to send an email.  Evolution will display\n"
 				 "a normal reminder dialog box instead."));
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (container), label, TRUE, TRUE, 4);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
@@ -1684,7 +1687,10 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 static gboolean
 procedure_notification_dialog (const gchar *cmd, const gchar *url)
 {
-	GtkWidget *dialog, *label, *checkbox;
+	GtkWidget *container;
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *checkbox;
 	gchar *str;
 	gint btn;
 
@@ -1708,15 +1714,15 @@ procedure_notification_dialog (const gchar *cmd, const gchar *url)
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-			    label, TRUE, TRUE, 4);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (container), label, TRUE, TRUE, 4);
 	g_free (str);
 
 	checkbox = gtk_check_button_new_with_label
 		(_("Do not ask me about this program again."));
 	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-			    checkbox, TRUE, TRUE, 4);
+	gtk_box_pack_start (GTK_BOX (container), checkbox, TRUE, TRUE, 4);
 
 	/* Run the dialog */
 	btn = gtk_dialog_run (GTK_DIALOG (dialog));

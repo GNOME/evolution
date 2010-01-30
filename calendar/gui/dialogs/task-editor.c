@@ -307,6 +307,7 @@ task_editor_init (TaskEditor *te)
 	CompEditor *editor = COMP_EDITOR (te);
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GtkWidget *content_area;
 	const gchar *id;
 	GError *error = NULL;
 
@@ -331,8 +332,10 @@ task_editor_init (TaskEditor *te)
 		G_CALLBACK(gtk_widget_hide), NULL);
 
 	te->priv->task_details_page = task_details_page_new (editor);
+	content_area = gtk_dialog_get_content_area (
+		GTK_DIALOG (te->priv->task_details_page));
 	gtk_container_add (
-		GTK_CONTAINER (GTK_DIALOG (te->priv->task_details_window)->vbox),
+		GTK_CONTAINER (content_area),
 		comp_editor_page_get_widget ((CompEditorPage *) te->priv->task_details_page));
 	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
 	comp_editor_append_page (

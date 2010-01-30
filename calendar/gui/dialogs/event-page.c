@@ -2133,6 +2133,7 @@ get_widgets (EventPage *epage)
 	EventPagePrivate *priv;
 	GSList *accel_groups;
 	GtkAction *action;
+	GtkWidget *parent;
 	GtkWidget *toplevel;
 	GtkWidget *sw;
 
@@ -2174,7 +2175,8 @@ get_widgets (EventPage *epage)
 	priv->attendees_label = GW ("attendees-label");
 
 	g_object_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	parent = gtk_widget_get_parent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (parent), priv->main);
 
 	priv->categories = GW ("categories");
 	priv->categories_btn = GW ("categories-button");
@@ -2455,11 +2457,7 @@ safe_to_process_date_changed_signal (GtkWidget *dedit_widget)
 
 	entry = e_date_edit_get_entry (dedit);
 
-#if GTK_CHECK_VERSION(2,19,7)
 	return !entry || !gtk_widget_has_focus (entry);
-#else
-	return !entry || !GTK_WIDGET_HAS_FOCUS (entry);
-#endif
 }
 
 /* Callback used when the start date widget change.  We check that the

@@ -286,6 +286,7 @@ static void
 new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *model)
 {
 	GtkWidget *users_dialog;
+	GtkWidget *content_area;
 	GtkWidget *w;
 	struct ShareInfo *ssi;
 	const gchar *uri;
@@ -312,12 +313,13 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 			_("Users"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	w = gtk_label_new_with_mnemonic (_("Enter the users and set permissions"));
 	gtk_widget_show(w);
-	gtk_box_pack_start(GTK_BOX (GTK_DIALOG (users_dialog)->vbox), (GtkWidget *) w, TRUE, TRUE, 6);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (users_dialog));
+	gtk_box_pack_start(GTK_BOX (content_area), (GtkWidget *) w, TRUE, TRUE, 6);
 	ssi->sf = share_folder_new (cnc, NULL);
 	gtk_widget_set_sensitive (GTK_WIDGET ((ssi->sf)->table), TRUE);
 	ssi->model = model;
 	ssi->emfs = emfs;
-	gtk_widget_reparent (GTK_WIDGET ((ssi->sf)->table), GTK_DIALOG (users_dialog)->vbox);
+	gtk_widget_reparent (GTK_WIDGET ((ssi->sf)->table), content_area);
 	gtk_widget_hide((GtkWidget*) emfs);
 	gtk_window_resize (GTK_WINDOW (users_dialog), 350, 300);
 	gtk_widget_show(users_dialog);

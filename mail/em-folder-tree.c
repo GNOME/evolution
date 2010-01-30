@@ -1457,10 +1457,13 @@ static void
 folder_tree_drop_folder(struct _DragDataReceivedAsync *m)
 {
 	CamelFolder *src;
+	const guchar *data;
 
-	d(printf(" * Drop folder '%s' onto '%s'\n", m->selection->data, m->full_name));
+	data = gtk_selection_data_get_data (m->selection);
 
-	if (!(src = mail_tool_uri_to_folder((gchar *)m->selection->data, 0, &m->base.ex)))
+	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
+
+	if (!(src = mail_tool_uri_to_folder((gchar *)data, 0, &m->base.ex)))
 		return;
 
 	em_folder_utils_copy_folders(src->parent_store, src->full_name, m->store, m->full_name?m->full_name:"", m->move);
@@ -1471,10 +1474,13 @@ static gchar *
 folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 {
 	CamelURL *url;
+	const guchar *data;
 	gchar *buf;
 
+	data = gtk_selection_data_get_data (m->selection);
+
 	if (m->info == DND_DROP_TYPE_FOLDER) {
-		url = camel_url_new ((gchar *)m->selection->data, NULL);
+		url = camel_url_new ((gchar *)data, NULL);
 
 		if (m->move)
 			buf = g_strdup_printf (_("Moving folder %s"), url->fragment ? url->fragment : url->path + 1);
@@ -1532,9 +1538,7 @@ folder_tree_drop_async__free (struct _DragDataReceivedAsync *m)
 	g_object_unref(m->context);
 	camel_object_unref(m->store);
 	g_free(m->full_name);
-
-	g_free(m->selection->data);
-	g_free(m->selection);
+	gtk_selection_data_free (m->selection);
 }
 
 static MailMsgInfo folder_tree_drop_async_info = {
@@ -1572,7 +1576,12 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 		return;
 
 	/* this means we are receiving no data */
-	if (!selection->data || selection->length == -1) {
+	if (gtk_selection_data_get_data (selection) == NULL) {
+		gtk_drag_finish(context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
+	}
+
+	if (gtk_selection_data_get_length (selection) == -1) {
 		gtk_drag_finish(context, FALSE, FALSE, GDK_CURRENT_TIME);
 		return;
 	}
@@ -1604,10 +1613,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 	m->info = info;
 
 	/* need to copy, goes away once we exit */
-	m->selection = g_malloc0(sizeof(*m->selection));
-	m->selection->data = g_malloc(selection->length);
-	memcpy(m->selection->data, selection->data, selection->length);
-	m->selection->length = selection->length;
+	m->selection = gtk_selection_data_copy (selection);
 
 	tree_drag_data_action(m);
 }
@@ -1898,12 +1904,14 @@ tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolde
 static gboolean
 tree_autoscroll (EMFolderTree *folder_tree)
 {
-	GtkAdjustment *vadjustment;
+	GtkAdjustment *adjustment;
 	GtkTreeView *tree_view;
 	GdkRectangle rect;
 	GdkWindow *window;
 	gint offset, y;
-	gfloat value;
+	gdouble page_size;
+	gdouble upper;
+	gdouble value;
 
 	/* get the y pointer position relative to the treeview */
 	tree_view = GTK_TREE_VIEW (folder_tree);
@@ -1923,10 +1931,14 @@ tree_autoscroll (EMFolderTree *folder_tree)
 			return TRUE;
 	}
 
-	vadjustment = gtk_tree_view_get_vadjustment (tree_view);
+	adjustment = gtk_tree_view_get_vadjustment (tree_view);
 
-	value = CLAMP (vadjustment->value + offset, 0.0, vadjustment->upper - vadjustment->page_size);
-	gtk_adjustment_set_value (vadjustment, value);
+	page_size = gtk_adjustment_get_value (adjustment);
+	upper = gtk_adjustment_get_value (adjustment);
+	value = gtk_adjustment_get_value (adjustment);
+
+	value = CLAMP (value + offset, 0.0, upper - page_size);
+	gtk_adjustment_set_value (adjustment, value);
 
 	return TRUE;
 }

@@ -230,6 +230,7 @@ xml_decode(EFilterElement *fe, xmlNodePtr node)
 static void
 folder_selected(EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 {
+	GtkWidget *toplevel;
 	const gchar *uri;
 
 	uri = em_folder_selection_button_get_selection(button);
@@ -240,7 +241,8 @@ folder_selected(EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 	else
 		ff->uri = uri != NULL ? em_uri_from_camel (uri) : NULL;
 
-	gdk_window_raise(GTK_WIDGET(gtk_widget_get_ancestor(GTK_WIDGET(button), GTK_TYPE_WINDOW))->window);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
+	gtk_window_present (GTK_WINDOW (toplevel));
 }
 
 static GtkWidget *

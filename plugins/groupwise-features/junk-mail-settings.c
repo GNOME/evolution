@@ -62,6 +62,7 @@ void
 gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 {
 	GtkWidget *dialog ,*w, *notebook, *box;
+	GtkWidget *content_area;
 	JunkSettings *junk_tab;
 	gint page_count =0;
 	EGwConnection *cnc;
@@ -86,9 +87,10 @@ gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 			GTK_STOCK_OK,
 			GTK_RESPONSE_ACCEPT,
 			NULL);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_window_set_default_size ((GtkWindow *) dialog, 292, 260);
 	gtk_widget_ensure_style (dialog);
-	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 12);
 	box = gtk_vbox_new (FALSE, 6);
 	w = gtk_label_new ("");
 	msg = g_strdup_printf("<b>%s</b>", _("Junk Mail Settings"));
@@ -105,12 +107,12 @@ gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 		notebook = gtk_notebook_new ();
 		gtk_notebook_append_page ((GtkNotebook *)notebook, box, NULL);
 		gtk_box_pack_start (
-			(GtkBox *) ((GtkDialog *) dialog)->vbox,
-			notebook, TRUE, TRUE, 0);
+			GTK_BOX (content_area), notebook, TRUE, TRUE, 0);
 	}
 
 	if (page_count == 0)
-		gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, box, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (content_area), box, TRUE, TRUE, 0);
 
 	g_signal_connect (dialog, "response", G_CALLBACK (junk_dialog_response), junk_tab);
 	gtk_widget_show_all (dialog);

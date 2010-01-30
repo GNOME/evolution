@@ -94,9 +94,9 @@ ensure_nonzero_step_increments (ETableFieldChooser *etfc)
 	  so use 16 pixels which should be OK
 	*/
 	if (va)
-		va->step_increment = 16.0;
+		gtk_adjustment_set_step_increment (va, 16.0);
 	if (ha)
-		ha->step_increment = 16.0;
+		gtk_adjustment_set_step_increment (ha, 16.0);
 }
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)

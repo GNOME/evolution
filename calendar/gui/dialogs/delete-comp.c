@@ -166,12 +166,12 @@ delete_component_dialog (ECalComponent *comp,
 }
 
 static void
-cb_toggled_cb (GtkWidget *toggle, gpointer data)
+cb_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	gboolean active = FALSE;
 	GtkWidget *entry = (GtkWidget *) data;
 
-	active = GTK_TOGGLE_BUTTON (toggle)->active;
+	active = gtk_toggle_button_get_active (toggle);
 	gtk_widget_set_sensitive (entry, active);
 }
 
@@ -208,8 +208,8 @@ prompt_retract_dialog (ECalComponent *comp, gchar **retract_text, GtkWidget *par
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
-	gtk_box_set_spacing ((GtkBox *) (GTK_DIALOG (dialog)->vbox), 12);
-	vbox = GTK_WIDGET (GTK_DIALOG (dialog)->vbox);
+	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_set_spacing (GTK_BOX (vbox), 12);
 
 	cb = gtk_check_button_new_with_mnemonic (_("_Delete this item from all other recipient's mailboxes?"));
 	gtk_container_add (GTK_CONTAINER (vbox), cb);

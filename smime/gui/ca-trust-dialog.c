@@ -72,6 +72,9 @@ GtkWidget*
 ca_trust_dialog_show (ECert *cert, gboolean importing)
 {
 	CATrustDialogData *ctd_data;
+	GtkDialog *dialog;
+	GtkWidget *action_area;
+	GtkWidget *content_area;
 	GtkWidget *w;
 	gchar *txt;
 
@@ -83,8 +86,13 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 	ctd_data->dialog = e_builder_get_widget (ctd_data->builder, "ca-trust-dialog");
 
 	gtk_widget_ensure_style (ctd_data->dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (ctd_data->dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (ctd_data->dialog)->action_area), 12);
+
+	dialog = GTK_DIALOG (ctd_data->dialog);
+	action_area = gtk_dialog_get_action_area (dialog);
+	content_area = gtk_dialog_get_content_area (dialog);
+
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
 	ctd_data->cert = g_object_ref (cert);
 

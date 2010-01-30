@@ -414,9 +414,13 @@ e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 static void
 set_colors (EMinicardLabel *label)
 {
-	if ((GTK_OBJECT_FLAGS( label ) & GNOME_CANVAS_ITEM_REALIZED)) {
-		GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (label)->canvas);
-		GtkStyle *style = gtk_widget_get_style (canvas);
+	if ((GTK_OBJECT_FLAGS (label) & GNOME_CANVAS_ITEM_REALIZED)) {
+		GnomeCanvas *canvas;
+		GtkStyle *style;
+
+		canvas = GNOME_CANVAS_ITEM (label)->canvas;
+		style = gtk_widget_get_style (GTK_WIDGET (canvas));
+
 		if (label->has_focus) {
 			gnome_canvas_item_set (label->rect,
 					       "outline_color_gdk", &style->mid[GTK_STATE_SELECTED],
@@ -424,11 +428,11 @@ set_colors (EMinicardLabel *label)
 					       NULL);
 
 			gnome_canvas_item_set (label->field,
-					       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
+					       "fill_color_gdk", &style->text[GTK_STATE_NORMAL],
 					       NULL);
 
 			gnome_canvas_item_set (label->fieldname,
-					       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
+					       "fill_color_gdk", &style->text[GTK_STATE_NORMAL],
 					       NULL);
 		}
 		else {
@@ -438,11 +442,11 @@ set_colors (EMinicardLabel *label)
 					       NULL);
 
 			gnome_canvas_item_set (label->field,
-					       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
+					       "fill_color_gdk", &style->text[GTK_STATE_NORMAL],
 					       NULL);
 
 			gnome_canvas_item_set (label->fieldname,
-					       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
+					       "fill_color_gdk", &style->text[GTK_STATE_NORMAL],
 					       NULL);
 		}
 	}

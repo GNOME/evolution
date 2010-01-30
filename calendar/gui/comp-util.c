@@ -483,6 +483,7 @@ cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
 	/* format is "str1\0str2\0...strN\0" */
 	GSList *p;
 	GByteArray *array;
+	GdkAtom target;
 
 	g_return_if_fail (data != NULL);
 
@@ -497,7 +498,8 @@ cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
 			g_byte_array_append (array, c, strlen ((const gchar *) c) + 1);
 	}
 
-	gtk_selection_data_set (data, data->target, 8, array->data, array->len);
+	target = gtk_selection_data_get_target (data);
+	gtk_selection_data_set (data, target, 8, array->data, array->len);
 	g_byte_array_free (array, TRUE);
 }
 
@@ -512,17 +514,22 @@ cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
  * @return Newly allocated GSList of strings.
  **/
 GSList *
-cal_comp_selection_get_string_list (GtkSelectionData *data)
+cal_comp_selection_get_string_list (GtkSelectionData *selection_data)
 {
 	/* format is "str1\0str2\0...strN\0" */
 	gchar *inptr, *inend;
 	GSList *list;
+	const guchar *data;
+	gint length;
 
-	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (selection_data != NULL, NULL);
+
+	data = gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
 
 	list = NULL;
-	inptr = (gchar *)data->data;
-	inend = (gchar *)(data->data + data->length);
+	inptr = (gchar *) data;
+	inend = (gchar *) (data + length);
 
 	while (inptr < inend) {
 		gchar *start = inptr;

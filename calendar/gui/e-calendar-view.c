@@ -1652,39 +1652,42 @@ get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
 void
 e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y)
 {
-  GtkRequisition requisition;
-  gint w, h;
-  GdkScreen *screen;
-  GdkScreen *pointer_screen;
-  gint monitor_num, px, py;
-  GdkRectangle monitor;
+	GtkAllocation allocation;
+	GtkRequisition requisition;
+	gint w, h;
+	GdkScreen *screen;
+	GdkScreen *pointer_screen;
+	gint monitor_num, px, py;
+	GdkRectangle monitor;
 
-  screen = gtk_widget_get_screen (widget);
+	screen = gtk_widget_get_screen (widget);
 
-  gtk_widget_size_request (widget, &requisition);
-  w = requisition.width;
-  h = requisition.height;
+	gtk_widget_size_request (widget, &requisition);
+	w = requisition.width;
+	h = requisition.height;
 
-  gdk_display_get_pointer (gdk_screen_get_display (screen),
-                           &pointer_screen, &px, &py, NULL);
-  if (pointer_screen != screen)
-    {
-      px = x;
-      py = y;
-    }
-  monitor_num = gdk_screen_get_monitor_at_point (screen, px, py);
-  gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+	gdk_display_get_pointer (
+		gdk_screen_get_display (screen),
+		&pointer_screen, &px, &py, NULL);
+	if (pointer_screen != screen) {
+		px = x;
+		py = y;
+	}
+	monitor_num = gdk_screen_get_monitor_at_point (screen, px, py);
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
 
-  if ((x + w) > monitor.x + monitor.width)
-    x -= (x + w) - (monitor.x + monitor.width);
-  else if (x < monitor.x)
-    x = monitor.x;
+	if ((x + w) > monitor.x + monitor.width)
+		x -= (x + w) - (monitor.x + monitor.width);
+	else if (x < monitor.x)
+		x = monitor.x;
 
-  if ((y + h + widget->allocation.height + 4) > monitor.y + monitor.height)
-    y = y - h - 36;
+	gtk_widget_get_allocation (widget, &allocation);
 
-  gtk_window_move (GTK_WINDOW (widget), x, y);
-  gtk_widget_show (widget);
+	if ((y + h + allocation.height + 4) > monitor.y + monitor.height)
+		y = y - h - 36;
+
+	gtk_window_move (GTK_WINDOW (widget), x, y);
+	gtk_widget_show (widget);
 }
 
 /**
@@ -1787,6 +1790,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	ECalendarViewEvent *pevent;
 	GtkStyle *style = gtk_widget_get_default_style ();
 	GtkWidget *widget = (GtkWidget *) g_object_get_data (G_OBJECT (data->cal_view), "tooltip-window");
+	GdkWindow *window;
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone, *default_zone;
 	ECal *client = NULL;
@@ -1946,7 +1950,8 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y+16);
 
-	gdk_keyboard_grab (pevent->tooltip->window, FALSE, GDK_CURRENT_TIME);
+	window = gtk_widget_get_window (pevent->tooltip);
+	gdk_keyboard_grab (window, FALSE, GDK_CURRENT_TIME);
 	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), data->cal_view);
 	pevent->timeout = -1;
 

@@ -1175,6 +1175,7 @@ vfolder_edit_rule(const gchar *uri)
 {
 	GtkWidget *w;
 	GtkDialog *gd;
+	GtkWidget *container;
 	EFilterRule *rule, *newrule;
 	CamelURL *url;
 
@@ -1186,19 +1187,21 @@ vfolder_edit_rule(const gchar *uri)
 
 		w = e_filter_rule_get_widget((EFilterRule *)newrule, (ERuleContext *)context);
 
-		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit Search Folder"), NULL,
-							      GTK_DIALOG_DESTROY_WITH_PARENT,
-							      GTK_STOCK_CANCEL,
-							      GTK_RESPONSE_CANCEL,
-							      GTK_STOCK_OK,
-							      GTK_RESPONSE_OK,
-							      NULL);
+		gd = (GtkDialog *)gtk_dialog_new_with_buttons(
+			_("Edit Search Folder"), NULL,
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+
 		gtk_container_set_border_width (GTK_CONTAINER (gd), 6);
-		gtk_box_set_spacing ((GtkBox *) gd->vbox, 6);
+
+		container = gtk_dialog_get_content_area (gd);
+		gtk_box_set_spacing (GTK_BOX (container), 6);
+
 		gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
 		g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
-		gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
 		gtk_widget_show((GtkWidget *)gd);
 		g_object_set_data_full(G_OBJECT(gd), "rule", newrule, (GDestroyNotify)g_object_unref);
 		g_object_set_data_full(G_OBJECT(gd), "orig", rule, (GDestroyNotify)g_object_unref);
@@ -1282,26 +1285,29 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 {
 	GtkWidget *w;
 	GtkDialog *gd;
+	GtkWidget *container;
 
 	/* this should be done before we call this function */
 	vfolder_load_storage ();
 
 	w = e_filter_rule_get_widget((EFilterRule *)rule, (ERuleContext *)context);
 
-	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New Search Folder"),
-						      NULL,
-						      GTK_DIALOG_DESTROY_WITH_PARENT,
-						      GTK_STOCK_CANCEL,
-						      GTK_RESPONSE_CANCEL,
-						      GTK_STOCK_OK,
-						      GTK_RESPONSE_OK,
-						      NULL);
+	gd = (GtkDialog *)gtk_dialog_new_with_buttons (
+		_("New Search Folder"),
+		NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+
 	gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
 	gtk_container_set_border_width (GTK_CONTAINER (gd), 6);
-	gtk_box_set_spacing ((GtkBox *) gd->vbox, 6);
+
+	container = gtk_dialog_get_content_area (gd);
+	gtk_box_set_spacing (GTK_BOX (container), 6);
+
 	g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
-	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (container), w, TRUE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GDestroyNotify)g_object_unref);
 	g_signal_connect(rule, "changed", G_CALLBACK (new_rule_changed_cb), gd);

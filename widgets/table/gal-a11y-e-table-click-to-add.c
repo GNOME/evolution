@@ -72,26 +72,30 @@ etcta_action_get_name (AtkAction *action, gint      i)
 static gboolean
 idle_do_action (gpointer data)
 {
-        GdkEventButton event;
+	GtkLayout *layout;
+	GdkEventButton event;
 	ETableClickToAdd * etcta;
-        gint finished;
+	gint finished;
 
 	g_return_val_if_fail ( data!= NULL, FALSE);
 
-	etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (data)));
+	etcta = E_TABLE_CLICK_TO_ADD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (data)));
 	g_return_val_if_fail (etcta, FALSE);
+
+	layout = GTK_LAYOUT (GNOME_CANVAS_ITEM (etcta)->canvas);
 
 	event.x = 0;
 	event.y = 0;
+	event.type = GDK_BUTTON_PRESS;
+	event.window = gtk_layout_get_bin_window (layout);
+	event.button = 1;
+	event.send_event = TRUE;
+	event.time = GDK_CURRENT_TIME;
+	event.axes = NULL;
 
-        event.type = GDK_BUTTON_PRESS;
-        event.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(etcta)->canvas)->bin_window;
-        event.button = 1;
-        event.send_event = TRUE;
-        event.time = GDK_CURRENT_TIME;
-        event.axes = NULL;
-
-        g_signal_emit_by_name (etcta, "event", &event, &finished);
+	g_signal_emit_by_name (etcta, "event", &event, &finished);
 
 	return FALSE;
 }

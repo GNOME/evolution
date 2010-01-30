@@ -116,11 +116,7 @@ check_input (UrlEditorDialog *dialog)
 		gtk_widget_hide (dialog->fb_duration_combo);
 	}
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (gtk_widget_get_sensitive (dialog->events_selector)) {
-#else
-	if (GTK_WIDGET_IS_SENSITIVE (dialog->events_selector)) {
-#endif
 		sources = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
 		n += g_slist_length (sources);
 	}
@@ -332,6 +328,7 @@ static gboolean
 url_editor_dialog_construct (UrlEditorDialog *dialog)
 {
 	GtkWidget *toplevel;
+	GtkWidget *content_area;
 	GConfClient *gconf;
 	GtkSizeGroup *group;
 	EPublishUri *uri;
@@ -376,8 +373,9 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 
 	uri = dialog->uri;
 
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	toplevel = e_builder_get_widget (dialog->builder, "publishing toplevel");
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), toplevel);
+	gtk_container_add (GTK_CONTAINER (content_area), toplevel);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);

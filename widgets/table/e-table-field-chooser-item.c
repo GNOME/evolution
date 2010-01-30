@@ -214,12 +214,14 @@ etfci_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint fl
 static void
 etfci_font_load (ETableFieldChooserItem *etfci)
 {
+	GtkWidget *widget;
 	GtkStyle *style;
 
 	if (etfci->font_desc)
 		pango_font_description_free (etfci->font_desc);
 
-	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
+	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
+	style = gtk_widget_get_style (widget);
 	etfci->font_desc = pango_font_description_copy (style->font_desc);
 }
 
@@ -462,7 +464,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint w
 
 	rows = e_table_header_count (etfci->combined_header);
 
-	style = GTK_WIDGET (canvas)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 	state = gtk_widget_get_state (GTK_WIDGET (canvas));
 
 	y1 = y2 = 0;
@@ -519,6 +521,8 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
 	GtkTargetList *list;
 	GdkDragContext *context;
+	GdkWindow *window;
+	GtkStyle *style;
 	GtkStateType state;
 	ETableCol *ecol;
 	GdkPixmap *pixmap;
@@ -551,24 +555,26 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	g_free(etfci_drag_types[0].target);
 
 	button_height = e_table_header_compute_height (ecol, widget);
-	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
+	window = gtk_widget_get_window (widget);
+	pixmap = gdk_pixmap_new (window, etfci->width, button_height, -1);
 
+	style = gtk_widget_get_style (widget);
 	state = gtk_widget_get_state (widget);
 
-	e_table_header_draw_button (pixmap, ecol,
-				    widget->style, state,
-				    widget,
-				    0, 0,
-				    etfci->width, button_height,
-				    etfci->width, button_height,
-				    E_TABLE_COL_ARROW_NONE);
+	e_table_header_draw_button (
+		pixmap, ecol, style,
+		state, widget, 0, 0,
+		etfci->width, button_height,
+		etfci->width, button_height,
+		E_TABLE_COL_ARROW_NONE);
 
-	gtk_drag_set_icon_pixmap        (context,
-					 gdk_drawable_get_colormap (GDK_DRAWABLE (widget->window)),
-					 pixmap,
-					 NULL,
-					 etfci->width / 2,
-					 button_height / 2);
+	gtk_drag_set_icon_pixmap (
+		context,
+		gdk_drawable_get_colormap (GDK_DRAWABLE (window)),
+		pixmap, NULL,
+		etfci->width / 2,
+		button_height / 2);
+
 	g_object_unref (pixmap);
 	etfci->maybe_drag = FALSE;
 }

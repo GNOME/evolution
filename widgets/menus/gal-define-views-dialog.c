@@ -223,6 +223,8 @@ dialog_response (GalDefineViewsDialog *dialog, gint response_id, gpointer data)
 static void
 gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 {
+	GtkWidget *content_area;
+	GtkWidget *parent;
 	GtkWidget *widget;
 
 	dialog->collection = NULL;
@@ -236,11 +238,16 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	}
 
 	g_object_ref (widget);
-	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+
+	parent = gtk_widget_get_parent (widget);
+	gtk_container_remove (GTK_CONTAINER (parent), widget);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 360, 270);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+
 	g_object_unref (widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),

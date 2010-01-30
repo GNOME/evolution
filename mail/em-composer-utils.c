@@ -809,10 +809,8 @@ em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri
 
 	composer_set_no_change (composer, TRUE, url == NULL);
 
-	if (!e_msg_composer_get_lite ()) {
-		gtk_widget_show ((GtkWidget *) composer);
-		gdk_window_raise (((GtkWidget *) composer)->window);
-	}
+	if (!e_msg_composer_get_lite ())
+		gtk_window_present (GTK_WINDOW (composer));
 
 	return composer;
 }

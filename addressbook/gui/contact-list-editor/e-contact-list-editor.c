@@ -439,6 +439,7 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 	EContactListModel *model;
 	gboolean changed = FALSE;
 	gboolean handled = FALSE;
+	const guchar *data;
 	GList *list, *iter;
 	GdkAtom target;
 
@@ -451,7 +452,8 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 	if (!e_targets_include_directory (&target, 1))
 		goto exit;
 
-	list = eab_contact_list_from_string ((gchar *) selection_data->data);
+	data = gtk_selection_data_get_data (selection_data);
+	list = eab_contact_list_from_string ((gchar *) data);
 
 	if (list != NULL)
 		handled = TRUE;
@@ -1088,7 +1090,10 @@ contact_list_editor_close (EABEditor *editor)
 static void
 contact_list_editor_raise (EABEditor *editor)
 {
-	gdk_window_raise (WIDGET (DIALOG)->window);
+	GdkWindow *window;
+
+	window = gtk_widget_get_window (WIDGET (DIALOG));
+	gdk_window_raise (window);
 }
 
 static void

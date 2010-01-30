@@ -71,7 +71,7 @@ G_DEFINE_TYPE_WITH_CODE (
 static gint
 shell_switcher_layout_actions (EShellSwitcher *switcher)
 {
-	GtkAllocation *allocation;
+	GtkAllocation allocation;
 	gint num_btns = g_list_length (switcher->priv->proxies), btns_per_row;
 	GList **rows, *p;
 	gboolean icons_only;
@@ -82,11 +82,12 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 	gint x, y;
 	gint i;
 
-	allocation = &GTK_WIDGET (switcher)->allocation;
-	y = allocation->y + allocation->height;
+	gtk_widget_get_allocation (GTK_WIDGET (switcher), &allocation);
+
+	y = allocation.y + allocation.height;
 
 	if (num_btns == 0)
-		return allocation->height;
+		return allocation.height;
 
 	icons_only = (switcher->priv->style == GTK_TOOLBAR_ICONS);
 
@@ -101,7 +102,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 	}
 
 	/* Figure out how many rows and columns we'll use. */
-	btns_per_row = MAX (1, allocation->width / (max_width + H_PADDING));
+	btns_per_row = MAX (1, allocation.width / (max_width + H_PADDING));
 	if (!icons_only) {
 		/* If using text buttons, we want to try to have a
 		 * completely filled-in grid, but if we can't, we want
@@ -138,12 +139,12 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 	for (i = row_last; i >= 0; i--) {
 		gint len, extra_width;
 
-		x = H_PADDING + allocation->x;
+		x = H_PADDING + allocation.x;
 		y -= max_height;
 		len = g_list_length (rows[i]);
 		if (!icons_only)
 			extra_width =
-				(allocation->width - (len * max_width) -
+				(allocation.width - (len * max_width) -
 				(len * H_PADDING)) / len;
 		else
 			extra_width = 0;
@@ -167,7 +168,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 		g_list_free (rows [i]);
 	g_free (rows);
 
-	return y - allocation->y;
+	return y - allocation.y;
 }
 
 static void
@@ -287,7 +288,7 @@ shell_switcher_size_allocate (GtkWidget *widget,
 
 	switcher = E_SHELL_SWITCHER (widget);
 
-	widget->allocation = *allocation;
+	gtk_widget_set_allocation (widget, allocation);
 
 	if (switcher->priv->toolbar_visible)
 		height = shell_switcher_layout_actions (switcher);

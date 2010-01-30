@@ -443,6 +443,8 @@ main (gint argc, gchar **argv)
 
 	if (gui_arg && !check_op) {
 		GtkWidget *widget, *container;
+		GtkWidget *action_area;
+		GtkWidget *content_area;
 		const gchar *txt, *txt2;
 		gchar *str = NULL;
 		gchar *markup;
@@ -460,13 +462,16 @@ main (gint argc, gchar **argv)
 		gtk_dialog_set_has_separator (GTK_DIALOG (progress_dialog), FALSE);
 		gtk_container_set_border_width (GTK_CONTAINER (progress_dialog), 12);
 
+		action_area = gtk_dialog_get_action_area (
+			GTK_DIALOG (progress_dialog));
+		content_area = gtk_dialog_get_content_area (
+			GTK_DIALOG (progress_dialog));
+
 		/* Override GtkDialog defaults */
-		widget = GTK_DIALOG (progress_dialog)->vbox;
-		gtk_box_set_spacing (GTK_BOX (widget), 12);
-		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
-		widget = GTK_DIALOG (progress_dialog)->action_area;
-		gtk_box_set_spacing (GTK_BOX (widget), 12);
-		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_box_set_spacing (GTK_BOX (content_area), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
+		gtk_box_set_spacing (GTK_BOX (action_area), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (action_area), 0);
 
 		if (oper && file)
 			str = g_strdup_printf(oper, file);
@@ -476,7 +481,8 @@ main (gint argc, gchar **argv)
 		gtk_table_set_row_spacings (GTK_TABLE (container), 12);
 		gtk_widget_show (container);
 
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (progress_dialog)->vbox), container, FALSE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (content_area), container, FALSE, TRUE, 0);
 
 		widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_DIALOG);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);

@@ -2027,14 +2027,22 @@ ml_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, MessageLis
 }
 
 static void
-ml_selection_received(GtkWidget *widget, GtkSelectionData *data, guint time, MessageList *ml)
+ml_selection_received (GtkWidget *widget,
+                       GtkSelectionData *selection_data,
+                       guint time,
+                       MessageList *ml)
 {
-	if (data->target != gdk_atom_intern ("x-uid-list", FALSE)) {
+	GdkAtom target;
+
+	target = gtk_selection_data_get_target (selection_data);
+
+	if (target != gdk_atom_intern ("x-uid-list", FALSE)) {
 		d(printf("Unknown selection received by message-list\n"));
 		return;
 	}
 
-	em_utils_selection_get_uidlist(data, ml->folder, FALSE, NULL);
+	em_utils_selection_get_uidlist (
+		selection_data, ml->folder, FALSE, NULL);
 }
 
 static void
@@ -2125,11 +2133,9 @@ ml_drop_async_done (struct _drop_msg *m)
 static void
 ml_drop_async_free (struct _drop_msg *m)
 {
-	g_object_unref(m->context);
-	camel_object_unref(m->folder);
-
-	g_free(m->selection->data);
-	g_free(m->selection);
+	g_object_unref (m->context);
+	camel_object_unref (m->folder);
+	gtk_selection_data_free (m->selection);
 }
 
 static MailMsgInfo ml_drop_async_info = {
@@ -2148,15 +2154,27 @@ ml_drop_action(struct _drop_msg *m)
 }
 
 static void
-ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
-			    GdkDragContext *context, gint x, gint y,
-			    GtkSelectionData *data, guint info,
-			    guint time, MessageList *ml)
+ml_tree_drag_data_received (ETree *tree,
+                            gint row,
+                            ETreePath path,
+                            gint col,
+                            GdkDragContext *context,
+                            gint x,
+                            gint y,
+                            GtkSelectionData *selection_data,
+                            guint info,
+                            guint time,
+                            MessageList *ml)
 {
 	struct _drop_msg *m;
 
-	/* this means we are receiving no data */
-	if (!ml->folder || data->data == NULL || data->length == -1)
+	if (ml->folder == NULL)
+		return;
+
+	if (gtk_selection_data_get_data (selection_data) == NULL)
+		return;
+
+	if (gtk_selection_data_get_length (selection_data) == -1)
 		return;
 
 	m = mail_msg_new(&ml_drop_async_info);
@@ -2168,10 +2186,7 @@ ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
 	m->info = info;
 
 	/* need to copy, goes away once we exit */
-	m->selection = g_malloc0(sizeof(*m->selection));
-	m->selection->data = g_malloc(data->length);
-	memcpy(m->selection->data, data->data, data->length);
-	m->selection->length = data->length;
+	m->selection = gtk_selection_data_copy (selection_data);
 
 	ml_drop_action(m);
 }
@@ -4407,11 +4422,7 @@ regen_list_done (struct _regen_list_msg *m)
 		}
 	}
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (gtk_widget_get_visible (GTK_WIDGET (m->ml))) {
-#else
-	if (GTK_WIDGET_VISIBLE (GTK_WIDGET (m->ml))) {
-#endif
 		if (e_tree_row_count (E_TREE (m->ml)) <= 0) {
 			/* space is used to indicate no search too */
 			if (m->ml->search && *m->ml->search && strcmp (m->ml->search, " ") != 0)
@@ -4576,11 +4587,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	}
 
 	if (e_tree_row_count (E_TREE (ml)) <= 0) {
-#if GTK_CHECK_VERSION(2,19,7)
 		if (gtk_widget_get_visible (GTK_WIDGET (ml))) {
-#else
-		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (ml))) {
-#endif
 			/* there is some info why the message list is empty, let it be something useful */
 			gchar *txt = g_strconcat (_("Generating message list"), "..." , NULL);
 

@@ -83,8 +83,12 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 			      guint time,
 			      EMinicardView *view)
 {
+	GdkAtom target;
+
 	if (!E_IS_MINICARD_VIEW(view))
 		return;
+
+	target = gtk_selection_data_get_target (selection_data);
 
 	switch (info) {
 	case DND_TARGET_TYPE_VCARD_LIST: {
@@ -92,10 +96,9 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 
 		value = eab_contact_list_to_string (view->drag_list);
 
-		gtk_selection_data_set (selection_data,
-					selection_data->target,
-					8,
-					(guchar *)value, strlen (value));
+		gtk_selection_data_set (
+			selection_data, target, 8,
+			(guchar *) value, strlen (value));
 		g_free (value);
 		break;
 	}
@@ -106,10 +109,9 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 		g_object_get (view->adapter, "book", &book, NULL);
 		value = eab_book_and_contact_list_to_string (book, view->drag_list);
 
-		gtk_selection_data_set (selection_data,
-					selection_data->target,
-					8,
-					(guchar *)value, strlen (value));
+		gtk_selection_data_set (
+			selection_data, target, 8,
+			(guchar *) value, strlen (value));
 		g_free (value);
 		break;
 	}

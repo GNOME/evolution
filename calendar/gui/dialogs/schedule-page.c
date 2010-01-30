@@ -307,6 +307,7 @@ get_widgets (SchedulePage *spage)
 	SchedulePagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
+	GtkWidget *parent;
 
 	priv = spage->priv;
 
@@ -324,7 +325,8 @@ get_widgets (SchedulePage *spage)
 		page->accel_group = g_object_ref (accel_groups->data);
 
 	g_object_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	parent = gtk_widget_get_parent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (parent), priv->main);
 
 #undef GW
 

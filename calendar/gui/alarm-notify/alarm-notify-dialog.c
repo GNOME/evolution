@@ -232,6 +232,7 @@ dialog_destroyed_cb (GtkWidget *dialog, gpointer user_data)
 AlarmNotificationsDialog *
 notified_alarms_dialog_new (void)
 {
+	GtkWidget *container;
 	GtkWidget *edit_btn;
 	GtkWidget *snooze_btn;
 	GtkWidget *image;
@@ -298,8 +299,13 @@ notified_alarms_dialog_new (void)
 		G_CALLBACK (tree_selection_changed_cb), an);
 
 	gtk_widget_realize (an->dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->action_area), 12);
+
+	container = gtk_dialog_get_action_area (GTK_DIALOG (an->dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (an->dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
+
 	image = e_builder_get_widget (an->builder, "alarm-image");
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (image), "stock_alarm", GTK_ICON_SIZE_DIALOG);
@@ -310,11 +316,7 @@ notified_alarms_dialog_new (void)
 	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (!gtk_widget_get_realized (an->dialog))
-#else
-	if (!GTK_WIDGET_REALIZED (an->dialog))
-#endif
 		gtk_widget_realize (an->dialog);
 
 	gtk_window_set_icon_name (GTK_WINDOW (an->dialog), "stock_alarm");

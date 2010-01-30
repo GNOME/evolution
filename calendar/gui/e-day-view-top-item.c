@@ -581,6 +581,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	GtkStyle *style;
 	GdkGC *fg_gc;
 	gchar buffer[128];
+	GtkAllocation allocation;
 	GdkRectangle clip_rect;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
@@ -598,7 +599,9 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
+	gtk_widget_get_allocation (
+		GTK_WIDGET (canvas_item->canvas), &allocation);
+	canvas_width = allocation.width;
 	canvas_height = (show_dates ? 1 : (MAX (1, day_view->rows_in_top_display) + 1)) * day_view->top_row_height;
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
@@ -648,11 +651,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		cairo_restore (cr);
 
 		/* Draw the selection background. */
-#if GTK_CHECK_VERSION(2,19,7)
 		if (gtk_widget_has_focus (GTK_WIDGET (day_view))
-#else
-		if (GTK_WIDGET_HAS_FOCUS (day_view)
-#endif
 			&& day_view->selection_start_day != -1) {
 			gint start_col, end_col, rect_x, rect_y, rect_w, rect_h;
 
@@ -684,9 +683,11 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
 			clip_rect.x = day_view->day_offsets[day] - x;
 			clip_rect.y = 2 - y;
-			if (day_view->days_shown == 1)
-				clip_rect.width = day_view->top_canvas->allocation.width - day_view->day_offsets[day];
-			else
+			if (day_view->days_shown == 1) {
+				gtk_widget_get_allocation (
+					day_view->top_canvas, &allocation);
+				clip_rect.width = allocation.width - day_view->day_offsets[day];
+			} else
 				clip_rect.width = day_view->day_widths[day];
 			clip_rect.height = item_height - 2;
 

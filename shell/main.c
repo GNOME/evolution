@@ -127,6 +127,8 @@ categories_icon_theme_hack (void)
 static gboolean
 show_development_warning(void)
 {
+	GtkWidget *action_area;
+	GtkWidget *content_area;
 	GtkWidget *vbox;
 	GtkWidget *label;
 	GtkWidget *warning_dialog;
@@ -146,16 +148,15 @@ show_development_warning(void)
 	gtk_dialog_set_has_separator (
 		GTK_DIALOG (warning_dialog), FALSE);
 
-	gtk_container_set_border_width (
-		GTK_CONTAINER (GTK_DIALOG (warning_dialog)->vbox), 0);
-	gtk_container_set_border_width (
-		GTK_CONTAINER (GTK_DIALOG (warning_dialog)->action_area), 12);
+	action_area = gtk_dialog_get_action_area (GTK_DIALOG (warning_dialog));
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (warning_dialog));
+
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
 	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	gtk_box_pack_start (
-		GTK_BOX (GTK_DIALOG (warning_dialog)->vbox),
-		vbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
 
 	text = g_strdup_printf(
 		/* xgettext:no-c-format */

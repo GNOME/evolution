@@ -90,6 +90,7 @@ static void
 toggle_cell_action (GalA11yECell *cell)
 {
 	gint finished;
+	GtkLayout *layout;
 	GdkEventButton event;
 	gint x, y, width, height;
 	gint row, col;
@@ -97,14 +98,16 @@ toggle_cell_action (GalA11yECell *cell)
 	row = cell->row;
 	col = cell->view_col;
 
-	e_table_item_get_cell_geometry (cell->item, &row, &col,
-					&x, &y, &width, &height);
+	layout = GTK_LAYOUT (GNOME_CANVAS_ITEM (cell->item)->canvas);
+
+	e_table_item_get_cell_geometry (
+		cell->item, &row, &col, &x, &y, &width, &height);
 
 	event.x = x + width / 2 + (gint)(GNOME_CANVAS_ITEM (cell->item)->x1);
 	event.y = y + height / 2 + (gint)(GNOME_CANVAS_ITEM (cell->item)->y1);
 
 	event.type = GDK_BUTTON_PRESS;
-	event.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(cell->item)->canvas)->bin_window;
+	event.window = gtk_layout_get_bin_window (layout);
         event.button = 1;
         event.send_event = TRUE;
         event.time = GDK_CURRENT_TIME;

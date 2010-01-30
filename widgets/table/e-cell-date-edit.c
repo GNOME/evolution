@@ -383,32 +383,16 @@ e_cell_date_edit_get_property		(GObject	*object,
 
 	switch (property_id) {
 	case PROP_SHOW_TIME:
-#if GTK_CHECK_VERSION(2,19,7)
 		g_value_set_boolean (value, gtk_widget_get_visible (ecde->time_entry));
-#else
-		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->time_entry));
-#endif
 		return;
 	case PROP_SHOW_NOW_BUTTON:
-#if GTK_CHECK_VERSION(2,19,7)
 		g_value_set_boolean (value, gtk_widget_get_visible (ecde->now_button));
-#else
-		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->now_button));
-#endif
 		return;
 	case PROP_SHOW_TODAY_BUTTON:
-#if GTK_CHECK_VERSION(2,19,7)
 		g_value_set_boolean (value, gtk_widget_get_visible (ecde->today_button));
-#else
-		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->today_button));
-#endif
 		return;
 	case PROP_ALLOW_NO_DATE_SET:
-#if GTK_CHECK_VERSION(2,19,7)
 		g_value_set_boolean (value, gtk_widget_get_visible (ecde->none_button));
-#else
-		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->none_button));
-#endif
 		return;
 	case PROP_USE_24_HOUR_FORMAT:
 		g_value_set_boolean (value, ecde->use_24_hour_format);
@@ -503,6 +487,7 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 					 gint             view_col)
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (ecp);
+	GdkWindow *window;
 
 	e_cell_date_edit_show_popup (ecde, row, view_col);
 	e_cell_date_edit_set_popup_values (ecde);
@@ -511,7 +496,8 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 
 	/* Set the focus to the first widget. */
 	gtk_widget_grab_focus (ecde->time_entry);
-	gdk_window_focus (ecde->popup_window->window, GDK_CURRENT_TIME);
+	window = gtk_widget_get_window (ecde->popup_window);
+	gdk_window_focus (window, GDK_CURRENT_TIME);
 
 	return TRUE;
 }
@@ -627,6 +613,7 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 					 gint             row,
 					 gint             view_col)
 {
+	GdkWindow *window;
 	gint x, y, width, height;
 
 	if (ecde->need_time_list_rebuild)
@@ -636,10 +623,11 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 
 	e_cell_date_edit_get_popup_pos (ecde, row, view_col, &x, &y, &height, &width);
 
+	window = gtk_widget_get_window (ecde->popup_window);
 	gtk_window_move (GTK_WINDOW (ecde->popup_window), x, y);
 	gtk_widget_set_size_request (ecde->popup_window, width, height);
 	gtk_widget_realize (ecde->popup_window);
-	gdk_window_resize (ecde->popup_window->window, width, height);
+	gdk_window_resize (window, width, height);
 	gtk_widget_show (ecde->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecde), TRUE);
@@ -659,10 +647,15 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 	GtkRequisition popup_requisition;
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
+	GdkWindow *window;
 	gint avail_height, screen_width, column_width, row_height;
 	gdouble x1, y1, wx, wy;
+	gint value;
 
-	gdk_window_get_origin (canvas->window, x, y);
+	window = gtk_widget_get_window (canvas);
+	gdk_window_get_origin (window, x, y);
 
 	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
 	y1 = e_table_item_row_diff (eti, 0, row + 1);
@@ -684,9 +677,10 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
-	*y += y1 + 1
-		- (gint)((GnomeCanvas *)canvas)->layout.vadjustment->value
-		+ ((GnomeCanvas *)canvas)->zoom_yofs;
+	layout = &GNOME_CANVAS (canvas)->layout;
+	adjustment = gtk_layout_get_vadjustment (layout);
+	value = (gint) gtk_adjustment_get_value (adjustment);
+	*y += y1 + 1 - value + ((GnomeCanvas *)canvas)->zoom_yofs;
 
 	avail_height = gdk_screen_height () - *y;
 

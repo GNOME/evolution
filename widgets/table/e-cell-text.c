@@ -274,12 +274,15 @@ ect_queue_redraw (ECellTextView *text_view, gint view_col, gint view_row)
 static void
 ect_stop_editing (ECellTextView *text_view, gboolean commit)
 {
+	GdkWindow *window;
 	CellEdit *edit = text_view->edit;
 	gint row, view_col, model_col;
 	gchar *old_text, *text;
 
 	if (!edit)
 		return;
+
+	window = gtk_widget_get_window (GTK_WIDGET (text_view->canvas));
 
 	row = edit->row;
 	view_col = edit->view_col;
@@ -290,7 +293,7 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 	if (edit->tep)
 		g_object_unref (edit->tep);
 	if (!edit->default_cursor_shown) {
-		gdk_window_set_cursor (GTK_WIDGET(text_view->canvas)->window, NULL);
+		gdk_window_set_cursor (window, NULL);
 		edit->default_cursor_shown = TRUE;
 	}
 	if (edit->timeout_id) {
@@ -389,8 +392,10 @@ static void
 ect_realize (ECellView *ecell_view)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	GdkWindow *window;
 
-	text_view->gc = gdk_gc_new (GTK_WIDGET (text_view->canvas)->window);
+	window = gtk_widget_get_window (GTK_WIDGET (text_view->canvas));
+	text_view->gc = gdk_gc_new (window);
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
 
@@ -730,21 +735,20 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkColor *foreground;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	GdkRectangle clip_rect;
+	GtkStyle *style;
 	gint x_origin, y_origin, vspacing;
+
+	style = gtk_widget_get_style (canvas);
 
 	selected = flags & E_CELL_SELECTED;
 
 	if (selected) {
-#if GTK_CHECK_VERSION(2,19,7)
 		if (gtk_widget_has_focus (canvas))
-#else
-		if (GTK_WIDGET_HAS_FOCUS (canvas))
-#endif
-			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
+			foreground = &style->fg[GTK_STATE_SELECTED];
 		else
-			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
+			foreground = &style->fg[GTK_STATE_ACTIVE];
 	} else {
-		foreground = &canvas->style->text [GTK_STATE_NORMAL];
+		foreground = &style->text[GTK_STATE_NORMAL];
 
 		if (ect->color_column != -1) {
 			gchar *color_spec;
@@ -805,11 +809,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			end_index = edit->selection_start ^ edit->selection_end ^ start_index;
 
 			if (edit->has_selection) {
-				selection_gc = canvas->style->base_gc [GTK_STATE_SELECTED];
-				text_gc = canvas->style->text_gc[GTK_STATE_SELECTED];
+				selection_gc = style->base_gc[GTK_STATE_SELECTED];
+				text_gc = style->text_gc[GTK_STATE_SELECTED];
 			} else {
-				selection_gc = canvas->style->base_gc [GTK_STATE_ACTIVE];
-				text_gc = canvas->style->text_gc[GTK_STATE_ACTIVE];
+				selection_gc = style->base_gc [GTK_STATE_ACTIVE];
+				text_gc = style->text_gc[GTK_STATE_ACTIVE];
 			}
 
 			gdk_gc_set_clip_rectangle (selection_gc, &clip_rect);
@@ -1126,7 +1130,10 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 #endif
 		if (edit_display) {
 			if (edit->default_cursor_shown) {
-				gdk_window_set_cursor (canvas->window, text_view->i_cursor);
+				GdkWindow *window;
+
+				window = gtk_widget_get_window (canvas);
+				gdk_window_set_cursor (window, text_view->i_cursor);
 				edit->default_cursor_shown = FALSE;
 			}
 		}
@@ -1137,7 +1144,10 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 #endif
 		if (edit_display) {
 			if (!edit->default_cursor_shown) {
-				gdk_window_set_cursor (canvas->window, NULL);
+				GdkWindow *window;
+
+				window = gtk_widget_get_window (canvas);
+				gdk_window_set_cursor (window, NULL);
 				edit->default_cursor_shown = TRUE;
 			}
 		}
@@ -1334,6 +1344,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	ECellTextView *ectView = (ECellTextView *)ecell_view;
 	GtkWidget *canvas = GTK_WIDGET(ectView->canvas);
+	GtkStyle *style;
 	PangoDirection dir;
 	gboolean strikeout, underline;
 	cairo_t *cr;
@@ -1355,12 +1366,14 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	cairo_rectangle (cr, 2, 2, width + 2, height + 2);
 	cairo_clip(cr);
 
+	style = gtk_widget_get_style (canvas);
 	pango_context = gtk_widget_get_pango_context (canvas);
-	font_metrics = pango_context_get_metrics (pango_context,
-		       canvas->style->font_desc, pango_context_get_language(pango_context));
-	ty =  (gdouble)(text_height
-		       - pango_font_metrics_get_ascent (font_metrics)
-		       - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(gdouble)PANGO_SCALE;
+	font_metrics = pango_context_get_metrics (
+		pango_context, style->font_desc,
+		pango_context_get_language(pango_context));
+	ty =  (gdouble)(text_height -
+		pango_font_metrics_get_ascent (font_metrics) -
+		pango_font_metrics_get_descent (font_metrics)) / 2.0 /(gdouble)PANGO_SCALE;
 
 	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
 		e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_column, row);

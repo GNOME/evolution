@@ -405,8 +405,14 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 	/* Reset the adjustment value to 0 if the base address has changed.
 	   Note that we do this after updating first_day_shown so that our
 	   signal handler will not try to reload the events. */
-	if (update_adjustment_value)
-		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
+	if (update_adjustment_value) {
+		GtkRange *range;
+		GtkAdjustment *adjustment;
+
+		range = GTK_RANGE (week_view->vscrollbar);
+		adjustment = gtk_range_get_adjustment (range);
+		gtk_adjustment_set_value (adjustment, 0);
+	}
 
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		e_week_view_free_events (week_view);
@@ -895,12 +901,14 @@ e_week_view_realize (GtkWidget *widget)
 {
 	EWeekView *week_view;
 	GdkColormap *colormap;
+	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);
 
 	week_view = E_WEEK_VIEW (widget);
-	week_view->main_gc = gdk_gc_new (widget->window);
+	window = gtk_widget_get_window (widget);
+	week_view->main_gc = gdk_gc_new (window);
 
 	colormap = gtk_widget_get_colormap (widget);
 
@@ -941,17 +949,21 @@ color_inc (GdkColor c, gint amount)
 static void
 e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
 {
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS] = widget->style->base[GTK_STATE_INSENSITIVE];
-	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS] = widget->style->base[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND] = widget->style->base[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT] = widget->style->text[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_GRID] = widget->style->dark[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = widget->style->text[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = widget->style->text[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = widget->style->base[GTK_STATE_SELECTED];
+	GtkStyle *style;
+
+	style = gtk_widget_get_style (widget);
+
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS] = style->base[GTK_STATE_INSENSITIVE];
+	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS] = style->base[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND] = style->base[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER] = style->dark[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT] = style->text[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID] = style->dark[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED] = style->base[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED] = style->bg[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = style->text[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = style->text[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = style->base[GTK_STATE_SELECTED];
 	week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
 	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0x0A0A);
 }
@@ -1022,6 +1034,7 @@ get_digit_width (PangoLayout *layout)
 static GdkColor
 e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidget *widget)
 {
+	GtkStyle *style;
 	GdkColor bg_color;
 	guint16 red, green, blue;
 	gdouble	cc = 65535.0;
@@ -1041,10 +1054,12 @@ e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidg
                 }
 	}
 
+	style = gtk_widget_get_style (widget);
+
 	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
-		return widget->style->black;
+		return style->black;
 	else
-		return widget->style->white;
+		return style->white;
 }
 
 static void
@@ -1076,9 +1091,10 @@ e_week_view_style_set (GtkWidget *widget,
 			span = &g_array_index (week_view->spans,
 					EWeekViewEventSpan, span_num);
 			if (span->text_item) {
-				gnome_canvas_item_set (span->text_item,
-						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
-						NULL);
+				gnome_canvas_item_set (
+					span->text_item,
+					"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+					NULL);
 			}
 		}
 	}
@@ -1170,6 +1186,7 @@ static void
 e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	EWeekView *week_view;
+	GtkAllocation canvas_allocation;
 	gdouble old_x2, old_y2, new_x2, new_y2;
 
 	week_view = E_WEEK_VIEW (widget);
@@ -1179,23 +1196,31 @@ e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	e_week_view_recalc_cell_sizes (week_view);
 
 	/* Set the scroll region of the top canvas to its allocated size. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
-					NULL, NULL, &old_x2, &old_y2);
-	new_x2 = week_view->titles_canvas->allocation.width - 1;
-	new_y2 = week_view->titles_canvas->allocation.height - 1;
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (week_view->titles_canvas),
+		NULL, NULL, &old_x2, &old_y2);
+	gtk_widget_get_allocation (
+		week_view->titles_canvas, &canvas_allocation);
+	new_x2 = canvas_allocation.width - 1;
+	new_y2 = canvas_allocation.height - 1;
 	if (old_x2 != new_x2 || old_y2 != new_y2)
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
-						0, 0, new_x2, new_y2);
+		gnome_canvas_set_scroll_region (
+			GNOME_CANVAS (week_view->titles_canvas),
+			0, 0, new_x2, new_y2);
 
 	/* Set the scroll region of the main canvas to its allocated width,
 	   but with the height depending on the number of rows needed. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->main_canvas),
-					NULL, NULL, &old_x2, &old_y2);
-	new_x2 = week_view->main_canvas->allocation.width - 1;
-	new_y2 = week_view->main_canvas->allocation.height - 1;
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (week_view->main_canvas),
+		NULL, NULL, &old_x2, &old_y2);
+	gtk_widget_get_allocation (
+		week_view->main_canvas, &canvas_allocation);
+	new_x2 = canvas_allocation.width - 1;
+	new_y2 = canvas_allocation.height - 1;
 	if (old_x2 != new_x2 || old_y2 != new_y2)
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->main_canvas),
-						0, 0, new_x2, new_y2);
+		gnome_canvas_set_scroll_region (
+			GNOME_CANVAS (week_view->main_canvas),
+			0, 0, new_x2, new_y2);
 
 	/* Flag that we need to reshape the events. */
 	if (old_x2 != new_x2 || old_y2 != new_y2) {
@@ -1209,6 +1234,7 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 {
 	gfloat canvas_width, canvas_height, offset;
 	gint row, col;
+	GtkAllocation allocation;
 	GtkWidget *widget;
 	GtkStyle *style;
 	gint width, height, time_width;
@@ -1224,12 +1250,14 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 		week_view->columns = 2;
 	}
 
+	gtk_widget_get_allocation (week_view->main_canvas, &allocation);
+
 	/* Calculate the column sizes, using floating point so that pixels
 	   get divided evenly. Note that we use one more element than the
 	   number of columns, to make it easy to get the column widths.
 	   We also add one to the width so that the right border of the last
 	   column is off the edge of the displayed area. */
-	canvas_width = week_view->main_canvas->allocation.width + 1;
+	canvas_width = allocation.width + 1;
 	canvas_width /= week_view->columns;
 	offset = 0;
 	for (col = 0; col <= week_view->columns; col++) {
@@ -1244,7 +1272,7 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	}
 
 	/* Now do the same for the row heights. */
-	canvas_height = week_view->main_canvas->allocation.height + 1;
+	canvas_height = allocation.height + 1;
 	canvas_height /= week_view->rows;
 	offset = 0;
 	for (row = 0; row <= week_view->rows; row++) {
@@ -1566,22 +1594,25 @@ e_week_view_update_query (EWeekView *week_view)
 static void
 e_week_view_draw_shadow (EWeekView *week_view)
 {
+	GtkAllocation allocation;
 	gint x1, y1, x2, y2;
 	GtkStyle *style;
 	GdkGC *light_gc, *dark_gc;
 	GdkWindow *window;
 
-	/* Draw the shadow around the graphical displays. */
-	x1 = week_view->main_canvas->allocation.x - 1;
-	y1 = week_view->main_canvas->allocation.y - 1;
-	x2 = x1 + week_view->main_canvas->allocation.width + 2;
-	y2 = y1 + week_view->main_canvas->allocation.height + 2;
+	gtk_widget_get_allocation (week_view->main_canvas, &allocation);
 
-	style = GTK_WIDGET (week_view)->style;
+	/* Draw the shadow around the graphical displays. */
+	x1 = allocation.x - 1;
+	y1 = allocation.y - 1;
+	x2 = x1 + allocation.width + 2;
+	y2 = y1 + allocation.height + 2;
+
+	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 	light_gc = style->light_gc[GTK_STATE_NORMAL];
 
-	window = GTK_WIDGET (week_view)->window;
+	window = gtk_widget_get_window (GTK_WIDGET (week_view));
 	gdk_draw_line (window, dark_gc, x1, y1, x1, y2);
 	gdk_draw_line (window, dark_gc, x1, y1, x2, y1);
 	gdk_draw_line (window, light_gc, x2, y1, x2, y2);
@@ -1635,8 +1666,14 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 	/* Reset the adjustment value to 0 if the base address has changed.
 	   Note that we do this after updating first_day_shown so that our
 	   signal handler will not try to reload the events. */
-	if (update_adjustment_value)
-		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
+	if (update_adjustment_value) {
+		GtkRange *range;
+		GtkAdjustment *adjustment;
+
+		range = GTK_RANGE (week_view->vscrollbar);
+		adjustment = gtk_range_get_adjustment (range);
+		gtk_adjustment_set_value (adjustment, 0);
+	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -1814,8 +1851,14 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	/* Reset the adjustment value to 0 if the base address has changed.
 	   Note that we do this after updating first_day_shown so that our
 	   signal handler will not try to reload the events. */
-	if (update_adjustment_value)
-		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
+	if (update_adjustment_value) {
+		GtkRange *range;
+		GtkAdjustment *adjustment;
+
+		range = GTK_RANGE (week_view->vscrollbar);
+		adjustment = gtk_range_get_adjustment (range);
+		gtk_adjustment_set_value (adjustment, 0);
+	}
 
 	e_week_view_update_query (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -1866,6 +1909,7 @@ void
 e_week_view_set_multi_week_view	(EWeekView	*week_view,
 				 gboolean	 multi_week_view)
 {
+	GtkRange *range;
 	GtkAdjustment *adjustment;
 	gint page_increment, page_size;
 
@@ -1900,10 +1944,10 @@ e_week_view_set_multi_week_view	(EWeekView	*week_view,
 		}
 	}
 
-	adjustment = GTK_RANGE (week_view->vscrollbar)->adjustment;
-	adjustment->page_increment = page_increment;
-	adjustment->page_size = page_size;
-	gtk_adjustment_changed (adjustment);
+	range = GTK_RANGE (week_view->vscrollbar);
+	adjustment = gtk_range_get_adjustment (range);
+	gtk_adjustment_set_page_increment (adjustment, page_increment);
+	gtk_adjustment_set_page_size (adjustment, page_size);
 
 	e_week_view_recalc_cell_sizes (week_view);
 
@@ -1940,6 +1984,7 @@ void
 e_week_view_set_weeks_shown	(EWeekView	*week_view,
 				 gint		 weeks_shown)
 {
+	GtkRange *range;
 	GtkAdjustment *adjustment;
 	gint page_increment, page_size;
 
@@ -1961,10 +2006,10 @@ e_week_view_set_weeks_shown	(EWeekView	*week_view,
 			page_size = 5;
 		}
 
-		adjustment = GTK_RANGE (week_view->vscrollbar)->adjustment;
-		adjustment->page_increment = page_increment;
-		adjustment->page_size = page_size;
-		gtk_adjustment_changed (adjustment);
+		range = GTK_RANGE (week_view->vscrollbar);
+		adjustment = gtk_range_get_adjustment (range);
+		gtk_adjustment_set_page_increment (adjustment, page_increment);
+		gtk_adjustment_set_page_size (adjustment, page_size);
 
 		e_week_view_recalc_cell_sizes (week_view);
 
@@ -2357,15 +2402,15 @@ e_week_view_on_button_press (GtkWidget *widget,
 	}
 
 	if (event->button == 1) {
+		GdkWindow *window;
+
 		/* Start the selection drag. */
-#if GTK_CHECK_VERSION(2,19,7)
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)) &&  !gtk_widget_has_focus (GTK_WIDGET (week_view->main_canvas)))
-#else
-		if (!GTK_WIDGET_HAS_FOCUS (week_view) &&  !GTK_WIDGET_HAS_FOCUS (week_view->main_canvas))
-#endif
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
-		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
+		window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
+
+		if (gdk_pointer_grab (window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
 				      NULL, NULL, event->time) == 0) {
@@ -2381,11 +2426,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 	} else if (event->button == 3) {
-#if GTK_CHECK_VERSION(2,19,7)
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
-#else
-		if (!GTK_WIDGET_HAS_FOCUS (week_view))
-#endif
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 		if (day < week_view->selection_start_day || day > week_view->selection_end_day) {
@@ -2427,8 +2468,14 @@ e_week_view_on_scroll (GtkWidget *widget,
 		       GdkEventScroll *scroll,
 		       EWeekView *week_view)
 {
-	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
-	gfloat new_value;
+	GtkRange *range;
+	GtkAdjustment *adjustment;
+	gdouble page_increment;
+	gdouble new_value;
+	gdouble page_size;
+	gdouble lower;
+	gdouble upper;
+	gdouble value;
 	GtkWidget *tool_window = g_object_get_data (G_OBJECT (week_view), "tooltip-window");
 	guint timeout;
 
@@ -2443,19 +2490,28 @@ e_week_view_on_scroll (GtkWidget *widget,
 		g_object_set_data (G_OBJECT (week_view), "tooltip-window", NULL);
 	}
 
+	range = GTK_RANGE (week_view->vscrollbar);
+	adjustment = gtk_range_get_adjustment (range);
+
+	page_increment = gtk_adjustment_get_page_increment (adjustment);
+	page_size = gtk_adjustment_get_page_size (adjustment);
+	lower = gtk_adjustment_get_lower (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
+	value = gtk_adjustment_get_value (adjustment);
+
 	switch (scroll->direction) {
-	case GDK_SCROLL_UP:
-		new_value = adj->value - adj->page_increment;
-		break;
-	case GDK_SCROLL_DOWN:
-		new_value = adj->value + adj->page_increment;
-		break;
-	default:
-		return FALSE;
+		case GDK_SCROLL_UP:
+			new_value = value - page_increment;
+			break;
+		case GDK_SCROLL_DOWN:
+			new_value = value + page_increment;
+			break;
+		default:
+			return FALSE;
 	}
 
-	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
-	gtk_adjustment_set_value (adj, new_value);
+	new_value = CLAMP (new_value, lower, upper - page_size);
+	gtk_adjustment_set_value (adjustment, new_value);
 
 	return TRUE;
 }
@@ -3392,11 +3448,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
-#if GTK_CHECK_VERSION(2,19,7)
 			if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
-#else
-			if (!GTK_WIDGET_HAS_FOCUS (week_view))
-#endif
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 			e_week_view_set_selected_time_range_visible (week_view, e->start, e->end);
@@ -3602,27 +3654,43 @@ e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time)
 void
 e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction)
 {
-	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
-	gfloat new_value;
+	GtkAdjustment *adjustment;
+	GtkRange *range;
+	gdouble step_increment;
+	gdouble page_size;
+	gdouble new_value;
+	gdouble lower;
+	gdouble upper;
+	gdouble value;
+
+	range = GTK_RANGE (week_view->vscrollbar);
+	adjustment = gtk_range_get_adjustment (range);
+
+	step_increment = gtk_adjustment_get_step_increment (adjustment);
+	page_size = gtk_adjustment_get_page_size (adjustment);
+	lower = gtk_adjustment_get_lower (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
+	value = gtk_adjustment_get_value (adjustment);
 
 	switch (direction) {
-	case E_CAL_VIEW_MOVE_UP:
-		new_value = adj->value - adj->step_increment;
-		break;
-	case E_CAL_VIEW_MOVE_DOWN:
-		new_value = adj->value + adj->step_increment;
-		break;
-	case E_CAL_VIEW_MOVE_PAGE_UP:
-		new_value = adj->value - adj->page_size;
-		break;
-	case E_CAL_VIEW_MOVE_PAGE_DOWN:
-		new_value = adj->value + adj->page_size;
-		break;
-	default:
-		return;
+		case E_CAL_VIEW_MOVE_UP:
+			new_value = value - step_increment;
+			break;
+		case E_CAL_VIEW_MOVE_DOWN:
+			new_value = value + step_increment;
+			break;
+		case E_CAL_VIEW_MOVE_PAGE_UP:
+			new_value = value - page_size;
+			break;
+		case E_CAL_VIEW_MOVE_PAGE_DOWN:
+			new_value = value + page_size;
+			break;
+		default:
+			return;
 	}
-	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
-	gtk_adjustment_set_value (adj, new_value);
+
+	new_value = CLAMP (new_value, lower, upper - page_size);
+	gtk_adjustment_set_value (adjustment, new_value);
 }
 
 static void

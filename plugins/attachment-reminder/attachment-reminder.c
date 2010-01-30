@@ -112,14 +112,17 @@ ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 {
 	GtkWidget *check = NULL;
 	GtkDialog *dialog = NULL;
+	GtkWidget *content_area;
 	gint response;
 
-	dialog = (GtkDialog*)e_alert_dialog_new_for_args(window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
+	dialog = (GtkDialog*) e_alert_dialog_new_for_args (
+		window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
 
 	/*Check buttons*/
 	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
 	gtk_container_set_border_width((GtkContainer *)check, 12);
-	gtk_box_pack_start ((GtkBox *)dialog->vbox, check, TRUE, TRUE, 0);
+	content_area = gtk_dialog_get_content_area (dialog);
+	gtk_box_pack_start (GTK_BOX (content_area), check, TRUE, TRUE, 0);
 	gtk_widget_show (check);
 
 	response = gtk_dialog_run ((GtkDialog *) dialog);

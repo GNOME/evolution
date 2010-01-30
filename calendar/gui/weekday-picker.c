@@ -93,20 +93,22 @@ colorize_items (WeekdayPicker *wp)
 	GdkColor *fill, *sel_fill;
 	GdkColor *text_fill, *sel_text_fill;
 	GtkStateType state;
+	GtkStyle *style;
 	gint i;
 
 	priv = wp->priv;
 
 	state = gtk_widget_get_state (GTK_WIDGET (wp));
+	style = gtk_widget_get_style (GTK_WIDGET (wp));
 
-	outline = &GTK_WIDGET (wp)->style->fg[state];
-	focus_outline = &GTK_WIDGET (wp)->style->bg[state];
+	outline = &style->fg[state];
+	focus_outline = &style->bg[state];
 
-	fill = &GTK_WIDGET (wp)->style->base[state];
-	text_fill = &GTK_WIDGET (wp)->style->fg[state];
+	fill = &style->base[state];
+	text_fill = &style->fg[state];
 
-	sel_fill = &GTK_WIDGET (wp)->style->bg[GTK_STATE_SELECTED];
-	sel_text_fill = &GTK_WIDGET (wp)->style->fg[GTK_STATE_SELECTED];
+	sel_fill = &style->bg[GTK_STATE_SELECTED];
+	sel_text_fill = &style->fg[GTK_STATE_SELECTED];
 
 	for (i = 0; i < 7; i++) {
 		gint day;
@@ -144,14 +146,17 @@ static void
 configure_items (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
+	GtkAllocation allocation;
 	gint width, height;
 	gint box_width;
 	gint i;
 
 	priv = wp->priv;
 
-	width = GTK_WIDGET (wp)->allocation.width;
-	height = GTK_WIDGET (wp)->allocation.height;
+	gtk_widget_get_allocation (GTK_WIDGET (wp), &allocation);
+
+	width = allocation.width;
+	height = allocation.height;
 
 	box_width = (width - 1) / 7;
 
@@ -321,11 +326,7 @@ weekday_picker_focus (GtkWidget *widget,
 	if (!gtk_widget_get_can_focus (widget))
 		return FALSE;
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (gtk_widget_has_focus (widget)) {
-#else
-	if (GTK_WIDGET_HAS_FOCUS (widget)) {
-#endif
 		priv->focus_day = -1;
 		colorize_items (wp);
 		return FALSE;

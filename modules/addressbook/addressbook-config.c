@@ -299,10 +299,15 @@ static gint
 addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 			    const gchar **attrs, LDAPMessage **resp)
 {
+	GtkAdjustment *adjustment;
+	GtkRange *range;
 	gint ldap_error;
 	struct timeval timeout;
 
-	timeout.tv_sec = (gint) gtk_adjustment_get_value (GTK_RANGE(dialog->timeout_scale)->adjustment);
+	range = GTK_RANGE (dialog->timeout_scale);
+	adjustment = gtk_range_get_adjustment (range);
+
+	timeout.tv_sec = (gint) gtk_adjustment_get_value (adjustment);
 	timeout.tv_usec = 0;
 
 	ldap_error = ldap_search_ext_s (ldap,
@@ -376,6 +381,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkWidget *dialog;
+	GtkWidget *container;
 	GtkWidget *supported_bases_table;
 	GtkBuilder *builder;
 	GtkTreeIter iter;
@@ -389,8 +395,12 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
 	gtk_widget_ensure_style (dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
+
+	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	supported_bases_table = e_builder_get_widget (builder, "supported-bases-table");
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (supported_bases_table));
@@ -918,9 +928,13 @@ eabc_details_search(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 static void
 timeout_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
+	GtkAdjustment *adjustment;
+	GtkRange *range;
 	gchar *timeout;
 
-	timeout = g_strdup_printf("%f", gtk_adjustment_get_value(((GtkRange *)sdialog->timeout_scale)->adjustment));
+	range = GTK_RANGE (sdialog->timeout_scale);
+	adjustment = gtk_range_get_adjustment (range);
+	timeout = g_strdup_printf("%f", gtk_adjustment_get_value (adjustment));
 	e_source_set_property(sdialog->source, "timeout", timeout);
 	g_free(timeout);
 }
@@ -947,6 +961,8 @@ static GtkWidget *
 eabc_details_limit(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
+	GtkAdjustment *adjustment;
+	GtkRange *range;
 	GtkWidget *w;
 	const gchar *tmp;
 	GtkBuilder *builder;
@@ -961,9 +977,13 @@ eabc_details_limit(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
 	sdialog->timeout_scale = e_builder_get_widget (builder, "timeout-scale");
+	range = GTK_RANGE (sdialog->timeout_scale);
+	adjustment = gtk_range_get_adjustment (range);
 	tmp = e_source_get_property(sdialog->source, "timeout");
-	gtk_adjustment_set_value(((GtkRange *)sdialog->timeout_scale)->adjustment, tmp?g_strtod(tmp, NULL):3.0);
-	g_signal_connect (GTK_RANGE(sdialog->timeout_scale)->adjustment, "value_changed", G_CALLBACK (timeout_changed_cb), sdialog);
+	gtk_adjustment_set_value (adjustment, tmp?g_strtod(tmp, NULL):3.0);
+	g_signal_connect (
+		adjustment, "value_changed",
+		G_CALLBACK (timeout_changed_cb), sdialog);
 
 	sdialog->limit_spinbutton = e_builder_get_widget (builder, "download-limit-spinbutton");
 	tmp = e_source_get_property(sdialog->source, "limit");

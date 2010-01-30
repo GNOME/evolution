@@ -203,7 +203,7 @@ e_meeting_time_selector_item_realize (GnomeCanvasItem *item)
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 
 	canvas = item->canvas;
-	window = GTK_WIDGET (canvas)->window;
+	window = gtk_widget_get_window (GTK_WIDGET (canvas));
 
 	mts_item->main_gc = gdk_gc_new (window);
 	mts_item->stipple_gc = gdk_gc_new (window);
@@ -976,8 +976,14 @@ e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
 
 	/* Only set the cursor if it is different to the last one we set. */
 	if (mts_item->last_cursor_set != cursor) {
+		GdkWindow *window;
+		GnomeCanvas *canvas;
+
 		mts_item->last_cursor_set = cursor;
-		gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (mts_item)->canvas)->window, cursor);
+
+		canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
+		window = gtk_widget_get_window (GTK_WIDGET (canvas));
+		gdk_window_set_cursor (window, cursor);
 	}
 
 	return FALSE;
@@ -1043,7 +1049,12 @@ e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
 void
 e_meeting_time_selector_item_set_normal_cursor (EMeetingTimeSelectorItem *mts_item)
 {
+	GnomeCanvas *canvas;
+	GdkWindow *window;
+
 	g_return_if_fail (IS_E_MEETING_TIME_SELECTOR_ITEM (mts_item));
 
-	gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (mts_item)->canvas)->window, mts_item->normal_cursor);
+	canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
+	window = gtk_widget_get_window (GTK_WIDGET (canvas));
+	gdk_window_set_cursor (window, mts_item->normal_cursor);
 }

@@ -765,6 +765,7 @@ get_widgets (MemoPage *mpage)
 	MemoPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
+	GtkWidget *parent;
 
 	priv = mpage->priv;
 
@@ -784,7 +785,8 @@ get_widgets (MemoPage *mpage)
 		page->accel_group = g_object_ref (accel_groups->data);
 
 	g_object_ref (priv->main);
-	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
+	parent = gtk_widget_get_parent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (parent), priv->main);
 
 	priv->info_hbox = GW ("generic-info");
 	priv->info_icon = GW ("generic-info-image");

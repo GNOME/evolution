@@ -173,12 +173,15 @@ cancelit (EContactMergingLookup *lookup)
 static void
 dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
 {
+	GtkAllocation allocation;
 	gint h, w;
 
+	gtk_widget_get_allocation (table, &allocation);
+
 	/* Spacing around the table */
-	w = table->allocation.width + 30;
+	w = allocation.width + 30;
 	/* buttons and outer spacing */
-	h = table->allocation.height + 60;
+	h = allocation.height + 60;
 	if (w > 400)
 		w = 400;
 	if (h > 450)
@@ -204,6 +207,7 @@ static gint
 mergeit (EContactMergingLookup *lookup)
 {
 	GtkWidget *scrolled_window, *label, *hbox, *dropdown;
+	GtkWidget *content_area;
 	GtkDialog *dialog;
 	GtkTable *table;
 	EContactField field;
@@ -215,6 +219,8 @@ mergeit (EContactMergingLookup *lookup)
 
 	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_container_set_border_width (GTK_CONTAINER(dialog), 5);
+
+	content_area = gtk_dialog_get_content_area (dialog);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -355,7 +361,7 @@ mergeit (EContactMergingLookup *lookup)
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 420, 300);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), GTK_WIDGET (scrolled_window), TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), GTK_WIDGET (scrolled_window), TRUE, TRUE, 0);
 	gtk_widget_show (scrolled_window);
 	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);
 	gtk_widget_show_all ((GtkWidget *)table);
@@ -477,8 +483,9 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 		doit (lookup, same_uids);
 	} else {
 		GtkBuilder *builder;
-
-		GtkWidget *widget, *merge_button;
+		GtkWidget *container;
+		GtkWidget *merge_button;
+		GtkWidget *widget;
 
 		/* XXX I think we're leaking the GtkBuilder. */
 		builder = gtk_builder_new ();
@@ -518,11 +525,16 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 		widget = e_builder_get_widget (builder, "dialog-duplicate-contact");
 
 		gtk_widget_ensure_style (widget);
-		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->vbox), 0);
-		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->action_area), 12);
 
-		g_signal_connect (widget, "response",
-				  G_CALLBACK (response), lookup);
+		container = gtk_dialog_get_action_area (GTK_DIALOG (widget));
+		gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+
+		container = gtk_dialog_get_content_area (GTK_DIALOG (widget));
+		gtk_container_set_border_width (GTK_CONTAINER (container), 0);
+
+		g_signal_connect (
+			widget, "response",
+			G_CALLBACK (response), lookup);
 
 		gtk_widget_show_all (widget);
 	}

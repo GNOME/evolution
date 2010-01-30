@@ -208,6 +208,7 @@ static GtkDialog *
 create_source_selector (ESource *source)
 {
 	GtkWidget *dialog, *treeview, *scrolledwindow;
+	GtkWidget *content_area;
 	GtkCellRenderer *text;
 	GtkTreeSelection *selection;
 	gchar *uri_text;
@@ -256,9 +257,10 @@ create_source_selector (ESource *source)
 	text = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview), -1, "location", text, "text", 0, NULL);
 
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), scrolledwindow);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_container_add (GTK_CONTAINER (content_area), scrolledwindow);
 	gtk_container_set_border_width (GTK_CONTAINER (scrolledwindow), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (content_area), 6);
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 420, 340);

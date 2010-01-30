@@ -681,7 +681,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
-	GTK_CONTAINER (page)->border_width = 12;
+	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	tab_label = gtk_label_new (_("Automatic Contacts"));
 	gtk_notebook_append_page (GTK_NOTEBOOK (hook_data->parent), page, tab_label);
 
@@ -694,7 +694,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Automatic Contacts"));
 	gtk_label_set_markup (GTK_LABEL (frame_label), str);
 	g_free (str);
-	GTK_MISC (frame_label)->xalign = 0.0;
+	gtk_misc_set_alignment (GTK_MISC (frame_label), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
 	/* Indent/padding */
@@ -730,7 +730,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Instant Messaging Contacts"));
 	gtk_label_set_markup (GTK_LABEL (frame_label), str);
 	g_free (str);
-	GTK_MISC (frame_label)->xalign = 0.0;
+	gtk_misc_set_alignment (GTK_MISC (frame_label), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
 	/* Indent/padding */

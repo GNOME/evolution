@@ -58,6 +58,7 @@ action_close_cb (GtkAction *action,
 {
 	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
+	GdkWindow *window;
 	GtkWidget *widget;
 	const gchar *subject;
 	gint response;
@@ -70,7 +71,8 @@ action_close_cb (GtkAction *action,
 		return;
 	}
 
-	gdk_window_raise (widget->window);
+	window = gtk_widget_get_window (widget);
+	gdk_window_raise (window);
 
 	table = e_msg_composer_get_header_table (composer);
 	subject = e_composer_header_table_get_subject (table);

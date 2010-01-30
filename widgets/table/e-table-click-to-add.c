@@ -73,21 +73,24 @@ etcta_cursor_change (GtkObject *object, gint row, gint col, ETableClickToAdd *et
 static void
 etcta_style_set (ETableClickToAdd *etcta, GtkStyle *previous_style)
 {
-	GtkWidget *widget = GTK_WIDGET(GNOME_CANVAS_ITEM(etcta)->canvas);
+	GtkWidget *widget;
+	GtkStyle *style;
 
-	if (etcta->rect) {
-		gnome_canvas_item_set (etcta->rect,
-					"outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL],
-					"fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
-					NULL );
+	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
+	style = gtk_widget_get_style (widget);
 
-	}
+	if (etcta->rect)
+		gnome_canvas_item_set (
+			etcta->rect,
+			"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
+			"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+			NULL);
 
 	if (etcta->text)
-		gnome_canvas_item_set (etcta->text,
-					"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
-					NULL);
-
+		gnome_canvas_item_set (
+			etcta->text,
+			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+			NULL);
 }
 
 static void
@@ -237,28 +240,34 @@ etcta_set_property (GObject *object,
 static void
 create_rect_and_text (ETableClickToAdd *etcta)
 {
-	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM(etcta)->canvas);
+	GtkWidget *widget;
+	GtkStyle *style;
+
+	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
+	style = gtk_widget_get_style (widget);
 
 	if (!etcta->rect)
-		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-					    gnome_canvas_rect_get_type(),
-					    "x1", (gdouble) 0,
-					    "y1", (gdouble) 0,
-					    "x2", (gdouble) etcta->width - 1,
-					    "y2", (gdouble) etcta->height - 1,
-					    "outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL],
-					    "fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
-					    NULL);
+		etcta->rect = gnome_canvas_item_new (
+			GNOME_CANVAS_GROUP (etcta),
+			gnome_canvas_rect_get_type (),
+			"x1", (gdouble) 0,
+			"y1", (gdouble) 0,
+			"x2", (gdouble) etcta->width - 1,
+			"y2", (gdouble) etcta->height - 1,
+			"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
+			"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+			NULL);
 
 	if (!etcta->text)
-		etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-					    e_text_get_type(),
-					    "text", etcta->message ? etcta->message : "",
-					    "anchor", GTK_ANCHOR_NW,
-					    "width", etcta->width - 4,
-					    "draw_background", FALSE,
-					    "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
-					    NULL);
+		etcta->text = gnome_canvas_item_new (
+			GNOME_CANVAS_GROUP (etcta),
+			e_text_get_type (),
+			"text", etcta->message ? etcta->message : "",
+			"anchor", GTK_ANCHOR_NW,
+			"width", etcta->width - 4,
+			"draw_background", FALSE,
+			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+			NULL);
 }
 
 static void

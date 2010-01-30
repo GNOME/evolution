@@ -538,11 +538,9 @@ et_search_accept (ETableSearch *search, ETree *et)
 static void
 e_tree_init (ETree *e_tree)
 {
-	GtkTable *gtk_table = GTK_TABLE (e_tree);
-
 	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (e_tree), GTK_CAN_FOCUS);
 
-	gtk_table->homogeneous               = FALSE;
+	gtk_table_set_homogeneous (GTK_TABLE (e_tree), FALSE);
 
 	e_tree->priv                         = g_new(ETreePriv, 1);
 
@@ -656,7 +654,7 @@ et_focus (GtkWidget *container, GtkDirectionType direction)
 
 	e_tree = E_TREE (container);
 
-	if (GTK_CONTAINER (container)->focus_child) {
+	if (gtk_container_get_focus_child (GTK_CONTAINER (container))) {
 		gtk_container_set_focus_child (GTK_CONTAINER (container), NULL);
 		return FALSE;
 	}
@@ -689,16 +687,21 @@ set_header_canvas_width (ETree *e_tree)
 static void
 header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *e_tree)
 {
+	GtkAllocation allocation;
+
 	set_header_canvas_width (e_tree);
+
+	widget = GTK_WIDGET (e_tree->priv->header_canvas);
+	gtk_widget_get_allocation (widget, &allocation);
 
 	/* When the header item is created ->height == 0,
 	   as the font is only created when everything is realized.
 	   So we set the usize here as well, so that the size of the
 	   header is correct */
-	if (GTK_WIDGET (e_tree->priv->header_canvas)->allocation.height !=
-	    E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height)
-		gtk_widget_set_size_request (GTK_WIDGET (e_tree->priv->header_canvas), -1,
-				      E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height);
+	if (allocation.height != E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height)
+		gtk_widget_set_size_request (
+			widget, -1,
+			E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height);
 }
 
 static void
@@ -737,23 +740,39 @@ static void
 scroll_to_cursor (ETree *e_tree)
 {
 	ETreePath path;
-	GtkAdjustment *adj;
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
 	gint x, y, w, h;
+	gdouble page_size;
+	gdouble lower;
+	gdouble upper;
+	gdouble value;
 
 	path = e_tree_get_cursor (e_tree);
-	adj = GTK_LAYOUT (e_tree->priv->table_canvas)->vadjustment;
 	x = y = w = h = 0;
+
 	if (path) {
 		gint row = e_tree_row_of_node(e_tree, path);
 		gint col = 0;
 
 		if (row >= 0)
-			e_table_item_get_cell_geometry (E_TABLE_ITEM (e_tree->priv->item),
-							&row, &col, &x, &y, &w, &h);
+			e_table_item_get_cell_geometry (
+				E_TABLE_ITEM (e_tree->priv->item),
+				&row, &col, &x, &y, &w, &h);
 	}
 
-	if (y < adj->value || y + h > adj->value + adj->page_size)
-		gtk_adjustment_set_value(adj, CLAMP(y - adj->page_size / 2, adj->lower, adj->upper - adj->page_size));
+	layout = GTK_LAYOUT (e_tree->priv->table_canvas);
+	adjustment = gtk_layout_get_vadjustment (layout);
+
+	page_size = gtk_adjustment_get_page_size (adjustment);
+	lower = gtk_adjustment_get_lower (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
+	value = gtk_adjustment_get_value (adjustment);
+
+	if (y < value || y + h > value + page_size) {
+		value = CLAMP (y - page_size / 2, lower, upper - page_size);
+		gtk_adjustment_set_value (adjustment, value);
+	}
 }
 
 static gboolean
@@ -761,24 +780,32 @@ tree_canvas_reflow_idle (ETree *e_tree)
 {
 	gdouble height, width;
 	gdouble oldheight, oldwidth;
-	GtkAllocation *alloc = &(GTK_WIDGET (e_tree->priv->table_canvas)->allocation);
+	GtkAllocation allocation;
+	GtkWidget *widget;
 
-	g_object_get (e_tree->priv->item,
-		      "height", &height,
-		      "width", &width,
-		      NULL);
-	height = MAX ((gint)height, alloc->height);
-	width = MAX((gint)width, alloc->width);
+	widget = GTK_WIDGET (e_tree->priv->table_canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+
+	g_object_get (
+		e_tree->priv->item,
+		"height", &height, "width", &width, NULL);
+
+	height = MAX ((gint)height, allocation.height);
+	width = MAX((gint)width, allocation.width);
+
 	/* I have no idea why this needs to be -1, but it works. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->priv->table_canvas),
-					NULL, NULL, &oldwidth, &oldheight);
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (e_tree->priv->table_canvas),
+		NULL, NULL, &oldwidth, &oldheight);
 
 	if (oldwidth != width - 1 ||
 	    oldheight != height - 1) {
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (e_tree->priv->table_canvas),
-						0, 0, width - 1, height - 1);
+		gnome_canvas_set_scroll_region (
+			GNOME_CANVAS (e_tree->priv->table_canvas),
+			0, 0, width - 1, height - 1);
 		set_header_canvas_width (e_tree);
 	}
+
 	e_tree->priv->reflow_idle_id = 0;
 
 	if (e_tree->priv->show_cursor_after_reflow) {
@@ -881,14 +908,24 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 	GdkEventKey *key = (GdkEventKey *) event;
 	ETreePath path;
 	gint y, row_local, col_local;
-	GtkAdjustment *vadj;
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
+	gdouble page_size;
+	gdouble upper;
+	gdouble value;
+
+	layout = GTK_LAYOUT (et->priv->table_canvas);
+	adjustment = gtk_layout_get_vadjustment (layout);
+
+	page_size = gtk_adjustment_get_page_size (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
+	value = gtk_adjustment_get_value (adjustment);
 
 	switch (key->keyval) {
 	case GDK_Page_Down:
 	case GDK_KP_Page_Down:
-		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
-		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
-		y -= vadj->value;
+		y = CLAMP (value + (2 * page_size - 50), 0, upper);
+		y -= value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
 
 		if (row_local == -1)
@@ -902,9 +939,8 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 		break;
 	case GDK_Page_Up:
 	case GDK_KP_Page_Up:
-		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
-		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
-		y -= vadj->value;
+		y = CLAMP (value - (page_size - 50), 0, upper);
+		y -= value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
 
 		if (row_local == -1)
@@ -1029,9 +1065,13 @@ et_build_item (ETree *et)
 static void
 et_canvas_style_set (GtkWidget *widget, GtkStyle *prev_style)
 {
+	GtkStyle *style;
+
+	style = gtk_widget_get_style (widget);
+
 	gnome_canvas_item_set(
 		E_TREE(widget)->priv->white_item,
-		"fill_color_gdk", &widget->style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
 		NULL);
 }
 
@@ -1053,11 +1093,7 @@ et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETree *e_tree)
 	case GDK_2BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button != 4 && event->button.button != 5) {
-#if GTK_CHECK_VERSION(2,19,7)
 			if (gtk_widget_has_focus (GTK_WIDGET (root->canvas))) {
-#else
-			if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
-#endif
 				GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
 
 				if (E_IS_TABLE_ITEM(item)) {
@@ -1102,6 +1138,9 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 static void
 e_tree_setup_table (ETree *e_tree)
 {
+	GtkWidget *widget;
+	GtkStyle *style;
+
 	e_tree->priv->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	g_signal_connect (
 		e_tree->priv->table_canvas, "size_allocate",
@@ -1141,16 +1180,20 @@ e_tree_setup_table (ETree *e_tree)
 	g_signal_connect (e_tree->priv->table_canvas, "reflow",
 			  G_CALLBACK (tree_canvas_reflow), e_tree);
 
-	gtk_widget_show (GTK_WIDGET (e_tree->priv->table_canvas));
+	widget = GTK_WIDGET (e_tree->priv->table_canvas);
+	style = gtk_widget_get_style (widget);
 
-	e_tree->priv->white_item = gnome_canvas_item_new(
-		gnome_canvas_root(e_tree->priv->table_canvas),
+	gtk_widget_show (widget);
+
+	e_tree->priv->white_item = gnome_canvas_item_new (
+		gnome_canvas_root (e_tree->priv->table_canvas),
 		e_canvas_background_get_type(),
-		"fill_color_gdk", &GTK_WIDGET(e_tree->priv->table_canvas)->style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
 		NULL);
 
-	g_signal_connect (e_tree->priv->white_item, "event",
-			  G_CALLBACK (white_item_event), e_tree);
+	g_signal_connect (
+		e_tree->priv->white_item, "event",
+		G_CALLBACK (white_item_event), e_tree);
 	g_signal_connect (
 		gnome_canvas_root (e_tree->priv->table_canvas), "event",
 		G_CALLBACK(et_canvas_root_event), e_tree);
@@ -1182,12 +1225,19 @@ e_tree_set_search_column (ETree *e_tree, gint  col)
 void
 e_tree_set_state_object(ETree *e_tree, ETableState *state)
 {
-	GValue *val = g_new0 (GValue, 1);
+	GValue *val;
+	GtkAllocation allocation;
+	GtkWidget *widget;
+
+	val = g_new0 (GValue, 1);
 	g_value_init (val, G_TYPE_DOUBLE);
 
 	connect_header (e_tree, state);
 
-	g_value_set_double (val, (gdouble) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width));
+	widget = GTK_WIDGET (e_tree->priv->table_canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+
+	g_value_set_double (val, (gdouble) allocation.width);
 	g_object_set_property (G_OBJECT (e_tree->priv->header), "width", val);
 	g_free (val);
 
@@ -1424,6 +1474,8 @@ static gboolean
 et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
 	gint row = 0;
 
 	if (ete)
@@ -1475,10 +1527,13 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	}
 	e_tree_setup_table (e_tree);
 
-	gtk_layout_get_vadjustment (GTK_LAYOUT (e_tree->priv->table_canvas))->step_increment = 20;
-	gtk_adjustment_changed(gtk_layout_get_vadjustment (GTK_LAYOUT (e_tree->priv->table_canvas)));
-	gtk_layout_get_hadjustment (GTK_LAYOUT (e_tree->priv->table_canvas))->step_increment = 20;
-	gtk_adjustment_changed(gtk_layout_get_hadjustment (GTK_LAYOUT (e_tree->priv->table_canvas)));
+	layout = GTK_LAYOUT (e_tree->priv->table_canvas);
+
+	adjustment = gtk_layout_get_vadjustment (layout);
+	gtk_adjustment_set_step_increment (adjustment, 20);
+
+	adjustment = gtk_layout_get_hadjustment (layout);
+	gtk_adjustment_set_step_increment (adjustment, 20);
 
 	if (!specification->no_headers) {
 		/*
@@ -1930,24 +1985,24 @@ set_scroll_adjustments   (ETree *tree,
 			  GtkAdjustment *hadjustment,
 			  GtkAdjustment *vadjustment)
 {
-	if (vadjustment != NULL) {
-		vadjustment->step_increment = 20;
-		gtk_adjustment_changed(vadjustment);
-	}
-	if (hadjustment != NULL) {
-		hadjustment->step_increment = 20;
-		gtk_adjustment_changed(hadjustment);
-	}
+	GtkLayout *layout;
+
+	layout = GTK_LAYOUT (tree->priv->table_canvas);
+
+	if (vadjustment != NULL)
+		gtk_adjustment_set_step_increment (vadjustment, 20);
+
+	if (hadjustment != NULL)
+		gtk_adjustment_set_step_increment (hadjustment, 20);
 
 	if (tree->priv) {
-		gtk_layout_set_hadjustment (GTK_LAYOUT(tree->priv->table_canvas),
-					    hadjustment);
-		gtk_layout_set_vadjustment (GTK_LAYOUT(tree->priv->table_canvas),
-					    vadjustment);
+		gtk_layout_set_hadjustment (layout, hadjustment);
+		gtk_layout_set_vadjustment (layout, vadjustment);
 
 		if (tree->priv->header_canvas != NULL)
-			gtk_layout_set_hadjustment (GTK_LAYOUT(tree->priv->header_canvas),
-						    hadjustment);
+			gtk_layout_set_hadjustment (
+				GTK_LAYOUT(tree->priv->header_canvas),
+				hadjustment);
 	}
 }
 
@@ -2383,37 +2438,48 @@ e_tree_drag_highlight (ETree *tree,
 		       gint     row,
 		       gint     col)
 {
-	g_return_if_fail(tree != NULL);
+	GtkAdjustment *adjustment;
+	GtkAllocation allocation;
+	GtkLayout *layout;
+	GtkStyle *style;
+
 	g_return_if_fail(E_IS_TREE(tree));
+
+	layout = GTK_LAYOUT (tree->priv->table_canvas);
+	style = gtk_widget_get_style (GTK_WIDGET (tree));
+	gtk_widget_get_allocation (GTK_WIDGET (layout), &allocation);
 
 	if (row != -1) {
 		gint x, y, width, height;
 		if (col == -1) {
 			e_tree_get_cell_geometry (tree, row, 0, &x, &y, &width, &height);
 			x = 0;
-			width = GTK_WIDGET (tree->priv->table_canvas)->allocation.width;
+			width = allocation.width;
 		} else {
 			e_tree_get_cell_geometry (tree, row, col, &x, &y, &width, &height);
-			x += GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
+			adjustment = gtk_layout_get_hadjustment (layout);
+			x += gtk_adjustment_get_value (adjustment);
 		}
-		y += GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
+
+		adjustment = gtk_layout_get_vadjustment (layout);
+		y += gtk_adjustment_get_value (adjustment);
 
 		if (tree->priv->drop_highlight == NULL) {
-			tree->priv->drop_highlight =
-				gnome_canvas_item_new (gnome_canvas_root (tree->priv->table_canvas),
-						       gnome_canvas_rect_get_type (),
-						       "fill_color", NULL,
-						       /*						       "outline_color", "black",
-						       "width_pixels", 1,*/
-						       "outline_color_gdk", &(GTK_WIDGET (tree)->style->fg[GTK_STATE_NORMAL]),
-						       NULL);
+			tree->priv->drop_highlight = gnome_canvas_item_new (
+				gnome_canvas_root (tree->priv->table_canvas),
+				gnome_canvas_rect_get_type (),
+				"fill_color", NULL,
+				"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
+				NULL);
 		}
-		gnome_canvas_item_set (tree->priv->drop_highlight,
-				       "x1", (gdouble) x,
-				       "x2", (gdouble) x + width - 1,
-				       "y1", (gdouble) y,
-				       "y2", (gdouble) y + height - 1,
-				       NULL);
+
+		gnome_canvas_item_set (
+			tree->priv->drop_highlight,
+			"x1", (gdouble) x,
+			"x2", (gdouble) x + width - 1,
+			"y1", (gdouble) y,
+			"y2", (gdouble) y + height - 1,
+			NULL);
 	} else {
 		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
 		tree->priv->drop_highlight = NULL;
@@ -2617,7 +2683,9 @@ e_tree_get_cell_at (ETree *tree,
 		     gint x, gint y,
 		     gint *row_return, gint *col_return)
 {
-	g_return_if_fail (tree != NULL);
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
+
 	g_return_if_fail (E_IS_TREE (tree));
 	g_return_if_fail (row_return != NULL);
 	g_return_if_fail (col_return != NULL);
@@ -2630,9 +2698,17 @@ e_tree_get_cell_at (ETree *tree,
 	if (col_return)
 		*col_return = -1;
 
-	x += GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
-	y += GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
-	e_table_item_compute_location(E_TABLE_ITEM(tree->priv->item), &x, &y, row_return, col_return);
+	layout = GTK_LAYOUT (tree->priv->table_canvas);
+
+	adjustment = gtk_layout_get_hadjustment (layout);
+	x += gtk_adjustment_get_value (adjustment);
+
+	adjustment = gtk_layout_get_vadjustment (layout);
+	y += gtk_adjustment_get_value (adjustment);
+
+	e_table_item_compute_location (
+		E_TABLE_ITEM (tree->priv->item),
+		&x, &y, row_return, col_return);
 }
 
 /**
@@ -2653,7 +2729,9 @@ e_tree_get_cell_geometry (ETree *tree,
 			  gint *x_return, gint *y_return,
 			  gint *width_return, gint *height_return)
 {
-	g_return_if_fail (tree != NULL);
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
+
 	g_return_if_fail (E_IS_TREE (tree));
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (col >= 0);
@@ -2661,12 +2739,22 @@ e_tree_get_cell_geometry (ETree *tree,
 	/* FIXME it would be nice if it could handle a NULL row_return or
 	 * col_return gracefully.  */
 
-	e_table_item_get_cell_geometry(E_TABLE_ITEM(tree->priv->item), &row, &col, x_return, y_return, width_return, height_return);
+	e_table_item_get_cell_geometry (
+		E_TABLE_ITEM (tree->priv->item),
+		&row, &col, x_return, y_return,
+		width_return, height_return);
 
-	if (x_return)
-		(*x_return) -= GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
-	if (y_return)
-		(*y_return) -= GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
+	layout = GTK_LAYOUT (tree->priv->table_canvas);
+
+	if (x_return) {
+		adjustment = gtk_layout_get_hadjustment (layout);
+		(*x_return) -= gtk_adjustment_get_value (adjustment);
+	}
+
+	if (y_return) {
+		adjustment = gtk_layout_get_vadjustment (layout);
+		(*y_return) -= gtk_adjustment_get_value (adjustment);
+	}
 }
 
 static void
@@ -2777,8 +2865,15 @@ scroll_timeout (gpointer data)
 {
 	ETree *et = data;
 	gint dx = 0, dy = 0;
-	GtkAdjustment *v, *h;
-	gdouble vvalue, hvalue;
+	GtkAdjustment *adjustment;
+	GtkLayout *layout;
+	gdouble old_h_value;
+	gdouble new_h_value;
+	gdouble old_v_value;
+	gdouble new_v_value;
+	gdouble page_size;
+	gdouble lower;
+	gdouble upper;
 
 	if (et->priv->scroll_direction & ET_SCROLL_DOWN)
 		dy += 20;
@@ -2790,22 +2885,37 @@ scroll_timeout (gpointer data)
 	if (et->priv->scroll_direction & ET_SCROLL_LEFT)
 		dx -= 20;
 
-	h = GTK_LAYOUT(et->priv->table_canvas)->hadjustment;
-	v = GTK_LAYOUT(et->priv->table_canvas)->vadjustment;
+	layout = GTK_LAYOUT (et->priv->table_canvas);
 
-	hvalue = h->value;
-	vvalue = v->value;
+	adjustment = gtk_layout_get_hadjustment (layout);
 
-	gtk_adjustment_set_value(h, CLAMP(h->value + dx, h->lower, h->upper - h->page_size));
-	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
+	page_size = gtk_adjustment_get_page_size (adjustment);
+	lower = gtk_adjustment_get_lower (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
 
-	if (h->value != hvalue ||
-	    v->value != vvalue)
-		do_drag_motion(et,
-			       et->priv->last_drop_context,
-			       et->priv->last_drop_x,
-			       et->priv->last_drop_y,
-			       et->priv->last_drop_time);
+	old_h_value = gtk_adjustment_get_value (adjustment);
+	new_h_value = CLAMP (old_h_value + dx, lower, upper - page_size);
+
+	gtk_adjustment_set_value (adjustment, new_h_value);
+
+	adjustment = gtk_layout_get_vadjustment (layout);
+
+	page_size = gtk_adjustment_get_page_size (adjustment);
+	lower = gtk_adjustment_get_lower (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
+
+	old_v_value = gtk_adjustment_get_value (adjustment);
+	new_v_value = CLAMP (old_v_value + dy, lower, upper - page_size);
+
+	gtk_adjustment_set_value (adjustment, new_v_value);
+
+	if (new_h_value != old_h_value || new_v_value != old_v_value)
+		do_drag_motion (
+			et,
+			et->priv->last_drop_context,
+			et->priv->last_drop_x,
+			et->priv->last_drop_y,
+			et->priv->last_drop_time);
 
 	return TRUE;
 }
@@ -2969,6 +3079,7 @@ et_drag_motion(GtkWidget *widget,
 	       guint time,
 	       ETree *et)
 {
+	GtkAllocation allocation;
 	gint ret_val;
 	guint direction = 0;
 
@@ -2987,19 +3098,17 @@ et_drag_motion(GtkWidget *widget,
 		hover_on (et, x, y);
 	}
 
-	ret_val = do_drag_motion (et,
-				  context,
-				  x,
-				  y,
-				  time);
+	ret_val = do_drag_motion (et, context, x, y, time);
+
+	gtk_widget_get_allocation (widget, &allocation);
 
 	if (y < 20)
 		direction |= ET_SCROLL_UP;
-	if (y > widget->allocation.height - 20)
+	if (y > allocation.height - 20)
 		direction |= ET_SCROLL_DOWN;
 	if (x < 20)
 		direction |= ET_SCROLL_LEFT;
-	if (x > widget->allocation.width - 20)
+	if (x > allocation.width - 20)
 		direction |= ET_SCROLL_RIGHT;
 
 	if (direction != 0)
@@ -3453,6 +3562,9 @@ tree_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *tree)
 void
 e_tree_set_info_message (ETree *tree, const gchar *info_message)
 {
+	GtkAllocation allocation;
+	GtkWidget *widget;
+
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (tree->priv != NULL);
 
@@ -3466,18 +3578,22 @@ e_tree_set_info_message (ETree *tree, const gchar *info_message)
 		return;
 	}
 
+	widget = GTK_WIDGET (tree->priv->table_canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+
 	if (!tree->priv->info_text) {
-		tree->priv->info_text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
-						e_text_get_type (),
-						"anchor", GTK_ANCHOR_NW,
-						"line_wrap", TRUE,
-						"clip", TRUE,
-						"justification", GTK_JUSTIFY_LEFT,
-						"text", info_message,
-						"draw_background", FALSE,
-						"width", (gdouble) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
-						"clip_width", (gdouble) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
-						NULL);
+		tree->priv->info_text = gnome_canvas_item_new (
+			GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
+			e_text_get_type (),
+			"anchor", GTK_ANCHOR_NW,
+			"line_wrap", TRUE,
+			"clip", TRUE,
+			"justification", GTK_JUSTIFY_LEFT,
+			"text", info_message,
+			"draw_background", FALSE,
+			"width", (gdouble) allocation.width - 60.0,
+			"clip_width", (gdouble) allocation.width - 60.0,
+			NULL);
 
 		e_canvas_item_move_absolute (tree->priv->info_text, 30, 30);
 

@@ -261,6 +261,7 @@ gboolean
 alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 {
 	Dialog dialog;
+	GtkWidget *container;
 	gint response_id;
 
 	dialog.ecal = ecal;
@@ -279,14 +280,19 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 	sensitize_buttons (&dialog);
 
 	gtk_widget_ensure_style (dialog.toplevel);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->action_area), 12);
+
+	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog.toplevel));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog.toplevel));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	gtk_window_set_icon_name (
 		GTK_WINDOW (dialog.toplevel), "x-office-calendar");
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog.toplevel),
-				      GTK_WINDOW (parent));
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog.toplevel),
+		GTK_WINDOW (parent));
 
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 	gtk_widget_hide (dialog.toplevel);

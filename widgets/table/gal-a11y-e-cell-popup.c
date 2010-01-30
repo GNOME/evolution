@@ -133,9 +133,12 @@ popup_cell_action (GalA11yECell *cell)
 {
 	gint finished;
 	GdkEvent event;
+	GtkLayout *layout;
+
+	layout = GTK_LAYOUT (GNOME_CANVAS_ITEM (cell->item)->canvas);
 
 	event.key.type = GDK_KEY_PRESS;
-	event.key.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(cell->item)->canvas)->bin_window;;
+	event.key.window = gtk_layout_get_bin_window (layout);
 	event.key.send_event = TRUE;
 	event.key.time = GDK_CURRENT_TIME;
 	event.key.state = GDK_MOD1_MASK;

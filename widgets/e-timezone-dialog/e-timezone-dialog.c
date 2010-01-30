@@ -261,6 +261,7 @@ ETimezoneDialog *
 e_timezone_dialog_construct (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
+	GtkWidget *widget;
 	GtkWidget *map;
 
 	g_return_val_if_fail (etd != NULL, NULL);
@@ -280,10 +281,11 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 		goto error;
 	}
 
-	gtk_container_set_border_width (
-		GTK_CONTAINER (GTK_DIALOG (priv->app)->vbox), 0);
-	gtk_container_set_border_width (
-		GTK_CONTAINER (GTK_DIALOG (priv->app)->action_area), 12);
+	widget = gtk_dialog_get_content_area (GTK_DIALOG (priv->app));
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+
+	widget = gtk_dialog_get_action_area (GTK_DIALOG (priv->app));
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 
 	priv->map = e_map_new ();
 	map = GTK_WIDGET (priv->map);

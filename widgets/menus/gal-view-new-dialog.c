@@ -73,6 +73,8 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 static void
 gal_view_new_dialog_init (GalViewNewDialog *dialog)
 {
+	GtkWidget *content_area;
+	GtkWidget *parent;
 	GtkWidget *widget;
 
 	dialog->builder = gtk_builder_new ();
@@ -83,15 +85,21 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 	if (!widget) {
 		return;
 	}
+
 	g_object_ref (widget);
-	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
-	gtk_box_pack_start (GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
+
+	parent = gtk_widget_get_parent (widget);
+	gtk_container_remove (GTK_CONTAINER (parent), widget);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+
 	g_object_unref (widget);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (dialog),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
 	gtk_window_set_resizable (GTK_WINDOW(dialog), TRUE);
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);

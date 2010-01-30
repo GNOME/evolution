@@ -230,14 +230,17 @@ update_adjustment (GnomeCalendar *gcal,
 	time_t lower;
 	guint32 old_first_day_julian, new_first_day_julian;
 	icaltimezone *timezone;
+	gdouble value;
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
 		return;
 
+	value = gtk_adjustment_get_value (adjustment);
+
 	/* Determine the first date shown. */
 	date = week_view->base_date;
-	week_offset = floor (adjustment->value + 0.5);
+	week_offset = floor (value + 0.5);
 	g_date_add_days (&date, week_offset * 7);
 
 	/* Convert the old & new first days shown to julian values. */
@@ -2088,11 +2091,7 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 		return;
 
 	/* If the ECalendar isn't visible, we just return. */
-#if GTK_CHECK_VERSION(2,19,7)
 	if (!gtk_widget_get_visible (GTK_WIDGET (priv->date_navigator)))
-#else
-	if (!GTK_WIDGET_VISIBLE (priv->date_navigator))
-#endif
 		return;
 
 	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)

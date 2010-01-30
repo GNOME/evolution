@@ -874,13 +874,15 @@ efhd_bar_resize (EMFormatHTML *efh,
                  GtkAllocation *event)
 {
 	EMFormatHTMLDisplayPrivate *priv;
+	GtkAllocation allocation;
 	GtkWidget *widget;
 	gint width;
 
 	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
 	widget = GTK_WIDGET (efh->html);
-	width = widget->allocation.width - 12;
+	gtk_widget_get_allocation (widget, &allocation);
+	width = allocation.width - 12;
 
 	if (width > 0) {
 		widget = priv->attachment_view;
@@ -940,11 +942,7 @@ efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
 {
 	GtkWidget *label = g_object_get_data (G_OBJECT (widget), "text-label");
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (gtk_widget_get_visible (w)) {
-#else
-	if (GTK_WIDGET_VISIBLE (w)) {
-#endif
 		gtk_widget_hide (w);
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("View _Unformatted"));
 	} else {
@@ -956,7 +954,10 @@ efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
 static void
 efhd_resize (GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 {
-	gtk_widget_set_size_request (w, ((GtkWidget *)efh->html)->allocation.width-48, 250);
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (GTK_WIDGET (efh->html), &allocation);
+	gtk_widget_set_size_request (w, allocation.width - 48, 250);
 }
 
 /* optional render attachment button callback */
@@ -967,6 +968,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
 	AtkObject *a11y;
 	GtkWidget *view;
+	GtkAllocation allocation;
 	GtkTextBuffer *buffer;
 
 	/* FIXME: handle default shown case */
@@ -1035,7 +1037,8 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	gtk_box_pack_start(GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
 	gtk_widget_show (GTK_WIDGET(view));
 
-	gtk_widget_set_size_request (scroll, (GTK_WIDGET (efh->html))->allocation.width - 48, 250);
+	gtk_widget_get_allocation (GTK_WIDGET (efh->html), &allocation);
+	gtk_widget_set_size_request (scroll, allocation.width - 48, 250);
 	g_signal_connect (scroll, "size_allocate", G_CALLBACK(efhd_resize), efh);
 	gtk_widget_show (scroll);
 

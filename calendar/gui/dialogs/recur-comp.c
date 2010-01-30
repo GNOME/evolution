@@ -40,6 +40,7 @@ recur_component_dialog (ECal *client,
 	gchar *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
 	GtkWidget *placeholder, *vbox;
+	GtkWidget *content_area;
 	ECalComponentVType vtype;
 	gboolean ret;
 
@@ -72,8 +73,10 @@ recur_component_dialog (ECal *client,
 	g_free (str);
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
 	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), hbox);
+	gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
 	placeholder = gtk_label_new ("");
 	gtk_widget_set_size_request (placeholder, 48, 48);
@@ -105,7 +108,7 @@ recur_component_dialog (ECal *client,
 	gtk_widget_show_all (hbox);
 
 	placeholder = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), placeholder, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), placeholder, FALSE, FALSE, 0);
 	gtk_widget_show (placeholder);
 
 	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;

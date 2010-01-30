@@ -83,14 +83,15 @@ prompt_user (void)
 	gint response;
 
 	dialog = gtk_dialog_new ();
-	gtk_widget_hide (GTK_DIALOG (dialog)->action_area);
+	widget = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+	gtk_widget_hide (widget);
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	g_signal_connect (
 		dialog, "map",
 		G_CALLBACK (gtk_widget_queue_resize), NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 12);
-	vbox = GTK_DIALOG (dialog)->vbox;
+	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 	/* Table */
 	widget = gtk_table_new (3, 2, FALSE);

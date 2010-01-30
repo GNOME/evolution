@@ -241,6 +241,7 @@ table_drag_data_get (ETable *table,
 	EAddressbookModel *model;
 	EBook *book;
 	GList *contact_list;
+	GdkAtom target;
 	gchar *value;
 
 	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER (view->priv->object))
@@ -250,14 +251,15 @@ table_drag_data_get (ETable *table,
 	book = e_addressbook_model_get_book (model);
 
 	contact_list = e_addressbook_view_get_selected (view);
+	target = gtk_selection_data_get_target (selection_data);
 
 	switch (info) {
 		case DND_TARGET_TYPE_VCARD:
 			value = eab_contact_list_to_string (contact_list);
 
 			gtk_selection_data_set (
-				selection_data, selection_data->target,
-				8, (guchar *)value, strlen (value));
+				selection_data, target, 8,
+				(guchar *)value, strlen (value));
 
 			g_free (value);
 			break;
@@ -267,8 +269,8 @@ table_drag_data_get (ETable *table,
 				book, contact_list);
 
 			gtk_selection_data_set (
-				selection_data, selection_data->target,
-				8, (guchar *)value, strlen (value));
+				selection_data, target, 8,
+				(guchar *)value, strlen (value));
 
 			g_free (value);
 			break;

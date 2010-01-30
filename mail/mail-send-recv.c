@@ -409,6 +409,7 @@ build_dialog (GtkWindow *parent,
 	gint row, num_sources;
 	GList *list = NULL;
 	struct _send_data *data;
+	GtkWidget *container;
         GtkWidget *send_icon;
 	GtkWidget *recv_icon;
 	GtkWidget *scrolled_window;
@@ -433,8 +434,12 @@ build_dialog (GtkWindow *parent,
 		GTK_WINDOW (send_recv_dialog));
 
 	gtk_widget_ensure_style ((GtkWidget *)gd);
-	gtk_container_set_border_width ((GtkContainer *)gd->vbox, 0);
-	gtk_container_set_border_width ((GtkContainer *)gd->action_area, 6);
+
+	container = gtk_dialog_get_action_area (gd);
+	gtk_container_set_border_width (GTK_CONTAINER (container), 6);
+
+	container = gtk_dialog_get_content_area (gd);
+	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
 	cancel_button = gtk_button_new_with_mnemonic (_("Cancel _All"));
 	gtk_button_set_image (
@@ -477,10 +482,11 @@ build_dialog (GtkWindow *parent,
 		GTK_SCROLLED_WINDOW (scrolled_window),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
+	container = gtk_dialog_get_content_area (gd);
 	gtk_scrolled_window_add_with_viewport (
 		GTK_SCROLLED_WINDOW (scrolled_window), table);
 	gtk_box_pack_start (
-		GTK_BOX (gd->vbox), scrolled_window, TRUE, TRUE, 0);
+		GTK_BOX (container), scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (scrolled_window);
 
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
@@ -972,13 +978,8 @@ mail_send_receive (GtkWindow *parent)
 	GList *scan;
 
 	if (send_recv_dialog != NULL) {
-#if GTK_CHECK_VERSION(2,19,7)
 		if (parent != NULL && gtk_widget_get_realized (send_recv_dialog)) {
-#else
-		if (parent != NULL && GTK_WIDGET_REALIZED (send_recv_dialog)) {
-#endif
-			gdk_window_show (send_recv_dialog->window);
-			gdk_window_raise (send_recv_dialog->window);
+			gtk_window_present (GTK_WINDOW (send_recv_dialog));
 		}
 		return send_recv_dialog;
 	}

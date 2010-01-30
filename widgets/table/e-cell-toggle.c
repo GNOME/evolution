@@ -173,8 +173,10 @@ static void
 cell_toggle_realize (ECellView *ecell_view)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
+	GdkWindow *window;
 
-	toggle_view->gc = gdk_gc_new (GTK_WIDGET (toggle_view->canvas)->window);
+	window = gtk_widget_get_window (GTK_WIDGET (toggle_view->canvas));
+	toggle_view->gc = gdk_gc_new (window);
 }
 
 static void

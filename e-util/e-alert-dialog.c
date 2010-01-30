@@ -221,7 +221,7 @@ e_alert_dialog_constructed (GObject *obj)
 	gtk_label_set_selectable((GtkLabel *)w, TRUE);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_label_set_markup((GtkLabel *)w, out->str);
-	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (w, FALSE);
 	g_string_free(out, TRUE);
 	if (e_alert_get_scroll (alert)) {
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);

@@ -333,6 +333,7 @@ static void
 do_properties (GtkMenuItem *item, gpointer user_data)
 {
 	GtkWidget *cfg, *dialog, *vbox, *label, *hbox;
+	GtkWidget *content_area;
 	gchar *text;
 
 	cfg = get_cfg_widget ();
@@ -367,8 +368,10 @@ do_properties (GtkMenuItem *item, gpointer user_data)
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 		NULL);
 
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), vbox);
+	gtk_container_add (GTK_CONTAINER (content_area), vbox);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
 	gtk_widget_set_size_request (dialog, 400, -1);
 	g_signal_connect_swapped (

@@ -101,20 +101,28 @@ static void
 e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullname)
 {
 	GtkBuilder *builder;
+	GtkDialog *dialog;
+	GtkWidget *parent;
 	GtkWidget *widget;
+	GtkWidget *action_area;
+	GtkWidget *content_area;
+	const gchar *title;
+
+	dialog = GTK_DIALOG (e_contact_editor_fullname);
+	action_area = gtk_dialog_get_action_area (dialog);
+	content_area = gtk_dialog_get_content_area (dialog);
 
 	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
-	gtk_dialog_set_has_separator (GTK_DIALOG (e_contact_editor_fullname),
-				      FALSE);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (e_contact_editor_fullname)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (e_contact_editor_fullname)->action_area), 12);
+	gtk_dialog_set_has_separator (dialog, FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_fullname),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
+	gtk_dialog_add_buttons (
+		dialog,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
-	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_fullname), TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
 	e_contact_editor_fullname->name = NULL;
 
@@ -124,14 +132,15 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	e_contact_editor_fullname->builder = builder;
 
 	widget = e_builder_get_widget(builder, "dialog-checkfullname");
-	gtk_window_set_title (GTK_WINDOW (e_contact_editor_fullname),
-			      GTK_WINDOW (widget)->title);
+	title = gtk_window_get_title (GTK_WINDOW (widget));
+	gtk_window_set_title (GTK_WINDOW (e_contact_editor_fullname), title);
 
 	widget = e_builder_get_widget(builder, "table-checkfullname");
-	g_object_ref(widget);
-	gtk_container_remove(GTK_CONTAINER(widget->parent), widget);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
-	g_object_unref(widget);
+	parent = gtk_widget_get_parent (widget);
+	g_object_ref (widget);
+	gtk_container_remove (GTK_CONTAINER (parent), widget);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+	g_object_unref (widget);
 
 	gtk_window_set_icon_name (
 		GTK_WINDOW (e_contact_editor_fullname), "contact-new");

@@ -995,6 +995,7 @@ certificate_manager_config_init (EShell *shell)
 {
 	CertificateManagerData *cfm_data;
 	GtkWidget *preferences_window;
+	GtkWidget *parent;
 	GtkWidget *widget;
 
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -1036,7 +1037,8 @@ certificate_manager_config_init (EShell *shell)
 	widget = e_builder_get_widget (cfm_data->builder, "cert-manager-notebook");
 	g_object_ref (widget);
 
-	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+	parent = gtk_widget_get_parent (widget);
+	gtk_container_remove (GTK_CONTAINER (parent), widget);
 
 	/* FIXME: remove when implemented */
 	gtk_widget_set_sensitive(cfm_data->backup_your_button, FALSE);

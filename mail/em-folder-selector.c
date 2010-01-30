@@ -131,7 +131,7 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 	const gchar *text = NULL;
 	gboolean active;
 
-	if (emfs->name_entry->text_length > 0)
+	if (gtk_entry_get_text_length (emfs->name_entry) > 0)
 		text = gtk_entry_get_text (emfs->name_entry);
 
 	path = em_folder_tree_get_selected_uri(emfs->emft);
@@ -159,14 +159,16 @@ folder_activated_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, EM
 void
 em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel)
 {
+	GtkWidget *container;
 	GtkWidget *widget;
 
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
 	gtk_window_set_title (GTK_WINDOW (emfs), title);
 	gtk_container_set_border_width (GTK_CONTAINER (emfs), 6);
 
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (emfs)->vbox), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (emfs)->vbox), 6);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (emfs));
+	gtk_box_set_spacing (GTK_BOX (container), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (container), 6);
 
 	emfs->flags = flags;
 	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
@@ -186,8 +188,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_box_pack_end (
-		GTK_BOX (GTK_DIALOG (emfs)->vbox), widget, TRUE, TRUE, 6);
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 6);
 	gtk_widget_show (widget);
 
 	emfs->emft = emft;
@@ -202,7 +203,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 		gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_LEFT);
 		gtk_widget_show (widget);
 
-		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), widget, FALSE, TRUE, 6);
+		gtk_box_pack_end (GTK_BOX (container), widget, FALSE, TRUE, 6);
 	}
 
 	gtk_widget_grab_focus ((GtkWidget *) emfs->emft);
@@ -229,7 +230,7 @@ em_folder_selector_new (GtkWindow *parent,
 static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
-	if (emfs->name_entry->text_length > 0) {
+	if (gtk_entry_get_text_length (emfs->name_entry) > 0) {
 		gchar *path;
 		const gchar *text;
 
@@ -251,6 +252,7 @@ em_folder_selector_create_new (GtkWindow *parent,
 {
 	EMFolderSelector *emfs;
 	GtkWidget *hbox, *w;
+	GtkWidget *container;
 
 	/* remove the CREATE flag if it is there since that's the
 	 * whole purpose of this dialog */
@@ -272,7 +274,8 @@ em_folder_selector_create_new (GtkWindow *parent,
 	gtk_box_pack_start ((GtkBox *) hbox, (GtkWidget *) emfs->name_entry, TRUE, FALSE, 6);
 	gtk_widget_show_all (hbox);
 
-	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) emfs)->vbox, hbox, FALSE, TRUE, 0);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (emfs));
+	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, TRUE, 0);
 
 	gtk_widget_grab_focus ((GtkWidget *) emfs->name_entry);
 

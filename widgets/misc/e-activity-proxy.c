@@ -278,7 +278,7 @@ activity_proxy_init (EActivityProxy *proxy)
 
 	widget = gtk_spinner_new ();
 	gtk_spinner_start (GTK_SPINNER (widget));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 3);
 	proxy->priv->spinner = g_object_ref (widget);
 	gtk_widget_show (widget);
 

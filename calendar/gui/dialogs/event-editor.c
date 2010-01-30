@@ -108,12 +108,16 @@ create_schedule_page (CompEditor *editor)
 	EventEditorPrivate *priv;
 	ENameSelector *name_selector;
 	CompEditorPage *page;
+	GtkWidget *content_area;
 
 	priv = EVENT_EDITOR_GET_PRIVATE (editor);
 
 	priv->sched_window = gtk_dialog_new_with_buttons (
 		_("Free/Busy"), GTK_WINDOW (editor), GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+
+	content_area =
+		gtk_dialog_get_content_area (GTK_DIALOG (priv->sched_window));
 
 	g_signal_connect (
 		priv->sched_window, "response",
@@ -125,7 +129,7 @@ create_schedule_page (CompEditor *editor)
 	priv->sched_page = schedule_page_new (priv->model, editor);
 	page = COMP_EDITOR_PAGE (priv->sched_page);
 	gtk_container_add (
-		GTK_CONTAINER (GTK_DIALOG (priv->sched_window)->vbox),
+		GTK_CONTAINER (content_area),
 		comp_editor_page_get_widget (page));
 
 	name_selector = event_page_get_name_selector (priv->event_page);
@@ -267,6 +271,7 @@ event_editor_constructor (GType type,
 	CompEditorPage *page;
 	EventEditorPrivate *priv;
 	GtkActionGroup *action_group;
+	GtkWidget *content_area;
 	ECal *client;
 	gboolean is_meeting;
 
@@ -300,10 +305,13 @@ event_editor_constructor (GType type,
 		priv->recur_window, "delete-event",
 		G_CALLBACK(gtk_widget_hide_on_delete), NULL);
 
+	content_area =
+		gtk_dialog_get_content_area (GTK_DIALOG (priv->recur_window));
+
 	priv->recur_page = recurrence_page_new (editor);
 	page = COMP_EDITOR_PAGE (priv->recur_page);
 	gtk_container_add (
-		GTK_CONTAINER ((GTK_DIALOG (priv->recur_window)->vbox)),
+		GTK_CONTAINER (content_area),
 		comp_editor_page_get_widget (page));
 	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->recur_window)));
 	comp_editor_append_page (editor, page, NULL, FALSE);

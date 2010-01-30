@@ -445,6 +445,7 @@ ea_cal_view_get_extents (AtkComponent   *component,
 	ECalendarView *cal_view;
 	gint item_x, item_y, item_w, item_h;
 	GtkWidget *canvas = NULL;
+	GdkWindow *window;
 
 	g_return_if_fail (EA_IS_CAL_VIEW_EVENT (component));
 
@@ -509,8 +510,8 @@ ea_cal_view_get_extents (AtkComponent   *component,
 	if (!canvas)
 		return;
 
-	gdk_window_get_origin (canvas->window,
-			       &x_window, &y_window);
+	window = gtk_widget_get_window (canvas);
+	gdk_window_get_origin (window, &x_window, &y_window);
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (canvas), &scroll_x, &scroll_y);
 
 	*x = item_x + x_window - scroll_x;
@@ -519,10 +520,10 @@ ea_cal_view_get_extents (AtkComponent   *component,
 	*height = item_h;
 
 	if (coord_type == ATK_XY_WINDOW) {
-		GdkWindow *window;
 		gint x_toplevel, y_toplevel;
 
-		window = gdk_window_get_toplevel (GTK_WIDGET (cal_view)->window);
+		window = gtk_widget_get_window (GTK_WIDGET (cal_view));
+		window = gdk_window_get_toplevel (window);
 		gdk_window_get_origin (window, &x_toplevel, &y_toplevel);
 
 		*x -= x_toplevel;

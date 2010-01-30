@@ -853,6 +853,7 @@ static void
 e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 				      GdkEvent *event)
 {
+	GdkWindow *window;
 	EDayView *day_view;
 	GnomeCanvas *canvas;
 	gint row;
@@ -868,14 +869,12 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 	if (row == -1)
 		return;
 
-#if GTK_CHECK_VERSION(2,19,7)
 	if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
-#else
-	if (!GTK_WIDGET_HAS_FOCUS (day_view))
-#endif
 		gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
-	if (gdk_pointer_grab (GTK_LAYOUT (canvas)->bin_window, FALSE,
+	window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
+
+	if (gdk_pointer_grab (window, FALSE,
 			      GDK_POINTER_MOTION_MASK
 			      | GDK_BUTTON_RELEASE_MASK,
 			      NULL, NULL, event->button.time) == 0) {
