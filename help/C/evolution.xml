@@ -2542,7 +2542,7 @@
     </formalpara>
     <formalpara id="b141jcun">
      <title>vCalendar:</title>
-     <para>A format for storing calender files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer.</para>
+     <para>A format for storing calendar files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer.</para>
     </formalpara>
     <formalpara id="bsawccr">
      <title>iCalendar or iCal (.ics):</title>
@@ -3988,7 +3988,7 @@
     <para>Click Mark as default folder if you want to mark this folder as your default calendar folder.</para>
     <section id="b1g4s6ns">
      <title>Weather Calendar</title>
-     <para>In the Properties of a Weather calendar you can specify a location for the weather calender. Click Location to select any world-wide location for the calendar.</para>
+     <para>In the Properties of a Weather calendar you can specify a location for the weather calendar. Click Location to select any world-wide location for the calendar.</para>
      <mediaobject id="b1g4qrov"><imageobject><imagedata format="PNG" fileref="figures/evo_Wcal_prop_a.png"/></imageobject></mediaobject>
      <para>The temperature for the selected location appears in units as specified at the top of the Calendar view.</para>
 
@@ -4100,7 +4100,7 @@
        <para>or</para>
        <para>Double-click in a blank space on the calendar view to open an Appointment dialog box. The particular time on the calendar view against which you have double clicked on will be suggested for the new appointment.</para>
        <para>or</para>
-       <para>Select the required duration on the calender view and enter the summary.</para>
+       <para>Select the required duration on the calendar view and enter the summary.</para>
       </listitem>
       <listitem id="b10fnwj2">
        <para>Select a calendar in the Calendar drop-down list.</para>
@@ -6022,7 +6022,7 @@
   <section id="b15iirao">
    <title>Reminder Notes</title>
    <para>GroupWise Reminder notes are like mail messages except they are scheduled for a particular day and appear on the Calendar for that date. You can use reminder notes to show vacations, holidays, pay days, birthdays, and so on. Posted reminder notes are placed in your Calendar on the date you specify. They are not placed in your Mailbox or in any other user's Mailbox.</para>
-   <para>Evolution integrates this feature into its Memo component so that you can view the Reminder notes listed under Memo at the right bottom side of the calender view.</para>
+   <para>Evolution integrates this feature into its Memo component so that you can view the Reminder notes listed under Memo at the right bottom side of the calendar view.</para>
    <note>
     <para>Select the memo or the Reminder notes under the Memo component to display it on the Calendar view.</para>
    </note>
