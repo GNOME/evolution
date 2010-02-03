@@ -502,6 +502,7 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 		g_object_get (
 			g_object_ref (action), "action-group",
 			&combo_box->priv->action_group, NULL);
+
 	combo_box->priv->action = action;
 	action_combo_box_update_model (combo_box);
 
@@ -526,6 +527,8 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 				action_combo_box_action_group_notify_cb),
 				combo_box);
 	}
+
+	g_object_notify (G_OBJECT (combo_box), "action");
 }
 
 gint

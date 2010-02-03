@@ -28,6 +28,9 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-disco-store.h>
 #include <camel/camel-offline-store.h>
+#include <camel/camel-operation.h>
+#include <camel/camel-vee-folder.h>
+#include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
@@ -58,6 +61,8 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
+#include "mail-session.h"
+#include "mail-tools.h"
 #include "mail-vfolder.h"
 #include "message-list.h"
 
@@ -146,6 +151,11 @@ struct _EMailShellViewPrivate {
 
 	/* EShell::prepare-for-quit */
 	gulong prepare_for_quit_handler_id;
+
+	/* Search folders for interactive search. */
+	CamelVeeFolder *search_account_all;
+	CamelVeeFolder *search_account_current;
+	CamelOperation *search_account_cancel;
 
 	guint show_deleted : 1;
 };

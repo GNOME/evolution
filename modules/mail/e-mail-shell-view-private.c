@@ -416,6 +416,7 @@ void
 e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShell *shell;
 	EShellView *shell_view;
@@ -424,8 +425,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
+	EShellSearchbar *searchbar;
 	EMFormatHTMLDisplay *html_display;
 	EMFolderTree *folder_tree;
+	EActionComboBox *combo_box;
 	ERuleContext *context;
 	EFilterRule *rule = NULL;
 	GtkTreeSelection *selection;
@@ -471,6 +474,16 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
+	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+
+	/* The folder tree and scope combo box are both insensitive
+	 * when searching beyond the currently selected folder. */
+	e_mutual_binding_new (
+		folder_tree, "sensitive",
+		combo_box, "sensitive");
 
 	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
@@ -616,6 +629,21 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 
 	for (ii = 0; ii < MAIL_NUM_SEARCH_RULES; ii++)
 		DISPOSE (priv->search_rules[ii]);
+
+	if (priv->search_account_all != NULL) {
+		camel_object_unref (priv->search_account_all);
+		priv->search_account_all = NULL;
+	}
+
+	if (priv->search_account_current != NULL) {
+		camel_object_unref (priv->search_account_current);
+		priv->search_account_current = NULL;
+	}
+
+	if (priv->search_account_cancel != NULL) {
+		camel_operation_unref (priv->search_account_cancel);
+		priv->search_account_cancel = NULL;
+	}
 }
 
 void
@@ -630,8 +658,11 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	EMailShellContent *mail_shell_content;
 	EShellSearchbar *searchbar;
 	EMailReader *reader;
+	CamelFolder *folder;
+	CamelVeeFolder *vee_folder;
+	const gchar *old_state_group;
 	const gchar *folder_uri;
-	gchar *group_name;
+	gchar *new_state_group;
 
 	/* XXX Move this to EMailShellContent. */
 
@@ -641,14 +672,34 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_shell_content);
+	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (folder_uri == NULL)
 		return;
 
-	group_name = g_strdup_printf ("Folder %s", folder_uri);
-	e_shell_searchbar_restore_state (searchbar, group_name);
-	g_free (group_name);
+	/* Do not restore state if we're running a "Current Account"
+	 * or "All Accounts" search, since we don't want the search
+	 * criteria to be destroyed in those cases. */
+
+	vee_folder = mail_shell_view->priv->search_account_all;
+	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
+		return;
+
+	vee_folder = mail_shell_view->priv->search_account_current;
+	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
+		return;
+
+	new_state_group = g_strdup_printf ("Folder %s", folder_uri);
+	old_state_group = e_shell_searchbar_get_state_group (searchbar);
+
+	/* Avoid loading search state unnecessarily. */
+	if (g_strcmp0 (new_state_group, old_state_group) != 0) {
+		e_shell_searchbar_set_state_group (searchbar, new_state_group);
+		e_shell_searchbar_load_state (searchbar);
+	}
+
+	g_free (new_state_group);
 }
 
 /* Helper for e_mail_shell_view_create_filter_from_selected() */

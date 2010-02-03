@@ -24,6 +24,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-binding.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
@@ -36,7 +37,11 @@
 
 #define SEARCH_OPTION_ADVANCED		(-1)
 
+/* Default "state key file" group: [Search Bar] */
+#define STATE_GROUP_DEFAULT		"Search Bar"
+
 #define STATE_KEY_SEARCH_FILTER		"SearchFilter"
+#define STATE_KEY_SEARCH_OPTION		"SearchOption"
 #define STATE_KEY_SEARCH_SCOPE		"SearchScope"
 #define STATE_KEY_SEARCH_TEXT		"SearchText"
 
@@ -52,16 +57,21 @@ struct _EShellSearchbarPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *scope_combo_box;
 
+	/* State Key File */
+	gchar *state_group;
+
 	guint filter_visible : 1;
+	guint label_visible  : 1;
 	guint search_visible : 1;
 	guint scope_visible  : 1;
-	guint label_visible  : 1;
+	guint state_dirty    : 1;
 };
 
 enum {
 	PROP_0,
 	PROP_FILTER_COMBO_BOX,
 	PROP_FILTER_VISIBLE,
+	PROP_LABEL_VISIBLE,
 	PROP_SEARCH_HINT,
 	PROP_SEARCH_OPTION,
 	PROP_SEARCH_TEXT,
@@ -69,7 +79,7 @@ enum {
 	PROP_SCOPE_COMBO_BOX,
 	PROP_SCOPE_VISIBLE,
 	PROP_SHELL_VIEW,
-	PROP_LABEL_VISIBLE,
+	PROP_STATE_GROUP
 };
 
 static gpointer parent_class;
@@ -158,6 +168,8 @@ shell_searchbar_execute_search_cb (EShellView *shell_view,
 	GtkWidget *widget;
 
 	shell_searchbar_update_search_widgets (searchbar);
+
+	e_shell_searchbar_save_state (searchbar);
 
 	if (!e_shell_view_is_active (shell_view))
 		return;
@@ -324,13 +336,14 @@ shell_searchbar_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_LABEL_VISIBLE:
-			e_shell_searchbar_set_label_visible (
+		case PROP_FILTER_VISIBLE:
+			e_shell_searchbar_set_filter_visible (
 				E_SHELL_SEARCHBAR (object),
 				g_value_get_boolean (value));
 			return;
-		case PROP_FILTER_VISIBLE:
-			e_shell_searchbar_set_filter_visible (
+
+		case PROP_LABEL_VISIBLE:
+			e_shell_searchbar_set_label_visible (
 				E_SHELL_SEARCHBAR (object),
 				g_value_get_boolean (value));
 			return;
@@ -369,6 +382,12 @@ shell_searchbar_set_property (GObject *object,
 			shell_searchbar_set_shell_view (
 				E_SHELL_SEARCHBAR (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_STATE_GROUP:
+			e_shell_searchbar_set_state_group (
+				E_SHELL_SEARCHBAR (object),
+				g_value_get_string (value));
 			return;
 	}
 
@@ -441,6 +460,12 @@ shell_searchbar_get_property (GObject *object,
 				value, e_shell_searchbar_get_shell_view (
 				E_SHELL_SEARCHBAR (object)));
 			return;
+
+		case PROP_STATE_GROUP:
+			g_value_set_string (
+				value, e_shell_searchbar_get_state_group (
+				E_SHELL_SEARCHBAR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -488,18 +513,25 @@ shell_searchbar_constructed (GObject *object)
 
 	g_signal_connect (
 		shell_view, "clear-search",
-		G_CALLBACK (shell_searchbar_clear_search_cb),
-		searchbar);
+		G_CALLBACK (shell_searchbar_clear_search_cb), searchbar);
 
 	g_signal_connect (
 		shell_view, "custom-search",
-		G_CALLBACK (shell_searchbar_custom_search_cb),
-		searchbar);
+		G_CALLBACK (shell_searchbar_custom_search_cb), searchbar);
 
 	g_signal_connect_after (
 		shell_view, "execute-search",
-		G_CALLBACK (shell_searchbar_execute_search_cb),
-		searchbar);
+		G_CALLBACK (shell_searchbar_execute_search_cb), searchbar);
+
+	widget = searchbar->priv->filter_combo_box;
+
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (e_shell_searchbar_set_state_dirty), searchbar);
+
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (e_shell_view_execute_search), shell_view);
 
 	widget = searchbar->priv->search_entry;
 
@@ -532,9 +564,22 @@ shell_searchbar_constructed (GObject *object)
 }
 
 static void
+shell_searchbar_map (GtkWidget *widget)
+{
+	/* Chain up to parent's map() method. */
+	GTK_WIDGET_CLASS (parent_class)->map (widget);
+
+	/* Load state after constructed() so we don't derail
+	 * subclass initialization.  We wait until map() so we
+	 * have usable style colors for the entry box. */
+	e_shell_searchbar_load_state (E_SHELL_SEARCHBAR (widget));
+}
+
+static void
 shell_searchbar_class_init (EShellSearchbarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellSearchbarPrivate));
@@ -544,6 +589,9 @@ shell_searchbar_class_init (EShellSearchbarClass *class)
 	object_class->get_property = shell_searchbar_get_property;
 	object_class->dispose = shell_searchbar_dispose;
 	object_class->constructed = shell_searchbar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->map = shell_searchbar_map;
 
 	g_object_class_install_property (
 		object_class,
@@ -654,6 +702,22 @@ shell_searchbar_class_init (EShellSearchbarClass *class)
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShellContent:state-group
+	 *
+	 * Key file group name to read and write search bar state.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_STATE_GROUP,
+		g_param_spec_string (
+			"state-group",
+			NULL,
+			NULL,
+			STATE_GROUP_DEFAULT,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 }
 
 static void
@@ -737,6 +801,11 @@ shell_searchbar_init (EShellSearchbar *searchbar)
 		searchbar);
 
 	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (e_shell_searchbar_set_state_dirty),
+		searchbar);
+
+	g_signal_connect_swapped (
 		widget, "icon-press",
 		G_CALLBACK (shell_searchbar_entry_icon_press_cb),
 		searchbar);
@@ -777,6 +846,11 @@ shell_searchbar_init (EShellSearchbar *searchbar)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->scope_combo_box = widget;
 	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (e_shell_searchbar_set_state_dirty),
+		searchbar);
 }
 
 GType
@@ -856,7 +930,7 @@ e_shell_searchbar_get_label_visible (EShellSearchbar *searchbar)
 
 void
 e_shell_searchbar_set_label_visible (EShellSearchbar *searchbar,
-                                      gboolean label_visible)
+                                     gboolean label_visible)
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
@@ -1015,7 +1089,7 @@ e_shell_searchbar_get_scope_visible (EShellSearchbar *searchbar)
 
 void
 e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
-                                      gboolean scope_visible)
+                                     gboolean scope_visible)
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
@@ -1025,8 +1099,38 @@ e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
 }
 
 void
-e_shell_searchbar_restore_state (EShellSearchbar *searchbar,
-                                 const gchar *group_name)
+e_shell_searchbar_set_state_dirty (EShellSearchbar *searchbar)
+{
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	searchbar->priv->state_dirty = TRUE;
+}
+
+const gchar *
+e_shell_searchbar_get_state_group (EShellSearchbar *searchbar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
+
+	return searchbar->priv->state_group;
+}
+
+void
+e_shell_searchbar_set_state_group (EShellSearchbar *searchbar,
+                                   const gchar *state_group)
+{
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	if (state_group == NULL)
+		state_group = STATE_GROUP_DEFAULT;
+
+	g_free (searchbar->priv->state_group);
+	searchbar->priv->state_group = g_strdup (state_group);
+
+	g_object_notify (G_OBJECT (searchbar), "state-group");
+}
+
+void
+e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -1034,15 +1138,19 @@ e_shell_searchbar_restore_state (EShellSearchbar *searchbar,
 	GtkAction *action;
 	GtkWidget *widget;
 	const gchar *search_text;
+	const gchar *state_group;
 	const gchar *key;
 	gchar *string;
+	gint value = 0;
 
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
-	g_return_if_fail (group_name != NULL);
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_return_if_fail (state_group != NULL);
+
 	key_file = e_shell_view_get_state_key_file (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	/* Changing the combo boxes triggers searches, so block
 	 * the search action until the state is fully restored. */
@@ -1052,13 +1160,14 @@ e_shell_searchbar_restore_state (EShellSearchbar *searchbar,
 	e_shell_view_block_execute_search (shell_view);
 
 	e_shell_view_set_search_rule (shell_view, NULL);
+
 	key = STATE_KEY_SEARCH_FILTER;
-	string = g_key_file_get_string (key_file, group_name, key, NULL);
+	string = g_key_file_get_string (key_file, state_group, key, NULL);
 	if (string != NULL && *string != '\0')
 		action = e_shell_window_get_action (shell_window, string);
 	else
 		action = NULL;
-	if (action != NULL)
+	if (GTK_IS_RADIO_ACTION (action))
 		gtk_action_activate (action);
 	else {
 		/* Pick the first combo box item. */
@@ -1067,13 +1176,43 @@ e_shell_searchbar_restore_state (EShellSearchbar *searchbar,
 	}
 	g_free (string);
 
-	key = STATE_KEY_SEARCH_SCOPE;
-	string = g_key_file_get_string (key_file, group_name, key, NULL);
+	/* Avoid restoring to the "Advanced Search" option, since we
+	 * don't currently save the search rule (TODO but we should). */
+	key = STATE_KEY_SEARCH_OPTION;
+	string = g_key_file_get_string (key_file, state_group, key, NULL);
 	if (string != NULL && *string != '\0')
 		action = e_shell_window_get_action (shell_window, string);
 	else
 		action = NULL;
-	if (action != NULL)
+	if (GTK_IS_RADIO_ACTION (action))
+		g_object_get (action, "value", &value, NULL);
+	else
+		value = SEARCH_OPTION_ADVANCED;
+	if (value != SEARCH_OPTION_ADVANCED)
+		gtk_action_activate (action);
+	else if (searchbar->priv->search_option != NULL)
+		gtk_radio_action_set_current_value (
+			searchbar->priv->search_option, 0);
+
+	key = STATE_KEY_SEARCH_TEXT;
+	string = g_key_file_get_string (key_file, state_group, key, NULL);
+	search_text = e_shell_searchbar_get_search_text (searchbar);
+	if (search_text != NULL && *search_text == '\0')
+		search_text = NULL;
+	if (g_strcmp0 (string, search_text) != 0)
+		e_shell_searchbar_set_search_text (searchbar, string);
+	g_free (string);
+
+	/* Search scope is hard-coded to the default state group. */
+	state_group = STATE_GROUP_DEFAULT;
+
+	key = STATE_KEY_SEARCH_SCOPE;
+	string = g_key_file_get_string (key_file, state_group, key, NULL);
+	if (string != NULL && *string != '\0')
+		action = e_shell_window_get_action (shell_window, string);
+	else
+		action = NULL;
+	if (GTK_IS_RADIO_ACTION (action))
 		gtk_action_activate (action);
 	else {
 		/* Pick the first combo box item. */
@@ -1082,20 +1221,84 @@ e_shell_searchbar_restore_state (EShellSearchbar *searchbar,
 	}
 	g_free (string);
 
-	key = STATE_KEY_SEARCH_TEXT;
-	string = g_key_file_get_string (key_file, group_name, key, NULL);
-	search_text = e_shell_searchbar_get_search_text (searchbar);
-	if (search_text != NULL && *search_text == '\0')
-		search_text = NULL;
-	if (g_strcmp0 (string, search_text) != 0)
-		e_shell_searchbar_set_search_text (searchbar, string);
-	g_free (string);
-
 	e_shell_view_unblock_execute_search (shell_view);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_unblock_activate (action);
 
 	/* Now execute the search. */
+	searchbar->priv->state_dirty = FALSE;
 	e_shell_view_execute_search (shell_view);
+}
+
+void
+e_shell_searchbar_save_state (EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	GKeyFile *key_file;
+	GtkRadioAction *radio_action;
+	EActionComboBox *action_combo_box;
+	const gchar *action_name;
+	const gchar *search_text;
+	const gchar *state_group;
+	const gchar *key;
+
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	/* Skip saving state if it hasn't changed since it was loaded. */
+	if (!searchbar->priv->state_dirty)
+		return;
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+	state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_return_if_fail (state_group != NULL);
+
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	key = STATE_KEY_SEARCH_FILTER;
+	action_combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	radio_action = e_action_combo_box_get_action (action_combo_box);
+	if (radio_action != NULL)
+		radio_action = e_radio_action_get_current_action (radio_action);
+	if (radio_action != NULL) {
+		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+		g_key_file_set_string (key_file, state_group, key, action_name);
+	} else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	key = STATE_KEY_SEARCH_OPTION;
+	radio_action = e_shell_searchbar_get_search_option (searchbar);
+	if (radio_action != NULL)
+		radio_action = e_radio_action_get_current_action (radio_action);
+	if (radio_action != NULL) {
+		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+		g_key_file_set_string (key_file, state_group, key, action_name);
+	} else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	key = STATE_KEY_SEARCH_TEXT;
+	search_text = e_shell_searchbar_get_search_text (searchbar);
+	if (search_text != NULL && *search_text == '\0')
+		search_text = NULL;
+	if (search_text != NULL)
+		g_key_file_set_string (key_file, state_group, key, search_text);
+	else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	/* Search scope is hard-coded to the default state group. */
+	state_group = STATE_GROUP_DEFAULT;
+
+	key = STATE_KEY_SEARCH_SCOPE;
+	action_combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+	radio_action = e_action_combo_box_get_action (action_combo_box);
+	if (radio_action != NULL)
+		radio_action = e_radio_action_get_current_action (radio_action);
+	if (radio_action != NULL) {
+		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+		g_key_file_set_string (key_file, state_group, key, action_name);
+	} else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	searchbar->priv->state_dirty = FALSE;
+	e_shell_view_set_state_dirty (shell_view);
 }

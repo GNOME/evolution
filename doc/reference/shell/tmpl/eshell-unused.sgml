@@ -2649,6 +2649,14 @@ intelligent
 @online: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_searchbar_restore_state ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@group_name: 
+
 <!-- ##### FUNCTION e_shell_set_line_status ##### -->
 <para>
 

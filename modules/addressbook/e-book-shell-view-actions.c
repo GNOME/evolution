@@ -655,14 +655,6 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	gal_view_instance_save_as (view_instance);
 }
 
-static void
-action_search_filter_cb (GtkRadioAction *action,
-                         GtkRadioAction *current,
-                         EShellView *shell_view)
-{
-	e_shell_view_execute_search (shell_view);
-}
-
 static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-copy",
@@ -1022,9 +1014,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	gtk_action_set_visible (action, FALSE);
 	e_shell_searchbar_set_search_option (
 		searchbar, GTK_RADIO_ACTION (action));
-	gtk_radio_action_set_current_value (
-		GTK_RADIO_ACTION (action),
-		CONTACT_SEARCH_NAME_CONTAINS);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1097,13 +1086,13 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	action_group = ACTION_GROUP (CONTACTS_FILTER);
 	e_action_group_remove_all_actions (action_group);
 
-	/* Add the standard filter actions. */
+	/* Add the standard filter actions.  No callback is needed
+	 * because changes in the EActionComboBox are detected and
+	 * handled by EShellSearchbar. */
 	gtk_action_group_add_radio_actions (
 		action_group, contact_filter_entries,
 		G_N_ELEMENTS (contact_filter_entries),
-		CONTACT_FILTER_ANY_CATEGORY,
-		G_CALLBACK (action_search_filter_cb),
-		book_shell_view);
+		CONTACT_FILTER_ANY_CATEGORY, NULL, NULL);
 
 	/* Retrieve the radio group from an action we just added. */
 	list = gtk_action_group_list_actions (action_group);
@@ -1154,12 +1143,17 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	}
 	g_list_free (list);
 
-	/* Use any action in the group; doesn't matter which. */
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+
+	e_shell_view_block_execute_search (shell_view);
+
+	/* Use any action in the group; doesn't matter which. */
 	e_action_combo_box_set_action (combo_box, radio_action);
 
 	ii = CONTACT_FILTER_UNMATCHED;
 	e_action_combo_box_add_separator_after (combo_box, ii);
+
+	e_shell_view_unblock_execute_search (shell_view);
 }

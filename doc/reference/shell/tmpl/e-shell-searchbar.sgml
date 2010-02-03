@@ -73,6 +73,11 @@ EShellSearchbar
 
 </para>
 
+<!-- ##### ARG EShellSearchbar:state-group ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION e_shell_searchbar_new ##### -->
 <para>
 
@@ -215,14 +220,5 @@ EShellSearchbar
 
 @searchbar: 
 @scope_visible: 
-
-
-<!-- ##### FUNCTION e_shell_searchbar_restore_state ##### -->
-<para>
-
-</para>
-
-@searchbar: 
-@group_name: 
 
 

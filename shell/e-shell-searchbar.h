@@ -83,6 +83,11 @@ gboolean	e_shell_searchbar_get_filter_visible
 void		e_shell_searchbar_set_filter_visible
 						(EShellSearchbar *searchbar,
 						 gboolean filter_visible);
+gboolean	e_shell_searchbar_get_label_visible
+						(EShellSearchbar *searchbar);
+void		e_shell_searchbar_set_label_visible
+						(EShellSearchbar *searchbar,
+						 gboolean label_visible);
 const gchar *	e_shell_searchbar_get_search_hint
 						(EShellSearchbar *searchbar);
 void		e_shell_searchbar_set_search_hint
@@ -103,11 +108,6 @@ gboolean	e_shell_searchbar_get_search_visible
 void		e_shell_searchbar_set_search_visible
 						(EShellSearchbar *searchbar,
 						 gboolean search_visible);
-gboolean	e_shell_searchbar_get_label_visible
-						(EShellSearchbar *searchbar);
-void		e_shell_searchbar_set_label_visible
-						(EShellSearchbar *searchbar,
-						 gboolean label_visible);
 EActionComboBox *
 		e_shell_searchbar_get_scope_combo_box
 						(EShellSearchbar *searchbar);
@@ -116,8 +116,15 @@ gboolean	e_shell_searchbar_get_scope_visible
 void		e_shell_searchbar_set_scope_visible
 						(EShellSearchbar *searchbar,
 						 gboolean scope_visible);
-void		e_shell_searchbar_restore_state	(EShellSearchbar *searchbar,
-						 const gchar *group_name);
+void		e_shell_searchbar_set_state_dirty
+						(EShellSearchbar *searchbar);
+const gchar *	e_shell_searchbar_get_state_group
+						(EShellSearchbar *searchbar);
+void		e_shell_searchbar_set_state_group
+						(EShellSearchbar *searchbar,
+						 const gchar *state_group);
+void		e_shell_searchbar_load_state	(EShellSearchbar *searchbar);
+void		e_shell_searchbar_save_state	(EShellSearchbar *searchbar);
 
 G_END_DECLS
 

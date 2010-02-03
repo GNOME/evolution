@@ -1222,14 +1222,6 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	gal_view_instance_save_as (view_instance);
 }
 
-static void
-action_search_filter_cb (GtkRadioAction *action,
-                         GtkRadioAction *current,
-                         EShellView *shell_view)
-{
-	e_shell_view_execute_search (shell_view);
-}
-
 static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-copy",
@@ -1719,9 +1711,6 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	gtk_action_set_visible (action, FALSE);
 	e_shell_searchbar_set_search_option (
 		searchbar, GTK_RADIO_ACTION (action));
-	gtk_radio_action_set_current_value (
-		GTK_RADIO_ACTION (action),
-		CALENDAR_SEARCH_SUMMARY_CONTAINS);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1784,13 +1773,13 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 	action_group = ACTION_GROUP (CALENDAR_FILTER);
 	e_action_group_remove_all_actions (action_group);
 
-	/* Add the standard filter actions. */
+	/* Add the standard filter actions.  No callback is needed
+	 * because changes in the EActionComboBox are detected and
+	 * handled by EShellSearchbar. */
 	gtk_action_group_add_radio_actions (
 		action_group, calendar_filter_entries,
 		G_N_ELEMENTS (calendar_filter_entries),
-		CALENDAR_FILTER_ANY_CATEGORY,
-		G_CALLBACK (action_search_filter_cb),
-		cal_shell_view);
+		CALENDAR_FILTER_ANY_CATEGORY, NULL, NULL);
 
 	/* Retrieve the radio group from an action we just added. */
 	list = gtk_action_group_list_actions (action_group);
@@ -1841,10 +1830,13 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 	}
 	g_list_free (list);
 
-	/* Use any action in the group; doesn't matter which. */
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+
+	e_shell_view_block_execute_search (shell_view);
+
+	/* Use any action in the group; doesn't matter which. */
 	e_action_combo_box_set_action (combo_box, radio_action);
 
 	ii = CALENDAR_FILTER_UNMATCHED;
@@ -1852,4 +1844,6 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 
 	ii = CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS;
 	e_action_combo_box_add_separator_after (combo_box, ii);
+
+	e_shell_view_unblock_execute_search (shell_view);
 }

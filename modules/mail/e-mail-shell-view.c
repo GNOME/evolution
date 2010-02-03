@@ -25,6 +25,114 @@
 static gpointer parent_class;
 static GType mail_shell_view_type;
 
+/* ETable spec for search results */
+static const gchar *SEARCH_RESULTS_STATE =
+"<ETableState>"
+"  <column source=\"0\"/>"
+"  <column source=\"3\"/>"
+"  <column source=\"1\"/>"
+"  <column source=\"14\"/>"
+"  <column source=\"5\"/>"
+"  <column source=\"7\"/>"
+"  <column source=\"13\"/>"
+"  <grouping>"
+"    <leaf column=\"7\" ascending=\"false\"/>"
+"  </grouping>"
+"</ETableState>";
+
+typedef struct {
+	MailMsg base;
+
+	CamelFolder *folder;
+	CamelOperation *cancel;
+	GList *folder_list;
+} SearchResultsMsg;
+
+static gchar *
+search_results_desc (SearchResultsMsg *msg)
+{
+	return g_strdup (_("Searching"));
+}
+
+static void
+search_results_exec (SearchResultsMsg *msg)
+{
+	GList *copied_list;
+
+	camel_operation_register (msg->cancel);
+
+	copied_list = g_list_copy (msg->folder_list);
+	g_list_foreach (copied_list, (GFunc) camel_object_ref, NULL);
+
+	camel_vee_folder_set_folders (
+		CAMEL_VEE_FOLDER (msg->folder), copied_list);
+
+	g_list_foreach (copied_list, (GFunc) camel_object_unref, NULL);
+	g_list_free (copied_list);
+}
+
+static void
+search_results_done (SearchResultsMsg *msg)
+{
+}
+
+static void
+search_results_free (SearchResultsMsg *msg)
+{
+	camel_object_unref (msg->folder);
+
+	g_list_foreach (msg->folder_list, (GFunc) camel_object_unref, NULL);
+	g_list_free (msg->folder_list);
+}
+
+static MailMsgInfo search_results_setup_info = {
+	sizeof (SearchResultsMsg),
+	(MailMsgDescFunc) search_results_desc,
+	(MailMsgExecFunc) search_results_exec,
+	(MailMsgDoneFunc) search_results_done,
+	(MailMsgFreeFunc) search_results_free
+};
+
+static gint
+mail_shell_view_setup_search_results_folder (CamelFolder *folder,
+                                             GList *folder_list,
+                                             CamelOperation *cancel)
+{
+	SearchResultsMsg *msg;
+	gint id;
+
+	camel_object_ref (folder);
+
+	msg = mail_msg_new (&search_results_setup_info);
+	msg->folder = folder;
+	msg->cancel = cancel;
+	msg->folder_list = folder_list;
+
+	id = msg->base.seq;
+	mail_msg_slow_ordered_push (msg);
+
+	return id;
+}
+
+static void
+mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
+                                            CamelFolder *folder,
+                                            const gchar *folder_uri)
+{
+	GtkWidget *message_list;
+	EMailReader *reader;
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	message_list_freeze (MESSAGE_LIST (message_list));
+
+	e_mail_reader_set_folder (reader, folder, folder_uri);
+	e_tree_set_state (E_TREE (message_list), SEARCH_RESULTS_STATE);
+
+	message_list_thaw (MESSAGE_LIST (message_list));
+}
+
 static void
 mail_shell_view_dispose (GObject *object)
 {
@@ -88,36 +196,47 @@ mail_shell_view_execute_search (EShellView *shell_view)
 {
 	EMailShellViewPrivate *priv;
 	EMailShellContent *mail_shell_content;
+	EMailShellSidebar *mail_shell_sidebar;
 	EShell *shell;
 	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
+	EMFolderTree *folder_tree;
+	GtkTreeSelection *selection;
 	GtkWidget *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
+	CamelVeeFolder *search_folder;
 	CamelFolder *folder;
+	CamelStore *store;
 	GtkAction *action;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter tree_iter;
 	GString *string;
-	GList *iter;
+	GList *list, *iter;
 	GSList *search_strings = NULL;
 	const gchar *folder_uri;
+	const gchar *data_dir;
 	const gchar *text;
 	gboolean valid;
 	gchar *query;
 	gchar *temp;
 	gchar *tag;
+	gchar *uri;
 	const gchar *use_tag;
 	gint value;
 
 	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -125,33 +244,16 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
+	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+
 	reader = E_MAIL_READER (shell_content);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (folder_uri != NULL) {
-		GKeyFile *key_file;
-		const gchar *key;
-		const gchar *string;
-		gchar *group_name;
-
-		key_file = e_shell_view_get_state_key_file (shell_view);
-
-		key = STATE_KEY_SEARCH_TEXT;
-		string = e_shell_searchbar_get_search_text (searchbar);
-		group_name = g_strdup_printf ("Folder %s", folder_uri);
-
-		if (string != NULL && *string != '\0')
-			g_key_file_set_string (
-				key_file, group_name, key, string);
-		else
-			g_key_file_remove_key (
-				key_file, group_name, key, NULL);
-		e_shell_view_set_state_dirty (shell_view);
-
-		g_free (group_name);
-	}
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	/* This returns a new object reference. */
 	model = e_shell_settings_get_object (
@@ -356,6 +458,243 @@ filter:
 			query = temp;
 			break;
 	}
+
+	/* Apply selected scope. */
+
+	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+	value = e_action_combo_box_get_current_value (combo_box);
+	switch (value) {
+		case MAIL_SCOPE_CURRENT_FOLDER:
+			goto execute;
+
+		case MAIL_SCOPE_CURRENT_ACCOUNT:
+			goto current_account;
+
+		case MAIL_SCOPE_ALL_ACCOUNTS:
+			goto all_accounts;
+
+		default:
+			g_warn_if_reached ();
+			goto execute;
+	}
+
+all_accounts:
+
+	/* Prepare search folder for all accounts. */
+
+	/* If the search text is empty, cancel any
+	 * account-wide searches still in progress. */
+	text = e_shell_searchbar_get_search_text (searchbar);
+	if (text == NULL || *text == '\0') {
+		if (priv->search_account_all != NULL) {
+			camel_object_unref (priv->search_account_all);
+			priv->search_account_all = NULL;
+		}
+
+		if (priv->search_account_cancel != NULL) {
+			camel_operation_cancel (priv->search_account_cancel);
+			camel_operation_unref (priv->search_account_cancel);
+			priv->search_account_cancel = NULL;
+		}
+
+		/* Simulate a folder tree selection change, so the
+		 * message list is reset to the correct folder via
+		 * our EMFolderTree::folder-selected handler. */
+		g_signal_emit_by_name (selection, "changed");
+
+		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
+
+		goto execute;
+	}
+
+	search_folder = priv->search_account_all;
+
+	/* Skip the search if we already have the results. */
+	if (search_folder != NULL)
+		if (g_strcmp0 (query, search_folder->expression) == 0)
+			goto execute;
+
+	/* Disable the scope combo while search is in progress. */
+	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
+
+	/* If we already have a search folder, reuse it. */
+	if (search_folder != NULL) {
+		if (priv->search_account_cancel != NULL) {
+			camel_operation_cancel (priv->search_account_cancel);
+			camel_operation_unref (priv->search_account_cancel);
+			priv->search_account_cancel = NULL;
+		}
+
+		camel_vee_folder_set_expression (search_folder, query);
+
+		goto execute;
+	}
+
+	/* Create a new search folder. */
+
+	list = NULL;  /* list of CamelFolders */
+
+	/* FIXME Using data_dir like this is not portable. */
+	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
+	store = camel_session_get_store (session, uri, NULL);
+	g_free (uri);
+
+	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
+		store, _("All Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
+	priv->search_account_all = search_folder;
+
+	/* Add local folders. */
+	iter = mail_vfolder_get_sources_local ();
+	while (iter != NULL) {
+		CamelException ex;
+
+		camel_exception_init (&ex);
+
+		folder_uri = iter->data;
+		folder = mail_tool_uri_to_folder (folder_uri, 0, &ex);
+
+		if (folder != NULL)
+			list = g_list_append (list, folder);
+		else
+			g_warning ("Could not open vfolder source: %s", folder_uri);
+
+		camel_exception_clear (&ex);
+		iter = g_list_next (iter);
+	}
+
+	/* Add remote folders. */
+	iter = mail_vfolder_get_sources_remote ();
+	while (iter != NULL) {
+		CamelException ex;
+
+		camel_exception_init (&ex);
+
+		folder_uri = iter->data;
+		folder = mail_tool_uri_to_folder (folder_uri, 0, &ex);
+
+		if (folder != NULL)
+			list = g_list_append (list, folder);
+		else
+			g_warning ("Could not open vfolder source: %s", folder_uri);
+
+		camel_exception_clear (&ex);
+		iter = g_list_next (iter);
+	}
+
+	camel_vee_folder_set_expression (search_folder, query);
+
+	priv->search_account_cancel = camel_operation_new (NULL, NULL);
+
+	/* This takes ownership of the folder list. */
+	mail_shell_view_setup_search_results_folder (
+		CAMEL_FOLDER (search_folder), list,
+		priv->search_account_cancel);
+
+	uri = mail_tools_folder_to_url (CAMEL_FOLDER (search_folder));
+
+	mail_shell_view_show_search_results_folder (
+		E_MAIL_SHELL_VIEW (shell_view),
+		CAMEL_FOLDER (search_folder), uri);
+
+	g_free (uri);
+
+	goto execute;
+
+current_account:
+
+	/* Prepare search folder for current account only. */
+
+	/* If the search text is empty, cancel any
+	 * account-wide searches still in progress. */
+	text = e_shell_searchbar_get_search_text (searchbar);
+	if (text == NULL || *text == '\0') {
+		if (priv->search_account_current != NULL) {
+			camel_object_unref (priv->search_account_current);
+			priv->search_account_current = NULL;
+		}
+
+		if (priv->search_account_cancel != NULL) {
+			camel_operation_cancel (priv->search_account_cancel);
+			camel_operation_unref (priv->search_account_cancel);
+			priv->search_account_cancel = NULL;
+		}
+
+		/* Simulate a folder tree selection change, so the
+		 * message list is reset to the correct folder via
+		 * our EMFolderTree::folder-selected handler. */
+		g_signal_emit_by_name (selection, "changed");
+
+		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
+
+		goto execute;
+	}
+
+	search_folder = priv->search_account_current;
+
+	/* Skip the search if we already have the results. */
+	if (search_folder != NULL)
+		if (g_strcmp0 (query, search_folder->expression) == 0)
+			goto execute;
+
+	/* Disable the scope combo while search is in progress. */
+	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
+
+	/* If we already have a search folder, reuse it. */
+	if (search_folder != NULL) {
+		if (priv->search_account_cancel != NULL) {
+			camel_operation_cancel (priv->search_account_cancel);
+			camel_operation_unref (priv->search_account_cancel);
+			priv->search_account_cancel = NULL;
+		}
+
+		camel_vee_folder_set_expression (search_folder, query);
+
+		goto execute;
+	}
+
+	/* Create a new search folder. */
+
+	store = folder->parent_store;
+	list = NULL;  /* list of CamelFolders */
+
+	if (store->folders != NULL) {
+		GPtrArray *array;
+		guint ii;
+
+		array = camel_object_bag_list (store->folders);
+		for (ii = 0; ii < array->len; ii++)
+			list = g_list_append (list, array->pdata[ii]);
+	}
+
+	/* FIXME Using data_dir like this is not portable. */
+	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
+	store = camel_session_get_store (session, uri, NULL);
+	g_free (uri);
+
+	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
+		store, _("Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
+	priv->search_account_current = search_folder;
+
+	camel_vee_folder_set_expression (search_folder, query);
+
+	priv->search_account_cancel = camel_operation_new (NULL, NULL);
+
+	/* This takes ownership of the folder list. */
+	mail_shell_view_setup_search_results_folder (
+		CAMEL_FOLDER (search_folder), list,
+		priv->search_account_cancel);
+
+	uri = mail_tools_folder_to_url (CAMEL_FOLDER (search_folder));
+
+	mail_shell_view_show_search_results_folder (
+		E_MAIL_SHELL_VIEW (shell_view),
+		CAMEL_FOLDER (search_folder), uri);
+
+	g_free (uri);
+
+execute:
+
+	/* Finally, execute the search. */
 
 	message_list_set_search (MESSAGE_LIST (message_list), query);
 

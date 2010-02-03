@@ -43,14 +43,6 @@ action_gal_save_custom_view_cb (GtkAction *action,
 }
 
 static void
-action_search_filter_cb (GtkRadioAction *action,
-                         GtkRadioAction *current,
-                         EShellView *shell_view)
-{
-	e_shell_view_execute_search (shell_view);
-}
-
-static void
 action_task_assign_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
@@ -1091,9 +1083,6 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	gtk_action_set_visible (action, FALSE);
 	e_shell_searchbar_set_search_option (
 		searchbar, GTK_RADIO_ACTION (action));
-	gtk_radio_action_set_current_value (
-		GTK_RADIO_ACTION (action),
-		TASK_SEARCH_SUMMARY_CONTAINS);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1166,13 +1155,13 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 	action_group = ACTION_GROUP (TASKS_FILTER);
 	e_action_group_remove_all_actions (action_group);
 
-	/* Add the standard filter actions. */
+	/* Add the standard filter actions.  No callback is needed
+	 * because changes in the EActionComboBox are detected and
+	 * handled by EShellSearchbar. */
 	gtk_action_group_add_radio_actions (
 		action_group, task_filter_entries,
 		G_N_ELEMENTS (task_filter_entries),
-		TASK_FILTER_ANY_CATEGORY,
-		G_CALLBACK (action_search_filter_cb),
-		task_shell_view);
+		TASK_FILTER_ANY_CATEGORY, NULL, NULL);
 
 	/* Retrieve the radio group from an action we just added. */
 	list = gtk_action_group_list_actions (action_group);
@@ -1223,10 +1212,13 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 	}
 	g_list_free (list);
 
-	/* Use any action in the group; doesn't matter which. */
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	searchbar = e_task_shell_content_get_searchbar (task_shell_content);
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+
+	e_shell_view_block_execute_search (shell_view);
+
+	/* Use any action in the group; doesn't matter which. */
 	e_action_combo_box_set_action (combo_box, radio_action);
 
 	ii = TASK_FILTER_UNMATCHED;
@@ -1234,4 +1226,6 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 
 	ii = TASK_FILTER_TASKS_WITH_ATTACHMENTS;
 	e_action_combo_box_add_separator_after (combo_box, ii);
+
+	e_shell_view_unblock_execute_search (shell_view);
 }

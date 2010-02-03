@@ -578,9 +578,6 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 		shell_view, "notify::view-id",
 		G_CALLBACK (e_shell_window_update_view_menu), shell_window);
 
-	/* Execute an initial search. */
-	e_shell_view_execute_search (shell_view);
-
 	return shell_view;
 }
 

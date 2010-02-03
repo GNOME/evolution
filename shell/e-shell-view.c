@@ -1402,8 +1402,8 @@ e_shell_view_execute_search (EShellView *shell_view)
  * e_shell_view_block_execute_search:
  * @shell_view: an #EShellView
  *
- * Blocks e_shell_view_execute_search in a way it does nothing.
- * Pair function for this is e_shell_view_unblock_execute_search.
+ * Blocks e_shell_view_execute_search() in a way it does nothing.
+ * Pair function for this is e_shell_view_unblock_execute_search().
  **/
 void
 e_shell_view_block_execute_search (EShellView *shell_view)
@@ -1418,8 +1418,8 @@ e_shell_view_block_execute_search (EShellView *shell_view)
  * e_shell_view_unblock_execute_search:
  * @shell_view: an #EShellView
  *
- * Unblocks previously blocked e_shell_view_execute_search with
- * function e_shell_view_block_execute_search.
+ * Unblocks previously blocked e_shell_view_execute_search() with
+ * function e_shell_view_block_execute_search().
  **/
 void
 e_shell_view_unblock_execute_search (EShellView *shell_view)
