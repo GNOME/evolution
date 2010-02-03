@@ -123,6 +123,7 @@ evolution_CPPFLAGS =						\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(datadir)"\"				\
+	$(GNOME_PLATFORM_CFLAGS)				\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 

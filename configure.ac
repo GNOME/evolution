@@ -222,7 +222,8 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 gnome-desktop-2.0 >= gnome_desktop_minimum_version])
+	 gnome-desktop-2.0 >= gnome_desktop_minimum_version
+	 unique-1.0 >= unique_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -1220,14 +1221,14 @@ AC_SUBST(LIBFILTER_LIBS)
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-3.14 unique-1.0 libedataserverui-1.2)
+EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-3.14 libedataserverui-1.2)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-3.14 libebook-1.2 libedataserverui-1.2 camel-1.2 gtkhtml-editor unique-1.0"
+EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-3.14 libebook-1.2 libedataserverui-1.2 camel-1.2 gtkhtml-editor"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1260,7 +1261,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= libsoup_minimum_version)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2 unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1273,7 +1274,7 @@ fi
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-3.14 gtkhtml-editor $mozilla_nss libebook-1.2 libedataserverui-1.2 unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-3.14 gtkhtml-editor $mozilla_nss libebook-1.2 libedataserverui-1.2)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1282,13 +1283,6 @@ dnl Evolution-Data-Server Flags
 dnl ***************************
 DATASERVER_EXEC_VERSION=`${PKG_CONFIG} --variable=execversion evolution-data-server-1.2`
 AC_SUBST(DATASERVER_EXEC_VERSION)
-
-dnl **********
-dnl Test Flags
-dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, unique-1.0)
-AC_SUBST(EVOLUTION_TEST_CFLAGS)
-AC_SUBST(EVOLUTION_TEST_LIBS)
 
 dnl *****************
 dnl EggSMClient Flags
