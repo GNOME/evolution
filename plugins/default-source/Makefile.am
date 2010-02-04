@@ -17,6 +17,7 @@ liborg_gnome_default_source_la_SOURCES = default-source.c
 liborg_gnome_default_source_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_default_source_la_LIBADD =		\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(EVOLUTION_CALENDAR_LIBS)		\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)

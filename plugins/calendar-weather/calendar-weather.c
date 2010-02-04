@@ -21,11 +21,11 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-config.h>
-#include "e-util/e-icon-factory.h"
+#include <e-util/e-icon-factory.h>
+#include <e-util/e-plugin-util.h>
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
 #include <glib/gi18n.h>
 #include <libxml/parser.h>
@@ -211,7 +211,7 @@ create_source_selector (ESource *source)
 	GtkCellRenderer *text;
 	GtkTreeSelection *selection;
 	gchar *uri_text;
-	EUri *uri;
+	SoupURI *suri;
 
 	/* FIXME - should show an error here if it fails*/
 	if (store == NULL)
@@ -238,8 +238,8 @@ create_source_selector (ESource *source)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
 	uri_text = e_source_get_uri (source);
-	uri = e_uri_new (uri_text);
-	if (uri->path && strlen (uri->path)) {
+	suri = soup_uri_new (uri_text);
+	if (suri && suri->path && *suri->path) {
 		GtkTreeIter *iter = find_location (store, uri_text + 10);
 		GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (store), iter);
 		gtk_tree_view_expand_to_path (GTK_TREE_VIEW (treeview), path);
@@ -247,7 +247,8 @@ create_source_selector (ESource *source)
 		gtk_tree_path_free (path);
 	}
 	g_free (uri_text);
-	e_uri_free (uri);
+	if (suri)
+		soup_uri_free (suri);
 
 	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), dialog);
 	g_object_set_data (G_OBJECT (dialog), "treeview", treeview);
@@ -332,30 +333,21 @@ location_clicked (GtkButton *button, ESource *source)
 GtkWidget *
 e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	static GtkWidget *label;
-	GtkWidget *button, *parent, *text;
+	GtkWidget *button, *parent, *text, *label;
 	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
-	EUri *uri;
+	SoupURI *suri;
 	gchar *uri_text;
-	static GtkWidget *hidden;
+
+	if (!e_plugin_util_is_source_proto (t->source, "weather"))
+		return NULL;
 
 	if (store == NULL)
 		store = gweather_xml_load_locations ();
 
-	if (!hidden)
-		hidden = gtk_label_new ("");
-
-	if (data->old)
-		gtk_widget_destroy (label);
-
 	uri_text = e_source_get_uri (t->source);
-	uri = e_uri_new (uri_text);
-	if (strcmp ((const gchar *)uri->protocol, "weather")) {
-		e_uri_free (uri);
-		return hidden;
-	}
+	suri = soup_uri_new (uri_text);
 
 	parent = data->parent;
 
@@ -370,7 +362,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (location_clicked), source);
 	gtk_widget_show (button);
 
-	if (uri->path && strlen (uri->path)) {
+	if (suri && suri->path && *suri->path) {
 		GtkTreeIter *iter = find_location (store, uri_text + 10);
 		gchar *location = build_location_path (iter);
 		text = gtk_label_new (location);
@@ -381,7 +373,8 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show (text);
 	gtk_label_set_ellipsize (GTK_LABEL (text), PANGO_ELLIPSIZE_START);
 	gtk_container_add (GTK_CONTAINER (button), text);
-	e_uri_free (uri);
+	if (suri)
+		soup_uri_free (suri);
 	g_free (uri_text);
 
 	gtk_table_attach (GTK_TABLE (parent), button, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -389,145 +382,15 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	return button;
 }
 
-static void
-set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
-{
-	gint time;
-	gint item_num = 0;
-	const gchar *refresh_str = e_source_get_property (source, "refresh");
-	time = refresh_str ? atoi (refresh_str) : 30;
-
-	if (time && !(time % 10080)) {
-		/* weeks */
-		item_num = 3;
-		time /= 10080;
-	} else if (time && !(time % 1440)) {
-		/* days */
-		item_num = 2;
-		time /= 1440;
-	} else if (time && !(time % 60)) {
-		/* hours */
-		item_num = 1;
-		time /= 60;
-	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), item_num);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
-}
-
-static gchar *
-get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
-{
-	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
-	case 0:
-		/* minutes */
-		break;
-	case 1:
-		/* hours */
-		setting *= 60;
-		break;
-	case 2:
-		/* days */
-		setting *= 1440;
-		break;
-	case 3:
-		/* weeks - is this *really* necessary? */
-		setting *= 10080;
-		break;
-	default:
-		g_warning ("Time unit out of range");
-		break;
-	}
-	return g_strdup_printf ("%d", setting);
-}
-
-static void
-spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
-{
-	gchar *refresh_str;
-	GtkWidget *combobox;
-
-	combobox = g_object_get_data (G_OBJECT (spin), "combobox");
-
-	refresh_str = get_refresh_minutes ((GtkWidget *) spin, combobox);
-	e_source_set_property (t->source, "refresh", refresh_str);
-	g_free (refresh_str);
-}
-
-static void
-combobox_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
-{
-	gchar *refresh_str;
-	GtkWidget *spin;
-
-	spin = g_object_get_data (G_OBJECT (combobox), "spin");
-
-	refresh_str = get_refresh_minutes (spin, (GtkWidget *) combobox);
-	e_source_set_property (t->source, "refresh", refresh_str);
-	g_free (refresh_str);
-}
-
 GtkWidget *
 e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	static GtkWidget *label;
-	GtkWidget *spin, *combobox, *hbox, *parent;
-	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
-	ESource *source = t->source;
-	EUri *uri;
-	gchar *uri_text;
-	static GtkWidget *hidden = NULL;
 
-	if (!hidden)
-		hidden = gtk_label_new ("");
+	if (!e_plugin_util_is_source_proto (t->source, "weather"))
+		return NULL;
 
-	if (data->old)
-		gtk_widget_destroy (label);
-
-	uri_text = e_source_get_uri (t->source);
-	uri = e_uri_new (uri_text);
-	g_free (uri_text);
-	if (strcmp ((const gchar *)uri->protocol, "weather")) {
-		e_uri_free (uri);
-		return hidden;
-	}
-	e_uri_free (uri);
-
-	parent = data->parent;
-
-	row = ((GtkTable*)parent)->nrows;
-
-	label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (hbox);
-
-	spin = gtk_spin_button_new_with_range (0, 100, 1);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), spin);
-	gtk_widget_show (spin);
-	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
-
-	combobox = gtk_combo_box_new_text ();
-	gtk_widget_show (combobox);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("minutes"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("hours"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("days"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("weeks"));
-	set_refresh_time (source, spin, combobox);
-	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, TRUE, 0);
-
-	g_object_set_data (G_OBJECT (combobox), "spin", spin);
-	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (combobox_changed), t);
-	g_object_set_data (G_OBJECT (spin), "combobox", combobox);
-	g_signal_connect (G_OBJECT (spin), "value-changed", G_CALLBACK (spin_changed), t);
-
-	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-	return hbox;
+	return e_plugin_util_add_refresh (data->parent, _("Re_fresh:"), t->source, "refresh");
 }
 
 static void
@@ -568,29 +431,13 @@ units_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 GtkWidget *
 e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	static GtkWidget *label;
-	GtkWidget *combobox, *parent;
+	GtkWidget *combobox, *parent, *label;
 	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
-	EUri *uri;
-	gchar *uri_text;
-	static GtkWidget *hidden = NULL;
 
-	if (!hidden)
-		hidden = gtk_label_new ("");
-
-	if (data->old)
-		gtk_widget_destroy (label);
-
-	uri_text = e_source_get_uri (t->source);
-	uri = e_uri_new (uri_text);
-	g_free (uri_text);
-	if (strcmp ((const gchar *)uri->protocol, "weather")) {
-		e_uri_free (uri);
-		return hidden;
-	}
-	e_uri_free (uri);
+	if (!e_plugin_util_is_source_proto (t->source, "weather"))
+		return NULL;
 
 	parent = data->parent;
 
@@ -618,18 +465,18 @@ e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data)
 {
 	/* FIXME - check pageid */
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
-	EUri *uri;
+	SoupURI *suri;
 	gboolean ok = FALSE;
-	ESourceGroup *group = e_source_peek_group (t->source);
 
 	/* always return TRUE if this isn't a weather source */
-	if (strncmp (e_source_group_peek_base_uri (group), "weather", 7))
+	if (!e_plugin_util_is_group_proto (e_source_peek_group (t->source), "weather"))
 		return TRUE;
 
-	uri = e_uri_new (e_source_get_uri (t->source));
+	suri = soup_uri_new (e_source_get_uri (t->source));
 	/* make sure that the protocol is weather:// and that the path isn't empty */
-	ok = (uri->path && strlen (uri->path));
-	e_uri_free (uri);
+	ok = suri && suri->path && *suri->path;
+	if (suri)
+		soup_uri_free (suri);
 
 	return ok;
 }

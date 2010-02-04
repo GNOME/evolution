@@ -15,6 +15,7 @@ liborg_gnome_evolution_webdav_la_SOURCES = \
 	webdav-contacts-source.c
 
 liborg_gnome_evolution_webdav_la_LIBADD =	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(EPLUGIN_LIBS)				\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)

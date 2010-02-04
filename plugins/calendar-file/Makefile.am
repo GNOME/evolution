@@ -16,6 +16,7 @@ liborg_gnome_calendar_file_la_SOURCES = calendar-file.c
 liborg_gnome_calendar_file_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_calendar_file_la_LIBADD = 		\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(EVOLUTION_CALENDAR_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)
 

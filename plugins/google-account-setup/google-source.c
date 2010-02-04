@@ -34,6 +34,7 @@
 
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
+#include <e-util/e-plugin-util.h>
 
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
@@ -301,85 +302,6 @@ user_changed (GtkEntry *editable, ESource *source)
 	/* we changed user, thus reset the chosen calendar combo too, because
 	   other user means other calendars subscribed */
 	init_combo_values (GTK_COMBO_BOX (g_object_get_data (G_OBJECT (editable), "CalendarCombo")), _("Default"), NULL);
-}
-
-static gchar *
-get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
-{
-	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
-	case 0:
-		/* minutes */
-		break;
-	case 1:
-		/* hours */
-		setting *= 60;
-		break;
-	case 2:
-		/* days */
-		setting *= 1440;
-		break;
-	case 3:
-		/* weeks - is this *really* necessary? */
-		setting *= 10080;
-		break;
-	default:
-		g_warning ("Time unit out of range");
-		break;
-	}
-
-	return g_strdup_printf ("%d", setting);
-}
-
-static void
-spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
-{
-	gchar *refresh_str;
-	GtkWidget *combobox;
-
-	combobox = g_object_get_data (G_OBJECT(spin), "combobox");
-
-	refresh_str = get_refresh_minutes ((GtkWidget *)spin, combobox);
-	e_source_set_property (t->source, "refresh", refresh_str);
-	g_free (refresh_str);
-}
-
-static void
-combobox_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
-{
-	gchar *refresh_str;
-	GtkWidget *spin;
-
-	spin = g_object_get_data (G_OBJECT(combobox), "spin");
-
-	refresh_str = get_refresh_minutes (spin, (GtkWidget *)combobox);
-	e_source_set_property (t->source, "refresh", refresh_str);
-	g_free (refresh_str);
-}
-
-static void
-set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
-{
-	gint time;
-	gint item_num = 0;
-	const gchar *refresh_str = e_source_get_property (source, "refresh");
-	time = refresh_str ? atoi (refresh_str) : 30;
-
-	if (time  && !(time % 10080)) {
-		/* weeks */
-		item_num = 3;
-		time /= 10080;
-	} else if (time && !(time % 1440)) {
-		/* days */
-		item_num = 2;
-		time /= 1440;
-	} else if (time && !(time % 60)) {
-		/* hours */
-		item_num = 1;
-		time /= 60;
-	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), item_num);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
 }
 
 enum {
@@ -656,7 +578,6 @@ plugin_google  (EPlugin                    *epl,
 	EUri         *euri;
 	GtkWidget    *parent;
 	GtkWidget    *widget;
-	GtkWidget    *luser;
 	GtkWidget    *user;
 	GtkWidget    *label;
 	GtkWidget    *combo;
@@ -666,7 +587,7 @@ plugin_google  (EPlugin                    *epl,
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	GtkWidget *combobox, *spin, *hbox;
+	GtkWidget *hbox;
 
 	source = t->source;
 	group = e_source_peek_group (source);
@@ -695,70 +616,22 @@ plugin_google  (EPlugin                    *epl,
 
 	/* Build up the UI */
 	parent = data->parent;
-	row = GTK_TABLE (parent)->nrows;
 
-	luser = gtk_label_new_with_mnemonic (_("User_name:"));
-	gtk_widget_show (luser);
-	gtk_misc_set_alignment (GTK_MISC (luser), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent),
-			  luser, 0, 1,
-			  row + 1, row + 2,
-			  GTK_FILL, 0, 0, 0);
-
-	user = gtk_entry_new ();
-	gtk_widget_show (user);
+	user = e_plugin_util_add_entry (parent, _("User_name:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (user), username ? username : "");
-	gtk_table_attach (GTK_TABLE (parent), user,
-			  1, 2, row + 1, row + 2,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-	gtk_label_set_mnemonic_widget (GTK_LABEL (luser), user);
-
-	label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment (GTK_MISC(label), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent),
-			  label,
-			  0, 1,
-			  row + 2, row + 3,
-			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (hbox);
-
-	spin = gtk_spin_button_new_with_range (1, 100, 1);
-	gtk_label_set_mnemonic_widget (GTK_LABEL(label), spin);
-	gtk_widget_show (spin);
-	gtk_box_pack_start (GTK_BOX(hbox), spin, FALSE, TRUE, 0);
-
-	if (!e_source_get_property (source, "refresh"))
-		e_source_set_property (source, "refresh", "30");
-
-	combobox = gtk_combo_box_new_text ();
-	gtk_widget_show (combobox);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("minutes"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("hours"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("days"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("weeks"));
-	set_refresh_time (source, spin, combobox);
-	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, TRUE, 0);
-
-	g_object_set_data (G_OBJECT (combobox), "spin", spin);
-	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (combobox_changed), t);
-	g_object_set_data (G_OBJECT (spin), "combobox", combobox);
-	g_signal_connect (G_OBJECT (spin), "value-changed", G_CALLBACK (spin_changed), t);
-
-	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 2, row + 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
 	g_signal_connect (G_OBJECT (user),
 			  "changed",
 			  G_CALLBACK (user_changed),
 			  source);
 
+	e_plugin_util_add_refresh (parent, _("Re_fresh:"), source, "refresh");
+
+	row = GTK_TABLE (parent)->nrows;
+
 	label = gtk_label_new_with_mnemonic (_("Cal_endar:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row + 3, row + 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	store = gtk_list_store_new (
 		NUM_COLUMNS,
@@ -798,7 +671,7 @@ plugin_google  (EPlugin                    *epl,
 	gtk_widget_set_sensitive (label, username && *username);
 
 	gtk_widget_show_all (hbox);
-	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 3, row + 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	return widget;
 }

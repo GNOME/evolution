@@ -31,11 +31,11 @@
 
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
+#include <e-util/e-plugin-util.h>
 #include <addressbook/gui/widgets/eab-config.h>
 
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
-#include <libedataserver/e-url.h>
 #include <libedataserver/e-account-list.h>
 
 #define BASE_URI "webdav://"
@@ -96,48 +96,12 @@ remove_webdav_contacts_source_group(void)
 	g_object_unref(source_list);
 }
 
-/* stolen from caldav plugin which stole it from calendar-weather eplugin */
-static gchar *
-print_uri_noproto(EUri *uri)
-{
-	gchar *uri_noproto;
-
-	if (uri->port != 0)
-		uri_noproto = g_strdup_printf(
-				"%s%s%s%s%s%s%s:%d%s%s%s",
-				uri->user ? uri->user : "",
-				uri->authmech ? ";auth=" : "",
-				uri->authmech ? uri->authmech : "",
-				uri->passwd ? ":" : "",
-				uri->passwd ? uri->passwd : "",
-				uri->user ? "@" : "",
-				uri->host ? uri->host : "",
-				uri->port,
-				uri->path ? uri->path : "",
-				uri->query ? "?" : "",
-				uri->query ? uri->query : "");
-	else
-		uri_noproto = g_strdup_printf(
-				"%s%s%s%s%s%s%s%s%s%s",
-				uri->user ? uri->user : "",
-				uri->authmech ? ";auth=" : "",
-				uri->authmech ? uri->authmech : "",
-				uri->passwd ? ":" : "",
-				uri->passwd ? uri->passwd : "",
-				uri->user ? "@" : "",
-				uri->host ? uri->host : "",
-				uri->path ? uri->path : "",
-				uri->query ? "?" : "",
-				uri->query ? uri->query : "");
-	return uri_noproto;
-}
-
 static void
 set_ui_from_source(ui_data *data)
 {
 	ESource    *source  = data->source;
 	const gchar *url     = e_source_get_uri(source);
-	EUri       *uri     = e_uri_new(url);
+	SoupURI     *suri    = soup_uri_new (url);
 	gchar       *url_ui;
 	const gchar *property;
 	gboolean    use_ssl;
@@ -159,75 +123,66 @@ set_ui_from_source(ui_data *data)
 	gtk_toggle_button_set_active(data->avoid_ifmatch_toggle, avoid_ifmatch);
 
 	/* it's really a http or https protocol */
-	g_free(uri->protocol);
-	uri->protocol = g_strdup(use_ssl ? "https" : "http");
+	if (suri)
+		soup_uri_set_scheme (suri, use_ssl ? "https" : "http");
 
 	/* remove user/username and set user field */
-	if (uri->user != NULL) {
-		gtk_entry_set_text(data->username_entry, uri->user);
-		g_free(uri->user);
-		uri->user = NULL;
+	if (suri && suri->user != NULL) {
+		gtk_entry_set_text (data->username_entry, suri->user);
+		soup_uri_set_user (suri, NULL);
 	} else {
 		gtk_entry_set_text(data->username_entry, "");
 	}
 
-	url_ui = e_uri_to_string(uri, TRUE);
-	gtk_entry_set_text(data->url_entry, url_ui);
+	if (suri)
+		url_ui = soup_uri_to_string (suri, FALSE);
+	else
+		url_ui = g_strdup ("");
+	gtk_entry_set_text (data->url_entry, url_ui);
+	g_free (url_ui);
 
-	g_free(url_ui);
-	e_uri_free(uri);
+	if (suri)
+		soup_uri_free (suri);
 }
 
 static void
-set_source_from_ui(ui_data *data)
+set_source_from_ui (ui_data *data)
 {
 	ESource    *source        = data->source;
 	gboolean    avoid_ifmatch = gtk_toggle_button_get_active(data->avoid_ifmatch_toggle);
 	const gchar *url           = gtk_entry_get_text(data->url_entry);
-	EUri       *uri           = e_uri_new(url);
+	SoupURI     *suri          = soup_uri_new (url);
 	gchar       *url_noprotocol;
 	gboolean    use_ssl;
+
+	if (!suri)
+		return;
 
 	e_source_set_property(source, "avoid_ifmatch", avoid_ifmatch ? "1" : "0");
 
 	/* put username into uri */
-	g_free(uri->user);
-	uri->user = g_strdup(gtk_entry_get_text(data->username_entry));
+	soup_uri_set_user (suri, gtk_entry_get_text (data->username_entry));
 
-	if (uri->user[0] != '\0') {
+	if (suri->user && *suri->user) {
 		e_source_set_property(source, "auth", "plain/password");
-		e_source_set_property(source, "username", uri->user);
+		e_source_set_property(source, "username", suri->user);
 	} else {
 		e_source_set_property(source, "auth", NULL);
 		e_source_set_property(source, "username", NULL);
 	}
 
 	/* set use_ssl based on protocol in URL */
-	if (strcmp(uri->protocol, "https") == 0) {
+	if (suri->scheme && g_str_equal (suri->scheme, "https")) {
 		use_ssl = TRUE;
 	} else {
 		use_ssl = FALSE;
 	}
 	e_source_set_property(source, "use_ssl", use_ssl ? "1" : "0");
 
-	url_noprotocol = print_uri_noproto(uri);
-	e_source_set_relative_uri(source, url_noprotocol);
-	g_free(url_noprotocol);
-	e_uri_free(uri);
-}
-
-static void
-on_entry_changed(GtkEntry *entry, gpointer user_data)
-{
-	(void) entry;
-	set_source_from_ui(user_data);
-}
-
-static void
-on_toggle_changed(GtkToggleButton *tb, gpointer user_data)
-{
-	(void) tb;
-	set_source_from_ui(user_data);
+	url_noprotocol = e_plugin_util_uri_no_proto (suri);
+	e_source_set_relative_uri (source, url_noprotocol);
+	g_free (url_noprotocol);
+	soup_uri_free (suri);
 }
 
 static void
@@ -246,8 +201,6 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource      *source;
-	ESourceGroup *group;
-	const gchar   *base_uri;
 	GtkWidget    *parent;
 	GtkWidget    *vbox;
 
@@ -261,13 +214,10 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui_data      *uidata;
 
 	source = t->source;
-	group  = e_source_peek_group (source);
-
-	base_uri = e_source_group_peek_base_uri (group);
 
 	g_object_set_data (G_OBJECT (epl), "wwidget", NULL);
 
-	if (strcmp(base_uri, BASE_URI) != 0) {
+	if (!e_plugin_util_is_group_proto (e_source_peek_group (source), BASE_URI)) {
 		return NULL;
 	}
 
@@ -330,12 +280,9 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_object_set_data_full(G_OBJECT(epl), "wwidget", uidata, destroy_ui_data);
 	g_signal_connect (uidata->box, "destroy", G_CALLBACK (gtk_widget_destroyed), &uidata->box);
 
-	g_signal_connect(G_OBJECT(uidata->username_entry), "changed",
-			G_CALLBACK(on_entry_changed), uidata);
-	g_signal_connect(G_OBJECT(uidata->url_entry), "changed",
-			G_CALLBACK(on_entry_changed), uidata);
-	g_signal_connect(G_OBJECT(uidata->avoid_ifmatch_toggle), "toggled",
-			G_CALLBACK(on_toggle_changed), uidata);
+	g_signal_connect_swapped (G_OBJECT(uidata->username_entry), "changed", G_CALLBACK (set_source_from_ui), uidata);
+	g_signal_connect_swapped (G_OBJECT(uidata->url_entry), "changed", G_CALLBACK (set_source_from_ui), uidata);
+	g_signal_connect_swapped (G_OBJECT(uidata->avoid_ifmatch_toggle), "toggled", G_CALLBACK (set_source_from_ui), uidata);
 
 	return NULL;
 }
