@@ -1740,6 +1740,10 @@ update_webview_content (EMailReader *reader, const gchar *content)
 	html_display = e_mail_reader_get_html_display (reader);
 	g_return_if_fail (html_display != NULL);
 
+	/* skip the progress message when it's formatting something */
+	if (em_format_busy (EM_FORMAT (html_display)))
+		return;
+
 	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 	g_return_if_fail (web_view != NULL);
 
