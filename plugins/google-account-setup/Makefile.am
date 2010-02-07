@@ -21,6 +21,7 @@ liborg_gnome_evolution_google_la_SOURCES =        \
 
 liborg_gnome_evolution_google_la_LIBADD = 			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EPLUGIN_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)
