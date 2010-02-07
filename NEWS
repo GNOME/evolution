@@ -1,3 +1,60 @@
+Evolution 2.29.90 2010-02-08
+----------------------------
+
+Bug Fixes:
+	#581604 - Permissions on mail/local folders are too open
+	          (Chenthill Palanisamy)
+	#602416 - Changing shell views emits many runtime warnings
+	          (Matthew Barnes)
+	#605596 - Crash on message change (Milan Crha)
+	#606666 - Cannot move cursor with arrows in preview with caret mode
+	          (Milan Crha)
+	#607520 - 'Add to Address Book' fails when address has space
+	          (Matthew Barnes)
+	#607566 - Cause calendar view widget to redraw when dates shown
+	          changed (Gustavo Noronha Silva)
+	#607595 - Do not auto-sign when replying to a signed message
+	          (Milan Crha)
+	#607751 - Double free while copying whole calendar (Milan Crha)
+	#607776 - Crash in image-inline.c:size_allocate_cb (Milan Crha)
+	#608160 - Pasting text from FireFox into composer gives just "[?]"
+	          (Matthew Barnes)
+	#608340 - Help text missing --debug parameter (Matthew Barnes)
+
+Other Changes:
+	Implement account-wide search scope in mail. (Matthew Barnes)
+	Move some ESource-plugin common code to e-plugin-util.h/.c (Milan Crha)
+	Updating PunjabiTranslation by A S Alam (A S Alam)
+	Enforce unique-1.0 >= 1.1.2 build requirement. (Matthew Barnes)
+	Disable strict aliasing optimization. (Matthew Barnes)
+	Fix some misspellings of "calendar". (Matthew Barnes)
+	Improve sidebar and ECalModel interaction. (Matthew Barnes)
+	Sidebar cleanups for Memos and Tasks. (Matthew Barnes)
+	Remove a bunch of dead code in GnomeCalendar. (Matthew Barnes)
+	Refactor the autoconfig stuff a bit. (Srinivasa Ragavan)
+	Don't show total attachment size if it's zero. (Matthew Barnes)
+	Add bug-database and XML header. Fixes bug 587974 (Andre Klapper)
+	Changes in mingw.org last w32api/mingw-rt packages. (Fridrich Strba)
+	Level the differences with the alternative runtime/header set
+	(Fridrich Strba)
+	Expose ECalendarSelector (Gustavo Noronha Silva)
+	Make authentication functionality available (Gustavo Noronha Silva)
+	Fix include paths for some files to also work when installed
+	(Gustavo Noronha Silva)
+	Remove a couple silly ECalModel functions. (Matthew Barnes)
+	Fix a issue for anjal while saving/restoring search across multiple
+	folders (Srinivasa Ragavan)
+
+Translations:
+	Krasimir Chonov (bg)
+	Jamil Ahmed (bn)
+	Jiri Eischmann (cs)
+	Jorge González (es)
+	Kjartan Maraas (nb)
+	Åsmund Skjæveland (nn)
+	Matej Urbančič (sl)
+	Aron Xu (zh_CN)
+
 Evolution 2.29.6 2010-01-25
 ---------------------------
 
