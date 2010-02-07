@@ -267,8 +267,7 @@ e_calendar_style_set		(GtkWidget	*widget,
 
 	/* Set the background of the canvas window to the normal color,
 	   or the arrow buttons are not displayed properly. */
-	parent = gtk_widget_get_parent (widget);
-	if (GTK_WIDGET_REALIZED (parent)) {
+	if (GTK_WIDGET_REALIZED (widget)) {
 		GtkStyle *style;
 		GdkWindow *window;
 

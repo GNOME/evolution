@@ -570,6 +570,10 @@ etcta_init (ETableClickToAdd *etcta)
 	etcta->text = NULL;
 	etcta->rect = NULL;
 
+	/* Pick some arbitrary defaults. */
+	etcta->width = 12;
+	etcta->height = 6;
+
 	etcta->selection = e_table_selection_model_new();
 	g_signal_connect(etcta->selection, "cursor_changed",
 			 G_CALLBACK (etcta_cursor_change), etcta);

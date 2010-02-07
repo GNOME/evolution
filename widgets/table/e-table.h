@@ -106,6 +106,7 @@ typedef struct {
 
 	gint rebuild_idle_id;
 	guint need_rebuild:1;
+	guint size_allocated:1;
 
 	/*
 	 * Configuration settings

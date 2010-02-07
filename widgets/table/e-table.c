@@ -734,6 +734,8 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	if (e_table->reflow_idle_id)
 		g_source_remove(e_table->reflow_idle_id);
 	table_canvas_reflow_idle(e_table);
+
+	e_table->size_allocated = TRUE;
 }
 
 static void
@@ -992,16 +994,24 @@ changed_idle (gpointer data)
 {
 	ETable *et = E_TABLE (data);
 
-	if (et->need_rebuild) {
+	/* Wait until we have a valid size allocation. */
+	if (et->need_rebuild && et->size_allocated) {
+		GtkWidget *widget;
+		GtkAllocation allocation;
+
 		if (et->group)
 			gtk_object_destroy (GTK_OBJECT (et->group));
 		et_build_groups(et);
-		g_object_set (et->canvas_vbox,
-			      "width", (gdouble) GTK_WIDGET (et->table_canvas)->allocation.width,
-			      NULL);
 
-		if (GTK_WIDGET_REALIZED(et->table_canvas))
-			table_canvas_size_allocate (GTK_WIDGET(et->table_canvas), &GTK_WIDGET(et->table_canvas)->allocation, et);
+		widget = GTK_WIDGET (et->table_canvas);
+		gtk_widget_get_allocation (widget, &allocation);
+
+		g_object_set (
+			et->canvas_vbox,
+			"width", (gdouble) allocation.width,
+			NULL);
+
+		table_canvas_size_allocate (widget, &allocation, et);
 	}
 
 	et->need_rebuild = 0;
