@@ -89,6 +89,7 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/smclient/libeggsmclient.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(SHELL_LIBS)
 
 if NM_SUPPORT
