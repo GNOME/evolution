@@ -258,7 +258,6 @@ e_calendar_style_set		(GtkWidget	*widget,
 				 GtkStyle	*previous_style)
 {
 	ECalendar *e_calendar;
-	GtkWidget *parent;
 
 	e_calendar = E_CALENDAR(widget);
 	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set)
