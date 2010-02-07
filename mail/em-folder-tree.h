@@ -55,7 +55,8 @@ typedef struct _EMFolderTreePrivate EMFolderTreePrivate;
 
 #define STATE_KEY_EXPANDED	"Expanded"
 
-/* not sure this api is the best, but its the easiest to implement and will cover what we need */
+/* XXX Not sure this api is the best, but its the easiest
+ *     to implement and will cover what we need. */
 #define EMFT_EXCLUDE_NOSELECT CAMEL_FOLDER_NOSELECT
 #define EMFT_EXCLUDE_NOINFERIORS CAMEL_FOLDER_NOINFERIORS
 #define EMFT_EXCLUDE_VIRTUAL CAMEL_FOLDER_VIRTUAL

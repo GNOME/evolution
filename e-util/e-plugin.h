@@ -126,26 +126,34 @@ struct _EPluginClass {
 	GtkWidget *(*get_configure_widget)(EPlugin *);
 };
 
-GType e_plugin_get_type(void);
-
-gint e_plugin_construct(EPlugin *ep, xmlNodePtr root);
-void e_plugin_add_load_path(const gchar *);
-gint e_plugin_load_plugins(void);
-GSList * e_plugin_list_plugins(void);
-
-gpointer e_plugin_get_symbol(EPlugin *ep, const gchar *name);
-gpointer e_plugin_invoke(EPlugin *ep, const gchar *name, gpointer data);
-void e_plugin_enable(EPlugin *eph, gint state);
-
-GtkWidget *e_plugin_get_configure_widget (EPlugin *ep);
+GType		e_plugin_get_type		(void);
+gint		e_plugin_construct		(EPlugin *plugin,
+						 xmlNodePtr root);
+void		e_plugin_add_load_path		(const gchar *path);
+gint		e_plugin_load_plugins		(void);
+GSList *	e_plugin_list_plugins		(void);
+gpointer	e_plugin_get_symbol		(EPlugin *plugin,
+						 const gchar *name);
+gpointer	e_plugin_invoke			(EPlugin *plugin,
+						 const gchar *name,
+						 gpointer data);
+void		e_plugin_enable			(EPlugin *plugin,
+						 gint state);
+GtkWidget *	e_plugin_get_configure_widget	(EPlugin *plugin);
 
 /* static helpers */
 /* maps prop or content to 'g memory' */
-gchar *e_plugin_xml_prop(xmlNodePtr node, const gchar *id);
-gchar *e_plugin_xml_prop_domain(xmlNodePtr node, const gchar *id, const gchar *domain);
-gint e_plugin_xml_int(xmlNodePtr node, const gchar *id, gint def);
-gchar *e_plugin_xml_content(xmlNodePtr node);
-gchar *e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain);
+gchar *		e_plugin_xml_prop		(xmlNodePtr node,
+						 const gchar *id);
+gchar *		e_plugin_xml_prop_domain	(xmlNodePtr node,
+						 const gchar *id,
+						 const gchar *domain);
+gint		e_plugin_xml_int		(xmlNodePtr node,
+						 const gchar *id,
+						 gint def);
+gchar *		e_plugin_xml_content		(xmlNodePtr node);
+gchar *		e_plugin_xml_content_domain	(xmlNodePtr node,
+						 const gchar *domain);
 
 /* ********************************************************************** */
 
@@ -204,7 +212,7 @@ struct _EPluginHookTargetKey {
 struct _EPluginHookTargetMap {
 	const gchar *type;
 	gint id;
-	const struct _EPluginHookTargetKey *mask_bits;	/* null terminated array */
+	const EPluginHookTargetKey *mask_bits;	/* null terminated array */
 };
 
 /**
@@ -218,8 +226,7 @@ struct _EPluginHookTargetMap {
  **/
 struct _EPluginHook {
 	GObject object;
-
-	struct _EPlugin *plugin;
+	EPlugin *plugin;
 };
 
 /**
@@ -244,18 +251,26 @@ struct _EPluginHookClass {
 
 	const gchar *id;
 
-	gint (*construct)(EPluginHook *eph, EPlugin *ep, xmlNodePtr root);
-	void (*enable)(EPluginHook *eph, gint state);
+	gint		(*construct)		(EPluginHook *plugin_hook,
+						 EPlugin *plugin,
+						 xmlNodePtr root);
+	void		(*enable)		(EPluginHook *plugin_hook,
+						 gint state);
 };
 
-GType e_plugin_hook_get_type(void);
-
-EPluginHook * e_plugin_hook_new(EPlugin *ep, xmlNodePtr root);
-void e_plugin_hook_enable(EPluginHook *eph, gint state);
+GType		e_plugin_hook_get_type		(void);
+EPluginHook *	e_plugin_hook_new		(EPlugin *plugin,
+						 xmlNodePtr root);
+void		e_plugin_hook_enable		(EPluginHook *plugin_hook,
+						 gint state);
 
 /* static methods */
-guint32 e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop);
-guint32 e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop);
+guint32		e_plugin_hook_mask		(xmlNodePtr root,
+						 const EPluginHookTargetKey *map,
+						 const gchar *prop);
+guint32		e_plugin_hook_id		(xmlNodePtr root,
+						 const EPluginHookTargetKey *map,
+						 const gchar *prop);
 
 /* README: Currently there is only one flag.
    But we may need more in the future and hence makes

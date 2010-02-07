@@ -60,7 +60,9 @@ format_date (const gchar * value)
 }
 
 static CamelMimeMessage *
-get_selected_message (EShellView *shell_view, CamelFolder **folder, gchar **selected_uid)
+get_selected_message (EShellView *shell_view,
+                      CamelFolder **folder,
+                      gchar **selected_uid)
 {
 	CamelMimeMessage *msg = NULL;
 	EShellContent *shell_content;
@@ -85,7 +87,8 @@ get_selected_message (EShellView *shell_view, CamelFolder **folder, gchar **sele
 }
 
 void
-gw_track_message_status_cb (GtkAction *action, EShellView *shell_view)
+gw_track_message_status_cb (GtkAction *action,
+                            EShellView *shell_view)
 {
 	CamelMimeMessage *msg = NULL;
 	CamelFolder *folder = NULL;
@@ -188,7 +191,9 @@ gw_track_message_status_cb (GtkAction *action, EShellView *shell_view)
 
 	if (E_IS_GW_CONNECTION(cnc)) {
 		GSList *recipient_list;
-		e_gw_connection_get_item (cnc, get_container_id (cnc, "Sent Items"), selected_uid, "distribution recipientStatus", &gwitem);
+		e_gw_connection_get_item (
+			cnc, get_container_id (cnc, "Sent Items"),
+			selected_uid, "distribution recipientStatus", &gwitem);
 		recipient_list = e_gw_item_get_recipient_list (gwitem);
 		for (;recipient_list != NULL;  recipient_list = recipient_list->next)
 		{

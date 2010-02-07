@@ -204,8 +204,14 @@ e_sorter_array_append  (ESorterArray *esa, gint count)
 		for (i = 0; i < count; i++) {
 			gint value = esa->rows;
 			gsize pos;
-			e_bsearch (&value, esa->sorted, esa->rows, sizeof (gint), esort_callback, esa, &pos, NULL);
-			memmove (esa->sorted + pos + 1, esa->sorted + pos, sizeof (gint) * (esa->rows - pos));
+
+			e_bsearch (
+				&value, esa->sorted, esa->rows,
+				sizeof (gint), esort_callback, esa, &pos, NULL);
+			memmove (
+				esa->sorted + pos + 1,
+				esa->sorted + pos,
+				sizeof (gint) * (esa->rows - pos));
 			esa->sorted[pos] = value;
 			esa->rows ++;
 		}

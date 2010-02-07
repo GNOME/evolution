@@ -156,6 +156,7 @@ from_changed_cb (EComposerFromHeader *header, EMsgComposer *composer)
 {
 	GtkActionGroup *group;
 	GtkAction *action;
+	EAccount *account;
 
 	g_return_if_fail (header != NULL);
 	g_return_if_fail (composer != NULL);
@@ -166,7 +167,8 @@ from_changed_cb (EComposerFromHeader *header, EMsgComposer *composer)
 	action = gtk_action_group_get_action (group, "gw-send-options");
 	g_return_if_fail (action != NULL);
 
-	gtk_action_set_visible (action, account_is_groupwise (e_composer_from_header_get_active (header)));
+	account = e_composer_from_header_get_active (header);
+	gtk_action_set_visible (action, account_is_groupwise (account));
 }
 
 static void
@@ -216,7 +218,9 @@ gw_ui_composer_actions (GtkUIManager *manager, EMsgComposer *composer)
 	header = e_composer_header_table_get_header (headers, E_COMPOSER_HEADER_FROM);
 
 	from_changed_cb (E_COMPOSER_FROM_HEADER (header), composer);
-	g_signal_connect (G_OBJECT (header), "changed", G_CALLBACK (from_changed_cb), composer);
+	g_signal_connect (
+		header, "changed",
+		G_CALLBACK (from_changed_cb), composer);
 
 	return TRUE;
 }

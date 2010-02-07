@@ -41,11 +41,15 @@ struct _CalendarViewFactoryPrivate {
 
 
 
-static void calendar_view_factory_finalize (GObject *object);
-
-static const gchar *calendar_view_factory_get_title (GalViewFactory *factory);
-static const gchar *calendar_view_factory_get_type_code (GalViewFactory *factory);
-static GalView *calendar_view_factory_new_view (GalViewFactory *factory, const gchar *name);
+static void	calendar_view_factory_finalize	(GObject *object);
+static const gchar *
+		calendar_view_factory_get_title	(GalViewFactory *factory);
+static const gchar *
+		calendar_view_factory_get_type_code
+						(GalViewFactory *factory);
+static GalView *
+		calendar_view_factory_new_view	(GalViewFactory *factory,
+						 const gchar *name);
 
 G_DEFINE_TYPE (CalendarViewFactory, calendar_view_factory, GAL_VIEW_FACTORY_TYPE)
 

@@ -32,7 +32,9 @@
 static GObjectClass *parent_class;
 static gint priv_offset;
 
-#define GET_PRIVATE(object) ((GalA11yETableColumnHeaderPrivate *) (((gchar *) object) + priv_offset))
+#define GET_PRIVATE(object) \
+	((GalA11yETableColumnHeaderPrivate *) \
+	(((gchar *) object) + priv_offset))
 #define PARENT_TYPE (atk_gobject_accessible_get_type ())
 
 struct _GalA11yETableColumnHeaderPrivate {
@@ -192,10 +194,12 @@ gal_a11y_e_table_column_header_get_type (void)
 			NULL
 		};
 
-		type = gal_a11y_type_register_static_with_private (PARENT_TYPE, "GalA11yETableColumnHeader", &info, 0,
-								sizeof (GalA11yETableColumnHeaderPrivate), &priv_offset);
+		type = gal_a11y_type_register_static_with_private (
+			PARENT_TYPE, "GalA11yETableColumnHeader", &info, 0,
+			sizeof (GalA11yETableColumnHeaderPrivate), &priv_offset);
 
-		g_type_add_interface_static (type, ATK_TYPE_ACTION, &atk_action_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_ACTION, &atk_action_info);
 	}
 
 	return type;

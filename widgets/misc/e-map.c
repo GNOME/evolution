@@ -223,7 +223,7 @@ e_map_destroy (GtkObject *object)
 	EMapPrivate *priv;
 
 	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_E_MAP (object));
+	g_return_if_fail (E_IS_MAP (object));
 
 	view = E_MAP (object);
 	priv = view->priv;
@@ -244,7 +244,7 @@ e_map_finalize (GObject *object)
 	EMapPrivate *priv;
 
 	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_E_MAP (object));
+	g_return_if_fail (E_IS_MAP (object));
 
 	view = E_MAP (object);
 	priv = view->priv;
@@ -280,7 +280,7 @@ static void
 e_map_unmap (GtkWidget *widget)
 {
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
+	g_return_if_fail (E_IS_MAP (widget));
 
 	if (GTK_WIDGET_CLASS (parent_class)->unmap)
 		(*GTK_WIDGET_CLASS (parent_class)->unmap) (widget);
@@ -298,7 +298,7 @@ e_map_realize (GtkWidget *widget)
 	gint attr_mask;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
+	g_return_if_fail (E_IS_MAP (widget));
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
@@ -337,7 +337,7 @@ static void
 e_map_unrealize (GtkWidget *widget)
 {
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
+	g_return_if_fail (E_IS_MAP (widget));
 
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
@@ -352,7 +352,7 @@ e_map_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	EMapPrivate *priv;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
+	g_return_if_fail (E_IS_MAP (widget));
 	g_return_if_fail (requisition != NULL);
 
 	view = E_MAP (widget);
@@ -373,7 +373,7 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	GdkRectangle area;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
+	g_return_if_fail (E_IS_MAP (widget));
 	g_return_if_fail (allocation != NULL);
 
 	view = E_MAP (widget);
@@ -449,7 +449,7 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 	EMap *view;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
-	g_return_val_if_fail (IS_E_MAP (widget), FALSE);
+	g_return_val_if_fail (E_IS_MAP (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	view = E_MAP (widget);
@@ -468,7 +468,7 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	gboolean need_adjust;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
+	g_return_if_fail (E_IS_MAP (widget));
 
 	view = E_MAP (widget);
 	priv = view->priv;
@@ -616,7 +616,7 @@ e_map_new (void)
 	GtkWidget *widget;
 	AtkObject *a11y;
 
-	widget = g_object_new (TYPE_E_MAP, NULL);
+	widget = g_object_new (E_TYPE_MAP, NULL);
 	a11y = gtk_widget_get_accessible (widget);
 	atk_object_set_name (a11y, _("World Map"));
 	atk_object_set_role (a11y, ATK_ROLE_IMAGE);

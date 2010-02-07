@@ -64,7 +64,10 @@ is_past_event (ECalComponent *comp)
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean deleting)
+cancel_component_dialog (GtkWindow *parent,
+                         ECal *client,
+                         ECalComponent *comp,
+                         gboolean deleting)
 {
 	ECalComponentVType vtype;
 	const gchar *id;

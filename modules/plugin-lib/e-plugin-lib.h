@@ -57,7 +57,7 @@ typedef gpointer (*EPluginLibFunc) (EPlugin *ep, gpointer data);
  * is disabled. */
 typedef gint (*EPluginLibEnableFunc) (EPlugin *ep, gint enable);
 
-typedef gpointer (*EPluginLibGetConfigureWidgetFunc) (EPlugin *ep);
+typedef GtkWidget * (*EPluginLibGetConfigureWidgetFunc) (EPlugin *ep);
 
 /**
  * struct _EPluginLib -

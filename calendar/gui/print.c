@@ -223,10 +223,10 @@ convert_timet_to_struct_tm (time_t time, icaltimezone *zone)
 	return &my_tm;
 }
 
-/* Fills the 42-element days array with the day numbers for the specified month.  Slots outside the
- * bounds of the month are filled with zeros.  The starting and ending indexes of the days are
- * returned in the start and end arguments.
- */
+/* Fills the 42-element days array with the day numbers for the specified
+ * month.  Slots outside the bounds of the month are filled with zeros.
+ * The starting and ending indexes of the days are returned in the start
+ * and end arguments. */
 static void
 build_month (gint month, gint year, gint *days, gint *start, gint *end)
 {
@@ -554,7 +554,10 @@ format_date(time_t time, gint flags, gchar *buffer, gint bufflen)
 }
 
 static gboolean
-instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end, gpointer data)
+instance_cb (ECalComponent *comp,
+             time_t instance_start,
+             time_t instance_end,
+             gpointer data)
 {
 
 	gboolean *found = ((ECalModelGenerateInstancesData *) data)->cb_data;
@@ -717,7 +720,9 @@ bound_text (GtkPrintContext *context,
 
 	pango_layout_get_size (layout, &layout_width, &layout_height);
 
-	if (last_page_start && y1 + pango_units_to_double (layout_height) > y2 + (*last_page_start)) {
+	if (last_page_start &&
+		y1 + pango_units_to_double (layout_height) >
+		y2 + (*last_page_start)) {
 		/* draw this on new page */
 		if (pages)
 			*pages = *pages + 1;
@@ -1033,7 +1038,9 @@ print_attendees (GtkPrintContext *context, PangoFontDescription *font, cairo_t *
 				cairo_show_page (cr);
 			}
 
-			top = bound_text (context, font, text->str, -1, left + 40.0, top, right, bottom, FALSE, NULL, pages);
+			top = bound_text (
+				context, font, text->str, -1, left + 40.0,
+				top, right, bottom, FALSE, NULL, pages);
 
 			g_string_free (text, TRUE);
 		}
@@ -1067,10 +1074,16 @@ get_summary_with_location (icalcomponent *icalcomp)
 }
 
 static void
-print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
-		      double left, double right, double top, double bottom,
-		      double row_height, EDayViewEvent *event,
-		      struct pdinfo *pdi, ECalModel *model)
+print_day_long_event (GtkPrintContext *context,
+                      PangoFontDescription *font,
+                      gdouble left,
+                      gdouble right,
+                      gdouble top,
+                      gdouble bottom,
+                      gdouble row_height,
+                      EDayViewEvent *event,
+                      struct pdinfo *pdi,
+                      ECalModel *model)
 {
 	gdouble x1, x2, y1, y2;
 	gdouble left_triangle_width = -1.0, right_triangle_width = -1.0;
@@ -1095,7 +1108,8 @@ print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	y1 = top + event->start_row_or_col * row_height + 1;
 	y2 = y1 + row_height - 1;
 	red = green = blue = 0.95;
-	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
+	e_cal_model_get_rgb_color_for_component (
+		model, event->comp_data, &red, &green, &blue);
 	print_border_with_triangles (context, x1, x2, y1, y2, 0.5, red, green, blue,
 				     left_triangle_width,
 				     right_triangle_width);
@@ -1169,7 +1183,8 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 	start_row = MAX (0, start_row);
 	end_row = (end_offset - 1) / pdi->mins_per_row;
 	end_row = MIN (pdi->rows - 1, end_row);
-	col_width = (right - left) / pdi->cols_per_row[event->start_minute / pdi->mins_per_row];
+	col_width = (right - left) /
+		pdi->cols_per_row[event->start_minute / pdi->mins_per_row];
 
 	if (start_offset != start_row * pdi->mins_per_row
 	    || end_offset != (end_row + 1) * pdi->mins_per_row)
@@ -1187,7 +1202,8 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 #endif
 
 	red = green = blue = 0.95;
-	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
+	e_cal_model_get_rgb_color_for_component (
+		model, event->comp_data, &red, &green, &blue);
 	print_border_rgb (context, x1, x2, y1, y2, 1.0, red, green, blue);
 
 	text = get_summary_with_location (event->comp_data->icalcomp);
@@ -1309,8 +1325,10 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 	for (i = 0; i < rows_in_top_display && i < pdi.long_events->len; i++) {
 		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
-		print_day_long_event (context, font, left, right, top + LONG_DAY_EVENTS_TOP_SPACING, bottom,
-				      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
+		print_day_long_event (
+			context, font, left, right,
+			top + LONG_DAY_EVENTS_TOP_SPACING, bottom,
+			DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
 
 	if (rows_in_top_display < pdi.long_events->len) {
@@ -1333,7 +1351,9 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
 		/* Placing '...' over the last all day event entry printed. '-1 -1' comes
 			from print_long_day_event (top/bottom spacing in each cell) */
-		y = top + LONG_DAY_EVENTS_TOP_SPACING + DAY_VIEW_ROW_HEIGHT * (i - 1) + (DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
+		y = top + LONG_DAY_EVENTS_TOP_SPACING
+			+ DAY_VIEW_ROW_HEIGHT * (i - 1)
+			+ (DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
 
 		cairo_save (cr);
 		cairo_scale (cr, 0.5, 0.5);
@@ -1349,13 +1369,16 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
-		print_border (context, left, right,
-		      top,
-		      top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT + LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING,
-		      1.0, -1.0);
+	print_border (
+		context, left, right,
+		top, top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT +
+		LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING,
+		1.0, -1.0);
 
 	/* Adjust the area containing the main display. */
-	top += rows_in_top_display * DAY_VIEW_ROW_HEIGHT + LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING;
+	top += rows_in_top_display * DAY_VIEW_ROW_HEIGHT
+		+ LONG_DAY_EVENTS_TOP_SPACING
+		+ LONG_DAY_EVENTS_BOTTOM_SPACING;
 
 	/* Draw the borders, lines, and times down the left. */
 	print_day_background (context, gcal, whence, &pdi,
@@ -1430,9 +1453,9 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	if (event->end > psi->day_starts[span->start_day + span->num_days])
 		right_triangle_width = 4;
 
-	print_border_with_triangles (context, x1, x2, y1, y1 + row_height, 0.0, red, green, blue,
-				     left_triangle_width,
-				     right_triangle_width);
+	print_border_with_triangles (
+		context, x1, x2, y1, y1 + row_height, 0.0, red, green, blue,
+		left_triangle_width, right_triangle_width);
 
 	/* If the event starts after the first day being printed, we need to
 	   print the start time. */
@@ -1449,7 +1472,9 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x1 += 4;
-		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height);
+		x1 += print_text_size (
+			context, buffer, PANGO_ALIGN_LEFT,
+			x1, x2, y1, y1 + row_height);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1467,7 +1492,9 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x2 -= 4;
-		x2 -= print_text_size (context, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y1 + row_height);
+		x2 -= print_text_size (
+			context, buffer, PANGO_ALIGN_RIGHT,
+			x1, x2, y1, y1 + row_height);
 	}
 
 	x1 += 4;
@@ -1496,7 +1523,9 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
 	print_rectangle (context, x1, y1, x2 - x1, row_height, red, green, blue);
-	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height) + 4;
+	x1 += print_text_size (
+		context, buffer, PANGO_ALIGN_LEFT,
+		x1, x2, y1, y1 + row_height) + 4;
 
 	if (psi->weeks_shown <= 2) {
 		date_tm.tm_hour = event->end_minute / 60;
@@ -1506,10 +1535,14 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		print_rectangle (context, x1, y1, x2 - x1, row_height, red, green, blue);
-		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height) + 4;
+		x1 += print_text_size (
+			context, buffer, PANGO_ALIGN_LEFT,
+			x1, x2, y1, y1 + row_height) + 4;
 	}
 
-	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height);
+	print_text_size (
+		context, text, PANGO_ALIGN_LEFT,
+		x1, x2, y1, y1 + row_height);
 }
 
 static void
@@ -1574,7 +1607,8 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 			red = .9;
 			green = .9;
 			blue = .9;
-			e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
+			e_cal_model_get_rgb_color_for_component (
+				model, event->comp_data, &red, &green, &blue);
 			if (print_is_one_day_week_event (event, span,
 							 psi->day_starts)) {
 				print_week_day_event (context, font, psi,
@@ -1605,7 +1639,10 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 
 				if (end_day_of_week == 5 || end_day_of_week == 6) {
 					/* Sat or Sun */
-					y1 = y1 + (psi->rows_per_compressed_cell - psi->rows_per_cell) * psi->row_height - 3.0;
+					y1 = y1 +
+						(psi->rows_per_compressed_cell -
+						 psi->rows_per_cell) *
+						psi->row_height - 3.0;
 				}
 			}
 
@@ -2022,7 +2059,8 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 			continue;
 
 		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (comp_data->icalcomp));
 
 		e_cal_component_get_summary (comp, &summary);
 		if (!summary.value) {
@@ -2504,7 +2542,8 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	top = 0.0;
 
-	/* either draw only the right page or do not draw anything when calculating number of pages */
+	/* Either draw only the right page or do not draw
+	 * anything when calculating number of pages. */
 	if (page_nr != -1)
 		top = top - ((page_nr) * height);
 	else
@@ -2572,10 +2611,14 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	/* Attendees */
 	if ((page_nr == 0) && e_cal_component_has_attendees (comp)) {
-		top = bound_text (context, font, _("Attendees: "), -1, 0.0, top, width, height, FALSE, &page_start, &pages);
+		top = bound_text (
+			context, font, _("Attendees: "), -1, 0.0,
+			top, width, height, FALSE, &page_start, &pages);
 		pango_font_description_free (font);
 		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
-		top = print_attendees (context, font, cr, 0.0, width, top, height, comp, page_nr, &pages);
+		top = print_attendees (
+			context, font, cr, 0.0, width,
+			top, height, comp, page_nr, &pages);
 		top += get_font_size (font) - 6;
 	}
 
@@ -2626,9 +2669,13 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		if (priority && *priority >= 0) {
 			gchar *pri_text;
 
-			pri_text = g_strdup_printf (_("Priority: %s"), e_cal_util_priority_to_string (*priority));
-			top = bound_text (context, font, pri_text, -1,
-					  0.0, top, width, height, FALSE, &page_start, &pages);
+			pri_text = g_strdup_printf (
+				_("Priority: %s"),
+				e_cal_util_priority_to_string (*priority));
+			top = bound_text (
+				context, font, pri_text, -1,
+				0.0, top, width, height, FALSE,
+				&page_start, &pages);
 			top += get_font_size (font) - 6;
 			g_free (pri_text);
 		}
@@ -2702,7 +2749,11 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		for (line = ptext->value; line != NULL; line = next_line) {
 			next_line = strchr (line, '\n');
 
-			top = bound_text (context, font, line, next_line ? next_line - line : -1, 0.0, top + 3, width, height, TRUE, &page_start, &pages);
+			top = bound_text (
+				context, font, line,
+				next_line ? next_line - line : -1,
+				0.0, top + 3, width, height, TRUE,
+				&page_start, &pages);
 
 			if (next_line) {
 				next_line ++;

@@ -104,7 +104,9 @@ gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 	while (page_count > 0 ) {
 		notebook = gtk_notebook_new ();
 		gtk_notebook_append_page ((GtkNotebook *)notebook, box, NULL);
-		gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, notebook, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			(GtkBox *) ((GtkDialog *) dialog)->vbox,
+			notebook, TRUE, TRUE, 0);
 	}
 
 	if (page_count == 0)

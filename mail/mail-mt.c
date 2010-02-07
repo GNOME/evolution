@@ -43,19 +43,25 @@
  *     to rework or get rid of the functions that use this. */
 const gchar *shell_builtin_backend = "mail";
 
-static void mail_operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data);
+static void mail_operation_status		(CamelOperation *op,
+						 const gchar *what,
+						 gint pc,
+						 gpointer data);
 
 /* background operation status stuff */
 struct _MailMsgPrivate {
-	gint activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
-				   pointer itself for locking/race conditions */
+	/* XXX We need to keep track of the state external to the
+	 *     pointer itself for locking/race conditions. */
+	gint activity_state;
 	EActivity *activity;
 	GtkWidget *error;
 	gboolean cancelable;
 };
 
 static guint mail_msg_seq; /* sequence number of each message */
-static GHashTable *mail_msg_active_table; /* table of active messages, must hold mail_msg_lock to access */
+
+/* Table of active messages.  Must hold mail_msg_lock to access. */
+static GHashTable *mail_msg_active_table;
 static GMutex *mail_msg_lock;
 static GCond *mail_msg_cond;
 
@@ -255,7 +261,9 @@ mail_msg_check_error (gpointer msg)
 	/* we key on the operation pointer, which is at least accurate enough
 	   for the operation type, although it could be on a different object. */
 	if (g_hash_table_lookup(active_errors, m->info)) {
-		g_message("Error occurred while existing dialogue active:\n%s", camel_exception_get_description(&m->ex));
+		g_message (
+			"Error occurred while existing dialogue active:\n%s",
+			camel_exception_get_description(&m->ex));
 		return;
 	}
 
@@ -263,10 +271,14 @@ mail_msg_check_error (gpointer msg)
 
 	if (m->info->desc
 	    && (what = m->info->desc (m))) {
-		gd = (GtkDialog *)e_alert_dialog_new_for_args (parent, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *) e_alert_dialog_new_for_args (
+			parent, "mail:async-error", what,
+			camel_exception_get_description(&m->ex), NULL);
 		g_free(what);
 	} else
-		gd = (GtkDialog *)e_alert_dialog_new_for_args (parent, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *) e_alert_dialog_new_for_args (
+			parent, "mail:async-error-nodescribe",
+			camel_exception_get_description(&m->ex), NULL);
 
 	g_hash_table_insert(active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);
@@ -632,7 +644,8 @@ static MailMsgInfo async_event_info = {
 	(MailMsgFreeFunc) NULL
 };
 
-MailAsyncEvent *mail_async_event_new(void)
+MailAsyncEvent *
+mail_async_event_new (void)
 {
 	MailAsyncEvent *ea;
 
@@ -642,12 +655,19 @@ MailAsyncEvent *mail_async_event_new(void)
 	return ea;
 }
 
-gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer o, gpointer event_data, gpointer data)
+gint
+mail_async_event_emit (MailAsyncEvent *ea,
+                       mail_async_event_t type,
+                       MailAsyncFunc func,
+                       gpointer o,
+                       gpointer event_data,
+                       gpointer data)
 {
 	struct _proxy_msg *m;
 	gint id;
 
-	/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
+	/* We dont have a reply port for this, we dont
+	 * care when/if it gets executed, just queue it. */
 	m = mail_msg_new(&async_event_info);
 	m->func = func;
 	m->o = o;
@@ -662,8 +682,9 @@ gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyn
 	ea->tasks = g_slist_prepend(ea->tasks, m);
 	g_mutex_unlock(ea->lock);
 
-	/* We use an idle function instead of our own message port only because the
-	   gui message ports's notification buffer might overflow and deadlock us */
+	/* We use an idle function instead of our own message port only
+	 * because the gui message ports's notification buffer might
+	 * overflow and deadlock us. */
 	if (type == MAIL_ASYNC_GUI) {
 		if (mail_in_main_thread ())
 			g_idle_add(idle_async_event, m);
@@ -675,7 +696,8 @@ gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyn
 	return id;
 }
 
-gint mail_async_event_destroy(MailAsyncEvent *ea)
+gint
+mail_async_event_destroy (MailAsyncEvent *ea)
 {
 	gint id;
 	struct _proxy_msg *m;
@@ -940,7 +962,10 @@ static MailMsgInfo op_status_info = {
 };
 
 static void
-mail_operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+mail_operation_status (CamelOperation *op,
+                       const gchar *what,
+                       gint pc,
+                       gpointer data)
 {
 	struct _op_status_msg *m;
 

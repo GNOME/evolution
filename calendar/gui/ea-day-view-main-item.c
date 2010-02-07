@@ -29,11 +29,14 @@
 #include <glib/gi18n.h>
 
 /* EaDayViewMainItem */
-static void ea_day_view_main_item_class_init (EaDayViewMainItemClass *klass);
+static void	ea_day_view_main_item_class_init(EaDayViewMainItemClass *klass);
 
-static void ea_day_view_main_item_finalize (GObject *object);
-static G_CONST_RETURN gchar * ea_day_view_main_item_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_day_view_main_item_get_description (AtkObject *accessible);
+static void	ea_day_view_main_item_finalize	(GObject *object);
+static G_CONST_RETURN gchar *
+		ea_day_view_main_item_get_name	(AtkObject *accessible);
+static G_CONST_RETURN gchar *
+		ea_day_view_main_item_get_description
+						(AtkObject *accessible);
 
 static gint         ea_day_view_main_item_get_n_children (AtkObject *obj);
 static AtkObject*   ea_day_view_main_item_ref_child (AtkObject *obj,

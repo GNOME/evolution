@@ -99,7 +99,10 @@ open_component_editor (EShell *shell,
 			break;
 		default:
 			if (error)
-				*error = g_error_new (E_CALENDAR_ERROR, E_CALENDAR_STATUS_INVALID_OBJECT, "%s", _("Invalid object"));
+				*error = g_error_new (
+					E_CALENDAR_ERROR,
+					E_CALENDAR_STATUS_INVALID_OBJECT,
+					"%s", _("Invalid object"));
 			break;
 		}
 

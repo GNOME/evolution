@@ -170,7 +170,10 @@ e_table_memory_insert (ETableMemory *etmm,
 	if (row == -1)
 		row = etmm->priv->num_rows;
 	etmm->priv->data = g_renew(gpointer, etmm->priv->data, etmm->priv->num_rows + 1);
-	memmove(etmm->priv->data + row + 1, etmm->priv->data + row, (etmm->priv->num_rows - row) * sizeof (gpointer));
+	memmove (
+		etmm->priv->data + row + 1,
+		etmm->priv->data + row,
+		(etmm->priv->num_rows - row) * sizeof (gpointer));
 	etmm->priv->data[row] = data;
 	etmm->priv->num_rows ++;
 	if (!etmm->priv->frozen)
@@ -199,7 +202,10 @@ e_table_memory_remove (ETableMemory *etmm, gint row)
 	if (!etmm->priv->frozen)
 		e_table_model_pre_change(E_TABLE_MODEL(etmm));
 	ret = etmm->priv->data[row];
-	memmove(etmm->priv->data + row, etmm->priv->data + row + 1, (etmm->priv->num_rows - row - 1) * sizeof (gpointer));
+	memmove (
+		etmm->priv->data + row,
+		etmm->priv->data + row + 1,
+		(etmm->priv->num_rows - row - 1) * sizeof (gpointer));
 	etmm->priv->num_rows --;
 	if (!etmm->priv->frozen)
 		e_table_model_row_deleted(E_TABLE_MODEL(etmm), row);

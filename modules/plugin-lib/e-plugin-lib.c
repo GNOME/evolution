@@ -79,28 +79,6 @@ plugin_lib_loadmodule (EPlugin *plugin)
 }
 
 static gpointer
-plugin_lib_invoke (EPlugin *plugin, const gchar *name, gpointer data)
-{
-	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
-	EPluginLibFunc cb;
-
-	if (!plugin->enabled) {
-		g_warning ("trying to invoke '%s' on disabled plugin '%s'", name, plugin->id);
-		return NULL;
-	}
-
-	if (plugin_lib_loadmodule (plugin) != 0)
-		return NULL;
-
-	if (!g_module_symbol (plugin_lib->module, name, (gpointer)&cb)) {
-		g_warning ("Cannot resolve symbol '%s' in plugin '%s' (not exported?)", name, plugin_lib->location);
-		return NULL;
-	}
-
-	return cb (plugin, data);
-}
-
-static gpointer
 plugin_lib_get_symbol (EPlugin *plugin, const gchar *name)
 {
 	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
@@ -113,6 +91,29 @@ plugin_lib_get_symbol (EPlugin *plugin, const gchar *name)
 		return NULL;
 
 	return symbol;
+}
+
+static gpointer
+plugin_lib_invoke (EPlugin *plugin, const gchar *name, gpointer data)
+{
+	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
+	EPluginLibFunc func;
+
+	if (!plugin->enabled) {
+		g_warning ("trying to invoke '%s' on disabled plugin '%s'", name, plugin->id);
+		return NULL;
+	}
+
+	func = plugin_lib_get_symbol (plugin, name);
+
+	if (func == NULL) {
+		g_warning (
+			"Cannot resolve symbol '%s' in plugin '%s' "
+			"(not exported?)", name, plugin_lib->location);
+		return NULL;
+	}
+
+	return func (plugin, data);
 }
 
 static gint
@@ -164,16 +165,14 @@ plugin_lib_construct (EPlugin *plugin, xmlNodePtr root)
 static GtkWidget *
 plugin_lib_get_configure_widget (EPlugin *plugin)
 {
-	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
 	EPluginLibGetConfigureWidgetFunc get_configure_widget;
 
-	if (plugin_lib_loadmodule (plugin) != 0) {
-		return NULL;
-	}
+	get_configure_widget = plugin_lib_get_symbol (
+		plugin, "e_plugin_lib_get_configure_widget");
 
-	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_get_configure_widget", (gpointer)&get_configure_widget)) {
-		return (GtkWidget*) get_configure_widget (plugin);
-	}
+	if (get_configure_widget != NULL)
+		return get_configure_widget (plugin);
+
 	return NULL;
 }
 
@@ -189,14 +188,10 @@ plugin_lib_enable (EPlugin *plugin, gint state)
 	if (!state && plugin_lib->module == NULL)
 		return;
 
-	/* this will noop if we're disabling since we tested it above */
-	if (plugin_lib_loadmodule (plugin) != 0)
-		return;
+	enable = plugin_lib_get_symbol (plugin, "e_plugin_lib_enable");
 
-	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_enable", (gpointer) &enable)) {
-		if (enable (plugin, state) != 0)
-			return;
-	}
+	if (enable != NULL)
+		enable (plugin, state);
 }
 
 static void

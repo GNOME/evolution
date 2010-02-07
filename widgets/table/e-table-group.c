@@ -106,9 +106,11 @@ e_table_group_new (GnomeCanvasGroup *parent,
 	g_return_val_if_fail (model != NULL, NULL);
 
 	if (n < e_table_sort_info_grouping_get_count(sort_info)) {
-		return e_table_group_container_new (parent, full_header, header, model, sort_info, n);
+		return e_table_group_container_new (
+			parent, full_header, header, model, sort_info, n);
 	} else {
-		return e_table_group_leaf_new (parent, full_header, header, model, sort_info);
+		return e_table_group_leaf_new (
+			parent, full_header, header, model, sort_info);
 	}
 }
 
@@ -372,7 +374,11 @@ e_table_group_get_printable (ETableGroup *etg)
  * %ETableGroup is removed from the value y points to.
  */
 void
-e_table_group_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
+e_table_group_compute_location (ETableGroup *etg,
+                                gint *x,
+                                gint *y,
+                                gint *row,
+                                gint *col)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -467,7 +473,10 @@ e_table_group_cursor_activated (ETableGroup *e_table_group, gint row)
  * This routine emits the "double_click" signal.
  */
 void
-e_table_group_double_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+e_table_group_double_click (ETableGroup *e_table_group,
+                            gint row,
+                            gint col,
+                            GdkEvent *event)
 {
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
@@ -487,7 +496,10 @@ e_table_group_double_click (ETableGroup *e_table_group, gint row, gint col, GdkE
  * This routine emits the "right_click" signal.
  */
 gint
-e_table_group_right_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+e_table_group_right_click (ETableGroup *e_table_group,
+                           gint row,
+                           gint col,
+                           GdkEvent *event)
 {
 	gint return_val = 0;
 
@@ -511,7 +523,10 @@ e_table_group_right_click (ETableGroup *e_table_group, gint row, gint col, GdkEv
  * This routine emits the "click" signal.
  */
 gint
-e_table_group_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+e_table_group_click (ETableGroup *e_table_group,
+                     gint row,
+                     gint col,
+                     GdkEvent *event)
 {
 	gint return_val = 0;
 
@@ -535,7 +550,10 @@ e_table_group_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *e
  * This routine emits the "key_press" signal.
  */
 gint
-e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+e_table_group_key_press (ETableGroup *e_table_group,
+                         gint row,
+                         gint col,
+                         GdkEvent *event)
 {
 	gint return_val = 0;
 
@@ -559,7 +577,10 @@ e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEven
  * This routine emits the "start_drag" signal.
  */
 gint
-e_table_group_start_drag (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+e_table_group_start_drag (ETableGroup *e_table_group,
+                          gint row,
+                          gint col,
+                          GdkEvent *event)
 {
 	gint return_val = 0;
 

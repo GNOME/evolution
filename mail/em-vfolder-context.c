@@ -40,30 +40,26 @@ static EFilterElement *vfolder_new_element(ERuleContext *rc, const gchar *type);
 static ERuleContextClass *parent_class = NULL;
 
 static void
-em_vfolder_context_finalise(GObject *obj)
-{
-        G_OBJECT_CLASS(parent_class)->finalize(obj);
-}
-
-static void
-em_vfolder_context_class_init(EMVFolderContextClass *klass)
+em_vfolder_context_class_init (EMVFolderContextClass *klass)
 {
 	parent_class = g_type_class_ref(E_TYPE_RULE_CONTEXT);
 
-	((GObjectClass *)klass)->finalize = em_vfolder_context_finalise;
 	((ERuleContextClass *)klass)->new_element = vfolder_new_element;
 }
 
 static void
-em_vfolder_context_init(EMVFolderContext *vc)
+em_vfolder_context_init (EMVFolderContext *vc)
 {
-	e_rule_context_add_part_set((ERuleContext *) vc, "partset", E_TYPE_FILTER_PART,
-				   e_rule_context_add_part, e_rule_context_next_part);
+	e_rule_context_add_part_set (
+		(ERuleContext *) vc, "partset", E_TYPE_FILTER_PART,
+		e_rule_context_add_part, e_rule_context_next_part);
 
-	e_rule_context_add_rule_set((ERuleContext *) vc, "ruleset", em_vfolder_rule_get_type(),
-				   e_rule_context_add_rule, e_rule_context_next_rule);
+	e_rule_context_add_rule_set (
+		(ERuleContext *) vc, "ruleset", em_vfolder_rule_get_type(),
+		e_rule_context_add_rule, e_rule_context_next_rule);
 
-	((ERuleContext *)vc)->flags = E_RULE_CONTEXT_THREADING | E_RULE_CONTEXT_GROUPING;
+	((ERuleContext *)vc)->flags =
+		E_RULE_CONTEXT_THREADING | E_RULE_CONTEXT_GROUPING;
 }
 
 GType
@@ -71,20 +67,23 @@ em_vfolder_context_get_type(void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof(EMVFolderContextClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMVFolderContextClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
 			(GClassInitFunc) em_vfolder_context_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof(EMVFolderContext),
-			0,    /* n_preallocs */
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMVFolderContext),
+			0,     /* n_preallocs */
 			(GInstanceInitFunc) em_vfolder_context_init,
+			NULL   /* value_table */
 		};
 
-		type = g_type_register_static(E_TYPE_RULE_CONTEXT, "EMVFolderContext", &info, 0);
+		type = g_type_register_static (
+			E_TYPE_RULE_CONTEXT, "EMVFolderContext",
+			&type_info, 0);
 	}
 
 	return type;
@@ -98,13 +97,13 @@ em_vfolder_context_get_type(void)
  * Return value: A new #EMVFolderContext object.
  **/
 EMVFolderContext *
-em_vfolder_context_new(void)
+em_vfolder_context_new (void)
 {
-	return (EMVFolderContext *)g_object_new(em_vfolder_context_get_type(), NULL, NULL);
+	return g_object_new (em_vfolder_context_get_type(), NULL, NULL);
 }
 
 static EFilterElement *
-vfolder_new_element(ERuleContext *rc, const gchar *type)
+vfolder_new_element (ERuleContext *rc, const gchar *type)
 {
 	if (!strcmp(type, "system-flag")) {
 		return (EFilterElement *) e_filter_option_new();

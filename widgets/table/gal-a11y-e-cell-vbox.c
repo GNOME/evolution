@@ -75,12 +75,14 @@ ecv_ref_child (AtkObject *a11y, gint i)
 			row = gaec->row;
 			model_col = ecvv->model_cols[i];
 			subcell_view = ecvv->subcell_views[i];
+			/* FIXME Should the view column use a fake
+			 *       one or the same as its parent? */
 			ret = gal_a11y_e_cell_registry_get_object (NULL,
 				gaec->item,
 				subcell_view,
 				a11y,
 				model_col,
-				gaec->view_col, /* FIXME should the view column use a fake one or the same as its parent? */
+				gaec->view_col,
 				row);
 			gaev->a11y_subcells[i] = ret;
 			g_object_ref (ret);
@@ -132,7 +134,9 @@ ecv_ref_accessible_at_point (AtkComponent *component,
 		return NULL;
 
 	for (i = 0; i < ecvv->subcell_view_count; i++) {
-		subcell_height = e_cell_height (ecvv->subcell_views[i], ecvv->model_cols[i], gaec->view_col, gaec->row);
+		subcell_height = e_cell_height (
+			ecvv->subcell_views[i], ecvv->model_cols[i],
+			gaec->view_col, gaec->row);
 		if ( 0 <= y && y <= subcell_height) {
 			return ecv_ref_child ((AtkObject *)component, i);
 		} else

@@ -137,8 +137,14 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 			week_view->events, EWeekViewEvent,
 			week_view->editing_event_num);
 
-		/* do not call edit of the component, if double clicked on the component, which is not on the server */
-		if (editing && event && editing->comp_data == event->comp_data && (!event->comp_data || !is_icalcomp_on_the_server (event->comp_data->icalcomp, event->comp_data->client)))
+		/* Do not call edit of the component, if double clicked
+		 * on the component, which is not on the server. */
+		if (editing && event &&
+			editing->comp_data == event->comp_data &&
+			(!event->comp_data ||
+			 !is_icalcomp_on_the_server (
+				event->comp_data->icalcomp,
+				event->comp_data->client)))
 			return TRUE;
 	}
 
@@ -371,7 +377,8 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	e_cal_component_set_icalcomponent (
+		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	gc = week_view->main_gc;
 	cr = gdk_cairo_create (drawable);
@@ -470,9 +477,11 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
                                     gint h,
                                     GdkRegion *draw_region)
 {
+	ECalModel *model;
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	GdkPoint points[3];
+	const gchar *color_spec;
 	gint c1, c2;
 	cairo_t *cr;
 
@@ -493,21 +502,34 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	points[2].x = x;
 	points[2].y = y + h - 1;
 
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)),
-								  event->comp_data),
-			     &bg_color)) {
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+
+	color_spec =
+		e_cal_model_get_color_for_component (model, event->comp_data);
+
+	if (gdk_color_parse (color_spec, &bg_color)) {
 		GdkColormap *colormap;
 
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
 		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
 			gdk_cairo_set_source_color (cr, &bg_color);
-		}
-		else {
-			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+		} else {
+			EWeekViewColors wvc;
+			GdkColor *color;
 
-			}
+			wvc = E_WEEK_VIEW_COLOR_EVENT_BACKGROUND;
+			color = &week_view->colors[wvc];
+
+			gdk_cairo_set_source_color (cr, color);
+		}
 	} else {
-		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+		EWeekViewColors wvc;
+		GdkColor *color;
+
+		wvc = E_WEEK_VIEW_COLOR_EVENT_BACKGROUND;
+		color = &week_view->colors[wvc];
+
+		gdk_cairo_set_source_color (cr, color);
 	}
 
 	cairo_save (cr);
@@ -638,6 +660,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
+	ECalModel *model;
 	GdkGC *gc;
 	gint x1, y1, x2, y2, time_x, time_y;
 	gint icon_x, icon_y, time_width, min_end_time_x, max_icon_x;
@@ -656,6 +679,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	gdouble cc = 65535.0;
 	GdkRegion *draw_region;
 	GdkRectangle rect;
+	const gchar *color_spec;
 
 	event_item = E_WEEK_VIEW_EVENT_ITEM (canvas_item);
 	week_view = E_WEEK_VIEW (GTK_WIDGET (canvas_item->canvas)->parent);
@@ -669,7 +693,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
 
-	g_return_if_fail (event->spans_index + event_item->priv->span_num < week_view->spans->len);
+	g_return_if_fail (
+		event->spans_index + event_item->priv->span_num <
+		week_view->spans->len);
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + event_item->priv->span_num);
@@ -715,8 +741,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 	one_day_event = e_week_view_is_one_day_event (week_view, event_item->priv->event_num);
 
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+
+	color_spec =
+		e_cal_model_get_color_for_component (model, event->comp_data);
+
 	bg_color = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data), &bg_color)) {
+	if (gdk_color_parse (color_spec, &bg_color)) {
 		GdkColormap *colormap;
 
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
@@ -905,8 +936,14 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				x1 + E_WEEK_VIEW_EVENT_L_PAD + 2,
 				y1, -3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x, y1, 1, y2 - y1)) {
+			EWeekViewColors wvc;
+			GdkColor *color;
+
+			wvc = E_WEEK_VIEW_COLOR_EVENT_BORDER;
+			color = &week_view->colors[wvc];
+
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr,  &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
+			gdk_cairo_set_source_color (cr, color);
 			cairo_set_line_width (cr, 0.7);
 			cairo_move_to (cr, rect_x, y1);
 			cairo_line_to (cr, rect_x, y2);
@@ -920,8 +957,14 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				x2 - E_WEEK_VIEW_EVENT_R_PAD - 2,
 				y1, 3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x2, y2, 1, 1)) {
+			EWeekViewColors wvc;
+			GdkColor *color;
+
+			wvc = E_WEEK_VIEW_COLOR_EVENT_BORDER;
+			color = &week_view->colors[wvc];
+
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr,  &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
+			gdk_cairo_set_source_color (cr, color);
 			cairo_set_line_width (cr, 0.7);
 			/* rect_x2 is used uninitialized here */
 			cairo_move_to (cr, rect_x2, y2);

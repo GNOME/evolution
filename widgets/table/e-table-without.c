@@ -114,7 +114,10 @@ remove_row (ETableWithout *etw, gint view_row)
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	e_table_model_pre_change (E_TABLE_MODEL (etw));
-	memmove (etss->map_table + view_row, etss->map_table + view_row + 1, (etss->n_map - view_row - 1) * sizeof (gint));
+	memmove (
+		etss->map_table + view_row,
+		etss->map_table + view_row + 1,
+		(etss->n_map - view_row - 1) * sizeof (gint));
 	etss->n_map --;
 	e_table_model_row_deleted (E_TABLE_MODEL (etw), view_row);
 }
@@ -149,7 +152,10 @@ etw_dispose (GObject *object)
 }
 
 static void
-etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, gint model_row, gint count)
+etw_proxy_model_rows_inserted (ETableSubset *etss,
+                               ETableModel *etm,
+                               gint model_row,
+                               gint count)
 {
 	gint i;
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
@@ -177,7 +183,10 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, gint model_
 }
 
 static void
-etw_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *etm, gint model_row, gint count)
+etw_proxy_model_rows_deleted (ETableSubset *etss,
+                              ETableModel *etm,
+                              gint model_row,
+                              gint count)
 {
 	gint i; /* View row */
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);

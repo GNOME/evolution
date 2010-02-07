@@ -189,7 +189,9 @@ e_week_view_layout_event	(EWeekViewEvent	*event,
 			span.background_item = NULL;
 			span.text_item = NULL;
 			if (event->num_spans > span_num) {
-				old_span = &g_array_index (old_spans, EWeekViewEventSpan, event->spans_index + span_num);
+				old_span = &g_array_index (
+					old_spans, EWeekViewEventSpan,
+					event->spans_index + span_num);
 				span.background_item = old_span->background_item;
 				span.text_item = old_span->text_item;
 				old_span->background_item = NULL;
@@ -327,7 +329,14 @@ e_week_view_layout_get_day_position	(gint		 day,
 		}
 	} else {
 		#define wk(x) ( ( working_days & (days [ ((x) + display_start_day) % 7 ]) ) ? 1 : 0)
-		CalWeekdays days [] = {CAL_MONDAY, CAL_TUESDAY, CAL_WEDNESDAY, CAL_THURSDAY, CAL_FRIDAY, CAL_SATURDAY, CAL_SUNDAY};
+		CalWeekdays days[] = {
+			CAL_MONDAY,
+			CAL_TUESDAY,
+			CAL_WEDNESDAY,
+			CAL_THURSDAY,
+			CAL_FRIDAY,
+			CAL_SATURDAY,
+			CAL_SUNDAY };
 		CalWeekdays working_days;
 		gint arr[4] = {1, 1, 1, 1};
 		gint edge, i, wd, m, M;
@@ -442,10 +451,13 @@ e_week_view_layout_get_span_position	(EWeekViewEvent *event,
 			}
 		} else {
 			gint day_x, day_y, rows = 0;
-			e_week_view_layout_get_day_position (end_day_of_week, multi_week_view, 1, display_start_day, compress_weekend,
-								&day_x, &day_y, &rows);
+			e_week_view_layout_get_day_position (
+				end_day_of_week, multi_week_view, 1,
+				display_start_day, compress_weekend,
+				&day_x, &day_y, &rows);
 
-			if (((rows / 2) * rows_per_cell) + ((rows % 2) * rows_per_compressed_cell) <= span->row)
+			if (((rows / 2) * rows_per_cell) + ((rows % 2) *
+				rows_per_compressed_cell) <= span->row)
 				return FALSE;
 		}
 	}

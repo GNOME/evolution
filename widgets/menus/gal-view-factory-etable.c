@@ -94,7 +94,8 @@ gal_view_factory_etable_init            (GalViewFactoryEtable *factory)
 GalViewFactory *
 gal_view_factory_etable_new        (ETableSpecification  *spec)
 {
-	return gal_view_factory_etable_construct (g_object_new (GAL_VIEW_FACTORY_ETABLE_TYPE, NULL), spec);
+	return gal_view_factory_etable_construct (
+		g_object_new (GAL_VIEW_FACTORY_ETABLE_TYPE, NULL), spec);
 }
 
 /**

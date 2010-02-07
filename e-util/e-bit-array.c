@@ -58,7 +58,9 @@ e_bit_array_insert_real(EBitArray *eba, gint row)
 		}
 
 		/* Shift right half of box one bit to the right. */
-		eba->data[box] = (eba->data[box] & BITMASK_LEFT(row)) | ((eba->data[box] & BITMASK_RIGHT(row)) >> 1);
+		eba->data[box] =
+			(eba->data[box] & BITMASK_LEFT(row)) |
+			((eba->data[box] & BITMASK_RIGHT(row)) >> 1);
 		eba->bit_count ++;
 	}
 }
@@ -80,7 +82,9 @@ e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 		if (move_selection_mode)
 			selected = e_bit_array_value_at(eba, row);
 		/* Shift right half of box one bit to the left. */
-		eba->data[box] = (eba->data[box] & BITMASK_LEFT(row))| ((eba->data[box] & bitmask) << 1);
+		eba->data[box] =
+			(eba->data[box] & BITMASK_LEFT(row)) |
+			((eba->data[box] & bitmask) << 1);
 
 		/* Shift all words to the right of our box left one bit. */
 		if (box < last) {
@@ -297,7 +301,9 @@ e_bit_array_bit_count (EBitArray *eba)
 	return eba->bit_count;
 }
 
-#define OPERATE(object, i,mask,grow) ((grow) ? (((object)->data[(i)]) |= ((guint32) ~(mask))) : (((object)->data[(i)]) &= (mask)))
+#define OPERATE(object, i,mask,grow) \
+	((grow) ? (((object)->data[(i)]) |= ((guint32) ~(mask))) : \
+	(((object)->data[(i)]) &= (mask)))
 
 void
 e_bit_array_change_one_row(EBitArray *eba, gint row, gboolean grow)

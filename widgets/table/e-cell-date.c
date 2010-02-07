@@ -114,5 +114,7 @@ e_cell_date_set_format_component (ECellDate *ecd, const gchar *fmt_component)
 {
 	g_return_if_fail (ecd != NULL);
 
-	g_object_set_data_full ((GObject *)ecd, "fmt-component", g_strdup (fmt_component), g_free);
+	g_object_set_data_full (
+		G_OBJECT (ecd), "fmt-component",
+		g_strdup (fmt_component), g_free);
 }

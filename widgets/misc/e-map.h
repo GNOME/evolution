@@ -26,11 +26,26 @@
 
 #include <gtk/gtk.h>
 
-#define TYPE_E_MAP            (e_map_get_type ())
-#define E_MAP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_E_MAP, EMap))
-#define E_MAP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_E_MAP, EMapClass))
-#define IS_E_MAP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_E_MAP))
-#define IS_E_MAP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_E_MAP))
+/* Standard GObject macros */
+#define E_TYPE_MAP \
+	(e_map_get_type ())
+#define E_MAP(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAP, EMap))
+#define E_MAP_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAP, EMapClass))
+#define E_IS_MAP(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAP))
+#define E_IS_MAP_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAP))
+#define E_MAP_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAP, EMapClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMap EMap;
 typedef struct _EMapClass EMapClass;
@@ -56,8 +71,7 @@ struct _EMapClass {
 
 /* The definition of Dot */
 
-struct _EMapPoint
-{
+struct _EMapPoint {
 	gchar *name;  /* Can be NULL */
 	gdouble longitude, latitude;
 	guint32 rgba;
@@ -131,5 +145,7 @@ gboolean e_map_point_is_in_view (EMap *map, EMapPoint *point);
 
 EMapPoint *e_map_get_closest_point (EMap *map, gdouble longitude, gdouble latitude,
 				    gboolean in_view);
+
+G_END_DECLS
 
 #endif

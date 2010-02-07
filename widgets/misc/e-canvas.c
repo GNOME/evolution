@@ -153,8 +153,10 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 
 	item = canvas->current_item;
 
-	if (canvas->focused_item
-	    && ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE) || (event->type == GDK_FOCUS_CHANGE)))
+	if (canvas->focused_item &&
+		((event->type == GDK_KEY_PRESS) ||
+		 (event->type == GDK_KEY_RELEASE) ||
+		 (event->type == GDK_FOCUS_CHANGE)))
 		item = canvas->focused_item;
 
 	if (canvas->grabbed_item)
@@ -279,8 +281,12 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 #define HACKISH_AFFINE
 
 static double
-gnome_canvas_item_invoke_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
-				GnomeCanvasItem **actual_item)
+gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
+                                gdouble x,
+                                gdouble y,
+                                gint cx,
+                                gint cy,
+                                GnomeCanvasItem **actual_item)
 {
 #ifdef HACKISH_AFFINE
 	gdouble i2w[6], w2c[6], i2c[6], c2i[6];
@@ -327,7 +333,6 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 				       | GDK_BUTTON3_MASK
 				       | GDK_BUTTON4_MASK
 				       | GDK_BUTTON5_MASK);
-	d(g_print ("%s:%d: button_down = %s\n", __FUNCTION__, __LINE__, button_down ? "TRUE" : "FALSE"));
 	if (!button_down)
 		canvas->left_grabbed_item = FALSE;
 
@@ -630,7 +635,9 @@ ec_style_set_recursive (GnomeCanvasItem *item, GtkStyle *previous_style)
 	if (signal_id >= 1) {
 		GSignalQuery query;
 		g_signal_query (signal_id, &query);
-		if (query.return_type == G_TYPE_NONE && query.n_params == 1 && query.param_types[0] == GTK_TYPE_STYLE) {
+		if (query.return_type == G_TYPE_NONE &&
+			query.n_params == 1 &&
+			query.param_types[0] == GTK_TYPE_STYLE) {
 			g_signal_emit (item, signal_id, 0, previous_style);
 		}
 	}
@@ -645,7 +652,9 @@ ec_style_set_recursive (GnomeCanvasItem *item, GtkStyle *previous_style)
 static void
 e_canvas_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
-	ec_style_set_recursive (GNOME_CANVAS_ITEM (gnome_canvas_root (GNOME_CANVAS (widget))), previous_style);
+	ec_style_set_recursive (
+		GNOME_CANVAS_ITEM (gnome_canvas_root (GNOME_CANVAS (widget))),
+		previous_style);
 }
 
 static void
@@ -745,7 +754,8 @@ add_idle (ECanvas *canvas)
 	if (canvas->idle_id != 0)
 		return;
 
-	canvas->idle_id = g_idle_add_full (G_PRIORITY_HIGH_IDLE, idle_handler, (gpointer) canvas, NULL);
+	canvas->idle_id = g_idle_add_full (
+		G_PRIORITY_HIGH_IDLE, idle_handler, (gpointer) canvas, NULL);
 }
 
 static void
@@ -797,12 +807,13 @@ grab_cancelled_check (gpointer data)
 	}
 
 	if (gtk_grab_get_current ()) {
-		gnome_canvas_item_ungrab(GNOME_CANVAS (canvas)->grabbed_item, canvas->grab_cancelled_time);
-		if (canvas->grab_cancelled_cb) {
-			canvas->grab_cancelled_cb (canvas,
-						   GNOME_CANVAS (canvas)->grabbed_item,
-						   canvas->grab_cancelled_data);
-		}
+		gnome_canvas_item_ungrab (
+			GNOME_CANVAS (canvas)->grabbed_item,
+			canvas->grab_cancelled_time);
+		if (canvas->grab_cancelled_cb)
+			canvas->grab_cancelled_cb (
+				canvas, GNOME_CANVAS (canvas)->grabbed_item,
+				canvas->grab_cancelled_data);
 		canvas->grab_cancelled_cb = NULL;
 		canvas->grab_cancelled_check_id = 0;
 		canvas->grab_cancelled_time = 0;

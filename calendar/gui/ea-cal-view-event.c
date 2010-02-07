@@ -27,29 +27,42 @@
 #include <text/e-text.h>
 #include <glib/gi18n.h>
 
-static void ea_cal_view_event_class_init (EaCalViewEventClass *klass);
-static void ea_cal_view_event_init (EaCalViewEvent *a11y);
-
-static void ea_cal_view_event_dispose (GObject *object);
-static G_CONST_RETURN gchar * ea_cal_view_event_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_cal_view_event_get_description (AtkObject *accessible);
-static AtkObject* ea_cal_view_event_get_parent (AtkObject *accessible);
-static gint ea_cal_view_event_get_index_in_parent (AtkObject *accessible);
-static AtkStateSet *ea_cal_view_event_ref_state_set (AtkObject *accessible);
+static void	ea_cal_view_event_class_init	(EaCalViewEventClass *klass);
+static void	ea_cal_view_event_init		(EaCalViewEvent *a11y);
+static void	ea_cal_view_event_dispose	(GObject *object);
+static G_CONST_RETURN gchar *
+		ea_cal_view_event_get_name	(AtkObject *accessible);
+static G_CONST_RETURN gchar *
+		ea_cal_view_event_get_description
+						(AtkObject *accessible);
+static AtkObject *
+		ea_cal_view_event_get_parent	(AtkObject *accessible);
+static gint	ea_cal_view_event_get_index_in_parent
+						(AtkObject *accessible);
+static AtkStateSet *
+		ea_cal_view_event_ref_state_set	(AtkObject *accessible);
 
 /* component interface */
-static void atk_component_interface_init (AtkComponentIface *iface);
-static void ea_cal_view_get_extents (AtkComponent *component,
-				     gint *x, gint *y, gint *width, gint *height,
-				     AtkCoordType coord_type);
+static void	atk_component_interface_init	(AtkComponentIface *iface);
+static void	ea_cal_view_get_extents		(AtkComponent *component,
+						 gint *x,
+						 gint *y,
+						 gint *width,
+						 gint *height,
+						 AtkCoordType coord_type);
 /* action interface */
-static void atk_action_interface_init (AtkActionIface *iface);
-static gboolean ea_cal_view_event_do_action (AtkAction *action, gint i);
-static gint ea_cal_view_event_get_n_actions (AtkAction *action);
-static G_CONST_RETURN gchar * ea_cal_view_event_action_get_name (AtkAction *action, gint i);
+static void	atk_action_interface_init	(AtkActionIface *iface);
+static gboolean	ea_cal_view_event_do_action	(AtkAction *action,
+						 gint i);
+static gint	ea_cal_view_event_get_n_actions	(AtkAction *action);
+static G_CONST_RETURN gchar *
+		ea_cal_view_event_action_get_name
+						(AtkAction *action,
+						 gint i);
 
 #ifdef ACC_DEBUG
-static gint n_ea_cal_view_event_created = 0, n_ea_cal_view_event_destroyed = 0;
+static gint n_ea_cal_view_event_created = 0;
+static gint n_ea_cal_view_event_destroyed = 0;
 static void ea_cal_view_finalize (GObject *object);
 #endif
 

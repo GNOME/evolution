@@ -28,80 +28,115 @@
 #include <glib/gi18n.h>
 
 /* EaWeekViewMainItem */
-static void ea_week_view_main_item_class_init (EaWeekViewMainItemClass *klass);
-
-static void ea_week_view_main_item_finalize (GObject *object);
-static G_CONST_RETURN gchar * ea_week_view_main_item_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_week_view_main_item_get_description (AtkObject *accessible);
-
-static gint         ea_week_view_main_item_get_n_children (AtkObject *obj);
-static AtkObject*   ea_week_view_main_item_ref_child (AtkObject *obj,
-						     gint i);
-static AtkObject * ea_week_view_main_item_get_parent (AtkObject *accessible);
-static gint ea_week_view_main_item_get_index_in_parent (AtkObject *accessible);
+static void	ea_week_view_main_item_class_init
+						(EaWeekViewMainItemClass *class);
+static void	ea_week_view_main_item_finalize	(GObject *object);
+static G_CONST_RETURN gchar *
+		ea_week_view_main_item_get_name	(AtkObject *accessible);
+static G_CONST_RETURN gchar *
+		ea_week_view_main_item_get_description
+						(AtkObject *accessible);
+static gint	ea_week_view_main_item_get_n_children
+						(AtkObject *accessible);
+static AtkObject *
+		ea_week_view_main_item_ref_child(AtkObject *accessible,
+						 gint i);
+static AtkObject *
+		ea_week_view_main_item_get_parent
+						(AtkObject *accessible);
+static gint	ea_week_view_main_item_get_index_in_parent
+						(AtkObject *accessible);
 
 /* callbacks */
-static void ea_week_view_main_item_dates_change_cb (GnomeCalendar *gcal, gpointer data);
-static void ea_week_view_main_item_time_change_cb (EWeekView *week_view, gpointer data);
+static void	ea_week_view_main_item_dates_change_cb
+						(GnomeCalendar *gcal,
+						 gpointer data);
+static void	ea_week_view_main_item_time_change_cb
+						(EWeekView *week_view,
+						 gpointer data);
 
 /* component interface */
-static void atk_component_interface_init (AtkComponentIface *iface);
-static void component_interface_get_extents (AtkComponent *component,
-					     gint *x, gint *y,
-					     gint *width, gint *height,
-					     AtkCoordType coord_type);
+static void	atk_component_interface_init	(AtkComponentIface *iface);
+static void	component_interface_get_extents	(AtkComponent *component,
+						 gint *x,
+						 gint *y,
+						 gint *width,
+						 gint *height,
+						 AtkCoordType coord_type);
 
 /* atk table interface */
-static void atk_table_interface_init (AtkTableIface *iface);
-static gint table_interface_get_index_at (AtkTable *table,
-					  gint     row,
-					  gint     column);
-static gint table_interface_get_column_at_index (AtkTable *table,
-						 gint     index);
-static gint table_interface_get_row_at_index (AtkTable *table,
-					      gint     index);
-static AtkObject* table_interface_ref_at (AtkTable *table,
-					  gint     row,
-					  gint     column);
-static gint table_interface_get_n_rows (AtkTable *table);
-static gint table_interface_get_n_columns (AtkTable *table);
-static gint table_interface_get_column_extent_at (AtkTable      *table,
-						  gint          row,
-						  gint          column);
-static gint table_interface_get_row_extent_at (AtkTable      *table,
-					       gint          row,
-					       gint          column);
+static void	atk_table_interface_init	(AtkTableIface *iface);
+static gint	table_interface_get_index_at	(AtkTable *table,
+						 gint row,
+						 gint column);
+static gint	table_interface_get_column_at_index
+						(AtkTable *table,
+						 gint index);
+static gint	table_interface_get_row_at_index(AtkTable *table,
+						 gint index);
+static AtkObject *
+		table_interface_ref_at		(AtkTable *table,
+						 gint row,
+						 gint column);
+static gint	table_interface_get_n_rows	(AtkTable *table);
+static gint	table_interface_get_n_columns	(AtkTable *table);
+static gint	table_interface_get_column_extent_at
+						(AtkTable *table,
+						 gint row,
+						 gint column);
+static gint	table_interface_get_row_extent_at
+						(AtkTable *table,
+						 gint row,
+						 gint column);
 
-static gboolean table_interface_is_row_selected (AtkTable *table,
-						 gint     row);
-static gboolean table_interface_is_column_selected (AtkTable *table,
-						    gint     row);
-static gboolean table_interface_is_selected (AtkTable *table,
-					     gint     row,
-					     gint     column);
-static gint table_interface_get_selected_rows (AtkTable *table,
-					       gint **rows_selected);
-static gint table_interface_get_selected_columns (AtkTable *table,
-						  gint     **columns_selected);
-static gboolean table_interface_add_row_selection (AtkTable *table, gint row);
-static gboolean table_interface_remove_row_selection (AtkTable *table,
-						      gint row);
-static gboolean table_interface_add_column_selection (AtkTable *table,
-						      gint column);
-static gboolean table_interface_remove_column_selection (AtkTable *table,
-							 gint column);
-static AtkObject* table_interface_get_row_header (AtkTable *table, gint row);
-static AtkObject* table_interface_get_column_header (AtkTable *table,
-						     gint in_col);
-static AtkObject* table_interface_get_caption (AtkTable *table);
+static gboolean	table_interface_is_row_selected	(AtkTable *table,
+						 gint row);
+static gboolean	table_interface_is_column_selected
+						(AtkTable *table,
+						 gint row);
+static gboolean	table_interface_is_selected	(AtkTable *table,
+						 gint row,
+						 gint column);
+static gint	table_interface_get_selected_rows
+						(AtkTable *table,
+						 gint **rows_selected);
+static gint	table_interface_get_selected_columns
+						(AtkTable *table,
+						 gint **columns_selected);
+static gboolean	table_interface_add_row_selection
+						(AtkTable *table,
+						 gint row);
+static gboolean	table_interface_remove_row_selection
+						(AtkTable *table,
+						 gint row);
+static gboolean	table_interface_add_column_selection
+						(AtkTable *table,
+						 gint column);
+static gboolean	table_interface_remove_column_selection
+						(AtkTable *table,
+						 gint column);
+static AtkObject *
+		table_interface_get_row_header	(AtkTable *table,
+						 gint row);
+static AtkObject *
+		table_interface_get_column_header
+						(AtkTable *table,
+						 gint in_col);
+static AtkObject *
+		table_interface_get_caption	(AtkTable *table);
 
 static G_CONST_RETURN gchar *
-table_interface_get_column_description (AtkTable *table, gint in_col);
+		table_interface_get_column_description
+						(AtkTable *table,
+						 gint in_col);
 
 static G_CONST_RETURN gchar *
-table_interface_get_row_description (AtkTable *table, gint row);
+		table_interface_get_row_description
+						(AtkTable *table,
+						 gint row);
 
-static AtkObject* table_interface_get_summary (AtkTable *table);
+static AtkObject *
+		table_interface_get_summary	(AtkTable *table);
 
 /* atk selection interface */
 static void atk_selection_interface_init (AtkSelectionIface *iface);
@@ -116,24 +151,27 @@ static gboolean selection_interface_is_child_selected (AtkSelection *selection,
 
 /* helpers */
 static EaCellTable *
-ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item);
+		ea_week_view_main_item_get_cell_data
+						(EaWeekViewMainItem *ea_main_item);
 
-static void
-ea_week_view_main_item_destory_cell_data (EaWeekViewMainItem *ea_main_item);
+static void	ea_week_view_main_item_destory_cell_data
+						(EaWeekViewMainItem *ea_main_item);
 
-static gint
-ea_week_view_main_item_get_child_index_at (EaWeekViewMainItem *ea_main_item,
-					  gint row, gint column);
-static gint
-ea_week_view_main_item_get_row_at_index (EaWeekViewMainItem *ea_main_item,
-					gint index);
-static gint
-ea_week_view_main_item_get_column_at_index (EaWeekViewMainItem *ea_main_item,
-					   gint index);
-static gint
-ea_week_view_main_item_get_row_label (EaWeekViewMainItem *ea_main_item,
-				     gint row, gchar *buffer,
-				     gint buffer_size);
+static gint	ea_week_view_main_item_get_child_index_at
+						(EaWeekViewMainItem *ea_main_item,
+						 gint row,
+						 gint column);
+static gint	ea_week_view_main_item_get_row_at_index
+						(EaWeekViewMainItem *ea_main_item,
+						 gint index);
+static gint	ea_week_view_main_item_get_column_at_index
+						(EaWeekViewMainItem *ea_main_item,
+						 gint index);
+static gint	ea_week_view_main_item_get_row_label
+						(EaWeekViewMainItem *ea_main_item,
+						 gint row,
+						 gchar *buffer,
+						 gint buffer_size);
 
 #ifdef ACC_DEBUG
 static gint n_ea_week_view_main_item_created = 0;

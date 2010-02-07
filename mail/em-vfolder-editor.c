@@ -121,7 +121,9 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "filter.ui");
 
-	e_rule_editor_construct ((ERuleEditor *) ve, (ERuleContext *) vc, builder, "incoming", _("Search _Folders"));
+	e_rule_editor_construct (
+		(ERuleEditor *) ve, (ERuleContext *) vc,
+		builder, "incoming", _("Search _Folders"));
 	gtk_widget_hide (e_builder_get_widget (builder, "label17"));
 	gtk_widget_hide (e_builder_get_widget (builder, "filter_source_combobox"));
 	g_object_unref (builder);

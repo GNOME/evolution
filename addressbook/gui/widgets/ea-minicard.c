@@ -31,21 +31,33 @@ static const gchar * action_name[] = {
 	N_("Open")
 };
 
-static G_CONST_RETURN gchar * ea_minicard_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_minicard_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar *
+		ea_minicard_get_name		(AtkObject *accessible);
+static G_CONST_RETURN gchar *
+		ea_minicard_get_description	(AtkObject *accessible);
 
-static void ea_minicard_class_init (EaMinicardClass *klass);
+static void	ea_minicard_class_init		(EaMinicardClass *klass);
 
-static gint ea_minicard_get_n_children (AtkObject *obj);
-static AtkObject* ea_minicard_ref_child(AtkObject *obj, gint i);
+static gint	ea_minicard_get_n_children	(AtkObject *obj);
+static AtkObject *
+		ea_minicard_ref_child		(AtkObject *obj,
+						 gint i);
 
-static AtkStateSet *ea_minicard_ref_state_set (AtkObject *obj);
+static AtkStateSet *
+		ea_minicard_ref_state_set	(AtkObject *obj);
 
-static void atk_action_interface_init (AtkActionIface *iface);
-static gboolean atk_action_interface_do_action (AtkAction *iface, gint i);
-static gint atk_action_interface_get_n_action (AtkAction *iface);
-static G_CONST_RETURN gchar * atk_action_interface_get_description (AtkAction *iface, gint i);
-static G_CONST_RETURN gchar * atk_action_interface_get_name (AtkAction *iface, gint i);
+static void	atk_action_interface_init	(AtkActionIface *iface);
+static gboolean	atk_action_interface_do_action	(AtkAction *iface,
+						 gint i);
+static gint	atk_action_interface_get_n_action
+						(AtkAction *iface);
+static G_CONST_RETURN gchar *
+		atk_action_interface_get_description
+						(AtkAction *iface,
+						 gint i);
+static G_CONST_RETURN gchar *
+		atk_action_interface_get_name	(AtkAction *iface,
+						 gint i);
 
 static gpointer parent_class = NULL;
 
@@ -168,7 +180,7 @@ ea_minicard_get_description (AtkObject *accessible)
 	return _("evolution minicard");
 }
 
-AtkObject*
+AtkObject *
 ea_minicard_new (GObject *obj)
 {
 	GObject *object;
@@ -185,7 +197,8 @@ ea_minicard_new (GObject *obj)
 	return accessible;
 }
 
-static AtkStateSet *ea_minicard_ref_state_set (AtkObject *obj)
+static AtkStateSet *
+ea_minicard_ref_state_set (AtkObject *obj)
 {
 	AtkStateSet *state_set = NULL;
 	GObject *gobj = NULL;
@@ -218,7 +231,8 @@ ea_minicard_ref_child (AtkObject *accessible, gint index)
 	return NULL;
 }
 
-static void atk_action_interface_init (AtkActionIface *iface)
+static void
+atk_action_interface_init (AtkActionIface *iface)
 {
 	g_return_if_fail (iface != NULL);
 
@@ -228,7 +242,8 @@ static void atk_action_interface_init (AtkActionIface *iface)
 	iface->get_name = atk_action_interface_get_name;
 }
 
-static gboolean atk_action_interface_do_action (AtkAction *iface, gint i)
+static gboolean
+atk_action_interface_do_action (AtkAction *iface, gint i)
 {
 	EMinicard *minicard = NULL;
 
@@ -253,7 +268,8 @@ static gboolean atk_action_interface_do_action (AtkAction *iface, gint i)
 	return TRUE;
 }
 
-static gint atk_action_interface_get_n_action (AtkAction *iface)
+static gint
+atk_action_interface_get_n_action (AtkAction *iface)
 {
 	return G_N_ELEMENTS (action_name);
 }

@@ -121,7 +121,8 @@ plugin_mono_invoke (EPlugin *plugin,
 	plugin_mono = E_PLUGIN_MONO (plugin);
 	priv = plugin_mono->priv;
 
-	/* we need to do this every time since we may be called from any thread for some uses */
+	/* We need to do this every time since we may
+	 * be called from any thread for some uses. */
 	mono_thread_attach (domain);
 
 	if (priv->assembly == NULL) {
@@ -135,7 +136,9 @@ plugin_mono_invoke (EPlugin *plugin,
 		}
 
 		if (plugin_mono->handler == NULL
-		    || (priv->class = mono_class_from_name (mono_assembly_get_image (priv->assembly), "", plugin_mono->handler)) == NULL) {
+		    || (priv->class = mono_class_from_name (
+				mono_assembly_get_image (priv->assembly),
+				"", plugin_mono->handler)) == NULL) {
 		} else {
 			priv->plugin = mono_object_new (domain, priv->class);
 			/* could conceivably init with some context too */
