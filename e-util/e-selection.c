@@ -797,3 +797,105 @@ e_clipboard_wait_is_html_available (GtkClipboard *clipboard)
 
 	return result;
 }
+
+void
+e_drag_dest_add_calendar_targets (GtkWidget *widget)
+{
+	GtkTargetList *target_list;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	target_list = gtk_drag_source_get_target_list (widget);
+	if (target_list != NULL)
+		gtk_target_list_ref (target_list);
+	else
+		target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	gtk_drag_dest_set_target_list (widget, target_list);
+	gtk_target_list_unref (target_list);
+}
+
+void
+e_drag_dest_add_directory_targets (GtkWidget *widget)
+{
+	GtkTargetList *target_list;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	target_list = gtk_drag_source_get_target_list (widget);
+	if (target_list != NULL)
+		gtk_target_list_ref (target_list);
+	else
+		target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_directory_targets (target_list, 0);
+	gtk_drag_dest_set_target_list (widget, target_list);
+	gtk_target_list_unref (target_list);
+}
+
+void
+e_drag_dest_add_html_targets (GtkWidget *widget)
+{
+	GtkTargetList *target_list;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	target_list = gtk_drag_source_get_target_list (widget);
+	if (target_list != NULL)
+		gtk_target_list_ref (target_list);
+	else
+		target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_html_targets (target_list, 0);
+	gtk_drag_dest_set_target_list (widget, target_list);
+	gtk_target_list_unref (target_list);
+}
+
+void
+e_drag_source_add_calendar_targets (GtkWidget *widget)
+{
+	GtkTargetList *target_list;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	target_list = gtk_drag_source_get_target_list (widget);
+	if (target_list != NULL)
+		gtk_target_list_ref (target_list);
+	else
+		target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	gtk_drag_source_set_target_list (widget, target_list);
+	gtk_target_list_unref (target_list);
+}
+
+void
+e_drag_source_add_directory_targets (GtkWidget *widget)
+{
+	GtkTargetList *target_list;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	target_list = gtk_drag_source_get_target_list (widget);
+	if (target_list != NULL)
+		gtk_target_list_ref (target_list);
+	else
+		target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_directory_targets (target_list, 0);
+	gtk_drag_source_set_target_list (widget, target_list);
+	gtk_target_list_unref (target_list);
+}
+
+void
+e_drag_source_add_html_targets (GtkWidget *widget)
+{
+	GtkTargetList *target_list;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	target_list = gtk_drag_source_get_target_list (widget);
+	if (target_list != NULL)
+		gtk_target_list_ref (target_list);
+	else
+		target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_html_targets (target_list, 0);
+	gtk_drag_source_set_target_list (widget, target_list);
+	gtk_target_list_unref (target_list);
+}

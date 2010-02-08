@@ -70,15 +70,6 @@ enum {
 	PROP_PREVIEW_VISIBLE
 };
 
-enum {
-	TARGET_VCALENDAR
-};
-
-static GtkTargetEntry drag_types[] = {
-	{ (gchar *) "text/calendar", 0, TARGET_VCALENDAR },
-	{ (gchar *) "text/x-calendar", 0, TARGET_VCALENDAR }
-};
-
 static gpointer parent_class;
 static GType memo_shell_content_type;
 
@@ -146,13 +137,16 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
                                            guint time)
 {
 	EMemoTable *memo_table;
+	GdkAtom target;
 
 	struct {
 		ECalModel *model;
 		GSList *list;
 	} foreach_data;
 
-	if (info != TARGET_VCALENDAR)
+	/* Sanity check the selection target. */
+	target = gtk_selection_data_get_target (selection_data);
+	if (!e_targets_include_calendar (&target, 1))
 		return;
 
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
@@ -404,9 +398,12 @@ memo_shell_content_constructed (GObject *object)
 	GalViewInstance *view_instance;
 	icaltimezone *timezone;
 	GConfBridge *bridge;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
 	GtkWidget *container;
 	GtkWidget *widget;
 	const gchar *key;
+	gint n_targets;
 
 	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
 
@@ -480,10 +477,17 @@ memo_shell_content_constructed (GObject *object)
 	e_table_set_state (
 		E_TABLE (priv->memo_table), E_MEMO_TABLE_DEFAULT_STATE);
 
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
 	e_table_drag_source_set (
 		E_TABLE (priv->memo_table),
-		GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS (drag_types),
+		GDK_BUTTON1_MASK, targets, n_targets,
 		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (target_list);
 
 	g_signal_connect_swapped (
 		priv->memo_table, "table-drag-data-get",

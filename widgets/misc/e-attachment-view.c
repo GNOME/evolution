@@ -27,6 +27,7 @@
 #include <camel/camel-stream-mem.h>
 
 #include "e-util/e-binding.h"
+#include "e-util/e-selection.h"
 #include "e-util/e-util.h"
 #include "e-attachment-dialog.h"
 #include "e-attachment-handler-image.h"
@@ -39,9 +40,7 @@ enum {
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
-	{ (gchar *) "_NETSCAPE_URL",	0, 0 },
-	{ (gchar *) "text/x-vcard",	0, 0 },
-	{ (gchar *) "text/calendar",	0, 0 }
+	{ (gchar *) "_NETSCAPE_URL",	0, 0 }
 };
 
 static const gchar *ui =
@@ -421,20 +420,18 @@ attachment_view_text_calendar (EAttachmentView *view,
                                guint info,
                                guint time)
 {
-	static GdkAtom atom = GDK_NONE;
 	EAttachmentStore *store;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	GdkAtom data_type;
+	GdkAtom target;
 	const gchar *data;
 	gpointer parent;
 	gchar *content_type;
 	gint length;
 
-	if (G_UNLIKELY (atom == GDK_NONE))
-		atom = gdk_atom_intern_static_string ("text/calendar");
-
-	if (gtk_selection_data_get_target (selection_data) != atom)
+	target = gtk_selection_data_get_target (selection_data);
+	if (!e_targets_include_calendar (&target, 1))
 		return;
 
 	g_signal_stop_emission_by_name (view, "drag-data-received");
@@ -477,20 +474,18 @@ attachment_view_text_x_vcard (EAttachmentView *view,
                               guint info,
                               guint time)
 {
-	static GdkAtom atom = GDK_NONE;
 	EAttachmentStore *store;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	GdkAtom data_type;
+	GdkAtom target;
 	const gchar *data;
 	gpointer parent;
 	gchar *content_type;
 	gint length;
 
-	if (G_UNLIKELY (atom == GDK_NONE))
-		atom = gdk_atom_intern_static_string ("text/x-vcard");
-
-	if (gtk_selection_data_get_target (selection_data) != atom)
+	target = gtk_selection_data_get_target (selection_data);
+	if (!e_targets_include_directory (&target, 1))
 		return;
 
 	g_signal_stop_emission_by_name (view, "drag-data-received");
@@ -713,6 +708,8 @@ attachment_view_init_handlers (EAttachmentView *view)
 		target_table, G_N_ELEMENTS (target_table));
 
 	gtk_target_list_add_uri_targets (target_list, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	e_target_list_add_directory_targets (target_list, 0);
 
 	priv->handlers = g_ptr_array_new ();
 	priv->target_list = target_list;

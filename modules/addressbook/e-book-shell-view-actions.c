@@ -552,7 +552,7 @@ action_contact_save_as_cb (GtkAction *action,
 
 	/* XXX No callback means errors are discarded.
 	 *
-	 *     There an EAlert for this which I'm not using
+	 *     There's an EAlert for this which I'm not using
 	 *     until I figure out a better way to display errors:
 	 *
 	 *     "addressbook:save-error"

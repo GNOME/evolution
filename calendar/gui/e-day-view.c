@@ -40,6 +40,7 @@
 #include <e-util/e-binding.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-selection.h>
 
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
@@ -102,14 +103,8 @@ typedef struct {
 } AddEventData;
 
 /* Drag and Drop stuff. */
-enum {
-	TARGET_CALENDAR_EVENT,
-	TARGET_VCALENDAR
-};
 static GtkTargetEntry target_table[] = {
-	{ (gchar *) "application/x-e-calendar-event", 0, TARGET_CALENDAR_EVENT },
-	{ (gchar *) "text/x-calendar",                0, TARGET_VCALENDAR },
-	{ (gchar *) "text/calendar",                  0, TARGET_VCALENDAR }
+	{ (gchar *) "application/x-e-calendar-event", 0, 0 }
 };
 
 static void e_day_view_destroy (GtkObject *object);
@@ -1330,14 +1325,19 @@ e_day_view_init (EDayView *day_view)
 	day_view->last_cursor_set_in_main_canvas = NULL;
 
 	/* Set up the drop sites. */
-	gtk_drag_dest_set (day_view->top_canvas,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, G_N_ELEMENTS (target_table),
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
-	gtk_drag_dest_set (day_view->main_canvas,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, G_N_ELEMENTS (target_table),
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+	gtk_drag_dest_set (
+		day_view->top_canvas, GTK_DEST_DEFAULT_ALL,
+		target_table, G_N_ELEMENTS (target_table),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+
+	e_drag_dest_add_calendar_targets (day_view->top_canvas);
+
+	gtk_drag_dest_set (
+		day_view->main_canvas, GTK_DEST_DEFAULT_ALL,
+		target_table, G_N_ELEMENTS (target_table),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+
+	e_drag_dest_add_calendar_targets (day_view->main_canvas);
 
 	/* connect to ECalendarView's signals */
 	g_signal_connect (G_OBJECT (day_view), "timezone_changed",
@@ -3861,6 +3861,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 
 			target_list = gtk_target_list_new (
 				target_table, G_N_ELEMENTS (target_table));
+			e_target_list_add_calendar_targets (target_list, 0);
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
 					1, (GdkEvent*)mevent);
@@ -3962,6 +3963,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 			target_list = gtk_target_list_new (
 				target_table, G_N_ELEMENTS (target_table));
+			e_target_list_add_calendar_targets (target_list, 0);
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
 					1, (GdkEvent*)mevent);
@@ -7548,7 +7550,9 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 			     EDayView		*day_view)
 {
 	EDayViewEvent *event;
+	icalcomponent *vcal;
 	gint day, event_num;
+	gchar *comp_str;
 
 	day = day_view->drag_event_day;
 	event_num = day_view->drag_event_num;
@@ -7564,34 +7568,31 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
-	if (info == TARGET_CALENDAR_EVENT || info == TARGET_VCALENDAR) {
-		/* we will pass an icalcalendar component for both types */
-		gchar *comp_str;
-		icalcomponent *vcal;
+	vcal = e_cal_util_new_top_level ();
+	e_cal_util_add_timezones_from_component (
+		vcal, event->comp_data->icalcomp);
+	icalcomponent_add_component (
+		vcal, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-		vcal = e_cal_util_new_top_level ();
-		e_cal_util_add_timezones_from_component (vcal, event->comp_data->icalcomp);
-		icalcomponent_add_component (vcal, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp_str = icalcomponent_as_ical_string_r (vcal);
+	if (comp_str) {
+		ESource *source = e_cal_get_source (event->comp_data->client);
+		const gchar *source_uid = e_source_peek_uid (source);
+		gchar *tmp;
 
-		comp_str = icalcomponent_as_ical_string_r (vcal);
-		if (comp_str) {
-			ESource *source = e_cal_get_source (event->comp_data->client);
-			const gchar *source_uid = e_source_peek_uid (source);
-			gchar *tmp;
+		if (!source_uid)
+			source_uid = "";
 
-			if (!source_uid)
-				source_uid = "";
+		tmp = g_strconcat (source_uid, "\n", comp_str, NULL);
+		gtk_selection_data_set (
+			selection_data, selection_data->target,
+			8, (guchar *) tmp, strlen (tmp));
 
-			tmp = g_strconcat (source_uid, "\n", comp_str, NULL);
-			gtk_selection_data_set (selection_data, selection_data->target,
-						8, (guchar *)tmp, strlen (tmp));
-
-			g_free (tmp);
-		}
-
-		icalcomponent_free (vcal);
-		g_free (comp_str);
+		g_free (tmp);
 	}
+
+	icalcomponent_free (vcal);
+	g_free (comp_str);
 }
 
 static void

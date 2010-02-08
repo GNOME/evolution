@@ -25,6 +25,7 @@
 #include "e-contact-list-editor.h"
 #include <e-util/e-util-private.h>
 #include <e-util/e-alert-dialog.h>
+#include <e-util/e-selection.h>
 #include "shell/e-shell.h"
 
 #include <string.h>
@@ -125,16 +126,6 @@ struct _EContactListEditorPrivate {
 	/* ID for async load_source call */
 	guint load_source_id;
 	EBook *load_book;
-};
-
-#define VCARD_TYPE "text/x-vcard"
-
-enum {
-	TARGET_TYPE_VCARD
-};
-
-static GtkTargetEntry targets[] = {
-	{ (gchar *) VCARD_TYPE, 0, TARGET_TYPE_VCARD },
 };
 
 static gpointer parent_class;
@@ -439,24 +430,25 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 void
 contact_list_editor_drag_data_received_cb (GtkWidget *widget,
                                            GdkDragContext *context,
-                                             gint x, gint y,
-                                             GtkSelectionData *selection_data,
-                                             guint info,
-                                             guint time)
+                                           gint x, gint y,
+                                           GtkSelectionData *selection_data,
+                                           guint info,
+                                           guint time)
 {
 	EContactListEditor *editor;
 	EContactListModel *model;
-	gchar *target_type;
 	gboolean changed = FALSE;
 	gboolean handled = FALSE;
 	GList *list, *iter;
+	GdkAtom target;
 
 	editor = contact_list_editor_extract (widget);
 
 	model = E_CONTACT_LIST_MODEL (editor->priv->model);
-	target_type = gdk_atom_name (selection_data->target);
 
-	if (strcmp (target_type, VCARD_TYPE) != 0)
+	/* Sanity check the selection target. */
+	target = gtk_selection_data_get_target (selection_data);
+	if (!e_targets_include_directory (&target, 1))
 		goto exit;
 
 	list = eab_contact_list_from_string ((gchar *) selection_data->data);
@@ -516,14 +508,8 @@ contact_list_editor_drag_drop_cb (GtkWidget *widget,
 
 	for (iter = context->targets; iter != NULL; iter = iter->next) {
 		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
-		gchar *possible_type;
-		gboolean match;
 
-		possible_type = gdk_atom_name (target);
-		match = (strcmp (possible_type, VCARD_TYPE) == 0);
-		g_free (possible_type);
-
-		if (match) {
+		if (e_targets_include_directory (&target, 1)) {
 			gtk_drag_get_data (widget, context, target, time);
 			return TRUE;
 		}
@@ -548,14 +534,8 @@ contact_list_editor_drag_motion_cb (GtkWidget *widget,
 
 	for (iter = context->targets; iter != NULL; iter = iter->next) {
 		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
-		gchar *possible_type;
-		gboolean match;
 
-		possible_type = gdk_atom_name (target);
-		match = (strcmp (possible_type, VCARD_TYPE) == 0);
-		g_free (possible_type);
-
-		if (match) {
+		if (e_targets_include_directory (&target, 1)) {
 			gdk_drag_status (context, GDK_ACTION_LINK, time);
 			return TRUE;
 		}
@@ -1318,8 +1298,9 @@ contact_list_editor_init (EContactListEditor *editor)
 
 	gtk_tree_selection_set_mode (
 		gtk_tree_view_get_selection (view), GTK_SELECTION_MULTIPLE);
-	gtk_tree_view_enable_model_drag_dest (
-		view, targets, G_N_ELEMENTS (targets), GDK_ACTION_LINK);
+
+	gtk_tree_view_enable_model_drag_dest (view, NULL, 0, GDK_ACTION_LINK);
+	e_drag_dest_add_directory_targets (WIDGET (TREE_VIEW));
 
 	g_signal_connect (
 		priv->model, "row-deleted",

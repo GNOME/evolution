@@ -114,6 +114,21 @@ gboolean	e_clipboard_wait_is_directory_available
 gboolean	e_clipboard_wait_is_html_available
 					(GtkClipboard *clipboard);
 
+/* Drag and Drop Functions */
+
+void		e_drag_dest_add_calendar_targets
+					(GtkWidget *widget);
+void		e_drag_dest_add_directory_targets
+					(GtkWidget *widget);
+void		e_drag_dest_add_html_targets
+					(GtkWidget *widget);
+void		e_drag_source_add_calendar_targets
+					(GtkWidget *widget);
+void		e_drag_source_add_directory_targets
+					(GtkWidget *widget);
+void		e_drag_source_add_html_targets
+					(GtkWidget *widget);
+
 G_END_DECLS
 
 #endif /* E_SELECTION_H */

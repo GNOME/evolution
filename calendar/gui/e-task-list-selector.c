@@ -22,6 +22,7 @@
 
 #include <string.h>
 #include <libecal/e-cal.h>
+#include "e-util/e-selection.h"
 #include "calendar/common/authentication.h"
 #include "calendar/gui/comp-util.h"
 
@@ -31,15 +32,6 @@
 
 struct _ETaskListSelectorPrivate {
 	gint dummy_value;
-};
-
-enum {
-	DND_TARGET_TYPE_CALENDAR_LIST
-};
-
-static GtkTargetEntry drag_types[] = {
-	{ (gchar *) "text/calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ (gchar *) "text/x-calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST }
 };
 
 static gpointer parent_class;
@@ -246,8 +238,9 @@ task_list_selector_init (ETaskListSelector *selector)
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,
-		drag_types, G_N_ELEMENTS (drag_types),
-		GDK_ACTION_COPY | GDK_ACTION_MOVE);
+		NULL, 0, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+	e_drag_dest_add_calendar_targets (GTK_WIDGET (selector));
 }
 
 GType

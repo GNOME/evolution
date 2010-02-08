@@ -20,6 +20,8 @@
 
 #include "e-addressbook-selector.h"
 
+#include <e-util/e-selection.h>
+
 #include <eab-book-util.h>
 #include <eab-contact-merging.h>
 
@@ -53,14 +55,8 @@ enum {
 	PROP_CURRENT_VIEW
 };
 
-enum {
-	DND_TARGET_TYPE_VCARD,
-	DND_TARGET_TYPE_SOURCE_VCARD
-};
-
 static GtkTargetEntry drag_types[] = {
-	{ (gchar *) "text/x-vcard", 0, DND_TARGET_TYPE_VCARD },
-	{ (gchar *) "text/x-source-vcard", 0, DND_TARGET_TYPE_SOURCE_VCARD }
+	{ (gchar *) "text/x-source-vcard", 0, 0 }
 };
 
 static gpointer parent_class;
@@ -367,6 +363,8 @@ addressbook_selector_init (EAddressbookSelector *selector)
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,
 		drag_types, G_N_ELEMENTS (drag_types),
 		GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+	e_drag_dest_add_directory_targets (GTK_WIDGET (selector));
 }
 
 GType

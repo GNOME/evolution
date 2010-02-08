@@ -21,6 +21,7 @@
 #include "e-calendar-selector.h"
 
 #include <libecal/e-cal.h>
+#include "e-util/e-selection.h"
 #include "common/authentication.h"
 
 #define E_CALENDAR_SELECTOR_GET_PRIVATE(obj) \
@@ -29,15 +30,6 @@
 
 struct _ECalendarSelectorPrivate {
 	gint dummy_value;
-};
-
-enum {
-	DND_TARGET_TYPE_CALENDAR_LIST
-};
-
-static GtkTargetEntry drag_types[] = {
-	{ (gchar *) "text/calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ (gchar *) "text/x-calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST }
 };
 
 static gpointer parent_class;
@@ -174,8 +166,9 @@ calendar_selector_init (ECalendarSelector *selector)
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,
-		drag_types, G_N_ELEMENTS (drag_types),
-		GDK_ACTION_COPY | GDK_ACTION_MOVE);
+		NULL, 0, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+	e_drag_dest_add_calendar_targets (GTK_WIDGET (selector));
 }
 
 GType
