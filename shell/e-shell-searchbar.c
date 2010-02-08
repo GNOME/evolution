@@ -656,9 +656,14 @@ shell_searchbar_constructed (GObject *object)
 		widget, "changed",
 		G_CALLBACK (e_shell_searchbar_set_state_dirty), searchbar);
 
-	g_signal_connect_swapped (
+	/* Use G_CONNECT_AFTER here so the EActionComboBox has a
+	 * chance to update its radio actions before we go sifting
+	 * through the radio group for the current action. */
+	g_signal_connect_data (
 		widget, "changed",
-		G_CALLBACK (e_shell_view_execute_search), shell_view);
+		G_CALLBACK (e_shell_view_execute_search),
+		shell_view, (GClosureNotify) NULL,
+		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
 	widget = searchbar->priv->search_entry;
 
