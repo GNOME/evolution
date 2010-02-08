@@ -229,6 +229,13 @@ struct _imap_folder_info_1_0 {
 	gchar dir_sep;
 };
 
+struct _migrate_state_info {
+	gchar *label_name;
+	double progress;
+};
+static gboolean update_states_in_main_thread (const struct 
+		_migrate_state_info *info);
+
 static GHashTable *accounts_1_0 = NULL;
 static GHashTable *accounts_name_1_0 = NULL;
 
@@ -1176,10 +1183,6 @@ em_migrate_set_folder_name (const gchar *folder_name)
 	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (label, text);
 	g_free (text);
-
-	gtk_progress_bar_set_fraction (progress, 0.0);
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
 }
 
 static void
@@ -1544,6 +1547,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 	gint index, i;
 	GString *src, *dest;
 	gboolean success = FALSE;
+	struct _migrate_state_info * info;
 
 	camel_exception_init (&ex);
 
@@ -1560,7 +1564,11 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 
 	dest = g_string_new("");
 	uri = get_local_store_uri(dirname, &name, &index);
-	em_migrate_set_folder_name (full_name);
+	info = g_malloc (sizeof(struct _migrate_state_info));
+	info->label_name = g_strdup (full_name);
+	info->progress = 0.0;
+	g_idle_add ((GSourceFunc) update_states_in_main_thread, info);
+
 	thread_list = get_local_et_expanded (dirname);
 
 	/* Manually copy local mbox files, its much faster */
@@ -2798,9 +2806,16 @@ em_update_sa_junk_setting_2_23 (void)
 }
 
 static gboolean
-update_progress_in_main_thread (double *progress)
+update_states_in_main_thread (const struct _migrate_state_info * info)
 {
-	em_migrate_set_progress (*progress);
+	g_return_val_if_fail (info != NULL, FALSE);
+	g_return_val_if_fail (info->label_name != NULL, FALSE);
+	em_migrate_set_progress (info->progress);
+	em_migrate_set_folder_name (info->label_name);
+	g_free (info->label_name);
+	g_free ( (gpointer)info);
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
 	return FALSE;
 }
 
@@ -2810,17 +2825,17 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 	CamelFolder *folder;
 
 	while (fi) {
-		gdouble progress;
-		gchar *tmp;
+
+		struct _migrate_state_info *info = g_malloc (sizeof (struct
+					_migrate_state_info));
+		info->label_name = g_strdup_printf ("%s/%s", acc,
+				fi->full_name);
 
 		*nth_folder = *nth_folder + 1;
 
-		tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
-		em_migrate_set_folder_name (tmp);
-		g_free (tmp);
-
-		progress = (double) (*nth_folder) / total_folders;
-		g_idle_add ((GSourceFunc) update_progress_in_main_thread, &progress);
+		info->progress = (double) (*nth_folder) / total_folders;
+		g_idle_add ((GSourceFunc) update_states_in_main_thread, 
+				&info);
 
 		if (is_local)
 				folder = camel_store_get_folder (store, fi->full_name, CAMEL_STORE_IS_MIGRATING, ex);
