@@ -183,7 +183,7 @@ oge_caldav  (EPlugin                    *epl,
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource      *source;
 	SoupURI      *suri;
-	GtkWidget    *parent, *location, *ssl, *user, *browse_cal, *refresh;
+	GtkWidget    *parent, *location, *ssl, *user, *browse_cal;
 	gchar        *uri, *username;
 
 	source = t->source;
@@ -234,7 +234,7 @@ oge_caldav  (EPlugin                    *epl,
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-ssl", ssl);
 	g_signal_connect  (G_OBJECT (browse_cal), "clicked", G_CALLBACK (browse_cal_clicked_cb), GINT_TO_POINTER (t->source_type));
 
-	refresh = e_plugin_util_add_refresh (parent, _("Re_fresh:"), source, "refresh");
+	e_plugin_util_add_refresh (parent, _("Re_fresh:"), source, "refresh");
 
 	return location;
 }

@@ -230,12 +230,10 @@ cal_shell_sidebar_default_opened_cb (ECalShellSidebar *cal_shell_sidebar,
                                      ECal *client)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
 		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
