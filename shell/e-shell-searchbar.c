@@ -85,6 +85,130 @@ enum {
 static gpointer parent_class;
 
 static void
+shell_searchbar_save_search_filter (EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	EActionComboBox *action_combo_box;
+	GtkRadioAction *radio_action;
+	GKeyFile *key_file;
+	const gchar *action_name;
+	const gchar *state_group;
+	const gchar *key;
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+	state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_return_if_fail (state_group != NULL);
+
+	key = STATE_KEY_SEARCH_FILTER;
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	action_combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	radio_action = e_action_combo_box_get_action (action_combo_box);
+
+	if (radio_action != NULL)
+		radio_action = e_radio_action_get_current_action (radio_action);
+
+	if (radio_action != NULL) {
+		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+		g_key_file_set_string (key_file, state_group, key, action_name);
+	} else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
+shell_searchbar_save_search_option (EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	GtkRadioAction *radio_action;
+	GKeyFile *key_file;
+	const gchar *action_name;
+	const gchar *state_group;
+	const gchar *key;
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+	state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_return_if_fail (state_group != NULL);
+
+	key = STATE_KEY_SEARCH_OPTION;
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	radio_action = e_shell_searchbar_get_search_option (searchbar);
+
+	if (radio_action != NULL)
+		radio_action = e_radio_action_get_current_action (radio_action);
+
+	if (radio_action != NULL) {
+		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+		g_key_file_set_string (key_file, state_group, key, action_name);
+	} else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
+shell_searchbar_save_search_text (EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	GKeyFile *key_file;
+	const gchar *search_text;
+	const gchar *state_group;
+	const gchar *key;
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+	state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_return_if_fail (state_group != NULL);
+
+	key = STATE_KEY_SEARCH_TEXT;
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	search_text = e_shell_searchbar_get_search_text (searchbar);
+
+	if (search_text != NULL && *search_text != '\0')
+		g_key_file_set_string (key_file, state_group, key, search_text);
+	else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
+shell_searchbar_save_search_scope (EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	EActionComboBox *action_combo_box;
+	GtkRadioAction *radio_action;
+	GKeyFile *key_file;
+	const gchar *action_name;
+	const gchar *state_group;
+	const gchar *key;
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+
+	/* Search scope is hard-coded to the default state group. */
+	state_group = STATE_GROUP_DEFAULT;
+
+	key = STATE_KEY_SEARCH_SCOPE;
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	action_combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+	radio_action = e_action_combo_box_get_action (action_combo_box);
+
+	if (radio_action != NULL)
+		radio_action = e_radio_action_get_current_action (radio_action);
+
+	if (radio_action != NULL) {
+		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+		g_key_file_set_string (key_file, state_group, key, action_name);
+	} else
+		g_key_file_remove_key (key_file, state_group, key, NULL);
+
+	e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
 shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
@@ -312,6 +436,9 @@ shell_searchbar_option_changed_cb (GtkRadioAction *action,
 		e_shell_searchbar_set_search_text (searchbar, search_text);
 		if (search_text != NULL && *search_text != '\0')
 			e_shell_view_execute_search (shell_view);
+		else
+			shell_searchbar_save_search_option (searchbar);
+
 	} else if (search_text != NULL)
 		e_shell_searchbar_set_search_text (searchbar, NULL);
 }
@@ -1234,71 +1361,19 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 void
 e_shell_searchbar_save_state (EShellSearchbar *searchbar)
 {
-	EShellView *shell_view;
-	GKeyFile *key_file;
-	GtkRadioAction *radio_action;
-	EActionComboBox *action_combo_box;
-	const gchar *action_name;
-	const gchar *search_text;
-	const gchar *state_group;
-	const gchar *key;
-
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
 	/* Skip saving state if it hasn't changed since it was loaded. */
 	if (!searchbar->priv->state_dirty)
 		return;
 
-	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	state_group = e_shell_searchbar_get_state_group (searchbar);
-	g_return_if_fail (state_group != NULL);
+	shell_searchbar_save_search_filter (searchbar);
 
-	key_file = e_shell_view_get_state_key_file (shell_view);
+	shell_searchbar_save_search_option (searchbar);
 
-	key = STATE_KEY_SEARCH_FILTER;
-	action_combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
-	radio_action = e_action_combo_box_get_action (action_combo_box);
-	if (radio_action != NULL)
-		radio_action = e_radio_action_get_current_action (radio_action);
-	if (radio_action != NULL) {
-		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
-		g_key_file_set_string (key_file, state_group, key, action_name);
-	} else
-		g_key_file_remove_key (key_file, state_group, key, NULL);
+	shell_searchbar_save_search_text (searchbar);
 
-	key = STATE_KEY_SEARCH_OPTION;
-	radio_action = e_shell_searchbar_get_search_option (searchbar);
-	if (radio_action != NULL)
-		radio_action = e_radio_action_get_current_action (radio_action);
-	if (radio_action != NULL) {
-		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
-		g_key_file_set_string (key_file, state_group, key, action_name);
-	} else
-		g_key_file_remove_key (key_file, state_group, key, NULL);
-
-	key = STATE_KEY_SEARCH_TEXT;
-	search_text = e_shell_searchbar_get_search_text (searchbar);
-	if (search_text != NULL && *search_text == '\0')
-		search_text = NULL;
-	if (search_text != NULL)
-		g_key_file_set_string (key_file, state_group, key, search_text);
-	else
-		g_key_file_remove_key (key_file, state_group, key, NULL);
-
-	/* Search scope is hard-coded to the default state group. */
-	state_group = STATE_GROUP_DEFAULT;
-
-	key = STATE_KEY_SEARCH_SCOPE;
-	action_combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
-	radio_action = e_action_combo_box_get_action (action_combo_box);
-	if (radio_action != NULL)
-		radio_action = e_radio_action_get_current_action (radio_action);
-	if (radio_action != NULL) {
-		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
-		g_key_file_set_string (key_file, state_group, key, action_name);
-	} else
-		g_key_file_remove_key (key_file, state_group, key, NULL);
+	shell_searchbar_save_search_scope (searchbar);
 
 	searchbar->priv->state_dirty = FALSE;
-	e_shell_view_set_state_dirty (shell_view);
 }
