@@ -228,10 +228,12 @@ e_charset_add_radio_actions (GtkActionGroup *action_group,
 		action = gtk_radio_action_new (
 			action_name, charset_label, NULL, NULL, def);
 
-		/* Character set name is static so no need to free it. */
-		g_object_set_data (
+		/* Character set name may NOT be static,
+		 * so we do need to duplicate the string. */
+		g_object_set_data_full (
 			G_OBJECT (action), "charset",
-			(gpointer) charset_name);
+			g_strdup (charset_name),
+			(GDestroyNotify) g_free);
 
 		gtk_radio_action_set_group (action, group);
 		group = gtk_radio_action_get_group (action);
