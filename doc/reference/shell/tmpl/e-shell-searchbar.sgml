@@ -123,6 +123,24 @@ EShellSearchbar
 @filter_visible: 
 
 
+<!-- ##### FUNCTION e_shell_searchbar_get_label_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_label_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@label_visible: 
+
+
 <!-- ##### FUNCTION e_shell_searchbar_get_search_hint ##### -->
 <para>
 
@@ -220,5 +238,47 @@ EShellSearchbar
 
 @searchbar: 
 @scope_visible: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_state_dirty ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_get_state_group ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_state_group ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@state_group: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_load_state ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_save_state ##### -->
+<para>
+
+</para>
+
+@searchbar: 
 
 

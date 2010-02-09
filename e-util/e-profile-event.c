@@ -89,15 +89,8 @@ e_profile_event_get_type(void)
 	return type;
 }
 
-/**
- * e_profile_event_peek:
- * @void:
- *
- * Get the singular instance of the profile event handler.
- *
- * Return value:
- **/
-EProfileEvent *e_profile_event_peek(void)
+EProfileEvent *
+e_profile_event_peek(void)
 {
 	if (e_profile_event == NULL) {
 		e_profile_event = g_object_new(e_profile_event_get_type(), NULL);

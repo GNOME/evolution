@@ -354,6 +354,8 @@ e_signature_get_type (void)
  *
  * Returns a new signature which can be filled in and
  * added to an #ESignatureList.
+ *
+ * Returns: a new #ESignature
  **/
 ESignature *
 e_signature_new (void)
@@ -425,7 +427,7 @@ e_signature_uid_from_xml (const gchar *xml)
  *
  * Changes @signature to match @xml.
  *
- * Returns %TRUE if the signature was loaded or %FALSE otherwise.
+ * Returns: %TRUE if the signature was loaded or %FALSE otherwise
  **/
 gboolean
 e_signature_set_from_xml (ESignature *signature, const gchar *xml)

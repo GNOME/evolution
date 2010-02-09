@@ -495,6 +495,8 @@ e_alert_init (EAlert *self)
  * which alert to use, it is in the format domain:alert-id.  The NULL
  * terminated list of arguments, starting with @arg0 is used to fill
  * out the alert definition.
+ *
+ * Returns: a new #EAlert
  **/
 EAlert *
 e_alert_new(const gchar *tag, const gchar *arg0, ...)

@@ -212,12 +212,14 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 
 /**
  * e_utf8_ensure_valid:
- * @string String to make valid UTF-8.
+ * @string: string to make valid UTF-8
  *
- * Ensures the returned string will be valid UTF-8 string, thus gtk functions expecting
- * only valid UTF-8 texts will not crash.
+ * Ensures the returned string will be valid UTF-8 string, thus GTK+
+ * functions expecting only valid UTF-8 text will not crash.
  *
- * Returned pointer should be freed with g_free.
+ * Returned pointer should be freed with g_free().
+ *
+ * Returns: a newly-allocated UTF-8 string
  **/
 gchar *
 e_utf8_ensure_valid (const gchar *string)

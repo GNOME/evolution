@@ -54,6 +54,8 @@ free_pixbuf_cb (gpointer ptr)
  * @pixbuf: A pointer to where the pixbuf will be returned.
  *
  * Returns the icon configured for the given category.
+ *
+ * Returns: the icon configured for the given category
  */
 gboolean
 e_categories_config_get_icon_for (const gchar *category, GdkPixbuf **pixbuf)
@@ -93,7 +95,7 @@ e_categories_config_get_icon_for (const gchar *category, GdkPixbuf **pixbuf)
 
 /**
  * e_categories_config_open_dialog_for_entry:
- * entry: A GtkEntry on which to get/set the categories list.
+ * @entry: a #GtkEntry on which to get/set the categories list
  *
  * This is a self-contained function that lets you open a popup dialog for
  * the user to select a list of categories.

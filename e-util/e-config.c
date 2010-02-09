@@ -1118,8 +1118,8 @@ ec_idle_handler_for_rebuild (gpointer data)
 
 /**
  * e_config_target_changed:
- * @emp:
- * @how:
+ * @emp: an #EConfig
+ * @how: an enum value indicating how the target has changed
  *
  * Indicate that the target has changed.  This may be called by the
  * self-aware target itself, or by the driving code.  If @how is
@@ -1129,7 +1129,8 @@ ec_idle_handler_for_rebuild (gpointer data)
  * This is used to sensitise Assistant next/back buttons and the Apply
  * button for the Notebook mode.
  **/
-void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
+void
+e_config_target_changed(EConfig *emp, e_config_target_change_t how)
 {
 	if (how == E_CONFIG_TARGET_CHANGED_REBUILD) {
 		g_idle_add (ec_idle_handler_for_rebuild, emp);
@@ -1142,7 +1143,7 @@ void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
 
 /**
  * e_config_abort:
- * @ec:
+ * @config: an #EConfig
  *
  * Signify that the stateful configuration changes must be discarded
  * to all listeners.  This is used by self-driven assistant or notebook, or
@@ -1171,7 +1172,7 @@ e_config_abort (EConfig *config)
 
 /**
  * e_config_commit:
- * @ec:
+ * @ec: an #EConfig
  *
  * Signify that the stateful configuration changes should be saved.
  * This is used by the self-driven assistant or notebook, or may be used
@@ -1305,7 +1306,7 @@ e_config_page_next(EConfig *ec, const gchar *pageid)
 
 /**
  * e_config_page_next:
- * @ec:
+ * @ec: an #EConfig
  * @pageid: The path of the page item.
  *
  * Find the path of the previous visible page before @pageid.  If @pageid

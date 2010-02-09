@@ -53,6 +53,8 @@ epu_is_uri_proto (const gchar *uri, const gchar *protocol)
  * @protocol: protocol to check on, like "http", "https", ...
  *
  * Returns whether given source's uri is of the given protocol.
+ *
+ * Returns: whether given source's uri is of the given protocol.
  **/
 gboolean
 e_plugin_util_is_source_proto (ESource *source, const gchar *protocol)
@@ -60,7 +62,6 @@ e_plugin_util_is_source_proto (ESource *source, const gchar *protocol)
 	gchar *uri;
 	gboolean res;
 
-	g_return_val_if_fail (source != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 	g_return_val_if_fail (protocol != NULL, FALSE);
 
@@ -77,11 +78,12 @@ e_plugin_util_is_source_proto (ESource *source, const gchar *protocol)
  * @protocol: protocol to check on, like "http", "https", ...
  *
  * Returns whether given groups' base uri is of the given protocol.
+ *
+ * Returns: whether given groups' base uri is of the given protocol.
  **/
 gboolean
 e_plugin_util_is_group_proto (ESourceGroup *group, const gchar *protocol)
 {
-	g_return_val_if_fail (group != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SOURCE_GROUP (group), FALSE);
 	g_return_val_if_fail (protocol != NULL, FALSE);
 
@@ -93,7 +95,8 @@ e_plugin_util_is_group_proto (ESourceGroup *group, const gchar *protocol)
  * @str: string to work with
  *
  * Replaces all '@' with '%40' in @str.
- * Returns newly allocated string.
+ *
+ * Returns: a newly-allocated string
  **/
 gchar *
 e_plugin_util_replace_at_sign (const gchar *str)
@@ -124,6 +127,8 @@ e_plugin_util_replace_at_sign (const gchar *str)
  *
  * Returns uri encoded as string, without protocol part.
  * Returned pointer should be freed with g_free.
+ *
+ * Returns: uri encoded as string, without protocol part.
  **/
 gchar *
 e_plugin_util_uri_no_proto (SoupURI *uri)
@@ -154,9 +159,7 @@ epu_update_source_property (ESource *source, GObject *object, const gchar *value
 {
 	const gchar *property_name;
 
-	g_return_if_fail (source != NULL);
 	g_return_if_fail (E_IS_SOURCE (source));
-	g_return_if_fail (object != NULL);
 	g_return_if_fail (G_IS_OBJECT (object));
 
 	property_name = g_object_get_data (object, EPU_SP_NAME);
@@ -168,7 +171,6 @@ epu_update_source_property (ESource *source, GObject *object, const gchar *value
 static void
 epu_entry_changed_cb (GObject *entry, ESource *source)
 {
-	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
 
 	epu_update_source_property (source, entry, gtk_entry_get_text (GTK_ENTRY (entry)));
@@ -179,7 +181,6 @@ epu_check_toggled_cb (GObject *button, ESource *source)
 {
 	const gchar *true_value, *false_value;
 
-	g_return_if_fail (button != NULL);
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (button));
 
 	true_value = g_object_get_data (button, EPU_CHECK_TRUE);
@@ -201,7 +202,7 @@ epu_check_toggled_cb (GObject *button, ESource *source)
  * source, and the source will be updated on any change of the entry automatically.
  * Entry is shown by default.
  *
- * Returns pointer to newly added #GtkEntry.
+ * Returns: pointer to newly added #GtkEntry
  **/
 GtkWidget *
 e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source, const gchar *source_property)
@@ -214,7 +215,6 @@ e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source,
 	g_return_val_if_fail (GTK_IS_TABLE (parent) || GTK_IS_CONTAINER (parent), NULL);
 
 	if (source || source_property) {
-		g_return_val_if_fail (source != NULL, NULL);
 		g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 		g_return_val_if_fail (source_property != NULL, NULL);
 		g_return_val_if_fail (*source_property != 0, NULL);
@@ -272,7 +272,7 @@ e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source,
  * source, and the source will be updated on any change of the check automatically.
  * Check is shown by default.
  *
- * Returns pointer to newly added #GtkCheckButton.
+ * Returns: pointer to newly added #GtkCheckButton
  **/
 GtkWidget *
 e_plugin_util_add_check (GtkWidget *parent, const gchar *label, ESource *source, const gchar *source_property, const gchar *true_value, const gchar *false_value)
@@ -379,6 +379,8 @@ epu_refresh_combo_changed_cb (GtkWidget *combobox, ESource *source)
  * Adds widgets to setup Refresh interval. The stored value is in minutes.
  * Returns pointer to an HBox, which contains two widgets, spin and a combo box.
  * Both can be accessed by g_object_get_data with a name "refresh-spin" and "refresh-combo".
+ *
+ * Returns: a new refresh control widget
  **/
 GtkWidget *
 e_plugin_util_add_refresh (GtkWidget *parent, const gchar *label, ESource *source, const gchar *source_property)
@@ -388,7 +390,6 @@ e_plugin_util_add_refresh (GtkWidget *parent, const gchar *label, ESource *sourc
 	gint row = -1, value_num, item_num = 0;
 
 	g_return_val_if_fail (parent == NULL || GTK_IS_TABLE (parent), NULL);
-	g_return_val_if_fail (source != NULL, NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 	g_return_val_if_fail (source_property != NULL, NULL);
 	g_return_val_if_fail (*source_property != 0, NULL);

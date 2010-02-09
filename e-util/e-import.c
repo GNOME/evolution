@@ -156,7 +156,7 @@ e_import_new (const gchar *id)
  * @im: Importer to use.
  * @status: Status callback, called with progress information.
  * @done: Complete callback, will always be called once complete.
- * @data:
+ * @data: user data for callback functions
  *
  * Run the import function of the selected importer.  Once the
  * importer has finished, it MUST call the e_import_complete ()
@@ -243,8 +243,8 @@ e_import_status (EImport *import,
 
 /**
  * e_import_get_importers:
- * @emp:
- * @target:
+ * @emp: an #EImport
+ * @target: an #EImportTarget
  *
  * Get a list of importers.  If @target is supplied, then only
  * importers which support the type and location specified by the

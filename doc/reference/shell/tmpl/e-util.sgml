@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-Miscellaneous Utility Functions
+Miscellaneous Utilities
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -122,7 +122,7 @@ Miscellaneous Utility Functions
 
 </para>
 
-@s: 
+@string: 
 @Returns: 
 
 

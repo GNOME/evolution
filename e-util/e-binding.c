@@ -310,8 +310,8 @@ e_binding_new_full (gpointer src_object,
  *
  * Convenience function for binding with boolean negation of value.
  *
- * Return: The descriptor of the binding. It is automatically
- *         removed if one of the objects is finalized.
+ * Returns: The descriptor of the binding. It is automatically
+ *          removed if one of the objects is finalized.
  **/
 EBinding *
 e_binding_new_with_negation (gpointer src_object,

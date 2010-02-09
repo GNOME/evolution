@@ -118,6 +118,10 @@ struct _EShellView {
  * @toggled:		Class method for the #EShellView::toggled signal.
  *			Subclasses should rarely need to override the
  *			default behavior.
+ * @clear_search:	Class method for the #EShellView::clear-search
+ *			signal.  The default method sets the
+ *			#EShellView:search-rule to %NULL and then emits
+ *			the #EShellView::execute-search signal.
  * @custom_search:	Class method for the #EShellView::custom-search
  *			signal.  This is emitted prior to executing an
  *			advanced or saved search.  The default method sets

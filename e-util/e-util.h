@@ -79,7 +79,7 @@ void		e_type_traverse			(GType parent_type,
 						 ETypeFunc func,
 						 gpointer user_data);
 
-gchar *		e_str_without_underscores	(const gchar *s);
+gchar *		e_str_without_underscores	(const gchar *string);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);
 gint		e_str_case_compare		(gconstpointer x,

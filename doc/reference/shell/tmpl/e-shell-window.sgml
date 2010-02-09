@@ -131,6 +131,15 @@ EShellWindow
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_window_get_focus_tracker ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_window_get_ui_manager ##### -->
 <para>
 

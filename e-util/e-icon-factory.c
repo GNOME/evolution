@@ -125,11 +125,13 @@ e_icon_factory_get_icon (const gchar *icon_name,
 
 /**
  * e_icon_factory_pixbuf_scale
- * Scales pixbuf to desired size.
- * @param pixbuf Pixbuf to be scaled.
- * @param width Desired width, if less or equal to 0, then changed to 1.
- * @param height Desired height, if less or equal to 0, then changed to 1.
- * @return Scaled pixbuf.
+ * @pixbuf: a #GdkPixbuf
+ * @width: desired width, if less or equal to 0, then changed to 1
+ * @height: desired height, if less or equal to 0, then changed to 1
+ *
+ * Scales @pixbuf to desired size.
+ *
+ * Returns: a scaled #GdkPixbuf
  **/
 GdkPixbuf *
 e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, gint width, gint height)
@@ -151,9 +153,12 @@ e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, gint width, gint height)
 
 /**
  * e_icon_factory_create_thumbnail
- * Creates system thumbnail for a file filename.
- * @param filename The file name to create the thumbnail for.
- * @return Path to system thumbnail of the file; NULL if couldn't create it. Free it with g_free.
+ * @filename: the file name to create the thumbnail for
+ *
+ * Creates system thumbnail for @filename.
+ *
+ * Returns: Path to system thumbnail of the file; %NULL if couldn't
+ *          create it. Free it with g_free().
  **/
 gchar *
 e_icon_factory_create_thumbnail (const gchar *filename)

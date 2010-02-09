@@ -211,6 +211,8 @@ is_citation (const guchar *c, gboolean saw_citation)
  *
  *   - E_TEXT_TO_HTML_CITE: quote the text with "> " at the start of each
  *     line.
+ *
+ * Returns: a newly-allocated string containing HTML
  **/
 gchar *
 e_text_to_html_full (const gchar *input, guint flags, guint32 color)

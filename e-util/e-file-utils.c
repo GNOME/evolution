@@ -212,7 +212,7 @@ e_file_replace_contents_finish (GFile *file,
 
 /**
  * e_fsutils_usage:
- * @path:
+ * @path: a file path
  *
  * Calculate the amount of disk space used by a given path.
  *
@@ -279,7 +279,7 @@ fail:
 
 /**
  * e_fsutils_avail:
- * @path:
+ * @path: a file path
  *
  * Find the available disk space at the given path.
  *

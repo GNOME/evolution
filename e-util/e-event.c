@@ -195,8 +195,8 @@ e_event_add_items (EEvent *event,
 
 /**
  * e_event_remove_items:
- * @event:
- * @handle:
+ * @event: an #EEvent
+ * @handle: an opaque key returned by e_event_add_items()
  *
  * Remove items previously added.  They MUST have been previously
  * added, and may only be removed once.

@@ -279,9 +279,7 @@ struct _EImportHook {
 };
 
 /**
- * struct _EImportHookClass - Abstract class for importuration window
- * plugin hooks.
- *
+ * EImportHookClass:
  * @hook_class: Superclass.
  * @target_map: A table of EImportHookTargetMap structures describing
  * the possible target types supported by this class.
@@ -289,7 +287,7 @@ struct _EImportHook {
  * implementation drives.
  *
  * This is an abstract class defining the plugin hook point for
- * importuration windows.
+ * import windows.
  *
  **/
 struct _EImportHookClass {

@@ -376,36 +376,36 @@ e_signature_list_save (ESignatureList *signature_list)
 
 /**
  * e_signature_list_add:
- * @signatures: signature list
+ * @signature_list: signature list
  * @signature: signature to add
  *
  * Add an signature to the signature list.  Will emit the signature-changed
  * event.
  **/
 void
-e_signature_list_add (ESignatureList *signatures, ESignature *signature)
+e_signature_list_add (ESignatureList *signature_list, ESignature *signature)
 {
-	e_list_append ((EList *) signatures, signature);
-	g_signal_emit (signatures, signals[SIGNATURE_ADDED], 0, signature);
+	e_list_append ((EList *) signature_list, signature);
+	g_signal_emit (signature_list, signals[SIGNATURE_ADDED], 0, signature);
 }
 
 /**
  * e_signature_list_change:
- * @signatures: signature list
+ * @signature_list: signature list
  * @signature: signature to change
  *
  * Signal that the details of an signature have changed.
  **/
 void
-e_signature_list_change (ESignatureList *signatures, ESignature *signature)
+e_signature_list_change (ESignatureList *signature_list, ESignature *signature)
 {
 	/* maybe the signature should do this itself ... */
-	g_signal_emit (signatures, signals[SIGNATURE_CHANGED], 0, signature);
+	g_signal_emit (signature_list, signals[SIGNATURE_CHANGED], 0, signature);
 }
 
 /**
  * e_signature_list_remove:
- * @signatures: signature list
+ * @signature_list: signature list
  * @signature: signature
  *
  * Remove an signature from the signature list, and emit the
@@ -413,18 +413,18 @@ e_signature_list_change (ESignatureList *signatures, ESignature *signature)
  * then reset the default to the first signature.
  **/
 void
-e_signature_list_remove (ESignatureList *signatures, ESignature *signature)
+e_signature_list_remove (ESignatureList *signature_list, ESignature *signature)
 {
 	/* not sure if need to ref but no harm */
 	g_object_ref (signature);
-	e_list_remove ((EList *) signatures, signature);
-	g_signal_emit (signatures, signals[SIGNATURE_REMOVED], 0, signature);
+	e_list_remove ((EList *) signature_list, signature);
+	g_signal_emit (signature_list, signals[SIGNATURE_REMOVED], 0, signature);
 	g_object_unref (signature);
 }
 
 /**
  * e_signature_list_find:
- * @signatures: signature list
+ * @signature_list: signature list
  * @type: Type of search.
  * @key: Search key.
  *
@@ -437,7 +437,7 @@ e_signature_list_remove (ESignatureList *signatures, ESignature *signature)
  * Return value: The signature or NULL if it doesn't exist.
  **/
 const ESignature *
-e_signature_list_find (ESignatureList *signatures,
+e_signature_list_find (ESignatureList *signature_list,
                        e_signature_find_t type,
                        const gchar *key)
 {
@@ -450,7 +450,7 @@ e_signature_list_find (ESignatureList *signatures,
 	if (!key)
 		return NULL;
 
-	for (it = e_list_get_iterator ((EList *) signatures);
+	for (it = e_list_get_iterator ((EList *) signature_list);
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
 		const gchar *value = NULL;

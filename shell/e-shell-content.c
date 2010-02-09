@@ -401,7 +401,7 @@ e_shell_content_new (EShellView *shell_view)
 
 /**
  * e_shell_content_get_searchbar:
- * @shell_view: an #EShellView
+ * @shell_content: an #EShellContent
  *
  * Returns the search bar widget returned by the
  * <structfield>construct_searchbar</structfield> method in

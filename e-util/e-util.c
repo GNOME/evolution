@@ -650,7 +650,7 @@ e_int_compare (gconstpointer x, gconstpointer y)
 
 /**
  * e_color_to_value:
- * color: a #GdkColor
+ * @color: a #GdkColor
  *
  * Converts a #GdkColor to a 24-bit RGB color value.
  *
@@ -817,8 +817,7 @@ e_bsearch (gconstpointer key,
 		*end = l;
 }
 
-/**
- * Function to do a last minute fixup of the AM/PM stuff if the locale
+/* Function to do a last minute fixup of the AM/PM stuff if the locale
  * and gettext haven't done it right. Most English speaking countries
  * except the USA use the 24 hour clock (UK, Australia etc). However
  * since they are English nobody bothers to write a language
@@ -833,7 +832,7 @@ e_bsearch (gconstpointer key,
  *
  * TODO: Actually remove the '%p' from the fixed up string so that
  * there isn't a stray space.
- **/
+ */
 
 gsize
 e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
@@ -852,22 +851,16 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 		e_strftime (buf, 10, "%p", tm);
 
 		if (buf[0]) {
-			/**
-			 * AM/PM have been defined in the locale
-			 * so we can use the fmt string directly
-			 **/
+			/* AM/PM have been defined in the locale
+			 * so we can use the fmt string directly. */
 			ret=e_strftime(str, max, fmt, tm);
 		} else {
-			/**
-			 * No AM/PM defined by locale
-			 * must change to 24 hour clock
-			 **/
+			/* No AM/PM defined by locale
+			 * must change to 24 hour clock. */
 			ffmt=g_strdup(fmt);
 			for (sp=ffmt; (sp=strstr(sp, "%l")); sp++) {
-				/**
-				 * Maybe this should be 'k', but I have never
-				 * seen a 24 clock actually use that format
-				 **/
+				/* Maybe this should be 'k', but I have never
+				 * seen a 24 clock actually use that format. */
 				sp[1]='H';
 			}
 			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {

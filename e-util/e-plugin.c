@@ -641,7 +641,7 @@ e_plugin_list_plugins(void)
 
 /**
  * e_plugin_construct:
- * @ep: An EPlugin derived object.
+ * @ep: an #EPlugin
  * @root: The XML root node of the sub-tree containing the plugin
  * definition.
  *
@@ -664,7 +664,7 @@ e_plugin_construct(EPlugin *ep, xmlNodePtr root)
 
 /**
  * e_plugin_invoke:
- * @ep:
+ * @ep: an #EPlugin
  * @name: The name of the function to invoke. The format of this name
  * will depend on the EPlugin type and its language conventions.
  * @data: The argument to the function. Its actual type depends on
@@ -717,8 +717,8 @@ e_plugin_get_symbol(EPlugin *ep, const gchar *name)
 
 /**
  * e_plugin_enable:
- * @ep:
- * @state:
+ * @ep: an #EPlugin
+ * @state: %TRUE to enable, %FALSE to disable
  *
  * Set the enable state of a plugin.
  *

@@ -373,9 +373,7 @@ struct _EConfigHook {
 };
 
 /**
- * struct _EConfigHookClass - Abstract class for configuration window
- * plugin hooks.
- *
+ * EConfigHookClass:
  * @hook_class: Superclass.
  * @target_map: A table of EConfigHookTargetMap structures describing
  * the possible target types supported by this class.
