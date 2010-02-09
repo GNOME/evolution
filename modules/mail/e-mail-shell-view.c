@@ -497,10 +497,15 @@ all_accounts:
 			priv->search_account_cancel = NULL;
 		}
 
-		/* Simulate a folder tree selection change, so the
-		 * message list is reset to the correct folder via
-		 * our EMFolderTree::folder-selected handler. */
-		g_signal_emit_by_name (selection, "changed");
+		/* Reset the message list to the current folder tree
+		 * selection.  This needs to happen synchronously to
+		 * avoid search conflicts, so we can't just grab the
+		 * folder URI and let the asynchronous callbacks run
+		 * after we've already kicked off the search. */
+		folder = em_folder_tree_get_selected_folder (folder_tree);
+		uri = em_folder_tree_get_selected_uri (folder_tree);
+		e_mail_reader_set_folder (reader, folder, uri);
+		g_free (uri);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
 
@@ -619,10 +624,15 @@ current_account:
 			priv->search_account_cancel = NULL;
 		}
 
-		/* Simulate a folder tree selection change, so the
-		 * message list is reset to the correct folder via
-		 * our EMFolderTree::folder-selected handler. */
-		g_signal_emit_by_name (selection, "changed");
+		/* Reset the message list to the current folder tree
+		 * selection.  This needs to happen synchronously to
+		 * avoid search conflicts, so we can't just grab the
+		 * folder URI and let the asynchronous callbacks run
+		 * after we've already kicked off the search. */
+		folder = em_folder_tree_get_selected_folder (folder_tree);
+		uri = em_folder_tree_get_selected_uri (folder_tree);
+		e_mail_reader_set_folder (reader, folder, uri);
+		g_free (uri);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
 
