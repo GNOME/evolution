@@ -391,6 +391,89 @@ cal_shell_sidebar_primary_selection_changed_cb (ECalShellSidebar *cal_shell_side
 }
 
 static void
+cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
+                                    EShellView *shell_view,
+                                    EShellSidebar *shell_sidebar)
+{
+	ECalShellSidebarPrivate *priv;
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
+	ESourceSelector *selector;
+	ESourceList *source_list;
+	ESource *source;
+	GConfBridge *bridge;
+	GtkTreeModel *model;
+	GSList *list, *iter;
+	GObject *object;
+	const gchar *key;
+	gchar *uid;
+
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (shell_backend));
+
+	selector = E_SOURCE_SELECTOR (priv->selector);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
+
+	source_list = e_cal_shell_backend_get_source_list (
+		E_CAL_SHELL_BACKEND (shell_backend));
+
+	g_signal_connect_swapped (
+		model, "row-changed",
+		G_CALLBACK (cal_shell_sidebar_row_changed_cb),
+		shell_sidebar);
+
+	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
+		shell_sidebar);
+
+	source = NULL;
+	uid = e_shell_settings_get_string (
+		shell_settings, "cal-primary-calendar");
+	if (uid != NULL)
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+	if (source == NULL)
+		source = e_source_list_peek_source_any (source_list);
+	if (source != NULL)
+		e_source_selector_set_primary_selection (selector, source);
+	g_free (uid);
+
+	list = calendar_config_get_calendars_selected ();
+	for (iter = list; iter != NULL; iter = iter->next) {
+		uid = iter->data;
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+		g_free (uid);
+
+		if (source == NULL)
+			continue;
+
+		e_source_selector_select_source (selector, source);
+	}
+	g_slist_free (list);
+
+	/* Listen for subsequent changes to the selector. */
+
+	g_signal_connect_swapped (
+		selector, "selection-changed",
+		G_CALLBACK (cal_shell_sidebar_selection_changed_cb),
+		shell_sidebar);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+}
+
+static void
 cal_shell_sidebar_get_property (GObject *object,
                                 guint property_id,
                                 GValue *value,
@@ -474,6 +557,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	ECalShellSidebarPrivate *priv;
 	EShell *shell;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
@@ -491,6 +575,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -543,97 +628,13 @@ cal_shell_sidebar_constructed (GObject *object)
 	e_binding_new (
 		shell_settings, "cal-week-start-day",
 		calitem, "week-start-day");
-}
 
-static void
-cal_shell_sidebar_realize (GtkWidget *widget)
-{
-	ECalShellSidebarPrivate *priv;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
-	ESourceSelector *selector;
-	ESourceList *source_list;
-	ESource *source;
-	GConfBridge *bridge;
-	GtkTreeModel *model;
-	GSList *list, *iter;
-	GObject *object;
-	const gchar *key;
-	gchar *uid;
-
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (widget);
-
-	/* Restore the selector state from the last session.  We do this
-	 * in realize() instead of constructed() so the shell view has a
-	 * chance to connect handlers to our signals. */
-
-	shell_sidebar = E_SHELL_SIDEBAR (widget);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	selector = E_SOURCE_SELECTOR (priv->selector);
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
-
-	source_list = e_cal_shell_backend_get_source_list (
-		E_CAL_SHELL_BACKEND (shell_backend));
-
-	g_signal_connect_swapped (
-		model, "row-changed",
-		G_CALLBACK (cal_shell_sidebar_row_changed_cb),
+	/* Restore widget state from the last session once
+	 * the shell view is fully initialized and visible. */
+	g_signal_connect (
+		shell_window, "shell-view-created::calendar",
+		G_CALLBACK (cal_shell_sidebar_restore_state_cb),
 		shell_sidebar);
-
-	g_signal_connect_swapped (
-		selector, "primary-selection-changed",
-		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
-		shell_sidebar);
-
-	source = NULL;
-	uid = e_shell_settings_get_string (
-		shell_settings, "cal-primary-calendar");
-	if (uid != NULL)
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-	if (source == NULL)
-		source = e_source_list_peek_source_any (source_list);
-	if (source != NULL)
-		e_source_selector_set_primary_selection (selector, source);
-	g_free (uid);
-
-	list = calendar_config_get_calendars_selected ();
-	for (iter = list; iter != NULL; iter = iter->next) {
-		uid = iter->data;
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-		g_free (uid);
-
-		if (source == NULL)
-			continue;
-
-		e_source_selector_select_source (selector, source);
-	}
-	g_slist_free (list);
-
-	/* Listen for subsequent changes to the selector. */
-
-	g_signal_connect_swapped (
-		selector, "selection-changed",
-		G_CALLBACK (cal_shell_sidebar_selection_changed_cb),
-		shell_sidebar);
-
-	/* Bind GObject properties to GConf keys. */
-
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
-
-	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static guint32
@@ -711,7 +712,6 @@ static void
 cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -722,9 +722,6 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 	object_class->dispose = cal_shell_sidebar_dispose;
 	object_class->finalize = cal_shell_sidebar_finalize;
 	object_class->constructed = cal_shell_sidebar_constructed;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->realize = cal_shell_sidebar_realize;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = cal_shell_sidebar_check_state;
