@@ -173,6 +173,8 @@ void            e_tree_set_state_object           (ETree                *e_tree,
 						   ETableState          *state);
 void            e_tree_load_state                 (ETree                *e_tree,
 						   const gchar          *filename);
+void		e_tree_show_cursor_after_reflow   (ETree *e_tree);
+
 void            e_tree_set_cursor                 (ETree                *e_tree,
 						   ETreePath             path);
 

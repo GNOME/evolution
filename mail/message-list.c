@@ -4645,6 +4645,8 @@ regen_list_done (struct _regen_list_msg *m)
 
 	tree = E_TREE (m->ml);
 
+	e_tree_show_cursor_after_reflow (tree);
+
 	g_signal_handlers_block_by_func (e_tree_get_table_adapter (tree), ml_tree_sorting_changed, m->ml);
 
 	e_profile_event_emit("list.buildtree", m->folder->full_name, 0);

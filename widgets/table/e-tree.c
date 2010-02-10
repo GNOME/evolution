@@ -137,6 +137,8 @@ struct ETreePriv {
 	gint scroll_idle_id;
 	gint hover_idle_id;
 
+	gboolean show_cursor_after_reflow;
+
 	gint table_model_change_id;
 	gint table_row_change_id;
 	gint table_cell_change_id;
@@ -561,6 +563,8 @@ e_tree_init (ETree *e_tree)
 	e_tree->priv->scroll_idle_id         = 0;
 	e_tree->priv->hover_idle_id          = 0;
 
+	e_tree->priv->show_cursor_after_reflow = FALSE;
+
 	e_tree->priv->table_model_change_id  = 0;
 	e_tree->priv->table_row_change_id    = 0;
 	e_tree->priv->table_cell_change_id   = 0;
@@ -729,6 +733,29 @@ e_tree_setup_header (ETree *e_tree)
 		E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height);
 }
 
+static void
+scroll_to_cursor (ETree *e_tree)
+{
+	ETreePath path;
+	GtkAdjustment *adj;
+	gint x, y, w, h;
+
+	path = e_tree_get_cursor (e_tree);
+	adj = GTK_LAYOUT (e_tree->priv->table_canvas)->vadjustment;
+	x = y = w = h = 0;
+	if (path) {
+		gint row = e_tree_row_of_node(e_tree, path);
+		gint col = 0;
+
+		if (row >= 0)
+			e_table_item_get_cell_geometry (E_TABLE_ITEM (e_tree->priv->item),
+							&row, &col, &x, &y, &w, &h);
+	}
+
+	if (y < adj->value || y + h > adj->value + adj->page_size)
+		gtk_adjustment_set_value(adj, CLAMP(y - adj->page_size / 2, adj->lower, adj->upper - adj->page_size));
+}
+
 static gboolean
 tree_canvas_reflow_idle (ETree *e_tree)
 {
@@ -753,6 +780,12 @@ tree_canvas_reflow_idle (ETree *e_tree)
 		set_header_canvas_width (e_tree);
 	}
 	e_tree->priv->reflow_idle_id = 0;
+
+	if (e_tree->priv->show_cursor_after_reflow) {
+		e_tree->priv->show_cursor_after_reflow = FALSE;
+		scroll_to_cursor (e_tree);
+	}
+
 	return FALSE;
 }
 
@@ -762,9 +795,6 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 {
 	gdouble width;
 	gdouble height;
-	GtkAdjustment *adj = GTK_LAYOUT(e_tree->priv->table_canvas)->vadjustment;
-	ETreePath path = e_tree_get_cursor (e_tree);
-	gint x, y, w, h;
 	GValue *val = g_new0 (GValue, 1);
 	g_value_init (val, G_TYPE_DOUBLE);
 
@@ -784,19 +814,7 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	if (e_tree->priv->reflow_idle_id)
 		g_source_remove(e_tree->priv->reflow_idle_id);
 	tree_canvas_reflow_idle(e_tree);
-
-	x = y = w = h = 0;
-	if (path) {
-		gint row = e_tree_row_of_node(e_tree, path);
-		gint col = 0;
-
-		if (row >= 0)
-			e_table_item_get_cell_geometry (E_TABLE_ITEM (e_tree->priv->item),
-							&row, &col, &x, &y, &w, &h);
-	}
-
-	if (y < adj->value || y + h > adj->value + adj->page_size)
-		gtk_adjustment_set_value(adj, CLAMP(y - adj->page_size / 2, adj->lower, adj->upper - adj->page_size));
+	scroll_to_cursor (e_tree);
 }
 
 static void
@@ -1682,6 +1700,16 @@ e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const gchar *spec
 
 	return (GtkWidget *) e_tree;
 }
+
+void
+e_tree_show_cursor_after_reflow (ETree *e_tree)
+{
+	g_return_if_fail (e_tree != NULL);
+	g_return_if_fail (E_IS_TREE (e_tree));
+
+	e_tree->priv->show_cursor_after_reflow = TRUE;
+}
+
 
 void
 e_tree_set_cursor (ETree *e_tree, ETreePath path)
