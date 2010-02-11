@@ -259,6 +259,24 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
 }
 
 static void
+mouse_wheel_scroll_cb (GtkWidget *img_view, GdkScrollDirection direction, ImageInlinePObject *image_object)
+{
+	GtkHTML *html;
+	gint steps = 2;
+
+	g_return_if_fail (image_object != NULL);
+	g_return_if_fail (image_object->object.format != NULL);
+	g_return_if_fail (image_object->object.format->html != NULL);
+
+	html = image_object->object.format->html;
+
+	while (steps > 0) {
+		g_signal_emit_by_name (html, "scroll", (direction == GDK_SCROLL_DOWN || direction == GDK_SCROLL_UP) ? GTK_ORIENTATION_VERTICAL : GTK_ORIENTATION_HORIZONTAL, (direction == GDK_SCROLL_DOWN || direction == GDK_SCROLL_RIGHT) ? GTK_SCROLL_STEP_FORWARD : GTK_SCROLL_STEP_BACKWARD, 2.0, NULL);
+		steps--;
+	}
+}
+
+static void
 org_gnome_image_inline_pobject_free (EMFormatHTMLPObject *object)
 {
 	ImageInlinePObject *image_object;
@@ -284,6 +302,9 @@ org_gnome_image_inline_pobject_free (EMFormatHTMLPObject *object)
 		g_signal_handlers_disconnect_by_func (
 			image_object->widget,
 			drag_data_get_cb, image_object);
+		g_signal_handlers_disconnect_by_func (
+			image_object->widget,
+			mouse_wheel_scroll_cb, image_object);
 
 		parent = gtk_widget_get_parent (image_object->widget);
 		if (parent != NULL)
@@ -387,6 +408,10 @@ org_gnome_image_inline_embed (EMFormatHTML *format,
 	g_signal_connect (
 		embedded, "size-allocate",
 		G_CALLBACK (size_allocate_cb), image_object);
+
+	g_signal_connect (
+		image_view, "mouse-wheel-scroll",
+		G_CALLBACK (mouse_wheel_scroll_cb), image_object);
 
 	return TRUE;
 }
