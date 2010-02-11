@@ -1230,6 +1230,15 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 	gtk_widget_destroy(w);
 }
 
+static void
+new_rule_changed_cb (EFilterRule *rule, GtkDialog *dialog)
+{
+	g_return_if_fail (rule != NULL);
+	g_return_if_fail (dialog != NULL);
+
+	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, rule->parts != NULL);
+}
+
 EFilterPart *
 vfolder_create_part(const gchar *name)
 {
@@ -1278,6 +1287,8 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GDestroyNotify)g_object_unref);
+	g_signal_connect(rule, "changed", G_CALLBACK (new_rule_changed_cb), gd);
+	new_rule_changed_cb ((EFilterRule*)rule, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(new_rule_clicked), NULL);
 	gtk_widget_show((GtkWidget *)gd);
 }
