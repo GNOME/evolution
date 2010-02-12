@@ -476,6 +476,23 @@ set_buttons_sensitive (struct _itip_puri *pitip)
 }
 
 static void
+add_failed_to_load_msg (ItipView *view, ESource *source, ECalendarStatus status)
+{
+	gchar *msg, *msg_full;
+
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (source != NULL);
+
+	msg = g_strdup_printf (_("Failed to load the calendar '%s'"), e_source_peek_name (source));
+	msg_full = g_strconcat (msg, " (", e_cal_get_error_message (status), ")", NULL);
+
+	itip_view_add_lower_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, msg_full);
+
+	g_free (msg_full);
+	g_free (msg);
+}
+
+static void
 cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 {
 	struct _itip_puri *pitip = data;
@@ -489,10 +506,8 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
-		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view),
-						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      _("Failed to load the calendar '%s'"),
-						      e_source_peek_name (source));
+
+		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, status);
 
 		if (pitip->current_ecal == ecal) {
 			pitip->current_ecal = NULL;
@@ -614,10 +629,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
 		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
-		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view),
-						      ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      _("Failed to load the calendar '%s'"),
-						      e_source_peek_name (source));
+		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, status);
+
 		if (pitip->current_ecal == ecal) {
 			pitip->current_ecal = NULL;
 			itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
