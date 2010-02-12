@@ -1351,6 +1351,7 @@ e_import_assistant_new_simple (GtkWindow *parent,
 	import_assistant_construct (E_IMPORT_ASSISTANT (assistant));
 
 	if (!set_import_uris (E_IMPORT_ASSISTANT (assistant), uris)) {
+		g_object_ref_sink (assistant);
 		g_object_unref (assistant);
 		return NULL;
 	}
