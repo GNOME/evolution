@@ -2004,11 +2004,11 @@ msgstr "Le dépôt du calendrier est hors ligne."
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Cannot create a new event"
-msgstr "Impossible de créer un nouvel événement"
+msgstr "Impossible de créer un nouvel évènement"
 
 #: ../calendar/calendar.error.xml.h:31
 msgid "Cannot save event"
-msgstr "Impossible d'enregistrer l'événement"
+msgstr "Impossible d'enregistrer l'évènement"
 
 #: ../calendar/calendar.error.xml.h:32
 msgid "Delete calendar '{0}'?"
@@ -2146,7 +2146,7 @@ msgstr "Les calendriers d'Evolution ont quitté de façon inattendue."
 
 #: ../calendar/calendar.error.xml.h:57
 msgid "The Evolution memo has quit unexpectedly."
-msgstr "Le memo d'Evolution a quitté de façon inattendue."
+msgstr "Le mémo d'Evolution a quitté de façon inattendue."
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "The Evolution tasks have quit unexpectedly."
@@ -2298,7 +2298,7 @@ msgstr "{0}."
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:252
 msgid "Split Multi-Day Events:"
-msgstr "Partager les événements sur plusieurs jours :"
+msgstr "Partager les évènements sur plusieurs jours :"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1532
 #: ../calendar/conduits/calendar/calendar-conduit.c:1533
@@ -2561,7 +2561,7 @@ msgstr "Confirmer le nettoyage"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
 msgstr ""
-"Nombre de récurrences par défaut pour un nouvel événement. -1 signifie pour "
+"Nombre de récurrences par défaut pour un nouvel évènement. -1 signifie pour "
 "toujours."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
@@ -2592,15 +2592,15 @@ msgstr "Répertoire de sauvegarde des fichiers d'alarmes audio"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:19
 msgid "Event Gradient"
-msgstr "Dégradé de l'événement"
+msgstr "Dégradé de l'évènement"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:20
 msgid "Event Transparency"
-msgstr "Transparence de l'événement"
+msgstr "Transparence de l'évènement"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:21
 msgid "Free/busy server URLs"
-msgstr "URLs des serveurs Libre/Occupé"
+msgstr "URL des serveurs Libre/Occupé"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:22
 msgid "Free/busy template URL"
@@ -2608,7 +2608,7 @@ msgstr "URL du modèle Libre/Occupé"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:23
 msgid "Gradient of the events in calendar views."
-msgstr "Dégradé des événements dans les vues du calendrier."
+msgstr "Dégradé des évènements dans les vues du calendrier."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:24
 msgid "Hide completed tasks"
@@ -2674,7 +2674,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:36
 msgid "List of server URLs for free/busy publishing."
 msgstr ""
-"Liste des URLs des serveurs pour les publications des informations de type "
+"Liste des URL des serveurs pour les publications des informations de type "
 "Libre/Occupé."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:37
@@ -2827,11 +2827,11 @@ msgstr "Faire défiler la vue mensuelle d'une semaine"
 # Resource Reservation Protocol
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:67
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr "Afficher le champ RSVP dans l'éditeur d'événement/tâche/réunion"
+msgstr "Afficher le champ RSVP dans l'éditeur d'évènement/tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
 msgid "Show Role field in the event/task/meeting editor"
-msgstr "Afficher le champ rôle dans l'éditeur d'événement/tâche/réunion"
+msgstr "Afficher le champ rôle dans l'éditeur d'évènement/tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
 msgid "Show appointment end times in week and month views"
@@ -2842,7 +2842,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:70
 msgid "Show categories field in the event/meeting/task editor"
 msgstr ""
-"Afficher le champ des catégories dans l'éditeur d'événement/tâche/réunion"
+"Afficher le champ des catégories dans l'éditeur d'évènement/tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
 msgid "Show display alarms in notification tray"
@@ -2850,7 +2850,7 @@ msgstr "Afficher les alarmes dans la zone de notification"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:72
 msgid "Show status field in the event/task/meeting editor"
-msgstr "Afficher le champ état dans l'éditeur d'événement/tâche/réunion"
+msgstr "Afficher le champ état dans l'éditeur d'évènement/tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
 msgid "Show the memo preview pane"
@@ -2862,11 +2862,11 @@ msgstr "Afficher le panneau d'aperçu des tâches"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:75
 msgid "Show timezone field in the event/meeting editor"
-msgstr "Afficher le champ fuseau horaire dans l'éditeur d'événement/réunion"
+msgstr "Afficher le champ fuseau horaire dans l'éditeur d'évènement/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:76
 msgid "Show type field in the event/task/meeting editor"
-msgstr "Afficher le champ type dans l'éditeur d'événement/tâche/réunion"
+msgstr "Afficher le champ type dans l'éditeur d'évènement/tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:77
 msgid "Show week number in Day and Work Week View"
@@ -2972,7 +2972,7 @@ msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
 msgstr ""
-"Transparence des événements dans la vue du calendrier, une valeur entre 0 "
+"Transparence des évènements dans la vue du calendrier, une valeur entre 0 "
 "(transparent) et 1 (opaque)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:95
@@ -3052,7 +3052,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:110
 msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
-"Indique s'il faut afficher l'heure de fin des événements dans les vues "
+"Indique s'il faut afficher l'heure de fin des évènements dans les vues "
 "hebdomadaire et mensuelle."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:111
@@ -3080,25 +3080,25 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:115
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr ""
-"Indique s'il faut afficher le champ RSVP dans l'éditeur d'événement/tâche/"
+"Indique s'il faut afficher le champ RSVP dans l'éditeur d'évènement/tâche/"
 "réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:116
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr ""
-"Indique s'il faut afficher le champ catégories dans l'éditeur d'événement/"
+"Indique s'il faut afficher le champ catégories dans l'éditeur d'évènement/"
 "tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:117
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr ""
-"Indique s'il faut afficher le champ rôle dans l'éditeur d'événement/tâche/"
+"Indique s'il faut afficher le champ rôle dans l'éditeur d'évènement/tâche/"
 "réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:118
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
-"Indique s'il faut afficher le champ état dans l'éditeur d'événement/tâche/"
+"Indique s'il faut afficher le champ état dans l'éditeur d'évènement/tâche/"
 "réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:119
@@ -3111,12 +3111,12 @@ msgstr ""
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
 "Indique s'il faut afficher le champ fuseau horaire dans l'éditeur "
-"d'événement/tâche/réunion"
+"d'évènement/tâche/réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indique s'il faut afficher le champ type dans l'éditeur d'événement/tâche/"
+"Indique s'il faut afficher le champ type dans l'éditeur d'évènement/tâche/"
 "réunion"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:122
@@ -3128,7 +3128,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:123
 msgid "Whether to show week numbers in the date navigator."
 msgstr ""
-"Indique s'il faut afficher les numéros de semaine dans l'éditeur d'événement/"
+"Indique s'il faut afficher les numéros de semaine dans l'éditeur d'évènement/"
 "tâche/réunion."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:124
@@ -3805,7 +3805,7 @@ msgstr "Nouvelle liste de mémos"
 
 #: ../calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
-msgstr "Cet événement a été supprimé."
+msgstr "Cet évènement a été supprimé."
 
 #: ../calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
@@ -3830,7 +3830,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
-msgstr "Cet événement a été modifié."
+msgstr "Cet évènement a été modifié."
 
 #: ../calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
@@ -4130,7 +4130,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/delete-error.c:55
 msgid "The event could not be deleted due to a corba error"
-msgstr "Impossible de supprimer l'événement à cause d'une erreur CORBA"
+msgstr "Impossible de supprimer l'évènement à cause d'une erreur CORBA"
 
 #: ../calendar/gui/dialogs/delete-error.c:58
 msgid "The task could not be deleted due to a corba error"
@@ -4147,7 +4147,7 @@ msgstr "Impossible de supprimer l'élément à cause d'une erreur CORBA"
 #: ../calendar/gui/dialogs/delete-error.c:71
 msgid "The event could not be deleted because permission was denied"
 msgstr ""
-"Impossible de supprimer l'événement à cause de permissions insuffisantes"
+"Impossible de supprimer l'évènement à cause de permissions insuffisantes"
 
 #: ../calendar/gui/dialogs/delete-error.c:74
 msgid "The task could not be deleted because permission was denied"
@@ -4163,7 +4163,7 @@ msgstr "Impossible de supprimer l'élément à cause de permissions insuffisante
 
 #: ../calendar/gui/dialogs/delete-error.c:87
 msgid "The event could not be deleted due to an error"
-msgstr "Impossible de supprimer l'événement à cause d'une erreur"
+msgstr "Impossible de supprimer l'évènement à cause d'une erreur"
 
 #: ../calendar/gui/dialogs/delete-error.c:90
 msgid "The task could not be deleted due to an error"
@@ -4195,7 +4195,7 @@ msgstr "_Alarmes"
 
 #: ../calendar/gui/dialogs/event-editor.c:203
 msgid "Click here to set or unset alarms for this event"
-msgstr "Cliquez ici pour définir ou annuler les alarmes de cet événement"
+msgstr "Cliquez ici pour définir ou annuler les alarmes de cet évènement"
 
 #: ../calendar/gui/dialogs/event-editor.c:208
 msgid "_Recurrence"
@@ -4203,7 +4203,7 @@ msgstr "_Récurrence"
 
 #: ../calendar/gui/dialogs/event-editor.c:210
 msgid "Make this a recurring event"
-msgstr "Transforme en événement récurrent"
+msgstr "Transforme en évènement récurrent"
 
 #: ../calendar/gui/dialogs/event-editor.c:215
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
@@ -4223,7 +4223,7 @@ msgstr "Toute la _journée"
 
 #: ../calendar/gui/dialogs/event-editor.c:227
 msgid "Toggles whether to have All Day Event"
-msgstr "L'état indique si défini comme « Événement toute la journée »"
+msgstr "L'état indique si défini comme « Évènement toute la journée »"
 
 #: ../calendar/gui/dialogs/event-editor.c:233
 msgid "Show Time as _Busy"
@@ -4249,19 +4249,19 @@ msgstr "_Rendez-vous"
 #: ../calendar/gui/dialogs/event-page.c:751
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
-"Cet événement ne peut pas être modifié car le calendrier sélectionné est en "
+"Cet évènement ne peut pas être modifié car le calendrier sélectionné est en "
 "lecture seule"
 
 #: ../calendar/gui/dialogs/event-page.c:755
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
-"Vous ne pouvez pas modifier tous les éléments de cet événement car vous "
+"Vous ne pouvez pas modifier tous les éléments de cet évènement car vous "
 "n'êtes pas l'organisateur"
 
 #: ../calendar/gui/dialogs/event-page.c:767
 #: ../calendar/gui/dialogs/event-page.c:2718
 msgid "This event has alarms"
-msgstr "Cet événement possède des alarmes"
+msgstr "Cet évènement possède des alarmes"
 
 #: ../calendar/gui/dialogs/event-page.c:830
 #: ../calendar/gui/dialogs/event-page.ui.h:11
@@ -4279,11 +4279,11 @@ msgstr "Participa_nts"
 
 #: ../calendar/gui/dialogs/event-page.c:1094
 msgid "Event with no start date"
-msgstr "Événement sans date de début"
+msgstr "Évènement sans date de début"
 
 #: ../calendar/gui/dialogs/event-page.c:1097
 msgid "Event with no end date"
-msgstr "Événement sans date de fin"
+msgstr "Évènement sans date de fin"
 
 #: ../calendar/gui/dialogs/event-page.c:1268
 #: ../calendar/gui/dialogs/memo-page.c:655
@@ -4396,7 +4396,7 @@ msgstr "Alarme personnalisée :"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:10
 msgid "Event Description"
-msgstr "Description de l'événement"
+msgstr "Description de l'évènement"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
@@ -4479,14 +4479,14 @@ msgstr "_Groupe :"
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr ""
-"Vous modifiez actuellement un événement récurrent. Que souhaitez-vous "
+"Vous modifiez actuellement un évènement récurrent. Que souhaitez-vous "
 "modifier ?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:55
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
-"Vous déléguez actuellement un événement récurrent. Que souhaitez-vous "
+"Vous déléguez actuellement un évènement récurrent. Que souhaitez-vous "
 "déléguer ?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:59
@@ -4528,7 +4528,7 @@ msgstr "La date de la récurrence n'est pas valide"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:929
 msgid "End time of the recurrence was before event's start"
-msgstr "L'heure de fin de la récurrence est antérieure au début de l'événement"
+msgstr "L'heure de fin de la récurrence est antérieure au début de l'évènement"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
@@ -4689,7 +4689,7 @@ msgstr "année(s)"
 
 #: ../calendar/gui/dialogs/send-comp.c:160
 msgid "Send my alarms with this event"
-msgstr "Envoyer mes alarmes avec cet événement"
+msgstr "Envoyer mes alarmes avec cet évènement"
 
 #: ../calendar/gui/dialogs/send-comp.c:162
 msgid "Notify new attendees _only"
@@ -6071,15 +6071,15 @@ msgstr "C'est une réunion."
 #: ../calendar/gui/ea-cal-view-event.c:288
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "Événement du calendrier : le résumé est %s."
+msgstr "Évènement du calendrier : le résumé est %s."
 
 #: ../calendar/gui/ea-cal-view-event.c:290
 msgid "Calendar Event: It has no summary."
-msgstr "Événement du calendrier : il n'a pas de résumé."
+msgstr "Évènement du calendrier : il n'a pas de résumé."
 
 #: ../calendar/gui/ea-cal-view-event.c:312
 msgid "calendar view event"
-msgstr "vue des événements du calendrier"
+msgstr "vue des évènements du calendrier"
 
 #: ../calendar/gui/ea-cal-view-event.c:540
 msgid "Grab Focus"
@@ -6091,7 +6091,7 @@ msgstr "Nouveau rendez-vous"
 
 #: ../calendar/gui/ea-cal-view.c:301
 msgid "New All Day Event"
-msgstr "Nouvel événement toute la journée"
+msgstr "Nouvel évènement toute la journée"
 
 #: ../calendar/gui/ea-cal-view.c:302
 msgid "New Meeting"
@@ -6114,14 +6114,14 @@ msgstr "un tableau pour consulter et sélectionner l'intervalle de temps actuel"
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] "Il possède %d événement."
-msgstr[1] "Il possède %d événements."
+msgstr[0] "Il possède %d évènement."
+msgstr[1] "Il possède %d évènements."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../calendar/gui/ea-day-view.c:153 ../calendar/gui/ea-week-view.c:148
 msgid "It has no events."
-msgstr "Il ne possède pas d'événements."
+msgstr "Il ne possède pas d'évènements."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
@@ -6184,7 +6184,7 @@ msgstr "Bouton du saut"
 
 #: ../calendar/gui/ea-jump-button.c:156
 msgid "Click here, you can find more events."
-msgstr "Cliquez ici, vous pourrez trouver plus d'événements."
+msgstr "Cliquez ici, vous pourrez trouver plus d'évènements."
 
 #: ../calendar/gui/ea-week-view.c:153
 #, c-format
@@ -6275,7 +6275,7 @@ msgstr "Au moins un participant est nécessaire"
 
 #: ../calendar/gui/itip-utils.c:634 ../calendar/gui/itip-utils.c:784
 msgid "Event information"
-msgstr "Informations de l'événement"
+msgstr "Informations de l'évènement"
 
 #: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:787
 msgid "Task information"
@@ -6376,7 +6376,7 @@ msgstr "Information iCalendar"
 #: ../calendar/gui/itip-utils.c:833
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr ""
-"Impossible de réserver une ressource, le nouvel événement est en conflit "
+"Impossible de réserver une ressource, le nouvel évènement est en conflit "
 "avec un autre."
 
 #: ../calendar/gui/itip-utils.c:835
@@ -6385,7 +6385,7 @@ msgstr "Impossible de réserver une ressource, l'erreur est : "
 
 #: ../calendar/gui/itip-utils.c:988
 msgid "You must be an attendee of the event."
-msgstr "Vous devez être inscrit comme participant à l'événement."
+msgstr "Vous devez être inscrit comme participant à l'évènement."
 
 #: ../calendar/gui/print.c:508
 msgid "1st"
@@ -6638,7 +6638,7 @@ msgstr "Assistant d'importation vCalendar d'Evolution"
 
 #: ../calendar/importers/icalendar-importer.c:744
 msgid "Calendar Events"
-msgstr "Événements du calendrier"
+msgstr "Évènements du calendrier"
 
 #: ../calendar/importers/icalendar-importer.c:781
 msgid "Evolution Calendar intelligent importer"
@@ -8600,7 +8600,7 @@ msgstr "Enregistrer le _brouillon"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Calendar event notifications"
-msgstr "Notifications des événements du calendrier"
+msgstr "Notifications des évènements du calendrier"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
 msgid "Evolution Alarm Notify"
@@ -8622,7 +8622,7 @@ msgstr "Suite de travail collaboratif"
 # Utilisation de l'infinitif dans les infobulles du Bureau
 #: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
-msgstr "Gèrer vos courriels, contacts et agendas"
+msgstr "Gérer vos courriels, contacts et agendas"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -11501,7 +11501,7 @@ msgstr "Liste des étiquettes et des couleurs qui leur sont associées"
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "List of MIME types to check for Bonobo component viewers"
 msgstr ""
-"Liste des types MIME à vérifier pour les visonneurs de composants Bonobo"
+"Liste des types MIME à vérifier pour les visionneurs de composants Bonobo"
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid "List of accepted licenses"
@@ -13294,7 +13294,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Voulez-vous vraiment supprimer ce compte et tous ses proxys ?"
+msgstr "Voulez-vous vraiment supprimer ce compte et tous ses mandataires ?"
 
 #: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to delete this account?"
@@ -13303,7 +13303,7 @@ msgstr "Voulez-vous vraiment supprimer ce compte ?"
 #: ../mail/mail.error.xml.h:11
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
-msgstr "Voulez-vous vraiment supprimer ce compte et tous ses proxys ?"
+msgstr "Voulez-vous vraiment supprimer ce compte et tous ses mandataires ?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to open {0} messages at once?"
@@ -13530,7 +13530,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:61
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr ""
-"Si vous continuez, tous les comptes proxy seront définitivement supprimés."
+"Si vous continuez, tous les comptes des mandataires seront définitivement supprimés."
 
 #: ../mail/mail.error.xml.h:62
 msgid ""
@@ -13538,7 +13538,7 @@ msgid ""
 "all proxy information will be deleted permanently."
 msgstr ""
 "Si vous continuez, toutes les informations sur le compte\n"
-"et le proxy seront définitivement supprimés."
+"et sur les mandataires seront définitivement supprimés."
 
 #: ../mail/mail.error.xml.h:64
 msgid "If you proceed, the account information will be deleted permanently."
@@ -14938,15 +14938,15 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
-"Cette opération va définitivement supprimer tous les événements plus anciens "
+"Cette opération va définitivement supprimer tous les évènements plus anciens "
 "que la date sélectionnée. Si vous continuez, vous ne pourrez plus récupérer "
-"ces événements."
+"ces évènements."
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
 #: ../modules/calendar/e-cal-shell-view-actions.c:323
 msgid "Purge events older than"
-msgstr "Nettoyer les événements plus vieux que"
+msgstr "Nettoyer les évènements plus vieux que"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:540
 msgid "Copying Items"
@@ -14960,7 +14960,7 @@ msgstr "Déplacement d'éléments"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-actions.c:1097
 msgid "event"
-msgstr "événement"
+msgstr "évènement"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1099
 #: ../modules/calendar/e-cal-shell-view-memopad.c:209
@@ -15076,7 +15076,7 @@ msgstr "Nouvel évén_ement toute la journée..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1350
 msgid "Create a new all day event"
-msgstr "Crée un nouvel événement toute la journée"
+msgstr "Crée un nouvel évènement toute la journée"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1355
 #: ../modules/calendar/e-cal-shell-view-memopad.c:243
@@ -15129,7 +15129,7 @@ msgstr "Planifier une _réunion..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1420
 msgid "Converts an appointment to a meeting"
-msgstr "Converti un rendez-vous en réunion"
+msgstr "Convertit un rendez-vous en réunion"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1425
 msgid "Conv_ert to Appointment..."
@@ -15137,7 +15137,7 @@ msgstr "Conv_ertir en rendez-vous..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1427
 msgid "Converts a meeting to an appointment"
-msgstr "Converti une réunion en rendez-vous"
+msgstr "Convertit une réunion en rendez-vous"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1549
 msgid "Day"
@@ -16075,7 +16075,7 @@ msgstr "Rechercher dans un compte"
 
 #: ../modules/mail/e-mail-shell-view.c:873
 msgid "Proxy _Logout"
-msgstr "Se _déconnecter du proxy"
+msgstr "_Déconnecter le mandataire"
 
 #: ../modules/mail/em-composer-prefs.c:473
 msgid "Language(s)"
@@ -16842,7 +16842,7 @@ msgstr ""
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
 msgid "Map for contacts"
-msgstr "Carte de\ts contacts"
+msgstr "Carte des contacts"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -17292,7 +17292,7 @@ msgstr "Message rétracté avec succès"
 
 #: ../plugins/groupwise-features/mail-send-options.c:202
 msgid "Insert Send options"
-msgstr "Insére les options d'envoi"
+msgstr "Insère les options d'envoi"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to GroupWise messages"
@@ -17335,13 +17335,13 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
-"Échec de la connexion proxy en tant que « {0} ». Veuillez vérifier votre "
+"Échec de la connexion du mandataire en tant que « {0} ». Veuillez vérifier votre "
 "adresse de courriel et essayez à nouveau."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:3
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Impossible de donner l'accès proxy à l'utilisateur « {0} »"
+msgstr "Impossible de donner un accès comme mandataire à l'utilisateur « {0} »"
 
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:2
@@ -17351,13 +17351,13 @@ msgstr "Indiquer un utilisateur"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:6
 msgid "You have already given proxy permissions to this user."
-msgstr "Vous avez déjà donné des permissions proxy à cet utilisateur."
+msgstr "Vous avez déjà donné des permissions en tant que mandataire à cet utilisateur."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
-"Vous devez indiquer un nom d'utilisateur valide pour donner des droits proxy."
+"Vous devez indiquer un nom d'utilisateur valide pour donner des droits de mandataire."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:3
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
@@ -17484,7 +17484,7 @@ msgstr "Lectu_re"
 
 #: ../plugins/groupwise-features/proxy-listing.ui.h:1
 msgid "Proxy"
-msgstr "Proxy"
+msgstr "Mandataire"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.ui.h:1
 msgid "<b>Account Name</b>"
@@ -17492,7 +17492,7 @@ msgstr "<b>Nom du compte</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.ui.h:2
 msgid "Proxy Login"
-msgstr "Connexion proxy"
+msgstr "Nom de connexion du mandataire"
 
 #: ../plugins/groupwise-features/proxy-login.c:209
 #: ../plugins/groupwise-features/proxy-login.c:252
@@ -17506,12 +17506,12 @@ msgstr "%sSaisissez le mot de passe pour %s (utilisateur %s)"
 #: ../plugins/groupwise-features/proxy.c:692
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
-"L'onglet proxy sera accessible seulement lorsque le compte sera en ligne."
+"L'onglet Mandataire sera accessible seulement lorsque le compte sera en ligne."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:698
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "L'onglet proxy sera accessible seulement lorsque le compte sera actif."
+msgstr "L'onglet du serveur mandataire sera accessible seulement lorsque le compte sera actif."
 
 #: ../plugins/groupwise-features/proxy.c:931
 #: ../plugins/groupwise-features/share-folder.c:701
@@ -17824,7 +17824,7 @@ msgid ""
 "tasks or free/busy information"
 msgstr ""
 "Le message contient un calendrier, mais celui-ci ne contient aucun "
-"événement, tâche ou information libre/occupé"
+"évènement, tâche ou information libre/occupé"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1681
 msgid "The calendar attached contains multiple items"
@@ -18591,8 +18591,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"Le calendrier sélectionné contient déjà l'événement « %s ». Voulez-vous "
-"modifier l'événement existant ?"
+"Le calendrier sélectionné contient déjà l'évènement « %s ». Voulez-vous "
+"modifier l'évènement existant ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:499
 #, c-format
@@ -18617,8 +18617,8 @@ msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
 msgstr ""
-"Le calendrier sélectionné contient déjà des événements pour les courriels "
-"concernés. Voulez-vous tout de même créer de nouveaux événements ?"
+"Le calendrier sélectionné contient déjà des évènements pour les courriels "
+"concernés. Voulez-vous tout de même créer de nouveaux évènements ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:522
 msgid ""
@@ -18644,11 +18644,11 @@ msgid_plural ""
 "Selected calendar contains events for the given mails already. Would you "
 "like to create new events anyway?"
 msgstr[0] ""
-"Le calendrier sélectionné contient déjà un événement pour ce courriel. "
-"Voulez-vous tout de même créer un nouvel événement ?"
+"Le calendrier sélectionné contient déjà un évènement pour ce courriel. "
+"Voulez-vous tout de même créer un nouvel évènement ?"
 msgstr[1] ""
-"Le calendrier sélectionné contient déjà des événements pour les courriels "
-"concernés. Voulez-vous tout de même créer de nouveaux événements ?"
+"Le calendrier sélectionné contient déjà des évènements pour les courriels "
+"concernés. Voulez-vous tout de même créer de nouveaux évènements ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:549
 msgid ""
@@ -18702,7 +18702,7 @@ msgid ""
 "source, please."
 msgstr ""
 "La source sélectionnée est en lecture seule, vous ne pouvez donc pas y créer "
-"d'événement. Veuillez sélectionner une autre source."
+"d'évènement. Veuillez sélectionner une autre source."
 
 #: ../plugins/mail-to-task/mail-to-task.c:735
 msgid ""
@@ -18731,7 +18731,7 @@ msgstr "Créer un é_vénement"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1062
 msgid "Create a new event from the selected message"
-msgstr "Crée un nouvel événement à partir du message sélectionné"
+msgstr "Crée un nouvel évènement à partir du message sélectionné"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1067
 msgid "Create a Mem_o"
@@ -19038,7 +19038,7 @@ msgstr "Analyseur de performances d'Evolution"
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
 msgstr ""
-"Analyse la performance des événements de données dans Evolution (pour les "
+"Analyse la performance des évènements de données dans Evolution (pour les "
 "développeurs uniquement)."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
@@ -21356,7 +21356,7 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Utilisez le bouton gauche de la souris pour zoomer une région de la carte et "
+"Utilisez le bouton gauche de la souris pour faire un zoom sur une région de la carte et "
 "sélectionner un fuseau horaire.\n"
 "Utilisez le bouton droit de la souris pour réduire."
 
@@ -22199,7 +22199,7 @@ msgstr "élément du calendrier d'Evolution"
 
 #: ../widgets/table/e-cell-combo.c:171
 msgid "popup list"
-msgstr "list des popups"
+msgstr "liste des popups"
 
 #: ../widgets/table/e-cell-date-edit.c:303
 msgid "Now"
@@ -22648,7 +22648,7 @@ msgstr "Méthodes de saisie"
 
 #: ../widgets/text/e-text.c:3303 ../widgets/text/e-text.c:3304
 msgid "Event Processor"
-msgstr "Processeur d'événements"
+msgstr "Processeur d'évènements"
 
 #: ../widgets/text/e-text.c:3310 ../widgets/text/e-text.c:3311
 msgid "Text"
