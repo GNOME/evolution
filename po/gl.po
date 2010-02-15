@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-11 16:45+0100\n"
-"PO-Revision-Date: 2010-02-05 13:12+0100\n"
+"POT-Creation-Date: 2010-02-15 14:54+0100\n"
+"PO-Revision-Date: 2010-02-12 01:04+0100\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Gallician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -197,8 +197,8 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Está tentando mover un contacto dunha axenda de enderezos a outra mais non "
-"se pode eliminar da orixe. Quere gardar unha copia en seu lugar?"
+"Está tentando mover un contacto dunha axenda de enderezos a outra mais non é "
+"posíbel eliminar da orixe. Quere gardar unha copia en seu lugar?"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid ""
@@ -1535,7 +1535,7 @@ msgstr "Non foi posíbel cancelar"
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:67
 msgid "Authentication Failed"
-msgstr "Fallou a autenticación"
+msgstr "Produciuse un fallo na autenticación"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:68
@@ -1607,7 +1607,7 @@ msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"Esta axenda de enderezos non se pode abrir. Isto pode significar que se "
+"Non é posíbel abrir esta axenda de enderezos. Isto pode significar que se "
 "introduciu un URI incorrecto ou que o servidor non é atinxíbel."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:145
@@ -1744,7 +1744,7 @@ msgstr "Non foi posíbel obter unha lista de axendas de enderezos"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:70
 msgid "failed to open book"
-msgstr "fallou ao abrir a axenda de enderezos"
+msgstr "produciuse un fallo ao abrir a axenda de enderezos"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:45
 msgid "Specify the output file instead of standard output"
@@ -1811,7 +1811,7 @@ msgstr "Accedendo anonimamente ao servidor LDAP"
 #: ../addressbook/util/addressbook.c:210
 #: ../plugins/groupwise-features/camel-gw-listener.c:525
 msgid "Failed to authenticate.\n"
-msgstr "Fallou ao autenticarse.\n"
+msgstr "Produciuse un fallo ao autenticarse.\n"
 
 #: ../addressbook/util/addressbook.c:217
 #: ../plugins/groupwise-features/camel-gw-listener.c:505
@@ -2307,10 +2307,9 @@ msgstr[0] "minuto"
 msgstr[1] "minutos"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "horas"
+msgstr[0] "hora"
 msgstr[1] "horas"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:287
@@ -2362,7 +2361,6 @@ msgstr "_Pospor"
 #: ../calendar/gui/dialogs/event-page.ui.h:20 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:332
-#, fuzzy
 msgid "hours"
 msgstr "horas"
 
@@ -3469,7 +3467,7 @@ msgstr "Venres"
 #: ../calendar/gui/dialogs/calendar-setup.c:389
 #: ../mail/em-folder-properties.c:283 ../mail/mail-config.ui.h:53
 #: ../modules/addressbook/addressbook-config.c:985
-#: ../plugins/itip-formatter/itip-formatter.c:2653
+#: ../plugins/itip-formatter/itip-formatter.c:2666
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "General"
@@ -4976,9 +4974,8 @@ msgid "No"
 msgstr "Non"
 
 #: ../calendar/gui/e-cal-model.c:377
-#, fuzzy
 msgid "Default Client"
-msgstr "Cliente de correo predefinido"
+msgstr "Cliente predefinido"
 
 #: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:518
 #: ../shell/e-shell.c:836
@@ -4999,7 +4996,7 @@ msgstr "Configuración do completado automático"
 #: ../calendar/gui/e-meeting-store.c:218 ../calendar/gui/print.c:972
 #: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:931
 #: ../plugins/itip-formatter/itip-formatter.c:461
-#: ../plugins/itip-formatter/itip-formatter.c:2325
+#: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
 msgid "Unknown"
 msgstr "Descoñecido"
@@ -5069,9 +5066,8 @@ msgid "Paste events from the clipboard"
 msgstr "Pegar eventos desde o portapapeis"
 
 #: ../calendar/gui/e-calendar-view.c:410
-#, fuzzy
 msgid "Delete selected events"
-msgstr "Eliminar as notas seleccionadas"
+msgstr "Eliminar os eventos seleccionados"
 
 #: ../calendar/gui/e-calendar-view.c:429 ../calendar/gui/e-memo-table.c:186
 #: ../calendar/gui/e-task-table.c:264
@@ -5087,7 +5083,7 @@ msgstr "Actualizando obxectos"
 #: ../calendar/gui/e-itip-control.c:1182
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
-#: ../plugins/itip-formatter/itip-formatter.c:2313
+#: ../plugins/itip-formatter/itip-formatter.c:2326
 msgid "Accepted"
 msgstr "Aceptado"
 
@@ -5095,7 +5091,7 @@ msgstr "Aceptado"
 #: ../calendar/gui/e-itip-control.c:1192
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:184 ../calendar/gui/e-meeting-store.c:207
-#: ../plugins/itip-formatter/itip-formatter.c:2319
+#: ../plugins/itip-formatter/itip-formatter.c:2332
 msgid "Declined"
 msgstr "Rexeitado"
 
@@ -5109,7 +5105,7 @@ msgstr "Provisional"
 #: ../calendar/gui/e-calendar-view.c:1693
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../plugins/itip-formatter/itip-formatter.c:2322
+#: ../plugins/itip-formatter/itip-formatter.c:2335
 msgid "Delegated"
 msgstr "Delegado"
 
@@ -5345,13 +5341,13 @@ msgstr ""
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
-#: ../plugins/itip-formatter/itip-formatter.c:2300
+#: ../plugins/itip-formatter/itip-formatter.c:2313
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ningún"
 
 #: ../calendar/gui/e-itip-control.c:1187
-#: ../plugins/itip-formatter/itip-formatter.c:2316
+#: ../plugins/itip-formatter/itip-formatter.c:2329
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
@@ -5575,7 +5571,7 @@ msgid "Attendee status updated\n"
 msgstr "Estado do participante actualizado\n"
 
 #: ../calendar/gui/e-itip-control.c:2071
-#: ../plugins/itip-formatter/itip-formatter.c:1408
+#: ../plugins/itip-formatter/itip-formatter.c:1421
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Non foi posíbel actualizar estado do participante porque xa non existe o "
@@ -6085,7 +6081,7 @@ msgstr "visualización de calendario para un ou máis días"
 #: ../calendar/gui/ea-gnome-calendar.c:54
 #: ../calendar/importers/icalendar-importer.c:780
 msgid "Gnome Calendar"
-msgstr "Calendario do Gnome"
+msgstr "Calendario do GNOME"
 
 #: ../calendar/gui/ea-gnome-calendar.c:197
 #: ../modules/calendar/e-cal-shell-view-private.c:890
@@ -6546,7 +6542,7 @@ msgstr "Citas e reunións"
 
 #: ../calendar/importers/icalendar-importer.c:335
 #: ../calendar/importers/icalendar-importer.c:628
-#: ../plugins/itip-formatter/itip-formatter.c:1820
+#: ../plugins/itip-formatter/itip-formatter.c:1833
 msgid "Opening calendar"
 msgstr "Abrir calendario"
 
@@ -8812,7 +8808,7 @@ msgstr "semanas"
 
 #: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
-msgstr "Ocorreu un erro ao imprimir"
+msgstr "Produciuse un erro ao imprimir"
 
 #: ../e-util/e-print.c:167
 msgid "The printing system reported the following details about the error:"
@@ -10674,7 +10670,7 @@ msgstr "Copiando mensaxes ao cartafol %s"
 
 #: ../mail/em-folder-tree.c:1503
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "Non se poden soltar as mensaxes no almacenamento do nivel superior"
+msgstr "Non é posíbel soltar as mensaxes no almacenamento do nivel superior"
 
 #: ../mail/em-folder-utils.c:386
 msgid "Move Folder To"
@@ -11316,7 +11312,7 @@ msgstr ""
 "Se non hai un visualizador incorporado para un tipo MIME en particular "
 "dentro do Evolution, poderase usar para mostrar o contido calquera tipo MIME "
 "que apareza nesta listaxe e que estea mapeado a un visualizador de "
-"compoñentes Bonobo na base de datos de tipos MIME do Gnome."
+"compoñentes Bonobo na base de datos de tipos MIME do GNOME."
 
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid ""
@@ -13033,7 +13029,7 @@ msgstr ""
 #: ../mail/mail-ops.c:2249
 #, c-format
 msgid "Could not write data: %s"
-msgstr "Non se poden escribir os datos: %s"
+msgstr "Non é posíbel escribir os datos: %s"
 
 #: ../mail/mail-ops.c:2394
 #, c-format
@@ -13338,7 +13334,7 @@ msgstr "Non é posíbel renomear ou mover o cartafol de sistema \"{0}\"."
 
 #: ../mail/mail.error.xml.h:39
 msgid "Cannot save changes to account."
-msgstr "Non se poden gardar as modificacións na conta."
+msgstr "Non é posíbel gardar as modificacións na conta."
 
 #: ../mail/mail.error.xml.h:40
 msgid "Cannot save to directory \"{0}\"."
@@ -13354,7 +13350,7 @@ msgstr "Non é posíbel estabelecer o script de sinatura \"{0}\"."
 
 #: ../mail/mail.error.xml.h:43
 msgid "Check Junk Failed"
-msgstr "Fallou a verificación de correo non desexado"
+msgstr "Produciuse un fallo na verificación de correo non desexado"
 
 #: ../mail/mail.error.xml.h:44
 msgid ""
@@ -13419,7 +13415,7 @@ msgstr "Produciuse un erro ao {0}."
 
 #: ../mail/mail.error.xml.h:57
 msgid "File exists but cannot overwrite it."
-msgstr "O ficheiro existe mais non se pode sobrescribir."
+msgstr "O ficheiro existe mais non é posíbel sobrescribilo."
 
 #: ../mail/mail.error.xml.h:58
 msgid "File exists but is not a regular file."
@@ -13471,7 +13467,7 @@ msgstr "Autenticación non válida"
 
 #: ../mail/mail.error.xml.h:68
 msgid "Mail Deletion Failed"
-msgstr "Fallou a eliminación de correo"
+msgstr "Produciuse un fallo na eliminación de correo"
 
 #: ../mail/mail.error.xml.h:69
 msgid "Mail filters automatically updated."
@@ -13537,7 +13533,7 @@ msgstr "Agarde."
 
 #: ../mail/mail.error.xml.h:82
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr "Houbo un problema ao migrar o cartafol de correo antigo \"{0}\"."
+msgstr "Produciuse un problema ao migrar o cartafol de correo antigo \"{0}\"."
 
 #: ../mail/mail.error.xml.h:83
 msgid "Querying server for a list of supported authentication mechanisms."
@@ -13557,11 +13553,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:86
 msgid "Report Junk Failed"
-msgstr "Fallou o informe de correo non desexado"
+msgstr "Produciuse un fallo ao informar de correo non desexado"
 
 #: ../mail/mail.error.xml.h:87
 msgid "Report Not Junk Failed"
-msgstr "Fallou o informe do correo que non é non desexado"
+msgstr "Produciuse un fallo ao informe do correo que non é non desexado"
 
 #: ../mail/mail.error.xml.h:88
 msgid "Search Folders automatically updated."
@@ -13589,7 +13585,7 @@ msgid ""
 "be renamed, moved, or deleted."
 msgstr ""
 "O Evolution precisa os cartafoles de sistema para funcionar correctamente e "
-"non se poden renomear, mover nin eliminar."
+"non é posíbel renomear, mover nin eliminar."
 
 #: ../mail/mail.error.xml.h:94
 msgid ""
@@ -13772,7 +13768,8 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:134
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr "O seu inicio de sesión no servidor \"{0}\" como \"{0}\" fallou."
+msgstr ""
+"Produciuse un fallo no seu inicio de sesión no servidor \"{0}\" como \"{0}\"."
 
 #: ../mail/mail.error.xml.h:135
 msgid "_Append"
@@ -14318,7 +14315,6 @@ msgid "Copy the contacts of the selected address book to another"
 msgstr "Copiar os contactos do cartafol seleccionado noutro cartafol"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:669
-#, fuzzy
 msgid "D_elete Address Book"
 msgstr "E_liminar a axenda de enderezos"
 
@@ -14383,12 +14379,10 @@ msgid "_Delete Contact"
 msgstr "E_liminar contacto"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:732
-#, fuzzy
 msgid "_Find in Contact..."
-msgstr "_Reenviar contacto..."
+msgstr "_Buscar no contacto..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:734
-#, fuzzy
 msgid "Search for text in the displayed contact"
 msgstr "Buscar texto no corpo da mensaxe mostrada"
 
@@ -14763,7 +14757,7 @@ msgid "Create a new calendar"
 msgstr "Crear un calendario novo"
 
 #: ../modules/calendar/e-cal-shell-backend.c:507
-#: ../plugins/itip-formatter/itip-formatter.c:2644
+#: ../plugins/itip-formatter/itip-formatter.c:2657
 msgid "Calendar and Tasks"
 msgstr "Calendario e tarefas"
 
@@ -14825,13 +14819,12 @@ msgid "This widget displays a miniature calendar"
 msgstr "Este widget mostra unha calendario en miniatura"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:746
-#, fuzzy
 msgid "Default Calendar Client"
 msgstr "Cliente de correo predefinido"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:747
 msgid "Default client for calendar operations"
-msgstr ""
+msgstr "O cliente predefinido para as operacións no calendario"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:757
 msgid "This widget displays groups of calendars"
@@ -14891,14 +14884,12 @@ msgid "_Copy..."
 msgstr "_Copiar..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1236
-#, fuzzy
 msgid "D_elete Calendar"
-msgstr "Seleccione un calendario"
+msgstr "_Eliminar o calendario"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1238
-#, fuzzy
 msgid "Delete the selected calendar"
-msgstr "Renomear o cartafol seleccionado"
+msgstr "Eliminar o calendario seleccionado"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1245
 msgid "Go Back"
@@ -14964,14 +14955,12 @@ msgid "_Delegate Meeting..."
 msgstr "_Delegar cita..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1327
-#, fuzzy
 msgid "_Delete Appointment"
-msgstr "Eliminar esta cita"
+msgstr "_Eliminar esta cita"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1329
-#, fuzzy
 msgid "Delete selected appointments"
-msgstr "Eliminar esta cita"
+msgstr "Eliminar a cita seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Delete This _Occurrence"
@@ -14982,7 +14971,6 @@ msgid "Delete this occurrence"
 msgstr "Eliminar esta aparición"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1341
-#, fuzzy
 msgid "Delete All Occ_urrences"
 msgstr "Eliminar _todas as aparicións"
 
@@ -15273,14 +15261,12 @@ msgid "Memo List Selector"
 msgstr "Selector de orixe de notas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:672
-#, fuzzy
 msgid "Default Memo Client"
-msgstr "Cliente de correo predefinido"
+msgstr "Cliente de recordatorios predefinido"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:673
-#, fuzzy
 msgid "Default client for memo operations"
-msgstr "Non se pode efectuar a operación."
+msgstr "Cliente predefinido para as operacións nas citas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:683
 msgid "This widget displays groups of memo lists"
@@ -15301,24 +15287,20 @@ msgid "_Delete Memo"
 msgstr "E_liminar mensaxe"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:574
-#, fuzzy
 msgid "_Find in Memo..."
-msgstr "_Buscar na mensaxe..."
+msgstr "_Buscar na cita..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:576
-#, fuzzy
 msgid "Search for text in the displayed memo"
-msgstr "Buscar texto no corpo da mensaxe mostrada"
+msgstr "Buscar texto no corpo da cita mostrada"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:595
-#, fuzzy
 msgid "D_elete Memo List"
-msgstr "E_liminar mensaxe"
+msgstr "E_liminar a lista de citas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:597
-#, fuzzy
 msgid "Delete the selected memo list"
-msgstr "Renomear o cartafol seleccionado"
+msgstr "Eliminar a lista de citas seleccionadas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:602
 msgid "_New Memo List"
@@ -15375,12 +15357,11 @@ msgstr ", %d seleccionada"
 
 #: ../modules/calendar/e-memo-shell-view.c:223
 msgid "Delete Memos"
-msgstr "E_liminar mensaxe"
+msgstr "E_liminar a mensaxe"
 
 #: ../modules/calendar/e-memo-shell-view.c:225
-#, fuzzy
 msgid "Delete Memo"
-msgstr "Delegar en"
+msgstr "Eliminar a cita"
 
 #: ../modules/calendar/e-task-shell-backend.c:322
 msgctxt "New"
@@ -15441,14 +15422,12 @@ msgid "Task List Selector"
 msgstr "Selector de orixe de tarefas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:672
-#, fuzzy
 msgid "Default Task Client"
-msgstr "Cliente de correo predefinido"
+msgstr "Cliente de tarefas predefinido"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:673
-#, fuzzy
 msgid "Default client for task operations"
-msgstr "Valor predefinido para o estado expandido do fío"
+msgstr "Cliente predefinido para a operación na tarefa"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:683
 msgid "This widget displays groups of task lists"
@@ -15481,28 +15460,24 @@ msgid "_Delete Task"
 msgstr "E_liminar"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:698
-#, fuzzy
 msgid "_Find in Task..."
-msgstr "_Buscar na mensaxe..."
+msgstr "_Buscar na tarefa..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:700
-#, fuzzy
 msgid "Search for text in the displayed task"
-msgstr "Buscar texto no corpo da mensaxe mostrada"
+msgstr "Buscar texto no corpo da tarefa mostrada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:712
 msgid "Copy..."
 msgstr "_Copiar..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:719
-#, fuzzy
 msgid "D_elete Task List"
-msgstr "Tarefas terminadas"
+msgstr "_Eliminar a lista de tarefas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:721
-#, fuzzy
 msgid "Delete the selected task list"
-msgstr "Renomear o cartafol seleccionado"
+msgstr "Eliminar a lista de tarefas seleccionada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:726
 msgid "_New Task List"
@@ -15588,9 +15563,8 @@ msgid "Delete Tasks"
 msgstr "Tarefas terminadas"
 
 #: ../modules/calendar/e-task-shell-view.c:353
-#, fuzzy
 msgid "Delete Task"
-msgstr "Delegar en"
+msgstr "Eliminar a tarefa"
 
 # (pofilter) variables: (u'translation contains variables not in original: %d',)
 #. Translators: This is only for multiple messages.
@@ -15671,10 +15645,9 @@ msgid "_Download Messages for Offline Usage"
 msgstr "_Descargar as mensaxes para o uso sen conexión"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:878
-#, fuzzy
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
-"Descargar as mensaxes para as contas ou cartafoles marcados para o modo sen "
+"Descargar as mensaxes para as contas e cartafoles marcados para o modo sen "
 "conexión"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:883
@@ -15766,10 +15739,9 @@ msgid "Empty _Trash"
 msgstr "Baleirar o _lixo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:976
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr ""
-"Eliminar permanentemente todas as mensaxes eliminadas en todos os cartafoles"
+"Eliminar permanentemente todas as mensaxes eliminadas en todas as contas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:981
 msgid "_New Label"
@@ -16467,7 +16439,7 @@ msgstr "Bogofilter non está dispoñíbel. Instáleo primeiro."
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:162
 #, c-format
 msgid "Error occurred while spawning %s: %s."
-msgstr "Ocorreu un erro ao iniciar %s: %s."
+msgstr "Produciuse un erro ao iniciar %s: %s."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:190
 #, c-format
@@ -16482,7 +16454,8 @@ msgstr "Interrompeuse a espera polo proceso fillo Bogofilter; terminando..."
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:215
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr "Fallou a canalización co Bogofilter; o código de erro é: %d."
+msgstr ""
+"Produciuse un fallo na canalización co Bogofilter; o código de erro é: %d."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:397
 msgid "Convert message text to _Unicode"
@@ -16520,7 +16493,7 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:200
 msgid "Given URL cannot be found."
-msgstr "O URL fornecido non se pode encontrar"
+msgstr "Non é posíbel encontrar o URL fornecido."
 
 #: ../plugins/caldav/caldav-browse-server.c:204
 #, c-format
@@ -16567,12 +16540,12 @@ msgstr "Non é posíbel localizar ningún calendario"
 #: ../plugins/caldav/caldav-browse-server.c:794
 #, c-format
 msgid "Previous attempt failed: %s"
-msgstr "O intento anterior fallou: %s"
+msgstr "Produciuse un fallo no intento anterior: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:796
 #, c-format
 msgid "Previous attempt failed with code %d"
-msgstr "O intento anterior fallou co código %d"
+msgstr "Produciuse un fallo no intento anterior co código %d"
 
 #: ../plugins/caldav/caldav-browse-server.c:799
 #, c-format
@@ -17244,7 +17217,7 @@ msgstr "Funcionalidades do Groupwise"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:1
 msgid "Message retract failed"
-msgstr "Fallou ao retirar a mensaxe"
+msgstr "Produciuse un fallo ao retirar a mensaxe"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:2
 msgid "The server did not allow the selected message to be retracted."
@@ -17600,143 +17573,142 @@ msgstr "Axuste os detalles das súas contas IMAP."
 msgid "IMAP Features"
 msgstr "Características IMAP"
 
-#: ../plugins/itip-formatter/itip-formatter.c:494
-#: ../plugins/itip-formatter/itip-formatter.c:619
+#: ../plugins/itip-formatter/itip-formatter.c:486
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Produciuse un fallo ao cargar o calendario '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:639
+#: ../plugins/itip-formatter/itip-formatter.c:652
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Unha cita no calendario '%s' entra en conflito con esta cita"
 
-#: ../plugins/itip-formatter/itip-formatter.c:675
+#: ../plugins/itip-formatter/itip-formatter.c:688
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Localizouse a cita no calendario '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:774
+#: ../plugins/itip-formatter/itip-formatter.c:787
 msgid "Unable to find any calendars"
 msgstr "Non é posíbel localizar ningún calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:781
+#: ../plugins/itip-formatter/itip-formatter.c:794
 msgid "Unable to find this meeting in any calendar"
 msgstr "Non é posíbel localizar esta cita en ningún calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:785
+#: ../plugins/itip-formatter/itip-formatter.c:798
 msgid "Unable to find this task in any task list"
 msgstr "Non é posíbel localizar esta tarefa en ningunha lista de tarefas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:802
 msgid "Unable to find this memo in any memo list"
 msgstr "Non é posíbel localizar esta nota en ningunha lista de notas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:860
+#: ../plugins/itip-formatter/itip-formatter.c:873
 msgid "Opening the calendar. Please wait.."
 msgstr "Abrindo o calendario. Agarde..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:863
+#: ../plugins/itip-formatter/itip-formatter.c:876
 msgid "Searching for an existing version of this appointment"
 msgstr "Buscando unha versión existente desta cita"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1044
+#: ../plugins/itip-formatter/itip-formatter.c:1057
 msgid "Unable to parse item"
 msgstr "Non é posíbel analizar o elemento"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1131
+#: ../plugins/itip-formatter/itip-formatter.c:1144
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Non é posíbel enviar o elemento ao calendario '%s'. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1143
+#: ../plugins/itip-formatter/itip-formatter.c:1156
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Enviado ao calendario '%s' como aceptado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1147
+#: ../plugins/itip-formatter/itip-formatter.c:1160
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Enviado ao calendario '%s' como provisional"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1152
+#: ../plugins/itip-formatter/itip-formatter.c:1165
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Enviado ao calendario '%s' como rexeitado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1157
+#: ../plugins/itip-formatter/itip-formatter.c:1170
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Enviado ao calendario '%s' como cancelado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1251
+#: ../plugins/itip-formatter/itip-formatter.c:1264
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "O organizador eliminou o delegado %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1271
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Enviouse unha notificación de cancelación ao delegado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1273
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Non foi posíbel enviar unha notificación de cancelación ao delegado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1371
+#: ../plugins/itip-formatter/itip-formatter.c:1384
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Non foi posíbel actualizar o estado de participación debido a que o estado "
 "non é válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1400
+#: ../plugins/itip-formatter/itip-formatter.c:1413
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Non é posíbel actualizar o participante. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1404
+#: ../plugins/itip-formatter/itip-formatter.c:1417
 msgid "Attendee status updated"
 msgstr "Estado de participación actualizado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1430
+#: ../plugins/itip-formatter/itip-formatter.c:1443
 msgid "Meeting information sent"
 msgstr "Información da cita enviada"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1433
+#: ../plugins/itip-formatter/itip-formatter.c:1446
 msgid "Task information sent"
 msgstr "Información da tarefa enviada"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1436
+#: ../plugins/itip-formatter/itip-formatter.c:1449
 msgid "Memo information sent"
 msgstr "Información da nota enviada"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1445
+#: ../plugins/itip-formatter/itip-formatter.c:1458
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Non é posíbel enviar información da cita: a cita non existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1448
+#: ../plugins/itip-formatter/itip-formatter.c:1461
 msgid "Unable to send task information, the task does not exist"
 msgstr "Non é posíbel enviar información da tarefa: a tarefa non existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1451
+#: ../plugins/itip-formatter/itip-formatter.c:1464
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Non é posíbel enviar información da nota: a nota non existe"
 
 #. Translators: This is a default filename for a calendar.
-#: ../plugins/itip-formatter/itip-formatter.c:1516
+#: ../plugins/itip-formatter/itip-formatter.c:1529
 msgid "calendar.ics"
 msgstr "Calendarios"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1521
+#: ../plugins/itip-formatter/itip-formatter.c:1534
 msgid "Save Calendar"
 msgstr "Calendario novo"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1574
-#: ../plugins/itip-formatter/itip-formatter.c:1585
+#: ../plugins/itip-formatter/itip-formatter.c:1587
+#: ../plugins/itip-formatter/itip-formatter.c:1598
 msgid "The calendar attached is not valid"
 msgstr "O calendario anexo non é válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1575
-#: ../plugins/itip-formatter/itip-formatter.c:1586
+#: ../plugins/itip-formatter/itip-formatter.c:1588
+#: ../plugins/itip-formatter/itip-formatter.c:1599
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17744,15 +17716,15 @@ msgstr ""
 "A mensaxe di que contén un calendario mais o calendario non é un iCalendar "
 "válido."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1626
-#: ../plugins/itip-formatter/itip-formatter.c:1654
-#: ../plugins/itip-formatter/itip-formatter.c:1760
+#: ../plugins/itip-formatter/itip-formatter.c:1639
+#: ../plugins/itip-formatter/itip-formatter.c:1667
+#: ../plugins/itip-formatter/itip-formatter.c:1773
 msgid "The item in the calendar is not valid"
 msgstr "O elemento no calendario non é válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1627
-#: ../plugins/itip-formatter/itip-formatter.c:1655
-#: ../plugins/itip-formatter/itip-formatter.c:1761
+#: ../plugins/itip-formatter/itip-formatter.c:1640
+#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1774
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17760,11 +17732,11 @@ msgstr ""
 "A mensaxe contén un calendario mais o calendario non contén eventos, tarefas "
 "nin información de dispoñibilidade"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1681
 msgid "The calendar attached contains multiple items"
 msgstr "O calendario anexo contén múltiples elementos"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1669
+#: ../plugins/itip-formatter/itip-formatter.c:1682
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17772,31 +17744,31 @@ msgstr ""
 "Para procesar todos estes elementos, debería gardarse o ficheiro e "
 "importarse o calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2434
+#: ../plugins/itip-formatter/itip-formatter.c:2447
 msgid "This meeting recurs"
 msgstr "Esta cita repítese"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2437
+#: ../plugins/itip-formatter/itip-formatter.c:2450
 msgid "This task recurs"
 msgstr "Esta tarefa repítese"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2440
+#: ../plugins/itip-formatter/itip-formatter.c:2453
 msgid "This memo recurs"
 msgstr "Esta nota repítese"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2669
+#: ../plugins/itip-formatter/itip-formatter.c:2682
 msgid "_Delete message after acting"
 msgstr "E_liminar a mensaxe despois de actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2679
-#: ../plugins/itip-formatter/itip-formatter.c:2712
+#: ../plugins/itip-formatter/itip-formatter.c:2692
+#: ../plugins/itip-formatter/itip-formatter.c:2725
 msgid "Conflict Search"
 msgstr "Buscar conflito"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2694
+#: ../plugins/itip-formatter/itip-formatter.c:2707
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccione os calendarios nos que buscar conflitos entre reunións"
 
@@ -18601,7 +18573,7 @@ msgstr "O obxecto devolto polo servidor non é válido"
 #: ../plugins/mail-to-task/mail-to-task.c:696
 #, c-format
 msgid "An error occurred during processing: %s"
-msgstr "Ocorreu un erro no proceso: %s"
+msgstr "Produciuse un erro no proceso: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:725
 #, c-format
@@ -18613,7 +18585,7 @@ msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
 msgstr ""
-"A orixe seleccionada é só de lectura, polo que non se poden crear eventos "
+"A orixe seleccionada é só de lectura, polo que non é posíbel crear eventos "
 "nela. Seleccione outra orixe."
 
 #: ../plugins/mail-to-task/mail-to-task.c:735
@@ -18621,7 +18593,7 @@ msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
 msgstr ""
-"A orixe seleccionada é só de lectura, polo que non se poden crear tarefas "
+"A orixe seleccionada é só de lectura, polo que non é posíbel crear tarefas "
 "nela. Seleccione outra orixe."
 
 #: ../plugins/mail-to-task/mail-to-task.c:738
@@ -18629,7 +18601,7 @@ msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
 msgstr ""
-"A orixe seleccionada é só de lectura, polo que non se poden crear notas "
+"A orixe seleccionada é só de lectura, polo que non é posíbel crear notas "
 "nela. Seleccione outra orixe."
 
 #: ../plugins/mail-to-task/mail-to-task.c:941
@@ -19012,7 +18984,7 @@ msgstr "Non foi posíbel abrir %s: erro descoñecido"
 #: ../plugins/publish-calendar/publish-calendar.c:230
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr "Houbo un erro ao publicar cara %s:"
+msgstr "Produciuse un erro ao publicar cara %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:232
 #, c-format
@@ -19022,7 +18994,7 @@ msgstr "Rematouse con éxito a publicación cara %s"
 #: ../plugins/publish-calendar/publish-calendar.c:276
 #, c-format
 msgid "Mount of %s failed:"
-msgstr "Ocorreu un fallo ao montar %s:"
+msgstr "Produciuse un fallo ao montar %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:596
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
@@ -19180,7 +19152,8 @@ msgstr "Interrompeuse a espera polo proceso fillo SpamAssassin; terminando..."
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:247
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr "Fallou a canalización co SpamAssassin; código de erro: %d"
+msgstr ""
+"Produciuse un fallo na canalización co SpamAssassin; código de erro: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:510
 #, c-format
@@ -19727,7 +19700,7 @@ msgid ""
 msgstr ""
 "O estilo dos botóns da xanela. Pode ser \"texto\", \"icons\", \"both\" ou "
 "\"toolbar\". Se se selecciona \"toolbar\", o estilo dos botóns será "
-"determinado pola configuración da barra de ferramentas do Gnome."
+"determinado pola configuración da barra de ferramentas do GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid ""
@@ -20093,14 +20066,12 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Enviar un informe de erro usando o Bug Buddy"
 
 #: ../shell/e-shell-window-actions.c:1582
-#, fuzzy
 msgid "GNOME Pilot _Synchronization..."
-msgstr "Sincronización con iPod"
+msgstr "_Sincronización con GNOME Pilot..."
 
 #: ../shell/e-shell-window-actions.c:1584
-#, fuzzy
 msgid "Set up GNOME Pilot configuration"
-msgstr "Definir a configuración do Pilot"
+msgstr "Definir a configuración do GNOME Pilot"
 
 #: ../shell/e-shell-window-actions.c:1589
 msgid "_Work Offline"
@@ -20529,7 +20500,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:18
 msgid "Upgrade from previous version failed:"
-msgstr "A actualización desde a versión anterior fallou: {0}"
+msgstr "Produciuse un fallo ao actualizar desde a versión anterior: {0}"
 
 #: ../shell/shell.error.xml.h:19
 msgid ""
