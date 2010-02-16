@@ -207,7 +207,7 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path;
-	gboolean is_store;
+	gboolean is_store, need_add_node;
 
 	/* check that we haven't been destroyed */
 	g_return_if_fail (GTK_IS_TREE_VIEW (m->folder_tree));
@@ -247,6 +247,8 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	/* get the first child (which will be a dummy node) */
 	gtk_tree_model_iter_children (model, &iter, &root);
 
+	need_add_node = TRUE;
+
 	/* Traverse to the last valid iter, or the "Loading..." node */
 	do {
 		gboolean is_store_node = FALSE, is_folder_node = FALSE;
@@ -256,8 +258,11 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 		gtk_tree_model_get (model, &iter, COL_BOOL_IS_STORE, &is_store_node, COL_BOOL_IS_FOLDER, &is_folder_node, -1);
 
 		/* stop on a "Loading..." node */
-		if (!is_store_node && !is_folder_node)
+		if (!is_store_node && !is_folder_node) {
+			/* remember it found a "Loading..." node and overwrite or remove it later */
+			need_add_node = FALSE;
 			break;
+		}
 
 	} while (gtk_tree_model_iter_next (model, &iter));
 
@@ -274,7 +279,8 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 	if (fi == NULL) {
 		/* no children afterall... remove the "Loading..." placeholder node */
-		gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
+		if (!need_add_node)
+			gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 
 		if (is_store) {
 			path = gtk_tree_model_get_path (model, &root);
@@ -286,16 +292,22 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 		gint fully_loaded = (m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? TRUE : FALSE;
 
 		do {
-			gboolean known = g_hash_table_lookup (si->full_hash, fi->full_name) != NULL;
+			if (g_hash_table_lookup (si->full_hash, fi->full_name) == NULL) {
+				if (need_add_node)
+					gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
+				need_add_node = TRUE;
 
-			if (!known)
 				em_folder_tree_model_set_folder_info (
 					EM_FOLDER_TREE_MODEL (model),
 					&iter, si, fi, fully_loaded);
+			}
 
-			if ((fi = fi->next) != NULL && !known)
-				gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
+			fi = fi->next;
 		} while (fi != NULL);
+
+		/* all children are known, remove the "Loading..." node */
+		if (!need_add_node)
+			gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 	}
 
 	gtk_tree_store_set (
@@ -578,7 +590,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		COL_STRING_DISPLAY_NAME, &old_name,
 		COL_STRING_FULL_NAME, &old_full_name, -1);
 
-	if (g_strcmp0 (new_name, old_name) == 0)
+	if (!old_name || !old_full_name || g_strcmp0 (new_name, old_name) == 0)
 		goto exit;
 
 	/* Check for invalid characters. */
