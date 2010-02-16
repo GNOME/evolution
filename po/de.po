@@ -3083,7 +3083,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:119
 msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
-"Sollen Zeiten im 24-Stunden- und nicht im »AM/PM«-Format angezeigt werden?"
+"Sollen Zeiten im 24-Stunden- und nicht im 12-Stunden-Format angezeigt werden?"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:120
 msgid "Whether to show timezone field in the event/meeting editor"
@@ -3638,7 +3638,7 @@ msgstr "Arbeitstage:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
 msgid "_12 hour (AM/PM)"
-msgstr "_12 Stunden (am/pm)"
+msgstr "_12 Stunden"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 msgid "_24 hour"
