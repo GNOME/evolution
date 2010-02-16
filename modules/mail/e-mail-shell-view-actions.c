@@ -983,6 +983,8 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_label_new_cb) },
 
+	/* Translators: "None" is used in the message label context menu.
+	 *              It removes all labels from the selected messages. */
 	{ "mail-label-none",
 	  NULL,
 	  N_("N_one"),

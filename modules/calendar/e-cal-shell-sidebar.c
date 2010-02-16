@@ -155,6 +155,11 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
 	uri = e_cal_get_uri (client);
 	uri_no_passwd = get_uri_without_password (uri);
 
+	/* Translators: This string is displayed in a message dialog when
+	 *              our connection to the calendar service detects an
+	 *              out-of-band error.  The first string is a URI for
+	 *              the source of the error, the second string is the
+	 *              error message. */
 	dialog = gtk_message_dialog_new (
 		GTK_WINDOW (shell_window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -941,6 +946,7 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	e_source_selector_select_source (selector, source);
 
 	uri = e_cal_get_uri (client);
+	/* Translators: The string field is a URI. */
 	message = g_strdup_printf (_("Opening calendar at %s"), uri);
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
 	g_free (message);
