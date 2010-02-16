@@ -232,8 +232,11 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	priv->ui_manager = gtk_ui_manager_new ();
 	priv->loaded_views = loaded_views;
-	priv->active_view = "unknown";
 	priv->signal_handler_ids = signal_handler_ids;
+
+	/* XXX This kind of violates the shell window being unaware
+	 *     of specific shell views, but we need a sane fallback. */
+	priv->active_view = "mail";
 
 	e_shell_window_add_action_group (shell_window, "shell");
 	e_shell_window_add_action_group (shell_window, "gal-view");
