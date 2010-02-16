@@ -536,22 +536,11 @@ e_alert_new_array(const gchar *tag, GPtrArray *args)
 static void
 e_alert_append_text_escaped (GString *out, const gchar *text)
 {
-	gchar c;
+	gchar *markup;
 
-	while ((c=*text++)) {
-		if (c == '<')
-			g_string_append(out, "&lt;");
-		else if (c == '>')
-			g_string_append(out, "&gt;");
-		else if (c == '"')
-			g_string_append(out, "&quot;");
-		else if (c == '\'')
-			g_string_append(out, "&apos;");
-		else if (c == '&')
-			g_string_append(out, "&amp;");
-		else
-			g_string_append_c(out, c);
-	}
+	markup = g_markup_escape_text (text, -1);
+	g_string_append (out, markup);
+	g_free (markup);
 }
 
 static void
@@ -625,7 +614,7 @@ e_alert_get_primary_text (EAlert *alert)
 		if (alert->priv->definition->primary) {
 			e_alert_format_string (formatted,
 					       alert->priv->definition->primary,
-					       alert->priv->args, FALSE);
+					       alert->priv->args, TRUE);
 		} else {
 			gchar *title = e_alert_get_title (alert);
 			g_string_append (formatted, title);
