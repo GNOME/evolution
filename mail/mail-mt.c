@@ -939,9 +939,9 @@ op_status_exec (struct _op_status_msg *m)
 			return;
 		}
 	} else if (data->activity != NULL) {
-		g_mutex_unlock (mail_msg_lock);
 		e_activity_set_primary_text (data->activity, out);
 		e_activity_set_percent (data->activity, pc / 100.0);
+		g_mutex_unlock (mail_msg_lock);
 	} else {
 		g_mutex_unlock (mail_msg_lock);
 	}
