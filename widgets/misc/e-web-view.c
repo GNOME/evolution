@@ -289,7 +289,7 @@ action_mailto_copy_cb (GtkAction *action,
 
 	inet_addr = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
-	text = camel_address_encode (CAMEL_ADDRESS (inet_addr));
+	text = camel_address_format (CAMEL_ADDRESS (inet_addr));
 	if (text == NULL || *text == '\0')
 		text = g_strdup (uri + strlen ("mailto:"));
 
