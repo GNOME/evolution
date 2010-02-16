@@ -36,6 +36,7 @@ typedef struct _AutosaveState AutosaveState;
 struct _AutosaveState {
 	GFile *file;
 	gboolean enabled;
+	gboolean error_shown;
 };
 
 static GList *autosave_registry;
@@ -72,8 +73,7 @@ composer_autosave_state_new (void)
 {
 	AutosaveState *state;
 
-	state = g_slice_new (AutosaveState);
-	state->file = NULL;
+	state = g_slice_new0 (AutosaveState);
 	state->enabled = TRUE;
 
 	return state;
@@ -122,15 +122,35 @@ static void
 composer_autosave_finish_cb (EMsgComposer *composer,
                              GAsyncResult *result)
 {
+	AutosaveState *state;
 	GError *error = NULL;
+
+	state = g_object_get_data (G_OBJECT (composer), "autosave");
+	g_return_if_fail (state != NULL);
 
 	e_composer_autosave_snapshot_finish (composer, result, &error);
 
 	if (error != NULL) {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (composer),
-			"mail-composer:no-autosave",
-			"", error->message, NULL);
+		gchar *basename;
+
+		if (G_IS_FILE (state->file))
+			basename = g_file_get_basename (state->file);
+		else
+			basename = g_strdup (" ");
+
+		/* Only show one error dialog at a
+		 * time to avoid cascading dialogs. */
+		if (!state->error_shown) {
+			state->error_shown = TRUE;
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (composer),
+				"mail-composer:no-autosave",
+				basename, error->message, NULL);
+			state->error_shown = FALSE;
+		} else
+			g_warning ("%s: %s", basename, error->message);
+
+		g_free (basename);
 		g_error_free (error);
 	}
 }
@@ -147,7 +167,7 @@ composer_autosave_foreach (EMsgComposer *composer)
 			composer_autosave_finish_cb, NULL);
 }
 
-static gint
+static gboolean
 composer_autosave_timeout (void)
 {
 	g_list_foreach (
