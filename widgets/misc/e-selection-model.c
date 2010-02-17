@@ -614,6 +614,7 @@ e_selection_model_key_press      (ESelectionModel *selection,
 			if (row == -1)
 				break;
 
+			e_selection_model_toggle_single_row (selection, row);
 			g_signal_emit(selection,
 				      e_selection_model_signals[CURSOR_ACTIVATED], 0,
 				      row, col);
