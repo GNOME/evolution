@@ -52,9 +52,11 @@ org_gnome_copy_tool_copy_address(gpointer ep, EMPopupTargetURI *t)
 		const gchar *tmp;
 
 		curl = camel_url_new(t->uri, NULL);
-		camel_address_decode((CamelAddress *)cia, curl->path);
-		/* should it perhaps use address format? */
-		addr = camel_address_encode((CamelAddress *)cia);
+		if (camel_address_decode ((CamelAddress *) cia, curl->path) == -1) {
+			camel_object_unref (cia);
+			return;
+		}
+		addr = camel_address_format ((CamelAddress *) cia);
 		tmp = addr && addr[0] ? addr : t->uri + 7;
 
 		clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
