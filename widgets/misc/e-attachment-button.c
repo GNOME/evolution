@@ -41,6 +41,7 @@ struct _EAttachmentButtonPrivate {
 	GtkWidget *expand_button;
 	GtkWidget *toggle_button;
 	GtkWidget *cell_view;
+	GtkWidget *popup_menu;
 
 	guint expandable : 1;
 	guint expanded   : 1;
@@ -274,17 +275,21 @@ static void
 attachment_button_set_view (EAttachmentButton *button,
                             EAttachmentView *view)
 {
-	GtkWidget *menu;
+	GtkWidget *popup_menu;
 
 	g_return_if_fail (button->priv->view == NULL);
 
 	button->priv->view = g_object_ref (view);
 
-	menu = e_attachment_view_get_popup_menu (view);
+	popup_menu = e_attachment_view_get_popup_menu (view);
 
 	g_signal_connect_swapped (
-		menu, "deactivate",
+		popup_menu, "deactivate",
 		G_CALLBACK (attachment_button_menu_deactivate_cb), button);
+
+	/* Keep a reference to the popup menu so we can
+	 * disconnect the signal handler in dispose(). */
+	button->priv->popup_menu = g_object_ref (popup_menu);
 }
 
 static void
@@ -394,6 +399,14 @@ attachment_button_dispose (GObject *object)
 	if (priv->cell_view != NULL) {
 		g_object_unref (priv->cell_view);
 		priv->cell_view = NULL;
+	}
+
+	if (priv->popup_menu != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->popup_menu, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->popup_menu);
+		priv->popup_menu = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
