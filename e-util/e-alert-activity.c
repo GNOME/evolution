@@ -113,8 +113,8 @@ alert_activity_constructed (GObject *object)
 	message_dialog = e_alert_activity_get_message_dialog (alert_activity);
 
 	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (message_dialog));
-	primary_text = e_alert_get_primary_text (alert);
-	secondary_text = e_alert_get_secondary_text (alert);
+	primary_text = e_alert_get_primary_text (alert, FALSE);
+	secondary_text = e_alert_get_secondary_text (alert, FALSE);
 	g_object_unref (alert);
 
 	activity = E_ACTIVITY (alert_activity);

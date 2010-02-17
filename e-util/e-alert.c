@@ -589,58 +589,70 @@ e_alert_get_default_response (EAlert *alert)
 }
 
 gchar *
-e_alert_get_title (EAlert *alert)
+e_alert_get_title (EAlert *alert,
+                   gboolean escaped)
 {
 	GString *formatted;
+
 	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 
 	formatted = g_string_new ("");
-	if (alert->priv->definition->title) {
-		e_alert_format_string (formatted,
-				       alert->priv->definition->title,
-				       alert->priv->args, FALSE);
-	}
+
+	if (alert->priv->definition->title != NULL)
+		e_alert_format_string (
+			formatted, alert->priv->definition->title,
+			alert->priv->args, escaped);
+
 	return g_string_free (formatted, FALSE);
 }
 
 gchar *
-e_alert_get_primary_text (EAlert *alert)
+e_alert_get_primary_text (EAlert *alert,
+                          gboolean escaped)
 {
 	GString *formatted;
+
 	g_return_val_if_fail (alert && alert->priv, NULL);
 
 	formatted = g_string_new ("");
-	if (alert->priv->definition)
-		if (alert->priv->definition->primary) {
-			e_alert_format_string (formatted,
-					       alert->priv->definition->primary,
-					       alert->priv->args, TRUE);
+
+	if (alert->priv->definition != NULL)
+		if (alert->priv->definition->primary != NULL) {
+			e_alert_format_string (
+				formatted, alert->priv->definition->primary,
+				alert->priv->args, escaped);
 		} else {
-			gchar *title = e_alert_get_title (alert);
+			gchar *title;
+
+			title = e_alert_get_title (alert, escaped);
 			g_string_append (formatted, title);
 			g_free (title);
 		}
 	else {
-		g_string_append_printf(formatted,
-				       _("Internal error, unknown error '%s' requested"),
-				       alert->priv->tag);
+		g_string_append_printf(
+			formatted,
+			_("Internal error, unknown error '%s' requested"),
+			alert->priv->tag);
 	}
 
 	return g_string_free (formatted, FALSE);
 }
 
 gchar *
-e_alert_get_secondary_text (EAlert *alert)
+e_alert_get_secondary_text (EAlert *alert,
+                            gboolean escaped)
 {
 	GString *formatted;
+
 	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 
 	formatted = g_string_new ("");
-	if (alert->priv->definition->secondary) {
-		e_alert_format_string (formatted,
-				       alert->priv->definition->secondary,
-				       alert->priv->args, TRUE);
-	}
+
+	if (alert->priv->definition->secondary != NULL)
+		e_alert_format_string (
+			formatted, alert->priv->definition->secondary,
+			alert->priv->args, escaped);
+
 	return g_string_free (formatted, FALSE);
 }
 

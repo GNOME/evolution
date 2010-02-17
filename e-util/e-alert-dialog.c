@@ -193,18 +193,18 @@ e_alert_dialog_constructed (GObject *obj)
 	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.0);
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 12);
 
-	title = e_alert_get_title (alert);
+	title = e_alert_get_title (alert, FALSE);
 	gtk_window_set_title((GtkWindow *)self, title);
 
 	out = g_string_new ("");
-	primary = e_alert_get_primary_text (alert);
+	primary = e_alert_get_primary_text (alert, TRUE);
 	if (primary) {
 		g_string_append_printf (out,
 					"<span weight=\"bold\" size=\"larger\">%s</span>\n\n",
 					primary);
 	}
 
-	secondary = e_alert_get_secondary_text (alert);
+	secondary = e_alert_get_secondary_text (alert, TRUE);
 	if (secondary) {
 		g_string_append (out, secondary);
 	}
