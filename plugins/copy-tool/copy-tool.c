@@ -52,10 +52,7 @@ org_gnome_copy_tool_copy_address(gpointer ep, EMPopupTargetURI *t)
 		const gchar *tmp;
 
 		curl = camel_url_new(t->uri, NULL);
-		if (camel_address_decode ((CamelAddress *) cia, curl->path) == -1) {
-			camel_object_unref (cia);
-			return;
-		}
+		camel_address_decode ((CamelAddress *) cia, curl->path);
 		addr = camel_address_format ((CamelAddress *) cia);
 		tmp = addr && addr[0] ? addr : t->uri + 7;
 
