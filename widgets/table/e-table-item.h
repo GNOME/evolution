@@ -168,7 +168,7 @@ typedef struct {
 	void        (*double_click)     (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	gint        (*right_click)      (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	gint        (*click)            (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gint        (*key_press)        (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gboolean    (*key_press)        (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	gint        (*start_drag)       (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	void        (*style_set)        (ETableItem *eti, GtkStyle *previous_style);
 	void        (*selection_model_removed)    (ETableItem *eti, ESelectionModel *selection);

@@ -66,7 +66,7 @@ typedef struct {
 	void        (*double_click)       (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
 	gint        (*right_click)        (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
 	gint        (*click)              (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
-	gint        (*key_press)          (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gboolean    (*key_press)          (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
 	gint        (*start_drag)         (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
 	gint        (*state_change)       (ETree *et);
 	gint        (*white_space_event)  (ETree *et, GdkEvent *event);

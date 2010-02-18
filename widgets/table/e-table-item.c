@@ -2964,9 +2964,9 @@ eti_class_init (ETableItemClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, key_press),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [STYLE_SET] =

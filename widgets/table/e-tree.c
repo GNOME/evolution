@@ -3201,9 +3201,9 @@ e_tree_class_init (ETreeClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, key_press),
-			      NULL, NULL,
-			      e_marshal_INT__INT_POINTER_INT_BOXED,
-			      G_TYPE_INT, 4, G_TYPE_INT, G_TYPE_POINTER,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
+			      G_TYPE_BOOLEAN, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [START_DRAG] =

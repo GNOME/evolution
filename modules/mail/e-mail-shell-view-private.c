@@ -179,7 +179,7 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 	return TRUE;
 }
 
-static gint
+static gboolean
 mail_shell_view_message_list_key_press_cb (EMailShellView *mail_shell_view,
                                            gint row,
                                            ETreePath path,
