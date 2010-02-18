@@ -2167,55 +2167,6 @@ em_utils_generate_account_hash (void)
 }
 
 EAccount *
-em_utils_guess_account_with_recipients (CamelMimeMessage *message,
-                                        CamelFolder *folder)
-{
-	GHashTable *account_hash = NULL;
-	EAccount *account = NULL;
-	GList *iter, *recipients = NULL;
-	const CamelInternetAddress *addr;
-	const gchar *type;
-
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	account = em_utils_guess_account (message, folder);
-	if (account != NULL)
-		return account;
-
-	type = CAMEL_RECIPIENT_TYPE_TO;
-	addr = camel_mime_message_get_recipients (message, type);
-	if (addr != NULL)
-		recipients = g_list_append (recipients, (gpointer) addr);
-
-	type = CAMEL_RECIPIENT_TYPE_CC;
-	addr = camel_mime_message_get_recipients (message, type);
-	if (addr != NULL)
-		recipients = g_list_append (recipients, (gpointer) addr);
-
-	/* finally recipient (to/cc) in account table */
-	account_hash = em_utils_generate_account_hash ();
-	for (iter = recipients; iter == NULL; iter = iter->next) {
-		const gchar *tmp;
-		gint ii = 0;
-
-		addr = (CamelInternetAddress *) iter->data;
-
-		/* XXX Is this necessary? */
-		if (addr == NULL)
-			continue;
-
-		while (camel_internet_address_get (addr, ii++, NULL, &tmp)) {
-			account = g_hash_table_lookup (account_hash, tmp);
-			if (account != NULL && account->enabled)
-				break;
-		}
-	}
-	g_hash_table_destroy (account_hash);
-
-	return account;
-}
-
-EAccount *
 em_utils_guess_account (CamelMimeMessage *message,
                         CamelFolder *folder)
 {
@@ -2238,6 +2189,98 @@ em_utils_guess_account (CamelMimeMessage *message,
 	/* then message source */
 	if (account == NULL)
 		account = guess_account_from_message (message);
+
+	return account;
+}
+
+EAccount *
+em_utils_guess_account_with_recipients (CamelMimeMessage *message,
+                                        CamelFolder *folder)
+{
+	EAccount *account = NULL;
+	EAccountList *account_list;
+	GHashTable *recipients;
+	EIterator *iter;
+	const CamelInternetAddress *addr;
+	const gchar *type;
+	const gchar *key;
+
+	/* This policy is subject to debate and tweaking,
+	 * but please also document the rational here. */
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	/* Build a set of email addresses in which to test for membership.
+	 * Only the keys matter here; the values just need to be non-NULL. */
+	recipients = g_hash_table_new (g_str_hash, g_str_equal);
+
+	type = CAMEL_RECIPIENT_TYPE_TO;
+	addr = camel_mime_message_get_recipients (message, type);
+	if (addr != NULL) {
+		gint index = 0;
+
+		while (camel_internet_address_get (addr, index++, NULL, &key))
+			g_hash_table_insert (
+				recipients, (gpointer) key,
+				GINT_TO_POINTER (1));
+	}
+
+	type = CAMEL_RECIPIENT_TYPE_CC;
+	addr = camel_mime_message_get_recipients (message, type);
+	if (addr != NULL) {
+		gint index = 0;
+
+		while (camel_internet_address_get (addr, index++, NULL, &key))
+			g_hash_table_insert (
+				recipients, (gpointer) key,
+				GINT_TO_POINTER (1));
+	}
+
+	/* First Preference: We were given a folder that maps to an
+	 * enabled account, and that account's email address appears
+	 * in the list of To: or Cc: recipients. */
+
+	if (folder != NULL)
+		account = guess_account_from_folder (folder);
+
+	if (account == NULL || !account->enabled)
+		goto second_preference;
+
+	if ((key = account->id->address) == NULL)
+		goto second_preference;
+
+	if (g_hash_table_lookup (recipients, key) != NULL)
+		goto exit;
+
+second_preference:
+
+	/* Second Preference: Choose any enabled account whose email
+	 * address appears in the list to To: or Cc: recipients. */
+
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator (E_LIST (account_list));
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		e_iterator_next (iter);
+
+		if (account == NULL || !account->enabled)
+			continue;
+
+		if ((key = account->id->address) == NULL)
+			continue;
+
+		if (g_hash_table_lookup (recipients, key) != NULL) {
+			g_object_unref (iter);
+			goto exit;
+		}
+	}
+	g_object_unref (iter);
+
+	/* Last Preference: Defer to em_utils_guess_account(). */
+	account = em_utils_guess_account (message, folder);
+
+exit:
+	g_hash_table_destroy (recipients);
 
 	return account;
 }
