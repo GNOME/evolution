@@ -2091,16 +2091,31 @@ em_utils_url_unescape_amp (const gchar *url)
 }
 
 static EAccount *
-guess_account_folder (CamelFolder *folder)
+guess_account_from_folder (CamelFolder *folder)
 {
+	CamelService *service;
 	EAccount *account;
-	gchar *tmp;
+	gchar *source_url;
 
-	tmp = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
-	account = mail_config_get_account_by_source_url (tmp);
-	g_free (tmp);
+	service = CAMEL_SERVICE (folder->parent_store);
+
+	source_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
+	account = mail_config_get_account_by_source_url (source_url);
+	g_free (source_url);
 
 	return account;
+}
+
+static EAccount *
+guess_account_from_message (CamelMimeMessage *message)
+{
+	const gchar *source_url;
+
+	source_url = camel_mime_message_get_source (message);
+	if (source_url == NULL)
+		return NULL;
+
+	return mail_config_get_account_by_source_url (source_url);
 }
 
 GHashTable *
@@ -2152,65 +2167,77 @@ em_utils_generate_account_hash (void)
 }
 
 EAccount *
-em_utils_guess_account_with_recipients (CamelMimeMessage *message, CamelFolder *folder)
+em_utils_guess_account_with_recipients (CamelMimeMessage *message,
+                                        CamelFolder *folder)
 {
 	GHashTable *account_hash = NULL;
 	EAccount *account = NULL;
-	const gchar *tmp;
-	gint i;
-	GList *l, *recipients = NULL;
+	GList *iter, *recipients = NULL;
 	const CamelInternetAddress *addr;
+	const gchar *type;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	account = em_utils_guess_account (message, folder);
-	if (account)
+	if (account != NULL)
 		return account;
-	addr = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO);
-	if (addr)
+
+	type = CAMEL_RECIPIENT_TYPE_TO;
+	addr = camel_mime_message_get_recipients (message, type);
+	if (addr != NULL)
 		recipients = g_list_append (recipients, (gpointer) addr);
-	addr = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC);
-	if (addr)
+
+	type = CAMEL_RECIPIENT_TYPE_CC;
+	addr = camel_mime_message_get_recipients (message, type);
+	if (addr != NULL)
 		recipients = g_list_append (recipients, (gpointer) addr);
 
 	/* finally recipient (to/cc) in account table */
 	account_hash = em_utils_generate_account_hash ();
-	for (l = recipients; l == NULL; l = l->next) {
-		const CamelInternetAddress *to;
+	for (iter = recipients; iter == NULL; iter = iter->next) {
+		const gchar *tmp;
+		gint ii = 0;
 
-		to = (CamelInternetAddress*)l->data;
-		if (to) {
-			for (i = 0; camel_internet_address_get(to, i, NULL, &tmp); i++) {
-				account = g_hash_table_lookup(account_hash, tmp);
-				if (account && account->enabled)
-					break;
-			}
+		addr = (CamelInternetAddress *) iter->data;
+
+		/* XXX Is this necessary? */
+		if (addr == NULL)
+			continue;
+
+		while (camel_internet_address_get (addr, ii++, NULL, &tmp)) {
+			account = g_hash_table_lookup (account_hash, tmp);
+			if (account != NULL && account->enabled)
+				break;
 		}
 	}
-	g_hash_table_destroy(account_hash);
+	g_hash_table_destroy (account_hash);
 
 	return account;
 }
 
 EAccount *
-em_utils_guess_account (CamelMimeMessage *message, CamelFolder *folder)
+em_utils_guess_account (CamelMimeMessage *message,
+                        CamelFolder *folder)
 {
 	EAccount *account = NULL;
-	const gchar *tmp;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	if (folder != NULL)
+		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	/* check for newsgroup header */
-	if (folder
-	    && camel_medium_get_header ((CamelMedium *)message, "Newsgroups")
-	    && (account = guess_account_folder (folder)))
-		return account;
+	if (folder != NULL
+	    && camel_medium_get_header (CAMEL_MEDIUM (message), "Newsgroups"))
+		account = guess_account_from_folder (folder);
 
 	/* check for source folder */
-	if (folder)
-		account = guess_account_folder (folder);
+	if (account == NULL && folder != NULL)
+		account = guess_account_from_folder (folder);
 
 	/* then message source */
-	if (account == NULL
-	    && (tmp = camel_mime_message_get_source (message))) {
-		account = mail_config_get_account_by_source_url (tmp);
-	}
+	if (account == NULL)
+		account = guess_account_from_message (message);
 
 	return account;
 }
