@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2009-12-14 18:00+0000\n"
-"PO-Revision-Date: 2010-01-29 14:56+0100\n"
+"POT-Creation-Date: 2010-02-04 19:19+0000\n"
+"PO-Revision-Date: 2010-02-12 17:03+0100\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,25 +23,18 @@ msgstr "@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:455(None)
-#| msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgid "@@image: 'figures/evo_mereceive_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_mereceive_a.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:576(None)
-#| msgid ""
-#| "@@image: 'figures/evo_exchng_mapi.png'; "
-#| "md5=9db32b54e61860f405bf574c6d884bbe"
 msgid "@@image: 'figures/evo_exchng_mapi.png'; md5=e994b432c31237e2dc8b5ffaabbd2962"
 msgstr "@@image: 'figures/evo_exchng_mapi.png'; md5=e994b432c31237e2dc8b5ffaabbd2962"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:587(None)
-#| msgid ""
-#| "@@image: 'figures/evo_imapreceive_a.png'; "
-#| "md5=5948a0fbc61dc3b0efa0e4229f1fbf29"
 msgid "@@image: 'figures/evo_imapreceive_a.png'; md5=abaf292ea7b663824123f1f7f171b014"
 msgstr "@@image: 'figures/evo_imapreceive_a.png'; md5=abaf292ea7b663824123f1f7f171b014"
 
@@ -109,25 +102,18 @@ msgstr "@@image: 'figures/contacts_mainwindow_a.png'; md5=41335f17f056cb0b06e3df
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1099(None)
-#| msgid ""
-#| "@@image: 'figures/evo_backup_warning.png'; "
-#| "md5=80e1ce9a9be3f660bdfbae7dd7b9488b"
 msgid "@@image: 'figures/evo_backup_warning.png'; md5=c05e6d67bae4ae0b9e7fcb9701cbdfe6"
 msgstr "@@image: 'figures/evo_backup_warning.png'; md5=c05e6d67bae4ae0b9e7fcb9701cbdfe6"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1107(None)
-#| msgid ""
-#| "@@image: 'figures/evo_backup_prgsbar.png'; "
-#| "md5=046642d35e096154508269063d672b07"
 msgid "@@image: 'figures/evo_backup_prgsbar.png'; md5=9df6295eb38525fbbfc64cb8928d7fb0"
 msgstr "@@image: 'figures/evo_backup_prgsbar.png'; md5=9df6295eb38525fbbfc64cb8928d7fb0"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1125(None)
-#| msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgid "@@image: 'figures/evo_restore.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_restore.png'; md5=THIS FILE DOESN'T EXIST"
 
@@ -140,15 +126,12 @@ msgstr "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1299(None)
-#| msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgid "@@image: 'figures/evo_mailnotification.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_mailnotification.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1309(None)
-#| msgid ""
-#| "@@image: 'figures/network_pref.png'; md5=477a6b35cd47e61b32b9aee6451ec2e1"
 msgid "@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
 msgstr "@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
 
@@ -161,15 +144,12 @@ msgstr "@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1524(None)
-#| msgid ""
-#| "@@image: 'figures/evo_newmess_a.png'; md5=7349234fd8d9d8085745b8c101e6e1ce"
 msgid "@@image: 'figures/evo_newmess_a.png'; md5=8d34b2fa682b559f7150e769e0079d17"
 msgstr "@@image: 'figures/evo_newmess_a.png'; md5=8d34b2fa682b559f7150e769e0079d17"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1582(None)
-#| msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgid "@@image: 'figures/evo_customheader.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_customheader.png'; md5=THIS FILE DOESN'T EXIST"
 
@@ -224,9 +204,6 @@ msgstr "@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3457(None)
-#| msgid ""
-#| "@@image: 'figures/evo_contacteditor_a.png'; "
-#| "md5=4f188bd5d34a9fea7d91fdf5fb943f28"
 msgid "@@image: 'figures/evo_contacteditor_a.png'; md5=fba5d6ebd22fceb554dabb0fc8c02cd3"
 msgstr "@@image: 'figures/evo_contacteditor_a.png'; md5=fba5d6ebd22fceb554dabb0fc8c02cd3"
 
@@ -251,54 +228,36 @@ msgstr "@@image: 'figures/evo_Wcal_prop_a.png'; md5=dcd10f32a1ac7cbcb44d67e1a4b7
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4001(None)
-#| msgid ""
-#| "@@image: 'figures/google_cal_view.png'; "
-#| "md5=50704b4e631ffa57879880836f464a51"
 msgid "@@image: 'figures/google_cal_view.png'; md5=e9ad85fb604b18447bcf9be09a540989"
 msgstr "@@image: 'figures/google_cal_view.png'; md5=e9ad85fb604b18447bcf9be09a540989"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4108(None)
-#| msgid ""
-#| "@@image: 'figures/evo_calender_appointmnt.png'; "
-#| "md5=730ed74addbca4b0638f03cbcde99e71"
 msgid "@@image: 'figures/evo_calender_appointmnt.png'; md5=743dd472bfd9dcda1e7f8021dda97114"
 msgstr "@@image: 'figures/evo_calender_appointmnt.png'; md5=743dd472bfd9dcda1e7f8021dda97114"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4641(None)
-#| msgid ""
-#| "@@image: 'figures/evo_cal_prop_a.png'; "
-#| "md5=f28511f098847b4fc9278ba6c54c9c3d"
 msgid "@@image: 'figures/local_ics_calendar.png'; md5=2ff81d975384c97ad1b73e8c66bc407d"
 msgstr "@@image: 'figures/local_ics_calendar.png'; md5=2ff81d975384c97ad1b73e8c66bc407d"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4960(None)
-#| msgid ""
-#| "@@image: 'figures/evo_timezone_a.png'; "
-#| "md5=4ee80aae45be18c238c25329ab5ce59a"
 msgid "@@image: 'figures/evo_memo_a.png'; md5=29e23aefd253747b3a42f182825b75bd"
 msgstr "@@image: 'figures/evo_memo_a.png'; md5=29e23aefd253747b3a42f182825b75bd"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5362(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-mail.png'; "
-#| "md5=fe7f5e7b758b0306998ec477abf790f3"
 msgid "@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
 msgstr "@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5369(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-options.png'; "
-#| "md5=c3c759f902c2584ee218dc40d6e46806"
 msgid "@@image: 'figures/exchng-rec-options.png'; md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 msgstr "@@image: 'figures/exchng-rec-options.png'; md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 
@@ -323,45 +282,30 @@ msgstr "@@image: 'figures/evo_delegate_permission_a.png'; md5=05df38ad69b20f9bd7
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5733(None)
-#| msgid ""
-#| "@@image: 'figures/mailer_preferences.png'; "
-#| "md5=ad0be84fb36edefd01851653b69b65bb"
 msgid "@@image: 'figures/folder_size_preference.png'; md5=8d9067996afa74c865417b5b9171d4c0"
 msgstr "@@image: 'figures/folder_size_preference.png'; md5=8d9067996afa74c865417b5b9171d4c0"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5737(None)
-#| msgid ""
-#| "@@image: 'figures/evo_exchng_mapi.png'; "
-#| "md5=9db32b54e61860f405bf574c6d884bbe"
 msgid "@@image: 'figures/folder_size_mapi.png'; md5=4b20ea9d82999051360f14da27e7c15d"
 msgstr "@@image: 'figures/folder_size_mapi.png'; md5=4b20ea9d82999051360f14da27e7c15d"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6060(None)
-#| msgid ""
-#| "@@image: 'figures/evo_shd_memo_a.png'; "
-#| "md5=dd7069c9f52641dd13101c1dd935feb8"
 msgid "@@image: 'figures/evo_shd_memo_a.png'; md5=9a72b7725da27ce1970592cff67f4bbd"
 msgstr "@@image: 'figures/evo_shd_memo_a.png'; md5=9a72b7725da27ce1970592cff67f4bbd"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6097(None)
-#| msgid ""
-#| "@@image: 'figures/evo_customheader.png'; "
-#| "md5=469f72793711212ce624d602e08e3a98"
 msgid "@@image: 'figures/groupwise_resend.png'; md5=697ce252ac6f3f2f4f361039818d1262"
 msgstr "@@image: 'figures/groupwise_resend.png'; md5=697ce252ac6f3f2f4f361039818d1262"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6113(None)
-#| msgid ""
-#| "@@image: 'figures/evo_sendstatus_a.png'; "
-#| "md5=36ca2211056c859eb776124bfc364705"
 msgid "@@image: 'figures/groupwise_resend_retract.png'; md5=4eac3186389940b8305cf676f9fc3ef4"
 msgstr "@@image: 'figures/groupwise_resend_retract.png'; md5=4eac3186389940b8305cf676f9fc3ef4"
 
@@ -392,33 +336,24 @@ msgstr "@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab581454
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6606(None)
-#| msgid ""
-#| "@@image: 'figures/mailer_preferences.png'; "
-#| "md5=ad0be84fb36edefd01851653b69b65bb"
 msgid "@@image: 'figures/mailer_preferences.png'; md5=d5b47aa5da56ec9b94188e0f71fc43b1"
 msgstr "@@image: 'figures/mailer_preferences.png'; md5=d5b47aa5da56ec9b94188e0f71fc43b1"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6683(None)
-#| msgid ""
-#| "@@image: 'figures/evo_crash_recovery.png'; "
-#| "md5=6bfa921910f94e5845f893a6308169a6"
 msgid "@@image: 'figures/evolution_contact_preference.png'; md5=cfa45a42e19ea3b09587f08990cf178f"
 msgstr "@@image: 'figures/evolution_contact_preference.png'; md5=cfa45a42e19ea3b09587f08990cf178f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6713(None)
-#| msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgid "@@image: 'figures/evo_imapheader_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_imapheader_a.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6808(None)
-#| msgid ""
-#| "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
 msgid "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 msgstr "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 
@@ -431,33 +366,24 @@ msgstr "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6853(None)
-#| msgid ""
-#| "@@image: 'figures/mailer_preferences.png'; "
-#| "md5=ad0be84fb36edefd01851653b69b65bb"
 msgid "@@image: 'figures/evolution_mail_preference.png'; md5=191c1e890aa1cded550c9579d1af06e9"
 msgstr "@@image: 'figures/evolution_mail_preference.png'; md5=191c1e890aa1cded550c9579d1af06e9"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6884(None)
-#| msgid ""
-#| "@@image: 'figures/evo_junk_a.png'; md5=9ea63d33ed9dae0df3a8a62a85063340"
 msgid "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 msgstr "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6988(None)
-#| msgid ""
-#| "@@image: 'figures/evo_caltasks_a.png'; "
-#| "md5=6f417a9d9081d2a5ebaeb52a32156bcf"
 msgid "@@image: 'figures/evo_caltasks_a.png'; md5=88a894d8414c9205da0a6bab34de018c"
 msgstr "@@image: 'figures/evo_caltasks_a.png'; md5=88a894d8414c9205da0a6bab34de018c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:7082(None)
-#| msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgid "@@image: 'figures/network_pref.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/network_pref.png'; md5=THIS FILE DOESN'T EXIST"
 
@@ -485,13 +411,11 @@ msgstr "2002-2009"
 #: C/evolution.xml:29(revnumber)
 #: C/evolution.xml:37(revnumber)
 #: C/evolution.xml:88(productnumber)
-#| msgid "2.8"
 msgid "2.28"
 msgstr "2.28"
 
 #: C/evolution.xml:30(date)
 #: C/evolution.xml:38(date)
-#| msgid "September 2007"
 msgid "September 2009"
 msgstr "Září 2009"
 
@@ -507,7 +431,6 @@ msgid "Radhika PC"
 msgstr "Radhika PC"
 
 #: C/evolution.xml:45(revnumber)
-#| msgid "2.24"
 msgid "2.26"
 msgstr "2.26"
 
@@ -544,7 +467,6 @@ msgid "October 5, 2006"
 msgstr "5.října 2006"
 
 #: C/evolution.xml:78(releaseinfo)
-#| msgid "This manual describes version 2.24 of Evolution"
 msgid "This manual describes version 2.28 of Evolution"
 msgstr "Tento manuál popisuje verzi 2.28 aplikace Evolution"
 
@@ -564,7 +486,6 @@ msgstr "Únor 2008"
 
 #: C/evolution.xml:90(title)
 #: C/evolution.xml:7883(para)
-#| msgid "Evolution 2.24 User Guide"
 msgid "Evolution 2.28 User Guide"
 msgstr "Uživatelská příručka k Evolution 2.28"
 
@@ -573,10 +494,6 @@ msgid "About This Guide"
 msgstr "O této příručce"
 
 #: C/evolution.xml:96(para)
-#| msgid ""
-#| "This guide describes how to use and manage <trademark>Evolution</"
-#| "trademark> 2.24 client software. This guide is intended for users and is "
-#| "divided into the following sections:"
 msgid "This guide describes how to use and manage <trademark>Evolution</trademark> 2.28 client software. This guide is intended for users and is divided into the following sections:"
 msgstr "Tato příručka popisuje, jak používat a spravovat klientský software <trademark>Evolution</trademark> 2.28. Je určená pro uživatele a rozdělená do následujících sekcí:"
 
@@ -1217,7 +1134,7 @@ msgstr "Evolution ve výchozím nastavení stahuje informace v hlavičce jako Od
 #: C/evolution.xml:437(para)
 #: C/evolution.xml:619(para)
 msgid "If you check this option, Evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition, you can download the mail for reading them offline, when you have checked this option."
-msgstr "Pokud zatrhnete tuto volbu, Evolution bude stahovat jak hlavičky tak tělo zprávy zároveň. V tomto případě zabere otevření zprávy méně času. K tomu můžete stahovat e-maily pro off-line čtení v případě, že zatrhnete tuto volbu."
+msgstr "Pokud zatrhnete tuto volbu, Evolution bude stahovat jak hlavičky tak tělo zprávy zároveň. V tomto případě zabere otevření zprávy méně času. K tomu můžete stahovat e-maily pro čtení při odpojení v případě, že zatrhnete tuto volbu."
 
 #: C/evolution.xml:440(para)
 msgid "Type your Post Office Agent SOAP port in the Post Office Agent SOAP Port field."
@@ -1518,11 +1435,11 @@ msgstr "Seznam složek vám dává seznam všech dostupných složek v jednotliv
 
 #: C/evolution.xml:880(title)
 msgid "Toolbar:"
-msgstr "Lišta nástrojů:"
+msgstr "Nástrojová lišta:"
 
 #: C/evolution.xml:881(para)
 msgid "The toolbar gives you fast and easy access to the frequently used features in each component."
-msgstr "Lišta nástrojů vám umožňuje rychlý přístup k často používaným funkcím jednotlivých komponent."
+msgstr "Nástrojová lišta vám umožňuje rychlý přístup k často používaným funkcím jednotlivých komponent."
 
 #: C/evolution.xml:884(title)
 msgid "Search Tool:"
@@ -1563,7 +1480,7 @@ msgstr "Stavový řádek:"
 
 #: C/evolution.xml:901(para)
 msgid "The status bar periodically displays a message, or tells you the progress of a task. This most often happens when you're checking or sending email. These progress queues are shown in the previous figure. The Online/Offline indicator is here, too, in the lower left of the window."
-msgstr "Stavový řádek pravidelně ukazuje zprávu nebo vám ukazuje průběh úlohy. To se nejčastěji stává, když kontrolujete nebo odesíláte poštu. Tyto průběhy jsou zobrazeny na předchozím obrázku. Indikátor online/offline režimu je zde také, v levé dolní části okna."
+msgstr "Stavový řádek pravidelně ukazuje zprávu nebo vám ukazuje průběh úlohy. To se nejčastěji stává, když kontrolujete nebo odesíláte poštu. Tyto průběhy jsou zobrazeny na předchozím obrázku. Indikátor režimu připojení/odpojení je zde také, v levé dolní části okna."
 
 #: C/evolution.xml:904(title)
 #: C/evolution.xml:1051(title)
@@ -1628,7 +1545,7 @@ msgstr "Hledat:"
 
 #: C/evolution.xml:933(para)
 msgid "Lets you search for messages, or for phrases within a message. You can also see previous searches you have made. In addition to the Search menu, there is a text entry box in the toolbar that you can use to search for messages. You can also create a search folder from a search."
-msgstr "Umožňuje vám vyhledávat zprávy nebo fráze ve zprávách. Taktéž se můžete podívat na předchozí vyhledávání, které jste provedli. Kromě nabídky Hledat, je zde ještě pole pro vložení textu v liště nástrojů, které můžete používat pro hledání zpráv. Taktéž si můžete z hledání vytvořit složku hledání."
+msgstr "Umožňuje vám vyhledávat zprávy nebo fráze ve zprávách. Taktéž se můžete podívat na předchozí vyhledávání, které jste provedli. Kromě nabídky Hledat, je zde ještě pole pro vložení textu v nástrojové liště, které můžete používat pro hledání zpráv. Taktéž si můžete z hledání vytvořit složku hledání."
 
 #: C/evolution.xml:936(title)
 msgid "Help:"
@@ -1757,11 +1674,11 @@ msgstr "Zobrazí tlačítka s popisky bez ikon."
 
 #: C/evolution.xml:978(title)
 msgid "Toolbar Style:"
-msgstr "Styl lišty nástrojů:"
+msgstr "Styl nástrojové lišty:"
 
 #: C/evolution.xml:979(para)
 msgid "Shows buttons using the desktop toolbar settings."
-msgstr "Zobrazí tlačítka využívající nastavení systémové lišty nástrojů."
+msgstr "Zobrazí tlačítka využívající nastavení systémové nástrojové lišty."
 
 #: C/evolution.xml:982(title)
 msgid "Hide Buttons:"
@@ -1842,7 +1759,7 @@ msgstr "Vlastnosti:"
 
 #: C/evolution.xml:1020(para)
 msgid "Checks the number of total and unread messages in a folder, and, for remote folders, lets you select whether to copy the folder to your local system for offline operation."
-msgstr "Kontroluje počet všech zpráv a nepřečtených zpráv ve složce a ve vzdálených složkách vám umožňuje vybrat, zda kopírovat složku do lokálního systému pro offline operace."
+msgstr "Kontroluje počet všech zpráv a nepřečtených zpráv ve složce a ve vzdálených složkách vám umožňuje vybrat, zda kopírovat složku do lokálního systému pro operace při odpojení."
 
 #: C/evolution.xml:1022(para)
 msgid "You can also rearrange folders and messages by dragging and dropping them."
@@ -1898,7 +1815,7 @@ msgstr "Stejně jako u složek můžete kliknout pravým tlačítkem na zprávy 
 
 #: C/evolution.xml:1056(para)
 msgid "Most of the email-related actions you want to perform are listed in the Message menu and Folder menu in the menu bar. The most frequently used ones, like Reply and Forward, also appear as buttons in the toolbar. Most of them are also located in the right-click menu and as keyboard shortcuts."
-msgstr "Většina akcí týkajících se pošty, které chcete provádět, je v nabídce Zpráva a Složka v liště nabídky. Ty nejpoužívanější jako Odpovědět a Přeposlat se nachází také jako tlačítka na liště nástrojů. Většina z nich je také umístěná v kontextové nabídce a jako klávesové zkratky."
+msgstr "Většina akcí týkajících se pošty, které chcete provádět, je v nabídce Zpráva a Složka v liště nabídky. Ty nejpoužívanější jako Odpovědět a Přeposlat se nachází také jako tlačítka na nástrojové liště. Většina z nich je také umístěná v kontextové nabídce a jako klávesové zkratky."
 
 #: C/evolution.xml:1057(para)
 msgid "For an in-depth guide to the email capabilities of Evolution, read <link linkend=\"usage-mail\">Sending and Receiving Email</link>."
@@ -1962,7 +1879,7 @@ msgstr "Seznam kontaktů"
 
 #: C/evolution.xml:1086(para)
 msgid "The largest section of the contacts display shows a list of individual contacts. You can also search the contacts in the same way that you search email folders, using the search tool on the right side of the toolbar."
-msgstr "Největší část kontaktů zobrazuje seznam jednotlivé kontakty. Můžete také vyhledávat kontakty stejným způsobem jako e-maily, pomocí vyhledávacího nástroje v pravé části lišty nástrojů. "
+msgstr "Největší část kontaktů zobrazuje seznam jednotlivé kontakty. Můžete také vyhledávat kontakty stejným způsobem jako e-maily, pomocí vyhledávacího nástroje v pravé části nástrojové lišty. "
 
 #: C/evolution.xml:1087(para)
 msgid "For detailed instructions on how to use the address book, read <link linkend=\"usage-contact\">Evolution Contacts: the Address Book</link>."
@@ -2047,7 +1964,7 @@ msgstr "evolution --offline"
 
 #: C/evolution.xml:1156(para)
 msgid "Starts Evolution in offline mode."
-msgstr "Zapne Evolution v režimu off-line."
+msgstr "Zapne Evolution v režimu odpojení."
 
 #: C/evolution.xml:1161(para)
 msgid "evolution --disable-preview"
@@ -2214,7 +2131,7 @@ msgstr "Kontrola nové pošty"
 
 #: C/evolution.xml:1288(para)
 msgid "To check your mail, click Send/Receive in the toolbar. If you haven't created any mail accounts yet, the setup assistant asks you for the information it needs to check your email. For information on creating mail accounts, see <link linkend=\"usage-mainwindow-starting\">Starting Evolution for the First Time</link>."
-msgstr "Chcete-li zkontrolovat poštu, klikněte na Odeslat/přijmout v liště nástrojů. Pokud jste dosud žádný poštovní účet nevytvořili, asistent nastavení vás požádá o informace, které potřebuje k tomu, aby mohl poštu zkontrolovat. Více informací o vytváření poštovních účtů naleznete v <link linkend=\"usage-mainwindow-starting\">Začínáme poprvé s Evolutionem</link>."
+msgstr "Chcete-li zkontrolovat poštu, klikněte na Odeslat/přijmout v nástrojové liště. Pokud jste dosud žádný poštovní účet nevytvořili, asistent nastavení vás požádá o informace, které potřebuje k tomu, aby mohl poštu zkontrolovat. Více informací o vytváření poštovních účtů naleznete v <link linkend=\"usage-mainwindow-starting\">Začínáme poprvé s Evolutionem</link>."
 
 #: C/evolution.xml:1289(para)
 msgid "If this is your first time checking mail, or you haven't asked Evolution to store your password, you are prompted for the password. Enter your password to download your email."
@@ -2249,7 +2166,6 @@ msgid "Select this option to restrict the mail notification to Inbox. With this 
 msgstr "Vyberte tuto možnost, pokud chcete upozornění na novou poštu omezit pouze na Příchozí. Povolením této možnosti budete upozorňováni na každou novou zprávu, která dorazí do složky Příchozí."
 
 #: C/evolution.xml:1305(title)
-#| msgid "New Mail Notification"
 msgid "New Message Notification For Folders"
 msgstr "Upozornění na novou poštu ve složkách"
 
@@ -2554,7 +2470,7 @@ msgstr "Mazání pošty"
 
 #: C/evolution.xml:1505(para)
 msgid "Evolution allows you to delete unwanted messages. To delete a message, select it and press the Delete key, or click the Delete button in the toolbar, or press Ctrl+D, or right-click the message, then click Delete."
-msgstr "Evolution vám umožňuje odstranit nepotřebné zprávy. Chcete-li odstranit zprávu, vyberte ji a stiskněte klávesu Delete nebo klikněte na tlačítko Odstranit v liště nástrojů, stikněte Ctrl+D, nebo klikněte pravým tlačítkem na zprávu a vyberte Odstranit."
+msgstr "Evolution vám umožňuje odstranit nepotřebné zprávy. Chcete-li odstranit zprávu, vyberte ji a stiskněte klávesu Delete nebo klikněte na tlačítko Odstranit v nástrojové liště, stikněte Ctrl+D, nebo klikněte pravým tlačítkem na zprávu a vyberte Odstranit."
 
 #: C/evolution.xml:1506(para)
 msgid "When you press Delete or click the Trash folder, your mail is not actually deleted, but is marked for deletion. Your email is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion. To show deleted messages, uncheck Hide Deleted Messages option from the View menu. You can view the messages striken off for later deletion. You can also find deleted messages in your Trash folder."
@@ -2586,7 +2502,7 @@ msgstr "Pokud jste nějakou zprávu označili pro odstranění, zrušení odstra
 
 #: C/evolution.xml:1521(para)
 msgid "You can start writing a new email message by clicking File &gt; New &gt; Mail Message, by pressing Ctrl+N when in the mail tool, or by clicking New in the toolbar."
-msgstr "Můžete začít psát zprávu kliknutím na Soubor &gt; Nový &gt; Zpráva, stisknutím Ctrl+N, když se nacházíte v poště, nebo kliknutím na Nový v liště nástrojů."
+msgstr "Můžete začít psát zprávu kliknutím na Soubor &gt; Nový &gt; Zpráva, stisknutím Ctrl+N, když se nacházíte v poště, nebo kliknutím na Nový v nástrojové liště."
 
 #: C/evolution.xml:1522(para)
 msgid "Enter an address in the To field. If you want to enter multiple email addresses, type in the addresses separated by comma. You can also use a contact list to send messages to multiple recipients. Enter a subject in the Subject field, and a message in the box at the bottom of the window. After you have written your message, click Send."
@@ -2614,7 +2530,7 @@ msgstr "Odeslání vytvořených zpráv později"
 #: C/evolution.xml:1534(link)
 #: C/evolution.xml:1617(title)
 msgid "Working Offline"
-msgstr "Práce off-line"
+msgstr "Práce při odpojení"
 
 #: C/evolution.xml:1537(link)
 #: C/evolution.xml:1660(title)
@@ -2724,7 +2640,7 @@ msgstr "Evolution normálně posílá poštu ihned, jak kliknete na Poslat. Nicm
 
 #: C/evolution.xml:1605(para)
 msgid "If you are offline when you click Send, Evolution adds your message to the Outbox queue. The next time you connect to the Internet and send or receive mail, that message is sent."
-msgstr "Pokud jste off-line a kliknete na Poslat, Evolution přidá vaši zprávu do řady K Odeslání. Příště, až se připojíte k internetu a dáte odeslat nebo přijmout poštu, zpráva bude odeslána."
+msgstr "Pokud jste odpojení a kliknete na Poslat, Evolution přidá vaši zprávu do řady Odeslání. Příště, až se připojíte k internetu a dáte odeslat nebo přijmout poštu, zpráva bude odeslána."
 
 #: C/evolution.xml:1608(para)
 msgid "Click File &gt; Save Draft to store your messages in the Drafts folder for later revision."
@@ -2736,15 +2652,15 @@ msgstr "Pokud dáváte přednost uložení zprávy jako textový soubor, klikně
 
 #: C/evolution.xml:1618(para)
 msgid "Offline mode helps you communicate with remote mail storage systems like <trademark class=\"registered\">GroupWise</trademark>, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect."
-msgstr "Režim off-line vám pomáhá komunikovat se vzdálenými systémy pro uložení pošty jako <trademark class=\"registered\">GroupWise</trademark>, IMAP nebo Exchange v situacích, kdy nejste pořád připojení do sítě. Evolution uchovává místní kopii jedné nebo více složek, aby vám umožnil vytvářet zprávy a ukládat je do složky K Odeslání do té doby, než budete připojeni. "
+msgstr "Režim odpojení vám pomáhá komunikovat se vzdálenými systémy pro uložení pošty jako <trademark class=\"registered\">GroupWise</trademark>, IMAP nebo Exchange v situacích, kdy nejste pořád připojení do sítě. Evolution uchovává místní kopii jedné nebo více složek, aby vám umožnil vytvářet zprávy a ukládat je do složky K Odeslání do té doby, než budete připojeni. "
 
 #: C/evolution.xml:1619(para)
 msgid "POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you go offline, Evolution downloads the unread messages from the folders you have chosen to store."
-msgstr "POP stahuje všechny zprávy do lokálního systému, ale ostatní připojení stahují pouze hlavičky a zbytek, pouze když chcete zprávu číst. Před tím, než jdete do off-line režimu, Evolution stáhne nepřečtené zprávy ze složek, které jste vybrali pro ukládání."
+msgstr "POP stahuje všechny zprávy do lokálního systému, ale ostatní připojení stahují pouze hlavičky a zbytek, pouze když chcete zprávu číst. Před tím, než jdete do režimu odpojení, Evolution stáhne nepřečtené zprávy ze složek, které jste vybrali pro ukládání."
 
 #: C/evolution.xml:1620(para)
 msgid "To mark a folder for offline use,"
-msgstr "Chcete-li zprávu označit pro použití off-line,"
+msgstr "Chcete-li zprávu označit pro použití při odpojení,"
 
 #: C/evolution.xml:1623(para)
 msgid "Right-click the folder, then click Properties."
@@ -2756,7 +2672,7 @@ msgstr "Klikněte na Zkopírovat obsah složky lokálně pro práci při odpojen
 
 #: C/evolution.xml:1629(para)
 msgid "Your connection status is shown by the small icon in the lower left corner of the Evolution main window. When you are online, it displays two connected cables. When you go offline, the cables separate."
-msgstr "Váš stav připojení je zobrazen malou ikonou vlevo dole v hlavním okně Evolutionu. Když jste on-line, zobrazuje dva spojené kabely. Když jste off-line, kabely jsou rozpojené."
+msgstr "Váš stav připojení je zobrazen malou ikonou vlevo dole v hlavním okně Evolutionu. Když jste on-line, zobrazuje dva spojené kabely. Když jste odpojení, kabely jsou rozpojené."
 
 #: C/evolution.xml:1630(para)
 msgid "To cache your selected folders and disconnect from the network,"
@@ -2809,14 +2725,13 @@ msgstr "Automatické reakce na stav sítě"
 
 #: C/evolution.xml:1655(para)
 msgid "Evolution automatically understands the network state and acts accordingly. For instance, Evolution switches to offline mode when the network goes down and automatically switches on when the network is up again. Ensure that your system has Network Manager installed on to enable this feature."
-msgstr "Evolution automaticky rozpoznává stav sítě a podle toho reaguje. Např. přepíná do řežimu off-line, když síť spadne a automaticky se vrací zpět, když síť opět funguje. Ujistěte se, že máte nainstalovaný Network Manager, aby tato funkce mohla fungovat."
+msgstr "Evolution automaticky rozpoznává stav sítě a podle toho reaguje. Např. přepíná do řežimu odpojení, když síť spadne a automaticky se vrací zpět, když síť opět funguje. Ujistěte se, že máte nainstalovaný Network Manager, aby tato funkce mohla fungovat."
 
 #: C/evolution.xml:1661(para)
 msgid "To attach a file to your email:"
 msgstr "Chcete-li připojit soubor k e-mailu:"
 
 #: C/evolution.xml:1664(para)
-#| msgid "Click the Attach button in the composer toolbar."
 msgid "Click the Attach button in the composer."
 msgstr "Klikněte na tlačítko Přidat přílohu v editoru zpráv."
 
@@ -2926,7 +2841,7 @@ msgstr "Více informací o používání e-mailu spolu se správcem kontaktů a 
 
 #: C/evolution.xml:1741(para)
 msgid "To reply to a message, select the message to reply to in the message list and click the Reply button in the toolbar, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message."
-msgstr "Chcete-li odpovědět na zprávu, klikněte na zprávu, na kterou chcete reagovat, a potom na Odpovědět v liště nástrojů nebo klikněte pravým tlačítkem ve zprávě a vyberte Odpovědět odesílateli. Tohle otevře editor zpráv. Pole Komu: a Předmět: jsou již vyplněny, můžete je avšak změnit, pokud chcete. Navíc je celý text původní zprávy vložen do zprávy nové. Je buď šedý s modrou čárou na straně (pro HTML) nebo se znakem &gt; na začátku každého řádku (v režimu prostého textu), což signalizuje, že se jedná o původní zprávu."
+msgstr "Chcete-li odpovědět na zprávu, klikněte na zprávu, na kterou chcete reagovat, a potom na Odpovědět v nástrojové liště nebo klikněte pravým tlačítkem ve zprávě a vyberte Odpovědět odesílateli. Tohle otevře editor zpráv. Pole Komu: a Předmět: jsou již vyplněny, můžete je avšak změnit, pokud chcete. Navíc je celý text původní zprávy vložen do zprávy nové. Je buď šedý s modrou čárou na straně (pro HTML) nebo se znakem &gt; na začátku každého řádku (v režimu prostého textu), což signalizuje, že se jedná o původní zprávu."
 
 #: C/evolution.xml:1742(para)
 msgid "If you're reading a message with several recipients, you can use Reply to All instead of Reply. If there are large numbers of people in the Cc: or To: fields, this can save substantial amounts of time."
@@ -3050,11 +2965,11 @@ msgstr "Chcete-li posílat všechny vaše e-maily implicitně jako HTML,  nastav
 
 #: C/evolution.xml:1836(para)
 msgid "HTML formatting tools are located in the toolbar just above the space where you actually compose the message. They also appear in the Insert and Format menus."
-msgstr "Nástroje HTML formátování jsou umístěny v liště nástrojů přímo nad prostorem, kde tvoříte zprávu. Taktéž se jsou v nabídce Vložit a Formát."
+msgstr "Nástroje HTML formátování jsou umístěny v nástrojové liště přímo nad prostorem, kde tvoříte zprávu. Taktéž se jsou v nabídce Vložit a Formát."
 
 #: C/evolution.xml:1837(para)
 msgid "The icons in the toolbar are explained in <link linkend=\"tooltip\">tool-tips</link>, which appear when you hold your mouse pointer over the buttons. The buttons fall into five categories:"
-msgstr "Ikony v liště nástrojů jsou vysvětleny v <link linkend=\"tooltip\">nástrojových tipech</link>, které se objevují, když podržíte kurzor myši nad tlačítkem. Tlačítka spadají do pěti kategorií:"
+msgstr "Ikony v nástrojové liště jsou vysvětleny v <link linkend=\"tooltip\">nástrojových tipech</link>, které se objevují, když podržíte kurzor myši nad tlačítkem. Tlačítka spadají do pěti kategorií:"
 
 #: C/evolution.xml:1839(title)
 msgid "Headers and Lists:"
@@ -3062,7 +2977,7 @@ msgstr "Záhlaví a seznamy:"
 
 #: C/evolution.xml:1840(para)
 msgid "At the left edge of the toolbar, you can choose Normal for a default text style or Header 1 through Header 6 for varying sizes of header from large (1) to tiny (6). Other styles include preformat, to use the HTML tag for preformatted blocks of text, and three types of bullet points for lists."
-msgstr "Na levé straně lišty nástrojů můžete vybrat Normální pro výchozí formátování textu nebo Header 1 až Header 6 pro různé velikost záhlaví od velkého (1) po malé (6). Ostatní styly obsahují předformátované (použití HTML značek pro předformátované bloky textu) a tři druhy odrážek pro seznamy."
+msgstr "Na levé straně nástrojové liště můžete vybrat Normální pro výchozí formátování textu nebo Header 1 až Header 6 pro různé velikost záhlaví od velkého (1) po malé (6). Ostatní styly obsahují předformátované (použití HTML značek pro předformátované bloky textu) a tři druhy odrážek pro seznamy."
 
 #: C/evolution.xml:1842(para)
 msgid "For instance, instead of using asterisks to mark a bulleted list, you can use the Bulleted List style from the style drop-down list. Evolution uses different bullet styles, and handles word wrap and multiple levels of indentation."
@@ -3333,7 +3248,7 @@ msgstr "Pro přeposlání zprávy, kterou čtete:"
 
 #: C/evolution.xml:2083(para)
 msgid "Click Forward on the toolbar."
-msgstr "Klikněte na Přeposlat v liště nástrojů."
+msgstr "Klikněte na Přeposlat v nástrojové liště."
 
 #: C/evolution.xml:2085(para)
 msgid "If you prefer to forward the message <link linkend=\"inline\">inline</link> instead of attached, click Message &gt; Forward As &gt; Inline from the menu."
@@ -3714,12 +3629,6 @@ msgid "The domain <quote><emphasis>wwwkeys.pgp.net</emphasis></quote> is assigne
 msgstr "Doména <quote><emphasis>wwwkeys.pgp.net</emphasis></quote> je přidělená více hostům v různých sítích. Nástroj gpg se zkouší připojit k jednomu z nich v aktuální síti a pokud je určitý host nedostupný, selže vypršením časového limitu."
 
 #: C/evolution.xml:2362(para)
-#| msgid ""
-#| "To avoid this, Type <command>$ host wwwkeys.pgp.net</command> in a "
-#| "terminal console and get the IP address of the hosts. You can ping each "
-#| "of them to find the one which is up and running. Now, you can replace "
-#| "wwwkeys.pgp.net in the gpg --recv-keys --keyserver wwwkeys.pgp.net keyid "
-#| "command with that explicit IP number as returned by the host utility."
 msgid "To avoid this, type <command>$ host wwwkeys.pgp.net</command> in a terminal console and get the IP address of the hosts. You can ping each of them to find the one which is up and running. Now, you can replace wwwkeys.pgp.net in the gpg --recv-keys --keyserver wwwkeys.pgp.net keyid command with that explicit IP number as returned by the host utility."
 msgstr "Abyste se tomuto vyhli, napište do terminálu <command>$ host wwwkeys.pgp.net</command> a dostanete IP adresy hostů. Můžete poslat ping na každý z nich a zjistit, který z nich běží. Nyní můžete nahradit wwwkeys.pgp.net v příkazu gpg --recv-keys --keyserver wwwkeys.pgp.net explicitním číslem IP, které vám vrátil host."
 
@@ -3927,7 +3836,10 @@ msgid "vCalendar:"
 msgstr "vCalendar:"
 
 #: C/evolution.xml:2545(para)
-msgid "A format for storing calender files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer."
+#| msgid ""
+#| "A format for storing calender files, which is generally used by "
+#| "Evolution, Microsoft Outlook, Sunbird, and Korganizer."
+msgid "A format for storing calendar files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer."
 msgstr "Formát pro uchovávání souborů kalendáře, který je obecně používán Evolutionem, Microsoft Outlookem, Sunbirdem a Korganizerem."
 
 #: C/evolution.xml:2548(title)
@@ -5138,7 +5050,7 @@ msgstr "Filtr nevyžádané pošty se umí učit, který typ pošty je v pořád
 
 #: C/evolution.xml:3386(para)
 msgid "Every filter needs to learn at the least 100 spam and 100 ham to start working. For that, you must mark each message manually by clicking the <emphasis>Not junk</emphasis> button in the toolbar to learn that it is ham. The <emphasis>Junk</emphasis> button learns a message as spam."
-msgstr "Každý filtr se potřebuje naučit aspoň 100 spamů a 100 hamů, aby začal pracovat. Proto musíte ručně označit každou zprávu kliknutím na tlačítko <emphasis>Není nevyžádané</emphasis> v liště nástrojů, aby se naučil, že jde o ham.  Tlačítko <emphasis>Nevyžádaná pošta</emphasis> naopak učí, že jde o spam. "
+msgstr "Každý filtr se potřebuje naučit aspoň 100 spamů a 100 hamů, aby začal pracovat. Proto musíte ručně označit každou zprávu kliknutím na tlačítko <emphasis>Není nevyžádané</emphasis> v nástrojové liště, aby se naučil, že jde o ham.  Tlačítko <emphasis>Nevyžádaná pošta</emphasis> naopak učí, že jde o spam. "
 
 #: C/evolution.xml:3387(para)
 msgid "To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences."
@@ -5329,7 +5241,7 @@ msgstr "Google kontakty"
 
 #: C/evolution.xml:3511(para)
 msgid "Evolution allows you to access your Google Address Book. You can view the Google contacts offline and create, modify and delete the contacts online."
-msgstr "Evolution vám umožňuje přístupovat k vašemu adresáři Google. Můžete Google kontakty prohlížet offline, vytvářet, měnit a mazat kontakty online."
+msgstr "Evolution vám umožňuje přístupovat k vašemu adresáři Google. Můžete Google kontakty prohlížet odpojeni a vytvářet, měnit a mazat kontakty připojeni."
 
 #: C/evolution.xml:3512(para)
 msgid "To configure your Google Address Book in Evolution contacts:"
@@ -5408,7 +5320,6 @@ msgid "Specify the search criteria from any of the following:"
 msgstr "Zadejte jedno z následujících kritérií:"
 
 #: C/evolution.xml:3580(para)
-#| msgid "Summary contains"
 msgid "Name contains"
 msgstr "Název obsahuje"
 
@@ -5773,7 +5684,7 @@ msgstr "Složky v síti jsou dostupné, pouze když jste k síti připojeni. Pou
 
 #: C/evolution.xml:3833(para)
 msgid "You can also mark the network folder for offline usage. To mark the folder, right-click the folder, click Properties and select Copy Folder Content Locally for Offline Operation."
-msgstr "Můžete také složku v síti označit pro offline použití. Složku označíte tak, že kliknete pravým tlačítkem na složku, vyberete Nastavení a vyberete Zkopírovat obsah adresáře lokálně pro práci při odpojení."
+msgstr "Můžete také složku v síti označit pro použití při odpojení. Složku označíte tak, že kliknete pravým tlačítkem na složku, vyberete Nastavení a vyberete Zkopírovat obsah adresáře lokálně pro práci při odpojení."
 
 #: C/evolution.xml:3836(para)
 msgid "To prevent excess network traffic, Evolution does not normally load data from the LDAP server upon opening."
@@ -5854,7 +5765,7 @@ msgstr "Události mají různé barvy podle toho, v jakém jsou kalendáři."
 
 #: C/evolution.xml:3895(para)
 msgid "The toolbar offers you five different buttons that can show you different views of your calendar."
-msgstr "Lišta nástrojů vám nabízí pět různých tlačítek, pomocí nichž můžete zobrazit různé náhledy kalendáře."
+msgstr "Nástrojová lišta vám nabízí pět různých tlačítek, pomocí nichž můžete zobrazit různé náhledy kalendáře."
 
 #: C/evolution.xml:3903(para)
 msgid "Calendar View"
@@ -5910,7 +5821,7 @@ msgstr "Můžete také vybrat vlastní rozsah dnů v malém kalendáři v postra
 
 #: C/evolution.xml:3955(para)
 msgid "The Previous and Next buttons move you forward and back in your calendar pages. If you are using a week or month view, you can move by week or month. To return to today's listing, click the Today button in the toolbar."
-msgstr "Tlačítky Předchozí a Další se pohybujeme v kalendáři dopředu a zpět. Používáte-li zobrazení po týdnech nebo měsících, budete se pohybovat po týdnech a měsích. Pro návrat na zobrazení pod dnech klikněte na tlačítko Den v liště nástrojů."
+msgstr "Tlačítky Předchozí a Další se pohybujeme v kalendáři dopředu a zpět. Používáte-li zobrazení po týdnech nebo měsících, budete se pohybovat po týdnech a měsích. Pro návrat na zobrazení pod dnech klikněte na tlačítko Den v nástrojová liště."
 
 #: C/evolution.xml:3956(para)
 msgid "To visit calendar entries for a specific date, click Go To and select the date in the dialog box that appears."
@@ -5922,7 +5833,7 @@ msgstr "Vlastnosti kalendáře"
 
 #: C/evolution.xml:3960(para)
 msgid "Evolution allows you to edit the label of your calendar, assign color, and copy content for offline use. To set your calendar properties"
-msgstr "Evolution vám umožňuje upravovat název kalendáře, přiřadit barvu a kopírovat obsah pro práci offline. Chcete-li nastavit vlastnosti kalendáře"
+msgstr "Evolution vám umožňuje upravovat název kalendáře, přiřadit barvu a kopírovat obsah pro práci při odpojení. Chcete-li nastavit vlastnosti kalendáře"
 
 #: C/evolution.xml:3963(para)
 msgid "Select the calendar from the side bar at the left."
@@ -5954,7 +5865,7 @@ msgstr "Chcete-li kalendář označit pro práci při odpojení, klikněte na Z_
 
 #: C/evolution.xml:3984(para)
 msgid "Right-click on the calendar at the left and select Mark Calendar for offline use. For more information on working offline refer <link linkend=\"usage-mail-getnsend-offline\">Working Offline</link>."
-msgstr "Klikněte pravým tlačítkem na kalendář nalevo a vyberte Zpřístupnit pro použití off-line. Více informací o práci offline naleznete v <link linkend=\"usage-mail-getnsend-offline\">Práci offline</link>. "
+msgstr "Klikněte pravým tlačítkem na kalendář nalevo a vyberte Zpřístupnit pro použití při odpojení. Více informací o práci offline naleznete v <link linkend=\"usage-mail-getnsend-offline\">Práci offline</link>. "
 
 #: C/evolution.xml:3986(para)
 msgid "To export or share or to store a calendar locally in iCal format, right click on the calendar in the calendar view at the left and select Save to Disk."
@@ -5969,7 +5880,11 @@ msgid "Weather Calendar"
 msgstr "Kalendář Weather"
 
 #: C/evolution.xml:3991(para)
-msgid "In the Properties of a Weather calendar you can specify a location for the weather calender. Click Location to select any world-wide location for the calendar."
+#| msgid ""
+#| "In the Properties of a Weather calendar you can specify a location for "
+#| "the weather calender. Click Location to select any world-wide location "
+#| "for the calendar."
+msgid "In the Properties of a Weather calendar you can specify a location for the weather calendar. Click Location to select any world-wide location for the calendar."
 msgstr "V nastavení kalendáře Weather můžete zadat umístění pro kalendář počasí. Klikněte na Místo, chcete-li pro kalendář vybrat umístění ve světě."
 
 #: C/evolution.xml:3993(para)
@@ -5981,12 +5896,8 @@ msgid "Google Calendar"
 msgstr "Kalendář Google"
 
 #: C/evolution.xml:3999(para)
-#| msgid ""
-#| "Evolution allows you to access your Google calendar. You can view the "
-#| "Google calendar offline or create, modify, and delete the calendar items "
-#| "online."
 msgid "Evolution allows you to access your Google calendar. You can view the Google calendar offline or create, modify, and delete the calendar items online. Google calendar uses the CalDAV interface."
-msgstr "Evolution vám umožňuje přistupovat k vašemu kalendáři u Googlu. Můžete Kalendář Google zobrazovat offline nebo vytvářet, měnit a mazat položky kalendáře online. Kalendář Google používá rozhraní CalDAV."
+msgstr "Evolution vám umožňuje přistupovat k vašemu kalendáři u Googlu. Můžete Kalendář Google zobrazovat odpojeni nebo vytvářet, měnit a mazat položky kalendáře připojeni. Kalendář Google používá rozhraní CalDAV."
 
 #: C/evolution.xml:4000(para)
 msgid "To integrate the Google calendar to Evolution:"
@@ -6019,7 +5930,7 @@ msgstr "Chcete-li pro kalendář nastavit barvu, klikněte na tlačítko Barva a
 
 #: C/evolution.xml:4034(para)
 msgid "If you want to view the calendar items offline, select Copy calendar content locally for offline operation check box."
-msgstr "Chcete-li prohlížet položky kalendáře offline, zaškrtněte Zkopírovat obsah kalendáře lokálně pro práci při odpojení."
+msgstr "Chcete-li prohlížet položky kalendáře odpojeni, zaškrtněte Zkopírovat obsah kalendáře lokálně pro práci při odpojení."
 
 #: C/evolution.xml:4035(para)
 msgid "If you select this option, you cannot modify or create the calendar items."
@@ -6099,9 +6010,6 @@ msgid "Click File &gt; New &gt; Appointment."
 msgstr "Klikněte na Soubor &gt; Nový &gt; Událost."
 
 #: C/evolution.xml:4099(para)
-#| msgid ""
-#| "Click Calendars on the Switcher, then click File &gt; New &gt; "
-#| "Appointment."
 msgid "Click Calendars on the Switcher, then click File, then New &gt; Appointment."
 msgstr "Klikněte na Kalendář na přepínači, potom klikněte na Soubor &gt; Nový &gt; Událost."
 
@@ -6110,7 +6018,9 @@ msgid "Double-click in a blank space on the calendar view to open an Appointment
 msgstr "Poklepejte na prázdné místo v zobrazení kalendáře a otevře se dialogové okno Událost. Čas navržený pro novou událost bude ten, na který jste poklepali."
 
 #: C/evolution.xml:4103(para)
-msgid "Select the required duration on the calender view and enter the summary."
+#| msgid ""
+#| "Select the required duration on the calender view and enter the summary."
+msgid "Select the required duration on the calendar view and enter the summary."
 msgstr "Zadejte požadovanou délku trvání v zobrazení kalendáře a vložte shrnutí."
 
 #: C/evolution.xml:4106(para)
@@ -6145,7 +6055,7 @@ msgstr "Chcete-li tuto událost vybrat jako celodenní, klikněte na Volby &gt; 
 #: C/evolution.xml:4123(para)
 #: C/evolution.xml:4283(para)
 msgid "Click the All Day Event button on the toolbar."
-msgstr "Klikněte na tlačítko Celodenní událost na liště nástrojů."
+msgstr "Klikněte na tlačítko Celodenní událost na nástrojová liště."
 
 #: C/evolution.xml:4126(para)
 #: C/evolution.xml:4286(para)
@@ -6218,7 +6128,7 @@ msgstr "(Volitelně) Napište popis do pole Popis."
 #: C/evolution.xml:4153(para)
 #: C/evolution.xml:4303(para)
 msgid "To create an alarm for this appointment, click Alarms on the toolbar, or click Options &gt; Alarms."
-msgstr "Chcete-li vytvořit alarm k této události, klikněte na Alarmy na liště nástrojů nebo klikněte na Volby &gt; Alarmy."
+msgstr "Chcete-li vytvořit alarm k této události, klikněte na Alarmy na nástrojové liště nebo klikněte na Volby &gt; Alarmy."
 
 #: C/evolution.xml:4154(para)
 #: C/evolution.xml:4210(para)
@@ -6245,7 +6155,7 @@ msgstr "(Volitelně) Chcete-li přidat přílohu, táhněte a pusťte přílohu 
 #: C/evolution.xml:4765(para)
 #: C/evolution.xml:4985(para)
 msgid "Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment."
-msgstr "Klikněte na tlačítko Příloha na liště nástrojů nebo na Vložit &gt; Přílohu a potom přílohu vyberte."
+msgstr "Klikněte na tlačítko Příloha na nástrojové liště nebo na Vložit &gt; Přílohu a potom přílohu vyberte."
 
 #: C/evolution.xml:4163(para)
 #: C/evolution.xml:4313(para)
@@ -6258,7 +6168,7 @@ msgstr "(Volitelně) Klikněte na Volby &gt; Klasifikace, potom vyberte klasifik
 #: C/evolution.xml:4166(para)
 #: C/evolution.xml:4316(para)
 msgid "(Optional) Click the Recurrence button on the toolbar."
-msgstr "(Volitelně) Klikněte na tlačítko Opakování na liště nástrojů."
+msgstr "(Volitelně) Klikněte na tlačítko Opakování na nástrojové liště."
 
 #: C/evolution.xml:4168(para)
 #: C/evolution.xml:4318(para)
@@ -6314,11 +6224,8 @@ msgid "To create a reminder:"
 msgstr "Chcete-li vytvořit připomínku:"
 
 #: C/evolution.xml:4207(para)
-#| msgid ""
-#| "To create an alarm for this appointment, click Alarms on the toolbar, or "
-#| "click Options &gt; Alarms."
 msgid "To create an alarm for this appointment, click Alarms on the toolbar, or click Options, then Alarms."
-msgstr "Chcete-li vytvořit alarm k této události, klikněte na Alarmy na liště nástrojů nebo klikněte na Volby &gt; Alarmy."
+msgstr "Chcete-li vytvořit alarm k této události, klikněte na Alarmy na nástrojové liště nebo klikněte na Volby &gt; Alarmy."
 
 #: C/evolution.xml:4213(para)
 msgid "If you have stored reminders in a local calendar, they work from the moment you log in. However, for reminders stored on any remote server like GroupWise or Exchange which requires authentication, you must run Evolution at least once after logging in. No matter where the reminders are stored, you can quit Evolution and still be reminded of an upcoming appointment."
@@ -6358,7 +6265,7 @@ msgstr "Tlačítko Opakování vám umožňuje popsat opakování událostí v r
 
 #: C/evolution.xml:4242(para)
 msgid "After you have finished settings, click the Save button in the toolbar to save and close the appointment editor window. If you want, you can alter an appointment summary in the calendar view by clicking it and typing. You can change other settings by right-clicking the appointment then choosing Open, or double-clicking the appointment."
-msgstr "Poté, co máte nastavení hotové, klikněte v liště nástrojů na tlačítko Uložit a zavřete okno pro editaci události. Pokud chcete, můžete měnit shrnutí události tak, že na ni v zobrazení kalendáře kliknete a začnete psát. Ostatní nastavení můžete měnit tak, že kliknete pravým tlačítkem na událost a vyberete Otevřít nebo na událost poklepete."
+msgstr "Poté, co máte nastavení hotové, klikněte v nástrojové liště na tlačítko Uložit a zavřete okno pro editaci události. Pokud chcete, můžete měnit shrnutí události tak, že na ni v zobrazení kalendáře kliknete a začnete psát. Ostatní nastavení můžete měnit tak, že kliknete pravým tlačítkem na událost a vyberete Otevřít nebo na událost poklepete."
 
 #: C/evolution.xml:4248(para)
 msgid "A meeting is an event you schedule for multiple people. Evolution can be used to schedule group meetings and help you manage responses to meeting requests."
@@ -6405,7 +6312,7 @@ msgstr "Klikněte na Zobrazit, chcete-li zobrazit nebo skrýt pole Typ, Funkci, 
 
 #: C/evolution.xml:4321(para)
 msgid "To query free/busy information for the attendees, click the Free/Busy button on the toolbar."
-msgstr "Chcete-li se zeptat na informace o volnu/obsazenu účastníků, klikněte v liště nástrojů na Volno/obsazeno."
+msgstr "Chcete-li se zeptat na informace o volnu/obsazenu účastníků, klikněte v nástrojové liště na Volno/obsazeno."
 
 #: C/evolution.xml:4323(para)
 msgid "Click Options &gt; Free/Busy."
@@ -6466,7 +6373,7 @@ msgstr "Pro přístup k zobrazení volno/obsazeno:"
 
 #: C/evolution.xml:4375(para)
 msgid "Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy."
-msgstr "Klikněte na tlačítko Volno/obsazeno v liště nástrojů nebo na Volby &gt; Volno/obsazeno. "
+msgstr "Klikněte na tlačítko Volno/obsazeno v nástrojové liště nebo na Volby &gt; Volno/obsazeno. "
 
 #: C/evolution.xml:4379(para)
 msgid "Adjust the meeting time, either by dragging the meeting borders or by using the Autopick buttons to choose a time automatically, then click Save and Close. Attendees on an Exchange server have the appointment updated automatically; others receive email notification of any change in plans."
@@ -6656,7 +6563,6 @@ msgid "Each contact receives a copy of the meeting invitation."
 msgstr "Každý kontakt obdrží kopii pozvánky na schůzku."
 
 #: C/evolution.xml:4609(title)
-#| msgid "Multiple Calendars, Web Calendars, and CalDAV"
 msgid "Multiple Calendars, Web Calendars and CalDAV"
 msgstr "Více kalendářů, webové kalendáře a CalDAV"
 
@@ -6681,17 +6587,14 @@ msgid "To access a local ics or iCal file in the Calendar view:"
 msgstr "Chcete-li pracovat se soubory ics nebo iCal v zobrazení Kalendáře:"
 
 #: C/evolution.xml:4620(para)
-#| msgid "Select Google from the Type drop-down list."
 msgid "Select On this computer from the Type drop-down list."
 msgstr "Jako Typ vyberte z rozbalovacího seznamu V tomto počítači."
 
 #: C/evolution.xml:4623(para)
-#| msgid "Specify a name for the Google calendar."
 msgid "In the Name field, specify a name for the local calendar."
 msgstr "Do pole Název zadejte název místního kalendáře."
 
 #: C/evolution.xml:4626(para)
-#| msgid "Select the appropriate options."
 msgid "Select customize options."
 msgstr "Vyberte volby pro přizpůsobení."
 
@@ -6700,20 +6603,14 @@ msgid "In the File name field, give ics / ical file location as the calendar sou
 msgstr "Do pole Název souboru zadejte umístění souboru ics/ical jako zdroje kalendáře."
 
 #: C/evolution.xml:4632(para)
-#| msgid "Select the desired search type from the drop-down list."
 msgid "In the Refresh field, choose refresh type from the drop-down list."
 msgstr "V poli Obnovit vyberte požadovaný typ z rozbalovacího seznamu."
 
 #: C/evolution.xml:4635(para)
-#| msgid ""
-#| "Select the required duration on the calender view and enter the summary."
 msgid "Select the Force read only option if you want the calendar read-only."
 msgstr "Vyberte volbu Vynutit pouze pro čtení, pokud chcete, aby byl kalendář pouze pro čtení."
 
 #: C/evolution.xml:4638(para)
-#| msgid ""
-#| "If you want to set a color label for the calendar, click the Color tab, "
-#| "select the desired color, then click OK."
 msgid "To set a color label for the calendar, click the Color tab, select the desired color, then click OK."
 msgstr "Chcete-li pro kalendář nastavit barvu, klikněte na tlačítko Barva a vyberte požadovanou barvu, potom klikněte na OK."
 
@@ -7066,7 +6963,6 @@ msgstr "Plánování schůzek s Volno/obsazeno"
 
 #: C/evolution.xml:5195(link)
 #: C/evolution.xml:5721(title)
-#| msgid "Evolution Exchange Features"
 msgid "Evolution MAPI Features"
 msgstr "Funkce Evolution MAPI"
 
@@ -7194,11 +7090,11 @@ msgstr "Umožňuje vám ukládat do vašeho adresáře na serveru Exchange vCard
 
 #: C/evolution.xml:5293(para)
 msgid "Work Offline (disconnected mode)"
-msgstr "Práce offline (režim při odpojení)"
+msgstr "Pracovat při odpojení (režim odpojení)"
 
 #: C/evolution.xml:5294(para)
 msgid "To mark a folder for offline usage, right-click the folder, then click Properties. Click Copy Folder Content Locally for Offline Operation. For more information see <link linkend=\"usage-mail-getnsend-offline\">Working Offline</link>."
-msgstr "Chcete-li označit složku pro použití offline, klikněte pravým tlačítkem na složku, potom na Vlastnosti. Vyberte Kopírovat obsah složky lokálně pro práci při odpojení. Více informací naleznete v části <link linkend=\"usage-mail-getnsend-offline\">Práce off-line</link>."
+msgstr "Chcete-li označit složku pro použití při odpojení, klikněte pravým tlačítkem na složku, potom na Vlastnosti. Vyberte Kopírovat obsah složky lokálně pro práci při odpojení. Více informací naleznete v části <link linkend=\"usage-mail-getnsend-offline\">Práce off-line</link>."
 
 #: C/evolution.xml:5299(para)
 msgid "Recall Message function is not available."
@@ -7673,22 +7569,18 @@ msgid "With Evolution MAPI providers, you can view the size of a selected folder
 msgstr "S poskytovateli Evolution MAPI můžete vidět velikost vybrané složky."
 
 #: C/evolution.xml:5723(para)
-#| msgid "You can view the desired items listed in the Memo view."
 msgid "You can view the folder size by using the following methods:"
 msgstr "Velikost složky můžete nechat zobrazit následujícími metodami:"
 
 #: C/evolution.xml:5726(para)
-#| msgid "Select Edit &gt; Preferences, then select Mail Accounts."
 msgid "Select Edit &gt; Preferences &gt; MAPI Account &gt; Edit."
 msgstr "Klikněte na Upravit &gt; Nastavení &gt; Účet MAPI &gt; Upravit."
 
 #: C/evolution.xml:5729(para)
-#| msgid "Click the Exchange Settings tab."
 msgid "Select the Exchange settings tab."
 msgstr "Vyberte na kartu Nastavení Exchange."
 
 #: C/evolution.xml:5732(para)
-#| msgid "Select Folder &gt; Subscriptions."
 msgid "Select Folder size."
 msgstr "Vyberte Velikost složky."
 
@@ -7925,7 +7817,11 @@ msgid "GroupWise Reminder notes are like mail messages except they are scheduled
 msgstr "Reminder Notes v GroupWise jsou jako e-mailové zprávy kromě toho, že jsou naplánovány na určitý den a objevují se pro ten den v kalendáři. Můžete použít reminder notes, chcete-li zobrazit dovolenou, pracovní dny, narozeniny atd. Zaslané reminder notes jsou umístěny v kalendáři s datem, který jste zadali. Nejsou umístěny ve vaší poštovní schránce nebo ve schránce jiného uživatele."
 
 #: C/evolution.xml:6025(para)
-msgid "Evolution integrates this feature into its Memo component so that you can view the Reminder notes listed under Memo at the right bottom side of the calender view."
+#| msgid ""
+#| "Evolution integrates this feature into its Memo component so that you can "
+#| "view the Reminder notes listed under Memo at the right bottom side of the "
+#| "calender view."
+msgid "Evolution integrates this feature into its Memo component so that you can view the Reminder notes listed under Memo at the right bottom side of the calendar view."
 msgstr "Evolution integruje tuto funkci do komponenty Poznámky, takže můžete vidět Reminder Notes pod Poznámkami seřazené v pravém dolním rohu v zobrazení kalendáře."
 
 #: C/evolution.xml:6027(para)
@@ -7941,7 +7837,6 @@ msgid "To send a Reminder Note,"
 msgstr "Chcete-li Reminder Note odeslat,"
 
 #: C/evolution.xml:6033(para)
-#| msgid "Click File &gt; New &gt; Shared Memo."
 msgid "Click File, then New &gt; Shared Memo."
 msgstr "Klikněte na Soubor &gt; Nový &gt; Sdílená poznámka."
 
@@ -7990,7 +7885,6 @@ msgid "If meeting attendees are not available during the times you have schedule
 msgstr "Pokud nejsou účastníci schůzky k dispozici v čase, kdy jste naplánovali schůzku, můžete schůzku <quote>pošťouchnout</quote> dopředu nebo dozadu k nejbližšímu vhodnému termínu. Chcete-li tak udělat, jen klikněte na šipky směřující nalevo nebo napravo v Automatickém výběru. Tento nástroj posunuje schůzku k nejbližšímu času, kdy mají všichni účastníci čas. Pokud nejste s těmito výsledky spokojení, můžete přetahovat hrany označené oblasti do hodin, které chcete vybrat."
 
 #: C/evolution.xml:6087(title)
-#| msgid "Reading Responses to Meeting Requests"
 msgid "Resending a GroupWise Meeting Request"
 msgstr "Znovu rozeslání požadavku na schůzku v GroupWise."
 
@@ -8003,7 +7897,6 @@ msgid "Select Resend meeting. A confirmation dialog is displayed."
 msgstr "Vyberte Znovu poslat schůzku. Zobrazí se dialog pro potvrzení."
 
 #: C/evolution.xml:6096(para)
-#| msgid "Click Save to save the meeting."
 msgid "Click OK to resend the meeting."
 msgstr "Chcete-li znovu rozeslat schůzku, klikněte na OK."
 
@@ -8012,15 +7905,10 @@ msgid "(Optional) Edit any of the fields: Duration, Summary, Description"
 msgstr "(Volitelně) Upravte kterékoliv z polí: Doba trvání, Shrnutí, Popis"
 
 #: C/evolution.xml:6103(para)
-#| msgid ""
-#| "Add attendees, either by entering their email addresses into the list, or "
-#| "by clicking the Invite Others button."
 msgid "(Optional) Add attendees, either by entering their email addresses into the list, or by clicking the Invite Others button."
 msgstr "(Volitelné) Přidejte účastníky tak, že buď vložíte jejich e-mailové adresy do seznamu nebo kliknete na tlačítko Pozvat ostatní."
 
 #: C/evolution.xml:6106(para)
-#| msgid ""
-#| "To remove an attendee from the list, select an attendee and press Remove."
 msgid "To remove an attendee from the list, select the attendee and click Remove."
 msgstr "Chcete-li účastníka odstranit ze seznamu, označte jej a klikněte na Ostranit."
 
@@ -8029,8 +7917,6 @@ msgid "A Dialog is displayed to check whether you want to retract the original i
 msgstr "Zobrazí se dialog, který se zeptá, zda chcete stáhnout původní položku zpět nebo ne. Kliknutím na Budiž to potvrdíte. Klikněte na zrušit, pokud chcete ponechat původní položku v kalendáři příjemců. "
 
 #: C/evolution.xml:6116(para)
-#| msgid ""
-#| "An email is sent out to all the recipients, inviting them to your event."
 msgid "An email is send to all the recipients to invite them to your updated event."
 msgstr "E-mail je odeslán všem příjemcům zvouce je na aktualizovanou schůzku."
 
@@ -9566,7 +9452,7 @@ msgstr "Pokud změníte jakékoliv nastavení adresáře LDAP, Evolution a Evolu
 
 #: C/evolution.xml:7340(para)
 msgid "If you are creating the address book for a specific account, type the name of the address book if you want the address book stored locally when offline, and if you want the address book to be your default folder."
-msgstr "Vytváříte-li adresář pro zvláštní účet, napište název adresáře, chcete-li aby byl adresář uložen lokálně, kdy jste offline a chcete-li, aby byl výchozím adresářem."
+msgstr "Vytváříte-li adresář pro zvláštní účet, napište název adresáře, chcete-li aby byl adresář uložen lokálně, když jste odpojeni, a chcete-li, aby byl výchozím adresářem."
 
 #: C/evolution.xml:7351(para)
 msgid "Evolution allows you to view the error logs and set the display duration for the error messages that appear in the statusbar. When an error occurs, statusbar displays the error message for the specified time, then it is moved to the debug file."
@@ -9828,7 +9714,7 @@ msgstr "Posílání a přijímání pošty:"
 
 #: C/evolution.xml:7532(para)
 msgid "Press F9, click the Send/Receive button in the toolbar, or click File &gt; Send/Receive."
-msgstr "Stiskněte F9, klikněte na Odeslat/Přijmout v liště nástrojů nebo klikněte na Soubor &gt; Odeslat/Přijmout"
+msgstr "Stiskněte F9, klikněte na Odeslat/Přijmout v nástrojové liště nebo klikněte na Soubor &gt; Odeslat/Přijmout"
 
 #: C/evolution.xml:7535(title)
 msgid "Navigating the Message List with the Keyboard:"
@@ -9852,7 +9738,7 @@ msgstr "Odpověď na zprávu:"
 
 #: C/evolution.xml:7544(para)
 msgid "To reply only to the sender of the message, click Reply in the toolbar, or press Ctrl+R."
-msgstr "Chcete-li odpovědět odesílateli zprávy, klikněte na Odpovědět v liště nástrojů nebo stikněte Ctrl+R."
+msgstr "Chcete-li odpovědět odesílateli zprávy, klikněte na Odpovědět v nástrojové liště nebo stikněte Ctrl+R."
 
 #: C/evolution.xml:7546(para)
 msgid "To reply to the sender and all the other visible recipients of the message, click Reply to All or select the message and press Shift+Ctrl+R."
@@ -9864,7 +9750,7 @@ msgstr "Přeposílání zprávy:"
 
 #: C/evolution.xml:7549(para)
 msgid "Select the message or messages you want to forward, then click Forward in the toolbar, or press Ctrl+F."
-msgstr "Vyberte zprávu nebo zprávy, které chcete přeposlat, potom klikněte na Přeposlat v liště nástrojů nebo stiskněte Ctrl+F."
+msgstr "Vyberte zprávu nebo zprávy, které chcete přeposlat, potom klikněte na Přeposlat v nástrojové liště nebo stiskněte Ctrl+F."
 
 #: C/evolution.xml:7552(title)
 msgid "Opening a Message In a New Window:"
@@ -9908,7 +9794,7 @@ msgstr "Smazání kontaktu:"
 
 #: C/evolution.xml:7586(para)
 msgid "Right-click a contact, then click Delete; or select a contact, then click Delete on the toolbar."
-msgstr "Kliknutí pravým tlačítkem na kontakt a potom kliknutí na Odstranit nebo vybrání kontaktu a potom kliknutí na Odstranit na liště nástrojů. "
+msgstr "Kliknutí pravým tlačítkem na kontakt a potom kliknutí na Odstranit nebo vybrání kontaktu a potom kliknutí na Odstranit na nástrojové liště. "
 
 #: C/evolution.xml:7589(title)
 msgid "Sending Emails to a Contact:"
@@ -9991,7 +9877,6 @@ msgid "Ettore Perazzoli (ettore@ximian.com)"
 msgstr "Ettore Perazzoli (ettore@ximian.com)"
 
 #: C/evolution.xml:7643(para)
-#| msgid "Radhika PC (pradhika@novell.com)"
 msgid "Akhil Laddha (lakhil@novell.com)"
 msgstr "Akhil Laddha (lakhil@novell.com)"
 
