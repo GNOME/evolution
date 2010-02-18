@@ -186,7 +186,7 @@ etgl_double_click (GtkObject *object, gint model_row, gint model_col, GdkEvent *
 	e_table_group_double_click (E_TABLE_GROUP(etgl), model_row, model_col, event);
 }
 
-static gint
+static gboolean
 etgl_key_press (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->ets)->n_map && row >= 0)
@@ -195,17 +195,17 @@ etgl_key_press (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGr
 						col,
 						event);
 	else
-		return 0;
+		return FALSE;
 }
 
-static gint
+static gboolean
 etgl_start_drag (GtkObject *object, gint model_row, gint model_col, GdkEvent *event,
 		 ETableGroupLeaf *etgl)
 {
 	return e_table_group_start_drag (E_TABLE_GROUP(etgl), model_row, model_col, event);
 }
 
-static gint
+static gboolean
 etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *event,
 		  ETableGroupLeaf *etgl)
 {
@@ -215,10 +215,10 @@ etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *ev
 						  model_col,
 						  event);
 	else
-		return 0;
+		return FALSE;
 }
 
-static gint
+static gboolean
 etgl_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
@@ -227,7 +227,7 @@ etgl_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupL
 					    col,
 					    event);
 	else
-		return 0;
+		return FALSE;
 }
 
 static void

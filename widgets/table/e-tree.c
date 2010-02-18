@@ -852,10 +852,10 @@ item_double_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *
 		       row, path, col, event);
 }
 
-static gint
+static gboolean
 item_right_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
-	gint return_val = 0;
+	gboolean return_val = 0;
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
 		       et_signals [RIGHT_CLICK], 0,
@@ -863,10 +863,10 @@ item_right_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *e
 	return return_val;
 }
 
-static gint
+static gboolean
 item_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
-	gint return_val = 0;
+	gboolean return_val = 0;
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
 		       et_signals [CLICK], 0,
@@ -1035,10 +1035,10 @@ et_canvas_style_set (GtkWidget *widget, GtkStyle *prev_style)
 		NULL);
 }
 
-static gint
+static gboolean
 white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETree *e_tree)
 {
-	gint return_val = 0;
+	gboolean return_val = 0;
 	g_signal_emit (e_tree,
 		       et_signals [WHITE_SPACE_EVENT], 0,
 		       event, &return_val);
@@ -3181,9 +3181,9 @@ e_tree_class_init (ETreeClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, right_click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_POINTER_INT_BOXED,
-			      G_TYPE_INT, 4, G_TYPE_INT, G_TYPE_POINTER,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
+			      G_TYPE_BOOLEAN, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [CLICK] =
@@ -3191,9 +3191,9 @@ e_tree_class_init (ETreeClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_POINTER_INT_BOXED,
-			      G_TYPE_INT, 4, G_TYPE_INT, G_TYPE_POINTER,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
+			      G_TYPE_BOOLEAN, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [KEY_PRESS] =
@@ -3230,9 +3230,9 @@ e_tree_class_init (ETreeClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, white_space_event),
-			      NULL, NULL,
-			      e_marshal_INT__POINTER,
-			      G_TYPE_INT, 1, GDK_TYPE_EVENT);
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__POINTER,
+			      G_TYPE_BOOLEAN, 1, GDK_TYPE_EVENT);
 
 	et_signals[TREE_DRAG_BEGIN] =
 		g_signal_new ("tree_drag_begin",

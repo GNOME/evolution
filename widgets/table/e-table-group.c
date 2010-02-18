@@ -495,16 +495,16 @@ e_table_group_double_click (ETableGroup *e_table_group,
  *
  * This routine emits the "right_click" signal.
  */
-gint
+gboolean
 e_table_group_right_click (ETableGroup *e_table_group,
                            gint row,
                            gint col,
                            GdkEvent *event)
 {
-	gint return_val = 0;
+	gboolean return_val = FALSE;
 
-	g_return_val_if_fail (e_table_group != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
+	g_return_val_if_fail (e_table_group != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
 	g_signal_emit (e_table_group,
 		       etg_signals [RIGHT_CLICK], 0,
@@ -522,16 +522,16 @@ e_table_group_right_click (ETableGroup *e_table_group,
  *
  * This routine emits the "click" signal.
  */
-gint
+gboolean
 e_table_group_click (ETableGroup *e_table_group,
                      gint row,
                      gint col,
                      GdkEvent *event)
 {
-	gint return_val = 0;
+	gboolean return_val = FALSE;
 
-	g_return_val_if_fail (e_table_group != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
+	g_return_val_if_fail (e_table_group != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
 	g_signal_emit (e_table_group,
 		       etg_signals [CLICK], 0,
@@ -549,16 +549,16 @@ e_table_group_click (ETableGroup *e_table_group,
  *
  * This routine emits the "key_press" signal.
  */
-gint
+gboolean
 e_table_group_key_press (ETableGroup *e_table_group,
                          gint row,
                          gint col,
                          GdkEvent *event)
 {
-	gint return_val = 0;
+	gboolean return_val = FALSE;
 
-	g_return_val_if_fail (e_table_group != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
+	g_return_val_if_fail (e_table_group != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
 	g_signal_emit (e_table_group,
 		       etg_signals [KEY_PRESS], 0,
@@ -576,16 +576,16 @@ e_table_group_key_press (ETableGroup *e_table_group,
  *
  * This routine emits the "start_drag" signal.
  */
-gint
+gboolean
 e_table_group_start_drag (ETableGroup *e_table_group,
                           gint row,
                           gint col,
                           GdkEvent *event)
 {
-	gint return_val = 0;
+	gboolean return_val = FALSE;
 
-	g_return_val_if_fail (e_table_group != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
+	g_return_val_if_fail (e_table_group != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
 	g_signal_emit (e_table_group,
 		       etg_signals [START_DRAG], 0,
@@ -706,18 +706,19 @@ etg_class_init (ETableGroupClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, right_click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT, G_TYPE_INT, GDK_TYPE_EVENT);
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
+			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [CLICK] =
 		g_signal_new ("click",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [KEY_PRESS] =
@@ -725,9 +726,9 @@ etg_class_init (ETableGroupClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, key_press),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [START_DRAG] =
@@ -735,9 +736,9 @@ etg_class_init (ETableGroupClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, start_drag),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 }
 

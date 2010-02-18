@@ -2154,7 +2154,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 	ECellView *ecell_view;
-	gint return_val = TRUE;
+	gboolean return_val = TRUE;
 #if d(!)0
 	gboolean leave = FALSE;
 #endif
@@ -2430,7 +2430,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (eti->maybe_in_drag) {
 			if (abs (e->motion.x - eti->drag_x) >= 3 ||
 			    abs (e->motion.y - eti->drag_y) >= 3) {
-				gint drag_handled;
+				gboolean drag_handled;
 
 				eti->maybe_in_drag = 0;
 				g_signal_emit (eti, eti_signals [START_DRAG], 0,
@@ -2934,9 +2934,9 @@ eti_class_init (ETableItemClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, start_drag),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [RIGHT_CLICK] =
@@ -2944,9 +2944,9 @@ eti_class_init (ETableItemClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, right_click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [CLICK] =
@@ -2954,9 +2954,9 @@ eti_class_init (ETableItemClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [KEY_PRESS] =

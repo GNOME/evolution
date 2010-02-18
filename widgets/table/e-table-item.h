@@ -166,10 +166,10 @@ typedef struct {
 	void        (*cursor_change)    (ETableItem *eti, gint row);
 	void        (*cursor_activated) (ETableItem *eti, gint row);
 	void        (*double_click)     (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gint        (*right_click)      (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gint        (*click)            (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gboolean    (*right_click)      (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gboolean    (*click)            (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	gboolean    (*key_press)        (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gint        (*start_drag)       (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gboolean    (*start_drag)       (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	void        (*style_set)        (ETableItem *eti, GtkStyle *previous_style);
 	void        (*selection_model_removed)    (ETableItem *eti, ESelectionModel *selection);
 	void        (*selection_model_added)    (ETableItem *eti, ESelectionModel *selection);

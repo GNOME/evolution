@@ -72,9 +72,9 @@ typedef struct {
 	void        (*cursor_change)         (ETableGroup *etg, gint row);
 	void        (*cursor_activated)      (ETableGroup *etg, gint row);
 	void        (*double_click)          (ETableGroup *etg, gint row, gint col, GdkEvent *event);
-	gint        (*right_click)           (ETableGroup *etg, gint row, gint col, GdkEvent *event);
-	gint        (*click)                 (ETableGroup *etg, gint row, gint col, GdkEvent *event);
-	gint        (*key_press)             (ETableGroup *etg, gint row, gint col, GdkEvent *event);
+	gboolean    (*right_click)           (ETableGroup *etg, gint row, gint col, GdkEvent *event);
+	gboolean    (*click)                 (ETableGroup *etg, gint row, gint col, GdkEvent *event);
+	gboolean    (*key_press)             (ETableGroup *etg, gint row, gint col, GdkEvent *event);
 	gint        (*start_drag)            (ETableGroup *etg, gint row, gint col, GdkEvent *event);
 
 	/* Virtual functions. */
@@ -154,15 +154,15 @@ void          e_table_group_double_click      (ETableGroup       *etg,
 					       gint               row,
 					       gint               col,
 					       GdkEvent          *event);
-gint          e_table_group_right_click       (ETableGroup       *etg,
+gboolean      e_table_group_right_click       (ETableGroup       *etg,
 					       gint               row,
 					       gint               col,
 					       GdkEvent          *event);
-gint          e_table_group_click             (ETableGroup       *etg,
+gboolean      e_table_group_click             (ETableGroup       *etg,
 					       gint               row,
 					       gint               col,
 					       GdkEvent          *event);
-gint          e_table_group_key_press         (ETableGroup       *etg,
+gboolean      e_table_group_key_press         (ETableGroup       *etg,
 					       gint               row,
 					       gint               col,
 					       GdkEvent          *event);

@@ -780,26 +780,26 @@ group_double_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETabl
 	g_signal_emit (G_OBJECT (et), et_signals [DOUBLE_CLICK], 0, row, col, event);
 }
 
-static gint
+static gboolean
 group_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	gint return_val = 0;
+	gboolean return_val = FALSE;
 	g_signal_emit (G_OBJECT (et), et_signals [RIGHT_CLICK], 0, row, col, event, &return_val);
 	return return_val;
 }
 
-static gint
+static gboolean
 group_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	gint return_val = 0;
+	gboolean return_val = 0;
 	g_signal_emit (G_OBJECT (et), et_signals [CLICK], 0, row, col, event, &return_val);
 	return return_val;
 }
 
-static gint
+static gboolean
 group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	gint return_val = 0;
+	gboolean return_val = FALSE;
 	GdkEventKey *key = (GdkEventKey *) event;
 	gint y, row_local, col_local;
 	GtkAdjustment *vadj;
@@ -854,10 +854,10 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 	return return_val;
 }
 
-static gint
+static gboolean
 group_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	gint return_val = 0;
+	gboolean return_val = TRUE;
 	g_signal_emit (G_OBJECT (et), et_signals [START_DRAG], 0,
 		       row, col, event, &return_val);
 	return return_val;
@@ -1034,10 +1034,10 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 	set_header_width (e_table);
 }
 
-static gint
+static gboolean
 white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETable *e_table)
 {
-	gint return_val = 0;
+	gboolean return_val = 0;
 	g_signal_emit (GTK_OBJECT (e_table), et_signals [WHITE_SPACE_EVENT], 0,
 		       event, &return_val);
 	return return_val;
@@ -3157,9 +3157,9 @@ e_table_class_init (ETableClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, right_click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [CLICK] =
@@ -3167,9 +3167,9 @@ e_table_class_init (ETableClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, click),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [KEY_PRESS] =
@@ -3177,9 +3177,9 @@ e_table_class_init (ETableClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, key_press),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [START_DRAG] =
@@ -3187,9 +3187,9 @@ e_table_class_init (ETableClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, start_drag),
-			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
-			      G_TYPE_INT, 3, G_TYPE_INT,
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__INT_INT_BOXED,
+			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [STATE_CHANGE] =
@@ -3206,9 +3206,9 @@ e_table_class_init (ETableClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, white_space_event),
-			      NULL, NULL,
-			      e_marshal_INT__BOXED,
-			      G_TYPE_INT, 1, GDK_TYPE_EVENT);
+			      g_signal_accumulator_true_handled, NULL,
+			      e_marshal_BOOLEAN__BOXED,
+			      G_TYPE_BOOLEAN, 1, GDK_TYPE_EVENT);
 
 	et_signals[TABLE_DRAG_BEGIN] =
 		g_signal_new ("table_drag_begin",

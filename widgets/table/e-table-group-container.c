@@ -378,28 +378,28 @@ child_double_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 	e_table_group_double_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
-static gint
+static gboolean
 child_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		   ETableGroupContainer *etgc)
 {
 	return e_table_group_right_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
-static gint
+static gboolean
 child_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		   ETableGroupContainer *etgc)
 {
 	return e_table_group_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
-static gint
+static gboolean
 child_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		 ETableGroupContainer *etgc)
 {
 	return e_table_group_key_press (E_TABLE_GROUP (etgc), row, col, event);
 }
 
-static gint
+static gboolean
 child_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		 ETableGroupContainer *etgc)
 {

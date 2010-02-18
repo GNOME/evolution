@@ -64,12 +64,12 @@ typedef struct {
 	void        (*cursor_activated)   (ETree *et, gint row, ETreePath path);
 	void        (*selection_change)   (ETree *et);
 	void        (*double_click)       (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
-	gint        (*right_click)        (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
-	gint        (*click)              (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gboolean    (*right_click)        (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gboolean    (*click)              (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
 	gboolean    (*key_press)          (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
-	gint        (*start_drag)         (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
-	gint        (*state_change)       (ETree *et);
-	gint        (*white_space_event)  (ETree *et, GdkEvent *event);
+	gboolean    (*start_drag)         (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	void        (*state_change)       (ETree *et);
+	gboolean    (*white_space_event)  (ETree *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETree	 *tree,
 					   GtkAdjustment *hadjustment,

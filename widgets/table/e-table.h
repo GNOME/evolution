@@ -163,12 +163,12 @@ typedef struct {
 	void        (*cursor_activated)   (ETable *et, gint row);
 	void        (*selection_change)   (ETable *et);
 	void        (*double_click)       (ETable *et, gint row, gint col, GdkEvent *event);
-	gint        (*right_click)        (ETable *et, gint row, gint col, GdkEvent *event);
-	gint        (*click)              (ETable *et, gint row, gint col, GdkEvent *event);
-	gint        (*key_press)          (ETable *et, gint row, gint col, GdkEvent *event);
-	gint        (*start_drag)         (ETable *et, gint row, gint col, GdkEvent *event);
+	gboolean    (*right_click)        (ETable *et, gint row, gint col, GdkEvent *event);
+	gboolean    (*click)              (ETable *et, gint row, gint col, GdkEvent *event);
+	gboolean    (*key_press)          (ETable *et, gint row, gint col, GdkEvent *event);
+	gboolean    (*start_drag)         (ETable *et, gint row, gint col, GdkEvent *event);
 	void        (*state_change)       (ETable *et);
-	gint        (*white_space_event)  (ETable *et, GdkEvent *event);
+	gboolean    (*white_space_event)  (ETable *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,
