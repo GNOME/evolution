@@ -783,6 +783,9 @@ e_addressbook_model_set_book (EAddressbookModel *model,
 	g_return_if_fail (E_IS_BOOK (book));
 
 	if (model->priv->book != NULL) {
+		if (model->priv->book == book)
+			return;
+
 		if (model->priv->writable_status_id != 0)
 			g_signal_handler_disconnect (
 				model->priv->book,
@@ -856,15 +859,34 @@ void
 e_addressbook_model_set_query (EAddressbookModel *model,
                                const gchar *query)
 {
+	EBookQuery *book_query;
+
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 
-	if (model->priv->query != NULL)
-		e_book_query_unref (model->priv->query);
-
 	if (query == NULL)
-		model->priv->query = e_book_query_any_field_contains ("");
+		book_query = e_book_query_any_field_contains ("");
 	else
-		model->priv->query = e_book_query_from_string (query);
+		book_query = e_book_query_from_string (query);
+
+	if (model->priv->query != NULL) {
+		gchar *old_query, *new_query;
+
+		old_query = e_book_query_to_string (model->priv->query);
+		new_query = e_book_query_to_string (book_query);
+
+		if (old_query && new_query && g_str_equal (old_query, new_query)) {
+			g_free (old_query);
+			g_free (new_query);
+			e_book_query_unref (book_query);
+			return;
+		}
+
+		g_free (old_query);
+		g_free (new_query);
+		e_book_query_unref (model->priv->query);
+	}
+
+	model->priv->query = book_query;
 
 	if (model->priv->book_view_idle_id == 0)
 		model->priv->book_view_idle_id = g_idle_add (
