@@ -259,19 +259,45 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
 }
 
 static void
-mouse_wheel_scroll_cb (GtkWidget *img_view, GdkScrollDirection direction, ImageInlinePObject *image_object)
+mouse_wheel_scroll_cb (GtkWidget *image_view,
+                       GdkScrollDirection direction,
+                       ImageInlinePObject *image_object)
 {
+	GtkOrientation orientation;
+	GtkScrollType scroll_type;
 	GtkHTML *html;
 	gint steps = 2;
 
-	g_return_if_fail (image_object != NULL);
-	g_return_if_fail (image_object->object.format != NULL);
-	g_return_if_fail (image_object->object.format->html != NULL);
-
 	html = image_object->object.format->html;
 
+	switch (direction) {
+		case GDK_SCROLL_UP:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			scroll_type = GTK_SCROLL_STEP_BACKWARD;
+			break;
+
+		case GDK_SCROLL_DOWN:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			scroll_type = GTK_SCROLL_STEP_FORWARD;
+			break;
+
+		case GDK_SCROLL_LEFT:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			scroll_type = GTK_SCROLL_STEP_BACKWARD;
+			break;
+
+		case GDK_SCROLL_RIGHT:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			scroll_type = GTK_SCROLL_STEP_FORWARD;
+			break;
+
+		default:
+			g_return_if_reached ();
+	}
+
 	while (steps > 0) {
-		g_signal_emit_by_name (html, "scroll", (direction == GDK_SCROLL_DOWN || direction == GDK_SCROLL_UP) ? GTK_ORIENTATION_VERTICAL : GTK_ORIENTATION_HORIZONTAL, (direction == GDK_SCROLL_DOWN || direction == GDK_SCROLL_RIGHT) ? GTK_SCROLL_STEP_FORWARD : GTK_SCROLL_STEP_BACKWARD, 2.0, NULL);
+		g_signal_emit_by_name (
+			html, "scroll", orientation, scroll_type, 2.0, NULL);
 		steps--;
 	}
 }

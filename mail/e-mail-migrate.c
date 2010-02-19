@@ -231,9 +231,9 @@ struct _imap_folder_info_1_0 {
 
 struct _migrate_state_info {
 	gchar *label_name;
-	double progress;
+	gdouble progress;
 };
-static gboolean update_states_in_main_thread (const struct 
+static gboolean update_states_in_main_thread (const struct
 		_migrate_state_info *info);
 
 static GHashTable *accounts_1_0 = NULL;
@@ -2834,7 +2834,7 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 		*nth_folder = *nth_folder + 1;
 
 		info->progress = (double) (*nth_folder) / total_folders;
-		g_idle_add ((GSourceFunc) update_states_in_main_thread, 
+		g_idle_add ((GSourceFunc) update_states_in_main_thread,
 				&info);
 
 		if (is_local)

@@ -1710,7 +1710,6 @@ e_tree_show_cursor_after_reflow (ETree *e_tree)
 	e_tree->priv->show_cursor_after_reflow = TRUE;
 }
 
-
 void
 e_tree_set_cursor (ETree *e_tree, ETreePath path)
 {
