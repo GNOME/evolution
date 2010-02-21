@@ -1,3 +1,8 @@
+2010-02-21  Nils-Christoph Fiedler <fiedler@medienkompanie.de>
+
+	* nds.po: Added LowGerman Translation
+	* LINGUAS: Added LowGerman Translation
+
 2009-06-04  Manoj Kumar Giri <mgiri@redhat.com>
 
 	* or.po: Updated Oriya Translation
