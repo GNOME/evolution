@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2010-02-11 15:45+0000\n"
-"PO-Revision-Date: 2010-02-12 10:30+0100\n"
+"POT-Creation-Date: 2010-02-22 11:00+0000\n"
+"PO-Revision-Date: 2010-02-22 12:21+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -187,7 +187,7 @@ msgstr "_Uporabi kot je"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query."
 #: ../addressbook/addressbook.error.xml.h:42
-#: ../mail/mail.error.xml.h:143
+#: ../mail/mail.error.xml.h:145
 msgid "{0}"
 msgstr "{0}"
 
@@ -2099,7 +2099,7 @@ msgstr "_Shrani spremembe"
 
 #: ../calendar/calendar.error.xml.h:87
 #: ../composer/mail-composer.error.xml.h:28
-#: ../mail/mail.error.xml.h:142
+#: ../mail/mail.error.xml.h:144
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Pošlji"
@@ -3253,7 +3253,7 @@ msgstr "petek"
 #: ../mail/em-folder-properties.c:283
 #: ../mail/mail-config.ui.h:53
 #: ../modules/addressbook/addressbook-config.c:985
-#: ../plugins/itip-formatter/itip-formatter.c:2653
+#: ../plugins/itip-formatter/itip-formatter.c:2666
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "General"
@@ -4824,7 +4824,7 @@ msgstr "Nastavitve delovanja programa"
 #: ../e-util/e-charset.c:52
 #: ../mail/em-utils.c:931
 #: ../plugins/itip-formatter/itip-formatter.c:461
-#: ../plugins/itip-formatter/itip-formatter.c:2325
+#: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
 msgid "Unknown"
 msgstr "Neznano"
@@ -4914,7 +4914,7 @@ msgstr "Posodabljam predmete"
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:182
 #: ../calendar/gui/e-meeting-store.c:205
-#: ../plugins/itip-formatter/itip-formatter.c:2313
+#: ../plugins/itip-formatter/itip-formatter.c:2326
 msgid "Accepted"
 msgstr "Sprejeto"
 
@@ -4923,7 +4923,7 @@ msgstr "Sprejeto"
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:184
 #: ../calendar/gui/e-meeting-store.c:207
-#: ../plugins/itip-formatter/itip-formatter.c:2319
+#: ../plugins/itip-formatter/itip-formatter.c:2332
 msgid "Declined"
 msgstr "Odklonjeno"
 
@@ -4939,7 +4939,7 @@ msgstr "Poskusno"
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:188
 #: ../calendar/gui/e-meeting-store.c:211
-#: ../plugins/itip-formatter/itip-formatter.c:2322
+#: ../plugins/itip-formatter/itip-formatter.c:2335
 msgid "Delegated"
 msgstr "Pooblaščeno"
 
@@ -5191,13 +5191,13 @@ msgstr "<br> Preglejte sledeče podatke in izberite dejanje iz spodnjega menija.
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
-#: ../plugins/itip-formatter/itip-formatter.c:2300
+#: ../plugins/itip-formatter/itip-formatter.c:2313
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Brez"
 
 #: ../calendar/gui/e-itip-control.c:1187
-#: ../plugins/itip-formatter/itip-formatter.c:2316
+#: ../plugins/itip-formatter/itip-formatter.c:2329
 msgid "Tentatively Accepted"
 msgstr "Poskusno sprejeto"
 
@@ -5412,7 +5412,7 @@ msgid "Attendee status updated\n"
 msgstr "Stanje udeleženca posodobljeno\n"
 
 #: ../calendar/gui/e-itip-control.c:2071
-#: ../plugins/itip-formatter/itip-formatter.c:1408
+#: ../plugins/itip-formatter/itip-formatter.c:1421
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Stanja udeleženca ni bilo mogoče posodobiti, ker predmet ne obstaja več"
 
@@ -5468,7 +5468,7 @@ msgid "Send Latest Information"
 msgstr "Pošlji zadnje podatke"
 
 #: ../calendar/gui/e-itip-control.c:2452
-#: ../modules/mail/e-mail-shell-view-actions.c:1030
+#: ../modules/mail/e-mail-shell-view-actions.c:1032
 #: ../widgets/misc/e-activity-proxy.c:299
 msgid "Cancel"
 msgstr "Prekliči"
@@ -6410,7 +6410,7 @@ msgstr "Sestanki in srečanja"
 
 #: ../calendar/importers/icalendar-importer.c:335
 #: ../calendar/importers/icalendar-importer.c:628
-#: ../plugins/itip-formatter/itip-formatter.c:1820
+#: ../plugins/itip-formatter/itip-formatter.c:1833
 msgid "Opening calendar"
 msgstr "Odpiranje koledarja"
 
@@ -8042,7 +8042,7 @@ msgid "Save as draft"
 msgstr "Shrani kot osnutek"
 
 #: ../composer/e-composer-actions.c:328
-#: ../composer/e-composer-private.c:264
+#: ../composer/e-composer-private.c:281
 msgid "S_end"
 msgstr "_Pošlji"
 
@@ -8225,7 +8225,23 @@ msgstr "Kliknite tu za imenik"
 msgid "Click here to select folders to post to"
 msgstr "Kliknite tukaj za izbiro map, v katere želite pošiljati"
 
-#: ../composer/e-composer-private.c:284
+#: ../composer/e-composer-private.c:199
+msgid "Undo the last action"
+msgstr "Razveljavi zadnje dejanje"
+
+#: ../composer/e-composer-private.c:203
+msgid "Redo the last undone action"
+msgstr "Ponovlo uveljavi zadnje razveljavljeno dejanje"
+
+#: ../composer/e-composer-private.c:207
+msgid "Search for text"
+msgstr "Iskanje besedila"
+
+#: ../composer/e-composer-private.c:211
+msgid "Search for and replace text"
+msgstr "Iskanje in zamenjava besedila"
+
+#: ../composer/e-composer-private.c:301
 msgid "Save draft"
 msgstr "Shrani osnutek"
 
@@ -8369,7 +8385,7 @@ msgstr "Obvestila Evolution"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../mail/e-mail-browser.c:786
-#: ../shell/e-shell-window-private.c:255
+#: ../shell/e-shell-window-private.c:258
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -8428,7 +8444,7 @@ msgstr "Napaka Evolutiona"
 msgid "Evolution Warning"
 msgstr "Opozorila Evolution"
 
-#: ../e-util/e-alert.c:636
+#: ../e-util/e-alert.c:634
 #, c-format
 msgid "Internal error, unknown error '%s' requested"
 msgstr "Notranja napaka zaradi zahteve neznane napake '%s'"
@@ -8688,7 +8704,7 @@ msgid "File exists \"{0}\"."
 msgstr "Datoteka obstaja \"{0}\"."
 
 #: ../e-util/e-system.error.xml.h:6
-#: ../mail/mail.error.xml.h:141
+#: ../mail/mail.error.xml.h:143
 msgid "_Overwrite"
 msgstr "_Prepiši"
 
@@ -9058,7 +9074,7 @@ msgid "Missing file name."
 msgstr "Manjkajoče ime datoteke."
 
 #: ../filter/filter.error.xml.h:6
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:73
 msgid "Missing name."
 msgstr "Manjkajoče ime."
 
@@ -9267,7 +9283,7 @@ msgstr "Barva"
 #: ../mail/e-mail-local.c:37
 #: ../mail/em-folder-properties.c:367
 #: ../mail/em-folder-tree-model.c:658
-#: ../mail/em-folder-tree.c:2570
+#: ../mail/em-folder-tree.c:2582
 #: ../modules/mail/e-mail-shell-view-private.c:961
 msgid "Inbox"
 msgstr "Dohodna pošta"
@@ -10531,7 +10547,7 @@ msgstr "Nalaganje ..."
 msgid "Scanning folders in \"%s\""
 msgstr "Preiskovanje mape \"%s\""
 
-#: ../mail/em-folder-tree.c:589
+#: ../mail/em-folder-tree.c:601
 msgid "Folder names cannot contain '/'"
 msgstr "Ime mape ne sme vsebovati '/'"
 
@@ -10553,41 +10569,41 @@ msgstr "Ime mape ne sme vsebovati '/'"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:1071
+#: ../mail/em-folder-tree.c:1083
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1277
+#: ../mail/em-folder-tree.c:1289
 msgid "Mail Folder Tree"
 msgstr "Drevesna razporeditev poštnih map"
 
-#: ../mail/em-folder-tree.c:1477
+#: ../mail/em-folder-tree.c:1489
 #: ../mail/em-folder-utils.c:99
 #, c-format
 msgid "Moving folder %s"
 msgstr "Premikam mapo %s"
 
-#: ../mail/em-folder-tree.c:1479
+#: ../mail/em-folder-tree.c:1491
 #: ../mail/em-folder-utils.c:101
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopiram mapo %s"
 
-#: ../mail/em-folder-tree.c:1486
+#: ../mail/em-folder-tree.c:1498
 #: ../mail/message-list.c:2103
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Premikanje sporočil v mapo %s"
 
-#: ../mail/em-folder-tree.c:1488
+#: ../mail/em-folder-tree.c:1500
 #: ../mail/message-list.c:2105
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiranje sporočil v mapo %s"
 
-#: ../mail/em-folder-tree.c:1503
+#: ../mail/em-folder-tree.c:1515
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Ni mogoče spustiti sporočil(a) v vrhnjo shrambo"
 
@@ -10599,23 +10615,23 @@ msgstr "Premakni mapo v"
 msgid "Copy Folder To"
 msgstr "Kopiraj mapo v"
 
-#: ../mail/em-folder-utils.c:499
+#: ../mail/em-folder-utils.c:507
 #: ../plugins/groupwise-features/share-folder-common.c:141
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Ustvarjanje mape `%s'"
 
-#: ../mail/em-folder-utils.c:662
+#: ../mail/em-folder-utils.c:670
 msgid "Create Folder"
 msgstr "Ustvari mapo"
 
-#: ../mail/em-folder-utils.c:663
+#: ../mail/em-folder-utils.c:671
 #: ../plugins/groupwise-features/install-shared.c:175
 #: ../plugins/groupwise-features/share-folder-common.c:350
 msgid "Specify where to create the folder:"
 msgstr "Navedi kje naj se ustvarimapa:"
 
-#: ../mail/em-folder-utils.c:679
+#: ../mail/em-folder-utils.c:687
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Preklicevanje naročnine na mapo \"%s\""
@@ -12997,10 +13013,14 @@ msgid "If you delete the folder, all of its contents and its subfolders contents
 msgstr "V primeru, da zbrišete mapo, bo njena vsebina in vsebina njenih podmap za vedno izbrisana."
 
 #: ../mail/mail.error.xml.h:61
+msgid "If you delete the folder, all of its contents will be deleted permanently."
+msgstr "V primeru, da mapo izbrišete, bo izbrisana tudi njena celotna vsebina."
+
+#: ../mail/mail.error.xml.h:62
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "V primeru da boste nadaljevali, bodo vsi računi posredovalnih strežnikov trajno izbrisani."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:63
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -13008,59 +13028,59 @@ msgstr ""
 "V primeru, da boste nadaljevali, bodo podatki o računu in\n"
 "vsi podatki o posredovalnih strežnikih trajno izbrisani."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:65
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Če boste nadaljevali, bodo vsi podatki o računu izbrisani za vedno."
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:66
 msgid "If you quit, these messages will not be sent until Evolution is started again."
 msgstr "V primeru, da program končate, sporočila ne bodo poslana do ponovnega zagona Evolutiona."
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:67
 msgid "Ignore"
 msgstr "Prezri"
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:68
 msgid "Invalid authentication"
 msgstr "Neveljavna overitev"
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:69
 msgid "Mail Deletion Failed"
 msgstr "Neuspelo brisanje pošte"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:70
 msgid "Mail filters automatically updated."
 msgstr "Označi samodejno posodabljanje filtrov."
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:71
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
 msgstr "Številni e-poštni sistemi dodajo sporočilom, ki vsebujejo prejemnike le v polju SKP, glavo Očitno-Za. V tem primeru glava vsebuje vse prejemnike. Takšno vedenje lahko zaobidete, če dodate vsaj enega prejemnika v polje Za: ali KP:."
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "Missing folder."
 msgstr "Manjkajoča mapa."
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:74
 msgid "No sources selected."
 msgstr "Noben vir ni izbran."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:75
 msgid "Opening too many messages at once may take a long time."
 msgstr "Odpiranje prevelikega števila sporočil hkrati lahko traja nekaj časa."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid "Please check your account settings and try again."
 msgstr "Preverite nastavitve vašega računa in poskusite znova."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid "Please enable the account or send using another account."
 msgstr "Omogočite račun ali pošljite z drugim računom."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid "Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box."
 msgstr "Vnesite veljaven e-poštni naslov v polje Za:. E-poštne naslove lahko poiščete s klikom na gumb Za: ob vnosnem polju."
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid ""
 "Please make sure the following recipients are willing and able to receive HTML email:\n"
 "{0}"
@@ -13068,63 +13088,67 @@ msgstr ""
 "Prepričajte se, da naslednji prejemniki želijo in lahko prejemajo pošto v obliki HTML:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid "Please provide an unique name to identify this signature."
 msgstr "Izberite edinstveno ime za ugotovitev istovetnosti tega podpisa."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:82
 msgid "Please wait."
 msgstr "Počakajte."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:83
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Napaka med prenašanjem mape s staro pošto \"{0}\"."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:84
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Poizvedovanje strežnika za seznam podprtih mehanizmov overitve."
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
 msgid "Read receipt requested."
 msgstr "Zahtevana povratnica."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:86
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Ali želite izbrisati mapo \"{0}\" in vse njene podmape?"
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:87
+msgid "Really delete folder \"{0}\"?"
+msgstr "Ali naj se mapa \"{0}\" res izbriše?"
+
+#: ../mail/mail.error.xml.h:88
 msgid "Report Junk Failed"
 msgstr "Poročanje o neželeni pošti ni uspelo"
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:89
 msgid "Report Not Junk Failed"
 msgstr "Poročilo prejetja neželene pošte ni uspelo"
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:90
 msgid "Search Folders automatically updated."
 msgstr "Samodejno posodabljanje iskalnih map."
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:91
 msgid "Send Receipt"
 msgstr "Pošlji povratnico"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:92
 msgid "Signature Already Exists"
 msgstr "Podpis že obstaja"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:93
 msgid "Synchronize"
 msgstr "Uskladi"
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:94
 msgid "Synchronize folders locally for offline usage?"
 msgstr "Ali naj se mape uskladijo za delo brez povezave?"
 
-#: ../mail/mail.error.xml.h:93
+#: ../mail/mail.error.xml.h:95
 msgid "System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted."
 msgstr "Za pravilno delovanje Evolutiona je treba ohraniti sistemske mape, ki ne smejo biti preimenovane, premaknjene ali izbrisane."
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:96
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -13134,7 +13158,7 @@ msgstr ""
 "\n"
 "Številni e-poštni sistemi dodajo sporočilom, ki vsebujejo prejemnike le v polju SKP, glavo Očitno-Za. V tem primeru glava vsebuje vse prejemnike. Takšno vedenje lahko zaobidete, če dodate vsaj enega prejemnika v polje Za: ali KP:."
 
-#: ../mail/mail.error.xml.h:97
+#: ../mail/mail.error.xml.h:99
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -13148,7 +13172,7 @@ msgstr ""
 "    \"{1}\"\n"
 "in so bile posodobljene."
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13162,7 +13186,7 @@ msgstr ""
 "    \"{1}\"\n"
 "in so bila posodobljena."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:109
 msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
@@ -13170,7 +13194,7 @@ msgstr ""
 "Navedeni naslov prejemnika ni zapisan kot veljavni elektronski naslova:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:111
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
@@ -13178,11 +13202,11 @@ msgstr ""
 "Navedeni naslovi prejemnikov niso zapisani kot veljavni elektronski naslovi:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:113
 msgid "The script file must exist and be executable."
 msgstr "Skriptna datoteka mora obstajati in biti izvedljiva."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:114
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -13190,47 +13214,47 @@ msgstr ""
 "Mapa je bila morda dodana brezpogojno.\n"
 "Pojdite v urejevalnik Map iskanja in jo dodajte izrecno, če je to treba."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:116
 msgid "This message cannot be sent because the account you chose to send with is not enabled"
 msgstr "Tega sporočila ni mogoče poslati, ker račun za pošiljanje ni omogočen"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:117
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "Tega sporočila ni mogoče poslati, ker niste navedli nobenega prejemnika"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:118
 msgid "This server does not support this type of authentication and may not support authentication at all."
 msgstr "Strežnik ne podpira tovrstne ali celo nikakršne overitve."
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:119
 msgid "This signature has been changed, but has not been saved."
 msgstr "Podpis je bil spremenjen, a ni bil shranjen."
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:120
 msgid "This will mark all messages as read in the selected folder and its subfolders."
 msgstr "To bo označilo vsa sporočila v izbrani mapi in podmapah kot prebrana."
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:121
 msgid "Unable to connect to the GroupWise server."
 msgstr "Povezava s strežnikom GroupWise ni uspela."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:122
 msgid "Unable to open the drafts folder for this account. Use the system drafts folder instead?"
 msgstr "Ni mogoče odpreti mape osnutkov za ta račun. Ali želite uporabiti sistemsko mapo osnutkov?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:123
 msgid "Unable to read license file."
 msgstr "Licenčne datoteke ni mogoče prebrati."
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:124
 msgid "Use _Default"
 msgstr "Uporabi _privzeto"
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:125
 msgid "Use default drafts folder?"
 msgstr "Uporabim privzeto mapo osnutkov?"
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:126
 msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual message from one of your local or remote folders.\n"
 "Do you really want to do this?"
@@ -13238,31 +13262,31 @@ msgstr ""
 "Opozorilo: Brisanje sporočila iz iskalne mape izbriše tudi dejansko sporočilo v mapi dohodne pošte.\n"
 "Ali zares želite nadaljevati?"
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:128
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Nimate dovoljenja za izbris tega sporočila."
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:129
 msgid "You have not filled in all of the required information."
 msgstr "Niste vpisali vseh zahtevanih podatkov."
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:130
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Imate neposlana sporočila. Ali želite kljub temu končati?"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:131
 msgid "You may not create two accounts with the same name."
 msgstr "Ne morete ustvariti dveh računov z enakim imenom."
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:132
 msgid "You must name this Search Folder."
 msgstr "To iskalno mapo morate poimenovati."
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:133
 msgid "You must specify a folder."
 msgstr "Navesti morate mapo."
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:134
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local folders, all remote folders, or both."
@@ -13270,32 +13294,32 @@ msgstr ""
 "Kot vir morate navesti vsaj eno mapo.\n"
 "Mape lahko izberete posamično ali pa izberete vse lokalne mape, vse oddaljene mape ali oboje."
 
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:136
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Prijava na vaš strežnik \"{0}\" kot \"{0}\" ni uspela."
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:137
 msgid "_Append"
 msgstr "_Združi"
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:138
 msgid "_Discard changes"
 msgstr "_Prezri spremembe"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:139
 msgid "_Do not Synchronize"
 msgstr "_Ne uskladi"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:140
 #: ../modules/mail/e-mail-shell-view-actions.c:862
 msgid "_Empty Trash"
 msgstr "Sprazni _smeti"
 
-#: ../mail/mail.error.xml.h:139
+#: ../mail/mail.error.xml.h:141
 msgid "_Expunge"
 msgstr "_Uniči"
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:142
 msgid "_Open Messages"
 msgstr "_Odpri sporočila"
 
@@ -13428,27 +13452,27 @@ msgid "Subject - Trimmed"
 msgstr "Zadeva - Okleščeno"
 
 #: ../mail/searchtypes.xml.h:1
-#: ../modules/mail/e-mail-shell-view-actions.c:1273
+#: ../modules/mail/e-mail-shell-view-actions.c:1275
 msgid "Body contains"
 msgstr "Telo vsebuje"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1280
+#: ../modules/mail/e-mail-shell-view-actions.c:1282
 msgid "Message contains"
 msgstr "Sporočilo vsebuje"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1287
+#: ../modules/mail/e-mail-shell-view-actions.c:1289
 msgid "Recipients contain"
 msgstr "Prejemniki vsebujejo"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1294
+#: ../modules/mail/e-mail-shell-view-actions.c:1296
 msgid "Sender contains"
 msgstr "Pošiljatelj vsebuje"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1301
+#: ../modules/mail/e-mail-shell-view-actions.c:1303
 msgid "Subject contains"
 msgstr "Zadeva vsebuje"
 
@@ -13724,9 +13748,9 @@ msgstr ""
 "Bodite pozorni medtem ko Evolution premika vaše mape ..."
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:181
-#: ../modules/calendar/e-cal-shell-sidebar.c:756
-#: ../modules/calendar/e-memo-shell-sidebar.c:682
-#: ../modules/calendar/e-task-shell-sidebar.c:682
+#: ../modules/calendar/e-cal-shell-sidebar.c:761
+#: ../modules/calendar/e-memo-shell-sidebar.c:687
+#: ../modules/calendar/e-task-shell-sidebar.c:687
 msgid "Source Selector Widget"
 msgstr "Gradnik izbirnika virov"
 
@@ -13868,7 +13892,7 @@ msgstr "_Dejanja"
 #: ../modules/addressbook/e-book-shell-view-actions.c:790
 #: ../modules/calendar/e-memo-shell-view-actions.c:660
 #: ../modules/calendar/e-task-shell-view-actions.c:812
-#: ../modules/mail/e-mail-shell-view-actions.c:1088
+#: ../modules/mail/e-mail-shell-view-actions.c:1090
 msgid "_Preview"
 msgstr "_Predogled"
 
@@ -13898,7 +13922,7 @@ msgstr "Pokaži okno s predogledom stika"
 #: ../modules/addressbook/e-book-shell-view-actions.c:860
 #: ../modules/calendar/e-memo-shell-view-actions.c:730
 #: ../modules/calendar/e-task-shell-view-actions.c:894
-#: ../modules/mail/e-mail-shell-view-actions.c:1183
+#: ../modules/mail/e-mail-shell-view-actions.c:1185
 msgid "_Classic View"
 msgstr "_Klasičen pogled"
 
@@ -13909,7 +13933,7 @@ msgstr "Pokaži podatke stika pod seznamom stikov"
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
 #: ../modules/calendar/e-memo-shell-view-actions.c:737
 #: ../modules/calendar/e-task-shell-view-actions.c:901
-#: ../modules/mail/e-mail-shell-view-actions.c:1190
+#: ../modules/mail/e-mail-shell-view-actions.c:1192
 msgid "_Vertical View"
 msgstr "_Navpični pogled"
 
@@ -13935,7 +13959,7 @@ msgstr "Brez zadetka"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1618
 #: ../modules/calendar/e-memo-shell-view-actions.c:764
 #: ../modules/calendar/e-task-shell-view-actions.c:963
-#: ../modules/mail/e-mail-shell-view-actions.c:1266
+#: ../modules/mail/e-mail-shell-view-actions.c:1268
 #: ../shell/e-shell-content.c:516
 msgid "Advanced Search"
 msgstr "Napredno iskanje"
@@ -14182,7 +14206,7 @@ msgid "Create a new calendar"
 msgstr "Ustvari nov koledar"
 
 #: ../modules/calendar/e-cal-shell-backend.c:507
-#: ../plugins/itip-formatter/itip-formatter.c:2644
+#: ../plugins/itip-formatter/itip-formatter.c:2657
 msgid "Calendar and Tasks"
 msgstr "Koledar in naloge"
 
@@ -14213,9 +14237,9 @@ msgstr "Ni mogoče preseliti starih nastavitev iz evolution/config.xmldb"
 msgid "Unable to migrate calendar `%s'"
 msgstr "Ni mogoče premakniti koledarja `%s'"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:162
-#: ../modules/calendar/e-memo-shell-sidebar.c:157
-#: ../modules/calendar/e-task-shell-sidebar.c:157
+#: ../modules/calendar/e-cal-shell-sidebar.c:167
+#: ../modules/calendar/e-memo-shell-sidebar.c:162
+#: ../modules/calendar/e-task-shell-sidebar.c:162
 #, c-format
 msgid ""
 "Error on %s\n"
@@ -14224,35 +14248,36 @@ msgstr ""
 "Napaka na %s\n"
 "%s"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:221
+#: ../modules/calendar/e-cal-shell-sidebar.c:226
 msgid "Loading calendars"
 msgstr "Nalaganje koledarjev"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:610
+#: ../modules/calendar/e-cal-shell-sidebar.c:615
 msgid "Calendar Selector"
 msgstr "Izbirnik koledarjev"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:736
+#: ../modules/calendar/e-cal-shell-sidebar.c:741
 msgid "Date Navigator Widget"
 msgstr "Gradnik izbirnika datuma"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:737
+#: ../modules/calendar/e-cal-shell-sidebar.c:742
 msgid "This widget displays a miniature calendar"
 msgstr "Gradnik omogoča prikaz malega koledarja"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:746
+#: ../modules/calendar/e-cal-shell-sidebar.c:751
 msgid "Default Calendar Client"
 msgstr "Privzet odjemalec koledarja"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:747
+#: ../modules/calendar/e-cal-shell-sidebar.c:752
 msgid "Default client for calendar operations"
 msgstr "Privzeti odjemalec za upravljanje koledarja"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:757
+#: ../modules/calendar/e-cal-shell-sidebar.c:762
 msgid "This widget displays groups of calendars"
 msgstr "Gradnik omogoča prikaz skupine koledarjev"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:944
+#. Translators: The string field is a URI.
+#: ../modules/calendar/e-cal-shell-sidebar.c:950
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Odpiranje koledarja na %s"
@@ -14668,27 +14693,28 @@ msgstr "Vpisnik seznama opomnikov"
 msgid "The memo table model"
 msgstr "Model preglednice opomnikov"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:216
+#: ../modules/calendar/e-memo-shell-sidebar.c:221
 msgid "Loading memos"
 msgstr "Nalaganje opomnikov"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:564
+#: ../modules/calendar/e-memo-shell-sidebar.c:569
 msgid "Memo List Selector"
 msgstr "Izbirnik seznama opomnikov"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:672
+#: ../modules/calendar/e-memo-shell-sidebar.c:677
 msgid "Default Memo Client"
 msgstr "Privzet odjemalec opomnikov"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:673
+#: ../modules/calendar/e-memo-shell-sidebar.c:678
 msgid "Default client for memo operations"
 msgstr "Privzeti odjemalec za upravljanje opomnikov"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:683
+#: ../modules/calendar/e-memo-shell-sidebar.c:688
 msgid "This widget displays groups of memo lists"
 msgstr "Gradnik omogoča prikaz skupin seznamov opomnikov"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:862
+#. Translators: The string field is a URI.
+#: ../modules/calendar/e-memo-shell-sidebar.c:868
 #, c-format
 msgid "Opening memos at %s"
 msgstr "Odpiranje opomnikov v %s"
@@ -14829,27 +14855,28 @@ msgstr ""
 msgid "Unable to migrate tasks `%s'"
 msgstr "Ni mogoče premakniti nalog `%s'"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:216
+#: ../modules/calendar/e-task-shell-sidebar.c:221
 msgid "Loading tasks"
 msgstr "Nalaganje nalog"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:564
+#: ../modules/calendar/e-task-shell-sidebar.c:569
 msgid "Task List Selector"
 msgstr "Izbirnik seznama nalog"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:672
+#: ../modules/calendar/e-task-shell-sidebar.c:677
 msgid "Default Task Client"
 msgstr "Privzet odjemalec nalog"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:673
+#: ../modules/calendar/e-task-shell-sidebar.c:678
 msgid "Default client for task operations"
 msgstr "Privzeti odjemalec za upravljanje nalog"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:683
+#: ../modules/calendar/e-task-shell-sidebar.c:688
 msgid "This widget displays groups of task lists"
 msgstr "Gradnik omogoča prikaz skupin seznamov nalog"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:862
+#. Translators: The string field is a URI.
+#: ../modules/calendar/e-task-shell-sidebar.c:868
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Odpiranje nalog v %s"
@@ -15158,171 +15185,171 @@ msgstr "Trajno odstrani vsa izbrisana sporočila iz vseh računov"
 msgid "_New Label"
 msgstr "_Nova oznaka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:988
+#: ../modules/mail/e-mail-shell-view-actions.c:990
 msgid "N_one"
 msgstr "_Brez"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:995
+#: ../modules/mail/e-mail-shell-view-actions.c:997
 msgid "Hide _Read Messages"
 msgstr "Skrij _prebrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:997
+#: ../modules/mail/e-mail-shell-view-actions.c:999
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Začasno skrij vsa že prebrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1002
+#: ../modules/mail/e-mail-shell-view-actions.c:1004
 msgid "Hide S_elected Messages"
 msgstr "Skrij _izbana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1004
+#: ../modules/mail/e-mail-shell-view-actions.c:1006
 msgid "Temporarily hide the selected messages"
 msgstr "Začasno skrij vsa izbrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1009
+#: ../modules/mail/e-mail-shell-view-actions.c:1011
 msgid "Show Hidde_n Messages"
 msgstr "Pokaži _skrita sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1011
+#: ../modules/mail/e-mail-shell-view-actions.c:1013
 msgid "Show messages that have been temporarily hidden"
 msgstr "Kaži sporočila, ki so bila začasno skrita"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1032
+#: ../modules/mail/e-mail-shell-view-actions.c:1034
 msgid "Cancel the current mail operation"
 msgstr "Prekliči trenutno opravilo pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1037
+#: ../modules/mail/e-mail-shell-view-actions.c:1039
 msgid "Collapse All _Threads"
 msgstr "Zloži vse ni_ti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1039
+#: ../modules/mail/e-mail-shell-view-actions.c:1041
 msgid "Collapse all message threads"
 msgstr "Zloži niti vseh sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1044
+#: ../modules/mail/e-mail-shell-view-actions.c:1046
 msgid "E_xpand All Threads"
 msgstr "_Razširi vse niti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1046
+#: ../modules/mail/e-mail-shell-view-actions.c:1048
 msgid "Expand all message threads"
 msgstr "Razširi niti vseh sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1051
+#: ../modules/mail/e-mail-shell-view-actions.c:1053
 msgid "_Message Filters"
 msgstr "Filtri _sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1053
+#: ../modules/mail/e-mail-shell-view-actions.c:1055
 msgid "Create or edit rules for filtering new mail"
 msgstr "Ustvari ali uredi pravila za filtriranje nove pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1058
+#: ../modules/mail/e-mail-shell-view-actions.c:1060
 msgid "Search F_olders"
 msgstr "Iskalne _mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1060
+#: ../modules/mail/e-mail-shell-view-actions.c:1062
 msgid "Create or edit search folder definitions"
 msgstr "Ustvari ali uredi določila iskalne mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1065
+#: ../modules/mail/e-mail-shell-view-actions.c:1067
 msgid "_Subscriptions..."
 msgstr "_Naročnine ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1067
+#: ../modules/mail/e-mail-shell-view-actions.c:1069
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Naroči se ali prekliči naročnino na mape z oddaljenih strežnikov"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1074
+#: ../modules/mail/e-mail-shell-view-actions.c:1076
 msgid "F_older"
 msgstr "_Mapa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1081
+#: ../modules/mail/e-mail-shell-view-actions.c:1083
 msgid "_Label"
 msgstr "_Oznaka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1121
+#: ../modules/mail/e-mail-shell-view-actions.c:1123
 msgid "_New Folder..."
 msgstr "_Nova mapa ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1145
+#: ../modules/mail/e-mail-shell-view-actions.c:1147
 msgid "Hide _Deleted Messages"
 msgstr "Skrij _izbrisana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1147
+#: ../modules/mail/e-mail-shell-view-actions.c:1149
 msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Raje skrij izbrisana sporočila kot, da so prikazana prečrtana"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1154
+#: ../modules/mail/e-mail-shell-view-actions.c:1156
 msgid "Show Message _Preview"
 msgstr "Pokaži _predogled sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1156
+#: ../modules/mail/e-mail-shell-view-actions.c:1158
 msgid "Show message preview pane"
 msgstr "Pokaži pladenj predogleda sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1162
+#: ../modules/mail/e-mail-shell-view-actions.c:1164
 msgid "_Group By Threads"
 msgstr "_Združi po nitih"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1164
+#: ../modules/mail/e-mail-shell-view-actions.c:1166
 msgid "Threaded message list"
 msgstr "Niten seznam sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1185
+#: ../modules/mail/e-mail-shell-view-actions.c:1187
 msgid "Show message preview below the message list"
 msgstr "Pokaži predogled sporočil pod seznamom sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1192
+#: ../modules/mail/e-mail-shell-view-actions.c:1194
 msgid "Show message preview alongside the message list"
 msgstr "Pokaži predogled sporočil ob seznamu sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1200
+#: ../modules/mail/e-mail-shell-view-actions.c:1202
 msgid "All Messages"
 msgstr "Vsa sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1207
+#: ../modules/mail/e-mail-shell-view-actions.c:1209
 msgid "Important Messages"
 msgstr "Pomembna sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1214
+#: ../modules/mail/e-mail-shell-view-actions.c:1216
 msgid "Last 5 Days' Messages"
 msgstr "Sporočila zadnjih 5 dni"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1221
+#: ../modules/mail/e-mail-shell-view-actions.c:1223
 msgid "Messages Not Junk"
 msgstr "Sporočila, ki niso neželena"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1228
+#: ../modules/mail/e-mail-shell-view-actions.c:1230
 msgid "Messages with Attachments"
 msgstr "Sporočila s prilogami"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1235
+#: ../modules/mail/e-mail-shell-view-actions.c:1237
 msgid "No Label"
 msgstr "Brez oznake"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1242
+#: ../modules/mail/e-mail-shell-view-actions.c:1244
 msgid "Read Messages"
 msgstr "Prebrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1249
+#: ../modules/mail/e-mail-shell-view-actions.c:1251
 msgid "Recent Messages"
 msgstr "Nedavna sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1256
+#: ../modules/mail/e-mail-shell-view-actions.c:1258
 msgid "Unread Messages"
 msgstr "Neprebrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1308
+#: ../modules/mail/e-mail-shell-view-actions.c:1310
 msgid "Subject or Addresses contain"
 msgstr "Zadeva ali pošiljatelj vsebuje niz"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1318
+#: ../modules/mail/e-mail-shell-view-actions.c:1320
 msgid "All Accounts"
 msgstr "Vsi račun"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1325
+#: ../modules/mail/e-mail-shell-view-actions.c:1327
 msgid "Current Account"
 msgstr "Trenutni račun"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1332
+#: ../modules/mail/e-mail-shell-view-actions.c:1334
 msgid "Current Folder"
 msgstr "Trenutna mapa"
 
@@ -16879,189 +16906,188 @@ msgstr "Fina nastavitev vaših IMAP računov."
 msgid "IMAP Features"
 msgstr "IMAP Možnosti"
 
-#: ../plugins/itip-formatter/itip-formatter.c:494
-#: ../plugins/itip-formatter/itip-formatter.c:619
+#: ../plugins/itip-formatter/itip-formatter.c:486
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Ni mogoče naložiti koledarja '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:639
+#: ../plugins/itip-formatter/itip-formatter.c:652
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Sestanek v koledarju '%s' je v sporu s tem srečanjem"
 
-#: ../plugins/itip-formatter/itip-formatter.c:675
+#: ../plugins/itip-formatter/itip-formatter.c:688
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Najden sestanek v koledarju '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:774
+#: ../plugins/itip-formatter/itip-formatter.c:787
 msgid "Unable to find any calendars"
 msgstr "Ni mogoče najti nobenega koledarja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:781
+#: ../plugins/itip-formatter/itip-formatter.c:794
 msgid "Unable to find this meeting in any calendar"
 msgstr "Srečanja ni mogoče najti v nobenem koledarju"
 
-#: ../plugins/itip-formatter/itip-formatter.c:785
+#: ../plugins/itip-formatter/itip-formatter.c:798
 msgid "Unable to find this task in any task list"
 msgstr "Naloge ni mogoče najti v nobenem seznamu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:802
 msgid "Unable to find this memo in any memo list"
 msgstr "Opomnika ni mogoče najti v nobenem seznamu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:860
+#: ../plugins/itip-formatter/itip-formatter.c:873
 msgid "Opening the calendar. Please wait.."
 msgstr "Odpiranje koledarja. Počakajte ..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:863
+#: ../plugins/itip-formatter/itip-formatter.c:876
 msgid "Searching for an existing version of this appointment"
 msgstr "Iskanje obstoječe različice tega sestanka"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1044
+#: ../plugins/itip-formatter/itip-formatter.c:1057
 msgid "Unable to parse item"
 msgstr "Ni mogoče razčleniti predmeta"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1131
+#: ../plugins/itip-formatter/itip-formatter.c:1144
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Ni mogoče poslati predmeta v koledar '%s'. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1143
+#: ../plugins/itip-formatter/itip-formatter.c:1156
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Poslano koledarju '%s' kot sprejeto"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1147
+#: ../plugins/itip-formatter/itip-formatter.c:1160
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Poslano koledarju '%s' kot poskusno"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1152
+#: ../plugins/itip-formatter/itip-formatter.c:1165
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Poslano koledarju '%s' kot odklonjeno"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1157
+#: ../plugins/itip-formatter/itip-formatter.c:1170
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Poslano koledarju '%s' kot preklicano"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1251
+#: ../plugins/itip-formatter/itip-formatter.c:1264
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizator je odstranil pooblaščenca %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1271
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Pooblaščencu pošlji obvestilo o preklicu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1273
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Pooblaščencu ni mogoče poslati obvestila o preklicu"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1371
+#: ../plugins/itip-formatter/itip-formatter.c:1384
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Stanja udeleženca ni mogoče posodobiti zaradi neveljavnega stanja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1400
+#: ../plugins/itip-formatter/itip-formatter.c:1413
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Ni mogoče posodobiti udeleženca. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1404
+#: ../plugins/itip-formatter/itip-formatter.c:1417
 msgid "Attendee status updated"
 msgstr "Stanje udeleženca posodobljeno"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1430
+#: ../plugins/itip-formatter/itip-formatter.c:1443
 msgid "Meeting information sent"
 msgstr "Podrobnosti srečanja so uspešno poslane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1433
+#: ../plugins/itip-formatter/itip-formatter.c:1446
 msgid "Task information sent"
 msgstr "Podrobnosti naloge uspešno poslane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1436
+#: ../plugins/itip-formatter/itip-formatter.c:1449
 msgid "Memo information sent"
 msgstr "Podrobnosti opomnika uspešno poslane"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1445
+#: ../plugins/itip-formatter/itip-formatter.c:1458
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Ni mogoče poslati podrobnosti srečanja, saj ta še ni ustvarjen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1448
+#: ../plugins/itip-formatter/itip-formatter.c:1461
 msgid "Unable to send task information, the task does not exist"
 msgstr "Podrobnosti naloge ni mogoče poslati, saj ne obstaja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1451
+#: ../plugins/itip-formatter/itip-formatter.c:1464
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Ni mogoče poslati opomnika, saj ta še ni ustvarjen"
 
 #. Translators: This is a default filename for a calendar.
-#: ../plugins/itip-formatter/itip-formatter.c:1516
+#: ../plugins/itip-formatter/itip-formatter.c:1529
 msgid "calendar.ics"
 msgstr "koledar.ics"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1521
+#: ../plugins/itip-formatter/itip-formatter.c:1534
 msgid "Save Calendar"
 msgstr "Shrani koledar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1574
-#: ../plugins/itip-formatter/itip-formatter.c:1585
+#: ../plugins/itip-formatter/itip-formatter.c:1587
+#: ../plugins/itip-formatter/itip-formatter.c:1598
 msgid "The calendar attached is not valid"
 msgstr "Priložen koledar ni veljaven"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1575
-#: ../plugins/itip-formatter/itip-formatter.c:1586
+#: ../plugins/itip-formatter/itip-formatter.c:1588
+#: ../plugins/itip-formatter/itip-formatter.c:1599
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Sporočilo trdi, da vsebuje koledar, vendar ni v veljavni obliki iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1626
-#: ../plugins/itip-formatter/itip-formatter.c:1654
-#: ../plugins/itip-formatter/itip-formatter.c:1760
+#: ../plugins/itip-formatter/itip-formatter.c:1639
+#: ../plugins/itip-formatter/itip-formatter.c:1667
+#: ../plugins/itip-formatter/itip-formatter.c:1773
 msgid "The item in the calendar is not valid"
 msgstr "Predmet v koledarju ni veljaven"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1627
-#: ../plugins/itip-formatter/itip-formatter.c:1655
-#: ../plugins/itip-formatter/itip-formatter.c:1761
+#: ../plugins/itip-formatter/itip-formatter.c:1640
+#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1774
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Sporočilo vsebuje koledar, vendar koledar ne vsebuje nobenih dogodkov, nalog ali podatkov o zasedenosti"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1681
 msgid "The calendar attached contains multiple items"
 msgstr "Priložen koledar vsebuje več predmetov"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1669
+#: ../plugins/itip-formatter/itip-formatter.c:1682
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "Za obdelavo vseh predmetov morate shraniti datoteko in uvoziti koledar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2434
+#: ../plugins/itip-formatter/itip-formatter.c:2447
 msgid "This meeting recurs"
 msgstr "Srečanje se ponavlja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2437
+#: ../plugins/itip-formatter/itip-formatter.c:2450
 msgid "This task recurs"
 msgstr "Ta naloga se ponavlja"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2440
+#: ../plugins/itip-formatter/itip-formatter.c:2453
 msgid "This memo recurs"
 msgstr "Opomnik se ponavlja"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2669
+#: ../plugins/itip-formatter/itip-formatter.c:2682
 msgid "_Delete message after acting"
 msgstr "Izbriši sporočilo po _dejanju"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2679
-#: ../plugins/itip-formatter/itip-formatter.c:2712
+#: ../plugins/itip-formatter/itip-formatter.c:2692
+#: ../plugins/itip-formatter/itip-formatter.c:2725
 msgid "Conflict Search"
 msgstr "Iskanje sporov"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2694
+#: ../plugins/itip-formatter/itip-formatter.c:2707
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Izberite koledarje za iskanje sporov mes srečanji"
 
@@ -17994,7 +18020,7 @@ msgstr "V trenutni mapi in _podmapah"
 msgid "In Current _Folder Only"
 msgstr "_Le v trenutni mapi"
 
-#: ../plugins/mark-all-read/mark-all-read.c:349
+#: ../plugins/mark-all-read/mark-all-read.c:402
 msgid "Mark Me_ssages as Read"
 msgstr "Označi _sporočila kot prebrana"
 
@@ -19308,7 +19334,7 @@ msgid "Execute these search parameters"
 msgstr "Izvedi določila iskanja"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:552
+#: ../shell/e-shell-window-private.c:555
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -21305,8 +21331,8 @@ msgstr "Izmenične barve vrstic"
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-item.c:2837
 #: ../widgets/table/e-table-item.c:2838
+#: ../widgets/table/e-tree.c:3369
 #: ../widgets/table/e-tree.c:3370
-#: ../widgets/table/e-tree.c:3371
 msgid "Horizontal Draw Grid"
 msgstr "Riši vodoravno mrežo"
 
@@ -21316,8 +21342,8 @@ msgstr "Riši vodoravno mrežo"
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-item.c:2844
 #: ../widgets/table/e-table-item.c:2845
+#: ../widgets/table/e-tree.c:3375
 #: ../widgets/table/e-tree.c:3376
-#: ../widgets/table/e-tree.c:3377
 msgid "Vertical Draw Grid"
 msgstr "Riši navpično mrežo"
 
@@ -21327,8 +21353,8 @@ msgstr "Riši navpično mrežo"
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-item.c:2851
 #: ../widgets/table/e-table-item.c:2852
+#: ../widgets/table/e-tree.c:3381
 #: ../widgets/table/e-tree.c:3382
-#: ../widgets/table/e-tree.c:3383
 msgid "Draw focus"
 msgstr "Riši fokus"
 
@@ -21357,8 +21383,8 @@ msgstr "Način izbire"
 #: ../widgets/table/e-table-item.c:2865
 #: ../widgets/table/e-table-item.c:2866
 #: ../widgets/table/e-table.c:3331
+#: ../widgets/table/e-tree.c:3363
 #: ../widgets/table/e-tree.c:3364
-#: ../widgets/table/e-tree.c:3365
 msgid "Length Threshold"
 msgstr "Prag dolžine"
 
@@ -21369,8 +21395,8 @@ msgstr "Prag dolžine"
 #: ../widgets/table/e-table-item.c:2899
 #: ../widgets/table/e-table-item.c:2900
 #: ../widgets/table/e-table.c:3338
+#: ../widgets/table/e-tree.c:3395
 #: ../widgets/table/e-tree.c:3396
-#: ../widgets/table/e-tree.c:3397
 msgid "Uniform row height"
 msgstr "Enotna višina vrstic"
 
@@ -21458,8 +21484,8 @@ msgid "Sort Info"
 msgstr "Razvrsti podatke"
 
 #: ../widgets/table/e-table.c:3345
+#: ../widgets/table/e-tree.c:3402
 #: ../widgets/table/e-tree.c:3403
-#: ../widgets/table/e-tree.c:3404
 msgid "Always search"
 msgstr "Vedno išči"
 
@@ -21475,24 +21501,24 @@ msgstr "Navpični razmik vrstic"
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
 msgstr "Navpilni razmik med vrsticami. Razmik je dodan na vrhu in na dnu vrstice."
 
+#: ../widgets/table/e-tree.c:3388
 #: ../widgets/table/e-tree.c:3389
-#: ../widgets/table/e-tree.c:3390
 msgid "ETree table adapter"
 msgstr "Vmesnik preglednice ETree"
 
-#: ../widgets/table/e-tree.c:3410
+#: ../widgets/table/e-tree.c:3409
 msgid "Retro Look"
 msgstr "Staromoden videz"
 
-#: ../widgets/table/e-tree.c:3411
+#: ../widgets/table/e-tree.c:3410
 msgid "Draw lines and +/- expanders."
 msgstr "Nariši črte in razširitvene gumbe +/-."
 
-#: ../widgets/table/e-tree.c:3417
+#: ../widgets/table/e-tree.c:3416
 msgid "Expander Size"
 msgstr "Velikost razširitvenega gumba"
 
-#: ../widgets/table/e-tree.c:3418
+#: ../widgets/table/e-tree.c:3417
 msgid "Size of the expander arrow"
 msgstr "Velikost puščice razširitvenega gumba"
 
@@ -23157,8 +23183,6 @@ msgstr "Pojavno okno ročice"
 #~ msgstr ""
 #~ "Zahtevana storitev \"hald\" trenutno ne teče. Omogočite storitev in "
 #~ "ponovno zaženite program ali pa obvestite upravljalca vašega sistema."
-#~ msgid "Search for an iPod failed"
-#~ msgstr "Iskanje iPod napave ni uspelo"
 #~ msgid ""
 #~ "Evolution could not find an iPod to synchronize with. Either the iPod is "
 #~ "not connected to the system or it is not powered on."
@@ -23399,8 +23423,6 @@ msgstr "Pojavno okno ročice"
 #~ msgstr "E-poštni naslov"
 #~ msgid "Find Possible Search Bases"
 #~ msgstr "Najdi mogoče iskalne zbirke"
-#~ msgid "Search filter"
-#~ msgstr "Iskalni filter"
 #~ msgid "Whenever Possible"
 #~ msgstr "Kadar je možno"
 #~ msgid "_Add Address Book"
