@@ -608,9 +608,8 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 	if (array == NULL)
 		return NULL;
 
-	convert.pdata = array->pdata;
 	g_ptr_array_add (array, NULL);
-	g_ptr_array_free (array, FALSE);
+	convert.pdata = g_ptr_array_free (array, FALSE);
 
 	return convert.destinations;
 }
