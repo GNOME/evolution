@@ -1,3 +1,42 @@
+Evolution 2.29.91 2010-02-22
+---------------------------
+
+Bug Fixes:
+	#610061 - Do not re-run book view on same book with same query (Milan Crha) 
+	#588833 - Improve account selection heuristics for replies (Matthew Barnes) 
+	#610250 - '[' and ']' keyboard shortcuts are swapped (Milan Crha) 
+	#609982 - Avoid unnecessary prompts when marking folders as read (Matthew Barnes) 
+	#609042 - Convert quoted-printing to UTF-8 when copying to clipboard (Matthew Barnes) 
+	#610124 - Autosave errors dialogues can't be dismissed (Matthew Barnes) 
+	#438759 - Fixed German translation, bug #438759 (Mario Blättermann) 
+	#609836 - Add translator comments to ambiguous strings (Matthew Barnes) 
+	#604306 - Crash in folder_tree_cell_edited_cb (Milan Crha) 
+	#610085 - e_alert_get_primary_text() does not escape arguments (Matthew Barnes) 
+	#599370 - Crash in e_activity_set_percent (Milan Crha) 
+	#554663 - Swap "Save" and "Save as Draft" accelerators in composer (Matthew Barnes) 
+	#609638 - Empty warning message on New vFolder (Milan Crha) 
+	#604522 - Mouse wheel scroll doesn't work above inline images (Milan Crha) 
+	#604542 - Skip non-system rules when building quick search menu (Matthew Barnes) 
+	#593700 - Opens folder on top (Milan Crha) 
+	#609403 - Doesn't restore window size always (Matthew Barnes) 
+	#609404 - Quick search filter should work on current message list view (Matthew Barnes) 	
+
+Other Changes:
+	Fix a potential crasher in e_charset_add_radio_actions(). (Matthew Barnes)
+	Update API documentation and fixed some warnings. (Matthew Barnes)
+	[itip-formatter] Show reason of failed calendar open (Milan Crha)
+	
+Translations:
+	Nils-Christoph Fiedler (ru)
+	Petr Kovar (cs)
+	Mattias Põldaru (et)
+	Mario Blättermann (gl)
+	Fran Diéguez (gl)
+	Mario Blättermann (de)
+	Bruno Brouard (fr)
+	vasudeven (ta)
+	Kjartan Maraas (nb)		
+ 
 Evolution 2.29.90 2010-02-08
 ----------------------------
 
