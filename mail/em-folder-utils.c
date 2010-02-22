@@ -460,9 +460,17 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 
 	camel_object_ref (folder);
 
-	dialog = e_alert_dialog_new_for_args (parent,
+	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (), folder, &flags) && (flags & CAMEL_FOLDER_CHILDREN)) {
+		dialog = e_alert_dialog_new_for_args (parent,
 			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
 			     folder->full_name, NULL);
+	}
+	else {
+		dialog = e_alert_dialog_new_for_args (parent,
+			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder-nochild":"mail:ask-delete-folder-nochild",
+			     folder->full_name, NULL);
+	}
+	
 	g_object_set_data_full ((GObject *) dialog, "folder", folder, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_delete_response), NULL);
 	gtk_widget_show (dialog);

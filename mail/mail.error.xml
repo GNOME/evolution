@@ -203,6 +203,19 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
+  <error id="ask-delete-folder-nochild" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Really delete folder "{0}"?</_primary>
+    <_secondary xml:space="preserve">If you delete the folder, all of its contents will be deleted permanently.</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+  </error>
+
+  <error id="ask-delete-vfolder-nochild" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Really delete folder "{0}"?</_primary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+  </error>
+
   <error id="ask-delete-vfolder-msg" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Delete messages in Search Folder "{0}"?</_primary>
     <_secondary xml:space="preserve">Warning: Deleting messages from a Search Folder will delete the actual message from one of your local or remote folders.
