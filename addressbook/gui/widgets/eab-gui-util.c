@@ -110,7 +110,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
                                  "to download its contents.");
 	}
 
-	else if (!strncmp (uri, "file:", 5)) {
+	else if (uri && !strncmp (uri, "file:", 5)) {
 		gchar *path = g_filename_from_uri (uri, NULL, NULL);
 		label = g_strdup_printf (
 			_("This address book cannot be opened.  Please check that the "
@@ -120,7 +120,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	}
 
 #ifndef HAVE_LDAP
-	else if (!strncmp (uri, "ldap:", 5)) {
+	else if (uri && !strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
 
 		can_detail_error = FALSE;
