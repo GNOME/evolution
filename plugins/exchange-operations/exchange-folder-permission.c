@@ -170,6 +170,9 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 	if (mode == OFFLINE_MODE)
 		return;
 
+	if (strlen (target->uri) <= strlen ("exchange://") + strlen (account->account_filename))
+		return;
+
 	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
 
 	if (!path || !*path)

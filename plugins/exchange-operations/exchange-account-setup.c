@@ -55,7 +55,7 @@ GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData 
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget *org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data);
-void org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
+void org_gnome_exchange_commit (EPlugin *epl, EMConfigTargetAccount *target_account);
 GtkWidget* org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 CamelServiceAuthType camel_exchange_ntlm_authtype = {
@@ -86,7 +86,7 @@ typedef struct {
 	GtkWidget *text_view;
 }OOFData;
 
-static OOFData *oof_data;
+static OOFData *oof_data = NULL;
 
 static void
 update_state (GtkTextBuffer *buffer, gpointer data)
@@ -309,6 +309,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	oof_message = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 	if (oof_message && *oof_message) {
+		g_free (oof_data->message);
 		/* Will this ever happen? */
 		oof_data->message = oof_message;
 	}
@@ -850,6 +851,8 @@ set_oof_info (void)
 {
 	ExchangeAccount *account;
 
+	g_return_if_fail (oof_data != NULL);
+
 	account = exchange_operations_get_exchange_account ();
 
 	if (account && !exchange_oof_set (account, oof_data->state, oof_data->message)) {
@@ -861,21 +864,24 @@ set_oof_info (void)
 static void
 destroy_oof_data (void)
 {
-	if (oof_data->message)
+	if (oof_data && oof_data->message) {
 		g_free (oof_data->message);
-	if (oof_data)
+		oof_data->message = NULL;
+	}
+
+	if (oof_data) {
 		g_free (oof_data);
+		oof_data = NULL;
+	}
 }
 
 void
-org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_exchange_commit (EPlugin *epl, EMConfigTargetAccount *target_account)
 {
-	EMConfigTargetAccount *target_account;
 	const gchar *source_url;
 	CamelURL *url;
 	gint offline_status;
 
-	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
 	if (source_url && source_url[0] != '\0')
 		url = camel_url_new (source_url, NULL);
@@ -886,10 +892,6 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 		if (url)
 			camel_url_free (url);
 
-		return;
-	}
-	if (data->old) {
-		camel_url_free(url);
 		return;
 	}
 

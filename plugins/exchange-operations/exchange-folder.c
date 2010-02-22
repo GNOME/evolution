@@ -215,13 +215,19 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 	if (!account)
 		return;
 
+	if (strlen (target->uri) <= strlen ("exchange://") + strlen (account->account_filename))
+		return;
+
 	path = g_strdup (target->uri + strlen ("exchange://") + strlen (account->account_filename));
 	sub_folder = strchr (path, '@');
 
+	if (!sub_folder || !g_strrstr(sub_folder, "/")) {
+		g_free (path);
+		return;
+	}
+
 	g_free (path);
 
-	if (!sub_folder || !g_strrstr(sub_folder, "/"))
-		return;
 
         for (i = 0; i < sizeof (popup_inbox_items) / sizeof (popup_inbox_items[0]); i++)
                 menus = g_slist_prepend (menus, &popup_inbox_items[i]);
