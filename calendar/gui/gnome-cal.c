@@ -139,6 +139,7 @@ struct _GnomeCalendarPrivate {
 	ECalMenu    *memopad_menu;
 
 	/* Calendar query for the date navigator */
+	GMutex      *dn_queries_lock; /* lock for dn_queries list */
 	GList       *dn_queries; /* list of CalQueries */
 	gchar        *sexp;
 	gchar        *todo_sexp;
@@ -877,6 +878,8 @@ update_query_async (struct _date_query_msg *msg)
 
 	priv = gcal->priv;
 
+	g_mutex_lock (priv->dn_queries_lock);
+
 	/* free the previous queries */
 	for (l = priv->dn_queries; l != NULL; l = l->next) {
 		old_query = l->data;
@@ -890,6 +893,8 @@ update_query_async (struct _date_query_msg *msg)
 
 	g_list_free (priv->dn_queries);
 	priv->dn_queries = NULL;
+
+	g_mutex_unlock (priv->dn_queries_lock);
 
 	g_return_if_fail (priv->sexp != NULL);
 
@@ -937,7 +942,9 @@ try_again:
 		g_signal_connect (old_query, "view_done",
 				  G_CALLBACK (dn_e_cal_view_done_cb), gcal);
 
+		g_mutex_lock (priv->dn_queries_lock);
 		priv->dn_queries = g_list_append (priv->dn_queries, old_query);
+		g_mutex_unlock (priv->dn_queries_lock);
 
 		e_cal_view_start (old_query);
 	}
@@ -1912,6 +1919,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->taskpad_menu = e_cal_menu_new("org.gnome.evolution.calendar.taskpad");
 	priv->memopad_menu = e_cal_menu_new ("org.gnome.evolution.calendar.memopad");
 
+	priv->dn_queries_lock = g_mutex_new ();
 	priv->dn_queries = NULL;
 	priv->sexp = g_strdup ("#t"); /* Match all */
 	priv->todo_sexp = g_strdup ("#t");
@@ -2004,6 +2012,7 @@ gnome_calendar_destroy (GtkObject *object)
 		e_memo_table_save_state (E_MEMO_TABLE (priv->memo), filename);
 		g_free (filename);
 
+		g_mutex_lock (priv->dn_queries_lock);
 		if (priv->dn_queries) {
 			for (l = priv->dn_queries; l != NULL; l = l->next) {
 				g_signal_handlers_disconnect_matched ((ECalView *) l->data, G_SIGNAL_MATCH_DATA,
@@ -2014,6 +2023,9 @@ gnome_calendar_destroy (GtkObject *object)
 			g_list_free (priv->dn_queries);
 			priv->dn_queries = NULL;
 		}
+		g_mutex_unlock (priv->dn_queries_lock);
+		g_mutex_free (priv->dn_queries_lock);
+		priv->dn_queries_lock = NULL;
 
 		if (non_intrusive_error_table) {
 			g_hash_table_destroy (non_intrusive_error_table);
@@ -3372,6 +3384,7 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
+		g_mutex_lock (priv->dn_queries_lock);
 		/* remove the query for this client */
 		for (l = priv->dn_queries; l != NULL; l = l->next) {
 			ECalView *query = l->data;
@@ -3384,6 +3397,7 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 				break;
 			}
 		}
+		g_mutex_unlock (priv->dn_queries_lock);
 
 		model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
 		e_cal_model_remove_client (model, client);
