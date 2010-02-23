@@ -492,7 +492,6 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		e_cal_component_alarms_free (cqa->alarms);
 		cqa->alarms = NULL;
 		d(printf("%s:%d (add_component_alarms) - Failed to add all : %p\n",__FILE__, __LINE__, cqa));
-		g_message ("Failed to add all\n");
 		g_free (cqa);
 		return;
 	}
@@ -1629,7 +1628,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 		filename = g_filename_from_uri (url, NULL, &error);
 
 		if (error != NULL) {
-			g_warning ("%s", error->message);
+			g_warning ("%s: %s", G_STRFUNC, error->message);
 			g_error_free (error);
 		} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 			flag = 1;

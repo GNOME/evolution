@@ -32,6 +32,8 @@
 #include <gdk/gdk.h>
 #include "alarm.h"
 
+#define d(x)
+
 
 
 /* Our glib timeout */
@@ -87,7 +89,7 @@ alarm_ready_cb (gpointer data)
 
 	now = time (NULL);
 
-	g_message ("Alarm callback!");
+	d(g_message ("Alarm callback!"));
 	while (alarms) {
 		AlarmRecord *notify_id, *ar;
 		AlarmRecord ar_copy;
@@ -97,7 +99,7 @@ alarm_ready_cb (gpointer data)
 		if (ar->trigger > now)
 			break;
 
-		g_message ("Process alarm with trigger %lu", ar->trigger);
+		d(g_message ("Process alarm with trigger %lu", ar->trigger));
 		notify_id = ar;
 
 		ar_copy = *ar;
@@ -150,9 +152,9 @@ setup_timeout (void)
 	now = time (NULL);
 
 	/* Add the time out */
-	g_message ("Setting timeout for %d %lu %lu", diff, ar->trigger, now);
-	g_message (" %s", ctime (&ar->trigger));
-	g_message (" %s", ctime (&now));
+	d(g_message ("Setting timeout for %d %lu %lu", diff, ar->trigger, now));
+	d(g_message (" %s", ctime (&ar->trigger)));
+	d(g_message (" %s", ctime (&now)));
 	timeout_id = g_timeout_add_seconds (diff, alarm_ready_cb, NULL);
 
 }
@@ -247,7 +249,7 @@ alarm_remove (gpointer alarm)
 
 	l = g_list_find (alarms, ar);
 	if (!l) {
-		g_message (G_STRLOC ": Requested removal of nonexistent alarm!");
+		g_warning (G_STRLOC ": Requested removal of nonexistent alarm!");
 		return;
 	}
 

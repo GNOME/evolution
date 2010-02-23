@@ -272,7 +272,7 @@ notified_alarms_dialog_new (void)
 
 	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs
 	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
-		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
+		g_warning ("alarm_notify_dialog(): Could not find all widgets in alarm-notify.ui file!");
 		g_object_unref (an->builder);
 		g_free (an);
 		return NULL;
