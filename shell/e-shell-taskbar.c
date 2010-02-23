@@ -225,6 +225,9 @@ shell_taskbar_constructed (GObject *object)
 	g_signal_connect_swapped (
 		shell_backend, "activity-added",
 		G_CALLBACK (shell_taskbar_activity_add), shell_taskbar);
+
+	/* to not enlarge window width on new activities */
+	gtk_widget_set_size_request (GTK_WIDGET (shell_taskbar), 0, -1);
 }
 
 static void
