@@ -343,7 +343,7 @@ static GtkActionEntry entries[] = {
 	{ "save",
 	  GTK_STOCK_SAVE,
 	  N_("_Save"),
-	  "<Control>s",
+	  "<Shift><Control>s",
 	  N_("Save the current file"),
 	  G_CALLBACK (action_save_cb) },
 
@@ -357,7 +357,7 @@ static GtkActionEntry entries[] = {
 	{ "save-draft",
 	  GTK_STOCK_SAVE,
 	  N_("Save as _Draft"),
-	  "<Shift><Control>s",
+	  "<Control>s",
 	  N_("Save as draft"),
 	  G_CALLBACK (action_save_draft_cb) },
 
