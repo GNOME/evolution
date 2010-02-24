@@ -736,6 +736,9 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	table_canvas_reflow_idle(e_table);
 
 	e_table->size_allocated = TRUE;
+
+	if (e_table->need_rebuild && !e_table->rebuild_idle_id)
+		e_table->rebuild_idle_id = g_idle_add_full (20, changed_idle, e_table, NULL);
 }
 
 static void
@@ -1012,9 +1015,10 @@ changed_idle (gpointer data)
 			NULL);
 
 		table_canvas_size_allocate (widget, &allocation, et);
+
+		et->need_rebuild = 0;
 	}
 
-	et->need_rebuild = 0;
 	et->rebuild_idle_id = 0;
 
 	CHECK_HORIZONTAL(et);
