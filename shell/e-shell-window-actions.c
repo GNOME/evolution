@@ -2301,12 +2301,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 
 	source = E_FILTER_SOURCE_INCOMING;
 
-	/* Update sensitivity of search actions. */
-
-	sensitive = (e_shell_view_get_search_rule (shell_view) != NULL);
-	gtk_action_set_sensitive (ACTION (SEARCH_CLEAR), sensitive);
-	gtk_action_set_sensitive (ACTION (SEARCH_SAVE), sensitive);
-
+	/* Update sensitivity of search_options action. */
 	sensitive = (shell_view_class->search_options != NULL);
 	gtk_action_set_sensitive (ACTION (SEARCH_OPTIONS), sensitive);
 
