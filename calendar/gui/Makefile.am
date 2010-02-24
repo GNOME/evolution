@@ -12,10 +12,13 @@ ecalendarinclude_HEADERS =			\
 	cal-editor-utils.h			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
+	calendar-view.h				\
+	calendar-view-factory.h			\
 	comp-util.h				\
 	e-alarm-list.h				\
 	e-cal-config.h				\
 	e-cal-event.h				\
+	e-cal-list-view.h			\
 	e-cal-model-calendar.h			\
 	e-cal-model.h				\
 	e-calendar-selector.h			\
