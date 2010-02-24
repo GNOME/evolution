@@ -45,7 +45,7 @@ void                eab_transfer_contacts         (EBook       *source,
 
 gchar *             eab_suggest_filename          (GList *contact_list);
 
-ESource            *eab_select_source             (const gchar *title, const gchar *message,
+ESource            *eab_select_source             (ESource *except_source, const gchar *title, const gchar *message,
 						   const gchar *select_uid, GtkWindow *parent);
 
 /* To parse quoted printable address & return email & name fields */

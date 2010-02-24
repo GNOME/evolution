@@ -219,15 +219,18 @@ make_safe_filename (gchar *name)
 }
 
 static void
-source_selection_changed_cb (GtkWidget *selector, GtkWidget *ok_button)
+source_selection_changed_cb (ESourceSelector *selector, GtkWidget *ok_button)
 {
-	gtk_widget_set_sensitive (ok_button,
-				  e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector)) ?
-				  TRUE : FALSE);
+	ESource *except_source = NULL, *selected;
+
+	except_source = g_object_get_data (G_OBJECT (ok_button), "except-source");
+	selected = e_source_selector_peek_primary_selection (selector);
+
+	gtk_widget_set_sensitive (ok_button, selected && selected != except_source);
 }
 
 ESource *
-eab_select_source (const gchar *title, const gchar *message, const gchar *select_uid, GtkWindow *parent)
+eab_select_source (ESource *except_source, const gchar *title, const gchar *message, const gchar *select_uid, GtkWindow *parent)
 {
 	ESource *source;
 	ESourceList *source_list;
@@ -254,6 +257,8 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
+	if (except_source)
+		g_object_set_data (G_OBJECT (ok_button), "except-source", e_source_list_peek_source_by_uid (source_list, e_source_peek_uid (except_source)));
 	g_signal_connect (selector, "primary_selection_changed",
 			  G_CALLBACK (source_selection_changed_cb), ok_button);
 
@@ -439,7 +444,7 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 			desc = _("Copy contacts to");
 	}
 
-	destination_source = eab_select_source (desc, NULL,
+	destination_source = eab_select_source (e_book_get_source (source), desc, NULL,
 						last_uid, parent_window);
 
 	if (!destination_source)
