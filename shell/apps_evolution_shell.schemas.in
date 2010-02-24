@@ -389,5 +389,13 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/shell/express_mode</key>
+      <applyto>/apps/evolution/shell/express_mode</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>false</default>
+    </schema>
+
   </schemalist>  
 </gconfschemafile>

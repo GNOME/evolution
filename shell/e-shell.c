@@ -60,6 +60,7 @@ struct _EShellPrivate {
 	guint online		: 1;
 	guint quit_cancelled	: 1;
 	guint safe_mode		: 1;
+	guint express		: 1;
 };
 
 enum {
@@ -1037,7 +1038,8 @@ shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
-
+	shell->priv->express = gconf_client_get_bool (
+		shell->priv->gconf_client, "/apps/evolution/shell/express_mode", NULL);
 	g_object_ref_sink (shell->priv->preferences_window);
 
 #if defined(NM_SUPPORT) && NM_SUPPORT
@@ -1656,6 +1658,24 @@ e_shell_set_online (EShell *shell,
 		shell_prepare_for_online (shell);
 	else
 		shell_prepare_for_offline (shell);
+}
+
+/**
+ * e_shell_get_online:
+ * @shell: an #EShell
+ *
+ * Returns %TRUE if Evolution is online, %FALSE if Evolution is offline.
+ * Evolution may be offline because the user elected to work offline, or
+ * because the network has become unavailable.
+ *
+ * Returns: %TRUE if Evolution is online
+ **/
+gboolean
+e_shell_get_express_mode (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->online;
 }
 
 /**
