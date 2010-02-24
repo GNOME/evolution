@@ -314,28 +314,63 @@ e_load_ui_builder_definition (GtkBuilder *builder,
  * e_load_ui_manager_definition:
  * @ui_manager: a #GtkUIManager
  * @basename: basename of the UI definition file
+ * @is_express: are we in 'express' mode ?
  *
  * Loads a UI definition into @ui_manager from Evolution's UI directory.
  * Failure here is fatal, since the application can't function without
- * its UI definitions.
+ * its UI definitions. Depending on the mode signalled by @is_express a
+ * simplified version of the UI may be presented.
  *
  * Returns: The merge ID for the merged UI.  The merge ID can be used to
  *          unmerge the UI with gtk_ui_manager_remove_ui().
  **/
 guint
 e_load_ui_manager_definition (GtkUIManager *ui_manager,
-                              const gchar *basename)
+                              const gchar *basename,
+			      gboolean is_express)
 {
 	gchar *filename;
-	guint merge_id;
+	guint merge_id = 0;
 	GError *error = NULL;
+	gchar *buffer;
 
 	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), 0);
 	g_return_val_if_fail (basename != NULL, 0);
 
 	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
-	merge_id = gtk_ui_manager_add_ui_from_file (
-		ui_manager, filename, &error);
+
+	/*
+	 * Very simple line based pre-processing based on comments:
+	 * <!-- if [!]EXPRESS --> ... <!-- endif -->
+	 */
+	if (g_file_get_contents (filename, &buffer, NULL, &error)) {
+		int i;
+		gchar *filtered, **lines;
+		gboolean include = TRUE;
+
+		lines = g_strsplit (buffer, "\n", -1);
+		for (i = 0; lines[i]; i++) {
+			char *p;
+			if ((p = strstr (lines[i], "<!-- if "))) {
+				gboolean not_express = lines[i][8] == '!';
+				lines[i][0] = '\0';
+				include = is_express ^ not_express;
+				fprintf (stderr, "not exporess: %d from '%s' include to %d\n",
+					 not_express, lines[i], include);
+			} else if ((p = strstr (lines[i], "<!-- endif"))) {
+				lines[i][0] = '\0';
+				include = TRUE;
+			}
+			if (!include)
+				lines[i][0] = '\0';
+		}
+		filtered = g_strjoinv("\n", lines);
+
+		merge_id = gtk_ui_manager_add_ui_from_string (ui_manager, filtered, -1, &error);
+
+		g_free (filtered);
+	}
+
 	g_free (filename);
 
 	if (error != NULL) {

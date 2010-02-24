@@ -120,15 +120,19 @@
         </menu>
       </toolitem>
       <separator/>
+<!-- if !EXPRESS -->
       <toolitem action='mail-print'/>
+<!-- endif -->
       <toolitem action='mail-delete'/>
       <toolitem action='mail-mark-junk'/>
       <toolitem action='mail-mark-notjunk'/>
     </placeholder>
     <separator/>
     <placeholder name='mail-toolbar-navigation'>
+<!-- if !EXPRESS -->
       <toolitem action='mail-previous'/>
       <toolitem action='mail-next'/>
+<!-- endif -->
     </placeholder>
   </toolbar>
   <popup name='mail-message-popup'>

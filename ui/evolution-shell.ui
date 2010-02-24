@@ -86,5 +86,8 @@
     <toolitem action='send-receive'/>
     <separator/>
     <placeholder name='toolbar-actions'/>
+<!-- if !EXPRESS -->
+    <toolitem action='preferences'/>
+<!-- endif -->
   </toolbar>
 </ui>
