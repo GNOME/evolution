@@ -579,19 +579,19 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 				pst_process_contact (m, item);
 			}
 
-		} else if (item->type == PST_TYPE_APPOINTMENT) {
+		} else if (item->type == PST_TYPE_APPOINTMENT && item->appointment) {
 
 			if (m->calendar && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
 				pst_process_appointment (m, item);
 			}
 
-		} else if (item->type == PST_TYPE_TASK) {
+		} else if (item->type == PST_TYPE_TASK && item->appointment) {
 
 			if (m->tasks && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task"))) {
 				pst_process_task (m, item);
 			}
 
-		} else if (item->type == PST_TYPE_JOURNAL) {
+		} else if (item->type == PST_TYPE_JOURNAL && item->appointment) {
 
 			if (m->journal && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
 				pst_process_journal (m, item);
@@ -1283,6 +1283,8 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 	a = item->appointment;
 	e = item->email;
 
+	g_return_if_fail (item->appointment != NULL);
+
 	if (item->create_date) {
 		struct icaltimetype tt;
 		tt = get_ical_date (item->create_date, FALSE);
@@ -1432,6 +1434,8 @@ pst_process_appointment (PstImporter *m, pst_item *item)
 {
 	ECalComponent *ec;
 
+	g_return_if_fail (item->appointment != NULL);
+
 	ec = e_cal_component_new ();
 	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_EVENT);
 
@@ -1451,6 +1455,8 @@ static void
 pst_process_task (PstImporter *m, pst_item *item)
 {
 	ECalComponent *ec;
+
+	g_return_if_fail (item->appointment != NULL);
 
 	ec = e_cal_component_new ();
 	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_TODO);
@@ -1473,6 +1479,8 @@ static void
 pst_process_journal (PstImporter *m, pst_item *item)
 {
 	ECalComponent *ec;
+
+	g_return_if_fail (item->appointment != NULL);
 
 	/*j = item->journal;*/
 	ec = e_cal_component_new ();
