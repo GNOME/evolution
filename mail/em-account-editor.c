@@ -955,6 +955,7 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 	EAccount *account;
 	GtkComboBox *dropdown = (GtkComboBox *)e_builder_get_widget (builder, "receipt_policy_dropdown");
 	GtkListStore *store;
+	GtkCellRenderer *cell;
 	gint i = 0, active = 0;
 	GtkTreeIter iter;
 	EAccountReceiptPolicy current;
@@ -985,6 +986,11 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 	}
 
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (dropdown), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (dropdown), cell, "text", 0, NULL);
+
 	gtk_combo_box_set_active (dropdown, active);
 
 	g_signal_connect (dropdown, "changed", G_CALLBACK(emae_receipt_policy_changed), emae);
