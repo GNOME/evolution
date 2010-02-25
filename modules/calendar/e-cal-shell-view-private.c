@@ -737,8 +737,9 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 		success = e_cal_modify_object (
 			destination_client, icalcomp_event,
 			CALOBJ_MOD_ALL, NULL);
-		if (!success)
-			return;
+
+		/* do not delete the event when it was found in the calendar */
+		return;
 	} else {
 		icalproperty *icalprop;
 		gchar *new_uid;

@@ -172,7 +172,7 @@ copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType obj_type)
 	csdd.selected_source = NULL;
 	csdd.obj_type = obj_type;
 
-	csdd.selected_source = select_source_dialog (parent, obj_type);
+	csdd.selected_source = select_source_dialog (parent, obj_type, source);
 	if (csdd.selected_source) {
 		result = copy_source (&csdd);
 

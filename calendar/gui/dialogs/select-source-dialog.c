@@ -35,7 +35,7 @@
  * Implements dialog for allowing user to select a destination source.
  */
 ESource *
-select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
+select_source_dialog (GtkWindow *parent, ECalSourceType obj_type, ESource *except_source)
 {
 	GtkWidget *dialog;
 	ESourceList *source_list;
@@ -68,6 +68,9 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 
 	if (icon_name)
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
+
+	if (except_source)
+		g_object_set_data (G_OBJECT (dialog), "except-source", except_source);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		selected_source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));

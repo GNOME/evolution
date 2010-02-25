@@ -507,7 +507,7 @@ action_event_copy_cb (GtkAction *action,
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalendarView *calendar_view;
-	ESource *destination_source = NULL;
+	ESource *source_source = NULL, *destination_source = NULL;
 	ECal *destination_client = NULL;
 	GList *selected, *iter;
 
@@ -522,9 +522,16 @@ action_event_copy_cb (GtkAction *action,
 	selected = e_calendar_view_get_selected_events (calendar_view);
 	g_return_if_fail (selected != NULL);
 
+	if (selected->data) {
+		ECalendarViewEvent *event = selected->data;
+
+		if (event && event->comp_data && event->comp_data->client)
+			source_source = e_cal_get_source (event->comp_data->client);
+	}
+
 	/* Get a destination source from the user. */
 	destination_source = select_source_dialog (
-		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT);
+		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT, source_source);
 	if (destination_source == NULL)
 		return;
 
@@ -762,7 +769,7 @@ action_event_move_cb (GtkAction *action,
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalendarView *calendar_view;
-	ESource *destination_source = NULL;
+	ESource *source_source = NULL, *destination_source = NULL;
 	ECal *destination_client = NULL;
 	GList *selected, *iter;
 
@@ -777,9 +784,16 @@ action_event_move_cb (GtkAction *action,
 	selected = e_calendar_view_get_selected_events (calendar_view);
 	g_return_if_fail (selected != NULL);
 
+	if (selected->data) {
+		ECalendarViewEvent *event = selected->data;
+
+		if (event && event->comp_data && event->comp_data->client)
+			source_source = e_cal_get_source (event->comp_data->client);
+	}
+
 	/* Get a destination source from the user. */
 	destination_source = select_source_dialog (
-		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT);
+		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT, source_source);
 	if (destination_source == NULL)
 		return;
 
