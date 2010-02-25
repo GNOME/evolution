@@ -168,7 +168,9 @@ addressbook_selector_load_primary_source (ESourceSelector *selector)
 	if (uid != NULL) {
 		source = e_source_list_peek_source_by_uid (source_list, uid);
 		g_free (uid);
-	} else {
+	}
+
+	if (source == NULL) {
 		GSList *groups;
 
 		/* Dig up the first source in the source list.
