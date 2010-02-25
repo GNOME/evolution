@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the evolution package.
 # Nils-Christoph Fiedler <fiedler@medienkompanie.de>, 2010.
 #
+#: ../shell/main.c:631
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-02-25 12:48+0000\n"
-"PO-Revision-Date: 2010-02-25 16:32+0100\n"
+"POT-Creation-Date: 2010-02-25 15:43+0000\n"
+"PO-Revision-Date: 2010-02-25 18:35+0100\n"
 "Last-Translator: Nils-Christoph Fiedler <fiedler@medienkompanie.de>\n"
 "Language-Team: Low German <nds-lowgerman@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +140,7 @@ msgstr ""
 #: ../a11y/calendar/ea-day-view.c:165
 #, c-format
 msgid "Day View: %s. %s"
-msgstr ""
+msgstr "Dagansicht: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:196
 msgid "calendar view for a work week"
@@ -225,12 +226,12 @@ msgstr ""
 #: ../a11y/calendar/ea-week-view.c:154
 #, c-format
 msgid "Month View: %s. %s"
-msgstr ""
+msgstr "Monatsansicht: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:158
 #, c-format
 msgid "Week View: %s. %s"
-msgstr ""
+msgstr "Weekenansicht: %s. %s"
 
 #: ../a11y/calendar/ea-week-view.c:189
 msgid "calendar view for a month"
@@ -320,8 +321,9 @@ msgid "Combo Button"
 msgstr "_Knöppe opwiesen"
 
 #: ../a11y/widgets/ea-combo-button.c:66
+#, fuzzy
 msgid "Activate Default"
-msgstr ""
+msgstr "Standard"
 
 #: ../a11y/widgets/ea-combo-button.c:68
 msgid "Popup Menu"
@@ -383,8 +385,9 @@ msgid "Delete address book '{0}'?"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:13
+#, fuzzy
 msgid "Error loading address book."
-msgstr ""
+msgstr "Fehler bi'm Laden vum Kalenner"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
@@ -458,7 +461,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to open address book"
-msgstr ""
+msgstr "Nich möglich, Anskrivtenbook optomaken"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to perform search."
@@ -509,7 +512,7 @@ msgstr "_Hentofögen"
 
 #: ../addressbook/addressbook.error.xml.h:39
 msgid "_Discard"
-msgstr ""
+msgstr "_Avbreken"
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid "_Do not save"
@@ -551,7 +554,7 @@ msgstr ""
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 #, fuzzy
 msgid "C_ontacts"
-msgstr "L_üüt"
+msgstr "Kontakte"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Certificates"
@@ -568,7 +571,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
 #: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakte"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #, fuzzy
@@ -646,12 +649,12 @@ msgstr ""
 #: ../calendar/gui/tasks-component.c:195 ../mail/em-migrate.c:960
 #: ../plugins/email-custom-header/email-custom-header.c:334
 msgid "Personal"
-msgstr ""
+msgstr "Eegen"
 
 #: ../addressbook/gui/component/addressbook-component.c:209
 msgctxt "New"
 msgid "_Contact"
-msgstr ""
+msgstr "_Kontakt::"
 
 #: ../addressbook/gui/component/addressbook-component.c:210
 msgid "Create a new contact"
@@ -660,7 +663,7 @@ msgstr ""
 #: ../addressbook/gui/component/addressbook-component.c:217
 msgctxt "New"
 msgid "Contact _List"
-msgstr ""
+msgstr "Kontakt_list:"
 
 #: ../addressbook/gui/component/addressbook-component.c:218
 msgid "Create a new contact list"
@@ -674,7 +677,7 @@ msgstr ""
 #: ../addressbook/gui/component/addressbook-component.c:225
 msgctxt "New"
 msgid "Address _Book"
-msgstr ""
+msgstr "Anskrivten_book"
 
 #: ../addressbook/gui/component/addressbook-component.c:226
 msgid "Create a new address book"
@@ -754,7 +757,7 @@ msgstr "Allgemeen"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:554
 #: ../mail/importers/pine-importer.c:383
 msgid "Address Book"
-msgstr ""
+msgstr "_Anskrivtenbook"
 
 #: ../addressbook/gui/component/addressbook-config.c:1025
 msgid "Server Information"
@@ -768,12 +771,12 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: ../addressbook/gui/component/addressbook-config.c:1031
 #: ../mail/em-folder-browser.c:1021
 msgid "Searching"
-msgstr ""
+msgstr "Söken"
 
 #: ../addressbook/gui/component/addressbook-config.c:1033
 msgid "Downloading"
@@ -842,7 +845,7 @@ msgstr ""
 #: ../mail/em-folder-utils.c:458
 #, fuzzy
 msgid "Rename Folder"
-msgstr "Aktuelles Verteeknis"
+msgstr "Verteeknis erstellen"
 
 #: ../addressbook/gui/component/addressbook-view.c:430
 #: ../mail/em-folder-utils.c:464
@@ -863,7 +866,7 @@ msgstr "Spiekern _as..."
 #: ../calendar/gui/memos-component.c:485 ../calendar/gui/tasks-component.c:477
 #: ../mail/em-folder-tree.c:2127 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
-msgstr ""
+msgstr "_Annern Naam geven..."
 
 #: ../addressbook/gui/component/addressbook-view.c:960
 #: ../addressbook/gui/widgets/e-addressbook-view.c:954
@@ -876,7 +879,7 @@ msgstr ""
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
-msgstr ""
+msgstr "_Löschen"
 
 #: ../addressbook/gui/component/addressbook-view.c:963
 #: ../calendar/gui/calendar-component.c:641
@@ -884,7 +887,7 @@ msgstr ""
 #: ../mail/em-folder-tree.c:2132 ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
-msgstr ""
+msgstr "_Eegenschapten"
 
 #: ../addressbook/gui/component/addressbook-view.c:1229
 msgid "Contact Source Selector"
@@ -986,12 +989,13 @@ msgid "Table column:"
 msgstr ""
 
 #: ../addressbook/gui/component/autocompletion-config.c:187
+#, fuzzy
 msgid "Look up in address books"
-msgstr ""
+msgstr "Nich möglich, Anskrivtenbook optomaken"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:2
 msgid ""
@@ -1002,11 +1006,12 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:5
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:6
+#, fuzzy
 msgid "<b>Authentication</b>"
-msgstr ""
+msgstr "Authentifikatschoon fehlslagen"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
 msgid "<b>Downloading</b>"
@@ -1015,7 +1020,7 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 #, fuzzy
 msgid "<b>Searching</b>"
-msgstr "<b>Brukers</b>"
+msgstr "Söken"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid ""
@@ -1039,10 +1044,11 @@ msgid "Lo_gin:"
 msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
+#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr ""
+msgstr "Een"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -1120,7 +1126,7 @@ msgstr "_Naam:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "_Port:"
-msgstr ""
+msgstr "_Port:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid "_Search scope:"
@@ -1130,7 +1136,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:184
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Server:"
-msgstr ""
+msgstr "_Server:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid "_Timeout:"
@@ -1163,7 +1169,7 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:2
 #, fuzzy
 msgid "<b>Home</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 #, fuzzy
@@ -1173,12 +1179,12 @@ msgstr "Fortsnahrichten"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 #, fuzzy
 msgid "<b>Job</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:5
 #, fuzzy
 msgid "<b>Miscellaneous</b>"
-msgstr "<b>Brukers</b>"
+msgstr "Jichtenswat anners"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
 #, fuzzy
@@ -1188,21 +1194,22 @@ msgstr "<b>Brukers</b>"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 #, fuzzy
 msgid "<b>Other</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
+#, fuzzy
 msgid "<b>Telephone</b>"
-msgstr ""
+msgstr "Klönkassen"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 #, fuzzy
 msgid "<b>Web Addresses</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #, fuzzy
 msgid "<b>Work</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../calendar/gui/dialogs/event-page.glade.h:7
@@ -1226,7 +1233,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
-msgstr ""
+msgstr "_Full Naam..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "Image"
@@ -1246,7 +1253,7 @@ msgstr ""
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:451
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:564
 msgid "Notes"
-msgstr ""
+msgstr "Notizen"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "Personal Information"
@@ -1254,7 +1261,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Telephone"
-msgstr ""
+msgstr "Klönkassen"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "_Address:"
@@ -1293,7 +1300,7 @@ msgstr "_Land:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_Department:"
-msgstr ""
+msgstr "_Kontor:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_File under:"
@@ -1305,11 +1312,11 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Home Page:"
-msgstr ""
+msgstr "_Hemsiet:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Manager:"
-msgstr ""
+msgstr "_Oppasser:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Office:"
@@ -1317,11 +1324,11 @@ msgstr "_Kontor:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_PO Box:"
-msgstr ""
+msgstr "_Postfach:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Profession:"
-msgstr ""
+msgstr "_Beroop:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Spouse:"
@@ -1329,7 +1336,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_State/Province:"
-msgstr ""
+msgstr "_Land/Region:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fullname.glade.h:19
@@ -1346,7 +1353,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "_Web Log:"
-msgstr ""
+msgstr "Netdagebook"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
@@ -1355,7 +1362,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Zip/Postal Code:"
-msgstr ""
+msgstr "Zip/_Postleittaal:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:85
 #: ../mail/em-mailer-prefs.c:473
@@ -1528,30 +1535,32 @@ msgid "_Select Address Book"
 msgstr ""
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:323
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s)?"
-msgstr ""
+msgstr "Wullt je düssen Kontakt (%s) seker löschen?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
+#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
-msgstr ""
+msgstr "Wullt je düssen Kontakt seker löschen?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:331
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact (%s)?"
-msgstr ""
+msgstr "Wullt je düssen Kontakt (%s) seker löschen?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:334
+#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
-msgstr ""
+msgstr "Wullt je düssen Kontakt seker löschen?"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
 msgid ""
@@ -1577,15 +1586,15 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/fullname.glade.h:14
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Full Name"
-msgstr ""
+msgstr "Vor- un Tonaam"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_First:"
-msgstr ""
+msgstr "_Toerst"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Last:"
-msgstr ""
+msgstr "_Leste:"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Middle:"
@@ -1598,7 +1607,7 @@ msgstr ""
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 #, fuzzy
 msgid "<b>Members</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:668
@@ -1712,7 +1721,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 msgid "Name contains"
-msgstr ""
+msgstr "Naam hett in"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:162
 msgid "No contacts"
@@ -1722,8 +1731,8 @@ msgstr "Keene Lüüt"
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Kontakt"
+msgstr[1] "%d Kontakte"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:317
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:410
@@ -1751,8 +1760,9 @@ msgid "Error modifying card"
 msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:158
+#, fuzzy
 msgid "Name begins with"
-msgstr ""
+msgstr "heurt op mit"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:218
 msgid "Source"
@@ -1782,11 +1792,11 @@ msgstr "opmaken"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:934
 msgid "_New Contact..."
-msgstr ""
+msgstr "_Nejer Kontakt..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
 msgid "New Contact _List..."
-msgstr ""
+msgstr "Neje Kontakt_list..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "_Save as vCard..."
@@ -1842,12 +1852,12 @@ msgstr ""
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
 #, fuzzy
 msgid "_Copy"
-msgstr "_Kompanie:"
+msgstr "_Koperen..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:953
 #, fuzzy
 msgid "P_aste"
-msgstr "_Opfrischen"
+msgstr "_Leste:"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1534
@@ -2025,7 +2035,7 @@ msgstr "Titel"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
-msgstr ""
+msgstr "Eenheet"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
@@ -2063,7 +2073,7 @@ msgstr "Höhe"
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:169
 msgid "Has Focus"
-msgstr ""
+msgstr "Het Fokus"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
@@ -2186,11 +2196,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:620
 msgid "Department"
-msgstr ""
+msgstr "Kontor"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:621
 msgid "Profession"
-msgstr ""
+msgstr "Beroop"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:622
 msgid "Position"
@@ -2224,11 +2234,11 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-contact-display.c:628
 #: ../addressbook/gui/widgets/eab-contact-display.c:643
 msgid "Phone"
-msgstr ""
+msgstr "Klönkassen"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:629
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:630
 #: ../addressbook/gui/widgets/eab-contact-display.c:645
@@ -2259,7 +2269,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:889
 msgid "Home page"
-msgstr ""
+msgstr "Hemsiet"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:897
 msgid "Blog"
@@ -2284,7 +2294,7 @@ msgstr ""
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:62
 msgid "Address Book does not exist"
-msgstr ""
+msgstr "Düsses Anskrivtenbook givt dat nich"
 
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
@@ -2333,13 +2343,13 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:72
 #: ../calendar/gui/comp-editor-factory.c:437
 msgid "Authentication Failed"
-msgstr ""
+msgstr "Authentifikatschoon fehlslagen"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:73
 #: ../calendar/gui/comp-editor-factory.c:431
 msgid "Authentication Required"
-msgstr ""
+msgstr "Authentifikatschoon nödig"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:74
@@ -2486,7 +2496,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:354
 #, fuzzy
 msgid "Overwrite"
-msgstr "Överblick"
+msgstr "_Överschrieven"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
@@ -2510,7 +2520,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:594
 msgid "list"
-msgstr ""
+msgstr "List"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:746
 msgid "Move contact to"
@@ -2651,7 +2661,7 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMBER"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:101
 msgid ""
@@ -2847,7 +2857,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:40
 msgid "Error loading calendar"
-msgstr ""
+msgstr "Fehler bi'm Laden vum Kalenner"
 
 #: ../calendar/calendar.error.xml.h:41
 msgid "Error loading memo list"
@@ -2887,7 +2897,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:49
 #, fuzzy
 msgid "Save Appointment"
-msgstr "\t\t"
+msgstr "Anhang spiekern"
 
 #: ../calendar/calendar.error.xml.h:50
 #, fuzzy
@@ -3158,7 +3168,7 @@ msgstr ""
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 #, fuzzy
 msgid "Memo_s"
-msgstr "_Notizen"
+msgstr "Notizen"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:298 ../calendar/gui/e-memos.c:1123
@@ -3166,7 +3176,7 @@ msgstr "_Notizen"
 #: ../calendar/gui/memos-component.c:888 ../calendar/gui/memos-control.c:386
 #: ../calendar/gui/memos-control.c:402
 msgid "Memos"
-msgstr ""
+msgstr "Notizen"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:730 ../calendar/gui/e-tasks.c:1426
@@ -3201,7 +3211,7 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:100
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
+msgstr[0] "Minuut"
 msgstr[1] ""
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
@@ -3221,7 +3231,7 @@ msgstr[1] "Stunnen"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:293
 msgid "Start time"
-msgstr ""
+msgstr "Starttied"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
@@ -3338,8 +3348,8 @@ msgstr ""
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Stunn"
+msgstr[1] "%d Stunnen"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:412
@@ -3347,8 +3357,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Minuut"
+msgstr[1] "%d Minuuten"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
@@ -3358,8 +3368,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Sekunn"
+msgstr[1] "%d Sekunnen"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:1
 msgid "Alarm programs"
@@ -3868,7 +3878,7 @@ msgstr ""
 
 #: ../calendar/gui/cal-search-bar.c:75
 msgid "Description contains"
-msgstr ""
+msgstr "Beschrieven het in"
 
 #: ../calendar/gui/cal-search-bar.c:76
 #, fuzzy
@@ -3878,7 +3888,7 @@ msgstr "Kategorien"
 #: ../calendar/gui/cal-search-bar.c:77
 #, fuzzy
 msgid "Comment contains"
-msgstr "Kommentarlist"
+msgstr "Naam hett in"
 
 #: ../calendar/gui/cal-search-bar.c:78
 #, fuzzy
@@ -3952,7 +3962,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:200
 #: ../plugins/calendar-weather/calendar-weather.c:126
 msgid "Weather"
-msgstr ""
+msgstr "Wetter"
 
 #. ensure the source name is in current locale, not read from configuration
 #: ../calendar/gui/calendar-component.c:294
@@ -3968,7 +3978,7 @@ msgstr "_Nejer Kalenner"
 #: ../calendar/gui/memos-component.c:484 ../calendar/gui/tasks-component.c:476
 #: ../mail/em-folder-tree.c:2119
 msgid "_Copy..."
-msgstr ""
+msgstr "_Koperen..."
 
 #: ../calendar/gui/calendar-component.c:637
 #: ../calendar/gui/memos-component.c:489 ../calendar/gui/tasks-component.c:481
@@ -3981,8 +3991,9 @@ msgid "_Do not make available for offline use"
 msgstr ""
 
 #: ../calendar/gui/calendar-component.c:966
+#, fuzzy
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "Fehler bi'm Laden vum Kalenner"
 
 #: ../calendar/gui/calendar-component.c:1094
 #, c-format
@@ -4066,7 +4077,7 @@ msgstr "Weekenansicht"
 
 #: ../calendar/gui/calendar-view-factory.c:122
 msgid "Month View"
-msgstr ""
+msgstr "Monatsansicht"
 
 #: ../calendar/gui/caltypes.xml.h:1 ../calendar/gui/memotypes.xml.h:1
 #: ../calendar/gui/tasktypes.xml.h:3
@@ -4087,7 +4098,7 @@ msgstr ""
 #: ../calendar/gui/caltypes.xml.h:5 ../calendar/gui/memotypes.xml.h:4
 #: ../calendar/gui/tasktypes.xml.h:8
 msgid "Category"
-msgstr ""
+msgstr "Rebeet"
 
 #: ../calendar/gui/caltypes.xml.h:6 ../calendar/gui/memotypes.xml.h:5
 msgid "Classification"
@@ -4139,7 +4150,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-model.c:368 ../calendar/gui/e-calendar-table.c:569
 #: ../calendar/gui/memotypes.xml.h:12
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: ../calendar/gui/caltypes.xml.h:15 ../calendar/gui/e-cal-list-view.c:247
 #: ../calendar/gui/e-cal-model.c:359 ../calendar/gui/e-cal-model.c:366
@@ -4174,7 +4185,7 @@ msgstr "hett in"
 #: ../calendar/gui/caltypes.xml.h:20 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:16
 msgid "does not contain"
-msgstr ""
+msgstr "het nich in"
 
 #: ../calendar/gui/caltypes.xml.h:21 ../calendar/gui/memotypes.xml.h:18
 #: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:31
@@ -4187,8 +4198,9 @@ msgid "is not"
 msgstr "is nich"
 
 #: ../calendar/gui/comp-editor-factory.c:413
+#, fuzzy
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "Fehler bi'm Laden vum Kalenner"
 
 #: ../calendar/gui/comp-editor-factory.c:419
 msgid "Method not supported when opening the calendar"
@@ -4200,7 +4212,7 @@ msgstr ""
 
 #: ../calendar/gui/comp-editor-factory.c:443 ../shell/e-shell.c:1261
 msgid "Unknown error"
-msgstr ""
+msgstr "Unbekannter Fehler"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:611
 msgid "Edit Alarm"
@@ -4214,7 +4226,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/alarm-dialog.c:797
 #: ../calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
-msgstr ""
+msgstr "Ton speelen"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:798
 #: ../calendar/gui/e-alarm-list.c:456
@@ -4229,7 +4241,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
 #, fuzzy
 msgid "<b>Alarm</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Togangnaam</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 #, fuzzy
@@ -4239,7 +4251,7 @@ msgstr "Optschoonen"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
 #, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "Wedderholen"
+msgstr "<b>Server</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "Add Alarm"
@@ -4364,7 +4376,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:865
 msgid "Time and date:"
-msgstr ""
+msgstr "Dag un Tied:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:866
 msgid "Date only:"
@@ -4470,7 +4482,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: ../mail/mail-config.glade.h:118
 msgid "Pick a color"
-msgstr ""
+msgstr "Klöör utwählen"
 
 #. Sunday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
@@ -4536,7 +4548,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Thursday"
-msgstr ""
+msgstr "Donnersdag"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 #: ../calendar/gui/dialogs/event-page.glade.h:13
@@ -4750,19 +4762,19 @@ msgstr "an"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2396
 msgid " (Completed "
-msgstr ""
+msgstr " (Fertig"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2398
 msgid "Completed "
-msgstr ""
+msgstr "Fertig"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2403
 msgid " (Due "
-msgstr ""
+msgstr " (Bit"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2405
 msgid "Due "
-msgstr ""
+msgstr "Bit"
 
 #: ../calendar/gui/dialogs/comp-editor.c:229
 msgid "Could not save attachments"
@@ -4794,7 +4806,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:604
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "Opgav - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:609
 #, c-format
@@ -4882,7 +4894,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1098
 msgid "_Categories"
-msgstr ""
+msgstr "_Kategorien"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1100
 msgid "Toggles whether to display categories"
@@ -4906,7 +4918,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1124
 msgid "_Private"
-msgstr ""
+msgstr "_Privat"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1126
 msgid "Classify as private"
@@ -5402,7 +5414,7 @@ msgstr ""
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:961
 msgid "on"
-msgstr ""
+msgstr "an"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -5410,7 +5422,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1018
 msgid "first"
-msgstr ""
+msgstr "toerst"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -5495,7 +5507,7 @@ msgstr "Dag"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1240
 msgid "on the"
-msgstr ""
+msgstr "op de"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1410
 msgid "occurrences"
@@ -5528,13 +5540,14 @@ msgstr "<b>Brukers</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
+#, fuzzy
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>Server</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
 #, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:5
@@ -5621,11 +5634,11 @@ msgstr ""
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
 #: ../widgets/misc/e-send-options.glade.h:34
 msgid "_Priority:"
-msgstr ""
+msgstr "_Priorität:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
-msgstr ""
+msgstr "_Netsiet:"
 
 #: ../calendar/gui/dialogs/task-editor.c:113
 msgid "_Status Details"
@@ -5638,7 +5651,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/task-editor.c:123
 #: ../composer/e-composer-actions.c:373
 msgid "_Send Options"
-msgstr ""
+msgstr "_Sennenoptschoonen"
 
 #: ../calendar/gui/dialogs/task-editor.c:317
 msgid "_Task"
@@ -5691,16 +5704,16 @@ msgstr ""
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Dag"
+msgstr[1] "%d Dage"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:400
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Week"
+msgstr[1] "%d Weeken"
 
 #: ../calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"
@@ -5753,7 +5766,7 @@ msgstr ""
 #: ../calendar/gui/e-alarm-list.c:535
 #, c-format
 msgid "%s at %s"
-msgstr ""
+msgstr "%s bi %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
@@ -5764,11 +5777,11 @@ msgstr ""
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:258
 msgid "I_mport"
-msgstr ""
+msgstr "I_mporteren"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:340
 msgid "Select a Calendar"
-msgstr ""
+msgstr "Kalenner wählen"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:367
 msgid "Select a Task List"
@@ -5850,7 +5863,7 @@ msgstr ""
 #: ../calendar/gui/print.c:2588 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:361
 msgid "Completed"
-msgstr ""
+msgstr "Fertig"
 
 #: ../calendar/gui/e-cal-component-preview.c:252
 #: ../calendar/gui/e-cal-model-tasks.c:357
@@ -5863,25 +5876,25 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-component-preview.c:262
 msgid "Priority:"
-msgstr ""
+msgstr "Priorität:"
 
 #: ../calendar/gui/e-cal-component-preview.c:264
 #: ../calendar/gui/e-calendar-table.c:590 ../calendar/gui/tasktypes.xml.h:14
 #: ../mail/message-list.c:1064
 msgid "High"
-msgstr ""
+msgstr "Hoch"
 
 #: ../calendar/gui/e-cal-component-preview.c:266
 #: ../calendar/gui/e-cal-model.c:1114 ../calendar/gui/e-calendar-table.c:591
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1063
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../calendar/gui/e-cal-component-preview.c:268
 #: ../calendar/gui/e-calendar-table.c:592 ../calendar/gui/tasktypes.xml.h:16
 #: ../mail/message-list.c:1062
 msgid "Low"
-msgstr ""
+msgstr "Gering"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 #: ../calendar/gui/e-calendar-table.etspec.h:7
@@ -5963,7 +5976,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:340
 msgid "* No Summary *"
-msgstr ""
+msgstr "* Keene Tosammenfaten *"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-table.c:376
@@ -5982,11 +5995,11 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:410
 msgid "Start: "
-msgstr ""
+msgstr "Start:"
 
 #: ../calendar/gui/e-calendar-table.c:422
 msgid "Due: "
-msgstr ""
+msgstr "Bit:"
 
 #: ../calendar/gui/e-calendar-table.c:593 ../calendar/gui/tasktypes.xml.h:24
 msgid "Undefined"
@@ -6055,7 +6068,7 @@ msgstr "Spiekern as..."
 #: ../calendar/gui/e-calendar-table.c:1593
 #: ../calendar/gui/e-calendar-view.c:1794
 msgid "New _Task"
-msgstr ""
+msgstr "Neje _Opgav"
 
 #: ../calendar/gui/e-calendar-table.c:1597 ../calendar/gui/e-memo-table.c:938
 msgid "Open _Web Page"
@@ -6088,7 +6101,7 @@ msgstr ""
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 #, fuzzy
 msgid "_Paste"
-msgstr "_Opfrischen"
+msgstr "_Privat"
 
 #: ../calendar/gui/e-calendar-table.c:1609 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
@@ -6119,7 +6132,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.c:1619
 #, fuzzy
 msgid "_Delete Selected Tasks"
-msgstr "Opgaven löschen"
+msgstr "_Opgav löschen"
 
 #: ../calendar/gui/e-calendar-table.c:1854
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -6129,11 +6142,11 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr ""
+msgstr "% Komplett "
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5
 msgid "Complete"
-msgstr ""
+msgstr "Komplett"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
@@ -6147,11 +6160,11 @@ msgstr "Bit dag"
 #: ../calendar/gui/tasktypes.xml.h:20
 #: ../plugins/save-calendar/csv-format.c:368
 msgid "Priority"
-msgstr ""
+msgstr "Priorität"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 msgid "Start date"
-msgstr ""
+msgstr "Startdag"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. Status: Accepted: X   Declined: Y   ...
@@ -6195,12 +6208,12 @@ msgstr "A_ktuelle Ansicht"
 #: ../calendar/gui/e-calendar-view.c:1806
 #, fuzzy
 msgid "Select T_oday"
-msgstr "Vandag wählen"
+msgstr "_Vandag wählen"
 
 #: ../calendar/gui/e-calendar-view.c:1807
 #, fuzzy
 msgid "_Select Date..."
-msgstr "_Dag wählen"
+msgstr "Dag wählen"
 
 #: ../calendar/gui/e-calendar-view.c:1813
 #, fuzzy
@@ -6263,7 +6276,7 @@ msgstr "Tolaten"
 #: ../calendar/gui/e-meeting-store.c:173 ../calendar/gui/e-meeting-store.c:196
 #: ../plugins/itip-formatter/itip-formatter.c:2227
 msgid "Declined"
-msgstr ""
+msgstr "Nich tolaten"
 
 #: ../calendar/gui/e-calendar-view.c:2291
 #: ../calendar/gui/e-meeting-list-view.c:204
@@ -6362,15 +6375,15 @@ msgstr ""
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Elken dag"
+msgstr[1] "Elke %d Dage"
 
 #: ../calendar/gui/e-itip-control.c:788
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Elke Week"
+msgstr[1] "Elke %d Weeken"
 
 #: ../calendar/gui/e-itip-control.c:795
 #, c-format
@@ -6387,7 +6400,7 @@ msgstr "un"
 #: ../calendar/gui/e-itip-control.c:815
 #, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "De %s Dag vun"
 
 #: ../calendar/gui/e-itip-control.c:831
 #, c-format
@@ -6719,7 +6732,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:2376
 #: ../plugins/groupwise-features/process-meeting.c:54
 msgid "Decline"
-msgstr ""
+msgstr "Nich tolaten"
 
 #: ../calendar/gui/e-itip-control.c:2401
 msgid "Send Free/Busy Information"
@@ -6739,7 +6752,7 @@ msgstr "Avbreken"
 
 #: ../calendar/gui/e-itip-control.glade.h:1
 msgid "--to--"
-msgstr ""
+msgstr "--an--"
 
 #: ../calendar/gui/e-itip-control.glade.h:2
 msgid "Calendar Message"
@@ -6924,11 +6937,11 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:599
 msgid "_Start time:"
-msgstr ""
+msgstr "_Starttied::"
 
 #: ../calendar/gui/e-meeting-time-sel.c:626
 msgid "_End time:"
-msgstr ""
+msgstr "_Enntied:"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
@@ -6948,7 +6961,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "Language"
-msgstr ""
+msgstr "Sprak"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
@@ -6985,7 +6998,7 @@ msgstr ""
 
 #: ../calendar/gui/e-tasks.c:955
 msgid "Loading tasks"
-msgstr ""
+msgstr "Lade Opgaven"
 
 #: ../calendar/gui/e-tasks.c:1052
 #, c-format
@@ -6995,7 +7008,7 @@ msgstr ""
 #: ../calendar/gui/e-tasks.c:1295
 #, fuzzy
 msgid "Completing tasks..."
-msgstr "Lüüt..."
+msgstr "Lade Opgaven"
 
 #: ../calendar/gui/e-tasks.c:1345
 msgid "Expunging"
@@ -7032,14 +7045,14 @@ msgid "Loading appointments at %s"
 msgstr ""
 
 #: ../calendar/gui/gnome-cal.c:2943
-#, c-format
+#, fuzzy, c-format
 msgid "Loading tasks at %s"
-msgstr ""
+msgstr "Lade Opgaven"
 
 #: ../calendar/gui/gnome-cal.c:2952
-#, c-format
+#, fuzzy, c-format
 msgid "Loading memos at %s"
-msgstr ""
+msgstr "Lade Billers"
 
 #: ../calendar/gui/gnome-cal.c:3064
 #, c-format
@@ -7068,11 +7081,11 @@ msgstr ""
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "Select Date"
-msgstr ""
+msgstr "Dag wählen"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr ""
+msgstr "_Vandag wählen"
 
 #: ../calendar/gui/itip-utils.c:410 ../calendar/gui/itip-utils.c:461
 #: ../calendar/gui/itip-utils.c:553
@@ -7131,7 +7144,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:691 ../calendar/gui/itip-utils.c:739
 msgctxt "Meeting"
 msgid "Declined"
-msgstr ""
+msgstr "Nich tolaten"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -7202,8 +7215,8 @@ msgstr[1] ""
 #, fuzzy, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] "Utwählt"
-msgstr[1] "Utwählt"
+msgstr[0] "%d utwählt"
+msgstr[1] "%d utwählt"
 
 #: ../calendar/gui/memos-component.c:615
 msgid "Failed upgrading memos."
@@ -7260,7 +7273,7 @@ msgstr "Neje E-Post"
 #, fuzzy
 msgctxt "New"
 msgid "Memo li_st"
-msgstr "_Notizen"
+msgstr "Notizen"
 
 #: ../calendar/gui/memos-component.c:1065
 msgid "Create a new memo list"
@@ -7476,12 +7489,12 @@ msgstr ""
 #: ../calendar/gui/print.c:2598
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Tostand: %s"
 
 #: ../calendar/gui/print.c:2612
 #, c-format
 msgid "Priority: %s"
-msgstr ""
+msgstr "Priorität: %s"
 
 #: ../calendar/gui/print.c:2627
 #, c-format
@@ -7496,7 +7509,7 @@ msgstr "URL: %s"
 #: ../calendar/gui/print.c:2651
 #, c-format
 msgid "Categories: %s"
-msgstr ""
+msgstr "Kategorien: %s"
 
 #: ../calendar/gui/print.c:2662
 msgid "Contacts: "
@@ -7514,8 +7527,9 @@ msgstr[0] "%d Opgav"
 msgstr[1] "%d Opgaven"
 
 #: ../calendar/gui/tasks-component.c:607
+#, fuzzy
 msgid "Failed upgrading tasks."
-msgstr ""
+msgstr "Lade Opgaven"
 
 #: ../calendar/gui/tasks-component.c:740
 #, c-format
@@ -7533,7 +7547,7 @@ msgstr ""
 #: ../calendar/gui/tasks-component.c:1118
 #, fuzzy
 msgid "New task"
-msgstr "Neje Opgavenlist"
+msgstr "Neje _Opgav"
 
 #: ../calendar/gui/tasks-component.c:1119
 msgctxt "New"
@@ -9225,11 +9239,11 @@ msgstr "_Drucken..."
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:72
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr ""
+msgstr "Ut_blick drucken"
 
 #: ../composer/e-composer-actions.c:347
 msgid "Save the current file"
-msgstr ""
+msgstr "Düsse Datei spiekern"
 
 #: ../composer/e-composer-actions.c:352
 msgid "Save _As..."
@@ -9237,7 +9251,7 @@ msgstr "Spiekern _as..."
 
 #: ../composer/e-composer-actions.c:354
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "Düsse Datei mit ee'm annern Naam spiekern"
 
 #: ../composer/e-composer-actions.c:359
 msgid "Save as _Draft"
@@ -9274,7 +9288,7 @@ msgstr ""
 #: ../composer/e-composer-actions.c:396
 #, fuzzy
 msgid "_Security"
-msgstr "Sekerheit:"
+msgstr "Sekerheit"
 
 #: ../composer/e-composer-actions.c:406
 msgid "PGP _Encrypt"
@@ -9605,7 +9619,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "_Recover"
-msgstr ""
+msgstr "_Wedderherstellen"
 
 #: ../composer/mail-composer.error.xml.h:33
 msgid "_Save Draft"
@@ -9641,16 +9655,16 @@ msgstr ""
 #: ../e-util/e-datetime-format.c:193 ../plugins/itip-formatter/itip-view.c:191
 #: ../ui/evolution-calendar.xml.h:34 ../widgets/misc/e-cell-date-edit.c:304
 msgid "Today"
-msgstr ""
+msgstr "Vandag"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:202 ../plugins/itip-formatter/itip-view.c:219
 msgid "Tomorrow"
-msgstr ""
+msgstr "Morgen"
 
 #: ../e-util/e-datetime-format.c:204
 msgid "Yesterday"
-msgstr ""
+msgstr "Güstern"
 
 #: ../e-util/e-datetime-format.c:207
 #, c-format
@@ -9660,7 +9674,7 @@ msgstr ""
 #: ../e-util/e-datetime-format.c:209
 #, c-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d Dage her"
 
 #: ../e-util/e-datetime-format.c:283 ../e-util/e-datetime-format.c:293
 #: ../e-util/e-datetime-format.c:302
@@ -9669,7 +9683,7 @@ msgstr ""
 
 #: ../e-util/e-datetime-format.c:496
 msgid "Format:"
-msgstr ""
+msgstr "Format:"
 
 #: ../e-util/e-error.c:78 ../e-util/e-error.c:79 ../e-util/e-error.c:121
 msgid "Evolution Error"
@@ -9682,7 +9696,7 @@ msgstr ""
 #: ../e-util/e-error.c:118
 #, fuzzy
 msgid "Evolution Information"
-msgstr "_Informatschoon sennen"
+msgstr "Optschoonale Informatschoon"
 
 #: ../e-util/e-error.c:120
 #, fuzzy
@@ -9698,7 +9712,7 @@ msgstr ""
 #: ../e-util/e-logger.c:161
 #, fuzzy
 msgid "Component"
-msgstr "Kommentar:"
+msgstr "Komplett"
 
 #: ../e-util/e-logger.c:162
 msgid "Name of the component being logged"
@@ -9716,7 +9730,7 @@ msgstr ""
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
 #: ../e-util/e-non-intrusive-error-dialog.c:223
 msgid "second(s)."
-msgstr ""
+msgstr "Sekunn(en)."
 
 #: ../e-util/e-non-intrusive-error-dialog.c:229
 msgid "Log Messages:"
@@ -9734,16 +9748,16 @@ msgstr "Tied"
 #: ../e-util/e-non-intrusive-error-dialog.c:292 ../mail/message-list.c:2527
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
-msgstr ""
+msgstr "Nahrichten"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:301
 #: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
 msgid "Close this window"
-msgstr ""
+msgstr "Düsses Finster sluten"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:39
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:39
 msgid "Errors"
@@ -9766,7 +9780,7 @@ msgstr ""
 #: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:718
 msgid "Enabled"
-msgstr ""
+msgstr "Aktivert"
 
 #: ../e-util/e-plugin.c:309
 msgid "Whether the plugin is enabled"
@@ -9795,7 +9809,7 @@ msgstr ""
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file \"{0}\"."
-msgstr ""
+msgstr "Künn de Datei  \"{0}\" nich opmaken."
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "Cannot save file \"{0}\"."
@@ -9810,16 +9824,17 @@ msgid "File exists \"{0}\"."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:6
+#, fuzzy
 msgid "Overwrite file?"
-msgstr ""
+msgstr "_Överschrieven"
 
 #: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:141
 msgid "_Overwrite"
-msgstr ""
+msgstr "_Överschrieven"
 
 #: ../e-util/e-util.c:133
 msgid "Could not open the link."
-msgstr ""
+msgstr "Künn de Verknüppen nich opmaken."
 
 #: ../e-util/e-util.c:183
 msgid "Could not display help for Evolution."
@@ -9832,12 +9847,12 @@ msgstr ""
 #. red
 #: ../e-util/e-util-labels.c:46
 msgid "_Work"
-msgstr ""
+msgstr "_Orbiet"
 
 #. orange
 #: ../e-util/e-util-labels.c:47
 msgid "_Personal"
-msgstr ""
+msgstr "_Persönlich"
 
 #. green
 #: ../e-util/e-util-labels.c:48
@@ -9875,7 +9890,7 @@ msgstr ""
 #: ../e-util/gconf-bridge.c:1222
 #, c-format
 msgid "GConf error: %s"
-msgstr ""
+msgstr "GConf-Fehler: %s"
 
 #: ../e-util/gconf-bridge.c:1233
 msgid "All further errors shown only on terminal."
@@ -9986,7 +10001,7 @@ msgstr ""
 #: ../filter/filter-datespec.c:297 ../filter/filter-datespec.c:308
 #: ../filter/filter-datespec.c:319
 msgid "now"
-msgstr ""
+msgstr "nu"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../filter/filter-datespec.c:304
@@ -10000,7 +10015,7 @@ msgstr ""
 #: ../filter/filter-file.c:281
 #, fuzzy
 msgid "Choose a file"
-msgstr "Datei anhangen"
+msgstr "Datei utwählen"
 
 #: ../filter/filter-part.c:528
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:3
@@ -10108,7 +10123,7 @@ msgstr ""
 #: ../filter/filter.glade.h:1
 #, fuzzy
 msgid "<b>_Filter Rules</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../filter/filter.glade.h:2
 msgid "Compare against"
@@ -10231,7 +10246,7 @@ msgstr ""
 #: ../mail/mail-component.c:793
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
-msgstr ""
+msgstr "E-Post"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 #: ../mail/em-account-prefs.c:490
@@ -10255,7 +10270,7 @@ msgstr "_E-Post"
 #: ../mail/e-attachment-handler-mail.c:133 ../mail/em-folder-view.c:1331
 #: ../mail/em-popup.c:503 ../ui/evolution-mail-message.xml.h:105
 msgid "_Forward"
-msgstr ""
+msgstr "_Vor"
 
 #: ../mail/e-attachment-handler-mail.c:147 ../mail/em-folder-view.c:1329
 #: ../ui/evolution-mail-message.xml.h:123
@@ -10272,18 +10287,18 @@ msgstr "%d anhangen Nahrichten"
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:147
 msgid "Attachment"
 msgid_plural "Attachments"
-msgstr[0] ""
+msgstr[0] "_Anhangen..."
 msgstr[1] ""
 
 #: ../mail/e-mail-attachment-bar.c:614
 #: ../widgets/misc/e-attachment-paned.c:607
 msgid "Icon View"
-msgstr ""
+msgstr "Ansicht mit lüttje Billers"
 
 #: ../mail/e-mail-attachment-bar.c:615
 #: ../widgets/misc/e-attachment-paned.c:608
 msgid "List View"
-msgstr ""
+msgstr "Listansicht"
 
 #: ../mail/e-mail-search-bar.c:76
 #, c-format
@@ -10300,7 +10315,7 @@ msgstr "F_innen:"
 
 #: ../mail/e-mail-search-bar.c:540
 msgid "Clear the search"
-msgstr ""
+msgstr "Sök opklaren"
 
 #: ../mail/e-mail-search-bar.c:559
 msgid "_Previous"
@@ -10367,15 +10382,15 @@ msgstr ""
 #: ../mail/em-account-editor.c:493 ../mail/em-filter-folder-element.c:258
 #: ../mail/em-vfolder-rule.c:513
 msgid "Select Folder"
-msgstr ""
+msgstr "Verteeknis wählen"
 
 #: ../mail/em-account-editor.c:803
 msgid "Never"
-msgstr ""
+msgstr "Nümmers"
 
 #: ../mail/em-account-editor.c:804
 msgid "Always"
-msgstr ""
+msgstr "Jümmers"
 
 #: ../mail/em-account-editor.c:805
 msgid "Ask for each message"
@@ -10403,13 +10418,13 @@ msgstr ""
 
 #: ../mail/em-account-editor.c:2485 ../mail/mail-config.glade.h:73
 msgid "Defaults"
-msgstr ""
+msgstr "Standard"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2551 ../mail/mail-config.glade.h:133
 #: ../plugins/exchange-operations/exchange-account-setup.c:330
 msgid "Security"
-msgstr ""
+msgstr "Sekerheit"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
@@ -10433,7 +10448,7 @@ msgstr ""
 #: ../mail/em-account-prefs.c:426
 #, fuzzy
 msgid "[Default]"
-msgstr "S_tandard"
+msgstr "Standard"
 
 #: ../mail/em-account-prefs.c:483
 #, fuzzy
@@ -10447,7 +10462,7 @@ msgstr "Prootokoll"
 #: ../mail/em-composer-prefs.c:318 ../mail/em-composer-prefs.c:452
 #: ../mail/mail-config.c:1160 ../mail/mail-signature-editor.c:481
 msgid "Unnamed"
-msgstr ""
+msgstr "Ohn Naam"
 
 #: ../mail/em-composer-prefs.c:961
 msgid "Language(s)"
@@ -10535,11 +10550,11 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
 #: ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: ../mail/em-filter-i18n.h:15
 msgid "Deleted"
-msgstr ""
+msgstr "Gelöscht"
 
 #: ../mail/em-filter-i18n.h:17
 msgid "does not end with"
@@ -10567,7 +10582,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:24
 msgid "ends with"
-msgstr ""
+msgstr "heurt op mit"
 
 #: ../mail/em-filter-i18n.h:26
 msgid "exists"
@@ -10587,7 +10602,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:30 ../mail/em-migrate.c:958
 msgid "Important"
-msgstr ""
+msgstr "Wichtig"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "is after"
@@ -10624,11 +10639,11 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Label"
-msgstr ""
+msgstr "Beschriften"
 
 #: ../mail/em-filter-i18n.h:44
 msgid "Mailing list"
-msgstr ""
+msgstr "Mailinglist"
 
 #: ../mail/em-filter-i18n.h:45
 msgid "Match All"
@@ -10656,7 +10671,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
-msgstr ""
+msgstr "In Verteeknis verschuven"
 
 #: ../mail/em-filter-i18n.h:52
 msgid "Pipe to Program"
@@ -10664,12 +10679,12 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:53
 msgid "Play Sound"
-msgstr ""
+msgstr "Ton speelen"
 
 #. Translators: "Read" as in "has been read" (message-tag-followup.c)
 #: ../mail/em-filter-i18n.h:54 ../mail/message-tag-followup.c:61
 msgid "Read"
-msgstr ""
+msgstr "Lesen"
 
 #: ../mail/em-filter-i18n.h:55 ../mail/message-list.etspec.h:12
 msgid "Recipients"
@@ -10701,7 +10716,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:62 ../mail/message-list.etspec.h:13
 msgid "Score"
-msgstr ""
+msgstr "Rutkamen"
 
 #: ../mail/em-filter-i18n.h:63 ../mail/message-list.etspec.h:14
 msgid "Sender"
@@ -10737,7 +10752,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:71
 msgid "starts with"
-msgstr ""
+msgstr "startet mit"
 
 #: ../mail/em-filter-i18n.h:73
 msgid "Stop Processing"
@@ -10749,7 +10764,7 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.glade.h:7
 #: ../smime/lib/e-cert.c:1112
 msgid "Subject"
-msgstr ""
+msgstr "Inholl"
 
 #: ../mail/em-filter-i18n.h:75
 msgid "Unset Status"
@@ -10816,7 +10831,7 @@ msgstr ""
 #: ../mail/em-folder-properties.c:174
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
-msgstr[0] ""
+msgstr[0] "Ungelesene Nahrichten"
 msgstr[1] ""
 
 #. TODO: can this be done in a loop?
@@ -10857,11 +10872,11 @@ msgstr ""
 
 #: ../mail/em-folder-selector.c:249
 msgid "C_reate"
-msgstr ""
+msgstr "E_rstellen"
 
 #: ../mail/em-folder-selector.c:253
 msgid "Folder _name:"
-msgstr ""
+msgstr "_Verteeknisnaam:"
 
 #. load store to mail component
 #: ../mail/em-folder-tree-model.c:195 ../mail/em-folder-tree-model.c:197
@@ -10893,7 +10908,7 @@ msgstr ""
 
 #: ../mail/em-folder-tree-model.c:580 ../mail/em-folder-tree-model.c:889
 msgid "Loading..."
-msgstr ""
+msgstr "Lade..."
 
 #. Translators: This is the string used for displaying the
 #. * folder names in folder trees. The first "%s" will be
@@ -10947,17 +10962,17 @@ msgstr ""
 #: ../mail/em-folder-tree.c:989 ../ui/evolution-mail-message.xml.h:100
 #, fuzzy
 msgid "_Copy to Folder"
-msgstr "Aktuelles Verteeknis"
+msgstr "In Verteeknis verschuven"
 
 #: ../mail/em-folder-tree.c:990 ../ui/evolution-mail-message.xml.h:113
 #, fuzzy
 msgid "_Move to Folder"
-msgstr "_Verteeknis verschuven nah..."
+msgstr "In Verteeknis verschuven"
 
 #: ../mail/em-folder-tree.c:992 ../mail/em-folder-utils.c:365
 #: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2110
 msgid "_Move"
-msgstr ""
+msgstr "_Verschuven"
 
 #: ../mail/em-folder-tree.c:994 ../mail/message-list.c:2112
 #, fuzzy
@@ -10972,7 +10987,7 @@ msgstr ""
 #: ../mail/em-folder-tree.c:2112
 #, fuzzy
 msgid "Open in _New Window"
-msgstr "Nejes _Finster"
+msgstr "In nejem _Finster opmaken"
 
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2117
@@ -10982,7 +10997,7 @@ msgstr "_Nejes Verteeknis..."
 #: ../mail/em-folder-tree.c:2120
 #, fuzzy
 msgid "_Move..."
-msgstr "_Nej..."
+msgstr "_Verschuven"
 
 #: ../mail/em-folder-tree.c:2128 ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh"
@@ -10994,7 +11009,7 @@ msgstr ""
 
 #: ../mail/em-folder-tree.c:2134 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
-msgstr ""
+msgstr "Papierkörv _leeren"
 
 #: ../mail/em-folder-tree.c:2237
 #, fuzzy
@@ -11006,7 +11021,7 @@ msgstr "V_erteeknisse döörsöken"
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../plugins/pst-import/pst-importer.c:302
 msgid "Select folder"
-msgstr ""
+msgstr "Verteeknis utwählen"
 
 #: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1201
 msgid "C_opy"
@@ -11022,7 +11037,7 @@ msgstr ""
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:385
 msgid "Create folder"
-msgstr ""
+msgstr "Verteeknis erstellen"
 
 #: ../mail/em-folder-utils.c:698
 #: ../plugins/groupwise-features/install-shared.c:168
@@ -11044,12 +11059,13 @@ msgid "_Edit as New Message..."
 msgstr ""
 
 #: ../mail/em-folder-view.c:1341
+#, fuzzy
 msgid "U_ndelete"
-msgstr ""
+msgstr "_Löschen"
 
 #: ../mail/em-folder-view.c:1342
 msgid "_Move to Folder..."
-msgstr ""
+msgstr "_In Verteeknis verschuven..."
 
 #: ../mail/em-folder-view.c:1343
 msgid "_Copy to Folder..."
@@ -11068,8 +11084,9 @@ msgid "Mark as _Important"
 msgstr ""
 
 #: ../mail/em-folder-view.c:1349
+#, fuzzy
 msgid "Mark as Un_important"
-msgstr ""
+msgstr "_Wichtig"
 
 #: ../mail/em-folder-view.c:1350
 msgid "Mark as _Junk"
@@ -11156,7 +11173,7 @@ msgstr ""
 #: ../plugins/google-account-setup/google-source.c:613
 #: ../plugins/google-account-setup/google-source.c:784
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: ../mail/em-folder-view.c:2493
 msgid "Unable to retrieve message"
@@ -11165,7 +11182,7 @@ msgstr ""
 #: ../mail/em-folder-view.c:2696
 #, fuzzy
 msgid "Create _Search Folder"
-msgstr "V_erteeknisse döörsöken"
+msgstr "Verteeknis erstellen"
 
 #: ../mail/em-folder-view.c:2697
 msgid "_From this Address"
@@ -11296,12 +11313,12 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:988
 msgid "Overdue:"
-msgstr ""
+msgstr "Överfällig:"
 
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:992
 msgid "by"
-msgstr ""
+msgstr "vun"
 
 #: ../mail/em-format-html-display.c:1071
 #: ../widgets/misc/e-attachment-view.c:357
@@ -11342,7 +11359,7 @@ msgstr ""
 #: ../mail/em-format-html-print.c:157
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "Siet %d vun %d"
 
 #: ../mail/em-format-html.c:505 ../mail/em-format-html.c:514
 #, c-format
@@ -11394,13 +11411,13 @@ msgstr ""
 #: ../mail/em-format-html.c:1658 ../mail/em-format-quote.c:209
 #: ../mail/em-format.c:933 ../mail/em-mailer-prefs.c:79
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #: ../mail/em-format-html.c:1574 ../mail/em-format-html.c:1643
 #: ../mail/em-format-html.c:1661 ../mail/em-format-quote.c:209
 #: ../mail/em-format.c:934 ../mail/em-mailer-prefs.c:80
 msgid "Bcc"
-msgstr ""
+msgstr "Bcc"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1753 ../mail/em-format-quote.c:352
@@ -11425,7 +11442,7 @@ msgstr ""
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:316
 #: ../widgets/misc/e-dateedit.c:338
 msgid "Date"
-msgstr ""
+msgstr "Dag"
 
 #: ../mail/em-format.c:937 ../mail/em-mailer-prefs.c:83
 msgid "Newsgroups"
@@ -11439,7 +11456,7 @@ msgstr ""
 #: ../mail/em-format.c:1208
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "%s Anhangen"
 
 #: ../mail/em-format.c:1246
 msgid "Could not parse S/MIME message: Unknown error"
@@ -11520,7 +11537,7 @@ msgstr ""
 
 #: ../mail/em-mailer-prefs.c:465
 msgid "Color"
-msgstr ""
+msgstr "Klöör"
 
 #: ../mail/em-mailer-prefs.c:468
 msgid "Tag"
@@ -11672,7 +11689,7 @@ msgstr ""
 
 #: ../mail/em-subscribe-editor.c:643
 msgid "Folder"
-msgstr ""
+msgstr "Verteeknis"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:858
@@ -11691,12 +11708,12 @@ msgstr ""
 
 #: ../mail/em-utils.c:319
 msgid "Message Filters"
-msgstr ""
+msgstr "Nahrichtenfilter"
 
 #: ../mail/em-utils.c:371
 #, fuzzy
 msgid "message"
-msgstr "Nah_richt:"
+msgstr "Nahricht"
 
 #: ../mail/em-utils.c:654
 #, fuzzy
@@ -12473,12 +12490,12 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:168
 #, fuzzy
 msgid "Thread the message list."
-msgstr "%d anhangen Nahrichten"
+msgstr "Ungelesene Nahrichten"
 
 #: ../mail/evolution-mail.schemas.in.h:169
 #, fuzzy
 msgid "Thread the message-list"
-msgstr "%d anhangen Nahrichten"
+msgstr "Ungelesene Nahrichten"
 
 #: ../mail/evolution-mail.schemas.in.h:170
 msgid "Thread the message-list based on Subject"
@@ -12587,7 +12604,7 @@ msgstr ""
 #: ../mail/importers/evolution-mbox-importer.c:79
 #: ../plugins/pst-import/pst-importer.c:309
 msgid "Destination folder:"
-msgstr ""
+msgstr "Täälverteeknis:"
 
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../plugins/pst-import/pst-importer.c:302
@@ -12634,7 +12651,7 @@ msgstr ""
 #: ../mail/mail-autofilter.c:72
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "E-Post an %s"
 
 #: ../mail/mail-autofilter.c:235 ../mail/mail-autofilter.c:274
 #, c-format
@@ -12649,7 +12666,7 @@ msgstr ""
 #: ../mail/mail-autofilter.c:293
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "%s Mailinglist"
 
 #: ../mail/mail-autofilter.c:364
 msgid "Add Filter Rule"
@@ -12659,15 +12676,15 @@ msgstr ""
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d utwählt, "
+msgstr[1] "%d utwählt, "
 
 #: ../mail/mail-component.c:577
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d gelöscht"
+msgstr[1] "%d gelöscht"
 
 #: ../mail/mail-component.c:584
 #, c-format
@@ -12708,8 +12725,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d all tosammen"
+msgstr[1] "%d all tosammen"
 
 #: ../mail/mail-component.c:956
 #, fuzzy
@@ -12756,8 +12773,9 @@ msgid "<b>Sender Photograph</b>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:5
+#, fuzzy
 msgid "<b>Sig_natures</b>"
-msgstr ""
+msgstr "<b>Server</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
@@ -12766,7 +12784,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:7
 #, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "Sprak(en)"
+msgstr "_Spraken"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -13005,7 +13023,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:79
 msgid "Done"
-msgstr ""
+msgstr "Doon"
 
 #: ../mail/mail-config.glade.h:80
 msgid "Drafts _Folder:"
@@ -13109,7 +13127,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:110
 #, fuzzy
 msgid "Message Composer"
-msgstr "_Nahrichten"
+msgstr "Nahrichten"
 
 #: ../mail/mail-config.glade.h:111
 msgid "No _Proxy for:"
@@ -13167,7 +13185,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:123
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13183,7 +13201,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:128
 msgid "Remember _password"
-msgstr ""
+msgstr "Passwoord _merken"
 
 #: ../mail/mail-config.glade.h:129
 msgid "S_earch for sender photograph only in local address books"
@@ -13292,7 +13310,7 @@ msgstr ""
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
-msgstr ""
+msgstr "Bruker_naam:"
 
 #: ../mail/mail-config.glade.h:158
 msgid "V_ariable-width:"
@@ -13359,7 +13377,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:177
 msgid "_Path:"
-msgstr ""
+msgstr "_Pad:"
 
 #: ../mail/mail-config.glade.h:178
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -13375,11 +13393,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:181
 msgid "_Script:"
-msgstr ""
+msgstr "_Skript:"
 
 #: ../mail/mail-config.glade.h:182
 msgid "_Secure HTTP Proxy:"
-msgstr ""
+msgstr "_Seker HTTP Proxy:"
 
 #: ../mail/mail-config.glade.h:183
 msgid "_Select..."
@@ -13416,15 +13434,15 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:195
 msgid "color"
-msgstr ""
+msgstr "Klöör"
 
 #: ../mail/mail-config.glade.h:196
 msgid "description"
-msgstr ""
+msgstr "Beschrieven"
 
 #: ../mail/mail-config.glade.h:197
 msgid "seconds"
-msgstr ""
+msgstr "Sekunnen"
 
 #: ../mail/mail-dialogs.glade.h:1
 msgid "    "
@@ -13556,7 +13574,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:768 ../mail/mail-send-recv.c:703
 msgid "Complete."
-msgstr ""
+msgstr "Komplett."
 
 #: ../mail/mail-ops.c:880
 msgid "Saving message to folder"
@@ -13612,8 +13630,9 @@ msgid "Storing account '%s'"
 msgstr ""
 
 #: ../mail/mail-ops.c:1656
+#, fuzzy
 msgid "Refreshing folder"
-msgstr ""
+msgstr "Täälverteeknis:"
 
 #: ../mail/mail-ops.c:1696 ../mail/mail-ops.c:1746
 msgid "Expunging folder"
@@ -13707,7 +13726,7 @@ msgstr ""
 
 #: ../mail/mail-send-recv.c:503 ../mail/mail-send-recv.c:580
 msgid "Waiting..."
-msgstr ""
+msgstr "Töven..."
 
 #: ../mail/mail-send-recv.c:814
 #, c-format
@@ -13731,7 +13750,7 @@ msgstr ""
 
 #: ../mail/mail-session.c:217
 msgid "Enter Password"
-msgstr ""
+msgstr "Passwoord ingeven"
 
 #: ../mail/mail-session.c:259
 msgid "User canceled operation."
@@ -14025,7 +14044,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:55
 msgid "Enter password."
-msgstr ""
+msgstr "Passwoord ingeven."
 
 #: ../mail/mail.error.xml.h:56
 msgid "Error loading filter definitions."
@@ -14079,7 +14098,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:68
 msgid "Ignore"
-msgstr ""
+msgstr "Nich dröver nahdenken"
 
 #: ../mail/mail.error.xml.h:69
 msgid "Invalid authentication"
@@ -14140,7 +14159,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:84
 msgid "Please wait."
-msgstr ""
+msgstr "Bidde töven."
 
 #: ../mail/mail.error.xml.h:85
 msgid "Problem migrating old mail folder \"{0}\"."
@@ -14383,29 +14402,29 @@ msgstr ""
 
 #: ../mail/message-list.c:1654 ../widgets/table/e-cell-date.c:46
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../mail/message-list.c:1661 ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "Vandag %l:%M %p"
 
 #: ../mail/message-list.c:1670
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Güstern %l:%M %p"
 
 #: ../mail/message-list.c:1682
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: ../mail/message-list.c:1690
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: ../mail/message-list.c:1692
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:3987 ../mail/message-list.c:4462
@@ -14456,7 +14475,7 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 #: ../widgets/misc/e-attachment-tree-view.c:542
 msgid "Size"
-msgstr ""
+msgstr "Gröte"
 
 #: ../mail/message-list.etspec.h:19
 msgid "Subject - Trimmed"
@@ -14480,7 +14499,7 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:58 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr ""
+msgstr "Vor"
 
 #: ../mail/message-tag-followup.c:59
 msgid "No Response Necessary"
@@ -14496,7 +14515,7 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:64
 msgid "Review"
-msgstr ""
+msgstr "Utblick"
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
@@ -14528,8 +14547,9 @@ msgid "Subject or Recipients contains"
 msgstr "Beschrieven het in"
 
 #: ../mail/searchtypes.xml.h:8
+#, fuzzy
 msgid "Subject or Sender contains"
-msgstr ""
+msgstr "Beschrieven het in"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Add local address books to Evolution."
@@ -14577,7 +14597,7 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
-msgstr ""
+msgstr "_Anhangen hentofögen..."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Edit Message"
@@ -14918,7 +14938,7 @@ msgstr "Op_frischen:"
 #: ../plugins/google-account-setup/google-source.c:743
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 msgid "weeks"
-msgstr ""
+msgstr "Weeken"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
@@ -15022,7 +15042,7 @@ msgstr "Ort wählen"
 
 #: ../plugins/calendar-weather/calendar-weather.c:606
 msgid "_Units:"
-msgstr ""
+msgstr "_Eenheeten:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:613
 msgid "Metric (Celsius, cm, etc)"
@@ -15100,7 +15120,7 @@ msgstr "Sekerheit:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:335
 msgid "Unclassified"
-msgstr ""
+msgstr "Ohne Klasse"
 
 #: ../plugins/email-custom-header/email-custom-header.c:336
 msgid "Protected"
@@ -15170,7 +15190,7 @@ msgstr "_Land:"
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
 #, fuzzy
 msgid "_Folder Name:"
-msgstr "Feldnaam"
+msgstr "_Verteeknisnaam:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
 #, fuzzy
@@ -15244,8 +15264,9 @@ msgstr ""
 
 #. Miscelleneous settings
 #: ../plugins/exchange-operations/exchange-account-setup.c:362
+#, fuzzy
 msgid "Miscelleneous"
-msgstr ""
+msgstr "Jichtenswat anners"
 
 #. Folder Size
 #: ../plugins/exchange-operations/exchange-account-setup.c:372
@@ -15255,7 +15276,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-account-setup.c:374
 #, fuzzy
 msgid "Folders Size"
-msgstr "V_erteeknis"
+msgstr "Verteeknis"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:381
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
@@ -15268,8 +15289,9 @@ msgid "_OWA URL:"
 msgstr "_URL:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:753
+#, fuzzy
 msgid "A_uthenticate"
-msgstr ""
+msgstr "Authentifikatschoon fehlslagen"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:775
 msgid "Mailbox name is _different than user name"
@@ -15300,8 +15322,9 @@ msgstr "%ld KB"
 #: ../plugins/exchange-operations/exchange-account-setup.c:1139
 #: ../plugins/exchange-operations/exchange-calendar.c:236
 #: ../plugins/exchange-operations/exchange-contacts.c:222
+#, fuzzy
 msgid "Size:"
-msgstr ""
+msgstr "Gröte"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:196
 #: ../plugins/exchange-operations/exchange-contacts.c:170
@@ -15326,12 +15349,12 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 #, fuzzy
 msgid "Confirm Password:"
-msgstr "_Passwoord:"
+msgstr "Passwoord ingeven"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 #, fuzzy
 msgid "Current Password:"
-msgstr "_Passwoord:"
+msgstr "Passwoord ingeven"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:4
 #, fuzzy
@@ -15437,7 +15460,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates.c:735
 #, fuzzy, c-format
 msgid "Could not remove delegate %s"
-msgstr "Künn '%s' nich spiekern"
+msgstr "Kunn %s nich opmaken:"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:795
 msgid "Could not update list of delegates."
@@ -15467,7 +15490,7 @@ msgstr "Lüüt:"
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:6
 #, fuzzy
 msgid "Delegates"
-msgstr "Opgav löschen"
+msgstr "Löschen"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
 msgid ""
@@ -15516,12 +15539,12 @@ msgstr "_Drucken..."
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:130
 #, fuzzy
 msgid "Folder Name"
-msgstr "Feldnaam"
+msgstr "_Verteeknisnaam:"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:134
 #, fuzzy
 msgid "Folder Size"
-msgstr "V_erteeknis"
+msgstr "Verteeknis"
 
 #. FIXME Limit to one user
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:76
@@ -15612,7 +15635,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 #, fuzzy
 msgid "_Change Password"
-msgstr "_Passwoord:"
+msgstr "Passwoord ingeven"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:293
 msgid "(Permission denied.)"
@@ -15636,8 +15659,9 @@ msgid "<b>Permissions</b>"
 msgstr "<b>Brukers</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
+#, fuzzy
 msgid "Cannot Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
@@ -15651,7 +15675,7 @@ msgstr "Nejes Testelement erstellen"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 #, fuzzy
 msgid "Create subfolders"
-msgstr "Aktuelles Verteeknis"
+msgstr "Verteeknis erstellen"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Delete Any Items"
@@ -15672,12 +15696,12 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 #, fuzzy
 msgid "Folder contact"
-msgstr "Keene Lüüt"
+msgstr "%d Kontakt"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 #, fuzzy
 msgid "Folder owner"
-msgstr "V_erteeknis"
+msgstr "_Verteeknisnaam:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 #, fuzzy
@@ -15711,7 +15735,7 @@ msgstr "Sennenoptschoonen"
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 #, fuzzy
 msgid "I_mportance: "
-msgstr "importeren"
+msgstr "Wichtig"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
 msgid ""
@@ -15753,7 +15777,7 @@ msgstr "Brukers"
 #: ../plugins/exchange-operations/exchange-user-dialog.c:134
 #, fuzzy
 msgid "Select User"
-msgstr "Utwählt"
+msgstr "Verteeknis wählen"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:172
 #, fuzzy
@@ -15805,7 +15829,7 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 #, fuzzy
 msgid "Could not change password."
-msgstr "Künn '%s' nich spiekern"
+msgstr "Nejes Passwoord ingeven"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:8
 msgid ""
@@ -15819,8 +15843,9 @@ msgid "Could not connect to Exchange server."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#, fuzzy
 msgid "Could not connect to server {0}."
-msgstr ""
+msgstr "Künn de Verknüppen nich opmaken."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not determine folder permissions for delegates."
@@ -15831,8 +15856,9 @@ msgid "Could not find Exchange Web Storage System."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:15
+#, fuzzy
 msgid "Could not locate server {0}."
-msgstr ""
+msgstr "Künn de Verknüppen nich opmaken."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:16
 msgid "Could not make {0} a delegate"
@@ -15851,8 +15877,9 @@ msgid "Could not read out-of-office state"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
+#, fuzzy
 msgid "Could not update folder permissions."
-msgstr ""
+msgstr "Künn de Verknüppen nich opmaken."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Could not update out-of-office state"
@@ -15892,13 +15919,14 @@ msgid "Folder already exists"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
+#, fuzzy
 msgid "Folder does not exist"
-msgstr ""
+msgstr "Düsses Anskrivtenbook givt dat nich"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:39
 #, fuzzy
 msgid "Folder offline"
-msgstr "Offline or_bieten"
+msgstr "_Verteeknisnaam:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 #: ../shell/e-shell.c:1259
@@ -16007,15 +16035,16 @@ msgid "Unable to edit delegates."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
+#, fuzzy
 msgid "Unknown error looking up {0}"
-msgstr ""
+msgstr "Unbekannter Fehler"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 #: ../plugins/google-account-setup/google-source.c:624
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
-msgstr ""
+msgstr "Unbekannter Fehler."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 #, fuzzy
@@ -16230,7 +16259,7 @@ msgstr ""
 #: ../plugins/google-account-setup/google-contacts-source.c:270
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:285
 msgid "<b>Server</b>"
-msgstr ""
+msgstr "<b>Server</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
@@ -16458,8 +16487,9 @@ msgstr "L_üüt..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:514
+#, fuzzy
 msgid "Message"
-msgstr ""
+msgstr "Nahricht"
 
 #: ../plugins/groupwise-features/properties.glade.h:6
 msgid "Shared Folder Notification"
@@ -16484,7 +16514,7 @@ msgstr "_Deelen"
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
 #, fuzzy
 msgid "<b>Name</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Togangnaam</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:2
 msgid "Access Rights"
@@ -16534,7 +16564,7 @@ msgstr "Proxy"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
-msgstr ""
+msgstr "<b>Togangnaam</b>"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
@@ -16554,7 +16584,7 @@ msgstr ""
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:512
 msgid "_Proxy Login..."
-msgstr ""
+msgstr "_Proxy Anmellen..."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:689
@@ -16642,7 +16672,7 @@ msgstr "Nich tolaten:"
 
 #: ../plugins/groupwise-features/status-track.c:209
 msgid "Completed: "
-msgstr ""
+msgstr "Fertig:"
 
 #: ../plugins/groupwise-features/status-track.c:214
 msgid "Undelivered: "
@@ -16676,7 +16706,7 @@ msgstr "<b>Brukers</b>"
 #: ../plugins/imap-features/imap-headers.glade.h:2
 #, fuzzy
 msgid "<b>IMAP Headers</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
@@ -17646,7 +17676,7 @@ msgstr[1] ""
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
 msgid "[No Summary]"
-msgstr ""
+msgstr "[Keene Tosammenfaten]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
@@ -17710,8 +17740,9 @@ msgid "Create an _Event"
 msgstr ""
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:6
+#, fuzzy
 msgid "Mail-to-Task"
-msgstr ""
+msgstr "E-Post an %s"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:4
 msgid "Create a new event from the selected message"
@@ -17749,7 +17780,7 @@ msgstr ""
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
 msgid "Mailing _List"
-msgstr ""
+msgstr "Mailing_list"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
@@ -17910,8 +17941,9 @@ msgid "Mark all messages in a folder as read."
 msgstr ""
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
+#, fuzzy
 msgid "Mono Loader"
-msgstr ""
+msgstr "In Verteeknis verschuven"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Support plugins written in Mono."
@@ -17937,11 +17969,11 @@ msgstr "_Plugins"
 
 #: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
-msgstr ""
+msgstr "Schriever(s)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
-msgstr ""
+msgstr "Instellens"
 
 #: ../plugins/plugin-manager/plugin-manager.c:265
 msgid "Note: Some changes will not take effect until restart"
@@ -18044,7 +18076,7 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-calendar.c:337
 #, c-format
 msgid "Could not open %s:"
-msgstr ""
+msgstr "Kunn %s nich opmaken:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:97
 #, c-format
@@ -18367,7 +18399,7 @@ msgstr ""
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 #, fuzzy
 msgid "Select One Source"
-msgstr "Tiedrebeet wählen"
+msgstr "Markerensmodus"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 #, fuzzy
@@ -18881,7 +18913,7 @@ msgstr "Evolution Instellens"
 #: ../shell/e-shell-view.c:47 ../shell/e-shell-window.c:324
 #, c-format
 msgid "%s - Evolution"
-msgstr ""
+msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window-commands.c:69
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -18946,8 +18978,9 @@ msgid "Switch to %s"
 msgstr ""
 
 #: ../shell/e-shell.c:634
+#, fuzzy
 msgid "Unknown system error."
-msgstr ""
+msgstr "Unbekannter Fehler."
 
 #: ../shell/e-shell.c:832 ../shell/e-shell.c:833
 #, c-format
@@ -18980,7 +19013,7 @@ msgstr "Nej"
 #: ../shell/test/evolution-test-component.c:103
 #, fuzzy
 msgid "New Test"
-msgstr "Neje Opgavenlist"
+msgstr "Neje _Opgav"
 
 #: ../shell/test/evolution-test-component.c:104
 #, fuzzy
@@ -19103,8 +19136,9 @@ msgid "Are you sure you want to forget all remembered passwords?"
 msgstr ""
 
 #: ../shell/shell.error.xml.h:2
+#, fuzzy
 msgid "Cannot start Evolution"
-msgstr ""
+msgstr "%s - Evolution"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Continue"
@@ -19292,7 +19326,7 @@ msgstr ""
 
 #: ../smime/gui/component.c:71
 msgid "Enter new password"
-msgstr ""
+msgstr "Nejes Passwoord ingeven"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:117
@@ -19437,7 +19471,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:32
 msgid "Organization (O)"
-msgstr ""
+msgstr "Organisatschoon (O):"
 
 #: ../smime/gui/smime-ui.glade.h:33
 msgid "Organizational Unit (OU)"
@@ -19682,7 +19716,7 @@ msgstr ""
 #: ../tools/killev.c:61
 #, fuzzy, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "Künn '%s' nich spiekern"
+msgstr "Kunn '%s' nich opmaken"
 
 #: ../tools/killev.c:76
 #, c-format
@@ -19726,7 +19760,7 @@ msgstr "Utwahl koperen"
 #: ../ui/evolution-addressbook.xml.h:10
 #, fuzzy
 msgid "Copy to Folder..."
-msgstr "_Nejes Verteeknis..."
+msgstr "_In Verteeknis verschuven..."
 
 #: ../ui/evolution-addressbook.xml.h:11
 #, fuzzy
@@ -19777,13 +19811,13 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:22
 #, fuzzy
 msgid "Move to Folder..."
-msgstr "_Verteeknis verschuven nah..."
+msgstr "_In Verteeknis verschuven..."
 
 #: ../ui/evolution-addressbook.xml.h:23 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
 #, fuzzy
 msgid "Paste"
-msgstr "leste"
+msgstr "Privat"
 
 #: ../ui/evolution-addressbook.xml.h:24 ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
@@ -19800,7 +19834,7 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:29
 #, fuzzy
 msgid "Rename the selected folder"
-msgstr "Utwahl löschen"
+msgstr "Verteeknis utwählen"
 
 #: ../ui/evolution-addressbook.xml.h:30
 #, fuzzy
@@ -19871,12 +19905,12 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
-msgstr ""
+msgstr "_Aktschoonen"
 
 #: ../ui/evolution-addressbook.xml.h:47
 #, fuzzy
 msgid "_Copy Contact to..."
-msgstr "Lüüt..."
+msgstr "_Nejer Kontakt..."
 
 #: ../ui/evolution-addressbook.xml.h:48
 msgid "_Copy Folder Contacts To"
@@ -19893,12 +19927,12 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:53
 #, fuzzy
 msgid "_Move Contact to..."
-msgstr "Lüüt..."
+msgstr "_Nejer Kontakt..."
 
 #: ../ui/evolution-addressbook.xml.h:54
 #, fuzzy
 msgid "_Move Folder Contacts To"
-msgstr "_Verteeknis verschuven nah..."
+msgstr "Verteeknis verschuven nah"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:49
 msgid "_New"
@@ -19907,12 +19941,12 @@ msgstr "_Nej"
 #: ../ui/evolution-addressbook.xml.h:60
 #, fuzzy
 msgid "_Rename"
-msgstr "_Löschen"
+msgstr "_Annern Naam geven..."
 
 #: ../ui/evolution-addressbook.xml.h:61
 #, fuzzy
 msgid "_Save Contact as VCard..."
-msgstr "Lüüt..."
+msgstr "_Nejer Kontakt..."
 
 #: ../ui/evolution-addressbook.xml.h:62
 msgid "_Save Folder Contacts As VCard"
@@ -19945,28 +19979,29 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go To"
-msgstr ""
+msgstr "Denn man to"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
 msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:13
+#, fuzzy
 msgid "Go forward"
-msgstr ""
+msgstr "Vor"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
-msgstr ""
+msgstr "List"
 
 #: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
-msgstr ""
+msgstr "Monat"
 
 #: ../ui/evolution-calendar.xml.h:16 ../ui/evolution-mail-message.xml.h:58
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
-msgstr ""
+msgstr "Een' vor"
 
 #: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
@@ -19975,7 +20010,7 @@ msgstr ""
 #: ../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:70
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
-msgstr ""
+msgstr "Een' torügg"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
@@ -19995,7 +20030,7 @@ msgstr "_Dag wählen"
 
 #: ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
-msgstr ""
+msgstr "Vandag wählen"
 
 #: ../ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
@@ -20141,7 +20176,7 @@ msgstr "_Nej..."
 
 #: ../ui/evolution-mail-global.xml.h:28
 msgid "_Preview"
-msgstr ""
+msgstr "_Utblick"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -20290,7 +20325,7 @@ msgstr ""
 #: ../ui/evolution-mail-list.xml.h:37 ../ui/evolution-mail-message.xml.h:111
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
-msgstr ""
+msgstr "_Nahricht"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -20415,8 +20450,9 @@ msgid "Display the previous unread message"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:33
+#, fuzzy
 msgid "F_orward As..."
-msgstr ""
+msgstr "Vor"
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
@@ -20627,7 +20663,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Zoom _Out"
-msgstr ""
+msgstr "_Lütter maken"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "_Attached"
@@ -20655,11 +20691,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Go To"
-msgstr ""
+msgstr "_Denn man to"
 
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Important"
-msgstr ""
+msgstr "_Wichtig"
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Inline"
@@ -20683,7 +20719,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normale Gröte"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Not Junk"
@@ -20691,7 +20727,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Open in New Window"
-msgstr ""
+msgstr "In nejem _Finster opmaken"
 
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Previous Message"
@@ -20704,7 +20740,7 @@ msgstr ""
 #. Translators: "Read" as in "has been read" (evolution-mail-message.xml)
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Read"
-msgstr ""
+msgstr "_Lesen"
 
 #: ../ui/evolution-mail-message.xml.h:124
 #, fuzzy
@@ -20721,11 +20757,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Zoom"
-msgstr ""
+msgstr "_Gröte"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Zoom In"
-msgstr ""
+msgstr "_Gröter maken"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #, fuzzy
@@ -20744,7 +20780,7 @@ msgstr "Utwahl koperen"
 #: ../ui/evolution-memos.xml.h:5
 #, fuzzy
 msgid "Cut selected memo"
-msgstr "Utwahl utsnieden"
+msgstr "%d utwählt, "
 
 #: ../ui/evolution-memos.xml.h:7
 msgid "Delete selected memos"
@@ -20792,7 +20828,7 @@ msgstr ""
 #: ../ui/evolution-tasks.xml.h:9
 #, fuzzy
 msgid "Mar_k as Complete"
-msgstr "% fertig"
+msgstr "% Komplett "
 
 #: ../ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
@@ -20865,7 +20901,7 @@ msgstr "Evolution _FAQ"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
-msgstr ""
+msgstr "Programm sluten"
 
 #: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
@@ -20924,7 +20960,7 @@ msgstr ""
 #: ../ui/evolution.xml.h:26
 #, fuzzy
 msgid "Set up Pilot configuration"
-msgstr "Ort wählen"
+msgstr "Instellens"
 
 #: ../ui/evolution.xml.h:28
 msgid "Show Side _Bar"
@@ -21116,8 +21152,9 @@ msgid "<b>Time Zones</b>"
 msgstr "Tiedrebeeten"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
+#, fuzzy
 msgid "<b>_Selection</b>"
-msgstr ""
+msgstr "_Utwahl"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
@@ -21199,7 +21236,7 @@ msgstr "A_ktuelle Ansicht"
 #: ../widgets/menus/gal-view-menus.c:327
 #, fuzzy, c-format
 msgid "Select View: %s"
-msgstr "Datei utwählen"
+msgstr "Weekenansicht: %s. %s"
 
 #: ../widgets/menus/gal-view-menus.c:370
 msgid "Current view is a customized view"
@@ -21268,7 +21305,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment.c:2208
 #, c-format
 msgid "Could not open '%s'"
-msgstr ""
+msgstr "Kunn '%s' nich opmaken"
 
 #: ../widgets/misc/e-attachment.c:2211
 #, c-format
@@ -21350,7 +21387,7 @@ msgstr "A_nhangen"
 #: ../widgets/misc/e-attachment-store.c:607
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] "\t\t"
+msgstr[0] "Anhang spiekern"
 msgstr[1] ""
 
 #: ../widgets/misc/e-attachment-view.c:300
@@ -21454,15 +21491,15 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:57
 msgid "Arabic"
-msgstr ""
+msgstr "Arabisch"
 
 #: ../widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
-msgstr ""
+msgstr "Baltic"
 
 #: ../widgets/misc/e-charset-picker.c:59
 msgid "Central European"
-msgstr ""
+msgstr "Zentraleuropäisch"
 
 #: ../widgets/misc/e-charset-picker.c:60
 msgid "Chinese"
@@ -21470,35 +21507,35 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:61
 msgid "Cyrillic"
-msgstr ""
+msgstr "Kyrillisch"
 
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Greek"
-msgstr ""
+msgstr "Griechsch"
 
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebräisch"
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
-msgstr ""
+msgstr "Japansch"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Korean"
-msgstr ""
+msgstr "Koreansch"
 
 #: ../widgets/misc/e-charset-picker.c:66
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: ../widgets/misc/e-charset-picker.c:67
 msgid "Turkish"
-msgstr ""
+msgstr "Türksch"
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Western European"
@@ -21520,11 +21557,11 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:98
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainsch"
 
 #: ../widgets/misc/e-charset-picker.c:101
 msgid "Visual"
-msgstr ""
+msgstr "Visuell"
 
 #: ../widgets/misc/e-charset-picker.c:170
 #, c-format
@@ -21626,7 +21663,7 @@ msgstr "Aktuelles Verteeknis"
 #: ../widgets/misc/e-image-chooser.c:168
 #, fuzzy
 msgid "Choose Image"
-msgstr "Nahricht schrieven"
+msgstr "Datei utwählen"
 
 #: ../widgets/misc/e-map.c:605
 msgid "World Map"
@@ -21740,7 +21777,7 @@ msgstr "Grupperer"
 
 #: ../widgets/misc/e-selection-model.c:215
 msgid "Selection Mode"
-msgstr ""
+msgstr "Markerensmodus"
 
 #: ../widgets/misc/e-selection-model.c:223
 msgid "Cursor Mode"
@@ -21751,13 +21788,14 @@ msgid "When de_leted:"
 msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:1
+#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr ""
+msgstr "<b>Server</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 #, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>Brukers</b>"
+msgstr "<b>Server</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 #, fuzzy
@@ -21834,7 +21872,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:28
 msgid "_After:"
-msgstr ""
+msgstr "_Achter:"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "_All information"
@@ -21851,7 +21889,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Delivered"
-msgstr ""
+msgstr "Utliefert:"
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration date"
@@ -21871,16 +21909,16 @@ msgstr ""
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
 #: ../widgets/misc/e-task-widget.c:251
-#, c-format
+#, fuzzy, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s..."
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 #. %d is a number between 0 and 100, describing the percentage of operation complete
 #: ../widgets/misc/e-task-widget.c:257
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% komplett)"
 
 #: ../widgets/misc/e-url-entry.c:103
 msgid "Click here to go to URL"
@@ -22032,7 +22070,7 @@ msgstr "_Grupperen..."
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
 #, fuzzy
 msgid "Add a column..."
-msgstr "A_nhangen hentofögen..."
+msgstr "_Anhangen hentofögen..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 #, fuzzy
@@ -22049,15 +22087,15 @@ msgstr ""
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s : %s (%d Element)"
+msgstr[1] "%s : %s (%d Elemente)"
 
 #: ../widgets/table/e-table-group-container.c:347
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (%d Element)"
+msgstr[1] "%s (%d Elemente)"
 
 #: ../widgets/table/e-table-group-container.c:924
 #: ../widgets/table/e-table-group-container.c:925
@@ -22267,7 +22305,7 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3583 ../widgets/text/e-text.c:3584
 msgid "Justification"
-msgstr ""
+msgstr "Utrichten"
 
 #: ../widgets/text/e-text.c:3590 ../widgets/text/e-text.c:3591
 msgid "Clip Width"
@@ -22311,7 +22349,7 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3695 ../widgets/text/e-text.c:3696
 msgid "Line wrap"
-msgstr ""
+msgstr "Linientosammenfaten"
 
 #: ../widgets/text/e-text.c:3702 ../widgets/text/e-text.c:3703
 msgid "Break characters"
@@ -22339,7 +22377,7 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3758 ../widgets/text/e-text.c:3759
 msgid "Cursor position"
-msgstr ""
+msgstr "Wieserpositschoon"
 
 #. Translators: Input Method Context
 #: ../widgets/text/e-text.c:3766 ../widgets/text/e-text.c:3768
@@ -22558,3 +22596,94 @@ msgstr ""
 #~ msgctxt "table-date"
 #~ msgid "None"
 #~ msgstr "Keen"
+
+#~ msgid "Web Log:"
+#~ msgstr "Netdagebook:"
+
+#~ msgid "Shell"
+#~ msgstr "Shell"
+
+#~ msgid "hour"
+#~ msgid_plural "hours"
+#~ msgstr[0] "Stunn"
+#~ msgstr[1] ""
+
+#~ msgid "Repeat"
+#~ msgstr "Wedderholen"
+
+#~ msgid "Preview"
+#~ msgstr "Utblick"
+
+#~ msgid "month(s)"
+#~ msgstr "Monat(e)"
+
+#~ msgid "week(s)"
+#~ msgstr "Week(en)"
+
+#~ msgid "year(s)"
+#~ msgstr "Johr(e)"
+
+#~ msgid "Categories:"
+#~ msgstr "Kategorien:"
+
+#~ msgid "%s (cancelled)"
+#~ msgstr "%s (avbroken)"
+
+#~ msgid "%s (completed)"
+#~ msgstr "%s (fertig)"
+
+#~ msgid "Writing \"%s\""
+#~ msgstr "Schrieve \"%s\""
+
+#~ msgid "Filename"
+#~ msgstr "Dateinaam"
+
+#~ msgid "months"
+#~ msgstr "Monate"
+
+#~ msgid "the current time"
+#~ msgstr "de aktuelle Tied"
+
+#, fuzzy
+#~ msgctxt "mail-signature"
+#~ msgid "None"
+#~ msgstr "Keen"
+
+#, fuzzy
+#~ msgctxt "mail-receiving"
+#~ msgid "None"
+#~ msgstr "Keen"
+
+#~ msgid "Add Folder"
+#~ msgstr "Verteeknis hentofögen"
+
+#~ msgid "Account Information"
+#~ msgstr "Toganginformatschoon"
+
+#~ msgid "event"
+#~ msgstr "Ereegnis"
+
+#~ msgid "task"
+#~ msgstr "Opgav"
+
+#~ msgid "Image files"
+#~ msgstr "Avbilldateien"
+
+#~ msgid "Toolbar Style"
+#~ msgstr "Warktüügbalkenart"
+
+#~ msgid "Geometry"
+#~ msgstr "Geometrie"
+
+#, fuzzy
+#~ msgid "Unrecognized desktop file Version '%s'"
+#~ msgstr "Dateiverschoon '%s' vu'm Schrievdisk nich erkannt"
+
+#~ msgid "Show session management options"
+#~ msgstr "Törnoppassensoptschoonen opwiesen"
+
+#~ msgid "Show Attachment _Bar"
+#~ msgstr "_Anhangenbalken opwiesen"
+
+#~ msgid "Top Secret"
+#~ msgstr "Streng geheim"
