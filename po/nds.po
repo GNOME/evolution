@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2010-02-19 17:12+0000\n"
-"PO-Revision-Date: 2010-02-21 18:08+0100\n"
+"PO-Revision-Date: 2010-02-25 16:32+0100\n"
 "Last-Translator: Nils-Christoph Fiedler <fiedler@medienkompanie.de>\n"
 "Language-Team: Low German <nds-lowgerman@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -343,7 +343,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-contact-display.c:569
 #: ../mail/e-mail-migrate.c:961
 msgid "Work"
-msgstr ""
+msgstr "Orbiet"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:26
 msgid "_Address:"
@@ -601,7 +601,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:430
 msgid "_Full name"
-msgstr ""
+msgstr "_Full Naam"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:441
 msgid "E_mail"
@@ -919,11 +919,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1465
 msgid "_Don't Display"
-msgstr ""
+msgstr "_Nich opwiesen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1466
 msgid "Display _All Contacts"
-msgstr ""
+msgstr "_All Lüüt opwiesen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:560
@@ -952,7 +952,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
-msgstr ""
+msgstr "Autoklönkassen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.ui.h:8
@@ -960,7 +960,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
 msgid "Categories"
-msgstr ""
+msgstr "Kategorien"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 #: ../addressbook/gui/widgets/eab-contact-display.c:555
@@ -969,67 +969,67 @@ msgstr "Kompanie"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
-msgstr ""
+msgstr "Kompanieklönkassen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 2"
-msgstr ""
+msgstr "E-Post 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 3"
-msgstr ""
+msgstr "E-Post 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
-msgstr ""
+msgstr "Familiennaam"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "File As"
-msgstr ""
+msgstr "Datei as"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Given Name"
-msgstr ""
+msgstr "Geven Naam"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
-msgstr ""
+msgstr "Too Huus Fax"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone"
-msgstr ""
+msgstr "To Huus Klönkassen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Home Phone 2"
-msgstr ""
+msgstr "To Huus Klönkassen 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "ISDN Phone"
-msgstr ""
+msgstr "ISDN Klönkassen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:559
 msgid "Manager"
-msgstr ""
+msgstr "Oppasser"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 #: ../addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Mobile Phone"
-msgstr ""
+msgstr "Mobiler Klönkassen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: ../addressbook/gui/widgets/eab-contact-display.c:532
 msgid "Nickname"
-msgstr ""
+msgstr "Spitznaam"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 #: ../addressbook/gui/widgets/eab-contact-display.c:594
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Office"
@@ -1037,15 +1037,15 @@ msgstr "Kontor"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Other Fax"
-msgstr ""
+msgstr "Annere Fax"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Phone"
-msgstr ""
+msgstr "Annere Klönkassen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
@@ -1053,13 +1053,13 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/e-meeting-list-view.c:578
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
-msgstr ""
+msgstr "Roll"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 #: ../addressbook/gui/widgets/eab-contact-display.c:584
@@ -1078,12 +1078,12 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../shell/e-shell-view.c:748
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
@@ -1196,16 +1196,16 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-minicard.c:99
 msgid "Work Email"
-msgstr ""
+msgstr "Orbiet E-Post"
 
 #: ../addressbook/gui/widgets/e-minicard.c:100
 msgid "Home Email"
-msgstr ""
+msgstr "To Huus E-Post"
 
 #: ../addressbook/gui/widgets/e-minicard.c:101
 #: ../addressbook/gui/widgets/e-minicard.c:797
 msgid "Other Email"
-msgstr ""
+msgstr "Annere E-Post"
 
 #: ../addressbook/gui/widgets/e-minicard.c:177
 msgid "Selected"
@@ -1223,11 +1223,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:33
 msgid "New Contact"
-msgstr ""
+msgstr "Nejer Kontakt"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:34
 msgid "New Contact List"
-msgstr ""
+msgstr "Neje Kontaktlist"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:161
 #, c-format
@@ -2852,13 +2852,13 @@ msgstr ""
 #: ../widgets/misc/e-attachment-tree-view.c:496
 #: ../widgets/table/e-table-config.ui.h:6
 msgid "Description"
-msgstr ""
+msgstr "Beschrieven"
 
 #: ../calendar/gui/caltypes.xml.h:9
 #: ../calendar/gui/memotypes.xml.h:8
 #: ../calendar/gui/tasktypes.xml.h:11
 msgid "Description Contains"
-msgstr ""
+msgstr "Beschrieven het in"
 
 #: ../calendar/gui/caltypes.xml.h:10
 #: ../calendar/gui/memotypes.xml.h:9
@@ -13955,7 +13955,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-backend.c:470
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr ""
+msgstr "Kale_nner"
 
 #: ../modules/calendar/e-cal-shell-backend.c:472
 #: ../modules/calendar/e-cal-shell-view-actions.c:1273
@@ -14037,7 +14037,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-actions.c:218
 #: ../modules/calendar/e-cal-shell-view-actions.c:247
 msgid "Print"
-msgstr ""
+msgstr "Drucken"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:306
 msgid "This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."
@@ -14098,11 +14098,11 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1259
 msgid "Select today"
-msgstr ""
+msgstr "Vandag wählen"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1264
 msgid "Select _Date"
-msgstr ""
+msgstr "_Dag wählen"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1266
 msgid "Select a specific date"
@@ -14110,7 +14110,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1271
 msgid "_New Calendar"
-msgstr ""
+msgstr "_Nejer Kalenner"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1285
 #: ../modules/calendar/e-task-shell-view-actions.c:796
@@ -14125,7 +14125,7 @@ msgstr ""
 #: ../modules/calendar/e-memo-shell-view-actions.c:616
 #: ../modules/calendar/e-task-shell-view-actions.c:740
 msgid "Re_fresh"
-msgstr ""
+msgstr "_Opfrischen"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1294
 msgid "Refresh the selected calendar"
@@ -14242,7 +14242,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1549
 msgid "Day"
-msgstr ""
+msgstr "Dag"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1551
 msgid "Show one day"
@@ -14266,7 +14266,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1570
 msgid "Week"
-msgstr ""
+msgstr "Week"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "Show one week"
@@ -14560,7 +14560,7 @@ msgstr ""
 #: ../modules/calendar/e-task-shell-backend.c:322
 msgctxt "New"
 msgid "_Task"
-msgstr ""
+msgstr "_Opgav"
 
 #: ../modules/calendar/e-task-shell-backend.c:329
 msgctxt "New"
@@ -14574,7 +14574,7 @@ msgstr ""
 #: ../modules/calendar/e-task-shell-backend.c:339
 msgctxt "New"
 msgid "Tas_k List"
-msgstr ""
+msgstr "O_pgavenlist"
 
 #: ../modules/calendar/e-task-shell-backend.c:341
 #: ../modules/calendar/e-task-shell-view-actions.c:728
@@ -14654,7 +14654,7 @@ msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:712
 msgid "Copy..."
-msgstr ""
+msgstr "Koperen..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:719
 msgid "D_elete Task List"
@@ -14666,7 +14666,7 @@ msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:726
 msgid "_New Task List"
-msgstr ""
+msgstr "_Neje Opgavenlist"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:742
 msgid "Refresh the selected task list"
@@ -14740,34 +14740,34 @@ msgstr ""
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Opgav"
+msgstr[1] "%d Opgaven"
 
 #: ../modules/calendar/e-task-shell-view.c:351
 msgid "Delete Tasks"
-msgstr ""
+msgstr "Opgaven löschen"
 
 #: ../modules/calendar/e-task-shell-view.c:353
 msgid "Delete Task"
-msgstr ""
+msgstr "Opgav löschen"
 
 #. Translators: This is only for multiple messages.
 #: ../modules/mail/e-mail-attachment-handler.c:335
 #, c-format
 msgid "%d attached messages"
-msgstr ""
+msgstr "%d anhangen Nahrichten"
 
 #. Translators: "None" for a junk hook name,
 #. * when the junk plugin is not enabled.
 #: ../modules/mail/e-mail-junk-hook.c:90
 msgctxt "mail-junk-hook"
 msgid "None"
-msgstr ""
+msgstr "Keen"
 
 #: ../modules/mail/e-mail-shell-backend.c:168
 msgctxt "New"
 msgid "_Mail Message"
-msgstr ""
+msgstr "_E-Post Nahricht"
 
 #: ../modules/mail/e-mail-shell-backend.c:170
 msgid "Compose a new mail message"
@@ -14784,11 +14784,11 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-backend.c:199
 msgid "Mail Accounts"
-msgstr ""
+msgstr "E-Post Togänge"
 
 #: ../modules/mail/e-mail-shell-backend.c:207
 msgid "Mail Preferences"
-msgstr ""
+msgstr "E-Post Instellens"
 
 #: ../modules/mail/e-mail-shell-backend.c:215
 msgid "Composer Preferences"
@@ -14796,7 +14796,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-backend.c:223
 msgid "Network Preferences"
-msgstr ""
+msgstr "Netwark Instellens"
 
 #: ../modules/mail/e-mail-shell-content.c:678
 msgid "Group by Threads"
@@ -14865,7 +14865,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:918
 msgid "_Move Folder To..."
-msgstr ""
+msgstr "_Verteeknis verschuven nah..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:920
 msgid "Move the selected folder into another folder"
@@ -14873,7 +14873,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:925
 msgid "_New..."
-msgstr ""
+msgstr "_Nej..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:927
 msgid "Create a new folder for storing mail"
@@ -14917,7 +14917,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:974
 msgid "Empty _Trash"
-msgstr ""
+msgstr "_Papierkörv leeren"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:976
 msgid "Permanently remove all the deleted messages from all accounts"
@@ -14925,11 +14925,11 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:981
 msgid "_New Label"
-msgstr ""
+msgstr "_Nejes Label"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:990
 msgid "N_one"
-msgstr ""
+msgstr "K_een"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:997
 msgid "Hide _Read Messages"
@@ -14977,7 +14977,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1053
 msgid "_Message Filters"
-msgstr ""
+msgstr "_Nahrichtenfilter"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1055
 msgid "Create or edit rules for filtering new mail"
@@ -14985,7 +14985,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1060
 msgid "Search F_olders"
-msgstr ""
+msgstr "V_erteeknisse döörsöken"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1062
 msgid "Create or edit search folder definitions"
@@ -15001,19 +15001,19 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1076
 msgid "F_older"
-msgstr ""
+msgstr "V_erteeknis"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1083
 msgid "_Label"
-msgstr ""
+msgstr "_Label"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1123
 msgid "_New Folder..."
-msgstr ""
+msgstr "_Nejes Verteeknis..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1147
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "_Gelöschte Nahrichten verbargen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1149
 msgid "Hide deleted messages rather than displaying them with a line through them"
@@ -15045,7 +15045,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1202
 msgid "All Messages"
-msgstr ""
+msgstr "All Nahrichten"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1209
 msgid "Important Messages"
@@ -15061,23 +15061,23 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1230
 msgid "Messages with Attachments"
-msgstr ""
+msgstr "Nahrichten mit Anhangen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1237
 msgid "No Label"
-msgstr ""
+msgstr "Keen Label"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1244
 msgid "Read Messages"
-msgstr ""
+msgstr "Gelesene Nahrichten"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1251
 msgid "Recent Messages"
-msgstr ""
+msgstr "Leste Nahrichten"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1258
 msgid "Unread Messages"
-msgstr ""
+msgstr "Ungelesene Nahrichten"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1310
 msgid "Subject or Addresses contain"
@@ -15085,15 +15085,15 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1320
 msgid "All Accounts"
-msgstr ""
+msgstr "All Togänge"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1327
 msgid "Current Account"
-msgstr ""
+msgstr "Aktueller Togang"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1334
 msgid "Current Folder"
-msgstr ""
+msgstr "Aktuelles Verteeknis"
 
 #: ../modules/mail/e-mail-shell-view-private.c:889
 #, c-format
@@ -15158,15 +15158,15 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view.c:685
 msgid "Account Search"
-msgstr ""
+msgstr "Togangsök"
 
 #: ../modules/mail/e-mail-shell-view.c:873
 msgid "Proxy _Logout"
-msgstr ""
+msgstr "Proxy A_vmellen"
 
 #: ../modules/mail/em-composer-prefs.c:473
 msgid "Language(s)"
-msgstr ""
+msgstr "Sprak(en)"
 
 #: ../modules/mail/em-mailer-prefs.c:96
 msgid "Every time"
@@ -15273,7 +15273,7 @@ msgstr ""
 #: ../plugins/attachment-reminder/attachment-reminder.c:514
 #: ../plugins/templates/templates.c:413
 msgid "Keywords"
-msgstr ""
+msgstr "Slötelwöör"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Evolution has found some keywords that suggest that this message should contain an attachment, but cannot find one."
@@ -15289,7 +15289,7 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
-msgstr ""
+msgstr "_Nahricht bewarken"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
@@ -15537,7 +15537,7 @@ msgstr ""
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid "BBDB"
-msgstr ""
+msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid ""
@@ -15624,7 +15624,7 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:428
 msgid "Events"
-msgstr ""
+msgstr "Ereegnisse"
 
 #: ../plugins/caldav/caldav-browse-server.c:450
 msgid "User's calendars"
@@ -15676,7 +15676,7 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:1171
 msgid "Supports"
-msgstr ""
+msgstr "Unnerstütten"
 
 #: ../plugins/caldav/caldav-browse-server.c:1249
 #, c-format
@@ -15694,17 +15694,17 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-source.c:66
 msgid "CalDAV"
-msgstr ""
+msgstr "CalDAV"
 
 #: ../plugins/caldav/caldav-source.c:215
 #: ../plugins/calendar-http/calendar-http.c:92
 msgid "_URL:"
-msgstr ""
+msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:219
 #: ../plugins/google-account-setup/google-contacts-source.c:305
 msgid "Use _SSL"
-msgstr ""
+msgstr "_SSL bruken"
 
 #: ../plugins/caldav/caldav-source.c:228
 msgid "Brows_e server for a calendar"
@@ -15717,7 +15717,7 @@ msgstr ""
 #: ../plugins/google-account-setup/google-contacts-source.c:323
 #: ../plugins/google-account-setup/google-source.c:627
 msgid "Re_fresh:"
-msgstr ""
+msgstr "Op_frischen:"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
@@ -15733,7 +15733,7 @@ msgstr ""
 
 #: ../plugins/calendar-file/calendar-file.c:131
 msgid "File _name:"
-msgstr ""
+msgstr "Datei_naam:"
 
 #: ../plugins/calendar-file/calendar-file.c:135
 msgid "Choose calendar file"
@@ -15777,7 +15777,7 @@ msgstr ""
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Web Calendars"
-msgstr ""
+msgstr "Netkalenners"
 
 #: ../plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Fog"
@@ -15817,14 +15817,14 @@ msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:221
 msgid "Select a location"
-msgstr ""
+msgstr "Ort wählen"
 
 #. Translators: "None" location for a weather calendar
 #: ../plugins/calendar-weather/calendar-weather.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:371
 msgctxt "weather-cal-location"
 msgid "None"
-msgstr ""
+msgstr "Keen"
 
 #: ../plugins/calendar-weather/calendar-weather.c:446
 msgid "_Units:"
@@ -15905,7 +15905,7 @@ msgstr ""
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
-msgstr ""
+msgstr "Standardwellen"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid "Mark your preferred address book and calendar as default."
@@ -15921,7 +15921,7 @@ msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:316
 msgid "Security:"
-msgstr ""
+msgstr "Sekerheit:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:321
 msgid "Unclassified"
@@ -15929,23 +15929,23 @@ msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:322
 msgid "Protected"
-msgstr ""
+msgstr "Sekert"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
 #: ../widgets/misc/e-send-options.ui.h:18
 msgid "Secret"
-msgstr ""
+msgstr "Geheim"
 
 #: ../plugins/email-custom-header/email-custom-header.c:325
 msgid "Top secret"
-msgstr ""
+msgstr "Streng geheim"
 
 #. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
 #. indicating the header will not be added to a mail message
 #: ../plugins/email-custom-header/email-custom-header.c:379
 msgctxt "email-custom-header"
 msgid "None"
-msgstr ""
+msgstr "Keen"
 
 #: ../plugins/email-custom-header/email-custom-header.c:569
 msgid "_Custom Header"
@@ -15960,12 +15960,12 @@ msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:948
 msgid "Key"
-msgstr ""
+msgstr "Slötel"
 
 #: ../plugins/email-custom-header/email-custom-header.c:959
 #: ../plugins/templates/templates.c:419
 msgid "Values"
-msgstr ""
+msgstr "Werte"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
@@ -16103,7 +16103,7 @@ msgstr ""
 #: ../plugins/google-account-setup/google-contacts-source.c:53
 #: ../plugins/google-account-setup/google-source.c:82
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:273
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:235
@@ -16215,7 +16215,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:1
 msgid "Email:"
-msgstr ""
+msgstr "E-Post:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
 msgid "Junk List:"
@@ -16238,7 +16238,7 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.ui.h:13
 #: ../widgets/table/e-table-config.ui.h:21
 msgid "_Remove"
-msgstr ""
+msgstr "_Löschen"
 
 #: ../plugins/groupwise-features/mail-retract.c:81
 msgid "Message Retract"
@@ -16288,7 +16288,7 @@ msgstr ""
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:1
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:1
 msgid "Invalid user"
-msgstr ""
+msgstr "Nich akerater Bruker"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:4
 msgid "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email address and try again."
@@ -16362,7 +16362,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.ui.h:1
 msgid "<b>Users:</b>"
-msgstr ""
+msgstr "<b>Brukers</b>"
 
 #: ../plugins/groupwise-features/properties.ui.h:2
 msgid "C_ustomize notification message"
@@ -16370,7 +16370,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.ui.h:3
 msgid "Con_tacts..."
-msgstr ""
+msgstr "L_üüt..."
 
 #: ../plugins/groupwise-features/properties.ui.h:6
 msgid "Shared Folder Notification"
@@ -16382,27 +16382,27 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.ui.h:12
 msgid "_Not Shared"
-msgstr ""
+msgstr "_Nich deelt"
 
 #: ../plugins/groupwise-features/properties.ui.h:14
 msgid "_Shared With..."
-msgstr ""
+msgstr "_Deelt mit..."
 
 #: ../plugins/groupwise-features/properties.ui.h:15
 msgid "_Sharing"
-msgstr ""
+msgstr "_Deelen"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:1
 msgid "Access Rights"
-msgstr ""
+msgstr "Togangsrechte"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:2
 msgid "Add/Edit"
-msgstr ""
+msgstr "Hentofögen/Bewarken"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:4
 msgid "Con_tacts"
-msgstr ""
+msgstr "L_üüt"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:6
 msgid "Modify _folders/options/rules/"
@@ -16426,7 +16426,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:13
 msgid "_Write"
-msgstr ""
+msgstr "_Schrieven"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:14
 msgid "permission to read|_Read"
@@ -16434,7 +16434,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-listing.ui.h:1
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.ui.h:1
 msgid "<b>Account Name</b>"
@@ -16442,7 +16442,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/proxy-login-dialog.ui.h:2
 msgid "Proxy Login"
-msgstr ""
+msgstr "Proxy Anmellen"
 
 #: ../plugins/groupwise-features/proxy-login.c:209
 #: ../plugins/groupwise-features/proxy-login.c:252
@@ -16465,7 +16465,7 @@ msgstr ""
 #: ../plugins/groupwise-features/proxy.c:931
 #: ../plugins/groupwise-features/share-folder.c:701
 msgid "Add User"
-msgstr ""
+msgstr "Bruker hentofögen"
 
 #: ../plugins/groupwise-features/send-options.c:213
 msgid "Advanced send options"
@@ -16474,7 +16474,7 @@ msgstr ""
 #: ../plugins/groupwise-features/share-folder-common.c:317
 #: ../plugins/groupwise-features/share-folder.c:736
 msgid "Users"
-msgstr ""
+msgstr "Brukers"
 
 #: ../plugins/groupwise-features/share-folder-common.c:318
 msgid "Enter the users and set permissions"
@@ -16482,60 +16482,60 @@ msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:415
 msgid "Sharing"
-msgstr ""
+msgstr "Deelen"
 
 #: ../plugins/groupwise-features/share-folder.c:529
 msgid "Custom Notification"
-msgstr ""
+msgstr "Eegen Henwies"
 
 #: ../plugins/groupwise-features/share-folder.c:741
 msgid "Add   "
-msgstr ""
+msgstr "Hentofögen"
 
 #: ../plugins/groupwise-features/share-folder.c:747
 msgid "Modify"
-msgstr ""
+msgstr "Ännern"
 
 #: ../plugins/groupwise-features/status-track.c:126
 msgid "Message Status"
-msgstr ""
+msgstr "nahrichtentostand"
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:140
 msgid "Subject:"
-msgstr ""
+msgstr "Inholl:"
 
 #: ../plugins/groupwise-features/status-track.c:154
 msgid "From:"
-msgstr ""
+msgstr "Vun:"
 
 #: ../plugins/groupwise-features/status-track.c:169
 msgid "Creation date:"
-msgstr ""
+msgstr "Erstellensdag:"
 
 #: ../plugins/groupwise-features/status-track.c:209
 msgid "Recipient: "
-msgstr ""
+msgstr "Empfänger:"
 
 #: ../plugins/groupwise-features/status-track.c:216
 msgid "Delivered: "
-msgstr ""
+msgstr "Utliefert:"
 
 #: ../plugins/groupwise-features/status-track.c:222
 msgid "Opened: "
-msgstr ""
+msgstr "Opmakt:"
 
 #: ../plugins/groupwise-features/status-track.c:227
 msgid "Accepted: "
-msgstr ""
+msgstr "Tolaten:"
 
 #: ../plugins/groupwise-features/status-track.c:232
 msgid "Deleted: "
-msgstr ""
+msgstr "Löscht:"
 
 #: ../plugins/groupwise-features/status-track.c:237
 msgid "Declined: "
-msgstr ""
+msgstr "Nich tolaten:"
 
 #: ../plugins/groupwise-features/status-track.c:242
 msgid "Completed: "
@@ -16726,11 +16726,11 @@ msgstr ""
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1529
 msgid "calendar.ics"
-msgstr ""
+msgstr "calendar.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1534
 msgid "Save Calendar"
-msgstr ""
+msgstr "Kalenner spiekern"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1587
 #: ../plugins/itip-formatter/itip-formatter.c:1598
@@ -16783,7 +16783,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:2692
 #: ../plugins/itip-formatter/itip-formatter.c:2725
 msgid "Conflict Search"
-msgstr ""
+msgstr "Konfliktsök"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2707
@@ -16794,133 +16794,133 @@ msgstr ""
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:200
 msgid "Today %H:%M"
-msgstr ""
+msgstr "Vandag %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:204
 msgid "Today %H:%M:%S"
-msgstr ""
+msgstr "Vandag %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:213
 msgid "Today %l:%M:%S %p"
-msgstr ""
+msgstr "Vandag %l:%M:%S %p"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:228
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "Morgen %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:232
 msgid "Tomorrow %H:%M:%S"
-msgstr ""
+msgstr "Morgen %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:237
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "Morgen %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:241
 msgid "Tomorrow %l:%M:%S %p"
-msgstr ""
+msgstr "Tomorrow %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:260
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:265
 msgid "%A %H:%M"
-msgstr ""
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:269
 msgid "%A %H:%M:%S"
-msgstr ""
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:274
 msgid "%A %l:%M %p"
-msgstr ""
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:278
 msgid "%A %l:%M:%S %p"
-msgstr ""
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:287
 msgid "%A, %B %e"
-msgstr ""
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:293
 msgid "%A, %B %e %H:%M"
-msgstr ""
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:297
 msgid "%A, %B %e %H:%M:%S"
-msgstr ""
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:302
 msgid "%A, %B %e %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:306
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:312
 msgid "%A, %B %e, %Y"
-msgstr ""
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:317
 msgid "%A, %B %e, %Y %H:%M"
-msgstr ""
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:321
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr ""
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:326
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr ""
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:330
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:355
 #: ../plugins/itip-formatter/itip-view.c:443
@@ -17138,32 +17138,32 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:676
 msgid "All day:"
-msgstr ""
+msgstr "Elken Dag:"
 
 #: ../plugins/itip-formatter/itip-view.c:686
 msgid "Start day:"
-msgstr ""
+msgstr "Startdag:"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:686
 #: ../plugins/itip-formatter/itip-view.c:1041
 msgid "Start time:"
-msgstr ""
+msgstr "Starttied:"
 
 #: ../plugins/itip-formatter/itip-view.c:698
 msgid "End day:"
-msgstr ""
+msgstr "Enndag:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:698
 #: ../plugins/itip-formatter/itip-view.c:1052
 msgid "End time:"
-msgstr ""
+msgstr "Enntied:"
 
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:831
 msgid "_Open Calendar"
-msgstr ""
+msgstr "Kalenner _opmaken"
 
 #: ../plugins/itip-formatter/itip-view.c:837
 #: ../plugins/itip-formatter/itip-view.c:841
@@ -17171,7 +17171,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:864
 #: ../plugins/itip-formatter/itip-view.c:869
 msgid "_Decline"
-msgstr ""
+msgstr "_Nich tolaten"
 
 #: ../plugins/itip-formatter/itip-view.c:838
 #: ../plugins/itip-formatter/itip-view.c:843
@@ -17179,7 +17179,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:866
 #: ../plugins/itip-formatter/itip-view.c:871
 msgid "_Accept"
-msgstr ""
+msgstr "_Tolaten"
 
 #: ../plugins/itip-formatter/itip-view.c:841
 msgid "_Decline all"
@@ -17198,12 +17198,12 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:843
 msgid "_Accept all"
-msgstr ""
+msgstr "_Allens tolaten"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:854
 msgid "_Send Information"
-msgstr ""
+msgstr "_Informatschoon sennen"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:858
@@ -17212,13 +17212,13 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:861
 msgid "_Update"
-msgstr ""
+msgstr "_Opfrischen"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:1072
 #: ../plugins/itip-formatter/itip-view.c:1126
 msgid "Comment:"
-msgstr ""
+msgstr "Kommentar:"
 
 #: ../plugins/itip-formatter/itip-view.c:1111
 msgid "Send _reply to sender"
@@ -17247,11 +17247,11 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:1911
 msgid "_Tasks:"
-msgstr ""
+msgstr "_Opgaven:"
 
 #: ../plugins/itip-formatter/itip-view.c:1913
 msgid "_Memos:"
-msgstr ""
+msgstr "_Notizen:"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Display \"text/calendar\" MIME parts in mail messages."
@@ -17327,7 +17327,7 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Use sound theme"
-msgstr ""
+msgstr "Tonthema bruken"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether play sound or beep when new messages arrive."
@@ -17369,13 +17369,13 @@ msgstr[1] ""
 #: ../plugins/mail-notification/mail-notification.c:506
 #, c-format
 msgid "From: %s"
-msgstr ""
+msgstr "Vun: %s"
 
 #. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:518
 #, c-format
 msgid "Subject: %s"
-msgstr ""
+msgstr "Inholl: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:527
 #, c-format
@@ -17387,7 +17387,7 @@ msgstr[1] ""
 #: ../plugins/mail-notification/mail-notification.c:545
 #: ../plugins/mail-notification/mail-notification.c:550
 msgid "New email"
-msgstr ""
+msgstr "Neje E-Post"
 
 #: ../plugins/mail-notification/mail-notification.c:604
 msgid "Show icon in _notification area"
@@ -17411,15 +17411,15 @@ msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:869
 msgid "Use sound _theme"
-msgstr ""
+msgstr "Ton_thema bruken"
 
 #: ../plugins/mail-notification/mail-notification.c:888
 msgid "Play _file:"
-msgstr ""
+msgstr "_Datei avspeelen:"
 
 #: ../plugins/mail-notification/mail-notification.c:899
 msgid "Select sound file"
-msgstr ""
+msgstr "Tondatei wählen"
 
 #: ../plugins/mail-notification/mail-notification.c:957
 msgid "Notify new messages for _Inbox only"
@@ -17670,11 +17670,11 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
-msgstr ""
+msgstr "Nahricht _bewarken"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
 msgid "_Send message"
-msgstr ""
+msgstr "Nahricht _sennen"
 
 #: ../plugins/mark-all-read/mark-all-read.c:42
 msgid "Also mark messages in subfolders?"
@@ -17723,16 +17723,16 @@ msgstr ""
 
 #: ../plugins/plugin-manager/plugin-manager.c:285
 msgid "Overview"
-msgstr ""
+msgstr "Överblick"
 
 #: ../plugins/plugin-manager/plugin-manager.c:356
 #: ../plugins/plugin-manager/plugin-manager.c:418
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: ../plugins/plugin-manager/plugin-manager.c:430
 msgid "_Plugins"
-msgstr ""
+msgstr "_Plugins"
 
 #: ../plugins/plugin-manager/plugin-manager.c:432
 msgid "Enable and disable plugins"
@@ -17781,7 +17781,7 @@ msgstr ""
 
 #: ../plugins/prefer-plain/prefer-plain.c:270
 msgid "HTML _Mode"
-msgstr ""
+msgstr "HTML _Modus"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 msgid "Evolution Profiler"
@@ -17805,12 +17805,12 @@ msgstr ""
 
 #: ../plugins/pst-import/pst-importer.c:299
 msgid "_Mail"
-msgstr ""
+msgstr "_E-Post"
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:317
 msgid "_Address Book"
-msgstr ""
+msgstr "_Anskrivtenbook"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:324
@@ -17821,12 +17821,12 @@ msgstr ""
 #: ../plugins/pst-import/pst-importer.c:330
 #: ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr ""
+msgstr "_Opgaven"
 
 #. Journal
 #: ../plugins/pst-import/pst-importer.c:336
 msgid "_Journal entries"
-msgstr ""
+msgstr "_Journalindräge"
 
 #: ../plugins/pst-import/pst-importer.c:351
 msgid "Importing Outlook data"
@@ -17840,7 +17840,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Locations"
-msgstr ""
+msgstr "Orte"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Publish calendars to the web."
@@ -17894,15 +17894,15 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Custom Location"
-msgstr ""
+msgstr "Eegener Ort"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Daily"
-msgstr ""
+msgstr "Elken Dag"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "FTP (with login)"
-msgstr ""
+msgstr "FTP (mit Anmellen)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
 msgid "Manual (via Actions menu)"
@@ -17910,7 +17910,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "P_ort:"
-msgstr ""
+msgstr "P-ort:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
 msgid "Public FTP"
@@ -17926,43 +17926,43 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Secure FTP (SSH)"
-msgstr ""
+msgstr "Seker FTP (SSH)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "Secure WebDAV (HTTPS)"
-msgstr ""
+msgstr "Seker WebDAV (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "Service _type:"
-msgstr ""
+msgstr "Deenst_typ:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Sources"
-msgstr ""
+msgstr "Wellen"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
-msgstr ""
+msgstr "Tied_düer:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "WebDAV (HTTP)"
-msgstr ""
+msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 msgid "Weekly"
-msgstr ""
+msgstr "Elke Week"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 msgid "Windows share"
-msgstr ""
+msgstr "Windows deelen"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_File:"
-msgstr ""
+msgstr "_Datei:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Password:"
-msgstr ""
+msgstr "_Passwoord:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "_Publish as:"
@@ -17970,15 +17970,15 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "_Remember password"
-msgstr ""
+msgstr "Passwoord _merken"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
-msgstr ""
+msgstr "_Brukernaam:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "iCal"
-msgstr ""
+msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-format-fb.c:69
 #: ../plugins/publish-calendar/publish-format-ical.c:82
@@ -17988,11 +17988,11 @@ msgstr ""
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:474
 msgid "New Location"
-msgstr ""
+msgstr "Nejer Ort"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:476
 msgid "Edit Location"
-msgstr ""
+msgstr "Ort bewarken"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:126
 #, c-format
@@ -18056,11 +18056,11 @@ msgstr ""
 #. *
 #: ../plugins/save-calendar/csv-format.c:161
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:362
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:364
 msgid "Description List"
@@ -18072,27 +18072,27 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:366
 msgid "Comment List"
-msgstr ""
+msgstr "Kommentarlist"
 
 #: ../plugins/save-calendar/csv-format.c:369
 msgid "Contact List"
-msgstr ""
+msgstr "Kontaktlist"
 
 #: ../plugins/save-calendar/csv-format.c:370
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: ../plugins/save-calendar/csv-format.c:371
 msgid "End"
-msgstr ""
+msgstr "Enn"
 
 #: ../plugins/save-calendar/csv-format.c:373
 msgid "percent Done"
-msgstr ""
+msgstr "Perzent fertig"
 
 #: ../plugins/save-calendar/csv-format.c:375
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:376
 msgid "Attendees List"
@@ -18100,7 +18100,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:378
 msgid "Modified"
-msgstr ""
+msgstr "Ännert"
 
 #: ../plugins/save-calendar/csv-format.c:530
 msgid "A_dvanced options for the CSV format"
@@ -18128,11 +18128,11 @@ msgstr ""
 
 #: ../plugins/save-calendar/ical-format.c:162
 msgid "iCalendar format (.ics)"
-msgstr ""
+msgstr "iCalender Format (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
-msgstr ""
+msgstr "Utwählte spiekern"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save a calendar or task list to disk."
@@ -18145,15 +18145,15 @@ msgstr ""
 #. *
 #: ../plugins/save-calendar/rdf-format.c:147
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:369
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "RDF Format (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:111
 msgid "_Format:"
-msgstr ""
+msgstr "_Format:"
 
 #: ../plugins/save-calendar/save-calendar.c:172
 msgid "Select destination file"
@@ -18185,7 +18185,7 @@ msgstr ""
 
 #: ../plugins/startup-wizard/startup-wizard.c:92
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 #: ../plugins/startup-wizard/startup-wizard.c:97
 msgid ""
@@ -18203,19 +18203,19 @@ msgstr ""
 #: ../widgets/misc/e-import-assistant.c:542
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "Vun %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:167
 msgid "Importing files"
-msgstr ""
+msgstr "Importere Dateien"
 
 #: ../plugins/startup-wizard/startup-wizard.c:230
 msgid "Importing data."
-msgstr ""
+msgstr "Importere Daten."
 
 #: ../plugins/startup-wizard/startup-wizard.c:232
 msgid "Please wait"
-msgstr ""
+msgstr "Bidde töven"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Sort mail message threads by subject."
@@ -18244,7 +18244,7 @@ msgstr ""
 
 #: ../plugins/templates/templates.c:617
 msgid "No Title"
-msgstr ""
+msgstr "Keen Titel"
 
 #: ../plugins/templates/templates.c:688
 msgid "Save as _Template"
@@ -18304,11 +18304,11 @@ msgstr ""
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:68
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:245
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:271
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
@@ -18449,7 +18449,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "Statusbar is visible"
-msgstr ""
+msgstr "Tostandsbalken is sichtbar"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid "The configuration version of Evolution, with major/minor/configuration level (for example \"2.6.0\")."
@@ -18513,7 +18513,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Warktüügbalken is sichtbar"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "URL that provides proxy configuration values."
@@ -18521,7 +18521,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Use HTTP proxy"
-msgstr ""
+msgstr "(HTTP Proxy bruken"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:53
 msgid "User name to pass as authentication when doing HTTP proxying."
@@ -18557,26 +18557,26 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:61
 msgid "Window button style"
-msgstr ""
+msgstr "Finsterknopputsehn"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:62
 msgid "Window buttons are visible"
-msgstr ""
+msgstr "Finsterknöppe sünd sichtbar"
 
 #: ../shell/e-shell-content.c:577
 #: ../shell/e-shell-content.c:578
 msgid "Searches"
-msgstr ""
+msgstr "Söken"
 
 #: ../shell/e-shell-content.c:619
 msgid "Save Search"
-msgstr ""
+msgstr "Sök spiekern"
 
 #: ../shell/e-shell-migrate.c:287
 #: ../shell/e-shell-migrate.c:288
 #, c-format
 msgid "%ld KB"
-msgstr ""
+msgstr "%ld KB"
 
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
@@ -18584,19 +18584,19 @@ msgstr ""
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:883
 msgid "Sho_w:"
-msgstr ""
+msgstr "A_nsicht:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:910
 msgid "Sear_ch:"
-msgstr ""
+msgstr "S_ök:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:970
 msgid "i_n"
-msgstr ""
+msgstr "i_n"
 
 #: ../shell/e-shell-switcher.c:448
 msgid "Toolbar Style"
@@ -18617,15 +18617,15 @@ msgstr ""
 
 #: ../shell/e-shell-utils.c:220
 msgid "vCard (.vcf)"
-msgstr ""
+msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:222
 msgid "iCalendar (.ics)"
-msgstr ""
+msgstr "iCalendar (.ics)"
 
 #: ../shell/e-shell-utils.c:243
 msgid "All Files (*)"
-msgstr ""
+msgstr "All Dateien (*)"
 
 #: ../shell/e-shell-view.c:604
 msgid "Switcher Action"
@@ -18645,7 +18645,7 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:637
 msgid "Search Rule"
-msgstr ""
+msgstr "Sökregel"
 
 #: ../shell/e-shell-view.c:638
 msgid "Criteria for the current search results"
@@ -18681,7 +18681,7 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:717
 msgid "Shell Window"
-msgstr ""
+msgstr "Shell Finster"
 
 #: ../shell/e-shell-view.c:718
 msgid "The window to which the shell view belongs"
@@ -18697,7 +18697,7 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:763
 msgid "Current View ID"
-msgstr ""
+msgstr "Aktuelle Ansicht ID"
 
 #: ../shell/e-shell-view.c:764
 msgid "The current GAL view ID"
@@ -18748,7 +18748,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1463
 msgid "Evolution _FAQ"
-msgstr ""
+msgstr "Evolution _FAQ"
 
 #: ../shell/e-shell-window-actions.c:1465
 msgid "Open the Frequently Asked Questions webpage"
@@ -18764,7 +18764,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1477
 msgid "I_mport..."
-msgstr ""
+msgstr "I_mporteren..."
 
 #: ../shell/e-shell-window-actions.c:1479
 msgid "Import data from other programs"
@@ -18820,7 +18820,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1547
 msgid "_Find Now"
-msgstr ""
+msgstr "_Nu finnen"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1549
@@ -18829,7 +18829,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1554
 msgid "_Save Search..."
-msgstr ""
+msgstr "_Sök spiekern..."
 
 #: ../shell/e-shell-window-actions.c:1556
 msgid "Save the current search parameters"
@@ -18861,7 +18861,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1589
 msgid "_Work Offline"
-msgstr ""
+msgstr "Offline or_bieten"
 
 #: ../shell/e-shell-window-actions.c:1591
 msgid "Put Evolution into offline mode"
@@ -18869,7 +18869,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1596
 msgid "_Work Online"
-msgstr ""
+msgstr "_Online orbieten"
 
 #: ../shell/e-shell-window-actions.c:1598
 msgid "Put Evolution into online mode"
@@ -18877,59 +18877,59 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1626
 msgid "Lay_out"
-msgstr ""
+msgstr "U_tsehn"
 
 #: ../shell/e-shell-window-actions.c:1633
 msgid "_New"
-msgstr ""
+msgstr "_Nej"
 
 #: ../shell/e-shell-window-actions.c:1640
 msgid "_Search"
-msgstr ""
+msgstr "_Sök"
 
 #: ../shell/e-shell-window-actions.c:1647
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "_SUtsehnwessler"
 
 #: ../shell/e-shell-window-actions.c:1661
 msgid "_Window"
-msgstr ""
+msgstr "_Finster"
 
 #: ../shell/e-shell-window-actions.c:1690
 msgid "Show Side _Bar"
-msgstr ""
+msgstr "Sieten_balken opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1692
 msgid "Show the side bar"
-msgstr ""
+msgstr "Sietenbalken opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1698
 msgid "Show _Buttons"
-msgstr ""
+msgstr "_Knöppe opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1700
 msgid "Show the switcher buttons"
-msgstr ""
+msgstr "Wesselknöppe opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1706
 msgid "Show _Status Bar"
-msgstr ""
+msgstr "_Tostandsbalken opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1708
 msgid "Show the status bar"
-msgstr ""
+msgstr "Tostandsbalken opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Tool Bar"
-msgstr ""
+msgstr "_Warktüügbalken opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1716
 msgid "Show the tool bar"
-msgstr ""
+msgstr "De Warktüügbalken opwiesen"
 
 #: ../shell/e-shell-window-actions.c:1738
 msgid "_Icons Only"
-msgstr ""
+msgstr "_Jüst lütte Billers"
 
 #: ../shell/e-shell-window-actions.c:1740
 msgid "Display window buttons with icons only"
@@ -18937,7 +18937,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1745
 msgid "_Text Only"
-msgstr ""
+msgstr "_Jüst Text"
 
 #: ../shell/e-shell-window-actions.c:1747
 msgid "Display window buttons with text only"
@@ -18945,7 +18945,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1752
 msgid "Icons _and Text"
-msgstr ""
+msgstr "Lütte Billers _un text"
 
 #: ../shell/e-shell-window-actions.c:1754
 msgid "Display window buttons with icons and text"
@@ -18953,7 +18953,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1759
 msgid "Tool_bar Style"
-msgstr ""
+msgstr "Warktüüg_balkenutsehn"
 
 #: ../shell/e-shell-window-actions.c:1761
 msgid "Display window buttons using the desktop toolbar setting"
@@ -18977,7 +18977,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1785
 msgid "C_urrent View"
-msgstr ""
+msgstr "A_ktuelle Ansicht"
 
 #: ../shell/e-shell-window-actions.c:1795
 msgid "Custom View"
@@ -19034,7 +19034,7 @@ msgstr ""
 
 #: ../shell/e-shell-window.c:662
 msgid "Safe Mode"
-msgstr ""
+msgstr "Seker Modus"
 
 #: ../shell/e-shell-window.c:663
 msgid "Whether the shell window is in safe mode"
@@ -19058,7 +19058,7 @@ msgstr ""
 
 #: ../shell/e-shell-window.c:725
 msgid "Taskbar Visible"
-msgstr ""
+msgstr "Warktüügbalken sichtbar"
 
 #: ../shell/e-shell-window.c:726
 msgid "Whether the shell window's task bar is visible"
@@ -19070,7 +19070,7 @@ msgstr ""
 
 #: ../shell/e-shell-window.c:755
 msgid "UI Manager"
-msgstr ""
+msgstr "UI Oppasser"
 
 #: ../shell/e-shell-window.c:756
 msgid "The shell window's GtkUIManager"
@@ -19107,7 +19107,7 @@ msgstr ""
 #: ../shell/e-shell.c:820
 #: ../widgets/misc/e-online-button.c:130
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #: ../shell/e-shell.c:821
 msgid "Whether the shell is online"
@@ -19201,7 +19201,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
-msgstr ""
+msgstr "Wietermaken"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
@@ -19248,15 +19248,15 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:22
 msgid "_Forget"
-msgstr ""
+msgstr "_Vergeten"
 
 #: ../shell/shell.error.xml.h:23
 msgid "_Keep Data"
-msgstr ""
+msgstr "Daten _behollen"
 
 #: ../shell/shell.error.xml.h:24
 msgid "_Remind Me Later"
-msgstr ""
+msgstr "Later an _denken"
 
 #: ../shell/shell.error.xml.h:25
 msgid ""
@@ -19268,25 +19268,25 @@ msgstr ""
 #: ../shell/test/e-test-shell-backend.c:60
 msgctxt "New"
 msgid "_Test Item"
-msgstr ""
+msgstr "_Testelement"
 
 #: ../shell/test/e-test-shell-backend.c:62
 msgid "Create a new test item"
-msgstr ""
+msgstr "Nejes Testelement erstellen"
 
 #: ../shell/test/e-test-shell-backend.c:70
 msgctxt "New"
 msgid "Test _Source"
-msgstr ""
+msgstr "Test_welle"
 
 #: ../shell/test/e-test-shell-backend.c:72
 msgid "Create a new test source"
-msgstr ""
+msgstr "Neje Testwelle erstellen"
 
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
+msgstr "datei is keene akerate .desktop Datei"
 
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
@@ -19296,7 +19296,7 @@ msgstr ""
 #: ../smclient/eggdesktopfile.c:958
 #, c-format
 msgid "Starting %s"
-msgstr ""
+msgstr "Starte %s"
 
 #: ../smclient/eggdesktopfile.c:1100
 #, c-format
@@ -19316,7 +19316,7 @@ msgstr ""
 #: ../smclient/eggdesktopfile.c:1394
 #, c-format
 msgid "Not a launchable item"
-msgstr ""
+msgstr "Keen startbares Element"
 
 #: ../smclient/eggsmclient.c:227
 msgid "Disable connection to session manager"
@@ -19328,19 +19328,19 @@ msgstr ""
 
 #: ../smclient/eggsmclient.c:230
 msgid "FILE"
-msgstr ""
+msgstr "FILE"
 
 #: ../smclient/eggsmclient.c:233
 msgid "Specify session management ID"
-msgstr ""
+msgstr "Törnoppassens ID ingeven"
 
 #: ../smclient/eggsmclient.c:233
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../smclient/eggsmclient.c:254
 msgid "Session management options:"
-msgstr ""
+msgstr "Törnoppassensoptschoonen"
 
 #: ../smclient/eggsmclient.c:255
 msgid "Show session management options"
@@ -19376,7 +19376,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:397
 #: ../smime/gui/certificate-manager.c:624
 msgid "All files"
-msgstr ""
+msgstr "All dateien"
 
 #: ../smime/gui/certificate-manager.c:274
 #: ../smime/gui/certificate-manager.c:487
@@ -19393,11 +19393,11 @@ msgstr ""
 #: ../smime/gui/smime-ui.ui.h:34
 #: ../smime/lib/e-cert.c:566
 msgid "Serial Number"
-msgstr ""
+msgstr "Serientaal"
 
 #: ../smime/gui/certificate-manager.c:300
 msgid "Expires"
-msgstr ""
+msgstr "lööpt av"
 
 #: ../smime/gui/certificate-manager.c:391
 msgid "All email certificate files"
@@ -19405,7 +19405,7 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:496
 msgid "E-Mail Address"
-msgstr ""
+msgstr "E-Post Anskrivt"
 
 #: ../smime/gui/certificate-manager.c:619
 msgid "All CA certificate files"
@@ -19512,7 +19512,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Edit"
-msgstr ""
+msgstr "Bewarken"
 
 #: ../smime/gui/smime-ui.ui.h:17
 msgid "Email Certificate Trust Settings"
@@ -19528,19 +19528,19 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "Expires On"
-msgstr ""
+msgstr "Lööpt av an"
 
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "Field Value"
-msgstr ""
+msgstr "Feldwert"
 
 #: ../smime/gui/smime-ui.ui.h:22
 msgid "Fingerprints"
-msgstr ""
+msgstr "Fingeravdruck"
 
 #: ../smime/gui/smime-ui.ui.h:24
 msgid "Import"
-msgstr ""
+msgstr "importeren"
 
 #: ../smime/gui/smime-ui.ui.h:25
 msgid "Issued By"
@@ -19606,7 +19606,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:41
 msgid "View"
-msgstr ""
+msgstr "Ansicht"
 
 #: ../smime/gui/smime-ui.ui.h:42
 msgid "You have certificates from these organizations that identify you:"
@@ -19636,32 +19636,32 @@ msgstr ""
 #: ../smime/lib/e-cert.c:228
 #: ../smime/lib/e-cert.c:238
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:414
 msgid "Sign"
-msgstr ""
+msgstr "Unnerschrieven"
 
 #: ../smime/lib/e-cert.c:415
 msgid "Encrypt"
-msgstr ""
+msgstr "Entslöteln"
 
 #: ../smime/lib/e-cert.c:527
 msgid "Version"
-msgstr ""
+msgstr "Verschoon"
 
 #: ../smime/lib/e-cert.c:542
 msgid "Version 1"
-msgstr ""
+msgstr "Verschoon 1"
 
 #: ../smime/lib/e-cert.c:545
 msgid "Version 2"
-msgstr ""
+msgstr "Verschoon 2"
 
 #: ../smime/lib/e-cert.c:548
 msgid "Version 3"
-msgstr ""
+msgstr "Verschoon 3"
 
 #: ../smime/lib/e-cert.c:630
 msgid "PKCS #1 MD2 With RSA Encryption"
@@ -19815,28 +19815,28 @@ msgstr ""
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr ""
+msgstr "Nah _Kompanie"
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr ""
+msgstr "_Anskrivtkoorten"
 
 #: ../views/addressbook/galview.xml.h:3
 #: ../views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr ""
+msgstr "_Listansicht"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr ""
+msgstr "W_eekenansicht"
 
 #: ../views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr ""
+msgstr "_Dagansicht"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr ""
+msgstr "_Monatsansicht"
 
 #: ../views/calendar/galview.xml.h:5
 msgid "_Work Week View"
@@ -19852,11 +19852,11 @@ msgstr ""
 
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
-msgstr ""
+msgstr "Nah _Tostand"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
-msgstr ""
+msgstr "Nah _Senner"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By Su_bject"
@@ -19872,11 +19872,11 @@ msgstr ""
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
-msgstr ""
+msgstr "_Nahrichten"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
-msgstr ""
+msgstr "_Notizen"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
@@ -19884,7 +19884,7 @@ msgstr ""
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr ""
+msgstr "Mit _Tostand"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:226
@@ -19893,7 +19893,7 @@ msgstr ""
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:440
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:776
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:2
 msgid "Select a Time Zone"
@@ -19901,7 +19901,7 @@ msgstr ""
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
 msgid "Time Zones"
-msgstr ""
+msgstr "Tiedrebeeten"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
 msgid "Timezone drop-down combination box"
@@ -19952,11 +19952,11 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:1
 msgid "_Create new view"
-msgstr ""
+msgstr "_Neje Ansicht erstellen"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:3
 msgid "_Replace existing view"
-msgstr ""
+msgstr "All _existerende Ansicht överschrieven"
 
 #: ../widgets/menus/gal-view-new-dialog.c:67
 msgid "Factory"
@@ -19964,35 +19964,35 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.c:98
 msgid "Define New View"
-msgstr ""
+msgstr "Neje Ansicht setten"
 
 #: ../widgets/menus/gal-view-new-dialog.ui.h:1
 msgid "Name of new view:"
-msgstr ""
+msgstr "Naam vun nejer Ansicht:"
 
 #: ../widgets/menus/gal-view-new-dialog.ui.h:2
 msgid "Type of View"
-msgstr ""
+msgstr "Ansichtentyp"
 
 #: ../widgets/menus/gal-view-new-dialog.ui.h:3
 msgid "Type of view:"
-msgstr ""
+msgstr "Ansichtentyp:"
 
 #: ../widgets/misc/e-account-manager.c:348
 msgid "De_fault"
-msgstr ""
+msgstr "S_tandard"
 
 #: ../widgets/misc/e-account-tree-view.c:224
 msgid "Account Name"
-msgstr ""
+msgstr "Togangnaam"
 
 #: ../widgets/misc/e-account-tree-view.c:255
 msgid "Protocol"
-msgstr ""
+msgstr "Prootokoll"
 
 #: ../widgets/misc/e-action-combo-box.c:388
 msgid "Action"
-msgstr ""
+msgstr "Aktschoon"
 
 #: ../widgets/misc/e-action-combo-box.c:389
 msgid "A GtkRadioAction"
@@ -20000,15 +20000,15 @@ msgstr ""
 
 #: ../widgets/misc/e-attachment-dialog.c:305
 msgid "Attachment Properties"
-msgstr ""
+msgstr "Anhangeneegenschapten"
 
 #: ../widgets/misc/e-attachment-dialog.c:328
 msgid "_Filename:"
-msgstr ""
+msgstr "_Dateinaam:"
 
 #: ../widgets/misc/e-attachment-dialog.c:363
 msgid "MIME Type:"
-msgstr ""
+msgstr "MIME Typ:"
 
 #: ../widgets/misc/e-attachment-dialog.c:371
 #: ../widgets/misc/e-attachment-store.c:550
@@ -20017,11 +20017,11 @@ msgstr ""
 
 #: ../widgets/misc/e-attachment-handler-image.c:95
 msgid "Could not set as background"
-msgstr ""
+msgstr "Künn nich as Achtergrund setten"
 
 #: ../widgets/misc/e-attachment-handler-image.c:147
 msgid "Set as _Background"
-msgstr ""
+msgstr "As Achtergrund _setten"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:87
 msgid "Could not send attachment"
@@ -20031,21 +20031,21 @@ msgstr[1] ""
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:129
 msgid "_Send To..."
-msgstr ""
+msgstr "_Sennen an..."
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
 msgid "Send the selected attachments somewhere"
-msgstr ""
+msgstr "De utwählten Anhangen jiechtenswo hen sennen"
 
 #: ../widgets/misc/e-attachment-icon-view.c:480
 #: ../widgets/misc/e-attachment-tree-view.c:517
 msgid "Loading"
-msgstr ""
+msgstr "Lade"
 
 #: ../widgets/misc/e-attachment-icon-view.c:492
 #: ../widgets/misc/e-attachment-tree-view.c:529
 msgid "Saving"
-msgstr ""
+msgstr "Spieker"
 
 #: ../widgets/misc/e-attachment-paned.c:87
 msgid "Hide Attachment _Bar"
@@ -20057,20 +20057,20 @@ msgstr ""
 
 #: ../widgets/misc/e-attachment-paned.c:631
 msgid "Show _Attachment Bar"
-msgstr ""
+msgstr "_Anhangenbalken opwiesen"
 
 #: ../widgets/misc/e-attachment-store.c:538
 msgid "Add Attachment"
-msgstr ""
+msgstr "Anhangen hentofögen"
 
 #: ../widgets/misc/e-attachment-store.c:541
 msgid "A_ttach"
-msgstr ""
+msgstr "A_nhangen"
 
 #: ../widgets/misc/e-attachment-store.c:604
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] ""
+msgstr[0] "		"
 msgstr[1] ""
 
 #. Translators: Default attachment filename.
@@ -20078,19 +20078,19 @@ msgstr[1] ""
 #: ../widgets/misc/e-attachment.c:1779
 #: ../widgets/misc/e-attachment.c:2317
 msgid "attachment.dat"
-msgstr ""
+msgstr "Anhangen.dat"
 
 #: ../widgets/misc/e-attachment-view.c:299
 msgid "S_ave All"
-msgstr ""
+msgstr "Allens s_piekern"
 
 #: ../widgets/misc/e-attachment-view.c:325
 msgid "A_dd Attachment..."
-msgstr ""
+msgstr "A_nhangen hentofögen..."
 
 #: ../widgets/misc/e-attachment-view.c:349
 msgid "_Hide"
-msgstr ""
+msgstr "_Verbargen"
 
 #: ../widgets/misc/e-attachment-view.c:356
 msgid "_View Inline"
@@ -20099,7 +20099,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment-view.c:638
 #, c-format
 msgid "Open with \"%s\""
-msgstr ""
+msgstr "Opmaken mit \"%s\""
 
 #: ../widgets/misc/e-attachment-view.c:641
 #, c-format
@@ -20151,7 +20151,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment.c:2711
 #, c-format
 msgid "Could not save '%s'"
-msgstr ""
+msgstr "Künn '%s' nich spiekern"
 
 #: ../widgets/misc/e-attachment.c:2714
 #, c-format
@@ -20166,18 +20166,18 @@ msgstr ""
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1249
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:217
 msgid "Month Calendar"
-msgstr ""
+msgstr "Monatskalenner"
 
 #: ../widgets/misc/e-canvas-background.c:467
 #: ../widgets/misc/e-canvas-background.c:468
 #: ../widgets/text/e-text.c:3387
 #: ../widgets/text/e-text.c:3388
 msgid "Fill color"
-msgstr ""
+msgstr "Füllklöör"
 
 #: ../widgets/misc/e-canvas-background.c:474
 #: ../widgets/misc/e-canvas-background.c:475
@@ -20188,7 +20188,7 @@ msgstr ""
 #: ../widgets/text/e-text.c:3401
 #: ../widgets/text/e-text.c:3402
 msgid "GDK fill color"
-msgstr ""
+msgstr "GDK Füllklöör"
 
 #: ../widgets/misc/e-canvas-background.c:488
 #: ../widgets/misc/e-canvas-background.c:489
@@ -20200,22 +20200,22 @@ msgstr ""
 #: ../widgets/misc/e-canvas-background.c:495
 #: ../widgets/misc/e-canvas-background.c:496
 msgid "X1"
-msgstr ""
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:502
 #: ../widgets/misc/e-canvas-background.c:503
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:509
 #: ../widgets/misc/e-canvas-background.c:510
 msgid "Y1"
-msgstr ""
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:516
 #: ../widgets/misc/e-canvas-background.c:517
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:89
 #: ../widgets/table/e-table-group-container.c:1009
@@ -20246,11 +20246,11 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-combo-box.c:336
 msgid "Other..."
-msgstr ""
+msgstr "Annere..."
 
 #: ../widgets/misc/e-dateedit.c:523
 msgid "Date and Time"
-msgstr ""
+msgstr "Dag un Tied"
 
 #: ../widgets/misc/e-dateedit.c:544
 msgid "Text entry to input date"
@@ -20266,17 +20266,17 @@ msgstr ""
 
 #: ../widgets/misc/e-dateedit.c:684
 msgid "No_w"
-msgstr ""
+msgstr "N_u"
 
 #: ../widgets/misc/e-dateedit.c:690
 msgid "_Today"
-msgstr ""
+msgstr "_Vandag"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
 #: ../widgets/misc/e-dateedit.c:698
 msgid "_None"
-msgstr ""
+msgstr "_Keen"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
@@ -20284,7 +20284,7 @@ msgstr ""
 #: ../widgets/misc/e-dateedit.c:1935
 msgctxt "date"
 msgid "None"
-msgstr ""
+msgstr "Keen"
 
 #: ../widgets/misc/e-dateedit.c:1830
 msgid "Invalid Date Value"
@@ -20300,16 +20300,16 @@ msgstr ""
 
 #: ../widgets/misc/e-import-assistant.c:255
 msgid "F_ilename:"
-msgstr ""
+msgstr "D_ateinaam:"
 
 #: ../widgets/misc/e-import-assistant.c:265
 msgid "Select a file"
-msgstr ""
+msgstr "Datei wählen"
 
 #: ../widgets/misc/e-import-assistant.c:279
 #: ../widgets/misc/e-import-assistant.c:455
 msgid "File _type:"
-msgstr ""
+msgstr "Datei_typ:"
 
 #: ../widgets/misc/e-import-assistant.c:322
 msgid "Choose the destination for this import"
@@ -20361,7 +20361,7 @@ msgstr ""
 
 #: ../widgets/misc/e-import-assistant.c:1240
 msgid "Select a File"
-msgstr ""
+msgstr "Datei wählen"
 
 #: ../widgets/misc/e-import-assistant.c:1255
 msgid "Click \"Apply\" to begin importing the file into Evolution."
@@ -20374,7 +20374,7 @@ msgstr ""
 
 #: ../widgets/misc/e-map.c:621
 msgid "World Map"
-msgstr ""
+msgstr "Weltkoort"
 
 #: ../widgets/misc/e-map.c:623
 msgid "Mouse-based interactive map widget for selecting timezone. Keyboard users should instead select the timezone from the drop-down combination box below."
@@ -20442,20 +20442,20 @@ msgstr ""
 
 #: ../widgets/misc/e-preferences-window.c:218
 msgid "Evolution Preferences"
-msgstr ""
+msgstr "Evolution Instellens"
 
 #: ../widgets/misc/e-search-bar.c:77
 #, c-format
 msgid "Matches: %d"
-msgstr ""
+msgstr "Rutkamen: %d"
 
 #: ../widgets/misc/e-search-bar.c:554
 msgid "Close the find bar"
-msgstr ""
+msgstr "Finnenbalken sluten"
 
 #: ../widgets/misc/e-search-bar.c:562
 msgid "Fin_d:"
-msgstr ""
+msgstr "F_innen:"
 
 #: ../widgets/misc/e-search-bar.c:574
 msgid "Clear the search"
@@ -20463,7 +20463,7 @@ msgstr ""
 
 #: ../widgets/misc/e-search-bar.c:597
 msgid "_Previous"
-msgstr ""
+msgstr "_Vor"
 
 #: ../widgets/misc/e-search-bar.c:603
 msgid "Find the previous occurrence of the phrase"
@@ -20471,7 +20471,7 @@ msgstr ""
 
 #: ../widgets/misc/e-search-bar.c:613
 msgid "_Next"
-msgstr ""
+msgstr "_Nähster"
 
 #: ../widgets/misc/e-search-bar.c:619
 msgid "Find the next occurrence of the phrase"
@@ -20501,7 +20501,7 @@ msgstr ""
 
 #: ../widgets/misc/e-selection-model.c:216
 msgid "Sorter"
-msgstr ""
+msgstr "Grupperer"
 
 #: ../widgets/misc/e-selection-model.c:223
 msgid "Selection Mode"
@@ -20533,7 +20533,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.ui.h:6
 msgid "For Your Eyes Only"
-msgstr ""
+msgstr "Jüst för dien Ougen"
 
 #: ../widgets/misc/e-send-options.ui.h:7
 msgid "Gene_ral Options"
@@ -20545,7 +20545,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.ui.h:14
 msgid "Proprietary"
-msgstr ""
+msgstr "Proprietär"
 
 #: ../widgets/misc/e-send-options.ui.h:15
 msgid "R_eply requested"
@@ -20561,7 +20561,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.ui.h:21
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #: ../widgets/misc/e-send-options.ui.h:22
 msgid "Status Tracking"
@@ -20613,7 +20613,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.ui.h:36
 msgid "_Until:"
-msgstr ""
+msgstr "_Bit:_"
 
 #: ../widgets/misc/e-send-options.ui.h:37
 msgid "_When convenient"
@@ -20726,7 +20726,7 @@ msgstr ""
 
 #: ../widgets/misc/ea-calendar-item.c:347
 msgid "evolution calendar item"
-msgstr ""
+msgstr "Evolution Kalennerelement"
 
 #: ../widgets/table/e-cell-combo.c:171
 msgid "popup list"
@@ -20734,17 +20734,17 @@ msgstr ""
 
 #: ../widgets/table/e-cell-date-edit.c:303
 msgid "Now"
-msgstr ""
+msgstr "Nu"
 
 #. Translators: "None" as a label of a button to unset date in a date table cell
 #: ../widgets/table/e-cell-date-edit.c:320
 msgctxt "table-date"
 msgid "None"
-msgstr ""
+msgstr "Keen"
 
 #: ../widgets/table/e-cell-date-edit.c:328
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../widgets/table/e-cell-date-edit.c:862
 #, c-format
@@ -20791,11 +20791,11 @@ msgstr ""
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:58
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:131
 msgid "click to add"
-msgstr ""
+msgstr "klicken, um hentotofögen"
 
 #: ../widgets/table/e-table-config.c:150
 msgid "State"
-msgstr ""
+msgstr "Tostand"
 
 #: ../widgets/table/e-table-config.c:381
 #: ../widgets/table/e-table-config.c:423
@@ -20809,24 +20809,24 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.c:388
 msgid "Not sorted"
-msgstr ""
+msgstr "Nich gruppert"
 
 #: ../widgets/table/e-table-config.c:429
 msgid "No grouping"
-msgstr ""
+msgstr "Keene Gruppen"
 
 #: ../widgets/table/e-table-config.c:638
 #: ../widgets/table/e-table-config.ui.h:11
 msgid "Show Fields"
-msgstr ""
+msgstr "Felder opwiesen"
 
 #: ../widgets/table/e-table-config.c:658
 msgid "Available Fields"
-msgstr ""
+msgstr "Verfögbare Felder"
 
 #: ../widgets/table/e-table-config.ui.h:1
 msgid "A_vailable Fields:"
-msgstr ""
+msgstr "_Verfögbare Felder:"
 
 #: ../widgets/table/e-table-config.ui.h:2
 #: ../widgets/table/e-table-header-item.c:1637
@@ -20835,11 +20835,11 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.ui.h:3
 msgid "Clear All"
-msgstr ""
+msgstr "Allens opklaren"
 
 #: ../widgets/table/e-table-config.ui.h:4
 msgid "Clear _All"
-msgstr ""
+msgstr "Allens _opklaren"
 
 #: ../widgets/table/e-table-config.ui.h:5
 #: ../widgets/table/e-table-header-item.c:1637
@@ -20848,15 +20848,15 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.ui.h:8
 msgid "Group Items By"
-msgstr ""
+msgstr "Gruppelemente nah"
 
 #: ../widgets/table/e-table-config.ui.h:9
 msgid "Move _Down"
-msgstr ""
+msgstr "Nah _unnen verschuven"
 
 #: ../widgets/table/e-table-config.ui.h:10
 msgid "Move _Up"
-msgstr ""
+msgstr "Nah _boven verschuven"
 
 #: ../widgets/table/e-table-config.ui.h:12
 msgid "Show _field in View"
@@ -20872,11 +20872,11 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.ui.h:15
 msgid "Sort"
-msgstr ""
+msgstr "Grupp"
 
 #: ../widgets/table/e-table-config.ui.h:16
 msgid "Sort Items By"
-msgstr ""
+msgstr "Elemente grupperen nah"
 
 #: ../widgets/table/e-table-config.ui.h:17
 msgid "Then By"
@@ -20888,7 +20888,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.ui.h:20
 msgid "_Group By..."
-msgstr ""
+msgstr "_Grupp nah..."
 
 #: ../widgets/table/e-table-config.ui.h:22
 msgid "_Show field in View"
@@ -20900,7 +20900,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.ui.h:24
 msgid "_Sort..."
-msgstr ""
+msgstr "_Grupperen..."
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
 msgid "Add a Column"
@@ -21031,7 +21031,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1508
 msgid "_Unsort"
-msgstr ""
+msgstr "_Ungruppert"
 
 #: ../widgets/table/e-table-header-item.c:1511
 msgid "Group By This _Field"
@@ -21067,12 +21067,12 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1594
 msgid "_Sort By"
-msgstr ""
+msgstr "_Grupperen nah"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1612
 msgid "_Custom"
-msgstr ""
+msgstr "_Eegen"
 
 #: ../widgets/table/e-table-item.c:2809
 #: ../widgets/table/e-table-item.c:2810
@@ -21097,11 +21097,11 @@ msgstr ""
 #: ../widgets/table/e-tree.c:3402
 #: ../widgets/table/e-tree.c:3403
 msgid "Always search"
-msgstr ""
+msgstr "Jümmers söken"
 
 #: ../widgets/table/e-table.c:3352
 msgid "Use click to add"
-msgstr ""
+msgstr "Klicken, um hentotofögen bruken"
 
 #: ../widgets/table/e-table.c:3366
 msgid "Vertical Row Spacing"
@@ -21143,7 +21143,7 @@ msgstr ""
 
 #: ../widgets/table/gal-a11y-e-cell-text.c:616
 msgid "edit"
-msgstr ""
+msgstr "bewarken"
 
 #: ../widgets/table/gal-a11y-e-cell-text.c:617
 msgid "begin editing this cell"
@@ -21180,19 +21180,19 @@ msgstr ""
 
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:67
 msgid "click"
-msgstr ""
+msgstr "klicken"
 
 #: ../widgets/table/gal-a11y-e-table-column-header.c:154
 msgid "sort"
-msgstr ""
+msgstr "grupperen"
 
 #: ../widgets/text/e-text.c:2474
 msgid "Select All"
-msgstr ""
+msgstr "Allens wählen"
 
 #: ../widgets/text/e-text.c:2486
 msgid "Input Methods"
-msgstr ""
+msgstr "Ingavmethoden"
 
 #: ../widgets/text/e-text.c:3303
 #: ../widgets/text/e-text.c:3304
@@ -21202,12 +21202,12 @@ msgstr ""
 #: ../widgets/text/e-text.c:3310
 #: ../widgets/text/e-text.c:3311
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: ../widgets/text/e-text.c:3317
 #: ../widgets/text/e-text.c:3318
 msgid "Bold"
-msgstr ""
+msgstr "Dick"
 
 #: ../widgets/text/e-text.c:3324
 #: ../widgets/text/e-text.c:3325
@@ -21237,7 +21237,7 @@ msgstr ""
 #: ../widgets/text/e-text.c:3359
 #: ../widgets/text/e-text.c:3360
 msgid "Clip"
-msgstr ""
+msgstr "Clip"
 
 #: ../widgets/text/e-text.c:3366
 #: ../widgets/text/e-text.c:3367
@@ -21257,12 +21257,12 @@ msgstr ""
 #: ../widgets/text/e-text.c:3415
 #: ../widgets/text/e-text.c:3416
 msgid "Text width"
-msgstr ""
+msgstr "Textbrede"
 
 #: ../widgets/text/e-text.c:3422
 #: ../widgets/text/e-text.c:3423
 msgid "Text height"
-msgstr ""
+msgstr "Texthöhe"
 
 #: ../widgets/text/e-text.c:3436
 #: ../widgets/text/e-text.c:3437
