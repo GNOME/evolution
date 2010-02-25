@@ -20059,7 +20059,7 @@ msgstr "A_nhangen"
 #: ../widgets/misc/e-attachment-store.c:604
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] "Anhang spiekern"
+msgstr[0] "		"
 msgstr[1] ""
 
 #. Translators: Default attachment filename.
