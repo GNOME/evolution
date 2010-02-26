@@ -1,0 +1,11 @@
+[Desktop Entry]
+_Name=Email Settings
+_GenericName=Email Settings
+_Comment=Configure email accounts
+Exec=evolution-settings
+Icon=evolution
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Settings;X-GNOME-PersonalSettings;
+OnlyShowIn=GNOME;
+StartupNotify=true
