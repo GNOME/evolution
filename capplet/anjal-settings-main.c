@@ -158,7 +158,7 @@ idle_cb (MailCappletShell *mshell G_GNUC_UNUSED)
 static void
 create_default_shell (void)
 {
-	main_window = mail_capplet_shell_new(socket_id);
+	main_window = mail_capplet_shell_new(socket_id, FALSE);
 	if (!socket_id)
 		gtk_widget_show (main_window);
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);

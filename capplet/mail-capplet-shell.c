@@ -261,7 +261,7 @@ handle_cmdline (MailView *mv, MailCappletShell *shell)
 #endif
 
 void
-mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
+mail_capplet_shell_construct (MailCappletShell *shell, int socket_id, gboolean just_druid)
 {
 	MailCappletShellPrivate *priv = shell->priv;
 	GtkWidget *tmp, *img, *box, *ar1, *ar2, *lbl;
@@ -270,6 +270,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 	char *custom_dir;
 
 	gtk_window_set_icon_name ((GtkWindow *)shell, "evolution");
+	gtk_window_set_title ((GtkWindow *)shell, _("Evolution account assistant"));
 	ms_init_style (style);
 	g_signal_connect ((GObject *)shell, "delete-event", G_CALLBACK (ms_delete_event), NULL);
 	gtk_window_set_type_hint ((GtkWindow *)shell, GDK_WINDOW_TYPE_HINT_NORMAL);
@@ -279,7 +280,8 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 		 gtk_window_set_default_size ((GtkWindow *)shell, gdk_screen_get_width(scr), gdk_screen_get_height (scr));
 		 gtk_window_set_decorated ((GtkWindow *)shell, FALSE);
 	} else  {
-		mail_decoration_new ((GtkWindow *)shell);
+		//mail_decoration_new ((GtkWindow *)shell);
+		gtk_window_set_default_size ((GtkWindow *)shell, 1024, 500);
 	}
 
 
@@ -287,6 +289,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 	gtk_widget_show ((GtkWidget *)priv->box);
 
 	if (!socket_id) {
+#if 0
 		/* Toolbar */
 		priv->top_bar = gtk_toolbar_new ();
 		gtk_box_pack_start ((GtkBox *)priv->box, priv->top_bar, FALSE, FALSE, 0);
@@ -322,7 +325,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 		gtk_toolbar_insert ((GtkToolbar *)priv->top_bar, (GtkToolItem *)priv->quit, -1);
 		gtk_widget_show_all (priv->quit);
 		g_signal_connect (priv->quit, "clicked", G_CALLBACK(mail_capplet_shell_quit_cb), shell);
-
+#endif
 		gtk_container_add ((GtkContainer *)shell, priv->box);
 	} else {
 		GtkWidget *plug = gtk_plug_new (socket_id);
@@ -347,10 +350,11 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 	e_mail_store_init (custom_dir);
 	g_free (custom_dir);
 	
-	if (TRUE) {
+	if (just_druid) {
 		MailViewChild *mc;
 		char *pdir = g_build_filename (g_get_home_dir(), ".gnome2_private", NULL);
-
+		
+		gtk_notebook_set_show_tabs ((GtkNotebook *)shell->view, FALSE);
 		mc = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_ACCOUNT, NULL);
 		g_signal_connect (mc, "view-close", G_CALLBACK(ms_show_post_druid), shell);
 		setup_abooks ();
@@ -358,9 +362,9 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 			g_mkdir (pdir, 0700);
 		}
 		g_free (pdir);
-	} /*else 
+	} else 
 		shell->priv->settings_view = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_SETTINGS, NULL);
-	*/
+	
 
 }
 
@@ -371,10 +375,10 @@ mail_capplet_shell_toolbar_height (MailCappletShell *shell)
 }
 
 MailCappletShell *
-mail_capplet_shell_new (int socket_id)
+mail_capplet_shell_new (int socket_id, gboolean just_druid)
 {
 	MailCappletShell *shell = g_object_new (MAIL_CAPPLET_SHELL_TYPE, NULL);
-	mail_capplet_shell_construct (shell, socket_id);
+	mail_capplet_shell_construct (shell, socket_id, just_druid);
 
 	return shell;
 }
