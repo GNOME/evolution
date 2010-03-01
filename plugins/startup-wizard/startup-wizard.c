@@ -32,6 +32,8 @@
 #include "mail/em-account-editor.h"
 #include "calendar/gui/calendar-config.h"
 
+#include "capplet/mail-capplet-shell.h"
+
 void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
 GtkWidget *startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 gboolean startup_wizard_check (EPlugin *ep, EConfigHookPageCheckData *check_data);
@@ -50,16 +52,22 @@ startup_wizard_terminate (void) {
 	_exit (0);
 }
 
+G_GNUC_NORETURN static void
+startup_wizard_close (void) {
+	gtk_main_quit ();
+}
+
 void
 startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 {
-	EMAccountEditor *emae;
 	GtkWidget *start_page;
 	GConfClient *client;
 	GSList *accounts;
+#if 0
 	EConfig *config;
 	GList *page_children;
-
+	EMAccountEditor *emae;
+#endif
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
 	g_object_unref (client);
@@ -71,6 +79,17 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 		return;
 	}
 
+	start_page = (GtkWidget *)mail_capplet_shell_new(0);
+	gtk_widget_show (start_page);
+	g_signal_connect (
+		start_page, "delete-event",
+		G_CALLBACK (startup_wizard_terminate), NULL);
+	g_signal_connect (
+		start_page, "destroy",
+			G_CALLBACK (startup_wizard_close), NULL);
+
+
+#if 0	
 	/** @HookPoint-EMConfig: New Mail Account Wizard
 	 * @Id: org.gnome.evolution.mail.config.accountWizard
 	 * @Type: E_CONFIG_ASSISTANT
@@ -110,6 +129,7 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 
 	gtk_widget_show (emae->editor);
 
+#endif	
 	gtk_main ();
 }
 
