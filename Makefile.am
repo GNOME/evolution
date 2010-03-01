@@ -57,6 +57,7 @@ SUBDIRS = 			\
 	composer		\
 	mail			\
 	calendar		\
+	capplet			\
 	art			\
 	plugins			\
 	modules			\
@@ -65,7 +66,6 @@ SUBDIRS = 			\
 	views			\
 	po			\
 	sounds			\
-	capplet			\
 	$(HELP_SUBDIR)
 
 DISTCLEANFILES = 			\

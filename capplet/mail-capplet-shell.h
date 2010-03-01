@@ -50,7 +50,7 @@ typedef struct _MailCappletShellClass {
 	void (* ctrl_q_pressed)    (MailCappletShell *class);	
 } MailCappletShellClass;
 
-MailCappletShell * mail_capplet_shell_new (int socket_id, gboolean just_druid);
+MailCappletShell * mail_capplet_shell_new (int socket_id, gboolean just_druid, gboolean main_loop);
 int mail_capplet_shell_toolbar_height (MailCappletShell *shell);
 
 #endif

@@ -71,6 +71,8 @@ struct  _MailCappletShellPrivate {
 	GtkWidget *action_bar;
 	GtkWidget *quit;	
 	
+	gboolean main_loop;
+
 	MailViewChild *settings_view;
 };
 
@@ -196,8 +198,13 @@ ms_init_style (GtkStyle *style)
 static void
 mail_capplet_shell_quit (MailCappletShell *shell)
 {
-	gtk_main_quit();
-}
+	MailCappletShellPrivate *priv = shell->priv;
+
+	if (priv->main_loop)
+		gtk_main_quit();
+	else
+		gtk_widget_hide ((GtkWidget *)shell);
+}	
 
 static void
 mail_capplet_shell_quit_cb (GtkWidget *w G_GNUC_UNUSED,
@@ -261,7 +268,7 @@ handle_cmdline (MailView *mv, MailCappletShell *shell)
 #endif
 
 void
-mail_capplet_shell_construct (MailCappletShell *shell, int socket_id, gboolean just_druid)
+mail_capplet_shell_construct (MailCappletShell *shell, int socket_id, gboolean just_druid, gboolean main_loop)
 {
 	MailCappletShellPrivate *priv = shell->priv;
 	GtkWidget *tmp, *img, *box, *ar1, *ar2, *lbl;
@@ -284,7 +291,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id, gboolean j
 		gtk_window_set_default_size ((GtkWindow *)shell, 1024, 500);
 	}
 
-
+	priv->main_loop = main_loop;
 	priv->box = (GtkWidget *) gtk_vbox_new (FALSE, 0);
 	gtk_widget_show ((GtkWidget *)priv->box);
 
@@ -375,10 +382,10 @@ mail_capplet_shell_toolbar_height (MailCappletShell *shell)
 }
 
 MailCappletShell *
-mail_capplet_shell_new (int socket_id, gboolean just_druid)
+mail_capplet_shell_new (int socket_id, gboolean just_druid, gboolean main_loop)
 {
 	MailCappletShell *shell = g_object_new (MAIL_CAPPLET_SHELL_TYPE, NULL);
-	mail_capplet_shell_construct (shell, socket_id, just_druid);
+	mail_capplet_shell_construct (shell, socket_id, just_druid, main_loop);
 
 	return shell;
 }

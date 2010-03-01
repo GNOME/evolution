@@ -39,6 +39,7 @@
 #include "e-mail-store.h"
 #include "em-config.h"
 #include "em-account-editor.h"
+#include "capplet/mail-capplet-shell.h"
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -111,7 +112,7 @@ account_prefs_add_account (EAccountManager *manager)
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
+#if 0
 	/** @HookPoint-EMConfig: New Mail Account Assistant
 	 * @Id: org.gnome.evolution.mail.config.accountAssistant
 	 * @Type: E_CONFIG_ASSISTANT
@@ -124,6 +125,8 @@ account_prefs_add_account (EAccountManager *manager)
 		NULL, EMAE_ASSISTANT,
 		"org.gnome.evolution.mail.config.accountAssistant");
 	priv->assistant = emae->editor;
+#endif
+	priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
 
 	g_object_add_weak_pointer (G_OBJECT (priv->assistant), &priv->assistant);
 	gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);

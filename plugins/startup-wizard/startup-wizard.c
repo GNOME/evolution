@@ -79,7 +79,7 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 		return;
 	}
 
-	start_page = (GtkWidget *)mail_capplet_shell_new(0, TRUE);
+	start_page = (GtkWidget *)mail_capplet_shell_new(0, TRUE, TRUE);
 	gtk_widget_show (start_page);
 	g_signal_connect (
 		start_page, "delete-event",
