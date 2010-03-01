@@ -1,3 +1,55 @@
+Evolution 2.28.3 2010-03-01
+---------------------------
+
+Bug Fixes:
+	#601551 - [PST] evolution crashed with SIGSEGV (Milan Crha)
+	#554663 - Swap "Save" and "Save as Draft" accelerators in composer
+	         (Matthew Barnes)
+	#601787 - Double free in destroy_oof_data (Milan Crha)
+	#602185 - Crash after 'Show only this calendar' (Milan Crha)
+	#609042 - Convert quoted-printing to UTF-8 when copying to clipboard 
+		  (Bharath Acharya)
+	#610124 - Autosave errors dialogues can't be dismissed (Matthew Barnes)
+	#607087 - Not all inlined text attachments are included in replies
+	          (Matthew Barnes)
+	#607741 - Move folder to claims it's copying in status bar (Matthew Barnes)
+	#607458 - Fix format security warning (Frederic Crozat)
+	#603480 - [bbdb] Traverse lists in destinations properly (Milan Crha)
+	#602827 - Disable broken plugins automatically (Milan Crha)
+	#607234 - Open received attachments as read-only (Matthew Barnes)
+	#604670 - addressbook-export segfaults when specifying addressbook
+		  (Milan Crha)
+	#605485 - Keeps search from previous folder in message list (Milan Crha)
+	#606449 - Empty mail-notification popups (Lucian Langa)
+	#599794 - Set composer as not changed on reply or forward action 
+		  (Milan Crha)
+	#605600 - Meeting reminders with wrong times (Milan Crha)
+	#565582 - Make sure the comp_data is not NULL before using it
+		  (Thomas Mittelstaedt)
+	#606340 - Crash on non-utf8 letter in mail folder name (Milan Crha)
+	#549988 - "Empty Trash" in Trash popup empties all Trash folders
+	          (Milan Crha)
+	#595501 - Crash on a changed mail filter action removal (Milan Crha)
+	#599615 - i18n support for emae and filter-bar when used as lib (Yan Li)
+	#250046 - Do not count Post To addresses when not shown (Milan Crha)
+	
+Other Changes:
+	Quote filename during restore to prevent user assisted arbitrary
+	code execution 	(Tobias Mueller)
+	Changes in mingw.org last w32api/mingw-rt packages. (Fridrich Strba)
+	Level the differences with the alternative runtime/header set
+	(Fridrich Strba)
+
+Translations:
+	Nils-Christoph Fiedler (nds)
+	Mario Blättermann (de)
+	Åsmund Skjæveland (nn)
+	Manoj Kumar Giri (or)
+	Jiri Eischmann (cs)
+	Krishnababu k (te)
+	Claude Paroz (fr)
+	Leonid Kanter (ru)
+
 Evolution 2.28.2 2009-12-14
 ---------------------------
 
