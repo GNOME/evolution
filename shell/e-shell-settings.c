@@ -54,20 +54,17 @@ shell_settings_pspec_for_key (const gchar *property_name,
 
 	entry = gconf_client_get_entry (client, gconf_key, NULL, TRUE, &error);
 	if (error != NULL) {
-		g_error ("%s", error->message);
-		g_assert_not_reached ();
+		return NULL;
 	}
 
 	schema_name = gconf_entry_get_schema_name (entry);
 	if (schema_name == NULL) {
-		g_error ("No schema for GConf key '%s'", gconf_key);
-		g_assert_not_reached ();
+		return NULL;
 	}
 
 	schema = gconf_client_get_schema (client, schema_name, &error);
 	if (error != NULL) {
-		g_error ("%s", error->message);
-		g_assert_not_reached ();
+		return NULL;
 	}
 
 	value_type = gconf_schema_get_type (schema);
@@ -380,6 +377,9 @@ e_shell_settings_install_property_for_key (const gchar *property_name,
 	g_return_if_fail (gconf_key != NULL);
 
 	pspec = shell_settings_pspec_for_key (property_name, gconf_key);
+	if (!pspec)
+		return;
+
 	e_shell_settings_install_property (pspec);
 
 	for (iter = instances; iter != NULL; iter = iter->next)

@@ -32,8 +32,6 @@
 #include "mail/mail-config.h"
 #include "mail-guess-servers.h"
 
-extern gboolean anjal_icon_decoration;
-
 struct _MailAccountViewPrivate {
 	GtkWidget *tab_str;
 };
@@ -542,7 +540,7 @@ mav_construct_page(MailAccountView *view, MAVPageType type)
 
 	if ((view->original && mail_account_pages[type].prev_edit) || mail_account_pages[type].prev) {
 		box = gtk_hbox_new(FALSE, 0);
-		if (anjal_icon_decoration) {
+		if (FALSE) {
 			tmp = gtk_image_new_from_icon_name ("go-previous", GTK_ICON_SIZE_BUTTON);
 			gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 0);
 		}
@@ -558,7 +556,7 @@ mav_construct_page(MailAccountView *view, MAVPageType type)
 		box = gtk_hbox_new(FALSE, 0);
 		tmp = gtk_label_new (_(view->original ? mail_account_pages[type].next_edit : mail_account_pages[type].next));
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
-		if (anjal_icon_decoration) {
+		if (FALSE) {
 			tmp = gtk_image_new_from_icon_name ("go-next", GTK_ICON_SIZE_BUTTON);		
 			gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 0);
 		}

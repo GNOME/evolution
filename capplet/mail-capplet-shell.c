@@ -59,8 +59,6 @@ char *scolor_fg_norm;
 
 static guint mail_capplet_shell_signals[LAST_SIGNAL];
 
-extern gboolean windowed;
-
 struct  _MailCappletShellPrivate {
 
 	GtkWidget *box;
@@ -241,11 +239,13 @@ static void
 ms_show_post_druid (MailViewChild *mfv G_GNUC_UNUSED,
 		    MailCappletShell *shell)
 {
+	gtk_widget_destroy(shell);
+	/*
 	if (shell->priv->settings_view)
 		mail_view_switch_to_settings ((MailView *)shell->view, (MailViewChild *)shell->priv->settings_view);
 	else {
 		shell->priv->settings_view = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_SETTINGS, NULL);
-	}
+	} */
 
 }
 
@@ -273,7 +273,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 	ms_init_style (style);
 	g_signal_connect ((GObject *)shell, "delete-event", G_CALLBACK (ms_delete_event), NULL);
 	gtk_window_set_type_hint ((GtkWindow *)shell, GDK_WINDOW_TYPE_HINT_NORMAL);
-	if (g_getenv("ANJAL_NO_MAX") == NULL && !windowed) {
+	if (g_getenv("ANJAL_NO_MAX") == NULL && FALSE) {
 		 GdkScreen *scr = gtk_widget_get_screen ((GtkWidget *)shell);
 		 window_width = gdk_screen_get_width(scr);
 		 gtk_window_set_default_size ((GtkWindow *)shell, gdk_screen_get_width(scr), gdk_screen_get_height (scr));
@@ -291,7 +291,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 		priv->top_bar = gtk_toolbar_new ();
 		gtk_box_pack_start ((GtkBox *)priv->box, priv->top_bar, FALSE, FALSE, 0);
 		gtk_widget_show (priv->top_bar);
-		if (g_getenv("ANJAL_NO_MAX") || windowed) {
+		if (g_getenv("ANJAL_NO_MAX") || FALSE) {
 			gtk_container_set_border_width (GTK_CONTAINER (shell), 1);
 			g_signal_connect (priv->top_bar, "expose-event",
 							  G_CALLBACK (color_expose),
@@ -347,7 +347,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 	e_mail_store_init (custom_dir);
 	g_free (custom_dir);
 	
-	if (ms_check_new()) {
+	if (TRUE) {
 		MailViewChild *mc;
 		char *pdir = g_build_filename (g_get_home_dir(), ".gnome2_private", NULL);
 
@@ -358,9 +358,9 @@ mail_capplet_shell_construct (MailCappletShell *shell, int socket_id)
 			g_mkdir (pdir, 0700);
 		}
 		g_free (pdir);
-	} else 
+	} /*else 
 		shell->priv->settings_view = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_SETTINGS, NULL);
-
+	*/
 
 }
 

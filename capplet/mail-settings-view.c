@@ -30,7 +30,6 @@
 #include "mail-view.h"
 #include "mail/mail-config.h"
 #include <e-util/e-account-utils.h>
-extern gboolean anjal_icon_decoration;
 
 struct _MailSettingsViewPrivate {
 	GtkWidget *tab_str;
@@ -139,7 +138,7 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 	label = gtk_button_new ();
 	tbox = gtk_hbox_new (FALSE, 0);
 	
-	if (anjal_icon_decoration) {
+	if (FALSE) {
 		tlabel = (GtkWidget *)gtk_image_new_from_stock (account ? "gtk-edit" : "gtk-new", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_show(tlabel);
 		gtk_box_pack_start((GtkBox *)tbox, tlabel, FALSE, FALSE, 6);
