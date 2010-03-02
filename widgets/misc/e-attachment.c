@@ -2075,8 +2075,10 @@ attachment_open_save_finished_cb (EAttachment *attachment,
 	 *     which is obviously not portable.
 	 */
 	path = g_file_get_path (file);
+#ifndef G_OS_WIN32
 	if (g_chmod (path, S_IRUSR | S_IRGRP | S_IROTH) < 0)
 		g_warning ("%s", g_strerror (errno));
+#endif
 	g_free (path);
 
 	attachment_open_file (file, open_context);
