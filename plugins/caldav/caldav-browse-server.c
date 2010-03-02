@@ -39,7 +39,6 @@
 #include <libedataserverui/e-passwords.h>
 
 #include <e-util/e-dialog-utils.h>
-#include <widgets/misc/e-spinner.h>
 
 #include "caldav-browse-server.h"
 
@@ -1180,7 +1179,8 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 
 	info_box = gtk_hbox_new (FALSE, 2);
 
-	spinner = e_spinner_new_spinning_small_shown ();
+	spinner = gtk_spinner_new ();
+	gtk_spinner_start (GTK_SPINNER (spinner));
 	gtk_box_pack_start (GTK_BOX (info_box), spinner, FALSE, FALSE, 0);
 	g_object_set_data (G_OBJECT (dialog), "caldav-spinner", spinner);
 

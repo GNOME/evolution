@@ -22,7 +22,6 @@
 #include "e-activity-proxy.h"
 
 #include <glib/gi18n.h>
-#include <e-spinner.h>
 
 #define E_ACTIVITY_PROXY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -277,8 +276,8 @@ activity_proxy_init (EActivityProxy *proxy)
 	proxy->priv->button = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-        /* XXX What's the rationale for killing the old spinner API? */
-	widget = e_spinner_new_spinning_small_shown ();
+	widget = gtk_spinner_new ();
+	gtk_spinner_start (GTK_SPINNER (widget));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	proxy->priv->spinner = g_object_ref (widget);
 	gtk_widget_show (widget);

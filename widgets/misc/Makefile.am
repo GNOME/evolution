@@ -69,8 +69,6 @@ widgetsinclude_HEADERS =			\
 	e-signature-preview.h			\
 	e-signature-script-dialog.h		\
 	e-signature-tree-view.h			\
-	e-spinner.c				\
-	e-spinner.h				\
 	e-url-entry.h				\
 	e-web-view.h				\
 	ea-calendar-cell.h			\
