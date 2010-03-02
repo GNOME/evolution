@@ -15,7 +15,6 @@ eutilinclude_HEADERS = 				\
 	e-alert.h				\
 	e-alert-activity.h			\
 	e-alert-dialog.h			\
-	e-bconf-map.h				\
 	e-binding.h				\
 	e-bit-array.h				\
 	e-categories-config.h			\
@@ -28,7 +27,6 @@ eutilinclude_HEADERS = 				\
 	e-extensible.h				\
 	e-extension.h				\
 	e-file-utils.h				\
-	e-folder-map.h				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
@@ -95,7 +93,6 @@ libeutil_la_SOURCES =				\
 	e-alert.c				\
 	e-alert-activity.c			\
 	e-alert-dialog.c			\
-	e-bconf-map.c				\
 	e-binding.c				\
 	e-bit-array.c				\
 	e-categories-config.c			\
@@ -108,7 +105,6 @@ libeutil_la_SOURCES =				\
 	e-extensible.c				\
 	e-extension.c				\
 	e-file-utils.c				\
-	e-folder-map.c				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\

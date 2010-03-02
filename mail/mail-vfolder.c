@@ -66,7 +66,7 @@ static GList *source_folders_local;	/* list of source folder uri's - local ones 
 static GHashTable *vfolder_hash;
 /* This is a slightly hacky solution to shutting down, we poll this variable in various
    loops, and just quit processing if it is set. */
-static volatile gint shutdown;		/* are we shutting down? */
+static volatile gint vfolder_shutdown;	/* are we shutting down? */
 
 static void rule_changed(EFilterRule *rule, CamelFolder *folder);
 
@@ -98,7 +98,7 @@ vfolder_setup_exec (struct _setup_msg *m)
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
 	l = m->sources_uri;
-	while (l && !shutdown) {
+	while (l && !vfolder_shutdown) {
 		d(printf(" Adding uri: %s\n", (gchar *)l->data));
 
 		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
@@ -112,14 +112,14 @@ vfolder_setup_exec (struct _setup_msg *m)
 	}
 
 	l = m->sources_folder;
-	while (l && !shutdown) {
+	while (l && !vfolder_shutdown) {
 		d(printf(" Adding folder: %s\n", ((CamelFolder *)l->data)->full_name));
 		camel_object_ref(l->data);
 		list = g_list_append(list, l->data);
 		l = l->next;
 	}
 
-	if (!shutdown)
+	if (!vfolder_shutdown)
 		camel_vee_folder_set_folders((CamelVeeFolder *)m->folder, list);
 
 	l = list;
@@ -247,7 +247,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 	GList *l;
 	CamelFolder *folder = NULL;
 
-	if (shutdown)
+	if (vfolder_shutdown)
 		return;
 
 	d(printf("%s uri to vfolder: %s\n", m->remove?"Removing":"Adding", m->uri));
@@ -266,7 +266,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 
 	if (folder != NULL) {
 		l = m->folders;
-		while (l && !shutdown) {
+		while (l && !vfolder_shutdown) {
 			if (m->remove)
 				camel_vee_folder_remove_folder((CamelVeeFolder *)l->data, folder);
 			else
@@ -1335,7 +1335,7 @@ vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
 void
 mail_vfolder_shutdown (void)
 {
-	shutdown = 1;
+	vfolder_shutdown = 1;
 
 	if (vfolder_hash) {
 		g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);

@@ -41,9 +41,6 @@ gboolean	e_file_replace_contents_finish	(GFile *file,
 						 gchar **new_etag,
 						 GError **error);
 
-glong		e_fsutils_usage			(const gchar *path);
-glong		e_fsutils_avail			(const gchar *path);
-
 G_END_DECLS
 
 #endif /* E_FILE_UTILS_H */

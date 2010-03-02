@@ -7,45 +7,23 @@
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
  </error>
 
- <error id="upgrade-nospace" type="error">
-  <_primary>Insufficient disk space for upgrade.</_primary>
-  <_secondary xml:space="preserve">Upgrading your data and settings will require up to {0} of disk space, but you only have {1} available.
-
-You will need to make more space available in your home directory before you can continue.</_secondary>
-  <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
- </error>
-
  <error id="upgrade-failed" type="error">
   <_primary>Upgrade from previous version failed:</_primary>
   <_secondary xml:space="preserve">{0}
 
 If you choose to continue, you may not have access to some of your old data.
 </_secondary>
-  <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
-  <button stock="gtk-ok" _label="Continue" response="GTK_RESPONSE_OK"/>
+  <button _label="Continue Anyway" response="GTK_RESPONSE_OK"/>
+  <button _label="Quit Now" response="GTK_RESPONSE_CANCEL"/>
  </error>
 
- <error id="upgrade-remove-1-4" type="question" default="GTK_RESPONSE_CANCEL">
-  <_primary>Delete old data from version {0}?</_primary>
-  <_secondary xml:space="preserve">The previous version of Evolution stored its data in a different location.
-
-If you choose to remove this data, the entire contents of the &quot;evolution&quot; directory will be removed permanently. If you choose to keep this data, then you may manually remove the contents of &quot;evolution&quot; at your convenience.
-</_secondary>
-  <button _label="_Remind Me Later" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="_Keep Data" response="GTK_RESPONSE_ACCEPT"/>
-  <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
- </error>
-
- <error id="upgrade-remove-1-4-confirm" type="warning" default="GTK_RESPONSE_CANCEL">
-  <_primary>Really delete old data?</_primary>
-  <_secondary xml:space="preserve">The entire contents of the &quot;evolution&quot; directory are about to be permanently removed.
-
-It is suggested you manually verify that all of your mail, contact, and calendar data is present, and that this version of Evolution operates correctly before deleting this old data.
-
-Once deleted, you cannot downgrade to the previous version of Evolution without manual intervention.
-</_secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+ <error id="upgrade-version-too-old" type="warning" default="GTK_RESPONSE_CANCEL">
+  <_primary>Cannot upgrade directly from version {0}</_primary>
+  <_secondary>Evolution no longer supports upgrading directly from
+  version {0}. However as a workaround you might try first upgrading
+  to Evolution 2, and then upgrading to Evolution 3.</_secondary>
+  <button _label="Continue Anyway" response="GTK_RESPONSE_OK"/>
+  <button _label="Quit Now" response="GTK_RESPONSE_CANCEL"/>
  </error>
 
  <error id="forget-passwords" type="question" default="GTK_RESPONSE_CANCEL">

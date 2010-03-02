@@ -346,16 +346,6 @@ Miscellaneous Utilities
 @Returns: 
 
 
-<!-- ##### FUNCTION e_folder_map_local_folders ##### -->
-<para>
-
-</para>
-
-@local_dir: 
-@type: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_file_replace_contents_async ##### -->
 <para>
 
@@ -381,24 +371,6 @@ Miscellaneous Utilities
 @result: 
 @new_etag: 
 @error: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_fsutils_usage ##### -->
-<para>
-
-</para>
-
-@path: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_fsutils_avail ##### -->
-<para>
-
-</para>
-
-@path: 
 @Returns: 
 
 

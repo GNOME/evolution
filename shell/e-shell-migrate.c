@@ -27,7 +27,6 @@
 #include <glib/gstdio.h>
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util/e-bconf-map.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-util.h"
@@ -37,29 +36,36 @@
 #define GCONF_VERSION_KEY	"/apps/evolution/version"
 #define GCONF_LAST_VERSION_KEY	"/apps/evolution/last_version"
 
-static const gchar *
-shell_migrate_get_old_data_dir (void)
-{
-	static gchar *old_data_dir = NULL;
-
-	if (G_UNLIKELY (old_data_dir == NULL))
-		old_data_dir = g_build_filename (
-			g_get_home_dir (), "evolution", NULL);
-
-	return old_data_dir;
-}
-
 static gboolean
 shell_migrate_attempt (EShell *shell,
                        gint major,
                        gint minor,
                        gint micro)
 {
+	GtkWindow *parent;
 	GList *backends;
 	gboolean success = TRUE;
 
+	parent = e_shell_get_active_window (shell);
 	backends = e_shell_get_shell_backends (shell);
 
+	/* We only support migrating from version 2 now. */
+	if (major < 2) {
+		gchar *version;
+		gint response;
+
+		version = g_strdup_printf ("%d.%d", major, minor);
+		response = e_alert_run_dialog_for_args (
+			parent, "shell:upgrade-version-too-old",
+			version, NULL);
+		g_free (version);
+
+		return (response == GTK_RESPONSE_OK);
+	}
+
+	/* Ask each of the shell backends to migrate their own data.
+	 * XXX If something fails the user may end up with only partially
+	 *     migrated data.  Need transaction semantics here, but how? */
 	while (success && backends != NULL) {
 		EShellBackend *shell_backend = backends->data;
 		GError *error = NULL;
@@ -71,11 +77,10 @@ shell_migrate_attempt (EShell *shell,
 			gint response;
 
 			response = e_alert_run_dialog_for_args (
-				e_shell_get_active_window (shell), "shell:upgrade-failed",
+				parent, "shell:upgrade-failed",
 				error->message, NULL);
 
-			if (response == GTK_RESPONSE_CANCEL)
-				success = FALSE;
+			success = (response == GTK_RESPONSE_OK);
 
 			g_error_free (error);
 		}
@@ -94,10 +99,7 @@ shell_migrate_get_version (EShell *shell,
 {
 	GConfClient *client;
 	const gchar *key;
-	const gchar *old_data_dir;
 	gchar *string;
-
-	old_data_dir = shell_migrate_get_old_data_dir ();
 
 	key = GCONF_VERSION_KEY;
 	client = e_shell_get_gconf_client (shell);
@@ -108,90 +110,12 @@ shell_migrate_get_version (EShell *shell,
 		sscanf (string, "%d.%d.%d", major, minor, micro);
 		g_free (string);
 
-	} else if (!g_file_test (old_data_dir, G_FILE_TEST_IS_DIR)) {
-		/* If the old data directory does not exist,
-		 * it must be a new installation. */
+	} else {
+		/* Otherwise, assume it's a new installation. */
 		*major = 0;
 		*minor = 0;
 		*micro = 0;
-
-	} else {
-		xmlDocPtr doc;
-		xmlNodePtr source;
-		gchar *filename;
-
-		filename = g_build_filename (
-			old_data_dir, "config.xmldb", NULL);
-		doc = e_xml_parse_file (filename);
-		g_free (filename);
-
-		if (doc == NULL)
-			return;
-
-		source = e_bconf_get_path (doc, "/Shell");
-		if (source != NULL) {
-			key = "upgrade_from_1_0_to_1_2_performed";
-			string = e_bconf_get_value (source, key);
-		}
-
-		if (string != NULL && *string == '1') {
-			*major = 1;
-			*minor = 2;
-			*micro = 0;
-		} else {
-			*major = 1;
-			*minor = 0;
-			*micro = 0;
-		}
-
-		g_free (string);
-
-		if (doc != NULL)
-			xmlFreeDoc (doc);
 	}
-}
-
-static gint
-shell_migrate_remove_dir (const gchar *root,
-                          const gchar *path)
-{
-	GDir *dir;
-	const gchar *basename;
-	gchar *filename = NULL;
-	gint result = -1;
-
-	/* Recursively removes a directory and its contents. */
-
-	dir = g_dir_open (path, 0, NULL);
-	if (dir == NULL)
-		return -1;
-
-	while ((basename = g_dir_read_name (dir)) != NULL) {
-		filename = g_build_filename (path, basename, NULL);
-
-		/* Make sure we haven't strayed from the evolution dir. */
-		g_return_val_if_fail (strlen (path) >= strlen (root), -1);
-		g_return_val_if_fail (g_str_has_prefix (path, root), -1);
-
-		if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-			if (shell_migrate_remove_dir (root, filename) < 0)
-				goto fail;
-		} else {
-			if (g_unlink (filename) < 0)
-				goto fail;
-		}
-
-		g_free (filename);
-		filename = NULL;
-	}
-
-	result = g_rmdir (path);
-
-fail:
-	g_free (filename);
-	g_dir_close (dir);
-
-	return result;
 }
 
 static void
@@ -241,7 +165,6 @@ e_shell_migrate_attempt (EShell *shell)
 	ESEvent *ese;
 	GConfClient *client;
 	const gchar *key;
-	const gchar *old_data_dir;
 	gint major, minor, micro;
 	gint last_major, last_minor, last_micro;
 	gint curr_major, curr_minor, curr_micro;
@@ -251,7 +174,6 @@ e_shell_migrate_attempt (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	client = e_shell_get_gconf_client (shell);
-	old_data_dir = shell_migrate_get_old_data_dir ();
 
 	if (sscanf (BASE_VERSION, "%d.%d", &curr_major, &curr_minor) != 2) {
 		g_warning ("Could not parse BASE_VERSION (%s)", BASE_VERSION);
@@ -271,38 +193,12 @@ e_shell_migrate_attempt (EShell *shell)
 		(curr_major == major && curr_minor == minor && curr_micro > micro)))
 		goto check_old;
 
-	/* If upgrading from < 1.5, we need to copy most data from
-	 * ~/evolution to ~/.evolution.  Make sure we have the disk
-	 * space for it before proceeding. */
-	if (major == 1 && minor < 5) {
-		glong avail;
-		glong usage;
-
-		usage = e_fsutils_usage (old_data_dir);
-		avail = e_fsutils_avail (g_get_home_dir ());
-		if (usage >= 0 && avail >= 0 && avail < usage) {
-			gchar *need;
-			gchar *have;
-
-			need = g_strdup_printf (_("%ld KB"), usage);
-			have = g_strdup_printf (_("%ld KB"), avail);
-
-			e_alert_run_dialog_for_args (
-				e_shell_get_active_window (shell), "shell:upgrade-nospace",
-				need, have, NULL);
-
-			g_free (need);
-			g_free (have);
-
-			_exit (EXIT_SUCCESS);
-		}
-	}
-
 	if (!shell_migrate_attempt (shell, major, minor, micro))
 		_exit (EXIT_SUCCESS);
 
 	/* Record a successful migration. */
-	string = g_strdup_printf ("%d.%d.%d", curr_major, curr_minor, curr_micro);
+	string = g_strdup_printf (
+		"%d.%d.%d", curr_major, curr_minor, curr_micro);
 	gconf_client_set_string (client, GCONF_VERSION_KEY, string, NULL);
 	g_free (string);
 
@@ -321,46 +217,6 @@ check_old:
 		last_micro = micro;
 	}
 	g_free (string);
-
-	/* If the last migrated version was old, check for stuff to remove. */
-	if (last_major == 1 && last_minor < 5 &&
-		g_file_test (old_data_dir, G_FILE_TEST_IS_DIR)) {
-
-		gint response;
-
-		string = g_strdup_printf (
-			"%d.%d.%d", last_major, last_minor, last_micro);
-		response = e_alert_run_dialog_for_args (
-			e_shell_get_active_window (shell), "shell:upgrade-remove-1-4", string, NULL);
-		g_free (string);
-
-		switch (response) {
-			case GTK_RESPONSE_OK:  /* delete */
-				response = e_alert_run_dialog_for_args (
-					e_shell_get_active_window (shell),
-					"shell:upgrade-remove-1-4-confirm",
-					NULL);
-				if (response == GTK_RESPONSE_OK)
-					shell_migrate_remove_dir (
-						old_data_dir, old_data_dir);
-				else
-					break;
-				/* fall through */
-
-			case GTK_RESPONSE_ACCEPT:  /* keep */
-				last_major = curr_major;
-				last_minor = curr_minor;
-				last_micro = curr_micro;
-				break;
-
-			default:
-				break;
-		}
-	} else {
-		last_major = curr_major;
-		last_minor = curr_minor;
-		last_micro = curr_micro;
-	}
 
 	string = g_strdup_printf (
 		"%d.%d.%d", last_major, last_minor, last_micro);

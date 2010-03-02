@@ -117,9 +117,7 @@ evolution_CPPFLAGS =						\
 	$(SHELL_CFLAGS)
 
 evolution_SOURCES =				\
-	e-config-upgrade.c			\
-	e-config-upgrade.h			\
-	main.c					
+	main.c
 
 evolution_LDADD =							\
 	libeshell.la							\

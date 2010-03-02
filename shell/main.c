@@ -49,10 +49,8 @@
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"
-#include "e-config-upgrade.h"
 #include "es-event.h"
 
-#include "e-util/e-bconf-map.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-import.h"
 #include "e-util/e-plugin.h"
@@ -82,9 +80,6 @@ static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean force_shutdown = FALSE;
-#ifdef DEVELOPMENT
-static gboolean force_migrate = FALSE;
-#endif
 static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean import_uris = FALSE;
@@ -214,21 +209,6 @@ show_development_warning(void)
 	return skip;
 }
 
-static void
-destroy_config (GConfClient *client)
-{
-	/* Unset the source stuff */
-	gconf_client_unset (client, "/apps/evolution/calendar/sources", NULL);
-	gconf_client_unset (client, "/apps/evolution/tasks/sources", NULL);
-	gconf_client_unset (client, "/apps/evolution/addressbook/sources", NULL);
-
-	/* Reset the version */
-	gconf_client_set_string (client, "/apps/evolution/version", "1.4.0", NULL);
-
-	/* Clear the dir */
-	system ("rm -Rf ~/.evolution");
-}
-
 #endif /* DEVELOPMENT */
 
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
@@ -331,10 +311,6 @@ static GOptionEntry entries[] = {
 #ifdef KILL_PROCESS_CMD
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down Evolution"), NULL },
-#endif
-#ifdef DEVELOPMENT
-	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate,
-	  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
 #endif
 	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log,
 	  N_("Send the debugging output of all components to a file."), "FILE" },
@@ -498,11 +474,6 @@ main (gint argc, gchar **argv)
 		shell_force_shutdown ();
 
 	client = gconf_client_get_default ();
-
-#ifdef DEVELOPMENT
-	if (force_migrate)
-		destroy_config (client);
-#endif
 
 	if (disable_preview) {
 		const gchar *key;
