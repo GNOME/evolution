@@ -52,7 +52,7 @@ startup_wizard_terminate (void) {
 	_exit (0);
 }
 
-G_GNUC_NORETURN static void
+static void
 startup_wizard_close (void) {
 	gtk_main_quit ();
 }
@@ -63,11 +63,10 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	GtkWidget *start_page;
 	GConfClient *client;
 	GSList *accounts;
-#if 0
 	EConfig *config;
 	GList *page_children;
 	EMAccountEditor *emae;
-#endif
+
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
 	g_object_unref (client);
@@ -79,17 +78,21 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 		return;
 	}
 
-	start_page = (GtkWidget *)mail_capplet_shell_new(0, TRUE, TRUE);
-	gtk_widget_show (start_page);
-	g_signal_connect (
-		start_page, "delete-event",
-		G_CALLBACK (startup_wizard_terminate), NULL);
-	g_signal_connect (
-		start_page, "destroy",
+	if (e_shell_get_express_mode (e_shell_get_default ())) {
+		start_page = (GtkWidget *)mail_capplet_shell_new(0, TRUE, TRUE);
+		gtk_widget_show (start_page);
+		g_signal_connect (
+			start_page, "delete-event",
+			G_CALLBACK (startup_wizard_terminate), NULL);
+		g_signal_connect (
+			start_page, "destroy",
 			G_CALLBACK (startup_wizard_close), NULL);
 
+		gtk_main ();
 
-#if 0	
+		return;
+	}
+
 	/** @HookPoint-EMConfig: New Mail Account Wizard
 	 * @Id: org.gnome.evolution.mail.config.accountWizard
 	 * @Type: E_CONFIG_ASSISTANT
@@ -129,7 +132,6 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 
 	gtk_widget_show (emae->editor);
 
-#endif	
 	gtk_main ();
 }
 
