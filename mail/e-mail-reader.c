@@ -47,6 +47,7 @@
 #include "mail/mail-autofilter.h"
 #include "mail/mail-config.h"
 #include "mail/mail-ops.h"
+#include "mail/mail-mt.h"
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 
@@ -1825,11 +1826,16 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	} else if (camel_exception_is_set (ex)) {
 		gchar *string;
 
-		/* Display the error inline and clear the exception. */
-		string = g_strdup_printf (
-			"<h2>%s</h2><p>%s</p>",
-			_("Unable to retrieve message"),
-			ex->desc);
+		if (ex->id != CAMEL_EXCEPTION_OPERATION_IN_PROGRESS) {
+			/* Display the error inline and clear the exception. */
+			string = g_strdup_printf (
+					"<h2>%s</h2><p>%s</p>",
+					_("Unable to retrieve message"),
+					ex->desc);
+		} else {
+			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
+		}
+
 		update_webview_content (reader, string);
 		g_free (string);
 
@@ -1872,21 +1878,32 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 		if (html_display_visible && selected_uid_changed) {
 			gint op_id;
 			gchar *string;
+			gboolean store_async;
+			MailMsgDispatchFunc disp_func;
 
 			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
 			update_webview_content (reader, string);
 			g_free (string);
 
+			store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
+
+			if (store_async)
+				disp_func = mail_msg_unordered_push;
+			else
+				disp_func = mail_msg_fast_ordered_push;
+
 			op_id = mail_get_messagex (
 				folder, cursor_uid,
 				mail_reader_message_loaded_cb,
 				g_object_ref (reader),
-				mail_msg_fast_ordered_push);
+				disp_func);
 
-			g_object_set_data (
-				G_OBJECT (reader),
-				"preview-get-message-op-id",
-				GINT_TO_POINTER (op_id));
+			if (!store_async) {
+				g_object_set_data (
+						G_OBJECT (reader),
+						"preview-get-message-op-id",
+						GINT_TO_POINTER (op_id));
+			}
 		}
 	} else
 		em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
@@ -1905,12 +1922,20 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	const gchar *key;
 	gpointer data;
 	MessageList *message_list;
+	gboolean store_async;
+	CamelFolder *folder;
 
-	/* First cancel any previous message fetching. */
-	key = "preview-get-message-op-id";
-	data = g_object_get_data (G_OBJECT (reader), key);
-	if (data != NULL)
-		mail_msg_cancel (GPOINTER_TO_INT (data));
+
+	folder = e_mail_reader_get_folder (reader);
+	store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
+
+	/* Cancel previous message fetching only if the store is not async */
+	if (!store_async) {
+		key = "preview-get-message-op-id";
+		data = g_object_get_data (G_OBJECT (reader), key);
+		if (data != NULL)
+			mail_msg_cancel (GPOINTER_TO_INT (data));
+	}
 
 	/* then cancel the seen timer */
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
