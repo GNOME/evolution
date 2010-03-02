@@ -1,0 +1,9 @@
+.deps
+.libs
+*.o
+*.lo
+*~
+Makefile.in
+Makefile
+evolution-settings
+libevolution-mail-settings.la
