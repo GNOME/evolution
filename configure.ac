@@ -1742,6 +1742,7 @@ smime/lib/Makefile
 smime/gui/Makefile
 sounds/Makefile
 capplet/Makefile
+capplet/settings/Makefile
 evolution-zip
 evolution-calendar.pc
 evolution-mail.pc

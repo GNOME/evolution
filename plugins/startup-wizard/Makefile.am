@@ -24,7 +24,7 @@ liborg_gnome_evolution_startup_wizard_la_LIBADD =			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/mail/libevolution-mail.la			\
-	$(top_builddir)/capplet/libevolution-mail-settings.la		\
+	$(top_builddir)/capplet/settings/libevolution-mail-settings.la		\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)

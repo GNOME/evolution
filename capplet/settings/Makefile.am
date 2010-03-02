@@ -1,4 +1,3 @@
-SUBDIRS = settings
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/widgets				\
@@ -35,16 +34,27 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g -O0 
 
-bin_PROGRAMS = evolution-settings
+privsolib_LTLIBRARIES = libevolution-mail-settings.la
 
+libevolution_mail_settings_la_SOURCES = \
+	mail-settings-view.c \
+	mail-settings-view.h \
+	mail-account-view.c \
+	mail-account-view.h \
+	mail-view.c \
+	mail-view.h \
+	mail-capplet-shell.c \
+	mail-capplet-shell.h \
+	mail-decoration.c \
+	mail-decoration.h \
+	anjal-mail-view.h \
+	anjal-mail-view.c \
+	mail-guess-servers.c \
+	mail-guess-servers.h
 
-evolution_settings_SOURCES  = \
-	anjal-settings-main.c 
+libevolution_mail_settings_la_CFLAGS = -DANJAL_SETTINGS
 
-evolution_settings_LDFLAGS = \
-	-Wl,--export-dynamic
-
-evolution_settings_LDADD = 				\
+libevolution_mail_settings_la_LIBADD = 				\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
@@ -54,7 +64,6 @@ evolution_settings_LDADD = 				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/capplet/settings/libevolution-mail-settings.la
+	$(top_builddir)/mail/libevolution-mail.la	
 
 

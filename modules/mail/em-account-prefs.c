@@ -40,7 +40,7 @@
 #include "em-config.h"
 #include "em-account-editor.h"
 #include "shell/e-shell.h"
-#include "capplet/mail-capplet-shell.h"
+#include "capplet/settings/mail-capplet-shell.h"
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

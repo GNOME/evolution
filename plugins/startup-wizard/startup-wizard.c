@@ -32,7 +32,7 @@
 #include "mail/em-account-editor.h"
 #include "calendar/gui/calendar-config.h"
 
-#include "capplet/mail-capplet-shell.h"
+#include "capplet/settings/mail-capplet-shell.h"
 
 void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
 GtkWidget *startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
