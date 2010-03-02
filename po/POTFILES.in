@@ -140,8 +140,17 @@ composer/e-composer-post-header.c
 composer/e-composer-private.c
 composer/e-msg-composer.c
 composer/mail-composer.error.xml
+capplet/anjal-settings-main.c
+capplet/settings/mail-view.c
+capplet/settings/mail-guess-servers.c
+capplet/settings/mail-decoration.c
+capplet/settings/mail-account-view.c
+capplet/settings/mail-capplet-shell.c
+capplet/settings/anjal-mail-view.c
+capplet/settings/mail-settings-view.c
 data/evolution-alarm-notify.desktop.in.in
 data/evolution.desktop.in.in
+data/evolution-settings.desktop.in.in
 data/evolution.keys.in.in
 e-util/e-activity.c
 e-util/e-alert.c
