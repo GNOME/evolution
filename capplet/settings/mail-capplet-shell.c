@@ -246,7 +246,7 @@ static void
 ms_show_post_druid (MailViewChild *mfv G_GNUC_UNUSED,
 		    MailCappletShell *shell)
 {
-	gtk_widget_destroy(shell);
+	gtk_widget_destroy (GTK_WIDGET (shell));
 	/*
 	if (shell->priv->settings_view)
 		mail_view_switch_to_settings ((MailView *)shell->view, (MailViewChild *)shell->priv->settings_view);

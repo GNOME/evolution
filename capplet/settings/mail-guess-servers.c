@@ -70,7 +70,7 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 		if (!*sec_part)
 			sec_part = "";
 	
-		gxml = g_strdup_printf("%s%s%s", gxml ? gxml: xml, repl, sec_part);
+		gxml = g_strdup_printf("%s%s%s", gxml ? gxml : (char *)xml, repl, sec_part);
 		tmp = strstr (gxml, "\%EMAIL");
 		if(tmp) {
 			goto decodepart;
@@ -213,7 +213,8 @@ parse_msg (SoupMessage *msg, EmailProvider *provider)
 gboolean
 mail_guess_servers(EmailProvider *provider)
 {
-	const char *cafile = NULL, *url;
+	const char *cafile = NULL;
+	char *url;
 	SoupURI *proxy = NULL, *parsed;
 	int opt;
 	SoupMessage *msg;

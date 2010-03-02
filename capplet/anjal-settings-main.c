@@ -160,7 +160,7 @@ create_default_shell (void)
 {
 	main_window = mail_capplet_shell_new(socket_id, FALSE, TRUE);
 	if (!socket_id)
-		gtk_widget_show (main_window);
+		gtk_widget_show (GTK_WIDGET (main_window));
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 }
 
@@ -168,7 +168,6 @@ int
 main (int argc, char *argv[])
 {
 	GError *error = NULL;
-	EShell *default_shell;
 	GConfClient *client;
 	
 	UniqueApp *app;
