@@ -1661,21 +1661,18 @@ e_shell_set_online (EShell *shell,
 }
 
 /**
- * e_shell_get_online:
+ * e_shell_get_express_mode:
  * @shell: an #EShell
  *
- * Returns %TRUE if Evolution is online, %FALSE if Evolution is offline.
- * Evolution may be offline because the user elected to work offline, or
- * because the network has become unavailable.
+ * Returns %TRUE if Evolution is in express mode, %FALSE if Evolution not.
  *
- * Returns: %TRUE if Evolution is online
  **/
 gboolean
 e_shell_get_express_mode (EShell *shell)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	return shell->priv->online;
+	return shell->priv->express;
 }
 
 /**
