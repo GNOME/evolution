@@ -55,7 +55,7 @@
 #define EMBLEM_ENCRYPT_WEAK	"security-low"
 #define EMBLEM_ENCRYPT_STRONG	"security-high"
 #define EMBLEM_ENCRYPT_UNKNOWN	"security-medium"
-#define EMBLEM_SIGN_BAD		"stock_signature_bad"
+#define EMBLEM_SIGN_BAD		"stock_signature-bad"
 #define EMBLEM_SIGN_GOOD	"stock_signature-ok"
 #define EMBLEM_SIGN_UNKNOWN	"stock_signature"
 
