@@ -1149,6 +1149,18 @@ e_shell_window_get_safe_mode (EShellWindow *shell_window)
 }
 
 /**
+ * e_shell_window_get_safe_mode:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window is in "express mode".
+ **/
+gboolean
+e_shell_window_get_express_mode	(EShellWindow *shell_window)
+{
+	return e_shell_get_express_mode (e_shell_window_get_shell (shell_window));
+}
+
+/**
  * e_shell_window_set_safe_mode:
  * @shell_window: an #EShellWindow
  * @safe_mode: whether to put @shell_window into "safe mode"

@@ -2001,6 +2001,26 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	g_free (path);
 }
 
+static GList *
+express_filter_new_actions (GList *list)
+{
+	GList *l, *filtered = NULL;
+
+	for (l = list; l; l = l->next) {
+		const gchar *backend_name;
+
+		backend_name = g_object_get_data (
+			G_OBJECT (l->data), "backend-name");
+
+		/* only the addressbook pieces in express mode */
+		if (!strcmp (backend_name, "addressbook"))
+			filtered = g_list_prepend (filtered, l->data);
+	}
+	g_list_free (list);
+
+	return g_list_reverse (filtered);
+}
+
 GtkWidget *
 e_shell_window_create_new_menu (EShellWindow *shell_window)
 {
@@ -2038,6 +2058,12 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 	for (iter = list; iter != NULL; iter = iter->next)
 		iter->data = gtk_action_create_menu_item (iter->data);
 
+	if (e_shell_window_get_express_mode (shell_window)) {
+		new_item_actions = express_filter_new_actions (new_item_actions);
+		g_list_free (new_source_actions);
+		new_source_actions = NULL;
+	}
+
 	for (iter = new_item_actions; iter != NULL; iter = iter->next)
 		iter->data = gtk_action_create_menu_item (iter->data);
 
@@ -2050,9 +2076,11 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 	new_item_actions = g_list_prepend (new_item_actions, separator);
 	gtk_widget_show (GTK_WIDGET (separator));
 
-	separator = gtk_separator_menu_item_new ();
-	new_source_actions = g_list_prepend (new_source_actions, separator);
-	gtk_widget_show (GTK_WIDGET (separator));
+	if (new_source_actions != NULL) {
+		separator = gtk_separator_menu_item_new ();
+		new_source_actions = g_list_prepend (new_source_actions, separator);
+		gtk_widget_show (GTK_WIDGET (separator));
+	}
 
 	/* Merge everything into one list, reflecting the menu layout. */
 
