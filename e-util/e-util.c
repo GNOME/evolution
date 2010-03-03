@@ -315,7 +315,6 @@ void
 e_load_ui_manager_set_express (GtkUIManager *ui_manager,
 			       gboolean      express)
 {
-	fprintf (stderr, "set express on %p to %d\n", ui_manager, express);
 	g_object_set_data (G_OBJECT (ui_manager),
 			   "e-ui-mgr-express",
 			   GUINT_TO_POINTER (express));
@@ -327,7 +326,6 @@ e_load_ui_manager_get_express (GtkUIManager *ui_manager)
 	gboolean express = GPOINTER_TO_UINT (
 		g_object_get_data (G_OBJECT (ui_manager),
 				   "e-ui-mgr-express"));
-	fprintf (stderr, "get express on %p to %d\n", ui_manager, express);
 	return express;
 }
 

@@ -450,9 +450,7 @@ plugin_ui_hook_construct (EPluginHook *hook,
 
 		/* Extract the XML content below <ui-manager> */
 		buffer = xmlBufferCreate ();
-		for (child = xmlFirstElementChild (node); child != NULL;
-			child = xmlNextElementSibling (child)) {
-
+		for (child = node->children; child != NULL; child = child->next) {
 			xmlNodeDump (buffer, node->doc, child, 2, 1);
 			temp = (const gchar *) xmlBufferContent (buffer);
 			g_string_append (content, temp);
