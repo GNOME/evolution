@@ -418,9 +418,13 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	key = "/apps/evolution/shell/view_defaults/statusbar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "taskbar-visible");
 
-	object = G_OBJECT (shell_window);
-	key = "/apps/evolution/shell/view_defaults/buttons_visible";
-	gconf_bridge_bind_property (bridge, key, object, "switcher-visible");
+	if (e_shell_get_express_mode(NULL)) {
+		e_shell_window_set_switcher_visible (shell_window, FALSE);
+	} else {
+		object = G_OBJECT (shell_window);
+		key = "/apps/evolution/shell/view_defaults/buttons_visible";
+		gconf_bridge_bind_property (bridge, key, object, "switcher-visible");
+	}
 
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/toolbar_visible";
