@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-11 07:47+0530\n"
-"PO-Revision-Date: 2010-02-11 17:15+0530\n"
+"POT-Creation-Date: 2010-03-03 21:56+0530\n"
+"PO-Revision-Date: 2010-03-03 21:58+0530\n"
 "Last-Translator: Dr,T,Vasudevan <agnihot3@gmail.com>\n"
 "Language-Team: American English <Ubuntu-l10n-tam@lists.ubuntu.com>>\n"
 "MIME-Version: 1.0\n"
@@ -233,7 +233,7 @@ msgid "_Use as it is"
 msgstr "இருப்பது போலவே பயன்படுத்துக (_U)"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query."
-#: ../addressbook/addressbook.error.xml.h:42 ../mail/mail.error.xml.h:143
+#: ../addressbook/addressbook.error.xml.h:42 ../mail/mail.error.xml.h:145
 msgid "{0}"
 msgstr "{0}"
 
@@ -563,7 +563,7 @@ msgid "Skype"
 msgstr "ஸ்கைபி"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:209
-#: ../addressbook/gui/widgets/eab-gui-util.c:371
+#: ../addressbook/gui/widgets/eab-gui-util.c:376
 msgid "Error adding contact"
 msgstr "தொடர்பை சேர்க்கும் போது பிழை"
 
@@ -846,7 +846,7 @@ msgstr "தொடர்புகளை ஒன்றாகச் சேர்க"
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:4
 #: ../modules/addressbook/e-book-shell-view-actions.c:901
-#: ../modules/calendar/e-cal-shell-view-actions.c:1625
+#: ../modules/calendar/e-cal-shell-view-actions.c:1639
 #: ../modules/calendar/e-memo-shell-view-actions.c:771
 #: ../modules/calendar/e-task-shell-view-actions.c:970
 msgid "Any field contains"
@@ -895,7 +895,7 @@ msgstr "தேடல் இடைமறிக்கப்பட்டது "
 #: ../modules/calendar/e-task-shell-content.c:629
 #: ../widgets/table/e-table-click-to-add.c:511
 #: ../widgets/table/e-table-selection-model.c:302
-#: ../widgets/table/e-table.c:3359
+#: ../widgets/table/e-table.c:3363
 #: ../widgets/table/e-tree-selection-model.c:817 ../widgets/text/e-text.c:3296
 #: ../widgets/text/e-text.c:3297
 msgid "Model"
@@ -1635,27 +1635,27 @@ msgstr "இந்த கேள்வி முழுமையாக முடி
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:244
+#: ../addressbook/gui/widgets/eab-gui-util.c:247
 msgid "Select Address Book"
 msgstr "முகவரிப்புத்தகத்தை தேர்ந்தெடு"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:305
+#: ../addressbook/gui/widgets/eab-gui-util.c:310
 msgid "list"
 msgstr "பட்டியல்"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:432
+#: ../addressbook/gui/widgets/eab-gui-util.c:437
 msgid "Move contact to"
 msgstr "தொடர்புகளை இங்கு நகர்த்து"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:434
+#: ../addressbook/gui/widgets/eab-gui-util.c:439
 msgid "Copy contact to"
 msgstr "தொடர்புகளை இங்கு நகலெடு"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:437
+#: ../addressbook/gui/widgets/eab-gui-util.c:442
 msgid "Move contacts to"
 msgstr "தொடர்புகளை இங்கு நகர்த்து"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:439
+#: ../addressbook/gui/widgets/eab-gui-util.c:444
 msgid "Copy contacts to"
 msgstr "தொடர்புகளை இங்கு நகலெடு"
 
@@ -2197,7 +2197,7 @@ msgid "_Save Changes"
 msgstr "மாற்றங்களை சேமி (_S)"
 
 #: ../calendar/calendar.error.xml.h:87
-#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:142
+#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:144
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "(_S)அனுப்பு"
@@ -2279,8 +2279,8 @@ msgstr "(_A) அனைத்தையும் பணி நீக்கம் �
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1574
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1580
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1573
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1579
 #: ../calendar/gui/e-itip-control.c:1162
 #: ../plugins/itip-formatter/itip-view.c:1031
 msgid "Location:"
@@ -2328,32 +2328,32 @@ msgstr "சந்திப்பு ஏற்பாடு இடம்"
 msgid "minutes"
 msgstr "நிமிடங்கள்"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1435
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1557
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1434
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1556
 msgid "No summary available."
 msgstr "சுருக்கம் இல்லை."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1444
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1446
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1443
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1445
 msgid "No description available."
 msgstr "விளக்கம் இல்லை"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1454
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1453
 msgid "No location information available."
 msgstr "இட விவரம் இல்லை."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1497
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1496
 #, c-format
 msgid "You have %d alarms"
 msgstr "உங்களிடம் %d அலாரங்கள் உள்ளன"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1669
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1697
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1668
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
 #: ../e-util/e-non-intrusive-error-dialog.h:39
 msgid "Warning"
 msgstr "எச்சரிக்கை"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1673
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1672
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -2365,7 +2365,7 @@ msgstr ""
 "அனுப்பும் வசதி அமைக்கப்பட்டுள்ளது, எவல்யூஷன் \n"
 "சாதாரண நினைவூட்டல் உரையாடல் பெட்டியை காட்டும்."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1703
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2381,7 +2381,7 @@ msgstr ""
 "\n"
 "இந்த நிரலை இயக்க விருப்பமா?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1717
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1716
 msgid "Do not ask me about this program again."
 msgstr "இந்த நிரல் பற்றி இனி என்னிடம் கேட்க வேண்டாம்."
 
@@ -3289,7 +3289,8 @@ msgstr "நேரம் மற்றும் தேதி :"
 msgid "Date only:"
 msgstr "தேதி மட்டும்:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:2, no-c-format
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:2
+#, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u மற்றும் %d பயனர் மற்றும் களம் மின்னஞ்சல் முகவரியிலிருந்து மாற்றப்படும்."
 
@@ -3359,7 +3360,7 @@ msgstr "வெள்ளிக்கிழமை"
 #: ../calendar/gui/dialogs/calendar-setup.c:389
 #: ../mail/em-folder-properties.c:283 ../mail/mail-config.ui.h:53
 #: ../modules/addressbook/addressbook-config.c:985
-#: ../plugins/itip-formatter/itip-formatter.c:2653
+#: ../plugins/itip-formatter/itip-formatter.c:2666
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "General"
@@ -3495,7 +3496,7 @@ msgid "Wee_k starts on:"
 msgstr "வாரம் துவங்குகிறது: (_k)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
-#: ../modules/calendar/e-cal-shell-view-actions.c:1577
+#: ../modules/calendar/e-cal-shell-view-actions.c:1591
 msgid "Work Week"
 msgstr "வார வேலை"
 
@@ -4867,7 +4868,7 @@ msgstr "நிரல் சார் அமைப்புகள்"
 #: ../calendar/gui/e-meeting-store.c:218 ../calendar/gui/print.c:972
 #: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:931
 #: ../plugins/itip-formatter/itip-formatter.c:461
-#: ../plugins/itip-formatter/itip-formatter.c:2325
+#: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
 msgid "Unknown"
 msgstr "தெரியாது"
@@ -4954,7 +4955,7 @@ msgstr "பொருள் புதுப்பிக்கப்படுக�
 #: ../calendar/gui/e-itip-control.c:1182
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
-#: ../plugins/itip-formatter/itip-formatter.c:2313
+#: ../plugins/itip-formatter/itip-formatter.c:2326
 msgid "Accepted"
 msgstr "ஏற்கப்பட்டது"
 
@@ -4962,7 +4963,7 @@ msgstr "ஏற்கப்பட்டது"
 #: ../calendar/gui/e-itip-control.c:1192
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:184 ../calendar/gui/e-meeting-store.c:207
-#: ../plugins/itip-formatter/itip-formatter.c:2319
+#: ../plugins/itip-formatter/itip-formatter.c:2332
 msgid "Declined"
 msgstr "நிராகரிக்கப்பட்டது"
 
@@ -4976,7 +4977,7 @@ msgstr "தோராயமாக"
 #: ../calendar/gui/e-calendar-view.c:1693
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../plugins/itip-formatter/itip-formatter.c:2322
+#: ../plugins/itip-formatter/itip-formatter.c:2335
 msgid "Delegated"
 msgstr "விருந்தினராக"
 
@@ -5064,7 +5065,7 @@ msgstr "%A %d %B"
 #: ../calendar/gui/e-day-view-top-item.c:864 ../calendar/gui/e-day-view.c:1901
 #: ../calendar/gui/e-week-view-main-item.c:227
 #: ../calendar/gui/ea-gnome-calendar.c:200
-#: ../modules/calendar/e-cal-shell-view-private.c:894
+#: ../modules/calendar/e-cal-shell-view-private.c:895
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -5076,7 +5077,7 @@ msgstr "%a %d %b"
 #: ../calendar/gui/e-day-view-top-item.c:868 ../calendar/gui/e-day-view.c:1917
 #: ../calendar/gui/e-week-view-main-item.c:241
 #: ../calendar/gui/ea-gnome-calendar.c:230
-#: ../modules/calendar/e-cal-shell-view-private.c:930
+#: ../modules/calendar/e-cal-shell-view-private.c:931
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -5206,13 +5207,13 @@ msgstr "<br> இந்த தகவலை பார்த்த பிறகு 
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
-#: ../plugins/itip-formatter/itip-formatter.c:2300
+#: ../plugins/itip-formatter/itip-formatter.c:2313
 msgctxt "cal-itip"
 msgid "None"
 msgstr "எதுவுமில்லை"
 
 #: ../calendar/gui/e-itip-control.c:1187
-#: ../plugins/itip-formatter/itip-formatter.c:2316
+#: ../plugins/itip-formatter/itip-formatter.c:2329
 msgid "Tentatively Accepted"
 msgstr "ஏற்கப்படலாம்"
 
@@ -5428,7 +5429,7 @@ msgid "Attendee status updated\n"
 msgstr "பங்கேற்பாளர் நிலை புதுப்பிக்கபட்டது\n"
 
 #: ../calendar/gui/e-itip-control.c:2071
-#: ../plugins/itip-formatter/itip-formatter.c:1408
+#: ../plugins/itip-formatter/itip-formatter.c:1421
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "பங்கேற்பாளர் நிலை புதுப்பிக்கப்படாதற்கு காரணம் இவர் பட்டியலில் இல்லை"
 
@@ -5482,7 +5483,7 @@ msgid "Send Latest Information"
 msgstr "தற்போதைய தகவலை அனுப்பு"
 
 #: ../calendar/gui/e-itip-control.c:2452
-#: ../modules/mail/e-mail-shell-view-actions.c:1030
+#: ../modules/mail/e-mail-shell-view-actions.c:1032
 #: ../widgets/misc/e-activity-proxy.c:299
 msgid "Cancel"
 msgstr "ரத்து செய்"
@@ -5938,16 +5939,16 @@ msgid "Gnome Calendar"
 msgstr "க்னோம் நாள்காட்டி"
 
 #: ../calendar/gui/ea-gnome-calendar.c:197
-#: ../modules/calendar/e-cal-shell-view-private.c:890
+#: ../modules/calendar/e-cal-shell-view-private.c:891
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:202
 #: ../calendar/gui/ea-gnome-calendar.c:207
 #: ../calendar/gui/ea-gnome-calendar.c:209
-#: ../modules/calendar/e-cal-shell-view-private.c:897
-#: ../modules/calendar/e-cal-shell-view-private.c:903
-#: ../modules/calendar/e-cal-shell-view-private.c:906
+#: ../modules/calendar/e-cal-shell-view-private.c:898
+#: ../modules/calendar/e-cal-shell-view-private.c:904
+#: ../modules/calendar/e-cal-shell-view-private.c:907
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -5955,10 +5956,10 @@ msgstr "%a %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:232
 #: ../calendar/gui/ea-gnome-calendar.c:238
 #: ../calendar/gui/ea-gnome-calendar.c:240
-#: ../modules/calendar/e-cal-shell-view-private.c:923
-#: ../modules/calendar/e-cal-shell-view-private.c:934
-#: ../modules/calendar/e-cal-shell-view-private.c:941
-#: ../modules/calendar/e-cal-shell-view-private.c:944
+#: ../modules/calendar/e-cal-shell-view-private.c:924
+#: ../modules/calendar/e-cal-shell-view-private.c:935
+#: ../modules/calendar/e-cal-shell-view-private.c:942
+#: ../modules/calendar/e-cal-shell-view-private.c:945
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -6057,23 +6058,23 @@ msgstr "ஒருங்கிணைப்பாளர் அமைக்கப�
 msgid "At least one attendee is necessary"
 msgstr "ஒரு பங்கேற்பாளராவது தேவை"
 
-#: ../calendar/gui/itip-utils.c:634 ../calendar/gui/itip-utils.c:784
+#: ../calendar/gui/itip-utils.c:633 ../calendar/gui/itip-utils.c:783
 msgid "Event information"
 msgstr "நிகழ்வு தகவல்"
 
-#: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:787
+#: ../calendar/gui/itip-utils.c:636 ../calendar/gui/itip-utils.c:786
 msgid "Task information"
 msgstr "பணி தகவல்"
 
-#: ../calendar/gui/itip-utils.c:640 ../calendar/gui/itip-utils.c:790
+#: ../calendar/gui/itip-utils.c:639 ../calendar/gui/itip-utils.c:789
 msgid "Memo information"
 msgstr "குறிப்பு இல்லை"
 
-#: ../calendar/gui/itip-utils.c:643 ../calendar/gui/itip-utils.c:808
+#: ../calendar/gui/itip-utils.c:642 ../calendar/gui/itip-utils.c:807
 msgid "Free/Busy information"
 msgstr "வேலை/வேலையிலில்லை தகவல்"
 
-#: ../calendar/gui/itip-utils.c:646
+#: ../calendar/gui/itip-utils.c:645
 msgid "Calendar information"
 msgstr "நாள்காட்டி தகவல்"
 
@@ -6081,7 +6082,7 @@ msgstr "நாள்காட்டி தகவல்"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:680
+#: ../calendar/gui/itip-utils.c:679
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "ஏற்கப்பட்டது"
@@ -6090,7 +6091,7 @@ msgstr "ஏற்கப்பட்டது"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:687
+#: ../calendar/gui/itip-utils.c:686
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "ஏற்கப்படலாம்"
@@ -6102,7 +6103,7 @@ msgstr "ஏற்கப்படலாம்"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../calendar/gui/itip-utils.c:694 ../calendar/gui/itip-utils.c:742
+#: ../calendar/gui/itip-utils.c:693 ../calendar/gui/itip-utils.c:741
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "நிராகரிக்கப்பட்டது"
@@ -6111,7 +6112,7 @@ msgstr "நிராகரிக்கப்பட்டது"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:701
+#: ../calendar/gui/itip-utils.c:700
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "ஒப்பு கொடுக்கப்பட்டது"
@@ -6119,7 +6120,7 @@ msgstr "ஒப்பு கொடுக்கப்பட்டது"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:714
+#: ../calendar/gui/itip-utils.c:713
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "புதுப்பிக்கப்படுகிறது"
@@ -6127,7 +6128,7 @@ msgstr "புதுப்பிக்கப்படுகிறது"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../calendar/gui/itip-utils.c:721
+#: ../calendar/gui/itip-utils.c:720
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "ரத்து செய்"
@@ -6135,7 +6136,7 @@ msgstr "ரத்து செய்"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../calendar/gui/itip-utils.c:728
+#: ../calendar/gui/itip-utils.c:727
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "புதுப்பி"
@@ -6143,29 +6144,29 @@ msgstr "புதுப்பி"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../calendar/gui/itip-utils.c:735
+#: ../calendar/gui/itip-utils.c:734
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "மாற்று-கோரிக்கை"
 
-#: ../calendar/gui/itip-utils.c:805
+#: ../calendar/gui/itip-utils.c:804
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "வேலை/வேலையில்லை தகவல்(%s %s க்கு)"
 
-#: ../calendar/gui/itip-utils.c:813
+#: ../calendar/gui/itip-utils.c:812
 msgid "iCalendar information"
 msgstr "ஐ நாள்காட்டி தகவல்"
 
-#: ../calendar/gui/itip-utils.c:833
+#: ../calendar/gui/itip-utils.c:832
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "ஒரு மூலத்தை பதிய முடியவில்லை, புதிய நிகழ்வு வேறு எத்துடனோ மோதுகிறது"
 
-#: ../calendar/gui/itip-utils.c:835
+#: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
 msgstr "ஒரு மூலத்தை பதிய முடியவில்லை, பிழை:"
 
-#: ../calendar/gui/itip-utils.c:988
+#: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
 msgstr "இந்த நிகழ்வில் நீங்கள் கலந்துகொள்ள வேண்டும்"
 
@@ -6394,7 +6395,7 @@ msgstr "சந்திப்புகள் மற்றும் கூட்�
 
 #: ../calendar/importers/icalendar-importer.c:335
 #: ../calendar/importers/icalendar-importer.c:628
-#: ../plugins/itip-formatter/itip-formatter.c:1820
+#: ../plugins/itip-formatter/itip-formatter.c:1833
 msgid "Opening calendar"
 msgstr "நாள்காட்டியை திறக்கிறது"
 
@@ -8025,7 +8026,7 @@ msgstr "(_D) வரைவாக சேமி"
 msgid "Save as draft"
 msgstr "வரைவாக சேமி"
 
-#: ../composer/e-composer-actions.c:328 ../composer/e-composer-private.c:264
+#: ../composer/e-composer-actions.c:328 ../composer/e-composer-private.c:281
 msgid "S_end"
 msgstr "_அனுப்புக"
 
@@ -8206,7 +8207,23 @@ msgstr "முகவரி புத்தகத்துக்கு இங்�
 msgid "Click here to select folders to post to"
 msgstr "சமர்ப்பிக்க வேண்டிய அடைவை தேர்வு செய்ய இங்கே க்ளிக் செய்யவும்"
 
-#: ../composer/e-composer-private.c:284
+#: ../composer/e-composer-private.c:199
+msgid "Undo the last action"
+msgstr "கடைசி செயலை ரத்து செய்"
+
+#: ../composer/e-composer-private.c:203
+msgid "Redo the last undone action"
+msgstr "கடைசியாக ரத்து செய்த செயலை திரும்ப செய்"
+
+#: ../composer/e-composer-private.c:207
+msgid "Search for text"
+msgstr "உரைக்காக தேடுக"
+
+#: ../composer/e-composer-private.c:211
+msgid "Search for and replace text"
+msgstr "உரையைத் தேடி மாற்றுக"
+
+#: ../composer/e-composer-private.c:301
 msgid "Save draft"
 msgstr "வரைவை சேமி"
 
@@ -8369,7 +8386,7 @@ msgid "Evolution Alarm Notify"
 msgstr "எவல்யூஷன் எச்சரிக்கை அறிவிப்புகள்"
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:786
-#: ../shell/e-shell-window-private.c:255
+#: ../shell/e-shell-window-private.c:258
 msgid "Evolution"
 msgstr "எவல்யூஷன்"
 
@@ -8425,7 +8442,7 @@ msgstr "எவல்யூஷன் பிழை"
 msgid "Evolution Warning"
 msgstr "எவல்யூஷன் எச்சரிக்கை"
 
-#: ../e-util/e-alert.c:636
+#: ../e-util/e-alert.c:634
 #, c-format
 msgid "Internal error, unknown error '%s' requested"
 msgstr "உள்ளார்ந்த பிழை, தெரியாத பிழை '%s' கோரப்பட்டது"
@@ -8505,7 +8522,7 @@ msgstr "காட்சி"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:193
-#: ../modules/calendar/e-cal-shell-view-actions.c:1727
+#: ../modules/calendar/e-cal-shell-view-actions.c:1741
 #: ../plugins/itip-formatter/itip-view.c:195
 #: ../widgets/table/e-cell-date-edit.c:311
 msgid "Today"
@@ -8673,7 +8690,7 @@ msgstr "மேலெழுத விருப்பமா?"
 msgid "File exists \"{0}\"."
 msgstr "\"{0}\". கோப்பு ஏற்கனவே உள்ளது."
 
-#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:141
+#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:143
 msgid "_Overwrite"
 msgstr "(_O)மேலெழுது"
 
@@ -8990,7 +9007,7 @@ msgstr "தேதி காணவில்லை"
 msgid "Missing file name."
 msgstr "கோப்பின் பெயர் காணவில்லை"
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:72
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:73
 msgid "Missing name."
 msgstr "பெயர் காணவில்லை"
 
@@ -9188,7 +9205,7 @@ msgid "Color"
 msgstr "நிறம்"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:367
-#: ../mail/em-folder-tree-model.c:658 ../mail/em-folder-tree.c:2570
+#: ../mail/em-folder-tree-model.c:658 ../mail/em-folder-tree.c:2582
 #: ../modules/mail/e-mail-shell-view-private.c:961
 msgid "Inbox"
 msgstr "உள்பெட்டி"
@@ -9345,23 +9362,23 @@ msgstr ""
 msgid "Do not ask me again"
 msgstr "என்னிடம் மீண்டும் கேட்காதே"
 
-#: ../mail/e-mail-reader.c:208 ../mail/em-filter-i18n.h:11
+#: ../mail/e-mail-reader.c:209 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "அடைவில் நகலெடு"
 
-#: ../mail/e-mail-reader.c:208 ../mail/em-folder-utils.c:385
+#: ../mail/e-mail-reader.c:209 ../mail/em-folder-utils.c:385
 msgid "C_opy"
 msgstr "(_o)நகலெடு"
 
-#: ../mail/e-mail-reader.c:582 ../mail/em-filter-i18n.h:51
+#: ../mail/e-mail-reader.c:583 ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
 msgstr "அடைவிற்கு நகர்த்து"
 
-#: ../mail/e-mail-reader.c:582 ../mail/em-folder-utils.c:385
+#: ../mail/e-mail-reader.c:583 ../mail/em-folder-utils.c:385
 msgid "_Move"
 msgstr "(_M)நகர்த்து"
 
-#: ../mail/e-mail-reader.c:808
+#: ../mail/e-mail-reader.c:809
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "செய்தியை சேமி"
@@ -9373,504 +9390,505 @@ msgstr[1] "செய்திகளை சேமி"
 #. * Subject. The extension ".mbox" is appended to this
 #. * string, thus it will be something like "Message.mbox"
 #. * at the end.
-#: ../mail/e-mail-reader.c:829 ../plugins/groupwise-features/properties.ui.h:5
+#: ../mail/e-mail-reader.c:830 ../plugins/groupwise-features/properties.ui.h:5
 #: ../widgets/table/e-table-click-to-add.c:518
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "செய்தி"
 msgstr[1] "செய்திகள்"
 
-#: ../mail/e-mail-reader.c:1087
+#: ../mail/e-mail-reader.c:1088
 msgid "A_dd Sender to Address Book"
 msgstr "(_d)அனுப்பியவரை முகவரி புத்தகத்தில் சேர்"
 
-#: ../mail/e-mail-reader.c:1089
+#: ../mail/e-mail-reader.c:1090
 msgid "Add sender to address book"
 msgstr "அனுப்பியவர் முகவரியை முகவரி புத்தகத்தில் சேர்"
 
-#: ../mail/e-mail-reader.c:1094
+#: ../mail/e-mail-reader.c:1095
 msgid "Check for _Junk"
 msgstr "தேவையற்ற குப்பைக்கு சோதிக்கவும்."
 
-#: ../mail/e-mail-reader.c:1096
+#: ../mail/e-mail-reader.c:1097
 msgid "Filter the selected messages for junk status"
 msgstr "தேவையற்ற செய்திகளை பிரிக்க தேர்வு செய்த செய்தியை வடிகட்டு"
 
-#: ../mail/e-mail-reader.c:1101
+#: ../mail/e-mail-reader.c:1102
 msgid "_Copy to Folder..."
 msgstr "(_C)அடைவில் நகலெடு..."
 
-#: ../mail/e-mail-reader.c:1103
+#: ../mail/e-mail-reader.c:1104
 msgid "Copy selected messages to another folder"
 msgstr "தேர்வு செய்யப்பட்ட செய்தியை வேறு அடைவுக்கு நகர்த்து"
 
-#: ../mail/e-mail-reader.c:1108
+#: ../mail/e-mail-reader.c:1109
 msgid "_Delete Message"
 msgstr "செய்தியை அழி (_D)"
 
-#: ../mail/e-mail-reader.c:1110
+#: ../mail/e-mail-reader.c:1111
 msgid "Mark the selected messages for deletion"
 msgstr "தேர்வு செய்த செய்திகளை நீக்குவதற்காக குறிக்கவும்"
 
-#: ../mail/e-mail-reader.c:1115
+#: ../mail/e-mail-reader.c:1116
 msgid "Filter on Mailing _List..."
 msgstr "(_L)மின்னஞ்சல் பட்டியல் வரிசையாக வடிகட்டு..."
 
-#: ../mail/e-mail-reader.c:1117
+#: ../mail/e-mail-reader.c:1118
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "மின்னஞ்சல் பட்டியலுக்காக செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
-#: ../mail/e-mail-reader.c:1122
+#: ../mail/e-mail-reader.c:1123
 msgid "Filter on _Recipients..."
 msgstr "(_R)பெற்றுக்கொண்டவர்கள் வரிசையாக வடிகட்டு"
 
-#: ../mail/e-mail-reader.c:1124
+#: ../mail/e-mail-reader.c:1125
 msgid "Create a rule to filter messages to these recipients"
 msgstr "பெற்றுக்கொள்பவருக்கு செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
-#: ../mail/e-mail-reader.c:1129
+#: ../mail/e-mail-reader.c:1130
 msgid "Filter on Se_nder..."
 msgstr "(_n)அனுப்பியவர்கள் வாரியாக வடிகட்டு"
 
-#: ../mail/e-mail-reader.c:1131
+#: ../mail/e-mail-reader.c:1132
 msgid "Create a rule to filter messages from this sender"
 msgstr "அனுப்புபவருக்கு செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
-#: ../mail/e-mail-reader.c:1136
+#: ../mail/e-mail-reader.c:1137
 msgid "Filter on _Subject..."
 msgstr "(_S)தலைப்பு வாரியாக வடிகட்டு..."
 
-#: ../mail/e-mail-reader.c:1138
+#: ../mail/e-mail-reader.c:1139
 msgid "Create a rule to filter messages with this subject"
 msgstr "தலைப்புகளோடு செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
-#: ../mail/e-mail-reader.c:1143
+#: ../mail/e-mail-reader.c:1144
 msgid "A_pply Filters"
 msgstr "(_p)வடிகட்டியை அமை"
 
-#: ../mail/e-mail-reader.c:1145
+#: ../mail/e-mail-reader.c:1146
 msgid "Apply filter rules to the selected messages"
 msgstr "தேர்வு செய்யப்பட்ட செய்திக்கு வடிகட்டி விதிமுறையை உருவாக்கு"
 
-#: ../mail/e-mail-reader.c:1150
+#: ../mail/e-mail-reader.c:1151
 msgid "_Find in Message..."
 msgstr "செய்தியில் கண்டுபிடி... (_F)"
 
-#: ../mail/e-mail-reader.c:1152
+#: ../mail/e-mail-reader.c:1153
 msgid "Search for text in the body of the displayed message"
 msgstr "காட்டப்பட்ட செய்தியில் குறிப்பிட்ட உரையை தேடு"
 
-#: ../mail/e-mail-reader.c:1157
+#: ../mail/e-mail-reader.c:1158
 msgid "_Clear Flag"
 msgstr "கொடியை நீக்கு (_C)"
 
-#: ../mail/e-mail-reader.c:1159
+#: ../mail/e-mail-reader.c:1160
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "தேர்ந்தெடுத்த செய்திகளில் இருந்து பின் தொடர்க குறிப்பை அழி"
 
-#: ../mail/e-mail-reader.c:1164
+#: ../mail/e-mail-reader.c:1165
 msgid "_Flag Completed"
 msgstr "கொடி முடிந்தது (_F)"
 
-#: ../mail/e-mail-reader.c:1166
+#: ../mail/e-mail-reader.c:1167
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "தேர்வு செய்த எல்லா செய்திகளையும் பின் தொடர்க குறிப்பை முடிந்தது என குறி"
 
-#: ../mail/e-mail-reader.c:1171
+#: ../mail/e-mail-reader.c:1172
 msgid "Follow _Up..."
 msgstr "(_U)தொடர்..."
 
-#: ../mail/e-mail-reader.c:1173
+#: ../mail/e-mail-reader.c:1174
 msgid "Flag the selected messages for follow-up"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளுக்கு பின் தொடர குறி இடுக"
 
-#: ../mail/e-mail-reader.c:1178
+#: ../mail/e-mail-reader.c:1179
 msgid "_Attached"
 msgstr "இணைக்கப்பட்ட (_A)"
 
-#: ../mail/e-mail-reader.c:1180 ../mail/e-mail-reader.c:1187
+#: ../mail/e-mail-reader.c:1181 ../mail/e-mail-reader.c:1188
 msgid "Forward the selected message to someone as an attachment"
 msgstr "தேர்வு செய்த செய்தியை இணைப்பாக மற்றவருக்கு அனுப்பு"
 
-#: ../mail/e-mail-reader.c:1185
+#: ../mail/e-mail-reader.c:1186
 msgid "Forward As _Attached"
 msgstr "_A இணத்து மேலனுப்புக"
 
-#: ../mail/e-mail-reader.c:1192
+#: ../mail/e-mail-reader.c:1193
 msgid "_Inline"
 msgstr "உள்ளே (_I)"
 
-#: ../mail/e-mail-reader.c:1194 ../mail/e-mail-reader.c:1201
+#: ../mail/e-mail-reader.c:1195 ../mail/e-mail-reader.c:1202
 msgid "Forward the selected message in the body of a new message"
 msgstr "புதிய செய்தியிலுள் தேர்வு செய்த செய்தியை சேர்த்து புதிய செய்தியாக அனுப்பு"
 
-#: ../mail/e-mail-reader.c:1199
+#: ../mail/e-mail-reader.c:1200
 msgid "Forward As _Inline"
 msgstr "_I உள்ளடக்கி மேலனுப்புக"
 
-#: ../mail/e-mail-reader.c:1206
+#: ../mail/e-mail-reader.c:1207
 msgid "_Quoted"
 msgstr "குறிப்பிடப்பட்ட (_Q)"
 
-#: ../mail/e-mail-reader.c:1208 ../mail/e-mail-reader.c:1215
+#: ../mail/e-mail-reader.c:1209 ../mail/e-mail-reader.c:1216
 msgid "Forward the selected message quoted like a reply"
 msgstr "தேர்வு செய்த செய்தியை பதில் என குறித்து மற்றவருக்கு அனுப்பு"
 
-#: ../mail/e-mail-reader.c:1213
+#: ../mail/e-mail-reader.c:1214
 msgid "Forward As _Quoted"
 msgstr "_Q மேற்கோள்காட்டி மேலனுப்புக"
 
-#: ../mail/e-mail-reader.c:1220
+#: ../mail/e-mail-reader.c:1221
 msgid "_Load Images"
 msgstr "படங்களை ஏற்று (_L)"
 
-#: ../mail/e-mail-reader.c:1222
+#: ../mail/e-mail-reader.c:1223
 msgid "Force images in HTML mail to be loaded"
 msgstr "சித்திரங்களை ஹெச்டிஎம்எல்  மின்னஞ்சலாக ஏற்ற வலியுறுத்து"
 
-#: ../mail/e-mail-reader.c:1227
+#: ../mail/e-mail-reader.c:1228
 msgid "_Important"
 msgstr "முக்கியம் (_I)"
 
-#: ../mail/e-mail-reader.c:1229
+#: ../mail/e-mail-reader.c:1230
 msgid "Mark the selected messages as important"
 msgstr "தேர்வு செய்த செய்திகளை முக்கியம் என குறிக்கவும்"
 
-#: ../mail/e-mail-reader.c:1234
+#: ../mail/e-mail-reader.c:1235
 msgid "_Junk"
 msgstr "தேவையற்றவை (_J)"
 
-#: ../mail/e-mail-reader.c:1236
+#: ../mail/e-mail-reader.c:1237
 msgid "Mark the selected messages as junk"
 msgstr "தேர்வு செய்த செய்திகளை தேவையற்றது என குறிக்கவும்"
 
-#: ../mail/e-mail-reader.c:1241
+#: ../mail/e-mail-reader.c:1242
 msgid "_Not Junk"
 msgstr "தேவையற்றதல்ல (_N)"
 
-#: ../mail/e-mail-reader.c:1243
+#: ../mail/e-mail-reader.c:1244
 msgid "Mark the selected messages as not being junk"
 msgstr "தேர்வு செய்த செய்திகளை தேவையற்ற செய்திகள் இல்லை என குறிப்பிடு"
 
-#: ../mail/e-mail-reader.c:1248
+#: ../mail/e-mail-reader.c:1249
 msgid "_Read"
 msgstr "படி (_R)"
 
-#: ../mail/e-mail-reader.c:1250
+#: ../mail/e-mail-reader.c:1251
 msgid "Mark the selected messages as having been read"
 msgstr "தேர்வு செய்த செய்திகளை படிக்கப்பட்டது என குறிக்கவும்"
 
-#: ../mail/e-mail-reader.c:1255
+#: ../mail/e-mail-reader.c:1256
 msgid "Uni_mportant"
 msgstr "முக்கியமில்லாத (_m)"
 
-#: ../mail/e-mail-reader.c:1257
+#: ../mail/e-mail-reader.c:1258
 msgid "Mark the selected messages as unimportant"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளை முக்கியமில்லை என குறி "
 
-#: ../mail/e-mail-reader.c:1262
+#: ../mail/e-mail-reader.c:1263
 msgid "_Unread"
 msgstr "படிக்காதவை (_U)"
 
-#: ../mail/e-mail-reader.c:1264
+#: ../mail/e-mail-reader.c:1265
 msgid "Mark the selected messages as not having been read"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளை படித்ததாக குறி "
 
-#: ../mail/e-mail-reader.c:1269
+#: ../mail/e-mail-reader.c:1270
 msgid "_Edit as New Message..."
 msgstr "(_E)புதிய செய்தியாக தொகு..."
 
-#: ../mail/e-mail-reader.c:1271
+#: ../mail/e-mail-reader.c:1272
 msgid "Open the selected messages in the composer for editing"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளை திருத்த தொகுப்பியில் திற"
 
-#: ../mail/e-mail-reader.c:1276
+#: ../mail/e-mail-reader.c:1277
 msgid "Compose _New Message"
 msgstr "(_N)புதிய செய்தியை தயாரி"
 
-#: ../mail/e-mail-reader.c:1278
+#: ../mail/e-mail-reader.c:1279
 msgid "Open a window for composing a mail message"
 msgstr "மின்னஞ்சல் செய்தியை உருவாக்க சாளரத்தை திறக்கவும்"
 
-#: ../mail/e-mail-reader.c:1283
+#: ../mail/e-mail-reader.c:1284
 msgid "_Open in New Window"
 msgstr "புதிய சாளரத்தில் திற (_O)"
 
-#: ../mail/e-mail-reader.c:1285
+#: ../mail/e-mail-reader.c:1286
 msgid "Open the selected messages in a new window"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளை புதிய சாளரத்தில் திற"
 
-#: ../mail/e-mail-reader.c:1290
+#: ../mail/e-mail-reader.c:1291
 msgid "_Move to Folder..."
 msgstr "(_M)அடைவிற்கு நகர்த்து..."
 
-#: ../mail/e-mail-reader.c:1292
+#: ../mail/e-mail-reader.c:1293
 msgid "Move selected messages to another folder"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளை வேறு அடைவுக்கு நகர்த்து"
 
-#: ../mail/e-mail-reader.c:1297
+#: ../mail/e-mail-reader.c:1298
 msgid "_Next Message"
 msgstr "அடுத்த செய்தி (_N)"
 
-#: ../mail/e-mail-reader.c:1299
+#: ../mail/e-mail-reader.c:1300
 msgid "Display the next message"
 msgstr "அடுத்த செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1304
+#: ../mail/e-mail-reader.c:1305
 msgid "Next _Important Message"
 msgstr "(_I)அடுத்த முக்கியமான செய்தி"
 
-#: ../mail/e-mail-reader.c:1306
+#: ../mail/e-mail-reader.c:1307
 msgid "Display the next important message"
 msgstr "அடுத்த முக்கிய செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1311
+#: ../mail/e-mail-reader.c:1312
 msgid "Next _Thread"
 msgstr "(_T)அடுத்த இழை"
 
-#: ../mail/e-mail-reader.c:1313
+#: ../mail/e-mail-reader.c:1314
 msgid "Display the next thread"
 msgstr "அடுத்த இழையை காட்டுக"
 
-#: ../mail/e-mail-reader.c:1318
+#: ../mail/e-mail-reader.c:1319
 msgid "Next _Unread Message"
 msgstr "(_U)அடுத்த படிக்காத செய்தி"
 
-#: ../mail/e-mail-reader.c:1320
+#: ../mail/e-mail-reader.c:1321
 msgid "Display the next unread message"
 msgstr "அடுத்த படிக்காத செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1325
+#: ../mail/e-mail-reader.c:1326
 msgid "_Previous Message"
 msgstr "(_P)முந்தைய செய்தி"
 
-#: ../mail/e-mail-reader.c:1327
+#: ../mail/e-mail-reader.c:1328
 msgid "Display the previous message"
 msgstr "முந்தைய செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1332
+#: ../mail/e-mail-reader.c:1333
 msgid "Pr_evious Important Message"
 msgstr "(_e)முன்பு உள்வாங்கிய செய்தி"
 
-#: ../mail/e-mail-reader.c:1334
+#: ../mail/e-mail-reader.c:1335
 msgid "Display the previous important message"
 msgstr "முந்தைய முக்கிய செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1339
+#: ../mail/e-mail-reader.c:1340
 msgid "P_revious Unread Message"
 msgstr "(_r)முந்தைய படிக்காத செய்தி"
 
-#: ../mail/e-mail-reader.c:1341
+#: ../mail/e-mail-reader.c:1342
 msgid "Display the previous unread message"
 msgstr "முந்தைய படிக்காத செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1348
+#: ../mail/e-mail-reader.c:1349
 msgid "Print this message"
 msgstr "இந்த செய்தியை அச்சடி"
 
-#: ../mail/e-mail-reader.c:1355
+#: ../mail/e-mail-reader.c:1356
 msgid "Preview the message to be printed"
 msgstr "அச்சடிக்க வேண்டிய செய்தியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1360
+#: ../mail/e-mail-reader.c:1361
 msgid "Re_direct"
 msgstr "(_d)திசைமாற்று"
 
-#: ../mail/e-mail-reader.c:1362
+#: ../mail/e-mail-reader.c:1363
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "தேர்வு செய்யப்பட்ட செய்தியை வேறுஒருவருக்கு அனுப்பு(திசைமாற்று)"
 
-#: ../mail/e-mail-reader.c:1367
-#: ../modules/calendar/e-cal-shell-view-actions.c:1404
+#: ../mail/e-mail-reader.c:1368
+#: ../modules/calendar/e-cal-shell-view-actions.c:1418
 #: ../modules/mail/e-mail-attachment-handler.c:141
 msgid "Reply to _All"
 msgstr "(_A) அனைவருக்கும் பதிலளி "
 
-#: ../mail/e-mail-reader.c:1369
+#: ../mail/e-mail-reader.c:1370
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "தேர்வு செய்யப்பட்ட செய்தி பெற்ற எல்லோருக்கும் பதில் தயார் செய்"
 
-#: ../mail/e-mail-reader.c:1374
+#: ../mail/e-mail-reader.c:1375
 msgid "Reply to _List"
 msgstr "(_L)குழுவிற்கு பதிலளி "
 
-#: ../mail/e-mail-reader.c:1376
+#: ../mail/e-mail-reader.c:1377
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "தேர்வு செய்யப்பட்ட மின்னஞ்சல் பட்டியல் செய்திக்கு பதிலை தயார் செய்."
 
-#: ../mail/e-mail-reader.c:1381
+#: ../mail/e-mail-reader.c:1382
 #: ../modules/mail/e-mail-attachment-handler.c:148
 msgid "_Reply to Sender"
 msgstr "(_R)அனுப்பியவருக்கு பதிலளி "
 
-#: ../mail/e-mail-reader.c:1383
+#: ../mail/e-mail-reader.c:1384
 msgid "Compose a reply to the sender of the selected message"
 msgstr "இந்த செய்தியை அனுப்பியவருக்கு பதிலை தயார் செய்"
 
-#: ../mail/e-mail-reader.c:1388
+#: ../mail/e-mail-reader.c:1389
 msgid "_Save as mbox..."
 msgstr "_S எம்பாக்ஸ் எனச்சேமி..."
 
-#: ../mail/e-mail-reader.c:1390
+#: ../mail/e-mail-reader.c:1391
 msgid "Save selected messages as an mbox file"
 msgstr "தேர்ந்தெடுக்கப்பட்ட செய்திகளை எம்பாக்ஸ் கோப்பாக சேமி"
 
-#: ../mail/e-mail-reader.c:1395
+#: ../mail/e-mail-reader.c:1396
 msgid "Search Folder from Mailing _List..."
 msgstr "அஞ்சல் பட்டியலில் இருந்து அடைவினை தேடு... (_L)"
 
-#: ../mail/e-mail-reader.c:1397
+#: ../mail/e-mail-reader.c:1398
 msgid "Create a search folder for this mailing list"
 msgstr "இந்த அஞ்சல் பட்டியலுக்கு தேடுதல் அடைவு ஒன்று உருவாக்குக"
 
-#: ../mail/e-mail-reader.c:1402
+#: ../mail/e-mail-reader.c:1403
 msgid "Search Folder from Recipien_ts..."
 msgstr "_t தேடுதல் அடைவு பெறுனர்களிடமிருந்து..."
 
-#: ../mail/e-mail-reader.c:1404
+#: ../mail/e-mail-reader.c:1405
 msgid "Create a search folder for these recipients"
 msgstr "இந்த பெறுனர்களுக்கு தேடுதல் அடைவு ஒன்று உருவாக்குக"
 
-#: ../mail/e-mail-reader.c:1409
+#: ../mail/e-mail-reader.c:1410
 msgid "Search Folder from Sen_der..."
 msgstr "அனுப்புனரிடம் இருந்து அடைவினை தேடு... (_n)"
 
-#: ../mail/e-mail-reader.c:1411
+#: ../mail/e-mail-reader.c:1412
 msgid "Create a search folder for this sender"
 msgstr "இந்த அனுப்புனருக்கு தேடுதல் அடைவு ஒன்று உருவாக்குக"
 
-#: ../mail/e-mail-reader.c:1416
+#: ../mail/e-mail-reader.c:1417
 msgid "Search Folder from S_ubject..."
 msgstr "பொருளில் இருந்து அடைவினை தேடு... (_u)"
 
-#: ../mail/e-mail-reader.c:1418
+#: ../mail/e-mail-reader.c:1419
 msgid "Create a search folder for this subject"
 msgstr "இந்த பொருளுக்கு தேடுதல் அடைவு ஒன்று உருவாக்குக"
 
-#: ../mail/e-mail-reader.c:1423
+#: ../mail/e-mail-reader.c:1424
 msgid "_Message Source"
 msgstr "செய்தி மூலம் (_M)"
 
-#: ../mail/e-mail-reader.c:1425
+#: ../mail/e-mail-reader.c:1426
 msgid "Show the raw email source of the message"
 msgstr "மின்னஞ்சல் செய்தியின் மூலத்தை காட்டு"
 
-#: ../mail/e-mail-reader.c:1437
+#: ../mail/e-mail-reader.c:1438
 msgid "_Undelete Message"
 msgstr "அழிக்காத செய்தி (_U)"
 
-#: ../mail/e-mail-reader.c:1439
+#: ../mail/e-mail-reader.c:1440
 msgid "Undelete the selected messages"
 msgstr "தேர்ந்தெடுத்த செய்திகளை அழிக்க வேண்டாம்"
 
-#: ../mail/e-mail-reader.c:1444
+#: ../mail/e-mail-reader.c:1445
 msgid "_Normal Size"
 msgstr "இயல்பாக அளவு (_N)"
 
-#: ../mail/e-mail-reader.c:1446
+#: ../mail/e-mail-reader.c:1447
 msgid "Reset the text to its original size"
 msgstr "உரையை இயல்பான அளவில் காட்டு"
 
-#: ../mail/e-mail-reader.c:1451
+#: ../mail/e-mail-reader.c:1452
 msgid "_Zoom In"
 msgstr "சிறிதாக்கு (_Z)"
 
-#: ../mail/e-mail-reader.c:1453
+#: ../mail/e-mail-reader.c:1454
 msgid "Increase the text size"
 msgstr "உரையின் அளவை பெரிதாக்கு"
 
-#: ../mail/e-mail-reader.c:1458
+#: ../mail/e-mail-reader.c:1459
 msgid "Zoom _Out"
 msgstr "பெரிதாக்கு (_O)"
 
-#: ../mail/e-mail-reader.c:1460
+#: ../mail/e-mail-reader.c:1461
 msgid "Decrease the text size"
 msgstr "உரையின் அளவை சிறிதாக்கு"
 
-#: ../mail/e-mail-reader.c:1467
+#: ../mail/e-mail-reader.c:1468
 msgid "Create R_ule"
 msgstr "விதியை உருவாக்கு (_u)"
 
-#: ../mail/e-mail-reader.c:1474
+#: ../mail/e-mail-reader.c:1475
 msgid "Ch_aracter Encoding"
 msgstr "எழுத்துரு குறிமுறை (_a)"
 
-#: ../mail/e-mail-reader.c:1481
+#: ../mail/e-mail-reader.c:1482
 msgid "F_orward As"
 msgstr "_o இப்படி மேலனுப்புக"
 
-#: ../mail/e-mail-reader.c:1488
+#: ../mail/e-mail-reader.c:1489
 msgid "_Go To"
 msgstr "(_G) இங்கே செல்"
 
-#: ../mail/e-mail-reader.c:1495
+#: ../mail/e-mail-reader.c:1496
 msgid "Mar_k As"
 msgstr "இப்படி குறிக்கவும் (_k)"
 
-#: ../mail/e-mail-reader.c:1502
+#: ../mail/e-mail-reader.c:1503
 msgid "_Message"
 msgstr "செய்தி (_M)"
 
-#: ../mail/e-mail-reader.c:1509
+#: ../mail/e-mail-reader.c:1510
 msgid "_Zoom"
 msgstr "அளவிடு (_Z)"
 
-#: ../mail/e-mail-reader.c:1534
+#: ../mail/e-mail-reader.c:1535
 msgid "Mark for Follo_w Up..."
 msgstr "தொடர்தலுக்கு குறிக்கவும்... (_w)"
 
-#: ../mail/e-mail-reader.c:1542
+#: ../mail/e-mail-reader.c:1543
 msgid "Mark as _Important"
 msgstr "முக்கியம் என குறி (_I)"
 
-#: ../mail/e-mail-reader.c:1546
+#: ../mail/e-mail-reader.c:1547
 msgid "Mark as _Junk"
 msgstr "பயனற்றது என குறிக்கவும் (_J)"
 
-#: ../mail/e-mail-reader.c:1550
+#: ../mail/e-mail-reader.c:1551
 msgid "Mark as _Not Junk"
 msgstr "பயனற்றது இல்லை என குறிக்கவும் (_N)"
 
-#: ../mail/e-mail-reader.c:1554
+#: ../mail/e-mail-reader.c:1555
 msgid "Mar_k as Read"
 msgstr "(_k) படித்தது என குறி"
 
-#: ../mail/e-mail-reader.c:1558
+#: ../mail/e-mail-reader.c:1559
 msgid "Mark as Uni_mportant"
 msgstr "முக்கியமில்லை என குறிக்கவும் (_m)"
 
-#: ../mail/e-mail-reader.c:1562
+#: ../mail/e-mail-reader.c:1563
 msgid "Mark as _Unread"
 msgstr "படிக்காதவை என குறி (_U)"
 
-#: ../mail/e-mail-reader.c:1598
+#: ../mail/e-mail-reader.c:1599
 msgid "_Caret Mode"
 msgstr "காரட் முறை (_C)"
 
-#: ../mail/e-mail-reader.c:1600
+#: ../mail/e-mail-reader.c:1601
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "செய்தியில் சிமிட்டும் நிலைகாட்டியை காட்டு"
 
-#: ../mail/e-mail-reader.c:1606
+#: ../mail/e-mail-reader.c:1607
 msgid "All Message _Headers"
 msgstr "அனைத்து செய்தி தலைப்புகள் (_H)"
 
-#: ../mail/e-mail-reader.c:1608
+#: ../mail/e-mail-reader.c:1609
 msgid "Show messages with all email headers"
 msgstr "எல்லா மின்னஞ்சல் தலைப்புகளோடும் செய்திகளை காட்டு"
 
-#: ../mail/e-mail-reader.c:1831
+#: ../mail/e-mail-reader.c:1833
 msgid "Unable to retrieve message"
 msgstr "செய்தியை பெற முடியவில்லை"
 
-#: ../mail/e-mail-reader.c:1876 ../mail/mail-ops.c:1849
+#: ../mail/e-mail-reader.c:1836 ../mail/e-mail-reader.c:1884
+#: ../mail/mail-ops.c:1849
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "'%s' செய்தியை மீட்கிறது "
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2370
+#: ../mail/e-mail-reader.c:2395
 #: ../plugins/google-account-setup/google-source.c:304
 #: ../plugins/google-account-setup/google-source.c:534
 #: ../plugins/google-account-setup/google-source.c:656
@@ -9878,33 +9896,33 @@ msgstr "'%s' செய்தியை மீட்கிறது "
 msgid "Default"
 msgstr "மின்னிருப்பு"
 
-#: ../mail/e-mail-reader.c:2489
+#: ../mail/e-mail-reader.c:2514
 #: ../modules/mail/e-mail-attachment-handler.c:134
 msgid "_Forward"
 msgstr "(_F)அனுப்பு"
 
-#: ../mail/e-mail-reader.c:2490
+#: ../mail/e-mail-reader.c:2515
 msgid "Forward the selected message to someone"
 msgstr "தேர்வு செய்த செய்தியை மற்றவருக்கு அனுப்பு"
 
-#: ../mail/e-mail-reader.c:2534 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:2559 ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:753
 msgid "Delete"
 msgstr "நீக்கு"
 
-#: ../mail/e-mail-reader.c:2538
-#: ../modules/calendar/e-cal-shell-view-actions.c:1250
+#: ../mail/e-mail-reader.c:2563
+#: ../modules/calendar/e-cal-shell-view-actions.c:1264
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "அடுத்து"
 
-#: ../mail/e-mail-reader.c:2542
-#: ../modules/calendar/e-cal-shell-view-actions.c:1243
+#: ../mail/e-mail-reader.c:2567
+#: ../modules/calendar/e-cal-shell-view-actions.c:1257
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "முந்தைய"
 
-#: ../mail/e-mail-reader.c:2546 ../mail/mail-dialogs.ui.h:18
+#: ../mail/e-mail-reader.c:2571 ../mail/mail-dialogs.ui.h:18
 msgid "Reply"
 msgstr "பதில்"
 
@@ -9959,29 +9977,29 @@ msgctxt "mail-signature"
 msgid "None"
 msgstr "எதுவுமில்லை"
 
-#: ../mail/em-account-editor.c:965
+#: ../mail/em-account-editor.c:966
 msgid "Never"
 msgstr "எப்போதுமில்லை"
 
-#: ../mail/em-account-editor.c:966
+#: ../mail/em-account-editor.c:967
 msgid "Always"
 msgstr "எப்போதும்"
 
-#: ../mail/em-account-editor.c:967
+#: ../mail/em-account-editor.c:968
 msgid "Ask for each message"
 msgstr "ஒவ்வொரு செய்திக்கும் கேட்கவும்"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1699 ../widgets/misc/e-account-tree-view.c:124
+#: ../mail/em-account-editor.c:1705 ../widgets/misc/e-account-tree-view.c:124
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "எதுவுமில்லை"
 
-#: ../mail/em-account-editor.c:2055
+#: ../mail/em-account-editor.c:2061
 msgid "Mail Configuration"
 msgstr "மின்னஞ்சல் அமைப்பு"
 
-#: ../mail/em-account-editor.c:2056
+#: ../mail/em-account-editor.c:2062
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -9991,12 +10009,12 @@ msgstr ""
 "\n"
 "\"Forward\" என்பதை க்ளிக் செய்து துவங்கவும்."
 
-#: ../mail/em-account-editor.c:2058 ../mail/em-account-editor.c:2194
+#: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2200
 #: ../mail/mail-config.ui.h:58
 msgid "Identity"
 msgstr "அடையாளம்"
 
-#: ../mail/em-account-editor.c:2059
+#: ../mail/em-account-editor.c:2065
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -10006,20 +10024,20 @@ msgstr ""
 "செய்ய தேவையில்லை.விருப்பப்பட்டால் உங்கள் மின்னஞ்சலோடு செல்லவேண்டிய தகவல்களை பூர்த்தி "
 "செய்யவும்."
 
-#: ../mail/em-account-editor.c:2061 ../mail/em-account-editor.c:2231
+#: ../mail/em-account-editor.c:2067 ../mail/em-account-editor.c:2237
 #: ../mail/mail-config.ui.h:90
 msgid "Receiving Email"
 msgstr "மின்னஞ்சல் பெறப்படுகிறது"
 
-#: ../mail/em-account-editor.c:2062
+#: ../mail/em-account-editor.c:2068
 msgid "Please configure the following account settings."
 msgstr "கீழுள்ள கணக்கு அமைப்புகளை அமைக்கவும்"
 
-#: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2708
+#: ../mail/em-account-editor.c:2070 ../mail/em-account-editor.c:2714
 msgid "Sending Email"
 msgstr "மின்னஞ்சல் அனுப்பப்படுகிறது"
 
-#: ../mail/em-account-editor.c:2065
+#: ../mail/em-account-editor.c:2071
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -10027,11 +10045,11 @@ msgstr ""
 "நீங்கள் மின்னஞ்சல் அனுப்ப விரும்பும் முறையை உள்ளிடவும்தெரியவில்லை என்றால் உங்கள் கணினி "
 "மேலாளரை கேட்கவும்."
 
-#: ../mail/em-account-editor.c:2067
+#: ../mail/em-account-editor.c:2073
 msgid "Account Management"
 msgstr "கணக்கு மேலாண்மை"
 
-#: ../mail/em-account-editor.c:2068
+#: ../mail/em-account-editor.c:2074
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -10039,11 +10057,11 @@ msgstr ""
 "தயவு செய்து இந்த கணக்குக்கு கீழுள்ள இடைவெளியில் விவரமான பெயரை உள்ளிடுக. இது "
 "காட்டுவதற்கு மட்டும் பயன்படும்."
 
-#: ../mail/em-account-editor.c:2072
+#: ../mail/em-account-editor.c:2078
 msgid "Done"
 msgstr "முடிந்தது"
 
-#: ../mail/em-account-editor.c:2073
+#: ../mail/em-account-editor.c:2079
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -10058,48 +10076,48 @@ msgstr ""
 "\n"
 "\"Apply\" என்பதை சொடுக்கி செய்து சேமிக்கவும்"
 
-#: ../mail/em-account-editor.c:2518
+#: ../mail/em-account-editor.c:2524
 msgid "Check for _new messages every"
 msgstr "புதிய மின்னஞ்சல்களை கால இடைவெளிக்குள் தானாக சோதி"
 
-#: ../mail/em-account-editor.c:2526
+#: ../mail/em-account-editor.c:2532
 msgid "minu_tes"
 msgstr "(_t) நிமிடங்கள்"
 
-#: ../mail/em-account-editor.c:2772 ../mail/mail-config.ui.h:31
+#: ../mail/em-account-editor.c:2778 ../mail/mail-config.ui.h:31
 msgid "Defaults"
 msgstr "இயல்பானவைகள்"
 
-#: ../mail/em-account-editor.c:2834 ../mail/mail-config.ui.h:100
+#: ../mail/em-account-editor.c:2840 ../mail/mail-config.ui.h:100
 msgid "Security"
 msgstr "பாதுகாப்பு"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2871 ../mail/em-account-editor.c:2939
+#: ../mail/em-account-editor.c:2877 ../mail/em-account-editor.c:2945
 msgid "Receiving Options"
 msgstr "பெறும் தேர்வுகள்"
 
-#: ../mail/em-account-editor.c:2872 ../mail/em-account-editor.c:2940
+#: ../mail/em-account-editor.c:2878 ../mail/em-account-editor.c:2946
 msgid "Checking for New Messages"
 msgstr "புதிய மின்னஞ்சலுக்காக சோதிக்கிறது"
 
-#: ../mail/em-account-editor.c:3408
+#: ../mail/em-account-editor.c:3414
 msgid "Account Editor"
 msgstr "கணக்கு தொகுப்பி"
 
-#: ../mail/em-account-editor.c:3408
+#: ../mail/em-account-editor.c:3414
 msgid "Evolution Account Assistant"
 msgstr "எவல்யூஷன் கணக்கு உதவி"
 
-#: ../mail/em-composer-utils.c:1954
+#: ../mail/em-composer-utils.c:1948
 msgid "an unknown sender"
 msgstr "தெரியாத அனுப்புநர்"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2001
+#: ../mail/em-composer-utils.c:1995
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10107,15 +10125,15 @@ msgstr ""
 " ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} அன்று "
 "${TimeZone}, ${Sender} எழுதியது:"
 
-#: ../mail/em-composer-utils.c:2145
+#: ../mail/em-composer-utils.c:2139
 msgid "-----Original Message-----"
 msgstr "-----மூல செய்தி----"
 
-#: ../mail/em-composer-utils.c:2326
+#: ../mail/em-composer-utils.c:2320
 msgid "Posting destination"
 msgstr "சேருமிடத்தில் சமர்பிக்கிறது"
 
-#: ../mail/em-composer-utils.c:2327
+#: ../mail/em-composer-utils.c:2321
 msgid "Choose folders to post the message to."
 msgstr "செய்தியை சமர்பிப்பதற்கான அடைவை தேர்வு செய்"
 
@@ -10424,7 +10442,7 @@ msgstr "ஏற்றுகிறது..."
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" இல் உள்ள அடைவுகளை சோதிக்கிறது"
 
-#: ../mail/em-folder-tree.c:589
+#: ../mail/em-folder-tree.c:601
 msgid "Folder names cannot contain '/'"
 msgstr "அடைவு பெயர் '/'ஐ கொண்டிருக்கக்கூடாது"
 
@@ -10446,37 +10464,37 @@ msgstr "அடைவு பெயர் '/'ஐ கொண்டிருக்க
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:1071
+#: ../mail/em-folder-tree.c:1083
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1277
+#: ../mail/em-folder-tree.c:1289
 msgid "Mail Folder Tree"
 msgstr "மின்னஞ்சல் அடைவு கிளை"
 
-#: ../mail/em-folder-tree.c:1477 ../mail/em-folder-utils.c:99
+#: ../mail/em-folder-tree.c:1489 ../mail/em-folder-utils.c:99
 #, c-format
 msgid "Moving folder %s"
 msgstr "%s அடைவை நகர்த்துகிறது"
 
-#: ../mail/em-folder-tree.c:1479 ../mail/em-folder-utils.c:101
+#: ../mail/em-folder-tree.c:1491 ../mail/em-folder-utils.c:101
 #, c-format
 msgid "Copying folder %s"
 msgstr "%s அடைவை நகலெடுக்கிறது"
 
-#: ../mail/em-folder-tree.c:1486 ../mail/message-list.c:2103
+#: ../mail/em-folder-tree.c:1498 ../mail/message-list.c:2103
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "%s க்கு செய்திகளை நகர்த்துகிறது"
 
-#: ../mail/em-folder-tree.c:1488 ../mail/message-list.c:2105
+#: ../mail/em-folder-tree.c:1500 ../mail/message-list.c:2105
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "%s இல் செய்திகளை நகலெடுக்கிறது"
 
-#: ../mail/em-folder-tree.c:1503
+#: ../mail/em-folder-tree.c:1515
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "மேல்மட்ட கிடங்கிற்கு செய்தி(களை) அனுப்ப முடியாது"
 
@@ -10488,23 +10506,23 @@ msgstr "அடைவை இங்கு நகர்த்துக"
 msgid "Copy Folder To"
 msgstr "அடைவில் நகலெடு..."
 
-#: ../mail/em-folder-utils.c:499
+#: ../mail/em-folder-utils.c:507
 #: ../plugins/groupwise-features/share-folder-common.c:141
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "`%s' அடைவை உருவாக்குகிறது"
 
-#: ../mail/em-folder-utils.c:662
+#: ../mail/em-folder-utils.c:670
 msgid "Create Folder"
 msgstr "அடைவை உருவாக்கு"
 
-#: ../mail/em-folder-utils.c:663
+#: ../mail/em-folder-utils.c:671
 #: ../plugins/groupwise-features/install-shared.c:175
 #: ../plugins/groupwise-features/share-folder-common.c:350
 msgid "Specify where to create the folder:"
 msgstr "அடைவை உருவாக்க வேண்டுமா என குறிப்பிடவும்"
 
-#: ../mail/em-folder-utils.c:679
+#: ../mail/em-folder-utils.c:687
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
 msgstr "அடைவு \"%s\"லிருந்து சந்தா நீக்குகிறது"
@@ -12879,7 +12897,7 @@ msgstr " '%s' க்கான  தேடு அடைவுகளை ஏற்�
 msgid "Edit Search Folder"
 msgstr "தேடு அடைவை தொகு"
 
-#: ../mail/mail-vfolder.c:1265
+#: ../mail/mail-vfolder.c:1274
 msgid "New Search Folder"
 msgstr "புதிய தேடல் அடைவு"
 
@@ -13144,10 +13162,14 @@ msgid ""
 msgstr "இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நீக்கப்படும்."
 
 #: ../mail/mail.error.xml.h:61
+msgid "If you delete the folder, all of its contents will be deleted permanently."
+msgstr "இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து உள்ளடக்கங்களும் நீக்கப்படும்."
+
+#: ../mail/mail.error.xml.h:62
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "தொடர்ந்தால் அனைத்து பதிலாள் கணக்குகளும் நிரந்தரமாக நீக்கப்படும்."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:63
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -13155,33 +13177,33 @@ msgstr ""
 "தொடர்ந்தால் கணக்கு விவரங்களும் அனைத்து\n"
 "பதிலாள் விவரங்களும் நிரந்தரமாக நீக்கப்படும்."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:65
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "தொடர்ந்தால், இந்த கணக்கு தகவல்கள் நிரந்தரமாக நீக்கப்படும்"
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:66
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr "வெளியேறினால் எவல்யூஷன் மீண்டும் துவங்கும் வரை இந்த செய்தி அனுப்பப்படாமல் இருக்கும்."
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:67
 msgid "Ignore"
 msgstr "தவிர்"
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:68
 msgid "Invalid authentication"
 msgstr "செல்லாத அனுமதி முறைமை"
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:69
 msgid "Mail Deletion Failed"
 msgstr "அஞ்சல் நீக்கல் தோல்வியுற்றது"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:70
 msgid "Mail filters automatically updated."
 msgstr "மின்னஞ்சல் வடிகட்டி தானாக மேம்படுத்தப்பட்டது"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:71
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -13192,27 +13214,27 @@ msgstr ""
 "தலைப்பை பயன்படுத்தும். இந்த தலைப்பை தேர்வு செய்தால் நீங்கள் மின்னஞ்சல் அனுப்பியவர்களில் பட்டியல் "
 "தெரியும். இதை தவிர்க்க ஒரு பெறுநர் முகவரி மற்றும் ஒரு கரிநகல் முகவரியை உள்ளிடவும்."
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "Missing folder."
 msgstr "அடைவை காணவில்லை"
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:74
 msgid "No sources selected."
 msgstr "மூலம் எதுவும் தேர்வு செய்யப்படவில்லை"
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:75
 msgid "Opening too many messages at once may take a long time."
 msgstr "ஒரே நேரத்தில் பல செய்திகளை திறக்கும் போது நீண்ட நேரம் எடுக்கும்."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid "Please check your account settings and try again."
 msgstr "உங்கள் கணக்கு அமைவுகளை சரிபார்த்து மீண்டும் முயற்சி செய்யவும்."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid "Please enable the account or send using another account."
 msgstr "கணக்கினை செயல்படுத்தவும் அல்லது வேறு கணக்கு மூலம் அனுப்பவும்."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -13220,7 +13242,7 @@ msgstr ""
 "பெறுநர் புலத்தில் சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும். பெறுநர் புலத்தின் மேல் க்ளிக் "
 "செய்து முகவரியை தேடலாம்."
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -13230,59 +13252,63 @@ msgstr ""
 "உறுதிப்படுத்திக்கொள்ளவும். ஹெச்டிஎம்எல்  மின்னஞ்சல்:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid "Please provide an unique name to identify this signature."
 msgstr "இந்த கையெழுத்துக்கு தயவு செய்து தனிப்பட்ட பெயர் தருக"
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:82
 msgid "Please wait."
 msgstr "காத்திருக்கவும்."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:83
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "பழைய மின்னஞ்சல் அடைவு \"{0}\" ஐ  நகர்த்துவதில் சிக்கல் ."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:84
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "ஆதரவுள்ள உண்மைப்படுத்தல் இயக்க பட்டியலுக்கு வழங்கனை விசாரிக்கிறது."
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
 msgid "Read receipt requested."
 msgstr "படித்த இரசீது கேட்கப்படுகிறது."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:86
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "உண்மையாகவே \"{0}\" அடைவையும் உப அடைவுகளையும் அழிக்க வேண்டுமா?"
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:87
+msgid "Really delete folder \"{0}\"?"
+msgstr "உண்மையாகவே \"{0}\" அடைவை அழிக்க வேண்டுமா?"
+
+#: ../mail/mail.error.xml.h:88
 msgid "Report Junk Failed"
 msgstr "குப்பை அறிக்கை செயல் தோல்வியுற்றதாக சொல்"
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:89
 msgid "Report Not Junk Failed"
 msgstr "குப்பை இல்லை அறிக்கை செயல் தோல்வியுற்றதாக சொல்."
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:90
 msgid "Search Folders automatically updated."
 msgstr "தேடும் அடைவுகள் தானாக மேம்படுத்தப்பட்டது"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:91
 msgid "Send Receipt"
 msgstr "ரசீது அனுப்பு"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:92
 msgid "Signature Already Exists"
 msgstr "கையொப்பம் ஏற்கனவே உள்ளது"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:93
 msgid "Synchronize"
 msgstr "ஒத்திசைவு"
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:94
 msgid "Synchronize folders locally for offline usage?"
 msgstr "வலை தொடர்பில்லாத பயனுக்கு அடைவுகளை ஒத்திசைவு செய்யவா?"
 
-#: ../mail/mail.error.xml.h:93
+#: ../mail/mail.error.xml.h:95
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
@@ -13290,7 +13316,7 @@ msgstr ""
 "எவல்யூஷன் சரியாக வேலை செய்ய கணினி அமைப்பு அடைவுகள் தேவை. அவற்றை மறுபெயரிட, நகர்த்த "
 "அல்லது நீக்க இயலாது."
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:96
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -13305,7 +13331,7 @@ msgstr ""
 "தலைப்பை பயன்படுத்தும். இந்த தலைப்பை தேர்வு செய்தால் நீங்கள் மின்னஞ்சல் அனுப்பியவர்களில் பட்டியல் "
 "தெரியும். இதை தவிர்க்க ஒரு பெறுநர் முகவரி மற்றும் ஒரு கரிநகல் முகவரியை உள்ளிடவும்."
 
-#: ../mail/mail.error.xml.h:97
+#: ../mail/mail.error.xml.h:99
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -13319,7 +13345,7 @@ msgstr ""
 "    \"{1}\"\n"
 "மேலும் மேம்படுத்தப்படுகிறது."
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13333,7 +13359,7 @@ msgstr ""
 "    \"{1}\"\n"
 "மற்றும் மேம்படுத்தப்படுகிறது."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:109
 msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
@@ -13341,7 +13367,7 @@ msgstr ""
 "பின் வரும் பெறுனர் செல்லுபடியாகும் மின்னஞ்சல் முகவரியாக காணப்படவில்லை:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:111
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
@@ -13349,11 +13375,11 @@ msgstr ""
 "பின் வரும் பெறுனர்கள் செல்லுபடியாகும் மின்னஞ்சல் முகவரிகளாக காணப்படவில்லை:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:113
 msgid "The script file must exist and be executable."
 msgstr "நிரல் கோப்பு இருக்க வேண்டும் மற்றும் இயக்கப்பட வேண்டும்"
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:114
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -13361,17 +13387,17 @@ msgstr ""
 "அடைவு கருத்து தொக்கி சேர்க்கப்பட்டு இருக்கலாம். \n"
 "தேவையானால் தேடுதல் அடைவு திருத்திக்கு சென்று தெளிவாக சேர்க்கவும்."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:116
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr "நீங்கள் தேர்ந்தெடுத்த கணக்கு செயல்படுத்தப்படவில்லை, எனவே செய்தியை அனுப்ப முடியாது"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:117
 msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "பெறுநர்கள் முகவரி குறிப்பிடப்படவில்லை, எனவே செய்தியை அனுப்ப முடியாது"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:118
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -13379,11 +13405,11 @@ msgstr ""
 "இந்த சேவையகம்  இது போன்ற அனுமதி முறைக்கு ஆதரவு தராது அல்லது எந்த  அனுமதி முறைக்கும் "
 "ஆதரவு இல்லை."
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:119
 msgid "This signature has been changed, but has not been saved."
 msgstr "இந்த கையொப்பம் மாற்றப்பட்ட து ஆனால் சேமிக்கப்படவில்லை"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:120
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
@@ -13391,29 +13417,29 @@ msgstr ""
 "இது தேர்ந்தெடுக்கப்பட்ட அடைவு மற்றும் அதன் துணை அடைவுகளில் அனைத்து செய்திகளையும் "
 "படித்ததாக குறிக்கும்."
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:121
 msgid "Unable to connect to the GroupWise server."
 msgstr "க்ரூப்வைஸ் சேவையகத்தினை இணைக்க முடியவில்லை."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:122
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr "இந்த கணக்கிற்கு வரைவு அடைவை திறக்க முடியவில்லை கணினி வரைவு அடைவை பயன்படுத்த வேண்டுமா?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:123
 msgid "Unable to read license file."
 msgstr "அங்கீகார கோப்பினை படிக்க முடியவில்லை."
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:124
 msgid "Use _Default"
 msgstr "(_D)இயல்பானதை பயன்படுத்து"
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:125
 msgid "Use default drafts folder?"
 msgstr "இயல்பான வரைவு அடைவை பயன்படுத்தவா?"
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:126
 msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual "
 "message from one of your local or remote folders.\n"
@@ -13422,31 +13448,31 @@ msgstr ""
 "எச்சரிக்கை: ஒரு தேடல் அடைவிலிருந்து செய்திகளை நீக்குவது உண்மையில் உங்களுடைய \n"
 " இன்னொரு உள்ளமை / தொலை அடைவிலிருந்து செய்திகளை நீக்கும்.  இதை நிச்சயம் செய்ய வேண்டுமா?"
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:128
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "நீங்கள்  இந்த அஞ்சலை நீக்க தேவையான அனுமதி இல்லை."
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:129
 msgid "You have not filled in all of the required information."
 msgstr "தேவையான அனைத்து தகவல்களையும் உள்ளிடவும்"
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:130
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "அனுப்பாத செய்தி உள்ளது, வெளியேற விருப்பமா?"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:131
 msgid "You may not create two accounts with the same name."
 msgstr "ஒரே பெயரில் இரண்டு கணக்குகளை உருவாக்க முடியாது"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:132
 msgid "You must name this Search Folder."
 msgstr "நீங்கள் இந்த தேடும் அடைவிற்கு பெயரிட வேண்டும்."
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:133
 msgid "You must specify a folder."
 msgstr "அடைவின் பெயரை குறிப்பிட வேண்டும்"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:134
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -13456,32 +13482,32 @@ msgstr ""
 "அடைவை தனியாக தேர்வு செய்தோ மற்றும்/அல்லது அனைத்து உள் அடைவுகளையும், தொலை அடைவுகளையும் "
 "அல்லது அனைத்தையும் தேர்வு செய்தோ குறிப்பிடலாம்."
 
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:136
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr " \"{0}\" சேவையகத்தில் \"{0}\" ஆக உள் அனுமதி  உங்களுக்கு மறுக்கப்பட்டது."
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:137
 msgid "_Append"
 msgstr "(_A)பின் எழுது"
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:138
 msgid "_Discard changes"
 msgstr "(_D)மாற்றத்தை நிராகரி"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:139
 msgid "_Do not Synchronize"
 msgstr "_ஒத்திசைவு செய்யாதே"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:140
 #: ../modules/mail/e-mail-shell-view-actions.c:862
 msgid "_Empty Trash"
 msgstr "(_E)குப்பை தொட்டியை காலி செய்"
 
-#: ../mail/mail.error.xml.h:139
+#: ../mail/mail.error.xml.h:141
 msgid "_Expunge"
 msgstr "(_E)அழிக்கவும்"
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:142
 msgid "_Open Messages"
 msgstr "செய்திகளை திற (_O)"
 
@@ -13618,27 +13644,27 @@ msgid "Subject - Trimmed"
 msgstr "பொருள் கட்டான "
 
 #: ../mail/searchtypes.xml.h:1
-#: ../modules/mail/e-mail-shell-view-actions.c:1273
+#: ../modules/mail/e-mail-shell-view-actions.c:1275
 msgid "Body contains"
 msgstr "உள்ளடக்கத்தில்"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1280
+#: ../modules/mail/e-mail-shell-view-actions.c:1282
 msgid "Message contains"
 msgstr "செய்தியில் உள்ளது"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1287
+#: ../modules/mail/e-mail-shell-view-actions.c:1289
 msgid "Recipients contain"
 msgstr "பெறுபவரில் உள்ளது"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1294
+#: ../modules/mail/e-mail-shell-view-actions.c:1296
 msgid "Sender contains"
 msgstr "அனுப்பியவரில் உள்ளது"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1301
+#: ../modules/mail/e-mail-shell-view-actions.c:1303
 msgid "Subject contains"
 msgstr "தலைப்பில் உள்ளது"
 
@@ -13964,9 +13990,9 @@ msgstr ""
 "எவல்யூஷன் உங்கள் கையடக்க கணினி தகவல் ஒத்திசைதல் இடம்பெயர்க்கும் வரை காத்திருக்கவும்..."
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:181
-#: ../modules/calendar/e-cal-shell-sidebar.c:756
-#: ../modules/calendar/e-memo-shell-sidebar.c:682
-#: ../modules/calendar/e-task-shell-sidebar.c:682
+#: ../modules/calendar/e-cal-shell-sidebar.c:761
+#: ../modules/calendar/e-memo-shell-sidebar.c:687
+#: ../modules/calendar/e-task-shell-sidebar.c:687
 msgid "Source Selector Widget"
 msgstr "குறிப்பு மூல தேர்வாளர்"
 
@@ -14016,7 +14042,7 @@ msgid "Show properties of the selected address book"
 msgstr "தேர்ந்தெடுத்த முகவரி புத்தகத்தின்  பண்புகளை காட்டு"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:697
-#: ../modules/calendar/e-cal-shell-view-actions.c:1299
+#: ../modules/calendar/e-cal-shell-view-actions.c:1313
 #: ../modules/calendar/e-memo-shell-view-actions.c:623
 #: ../modules/calendar/e-task-shell-view-actions.c:747
 #: ../modules/mail/e-mail-shell-view-actions.c:946
@@ -14101,7 +14127,7 @@ msgid "Send a message to the selected contacts"
 msgstr "ஒரு செய்தியை தேர்வு செய்துள்ளவர்களுக்கு அனுப்பு"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:783
-#: ../modules/calendar/e-cal-shell-view-actions.c:1434
+#: ../modules/calendar/e-cal-shell-view-actions.c:1448
 #: ../modules/calendar/e-task-shell-view-actions.c:805
 msgid "_Actions"
 msgstr "(_A)செயல்கள்"
@@ -14109,12 +14135,12 @@ msgstr "(_A)செயல்கள்"
 #: ../modules/addressbook/e-book-shell-view-actions.c:790
 #: ../modules/calendar/e-memo-shell-view-actions.c:660
 #: ../modules/calendar/e-task-shell-view-actions.c:812
-#: ../modules/mail/e-mail-shell-view-actions.c:1088
+#: ../modules/mail/e-mail-shell-view-actions.c:1090
 msgid "_Preview"
 msgstr "_P முன்பார்வை"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:799
-#: ../modules/calendar/e-cal-shell-view-actions.c:1451
+#: ../modules/calendar/e-cal-shell-view-actions.c:1465
 #: ../modules/calendar/e-memo-shell-view-actions.c:673
 #: ../modules/calendar/e-task-shell-view-actions.c:825
 msgid "_Delete"
@@ -14139,7 +14165,7 @@ msgstr "தொடர்பு முன்காட்சி சாளரத்�
 #: ../modules/addressbook/e-book-shell-view-actions.c:860
 #: ../modules/calendar/e-memo-shell-view-actions.c:730
 #: ../modules/calendar/e-task-shell-view-actions.c:894
-#: ../modules/mail/e-mail-shell-view-actions.c:1183
+#: ../modules/mail/e-mail-shell-view-actions.c:1185
 msgid "_Classic View"
 msgstr "_C பழைமையான காட்சி"
 
@@ -14150,7 +14176,7 @@ msgstr "தொடர்புகள் பட்டியல் கீழ் த
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
 #: ../modules/calendar/e-memo-shell-view-actions.c:737
 #: ../modules/calendar/e-task-shell-view-actions.c:901
-#: ../modules/mail/e-mail-shell-view-actions.c:1190
+#: ../modules/mail/e-mail-shell-view-actions.c:1192
 msgid "_Vertical View"
 msgstr "செங்குத்து நிலை காட்சி"
 
@@ -14159,24 +14185,24 @@ msgid "Show contact preview alongside the contact list"
 msgstr "தொடர்பு முன்காட்சி சாளரத்தை தொடர்புகள் பட்டியல் அருகில் காட்டு"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:877
-#: ../modules/calendar/e-cal-shell-view-actions.c:1594
+#: ../modules/calendar/e-cal-shell-view-actions.c:1608
 #: ../modules/calendar/e-memo-shell-view-actions.c:747
 #: ../modules/calendar/e-task-shell-view-actions.c:918
 msgid "Any Category"
 msgstr "ஏதாவது ஒரு வகை"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:884
-#: ../modules/calendar/e-cal-shell-view-actions.c:1608
+#: ../modules/calendar/e-cal-shell-view-actions.c:1622
 #: ../modules/calendar/e-memo-shell-view-actions.c:754
 #: ../modules/calendar/e-task-shell-view-actions.c:953
 msgid "Unmatched"
 msgstr "பொருந்தவில்லை"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:894
-#: ../modules/calendar/e-cal-shell-view-actions.c:1618
+#: ../modules/calendar/e-cal-shell-view-actions.c:1632
 #: ../modules/calendar/e-memo-shell-view-actions.c:764
 #: ../modules/calendar/e-task-shell-view-actions.c:963
-#: ../modules/mail/e-mail-shell-view-actions.c:1266
+#: ../modules/mail/e-mail-shell-view-actions.c:1268
 #: ../shell/e-shell-content.c:516
 msgid "Advanced Search"
 msgstr "மேம்பட்ட தேடல்"
@@ -14394,7 +14420,7 @@ msgid "_Appointment"
 msgstr "(_A) சந்திப்பு ஏற்பாடு "
 
 #: ../modules/calendar/e-cal-shell-backend.c:448
-#: ../modules/calendar/e-cal-shell-view-actions.c:1378
+#: ../modules/calendar/e-cal-shell-view-actions.c:1392
 msgid "Create a new appointment"
 msgstr "புதிய சந்திப்பை உருவாக்கு"
 
@@ -14422,12 +14448,12 @@ msgid "Cale_ndar"
 msgstr "(_n)நாள்காட்டி"
 
 #: ../modules/calendar/e-cal-shell-backend.c:472
-#: ../modules/calendar/e-cal-shell-view-actions.c:1273
+#: ../modules/calendar/e-cal-shell-view-actions.c:1287
 msgid "Create a new calendar"
 msgstr "புதிய நாள்காட்டியை உருவாக்கு"
 
 #: ../modules/calendar/e-cal-shell-backend.c:507
-#: ../plugins/itip-formatter/itip-formatter.c:2644
+#: ../plugins/itip-formatter/itip-formatter.c:2657
 msgid "Calendar and Tasks"
 msgstr "நாள்காட்டி மற்றும் பணிகள்"
 
@@ -14459,9 +14485,9 @@ msgstr "எவலுஷன்/config.xmldb லிருந்து பழைய
 msgid "Unable to migrate calendar `%s'"
 msgstr "`%s' நாள்காட்டியை நகர்த்த முடியவில்லை"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:162
-#: ../modules/calendar/e-memo-shell-sidebar.c:157
-#: ../modules/calendar/e-task-shell-sidebar.c:157
+#: ../modules/calendar/e-cal-shell-sidebar.c:167
+#: ../modules/calendar/e-memo-shell-sidebar.c:162
+#: ../modules/calendar/e-task-shell-sidebar.c:162
 #, c-format
 msgid ""
 "Error on %s\n"
@@ -14470,35 +14496,36 @@ msgstr ""
 "%s இல் பிழை\n"
 "%s"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:221
+#: ../modules/calendar/e-cal-shell-sidebar.c:226
 msgid "Loading calendars"
 msgstr "நாள்காட்டிகள் ஏற்றப்படுகிறன "
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:610
+#: ../modules/calendar/e-cal-shell-sidebar.c:615
 msgid "Calendar Selector"
 msgstr "நாள்காட்டி தேர்வாளர்"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:736
+#: ../modules/calendar/e-cal-shell-sidebar.c:741
 msgid "Date Navigator Widget"
 msgstr "தேதி உலாவல் குறுநிரல்"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:737
+#: ../modules/calendar/e-cal-shell-sidebar.c:742
 msgid "This widget displays a miniature calendar"
 msgstr "இந்த குறுநிரல் ஒரு சிறு நாள்காட்டியை காட்டும்"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:746
+#: ../modules/calendar/e-cal-shell-sidebar.c:751
 msgid "Default Calendar Client"
 msgstr "முன்னிருப்பு நாள்காட்டி சார்ந்தோன்"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:747
+#: ../modules/calendar/e-cal-shell-sidebar.c:752
 msgid "Default client for calendar operations"
 msgstr "நாள்காட்டி செயல்களுக்கு முன்னிருப்பு சார்ந்தோன்"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:757
+#: ../modules/calendar/e-cal-shell-sidebar.c:762
 msgid "This widget displays groups of calendars"
 msgstr "இந்த குறுநிரல் ஒரு தொகுப்பு  நாள்காட்டிகளை காட்டும்"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:944
+#. Translators: The string field is a URI.
+#: ../modules/calendar/e-cal-shell-sidebar.c:950
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "%s இல் நாள்காட்டியை திறக்கிறது"
@@ -14523,21 +14550,21 @@ msgstr ""
 msgid "Purge events older than"
 msgstr "நீக்க வேண்டிய பழைய நிகழ்வுகள்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:540
+#: ../modules/calendar/e-cal-shell-view-actions.c:547
 msgid "Copying Items"
 msgstr "உருப்படிகளை நகலெடுக்கிறது"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:795
+#: ../modules/calendar/e-cal-shell-view-actions.c:809
 msgid "Moving Items"
 msgstr "உருப்படிகளை நகர்த்துகிறது"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-actions.c:1097
+#: ../modules/calendar/e-cal-shell-view-actions.c:1111
 msgid "event"
 msgstr "நிகழ்வு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1099
+#: ../modules/calendar/e-cal-shell-view-actions.c:1113
 #: ../modules/calendar/e-cal-shell-view-memopad.c:209
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:277
 #: ../modules/calendar/e-memo-shell-view-actions.c:507
@@ -14545,115 +14572,115 @@ msgstr "நிகழ்வு"
 msgid "Save as iCalendar"
 msgstr "ஐ நாள்காட்டியாக சேமி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1229
+#: ../modules/calendar/e-cal-shell-view-actions.c:1243
 #: ../modules/calendar/e-memo-shell-view-actions.c:588
 msgid "_Copy..."
 msgstr "(_C)நகல்..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1236
+#: ../modules/calendar/e-cal-shell-view-actions.c:1250
 msgid "D_elete Calendar"
 msgstr "_e நாள்காட்டியை அழி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1238
+#: ../modules/calendar/e-cal-shell-view-actions.c:1252
 msgid "Delete the selected calendar"
 msgstr "தேர்ந்தெடுக்கப்பட்ட நாள்காட்டியை அழி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1245
+#: ../modules/calendar/e-cal-shell-view-actions.c:1259
 msgid "Go Back"
 msgstr "பின் செல்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1252
+#: ../modules/calendar/e-cal-shell-view-actions.c:1266
 msgid "Go Forward"
 msgstr "முன் செல்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1257
+#: ../modules/calendar/e-cal-shell-view-actions.c:1271
 msgid "Select _Today"
 msgstr "(_T)இன்றைய தேதியை தேர்வு செய்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1259
+#: ../modules/calendar/e-cal-shell-view-actions.c:1273
 msgid "Select today"
 msgstr "இன்றை தேர்வு செய்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1264
+#: ../modules/calendar/e-cal-shell-view-actions.c:1278
 msgid "Select _Date"
 msgstr "(_D)தேதியை தேர்வு செய்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1266
+#: ../modules/calendar/e-cal-shell-view-actions.c:1280
 msgid "Select a specific date"
 msgstr "குறிப்பிட்ட தேதியை தேர்வு செய்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1271
+#: ../modules/calendar/e-cal-shell-view-actions.c:1285
 msgid "_New Calendar"
 msgstr "புதிய நாள்காட்டி (_N)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1285
+#: ../modules/calendar/e-cal-shell-view-actions.c:1299
 #: ../modules/calendar/e-task-shell-view-actions.c:796
 msgid "Purg_e"
 msgstr "(_e)அழி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1287
+#: ../modules/calendar/e-cal-shell-view-actions.c:1301
 msgid "Purge old appointments and meetings"
 msgstr "பழைய சந்திப்புகள்  மற்றும் கூட்டங்கள் நீக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1292
+#: ../modules/calendar/e-cal-shell-view-actions.c:1306
 #: ../modules/calendar/e-memo-shell-view-actions.c:616
 #: ../modules/calendar/e-task-shell-view-actions.c:740
 msgid "Re_fresh"
 msgstr "(_f) புதுப்பி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1294
+#: ../modules/calendar/e-cal-shell-view-actions.c:1308
 msgid "Refresh the selected calendar"
 msgstr "தேர்ந்தெடுக்கப்பட்ட நாள்காட்டியை புதுப்பி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1301
+#: ../modules/calendar/e-cal-shell-view-actions.c:1315
 msgid "Rename the selected calendar"
 msgstr "தேர்ந்தெடுக்கப்பட்ட நாள்காட்டிக்கு  மறுபெயரிடு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1306
+#: ../modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Show _Only This Calendar"
 msgstr "_O இந்த நாள்காட்டியை மட்டும் காட்டு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1313
+#: ../modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Cop_y to Calendar..."
 msgstr "(_y)நாள்காட்டியில் நகலெடு..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1320
+#: ../modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "_Delegate Meeting..."
 msgstr "பேராளர் சந்திப்பு... (_D)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1327
+#: ../modules/calendar/e-cal-shell-view-actions.c:1341
 msgid "_Delete Appointment"
 msgstr "_D சந்திப்பு ஐ நீக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1329
+#: ../modules/calendar/e-cal-shell-view-actions.c:1343
 msgid "Delete selected appointments"
 msgstr "தேர்ந்தெடுக்கப்பட்ட சந்திப்புகளை நீக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1334
+#: ../modules/calendar/e-cal-shell-view-actions.c:1348
 msgid "Delete This _Occurrence"
 msgstr "(_O)இந்த நிகழ்வை நீக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1336
+#: ../modules/calendar/e-cal-shell-view-actions.c:1350
 msgid "Delete this occurrence"
 msgstr "இந்த தருவாயை நீக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1341
+#: ../modules/calendar/e-cal-shell-view-actions.c:1355
 msgid "Delete All Occ_urrences"
 msgstr "(_u)எல்லா நிகழ்வுகளையும் நீக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1343
+#: ../modules/calendar/e-cal-shell-view-actions.c:1357
 msgid "Delete all occurrences"
 msgstr "அனைத்து நிகழ்வுகளையும் அழி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1348
+#: ../modules/calendar/e-cal-shell-view-actions.c:1362
 msgid "New All Day _Event..."
 msgstr "(_E)புதிய எல்லா நாட்களுக்குமான நிகழ்வுகள்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1350
+#: ../modules/calendar/e-cal-shell-view-actions.c:1364
 msgid "Create a new all day event"
 msgstr "புதிய முழு நாளுக்குமான நிகழ்வை உருவாக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1355
+#: ../modules/calendar/e-cal-shell-view-actions.c:1369
 #: ../modules/calendar/e-cal-shell-view-memopad.c:243
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:317
 #: ../modules/calendar/e-memo-shell-view-actions.c:581
@@ -14661,124 +14688,124 @@ msgstr "புதிய முழு நாளுக்குமான நிக
 msgid "_Forward as iCalendar..."
 msgstr "(_F)ஐ நாள்காட்டியாக அனுப்பு..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1362
+#: ../modules/calendar/e-cal-shell-view-actions.c:1376
 msgid "New _Meeting..."
 msgstr "புதிய சந்திப்பு (_M)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1364
+#: ../modules/calendar/e-cal-shell-view-actions.c:1378
 msgid "Create a new meeting"
 msgstr "புதிய சந்திப்பை உருவாக்குக"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1369
+#: ../modules/calendar/e-cal-shell-view-actions.c:1383
 msgid "Mo_ve to Calendar..."
 msgstr "(_v)நாள்காட்டிக்கு நகர்த்து..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1376
+#: ../modules/calendar/e-cal-shell-view-actions.c:1390
 msgid "New _Appointment..."
 msgstr "(_A)புதிய நேர ஒதுக்கங்கள்..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1383
+#: ../modules/calendar/e-cal-shell-view-actions.c:1397
 msgid "Make this Occurrence _Movable"
 msgstr "(_M)இந்த தருவாயை நகர்த்தகூடியதாக்கு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1390
+#: ../modules/calendar/e-cal-shell-view-actions.c:1404
 msgid "_Open Appointment"
 msgstr "சந்திப்பு  ஏற்பாட்டினை திற (_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1392
+#: ../modules/calendar/e-cal-shell-view-actions.c:1406
 msgid "View the current appointment"
 msgstr "தற்போதைய சந்திப்பு ஐ பார்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1397
+#: ../modules/calendar/e-cal-shell-view-actions.c:1411
 msgid "_Reply"
 msgstr "பதில் (_R)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1411
+#: ../modules/calendar/e-cal-shell-view-actions.c:1425
 #: ../modules/calendar/e-cal-shell-view-memopad.c:271
 msgid "Save as iCalendar..."
 msgstr "ஐ நாள்காட்டியாக சேமி."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1418
+#: ../modules/calendar/e-cal-shell-view-actions.c:1432
 msgid "_Schedule Meeting..."
 msgstr "சந்திப்பினை திட்டமிடு... (_S)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1420
+#: ../modules/calendar/e-cal-shell-view-actions.c:1434
 msgid "Converts an appointment to a meeting"
 msgstr "நேர ஒதுக்கல்களை சந்திப்புகள்  ஆக்குகிறது"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1425
+#: ../modules/calendar/e-cal-shell-view-actions.c:1439
 msgid "Conv_ert to Appointment..."
 msgstr "(_e) நேர ஒதுக்கங்கள் ஆக்குக..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1427
+#: ../modules/calendar/e-cal-shell-view-actions.c:1441
 msgid "Converts a meeting to an appointment"
 msgstr "சந்திப்புகளை நேர ஒதுக்கல்கள்  ஆக்குகிறது"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1549
+#: ../modules/calendar/e-cal-shell-view-actions.c:1563
 msgid "Day"
 msgstr "நாள்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1551
+#: ../modules/calendar/e-cal-shell-view-actions.c:1565
 msgid "Show one day"
 msgstr "ஒரு நாளை காட்டு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1556
+#: ../modules/calendar/e-cal-shell-view-actions.c:1570
 msgid "List"
 msgstr "பட்டியல்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1558
+#: ../modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "Show as list"
 msgstr "பட்டியலாக காட்டு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1563
+#: ../modules/calendar/e-cal-shell-view-actions.c:1577
 msgid "Month"
 msgstr "மாதம்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1565
+#: ../modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "Show one month"
 msgstr "ஒரு மாதத்தை காட்டு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1570
+#: ../modules/calendar/e-cal-shell-view-actions.c:1584
 msgid "Week"
 msgstr "வாரம்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1572
+#: ../modules/calendar/e-cal-shell-view-actions.c:1586
 msgid "Show one week"
 msgstr "ஒரு வாரத்தை காட்டு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1579
+#: ../modules/calendar/e-cal-shell-view-actions.c:1593
 msgid "Show one work week"
 msgstr "ஒரு வேலை வாரத்தை காட்டு"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1587
+#: ../modules/calendar/e-cal-shell-view-actions.c:1601
 msgid "Active Appointments"
 msgstr "நடப்பில் உள்ள சந்திப்பு ஏற்பாடுகள்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1601
+#: ../modules/calendar/e-cal-shell-view-actions.c:1615
 msgid "Next 7 Days' Appointments"
 msgstr "அடுத்த 7 நாட்கள் சந்திப்பு ஏற்பாடுகள்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1632
+#: ../modules/calendar/e-cal-shell-view-actions.c:1646
 #: ../modules/calendar/e-memo-shell-view-actions.c:778
 #: ../modules/calendar/e-task-shell-view-actions.c:977
 msgid "Description contains"
 msgstr "விளக்கத்தில்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1639
+#: ../modules/calendar/e-cal-shell-view-actions.c:1653
 #: ../modules/calendar/e-memo-shell-view-actions.c:785
 #: ../modules/calendar/e-task-shell-view-actions.c:984
 msgid "Summary contains"
 msgstr "சுருக்கத்தில்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1651
+#: ../modules/calendar/e-cal-shell-view-actions.c:1665
 msgid "Print this calendar"
 msgstr "இந்த நாள்காட்டியை அச்சடி"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1658
+#: ../modules/calendar/e-cal-shell-view-actions.c:1672
 msgid "Preview the calendar to be printed"
 msgstr "அச்சடிக்கப்பட வேண்டிய நாள்காட்டியில் முன்தோற்றத்தை பார்"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1730
+#: ../modules/calendar/e-cal-shell-view-actions.c:1744
 msgid "Go To"
 msgstr "க்கு செல்"
 
@@ -14919,27 +14946,28 @@ msgstr "நினைவூட்டல்  பட்டியல்கள்  �
 msgid "The memo table model"
 msgstr "மாதிரி நினைவூட்டல் அட்டவணை "
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:216
+#: ../modules/calendar/e-memo-shell-sidebar.c:221
 msgid "Loading memos"
 msgstr "நினைவூட்டலை  ஏற்றுகிறது"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:564
+#: ../modules/calendar/e-memo-shell-sidebar.c:569
 msgid "Memo List Selector"
 msgstr "நினைவூட்டல் பட்டியல் தேர்வாளர்"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:672
+#: ../modules/calendar/e-memo-shell-sidebar.c:677
 msgid "Default Memo Client"
 msgstr "முன்னிருப்பு நினைவூட்டல் சார்ந்தோன்"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:673
+#: ../modules/calendar/e-memo-shell-sidebar.c:678
 msgid "Default client for memo operations"
 msgstr "நினைவூட்டலுக்கு முன்னிருப்பு சார்ந்தோன்"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:683
+#: ../modules/calendar/e-memo-shell-sidebar.c:688
 msgid "This widget displays groups of memo lists"
 msgstr "இந்த குறுநிரல் நினைவூட்டல் பட்டியல்கள் தொகுப்பை காட்டுகிறது"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:862
+#. Translators: The string field is a URI.
+#: ../modules/calendar/e-memo-shell-sidebar.c:868
 #, c-format
 msgid "Opening memos at %s"
 msgstr "%s இல் நினைவூட்டலை  திறக்கிறது"
@@ -15079,27 +15107,28 @@ msgstr ""
 msgid "Unable to migrate tasks `%s'"
 msgstr "%s' பணியை நகர்த்த முடியவில்லை"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:216
+#: ../modules/calendar/e-task-shell-sidebar.c:221
 msgid "Loading tasks"
 msgstr "பணிகளை ஏற்றுகிறது"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:564
+#: ../modules/calendar/e-task-shell-sidebar.c:569
 msgid "Task List Selector"
 msgstr "பணி பட்டியல்  தேர்வாளர்"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:672
+#: ../modules/calendar/e-task-shell-sidebar.c:677
 msgid "Default Task Client"
 msgstr "முன்னிருப்பு பணி சார்ந்தோன்"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:673
+#: ../modules/calendar/e-task-shell-sidebar.c:678
 msgid "Default client for task operations"
 msgstr "பணி செயல்களுக்கு முன்னிருப்பு சார்ந்தோன்"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:683
+#: ../modules/calendar/e-task-shell-sidebar.c:688
 msgid "This widget displays groups of task lists"
 msgstr "இந்த குறுநிரல் பணி பட்டியல்கள் தொகுப்பை காட்டுகிறது"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:862
+#. Translators: The string field is a URI.
+#: ../modules/calendar/e-task-shell-sidebar.c:868
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "%s இல் பணியை திறக்கிறது"
@@ -15410,171 +15439,171 @@ msgstr "எல்லா கணக்குகளிலும் உள்ள எ
 msgid "_New Label"
 msgstr "(_N)புதிய  விவரச்சீட்டு "
 
-#: ../modules/mail/e-mail-shell-view-actions.c:988
+#: ../modules/mail/e-mail-shell-view-actions.c:990
 msgid "N_one"
 msgstr "_o எதுவுமில்லை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:995
+#: ../modules/mail/e-mail-shell-view-actions.c:997
 msgid "Hide _Read Messages"
 msgstr "படித்த செய்திகளை மறை (_R)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:997
+#: ../modules/mail/e-mail-shell-view-actions.c:999
 msgid "Temporarily hide all messages that have already been read"
 msgstr "ஏற்கெனவே படித்த செய்திகளை தற்காலிகமாக மறை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1002
+#: ../modules/mail/e-mail-shell-view-actions.c:1004
 msgid "Hide S_elected Messages"
 msgstr "தேர்ந்தெடுத்த செய்திகளை மறை (_e)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1004
+#: ../modules/mail/e-mail-shell-view-actions.c:1006
 msgid "Temporarily hide the selected messages"
 msgstr "தேர்வு செய்யப்பட்ட செய்தியை தற்காலிகமாக மறை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1009
+#: ../modules/mail/e-mail-shell-view-actions.c:1011
 msgid "Show Hidde_n Messages"
 msgstr "_n மறைத்த செய்திகளை காட்டுக"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1011
+#: ../modules/mail/e-mail-shell-view-actions.c:1013
 msgid "Show messages that have been temporarily hidden"
 msgstr "தற்காலிகமாக மறைக்கப்பட்ட செய்திகளை காட்டு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1032
+#: ../modules/mail/e-mail-shell-view-actions.c:1034
 msgid "Cancel the current mail operation"
 msgstr "தற்போதைய மின்னஞ்சல் செயலை ரத்து செய்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1037
+#: ../modules/mail/e-mail-shell-view-actions.c:1039
 msgid "Collapse All _Threads"
 msgstr "_T அனைத்து இழைகளையும் குறுக்குக"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1039
+#: ../modules/mail/e-mail-shell-view-actions.c:1041
 msgid "Collapse all message threads"
 msgstr "அனைத்தும் செய்திகள் இழைகளையும் குறுக்குக"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1044
+#: ../modules/mail/e-mail-shell-view-actions.c:1046
 msgid "E_xpand All Threads"
 msgstr "அனைத்து புரிகளையும் விரிவாக்கு (_x)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1046
+#: ../modules/mail/e-mail-shell-view-actions.c:1048
 msgid "Expand all message threads"
 msgstr "அனைத்து செய்தி புரிகளையும் விரிவாக்கு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1051
+#: ../modules/mail/e-mail-shell-view-actions.c:1053
 msgid "_Message Filters"
 msgstr "செய்தி வடிப்பிகள் (_M)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1053
+#: ../modules/mail/e-mail-shell-view-actions.c:1055
 msgid "Create or edit rules for filtering new mail"
 msgstr "புதிய மின்னஞ்சலை வடிகட்டுவதற்கான விதியை உருவாக்கு அல்லது திருத்து"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1058
+#: ../modules/mail/e-mail-shell-view-actions.c:1060
 msgid "Search F_olders"
 msgstr "அடைவுகளை தேடு (_o)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1060
+#: ../modules/mail/e-mail-shell-view-actions.c:1062
 msgid "Create or edit search folder definitions"
 msgstr "தேடுதல் அடைவு வரையரையை உருவாக்கு அல்லது திருத்து"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1065
+#: ../modules/mail/e-mail-shell-view-actions.c:1067
 msgid "_Subscriptions..."
 msgstr "சந்தாக்கள் (_S)..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1067
+#: ../modules/mail/e-mail-shell-view-actions.c:1069
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "தொலை சேவையகங்களிலுள்ள அடைவுகளை சந்தாப்படுத்து அல்லது சந்தாநீக்கு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1074
+#: ../modules/mail/e-mail-shell-view-actions.c:1076
 msgid "F_older"
 msgstr "(_o)அடைவு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1081
+#: ../modules/mail/e-mail-shell-view-actions.c:1083
 msgid "_Label"
 msgstr "பெயர் (_L)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1121
+#: ../modules/mail/e-mail-shell-view-actions.c:1123
 msgid "_New Folder..."
 msgstr "(_N)புதிய அடைவு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1145
+#: ../modules/mail/e-mail-shell-view-actions.c:1147
 msgid "Hide _Deleted Messages"
 msgstr "(_D)அழித்தத்த செய்திகளை மறை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1147
+#: ../modules/mail/e-mail-shell-view-actions.c:1149
 msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "செய்திகளில் அடித்து காட்டுவதற்கு பதிலாக அவற்றை மறை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1154
+#: ../modules/mail/e-mail-shell-view-actions.c:1156
 msgid "Show Message _Preview"
 msgstr "செய்தி முன்பார்வையை காட்டுக"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1156
+#: ../modules/mail/e-mail-shell-view-actions.c:1158
 msgid "Show message preview pane"
 msgstr "செய்தி முன்பார்வை பலகத்தை காட்டு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1162
+#: ../modules/mail/e-mail-shell-view-actions.c:1164
 msgid "_Group By Threads"
 msgstr "புரிகளால் குழுவாக்கு (_G)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1164
+#: ../modules/mail/e-mail-shell-view-actions.c:1166
 msgid "Threaded message list"
 msgstr "இழையுடன் கூடிய செய்தி பட்டியல்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1185
+#: ../modules/mail/e-mail-shell-view-actions.c:1187
 msgid "Show message preview below the message list"
 msgstr "செய்திகள் பட்டியல் கீழ் செய்திகள் முன்பார்வையை காட்டுக"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1192
+#: ../modules/mail/e-mail-shell-view-actions.c:1194
 msgid "Show message preview alongside the message list"
 msgstr "செய்திகள் பட்டியல் பக்கத்தில்  செய்திகள் முன்பார்வையை காட்டுக"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1200
+#: ../modules/mail/e-mail-shell-view-actions.c:1202
 msgid "All Messages"
 msgstr "முழுமையான செய்திகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1207
+#: ../modules/mail/e-mail-shell-view-actions.c:1209
 msgid "Important Messages"
 msgstr "முக்கியமான செய்திகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1214
+#: ../modules/mail/e-mail-shell-view-actions.c:1216
 msgid "Last 5 Days' Messages"
 msgstr "கடைசி 5 நாட்களின் செய்திகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1221
+#: ../modules/mail/e-mail-shell-view-actions.c:1223
 msgid "Messages Not Junk"
 msgstr "பயனற்ற செய்திகள் எதுவும் இல்லை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1228
+#: ../modules/mail/e-mail-shell-view-actions.c:1230
 msgid "Messages with Attachments"
 msgstr "இணைப்புடன் கூடிய செய்திகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1235
+#: ../modules/mail/e-mail-shell-view-actions.c:1237
 msgid "No Label"
 msgstr "விவரச்சீட்டு இல்லை"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1242
+#: ../modules/mail/e-mail-shell-view-actions.c:1244
 msgid "Read Messages"
 msgstr "படிக்கப்பட்ட செய்திகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1249
+#: ../modules/mail/e-mail-shell-view-actions.c:1251
 msgid "Recent Messages"
 msgstr "புதிதான செய்திகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1256
+#: ../modules/mail/e-mail-shell-view-actions.c:1258
 msgid "Unread Messages"
 msgstr "படிக்கப்படாத  செய்திகள்:"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1308
+#: ../modules/mail/e-mail-shell-view-actions.c:1310
 msgid "Subject or Addresses contain"
 msgstr "பொருள் அல்லது முகவரிகள் இதை கொண்டிருந்தால்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1318
+#: ../modules/mail/e-mail-shell-view-actions.c:1320
 msgid "All Accounts"
 msgstr "அனைத்து கணக்கீடுகள்"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1325
+#: ../modules/mail/e-mail-shell-view-actions.c:1327
 msgid "Current Account"
 msgstr "நடப்பிலுள்ள கணக்கீடு"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1332
+#: ../modules/mail/e-mail-shell-view-actions.c:1334
 msgid "Current Folder"
 msgstr "நடப்பிலுள்ள அடைவு "
 
@@ -16177,11 +16206,13 @@ msgstr "முந்தைய முயற்சி தோற்றது:%s"
 msgid "Previous attempt failed with code %d"
 msgstr "முந்தைய முயற்சி குறிப்பு  %d உடன் தோற்றது"
 
-#: ../plugins/caldav/caldav-browse-server.c:799, c-format
+#: ../plugins/caldav/caldav-browse-server.c:799
+#, c-format
 msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
 msgstr "பயனர் <b>%s</b> க்கு சேவையகம் பயனர் <b>%s</b>இல் கடவுச்சொல்லை உள்ளிடவும்"
 
-#: ../plugins/caldav/caldav-browse-server.c:856, c-format
+#: ../plugins/caldav/caldav-browse-server.c:856
+#, c-format
 msgid "Cannot create soup message for URL '%s'"
 msgstr "விளைவுக்கோப்பை உருவாக்க முடியவில்லை: யூஆர்எல் '%s'"
 
@@ -16198,7 +16229,8 @@ msgstr "இருப்பிலுள்ள நாள்காட்டிக�
 msgid "Supports"
 msgstr "ஆதரவு"
 
-#: ../plugins/caldav/caldav-browse-server.c:1249, c-format
+#: ../plugins/caldav/caldav-browse-server.c:1249
+#, c-format
 msgid "Failed to create thread: %s"
 msgstr "இழையை உருவாக்குவதில் தோல்வி: %s"
 
@@ -17184,141 +17216,140 @@ msgstr "IMAP கணக்குகளை நுண் திருத்து�
 msgid "IMAP Features"
 msgstr "IMAP சிறப்பு அம்சங்கள்"
 
-#: ../plugins/itip-formatter/itip-formatter.c:494
-#: ../plugins/itip-formatter/itip-formatter.c:619
+#: ../plugins/itip-formatter/itip-formatter.c:486
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "நாள்காட்டியை ஏற்ற முடியவில்லை '%s'"
 
-#: ../plugins/itip-formatter/itip-formatter.c:639
+#: ../plugins/itip-formatter/itip-formatter.c:652
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "நாள்காட்டி '%s'யில் ஒரு சந்திப்பு  ஏற்பாடு, சந்திப்புடன் முரணாக உள்ளது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:675
+#: ../plugins/itip-formatter/itip-formatter.c:688
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "நாள்காட்டியில் சந்திப்பு  கண்டுபிடிக்கப்பட்டது '%s'."
 
-#: ../plugins/itip-formatter/itip-formatter.c:774
+#: ../plugins/itip-formatter/itip-formatter.c:787
 msgid "Unable to find any calendars"
 msgstr "எந்த நாள்காட்டிகளையும் காண முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:781
+#: ../plugins/itip-formatter/itip-formatter.c:794
 msgid "Unable to find this meeting in any calendar"
 msgstr "எந்த நாள்காட்டியிலும் இந்த சந்திப்பினை காண முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:785
+#: ../plugins/itip-formatter/itip-formatter.c:798
 msgid "Unable to find this task in any task list"
 msgstr "எந்த பணி பட்டியலிலும் இந்த பணியை காண முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:789
+#: ../plugins/itip-formatter/itip-formatter.c:802
 msgid "Unable to find this memo in any memo list"
 msgstr "எந்த குறிப்பு பட்டியலிலும் இந்த குறிப்பை காண முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:860
+#: ../plugins/itip-formatter/itip-formatter.c:873
 msgid "Opening the calendar. Please wait.."
 msgstr "நாள்காட்டியை திறக்கிறது. தயை செய்து காத்திருக்கவும்..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:863
+#: ../plugins/itip-formatter/itip-formatter.c:876
 msgid "Searching for an existing version of this appointment"
 msgstr "இந்த சந்திப்புக்கு இருப்பில் உள்ள வடிவ நிலையை தேடுகிறது. "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1044
+#: ../plugins/itip-formatter/itip-formatter.c:1057
 msgid "Unable to parse item"
 msgstr "உருப்படியை குறிப்பிட முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1131
+#: ../plugins/itip-formatter/itip-formatter.c:1144
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "நாள்காட்டிக்கு உருப்படியை அனுப்ப முடியவில்லை '%s'.  %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1143
+#: ../plugins/itip-formatter/itip-formatter.c:1156
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "நாள்காட்டி '%s' க்கு ஏற்றுக்கொள்ளப்பட்டது என அனுப்பு"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1147
+#: ../plugins/itip-formatter/itip-formatter.c:1160
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "நாள்காட்டி '%s' க்கு தற்காலிகமானது என அனுப்பு"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1152
+#: ../plugins/itip-formatter/itip-formatter.c:1165
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "நாள்காட்டி '%s' க்கு நிராகரிக்கப்பட்டது என அனுப்பு"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1157
+#: ../plugins/itip-formatter/itip-formatter.c:1170
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "நாள்காட்டி '%s' க்கு ரத்தானது என அனுப்பு"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1251
+#: ../plugins/itip-formatter/itip-formatter.c:1264
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "ஒருங்கிணைப்பாளர் பிரதிநிதியை  நீக்கிவிட்டார் %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1271
 msgid "Sent a cancelation notice to the delegate"
 msgstr "பிரதிநிதிக்கு ரத்து அறிக்கையை அனுப்பவும்"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1260
+#: ../plugins/itip-formatter/itip-formatter.c:1273
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "பிரதிநிதிக்கு ரத்து அறிக்கையை அனுப்ப முடியவில்லை?"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1371
+#: ../plugins/itip-formatter/itip-formatter.c:1384
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "கலந்து கொள்பவர்கள் நிலை தவறானது அதனால் மேம்படுத்த முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1400
+#: ../plugins/itip-formatter/itip-formatter.c:1413
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "கலந்துகொள்பவர்களை மேம்படுத்த முடியவில்லை. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1404
+#: ../plugins/itip-formatter/itip-formatter.c:1417
 msgid "Attendee status updated"
 msgstr "கலந்து கொள்பவர்கள் நிலை மேம்படுத்தப்பட்டது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1430
+#: ../plugins/itip-formatter/itip-formatter.c:1443
 msgid "Meeting information sent"
 msgstr "கூட்டம் பற்றிய தகவல் அனுப்பப்பட்டது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1433
+#: ../plugins/itip-formatter/itip-formatter.c:1446
 msgid "Task information sent"
 msgstr "பணி தகவல் அனுப்பப்பட்டது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1436
+#: ../plugins/itip-formatter/itip-formatter.c:1449
 msgid "Memo information sent"
 msgstr "குறிப்பு தகவல் அனுப்பப்பட்டது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1445
+#: ../plugins/itip-formatter/itip-formatter.c:1458
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "இந்த சந்திப்பு தகவலை அனுப்ப இயலவில்லை, சந்திப்பை காண முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1448
+#: ../plugins/itip-formatter/itip-formatter.c:1461
 msgid "Unable to send task information, the task does not exist"
 msgstr "இந்த பணி தகவலை அனுப்ப இயலவில்லை, பணியை காண முடியவில்லை"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1451
+#: ../plugins/itip-formatter/itip-formatter.c:1464
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "இந்த குறிப்பு தகவலை அனுப்ப இயலவில்லை, குறிப்பை காண முடியவில்லை"
 
 #. Translators: This is a default filename for a calendar.
-#: ../plugins/itip-formatter/itip-formatter.c:1516
+#: ../plugins/itip-formatter/itip-formatter.c:1529
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1521
+#: ../plugins/itip-formatter/itip-formatter.c:1534
 msgid "Save Calendar"
 msgstr "நாள்காட்டியை சேமி"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1574
-#: ../plugins/itip-formatter/itip-formatter.c:1585
+#: ../plugins/itip-formatter/itip-formatter.c:1587
+#: ../plugins/itip-formatter/itip-formatter.c:1598
 msgid "The calendar attached is not valid"
 msgstr "இணைக்கப்பட்ட நாள்காட்டி தவறானது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1575
-#: ../plugins/itip-formatter/itip-formatter.c:1586
+#: ../plugins/itip-formatter/itip-formatter.c:1588
+#: ../plugins/itip-formatter/itip-formatter.c:1599
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17326,15 +17357,15 @@ msgstr ""
 "இந்த செய்தி ஒரு நாட்காட்டியை உள்ளடக்கியதாக சொல்லுகிறது ஆனால் அது ஒரு செல்லுபடியாகும் "
 "ஐநாள்காட்டி அல்ல "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1626
-#: ../plugins/itip-formatter/itip-formatter.c:1654
-#: ../plugins/itip-formatter/itip-formatter.c:1760
+#: ../plugins/itip-formatter/itip-formatter.c:1639
+#: ../plugins/itip-formatter/itip-formatter.c:1667
+#: ../plugins/itip-formatter/itip-formatter.c:1773
 msgid "The item in the calendar is not valid"
 msgstr "நாள்காட்டியில் உள்ள உருப்படி தவறானது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1627
-#: ../plugins/itip-formatter/itip-formatter.c:1655
-#: ../plugins/itip-formatter/itip-formatter.c:1761
+#: ../plugins/itip-formatter/itip-formatter.c:1640
+#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1774
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17342,11 +17373,11 @@ msgstr ""
 "இந்த  செய்தியில் ஒரு நாள்காட்டி  உள்ளது. ஆனால் அதில் எந்த நிகழ்வுகள், பணிகள் ஓய்வு/ வேலை "
 "தகவல்கள் ஏதும் இல்லை........"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1681
 msgid "The calendar attached contains multiple items"
 msgstr "இணைப்பட்டுள்ள நாள்காட்டி பல உருப்படிகளை கொண்டுள்ளது"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1669
+#: ../plugins/itip-formatter/itip-formatter.c:1682
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17354,31 +17385,31 @@ msgstr ""
 "அனைத்து உருப்படிகளையும் செயலாக்க கோப்பு சேமிக்கப்பட்டு மற்றும் நாள்காட்டி இறக்குமதி "
 "செய்யப்பட வேண்டும்"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2434
+#: ../plugins/itip-formatter/itip-formatter.c:2447
 msgid "This meeting recurs"
 msgstr "இந்த சந்திப்பு மீண்டும் வந்துள்ளது "
 
-#: ../plugins/itip-formatter/itip-formatter.c:2437
+#: ../plugins/itip-formatter/itip-formatter.c:2450
 msgid "This task recurs"
 msgstr "இந்த பணி மீண்டும் வந்துள்ளது "
 
-#: ../plugins/itip-formatter/itip-formatter.c:2440
+#: ../plugins/itip-formatter/itip-formatter.c:2453
 msgid "This memo recurs"
 msgstr "இந்த குறிப்பு மீண்டும் வரும்"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2669
+#: ../plugins/itip-formatter/itip-formatter.c:2682
 msgid "_Delete message after acting"
 msgstr "செயலுக்கு பின் செய்தியை அழிக்கவும் (_D)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2679
-#: ../plugins/itip-formatter/itip-formatter.c:2712
+#: ../plugins/itip-formatter/itip-formatter.c:2692
+#: ../plugins/itip-formatter/itip-formatter.c:2725
 msgid "Conflict Search"
 msgstr "தேடல் முரண்பாடு"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2694
+#: ../plugins/itip-formatter/itip-formatter.c:2707
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "சந்திப்பு முரண்பாடுகளை தேட நாள்காட்டிகளை தேர்ந்தெடுக்கவும்"
 
@@ -18384,7 +18415,7 @@ msgstr "(_S) நடப்பு  அடைவு மற்றும் உப �
 msgid "In Current _Folder Only"
 msgstr "(_F) நடப்பிலுள்ள அடைவில் மட்டும்."
 
-#: ../plugins/mark-all-read/mark-all-read.c:349
+#: ../plugins/mark-all-read/mark-all-read.c:402
 msgid "Mark Me_ssages as Read"
 msgstr "_s செய்திகளை படித்ததாக குறி"
 
@@ -19753,12 +19784,12 @@ msgstr "தற்போதைய அச்சியந்திரத்தி�
 msgid "Switch to %s"
 msgstr "%s க்கு மாறு"
 
-#: ../shell/e-shell-window-actions.c:2337
+#: ../shell/e-shell-window-actions.c:2332
 msgid "Execute these search parameters"
 msgstr "இந்த தேடல் அளபுருகளை செயலாக்கவும்"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:552
+#: ../shell/e-shell-window-private.c:555
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - எவல்யூஷன்"
@@ -20895,7 +20926,7 @@ msgstr[1] "இணைப்புகளை சேமி"
 
 #. Translators: Default attachment filename.
 #: ../widgets/misc/e-attachment-store.c:633
-#: ../widgets/misc/e-attachment.c:1779 ../widgets/misc/e-attachment.c:2317
+#: ../widgets/misc/e-attachment.c:1779 ../widgets/misc/e-attachment.c:2319
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -20933,11 +20964,11 @@ msgstr "இணைப்பை %s இல் சேமி"
 msgid "Attached message"
 msgstr "இணைக்கப்பட்ட செய்தி"
 
-#: ../widgets/misc/e-attachment.c:1820 ../widgets/misc/e-attachment.c:2619
+#: ../widgets/misc/e-attachment.c:1820 ../widgets/misc/e-attachment.c:2621
 msgid "A load operation is already in progress"
 msgstr "ஒரு ஏற்றல் செயல் ஏற்கெனெவே நடப்பில் உள்ளது"
 
-#: ../widgets/misc/e-attachment.c:1828 ../widgets/misc/e-attachment.c:2627
+#: ../widgets/misc/e-attachment.c:1828 ../widgets/misc/e-attachment.c:2629
 msgid "A save operation is already in progress"
 msgstr "ஒரு சேமிப்பு செயல் ஏற்கெனெவே நடப்பில் உள்ளது"
 
@@ -20951,26 +20982,26 @@ msgstr "'%s' ஏற்ற முடியவில்லை"
 msgid "Could not load the attachment"
 msgstr "இணைப்பை  ஏற்ற முடியவில்லை"
 
-#: ../widgets/misc/e-attachment.c:2197
+#: ../widgets/misc/e-attachment.c:2199
 #, c-format
 msgid "Could not open '%s'"
 msgstr "'%s' ஐ திறக்க முடியவில்லை"
 
-#: ../widgets/misc/e-attachment.c:2200
+#: ../widgets/misc/e-attachment.c:2202
 #, c-format
 msgid "Could not open the attachment"
 msgstr "இணைப்பை திறக்க முடியவில்லை"
 
-#: ../widgets/misc/e-attachment.c:2635
+#: ../widgets/misc/e-attachment.c:2637
 msgid "Attachment contents not loaded"
 msgstr "இணைப்பு உள்ளடக்கங்கள் ஏற்றப்படவில்லை"
 
-#: ../widgets/misc/e-attachment.c:2711
+#: ../widgets/misc/e-attachment.c:2713
 #, c-format
 msgid "Could not save '%s'"
 msgstr "'%s' ஐ சேமிக்க முடியவில்லை "
 
-#: ../widgets/misc/e-attachment.c:2714
+#: ../widgets/misc/e-attachment.c:2716
 #, c-format
 msgid "Could not save the attachment"
 msgstr "இணைப்பு ஐ சேமிக்க முடியவில்லை "
@@ -21769,7 +21800,7 @@ msgstr "அடுத்தடுத்த வரிசை நிறங்கள�
 #: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-item.c:2837 ../widgets/table/e-table-item.c:2838
-#: ../widgets/table/e-tree.c:3370 ../widgets/table/e-tree.c:3371
+#: ../widgets/table/e-tree.c:3369 ../widgets/table/e-tree.c:3370
 msgid "Horizontal Draw Grid"
 msgstr "கிடைமட்ட கட்டங்கள்"
 
@@ -21778,7 +21809,7 @@ msgstr "கிடைமட்ட கட்டங்கள்"
 #: ../widgets/table/e-table-group-leaf.c:600
 #: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-item.c:2844 ../widgets/table/e-table-item.c:2845
-#: ../widgets/table/e-tree.c:3376 ../widgets/table/e-tree.c:3377
+#: ../widgets/table/e-tree.c:3375 ../widgets/table/e-tree.c:3376
 msgid "Vertical Draw Grid"
 msgstr "மேல்கீழ் கட்டங்கள்"
 
@@ -21787,7 +21818,7 @@ msgstr "மேல்கீழ் கட்டங்கள்"
 #: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-item.c:2851 ../widgets/table/e-table-item.c:2852
-#: ../widgets/table/e-tree.c:3382 ../widgets/table/e-tree.c:3383
+#: ../widgets/table/e-tree.c:3381 ../widgets/table/e-tree.c:3382
 msgid "Draw focus"
 msgstr "குறிப்பை வரை"
 
@@ -21812,8 +21843,8 @@ msgstr "தேர்வு மாதிரி"
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:2865 ../widgets/table/e-table-item.c:2866
-#: ../widgets/table/e-table.c:3331 ../widgets/table/e-tree.c:3364
-#: ../widgets/table/e-tree.c:3365
+#: ../widgets/table/e-table.c:3335 ../widgets/table/e-tree.c:3363
+#: ../widgets/table/e-tree.c:3364
 msgid "Length Threshold"
 msgstr "துவக்க நீளம்"
 
@@ -21822,8 +21853,8 @@ msgstr "துவக்க நீளம்"
 #: ../widgets/table/e-table-group-leaf.c:663
 #: ../widgets/table/e-table-group-leaf.c:664
 #: ../widgets/table/e-table-item.c:2899 ../widgets/table/e-table-item.c:2900
-#: ../widgets/table/e-table.c:3338 ../widgets/table/e-tree.c:3396
-#: ../widgets/table/e-tree.c:3397
+#: ../widgets/table/e-table.c:3342 ../widgets/table/e-tree.c:3395
+#: ../widgets/table/e-tree.c:3396
 msgid "Uniform row height"
 msgstr "ஒத்த வரிசை உயரங்கள்"
 
@@ -21907,40 +21938,40 @@ msgstr "நிலைகாட்டி நிரை"
 msgid "Sort Info"
 msgstr "வரிசைப்படுத்திய தகவல்"
 
-#: ../widgets/table/e-table.c:3345 ../widgets/table/e-tree.c:3403
-#: ../widgets/table/e-tree.c:3404
+#: ../widgets/table/e-table.c:3349 ../widgets/table/e-tree.c:3402
+#: ../widgets/table/e-tree.c:3403
 msgid "Always search"
 msgstr "எப்போதும் தேடு"
 
-#: ../widgets/table/e-table.c:3352
+#: ../widgets/table/e-table.c:3356
 msgid "Use click to add"
 msgstr "சேர்க்க சொடுக்கவும்"
 
-#: ../widgets/table/e-table.c:3366
+#: ../widgets/table/e-table.c:3370
 msgid "Vertical Row Spacing"
 msgstr "செங்குத்து வரி இடைவெளி"
 
-#: ../widgets/table/e-table.c:3367
+#: ../widgets/table/e-table.c:3371
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
 msgstr "வரிகளுக்கு இடையே செங்குத்து இடைவெளி. இது வரியின் மேலும் கீழும் சேர்க்கப்படும்"
 
-#: ../widgets/table/e-tree.c:3389 ../widgets/table/e-tree.c:3390
+#: ../widgets/table/e-tree.c:3388 ../widgets/table/e-tree.c:3389
 msgid "ETree table adapter"
 msgstr "E கிளை அட்டவணை ஏற்பி"
 
-#: ../widgets/table/e-tree.c:3410
+#: ../widgets/table/e-tree.c:3409
 msgid "Retro Look"
 msgstr "புதிய பார்வை"
 
-#: ../widgets/table/e-tree.c:3411
+#: ../widgets/table/e-tree.c:3410
 msgid "Draw lines and +/- expanders."
 msgstr "கோடுகள் +/- விரிவாக்கிகளை வரை"
 
-#: ../widgets/table/e-tree.c:3417
+#: ../widgets/table/e-tree.c:3416
 msgid "Expander Size"
 msgstr "விரிவாக்கியின் அளவு"
 
-#: ../widgets/table/e-tree.c:3418
+#: ../widgets/table/e-tree.c:3417
 msgid "Size of the expander arrow"
 msgstr "விரிவாக்க அம்புக்குறியின் அளவு"
 
