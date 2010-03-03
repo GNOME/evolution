@@ -192,9 +192,7 @@ struct _EMAccountEditorPrivate {
 	GtkButton *smime_encrypt_key_clear;
 
 	/* for e-config callbacks, each page sets up its widgets, then they are dealed out by the get_widget callback in order*/
-	GtkWidget *widgets[16];
-	const gchar *widgets_name[16];
-	gint widgets_index;
+	GHashTable *widgets;
 
 	/* for assistant page preparation */
 	guint identity_set:1;
@@ -212,7 +210,6 @@ enum {
 	PROP_SHELL
 };
 
-static void emae_queue_widget (EMAccountEditor *emae, const gchar *name, GtkWidget *widget);
 static void emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service);
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
@@ -390,7 +387,7 @@ emae_init (EMAccountEditor *emae)
 	emae->emae_check_servers = emae_check_servers;
 	emae->priv->source.emae = emae;
 	emae->priv->transport.emae = emae;
-	emae->priv->widgets_index = 0;
+	emae->priv->widgets = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 GType
@@ -2095,7 +2092,7 @@ emae_create_basic_assistant_page (EMAccountEditor *emae, GtkAssistant *assistant
 	gtk_widget_show (lbl);
 
 	if (g_ascii_strcasecmp (page_id, "start_page") == 0)
-		emae_queue_widget (emae, "start_page_label", lbl);
+		g_hash_table_insert (emae->priv->widgets, (char *)"start_page_label", lbl);
 
 	if (old) {
 		/* keep page on its previous index */
@@ -2126,18 +2123,6 @@ static struct {
 	{ "identity_organization", E_ACCOUNT_ID_ORGANIZATION },
 };
 
-/* its a bit obtuse, but its simple */
-static void
-emae_queue_widget (EMAccountEditor *emae, const gchar *name, GtkWidget *widget)
-{
-	gint i = emae->priv->widgets_index++;
-
-	g_assert (i + 1 < G_N_ELEMENTS(emae->priv->widgets));
-
-	emae->priv->widgets_name[i] = name;
-	emae->priv->widgets[i] = widget;
-	emae->priv->widgets[i + 1] = NULL;
-}
 
 static void
 emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *first, ...)
@@ -2146,7 +2131,7 @@ emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *fir
 
 	va_start (ap, first);
 	while (first) {
-		emae_queue_widget (emae, first, e_builder_get_widget (builder, first));
+		g_hash_table_insert (emae->priv->widgets, (char *)first, e_builder_get_widget (builder, first));
 		first = va_arg (ap, const gchar *);
 	}
 	va_end (ap);
@@ -2861,11 +2846,11 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 GtkWidget *
 em_account_editor_get_widget (EMAccountEditor *emae, const gchar *name)
 {
-	gint i;
+	GtkWidget *wid;
 
-	for (i = 0; emae->priv->widgets[i]; i++)
-		if (!strcmp (emae->priv->widgets_name[i], name))
-			return emae->priv->widgets[i];
+	wid = g_hash_table_lookup (emae->priv->widgets, name);
+	if (wid)
+		return wid;
 
 	g_warning ("Mail account widget '%s' not found", name);
 
