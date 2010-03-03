@@ -61,10 +61,10 @@ void
 startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 {
 	GtkWidget *start_page;
+	GtkLabel  *start_page_label;
 	GConfClient *client;
 	GSList *accounts;
 	EConfig *config;
-	GList *page_children;
 	EMAccountEditor *emae;
 
 	client = gconf_client_get_default ();
@@ -79,8 +79,9 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	}
 
 	if (e_shell_get_express_mode (e_shell_get_default ())) {
-		start_page = (GtkWidget *)mail_capplet_shell_new(0, TRUE, TRUE);
+		start_page = (GtkWidget *)mail_capplet_shell_new (0, TRUE, TRUE);
 		gtk_widget_show (start_page);
+
 		g_signal_connect (
 			start_page, "delete-event",
 			G_CALLBACK (startup_wizard_terminate), NULL);
@@ -112,18 +113,13 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	start_page = e_config_page_get (config, "0.start");
 
 	gtk_assistant_set_page_title (GTK_ASSISTANT (config->widget), start_page, _("Welcome"));
-	page_children = gtk_container_get_children (GTK_CONTAINER (start_page));
-	if (page_children) {
-		GtkLabel *label = GTK_LABEL (page_children->data);
-		if (label) {
-			gtk_label_set_text (label, _(""
-				"Welcome to Evolution. The next few screens will allow Evolution to connect "
-				"to your email accounts, and to import files from other applications. \n"
-				"\n"
-				"Please click the \"Forward\" button to continue. "));
-		}
-
-		g_list_free (page_children);
+	start_page_label = GTK_LABEL (em_account_editor_get_widget (emae, "start_page_label"));
+	if (start_page_label) {
+		gtk_label_set_text (start_page_label, _(""
+				    "ZZZ ! Welcome to Evolution. The next few screens will allow Evolution to connect "
+				    "to your email accounts, and to import files from other applications. \n"
+				    "\n"
+				    "Please click the \"Forward\" button to continue. "));
 	}
 
 	g_signal_connect (

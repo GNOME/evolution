@@ -619,6 +619,8 @@ shell_constructed (GObject *object)
 		g_object_add_weak_pointer (object, &default_shell);
 	}
 
+	E_SHELL (object)->priv->express = e_shell_get_express_mode (NULL);
+
 	/* UniqueApp will have by this point determined whether we're
 	 * the only Evolution process running.  If so, proceed normally.
 	 * Otherwise we just issue commands to the other process. */
@@ -1038,8 +1040,7 @@ shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
-	shell->priv->express = gconf_client_get_bool (
-		shell->priv->gconf_client, "/apps/evolution/shell/express_mode", NULL);
+
 	g_object_ref_sink (shell->priv->preferences_window);
 
 #if defined(NM_SUPPORT) && NM_SUPPORT
@@ -1662,7 +1663,7 @@ e_shell_set_online (EShell *shell,
 
 /**
  * e_shell_get_express_mode:
- * @shell: an #EShell
+ * @shell: an #EShell, or NULL for the global value
  *
  * Returns %TRUE if Evolution is in express mode, %FALSE if Evolution not.
  *
@@ -1670,9 +1671,19 @@ e_shell_set_online (EShell *shell,
 gboolean
 e_shell_get_express_mode (EShell *shell)
 {
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	if (shell)
+		return shell->priv->express;
 
-	return shell->priv->express;
+	if (g_getenv ("EVO_EXPRESS"))
+		return TRUE;
+
+	shell = e_shell_get_default ();
+	g_return_val_if_fail (shell != NULL, FALSE);
+
+	return gconf_client_get_bool (
+		shell->priv->gconf_client,
+		"/apps/evolution/shell/express_mode",
+		NULL);
 }
 
 /**

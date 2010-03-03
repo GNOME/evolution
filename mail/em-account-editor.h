@@ -110,23 +110,13 @@ gboolean	em_account_editor_check		(EMAccountEditor *emae,
 						 const gchar *page);
 gboolean	em_account_editor_save		(EMAccountEditor *emae);
 void		em_account_editor_destroy	(EMAccountEditor *emae);
-gboolean	em_account_editor_identity_complete
-						(EMAccountEditor *emae,
-						 GtkWidget **incomplete);
-gboolean	em_account_editor_source_complete
-						(EMAccountEditor *emae,
-						 GtkWidget **incomplete);
-gboolean	EMAccountEditorTyperansport_complete
-						(EMAccountEditor *emae,
-						 GtkWidget **incomplete);
-gboolean	em_account_editor_management_complete
-						(EMAccountEditor *emae,
-						 GtkWidget **incomplete);
 void		em_account_editor_build_extra_conf
 						(EMAccountEditor *emae,
 						 const gchar *url);
 void		em_account_editor_auto_detect_extra_conf
 						(EMAccountEditor *emae);
+GtkWidget *	em_account_editor_get_widget    (EMAccountEditor *emae,
+						 const gchar     *name);
 
 G_END_DECLS
 
