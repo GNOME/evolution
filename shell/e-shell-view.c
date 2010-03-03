@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
 #include "filter/e-rule-context.h"
 
@@ -41,7 +42,8 @@ struct _EShellViewPrivate {
 	gpointer shell_window;  /* weak pointer */
 
 	GKeyFile *state_key_file;
-	guint state_save_source_id;
+	gpointer state_save_activity;  /* weak pointer */
+	guint state_save_timeout_id;
 
 	gchar *title;
 	gchar *view_id;
@@ -215,39 +217,98 @@ exit:
 	g_free (filename);
 }
 
-static void
-shell_view_save_state (EShellView *shell_view)
-{
-	EShellBackend *shell_backend;
-	GKeyFile *key_file;
-	const gchar *config_dir;
+typedef struct {
+	EShellView *shell_view;
 	gchar *contents;
-	gchar *filename;
+} SaveStateData;
+
+static void
+shell_view_save_state_done_cb (GFile *file,
+                               GAsyncResult *result,
+                               SaveStateData *data)
+{
 	GError *error = NULL;
 
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	config_dir = e_shell_backend_get_config_dir (shell_backend);
-	filename = g_build_filename (config_dir, "state", NULL);
-
-	/* XXX Should do this asynchronously. */
-	key_file = shell_view->priv->state_key_file;
-	contents = g_key_file_to_data (key_file, NULL, NULL);
-	g_file_set_contents (filename, contents, -1, &error);
-	g_free (contents);
+	e_file_replace_contents_finish (file, result, NULL, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
 
-	g_free (filename);
+	g_object_unref (data->shell_view);
+	g_free (data->contents);
+	g_slice_free (SaveStateData, data);
+}
+
+static EActivity *
+shell_view_save_state (EShellView *shell_view)
+{
+	EShellBackend *shell_backend;
+	SaveStateData *data;
+	EActivity *activity;
+	GKeyFile *key_file;
+	GFile *file;
+	const gchar *config_dir;
+	gchar *contents;
+	gchar *path;
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	key_file = shell_view->priv->state_key_file;
+
+	contents = g_key_file_to_data (key_file, NULL, NULL);
+	g_return_val_if_fail (contents != NULL, NULL);
+
+	path = g_build_filename (config_dir, "state", NULL);
+	file = g_file_new_for_path (path);
+	g_free (path);
+
+	/* GIO does not copy the contents string, so we need to keep
+	 * it in memory until saving is complete.  We reference the
+	 * shell view to keep it from being finalized while saving. */
+	data = g_slice_new (SaveStateData);
+	data->shell_view = g_object_ref (shell_view);
+	data->contents = contents;
+
+	/* The returned activity is a borrowed reference. */
+	activity = e_file_replace_contents_async (
+		file, contents, strlen (contents), NULL,
+		FALSE, G_FILE_CREATE_PRIVATE, (GAsyncReadyCallback)
+		shell_view_save_state_done_cb, data);
+
+#if 0  /* FIXME Enable this for 2.31 */
+	e_activity_set_primary_text (
+		activity, _("Saving user interface state"));
+#endif
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	g_object_unref (file);
+
+	return activity;
 }
 
 static gboolean
 shell_view_state_timeout_cb (EShellView *shell_view)
 {
-	shell_view_save_state (shell_view);
-	shell_view->priv->state_save_source_id = 0;
+	EActivity *activity;
+
+	/* If a save is still in progress, check back later. */
+	if (shell_view->priv->state_save_activity != NULL)
+		return TRUE;
+
+	activity = shell_view_save_state (shell_view);
+
+	/* Set up a weak pointer that gets set to NULL when the
+	 * activity finishes.  This will tell us if we're still
+	 * busy saving state data to disk on the next timeout. */
+	shell_view->priv->state_save_activity = activity;
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_view->priv->state_save_activity),
+		&shell_view->priv->state_save_activity);
+
+	shell_view->priv->state_save_timeout_id = 0;
 
 	return FALSE;
 }
@@ -421,10 +482,18 @@ shell_view_dispose (GObject *object)
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
 	/* Expedite any pending state saves. */
-	if (priv->state_save_source_id > 0) {
-		g_source_remove (priv->state_save_source_id);
-		priv->state_save_source_id = 0;
-		shell_view_save_state (E_SHELL_VIEW (object));
+	if (priv->state_save_timeout_id > 0) {
+		g_source_remove (priv->state_save_timeout_id);
+		priv->state_save_timeout_id = 0;
+		if (priv->state_save_activity == NULL)
+			shell_view_save_state (E_SHELL_VIEW (object));
+	}
+
+	if (priv->state_save_activity != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->state_save_activity),
+			&priv->state_save_activity);
+		priv->state_save_activity = NULL;
 	}
 
 	if (priv->shell_window != NULL) {
@@ -1331,14 +1400,14 @@ e_shell_view_set_state_dirty (EShellView *shell_view)
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	/* If a timeout is already scheduled, do nothing. */
-	if (shell_view->priv->state_save_source_id > 0)
+	if (shell_view->priv->state_save_timeout_id > 0)
 		return;
 
 	source_id = g_timeout_add_seconds (
 		STATE_SAVE_TIMEOUT_SECONDS, (GSourceFunc)
 		shell_view_state_timeout_cb, shell_view);
 
-	shell_view->priv->state_save_source_id = source_id;
+	shell_view->priv->state_save_timeout_id = source_id;
 }
 
 /**
