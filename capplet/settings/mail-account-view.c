@@ -640,7 +640,6 @@ void
 mail_account_view_construct (MailAccountView *view)
 {
 	int i;
-	GtkWidget *advanced_identity;
 	
 	view->scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)view->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -668,7 +667,8 @@ mail_account_view_construct (MailAccountView *view)
 	em_account_editor_check (view->edit, mail_account_pages[0].path);
 	view->pages[0]->done = TRUE;
 
-	gtk_widget_hide (em_account_editor_get_widget (view->edit, "identity_optional_frame"));
+	if (e_shell_get_express_mode (NULL))
+		gtk_widget_hide (em_account_editor_get_widget (view->edit, "identity_optional_frame"));
 }
 
 MailAccountView *
