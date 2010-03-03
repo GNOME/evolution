@@ -220,8 +220,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	EShellWindowPrivate *priv = shell_window->priv;
 	GHashTable *loaded_views;
 	GArray *signal_handler_ids;
-	GtkAccelGroup *accel_group;
-	guint merge_id;
 
 	loaded_views = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -249,18 +247,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	e_shell_window_add_action_group (shell_window, "lockdown-print-setup");
 	e_shell_window_add_action_group (shell_window, "lockdown-save-to-disk");
 
-	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
-	priv->custom_rule_merge_id = merge_id;
-
-	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
-	priv->gal_view_merge_id = merge_id;
-
 	gtk_window_set_title (GTK_WINDOW (shell_window), _("Evolution"));
-
-	e_shell_window_actions_init (shell_window);
-
-	accel_group = gtk_ui_manager_get_accel_group (priv->ui_manager);
-	gtk_window_add_accel_group (GTK_WINDOW (shell_window), accel_group);
 
 	g_signal_connect_swapped (
 		priv->ui_manager, "connect-proxy",
@@ -275,6 +262,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	EShell *shell;
 	GConfBridge *bridge;
 	GtkAction *action;
+	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	GtkBox *box;
@@ -282,6 +270,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkWidget *widget;
 	GtkWindow *window;
 	GObject *object;
+	guint merge_id;
 	const gchar *key;
 	const gchar *id;
 
@@ -291,6 +280,23 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_watch_window (shell, window);
+
+	e_load_ui_manager_set_express (priv->ui_manager,
+				       e_shell_get_express_mode (shell));
+
+	/* Defer actions and menu merging until we have set express mode */
+
+	e_shell_window_actions_init (shell_window);
+
+	accel_group = gtk_ui_manager_get_accel_group (priv->ui_manager);
+	gtk_window_add_accel_group (GTK_WINDOW (shell_window), accel_group);
+
+	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
+	priv->custom_rule_merge_id = merge_id;
+
+	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
+	priv->gal_view_merge_id = merge_id;
+
 
 	/* Construct window widgets. */
 

@@ -505,9 +505,8 @@ mail_browser_constructed (GObject *object)
 		G_N_ELEMENTS (mail_browser_popup_entries));
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
-	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION,
-				      e_shell_get_express_mode (shell));
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
+	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
+	e_load_ui_manager_definition_from_string (ui_manager, ui, NULL);
 
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	e_mail_reader_create_charset_menu (reader, ui_manager, merge_id);
@@ -777,6 +776,8 @@ mail_browser_init (EMailBrowser *browser)
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 
 	browser->priv->ui_manager = gtk_ui_manager_new ();
+	e_load_ui_manager_set_express (browser->priv->ui_manager,
+				       e_shell_get_express_mode (NULL));
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->html_display = em_format_html_display_new ();
 

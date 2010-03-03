@@ -1867,16 +1867,12 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
-	gboolean express;
 	gchar *path;
 	
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	express = e_shell_get_express_mode (
-		e_shell_window_get_shell (shell_window));
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-
-	e_load_ui_manager_definition (ui_manager, "evolution-shell.ui", express);
+	e_load_ui_manager_definition (ui_manager, "evolution-shell.ui");
 
 	/* Shell Actions */
 	action_group = ACTION_GROUP (SHELL);

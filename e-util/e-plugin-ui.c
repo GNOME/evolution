@@ -16,6 +16,7 @@
  */
 
 #include "e-plugin-ui.h"
+#include "e-util.h"
 
 #include <string.h>
 
@@ -238,8 +239,8 @@ plugin_ui_hook_merge_ui (EPluginUIHook *hook,
 	ui_definition = g_hash_table_lookup (hash_table, id);
 	g_return_val_if_fail (ui_definition != NULL, 0);
 
-	merge_id = gtk_ui_manager_add_ui_from_string (
-		ui_manager, ui_definition, -1, &error);
+	merge_id = e_load_ui_manager_definition_from_string (
+		ui_manager, ui_definition, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);

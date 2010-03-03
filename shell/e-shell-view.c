@@ -594,11 +594,7 @@ shell_view_toggled (EShellView *shell_view)
 	id = shell_view_class->ui_manager_id;
 
 	if (view_is_active && priv->merge_id == 0) {
-		gboolean express = e_shell_get_express_mode (
-			e_shell_backend_get_shell (
-				e_shell_view_get_shell_backend (shell_view)));
-		priv->merge_id = e_load_ui_manager_definition (
-			ui_manager, basename, express);
+		priv->merge_id = e_load_ui_manager_definition (ui_manager, basename);
 		e_plugin_ui_enable_manager (ui_manager, id);
 
 	} else if (!view_is_active && priv->merge_id != 0) {

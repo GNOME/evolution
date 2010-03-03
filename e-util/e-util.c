@@ -310,24 +310,103 @@ e_load_ui_builder_definition (GtkBuilder *builder,
 	}
 }
 
+
+void
+e_load_ui_manager_set_express (GtkUIManager *ui_manager,
+			       gboolean      express)
+{
+	fprintf (stderr, "set express on %p to %d\n", ui_manager, express);
+	g_object_set_data (G_OBJECT (ui_manager),
+			   "e-ui-mgr-express",
+			   GUINT_TO_POINTER (express));
+}
+
+static gboolean
+e_load_ui_manager_get_express (GtkUIManager *ui_manager)
+{
+	gboolean express = GPOINTER_TO_UINT (
+		g_object_get_data (G_OBJECT (ui_manager),
+				   "e-ui-mgr-express"));
+	fprintf (stderr, "get express on %p to %d\n", ui_manager, express);
+	return express;
+}
+
+
+/**
+ * e_load_ui_manager_definition_from_string:
+ * @ui_manager: a #GtkUIManager
+ * @string: the UI XML in NULL terminated string form
+ *
+ * Loads a UI definition into @ui_manager from Evolution's UI directory.
+ * Depending on the mode signalled by the 'express' flag on the UI manager
+ * a simplified version of the UI may be presented.
+ *
+ * Returns: The merge ID for the merged UI.  The merge ID can be used to
+ *          unmerge the UI with gtk_ui_manager_remove_ui().
+ **/
+guint
+e_load_ui_manager_definition_from_string (GtkUIManager *ui_manager,
+					  const gchar  *ui_string,
+					  GError      **error)
+{
+	int i;
+	guint merge_id;
+	gchar *filtered, **lines;
+	gboolean is_express, in_conditional = FALSE;
+	gboolean include = TRUE;
+
+	is_express = e_load_ui_manager_get_express (ui_manager);
+
+	/*
+	 * Very simple line based pre-processing based on comments:
+	 * <!-- if [!]EXPRESS -->\n ... \n<!-- endif -->\n
+	 */	
+	lines = g_strsplit (ui_string, "\n", -1);
+	for (i = 0; lines[i]; i++) {
+		char *p;
+		if ((p = strstr (lines[i], "<!-- if "))) {
+			gboolean not_express = lines[i][8] == '!';
+			include = is_express ^ not_express;
+/*			g_warning ("not express: %d from '%s' include to %d (%d)",
+				   not_express, lines[i], include, is_express); */
+			lines[i][0] = '\0';
+			in_conditional = TRUE;
+		} else if ((p = strstr (lines[i], "<!-- endif"))) {
+			lines[i][0] = '\0';
+			include = TRUE;
+			in_conditional = FALSE;
+		}
+/*		if (in_conditional)
+			g_warning ("conditional: (%d): '%s'", include, lines[i]); */
+		if (!include)
+			lines[i][0] = '\0';
+	}
+	filtered = g_strjoinv("\n", lines);
+
+	merge_id = gtk_ui_manager_add_ui_from_string (ui_manager, filtered, -1, error);
+
+	g_free (filtered);
+
+	return merge_id;
+}
+
 /**
  * e_load_ui_manager_definition:
  * @ui_manager: a #GtkUIManager
  * @basename: basename of the UI definition file
- * @is_express: are we in 'express' mode ?
  *
  * Loads a UI definition into @ui_manager from Evolution's UI directory.
  * Failure here is fatal, since the application can't function without
- * its UI definitions. Depending on the mode signalled by @is_express a
- * simplified version of the UI may be presented.
+ * its UI definitions. 
+ * Depending on the mode signalled by the 'express' flag on the UI manager
+ * a simplified version of the UI may be presented.
  *
  * Returns: The merge ID for the merged UI.  The merge ID can be used to
  *          unmerge the UI with gtk_ui_manager_remove_ui().
  **/
 guint
 e_load_ui_manager_definition (GtkUIManager *ui_manager,
-                              const gchar *basename,
-			      gboolean is_express)
+                              const gchar  *basename)
 {
 	gchar *filename;
 	guint merge_id = 0;
@@ -339,37 +418,8 @@ e_load_ui_manager_definition (GtkUIManager *ui_manager,
 
 	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
 
-	/*
-	 * Very simple line based pre-processing based on comments:
-	 * <!-- if [!]EXPRESS --> ... <!-- endif -->
-	 */
-	if (g_file_get_contents (filename, &buffer, NULL, &error)) {
-		int i;
-		gchar *filtered, **lines;
-		gboolean include = TRUE;
-
-		lines = g_strsplit (buffer, "\n", -1);
-		for (i = 0; lines[i]; i++) {
-			char *p;
-			if ((p = strstr (lines[i], "<!-- if "))) {
-				gboolean not_express = lines[i][8] == '!';
-				lines[i][0] = '\0';
-				include = is_express ^ not_express;
-				fprintf (stderr, "not exporess: %d from '%s' include to %d\n",
-					 not_express, lines[i], include);
-			} else if ((p = strstr (lines[i], "<!-- endif"))) {
-				lines[i][0] = '\0';
-				include = TRUE;
-			}
-			if (!include)
-				lines[i][0] = '\0';
-		}
-		filtered = g_strjoinv("\n", lines);
-
-		merge_id = gtk_ui_manager_add_ui_from_string (ui_manager, filtered, -1, &error);
-
-		g_free (filtered);
-	}
+	if (g_file_get_contents (filename, &buffer, NULL, &error))
+		merge_id = e_load_ui_manager_definition_from_string (ui_manager, buffer, &error);
 
 	g_free (filename);
 

@@ -177,11 +177,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 	basename = E_MAIL_READER_UI_DEFINITION;
 
 	if (view_is_active && priv->merge_id == 0) {
-		gboolean express = e_shell_get_express_mode (
-			e_shell_backend_get_shell (
-				e_shell_view_get_shell_backend (shell_view)));
-		priv->merge_id = e_load_ui_manager_definition (
-			ui_manager, basename, express);
+		priv->merge_id = e_load_ui_manager_definition (ui_manager, basename);
 		e_mail_reader_create_charset_menu (
 			E_MAIL_READER (priv->mail_shell_content),
 			ui_manager, priv->merge_id);
