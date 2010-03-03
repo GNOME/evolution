@@ -62,9 +62,15 @@
   </menubar>
   <toolbar name='main-toolbar'>
     <placeholder name='mail-toolbar-common'/>
+<!-- if !EXPRESS -->
     <toolitem action='mail-stop'/>
+<!-- endif -->
     <separator/>
     <placeholder name='mail-toolbar-navigation'/>
+<!-- if EXPRESS -->
+    <separator/>
+    <toolitem action='preferences'/>
+<!-- endif -->
   </toolbar>
   <popup name='mail-folder-popup'>
     <placeholder name='mail-folder-popup-actions'/>
