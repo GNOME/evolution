@@ -395,6 +395,10 @@
       <owner>evolution</owner>
       <type>bool</type>
       <default>false</default>
+      <locale name="C">
+        <short>Enable express mode</short>
+        <long>Flag that enables a much simplified user interface.</long>
+      </locale>
     </schema>
 
   </schemalist>  
