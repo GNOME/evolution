@@ -1893,12 +1893,6 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 	concat_unique_addrs (cc, to_addrs, rcpt_hash);
 	concat_unique_addrs (cc, cc_addrs, rcpt_hash);
 
-	/* use reply_to for an empty To: */
-	if (reply_to && camel_address_length ((CamelAddress *) to) == 0) {
-		camel_internet_address_get (reply_to, 0, &name, &addr);
-		camel_internet_address_add (to, name, addr);
-	}
-
 	/* promote the first Cc: address to To: if To: is empty */
 	if (camel_address_length ((CamelAddress *) to) == 0 && camel_address_length ((CamelAddress *)cc) > 0) {
 		camel_internet_address_get (cc, 0, &name, &addr);
