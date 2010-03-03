@@ -957,7 +957,7 @@ e_shell_window_get_shell_view_action (EShellWindow *shell_window,
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (view_name != NULL, NULL);
 
-	action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
+	action_name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, view_name);
 	action = e_shell_window_get_action (shell_window, action_name);
 	g_free (action_name);
 

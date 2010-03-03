@@ -131,5 +131,7 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "shell")
 #define E_SHELL_WINDOW_ACTION_GROUP_SWITCHER(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "switcher")
+#define E_SHELL_WINDOW_ACTION_GROUP_NEW_WINDOW(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-window")
 
 #endif /* E_SHELL_WINDOW_ACTIONS_H */

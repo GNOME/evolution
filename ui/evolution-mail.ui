@@ -61,6 +61,11 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
+<!-- if EXPRESS -->
+    <placeholder name='toolbar-actions'>
+      <toolitem action='new-addressbook-window'/>
+    </placeholder>
+<!-- endif -->
     <placeholder name='mail-toolbar-common'/>
 <!-- if !EXPRESS -->
     <toolitem action='mail-stop'/>

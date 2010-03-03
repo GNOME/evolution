@@ -242,6 +242,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	e_shell_window_add_action_group (shell_window, "new-source");
 	e_shell_window_add_action_group (shell_window, "custom-rules");
 	e_shell_window_add_action_group (shell_window, "switcher");
+	e_shell_window_add_action_group (shell_window, "new-window");
 	e_shell_window_add_action_group (shell_window, "lockdown-application-handlers");
 	e_shell_window_add_action_group (shell_window, "lockdown-printing");
 	e_shell_window_add_action_group (shell_window, "lockdown-print-setup");

@@ -1239,6 +1239,21 @@ action_switcher_cb (GtkRadioAction *action,
 	e_shell_window_switch_to_view (shell_window, view_name);
 }
 
+static void
+action_new_view_window_cb (GtkAction *action,
+			   EShellWindow *shell_window)
+{
+	EShell *shell;
+	const gchar *view_name;
+
+	shell = e_shell_window_get_shell (shell_window);
+	view_name = g_object_get_data (G_OBJECT (action), "view-name");
+
+	fprintf (stderr, "create new window: %s\n", view_name);
+
+	e_shell_create_shell_window (shell, view_name);
+}
+
 /**
  * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH:
  * @window: an #EShellWindow
@@ -2059,12 +2074,36 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 	return menu;
 }
 
+static GtkAction *
+e_shell_window_create_switcher_action (GType type, EShellViewClass *class,
+				       const char *name, const char *tooltip,
+				       const char *view_name)
+{
+	GtkAction *action;
+
+	action = g_object_new (type, "name", name,
+			       "label", class->label,
+			       "tooltip", tooltip,
+			       "icon-name", class->icon_name,
+			       NULL);
+
+	g_object_set_data (G_OBJECT (action), "view-name",
+			   (gpointer) view_name);
+
+	return action;
+}
+
+/*
+ * Create both the actions to switch the current window, and also
+ * to create each view in a new window.
+ */
 void
 e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 {
 	GSList *group = NULL;
-	GtkRadioAction *action;
-	GtkActionGroup *action_group;
+	GtkRadioAction *s_action;
+	GtkActionGroup *s_action_group;
+	GtkActionGroup *n_action_group;
 	GtkUIManager *ui_manager;
 	EShellSwitcher *switcher;
 	EShell *shell;
@@ -2074,7 +2113,8 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	action_group = ACTION_GROUP (SWITCHER);
+	s_action_group = ACTION_GROUP (SWITCHER);
+	n_action_group = ACTION_GROUP (NEW_WINDOW);
 	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -2086,18 +2126,20 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	 * actions are manifested as switcher buttons and View->Window
 	 * menu items. */
 
-	action = GTK_RADIO_ACTION (ACTION (SWITCHER_INITIAL));
-	gtk_radio_action_set_group (action, group);
-	group = gtk_radio_action_get_group (action);
+	s_action = GTK_RADIO_ACTION (ACTION (SWITCHER_INITIAL));
+	gtk_radio_action_set_group (s_action, group);
+	group = gtk_radio_action_get_group (s_action);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		EShellBackend *shell_backend = iter->data;
 		EShellBackendClass *backend_class;
 		EShellViewClass *class;
+		GtkAction *n_action;
 		GType view_type;
 		const gchar *view_name;
 		gchar *accelerator;
-		gchar *action_name;
+		gchar *s_action_name;
+		gchar *n_action_name;
 		gchar *tooltip;
 
 		/* The backend name is also the view name. */
@@ -2122,27 +2164,21 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 			continue;
 		}
 
-		action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
+
+		s_action_name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, view_name);
 
 		/* Note, we have to set "icon-name" separately because
 		 * gtk_radio_action_new() expects a "stock-id".  Sadly,
 		 * GTK+ still distinguishes between the two. */
 
-		action = gtk_radio_action_new (
-			action_name, class->label,
-			tooltip, NULL, ii++);
-
-		g_object_set (
-			G_OBJECT (action),
-			"icon-name", class->icon_name, NULL);
-
-		g_object_set_data (
-			G_OBJECT (action),
-			"view-name", (gpointer) view_name);
-
-		gtk_radio_action_set_group (action, group);
-		group = gtk_radio_action_get_group (action);
+		s_action = GTK_RADIO_ACTION (
+			e_shell_window_create_switcher_action (GTK_TYPE_RADIO_ACTION,
+							       class, s_action_name,
+							       tooltip, view_name));
+		g_object_set (G_OBJECT (s_action), "value", ii++, NULL);
+		gtk_radio_action_set_group (s_action, group);
+		group = gtk_radio_action_get_group (s_action);
 
 		/* The first nine views have accelerators Ctrl+(1-9). */
 		if (ii < 10)
@@ -2151,18 +2187,29 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 			accelerator = g_strdup ("");
 
 		gtk_action_group_add_action_with_accel (
-			action_group, GTK_ACTION (action), accelerator);
+			s_action_group, GTK_ACTION (s_action), accelerator);
+		e_shell_switcher_add_action (switcher, GTK_ACTION (s_action));
 
-		e_shell_switcher_add_action (switcher, GTK_ACTION (action));
+		g_free (accelerator);
 
 		gtk_ui_manager_add_ui (
 			ui_manager, merge_id,
 			"/main-menu/view-menu/window-menu",
-			action_name, action_name,
+			s_action_name, s_action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
+		g_free (s_action_name);
 
-		g_free (accelerator);
-		g_free (action_name);
+		/* Create in new window actions */
+		n_action_name = g_strdup_printf (E_SHELL_NEW_WINDOW_FORMAT, view_name);
+		n_action = e_shell_window_create_switcher_action (GTK_TYPE_ACTION,
+								  class, n_action_name,
+								  tooltip, view_name);
+		g_signal_connect (G_OBJECT (n_action), "activate",
+				  G_CALLBACK (action_new_view_window_cb),
+				  shell_window);
+		gtk_action_group_add_action (n_action_group, n_action);
+
+		g_free (n_action_name);
 		g_free (tooltip);
 
 		g_type_class_unref (class);

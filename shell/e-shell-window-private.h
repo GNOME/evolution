@@ -61,7 +61,8 @@
 /* Format for switcher action names.
  * The last part is the shell view name.
  * (e.g. switch-to-mail, switch-to-calendar) */
-#define SWITCHER_FORMAT		"switch-to-%s"
+#define E_SHELL_SWITCHER_FORMAT   "switch-to-%s"
+#define E_SHELL_NEW_WINDOW_FORMAT "new-%s-window"
 
 G_BEGIN_DECLS
 
