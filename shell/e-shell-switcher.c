@@ -551,30 +551,72 @@ e_shell_switcher_new (void)
 	return g_object_new (E_TYPE_SHELL_SWITCHER, NULL);
 }
 
+/*
+ * gtk+ doesn't give us what we want - a middle click,
+ * option on toolbar items, so we have to get it by force.
+ */
+static GtkButton *
+tool_item_get_button (GtkWidget *widget)
+{
+	GtkWidget *child;
+
+	g_return_val_if_fail (GTK_IS_TOOL_ITEM (widget), NULL);
+
+	child = GTK_BIN (widget)->child;
+	if (child != NULL && GTK_IS_BUTTON (child))
+		return GTK_BUTTON (child);
+	else
+		return NULL;
+}
+
+static gboolean
+tool_item_button_cb (GtkWidget      *internal_widget,
+		     GdkEventButton *event,
+		     GtkAction      *action)
+{
+	g_return_val_if_fail (GTK_IS_ACTION (action), FALSE);
+
+	if (event->button == 2) {
+		gtk_action_activate (action);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 /**
  * e_shell_switcher_add_action:
  * @switcher: an #EShellSwitcher
- * @action: a #GtkAction
+ * @switch_action: a #GtkAction
+ * @new_window_action: a #GtkAction
  *
- * Adds a button to @switcher that proxies for @action.  Switcher buttons
- * appear in the order they were added.
+ * Adds a button to @switcher that proxies for @switcher_action.
+ * Switcher buttons appear in the order they were added. A middle
+ * click opens a new window of this type.  
  *
  * #EShellWindow adds switcher actions in the order given by the
  * <structfield>sort_order</structfield> field in #EShellBackendClass.
  **/
 void
 e_shell_switcher_add_action (EShellSwitcher *switcher,
-                             GtkAction *action)
+			     GtkAction      *switch_action,
+			     GtkAction      *new_window_action)
 {
 	GtkWidget *widget;
+	GtkButton *button;
 
 	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
-	g_return_if_fail (GTK_IS_ACTION (action));
+	g_return_if_fail (GTK_IS_ACTION (switch_action));
+	g_return_if_fail (GTK_IS_ACTION (new_window_action));
 
-	g_object_ref (action);
-	widget = gtk_action_create_tool_item (action);
+	g_object_ref (switch_action);
+	widget = gtk_action_create_tool_item (switch_action);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (widget), TRUE);
 	gtk_widget_show (widget);
+
+	if ((button = tool_item_get_button (widget)) != NULL)
+		g_signal_connect (button, "button-release-event",
+				  G_CALLBACK (tool_item_button_cb),
+				  new_window_action);
 
 	switcher->priv->proxies = g_list_append (
 		switcher->priv->proxies, widget);

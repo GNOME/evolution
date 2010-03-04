@@ -78,7 +78,8 @@ struct _EShellSwitcherClass {
 GType		e_shell_switcher_get_type	(void);
 GtkWidget *	e_shell_switcher_new		(void);
 void		e_shell_switcher_add_action	(EShellSwitcher *switcher,
-						 GtkAction *action);
+						 GtkAction      *switch_action,
+						 GtkAction      *new_window_action);
 GtkToolbarStyle	e_shell_switcher_get_style	(EShellSwitcher *switcher);
 void		e_shell_switcher_set_style	(EShellSwitcher *switcher,
 						 GtkToolbarStyle style);

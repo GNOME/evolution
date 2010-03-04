@@ -2216,7 +2216,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 		gtk_action_group_add_action_with_accel (
 			s_action_group, GTK_ACTION (s_action), accelerator);
-		e_shell_switcher_add_action (switcher, GTK_ACTION (s_action));
 
 		g_free (accelerator);
 
@@ -2236,6 +2235,8 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 				  G_CALLBACK (action_new_view_window_cb),
 				  shell_window);
 		gtk_action_group_add_action (n_action_group, n_action);
+
+		e_shell_switcher_add_action (switcher, GTK_ACTION (s_action), n_action);
 
 		g_free (n_action_name);
 		g_free (tooltip);
