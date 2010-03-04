@@ -28,6 +28,7 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/e-selection.h"
+#include "e-util/e-ui-manager.h"
 #include "e-util/e-util.h"
 #include "e-attachment-dialog.h"
 #include "e-attachment-handler-image.h"
@@ -787,7 +788,7 @@ e_attachment_view_init (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	ui_manager = gtk_ui_manager_new ();
+	ui_manager = e_ui_manager_new ();
 	priv->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->ui_manager = ui_manager;
 

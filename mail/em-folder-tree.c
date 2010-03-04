@@ -2619,8 +2619,10 @@ sort_by_store_and_uri (gconstpointer name1, gconstpointer name2)
 
 /* restores state of a tree (collapsed/expanded) as stores in the given key_file */
 void
-em_folder_tree_restore_state (EMFolderTree *folder_tree, GKeyFile *key_file)
+em_folder_tree_restore_state (EMFolderTree *folder_tree,
+                              GKeyFile *key_file)
 {
+	EShell *shell;
 	GtkTreeModel *tree_model;
 	GtkTreeView *tree_view;
 	GtkTreeIter iter;
@@ -2632,6 +2634,9 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree, GKeyFile *key_file)
 	/* Make sure we have a key file to restore state from. */
 	if (key_file == NULL)
 		return;
+
+	/* XXX Pass this in. */
+	shell = e_shell_get_default ();
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	tree_model = gtk_tree_view_get_model (tree_view);
@@ -2717,7 +2722,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree, GKeyFile *key_file)
 
 		group_name = g_strdup_printf ("Store %s", uri);
 		
-		if (e_shell_get_express_mode (NULL)) {
+		if (e_shell_get_express_mode (shell)) {
 			gboolean system = FALSE;
 
 			if (strncmp (uri, "vfolder", 7) == 0 ||

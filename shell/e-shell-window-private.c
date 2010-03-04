@@ -228,7 +228,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	signal_handler_ids = g_array_new (FALSE, FALSE, sizeof (gulong));
 
-	priv->ui_manager = gtk_ui_manager_new ();
+	priv->ui_manager = e_ui_manager_new ();
 	priv->loaded_views = loaded_views;
 	priv->signal_handler_ids = signal_handler_ids;
 
@@ -282,20 +282,20 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	e_shell_watch_window (shell, window);
 
-	e_load_ui_manager_set_express (priv->ui_manager,
-				       e_shell_get_express_mode (shell));
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
 
 	/* Defer actions and menu merging until we have set express mode */
 
 	e_shell_window_actions_init (shell_window);
 
-	accel_group = gtk_ui_manager_get_accel_group (priv->ui_manager);
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (shell_window), accel_group);
 
-	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->custom_rule_merge_id = merge_id;
 
-	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->gal_view_merge_id = merge_id;
 
 
@@ -425,7 +425,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	key = "/apps/evolution/shell/view_defaults/statusbar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "taskbar-visible");
 
-	if (e_shell_get_express_mode(NULL)) {
+	if (e_shell_get_express_mode (shell)) {
 		e_shell_window_set_switcher_visible (shell_window, FALSE);
 	} else {
 		object = G_OBJECT (shell_window);
@@ -456,9 +456,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	shell_window_init_switcher_style (shell_window);
 
 	id = "org.gnome.evolution.shell";
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_plugin_ui_register_manager (ui_manager, id, shell_window);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_plugin_ui_register_manager (
+		E_UI_MANAGER (ui_manager), id, shell_window);
+	e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
 }
 
 void

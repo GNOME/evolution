@@ -60,11 +60,12 @@ struct _EShellPrivate {
 	guint online		: 1;
 	guint quit_cancelled	: 1;
 	guint safe_mode		: 1;
-	guint express		: 1;
+	guint express_mode	: 1;
 };
 
 enum {
 	PROP_0,
+	PROP_EXPRESS_MODE,
 	PROP_GEOMETRY,
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
@@ -466,6 +467,13 @@ shell_sm_quit_cb (EShell *shell,
 }
 
 static void
+shell_set_express_mode (EShell *shell,
+                        gboolean express_mode)
+{
+	shell->priv->express_mode = express_mode;
+}
+
+static void
 shell_set_geometry (EShell *shell,
                     const gchar *geometry)
 {
@@ -490,6 +498,12 @@ shell_set_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_EXPRESS_MODE:
+			shell_set_express_mode (
+				E_SHELL (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_GEOMETRY:
 			shell_set_geometry (
 				E_SHELL (object),
@@ -525,6 +539,12 @@ shell_get_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_EXPRESS_MODE:
+			g_value_set_boolean (
+				value, e_shell_get_express_mode (
+				E_SHELL (object)));
+			return;
+
 		case PROP_MODULE_DIRECTORY:
 			g_value_set_string (
 				value, e_shell_get_module_directory (
@@ -613,13 +633,15 @@ shell_finalize (GObject *object)
 static void
 shell_constructed (GObject *object)
 {
+	EShellPrivate *priv;
+
+	priv = E_SHELL_GET_PRIVATE (object);
+
 	/* The first EShell instance is the default. */
 	if (default_shell == NULL) {
 		default_shell = object;
 		g_object_add_weak_pointer (object, &default_shell);
 	}
-
-	E_SHELL (object)->priv->express = e_shell_get_express_mode (NULL);
 
 	/* UniqueApp will have by this point determined whether we're
 	 * the only Evolution process running.  If so, proceed normally.
@@ -749,6 +771,23 @@ shell_class_init (EShellClass *class)
 	unique_app_class->message_received = shell_message_received;
 
 	class->window_destroyed = shell_window_destroyed;
+
+	/**
+	 * EShell:express-mode
+	 *
+	 * Express mode alters Evolution's user interface to be more
+	 * usable on devices with small screens.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_EXPRESS_MODE,
+		g_param_spec_boolean (
+			"express-mode",
+			"Express Mode",
+			"Whether express mode is enabled",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	/**
 	 * EShell:geometry
@@ -1554,6 +1593,22 @@ e_shell_send_receive (EShell *shell,
 }
 
 /**
+ * e_shell_get_express_mode:
+ * @shell: an #EShell
+ *
+ * Returns %TRUE if Evolution is in express mode.
+ *
+ * Returns: %TRUE if Evolution is in express mode
+ **/
+gboolean
+e_shell_get_express_mode (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->express_mode;
+}
+
+/**
  * e_shell_get_module_directory:
  * @shell: an #EShell
  *
@@ -1659,31 +1714,6 @@ e_shell_set_online (EShell *shell,
 		shell_prepare_for_online (shell);
 	else
 		shell_prepare_for_offline (shell);
-}
-
-/**
- * e_shell_get_express_mode:
- * @shell: an #EShell, or NULL for the global value
- *
- * Returns %TRUE if Evolution is in express mode, %FALSE if Evolution not.
- *
- **/
-gboolean
-e_shell_get_express_mode (EShell *shell)
-{
-	if (shell)
-		return shell->priv->express;
-
-	if (g_getenv ("EVO_EXPRESS"))
-		return TRUE;
-
-	shell = e_shell_get_default ();
-	g_return_val_if_fail (shell != NULL, FALSE);
-
-	return gconf_client_get_bool (
-		shell->priv->gconf_client,
-		"/apps/evolution/shell/express_mode",
-		NULL);
 }
 
 /**

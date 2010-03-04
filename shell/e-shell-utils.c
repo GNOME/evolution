@@ -27,6 +27,31 @@
 #include "widgets/misc/e-import-assistant.h"
 
 /**
+ * e_shell_configure_ui_manager:
+ * @shell: an #EShell
+ * @ui_manager: an #EUIManager
+ *
+ * Adds shell integration to @ui_manager.  In particular, it keeps
+ * @ui_manager's EUIManager:express-mode property synchronized with
+ * @shell's EShell:express-mode property.
+ **/
+void
+e_shell_configure_ui_manager (EShell *shell,
+                              EUIManager *ui_manager)
+{
+	EShellSettings *shell_settings;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
+
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_binding_new (
+		shell, "express-mode",
+		ui_manager, "express-mode");
+}
+
+/**
  * e_shell_configure_web_view:
  * @shell: an #EShell
  * @web_view: an #EWebView

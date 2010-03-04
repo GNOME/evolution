@@ -55,7 +55,8 @@ EShellSwitcher
 </para>
 
 @switcher: 
-@action: 
+@switch_action: 
+@new_window_action: 
 
 
 <!-- ##### FUNCTION e_shell_switcher_get_style ##### -->

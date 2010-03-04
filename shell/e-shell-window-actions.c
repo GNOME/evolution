@@ -1887,7 +1887,8 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_load_ui_manager_definition (ui_manager, "evolution-shell.ui");
+	e_ui_manager_add_ui_from_file (
+		E_UI_MANAGER (ui_manager), "evolution-shell.ui");
 
 	/* Shell Actions */
 	action_group = ACTION_GROUP (SHELL);
@@ -2024,12 +2025,15 @@ express_filter_new_actions (GList *list)
 GtkWidget *
 e_shell_window_create_new_menu (EShellWindow *shell_window)
 {
+	EShell *shell;
 	GtkActionGroup *action_group;
 	GList *new_item_actions;
 	GList *new_source_actions;
 	GList *iter, *list = NULL;
 	GtkWidget *menu;
 	GtkWidget *separator;
+
+	shell = e_shell_window_get_shell (shell_window);
 
 	/* Get sorted lists of "new item" and "new source" actions. */
 
@@ -2058,7 +2062,7 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 	for (iter = list; iter != NULL; iter = iter->next)
 		iter->data = gtk_action_create_menu_item (iter->data);
 
-	if (e_shell_window_get_express_mode (shell_window)) {
+	if (e_shell_get_express_mode (shell)) {
 		new_item_actions = express_filter_new_actions (new_item_actions);
 		g_list_free (new_source_actions);
 		new_source_actions = NULL;
@@ -2325,8 +2329,9 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 		gtk_action_group_add_action (action_group, action);
 
 		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, path, action_name,
-			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+			ui_manager, merge_id,
+			path, action_name, action_name,
+			GTK_UI_MANAGER_AUTO, FALSE);
 
 		g_free (action_name);
 		g_free (tooltip);

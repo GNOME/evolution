@@ -365,8 +365,8 @@ task_editor_init (TaskEditor *te)
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
 	id = "org.gnome.evolution.task-editor";
-	e_plugin_ui_register_manager (ui_manager, id, te);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_plugin_ui_register_manager (E_UI_MANAGER (ui_manager), id, te);
+	e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

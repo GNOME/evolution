@@ -65,14 +65,6 @@ GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
 						 const gchar *group_name);
 void		e_load_ui_builder_definition	(GtkBuilder *builder,
 						 const gchar *basename);
-void		e_load_ui_manager_set_express	(GtkUIManager *ui_manager,
-						 gboolean      express);
-guint		e_load_ui_manager_definition	(GtkUIManager *ui_manager,
-						 const gchar *basename);
-guint           e_load_ui_manager_definition_from_string
-						(GtkUIManager *ui_manager,
-						 const gchar  *ui_string,
-						 GError      **error);
 gint		e_action_compare_by_label	(GtkAction *action1,
 						 GtkAction *action2);
 void		e_action_group_remove_all_actions

@@ -662,7 +662,7 @@ mail_account_view_construct (MailAccountView *view)
 	em_account_editor_check (view->edit, mail_account_pages[0].path);
 	view->pages[0]->done = TRUE;
 
-	if (e_shell_get_express_mode (NULL))
+	if (e_shell_get_express_mode (e_shell_get_default ()))
 		gtk_widget_hide (em_account_editor_get_widget (view->edit, "identity_optional_frame"));
 }
 

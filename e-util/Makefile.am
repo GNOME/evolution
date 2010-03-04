@@ -51,6 +51,7 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
 	e-timeout-activity.h			\
+	e-ui-manager.h				\
 	e-util.h				\
 	e-unicode.h				\
 	e-xml-utils.h				\
@@ -127,6 +128,7 @@ libeutil_la_SOURCES =				\
 	e-text-event-processor-emacs-like.c	\
 	e-text-event-processor.c		\
 	e-timeout-activity.c			\
+	e-ui-manager.c				\
 	e-util.c				\
 	e-unicode.c				\
 	e-util-private.h			\

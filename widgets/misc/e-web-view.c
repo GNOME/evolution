@@ -1229,7 +1229,7 @@ web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
-	ui_manager = gtk_ui_manager_new ();
+	ui_manager = e_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
 
 	g_signal_connect_swapped (
@@ -1331,8 +1331,8 @@ web_view_init (EWebView *web_view)
 		g_error ("%s", error->message);
 
 	id = "org.gnome.evolution.webview";
-	e_plugin_ui_register_manager (ui_manager, id, web_view);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_plugin_ui_register_manager (E_UI_MANAGER (ui_manager), id, web_view);
+	e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
 }
 
 GType

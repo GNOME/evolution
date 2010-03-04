@@ -77,6 +77,7 @@
 #endif
 
 /* Command-line options.  */
+static gboolean express_mode = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
@@ -322,6 +323,8 @@ static GOptionEntry entries[] = {
 	  N_("Start in offline mode"), NULL },
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
 	  N_("Start in online mode"), NULL },
+	{ "express", '\0', 0, G_OPTION_ARG_NONE, &express_mode,
+	  N_("Start in \"express\" mode"), NULL },
 #ifdef KILL_PROCESS_CMD
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down Evolution"), NULL },
@@ -412,10 +415,11 @@ create_default_shell (void)
 	GError *error = NULL;
 
 	client = gconf_client_get_default ();
-	key = "/apps/evolution/shell/start_offline";
 
 	/* Requesting online or offline mode from the command-line
 	 * should be persistent, just like selecting it in the UI. */
+
+	key = "/apps/evolution/shell/start_offline";
 
 	if (start_online) {
 		online = TRUE;
@@ -433,7 +437,19 @@ create_default_shell (void)
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
-		g_error_free (error);
+		g_clear_error (&error);
+	}
+
+	/* Determine whether to run Evolution in "express" mode. */
+
+	key = "/apps/evolution/shell/express_mode";
+
+	if (!express_mode)
+		express_mode = gconf_client_get_bool (client, key, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_clear_error (&error);
 	}
 
 	shell = g_object_new (
@@ -441,6 +457,7 @@ create_default_shell (void)
 		"name", "org.gnome.Evolution",
 		"geometry", geometry,
 		"module-directory", EVOLUTION_MODULEDIR,
+		"express-mode", express_mode,
 		"online", online,
 		NULL);
 

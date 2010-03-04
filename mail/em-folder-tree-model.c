@@ -121,11 +121,15 @@ folder_tree_model_sort (GtkTreeModel *model,
                         GtkTreeIter *b,
                         gpointer user_data)
 {
+	EShell *shell;
 	gchar *aname, *bname;
 	CamelStore *store;
 	gboolean is_store;
 	guint32 aflags, bflags;
 	gint rv = -2;
+
+	/* XXX Pass the EShell in as user_data. */
+	shell = e_shell_get_default ();
 
 	gtk_tree_model_get (
 		model, a,
@@ -142,7 +146,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 	if (is_store) {
 		/* On This Computer is always first, and Search Folders
 		 * is always last. */
-		if (e_shell_get_express_mode (NULL)) {
+		if (e_shell_get_express_mode (shell)) {
 			if (!strcmp (aname, _("On This Computer")) &&
 				!strcmp (bname, _("Search Folders")))
 				rv = -1;

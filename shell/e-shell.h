@@ -114,6 +114,7 @@ GList *		e_shell_get_watched_windows	(EShell *shell);
 GtkWindow *     e_shell_get_active_window	(EShell *shell);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
+gboolean	e_shell_get_express_mode	(EShell *shell);
 const gchar *	e_shell_get_module_directory	(EShell *shell);
 gboolean	e_shell_get_network_available	(EShell *shell);
 void		e_shell_set_network_available	(EShell *shell,
@@ -121,7 +122,6 @@ void		e_shell_set_network_available	(EShell *shell,
 gboolean	e_shell_get_online		(EShell *shell);
 void		e_shell_set_online		(EShell *shell,
 						 gboolean online);
-gboolean	e_shell_get_express_mode	(EShell *shell);
 GtkWidget *	e_shell_get_preferences_window	(EShell *shell);
 void		e_shell_event			(EShell *shell,
 						 const gchar *event_name,

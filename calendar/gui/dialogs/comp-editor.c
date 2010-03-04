@@ -66,6 +66,7 @@
 #include "widgets/misc/e-attachment-paned.h"
 
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-ui-manager.h"
 
 #define COMP_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -1608,7 +1609,7 @@ comp_editor_init (CompEditor *editor)
 	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
 
-	priv->ui_manager = gtk_ui_manager_new ();
+	priv->ui_manager = e_ui_manager_new ();
 
 	if (comp_lite)
 		gtk_window_set_default_size ((GtkWindow *) editor, 800, 450);

@@ -29,6 +29,7 @@
 #include "e-util/e-plugin-ui.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
+#include "shell/e-shell-utils.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-preview-pane.h"
 
@@ -505,10 +506,12 @@ mail_browser_constructed (GObject *object)
 		G_N_ELEMENTS (mail_browser_popup_entries));
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
-	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
-	e_load_ui_manager_definition_from_string (ui_manager, ui, NULL);
+	e_ui_manager_add_ui_from_file (
+		E_UI_MANAGER (ui_manager), E_MAIL_READER_UI_DEFINITION);
+	e_ui_manager_add_ui_from_string (
+		E_UI_MANAGER (ui_manager), ui, NULL);
 
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	merge_id = gtk_ui_manager_new_merge_id (GTK_UI_MANAGER (ui_manager));
 	e_mail_reader_create_charset_menu (reader, ui_manager, merge_id);
 
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
@@ -577,8 +580,8 @@ mail_browser_constructed (GObject *object)
 	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
 
 	id = "org.gnome.evolution.mail.browser";
-	e_plugin_ui_register_manager (ui_manager, id, object);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_plugin_ui_register_manager (E_UI_MANAGER (ui_manager), id, object);
+	e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
 }
 
 static gboolean
@@ -770,14 +773,23 @@ mail_browser_iface_init (EMailReaderIface *iface)
 static void
 mail_browser_init (EMailBrowser *browser)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	GtkUIManager *ui_manager;
+	EMailReader *reader;
 	GConfBridge *bridge;
 	const gchar *prefix;
 
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 
-	browser->priv->ui_manager = gtk_ui_manager_new ();
-	e_load_ui_manager_set_express (browser->priv->ui_manager,
-				       e_shell_get_express_mode (NULL));
+	reader = E_MAIL_READER (browser);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	ui_manager = e_ui_manager_new ();
+	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
+
+	browser->priv->ui_manager = ui_manager;
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->html_display = em_format_html_display_new ();
 

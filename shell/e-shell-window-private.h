@@ -41,6 +41,7 @@
 #include <e-shell-view.h>
 #include <e-shell-switcher.h>
 #include <e-shell-window-actions.h>
+#include <e-shell-utils.h>
 
 #define E_SHELL_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -17,6 +17,15 @@ Shell Utilities
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### FUNCTION e_shell_configure_ui_manager ##### -->
+<para>
+
+</para>
+
+@shell: 
+@ui_manager: 
+
+
 <!-- ##### FUNCTION e_shell_configure_web_view ##### -->
 <para>
 

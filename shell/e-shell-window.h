@@ -117,7 +117,6 @@ void		e_shell_window_set_active_view	(EShellWindow *shell_window,
 gboolean	e_shell_window_get_safe_mode	(EShellWindow *shell_window);
 void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
-gboolean	e_shell_window_get_express_mode	(EShellWindow *shell_window);
 void		e_shell_window_add_action_group (EShellWindow *shell_window,
 						 const gchar *group_name);
 gboolean	e_shell_window_get_sidebar_visible

@@ -541,7 +541,8 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 	/* Register the GtkUIManager ID for the shell view. */
 	id = E_SHELL_VIEW_GET_CLASS (shell_view)->ui_manager_id;
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_plugin_ui_register_manager (ui_manager, id, shell_view);
+	e_plugin_ui_register_manager (
+		E_UI_MANAGER (ui_manager), id, shell_view);
 
 	/* Add pages to the various shell window notebooks. */
 
@@ -1146,18 +1147,6 @@ e_shell_window_get_safe_mode (EShellWindow *shell_window)
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
 
 	return shell_window->priv->safe_mode;
-}
-
-/**
- * e_shell_window_get_safe_mode:
- * @shell_window: an #EShellWindow
- *
- * Returns %TRUE if @shell_window is in "express mode".
- **/
-gboolean
-e_shell_window_get_express_mode	(EShellWindow *shell_window)
-{
-	return e_shell_get_express_mode (e_shell_window_get_shell (shell_window));
 }
 
 /**

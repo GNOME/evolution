@@ -94,6 +94,11 @@ EShell
 
 @eshell: the object which received the signal.
 
+<!-- ##### ARG EShell:express-mode ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShell:geometry ##### -->
 <para>
 
@@ -239,6 +244,15 @@ EShell
 
 @shell: 
 @parent: 
+
+
+<!-- ##### FUNCTION e_shell_get_express_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_get_module_directory ##### -->

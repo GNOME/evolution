@@ -30,8 +30,12 @@
 
 #include <shell/e-shell.h>
 #include <misc/e-web-view.h>
+#include <e-util/e-ui-manager.h>
 
 G_BEGIN_DECLS
+
+void		e_shell_configure_ui_manager	(EShell *shell,
+						 EUIManager *ui_manager);
 
 void		e_shell_configure_web_view	(EShell *shell,
 						 EWebView *web_view);

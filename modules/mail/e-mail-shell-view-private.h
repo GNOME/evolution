@@ -38,6 +38,7 @@
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "e-util/e-account-utils.h"
+#include "e-util/e-ui-manager.h"
 #include "filter/e-filter-part.h"
 #include "widgets/misc/e-web-view.h"
 #include "widgets/misc/e-popup-action.h"
