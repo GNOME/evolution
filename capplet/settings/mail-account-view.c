@@ -375,11 +375,6 @@ struct _page_text {
 	void (*save_page) (MailAccountView *view);
 	int (*validate_page) (MailAccountView *view);
 } mail_account_pages[] = {
-	//{ MAV_IDENTITY_PAGE, N_("Identity"), N_("Next - Receiving mail"), NULL, IDENTITY_DETAIL, create_identity_page, fill_identity, save_identity },
-	//{ MAV_RECV_PAGE, N_("Receiving mail"), N_("Next - Sending mail"), N_("Back - Identity"), RECEIVE_DETAIL, create_receive_page, fill_receive, save_receive},
-	//{ MAV_SEND_PAGE, N_("Sending mail"), N_("Next - Review account"), N_("Back - Receiving mail"), SEND_DETAIL, create_send_page, fill_send, save_send},
-	//{ MAV_REVIEW_PAGE, N_("Review account"), N_("Finish"), N_("Back - Sending"), REVIEW_DETAIL, NULL, NULL, save_account},
-
 	{ MAV_IDENTITY_PAGE, N_("Identity"), N_("Next - Receiving mail"), NULL, N_("Next - Receiving mail"), NULL, IDENTITY_DETAIL, "00.identity",NULL, NULL, save_identity, validate_identity},
 	{ MAV_RECV_PAGE, N_("Receiving mail"), N_("Next - Sending mail"), N_("Back - Identity"), N_("Next - Receiving options"), N_("Back - Identity"), RECEIVE_DETAIL, "10.receive", NULL, NULL, NULL, NULL },
 	{ MAV_RECV_OPT_PAGE, N_("Receiving options"),  NULL, NULL, N_("Next - Sending mail"), N_("Back - Receiving mail"), RECEIVE_OPT_DETAIL, "10.receive", NULL, NULL, NULL, NULL },
