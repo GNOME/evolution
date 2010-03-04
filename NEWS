@@ -1,3 +1,12 @@
+Evolution 2.28.3.1 2010-03-04
+-----------------------------
+
+Fixes:
+	Adding a file without which evolution is not buildable on Windows. (Fridrich Strba)
+	Revert "Fix distcheck errors. (Fridrich Strba)
+	Filtering out g_chmod on windows because it makes no sense there. (Fridrich Strba)
+	
+
 Evolution 2.28.3 2010-03-01
 ---------------------------
 
