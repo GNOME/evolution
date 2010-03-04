@@ -53,6 +53,7 @@
 #include <camel/camel-vee-store.h>
 
 #include "e-mail-local.h"
+#include "shell/e-shell.h"
 
 #define d(x)
 
@@ -141,14 +142,31 @@ folder_tree_model_sort (GtkTreeModel *model,
 	if (is_store) {
 		/* On This Computer is always first, and Search Folders
 		 * is always last. */
-		if (!strcmp (aname, _("On This Computer")))
-			rv = -1;
-		else if (!strcmp (bname, _("On This Computer")))
-			rv = 1;
-		else if (!strcmp (aname, _("Search Folders")))
-			rv = 1;
-		else if (!strcmp (bname, _("Search Folders")))
-			rv = -1;
+		if (e_shell_get_express_mode (NULL)) {
+			if (!strcmp (aname, _("On This Computer")) &&
+				!strcmp (bname, _("Search Folders")))
+				rv = -1;
+			else if (!strcmp (bname, _("On This Computer")) &&
+				!strcmp (aname, _("Search Folders")))
+				rv = 1;
+			else if (!strcmp (aname, _("On This Computer")))
+				rv = 1;
+			else if (!strcmp (bname, _("On This Computer")))
+				rv = -1;
+				else if (!strcmp (aname, _("Search Folders")))
+				rv = 1;
+			else if (!strcmp (bname, _("Search Folders")))
+				rv = -1;
+		} else {
+			if (!strcmp (aname, _("On This Computer")))
+				rv = -1;
+			else if (!strcmp (bname, _("On This Computer")))
+				rv = 1;
+			else if (!strcmp (aname, _("Search Folders")))
+				rv = 1;
+			else if (!strcmp (bname, _("Search Folders")))
+				rv = -1;
+		}
 	} else if (store == vfolder_store) {
 		/* UNMATCHED is always last. */
 		if (aname && !strcmp (aname, _("UNMATCHED")))
