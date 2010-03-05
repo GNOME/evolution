@@ -30,6 +30,7 @@
 
 #include <libedataserverui/e-passwords.h>
 #include <mail/em-folder-tree.h>
+#include <mail/e-mail-store.h>
 #include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
 #include <mail/em-account-editor.h>
@@ -392,7 +393,7 @@ proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 	    store->mode &= !CAMEL_STORE_WRITE;
 
 	store->flags |= CAMEL_STORE_PROXY;
-	/*mail_component_add_store (mail_component_peek (), store, account->name);*/
+	e_mail_store_add (store, account->name);
 }
 
 static void
