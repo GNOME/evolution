@@ -44,7 +44,6 @@ endif
 
 SUBDIRS = 			\
 	m4			\
-	win32			\
 	data			\
 	smclient		\
 	e-util			\

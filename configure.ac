@@ -1598,7 +1598,6 @@ AC_SUBST(EVOLUTION_DIR)
 
 AC_CONFIG_FILES([ po/Makefile.in
 Makefile
-win32/Makefile
 a11y/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile

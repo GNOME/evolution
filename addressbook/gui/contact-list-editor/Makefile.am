@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-addressbook.la
-endif
-
 privsolib_LTLIBRARIES =	libecontactlisteditor.la
 
 libecontactlisteditor_la_CPPFLAGS =			\

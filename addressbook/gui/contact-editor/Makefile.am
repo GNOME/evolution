@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-addressbook.la
-endif
-
 privsolib_LTLIBRARIES =	libecontacteditor.la
 
 libecontacteditor_la_CPPFLAGS =				\
@@ -37,6 +33,7 @@ libecontacteditor_la_LIBADD =						\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
+	$(top_builddir)/widgets/menus/.libs/libmenus.la	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 

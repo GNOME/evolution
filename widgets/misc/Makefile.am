@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libfilter.la
-endif
-
 privsolib_LTLIBRARIES = libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/misc
