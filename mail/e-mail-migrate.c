@@ -2805,6 +2805,8 @@ em_update_sa_junk_setting_2_23 (void)
 	g_object_unref (client);
 }
 
+#ifndef G_OS_WIN32
+
 static gboolean
 update_states_in_main_thread (const struct _migrate_state_info * info)
 {
@@ -2852,6 +2854,8 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 		*done = TRUE;
 }
 
+#endif /* G_OS_WIN32 */
+
 /* This could be in CamelStore.ch */
 static void
 count_folders (CamelFolderInfo *fi, gint *count)
@@ -2883,6 +2887,8 @@ setup_local_store (EShellBackend *shell_backend,
 
 	return store;
 }
+
+#ifndef G_OS_WIN32
 
 struct migrate_folders_to_db_structure {
 		gchar *account_name;
@@ -3002,6 +3008,8 @@ migrate_to_db (EShellBackend *shell_backend)
 	g_object_unref (session);
 }
 
+#endif
+
 gboolean
 e_mail_migrate (EShellBackend *shell_backend,
                 gint major,
@@ -3099,11 +3107,19 @@ e_mail_migrate (EShellBackend *shell_backend,
 	}
 
 	if (major < 2 || (major == 2 && minor < 22))
+#ifndef G_OS_WIN32
 		em_update_message_notify_settings_2_21 ();
+#else
+		g_error ("Upgrading from ancient versions not supported on Windows");
+#endif
 
 	if (major < 2 || (major == 2 && minor < 24)) {
+#ifndef G_OS_WIN32
 		em_update_sa_junk_setting_2_23 ();
 		migrate_to_db (shell_backend);
+#else
+		g_error ("Upgrading from ancient versions not supported on Windows");
+#endif
 	}
 
 	return TRUE;
