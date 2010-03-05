@@ -251,7 +251,11 @@ eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean sel
 	gboolean allocated = FALSE;
 
 	if (selected) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_has_focus (canvas))
+#else
 		if (GTK_WIDGET_HAS_FOCUS(canvas))
+#endif
 			background = &canvas->style->bg [GTK_STATE_SELECTED];
 		else
 			background = &canvas->style->bg [GTK_STATE_ACTIVE];
@@ -299,7 +303,11 @@ eti_get_cell_foreground_color (ETableItem *eti, gint row, gint col, gboolean sel
 		*allocated = FALSE;
 
 	if (selected) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_has_focus (canvas))
+#else
 		if (GTK_WIDGET_HAS_FOCUS (canvas))
+#endif
 			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
 		else
 			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
@@ -1925,7 +1933,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 				gdk_color_free (background);
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
+#if GTK_CHECK_VERSION(2,19,7)
+			flags |= gtk_widget_has_focus (canvas) ? E_CELL_FOCUSED : 0;
+#else
 			flags |= GTK_WIDGET_HAS_FOCUS(canvas) ? E_CELL_FOCUSED : 0;
+#endif
 			flags |= cursor ? E_CELL_CURSOR : 0;
 
 			switch (ecol->justification) {

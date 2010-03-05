@@ -1439,7 +1439,11 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		widget = gtk_widget_get_parent (widget);
 
 		while (widget && !GTK_IS_BUTTON(widget)) {
+#if GTK_CHECK_VERSION(2,19,7)
+			if (gtk_widget_get_has_window (widget)) {
+#else
 			if (!GTK_WIDGET_NO_WINDOW (widget)) {
+#endif
 				widget = NULL;
 				break;
 			}
@@ -1494,7 +1498,11 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				thisy += (1 + default_spacing) / 2;
 			}
 
+#if GTK_CHECK_VERSION(2,19,7)
+			if (gtk_widget_has_focus (widget)) {
+#else
 			if (GTK_WIDGET_HAS_FOCUS (widget)) {
+#endif
 				thisx += 1;
 				thisy += 1;
 				thiswidth -= 2;
@@ -1514,7 +1522,11 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				       thisx + xoff, thisy + yoff,
 				       thiswidth, thisheight);
 
+#if GTK_CHECK_VERSION(2,19,7)
+			if (gtk_widget_has_focus (widget)) {
+#else
 			if (GTK_WIDGET_HAS_FOCUS (widget)) {
+#endif
 				thisx -= 1;
 				thisy -= 1;
 				thiswidth += 2;

@@ -134,7 +134,11 @@ ea_week_view_get_name (AtkObject *accessible)
 
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_visible (GTK_WIDGET (gcal)))
+#else
 	if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (gcal)))
+#endif
 		return NULL;
 
 	label_text = ea_gnome_calendar_get_label_description (gcal);

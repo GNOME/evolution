@@ -1993,7 +1993,11 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 		return;
 
 	/* If the ECalendar isn't visible, we just return. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_visible (GTK_WIDGET (priv->date_navigator)))
+#else
 	if (!GTK_WIDGET_VISIBLE (priv->date_navigator))
+#endif
 		return;
 
 	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)

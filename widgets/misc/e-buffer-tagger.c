@@ -308,7 +308,11 @@ update_mouse_cursor (GtkTextView *text_view, gint x, gint y)
 	if (hovering != hovering_over_link) {
 		update_state (buffer, E_BUFFER_TAGGER_STATE_IS_HOVERING, hovering);
 
+#if GTK_CHECK_VERSION(2,19,7)
+		if (hovering && gtk_widget_has_focus (GTK_WIDGET (text_view)))
+#else
 		if (hovering && GTK_WIDGET_HAS_FOCUS (text_view))
+#endif
 			gdk_window_set_cursor (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_TEXT), hand_cursor);
 		else
 			gdk_window_set_cursor (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_TEXT), regular_cursor);

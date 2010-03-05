@@ -1720,7 +1720,11 @@ on_date_edit_time_selected	(GtkComboBox	*combo,
 	if (gtk_combo_box_get_active (combo) == -1)
 		return;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_mapped (child))
+#else
 	if (!GTK_WIDGET_MAPPED (child))
+#endif
 		return;
 
 	e_date_edit_check_time_changed (dedit);

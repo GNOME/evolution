@@ -1872,7 +1872,11 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 		widget = GTK_WIDGET (EM_FORMAT_HTML (html_display)->html);
 
+#if GTK_CHECK_VERSION(2,19,7)
+		html_display_visible = gtk_widget_get_mapped (widget);
+#else
 		html_display_visible = GTK_WIDGET_MAPPED (widget);
+#endif
 		selected_uid_changed = g_strcmp0 (cursor_uid, format_uid);
 
 		if (html_display_visible && selected_uid_changed) {

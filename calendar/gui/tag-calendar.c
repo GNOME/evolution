@@ -144,7 +144,11 @@ tag_calendar_by_client (ECalendar *ecal, ECal *client)
 	g_return_if_fail (E_IS_CAL (client));
 
 	/* If the ECalendar isn't visible, we just return. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_visible (GTK_WIDGET (ecal)))
+#else
 	if (!GTK_WIDGET_VISIBLE (ecal))
+#endif
 		return;
 
 	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED)
@@ -213,7 +217,11 @@ tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icalti
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	/* If the ECalendar isn't visible, we just return. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_visible (GTK_WIDGET (ecal)))
+#else
 	if (!GTK_WIDGET_VISIBLE (ecal))
+#endif
 		return;
 
 	if (!prepare_tag (ecal, &c, display_zone, clear_first))

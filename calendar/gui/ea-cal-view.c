@@ -331,7 +331,11 @@ action_interface_do_action (AtkAction *action, gint index)
 		 */
 		return FALSE;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_sensitive (widget) || !gtk_widget_get_visible (widget))
+#else
 	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
+#endif
 		return FALSE;
 
 	cal_view = E_CALENDAR_VIEW (widget);
@@ -395,7 +399,11 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 		 */
 		return NULL;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_sensitive (widget) || !gtk_widget_get_visible (widget))
+#else
 	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
+#endif
 		return NULL;
 
 	 switch (index) {

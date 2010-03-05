@@ -494,7 +494,11 @@ e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc)
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_realized (ecc->popup_window) || !gtk_tree_selection_get_selected (selection, &model, &iter))
+#else
 	if (!GTK_WIDGET_REALIZED (ecc->popup_window) || !gtk_tree_selection_get_selected (selection, &model, &iter))
+#endif
 		return;
 
 	e_cell_combo_update_cell (ecc);
@@ -597,7 +601,11 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	    && event->keyval != GDK_3270_Enter)
 		return FALSE;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (event->keyval == GDK_Escape && (!ecc->popup_window||!gtk_widget_get_visible (ecc->popup_window)))
+#else
 	if (event->keyval == GDK_Escape && (!ecc->popup_window||!GTK_WIDGET_VISIBLE (ecc->popup_window)))
+#endif
 		return FALSE;
 
 	gtk_grab_remove (ecc->popup_window);

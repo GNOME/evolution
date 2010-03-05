@@ -322,7 +322,11 @@ mail_attachment_bar_size_request (GtkWidget *widget,
 	 *     get a sizable gap between the headers and body when this
 	 *     widget is invisible.  Once we finally move to WebKit,
 	 *     remove this. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_visible (widget)) {
+#else
 	if (!GTK_WIDGET_VISIBLE (widget)) {
+#endif
 		requisition->width = 0;
 		requisition->height = 0;
 		return;

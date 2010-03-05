@@ -382,7 +382,11 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	gtk_widget_set_allocation (widget, allocation);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_realized (widget)) {
+#else
 	if (GTK_WIDGET_REALIZED (widget)) {
+#endif
 		GdkWindow *window;
 
 		window = gtk_widget_get_window (widget);
@@ -406,8 +410,12 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 static gint
 e_map_button_press (GtkWidget *widget, GdkEventButton *event)
 {
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_has_focus (widget)) gtk_widget_grab_focus (widget);
+#else
 	if (!GTK_WIDGET_HAS_FOCUS (widget)) gtk_widget_grab_focus (widget);
-	return TRUE;
+#endif
+		return TRUE;
 }
 
 /* Button release handler for the map view */
@@ -641,7 +649,11 @@ e_map_window_to_world (EMap *map, gdouble win_x, gdouble win_y, gdouble *world_l
 	g_return_if_fail (map);
 
 	priv = map->priv;
+#if GTK_CHECK_VERSION(2,19,7)
+	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
+#else
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
+#endif
 
 	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
 	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
@@ -694,7 +706,11 @@ e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
 	EMapPrivate *priv;
 
 	g_return_if_fail (map);
+#if GTK_CHECK_VERSION(2,19,7)
+	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
+#else
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
+#endif
 
 	priv = map->priv;
 
@@ -714,7 +730,11 @@ e_map_zoom_out (EMap *map)
 	EMapPrivate *priv;
 
 	g_return_if_fail (map);
+#if GTK_CHECK_VERSION(2,19,7)
+	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
+#else
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
+#endif
 
 	priv = map->priv;
 
@@ -950,7 +970,11 @@ update_render_pixbuf (EMap *map,
 	gdouble zoom;
 	gint i;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_realized (GTK_WIDGET (map)))
+#else
 	if (!GTK_WIDGET_REALIZED (map))
+#endif
 		return;
 
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
@@ -1015,8 +1039,13 @@ request_paint_area (EMap *view, GdkRectangle *area)
 	EMapPrivate *priv;
 	gint width, height;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_is_drawable (GTK_WIDGET (view)) ||
+	    !gtk_widget_get_realized (GTK_WIDGET (view))) return;
+#else
 	if (!GTK_WIDGET_DRAWABLE (GTK_WIDGET (view)) ||
 	    !GTK_WIDGET_REALIZED (GTK_WIDGET (view))) return;
+#endif
 
 	priv = view->priv;
 	if (!priv->map_render_pixbuf) return;
@@ -1226,7 +1255,11 @@ scroll_to (EMap *view, gint x, gint y)
 	priv->xofs = x;
 	priv->yofs = y;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_is_drawable (GTK_WIDGET (view)))
+#else
 	if (!GTK_WIDGET_DRAWABLE (view))
+#endif
 		return;
 
 	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
@@ -1540,7 +1573,11 @@ zoom_in_smooth (EMap *map)
 	gdouble x, y;
 
 	g_return_if_fail (map);
+#if GTK_CHECK_VERSION(2,19,7)
+	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
+#else
 	g_return_if_fail (GTK_WIDGET_REALIZED (GTK_WIDGET (map)));
+#endif
 
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
@@ -1707,7 +1744,11 @@ set_scroll_area (EMap *view)
 
 	priv = view->priv;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_realized (GTK_WIDGET (view))) return;
+#else
 	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (view))) return;
+#endif
 	if (!priv->hadj || !priv->vadj) return;
 
 	g_object_freeze_notify (G_OBJECT (priv->hadj));

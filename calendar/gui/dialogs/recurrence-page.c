@@ -900,7 +900,11 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 	e_cal_component_set_exdate_list (comp, list);
 	e_cal_component_free_exdate_list (list);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (priv->ending_combo) && gtk_widget_get_sensitive (priv->ending_combo) &&
+#else
 	if (GTK_WIDGET_VISIBLE (priv->ending_combo) && GTK_WIDGET_IS_SENSITIVE (priv->ending_combo) &&
+#endif
 	    e_dialog_combo_box_get (priv->ending_combo, ending_types_map) == ENDING_UNTIL) {
 		/* check whether the "until" date is in the future */
 		struct icaltimetype tt;

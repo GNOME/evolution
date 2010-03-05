@@ -116,7 +116,11 @@ check_input (UrlEditorDialog *dialog)
 		gtk_widget_hide (dialog->fb_duration_combo);
 	}
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_sensitive (dialog->events_selector)) {
+#else
 	if (GTK_WIDGET_IS_SENSITIVE (dialog->events_selector)) {
+#endif
 		sources = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
 		n += g_slist_length (sources);
 	}

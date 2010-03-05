@@ -1132,7 +1132,11 @@ task_table_paste_clipboard (ESelectable *selectable)
 
 	/* Paste text into a cell being edited. */
 	if (gtk_clipboard_wait_is_text_available (clipboard) &&
+#if GTK_CHECK_VERSION(2,19,7)
+		gtk_widget_has_focus (GTK_WIDGET (table_canvas)) &&
+#else
 		GTK_WIDGET_HAS_FOCUS (table_canvas) &&
+#endif
 		E_IS_TABLE_ITEM (item) &&
 		E_TABLE_ITEM (item)->editing_col >= 0 &&
 		E_TABLE_ITEM (item)->editing_row >= 0) {

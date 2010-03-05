@@ -318,7 +318,11 @@ weekday_picker_focus (GtkWidget *widget,
 	if (!gtk_widget_get_can_focus (widget))
 		return FALSE;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_has_focus (widget)) {
+#else
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
+#endif
 		priv->focus_day = -1;
 		colorize_items (wp);
 		return FALSE;

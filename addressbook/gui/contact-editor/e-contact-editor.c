@@ -3375,7 +3375,11 @@ expand_phone_toggle (EContactEditor *ce)
 	GtkWidget *phone_ext_table;
 
 	phone_ext_table = e_builder_get_widget (ce->builder, "table-phone-extended");
+#if GTK_CHECK_VERSION(2,19,7)
+	expand_phone (ce, gtk_widget_get_visible (phone_ext_table) ? FALSE : TRUE);
+#else
 	expand_phone (ce, GTK_WIDGET_VISIBLE (phone_ext_table) ? FALSE : TRUE);
+#endif
 }
 
 static void

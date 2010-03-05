@@ -1653,7 +1653,11 @@ e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
 {
 	/* Make sure the menu pops down, which doesn't happen by default if
 	   keyboard accelerators are used. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (mts->options_menu))
+#else
 	if (GTK_WIDGET_VISIBLE (mts->options_menu))
+#endif
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
 	e_meeting_time_selector_refresh_free_busy (mts, 0, TRUE);
@@ -1700,7 +1704,11 @@ e_meeting_time_selector_on_autopick_option_toggled (GtkWidget *button,
 {
 	/* Make sure the menu pops down, which doesn't happen by default if
 	   keyboard accelerators are used. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (mts->autopick_menu))
+#else
 	if (GTK_WIDGET_VISIBLE (mts->autopick_menu))
+#endif
 		gtk_menu_popdown (GTK_MENU (mts->autopick_menu));
 }
 
@@ -2100,7 +2108,11 @@ e_meeting_time_selector_on_zoomed_out_toggled (GtkWidget *menuitem,
 {
 	/* Make sure the menu pops down, which doesn't happen by default if
 	   keyboard accelerators are used. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (mts->options_menu))
+#else
 	if (GTK_WIDGET_VISIBLE (mts->options_menu))
+#endif
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
 	e_meeting_time_selector_set_zoomed_out (mts, GTK_CHECK_MENU_ITEM (menuitem)->active);
@@ -2113,7 +2125,11 @@ e_meeting_time_selector_on_working_hours_toggled (GtkWidget *menuitem,
 {
 	/* Make sure the menu pops down, which doesn't happen by default if
 	   keyboard accelerators are used. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (mts->options_menu))
+#else
 	if (GTK_WIDGET_VISIBLE (mts->options_menu))
+#endif
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
 	e_meeting_time_selector_set_working_hours_only (mts, GTK_CHECK_MENU_ITEM (menuitem)->active);

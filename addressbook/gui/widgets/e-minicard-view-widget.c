@@ -420,7 +420,11 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 	if (GTK_WIDGET_CLASS(parent_class)->size_allocate)
 		GTK_WIDGET_CLASS(parent_class)->size_allocate (widget, allocation);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_realized (widget)) {
+#else
 	if (GTK_WIDGET_REALIZED(widget)) {
+#endif
 		gdouble width;
 		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
 

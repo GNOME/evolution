@@ -310,8 +310,12 @@ notified_alarms_dialog_new (void)
 	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_get_realized (an->dialog))
+#else
 	if (!GTK_WIDGET_REALIZED (an->dialog))
-	gtk_widget_realize (an->dialog);
+#endif
+		gtk_widget_realize (an->dialog);
 
 	gtk_window_set_icon_name (GTK_WINDOW (an->dialog), "stock_alarm");
 

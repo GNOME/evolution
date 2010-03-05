@@ -1552,7 +1552,11 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 					day_style = calitem->styles[(month_offset + 1) * 32 + day_num];
 
 				/* Get the colors & style to use for the day.*/
+#if GTK_CHECK_VERSION(2,19,7)
+				if ((gtk_widget_has_focus (GTK_WIDGET (item->canvas))) &&
+#else
 				if ((GTK_WIDGET_HAS_FOCUS(item->canvas)) &&
+#endif
 				    item->canvas->focused_item == item)
 					has_focus = TRUE;
 				else

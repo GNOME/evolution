@@ -266,7 +266,11 @@ e_calendar_style_set		(GtkWidget	*widget,
 
 	/* Set the background of the canvas window to the normal color,
 	   or the arrow buttons are not displayed properly. */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_realized (widget)) {
+#else
 	if (GTK_WIDGET_REALIZED (widget)) {
+#endif
 		GtkStyle *style;
 		GdkWindow *window;
 
@@ -558,8 +562,13 @@ e_calendar_button_has_focus (ECalendar	*cal)
 
 	prev_widget = GNOME_CANVAS_WIDGET(cal->prev_item)->widget;
 	next_widget = GNOME_CANVAS_WIDGET(cal->next_item)->widget;
+#if GTK_CHECK_VERSION(2,19,7)
+	ret_val = gtk_widget_has_focus (prev_widget) ||
+		gtk_widget_has_focus (next_widget);
+#else
 	ret_val = GTK_WIDGET_HAS_FOCUS (prev_widget) ||
 		GTK_WIDGET_HAS_FOCUS (next_widget);
+#endif
 	return ret_val;
 }
 
@@ -586,7 +595,11 @@ e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
 	children[2] = cal->next_item;
 
 	/* get current focused item, if e-calendar has had focus */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_has_focus (widget) || e_calendar_button_has_focus (cal))
+#else
 	if (GTK_WIDGET_HAS_FOCUS (widget) || e_calendar_button_has_focus (cal))
+#endif
 		for (index = 0; index < E_CALENDAR_FOCUS_CHILDREN_NUM; ++index) {
 			if (canvas->focused_item == NULL)
 				break;
@@ -636,7 +649,11 @@ e_calendar_set_focusable (ECalendar *cal, gboolean focusable)
 		GTK_WIDGET_SET_FLAGS (next_widget, GTK_CAN_FOCUS);
 	}
 	else {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_has_focus (GTK_WIDGET (cal)) || e_calendar_button_has_focus (cal)) {
+#else
 		if (GTK_WIDGET_HAS_FOCUS (cal) || e_calendar_button_has_focus (cal)) {
+#endif
 			GtkWidget *toplevel = gtk_widget_get_toplevel (GTK_WIDGET (cal));
 			if (toplevel)
 				gtk_widget_grab_focus (toplevel);

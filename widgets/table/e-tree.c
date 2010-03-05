@@ -1053,7 +1053,11 @@ et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETree *e_tree)
 	case GDK_2BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button != 4 && event->button.button != 5) {
+#if GTK_CHECK_VERSION(2,19,7)
+			if (gtk_widget_has_focus (GTK_WIDGET (root->canvas))) {
+#else
 			if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
+#endif
 				GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
 
 				if (E_IS_TABLE_ITEM(item)) {

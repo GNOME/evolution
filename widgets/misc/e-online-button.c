@@ -51,7 +51,11 @@ online_button_update_tooltip (EOnlineButton *button)
 
 	if (e_online_button_get_online (button))
 		tooltip = ONLINE_TOOLTIP;
+#if GTK_CHECK_VERSION(2,19,7)
+	else if (gtk_widget_get_sensitive (GTK_WIDGET (button)))
+#else
 	else if (GTK_WIDGET_SENSITIVE (button))
+#endif
 		tooltip = OFFLINE_TOOLTIP;
 	else
 		tooltip = NETWORK_UNAVAILABLE_TOOLTIP;

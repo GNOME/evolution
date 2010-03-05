@@ -868,7 +868,11 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 	if (row == -1)
 		return;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
+#else
 	if (!GTK_WIDGET_HAS_FOCUS (day_view))
+#endif
 		gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 	if (gdk_pointer_grab (GTK_LAYOUT (canvas)->bin_window, FALSE,

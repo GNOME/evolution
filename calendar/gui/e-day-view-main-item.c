@@ -279,7 +279,11 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		g_object_get (G_OBJECT (event->canvas_item), "x_offset", &text_x_offset, NULL);
 
 	/* Draw shadow around the event when selected */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (is_editing && (gtk_widget_has_focus (day_view->main_canvas))) {
+#else
 	if (is_editing && (GTK_WIDGET_HAS_FOCUS (day_view->main_canvas))) {
+#endif
 		/* For embossing Item selection */
 		item_x -= 1;
 		item_y -= 2;
@@ -1099,7 +1103,11 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (can_draw_in_region (draw_region, rect_x, rect_y, rect_width, rect_height)) {
 				cairo_save (cr);
+#if GTK_CHECK_VERSION(2,19,7)
+				gdk_cairo_set_source_color (cr, &day_view->colors[gtk_widget_has_focus (GTK_WIDGET (day_view)) ? E_DAY_VIEW_COLOR_BG_SELECTED : E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
+#else
 				gdk_cairo_set_source_color (cr, &day_view->colors[GTK_WIDGET_HAS_FOCUS(day_view) ? E_DAY_VIEW_COLOR_BG_SELECTED : E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
+#endif
 				cairo_rectangle (cr, rect_x, rect_y, rect_width, rect_height);
 				cairo_fill (cr);
 				cairo_restore (cr);

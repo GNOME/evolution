@@ -970,7 +970,11 @@ alarm_check_toggled_cb (GtkWidget *check1, GtkWidget *check2)
 	g_return_if_fail (check1 != NULL);
 	g_return_if_fail (check2 != NULL);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	gtk_widget_set_sensitive (check2, !(gtk_widget_get_visible (check1) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check1))));
+#else
 	gtk_widget_set_sensitive (check2, !(GTK_WIDGET_VISIBLE (check1) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check1))));
+#endif
 }
 
 static void

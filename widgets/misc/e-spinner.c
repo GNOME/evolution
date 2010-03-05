@@ -647,7 +647,11 @@ e_spinner_expose (GtkWidget *widget,
 	gint x_offset, y_offset, width, height;
 	GdkRectangle pix_area, dest;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (!gtk_widget_is_drawable (GTK_WIDGET (spinner)))
+#else
 	if (!GTK_WIDGET_DRAWABLE (spinner))
+#endif
 	{
 		return FALSE;
 	}
@@ -738,7 +742,11 @@ e_spinner_start (ESpinner *spinner)
 
 	details->spinning = TRUE;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_mapped (GTK_WIDGET (spinner)) &&
+#else
 	if (GTK_WIDGET_MAPPED (GTK_WIDGET (spinner)) &&
+#endif
 	    details->timer_task == 0 &&
 	    e_spinner_load_images (spinner))
 	{

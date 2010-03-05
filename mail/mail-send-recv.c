@@ -977,7 +977,11 @@ mail_send_receive (GtkWindow *parent)
 	GList *scan;
 
 	if (send_recv_dialog != NULL) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (parent != NULL && gtk_widget_get_realized (send_recv_dialog)) {
+#else
 		if (parent != NULL && GTK_WIDGET_REALIZED (send_recv_dialog)) {
+#endif
 			gdk_window_show (send_recv_dialog->window);
 			gdk_window_raise (send_recv_dialog->window);
 		}

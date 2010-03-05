@@ -383,16 +383,32 @@ e_cell_date_edit_get_property		(GObject	*object,
 
 	switch (property_id) {
 	case PROP_SHOW_TIME:
+#if GTK_CHECK_VERSION(2,19,7)
+		g_value_set_boolean (value, gtk_widget_get_visible (ecde->time_entry));
+#else
 		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->time_entry));
+#endif
 		return;
 	case PROP_SHOW_NOW_BUTTON:
+#if GTK_CHECK_VERSION(2,19,7)
+		g_value_set_boolean (value, gtk_widget_get_visible (ecde->now_button));
+#else
 		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->now_button));
+#endif
 		return;
 	case PROP_SHOW_TODAY_BUTTON:
+#if GTK_CHECK_VERSION(2,19,7)
+		g_value_set_boolean (value, gtk_widget_get_visible (ecde->today_button));
+#else
 		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->today_button));
+#endif
 		return;
 	case PROP_ALLOW_NO_DATE_SET:
+#if GTK_CHECK_VERSION(2,19,7)
+		g_value_set_boolean (value, gtk_widget_get_visible (ecde->none_button));
+#else
 		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->none_button));
+#endif
 		return;
 	case PROP_USE_24_HOUR_FORMAT:
 		g_value_set_boolean (value, ecde->use_24_hour_format);

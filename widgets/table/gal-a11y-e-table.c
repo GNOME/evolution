@@ -90,7 +90,11 @@ init_child_item (GalA11yETable *a11y)
 		return FALSE;
 
 	table = E_TABLE (GTK_ACCESSIBLE (a11y)->widget);
+#if GTK_CHECK_VERSION(2,19,7)
+	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER(table->group)) {
+#else
 	if (table && GTK_WIDGET_MAPPED (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER(table->group)) {
+#endif
 		ETableGroupContainer *etgc =  (ETableGroupContainer *)table->group;
 		GList *list;
 
@@ -284,7 +288,11 @@ gal_a11y_e_table_new (GObject *widget)
 	GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);
 
 	/* we need to init all the children for multiple table items */
+#if GTK_CHECK_VERSION(2,19,7)
+	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
+#else
 	if (table && GTK_WIDGET_MAPPED (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
+#endif
 		/* Ref it here so that it is still valid in the idle function */
 		/* It will be unrefed in the idle function */
 		g_object_ref (a11y);

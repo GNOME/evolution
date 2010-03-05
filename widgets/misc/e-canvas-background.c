@@ -437,7 +437,11 @@ ecb_style_set (ECanvasBackground *ecb,
 
 	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_realized (GTK_WIDGET (item->canvas))) {
+#else
 	if (GTK_WIDGET_REALIZED (item->canvas)) {
+#endif
 		gdk_gc_set_foreground (
 			ecb->priv->gc, &style->base[GTK_STATE_NORMAL]);
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));

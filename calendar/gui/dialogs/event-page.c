@@ -2457,7 +2457,11 @@ safe_to_process_date_changed_signal (GtkWidget *dedit_widget)
 
 	entry = e_date_edit_get_entry (dedit);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	return !entry || !gtk_widget_has_focus (entry);
+#else
 	return !entry || !GTK_WIDGET_HAS_FOCUS (entry);
+#endif
 }
 
 /* Callback used when the start date widget change.  We check that the

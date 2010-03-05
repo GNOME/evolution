@@ -4715,7 +4715,11 @@ regen_list_done (struct _regen_list_msg *m)
 		}
 	}
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (GTK_WIDGET (m->ml))) {
+#else
 	if (GTK_WIDGET_VISIBLE (GTK_WIDGET (m->ml))) {
+#endif
 		if (message_list_length (m->ml) <= 0) {
 			/* space is used to indicate no search too */
 			if (m->ml->search && *m->ml->search && strcmp (m->ml->search, " ") != 0)
@@ -4882,7 +4886,11 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	}
 
 	if (message_list_length (ml) <= 0) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_get_visible (GTK_WIDGET (ml))) {
+#else
 		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (ml))) {
+#endif
 			/* there is some info why the message list is empty, let it be something useful */
 			gchar *txt = g_strconcat (_("Generating message list"), "..." , NULL);
 

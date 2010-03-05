@@ -201,7 +201,11 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 
 		return TRUE;
 	} else if (bevent->button.button == 3) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (!gtk_widget_has_focus (GTK_WIDGET (week_view))) {
+#else
 		if (!GTK_WIDGET_HAS_FOCUS (week_view)) {
+#endif
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			if (week_view->event_destroyed) {
 				week_view->event_destroyed = FALSE;

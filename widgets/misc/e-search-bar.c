@@ -92,7 +92,11 @@ search_bar_update_tokenizer (ESearchBar *search_bar)
 	tokenizer = e_search_bar_get_tokenizer (search_bar);
 	case_sensitive = e_search_bar_get_case_sensitive (search_bar);
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (GTK_WIDGET (search_bar)))
+#else
 	if (GTK_WIDGET_VISIBLE (search_bar))
+#endif
 		active_search = search_bar->priv->active_search;
 	else
 		active_search = NULL;

@@ -1052,7 +1052,11 @@ et_eti_leave_edit (ETable *et)
 {
 	GnomeCanvas *canvas = et->table_canvas;
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_has_focus (GTK_WIDGET (canvas))) {
+#else
 	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
+#endif
 		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
 
 		if (E_IS_TABLE_ITEM(item)) {

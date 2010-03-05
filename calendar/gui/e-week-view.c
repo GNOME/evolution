@@ -2365,7 +2365,11 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 	if (event->button == 1) {
 		/* Start the selection drag. */
+#if GTK_CHECK_VERSION(2,19,7)
+		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)) &&  !gtk_widget_has_focus (GTK_WIDGET (week_view->main_canvas)))
+#else
 		if (!GTK_WIDGET_HAS_FOCUS (week_view) &&  !GTK_WIDGET_HAS_FOCUS (week_view->main_canvas))
+#endif
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
@@ -2384,7 +2388,11 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 	} else if (event->button == 3) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
+#else
 		if (!GTK_WIDGET_HAS_FOCUS (week_view))
+#endif
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 		if (day < week_view->selection_start_day || day > week_view->selection_end_day) {
@@ -3391,7 +3399,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
+#if GTK_CHECK_VERSION(2,19,7)
+			if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
+#else
 			if (!GTK_WIDGET_HAS_FOCUS (week_view))
+#endif
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 			e_week_view_set_selected_time_range_visible (week_view, e->start, e->end);

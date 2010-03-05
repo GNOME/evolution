@@ -169,7 +169,11 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	    || week_view->selection_end_day < day)
 		selected = FALSE;
 	if (selected) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_has_focus (GTK_WIDGET (week_view))) {
+#else
 		if (GTK_WIDGET_HAS_FOCUS (week_view)) {
+#endif
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		} else {
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);

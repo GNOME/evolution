@@ -953,7 +953,11 @@ efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
 {
 	GtkWidget *label = g_object_get_data (G_OBJECT (widget), "text-label");
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (gtk_widget_get_visible (w)) {
+#else
 	if (GTK_WIDGET_VISIBLE (w)) {
+#endif
 		gtk_widget_hide (w);
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("View _Unformatted"));
 	} else {

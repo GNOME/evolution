@@ -290,7 +290,11 @@ e_hinted_entry_set_text (EHintedEntry *entry,
 	if (text == NULL)
 		text = "";
 
+#if GTK_CHECK_VERSION(2,19,7)
+	if (*text == '\0' && !gtk_widget_has_focus (GTK_WIDGET (entry)))
+#else
 	if (*text == '\0' && !GTK_WIDGET_HAS_FOCUS (entry))
+#endif
 		hinted_entry_show_hint (entry);
 	else {
 		hinted_entry_hide_hint (entry);

@@ -236,20 +236,44 @@ timezone_entry_focus (GtkWidget *widget,
 	priv = E_TIMEZONE_ENTRY_GET_PRIVATE (widget);
 
 	if (direction == GTK_DIR_TAB_FORWARD) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_has_focus (priv->entry))
+#else
 		if (GTK_WIDGET_HAS_FOCUS (priv->entry))
+#endif
 			gtk_widget_grab_focus (priv->button);
+#if GTK_CHECK_VERSION(2,19,7)
+		else if (gtk_widget_has_focus (priv->button))
+#else
 		else if (GTK_WIDGET_HAS_FOCUS (priv->button))
+#endif
 			return FALSE;
+#if GTK_CHECK_VERSION(2,19,7)
+		else if (gtk_widget_get_visible (priv->entry))
+#else
 		else if (GTK_WIDGET_VISIBLE (priv->entry))
+#endif
 			gtk_widget_grab_focus (priv->entry);
 		else
 			gtk_widget_grab_focus (priv->button);
 
 	} else if (direction == GTK_DIR_TAB_BACKWARD) {
+#if GTK_CHECK_VERSION(2,19,7)
+		if (gtk_widget_has_focus (priv->entry))
+#else
 		if (GTK_WIDGET_HAS_FOCUS (priv->entry))
+#endif
 			return FALSE;
+#if GTK_CHECK_VERSION(2,19,7)
+		else if (gtk_widget_has_focus (priv->button)) {
+#else
 		else if (GTK_WIDGET_HAS_FOCUS (priv->button)) {
+#endif
+#if GTK_CHECK_VERSION(2,19,7)
+			if (gtk_widget_get_visible (priv->entry))
+#else
 			if (GTK_WIDGET_VISIBLE (priv->entry))
+#endif
 				gtk_widget_grab_focus (priv->entry);
 			else
 				return FALSE;
