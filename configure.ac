@@ -217,6 +217,7 @@ dnl Check for base dependencies early.
 dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
+	 gthread-2.0 >= glib_minimum_version
 	 gtk+-2.0 >= gtk_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
