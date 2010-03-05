@@ -156,7 +156,7 @@ autocompletion_config_new (EShell *shell)
 	gtk_box_pack_start (GTK_BOX (itembox), widget, TRUE, TRUE, 0);
 	e_datetime_format_add_setup_widget (
 		widget, 0, "addressbook", "table",
-		DTFormatKindDateTime, _("Table column:"));
+		DTFormatKindDateTime, _("_Table column:"));
 	gtk_widget_show (widget);
 
 	itembox = add_section (vbox, _("Autocompletion"), TRUE);
