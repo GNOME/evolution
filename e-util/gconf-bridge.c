@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "gconf-bridge.h"
 
