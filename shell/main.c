@@ -449,10 +449,6 @@ create_default_shell (void)
 	return shell;
 }
 
-#ifdef G_OS_WIN32
-extern void link_shutdown (void);
-#endif
-
 gint
 main (gint argc, gchar **argv)
 {
@@ -619,10 +615,6 @@ main (gint argc, gchar **argv)
 		g_warning ("Shell not finalized on exit");
 
 	gtk_accel_map_save (e_get_accels_filename ());
-
-#ifdef G_OS_WIN32
-	link_shutdown ();
-#endif
 
 	return 0;
 }
