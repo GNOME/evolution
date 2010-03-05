@@ -338,27 +338,14 @@ action_task_list_select_one_cb (GtkAction *action,
 	ETaskShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *primary;
-	GSList *list, *iter;
-
-	/* XXX ESourceSelector should provide a function for this. */
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+
 	primary = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (primary != NULL);
 
-	list = e_source_selector_get_selection (selector);
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ESource *source = iter->data;
-
-		if (source == primary)
-			continue;
-
-		e_source_selector_unselect_source (selector, source);
-	}
-	e_source_selector_free_selection (list);
-
-	e_source_selector_select_source (selector, primary);
+	e_source_selector_select_exclusive (selector, primary);
 }
 
 static void
