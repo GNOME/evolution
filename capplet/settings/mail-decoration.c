@@ -91,7 +91,7 @@ md_translate_position (GdkWindow *w, double ex, double ey, int *x, int *y, GtkWi
 		gdk_window_get_geometry (w, &cx, &cy, &cw, &ch, &cd);
                 *x += cx;
                 *y += cy;
-                w = (GdkWindow *)((GdkWindowObject *)w)->parent;
+                w = gdk_window_get_parent (w);
 	}
 }
 
