@@ -38,6 +38,10 @@
 #include "mail-decoration.h"
 #include <mail/em-utils.h>
 #include <mail/em-composer-utils.h>
+#include <mail/mail-session.h>
+#include <mail/mail-mt.h>
+#include <mail/e-mail-store.h>
+
 enum {
 	CTRL_W_PRESSED,
 	CTRL_Q_PRESSED,
