@@ -1574,7 +1574,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	camel_content_type_unref (type);
 	stream = camel_stream_mem_new ();
 	camel_stream_printf (stream,
-			     "Your message to %s about \"%s\" on %s has been read.",
+	/* Translators: First %s is an email address, second %s is the subject of the email, third %s is the date */
+			     _("Your message to %s about \"%s\" on %s has been read."),
 			     self_address, message_subject, message_date);
 	camel_data_wrapper_construct_from_stream (receipt_text, stream);
 	camel_object_unref (stream);
@@ -1621,7 +1622,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	camel_medium_set_content_object (CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
 	camel_object_unref (body);
 
-	receipt_subject = g_strdup_printf ("Delivery Notification for: \"%s\"", message_subject);
+	/* Translators: %s is the subject of the email message */
+	receipt_subject = g_strdup_printf (_("Delivery Notification for: \"%s\""), message_subject);
 	camel_mime_message_set_subject (receipt, receipt_subject);
 	g_free (receipt_subject);
 
