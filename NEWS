@@ -1,3 +1,46 @@
+Evolution 2.29.92 2010-03-08
+----------------------------
+
+Bug Fixes:
+	#529331 - Deletes appointments when moving to the same calendar
+	          (Milan Crha)
+	#594083 - Oversized main window on startup (Milan Crha)
+	#601551 - [PST] evolution crashed with SIGSEGV (Milan Crha)
+	#610327 - Proxy login doesn't show folder list (Bharath Acharya)
+	#610382 - No addressbook selected on account disable (Milan Crha)
+	#610658 - Contact is lost after moving to the same address book
+	          (Milan Crha)
+	#610659 - Clear option is disabled after moving to other component
+	          (Milan Crha)
+	#610663 - Message receipts combo box is empty (Milan Crha)
+	#610824 - Contacts list view column width doesn't follow header
+	          (Milan Crha)
+	#611873 - Make triple-clicking a shortcut for "Show Only This ..."
+	          (Matthew Barnes)
+	#611975 - Delivery Notification message not internationalized
+	          (Ulrich Schoepp)
+
+Other Changes:
+	Various cleanups for Windows support (Fridrich Strba)
+	Work around recent GTK+ deprecations. (Matthew Barnes)
+	Fix a misspelled icon name. (Matthew Barnes)
+	Save state key file asynchronously. (Matthew Barnes)
+	Allow retrieving multiple messages without cancelling if the store
+	is async (Chenthill Palanisamy)
+	Restore some calendar headers that got dropped. (Matthew Barnes)
+	Do less output on an evolution-alarm-notify console (Milan Crha)
+
+Translations:
+	Alexander Shopov (bg)
+	Mario Blättermann (de)
+	Bruce Cowan (en_GB)
+	Jorge González (es)
+	Claude Paroz (fr)
+	Fran Diéguez (gl)
+	Kjartan Maraas (nb)
+	Nils-Christoph Fiedler (nds)
+	Leonid Kanter (ru)
+
 Evolution 2.29.91 2010-02-22
 ---------------------------
 
