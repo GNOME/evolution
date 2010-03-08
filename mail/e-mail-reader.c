@@ -1929,7 +1929,6 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	gboolean store_async;
 	CamelFolder *folder;
 
-
 	folder = e_mail_reader_get_folder (reader);
 	store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
 

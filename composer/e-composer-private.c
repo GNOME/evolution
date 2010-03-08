@@ -192,7 +192,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	path = "/main-toolbar/pre-main-toolbar/send";
 	send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
-	
+
 	/* Tooltips for all buttons in toolbar that don't yet have one */
 	path = "/main-toolbar/undo";
 	widget = gtk_ui_manager_get_widget (ui_manager, path);

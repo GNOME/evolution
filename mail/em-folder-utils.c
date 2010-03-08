@@ -470,7 +470,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder-nochild":"mail:ask-delete-folder-nochild",
 			     folder->full_name, NULL);
 	}
-	
+
 	g_object_set_data_full ((GObject *) dialog, "folder", folder, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_delete_response), NULL);
 	gtk_widget_show (dialog);
