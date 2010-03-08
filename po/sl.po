@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2010-02-22 11:00+0000\n"
-"PO-Revision-Date: 2010-02-22 12:21+0100\n"
+"POT-Creation-Date: 2010-03-08 05:55+0000\n"
+"PO-Revision-Date: 2010-03-08 10:19+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Urejevalnik kategorij ni na voljo."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Preverite, ali ste pravilno vnesli geslo in ali uporabljate podprto metodo prijave. Vedite, da mnoga gesla ločijo velike/male črke. Morda imate vklopljen Caps Lock."
+msgstr "Preverite, ali ste pravilno vnesli geslo in ali uporabljate podprto metodo prijave. Vedite, da mnoga gesla ločijo velike/male črke. Morda imate vklopljeno tipko za velike črke."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
@@ -147,7 +147,7 @@ msgstr "Stik poskušate prenesti iz enega imenika v drugega, vendar ga ni mogoč
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version"
-msgstr "Povezujete se na nepodprt strežnik GroupWise, zato lahko pride do težav pri uporabi Evolutiona. Za boljšo izkušnjo strežnik raje nadgradite na podprto različico"
+msgstr "Povezujete se na nepodprt strežnik GroupWise, zato lahko pride do težav pri uporabi programa Evolution. Za boljše rezultate je treba nadgraditi strežnik na podprto različico."
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid "You do not have permission to delete contacts in this address book."
@@ -287,7 +287,7 @@ msgstr "Slika"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
 msgid "Instant Messaging"
-msgstr "Trenutno sporočanje"
+msgstr "Hipno sporočanje"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "Job"
@@ -370,7 +370,7 @@ msgstr "_Rojstni dan:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../calendar/gui/dialogs/event-page.c:823
 #: ../calendar/gui/dialogs/event-page.ui.h:15
-#: ../plugins/itip-formatter/itip-view.c:1909
+#: ../plugins/itip-formatter/itip-view.c:1913
 msgid "_Calendar:"
 msgstr "_Koledar:"
 
@@ -474,9 +474,9 @@ msgstr "Ime"
 #: ../addressbook/gui/widgets/e-minicard-view.c:548
 #: ../addressbook/gui/widgets/e-minicard.c:191
 #: ../widgets/menus/gal-define-views-model.c:178
-#: ../widgets/table/e-cell-text.c:1655
-#: ../widgets/text/e-text.c:3429
-#: ../widgets/text/e-text.c:3430
+#: ../widgets/table/e-cell-text.c:1659
+#: ../widgets/text/e-text.c:3441
+#: ../widgets/text/e-text.c:3442
 msgid "Editable"
 msgstr "Uredljivo"
 
@@ -521,7 +521,7 @@ msgid "Skype"
 msgstr "Skype"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:209
-#: ../addressbook/gui/widgets/eab-gui-util.c:371
+#: ../addressbook/gui/widgets/eab-gui-util.c:376
 msgid "Error adding contact"
 msgstr "Napaka med dodajanjem stika"
 
@@ -802,9 +802,9 @@ msgstr "Združi stik"
 #: ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:4
 #: ../modules/addressbook/e-book-shell-view-actions.c:901
-#: ../modules/calendar/e-cal-shell-view-actions.c:1625
-#: ../modules/calendar/e-memo-shell-view-actions.c:771
-#: ../modules/calendar/e-task-shell-view-actions.c:970
+#: ../modules/calendar/e-cal-shell-view-actions.c:1626
+#: ../modules/calendar/e-memo-shell-view-actions.c:758
+#: ../modules/calendar/e-task-shell-view-actions.c:957
 msgid "Any field contains"
 msgstr "Katerokoli polje vsebuje"
 
@@ -848,16 +848,16 @@ msgstr "Iskanje je prekinjeno"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:434
 #: ../addressbook/gui/widgets/e-addressbook-view.c:758
-#: ../calendar/gui/e-memo-table.c:1048
-#: ../calendar/gui/e-task-table.c:1347
+#: ../calendar/gui/e-memo-table.c:1052
+#: ../calendar/gui/e-task-table.c:1351
 #: ../modules/calendar/e-memo-shell-content.c:607
 #: ../modules/calendar/e-task-shell-content.c:629
 #: ../widgets/table/e-table-click-to-add.c:511
 #: ../widgets/table/e-table-selection-model.c:302
-#: ../widgets/table/e-table.c:3359
+#: ../widgets/table/e-table.c:3367
 #: ../widgets/table/e-tree-selection-model.c:817
-#: ../widgets/text/e-text.c:3296
-#: ../widgets/text/e-text.c:3297
+#: ../widgets/text/e-text.c:3308
+#: ../widgets/text/e-text.c:3309
 msgid "Model"
 msgstr "Model"
 
@@ -887,8 +887,8 @@ msgid "Select all visible contacts"
 msgstr "Izberi vse vidne stike"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:774
-#: ../calendar/gui/e-memo-table.c:1065
-#: ../calendar/gui/e-task-table.c:1364
+#: ../calendar/gui/e-memo-table.c:1069
+#: ../calendar/gui/e-task-table.c:1368
 msgid "Shell View"
 msgstr "Lupinski pogled"
 
@@ -1095,7 +1095,7 @@ msgid "Telex"
 msgstr "Teleks"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:748
+#: ../shell/e-shell-view.c:817
 msgid "Title"
 msgstr "Naziv"
 
@@ -1117,10 +1117,10 @@ msgstr "Spletna stran"
 #: ../widgets/table/e-table-group-container.c:1003
 #: ../widgets/table/e-table-group-leaf.c:642
 #: ../widgets/table/e-table-group-leaf.c:643
-#: ../widgets/table/e-table-item.c:2879
-#: ../widgets/table/e-table-item.c:2880
-#: ../widgets/text/e-text.c:3471
-#: ../widgets/text/e-text.c:3472
+#: ../widgets/table/e-table-item.c:2891
+#: ../widgets/table/e-table-item.c:2892
+#: ../widgets/text/e-text.c:3483
+#: ../widgets/text/e-text.c:3484
 msgid "Width"
 msgstr "Širina"
 
@@ -1133,10 +1133,10 @@ msgstr "Širina"
 #: ../widgets/table/e-table-group-container.c:996
 #: ../widgets/table/e-table-group-leaf.c:635
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:2885
-#: ../widgets/table/e-table-item.c:2886
-#: ../widgets/text/e-text.c:3478
-#: ../widgets/text/e-text.c:3479
+#: ../widgets/table/e-table-item.c:2897
+#: ../widgets/table/e-table-item.c:2898
+#: ../widgets/text/e-text.c:3490
+#: ../widgets/text/e-text.c:3491
 msgid "Height"
 msgstr "Višina"
 
@@ -1587,27 +1587,27 @@ msgstr "Poizvedba se ni izvedla v celoti."
 msgid "card.vcf"
 msgstr "vizitka.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:244
+#: ../addressbook/gui/widgets/eab-gui-util.c:247
 msgid "Select Address Book"
 msgstr "Izbor imenika"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:305
+#: ../addressbook/gui/widgets/eab-gui-util.c:310
 msgid "list"
 msgstr "seznam"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:432
+#: ../addressbook/gui/widgets/eab-gui-util.c:437
 msgid "Move contact to"
 msgstr "Premakni stik v"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:434
+#: ../addressbook/gui/widgets/eab-gui-util.c:439
 msgid "Copy contact to"
 msgstr "Kopiraj stik v"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:437
+#: ../addressbook/gui/widgets/eab-gui-util.c:442
 msgid "Move contacts to"
 msgstr "Premakni stike v"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:439
+#: ../addressbook/gui/widgets/eab-gui-util.c:444
 msgid "Copy contacts to"
 msgstr "Kopiraj stike v"
 
@@ -2185,10 +2185,10 @@ msgstr "_Razveljavi vse"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1574
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1580
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1573
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1579
 #: ../calendar/gui/e-itip-control.c:1162
-#: ../plugins/itip-formatter/itip-view.c:1031
+#: ../plugins/itip-formatter/itip-view.c:1035
 msgid "Location:"
 msgstr "Mesto:"
 
@@ -2238,32 +2238,32 @@ msgstr "mesto sestanka"
 msgid "minutes"
 msgstr "minut"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1435
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1557
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1434
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1556
 msgid "No summary available."
 msgstr "Povzetek ni na voljo."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1444
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1446
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1443
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1445
 msgid "No description available."
 msgstr "Opis ni na voljo."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1454
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1453
 msgid "No location information available."
 msgstr "Podatki o mestu niso na voljo."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1497
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1496
 #, c-format
 msgid "You have %d alarms"
 msgstr "Imate %d alarmov"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1669
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1697
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1668
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
 #: ../e-util/e-non-intrusive-error-dialog.h:39
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1673
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1672
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -2275,7 +2275,7 @@ msgstr ""
 "bil nastavljen, da pošlje e-pošto. Evolution bo\n"
 "prikazal običajno pogovorno okno opomnika."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1703
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -2290,7 +2290,7 @@ msgstr ""
 "\n"
 "Ali ste prepričani, da želite zagnati ta program?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1717
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1716
 msgid "Do not ask me about this program again."
 msgstr "O tem programu me ne sprašuj več."
 
@@ -3164,7 +3164,7 @@ msgstr "Brez"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:183
 #: ../calendar/gui/e-day-view-time-item.c:824
-#: ../calendar/gui/e-timezone-entry.c:319
+#: ../calendar/gui/e-timezone-entry.c:343
 msgid "Select..."
 msgstr "Izb_eri ..."
 
@@ -3241,7 +3241,7 @@ msgid "Display alarms in _notification area only"
 msgstr "Prikaz alarmov le v _območju z obvestili"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:18
-#: ../calendar/gui/dialogs/recurrence-page.c:1113
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:738
 msgid "Friday"
 msgstr "petek"
@@ -3268,7 +3268,7 @@ msgid "Minutes"
 msgstr "Minute"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:22
-#: ../calendar/gui/dialogs/recurrence-page.c:1109
+#: ../calendar/gui/dialogs/recurrence-page.c:1113
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Monday"
 msgstr "ponedeljek"
@@ -3292,7 +3292,7 @@ msgid "S_un"
 msgstr "_ned"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
-#: ../calendar/gui/dialogs/recurrence-page.c:1114
+#: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "sobota"
@@ -3326,7 +3326,7 @@ msgid "Show week n_umber in Day and Work Week View"
 msgstr "Pokaži številke _tednov v dnevnem pogledu in pogledu delovnega tedna"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1115
+#: ../calendar/gui/dialogs/recurrence-page.c:1119
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "nedeljo"
@@ -3349,7 +3349,7 @@ msgid "Template:"
 msgstr "Predloga:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
-#: ../calendar/gui/dialogs/recurrence-page.c:1112
+#: ../calendar/gui/dialogs/recurrence-page.c:1116
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "četrtek"
@@ -3370,7 +3370,7 @@ msgid "Time format:"
 msgstr "Oblika izpisa časa:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1110
+#: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "torek"
@@ -3380,7 +3380,7 @@ msgid "Use s_ystem time zone"
 msgstr "Uporabi _sistemsko časovno območje"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1111
+#: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "sreda"
@@ -3390,7 +3390,7 @@ msgid "Wee_k starts on:"
 msgstr "_Začetek tedna:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
-#: ../modules/calendar/e-cal-shell-view-actions.c:1577
+#: ../modules/calendar/e-cal-shell-view-actions.c:1578
 msgid "Work Week"
 msgstr "Delavni teden"
 
@@ -3980,7 +3980,7 @@ msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "Dogodka ni mogoče polno urejati, ker niste organizator"
 
 #: ../calendar/gui/dialogs/event-page.c:767
-#: ../calendar/gui/dialogs/event-page.c:2718
+#: ../calendar/gui/dialogs/event-page.c:2722
 msgid "This event has alarms"
 msgstr "Dogodek ima alarme"
 
@@ -4041,7 +4041,7 @@ msgstr "Potreben je organizator."
 msgid "At least one attendee is required."
 msgstr "Potreben je vsaj en udeleženec."
 
-#: ../calendar/gui/dialogs/event-page.c:2591
+#: ../calendar/gui/dialogs/event-page.c:2595
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Ni bilo mogoče odpreti koledarja '%s'."
@@ -4052,14 +4052,14 @@ msgstr "Ni bilo mogoče odpreti koledarja '%s'."
 #. on behalf of some other user
 #. Translators: This string is used when we are creating a Task
 #. on behalf of some other user
-#: ../calendar/gui/dialogs/event-page.c:2635
+#: ../calendar/gui/dialogs/event-page.c:2639
 #: ../calendar/gui/dialogs/memo-page.c:914
 #: ../calendar/gui/dialogs/task-page.c:1743
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Trenutno opravljate naloge v imenu %s"
 
-#: ../calendar/gui/dialogs/event-page.c:2937
+#: ../calendar/gui/dialogs/event-page.c:2941
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -4068,7 +4068,7 @@ msgstr[1] "%d dan pred sestankom"
 msgstr[2] "%d dni pred sestankom"
 msgstr[3] "%d dni pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:2943
+#: ../calendar/gui/dialogs/event-page.c:2947
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -4077,7 +4077,7 @@ msgstr[1] "%d ura pred sestankom"
 msgstr[2] "%d uri pred sestankom"
 msgstr[3] "%d ure pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:2949
+#: ../calendar/gui/dialogs/event-page.c:2953
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
@@ -4086,12 +4086,12 @@ msgstr[1] "%d minuto pred sestankom"
 msgstr[2] "%d minuti pred sestankom"
 msgstr[3] "%d minute pred sestankom"
 
-#: ../calendar/gui/dialogs/event-page.c:2962
+#: ../calendar/gui/dialogs/event-page.c:2966
 msgid "Customize"
 msgstr "Prilagodi"
 
 #. Translators: "None" for "No alarm set"
-#: ../calendar/gui/dialogs/event-page.c:2964
+#: ../calendar/gui/dialogs/event-page.c:2968
 msgctxt "cal-alarms"
 msgid "None"
 msgstr "Brez"
@@ -4249,13 +4249,13 @@ msgstr "Ta sestanek vsebuje ponovitve, ki jih Evolution ne zna urejati."
 msgid "Recurrence date is invalid"
 msgstr "Čas ponovitve ni veljaven"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:929
+#: ../calendar/gui/dialogs/recurrence-page.c:933
 msgid "End time of the recurrence was before event's start"
 msgstr "Konec ponavljanja je pred začetkom dogodka"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:958
+#: ../calendar/gui/dialogs/recurrence-page.c:962
 msgid "on"
 msgstr "v"
 
@@ -4263,7 +4263,7 @@ msgstr "v"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1015
+#: ../calendar/gui/dialogs/recurrence-page.c:1019
 msgid "first"
 msgstr "prvi"
 
@@ -4272,7 +4272,7 @@ msgstr "prvi"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1021
+#: ../calendar/gui/dialogs/recurrence-page.c:1025
 msgid "second"
 msgstr "sekunda"
 
@@ -4280,7 +4280,7 @@ msgstr "sekunda"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1026
+#: ../calendar/gui/dialogs/recurrence-page.c:1030
 msgid "third"
 msgstr "tretji"
 
@@ -4288,7 +4288,7 @@ msgstr "tretji"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1031
+#: ../calendar/gui/dialogs/recurrence-page.c:1035
 msgid "fourth"
 msgstr "četrti"
 
@@ -4296,7 +4296,7 @@ msgstr "četrti"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1036
+#: ../calendar/gui/dialogs/recurrence-page.c:1040
 msgid "fifth"
 msgstr "peti"
 
@@ -4304,13 +4304,13 @@ msgstr "peti"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#: ../calendar/gui/dialogs/recurrence-page.c:1045
 msgid "last"
 msgstr "zadnji"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1065
+#: ../calendar/gui/dialogs/recurrence-page.c:1069
 msgid "Other Date"
 msgstr "Drugi datum"
 
@@ -4318,7 +4318,7 @@ msgstr "Drugi datum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1071
+#: ../calendar/gui/dialogs/recurrence-page.c:1075
 msgid "1st to 10th"
 msgstr "1. do 10."
 
@@ -4326,7 +4326,7 @@ msgstr "1. do 10."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1077
+#: ../calendar/gui/dialogs/recurrence-page.c:1081
 msgid "11th to 20th"
 msgstr "1. do 20."
 
@@ -4334,45 +4334,45 @@ msgstr "1. do 20."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1083
+#: ../calendar/gui/dialogs/recurrence-page.c:1087
 msgid "21st to 31st"
 msgstr "21. do 31."
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/dialogs/recurrence-page.c:1108
+#: ../calendar/gui/dialogs/recurrence-page.c:1112
 msgid "day"
 msgstr "dan"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1237
+#: ../calendar/gui/dialogs/recurrence-page.c:1241
 msgid "on the"
 msgstr "na"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1412
+#: ../calendar/gui/dialogs/recurrence-page.c:1416
 msgid "occurrences"
 msgstr "pojavitve"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2117
+#: ../calendar/gui/dialogs/recurrence-page.c:2121
 msgid "Add exception"
 msgstr "Dodaj izjemo"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2158
+#: ../calendar/gui/dialogs/recurrence-page.c:2162
 msgid "Could not get a selection to modify."
 msgstr "Ni mogoče dobiti izbire za spreminjanje."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2164
+#: ../calendar/gui/dialogs/recurrence-page.c:2168
 msgid "Modify exception"
 msgstr "Spremeni izjemo"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2208
+#: ../calendar/gui/dialogs/recurrence-page.c:2212
 msgid "Could not get a selection to delete."
 msgstr "Ni mogoče dobiti izbire za brisanje."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2347
+#: ../calendar/gui/dialogs/recurrence-page.c:2351
 msgid "Date/Time"
 msgstr "Datum/čas"
 
@@ -4708,7 +4708,7 @@ msgstr "Do datuma:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:285
 #: ../calendar/gui/e-itip-control.c:1176
-#: ../plugins/itip-formatter/itip-view.c:1062
+#: ../plugins/itip-formatter/itip-view.c:1066
 msgid "Status:"
 msgstr "Stanje:"
 
@@ -5016,9 +5016,9 @@ msgstr "Pokaži drugi časovni pas"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:860
+#: ../calendar/gui/e-day-view-top-item.c:864
 #: ../calendar/gui/e-day-view.c:1884
-#: ../calendar/gui/e-week-view-main-item.c:218
+#: ../calendar/gui/e-week-view-main-item.c:222
 #: ../calendar/gui/print.c:1735
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -5029,11 +5029,11 @@ msgstr "%A %d %B"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: ../calendar/gui/e-day-view-top-item.c:864
+#: ../calendar/gui/e-day-view-top-item.c:868
 #: ../calendar/gui/e-day-view.c:1901
-#: ../calendar/gui/e-week-view-main-item.c:227
+#: ../calendar/gui/e-week-view-main-item.c:231
 #: ../calendar/gui/ea-gnome-calendar.c:200
-#: ../modules/calendar/e-cal-shell-view-private.c:894
+#: ../modules/calendar/e-cal-shell-view-private.c:895
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -5042,11 +5042,11 @@ msgstr "%a %d %b"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-day-view-top-item.c:868
+#: ../calendar/gui/e-day-view-top-item.c:872
 #: ../calendar/gui/e-day-view.c:1917
-#: ../calendar/gui/e-week-view-main-item.c:241
+#: ../calendar/gui/e-week-view-main-item.c:245
 #: ../calendar/gui/ea-gnome-calendar.c:230
-#: ../modules/calendar/e-cal-shell-view-private.c:930
+#: ../modules/calendar/e-cal-shell-view-private.c:931
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -5596,7 +5596,7 @@ msgstr "V obdelavi"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:458
-#: ../calendar/gui/e-meeting-time-sel.c:2284
+#: ../calendar/gui/e-meeting-time-sel.c:2300
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B %Y"
 
@@ -5605,7 +5605,7 @@ msgstr "%A, %d %B %Y"
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:462
-#: ../calendar/gui/e-meeting-time-sel.c:2315
+#: ../calendar/gui/e-meeting-time-sel.c:2331
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
@@ -5740,7 +5740,7 @@ msgid "Paste memos from the clipboard"
 msgstr "Prilepi opomnike iz odložišča"
 
 #: ../calendar/gui/e-memo-table.c:724
-#: ../modules/calendar/e-memo-shell-view-actions.c:569
+#: ../modules/calendar/e-memo-shell-view-actions.c:556
 msgid "Delete selected memos"
 msgstr "Izbriši izbrane opomnike"
 
@@ -5824,7 +5824,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "Prilepi naloge iz odložišča"
 
 #: ../calendar/gui/e-task-table.c:945
-#: ../modules/calendar/e-task-shell-view-actions.c:693
+#: ../modules/calendar/e-task-shell-view-actions.c:680
 msgid "Delete selected tasks"
 msgstr "Izbriši izbrane naloge"
 
@@ -5832,14 +5832,14 @@ msgstr "Izbriši izbrane naloge"
 msgid "Select all visible tasks"
 msgstr "Izberi vse vidne naloge"
 
-#: ../calendar/gui/e-timezone-entry.c:330
+#: ../calendar/gui/e-timezone-entry.c:354
 msgid "Select Timezone"
 msgstr "Izberi časovni pas"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:235
+#: ../calendar/gui/e-week-view-main-item.c:239
 #: ../calendar/gui/print.c:1716
 msgid "%d %B"
 msgstr "%d %B"
@@ -5898,8 +5898,8 @@ msgstr "Pojdi na datum"
 msgid "a table to view and select the current time range"
 msgstr "preglednica za ogled in izbiro trenutnega časovnega obsega"
 
-#: ../calendar/gui/ea-day-view.c:148
-#: ../calendar/gui/ea-week-view.c:146
+#: ../calendar/gui/ea-day-view.c:152
+#: ../calendar/gui/ea-week-view.c:150
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -5910,15 +5910,15 @@ msgstr[3] "Ima %d dogodke."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../calendar/gui/ea-day-view.c:153
-#: ../calendar/gui/ea-week-view.c:148
+#: ../calendar/gui/ea-day-view.c:157
+#: ../calendar/gui/ea-week-view.c:152
 msgid "It has no events."
 msgstr "Nima dogodkov."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
 #. week, for example "It has %d event/events." or  "It has no events."
-#: ../calendar/gui/ea-day-view.c:160
+#: ../calendar/gui/ea-day-view.c:164
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "Pogled delovnega tedna: %s. %s"
@@ -5926,16 +5926,16 @@ msgstr "Pogled delovnega tedna: %s. %s"
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
 #. example "It has %d event/events." or  "It has no events."
-#: ../calendar/gui/ea-day-view.c:166
+#: ../calendar/gui/ea-day-view.c:170
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "Dnevni pogled: %s. %s"
 
-#: ../calendar/gui/ea-day-view.c:197
+#: ../calendar/gui/ea-day-view.c:201
 msgid "calendar view for a work week"
 msgstr "pogled koledarja za delovni teden"
 
-#: ../calendar/gui/ea-day-view.c:199
+#: ../calendar/gui/ea-day-view.c:203
 msgid "calendar view for one or more days"
 msgstr "pogled koledarja za enega ali več dni"
 
@@ -5946,16 +5946,16 @@ msgid "Gnome Calendar"
 msgstr "Gnome Koledar"
 
 #: ../calendar/gui/ea-gnome-calendar.c:197
-#: ../modules/calendar/e-cal-shell-view-private.c:890
+#: ../modules/calendar/e-cal-shell-view-private.c:891
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:202
 #: ../calendar/gui/ea-gnome-calendar.c:207
 #: ../calendar/gui/ea-gnome-calendar.c:209
-#: ../modules/calendar/e-cal-shell-view-private.c:897
-#: ../modules/calendar/e-cal-shell-view-private.c:903
-#: ../modules/calendar/e-cal-shell-view-private.c:906
+#: ../modules/calendar/e-cal-shell-view-private.c:898
+#: ../modules/calendar/e-cal-shell-view-private.c:904
+#: ../modules/calendar/e-cal-shell-view-private.c:907
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -5963,10 +5963,10 @@ msgstr "%a %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:232
 #: ../calendar/gui/ea-gnome-calendar.c:238
 #: ../calendar/gui/ea-gnome-calendar.c:240
-#: ../modules/calendar/e-cal-shell-view-private.c:923
-#: ../modules/calendar/e-cal-shell-view-private.c:934
-#: ../modules/calendar/e-cal-shell-view-private.c:941
-#: ../modules/calendar/e-cal-shell-view-private.c:944
+#: ../modules/calendar/e-cal-shell-view-private.c:924
+#: ../modules/calendar/e-cal-shell-view-private.c:935
+#: ../modules/calendar/e-cal-shell-view-private.c:942
+#: ../modules/calendar/e-cal-shell-view-private.c:945
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -5978,25 +5978,25 @@ msgstr "Gumb skoči"
 msgid "Click here, you can find more events."
 msgstr "Kliknite tu za iskanje več dogodkov."
 
-#: ../calendar/gui/ea-week-view.c:153
+#: ../calendar/gui/ea-week-view.c:157
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "Mesečni pogled: %s. %s"
 
-#: ../calendar/gui/ea-week-view.c:157
+#: ../calendar/gui/ea-week-view.c:161
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "Tedenski pogled: %s. %s"
 
-#: ../calendar/gui/ea-week-view.c:188
+#: ../calendar/gui/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "Pogled celotnega meseca v koledarju"
 
-#: ../calendar/gui/ea-week-view.c:190
+#: ../calendar/gui/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
 msgstr "pogled koledarja za enega ali več tednov"
 
-#: ../calendar/gui/gnome-cal.c:2144
+#: ../calendar/gui/gnome-cal.c:2148
 msgid "Purging"
 msgstr "Čiščenje"
 
@@ -6066,27 +6066,27 @@ msgstr "Organizator mora biti naveden."
 msgid "At least one attendee is necessary"
 msgstr "Potreben je vsaj en udeleženec"
 
-#: ../calendar/gui/itip-utils.c:634
-#: ../calendar/gui/itip-utils.c:784
+#: ../calendar/gui/itip-utils.c:633
+#: ../calendar/gui/itip-utils.c:783
 msgid "Event information"
 msgstr "Podatki o dogodku"
 
-#: ../calendar/gui/itip-utils.c:637
-#: ../calendar/gui/itip-utils.c:787
+#: ../calendar/gui/itip-utils.c:636
+#: ../calendar/gui/itip-utils.c:786
 msgid "Task information"
 msgstr "Podatki o nalogi"
 
-#: ../calendar/gui/itip-utils.c:640
-#: ../calendar/gui/itip-utils.c:790
+#: ../calendar/gui/itip-utils.c:639
+#: ../calendar/gui/itip-utils.c:789
 msgid "Memo information"
 msgstr "Podrobnosti opomnikov"
 
-#: ../calendar/gui/itip-utils.c:643
-#: ../calendar/gui/itip-utils.c:808
+#: ../calendar/gui/itip-utils.c:642
+#: ../calendar/gui/itip-utils.c:807
 msgid "Free/Busy information"
 msgstr "Podatki o zasedenosti"
 
-#: ../calendar/gui/itip-utils.c:646
+#: ../calendar/gui/itip-utils.c:645
 msgid "Calendar information"
 msgstr "Podatki o koledarju"
 
@@ -6094,7 +6094,7 @@ msgstr "Podatki o koledarju"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:680
+#: ../calendar/gui/itip-utils.c:679
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Sprejeto"
@@ -6103,7 +6103,7 @@ msgstr "Sprejeto"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:687
+#: ../calendar/gui/itip-utils.c:686
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Poskusno sprejeto"
@@ -6115,8 +6115,8 @@ msgstr "Poskusno sprejeto"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../calendar/gui/itip-utils.c:694
-#: ../calendar/gui/itip-utils.c:742
+#: ../calendar/gui/itip-utils.c:693
+#: ../calendar/gui/itip-utils.c:741
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Odklonjeno"
@@ -6125,7 +6125,7 @@ msgstr "Odklonjeno"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:701
+#: ../calendar/gui/itip-utils.c:700
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Pooblaščeno"
@@ -6133,7 +6133,7 @@ msgstr "Pooblaščeno"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:714
+#: ../calendar/gui/itip-utils.c:713
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Posodobljeno"
@@ -6141,7 +6141,7 @@ msgstr "Posodobljeno"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../calendar/gui/itip-utils.c:721
+#: ../calendar/gui/itip-utils.c:720
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Prekliči"
@@ -6149,7 +6149,7 @@ msgstr "Prekliči"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../calendar/gui/itip-utils.c:728
+#: ../calendar/gui/itip-utils.c:727
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Osveži"
@@ -6157,29 +6157,29 @@ msgstr "Osveži"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../calendar/gui/itip-utils.c:735
+#: ../calendar/gui/itip-utils.c:734
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Proti-predlog"
 
-#: ../calendar/gui/itip-utils.c:805
+#: ../calendar/gui/itip-utils.c:804
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Podatki o zasedenosti (%s do %s)"
 
-#: ../calendar/gui/itip-utils.c:813
+#: ../calendar/gui/itip-utils.c:812
 msgid "iCalendar information"
 msgstr "Podrobnosti iCalendar"
 
-#: ../calendar/gui/itip-utils.c:833
+#: ../calendar/gui/itip-utils.c:832
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Ni mogoče vpisati vira. Nov dogodek se ne sklada s drugimi dogodki."
 
-#: ../calendar/gui/itip-utils.c:835
+#: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
 msgstr "Napaka vpisovanja vira:"
 
-#: ../calendar/gui/itip-utils.c:988
+#: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
 msgstr "Biti morate udeleženec dogodka."
 
@@ -8092,7 +8092,7 @@ msgstr "Zaht_evaj povratnico"
 
 #: ../composer/e-composer-actions.c:387
 msgid "Get delivery notification when your message is read"
-msgstr "Pridobi obvestlo o dostavi, ko je vaše sporočilo prebrano"
+msgstr "Pridobi obvestilo o dostavi, ko je vaše sporočilo prebrano"
 
 #: ../composer/e-composer-actions.c:393
 msgid "S/MIME En_crypt"
@@ -8528,7 +8528,7 @@ msgstr "Vidno"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:193
-#: ../modules/calendar/e-cal-shell-view-actions.c:1727
+#: ../modules/calendar/e-cal-shell-view-actions.c:1728
 #: ../plugins/itip-formatter/itip-view.c:195
 #: ../widgets/table/e-cell-date-edit.c:311
 msgid "Today"
@@ -8716,12 +8716,12 @@ msgstr "Ni mogoče odprti povezave."
 msgid "Could not display help for Evolution."
 msgstr "Ni mogoče prikazati pomoči za program Evolution."
 
-#: ../e-util/gconf-bridge.c:1276
+#: ../e-util/gconf-bridge.c:1277
 #, c-format
 msgid "GConf error: %s"
 msgstr "Napaka gconf: %s"
 
-#: ../e-util/gconf-bridge.c:1287
+#: ../e-util/gconf-bridge.c:1288
 msgid "All further errors shown only on terminal."
 msgstr "Vse nadaljnje napake so izpisane le v terminalu."
 
@@ -9171,7 +9171,7 @@ msgstr "let"
 
 #: ../mail/e-mail-attachment-bar.c:120
 #: ../mail/e-mail-attachment-bar.c:125
-#: ../mail/em-format-html-display.c:1025
+#: ../mail/em-format-html-display.c:1029
 #: ../mail/mail-config.ui.h:13
 #: ../mail/message-list.etspec.h:1
 #: ../widgets/misc/e-attachment-paned.c:148
@@ -9183,12 +9183,12 @@ msgstr[1] "Priloga"
 msgstr[2] "Prilogi"
 msgstr[3] "Priloge"
 
-#: ../mail/e-mail-attachment-bar.c:617
+#: ../mail/e-mail-attachment-bar.c:621
 #: ../widgets/misc/e-attachment-paned.c:612
 msgid "Icon View"
 msgstr "Ikonski pogled"
 
-#: ../mail/e-mail-attachment-bar.c:618
+#: ../mail/e-mail-attachment-bar.c:622
 #: ../widgets/misc/e-attachment-paned.c:613
 msgid "List View"
 msgstr "Seznamski pogled"
@@ -9360,7 +9360,7 @@ msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr "Ni mogoče preiskati obstoječih poštnih predalov v `%s': %s"
 
 #: ../mail/e-mail-migrate.c:1823
-#: ../mail/e-mail-migrate.c:2927
+#: ../mail/e-mail-migrate.c:2933
 msgid "Migrating Folders"
 msgstr "Prenašanje map"
 
@@ -9395,7 +9395,7 @@ msgstr "Ni mogoče kopirati podatkov POP3 keep-on-server `%s': %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Ni mogoče ustvariti lokalne shrambe pošte `%s': %s"
 
-#: ../mail/e-mail-migrate.c:2928
+#: ../mail/e-mail-migrate.c:2934
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite since Evolution 2.24.\n"
 "\n"
@@ -9408,7 +9408,7 @@ msgstr ""
 #. On This Computer is always first, and Search Folders
 #. * is always last.
 #. create the local source group
-#: ../mail/e-mail-migrate.c:2943
+#: ../mail/e-mail-migrate.c:2949
 #: ../mail/e-mail-store.c:229
 #: ../mail/em-folder-tree-model.c:144
 #: ../mail/em-folder-tree-model.c:146
@@ -9425,12 +9425,12 @@ msgstr ""
 msgid "On This Computer"
 msgstr "Na tem računalniku"
 
-#: ../mail/e-mail-migrate.c:3023
+#: ../mail/e-mail-migrate.c:3031
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Ni mogoče ustvariti lokalnih map pošte v `%s': %s"
 
-#: ../mail/e-mail-migrate.c:3041
+#: ../mail/e-mail-migrate.c:3049
 #, c-format
 msgid "Unable to read settings from previous Evolution install, `evolution/config.xmldb' does not exist or is corrupt."
 msgstr "Ni mogoče prebrati nastavitev prejšnje namestitve Evolutiona. Datoteka `evolution/config.xmldb' ne obstaja ali pa je pokvarjena."
@@ -9439,31 +9439,31 @@ msgstr "Ni mogoče prebrati nastavitev prejšnje namestitve Evolutiona. Datoteka
 #. *     for packing additional widgets to the right of the alert
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:105
-#: ../modules/calendar/e-task-shell-view-actions.c:572
+#: ../modules/calendar/e-task-shell-view-actions.c:559
 msgid "Do not ask me again"
 msgstr "Ne vprašaj več"
 
-#: ../mail/e-mail-reader.c:208
+#: ../mail/e-mail-reader.c:209
 #: ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "Kopiraj v mapo"
 
-#: ../mail/e-mail-reader.c:208
+#: ../mail/e-mail-reader.c:209
 #: ../mail/em-folder-utils.c:385
 msgid "C_opy"
 msgstr "K_opiraj"
 
-#: ../mail/e-mail-reader.c:582
+#: ../mail/e-mail-reader.c:583
 #: ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
 msgstr "Prestavi v mapo"
 
-#: ../mail/e-mail-reader.c:582
+#: ../mail/e-mail-reader.c:583
 #: ../mail/em-folder-utils.c:385
 msgid "_Move"
 msgstr "Pre_makni"
 
-#: ../mail/e-mail-reader.c:808
+#: ../mail/e-mail-reader.c:809
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Shrani sporočila"
@@ -9477,7 +9477,7 @@ msgstr[3] "Shrani sporočila"
 #. * Subject. The extension ".mbox" is appended to this
 #. * string, thus it will be something like "Message.mbox"
 #. * at the end.
-#: ../mail/e-mail-reader.c:829
+#: ../mail/e-mail-reader.c:830
 #: ../plugins/groupwise-features/properties.ui.h:5
 #: ../widgets/table/e-table-click-to-add.c:518
 msgid "Message"
@@ -9487,493 +9487,494 @@ msgstr[1] "Sporočilo"
 msgstr[2] "Sporočila"
 msgstr[3] "Sporočila"
 
-#: ../mail/e-mail-reader.c:1087
+#: ../mail/e-mail-reader.c:1088
 msgid "A_dd Sender to Address Book"
 msgstr "_Dodaj pošiljatelja v imenik"
 
-#: ../mail/e-mail-reader.c:1089
+#: ../mail/e-mail-reader.c:1090
 msgid "Add sender to address book"
 msgstr "Dodaj pošiljatelja v imenik"
 
-#: ../mail/e-mail-reader.c:1094
+#: ../mail/e-mail-reader.c:1095
 msgid "Check for _Junk"
 msgstr "Preveri _neželeno pošto"
 
-#: ../mail/e-mail-reader.c:1096
+#: ../mail/e-mail-reader.c:1097
 msgid "Filter the selected messages for junk status"
 msgstr "Preveri, ali so izbrana sporočila neželena"
 
-#: ../mail/e-mail-reader.c:1101
+#: ../mail/e-mail-reader.c:1102
 msgid "_Copy to Folder..."
 msgstr "_Kopiraj v mapo ..."
 
-#: ../mail/e-mail-reader.c:1103
+#: ../mail/e-mail-reader.c:1104
 msgid "Copy selected messages to another folder"
 msgstr "Kopiraj izbrana sporočila v drugo mapo"
 
-#: ../mail/e-mail-reader.c:1108
+#: ../mail/e-mail-reader.c:1109
 msgid "_Delete Message"
 msgstr "_Izbriši sporočilo"
 
-#: ../mail/e-mail-reader.c:1110
+#: ../mail/e-mail-reader.c:1111
 msgid "Mark the selected messages for deletion"
 msgstr "Označi izbrana sporočila za brisanje"
 
-#: ../mail/e-mail-reader.c:1115
+#: ../mail/e-mail-reader.c:1116
 msgid "Filter on Mailing _List..."
 msgstr "Filter glede na p_oštni seznam ..."
 
-#: ../mail/e-mail-reader.c:1117
+#: ../mail/e-mail-reader.c:1118
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Ustvari pravilo za filtriranje spročil temu dopisnemu seznamu"
 
-#: ../mail/e-mail-reader.c:1122
+#: ../mail/e-mail-reader.c:1123
 msgid "Filter on _Recipients..."
 msgstr "Filter glede na preje_mnike ..."
 
-#: ../mail/e-mail-reader.c:1124
+#: ../mail/e-mail-reader.c:1125
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Ustvari pravilo za filtriranje sporočil tem prejemnikom"
 
-#: ../mail/e-mail-reader.c:1129
+#: ../mail/e-mail-reader.c:1130
 msgid "Filter on Se_nder..."
 msgstr "Filter glede na pošilja_telja ..."
 
-#: ../mail/e-mail-reader.c:1131
+#: ../mail/e-mail-reader.c:1132
 msgid "Create a rule to filter messages from this sender"
 msgstr "Ustvari pravilo za filtriranje sporočil tega pošiljatelja"
 
-#: ../mail/e-mail-reader.c:1136
+#: ../mail/e-mail-reader.c:1137
 msgid "Filter on _Subject..."
 msgstr "Filter glede na za_devo ..."
 
-#: ../mail/e-mail-reader.c:1138
+#: ../mail/e-mail-reader.c:1139
 msgid "Create a rule to filter messages with this subject"
 msgstr "Ustvari pravilo za filtriranje sporočil s tem predmetom"
 
-#: ../mail/e-mail-reader.c:1143
+#: ../mail/e-mail-reader.c:1144
 msgid "A_pply Filters"
 msgstr "_Uveljavi filtre"
 
-#: ../mail/e-mail-reader.c:1145
+#: ../mail/e-mail-reader.c:1146
 msgid "Apply filter rules to the selected messages"
 msgstr "Uveljavi pravila filtra na izbranih sporočilih"
 
-#: ../mail/e-mail-reader.c:1150
+#: ../mail/e-mail-reader.c:1151
 msgid "_Find in Message..."
 msgstr "_Najdi v sporočilu ..."
 
-#: ../mail/e-mail-reader.c:1152
+#: ../mail/e-mail-reader.c:1153
 msgid "Search for text in the body of the displayed message"
 msgstr "Išči besedilo v telesu prikazanega sporočila"
 
-#: ../mail/e-mail-reader.c:1157
+#: ../mail/e-mail-reader.c:1158
 msgid "_Clear Flag"
 msgstr "Zb_riši zastavico"
 
-#: ../mail/e-mail-reader.c:1159
+#: ../mail/e-mail-reader.c:1160
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Odstrani zastavico navezave izbranega sporočila"
 
-#: ../mail/e-mail-reader.c:1164
+#: ../mail/e-mail-reader.c:1165
 msgid "_Flag Completed"
 msgstr "Določitev _zastavice končana"
 
-#: ../mail/e-mail-reader.c:1166
+#: ../mail/e-mail-reader.c:1167
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Določi zastavico navezave kot končano na izbrano sporočilo"
 
-#: ../mail/e-mail-reader.c:1171
+#: ../mail/e-mail-reader.c:1172
 msgid "Follow _Up..."
 msgstr "Nadal_jevanje ..."
 
-#: ../mail/e-mail-reader.c:1173
+#: ../mail/e-mail-reader.c:1174
 msgid "Flag the selected messages for follow-up"
 msgstr "Označi izbrana sporočila za navezavo"
 
-#: ../mail/e-mail-reader.c:1178
+#: ../mail/e-mail-reader.c:1179
 msgid "_Attached"
 msgstr "_Priloženo"
 
-#: ../mail/e-mail-reader.c:1180
-#: ../mail/e-mail-reader.c:1187
+#: ../mail/e-mail-reader.c:1181
+#: ../mail/e-mail-reader.c:1188
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Posreduj izbrano sporočilo kot prilogo"
 
-#: ../mail/e-mail-reader.c:1185
+#: ../mail/e-mail-reader.c:1186
 msgid "Forward As _Attached"
 msgstr "P_osreduj kot priloženo ..."
 
-#: ../mail/e-mail-reader.c:1192
+#: ../mail/e-mail-reader.c:1193
 msgid "_Inline"
 msgstr "Kot del sporoč_ila"
 
-#: ../mail/e-mail-reader.c:1194
-#: ../mail/e-mail-reader.c:1201
+#: ../mail/e-mail-reader.c:1195
+#: ../mail/e-mail-reader.c:1202
 msgid "Forward the selected message in the body of a new message"
 msgstr "Posreduj naprej izbrano sporočilo v telesu novega sporočila"
 
-#: ../mail/e-mail-reader.c:1199
+#: ../mail/e-mail-reader.c:1200
 msgid "Forward As _Inline"
 msgstr "P_osreduj znotraj besedila ..."
 
-#: ../mail/e-mail-reader.c:1206
+#: ../mail/e-mail-reader.c:1207
 msgid "_Quoted"
 msgstr "_Navedeno"
 
-#: ../mail/e-mail-reader.c:1208
-#: ../mail/e-mail-reader.c:1215
+#: ../mail/e-mail-reader.c:1209
+#: ../mail/e-mail-reader.c:1216
 msgid "Forward the selected message quoted like a reply"
 msgstr "Posreduj izbrano sporočilo kot navedek"
 
-#: ../mail/e-mail-reader.c:1213
+#: ../mail/e-mail-reader.c:1214
 msgid "Forward As _Quoted"
 msgstr "P_osreduj kot navedek ..."
 
-#: ../mail/e-mail-reader.c:1220
+#: ../mail/e-mail-reader.c:1221
 msgid "_Load Images"
 msgstr "Na_loži slike"
 
-#: ../mail/e-mail-reader.c:1222
+#: ../mail/e-mail-reader.c:1223
 msgid "Force images in HTML mail to be loaded"
 msgstr "Prisili, da bodo slike v HTML pošti naložene"
 
-#: ../mail/e-mail-reader.c:1227
+#: ../mail/e-mail-reader.c:1228
 msgid "_Important"
 msgstr "_Pomembno"
 
-#: ../mail/e-mail-reader.c:1229
+#: ../mail/e-mail-reader.c:1230
 msgid "Mark the selected messages as important"
 msgstr "Izbrana sporočila označi kot pomembna"
 
-#: ../mail/e-mail-reader.c:1234
+#: ../mail/e-mail-reader.c:1235
 msgid "_Junk"
 msgstr "_Neželena pošta"
 
-#: ../mail/e-mail-reader.c:1236
+#: ../mail/e-mail-reader.c:1237
 msgid "Mark the selected messages as junk"
 msgstr "Izbrana sporočila označi kot neželena"
 
-#: ../mail/e-mail-reader.c:1241
+#: ../mail/e-mail-reader.c:1242
 msgid "_Not Junk"
 msgstr "_Ni neželeno"
 
-#: ../mail/e-mail-reader.c:1243
+#: ../mail/e-mail-reader.c:1244
 msgid "Mark the selected messages as not being junk"
 msgstr "Izbrana sporočila označi kot zaželena"
 
-#: ../mail/e-mail-reader.c:1248
+#: ../mail/e-mail-reader.c:1249
 msgid "_Read"
 msgstr "_Preberi"
 
-#: ../mail/e-mail-reader.c:1250
+#: ../mail/e-mail-reader.c:1251
 msgid "Mark the selected messages as having been read"
 msgstr "Izbrana sporočila označi kot že pravkar brana"
 
-#: ../mail/e-mail-reader.c:1255
+#: ../mail/e-mail-reader.c:1256
 msgid "Uni_mportant"
 msgstr "Nepo_membno"
 
-#: ../mail/e-mail-reader.c:1257
+#: ../mail/e-mail-reader.c:1258
 msgid "Mark the selected messages as unimportant"
 msgstr "Izbrana sporočila označi kot nepomembna"
 
-#: ../mail/e-mail-reader.c:1262
+#: ../mail/e-mail-reader.c:1263
 msgid "_Unread"
 msgstr "_Neprebrano"
 
-#: ../mail/e-mail-reader.c:1264
+#: ../mail/e-mail-reader.c:1265
 msgid "Mark the selected messages as not having been read"
 msgstr "Izbrana sporočila označi kot še ne prebrana"
 
-#: ../mail/e-mail-reader.c:1269
+#: ../mail/e-mail-reader.c:1270
 msgid "_Edit as New Message..."
 msgstr "_Uredi kot novo sporočilo ..."
 
-#: ../mail/e-mail-reader.c:1271
+#: ../mail/e-mail-reader.c:1272
 msgid "Open the selected messages in the composer for editing"
 msgstr "Odpri izbrano sporočilo v sestavljalniku za urejanje"
 
-#: ../mail/e-mail-reader.c:1276
+#: ../mail/e-mail-reader.c:1277
 msgid "Compose _New Message"
 msgstr "Sestavi _novo sporočilo"
 
-#: ../mail/e-mail-reader.c:1278
+#: ../mail/e-mail-reader.c:1279
 msgid "Open a window for composing a mail message"
 msgstr "Odpri okno za sestavljanje novega poštnega sporočila"
 
-#: ../mail/e-mail-reader.c:1283
+#: ../mail/e-mail-reader.c:1284
 msgid "_Open in New Window"
 msgstr "_Odpri v novem oknu"
 
-#: ../mail/e-mail-reader.c:1285
+#: ../mail/e-mail-reader.c:1286
 msgid "Open the selected messages in a new window"
 msgstr "Izbrana sporočila odpri v novem oknu"
 
-#: ../mail/e-mail-reader.c:1290
+#: ../mail/e-mail-reader.c:1291
 msgid "_Move to Folder..."
 msgstr "Prestavi v _mapo ..."
 
-#: ../mail/e-mail-reader.c:1292
+#: ../mail/e-mail-reader.c:1293
 msgid "Move selected messages to another folder"
 msgstr "Izbrana sporočila premakni v drugo mapo"
 
-#: ../mail/e-mail-reader.c:1297
+#: ../mail/e-mail-reader.c:1298
 msgid "_Next Message"
 msgstr "_Naslednje sporočilo"
 
-#: ../mail/e-mail-reader.c:1299
+#: ../mail/e-mail-reader.c:1300
 msgid "Display the next message"
 msgstr "Pokaži naslednje sporočilo"
 
-#: ../mail/e-mail-reader.c:1304
+#: ../mail/e-mail-reader.c:1305
 msgid "Next _Important Message"
 msgstr "Naslednje po_membno sporočilo"
 
-#: ../mail/e-mail-reader.c:1306
+#: ../mail/e-mail-reader.c:1307
 msgid "Display the next important message"
 msgstr "Pokaži naslednje pomembno sporočilo"
 
-#: ../mail/e-mail-reader.c:1311
+#: ../mail/e-mail-reader.c:1312
 msgid "Next _Thread"
 msgstr "Naslednja _nit"
 
-#: ../mail/e-mail-reader.c:1313
+#: ../mail/e-mail-reader.c:1314
 msgid "Display the next thread"
 msgstr "Pokaži naslednjo nit"
 
-#: ../mail/e-mail-reader.c:1318
+#: ../mail/e-mail-reader.c:1319
 msgid "Next _Unread Message"
 msgstr "Naslednje _neprebrano sporočilo"
 
-#: ../mail/e-mail-reader.c:1320
+#: ../mail/e-mail-reader.c:1321
 msgid "Display the next unread message"
 msgstr "Pokaži naslednje neprebrano sporočilo"
 
-#: ../mail/e-mail-reader.c:1325
+#: ../mail/e-mail-reader.c:1326
 msgid "_Previous Message"
 msgstr "_Predhodno sporočilo"
 
-#: ../mail/e-mail-reader.c:1327
+#: ../mail/e-mail-reader.c:1328
 msgid "Display the previous message"
 msgstr "Pokaži prejšnje sporočilo"
 
-#: ../mail/e-mail-reader.c:1332
+#: ../mail/e-mail-reader.c:1333
 msgid "Pr_evious Important Message"
 msgstr "Pr_ejšnje pomembno sporočilo"
 
-#: ../mail/e-mail-reader.c:1334
+#: ../mail/e-mail-reader.c:1335
 msgid "Display the previous important message"
 msgstr "Pokaži prejšnje pomembno sporočilo"
 
-#: ../mail/e-mail-reader.c:1339
+#: ../mail/e-mail-reader.c:1340
 msgid "P_revious Unread Message"
 msgstr "P_rejšnje neprebrano sporočilo"
 
-#: ../mail/e-mail-reader.c:1341
+#: ../mail/e-mail-reader.c:1342
 msgid "Display the previous unread message"
 msgstr "Pokaži prejšnje neprebrano sporočilo"
 
-#: ../mail/e-mail-reader.c:1348
+#: ../mail/e-mail-reader.c:1349
 msgid "Print this message"
 msgstr "Natisni to sporočilo"
 
-#: ../mail/e-mail-reader.c:1355
+#: ../mail/e-mail-reader.c:1356
 msgid "Preview the message to be printed"
 msgstr "Predogled sporočila pred tiskanjem"
 
-#: ../mail/e-mail-reader.c:1360
+#: ../mail/e-mail-reader.c:1361
 msgid "Re_direct"
 msgstr "_Preusmeri"
 
-#: ../mail/e-mail-reader.c:1362
+#: ../mail/e-mail-reader.c:1363
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Izbrano sporočilo nekomu posreduj"
 
-#: ../mail/e-mail-reader.c:1367
-#: ../modules/calendar/e-cal-shell-view-actions.c:1404
+#: ../mail/e-mail-reader.c:1368
+#: ../modules/calendar/e-cal-shell-view-actions.c:1405
 #: ../modules/mail/e-mail-attachment-handler.c:141
 msgid "Reply to _All"
 msgstr "Odgovori _vsem"
 
-#: ../mail/e-mail-reader.c:1369
+#: ../mail/e-mail-reader.c:1370
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Sestavi odgovor vsem prejemnikom izbranega sporočila"
 
-#: ../mail/e-mail-reader.c:1374
+#: ../mail/e-mail-reader.c:1375
 msgid "Reply to _List"
 msgstr "Odgovori na _seznam"
 
-#: ../mail/e-mail-reader.c:1376
+#: ../mail/e-mail-reader.c:1377
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Sestavi odgovor na dopisni seznam izbranega sporočila"
 
-#: ../mail/e-mail-reader.c:1381
+#: ../mail/e-mail-reader.c:1382
 #: ../modules/mail/e-mail-attachment-handler.c:148
 msgid "_Reply to Sender"
 msgstr "_Odgovori pošiljatelju"
 
-#: ../mail/e-mail-reader.c:1383
+#: ../mail/e-mail-reader.c:1384
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Sestavi odgovor pošiljatelju izbranega sporočila"
 
-#: ../mail/e-mail-reader.c:1388
+#: ../mail/e-mail-reader.c:1389
 msgid "_Save as mbox..."
 msgstr "_Shrani kot mbox..."
 
-#: ../mail/e-mail-reader.c:1390
+#: ../mail/e-mail-reader.c:1391
 msgid "Save selected messages as an mbox file"
 msgstr "Shrani izbrana sporočila kot mbox datoteko"
 
-#: ../mail/e-mail-reader.c:1395
+#: ../mail/e-mail-reader.c:1396
 msgid "Search Folder from Mailing _List..."
 msgstr "Iskala mapa iz Dopisnega _seznama ..."
 
-#: ../mail/e-mail-reader.c:1397
+#: ../mail/e-mail-reader.c:1398
 msgid "Create a search folder for this mailing list"
 msgstr "Ustvari iskalno mapo za ta dopisni seznam"
 
-#: ../mail/e-mail-reader.c:1402
+#: ../mail/e-mail-reader.c:1403
 msgid "Search Folder from Recipien_ts..."
 msgstr "Iskanje mape preko _Prejemnikov ..."
 
-#: ../mail/e-mail-reader.c:1404
+#: ../mail/e-mail-reader.c:1405
 msgid "Create a search folder for these recipients"
 msgstr "Ustvari iskalno mapo za te prejemnike"
 
-#: ../mail/e-mail-reader.c:1409
+#: ../mail/e-mail-reader.c:1410
 msgid "Search Folder from Sen_der..."
 msgstr "Iskala mapa iz P_ošiljatelja ..."
 
-#: ../mail/e-mail-reader.c:1411
+#: ../mail/e-mail-reader.c:1412
 msgid "Create a search folder for this sender"
 msgstr "Ustvari iskalno mapo za tega pošiljatelja"
 
-#: ../mail/e-mail-reader.c:1416
+#: ../mail/e-mail-reader.c:1417
 msgid "Search Folder from S_ubject..."
 msgstr "Iskala mapa iz _Zadeve ..."
 
-#: ../mail/e-mail-reader.c:1418
+#: ../mail/e-mail-reader.c:1419
 msgid "Create a search folder for this subject"
 msgstr "Ustvari iskalno mapo za to zadevo"
 
-#: ../mail/e-mail-reader.c:1423
+#: ../mail/e-mail-reader.c:1424
 msgid "_Message Source"
 msgstr "_Vir sporočil"
 
-#: ../mail/e-mail-reader.c:1425
+#: ../mail/e-mail-reader.c:1426
 msgid "Show the raw email source of the message"
 msgstr "Kaži neposredno izvorno kodo sporočila"
 
-#: ../mail/e-mail-reader.c:1437
+#: ../mail/e-mail-reader.c:1438
 msgid "_Undelete Message"
 msgstr "_Povrni sporočilo"
 
-#: ../mail/e-mail-reader.c:1439
+#: ../mail/e-mail-reader.c:1440
 msgid "Undelete the selected messages"
 msgstr "Povrni izbrana sporočila"
 
-#: ../mail/e-mail-reader.c:1444
+#: ../mail/e-mail-reader.c:1445
 msgid "_Normal Size"
 msgstr "Običaj_na velikost"
 
-#: ../mail/e-mail-reader.c:1446
+#: ../mail/e-mail-reader.c:1447
 msgid "Reset the text to its original size"
 msgstr "Ponastavi besedilo na njegovo izvorno velikost"
 
-#: ../mail/e-mail-reader.c:1451
+#: ../mail/e-mail-reader.c:1452
 msgid "_Zoom In"
 msgstr "_Približaj"
 
-#: ../mail/e-mail-reader.c:1453
+#: ../mail/e-mail-reader.c:1454
 msgid "Increase the text size"
 msgstr "Približaj besedilo"
 
-#: ../mail/e-mail-reader.c:1458
+#: ../mail/e-mail-reader.c:1459
 msgid "Zoom _Out"
 msgstr "_Oddalji"
 
-#: ../mail/e-mail-reader.c:1460
+#: ../mail/e-mail-reader.c:1461
 msgid "Decrease the text size"
 msgstr "Oddalji besedilo"
 
-#: ../mail/e-mail-reader.c:1467
+#: ../mail/e-mail-reader.c:1468
 msgid "Create R_ule"
 msgstr "_Ustvari pravilo"
 
-#: ../mail/e-mail-reader.c:1474
+#: ../mail/e-mail-reader.c:1475
 msgid "Ch_aracter Encoding"
 msgstr "N_abor znakov"
 
-#: ../mail/e-mail-reader.c:1481
+#: ../mail/e-mail-reader.c:1482
 msgid "F_orward As"
 msgstr "P_osreduj kot"
 
-#: ../mail/e-mail-reader.c:1488
+#: ../mail/e-mail-reader.c:1489
 msgid "_Go To"
 msgstr "Po_jdi na"
 
-#: ../mail/e-mail-reader.c:1495
+#: ../mail/e-mail-reader.c:1496
 msgid "Mar_k As"
 msgstr "Označi _kot"
 
-#: ../mail/e-mail-reader.c:1502
+#: ../mail/e-mail-reader.c:1503
 msgid "_Message"
 msgstr "_Sporočilo"
 
-#: ../mail/e-mail-reader.c:1509
+#: ../mail/e-mail-reader.c:1510
 msgid "_Zoom"
 msgstr "_Približaj"
 
-#: ../mail/e-mail-reader.c:1534
+#: ../mail/e-mail-reader.c:1535
 msgid "Mark for Follo_w Up..."
 msgstr "Označi kot na_vezujoče ..."
 
-#: ../mail/e-mail-reader.c:1542
+#: ../mail/e-mail-reader.c:1543
 msgid "Mark as _Important"
 msgstr "Označi kot po_membno"
 
-#: ../mail/e-mail-reader.c:1546
+#: ../mail/e-mail-reader.c:1547
 msgid "Mark as _Junk"
 msgstr "Označi kot _neželeno"
 
-#: ../mail/e-mail-reader.c:1550
+#: ../mail/e-mail-reader.c:1551
 msgid "Mark as _Not Junk"
 msgstr "Označi kot _zaželeno"
 
-#: ../mail/e-mail-reader.c:1554
+#: ../mail/e-mail-reader.c:1555
 msgid "Mar_k as Read"
 msgstr "Označi kot _prebrano"
 
-#: ../mail/e-mail-reader.c:1558
+#: ../mail/e-mail-reader.c:1559
 msgid "Mark as Uni_mportant"
 msgstr "Označi kot ne_pomembno"
 
-#: ../mail/e-mail-reader.c:1562
+#: ../mail/e-mail-reader.c:1563
 msgid "Mark as _Unread"
 msgstr "Označi kot _neprebrano"
 
-#: ../mail/e-mail-reader.c:1598
+#: ../mail/e-mail-reader.c:1599
 msgid "_Caret Mode"
 msgstr "Način _kazalke"
 
-#: ../mail/e-mail-reader.c:1600
+#: ../mail/e-mail-reader.c:1601
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Pokaži utripajoč kazalec v telesu prikazanega sporočila"
 
-#: ../mail/e-mail-reader.c:1606
+#: ../mail/e-mail-reader.c:1607
 msgid "All Message _Headers"
 msgstr "Vse _glave sporočil"
 
-#: ../mail/e-mail-reader.c:1608
+#: ../mail/e-mail-reader.c:1609
 msgid "Show messages with all email headers"
 msgstr "Pokaži sporočila z vsemi e-poštnimi glavami"
 
-#: ../mail/e-mail-reader.c:1831
+#: ../mail/e-mail-reader.c:1833
 msgid "Unable to retrieve message"
 msgstr "Ni mogoče pridobiti sporočila"
 
-#: ../mail/e-mail-reader.c:1876
+#: ../mail/e-mail-reader.c:1836
+#: ../mail/e-mail-reader.c:1888
 #: ../mail/mail-ops.c:1849
 #, c-format
 msgid "Retrieving message '%s'"
@@ -9981,7 +9982,7 @@ msgstr "Pridobivanje sporočila '%s'"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2370
+#: ../mail/e-mail-reader.c:2398
 #: ../plugins/google-account-setup/google-source.c:304
 #: ../plugins/google-account-setup/google-source.c:534
 #: ../plugins/google-account-setup/google-source.c:656
@@ -9989,34 +9990,34 @@ msgstr "Pridobivanje sporočila '%s'"
 msgid "Default"
 msgstr "Privzeto"
 
-#: ../mail/e-mail-reader.c:2489
+#: ../mail/e-mail-reader.c:2517
 #: ../modules/mail/e-mail-attachment-handler.c:134
 msgid "_Forward"
 msgstr "_Posreduj naprej"
 
-#: ../mail/e-mail-reader.c:2490
+#: ../mail/e-mail-reader.c:2518
 msgid "Forward the selected message to someone"
 msgstr "Nekomu posreduj izbrano sporočilo"
 
-#: ../mail/e-mail-reader.c:2534
+#: ../mail/e-mail-reader.c:2562
 #: ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:753
 msgid "Delete"
 msgstr "Izbriši"
 
-#: ../mail/e-mail-reader.c:2538
-#: ../modules/calendar/e-cal-shell-view-actions.c:1250
+#: ../mail/e-mail-reader.c:2566
+#: ../modules/calendar/e-cal-shell-view-actions.c:1251
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "Naslednji"
 
-#: ../mail/e-mail-reader.c:2542
-#: ../modules/calendar/e-cal-shell-view-actions.c:1243
+#: ../mail/e-mail-reader.c:2570
+#: ../modules/calendar/e-cal-shell-view-actions.c:1244
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "Predhodni"
 
-#: ../mail/e-mail-reader.c:2546
+#: ../mail/e-mail-reader.c:2574
 #: ../mail/mail-dialogs.ui.h:18
 msgid "Reply"
 msgstr "Odgovori"
@@ -10076,30 +10077,30 @@ msgctxt "mail-signature"
 msgid "None"
 msgstr "brez"
 
-#: ../mail/em-account-editor.c:965
+#: ../mail/em-account-editor.c:966
 msgid "Never"
 msgstr "Nikoli"
 
-#: ../mail/em-account-editor.c:966
+#: ../mail/em-account-editor.c:967
 msgid "Always"
 msgstr "Vedno"
 
-#: ../mail/em-account-editor.c:967
+#: ../mail/em-account-editor.c:968
 msgid "Ask for each message"
 msgstr "Vprašaj za vsako sporočilo"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1699
+#: ../mail/em-account-editor.c:1705
 #: ../widgets/misc/e-account-tree-view.c:124
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Brez"
 
-#: ../mail/em-account-editor.c:2055
+#: ../mail/em-account-editor.c:2061
 msgid "Mail Configuration"
 msgstr "Nastavitev pošte"
 
-#: ../mail/em-account-editor.c:2056
+#: ../mail/em-account-editor.c:2062
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -10109,40 +10110,40 @@ msgstr ""
 "\n"
 "Kliknite \"Naprej\" za začetek. "
 
-#: ../mail/em-account-editor.c:2058
-#: ../mail/em-account-editor.c:2194
+#: ../mail/em-account-editor.c:2064
+#: ../mail/em-account-editor.c:2200
 #: ../mail/mail-config.ui.h:58
 msgid "Identity"
 msgstr "Istovetnost"
 
-#: ../mail/em-account-editor.c:2059
+#: ../mail/em-account-editor.c:2065
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
 msgstr "Spodaj vnesite vaše ime in e-poštni naslov. Polj \"po želji\" ni treba izpolnjevati, razen če želite tudi te podatke vključiti v e-pošto, ki jo boste pošiljali."
 
-#: ../mail/em-account-editor.c:2061
-#: ../mail/em-account-editor.c:2231
+#: ../mail/em-account-editor.c:2067
+#: ../mail/em-account-editor.c:2237
 #: ../mail/mail-config.ui.h:90
 msgid "Receiving Email"
 msgstr "Sprejem e-pošte"
 
-#: ../mail/em-account-editor.c:2062
+#: ../mail/em-account-editor.c:2068
 msgid "Please configure the following account settings."
 msgstr "Nastavite sledeče nastavitve računa."
 
-#: ../mail/em-account-editor.c:2064
-#: ../mail/em-account-editor.c:2708
+#: ../mail/em-account-editor.c:2070
+#: ../mail/em-account-editor.c:2714
 msgid "Sending Email"
 msgstr "Pošiljam e-pošto"
 
-#: ../mail/em-account-editor.c:2065
+#: ../mail/em-account-editor.c:2071
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
 msgstr "Vnesite podatke o načinu odpošiljanja pošte. Če jih ne poznate, se obrnite na skrbnika vašega sistema ali ponudnika dostopa do spleta."
 
-#: ../mail/em-account-editor.c:2067
+#: ../mail/em-account-editor.c:2073
 msgid "Account Management"
 msgstr "Upravljanje z računom"
 
-#: ../mail/em-account-editor.c:2068
+#: ../mail/em-account-editor.c:2074
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -10150,11 +10151,11 @@ msgstr ""
 "V spodnji prostor vnesite opisno ime tega računa.\n"
 "To ime bo uporabljeno samo za prikaz."
 
-#: ../mail/em-account-editor.c:2072
+#: ../mail/em-account-editor.c:2078
 msgid "Done"
 msgstr "Končano"
 
-#: ../mail/em-account-editor.c:2073
+#: ../mail/em-account-editor.c:2079
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -10168,64 +10169,76 @@ msgstr ""
 "\n"
 "S klikom na gumb \"Uveljavi \" bodo spremembe shranjene."
 
-#: ../mail/em-account-editor.c:2518
+#: ../mail/em-account-editor.c:2524
 msgid "Check for _new messages every"
 msgstr "Samodejno preveri _novo pošto na"
 
-#: ../mail/em-account-editor.c:2526
+#: ../mail/em-account-editor.c:2532
 msgid "minu_tes"
 msgstr "_minute"
 
-#: ../mail/em-account-editor.c:2772
+#: ../mail/em-account-editor.c:2778
 #: ../mail/mail-config.ui.h:31
 msgid "Defaults"
 msgstr "Privzeto"
 
-#: ../mail/em-account-editor.c:2834
+#: ../mail/em-account-editor.c:2840
 #: ../mail/mail-config.ui.h:100
 msgid "Security"
 msgstr "Varnost"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2871
-#: ../mail/em-account-editor.c:2939
+#: ../mail/em-account-editor.c:2877
+#: ../mail/em-account-editor.c:2945
 msgid "Receiving Options"
 msgstr "Možnosti prejemanja"
 
-#: ../mail/em-account-editor.c:2872
-#: ../mail/em-account-editor.c:2940
+#: ../mail/em-account-editor.c:2878
+#: ../mail/em-account-editor.c:2946
 msgid "Checking for New Messages"
 msgstr "Preverjanje novih sporočil"
 
-#: ../mail/em-account-editor.c:3408
+#: ../mail/em-account-editor.c:3414
 msgid "Account Editor"
 msgstr "Urejevalnik računov"
 
-#: ../mail/em-account-editor.c:3408
+#: ../mail/em-account-editor.c:3414
 msgid "Evolution Account Assistant"
 msgstr "Pomočnik za račune Evolutiona"
 
-#: ../mail/em-composer-utils.c:1954
+#. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
+#: ../mail/em-composer-utils.c:1578
+#, c-format
+msgid "Your message to %s about \"%s\" on %s has been read."
+msgstr "Sporočilo za %s z zadevo \"%s\" poslano dne %s je bilo prebrano."
+
+#. Translators: %s is the subject of the email message
+#: ../mail/em-composer-utils.c:1626
+#, c-format
+msgid "Delivery Notification for: \"%s\""
+msgstr "Obvestilo o dostavi za: \"%s\""
+
+#: ../mail/em-composer-utils.c:1950
 msgid "an unknown sender"
 msgstr "neznan pošiljatelj"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2001
+#: ../mail/em-composer-utils.c:1997
 msgid "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"
 msgstr "Dne ${Day}.${Month}.${Year} (${AbbrevWeekdayName}) ob ${24Hour}:${Minute} ${TimeZone} je ${Sender} zapisal(a):"
 
-#: ../mail/em-composer-utils.c:2145
+#: ../mail/em-composer-utils.c:2141
 msgid "-----Original Message-----"
 msgstr "-------- Prvotno sporočilo --------"
 
-#: ../mail/em-composer-utils.c:2326
+#: ../mail/em-composer-utils.c:2322
 msgid "Posting destination"
 msgstr "Cilj pošiljanja"
 
-#: ../mail/em-composer-utils.c:2327
+#: ../mail/em-composer-utils.c:2323
 msgid "Choose folders to post the message to."
 msgstr "Izberite mape, v katere želite poslati sporočilo."
 
@@ -10743,16 +10756,16 @@ msgstr "Zakasnelo:"
 msgid "by"
 msgstr "do"
 
-#: ../mail/em-format-html-display.c:958
-#: ../mail/em-format-html-display.c:997
+#: ../mail/em-format-html-display.c:962
+#: ../mail/em-format-html-display.c:1001
 msgid "View _Unformatted"
 msgstr "Poglej _neoblikovano"
 
-#: ../mail/em-format-html-display.c:960
+#: ../mail/em-format-html-display.c:964
 msgid "Hide _Unformatted"
 msgstr "Skrij _neoblikovano"
 
-#: ../mail/em-format-html-display.c:1017
+#: ../mail/em-format-html-display.c:1021
 msgid "O_pen With"
 msgstr "Odpri _z"
 
@@ -13396,25 +13409,25 @@ msgid "Select all visible messages"
 msgstr "Izberi vsa vidna sporočila"
 
 #: ../mail/message-list.c:2588
-#: ../shell/e-shell-view.c:652
+#: ../shell/e-shell-view.c:721
 msgid "Shell Backend"
 msgstr "Odzadje lupine"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:4399
-#: ../mail/message-list.c:4887
+#: ../mail/message-list.c:4895
 msgid "Generating message list"
 msgstr "Ustvarjam seznam sporočil"
 
-#: ../mail/message-list.c:4722
+#: ../mail/message-list.c:4726
 msgid "No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."
 msgstr "Ni sporočil, ki sovpadajo z iskalnim nizom. Lahko počistite iskanje ali pa vnesete nov iskalni niz."
 
-#: ../mail/message-list.c:4724
+#: ../mail/message-list.c:4728
 msgid "There are only hidden messages in this folder. Use View->Show Hidden Messages to show them."
 msgstr "V tej mapi so le skrita sporočila. Uporabite Pogled->Pokaži skrita sporočila za prikaz."
 
-#: ../mail/message-list.c:4726
+#: ../mail/message-list.c:4730
 msgid "There are no messages in this folder."
 msgstr "V tej mapi trenutno ni sporočil."
 
@@ -13800,9 +13813,9 @@ msgid "Show properties of the selected address book"
 msgstr "Pokaži lastnosti izbranega imenika"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:697
-#: ../modules/calendar/e-cal-shell-view-actions.c:1299
-#: ../modules/calendar/e-memo-shell-view-actions.c:623
-#: ../modules/calendar/e-task-shell-view-actions.c:747
+#: ../modules/calendar/e-cal-shell-view-actions.c:1300
+#: ../modules/calendar/e-memo-shell-view-actions.c:610
+#: ../modules/calendar/e-task-shell-view-actions.c:734
 #: ../modules/mail/e-mail-shell-view-actions.c:946
 msgid "_Rename..."
 msgstr "_Preimenuj ..."
@@ -13884,22 +13897,22 @@ msgid "Send a message to the selected contacts"
 msgstr "Pošlji sporočilo izbranim stikom"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:783
-#: ../modules/calendar/e-cal-shell-view-actions.c:1434
-#: ../modules/calendar/e-task-shell-view-actions.c:805
+#: ../modules/calendar/e-cal-shell-view-actions.c:1435
+#: ../modules/calendar/e-task-shell-view-actions.c:792
 msgid "_Actions"
 msgstr "_Dejanja"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:790
-#: ../modules/calendar/e-memo-shell-view-actions.c:660
-#: ../modules/calendar/e-task-shell-view-actions.c:812
+#: ../modules/calendar/e-memo-shell-view-actions.c:647
+#: ../modules/calendar/e-task-shell-view-actions.c:799
 #: ../modules/mail/e-mail-shell-view-actions.c:1090
 msgid "_Preview"
 msgstr "_Predogled"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:799
-#: ../modules/calendar/e-cal-shell-view-actions.c:1451
-#: ../modules/calendar/e-memo-shell-view-actions.c:673
-#: ../modules/calendar/e-task-shell-view-actions.c:825
+#: ../modules/calendar/e-cal-shell-view-actions.c:1452
+#: ../modules/calendar/e-memo-shell-view-actions.c:660
+#: ../modules/calendar/e-task-shell-view-actions.c:812
 msgid "_Delete"
 msgstr "_Izbriši"
 
@@ -13920,8 +13933,8 @@ msgid "Show contact preview window"
 msgstr "Pokaži okno s predogledom stika"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:860
-#: ../modules/calendar/e-memo-shell-view-actions.c:730
-#: ../modules/calendar/e-task-shell-view-actions.c:894
+#: ../modules/calendar/e-memo-shell-view-actions.c:717
+#: ../modules/calendar/e-task-shell-view-actions.c:881
 #: ../modules/mail/e-mail-shell-view-actions.c:1185
 msgid "_Classic View"
 msgstr "_Klasičen pogled"
@@ -13931,8 +13944,8 @@ msgid "Show contact preview below the contact list"
 msgstr "Pokaži podatke stika pod seznamom stikov"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
-#: ../modules/calendar/e-memo-shell-view-actions.c:737
-#: ../modules/calendar/e-task-shell-view-actions.c:901
+#: ../modules/calendar/e-memo-shell-view-actions.c:724
+#: ../modules/calendar/e-task-shell-view-actions.c:888
 #: ../modules/mail/e-mail-shell-view-actions.c:1192
 msgid "_Vertical View"
 msgstr "_Navpični pogled"
@@ -13942,23 +13955,23 @@ msgid "Show contact preview alongside the contact list"
 msgstr "Pokaži podatke stika ob seznamu stikov"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:877
-#: ../modules/calendar/e-cal-shell-view-actions.c:1594
-#: ../modules/calendar/e-memo-shell-view-actions.c:747
-#: ../modules/calendar/e-task-shell-view-actions.c:918
+#: ../modules/calendar/e-cal-shell-view-actions.c:1595
+#: ../modules/calendar/e-memo-shell-view-actions.c:734
+#: ../modules/calendar/e-task-shell-view-actions.c:905
 msgid "Any Category"
 msgstr "katerakoli kategorija"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:884
-#: ../modules/calendar/e-cal-shell-view-actions.c:1608
-#: ../modules/calendar/e-memo-shell-view-actions.c:754
-#: ../modules/calendar/e-task-shell-view-actions.c:953
+#: ../modules/calendar/e-cal-shell-view-actions.c:1609
+#: ../modules/calendar/e-memo-shell-view-actions.c:741
+#: ../modules/calendar/e-task-shell-view-actions.c:940
 msgid "Unmatched"
 msgstr "Brez zadetka"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:894
-#: ../modules/calendar/e-cal-shell-view-actions.c:1618
-#: ../modules/calendar/e-memo-shell-view-actions.c:764
-#: ../modules/calendar/e-task-shell-view-actions.c:963
+#: ../modules/calendar/e-cal-shell-view-actions.c:1619
+#: ../modules/calendar/e-memo-shell-view-actions.c:751
+#: ../modules/calendar/e-task-shell-view-actions.c:950
 #: ../modules/mail/e-mail-shell-view-actions.c:1268
 #: ../shell/e-shell-content.c:516
 msgid "Advanced Search"
@@ -14173,7 +14186,7 @@ msgid "_Appointment"
 msgstr "_Sestanek"
 
 #: ../modules/calendar/e-cal-shell-backend.c:448
-#: ../modules/calendar/e-cal-shell-view-actions.c:1378
+#: ../modules/calendar/e-cal-shell-view-actions.c:1379
 msgid "Create a new appointment"
 msgstr "Ustvari nov sestanek"
 
@@ -14201,7 +14214,7 @@ msgid "Cale_ndar"
 msgstr "_Koledar"
 
 #: ../modules/calendar/e-cal-shell-backend.c:472
-#: ../modules/calendar/e-cal-shell-view-actions.c:1273
+#: ../modules/calendar/e-cal-shell-view-actions.c:1274
 msgid "Create a new calendar"
 msgstr "Ustvari nov koledar"
 
@@ -14297,302 +14310,302 @@ msgstr "S tem dejanjem bodo trajno izbrisani vsi dogodki, ki so starejši od izb
 msgid "Purge events older than"
 msgstr "Počisti dogodke, starejše kot"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:540
+#: ../modules/calendar/e-cal-shell-view-actions.c:534
 msgid "Copying Items"
 msgstr "Kopiranje predmetov"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:795
+#: ../modules/calendar/e-cal-shell-view-actions.c:796
 msgid "Moving Items"
 msgstr "Premikanje predmetov"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-actions.c:1097
+#: ../modules/calendar/e-cal-shell-view-actions.c:1098
 msgid "event"
 msgstr "dogodek"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1099
+#: ../modules/calendar/e-cal-shell-view-actions.c:1100
 #: ../modules/calendar/e-cal-shell-view-memopad.c:209
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:277
-#: ../modules/calendar/e-memo-shell-view-actions.c:507
-#: ../modules/calendar/e-task-shell-view-actions.c:624
+#: ../modules/calendar/e-memo-shell-view-actions.c:494
+#: ../modules/calendar/e-task-shell-view-actions.c:611
 msgid "Save as iCalendar"
 msgstr "Shrani kot iCalendar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1229
-#: ../modules/calendar/e-memo-shell-view-actions.c:588
+#: ../modules/calendar/e-cal-shell-view-actions.c:1230
+#: ../modules/calendar/e-memo-shell-view-actions.c:575
 msgid "_Copy..."
 msgstr "_Kopiraj ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1236
+#: ../modules/calendar/e-cal-shell-view-actions.c:1237
 msgid "D_elete Calendar"
 msgstr "_Izbriši koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1238
+#: ../modules/calendar/e-cal-shell-view-actions.c:1239
 msgid "Delete the selected calendar"
 msgstr "Izbriši izbrani koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1245
+#: ../modules/calendar/e-cal-shell-view-actions.c:1246
 msgid "Go Back"
 msgstr "Pojdi nazaj "
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1252
+#: ../modules/calendar/e-cal-shell-view-actions.c:1253
 msgid "Go Forward"
 msgstr "Pojdi naprej"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1257
+#: ../modules/calendar/e-cal-shell-view-actions.c:1258
 msgid "Select _Today"
 msgstr "Izberi _danes"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1259
+#: ../modules/calendar/e-cal-shell-view-actions.c:1260
 msgid "Select today"
 msgstr "Izberi danes"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1264
+#: ../modules/calendar/e-cal-shell-view-actions.c:1265
 msgid "Select _Date"
 msgstr "Izberi _datum"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1266
+#: ../modules/calendar/e-cal-shell-view-actions.c:1267
 msgid "Select a specific date"
 msgstr "Izberi določen datum"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1271
+#: ../modules/calendar/e-cal-shell-view-actions.c:1272
 msgid "_New Calendar"
 msgstr "_Nov koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1285
-#: ../modules/calendar/e-task-shell-view-actions.c:796
+#: ../modules/calendar/e-cal-shell-view-actions.c:1286
+#: ../modules/calendar/e-task-shell-view-actions.c:783
 msgid "Purg_e"
 msgstr "Poč_isti"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1287
+#: ../modules/calendar/e-cal-shell-view-actions.c:1288
 msgid "Purge old appointments and meetings"
 msgstr "Počisti stare sestanke in srečanja"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1292
-#: ../modules/calendar/e-memo-shell-view-actions.c:616
-#: ../modules/calendar/e-task-shell-view-actions.c:740
+#: ../modules/calendar/e-cal-shell-view-actions.c:1293
+#: ../modules/calendar/e-memo-shell-view-actions.c:603
+#: ../modules/calendar/e-task-shell-view-actions.c:727
 msgid "Re_fresh"
 msgstr "_Osveži"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1294
+#: ../modules/calendar/e-cal-shell-view-actions.c:1295
 msgid "Refresh the selected calendar"
 msgstr "Osveži izbrani koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1301
+#: ../modules/calendar/e-cal-shell-view-actions.c:1302
 msgid "Rename the selected calendar"
 msgstr "Preimenuj izbrani koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1306
+#: ../modules/calendar/e-cal-shell-view-actions.c:1307
 msgid "Show _Only This Calendar"
 msgstr "Pokaži _le ta koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1313
+#: ../modules/calendar/e-cal-shell-view-actions.c:1314
 msgid "Cop_y to Calendar..."
 msgstr "Kopiraj v _koledar ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1320
+#: ../modules/calendar/e-cal-shell-view-actions.c:1321
 msgid "_Delegate Meeting..."
 msgstr "_Pooblasti srečanje..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1327
+#: ../modules/calendar/e-cal-shell-view-actions.c:1328
 msgid "_Delete Appointment"
 msgstr "_Izbriši sestanek"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1329
+#: ../modules/calendar/e-cal-shell-view-actions.c:1330
 msgid "Delete selected appointments"
 msgstr "Izbriši izbrane sestanke"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1334
+#: ../modules/calendar/e-cal-shell-view-actions.c:1335
 msgid "Delete This _Occurrence"
 msgstr "Zbriši to _pojavitev"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1336
+#: ../modules/calendar/e-cal-shell-view-actions.c:1337
 msgid "Delete this occurrence"
 msgstr "Zbriši to pojavitev"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1341
+#: ../modules/calendar/e-cal-shell-view-actions.c:1342
 msgid "Delete All Occ_urrences"
 msgstr "Izbriši _vse pojavitve"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1343
+#: ../modules/calendar/e-cal-shell-view-actions.c:1344
 msgid "Delete all occurrences"
 msgstr "Zbriši vse pojavitve"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1348
+#: ../modules/calendar/e-cal-shell-view-actions.c:1349
 msgid "New All Day _Event..."
 msgstr "Nov _celodnevni dogodek ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1350
+#: ../modules/calendar/e-cal-shell-view-actions.c:1351
 msgid "Create a new all day event"
 msgstr "Ustvari nov celodnevni sestanek"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1355
+#: ../modules/calendar/e-cal-shell-view-actions.c:1356
 #: ../modules/calendar/e-cal-shell-view-memopad.c:243
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:317
-#: ../modules/calendar/e-memo-shell-view-actions.c:581
-#: ../modules/calendar/e-task-shell-view-actions.c:705
+#: ../modules/calendar/e-memo-shell-view-actions.c:568
+#: ../modules/calendar/e-task-shell-view-actions.c:692
 msgid "_Forward as iCalendar..."
 msgstr "_Posreduj kot iCalendar  ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1362
+#: ../modules/calendar/e-cal-shell-view-actions.c:1363
 msgid "New _Meeting..."
 msgstr "Novo _srečanje ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1364
+#: ../modules/calendar/e-cal-shell-view-actions.c:1365
 msgid "Create a new meeting"
 msgstr "Ustvari novo srečanje"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1369
+#: ../modules/calendar/e-cal-shell-view-actions.c:1370
 msgid "Mo_ve to Calendar..."
 msgstr "Kopiraj _v mapo ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1376
+#: ../modules/calendar/e-cal-shell-view-actions.c:1377
 msgid "New _Appointment..."
 msgstr "Nov _sestanek ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1383
+#: ../modules/calendar/e-cal-shell-view-actions.c:1384
 msgid "Make this Occurrence _Movable"
 msgstr "Naredi to pojavitev _prestavljivo"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1390
+#: ../modules/calendar/e-cal-shell-view-actions.c:1391
 msgid "_Open Appointment"
 msgstr "_Odpri sestanek"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1392
+#: ../modules/calendar/e-cal-shell-view-actions.c:1393
 msgid "View the current appointment"
 msgstr "Ogled trenutnega sestanka"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1397
+#: ../modules/calendar/e-cal-shell-view-actions.c:1398
 msgid "_Reply"
 msgstr "Odgovo_ri"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1411
+#: ../modules/calendar/e-cal-shell-view-actions.c:1412
 #: ../modules/calendar/e-cal-shell-view-memopad.c:271
 msgid "Save as iCalendar..."
 msgstr "Shrani kot iCalendar ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1418
+#: ../modules/calendar/e-cal-shell-view-actions.c:1419
 msgid "_Schedule Meeting..."
 msgstr "_Načrtovanje srečanja ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1420
+#: ../modules/calendar/e-cal-shell-view-actions.c:1421
 msgid "Converts an appointment to a meeting"
 msgstr "Pretvori sestanek v srečanje"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1425
+#: ../modules/calendar/e-cal-shell-view-actions.c:1426
 msgid "Conv_ert to Appointment..."
 msgstr "_Pretvori v sestanek ..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1427
+#: ../modules/calendar/e-cal-shell-view-actions.c:1428
 msgid "Converts a meeting to an appointment"
 msgstr "Pretvori srečanje v sestanek"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1549
+#: ../modules/calendar/e-cal-shell-view-actions.c:1550
 msgid "Day"
 msgstr "Dan"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1551
+#: ../modules/calendar/e-cal-shell-view-actions.c:1552
 msgid "Show one day"
 msgstr "Kaži en dan"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1556
+#: ../modules/calendar/e-cal-shell-view-actions.c:1557
 msgid "List"
 msgstr "Seznam"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1558
+#: ../modules/calendar/e-cal-shell-view-actions.c:1559
 msgid "Show as list"
 msgstr "Pokaži kot seznam"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1563
+#: ../modules/calendar/e-cal-shell-view-actions.c:1564
 msgid "Month"
 msgstr "Mesec"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1565
+#: ../modules/calendar/e-cal-shell-view-actions.c:1566
 msgid "Show one month"
 msgstr "Kaži en mesec"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1570
+#: ../modules/calendar/e-cal-shell-view-actions.c:1571
 msgid "Week"
 msgstr "Teden"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1572
+#: ../modules/calendar/e-cal-shell-view-actions.c:1573
 msgid "Show one week"
 msgstr "Kaži en teden"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1579
+#: ../modules/calendar/e-cal-shell-view-actions.c:1580
 msgid "Show one work week"
 msgstr "Pokaži en delovni teden"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1587
+#: ../modules/calendar/e-cal-shell-view-actions.c:1588
 msgid "Active Appointments"
 msgstr "Dejavni sestanki"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1601
+#: ../modules/calendar/e-cal-shell-view-actions.c:1602
 msgid "Next 7 Days' Appointments"
 msgstr "Sestanki naslednjih 7 dni"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1632
-#: ../modules/calendar/e-memo-shell-view-actions.c:778
-#: ../modules/calendar/e-task-shell-view-actions.c:977
+#: ../modules/calendar/e-cal-shell-view-actions.c:1633
+#: ../modules/calendar/e-memo-shell-view-actions.c:765
+#: ../modules/calendar/e-task-shell-view-actions.c:964
 msgid "Description contains"
 msgstr "Opis vsebuje"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1639
-#: ../modules/calendar/e-memo-shell-view-actions.c:785
-#: ../modules/calendar/e-task-shell-view-actions.c:984
+#: ../modules/calendar/e-cal-shell-view-actions.c:1640
+#: ../modules/calendar/e-memo-shell-view-actions.c:772
+#: ../modules/calendar/e-task-shell-view-actions.c:971
 msgid "Summary contains"
 msgstr "Povzetek vsebuje"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1651
+#: ../modules/calendar/e-cal-shell-view-actions.c:1652
 msgid "Print this calendar"
 msgstr "Natisni ta koledar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1658
+#: ../modules/calendar/e-cal-shell-view-actions.c:1659
 msgid "Preview the calendar to be printed"
 msgstr "Predogled koledarja pred tiskanjem"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1730
+#: ../modules/calendar/e-cal-shell-view-actions.c:1731
 msgid "Go To"
 msgstr "Pojdi na"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:207
-#: ../modules/calendar/e-memo-shell-view-actions.c:505
+#: ../modules/calendar/e-memo-shell-view-actions.c:492
 msgid "memo"
 msgstr "opomnik"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:250
-#: ../modules/calendar/e-memo-shell-view-actions.c:637
+#: ../modules/calendar/e-memo-shell-view-actions.c:624
 msgid "New _Memo"
 msgstr "Nov _opomnik"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:252
 #: ../modules/calendar/e-memo-shell-backend.c:320
-#: ../modules/calendar/e-memo-shell-view-actions.c:639
+#: ../modules/calendar/e-memo-shell-view-actions.c:626
 msgid "Create a new memo"
 msgstr "Ustvari nov opomnik"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:257
-#: ../modules/calendar/e-memo-shell-view-actions.c:644
+#: ../modules/calendar/e-memo-shell-view-actions.c:631
 msgid "_Open Memo"
 msgstr "_Odpri opomnik"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:259
-#: ../modules/calendar/e-memo-shell-view-actions.c:646
+#: ../modules/calendar/e-memo-shell-view-actions.c:633
 msgid "View the selected memo"
 msgstr "Ogled izbranega opomnika"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:264
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:352
-#: ../modules/calendar/e-memo-shell-view-actions.c:651
-#: ../modules/calendar/e-task-shell-view-actions.c:789
+#: ../modules/calendar/e-memo-shell-view-actions.c:638
+#: ../modules/calendar/e-task-shell-view-actions.c:776
 msgid "Open _Web Page"
 msgstr "Odpri _spletno stran"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:283
-#: ../modules/calendar/e-memo-shell-view-actions.c:811
+#: ../modules/calendar/e-memo-shell-view-actions.c:798
 msgid "Print the selected memo"
 msgstr "Natisni izbrani opomnik"
 
@@ -14601,22 +14614,22 @@ msgstr "Natisni izbrani opomnik"
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:275
-#: ../modules/calendar/e-task-shell-view-actions.c:622
+#: ../modules/calendar/e-task-shell-view-actions.c:609
 msgid "task"
 msgstr "naloga"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:310
-#: ../modules/calendar/e-task-shell-view-actions.c:684
+#: ../modules/calendar/e-task-shell-view-actions.c:671
 msgid "_Assign Task"
 msgstr "Dodeli _nalogo"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:324
-#: ../modules/calendar/e-task-shell-view-actions.c:761
+#: ../modules/calendar/e-task-shell-view-actions.c:748
 msgid "_Mark as Complete"
 msgstr "_Označi kot opravljeno"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:326
-#: ../modules/calendar/e-task-shell-view-actions.c:763
+#: ../modules/calendar/e-task-shell-view-actions.c:750
 msgid "Mark selected tasks as complete"
 msgstr "Označi izbrane naloge kot dokončane"
 
@@ -14625,39 +14638,39 @@ msgid "_Mark as Incomplete"
 msgstr "_Označi kot nedokončano"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:333
-#: ../modules/calendar/e-task-shell-view-actions.c:770
+#: ../modules/calendar/e-task-shell-view-actions.c:757
 msgid "Mark selected tasks as incomplete"
 msgstr "Označi izbrane naloge kot nedokončane"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:338
-#: ../modules/calendar/e-task-shell-view-actions.c:775
+#: ../modules/calendar/e-task-shell-view-actions.c:762
 msgid "New _Task"
 msgstr "Nova _naloga"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:340
 #: ../modules/calendar/e-task-shell-backend.c:324
-#: ../modules/calendar/e-task-shell-view-actions.c:777
+#: ../modules/calendar/e-task-shell-view-actions.c:764
 msgid "Create a new task"
 msgstr "Ustvari novo nalogo"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:345
-#: ../modules/calendar/e-task-shell-view-actions.c:782
+#: ../modules/calendar/e-task-shell-view-actions.c:769
 msgid "_Open Task"
 msgstr "_Odpri nalogo"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:347
-#: ../modules/calendar/e-task-shell-view-actions.c:784
+#: ../modules/calendar/e-task-shell-view-actions.c:771
 msgid "View the selected task"
 msgstr "Pogled izbrane naloge"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:359
-#: ../modules/calendar/e-memo-shell-view-actions.c:826
-#: ../modules/calendar/e-task-shell-view-actions.c:1025
+#: ../modules/calendar/e-memo-shell-view-actions.c:813
+#: ../modules/calendar/e-task-shell-view-actions.c:1012
 msgid "_Save as iCalendar..."
 msgstr "_Shrani kot iCalendar ..."
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:371
-#: ../modules/calendar/e-task-shell-view-actions.c:1010
+#: ../modules/calendar/e-task-shell-view-actions.c:997
 msgid "Print the selected task"
 msgstr "Natisni izbrano nalogo"
 
@@ -14681,7 +14694,7 @@ msgid "Memo Li_st"
 msgstr "_Seznam opomnikov"
 
 #: ../modules/calendar/e-memo-shell-backend.c:337
-#: ../modules/calendar/e-memo-shell-view-actions.c:604
+#: ../modules/calendar/e-memo-shell-view-actions.c:591
 msgid "Create a new memo list"
 msgstr "Ustvari nov seznam opomnikov"
 
@@ -14724,63 +14737,63 @@ msgstr "Odpiranje opomnikov v %s"
 msgid "Print Memos"
 msgstr "Natisni opomnike"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:567
+#: ../modules/calendar/e-memo-shell-view-actions.c:554
 msgid "_Delete Memo"
 msgstr "_Izbriši opomnik"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:574
+#: ../modules/calendar/e-memo-shell-view-actions.c:561
 msgid "_Find in Memo..."
 msgstr "_Najdi v opomniku ..."
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:576
+#: ../modules/calendar/e-memo-shell-view-actions.c:563
 msgid "Search for text in the displayed memo"
 msgstr "Poišči besedilo v prikazanem opomniku"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:595
+#: ../modules/calendar/e-memo-shell-view-actions.c:582
 msgid "D_elete Memo List"
 msgstr "_Izbriši seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:597
+#: ../modules/calendar/e-memo-shell-view-actions.c:584
 msgid "Delete the selected memo list"
 msgstr "Izbriši izbran seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:602
+#: ../modules/calendar/e-memo-shell-view-actions.c:589
 msgid "_New Memo List"
 msgstr "_Nov seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:618
+#: ../modules/calendar/e-memo-shell-view-actions.c:605
 msgid "Refresh the selected memo list"
 msgstr "Osveži izbran seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:625
+#: ../modules/calendar/e-memo-shell-view-actions.c:612
 msgid "Rename the selected memo list"
 msgstr "Preimenuj izbran seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:630
+#: ../modules/calendar/e-memo-shell-view-actions.c:617
 msgid "Show _Only This Memo List"
 msgstr "Pokaži _le ta seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:709
+#: ../modules/calendar/e-memo-shell-view-actions.c:696
 msgid "Memo _Preview"
 msgstr "_Predogled opomnika"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:711
+#: ../modules/calendar/e-memo-shell-view-actions.c:698
 msgid "Show memo preview pane"
 msgstr "Pokaži pladenj predogleda opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:732
+#: ../modules/calendar/e-memo-shell-view-actions.c:719
 msgid "Show memo preview below the memo list"
 msgstr "Pokaži predogled opomnikov pod seznamom"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:739
+#: ../modules/calendar/e-memo-shell-view-actions.c:726
 msgid "Show memo preview alongside the memo list"
 msgstr "Pokaži predogled opomnikov ob seznamu"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:797
+#: ../modules/calendar/e-memo-shell-view-actions.c:784
 msgid "Print the list of memos"
 msgstr "Natisni seznam opomnikov"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:804
+#: ../modules/calendar/e-memo-shell-view-actions.c:791
 msgid "Preview the list of memos to be printed"
 msgstr "Predogled seznama opomnikov pred tiskanjem"
 
@@ -14827,7 +14840,7 @@ msgid "Tas_k List"
 msgstr "Seznam _nalog"
 
 #: ../modules/calendar/e-task-shell-backend.c:341
-#: ../modules/calendar/e-task-shell-view-actions.c:728
+#: ../modules/calendar/e-task-shell-view-actions.c:715
 msgid "Create a new task list"
 msgstr "Ustvari nov seznam nalog"
 
@@ -14886,7 +14899,7 @@ msgstr "Odpiranje nalog v %s"
 msgid "Print Tasks"
 msgstr "Natisni naloge"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:566
+#: ../modules/calendar/e-task-shell-view-actions.c:553
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n"
 "\n"
@@ -14896,95 +14909,95 @@ msgstr ""
 " \n"
 "Ali želite izbrisati te naloge? "
 
-#: ../modules/calendar/e-task-shell-view-actions.c:691
+#: ../modules/calendar/e-task-shell-view-actions.c:678
 msgid "_Delete Task"
 msgstr "_Izbriši nalogo"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:698
+#: ../modules/calendar/e-task-shell-view-actions.c:685
 msgid "_Find in Task..."
 msgstr "_najdi v nalogi ..."
 
-#: ../modules/calendar/e-task-shell-view-actions.c:700
+#: ../modules/calendar/e-task-shell-view-actions.c:687
 msgid "Search for text in the displayed task"
 msgstr "Poišči besedilo v prikazani nalogi"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:712
+#: ../modules/calendar/e-task-shell-view-actions.c:699
 msgid "Copy..."
 msgstr "Kopiraj ..."
 
-#: ../modules/calendar/e-task-shell-view-actions.c:719
+#: ../modules/calendar/e-task-shell-view-actions.c:706
 msgid "D_elete Task List"
 msgstr "_Izbriši seznam opravil"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:721
+#: ../modules/calendar/e-task-shell-view-actions.c:708
 msgid "Delete the selected task list"
 msgstr "Izbriši izbrani seznam opravil"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:726
+#: ../modules/calendar/e-task-shell-view-actions.c:713
 msgid "_New Task List"
 msgstr "_Nov seznam nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:742
+#: ../modules/calendar/e-task-shell-view-actions.c:729
 msgid "Refresh the selected task list"
 msgstr "Osveži izbrani seznam nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:749
+#: ../modules/calendar/e-task-shell-view-actions.c:736
 msgid "Rename the selected task list"
 msgstr "Preimenuj izbrani seznam nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:754
+#: ../modules/calendar/e-task-shell-view-actions.c:741
 msgid "Show _Only This Task List"
 msgstr "Pokaži _le ta seznam nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:768
+#: ../modules/calendar/e-task-shell-view-actions.c:755
 msgid "Mar_k as Incomplete"
 msgstr "_Označi kot nedokončano"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:798
+#: ../modules/calendar/e-task-shell-view-actions.c:785
 msgid "Delete completed tasks"
 msgstr "Izbriši izbrane naloge"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:873
+#: ../modules/calendar/e-task-shell-view-actions.c:860
 msgid "Task _Preview"
 msgstr "_Predogled nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:875
+#: ../modules/calendar/e-task-shell-view-actions.c:862
 msgid "Show task preview pane"
 msgstr "Pokaži pladenj predogleda nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:896
+#: ../modules/calendar/e-task-shell-view-actions.c:883
 msgid "Show task preview below the task list"
 msgstr "Pokaži predogled nalog pod seznamu nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:903
+#: ../modules/calendar/e-task-shell-view-actions.c:890
 msgid "Show task preview alongside the task list"
 msgstr "Pokaži predogled nalog ob seznamom nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:911
+#: ../modules/calendar/e-task-shell-view-actions.c:898
 msgid "Active Tasks"
 msgstr "Dejavne naloge"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:925
+#: ../modules/calendar/e-task-shell-view-actions.c:912
 msgid "Completed Tasks"
 msgstr "Končane naloge"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:932
+#: ../modules/calendar/e-task-shell-view-actions.c:919
 msgid "Next 7 Days' Tasks"
 msgstr "Naloge naslednjih 7 dni"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:939
+#: ../modules/calendar/e-task-shell-view-actions.c:926
 msgid "Overdue Tasks"
 msgstr "Zakasnjene naloge"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:946
+#: ../modules/calendar/e-task-shell-view-actions.c:933
 msgid "Tasks with Attachments"
 msgstr "Naloge s prilogami"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:996
+#: ../modules/calendar/e-task-shell-view-actions.c:983
 msgid "Print the list of tasks"
 msgstr "Natisni seznam nalog"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1003
+#: ../modules/calendar/e-task-shell-view-actions.c:990
 msgid "Preview the list of tasks to be printed"
 msgstr "Predogled seznama nalog pred tiskanjem"
 
@@ -15793,7 +15806,7 @@ msgstr "Izberite imenik za samodejne stike"
 
 #: ../plugins/bbdb/bbdb.c:731
 msgid "Instant Messaging Contacts"
-msgstr "Stiki neposrednega sporočanja"
+msgstr "Stiki hipnega sporočanja"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:746
@@ -16739,8 +16752,8 @@ msgstr "<b>Ime računa</b>"
 msgid "Proxy Login"
 msgstr "Prijava v posredovalni strežnik"
 
-#: ../plugins/groupwise-features/proxy-login.c:209
-#: ../plugins/groupwise-features/proxy-login.c:252
+#: ../plugins/groupwise-features/proxy-login.c:210
+#: ../plugins/groupwise-features/proxy-login.c:253
 #: ../plugins/groupwise-features/proxy.c:495
 #: ../plugins/groupwise-features/send-options.c:85
 #, c-format
@@ -17447,7 +17460,7 @@ msgstr "Dan začetka:"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:686
-#: ../plugins/itip-formatter/itip-view.c:1041
+#: ../plugins/itip-formatter/itip-view.c:1045
 msgid "Start time:"
 msgstr "Začetni čas:"
 
@@ -17457,7 +17470,7 @@ msgstr "Dan konca:%d dni"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:698
-#: ../plugins/itip-formatter/itip-view.c:1052
+#: ../plugins/itip-formatter/itip-view.c:1056
 msgid "End time:"
 msgstr "Čas konca:"
 
@@ -17516,41 +17529,41 @@ msgid "_Update"
 msgstr "_Posodobi"
 
 #. Comment
-#: ../plugins/itip-formatter/itip-view.c:1072
-#: ../plugins/itip-formatter/itip-view.c:1126
+#: ../plugins/itip-formatter/itip-view.c:1076
+#: ../plugins/itip-formatter/itip-view.c:1130
 msgid "Comment:"
 msgstr "Komentar: "
 
-#: ../plugins/itip-formatter/itip-view.c:1111
+#: ../plugins/itip-formatter/itip-view.c:1115
 msgid "Send _reply to sender"
 msgstr "_Odgovori pošiljatelju"
 
-#: ../plugins/itip-formatter/itip-view.c:1141
+#: ../plugins/itip-formatter/itip-view.c:1145
 msgid "Send _updates to attendees"
 msgstr "Pošlji _posodobitve obiskovalcem"
 
-#: ../plugins/itip-formatter/itip-view.c:1150
+#: ../plugins/itip-formatter/itip-view.c:1154
 msgid "_Apply to all instances"
 msgstr "Uveljavi za vse _primere"
 
-#: ../plugins/itip-formatter/itip-view.c:1159
+#: ../plugins/itip-formatter/itip-view.c:1163
 msgid "Show time as _free"
 msgstr "Pokaži čas kot _prosto"
 
-#: ../plugins/itip-formatter/itip-view.c:1162
+#: ../plugins/itip-formatter/itip-view.c:1166
 msgid "_Preserve my reminder"
 msgstr "_Ohrani moj opomnik"
 
 #. To Translators: This is a check box to inherit a reminder.
-#: ../plugins/itip-formatter/itip-view.c:1168
+#: ../plugins/itip-formatter/itip-view.c:1172
 msgid "_Inherit reminder"
 msgstr "_Prevzemi opomnik"
 
-#: ../plugins/itip-formatter/itip-view.c:1911
+#: ../plugins/itip-formatter/itip-view.c:1915
 msgid "_Tasks:"
 msgstr "_Naloge:"
 
-#: ../plugins/itip-formatter/itip-view.c:1913
+#: ../plugins/itip-formatter/itip-view.c:1917
 msgid "_Memos:"
 msgstr "_Opomniki:"
 
@@ -18314,11 +18327,11 @@ msgstr "iCal"
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr "Ni mogoče objaviti koledarja: Hrbtni del koledarja ne obstaja več"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:474
+#: ../plugins/publish-calendar/url-editor-dialog.c:478
 msgid "New Location"
 msgstr "Novo mesto"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:476
+#: ../plugins/publish-calendar/url-editor-dialog.c:480
 msgid "Edit Location"
 msgstr "Urejanje mesta"
 
@@ -18960,79 +18973,79 @@ msgstr "iCalendar (.ics)"
 msgid "All Files (*)"
 msgstr "Vse datoteke (*)"
 
-#: ../shell/e-shell-view.c:604
+#: ../shell/e-shell-view.c:673
 msgid "Switcher Action"
 msgstr "Dejanje preklopika"
 
-#: ../shell/e-shell-view.c:605
+#: ../shell/e-shell-view.c:674
 msgid "The switcher action for this shell view"
 msgstr "Dejanje preklopnika za lupinski pogled"
 
-#: ../shell/e-shell-view.c:620
+#: ../shell/e-shell-view.c:689
 msgid "Page Number"
 msgstr "Številka strani"
 
-#: ../shell/e-shell-view.c:621
+#: ../shell/e-shell-view.c:690
 msgid "The notebook page number of the shell view"
 msgstr "Številka strani beležnice lupinskega pogleda"
 
-#: ../shell/e-shell-view.c:637
+#: ../shell/e-shell-view.c:706
 msgid "Search Rule"
 msgstr "Niz iskanja"
 
-#: ../shell/e-shell-view.c:638
+#: ../shell/e-shell-view.c:707
 msgid "Criteria for the current search results"
 msgstr "Kriterij za trenutne zadetke iskanja"
 
-#: ../shell/e-shell-view.c:653
+#: ../shell/e-shell-view.c:722
 msgid "The EShellBackend for this shell view"
 msgstr "EShellBackend za ta lupinski pogled"
 
-#: ../shell/e-shell-view.c:668
+#: ../shell/e-shell-view.c:737
 msgid "Shell Content Widget"
 msgstr "Gradnik vsebine lupine"
 
-#: ../shell/e-shell-view.c:669
+#: ../shell/e-shell-view.c:738
 msgid "The content widget appears in a shell window's right pane"
 msgstr "Gradnik vsebine se pojavi v desnem pladnju okna lupine"
 
-#: ../shell/e-shell-view.c:685
+#: ../shell/e-shell-view.c:754
 msgid "Shell Sidebar Widget"
 msgstr "Gradnik stranske vrstice lupine"
 
-#: ../shell/e-shell-view.c:686
+#: ../shell/e-shell-view.c:755
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr "Gradnik stranske vrstice se pojavi v levem pladnju okna lupine"
 
-#: ../shell/e-shell-view.c:701
+#: ../shell/e-shell-view.c:770
 msgid "Shell Taskbar Widget"
 msgstr "Gradnik opravilne vrstice"
 
-#: ../shell/e-shell-view.c:702
+#: ../shell/e-shell-view.c:771
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr "Gradnik opravilne vrstice se pojavi na dnu okna lupine"
 
-#: ../shell/e-shell-view.c:717
+#: ../shell/e-shell-view.c:786
 msgid "Shell Window"
 msgstr "Okno lupine"
 
-#: ../shell/e-shell-view.c:718
+#: ../shell/e-shell-view.c:787
 msgid "The window to which the shell view belongs"
 msgstr "Okno, ki mu pripada lupinski pogled"
 
-#: ../shell/e-shell-view.c:734
+#: ../shell/e-shell-view.c:803
 msgid "The key file holding widget state data"
 msgstr "Ključna datoteka z gradnikom stanja podatkov"
 
-#: ../shell/e-shell-view.c:749
+#: ../shell/e-shell-view.c:818
 msgid "The title of the shell view"
 msgstr "Naziv lupinskega pogleda"
 
-#: ../shell/e-shell-view.c:763
+#: ../shell/e-shell-view.c:832
 msgid "Current View ID"
 msgstr "ID trenutnega pogleda"
 
-#: ../shell/e-shell-view.c:764
+#: ../shell/e-shell-view.c:833
 msgid "The current GAL view ID"
 msgstr "Trenutni GAL ID pogleda"
 
@@ -19329,7 +19342,7 @@ msgstr "Nastavi lastnosti strani za vaš trenutni tiskalnik"
 msgid "Switch to %s"
 msgstr "Preklopi na %s"
 
-#: ../shell/e-shell-window-actions.c:2337
+#: ../shell/e-shell-window-actions.c:2332
 msgid "Execute these search parameters"
 msgstr "Izvedi določila iskanja"
 
@@ -19438,7 +19451,7 @@ msgid "Whether the network is available"
 msgstr "Ali je omrežje na voljo"
 
 #: ../shell/e-shell.c:820
-#: ../widgets/misc/e-online-button.c:130
+#: ../widgets/misc/e-online-button.c:134
 msgid "Online"
 msgstr "Povezano"
 
@@ -19534,11 +19547,11 @@ msgstr "Uvozi naslove URI ali imena datotek podanih kot argumenti."
 msgid "Request a running Evolution process to quit"
 msgstr "Zahteva po končanju programa Evolution"
 
-#: ../shell/main.c:498
+#: ../shell/main.c:494
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Poštni odjemalec in PIM Evolution"
 
-#: ../shell/main.c:524
+#: ../shell/main.c:520
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -20455,7 +20468,7 @@ msgstr[3] "Shrani priloge"
 #. Translators: Default attachment filename.
 #: ../widgets/misc/e-attachment-store.c:633
 #: ../widgets/misc/e-attachment.c:1779
-#: ../widgets/misc/e-attachment.c:2317
+#: ../widgets/misc/e-attachment.c:2319
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
@@ -20494,12 +20507,12 @@ msgid "Attached message"
 msgstr "Priloženo sporočilo"
 
 #: ../widgets/misc/e-attachment.c:1820
-#: ../widgets/misc/e-attachment.c:2619
+#: ../widgets/misc/e-attachment.c:2621
 msgid "A load operation is already in progress"
 msgstr "Dejanje nalaganja je že v teku"
 
 #: ../widgets/misc/e-attachment.c:1828
-#: ../widgets/misc/e-attachment.c:2627
+#: ../widgets/misc/e-attachment.c:2629
 msgid "A save operation is already in progress"
 msgstr "Dejanje shranjevanja je že v teku"
 
@@ -20513,32 +20526,32 @@ msgstr "Ni mogoče naložiti '%s'"
 msgid "Could not load the attachment"
 msgstr "Ni mogoče naložiti priloge"
 
-#: ../widgets/misc/e-attachment.c:2197
+#: ../widgets/misc/e-attachment.c:2199
 #, c-format
 msgid "Could not open '%s'"
 msgstr "Ni mogoče odpreti '%s'"
 
-#: ../widgets/misc/e-attachment.c:2200
+#: ../widgets/misc/e-attachment.c:2202
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Ni mogoče odpreti priloge"
 
-#: ../widgets/misc/e-attachment.c:2635
+#: ../widgets/misc/e-attachment.c:2637
 msgid "Attachment contents not loaded"
 msgstr "Vsebina priloge ni naložena"
 
-#: ../widgets/misc/e-attachment.c:2711
+#: ../widgets/misc/e-attachment.c:2713
 #, c-format
 msgid "Could not save '%s'"
 msgstr "Ni mogoče shraniti '%s'"
 
-#: ../widgets/misc/e-attachment.c:2714
+#: ../widgets/misc/e-attachment.c:2716
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Ni mogoče shraniti priloge"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
-#: ../widgets/misc/e-buffer-tagger.c:359
+#: ../widgets/misc/e-buffer-tagger.c:363
 msgid "Ctrl-click to open a link"
 msgstr "S Ctrl+klikom se odpre povezava"
 
@@ -20551,62 +20564,62 @@ msgstr "%B %Y"
 msgid "Month Calendar"
 msgstr "Mesečni koledar"
 
-#: ../widgets/misc/e-canvas-background.c:467
-#: ../widgets/misc/e-canvas-background.c:468
-#: ../widgets/text/e-text.c:3387
-#: ../widgets/text/e-text.c:3388
+#: ../widgets/misc/e-canvas-background.c:471
+#: ../widgets/misc/e-canvas-background.c:472
+#: ../widgets/text/e-text.c:3399
+#: ../widgets/text/e-text.c:3400
 msgid "Fill color"
 msgstr "Barva polnila"
 
-#: ../widgets/misc/e-canvas-background.c:474
-#: ../widgets/misc/e-canvas-background.c:475
-#: ../widgets/misc/e-canvas-background.c:481
-#: ../widgets/misc/e-canvas-background.c:482
-#: ../widgets/text/e-text.c:3394
-#: ../widgets/text/e-text.c:3395
-#: ../widgets/text/e-text.c:3401
-#: ../widgets/text/e-text.c:3402
+#: ../widgets/misc/e-canvas-background.c:478
+#: ../widgets/misc/e-canvas-background.c:479
+#: ../widgets/misc/e-canvas-background.c:485
+#: ../widgets/misc/e-canvas-background.c:486
+#: ../widgets/text/e-text.c:3406
+#: ../widgets/text/e-text.c:3407
+#: ../widgets/text/e-text.c:3413
+#: ../widgets/text/e-text.c:3414
 msgid "GDK fill color"
 msgstr "Barva polnila GDK"
 
-#: ../widgets/misc/e-canvas-background.c:488
-#: ../widgets/misc/e-canvas-background.c:489
-#: ../widgets/text/e-text.c:3408
-#: ../widgets/text/e-text.c:3409
+#: ../widgets/misc/e-canvas-background.c:492
+#: ../widgets/misc/e-canvas-background.c:493
+#: ../widgets/text/e-text.c:3420
+#: ../widgets/text/e-text.c:3421
 msgid "Fill stipple"
 msgstr "Črtkano polnilo"
 
-#: ../widgets/misc/e-canvas-background.c:495
-#: ../widgets/misc/e-canvas-background.c:496
+#: ../widgets/misc/e-canvas-background.c:499
+#: ../widgets/misc/e-canvas-background.c:500
 msgid "X1"
 msgstr "X1"
 
-#: ../widgets/misc/e-canvas-background.c:502
-#: ../widgets/misc/e-canvas-background.c:503
+#: ../widgets/misc/e-canvas-background.c:506
+#: ../widgets/misc/e-canvas-background.c:507
 msgid "X2"
 msgstr "X2"
 
-#: ../widgets/misc/e-canvas-background.c:509
-#: ../widgets/misc/e-canvas-background.c:510
+#: ../widgets/misc/e-canvas-background.c:513
+#: ../widgets/misc/e-canvas-background.c:514
 msgid "Y1"
 msgstr "Y1"
 
-#: ../widgets/misc/e-canvas-background.c:516
-#: ../widgets/misc/e-canvas-background.c:517
+#: ../widgets/misc/e-canvas-background.c:520
+#: ../widgets/misc/e-canvas-background.c:521
 msgid "Y2"
 msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:89
 #: ../widgets/table/e-table-group-container.c:1009
 #: ../widgets/table/e-table-group-leaf.c:649
-#: ../widgets/table/e-table-item.c:2872
+#: ../widgets/table/e-table-item.c:2884
 msgid "Minimum width"
 msgstr "Najmanjša širina"
 
 #: ../widgets/misc/e-canvas-vbox.c:90
 #: ../widgets/table/e-table-group-container.c:1010
 #: ../widgets/table/e-table-group-leaf.c:650
-#: ../widgets/table/e-table-item.c:2873
+#: ../widgets/table/e-table-item.c:2885
 msgid "Minimum Width"
 msgstr "Najmanjša širina"
 
@@ -20660,16 +20673,16 @@ msgstr "_Brez"
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
 #: ../widgets/misc/e-dateedit.c:1703
-#: ../widgets/misc/e-dateedit.c:1935
+#: ../widgets/misc/e-dateedit.c:1939
 msgctxt "date"
 msgid "None"
 msgstr "Brez"
 
-#: ../widgets/misc/e-dateedit.c:1830
+#: ../widgets/misc/e-dateedit.c:1834
 msgid "Invalid Date Value"
 msgstr "Neveljavna vrednost datuma"
 
-#: ../widgets/misc/e-dateedit.c:1874
+#: ../widgets/misc/e-dateedit.c:1878
 msgid "Invalid Time Value"
 msgstr "Neveljavna vrednost časa"
 
@@ -20753,11 +20766,11 @@ msgstr "Kliknite \"Uvozi\" za začetek uvoza datoteke v Evolution. "
 msgid "Import Data"
 msgstr "Uvozi podatke"
 
-#: ../widgets/misc/e-map.c:621
+#: ../widgets/misc/e-map.c:629
 msgid "World Map"
 msgstr "Zemljevid sveta"
 
-#: ../widgets/misc/e-map.c:623
+#: ../widgets/misc/e-map.c:631
 msgid "Mouse-based interactive map widget for selecting timezone. Keyboard users should instead select the timezone from the drop-down combination box below."
 msgstr "Gradnik za interaktivni izbor časovnega pasu z miško na zemljevidu. Uporabniki tipkovnice lahko časovni pas izberejo iz spodnjega spustnega polja."
 
@@ -20773,7 +20786,7 @@ msgstr "Program Evolution trenutno ni povezan. Kliknite na gumb za povezavo."
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr "Program Evolution trenutno ni povezan, ker omrežna povezava ni na voljo."
 
-#: ../widgets/misc/e-online-button.c:131
+#: ../widgets/misc/e-online-button.c:135
 msgid "The button state is online"
 msgstr "Gumb je označen kot povezan"
 
@@ -20830,43 +20843,43 @@ msgstr "Možnosti Evolutiona"
 msgid "Matches: %d"
 msgstr "Ustreza: %d"
 
-#: ../widgets/misc/e-search-bar.c:554
+#: ../widgets/misc/e-search-bar.c:558
 msgid "Close the find bar"
 msgstr "Zapri vrstico iskanja"
 
-#: ../widgets/misc/e-search-bar.c:562
+#: ../widgets/misc/e-search-bar.c:566
 msgid "Fin_d:"
 msgstr "_Najdi:"
 
-#: ../widgets/misc/e-search-bar.c:574
+#: ../widgets/misc/e-search-bar.c:578
 msgid "Clear the search"
 msgstr "počisti iskanje"
 
-#: ../widgets/misc/e-search-bar.c:597
+#: ../widgets/misc/e-search-bar.c:601
 msgid "_Previous"
 msgstr "_Predhodni"
 
-#: ../widgets/misc/e-search-bar.c:603
+#: ../widgets/misc/e-search-bar.c:607
 msgid "Find the previous occurrence of the phrase"
 msgstr "Najdi predhodno ponovitev izraza"
 
-#: ../widgets/misc/e-search-bar.c:613
+#: ../widgets/misc/e-search-bar.c:617
 msgid "_Next"
 msgstr "_Naslednji"
 
-#: ../widgets/misc/e-search-bar.c:619
+#: ../widgets/misc/e-search-bar.c:623
 msgid "Find the next occurrence of the phrase"
 msgstr "Najdi naslednjo ponovitev izraza"
 
-#: ../widgets/misc/e-search-bar.c:629
+#: ../widgets/misc/e-search-bar.c:633
 msgid "Mat_ch case"
 msgstr "_Upoštevaj velikost črk"
 
-#: ../widgets/misc/e-search-bar.c:657
+#: ../widgets/misc/e-search-bar.c:661
 msgid "Reached bottom of page, continued from top"
 msgstr "Doseženo dno strani, nadaljevanje z vrha"
 
-#: ../widgets/misc/e-search-bar.c:679
+#: ../widgets/misc/e-search-bar.c:683
 msgid "Reached top of page, continued from bottom"
 msgstr "Dosežen vrh strani, nadaljevanje z dna"
 
@@ -21130,7 +21143,7 @@ msgstr "Brez"
 msgid "OK"
 msgstr "V redu"
 
-#: ../widgets/table/e-cell-date-edit.c:862
+#: ../widgets/table/e-cell-date-edit.c:878
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "Datum mora biti v obliki: %s"
@@ -21151,23 +21164,23 @@ msgstr "Dejavni stolpec"
 msgid "Unselected Column"
 msgstr "Neizbran stolpec"
 
-#: ../widgets/table/e-cell-text.c:1627
+#: ../widgets/table/e-cell-text.c:1631
 msgid "Strikeout Column"
 msgstr "Prečrtan stolpec"
 
-#: ../widgets/table/e-cell-text.c:1634
+#: ../widgets/table/e-cell-text.c:1638
 msgid "Underline Column"
 msgstr "Stolpec podčrtanja"
 
-#: ../widgets/table/e-cell-text.c:1641
+#: ../widgets/table/e-cell-text.c:1645
 msgid "Bold Column"
 msgstr "Krepki stolpec"
 
-#: ../widgets/table/e-cell-text.c:1648
+#: ../widgets/table/e-cell-text.c:1652
 msgid "Color Column"
 msgstr "Obarvan stolpec"
 
-#: ../widgets/table/e-cell-text.c:1662
+#: ../widgets/table/e-cell-text.c:1666
 msgid "BG Color Column"
 msgstr "Barva ozadja stolpca"
 
@@ -21320,8 +21333,8 @@ msgstr[3] "%s (%d predmeti)"
 #: ../widgets/table/e-table-group-container.c:933
 #: ../widgets/table/e-table-group-leaf.c:586
 #: ../widgets/table/e-table-group-leaf.c:587
-#: ../widgets/table/e-table-item.c:2830
-#: ../widgets/table/e-table-item.c:2831
+#: ../widgets/table/e-table-item.c:2842
+#: ../widgets/table/e-table-item.c:2843
 msgid "Alternating Row Colors"
 msgstr "Izmenične barve vrstic"
 
@@ -21329,10 +21342,10 @@ msgstr "Izmenične barve vrstic"
 #: ../widgets/table/e-table-group-container.c:940
 #: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
-#: ../widgets/table/e-table-item.c:2837
-#: ../widgets/table/e-table-item.c:2838
-#: ../widgets/table/e-tree.c:3369
-#: ../widgets/table/e-tree.c:3370
+#: ../widgets/table/e-table-item.c:2849
+#: ../widgets/table/e-table-item.c:2850
+#: ../widgets/table/e-tree.c:3373
+#: ../widgets/table/e-tree.c:3374
 msgid "Horizontal Draw Grid"
 msgstr "Riši vodoravno mrežo"
 
@@ -21340,10 +21353,10 @@ msgstr "Riši vodoravno mrežo"
 #: ../widgets/table/e-table-group-container.c:947
 #: ../widgets/table/e-table-group-leaf.c:600
 #: ../widgets/table/e-table-group-leaf.c:601
-#: ../widgets/table/e-table-item.c:2844
-#: ../widgets/table/e-table-item.c:2845
-#: ../widgets/table/e-tree.c:3375
-#: ../widgets/table/e-tree.c:3376
+#: ../widgets/table/e-table-item.c:2856
+#: ../widgets/table/e-table-item.c:2857
+#: ../widgets/table/e-tree.c:3379
+#: ../widgets/table/e-tree.c:3380
 msgid "Vertical Draw Grid"
 msgstr "Riši navpično mrežo"
 
@@ -21351,10 +21364,10 @@ msgstr "Riši navpično mrežo"
 #: ../widgets/table/e-table-group-container.c:954
 #: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
-#: ../widgets/table/e-table-item.c:2851
-#: ../widgets/table/e-table-item.c:2852
-#: ../widgets/table/e-tree.c:3381
-#: ../widgets/table/e-tree.c:3382
+#: ../widgets/table/e-table-item.c:2863
+#: ../widgets/table/e-table-item.c:2864
+#: ../widgets/table/e-tree.c:3385
+#: ../widgets/table/e-tree.c:3386
 msgid "Draw focus"
 msgstr "Riši fokus"
 
@@ -21362,8 +21375,8 @@ msgstr "Riši fokus"
 #: ../widgets/table/e-table-group-container.c:961
 #: ../widgets/table/e-table-group-leaf.c:614
 #: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-item.c:2858
-#: ../widgets/table/e-table-item.c:2859
+#: ../widgets/table/e-table-item.c:2870
+#: ../widgets/table/e-table-item.c:2871
 msgid "Cursor mode"
 msgstr "Način kazalca"
 
@@ -21371,8 +21384,8 @@ msgstr "Način kazalca"
 #: ../widgets/table/e-table-group-container.c:968
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
-#: ../widgets/table/e-table-item.c:2823
-#: ../widgets/table/e-table-item.c:2824
+#: ../widgets/table/e-table-item.c:2835
+#: ../widgets/table/e-table-item.c:2836
 msgid "Selection model"
 msgstr "Način izbire"
 
@@ -21380,11 +21393,11 @@ msgstr "Način izbire"
 #: ../widgets/table/e-table-group-container.c:975
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
-#: ../widgets/table/e-table-item.c:2865
-#: ../widgets/table/e-table-item.c:2866
-#: ../widgets/table/e-table.c:3331
-#: ../widgets/table/e-tree.c:3363
-#: ../widgets/table/e-tree.c:3364
+#: ../widgets/table/e-table-item.c:2877
+#: ../widgets/table/e-table-item.c:2878
+#: ../widgets/table/e-table.c:3339
+#: ../widgets/table/e-tree.c:3367
+#: ../widgets/table/e-tree.c:3368
 msgid "Length Threshold"
 msgstr "Prag dolžine"
 
@@ -21392,11 +21405,11 @@ msgstr "Prag dolžine"
 #: ../widgets/table/e-table-group-container.c:982
 #: ../widgets/table/e-table-group-leaf.c:663
 #: ../widgets/table/e-table-group-leaf.c:664
-#: ../widgets/table/e-table-item.c:2899
-#: ../widgets/table/e-table-item.c:2900
-#: ../widgets/table/e-table.c:3338
-#: ../widgets/table/e-tree.c:3395
-#: ../widgets/table/e-tree.c:3396
+#: ../widgets/table/e-table-item.c:2911
+#: ../widgets/table/e-table-item.c:2912
+#: ../widgets/table/e-table.c:3346
+#: ../widgets/table/e-tree.c:3399
+#: ../widgets/table/e-tree.c:3400
 msgid "Uniform row height"
 msgstr "Enotna višina vrstic"
 
@@ -21464,18 +21477,18 @@ msgstr "_Razvrsti po"
 msgid "_Custom"
 msgstr "Po meri"
 
-#: ../widgets/table/e-table-item.c:2809
-#: ../widgets/table/e-table-item.c:2810
+#: ../widgets/table/e-table-item.c:2821
+#: ../widgets/table/e-table-item.c:2822
 msgid "Table header"
 msgstr "Glava preglednice"
 
-#: ../widgets/table/e-table-item.c:2816
-#: ../widgets/table/e-table-item.c:2817
+#: ../widgets/table/e-table-item.c:2828
+#: ../widgets/table/e-table-item.c:2829
 msgid "Table model"
 msgstr "Model preglednice"
 
-#: ../widgets/table/e-table-item.c:2892
-#: ../widgets/table/e-table-item.c:2893
+#: ../widgets/table/e-table-item.c:2904
+#: ../widgets/table/e-table-item.c:2905
 msgid "Cursor row"
 msgstr "Vrstica kazalca"
 
@@ -21483,42 +21496,42 @@ msgstr "Vrstica kazalca"
 msgid "Sort Info"
 msgstr "Razvrsti podatke"
 
-#: ../widgets/table/e-table.c:3345
-#: ../widgets/table/e-tree.c:3402
-#: ../widgets/table/e-tree.c:3403
+#: ../widgets/table/e-table.c:3353
+#: ../widgets/table/e-tree.c:3406
+#: ../widgets/table/e-tree.c:3407
 msgid "Always search"
 msgstr "Vedno išči"
 
-#: ../widgets/table/e-table.c:3352
+#: ../widgets/table/e-table.c:3360
 msgid "Use click to add"
 msgstr "Za dodajanje uporabi klik"
 
-#: ../widgets/table/e-table.c:3366
+#: ../widgets/table/e-table.c:3374
 msgid "Vertical Row Spacing"
 msgstr "Navpični razmik vrstic"
 
-#: ../widgets/table/e-table.c:3367
+#: ../widgets/table/e-table.c:3375
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
 msgstr "Navpilni razmik med vrsticami. Razmik je dodan na vrhu in na dnu vrstice."
 
-#: ../widgets/table/e-tree.c:3388
-#: ../widgets/table/e-tree.c:3389
+#: ../widgets/table/e-tree.c:3392
+#: ../widgets/table/e-tree.c:3393
 msgid "ETree table adapter"
 msgstr "Vmesnik preglednice ETree"
 
-#: ../widgets/table/e-tree.c:3409
+#: ../widgets/table/e-tree.c:3413
 msgid "Retro Look"
 msgstr "Staromoden videz"
 
-#: ../widgets/table/e-tree.c:3410
+#: ../widgets/table/e-tree.c:3414
 msgid "Draw lines and +/- expanders."
 msgstr "Nariši črte in razširitvene gumbe +/-."
 
-#: ../widgets/table/e-tree.c:3416
+#: ../widgets/table/e-tree.c:3420
 msgid "Expander Size"
 msgstr "Velikost razširitvenega gumba"
 
-#: ../widgets/table/e-tree.c:3417
+#: ../widgets/table/e-tree.c:3421
 msgid "Size of the expander arrow"
 msgstr "Velikost puščice razširitvenega gumba"
 
@@ -21576,142 +21589,142 @@ msgstr "kliknite"
 msgid "sort"
 msgstr "razvrsti"
 
-#: ../widgets/text/e-text.c:2474
+#: ../widgets/text/e-text.c:2486
 msgid "Select All"
 msgstr "Izberi vse"
 
-#: ../widgets/text/e-text.c:2486
+#: ../widgets/text/e-text.c:2498
 msgid "Input Methods"
 msgstr "Načini vnosa"
 
-#: ../widgets/text/e-text.c:3303
-#: ../widgets/text/e-text.c:3304
+#: ../widgets/text/e-text.c:3315
+#: ../widgets/text/e-text.c:3316
 msgid "Event Processor"
 msgstr "Procesor dogodkov"
 
-#: ../widgets/text/e-text.c:3310
-#: ../widgets/text/e-text.c:3311
+#: ../widgets/text/e-text.c:3322
+#: ../widgets/text/e-text.c:3323
 msgid "Text"
 msgstr "Besedilo"
 
-#: ../widgets/text/e-text.c:3317
-#: ../widgets/text/e-text.c:3318
+#: ../widgets/text/e-text.c:3329
+#: ../widgets/text/e-text.c:3330
 msgid "Bold"
 msgstr "Krepko"
 
-#: ../widgets/text/e-text.c:3324
-#: ../widgets/text/e-text.c:3325
+#: ../widgets/text/e-text.c:3336
+#: ../widgets/text/e-text.c:3337
 msgid "Strikeout"
 msgstr "Prečrtano"
 
-#: ../widgets/text/e-text.c:3331
-#: ../widgets/text/e-text.c:3332
+#: ../widgets/text/e-text.c:3343
+#: ../widgets/text/e-text.c:3344
 msgid "Anchor"
 msgstr "Sidro"
 
-#: ../widgets/text/e-text.c:3338
-#: ../widgets/text/e-text.c:3339
+#: ../widgets/text/e-text.c:3350
+#: ../widgets/text/e-text.c:3351
 msgid "Justification"
 msgstr "Poravnava"
 
-#: ../widgets/text/e-text.c:3345
-#: ../widgets/text/e-text.c:3346
+#: ../widgets/text/e-text.c:3357
+#: ../widgets/text/e-text.c:3358
 msgid "Clip Width"
 msgstr "Širina izrezka"
 
-#: ../widgets/text/e-text.c:3352
-#: ../widgets/text/e-text.c:3353
+#: ../widgets/text/e-text.c:3364
+#: ../widgets/text/e-text.c:3365
 msgid "Clip Height"
 msgstr "Višina izrezka"
 
-#: ../widgets/text/e-text.c:3359
-#: ../widgets/text/e-text.c:3360
+#: ../widgets/text/e-text.c:3371
+#: ../widgets/text/e-text.c:3372
 msgid "Clip"
 msgstr "Izrezek"
 
-#: ../widgets/text/e-text.c:3366
-#: ../widgets/text/e-text.c:3367
+#: ../widgets/text/e-text.c:3378
+#: ../widgets/text/e-text.c:3379
 msgid "Fill clip rectangle"
 msgstr "Obarvaj pravokotnik"
 
-#: ../widgets/text/e-text.c:3373
-#: ../widgets/text/e-text.c:3374
+#: ../widgets/text/e-text.c:3385
+#: ../widgets/text/e-text.c:3386
 msgid "X Offset"
 msgstr "Odmik X"
 
-#: ../widgets/text/e-text.c:3380
-#: ../widgets/text/e-text.c:3381
+#: ../widgets/text/e-text.c:3392
+#: ../widgets/text/e-text.c:3393
 msgid "Y Offset"
 msgstr "Odmik Y"
 
-#: ../widgets/text/e-text.c:3415
-#: ../widgets/text/e-text.c:3416
+#: ../widgets/text/e-text.c:3427
+#: ../widgets/text/e-text.c:3428
 msgid "Text width"
 msgstr "Širina besedila"
 
-#: ../widgets/text/e-text.c:3422
-#: ../widgets/text/e-text.c:3423
+#: ../widgets/text/e-text.c:3434
+#: ../widgets/text/e-text.c:3435
 msgid "Text height"
 msgstr "Višina besedila"
 
-#: ../widgets/text/e-text.c:3436
-#: ../widgets/text/e-text.c:3437
+#: ../widgets/text/e-text.c:3448
+#: ../widgets/text/e-text.c:3449
 msgid "Use ellipsis"
 msgstr "Uporabi tripičje"
 
-#: ../widgets/text/e-text.c:3443
-#: ../widgets/text/e-text.c:3444
+#: ../widgets/text/e-text.c:3455
+#: ../widgets/text/e-text.c:3456
 msgid "Ellipsis"
 msgstr "Tripičje"
 
-#: ../widgets/text/e-text.c:3450
-#: ../widgets/text/e-text.c:3451
+#: ../widgets/text/e-text.c:3462
+#: ../widgets/text/e-text.c:3463
 msgid "Line wrap"
 msgstr "Prelom vrstic"
 
-#: ../widgets/text/e-text.c:3457
-#: ../widgets/text/e-text.c:3458
+#: ../widgets/text/e-text.c:3469
+#: ../widgets/text/e-text.c:3470
 msgid "Break characters"
 msgstr "Prekinitveni znaki"
 
-#: ../widgets/text/e-text.c:3464
-#: ../widgets/text/e-text.c:3465
+#: ../widgets/text/e-text.c:3476
+#: ../widgets/text/e-text.c:3477
 msgid "Max lines"
 msgstr "Največje število vrstic"
 
-#: ../widgets/text/e-text.c:3485
-#: ../widgets/text/e-text.c:3486
+#: ../widgets/text/e-text.c:3497
+#: ../widgets/text/e-text.c:3498
 msgid "Draw borders"
 msgstr "Nariši okvirje"
 
-#: ../widgets/text/e-text.c:3492
-#: ../widgets/text/e-text.c:3493
+#: ../widgets/text/e-text.c:3504
+#: ../widgets/text/e-text.c:3505
 msgid "Allow newlines"
 msgstr "Dovoli nove vrstice"
 
-#: ../widgets/text/e-text.c:3499
-#: ../widgets/text/e-text.c:3500
+#: ../widgets/text/e-text.c:3511
+#: ../widgets/text/e-text.c:3512
 msgid "Draw background"
 msgstr "Nariši ozadje"
 
-#: ../widgets/text/e-text.c:3506
-#: ../widgets/text/e-text.c:3507
+#: ../widgets/text/e-text.c:3518
+#: ../widgets/text/e-text.c:3519
 msgid "Draw button"
 msgstr "Nariši gumb"
 
-#: ../widgets/text/e-text.c:3513
-#: ../widgets/text/e-text.c:3514
+#: ../widgets/text/e-text.c:3525
+#: ../widgets/text/e-text.c:3526
 msgid "Cursor position"
 msgstr "Položaj kazalca"
 
 #. Translators: Input Method Context
-#: ../widgets/text/e-text.c:3521
-#: ../widgets/text/e-text.c:3523
+#: ../widgets/text/e-text.c:3533
+#: ../widgets/text/e-text.c:3535
 msgid "IM Context"
 msgstr "Vsebina IM"
 
-#: ../widgets/text/e-text.c:3529
-#: ../widgets/text/e-text.c:3530
+#: ../widgets/text/e-text.c:3541
+#: ../widgets/text/e-text.c:3542
 msgid "Handle Popup"
 msgstr "Pojavno okno ročice"
 
@@ -23918,11 +23931,11 @@ msgstr "Pojavno okno ročice"
 #~ msgid "Zimbabwe"
 #~ msgstr "Zimbabve"
 #~ msgid "AOL Instant Messenger"
-#~ msgstr "AOL Instant Messenger"
+#~ msgstr "AOL hipni sporočilnik"
 #~ msgid "Yahoo Messenger"
-#~ msgstr "Yahoo Messenger"
+#~ msgstr "Yahoo sporočilnik"
 #~ msgid "Gadu-Gadu Messenger"
-#~ msgstr "Gadu-Gadu Messenger"
+#~ msgstr "Gadu-Gadu sporočilnik"
 #~ msgid "Service"
 #~ msgstr "Storitev"
 #~ msgid "Username"
