@@ -56,12 +56,11 @@ G_BEGIN_DECLS
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_CALENDAR, ECalendarClass))
 
-typedef struct _ECalendar       ECalendar;
+typedef struct _ECalendar ECalendar;
 typedef struct _ECalendarClass  ECalendarClass;
 
-struct _ECalendar
-{
-	ECanvas canvas;
+struct _ECalendar {
+	ECanvas parent;
 
 	ECalendarItem *calitem;
 
@@ -82,29 +81,25 @@ struct _ECalendar
 	gboolean moving_forward;
 };
 
-struct _ECalendarClass
-{
+struct _ECalendarClass {
 	ECanvasClass parent_class;
 };
 
-GType		   e_calendar_get_type		(void);
-GtkWidget* e_calendar_new		(void);
-
-void	   e_calendar_set_minimum_size	(ECalendar	*cal,
-					 gint		 rows,
-					 gint		 cols);
-void	   e_calendar_set_maximum_size	(ECalendar	*cal,
-					 gint		 rows,
-					 gint		 cols);
-
-/* Returns the border size on each side of the month displays. */
-void	   e_calendar_get_border_size	(ECalendar	*cal,
-					 gint		*top,
-					 gint		*bottom,
-					 gint		*left,
-					 gint		*right);
-
-void       e_calendar_set_focusable (ECalendar *cal, gboolean focusable);
+GType		e_calendar_get_type		(void);
+GtkWidget *	e_calendar_new			(void);
+void		e_calendar_set_minimum_size	(ECalendar *cal,
+						 gint rows,
+						 gint cols);
+void		e_calendar_set_maximum_size	(ECalendar *cal,
+					 	 gint rows,
+						 gint cols);
+void		e_calendar_get_border_size	(ECalendar *cal,
+						 gint *top,
+						 gint *bottom,
+						 gint *left,
+						 gint *right);
+void		e_calendar_set_focusable	(ECalendar *cal,
+						 gboolean focusable);
 
 G_END_DECLS
 
