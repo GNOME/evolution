@@ -359,7 +359,6 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 	const gchar *alarm;
 
 	/* first we clear all the alarm flags from all sources */
-	g_message ("Clearing selection");
 	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		GSList *sources;
@@ -370,7 +369,6 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 			if (alarm && !g_ascii_strcasecmp (alarm, "never"))
 				continue;
 
-			g_message ("Unsetting for %s", e_source_peek_name (source));
 			e_source_set_property (source, "alarm", "false");
 		}
 	}
@@ -385,7 +383,6 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 		if (alarm && !g_ascii_strcasecmp (alarm, "never"))
 			continue;
 
-		g_message ("Setting for %s", e_source_peek_name (E_SOURCE (l->data)));
 		e_source_set_property (E_SOURCE (l->data), "alarm", "true");
 	}
 	e_source_selector_free_selection (selection);
