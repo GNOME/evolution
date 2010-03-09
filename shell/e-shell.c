@@ -196,8 +196,6 @@ shell_ready_for_offline (EShell *shell,
 
 	shell->priv->online = FALSE;
 	g_object_notify (G_OBJECT (shell), "online");
-
-	g_message ("Offline preparations complete.");
 }
 
 static void
@@ -206,8 +204,6 @@ shell_prepare_for_offline (EShell *shell)
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_line_change != NULL)
 		return;
-
-	g_message ("Preparing for offline mode...");
 
 	shell->priv->preparing_for_line_change =
 		e_activity_new (_("Preparing to go offline..."));
@@ -250,8 +246,6 @@ shell_ready_for_online (EShell *shell,
 
 	shell->priv->online = TRUE;
 	g_object_notify (G_OBJECT (shell), "online");
-
-	g_message ("Online preparations complete.");
 }
 
 static void
@@ -260,8 +254,6 @@ shell_prepare_for_online (EShell *shell)
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_line_change != NULL)
 		return;
-
-	g_message ("Preparing for online mode...");
 
 	shell->priv->preparing_for_line_change =
 		e_activity_new (_("Preparing to go online..."));
@@ -304,8 +296,6 @@ shell_ready_for_quit (EShell *shell,
 	/* Finalize the activity. */
 	g_object_ref (activity);
 
-	g_message ("Quit preparations complete.");
-
 	/* This handles a strange corner case where --quit is given on
 	 * the command-line but no other Evolution process is running.
 	 * We bring all the shell backends up and then immediately run
@@ -332,8 +322,6 @@ shell_prepare_for_quit (EShell *shell)
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_quit != NULL)
 		return;
-
-	g_message ("Preparing to quit...");
 
 	shell->priv->preparing_for_quit =
 		e_activity_new (_("Preparing to quit..."));
