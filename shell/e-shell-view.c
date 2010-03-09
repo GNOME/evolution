@@ -1594,5 +1594,9 @@ e_shell_view_new_view_instance (EShellView *shell_view,
 		view_instance, "changed",
 		G_CALLBACK (shell_view_update_view_id), shell_view);
 
+	g_signal_connect_swapped (
+		view_instance, "loaded",
+		G_CALLBACK (shell_view_update_view_id), shell_view);
+
 	return view_instance;
 }

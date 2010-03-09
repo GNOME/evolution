@@ -66,6 +66,7 @@ typedef struct {
 	void (*display_view) (GalViewInstance *instance,
 			      GalView    *view);
 	void (*changed)      (GalViewInstance *instance);
+	void (*loaded)       (GalViewInstance *instance);
 } GalViewInstanceClass;
 
 /* Standard functions */

@@ -51,6 +51,7 @@ G_DEFINE_TYPE (GalViewInstance, gal_view_instance, G_TYPE_OBJECT)
 enum {
 	DISPLAY_VIEW,
 	CHANGED,
+	LOADED,
 	LAST_SIGNAL
 };
 
@@ -192,6 +193,15 @@ gal_view_instance_class_init (GalViewInstanceClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GalViewInstanceClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	gal_view_instance_signals [LOADED] =
+		g_signal_new ("loaded",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (GalViewInstanceClass, loaded),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
@@ -436,6 +446,7 @@ gal_view_instance_load (GalViewInstance *instance)
 	if (!instance->loaded) {
 		load_current_view (instance);
 		instance->loaded = TRUE;
+		g_signal_emit (instance, gal_view_instance_signals[LOADED], 0);
 	}
 }
 
