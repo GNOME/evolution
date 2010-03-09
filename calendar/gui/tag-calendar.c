@@ -32,8 +32,6 @@
 #include "calendar-config.h"
 #include "tag-calendar.h"
 
-
-
 struct calendar_tag_closure {
 	ECalendarItem *calitem;
 	icaltimezone *zone;
@@ -44,11 +42,13 @@ struct calendar_tag_closure {
 };
 
 /* Clears all the tags in a calendar and fills a closure structure with the
- * necessary information for iterating over occurrences.
- * Returns FALSE if the calendar has no dates shown.
- */
+ * necessary information for iterating over occurrences.  Returns FALSE if
+ * the calendar has no dates shown.  */
 static gboolean
-prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone, gboolean clear_first)
+prepare_tag (ECalendar *ecal,
+             struct calendar_tag_closure *c,
+             icaltimezone *zone,
+             gboolean clear_first)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
@@ -58,11 +58,11 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 	if (clear_first)
 		e_calendar_item_clear_marks (ecal->calitem);
 
-	if (!e_calendar_item_get_date_range (ecal->calitem,
-					     &start_year, &start_month,
-					     &start_day,
-					     &end_year, &end_month, &end_day))
-	    return FALSE;
+	if (!e_calendar_item_get_date_range (
+		ecal->calitem,
+		&start_year, &start_month, &start_day,
+		&end_year, &end_month, &end_day))
+		return FALSE;
 
 	start_tt.year = start_year;
 	start_tt.month = start_month + 1;
@@ -76,11 +76,10 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 
 	c->calitem = ecal->calitem;
 
-	if (zone) {
+	if (zone)
 		c->zone = zone;
-	} else {
+	else
 		c->zone = calendar_config_get_icaltimezone ();
-	}
 
 	c->start_time = icaltime_as_timet_with_zone (start_tt, c->zone);
 	c->end_time = icaltime_as_timet_with_zone (end_tt, c->zone);
@@ -88,7 +87,8 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 	return TRUE;
 }
 
-/* Marks the specified range in an ECalendar; called from e_cal_generate_instances() */
+/* Marks the specified range in an ECalendar;
+ * called from e_cal_generate_instances() */
 static gboolean
 tag_calendar_cb (ECalComponent *comp,
 		 time_t istart,
@@ -114,13 +114,12 @@ tag_calendar_cb (ECalComponent *comp,
 
 	start_tt = icaltime_from_timet_with_zone (istart, FALSE, c->zone);
 	end_tt = icaltime_from_timet_with_zone (iend - 1, FALSE, c->zone);
-	e_calendar_item_mark_days (c->calitem,
-				   start_tt.year, start_tt.month - 1,
-				   start_tt.day,
-				   end_tt.year, end_tt.month - 1,
-				   end_tt.day,
-				   style,
-				   TRUE);
+
+	e_calendar_item_mark_days (
+		c->calitem,
+		start_tt.year, start_tt.month - 1, start_tt.day,
+		end_tt.year, end_tt.month - 1, end_tt.day,
+		style, TRUE);
 
 	return TRUE;
 }
@@ -134,13 +133,12 @@ tag_calendar_cb (ECalComponent *comp,
  * range.  The occurrences are extracted from the specified calendar @client.
  **/
 void
-tag_calendar_by_client (ECalendar *ecal, ECal *client)
+tag_calendar_by_client (ECalendar *ecal,
+                        ECal *client)
 {
 	struct calendar_tag_closure c;
 
-	g_return_if_fail (ecal != NULL);
 	g_return_if_fail (E_IS_CALENDAR (ecal));
-	g_return_if_fail (client != NULL);
 	g_return_if_fail (E_IS_CAL (client));
 
 	/* If the ECalendar isn't visible, we just return. */
@@ -159,23 +157,20 @@ tag_calendar_by_client (ECalendar *ecal, ECal *client)
 
 	c.skip_transparent_events = TRUE;
 
-#if 0
-	g_print ("DateNavigator generating instances\n");
-#endif
-	e_cal_generate_instances (client, c.start_time, c.end_time,
-				  tag_calendar_cb, &c);
+	e_cal_generate_instances (
+		client, c.start_time, c.end_time, tag_calendar_cb, &c);
 }
 
 /* Resolves TZIDs for the recurrence generator, for when the comp is not on
    the server. We need to try to use builtin timezones first, as they may not
    be added to the server yet. */
 static icaltimezone*
-resolve_tzid_cb (const gchar *tzid, gpointer data)
+resolve_tzid_cb (const gchar *tzid,
+                 gpointer data)
 {
 	ECal *client;
 	icaltimezone *zone = NULL;
 
-	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL (data), NULL);
 
 	client = E_CAL (data);
@@ -206,14 +201,16 @@ resolve_tzid_cb (const gchar *tzid, gpointer data)
  * have been added to the calendar on the server yet.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icaltimezone *display_zone,
-		      gboolean clear_first, gboolean comp_is_on_server)
+tag_calendar_by_comp (ECalendar *ecal,
+                      ECalComponent *comp,
+                      ECal *client,
+                      icaltimezone *display_zone,
+                      gboolean clear_first,
+                      gboolean comp_is_on_server)
 {
 	struct calendar_tag_closure c;
 
-	g_return_if_fail (ecal != NULL);
 	g_return_if_fail (E_IS_CALENDAR (ecal));
-	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	/* If the ECalendar isn't visible, we just return. */
@@ -229,17 +226,13 @@ tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icalti
 
 	c.skip_transparent_events = FALSE;
 
-#if 0
-	g_print ("DateNavigator generating instances\n");
-#endif
-	if (comp_is_on_server) {
-		e_cal_generate_instances_for_object (client, e_cal_component_get_icalcomponent (comp),
-						     c.start_time, c.end_time,
-						     tag_calendar_cb, &c);
-	} else {
-		e_cal_recur_generate_instances (comp, c.start_time, c.end_time,
-						tag_calendar_cb, &c,
-						resolve_tzid_cb,
-						client, c.zone);
-	}
+	if (comp_is_on_server)
+		e_cal_generate_instances_for_object (
+			client, e_cal_component_get_icalcomponent (comp),
+			c.start_time, c.end_time, tag_calendar_cb, &c);
+	else
+		e_cal_recur_generate_instances (
+			comp, c.start_time, c.end_time,
+			tag_calendar_cb, &c, resolve_tzid_cb,
+			client, c.zone);
 }
