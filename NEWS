@@ -1,3 +1,9 @@
+Evolution 2.29.92.1 2010-03-10
+------------------------------
+
+	Work around GTK_WIDGET_STATE deprecation so the tarball
+	successfully builds against GTK+ 2.19.7.
+
 Evolution 2.29.92 2010-03-08
 ----------------------------
 

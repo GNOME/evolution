@@ -22,7 +22,7 @@ m4_define([upgrade_revision], [0])
 
 dnl Autoconf / Automake Initialization
 AC_PREREQ(2.58)
-AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
+AC_INIT([evolution],[evo_version.1],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
 AM_INIT_AUTOMAKE([1.9 -Wall -Werror foreign])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
@@ -37,7 +37,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl Required Packages
 m4_define([glib_minimum_version], [2.22.0])
 m4_define([gtk_minimum_version], [2.18.0])
-m4_define([eds_minimum_version], [evo_version])
+m4_define([eds_minimum_version], [2.29.92])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libgtkhtml_minimum_version], [3.29.6])
