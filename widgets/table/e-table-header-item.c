@@ -1000,6 +1000,7 @@ ethi_draw (GnomeCanvasItem *item,
 	x2 += ethi->group_indent_width;
 	for (col = 0; col < cols; col++, x1 = x2) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
+		GtkStateType state;
 		gint col_width;
 
 		col_width = ecol->width;
@@ -1015,9 +1016,11 @@ ethi_draw (GnomeCanvasItem *item,
 		if (x2 <= x1)
 			continue;
 
+		state = gtk_widget_get_state (GTK_WIDGET (canvas));
+
 		e_table_header_draw_button (drawable, ecol,
 					    GTK_WIDGET (canvas)->style,
-					    GTK_WIDGET_STATE (canvas),
+					    state,
 					    GTK_WIDGET (canvas),
 					    x1 - x, -y,
 					    width, height,
@@ -1154,6 +1157,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
 	GtkTargetList *list;
 	GdkDragContext *context;
+	GtkStateType state;
 	ETableCol *ecol;
 	gint col_width;
 	GdkPixmap *pixmap;
@@ -1210,10 +1214,12 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	col_width = ecol->width;
 	pixmap = gdk_pixmap_new (widget->window, col_width, ethi->height, -1);
 
+	state = gtk_widget_get_state (widget);
+
 	e_table_header_draw_button (
 		pixmap, ecol,
 		widget->style,
-		GTK_WIDGET_STATE (widget),
+		state,
 		widget,
 		0, 0,
 		col_width, ethi->height,

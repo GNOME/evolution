@@ -98,10 +98,10 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 	EMFormatHTMLColorType type;
 	EMFormatHTML *formatter;
 	GdkColor *color;
+	GtkStateType state;
 	GtkStyle *style;
-	gint state;
 
-	state = GTK_WIDGET_STATE (display);
+	state = gtk_widget_get_state (GTK_WIDGET (display));
 	formatter = display->priv->formatter;
 
 	style = gtk_widget_get_style (GTK_WIDGET (display));
