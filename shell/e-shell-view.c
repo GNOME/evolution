@@ -24,6 +24,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
