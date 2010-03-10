@@ -198,7 +198,7 @@ static void
 e_map_init (EMap *view)
 {
 	EMapPrivate *priv;
-	gchar *map_file_name = g_build_filename (EVOLUTION_IMAGES, "world_map-960.png", NULL);
+	gchar *map_file_name = g_build_filename (EVOLUTION_IMAGESDIR, "world_map-960.png", NULL);
 
 	priv = g_new0 (EMapPrivate, 1);
 	view->priv = priv;

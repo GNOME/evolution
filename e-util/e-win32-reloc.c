@@ -45,10 +45,11 @@ static const gchar *iconsdir;
 static const gchar *imagesdir;
 static const gchar *libdir;
 static const gchar *libexecdir;
+static const gchar *moduledir;
 static const gchar *plugindir;
 static const gchar *prefix;
 static const gchar *privdatadir;
-static const gchar *search_rule_dir;
+static const gchar *ruledir;
 static const gchar *sounddir;
 static const gchar *sysconfdir;
 static const gchar *toolsdir;
@@ -134,9 +135,10 @@ setup (void)
 		imagesdir = replace_prefix (full_prefix, EVOLUTION_IMAGESDIR);
 	libdir = replace_prefix (full_prefix, EVOLUTION_LIBDIR);
 	libexecdir = replace_prefix (full_prefix, EVOLUTION_LIBEXECDIR);
+	moduledir = replace_prefix (full_prefix, EVOLUTION_MODULEDIR);
 	plugindir = replace_prefix (full_prefix, EVOLUTION_PLUGINDIR);
 	privdatadir = replace_prefix (full_prefix, EVOLUTION_PRIVDATADIR);
-	search_rule_dir = replace_prefix (full_prefix, SEARCH_RULE_DIR);
+	ruledir = replace_prefix (full_prefix, EVOLUTION_RULEDIR);
 	sounddir = replace_prefix (full_prefix, EVOLUTION_SOUNDDIR);
 	sysconfdir = replace_prefix (full_prefix, EVOLUTION_SYSCONFDIR);
 	toolsdir = replace_prefix (full_prefix, EVOLUTION_TOOLSDIR);
@@ -169,10 +171,11 @@ GETTER(imagesdir)
 GETTER(libdir)
 GETTER(libexecdir)
 GETTER(localedir)
+GETTER(moduledir)
 GETTER(plugindir)
 GETTER(prefix)
 GETTER(privdatadir)
-GETTER(search_rule_dir)
+GETTER(ruledir)
 GETTER(sounddir)
 GETTER(sysconfdir)
 GETTER(toolsdir)

@@ -66,7 +66,7 @@ libevolution_calendar_la_CPPFLAGS =			\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
-	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
+	-DEVOLUTION_RULEDIR=\"$(ruledir)\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\

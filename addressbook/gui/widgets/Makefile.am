@@ -8,7 +8,7 @@ libeabwidgets_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"eab-widgets\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
-	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
+	-DEVOLUTION_RULEDIR=\"$(ruledir)\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/filter				\
 	-I$(top_srcdir)/widgets				\

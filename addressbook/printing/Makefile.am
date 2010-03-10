@@ -33,7 +33,6 @@ contact_print_test_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)				\
-        -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
