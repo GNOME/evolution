@@ -19,6 +19,8 @@
  *
  */
 
+#include "e-util/e-util-private.h"
+
 #include "e-book-shell-view-private.h"
 
 #include "widgets/menus/gal-view-factory-etable.h"

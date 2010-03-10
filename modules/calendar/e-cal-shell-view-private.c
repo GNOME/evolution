@@ -19,6 +19,8 @@
  *
  */
 
+#include "e-util/e-util-private.h"
+
 #include "e-cal-shell-view-private.h"
 
 #include "calendar/gui/calendar-view-factory.h"

@@ -25,6 +25,7 @@
 #include <camel/camel-store.h>
 #include <libedataserver/e-data-server-util.h>
 
+#include "e-util/e-util-private.h"
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"

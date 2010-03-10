@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 
 #define EVOUSERDATADIR_MAGIC "#EVO_USERDATADIR#"

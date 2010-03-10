@@ -23,6 +23,8 @@
 
 #include "widgets/menus/gal-view-factory-etable.h"
 
+#include "e-util/e-util-private.h"
+
 static void
 mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          const gchar *full_name,

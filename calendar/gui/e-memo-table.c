@@ -57,6 +57,7 @@
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
 #include "print.h"
+#include <e-util/e-util-private.h>
 #include <e-util/e-icon-factory.h>
 #include "misc.h"
 

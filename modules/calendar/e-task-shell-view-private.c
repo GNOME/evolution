@@ -23,6 +23,8 @@
 
 #include "widgets/menus/gal-view-factory-etable.h"
 
+#include "e-util/e-util-private.h"
+
 static void
 task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
                                        ECalModel *model)
