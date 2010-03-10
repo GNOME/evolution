@@ -278,6 +278,8 @@ cal_shell_view_selector_client_added_cb (ECalShellView *cal_shell_view,
 	model = gnome_calendar_get_model (calendar);
 
 	e_cal_model_add_client (model, client);
+
+	gnome_calendar_update_query (calendar);
 }
 
 static void
@@ -293,6 +295,8 @@ cal_shell_view_selector_client_removed_cb (ECalShellView *cal_shell_view,
 	model = gnome_calendar_get_model (calendar);
 
 	e_cal_model_remove_client (model, client);
+
+	gnome_calendar_update_query (calendar);
 }
 
 static void

@@ -1573,11 +1573,18 @@ GList *
 e_cal_model_get_client_list (ECalModel *model)
 {
 	GList *list = NULL, *l;
+	ECal *default_client;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
+	default_client = model->priv->default_client;
+
 	for (l = model->priv->clients; l != NULL; l = l->next) {
 		ECalModelClient *client_data = (ECalModelClient *) l->data;
+
+		/* Exclude the default client if we're not querying it. */
+		if (client_data->client == default_client && !client_data->do_query)
+			continue;
 
 		list = g_list_append (list, client_data->client);
 	}
