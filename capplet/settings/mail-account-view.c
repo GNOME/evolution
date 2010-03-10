@@ -607,6 +607,8 @@ emae_check_servers (const gchar *email)
 	sdata->send_port = provider->send_port;
 	if (strcmp(provider->recv_type, "pop3") == 0)
 		sdata->proto = g_strdup("pop");
+	else if (strcmp(provider->recv_type, "imap") == 0)
+		sdata->proto = g_strdup("imapx");
 	else
 		sdata->proto = provider->recv_type;
 	if (provider->recv_socket_type) {
