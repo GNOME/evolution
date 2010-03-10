@@ -350,7 +350,7 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 GtkWidget*
 gal_define_views_dialog_new (GalViewCollection *collection)
 {
-	GtkWidget *widget = g_object_new (GAL_DEFINE_VIEWS_DIALOG_TYPE, NULL);
+	GtkWidget *widget = g_object_new (GAL_TYPE_DEFINE_VIEWS_DIALOG, NULL);
 	gal_define_views_dialog_set_collection (GAL_DEFINE_VIEWS_DIALOG (widget), collection);
 	return widget;
 }

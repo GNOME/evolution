@@ -66,7 +66,7 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 					 g_param_spec_object ("factory",
 							      _("Factory"),
 							      /*_( */"XXX blurb" /*)*/,
-							      GAL_VIEW_FACTORY_TYPE,
+							      GAL_TYPE_VIEW_FACTORY,
 							      G_PARAM_READWRITE));
 }
 

@@ -26,7 +26,7 @@
 
 #include "gal-view-etable.h"
 
-G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_VIEW_TYPE)
+G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_TYPE_VIEW)
 
 static void
 detach_table (GalViewEtable *view)
@@ -127,7 +127,7 @@ gal_view_etable_clone       (GalView *view)
 
 	gve = GAL_VIEW_ETABLE(view);
 
-	new        = g_object_new (GAL_VIEW_ETABLE_TYPE, NULL);
+	new = g_object_new (GAL_TYPE_VIEW_ETABLE, NULL);
 	new->spec  = gve->spec;
 	new->title = g_strdup (gve->title);
 	new->state = e_table_state_duplicate(gve->state);
@@ -200,7 +200,9 @@ gal_view_etable_new (ETableSpecification *spec,
 {
 	GalViewEtable *view;
 
-	view = g_object_new (GAL_VIEW_ETABLE_TYPE, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
+
+	view = g_object_new (GAL_TYPE_VIEW_ETABLE, NULL);
 
 	return gal_view_etable_construct (view, spec, title);
 }
@@ -221,6 +223,9 @@ gal_view_etable_construct  (GalViewEtable *view,
 			    ETableSpecification *spec,
 			    const gchar *title)
 {
+	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
+
 	if (spec)
 		g_object_ref(spec);
 	view->spec = spec;
@@ -237,6 +242,9 @@ gal_view_etable_construct  (GalViewEtable *view,
 void
 gal_view_etable_set_state (GalViewEtable *view, ETableState *state)
 {
+	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
+	g_return_if_fail (E_IS_TABLE_STATE (state));
+
 	if (view->state)
 		g_object_unref(view->state);
 	view->state = e_table_state_duplicate(state);
@@ -271,6 +279,9 @@ tree_state_changed (ETree *tree, GalViewEtable *view)
 void
 gal_view_etable_attach_table (GalViewEtable *view, ETable *table)
 {
+	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
+	g_return_if_fail (E_IS_TABLE (table));
+
 	gal_view_etable_detach (view);
 
 	view->table = table;
@@ -285,6 +296,9 @@ gal_view_etable_attach_table (GalViewEtable *view, ETable *table)
 void
 gal_view_etable_attach_tree (GalViewEtable *view, ETree *tree)
 {
+	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
+	g_return_if_fail (E_IS_TREE (tree));
+
 	gal_view_etable_detach (view);
 
 	view->tree = tree;
@@ -299,6 +313,8 @@ gal_view_etable_attach_tree (GalViewEtable *view, ETree *tree)
 void
 gal_view_etable_detach (GalViewEtable *view)
 {
+	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
+
 	if (view->table != NULL)
 		detach_table (view);
 	if (view->tree != NULL)

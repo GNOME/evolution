@@ -119,6 +119,9 @@ e_table_state_load_from_file    (ETableState *state,
 {
 	xmlDoc *doc;
 
+	g_return_val_if_fail (E_IS_TABLE_STATE (state), FALSE);
+	g_return_val_if_fail (filename != NULL, FALSE);
+
 	doc = e_xml_parse_file (filename);
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement(doc);
@@ -134,6 +137,9 @@ e_table_state_load_from_string  (ETableState *state,
 				 const gchar          *xml)
 {
 	xmlDoc *doc;
+
+	g_return_if_fail (E_IS_TABLE_STATE (state));
+	g_return_if_fail (xml != NULL);
 
 	doc = xmlParseMemory ((gchar *) xml, strlen(xml));
 	if (doc) {
@@ -156,6 +162,9 @@ e_table_state_load_from_node (ETableState *state,
 	GList *list = NULL, *iterator;
 	gdouble state_version;
 	gint i;
+
+	g_return_if_fail (E_IS_TABLE_STATE (state));
+	g_return_if_fail (node != NULL);
 
 	state_version = e_xml_get_double_prop_by_name_with_default (
 		node, (const guchar *)"state-version", STATE_VERSION);
@@ -227,6 +236,8 @@ e_table_state_save_to_string    (ETableState *state)
 	gint length;
 	xmlDoc *doc;
 
+	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
+
 	doc = xmlNewDoc((const guchar *)"1.0");
 	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
 	xmlDocDumpMemory(doc, &string, &length);
@@ -243,6 +254,8 @@ e_table_state_save_to_node      (ETableState *state,
 {
 	gint i;
 	xmlNode *node;
+
+	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
 	if (parent)
 		node = xmlNewChild (
@@ -287,7 +300,6 @@ e_table_state_duplicate (ETableState *state)
 	ETableState *new_state;
 	gchar *copy;
 
-	g_return_val_if_fail (state != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
 	new_state = e_table_state_new ();

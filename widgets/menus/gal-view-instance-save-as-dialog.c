@@ -288,7 +288,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 GtkWidget *
 gal_view_instance_save_as_dialog_new (GalViewInstance *instance)
 {
-	GtkWidget *widget = g_object_new (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, NULL);
+	GtkWidget *widget = g_object_new (GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG, NULL);
 	gal_view_instance_save_as_dialog_set_instance (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (widget), instance);
 	return widget;
 }

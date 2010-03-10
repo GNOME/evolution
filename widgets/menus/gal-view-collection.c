@@ -205,7 +205,7 @@ gal_view_collection_class_init (GalViewCollectionClass *klass)
 			      G_STRUCT_OFFSET (GalViewCollectionClass, display_view),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, GAL_VIEW_TYPE);
+			      G_TYPE_NONE, 1, GAL_TYPE_VIEW);
 
 	gal_view_collection_signals [CHANGED] =
 		g_signal_new ("changed",

@@ -29,62 +29,146 @@
 #include "gal-view-etable.h"
 #include "gal-view-factory-etable.h"
 
-G_DEFINE_TYPE (GalViewFactoryEtable, gal_view_factory_etable, GAL_VIEW_FACTORY_TYPE)
+#define GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GAL_TYPE_VIEW_FACTORY_ETABLE, GalViewFactoryEtablePrivate))
+
+struct _GalViewFactoryEtablePrivate {
+	ETableSpecification *specification;
+};
+
+enum {
+	PROP_0,
+	PROP_SPECIFICATION
+};
+
+G_DEFINE_TYPE (
+	GalViewFactoryEtable,
+	gal_view_factory_etable, GAL_TYPE_VIEW_FACTORY)
+
+static void
+view_factory_etable_set_specification (GalViewFactoryEtable *factory,
+                                       ETableSpecification *specification)
+{
+	g_return_if_fail (factory->priv->specification == NULL);
+	g_return_if_fail (E_IS_TABLE_SPECIFICATION (specification));
+
+	factory->priv->specification = g_object_ref (specification);
+}
+
+static void
+view_factory_etable_set_property (GObject *object,
+                                  guint property_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SPECIFICATION:
+			view_factory_etable_set_specification (
+				GAL_VIEW_FACTORY_ETABLE (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+view_factory_etable_get_property (GObject *object,
+                                  guint property_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SPECIFICATION:
+			g_value_set_object (
+				value,
+				gal_view_factory_etable_get_specification (
+				GAL_VIEW_FACTORY_ETABLE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+view_factory_etable_dispose (GObject *object)
+{
+	GalViewFactoryEtablePrivate *priv;
+
+	priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (object);
+
+	if (priv->specification != NULL) {
+		g_object_unref (priv->specification);
+		priv->specification = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (gal_view_factory_etable_parent_class)->dispose (object);
+}
 
 static const gchar *
-gal_view_factory_etable_get_title       (GalViewFactory *factory)
+view_factory_etable_get_title (GalViewFactory *factory)
 {
 	return _("Table");
 }
 
-static GalView *
-gal_view_factory_etable_new_view        (GalViewFactory *factory,
-					 const gchar     *name)
-{
-	return gal_view_etable_new(GAL_VIEW_FACTORY_ETABLE(factory)->spec, name);
-}
-
 static const gchar *
-gal_view_factory_etable_get_type_code (GalViewFactory *factory)
+view_factory_etable_get_type_code (GalViewFactory *factory)
 {
 	return "etable";
 }
 
-static void
-gal_view_factory_etable_dispose         (GObject *object)
+static GalView *
+view_factory_etable_new_view (GalViewFactory *factory,
+                              const gchar *name)
 {
-	GalViewFactoryEtable *factory = GAL_VIEW_FACTORY_ETABLE(object);
+	GalViewFactoryEtablePrivate *priv;
 
-	if (factory->spec)
-		g_object_unref(factory->spec);
-	factory->spec = NULL;
+	priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (factory);
 
-	if (G_OBJECT_CLASS (gal_view_factory_etable_parent_class)->dispose)
-		(* G_OBJECT_CLASS (gal_view_factory_etable_parent_class)->dispose) (object);
+	return gal_view_etable_new (priv->specification, name);
 }
 
 static void
-gal_view_factory_etable_class_init      (GalViewFactoryEtableClass *klass)
+gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS (klass);
+	GObjectClass *object_class;
+	GalViewFactoryClass *view_factory_class;
 
-	view_factory_class->get_title           = gal_view_factory_etable_get_title;
-	view_factory_class->new_view            = gal_view_factory_etable_new_view;
-	view_factory_class->get_type_code       = gal_view_factory_etable_get_type_code;
+	g_type_class_add_private (class, sizeof (GalViewFactoryEtablePrivate));
 
-	object_class->dispose                   = gal_view_factory_etable_dispose;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = view_factory_etable_set_property;
+	object_class->get_property = view_factory_etable_get_property;
+	object_class->dispose = view_factory_etable_dispose;
+
+	view_factory_class = GAL_VIEW_FACTORY_CLASS (class);
+	view_factory_class->get_title = view_factory_etable_get_title;
+	view_factory_class->get_type_code = view_factory_etable_get_type_code;
+	view_factory_class->new_view = view_factory_etable_new_view;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SPECIFICATION,
+		g_param_spec_object (
+			"specification",
+			NULL,
+			NULL,
+			E_TYPE_TABLE_SPECIFICATION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
-gal_view_factory_etable_init            (GalViewFactoryEtable *factory)
+gal_view_factory_etable_init (GalViewFactoryEtable *factory)
 {
-	factory->spec = NULL;
+	factory->priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (factory);
 }
 
 /**
- * gal_view_etable_new
- * @spec: The spec to create GalViewEtables based upon.
+ * gal_view_etable_new:
+ * @specification: The spec to create GalViewEtables based upon.
  *
  * A new GalViewFactory for creating ETable views.  Create one of
  * these and pass it to GalViewCollection for use.
@@ -92,29 +176,19 @@ gal_view_factory_etable_init            (GalViewFactoryEtable *factory)
  * Returns: The new GalViewFactoryEtable.
  */
 GalViewFactory *
-gal_view_factory_etable_new        (ETableSpecification  *spec)
+gal_view_factory_etable_new (ETableSpecification *specification)
 {
-	return gal_view_factory_etable_construct (
-		g_object_new (GAL_VIEW_FACTORY_ETABLE_TYPE, NULL), spec);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+
+	return g_object_new (
+		GAL_TYPE_VIEW_FACTORY_ETABLE,
+		"specification", specification, NULL);
 }
 
-/**
- * gal_view_etable_construct
- * @factory: The factory to construct
- * @spec: The spec to create GalViewEtables based upon.
- *
- * constructs the GalViewFactoryEtable.  To be used by subclasses and
- * language bindings.
- *
- * Returns: The GalViewFactoryEtable.
- */
-GalViewFactory *
-gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
-				    ETableSpecification  *spec)
+ETableSpecification *
+gal_view_factory_etable_get_specification (GalViewFactoryEtable *factory)
 {
-	if (spec)
-		g_object_ref(spec);
-	factory->spec = spec;
-	return GAL_VIEW_FACTORY(factory);
-}
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY_ETABLE (factory), NULL);
 
+	return factory->priv->specification;
+}

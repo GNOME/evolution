@@ -201,7 +201,7 @@ gal_view_minicard_get_type (void)
 		};
 
 		type = g_type_register_static (
-			GAL_VIEW_TYPE, "GalViewMinicard", &type_info, 0);
+			GAL_TYPE_VIEW, "GalViewMinicard", &type_info, 0);
 	}
 
 	return type;

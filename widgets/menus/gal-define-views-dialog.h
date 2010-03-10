@@ -20,34 +20,37 @@
  *
  */
 
-#ifndef __GAL_DEFINE_VIEWS_DIALOG_H__
-#define __GAL_DEFINE_VIEWS_DIALOG_H__
+#ifndef GAL_DEFINE_VIEWS_DIALOG_H
+#define GAL_DEFINE_VIEWS_DIALOG_H
 
 #include <gtk/gtk.h>
+#include <menus/gal-view-collection.h>
 
-#include <widgets/menus/gal-view-collection.h>
+/* Standard GObject macros */
+#define GAL_TYPE_DEFINE_VIEWS_DIALOG \
+	(gal_define_views_dialog_get_type ())
+#define GAL_DEFINE_VIEWS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_DEFINE_VIEWS_DIALOG, GalDefineViewsDialog))
+#define GAL_DEFINE_VIEWS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_DEFINE_VIEWS_DIALOG, GalDefineViewsDialogClass))
+#define GAL_IS_DEFINE_VIEWS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_DEFINE_VIEWS_DIALOG))
+#define GAL_IS_DEFINE_VIEWS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_DEFINE_VIEWS_DIALOG))
+#define GAL_DEFINE_VIEWS_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_DEFINE_VIEWS_DIALOG, GalDefineViewsDialogClass))
 
 G_BEGIN_DECLS
 
-/* GalDefineViewsDialog - A dialog displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- */
+typedef struct _GalDefineViewsDialog GalDefineViewsDialog;
+typedef struct _GalDefineViewsDialogClass GalDefineViewsDialogClass;
 
-#define GAL_DEFINE_VIEWS_DIALOG_TYPE		(gal_define_views_dialog_get_type ())
-#define GAL_DEFINE_VIEWS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialog))
-#define GAL_DEFINE_VIEWS_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialogClass))
-#define GAL_IS_DEFINE_VIEWS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
-#define GAL_IS_DEFINE_VIEWS_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
-
-typedef struct _GalDefineViewsDialog       GalDefineViewsDialog;
-typedef struct _GalDefineViewsDialogClass  GalDefineViewsDialogClass;
-
-struct _GalDefineViewsDialog
-{
+struct _GalDefineViewsDialog {
 	GtkDialog parent;
 
 	/* item specific fields */
@@ -58,14 +61,13 @@ struct _GalDefineViewsDialog
 	GalViewCollection *collection;
 };
 
-struct _GalDefineViewsDialogClass
-{
+struct _GalDefineViewsDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GtkWidget               *gal_define_views_dialog_new          (GalViewCollection *collection);
-GType                    gal_define_views_dialog_get_type     (void);
+GType		gal_define_views_dialog_get_type(void);
+GtkWidget *	gal_define_views_dialog_new	(GalViewCollection *collection);
 
 G_END_DECLS
 
-#endif /* __GAL_DEFINE_VIEWS_DIALOG_H__ */
+#endif /* GAL_DEFINE_VIEWS_DIALOG_H */

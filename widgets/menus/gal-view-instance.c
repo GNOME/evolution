@@ -186,7 +186,7 @@ gal_view_instance_class_init (GalViewInstanceClass *klass)
 			      G_STRUCT_OFFSET (GalViewInstanceClass, display_view),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, GAL_VIEW_TYPE);
+			      G_TYPE_NONE, 1, GAL_TYPE_VIEW);
 
 	gal_view_instance_signals [CHANGED] =
 		g_signal_new ("changed",

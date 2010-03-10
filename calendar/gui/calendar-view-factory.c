@@ -51,7 +51,7 @@ static GalView *
 		calendar_view_factory_new_view	(GalViewFactory *factory,
 						 const gchar *name);
 
-G_DEFINE_TYPE (CalendarViewFactory, calendar_view_factory, GAL_VIEW_FACTORY_TYPE)
+G_DEFINE_TYPE (CalendarViewFactory, calendar_view_factory, GAL_TYPE_VIEW_FACTORY)
 
 /* Class initialization function for the calendar view factory */
 static void

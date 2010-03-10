@@ -20,39 +20,43 @@
  *
  */
 
-#ifndef __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
-#define __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
+#ifndef GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H
+#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <widgets/menus/gal-view-collection.h>
 #include <widgets/menus/gal-view-instance.h>
 
+/* Standard GObject macros */
+#define GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG \
+	(gal_view_instance_save_as_dialog_get_type ())
+#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG, GalViewInstanceSaveAsDialog))
+#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG, GalViewInstanceSaveAsDialogClass))
+#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG))
+#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG))
+#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_VIEW_INSTANCE_SAVE_AS_DIALOG, GalViewInstanceSaveAsDialogClass))
+
 G_BEGIN_DECLS
 
-/* GalViewInstanceSaveAsDialog - A dialog displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- */
-
-#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE			(gal_view_instance_save_as_dialog_get_type ())
-#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, GalViewInstanceSaveAsDialog))
-#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, GalViewInstanceSaveAsDialogClass))
-#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE))
-#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE))
-
-typedef struct _GalViewInstanceSaveAsDialog       GalViewInstanceSaveAsDialog;
-typedef struct _GalViewInstanceSaveAsDialogClass  GalViewInstanceSaveAsDialogClass;
+typedef struct _GalViewInstanceSaveAsDialog GalViewInstanceSaveAsDialog;
+typedef struct _GalViewInstanceSaveAsDialogClass GalViewInstanceSaveAsDialogClass;
 
 typedef enum {
 	GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE,
 	GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_CREATE
 } GalViewInstanceSaveAsDialogToggle;
 
-struct _GalViewInstanceSaveAsDialog
-{
+struct _GalViewInstanceSaveAsDialog {
 	GtkDialog parent;
 
 	/* item specific fields */
@@ -69,16 +73,14 @@ struct _GalViewInstanceSaveAsDialog
 	GalViewInstanceSaveAsDialogToggle toggle;
 };
 
-struct _GalViewInstanceSaveAsDialogClass
-{
+struct _GalViewInstanceSaveAsDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GtkWidget *gal_view_instance_save_as_dialog_new       (GalViewInstance             *instance);
-GType      gal_view_instance_save_as_dialog_get_type  (void);
-
-void       gal_view_instance_save_as_dialog_save      (GalViewInstanceSaveAsDialog *dialog);
+GType		gal_view_instance_save_as_dialog_get_type	(void);
+GtkWidget *	gal_view_instance_save_as_dialog_new		(GalViewInstance *instance);
+void		gal_view_instance_save_as_dialog_save		(GalViewInstanceSaveAsDialog *dialog);
 
 G_END_DECLS
 
-#endif /* __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__ */
+#endif /* GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H */

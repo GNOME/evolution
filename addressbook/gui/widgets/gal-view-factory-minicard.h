@@ -23,29 +23,47 @@
  *
  */
 
-#ifndef _GAL_VIEW_FACTORY_MINICARD_H_
-#define _GAL_VIEW_FACTORY_MINICARD_H_
+#ifndef GAL_VIEW_FACTORY_MINICARD_H
+#define GAL_VIEW_FACTORY_MINICARD_H
 
 #include <glib-object.h>
 #include <widgets/menus/gal-view-factory.h>
 
-#define GAL_TYPE_VIEW_FACTORY_MINICARD        (gal_view_factory_minicard_get_type ())
-#define GAL_VIEW_FACTORY_MINICARD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicard))
-#define GAL_VIEW_FACTORY_MINICARD_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicardClass))
-#define GAL_IS_VIEW_FACTORY_MINICARD(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_TYPE_VIEW_FACTORY_MINICARD))
-#define GAL_IS_VIEW_FACTORY_MINICARD_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_TYPE_VIEW_FACTORY_MINICARD))
+/* Standard GObject macros */
+#define GAL_TYPE_VIEW_FACTORY_MINICARD \
+	(gal_view_factory_minicard_get_type ())
+#define GAL_VIEW_FACTORY_MINICARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicard))
+#define GAL_VIEW_FACTORY_MINICARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicardClass))
+#define GAL_IS_VIEW_FACTORY_MINICARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_VIEW_FACTORY_MINICARD))
+#define GAL_IS_VIEW_FACTORY_MINICARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_VIEW_FACTORY_MINICARD))
+#define GAL_VIEW_FACTORY_MINICARD_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicardClass))
 
-typedef struct {
-	GalViewFactory base;
-} GalViewFactoryMinicard;
+G_BEGIN_DECLS
 
-typedef struct {
+typedef struct _GalViewFactoryMinicard GalViewFactoryMinicard;
+typedef struct _GalViewFactoryMinicardClass GalViewFactoryMinicardClass;
+
+struct _GalViewFactoryMinicard {
+	GalViewFactory parent;
+};
+
+struct _GalViewFactoryMinicardClass {
 	GalViewFactoryClass parent_class;
-} GalViewFactoryMinicardClass;
+};
 
-/* Standard functions */
-GType           gal_view_factory_minicard_get_type   (void);
-GalViewFactory *gal_view_factory_minicard_new        (void);
-GalViewFactory *gal_view_factory_minicard_construct  (GalViewFactoryMinicard *factory);
+GType		gal_view_factory_minicard_get_type	(void);
+GalViewFactory *gal_view_factory_minicard_new		(void);
 
-#endif /* _GAL_VIEW_FACTORY_MINICARD_H_ */
+G_END_DECLS
+
+#endif /* GAL_VIEW_FACTORY_MINICARD_H */

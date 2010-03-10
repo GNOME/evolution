@@ -20,83 +20,81 @@
  *
  */
 
-#include <config.h>
-
-#include "e-util/e-util.h"
-
 #include "gal-view-factory.h"
+
+#include <config.h>
+#include <e-util/e-util.h>
 
 G_DEFINE_TYPE (GalViewFactory, gal_view_factory, G_TYPE_OBJECT)
 
-#define d(x)
+/* XXX Should GalViewFactory be a GInterface? */
 
-d(static gint depth = 0;)
+static void
+gal_view_factory_class_init (GalViewFactoryClass *class)
+{
+}
+
+static void
+gal_view_factory_init (GalViewFactory *factory)
+{
+}
 
 /**
  * gal_view_factory_get_title:
- * @factory: The factory to query.
+ * @factory: a #GalViewFactory
  *
  * Returns: The title of the factory.
  */
 const gchar *
 gal_view_factory_get_title (GalViewFactory *factory)
 {
-	g_return_val_if_fail (factory != NULL, NULL);
+	GalViewFactoryClass *class;
+
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
-	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->get_title)
-		return GAL_VIEW_FACTORY_GET_CLASS (factory)->get_title (factory);
-	else
-		return NULL;
-}
+	class = GAL_VIEW_FACTORY_GET_CLASS (factory);
+	g_return_val_if_fail (class->get_title != NULL, NULL);
 
-/**
- * gal_view_factory_new_view:
- * @factory: The factory to use
- * @name: the name for the view.
- *
- * Returns: The new view
- */
-GalView *
-gal_view_factory_new_view        (GalViewFactory *factory,
-				  const gchar     *name)
-{
-	g_return_val_if_fail (factory != NULL, NULL);
-	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
-
-	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->new_view)
-		return GAL_VIEW_FACTORY_GET_CLASS (factory)->new_view (factory, name);
-	else
-		return NULL;
+	return class->get_title (factory);
 }
 
 /**
  * gal_view_factory_get_type_code:
- * @factory: The factory to use
+ * @factory: a #GalViewFactory
  *
  * Returns: The type code
  */
 const gchar *
 gal_view_factory_get_type_code (GalViewFactory *factory)
 {
-	g_return_val_if_fail (factory != NULL, NULL);
+	GalViewFactoryClass *class;
+
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
-	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->get_type_code)
-		return GAL_VIEW_FACTORY_GET_CLASS (factory)->get_type_code (factory);
-	else
-		return NULL;
+	class = GAL_VIEW_FACTORY_GET_CLASS (factory);
+	g_return_val_if_fail (class->get_type_code != NULL, NULL);
+
+	return class->get_type_code (factory);
 }
 
-static void
-gal_view_factory_class_init      (GalViewFactoryClass *klass)
+/**
+ * gal_view_factory_new_view:
+ * @factory: a #GalViewFactory
+ * @name: the name for the view
+ *
+ * Returns: The new view
+ */
+GalView *
+gal_view_factory_new_view (GalViewFactory *factory,
+                           const gchar *name)
 {
-	klass->get_title = NULL;
-	klass->new_view  = NULL;
-}
+	GalViewFactoryClass *class;
 
-static void
-gal_view_factory_init      (GalViewFactory *factory)
-{
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
+
+	class = GAL_VIEW_FACTORY_GET_CLASS (factory);
+	g_return_val_if_fail (class->new_view != NULL, NULL);
+
+	return class->new_view (factory, name);
 }
 

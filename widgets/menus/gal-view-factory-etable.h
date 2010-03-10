@@ -21,38 +21,53 @@
  *
  */
 
-#ifndef _GAL_VIEW_FACTORY_ETABLE_H_
-#define _GAL_VIEW_FACTORY_ETABLE_H_
+#ifndef GAL_VIEW_FACTORY_ETABLE_H
+#define GAL_VIEW_FACTORY_ETABLE_H
 
 #include <gtk/gtk.h>
 #include <menus/gal-view-factory.h>
 #include <table/e-table-specification.h>
 
+/* Standard GObject macros */
+#define GAL_TYPE_VIEW_FACTORY_ETABLE \
+	(gal_view_factory_etable_get_type ())
+#define GAL_VIEW_FACTORY_ETABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_VIEW_FACTORY_ETABLE, GalViewFactoryEtable))
+#define GAL_VIEW_FACTORY_ETABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_VIEW_FACTORY_ETABLE, GalViewFactoryEtableClass))
+#define GAL_IS_VIEW_FACTORY_ETABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_VIEW_FACTORY_ETABLE))
+#define GAL_IS_VIEW_FACTORY_ETABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_VIEW_FACTORY_ETABLE))
+#define GAL_VIEW_FACTORY_ETABLE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_VIEW_FACTORY_ETABLE, GalViewFactoryEtableClass))
+
 G_BEGIN_DECLS
 
-#define GAL_VIEW_FACTORY_ETABLE_TYPE        (gal_view_factory_etable_get_type ())
-#define GAL_VIEW_FACTORY_ETABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtable))
-#define GAL_VIEW_FACTORY_ETABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtableClass))
-#define GAL_IS_VIEW_FACTORY_ETABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_VIEW_FACTORY_ETABLE_TYPE))
-#define GAL_IS_VIEW_FACTORY_ETABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_VIEW_FACTORY_ETABLE_TYPE))
-#define GAL_VIEW_FACTORY_ETABLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtableClass))
+typedef struct _GalViewFactoryEtable GalViewFactoryEtable;
+typedef struct _GalViewFactoryEtableClass GalViewFactoryEtableClass;
+typedef struct _GalViewFactoryEtablePrivate GalViewFactoryEtablePrivate;
 
-typedef struct {
-	GalViewFactory base;
+struct _GalViewFactoryEtable {
+	GalViewFactory parent;
+	GalViewFactoryEtablePrivate *priv;
+};
 
-	ETableSpecification *spec;
-} GalViewFactoryEtable;
-
-typedef struct {
+struct _GalViewFactoryEtableClass {
 	GalViewFactoryClass parent_class;
-} GalViewFactoryEtableClass;
+};
 
-/* Standard functions */
-GType           gal_view_factory_etable_get_type   (void);
-GalViewFactory *gal_view_factory_etable_new        (ETableSpecification  *spec);
-GalViewFactory *gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
-						    ETableSpecification  *spec);
+GType		gal_view_factory_etable_get_type(void);
+ETableSpecification *
+		gal_view_factory_etable_get_specification
+						(GalViewFactoryEtable *factory);
+GalViewFactory *gal_view_factory_etable_new	(ETableSpecification *specification);
 
 G_END_DECLS
 
-#endif /* _GAL_VIEW_FACTORY_ETABLE_H_ */
+#endif /* GAL_VIEW_FACTORY_ETABLE_H */
