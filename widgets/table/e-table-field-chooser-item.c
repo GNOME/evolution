@@ -463,7 +463,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint w
 	rows = e_table_header_count (etfci->combined_header);
 
 	style = GTK_WIDGET (canvas)->style;
-	state = GTK_WIDGET_STATE (canvas);
+	state = gtk_widget_get_state (GTK_WIDGET (canvas));
 
 	y1 = y2 = 0;
 	for (row = 0; row < rows; row++, y1 = y2) {
@@ -519,6 +519,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
 	GtkTargetList *list;
 	GdkDragContext *context;
+	GtkStateType state;
 	ETableCol *ecol;
 	GdkPixmap *pixmap;
 	gint drag_col;
@@ -552,8 +553,10 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	button_height = e_table_header_compute_height (ecol, widget);
 	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
 
+	state = gtk_widget_get_state (widget);
+
 	e_table_header_draw_button (pixmap, ecol,
-				    widget->style, GTK_WIDGET_STATE (widget),
+				    widget->style, state,
 				    widget,
 				    0, 0,
 				    etfci->width, button_height,

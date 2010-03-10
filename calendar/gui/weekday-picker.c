@@ -92,15 +92,18 @@ colorize_items (WeekdayPicker *wp)
 	GdkColor *outline, *focus_outline;
 	GdkColor *fill, *sel_fill;
 	GdkColor *text_fill, *sel_text_fill;
+	GtkStateType state;
 	gint i;
 
 	priv = wp->priv;
 
-	outline = &GTK_WIDGET (wp)->style->fg[GTK_WIDGET_STATE (wp)];
-	focus_outline = &GTK_WIDGET (wp)->style->bg[GTK_WIDGET_STATE (wp)];
+	state = gtk_widget_get_state (GTK_WIDGET (wp));
 
-	fill = &GTK_WIDGET (wp)->style->base[GTK_WIDGET_STATE (wp)];
-	text_fill = &GTK_WIDGET (wp)->style->fg[GTK_WIDGET_STATE (wp)];
+	outline = &GTK_WIDGET (wp)->style->fg[state];
+	focus_outline = &GTK_WIDGET (wp)->style->bg[state];
+
+	fill = &GTK_WIDGET (wp)->style->base[state];
+	text_fill = &GTK_WIDGET (wp)->style->fg[state];
 
 	sel_fill = &GTK_WIDGET (wp)->style->bg[GTK_STATE_SELECTED];
 	sel_text_fill = &GTK_WIDGET (wp)->style->fg[GTK_STATE_SELECTED];
