@@ -35,7 +35,6 @@
 
 #define fsync(fd) 0
 
-const gchar *_e_get_category_icons (void) G_GNUC_CONST;
 const gchar *_e_get_datadir (void) G_GNUC_CONST;
 const gchar *_e_get_ecpsdir (void) G_GNUC_CONST;
 const gchar *_e_get_etspecdir (void) G_GNUC_CONST;
@@ -67,9 +66,6 @@ const gchar *_e_get_uidir (void) G_GNUC_CONST;
 
 #undef PREFIX
 #define PREFIX _e_get_prefix ()
-
-#undef EVOLUTION_CATEGORY_ICONS
-#define EVOLUTION_CATEGORY_ICONS _e_get_category_icons ()
 
 #undef EVOLUTION_DATADIR
 #define EVOLUTION_DATADIR _e_get_datadir ()

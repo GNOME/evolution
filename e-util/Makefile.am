@@ -61,7 +61,6 @@ libeutil_la_CPPFLAGS =							\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
@@ -167,7 +166,6 @@ libeconduit_la_CPPFLAGS =							\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
