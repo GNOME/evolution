@@ -39,7 +39,6 @@ static const gchar *datadir;
 static const gchar *ecpsdir;
 static const gchar *etspecdir;
 static const gchar *galviewsdir;
-static const gchar *gladedir;
 static const gchar *helpdir;
 static const gchar *icondir;
 static const gchar *imagesdir;
@@ -121,7 +120,6 @@ setup (void)
 	ecpsdir = replace_prefix (full_prefix, EVOLUTION_ECPSDIR);
 	etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
 	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
-	gladedir = replace_prefix (full_prefix, EVOLUTION_UIDIR);
 	helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
 	if (g_getenv ("EVOLUTION_ICONDIR") &&
 	    g_file_test (g_getenv ("EVOLUTION_ICONDIR"), G_FILE_TEST_IS_DIR))
@@ -164,7 +162,6 @@ GETTER(datadir)
 GETTER(ecpsdir)
 GETTER(etspecdir)
 GETTER(galviewsdir)
-GETTER(gladedir)
 GETTER(helpdir)
 GETTER(icondir)
 GETTER(imagesdir)
