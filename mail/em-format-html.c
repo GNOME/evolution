@@ -2296,22 +2296,29 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 		/* Let us add a '...' if we have more addresses */
 		if (limit > 0 && wrap && a && (i>(limit-1))) {
 
+			gchar * evolution_imagesdir = g_filename_to_uri(EVOLUTION_IMAGESDIR, NULL, NULL);
+
 			if (!strcmp (field, _("To"))) {
 
 				g_string_append (out, "<a href=\"##TO##\">...</a>");
-				str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/plus.png\" /></a>  ", EVOLUTION_ICONSDIR);
+				str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
+
+				g_free(evolution_imagesdir);
 
 				return str;
 			}
 			else if (!strcmp (field, _("Cc"))) {
 				g_string_append (out, "<a href=\"##CC##\">...</a>");
-				str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/plus.png\" /></a>  ", EVOLUTION_ICONSDIR);
+				str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
+
+				g_free(evolution_imagesdir);
 
 				return str;
 			}
 			else if (!strcmp (field, _("Bcc"))) {
 				g_string_append (out, "<a href=\"##BCC##\">...</a>");
-				str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/plus.png\" /></a>  ", EVOLUTION_ICONSDIR);
+				str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
+				g_free(evolution_imagesdir);
 
 				return str;
 			}
@@ -2321,15 +2328,19 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 
 	if (limit > 0 && i>(limit)) {
 
+		gchar * evolution_imagesdir = g_filename_to_uri(EVOLUTION_IMAGESDIR, NULL, NULL);
+
 		if (!strcmp (field, _("To"))) {
-			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
+			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
 		}
 		else if (!strcmp (field, _("Cc"))) {
-			str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
+			str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
 		}
 		else if (!strcmp (field, _("Bcc"))) {
-			str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
+			str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
 		}
+
+		g_free(evolution_imagesdir);
 	}
 
 	return str;
