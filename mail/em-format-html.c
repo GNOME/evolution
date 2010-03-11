@@ -2301,23 +2301,33 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 			if (!strcmp (field, _("To"))) {
 
 				g_string_append (out, "<a href=\"##TO##\">...</a>");
+#ifdef G_OS_WIN32
+				str = g_strdup_printf ("<a href=\"##TO##\">+</a>  ");
+#else
 				str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
-
+#endif
 				g_free(evolution_imagesdir);
 
 				return str;
 			}
 			else if (!strcmp (field, _("Cc"))) {
 				g_string_append (out, "<a href=\"##CC##\">...</a>");
+#ifdef G_OS_WIN32
+				str = g_strdup_printf ("<a href=\"##CC##\">+</a>  ");
+#else
 				str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
-
+#endif
 				g_free(evolution_imagesdir);
 
 				return str;
 			}
 			else if (!strcmp (field, _("Bcc"))) {
 				g_string_append (out, "<a href=\"##BCC##\">...</a>");
+#ifdef G_OS_WIN32
+				str = g_strdup_printf ("<a href=\"##BCC##\">+</a>  ");
+#else
 				str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
+#endif
 				g_free(evolution_imagesdir);
 
 				return str;
@@ -2331,13 +2341,25 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 		gchar * evolution_imagesdir = g_filename_to_uri(EVOLUTION_IMAGESDIR, NULL, NULL);
 
 		if (!strcmp (field, _("To"))) {
+#ifdef G_OS_WIN32
+			str = g_strdup_printf ("<a href=\"##TO##\">-</a>  ");
+#else
 			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
+#endif
 		}
 		else if (!strcmp (field, _("Cc"))) {
+#ifdef G_OS_WIN32
+			str = g_strdup_printf ("<a href=\"##CC##\">-</a>  ");
+#else
 			str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
+#endif
 		}
 		else if (!strcmp (field, _("Bcc"))) {
+#ifdef G_OS_WIN32
+			str = g_strdup_printf ("<a href=\"##BCC##\">-</a>  ");
+#else
 			str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
+#endif
 		}
 
 		g_free(evolution_imagesdir);
