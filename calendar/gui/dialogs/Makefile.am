@@ -11,7 +11,8 @@ libcal_dialogs_la_CPPFLAGS = 						\
 	-I$(top_srcdir)/shell						\
 	-I$(top_srcdir)/widgets/misc					\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
-	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
+	-DEVOLUTION_ICONDIR=\""$(icondir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"				\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(EVOLUTION_CALENDAR_CFLAGS)

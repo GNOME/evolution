@@ -41,7 +41,7 @@ static const gchar *etspecdir;
 static const gchar *galviewsdir;
 static const gchar *gladedir;
 static const gchar *helpdir;
-static const gchar *iconsdir;
+static const gchar *icondir;
 static const gchar *imagesdir;
 static const gchar *libdir;
 static const gchar *libexecdir;
@@ -123,11 +123,11 @@ setup (void)
 	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
 	gladedir = replace_prefix (full_prefix, EVOLUTION_UIDIR);
 	helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
-	if (g_getenv ("EVOLUTION_ICONSDIR") &&
-	    g_file_test (g_getenv ("EVOLUTION_ICONSDIR"), G_FILE_TEST_IS_DIR))
-		iconsdir = g_getenv ("EVOLUTION_ICONSDIR");
+	if (g_getenv ("EVOLUTION_ICONDIR") &&
+	    g_file_test (g_getenv ("EVOLUTION_ICONDIR"), G_FILE_TEST_IS_DIR))
+		icondir = g_getenv ("EVOLUTION_ICONDIR");
 	else
-		iconsdir = replace_prefix (full_prefix, EVOLUTION_ICONSDIR);
+		icondir = replace_prefix (full_prefix, EVOLUTION_ICONDIR);
 	if (g_getenv ("EVOLUTION_IMAGESDIR") &&
 	    g_file_test (g_getenv ("EVOLUTION_IMAGESDIR"), G_FILE_TEST_IS_DIR))
 		imagesdir = g_getenv ("EVOLUTION_IMAGESDIR");
@@ -166,7 +166,7 @@ GETTER(etspecdir)
 GETTER(galviewsdir)
 GETTER(gladedir)
 GETTER(helpdir)
-GETTER(iconsdir)
+GETTER(icondir)
 GETTER(imagesdir)
 GETTER(libdir)
 GETTER(libexecdir)

@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
 
+#include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 #include "e-util/e-module.h"
 #include "smclient/eggsmclient.h"

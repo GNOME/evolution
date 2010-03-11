@@ -42,7 +42,7 @@ const gchar *_e_get_etspecdir (void) G_GNUC_CONST;
 const gchar *_e_get_galviewsdir (void) G_GNUC_CONST;
 const gchar *_e_get_gladedir (void) G_GNUC_CONST;
 const gchar *_e_get_helpdir (void) G_GNUC_CONST;
-const gchar *_e_get_iconsdir (void) G_GNUC_CONST;
+const gchar *_e_get_icondir (void) G_GNUC_CONST;
 const gchar *_e_get_imagesdir (void) G_GNUC_CONST;
 const gchar *_e_get_libdir (void) G_GNUC_CONST;
 const gchar *_e_get_libexecdir (void) G_GNUC_CONST;
@@ -93,8 +93,8 @@ const gchar *_e_get_uidir (void) G_GNUC_CONST;
 #undef EVOLUTION_HELPDIR
 #define EVOLUTION_HELPDIR _e_get_helpdir ()
 
-#undef EVOLUTION_ICONSDIR
-#define EVOLUTION_ICONSDIR _e_get_iconsdir ()
+#undef EVOLUTION_ICONDIR
+#define EVOLUTION_ICONDIR _e_get_icondir ()
 
 #undef EVOLUTION_IMAGESDIR
 #define EVOLUTION_IMAGESDIR _e_get_imagesdir ()
