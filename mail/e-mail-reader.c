@@ -51,6 +51,25 @@
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 
+#define E_MAIL_READER_GET_PRIVATE(obj) \
+	(mail_reader_get_private (G_OBJECT (obj)))
+
+typedef struct _EMailReaderPrivate EMailReaderPrivate;
+
+struct _EMailReaderPrivate {
+
+	/* This timer runs when the user selects a single message. */
+	guint message_selected_timeout_id;
+
+	/* This is the message UID to automatically mark as read
+	 * after a short period (specified by a user preference). */
+	gchar *mark_read_message_uid;
+
+	/* This is the ID of an asynchronous operation
+	 * to retrieve a message from a mail folder. */
+	gint retrieving_message_operation_id;
+};
+
 enum {
 	CHANGED,
 	FOLDER_LOADED,
@@ -62,7 +81,36 @@ enum {
 /* Remembers the previously selected folder when transferring messages. */
 static gchar *default_xfer_messages_uri;
 
+static GQuark quark_private;
 static guint signals[LAST_SIGNAL];
+
+static void
+mail_reader_finalize (EMailReaderPrivate *priv)
+{
+	if (priv->message_selected_timeout_id > 0)
+		g_source_remove (priv->message_selected_timeout_id);
+
+	g_free (priv->mark_read_message_uid);
+
+	g_slice_free (EMailReaderPrivate, priv);
+}
+
+static EMailReaderPrivate *
+mail_reader_get_private (GObject *object)
+{
+	EMailReaderPrivate *priv;
+
+	priv = g_object_get_qdata (object, quark_private);
+
+	if (G_UNLIKELY (priv == NULL)) {
+		priv = g_slice_new0 (EMailReaderPrivate);
+		g_object_set_qdata_full (
+			object, quark_private, priv,
+			(GDestroyNotify) mail_reader_finalize);
+	}
+
+	return priv;
+}
 
 static void
 action_mail_add_sender_cb (GtkAction *action,
@@ -1712,19 +1760,21 @@ mail_reader_key_press_cb (EMailReader *reader,
 static gboolean
 mail_reader_message_read_cb (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
 	GtkWidget *message_list;
 	const gchar *cursor_uid;
-	const gchar *uid;
+	const gchar *message_uid;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	message_uid = priv->mark_read_message_uid;
+	g_return_val_if_fail (message_uid != NULL, FALSE);
 
 	message_list = e_mail_reader_get_message_list (reader);
-
-	uid = g_object_get_data (G_OBJECT (reader), "mark-read-uid");
-	g_return_val_if_fail (uid != NULL, FALSE);
-
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
 
-	if (g_strcmp0 (cursor_uid, uid) == 0)
-		e_mail_reader_mark_as_read (reader, uid);
+	if (g_strcmp0 (cursor_uid, message_uid) == 0)
+		e_mail_reader_mark_as_read (reader, message_uid);
 
 	return FALSE;
 }
@@ -1759,6 +1809,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
                                CamelException *ex)
 {
 	EMailReader *reader = user_data;
+	EMailReaderPrivate *priv;
 	EMFormatHTMLDisplay *html_display;
 	GtkWidget *message_list;
 	EShellBackend *shell_backend;
@@ -1769,6 +1820,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	const gchar *cursor_uid;
 	gboolean mark_read;
 	gint timeout_interval;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -1809,9 +1862,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	timeout_interval = e_shell_settings_get_int (
 		shell_settings, "mail-mark-seen-timeout");
 
-	g_object_set_data_full (
-		G_OBJECT (reader), "mark-read-uid",
-		g_strdup (message_uid), (GDestroyNotify) g_free);
+	g_free (priv->mark_read_message_uid);
+	priv->mark_read_message_uid = g_strdup (message_uid);
 
 	if (MESSAGE_LIST (message_list)->seen_id > 0) {
 		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
@@ -1849,12 +1901,14 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 static gboolean
 mail_reader_message_selected_timeout_cb (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
 	EMFormatHTMLDisplay *html_display;
 	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
-	const gchar *key;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	folder = e_mail_reader_get_folder (reader);
 	html_display = e_mail_reader_get_html_display (reader);
@@ -1902,18 +1956,13 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 				g_object_ref (reader),
 				disp_func);
 
-			if (!store_async) {
-				g_object_set_data (
-						G_OBJECT (reader),
-						"preview-get-message-op-id",
-						GINT_TO_POINTER (op_id));
-			}
+			if (!store_async)
+				priv->retrieving_message_operation_id = op_id;
 		}
 	} else
 		em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
 
-	key = "message-selected-timeout";
-	g_object_set_data (G_OBJECT (reader), key, NULL);
+	priv->message_selected_timeout_id = 0;
 
 	return FALSE;
 }
@@ -1922,50 +1971,33 @@ static void
 mail_reader_message_selected_cb (EMailReader *reader,
                                  const gchar *uid)
 {
-	GSource *source;
-	const gchar *key;
-	gpointer data;
+	EMailReaderPrivate *priv;
 	MessageList *message_list;
 	gboolean store_async;
 	CamelFolder *folder;
+	guint source_id;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	folder = e_mail_reader_get_folder (reader);
 	store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
 
-	/* Cancel previous message fetching only if the store is not async */
-	if (!store_async) {
-		key = "preview-get-message-op-id";
-		data = g_object_get_data (G_OBJECT (reader), key);
-		if (data != NULL)
-			mail_msg_cancel (GPOINTER_TO_INT (data));
-	}
+	/* Cancel previous message retrieval if the store is not async. */
+	if (!store_async && priv->retrieving_message_operation_id > 0)
+		mail_msg_cancel (priv->retrieving_message_operation_id);
 
-	/* then cancel the seen timer */
+	/* Then cancel the seen timer. */
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	if (message_list && message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
 	}
 
-	/* XXX This is kludgy, but we have no other place to store timeout
-	 * state information.  Addendum: See EAttachmentView for an example
-	 * of storing private data in an interface.  Clunky but works. */
+	source_id = g_timeout_add (
+		100, (GSourceFunc)
+		mail_reader_message_selected_timeout_cb, reader);
 
-	key = "message-selected-timeout";
-
-	source = g_timeout_source_new (100);
-
-	g_source_set_priority (source, G_PRIORITY_DEFAULT);
-
-	g_source_set_callback (
-		source, (GSourceFunc)
-		mail_reader_message_selected_timeout_cb, reader, NULL);
-
-	g_object_set_data_full (
-		G_OBJECT (reader), key, source,
-		(GDestroyNotify) g_source_destroy);
-
-	g_source_attach (source, NULL);
+	priv->message_selected_timeout_id = source_id;
 
 	e_mail_reader_changed (reader);
 }
@@ -2412,6 +2444,8 @@ mail_reader_init_charset_actions (EMailReader *reader)
 static void
 mail_reader_class_init (EMailReaderIface *iface)
 {
+	quark_private = g_quark_from_static_string ("EMailReader-private");
+
 	iface->get_selected_uids = mail_reader_get_selected_uids;
 	iface->get_folder = mail_reader_get_folder;
 	iface->get_folder_uri = mail_reader_get_folder_uri;
