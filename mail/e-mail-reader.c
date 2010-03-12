@@ -1986,11 +1986,17 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	if (!store_async && priv->retrieving_message_operation_id > 0)
 		mail_msg_cancel (priv->retrieving_message_operation_id);
 
-	/* Then cancel the seen timer. */
+	/* Cancel the seen timer. */
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	if (message_list && message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
+	}
+
+	/* Cancel the message selected timer. */
+	if (priv->message_selected_timeout_id > 0) {
+		g_source_remove (priv->message_selected_timeout_id);
+		priv->message_selected_timeout_id = 0;
 	}
 
 	source_id = g_timeout_add (
