@@ -68,6 +68,13 @@ struct _EMailReaderPrivate {
 	/* This is the ID of an asynchronous operation
 	 * to retrieve a message from a mail folder. */
 	gint retrieving_message_operation_id;
+
+	/* These flags work together to prevent message selection
+	 * restoration after a folder switch from automatically
+	 * marking the message as read.  We only want that to
+	 * happen when the -user- selects a message. */
+	guint folder_was_just_selected    : 1;
+	guint restoring_message_selection : 1;
 };
 
 enum {
@@ -1818,7 +1825,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EMEvent *event;
 	EMEventTargetMessage *target;
 	const gchar *cursor_uid;
-	gboolean mark_read;
+	gboolean schedule_timeout;
 	gint timeout_interval;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -1835,7 +1842,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	/* If the user picked a different message in the time it took
 	 * to fetch this message, then don't bother rendering it. */
 	if (g_strcmp0 (cursor_uid, message_uid) != 0)
-		return;
+		goto exit;
 
 	/** @Event: message.reading
 	 * @Title: Viewing a message
@@ -1857,20 +1864,25 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
 
 	/* Determine whether to mark the message as read. */
-	mark_read = e_shell_settings_get_boolean (
-		shell_settings, "mail-mark-seen");
-	timeout_interval = e_shell_settings_get_int (
+	schedule_timeout =
+		(message != NULL) &&
+		e_shell_settings_get_boolean (
+			shell_settings, "mail-mark-seen") &&
+		!priv->restoring_message_selection;
+	timeout_interval =
+		e_shell_settings_get_int (
 		shell_settings, "mail-mark-seen-timeout");
 
 	g_free (priv->mark_read_message_uid);
-	priv->mark_read_message_uid = g_strdup (message_uid);
+	priv->mark_read_message_uid = NULL;
 
 	if (MESSAGE_LIST (message_list)->seen_id > 0) {
 		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
 		MESSAGE_LIST (message_list)->seen_id = 0;
 	}
 
-	if (message != NULL && mark_read) {
+	if (schedule_timeout) {
+		priv->mark_read_message_uid = g_strdup (message_uid);
 		MESSAGE_LIST (message_list)->seen_id = g_timeout_add (
 			timeout_interval, (GSourceFunc)
 			mail_reader_message_read_cb, reader);
@@ -1896,6 +1908,9 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 	/* We referenced this in the call to mail_get_messagex(). */
 	g_object_unref (reader);
+
+exit:
+	priv->restoring_message_selection = FALSE;
 }
 
 static gboolean
@@ -1959,8 +1974,10 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			if (!store_async)
 				priv->retrieving_message_operation_id = op_id;
 		}
-	} else
+	} else {
 		em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
+		priv->restoring_message_selection = FALSE;
+	}
 
 	priv->message_selected_timeout_id = 0;
 
@@ -1975,7 +1992,6 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	MessageList *message_list;
 	gboolean store_async;
 	CamelFolder *folder;
-	guint source_id;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -1999,11 +2015,21 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		priv->message_selected_timeout_id = 0;
 	}
 
-	source_id = g_timeout_add (
-		100, (GSourceFunc)
-		mail_reader_message_selected_timeout_cb, reader);
+	/* If a folder was just selected then we are now automatically
+	 * restoring the previous message selection.  We behave slightly
+	 * differently than if the user had selected the message. */
+	priv->restoring_message_selection = priv->folder_was_just_selected;
+	priv->folder_was_just_selected = FALSE;
 
-	priv->message_selected_timeout_id = source_id;
+	/* Skip the timeout if we're restoring the previous message
+	 * selection.  The timeout is there for when we're scrolling
+	 * rapidly through the message list. */
+	if (priv->restoring_message_selection)
+		mail_reader_message_selected_timeout_cb (reader);
+	else
+		priv->message_selected_timeout_id = g_timeout_add (
+			100, (GSourceFunc)
+			mail_reader_message_selected_timeout_cb, reader);
 
 	e_mail_reader_changed (reader);
 }
@@ -2049,11 +2075,14 @@ mail_reader_set_folder (EMailReader *reader,
                         CamelFolder *folder,
                         const gchar *folder_uri)
 {
+	EMailReaderPrivate *priv;
 	EMFormatHTMLDisplay *html_display;
 	CamelFolder *previous_folder;
 	GtkWidget *message_list;
 	const gchar *previous_folder_uri;
 	gboolean outgoing;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -2074,6 +2103,8 @@ mail_reader_set_folder (EMailReader *reader,
 		em_utils_folder_is_sent (folder, folder_uri));
 
 	em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
+
+	priv->folder_was_just_selected = (folder != NULL);
 
 	message_list_set_folder (
 		MESSAGE_LIST (message_list), folder, folder_uri, outgoing);
