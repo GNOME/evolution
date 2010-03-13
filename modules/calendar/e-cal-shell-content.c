@@ -204,6 +204,7 @@ cal_shell_content_dispose (GObject *object)
 	}
 
 	if (priv->calendar != NULL) {
+		gnome_calendar_dispose (priv->calendar);
 		g_object_unref (priv->calendar);
 		priv->calendar = NULL;
 	}
@@ -324,10 +325,7 @@ cal_shell_content_constructed (GObject *object)
 	/* Add views in the order defined by GnomeCalendarViewType, such
 	 * that the notebook page number corresponds to the view type. */
 
-	/* XXX GnomeCalendar is a widget, but we don't pack it.
-	 *     Maybe it should just be a GObject instead? */
 	priv->calendar = gnome_calendar_new (shell_settings);
-	g_object_ref_sink (priv->calendar);
 	calendar = GNOME_CALENDAR (priv->calendar);
 
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {

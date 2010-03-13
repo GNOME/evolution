@@ -151,7 +151,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-static void gnome_calendar_destroy (GtkObject *object);
+static void gnome_calendar_do_dispose (GObject *object);
 static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 				      GnomeCalendarGotoDateType goto_date);
 
@@ -195,7 +195,7 @@ message_push (Message *msg)
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
 }
 
-G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, G_TYPE_OBJECT)
 
 static void
 gcal_update_status_message (GnomeCalendar *gcal, const gchar *message, gdouble percent)
@@ -482,16 +482,13 @@ static void
 gnome_calendar_class_init (GnomeCalendarClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkBindingSet *binding_set;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gnome_calendar_set_property;
 	object_class->get_property = gnome_calendar_get_property;
 	object_class->constructed = gnome_calendar_constructed;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = gnome_calendar_destroy;
+	object_class->dispose = gnome_calendar_do_dispose;
 
 	class->dates_shown_changed = NULL;
 	class->calendar_selection_changed = NULL;
@@ -1384,7 +1381,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 }
 
 static void
-gnome_calendar_destroy (GtkObject *object)
+gnome_calendar_do_dispose (GObject *object)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
@@ -1454,8 +1451,13 @@ gnome_calendar_destroy (GtkObject *object)
 		gcal->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (gnome_calendar_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (gnome_calendar_parent_class)->destroy) (object);
+	G_OBJECT_CLASS (gnome_calendar_parent_class)->dispose (object);
+}
+
+void
+gnome_calendar_dispose (GnomeCalendar *gcal)
+{
+	g_object_run_dispose (G_OBJECT (gcal));
 }
 
 static void
