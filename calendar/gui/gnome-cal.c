@@ -92,6 +92,7 @@ struct _GnomeCalendarPrivate {
 	ECalendar   *date_navigator;
 
 	/* Calendar query for the date navigator */
+	GMutex      *dn_query_lock;
 	GList       *dn_queries; /* list of CalQueries */
 	gchar        *sexp;
 	gchar        *todo_sexp;
@@ -152,6 +153,7 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 static void gnome_calendar_do_dispose (GObject *object);
+static void gnome_calendar_finalize   (GObject *object);
 static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 				      GnomeCalendarGotoDateType goto_date);
 
@@ -489,6 +491,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	object_class->get_property = gnome_calendar_get_property;
 	object_class->constructed = gnome_calendar_constructed;
 	object_class->dispose = gnome_calendar_do_dispose;
+	object_class->finalize = gnome_calendar_finalize;
 
 	class->dates_shown_changed = NULL;
 	class->calendar_selection_changed = NULL;
@@ -987,6 +990,31 @@ struct _date_query_msg {
 	GnomeCalendar *gcal;
 };
 
+
+static void
+free_dn_queries (GnomeCalendar *gcal)
+{
+	GList *l;
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	g_mutex_lock (priv->dn_query_lock);
+
+	for (l = priv->dn_queries; l != NULL; l = l->next) {
+		if (!l->data)
+			continue;
+		g_signal_handlers_disconnect_matched ((ECalView *) l->data, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
+		g_object_unref (l->data);
+	}
+
+	g_list_free (priv->dn_queries);
+	priv->dn_queries = NULL;
+
+	g_mutex_unlock (priv->dn_query_lock);
+}
+
 static void
 update_query_async (struct _date_query_msg *msg)
 {
@@ -999,18 +1027,7 @@ update_query_async (struct _date_query_msg *msg)
 	priv = gcal->priv;
 
 	/* free the previous queries */
-	for (iter = priv->dn_queries; iter != NULL; iter = iter->next) {
-		old_query = iter->data;
-
-		if (old_query) {
-			g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, gcal);
-			g_object_unref (old_query);
-		}
-	}
-
-	g_list_free (priv->dn_queries);
-	priv->dn_queries = NULL;
+	free_dn_queries (gcal);
 
 	g_return_if_fail (priv->sexp != NULL);
 
@@ -1363,6 +1380,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	priv->todo_update_lock = g_mutex_new ();
+	priv->dn_query_lock = g_mutex_new ();
 
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
@@ -1383,6 +1401,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 static void
 gnome_calendar_do_dispose (GObject *object)
 {
+	GList *l;
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 
@@ -1392,66 +1411,64 @@ gnome_calendar_do_dispose (GObject *object)
 	gcal = GNOME_CALENDAR (object);
 	priv = gcal->priv;
 
-	if (priv) {
-		GList *l;
+	
+	if (priv->shell_settings != NULL) {
+		g_object_unref (priv->shell_settings);
+		priv->shell_settings = NULL;
+	}
 
-		if (priv->shell_settings != NULL) {
-			g_object_unref (priv->shell_settings);
-			priv->shell_settings = NULL;
-		}
+	if (priv->model != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			priv->model, view_progress_cb, gcal);
+		g_signal_handlers_disconnect_by_func (
+			priv->model, view_done_cb, gcal);
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
 
-		if (priv->model != NULL) {
-			g_signal_handlers_disconnect_by_func (
-				priv->model, view_progress_cb, gcal);
-			g_signal_handlers_disconnect_by_func (
-				priv->model, view_done_cb, gcal);
-			g_object_unref (priv->model);
-			priv->model = NULL;
-		}
+	for (l = priv->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	g_list_free (priv->notifications);
+	priv->notifications = NULL;
 
-		for (l = priv->notifications; l; l = l->next)
-			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
-		g_list_free (priv->notifications);
-		priv->notifications = NULL;
+	free_dn_queries (gcal);
 
-		if (priv->dn_queries) {
-			for (l = priv->dn_queries; l != NULL; l = l->next) {
-				g_signal_handlers_disconnect_matched ((ECalView *) l->data, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, gcal);
-				g_object_unref (l->data);
-			}
+	if (non_intrusive_error_table) {
+		g_hash_table_destroy (non_intrusive_error_table);
+		non_intrusive_error_table = NULL;
+	}
 
-			g_list_free (priv->dn_queries);
-			priv->dn_queries = NULL;
-		}
+	if (priv->sexp) {
+		g_free (priv->sexp);
+		priv->sexp = NULL;
+	}
 
-		if (non_intrusive_error_table) {
-			g_hash_table_destroy (non_intrusive_error_table);
-			non_intrusive_error_table = NULL;
-		}
+	if (priv->update_timeout) {
+		g_source_remove (priv->update_timeout);
+		priv->update_timeout = 0;
+	}
 
-		if (priv->sexp) {
-			g_free (priv->sexp);
-			priv->sexp = NULL;
-		}
-
-		if (priv->update_timeout) {
-			g_source_remove (priv->update_timeout);
-			priv->update_timeout = 0;
-		}
-
-		if (priv->update_marcus_bains_line_timeout) {
-			g_source_remove (priv->update_marcus_bains_line_timeout);
-			priv->update_marcus_bains_line_timeout = 0;
-		}
-
-		g_mutex_free (priv->todo_update_lock);
-
-		g_free (priv);
-		gcal->priv = NULL;
+	if (priv->update_marcus_bains_line_timeout) {
+		g_source_remove (priv->update_marcus_bains_line_timeout);
+		priv->update_marcus_bains_line_timeout = 0;
 	}
 
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->dispose (object);
+}
+
+static void
+gnome_calendar_finalize (GObject *object)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (object);
+	GnomeCalendarPrivate *priv = gcal->priv;
+
+	g_mutex_free (priv->todo_update_lock);
+	g_mutex_free (priv->dn_query_lock);
+
+	g_free (priv);
+	gcal->priv = NULL;
+
+	G_OBJECT_CLASS (gnome_calendar_parent_class)->finalize (object);
 }
 
 void
