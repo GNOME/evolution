@@ -157,6 +157,17 @@ shell_taskbar_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
+static gboolean
+disconnect_remove (EActivity      *activity,
+		   EActivityProxy *proxy,
+		   EShellTaskbar  *shell_taskbar)
+{
+	g_signal_handlers_disconnect_matched
+		(activity, G_SIGNAL_MATCH_DATA,
+		 0, 0, NULL, NULL, shell_taskbar);
+	return TRUE;
+}
+
 static void
 shell_taskbar_dispose (GObject *object)
 {
@@ -188,7 +199,9 @@ shell_taskbar_dispose (GObject *object)
 		priv->hbox = NULL;
 	}
 
-	g_hash_table_remove_all (priv->proxy_table);
+	g_hash_table_foreach_remove (priv->proxy_table,
+				     (GHRFunc) disconnect_remove,
+				     object);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
