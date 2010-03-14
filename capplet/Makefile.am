@@ -44,6 +44,10 @@ evolution_settings_SOURCES  = \
 evolution_settings_LDFLAGS = \
 	-Wl,--export-dynamic
 
+if OS_WIN32
+evolution_settings_LDFLAGS += -mwindows
+endif
+
 evolution_settings_LDADD = 				\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(CERT_UI_LIBS)					\
