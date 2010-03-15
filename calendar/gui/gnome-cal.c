@@ -599,7 +599,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	 * Key bindings
 	 */
 
-	binding_set = gtk_binding_set_by_class (class);
+	binding_set = gtk_binding_set_new (G_OBJECT_CLASS_NAME (class));
 
 	/* Alt+PageUp/PageDown, go to the first/last day of the month */
 	gtk_binding_entry_add_signal (binding_set, GDK_Page_Up,
