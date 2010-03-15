@@ -159,7 +159,7 @@ action_memo_list_delete_cb (GtkAction *action,
 	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-memo-list",
-		e_source_peek_name (source));
+		e_source_peek_name (source), NULL);
 	if (response != GTK_RESPONSE_YES)
 		return;
 
