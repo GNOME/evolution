@@ -17,6 +17,7 @@
  */
 
 #include "e-ui-manager.h"
+#include "e-util-private.h"
 
 #include <string.h>
 
