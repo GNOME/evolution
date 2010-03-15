@@ -3,6 +3,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)/em-format			\
 	-I$(top_srcdir)/mail				\
 	-I$(top_srcdir)/composer			\
@@ -64,6 +65,8 @@ libevolution_mail_settings_la_LIBADD = 				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/mail/libevolution-mail.la	
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/e-util/libeutil.la
 
 
