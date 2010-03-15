@@ -41,6 +41,8 @@ schema_DATA     = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
+if GCONF_SCHEMAS_INSTALL
+
 if OS_WIN32
 install-data-local:
 	if test -z "$(DESTDIR)" ; then							\
@@ -59,6 +61,8 @@ install-data-local:
 				$(GCONFTOOL) --makefile-install-rule $$p;		\
 		done									\
 	fi
+endif
+
 endif
 
 BUILT_SOURCES = $(plugin_DATA)

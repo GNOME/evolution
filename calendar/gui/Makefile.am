@@ -256,6 +256,8 @@ CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
 
+if GCONF_SCHEMAS_INSTALL
+
 if OS_WIN32
 install-data-local:
 	if test -z "$(DESTDIR)"; then \
@@ -272,6 +274,8 @@ install-data-local:
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
 		done; \
 	fi
+endif
+
 endif
 
 dist-hook:
