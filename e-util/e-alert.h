@@ -97,7 +97,7 @@ struct _EAlertClass
 
 GType e_alert_get_type (void);
 
-EAlert *e_alert_new(const gchar *tag, ...);
+EAlert *e_alert_new(const gchar *tag, ...) G_GNUC_NULL_TERMINATED;
 EAlert *e_alert_new_valist(const gchar *tag, va_list ap);
 EAlert *e_alert_new_array(const gchar *tag, GPtrArray *args);
 

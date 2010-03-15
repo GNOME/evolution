@@ -28,6 +28,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
+#include "e-util/e-ui-manager.h"
 #include "filter/e-rule-context.h"
 
 #include "e-shell-window-actions.h"
@@ -596,10 +597,10 @@ shell_view_toggled (EShellView *shell_view)
 	if (view_is_active && priv->merge_id == 0) {
 		priv->merge_id = e_ui_manager_add_ui_from_file (
 			E_UI_MANAGER (ui_manager), basename);
-		e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
+		e_plugin_ui_enable_manager (ui_manager, id);
 
 	} else if (!view_is_active && priv->merge_id != 0) {
-		e_plugin_ui_disable_manager (E_UI_MANAGER (ui_manager), id);
+		e_plugin_ui_disable_manager (ui_manager, id);
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
 		priv->merge_id = 0;
 	}

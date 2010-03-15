@@ -1745,8 +1745,8 @@ msg_composer_constructed (GObject *object)
 	gtkhtml_editor_set_changed (editor, FALSE);
 
 	id = "org.gnome.evolution.composer";
-	e_plugin_ui_register_manager (E_UI_MANAGER (ui_manager), id, composer);
-	e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
+	e_plugin_ui_register_manager (ui_manager, id, composer);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 static void

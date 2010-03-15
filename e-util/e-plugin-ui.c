@@ -167,7 +167,7 @@ static gpointer parent_class;
 
 static void
 plugin_ui_hook_unregister_manager (EPluginUIHook *hook,
-                                   EUIManager *ui_manager)
+                                   GtkUIManager *ui_manager)
 {
 	GHashTable *registry;
 
@@ -178,7 +178,7 @@ plugin_ui_hook_unregister_manager (EPluginUIHook *hook,
 
 static void
 plugin_ui_hook_register_manager (EPluginUIHook *hook,
-                                 EUIManager *ui_manager,
+                                 GtkUIManager *ui_manager,
                                  const gchar *id,
                                  gpointer user_data)
 {
@@ -229,7 +229,7 @@ plugin_ui_hook_register_manager (EPluginUIHook *hook,
 
 static guint
 plugin_ui_hook_merge_ui (EPluginUIHook *hook,
-                         EUIManager *ui_manager,
+                         GtkUIManager *ui_manager,
                          const gchar *id)
 {
 	GHashTable *hash_table;
@@ -241,8 +241,12 @@ plugin_ui_hook_merge_ui (EPluginUIHook *hook,
 	ui_definition = g_hash_table_lookup (hash_table, id);
 	g_return_val_if_fail (ui_definition != NULL, 0);
 
-	merge_id = e_ui_manager_add_ui_from_string (
-		ui_manager, ui_definition, &error);
+	if (E_IS_UI_MANAGER (ui_manager))
+		merge_id = e_ui_manager_add_ui_from_string (
+			E_UI_MANAGER (ui_manager), ui_definition, &error);
+	else
+		merge_id = gtk_ui_manager_add_ui_from_string (
+			ui_manager, ui_definition, -1, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
@@ -254,7 +258,7 @@ plugin_ui_hook_merge_ui (EPluginUIHook *hook,
 
 static void
 plugin_ui_enable_manager (EPluginUIHook *hook,
-                          EUIManager *ui_manager,
+                          GtkUIManager *ui_manager,
                           const gchar *id)
 {
 	GHashTable *hash_table;
@@ -302,7 +306,7 @@ plugin_ui_enable_manager (EPluginUIHook *hook,
 
 static void
 plugin_ui_disable_manager (EPluginUIHook *hook,
-                           EUIManager *ui_manager,
+                           GtkUIManager *ui_manager,
                            const gchar *id,
                            gboolean remove)
 {
@@ -338,8 +342,7 @@ plugin_ui_disable_manager (EPluginUIHook *hook,
 
 		/* Merge ID could be 0 if the plugin is disabled. */
 		if (merge_id > 0)
-			gtk_ui_manager_remove_ui (
-				GTK_UI_MANAGER (ui_manager), merge_id);
+			gtk_ui_manager_remove_ui (ui_manager, merge_id);
 
 		if (remove)
 			g_hash_table_remove (hash_table, id);
@@ -361,7 +364,7 @@ plugin_ui_enable_hook (EPluginUIHook *hook)
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, NULL)) {
-		EUIManager *ui_manager = key;
+		GtkUIManager *ui_manager = key;
 		plugin_ui_enable_manager (hook, ui_manager, NULL);
 	}
 }
@@ -379,7 +382,7 @@ plugin_ui_disable_hook (EPluginUIHook *hook)
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, NULL)) {
-		EUIManager *ui_manager = key;
+		GtkUIManager *ui_manager = key;
 		plugin_ui_disable_manager (hook, ui_manager, NULL, FALSE);
 	}
 }
@@ -549,13 +552,13 @@ e_plugin_ui_hook_get_type (void)
 }
 
 void
-e_plugin_ui_register_manager (EUIManager *ui_manager,
+e_plugin_ui_register_manager (GtkUIManager *ui_manager,
                               const gchar *id,
                               gpointer user_data)
 {
 	GSList *plugin_list;
 
-	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
+	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
 	g_return_if_fail (id != NULL);
 
 	/* Loop over all installed plugins. */
@@ -589,12 +592,12 @@ e_plugin_ui_register_manager (EUIManager *ui_manager,
 }
 
 void
-e_plugin_ui_enable_manager (EUIManager *ui_manager,
+e_plugin_ui_enable_manager (GtkUIManager *ui_manager,
                             const gchar *id)
 {
 	GSList *plugin_list;
 
-	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
+	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
 	g_return_if_fail (id != NULL);
 
 	/* Loop over all installed plugins. */
@@ -618,12 +621,12 @@ e_plugin_ui_enable_manager (EUIManager *ui_manager,
 }
 
 void
-e_plugin_ui_disable_manager (EUIManager *ui_manager,
+e_plugin_ui_disable_manager (GtkUIManager *ui_manager,
                              const gchar *id)
 {
 	GSList *plugin_list;
 
-	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
+	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
 	g_return_if_fail (id != NULL);
 
 	/* Loop over all installed plugins. */

@@ -456,9 +456,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	shell_window_init_switcher_style (shell_window);
 
 	id = "org.gnome.evolution.shell";
-	e_plugin_ui_register_manager (
-		E_UI_MANAGER (ui_manager), id, shell_window);
-	e_plugin_ui_enable_manager (E_UI_MANAGER (ui_manager), id);
+	e_plugin_ui_register_manager (ui_manager, id, shell_window);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 void
