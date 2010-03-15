@@ -97,8 +97,8 @@ struct _EAlertClass
 
 GType e_alert_get_type (void);
 
-EAlert *e_alert_new(const gchar *tag, const gchar *arg0, ...);
-EAlert *e_alert_new_valist(const gchar *tag, const gchar *arg0, va_list ap);
+EAlert *e_alert_new(const gchar *tag, ...);
+EAlert *e_alert_new_valist(const gchar *tag, va_list ap);
 EAlert *e_alert_new_array(const gchar *tag, GPtrArray *args);
 
 guint32 e_alert_get_flags (EAlert *alert);

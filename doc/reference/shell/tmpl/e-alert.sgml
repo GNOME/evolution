@@ -94,7 +94,6 @@ User Alert Handling
 </para>
 
 @tag: 
-@arg0: 
 @Varargs: 
 @Returns: 
 
@@ -116,7 +115,6 @@ User Alert Handling
 
 @parent: 
 @tag: 
-@arg0: 
 @Varargs: 
 @Returns: 
 

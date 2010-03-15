@@ -69,11 +69,11 @@ struct _EAlertDialogClass
 GType e_alert_dialog_get_type (void);
 
 GtkWidget* e_alert_dialog_new (GtkWindow* parent, EAlert *alert);
-GtkWidget* e_alert_dialog_new_for_args (GtkWindow* parent, const gchar *tag, const gchar *arg0, ...);
+GtkWidget* e_alert_dialog_new_for_args (GtkWindow* parent, const gchar *tag, ...) G_GNUC_NULL_TERMINATED;
 
 /* Convenience functions for displaying the alert in a GtkDialog */
 gint e_alert_run_dialog(GtkWindow *parent, EAlert *alert);
-gint e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+gint e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, ...) G_GNUC_NULL_TERMINATED;
 
 guint e_alert_dialog_count_buttons (EAlertDialog *dialog);
 EAlert *e_alert_dialog_get_alert (EAlertDialog *dialog);

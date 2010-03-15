@@ -117,7 +117,6 @@ em_utils_ask_open_many (GtkWindow *parent,
  * @parent: parent window
  * @promptkey: gconf key to check if we should prompt the user or not.
  * @tag: e_alert tag.
- * @arg0: The first of a NULL terminated list of arguments for the error.
  *
  * Convenience function to query the user with a Yes/No dialog and a
  * "Do not show this dialog again" checkbox. If the user checks that
@@ -127,7 +126,7 @@ em_utils_ask_open_many (GtkWindow *parent,
  * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
  **/
 gboolean
-em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...)
+em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
@@ -139,8 +138,8 @@ em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag
 	    && !gconf_client_get_bool(gconf, promptkey, NULL))
 		return TRUE;
 
-	va_start(ap, arg0);
-	alert = e_alert_new_valist (tag, arg0, ap);
+	va_start(ap, tag);
+	alert = e_alert_new_valist (tag, ap);
 	va_end(ap);
 
 	mbox = e_alert_dialog_new (parent, alert);

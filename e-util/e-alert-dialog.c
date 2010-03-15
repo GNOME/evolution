@@ -274,14 +274,14 @@ e_alert_dialog_new (GtkWindow *parent, EAlert *alert)
 }
 
 GtkWidget*
-e_alert_dialog_new_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+e_alert_dialog_new_for_args (GtkWindow *parent, const gchar *tag, ...)
 {
 	GtkWidget *d;
 	EAlert *e;
 	va_list ap;
 
-	va_start(ap, arg0);
-	e = e_alert_new_valist(tag, arg0, ap);
+	va_start(ap, tag);
+	e = e_alert_new_valist(tag, ap);
 	va_end(ap);
 
 	d = e_alert_dialog_new (parent, e);
@@ -305,14 +305,14 @@ e_alert_run_dialog(GtkWindow *parent, EAlert *alert)
 }
 
 gint
-e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, ...)
 {
 	EAlert *e;
 	va_list ap;
 	gint response;
 
-	va_start(ap, arg0);
-	e = e_alert_new_valist(tag, arg0, ap);
+	va_start(ap, tag);
+	e = e_alert_new_valist(tag, ap);
 	va_end(ap);
 
 	response = e_alert_run_dialog (parent, e);

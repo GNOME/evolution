@@ -95,7 +95,7 @@ sanity_check (const gchar *filename)
 }
 
 static guint32
-dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, const gchar *arg0, ...)
+dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
@@ -103,8 +103,8 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, con
 	guint32 mask = 0;
 	EAlert *alert = NULL;
 
-	va_start(ap, arg0);
-	alert = e_alert_new_valist(tag, arg0, ap);
+	va_start(ap, tag);
+	alert = e_alert_new_valist(tag, ap);
 	va_end(ap);
 
 	mbox = e_alert_dialog_new (parent, alert);

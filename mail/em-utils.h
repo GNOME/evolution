@@ -40,7 +40,7 @@ G_BEGIN_DECLS
 struct _EMFormat;
 
 gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
-gboolean em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...);
+gboolean em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);

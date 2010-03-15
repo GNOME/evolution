@@ -499,25 +499,25 @@ e_alert_init (EAlert *self)
  * Returns: a new #EAlert
  **/
 EAlert *
-e_alert_new(const gchar *tag, const gchar *arg0, ...)
+e_alert_new(const gchar *tag, ...)
 {
 	EAlert *e;
 	va_list ap;
 
-	va_start(ap, arg0);
-	e = e_alert_new_valist(tag, arg0, ap);
+	va_start(ap, tag);
+	e = e_alert_new_valist(tag, ap);
 	va_end(ap);
 
 	return e;
 }
 
 EAlert *
-e_alert_new_valist(const gchar *tag, const gchar *arg0, va_list ap)
+e_alert_new_valist(const gchar *tag, va_list ap)
 {
 	gchar *tmp;
 	GPtrArray *args = g_ptr_array_new_with_free_func (g_free);
 
-	tmp = (gchar *)arg0;
+	tmp = va_arg (ap, gchar *);
 	while (tmp) {
 		g_ptr_array_add(args, g_strdup (tmp));
 		tmp = va_arg(ap, gchar *);

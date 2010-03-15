@@ -161,7 +161,7 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 
 /* copy of em_utils_prompt_user from mailer */
 static gboolean
-emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...)
+emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...)
 {
 	GtkDialog *mbox;
 	GtkWidget *check = NULL;
@@ -176,8 +176,8 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, c
 		return TRUE;
 	}
 
-	va_start(ap, arg0);
-	alert = e_alert_new_valist(tag, arg0, ap);
+	va_start(ap, tag);
+	alert = e_alert_new_valist(tag, ap);
 	va_end(ap);
 
 	mbox = (GtkDialog*) e_alert_dialog_new (parent, alert);
