@@ -280,14 +280,16 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_shell_watch_window (shell, window);
-
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
 
 	/* Defer actions and menu merging until we have set express mode */
 
 	e_shell_window_actions_init (shell_window);
+
+	/* Do this after intializing actions because it
+	 * triggers shell_window_update_close_action_cb(). */
+	e_shell_watch_window (shell, window);
 
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (shell_window), accel_group);
