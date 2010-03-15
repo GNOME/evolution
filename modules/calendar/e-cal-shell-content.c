@@ -204,7 +204,7 @@ cal_shell_content_dispose (GObject *object)
 	}
 
 	if (priv->calendar != NULL) {
-		gnome_calendar_dispose (priv->calendar);
+		gnome_calendar_dispose (GNOME_CALENDAR (priv->calendar));
 		g_object_unref (priv->calendar);
 		priv->calendar = NULL;
 	}

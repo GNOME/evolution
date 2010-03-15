@@ -541,8 +541,7 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 	/* Register the GtkUIManager ID for the shell view. */
 	id = E_SHELL_VIEW_GET_CLASS (shell_view)->ui_manager_id;
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_plugin_ui_register_manager (
-		E_UI_MANAGER (ui_manager), id, shell_view);
+	e_plugin_ui_register_manager (ui_manager, id, shell_view);
 
 	/* Add pages to the various shell window notebooks. */
 
