@@ -217,8 +217,14 @@ parse_soup_message (SoupMessage *msg, EmailProvider *provider)
 	return parse_message (msg->response_body->data, msg->response_body->length, provider);
 }
 
-gboolean
-mail_guess_servers(EmailProvider *provider)
+static gboolean
+is_offline (void)
+{
+	return FALSE; /* FIXME */
+}
+
+static gboolean
+guess_when_online (EmailProvider *provider)
 {
 	const gchar *cafile = NULL;
 	gchar *url;
@@ -229,7 +235,6 @@ mail_guess_servers(EmailProvider *provider)
 	url = g_strdup_printf("%s/%s", "https://live.mozillamessaging.com/autoconfig", provider->domain);
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
-
 
 	session = soup_session_sync_new_with_options (
 		SOUP_SESSION_SSL_CA_FILE, cafile,
@@ -246,7 +251,7 @@ mail_guess_servers(EmailProvider *provider)
 	if (!msg)
 		return FALSE;
 
-	parse_msg(msg, provider);
+	parse_soup_message (msg, provider);
 	
 	g_object_unref (msg);
 	g_object_unref(session);
@@ -254,6 +259,47 @@ mail_guess_servers(EmailProvider *provider)
 
 	return TRUE;
 
+}
+
+static char *
+get_filename_for_offline_autoconfig (const char *domain)
+{
+	return NULL; /* FIXME */
+}
+
+static gboolean
+guess_when_offline (EmailProvider *provider)
+{
+	char *filename;
+	char *contents;
+	gssize length;
+	gboolean success;
+
+	if (!provider->domain || provider->domain[0] == 0)
+		return FALSE;
+
+	success = FALSE;
+
+	filename = get_filename_for_offline_autoconfig (provider->domain);
+	if (!g_file_get_contents (filename, &contents, &length, NULL)) /* NULL-GError */
+		goto out;
+
+	success = parse_message (contents, (int) length, provider);
+
+out:
+	g_free (filename);
+	g_free (contents);
+
+	return success;
+}
+
+gboolean
+mail_guess_servers(EmailProvider *provider)
+{
+	if (is_offline ())
+		return guess_when_offline (provider);
+	else
+		return guess_when_online (provider);
 }
 
 #ifdef TEST
