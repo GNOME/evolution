@@ -247,8 +247,11 @@ idle_cb (gchar **uris)
 	else if (uris != NULL && *uris != NULL) {
 		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
 			gtk_main_quit ();
-	} else
+	} else {
+		if (express_mode && requested_view == NULL)
+			requested_view = "mail";
 		e_shell_create_shell_window (shell, requested_view);
+	}
 
 	/* If another Evolution process is running, we're done. */
 	if (unique_app_is_running (UNIQUE_APP (shell)))
