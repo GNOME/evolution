@@ -159,12 +159,12 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 }
 
 static void
-parse_msg (SoupMessage *msg, EmailProvider *provider)
+parse_message (const char *msg, int length, EmailProvider *provider)
 {
 	xmlDocPtr doc;
 	xmlNodePtr node, top;
 
-	doc = xmlReadMemory (msg->response_body->data, msg->response_body->length, "file.xml", NULL, 0);
+	doc = xmlReadMemory (msg, length, "file.xml", NULL, 0);
 
 	node = doc->children;
 	while (node) {
@@ -207,6 +207,12 @@ parse_msg (SoupMessage *msg, EmailProvider *provider)
 	}
 
 	xmlFreeDoc(doc);
+}
+
+static gboolean
+parse_soup_message (SoupMessage *msg, EmailProvider *provider)
+{
+	parse_message (msg->response_body->data, msg->response_body->length, provider);
 }
 
 gboolean
