@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="free.fr">
+      <domain>free.fr</domain>
+
+      <displayName>Free Telecom</displayName>
+      <displayShortName>free.fr</displayShortName>
+
+      <incomingServer type="imap">
+         <hostname>imap.free.fr</hostname>
+         <port>143</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>smtp.free.fr</hostname>
+         <port>25</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+         <addThisServer>true</addThisServer>
+         <!-- IP-based auth: smtp server only allows connection from ISP network :-( -->
+         <useGlobalPreferredServer>true</useGlobalPreferredServer>
+      </outgoingServer>
+
+    </emailProvider>
+</clientConfig>

@@ -1,0 +1,12 @@
+The files in this directory are used by Evolution's control center
+capplet to automatically configure email accounts.  This so that you
+can tell it, "My mail is example@gmail.com" and it will automatically
+figure out that it must use imap.googlemail.com and smtp.googlemail.com.
+
+These files are copied from
+http://live.mozillamessaging.com/autoconfig/
+
+We should update these files periodically, maybe.
+
+  Federico Mena Quintero
+  March 2010

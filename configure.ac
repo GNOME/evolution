@@ -1743,6 +1743,7 @@ smime/gui/Makefile
 sounds/Makefile
 capplet/Makefile
 capplet/settings/Makefile
+capplet/settings/mail-autoconfig/Makefile
 evolution-zip
 evolution-calendar.pc
 evolution-mail.pc

@@ -1,3 +1,4 @@
+SUBDIRS = mail-autoconfig
 
 privsolib_LTLIBRARIES = libevolution-mail-settings.la
 

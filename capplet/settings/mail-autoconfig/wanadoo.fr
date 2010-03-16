@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="francetelecom.fr">
+      <domain>wanadoo.fr</domain>
+      <domain>orange.fr</domain>
+
+      <displayName>France Telecom / Orange</displayName>
+      <displayShortName>Orange</displayShortName>
+
+      <incomingServer type="pop3">
+         <hostname>pop.orange.fr</hostname>
+         <port>110</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>smtp.orange.fr</hostname>
+         <port>25</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+    </emailProvider>
+</clientConfig>

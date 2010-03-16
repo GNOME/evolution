@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="arcor.de">
+      <domain>arcor.de</domain>
+
+      <displayName>Arcor</displayName>
+      <displayShortName>Arcor</displayShortName>
+
+      <incomingServer type="imap">
+         <hostname>imap.arcor.de</hostname>
+         <port>993</port>
+         <socketType>SSL</socketType>
+         <!-- also works: <port>143</port> <socketType>STARTTLS</socketType> -->
+         <authentication>plain</authentication>
+         <username>%EMAILLOCALPART%</username>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>mail.arcor.de</hostname>
+         <port>465</port>
+         <socketType>SSL</socketType>
+         <!-- also works: <port>587</port> <socketType>STARTTLS</socketType> -->
+         <authentication>plain</authentication>
+         <username>%EMAILLOCALPART%</username>
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+      <!--
+         http://www.arcor.de/hilfe/neu/index.php?aktion=anzeigen&rubrik=040006001&id=181
+         http://www.arcor.de/hilfe/neu/index.php?aktion=anzeigen&rubrik=006001003&id=1241
+         Sent Folder: SentMail
+         Draft Folder: Drafts
+
+         IMAP-Server is a Courier.
+      -->
+    </emailProvider>
+</clientConfig>
