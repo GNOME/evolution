@@ -1,3 +1,4 @@
+SUBDIRS = mail-autoconfig
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/widgets				\
@@ -30,7 +31,7 @@ AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-mail\"		\
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
-	
+
 AM_CFLAGS =\
 	 -Wall\
 	 -g -O0 
