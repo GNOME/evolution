@@ -159,7 +159,7 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 	}
 }
 
-static void
+static gboolean
 parse_message (const char *msg, int length, EmailProvider *provider)
 {
 	xmlDocPtr doc;
@@ -177,7 +177,7 @@ parse_message (const char *msg, int length, EmailProvider *provider)
 
 	if (!node) {
 		g_warning ("Incorrect data: ClientConfig not found ... Quitting\n");
-		return;
+		return FALSE;
 	}
 
 	node = node->children;
@@ -190,7 +190,7 @@ parse_message (const char *msg, int length, EmailProvider *provider)
 
 	if (!node) {
 		g_warning ("Incorrect data: ClientConfig not found ... Quitting\n");
-		return;
+		return FALSE;
 	}
 
 	top = node;
@@ -208,12 +208,14 @@ parse_message (const char *msg, int length, EmailProvider *provider)
 	}
 
 	xmlFreeDoc(doc);
+
+	return TRUE;
 }
 
 static gboolean
 parse_soup_message (SoupMessage *msg, EmailProvider *provider)
 {
-	parse_message (msg->response_body->data, msg->response_body->length, provider);
+	return parse_message (msg->response_body->data, msg->response_body->length, provider);
 }
 
 gboolean
