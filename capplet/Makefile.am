@@ -59,5 +59,7 @@ evolution_settings_LDADD = 				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/capplet/settings/libevolution-mail-settings.la
+	$(top_builddir)/capplet/settings/libevolution-mail-settings.la \
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/e-util/libeutil.la
 
