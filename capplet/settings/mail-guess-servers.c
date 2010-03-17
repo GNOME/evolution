@@ -51,10 +51,10 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 	char *tmp; 	
 	char *repl = NULL, *sec_part;
 
-	tmp = xml ? strstr(xml, "\%EMAIL") : NULL;
+	tmp = xml ? strstr((char *) xml, "\%EMAIL") : NULL;
 
 	if (!tmp) {
-		gxml = xml ? g_strdup(xml) : NULL ;
+		gxml = xml ? g_strdup((char *) xml) : NULL ;
 	} else {
 	decodepart:
 		*tmp = 0;
@@ -116,7 +116,7 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 {
 	xmlNodePtr node = head->children;
 
-	provider->recv_type = xml_to_gchar(xmlGetProp(head, "type"), provider);
+	provider->recv_type = xml_to_gchar(xmlGetProp(head, (xmlChar *) "type"), provider);
 
 	while (node) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
@@ -140,7 +140,7 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 {
 	xmlNodePtr node = head->children;
 
-	provider->send_type = xml_to_gchar(xmlGetProp(head, "type"), provider);
+	provider->send_type = xml_to_gchar(xmlGetProp(head, (xmlChar *) "type"), provider);
 
 	while (node) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
@@ -230,7 +230,6 @@ guess_when_online (EmailProvider *provider)
 	const char *cafile = NULL;
 	char *url;
 	SoupURI *proxy = NULL, *parsed;
-	int opt;
 	SoupMessage *msg;
 	SoupSession *session;
 
@@ -274,7 +273,7 @@ guess_when_offline (EmailProvider *provider)
 {
 	char *filename;
 	char *contents;
-	gssize length;
+	gsize length;
 	gboolean success;
 
 	if (!provider->domain || provider->domain[0] == 0)
