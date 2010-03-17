@@ -10355,7 +10355,7 @@ msgstr " %s  க்கு  %s இல் \"%s\"  குறித் து அன
 #. Translators: %s is the subject of the email message
 #: ../mail/em-composer-utils.c:1626, c-format
 msgid "Delivery Notification for: \"%s\""
-msgstr "இதற்கு அஞ்சல் சேர்த்த அறிவிப்பு : \"%s\"
+msgstr "இதற்கு அஞ்சல் சேர்த்த அறிவிப்பு : \"%s\""
 
 #: ../mail/em-composer-utils.c:1950
 msgid "an unknown sender"
