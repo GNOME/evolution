@@ -116,7 +116,7 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	start_page_label = GTK_LABEL (em_account_editor_get_widget (emae, "start_page_label"));
 	if (start_page_label) {
 		gtk_label_set_text (start_page_label, _(""
-				    "ZZZ ! Welcome to Evolution. The next few screens will allow Evolution to connect "
+				    "Welcome to Evolution. The next few screens will allow Evolution to connect "
 				    "to your email accounts, and to import files from other applications. \n"
 				    "\n"
 				    "Please click the \"Forward\" button to continue. "));

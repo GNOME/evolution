@@ -55,7 +55,7 @@ struct _dialog_errors {
 } dialog_errors[] = {
 	{ ERROR_NO_FULLNAME, N_("Please enter your full name.") },
 	{ ERROR_NO_EMAIL, N_("Please enter your email address.") },
-	{ ERROR_INVALID_EMAIL, N_("The email addres you have entered is invalid.") },
+	{ ERROR_INVALID_EMAIL, N_("The email address you have entered is invalid.") },
 };
 static guint signals[LAST_SIGNAL] = { 0 };
 
@@ -354,7 +354,7 @@ create_review (MailAccountView *view)
 
 #define IDENTITY_DETAIL N_("To use the email application you'll need to setup an account. Put your email address and password in below and we'll try and work out all the settings. If we can't do it automatically you'll need your server details as well.")
 
-#define RECEIVE_DETAIL N_("Sorry, we can't work out the settings to get your mail automatically. Please enter them below. We've tried  to make a start with the details you just entered but you may need to change them.")
+#define RECEIVE_DETAIL N_("Sorry, we can't work out the settings to get your mail automatically. Please enter them below. We've tried to make a start with the details you just entered but you may need to change them.")
 
 #define RECEIVE_OPT_DETAIL N_("You can specify more options to configure the account.")
 
