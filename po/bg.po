@@ -19,13 +19,13 @@
 #
 # account е регистрация
 # subscription е абонамент
-#: ../shell/main.c:525
+#: ../shell/main.c:479
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-14 13:50+0200\n"
-"PO-Revision-Date: 2010-03-14 13:45+0200\n"
+"POT-Creation-Date: 2010-03-17 16:56+0200\n"
+"PO-Revision-Date: 2010-03-17 16:56+0200\n"
 "Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -282,7 +282,7 @@ msgstr "Годишнина"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:112
+#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:119
 #: ../shell/main.c:112
 msgid "Birthday"
 msgstr "Рожден ден"
@@ -676,12 +676,12 @@ msgid "_Select Address Book"
 msgstr "Избор на адрес_ник"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:167
-#: ../shell/e-shell-backend.c:218 ../shell/e-shell-window.c:679
+#: ../shell/e-shell-backend.c:218 ../shell/e-shell-window.c:678
 msgid "Shell"
 msgstr "Интерфейс"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:168
-#: ../shell/e-shell-backend.c:219 ../shell/e-shell-window.c:680
+#: ../shell/e-shell-backend.c:219 ../shell/e-shell-window.c:679
 msgid "The EShell singleton"
 msgstr "Единичният обект EShell"
 
@@ -1147,7 +1147,7 @@ msgid "Telex"
 msgstr "Телекс"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:818
+#: ../shell/e-shell-view.c:819
 msgid "Title"
 msgstr "Титла"
 
@@ -1431,7 +1431,7 @@ msgstr "Блог"
 #. Create the default Person memo list
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
-#: ../capplet/settings/mail-capplet-shell.c:457 ../mail/e-mail-migrate.c:962
+#: ../capplet/settings/mail-capplet-shell.c:461 ../mail/e-mail-migrate.c:962
 #: ../modules/addressbook/e-book-shell-backend.c:175
 #: ../modules/addressbook/e-book-shell-migrate.c:507
 #: ../modules/calendar/e-cal-shell-backend.c:171
@@ -2349,7 +2349,7 @@ msgstr "_Отказване"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:152
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1620
+#: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Редактиране"
@@ -3840,21 +3840,21 @@ msgid "Click here to close the current window"
 msgstr "Натиснете тук, за да затворите текущия прозорец"
 
 #: ../calendar/gui/dialogs/comp-editor.c:946 ../mail/e-mail-browser.c:117
-#: ../shell/e-shell-window-actions.c:1459
+#: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:387 ../widgets/misc/e-web-view.c:965
 msgid "Copy the selection"
 msgstr "Копиране на избраното"
 
 #: ../calendar/gui/dialogs/comp-editor.c:953 ../mail/e-mail-browser.c:124
-#: ../shell/e-shell-window-actions.c:1466
+#: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:959
 msgid "Cut the selection"
 msgstr "Изрязване на избраното"
 
 #: ../calendar/gui/dialogs/comp-editor.c:960
-#: ../shell/e-shell-window-actions.c:1473
+#: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "Изтриване на избраното"
@@ -3864,7 +3864,7 @@ msgid "Click here to view help available"
 msgstr "Натиснете тук, за да прегледате наличната помощ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:974 ../mail/e-mail-browser.c:131
-#: ../shell/e-shell-window-actions.c:1508
+#: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:971
 msgid "Paste the clipboard"
@@ -3875,7 +3875,7 @@ msgid "Click here to save the current window"
 msgstr "Натиснете тук, за да запазите текущия прозорец"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1002 ../mail/e-mail-browser.c:138
-#: ../shell/e-shell-window-actions.c:1578
+#: ../shell/e-shell-window-actions.c:1579
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "Избиране на целия текст"
@@ -3885,13 +3885,13 @@ msgid "_Classification"
 msgstr "_Отбелязано като"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1023 ../mail/e-mail-browser.c:145
-#: ../shell/e-shell-window-actions.c:1627
+#: ../shell/e-shell-window-actions.c:1628
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "_Файл"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1030
-#: ../shell/e-shell-window-actions.c:1634
+#: ../shell/e-shell-window-actions.c:1635
 msgid "_Help"
 msgstr "Помо_щ"
 
@@ -3905,7 +3905,7 @@ msgid "_Options"
 msgstr "_Настройки"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1051 ../mail/e-mail-browser.c:159
-#: ../shell/e-shell-window-actions.c:1669
+#: ../shell/e-shell-window-actions.c:1670
 msgid "_View"
 msgstr "_Изглед"
 
@@ -4970,7 +4970,7 @@ msgstr "Общи настройки"
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-store.c:120 ../calendar/gui/e-meeting-store.c:155
 #: ../calendar/gui/e-meeting-store.c:218 ../calendar/gui/print.c:972
-#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:931
+#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:930
 #: ../plugins/itip-formatter/itip-formatter.c:461
 #: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
@@ -8347,7 +8347,7 @@ msgid "Save draft"
 msgstr "Запазване на чернова"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:187 ../mail/em-utils.c:150
+#: ../composer/e-msg-composer.c:187 ../mail/em-utils.c:149
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
 msgstr "_Това съобщение да не се показва отново."
@@ -8504,24 +8504,24 @@ msgstr "_Възстановяване"
 msgid "_Save Draft"
 msgstr "Запазване на _чернова"
 
-#: ../capplet/anjal-settings-main.c:181
+#: ../capplet/anjal-settings-main.c:202
 msgid "Run Anjal in a window"
 msgstr "Изпълнение на Anjal в прозорец"
 
-#: ../capplet/anjal-settings-main.c:182
+#: ../capplet/anjal-settings-main.c:203
 msgid "Make Anjal the default email client"
 msgstr "Избиране на Anjal за стандартен клиент за е-поща"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:189
+#: ../capplet/anjal-settings-main.c:210
 msgid "ID of the socket to embed in"
 msgstr "Идентификаторът на гнездото за вграждане"
 
-#: ../capplet/anjal-settings-main.c:190
+#: ../capplet/anjal-settings-main.c:211
 msgid "socket"
 msgstr "гнездо"
 
-#: ../capplet/anjal-settings-main.c:204
+#: ../capplet/anjal-settings-main.c:225
 msgid "Anjal email client"
 msgstr "Програма за е-поща (Anjal)"
 
@@ -8538,7 +8538,7 @@ msgid "Please enter your email address."
 msgstr "Въведете адреса си за е-поща."
 
 #: ../capplet/settings/mail-account-view.c:58
-msgid "The email addres you have entered is invalid."
+msgid "The email address you have entered is invalid."
 msgstr "Е-пощата, която въведохте, е неправилна."
 
 #: ../capplet/settings/mail-account-view.c:224
@@ -8600,7 +8600,7 @@ msgstr ""
 #: ../capplet/settings/mail-account-view.c:357
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
-"enter them below. We've tried  to make a start with the details you just "
+"enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
 "За съжаление автоматичното отгатване на настройките не сработи. Попълнете ги "
@@ -8714,21 +8714,21 @@ msgstr "Затваряне на подпрозореца"
 msgid "Account Wizard"
 msgstr "Помощник за регистрации"
 
-#: ../capplet/settings/mail-capplet-shell.c:280
+#: ../capplet/settings/mail-capplet-shell.c:284
 msgid "Evolution account assistant"
 msgstr "Помощник на Evolution за регистрациите"
 
-#: ../capplet/settings/mail-capplet-shell.c:316
+#: ../capplet/settings/mail-capplet-shell.c:320
 #: ../data/evolution-settings.desktop.in.in.h:2
 msgid "Email Settings"
 msgstr "Настройки на е-поща"
 
-#: ../capplet/settings/mail-capplet-shell.c:330
+#: ../capplet/settings/mail-capplet-shell.c:334
 msgid "Quit"
 msgstr "Спиране на помощника"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:449 ../mail/e-mail-migrate.c:2949
+#: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
 #: ../mail/e-mail-store.c:229 ../mail/em-folder-tree-model.c:150
 #: ../mail/em-folder-tree-model.c:153 ../mail/em-folder-tree-model.c:156
 #: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:165
@@ -8779,7 +8779,7 @@ msgstr "Evolution"
 msgid "Evolution Mail and Calendar"
 msgstr "E-поща и календар (Evolution)"
 
-#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:653
+#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:654
 msgid "Groupware Suite"
 msgstr "Програма за работа в група"
 
@@ -9002,7 +9002,7 @@ msgid "Messages"
 msgstr "Писма"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:110
-#: ../shell/e-shell-window-actions.c:1445
+#: ../shell/e-shell-window-actions.c:1446
 msgid "Close this window"
 msgstr "Затваряне на този прозорец"
 
@@ -9368,11 +9368,11 @@ msgid "I_nclude threads"
 msgstr "_Включване на нишките"
 
 #: ../filter/e-filter-rule.c:1141 ../filter/filter.ui.h:2
-#: ../mail/em-utils.c:301
+#: ../mail/em-utils.c:300
 msgid "Incoming"
 msgstr "Входящи"
 
-#: ../filter/e-filter-rule.c:1141 ../mail/em-utils.c:302
+#: ../filter/e-filter-rule.c:1141 ../mail/em-utils.c:301
 msgid "Outgoing"
 msgstr "Изходящи"
 
@@ -9517,7 +9517,7 @@ msgstr "Изглед с икони"
 msgid "List View"
 msgstr "Изглед като списък"
 
-#: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:632
+#: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
 msgstr "Проследяване на фокуса"
 
@@ -11146,12 +11146,12 @@ msgstr "Изберете сървър."
 msgid "No server has been selected"
 msgstr "Не е избран сървър"
 
-#: ../mail/em-utils.c:311
+#: ../mail/em-utils.c:310
 msgid "Message Filters"
 msgstr "Пощенски _филтри"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:815
+#: ../mail/em-utils.c:814
 #, c-format
 msgid "Messages from %s"
 msgstr "Писма от %s"
@@ -14085,7 +14085,7 @@ msgstr "%b %d %Y"
 msgid "Select all visible messages"
 msgstr "Избор на всички видими писма"
 
-#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:722
+#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:723
 msgid "Shell Backend"
 msgstr "Компонент на интерфейса"
 
@@ -19502,16 +19502,15 @@ msgstr "Добре дошли"
 
 #: ../plugins/startup-wizard/startup-wizard.c:118
 msgid ""
-"ZZZ ! Welcome to Evolution. The next few screens will allow Evolution to "
-"connect to your email accounts, and to import files from other "
-"applications. \n"
+"Welcome to Evolution. The next few screens will allow Evolution to connect "
+"to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 "Добре дошли в Evolution. Следващите няколко екрана ще позволят на Evolution "
 "да се свърже с вашите регистрации и да внесе файлове от други програми. \n"
 "\n"
-"Натиснете бутона „Напред“. "
+"Натиснете бутона „Напред“, за да продължите. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:153
 #: ../widgets/misc/e-import-assistant.c:385
@@ -19804,7 +19803,7 @@ msgstr ""
 "Пропускане на диалоговия прозорец с предупреждението за разработващата се "
 "версия"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:323
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:326
 msgid "Start in offline mode"
 msgstr "Стартиране в режим „Изключен“"
 
@@ -20003,7 +20002,7 @@ msgstr "Стил на лентата с инструменти"
 msgid "The switcher's toolbar style"
 msgstr "Стил на лентата на превключвача"
 
-#: ../shell/e-shell-switcher.c:465 ../shell/e-shell-window.c:741
+#: ../shell/e-shell-switcher.c:465 ../shell/e-shell-window.c:740
 msgid "Toolbar Visible"
 msgstr "Лентата с инструменти е видима"
 
@@ -20023,91 +20022,91 @@ msgstr "Файлове iCalendar (.ics)"
 msgid "All Files (*)"
 msgstr "Всички файлове (*)"
 
-#: ../shell/e-shell-view.c:674
+#: ../shell/e-shell-view.c:675
 msgid "Switcher Action"
 msgstr "Действие на превключвателя"
 
-#: ../shell/e-shell-view.c:675
+#: ../shell/e-shell-view.c:676
 msgid "The switcher action for this shell view"
 msgstr "Действие на превключвача за този интерфейс"
 
-#: ../shell/e-shell-view.c:690
+#: ../shell/e-shell-view.c:691
 msgid "Page Number"
 msgstr "Страница №"
 
-#: ../shell/e-shell-view.c:691
+#: ../shell/e-shell-view.c:692
 msgid "The notebook page number of the shell view"
 msgstr "Номер на страницата на изгледа на интерфейса за мобилни компютри"
 
-#: ../shell/e-shell-view.c:707
+#: ../shell/e-shell-view.c:708
 msgid "Search Rule"
 msgstr "Филтър за търсенето"
 
-#: ../shell/e-shell-view.c:708
+#: ../shell/e-shell-view.c:709
 msgid "Criteria for the current search results"
 msgstr "Критерии за текущите резултати"
 
-#: ../shell/e-shell-view.c:723
+#: ../shell/e-shell-view.c:724
 msgid "The EShellBackend for this shell view"
 msgstr "Компонентът на EShell за този изглед на интерфейса"
 
-#: ../shell/e-shell-view.c:738
+#: ../shell/e-shell-view.c:739
 msgid "Shell Content Widget"
 msgstr "Джаджа за съдържанието на интерфейса"
 
-#: ../shell/e-shell-view.c:739
+#: ../shell/e-shell-view.c:740
 msgid "The content widget appears in a shell window's right pane"
 msgstr ""
 "Съдържанието на джаждата се показва в прозореца на интерфейса в панела "
 "отдясно"
 
-#: ../shell/e-shell-view.c:755
+#: ../shell/e-shell-view.c:756
 msgid "Shell Sidebar Widget"
 msgstr "Джаджа за странична лента на интерфейса"
 
-#: ../shell/e-shell-view.c:756
+#: ../shell/e-shell-view.c:757
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr ""
 "Съдържанието на джаджата се показва в прозореца на интерфейса в панела отляво"
 
-#: ../shell/e-shell-view.c:771
+#: ../shell/e-shell-view.c:772
 msgid "Shell Taskbar Widget"
 msgstr "Джаджа за лента със задачи на интерфейса"
 
-#: ../shell/e-shell-view.c:772
+#: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr ""
 "Джаджата с лента за задачи се показва в долната част на прозореца на "
 "интерфейса"
 
-#: ../shell/e-shell-view.c:787
+#: ../shell/e-shell-view.c:788
 msgid "Shell Window"
 msgstr "Прозорец на интерфейса"
 
-#: ../shell/e-shell-view.c:788
+#: ../shell/e-shell-view.c:789
 msgid "The window to which the shell view belongs"
 msgstr "Прозорецът, към който принадлежи този интерфейс"
 
-#: ../shell/e-shell-view.c:804
+#: ../shell/e-shell-view.c:805
 msgid "The key file holding widget state data"
 msgstr "Ключовият файл съдържащ данните за състояние на джаджите"
 
-#: ../shell/e-shell-view.c:819
+#: ../shell/e-shell-view.c:820
 msgid "The title of the shell view"
 msgstr "Заглавието на изгледа на новия интерфейс"
 
-#: ../shell/e-shell-view.c:833
+#: ../shell/e-shell-view.c:834
 msgid "Current View ID"
 msgstr "Идентификатор на текущия изглед"
 
-#: ../shell/e-shell-view.c:834
+#: ../shell/e-shell-view.c:835
 msgid "The current GAL view ID"
 msgstr "Идентификатор на текущия изглед"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:644
+#: ../shell/e-shell-window-actions.c:645
 msgid "translator-credits"
 msgstr ""
 "Владимир „Kaladan“ Петков <kaladan@gmail.com>\n"
@@ -20121,298 +20120,298 @@ msgstr ""
 "Научете повече за нас на http://gnome.cult.bg\n"
 "Докладвайте за грешки на http://gnome.cult.bg/bugs"
 
-#: ../shell/e-shell-window-actions.c:655
+#: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
 msgstr "Уебсайт на Evolution"
 
-#: ../shell/e-shell-window-actions.c:1223
+#: ../shell/e-shell-window-actions.c:1224
 msgid "Bug Buddy is not installed."
 msgstr "Bug buddy не е инсталиран."
 
-#: ../shell/e-shell-window-actions.c:1225
+#: ../shell/e-shell-window-actions.c:1226
 msgid "Bug Buddy could not be run."
 msgstr "Bug buddy не може да бъде стартиран."
 
-#: ../shell/e-shell-window-actions.c:1342
+#: ../shell/e-shell-window-actions.c:1343
 msgid "GNOME Pilot is not installed."
 msgstr "GOME Pilot не е инсталиран."
 
-#: ../shell/e-shell-window-actions.c:1344
+#: ../shell/e-shell-window-actions.c:1345
 msgid "GNOME Pilot could not be run."
 msgstr "GNOME Pilot не може да се стартира."
 
-#: ../shell/e-shell-window-actions.c:1438
+#: ../shell/e-shell-window-actions.c:1439
 msgid "Show information about Evolution"
 msgstr "Показване на информация относно Evolution"
 
-#: ../shell/e-shell-window-actions.c:1443
+#: ../shell/e-shell-window-actions.c:1444
 msgid "_Close Window"
 msgstr "Зат_варяне на този прозорец"
 
-#: ../shell/e-shell-window-actions.c:1450
+#: ../shell/e-shell-window-actions.c:1451
 msgid "_Contents"
 msgstr "_Съдържание"
 
-#: ../shell/e-shell-window-actions.c:1452
+#: ../shell/e-shell-window-actions.c:1453
 msgid "Open the Evolution User Guide"
 msgstr "Отваря потребителското ръководство на Evolution"
 
-#: ../shell/e-shell-window-actions.c:1478
+#: ../shell/e-shell-window-actions.c:1479
 msgid "Evolution _FAQ"
 msgstr "_ЧЗВ за Evolution"
 
-#: ../shell/e-shell-window-actions.c:1480
+#: ../shell/e-shell-window-actions.c:1481
 msgid "Open the Frequently Asked Questions webpage"
 msgstr "Отваряне на уеб-страницата за често задавани въпроси"
 
-#: ../shell/e-shell-window-actions.c:1485
+#: ../shell/e-shell-window-actions.c:1486
 msgid "_Forget Passwords"
 msgstr "Изчистване на запомнените _пароли"
 
-#: ../shell/e-shell-window-actions.c:1487
+#: ../shell/e-shell-window-actions.c:1488
 msgid "Forget all remembered passwords"
 msgstr "Забравяне на всички запомнени пароли"
 
-#: ../shell/e-shell-window-actions.c:1492
+#: ../shell/e-shell-window-actions.c:1493
 msgid "I_mport..."
 msgstr "_Внасяне…"
 
-#: ../shell/e-shell-window-actions.c:1494
+#: ../shell/e-shell-window-actions.c:1495
 msgid "Import data from other programs"
 msgstr "Внасяне на данни от други програми"
 
-#: ../shell/e-shell-window-actions.c:1499
+#: ../shell/e-shell-window-actions.c:1500
 msgid "New _Window"
 msgstr "Нов _прозорец"
 
-#: ../shell/e-shell-window-actions.c:1501
+#: ../shell/e-shell-window-actions.c:1502
 msgid "Create a new window displaying this view"
 msgstr "Нов прозорец с този изглед"
 
-#: ../shell/e-shell-window-actions.c:1515
+#: ../shell/e-shell-window-actions.c:1516
 msgid "Configure Evolution"
 msgstr "Настройки на Evolution"
 
-#: ../shell/e-shell-window-actions.c:1520
+#: ../shell/e-shell-window-actions.c:1521
 msgid "_Quick Reference"
 msgstr "_Бърза справка"
 
-#: ../shell/e-shell-window-actions.c:1522
+#: ../shell/e-shell-window-actions.c:1523
 msgid "Show Evolution's shortcut keys"
 msgstr "Бързи клавиши на Evolution"
 
-#: ../shell/e-shell-window-actions.c:1529
+#: ../shell/e-shell-window-actions.c:1530
 msgid "Exit the program"
 msgstr "Спиране на програмата"
 
-#: ../shell/e-shell-window-actions.c:1534
+#: ../shell/e-shell-window-actions.c:1535
 msgid "_Advanced Search..."
 msgstr "_Разширено търсене…"
 
-#: ../shell/e-shell-window-actions.c:1536
+#: ../shell/e-shell-window-actions.c:1537
 msgid "Construct a more advanced search"
 msgstr "Търсене с разширени настройки"
 
-#: ../shell/e-shell-window-actions.c:1543
+#: ../shell/e-shell-window-actions.c:1544
 msgid "Clear the current search parameters"
 msgstr "Изчистване на търсенето"
 
-#: ../shell/e-shell-window-actions.c:1548
+#: ../shell/e-shell-window-actions.c:1549
 msgid "_Edit Saved Searches..."
 msgstr "_Редактиране на запазени търсения…"
 
-#: ../shell/e-shell-window-actions.c:1550
+#: ../shell/e-shell-window-actions.c:1551
 msgid "Manage your saved searches"
 msgstr "Управление на запазени търсения"
 
-#: ../shell/e-shell-window-actions.c:1557
+#: ../shell/e-shell-window-actions.c:1558
 msgid "Click here to change the search type"
 msgstr "Натиснете тук, за да промените типа търсене"
 
-#: ../shell/e-shell-window-actions.c:1562
+#: ../shell/e-shell-window-actions.c:1563
 msgid "_Find Now"
 msgstr "_Намиране сега"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1564
+#: ../shell/e-shell-window-actions.c:1565
 msgid "Execute the current search parameters"
 msgstr "Търсене с тези параметри"
 
-#: ../shell/e-shell-window-actions.c:1569
+#: ../shell/e-shell-window-actions.c:1570
 msgid "_Save Search..."
 msgstr "_Запазване на търсенето…"
 
-#: ../shell/e-shell-window-actions.c:1571
+#: ../shell/e-shell-window-actions.c:1572
 msgid "Save the current search parameters"
 msgstr "Запазване на текущите параметри на търсенето"
 
-#: ../shell/e-shell-window-actions.c:1583
+#: ../shell/e-shell-window-actions.c:1584
 msgid "Send / _Receive"
 msgstr "П_оща"
 
-#: ../shell/e-shell-window-actions.c:1585
+#: ../shell/e-shell-window-actions.c:1586
 msgid "Send queued items and retrieve new items"
 msgstr "Изпращане на обекти, чакащи на опашката и извличане на нови обекти."
 
-#: ../shell/e-shell-window-actions.c:1590
+#: ../shell/e-shell-window-actions.c:1591
 msgid "Submit _Bug Report..."
 msgstr "Изпращане на _доклад за грешка…"
 
-#: ../shell/e-shell-window-actions.c:1592
+#: ../shell/e-shell-window-actions.c:1593
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Изпращане на доклад за грешка чрез Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1597
+#: ../shell/e-shell-window-actions.c:1598
 msgid "GNOME Pilot _Synchronization..."
 msgstr "Синхронизи_ране с GNOME Pilot…"
 
-#: ../shell/e-shell-window-actions.c:1599
+#: ../shell/e-shell-window-actions.c:1600
 msgid "Set up GNOME Pilot configuration"
 msgstr "Настройки на GNOME Pilot"
 
-#: ../shell/e-shell-window-actions.c:1604
+#: ../shell/e-shell-window-actions.c:1605
 msgid "_Work Offline"
 msgstr "Работа в режим „_Изключен“"
 
-#: ../shell/e-shell-window-actions.c:1606
+#: ../shell/e-shell-window-actions.c:1607
 msgid "Put Evolution into offline mode"
 msgstr "Превключване в режим „Изключен“"
 
-#: ../shell/e-shell-window-actions.c:1611
+#: ../shell/e-shell-window-actions.c:1612
 msgid "_Work Online"
 msgstr "Работа в режим „_Включен“"
 
-#: ../shell/e-shell-window-actions.c:1613
+#: ../shell/e-shell-window-actions.c:1614
 msgid "Put Evolution into online mode"
 msgstr "Превключване в режим „Включен“"
 
-#: ../shell/e-shell-window-actions.c:1641
+#: ../shell/e-shell-window-actions.c:1642
 msgid "Lay_out"
 msgstr "Подред_ба"
 
-#: ../shell/e-shell-window-actions.c:1648
+#: ../shell/e-shell-window-actions.c:1649
 msgid "_New"
 msgstr "_Нов"
 
-#: ../shell/e-shell-window-actions.c:1655
+#: ../shell/e-shell-window-actions.c:1656
 msgid "_Search"
 msgstr "_Търсене"
 
-#: ../shell/e-shell-window-actions.c:1662
+#: ../shell/e-shell-window-actions.c:1663
 msgid "_Switcher Appearance"
 msgstr "_Изглед на превключвател"
 
-#: ../shell/e-shell-window-actions.c:1676
+#: ../shell/e-shell-window-actions.c:1677
 msgid "_Window"
 msgstr "_Прозорец"
 
-#: ../shell/e-shell-window-actions.c:1705
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show Side _Bar"
 msgstr "Ст_ранична лента"
 
-#: ../shell/e-shell-window-actions.c:1707
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show the side bar"
 msgstr "Странична лента"
 
-#: ../shell/e-shell-window-actions.c:1713
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Buttons"
 msgstr "_Бутони"
 
-#: ../shell/e-shell-window-actions.c:1715
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show the switcher buttons"
 msgstr "Показване на бутоните за превключване"
 
-#: ../shell/e-shell-window-actions.c:1721
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Status Bar"
 msgstr "Лента за _състоянието"
 
-#: ../shell/e-shell-window-actions.c:1723
+#: ../shell/e-shell-window-actions.c:1724
 msgid "Show the status bar"
 msgstr "Показване на лентата за _състоянието"
 
-#: ../shell/e-shell-window-actions.c:1729
+#: ../shell/e-shell-window-actions.c:1730
 msgid "Show _Tool Bar"
 msgstr "Лента с _инструменти"
 
-#: ../shell/e-shell-window-actions.c:1731
+#: ../shell/e-shell-window-actions.c:1732
 msgid "Show the tool bar"
 msgstr "Показване на лентата с инструменти"
 
-#: ../shell/e-shell-window-actions.c:1753
+#: ../shell/e-shell-window-actions.c:1754
 msgid "_Icons Only"
 msgstr "Са_мо икони"
 
-#: ../shell/e-shell-window-actions.c:1755
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Display window buttons with icons only"
 msgstr "Изобразяване на бутоните само с икони"
 
-#: ../shell/e-shell-window-actions.c:1760
+#: ../shell/e-shell-window-actions.c:1761
 msgid "_Text Only"
 msgstr "Само _текст"
 
-#: ../shell/e-shell-window-actions.c:1762
+#: ../shell/e-shell-window-actions.c:1763
 msgid "Display window buttons with text only"
 msgstr "Изобразяване на бутоните само с текст"
 
-#: ../shell/e-shell-window-actions.c:1767
+#: ../shell/e-shell-window-actions.c:1768
 msgid "Icons _and Text"
 msgstr "_Икони и текст"
 
-#: ../shell/e-shell-window-actions.c:1769
+#: ../shell/e-shell-window-actions.c:1770
 msgid "Display window buttons with icons and text"
 msgstr "Изобразяване на бутоните с икони и текст"
 
-#: ../shell/e-shell-window-actions.c:1774
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Tool_bar Style"
 msgstr "Лента с _инструменти"
 
-#: ../shell/e-shell-window-actions.c:1776
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Изобразяване на бутоните съобразно настройките на работната среда"
 
-#: ../shell/e-shell-window-actions.c:1784
+#: ../shell/e-shell-window-actions.c:1785
 msgid "Define Views..."
 msgstr "Определяне на изгледите…"
 
-#: ../shell/e-shell-window-actions.c:1786
+#: ../shell/e-shell-window-actions.c:1787
 msgid "Create or edit views"
 msgstr "Създаване или редактиране на изглед"
 
-#: ../shell/e-shell-window-actions.c:1791
+#: ../shell/e-shell-window-actions.c:1792
 msgid "Save Custom View..."
 msgstr "Запазване на личния изглед…"
 
-#: ../shell/e-shell-window-actions.c:1793
+#: ../shell/e-shell-window-actions.c:1794
 msgid "Save current custom view"
 msgstr "Запазване на текущия изглед"
 
-#: ../shell/e-shell-window-actions.c:1800
+#: ../shell/e-shell-window-actions.c:1801
 msgid "C_urrent View"
 msgstr "_Текущ изглед"
 
-#: ../shell/e-shell-window-actions.c:1810
+#: ../shell/e-shell-window-actions.c:1811
 msgid "Custom View"
 msgstr "Личен изглед"
 
-#: ../shell/e-shell-window-actions.c:1812
+#: ../shell/e-shell-window-actions.c:1813
 msgid "Current view is a customized view"
 msgstr "Текущият изглед е персонализиран"
 
-#: ../shell/e-shell-window-actions.c:1822
+#: ../shell/e-shell-window-actions.c:1823
 msgid "Change the page settings for your current printer"
 msgstr "Настройване на страницата за текущия принтер"
 
-#: ../shell/e-shell-window-actions.c:2199
+#: ../shell/e-shell-window-actions.c:2200
 #, c-format
 msgid "Switch to %s"
 msgstr "Превключване към %s"
 
-#: ../shell/e-shell-window-actions.c:2412
+#: ../shell/e-shell-window-actions.c:2413
 msgid "Execute these search parameters"
 msgstr "Търсене с тези параметри"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:566
+#: ../shell/e-shell-window-private.c:567
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s — Evolution"
@@ -20421,68 +20420,68 @@ msgstr "%s — Evolution"
 msgid "New"
 msgstr "Нов"
 
-#: ../shell/e-shell-window.c:617
+#: ../shell/e-shell-window.c:616
 msgid "Active Shell View"
 msgstr "Активен изглед на интерфейса"
 
-#: ../shell/e-shell-window.c:618
+#: ../shell/e-shell-window.c:617
 msgid "Name of the active shell view"
 msgstr "Име на новия изглед на интерфейса"
 
-#: ../shell/e-shell-window.c:633
+#: ../shell/e-shell-window.c:632
 msgid "The shell window's EFocusTracker"
 msgstr ""
 "Обектът EFocusTracker за проследяване на фокуса на прозореца на интерфейса"
 
-#: ../shell/e-shell-window.c:647 ../shell/e-shell.c:803
+#: ../shell/e-shell-window.c:646 ../shell/e-shell.c:803
 msgid "Geometry"
 msgstr "Геометрия"
 
-#: ../shell/e-shell-window.c:648 ../shell/e-shell.c:804
+#: ../shell/e-shell-window.c:647 ../shell/e-shell.c:804
 msgid "Initial window geometry string"
 msgstr "Начален низ за геометрия на прозорец"
 
-#: ../shell/e-shell-window.c:663
+#: ../shell/e-shell-window.c:662
 msgid "Safe Mode"
 msgstr "Безопасен режим"
 
-#: ../shell/e-shell-window.c:664
+#: ../shell/e-shell-window.c:663
 msgid "Whether the shell window is in safe mode"
 msgstr "Дали интерфейсът да е в безопасен режим"
 
-#: ../shell/e-shell-window.c:695
+#: ../shell/e-shell-window.c:694
 msgid "Sidebar Visible"
 msgstr "Страничната лента е видима"
 
-#: ../shell/e-shell-window.c:696
+#: ../shell/e-shell-window.c:695
 msgid "Whether the shell window's side bar is visible"
 msgstr "Дали страничната лента на интерфейса е видима."
 
-#: ../shell/e-shell-window.c:710
+#: ../shell/e-shell-window.c:709
 msgid "Switcher Visible"
 msgstr "Превключвателят а е видим"
 
-#: ../shell/e-shell-window.c:711
+#: ../shell/e-shell-window.c:710
 msgid "Whether the shell window's switcher buttons are visible"
 msgstr "Дали бутоните-превключвачи на прозореца на интерфейса да са видими."
 
-#: ../shell/e-shell-window.c:726
+#: ../shell/e-shell-window.c:725
 msgid "Taskbar Visible"
 msgstr "Лентата за задачи е видима"
 
-#: ../shell/e-shell-window.c:727
+#: ../shell/e-shell-window.c:726
 msgid "Whether the shell window's task bar is visible"
 msgstr "Дали лентата за задачите на интерфейса е видима."
 
-#: ../shell/e-shell-window.c:742
+#: ../shell/e-shell-window.c:741
 msgid "Whether the shell window's tool bar is visible"
 msgstr "Дали лентата за инструментите на интерфейса е видима."
 
-#: ../shell/e-shell-window.c:756
+#: ../shell/e-shell-window.c:755
 msgid "UI Manager"
 msgstr "Мениджър на графичния интерфейс"
 
-#: ../shell/e-shell-window.c:757
+#: ../shell/e-shell-window.c:756
 msgid "The shell window's GtkUIManager"
 msgstr "Обектът GtkUIManager за управление на прозореца на интерфейса"
 
@@ -20569,63 +20568,63 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "Да не се показва отново"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:322
 msgid "Start Evolution activating the specified component"
 msgstr ""
 "Стартиране на Evolution, активирайки\n"
 "                                    избрания компонент"
 
-#: ../shell/main.c:321
+#: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
 msgstr "Прилагане на зададената геометрия на главния прозорец"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "Стартиране в режим „Включен“"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:330
 msgid "Start in \"express\" mode"
 msgstr "Стартиране в „бърз“ режим "
 
-#: ../shell/main.c:330
+#: ../shell/main.c:333
 msgid "Forcibly shut down Evolution"
 msgstr "Принудително спиране на Evolution"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:337
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Принудително мигриране от Evolution 1.4"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:340
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 "Изпращане изхода за изчистване на грешки на\n"
 "                                    всички компоненти във файл."
 
-#: ../shell/main.c:339
+#: ../shell/main.c:342
 msgid "Disable loading of any plugins."
 msgstr ""
 "Спиране зареждането на каквито и да е\n"
 "                                    приставки."
 
-#: ../shell/main.c:341
+#: ../shell/main.c:344
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 "Изключване на панела за преглед за Поща,\n"
 "                                    Контакти и Задачи."
 
-#: ../shell/main.c:345
+#: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Внасяне на адреси или файлове подадени като допълнителни аргументи."
 
-#: ../shell/main.c:347
+#: ../shell/main.c:350
 msgid "Request a running Evolution process to quit"
 msgstr "Заявка за спиране на Evolution"
 
-#: ../shell/main.c:511
+#: ../shell/main.c:465
 msgid "- The Evolution PIM and Email Client"
 msgstr " — организатор и пощенски клиент — Evolution"
 
-#: ../shell/main.c:537
+#: ../shell/main.c:491
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
