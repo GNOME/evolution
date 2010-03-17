@@ -272,7 +272,7 @@ guess_when_offline (EmailProvider *provider)
 {
 	char *filename;
 	char *contents;
-	gssize length;
+	gsize length;
 	gboolean success;
 
 	if (!provider->domain || provider->domain[0] == 0)
