@@ -42,6 +42,8 @@
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
+#include <shell/e-shell.h>
+
 #include "mail-guess-servers.h"
 
 static char *
@@ -219,9 +221,21 @@ parse_soup_message (SoupMessage *msg, EmailProvider *provider)
 }
 
 static gboolean
-is_offline (void)
+is_online (void)
 {
-	return FALSE; /* FIXME */
+	EShell *shell;
+
+	shell = e_shell_get_default ();
+	if (!shell) {
+		 /* FIXME: do we always have a shell?  What do we do if one
+		  * hasn't been created yet?  e_shell_get_default() won't create
+		  * a shell; it will just return one that has been created
+		  * before.
+		  */
+		return FALSE;
+	}
+
+	return e_shell_get_online (shell);
 }
 
 static gboolean
