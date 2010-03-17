@@ -311,10 +311,10 @@ out:
 gboolean
 mail_guess_servers(EmailProvider *provider)
 {
-	if (is_offline ())
-		return guess_when_offline (provider);
+	if (is_online () && guess_when_online (provider))
+		return TRUE;
 	else
-		return guess_when_online (provider);
+		return guess_when_offline (provider);
 }
 
 #ifdef TEST
