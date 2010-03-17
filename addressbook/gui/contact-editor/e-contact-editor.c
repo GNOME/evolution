@@ -748,6 +748,23 @@ init_email (EContactEditor *editor)
 
 	for (i = 1; i <= EMAIL_SLOTS; i++)
 		init_email_record_location (editor, i);
+
+	if (editor->compress_ui) {
+		GtkTable  *table;
+		GtkWidget *check;
+
+		gtk_widget_hide (e_builder_get_widget (editor->builder, "entry-email-4"));
+		gtk_widget_hide (e_builder_get_widget (editor->builder, "combobox-email-4"));
+
+		table = GTK_TABLE (e_builder_get_widget (editor->builder, "email-table"));
+		check = e_builder_get_widget (editor->builder, "checkbutton-htmlmail");
+		if (check != NULL && table != NULL) {
+			g_object_ref (G_OBJECT (check));
+			gtk_container_remove (GTK_CONTAINER (check->parent), check);
+			gtk_table_attach_defaults (table, check, 2, 4, 1, 2);
+			g_object_unref (G_OBJECT (check));
+		}
+	}
 }
 
 static void
@@ -1457,6 +1474,11 @@ init_im_record_service (EContactEditor *editor, gint record)
 	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
 	service_combo_box = e_builder_get_widget (editor->builder, widget_name);
 	g_free (widget_name);
+
+	if (editor->compress_ui && record > 2) {
+		gtk_widget_hide (name_entry);
+		gtk_widget_hide (service_combo_box);
+	}
 
 	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (service_combo_box));
 
@@ -3402,6 +3424,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->target_editable = TRUE;
 	e_contact_editor->fullname_dialog = NULL;
 	e_contact_editor->categories_dialog = NULL;
+	e_contact_editor->compress_ui = e_shell_get_express_mode (e_shell_get_default ());
 
 	e_contact_editor->load_source_id = 0;
 	e_contact_editor->load_book = NULL;

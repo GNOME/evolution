@@ -84,6 +84,9 @@ struct _EContactEditor
 	/* Whether an image is changed */
 	guint image_changed : 1;
 
+	/* Whether to try to reduce space used */
+	guint compress_ui : 1;
+
 	EList *writable_fields;
 
 	EList *required_fields;

@@ -424,7 +424,7 @@
                         <property name="label_yalign">0.5</property>
                         <property name="shadow_type">GTK_SHADOW_NONE</property>
                         <child>
-                          <object class="GtkTable" id="table85">
+                          <object class="GtkTable" id="email-table">
                             <property name="border_width">12</property>
                             <property name="visible">True</property>
                             <property name="n_rows">3</property>
@@ -1080,7 +1080,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="entry-im-name-2">
+                              <object class="GtkEntry" id="entry-im-name-3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="editable">True</property>
@@ -1099,7 +1099,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="entry-im-name-3">
+                              <object class="GtkEntry" id="entry-im-name-2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="editable">True</property>
@@ -1152,7 +1152,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="combobox-im-service-2">
+                              <object class="GtkComboBox" id="combobox-im-service-3">
                                 <property name="visible">True</property>
                                 <property name="add_tearoffs">False</property>
                                 <property name="focus_on_click">True</property>
@@ -1167,7 +1167,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="combobox-im-service-3">
+                              <object class="GtkComboBox" id="combobox-im-service-2">
                                 <property name="visible">True</property>
                                 <property name="add_tearoffs">False</property>
                                 <property name="focus_on_click">True</property>
