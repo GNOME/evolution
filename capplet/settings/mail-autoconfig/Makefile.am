@@ -179,7 +179,7 @@ autoconfig_DATA =				\
 	ypost.plala.or.jp			\
 	zmail.plala.or.jp
 
-autoconfigdir = $(pkgdatadir)/evolution/mail-autoconfig
+autoconfigdir = $(privdatadir)/mail-autoconfig
 
 EXTRA_DIST =			\
 	$(autoconfig_DATA)	\

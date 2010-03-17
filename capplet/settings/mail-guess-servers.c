@@ -279,7 +279,7 @@ guess_when_online (EmailProvider *provider)
 static char *
 get_filename_for_offline_autoconfig (const char *domain)
 {
-	return g_build_filename (PACKAGE_DATA_DIR, "evolution/mail-autoconfig", domain, NULL);
+	return g_build_filename (EVOLUTION_PRIVDATADIR, "mail-autoconfig", domain, NULL);
 }
 
 static gboolean
