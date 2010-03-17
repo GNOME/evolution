@@ -50,8 +50,6 @@ autoconfig_DATA =				\
 	freenet.de				\
 	fuga.plala.or.jp			\
 	gmail.com				\
-	gmail.com				\
-	gmail.com				\
 	gmail.plala.or.jp			\
 	gmx.com					\
 	gmx.net					\
