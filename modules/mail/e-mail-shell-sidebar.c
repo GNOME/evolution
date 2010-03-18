@@ -178,6 +178,39 @@ mail_shell_sidebar_constructed (GObject *object)
 		shell_sidebar);
 }
 
+static void
+mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
+{
+	/* We override the normal size-request handler so that we can
+	 * spit out a treeview with a suitable width.  We measure the length
+	 * of a typical string and use that as the requisition's width.
+	 *
+	 * EMFolderTreeClass, our parent class, is based on GtkTreeView, which
+	 * doesn't really have a good way of figuring out a minimum width for
+	 * the tree.  This is really GTK+'s fault at large, as it only has
+	 * "minimum size / allocated size", instead of "minimum size / preferred
+	 * size / allocated size".  Hopefully the extended-layout branch of GTK+
+	 * will get merged soon and then we can remove this crap.
+	 */
+
+	PangoLayout *layout;
+	PangoRectangle ink_rect;
+	GtkStyle *style;
+	int border;
+
+	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+
+	/* This string is a mockup only; it doesn't need to be translated */
+	layout = gtk_widget_create_pango_layout (widget, "typical.account@mailservice.com");
+	pango_layout_get_pixel_extents (layout, &ink_rect, NULL);
+	g_object_unref (layout);
+
+	style = gtk_widget_get_style (widget);
+
+	border = 2 * style->xthickness + 4; /* Thickness of frame shadow plus some slack for padding */
+	requisition->width = MAX (requisition->width, ink_rect.width + border);
+}
+
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
@@ -194,6 +227,7 @@ static void
 mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -203,6 +237,9 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	object_class->get_property = mail_shell_sidebar_get_property;
 	object_class->dispose = mail_shell_sidebar_dispose;
 	object_class->constructed = mail_shell_sidebar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->size_request = mail_shell_sidebar_size_request;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;
