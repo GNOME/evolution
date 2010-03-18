@@ -211,14 +211,6 @@ mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	requisition->width = MAX (requisition->width, ink_rect.width + border);
 }
 
-static void
-mail_shell_sidebar_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
-{
-	GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
-	g_print ("EMailShellSidebar allocation: %dx%d\n", allocation->width, allocation->height);
-}
-
-
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
@@ -248,7 +240,6 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = mail_shell_sidebar_size_request;
-	widget_class->size_allocate = mail_shell_sidebar_size_allocate;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;
