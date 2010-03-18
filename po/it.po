@@ -10,7 +10,6 @@
 # Monica Badia <Monica.Badia@Sun.COM>, 2003 
 # Craig Jeffares <cjeffares@novell.com>, 2004 
 # Milo Casagrande <milo@ubuntu.com>, 2009
-# Luca Ferretti <lferrett@gnome.org>, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
 #
 #  Convenzioni adottate: 	 
 #
@@ -31,15 +30,15 @@
 # Nota: a causa delle mie limitate capacità mentali, ho rimosso
 # molti commenti utili alla traduzione. Grazie all'svn e proverò
 # a recuperarli in seguito.  -Luca
-#
+# Luca Ferretti <lferrett@gnome.org>, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
 #: ../shell/main.c:479
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.26\n"
+"Project-Id-Version: evolution 2.30\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-03-18 14:34+0000\n"
-"PO-Revision-Date: 2010-03-18 16:03+0100\n"
+"POT-Creation-Date: 2010-03-18 16:55+0000\n"
+"PO-Revision-Date: 2010-03-18 22:33+0100\n"
 "Last-Translator: Luca Ferretti <lferrett@gnome.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -329,7 +328,7 @@ msgstr "Contatto"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:590
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:605
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2520
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2498
 msgid "Contact Editor"
 msgstr "Editor dei contatti"
 
@@ -649,20 +648,20 @@ msgid "Changed"
 msgstr "Cambiato"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:600
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2515
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2493
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor dei contatti - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2912
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2890
 msgid "Please select an image for this contact"
 msgstr "Selezionare un'immagine per questo contatto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2913
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2891
 msgid "_No image"
 msgstr "_Nessuna immagine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3186
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3164
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -670,23 +669,23 @@ msgstr ""
 "I dati del contatto non sono validi:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3190
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3168
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» presenta un formato non valido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3197
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3175
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» presenta un formato non valido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3212
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3223
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3190
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3201
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» è vuoto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3237
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3215
 msgid "Invalid contact."
 msgstr "Contatto non valido."
 
@@ -8702,156 +8701,159 @@ msgstr "_Recupera"
 msgid "_Save Draft"
 msgstr "_Salva bozza"
 
+# GNOME-2.30
 #: ../capplet/anjal-settings-main.c:202
 msgid "Run Anjal in a window"
-msgstr ""
+msgstr "Esegue Anjal in una finestra"
 
+# GNOME-2.30
 #: ../capplet/anjal-settings-main.c:203
-#, fuzzy
-#| msgid "Mark as _default memo list"
 msgid "Make Anjal the default email client"
-msgstr "Contrassegna come elenco memo pre_definito"
+msgstr "Rende Anjal il client email predefinito"
 
+# GNOME-2.30
 #. TRANSLATORS: don't translate the terms in brackets
 #: ../capplet/anjal-settings-main.c:210
 msgid "ID of the socket to embed in"
-msgstr ""
+msgstr "ID del socket da integrare"
 
+# GNOME-2.30
 #: ../capplet/anjal-settings-main.c:211
-#, fuzzy
-#| msgid "sort"
 msgid "socket"
-msgstr "ordina"
+msgstr "SOCKET"
 
+# GNOME-2.30
 #: ../capplet/anjal-settings-main.c:225
-#, fuzzy
-#| msgid "Default Mail Client"
 msgid "Anjal email client"
-msgstr "Client email predefinito"
+msgstr "Client email Anjal"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-view.c:244
-#, fuzzy
-#| msgid "New _Task"
 msgid "New Tab"
-msgstr "Nuova a_ttività"
+msgstr "Nuova scheda"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:56
-#, fuzzy
-#| msgid "Please enter user name first."
 msgid "Please enter your full name."
-msgstr "Inserire come primo il nome utente."
+msgstr "Inserire il proprio nome completo."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:57
-#, fuzzy
-#| msgid "Please enter user name first."
 msgid "Please enter your email address."
-msgstr "Inserire come primo il nome utente."
+msgstr "Inserire il proprio indirizzo email."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:58
 msgid "The email address you have entered is invalid."
-msgstr ""
+msgstr "L'indirizzo email inserito non è valido."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:224
-#, fuzzy
-#| msgid "<span weight=\"bold\">Delete Mail</span>"
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span weight=\"bold\">Eliminazione posta</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Dettagli personali:</span>"
 
-# GNOME-2-24
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:229
-#, fuzzy
-#| msgid "_Name:"
 msgid "Name:"
-msgstr "No_me:"
+msgstr "Nome:"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:238
-#, fuzzy
-#| msgid "Email address"
 msgid "Email address:"
-msgstr "Indirizzo email"
+msgstr "Indirizzo email:"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:248
-#, fuzzy
-#| msgid "<span weight=\"bold\">General</span>"
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr "<span weight=\"bold\">Generale</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Dettagli di ricezione:</span>"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:253
 #: ../capplet/settings/mail-account-view.c:303
-#, fuzzy
-#| msgid "Server _Type:"
 msgid "Server type:"
-msgstr "_Tipo di server:"
+msgstr "Tipo di server:"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:262
 #: ../capplet/settings/mail-account-view.c:312
-#, fuzzy
-#| msgid "Server Message:"
 msgid "Server address:"
-msgstr "Messaggio del server:"
+msgstr "Indirizzo del server:"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:272
 #: ../capplet/settings/mail-account-view.c:322
-#, fuzzy
-#| msgid "Us_ername:"
 msgid "Username:"
-msgstr "Nome ut_ente:"
+msgstr "Nome utente:"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:281
 #: ../capplet/settings/mail-account-view.c:331
-#, fuzzy
-#| msgid "No encryption"
 msgid "Use encryption:"
-msgstr "Nessuna cifratura"
+msgstr "Usare la crittografia:"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:286
 #: ../capplet/settings/mail-account-view.c:336
-#, fuzzy
-#| msgid "Never"
 msgid "never"
-msgstr "Mai"
+msgstr "mai"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:298
-#, fuzzy
-#| msgid "<span weight=\"bold\">General</span>"
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr "<span weight=\"bold\">Generale</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Dettagli di invio:</span>"
 
+# GNOME-2.30GNOME-2.30
+# infedellissima...
 #: ../capplet/settings/mail-account-view.c:355
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
 "If we can't do it automatically you'll need your server details as well."
 msgstr ""
+"Per usare l'applicazione per le email è necessario impostare un account. "
+"Inserire qui sotto il proprio indirizzo email e la password, verrà tentato "
+"di impostare automaticamente quanto necessario. Se non dovesse funzionare, "
+"sarà necessario indicare i dettagli del server di posta."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:357
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
+"Non è stato possibile inserire automaticamente le impostazioni di email. "
+"Specificarle qui di seguito, cambiando ove necessario i dati che sono stati "
+"preimpostati, ricavati a partire dalle indicazioni fornite."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:359
-#, fuzzy
-#| msgid "You may only configure a single Exchange account."
 msgid "You can specify more options to configure the account."
-msgstr "È possibile configurare solo un singolo account Exchange."
+msgstr "È possibile specificare maggiori opzioni per configurare l'account."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:361
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
 msgstr ""
+"Impostazioni per l'invio della posta. Cambiare ove necessario quelle "
+"preimpostate, ricavate come supposizione dai dettagli forniti."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:362
 msgid "You can specify your default settings for your account."
 msgstr ""
+"È possibile specificare le impostazioni predefinite per il proprio account."
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:363
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
 msgstr ""
+"Verificare un'ultima volta le impostazioni prima di tentare la connessione "
+"al server e la ricezione delle email."
 
 #: ../capplet/settings/mail-account-view.c:378
 #: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
@@ -8859,135 +8861,115 @@ msgstr ""
 msgid "Identity"
 msgstr "Identità"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:378
-#, fuzzy
-#| msgid "Receiving Email"
 msgid "Next - Receiving mail"
-msgstr "Ricezione email"
+msgstr "Avanti - Ricezione email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
-#| msgid "Receiving Email"
 msgid "Receiving mail"
 msgstr "Ricezione email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:379
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
-#| msgid "Sending Email"
 msgid "Next - Sending mail"
-msgstr "Invio email"
+msgstr "Avanti - Invio email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
-#| msgid "Identity"
 msgid "Back - Identity"
-msgstr "Identità"
+msgstr "Indietro - Identià"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
-#| msgid "Receiving Options"
 msgid "Next - Receiving options"
-msgstr "Opzioni ricezione"
+msgstr "Avanti - Opzioni di ricezione"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
-#| msgid "Receiving Options"
 msgid "Receiving options"
-msgstr "Opzioni ricezione"
+msgstr "Opzioni di ricezione"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:380
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
-#| msgid "Receiving Email"
 msgid "Back - Receiving mail"
-msgstr "Ricezione email"
+msgstr "Indietro - Ricezione email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
-#| msgid "Sending Email"
 msgid "Sending mail"
 msgstr "Invio email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:382
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
-#| msgid "Delete account?"
 msgid "Next - Review account"
-msgstr "Eliminare l'account?"
+msgstr "Avanti - Revisione account"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
-#| msgid "Defaults"
 msgid "Next - Defaults"
-msgstr "Predefiniti"
+msgstr "Avanti - Predefiniti"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
-#| msgid "Receiving Options"
 msgid "Back - Receiving options"
-msgstr "Opzioni ricezione"
+msgstr "Indietro - Opzioni di ricezione"
 
 #: ../capplet/settings/mail-account-view.c:383
 #: ../mail/em-account-editor.c:2774 ../mail/mail-config.ui.h:31
 msgid "Defaults"
 msgstr "Predefiniti"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
-#| msgid "Sending Email"
 msgid "Back - Sending mail"
-msgstr "Invio email"
+msgstr "Indietro - Invio email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
-#| msgid "Delete account?"
 msgid "Review account"
-msgstr "Eliminare l'account?"
+msgstr "Revisione account"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
-#| msgid "Fiji"
 msgid "Finish"
-msgstr "Fiji"
+msgstr "Fine"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
-#| msgid "Ascending"
 msgid "Back - Sending"
-msgstr "Crescente"
+msgstr "Indietro - Invio"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:719
 #: ../capplet/settings/mail-settings-view.c:266
-#, fuzzy
-#| msgid "Close"
 msgid "Close Tab"
-msgstr "Chiudi"
+msgstr "Chiudi scheda"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-account-view.c:729
-#, fuzzy
-#| msgid "Account Editor"
 msgid "Account Wizard"
-msgstr "Editor account"
+msgstr "Assistente account"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-capplet-shell.c:284
-#, fuzzy
-#| msgid "Evolution Account Assistant"
 msgid "Evolution account assistant"
 msgstr "Assistente agli account di Evolution"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-capplet-shell.c:320
 #: ../data/evolution-settings.desktop.in.in.h:2
-#, fuzzy
-#| msgid "Junk Mail Settings"
 msgid "Email Settings"
-msgstr "Impostazioni posta indesiderata"
+msgstr "Impostazioni email"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-capplet-shell.c:334
-#, fuzzy
-#| msgid "_Quit"
 msgid "Quit"
-msgstr "_Esci"
+msgstr "Esci"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
@@ -9012,23 +8994,20 @@ msgstr "Su questo computer"
 msgid "Modify"
 msgstr "Modifica"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-settings-view.c:150
-#, fuzzy
-#| msgid "Add IM Account"
 msgid "Add a new account"
-msgstr "Aggiungi account IM"
+msgstr "Aggiungi un nuovo account"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-settings-view.c:185
-#, fuzzy
-#| msgid "<span weight=\"bold\">Account Information</span>"
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr "<span weight=\"bold\">Informazioni account</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Gestione account</span>"
 
+# GNOME-2.30
 #: ../capplet/settings/mail-settings-view.c:276
-#, fuzzy
-#| msgid "Junk Settings"
 msgid "Settings"
-msgstr "Impostazioni posta indesiderata"
+msgstr "Impostazioni"
 
 # GNOME-2.30
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
@@ -9059,11 +9038,10 @@ msgstr "Suite groupware"
 msgid "Manage your email, contacts and schedule"
 msgstr "Gestisce le proprie email, i contatti e progetti"
 
+# GNOME-2.30
 #: ../data/evolution-settings.desktop.in.in.h:1
-#, fuzzy
-#| msgid "Configure your email accounts here"
 msgid "Configure email accounts"
-msgstr "Configura gli account di posta elettronica"
+msgstr "Configura gli account email"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -20475,11 +20453,10 @@ msgstr "Stato predefinito finestra"
 msgid "Default window width"
 msgstr "Larghezza predefinita finestra"
 
+# GNOME-2-30
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-#, fuzzy
-#| msgid "Enable search folders"
 msgid "Enable express mode"
-msgstr "Abilita le cartelle di ricerca"
+msgstr "Abilita la modalità espressa"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid ""
@@ -20488,9 +20465,10 @@ msgstr ""
 "Abilita le impostazioni del proxy quando si accede a HTTP/Secure HTTP "
 "attraverso Internet."
 
+# GNOME-2.30
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "Opzione che abilita una interfaccia utente più semplice"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
@@ -21385,10 +21363,10 @@ msgstr "Il GtkUIManager della finestra di shell"
 msgid "Preparing to go offline..."
 msgstr "Preparazione per fuori rete..."
 
+# GNOME-2.30
 #: ../shell/e-shell.c:262
-#, fuzzy
 msgid "Preparing to go online..."
-msgstr "Preparazione per in rete..."
+msgstr "Preparazione per passare a in rete..."
 
 # GNOME-2.30
 #: ../shell/e-shell.c:330
@@ -21486,11 +21464,10 @@ msgstr "Applica la geometria indicata alla finestra principale"
 msgid "Start in online mode"
 msgstr "Avvia in modalità in rete"
 
+# GNOME-2.30
 #: ../shell/main.c:330
-#, fuzzy
-#| msgid "Start in online mode"
 msgid "Start in \"express\" mode"
-msgstr "Avvia in modalità in rete"
+msgstr "Avvia in modalità \"espressa\""
 
 # GNOME-2.30
 #: ../shell/main.c:333
@@ -21513,10 +21490,12 @@ msgstr "Disabilita il caricamento di qualsiasi plugin."
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Disabilita il riquadro anteprima di Posta, Contatti e Attività."
 
+# GNOME-2.30
+# sarebbe da provare cosa fa...
 #: ../shell/main.c:348
-#, fuzzy
 msgid "Import URIs or file names given as rest of arguments."
-msgstr "Importa gli URI o i nomi di file indicati come resto degli argomenti."
+msgstr ""
+"Importa come URI o nomi di file quanto indicato nel resto degli argomenti"
 
 # GNOME-2.30
 #: ../shell/main.c:350
