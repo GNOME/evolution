@@ -303,6 +303,36 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
+	if(e_shell_get_express_mode(e_shell_get_default())) {
+		GtkWidget *widget, *item;
+		GdkScreen *scr;
+		gint monitor;
+		GdkRectangle rect;
+
+		/* Hack: Get rid of New and Send/Receive in toolbar 
+		 * while in express mode */
+		widget = e_shell_window_get_managed_widget (
+			shell_window, "/main-toolbar");
+
+		item = (GtkWidget *)gtk_toolbar_get_nth_item ((GtkToolbar *)widget, 0);
+		gtk_widget_hide(item);
+	
+		widget = e_shell_window_get_managed_widget (
+			shell_window, "/main-menu");
+		gtk_widget_hide(widget);
+		
+		item = e_shell_window_get_managed_widget (
+			shell_window, "/main-toolbar/send-receive");
+		gtk_widget_hide(item);	
+
+		scr = gdk_screen_get_default ();
+		monitor = gdk_screen_get_monitor_at_window (scr, GTK_WIDGET (shell_window)->window);
+		gdk_screen_get_monitor_geometry (scr, monitor, &rect);
+		
+		gtk_window_set_default_size ((GtkWindow *)shell_window, rect.width, rect.height);
+		gtk_window_set_decorated ((GtkWindow *)shell_window, FALSE);
+
+	}
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	view_type = gnome_calendar_get_view (calendar);

@@ -533,35 +533,41 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
 		cal_shell_view);
 
-	g_signal_connect_swapped (
-		memo_table, "popup-event",
-		G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
-		cal_shell_view);
+	if (memo_table) 
+		g_signal_connect_swapped (
+			memo_table, "popup-event",
+			G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
+			cal_shell_view);
 
-	g_signal_connect_swapped (
-		memo_table, "selection-change",
-		G_CALLBACK (e_cal_shell_view_memopad_actions_update),
-		cal_shell_view);
+	if (memo_table)
+		g_signal_connect_swapped (
+			memo_table, "selection-change",
+			G_CALLBACK (e_cal_shell_view_memopad_actions_update),
+			cal_shell_view);
 
-	g_signal_connect_swapped (
-		memo_table, "status-message",
-		G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
-		cal_shell_view);
+	if (memo_table)
+		g_signal_connect_swapped (
+			memo_table, "status-message",
+			G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
+			cal_shell_view);
 
-	g_signal_connect_swapped (
-		task_table, "popup-event",
-		G_CALLBACK (cal_shell_view_taskpad_popup_event_cb),
-		cal_shell_view);
+	if (task_table)
+		g_signal_connect_swapped (
+			task_table, "popup-event",
+			G_CALLBACK (cal_shell_view_taskpad_popup_event_cb),
+			cal_shell_view);
 
-	g_signal_connect_swapped (
-		task_table, "status-message",
-		G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
-		cal_shell_view);
-
-	g_signal_connect_swapped (
-		task_table, "selection-change",
-		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
-		cal_shell_view);
+	if (task_table)
+		g_signal_connect_swapped (
+			task_table, "status-message",
+			G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
+			cal_shell_view);
+	
+	if (task_table)
+		g_signal_connect_swapped (
+			task_table, "selection-change",
+			G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
+			cal_shell_view);
 
 	e_categories_add_change_hook (
 		(GHookFunc) e_cal_shell_view_update_search_filter,

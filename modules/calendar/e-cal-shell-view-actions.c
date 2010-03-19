@@ -1197,6 +1197,21 @@ action_event_schedule_cb (GtkAction *action,
 }
 
 static void
+quit_calendar_cb (GtkAction *action,
+                          ECalShellView *cal_shell_view)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	
+	shell = e_shell_window_get_shell (shell_window);
+	e_shell_quit (shell);
+}
+
+static void
 action_event_schedule_appointment_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
@@ -1428,6 +1443,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Converts a meeting to an appointment"),
 	  G_CALLBACK (action_event_schedule_appointment_cb) },
 
+	{ "quit-calendar",
+	  GTK_STOCK_CLOSE,
+	  N_("Quit"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (quit_calendar_cb) },
+	
 	/*** Menus ***/
 
 	{ "calendar-actions-menu",
@@ -1689,7 +1711,7 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
-
+	
 	/* Calendar Actions */
 	action_group = ACTION_GROUP (CALENDAR);
 	gtk_action_group_add_actions (
@@ -1710,8 +1732,9 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	/* Advanced Search Action */
 	action = ACTION (CALENDAR_SEARCH_ADVANCED_HIDDEN);
 	gtk_action_set_visible (action, FALSE);
-	e_shell_searchbar_set_search_option (
-		searchbar, GTK_RADIO_ACTION (action));
+	if (searchbar)
+		e_shell_searchbar_set_search_option (
+			searchbar, GTK_RADIO_ACTION (action));
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1833,18 +1856,20 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
-	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	if (searchbar) {
+		combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 
-	e_shell_view_block_execute_search (shell_view);
+		e_shell_view_block_execute_search (shell_view);
 
-	/* Use any action in the group; doesn't matter which. */
-	e_action_combo_box_set_action (combo_box, radio_action);
+		/* Use any action in the group; doesn't matter which. */
+		e_action_combo_box_set_action (combo_box, radio_action);
 
-	ii = CALENDAR_FILTER_UNMATCHED;
-	e_action_combo_box_add_separator_after (combo_box, ii);
+		ii = CALENDAR_FILTER_UNMATCHED;
+		e_action_combo_box_add_separator_after (combo_box, ii);
 
-	ii = CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS;
-	e_action_combo_box_add_separator_after (combo_box, ii);
+		ii = CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS;
+		e_action_combo_box_add_separator_after (combo_box, ii);
 
-	e_shell_view_unblock_execute_search (shell_view);
+		e_shell_view_unblock_execute_search (shell_view);
+	}
 }
