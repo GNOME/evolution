@@ -28,20 +28,34 @@
     </placeholder>
   </menubar>
   <toolbar name='main-toolbar'>
+<!-- if !EXPRESS -->		  
     <toolitem action='calendar-print'/>
     <toolitem action='delete-selection'/>
     <separator/>
+<!-- endif -->    
     <toolitem action='calendar-go-back'/>
     <toolitem action='calendar-go-today'/>
     <toolitem action='calendar-go-forward'/>
+<!-- if !EXPRESS -->		      
     <separator/>
     <toolitem action='calendar-jump-to'/>
+<!-- endif -->        
     <separator/>
     <toolitem action='calendar-view-day'/>
     <toolitem action='calendar-view-workweek'/>
+<!-- if !EXPRESS -->		      
     <toolitem action='calendar-view-week'/>
+<!-- endif -->    
+
     <toolitem action='calendar-view-month'/>
+<!-- if !EXPRESS -->		      
     <toolitem action='calendar-view-list'/>
+<!-- endif -->    
+<!-- if EXPRESS -->
+    <separator expand="true"/>
+    <toolitem action='quit-calendar'/>
+<!-- endif -->    
+
   </toolbar>
   <popup name='calendar-popup'>
     <menuitem action='calendar-new'/>
