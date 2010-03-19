@@ -17,6 +17,8 @@ libevolution_module_mail_la_SOURCES =					\
 	evolution-module-mail.c						\
 	e-mail-attachment-handler.c					\
 	e-mail-attachment-handler.h					\
+	e-mail-config-format-html.c					\
+	e-mail-config-format-html.h					\
 	e-mail-config-hook.c						\
 	e-mail-config-hook.h						\
 	e-mail-event-hook.c						\
