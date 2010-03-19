@@ -30,6 +30,8 @@
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
 
+#include "e-mail-config-format-html.h"
+
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -50,6 +52,8 @@ e_module_load (GTypeModule *type_module)
 	e_mail_shell_content_register_type (type_module);
 	e_mail_shell_sidebar_register_type (type_module);
 	e_mail_shell_view_register_type (type_module);
+
+	e_mail_config_format_html_register_type (type_module);
 }
 
 G_MODULE_EXPORT void

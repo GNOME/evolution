@@ -47,6 +47,7 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#include "e-util/e-extensible.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -965,6 +966,8 @@ efh_init (EMFormatHTML *efh,
 	g_signal_connect_swapped (
 		efh, "notify::mark-citations",
 		G_CALLBACK (em_format_redraw), NULL);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (efh));
 }
 
 GType
@@ -986,9 +989,18 @@ em_format_html_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo extensible_info = {
+			(GInterfaceInitFunc) NULL,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			em_format_get_type(), "EMFormatHTML",
 			&type_info, G_TYPE_FLAG_ABSTRACT);
+
+		g_type_add_interface_static (
+			type, E_TYPE_EXTENSIBLE, &extensible_info);
 	}
 
 	return type;

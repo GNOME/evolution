@@ -2664,31 +2664,9 @@ e_mail_reader_init (EMailReader *reader)
 
 	/* Bind properties. */
 
-	e_binding_new_full (
-		shell_settings, "mail-citation-color",
-		html_display, "citation-color",
-		e_binding_transform_string_to_color,
-		NULL, NULL);
-
-	e_binding_new (
-		shell_settings, "mail-image-loading-policy",
-		html_display, "image-loading-policy");
-
-	e_binding_new (
-		shell_settings, "mail-only-local-photos",
-		html_display, "only-local-photos");
-
 	e_binding_new (
 		shell_settings, "mail-show-animated-images",
 		web_view, "animate");
-
-	e_binding_new (
-		shell_settings, "mail-show-sender-photo",
-		html_display, "show-sender-photo");
-
-	e_binding_new (
-		shell_settings, "mail-show-real-date",
-		html_display, "show-real-date");
 
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
