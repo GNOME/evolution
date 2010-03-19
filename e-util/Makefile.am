@@ -25,6 +25,8 @@ eutilinclude_HEADERS = 				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-event.h				\
+	e-extensible.h				\
+	e-extension.h				\
 	e-file-utils.h				\
 	e-folder-map.h				\
 	e-html-utils.h				\
@@ -103,6 +105,8 @@ libeutil_la_SOURCES =				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-event.c				\
+	e-extensible.c				\
+	e-extension.c				\
 	e-file-utils.c				\
 	e-folder-map.c				\
 	e-html-utils.c				\
