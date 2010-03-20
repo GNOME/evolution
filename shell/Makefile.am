@@ -2,13 +2,6 @@ if ENABLE_TEST_COMPONENT
 SUBDIRS = . test
 endif
 
-if NM_SUPPORT
-NM_CPPFLAGS = \
-	$(DBUS_GLIB_CFLAGS) \
-	$(NM_CFLAGS)
-NM_SUPPORT_FILES = e-shell-nm.c
-endif
-
 # Executable
 bin_PROGRAMS = evolution
 
@@ -61,7 +54,6 @@ libeshell_la_CPPFLAGS =						\
 	$(SHELL_CFLAGS)
 
 libeshell_la_SOURCES =				\
-	$(NM_SUPPORT_FILES)			\
 	$(eshellinclude_HEADERS)		\
 	e-shell.c				\
 	e-shell-backend.c			\
@@ -91,10 +83,6 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(SHELL_LIBS)
-
-if NM_SUPPORT
-libeshell_la_LIBADD += $(DBUS_GLIB_LIBS)
-endif
 
 # Evolution executable
 

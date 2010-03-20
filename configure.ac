@@ -1133,18 +1133,14 @@ AC_ARG_ENABLE([nm],
 AC_MSG_CHECKING([if NetworkManager support is enabled])
 AC_MSG_RESULT([$enable_nm])
 if test "$enable_nm" = yes; then
-	PKG_CHECK_MODULES([NM], [NetworkManager >= nm_minimum_version],
-	[NM_SUPPORT="yes"],
-	[AC_MSG_ERROR([NetworkManager not found (or version < nm_minimum_version)!
-	If you want to disable NetworkManager, please append --disable-nm to configure!])])
-	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
+	PKG_CHECK_MODULES([NM], [NetworkManager >= nm_minimum_version],,
+	[AC_MSG_ERROR([NetworkManager not found (or version < nm_minimum_version).
+	If you want to disable NetworkManager, please append --disable-nm to configure.])])
 	AC_SUBST(HAVE_NM)
 	AC_SUBST(NM_CFLAGS)
-else
-	NM_SUPPORT="no"
 fi
 
-AM_CONDITIONAL([NM_SUPPORT], [test "$NM_SUPPORT" = yes])
+AM_CONDITIONAL([ENABLE_NETWORK_MANAGER], [test "$enable_nm" = yes])
 
 dnl ******************************
 dnl Camel Flags
@@ -1693,6 +1689,7 @@ modules/Makefile
 modules/addressbook/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
+modules/network-manager/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
@@ -1763,7 +1760,7 @@ fi
 
 echo "
 	LDAP support:		$msg_ldap
-	NetworkManager:		$NM_SUPPORT
+	NetworkManager:		$enable_nm
 	Pilot conduits:		$msg_pilot
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
