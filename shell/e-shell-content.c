@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-binding.h"
+#include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "filter/e-rule-editor.h"
@@ -54,7 +55,9 @@ enum {
 	PROP_SHELL_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE_WITH_CODE (
+	EShellContent, e_shell_content, GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL));
 
 static void
 shell_content_dialog_rule_changed (GtkWidget *dialog,
@@ -131,7 +134,7 @@ shell_content_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_content_parent_class)->dispose (object);
 }
 
 static void
@@ -166,6 +169,8 @@ shell_content_constructed (GObject *object)
 		shell_content->priv->searchbar = g_object_ref (widget);
 		gtk_widget_show (widget);
 	}
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -186,7 +191,7 @@ shell_content_destroy (GtkObject *gtk_object)
 	}
 
 	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (gtk_object);
+	GTK_OBJECT_CLASS (e_shell_content_parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -265,7 +270,7 @@ shell_content_forall (GtkContainer *container,
 		callback (priv->searchbar, callback_data);
 
 	/* Chain up to parent's forall() method. */
-	GTK_CONTAINER_CLASS (parent_class)->forall (
+	GTK_CONTAINER_CLASS (e_shell_content_parent_class)->forall (
 		container, include_internals, callback, callback_data);
 }
 
@@ -302,14 +307,13 @@ shell_content_construct_searchbar (EShellContent *shell_content)
 }
 
 static void
-shell_content_class_init (EShellContentClass *class)
+e_shell_content_class_init (EShellContentClass *class)
 {
 	GObjectClass *object_class;
 	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellContentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -349,37 +353,11 @@ shell_content_class_init (EShellContentClass *class)
 }
 
 static void
-shell_content_init (EShellContent *shell_content)
+e_shell_content_init (EShellContent *shell_content)
 {
 	shell_content->priv = E_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	GTK_WIDGET_SET_FLAGS (shell_content, GTK_NO_WINDOW);
-}
-
-GType
-e_shell_content_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EShellContentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_content_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellContent),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_content_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_BIN, "EShellContent", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

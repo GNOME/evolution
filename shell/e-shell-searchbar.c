@@ -26,6 +26,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-binding.h"
+#include "e-util/e-extensible.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
 
@@ -82,7 +83,9 @@ enum {
 	PROP_STATE_GROUP
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE_WITH_CODE (
+	EShellSearchbar, e_shell_searchbar, GTK_TYPE_BOX,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_searchbar_save_search_filter (EShellSearchbar *searchbar)
@@ -620,7 +623,7 @@ shell_searchbar_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->dispose (object);
 }
 
 static void
@@ -693,13 +696,15 @@ shell_searchbar_constructed (GObject *object)
 
 	widget = GTK_WIDGET (searchbar);
 	gtk_size_group_add_widget (size_group, widget);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
 shell_searchbar_map (GtkWidget *widget)
 {
 	/* Chain up to parent's map() method. */
-	GTK_WIDGET_CLASS (parent_class)->map (widget);
+	GTK_WIDGET_CLASS (e_shell_searchbar_parent_class)->map (widget);
 
 	/* Load state after constructed() so we don't derail
 	 * subclass initialization.  We wait until map() so we
@@ -708,12 +713,11 @@ shell_searchbar_map (GtkWidget *widget)
 }
 
 static void
-shell_searchbar_class_init (EShellSearchbarClass *class)
+e_shell_searchbar_class_init (EShellSearchbarClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellSearchbarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -853,7 +857,7 @@ shell_searchbar_class_init (EShellSearchbarClass *class)
 }
 
 static void
-shell_searchbar_init (EShellSearchbar *searchbar)
+e_shell_searchbar_init (EShellSearchbar *searchbar)
 {
 	GtkBox *box;
 	GtkLabel *label;
@@ -987,32 +991,6 @@ shell_searchbar_init (EShellSearchbar *searchbar)
 		G_CALLBACK (shell_searchbar_save_search_scope),
 		searchbar, (GClosureNotify) NULL,
 		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-}
-
-GType
-e_shell_searchbar_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EShellSearchbarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_searchbar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellSearchbar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_searchbar_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_BOX, "EShellSearchbar", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

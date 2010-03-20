@@ -24,9 +24,10 @@
 #include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
 
+#include "e-util/e-module.h"
+#include "e-util/e-extensible.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
-#include "e-util/e-module.h"
 #include "smclient/eggsmclient.h"
 #include "widgets/misc/e-preferences-window.h"
 
@@ -94,13 +95,16 @@ static GDebugKey debug_keys[] = {
 	{ "settings",	DEBUG_KEY_SETTINGS }
 };
 
-static gpointer parent_class;
 static gpointer default_shell;
 static guint signals[LAST_SIGNAL];
 
 #if defined(NM_SUPPORT) && NM_SUPPORT
 gboolean e_shell_dbus_initialize (EShell *shell);
 #endif
+
+G_DEFINE_TYPE_WITH_CODE (
+	EShell, e_shell, UNIQUE_TYPE_APP,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_parse_debug_string (EShell *shell)
@@ -606,7 +610,7 @@ shell_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_parent_class)->dispose (object);
 }
 
 static void
@@ -627,7 +631,7 @@ shell_finalize (GObject *object)
 	g_free (priv->module_directory);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_shell_parent_class)->finalize (object);
 }
 
 static void
@@ -656,6 +660,8 @@ shell_constructed (GObject *object)
 	e_type_traverse (
 		E_TYPE_SHELL_BACKEND, (ETypeFunc)
 		shell_add_backend, object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static UniqueResponse
@@ -740,7 +746,7 @@ shell_message_received (UniqueApp *app,
 	}
 
 	/* Chain up to parent's message_received() method. */
-	return UNIQUE_APP_CLASS (parent_class)->
+	return UNIQUE_APP_CLASS (e_shell_parent_class)->
 		message_received (app, command, data, time_);
 }
 
@@ -752,12 +758,11 @@ shell_window_destroyed (EShell *shell)
 }
 
 static void
-shell_class_init (EShellClass *class)
+e_shell_class_init (EShellClass *class)
 {
 	GObjectClass *object_class;
 	UniqueAppClass *unique_app_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1061,7 +1066,7 @@ shell_class_init (EShellClass *class)
 }
 
 static void
-shell_init (EShell *shell)
+e_shell_init (EShell *shell)
 {
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
@@ -1148,32 +1153,6 @@ shell_init (EShell *shell)
 	g_signal_connect_swapped (
 		sm_client, "quit",
 		G_CALLBACK (shell_sm_quit_cb), shell);
-}
-
-GType
-e_shell_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EShellClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShell),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			UNIQUE_TYPE_APP, "EShell", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

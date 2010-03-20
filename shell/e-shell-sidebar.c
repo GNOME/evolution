@@ -22,6 +22,7 @@
 #include "e-shell-sidebar.h"
 
 #include <e-util/e-binding.h>
+#include <e-util/e-extensible.h>
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 
@@ -48,7 +49,9 @@ enum {
 	PROP_SHELL_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE_WITH_CODE (
+	EShellSidebar, e_shell_sidebar, GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_sidebar_set_shell_view (EShellSidebar *shell_sidebar,
@@ -147,7 +150,7 @@ shell_sidebar_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_sidebar_parent_class)->dispose (object);
 }
 
 static void
@@ -162,7 +165,7 @@ shell_sidebar_finalize (GObject *object)
 	g_free (priv->secondary_text);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_shell_sidebar_parent_class)->finalize (object);
 }
 
 static void
@@ -191,6 +194,8 @@ shell_sidebar_constructed (GObject *object)
 	g_object_get (action, "label", &label, NULL);
 	e_shell_sidebar_set_primary_text (shell_sidebar, label);
 	g_free (label);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -211,7 +216,7 @@ shell_sidebar_destroy (GtkObject *gtk_object)
 	}
 
 	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (gtk_object);
+	GTK_OBJECT_CLASS (e_shell_sidebar_parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -282,19 +287,18 @@ shell_sidebar_forall (GtkContainer *container,
 		callback (priv->event_box, callback_data);
 
 	/* Chain up to parent's forall() method. */
-	GTK_CONTAINER_CLASS (parent_class)->forall (
+	GTK_CONTAINER_CLASS (e_shell_sidebar_parent_class)->forall (
 		container, include_internals, callback, callback_data);
 }
 
 static void
-shell_sidebar_class_init (EShellSidebarClass *class)
+e_shell_sidebar_class_init (EShellSidebarClass *class)
 {
 	GObjectClass *object_class;
 	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -378,7 +382,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 }
 
 static void
-shell_sidebar_init (EShellSidebar *shell_sidebar)
+e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 {
 	GtkStyle *style;
 	GtkWidget *widget;
@@ -444,32 +448,6 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 	pango_attr_list_unref (attribute_list);
 
 	e_binding_new (shell_sidebar, "secondary-text", widget, "label");
-}
-
-GType
-e_shell_sidebar_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EShellSidebarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_sidebar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellSidebar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_sidebar_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_BIN, "EShellSidebar", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

@@ -24,11 +24,12 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
+#include "e-util/e-extensible.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-ui-manager.h"
+#include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
 #include "filter/e-rule-context.h"
 
 #include "e-shell-window-actions.h"
@@ -575,6 +576,8 @@ shell_view_constructed (GObject *object)
 	/* Size group should be safe to unreference now. */
 	g_object_unref (shell_view->priv->size_group);
 	shell_view->priv->size_group = NULL;
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -970,9 +973,18 @@ e_shell_view_get_type (void)
 			NULL   /* value_table */
 		};
 
+		const GInterfaceInfo extensible_info = {
+			(GInterfaceInitFunc) NULL,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			G_TYPE_OBJECT, "EShellView",
 			&type_info, G_TYPE_FLAG_ABSTRACT);
+
+		g_type_add_interface_static (
+			type, E_TYPE_EXTENSIBLE, &extensible_info);
 	}
 
 	return type;

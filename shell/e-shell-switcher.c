@@ -22,6 +22,7 @@
 #include "e-shell-switcher.h"
 
 #include <glib/gi18n.h>
+#include <e-util/e-extensible.h>
 
 #define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -50,8 +51,16 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+/* Forward Declarations */
+static void shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EShellSwitcher, e_shell_switcher, GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_TOOL_SHELL,
+		shell_switcher_tool_shell_iface_init))
 
 static gint
 shell_switcher_layout_actions (EShellSwitcher *switcher)
@@ -223,7 +232,7 @@ shell_switcher_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_switcher_parent_class)->dispose (object);
 }
 
 static void
@@ -346,7 +355,8 @@ shell_switcher_remove (GtkContainer *container,
 	}
 
 	/* Chain up to parent's remove() method. */
-	GTK_CONTAINER_CLASS (parent_class)->remove (container, widget);
+	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->remove (
+		container, widget);
 }
 
 static void
@@ -364,7 +374,7 @@ shell_switcher_forall (GtkContainer *container,
 			priv->proxies, (GFunc) callback, callback_data);
 
 	/* Chain up to parent's forall() method. */
-	GTK_CONTAINER_CLASS (parent_class)->forall (
+	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->forall (
 		container, include_internals, callback, callback_data);
 }
 
@@ -410,13 +420,12 @@ shell_switcher_get_relief_style (GtkToolShell *shell)
 }
 
 static void
-shell_switcher_class_init (EShellSwitcherClass *class)
+e_shell_switcher_class_init (EShellSwitcherClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellSwitcherPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -487,11 +496,13 @@ shell_switcher_class_init (EShellSwitcherClass *class)
 }
 
 static void
-shell_switcher_init (EShellSwitcher *switcher)
+e_shell_switcher_init (EShellSwitcher *switcher)
 {
 	switcher->priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher);
 
 	GTK_WIDGET_SET_FLAGS (switcher, GTK_NO_WINDOW);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (switcher));
 }
 
 static void
@@ -501,41 +512,6 @@ shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface)
 	iface->get_orientation = shell_switcher_get_orientation;
 	iface->get_style = shell_switcher_get_style;
 	iface->get_relief_style = shell_switcher_get_relief_style;
-}
-
-GType
-e_shell_switcher_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EShellSwitcherClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_switcher_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellSwitcher),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_switcher_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo tool_shell_info = {
-			(GInterfaceInitFunc) shell_switcher_tool_shell_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_BIN, "EShellSwitcher", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, GTK_TYPE_TOOL_SHELL, &tool_shell_info);
-	}
-
-	return type;
 }
 
 /**

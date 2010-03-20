@@ -23,7 +23,8 @@
 
 #include <e-shell-view.h>
 
-#include <widgets/misc/e-activity-proxy.h>
+#include <e-util/e-extensible.h>
+#include <misc/e-activity-proxy.h>
 
 #define E_SHELL_TASKBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -49,7 +50,9 @@ enum {
 	PROP_SHELL_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE_WITH_CODE (
+	EShellTaskbar, e_shell_taskbar, GTK_TYPE_HBOX,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_taskbar_activity_remove (EShellTaskbar *shell_taskbar,
@@ -204,7 +207,7 @@ shell_taskbar_dispose (GObject *object)
 				     object);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->dispose (object);
 }
 
 static void
@@ -217,7 +220,7 @@ shell_taskbar_finalize (GObject *object)
 	g_hash_table_destroy (priv->proxy_table);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->finalize (object);
 }
 
 static void
@@ -239,16 +242,17 @@ shell_taskbar_constructed (GObject *object)
 		shell_backend, "activity-added",
 		G_CALLBACK (shell_taskbar_activity_add), shell_taskbar);
 
-	/* to not enlarge window width on new activities */
+	/* Do not enlarge window width on new activities. */
 	gtk_widget_set_size_request (GTK_WIDGET (shell_taskbar), 0, -1);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
-shell_taskbar_class_init (EShellTaskbarClass *class)
+e_shell_taskbar_class_init (EShellTaskbarClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellTaskbarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -292,7 +296,7 @@ shell_taskbar_class_init (EShellTaskbarClass *class)
 }
 
 static void
-shell_taskbar_init (EShellTaskbar *shell_taskbar)
+e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 {
 	GtkWidget *widget;
 	GHashTable *proxy_table;
@@ -326,32 +330,6 @@ shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
 	gtk_widget_set_size_request (
 		GTK_WIDGET (shell_taskbar), -1, (height * 2));
-}
-
-GType
-e_shell_taskbar_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EShellTaskbarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_taskbar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellTaskbar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_taskbar_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_HBOX, "EShellTaskbar", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**
