@@ -30,14 +30,15 @@
 #   - task -> 작업
 # - 기타 용어
 #   - online/offline -> 연결 상태/연결 중지 상태
+#   - Anjal -> 앤제일
 #
-#: ../shell/main.c:508
+#: ../shell/main.c:479
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2010-03-13 19:03+0900\n"
-"PO-Revision-Date: 2010-03-13 19:05+0900\n"
+"PO-Revision-Date: 2010-03-20 16:52+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -288,7 +289,8 @@ msgstr "기념일"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:1986 ../shell/main.c:111
+#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:119
+#: ../shell/main.c:112
 msgid "Birthday"
 msgstr "생일"
 
@@ -1159,7 +1161,7 @@ msgid "Telex"
 msgstr "텔렉스"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:818
+#: ../shell/e-shell-view.c:819
 msgid "Title"
 msgstr "직위"
 
@@ -1440,13 +1442,14 @@ msgstr "홈페이지"
 msgid "Web Log"
 msgstr "웹로그"
 
+#. Create the default Person addressbook
 #. orange
 #. Create the default Person addressbook
 #. Create the default Person calendar
 #. Create the default Person memo list
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
-#: ../mail/e-mail-migrate.c:962
+#: ../capplet/settings/mail-capplet-shell.c:461 ../mail/e-mail-migrate.c:962
 #: ../modules/addressbook/e-book-shell-backend.c:175
 #: ../modules/addressbook/e-book-shell-migrate.c:507
 #: ../modules/calendar/e-cal-shell-backend.c:171
@@ -1518,7 +1521,7 @@ msgstr "연락처를 찾을 수 없습니다"
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
 msgid "Contact ID already exists"
-msgstr "연락처 ID가 이미 있습니다"
+msgstr "연락처 아이디가 이미 있습니다"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: ../addressbook/gui/widgets/eab-gui-util.c:64
@@ -2336,11 +2339,11 @@ msgid "_Dismiss"
 msgstr "해제(_D)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1015
+#: ../calendar/gui/dialogs/comp-editor.c:1016
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
-#: ../mail/e-mail-browser.c:151
+#: ../mail/e-mail-browser.c:152
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "편집(_E)"
@@ -3780,236 +3783,236 @@ msgstr " (기한 "
 msgid "Due "
 msgstr "기한 "
 
-#: ../calendar/gui/dialogs/comp-editor.c:246
+#: ../calendar/gui/dialogs/comp-editor.c:247
 msgid "Could not save attachments"
 msgstr "첨부를 저장할 수 없습니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:509
+#: ../calendar/gui/dialogs/comp-editor.c:510
 msgid "Could not update object"
 msgstr "오브젝트를 업데이트할 수 없습니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:604
+#: ../calendar/gui/dialogs/comp-editor.c:605
 msgid "Edit Appointment"
 msgstr "약속 편집"
 
-#: ../calendar/gui/dialogs/comp-editor.c:611
+#: ../calendar/gui/dialogs/comp-editor.c:612
 #, c-format
 msgid "Meeting - %s"
 msgstr "모임 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:613
+#: ../calendar/gui/dialogs/comp-editor.c:614
 #, c-format
 msgid "Appointment - %s"
 msgstr "약속 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:619
+#: ../calendar/gui/dialogs/comp-editor.c:620
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "할당한 작업 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:621
+#: ../calendar/gui/dialogs/comp-editor.c:622
 #, c-format
 msgid "Task - %s"
 msgstr "작업 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:626
+#: ../calendar/gui/dialogs/comp-editor.c:627
 #, c-format
 msgid "Memo - %s"
 msgstr "메모 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:642
+#: ../calendar/gui/dialogs/comp-editor.c:643
 msgid "No Summary"
 msgstr "요약 없음"
 
-#: ../calendar/gui/dialogs/comp-editor.c:751
+#: ../calendar/gui/dialogs/comp-editor.c:752
 msgid "Keep original item?"
 msgstr "본래 항목을 유지하시겠습니까?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:938
+#: ../calendar/gui/dialogs/comp-editor.c:939
 msgid "Click here to close the current window"
 msgstr "현재 창을 닫으려면 여기를 누르십시오"
 
 # tooltip
-#: ../calendar/gui/dialogs/comp-editor.c:945 ../mail/e-mail-browser.c:116
-#: ../shell/e-shell-window-actions.c:1444
+#: ../calendar/gui/dialogs/comp-editor.c:946 ../mail/e-mail-browser.c:117
+#: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:387 ../widgets/misc/e-web-view.c:965
 msgid "Copy the selection"
 msgstr "선택한 사항을 복사합니다"
 
 # tooltip
-#: ../calendar/gui/dialogs/comp-editor.c:952 ../mail/e-mail-browser.c:123
-#: ../shell/e-shell-window-actions.c:1451
+#: ../calendar/gui/dialogs/comp-editor.c:953 ../mail/e-mail-browser.c:124
+#: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:959
 msgid "Cut the selection"
 msgstr "선택한 사항을 잘라냅니다"
 
 # tooltip
-#: ../calendar/gui/dialogs/comp-editor.c:959
-#: ../shell/e-shell-window-actions.c:1458
+#: ../calendar/gui/dialogs/comp-editor.c:960
+#: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "선택한 사항을 삭제합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:966
+#: ../calendar/gui/dialogs/comp-editor.c:967
 msgid "Click here to view help available"
 msgstr "해당 도움말을 보려면 여기를 누르십시오"
 
 # tooltip
-#: ../calendar/gui/dialogs/comp-editor.c:973 ../mail/e-mail-browser.c:130
-#: ../shell/e-shell-window-actions.c:1493
+#: ../calendar/gui/dialogs/comp-editor.c:974 ../mail/e-mail-browser.c:131
+#: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:971
 msgid "Paste the clipboard"
 msgstr "클립보드에서 붙여 넣습니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:994
+#: ../calendar/gui/dialogs/comp-editor.c:995
 msgid "Click here to save the current window"
 msgstr "현재 창을 저장하려면 여기를 누르십시오"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1001 ../mail/e-mail-browser.c:137
-#: ../shell/e-shell-window-actions.c:1563
+#: ../calendar/gui/dialogs/comp-editor.c:1002 ../mail/e-mail-browser.c:138
+#: ../shell/e-shell-window-actions.c:1579
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "모든 텍스트 선택"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1008
+#: ../calendar/gui/dialogs/comp-editor.c:1009
 msgid "_Classification"
 msgstr "분류(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1022 ../mail/e-mail-browser.c:144
-#: ../shell/e-shell-window-actions.c:1612
+#: ../calendar/gui/dialogs/comp-editor.c:1023 ../mail/e-mail-browser.c:145
+#: ../shell/e-shell-window-actions.c:1628
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "파일(_F)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1029
-#: ../shell/e-shell-window-actions.c:1619
+#: ../calendar/gui/dialogs/comp-editor.c:1030
+#: ../shell/e-shell-window-actions.c:1635
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1036
+#: ../calendar/gui/dialogs/comp-editor.c:1037
 msgid "_Insert"
 msgstr "넣기(_I)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1043
+#: ../calendar/gui/dialogs/comp-editor.c:1044
 #: ../composer/e-composer-actions.c:351
 msgid "_Options"
 msgstr "옵션(_O)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1050 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1654
+#: ../calendar/gui/dialogs/comp-editor.c:1051 ../mail/e-mail-browser.c:159
+#: ../shell/e-shell-window-actions.c:1670
 msgid "_View"
 msgstr "보기(_V)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1060
+#: ../calendar/gui/dialogs/comp-editor.c:1061
 #: ../composer/e-composer-actions.c:279
 msgid "_Attachment..."
 msgstr "첨부(_A)..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1062
+#: ../calendar/gui/dialogs/comp-editor.c:1063
 msgid "Click here to attach a file"
 msgstr "파일을 첨부하려면 여기를 누르십시오"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1070
+#: ../calendar/gui/dialogs/comp-editor.c:1071
 msgid "_Categories"
 msgstr "분류(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1072
+#: ../calendar/gui/dialogs/comp-editor.c:1073
 msgid "Toggles whether to display categories"
 msgstr "분류를 표시할지 토글합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1078
+#: ../calendar/gui/dialogs/comp-editor.c:1079
 msgid "Time _Zone"
 msgstr "표준 시간대(_Z)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1080
+#: ../calendar/gui/dialogs/comp-editor.c:1081
 msgid "Toggles whether the time zone is displayed"
 msgstr "표준 시간대 항목을 표시할지 토글합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1089
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 msgid "Pu_blic"
 msgstr "공개(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1091
+#: ../calendar/gui/dialogs/comp-editor.c:1092
 msgid "Classify as public"
 msgstr "공개로 분류"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1096
+#: ../calendar/gui/dialogs/comp-editor.c:1097
 msgid "_Private"
 msgstr "개인 정보(_P)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1098
+#: ../calendar/gui/dialogs/comp-editor.c:1099
 msgid "Classify as private"
 msgstr "개인 정보로 분류"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1103
+#: ../calendar/gui/dialogs/comp-editor.c:1104
 msgid "_Confidential"
 msgstr "비밀(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1105
+#: ../calendar/gui/dialogs/comp-editor.c:1106
 msgid "Classify as confidential"
 msgstr "비밀로 분류"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1113
+#: ../calendar/gui/dialogs/comp-editor.c:1114
 msgid "R_ole Field"
 msgstr "역할 항목(_O)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1115
+#: ../calendar/gui/dialogs/comp-editor.c:1116
 msgid "Toggles whether the Role field is displayed"
 msgstr "역할 항목을 표시할지 토글합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1121
+#: ../calendar/gui/dialogs/comp-editor.c:1122
 msgid "_RSVP"
 msgstr "응답바람(_R)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1123
+#: ../calendar/gui/dialogs/comp-editor.c:1124
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "응답요청 항목을 표시할지 토글합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1129
+#: ../calendar/gui/dialogs/comp-editor.c:1130
 msgid "_Status Field"
 msgstr "상태 항목(_S)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1131
+#: ../calendar/gui/dialogs/comp-editor.c:1132
 msgid "Toggles whether the Status field is displayed"
 msgstr "상태 항목을 표시할지 토글합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1137
+#: ../calendar/gui/dialogs/comp-editor.c:1138
 msgid "_Type Field"
 msgstr "종류 항목(_T)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1139
+#: ../calendar/gui/dialogs/comp-editor.c:1140
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "참석자 종류를 표시할지 토글합니다"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1163
+#: ../calendar/gui/dialogs/comp-editor.c:1164
 #: ../composer/e-composer-private.c:70
 msgid "Recent _Documents"
 msgstr "최근 문서(_D)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1683
+#: ../calendar/gui/dialogs/comp-editor.c:1684
 #: ../composer/e-composer-actions.c:475
 msgid "Attach"
 msgstr "첨부"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1738
+#: ../calendar/gui/dialogs/comp-editor.c:1739
 msgid "Save"
 msgstr "저장"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2015
-#: ../calendar/gui/dialogs/comp-editor.c:2064
-#: ../calendar/gui/dialogs/comp-editor.c:2955
+#: ../calendar/gui/dialogs/comp-editor.c:2016
+#: ../calendar/gui/dialogs/comp-editor.c:2065
+#: ../calendar/gui/dialogs/comp-editor.c:2956
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "업데이트가 도착하면 이 항목에 대해 바뀐 사항을 버립니다."
 
-#: ../calendar/gui/dialogs/comp-editor.c:2923
+#: ../calendar/gui/dialogs/comp-editor.c:2924
 #: ../plugins/prefer-plain/prefer-plain.c:67
 msgid "attachment"
 msgstr "첨부"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2985
+#: ../calendar/gui/dialogs/comp-editor.c:2986
 msgid "Unable to use current version!"
 msgstr "현재 버전을 사용할 수 없습니다!"
 
@@ -4968,12 +4971,12 @@ msgid "Default Client"
 msgstr "기본 프로그램"
 
 #: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:518
-#: ../shell/e-shell.c:825
+#: ../shell/e-shell.c:867
 msgid "Shell Settings"
 msgstr "셸 설정"
 
 #: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:519
-#: ../shell/e-shell.c:826
+#: ../shell/e-shell.c:868
 msgid "Application-wide settings"
 msgstr "프로그램 전체 설정"
 
@@ -4984,7 +4987,7 @@ msgstr "프로그램 전체 설정"
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-store.c:120 ../calendar/gui/e-meeting-store.c:155
 #: ../calendar/gui/e-meeting-store.c:218 ../calendar/gui/print.c:972
-#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:931
+#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:930
 #: ../plugins/itip-formatter/itip-formatter.c:461
 #: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
@@ -5840,7 +5843,7 @@ msgid "Member"
 msgstr "구성원"
 
 #: ../calendar/gui/e-memo-table.c:411
-#: ../modules/calendar/e-cal-shell-content.c:399
+#: ../modules/calendar/e-cal-shell-content.c:397
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view.c:289
@@ -5932,7 +5935,7 @@ msgstr "100%"
 #: ../calendar/gui/e-task-table.c:624 ../calendar/gui/print.c:2043
 #: ../calendar/importers/icalendar-importer.c:76
 #: ../calendar/importers/icalendar-importer.c:749
-#: ../modules/calendar/e-cal-shell-content.c:359
+#: ../modules/calendar/e-cal-shell-content.c:357
 #: ../modules/calendar/e-task-shell-view-actions.c:241
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view.c:437
@@ -6129,7 +6132,7 @@ msgstr "한 달 단위로 달력 보기"
 msgid "calendar view for one or more weeks"
 msgstr "주 단위로 달력 보기"
 
-#: ../calendar/gui/gnome-cal.c:2148
+#: ../calendar/gui/gnome-cal.c:2167
 msgid "Purging"
 msgstr "비우는 중"
 
@@ -8135,7 +8138,7 @@ msgid "Save as..."
 msgstr "다른 이름으로 저장..."
 
 #: ../composer/e-composer-actions.c:281
-#: ../widgets/misc/e-attachment-view.c:327
+#: ../widgets/misc/e-attachment-view.c:328
 msgid "Attach a file"
 msgstr "파일을 첨부합니다"
 
@@ -8383,7 +8386,7 @@ msgid "Save draft"
 msgstr "임시 저장"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:187 ../mail/em-utils.c:150
+#: ../composer/e-msg-composer.c:187 ../mail/em-utils.c:149
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
 msgstr "이 메시지를 다시 보지 않기(_D)."
@@ -8539,6 +8542,256 @@ msgstr "복구(_R)"
 msgid "_Save Draft"
 msgstr "임시 저장(_S)"
 
+#: ../capplet/anjal-settings-main.c:202
+msgid "Run Anjal in a window"
+msgstr "앤제일을 창에 실행"
+
+# 옵션 설명
+#: ../capplet/anjal-settings-main.c:203
+msgid "Make Anjal the default email client"
+msgstr "앤제일을 기본 메일 클라이언트로 사용합니다"
+
+#. TRANSLATORS: don't translate the terms in brackets
+#: ../capplet/anjal-settings-main.c:210
+msgid "ID of the socket to embed in"
+msgstr "포함할 소켓의 ID"
+
+# option argument
+#: ../capplet/anjal-settings-main.c:211
+msgid "socket"
+msgstr "<소켓>"
+
+#: ../capplet/anjal-settings-main.c:225
+msgid "Anjal email client"
+msgstr "앤제일 메일 프로그램"
+
+#: ../capplet/settings/mail-view.c:244
+msgid "New Tab"
+msgstr "새 탭"
+
+#: ../capplet/settings/mail-account-view.c:56
+msgid "Please enter your full name."
+msgstr "전체 이름을 입력하십시오."
+
+#: ../capplet/settings/mail-account-view.c:57
+msgid "Please enter your email address."
+msgstr "전자메일 주소를 입력하십시오."
+
+#: ../capplet/settings/mail-account-view.c:58
+msgid "The email address you have entered is invalid."
+msgstr "입력한 전자메일 주소가 올바르지 않습니다."
+
+#: ../capplet/settings/mail-account-view.c:224
+msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">개인 상세 정보:</span>"
+
+#: ../capplet/settings/mail-account-view.c:229
+msgid "Name:"
+msgstr "이름:"
+
+#: ../capplet/settings/mail-account-view.c:238
+msgid "Email address:"
+msgstr "전자메일 주소:"
+
+#: ../capplet/settings/mail-account-view.c:248
+msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">받기 정보:</span>"
+
+#: ../capplet/settings/mail-account-view.c:253
+#: ../capplet/settings/mail-account-view.c:303
+msgid "Server type:"
+msgstr "서버 종류:"
+
+#: ../capplet/settings/mail-account-view.c:262
+#: ../capplet/settings/mail-account-view.c:312
+msgid "Server address:"
+msgstr "서버 주소:"
+
+#: ../capplet/settings/mail-account-view.c:272
+#: ../capplet/settings/mail-account-view.c:322
+msgid "Username:"
+msgstr "사용자이름:"
+
+#: ../capplet/settings/mail-account-view.c:281
+#: ../capplet/settings/mail-account-view.c:331
+msgid "Use encryption:"
+msgstr "암호화 사용:"
+
+#: ../capplet/settings/mail-account-view.c:286
+#: ../capplet/settings/mail-account-view.c:336
+msgid "never"
+msgstr "사용 안 함"
+
+#: ../capplet/settings/mail-account-view.c:298
+msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">보내기 정보:</span>"
+
+#: ../capplet/settings/mail-account-view.c:355
+msgid ""
+"To use the email application you'll need to setup an account. Put your email "
+"address and password in below and we'll try and work out all the settings. "
+"If we can't do it automatically you'll need your server details as well."
+msgstr "전자메일 프로그램을 사용하려면 계정을 준비해야 합니다. 아래에 전자메일 주소와 암호를 입력하면 자동으로 필요한 설정을 만듭니다. 자동으로 할 수 없는 경우에는 서버 정보를 직접 입력해야 할 수도 있습니다."
+
+#: ../capplet/settings/mail-account-view.c:357
+msgid ""
+"Sorry, we can't work out the settings to get your mail automatically. Please "
+"enter them below. We've tried to make a start with the details you just "
+"entered but you may need to change them."
+msgstr "전자메일 설정을 자동으로 만들 수 없습니다. 아래에 설정을 직접 입력하십시오. 앞에서 입력한 내용에 따라 일부 설정이 채워져 있지만 설정을 바꿔야 동작합니다."
+
+#: ../capplet/settings/mail-account-view.c:359
+msgid "You can specify more options to configure the account."
+msgstr "계정을 설정하려면 다른 옵션을 더 지정할 수 있습니다."
+
+#: ../capplet/settings/mail-account-view.c:361
+msgid ""
+"Now we need your settings for sending mail. We've tried to make some guesses "
+"but you should check them over to make sure."
+msgstr "이제 메일 보내기 설정이 필요합니다. 자동으로 일부 설정이 채워져 있지만, 올바른지 확인하십시오."
+
+#: ../capplet/settings/mail-account-view.c:362
+msgid "You can specify your default settings for your account."
+msgstr "계정에 설정 기본값을 지정할 수 있습니다."
+
+# assistant에서 현재 상태
+#: ../capplet/settings/mail-account-view.c:363
+msgid ""
+"Time to check things over before we try and connect to the server and fetch "
+"your mail."
+msgstr "이제 설정을 확인하십시오. 확인이 끝나면 서버에 연결해서 메일을 가져옵니다."
+
+#: ../capplet/settings/mail-account-view.c:378
+#: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
+#: ../mail/mail-config.ui.h:58
+msgid "Identity"
+msgstr "신상 정보"
+
+#: ../capplet/settings/mail-account-view.c:378
+msgid "Next - Receiving mail"
+msgstr "다음 - 메일 받기"
+
+#: ../capplet/settings/mail-account-view.c:379
+msgid "Receiving mail"
+msgstr "메일 받기"
+
+#: ../capplet/settings/mail-account-view.c:379
+#: ../capplet/settings/mail-account-view.c:380
+msgid "Next - Sending mail"
+msgstr "다음 - 메일 보내기"
+
+#: ../capplet/settings/mail-account-view.c:379
+msgid "Back - Identity"
+msgstr "뒤로 - 신원"
+
+#: ../capplet/settings/mail-account-view.c:379
+msgid "Next - Receiving options"
+msgstr "다음 - 받기 옵션"
+
+#: ../capplet/settings/mail-account-view.c:380
+msgid "Receiving options"
+msgstr "받기 옵션"
+
+#: ../capplet/settings/mail-account-view.c:380
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Back - Receiving mail"
+msgstr "뒤로 - 메일 받기"
+
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Sending mail"
+msgstr "메일 보내기"
+
+#: ../capplet/settings/mail-account-view.c:382
+#: ../capplet/settings/mail-account-view.c:383
+msgid "Next - Review account"
+msgstr "다음 - 계정 정보 검토"
+
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Next - Defaults"
+msgstr "뒤로 - 기본값"
+
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Back - Receiving options"
+msgstr "뒤로 - 받기 옵션"
+
+#: ../capplet/settings/mail-account-view.c:383
+#: ../mail/em-account-editor.c:2774 ../mail/mail-config.ui.h:31
+msgid "Defaults"
+msgstr "기본값"
+
+#: ../capplet/settings/mail-account-view.c:383
+msgid "Back - Sending mail"
+msgstr "뒤로 - 메일 보내기"
+
+#: ../capplet/settings/mail-account-view.c:385
+msgid "Review account"
+msgstr "계정 정보 검토"
+
+#: ../capplet/settings/mail-account-view.c:385
+msgid "Finish"
+msgstr "마치기"
+
+#: ../capplet/settings/mail-account-view.c:385
+msgid "Back - Sending"
+msgstr "뒤로 - 보내기"
+
+#: ../capplet/settings/mail-account-view.c:719
+#: ../capplet/settings/mail-settings-view.c:266
+msgid "Close Tab"
+msgstr "탭 닫기"
+
+#: ../capplet/settings/mail-account-view.c:729
+msgid "Account Wizard"
+msgstr "계정 마법사"
+
+#: ../capplet/settings/mail-capplet-shell.c:284
+msgid "Evolution account assistant"
+msgstr "에볼루션 계정 도우미"
+
+#: ../capplet/settings/mail-capplet-shell.c:320
+#: ../data/evolution-settings.desktop.in.in.h:2
+msgid "Email Settings"
+msgstr "전자메일 설정"
+
+#: ../capplet/settings/mail-capplet-shell.c:334
+msgid "Quit"
+msgstr "끝내기"
+
+#. create the local source group
+#: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
+#: ../mail/e-mail-store.c:229 ../mail/em-folder-tree-model.c:150
+#: ../mail/em-folder-tree-model.c:153 ../mail/em-folder-tree-model.c:156
+#: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:165
+#: ../mail/em-folder-tree-model.c:167 ../mail/mail-vfolder.c:215
+#: ../mail/message-list.c:1617
+#: ../modules/addressbook/e-book-shell-backend.c:125
+#: ../modules/addressbook/e-book-shell-migrate.c:499
+#: ../modules/calendar/e-cal-shell-backend.c:121
+#: ../modules/calendar/e-cal-shell-migrate.c:564
+#: ../modules/calendar/e-memo-shell-backend.c:108
+#: ../modules/calendar/e-memo-shell-migrate.c:102
+#: ../modules/calendar/e-task-shell-backend.c:111
+#: ../modules/calendar/e-task-shell-migrate.c:501
+msgid "On This Computer"
+msgstr "이 컴퓨터"
+
+#: ../capplet/settings/mail-settings-view.c:148
+#: ../plugins/groupwise-features/share-folder.c:747
+msgid "Modify"
+msgstr "수정"
+
+#: ../capplet/settings/mail-settings-view.c:150
+msgid "Add a new account"
+msgstr "새 계정 추가"
+
+#: ../capplet/settings/mail-settings-view.c:185
+msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
+msgstr "<span size=\"large\" weight=\"bold\">계정 관리</span>"
+
+#: ../capplet/settings/mail-settings-view.c:276
+msgid "Settings"
+msgstr "설정"
+
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Calendar event notifications"
 msgstr "달력 행사 알림"
@@ -8547,8 +8800,8 @@ msgstr "달력 행사 알림"
 msgid "Evolution Alarm Notify"
 msgstr "에볼루션 알림"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:786
-#: ../shell/e-shell-window-private.c:258
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:800
+#: ../shell/e-shell-window-private.c:251
 msgid "Evolution"
 msgstr "에볼루션"
 
@@ -8556,13 +8809,17 @@ msgstr "에볼루션"
 msgid "Evolution Mail and Calendar"
 msgstr "에볼루션 메일 및 달력"
 
-#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:653
+#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:654
 msgid "Groupware Suite"
 msgstr "그룹웨어 모음"
 
 #: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "전자메일, 연락처, 일정을 관리합니다"
+
+#: ../data/evolution-settings.desktop.in.in.h:1
+msgid "Configure email accounts"
+msgstr "전자메일 계정 설정"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -8775,8 +9032,8 @@ msgstr "기록 단계"
 msgid "Messages"
 msgstr "메시지"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:109
-#: ../shell/e-shell-window-actions.c:1430
+#: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:110
+#: ../shell/e-shell-window-actions.c:1446
 msgid "Close this window"
 msgstr "이 창을 닫습니다"
 
@@ -9122,11 +9379,11 @@ msgid "I_nclude threads"
 msgstr "글타래 포함(_N)"
 
 #: ../filter/e-filter-rule.c:1141 ../filter/filter.ui.h:2
-#: ../mail/em-utils.c:301
+#: ../mail/em-utils.c:300
 msgid "Incoming"
 msgstr "받는 메일"
 
-#: ../filter/e-filter-rule.c:1141 ../mail/em-utils.c:302
+#: ../filter/e-filter-rule.c:1141 ../mail/em-utils.c:301
 msgid "Outgoing"
 msgstr "보내는 메일"
 
@@ -9269,23 +9526,23 @@ msgstr "아이콘 보기"
 msgid "List View"
 msgstr "목록 보기"
 
-#: ../mail/e-mail-browser.c:729 ../shell/e-shell-window.c:631
+#: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
 msgstr "포커스 추적"
 
-#: ../mail/e-mail-browser.c:739
+#: ../mail/e-mail-browser.c:742
 msgid "Shell Module"
 msgstr "셸 모드"
 
-#: ../mail/e-mail-browser.c:740 ../mail/message-list.c:2589
+#: ../mail/e-mail-browser.c:743 ../mail/message-list.c:2589
 msgid "The mail shell backend"
 msgstr "메일 셸 백엔드"
 
-#: ../mail/e-mail-browser.c:750
+#: ../mail/e-mail-browser.c:753
 msgid "Show Deleted"
 msgstr "삭제한 메시지 보기"
 
-#: ../mail/e-mail-browser.c:751
+#: ../mail/e-mail-browser.c:754
 msgid "Show deleted messages"
 msgstr "삭제한 메시지 보기"
 
@@ -9355,24 +9612,24 @@ msgid "Color"
 msgstr "색"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:367
-#: ../mail/em-folder-tree-model.c:658 ../mail/em-folder-tree.c:2582
+#: ../mail/em-folder-tree-model.c:680 ../mail/em-folder-tree.c:2582
 #: ../modules/mail/e-mail-shell-view-private.c:963
 msgid "Inbox"
 msgstr "받은 편지함"
 
-#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:651
+#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:673
 msgid "Drafts"
 msgstr "임시 보관함"
 
-#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:661
+#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:683
 msgid "Outbox"
 msgstr "보낼 편지함"
 
-#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:663
+#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:685
 msgid "Sent"
 msgstr "보낸 편지함"
 
-#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:654
+#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:676
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 #: ../plugins/templates/templates.c:574
 msgid "Templates"
@@ -9473,23 +9730,6 @@ msgstr ""
 "습니다.\n"
 "\n"
 "폴더를 옮기는 동안 잠시 기다리십시오..."
-
-#. On This Computer is always first, and Search Folders
-#. * is always last.
-#. create the local source group
-#: ../mail/e-mail-migrate.c:2949 ../mail/e-mail-store.c:229
-#: ../mail/em-folder-tree-model.c:144 ../mail/em-folder-tree-model.c:146
-#: ../mail/mail-vfolder.c:215 ../mail/message-list.c:1617
-#: ../modules/addressbook/e-book-shell-backend.c:125
-#: ../modules/addressbook/e-book-shell-migrate.c:499
-#: ../modules/calendar/e-cal-shell-backend.c:121
-#: ../modules/calendar/e-cal-shell-migrate.c:564
-#: ../modules/calendar/e-memo-shell-backend.c:108
-#: ../modules/calendar/e-memo-shell-migrate.c:102
-#: ../modules/calendar/e-task-shell-backend.c:111
-#: ../modules/calendar/e-task-shell-migrate.c:501
-msgid "On This Computer"
-msgstr "이 컴퓨터"
 
 #: ../mail/e-mail-migrate.c:3031
 #, c-format
@@ -10137,7 +10377,7 @@ msgstr "추가 작업 메시지 플래그"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:500 ../mail/mail-config.ui.h:72
+#: ../mail/em-account-editor.c:499 ../mail/mail-config.ui.h:72
 #: ../modules/addressbook/ldap-config.ui.h:10
 msgid "No encryption"
 msgstr "암호화 없음"
@@ -10145,7 +10385,7 @@ msgstr "암호화 없음"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:504 ../mail/mail-config.ui.h:120
+#: ../mail/em-account-editor.c:503 ../mail/mail-config.ui.h:120
 #: ../modules/addressbook/ldap-config.ui.h:21
 msgid "TLS encryption"
 msgstr "TLS 암호화"
@@ -10153,17 +10393,17 @@ msgstr "TLS 암호화"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:508 ../mail/mail-config.ui.h:93
+#: ../mail/em-account-editor.c:507 ../mail/mail-config.ui.h:93
 #: ../modules/addressbook/ldap-config.ui.h:13
 msgid "SSL encryption"
 msgstr "SSL 암호화"
 
-#: ../mail/em-account-editor.c:595
+#: ../mail/em-account-editor.c:594
 #, c-format
 msgid "%s License Agreement"
 msgstr "%s 사용 약관"
 
-#: ../mail/em-account-editor.c:602
+#: ../mail/em-account-editor.c:601
 #, c-format
 msgid ""
 "\n"
@@ -10176,25 +10416,25 @@ msgstr ""
 "동의하실 경우 체크 단추에 체크하십시오.\n"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:882 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:881 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "없음"
 
-#: ../mail/em-account-editor.c:966
+#: ../mail/em-account-editor.c:965
 msgid "Never"
 msgstr "사용 안 함"
 
-#: ../mail/em-account-editor.c:967
+#: ../mail/em-account-editor.c:966
 msgid "Always"
 msgstr "항상"
 
-#: ../mail/em-account-editor.c:968
+#: ../mail/em-account-editor.c:967
 msgid "Ask for each message"
 msgstr "메시지마다 물어보기"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1705 ../widgets/misc/e-account-tree-view.c:124
+#: ../mail/em-account-editor.c:1704 ../widgets/misc/e-account-tree-view.c:124
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "없음"
@@ -10213,11 +10453,6 @@ msgstr ""
 "\n"
 "시작하려면 \"앞으로\"를 누르십시오."
 
-#: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2200
-#: ../mail/mail-config.ui.h:58
-msgid "Identity"
-msgstr "신상 정보"
-
 #: ../mail/em-account-editor.c:2065
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
@@ -10227,7 +10462,7 @@ msgstr ""
 "아래에 이름과 메일 주소를 입력하십시오. 그 아래에 있는 \"추가\" 필드는 메일"
 "을 보낼 때 정보를 추가하지 않고 싶으면 채우지 않아도 됩니다."
 
-#: ../mail/em-account-editor.c:2067 ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2067 ../mail/em-account-editor.c:2233
 #: ../mail/mail-config.ui.h:90
 msgid "Receiving Email"
 msgstr "메일 받기"
@@ -10236,7 +10471,7 @@ msgstr "메일 받기"
 msgid "Please configure the following account settings."
 msgstr "다음 계정 설정을 하십시오."
 
-#: ../mail/em-account-editor.c:2070 ../mail/em-account-editor.c:2714
+#: ../mail/em-account-editor.c:2070 ../mail/em-account-editor.c:2710
 msgid "Sending Email"
 msgstr "메일 보내기"
 
@@ -10279,37 +10514,33 @@ msgstr ""
 "설정을 저장하려면 \"적용\"을 누르십시오."
 
 # FIXME - hard to translate UI + string based on English grammar
-#: ../mail/em-account-editor.c:2524
+#: ../mail/em-account-editor.c:2520
 msgid "Check for _new messages every"
 msgstr "새 메일 확인(_N), 매"
 
-#: ../mail/em-account-editor.c:2532
+#: ../mail/em-account-editor.c:2528
 msgid "minu_tes"
 msgstr "분(_T)"
 
-#: ../mail/em-account-editor.c:2778 ../mail/mail-config.ui.h:31
-msgid "Defaults"
-msgstr "기본값"
-
-#: ../mail/em-account-editor.c:2840 ../mail/mail-config.ui.h:100
+#: ../mail/em-account-editor.c:2836 ../mail/mail-config.ui.h:100
 msgid "Security"
 msgstr "보안"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2877 ../mail/em-account-editor.c:2945
+#: ../mail/em-account-editor.c:2881 ../mail/em-account-editor.c:2949
 msgid "Receiving Options"
 msgstr "받기 옵션"
 
-#: ../mail/em-account-editor.c:2878 ../mail/em-account-editor.c:2946
+#: ../mail/em-account-editor.c:2882 ../mail/em-account-editor.c:2950
 msgid "Checking for New Messages"
 msgstr "새 메일 확인"
 
-#: ../mail/em-account-editor.c:3414
+#: ../mail/em-account-editor.c:3418
 msgid "Account Editor"
 msgstr "계정 편집기"
 
-#: ../mail/em-account-editor.c:3414
+#: ../mail/em-account-editor.c:3418
 msgid "Evolution Account Assistant"
 msgstr "에볼루션 계정 도우미"
 
@@ -10658,18 +10889,20 @@ msgid "Folder _name:"
 msgstr "폴더 이름(_N):"
 
 #. load store to mail component
-#: ../mail/em-folder-tree-model.c:148 ../mail/em-folder-tree-model.c:150
+#: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
+#: ../mail/em-folder-tree-model.c:160 ../mail/em-folder-tree-model.c:162
+#: ../mail/em-folder-tree-model.c:169 ../mail/em-folder-tree-model.c:171
 #: ../mail/mail-vfolder.c:1056 ../mail/mail-vfolder.c:1121
 msgid "Search Folders"
 msgstr "검색 폴더"
 
 # VFolder에서 맞는 게 아무것도 없을 경우 마지막 fallback
 #. UNMATCHED is always last.
-#: ../mail/em-folder-tree-model.c:154 ../mail/em-folder-tree-model.c:156
+#: ../mail/em-folder-tree-model.c:176 ../mail/em-folder-tree-model.c:178
 msgid "UNMATCHED"
 msgstr "해당 없음"
 
-#: ../mail/em-folder-tree-model.c:726 ../mail/em-folder-tree-model.c:1063
+#: ../mail/em-folder-tree-model.c:748 ../mail/em-folder-tree-model.c:1085
 msgid "Loading..."
 msgstr "읽어들이는 중..."
 
@@ -10995,12 +11228,12 @@ msgstr "서버를 선택하십시오."
 msgid "No server has been selected"
 msgstr "서버를 선택하지 않았습니다"
 
-#: ../mail/em-utils.c:311
+#: ../mail/em-utils.c:310
 msgid "Message Filters"
 msgstr "메시지 필터"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:815
+#: ../mail/em-utils.c:814
 #, c-format
 msgid "Messages from %s"
 msgstr "%s에서 온 메일"
@@ -12080,7 +12313,7 @@ msgid "Select folder to import into"
 msgstr "어느 폴더로 가져올 지 선택하십시오"
 
 #: ../mail/importers/evolution-mbox-importer.c:260
-#: ../shell/e-shell-utils.c:218
+#: ../shell/e-shell-utils.c:243
 msgid "Berkeley Mailbox (mbox)"
 msgstr "버클리 메일박스 (mbox)"
 
@@ -13872,7 +14105,7 @@ msgstr "%Y년 %b %e일"
 msgid "Select all visible messages"
 msgstr "모든 보이는 메시지 선택"
 
-#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:722
+#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:723
 msgid "Shell Backend"
 msgstr "셸 백엔드"
 
@@ -17413,10 +17646,6 @@ msgstr "사용자 지정 알림"
 msgid "Add   "
 msgstr "추가   "
 
-#: ../plugins/groupwise-features/share-folder.c:747
-msgid "Modify"
-msgstr "수정"
-
 #: ../plugins/groupwise-features/status-track.c:126
 msgid "Message Status"
 msgstr "메시지 상태"
@@ -19222,15 +19451,15 @@ msgstr "최초에 계정 설정을 할 때 안내합니다."
 msgid "Setup Assistant"
 msgstr "설정 도우미"
 
-#: ../plugins/startup-wizard/startup-wizard.c:87
+#: ../plugins/startup-wizard/startup-wizard.c:110
 msgid "Evolution Setup Assistant"
 msgstr "에볼루션 설정 도우미"
 
-#: ../plugins/startup-wizard/startup-wizard.c:92
+#: ../plugins/startup-wizard/startup-wizard.c:115
 msgid "Welcome"
 msgstr "환영합니다"
 
-#: ../plugins/startup-wizard/startup-wizard.c:97
+#: ../plugins/startup-wizard/startup-wizard.c:118
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -19243,26 +19472,26 @@ msgstr ""
 "\n"
 "계속하시려면 \"앞으로\" 단추를 누르십시오. "
 
-#: ../plugins/startup-wizard/startup-wizard.c:135
+#: ../plugins/startup-wizard/startup-wizard.c:153
 #: ../widgets/misc/e-import-assistant.c:385
 msgid "Please select the information that you would like to import:"
 msgstr "다음에서 가져오고 싶은 정보를 선택하십시오:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:150
+#: ../plugins/startup-wizard/startup-wizard.c:168
 #: ../widgets/misc/e-import-assistant.c:542
 #, c-format
 msgid "From %s:"
 msgstr "%s에서:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:167
+#: ../plugins/startup-wizard/startup-wizard.c:185
 msgid "Importing files"
 msgstr "파일 가져오기"
 
-#: ../plugins/startup-wizard/startup-wizard.c:230
+#: ../plugins/startup-wizard/startup-wizard.c:248
 msgid "Importing data."
 msgstr "데이터를 가져오는 중입니다."
 
-#: ../plugins/startup-wizard/startup-wizard.c:232
+#: ../plugins/startup-wizard/startup-wizard.c:250
 msgid "Please wait"
 msgstr "잠시 기다리십시오"
 
@@ -19401,31 +19630,39 @@ msgid "Default window width"
 msgstr "기본 창 너비"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
+msgid "Enable express mode"
+msgstr "고속 모드 사용"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr "인터넷을 통해 HTTP 및 보안 HTTP를 사용할 때 프록시 설정을 사용합니다."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.h:12
+msgid "Flag that enables a much simplified user interface."
+msgstr "아주 간략한 사용자 인터페이스를 사용하는 플래그."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
 msgstr "HTTP 프록시 호스트 이름"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "HTTP proxy password"
 msgstr "HTTP 프록시 암호"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "HTTP proxy port"
 msgstr "HTTP 프록시 포트"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "HTTP proxy username"
 msgstr "HTTP 프록시 사용자 이름"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "맨 처음 시작할 때 기본으로 보여줄 컴포넌트 ID 혹은 별명."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
 "If true, then connections to the proxy server require authentication. The "
 "username is retrieved from the \"/apps/evolution/shell/network_config/"
@@ -19437,63 +19674,63 @@ msgstr ""
 "고, 암호는 gnome-keyring이나 .gnome2_private/Evolution 암호 파일에서 가져옵니"
 "다."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Initial attachment view"
 msgstr "최초 첨부 보기"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Initial file chooser folder"
 msgstr "최초 파일 선택 폴더"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "GtkFileChooser 대화 상자의 최초 폴더."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
 "첨부 모음 위젯의 최초 보기 모드. \"0\"은 아이콘 보기, \"1\"은 목록 보기."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Last upgraded configuration version"
 msgstr "최근 업그레이드한 설정 버전"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "연결 중지 상태에서 사용할 때 동기화할 폴더의 경로 목록"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Non-proxy hosts"
 msgstr "프록시 없음 호스트"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Password to pass as authentication when doing HTTP proxying."
 msgstr "HTTP 프록시에 인증할 때 넘길 암호."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Proxy configuration mode"
 msgstr "프록시 설정 모드"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "SOCKS proxy host name"
 msgstr "SOCKS 프록시 호스트 이름"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:27
+#: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "SOCKS proxy port"
 msgstr "SOCKS 프록시 포트"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:28
+#: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Secure HTTP proxy host name"
 msgstr "보안 HTTP 프록시 호스트 이름"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:29
+#: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Secure HTTP proxy port"
 msgstr "보안 HTTP 프록시 포트"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:30
+#: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid ""
 "Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 "
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
@@ -19504,50 +19741,50 @@ msgstr ""
 "\"시스템 설정 사용\", \"프록시 없음\", \"수동 프록시 설정 사용\", \"자동 설"
 "정 URL에 들어 있는 프록시 설정 사용\"입니다."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:31
+#: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "Sidebar is visible"
 msgstr "보조 모음을 표시합니다"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:32
+#: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "Skip development warning dialog"
 msgstr "개발 버전 경고 건너 뛰기"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:322
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:326
 msgid "Start in offline mode"
 msgstr "연결 중지 상태에서 시작"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:34
+#: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "Statusbar is visible"
 msgstr "상태 표시줄을 표시합니다"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35
+#: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
 msgstr ""
 "에볼루션의 설정 버전, major/minor/configuration 단계. (예를 들어 \"2.6.0\")"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:36
+#: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid "The default X coordinate for the main window."
 msgstr "메인 창의 기본 가로 좌표."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:37
+#: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid "The default Y coordinate for the main window."
 msgstr "메인 창의 기본 세로 좌표."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:38
+#: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid "The default height for the main window, in pixels."
 msgstr "메인 창의 기본 높이, 픽셀 단위."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:39
+#: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid "The default width for the main window, in pixels."
 msgstr "메인 창의 기본 너비, 픽셀 단위."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:40
+#: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid "The default width for the sidebar, in pixels."
 msgstr "보조 모음의 기본 너비, 픽셀 단위."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:41
+#: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -19555,19 +19792,19 @@ msgstr ""
 "최근 업그레이드한 에볼루션의 설정 버전, major/minor/configuration 단계. (예"
 "를 들어 \"2.6.0\")"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:42
+#: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "The machine name to proxy HTTP through."
 msgstr "HTTP 프록시로 사용할 컴퓨터 이름."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:43
+#: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "The machine name to proxy secure HTTP through."
 msgstr "보안 HTTP 프록시로 사용할 컴퓨터 이름."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:44
+#: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "The machine name to proxy socks through."
 msgstr "SOCKS 프록시로 사용할 컴퓨터 이름."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:45
+#: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
@@ -19575,7 +19812,7 @@ msgstr ""
 "프록시로 이용할 \"/apps/evolution/shell/network_config/http_host\"에서 지정"
 "한 컴퓨터의 포트."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:46
+#: ../shell/apps_evolution_shell.schemas.in.h:48
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
@@ -19583,7 +19820,7 @@ msgstr ""
 "프록시로 이용할 \"/apps/evolution/shell/network_config/secure_host\"에서 지정"
 "한 컴퓨터의 포트."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:47
+#: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
@@ -19591,7 +19828,7 @@ msgstr ""
 "프록시로 이용할 \"/apps/evolution/shell/network_config/socks_host\"에서 지정"
 "한 컴퓨터의 포트."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:48
+#: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -19600,7 +19837,7 @@ msgstr ""
 "창 단추의 모양새. \"text\", \"icons\", \"both\", \"toolbar\" 사용 가능. "
 "\"toolbar\"일 경우 그놈 도구 모음 설정에 따라서 단추의 모양새가 결정됩니다."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:49
+#: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid ""
 "This key contains a list of hosts which are connected to directly, rather "
 "than via the proxy (if it is active). The values can be hostnames, domains "
@@ -19612,56 +19849,56 @@ msgstr ""
 "드카드 사용), IP 주소(IPv4와 IPv6 모두 가능), 네트마스크를 사용한 네트워크 주"
 "소(192.168.0.0/24와 같이) 모두 사용할 수 있습니다."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:50
+#: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Toolbar is visible"
 msgstr "도구 모음을 표시합니다"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:51
+#: ../shell/apps_evolution_shell.schemas.in.h:53
 msgid "URL that provides proxy configuration values."
 msgstr "프록시 설정 값이 들어 있는 URL."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:52
+#: ../shell/apps_evolution_shell.schemas.in.h:54
 msgid "Use HTTP proxy"
 msgstr "HTTP 프록시 사용"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:53
+#: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "User name to pass as authentication when doing HTTP proxying."
 msgstr "HTTP 프록시에 인증할 때 넘길 사용자 이름."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:54
+#: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "에볼루션이 처음에 연결 상태가 아니라 연결 중지 상태로 시작하는지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:55
+#: ../shell/apps_evolution_shell.schemas.in.h:57
 msgid "Whether or not the window should be maximized."
 msgstr "창을 최대화할지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:56
+#: ../shell/apps_evolution_shell.schemas.in.h:58
 msgid "Whether the sidebar should be visible."
 msgstr "보조 모음을 표시할지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:57
+#: ../shell/apps_evolution_shell.schemas.in.h:59
 msgid "Whether the status bar should be visible."
 msgstr "상태 표시줄을 표시할지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:58
+#: ../shell/apps_evolution_shell.schemas.in.h:60
 msgid "Whether the toolbar should be visible."
 msgstr "도구 모음을 표시할지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:59
+#: ../shell/apps_evolution_shell.schemas.in.h:61
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "에볼루션 개발 버전의 경고 대화 상자를 건너 뛸지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:60
+#: ../shell/apps_evolution_shell.schemas.in.h:62
 msgid "Whether the window buttons should be visible."
 msgstr "창 단추를 표시해야 하는지 여부."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:61
+#: ../shell/apps_evolution_shell.schemas.in.h:63
 msgid "Window button style"
 msgstr "창 단추 모양새"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:62
+#: ../shell/apps_evolution_shell.schemas.in.h:64
 msgid "Window buttons are visible"
 msgstr "창 단추 표시할지 여부"
 
@@ -19715,421 +19952,421 @@ msgstr "도구 모음 표시"
 msgid "Whether the switcher is visible"
 msgstr "전환 단추를 표시할지 여부"
 
-#: ../shell/e-shell-utils.c:220
+#: ../shell/e-shell-utils.c:245
 msgid "vCard (.vcf)"
 msgstr "vCard (.vcf)"
 
-#: ../shell/e-shell-utils.c:222
+#: ../shell/e-shell-utils.c:247
 msgid "iCalendar (.ics)"
 msgstr "iCalendar (.ics)"
 
-#: ../shell/e-shell-utils.c:243
+#: ../shell/e-shell-utils.c:268
 msgid "All Files (*)"
 msgstr "모든 파일 (*)"
 
-#: ../shell/e-shell-view.c:674
+#: ../shell/e-shell-view.c:675
 msgid "Switcher Action"
 msgstr "전환 단추 동작"
 
-#: ../shell/e-shell-view.c:675
+#: ../shell/e-shell-view.c:676
 msgid "The switcher action for this shell view"
 msgstr "이 셸 뷰의 전환 단추 동작"
 
-#: ../shell/e-shell-view.c:690
+#: ../shell/e-shell-view.c:691
 msgid "Page Number"
 msgstr "페이지 번호"
 
-#: ../shell/e-shell-view.c:691
+#: ../shell/e-shell-view.c:692
 msgid "The notebook page number of the shell view"
 msgstr "셸 뷰의 노트북 페이지 번호"
 
-#: ../shell/e-shell-view.c:707
+#: ../shell/e-shell-view.c:708
 msgid "Search Rule"
 msgstr "검색 규칙"
 
-#: ../shell/e-shell-view.c:708
+#: ../shell/e-shell-view.c:709
 msgid "Criteria for the current search results"
 msgstr "현재 검색 결과의 검색 기준"
 
-#: ../shell/e-shell-view.c:723
+#: ../shell/e-shell-view.c:724
 msgid "The EShellBackend for this shell view"
 msgstr "이 셸 뷰의 EShellBackend"
 
-#: ../shell/e-shell-view.c:738
+#: ../shell/e-shell-view.c:739
 msgid "Shell Content Widget"
 msgstr "셸 내용 위젯"
 
-#: ../shell/e-shell-view.c:739
+#: ../shell/e-shell-view.c:740
 msgid "The content widget appears in a shell window's right pane"
 msgstr "셸 창의 오른쪽 창에 나타나는 내용 위젯"
 
-#: ../shell/e-shell-view.c:755
+#: ../shell/e-shell-view.c:756
 msgid "Shell Sidebar Widget"
 msgstr "셸 보조 모음 위젯"
 
-#: ../shell/e-shell-view.c:756
+#: ../shell/e-shell-view.c:757
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr "셸 창의 왼쪽 창에 나타나는 보조 모음 위젯"
 
-#: ../shell/e-shell-view.c:771
+#: ../shell/e-shell-view.c:772
 msgid "Shell Taskbar Widget"
 msgstr "셸 도구 모음 위젯"
 
-#: ../shell/e-shell-view.c:772
+#: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr "셸 창의 아래에 나타나는 도구 모음 위젯"
 
-#: ../shell/e-shell-view.c:787
+#: ../shell/e-shell-view.c:788
 msgid "Shell Window"
 msgstr "셸 창"
 
-#: ../shell/e-shell-view.c:788
+#: ../shell/e-shell-view.c:789
 msgid "The window to which the shell view belongs"
 msgstr "셸 뷰가 들어 있는 창"
 
-#: ../shell/e-shell-view.c:804
+#: ../shell/e-shell-view.c:805
 msgid "The key file holding widget state data"
 msgstr "위젯 상태 데이터가 들어 있는 키 파일"
 
-#: ../shell/e-shell-view.c:819
+#: ../shell/e-shell-view.c:820
 msgid "The title of the shell view"
 msgstr "셸 뷰의 제목"
 
-#: ../shell/e-shell-view.c:833
+#: ../shell/e-shell-view.c:834
 msgid "Current View ID"
 msgstr "현재 뷰 ID"
 
-#: ../shell/e-shell-view.c:834
+#: ../shell/e-shell-view.c:835
 msgid "The current GAL view ID"
 msgstr "현재 GAL 뷰 ID"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:644
+#: ../shell/e-shell-window-actions.c:645
 msgid "translator-credits"
 msgstr "GNOME Korea <gnome-kr@googlegroups.com>"
 
-#: ../shell/e-shell-window-actions.c:655
+#: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
 msgstr "에볼루션 웹사이트"
 
-#: ../shell/e-shell-window-actions.c:1223
+#: ../shell/e-shell-window-actions.c:1224
 msgid "Bug Buddy is not installed."
 msgstr "버그버디를 설치하지 않았습니다."
 
-#: ../shell/e-shell-window-actions.c:1225
+#: ../shell/e-shell-window-actions.c:1226
 msgid "Bug Buddy could not be run."
 msgstr "버그버디를 실행할 수 없습니다."
 
-#: ../shell/e-shell-window-actions.c:1327
+#: ../shell/e-shell-window-actions.c:1343
 msgid "GNOME Pilot is not installed."
 msgstr "그놈 파일럿을 설치하지 않았습니다."
 
-#: ../shell/e-shell-window-actions.c:1329
+#: ../shell/e-shell-window-actions.c:1345
 msgid "GNOME Pilot could not be run."
 msgstr "그놈 파일럿을 실행할 수 없습니다."
 
-#: ../shell/e-shell-window-actions.c:1423
+#: ../shell/e-shell-window-actions.c:1439
 msgid "Show information about Evolution"
 msgstr "에볼루션에 대한 정보를 보여줍니다"
 
-#: ../shell/e-shell-window-actions.c:1428
+#: ../shell/e-shell-window-actions.c:1444
 msgid "_Close Window"
 msgstr "창 닫기(_C)"
 
-#: ../shell/e-shell-window-actions.c:1435
+#: ../shell/e-shell-window-actions.c:1451
 msgid "_Contents"
 msgstr "차례(_C)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1437
+#: ../shell/e-shell-window-actions.c:1453
 msgid "Open the Evolution User Guide"
 msgstr "에볼루션 사용자 안내서를 엽니다"
 
-#: ../shell/e-shell-window-actions.c:1463
+#: ../shell/e-shell-window-actions.c:1479
 msgid "Evolution _FAQ"
 msgstr "에볼루션 자주 하는 질문(_F)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1465
+#: ../shell/e-shell-window-actions.c:1481
 msgid "Open the Frequently Asked Questions webpage"
 msgstr "자주하는 질문 웹페이지를 엽니다"
 
-#: ../shell/e-shell-window-actions.c:1470
+#: ../shell/e-shell-window-actions.c:1486
 msgid "_Forget Passwords"
 msgstr "저장한 암호 초기화(_F)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1472
+#: ../shell/e-shell-window-actions.c:1488
 msgid "Forget all remembered passwords"
 msgstr "저장한 모든 암호를 초기화합니다"
 
-#: ../shell/e-shell-window-actions.c:1477
+#: ../shell/e-shell-window-actions.c:1493
 msgid "I_mport..."
 msgstr "가져오기(_M)..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1479
+#: ../shell/e-shell-window-actions.c:1495
 msgid "Import data from other programs"
 msgstr "다른 프로그램에서 데이터를 가져옵니다"
 
-#: ../shell/e-shell-window-actions.c:1484
+#: ../shell/e-shell-window-actions.c:1500
 msgid "New _Window"
 msgstr "새 창(_W)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1502
 msgid "Create a new window displaying this view"
 msgstr "이 뷰를 새 창을 만듭니다"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1516
 msgid "Configure Evolution"
 msgstr "에볼루션 설정"
 
-#: ../shell/e-shell-window-actions.c:1505
+#: ../shell/e-shell-window-actions.c:1521
 msgid "_Quick Reference"
 msgstr "짧은 참조 문서(_Q)"
 
-#: ../shell/e-shell-window-actions.c:1507
+#: ../shell/e-shell-window-actions.c:1523
 msgid "Show Evolution's shortcut keys"
 msgstr "에볼루션 바로 가기 키를 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1530
 msgid "Exit the program"
 msgstr "프로그램을 끝냅니다"
 
-#: ../shell/e-shell-window-actions.c:1519
+#: ../shell/e-shell-window-actions.c:1535
 msgid "_Advanced Search..."
 msgstr "고급 검색(_A)..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1521
+#: ../shell/e-shell-window-actions.c:1537
 msgid "Construct a more advanced search"
 msgstr "더 복잡한 고급 검색을 수행합니다"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1544
 msgid "Clear the current search parameters"
 msgstr "현재 검색 파라미터를 지웁니다"
 
-#: ../shell/e-shell-window-actions.c:1533
+#: ../shell/e-shell-window-actions.c:1549
 msgid "_Edit Saved Searches..."
 msgstr "저장한 검색 편집(_E)..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1535
+#: ../shell/e-shell-window-actions.c:1551
 msgid "Manage your saved searches"
 msgstr "저장한 검색을 관리합니다"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1558
 msgid "Click here to change the search type"
 msgstr "검색 종류를 바꾸려면 여기를 누르십시오"
 
-#: ../shell/e-shell-window-actions.c:1547
+#: ../shell/e-shell-window-actions.c:1563
 msgid "_Find Now"
 msgstr "지금 찾기(_F)"
 
 # tooltip
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1549
+#: ../shell/e-shell-window-actions.c:1565
 msgid "Execute the current search parameters"
 msgstr "현재 검색 파라미터를 실행합니다"
 
-#: ../shell/e-shell-window-actions.c:1554
+#: ../shell/e-shell-window-actions.c:1570
 msgid "_Save Search..."
 msgstr "검색 저장(_S)..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1572
 msgid "Save the current search parameters"
 msgstr "현재 검색 파라미터를 저장합니다"
 
-#: ../shell/e-shell-window-actions.c:1568
+#: ../shell/e-shell-window-actions.c:1584
 msgid "Send / _Receive"
 msgstr "보내고 받기(_R)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1586
 msgid "Send queued items and retrieve new items"
 msgstr "밀린 메일을 보내고 새 메일을 받습니다"
 
-#: ../shell/e-shell-window-actions.c:1575
+#: ../shell/e-shell-window-actions.c:1591
 msgid "Submit _Bug Report..."
 msgstr "버그 제보(_B)..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1593
 msgid "Submit a bug report using Bug Buddy"
 msgstr "버그버디로 버그제보를 합니다"
 
-#: ../shell/e-shell-window-actions.c:1582
+#: ../shell/e-shell-window-actions.c:1598
 msgid "GNOME Pilot _Synchronization..."
 msgstr "그놈 파일럿 동기화(_S)..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1584
+#: ../shell/e-shell-window-actions.c:1600
 msgid "Set up GNOME Pilot configuration"
 msgstr "그놈 파일럿을 설정합니다"
 
-#: ../shell/e-shell-window-actions.c:1589
+#: ../shell/e-shell-window-actions.c:1605
 msgid "_Work Offline"
 msgstr "연결 중지 상태 작업(_W)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1607
 msgid "Put Evolution into offline mode"
 msgstr "에볼루션을 연결 중지 상태로 바꿉니다"
 
-#: ../shell/e-shell-window-actions.c:1596
+#: ../shell/e-shell-window-actions.c:1612
 msgid "_Work Online"
 msgstr "연결 상태 작업(_W)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1614
 msgid "Put Evolution into online mode"
 msgstr "에볼루션을 연결 상태로 바꿉니다"
 
-#: ../shell/e-shell-window-actions.c:1626
+#: ../shell/e-shell-window-actions.c:1642
 msgid "Lay_out"
 msgstr "배치(_O)"
 
-#: ../shell/e-shell-window-actions.c:1633
+#: ../shell/e-shell-window-actions.c:1649
 msgid "_New"
 msgstr "새로 만들기(_N)"
 
-#: ../shell/e-shell-window-actions.c:1640
+#: ../shell/e-shell-window-actions.c:1656
 msgid "_Search"
 msgstr "검색(_S)"
 
-#: ../shell/e-shell-window-actions.c:1647
+#: ../shell/e-shell-window-actions.c:1663
 msgid "_Switcher Appearance"
 msgstr "전환 단추 모양(_S)"
 
-#: ../shell/e-shell-window-actions.c:1661
+#: ../shell/e-shell-window-actions.c:1677
 msgid "_Window"
 msgstr "창(_W)"
 
-#: ../shell/e-shell-window-actions.c:1690
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show Side _Bar"
 msgstr "보조 모음 보기(_B)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1692
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show the side bar"
 msgstr "보조 모음을 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1698
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Buttons"
 msgstr "단추 보기(_B)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1700
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show the switcher buttons"
 msgstr "전환 단추를 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1706
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Status Bar"
 msgstr "상태 표시줄 보기(_S)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1708
+#: ../shell/e-shell-window-actions.c:1724
 msgid "Show the status bar"
 msgstr "상태 표시줄을 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1714
+#: ../shell/e-shell-window-actions.c:1730
 msgid "Show _Tool Bar"
 msgstr "도구 모음 보기(_T)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1716
+#: ../shell/e-shell-window-actions.c:1732
 msgid "Show the tool bar"
 msgstr "도구 모음을 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1738
+#: ../shell/e-shell-window-actions.c:1754
 msgid "_Icons Only"
 msgstr "아이콘만(_I)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1740
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Display window buttons with icons only"
 msgstr "아이콘만 사용해 창 단추를 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1745
+#: ../shell/e-shell-window-actions.c:1761
 msgid "_Text Only"
 msgstr "텍스트만(_T)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1763
 msgid "Display window buttons with text only"
 msgstr "텍스트만 사용해 창 단추를 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1752
+#: ../shell/e-shell-window-actions.c:1768
 msgid "Icons _and Text"
 msgstr "아이콘 및 텍스트(_A)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1754
+#: ../shell/e-shell-window-actions.c:1770
 msgid "Display window buttons with icons and text"
 msgstr "아이콘과 텍스트를 사용해 창 단추를 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1759
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Tool_bar Style"
 msgstr "도구 모음 모양(_B)"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "데스크톱 도구 모음 설정을 사용해 창 단추를 표시합니다"
 
-#: ../shell/e-shell-window-actions.c:1769
+#: ../shell/e-shell-window-actions.c:1785
 msgid "Define Views..."
 msgstr "보기 지정..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1771
+#: ../shell/e-shell-window-actions.c:1787
 msgid "Create or edit views"
 msgstr "보기를 만들거나 편집합니다"
 
-#: ../shell/e-shell-window-actions.c:1776
+#: ../shell/e-shell-window-actions.c:1792
 msgid "Save Custom View..."
 msgstr "사용자 보기 저장..."
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1794
 msgid "Save current custom view"
 msgstr "현재 사용자 정의 뷰를 저장합니다"
 
-#: ../shell/e-shell-window-actions.c:1785
+#: ../shell/e-shell-window-actions.c:1801
 msgid "C_urrent View"
 msgstr "현재 보기(_U)"
 
-#: ../shell/e-shell-window-actions.c:1795
+#: ../shell/e-shell-window-actions.c:1811
 msgid "Custom View"
 msgstr "사용자 보기"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1797
+#: ../shell/e-shell-window-actions.c:1813
 msgid "Current view is a customized view"
 msgstr "현재 뷰는 사용자 정의 뷰입니다"
 
 # tooltip
-#: ../shell/e-shell-window-actions.c:1807
+#: ../shell/e-shell-window-actions.c:1823
 msgid "Change the page settings for your current printer"
 msgstr "현재 프린터의 페이지 설정을 바꿉니다"
 
-#: ../shell/e-shell-window-actions.c:2127
+#: ../shell/e-shell-window-actions.c:2200
 #, c-format
 msgid "Switch to %s"
 msgstr "%s 창으로 바꾸기"
 
-#: ../shell/e-shell-window-actions.c:2332
+#: ../shell/e-shell-window-actions.c:2413
 msgid "Execute these search parameters"
 msgstr "이 검색 파라미터를 실행합니다"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:555
+#: ../shell/e-shell-window-private.c:567
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - 에볼루션"
@@ -20150,11 +20387,11 @@ msgstr "사용 중인 셸 뷰의 이름"
 msgid "The shell window's EFocusTracker"
 msgstr "셸 창의 EFocusTracker"
 
-#: ../shell/e-shell-window.c:646 ../shell/e-shell.c:761
+#: ../shell/e-shell-window.c:646 ../shell/e-shell.c:803
 msgid "Geometry"
 msgstr "크기 및 위치"
 
-#: ../shell/e-shell-window.c:647 ../shell/e-shell.c:762
+#: ../shell/e-shell-window.c:647 ../shell/e-shell.c:804
 msgid "Initial window geometry string"
 msgstr "창 크기 및 위치 지정 문자열"
 
@@ -20203,46 +20440,46 @@ msgid "The shell window's GtkUIManager"
 msgstr "셸 창의 GtkUIManager"
 
 # 주의: 다른 메시지의 일부로 쓰인다. 문장으로 번역하지 말 것.
-#: ../shell/e-shell.c:210
+#: ../shell/e-shell.c:212
 msgid "Preparing to go offline..."
 msgstr "연결 중지 상태로 이동하는 준비 중..."
 
 # 주의: 다른 메시지의 일부로 쓰인다. 문장으로 번역하지 말 것.
-#: ../shell/e-shell.c:260
+#: ../shell/e-shell.c:262
 msgid "Preparing to go online..."
 msgstr "연결 상태로 이동하는 준비 중..."
 
 # 주의: 다른 메시지의 일부로 쓰인다. 문장으로 번역하지 말 것.
-#: ../shell/e-shell.c:328
+#: ../shell/e-shell.c:330
 msgid "Preparing to quit..."
 msgstr "끝낼 준비 중..."
 
-#: ../shell/e-shell.c:777
+#: ../shell/e-shell.c:819
 msgid "Module Directory"
 msgstr "모듈 디렉터리"
 
-#: ../shell/e-shell.c:778
+#: ../shell/e-shell.c:820
 msgid "The directory from which to load EModules"
 msgstr "EModule을 읽어들일 디렉터리"
 
-#: ../shell/e-shell.c:793
+#: ../shell/e-shell.c:835
 msgid "Network Available"
 msgstr "네트워크 사용 가능"
 
-#: ../shell/e-shell.c:794
+#: ../shell/e-shell.c:836
 msgid "Whether the network is available"
 msgstr "네트워크가 사용 가능한지 여부"
 
-#: ../shell/e-shell.c:809 ../widgets/misc/e-online-button.c:134
+#: ../shell/e-shell.c:851 ../widgets/misc/e-online-button.c:134
 msgid "Online"
 msgstr "연결 중"
 
-#: ../shell/e-shell.c:810
+#: ../shell/e-shell.c:852
 msgid "Whether the shell is online"
 msgstr "셸이 연결 중인지 여부"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:167
+#: ../shell/main.c:168
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20276,7 +20513,7 @@ msgstr ""
 "우리가 열심히 일한 결과물을 잘 써 주시길 바랍니다. 그리고 개발에\n"
 "기여해 주시기를 목이 빠지게 기다리겠습니다!\n"
 
-#: ../shell/main.c:191
+#: ../shell/main.c:192
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20284,55 +20521,59 @@ msgstr ""
 "고맙습니다\n"
 "에볼루션 팀\n"
 
-#: ../shell/main.c:198
+#: ../shell/main.c:199
 msgid "Do not tell me again"
 msgstr "다시 알리지 않기"
 
-#: ../shell/main.c:318
+#: ../shell/main.c:322
 msgid "Start Evolution activating the specified component"
 msgstr "에볼루션 시작할 때 특정 컴포넌트를 활성화합니다"
 
-#: ../shell/main.c:320
+#: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
 msgstr "해당 크기와 위치를 메인 창에 적용합니다"
 
-#: ../shell/main.c:324
+#: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "연결 상태에서 시작"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:330
+msgid "Start in \"express\" mode"
+msgstr "\"고속\" 모드에서 시작"
+
+#: ../shell/main.c:333
 msgid "Forcibly shut down Evolution"
 msgstr "강제로 에볼루션을 끝냅니다"
 
-#: ../shell/main.c:331
+#: ../shell/main.c:337
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "강제로 에볼루션 1.4에서 다시 옮겨 옵니다"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:340
 msgid "Send the debugging output of all components to a file."
 msgstr "모든 컴포넌트의 디버깅 출력을 파일로 보냅니다."
 
-#: ../shell/main.c:336
+#: ../shell/main.c:342
 msgid "Disable loading of any plugins."
 msgstr "플러그인을 아무것도 읽어들이지 않습니다."
 
-#: ../shell/main.c:338
+#: ../shell/main.c:344
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "전자메일, 연락처, 작업의 미리 보기 창을 사용하지 않습니다."
 
-#: ../shell/main.c:342
+#: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "뒤의 인자에 쓴 URI와 파일이름을 가져옵니다."
 
-#: ../shell/main.c:344
+#: ../shell/main.c:350
 msgid "Request a running Evolution process to quit"
 msgstr "실행 중인 에볼루션 프로세스에 끝내는 요청을 합니다"
 
-#: ../shell/main.c:494
+#: ../shell/main.c:465
 msgid "- The Evolution PIM and Email Client"
 msgstr "- 에볼루션 개인정보 관리 및 메일 클라이언트"
 
-#: ../shell/main.c:520
+#: ../shell/main.c:491
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21276,28 +21517,28 @@ msgstr[0] "첨부 저장"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../widgets/misc/e-attachment-view.c:299
+#: ../widgets/misc/e-attachment-view.c:300
 msgid "S_ave All"
 msgstr "모두 저장(_A)"
 
-#: ../widgets/misc/e-attachment-view.c:325
+#: ../widgets/misc/e-attachment-view.c:326
 msgid "A_dd Attachment..."
 msgstr "첨부파일 추가(_D)..."
 
-#: ../widgets/misc/e-attachment-view.c:349
+#: ../widgets/misc/e-attachment-view.c:350
 msgid "_Hide"
 msgstr "숨기기(_H)"
 
-#: ../widgets/misc/e-attachment-view.c:356
+#: ../widgets/misc/e-attachment-view.c:357
 msgid "_View Inline"
 msgstr "내부에서 보기(_V)"
 
-#: ../widgets/misc/e-attachment-view.c:638
+#: ../widgets/misc/e-attachment-view.c:639
 #, c-format
 msgid "Open with \"%s\""
 msgstr "\"%s\"에서 열기"
 
-#: ../widgets/misc/e-attachment-view.c:641
+#: ../widgets/misc/e-attachment-view.c:642
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "이 첨부를 \"%s\"에서 열기"
