@@ -418,7 +418,7 @@ memo_shell_content_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	priv->memo_model = e_cal_model_memos_new (shell_settings);
+	priv->memo_model = e_cal_model_memos_new ();
 
 	timezone = e_shell_settings_get_pointer (
 		shell_settings, "cal-timezone");

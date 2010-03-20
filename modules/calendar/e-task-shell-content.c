@@ -415,7 +415,7 @@ task_shell_content_constructed (GObject *object)
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	priv->task_model = e_cal_model_tasks_new (shell_settings);
+	priv->task_model = e_cal_model_tasks_new ();
 
 	timezone = e_shell_settings_get_pointer (
 		shell_settings, "cal-timezone");

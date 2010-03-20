@@ -71,8 +71,8 @@ struct _ECalModelCalendarClass {
 	ECalModelClass parent_class;
 };
 
-GType		e_cal_model_calendar_get_type (void);
-ECalModel *	e_cal_model_calendar_new	(EShellSettings *shell_settings);
+GType		e_cal_model_calendar_get_type	(void);
+ECalModel *	e_cal_model_calendar_new	(void);
 
 G_END_DECLS
 

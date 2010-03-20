@@ -40,6 +40,7 @@
 
 #include "misc/e-dateedit.h"
 #include "e-util/e-binding.h"
+#include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
 
 #include "e-meeting-utils.h"
@@ -203,7 +204,9 @@ static void row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer dat
 
 static void free_busy_template_changed_cb (EMeetingTimeSelector *mts);
 
-G_DEFINE_TYPE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE)
+G_DEFINE_TYPE_WITH_CODE (
+	EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 meeting_time_selector_set_property (GObject *object,
@@ -391,6 +394,8 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 
 	mts->fb_refresh_not = 0;
 	mts->style_change_idle_id = 0;
+
+	e_extensible_load_extensions (E_EXTENSIBLE (mts));
 }
 
 void

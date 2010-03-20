@@ -74,8 +74,6 @@ static GHashTable *non_intrusive_error_table = NULL;
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
-	EShellSettings *shell_settings;
-
 	ECalModel *model;
 
 	/*
@@ -136,7 +134,6 @@ struct _GnomeCalendarPrivate {
 enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
-	PROP_SHELL_SETTINGS,
 	PROP_VIEW
 };
 
@@ -320,16 +317,6 @@ gnome_calendar_update_time_range (GnomeCalendar *gcal)
 }
 
 static void
-gnome_calendar_set_shell_settings (GnomeCalendar *gcal,
-                                   EShellSettings *shell_settings)
-{
-	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
-	g_return_if_fail (gcal->priv->shell_settings == NULL);
-
-	gcal->priv->shell_settings = g_object_ref (shell_settings);
-}
-
-static void
 gnome_calendar_set_property (GObject *object,
                              guint property_id,
                              const GValue *value,
@@ -338,12 +325,6 @@ gnome_calendar_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_DATE_NAVIGATOR:
 			gnome_calendar_set_date_navigator (
-				GNOME_CALENDAR (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_SHELL_SETTINGS:
-			gnome_calendar_set_shell_settings (
 				GNOME_CALENDAR (object),
 				g_value_get_object (value));
 			return;
@@ -371,12 +352,6 @@ gnome_calendar_get_property (GObject *object,
 				GNOME_CALENDAR (object)));
 			return;
 
-		case PROP_SHELL_SETTINGS:
-			g_value_set_object (
-				value, gnome_calendar_get_shell_settings (
-				GNOME_CALENDAR (object)));
-			return;
-
 		case PROP_VIEW:
 			g_value_set_int (
 				value, gnome_calendar_get_view (
@@ -391,15 +366,12 @@ static void
 gnome_calendar_constructed (GObject *object)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (object);
-	EShellSettings *shell_settings;
 	ECalendarView *calendar_view;
 	ECalModel *model;
 	GtkAdjustment *adjustment;
 
-	shell_settings = gnome_calendar_get_shell_settings (gcal);
-
 	/* Create the model for the views. */
-	model = e_cal_model_calendar_new (shell_settings);
+	model = e_cal_model_calendar_new ();
 	e_cal_model_set_flags (model, E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
 	gcal->priv->model = model;
 
@@ -509,17 +481,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			NULL,
 			E_TYPE_CALENDAR,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_SETTINGS,
-		g_param_spec_object (
-			"shell-settings",
-			_("Shell Settings"),
-			_("Application-wide settings"),
-			E_TYPE_SHELL_SETTINGS,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -1412,11 +1373,6 @@ gnome_calendar_do_dispose (GObject *object)
 	priv = gcal->priv;
 
 	
-	if (priv->shell_settings != NULL) {
-		g_object_unref (priv->shell_settings);
-		priv->shell_settings = NULL;
-	}
-
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			priv->model, view_progress_cb, gcal);
@@ -1826,21 +1782,9 @@ non_intrusive_error_remove(GtkWidget *w, gpointer data)
 }
 
 GtkWidget *
-gnome_calendar_new (EShellSettings *shell_settings)
+gnome_calendar_new (void)
 {
-	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
-
-	return g_object_new (
-		GNOME_TYPE_CALENDAR,
-		"shell-settings", shell_settings, NULL);
-}
-
-EShellSettings *
-gnome_calendar_get_shell_settings (GnomeCalendar *gcal)
-{
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	return gcal->priv->shell_settings;
+	return g_object_new (GNOME_TYPE_CALENDAR, NULL);
 }
 
 ECalendar *

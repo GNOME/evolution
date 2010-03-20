@@ -133,27 +133,6 @@ cal_model_tasks_finalize (GObject *object)
 }
 
 static void
-cal_model_tasks_constructed (GObject *object)
-{
-	ECalModel *model;
-	EShellSettings *shell_settings;
-
-	model = E_CAL_MODEL (object);
-	shell_settings = e_cal_model_get_shell_settings (model);
-
-	e_binding_new (
-		shell_settings, "cal-tasks-color-due-today",
-		model, "color-due-today");
-
-	e_binding_new (
-		shell_settings, "cal-tasks-color-overdue",
-		model, "color-overdue");
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->constructed (object);
-}
-
-static void
 e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 {
 	GObjectClass *object_class;
@@ -166,7 +145,6 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 	object_class->set_property = cal_model_tasks_set_property;
 	object_class->get_property = cal_model_tasks_get_property;
 	object_class->finalize = cal_model_tasks_finalize;
-	object_class->constructed = cal_model_tasks_constructed;
 
 	table_model_class = E_TABLE_MODEL_CLASS (class);
 	table_model_class->column_count = ecmt_column_count;
@@ -1157,13 +1135,9 @@ ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 }
 
 ECalModel *
-e_cal_model_tasks_new (EShellSettings *shell_settings)
+e_cal_model_tasks_new (void)
 {
-	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
-
-	return g_object_new (
-		E_TYPE_CAL_MODEL_TASKS,
-		"shell-settings", shell_settings, NULL);
+	return g_object_new (E_TYPE_CAL_MODEL_TASKS, NULL);
 }
 
 const gchar *

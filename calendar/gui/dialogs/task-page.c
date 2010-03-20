@@ -1360,10 +1360,8 @@ get_widgets (TaskPage *tpage)
 
 	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->due_date = e_builder_get_widget (priv->builder, "due-date");
-	comp_editor_bind_date_edit_settings (priv->due_date, NULL);
 	gtk_widget_show (priv->due_date);
 	priv->start_date = e_builder_get_widget (priv->builder, "start-date");
-	comp_editor_bind_date_edit_settings (priv->start_date, NULL);
 	gtk_widget_show (priv->start_date);
 
 	priv->timezone = e_builder_get_widget (priv->builder, "timezone");

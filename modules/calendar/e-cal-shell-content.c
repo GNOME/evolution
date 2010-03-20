@@ -252,7 +252,6 @@ cal_shell_content_constructed (GObject *object)
 	EShell *shell;
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *foreign_content;
@@ -281,7 +280,6 @@ cal_shell_content_constructed (GObject *object)
 	config_dir = e_shell_backend_get_config_dir (shell_backend);
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* We borrow the memopad and taskpad models from the memo
 	 * and task views, loading the views if necessary. */
@@ -332,7 +330,7 @@ cal_shell_content_constructed (GObject *object)
 	/* Add views in the order defined by GnomeCalendarViewType, such
 	 * that the notebook page number corresponds to the view type. */
 
-	priv->calendar = gnome_calendar_new (shell_settings);
+	priv->calendar = gnome_calendar_new ();
 	calendar = GNOME_CALENDAR (priv->calendar);
 
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {

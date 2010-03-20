@@ -2219,7 +2219,6 @@ get_widgets (EventPage *epage)
 
 	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->start_time = GW ("start-time");
-	comp_editor_bind_date_edit_settings (priv->start_time, NULL);
 	gtk_widget_show (priv->start_time);
 
 	priv->time_hour = GW ("time-hour");
@@ -2228,7 +2227,6 @@ get_widgets (EventPage *epage)
 	priv->end_time_combo = GW ("end-time-combobox");
 
 	priv->end_time = GW ("end-time");
-	comp_editor_bind_date_edit_settings (priv->end_time, NULL);
 	gtk_widget_show_all (priv->time_hour);
 	gtk_widget_hide (priv->end_time);
 

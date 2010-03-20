@@ -33,6 +33,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-alert-dialog.h>
+#include <e-util/e-extensible.h>
 #include <e-util/e-selection.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-utils.h>
@@ -104,7 +105,9 @@ static guint signals[LAST_SIGNAL];
 
 static void calendar_view_selectable_init (ESelectableInterface *interface);
 
-G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE,
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
+	ECalendarView, e_calendar_view, GTK_TYPE_TABLE,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, calendar_view_selectable_init));
 
 static void
@@ -873,6 +876,8 @@ e_calendar_view_init (ECalendarView *calendar_view)
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	calendar_view->priv->paste_target_list = target_list;
+
+	e_extensible_load_extensions (E_EXTENSIBLE (calendar_view));
 }
 
 static void

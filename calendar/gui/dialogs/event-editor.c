@@ -363,25 +363,12 @@ static void
 event_editor_constructed (GObject *object)
 {
 	EventEditorPrivate *priv;
-	EShellSettings *shell_settings;
-	EShell *shell;
 
 	priv = EVENT_EDITOR_GET_PRIVATE (object);
-
-	shell = comp_editor_get_shell (COMP_EDITOR (object));
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_binding_new (
 		object, "client",
 		priv->model, "client");
-
-	e_binding_new (
-		shell_settings, "cal-free-busy-template",
-		priv->model, "free-busy-template");
-
-	e_binding_new (
-		shell_settings, "cal-timezone",
-		priv->model, "timezone");
 }
 
 static void

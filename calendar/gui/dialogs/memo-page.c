@@ -813,7 +813,6 @@ get_widgets (MemoPage *mpage)
 #undef GW
 
 	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/memos/sources");
-	comp_editor_bind_date_edit_settings (priv->start_date, NULL);
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);

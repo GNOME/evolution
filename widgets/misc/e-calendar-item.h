@@ -109,12 +109,24 @@ typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
 typedef struct tm (*ECalendarItemGetTimeCallback) (ECalendarItem *calitem,
 						   gpointer	  data);
 
-#define E_CALENDAR_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-        e_calendar_item_get_type (), ECalendarItem))
-#define E_CALENDAR_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_calendar_item_get_type ()))
-#define E_IS_CALENDAR_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), \
-	e_calendar_item_get_type ()))
+/* Standard GObject macros */
+#define E_TYPE_CALENDAR_ITEM \
+	(e_calendar_item_get_type ())
+#define E_CALENDAR_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CALENDAR_ITEM, ECalendarItem))
+#define E_CALENDAR_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CALENDAR_ITEM, ECalendarItemClass))
+#define E_IS_CALENDAR_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CALENDAR_ITEM))
+#define E_IS_CALENDAR_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CALENDAR_ITEM))
+#define E_CALENDAR_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CALENDAR_ITEM, ECalendarItemClass))
 
 struct _ECalendarItem
 {

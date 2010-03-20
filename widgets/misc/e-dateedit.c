@@ -41,6 +41,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <e-util/e-binding.h>
+#include <e-util/e-extensible.h>
 #include "e-calendar.h"
 
 #define E_DATE_EDIT_GET_PRIVATE(obj) \
@@ -205,8 +206,11 @@ static gboolean e_date_edit_set_time_internal	(EDateEdit	*dedit,
 						 gint		 hour,
 						 gint		 minute);
 
-static gpointer parent_class;
 static gint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE_WITH_CODE (
+	EDateEdit, e_date_edit, GTK_TYPE_HBOX,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 date_edit_set_property (GObject *object,
@@ -334,16 +338,15 @@ date_edit_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_date_edit_parent_class)->dispose (object);
 }
 
 static void
-date_edit_class_init (EDateEditClass *class)
+e_date_edit_class_init (EDateEditClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EDateEditPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -448,7 +451,7 @@ date_edit_class_init (EDateEditClass *class)
 }
 
 static void
-date_edit_init (EDateEdit *dedit)
+e_date_edit_init (EDateEdit *dedit)
 {
 	dedit->priv = E_DATE_EDIT_GET_PRIVATE (dedit);
 
@@ -476,32 +479,8 @@ date_edit_init (EDateEdit *dedit)
 
 	/* Set it to the current time. */
 	e_date_edit_set_time (dedit, 0);
-}
 
-GType
-e_date_edit_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info =  {
-			sizeof (EDateEditClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) date_edit_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EDateEdit),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) date_edit_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_HBOX, "EDateEdit", &type_info, 0);
-	}
-
-	return type;
+	e_extensible_load_extensions (E_EXTENSIBLE (dedit));
 }
 
 /**

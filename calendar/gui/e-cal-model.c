@@ -35,7 +35,7 @@
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "e-util/e-binding.h"
+#include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
 
 #define E_CAL_MODEL_GET_PRIVATE(obj) \
@@ -54,8 +54,6 @@ typedef struct {
 } ECalModelClient;
 
 struct _ECalModelPrivate {
-	EShellSettings *shell_settings;
-
 	/* The list of clients we are managing. Each element is of type ECalModelClient */
 	GList *clients;
 
@@ -128,7 +126,6 @@ static void remove_client (ECalModel *model, ECalModelClient *client_data);
 enum {
 	PROP_0,
 	PROP_DEFAULT_CLIENT,
-	PROP_SHELL_SETTINGS,
 	PROP_TIMEZONE,
 	PROP_USE_24_HOUR_FORMAT,
 	PROP_WEEK_START_DAY
@@ -147,17 +144,9 @@ enum {
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE)
-
-static void
-cal_model_set_shell_settings (ECalModel *cal_model,
-                              EShellSettings *shell_settings)
-{
-	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
-	g_return_if_fail (cal_model->priv->shell_settings == NULL);
-
-	cal_model->priv->shell_settings = g_object_ref (shell_settings);
-}
+G_DEFINE_TYPE_WITH_CODE (
+	ECalModel, e_cal_model, E_TABLE_MODEL_TYPE,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 cal_model_set_property (GObject *object,
@@ -168,12 +157,6 @@ cal_model_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_DEFAULT_CLIENT:
 			e_cal_model_set_default_client (
-				E_CAL_MODEL (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_SHELL_SETTINGS:
-			cal_model_set_shell_settings (
 				E_CAL_MODEL (object),
 				g_value_get_object (value));
 			return;
@@ -214,13 +197,6 @@ cal_model_get_property (GObject *object,
 				E_CAL_MODEL (object)));
 			return;
 
-		case PROP_SHELL_SETTINGS:
-			g_value_set_object (
-				value,
-				e_cal_model_get_shell_settings (
-				E_CAL_MODEL (object)));
-			return;
-
 		case PROP_TIMEZONE:
 			g_value_set_pointer (
 				value,
@@ -252,11 +228,6 @@ cal_model_dispose (GObject *object)
 	ECalModelPrivate *priv;
 
 	priv = E_CAL_MODEL_GET_PRIVATE (object);
-
-	if (priv->shell_settings != NULL) {
-		g_object_unref (priv->shell_settings);
-		priv->shell_settings = NULL;
-	}
 
 	if (priv->clients) {
 		while (priv->clients != NULL) {
@@ -316,28 +287,6 @@ cal_model_finalize (GObject *object)
 }
 
 static void
-cal_model_constructed (GObject *object)
-{
-	ECalModel *model;
-	EShellSettings *shell_settings;
-
-	model = E_CAL_MODEL (object);
-	shell_settings = e_cal_model_get_shell_settings (model);
-
-	e_binding_new (
-		shell_settings, "cal-timezone",
-		model, "timezone");
-
-	e_binding_new (
-		shell_settings, "cal-use-24-hour-format",
-		model, "use-24-hour-format");
-
-	e_binding_new (
-		shell_settings, "cal-week-start-day",
-		model, "week-start-day");
-}
-
-static void
 e_cal_model_class_init (ECalModelClass *class)
 {
 	GObjectClass *object_class;
@@ -351,7 +300,6 @@ e_cal_model_class_init (ECalModelClass *class)
 	object_class->get_property = cal_model_get_property;
 	object_class->dispose = cal_model_dispose;
 	object_class->finalize = cal_model_finalize;
-	object_class->constructed = cal_model_constructed;
 
 	etm_class = E_TABLE_MODEL_CLASS (class);
 	etm_class->column_count = ecm_column_count;
@@ -378,17 +326,6 @@ e_cal_model_class_init (ECalModelClass *class)
 			NULL,
 			E_TYPE_CAL,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_SETTINGS,
-		g_param_spec_object (
-			"shell-settings",
-			_("Shell Settings"),
-			_("Application-wide settings"),
-			E_TYPE_SHELL_SETTINGS,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -502,6 +439,8 @@ e_cal_model_init (ECalModel *model)
 	model->priv->notify_modified = NULL;
 	model->priv->notify_removed = NULL;
 	model->priv->notify_lock = g_mutex_new ();
+
+	e_extensible_load_extensions (E_EXTENSIBLE (model));
 }
 
 /* ETableModel methods */
@@ -1374,14 +1313,6 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 							   g_strdup (e_cal_get_uri (comp_data->client)));
 
 	return assigned_colors[first_empty].color;
-}
-
-EShellSettings *
-e_cal_model_get_shell_settings (ECalModel *model)
-{
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-
-	return model->priv->shell_settings;
 }
 
 icalcomponent_kind

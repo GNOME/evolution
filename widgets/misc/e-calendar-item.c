@@ -35,6 +35,7 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
+#include <e-util/e-extensible.h>
 
 static const gint e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -228,7 +229,9 @@ enum {
 
 static guint e_calendar_item_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ECalendarItem, e_calendar_item, GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_CODE (
+	ECalendarItem, e_calendar_item, GNOME_TYPE_CANVAS_ITEM,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 e_calendar_item_class_init (ECalendarItemClass *class)
@@ -844,6 +847,8 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 	calitem = E_CALENDAR_ITEM (item);
 
 	e_calendar_item_style_set (GTK_WIDGET(item->canvas), calitem);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (calitem));
 }
 
 static void
