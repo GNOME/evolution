@@ -1063,6 +1063,7 @@ web_view_class_init (EWebViewClass *class)
 		PROP_COPY_TARGET_LIST,
 		"copy-target-list");
 
+#ifndef G_OS_WIN32
 	g_object_class_install_property (
 		object_class,
 		PROP_DISABLE_PRINTING,
@@ -1082,6 +1083,7 @@ web_view_class_init (EWebViewClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
+#endif
 
 	g_object_class_install_property (
 		object_class,

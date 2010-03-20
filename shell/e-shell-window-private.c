@@ -359,6 +359,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_search_menu), NULL);
 
+#ifndef G_OS_WIN32
 	/* Support lockdown. */
 
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -378,6 +379,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	e_binding_new_with_negation (
 		shell_settings, "disable-save-to-disk",
 		action_group, "visible");
+#endif
 
 	/* Bind GObject properties to GObject properties. */
 

@@ -521,9 +521,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		shell_settings, "composer-format-html",
 		widget, "prefer-html");
 
+#ifndef G_OS_WIN32
 	e_binding_new_with_negation (
 		shell_settings, "disable-command-line",
 		widget, "allow-scripts");
+#endif
 
 	signature_tree_view = e_signature_manager_get_tree_view (
 		E_SIGNATURE_MANAGER (widget));
