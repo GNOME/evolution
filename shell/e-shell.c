@@ -98,10 +98,6 @@ static GDebugKey debug_keys[] = {
 static gpointer default_shell;
 static guint signals[LAST_SIGNAL];
 
-#if defined(NM_SUPPORT) && NM_SUPPORT
-gboolean e_shell_dbus_initialize (EShell *shell);
-#endif
-
 G_DEFINE_TYPE_WITH_CODE (
 	EShell, e_shell, UNIQUE_TYPE_APP,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
@@ -1086,10 +1082,6 @@ e_shell_init (EShell *shell)
 	shell->priv->safe_mode = e_file_lock_exists ();
 
 	g_object_ref_sink (shell->priv->preferences_window);
-
-#if defined(NM_SUPPORT) && NM_SUPPORT
-	e_shell_dbus_initialize (shell);
-#endif
 
 	/* Add our icon directory to the theme's search path
 	 * here instead of in main() so Anjal picks it up. */
