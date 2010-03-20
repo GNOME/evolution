@@ -31,7 +31,6 @@
 #include <gtk/gtk.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
-#include <shell/e-shell-settings.h>
 
 #include "e-cal-model.h"
 
@@ -113,10 +112,8 @@ struct _GnomeCalendarClass {
 };
 
 GType		gnome_calendar_get_type		(void);
-GtkWidget *	gnome_calendar_new		(EShellSettings *shell_settings);
+GtkWidget *	gnome_calendar_new		(void);
 void		gnome_calendar_dispose          (GnomeCalendar *gcal);
-EShellSettings *gnome_calendar_get_shell_settings
-						(GnomeCalendar *gcal);
 ECalendar *	gnome_calendar_get_date_navigator
 						(GnomeCalendar *gcal);
 void		gnome_calendar_set_date_navigator

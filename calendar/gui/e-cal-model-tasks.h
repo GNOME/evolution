@@ -79,7 +79,7 @@ struct _ECalModelTasksClass {
 };
 
 GType		e_cal_model_tasks_get_type	(void);
-ECalModel *	e_cal_model_tasks_new		(EShellSettings *shell_settings);
+ECalModel *	e_cal_model_tasks_new		(void);
 const gchar *	e_cal_model_tasks_get_color_due_today
 						(ECalModelTasks *model);
 void		e_cal_model_tasks_set_color_due_today

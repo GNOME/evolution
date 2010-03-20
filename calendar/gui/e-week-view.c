@@ -522,19 +522,9 @@ week_view_constructed (GObject *object)
 {
 	ECalModel *model;
 	ECalendarView *calendar_view;
-	EShellSettings *shell_settings;
 
 	calendar_view = E_CALENDAR_VIEW (object);
 	model = e_calendar_view_get_model (calendar_view);
-	shell_settings = e_cal_model_get_shell_settings (model);
-
-	e_binding_new (
-		shell_settings, "cal-compress-weekend",
-		object, "compress-weekend");
-
-	e_binding_new (
-		shell_settings, "cal-show-event-end-times",
-		object, "show-event-end-times");
 
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",

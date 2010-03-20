@@ -1340,8 +1340,6 @@ static void
 make_ending_until_special (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
-	EShell *shell;
-	EShellSettings *shell_settings;
 	CompEditor *editor;
 	CompEditorFlags flags;
 	EDateEdit *de;
@@ -1353,13 +1351,9 @@ make_ending_until_special (RecurrencePage *rpage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
 	flags = comp_editor_get_flags (editor);
 
-	shell = comp_editor_get_shell (editor);
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	/* Create the widget */
 
-	priv->ending_date_edit = comp_editor_new_date_edit (
-		shell_settings, TRUE, FALSE, FALSE);
+	priv->ending_date_edit = comp_editor_new_date_edit (TRUE, FALSE, FALSE);
 	de = E_DATE_EDIT (priv->ending_date_edit);
 
 	gtk_container_add (GTK_CONTAINER (priv->ending_special),
@@ -2088,14 +2082,10 @@ create_exception_dialog (RecurrencePage *rpage, const gchar *title, GtkWidget **
 	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *toplevel;
 	CompEditor *editor;
-	EShell *shell;
-	EShellSettings *shell_settings;
 
 	priv = rpage->priv;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
-	shell = comp_editor_get_shell (editor);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (toplevel),
@@ -2104,7 +2094,7 @@ create_exception_dialog (RecurrencePage *rpage, const gchar *title, GtkWidget **
 					      GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					      NULL);
 
-	*date_edit = comp_editor_new_date_edit (shell_settings, TRUE, FALSE, TRUE);
+	*date_edit = comp_editor_new_date_edit (TRUE, FALSE, TRUE);
 	gtk_widget_show (*date_edit);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), *date_edit, FALSE, TRUE, 6);
 
@@ -2260,8 +2250,6 @@ static void
 init_widgets (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv;
-	EShell *shell;
-	EShellSettings *shell_settings;
 	CompEditor *editor;
 	ECalendar *ecal;
 	GtkAdjustment *adj;
@@ -2271,21 +2259,11 @@ init_widgets (RecurrencePage *rpage)
 	priv = rpage->priv;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
-	shell = comp_editor_get_shell (editor);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Recurrence preview */
 
 	priv->preview_calendar = e_calendar_new ();
 	ecal = E_CALENDAR (priv->preview_calendar);
-
-	e_binding_new (
-		shell_settings, "cal-show-week-numbers",
-		ecal->calitem, "show-week-numbers");
-
-	e_binding_new (
-		shell_settings, "cal-week-start-day",
-		ecal->calitem, "week-start-day");
 
 	g_signal_connect((ecal->calitem), "date_range_changed",
 			    G_CALLBACK (preview_date_range_changed_cb),
@@ -2423,12 +2401,6 @@ GtkWidget *make_exdate_date_edit (void);
 GtkWidget *
 make_exdate_date_edit (void)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return comp_editor_new_date_edit (shell_settings, TRUE, TRUE, FALSE);
+	return comp_editor_new_date_edit (TRUE, TRUE, FALSE);
 }
 

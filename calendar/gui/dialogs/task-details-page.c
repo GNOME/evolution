@@ -474,7 +474,6 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->date_completed_label = GW ("date_completed_label");
 
 	priv->completed_date = GW ("completed-date");
-	comp_editor_bind_date_edit_settings (priv->completed_date, NULL);
 	gtk_widget_show (priv->completed_date);
 
 	priv->url_label = GW ("url_label");

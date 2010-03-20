@@ -590,56 +590,12 @@ static void
 day_view_constructed (GObject *object)
 {
 	ECalModel *model;
-	EDayView *day_view;
-	EShellSettings *shell_settings;
 
-	day_view = E_DAY_VIEW (object);
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	shell_settings = e_cal_model_get_shell_settings (model);
-
-	e_binding_new (
-		shell_settings, "cal-day-view-show-week-numbers",
-		day_view->week_number_label, "visible");
-
-	e_binding_new (
-		shell_settings, "cal-marcus-bains-show-line",
-		day_view, "marcus-bains-show-line");
-
-	e_binding_new (
-		shell_settings, "cal-marcus-bains-day-view-color",
-		day_view, "marcus-bains-day-view-color");
-
-	e_binding_new (
-		shell_settings, "cal-marcus-bains-time-bar-color",
-		day_view, "marcus-bains-time-bar-color");
-
-	e_binding_new (
-		shell_settings, "cal-time-divisions",
-		day_view, "mins-per-row");
-
-	e_binding_new (
-		shell_settings, "cal-work-day-end-hour",
-		day_view, "work-day-end-hour");
-
-	e_binding_new (
-		shell_settings, "cal-work-day-end-minute",
-		day_view, "work-day-end-minute");
-
-	e_binding_new (
-		shell_settings, "cal-work-day-start-hour",
-		day_view, "work-day-start-hour");
-
-	e_binding_new (
-		shell_settings, "cal-work-day-start-minute",
-		day_view, "work-day-start-minute");
-
-	e_binding_new (
-		shell_settings, "cal-working-days-bitset",
-		day_view, "working-days");
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (object));
 
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",
-		G_CALLBACK (day_view_notify_week_start_day_cb), day_view);
+		G_CALLBACK (day_view_notify_week_start_day_cb), object);
 }
 
 static void

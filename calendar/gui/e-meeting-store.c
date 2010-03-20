@@ -31,6 +31,7 @@
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
+#include <e-util/e-extensible.h>
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
@@ -87,7 +88,13 @@ enum {
 	PROP_TIMEZONE
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void ems_tree_model_init (GtkTreeModelIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMeetingStore, e_meeting_store, GTK_TYPE_LIST_STORE,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, ems_tree_model_init))
 
 static icalparameter_cutype
 text_to_type (const gchar *type)
@@ -624,15 +631,14 @@ meeting_store_finalize (GObject *object)
 	g_mutex_free (priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_meeting_store_parent_class)->finalize (object);
 }
 
 static void
-meeting_store_class_init (GObjectClass *class)
+e_meeting_store_class_init (EMeetingStoreClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMeetingStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -671,7 +677,7 @@ meeting_store_class_init (GObjectClass *class)
 }
 
 static void
-meeting_store_init (EMeetingStore *store)
+e_meeting_store_init (EMeetingStore *store)
 {
 	store->priv = E_MEETING_STORE_GET_PRIVATE (store);
 
@@ -682,41 +688,8 @@ meeting_store_init (EMeetingStore *store)
 	store->priv->mutex = g_mutex_new ();
 
 	store->priv->num_queries = 0;
-}
 
-GType
-e_meeting_store_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMeetingStoreClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) meeting_store_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMeetingStore),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) meeting_store_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo tree_model_info = {
-			(GInterfaceInitFunc) ems_tree_model_init,
-			NULL,
-			NULL
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_LIST_STORE, "EMeetingStore", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, GTK_TYPE_TREE_MODEL, &tree_model_info);
-	}
-
-	return type;
+	e_extensible_load_extensions (E_EXTENSIBLE (store));
 }
 
 GObject *
