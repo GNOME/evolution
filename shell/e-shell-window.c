@@ -23,6 +23,7 @@
 
 #include <gconf/gconf-client.h>
 
+#include <e-util/e-extensible.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 
@@ -45,8 +46,11 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE_WITH_CODE (
+	EShellWindow, e_shell_window, GTK_TYPE_WINDOW,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_window_menubar_update_new_menu (EShellWindow *shell_window)
@@ -299,7 +303,7 @@ shell_window_dispose (GObject *object)
 	e_shell_window_private_dispose (E_SHELL_WINDOW (object));
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_window_parent_class)->dispose (object);
 }
 
 static void
@@ -308,13 +312,15 @@ shell_window_finalize (GObject *object)
 	e_shell_window_private_finalize (E_SHELL_WINDOW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_shell_window_parent_class)->finalize (object);
 }
 
 static void
 shell_window_constructed (GObject *object)
 {
 	e_shell_window_private_constructed (E_SHELL_WINDOW (object));
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static GtkWidget *
@@ -582,11 +588,10 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 }
 
 static void
-shell_window_class_init (EShellWindowClass *class)
+e_shell_window_class_init (EShellWindowClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -779,37 +784,11 @@ shell_window_class_init (EShellWindowClass *class)
 }
 
 static void
-shell_window_init (EShellWindow *shell_window)
+e_shell_window_init (EShellWindow *shell_window)
 {
 	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
 
 	e_shell_window_private_init (shell_window);
-}
-
-GType
-e_shell_window_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EShellWindowClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_window_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellWindow),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_window_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_WINDOW, "EShellWindow", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**
