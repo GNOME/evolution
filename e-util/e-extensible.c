@@ -16,6 +16,46 @@
  *
  */
 
+/**
+ * SECTION: e-extensible
+ * @short_description: an interface for extending objects
+ * @include: e-util/e-extensible.h
+ *
+ * #EExtension objects can be tacked on to any #GObject instance that
+ * implements the #EExtensible interface.  A #GObject type can be made
+ * extensible in two steps:
+ *
+ * 1. Add the #EExtensible interface when registering the #GType.
+ *    There are no methods to implement.
+ *
+ * <informalexample>
+ * <programlisting>
+ * #include <e-util/e-extensible.h>
+ *
+ * G_DEFINE_TYPE_WITH_CODE (
+ *         ECustomWidget, e_custom_widget, GTK_TYPE_WIDGET,
+ *         G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+ * </programlisting>
+ * </informalexample>
+ *
+ * 2. Load extensions for the class at some point during #GObject
+ *    initialization.  Generally this should be done toward the end of
+ *    the initialization code, so extensions get a fully initialized
+ *    object to work with.
+ *
+ * <informalexample>
+ * <programlisting>
+ * static void
+ * e_custom_widget_init (ECustomWidget *widget)
+ * {
+ *         Initialization code goes here...
+ *
+ *         e_extensible_load_extensions (E_EXTENSIBLE (widget));
+ * }
+ * </programlisting>
+ * </informalexample>
+ **/
+
 #include "e-extensible.h"
 
 #include <e-util/e-util.h>
@@ -89,6 +129,15 @@ e_extensible_get_type (void)
 	return type;
 }
 
+/**
+ * e_extensible_load_extensions:
+ * @extensible: an #EExtensible
+ *
+ * Creates an instance of all registered subtypes of #EExtension which
+ * target the class of @extensible.  The lifetimes of these newly created
+ * #EExtension objects are bound to @extensible such that they are finalized
+ * when @extensible is finalized.
+ **/
 void
 e_extensible_load_extensions (EExtensible *extensible)
 {

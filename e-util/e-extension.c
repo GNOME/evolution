@@ -16,6 +16,29 @@
  *
  */
 
+/**
+ * SECTION: e-extension
+ * @short_description: abstract base class for extensions
+ * @include: e-util/e-extension.h
+ *
+ * #EExtension provides a way to extend the functionality of objects
+ * that implement the #EExtensible interface.  #EExtension subclasses
+ * can target a particular extensible object type.  New instances of
+ * an extensible object type get paired with a new instance of each
+ * #EExtension subclass that targets the extensible object type.
+ *
+ * The first steps of writing a new extension are as follows:
+ *
+ * 1. Subclass #EExtension.
+ *
+ * 2. In the class initialization function, specify the #GType being
+ *    extended.  The #GType must implement the #EExtensible interface.
+ *
+ * 3. Register the extension's own #GType.  If the extension is to
+ *    be loaded dynamically using #GTypeModule, the type should be
+ *    registered in the library module's e_module_load() function.
+ **/
+
 #include "e-extension.h"
 
 #define E_EXTENSION_GET_PRIVATE(obj) \
@@ -151,6 +174,14 @@ e_extension_init (EExtension *extension)
 	extension->priv = E_EXTENSION_GET_PRIVATE (extension);
 }
 
+/**
+ * e_extension_get_extensible:
+ * @extension: an #EExtension
+ *
+ * Returns the object that @extension extends.
+ *
+ * Returns: the object being extended
+ **/
 EExtensible *
 e_extension_get_extensible (EExtension *extension)
 {

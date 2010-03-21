@@ -47,6 +47,12 @@ typedef struct _EExtension EExtension;
 typedef struct _EExtensionClass EExtensionClass;
 typedef struct _EExtensionPrivate EExtensionPrivate;
 
+/**
+ * EExtension:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EExtension {
 	GObject parent;
 	EExtensionPrivate *priv;

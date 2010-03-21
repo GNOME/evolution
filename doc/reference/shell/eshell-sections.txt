@@ -441,6 +441,40 @@ e_dialog_combo_box_get
 </SECTION>
 
 <SECTION>
+<FILE>e-extensible</FILE>
+<TITLE>Extensible</TITLE>
+EExtensible
+e_extensible_load_extensions
+<SUBSECTION Standard>
+E_EXTENSIBLE
+E_IS_EXTENSIBLE
+E_TYPE_EXTENSIBLE
+E_EXTENSIBLE_INTERFACE
+E_IS_EXTENSIBLE_INTERFACE
+E_EXTENSIBLE_GET_INTERFACE
+EExtensibleInterface
+e_extensible_get_type
+</SECTION>
+
+<SECTION>
+<FILE>e-extension</FILE>
+<TITLE>Extensions</TITLE>
+EExtension
+e_extension_get_extensible
+<SUBSECTION Standard>
+E_EXTENSION
+E_IS_EXTENSION
+E_TYPE_EXTENSION
+E_EXTENSION_CLASS
+E_IS_EXTENSION_CLASS
+E_EXTENSION_GET_CLASS
+EExtensionClass
+e_extension_get_type
+<SUBSECTION Private>
+EExtensionPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-html-utils</FILE>
 <TITLE>Text to HTML Conversion</TITLE>
 E_TEXT_TO_HTML_PRE
