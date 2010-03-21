@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-selection
+ * @short_description: selection and clipboard utilities
+ * @include: e-util/e-selection.h
+ **/
+
 #include "e-selection.h"
 
 #include <string.h>

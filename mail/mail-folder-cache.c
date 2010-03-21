@@ -23,6 +23,11 @@
  *
  */
 
+/**
+ * SECTION: mail-folder-cache
+ * @short_description: Stores information about open folders
+ **/
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

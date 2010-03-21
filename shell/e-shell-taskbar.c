@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-taskbar
+ * @short_description: the bottom of the main window
+ * @include: shell/e-shell-taskbar.h
+ **/
+
 #include "e-shell-taskbar.h"
 
 #include <e-shell-view.h>

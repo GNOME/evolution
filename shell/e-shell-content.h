@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-content
- * @short_description: the right side of the main window
- * @include: shell/e-shell-content.h
- **/
-
 #ifndef E_SHELL_CONTENT_H
 #define E_SHELL_CONTENT_H
 

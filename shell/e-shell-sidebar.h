@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-sidebar
- * @short_description: the left side of the main window
- * @include: shell/e-shell-sidebar.h
- **/
-
 #ifndef E_SHELL_SIDEBAR_H
 #define E_SHELL_SIDEBAR_H
 

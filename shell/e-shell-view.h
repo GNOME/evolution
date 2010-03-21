@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-view
- * @short_description: views within the main window
- * @include: shell/e-shell-view.h
- **/
-
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 

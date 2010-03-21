@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell
+ * @short_description: the backbone of Evolution
+ * @include: shell/e-shell.h
+ **/
+
 #include "e-shell.h"
 
 #include <glib/gi18n.h>

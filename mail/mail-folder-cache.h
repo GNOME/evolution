@@ -31,11 +31,6 @@
 
 G_BEGIN_DECLS
 
-/**
- * SECTION: mail-folder-cache
- * @short_description: Stores information about open folders
- **/
-
 #define MAIL_TYPE_FOLDER_CACHE            mail_folder_cache_get_type()
 #define MAIL_FOLDER_CACHE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCache))
 #define MAIL_FOLDER_CACHE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MAIL_TYPE_FOLDER_CACHE, MailFolderCacheClass))

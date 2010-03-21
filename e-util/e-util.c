@@ -20,6 +20,11 @@
  *
  */
 
+/**
+ * SECTION: e-util
+ * @include: e-util/e-util.h
+ **/
+
 #include <config.h>
 
 #include <stdlib.h>

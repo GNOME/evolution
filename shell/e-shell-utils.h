@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-utils
- * @short_description: high-level utilities with shell integration
- * @include: shell/e-shell-utils.h
- **/
-
 #ifndef E_SHELL_UTILS_H
 #define E_SHELL_UTILS_H
 

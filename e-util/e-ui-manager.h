@@ -16,15 +16,6 @@
  *
  */
 
-/**
- * SECTION: e-ui-manager
- * @short_description: construct menus and toolbars from a UI definition
- * @include: e-util/e-ui-manager.h
- *
- * This is a #GtkUIManager with support for Evolution's "express" mode,
- * which influences the parsing of UI definitions.
- **/
-
 #ifndef E_UI_MANAGER_H
 #define E_UI_MANAGER_H
 

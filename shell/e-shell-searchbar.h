@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-searchbar
- * @short_description: quick search interface
- * @include: shell/e-shell-searchbar.h
- **/
-
 #ifndef E_SHELL_SEARCHBAR_H
 #define E_SHELL_SEARCHBAR_H
 

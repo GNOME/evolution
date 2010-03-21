@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-switcher
+ * @short_description: buttons for switching views
+ * @include: shell/e-shell-switcher.h
+ **/
+
 #include "e-shell-switcher.h"
 
 #include <glib/gi18n.h>

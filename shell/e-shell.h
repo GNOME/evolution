@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell
- * @short_description: the backbone of Evolution
- * @include: shell/e-shell.h
- **/
-
 #ifndef E_SHELL_H
 #define E_SHELL_H
 

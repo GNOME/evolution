@@ -20,11 +20,6 @@
  *
  */
 
-/**
- * SECTION: e-util
- * @include: e-util/e-util.h
- **/
-
 #ifndef E_UTIL_H
 #define E_UTIL_H
 

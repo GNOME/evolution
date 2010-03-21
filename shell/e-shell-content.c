@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-content
+ * @short_description: the right side of the main window
+ * @include: shell/e-shell-content.h
+ **/
+
 #include "e-shell-content.h"
 
 #include <glib/gi18n.h>

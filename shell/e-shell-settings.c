@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-settings
+ * @short_description: settings management
+ * @include: shell/e-shell-settings.h
+ **/
+
 #include "e-shell-settings.h"
 
 #include "e-util/gconf-bridge.h"

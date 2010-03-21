@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-searchbar
+ * @short_description: quick search interface
+ * @include: shell/e-shell-searchbar.h
+ **/
+
 #include "e-shell-searchbar.h"
 
 #include <config.h>
