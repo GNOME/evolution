@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-switcher
- * @short_description: buttons for switching views
- * @include: shell/e-shell-switcher.h
- **/
-
 #ifndef E_SHELL_SWITCHER_H
 #define E_SHELL_SWITCHER_H
 

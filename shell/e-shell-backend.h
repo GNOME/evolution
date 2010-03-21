@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-backend
- * @short_description: dynamically loaded capabilities
- * @include: shell/e-shell-backend.h
- **/
-
 #ifndef E_SHELL_BACKEND_H
 #define E_SHELL_BACKEND_H
 

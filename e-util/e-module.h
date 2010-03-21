@@ -19,11 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-module
- * @include: e-util/e-module.h
- **/
-
 #ifndef E_MODULE_H
 #define E_MODULE_H
 

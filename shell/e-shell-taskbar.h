@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-taskbar
- * @short_description: the bottom of the main window
- * @include: shell/e-shell-taskbar.h
- **/
-
 #ifndef E_SHELL_TASKBAR_H
 #define E_SHELL_TASKBAR_H
 

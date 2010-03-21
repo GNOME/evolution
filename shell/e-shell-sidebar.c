@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-sidebar
+ * @short_description: the left side of the main window
+ * @include: shell/e-shell-sidebar.h
+ **/
+
 #include "e-shell-sidebar.h"
 
 #include <e-util/e-binding.h>

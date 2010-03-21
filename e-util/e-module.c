@@ -19,6 +19,11 @@
  *
  */
 
+/**
+ * SECTION: e-module
+ * @include: e-util/e-module.h
+ **/
+
 #include "e-module.h"
 
 #include <glib/gi18n.h>

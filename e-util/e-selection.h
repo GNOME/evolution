@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-selection
- * @short_description: selection and clipboard utilities
- * @include: e-util/e-selection.h
- **/
-
 #ifndef E_SELECTION_H
 #define E_SELECTION_H
 

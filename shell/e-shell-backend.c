@@ -21,6 +21,12 @@
  * Copyright (C) 2009 Intel Corporation
  */
 
+/**
+ * SECTION: e-shell-backend
+ * @short_description: dynamically loaded capabilities
+ * @include: shell/e-shell-backend.h
+ **/
+
 #include "e-shell-backend.h"
 
 #include <errno.h>

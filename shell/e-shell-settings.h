@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-settings
- * @short_description: settings management
- * @include: shell/e-shell-settings.h
- **/
-
 #ifndef E_SHELL_SETTINGS_H
 #define E_SHELL_SETTINGS_H
 

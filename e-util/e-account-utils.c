@@ -15,6 +15,11 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
+/**
+ * SECTION: e-account-utils
+ * @include: e-util/e-account-utils.h
+ **/
+
 #include "e-account-utils.h"
 
 #include <gconf/gconf-client.h>

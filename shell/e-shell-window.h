@@ -19,12 +19,6 @@
  *
  */
 
-/**
- * SECTION: e-shell-window
- * @short_description: the main window
- * @include: shell/e-shell-window.h
- **/
-
 #ifndef E_SHELL_WINDOW_H
 #define E_SHELL_WINDOW_H
 

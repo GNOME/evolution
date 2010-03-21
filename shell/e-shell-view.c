@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-view
+ * @short_description: views within the main window
+ * @include: shell/e-shell-view.h
+ **/
+
 #include "e-shell-view.h"
 
 #include <string.h>

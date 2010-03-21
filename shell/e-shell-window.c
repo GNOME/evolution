@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-window
+ * @short_description: the main window
+ * @include: shell/e-shell-window.h
+ **/
+
 #include "e-shell-window-private.h"
 
 #include <gconf/gconf-client.h>
