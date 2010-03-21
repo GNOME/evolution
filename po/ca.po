@@ -11,14 +11,14 @@
 # Gil Forcada <gilforcada@guifi.net>, 2006
 # David Planella Molas <david.planella@gmail.com>, 2007, 2008, 2009, 2010.
 #
-#: ../shell/main.c:508
+#: ../shell/main.c:479
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-12 07:52+0100\n"
-"PO-Revision-Date: 2010-03-12 07:54+0100\n"
-"Last-Translator: David Planella <david.planella@gmail.com>\n"
+"POT-Creation-Date: 2010-03-22 00:13+0100\n"
+"PO-Revision-Date: 2010-03-22 00:14+0100\n"
+"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +85,7 @@ msgid ""
 msgstr ""
 "Des de l'Evolution actualment només podreu accedir a les llibretes d'adreces "
 "del sistema de GroupWise. Hauríeu d'utilitzar un altre client de correu "
-"GroupWise una vegada per a obtenir els vostres contactes freqüents de "
+"GroupWise una vegada per obtenir els vostres contactes freqüents de "
 "GroupWise i les carpetes de contactes personals de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:12
@@ -108,7 +108,7 @@ msgstr "No s'ha pogut suprimir el contacte"
 
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "GroupWise Address book creation:"
-msgstr "Creació de la llibreta d'adreces del GroupWise"
+msgstr "Creació de la llibreta d'adreces del GroupWise:"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "LDAP server did not respond with valid schema information."
@@ -198,14 +198,14 @@ msgid ""
 "a supported version"
 msgstr ""
 "Us esteu connectant a un servidor GroupWise no compatible, per la qual cosa "
-"pot ser que experimenteu problemes quan feu servir l'Evolution. Per a "
-"obtenir els millors resultats el servidor s'hauria d'actualitzar a una "
-"versió compatible"
+"pot ser que experimenteu problemes quan feu servir l'Evolution. Per obtenir "
+"els millors resultats el servidor s'hauria d'actualitzar a una versió "
+"compatible"
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid "You do not have permission to delete contacts in this address book."
 msgstr ""
-"No teniu els permisos suficients per a suprimir contactes d'aquesta llibreta "
+"No teniu els permisos suficients per suprimir contactes d'aquesta llibreta "
 "d'adreces."
 
 #: ../addressbook/addressbook.error.xml.h:34
@@ -281,7 +281,8 @@ msgstr "Commemoració"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:1986 ../shell/main.c:111
+#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:119
+#: ../shell/main.c:112
 msgid "Birthday"
 msgstr "Aniversari"
 
@@ -775,7 +776,8 @@ msgstr "S_elecciona..."
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
-"Escriviu una adreça de correu o arrossegueu un con_tacte a la llista de sota:"
+"Escriviu una adreça electrònica o arrossegueu un con_tacte a la llista de "
+"sota:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:765
 msgid "Contact List Members"
@@ -828,8 +830,8 @@ msgid ""
 "The name or email of this contact already exists in this folder.  Would you "
 "like to add it anyway?"
 msgstr ""
-"Ja existeix el nom o l'adreça de correu electrònic d'aquest contacte en "
-"aquesta carpeta. Voleu afegir-l'hi de totes maneres?"
+"Ja existeix el nom o l'adreça electrònica d'aquest contacte en aquesta "
+"carpeta. Voleu afegir-l'hi de totes maneres?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.ui.h:2
 msgid "New Contact:"
@@ -844,7 +846,7 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Ja existeix el nom o l'adreça de correu electrònic d'aquest contacte\n"
+"Ja existeix el nom o l'adreça electrònica d'aquest contacte\n"
 "en aquesta carpeta. Voleu afegir-l'hi de totes maneres?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.ui.h:6
@@ -869,7 +871,7 @@ msgstr "Qualsevol camp conté"
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../modules/addressbook/e-book-shell-view-actions.c:908
 msgid "Email begins with"
-msgstr "El correu electrònic comença per"
+msgstr "L'adreça electrònica comença per"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../modules/addressbook/e-book-shell-view-actions.c:915
@@ -968,7 +970,7 @@ msgstr "Segur que voleu suprimir aquests contactes?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1301
 msgid "Are you sure you want to delete this contact?"
-msgstr "Segur que voleu suprimir aquest contactes"
+msgstr "Segur que voleu suprimir aquest contactes?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1305
 #, c-format
@@ -1148,7 +1150,7 @@ msgid "Telex"
 msgstr "Tèlex"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:818
+#: ../shell/e-shell-view.c:819
 msgid "Title"
 msgstr "Títol"
 
@@ -1234,7 +1236,7 @@ msgstr ""
 "\n"
 "Cerca el contacte\n"
 "\n"
-"o feu doble clic per a crear-ne un de nou."
+"o feu doble clic per crear-ne un de nou."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:187
 msgid ""
@@ -1246,9 +1248,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Aquesta visualització no té cap element per a mostrar.\n"
+"Aquesta visualització no té cap element per mostrar.\n"
 "\n"
-"Feu doble clic aquí per a crear un contacte nou."
+"Feu doble clic aquí per crear un contacte nou."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:191
 msgid ""
@@ -1268,7 +1270,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Aquesta visualització no té cap element per a mostrar."
+"Aquesta visualització no té cap element per mostrar."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:527
 msgid "Adapter"
@@ -1276,16 +1278,16 @@ msgstr "Adaptador"
 
 #: ../addressbook/gui/widgets/e-minicard.c:99
 msgid "Work Email"
-msgstr "Correu de la feina"
+msgstr "Adreça electrònica de la feina"
 
 #: ../addressbook/gui/widgets/e-minicard.c:100
 msgid "Home Email"
-msgstr "Correu particular"
+msgstr "Adreça electrònica particular"
 
 #: ../addressbook/gui/widgets/e-minicard.c:101
 #: ../addressbook/gui/widgets/e-minicard.c:797
 msgid "Other Email"
-msgstr "Un altre correu"
+msgstr "Una altra adreça electrònica"
 
 #: ../addressbook/gui/widgets/e-minicard.c:177
 msgid "Selected"
@@ -1425,13 +1427,14 @@ msgstr "Pàgina personal"
 msgid "Web Log"
 msgstr "Bloc web"
 
+#. Create the default Person addressbook
 #. orange
 #. Create the default Person addressbook
 #. Create the default Person calendar
 #. Create the default Person memo list
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
-#: ../mail/e-mail-migrate.c:962
+#: ../capplet/settings/mail-capplet-shell.c:461 ../mail/e-mail-migrate.c:962
 #: ../modules/addressbook/e-book-shell-backend.c:175
 #: ../modules/addressbook/e-book-shell-migrate.c:507
 #: ../modules/calendar/e-cal-shell-backend.c:171
@@ -1460,7 +1463,7 @@ msgstr "Bloc"
 #: ../widgets/misc/e-web-view.c:750
 #, c-format
 msgid "Click to mail %s"
-msgstr "Feu clic per a enviar un correu a en/na %s"
+msgstr "Feu clic per enviar un correu a en/na %s"
 
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
@@ -1575,9 +1578,9 @@ msgid ""
 "load the address book once in online mode to download its contents."
 msgstr ""
 "No s'ha pogut obrir la llibreta d'adreces. Això significa que la llibreta no "
-"està marcada per a ser utilitzada fora de línia, o que encara no s'ha "
-"baixat. Carregueu la llibreta d'adreces un cop estigueu en línia per a poder "
-"baixar el seu contingut."
+"està marcada per ser utilitzada fora de línia, o que encara no s'ha baixat. "
+"Carregueu la llibreta d'adreces un cop estigueu en línia per poder baixar el "
+"seu contingut."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:116
 #, c-format
@@ -1593,9 +1596,9 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
-"Aquesta versió de l'Evolution no està compilada per a utilitzar LDAP. Si "
-"voleu utilitzar l'Evolution amb l'LDAP haureu d'instal·lar un paquet de "
-"l'Evolution preparat per a treballar amb l'LDAP."
+"Aquesta versió de l'Evolution no està compilada per utilitzar LDAP. Si voleu "
+"utilitzar l'Evolution amb l'LDAP haureu d'instal·lar un paquet de "
+"l'Evolution preparat per treballar amb l'LDAP."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:137
 msgid ""
@@ -1786,7 +1789,7 @@ msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "S'ha produït un error en els arguments de la línia d'ordres. Feu servir "
-"l'opció --help per a consultar-ne l'ús."
+"l'opció --help per consultar-ne l'ús."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:115
 msgid "Only support csv or vcard format."
@@ -1975,7 +1978,7 @@ msgstr "Segur que voleu enviar una tasca sense resum?"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Calendar repository is offline."
-msgstr "El dipòsit del calendari està fora de línia"
+msgstr "El dipòsit del calendari està fora de línia."
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Cannot create a new event"
@@ -2200,8 +2203,8 @@ msgid ""
 "a supported version."
 msgstr ""
 "Us esteu connectant a un servidor GroupWise no compatible i pot ser que "
-"tingueu problemes en fer servir l'Evolution. Per a obtenir els millors "
-"resultats és recomanable actualitzar el servidor a una versió compatible"
+"tingueu problemes en fer servir l'Evolution. Per obtenir els millors "
+"resultats és recomanable actualitzar el servidor a una versió compatible."
 
 #: ../calendar/calendar.error.xml.h:77
 msgid "You have changed this appointment, but not yet saved it."
@@ -2346,11 +2349,11 @@ msgid "_Dismiss"
 msgstr "_Descarta"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1015
+#: ../calendar/gui/dialogs/comp-editor.c:1016
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
-#: ../mail/e-mail-browser.c:151
+#: ../mail/e-mail-browser.c:152
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Edita"
@@ -2413,7 +2416,7 @@ msgid ""
 msgstr ""
 "L'Evolution encara no funciona amb recordatoris de calendari\n"
 "amb notificacions per correu electrònic, però aquest recordatori\n"
-"es va configurar per a enviar un correu. En lloc d'això, \n"
+"es va configurar per enviar un correu. En lloc d'això, \n"
 "l'Evolution mostrarà un quadre de diàleg de recordatori normal."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1702
@@ -2497,7 +2500,7 @@ msgstr "Calendaris pels quals s'han d'executar les alarmes"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Check this to use system timezone in Evolution."
-msgstr "Marqueu-ho per a utilitzar el fus horari del sistema a l'Evolution."
+msgstr "Marqueu-ho per utilitzar el fus horari del sistema a l'Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid ""
@@ -2549,7 +2552,7 @@ msgstr "Valor predeterminat pels recordatoris"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:18
 msgid "Directory for saving alarm audio files"
-msgstr "Directori per a desar els fitxers de so d'alarmes"
+msgstr "Directori per desar els fitxers de so d'alarmes"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:19
 msgid "Event Gradient"
@@ -2689,11 +2692,11 @@ msgstr "Posició de la subfinestra vertical a la visualització mensual"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:49
 msgid "Number of units for determining a default reminder."
-msgstr "Nombre d'unitats per a determinar un recordatori predeterminat."
+msgstr "Nombre d'unitats per determinar un recordatori predeterminat."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:50
 msgid "Number of units for determining when to hide tasks."
-msgstr "Nombre d'unitats per a determinar quan s'han d'amagar les tasques."
+msgstr "Nombre d'unitats per determinar quan s'han d'amagar les tasques."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
 msgid "Overdue tasks color"
@@ -2812,7 +2815,7 @@ msgstr ""
 # FIXME: [l10n-bug] (dpm)
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
 msgid "Show display alarms in notification tray"
-msgstr "Mostra les alarmes per a visualitzar a l'àrea de notificació"
+msgstr "Mostra les alarmes per visualitzar a l'àrea de notificació"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:72
 msgid "Show status field in the event/task/meeting editor"
@@ -2877,7 +2880,7 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"La plantilla d'URL per a utilitzar com a predeterminat de dades de lliure/"
+"La plantilla d'URL per utilitzar com a predeterminat de dades de lliure/"
 "ocupat, %u es reemplaça amb la part d'usuari de l'adreça de correu i %d es "
 "reemplaça amb el domini."
 
@@ -2964,14 +2967,16 @@ msgstr "URI de llista de tasques («principal») realçada"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "Unitats per al recordatori predeterminat, «minuts», «hores» o «dies»."
+msgstr ""
+"Unitats per al recordatori predeterminat, «minutes» (minuts), «hours» (hores) "
+"o «days» (dies)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:100
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Unitats per a determinar quan s'han d'amagar les tasques, «minuts», «hores» o "
-"«dies»."
+"Unitats per determinar quan s'han d'amagar les tasques, «minutes» (minuts), "
+"«hours» (hores) o «days» (dies)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:101
 msgid "Use system timezone"
@@ -2998,7 +3003,7 @@ msgstr "Dia en què comença la setmana, de diumenge (0) a dissabte (6)."
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:106
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr ""
-"Si s'ha de fer servir l'àrea de notificació per a visualitzar les alarmes."
+"Si s'ha de fer servir l'àrea de notificació per visualitzar les alarmes."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:107
 msgid "Whether to ask for confirmation when deleting an appointment or task."
@@ -3419,8 +3424,7 @@ msgstr "Només la data:"
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
-"%u i %d es reemplaçaran amb l'usuari i el domini de l'adreça de correu "
-"electrònic."
+"%u i %d es reemplaçaran amb l'usuari i el domini de l'adreça electrònica."
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:3
 msgid "(Shown in a Day View)"
@@ -3722,18 +3726,18 @@ msgstr "_Nom:"
 #: ../calendar/gui/dialogs/calendar-setup.c:270
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr ""
-"Copi_a el contingut dels calendaris localment per a treballar fora de línia"
+"Copi_a el contingut dels calendaris localment per treballar fora de línia"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y task list contents locally for offline operation"
 msgstr ""
-"Cop_ia localment el contingut de la llista de tasques per a treballar fora "
-"de línia"
+"Cop_ia localment el contingut de la llista de tasques per treballar fora de "
+"línia"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr ""
-"Cop_ia localment el contingut de la llista d'anotacions per a treballar fora "
+"Cop_ia localment el contingut de la llista d'anotacions per treballar fora "
 "de línia"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:344
@@ -3838,235 +3842,235 @@ msgstr " (Venciment "
 msgid "Due "
 msgstr "Venciment "
 
-#: ../calendar/gui/dialogs/comp-editor.c:246
+#: ../calendar/gui/dialogs/comp-editor.c:247
 msgid "Could not save attachments"
 msgstr "No s'han pogut desar els fitxers adjunts"
 
-#: ../calendar/gui/dialogs/comp-editor.c:509
+#: ../calendar/gui/dialogs/comp-editor.c:510
 msgid "Could not update object"
 msgstr "No s'ha pogut actualitzar l'objecte"
 
-#: ../calendar/gui/dialogs/comp-editor.c:604
+#: ../calendar/gui/dialogs/comp-editor.c:605
 msgid "Edit Appointment"
 msgstr "Edita la cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:611
+#: ../calendar/gui/dialogs/comp-editor.c:612
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunió - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:613
+#: ../calendar/gui/dialogs/comp-editor.c:614
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:619
+#: ../calendar/gui/dialogs/comp-editor.c:620
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tasca assignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:621
+#: ../calendar/gui/dialogs/comp-editor.c:622
 #, c-format
 msgid "Task - %s"
 msgstr "Tasca - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:626
+#: ../calendar/gui/dialogs/comp-editor.c:627
 #, c-format
 msgid "Memo - %s"
 msgstr "Anotació - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:642
+#: ../calendar/gui/dialogs/comp-editor.c:643
 msgid "No Summary"
 msgstr "Sense resum"
 
-#: ../calendar/gui/dialogs/comp-editor.c:751
+#: ../calendar/gui/dialogs/comp-editor.c:752
 msgid "Keep original item?"
 msgstr "Voleu mantenir l'element original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:938
+#: ../calendar/gui/dialogs/comp-editor.c:939
 msgid "Click here to close the current window"
-msgstr "Feu clic per a tancar la finestra actual"
+msgstr "Feu clic per tancar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:945 ../mail/e-mail-browser.c:116
-#: ../shell/e-shell-window-actions.c:1444
+#: ../calendar/gui/dialogs/comp-editor.c:946 ../mail/e-mail-browser.c:117
+#: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:387 ../widgets/misc/e-web-view.c:965
 msgid "Copy the selection"
 msgstr "Copia la selecció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:952 ../mail/e-mail-browser.c:123
-#: ../shell/e-shell-window-actions.c:1451
+#: ../calendar/gui/dialogs/comp-editor.c:953 ../mail/e-mail-browser.c:124
+#: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:959
 msgid "Cut the selection"
 msgstr "Retalla la selecció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:959
-#: ../shell/e-shell-window-actions.c:1458
+#: ../calendar/gui/dialogs/comp-editor.c:960
+#: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "Suprimeix la selecció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:966
+#: ../calendar/gui/dialogs/comp-editor.c:967
 msgid "Click here to view help available"
-msgstr "Feu clic per a veure l'ajuda disponible"
+msgstr "Feu clic per veure l'ajuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:973 ../mail/e-mail-browser.c:130
-#: ../shell/e-shell-window-actions.c:1493
+#: ../calendar/gui/dialogs/comp-editor.c:974 ../mail/e-mail-browser.c:131
+#: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:971
 msgid "Paste the clipboard"
 msgstr "Enganxa el porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:994
+#: ../calendar/gui/dialogs/comp-editor.c:995
 msgid "Click here to save the current window"
-msgstr "Feu clic per a desar la finestra actual"
+msgstr "Feu clic per desar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1001 ../mail/e-mail-browser.c:137
-#: ../shell/e-shell-window-actions.c:1563
+#: ../calendar/gui/dialogs/comp-editor.c:1002 ../mail/e-mail-browser.c:138
+#: ../shell/e-shell-window-actions.c:1579
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "Selecciona tot el text"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1008
+#: ../calendar/gui/dialogs/comp-editor.c:1009
 msgid "_Classification"
 msgstr "_Classificació"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1022 ../mail/e-mail-browser.c:144
-#: ../shell/e-shell-window-actions.c:1612
+#: ../calendar/gui/dialogs/comp-editor.c:1023 ../mail/e-mail-browser.c:145
+#: ../shell/e-shell-window-actions.c:1628
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1029
-#: ../shell/e-shell-window-actions.c:1619
+#: ../calendar/gui/dialogs/comp-editor.c:1030
+#: ../shell/e-shell-window-actions.c:1635
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1036
+#: ../calendar/gui/dialogs/comp-editor.c:1037
 msgid "_Insert"
 msgstr "_Insereix"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1043
+#: ../calendar/gui/dialogs/comp-editor.c:1044
 #: ../composer/e-composer-actions.c:351
 msgid "_Options"
 msgstr "_Opcions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1050 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1654
+#: ../calendar/gui/dialogs/comp-editor.c:1051 ../mail/e-mail-browser.c:159
+#: ../shell/e-shell-window-actions.c:1670
 msgid "_View"
 msgstr "_Visualitza"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1060
+#: ../calendar/gui/dialogs/comp-editor.c:1061
 #: ../composer/e-composer-actions.c:279
 msgid "_Attachment..."
 msgstr "Fitxer _adjunt..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1062
+#: ../calendar/gui/dialogs/comp-editor.c:1063
 msgid "Click here to attach a file"
-msgstr "Feu clic per a adjuntar un fitxer"
+msgstr "Feu clic per adjuntar un fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1070
+#: ../calendar/gui/dialogs/comp-editor.c:1071
 msgid "_Categories"
 msgstr "_Categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1072
+#: ../calendar/gui/dialogs/comp-editor.c:1073
 msgid "Toggles whether to display categories"
 msgstr "Commuta la visualització de categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1078
+#: ../calendar/gui/dialogs/comp-editor.c:1079
 msgid "Time _Zone"
 msgstr "Fus h_orari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1080
+#: ../calendar/gui/dialogs/comp-editor.c:1081
 msgid "Toggles whether the time zone is displayed"
 msgstr "Commuta la visualització del fus horari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1089
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 msgid "Pu_blic"
 msgstr "Pú_blic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1091
+#: ../calendar/gui/dialogs/comp-editor.c:1092
 msgid "Classify as public"
 msgstr "Classifica com a públic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1096
+#: ../calendar/gui/dialogs/comp-editor.c:1097
 msgid "_Private"
 msgstr "_Privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1098
+#: ../calendar/gui/dialogs/comp-editor.c:1099
 msgid "Classify as private"
 msgstr "Classifica com a privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1103
+#: ../calendar/gui/dialogs/comp-editor.c:1104
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1105
+#: ../calendar/gui/dialogs/comp-editor.c:1106
 msgid "Classify as confidential"
 msgstr "Classifica com a confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1113
+#: ../calendar/gui/dialogs/comp-editor.c:1114
 msgid "R_ole Field"
 msgstr "Camp del r_ol"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1115
+#: ../calendar/gui/dialogs/comp-editor.c:1116
 msgid "Toggles whether the Role field is displayed"
 msgstr "Commuta la visualització del camp del rol"
 
 # Prové de «Répondez s'il-vous-plaît» (dpm)
-#: ../calendar/gui/dialogs/comp-editor.c:1121
+#: ../calendar/gui/dialogs/comp-editor.c:1122
 msgid "_RSVP"
 msgstr "Esperem la vostra _resposta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1123
+#: ../calendar/gui/dialogs/comp-editor.c:1124
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Commuta si s'ha de mostrar el camp RSVP"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1129
+#: ../calendar/gui/dialogs/comp-editor.c:1130
 msgid "_Status Field"
 msgstr "Camp d'e_stat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1131
+#: ../calendar/gui/dialogs/comp-editor.c:1132
 msgid "Toggles whether the Status field is displayed"
 msgstr "Commuta la visualització del camp d'estat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1137
+#: ../calendar/gui/dialogs/comp-editor.c:1138
 msgid "_Type Field"
 msgstr "Camp de _tipus"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1139
+#: ../calendar/gui/dialogs/comp-editor.c:1140
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Commuta la visualització del camp del tipus d'assistent"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1163
+#: ../calendar/gui/dialogs/comp-editor.c:1164
 #: ../composer/e-composer-private.c:70
 msgid "Recent _Documents"
 msgstr "Documents _recents"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1683
+#: ../calendar/gui/dialogs/comp-editor.c:1684
 #: ../composer/e-composer-actions.c:475
 msgid "Attach"
 msgstr "Adjunta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1738
+#: ../calendar/gui/dialogs/comp-editor.c:1739
 msgid "Save"
 msgstr "Desa"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2015
-#: ../calendar/gui/dialogs/comp-editor.c:2064
-#: ../calendar/gui/dialogs/comp-editor.c:2955
+#: ../calendar/gui/dialogs/comp-editor.c:2016
+#: ../calendar/gui/dialogs/comp-editor.c:2065
+#: ../calendar/gui/dialogs/comp-editor.c:2956
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Els canvis realitzats en aquest element es descartaran en produir-se una "
 "actualització"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2923
+#: ../calendar/gui/dialogs/comp-editor.c:2924
 #: ../plugins/prefer-plain/prefer-plain.c:67
 msgid "attachment"
 msgstr "adjunció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2985
+#: ../calendar/gui/dialogs/comp-editor.c:2986
 msgid "Unable to use current version!"
 msgstr "No s'ha pogut utilitzar la versió actual"
 
@@ -4157,7 +4161,7 @@ msgstr "_Alarmes"
 #: ../calendar/gui/dialogs/event-editor.c:203
 msgid "Click here to set or unset alarms for this event"
 msgstr ""
-"Feu clic aquí per a seleccionar o desfer la selecció d'alarmes per a "
+"Feu clic aquí per seleccionar o desfer la selecció d'alarmes per a "
 "l'esdeveniment"
 
 #: ../calendar/gui/dialogs/event-editor.c:208
@@ -4198,7 +4202,7 @@ msgstr "Commuta la visualització del temps com a ocupat"
 
 #: ../calendar/gui/dialogs/event-editor.c:244
 msgid "_Free/Busy"
-msgstr "_Lliure/ocupat:"
+msgstr "_Lliure/ocupat"
 
 #: ../calendar/gui/dialogs/event-editor.c:246
 msgid "Query free / busy information for the attendees"
@@ -4547,7 +4551,7 @@ msgstr "últim"
 #. * (dropdown menu options are in [square brackets]).
 #: ../calendar/gui/dialogs/recurrence-page.c:1069
 msgid "Other Date"
-msgstr "Un altra data"
+msgstr "Una altra data"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -4597,7 +4601,7 @@ msgstr "Afegeix una excepció"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2162
 msgid "Could not get a selection to modify."
-msgstr "No s'ha pogut obtenir una selecció per a modificar."
+msgstr "No s'ha pogut obtenir una selecció per modificar."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2168
 msgid "Modify exception"
@@ -4605,7 +4609,7 @@ msgstr "Modifica l'excepció"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2212
 msgid "Could not get a selection to delete."
-msgstr "No s'ha pogut obtenir una selecció per a suprimir."
+msgstr "No s'ha pogut obtenir una selecció per suprimir."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2351
 msgid "Date/Time"
@@ -4765,8 +4769,7 @@ msgstr "Detalls de l'e_stat"
 
 #: ../calendar/gui/dialogs/task-editor.c:114
 msgid "Click to change or view the status details of the task"
-msgstr ""
-"Feu clic per a canviar o visualitzar els detalls de l'estat de la tasca"
+msgstr "Feu clic per canviar o visualitzar els detalls de l'estat de la tasca"
 
 #: ../calendar/gui/dialogs/task-editor.c:122
 #: ../plugins/groupwise-features/mail-send-options.c:200
@@ -5008,12 +5011,12 @@ msgid "Default Client"
 msgstr "Client predeterminat"
 
 #: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:518
-#: ../shell/e-shell.c:825
+#: ../shell/e-shell.c:867
 msgid "Shell Settings"
 msgstr "Paràmetres del Shell"
 
 #: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:519
-#: ../shell/e-shell.c:826
+#: ../shell/e-shell.c:868
 msgid "Application-wide settings"
 msgstr "Paràmetres de l'aplicació"
 
@@ -5024,7 +5027,7 @@ msgstr "Paràmetres de l'aplicació"
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-store.c:120 ../calendar/gui/e-meeting-store.c:155
 #: ../calendar/gui/e-meeting-store.c:218 ../calendar/gui/print.c:972
-#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:931
+#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:930
 #: ../plugins/itip-formatter/itip-formatter.c:461
 #: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
@@ -5051,7 +5054,7 @@ msgstr "% acabat"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr "Feu clic per a afegir una tasca"
+msgstr "Feu clic per afegir una tasca"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5
 msgid "Complete"
@@ -5363,7 +5366,7 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
-"<br>Reviseu la informació següent i seleccioneu una acció del menú de sota."
+"<br> Reviseu la informació següent i seleccioneu una acció del menú de sota."
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
@@ -5758,7 +5761,7 @@ msgstr "Precisa una acció"
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:546
 msgid "Attendee                          "
-msgstr "Assistent"
+msgstr "Assistent                         "
 
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 msgid "In Process"
@@ -5852,7 +5855,7 @@ msgstr "Hora d_e finalització:"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "Feu clic per a afegir un assistent"
+msgstr "Feu clic per afegir un assistent"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
@@ -5875,7 +5878,7 @@ msgid "Member"
 msgstr "Membre"
 
 #: ../calendar/gui/e-memo-table.c:411
-#: ../modules/calendar/e-cal-shell-content.c:399
+#: ../modules/calendar/e-cal-shell-content.c:397
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view.c:289
@@ -5918,7 +5921,7 @@ msgstr "Selecciona totes les anotacions visibles"
 
 #: ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr "Feu clic per a afegir una anotació"
+msgstr "Feu clic per afegir una anotació"
 
 #: ../calendar/gui/e-task-table.c:530
 msgid "0%"
@@ -5967,7 +5970,7 @@ msgstr "100%"
 #: ../calendar/gui/e-task-table.c:624 ../calendar/gui/print.c:2043
 #: ../calendar/importers/icalendar-importer.c:76
 #: ../calendar/importers/icalendar-importer.c:749
-#: ../modules/calendar/e-cal-shell-content.c:359
+#: ../modules/calendar/e-cal-shell-content.c:357
 #: ../modules/calendar/e-task-shell-view-actions.c:241
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view.c:437
@@ -6062,7 +6065,7 @@ msgstr "Vés a una data"
 #: ../calendar/gui/ea-day-view-main-item.c:308
 #: ../calendar/gui/ea-week-view-main-item.c:340
 msgid "a table to view and select the current time range"
-msgstr "una taula per a visualitzar i seleccionar l'interval de temps actual"
+msgstr "una taula per visualitzar i seleccionar l'interval de temps actual"
 
 #: ../calendar/gui/ea-day-view.c:152 ../calendar/gui/ea-week-view.c:150
 #, c-format
@@ -6134,11 +6137,11 @@ msgstr "%d de %B del %Y"
 
 #: ../calendar/gui/ea-jump-button.c:147
 msgid "Jump button"
-msgstr "Botó per a saltar"
+msgstr "Botó per saltar"
 
 #: ../calendar/gui/ea-jump-button.c:156
 msgid "Click here, you can find more events."
-msgstr "Feu clic aquí per a veure més esdeveniments."
+msgstr "Feu clic aquí per veure més esdeveniments."
 
 #: ../calendar/gui/ea-week-view.c:157
 #, c-format
@@ -6158,7 +6161,7 @@ msgstr "visualització del calendari per a un mes"
 msgid "calendar view for one or more weeks"
 msgstr "visualització del calendari per a una o més setmanes"
 
-#: ../calendar/gui/gnome-cal.c:2148
+#: ../calendar/gui/gnome-cal.c:2167
 msgid "Purging"
 msgstr "S'està buidant"
 
@@ -6334,7 +6337,7 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
-msgstr "No s'ha pogut reservar un recurs. L'error fou:"
+msgstr "No s'ha pogut reservar un recurs. L'error fou: "
 
 #: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
@@ -6536,7 +6539,7 @@ msgstr "Categories: %s"
 
 #: ../calendar/gui/print.c:2726
 msgid "Contacts: "
-msgstr "Contactes:"
+msgstr "Contactes: "
 
 #: ../calendar/gui/tasktypes.xml.h:2
 #, no-c-format
@@ -8155,7 +8158,7 @@ msgid "Save as..."
 msgstr "Anomena i desa..."
 
 #: ../composer/e-composer-actions.c:281
-#: ../widgets/misc/e-attachment-view.c:327
+#: ../widgets/misc/e-attachment-view.c:328
 msgid "Attach a file"
 msgstr "Adjunta un fitxer"
 
@@ -8373,11 +8376,11 @@ msgstr "Si_gnatura:"
 
 #: ../composer/e-composer-name-header.c:134
 msgid "Click here for the address book"
-msgstr "Feu clic aquí per a anar a la llibreta d'adreces"
+msgstr "Feu clic aquí per anar a la llibreta d'adreces"
 
 #: ../composer/e-composer-post-header.c:116
 msgid "Click here to select folders to post to"
-msgstr "Feu clic per a seleccionar les carpetes on enviar"
+msgstr "Feu clic per seleccionar les carpetes on enviar"
 
 #: ../composer/e-composer-private.c:199
 msgid "Undo the last action"
@@ -8400,7 +8403,7 @@ msgid "Save draft"
 msgstr "Desa l'esborrany"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:187 ../mail/em-utils.c:150
+#: ../composer/e-msg-composer.c:187 ../mail/em-utils.c:149
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
 msgstr "No _tornis a mostrar aquest missatge."
@@ -8560,6 +8563,268 @@ msgstr "R_ecupera"
 msgid "_Save Draft"
 msgstr "Desa l'_esborrany"
 
+#: ../capplet/anjal-settings-main.c:202
+msgid "Run Anjal in a window"
+msgstr "Executa l'Anjal en una finestra"
+
+#: ../capplet/anjal-settings-main.c:203
+msgid "Make Anjal the default email client"
+msgstr "Fes que l'Anjal sigui el client de correu electrònic predeterminat"
+
+#. TRANSLATORS: don't translate the terms in brackets
+#: ../capplet/anjal-settings-main.c:210
+msgid "ID of the socket to embed in"
+msgstr "Identificador del sòcol on incrustar-se"
+
+#: ../capplet/anjal-settings-main.c:211
+msgid "socket"
+msgstr "sòcol"
+
+#: ../capplet/anjal-settings-main.c:225
+msgid "Anjal email client"
+msgstr "Client de correu Anjal"
+
+#: ../capplet/settings/mail-view.c:244
+msgid "New Tab"
+msgstr "Pestanya nova"
+
+#: ../capplet/settings/mail-account-view.c:56
+msgid "Please enter your full name."
+msgstr "Introduïu el vostre nom complet."
+
+#: ../capplet/settings/mail-account-view.c:57
+msgid "Please enter your email address."
+msgstr "Introduïu la vostra adreça electrònica."
+
+#: ../capplet/settings/mail-account-view.c:58
+msgid "The email address you have entered is invalid."
+msgstr "L'adreça electrònica que heu introduït no és vàlida."
+
+#: ../capplet/settings/mail-account-view.c:224
+msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Dades personals:</span>"
+
+#: ../capplet/settings/mail-account-view.c:229
+msgid "Name:"
+msgstr "Nom:"
+
+#: ../capplet/settings/mail-account-view.c:238
+msgid "Email address:"
+msgstr "Adreça electrònica:"
+
+#: ../capplet/settings/mail-account-view.c:248
+msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Dades de recepció:</span>"
+
+#: ../capplet/settings/mail-account-view.c:253
+#: ../capplet/settings/mail-account-view.c:303
+msgid "Server type:"
+msgstr "Tipus de servidor:"
+
+#: ../capplet/settings/mail-account-view.c:262
+#: ../capplet/settings/mail-account-view.c:312
+msgid "Server address:"
+msgstr "Adreça del servidor:"
+
+#: ../capplet/settings/mail-account-view.c:272
+#: ../capplet/settings/mail-account-view.c:322
+msgid "Username:"
+msgstr "Nom d'usuari:"
+
+#: ../capplet/settings/mail-account-view.c:281
+#: ../capplet/settings/mail-account-view.c:331
+msgid "Use encryption:"
+msgstr "Utilització d'encriptatge:"
+
+#: ../capplet/settings/mail-account-view.c:286
+#: ../capplet/settings/mail-account-view.c:336
+msgid "never"
+msgstr "mai"
+
+#: ../capplet/settings/mail-account-view.c:298
+msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Dades d'enviament:</span>"
+
+#: ../capplet/settings/mail-account-view.c:355
+msgid ""
+"To use the email application you'll need to setup an account. Put your email "
+"address and password in below and we'll try and work out all the settings. "
+"If we can't do it automatically you'll need your server details as well."
+msgstr ""
+"Per poder utilitzar l'aplicació haureu de configurar un compte. Introduïu la "
+"vostra adreça electrònica i contrasenya aquí sota i s'intentarà configurar "
+"automàticament tots els paràmetres. En cas que no es pugui fer, haureu "
+"d'introduir els detalls del servidor."
+
+#: ../capplet/settings/mail-account-view.c:357
+msgid ""
+"Sorry, we can't work out the settings to get your mail automatically. Please "
+"enter them below. We've tried to make a start with the details you just "
+"entered but you may need to change them."
+msgstr ""
+"No s'han pogut detectar automàticament els paràmetres per a la recepció de "
+"correu, per la qual cosa els haureu d'introduir aquí sota. S'ha intentat "
+"començar amb els detalls que ja heu introduït, però pot ser que els hàgiu de "
+"canviar."
+
+#: ../capplet/settings/mail-account-view.c:359
+msgid "You can specify more options to configure the account."
+msgstr "Podeu especificar més opcions per configurar el compte."
+
+#: ../capplet/settings/mail-account-view.c:361
+msgid ""
+"Now we need your settings for sending mail. We've tried to make some guesses "
+"but you should check them over to make sure."
+msgstr ""
+"Ara cal que introduïu els vostres paràmetres per a l'enviament de correus. "
+"S'han intentat detectar-los automàticament, però els hauríeu de comprovar "
+"per estar-ne segur."
+
+#: ../capplet/settings/mail-account-view.c:362
+msgid "You can specify your default settings for your account."
+msgstr "Podeu especificar les opcions predeterminades del vostre compte."
+
+#: ../capplet/settings/mail-account-view.c:363
+msgid ""
+"Time to check things over before we try and connect to the server and fetch "
+"your mail."
+msgstr ""
+"Ara teniu l'ocasió de comprovar els paràmetres abans d'intentar connectar "
+"amb el servidor i recollir el correu."
+
+#: ../capplet/settings/mail-account-view.c:378
+#: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
+#: ../mail/mail-config.ui.h:58
+msgid "Identity"
+msgstr "Identitat"
+
+#: ../capplet/settings/mail-account-view.c:378
+msgid "Next - Receiving mail"
+msgstr "Següent - Recepció de correu"
+
+#: ../capplet/settings/mail-account-view.c:379
+msgid "Receiving mail"
+msgstr "Recepció de correu"
+
+#: ../capplet/settings/mail-account-view.c:379
+#: ../capplet/settings/mail-account-view.c:380
+msgid "Next - Sending mail"
+msgstr "Següent - Enviament de correu"
+
+#: ../capplet/settings/mail-account-view.c:379
+msgid "Back - Identity"
+msgstr "Enrere - Identitat"
+
+#: ../capplet/settings/mail-account-view.c:379
+msgid "Next - Receiving options"
+msgstr "Següent - Opcions de recepció"
+
+#: ../capplet/settings/mail-account-view.c:380
+msgid "Receiving options"
+msgstr "Opcions de recepció"
+
+#: ../capplet/settings/mail-account-view.c:380
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Back - Receiving mail"
+msgstr "Enrere - Recepció de correu"
+
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Sending mail"
+msgstr "Enviament de correu"
+
+#: ../capplet/settings/mail-account-view.c:382
+#: ../capplet/settings/mail-account-view.c:383
+msgid "Next - Review account"
+msgstr "Següent - Revisió del compte"
+
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Next - Defaults"
+msgstr "Següent - Valors predeterminats"
+
+#: ../capplet/settings/mail-account-view.c:382
+msgid "Back - Receiving options"
+msgstr "Enrere - Opcions de recepció"
+
+#: ../capplet/settings/mail-account-view.c:383
+#: ../mail/em-account-editor.c:2774 ../mail/mail-config.ui.h:31
+msgid "Defaults"
+msgstr "Opcions predeterminades"
+
+#: ../capplet/settings/mail-account-view.c:383
+msgid "Back - Sending mail"
+msgstr "Enrere - Enviament de correu"
+
+#: ../capplet/settings/mail-account-view.c:385
+msgid "Review account"
+msgstr "Revisió del compte"
+
+#: ../capplet/settings/mail-account-view.c:385
+msgid "Finish"
+msgstr "Finalitza"
+
+# gal/e-table/e-table-config.glade.h:3
+# gal/e-table/e-table-config-no-group.glade.h:3
+#: ../capplet/settings/mail-account-view.c:385
+msgid "Back - Sending"
+msgstr "Enrere - Enviament"
+
+#: ../capplet/settings/mail-account-view.c:719
+#: ../capplet/settings/mail-settings-view.c:266
+msgid "Close Tab"
+msgstr "Tanca la pestanya"
+
+#: ../capplet/settings/mail-account-view.c:729
+msgid "Account Wizard"
+msgstr "Auxiliar per als comptes"
+
+#: ../capplet/settings/mail-capplet-shell.c:284
+msgid "Evolution account assistant"
+msgstr "Auxiliar de comptes de l'Evolution"
+
+#: ../capplet/settings/mail-capplet-shell.c:320
+#: ../data/evolution-settings.desktop.in.in.h:2
+msgid "Email Settings"
+msgstr "Paràmetres del correu electrònic"
+
+#: ../capplet/settings/mail-capplet-shell.c:334
+msgid "Quit"
+msgstr "Surt"
+
+#. create the local source group
+#: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
+#: ../mail/e-mail-store.c:229 ../mail/em-folder-tree-model.c:150
+#: ../mail/em-folder-tree-model.c:153 ../mail/em-folder-tree-model.c:156
+#: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:165
+#: ../mail/em-folder-tree-model.c:167 ../mail/mail-vfolder.c:215
+#: ../mail/message-list.c:1617
+#: ../modules/addressbook/e-book-shell-backend.c:125
+#: ../modules/addressbook/e-book-shell-migrate.c:499
+#: ../modules/calendar/e-cal-shell-backend.c:121
+#: ../modules/calendar/e-cal-shell-migrate.c:564
+#: ../modules/calendar/e-memo-shell-backend.c:108
+#: ../modules/calendar/e-memo-shell-migrate.c:102
+#: ../modules/calendar/e-task-shell-backend.c:111
+#: ../modules/calendar/e-task-shell-migrate.c:501
+msgid "On This Computer"
+msgstr "En aquest ordinador"
+
+#: ../capplet/settings/mail-settings-view.c:148
+#: ../plugins/groupwise-features/share-folder.c:747
+msgid "Modify"
+msgstr "Modifica"
+
+#: ../capplet/settings/mail-settings-view.c:150
+msgid "Add a new account"
+msgstr "Afegeix un compte nou"
+
+#: ../capplet/settings/mail-settings-view.c:185
+msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Gestió de comptes</span>"
+
+#: ../capplet/settings/mail-settings-view.c:276
+msgid "Settings"
+msgstr "Paràmetres"
+
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Calendar event notifications"
 msgstr "Notificacions d'esdeveniments del calendari"
@@ -8568,8 +8833,8 @@ msgstr "Notificacions d'esdeveniments del calendari"
 msgid "Evolution Alarm Notify"
 msgstr "Notificador d'alarmes de l'Evolution"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:786
-#: ../shell/e-shell-window-private.c:258
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:800
+#: ../shell/e-shell-window-private.c:251
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -8577,13 +8842,17 @@ msgstr "Evolution"
 msgid "Evolution Mail and Calendar"
 msgstr "Correu i calendari de l'Evolution"
 
-#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:653
+#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-actions.c:654
 msgid "Groupware Suite"
 msgstr "Aplicacions de treball en grup"
 
 #: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "Gestioneu els correus electrònics, contactes i horaris"
+
+#: ../data/evolution-settings.desktop.in.in.h:1
+msgid "Configure email accounts"
+msgstr "Configuració dels comptes de correu electrònic"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -8795,8 +9064,8 @@ msgstr "Nivell de registre"
 msgid "Messages"
 msgstr "Missatges"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:109
-#: ../shell/e-shell-window-actions.c:1430
+#: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:110
+#: ../shell/e-shell-window-actions.c:1446
 msgid "Close this window"
 msgstr "Tanca aquesta finestra"
 
@@ -9091,7 +9360,7 @@ msgstr[1] "D'aquí a %d anys"
 
 #: ../filter/e-filter-datespec.c:116
 msgid "<click here to select a date>"
-msgstr "<feu clic per a seleccionar una data>"
+msgstr "<feu clic per seleccionar una data>"
 
 #: ../filter/e-filter-datespec.c:119 ../filter/e-filter-datespec.c:130
 #: ../filter/e-filter-datespec.c:141
@@ -9156,11 +9425,11 @@ msgid "I_nclude threads"
 msgstr "I_nclou els fils"
 
 #: ../filter/e-filter-rule.c:1141 ../filter/filter.ui.h:2
-#: ../mail/em-utils.c:301
+#: ../mail/em-utils.c:300
 msgid "Incoming"
 msgstr "Entrada"
 
-#: ../filter/e-filter-rule.c:1141 ../mail/em-utils.c:302
+#: ../filter/e-filter-rule.c:1141 ../mail/em-utils.c:301
 msgid "Outgoing"
 msgstr "Sortida"
 
@@ -9306,23 +9575,23 @@ msgstr "Vista d'icones"
 msgid "List View"
 msgstr "Vista de llista"
 
-#: ../mail/e-mail-browser.c:729 ../shell/e-shell-window.c:631
+#: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
 msgstr "Seguidor de focus"
 
-#: ../mail/e-mail-browser.c:739
+#: ../mail/e-mail-browser.c:742
 msgid "Shell Module"
 msgstr "Mòdul del Shell"
 
-#: ../mail/e-mail-browser.c:740 ../mail/message-list.c:2589
+#: ../mail/e-mail-browser.c:743 ../mail/message-list.c:2589
 msgid "The mail shell backend"
 msgstr "El rerefons del Shell del correu"
 
-#: ../mail/e-mail-browser.c:750
+#: ../mail/e-mail-browser.c:753
 msgid "Show Deleted"
 msgstr "Mostra els suprimits"
 
-#: ../mail/e-mail-browser.c:751
+#: ../mail/e-mail-browser.c:754
 msgid "Show deleted messages"
 msgstr "Mostra els missatges suprimits"
 
@@ -9393,24 +9662,24 @@ msgid "Color"
 msgstr "Color"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:367
-#: ../mail/em-folder-tree-model.c:658 ../mail/em-folder-tree.c:2582
+#: ../mail/em-folder-tree-model.c:680 ../mail/em-folder-tree.c:2582
 #: ../modules/mail/e-mail-shell-view-private.c:963
 msgid "Inbox"
 msgstr "Safata d'entrada"
 
-#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:651
+#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:673
 msgid "Drafts"
 msgstr "Esborranys"
 
-#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:661
+#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:683
 msgid "Outbox"
 msgstr "Safata de sortida"
 
-#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:663
+#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:685
 msgid "Sent"
 msgstr "Enviat"
 
-#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:654
+#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:676
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 #: ../plugins/templates/templates.c:574
 msgid "Templates"
@@ -9512,23 +9781,6 @@ msgstr ""
 "\n"
 "Espereu mentre l'Evolution migra les vostres carpetes..."
 
-#. On This Computer is always first, and Search Folders
-#. * is always last.
-#. create the local source group
-#: ../mail/e-mail-migrate.c:2949 ../mail/e-mail-store.c:229
-#: ../mail/em-folder-tree-model.c:144 ../mail/em-folder-tree-model.c:146
-#: ../mail/mail-vfolder.c:215 ../mail/message-list.c:1617
-#: ../modules/addressbook/e-book-shell-backend.c:125
-#: ../modules/addressbook/e-book-shell-migrate.c:499
-#: ../modules/calendar/e-cal-shell-backend.c:121
-#: ../modules/calendar/e-cal-shell-migrate.c:564
-#: ../modules/calendar/e-memo-shell-backend.c:108
-#: ../modules/calendar/e-memo-shell-migrate.c:102
-#: ../modules/calendar/e-task-shell-backend.c:111
-#: ../modules/calendar/e-task-shell-migrate.c:501
-msgid "On This Computer"
-msgstr "En aquest ordinador"
-
 #: ../mail/e-mail-migrate.c:3031
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
@@ -9551,23 +9803,23 @@ msgstr ""
 msgid "Do not ask me again"
 msgstr "No m'ho tornis a demanar"
 
-#: ../mail/e-mail-reader.c:209 ../mail/em-filter-i18n.h:11
+#: ../mail/e-mail-reader.c:264 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "Copia a carpeta"
 
-#: ../mail/e-mail-reader.c:209 ../mail/em-folder-utils.c:385
+#: ../mail/e-mail-reader.c:264 ../mail/em-folder-utils.c:385
 msgid "C_opy"
 msgstr "C_opia"
 
-#: ../mail/e-mail-reader.c:583 ../mail/em-filter-i18n.h:51
+#: ../mail/e-mail-reader.c:638 ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
 msgstr "Mou a la carpeta"
 
-#: ../mail/e-mail-reader.c:583 ../mail/em-folder-utils.c:385
+#: ../mail/e-mail-reader.c:638 ../mail/em-folder-utils.c:385
 msgid "_Move"
 msgstr "_Mou"
 
-#: ../mail/e-mail-reader.c:809
+#: ../mail/e-mail-reader.c:864
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Desa el missatge"
@@ -9579,503 +9831,503 @@ msgstr[1] "Desa els missatges"
 #. * Subject. The extension ".mbox" is appended to this
 #. * string, thus it will be something like "Message.mbox"
 #. * at the end.
-#: ../mail/e-mail-reader.c:830 ../plugins/groupwise-features/properties.ui.h:5
+#: ../mail/e-mail-reader.c:885 ../plugins/groupwise-features/properties.ui.h:5
 #: ../widgets/table/e-table-click-to-add.c:518
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Missatge"
 msgstr[1] "Missatges"
 
-#: ../mail/e-mail-reader.c:1088
+#: ../mail/e-mail-reader.c:1143
 msgid "A_dd Sender to Address Book"
 msgstr "Afegeix el remitent a la llibreta d'a_dreces"
 
-#: ../mail/e-mail-reader.c:1090
+#: ../mail/e-mail-reader.c:1145
 msgid "Add sender to address book"
 msgstr "Afegeix el remitent a la llibreta d'adreces"
 
-#: ../mail/e-mail-reader.c:1095
+#: ../mail/e-mail-reader.c:1150
 msgid "Check for _Junk"
 msgstr "Comprova si hi ha _brossa"
 
-#: ../mail/e-mail-reader.c:1097
+#: ../mail/e-mail-reader.c:1152
 msgid "Filter the selected messages for junk status"
 msgstr "Filtra els missatges seleccionats per l'estat de brossa"
 
-#: ../mail/e-mail-reader.c:1102
+#: ../mail/e-mail-reader.c:1157
 msgid "_Copy to Folder..."
 msgstr "_Copia a la carpeta..."
 
-#: ../mail/e-mail-reader.c:1104
+#: ../mail/e-mail-reader.c:1159
 msgid "Copy selected messages to another folder"
 msgstr "Copia els missatges seleccionats a una altra carpeta"
 
-#: ../mail/e-mail-reader.c:1109
+#: ../mail/e-mail-reader.c:1164
 msgid "_Delete Message"
 msgstr "Suprimeix el _missatge"
 
-#: ../mail/e-mail-reader.c:1111
+#: ../mail/e-mail-reader.c:1166
 msgid "Mark the selected messages for deletion"
-msgstr "Marca els missatges seleccionats per a suprimir-los"
+msgstr "Marca els missatges seleccionats per suprimir-los"
 
-#: ../mail/e-mail-reader.c:1116
+#: ../mail/e-mail-reader.c:1171
 msgid "Filter on Mailing _List..."
 msgstr "Fi_ltra per la llista de correu..."
 
-#: ../mail/e-mail-reader.c:1118
+#: ../mail/e-mail-reader.c:1173
 msgid "Create a rule to filter messages to this mailing list"
 msgstr ""
 "Crea una regla per filtrar els missatges per a aquesta llista de correu"
 
-#: ../mail/e-mail-reader.c:1123
+#: ../mail/e-mail-reader.c:1178
 msgid "Filter on _Recipients..."
 msgstr "Filt_ra pels destinataris..."
 
-#: ../mail/e-mail-reader.c:1125
+#: ../mail/e-mail-reader.c:1180
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Crea una regla per filtrar els missatges per a aquests destinataris"
 
-#: ../mail/e-mail-reader.c:1130
+#: ../mail/e-mail-reader.c:1185
 msgid "Filter on Se_nder..."
 msgstr "Filtra pels remite_nts..."
 
-#: ../mail/e-mail-reader.c:1132
+#: ../mail/e-mail-reader.c:1187
 msgid "Create a rule to filter messages from this sender"
 msgstr "Crea una regla per filtrar els missatges d'aquest remitent"
 
-#: ../mail/e-mail-reader.c:1137
+#: ../mail/e-mail-reader.c:1192
 msgid "Filter on _Subject..."
 msgstr "Filtra per l'a_ssumpte..."
 
-#: ../mail/e-mail-reader.c:1139
+#: ../mail/e-mail-reader.c:1194
 msgid "Create a rule to filter messages with this subject"
 msgstr "Crea una regla per filtrar els missatges amb aquest assumpte"
 
-#: ../mail/e-mail-reader.c:1144
+#: ../mail/e-mail-reader.c:1199
 msgid "A_pply Filters"
 msgstr "A_plica els filtres"
 
-#: ../mail/e-mail-reader.c:1146
+#: ../mail/e-mail-reader.c:1201
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplica les regles de filtratge als missatges seleccionats"
 
-#: ../mail/e-mail-reader.c:1151
+#: ../mail/e-mail-reader.c:1206
 msgid "_Find in Message..."
 msgstr "_Cerca en el missatge..."
 
-#: ../mail/e-mail-reader.c:1153
+#: ../mail/e-mail-reader.c:1208
 msgid "Search for text in the body of the displayed message"
 msgstr "Cerca un text en el cos del missatge visualitzat"
 
-#: ../mail/e-mail-reader.c:1158
+#: ../mail/e-mail-reader.c:1213
 msgid "_Clear Flag"
 msgstr "Nete_ja el senyalador"
 
-#: ../mail/e-mail-reader.c:1160
+#: ../mail/e-mail-reader.c:1215
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "suprimeix el senyalador de seguiment dels missatges seleccionats"
 
-#: ../mail/e-mail-reader.c:1165
+#: ../mail/e-mail-reader.c:1220
 msgid "_Flag Completed"
 msgstr "Sen_yalador completat"
 
-#: ../mail/e-mail-reader.c:1167
+#: ../mail/e-mail-reader.c:1222
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr ""
 "Estableix el senyalador de seguiment com a completat en els missatges "
 "seleccionats"
 
-#: ../mail/e-mail-reader.c:1172
+#: ../mail/e-mail-reader.c:1227
 msgid "Follow _Up..."
 msgstr "Res_pon..."
 
-#: ../mail/e-mail-reader.c:1174
+#: ../mail/e-mail-reader.c:1229
 msgid "Flag the selected messages for follow-up"
-msgstr "Senyala els missatges seleccionats per a fer-ne un seguiment"
+msgstr "Senyala els missatges seleccionats per fer-ne un seguiment"
 
-#: ../mail/e-mail-reader.c:1179
+#: ../mail/e-mail-reader.c:1234
 msgid "_Attached"
 msgstr "_Adjuntat"
 
-#: ../mail/e-mail-reader.c:1181 ../mail/e-mail-reader.c:1188
+#: ../mail/e-mail-reader.c:1236 ../mail/e-mail-reader.c:1243
 msgid "Forward the selected message to someone as an attachment"
 msgstr ""
 "Reenvia el missatge seleccionat a una altra persona com a fitxer adjunt"
 
-#: ../mail/e-mail-reader.c:1186
+#: ../mail/e-mail-reader.c:1241
 msgid "Forward As _Attached"
 msgstr "Reenvia com a _adjunció"
 
-#: ../mail/e-mail-reader.c:1193
+#: ../mail/e-mail-reader.c:1248
 msgid "_Inline"
 msgstr "_Inserit"
 
-#: ../mail/e-mail-reader.c:1195 ../mail/e-mail-reader.c:1202
+#: ../mail/e-mail-reader.c:1250 ../mail/e-mail-reader.c:1257
 msgid "Forward the selected message in the body of a new message"
 msgstr "Reenvia el missatge seleccionat al cos d'un missatge nou"
 
-#: ../mail/e-mail-reader.c:1200
+#: ../mail/e-mail-reader.c:1255
 msgid "Forward As _Inline"
 msgstr "Reenvia _inserit"
 
-#: ../mail/e-mail-reader.c:1207
+#: ../mail/e-mail-reader.c:1262
 msgid "_Quoted"
 msgstr "_Citat"
 
-#: ../mail/e-mail-reader.c:1209 ../mail/e-mail-reader.c:1216
+#: ../mail/e-mail-reader.c:1264 ../mail/e-mail-reader.c:1271
 msgid "Forward the selected message quoted like a reply"
 msgstr "Reenvia el missatge seleccionat citat com una resposta"
 
-#: ../mail/e-mail-reader.c:1214
+#: ../mail/e-mail-reader.c:1269
 msgid "Forward As _Quoted"
 msgstr "Reenvia com a _citat"
 
-#: ../mail/e-mail-reader.c:1221
+#: ../mail/e-mail-reader.c:1276
 msgid "_Load Images"
 msgstr "Carrega i_matges"
 
-#: ../mail/e-mail-reader.c:1223
+#: ../mail/e-mail-reader.c:1278
 msgid "Force images in HTML mail to be loaded"
 msgstr "Força la càrrega d'imatges en els correus HTML"
 
-#: ../mail/e-mail-reader.c:1228
+#: ../mail/e-mail-reader.c:1283
 msgid "_Important"
 msgstr "_Important"
 
-#: ../mail/e-mail-reader.c:1230
+#: ../mail/e-mail-reader.c:1285
 msgid "Mark the selected messages as important"
 msgstr "Marca els missatges seleccionats com a importants"
 
-#: ../mail/e-mail-reader.c:1235
+#: ../mail/e-mail-reader.c:1290
 msgid "_Junk"
 msgstr "_Brossa"
 
-#: ../mail/e-mail-reader.c:1237
+#: ../mail/e-mail-reader.c:1292
 msgid "Mark the selected messages as junk"
 msgstr "Marca els missatges seleccionats com a brossa"
 
-#: ../mail/e-mail-reader.c:1242
+#: ../mail/e-mail-reader.c:1297
 msgid "_Not Junk"
 msgstr "_No és brossa"
 
-#: ../mail/e-mail-reader.c:1244
+#: ../mail/e-mail-reader.c:1299
 msgid "Mark the selected messages as not being junk"
 msgstr "Marca els missatges seleccionats com a no brossa"
 
-#: ../mail/e-mail-reader.c:1249
+#: ../mail/e-mail-reader.c:1304
 msgid "_Read"
 msgstr "_Llegit"
 
-#: ../mail/e-mail-reader.c:1251
+#: ../mail/e-mail-reader.c:1306
 msgid "Mark the selected messages as having been read"
 msgstr "Marca els missatges seleccionats com a llegits"
 
-#: ../mail/e-mail-reader.c:1256
+#: ../mail/e-mail-reader.c:1311
 msgid "Uni_mportant"
 msgstr "Poc i_mportant"
 
-#: ../mail/e-mail-reader.c:1258
+#: ../mail/e-mail-reader.c:1313
 msgid "Mark the selected messages as unimportant"
 msgstr "Marca els missatges seleccionats com a no importants"
 
-#: ../mail/e-mail-reader.c:1263
+#: ../mail/e-mail-reader.c:1318
 msgid "_Unread"
 msgstr "No ll_egit"
 
-#: ../mail/e-mail-reader.c:1265
+#: ../mail/e-mail-reader.c:1320
 msgid "Mark the selected messages as not having been read"
 msgstr "Marca els missatges seleccionats com a no llegits"
 
-#: ../mail/e-mail-reader.c:1270
+#: ../mail/e-mail-reader.c:1325
 msgid "_Edit as New Message..."
 msgstr "_Edita com a missatge nou..."
 
-#: ../mail/e-mail-reader.c:1272
+#: ../mail/e-mail-reader.c:1327
 msgid "Open the selected messages in the composer for editing"
-msgstr "Obre els missatges seleccionats en el redactor per a editar-los"
+msgstr "Obre els missatges seleccionats en el redactor per editar-los"
 
-#: ../mail/e-mail-reader.c:1277
+#: ../mail/e-mail-reader.c:1332
 msgid "Compose _New Message"
 msgstr "Redacta u_n missatge nou"
 
-#: ../mail/e-mail-reader.c:1279
+#: ../mail/e-mail-reader.c:1334
 msgid "Open a window for composing a mail message"
 msgstr "Obre una finestra per redactar un missatge de correu"
 
-#: ../mail/e-mail-reader.c:1284
+#: ../mail/e-mail-reader.c:1339
 msgid "_Open in New Window"
 msgstr "_Obre en una finestra nova"
 
-#: ../mail/e-mail-reader.c:1286
+#: ../mail/e-mail-reader.c:1341
 msgid "Open the selected messages in a new window"
 msgstr "Obre els missatges seleccionats en una finestra nova"
 
-#: ../mail/e-mail-reader.c:1291
+#: ../mail/e-mail-reader.c:1346
 msgid "_Move to Folder..."
 msgstr "_Mou a la carpeta..."
 
-#: ../mail/e-mail-reader.c:1293
+#: ../mail/e-mail-reader.c:1348
 msgid "Move selected messages to another folder"
 msgstr "Mou els missatges seleccionats a una altra carpeta"
 
-#: ../mail/e-mail-reader.c:1298
+#: ../mail/e-mail-reader.c:1353
 msgid "_Next Message"
 msgstr "Missatge següe_nt"
 
-#: ../mail/e-mail-reader.c:1300
+#: ../mail/e-mail-reader.c:1355
 msgid "Display the next message"
 msgstr "Mostra el missatge següent"
 
-#: ../mail/e-mail-reader.c:1305
+#: ../mail/e-mail-reader.c:1360
 msgid "Next _Important Message"
 msgstr "M_issatge important següent"
 
-#: ../mail/e-mail-reader.c:1307
+#: ../mail/e-mail-reader.c:1362
 msgid "Display the next important message"
 msgstr "Mostra el missatge important següent"
 
-#: ../mail/e-mail-reader.c:1312
+#: ../mail/e-mail-reader.c:1367
 msgid "Next _Thread"
 msgstr "Fil següen_t"
 
-#: ../mail/e-mail-reader.c:1314
+#: ../mail/e-mail-reader.c:1369
 msgid "Display the next thread"
 msgstr "Mostra el següent fil"
 
-#: ../mail/e-mail-reader.c:1319
+#: ../mail/e-mail-reader.c:1374
 msgid "Next _Unread Message"
 msgstr "Missa_tge sense llegir següent"
 
-#: ../mail/e-mail-reader.c:1321
+#: ../mail/e-mail-reader.c:1376
 msgid "Display the next unread message"
 msgstr "Mostra el missatge sense llegir següent"
 
-#: ../mail/e-mail-reader.c:1326
+#: ../mail/e-mail-reader.c:1381
 msgid "_Previous Message"
 msgstr "Missa_tge anterior"
 
-#: ../mail/e-mail-reader.c:1328
+#: ../mail/e-mail-reader.c:1383
 msgid "Display the previous message"
 msgstr "Mostra el missatge anterior"
 
-#: ../mail/e-mail-reader.c:1333
+#: ../mail/e-mail-reader.c:1388
 msgid "Pr_evious Important Message"
 msgstr "Missatge important ant_erior"
 
-#: ../mail/e-mail-reader.c:1335
+#: ../mail/e-mail-reader.c:1390
 msgid "Display the previous important message"
 msgstr "Mostra el missatge important anterior"
 
-#: ../mail/e-mail-reader.c:1340
+#: ../mail/e-mail-reader.c:1395
 msgid "P_revious Unread Message"
 msgstr "Missatge sense llegir ante_rior"
 
-#: ../mail/e-mail-reader.c:1342
+#: ../mail/e-mail-reader.c:1397
 msgid "Display the previous unread message"
 msgstr "Mostra el missatge sense llegir anterior"
 
-#: ../mail/e-mail-reader.c:1349
+#: ../mail/e-mail-reader.c:1404
 msgid "Print this message"
 msgstr "Imprimeix aquest missatge"
 
-#: ../mail/e-mail-reader.c:1356
+#: ../mail/e-mail-reader.c:1411
 msgid "Preview the message to be printed"
 msgstr "Previsualitza el missatge que s'imprimirà"
 
-#: ../mail/e-mail-reader.c:1361
+#: ../mail/e-mail-reader.c:1416
 msgid "Re_direct"
 msgstr "Re_direcciona"
 
-#: ../mail/e-mail-reader.c:1363
+#: ../mail/e-mail-reader.c:1418
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Reexpedeix el missatge seleccionat a una altra persona"
 
-#: ../mail/e-mail-reader.c:1368
+#: ../mail/e-mail-reader.c:1423
 #: ../modules/calendar/e-cal-shell-view-actions.c:1405
 #: ../modules/mail/e-mail-attachment-handler.c:141
 msgid "Reply to _All"
 msgstr "Respon a _tots"
 
-#: ../mail/e-mail-reader.c:1370
+#: ../mail/e-mail-reader.c:1425
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr ""
 "Redacta una resposta per a tots els destinataris del missatge seleccionat"
 
-#: ../mail/e-mail-reader.c:1375
+#: ../mail/e-mail-reader.c:1430
 msgid "Reply to _List"
 msgstr "Respon a _la llista"
 
-#: ../mail/e-mail-reader.c:1377
+#: ../mail/e-mail-reader.c:1432
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr ""
 "Redacta una resposta per a la llista de correu del missatge seleccionat"
 
-#: ../mail/e-mail-reader.c:1382
+#: ../mail/e-mail-reader.c:1437
 #: ../modules/mail/e-mail-attachment-handler.c:148
 msgid "_Reply to Sender"
 msgstr "_Respon al remitent"
 
-#: ../mail/e-mail-reader.c:1384
+#: ../mail/e-mail-reader.c:1439
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Redacta una resposta per al remitent del missatge seleccionat"
 
-#: ../mail/e-mail-reader.c:1389
+#: ../mail/e-mail-reader.c:1444
 msgid "_Save as mbox..."
-msgstr "Anomena i desa com a fitxer mbox..."
+msgstr "_Anomena i desa com a fitxer mbox..."
 
-#: ../mail/e-mail-reader.c:1391
+#: ../mail/e-mail-reader.c:1446
 msgid "Save selected messages as an mbox file"
 msgstr "Desa els missatges com a fitxer mbox"
 
-#: ../mail/e-mail-reader.c:1396
+#: ../mail/e-mail-reader.c:1451
 msgid "Search Folder from Mailing _List..."
 msgstr "Carpeta de cerca a partir de _la llista de correu..."
 
-#: ../mail/e-mail-reader.c:1398
+#: ../mail/e-mail-reader.c:1453
 msgid "Create a search folder for this mailing list"
 msgstr "Crea una carpeta de cerca per a aquesta llista de correu"
 
-#: ../mail/e-mail-reader.c:1403
+#: ../mail/e-mail-reader.c:1458
 msgid "Search Folder from Recipien_ts..."
 msgstr "Carpeta de cerca a partir dels destinata_ris..."
 
-#: ../mail/e-mail-reader.c:1405
+#: ../mail/e-mail-reader.c:1460
 msgid "Create a search folder for these recipients"
 msgstr "Crea una carpeta de cerca per a aquests destinataris"
 
-#: ../mail/e-mail-reader.c:1410
+#: ../mail/e-mail-reader.c:1465
 msgid "Search Folder from Sen_der..."
 msgstr "Carpeta de cerca a partir del remite_nt..."
 
-#: ../mail/e-mail-reader.c:1412
+#: ../mail/e-mail-reader.c:1467
 msgid "Create a search folder for this sender"
 msgstr "Crea una carpeta de cerca per a aquest remitent"
 
-#: ../mail/e-mail-reader.c:1417
+#: ../mail/e-mail-reader.c:1472
 msgid "Search Folder from S_ubject..."
 msgstr "Carpeta de cerca a partir de l'ass_umpte..."
 
-#: ../mail/e-mail-reader.c:1419
+#: ../mail/e-mail-reader.c:1474
 msgid "Create a search folder for this subject"
 msgstr "Crea una carpeta de cerca per a aquest assumpte"
 
-#: ../mail/e-mail-reader.c:1424
+#: ../mail/e-mail-reader.c:1479
 msgid "_Message Source"
 msgstr "Font del _missatge"
 
-#: ../mail/e-mail-reader.c:1426
+#: ../mail/e-mail-reader.c:1481
 msgid "Show the raw email source of the message"
 msgstr "Mostra el codi del missatge de correu"
 
-#: ../mail/e-mail-reader.c:1438
+#: ../mail/e-mail-reader.c:1493
 msgid "_Undelete Message"
 msgstr "Desfés la s_upressió del missatge"
 
-#: ../mail/e-mail-reader.c:1440
+#: ../mail/e-mail-reader.c:1495
 msgid "Undelete the selected messages"
 msgstr "Desfés la supressió dels missatges seleccionats"
 
-#: ../mail/e-mail-reader.c:1445
+#: ../mail/e-mail-reader.c:1500
 msgid "_Normal Size"
 msgstr "Mida _normal"
 
-#: ../mail/e-mail-reader.c:1447
+#: ../mail/e-mail-reader.c:1502
 msgid "Reset the text to its original size"
 msgstr "Torna el text a la seva mida original"
 
-#: ../mail/e-mail-reader.c:1452
+#: ../mail/e-mail-reader.c:1507
 msgid "_Zoom In"
 msgstr "A_propa"
 
-#: ../mail/e-mail-reader.c:1454
+#: ../mail/e-mail-reader.c:1509
 msgid "Increase the text size"
 msgstr "Incrementa la mida del text"
 
-#: ../mail/e-mail-reader.c:1459
+#: ../mail/e-mail-reader.c:1514
 msgid "Zoom _Out"
 msgstr "A_llunya"
 
-#: ../mail/e-mail-reader.c:1461
+#: ../mail/e-mail-reader.c:1516
 msgid "Decrease the text size"
 msgstr "Redueix la mida del text"
 
-#: ../mail/e-mail-reader.c:1468
+#: ../mail/e-mail-reader.c:1523
 msgid "Create R_ule"
 msgstr "Crea _una regla"
 
-#: ../mail/e-mail-reader.c:1475
+#: ../mail/e-mail-reader.c:1530
 msgid "Ch_aracter Encoding"
 msgstr "Codificació dels c_aràcters"
 
-#: ../mail/e-mail-reader.c:1482
+#: ../mail/e-mail-reader.c:1537
 msgid "F_orward As"
 msgstr "Reenvia c_om a"
 
-#: ../mail/e-mail-reader.c:1489
+#: ../mail/e-mail-reader.c:1544
 msgid "_Go To"
 msgstr "_Vés a"
 
-#: ../mail/e-mail-reader.c:1496
+#: ../mail/e-mail-reader.c:1551
 msgid "Mar_k As"
 msgstr "Mar_ca com a"
 
-#: ../mail/e-mail-reader.c:1503
+#: ../mail/e-mail-reader.c:1558
 msgid "_Message"
 msgstr "_Missatges"
 
-#: ../mail/e-mail-reader.c:1510
+#: ../mail/e-mail-reader.c:1565
 msgid "_Zoom"
 msgstr "A_propa"
 
-#: ../mail/e-mail-reader.c:1535
+#: ../mail/e-mail-reader.c:1590
 msgid "Mark for Follo_w Up..."
 msgstr "Marca per al se_guiment..."
 
-#: ../mail/e-mail-reader.c:1543
+#: ../mail/e-mail-reader.c:1598
 msgid "Mark as _Important"
 msgstr "Marca'l com a _important"
 
-#: ../mail/e-mail-reader.c:1547
+#: ../mail/e-mail-reader.c:1602
 msgid "Mark as _Junk"
 msgstr "Marca'l com a bro_ssa"
 
-#: ../mail/e-mail-reader.c:1551
+#: ../mail/e-mail-reader.c:1606
 msgid "Mark as _Not Junk"
 msgstr "_No el marquis com a brossa"
 
-#: ../mail/e-mail-reader.c:1555
+#: ../mail/e-mail-reader.c:1610
 msgid "Mar_k as Read"
 msgstr "Mar_ca'l com a llegit"
 
-#: ../mail/e-mail-reader.c:1559
+#: ../mail/e-mail-reader.c:1614
 msgid "Mark as Uni_mportant"
 msgstr "Marca com a no _important"
 
-#: ../mail/e-mail-reader.c:1563
+#: ../mail/e-mail-reader.c:1618
 msgid "Mark as _Unread"
 msgstr "Marca com a _no llegit"
 
-#: ../mail/e-mail-reader.c:1599
+#: ../mail/e-mail-reader.c:1654
 msgid "_Caret Mode"
 msgstr "Mode de _cursor"
 
-#: ../mail/e-mail-reader.c:1601
+#: ../mail/e-mail-reader.c:1656
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Mostra un cursor parpellejant en el cos dels missatges visualitzats"
 
-#: ../mail/e-mail-reader.c:1607
+#: ../mail/e-mail-reader.c:1662
 msgid "All Message _Headers"
 msgstr "Totes les _capçaleres de missatge"
 
-#: ../mail/e-mail-reader.c:1609
+#: ../mail/e-mail-reader.c:1664
 msgid "Show messages with all email headers"
 msgstr "Mostra els missatges amb totes les capçaleres"
 
-#: ../mail/e-mail-reader.c:1833
+#: ../mail/e-mail-reader.c:1897
 msgid "Unable to retrieve message"
 msgstr "No s'ha pogut recuperar el missatge"
 
-#: ../mail/e-mail-reader.c:1836 ../mail/e-mail-reader.c:1888
+#: ../mail/e-mail-reader.c:1900 ../mail/e-mail-reader.c:1957
 #: ../mail/mail-ops.c:1849
 #, c-format
 msgid "Retrieving message '%s'"
@@ -10083,7 +10335,7 @@ msgstr "S'està recuperant el missatge «%s»"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2398
+#: ../mail/e-mail-reader.c:2467
 #: ../plugins/google-account-setup/google-source.c:304
 #: ../plugins/google-account-setup/google-source.c:534
 #: ../plugins/google-account-setup/google-source.c:656
@@ -10091,33 +10343,33 @@ msgstr "S'està recuperant el missatge «%s»"
 msgid "Default"
 msgstr "Predeterminat"
 
-#: ../mail/e-mail-reader.c:2517
+#: ../mail/e-mail-reader.c:2588
 #: ../modules/mail/e-mail-attachment-handler.c:134
 msgid "_Forward"
 msgstr "_Reenvia"
 
-#: ../mail/e-mail-reader.c:2518
+#: ../mail/e-mail-reader.c:2589
 msgid "Forward the selected message to someone"
 msgstr "Reenvia el missatge seleccionat a una altra persona"
 
-#: ../mail/e-mail-reader.c:2562 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:2633 ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:753
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: ../mail/e-mail-reader.c:2566
+#: ../mail/e-mail-reader.c:2637
 #: ../modules/calendar/e-cal-shell-view-actions.c:1251
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "Següent"
 
-#: ../mail/e-mail-reader.c:2570
+#: ../mail/e-mail-reader.c:2641
 #: ../modules/calendar/e-cal-shell-view-actions.c:1244
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../mail/e-mail-reader.c:2574 ../mail/mail-dialogs.ui.h:18
+#: ../mail/e-mail-reader.c:2645 ../mail/mail-dialogs.ui.h:18
 msgid "Reply"
 msgstr "Respon"
 
@@ -10127,7 +10379,7 @@ msgstr "Senyala per respondre"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:500 ../mail/mail-config.ui.h:72
+#: ../mail/em-account-editor.c:499 ../mail/mail-config.ui.h:72
 #: ../modules/addressbook/ldap-config.ui.h:10
 msgid "No encryption"
 msgstr "Sense xifratge"
@@ -10135,7 +10387,7 @@ msgstr "Sense xifratge"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:504 ../mail/mail-config.ui.h:120
+#: ../mail/em-account-editor.c:503 ../mail/mail-config.ui.h:120
 #: ../modules/addressbook/ldap-config.ui.h:21
 msgid "TLS encryption"
 msgstr "Xifratge TLS"
@@ -10143,17 +10395,17 @@ msgstr "Xifratge TLS"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:508 ../mail/mail-config.ui.h:93
+#: ../mail/em-account-editor.c:507 ../mail/mail-config.ui.h:93
 #: ../modules/addressbook/ldap-config.ui.h:13
 msgid "SSL encryption"
 msgstr "Xifratge SSL"
 
-#: ../mail/em-account-editor.c:595
+#: ../mail/em-account-editor.c:594
 #, c-format
 msgid "%s License Agreement"
 msgstr "Acord de llicència de %s"
 
-#: ../mail/em-account-editor.c:602
+#: ../mail/em-account-editor.c:601
 #, c-format
 msgid ""
 "\n"
@@ -10164,28 +10416,28 @@ msgstr ""
 "\n"
 "Llegiu detingudament l'acord de llicència\n"
 "per a %s que es mostra a sota\n"
-"i marqueu la casella de verificació per a acceptar-lo\n"
+"i marqueu la casella de verificació per acceptar-lo\n"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:882 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:881 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "cap"
 
-#: ../mail/em-account-editor.c:966
+#: ../mail/em-account-editor.c:965
 msgid "Never"
 msgstr "Mai"
 
-#: ../mail/em-account-editor.c:967
+#: ../mail/em-account-editor.c:966
 msgid "Always"
 msgstr "Sempre"
 
-#: ../mail/em-account-editor.c:968
+#: ../mail/em-account-editor.c:967
 msgid "Ask for each message"
 msgstr "Pregunta per cada missatge"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1705 ../widgets/misc/e-account-tree-view.c:124
+#: ../mail/em-account-editor.c:1704 ../widgets/misc/e-account-tree-view.c:124
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Cap"
@@ -10203,12 +10455,7 @@ msgstr ""
 "Us donem la benvinguda a l'auxiliar de configuració del correu de "
 "l'Evolution.\n"
 "\n"
-"Feu clic a «Endavant» per a començar."
-
-#: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2200
-#: ../mail/mail-config.ui.h:58
-msgid "Identity"
-msgstr "Identitat"
+"Feu clic a «Endavant» per començar."
 
 #: ../mail/em-account-editor.c:2065
 msgid ""
@@ -10216,11 +10463,11 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Introduïu el vostre nom i la vostra adreça de correu aquí sota. Els camps "
+"Introduïu el vostre nom i la vostra adreça electrònica aquí sota. Els camps "
 "«opcionals» no són necessaris, a menys que els vulgueu afegir en els correus "
 "que envieu."
 
-#: ../mail/em-account-editor.c:2067 ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2067 ../mail/em-account-editor.c:2233
 #: ../mail/mail-config.ui.h:90
 msgid "Receiving Email"
 msgstr "Recepció de correu"
@@ -10229,7 +10476,7 @@ msgstr "Recepció de correu"
 msgid "Please configure the following account settings."
 msgstr "Configureu els següents paràmetres del compte."
 
-#: ../mail/em-account-editor.c:2070 ../mail/em-account-editor.c:2714
+#: ../mail/em-account-editor.c:2070 ../mail/em-account-editor.c:2710
 msgid "Sending Email"
 msgstr "Enviament de correu"
 
@@ -10251,7 +10498,7 @@ msgid ""
 "This name will be used for display purposes only."
 msgstr ""
 "Introduïu un nom descriptiu per a aquest compte aquí sota. \n"
-"Aquest nom només s'utilitzarà per a visualitzar-lo."
+"Aquest nom només s'utilitzarà per visualitzar-lo."
 
 #: ../mail/em-account-editor.c:2078
 msgid "Done"
@@ -10271,37 +10518,33 @@ msgstr ""
 "\n"
 "Feu clic a «Aplica» per desar la configuració."
 
-#: ../mail/em-account-editor.c:2524
+#: ../mail/em-account-editor.c:2520
 msgid "Check for _new messages every"
 msgstr "Comprova si hi ha correu _nou cada"
 
-#: ../mail/em-account-editor.c:2532
+#: ../mail/em-account-editor.c:2528
 msgid "minu_tes"
 msgstr "minu_ts"
 
-#: ../mail/em-account-editor.c:2778 ../mail/mail-config.ui.h:31
-msgid "Defaults"
-msgstr "Opcions predeterminades"
-
-#: ../mail/em-account-editor.c:2840 ../mail/mail-config.ui.h:100
+#: ../mail/em-account-editor.c:2836 ../mail/mail-config.ui.h:100
 msgid "Security"
 msgstr "Seguretat"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2877 ../mail/em-account-editor.c:2945
+#: ../mail/em-account-editor.c:2881 ../mail/em-account-editor.c:2949
 msgid "Receiving Options"
 msgstr "Opcions de recepció"
 
-#: ../mail/em-account-editor.c:2878 ../mail/em-account-editor.c:2946
+#: ../mail/em-account-editor.c:2882 ../mail/em-account-editor.c:2950
 msgid "Checking for New Messages"
 msgstr "Comprovació de correu nou"
 
-#: ../mail/em-account-editor.c:3414
+#: ../mail/em-account-editor.c:3418
 msgid "Account Editor"
 msgstr "Editor de comptes"
 
-#: ../mail/em-account-editor.c:3414
+#: ../mail/em-account-editor.c:3418
 msgid "Evolution Account Assistant"
 msgstr "Auxiliar per als comptes de l'Evolution"
 
@@ -10623,7 +10866,7 @@ msgstr "Propietats de la carpeta"
 
 #: ../mail/em-folder-selection-button.c:75
 msgid "<click here to select a folder>"
-msgstr "<feu clic per a seleccionar una carpeta>"
+msgstr "<feu clic per seleccionar una carpeta>"
 
 #: ../mail/em-folder-selector.c:266
 msgid "C_reate"
@@ -10634,17 +10877,19 @@ msgid "Folder _name:"
 msgstr "_Nom de la carpeta:"
 
 #. load store to mail component
-#: ../mail/em-folder-tree-model.c:148 ../mail/em-folder-tree-model.c:150
+#: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
+#: ../mail/em-folder-tree-model.c:160 ../mail/em-folder-tree-model.c:162
+#: ../mail/em-folder-tree-model.c:169 ../mail/em-folder-tree-model.c:171
 #: ../mail/mail-vfolder.c:1056 ../mail/mail-vfolder.c:1121
 msgid "Search Folders"
 msgstr "Carpetes de cerca"
 
 #. UNMATCHED is always last.
-#: ../mail/em-folder-tree-model.c:154 ../mail/em-folder-tree-model.c:156
+#: ../mail/em-folder-tree-model.c:176 ../mail/em-folder-tree-model.c:178
 msgid "UNMATCHED"
 msgstr "Cap concordança"
 
-#: ../mail/em-folder-tree-model.c:726 ../mail/em-folder-tree-model.c:1063
+#: ../mail/em-folder-tree-model.c:748 ../mail/em-folder-tree-model.c:1085
 msgid "Loading..."
 msgstr "S'està carregant..."
 
@@ -10972,12 +11217,12 @@ msgstr "Seleccioneu un servidor."
 msgid "No server has been selected"
 msgstr "No s'ha seleccionat cap servidor"
 
-#: ../mail/em-utils.c:311
+#: ../mail/em-utils.c:310
 msgid "Message Filters"
 msgstr "Filtres de missatge"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:815
+#: ../mail/em-utils.c:814
 #, c-format
 msgid "Messages from %s"
 msgstr "Missatges de %s"
@@ -11183,7 +11428,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
-"Determina si s'han d'utilitzar capçaleres personalitzades per a detectar el "
+"Determina si s'han d'utilitzar capçaleres personalitzades per detectar el "
 "correu brossa"
 
 # FIXME [l10n-bug] (dpm)
@@ -11193,8 +11438,8 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
-"Determina si s'han d'utilitzar capçaleres personalitzades per a determinar "
-"el que és correu brossa. Si s'habilita aquesta opció i es mencionen les "
+"Determina si s'han d'utilitzar capçaleres personalitzades per determinar el "
+"que és correu brossa. Si s'habilita aquesta opció i es mencionen les "
 "capçaleres, s'incrementarà la velocitat de detecció del correu brossa."
 
 #: ../mail/evolution-mail.schemas.in.h:45
@@ -11222,7 +11467,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Do not add signature delimiter"
-msgstr "No afegeixis el delimitador de signatura."
+msgstr "No afegeixis el delimitador de signatura"
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Draw spelling error indicators on words as you type."
@@ -11256,7 +11501,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
-"Habilita la modalitat de cursor, de manera que vegeu un cursor en llegir el "
+"Habilita el mode de cursor, de manera que vegeu un cursor en llegir el "
 "correu."
 
 #: ../mail/evolution-mail.schemas.in.h:57
@@ -11284,7 +11529,7 @@ msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
-"Habilita la funció de cerca de la barra lateral per a permetre la cerca "
+"Habilita la funció de cerca de la barra lateral per permetre la cerca "
 "interactiva de noms de carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:63
@@ -11292,7 +11537,7 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
-"Habiliteu-ho per a utilitzar la tecla d'espai per a desplaçar-se en la "
+"Habiliteu-ho per utilitzar la tecla d'espai per desplaçar-se en la "
 "previsualització dels missatges, en la llista dels missatges i en la de les "
 "carpetes."
 
@@ -11349,7 +11594,7 @@ msgstr ""
 "Si l'Evolution no té un visualitzador integrat per a un tipus MIME concret, "
 "qualsevol dels tipus MIME d'aquesta llista que es corresponguin amb un "
 "visualitzador de components Bonobo de la base de dades MIME del GNOME poden "
-"ser utilitzats per a visualitzar-ne el contingut."
+"ser utilitzats per visualitzar-ne el contingut."
 
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid ""
@@ -11445,8 +11690,8 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
-"Habilita o inhabilita la mostra de confirmacions múltiples per a advertir "
-"que en suprimir els missatges d'una carpeta de cerca la supressió serà "
+"Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
+"en suprimir els missatges d'una carpeta de cerca la supressió serà "
 "permanent, i que no només implica la supressió d'aquests en els resultats de "
 "la cerca."
 
@@ -11748,7 +11993,7 @@ msgstr "Mostra les imatges animades com a animacions."
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr ""
 "Mostra els missatges suprimits a la llista de missatges (amb una ratlla a "
-"sobre)"
+"sobre)."
 
 #: ../mail/evolution-mail.schemas.in.h:149
 msgid "Show deleted messages in the message-list"
@@ -11760,7 +12005,7 @@ msgstr "Mostra les animacions de les imatges"
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Show original \"Date\" header value."
-msgstr "Mostra el valor de la capçalera original de «Date» (data)"
+msgstr "Mostra el valor de la capçalera original de «Date» (data)."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Show photo of the sender"
@@ -11897,11 +12142,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:173
 msgid "The terminal font for mail display."
-msgstr "El tipus de lletra de terminal per a visualitzar el correu."
+msgstr "El tipus de lletra de terminal per visualitzar el correu."
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "The variable width font for mail display."
-msgstr "El tipus de lletra de mida variable per a visualitzar el correu."
+msgstr "El tipus de lletra de mida variable per visualitzar el correu."
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid ""
@@ -11935,8 +12180,8 @@ msgid ""
 "the mail in the list and removes the preview for that folder."
 msgstr ""
 "Aquesta clau es llegeix només una vegada i a continuació es reinicialitza "
-"com a «falsa». Això provoca que es desfaci la selecció dels correus de la "
-"llista i que se suprimeixi la previsualització de la carpeta."
+"com a «false» (falsa). Això provoca que es desfaci la selecció dels correus "
+"de la llista i que se suprimeixi la previsualització de la carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid ""
@@ -11957,7 +12202,7 @@ msgid ""
 "mail sent by known contacts from junk filtering."
 msgstr ""
 "Aquesta opció està relacionada amb la clau lookup_addressbook i s'utilitza "
-"per a determinar si s'han de cercar adreces només en les llibretes d'adreces "
+"per determinar si s'han de cercar adreces només en les llibretes d'adreces "
 "locals amb la finalitat d'excloure els correus enviats per contactes "
 "coneguts del filtratge de correu brossa."
 
@@ -11997,11 +12242,11 @@ msgstr "Crea fils basats en l'assumpte en la llista de missatges"
 
 #: ../mail/evolution-mail.schemas.in.h:186
 msgid "Timeout for marking message as seen"
-msgstr "Temps d'espera per a marcar un missatge com a llegit"
+msgstr "Temps d'espera per marcar un missatge com a llegit"
 
 #: ../mail/evolution-mail.schemas.in.h:187
 msgid "Timeout for marking message as seen."
-msgstr "Temps d'espera per a marcar un missatge com a llegit."
+msgstr "Temps d'espera per marcar un missatge com a llegit."
 
 #: ../mail/evolution-mail.schemas.in.h:188
 msgid "UID string of the default account."
@@ -12027,7 +12272,7 @@ msgstr "Utilitza tipus de lletra personalitzats"
 
 #: ../mail/evolution-mail.schemas.in.h:193
 msgid "Use custom fonts for displaying mail."
-msgstr "Utilitza tipus de lletra personalitzats per a visualitzar el correu."
+msgstr "Utilitza tipus de lletra personalitzats per visualitzar el correu."
 
 #: ../mail/evolution-mail.schemas.in.h:194
 msgid "Use only local spam tests."
@@ -12127,7 +12372,7 @@ msgid "Select folder to import into"
 msgstr "Seleccioneu a quina carpeta s'importarà"
 
 #: ../mail/importers/evolution-mbox-importer.c:260
-#: ../shell/e-shell-utils.c:218
+#: ../shell/e-shell-utils.c:243
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Bústia de correu de Berkeley (mbox)"
 
@@ -12296,7 +12541,7 @@ msgstr "Configuració"
 
 #: ../mail/mail-config.ui.h:27
 msgid "Confirm _when expunging a folder"
-msgstr "Demana'm _confirmació per a buidar una carpeta"
+msgstr "Demana'm _confirmació per buidar una carpeta"
 
 #: ../mail/mail-config.ui.h:29
 msgid "Default Behavior"
@@ -12638,7 +12883,7 @@ msgid ""
 "for display purposes only. "
 msgstr ""
 "La sortida d'aquest script s'utilitzarà per a la vostra signatura.\n"
-"El nom que especifiqueu només s'utilitzarà per a visualitzar-lo."
+"El nom que especifiqueu només s'utilitzarà per visualitzar-lo."
 
 #: ../mail/mail-config.ui.h:126
 msgid ""
@@ -12892,7 +13137,7 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Els missatges que heu seleccionat per a respondre es llisten a sota.\n"
+"Els missatges que heu seleccionat per respondre es llisten a sota.\n"
 "Seleccioneu una acció per respondre-hi al menú «Senyalador»."
 
 #: ../mail/mail-dialogs.ui.h:27
@@ -12909,7 +13154,7 @@ msgstr "Sen_yalador:"
 
 #: ../mail/mail-dialogs.ui.h:30
 msgid "_Tick this to accept the license agreement"
-msgstr "Habili_teu-lo per a acceptar l'acord de llicència"
+msgstr "Habili_teu-lo per acceptar l'acord de llicència"
 
 #: ../mail/mail-folder-cache.c:893
 #, c-format
@@ -13100,7 +13345,7 @@ msgstr "S'està tornant a connectar a «%s»"
 #: ../mail/mail-ops.c:2490
 #, c-format
 msgid "Preparing account '%s' for offline"
-msgstr "S'està preparant el compte «%s» per a treballar fora de línia"
+msgstr "S'està preparant el compte «%s» per treballar fora de línia"
 
 #: ../mail/mail-ops.c:2576
 msgid "Checking Service"
@@ -13439,7 +13684,7 @@ msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
-"Voleu sincronitzar localment les carpetes marcades per a treballar fora de "
+"Voleu sincronitzar localment les carpetes marcades per treballar fora de "
 "línia?"
 
 #: ../mail/mail.error.xml.h:51
@@ -13503,7 +13748,7 @@ msgid ""
 "all proxy information will be deleted permanently."
 msgstr ""
 "Si continueu, la informació dels comptes i\n"
-"i la informació de l'apoderat se suprimiran permanentment."
+"la informació de l'apoderat se suprimiran permanentment."
 
 #: ../mail/mail.error.xml.h:65
 msgid "If you proceed, the account information will be deleted permanently."
@@ -13572,9 +13817,9 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Introduïu una adreça de correu electrònic vàlida en el camp Per a:. Podeu "
-"cercar adreces de correu si feu clic en el botó Per a: al costat de "
-"l'entrada de text."
+"Introduïu una adreça electrònica vàlida en el camp Per a:. Podeu cercar "
+"adreces electròniques si feu clic en el botó Per a: al costat de l'entrada "
+"de text."
 
 #: ../mail/mail.error.xml.h:79
 msgid ""
@@ -13588,7 +13833,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:81
 msgid "Please provide an unique name to identify this signature."
-msgstr "Introduïu un nom únic per a identificar aquesta signatura."
+msgstr "Introduïu un nom únic per identificar aquesta signatura."
 
 #: ../mail/mail.error.xml.h:82
 msgid "Please wait."
@@ -13613,7 +13858,7 @@ msgstr "Voleu suprimir la carpeta «{0}» i totes les seves subcarpetes?"
 
 #: ../mail/mail.error.xml.h:87
 msgid "Really delete folder \"{0}\"?"
-msgstr "Segur que voleu suprimir la carpeta «{0}»."
+msgstr "Segur que voleu suprimir la carpeta «{0}»?"
 
 #: ../mail/mail.error.xml.h:88
 msgid "Report Junk Failed"
@@ -13641,8 +13886,7 @@ msgstr "Sincronitza"
 
 #: ../mail/mail.error.xml.h:94
 msgid "Synchronize folders locally for offline usage?"
-msgstr ""
-"Voleu sincronitzar les carpetes localment per a treballar fora de línia?"
+msgstr "Voleu sincronitzar les carpetes localment per treballar fora de línia?"
 
 #: ../mail/mail.error.xml.h:95
 msgid ""
@@ -13666,7 +13910,7 @@ msgstr ""
 "Molts sistemes de correu electrònic afegeixen una capçalera «Apparently-"
 "To» («Aparentment-Per a») als missatges que només tenen destinataris CCO. En "
 "afegir aquesta capçalera es mostrarà una llista de tots els destinataris de "
-"tots els missatges. Per a evitar-ho, hauríeu d'afegir almenys un destinatari "
+"tots els missatges. Per evitar-ho, hauríeu d'afegir almenys un destinatari "
 "«Per a:» o «CC:»."
 
 #: ../mail/mail.error.xml.h:99
@@ -13724,8 +13968,8 @@ msgid ""
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
 "Pot ser que aquesta carpeta s'hagi afegit implícitament.\n"
-"Aneu a l'editor de carpetes de cerca per a afegir-la explícitament en cas "
-"que sigui necessari."
+"Aneu a l'editor de carpetes de cerca per afegir-la explícitament en cas que "
+"sigui necessari."
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
@@ -13797,7 +14041,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:128
 msgid "You do not have sufficient permissions to delete this mail."
-msgstr "No teniu els permisos suficients per a esborrar aquest correu."
+msgstr "No teniu els permisos suficients per esborrar aquest correu."
 
 #: ../mail/mail.error.xml.h:129
 msgid "You have not filled in all of the required information."
@@ -13928,7 +14172,7 @@ msgstr "%d de %b del %Y"
 msgid "Select all visible messages"
 msgstr "Selecciona tots els missatges visibles"
 
-#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:722
+#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:723
 msgid "Shell Backend"
 msgstr "Rerefons del Shell"
 
@@ -13951,7 +14195,7 @@ msgid ""
 "Messages to show them."
 msgstr ""
 "Aquesta carpeta només conté missatges ocults. Utilitzeu l'entrada de menú "
-"«Visualitza->Mostra els missatges amagats» per a mostrar-los."
+"«Visualitza->Mostra els missatges amagats» per mostrar-los."
 
 #: ../mail/message-list.c:4730
 msgid "There are no messages in this folder."
@@ -14052,7 +14296,7 @@ msgstr "Utilitza al calendari d'_aniversaris i commemoracions"
 #: ../modules/addressbook/addressbook-config.c:628
 msgid "Copy _book content locally for offline operation"
 msgstr ""
-"Copia el contingut de la _llibreta localment per a treballar fora de línia"
+"Copia el contingut de la _llibreta localment per treballar fora de línia"
 
 #: ../modules/addressbook/addressbook-config.c:736
 msgid ""
@@ -14070,9 +14314,8 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your LDAP "
 "server."
 msgstr ""
-"El mètode que utilitzarà l'Evolution per a autenticar-vos. Recordeu que "
-"l'opció «Adreça de correu electrònic» necessita accés anònim al servidor "
-"d'LDAP."
+"El mètode que utilitzarà l'Evolution per autenticar-vos. Recordeu que "
+"l'opció «Adreça electrònica» necessita accés anònim al servidor d'LDAP."
 
 #: ../modules/addressbook/addressbook-config.c:885
 msgid ""
@@ -14280,7 +14523,7 @@ msgstr "Contacte que es previsualitza"
 
 #: ../modules/addressbook/e-book-shell-content.c:375
 msgid "The contact being shown in the preview pane"
-msgstr "El contacte que es mostra la subfinestra de previsualització."
+msgstr "El contacte que es mostra la subfinestra de previsualització"
 
 #: ../modules/addressbook/e-book-shell-content.c:384
 #: ../modules/calendar/e-memo-shell-content.c:617
@@ -14361,7 +14604,7 @@ msgstr "Aquest giny mostra grups de llibretes d'adreces"
 #: ../modules/addressbook/e-book-shell-view-actions.c:262
 #: ../modules/addressbook/e-book-shell-view-actions.c:539
 msgid "Save as vCard"
-msgstr "Desa com a vCard..."
+msgstr "Desa com a vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:662
 msgid "Co_py All Contacts To..."
@@ -14417,7 +14660,7 @@ msgstr "Des_a la llibreta d'adreces com a vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:706
 msgid "Save the contacts of the selected address book as a vCard"
-msgstr "Desa els contactes de la llibreta d'adreces seleccionada com a vCard."
+msgstr "Desa els contactes de la llibreta d'adreces seleccionada com a vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:713
 msgid "Stop loading"
@@ -14699,7 +14942,7 @@ msgstr "Utilitza el nom distingit (DN)"
 
 #: ../modules/addressbook/ldap-config.ui.h:23
 msgid "Using email address"
-msgstr "Utilitza l'adreça de correu electrònic"
+msgstr "Utilitza l'adreça electrònica"
 
 #: ../modules/addressbook/ldap-config.ui.h:24
 msgid "_Download limit:"
@@ -15072,7 +15315,7 @@ msgstr "Per_met moure aquesta aparició"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1391
 msgid "_Open Appointment"
-msgstr "_Obre una cita:"
+msgstr "_Obre una cita"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1393
 msgid "View the current appointment"
@@ -15701,12 +15944,12 @@ msgstr "C_rea una carpeta de cerca a partir de la cerca..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:876
 msgid "_Download Messages for Offline Usage"
-msgstr "_Baixa els missatges per a treballar fora de línia"
+msgstr "_Baixa els missatges per treballar fora de línia"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:878
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
-"Baixa els missatges dels comptes o carpetes marcats per a treballar fora de "
+"Baixa els missatges dels comptes o carpetes marcats per treballar fora de "
 "línia"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:883
@@ -15739,7 +15982,7 @@ msgstr "Marca _tots els missatges com a llegits"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:913
 msgid "Mark all messages in the folder as read"
-msgstr "Voleu marcar tots els missatges d'aquesta carpeta com a llegits?"
+msgstr "Marca tots els missatges d'aquesta carpeta com a llegits"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:918
 msgid "_Move Folder To..."
@@ -15755,7 +15998,7 @@ msgstr "_Nova..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:927
 msgid "Create a new folder for storing mail"
-msgstr "Crea una carpeta nova per a emmagatzemar correu"
+msgstr "Crea una carpeta nova per emmagatzemar correu"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:934
 msgid "Change the properties of this folder"
@@ -16025,8 +16268,8 @@ msgstr[1] "%d enviats"
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] "%d sense llegir,"
-msgstr[1] "%d sense llegir,"
+msgstr[0] "%d sense llegir, "
+msgstr[1] "%d sense llegir, "
 
 #: ../modules/mail/e-mail-shell-view-private.c:948
 #, c-format
@@ -16501,9 +16744,9 @@ msgid ""
 msgstr ""
 "Facilita la gestió de la llibreta d'adreces.\n"
 "\n"
-"Emplena automàticament la llibreta d'adreces amb noms i adreces de correu en "
-"respondre als correus. També omple la informació de contactes de missatgeria "
-"instantània a partir de la vostra llista d'amics."
+"Emplena automàticament la llibreta d'adreces amb noms i adreces "
+"electròniques en respondre als correus. També omple la informació de "
+"contactes de missatgeria instantània a partir de la vostra llista d'amics."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:158
 #, c-format
@@ -16549,8 +16792,8 @@ msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
 msgstr ""
-"Converteix el text dels missatges a Unicode (codificació UTF-8) per a "
-"unificar els elements d'spam/ham provinents de jocs de caràcters diferents."
+"Converteix el text dels missatges a Unicode (codificació UTF-8) per unificar "
+"els elements d'spam/ham provinents de jocs de caràcters diferents."
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
 msgid "Bogofilter Junk Filter"
@@ -16678,7 +16921,7 @@ msgstr "Utilitza l'_SSL"
 
 #: ../plugins/caldav/caldav-source.c:228
 msgid "Brows_e server for a calendar"
-msgstr "Nave_ga pel servidor per a cercar un calendari"
+msgstr "Nave_ga pel servidor per cercar un calendari"
 
 #: ../plugins/caldav/caldav-source.c:237
 #: ../plugins/calendar-file/calendar-file.c:178
@@ -16863,7 +17106,7 @@ msgstr "Marca-la com a llibreta d'adreces pre_determinada"
 
 #: ../plugins/default-source/default-source.c:88
 msgid "A_utocomplete with this address book"
-msgstr "Fes la compleció automàtica amb aquesta llibreta d'adreces"
+msgstr "Fes la compleció aut_omàtica amb aquesta llibreta d'adreces"
 
 #: ../plugins/default-source/default-source.c:97
 msgid "Mark as _default calendar"
@@ -16897,9 +17140,9 @@ msgid ""
 "custom header followed by \"=\" and the values separated by \";\""
 msgstr ""
 "La clau especifica la llista de capçaleres personalitzades que podeu afegir "
-"a un missatge que envieu. El format per a especificar una capçalera i el seu "
+"a un missatge que envieu. El format per especificar una capçalera i el seu "
 "valor és: el nom de la capçalera seguit del signe d'igualtat («=») i els "
-"valors separats per punts i comes («;»)."
+"valors separats per punts i comes («;»)"
 
 #: ../plugins/email-custom-header/email-custom-header.c:316
 msgid "Security:"
@@ -16939,7 +17182,7 @@ msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
 msgstr ""
-"El format per a especificar un valor per a una clau de capçalera "
+"El format per especificar un valor per a una clau de capçalera "
 "personalitzada és:\n"
 "Nom dels valors de clau de capçalera personalitzada separats per «;»."
 
@@ -16985,7 +17228,7 @@ msgstr "L'ordre predeterminada a utilitzar com a editor."
 
 #: ../plugins/external-editor/external-editor.c:108
 msgid "Command to be executed to launch the editor: "
-msgstr "Ordre a executar per a iniciar l'editor: "
+msgstr "Ordre a executar per iniciar l'editor: "
 
 #: ../plugins/external-editor/external-editor.c:109
 msgid ""
@@ -17021,7 +17264,7 @@ msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
-"L'Evolution no pot crear un fitxer temporal per a emmagatzemar el correu. "
+"L'Evolution no pot crear un fitxer temporal per emmagatzemar el correu. "
 "Torneu-ho a provar d'aquí a una estona."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:4
@@ -17060,7 +17303,7 @@ msgstr ""
 #: ../plugins/face/face.c:286
 msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
 msgstr ""
-"Seleccioneu un fitxer PNG idealment de mida 48 x 48 i menys de 700 bytes"
+"Seleccioneu un fitxer PNG idealment de mida 48 x 48 i menys de 720 bytes"
 
 #: ../plugins/face/face.c:296
 msgid "Image files"
@@ -17122,7 +17365,7 @@ msgstr "<b>Servidor</b>"
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
-"Introduïu la contrasenya de l'usuari %s per a accedir a la llista de "
+"Introduïu la contrasenya de l'usuari %s per accedir a la llista de "
 "subscripcions a calendaris."
 
 #: ../plugins/google-account-setup/google-source.c:545
@@ -17287,7 +17530,7 @@ msgstr "Afegeix opcions d'enviament als missatges del GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "Fine-tune your GroupWise accounts."
-msgstr "Ajusteu els paràmetres del comptes GroupWise."
+msgstr "Ajusteu els paràmetres dels comptes GroupWise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "GroupWise Features"
@@ -17328,7 +17571,7 @@ msgstr ""
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:3
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "No es pot atorgar accés al servidor intermediari a l'usuari «{0}»."
+msgstr "No es pot atorgar accés al servidor intermediari a l'usuari «{0}»"
 
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:2
@@ -17345,8 +17588,8 @@ msgstr ""
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
-"Heu d'especificar un nom d'usuari vàlid per a atorgar-li permisos de "
-"servidor intermediari."
+"Heu d'especificar un nom d'usuari vàlid per atorgar-li permisos de servidor "
+"intermediari."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:3
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
@@ -17538,10 +17781,6 @@ msgstr "Notificació personalitzada"
 #: ../plugins/groupwise-features/share-folder.c:741
 msgid "Add   "
 msgstr "Afegeix   "
-
-#: ../plugins/groupwise-features/share-folder.c:747
-msgid "Modify"
-msgstr "Modifica"
 
 #: ../plugins/groupwise-features/status-track.c:126
 msgid "Message Status"
@@ -17834,15 +18073,15 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:2447
 msgid "This meeting recurs"
-msgstr "Aquesta _reunió és periòdica"
+msgstr "Aquesta reunió és periòdica"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2450
 msgid "This task recurs"
-msgstr "Aquesta tas_ca és periòdica"
+msgstr "Aquesta tasca és periòdica"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2453
 msgid "This memo recurs"
-msgstr "Aquesta a_notació és periòdica"
+msgstr "Aquesta anotació és periòdica"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -17936,7 +18175,7 @@ msgstr "%A a les %l:%M:%S %p"
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:287
 msgid "%A, %B %e"
-msgstr "%A, %e de %B "
+msgstr "%A, %e de %B"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
@@ -18259,7 +18498,7 @@ msgstr "Hora d'inici:"
 
 #: ../plugins/itip-formatter/itip-view.c:698
 msgid "End day:"
-msgstr "Dia de finalització"
+msgstr "Dia de finalització:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:698
@@ -18412,8 +18651,8 @@ msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
 msgstr ""
-"Si es defineix com a cert, s'emetrà un to en rebre correu nou. En cas "
-"contrari, es reproduirà un fitxer de so."
+"Si es defineix com a «true» (cert), s'emetrà un to en rebre correu nou. En "
+"cas contrari, es reproduirà un fitxer de so."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -18456,7 +18695,7 @@ msgstr "Utilitza el tema de sons"
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether play sound or beep when new messages arrive."
 msgstr ""
-"Si s'ha de reproduir un fitxer de so o emetre un to quan arribi correu nou"
+"Si s'ha de reproduir un fitxer de so o emetre un to quan arribi correu nou."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether show message over the icon when new messages arrive."
@@ -18694,7 +18933,7 @@ msgid ""
 "source, please."
 msgstr ""
 "La font que heu seleccionat és només de lectura, per la qual cosa no hi "
-"podeu crear una tasca. "
+"podeu crear una tasca."
 
 #: ../plugins/mail-to-task/mail-to-task.c:738
 msgid ""
@@ -18979,7 +19218,7 @@ msgstr "Mostra HTML si n'hi ha"
 
 #: ../plugins/prefer-plain/prefer-plain.c:201
 msgid "Let Evolution choose the best part to show."
-msgstr "Deixa que l'Evolution decideixi la part òptima a mostrar"
+msgstr "Deixa que l'Evolution decideixi la part òptima a mostrar."
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
 msgid "Show plain text if present"
@@ -19260,7 +19499,7 @@ msgstr ""
 msgid "Pipe to SpamAssassin failed, error code: %d"
 msgstr ""
 "Ha fallat la creació d'un conducte cap al SpamAssassin; el codi d'error fou: "
-"%d."
+"%d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:510
 #, c-format
@@ -19416,15 +19655,15 @@ msgstr "Us guiarà a través de la configuració del vostre compte inicial."
 msgid "Setup Assistant"
 msgstr "Auxiliar de configuració"
 
-#: ../plugins/startup-wizard/startup-wizard.c:87
+#: ../plugins/startup-wizard/startup-wizard.c:110
 msgid "Evolution Setup Assistant"
 msgstr "Auxiliar de la configuració de l'Evolution"
 
-#: ../plugins/startup-wizard/startup-wizard.c:92
+#: ../plugins/startup-wizard/startup-wizard.c:115
 msgid "Welcome"
 msgstr "Us donem la benvinguda"
 
-#: ../plugins/startup-wizard/startup-wizard.c:97
+#: ../plugins/startup-wizard/startup-wizard.c:118
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -19432,31 +19671,31 @@ msgid ""
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 "Us donem la benvinguda a l'Evolution. En les pantalles següents podreu "
-"configurar l'Evolution perquè pugui connectar-se als vostres comptes de "
+"configurar-lo perquè pugui connectar-se als vostres comptes de "
 "correu i importar fitxers d'altres aplicacions.\n"
 "\n"
-"Feu clic a «Endavant» per a continuar."
+"Feu clic a «Endavant» per continuar."
 
-#: ../plugins/startup-wizard/startup-wizard.c:135
+#: ../plugins/startup-wizard/startup-wizard.c:153
 #: ../widgets/misc/e-import-assistant.c:385
 msgid "Please select the information that you would like to import:"
 msgstr "Seleccioneu la informació que voleu importar:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:150
+#: ../plugins/startup-wizard/startup-wizard.c:168
 #: ../widgets/misc/e-import-assistant.c:542
 #, c-format
 msgid "From %s:"
 msgstr "De %s:"
 
-#: ../plugins/startup-wizard/startup-wizard.c:167
+#: ../plugins/startup-wizard/startup-wizard.c:185
 msgid "Importing files"
 msgstr "Importació de fitxers"
 
-#: ../plugins/startup-wizard/startup-wizard.c:230
+#: ../plugins/startup-wizard/startup-wizard.c:248
 msgid "Importing data."
 msgstr "Importació de dades."
 
-#: ../plugins/startup-wizard/startup-wizard.c:232
+#: ../plugins/startup-wizard/startup-wizard.c:250
 msgid "Please wait"
 msgstr "Espereu"
 
@@ -19599,35 +19838,43 @@ msgid "Default window width"
 msgstr "Amplada predeterminada de la finestra"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
+msgid "Enable express mode"
+msgstr "Habilita el mode senzill"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
 "Habilita els paràmetres de servidor intermediari en accedir a l'HTTP/HTTP "
 "segur a través d'Internet."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.h:12
+msgid "Flag that enables a much simplified user interface."
+msgstr "Senyalador que habilita una interfície d'usuari molt més simplificada."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
 msgstr "Nom de servidor del servidor intermediari per a l'HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "HTTP proxy password"
 msgstr "Contrasenya del servidor intermediari per a l'HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "HTTP proxy port"
 msgstr "Port del servidor intermediari per a l'HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "HTTP proxy username"
 msgstr "Nom d'usuari per al servidor intermediari per a l'HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
 "Identificador o sobrenom del component a mostrar per defecte a l'inici de "
 "manera predeterminada."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
 "If true, then connections to the proxy server require authentication. The "
 "username is retrieved from the \"/apps/evolution/shell/network_config/"
@@ -19639,19 +19886,19 @@ msgstr ""
 "authentication_user» del GConf, i la contrasenya de l'anell de claus del "
 "GNOME o bé del fitxer de contrasenyes ~/.gnome2_private/Evolution."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Initial attachment view"
 msgstr "Visualització inicial de les adjuncions"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Initial file chooser folder"
 msgstr "Carpeta inicial del selector de fitxers"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Carpeta inicial dels diàlegs de tipus GtkFileChooser."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
@@ -19659,46 +19906,46 @@ msgstr ""
 "Visualització inicial per als ginys de la barra d'adjuncions. «0» significa "
 "vista d'icones i «1» vista de llista."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Last upgraded configuration version"
 msgstr "Versió de la darrera actualització de la configuració"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Llista de camins de les carpetes a sincronitzar al disc per a la utilització "
 "fora de línia"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Non-proxy hosts"
 msgstr "Ordinadors sense servidor intermediari"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Password to pass as authentication when doing HTTP proxying."
 msgstr "Contrasenya a utilitzar per a l'autenticació al servidor intermediari."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Proxy configuration mode"
 msgstr "Mode de configuració del servidor intermediari"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "SOCKS proxy host name"
 msgstr "Nom de servidor del servidor intermediari per al SOCKS"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:27
+#: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "SOCKS proxy port"
 msgstr "Port del servidor intermediari per al SOCKS"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:28
+#: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Secure HTTP proxy host name"
 msgstr "Nom de servidor del servidor intermediari per a l'HTTP segur"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:29
+#: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Secure HTTP proxy port"
 msgstr "Port del servidor intermediari per a l'HTTP segur"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:30
+#: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid ""
 "Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 "
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
@@ -19713,23 +19960,23 @@ msgstr ""
 "configuració del servidor intermediari proporcionada a l'URL de configuració "
 "automàtica)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:31
+#: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "Sidebar is visible"
 msgstr "La barra lateral és visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:32
+#: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "Skip development warning dialog"
 msgstr "Omet el diàleg d'avís de versió de desenvolupament"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:322
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:326
 msgid "Start in offline mode"
 msgstr "Inicia en mode fora de línia"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:34
+#: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "Statusbar is visible"
 msgstr "La barra d'estat és visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35
+#: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
@@ -19737,27 +19984,27 @@ msgstr ""
 "La versió de la configuració de l'Evolution, amb nivell major/menor/"
 "configuració (per exemple «2.6.0»)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:36
+#: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid "The default X coordinate for the main window."
 msgstr "La coordinada X predeterminada de la finestra principal."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:37
+#: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid "The default Y coordinate for the main window."
 msgstr "La coordinada Y predeterminada de la finestra principal."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:38
+#: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid "The default height for the main window, in pixels."
 msgstr "Alçada predeterminada de la finestra principal, en píxels."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:39
+#: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid "The default width for the main window, in pixels."
 msgstr "Amplada predeterminada de la finestra principal, en píxels."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:40
+#: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid "The default width for the sidebar, in pixels."
 msgstr "L'amplada predeterminada de la barra lateral, en píxels."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:41
+#: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -19765,23 +20012,23 @@ msgstr ""
 "La darrera versió actualitzada de  la configuració de l'Evolution, amb "
 "nivell major/menor/configuració (per exemple «2.6.0»)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:42
+#: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "The machine name to proxy HTTP through."
 msgstr ""
 "El nom de la màquina que actuarà com a servidor intermediari per a l'HTTP."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:43
+#: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "The machine name to proxy secure HTTP through."
 msgstr ""
 "El nom de la màquina que actuarà com a servidor intermediari per a l'HTTP "
 "segur."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:44
+#: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "The machine name to proxy socks through."
 msgstr ""
 "El nom de la màquina que actuarà com a servidor intermediari per al SOCKS."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:45
+#: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
@@ -19789,7 +20036,7 @@ msgstr ""
 "El port de la màquina definit a «/apps/evolution/shell/network_config/"
 "http_host», a través del qual s'accedeix al servidor intermediari."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:46
+#: ../shell/apps_evolution_shell.schemas.in.h:48
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
@@ -19797,7 +20044,7 @@ msgstr ""
 "El port de la màquina definit a «/apps/evolution/shell/network_config/"
 "secure_host», a través del qual s'accedeix al servidor intermediari."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:47
+#: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
@@ -19805,7 +20052,7 @@ msgstr ""
 "El port de la màquina definit a «/apps/evolution/shell/network_config/"
 "socks_host», a través del qual s'accedeix al servidor intermediari."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:48
+#: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -19815,7 +20062,7 @@ msgstr ""
 "«toolbar» (barra d'eines). Si s'habilita «toolbar», l'estil dels botons es "
 "determina mitjançant la configuració de la barra d'eines del GNOME."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:49
+#: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid ""
 "This key contains a list of hosts which are connected to directly, rather "
 "than via the proxy (if it is active). The values can be hostnames, domains "
@@ -19828,62 +20075,62 @@ msgstr ""
 "ara *.exemple.cat), adreces IP d'ordinadors (tant IPv4 com IPv6), i adreces "
 "de xarxa amb màscara de xarxa (com per exemple 192.168.0.0/24)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:50
+#: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Toolbar is visible"
 msgstr "La barra d'eines és visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:51
+#: ../shell/apps_evolution_shell.schemas.in.h:53
 msgid "URL that provides proxy configuration values."
 msgstr ""
 "URL que proporciona els valors de configuració del servidor intermediari."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:52
+#: ../shell/apps_evolution_shell.schemas.in.h:54
 msgid "Use HTTP proxy"
 msgstr "Utilitza un servidor intermediari HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:53
+#: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "User name to pass as authentication when doing HTTP proxying."
 msgstr ""
 "Nom d'usuari a utilitzar per a l'autenticació quan es faci servir un "
 "servidor intermediari HTTP."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:54
+#: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Si l'Evolution s'inicia en mode fora de línia en comptes del mode en línia."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:55
+#: ../shell/apps_evolution_shell.schemas.in.h:57
 msgid "Whether or not the window should be maximized."
 msgstr "Si s'ha de maximitzar la finestra."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:56
+#: ../shell/apps_evolution_shell.schemas.in.h:58
 msgid "Whether the sidebar should be visible."
 msgstr "Si s'ha de veure la barra lateral."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:57
+#: ../shell/apps_evolution_shell.schemas.in.h:59
 msgid "Whether the status bar should be visible."
 msgstr "Si s'ha de veure la barra d'estat."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:58
+#: ../shell/apps_evolution_shell.schemas.in.h:60
 msgid "Whether the toolbar should be visible."
 msgstr "Si s'ha de veure la barra d'eines."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:59
+#: ../shell/apps_evolution_shell.schemas.in.h:61
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
-"Si s'ha de mostrar el diàleg d'avís per a indicar que s'està executant una "
+"Si s'ha de mostrar el diàleg d'avís per indicar que s'està executant una "
 "versió de desenvolupament de l'Evolution."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:60
+#: ../shell/apps_evolution_shell.schemas.in.h:62
 msgid "Whether the window buttons should be visible."
 msgstr "Si s'han de veure els botons de la finestra."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:61
+#: ../shell/apps_evolution_shell.schemas.in.h:63
 msgid "Window button style"
 msgstr "Estil del botó de la finestra"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:62
+#: ../shell/apps_evolution_shell.schemas.in.h:64
 msgid "Window buttons are visible"
 msgstr "Els botons de la finestra són visibles"
 
@@ -19918,7 +20165,7 @@ msgstr "Cer_ca:"
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:970
 msgid "i_n"
-msgstr " _a"
+msgstr "_a"
 
 #: ../shell/e-shell-switcher.c:448
 msgid "Toolbar Style"
@@ -19936,96 +20183,96 @@ msgstr "La barra d'eines és visible"
 msgid "Whether the switcher is visible"
 msgstr "Si s'ha de veure el commutador"
 
-#: ../shell/e-shell-utils.c:220
+#: ../shell/e-shell-utils.c:245
 msgid "vCard (.vcf)"
 msgstr "vCard (.vcf)"
 
-#: ../shell/e-shell-utils.c:222
+#: ../shell/e-shell-utils.c:247
 msgid "iCalendar (.ics)"
 msgstr "iCalendar (.ics)"
 
-#: ../shell/e-shell-utils.c:243
+#: ../shell/e-shell-utils.c:268
 msgid "All Files (*)"
 msgstr "Tots els fitxers (*)"
 
-#: ../shell/e-shell-view.c:674
+#: ../shell/e-shell-view.c:675
 msgid "Switcher Action"
 msgstr "Acció del commutador"
 
-#: ../shell/e-shell-view.c:675
+#: ../shell/e-shell-view.c:676
 msgid "The switcher action for this shell view"
 msgstr "L'acció del commutador per a aquesta visualització del Shell"
 
-#: ../shell/e-shell-view.c:690
+#: ../shell/e-shell-view.c:691
 msgid "Page Number"
 msgstr "Número de pàgina"
 
-#: ../shell/e-shell-view.c:691
+#: ../shell/e-shell-view.c:692
 msgid "The notebook page number of the shell view"
 msgstr "El número de pàgina de llibreta de la visualització del Shell"
 
-#: ../shell/e-shell-view.c:707
+#: ../shell/e-shell-view.c:708
 msgid "Search Rule"
 msgstr "Regla de cerca"
 
-#: ../shell/e-shell-view.c:708
+#: ../shell/e-shell-view.c:709
 msgid "Criteria for the current search results"
 msgstr "Criteris dels resultats de la cerca actual"
 
-#: ../shell/e-shell-view.c:723
+#: ../shell/e-shell-view.c:724
 msgid "The EShellBackend for this shell view"
 msgstr "L'EShellBackend per a aquesta visualització del Shell"
 
-#: ../shell/e-shell-view.c:738
+#: ../shell/e-shell-view.c:739
 msgid "Shell Content Widget"
 msgstr "Giny de contingut del Shell"
 
-#: ../shell/e-shell-view.c:739
+#: ../shell/e-shell-view.c:740
 msgid "The content widget appears in a shell window's right pane"
 msgstr ""
 "El giny de contingut apareix a la subfinestra dreta d'una finestra del Shell"
 
-#: ../shell/e-shell-view.c:755
+#: ../shell/e-shell-view.c:756
 msgid "Shell Sidebar Widget"
 msgstr "Giny de la barra lateral del Shell"
 
-#: ../shell/e-shell-view.c:756
+#: ../shell/e-shell-view.c:757
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr ""
 "El giny de barra lateral apareix a la subfinestra esquerra d'una finestra "
 "del Shell"
 
-#: ../shell/e-shell-view.c:771
+#: ../shell/e-shell-view.c:772
 msgid "Shell Taskbar Widget"
 msgstr "Giny de la barra de tasques del Shell"
 
-#: ../shell/e-shell-view.c:772
+#: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr ""
 "El giny de la barra de tasques es mostra a la part de sota d'una finestra "
 "del Shell"
 
-#: ../shell/e-shell-view.c:787
+#: ../shell/e-shell-view.c:788
 msgid "Shell Window"
 msgstr "Finestra del Shell"
 
-#: ../shell/e-shell-view.c:788
+#: ../shell/e-shell-view.c:789
 msgid "The window to which the shell view belongs"
 msgstr "La finestra a la qual la visualització del Shell pertany"
 
-#: ../shell/e-shell-view.c:804
+#: ../shell/e-shell-view.c:805
 msgid "The key file holding widget state data"
 msgstr "El fitxer de clau que conté les dades d'estat dels ginys"
 
-#: ../shell/e-shell-view.c:819
+#: ../shell/e-shell-view.c:820
 msgid "The title of the shell view"
 msgstr "El títol de la visualització del Shell"
 
-#: ../shell/e-shell-view.c:833
+#: ../shell/e-shell-view.c:834
 msgid "Current View ID"
 msgstr "Identificador de la visualització actual"
 
-#: ../shell/e-shell-view.c:834
+#: ../shell/e-shell-view.c:835
 msgid "The current GAL view ID"
 msgstr ""
 "L'identificador de visualització de la llibreta d'adreces global actual"
@@ -20033,7 +20280,7 @@ msgstr ""
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:644
+#: ../shell/e-shell-window-actions.c:645
 msgid "translator-credits"
 msgstr ""
 "Víctor Nieto <vnie2025@alu-etsetb.upc.es>\n"
@@ -20045,300 +20292,300 @@ msgstr ""
 "Gil Forcada <gilforcada@guifi.net>\n"
 "David Planella Molas <david.planella@gmail.com>"
 
-#: ../shell/e-shell-window-actions.c:655
+#: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
 msgstr "Lloc web de l'Evolution"
 
-#: ../shell/e-shell-window-actions.c:1223
+#: ../shell/e-shell-window-actions.c:1224
 msgid "Bug Buddy is not installed."
 msgstr "El Bug Buddy no està instal·lat."
 
-#: ../shell/e-shell-window-actions.c:1225
+#: ../shell/e-shell-window-actions.c:1226
 msgid "Bug Buddy could not be run."
 msgstr "No es pot executar el Bug Buddy."
 
-#: ../shell/e-shell-window-actions.c:1327
+#: ../shell/e-shell-window-actions.c:1343
 msgid "GNOME Pilot is not installed."
 msgstr "El GNOME Pilot no està instal·lat."
 
-#: ../shell/e-shell-window-actions.c:1329
+#: ../shell/e-shell-window-actions.c:1345
 msgid "GNOME Pilot could not be run."
 msgstr "No es pot executar el GNOME Pilot."
 
-#: ../shell/e-shell-window-actions.c:1423
+#: ../shell/e-shell-window-actions.c:1439
 msgid "Show information about Evolution"
 msgstr "Mostra informació sobre l'Evolution"
 
-#: ../shell/e-shell-window-actions.c:1428
+#: ../shell/e-shell-window-actions.c:1444
 msgid "_Close Window"
 msgstr "_Tanca la finestra"
 
-#: ../shell/e-shell-window-actions.c:1435
+#: ../shell/e-shell-window-actions.c:1451
 msgid "_Contents"
 msgstr "C_ontingut"
 
-#: ../shell/e-shell-window-actions.c:1437
+#: ../shell/e-shell-window-actions.c:1453
 msgid "Open the Evolution User Guide"
 msgstr "Obre la guia de l'usuari de l'Evolution"
 
-#: ../shell/e-shell-window-actions.c:1463
+#: ../shell/e-shell-window-actions.c:1479
 msgid "Evolution _FAQ"
 msgstr "_PMF de l'Evolution"
 
-#: ../shell/e-shell-window-actions.c:1465
+#: ../shell/e-shell-window-actions.c:1481
 msgid "Open the Frequently Asked Questions webpage"
 msgstr "Obre la pàgina web de les Preguntes Més Freqüents"
 
-#: ../shell/e-shell-window-actions.c:1470
+#: ../shell/e-shell-window-actions.c:1486
 msgid "_Forget Passwords"
 msgstr "Oblida les _contrasenyes"
 
-#: ../shell/e-shell-window-actions.c:1472
+#: ../shell/e-shell-window-actions.c:1488
 msgid "Forget all remembered passwords"
 msgstr "Oblida totes les contrasenyes recordades"
 
-#: ../shell/e-shell-window-actions.c:1477
+#: ../shell/e-shell-window-actions.c:1493
 msgid "I_mport..."
 msgstr "I_mporta..."
 
-#: ../shell/e-shell-window-actions.c:1479
+#: ../shell/e-shell-window-actions.c:1495
 msgid "Import data from other programs"
 msgstr "Importa dades d'altres programes"
 
-#: ../shell/e-shell-window-actions.c:1484
+#: ../shell/e-shell-window-actions.c:1500
 msgid "New _Window"
 msgstr "_Finestra nova"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1502
 msgid "Create a new window displaying this view"
 msgstr "Crea una finestra nova que mostri aquesta visualització"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1516
 msgid "Configure Evolution"
 msgstr "Configura l'Evolution"
 
-#: ../shell/e-shell-window-actions.c:1505
+#: ../shell/e-shell-window-actions.c:1521
 msgid "_Quick Reference"
 msgstr "Referència rà_pida"
 
-#: ../shell/e-shell-window-actions.c:1507
+#: ../shell/e-shell-window-actions.c:1523
 msgid "Show Evolution's shortcut keys"
 msgstr "Mostra les dreceres de teclat de l'Evolution"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1530
 msgid "Exit the program"
 msgstr "Surt del programa"
 
-#: ../shell/e-shell-window-actions.c:1519
+#: ../shell/e-shell-window-actions.c:1535
 msgid "_Advanced Search..."
 msgstr "Cerca _avançada..."
 
-#: ../shell/e-shell-window-actions.c:1521
+#: ../shell/e-shell-window-actions.c:1537
 msgid "Construct a more advanced search"
 msgstr "Creeu una cerca més avançada"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1544
 msgid "Clear the current search parameters"
 msgstr "Neteja els paràmetres actuals de cerca"
 
-#: ../shell/e-shell-window-actions.c:1533
+#: ../shell/e-shell-window-actions.c:1549
 msgid "_Edit Saved Searches..."
 msgstr "_Edita les cerques desades..."
 
-#: ../shell/e-shell-window-actions.c:1535
+#: ../shell/e-shell-window-actions.c:1551
 msgid "Manage your saved searches"
 msgstr "Gestioneu les vostres cerques desades"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1558
 msgid "Click here to change the search type"
-msgstr "Feu clic aquí per a canviar el tipus de cerca"
+msgstr "Feu clic aquí per canviar el tipus de cerca"
 
-#: ../shell/e-shell-window-actions.c:1547
+#: ../shell/e-shell-window-actions.c:1563
 msgid "_Find Now"
 msgstr "_Cerca ara"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1549
+#: ../shell/e-shell-window-actions.c:1565
 msgid "Execute the current search parameters"
 msgstr "Executa els paràmetres actuals de cerca"
 
-#: ../shell/e-shell-window-actions.c:1554
+#: ../shell/e-shell-window-actions.c:1570
 msgid "_Save Search..."
 msgstr "De_sa la cerca..."
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1572
 msgid "Save the current search parameters"
 msgstr "Desa els paràmetres de cerca actuals"
 
-#: ../shell/e-shell-window-actions.c:1568
+#: ../shell/e-shell-window-actions.c:1584
 msgid "Send / _Receive"
 msgstr "Envia / _rep"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1586
 msgid "Send queued items and retrieve new items"
 msgstr "Envia els elements encuats i obté els nous"
 
-#: ../shell/e-shell-window-actions.c:1575
+#: ../shell/e-shell-window-actions.c:1591
 msgid "Submit _Bug Report..."
 msgstr "En_via un informe d'error..."
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1593
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Envia un informe d'error utilitzant el Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1582
+#: ../shell/e-shell-window-actions.c:1598
 msgid "GNOME Pilot _Synchronization..."
 msgstr "_Sincronització del GNOME Pilot..."
 
-#: ../shell/e-shell-window-actions.c:1584
+#: ../shell/e-shell-window-actions.c:1600
 msgid "Set up GNOME Pilot configuration"
 msgstr "Configura el GNOME Pilot"
 
-#: ../shell/e-shell-window-actions.c:1589
+#: ../shell/e-shell-window-actions.c:1605
 msgid "_Work Offline"
 msgstr "_Treballa fora de línia"
 
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1607
 msgid "Put Evolution into offline mode"
 msgstr "Posa l'Evolution en mode fora de línia"
 
-#: ../shell/e-shell-window-actions.c:1596
+#: ../shell/e-shell-window-actions.c:1612
 msgid "_Work Online"
 msgstr "_Treballa en línia"
 
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1614
 msgid "Put Evolution into online mode"
 msgstr "Posa l'Evolution en mode en línia"
 
-#: ../shell/e-shell-window-actions.c:1626
+#: ../shell/e-shell-window-actions.c:1642
 msgid "Lay_out"
 msgstr "_Disposició"
 
-#: ../shell/e-shell-window-actions.c:1633
+#: ../shell/e-shell-window-actions.c:1649
 msgid "_New"
 msgstr "_Nou"
 
-#: ../shell/e-shell-window-actions.c:1640
+#: ../shell/e-shell-window-actions.c:1656
 msgid "_Search"
 msgstr "_Cerca"
 
-#: ../shell/e-shell-window-actions.c:1647
+#: ../shell/e-shell-window-actions.c:1663
 msgid "_Switcher Appearance"
 msgstr "Aparença de l'_intercanviador"
 
-#: ../shell/e-shell-window-actions.c:1661
+#: ../shell/e-shell-window-actions.c:1677
 msgid "_Window"
 msgstr "_Finestra"
 
-#: ../shell/e-shell-window-actions.c:1690
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show Side _Bar"
 msgstr "Mostra la _barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1692
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show the side bar"
 msgstr "Mostra la barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1698
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Buttons"
 msgstr "Mostra els _botons"
 
-#: ../shell/e-shell-window-actions.c:1700
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show the switcher buttons"
 msgstr "Mostra els botons de commutació"
 
-#: ../shell/e-shell-window-actions.c:1706
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Status Bar"
 msgstr "Mostra la barra d'e_stat"
 
-#: ../shell/e-shell-window-actions.c:1708
+#: ../shell/e-shell-window-actions.c:1724
 msgid "Show the status bar"
 msgstr "Mostra la barra d'estat"
 
-#: ../shell/e-shell-window-actions.c:1714
+#: ../shell/e-shell-window-actions.c:1730
 msgid "Show _Tool Bar"
 msgstr "Mos_tra la barra d'eines"
 
-#: ../shell/e-shell-window-actions.c:1716
+#: ../shell/e-shell-window-actions.c:1732
 msgid "Show the tool bar"
 msgstr "Mostra la barra d'eines"
 
-#: ../shell/e-shell-window-actions.c:1738
+#: ../shell/e-shell-window-actions.c:1754
 msgid "_Icons Only"
 msgstr "Només _icones"
 
-#: ../shell/e-shell-window-actions.c:1740
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Display window buttons with icons only"
 msgstr "Visualitza els botons de la finestra només amb icones"
 
-#: ../shell/e-shell-window-actions.c:1745
+#: ../shell/e-shell-window-actions.c:1761
 msgid "_Text Only"
 msgstr "Només _text"
 
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1763
 msgid "Display window buttons with text only"
 msgstr "Visualitza els botons de finestra només amb text"
 
-#: ../shell/e-shell-window-actions.c:1752
+#: ../shell/e-shell-window-actions.c:1768
 msgid "Icons _and Text"
 msgstr "Icones i _text"
 
-#: ../shell/e-shell-window-actions.c:1754
+#: ../shell/e-shell-window-actions.c:1770
 msgid "Display window buttons with icons and text"
 msgstr "Visualitza els botons de la finestra amb icones i text"
 
-#: ../shell/e-shell-window-actions.c:1759
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Tool_bar Style"
 msgstr "Estil de la _barra d'eines"
 
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Visualitza els botons de la finestra utilitzant la configuració de "
 "l'escriptori"
 
-#: ../shell/e-shell-window-actions.c:1769
+#: ../shell/e-shell-window-actions.c:1785
 msgid "Define Views..."
 msgstr "Defineix les visualitzacions..."
 
-#: ../shell/e-shell-window-actions.c:1771
+#: ../shell/e-shell-window-actions.c:1787
 msgid "Create or edit views"
 msgstr "Crea o edita visualitzacions"
 
-#: ../shell/e-shell-window-actions.c:1776
+#: ../shell/e-shell-window-actions.c:1792
 msgid "Save Custom View..."
 msgstr "Desa la visualització personalitzada..."
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1794
 msgid "Save current custom view"
 msgstr "Desa la visualització personalitzada actual"
 
-#: ../shell/e-shell-window-actions.c:1785
+#: ../shell/e-shell-window-actions.c:1801
 msgid "C_urrent View"
 msgstr "Vis_ualització actual"
 
-#: ../shell/e-shell-window-actions.c:1795
+#: ../shell/e-shell-window-actions.c:1811
 msgid "Custom View"
 msgstr "Visualització personalitzada"
 
-#: ../shell/e-shell-window-actions.c:1797
+#: ../shell/e-shell-window-actions.c:1813
 msgid "Current view is a customized view"
 msgstr "La visualització actual ha estat personalitzada"
 
-#: ../shell/e-shell-window-actions.c:1807
+#: ../shell/e-shell-window-actions.c:1823
 msgid "Change the page settings for your current printer"
 msgstr "Configura els paràmetres de pàgina per a la impressora actual"
 
-#: ../shell/e-shell-window-actions.c:2127
+#: ../shell/e-shell-window-actions.c:2200
 #, c-format
 msgid "Switch to %s"
 msgstr "Commuta a %s"
 
-#: ../shell/e-shell-window-actions.c:2332
+#: ../shell/e-shell-window-actions.c:2413
 msgid "Execute these search parameters"
 msgstr "Executa aquests paràmetres de cerca"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:555
+#: ../shell/e-shell-window-private.c:567
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -20359,11 +20606,11 @@ msgstr "Nom de la visualització del Shell activa"
 msgid "The shell window's EFocusTracker"
 msgstr "L'EFocusTracker de la finestra del Shell"
 
-#: ../shell/e-shell-window.c:646 ../shell/e-shell.c:761
+#: ../shell/e-shell-window.c:646 ../shell/e-shell.c:803
 msgid "Geometry"
 msgstr "Geometria"
 
-#: ../shell/e-shell-window.c:647 ../shell/e-shell.c:762
+#: ../shell/e-shell-window.c:647 ../shell/e-shell.c:804
 msgid "Initial window geometry string"
 msgstr "Cadena de la geometria de finestra inicial"
 
@@ -20411,44 +20658,44 @@ msgstr "Gestor de la interfície d'usuari"
 msgid "The shell window's GtkUIManager"
 msgstr "El GtkUIManager de la finestra del Shell"
 
-#: ../shell/e-shell.c:210
+#: ../shell/e-shell.c:212
 msgid "Preparing to go offline..."
 msgstr "S'està preparant per treballar fora de línia..."
 
-#: ../shell/e-shell.c:260
+#: ../shell/e-shell.c:262
 msgid "Preparing to go online..."
-msgstr "S'està preparant per treballar en línia"
+msgstr "S'està preparant per treballar en línia..."
 
-#: ../shell/e-shell.c:328
+#: ../shell/e-shell.c:330
 msgid "Preparing to quit..."
 msgstr "S'està preparant la sortida..."
 
-#: ../shell/e-shell.c:777
+#: ../shell/e-shell.c:819
 msgid "Module Directory"
 msgstr "Directori dels mòduls"
 
-#: ../shell/e-shell.c:778
+#: ../shell/e-shell.c:820
 msgid "The directory from which to load EModules"
 msgstr "El directori d'on carregar els EModules"
 
-#: ../shell/e-shell.c:793
+#: ../shell/e-shell.c:835
 msgid "Network Available"
 msgstr "La xarxa està disponible"
 
-#: ../shell/e-shell.c:794
+#: ../shell/e-shell.c:836
 msgid "Whether the network is available"
 msgstr "Si la xarxa està disponible"
 
-#: ../shell/e-shell.c:809 ../widgets/misc/e-online-button.c:134
+#: ../shell/e-shell.c:851 ../widgets/misc/e-online-button.c:134
 msgid "Online"
 msgstr "En línia"
 
-#: ../shell/e-shell.c:810
+#: ../shell/e-shell.c:852
 msgid "Whether the shell is online"
 msgstr "Si el Shell està en línia"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:167
+#: ../shell/main.c:168
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20484,7 +20731,7 @@ msgstr ""
 "Esperem que gaudiu del resultat de la nostra feina, i esperem\n"
 "ansiosament les vostres contribucions.\n"
 
-#: ../shell/main.c:191
+#: ../shell/main.c:192
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20492,59 +20739,63 @@ msgstr ""
 "Gràcies\n"
 "L'equip de l'Evolution\n"
 
-#: ../shell/main.c:198
+#: ../shell/main.c:199
 msgid "Do not tell me again"
 msgstr "No ho tornis a mostrar"
 
-#: ../shell/main.c:318
+#: ../shell/main.c:322
 msgid "Start Evolution activating the specified component"
 msgstr "Inicia l'Evolution activant el component especificat"
 
-#: ../shell/main.c:320
+#: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
 msgstr "Aplica la geometria especificada a la finestra principal"
 
-#: ../shell/main.c:324
+#: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "Inicia en mode en línia"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:330
+msgid "Start in \"express\" mode"
+msgstr "Inicia en mode senzill"
+
+#: ../shell/main.c:333
 msgid "Forcibly shut down Evolution"
 msgstr "Força l'aturada de l'Evolution"
 
-#: ../shell/main.c:331
+#: ../shell/main.c:337
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Força tornar a migrar des de l'Evolution 1.4"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:340
 msgid "Send the debugging output of all components to a file."
 msgstr "Envia la sortida de depuració de tots els components a un fitxer."
 
-#: ../shell/main.c:336
+#: ../shell/main.c:342
 msgid "Disable loading of any plugins."
 msgstr "Inhabilita la càrrega de connectors."
 
-#: ../shell/main.c:338
+#: ../shell/main.c:344
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 "Inhabilita la subfinestra de previsualització per al Correu, Contactes i "
 "Tasques."
 
-#: ../shell/main.c:342
+#: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
 msgstr ""
 "Importa els URI o noms de fitxers especificats com la resta d'arguments."
 
-#: ../shell/main.c:344
+#: ../shell/main.c:350
 msgid "Request a running Evolution process to quit"
 msgstr ""
 "Sol·licita que surti a un procés de l'Evolution que s'estigui executant"
 
-#: ../shell/main.c:494
+#: ../shell/main.c:465
 msgid "- The Evolution PIM and Email Client"
-msgstr "EL gestor d'informació personal i client de correu de l'Evolution"
+msgstr "El gestor d'informació personal i client de correu de l'Evolution"
 
-#: ../shell/main.c:520
+#: ../shell/main.c:491
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21009,18 +21260,18 @@ msgstr "Confia en l'autenticitat d'aquest certificat"
 #: ../smime/gui/smime-ui.ui.h:37
 msgid "Trust this CA to identify email users."
 msgstr ""
-"Confia en aquesta entitat certificadora per a identificar usuaris de correu "
+"Confia en aquesta entitat certificadora per identificar usuaris de correu "
 "electrònic."
 
 #: ../smime/gui/smime-ui.ui.h:38
 msgid "Trust this CA to identify software developers."
 msgstr ""
-"Confia en aquesta entitat certificadora per a identificar desenvolupadors de "
+"Confia en aquesta entitat certificadora per identificar desenvolupadors de "
 "programari."
 
 #: ../smime/gui/smime-ui.ui.h:39
 msgid "Trust this CA to identify web sites."
-msgstr "Confia en aquesta entitat certificadora per a identificar llocs web."
+msgstr "Confia en aquesta entitat certificadora per identificar llocs web."
 
 #: ../smime/gui/smime-ui.ui.h:40
 msgid "Validity"
@@ -21238,7 +21489,7 @@ msgstr "Certificat importat"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr "Per e_mpresa "
+msgstr "Per e_mpresa"
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
@@ -21319,7 +21570,7 @@ msgstr "UTC"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:2
 msgid "Select a Time Zone"
-msgstr "Seleccioneu una fus horari"
+msgstr "Seleccioneu un fus horari"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
 msgid "Time Zones"
@@ -21327,7 +21578,7 @@ msgstr "Fusos horaris"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
 msgid "Timezone drop-down combination box"
-msgstr "Quadre combinat per a seleccionar el fus horari"
+msgstr "Quadre combinat per seleccionar el fus horari"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:5
 msgid ""
@@ -21508,28 +21759,28 @@ msgstr[1] "Desa les adjuncions"
 msgid "attachment.dat"
 msgstr "adjuncio.dat"
 
-#: ../widgets/misc/e-attachment-view.c:299
+#: ../widgets/misc/e-attachment-view.c:300
 msgid "S_ave All"
 msgstr "De_sa'ls tots"
 
-#: ../widgets/misc/e-attachment-view.c:325
+#: ../widgets/misc/e-attachment-view.c:326
 msgid "A_dd Attachment..."
 msgstr "_Afegeix una adjunció..."
 
-#: ../widgets/misc/e-attachment-view.c:349
+#: ../widgets/misc/e-attachment-view.c:350
 msgid "_Hide"
 msgstr "A_maga"
 
-#: ../widgets/misc/e-attachment-view.c:356
+#: ../widgets/misc/e-attachment-view.c:357
 msgid "_View Inline"
 msgstr "_Visualitza inserit"
 
-#: ../widgets/misc/e-attachment-view.c:638
+#: ../widgets/misc/e-attachment-view.c:639
 #, c-format
 msgid "Open with \"%s\""
 msgstr "Obre amb «%s»"
 
-#: ../widgets/misc/e-attachment-view.c:641
+#: ../widgets/misc/e-attachment-view.c:642
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Obre aquesta adjunció amb %s"
@@ -21681,11 +21932,11 @@ msgstr "Entrada de text per a la data"
 
 #: ../widgets/misc/e-dateedit.c:566
 msgid "Click this button to show a calendar"
-msgstr "Feu clic a aquest botó per a mostrar un calendari"
+msgstr "Feu clic a aquest botó per mostrar un calendari"
 
 #: ../widgets/misc/e-dateedit.c:612
 msgid "Drop-down combination box to select time"
-msgstr "Quadre combinat per a seleccionar l'hora"
+msgstr "Quadre combinat per seleccionar l'hora"
 
 #: ../widgets/misc/e-dateedit.c:684
 msgid "No_w"
@@ -21764,7 +22015,7 @@ msgid ""
 "like to try again, please click the \"Back\" button."
 msgstr ""
 "L'Evolution ha cercat configuracions del Pine, el Netscape, l'Elm i "
-"l'iCalendar per a importar-les. No s'ha trobat cap configuració que es pugui "
+"l'iCalendar per importar-les. No s'ha trobat cap configuració que es pugui "
 "importar. Si ho voleu tornar a intentar, feu clic al botó «Endarrere»."
 
 #: ../widgets/misc/e-import-assistant.c:1187
@@ -21801,8 +22052,7 @@ msgstr "Seleccioneu un fitxer"
 
 #: ../widgets/misc/e-import-assistant.c:1255
 msgid "Click \"Apply\" to begin importing the file into Evolution."
-msgstr ""
-"Feu clic a «Aplica» per a iniciar la importació del fitxer a l'Evolution. "
+msgstr "Feu clic a «Aplica» per iniciar la importació del fitxer a l'Evolution."
 
 #: ../widgets/misc/e-import-assistant.c:1261
 #: ../widgets/misc/e-import-assistant.c:1271
@@ -21824,19 +22074,19 @@ msgstr ""
 #: ../widgets/misc/e-online-button.c:27
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
-"L'Evolution està en línia. Feu clic en aquest botó per a treballar fora de "
+"L'Evolution està en línia. Feu clic en aquest botó per treballar fora de "
 "línia."
 
 #: ../widgets/misc/e-online-button.c:30
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
-"L'Evolution està fora de línia. Feu clic en aquest botó per a treballar en "
+"L'Evolution està fora de línia. Feu clic en aquest botó per treballar en "
 "línia."
 
 #: ../widgets/misc/e-online-button.c:33
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr ""
-"L'Evolution està fora de línia. Feu clic en aquest botó per a treballar en "
+"L'Evolution està fora de línia. Feu clic en aquest botó per treballar en "
 "línia."
 
 #: ../widgets/misc/e-online-button.c:135
@@ -22108,7 +22358,7 @@ msgid ""
 "for display purposes only."
 msgstr ""
 "La sortida d'aquest script serà utilitzada per a la vostra signatura.\n"
-"El nom que especifiqueu només s'utilitzarà per a mostrar-lo."
+"El nom que especifiqueu només s'utilitzarà per mostrar-lo."
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
 msgid "S_cript:"
@@ -22120,7 +22370,7 @@ msgstr "El fitxer de l'script ha de ser executable."
 
 #: ../widgets/misc/e-url-entry.c:105
 msgid "Click here to go to URL"
-msgstr "Feu clic per a anar a l'URL"
+msgstr "Feu clic per anar a l'URL"
 
 #: ../widgets/misc/e-web-view.c:348
 msgid "_Copy Link Location"
@@ -22128,7 +22378,7 @@ msgstr "_Copia la ubicació de l'enllaç"
 
 #: ../widgets/misc/e-web-view.c:350
 msgid "Copy the link to the clipboard"
-msgstr "Copia l'enllaç al porta-retalls."
+msgstr "Copia l'enllaç al porta-retalls"
 
 #: ../widgets/misc/e-web-view.c:358
 msgid "_Open Link in Browser"
@@ -22150,16 +22400,16 @@ msgstr "Selecciona tot el text i les imatges"
 #: ../widgets/misc/e-web-view.c:756
 #, c-format
 msgid "Click to call %s"
-msgstr "Feu clic per a trucar en/na %s"
+msgstr "Feu clic per trucar en/na %s"
 
 #: ../widgets/misc/e-web-view.c:758
 msgid "Click to hide/unhide addresses"
-msgstr "Feu clic per a mostrar/amagar adreces"
+msgstr "Feu clic per mostrar/amagar adreces"
 
 #: ../widgets/misc/e-web-view.c:760
 #, c-format
 msgid "Click to open %s"
-msgstr "Feu clic per a obrir %s"
+msgstr "Feu clic per obrir %s"
 
 #: ../widgets/misc/ea-calendar-item.c:299
 #: ../widgets/misc/ea-calendar-item.c:308
@@ -22240,7 +22490,7 @@ msgstr "Color de fons de la columna"
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:58
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:131
 msgid "click to add"
-msgstr "feu clic per a afegir"
+msgstr "feu clic per afegir"
 
 # gal/widgets/e-categories-master-list-array.c:80
 #: ../widgets/table/e-table-config.c:150
@@ -22369,7 +22619,7 @@ msgstr "_Ordena..."
 # gal/e-table/e-table-header-item.c:1473
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
 msgid "Add a Column"
-msgstr "Afegeix una columna..."
+msgstr "Afegeix una columna"
 
 #: ../widgets/table/e-table-field-chooser.c:151
 msgid ""
@@ -22571,7 +22821,7 @@ msgstr "Espaiat vertical de les files"
 
 #: ../widgets/table/e-table.c:3375
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
-msgstr "Espai vertical entre files. S'afegeix a sobre i a sota d'una fila."
+msgstr "Espai vertical entre files. S'afegeix a sobre i a sota d'una fila"
 
 #: ../widgets/table/e-tree.c:3392 ../widgets/table/e-tree.c:3393
 msgid "ETree table adapter"
@@ -22930,9 +23180,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 #~ msgstr "<span weight=\"bold\">Servidor lliure/ocupat predeterminat</span>"
 
-#~ msgid "<span weight=\"bold\">General</span>"
-#~ msgstr "<span weight=\"bold\">General</span>"
-
 #~ msgid "<span weight=\"bold\">Task List</span>"
 #~ msgstr "<span weight=\"bold\">Llista de tasques</span>"
 
@@ -23158,9 +23405,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgid "<b>_Languages</b>"
 #~ msgstr "<b>_Idiomes</b>"
 
-#~ msgid "<span weight=\"bold\">Account Information</span>"
-#~ msgstr "<span weight=\"bold\">Informació del compte</span>"
-
 #~ msgid "<span weight=\"bold\">Authentication</span>"
 #~ msgstr "<span weight=\"bold\">Autenticació</span>"
 
@@ -23172,9 +23416,6 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "<span weight=\"bold\">Default Behavior</span>"
 #~ msgstr "<span weight=\"bold\">Comportament predeterminat</span>"
-
-#~ msgid "<span weight=\"bold\">Delete Mail</span>"
-#~ msgstr "<span weight=\"bold\">Supressió del correu</span>"
 
 #~ msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 #~ msgstr "<span weight=\"bold\">Ca_pçaleres del correu mostrades</span>"
@@ -23201,7 +23442,7 @@ msgstr "Menú emergent de l'ansa"
 #~ msgstr "<span weight=\"bold\">Opcions</span>"
 
 #~ msgid "<span weight=\"bold\">Printed Fonts</span>"
-#~ msgstr "<span weight=\"bold\">Tipus de lletra per a l'impressió</span>"
+#~ msgstr "<span weight=\"bold\">Tipus de lletra per a la impressió</span>"
 
 #~ msgid "<span weight=\"bold\">Proxy Settings</span>"
 #~ msgstr "<span weight=\"bold\">Paràmetres del servidor intermediari</span>"
@@ -23846,9 +24087,6 @@ msgstr "Menú emergent de l'ansa"
 #~ "Configureu la comprovació ortogràfica, les signatures i el redactor de "
 #~ "missatges"
 
-#~ msgid "Configure your email accounts here"
-#~ msgstr "Configureu els vostres comptes de correu"
-
 #~ msgid "Configure your network connection settings here"
 #~ msgstr "Configureu els paràmetres de connexió a la xarxa"
 
@@ -24011,9 +24249,6 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "Delete \"{0}\"?"
 #~ msgstr "Voleu suprimir «{0}»?"
-
-#~ msgid "Delete account?"
-#~ msgstr "Voleu suprimir el compte?"
 
 #~ msgid "Delete messages in Search Folder?"
 #~ msgstr "Voleu suprimir els missatges de la carpeta de cerca?"
@@ -24694,9 +24929,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgstr ""
 #~ "Heu superat la vostra quota per a emmagatzemar correus en aquest servidor."
 
-#~ msgid "You may only configure a single Exchange account."
-#~ msgstr "Només podeu configurar un únic compte d'Exchange."
-
 #~ msgid ""
 #~ "Your current usage is: {0} KB. Try to clear up some space by deleting "
 #~ "some mail."
@@ -25011,9 +25243,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgid "_Save Message..."
 #~ msgstr "De_sa el missatge..."
 
-#~ msgid "Close"
-#~ msgstr "Tanca"
-
 #~ msgid "Main toolbar"
 #~ msgstr "Barra d'eines principal"
 
@@ -25068,9 +25297,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgid "_Hide Buttons"
 #~ msgstr "O_culta els botons"
 
-#~ msgid "_Quit"
-#~ msgstr "_Surt"
-
 #~ msgid "Save Custom View"
 #~ msgstr "Desa la visualització personalitzada"
 
@@ -25115,9 +25341,6 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "Basic"
 #~ msgstr "Bàsic"
-
-#~ msgid "Email address"
-#~ msgstr "Adreça de correu electrònic"
 
 #~ msgid "Find Possible Search Bases"
 #~ msgstr "Troba les bases de cerca possibles"
@@ -25349,9 +25572,6 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "Faroe Islands"
 #~ msgstr "Illes Fèroe"
-
-#~ msgid "Fiji"
-#~ msgstr "Fiji"
 
 #~ msgid "Finland"
 #~ msgstr "Finlàndia"
@@ -25889,9 +26109,6 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "_ZIP Code:"
 #~ msgstr "_Codi postal:"
-
-#~ msgid "Add IM Account"
-#~ msgstr "Afegeix un compte de MI"
 
 #~ msgid "_Account name:"
 #~ msgstr "Nom d_el compte:"
@@ -26549,9 +26766,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgid "Weather: Partly Cloudy"
 #~ msgstr "Temps: parcialment ennuvolat"
 
-#~ msgid "Please enter user name first."
-#~ msgstr "Hauríeu d'introduir el nom d'usuari abans de res."
-
 #~ msgid "Mark calendar offline"
 #~ msgstr "Marca el calendari com a desconnectat"
 
@@ -26767,9 +26981,6 @@ msgstr "Menú emergent de l'ansa"
 #~ msgid "Enter a name for this signature."
 #~ msgstr "Introduïu un nom per a aquesta signatura."
 
-#~ msgid "Name:"
-#~ msgstr "Nom:"
-
 #~ msgid ""
 #~ "Are you sure you want to permanently remove all the deleted messages in "
 #~ "folder &quot;{0}&quot;?"
@@ -26953,7 +27164,7 @@ msgstr "Menú emergent de l'ansa"
 
 #, fuzzy
 #~ msgid "The Evolution PIM and Email Client"
-#~ msgstr "EL gestor d'informació personal i client de correu de l'Evolution"
+#~ msgstr "El gestor d'informació personal i client de correu de l'Evolution"
 
 #, fuzzy
 #~ msgid "HTML Mail"
@@ -27512,9 +27723,6 @@ msgstr "Menú emergent de l'ansa"
 #, fuzzy
 #~ msgid "personal"
 #~ msgstr "Personal"
-
-#~ msgid "The calendar you have selected is read-only"
-#~ msgstr "El calendari que heu seleccionat és només de lectura"
 
 #, fuzzy
 #~ msgid "Cale_ndar:"
@@ -28093,9 +28301,6 @@ msgstr "Menú emergent de l'ansa"
 #, fuzzy
 #~ msgid "With GUI"
 #~ msgstr "Amplada"
-
-#~ msgid "Username:"
-#~ msgstr "Nom d'usuari:"
 
 #~ msgid "Update every"
 #~ msgstr "Actualitza cada"
