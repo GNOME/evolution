@@ -442,7 +442,7 @@ e_dialog_combo_box_get
 
 <SECTION>
 <FILE>e-extensible</FILE>
-<TITLE>Extensible</TITLE>
+<TITLE>EExtensible</TITLE>
 EExtensible
 e_extensible_load_extensions
 e_extensible_list_extensions
@@ -459,7 +459,7 @@ e_extensible_get_type
 
 <SECTION>
 <FILE>e-extension</FILE>
-<TITLE>Extensions</TITLE>
+<TITLE>EExtension</TITLE>
 EExtension
 e_extension_get_extensible
 <SUBSECTION Standard>
@@ -524,7 +524,7 @@ ELoggerPrivate
 
 <SECTION>
 <FILE>e-module</FILE>
-<TITLE>Generic Module Loader</TITLE>
+<TITLE>EModule</TITLE>
 EModule
 e_module_new
 e_module_get_filename
