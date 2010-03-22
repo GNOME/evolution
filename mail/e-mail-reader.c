@@ -2668,10 +2668,6 @@ e_mail_reader_init (EMailReader *reader)
 
 	/* Bind properties. */
 
-	e_binding_new (
-		shell_settings, "mail-show-animated-images",
-		web_view, "animate");
-
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
 
