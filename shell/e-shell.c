@@ -52,7 +52,7 @@ struct _EShellPrivate {
 	GtkWidget *preferences_window;
 
 	/* Shell Backends */
-	GList *loaded_backends;
+	GList *loaded_backends;              /* not referenced */
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 
@@ -407,22 +407,13 @@ shell_split_and_insert_items (GHashTable *hash_table,
 }
 
 static void
-shell_add_backend (GType type,
-                   EShell *shell)
+shell_process_backend (EShellBackend *shell_backend,
+                       EShell *shell)
 {
 	EShellBackendClass *class;
-	EShellBackend *shell_backend;
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 	const gchar *string;
-
-	shell_backend = g_object_new (type, "shell", shell, NULL);
-
-	shell->priv->loaded_backends = g_list_insert_sorted (
-		shell->priv->loaded_backends, shell_backend,
-		(GCompareFunc) e_shell_backend_compare);
-
-	/* Bookkeeping */
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 	backends_by_name = shell->priv->backends_by_name;
@@ -601,10 +592,6 @@ shell_dispose (GObject *object)
 		priv->preferences_window = NULL;
 	}
 
-	g_list_foreach (priv->loaded_backends, (GFunc) g_object_unref, NULL);
-	g_list_free (priv->loaded_backends);
-	priv->loaded_backends = NULL;
-
 	if (priv->preparing_for_line_change != NULL) {
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->preparing_for_line_change),
@@ -629,6 +616,8 @@ shell_finalize (GObject *object)
 	if (!unique_app_is_running (UNIQUE_APP (object)))
 		e_file_lock_destroy ();
 
+	g_list_free (priv->loaded_backends);
+
 	g_free (priv->geometry);
 	g_free (priv->module_directory);
 
@@ -640,6 +629,7 @@ static void
 shell_constructed (GObject *object)
 {
 	EShellPrivate *priv;
+	GList *list;
 
 	priv = E_SHELL_GET_PRIVATE (object);
 
@@ -659,11 +649,13 @@ shell_constructed (GObject *object)
 
 	shell_load_modules (E_SHELL (object));
 
-	e_type_traverse (
-		E_TYPE_SHELL_BACKEND, (ETypeFunc)
-		shell_add_backend, object);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (object));
+	/* Process shell backends. */
+	list = g_list_sort (
+		e_extensible_list_extensions (
+		E_EXTENSIBLE (object), E_TYPE_SHELL_BACKEND),
+		(GCompareFunc) e_shell_backend_compare);
+	g_list_foreach (list, (GFunc) shell_process_backend, object);
+	priv->loaded_backends = list;
 }
 
 static UniqueResponse
