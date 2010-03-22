@@ -21,6 +21,7 @@
 
 /**
  * SECTION: e-module
+ * @short_description: a module loader
  * @include: e-util/e-module.h
  **/
 

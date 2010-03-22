@@ -29,7 +29,7 @@ EShell
 </para>
 
 @eshell: the object which received the signal.
-@Param2: 
+@arg1: 
 
 <!-- ##### SIGNAL EShell::handle-uri ##### -->
 <para>
