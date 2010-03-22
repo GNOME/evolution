@@ -24,6 +24,7 @@
 
 #include <shell/e-shell-common.h>
 #include <e-util/e-activity.h>
+#include <e-util/e-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_BACKEND \
@@ -60,7 +61,7 @@ typedef struct _EShellBackendPrivate EShellBackendPrivate;
  * functions below.
  **/
 struct _EShellBackend {
-	GObject parent;
+	EExtension parent;
 	EShellBackendPrivate *priv;
 };
 
@@ -94,7 +95,7 @@ struct _EShellBackend {
  * #EShellBackendClass contains a number of important settings for subclasses.
  **/
 struct _EShellBackendClass {
-	GObjectClass parent_class;
+	EExtensionClass parent_class;
 
 	GType shell_view_type;
 

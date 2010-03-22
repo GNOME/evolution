@@ -43,8 +43,6 @@
 
 struct _EShellBackendPrivate {
 
-	gpointer shell;  /* weak pointer */
-
 	/* We keep a reference to corresponding EShellView subclass
 	 * since it keeps a reference back to us.  This ensures the
 	 * subclass is not finalized before we are, otherwise it
@@ -58,63 +56,38 @@ struct _EShellBackendPrivate {
 };
 
 enum {
-	PROP_0,
-	PROP_SHELL
-};
-
-enum {
 	ACTIVITY_ADDED,
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
-static void
-shell_backend_set_shell (EShellBackend *shell_backend,
-                         EShell *shell)
+G_DEFINE_ABSTRACT_TYPE (EShellBackend, e_shell_backend, E_TYPE_EXTENSION)
+
+static GObject *
+shell_backend_constructor (GType type,
+                           guint n_construct_properties,
+                           GObjectConstructParam *construct_properties)
 {
-	g_return_if_fail (shell_backend->priv->shell == NULL);
+	EShellBackendPrivate *priv;
+	EShellBackendClass *class;
+	EShellViewClass *shell_view_class;
+	GObject *object;
 
-	shell_backend->priv->shell = shell;
+	/* Chain up to parent's construct() method. */
+	object = G_OBJECT_CLASS (e_shell_backend_parent_class)->constructor (
+		type, n_construct_properties, construct_properties);
 
-	g_object_add_weak_pointer (
-		G_OBJECT (shell_backend),
-		&shell_backend->priv->shell);
-}
+	class = E_SHELL_BACKEND_GET_CLASS (object);
+	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
 
-static void
-shell_backend_set_property (GObject *object,
-                            guint property_id,
-                            const GValue *value,
-                            GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SHELL:
-			shell_backend_set_shell (
-				E_SHELL_BACKEND (object),
-				g_value_get_object (value));
-			return;
-	}
+	/* Install a reference to ourselves in the
+	 * corresponding EShellViewClass structure. */
+	shell_view_class = g_type_class_ref (class->shell_view_type);
+	shell_view_class->shell_backend = g_object_ref (object);
+	priv->shell_view_class = shell_view_class;
 
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-shell_backend_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
-                            GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SHELL:
-			g_value_set_object (
-				value, e_shell_backend_get_shell (
-				E_SHELL_BACKEND (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+	return object;
 }
 
 static void
@@ -124,19 +97,13 @@ shell_backend_dispose (GObject *object)
 
 	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
 
-	if (priv->shell != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell), &priv->shell);
-		priv->shell = NULL;
-	}
-
 	if (priv->shell_view_class != NULL) {
 		g_type_class_unref (priv->shell_view_class);
 		priv->shell_view_class = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_backend_parent_class)->dispose (object);
 }
 
 static void
@@ -150,7 +117,7 @@ shell_backend_finalize (GObject *object)
 	g_free (priv->data_dir);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_shell_backend_parent_class)->finalize (object);
 }
 
 static const gchar *
@@ -195,37 +162,23 @@ shell_backend_get_data_dir (EShellBackend *shell_backend)
 }
 
 static void
-shell_backend_class_init (EShellBackendClass *class)
+e_shell_backend_class_init (EShellBackendClass *class)
 {
 	GObjectClass *object_class;
+	EExtensionClass *extension_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = shell_backend_set_property;
-	object_class->get_property = shell_backend_get_property;
+	object_class->constructor = shell_backend_constructor;
 	object_class->dispose = shell_backend_dispose;
 	object_class->finalize = shell_backend_finalize;
 
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_SHELL;
+
 	class->get_config_dir = shell_backend_get_config_dir;
 	class->get_data_dir = shell_backend_get_data_dir;
-
-	/**
-	 * EShellBackend:shell
-	 *
-	 * The #EShell singleton.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL,
-		g_param_spec_object (
-			"shell",
-			_("Shell"),
-			_("The EShell singleton"),
-			E_TYPE_SHELL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	/**
 	 * EShellBackend::activity-added
@@ -245,44 +198,9 @@ shell_backend_class_init (EShellBackendClass *class)
 }
 
 static void
-shell_backend_init (EShellBackend *shell_backend,
-                    EShellBackendClass *class)
+e_shell_backend_init (EShellBackend *shell_backend)
 {
-	EShellViewClass *shell_view_class;
-
 	shell_backend->priv = E_SHELL_BACKEND_GET_PRIVATE (shell_backend);
-
-	/* Install a reference to ourselves in the corresponding
-	 * EShellViewClass structure, */
-	shell_view_class = g_type_class_ref (class->shell_view_type);
-	shell_view_class->shell_backend = g_object_ref (shell_backend);
-	shell_backend->priv->shell_view_class = shell_view_class;
-}
-
-GType
-e_shell_backend_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_backend_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EShellBackend", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**
@@ -364,9 +282,13 @@ e_shell_backend_get_data_dir (EShellBackend *shell_backend)
 EShell *
 e_shell_backend_get_shell (EShellBackend *shell_backend)
 {
+	EExtensible *extensible;
+
 	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
 
-	return E_SHELL (shell_backend->priv->shell);
+	extensible = e_extension_get_extensible (E_EXTENSION (shell_backend));
+
+	return E_SHELL (extensible);
 }
 
 /**

@@ -61,6 +61,9 @@
 #include <e-util/e-util.h>
 #include <e-util/e-extension.h>
 
+#define IS_AN_EXTENSION_TYPE(type) \
+	(g_type_is_a ((type), E_TYPE_EXTENSION))
+
 static GQuark extensible_quark;
 
 static GPtrArray *
@@ -133,7 +136,7 @@ e_extensible_get_type (void)
  * e_extensible_load_extensions:
  * @extensible: an #EExtensible
  *
- * Creates an instance of all registered subtypes of #EExtension which
+ * Creates an instance of all instantiable subtypes of #EExtension which
  * target the class of @extensible.  The lifetimes of these newly created
  * #EExtension objects are bound to @extensible such that they are finalized
  * when @extensible is finalized.
@@ -158,4 +161,45 @@ e_extensible_load_extensions (EExtensible *extensible)
 	e_type_traverse (
 		E_TYPE_EXTENSION, (ETypeFunc)
 		extensible_load_extension, extensible);
+}
+
+/**
+ * e_extensible_list_extensions:
+ * @extensible: an #EExtensible
+ * @extension_type: the type of extensions to list
+ *
+ * Returns a list of #EExtension objects bound to @extensible whose
+ * types are ancestors of @extension_type.  For a complete list of
+ * extension objects bound to @extensible, pass %E_TYPE_EXTENSION.
+ *
+ * The list itself should be freed with g_list_free().  The extension
+ * objects are owned by @extensible and should not be unreferenced.
+ *
+ * Returns: a list of extension objects derived from @extension_type
+ **/
+GList *
+e_extensible_list_extensions (EExtensible *extensible,
+                              GType extension_type)
+{
+	GPtrArray *extensions;
+	GList *list = NULL;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_EXTENSIBLE (extensible), NULL);
+	g_return_val_if_fail (IS_AN_EXTENSION_TYPE (extension_type), NULL);
+
+	e_extensible_load_extensions (extensible);
+
+	extensions = extensible_get_extensions (extensible);
+	g_return_val_if_fail (extensions != NULL, NULL);
+
+	for (ii = 0; ii < extensions->len; ii++) {
+		GObject *object;
+
+		object = g_ptr_array_index (extensions, ii);
+		if (g_type_is_a (G_OBJECT_TYPE (object), extension_type))
+			list = g_list_prepend (list, object);
+	}
+
+	return g_list_reverse (list);
 }

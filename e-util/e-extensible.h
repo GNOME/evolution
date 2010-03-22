@@ -51,6 +51,8 @@ struct _EExtensibleInterface {
 
 GType		e_extensible_get_type		(void);
 void		e_extensible_load_extensions	(EExtensible *extensible);
+GList *		e_extensible_list_extensions	(EExtensible *extensible,
+						 GType extension_type);
 
 G_END_DECLS
 

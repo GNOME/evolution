@@ -31,11 +31,6 @@ EShellBackend
 @eshellbackend: the object which received the signal.
 @arg1: 
 
-<!-- ##### ARG EShellBackend:shell ##### -->
-<para>
-
-</para>
-
 <!-- ##### FUNCTION e_shell_backend_compare ##### -->
 <para>
 
