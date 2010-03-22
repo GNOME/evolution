@@ -28,9 +28,10 @@
 #include <camel/camel-internet-address.h>
 #include <camel/camel-url.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-binding.h"
-#include "e-util/e-plugin-ui.h"
+#include <e-util/e-util.h>
+#include <e-util/e-binding.h>
+#include <e-util/e-extensible.h>
+#include <e-util/e-plugin-ui.h>
 
 #include "e-popup-action.h"
 #include "e-selectable.h"
@@ -75,6 +76,9 @@ enum {
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
 	PROP_EDITABLE,
+	PROP_INLINE_SPELLING,
+	PROP_MAGIC_LINKS,
+	PROP_MAGIC_SMILEYS,
 	PROP_OPEN_PROXY,
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
@@ -117,6 +121,14 @@ static const gchar *ui =
 "    <menuitem action='select-all'/>"
 "  </popup>"
 "</ui>";
+
+/* Forward Declarations */
+static void e_web_view_selectable_init (ESelectableInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EWebView, e_web_view, GTK_TYPE_HTML,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, e_web_view_selectable_init))
 
 static EWebViewRequest *
 web_view_request_new (EWebView *web_view,
@@ -503,6 +515,24 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_INLINE_SPELLING:
+			e_web_view_set_inline_spelling (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_MAGIC_LINKS:
+			e_web_view_set_magic_links (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_MAGIC_SMILEYS:
+			e_web_view_set_magic_smileys (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_OPEN_PROXY:
 			e_web_view_set_open_proxy (
 				E_WEB_VIEW (object),
@@ -571,6 +601,24 @@ web_view_get_property (GObject *object,
 		case PROP_EDITABLE:
 			g_value_set_boolean (
 				value, e_web_view_get_editable (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_INLINE_SPELLING:
+			g_value_set_boolean (
+				value, e_web_view_get_inline_spelling (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_MAGIC_LINKS:
+			g_value_set_boolean (
+				value, e_web_view_get_magic_links (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_MAGIC_SMILEYS:
+			g_value_set_boolean (
+				value, e_web_view_get_magic_smileys (
 				E_WEB_VIEW (object)));
 			return;
 
@@ -1004,7 +1052,7 @@ web_view_selectable_select_all (ESelectable *selectable)
 }
 
 static void
-web_view_class_init (EWebViewClass *class)
+e_web_view_class_init (EWebViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -1071,7 +1119,8 @@ web_view_class_init (EWebViewClass *class)
 			"Disable Printing",
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -1081,7 +1130,8 @@ web_view_class_init (EWebViewClass *class)
 			"Disable Save-to-Disk",
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -1089,6 +1139,36 @@ web_view_class_init (EWebViewClass *class)
 		g_param_spec_boolean (
 			"editable",
 			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_INLINE_SPELLING,
+		g_param_spec_boolean (
+			"inline-spelling",
+			"Inline Spelling",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAGIC_LINKS,
+		g_param_spec_boolean (
+			"magic-links",
+			"Magic Links",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAGIC_SMILEYS,
+		g_param_spec_boolean (
+			"magic-smileys",
+			"Magic Smileys",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
@@ -1207,7 +1287,7 @@ web_view_class_init (EWebViewClass *class)
 }
 
 static void
-web_view_selectable_init (ESelectableInterface *interface)
+e_web_view_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = web_view_selectable_update_actions;
 	interface->cut_clipboard = web_view_selectable_cut_clipboard;
@@ -1217,7 +1297,7 @@ web_view_selectable_init (ESelectableInterface *interface)
 }
 
 static void
-web_view_init (EWebView *web_view)
+e_web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
@@ -1333,41 +1413,8 @@ web_view_init (EWebView *web_view)
 	id = "org.gnome.evolution.webview";
 	e_plugin_ui_register_manager (ui_manager, id, web_view);
 	e_plugin_ui_enable_manager (ui_manager, id);
-}
 
-GType
-e_web_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EWebViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) web_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EWebView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) web_view_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) web_view_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_HTML, "EWebView", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
+	e_extensible_load_extensions (E_EXTENSIBLE (web_view));
 }
 
 GtkWidget *
@@ -1518,6 +1565,84 @@ e_web_view_set_editable (EWebView *web_view,
 	gtk_html_set_editable (GTK_HTML (web_view), editable);
 
 	g_object_notify (G_OBJECT (web_view), "editable");
+}
+
+gboolean
+e_web_view_get_inline_spelling (EWebView *web_view)
+{
+	/* XXX This is just here to maintain symmetry
+	 *     with e_web_view_set_inline_spelling(). */
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return gtk_html_get_inline_spelling (GTK_HTML (web_view));
+}
+
+void
+e_web_view_set_inline_spelling (EWebView *web_view,
+                                gboolean inline_spelling)
+{
+	/* XXX GtkHTML does not utilize GObject properties as well
+	 *     as it could.  This just wraps gtk_html_set_inline_spelling()
+	 *     so we get a "notify::inline-spelling" signal. */
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_set_inline_spelling (GTK_HTML (web_view), inline_spelling);
+
+	g_object_notify (G_OBJECT (web_view), "inline-spelling");
+}
+
+gboolean
+e_web_view_get_magic_links (EWebView *web_view)
+{
+	/* XXX This is just here to maintain symmetry
+	 *     with e_web_view_set_magic_links(). */
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return gtk_html_get_magic_links (GTK_HTML (web_view));
+}
+
+void
+e_web_view_set_magic_links (EWebView *web_view,
+                            gboolean magic_links)
+{
+	/* XXX GtkHTML does not utilize GObject properties as well
+	 *     as it could.  This just wraps gtk_html_set_magic_links()
+	 *     so we can get a "notify::magic-links" signal. */
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_set_magic_links (GTK_HTML (web_view), magic_links);
+
+	g_object_notify (G_OBJECT (web_view), "magic-links");
+}
+
+gboolean
+e_web_view_get_magic_smileys (EWebView *web_view)
+{
+	/* XXX This is just here to maintain symmetry
+	 *     with e_web_view_set_magic_smileys(). */
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return gtk_html_get_magic_smileys (GTK_HTML (web_view));
+}
+
+void
+e_web_view_set_magic_smileys (EWebView *web_view,
+                              gboolean magic_smileys)
+{
+	/* XXX GtkHTML does not utilize GObject properties as well
+	 *     as it could.  This just wraps gtk_html_set_magic_smileys()
+	 *     so we can get a "notify::magic-smileys" signal. */
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	gtk_html_set_magic_smileys (GTK_HTML (web_view), magic_smileys);
+
+	g_object_notify (G_OBJECT (web_view), "magic-smileys");
 }
 
 const gchar *

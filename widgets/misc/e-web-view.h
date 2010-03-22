@@ -106,6 +106,15 @@ void		e_web_view_set_disable_save_to_disk
 gboolean	e_web_view_get_editable		(EWebView *web_view);
 void		e_web_view_set_editable		(EWebView *web_view,
 						 gboolean editable);
+gboolean	e_web_view_get_inline_spelling	(EWebView *web_view);
+void		e_web_view_set_inline_spelling	(EWebView *web_view,
+						 gboolean inline_spelling);
+gboolean	e_web_view_get_magic_links	(EWebView *web_view);
+void		e_web_view_set_magic_links	(EWebView *web_view,
+						 gboolean magic_links);
+gboolean	e_web_view_get_magic_smileys	(EWebView *web_view);
+void		e_web_view_set_magic_smileys	(EWebView *web_view,
+						 gboolean magic_smileys);
 const gchar *	e_web_view_get_selected_uri	(EWebView *web_view);
 void		e_web_view_set_selected_uri	(EWebView *web_view,
 						 const gchar *selected_uri);

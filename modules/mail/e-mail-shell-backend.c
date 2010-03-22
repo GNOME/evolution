@@ -408,27 +408,12 @@ mail_shell_backend_window_created_cb (EShell *shell,
                                       GtkWindow *window,
                                       EShellBackend *shell_backend)
 {
-	EShellSettings *shell_settings;
 	static gboolean first_time = TRUE;
 	const gchar *backend_name;
-
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* This applies to both the composer and signature editor. */
 	if (GTKHTML_IS_EDITOR (window)) {
 		GList *spell_languages;
-
-		e_binding_new (
-			shell_settings, "composer-inline-spelling",
-			window, "inline-spelling");
-
-		e_binding_new (
-			shell_settings, "composer-magic-links",
-			window, "magic-links");
-
-		e_binding_new (
-			shell_settings, "composer-magic-smileys",
-			window, "magic-smileys");
 
 		spell_languages = e_load_spell_languages ();
 		gtkhtml_editor_set_spell_languages (
