@@ -1,15 +1,15 @@
 # translation of eu.po to Basque
-# Copyright (C) 2001, 2004, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2004, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 #
 #: ../shell/main.c:631
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2004.
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2005, 2006, 2008, 2009.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2005, 2006, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 06:33+0000\n"
-"PO-Revision-Date: 2009-08-28 11:51+0200\n"
+"PO-Revision-Date: 2010-03-22 18:43+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -426,7 +426,7 @@ msgstr "Zerbitzariaren bertsioa"
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "Some features may not work properly with your current server"
 msgstr ""
-"Zenbait funtzionalitate ez dute funztionatuko uneko zerbitzariaren "
+"Zenbait funtzionalitate ez dute funtzionatuko uneko zerbitzariaren "
 "bertsioarekin"
 
 #: ../addressbook/addressbook.error.xml.h:21
@@ -987,7 +987,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:5
 msgid "Show autocompleted name with an address"
-msgstr "Erakutsi automatikoki osatutako izena helbide batetikn"
+msgstr "Erakutsi automatikoki osatutako izena helbide batetin"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:6
 msgid "Show preview pane"
@@ -3078,7 +3078,7 @@ msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
-"Eranskin batzu deskargatzen ari dira. Hitzordua gordetzean eranskin hauek "
+"Eranskin batzuk deskargatzen ari dira. Hitzordua gordetzean eranskin hauek "
 "galtzea eragin dezake."
 
 #: ../calendar/calendar.error.xml.h:56
@@ -3086,7 +3086,7 @@ msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
-"Eranskin batzu deskargatzen ari dira. Zeregina gordetzean eranskin hauek "
+"Eranskin batzuk deskargatzen ari dira. Zeregina gordetzean eranskin hauek "
 "galtzea eragin dezake."
 
 #: ../calendar/calendar.error.xml.h:57
@@ -3141,7 +3141,7 @@ msgstr "Ezin da egutegia kargatu"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Hiztorduko aldaketak gorde nahi dituzu?"
+msgstr "Hitzorduko aldaketak gorde nahi dituzu?"
 
 #: ../calendar/calendar.error.xml.h:70
 msgid "Would you like to save your changes to this memo?"
@@ -3167,7 +3167,7 @@ msgstr "Bileraren gonbitea partaideei bidali nahi diezu?"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "Would you like to send this task to participants?"
-msgstr "Zeregina beste partaideei bildali nahi diezu?"
+msgstr "Zeregina beste partaideei bidali nahi diezu?"
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "Would you like to send updated meeting information to participants?"
@@ -3985,7 +3985,7 @@ msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
 msgstr ""
-"Astebukaerak hileko ikuspegian konprimituko den edo ez (larunbata eta "
+"Asteburuak hileko ikuspegian konprimituko den edo ez (larunbata eta "
 "igandea asteko lanegun baten lekua hartuko dute)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
@@ -4628,7 +4628,7 @@ msgstr "<span weight=\"bold\">Data/Orduaren formatua</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr "<span weight=\"bold\">'Libre/okupatuta' zerbitzari lehentsia</span>"
+msgstr "<span weight=\"bold\">'Libre/okupatuta' zerbitzari lehenetsia</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 #: ../mail/mail-config.glade.h:17
@@ -5350,7 +5350,7 @@ msgstr "Gertaera ezin da editatu, hautatutako egutegia irakurtzeko soilik delako
 
 #: ../calendar/gui/dialogs/event-page.c:752
 msgid "Event cannot be fully edited, because you are not the organizer"
-msgstr "Gertaera ezin da bere osotasunean editatu, ez baizara antolatzailea"
+msgstr "Gertaera ezin da bere osotasunean editatu, ez baitzara antolatzailea"
 
 #: ../calendar/gui/dialogs/event-page.c:764
 #: ../calendar/gui/dialogs/event-page.c:2769
@@ -5443,7 +5443,7 @@ msgstr "Ezin da '%s' egutegia ireki."
 #: ../calendar/gui/dialogs/task-page.c:1825
 #, c-format
 msgid "You are acting on behalf of %s"
-msgstr "<b>%s</b>(r)en izenean zabiltz"
+msgstr "<b>%s</b>(r)en izenean zabiltza"
 
 #: ../calendar/gui/dialogs/event-page.c:2967
 #, c-format
@@ -5558,7 +5558,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/memo-page.c:351
 msgid "Memo cannot be fully edited, because you are not the organizer"
-msgstr "Zirkularra ezin da bere osotasunean editatu, ez baizara antolatzailea"
+msgstr "Zirkularra ezin da bere osotasunean editatu, ez baitzara antolatzailea"
 
 #: ../calendar/gui/dialogs/memo-page.c:871
 #, c-format
@@ -5906,7 +5906,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.c:340
 msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr "Zeregina ezin da bere osotasunean editatu, ez baizara antolatzailea"
+msgstr "Zeregina ezin da bere osotasunean editatu, ez baitzara antolatzailea"
 
 #: ../calendar/gui/dialogs/task-page.c:388
 #: ../calendar/gui/dialogs/task-page.glade.h:4
@@ -9754,7 +9754,7 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
-"Eranskin gutxi batzu deskargatzen ari dira. Posta bidaltzean deskargatu "
+"Eranskin gutxi batzuk deskargatzen ari dira. Posta bidaltzean deskargatu "
 "gabeko eranskinik gabe bidaltzea eragin dezake."
 
 #: ../composer/mail-composer.error.xml.h:2
@@ -9817,7 +9817,7 @@ msgstr "Amaitu gabeko mezuak berreskuratu nahi dituzu?"
 
 #: ../composer/mail-composer.error.xml.h:14
 msgid "Download in progress. Do you want to send the mail?"
-msgstr "Dekargatzen ari da. Mezua bidaltzea nahi duzu?"
+msgstr "Deskargatzen ari da. Mezua bidaltzea nahi duzu?"
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid "Error saving to autosave because &quot;{1}&quot;."
@@ -11836,13 +11836,13 @@ msgstr "Etiketa"
 #: ../mail/em-mailer-prefs.c:1063 ../mail/em-mailer-prefs.c:1117
 #, c-format
 msgid "%s plugin is available and the binary is installed."
-msgstr "%s plugin-a erabilgarri dago eta bitarra instalatu da."
+msgstr "%s plugina erabilgarri dago eta bitarra instalatu da."
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1071 ../mail/em-mailer-prefs.c:1126
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
-msgstr "%s plugin-a ez dago erabilgarri. Egiaztatu paketea instalatuta dagoen."
+msgstr "%s plugina ez dago erabilgarri. Egiaztatu paketea instalatuta dagoen."
 
 #: ../mail/em-mailer-prefs.c:1092
 msgid "No Junk plugin available"
@@ -11925,7 +11925,7 @@ msgid ""
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 "Evolution-eko postontzi-karpeten laburpenaren formatua SQLite-ra aldatu da "
-"Evolution 2.24 bertsioatik aurrera.\n"
+"Evolution 2.24 bertsiotik aurrera.\n"
 "\n"
 "Itxaron Evolution-ek karpetak migratzen dituen bitartean..."
 
@@ -12304,7 +12304,7 @@ msgstr "Gaitu tamaina mugatutako mezuaren zatia erakustea."
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Enable/disable caret mode"
-msgstr "Gaitu/desgatiu kurtsore modua"
+msgstr "Gaitu/desgaitu kurtsore modua"
 
 #: ../mail/evolution-mail.schemas.in.h:58 ../mail/mail-config.glade.h:86
 msgid "Encode file names in an Outlook/GMail way"
@@ -12365,7 +12365,7 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"\"Mezuak bidali eta jaso\" leihoaren haiserako altuera. Balioa eguneratu "
+"\"Mezuak bidali eta jaso\" leihoaren hasierako altuera. Balioa eguneratu "
 "egiten da erabiltzaileak leihoa bertikalki tamainaz aldatzean."
 
 #: ../mail/evolution-mail.schemas.in.h:67
@@ -12387,7 +12387,7 @@ msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"\"Mezuak bidali eta jaso\" leihoaren haiserako zabalera. Balioa eguneratu "
+"\"Mezuak bidali eta jaso\" leihoaren hasierako zabalera. Balioa eguneratu "
 "egiten da erabiltzaileak leihoa horizontalki tamainaz aldatzean."
 
 #: ../mail/evolution-mail.schemas.in.h:69
@@ -12438,7 +12438,7 @@ msgid ""
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
 "Evolution-en posta-osagaiak ezagutzen dituen kontuen zerrenda. Zerrendak /"
-"apps/evolution/mail/accounts-eko azpiderektorioen izenen kateak ditu."
+"apps/evolution/mail/accounts-eko azpidirektorioen izenen kateak ditu."
 
 #: ../mail/evolution-mail.schemas.in.h:79
 msgid "List of custom headers and whether they are enabled."
@@ -14698,7 +14698,7 @@ msgid ""
 msgstr ""
 "Bidaltzeko erabiltzen ari zaren kontaktu-zerrenda zerrendako hartzaileak "
 "ezkutatzeko konfiguratuta dago.\n"
-"Posta-programa askok Apparently-To goiburua gehietzen diete BCC hartzaileak "
+"Posta-programa askok Apparently-To goiburua gehitzen diete BCC hartzaileak "
 "soilik dituzten mezuei. Goiburu hori gehituz gero, hartzaile guztiak "
 "zerrendatuko dira mezuan. Hori gerta ez dadin, gutxienez hartzaile bat "
 "zehaztu behar da Nori: edo Cc: hartzailean. "
@@ -14788,7 +14788,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
-msgstr "Ezin da lizetzia-fitxategia irakurri."
+msgstr "Ezin da lizentzia-fitxategia irakurri."
 
 #: ../mail/mail.error.xml.h:122
 msgid "Use _Default"
@@ -15068,7 +15068,7 @@ msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr ""
-"Aztarnen zerrenda eranskinen ohartarazlearen plugin-ak mezuaren gorputzean "
+"Aztarnen zerrenda eranskinen ohartarazlearen pluginak mezuaren gorputzean "
 "begiratzeko"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
@@ -15076,7 +15076,7 @@ msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
-"Aztarnen zerrenda eranskinen ohartarazlearen plugin-ak mezuaren gorputzean "
+"Aztarnen zerrenda eranskinen ohartarazlearen pluginak mezuaren gorputzean "
 "begiratzeko."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:476
@@ -15407,7 +15407,7 @@ msgstr "Bogofilter-ren ume prozesuak ez du erantzuten. Hiltzen..."
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:185
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr "Itxaron Bogofilter-en ume prozetzeko itxoiten, amaitzen...ten arte"
+msgstr "Itxaron Bogofilter-en ume prozesuaren etena, amaitzen..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:208
 #, c-format
@@ -15720,7 +15720,7 @@ msgid ""
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
 msgstr ""
-"Gakoak irteerako mezuari gehitu dezaiokezun goiburu pertsonalizatuen "
+"Gakoak irteerako mezuari gehitu diezaiokezun goiburu pertsonalizatuen "
 "zerrenda zehazten du. Goiburua eta dagokion balioa zehazteko formatua "
 "honakoa da: goiburu pertsonalizatuaren izena, ondoren \"=\" karakterea eta "
 "gero \";\" karakterearekin bereiztutako balioak."
@@ -17127,7 +17127,7 @@ msgstr "Harpidetu _alarmetara"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
-msgstr "Harpidetu _jakinarazpetan"
+msgstr "Harpidetu nire _jakinarazpenetara"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 msgid "_Write"
@@ -17299,7 +17299,7 @@ msgid ""
 msgstr ""
 "Eman behar dituzun goiburu gehiago arestiko goiburu estandarretaz gain "
 "jasotzeko.\n"
-"Honi ez ikus egin dezaiokezu \"Goiburu guztiak\" aukeratzen baduzu."
+"Honi ez ikus egin diezaiokezu \"Goiburu guztiak\" aukeratzen baduzu."
 
 #: ../plugins/imap-features/imap-headers.glade.h:6
 msgid ""
@@ -18465,7 +18465,7 @@ msgstr "Postaren ekintzarik ez"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:7
 msgid "Posting not allowed"
-msgstr "Baimendu gabeko argitarapena"
+msgstr "Baimendu gabeko argitalpena"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:8
 msgid ""
@@ -18612,15 +18612,15 @@ msgstr "Kudeatu Evolution-en pluginak."
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:252
 msgid "Plugin Manager"
-msgstr "Plugin-kudeatzailea"
+msgstr "Pluginkudeatzailea"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr "Gaitu eta desgaitu plugin-ak"
+msgstr "Gaitu eta desgaitu pluginak"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr "_Plugin-ak"
+msgstr "_Pluginak"
 
 #: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
@@ -18641,7 +18641,7 @@ msgstr "Aurkezpen orokorra"
 #: ../plugins/plugin-manager/plugin-manager.c:362
 #: ../plugins/plugin-manager/plugin-manager.c:424
 msgid "Plugin"
-msgstr "Plugin-a"
+msgstr "Plugina"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:2
@@ -19184,11 +19184,11 @@ msgstr "Zirriborroak (txantiloien pluginean oinarrituta)"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr "Dekodetu TNEF (winmail.dat) eranskinak Microsoft Outlook-etik."
+msgstr "Deskodetu TNEF (winmail.dat) eranskinak Microsoft Outlook-etik."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Decoder"
-msgstr "TNEF dekodetzailea"
+msgstr "TNEF deskodetzailea"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:1
 msgid "Inline vCards"
@@ -19264,7 +19264,7 @@ msgstr "Autentifikatu proxy zerbitzariaren konexioak"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Automatic proxy configuration URL"
-msgstr "URLa proxy-a automatikoki konfigurateko"
+msgstr "URLa proxy-a automatikoki konfiguratzeko"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
@@ -20032,7 +20032,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:383
 #: ../smime/gui/certificate-manager.c:611
 msgid "Select a certificate to import..."
-msgstr "Hautatu ziurtatigira inportatzeko..."
+msgstr "Hautatu ziurtagiria inportatzeko..."
 
 #: ../smime/gui/certificate-manager.c:145
 msgid "All PKCS12 files"
@@ -22389,7 +22389,7 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
-"Saguan oinarritutako mapa elkareragilea ordu-zona hautatzeko. Teklatuarekin "
+"Saguan oinarritutako mapa elkarreragilea ordu-zona hautatzeko. Teklatuarekin "
 "beheko goitibeherako konbinazio-koadroa erabil daiteke."
 
 #: ../widgets/misc/e-online-button.c:106
