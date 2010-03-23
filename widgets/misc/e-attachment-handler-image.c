@@ -24,6 +24,8 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 
+#include <e-util/e-util.h>
+
 #define E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_HANDLER_IMAGE, EAttachmentHandlerImagePrivate))
@@ -115,7 +117,6 @@ action_image_set_as_background_cb (GtkAction *action,
 	EAttachment *attachment;
 	GFile *destination;
 	GList *selected;
-	const gchar *override;
 	gchar *path;
 
 	view = e_attachment_handler_get_view (handler);
@@ -124,12 +125,8 @@ action_image_set_as_background_cb (GtkAction *action,
 	attachment = E_ATTACHMENT (selected->data);
 
 	/* Save the image under ~/.gnome2/wallpapers/. */
-	override = g_getenv ("GNOME22_USER_DIR");
-	if (override != NULL)
-		path = g_build_filename (override, "wallpapers", NULL);
-	else
-		path = g_build_filename (
-			g_get_home_dir (), ".gnome2", "wallpapers", NULL);
+	path = g_build_filename (
+		e_get_gnome2_user_dir (), "wallpapers", NULL);
 	destination = g_file_new_for_path (path);
 	g_mkdir_with_parents (path, 0755);
 	g_free (path);

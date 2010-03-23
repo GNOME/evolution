@@ -80,6 +80,31 @@ e_get_user_data_dir (void)
 }
 
 /**
+ * e_get_gnome2_user_dir:
+ *
+ * Returns the base directory for user data, according to libgnome.
+ * The directory can be overridden by setting the GNOME22_USER_DIR
+ * environment variable.  The string is owned by Evolution and must
+ * not be modified or freed.
+ *
+ * Returns: base directory for GNOME user data
+ **/
+const gchar *
+e_get_gnome2_user_dir (void)
+{
+	static gchar *dirname = NULL;
+
+	if (G_UNLIKELY (dirname == NULL)) {
+		dirname = g_strdup (g_getenv ("GNOME22_USER_DIR"));
+		if (dirname == NULL)
+			dirname = g_build_filename (
+				g_get_home_dir (), ".gnome2", NULL);
+	}
+
+	return dirname;
+}
+
+/**
  * e_get_accels_filename:
  *
  * Returns the name of the user data file containing custom keyboard
@@ -99,7 +124,7 @@ e_get_accels_filename (void)
 
 	if (G_UNLIKELY (filename == NULL))
 		filename = g_build_filename (
-			g_get_home_dir (), ".gnome2",
+			e_get_gnome2_user_dir (),
 			"accels", PACKAGE, NULL);
 
 	return filename;
