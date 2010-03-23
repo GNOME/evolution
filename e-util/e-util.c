@@ -94,12 +94,13 @@ e_get_gnome2_user_dir (void)
 {
 	static gchar *dirname = NULL;
 
-	if (G_UNLIKELY (dirname == NULL)) {
+#ifndef G_OS_WIN32
+	if (G_UNLIKELY (dirname == NULL))
 		dirname = g_strdup (g_getenv ("GNOME22_USER_DIR"));
-		if (dirname == NULL)
-			dirname = g_build_filename (
-				g_get_home_dir (), ".gnome2", NULL);
-	}
+#endif
+    if (dirname == NULL)
+		dirname = g_build_filename (
+			g_get_home_dir (), ".gnome2", NULL);
 
 	return dirname;
 }
