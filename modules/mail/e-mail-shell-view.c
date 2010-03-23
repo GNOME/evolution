@@ -933,21 +933,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	e_mail_shell_view_update_popup_labels (mail_shell_view);
 }
 
-/* Vmethod implementation for EShellView::new_shell_sidebar.  We create a mail
- * folder tree for the mailer.
- */
-static GtkWidget *
-new_shell_sidebar (EShellView *shell_view)
-{
-	GtkWidget *sidebar;
-	PangoLayout *layout;
-
-	sidebar = e_mail_shell_sidebar_new (shell_view);
-	gtk_widget_set_size_request (sidebar, 300, -1);
-
-	return sidebar;
-}
-
 static void
 mail_shell_view_class_init (EMailShellViewClass *class,
                             GTypeModule *type_module)
@@ -972,7 +957,7 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	shell_view_class->search_options = "/mail-search-options";
 	shell_view_class->search_rules = "searchtypes.xml";
 	shell_view_class->new_shell_content = e_mail_shell_content_new;
-	shell_view_class->new_shell_sidebar = new_shell_sidebar;
+	shell_view_class->new_shell_sidebar = e_mail_shell_sidebar_new;
 	shell_view_class->toggled = mail_shell_view_toggled;
 	shell_view_class->execute_search = mail_shell_view_execute_search;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
