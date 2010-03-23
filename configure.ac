@@ -1143,6 +1143,42 @@ fi
 AM_CONDITIONAL([ENABLE_NETWORK_MANAGER], [test "$enable_nm" = yes])
 
 dnl ******************************
+dnl Check for Windows SENS API
+dnl ******************************
+AC_ARG_ENABLE([sens],
+	[AS_HELP_STRING([--enable-sens],
+	[enable Windows SENS support (default=yes)])],
+	[enable_sens=$enableval],[enable_sens=yes])
+if test "x$os_win32" = xyes; then
+	if test "x$enable_sens" = xyes; then
+		AC_CHECK_HEADER([rpc.h],[ enable_sens="yes" ],[ enable_sens="no" ])
+	fi
+else
+	enable_sens="no"
+fi
+AC_MSG_CHECKING([if Windows SENS support is enabled])
+AC_MSG_RESULT([$enable_sens])
+if test "$enable_sens" = yes; then
+	SENS_LIBS="-lole32 -loleaut32 -luuid -lrpcrt4"
+	AC_CHECK_HEADER([eventsys.h],
+		[AC_DEFINE([HAVE_EVENTSYS_H], 1, [Have <eventsys.h>])],,
+		[[	#if HAVE_EVENTSYS_H
+			#include <eventsys.h>
+			#endif
+		]])
+	AC_CHECK_HEADER([sensevts.h],
+		[AC_DEFINE([HAVE_SENSEVTS_H], 1, [Have <sensevts.h>])],,
+		[[	#if HAVE_SENSEVTS_H
+			#include <sensevts.h>
+			#endif
+		]])
+	AC_SUBST(HAVE_SENS)
+	AC_SUBST(SENS_LIBS)
+fi
+
+AM_CONDITIONAL([ENABLE_WINDOWS_SENS], [test "$enable_sens" = yes])
+
+dnl ******************************
 dnl Camel Flags
 dnl ******************************
 EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NSS_CFLAGS)
@@ -1693,6 +1729,7 @@ modules/network-manager/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
+modules/windows-sens/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
@@ -1760,6 +1797,7 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	NetworkManager:		$enable_nm
+	Windows SENS:           $enable_sens
 	Pilot conduits:		$msg_pilot
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
