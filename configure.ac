@@ -1143,6 +1143,27 @@ fi
 AM_CONDITIONAL([ENABLE_NETWORK_MANAGER], [test "$enable_nm" = yes])
 
 dnl ******************************
+dnl Check for Windows SENS API
+dnl ******************************
+AC_ARG_ENABLE([sens],
+	[AS_HELP_STRING([--enable-sens],
+	[enable Windows SENS support (default=yes)])],
+	[enable_sens=$enableval],[enable_sens=yes])
+AC_MSG_CHECKING([if Windows SENS support is enabled])
+AC_MSG_RESULT([$enable_sens])
+if test "$enable_sens" = yes; then
+	AC_PROG_CXX
+	AC_CHECK_HEADERS([eventsys.h sensevts.h],[ enable_sens="yes" ],[ enable_sens="no" ])
+fi
+if test "$enable_sens" = yes; then
+	SENS_LIBS="-lole32 -loleaut32 -luuid"
+	AC_SUBST(HAVE_SENS)
+	AC_SUBST(SENS_LIBS)
+fi
+
+AM_CONDITIONAL([ENABLE_WINDOWS_SENS], [test "$enable_sens" = yes])
+
+dnl ******************************
 dnl Camel Flags
 dnl ******************************
 EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NSS_CFLAGS)
@@ -1693,6 +1714,7 @@ modules/network-manager/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
+modules/windows-sens/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
