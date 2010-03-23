@@ -41,6 +41,9 @@
 #include "e-filter-part.h"
 
 #ifdef G_OS_WIN32
+#ifdef localtime_r
+#undef localtime_r
+#endif
 #define localtime_r(tp,tmp) memcpy(tmp,localtime(tp),sizeof(struct tm))
 #endif
 
