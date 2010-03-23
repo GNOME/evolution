@@ -535,9 +535,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
+#ifndef G_OS_WIN32
 	e_binding_new_with_negation (
 		shell_settings, "disable-command-line",
 		widget, "allow-scripts");
+#endif
 
 	e_binding_new (
 		signature_tree_view, "selected",
