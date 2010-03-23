@@ -40,6 +40,7 @@
 #include <string.h>
 
 #include <libebook/e-book.h>
+#undef EDS_DISABLE_DEPRECATED
 #include <libedataserver/md5-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 
