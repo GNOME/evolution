@@ -2015,10 +2015,11 @@ em_format_snoop_type (CamelMimePart *part)
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 	if (!camel_data_wrapper_is_offline(dw)) {
-		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
+		GByteArray *buffer = g_byte_array_new ();
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new_with_byte_array(buffer);
 
 		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0) {
-			gchar *ct = g_content_type_guess (filename, mem->buffer->data, mem->buffer->len, NULL);
+			gchar *ct = g_content_type_guess (filename, buffer->data, buffer->len, NULL);
 
 			if (ct)
 				magic_type = g_content_type_get_mime_type (ct);
