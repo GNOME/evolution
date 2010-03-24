@@ -1140,7 +1140,6 @@ if test "$enable_nm" = yes; then
 	AC_SUBST(HAVE_NM)
 	AC_SUBST(NM_CFLAGS)
 fi
-
 AM_CONDITIONAL([ENABLE_NETWORK_MANAGER], [test "$enable_nm" = yes])
 
 dnl ******************************
@@ -1163,6 +1162,18 @@ if test "$enable_sens" = yes; then
 fi
 
 AM_CONDITIONAL([ENABLE_WINDOWS_SENS], [test "$enable_sens" = yes])
+
+dnl ******************************
+dnl Enable ConnMan support ?
+dnl ******************************
+AC_ARG_ENABLE([connman],
+	[AS_HELP_STRING([--enable-connman],
+	[enable ConnMan support (default=no)])],
+	[enable_connman=$enableval],[enable_connman=no])
+if test "x$enable_nm$enable_connman" = "xyesyes"; then
+	AC_MSG_ERROR([It is not possible to enable both ConnMan and NetworkManager])
+fi
+AM_CONDITIONAL([ENABLE_CONNMAN], [test "$enable_connman" = yes])
 
 dnl ******************************
 dnl Camel Flags
@@ -1726,6 +1737,7 @@ modules/addressbook/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
 modules/network-manager/Makefile
+modules/connman/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
