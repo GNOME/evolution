@@ -178,6 +178,44 @@ mail_shell_sidebar_constructed (GObject *object)
 		shell_sidebar);
 }
 
+static int
+guess_screen_width (EMailShellSidebar *sidebar)
+{
+	GtkWidget *widget;
+	GdkScreen *screen;
+	int screen_width;
+
+	widget = GTK_WIDGET (sidebar);
+
+	screen_width = 0;
+
+	screen = gtk_widget_get_screen (widget);
+	if (screen) {
+		GtkWidget *toplevel;
+		int monitor;
+		GdkRectangle rect;
+
+		toplevel = gtk_widget_get_toplevel (widget);
+		if (toplevel && GTK_WIDGET_REALIZED (toplevel))
+			monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
+		else {
+			/* We don't know in which monitor the window manager
+			 * will put us.  So we will just use the geometry of the
+			 * first monitor.
+			 */
+			monitor = 0;
+		}
+
+		gdk_screen_get_monitor_geometry (screen, monitor, &rect);
+		screen_width = rect.width;
+	}
+
+	if (screen_width == 0)
+		screen_width = 1024;
+
+	return screen_width;
+}
+
 static void
 mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
 {
@@ -193,10 +231,15 @@ mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	 * will get merged soon and then we can remove this crap.
 	 */
 
+	EMailShellSidebar *sidebar;
 	PangoLayout *layout;
 	PangoRectangle ink_rect;
 	GtkStyle *style;
 	int border;
+	int sidebar_width;
+	int screen_width;
+
+	sidebar = E_MAIL_SHELL_SIDEBAR (widget);
 
 	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
 
@@ -207,8 +250,12 @@ mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
 
 	style = gtk_widget_get_style (widget);
 
+	screen_width = guess_screen_width (sidebar);
+
 	border = 2 * style->xthickness + 4; /* Thickness of frame shadow plus some slack for padding */
-	requisition->width = MAX (requisition->width, ink_rect.width + border);
+	sidebar_width = ink_rect.width + border;
+	sidebar_width = MIN (sidebar_width, screen_width / 4);
+	requisition->width = MAX (requisition->width, sidebar_width);
 }
 
 static guint32
