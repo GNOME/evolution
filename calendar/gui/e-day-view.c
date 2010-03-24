@@ -591,6 +591,9 @@ day_view_constructed (GObject *object)
 {
 	ECalModel *model;
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_day_view_parent_class)->constructed (object);
+
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (object));
 
 	g_signal_connect_swapped (

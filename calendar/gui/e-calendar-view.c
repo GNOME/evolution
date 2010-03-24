@@ -341,6 +341,15 @@ calendar_view_finalize (GObject *object)
 }
 
 static void
+calendar_view_constructed (GObject *object)
+{
+	/* Do this after calendar_view_init() so extensions can query
+	 * the GType accurately.  See GInstanceInitFunc documentation
+	 * for details of the problem. */
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
 calendar_view_update_actions (ESelectable *selectable,
                               EFocusTracker *focus_tracker,
                               GdkAtom *clipboard_targets,
@@ -736,6 +745,7 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 	object_class->get_property = calendar_view_get_property;
 	object_class->dispose = calendar_view_dispose;
 	object_class->finalize = calendar_view_finalize;
+	object_class->constructed = calendar_view_constructed;
 
 	class->selection_changed = NULL;
 	class->selected_time_changed = NULL;
@@ -876,8 +886,6 @@ e_calendar_view_init (ECalendarView *calendar_view)
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	calendar_view->priv->paste_target_list = target_list;
-
-	e_extensible_load_extensions (E_EXTENSIBLE (calendar_view));
 }
 
 static void

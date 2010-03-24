@@ -523,6 +523,9 @@ week_view_constructed (GObject *object)
 	ECalModel *model;
 	ECalendarView *calendar_view;
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_week_view_parent_class)->constructed (object);
+
 	calendar_view = E_CALENDAR_VIEW (object);
 	model = e_calendar_view_get_model (calendar_view);
 
