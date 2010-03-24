@@ -178,6 +178,86 @@ mail_shell_sidebar_constructed (GObject *object)
 		shell_sidebar);
 }
 
+static int
+guess_screen_width (EMailShellSidebar *sidebar)
+{
+	GtkWidget *widget;
+	GdkScreen *screen;
+	int screen_width;
+
+	widget = GTK_WIDGET (sidebar);
+
+	screen_width = 0;
+
+	screen = gtk_widget_get_screen (widget);
+	if (screen) {
+		GtkWidget *toplevel;
+		int monitor;
+		GdkRectangle rect;
+
+		toplevel = gtk_widget_get_toplevel (widget);
+		if (toplevel && GTK_WIDGET_REALIZED (toplevel))
+			monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
+		else {
+			/* We don't know in which monitor the window manager
+			 * will put us.  So we will just use the geometry of the
+			 * first monitor.
+			 */
+			monitor = 0;
+		}
+
+		gdk_screen_get_monitor_geometry (screen, monitor, &rect);
+		screen_width = rect.width;
+	}
+
+	if (screen_width == 0)
+		screen_width = 1024;
+
+	return screen_width;
+}
+
+static void
+mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
+{
+	/* We override the normal size-request handler so that we can
+	 * spit out a treeview with a suitable width.  We measure the length
+	 * of a typical string and use that as the requisition's width.
+	 *
+	 * EMFolderTreeClass, our parent class, is based on GtkTreeView, which
+	 * doesn't really have a good way of figuring out a minimum width for
+	 * the tree.  This is really GTK+'s fault at large, as it only has
+	 * "minimum size / allocated size", instead of "minimum size / preferred
+	 * size / allocated size".  Hopefully the extended-layout branch of GTK+
+	 * will get merged soon and then we can remove this crap.
+	 */
+
+	EMailShellSidebar *sidebar;
+	PangoLayout *layout;
+	PangoRectangle ink_rect;
+	GtkStyle *style;
+	int border;
+	int sidebar_width;
+	int screen_width;
+
+	sidebar = E_MAIL_SHELL_SIDEBAR (widget);
+
+	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+
+	/* This string is a mockup only; it doesn't need to be translated */
+	layout = gtk_widget_create_pango_layout (widget, "typical.account@mailservice.com");
+	pango_layout_get_pixel_extents (layout, &ink_rect, NULL);
+	g_object_unref (layout);
+
+	style = gtk_widget_get_style (widget);
+
+	screen_width = guess_screen_width (sidebar);
+
+	border = 2 * style->xthickness + 4; /* Thickness of frame shadow plus some slack for padding */
+	sidebar_width = ink_rect.width + border;
+	sidebar_width = MIN (sidebar_width, screen_width / 4);
+	requisition->width = MAX (requisition->width, sidebar_width);
+}
+
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
@@ -194,6 +274,7 @@ static void
 mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -203,6 +284,9 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	object_class->get_property = mail_shell_sidebar_get_property;
 	object_class->dispose = mail_shell_sidebar_dispose;
 	object_class->constructed = mail_shell_sidebar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->size_request = mail_shell_sidebar_size_request;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;
