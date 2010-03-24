@@ -42,6 +42,11 @@ if WITH_HELP
 HELP_SUBDIR=help
 endif
 
+# For maintainers only.
+if GLADE_CATALOG
+MAINT_SUBDIR=maint
+endif
+
 SUBDIRS = 			\
 	m4			\
 	data			\
@@ -61,6 +66,7 @@ SUBDIRS = 			\
 	art			\
 	plugins			\
 	modules			\
+	$(MAINT_SUBDIR)		\
 	doc			\
 	ui			\
 	views			\

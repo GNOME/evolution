@@ -1,0 +1,47 @@
+<glade-catalog name="evolution" library="gladeevolution" depends="gtk+" book="evolution">
+
+  <glade-widget-classes>
+
+    <glade-widget-class name="EDateEdit" generic-name="date-edit" title="Date Edit">
+      <property id="allow-no-date-set"/>
+      <property id="set-none"/>
+      <property id="show-date"/>
+      <property id="show-time"/>
+      <property id="show-week-numbers"/>
+      <property id="twodigit-year-can-future"/>
+      <property id="use-24-hour-format"/>
+      <property id="week-start-day"/>
+    </glade-widget-class>
+
+    <glade-widget-class name="EImageChooser" generic-name="image-chooser" title="Image Chooser">
+      <property id="icon-name"/>
+    </glade-widget-class>
+
+    <glade-widget-class name="EMFolderSelectionButton" generic-name="folder-selection-button" title="Folder Selection Button">
+      <property id="caption"/>
+      <property id="multiselect"/>
+      <property id="title"/>
+    </glade-widget-class>
+
+    <glade-widget-class name="ESourceComboBox" generic-name="source-combo-box" title="Source Combo Box">
+      <property id="source-list"/>
+    </glade-widget-class>
+
+    <glade-widget-class name="ETimezoneEntry" generic-name="timezone-entry" title="Timezone Entry">
+      <property id="timezone"/>
+    </glade-widget-class>
+
+    <glade-widget-class name="EUrlEntry" generic-name="url-entry" title="URL Entry"/>
+
+  </glade-widget-classes>
+
+  <glade-widget-group name="evolution-widgets" title="Evolution">
+    <glade-widget-class-ref name="EDateEdit"/>
+    <glade-widget-class-ref name="EImageChooser"/>
+    <glade-widget-class-ref name="EMFolderSelectionButton"/>
+    <glade-widget-class-ref name="ESourceComboBox"/>
+    <glade-widget-class-ref name="ETimezoneEntry"/>
+    <glade-widget-class-ref name="EUrlEntry"/>
+  </glade-widget-group>
+
+</glade-catalog>

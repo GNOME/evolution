@@ -59,6 +59,7 @@ m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.16])
 m4_define([gweather_minimum_version], [2.25.3])
 m4_define([gtkimageview_minimum_version], [1.6])
+m4_define([gladeui_minimum_version], [3.0.0])
 
 dnl ******************************
 dnl Compiler Warning Flags
@@ -1602,6 +1603,19 @@ fi
 AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)
 
+dnl ********************************************
+dnl Glade 3 catalog files (for maintainers only)
+dnl ********************************************
+AC_ARG_WITH([glade-catalog],
+	[AS_HELP_STRING([--with-glade-catalog],
+	[Install the catalog files for Glade 3 ]
+	[(for maintainers only) [default=no]])],
+	[with_catalog="$withval"], [with_catalog="no"])
+if test "$with_catalog" = "yes"; then
+	PKG_CHECK_MODULES(GLADEUI, [gladeui-1.0 >= gladeui_minimum_version])
+fi
+AM_CONDITIONAL(GLADE_CATALOG, test "x$with_catalog" != "xno")
+
 dnl ******************************
 dnl Makefiles
 dnl ******************************
@@ -1706,6 +1720,7 @@ mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
 mail/default/zh_CN/Makefile
 mail/importers/Makefile
+maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
 modules/calendar/Makefile
