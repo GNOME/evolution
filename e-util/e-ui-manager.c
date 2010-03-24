@@ -97,24 +97,23 @@ ui_manager_filter_ui (EUIManager *ui_manager,
 	express_mode = e_ui_manager_get_express_mode (ui_manager);
 
 	/*
-	 * Very simple line based pre-processing based on comments:
-	 * <!-- if [!]EXPRESS -->\n ... \n<!-- endif -->\n
+	 * Very simple C style pre-processing in-line in the XML:
+	 * #if [!]EXPRESS\n ... \n#endif\n
 	 */
-
 	lines = g_strsplit (ui_definition, "\n", -1);
 
 	for (ii = 0; lines[ii] != NULL; ii++) {
-		gchar *cp;
-
-		if ((cp = strstr (lines[ii], "<!-- if "))) {
-			gboolean not_express = lines[ii][8] == '!';
-			include = express_mode ^ not_express;
-			lines[ii][0] = '\0';
-			in_conditional = TRUE;
-		} else if ((cp = strstr (lines[ii], "<!-- endif"))) {
-			lines[ii][0] = '\0';
-			include = TRUE;
-			in_conditional = FALSE;
+		if (lines[ii][0] == '#') {
+			if (!strncmp (lines[ii], "#if ", 4)) {
+				gboolean not_express = lines[ii][4] == '!';
+				include = express_mode ^ not_express;
+				lines[ii][0] = '\0';
+				in_conditional = TRUE;
+			} else if (!strncmp (lines[ii], "#endif", 6)) {
+				lines[ii][0] = '\0';
+				include = TRUE;
+				in_conditional = FALSE;
+			}
 		}
 		if (!include)
 			lines[ii][0] = '\0';

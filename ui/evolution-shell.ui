@@ -2,9 +2,9 @@
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <menu action='new-menu'/>
-<!-- if !EXPRESS -->
+#if !EXPRESS
       <menuitem action='new-window'/>
-<!-- endif -->
+#endif
       <separator/>
       <menuitem action='send-receive'/>
       <placeholder name='file-actions'/>
@@ -45,16 +45,16 @@
         <separator/>
         <menuitem action='gal-define-views'/>
       </menu>
-<!-- if !EXPRESS -->
+#if !EXPRESS
       <menu action='window-menu'/>
-<!-- endif -->
+#endif
       <menu action='layout-menu'>
         <menuitem action='show-toolbar'/>
         <menuitem action='show-taskbar'/>
         <menuitem action='show-sidebar'/>
       </menu>
       <placeholder name='view-custom-menus'/>
-<!-- if !EXPRESS -->
+#if !EXPRESS
       <menu action='switcher-menu'>
         <menuitem action='switcher-style-both'/>
         <menuitem action='switcher-style-icons'/>
@@ -63,7 +63,7 @@
         <separator/>
         <menuitem action='show-switcher'/>
       </menu>
-<!-- endif -->
+#endif
     </menu>
     <placeholder name='custom-menus'/>
     <menu action='search-menu'>
