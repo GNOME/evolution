@@ -10,6 +10,10 @@ if ENABLE_NETWORK_MANAGER
 NETWORK_MANAGER_DIR = network-manager
 endif
 
+if ENABLE_CONNMAN
+CONNMAN_DIR = connman
+endif
+
 SUBDIRS = \
 	addressbook \
 	calendar \
@@ -18,5 +22,6 @@ SUBDIRS = \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
 	$(NETWORK_MANAGER_DIR)
+	$(CONNMAN_DIR)
 
 -include $(top_srcdir)/git.mk
