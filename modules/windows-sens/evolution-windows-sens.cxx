@@ -30,6 +30,8 @@ extern "C" {
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
 
+#define NUM_ELEMENTS(x) (sizeof((x)) / sizeof((x)[0]))
+
 /* Standard GObject macros */
 #define E_TYPE_WINDOWS_SENS \
 	(e_windows_sens_get_type ())
@@ -67,7 +69,7 @@ windows_sens_get_shell (EWindowsSENS *extension)
 	return E_SHELL (extensible);
 }
 
-class MySensNetwork : public IDispatch
+class MySensNetwork : public ISensNetwork
 {
 private:
     long ref;
@@ -122,7 +124,7 @@ public:
     }
 
 // ISensNetwork methods:
-    virtual HRESULT WINAPI ConnectionMade (BSTR, ULONG ulType, LPSENS_QOCINFO*)
+    virtual HRESULT WINAPI ConnectionMade (BSTR, ULONG ulType, LPSENS_QOCINFO)
     {
 		if (ulType) {
 			EShell *shell = windows_sens_get_shell (mpEWS);
@@ -145,6 +147,20 @@ public:
 		}
 		return S_OK;
 	}
+
+    virtual HRESULT WINAPI DestinationReachable(BSTR, BSTR , ULONG ulType, LPSENS_QOCINFO)
+    {
+		if (ulType) {
+			EShell *shell = windows_sens_get_shell (mpEWS);
+			e_shell_set_network_available (shell, TRUE);
+		}
+		return S_OK;
+    }
+
+    virtual HRESULT WINAPI DestinationReachableNoQOCInfo(BSTR bstrDestination,BSTR bstrConnection,ULONG ulType)
+    {
+        return S_OK;
+    }
 };
 
 /* 4E14FB9F-2E22-11D1-9964-00C04FBBB345 */
@@ -169,10 +185,10 @@ windows_sens_constructed (GObject *object)
 	static IEventSubscription* pIEventSubscription = 0;
 	WCHAR buffer[64];
 	static const char* eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
-    static const char* methods[]={"ConnectionMade","ConnectionMadeNoQOCInfo","ConnectionLost"};
-    static const char* names[]={"EWS_ConnectionMade","EWS_ConnectionMadeNoQOCInfo","EWS_ConnectionLost"};
-    static const char* subids[]={"{cd1dcbd6-a14d-4823-a0d2-8473afde360f}","{a82f0e80-1305-400c-ba56-375ae04264a1}",
-                           "{45233130-b6c3-44fb-a6af-487c47cee611}"};
+    static const char* methods[]={"ConnectionMade","ConnectionMadeNoQOCInfo","ConnectionLost","DestinationReachable","DestinationReachableNoQOCInfo"};
+    static const char* names[]={"EWS_ConnectionMade","EWS_ConnectionMadeNoQOCInfo","EWS_ConnectionLost","EWS_DestinationReachable","EWS_DestinationReachableNoQOCInfo"};
+    static const char* subids[]={"{cd1dcbd6-a14d-4823-a0d2-8473afde360f}","{a82f0e80-1305-400c-ba56-375ae04264a1}","{45233130-b6c3-44fb-a6af-487c47cee611}",
+								 "{51377df7-1d29-49eb-af32-4fff77b059fb}","{d16830d3-7a3a-4240-994b-a1fa344385dd}"};
 
 	EWindowsSENS *extension = (E_WINDOWS_SENS (object));
 	static MySensNetwork *pISensNetwork = new MySensNetwork (extension);
@@ -181,7 +197,7 @@ windows_sens_constructed (GObject *object)
 
 	HRESULT res=CoCreateInstance (CLSID_CEventSystem, 0,CLSCTX_SERVER,IID_IEventSystem,(void**)&pIEventSystem);
 
-	for (int i=0; i<3; i++)
+	for (unsigned i=0; i<NUM_ELEMENTS(methods); i++)
 	{
 		res=CoCreateInstance (CLSID_CEventSubscription, 0, CLSCTX_SERVER, IID_IEventSubscription, (LPVOID*)&pIEventSubscription);
 		MultiByteToWideChar (0, 0, eventclassid, -1, buffer, 64);
@@ -193,6 +209,13 @@ windows_sens_constructed (GObject *object)
 		res=pIEventSubscription->put_SubscriptionName (buffer);
 		MultiByteToWideChar (0, 0, subids[i], -1, buffer, 64);
 		res=pIEventSubscription->put_SubscriptionID (buffer);
+
+		/* Make the subscription receive the event only if the ownerof the subscription
+		 * is logged on to the same computer as the publisher. This makes this module
+		 * work on Windows Vista and Windows 7 with normal user account.
+		 */
+		res=pIEventSubscription->put_PerUser(TRUE);
+
 		res=pIEventSystem->Store (PROGID_EventSubscription, (IUnknown*)pIEventSubscription);
 		pIEventSubscription->Release ();
 		pIEventSubscription=0;
