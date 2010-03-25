@@ -40,6 +40,21 @@ _mb2wchar (const char* a)
 	return b;
 }
 
+static const char* add_curly_braces_to_uuid (const char* string_uuid)
+{
+	static char curly_braced_uuid_string[64];
+	unsigned i;
+	if (!string_uuid)
+		return NULL;
+	curly_braced_uuid_string[0]='{';
+	for (i=0; i<strlen(string_uuid) && i<60; i++)
+		curly_braced_uuid_string[i+1] = string_uuid[i];
+	curly_braced_uuid_string[i+1] = '}';
+	curly_braced_uuid_string[i+2] = '\0';
+	return curly_braced_uuid_string;
+}	
+	
+
 /* Standard GObject macros */
 #define E_TYPE_WINDOWS_SENS \
 	(e_windows_sens_get_type ())
@@ -77,14 +92,14 @@ windows_sens_get_shell (EWindowsSENS *extension)
 	return E_SHELL (extensible);
 }
 
-class SensNetwork_Listener : public ISensNetwork
+class e_sens_network_listener : public ISensNetwork
 {
 private:
 	long ref;
 	EWindowsSENS *mpEWS;
 
 public:
-	SensNetwork_Listener (EWindowsSENS *ews) :
+	e_sens_network_listener (EWindowsSENS *ews) :
 		ref(1),
 		mpEWS(ews)
 	{}
@@ -194,9 +209,10 @@ windows_sens_constructed (GObject *object)
 	static const char* eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
 	static const char* methods[]={"ConnectionMade","ConnectionMadeNoQOCInfo","ConnectionLost","DestinationReachable","DestinationReachableNoQOCInfo"};
 	static const char* names[]={"EWS_ConnectionMade","EWS_ConnectionMadeNoQOCInfo","EWS_ConnectionLost","EWS_DestinationReachable","EWS_DestinationReachableNoQOCInfo"};
+	unsigned char* subids[] = { 0, 0, 0, 0, 0 };
 
 	EWindowsSENS *extension = (E_WINDOWS_SENS (object));
-	static SensNetwork_Listener *pISensNetwork = new SensNetwork_Listener (extension);
+	static e_sens_network_listener *pISensNetwork = new e_sens_network_listener (extension);
 
 	CoInitialize(0);
 
@@ -209,15 +225,14 @@ windows_sens_constructed (GObject *object)
 			res=CoCreateInstance (CLSID_CEventSubscription, 0, CLSCTX_SERVER, IID_IEventSubscription, (LPVOID*)&pIEventSubscription);
 
 			if (res == S_OK && pIEventSubscription) {
-				unsigned char *subid;
 				UUID tmp_uuid;
 				UuidCreate(&tmp_uuid);
-				UuidToString(&tmp_uuid, &subid);
-				if ((res=pIEventSubscription->put_SubscriptionID (_mb2wchar ((char*)subid)))) {
-					RpcStringFree(&subid);
+				UuidToString(&tmp_uuid, &subids[i]);
+				if ((res=pIEventSubscription->put_SubscriptionID (_mb2wchar (add_curly_braces_to_uuid ((char*)subids[i]))))) {
+					RpcStringFree (&subids[i]);
 					break;
 				}
-				RpcStringFree(&subid);
+				RpcStringFree (&subids[i]);
 				if ((res=pIEventSubscription->put_SubscriptionName (_mb2wchar (names[i]))))
 					break;
 				if ((res=pIEventSubscription->put_MethodName (_mb2wchar (methods[i]))))
@@ -230,7 +245,7 @@ windows_sens_constructed (GObject *object)
 				 * is logged on to the same computer as the publisher. This makes this module
 				 * work with normal user account without administrative privileges.
 				 */
-				if ((res=pIEventSubscription->put_PerUser(TRUE)))
+				if ((res=pIEventSubscription->put_PerUser (TRUE)))
 					break;
 
 				if ((res=pIEventSystem->Store ((BSTR)PROGID_EventSubscription, (IUnknown*)pIEventSubscription)))
