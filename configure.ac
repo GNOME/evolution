@@ -1798,6 +1798,7 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	NetworkManager:		$enable_nm
+	Windows SENS:           $enable_sens
 	Pilot conduits:		$msg_pilot
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
