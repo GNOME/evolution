@@ -32,6 +32,14 @@ extern "C" {
 
 #define NUM_ELEMENTS(x) (sizeof((x)) / sizeof((x)[0]))
 
+inline const BSTR
+_mb2wchar (const char* a)
+{
+	static WCHAR b[64];
+	MultiByteToWideChar (0, 0, a, -1, b, 64);
+	return b;
+}
+
 /* Standard GObject macros */
 #define E_TYPE_WINDOWS_SENS \
 	(e_windows_sens_get_type ())
@@ -69,63 +77,63 @@ windows_sens_get_shell (EWindowsSENS *extension)
 	return E_SHELL (extensible);
 }
 
-class MySensNetwork : public ISensNetwork
+class SensNetwork_Listener : public ISensNetwork
 {
 private:
-    long ref;
-    EWindowsSENS *mpEWS;
+	long ref;
+	EWindowsSENS *mpEWS;
 
 public:
-    MySensNetwork (EWindowsSENS *ews) :
+	SensNetwork_Listener (EWindowsSENS *ews) :
 		ref(1),
 		mpEWS(ews)
-    {}
+	{}
 
-    HRESULT WINAPI QueryInterface (REFIID iid, void ** ppv)
-    {
-        if (IsEqualIID (iid, IID_IUnknown) || IsEqualIID (iid, IID_IDispatch) || IsEqualIID (iid, IID_ISensNetwork)) {
-            *ppv = this;
-            AddRef();
-            return S_OK;
-        }
-        *ppv = NULL;
-        return E_NOINTERFACE;
-    }
+	HRESULT WINAPI QueryInterface (REFIID iid, void ** ppv)
+	{
+		if (IsEqualIID (iid, IID_IUnknown) || IsEqualIID (iid, IID_IDispatch) || IsEqualIID (iid, IID_ISensNetwork)) {
+			*ppv = this;
+			AddRef();
+			return S_OK;
+		}
+		*ppv = NULL;
+		return E_NOINTERFACE;
+	}
 
-    ULONG WINAPI AddRef ()
-    {
-        return InterlockedIncrement (&ref);
-    }
+	ULONG WINAPI AddRef ()
+	{
+		return InterlockedIncrement (&ref);
+	}
 
-    ULONG WINAPI Release ()
-    {
-        int tmp = InterlockedDecrement (&ref);
-        return tmp;
-    }
+	ULONG WINAPI Release ()
+	{
+		int tmp = InterlockedDecrement (&ref);
+		return tmp;
+	}
 
-    HRESULT WINAPI GetTypeInfoCount (unsigned FAR*)
-    {
-        return E_NOTIMPL;
-    }
+	HRESULT WINAPI GetTypeInfoCount (unsigned FAR*)
+	{
+		return E_NOTIMPL;
+	}
 
-    HRESULT WINAPI GetTypeInfo (unsigned, LCID, ITypeInfo FAR* FAR*)
-    {
-        return E_NOTIMPL;
-    }
+	HRESULT WINAPI GetTypeInfo (unsigned, LCID, ITypeInfo FAR* FAR*)
+	{
+		return E_NOTIMPL;
+	}
 
-    HRESULT WINAPI GetIDsOfNames (REFIID, OLECHAR FAR* FAR*, unsigned, LCID, DISPID FAR*)
-    {
-        return E_NOTIMPL;
-    }
+	HRESULT WINAPI GetIDsOfNames (REFIID, OLECHAR FAR* FAR*, unsigned, LCID, DISPID FAR*)
+	{
+		return E_NOTIMPL;
+	}
 
-    HRESULT WINAPI Invoke (DISPID, REFIID, LCID, WORD, DISPPARAMS FAR*, VARIANT FAR*, EXCEPINFO FAR*, unsigned FAR*)
-    {
-        return E_NOTIMPL;
-    }
+	HRESULT WINAPI Invoke (DISPID, REFIID, LCID, WORD, DISPPARAMS FAR*, VARIANT FAR*, EXCEPINFO FAR*, unsigned FAR*)
+	{
+		return E_NOTIMPL;
+	}
 
 // ISensNetwork methods:
-    virtual HRESULT WINAPI ConnectionMade (BSTR, ULONG ulType, LPSENS_QOCINFO)
-    {
+	virtual HRESULT WINAPI ConnectionMade (BSTR, ULONG ulType, LPSENS_QOCINFO)
+	{
 		if (ulType) {
 			EShell *shell = windows_sens_get_shell (mpEWS);
 			e_shell_set_network_available (shell, TRUE);
@@ -133,14 +141,14 @@ public:
 		return S_OK;
 	}
 
-    virtual HRESULT WINAPI ConnectionMadeNoQOCInfo (BSTR, ULONG)
-    {
+	virtual HRESULT WINAPI ConnectionMadeNoQOCInfo (BSTR, ULONG)
+	{
 		//Always followed by ConnectionMade
 		return S_OK;
 	}
 
-    virtual HRESULT WINAPI ConnectionLost (BSTR, ULONG ulType)
-    {
+	virtual HRESULT WINAPI ConnectionLost (BSTR, ULONG ulType)
+	{
 		if (ulType) {
 			EShell *shell = windows_sens_get_shell (mpEWS);
 			e_shell_set_network_available (shell, FALSE);
@@ -148,19 +156,19 @@ public:
 		return S_OK;
 	}
 
-    virtual HRESULT WINAPI DestinationReachable(BSTR, BSTR , ULONG ulType, LPSENS_QOCINFO)
-    {
+	virtual HRESULT WINAPI DestinationReachable (BSTR, BSTR , ULONG ulType, LPSENS_QOCINFO)
+	{
 		if (ulType) {
 			EShell *shell = windows_sens_get_shell (mpEWS);
 			e_shell_set_network_available (shell, TRUE);
 		}
 		return S_OK;
-    }
+	}
 
-    virtual HRESULT WINAPI DestinationReachableNoQOCInfo(BSTR bstrDestination,BSTR bstrConnection,ULONG ulType)
-    {
-        return S_OK;
-    }
+	virtual HRESULT WINAPI DestinationReachableNoQOCInfo (BSTR, BSTR, ULONG)
+	{
+		return S_OK;
+	}
 };
 
 /* 4E14FB9F-2E22-11D1-9964-00C04FBBB345 */
@@ -183,61 +191,75 @@ windows_sens_constructed (GObject *object)
 {
 	static IEventSystem *pIEventSystem =0;
 	static IEventSubscription* pIEventSubscription = 0;
-	WCHAR buffer[64];
 	static const char* eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
-    static const char* methods[]={"ConnectionMade","ConnectionMadeNoQOCInfo","ConnectionLost","DestinationReachable","DestinationReachableNoQOCInfo"};
-    static const char* names[]={"EWS_ConnectionMade","EWS_ConnectionMadeNoQOCInfo","EWS_ConnectionLost","EWS_DestinationReachable","EWS_DestinationReachableNoQOCInfo"};
-    static const char* subids[]={"{cd1dcbd6-a14d-4823-a0d2-8473afde360f}","{a82f0e80-1305-400c-ba56-375ae04264a1}","{45233130-b6c3-44fb-a6af-487c47cee611}",
+	static const char* methods[]={"ConnectionMade","ConnectionMadeNoQOCInfo","ConnectionLost","DestinationReachable","DestinationReachableNoQOCInfo"};
+	static const char* names[]={"EWS_ConnectionMade","EWS_ConnectionMadeNoQOCInfo","EWS_ConnectionLost","EWS_DestinationReachable","EWS_DestinationReachableNoQOCInfo"};
+	static const char* subids[]={"{cd1dcbd6-a14d-4823-a0d2-8473afde360f}","{a82f0e80-1305-400c-ba56-375ae04264a1}","{45233130-b6c3-44fb-a6af-487c47cee611}",
 								 "{51377df7-1d29-49eb-af32-4fff77b059fb}","{d16830d3-7a3a-4240-994b-a1fa344385dd}"};
 
 	EWindowsSENS *extension = (E_WINDOWS_SENS (object));
-	static MySensNetwork *pISensNetwork = new MySensNetwork (extension);
+	static SensNetwork_Listener *pISensNetwork = new SensNetwork_Listener (extension);
 
 	CoInitialize(0);
 
 	HRESULT res=CoCreateInstance (CLSID_CEventSystem, 0,CLSCTX_SERVER,IID_IEventSystem,(void**)&pIEventSystem);
 
-	for (unsigned i=0; i<NUM_ELEMENTS(methods); i++)
-	{
-		res=CoCreateInstance (CLSID_CEventSubscription, 0, CLSCTX_SERVER, IID_IEventSubscription, (LPVOID*)&pIEventSubscription);
-		MultiByteToWideChar (0, 0, eventclassid, -1, buffer, 64);
-		res=pIEventSubscription->put_EventClassID (buffer);
-		res=pIEventSubscription->put_SubscriberInterface ((IUnknown*)pISensNetwork);
-		MultiByteToWideChar (0, 0, methods[i], -1, buffer, 64);
-		res=pIEventSubscription->put_MethodName (buffer);
-		MultiByteToWideChar (0, 0, names[i], -1, buffer, 64);
-		res=pIEventSubscription->put_SubscriptionName (buffer);
-		MultiByteToWideChar (0, 0, subids[i], -1, buffer, 64);
-		res=pIEventSubscription->put_SubscriptionID (buffer);
+	if (res == S_OK && pIEventSystem) {
 
-		/* Make the subscription receive the event only if the ownerof the subscription
-		 * is logged on to the same computer as the publisher. This makes this module
-		 * work on Windows Vista and Windows 7 with normal user account.
-		 */
-		res=pIEventSubscription->put_PerUser(TRUE);
+		for (unsigned i=0; i<NUM_ELEMENTS(methods); i++) {
 
-		res=pIEventSystem->Store (PROGID_EventSubscription, (IUnknown*)pIEventSubscription);
-		pIEventSubscription->Release ();
-		pIEventSubscription=0;
+			res=CoCreateInstance (CLSID_CEventSubscription, 0, CLSCTX_SERVER, IID_IEventSubscription, (LPVOID*)&pIEventSubscription);
+
+			if (res == S_OK && pIEventSubscription) {
+				if ((res=pIEventSubscription->put_EventClassID (_mb2wchar (eventclassid))))
+					break;
+				if ((res=pIEventSubscription->put_SubscriberInterface ((IUnknown*)pISensNetwork)))
+					break;
+				if ((res=pIEventSubscription->put_MethodName (_mb2wchar (methods[i]))))
+					break;
+				if ((res=pIEventSubscription->put_SubscriptionName (_mb2wchar (names[i]))))
+					break;
+				if ((res=pIEventSubscription->put_SubscriptionID (_mb2wchar (subids[i]))))
+					break;
+				/* Make the subscription receive the event only if the owner of the subscription
+				 * is logged on to the same computer as the publisher. This makes this module
+				 * work with normal user account without administrative privileges.
+				 */
+				if ((res=pIEventSubscription->put_PerUser(TRUE)))
+					break;
+
+				if ((res=pIEventSystem->Store ((BSTR)PROGID_EventSubscription, (IUnknown*)pIEventSubscription)))
+					break;
+				pIEventSubscription->Release ();
+				pIEventSubscription=0;
+			}
+		}
 	}
+	
+	/* Do not try to get initial state when we are sure we will not get system events.
+	 * Like that we don't get stuck with Disconnected status if we were disconnected
+	 * on start.
+	 */
+	if (res == S_OK) {
 
-	typedef BOOL (WINAPI* IsNetworkAlive_t) (LPDWORD);
+		typedef BOOL (WINAPI* IsNetworkAlive_t) (LPDWORD);
 
-	IsNetworkAlive_t pIsNetworkAlive = NULL;
+		IsNetworkAlive_t pIsNetworkAlive = NULL;
 
-	HMODULE hDLL=LoadLibrary ("sensapi.dll");
+		HMODULE hDLL=LoadLibrary ("sensapi.dll");
 
-	BOOL alive = TRUE;
-	if ((pIsNetworkAlive=(IsNetworkAlive_t) GetProcAddress (hDLL, "IsNetworkAlive"))) {
-		DWORD Network;
-		alive=pIsNetworkAlive (&Network);
+		BOOL alive = TRUE;
+		if ((pIsNetworkAlive=(IsNetworkAlive_t) GetProcAddress (hDLL, "IsNetworkAlive"))) {
+			DWORD Network;
+			alive=pIsNetworkAlive (&Network);
+		}
+
+		FreeLibrary(hDLL);
+
+		EShell *shell = windows_sens_get_shell (extension);
+
+		e_shell_set_network_available (shell, alive);
 	}
-
-	FreeLibrary(hDLL);
-
-	EShell *shell = windows_sens_get_shell (extension);
-
-	e_shell_set_network_available (shell, alive);
 }
 
 static void
@@ -256,7 +278,6 @@ e_windows_sens_class_init (EWindowsSENSClass *_class)
 static void
 e_windows_sens_class_finalize (EWindowsSENSClass *_class)
 {
-	CoUninitialize();
 }
 
 static void
