@@ -24,8 +24,8 @@ extern "C" {
 #include <windows.h>
 #include <eventsys.h>
 #include <sensevts.h>
+#include <rpc.h>
 #include <stdio.h>
-
 
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
@@ -194,8 +194,6 @@ windows_sens_constructed (GObject *object)
 	static const char* eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
 	static const char* methods[]={"ConnectionMade","ConnectionMadeNoQOCInfo","ConnectionLost","DestinationReachable","DestinationReachableNoQOCInfo"};
 	static const char* names[]={"EWS_ConnectionMade","EWS_ConnectionMadeNoQOCInfo","EWS_ConnectionLost","EWS_DestinationReachable","EWS_DestinationReachableNoQOCInfo"};
-	static const char* subids[]={"{cd1dcbd6-a14d-4823-a0d2-8473afde360f}","{a82f0e80-1305-400c-ba56-375ae04264a1}","{45233130-b6c3-44fb-a6af-487c47cee611}",
-								 "{51377df7-1d29-49eb-af32-4fff77b059fb}","{d16830d3-7a3a-4240-994b-a1fa344385dd}"};
 
 	EWindowsSENS *extension = (E_WINDOWS_SENS (object));
 	static SensNetwork_Listener *pISensNetwork = new SensNetwork_Listener (extension);
@@ -211,15 +209,22 @@ windows_sens_constructed (GObject *object)
 			res=CoCreateInstance (CLSID_CEventSubscription, 0, CLSCTX_SERVER, IID_IEventSubscription, (LPVOID*)&pIEventSubscription);
 
 			if (res == S_OK && pIEventSubscription) {
-				if ((res=pIEventSubscription->put_EventClassID (_mb2wchar (eventclassid))))
+				unsigned char *subid;
+				UUID tmp_uuid;
+				UuidCreate(&tmp_uuid);
+				UuidToString(&tmp_uuid, &subid);
+				if ((res=pIEventSubscription->put_SubscriptionID (_mb2wchar ((char*)subid)))) {
+					RpcStringFree(&subid);
 					break;
-				if ((res=pIEventSubscription->put_SubscriberInterface ((IUnknown*)pISensNetwork)))
+				}
+				RpcStringFree(&subid);
+				if ((res=pIEventSubscription->put_SubscriptionName (_mb2wchar (names[i]))))
 					break;
 				if ((res=pIEventSubscription->put_MethodName (_mb2wchar (methods[i]))))
 					break;
-				if ((res=pIEventSubscription->put_SubscriptionName (_mb2wchar (names[i]))))
+				if ((res=pIEventSubscription->put_EventClassID (_mb2wchar (eventclassid))))
 					break;
-				if ((res=pIEventSubscription->put_SubscriptionID (_mb2wchar (subids[i]))))
+				if ((res=pIEventSubscription->put_SubscriberInterface ((IUnknown*)pISensNetwork)))
 					break;
 				/* Make the subscription receive the event only if the owner of the subscription
 				 * is logged on to the same computer as the publisher. This makes this module
@@ -234,6 +239,8 @@ windows_sens_constructed (GObject *object)
 				pIEventSubscription=0;
 			}
 		}
+		if (pIEventSubscription)
+		pIEventSubscription->Release();
 	}
 	
 	/* Do not try to get initial state when we are sure we will not get system events.
