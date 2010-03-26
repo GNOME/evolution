@@ -68,22 +68,18 @@ struct _EShellContentClass {
 
 	/* Methods */
 	guint32		(*check_state)		(EShellContent *shell_content);
-	gchar *		(*get_search_name)	(EShellContent *shell_content);
-
-	/* This is a protected method.  Not for public use. */
-	GtkWidget *	(*construct_searchbar)	(EShellContent *shell_content);
 };
 
 GType		e_shell_content_get_type	(void);
 GtkWidget *	e_shell_content_new		(struct _EShellView *shell_view);
-GtkWidget *	e_shell_content_get_searchbar	(EShellContent *shell_content);
+void		e_shell_content_set_searchbar	(EShellContent *shell_content,
+						 GtkWidget *searchbar);
 guint32		e_shell_content_check_state	(EShellContent *shell_content);
 struct _EShellView *
 		e_shell_content_get_shell_view	(EShellContent *shell_content);
 const gchar *	e_shell_content_get_view_id	(EShellContent *shell_content);
 void		e_shell_content_set_view_id	(EShellContent *shell_content,
 						 const gchar *view_id);
-gchar *		e_shell_content_get_search_name	(EShellContent *shell_content);
 void		e_shell_content_run_advanced_search_dialog
 						(EShellContent *shell_content);
 void		e_shell_content_run_edit_searches_dialog

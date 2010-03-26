@@ -349,17 +349,21 @@ static GtkWidget *
 shell_window_construct_toolbar (EShellWindow *shell_window)
 {
 	GtkUIManager *ui_manager;
-	GtkWidget *main_toolbar;
+	GtkWidget *toolbar;
+	GtkWidget *box;
 	GtkToolItem *item;
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
-	main_toolbar = e_shell_window_get_managed_widget (
-		shell_window, "/main-toolbar");
+	box = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (box);
 
 	e_binding_new (
 		shell_window, "toolbar-visible",
-		main_toolbar, "visible");
+		box, "visible");
+
+	toolbar = e_shell_window_get_managed_widget (
+		shell_window, "/main-toolbar");
 
 	/* XXX Having this separator in the UI definition doesn't work
 	 *     because GtkUIManager is unaware of the "New" button, so
@@ -372,7 +376,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	 *     convinced having it proxy some new type of GtkAction
 	 *     is worth the extra effort. */
 	item = gtk_separator_tool_item_new ();
-	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, 0);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, 0);
 	gtk_widget_show (GTK_WIDGET (item));
 
 	item = e_menu_tool_button_new (_("New"));
@@ -381,7 +385,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 		GTK_WIDGET (item), "clicked",
 		gtk_ui_manager_get_accel_group (ui_manager),
 		GDK_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, 0);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, 0);
 	gtk_widget_show (GTK_WIDGET (item));
 
 	g_signal_connect (
@@ -389,7 +393,14 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 		G_CALLBACK (shell_window_toolbar_update_new_menu),
 		GTK_MENU_TOOL_BUTTON (item));
 
-	return main_toolbar;
+	gtk_box_pack_start (GTK_BOX (box), toolbar, TRUE, TRUE, 0);
+
+	toolbar = e_shell_window_get_managed_widget (
+		shell_window, "/search-toolbar");
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
+	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
+
+	return box;
 }
 
 static GtkWidget *

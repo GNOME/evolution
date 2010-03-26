@@ -30,6 +30,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
@@ -38,12 +39,14 @@
 #include "e-util/e-util.h"
 #include "filter/e-rule-context.h"
 
+#include "e-shell-searchbar.h"
 #include "e-shell-window-actions.h"
 
 #define E_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
 
+#define SIMPLE_SEARCHBAR_WIDTH 300
 #define STATE_SAVE_TIMEOUT_SECONDS 3
 
 struct _EShellViewPrivate {
@@ -64,6 +67,7 @@ struct _EShellViewPrivate {
 	GtkWidget *shell_content;
 	GtkWidget *shell_sidebar;
 	GtkWidget *shell_taskbar;
+	GtkWidget *searchbar;
 
 	EFilterRule *search_rule;
 	guint execute_search_blocked;
@@ -73,6 +77,7 @@ enum {
 	PROP_0,
 	PROP_ACTION,
 	PROP_PAGE_NUM,
+	PROP_SEARCHBAR,
 	PROP_SEARCH_RULE,
 	PROP_SHELL_BACKEND,
 	PROP_SHELL_CONTENT,
@@ -349,8 +354,9 @@ shell_view_set_action (EShellView *shell_view,
 
 static void
 shell_view_set_shell_window (EShellView *shell_view,
-                             GtkWidget *shell_window)
+                             EShellWindow *shell_window)
 {
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (shell_view->priv->shell_window == NULL);
 
 	shell_view->priv->shell_window = shell_window;
@@ -423,6 +429,12 @@ shell_view_get_property (GObject *object,
 		case PROP_PAGE_NUM:
 			g_value_set_int (
 				value, e_shell_view_get_page_num (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_SEARCHBAR:
+			g_value_set_object (
+				value, e_shell_view_get_searchbar (
 				E_SHELL_VIEW (object)));
 			return;
 
@@ -526,6 +538,11 @@ shell_view_dispose (GObject *object)
 		priv->shell_taskbar = NULL;
 	}
 
+	if (priv->searchbar != NULL) {
+		g_object_unref (priv->searchbar);
+		priv->searchbar = NULL;
+	}
+
 	if (priv->search_rule != NULL) {
 		g_object_unref (priv->search_rule);
 		priv->search_rule = NULL;
@@ -579,11 +596,86 @@ shell_view_constructed (GObject *object)
 	shell_view->priv->shell_sidebar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
+	if (shell_view_class->construct_searchbar != NULL) {
+		widget = shell_view_class->construct_searchbar (shell_view);
+		shell_view->priv->searchbar = g_object_ref_sink (widget);
+	}
+
 	/* Size group should be safe to unreference now. */
 	g_object_unref (shell_view->priv->size_group);
 	shell_view->priv->size_group = NULL;
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static GtkWidget *
+shell_view_construct_searchbar (EShellView *shell_view)
+{
+	EShell *shell;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EShellSearchbar *shell_searchbar;
+	GtkToolItem *item;
+	GtkAction *action;
+	GtkWidget *main_toolbar;
+	GtkWidget *widget;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+
+	widget = e_shell_searchbar_new (shell_view);
+
+	/* In normal mode, we hand the searchbar off to EShellContent. */
+	if (!e_shell_get_express_mode (shell)) {
+		e_shell_content_set_searchbar (shell_content, widget);
+		gtk_widget_show (widget);
+		return widget;
+	}
+
+	/* Express mode is more complicated.  We append a heavily simplified
+	 * version of it to the main toolbar, but only show it when this shell
+	 * view is active.  So each view still gets its own searchbar. */
+
+	shell_searchbar = E_SHELL_SEARCHBAR (widget);
+	e_shell_searchbar_set_express_mode (shell_searchbar, TRUE);
+
+	/* XXX Hardcoded sizes are evil, but what should the width be
+	 *     relative to.  Window width?  The other toolbar width? */
+	gtk_widget_set_size_request (widget, SIMPLE_SEARCHBAR_WIDTH, -1);
+
+	main_toolbar = e_shell_window_get_managed_widget (
+		shell_window, "/search-toolbar");
+
+	item = gtk_tool_item_new ();
+	gtk_container_add (GTK_CONTAINER (item), widget);
+	gtk_widget_show (GTK_WIDGET (item));
+
+	action = e_shell_view_get_action (shell_view);
+	e_binding_new (action, "active", widget, "visible");
+
+	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, -1);
+
+	return widget;
+}
+
+static gchar *
+shell_view_get_search_name (EShellView *shell_view)
+{
+	EShellSearchbar *searchbar;
+	EFilterRule *rule;
+	const gchar *search_text;
+
+	rule = e_shell_view_get_search_rule (shell_view);
+	g_return_val_if_fail (E_IS_FILTER_RULE (rule), NULL);
+
+	searchbar = E_SHELL_SEARCHBAR (shell_view->priv->searchbar);
+	search_text = e_shell_searchbar_get_search_text (searchbar);
+
+	if (search_text == NULL || *search_text == '\0')
+		search_text = "''";
+
+	return g_strdup_printf ("%s %s", rule->name, search_text);
 }
 
 static void
@@ -665,6 +757,9 @@ shell_view_class_init (EShellViewClass *class)
 	class->new_shell_content = e_shell_content_new;
 	class->new_shell_sidebar = e_shell_sidebar_new;
 	class->new_shell_taskbar = e_shell_taskbar_new;
+
+	class->construct_searchbar = shell_view_construct_searchbar;
+	class->get_search_name = shell_view_get_search_name;
 
 	class->toggled = shell_view_toggled;
 	class->clear_search = shell_view_clear_search;
@@ -1213,6 +1308,29 @@ e_shell_view_set_page_num (EShellView *shell_view,
 }
 
 /**
+ * e_shell_view_get_search_name:
+ * @shell_view: an #EShellView
+ *
+ * Returns a newly-allocated string containing a suitable name for the
+ * current search criteria.  This is used as the suggested name in the
+ * Save Search dialog.  Free the returned string with g_free().
+ *
+ * Returns: a name for the current search criteria
+ **/
+gchar *
+e_shell_view_get_search_name (EShellView *shell_view)
+{
+	EShellViewClass *class;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (class->get_search_name != NULL, NULL);
+
+	return class->get_search_name (shell_view);
+}
+
+/**
  * e_shell_view_get_search_rule:
  * @shell_view: an #EShellView
  *
@@ -1226,6 +1344,20 @@ e_shell_view_get_search_rule (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->search_rule;
+}
+
+/**
+ * e_shell_view_get_searchbar:
+ * @shell_view: an #EShellView
+ *
+ * Returns the searchbar widget for @shell_view.
+ **/
+GtkWidget *
+e_shell_view_get_searchbar (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->searchbar;
 }
 
 /**

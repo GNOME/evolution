@@ -23,6 +23,11 @@ EShellSearchbar
 </para>
 
 
+<!-- ##### ARG EShellSearchbar:express-mode ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellSearchbar:filter-combo-box ##### -->
 <para>
 
@@ -33,7 +38,7 @@ EShellSearchbar
 
 </para>
 
-<!-- ##### ARG EShellSearchbar:label-visible ##### -->
+<!-- ##### ARG EShellSearchbar:labels-visible ##### -->
 <para>
 
 </para>
@@ -96,6 +101,24 @@ EShellSearchbar
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_searchbar_get_express_mode ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_searchbar_set_express_mode ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@express_mode: 
+
+
 <!-- ##### FUNCTION e_shell_searchbar_get_filter_combo_box ##### -->
 <para>
 
@@ -123,7 +146,7 @@ EShellSearchbar
 @filter_visible: 
 
 
-<!-- ##### FUNCTION e_shell_searchbar_get_label_visible ##### -->
+<!-- ##### FUNCTION e_shell_searchbar_get_labels_visible ##### -->
 <para>
 
 </para>
@@ -132,13 +155,13 @@ EShellSearchbar
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_searchbar_set_label_visible ##### -->
+<!-- ##### FUNCTION e_shell_searchbar_set_labels_visible ##### -->
 <para>
 
 </para>
 
 @searchbar: 
-@label_visible: 
+@labels_visible: 
 
 
 <!-- ##### FUNCTION e_shell_searchbar_get_search_hint ##### -->

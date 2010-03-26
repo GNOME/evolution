@@ -70,12 +70,11 @@ EShellBackendPrivate
 <TITLE>EShellContent</TITLE>
 EShellContent
 e_shell_content_new
-e_shell_content_get_searchbar
+e_shell_content_set_searchbar
 e_shell_content_check_state
 e_shell_content_get_shell_view
 e_shell_content_get_view_id
 e_shell_content_set_view_id
-e_shell_content_get_search_name
 e_shell_content_run_advanced_search_dialog
 e_shell_content_run_edit_searches_dialog
 e_shell_content_run_save_search_dialog
@@ -98,11 +97,13 @@ EShellContentPrivate
 EShellSearchbar
 e_shell_searchbar_new
 e_shell_searchbar_get_shell_view
+e_shell_searchbar_get_express_mode
+e_shell_searchbar_set_express_mode
 e_shell_searchbar_get_filter_combo_box
 e_shell_searchbar_get_filter_visible
 e_shell_searchbar_set_filter_visible
-e_shell_searchbar_get_label_visible
-e_shell_searchbar_set_label_visible
+e_shell_searchbar_get_labels_visible
+e_shell_searchbar_set_labels_visible
 e_shell_searchbar_get_search_hint
 e_shell_searchbar_set_search_hint
 e_shell_searchbar_get_search_option
@@ -260,6 +261,8 @@ e_shell_view_set_view_id
 e_shell_view_is_active
 e_shell_view_get_page_num
 e_shell_view_set_page_num
+e_shell_view_get_searchbar
+e_shell_view_get_search_name
 e_shell_view_get_search_rule
 e_shell_view_set_search_rule
 e_shell_view_get_search_query
@@ -645,7 +648,7 @@ e_run_signature_script
 <FILE>e-util</FILE>
 <TITLE>Miscellaneous Utilities</TITLE>
 e_get_user_data_dir
-e_get_gnome_user_dir
+e_get_gnome2_user_dir
 e_get_accels_filename
 e_show_uri
 e_display_help

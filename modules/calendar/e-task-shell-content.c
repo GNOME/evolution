@@ -752,6 +752,7 @@ e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
 EShellSearchbar *
 e_task_shell_content_get_searchbar (ETaskShellContent *task_shell_content)
 {
+	EShellView *shell_view;
 	EShellContent *shell_content;
 	GtkWidget *widget;
 
@@ -759,7 +760,8 @@ e_task_shell_content_get_searchbar (ETaskShellContent *task_shell_content)
 		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
 	shell_content = E_SHELL_CONTENT (task_shell_content);
-	widget = e_shell_content_get_searchbar (shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	widget = e_shell_view_get_searchbar (shell_view);
 
 	return E_SHELL_SEARCHBAR (widget);
 }
