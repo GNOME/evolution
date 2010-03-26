@@ -1787,28 +1787,6 @@ mail_reader_message_read_cb (EMailReader *reader)
 }
 
 static void
-update_webview_content (EMailReader *reader, const gchar *content)
-{
-	EMFormatHTMLDisplay *html_display;
-	EWebView *web_view;
-
-	g_return_if_fail (reader != NULL);
-	g_return_if_fail (content != NULL);
-
-	html_display = e_mail_reader_get_html_display (reader);
-	g_return_if_fail (html_display != NULL);
-
-	/* skip the progress message when it's formatting something */
-	if (em_format_busy (EM_FORMAT (html_display)))
-		return;
-
-	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
-	g_return_if_fail (web_view != NULL);
-
-	e_web_view_load_string (web_view, content);
-}
-
-static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
                                const gchar *message_uid,
                                CamelMimeMessage *message,
@@ -1822,6 +1800,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EShell *shell;
+	EWebView *web_view;
 	EMEvent *event;
 	EMEventTargetMessage *target;
 	const gchar *cursor_uid;
@@ -1838,6 +1817,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 	/* If the user picked a different message in the time it took
 	 * to fetch this message, then don't bother rendering it. */
@@ -1897,10 +1878,11 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 					_("Unable to retrieve message"),
 					ex->desc);
 		} else {
-			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
+			string = g_strdup_printf (
+				_("Retrieving message '%s'"), cursor_uid);
 		}
 
-		update_webview_content (reader, string);
+		e_web_view_load_string (web_view, string);
 		g_free (string);
 
 		camel_exception_clear (ex);
@@ -1919,6 +1901,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	EMailReaderPrivate *priv;
 	EMFormatHTMLDisplay *html_display;
 	GtkWidget *message_list;
+	EWebView *web_view;
 	CamelFolder *folder;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
@@ -1931,6 +1914,8 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
 	format_uid = EM_FORMAT (html_display)->uid;
+
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 	if (MESSAGE_LIST (message_list)->last_sel_single) {
 		GtkWidget *widget;
@@ -1954,8 +1939,9 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			gboolean store_async;
 			MailMsgDispatchFunc disp_func;
 
-			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
-			update_webview_content (reader, string);
+			string = g_strdup_printf (
+				_("Retrieving message '%s'"), cursor_uid);
+			e_web_view_load_string (web_view, string);
 			g_free (string);
 
 			store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
