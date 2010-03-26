@@ -2655,12 +2655,22 @@ sensitize_all (EContactEditor *editor)
 static void
 init_all (EContactEditor *editor)
 {
+	GtkRequisition tab_req;
+
 	init_simple   (editor);
 	init_email    (editor);
 	init_phone    (editor);
 	init_im       (editor);
 	init_personal (editor);
 	init_address  (editor);
+
+	/* with so many scrolled windows, we need to
+	   do some manual sizing */
+	gtk_widget_size_request (
+		e_builder_get_widget (editor->builder, "vbox-size-leader"), &tab_req);
+	gtk_widget_set_size_request (
+		e_builder_get_widget (editor->builder, "scrolledwindow-size-leader"),
+		tab_req.width, tab_req.height);
 }
 
 static void

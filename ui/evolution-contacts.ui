@@ -7,8 +7,10 @@
         <menuitem action='address-book-save-as'/>
       </placeholder>
       <placeholder name='print-actions'>
+#if !EXPRESS
         <menuitem action='address-book-print-preview'/>
         <menuitem action='address-book-print'/>
+#endif
       </placeholder>
     </menu>
     <menu action='edit-menu'>
@@ -49,8 +51,8 @@
 #if !EXPRESS
     <toolitem action='send-receive'/>
     <separator/>
-#endif
     <toolitem action='address-book-print'/>
+#endif
     <toolitem action='delete-selection'/>
     <toolitem action='address-book-stop'/>
   </toolbar>
