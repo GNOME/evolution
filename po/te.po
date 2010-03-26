@@ -2831,7 +2831,7 @@ msgstr "ఈ కర్తవ్యాలలోని సమాచారం అం
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr "All information on this appointment will be deleted and can not be restored."
+msgstr "ఈ నియామకము పైని సమాచారము అంతా తొలగించబడును మరియు తిరిగినిల్వచేయబడదు."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "All information on this meeting will be deleted and can not be restored."
@@ -4516,7 +4516,8 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgstr "<i>%u మరియు %d ఈ మెయిల్ చిరునామా నుండి వినియోగదారుడు మరియు అధికారక్షేత్రము చేత పునః"
+"స్థాపించబడతాయి.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Alarms</span>"
