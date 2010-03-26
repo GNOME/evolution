@@ -1,31 +1,27 @@
 <?xml version="1.0"?>
 <interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires evolution 0.0 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">9999</property>
-    <property name="lower">0</property>
-    <property name="page_increment">10</property>
     <property name="step_increment">1</property>
-    <property name="page_size">0</property>
-    <property name="value">0</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment2">
     <property name="upper">9999</property>
-    <property name="lower">0</property>
-    <property name="page_increment">10</property>
     <property name="step_increment">1</property>
-    <property name="page_size">0</property>
-    <property name="value">0</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
-    <property name="upper">9999</property>
-    <property name="lower">0</property>
-    <property name="page_increment">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_size">0</property>
     <property name="value">1</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -54,6 +50,7 @@
   </object>
   <object class="GtkListStore" id="model2">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -70,6 +67,7 @@
   </object>
   <object class="GtkListStore" id="model3">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -86,6 +84,7 @@
   </object>
   <object class="GtkListStore" id="model4">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -108,6 +107,7 @@
   </object>
   <object class="GtkListStore" id="model5">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -122,8 +122,6 @@
       </row>
     </data>
   </object>
-  <!-- interface-requires gtk+ 2.16 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkNotebook" id="toplevel-notebook">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -164,7 +162,7 @@
             <child>
               <object class="GtkTable" id="time">
                 <property name="visible">True</property>
-                <property name="n_rows">5</property>
+                <property name="n_rows">4</property>
                 <property name="n_columns">2</property>
                 <property name="column_spacing">6</property>
                 <property name="row_spacing">6</property>
@@ -177,10 +175,10 @@
                     <property name="mnemonic_widget">day_second_zone</property>
                   </object>
                   <packing>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -214,8 +212,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
@@ -227,10 +225,10 @@
                     <property name="label" translatable="yes">Time format:</property>
                   </object>
                   <packing>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -272,8 +270,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
@@ -282,7 +280,7 @@
                   <object class="ETimezoneEntry" id="timezone">
                     <property name="visible">True</property>
                     <accessibility>
-                      <relation target="timezone_label" type="labelled-by"/>
+                      <relation type="labelled-by" target="timezone_label"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -303,7 +301,7 @@
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -341,9 +339,6 @@
                     <property name="right_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -399,13 +394,13 @@
                   <object class="GtkLabel" id="label12">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property comments="A weekday like &quot;Monday&quot; follows" name="label" translatable="yes">Wee_k starts on:</property>
+                    <property name="label" translatable="yes" comments="A weekday like &quot;Monday&quot; follows">Wee_k starts on:</property>
                     <property name="use_underline">True</property>
                     <property name="mnemonic_widget">week_start_day</property>
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -418,7 +413,7 @@
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -433,7 +428,7 @@
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -448,13 +443,13 @@
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"/>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
                   <object class="EDateEdit" id="start_of_day">
-                    <property name="show-date">False</property>
                     <property name="visible">True</property>
+                    <property name="show_date">False</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -466,8 +461,8 @@
                 </child>
                 <child>
                   <object class="EDateEdit" id="end_of_day">
-                    <property name="show-date">False</property>
                     <property name="visible">True</property>
+                    <property name="show_date">False</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -484,17 +479,14 @@
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="mon_button">
-                        <property comments="Monday" name="label" translatable="yes">_Mon</property>
+                        <property name="label" translatable="yes" comments="Monday">_Mon</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-mon_button1">
+                          <object class="AtkObject" id="mon_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Monday</property>
                           </object>
                         </child>
@@ -507,17 +499,14 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="tue_button">
-                        <property comments="Tuesday" name="label" translatable="yes">_Tue</property>
+                        <property name="label" translatable="yes" comments="Tuesday">_Tue</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-tue_button1">
+                          <object class="AtkObject" id="tue_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Tuesday</property>
                           </object>
                         </child>
@@ -530,17 +519,14 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="wed_button">
-                        <property comments="Wednesday" name="label" translatable="yes">_Wed</property>
+                        <property name="label" translatable="yes" comments="Wednesday">_Wed</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-wed_button1">
+                          <object class="AtkObject" id="wed_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Wednesday</property>
                           </object>
                         </child>
@@ -553,17 +539,14 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="thu_button">
-                        <property comments="Thursday" name="label" translatable="yes">T_hu</property>
+                        <property name="label" translatable="yes" comments="Thursday">T_hu</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-thu_button1">
+                          <object class="AtkObject" id="thu_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Thursday</property>
                           </object>
                         </child>
@@ -576,17 +559,14 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="fri_button">
-                        <property comments="Friday" name="label" translatable="yes">_Fri</property>
+                        <property name="label" translatable="yes" comments="Friday">_Fri</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-fri_button1">
+                          <object class="AtkObject" id="fri_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Friday</property>
                           </object>
                         </child>
@@ -599,17 +579,14 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="sat_button">
-                        <property comments="Saturday" name="label" translatable="yes">_Sat</property>
+                        <property name="label" translatable="yes" comments="Saturday">_Sat</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-sat_button1">
+                          <object class="AtkObject" id="sat_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Saturday</property>
                           </object>
                         </child>
@@ -622,17 +599,14 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="sun_button">
-                        <property comments="Sunday" name="label" translatable="yes">S_un</property>
+                        <property name="label" translatable="yes" comments="Sunday">S_un</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
-                        <accessibility>
-                          
-                        </accessibility>
                         <child internal-child="accessible">
-                          <object class="AtkObject" id="a11y-sun_button1">
+                          <object class="AtkObject" id="sun_button-atkobject">
                             <property name="AtkObject::accessible-name" translatable="yes">Sunday</property>
                           </object>
                         </child>
@@ -736,7 +710,7 @@
                     <property name="spacing">4</property>
                     <child>
                       <object class="GtkCheckButton" id="default_reminder">
-                        <property comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every appointment&quot;" name="label" translatable="yes">Sh_ow a reminder</property>
+                        <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every appointment&quot;">Sh_ow a reminder</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -778,7 +752,7 @@
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
-                        <property comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every appointment&quot;" name="label" translatable="yes">before every appointment</property>
+                        <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every appointment&quot;">before every appointment</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -797,7 +771,7 @@
                     <property name="spacing">4</property>
                     <child>
                       <object class="GtkCheckButton" id="ba_reminder">
-                        <property comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;" name="label" translatable="yes">Show a _reminder</property>
+                        <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;">Show a _reminder</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -839,7 +813,7 @@
                     <child>
                       <object class="GtkLabel" id="ba_reminder_label">
                         <property name="visible">True</property>
-                        <property comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;" name="label" translatable="yes">before every anniversary/birthday</property>
+                        <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;">before every anniversary/birthday</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1085,7 +1059,7 @@
                       </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"/>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
                     <child>
@@ -1100,7 +1074,7 @@
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"/>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
                     <child>
@@ -1113,8 +1087,8 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="x_options"/>
-                        <property name="y_options"/>
+                        <property name="x_options"></property>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
                     <child>
@@ -1129,8 +1103,8 @@
                         <property name="right_attach">2</property>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
-                        <property name="x_options"/>
-                        <property name="y_options"/>
+                        <property name="x_options"></property>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
                   </object>
@@ -1202,81 +1176,59 @@
         <child>
           <object class="GtkLabel" id="label65">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Date/Time Format</property>
-            <property name="use_underline">False</property>
-            <property name="justify">GTK_JUSTIFY_LEFT</property>
-            <property name="wrap">False</property>
-            <property name="selectable">False</property>
             <property name="xalign">0</property>
-            <property name="yalign">0.5</property>
-            <property name="xpad">0</property>
-            <property name="ypad">0</property>
-            <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
-            <property name="single_line_mode">False</property>
-            <property name="angle">0</property>
+            <property name="label" translatable="yes">Date/Time Format</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
           </object>
           <packing>
-            <property name="padding">0</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
           <object class="GtkHBox" id="hbox27">
             <property name="visible">True</property>
-            <property name="homogeneous">False</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkLabel" id="label66">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes"/>
-                <property name="use_underline">False</property>
-                <property name="use_markup">False</property>
-                <property name="justify">GTK_JUSTIFY_LEFT</property>
-                <property name="wrap">False</property>
-                <property name="selectable">False</property>
-                <property name="xalign">0.5</property>
-                <property name="yalign">0.5</property>
-                <property name="xpad">0</property>
-                <property name="ypad">0</property>
-                <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
-                <property name="single_line_mode">False</property>
-                <property name="angle">0</property>
               </object>
               <packing>
-                <property name="padding">0</property>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkTable" id="datetime_format_table">
                 <property name="visible">True</property>
-                <property name="n_rows">1</property>
                 <property name="n_columns">3</property>
-                <property name="homogeneous">False</property>
-                <property name="row_spacing">0</property>
-                <property name="column_spacing">0</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
-                <property name="padding">0</property>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="padding">0</property>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="position">5</property>
           </packing>
         </child>
       </object>
+      <packing>
+        <property name="position">1</property>
+      </packing>
     </child>
     <child type="tab">
       <object class="GtkLabel" id="label2">
@@ -1296,101 +1248,69 @@
         <child>
           <object class="GtkLabel" id="label67">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Alarms</property>
-            <property name="use_underline">False</property>
-            <property name="justify">GTK_JUSTIFY_LEFT</property>
-            <property name="wrap">False</property>
-            <property name="selectable">False</property>
             <property name="xalign">0</property>
-            <property name="yalign">0.5</property>
-            <property name="xpad">0</property>
-            <property name="ypad">0</property>
-            <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
-            <property name="single_line_mode">False</property>
-            <property name="angle">0</property>
+            <property name="label" translatable="yes">Alarms</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
           </object>
           <packing>
-            <property name="padding">0</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkAlignment" id="alignment1">
             <property name="visible">True</property>
-            <property name="xalign">0.5</property>
-            <property name="yalign">0.5</property>
-            <property name="xscale">1</property>
-            <property name="yscale">1</property>
-            <property name="top_padding">0</property>
-            <property name="bottom_padding">0</property>
             <property name="left_padding">10</property>
-            <property name="right_padding">0</property>
             <child>
               <object class="GtkCheckButton" id="notify_with_tray">
+                <property name="label" translatable="yes">Display alarms in _notification area only</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="label" translatable="yes">Display alarms in _notification area only</property>
+                <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="relief">GTK_RELIEF_NORMAL</property>
-                <property name="focus_on_click">True</property>
-                <property name="active">False</property>
-                <property name="inconsistent">False</property>
                 <property name="draw_indicator">True</property>
               </object>
             </child>
           </object>
           <packing>
-            <property name="padding">0</property>
             <property name="expand">False</property>
-            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="label62">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Select the calendars for alarm notification</property>
-            <property name="use_underline">False</property>
-            <property name="use_markup">False</property>
-            <property name="justify">GTK_JUSTIFY_LEFT</property>
-            <property name="wrap">False</property>
-            <property name="selectable">False</property>
             <property name="xalign">0</property>
-            <property name="yalign">0.5</property>
-            <property name="xpad">0</property>
-            <property name="ypad">0</property>
-            <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
-            <property name="single_line_mode">False</property>
-            <property name="angle">0</property>
+            <property name="label" translatable="yes">Select the calendars for alarm notification</property>
           </object>
           <packing>
-            <property name="padding">0</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow" id="calendar-source-scrolled-window">
-             <property name="visible">True</property>
-             <property name="can_focus">True</property>
-             <property name="hscrollbar_policy">automatic</property>
-             <property name="vscrollbar_policy">automatic</property>
-             <property name="shadow_type">in</property>
-
-            <child><placeholder/></child>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
-            <property name="padding">0</property>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
+      <packing>
+        <property name="position">2</property>
+      </packing>
     </child>
     <child type="tab">
       <object class="GtkLabel" id="alarm-label">
@@ -1496,6 +1416,9 @@
           </packing>
         </child>
       </object>
+      <packing>
+        <property name="position">3</property>
+      </packing>
     </child>
     <child type="tab">
       <object class="GtkLabel" id="label3">
