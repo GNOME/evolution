@@ -857,6 +857,16 @@ web_view_extract_uri (EWebView *web_view,
 }
 
 static void
+web_view_load_string (EWebView *web_view,
+                      const gchar *string)
+{
+	if (string != NULL && *string != '\0')
+		gtk_html_load_from_string (GTK_HTML (web_view), string, -1);
+	else
+		e_web_view_clear (web_view);
+}
+
+static void
 web_view_copy_clipboard (EWebView *web_view)
 {
 	gtk_html_command (GTK_HTML (web_view), "copy");
@@ -1078,6 +1088,7 @@ e_web_view_class_init (EWebViewClass *class)
 	html_class->iframe_created = web_view_iframe_created;
 
 	class->extract_uri = web_view_extract_uri;
+	class->load_string = web_view_load_string;
 	class->copy_clipboard = web_view_copy_clipboard;
 	class->cut_clipboard = web_view_cut_clipboard;
 	class->paste_clipboard = web_view_paste_clipboard;
@@ -1435,12 +1446,14 @@ void
 e_web_view_load_string (EWebView *web_view,
                         const gchar *string)
 {
+	EWebViewClass *class;
+
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (string != NULL && *string != '\0')
-		gtk_html_load_from_string (GTK_HTML (web_view), string, -1);
-	else
-		e_web_view_clear (web_view);
+	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class->load_string != NULL);
+
+	class->load_string (web_view, string);
 }
 
 gboolean
