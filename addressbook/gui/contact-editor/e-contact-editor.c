@@ -1794,6 +1794,15 @@ sensitize_im (EContactEditor *editor)
 }
 
 static void
+init_personal (EContactEditor *editor)
+{
+	gtk_expander_set_expanded (
+		GTK_EXPANDER (e_builder_get_widget (editor->builder,
+						    "expander-personal-misc")),
+		!editor->compress_ui);
+}
+
+static void
 init_address_textview (EContactEditor *editor, gint record)
 {
 	gchar         *textview_name;
@@ -1840,6 +1849,11 @@ init_address (EContactEditor *editor)
 
 	for (i = 0; i < ADDRESS_SLOTS; i++)
 		init_address_record (editor, i);
+
+	gtk_expander_set_expanded (
+		GTK_EXPANDER (e_builder_get_widget (editor->builder,
+						    "expander-address-other")),
+		!editor->compress_ui);
 }
 
 static void
@@ -2641,11 +2655,12 @@ sensitize_all (EContactEditor *editor)
 static void
 init_all (EContactEditor *editor)
 {
-	init_simple  (editor);
-	init_email   (editor);
-	init_phone   (editor);
-	init_im      (editor);
-	init_address (editor);
+	init_simple   (editor);
+	init_email    (editor);
+	init_phone    (editor);
+	init_im       (editor);
+	init_personal (editor);
+	init_address  (editor);
 }
 
 static void

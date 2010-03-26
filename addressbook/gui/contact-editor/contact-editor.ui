@@ -1930,10 +1930,9 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFrame" id="frame69">
+                  <object class="GtkExpander" id="expander-personal-misc">
                     <property name="visible">True</property>
-                    <property name="label_xalign">0</property>
-                    <property name="label_yalign">0.5</property>
+                    <property name="can_focus">True</property>
                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <object class="GtkTable" id="table89">
@@ -2960,12 +2959,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFrame" id="frame78">
+                  <object class="GtkExpander" id="expander-address-other">
                     <property name="border_width">6</property>
                     <property name="visible">True</property>
-                    <property name="label_xalign">0</property>
-                    <property name="label_yalign">0.5</property>
-                    <property name="shadow_type">GTK_SHADOW_NONE</property>
+                    <property name="can_focus">True</property>
                     <child>
                       <object class="GtkAlignment" id="alignment7">
                         <property name="border_width">6</property>
