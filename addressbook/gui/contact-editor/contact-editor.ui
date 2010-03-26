@@ -1324,8 +1324,19 @@
                 <property name="angle">0</property>
               </object>
             </child>
+	    <child>
+              <object class="GtkScrolledWindow" id="scrolledwindow2">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
+	      <child>
+		<object class="GtkViewport" id="viewport2">
+		  <property name="visible">True</property>
+		  <property name="resize_mode">queue</property>
+
             <child>
-              <object class="GtkVBox" id="vbox35">
+              <object class="GtkVBox" id="vbox-size-leader">
                 <property name="border_width">12</property>
                 <property name="visible">True</property>
                 <property name="homogeneous">False</property>
@@ -2192,11 +2203,18 @@
                   </packing>
                 </child>
               </object>
+
+	      </child>
+	      </object>
+	      </child>
+
+	      </object>
               <packing>
                 <property name="tab_expand">False</property>
                 <property name="tab_fill">True</property>
               </packing>
             </child>
+
             <child type="tab">
               <object class="GtkLabel" id="label422">
                 <property name="visible">True</property>
