@@ -25,7 +25,6 @@ extern "C" {
 #include <eventsys.h>
 #include <sensevts.h>
 #include <rpc.h>
-#include <stdio.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
@@ -42,16 +41,16 @@ _mb2wchar (const char* a)
 
 static const char* add_curly_braces_to_uuid (const char* string_uuid)
 {
-	static char curly_braced_uuid_string[64];
-	unsigned i;
-	if (!string_uuid)
+	static char curlyBracedUuidString[64];
+	int i;
+	if (!stringUUID)
 		return NULL;
-	curly_braced_uuid_string[0]='{';
-	for (i=0; i<strlen(string_uuid) && i<60; i++)
-		curly_braced_uuid_string[i+1] = string_uuid[i];
-	curly_braced_uuid_string[i+1] = '}';
-	curly_braced_uuid_string[i+2] = '\0';
-	return curly_braced_uuid_string;
+	lstrcpy(curlyBracedUuidString,"{");
+	i = strlen(curlyBracedUuidString);
+	lstrcat(curlyBracedUuidString+i,stringUUID);
+	i = strlen(curlyBracedUuidString);
+	lstrcat(curlyBracedUuidString+i,"}");
+	return curlyBracedUuidString;
 }	
 	
 

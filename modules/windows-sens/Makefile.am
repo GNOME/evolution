@@ -6,7 +6,7 @@ libevolution_module_windows_sens_la_CPPFLAGS =		\
 	$(GNOME_PLATFORM_CFLAGS)
 
 libevolution_module_windows_sens_la_SOURCES =		\
-	evolution-windows-sens.cxx
+	evolution-windows-sens.c
 
 libevolution_module_windows_sens_la_LIBADD =			\
 	$(top_builddir)/shell/libeshell.la			\
