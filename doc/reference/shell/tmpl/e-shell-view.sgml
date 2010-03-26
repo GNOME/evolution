@@ -133,6 +133,8 @@ EShellView
 @new_shell_content: 
 @new_shell_sidebar: 
 @new_shell_taskbar: 
+@construct_searchbar: 
+@get_search_name: 
 @toggled: 
 @clear_search: 
 @custom_search: 
@@ -218,6 +220,24 @@ EShellView
 
 @shell_view: 
 @page_num: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_searchbar ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_search_name ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_view_get_search_rule ##### -->

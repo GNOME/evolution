@@ -37,13 +37,13 @@ EShellContent
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_content_get_searchbar ##### -->
+<!-- ##### FUNCTION e_shell_content_set_searchbar ##### -->
 <para>
 
 </para>
 
 @shell_content: 
-@Returns: 
+@searchbar: 
 
 
 <!-- ##### FUNCTION e_shell_content_check_state ##### -->
@@ -80,15 +80,6 @@ EShellContent
 
 @shell_content: 
 @view_id: 
-
-
-<!-- ##### FUNCTION e_shell_content_get_search_name ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_content_run_advanced_search_dialog ##### -->

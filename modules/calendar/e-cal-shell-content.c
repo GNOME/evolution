@@ -544,7 +544,6 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellContentPrivate));
@@ -555,10 +554,6 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 	object_class->dispose = cal_shell_content_dispose;
 	object_class->constructed = cal_shell_content_constructed;
 	
-	shell_content_class = E_SHELL_CONTENT_CLASS (class);
-	if(e_shell_get_express_mode(e_shell_get_default()))
-		shell_content_class->construct_searchbar = NULL;
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = cal_shell_content_map;
 
@@ -682,6 +677,7 @@ e_cal_shell_content_get_task_table (ECalShellContent *cal_shell_content)
 EShellSearchbar *
 e_cal_shell_content_get_searchbar (ECalShellContent *cal_shell_content)
 {
+	EShellView *shell_view;
 	EShellContent *shell_content;
 	GtkWidget *widget;
 
@@ -689,7 +685,8 @@ e_cal_shell_content_get_searchbar (ECalShellContent *cal_shell_content)
 		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
 	shell_content = E_SHELL_CONTENT (cal_shell_content);
-	widget = e_shell_content_get_searchbar (shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	widget = e_shell_view_get_searchbar (shell_view);
 
 	return E_SHELL_SEARCHBAR (widget);
 }

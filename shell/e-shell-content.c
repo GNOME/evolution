@@ -48,9 +48,9 @@
 
 struct _EShellContentPrivate {
 
-	gpointer shell_view;  /* weak pointer */
+	gpointer shell_view;	/* weak pointer */
 
-	GtkWidget *searchbar;
+	GtkWidget *searchbar;	/* not referenced */
 
 	/* Custom search rules. */
 	gchar *user_filename;
@@ -146,11 +146,9 @@ shell_content_dispose (GObject *object)
 static void
 shell_content_constructed (GObject *object)
 {
-	EShellContentClass *class;
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
-	GtkWidget *widget;
 	const gchar *data_dir;
 
 	shell_content = E_SHELL_CONTENT (object);
@@ -165,39 +163,7 @@ shell_content_constructed (GObject *object)
 	shell_content->priv->user_filename =
 		g_build_filename (data_dir, "searches.xml", NULL);
 
-	class = E_SHELL_CONTENT_GET_CLASS (shell_content);
-	if (class->construct_searchbar != NULL)
-		widget = class->construct_searchbar (shell_content);
-	else
-		widget = NULL;
-	if (widget != NULL) {
-		gtk_widget_set_parent (widget, GTK_WIDGET (shell_content));
-		shell_content->priv->searchbar = g_object_ref (widget);
-		gtk_widget_show (widget);
-	}
-
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
-}
-
-static void
-shell_content_destroy (GtkObject *gtk_object)
-{
-	EShellContentPrivate *priv;
-
-	priv = E_SHELL_CONTENT_GET_PRIVATE (gtk_object);
-
-	/* Unparent the widget before destroying it to avoid
-	 * writing a custom GtkContainer::remove() method. */
-
-	if (priv->searchbar != NULL) {
-		gtk_widget_unparent (priv->searchbar);
-		gtk_widget_destroy (priv->searchbar);
-		g_object_unref (priv->searchbar);
-		priv->searchbar = NULL;
-	}
-
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (e_shell_content_parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -262,6 +228,26 @@ shell_content_size_allocate (GtkWidget *widget,
 }
 
 static void
+shell_content_remove (GtkContainer *container,
+                      GtkWidget *widget)
+{
+	GtkContainerClass *container_class;
+	EShellContentPrivate *priv;
+
+	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
+
+	if (widget == priv->searchbar) {
+		gtk_widget_unparent (priv->searchbar);
+		priv->searchbar = NULL;
+		return;
+	}
+
+	/* Chain up to parent's remove() method. */
+	container_class = GTK_CONTAINER_CLASS (e_shell_content_parent_class);
+	container_class->remove (container, widget);
+}
+
+static void
 shell_content_forall (GtkContainer *container,
                       gboolean include_internals,
                       GtkCallback callback,
@@ -280,43 +266,10 @@ shell_content_forall (GtkContainer *container,
 		container, include_internals, callback, callback_data);
 }
 
-static gchar *
-shell_content_get_search_name (EShellContent *shell_content)
-{
-	EShellSearchbar *searchbar;
-	EShellView *shell_view;
-	EFilterRule *rule;
-	const gchar *search_text;
-
-	shell_view = e_shell_content_get_shell_view (shell_content);
-
-	rule = e_shell_view_get_search_rule (shell_view);
-	g_return_val_if_fail (E_IS_FILTER_RULE (rule), NULL);
-
-	searchbar = E_SHELL_SEARCHBAR (shell_content->priv->searchbar);
-	search_text = e_shell_searchbar_get_search_text (searchbar);
-
-	if (search_text == NULL || *search_text == '\0')
-		search_text = "''";
-
-	return g_strdup_printf ("%s %s", rule->name, search_text);
-}
-
-static GtkWidget *
-shell_content_construct_searchbar (EShellContent *shell_content)
-{
-	EShellView *shell_view;
-
-	shell_view = e_shell_content_get_shell_view (shell_content);
-
-	return e_shell_searchbar_new (shell_view);
-}
-
 static void
 e_shell_content_class_init (EShellContentClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
@@ -328,18 +281,13 @@ e_shell_content_class_init (EShellContentClass *class)
 	object_class->dispose = shell_content_dispose;
 	object_class->constructed = shell_content_constructed;
 
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = shell_content_destroy;
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = shell_content_size_request;
 	widget_class->size_allocate = shell_content_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);
+	container_class->remove = shell_content_remove;
 	container_class->forall = shell_content_forall;
-
-	class->get_search_name = shell_content_get_search_name;
-	class->construct_searchbar = shell_content_construct_searchbar;
 
 	/**
 	 * EShellContent:shell-view
@@ -384,21 +332,34 @@ e_shell_content_new (EShellView *shell_view)
 }
 
 /**
- * e_shell_content_get_searchbar:
+ * e_shell_content_set_searchbar:
  * @shell_content: an #EShellContent
+ * @searchbar: a #GtkWidget, or %NULL
  *
- * Returns the search bar widget returned by the
- * <structfield>construct_searchbar</structfield> method in
- * #EShellContentClass.
- *
- * Returns: the search bar widget
+ * Packs @searchbar at the top of @shell_content.
  **/
-GtkWidget *
-e_shell_content_get_searchbar (EShellContent *shell_content)
+void
+e_shell_content_set_searchbar (EShellContent *shell_content,
+                               GtkWidget *searchbar)
 {
-	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	return shell_content->priv->searchbar;
+	if (searchbar != NULL) {
+		g_return_if_fail (GTK_IS_WIDGET (searchbar));
+		g_object_ref_sink (searchbar);
+	}
+
+	if (shell_content->priv->searchbar != NULL)
+		gtk_container_remove (
+			GTK_CONTAINER (shell_content),
+			shell_content->priv->searchbar);
+
+	shell_content->priv->searchbar = searchbar;
+
+	if (searchbar != NULL)
+		gtk_widget_set_parent (searchbar, GTK_WIDGET (shell_content));
+
+	gtk_widget_queue_resize (GTK_WIDGET (shell_content));
 }
 
 /**
@@ -441,29 +402,6 @@ e_shell_content_get_shell_view (EShellContent *shell_content)
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 
 	return E_SHELL_VIEW (shell_content->priv->shell_view);
-}
-
-/**
- * e_shell_content_get_search_name:
- * @shell_content: an #EShellContent
- *
- * Returns a newly-allocated string containing a suitable name for the
- * current search criteria.  This is used as the suggested name in the
- * Save Search dialog.  Free the returned string with g_free().
- *
- * Returns: a name for the current search criteria
- **/
-gchar *
-e_shell_content_get_search_name (EShellContent *shell_content)
-{
-	EShellContentClass *class;
-
-	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
-
-	class = E_SHELL_CONTENT_GET_CLASS (shell_content);
-	g_return_val_if_fail (class->get_search_name != NULL, NULL);
-
-	return class->get_search_name (shell_content);
 }
 
 void
@@ -591,7 +529,7 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	g_return_if_fail (E_IS_FILTER_RULE (rule));
 	rule = e_filter_rule_clone (rule);
 
-	search_name = e_shell_content_get_search_name (shell_content);
+	search_name = e_shell_view_get_search_name (shell_view);
 	e_filter_rule_set_name (rule, search_name);
 	g_free (search_name);
 

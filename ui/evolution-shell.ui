@@ -93,4 +93,5 @@
     <separator/>
     <placeholder name='toolbar-actions'/>
   </toolbar>
+  <toolbar name='search-toolbar'/>
 </ui>

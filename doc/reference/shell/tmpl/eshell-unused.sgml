@@ -1,0 +1,38 @@
+<!-- ##### ARG EShellSearchbar:label-visible ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION e_shell_content_get_search_name ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_searchbar ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_searchbar_get_label_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_searchbar_set_label_visible ##### -->
+<para>
+
+</para>
+
+@searchbar: 
+@label_visible: 
+
