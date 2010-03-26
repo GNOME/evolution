@@ -1152,7 +1152,6 @@ AC_ARG_ENABLE([sens],
 AC_MSG_CHECKING([if Windows SENS support is enabled])
 AC_MSG_RESULT([$enable_sens])
 if test "$enable_sens" = yes; then
-	AC_PROG_CXX
 	AC_CHECK_HEADERS([eventsys.h sensevts.h rpc.h],[ enable_sens="yes" ],[ enable_sens="no" ])
 fi
 if test "$enable_sens" = yes; then
