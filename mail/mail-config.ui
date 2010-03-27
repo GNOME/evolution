@@ -3667,7 +3667,7 @@ For example: "Work" or "Personal"</property>
           <object class="GtkLabel" id="label524">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">Displayed Message _Headers</property>
+            <property name="label" translatable="yes">Displayed Message Headers</property>
             <property name="use_underline">True</property>
             <property name="mnemonic_widget">txtHeaders</property>
             <attributes>
