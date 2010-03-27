@@ -4,17 +4,16 @@
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2002-2008
 # Andrew V. Samoilov <sav@bcs.zp.ua>, 2002
 # Maxim Dubovoy <max@mylinux.com.ua>, 2003
-#
 # wanderlust <wanderlust@ukr.net>, 2009.
 #: ../shell/main.c:479
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-19 14:53+0200\n"
-"PO-Revision-Date: 2009-07-06 20:20+0300\n"
-"Last-Translator: wanderlust <wanderlust@ukr.net>\n"
-"Language-Team: ukrainian <Ukrainian <uk@li.org>>\n"
+"POT-Creation-Date: 2010-03-27 14:54+0200\n"
+"PO-Revision-Date: 2010-03-27 20:20+0300\n"
+"Last-Translator: Maxim Dziumanenko <dziumanenko@gmail.com>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,9 +277,8 @@ msgid "Ca_tegories..."
 msgstr "Ка_тегорії..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:4
-#, fuzzy
 msgid "Calendar:"
-msgstr "_Календар:"
+msgstr "Календар:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:310
@@ -307,9 +305,8 @@ msgid "Email"
 msgstr "Ел.пошта"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:8
-#, fuzzy
 msgid "Free/Busy:"
-msgstr "За_йнятий/вільний:"
+msgstr "Вільний/зайнятий:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 msgid "Full _Name..."
@@ -322,22 +319,20 @@ msgid "Home"
 msgstr "Дім"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
-#, fuzzy
 msgid "Home Page:"
-msgstr "_Домашня сторінка:"
+msgstr "Домашня сторінка:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:12
 msgid "Image"
 msgstr "Зображення"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
-#, fuzzy
 msgid "Instant Messaging"
-msgstr "<b>Миттєві повідомлення</b>"
+msgstr "Миттєві повідомлення"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "Job"
-msgstr ""
+msgstr "Робота"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
 msgid "Mailing Address"
@@ -377,19 +372,16 @@ msgid "Telephone"
 msgstr "Телефон"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:22
-#, fuzzy
 msgid "Video Chat:"
-msgstr "Відео_чат:"
+msgstr "Відеочат:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:23
-#, fuzzy
 msgid "Web Addresses"
-msgstr "<b>Web-адреса</b>"
+msgstr "Web-адреса"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
-#, fuzzy
 msgid "Web Log:"
-msgstr "Веб-_журнал:"
+msgstr "Веб-журнал:"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:25
@@ -668,14 +660,13 @@ msgstr "_Виберіть адресну книгу"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:167
 #: ../shell/e-shell-backend.c:218 ../shell/e-shell-window.c:678
-#, fuzzy
 msgid "Shell"
-msgstr "Сейшельські о-ви"
+msgstr "Оболонка"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:168
 #: ../shell/e-shell-backend.c:219 ../shell/e-shell-window.c:679
 msgid "The EShell singleton"
-msgstr ""
+msgstr "Сінглетон EShell"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Dr."
@@ -748,9 +739,8 @@ msgid "Contact List Editor"
 msgstr "Редактор списку контактів"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#, fuzzy
 msgid "Members"
-msgstr "_Учасники"
+msgstr "Учасники"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 msgid "_Hide addresses when sending mail to this list"
@@ -892,9 +882,8 @@ msgid "Query"
 msgstr "Запит"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:706
-#, fuzzy
 msgid "Search Interrupted"
-msgstr "Фільтр пошуку"
+msgstr "Пошук перервано"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:434
 #: ../addressbook/gui/widgets/e-addressbook-view.c:758
@@ -914,19 +903,16 @@ msgid "Error modifying card"
 msgstr "Помилка при модифікації картки"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:616
-#, fuzzy
 msgid "Cut selected contacts to the clipboard"
-msgstr "Вирізати виділений текст у буфер обміну"
+msgstr "Вирізати виділені контакти у буфер обміну"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:622
-#, fuzzy
 msgid "Copy selected contacts to the clipboard"
-msgstr "Копіювати виділений текст у буфер обміну"
+msgstr "Копіювати виділені контакти у буфер обміну"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:628
-#, fuzzy
 msgid "Paste contacts from the clipboard"
-msgstr "Вставити завдання з буферу обміну"
+msgstr "Вставити контакти з буферу обміну"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:634
 #: ../modules/addressbook/e-book-shell-view-actions.c:727
@@ -934,74 +920,56 @@ msgid "Delete selected contacts"
 msgstr "Видалити виділені контакти"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:640
-#, fuzzy
 msgid "Select all visible contacts"
-msgstr "Виділити всі контакти"
+msgstr "Вибрати всі видимі контакти"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:774
 #: ../calendar/gui/e-memo-table.c:1070 ../calendar/gui/e-task-table.c:1369
-#, fuzzy
 msgid "Shell View"
-msgstr "Вибір огляду: %s"
+msgstr "Вигляд оболонки"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:785
 msgid "Source"
 msgstr "Джерело"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1283
-#, fuzzy
 msgid "Are you sure you want to delete these contact lists?"
-msgstr ""
-"Ви дійсно бажаєте\n"
-"видалити ці списки контактів?"
+msgstr "Справді видалити ці списки контактів?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1287
-#, fuzzy
 msgid "Are you sure you want to delete this contact list?"
-msgstr ""
-"Ви дійсно бажаєте\n"
-"видалити ці списки контактів?"
+msgstr "Справді видалити цей список контактів?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1291
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
-msgstr ""
-"Ви дійсно бажаєте\n"
-"видалити список контактів (%s)?"
+msgstr "Дійсно бажаєте видалити список контактів (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1297
-#, fuzzy
 msgid "Are you sure you want to delete these contacts?"
-msgstr ""
-"Ви дійсно бажаєте\n"
-"видалити ці контакти?"
+msgstr "Дійсно бажаєте видалити ці контакти?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1301
-#, fuzzy
 msgid "Are you sure you want to delete this contact?"
-msgstr ""
-"Ви дійсно бажаєте\n"
-"видалити ці контакти?"
+msgstr "Дійсно бажаєте видалити ці контакти?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1305
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
-msgstr ""
-"Ви дійсно бажаєте\n"
-"видалити контакт (%s)?"
+msgstr "Дійсно бажаєте видалити цей контакт (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1460
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr ""
-"Відкривання %d контакту призведе до відкривання %d нового вікна.\n"
-"Ви справді бажаєте відкрити цей контакт?"
+"Відкривання %d контакту призведе до відкривання %d нових вікон.\n"
+"Справді бажаєте показати ці контакти?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1465
 msgid "_Don't Display"
-msgstr "_Не відображати"
+msgstr "_Не показувати"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1466
 msgid "Display _All Contacts"
@@ -2530,20 +2498,19 @@ msgstr "Підтвердження очищення"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr ""
+msgstr "Кількість типових повторів для нової події. -1 означає завжди."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
-msgstr "Дні, коли повинні відображатись початок та кінець робочих годин."
+msgstr "Дні, коли повинні виводитись початок та кінець робочих годин."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Default appointment reminder"
 msgstr "Типове нагадування про зустріч"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
-#, fuzzy
 msgid "Default recurrence count"
-msgstr "Типові одиниці нагадування"
+msgstr "Типова кількість повторів"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Default reminder units"
@@ -2604,15 +2571,17 @@ msgstr "Час початку робочого дня, у 24-годинному 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:30
 msgid "If \"true\", show the memo preview pane in the main window."
 msgstr ""
+"Якщо встановлено, показувати панель попереднього перегляду позначок у головному вікні."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:31
 msgid "If \"true\", show the task preview pane in the main window."
 msgstr ""
+"Якщо встановлено, показувати панель попереднього перегляду задач у головному вікні."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:32
 msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr ""
-"Інтервали, що відображаються у режимах \"День\" та \"Робочий тиждень\", у "
+"Інтервали, що виводяться у режимах \"День\" та \"Робочий тиждень\", у "
 "хвилинах."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:33
@@ -2659,18 +2628,16 @@ msgstr ""
 "зберігати."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:42
-#, fuzzy
 msgid "Memo layout style"
-msgstr "Стиль _відповіді:"
+msgstr "Стиль приміток"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:43
 msgid "Memo preview pane position (horizontal)"
-msgstr ""
+msgstr "Положення панелі попереднього перегляду приміток (горизонтально)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:44
-#, fuzzy
 msgid "Memo preview pane position (vertical)"
-msgstr "Позиція вертикальної панелі при огляді місяця"
+msgstr "Положення панелі попереднього перегляду приміток (вертикально)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:45
 msgid "Minute the workday ends on, 0 to 59."
@@ -2719,14 +2686,20 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
 msgid "Position of the memo preview pane when oriented vertically."
 msgstr ""
+"Положення панелі попереднього перегляду позначок при вертикальній "
+"орієнтації."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
 msgid "Position of the task preview pane when oriented horizontally."
 msgstr ""
+"Положення панелі попереднього перегляду позначок при горизонтальній "
+"орієнтації."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Position of the task preview pane when oriented vertically."
 msgstr ""
+"Положення панелі попереднього перегляду задач при вертикальній "
+"орієнтації."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:57
 msgid ""
@@ -2753,19 +2726,16 @@ msgstr ""
 "коли не у режимі огляду місяця, у точках."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:60
-#, fuzzy
 msgid "Primary calendar"
-msgstr "Надрукувати цей календар"
+msgstr "Головний календар"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:61
-#, fuzzy
 msgid "Primary memo list"
-msgstr "Створити список приміток"
+msgstr "Головний список приміток"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:62
-#, fuzzy
 msgid "Primary task list"
-msgstr "Створити список завдань"
+msgstr "Головний список завдань"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:63
 msgid "Programs that are allowed to be run by alarms."
@@ -2809,14 +2779,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Відображати поле стану в редакторі подій/задач/засідань"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
-#, fuzzy
 msgid "Show the memo preview pane"
-msgstr "Показувати панель попереднього перегляду"
+msgstr "Показувати панель попереднього перегляду приміток"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
-#, fuzzy
 msgid "Show the task preview pane"
-msgstr "Показувати панель попереднього перегляду"
+msgstr "Показувати панель попереднього перегляду задач"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:75
 msgid "Show timezone field in the event/meeting editor"
@@ -2844,17 +2812,15 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:80
 msgid "Task layout style"
-msgstr ""
+msgstr "Стиль розташування задач"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
-#, fuzzy
 msgid "Task preview pane position (horizontal)"
-msgstr "Позиція вертикальної панелі завдань"
+msgstr "Розташування панелі попереднього перегляду задач (горизонтально)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
-#, fuzzy
 msgid "Task preview pane position (vertical)"
-msgstr "Позиція вертикальної панелі завдань"
+msgstr "Розташування панелі попереднього перегляду задач (вертикально)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:83
 msgid "Tasks due today color"
@@ -2875,7 +2841,7 @@ msgid ""
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
 "Типовий часовий пояс, що використовується для дат та часу календаря, "
-"наприкладнеперекладена назва часового поясу Olsen у базі даних часових "
+"наприклад неперекладена назва часового поясу Olsen у базі даних часових "
 "поясів \"America/New York\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
@@ -2884,6 +2850,10 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
+"Стиль розташування визначає місце для панелі попереднього перегляду "
+"відносно списку приміток. «0» (класичний вид) розміщує панель "
+"попереднього перегляду під списком приміток. «1» (вертикальний вигляд) "
+"розташовує панель поруч із списком приміток."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid ""
@@ -2891,6 +2861,10 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
+"Стиль розташування визначає місце для панелі попереднього перегляду "
+"відносно списку задач. «0» (класичний вигляд) розташовує панель "
+"попереднього перегляду під списком задач. «1» (вертикальний вигляд) розташовує "
+"панель поруч із списком задач."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid "The second timezone for a Day View"
@@ -2930,15 +2904,15 @@ msgstr "24-годинний формат часу"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:96
 msgid "URI of the highlighted (\"primary\") calendar"
-msgstr ""
+msgstr "URI виділеного («головного») календаря"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:97
 msgid "URI of the highlighted (\"primary\") memo list"
-msgstr ""
+msgstr "URI виділеного («головного») списку приміток"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
 msgid "URI of the highlighted (\"primary\") task list"
-msgstr ""
+msgstr "URI виділеного («головного») списку задач"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -2956,10 +2930,8 @@ msgid "Use system timezone"
 msgstr "Використовувати системний часовий пояс"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
-#, fuzzy
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr ""
-"Оберіть для використання системних налаштувань часового поясу у Evolution."
+msgstr "Використовувати системний часовий пояс замість вказаного у Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Vertical pane position"
@@ -4168,10 +4140,12 @@ msgstr "З_устріч"
 #: ../calendar/gui/dialogs/event-page.c:751
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
+"Подію неможливо змінити, оскільки обраний календар доступний лише для "
+"читання"
 
 #: ../calendar/gui/dialogs/event-page.c:755
 msgid "Event cannot be fully edited, because you are not the organizer"
-msgstr ""
+msgstr "Подію неможливо повністю змінити, оскільки ви не є організатором"
 
 #: ../calendar/gui/dialogs/event-page.c:767
 #: ../calendar/gui/dialogs/event-page.c:2722
@@ -4283,7 +4257,6 @@ msgstr "Налаштувати..."
 
 #. Translators: "None" for "No alarm set"
 #: ../calendar/gui/dialogs/event-page.c:2968
-#, fuzzy
 msgctxt "cal-alarms"
 msgid "None"
 msgstr "Немає"
@@ -4350,11 +4323,8 @@ msgstr "для"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:22
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:11
-#, fuzzy
 msgid "until"
-msgstr ""
-"для\n"
-"до"
+msgstr "до"
 
 #: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:2568
 msgid "Memo"
@@ -4363,10 +4333,12 @@ msgstr "Примітка"
 #: ../calendar/gui/dialogs/memo-page.c:350
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
+"Позначку неможливо змінити, оскільки обраний список позначок доступний лише "
+"для читання"
 
 #: ../calendar/gui/dialogs/memo-page.c:354
 msgid "Memo cannot be fully edited, because you are not the organizer"
-msgstr ""
+msgstr "Позначку неможливо повністю змінити, оскільки ви не є організатором"
 
 #: ../calendar/gui/dialogs/memo-page.c:875
 #, c-format
@@ -4573,14 +4545,12 @@ msgid "Every"
 msgstr "Кожен"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:2
-#, fuzzy
 msgid "Exceptions"
-msgstr "<b>Винятки</b>"
+msgstr "Винятки<"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:3 ../mail/mail-config.ui.h:84
-#, fuzzy
 msgid "Preview"
-msgstr "_Попередній перегляд"
+msgstr "Попередній перегляд"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:5
 msgid "This appointment rec_urs"
@@ -4607,9 +4577,8 @@ msgid "Send my alarms with this event"
 msgstr "Надсилати з цією подією мої попередження "
 
 #: ../calendar/gui/dialogs/send-comp.c:162
-#, fuzzy
 msgid "Notify new attendees _only"
-msgstr "Сповідати про нові повідомлення лише у теці _Inbox"
+msgstr "Сповідати _лише нових учасників"
 
 #: ../calendar/gui/dialogs/task-details-page.c:379
 #: ../calendar/gui/dialogs/task-details-page.c:399
@@ -4743,12 +4712,12 @@ msgstr "Подробиці про завдання"
 #: ../calendar/gui/dialogs/task-page.c:336
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
+"Задачу неможливо змінити, оскільки обраний список задач доступний лише для "
+"читання"
 
 #: ../calendar/gui/dialogs/task-page.c:340
-#, fuzzy
 msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr ""
-"Це повідомлення не може бути надіслане, тому що не вказаний жоден отримувач"
+msgstr "Задачу неможливо змінити, оскільки ви не є організатором"
 
 #: ../calendar/gui/dialogs/task-page.c:388
 #: ../calendar/gui/dialogs/task-page.ui.h:4
@@ -6306,11 +6275,11 @@ msgstr "Інформація iCalendar"
 
 #: ../calendar/gui/itip-utils.c:832
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr ""
+msgstr "Не вдається зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
 
 #: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
-msgstr ""
+msgstr "Неможливо зарезервувати ресурс, помилка: "
 
 #: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
@@ -8356,24 +8325,20 @@ msgid "Click here to select folders to post to"
 msgstr "Натисніть тут щоб вибрати теку для відсилання"
 
 #: ../composer/e-composer-private.c:199
-#, fuzzy
 msgid "Undo the last action"
-msgstr "Копіювати виділене"
+msgstr "Скасувати останню дію"
 
 #: ../composer/e-composer-private.c:203
-#, fuzzy
 msgid "Redo the last undone action"
-msgstr "Надіслати останню інформацію"
+msgstr "Вернути останню скасовану дію"
 
 #: ../composer/e-composer-private.c:207
-#, fuzzy
 msgid "Search for text"
-msgstr "Фільтр пошуку"
+msgstr "Знайти текст"
 
 #: ../composer/e-composer-private.c:211
-#, fuzzy
 msgid "Search for and replace text"
-msgstr "Не вдається знайти iPod"
+msgstr "Знайти та замінити текст"
 
 #: ../composer/e-composer-private.c:301
 msgid "Save draft"
@@ -8401,9 +8366,8 @@ msgstr ""
 "сертифікат шифрування"
 
 #: ../composer/e-msg-composer.c:1379
-#, fuzzy
 msgid "Unable to reconstruct message from autosave file"
-msgstr "Не вдається отримати повідомлення від редактора"
+msgstr "Не вдається відновити повідомлення з файлу автозбереження"
 
 #: ../composer/e-msg-composer.c:1445 ../composer/e-msg-composer.c:1641
 msgid "Compose Message"
@@ -8542,136 +8506,123 @@ msgstr "З_берегти чернетку"
 
 #: ../capplet/anjal-settings-main.c:202
 msgid "Run Anjal in a window"
-msgstr ""
+msgstr "Запустити Anjal у вікні"
 
 #: ../capplet/anjal-settings-main.c:203
-#, fuzzy
 msgid "Make Anjal the default email client"
-msgstr "Позначити як _типовий список приміток"
+msgstr "Зробити Anjal поштовим типовим клієнтом"
 
 #. TRANSLATORS: don't translate the terms in brackets
 #: ../capplet/anjal-settings-main.c:210
 msgid "ID of the socket to embed in"
-msgstr ""
+msgstr "ID сокету для вбудовування"
 
 #: ../capplet/anjal-settings-main.c:211
-#, fuzzy
 msgid "socket"
-msgstr "сортування"
+msgstr "сокет"
 
 #: ../capplet/anjal-settings-main.c:225
-#, fuzzy
 msgid "Anjal email client"
-msgstr "Типова поштова програма"
+msgstr "Поштовий клієнт Anjal"
 
 #: ../capplet/settings/mail-view.c:244
-#, fuzzy
 msgid "New Tab"
-msgstr "Створити за_вдання"
+msgstr "Нова вкладка"
 
 #: ../capplet/settings/mail-account-view.c:56
-#, fuzzy
 msgid "Please enter your full name."
-msgstr "Виберіть ім'я користувача."
+msgstr "Введіть ваше повне ім'я."
 
 #: ../capplet/settings/mail-account-view.c:57
-#, fuzzy
 msgid "Please enter your email address."
-msgstr "Виберіть ім'я користувача."
+msgstr "Виберіть адресу електронної пошти."
 
 #: ../capplet/settings/mail-account-view.c:58
 msgid "The email address you have entered is invalid."
-msgstr ""
+msgstr "Ви ввели неправильну адресу електронної пошти."
 
 #: ../capplet/settings/mail-account-view.c:224
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span weight=\"bold\">Видалення пошти</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Особисті дані:</span>"
 
 #: ../capplet/settings/mail-account-view.c:229
-#, fuzzy
 msgid "Name:"
-msgstr "_Назва:"
+msgstr "Ім'я':"
 
 #: ../capplet/settings/mail-account-view.c:238
-#, fuzzy
 msgid "Email address:"
-msgstr "Адреса ел.пошти"
+msgstr "Електронна пошта:"
 
 #: ../capplet/settings/mail-account-view.c:248
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr "<span weight=\"bold\">Загальне</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Параметри отримання:</span>"
 
 #: ../capplet/settings/mail-account-view.c:253
 #: ../capplet/settings/mail-account-view.c:303
-#, fuzzy
 msgid "Server type:"
-msgstr "_Тип сервера: "
+msgstr "Тип сервера:"
 
 #: ../capplet/settings/mail-account-view.c:262
 #: ../capplet/settings/mail-account-view.c:312
-#, fuzzy
 msgid "Server address:"
-msgstr "Повідомлення від сервера:"
+msgstr "Адреса сервера:"
 
 #: ../capplet/settings/mail-account-view.c:272
 #: ../capplet/settings/mail-account-view.c:322
-#, fuzzy
 msgid "Username:"
-msgstr "_Назва запису:"
+msgstr "Ім'я користувача:"
 
 #: ../capplet/settings/mail-account-view.c:281
 #: ../capplet/settings/mail-account-view.c:331
-#, fuzzy
 msgid "Use encryption:"
-msgstr "Без шифрування"
+msgstr "Використовувати шифрування:"
 
 #: ../capplet/settings/mail-account-view.c:286
 #: ../capplet/settings/mail-account-view.c:336
-#, fuzzy
 msgid "never"
-msgstr "Ніколи"
+msgstr "ніколи"
 
 #: ../capplet/settings/mail-account-view.c:298
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr "<span weight=\"bold\">Загальне</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Параметри надсилання:</span>"
 
 #: ../capplet/settings/mail-account-view.c:355
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
 "If we can't do it automatically you'll need your server details as well."
-msgstr ""
+msgstr "Щоб використовувати програму для роботи з електронною поштою, треба налаштувати  обліковий запис. Введіть вашу адресу електронної пошти та пароль, і ми спробуємо  підібрати решту параметрів. Якщо не вийде автоматично підібрати параметри сервера, доведеться ввести їх вручну вручну."
 
 #: ../capplet/settings/mail-account-view.c:357
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
-msgstr ""
+msgstr "На жаль, неможливо автоматично визначити параметри отримання електронної пошти. Було виконано спробу підібрати параметри на основі введеної інформації, змініть їх за потреби."
 
 #: ../capplet/settings/mail-account-view.c:359
-#, fuzzy
 msgid "You can specify more options to configure the account."
-msgstr "Можна налаштувати лише один обліковий рахунок Exchange."
+msgstr "Можете вказати додаткові параметри налаштовування облікового запису."
 
 #: ../capplet/settings/mail-account-view.c:361
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
 msgstr ""
+"Тепер треба вказати параметри, потрібні для надсилання эл. пошти. "
+"Деякі з них були підібрані автоматично, перевірте їх правильність."
 
 #: ../capplet/settings/mail-account-view.c:362
 msgid "You can specify your default settings for your account."
-msgstr ""
+msgstr "Можете вказати типові параметри для вашого облікового запису."
 
 #: ../capplet/settings/mail-account-view.c:363
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
 msgstr ""
+"Тепер можна перевірити всі параметри облікового запису перед спробою "
+"приєднання до сервера та отримання пошти."
 
 #: ../capplet/settings/mail-account-view.c:378
 #: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
@@ -8680,62 +8631,51 @@ msgid "Identity"
 msgstr "Особисті дані"
 
 #: ../capplet/settings/mail-account-view.c:378
-#, fuzzy
 msgid "Next - Receiving mail"
-msgstr "Отримання пошти"
+msgstr "Вперед - Отримання пошти"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Receiving mail"
-msgstr "Отримання пошти"
+msgstr "пошти"
 
 #: ../capplet/settings/mail-account-view.c:379
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
 msgid "Next - Sending mail"
-msgstr "Відсилання пошти"
+msgstr "Вперед - Надсилання пошти"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Back - Identity"
-msgstr "Особисті дані"
+msgstr "Назад - Автентичність"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Next - Receiving options"
-msgstr "Параметри отримання"
+msgstr "Вперед - Параметри отримання"
 
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
 msgid "Receiving options"
 msgstr "Параметри отримання"
 
 #: ../capplet/settings/mail-account-view.c:380
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Back - Receiving mail"
-msgstr "Отримання пошти"
+msgstr "Назад - Отримання пошти"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Sending mail"
-msgstr "Відсилання пошти"
+msgstr "Надсилання пошти"
 
 #: ../capplet/settings/mail-account-view.c:382
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
 msgid "Next - Review account"
-msgstr "Видалити обліковий рахунок?"
+msgstr "Вперед - Огляд облікового запису"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Next - Defaults"
-msgstr "Умовчання"
+msgstr "Вперед - Типово"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Back - Receiving options"
-msgstr "Параметри отримання"
+msgstr "Назад - Параметри отримання"
 
 #: ../capplet/settings/mail-account-view.c:383
 #: ../mail/em-account-editor.c:2774 ../mail/mail-config.ui.h:31
@@ -8743,51 +8683,42 @@ msgid "Defaults"
 msgstr "Умовчання"
 
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
 msgid "Back - Sending mail"
-msgstr "Відсилання пошти"
+msgstr "Назад - Надсилання ел. пошти"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Review account"
-msgstr "Видалити обліковий рахунок?"
+msgstr "Огляд облікового запису"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Finish"
-msgstr "Фіджі"
+msgstr "Завершено"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Back - Sending"
-msgstr "зростанням"
+msgstr "Назад - Надісиланя"
 
 #: ../capplet/settings/mail-account-view.c:719
 #: ../capplet/settings/mail-settings-view.c:266
-#, fuzzy
 msgid "Close Tab"
-msgstr "Закрити"
+msgstr "Закрити вкладку"
 
 #: ../capplet/settings/mail-account-view.c:729
-#, fuzzy
 msgid "Account Wizard"
-msgstr "Редактор облікових записів"
+msgstr "Помічник облікових записів"
 
 #: ../capplet/settings/mail-capplet-shell.c:284
-#, fuzzy
 msgid "Evolution account assistant"
 msgstr "Помічник з облікових записів Evolution"
 
 #: ../capplet/settings/mail-capplet-shell.c:320
 #: ../data/evolution-settings.desktop.in.in.h:2
-#, fuzzy
 msgid "Email Settings"
-msgstr "Параметри спаму"
+msgstr "Параметри ел. пошти"
 
 #: ../capplet/settings/mail-capplet-shell.c:334
-#, fuzzy
 msgid "Quit"
-msgstr "Ви_йти"
+msgstr "Вийти"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
@@ -8813,29 +8744,24 @@ msgid "Modify"
 msgstr "Змінити"
 
 #: ../capplet/settings/mail-settings-view.c:150
-#, fuzzy
 msgid "Add a new account"
-msgstr "Додати обліковий рахунок IM"
+msgstr "Додати обліковий рахунок"
 
 #: ../capplet/settings/mail-settings-view.c:185
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr "<span weight=\"bold\">Інформація про обліковий запис</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Керування обліковими рахунками</span>"
 
 #: ../capplet/settings/mail-settings-view.c:276
-#, fuzzy
 msgid "Settings"
-msgstr "Параметри спаму"
+msgstr "Параметри"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
-#, fuzzy
 msgid "Calendar event notifications"
-msgstr "Інформація календаря"
+msgstr "Сповіщення про календарні події"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
-#, fuzzy
 msgid "Evolution Alarm Notify"
-msgstr "Компонент Evolution імпорту з Elm"
+msgstr "Сповіщення сигналами у Evolution"
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:800
 #: ../shell/e-shell-window-private.c:251
@@ -8855,9 +8781,8 @@ msgid "Manage your email, contacts and schedule"
 msgstr "Ваша електронна пошта та розклад"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
-#, fuzzy
 msgid "Configure email accounts"
-msgstr "Налаштовування поштових рахунків"
+msgstr "Налаштовування облікових записів ел. пошти"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -8869,22 +8794,22 @@ msgstr "календарна інформація"
 
 #. Translators: This is a cancelled activity.
 #: ../e-util/e-activity.c:224
-#, fuzzy, c-format
+#, c-format
 msgid "%s (cancelled)"
-msgstr "Скасовано"
+msgstr "%s (скасовано)"
 
 #. Translators: This is a completed activity.
 #: ../e-util/e-activity.c:227
-#, fuzzy, c-format
+#, c-format
 msgid "%s (completed)"
-msgstr "%s (%d%% виконано)"
+msgstr "%s (виконано)"
 
 #. Translators: This is an activity whose percent
 #. * complete is unknown.
 #: ../e-util/e-activity.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "%s..."
-msgstr "%s (...)"
+msgstr "%s…"
 
 #: ../e-util/e-activity.c:236
 #, c-format
@@ -8991,63 +8916,56 @@ msgid "Tomorrow"
 msgstr "Завтра"
 
 #: ../e-util/e-datetime-format.c:204
-#, fuzzy
 msgid "Yesterday"
-msgstr "Вчора %l:%M %p"
+msgstr "Вчора"
 
 #: ../e-util/e-datetime-format.c:207
 #, c-format
 msgid "%d days from now"
-msgstr ""
+msgstr "%d днів від поточного"
 
 #: ../e-util/e-datetime-format.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "%d days ago"
-msgstr "%d день тому"
+msgstr "%d днів тому"
 
 #: ../e-util/e-datetime-format.c:283 ../e-util/e-datetime-format.c:293
 #: ../e-util/e-datetime-format.c:302
-#, fuzzy
 msgid "Use locale default"
-msgstr "_Типово"
+msgstr "Використовувати типову локаль"
 
 #: ../e-util/e-datetime-format.c:496
-#, fuzzy
 msgid "Format:"
-msgstr "Формат"
+msgstr "Формат:"
 
 #: ../e-util/e-file-utils.c:136
-#, fuzzy
 msgid "(Unknown Filename)"
-msgstr "Невідомий тип"
+msgstr "(Невідома назва файлу)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Writing \"%s\""
-msgstr "Ping на %s"
+msgstr "Запис «%s»"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../e-util/e-file-utils.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Writing \"%s\" to %s"
-msgstr "Копіювання '%s' у '%s'"
+msgstr "Запис «%s» на «%s»"
 
 #: ../e-util/e-logger.c:175
-#, fuzzy
 msgid "Name of the logger"
-msgstr "Назва компоненту для журналу"
+msgstr "Назва компоненту для журналів"
 
 #: ../e-util/e-module.c:188
-#, fuzzy
 msgid "Filename"
-msgstr "_Назва файлу:"
+msgstr "Назва файлу:"
 
 #: ../e-util/e-module.c:189
-#, fuzzy
 msgid "The filename of the module"
-msgstr "Змінити назву цієї теки"
+msgstr "Назва файлу модуля"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:194
 msgid "Debug Logs"
@@ -9402,8 +9320,7 @@ msgid "Select a time to compare against"
 msgstr "Вибір часу для порівняння"
 
 #: ../filter/e-filter-file.c:184
-#, fuzzy
-msgid "Choose a File"
+msgid "Chooчse a File"
 msgstr "Виберіть файл"
 
 #: ../filter/e-filter-rule.c:659
@@ -9548,23 +9465,16 @@ msgid "_Filter Rules"
 msgstr "Правила _фільтрування"
 
 #: ../filter/filter.ui.h:12
-#, fuzzy
 msgid "a time relative to the current time"
-msgstr ""
-"поточний час\n"
-"вказаний час\n"
-"час відносно поточного"
+msgstr "час час відносно поточного"
 
 #: ../filter/filter.ui.h:13
 msgid "ago"
 msgstr "тому"
 
 #: ../filter/filter.ui.h:16
-#, fuzzy
 msgid "in the future"
-msgstr ""
-"тому\n"
-"у майбутньому"
+msgstr "у майбутньому"
 
 #: ../filter/filter.ui.h:18
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -9609,49 +9519,41 @@ msgstr "У вигляді _списку"
 
 #: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
-msgstr ""
+msgstr "Слідкування за фокусом"
 
 #: ../mail/e-mail-browser.c:742
-#, fuzzy
 msgid "Shell Module"
-msgstr "Режим виділяння"
+msgstr "Модуль оболонки"
 
 #: ../mail/e-mail-browser.c:743 ../mail/message-list.c:2589
 msgid "The mail shell backend"
-msgstr ""
+msgstr "Бэк-енд поштової оболонки"
 
 #: ../mail/e-mail-browser.c:753
-#, fuzzy
 msgid "Show Deleted"
-msgstr "Видалене"
+msgstr "Показати видалені"
 
 #: ../mail/e-mail-browser.c:754
-#, fuzzy
 msgid "Show deleted messages"
-msgstr "Переслані повідомлення"
+msgstr "Показати видалені повідомлення"
 
 #: ../mail/e-mail-display.c:66
-#, fuzzy
 msgid "_Add to Address Book..."
-msgstr "_Додати до адресної книги"
+msgstr "_Додати до адресної книги..."
 
 #: ../mail/e-mail-display.c:73
-#, fuzzy
 msgid "_To This Address"
-msgstr "_У цю адресу"
+msgstr "_За цією адресою"
 
 #: ../mail/e-mail-display.c:80
-#, fuzzy
 msgid "_From This Address"
 msgstr "_З цієї адреси"
 
 #: ../mail/e-mail-display.c:89
-#, fuzzy
 msgid "Create Search _Folder"
-msgstr "Створити _віртуальну теку"
+msgstr "Створити теку _пошуку"
 
 #: ../mail/e-mail-label-dialog.c:220
-#, fuzzy
 msgid "_Label name:"
 msgstr "_Назва позначки:"
 
@@ -9689,13 +9591,12 @@ msgid "Edit Label"
 msgstr "Змінити позначку"
 
 #: ../mail/e-mail-label-manager.c:349
-#, fuzzy
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
 msgstr ""
-"Примітка: символи підкреслення у позначках використовується як мнемонічний "
-"ідентифікатор у меню."
+"Примітка: символи підкреслення у позначках\n"
+"використовується як мнемонічний ідентифікатор у меню."
 
 #: ../mail/e-mail-label-tree-view.c:86
 msgid "Color"
@@ -9840,9 +9741,8 @@ msgstr ""
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:105
 #: ../modules/calendar/e-task-shell-view-actions.c:559
-#, fuzzy
 msgid "Do not ask me again"
-msgstr "Не питати знову."
+msgstr "Не питати знову"
 
 #: ../mail/e-mail-reader.c:264 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -10614,13 +10514,13 @@ msgstr "Помічник з облікових записів Evolution"
 #: ../mail/em-composer-utils.c:1578
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
-msgstr ""
+msgstr "Повідомлення для %s о «%s» було прочитано %s."
 
 #. Translators: %s is the subject of the email message
 #: ../mail/em-composer-utils.c:1626
-#, fuzzy, c-format
+#, c-format
 msgid "Delivery Notification for: \"%s\""
-msgstr "Властивості сповіщення про нову пошту"
+msgstr "Доставка сповіщення для: «%s»"
 
 #: ../mail/em-composer-utils.c:1950
 msgid "an unknown sender"
@@ -11175,7 +11075,6 @@ msgstr ""
 "використовувати зовнішній текстовий редактор."
 
 #: ../mail/em-format-html-display.c:738
-#, fuzzy
 msgid "Completed on"
 msgstr "Завершено о"
 
@@ -11186,7 +11085,7 @@ msgstr "Прострочені:"
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:750
 msgid "by"
-msgstr ""
+msgstr "о"
 
 #: ../mail/em-format-html-display.c:962 ../mail/em-format-html-display.c:1001
 msgid "View _Unformatted"
@@ -11560,6 +11459,8 @@ msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
+"Увімкнути анімацію зображень у повідомленнях HTML. Багатьох користувачів дратують "
+"анімовані зображення, і натомість вони хочуть бачити статичні зображення."
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -11851,18 +11752,16 @@ msgid "Logfile to log filter actions."
 msgstr "Журнальний файл для реєстрації дій фільтра."
 
 #: ../mail/evolution-mail.schemas.in.h:102
-#, fuzzy
 msgid "Mail browser height"
-msgstr "Загальна висота рядка"
+msgstr "Висота оглядача пошти"
 
 #: ../mail/evolution-mail.schemas.in.h:103
 msgid "Mail browser maximized"
-msgstr ""
+msgstr "Оглядач пошти має максимальні розміри"
 
 #: ../mail/evolution-mail.schemas.in.h:104
-#, fuzzy
 msgid "Mail browser width"
-msgstr "Поштова адреса починається з"
+msgstr "Ширина оглядача пошти"
 
 #: ../mail/evolution-mail.schemas.in.h:105
 msgid "Mark as Seen after specified timeout"
@@ -11965,12 +11864,11 @@ msgstr "Попереджати при позначенні кількох пов
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Розміщати особистий підпис у верхній частині відповідей"
 
 #: ../mail/evolution-mail.schemas.in.h:127
-#, fuzzy
 msgid "Put the cursor at the bottom of replies"
-msgstr "При відповіді починати _ввід після цитати"
+msgstr "Розміщати курсор на початок при відповіді"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Recognize emoticons in text and replace them with images."
@@ -12013,6 +11911,8 @@ msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
 msgstr ""
+"Встановіть у ІСТИНА, якщо не хочете додавати розділювач "
+"підпису при створенні поштового повідомлення"
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "Show \"Bcc\" field when sending a mail message"
@@ -12066,13 +11966,12 @@ msgid "Show deleted messages in the message-list"
 msgstr "Показувати видалені повідомлення у списку повідомлень"
 
 #: ../mail/evolution-mail.schemas.in.h:150
-#, fuzzy
 msgid "Show image animations"
-msgstr "_Показувати анімацію"
+msgstr "Показувати анімацію зображень"
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Show original \"Date\" header value."
-msgstr ""
+msgstr "Показати початкове значення заголовку «Дата»"
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Show photo of the sender"
@@ -12140,6 +12039,9 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
+"Показати первинний заголовок «Дата» (з локальним часом, лише якщо "
+"відрізняється часовий пояс). У іншому разі, завжди показувати значення "
+"заголовку «Дата» у форматі і з часовим поясом, обраним користувачем."
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid "Show the photo of the sender in the message reading pane."
@@ -12841,7 +12743,7 @@ msgstr "_Стандартний шрифт:"
 
 #: ../mail/mail-config.ui.h:99
 msgid "Secure MIME (S/MIME)"
-msgstr ""
+msgstr "Безпечний MIME (S/MIME)"
 
 #: ../mail/mail-config.ui.h:101
 msgid "Select Drafts Folder"
@@ -12868,9 +12770,8 @@ msgid "Select Sent Folder"
 msgstr "Виберіть теку надісланих"
 
 #: ../mail/mail-config.ui.h:107
-#, fuzzy
 msgid "Sender Photograph"
-msgstr "<b>Фотографія відправника</b>"
+msgstr "Фотографія відправника"
 
 #: ../mail/mail-config.ui.h:108
 msgid "Sending Mail"
@@ -12881,28 +12782,24 @@ msgid "Sent _Messages Folder:"
 msgstr "Тека _надісланих повідомлень:"
 
 #: ../mail/mail-config.ui.h:110
-#, fuzzy
 msgid "Sent and Draft Messages"
-msgstr "Надіслані повідомлення"
+msgstr "Надіслані повідомлення та чернетки"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Ser_ver requires authentication"
 msgstr "Потрібна ав_тентифікація"
 
 #: ../mail/mail-config.ui.h:112
-#, fuzzy
 msgid "Server Configuration"
 msgstr "Інформація про сервер"
 
 #: ../mail/mail-config.ui.h:113
-#, fuzzy
 msgid "Server _Type:"
 msgstr "_Тип сервера: "
 
 #: ../mail/mail-config.ui.h:114
-#, fuzzy
 msgid "Sig_natures"
-msgstr "Підписи"
+msgstr "П_ідписи"
 
 #: ../mail/mail-config.ui.h:115
 msgid "Sig_ning certificate:"
@@ -12925,7 +12822,6 @@ msgid "Start _typing at the bottom on replying"
 msgstr "При відповіді починати _ввід після цитати"
 
 #: ../mail/mail-config.ui.h:121
-#, fuzzy
 msgid "T_ype:"
 msgstr "Т_ип:"
 
@@ -13005,9 +12901,8 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "При відповіді розміщувати підпис _над повідомленням"
 
 #: ../mail/mail-config.ui.h:140
-#, fuzzy
 msgid "_Languages"
-msgstr "Мова"
+msgstr "_Мова"
 
 #: ../mail/mail-config.ui.h:141
 msgid "_Load images in messages from contacts"
@@ -13089,9 +12984,8 @@ msgid "_Use the same fonts as other applications"
 msgstr "_Використовувати такі ж шрифти, як і інші програми"
 
 #: ../mail/mail-config.ui.h:163 ../smime/gui/smime-ui.ui.h:48
-#, fuzzy
 msgid "a"
-msgstr "am"
+msgstr "a"
 
 #: ../mail/mail-config.ui.h:164
 msgid "addresses"
@@ -13099,7 +12993,7 @@ msgstr "адреса"
 
 #: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: ../mail/mail-config.ui.h:166
 msgid "color"
@@ -13134,16 +13028,14 @@ msgid "Co_mpleted"
 msgstr "_Завершено"
 
 #: ../mail/mail-dialogs.ui.h:7
-#, fuzzy
 msgid "Digital Signature"
-msgstr "Редагувати підпис"
+msgstr "Цифровий підпис"
 
 #: ../mail/mail-dialogs.ui.h:8
 msgid "Do Not Forward"
 msgstr "Не переслати"
 
 #: ../mail/mail-dialogs.ui.h:9
-#, fuzzy
 msgid "Encryption"
 msgstr "Шифрування"
 
@@ -13184,9 +13076,8 @@ msgid "S_erver:"
 msgstr "_Сервер:"
 
 #: ../mail/mail-dialogs.ui.h:22
-#, fuzzy
 msgid "Search Folder Sources"
-msgstr "Джерело віртуальної теки"
+msgstr "Джерело тек пошуку"
 
 #: ../mail/mail-dialogs.ui.h:23
 msgid "Security Information"
@@ -13276,22 +13167,22 @@ msgid "Complete."
 msgstr "Виконано."
 
 #: ../mail/mail-ops.c:905
-#, fuzzy, c-format
+#, c-format
 msgid "Saving message to folder '%s'"
-msgstr "Збереження повідомлення у теці"
+msgstr "Збереження повідомлення у теці '%s'"
 
 #: ../mail/mail-ops.c:982
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages to '%s'"
 msgstr "Переміщення повідомлень у %s"
 
 #: ../mail/mail-ops.c:982
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages to '%s'"
 msgstr "Копіювання повідомлень у %s"
 
 #: ../mail/mail-ops.c:1091
-#, fuzzy, c-format
+#, c-format
 msgid "Scanning folders in '%s'"
 msgstr "Сканування тек в \"%s\""
 
@@ -13300,7 +13191,7 @@ msgid "Forwarded messages"
 msgstr "Переслані повідомлення"
 
 #: ../mail/mail-ops.c:1240
-#, fuzzy, c-format
+#, c-format
 msgid "Opening folder '%s'"
 msgstr "Відкривання теки \"%s\""
 
@@ -13310,12 +13201,12 @@ msgid "Retrieving quota information for folder '%s'"
 msgstr "Інформація про квоту для теки %s"
 
 #: ../mail/mail-ops.c:1378
-#, fuzzy, c-format
+#, c-format
 msgid "Opening store '%s'"
 msgstr "Відкриття сховища %s"
 
 #: ../mail/mail-ops.c:1449
-#, fuzzy, c-format
+#, c-format
 msgid "Removing folder '%s'"
 msgstr "Видалення теки %s"
 
@@ -14236,7 +14127,7 @@ msgstr "Видалити всі видимі повідомлення"
 
 #: ../mail/message-list.c:2588 ../shell/e-shell-view.c:723
 msgid "Shell Backend"
-msgstr ""
+msgstr "Бек-енд оболонки"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:4399 ../mail/message-list.c:4895
@@ -14570,12 +14461,11 @@ msgstr "По_точний режим"
 
 #: ../modules/addressbook/e-book-shell-content.c:365
 msgid "The currently selected address book view"
-msgstr ""
+msgstr "Поточний обраний вигляд адресної книги"
 
 #: ../modules/addressbook/e-book-shell-content.c:374
-#, fuzzy
 msgid "Previewed Contact"
-msgstr "Створити контакт"
+msgstr "Попередній перегляд контакту"
 
 #: ../modules/addressbook/e-book-shell-content.c:375
 #, fuzzy
@@ -14663,9 +14553,8 @@ msgstr "Не вдається отримати перелік адресних �
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:262
 #: ../modules/addressbook/e-book-shell-view-actions.c:539
-#, fuzzy
 msgid "Save as vCard"
-msgstr "Зберегти як VCard..."
+msgstr "Зберегти як VCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:662
 msgid "Co_py All Contacts To..."
@@ -14677,14 +14566,12 @@ msgid "Copy the contacts of the selected address book to another"
 msgstr "Копіювати контакти з виділеної теки у іншу теку"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:669
-#, fuzzy
 msgid "D_elete Address Book"
 msgstr "В_идалити адресну книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:671
-#, fuzzy
 msgid "Delete the selected address book"
-msgstr "Відновити виділені теки"
+msgstr "Видалити обрану адресну книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:676
 msgid "Mo_ve All Contacts To..."
@@ -15146,7 +15033,7 @@ msgstr "Календар та завдання"
 
 #: ../modules/calendar/e-cal-shell-backend.c:778
 msgid "The registry of calendars"
-msgstr ""
+msgstr "Реєстр календарів"
 
 #: ../modules/calendar/e-cal-shell-migrate.c:131
 msgid ""
@@ -15175,50 +15062,47 @@ msgstr "Не вдається перетворити календар '%s'"
 #: ../modules/calendar/e-cal-shell-sidebar.c:167
 #: ../modules/calendar/e-memo-shell-sidebar.c:162
 #: ../modules/calendar/e-task-shell-sidebar.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s\n"
 "%s"
 msgstr ""
-"Помилка на %s:\n"
+"Помилка на %s\n"
 " %s"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:226
-#, fuzzy
 msgid "Loading calendars"
-msgstr "Завантаження календаря"
+msgstr "Завантаження календарів"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:615
-#, fuzzy
 msgid "Calendar Selector"
-msgstr "Вибір джерела календаря"
+msgstr "Вибір календаря"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:741
 msgid "Date Navigator Widget"
-msgstr ""
+msgstr "Віджет навігатора дати"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:742
 msgid "This widget displays a miniature calendar"
-msgstr ""
+msgstr "Цей віджет показує мініатюрний календар"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:751
-#, fuzzy
 msgid "Default Calendar Client"
-msgstr "Типова поштова програма"
+msgstr "Типовий клієнт календаря"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:752
 msgid "Default client for calendar operations"
-msgstr ""
+msgstr "Типовий клієнт для операцій з календарем"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:762
 msgid "This widget displays groups of calendars"
-msgstr ""
+msgstr "Цей віджет показує групи календаря"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar at %s"
-msgstr "Відкривання календаря"
+msgstr "Відкривається календаря %s"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:218
 #: ../modules/calendar/e-cal-shell-view-actions.c:247
@@ -15694,13 +15578,13 @@ msgstr "Помилка при виконанні операції."
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:688
 msgid "This widget displays groups of memo lists"
-msgstr ""
+msgstr "Цей віджет показує групи зі списків приміток"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-memo-shell-sidebar.c:868
 #, c-format
 msgid "Opening memos at %s"
-msgstr "Відкривання завдань на %s"
+msgstr "Відкриваються примітки у %s"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
@@ -15708,14 +15592,12 @@ msgid "Print Memos"
 msgstr "Надрукувати примітки"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:554
-#, fuzzy
 msgid "_Delete Memo"
-msgstr "В_идалити повідомлення"
+msgstr "В_идалити примітку"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:561
-#, fuzzy
 msgid "_Find in Memo..."
-msgstr "З_найти у повідомленні..."
+msgstr "З_найти у примітці…"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:563
 #, fuzzy
@@ -15723,48 +15605,40 @@ msgid "Search for text in the displayed memo"
 msgstr "Пошук у тексті відображеного повідомлення"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:582
-#, fuzzy
 msgid "D_elete Memo List"
-msgstr "_Створити список приміток"
+msgstr "В_идалити список приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:584
-#, fuzzy
 msgid "Delete the selected memo list"
-msgstr "Видалити вибрані примітки"
+msgstr "Видалити список виділених приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:589
 msgid "_New Memo List"
 msgstr "_Створити список приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
-#, fuzzy
 msgid "Refresh the selected memo list"
-msgstr "Видалити вибрані примітки"
+msgstr "Оновити список виділених приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:612
-#, fuzzy
 msgid "Rename the selected memo list"
-msgstr "Перейменувати виділену теку"
+msgstr "Перейменувати список виділених приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:617
-#, fuzzy
 msgid "Show _Only This Memo List"
-msgstr "Показувати _лише цей список пам'яток"
+msgstr "_Показувати лише цей список приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:696
-#, fuzzy
 msgid "Memo _Preview"
-msgstr "_Попередній перегляд"
+msgstr "_Попередній перегляд примітки"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:698
-#, fuzzy
 msgid "Show memo preview pane"
-msgstr "Показувати панель попереднього перегляду"
+msgstr "Показувати панель попереднього перегляду приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:719
-#, fuzzy
 msgid "Show memo preview below the memo list"
-msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
+msgstr "Показувати панель попереднього перегляду приміток зі списком приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
 #, fuzzy
@@ -16965,7 +16839,7 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:200
 msgid "Given URL cannot be found."
-msgstr ""
+msgstr "Вказаний URL не знайдено."
 
 #: ../plugins/caldav/caldav-browse-server.c:204
 #, c-format
@@ -16973,6 +16847,8 @@ msgid ""
 "Server returned unexpected data.\n"
 "%d - %s"
 msgstr ""
+"Сервер повернув несподівані дані.\n"
+"%d - %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:204
 #: ../plugins/caldav/caldav-browse-server.c:1249 ../plugins/face/face.c:169
@@ -16981,95 +16857,78 @@ msgstr "Невідома помилка"
 
 #: ../plugins/caldav/caldav-browse-server.c:334
 #: ../plugins/caldav/caldav-browse-server.c:585
-#, fuzzy
 msgid "Failed to parse server response."
-msgstr "Помилка при оновленні уповноважених:"
+msgstr "Помилка при розборі відповіді сервера."
 
 #: ../plugins/caldav/caldav-browse-server.c:428
-#, fuzzy
 msgid "Events"
-msgstr "Закінчується"
+msgstr "Події"
 
 #: ../plugins/caldav/caldav-browse-server.c:450
-#, fuzzy
 msgid "User's calendars"
-msgstr "Новий календар"
+msgstr "Календарі користувача"
 
 #: ../plugins/caldav/caldav-browse-server.c:558
 #: ../plugins/caldav/caldav-browse-server.c:629
-#, fuzzy
 msgid "Failed to get server URL."
-msgstr "Не вдається пройти автентифікацію на сервері LDAP."
+msgstr "Не вдається отримати URL сервера."
 
 #: ../plugins/caldav/caldav-browse-server.c:627
 #: ../plugins/caldav/caldav-browse-server.c:668
 #: ../plugins/caldav/caldav-browse-server.c:1272
-#, fuzzy
 msgid "Searching for user's calendars..."
-msgstr ""
-"\n"
-"\n"
-"Пошук контактів..."
+msgstr "Пошук календарів користувача…"
 
 #: ../plugins/caldav/caldav-browse-server.c:666
-#, fuzzy
 msgid "Could not find any user calendar."
-msgstr "Не вдається знайти жоден календар"
+msgstr "Не вдається знайти жоден календар."
 
 #: ../plugins/caldav/caldav-browse-server.c:794
 #, c-format
 msgid "Previous attempt failed: %s"
-msgstr ""
+msgstr "Попередня спроба завершилась помилкою: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:796
 #, c-format
 msgid "Previous attempt failed with code %d"
-msgstr ""
+msgstr "Попередня спроба завершилась помилкою з кодом %d"
 
 #: ../plugins/caldav/caldav-browse-server.c:799
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
-msgstr "Введіть пароль для %s (користувач %s)"
+msgstr "Введіть пароль користувача <b>%s</b> на сервері <b>%s</b>"
 
 #: ../plugins/caldav/caldav-browse-server.c:856
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create soup message for URL '%s'"
-msgstr ""
-"Не вдається створити файл виводу: %s:\n"
-" %s"
+msgstr "Не вдається створити серверне повідомлення для URL «%s»"
 
 #. fetch content
 #: ../plugins/caldav/caldav-browse-server.c:1091
-#, fuzzy
 msgid "Searching folder content..."
-msgstr ""
-"\n"
-"\n"
-"Пошук контактів..."
+msgstr "Пошук змісту теки…"
 
 #: ../plugins/caldav/caldav-browse-server.c:1134
-#, fuzzy
 msgid "List of available calendars:"
-msgstr "Локальні календарі"
+msgstr "Список доступних календарів:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1171
-#, fuzzy
 msgid "Supports"
-msgstr "Постачальники"
+msgstr "Підтримки"
 
 #: ../plugins/caldav/caldav-browse-server.c:1249
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create thread: %s"
-msgstr "Помилка при створенні каналу: %s"
+msgstr "Помилка при створенні потоку: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:1357
 #, c-format
 msgid "Server URL '%s' is not a valid URL"
-msgstr ""
+msgstr "URL «%s» сервера не є коректним"
 
 #: ../plugins/caldav/caldav-browse-server.c:1363
 msgid "Browse for a CalDAV calendar"
-msgstr ""
+msgstr "Огляд календаря CalDAV"
 
 #: ../plugins/caldav/caldav-source.c:66
 msgid "CalDAV"
@@ -17107,37 +16966,32 @@ msgid "CalDAV Support"
 msgstr "Підтримка CalDAV"
 
 #: ../plugins/calendar-file/calendar-file.c:112
-#, fuzzy
 msgid "_Customize options"
-msgstr "Налаштувати..."
+msgstr "З_мінити параметри"
 
 #: ../plugins/calendar-file/calendar-file.c:131
-#, fuzzy
 msgid "File _name:"
-msgstr "Назва файлу:"
+msgstr "_Назва файлу:"
 
 #: ../plugins/calendar-file/calendar-file.c:135
-#, fuzzy
 msgid "Choose calendar file"
-msgstr "Виберіть файл"
+msgstr "Виберіть файл календаря"
 
 #: ../plugins/calendar-file/calendar-file.c:183
-#, fuzzy
 msgid "On open"
-msgstr "Відкрити"
+msgstr "При відкритті"
 
 #: ../plugins/calendar-file/calendar-file.c:184
 msgid "On file change"
-msgstr ""
+msgstr "При зміні файлу"
 
 #: ../plugins/calendar-file/calendar-file.c:185
-#, fuzzy
 msgid "Periodically"
-msgstr "Особисте"
+msgstr "Періодично"
 
 #: ../plugins/calendar-file/calendar-file.c:200
 msgid "Force read _only"
-msgstr ""
+msgstr "_Лише для читання"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Add local calendars to Evolution."
@@ -17233,23 +17087,20 @@ msgstr "Календарі погоди"
 
 #: ../plugins/contacts-map/contacts-map.c:55
 #: ../plugins/contacts-map/contacts-map.c:201
-#, fuzzy
 msgid "Contacts map"
-msgstr "Контакти:"
+msgstr "Мапа контактів:"
 
 #: ../plugins/contacts-map/contacts-map.c:56
-#, fuzzy
 msgid "Show a map of all the contacts"
-msgstr "Надіслати повідомлення до обраних контактів"
+msgstr "Показати мапу для всіх контактів"
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:1
 msgid "Add a map showing the location of contacts when possible."
-msgstr ""
+msgstr "Додати карту, що показує коли це можливе, розташування контактів."
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
-#, fuzzy
 msgid "Map for contacts"
-msgstr "Немає контактів"
+msgstr "Мапа для контактів"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -17465,7 +17316,7 @@ msgstr ""
 
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
 msgid "Insert Face picture by default"
-msgstr ""
+msgstr "Типово вставляти особисту фотографію"
 
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:2
 msgid ""
@@ -17479,22 +17330,20 @@ msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
 msgstr "Виберіть зображення у форматі png розміром (48x48) не більше 700 байт"
 
 #: ../plugins/face/face.c:296
-#, fuzzy
 msgid "Image files"
-msgstr "Імпорт файлів"
+msgstr "Файл зображення"
 
 #: ../plugins/face/face.c:355
 msgid "_Insert Face picture by default"
-msgstr ""
+msgstr "Типово _вставляти по особисту фотографію"
 
 #: ../plugins/face/face.c:366
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "З_авантажити нову особисту фотографію"
 
 #: ../plugins/face/face.c:415
-#, fuzzy
 msgid "Include _Face"
-msgstr "Включити:"
+msgstr "Включ_ати особичтк фотографію"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
@@ -23211,3624 +23060,4 @@ msgstr "Контекст методу вводу (IM)"
 msgid "Handle Popup"
 msgstr "Обробляти контексті вікна"
 
-#~ msgid "search bar"
-#~ msgstr "панель пошуку"
 
-#~ msgid "evolution calendar search bar"
-#~ msgstr "панель пошуку календаря Evolution"
-
-#~ msgid "Combo Button"
-#~ msgstr "Комбо кнопка"
-
-#~ msgid "Activate Default"
-#~ msgstr "Активувати типові параметри"
-
-#~ msgid "Popup Menu"
-#~ msgstr "Випадаюче меню"
-
-#~ msgid "Error loading address book."
-#~ msgstr "Помилка при завантаженні адресної книги."
-
-#~ msgid "Server Version"
-#~ msgstr "Версія сервера"
-
-#~ msgid "C_ontacts"
-#~ msgstr "К_онтакти"
-
-#~ msgid "Configure autocomplete here"
-#~ msgstr "Тут налаштовується автодоповнення"
-
-#~ msgid "Evolution Address Book"
-#~ msgstr "Адресна книга Evolution"
-
-#~ msgid "Evolution Address Book address popup"
-#~ msgstr "Розкривна адреса адресної книги Evolution"
-
-#~ msgid "Evolution Address Book address viewer"
-#~ msgstr "Компонент перегляду адреси адресної книги Evolution"
-
-#~ msgid "Evolution Address Book card viewer"
-#~ msgstr "Компонент перегляду картки адресної книги Evolution"
-
-#~ msgid "Evolution Address Book component"
-#~ msgstr "Компонент адресної книги Evolution"
-
-#~ msgid "Evolution S/MIME Certificate Management Control"
-#~ msgstr "Evolution S/MIME Certificate Management Control"
-
-#~ msgid "Evolution folder settings configuration control"
-#~ msgstr "Керуючий елемент налаштовування теки Evolution"
-
-#~ msgid "Manage your S/MIME certificates here"
-#~ msgstr "Тут можна керувати вашими сертифікатами S/Mime"
-
-#~ msgid "Failed upgrading Address Book settings or folders."
-#~ msgstr "Помилка оновлення параметрів та тек адресної книги."
-
-#~ msgid "Base"
-#~ msgstr "База"
-
-#~ msgid "Rename the \"%s\" folder to:"
-#~ msgstr "Перейменувати теку \"%s\" на:"
-
-#~ msgid "Rename Folder"
-#~ msgstr "Перейменування теки"
-
-#~ msgid "Save As vCard..."
-#~ msgstr "Зберегти як VCard..."
-
-#~ msgid "Contact Source Selector"
-#~ msgstr "Вибір джерела контактів."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the card and list views and the "
-#~ "preview pane, in pixels."
-#~ msgstr ""
-#~ "Позиція вертикальної панелі між переглядом картки та списку, та панеллю "
-#~ "попереднього перегляду, у точках."
-
-#~ msgid "Look up in address books"
-#~ msgstr "Шукати у адресних книгах"
-
-#~ msgid ""
-#~ "389\n"
-#~ "636\n"
-#~ "3268"
-#~ msgstr ""
-#~ "389\n"
-#~ "636\n"
-#~ "3268"
-
-#~ msgid "<b>Authentication</b>"
-#~ msgstr "<b>Автентифікація</b>"
-
-#~ msgid "<b>Downloading</b>"
-#~ msgstr "<b>Завантаження</b>"
-
-#~ msgid "<b>Searching</b>"
-#~ msgstr "<b>Пошук</b>"
-
-#~ msgid ""
-#~ "Anonymously\n"
-#~ "Using email address\n"
-#~ "Using distinguished name (DN)"
-#~ msgstr ""
-#~ "Анонімно\n"
-#~ "Використовуючи електронну пошту\n"
-#~ "Використовуючи відокремлену назву (DN)"
-
-#~ msgid ""
-#~ "Evolution will use this email address to authenticate you with the server."
-#~ msgstr ""
-#~ "Ця електронна адреса буде використовуватись для автентифікації на сервері."
-
-#~ msgid ""
-#~ "One\n"
-#~ "Sub"
-#~ msgstr ""
-#~ "Один\n"
-#~ "підрівень"
-
-#~ msgid ""
-#~ "SSL encryption\n"
-#~ "TLS encryption\n"
-#~ "No encryption"
-#~ msgstr ""
-#~ "Шифрування SSL\n"
-#~ "Шифрування TLS\n"
-#~ "Без шифрування"
-
-#~ msgid ""
-#~ "The search base is the distinguished name (DN) of the entry where your "
-#~ "searches will begin. If you leave this blank, the search will begin at "
-#~ "the root of the directory tree."
-#~ msgstr ""
-#~ "База пошуку — це відокремлене ім'я (DN) елементу, з якого починатиметься "
-#~ "пошук. Якщо ви залишите це поле порожнім - пошук виконуватиметься з "
-#~ "кореневого елементу сервера."
-
-#~ msgid ""
-#~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
-#~ "com\"."
-#~ msgstr "Повна назва вашого сервера LDAP. Наприклад, \"ldap.mycompany.com\"."
-
-#~ msgid ""
-#~ "This is the maximum number of entries to download. Setting this number to "
-#~ "be too large will slow down your address book."
-#~ msgstr ""
-#~ "Максимальна кількість елементів для завантаження. Встановлення занадто "
-#~ "великого значення сповільнить роботу записної книжки."
-
-#~ msgid ""
-#~ "This is the name for this server that will appear in your Evolution "
-#~ "folder list. It is for display purposes only. "
-#~ msgstr ""
-#~ "Назва цього сервера, що буде показана в вашому списку тек Evolution. Воно "
-#~ "використовується тільки для показу."
-
-#~ msgid "<b>Email</b>"
-#~ msgstr "<b>Електронна адреса</b>"
-
-#~ msgid "<b>Home</b>"
-#~ msgstr "<b>До:</b> "
-
-#~ msgid "<b>Job</b>"
-#~ msgstr "<b>Робота</b> "
-
-#~ msgid "<b>Miscellaneous</b>"
-#~ msgstr "<b>Різне</b>"
-
-#~ msgid "<b>Other</b>"
-#~ msgstr "<b>Інше</b>"
-
-#~ msgid "<b>Telephone</b>"
-#~ msgstr "<b>Телефон</b>"
-
-#~ msgid "<b>Work</b>"
-#~ msgstr "<b>Робоча</b>"
-
-#~ msgid "_Notes:"
-#~ msgstr "П_римітки:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Mr.\n"
-#~ "Mrs.\n"
-#~ "Ms.\n"
-#~ "Miss\n"
-#~ "Dr."
-#~ msgstr ""
-#~ "\n"
-#~ "Пан\n"
-#~ "Пані\n"
-#~ "Пані\n"
-#~ "Панночка\n"
-#~ "Др."
-
-#~ msgid ""
-#~ "\n"
-#~ "Sr.\n"
-#~ "Jr.\n"
-#~ "I\n"
-#~ "II\n"
-#~ "III\n"
-#~ "Esq."
-#~ msgstr ""
-#~ "\n"
-#~ "Старший\n"
-#~ "Молодший\n"
-#~ "I\n"
-#~ "II\n"
-#~ "III\n"
-#~ "Есквайр"
-
-#~ msgid "<b>Members</b>"
-#~ msgstr "<b>Користувачі</b>"
-
-#~ msgid "Name begins with"
-#~ msgstr "Ім'я починається з"
-
-#~ msgid "_Open"
-#~ msgstr "_Відкрити"
-
-#~ msgid "_Print"
-#~ msgstr "Д_рук"
-
-#~ msgid "Cop_y to Address Book..."
-#~ msgstr "Коп_іювати у адресну книгу..."
-
-#~ msgid "Mo_ve to Address Book..."
-#~ msgstr "Пере_містити у адресну книгу..."
-
-#~ msgid "Cu_t"
-#~ msgstr "_Вирізати"
-
-#~ msgid "_Copy"
-#~ msgstr "_Копіювати"
-
-#~ msgid "P_aste"
-#~ msgstr "Вст_авити"
-
-#~ msgid ""
-#~ "%s already exists\n"
-#~ "Do you want to overwrite it?"
-#~ msgstr ""
-#~ "%s вже існує\n"
-#~ "Хочете переписати?"
-
-#~ msgid "Overwrite"
-#~ msgstr "Переписати"
-
-#~ msgid "contact"
-#~ msgid_plural "contacts"
-#~ msgstr[0] "контакт"
-#~ msgstr[1] "контакти"
-#~ msgstr[2] "контактів"
-
-#~ msgid "Querying Address Book..."
-#~ msgstr "Запитується адресна книга..."
-
-#~ msgid "Save Appointment"
-#~ msgstr "Зберегти зустріч"
-
-#~ msgid "Save Memo"
-#~ msgstr "Зберегти примітку"
-
-#~ msgid "Save Task"
-#~ msgstr "Зберегти задачу"
-
-#~ msgid "Configure your timezone, Calendar and Task List here "
-#~ msgstr "Тут можна налаштувати ваш часовий пояс, календар та список завдань "
-
-#~ msgid "Evolution Calendar and Tasks"
-#~ msgstr "Календар та завдання Evolution"
-
-#~ msgid "Evolution Calendar configuration control"
-#~ msgstr "Компонент керування конфігурацією календаря Evolution"
-
-#~ msgid "Evolution Calendar scheduling message viewer"
-#~ msgstr "Компонент перегляду планувальник календаря Evolution"
-
-#~ msgid "Evolution Calendar/Task editor"
-#~ msgstr "Редактор календаря/завдання"
-
-#~ msgid "Evolution's Calendar component"
-#~ msgstr "Компонент календаря Evolutuion"
-
-#~ msgid "Evolution's Memos component"
-#~ msgstr "Компонент  приміток Evolutuion"
-
-#~ msgid "Evolution's Tasks component"
-#~ msgstr "Компонент завдань Evolutuion"
-
-#~ msgid "Memo_s"
-#~ msgstr "_Примітки"
-
-#~ msgid "_Calendars"
-#~ msgstr "_Календарі"
-
-#~ msgid "Evolution Calendar alarm notification service"
-#~ msgstr "Служба сповіщення календаря Evolution"
-
-#~ msgid "Could not initialize Bonobo"
-#~ msgstr "Не вдається ініціалізувати Bonobo"
-
-#~ msgid ""
-#~ "Could not create the alarm notify service factory, maybe it's already "
-#~ "running..."
-#~ msgstr ""
-#~ "Не вдається створити фабрику служби сповіщення, можливо, вона вже "
-#~ "запущена..."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the task list and the task preview "
-#~ "pane, in pixels."
-#~ msgstr ""
-#~ "Положення вертикальної панелі між списком завдань та попереднім "
-#~ "переглядом завдання, у точках."
-
-#~ msgid "Show the \"Preview\" pane."
-#~ msgstr "Показувати панель попереднього перегляду."
-
-#~ msgid "Category is"
-#~ msgstr "Категорія"
-
-#~ msgid "Comment contains"
-#~ msgstr "Коментар містить"
-
-#~ msgid "Location contains"
-#~ msgstr "Адреса містить"
-
-#~ msgid "_Make available for offline use"
-#~ msgstr "_Позначити календар для автономного використання"
-
-#~ msgid "_Do not make available for offline use"
-#~ msgstr "_Не робити доступним онлайн"
-
-#~ msgid "Failed upgrading calendars."
-#~ msgstr "Помилка при оновленні календарів."
-
-#~ msgid "Unable to open the calendar '%s' for creating events and meetings"
-#~ msgstr "Не вдається відкрити календар '%s' для створення подій та засідань"
-
-#~ msgid "There is no calendar available for creating events and meetings"
-#~ msgstr "Немає доступного календаря для створення подій та засідань"
-
-#~ msgid "New appointment"
-#~ msgstr "Створити зустріч"
-
-#~ msgid "New meeting"
-#~ msgstr "Створити засідання"
-
-#~ msgid "New all day appointment"
-#~ msgstr "Нова зустріч на весь день"
-
-#~ msgid "Error while opening the calendar"
-#~ msgstr "Помилка під час відкриття календаря"
-
-#~ msgid "Method not supported when opening the calendar"
-#~ msgstr "Метод не підтримується під час відкриття календарю"
-
-#~ msgid "Permission denied to open the calendar"
-#~ msgstr "Відказано в доступі при відкриття календарю"
-
-#~ msgid "<b>Alarm</b>"
-#~ msgstr "<b>Сигнал</b>"
-
-#~ msgid "<b>Options</b>"
-#~ msgstr "<b>Параметри</b>"
-
-#~ msgid ""
-#~ "before\n"
-#~ "after"
-#~ msgstr ""
-#~ "перед\n"
-#~ "після"
-
-#~ msgid ""
-#~ "minute(s)\n"
-#~ "hour(s)\n"
-#~ "day(s)"
-#~ msgstr ""
-#~ "хвилин(и)\n"
-#~ "годин(и)\n"
-#~ "дні(в)"
-
-#~ msgid ""
-#~ "minutes\n"
-#~ "hours\n"
-#~ "days"
-#~ msgstr ""
-#~ "хвилини\n"
-#~ "години\n"
-#~ "дні"
-
-#~ msgid ""
-#~ "start of appointment\n"
-#~ "end of appointment"
-#~ msgstr ""
-#~ "початок зустрічі\n"
-#~ "кінець зістрічі"
-
-#~ msgid "Attach file(s)"
-#~ msgstr "Вкласти файл(и)"
-
-#~ msgid ""
-#~ "60 minutes\n"
-#~ "30 minutes\n"
-#~ "15 minutes\n"
-#~ "10 minutes\n"
-#~ "05 minutes"
-#~ msgstr ""
-#~ "60 хвилин\n"
-#~ "30 хвилин\n"
-#~ "15 хвилин\n"
-#~ "10 хвилин\n"
-#~ "05 хвилин"
-
-#~ msgid "<span weight=\"bold\">Alarms</span>"
-#~ msgstr "<span weight=\"bold\">Попередження</span>"
-
-#~ msgid "<span weight=\"bold\">Alerts</span>"
-#~ msgstr "<span weight=\"bold\">Нагадування</span>"
-
-#~ msgid "<span weight=\"bold\">Task List</span>"
-#~ msgstr "<span weight=\"bold\">Список завдань</span>"
-
-#~ msgid "<span weight=\"bold\">Time</span>"
-#~ msgstr "<span weight=\"bold\">Час</span>"
-
-#~ msgid "<span weight=\"bold\">Work Week</span>"
-#~ msgstr "<span weight=\"bold\">Робочий тиждень</span>"
-
-#~ msgid ""
-#~ "Minutes\n"
-#~ "Hours\n"
-#~ "Days"
-#~ msgstr ""
-#~ "Хвилини\n"
-#~ "Години\n"
-#~ "Дні"
-
-#~ msgid ""
-#~ "Monday\n"
-#~ "Tuesday\n"
-#~ "Wednesday\n"
-#~ "Thursday\n"
-#~ "Friday\n"
-#~ "Saturday\n"
-#~ "Sunday"
-#~ msgstr ""
-#~ "Понеділок\n"
-#~ "Вівторок\n"
-#~ "Середа\n"
-#~ "Четвер\n"
-#~ "П'ятниця\n"
-#~ "Субота\n"
-#~ "Неділя"
-
-#~ msgid "_Add "
-#~ msgstr "_Додати"
-
-#~ msgid ""
-#~ "15 minutes before appointment\n"
-#~ "1 hour before appointment\n"
-#~ "1 day before appointment"
-#~ msgstr ""
-#~ "15 хвилин до зустрічі\n"
-#~ "1 година до зустрічі\n"
-#~ "1 день до зустрічі"
-
-#~ msgid ""
-#~ "a\n"
-#~ "b"
-#~ msgstr ""
-#~ "a\n"
-#~ "b"
-
-#~ msgid "<b>Preview</b>"
-#~ msgstr "<b>Попередній перегляд</b>"
-
-#~ msgid "<b>Recurrence</b>"
-#~ msgstr "<b>Повторення</b>"
-
-#~ msgid ""
-#~ "day(s)\n"
-#~ "week(s)\n"
-#~ "month(s)\n"
-#~ "year(s)"
-#~ msgstr ""
-#~ "дні(в)\n"
-#~ "тижні(в)\n"
-#~ "місяці(в)\n"
-#~ "років"
-
-#~ msgid ""
-#~ "for\n"
-#~ "until\n"
-#~ "forever"
-#~ msgstr ""
-#~ "для\n"
-#~ "до\n"
-#~ "назавжди"
-
-#~ msgid "<span weight=\"bold\">Miscellaneous</span>"
-#~ msgstr "<span weight=\"bold\">Різне</span>"
-
-#~ msgid "<span weight=\"bold\">Status</span>"
-#~ msgstr "<span weight=\"bold\">Стан</span>"
-
-#~ msgid ""
-#~ "High\n"
-#~ "Normal\n"
-#~ "Low\n"
-#~ "Undefined"
-#~ msgstr ""
-#~ "Високий\n"
-#~ "Звичайний\n"
-#~ "Низький\n"
-#~ "Невизначено"
-
-#~ msgid ""
-#~ "Not Started\n"
-#~ "In Progress\n"
-#~ "Completed\n"
-#~ "Canceled"
-#~ msgstr ""
-#~ "Не розпочато\n"
-#~ "В процесі\n"
-#~ "Завершено\n"
-#~ "Скасовано"
-
-#~ msgid "_Save As..."
-#~ msgstr "Зберегти _як..."
-
-#~ msgid "P_rint..."
-#~ msgstr "Д_рук..."
-
-#~ msgid "C_ut"
-#~ msgstr "_Вирізати"
-
-#~ msgid "_Paste"
-#~ msgstr "Вст_авити"
-
-#~ msgid "_Mark Selected Tasks as Complete"
-#~ msgstr "_Позначити вибрані завдання як виконані"
-
-#~ msgid "_Mark Selected Tasks as Incomplete"
-#~ msgstr "_Позначити вибрані завдання як незавершені"
-
-#~ msgid "_Delete Selected Tasks"
-#~ msgstr "В_идалити вибрані завдання"
-
-#~ msgid "Select T_oday"
-#~ msgstr "Вибрати _сьогодні"
-
-#~ msgid "_Select Date..."
-#~ msgstr "Вибрати _дату..."
-
-#~ msgid "Pri_nt..."
-#~ msgstr "Др_ук..."
-
-#~ msgid "_Delete Selected Memos"
-#~ msgstr "В_идалити виділені примітки"
-
-#~ msgid "Deleting selected objects..."
-#~ msgstr "Видалення виділених об'єктів"
-
-#~ msgid "Completing tasks..."
-#~ msgstr "Завершення виконання завдання..."
-
-#~ msgid "_Custom View"
-#~ msgstr "Спе_ціальний вигляд"
-
-#~ msgid "_Save Custom View"
-#~ msgstr "З_берегти змінений вигляд"
-
-#~ msgid "_Define Views..."
-#~ msgstr "_Визначити відображення..."
-
-#~ msgid "Loading appointments at %s"
-#~ msgstr "Завантажуються зустрічі з %s"
-
-#~ msgid "Loading tasks at %s"
-#~ msgstr "Завантажуються завдання з %s"
-
-#~ msgid "Loading memos at %s"
-#~ msgstr "Завантаження приміток з %s"
-
-#~ msgid ""
-#~ "January\n"
-#~ "February\n"
-#~ "March\n"
-#~ "April\n"
-#~ "May\n"
-#~ "June\n"
-#~ "July\n"
-#~ "August\n"
-#~ "September\n"
-#~ "October\n"
-#~ "November\n"
-#~ "December"
-#~ msgstr ""
-#~ "Січень\n"
-#~ "Лютий\n"
-#~ "Березень\n"
-#~ "Квітень\n"
-#~ "Травень\n"
-#~ "Червень\n"
-#~ "Липень\n"
-#~ "Серпень\n"
-#~ "Вересень\n"
-#~ "Жовтень\n"
-#~ "Листопад\n"
-#~ "Грудень"
-
-#~ msgid "Failed upgrading memos."
-#~ msgstr "Помилка при оновленні примітки."
-
-#~ msgid "Unable to open the memo list '%s' for creating events and meetings"
-#~ msgstr ""
-#~ "Не вдається відкрити список приміток '%s' для створення подій та засідань"
-
-#~ msgid "There is no calendar available for creating memos"
-#~ msgstr "Немає календаря для створення приміток"
-
-#~ msgid "New shared memo"
-#~ msgstr "Створити спільну примітку"
-
-#~ msgctxt "New"
-#~ msgid "Memo li_st"
-#~ msgstr "С_писок приміток"
-
-#~ msgid "Failed upgrading tasks."
-#~ msgstr "Помилка при оновленні завдання."
-
-#~ msgid "Unable to open the task list '%s' for creating events and meetings"
-#~ msgstr ""
-#~ "Не вдається відкрити список завдань '%s' для створення подій та засідань"
-
-#~ msgid "There is no calendar available for creating tasks"
-#~ msgstr "Немає календаря для створення завдань"
-
-#~ msgid "New task"
-#~ msgstr "Створити завдання"
-
-#~ msgid "New assigned task"
-#~ msgstr "Нове призначене завдання"
-
-#~ msgctxt "New"
-#~ msgid "Tas_k list"
-#~ msgstr "Список _завдань"
-
-#~ msgid "Could not open autosave file"
-#~ msgstr "Не вдається відкрити автоматично збережений файл"
-
-#~ msgid "_Security"
-#~ msgstr "_Безпека"
-
-#~ msgid "Directories can not be attached to Messages."
-#~ msgstr "У повідомлення не можна вкладати каталоги."
-
-#~ msgid ""
-#~ "Send options available only for Novell GroupWise and Microsoft Exchange "
-#~ "accounts."
-#~ msgstr ""
-#~ "Параметри надсилання доступні лише для облікових записів Novell Groupwise "
-#~ "та Microsoft Exchange."
-
-#~ msgid "Send options not available."
-#~ msgstr "Параметри надсилання недоступні."
-
-#~ msgid ""
-#~ "To attach the contents of this directory, either attach the files in this "
-#~ "directory individually, or create an archive of the directory and attach "
-#~ "it."
-#~ msgstr ""
-#~ "Щоб вкласти вміст цього каталогу, або вкладіть окремі файли з каталогу, "
-#~ "або створіть архів цього каталогу, та вкладіть архівний файл."
-
-#~ msgid "Unfinished messages found"
-#~ msgstr "Знайдено незавершене повідомлення"
-
-#~ msgid "Warning: Modified Message"
-#~ msgstr "Увага: змінене повідомлення"
-
-#~ msgid "Evolution Information"
-#~ msgstr "Інформація Evolution"
-
-#~ msgid "Evolution Query"
-#~ msgstr "Запитання Evolution"
-
-#~ msgid "Component"
-#~ msgstr "Компонент"
-
-#~ msgid "Overwrite file?"
-#~ msgstr "Переписати файл?"
-
-#~ msgid "Label name cannot be empty."
-#~ msgstr "Назва позначки не може бути порожньою"
-
-#~ msgid ""
-#~ "A label having the same tag already exists on the server. Please rename "
-#~ "your label."
-#~ msgstr "Позначка з такою міткою вже існує. Перейменуйте позначку."
-
-#~ msgid "Test"
-#~ msgstr "Перевірка"
-
-#~ msgid "<b>_Filter Rules</b>"
-#~ msgstr "<b>Правила _фільтрування</b>"
-
-#~ msgid ""
-#~ "seconds\n"
-#~ "minutes\n"
-#~ "hours\n"
-#~ "days\n"
-#~ "weeks\n"
-#~ "months\n"
-#~ "years"
-#~ msgstr ""
-#~ "секунди\n"
-#~ "хвилини\n"
-#~ "години\n"
-#~ "дні\n"
-#~ "тижні\n"
-#~ "місяці\n"
-#~ "роки"
-
-#~ msgid "Rule name"
-#~ msgstr "Назва правила"
-
-#~ msgid ""
-#~ "Configure mail preferences, including security and message display, here"
-#~ msgstr ""
-#~ "Налаштовування параметрів пошти, включаючи безпеку та відображення "
-#~ "повідомлень"
-
-#~ msgid "Configure spell-checking, signatures, and the message composer here"
-#~ msgstr ""
-#~ "Налаштовування перевірки правопису, підписів та редактора повідомлень"
-
-#~ msgid "Configure your network connection settings here"
-#~ msgstr "Налаштовування параметрів мережного з'єднання"
-
-#~ msgid "Evolution Mail"
-#~ msgstr "Пошта Evolution"
-
-#~ msgid "Evolution Mail accounts configuration control"
-#~ msgstr "Редактор облікових рахунків Evolution"
-
-#~ msgid "Evolution Mail component"
-#~ msgstr "Компонент пошти Evolutuion"
-
-#~ msgid "Evolution Mail composer"
-#~ msgstr "Компонент редактора повідомлень Evolutuion"
-
-#~ msgid "Evolution Mail composer configuration control"
-#~ msgstr "Компонент керування редактором поштового повідомлення Evolutuion"
-
-#~ msgid "Evolution Mail preferences control"
-#~ msgstr "Компонент керування параметрами пошти Evolutuion"
-
-#~ msgid "Evolution Network configuration control"
-#~ msgstr "Налаштовування параметрів мережі Evolution"
-
-#~ msgid "[Default]"
-#~ msgstr "[Типовий]"
-
-#~ msgid "Signature(s)"
-#~ msgstr "Підписи"
-
-#~ msgid "_Copy to Folder"
-#~ msgstr "_Копіювати у теку"
-
-#~ msgid "_Move to Folder"
-#~ msgstr "Пере_містити в теку"
-
-#~ msgid "Cancel _Drag"
-#~ msgstr "Скасувати _перетягування"
-
-#~ msgid "Open in _New Window"
-#~ msgstr "Відкрити у _новому вікні"
-
-#~ msgid "_Move..."
-#~ msgstr "П_еремістити..."
-
-#~ msgid "_Unread Search Folder"
-#~ msgstr "Позначити теку пошуку як непрочитану"
-
-#~ msgid "U_ndelete"
-#~ msgstr "Від_новити"
-
-#~ msgid "Fla_g Completed"
-#~ msgstr "_Ознака \"Завершено\""
-
-#~ msgid "Cl_ear Flag"
-#~ msgstr "О_чистити ознаку"
-
-#~ msgid "Crea_te Rule From Message"
-#~ msgstr "С_творити правило з повідомлення"
-
-#~ msgid "Search Folder based on _Subject"
-#~ msgstr "Тека пошуку за _темою"
-
-#~ msgid "Search Folder based on Se_nder"
-#~ msgstr "Тека пошуку за _відправником"
-
-#~ msgid "Search Folder based on _Recipients"
-#~ msgstr "Тека пошуку за _отримувачем"
-
-#~ msgid "Filter based on Sub_ject"
-#~ msgstr "Фільтр за т_емою"
-
-#~ msgid "Filter based on Sen_der"
-#~ msgstr "Фільтр за в_ідправником"
-
-#~ msgid "Filter based on Re_cipients"
-#~ msgstr "Фільтр за от_римувачем"
-
-#~ msgid "Filter based on _Mailing List"
-#~ msgstr "Фільтр за с_писком розсилки"
-
-#~ msgid "Completed on %B %d, %Y, %l:%M %p"
-#~ msgstr "Завершено у %d %B, %Y, %l:%M %p"
-
-#~ msgid "by %B %d, %Y, %l:%M %p"
-#~ msgstr "до %d %B, %Y, %l:%M %p"
-
-#~ msgid "_Fit to Width"
-#~ msgstr "_Підігнати за шириною"
-
-#~ msgid " (%a, %R %Z)"
-#~ msgstr " (%a, %R %Z)"
-
-#~ msgid " (%R %Z)"
-#~ msgstr " (%R %Z)"
-
-#~ msgid "Tag"
-#~ msgstr "Мітка"
-
-#~ msgid "Save As..."
-#~ msgstr "Зберегти як..."
-
-#~ msgid "untitled_image.%s"
-#~ msgstr "Неназване_зображення.%s"
-
-#~ msgid "_Reply to sender"
-#~ msgstr "В_ідповісти відправнику"
-
-#~ msgid "Open in %s..."
-#~ msgstr "Відкрити у програмі %s..."
-
-#~ msgid "message"
-#~ msgstr "повідомлення"
-
-#~ msgid "Add address"
-#~ msgstr "Додати адресу"
-
-#~ msgid "Default height of the message window."
-#~ msgstr "Типова висота вікна повідомлення."
-
-#~ msgid "Default width of the message window."
-#~ msgstr "Типова висота вікна повідомлення."
-
-#~ msgid ""
-#~ "If the \"Preview\" pane is on, then show it side-by-side rather than "
-#~ "vertically."
-#~ msgstr ""
-#~ "Якщо увімкнено панель \"Попередній перегляд\", тоді відображати її поруч "
-#~ "а не вертикально."
-
-#~ msgid ""
-#~ "It disables/enables the repeated prompts to ask if offline sync is "
-#~ "required before going into offline mode."
-#~ msgstr "Вимикає повтор запиту про автономну синхронізацію."
-
-#~ msgid "Message Window default height"
-#~ msgstr "Типова висота вікна повідомлення"
-
-#~ msgid "Message Window default width"
-#~ msgstr "Типова ширина вікна повідомлення"
-
-#~ msgid "Prompt to check if the user wants to go offline immediately"
-#~ msgstr "Попереджувати про негайний вихід у автономний режим"
-
-#~ msgid "Thread the message list."
-#~ msgstr "Розбивати на гілки список повідомлень."
-
-#~ msgid "Thread the message-list"
-#~ msgstr "Розбивати на гілки список повідомлень"
-
-#~ msgid "Use side-by-side or wide layout"
-#~ msgstr "Використовувати розташування впритул або широкий вигляд"
-
-#~ msgid "New Mail Message"
-#~ msgstr "Створити поштове повідомлення"
-
-#~ msgid "New Mail Folder"
-#~ msgstr "Нова поштова тека"
-
-#~ msgid "Failed upgrading Mail settings or folders."
-#~ msgstr "Не вдається оновити параметри пошти або тек."
-
-#~ msgid " Ch_eck for Supported Types "
-#~ msgstr " Перевірка п_ідтримуваних типів "
-
-#~ msgid "<b>Sig_natures</b>"
-#~ msgstr "<b>_Підписи</b>"
-
-#~ msgid "<b>_Languages</b>"
-#~ msgstr "<b>_Мови</b>"
-
-#~ msgid "<span weight=\"bold\">Authentication</span>"
-#~ msgstr "<span weight=\"bold\">Автентифікація</span>"
-
-#~ msgid "<span weight=\"bold\">Composing Messages</span>"
-#~ msgstr "<span weight=\"bold\">Створення повідомлень</span>"
-
-#~ msgid "<span weight=\"bold\">Configuration</span>"
-#~ msgstr "<span weight=\"bold\">Конфігурація</span>"
-
-#~ msgid "<span weight=\"bold\">Default Behavior</span>"
-#~ msgstr "<span weight=\"bold\">Типова поведінка</span>"
-
-#~ msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
-#~ msgstr "<span weight=\"bold\">Відображувані _заголовки повідомлення</span>"
-
-#~ msgid "<span weight=\"bold\">Labels</span>"
-#~ msgstr "<span weight=\"bold\">Позначки</span>"
-
-#~ msgid "<span weight=\"bold\">Loading Images</span>"
-#~ msgstr "<span weight=\"bold\">Завантаження зображень</span>"
-
-#~ msgid "<span weight=\"bold\">Message Display</span>"
-#~ msgstr "<span weight=\"bold\">Відображення повідомлення</span>"
-
-#~ msgid "<span weight=\"bold\">Message Fonts</span>"
-#~ msgstr "<span weight=\"bold\">Шрифти повідомлення</span>"
-
-#~ msgid "<span weight=\"bold\">Message Receipts</span>"
-#~ msgstr "<span weight=\"bold\">Сповіщення про отримання</span>"
-
-#~ msgid "<span weight=\"bold\">Optional Information</span>"
-#~ msgstr "<span weight=\"bold\">Необов'язкова інформація</span>"
-
-#~ msgid "<span weight=\"bold\">Options</span>"
-#~ msgstr "<span weight=\"bold\">Параметри</span>"
-
-#~ msgid "<span weight=\"bold\">Printed Fonts</span>"
-#~ msgstr "<span weight=\"bold\">Шрифти при друкуванні</span>"
-
-#~ msgid "<span weight=\"bold\">Proxy Settings</span>"
-#~ msgstr "<span weight=\"bold\">Параметри проксі</span>"
-
-#~ msgid "<span weight=\"bold\">Required Information</span>"
-#~ msgstr "<span weight=\"bold\">Обов'язкова інформація</span>"
-
-#~ msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-#~ msgstr "<span weight=\"bold\">Безпечний MIME (S/MIME)</span>"
-
-#~ msgid "<span weight=\"bold\">Security</span>"
-#~ msgstr "<span weight=\"bold\">Безпека</span>"
-
-#~ msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-#~ msgstr "<span weight=\"bold\">Надіслані повідомлення та чернетки</span>"
-
-#~ msgid "<span weight=\"bold\">Server Configuration</span>"
-#~ msgstr "<span weight=\"bold\">Параметри сервера</span>"
-
-#~ msgid "<span weight=\"bold\">_Authentication Type</span>"
-#~ msgstr "<span weight=\"bold\">Тип _автентифікації</span>"
-
-#~ msgid ""
-#~ "Attachment\n"
-#~ "Inline\n"
-#~ "Quoted"
-#~ msgstr ""
-#~ "Долучення\n"
-#~ "Вбудований\n"
-#~ "Цитований"
-
-#~ msgid ""
-#~ "Attachment\n"
-#~ "Inline (Outlook style)\n"
-#~ "Quoted\n"
-#~ "Do not quote"
-#~ msgstr ""
-#~ "Долучення\n"
-#~ "Вбудований (стиль Outlook)\n"
-#~ "Цитований\n"
-#~ "Не цитувати"
-
-#~ msgid "Baltic (ISO-8859-13)"
-#~ msgstr "Baltic (ISO-8859-13)"
-
-#~ msgid "Baltic (ISO-8859-4)"
-#~ msgstr "Baltic (ISO-8859-4)"
-
-#~ msgid "Ch_eck for Supported Types "
-#~ msgstr "Перевірка п_ідтримуваних типів "
-
-#~ msgid "Email Accounts"
-#~ msgstr "Облікові записи пошти"
-
-#~ msgid "Message Composer"
-#~ msgstr "Редактор повідомлень"
-
-#~ msgid "Signatures Table"
-#~ msgstr "Таблиця підписів"
-
-#~ msgid "<b>Search Folder Sources</b>"
-#~ msgstr "<b>Джерела віртуальних тек</b>"
-
-#~ msgid "<span weight=\"bold\">Digital Signature</span>"
-#~ msgstr "<span weight=\"bold\">Цифровий підпис</span>"
-
-#~ msgid "<span weight=\"bold\">Encryption</span>"
-#~ msgstr "<span weight=\"bold\">Шифрування</span>"
-
-#~ msgid "Delete \"{0}\"?"
-#~ msgstr "Видалити «{0}»?"
-
-#~ msgid "Delete messages in Search Folder?"
-#~ msgstr "Видалити повідомлення у теці пошуку?"
-
-#~ msgid "Discard changes?"
-#~ msgstr "Відкинути зміни?"
-
-#~ msgid "Mark all messages as read"
-#~ msgstr "Позначити всі повідомлення як прочитані"
-
-#~ msgid "Querying server"
-#~ msgstr "Запитується сервер"
-
-#~ msgid "Subject or Recipients contains"
-#~ msgstr "Тема чи відправник містить"
-
-#~ msgid "Subject or Sender contains"
-#~ msgstr "Тема чи відправник містить"
-
-#~ msgid "Audio Inline"
-#~ msgstr "Вбудоване аудіо"
-
-#~ msgid "Copy Tool"
-#~ msgstr "Інструмент копіювання"
-
-#~ msgid "_Account:"
-#~ msgstr "_Обліковий запис:"
-
-#~ msgid "_Folder Name:"
-#~ msgstr "_Назва теки:"
-
-#~ msgid "_User:"
-#~ msgstr "_Користувач:"
-
-#~ msgid "Secure Password"
-#~ msgstr "Захищений пароль"
-
-#~ msgid ""
-#~ "This option will connect to the Exchange server using secure password "
-#~ "(NTLM) authentication."
-#~ msgstr ""
-#~ "Цей параметр дозволить з'єднуватись з сервером Exchange, використовуючи "
-#~ "автентифікацію з захищеним паролем (NTLM)."
-
-#~ msgid "Plaintext Password"
-#~ msgstr "Незахищений пароль"
-
-#~ msgid ""
-#~ "This option will connect to the Exchange server using standard plaintext "
-#~ "password authentication."
-#~ msgstr ""
-#~ "Цей параметр дозволить з'єднуватись з сервером Exchange, використовуючи "
-#~ "стандартну аутентифікацію (незахищений текстовий пароль)."
-
-#~ msgid "Out Of Office"
-#~ msgstr "Недосяжний"
-
-#~ msgid ""
-#~ "The message specified below will be automatically sent to \n"
-#~ "each person who sends mail to you while you are out of the office."
-#~ msgstr ""
-#~ "Повідомлення, що вказане нижче, буде автоматично надіслано до кожного,\n"
-#~ "хто надішле вам листа за вашої відсутності на роботі."
-
-#~ msgid "I am out of the office"
-#~ msgstr "Я зараз не на роботі"
-
-#~ msgid "I am in the office"
-#~ msgstr "Я зараз на роботі"
-
-#~ msgid "Change the password for Exchange account"
-#~ msgstr "Введіть пароль для облікового запису Exchange"
-
-#~ msgid "Change Password"
-#~ msgstr "Змінити пароль"
-
-#~ msgid "Manage the delegate settings for Exchange account"
-#~ msgstr "Керувати параметрами доручення для облікового запису Exchange"
-
-#~ msgid "Delegation Assistant"
-#~ msgstr "Помічник доручення"
-
-#~ msgid "Miscelleneous"
-#~ msgstr "Різне"
-
-#~ msgid "View the size of all Exchange folders"
-#~ msgstr "Отримати розмір усіх тек Exchange"
-
-#~ msgid "Folders Size"
-#~ msgstr "Розмір тек"
-
-#~ msgid "_OWA URL:"
-#~ msgstr "_OWA URL:"
-
-#~ msgid "A_uthenticate"
-#~ msgstr "_Автентифікація"
-
-#~ msgid "Mailbox name is _different than user name"
-#~ msgstr "Ім'я поштової скриньки відрізняється від імені користувача"
-
-#~ msgid "_Mailbox:"
-#~ msgstr "_Поштова скринька"
-
-#~ msgid "%s KB"
-#~ msgstr "%s КБ"
-
-#~ msgid "0 KB"
-#~ msgstr "0 КБ"
-
-#~ msgid "Size:"
-#~ msgstr "Розмір:"
-
-#~ msgid ""
-#~ "Evolution is in offline mode. You cannot create or modify folders now.\n"
-#~ "Please switch to online mode for such operations."
-#~ msgstr ""
-#~ "Evolution працює у автономному режимі. Неможливо створити чи видалити "
-#~ "теку.\n"
-#~ "Для виконання цих дій перейдіть у звичайний режим."
-
-#~ msgid ""
-#~ "The current password does not match the existing password for your "
-#~ "account. Please enter the correct password"
-#~ msgstr ""
-#~ "Введений пароль не відповідає збереженому для цього облікового запису. "
-#~ "Введіть правильний пароль."
-
-#~ msgid "The two passwords do not match. Please re-enter the passwords."
-#~ msgstr "Паролі не співпадають. Введіть їх знову."
-
-#~ msgid "Confirm Password:"
-#~ msgstr "Підтвердження:"
-
-#~ msgid "Current Password:"
-#~ msgstr "Поточний пароль:"
-
-#~ msgid "New Password:"
-#~ msgstr "Новий пароль:"
-
-#~ msgid "Your current password has expired. Please change your password now."
-#~ msgstr ""
-#~ "Час використання вашого поточного паролю вичерпався. Змініть пароль зараз."
-
-#~ msgid "Your password will expire in the next %d days"
-#~ msgstr "Ваш пароль стане простроченим через %d днів."
-
-#~ msgid "Custom"
-#~ msgstr "Власний"
-
-#~ msgid "Editor (read, create, edit)"
-#~ msgstr "Редактор (читання, створення, редагування)"
-
-#~ msgid "Author (read, create)"
-#~ msgstr "Автор (читання, створення)"
-
-#~ msgid "Reviewer (read-only)"
-#~ msgstr "Коментатор (лише читання)"
-
-#~ msgid "Delegate Permissions"
-#~ msgstr "Надати права"
-
-#~ msgid "Permissions for %s"
-#~ msgstr "Права для %s"
-
-#~ msgid ""
-#~ "This message was sent automatically by Evolution to inform you that you "
-#~ "have been designated as a delegate. You can now send messages on my "
-#~ "behalf."
-#~ msgstr ""
-#~ "Цей лист надісланий програмою Evolution для сповіщення про те, що ви були "
-#~ "підтверджені, як представник. Тепер можна надсилати листи від мого імені."
-
-#~ msgid "You have been given the following permissions on my folders:"
-#~ msgstr "Вам надані наступні права на доступ до таких тек:"
-
-#~ msgid "You are also permitted to see my private items."
-#~ msgstr "Ви також може переглядати приватні об'єкти."
-
-#~ msgid "However you are not permitted to see my private items."
-#~ msgstr "Але, ви не можете переглядати мої приватні об'єкти."
-
-#~ msgid "You have been designated as a delegate for %s"
-#~ msgstr "Ви підтверджені, як представник %s"
-
-#~ msgid "Remove the delegate %s?"
-#~ msgstr "Видалити уповноваженого %s?"
-
-#~ msgid "Could not access Active Directory"
-#~ msgstr "Не вдається зв'язатись з службою Active Directory"
-
-#~ msgid "Could not find self in Active Directory"
-#~ msgstr "Не вдається знайти себе у Active Directory"
-
-#~ msgid "Could not find delegate %s in Active Directory"
-#~ msgstr "Не вдається знайти уповноваженого %s у Active Directory"
-
-#~ msgid "Could not remove delegate %s"
-#~ msgstr "Не вдається видалити уповноваженого %s"
-
-#~ msgid "Could not update list of delegates."
-#~ msgstr "Не вдається оновити список уповноважених."
-
-#~ msgid "Could not add delegate %s"
-#~ msgstr "Не вдається додати уповноваженого %s"
-
-#~ msgid "Error reading delegates list."
-#~ msgstr "Помилка читання списку уповноважених."
-
-#~ msgid "C_alendar:"
-#~ msgstr "_Календар:"
-
-#~ msgid "Co_ntacts:"
-#~ msgstr "К_онтакти:"
-
-#~ msgid "Delegates"
-#~ msgstr "Уповноважені"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Reviewer (read-only)\n"
-#~ "Author (read, create)\n"
-#~ "Editor (read, create, edit)"
-#~ msgstr ""
-#~ "Жоден\n"
-#~ "Рецензент (лише читання)\n"
-#~ "Автор (читання, створення)\n"
-#~ "Редактор (читання, редагування, створення)"
-
-#~ msgid "Permissions for"
-#~ msgstr "Права для"
-
-#~ msgid ""
-#~ "These users will be able to send mail on your behalf\n"
-#~ "and access your folders with the permissions you give them."
-#~ msgstr ""
-#~ "Ця користувачі зможуть відсилати почту від Вашого імені\n"
-#~ "та отримають доступ до ваших тек з правами, які ви їм надасте."
-
-#~ msgid "_Delegate can see private items"
-#~ msgstr "_Уповноважений може переглядати приватні елементи"
-
-#~ msgid "_Inbox:"
-#~ msgstr "В_хідні:"
-
-#~ msgid "_Summarize permissions"
-#~ msgstr "_Зведення прав доступу"
-
-#~ msgid "Permissions..."
-#~ msgstr "Права..."
-
-#~ msgid "Folder Name"
-#~ msgstr "Назва теки"
-
-#~ msgid "Folder Size"
-#~ msgstr "Розмір теки"
-
-#~ msgid "User"
-#~ msgstr "Користувач"
-
-#~ msgid "Subscribe to Other User's Folder"
-#~ msgstr "Підписатись на теку іншого користувача"
-
-#~ msgid "Exchange Folder Tree"
-#~ msgstr "Дерево поштових тек Exchange"
-
-#~ msgid "Unsubscribe Folder..."
-#~ msgstr "Відписатись від теки..."
-
-#~ msgid "Really unsubscribe from folder \"%s\"?"
-#~ msgstr "Дійсно відписатись від теки \"%s\"?"
-
-#~ msgid "Unsubscribe from \"%s\""
-#~ msgstr "Відписка від \"%s\""
-
-#~ msgid ""
-#~ "<b>Currently, your status is \"Out of the Office\". </b>\n"
-#~ "\n"
-#~ "Would you like to change your status to \"In the Office\"? "
-#~ msgstr ""
-#~ "<b>Наразі, ваш стан \"За межами офісу\". </b>\n"
-#~ "\n"
-#~ "Бажаєте змінити стан на \"У офісі\"? "
-
-#~ msgid "<b>Out of Office Message:</b>"
-#~ msgstr "<b>Повідомлення \"За межами офісу\":</b>"
-
-#~ msgid "<b>Status:</b>"
-#~ msgstr "<b>Стан:</b>"
-
-#~ msgid ""
-#~ "<small>The message specified below will be automatically sent to each "
-#~ "person who sends\n"
-#~ "mail to you while you are out of the office.</small>"
-#~ msgstr ""
-#~ "<small>Зазначене нижче повідомлення буде автоматично надіслано до "
-#~ "кожного, хто надішле\n"
-#~ "вам листа коли ви знаходитесь за межами офісу.</small>"
-
-#~ msgid "I am currently in the office"
-#~ msgstr "Я зараз в офісі"
-
-#~ msgid "I am currently out of the office"
-#~ msgstr "Я зараз за межами офісу"
-
-#~ msgid "No, Don't Change Status"
-#~ msgstr "Ні, не змінювати стан"
-
-#~ msgid "Out of Office Assistant"
-#~ msgstr "Асистент режиму \"За межами офісу\""
-
-#~ msgid "Yes, Change Status"
-#~ msgstr "Так, змінити стан"
-
-#~ msgid "Password Expiry Warning..."
-#~ msgstr "Термін дії паролю завершується..."
-
-#~ msgid "Your password will expire in 7 days..."
-#~ msgstr "Термін дії паролю завершується через 7 днів..."
-
-#~ msgid "_Change Password"
-#~ msgstr "З_мінити пароль"
-
-#~ msgid "(Permission denied.)"
-#~ msgstr "(Доступ заборонено.)"
-
-#~ msgid "Add User:"
-#~ msgstr "Додати користувача:"
-
-#~ msgid "<b>Permissions</b>"
-#~ msgstr "<b>Права</b>"
-
-#~ msgid "Cannot Delete"
-#~ msgstr "Не вдається видалити"
-
-#~ msgid "Cannot Edit"
-#~ msgstr "Не вдається редагувати"
-
-#~ msgid "Create items"
-#~ msgstr "Створити елементи"
-
-#~ msgid "Create subfolders"
-#~ msgstr "Створення підтеки"
-
-#~ msgid "Delete Any Items"
-#~ msgstr "Видалити будь-які елементи"
-
-#~ msgid "Delete Own Items"
-#~ msgstr "Видалити власні елементи"
-
-#~ msgid "Edit Any Items"
-#~ msgstr "Правка будь-якого елемента"
-
-#~ msgid "Edit Own Items"
-#~ msgstr "Правка власних елементів"
-
-#~ msgid "Folder contact"
-#~ msgstr "Контакт теки"
-
-#~ msgid "Folder owner"
-#~ msgstr "Власник теки"
-
-#~ msgid "Folder visible"
-#~ msgstr "Видимість теки"
-
-#~ msgid "Read items"
-#~ msgstr "Читати елементи"
-
-#~ msgid "Role: "
-#~ msgstr "Роль: "
-
-#~ msgid "<b>Message Settings</b>"
-#~ msgstr "<b>Параметри повідомлень</b>"
-
-#~ msgid "<b>Tracking Options</b>"
-#~ msgstr "<b>Параметри стеження за повідомленнями</b>"
-
-#~ msgid "Exchange - Send Options"
-#~ msgstr "Exchange - параметри надсилання"
-
-#~ msgid "I_mportance: "
-#~ msgstr "_Пріоритет: "
-
-#~ msgid ""
-#~ "Normal\n"
-#~ "High\n"
-#~ "Low"
-#~ msgstr ""
-#~ "Звичайний\n"
-#~ "Високий\n"
-#~ "Низький"
-
-#~ msgid ""
-#~ "Normal\n"
-#~ "Personal\n"
-#~ "Private\n"
-#~ "Confidential"
-#~ msgstr ""
-#~ "Звичайне\n"
-#~ "Персональне\n"
-#~ "Особисте\n"
-#~ "Конфіденційне"
-
-#~ msgid "Request a _delivery receipt for this message"
-#~ msgstr "Запитати звіт про _доставку для цього повідомлення"
-
-#~ msgid "Request a _read receipt for this message"
-#~ msgstr "Запитати звіт про про_читання для цього повідомлення"
-
-#~ msgid "Send as Delegate"
-#~ msgstr "Надіслати як представник"
-
-#~ msgid "_Sensitivity: "
-#~ msgstr "_Чутливість: "
-
-#~ msgid "_User"
-#~ msgstr "_Користувач"
-
-#~ msgid "Select User"
-#~ msgstr "Вибрати користувача"
-
-#~ msgid "Address Book..."
-#~ msgstr "Адресна книга..."
-
-#~ msgid "Subscribe to Other User's Contacts"
-#~ msgstr "Підписатись на контакти інших користувачів"
-
-#~ msgid "Subscribe to Other User's Calendar"
-#~ msgstr "Підписатись на календарі інших користувачів"
-
-#~ msgid "Activates the Evolution-Exchange extension package."
-#~ msgstr "Активувати пакунок розширення Evolution-Exchange."
-
-#~ msgid "Exchange Operations"
-#~ msgstr "Операції Exchange"
-
-#~ msgid "Cannot access the \"Exchange settings\" tab in offline mode."
-#~ msgstr ""
-#~ "Не можу отримати доступ до вкладки \"Налаштування Exchange\" у "
-#~ "автономному режимі."
-
-#~ msgid "Cannot change password due to configuration problems."
-#~ msgstr "Не вдається змінити пароль через проблеми з конфігурацією."
-
-#~ msgid "Cannot display folders."
-#~ msgstr "Не вдається відобразити теки."
-
-#~ msgid ""
-#~ "Changes to options for Exchange account \"{0}\" will only take effect "
-#~ "after restarting Evolution."
-#~ msgstr ""
-#~ "Зміни конфігурації облікового рахунку Exchange \"{0}\" наберуть сили "
-#~ "після виходу та повторного запуску Evolution."
-
-#~ msgid "Could not authenticate to server."
-#~ msgstr "Не вдається пройти автентифікацію на сервері."
-
-#~ msgid "Could not change password."
-#~ msgstr "Не вдається змінити пароль."
-
-#~ msgid ""
-#~ "Could not configure Exchange account because \n"
-#~ "an unknown error occurred. Check the URL, \n"
-#~ "username, and password, and try again."
-#~ msgstr ""
-#~ "Не вдається налаштувати обліковий запис\n"
-#~ "тому що виникла невідома помилка. Перевірте \n"
-#~ "адресу сервера, ім'я користувача, пароль та спробуйте ще раз."
-
-#~ msgid "Could not connect to Exchange server."
-#~ msgstr "Не вдається з'єднатись з сервером Exchange."
-
-#~ msgid "Could not connect to server {0}."
-#~ msgstr "Не вдається з'єднатись з сервером {0}."
-
-#~ msgid "Could not determine folder permissions for delegates."
-#~ msgstr "Не вдається визначити права доступу до теки для уповноважених."
-
-#~ msgid "Could not find Exchange Web Storage System."
-#~ msgstr "Не вдається знайти сервер системи Exchange."
-
-#~ msgid "Could not locate server {0}."
-#~ msgstr "Не вдається знайти сервер {0}."
-
-#~ msgid "Could not make {0} a delegate"
-#~ msgstr "Не вдається зробити {0} уповноваженим"
-
-#~ msgid "Could not read folder permissions"
-#~ msgstr "Не вдається прочитати права доступу теки"
-
-#~ msgid "Could not read folder permissions."
-#~ msgstr "Не вдається прочитати права доступу теки."
-
-#~ msgid "Could not read out-of-office state"
-#~ msgstr "Не прочитати оновити статус відсутності"
-
-#~ msgid "Could not update folder permissions."
-#~ msgstr "Не вдається оновити права доступу теки."
-
-#~ msgid "Could not update out-of-office state"
-#~ msgstr "Не вдається оновити статус відсутності"
-
-#~ msgid "Evolution requires a restart to load the subscribed user's mailbox"
-#~ msgstr ""
-#~ "Для завантаження підписаного поштового ящика користувача потрібен "
-#~ "перезапуск Evolution"
-
-#~ msgid "Exchange Account is offline."
-#~ msgstr "Обліковий рахунок Exchange недоступний."
-
-#~ msgid ""
-#~ "Exchange Connector requires access to certain\n"
-#~ "functionality on the Exchange Server that appears\n"
-#~ "to be disabled or blocked. (This is usually \n"
-#~ "unintentional.) Your Exchange Administrator will \n"
-#~ "need to enable this functionality in order for \n"
-#~ "you to be able to use Evolution Exchange Connector.\n"
-#~ "\n"
-#~ "For information to provide to your Exchange \n"
-#~ "administrator, please follow the link below:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "  "
-#~ msgstr ""
-#~ "Програма Exchange Connector вимагає доступ до певної\n"
-#~ "функціональності на сервері Exchange, але вона вимкнена\n"
-#~ "або заблокована. (зазвичай, це ненавмисно). Ваш \n"
-#~ "адміністратор має увімкнути цю функціональність, \n"
-#~ "щоб Ви могли використовувати Ximian Connector.\n"
-#~ "\n"
-#~ "Для отримання додаткової інформації для вашого \n"
-#~ "адміністратора відвідайте посилання: \n"
-#~ "\n"
-#~ "{0}\n"
-#~ "  "
-
-#~ msgid "Folder already exists"
-#~ msgstr "Тека вже існує"
-
-#~ msgid "Folder does not exist"
-#~ msgstr "Тека не існує"
-
-#~ msgid "Folder offline"
-#~ msgstr "Тека вимкнена"
-
-#~ msgid "Generic error"
-#~ msgstr "Загальна помилка"
-
-#~ msgid "Global Catalog Server is not reachable"
-#~ msgstr "Глобальний сервер каталогів недоступний"
-
-#~ msgid ""
-#~ "If OWA is running on a different path, you must specify that in the "
-#~ "account configuration dialog."
-#~ msgstr ""
-#~ "Якщо OWA запущено у іншому місці, Ви маєте вказати це в параметрах "
-#~ "облікового запису."
-
-#~ msgid "Mailbox for {0} is not on this server."
-#~ msgstr "Поштова скринька для {0} не на цьому сервері."
-
-#~ msgid "Make sure the URL is correct and try again."
-#~ msgstr "Перевірте правильність URL та спробуйте ще раз."
-
-#~ msgid "Make sure the server name is spelled correctly and try again."
-#~ msgstr "Перевірте правильність назви сервера та спробуйте ще раз."
-
-#~ msgid "Make sure the username and password are correct and try again."
-#~ msgstr ""
-#~ "Перевірте правильність імені користувача та паролю та спробуйте ще раз."
-
-#~ msgid "No Global Catalog server configured for this account."
-#~ msgstr ""
-#~ "Не знайдено сервера Global Catalog налаштованого для цього облікового "
-#~ "запису."
-
-#~ msgid "No mailbox for user {0} on {1}."
-#~ msgstr "Немає поштової скриньки для користувача {0} на {1}."
-
-#~ msgid "No such user {0}"
-#~ msgstr "Немає такого користувача {0}"
-
-#~ msgid "Password successfully changed."
-#~ msgstr "Пароль успішно змінено."
-
-#~ msgid ""
-#~ "Please enter a Delegate's ID or deselect the Send as a Delegate option."
-#~ msgstr ""
-#~ "Введіть ідентифікатор представника або приберіть параметр надсилання "
-#~ "повідомлення як повідомлення представника."
-
-#~ msgid "Please make sure the Global Catalog Server name is correct."
-#~ msgstr "Перевірте, що назва глобального серверу каталогів коректна."
-
-#~ msgid "Please restart Evolution for changes to take effect"
-#~ msgstr "Перезапустіть Evolution, щоб зміни набрали сили"
-
-#~ msgid "Please select a user."
-#~ msgstr "Вкажіть користувача."
-
-#~ msgid "Server rejected password because it is too weak."
-#~ msgstr "Сервер відкинув пароль, тому що він надто слабкий."
-
-#~ msgid "The Exchange account will be disabled when you quit Evolution"
-#~ msgstr ""
-#~ "Обліковий рахунок Exchange буде видалений після завершення Evolution"
-
-#~ msgid "The Exchange account will be removed when you quit Evolution"
-#~ msgstr ""
-#~ "Обліковий рахунок Exchange буде видалений після завершення Evolution"
-
-#~ msgid "The Exchange server is not compatible with Exchange Connector."
-#~ msgstr "Сервер Exchange несумісний з Exchange Connector."
-
-#~ msgid ""
-#~ "The server is running Exchange 5.5. Exchange Connector \n"
-#~ "supports Microsoft Exchange 2000 and 2003 only."
-#~ msgstr ""
-#~ "На сервері запущено програму Exchange 5.5. Exchange Connector \n"
-#~ "підтримує лише Microsoft Exchange 2000 та 2003."
-
-#~ msgid ""
-#~ "This probably means that your server requires \n"
-#~ "you to specify the Windows domain name \n"
-#~ "as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
-#~ "\n"
-#~ "Or you might have just typed your password wrong."
-#~ msgstr ""
-#~ "Можливо, це означає, що сервер вимагає\n"
-#~ "вказування робочої групи Windows \n"
-#~ "як частини Вашого імені користувача (тобто  &quot;ГРУПА"
-#~ "\\користувач&quot;).\n"
-#~ "\n"
-#~ "Або просто пароль введений неправильно."
-
-#~ msgid "Try again with a different password."
-#~ msgstr "Спробуйте ще раз з іншим паролем."
-
-#~ msgid "Unable to add user to access control list:"
-#~ msgstr "Не вдається додати користувача у список доступу:"
-
-#~ msgid "Unable to edit delegates."
-#~ msgstr "Не вдається редагувати уповноважених."
-
-#~ msgid "Unknown error looking up {0}"
-#~ msgstr "Невідома помилка при огляді {0}"
-
-#~ msgid "Unsupported operation"
-#~ msgstr "Операція не підтримується"
-
-#~ msgid ""
-#~ "You are nearing your quota available for storing mail on this server."
-#~ msgstr "Ви майже досягли квоти зберігання повідомлень на цьому сервері."
-
-#~ msgid ""
-#~ "You are permitted to send a message on behalf of only one delegator at a "
-#~ "time."
-#~ msgstr ""
-#~ "Вам дозволено надсилати повідомлення лише від імені одного користувача."
-
-#~ msgid "You cannot make yourself your own delegate"
-#~ msgstr "Не можна робити себе своїм власним уповноваженим"
-
-#~ msgid "You have exceeded your quota for storing mail on this server."
-#~ msgstr "Ви перевищили квоту зберігання повідомлень на цьому сервері."
-
-#~ msgid ""
-#~ "Your current usage is: {0} KB. Try to clear up some space by deleting "
-#~ "some mail."
-#~ msgstr ""
-#~ "Зараз використовується : {0}кб. Спробуйте очистити простір видаливши "
-#~ "частину повідомлень."
-
-#~ msgid ""
-#~ "Your current usage is: {0} KB. You will not be able to either send or "
-#~ "receive mail now."
-#~ msgstr ""
-#~ "Зараз використовується : {0}кб. Зараз ви не зможете ані відсилати, ані "
-#~ "приймати повідомлення."
-
-#~ msgid ""
-#~ "Your current usage is: {0} KB. You will not be able to send mail until "
-#~ "you clear up some space by deleting some mail."
-#~ msgstr ""
-#~ "Зараз використовується : {0}кб. Зараз ви не зможете ані відсилати, ані "
-#~ "приймати повідомлення доки не очистите деякий простір."
-
-#~ msgid "Your password has expired."
-#~ msgstr "Ваш пароль прострочений."
-
-#~ msgid "{0} cannot be added to an access control list"
-#~ msgstr "{0} не може бути доданий до списку контролю доступу"
-
-#~ msgid "{0} is already a delegate"
-#~ msgstr "{0} вже уповноважений"
-
-#~ msgid "{0} is already in the list"
-#~ msgstr "{0} вже є у списку"
-
-#~ msgid "Subscribe to Other User's Tasks"
-#~ msgstr "Підписатись на завдання іншого користувача"
-
-#~ msgid "Check folder permissions"
-#~ msgstr "Перевірити права доступу теки"
-
-#~ msgid "PNG files"
-#~ msgstr "Файли PNG"
-
-#~ msgid "_Face"
-#~ msgstr "_Фото"
-
-#~ msgid ""
-#~ "Attach a small picture of your face to outgoing messages.\n"
-#~ "\n"
-#~ "First time the user needs to configure a 48x48 PNG image. It is Base-64 "
-#~ "encoded and stored in ~/.evolution/faces. This will be used in subsequent "
-#~ "sent messages."
-#~ msgstr ""
-#~ "Додати заголовок з фотографією до вихідних листів. \n"
-#~ "\n"
-#~ "Впершен користувач має надати фотографію 48x48 точок. Вона кодується у "
-#~ "Base-64 та зберігається у ~/.evolution/faces Ця фотографія буде "
-#~ "використовуватися у надісланих листах."
-
-#~ msgid "Unsubscribe Folders"
-#~ msgstr "Відписатись від тек"
-
-#~ msgid ""
-#~ "Unsubscribe from an IMAP folder by right-clicking on it in the folder "
-#~ "tree."
-#~ msgstr ""
-#~ "Відписатися від IMAP теки, клацнувши на ній правою кнопкою мишки у дереві "
-#~ "тек."
-
-#~ msgid "Add Novell GroupWise support to Evolution."
-#~ msgstr "Додати до Evolution підтримку Novell GroupWise."
-
-#~ msgid "GroupWise Account Setup"
-#~ msgstr "Налаштовування облікового рахунку GroupWise"
-
-#~ msgid "<b>Junk List:</b>"
-#~ msgstr "<b>Список спаму:</b>"
-
-#~ msgid "<b>Name</b>"
-#~ msgstr "<b>Ім'я</b>"
-
-#~ msgid "<b>Custom Headers</b>"
-#~ msgstr "<b>Основні заголовки</b>"
-
-#~ msgid "<b>IMAP Headers</b>"
-#~ msgstr "<b>Заголовки IMAP</b>"
-
-#~ msgid "Hardware Abstraction Layer not loaded"
-#~ msgstr "Службу абстракції обладнання HAL не запущено"
-
-#~ msgid ""
-#~ "The \"hald\" service is required but not currently running. Please enable "
-#~ "the service and rerun this program, or contact your system administrator."
-#~ msgstr ""
-#~ "Необхідна служба \"hald\" не запущена. Увімкніть службу та перезапустіть "
-#~ "програму або зв'яжіться з адміністратором."
-
-#~ msgid ""
-#~ "Evolution could not find an iPod to synchronize with. Either the iPod is "
-#~ "not connected to the system or it is not powered on."
-#~ msgstr ""
-#~ "Не вдається виявити iPod для синхронізації. Або iPod не з'єднано з "
-#~ "системою, або його живлення вимкнено."
-
-#~ msgid "Synchronize to iPod"
-#~ msgstr "Синхронізує з iPod"
-
-#~ msgid "Synchronize your data with your Apple iPod."
-#~ msgstr "Синхронізувати дані з Apple iPod."
-
-#~ msgid "Disable an account by right-clicking on it in the folder tree."
-#~ msgstr "Деактивувати відповідний рахунок правою кнопкою мишки у дереві тек."
-
-#~ msgid "Specify _filename:"
-#~ msgstr "Назва _файлу:"
-
-#~ msgid "Pl_ay"
-#~ msgstr "В_ідтворити"
-
-#~ msgid "Could not create object. %s"
-#~ msgstr "Не вдається оновити об'єкт. %s"
-
-#~ msgid "Convert to a Mem_o"
-#~ msgstr "Пере_творити у нотатку"
-
-#~ msgid "Convert to a _Task"
-#~ msgstr "Пере_творити у завдання"
-
-#~ msgid "Mail-to-Task"
-#~ msgstr "Пошту у завдання"
-
-#~ msgid "Convert the selected message to a new event"
-#~ msgstr "Перетворити виділене повідомлення у нову подію"
-
-#~ msgid "Convert the selected message to a new meeting"
-#~ msgstr "Перетворити виділене повідомлення у нову зустріч"
-
-#~ msgid "Convert the selected message to a new memo"
-#~ msgstr "Перетворити виділене повідомлення у нову нотатку"
-
-#~ msgid "Convert the selected message to a new task"
-#~ msgstr "Перетворити  виділене повідомлення у нове завдання"
-
-#~ msgid "Contact list _owner"
-#~ msgstr "_Власник списку контактів"
-
-#~ msgid "Get list _archive"
-#~ msgstr "_Архів списку розсилки"
-
-#~ msgid "Get list _usage information"
-#~ msgstr "_Використання списку розсилки"
-
-#~ msgid "_Post message to list"
-#~ msgstr "Відіслати _повідомлення у список"
-
-#~ msgid "_Subscribe to list"
-#~ msgstr "П_ідписатись на список"
-
-#~ msgid "_Un-subscribe to list"
-#~ msgstr "_Відписатись від списку"
-
-#~ msgid "Mono Loader"
-#~ msgstr "Завантажувач mono"
-
-#~ msgid "Support plugins written in Mono."
-#~ msgstr "Підтримка додатків, написаних на Mono."
-
-#~ msgid "Prefer PLAIN"
-#~ msgstr "Вподобати PLAIN"
-
-#~ msgid "<span weight=\"bold\">Location</span>"
-#~ msgstr "<span weight=\"bold\">Адреса</span>"
-
-#~ msgid "<span weight=\"bold\">Sources</span>"
-#~ msgstr "<span weight=\"bold\">Джерела</span>"
-
-#~ msgid ""
-#~ "Secure FTP (SSH)\n"
-#~ "Public FTP\n"
-#~ "FTP (with login)\n"
-#~ "Windows share\n"
-#~ "WebDAV (HTTP)\n"
-#~ "Secure WebDAV (HTTPS)\n"
-#~ "Custom Location"
-#~ msgstr ""
-#~ "Захищений FTP (SSH)\n"
-#~ "Публічний FTP\n"
-#~ "FTP (вимагається пароль)\n"
-#~ "Ресурс Windows\n"
-#~ "WebDAV (HTTP)\n"
-#~ "Захищений WebDAV (HTTPS)\n"
-#~ "Інша адреса"
-
-#~ msgid ""
-#~ "days\n"
-#~ "weeks\n"
-#~ "months"
-#~ msgstr ""
-#~ "дні\n"
-#~ "тижні\n"
-#~ "місяці"
-
-#~ msgid ""
-#~ "iCal\n"
-#~ "Free/Busy"
-#~ msgstr ""
-#~ "iCal\n"
-#~ "Зайнятий/вільний"
-
-#~ msgid "A plugin which loads other plugins written using Python."
-#~ msgstr "Модуль, який завантажує інші модулі, написані на Python."
-
-#~ msgid "Python Loader"
-#~ msgstr "Завантажувач Python"
-
-#~ msgid "_Save to Disk"
-#~ msgstr "З_берегти на диск"
-
-#~ msgid "Quickly select a single calendar or task list for viewing."
-#~ msgstr "Вибирає один календар або список завдань для перегляду."
-
-#~ msgid "Select One Source"
-#~ msgstr "Виберіть одне джерело"
-
-#~ msgid "Evolution Shell"
-#~ msgstr "Оболонка Evolutuion"
-
-#~ msgid "Evolution Shell Config factory"
-#~ msgstr "Фабрика конфігурації оболонки Evolution"
-
-#~ msgid "Evolution Test"
-#~ msgstr "Перевірка Evolution"
-
-#~ msgid "Evolution Test component"
-#~ msgstr "Перевірочний компонент Evolutuion"
-
-#~ msgid "<b>Active Connections</b>"
-#~ msgstr "<b>Активні з'єднання</b>"
-
-#~ msgid "Active Connections"
-#~ msgstr "Активні з'єднання"
-
-#~ msgid "Click OK to close these connections and go offline"
-#~ msgstr ""
-#~ "Для закриття цих з'єднань та переходу до автономної роботи клацніть на "
-#~ "\"Гаразд\""
-
-#~ msgid "_Import"
-#~ msgstr "_Імпорт"
-
-#~ msgid "The GNOME Pilot tools do not appear to be installed on this system."
-#~ msgstr "Схоже, програма GNOME Pilot не встановлена у цій системі"
-
-#~ msgid "Error executing %s. (%s)"
-#~ msgstr "Помилка виконання %s. (%s)"
-
-#~ msgid "Work Offline"
-#~ msgstr "Перейти в автономний режим"
-
-#~ msgid "Evolution is in the process of going offline."
-#~ msgstr "Evolution у процесі переходу до автономної роботи."
-
-#~ msgid "Unknown system error."
-#~ msgstr "Невідома системна помилка."
-
-#~ msgid "Invalid arguments"
-#~ msgstr "Неправильні аргументи"
-
-#~ msgid "Cannot register on OAF"
-#~ msgstr "Не вдається зареєструватись у OAF"
-
-#~ msgid "Configuration Database not found"
-#~ msgstr "Не знайдено конфігураційної бази даних"
-
-#~ msgid "New Test"
-#~ msgstr "Нова перевірка"
-
-#~ msgid "Import File"
-#~ msgstr "Імпорт файлу"
-
-#~ msgid "Cannot start Evolution"
-#~ msgstr "Неможливо перезапустити Evolutuion"
-
-#~ msgid "Evolution can not start."
-#~ msgstr "Evolution не вдається запуститись."
-
-#~ msgid ""
-#~ "Your system configuration does not match your Evolution configuration.\n"
-#~ "\n"
-#~ "Click help for details"
-#~ msgstr ""
-#~ "Конфігурація вашої системи не відповідає конфігурації Evolution.\n"
-#~ "\n"
-#~ "Для додаткової інформації викличте довідку"
-
-#~ msgid ""
-#~ "Your system configuration does not match your Evolution configuration:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "\n"
-#~ "Click help for details."
-#~ msgstr ""
-#~ "Конфігурація вашої системи не відповідає конфігурації Evolution.\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "\n"
-#~ "Для додаткової інформації викличте довідку"
-
-#~ msgid "<b>Field Value</b>"
-#~ msgstr "<b>Значення поля</b>"
-
-#~ msgid "<b>Fingerprints</b>"
-#~ msgstr "<b>Відбитки</b>"
-
-#~ msgid "<b>Issued By</b>"
-#~ msgstr "<b>Виданий</b>"
-
-#~ msgid "<b>Issued To</b>"
-#~ msgstr "<b>Випущений до</b>"
-
-#~ msgid "Dummy window only"
-#~ msgstr "Просто порожнє вікно"
-
-#~ msgid "Could not execute '%s': %s\n"
-#~ msgstr "Не вдається виконати \"%s\": %s\n"
-
-#~ msgid "Shutting down %s (%s)\n"
-#~ msgstr "Завершується %s (%s)\n"
-
-#~ msgid "Copy"
-#~ msgstr "Копіювати"
-
-#~ msgid "Copy to Folder..."
-#~ msgstr "Копіювати у теку..."
-
-#~ msgid "Create a new address book folder"
-#~ msgstr "Створити нову теку адресної книги"
-
-#~ msgid "Cut"
-#~ msgstr "Вирізати"
-
-#~ msgid "Forward Contact"
-#~ msgstr "Переслати контакт"
-
-#~ msgid "Move to Folder..."
-#~ msgstr "Перемістити у теку..."
-
-#~ msgid "Paste"
-#~ msgstr "Вставити"
-
-#~ msgid "Save as VCard..."
-#~ msgstr "Зберегти як VCard..."
-
-#~ msgid "Select _All"
-#~ msgstr "Виді_лити все"
-
-#~ msgid "Send message to contact"
-#~ msgstr "Відіслати повідомлення за контактом"
-
-#~ msgid "St_op"
-#~ msgstr "З_упинити"
-
-#~ msgid "Stop"
-#~ msgstr "Зупинити"
-
-#~ msgid "_Copy Folder Contacts To"
-#~ msgstr "_Копіювати теку контактів у"
-
-#~ msgid "_Move Folder Contacts To"
-#~ msgstr "Пере_містити контакти у"
-
-#~ msgid "_Rename"
-#~ msgstr "Перей_менувати"
-
-#~ msgid "_Save Contact as VCard..."
-#~ msgstr "З_берегти контакт як VCard..."
-
-#~ msgid "_Save Folder Contacts As VCard"
-#~ msgstr "З_берегти теку контактів як vCard."
-
-#~ msgid "Delete _all Occurrences"
-#~ msgstr "Видалити _всі екземпляри"
-
-#~ msgid "Show the working week"
-#~ msgstr "Показати робочий тиждень"
-
-#~ msgid "View the debug console for log messages"
-#~ msgstr "Переглянути повідомлення на налагоджувальній консолі"
-
-#~ msgid "_Debug Logs"
-#~ msgstr "_Журнали налагодження"
-
-#~ msgid "Show message preview side-by-side with the message list"
-#~ msgstr ""
-#~ "Показувати попередній перегляд повідомлення поруч зі списком повідомлень"
-
-#~ msgid "Copy selected message(s) to the clipboard"
-#~ msgstr "Копіювати виділені повідомлення в буфер обміну"
-
-#~ msgid "Cut selected message(s) to the clipboard"
-#~ msgstr "Вирізати виділені повідомлення в буфер обміну"
-
-#~ msgid "Paste message(s) from the clipboard"
-#~ msgstr "Вставити повідомлення у буфер обміну"
-
-#~ msgid "Select _All Messages"
-#~ msgstr "Виділити _усі повідомлення"
-
-#~ msgid "Select all and only the messages that are not currently selected"
-#~ msgstr "Виділити всі не виділені повідомлення"
-
-#~ msgid "Not Junk"
-#~ msgstr "Не спам"
-
-#~ msgid "Paste messages from the clipboard"
-#~ msgstr "Вставити повідомлення з буферу обміну"
-
-#~ msgid "Select _All Text"
-#~ msgstr "Виділити _весь текст"
-
-#~ msgid "_Save Message..."
-#~ msgstr "З_берегти повідомлення..."
-
-#~ msgid "Main toolbar"
-#~ msgstr "Головний пенал"
-
-#~ msgid "Copy selected memo"
-#~ msgstr "Скопіювати вибрану примітку"
-
-#~ msgid "Cut selected memo"
-#~ msgstr "Вирізати вибрану примітку"
-
-#~ msgid "Copy selected tasks"
-#~ msgstr "Скопіювати вибрані завдання"
-
-#~ msgid "Cut selected tasks"
-#~ msgstr "Вирізати вибрані завдання"
-
-#~ msgid "Mar_k as Complete"
-#~ msgstr "_Позначити як виконане"
-
-#~ msgid "Show task preview window"
-#~ msgstr "Показати вікно перегляду завдання"
-
-#~ msgid "About Evolution..."
-#~ msgstr "Про Evolution..."
-
-#~ msgid "Change the visibility of the toolbar"
-#~ msgstr "Змінити видимість панелі інструментів"
-
-#~ msgid "Forget remembered passwords so you will be prompted for them again"
-#~ msgstr "Забути усі паролі, надалі вас питатимуть їх знову"
-
-#~ msgid "Hide window buttons"
-#~ msgstr "Сховати кнопки вікна"
-
-#~ msgid "Page Set_up..."
-#~ msgstr "Параметри _сторінки..."
-
-#~ msgid "Prefere_nces"
-#~ msgstr "П_араметри"
-
-#~ msgid "Send / Receive"
-#~ msgstr "Відіслати / отримати"
-
-#~ msgid "Submit Bug Report"
-#~ msgstr "Підготувати звіт про помилку"
-
-#~ msgid "Toggle whether we are working offline."
-#~ msgstr "Перемикнути стан роботи у/поза мережею."
-
-#~ msgid "View/Hide the Side Bar"
-#~ msgstr "Показати/сховати бічну панель"
-
-#~ msgid "View/Hide the Status Bar"
-#~ msgstr "Показати/сховати панель стану"
-
-#~ msgid "Work _Offline"
-#~ msgstr "_Автономний режим"
-
-#~ msgid "_About"
-#~ msgstr "_Про програму"
-
-#~ msgid "_Frequently Asked Questions"
-#~ msgstr "_Часті питання"
-
-#~ msgid "_Hide Buttons"
-#~ msgstr "С_ховати кнопки"
-
-#~ msgid "_Synchronization Options..."
-#~ msgstr "Параметри _синхронізації..."
-
-#~ msgid "<b>Time Zones</b>"
-#~ msgstr "<b>Часові пояси</b>"
-
-#~ msgid "<b>_Selection</b>"
-#~ msgstr "<b>_Вибір</b>"
-
-#~ msgid "Save Custom View"
-#~ msgstr "Зберегти параметри перегляду"
-
-#~ msgid "Hide _Attachment Bar"
-#~ msgstr "Сховати панель в_кладень"
-
-#~ msgid "Unknown character set: %s"
-#~ msgstr "Невідомий набір символів: %s"
-
-#~ msgid "_Searches"
-#~ msgstr "_Пошуки"
-
-#~ msgid "Choose Image"
-#~ msgstr "Вибір зображення"
-
-#~ msgid "Empty message"
-#~ msgstr "Повідомлення порожнє"
-
-#~ msgid "Reflow model"
-#~ msgstr "Модель розташування"
-
-#~ msgid "Column width"
-#~ msgstr "Ширина стовпчика"
-
-#~ msgid "Search"
-#~ msgstr "Пошук"
-
-#~ msgid "_Clear"
-#~ msgstr "О_чистити"
-
-#~ msgid "Item ID"
-#~ msgstr "ID елементу"
-
-#~ msgid "<b>Replies</b>"
-#~ msgstr "<b>Відповіді</b>"
-
-#~ msgid "<b>Status Tracking</b>"
-#~ msgstr "<b>Відстеження статусу</b>"
-
-#~ msgid ""
-#~ "Normal\n"
-#~ "Proprietary\n"
-#~ "Confidential\n"
-#~ "Secret\n"
-#~ "Top Secret\n"
-#~ "For Your Eyes Only"
-#~ msgstr ""
-#~ "Звичайне\n"
-#~ "Приватне\n"
-#~ "Конфіденційне\n"
-#~ "Таємно\n"
-#~ "Цілковито таємно\n"
-#~ "Лише для Ваших очей"
-
-#~ msgid ""
-#~ "Undefined\n"
-#~ "High\n"
-#~ "Standard\n"
-#~ "Low"
-#~ msgstr ""
-#~ "Не визначено\n"
-#~ "Високий\n"
-#~ "Звичайний\n"
-#~ "Низький"
-
-#~ msgid "%l:%M %p"
-#~ msgstr "%k:%M"
-
-#~ msgid "Add a column..."
-#~ msgstr "Додавання стовпчика..."
-
-#~ msgid "Field Chooser"
-#~ msgstr "Вибір полів"
-
-#~ msgid "Tree"
-#~ msgstr "Дерево"
-
-#~ msgid "Toggle Attachment Bar"
-#~ msgstr "Увімкнути/вимкнути панель вкладень"
-
-#~ msgid "activate"
-#~ msgstr "активувати"
-
-#~ msgid "<b>Type:</b>"
-#~ msgstr "<b>Тип:</b>"
-
-#~ msgid "Add Address Book"
-#~ msgstr "Додати адресну книгу"
-
-#~ msgid "Basic"
-#~ msgstr "Основні"
-
-#~ msgid "Find Possible Search Bases"
-#~ msgstr "Знайти можливі бази пошуку"
-
-#~ msgid "Whenever Possible"
-#~ msgstr "Усякий раз коли можливо"
-
-#~ msgid "_Add Address Book"
-#~ msgstr "_Додати адресну книгу"
-
-#~ msgid "MSN Messenger"
-#~ msgstr "MSN Messenger"
-
-#~ msgid "Novell GroupWise"
-#~ msgstr "Novell GroupWise"
-
-#~ msgid "Novell Groupwise"
-#~ msgstr "Novell Groupwise"
-
-#~ msgid "United States"
-#~ msgstr "США"
-
-#~ msgid "Afghanistan"
-#~ msgstr "Афганістан"
-
-#~ msgid "Albania"
-#~ msgstr "Албанія"
-
-#~ msgid "Algeria"
-#~ msgstr "Алжир"
-
-#~ msgid "American Samoa"
-#~ msgstr "Американська Самоа"
-
-#~ msgid "Andorra"
-#~ msgstr "Андорра"
-
-#~ msgid "Angola"
-#~ msgstr "Ангола"
-
-#~ msgid "Anguilla"
-#~ msgstr "Ангілья"
-
-#~ msgid "Antarctica"
-#~ msgstr "Антарктика"
-
-#~ msgid "Antigua And Barbuda"
-#~ msgstr "Антігуа і Барбуди"
-
-#~ msgid "Argentina"
-#~ msgstr "Аргентина"
-
-#~ msgid "Armenia"
-#~ msgstr "Вірменія"
-
-#~ msgid "Aruba"
-#~ msgstr "Аруба"
-
-#~ msgid "Australia"
-#~ msgstr "Австралія"
-
-#~ msgid "Austria"
-#~ msgstr "Австрія"
-
-#~ msgid "Azerbaijan"
-#~ msgstr "Азербайджан"
-
-#~ msgid "Bahamas"
-#~ msgstr "Багами"
-
-#~ msgid "Bahrain"
-#~ msgstr "Бахрейн"
-
-#~ msgid "Bangladesh"
-#~ msgstr "Бангладеж"
-
-#~ msgid "Barbados"
-#~ msgstr "Барбадос"
-
-#~ msgid "Belarus"
-#~ msgstr "Білорусь"
-
-#~ msgid "Belgium"
-#~ msgstr "Бельгія"
-
-#~ msgid "Belize"
-#~ msgstr "Беліз"
-
-#~ msgid "Benin"
-#~ msgstr "Бенін"
-
-#~ msgid "Bermuda"
-#~ msgstr "Бермуди"
-
-#~ msgid "Bhutan"
-#~ msgstr "Бутан"
-
-#~ msgid "Bolivia"
-#~ msgstr "Болівія"
-
-#~ msgid "Bosnia And Herzegowina"
-#~ msgstr "Боснія і Герцоговина"
-
-#~ msgid "Botswana"
-#~ msgstr "Ботсвана"
-
-#~ msgid "Bouvet Island"
-#~ msgstr "Буве о-в"
-
-#~ msgid "Brazil"
-#~ msgstr "Бразилія"
-
-#~ msgid "British Indian Ocean Territory"
-#~ msgstr "Британська територія в Індійському океані"
-
-#~ msgid "Brunei Darussalam"
-#~ msgstr "Бруней"
-
-#~ msgid "Bulgaria"
-#~ msgstr "Болгарія"
-
-#~ msgid "Burkina Faso"
-#~ msgstr "Буркіна Фасо"
-
-#~ msgid "Burundi"
-#~ msgstr "Бурунді"
-
-#~ msgid "Cambodia"
-#~ msgstr "Камбоджа"
-
-#~ msgid "Cameroon"
-#~ msgstr "Камерун"
-
-#~ msgid "Canada"
-#~ msgstr "Канада"
-
-#~ msgid "Cape Verde"
-#~ msgstr "Кабо-Верде"
-
-#~ msgid "Cayman Islands"
-#~ msgstr "Кайманові Острови"
-
-#~ msgid "Central African Republic"
-#~ msgstr "Центрально Африканська Республіка"
-
-#~ msgid "Chad"
-#~ msgstr "Чад"
-
-#~ msgid "Chile"
-#~ msgstr "Чилі"
-
-#~ msgid "China"
-#~ msgstr "Китай"
-
-#~ msgid "Christmas Island"
-#~ msgstr "Різдва острів"
-
-#~ msgid "Cocos (Keeling) Islands"
-#~ msgstr "Кокосові острови"
-
-#~ msgid "Colombia"
-#~ msgstr "Колумбія"
-
-#~ msgid "Comoros"
-#~ msgstr "Коморос"
-
-#~ msgid "Congo"
-#~ msgstr "Конго"
-
-#~ msgid "Congo, The Democratic Republic Of The"
-#~ msgstr "Демократична республіка Конго"
-
-#~ msgid "Cook Islands"
-#~ msgstr "Острови Кука"
-
-#~ msgid "Costa Rica"
-#~ msgstr "Коста-Ріка"
-
-#~ msgid "Cote d'Ivoire"
-#~ msgstr "Кот д'Івуар"
-
-#~ msgid "Croatia"
-#~ msgstr "Хорватія"
-
-#~ msgid "Cuba"
-#~ msgstr "Куба"
-
-#~ msgid "Cyprus"
-#~ msgstr "Кіпр"
-
-#~ msgid "Czech Republic"
-#~ msgstr "Чехія"
-
-#~ msgid "Denmark"
-#~ msgstr "Данія"
-
-#~ msgid "Djibouti"
-#~ msgstr "Джибуті"
-
-#~ msgid "Dominica"
-#~ msgstr "Домініка"
-
-#~ msgid "Dominican Republic"
-#~ msgstr "Домініканська республіка"
-
-#~ msgid "Ecuador"
-#~ msgstr "Еквадор"
-
-#~ msgid "Egypt"
-#~ msgstr "Єгипет"
-
-#~ msgid "El Salvador"
-#~ msgstr "Сальвадор"
-
-#~ msgid "Equatorial Guinea"
-#~ msgstr "Екваторіальна Гвінея"
-
-#~ msgid "Eritrea"
-#~ msgstr "Еритрея"
-
-#~ msgid "Estonia"
-#~ msgstr "Естонія"
-
-#~ msgid "Ethiopia"
-#~ msgstr "Ефіопія"
-
-#~ msgid "Falkland Islands"
-#~ msgstr "Фолклендські острови"
-
-#~ msgid "Faroe Islands"
-#~ msgstr "Фарерські острови"
-
-#~ msgid "Finland"
-#~ msgstr "Фінляндія"
-
-#~ msgid "France"
-#~ msgstr "Франція"
-
-#~ msgid "French Guiana"
-#~ msgstr "Французька Гвіана"
-
-#~ msgid "French Polynesia"
-#~ msgstr "Французька Полінезія"
-
-#~ msgid "French Southern Territories"
-#~ msgstr "Французькі Південні Території"
-
-#~ msgid "Gabon"
-#~ msgstr "Габон"
-
-#~ msgid "Gambia"
-#~ msgstr "Гамбія"
-
-#~ msgid "Georgia"
-#~ msgstr "Грузія"
-
-#~ msgid "Germany"
-#~ msgstr "Німеччина"
-
-#~ msgid "Ghana"
-#~ msgstr "Гана"
-
-#~ msgid "Gibraltar"
-#~ msgstr "Гібралтар"
-
-#~ msgid "Greece"
-#~ msgstr "Греція"
-
-#~ msgid "Greenland"
-#~ msgstr "Гренландія"
-
-#~ msgid "Grenada"
-#~ msgstr "Гренада"
-
-#~ msgid "Guadeloupe"
-#~ msgstr "Гваделупа"
-
-#~ msgid "Guam"
-#~ msgstr "Гуам"
-
-#~ msgid "Guatemala"
-#~ msgstr "Гватемала"
-
-#~ msgid "Guernsey"
-#~ msgstr "Guernsey"
-
-#~ msgid "Guinea"
-#~ msgstr "Гвінея"
-
-#~ msgid "Guinea-Bissau"
-#~ msgstr "Гвінея-Біссау"
-
-#~ msgid "Guyana"
-#~ msgstr "Гаяна"
-
-#~ msgid "Haiti"
-#~ msgstr "Гаїті"
-
-#~ msgid "Heard And McDonald Islands"
-#~ msgstr "О-ви Heard та McDonald"
-
-#~ msgid "Holy See"
-#~ msgstr "Ватикан"
-
-#~ msgid "Honduras"
-#~ msgstr "Гондурас"
-
-#~ msgid "Hong Kong"
-#~ msgstr "Гонґ-Конґ"
-
-#~ msgid "Hungary"
-#~ msgstr "Угорщина"
-
-#~ msgid "Iceland"
-#~ msgstr "Ісландія"
-
-#~ msgid "India"
-#~ msgstr "Індія"
-
-#~ msgid "Indonesia"
-#~ msgstr "Індонезія"
-
-#~ msgid "Iran"
-#~ msgstr "Іран"
-
-#~ msgid "Iraq"
-#~ msgstr "Ірак"
-
-#~ msgid "Ireland"
-#~ msgstr "Ірландія"
-
-#~ msgid "Isle of Man"
-#~ msgstr "Острів Мен"
-
-#~ msgid "Israel"
-#~ msgstr "Ізраїль"
-
-#~ msgid "Italy"
-#~ msgstr "Італія"
-
-#~ msgid "Jamaica"
-#~ msgstr "Ямайка"
-
-#~ msgid "Japan"
-#~ msgstr "Японія"
-
-#~ msgid "Jersey"
-#~ msgstr "Джерсі"
-
-#~ msgid "Jordan"
-#~ msgstr "Йорданія"
-
-#~ msgid "Kazakhstan"
-#~ msgstr "Казахстан"
-
-#~ msgid "Kenya"
-#~ msgstr "Кенія"
-
-#~ msgid "Kiribati"
-#~ msgstr "Кірібаті"
-
-#~ msgid "Korea, Democratic People's Republic Of"
-#~ msgstr "Корейська Народно-Демократична Республіка"
-
-#~ msgid "Korea, Republic Of"
-#~ msgstr "Республіка Корея"
-
-#~ msgid "Kuwait"
-#~ msgstr "Кувейт"
-
-#~ msgid "Kyrgyzstan"
-#~ msgstr "Киргизстан"
-
-#~ msgid "Laos"
-#~ msgstr "Лаос"
-
-#~ msgid "Latvia"
-#~ msgstr "Латвія"
-
-#~ msgid "Lebanon"
-#~ msgstr "Ліван"
-
-#~ msgid "Lesotho"
-#~ msgstr "Лесото"
-
-#~ msgid "Liberia"
-#~ msgstr "Ліберія"
-
-#~ msgid "Libya"
-#~ msgstr "Лівія"
-
-#~ msgid "Liechtenstein"
-#~ msgstr "Ліхтенштейн"
-
-#~ msgid "Lithuania"
-#~ msgstr "Литва"
-
-#~ msgid "Luxembourg"
-#~ msgstr "Люксембург"
-
-#~ msgid "Macao"
-#~ msgstr "Макао"
-
-#~ msgid "Macedonia"
-#~ msgstr "Македонія"
-
-#~ msgid "Madagascar"
-#~ msgstr "Мадагаскар"
-
-#~ msgid "Malawi"
-#~ msgstr "Малаві"
-
-#~ msgid "Malaysia"
-#~ msgstr "Малайзія"
-
-#~ msgid "Maldives"
-#~ msgstr "Мальдіви"
-
-#~ msgid "Mali"
-#~ msgstr "Малі"
-
-#~ msgid "Malta"
-#~ msgstr "Мальта"
-
-#~ msgid "Marshall Islands"
-#~ msgstr "Маршалові острови"
-
-#~ msgid "Martinique"
-#~ msgstr "Мартініка"
-
-#~ msgid "Mauritania"
-#~ msgstr "Мавританія"
-
-#~ msgid "Mauritius"
-#~ msgstr "Маврикій"
-
-#~ msgid "Mayotte"
-#~ msgstr "Майотт"
-
-#~ msgid "Mexico"
-#~ msgstr "Мексика"
-
-#~ msgid "Micronesia"
-#~ msgstr "Мікронезія"
-
-#~ msgid "Moldova, Republic Of"
-#~ msgstr "Молдова"
-
-#~ msgid "Monaco"
-#~ msgstr "Монако"
-
-#~ msgid "Mongolia"
-#~ msgstr "Монголія"
-
-#~ msgid "Montserrat"
-#~ msgstr "Монтсеррат"
-
-#~ msgid "Morocco"
-#~ msgstr "Марокко"
-
-#~ msgid "Mozambique"
-#~ msgstr "Мозамбік"
-
-#~ msgid "Myanmar"
-#~ msgstr "М'янма"
-
-#~ msgid "Namibia"
-#~ msgstr "Намібія"
-
-#~ msgid "Nauru"
-#~ msgstr "Науру"
-
-#~ msgid "Nepal"
-#~ msgstr "Непал"
-
-#~ msgid "Netherlands"
-#~ msgstr "Нідерланди"
-
-#~ msgid "Netherlands Antilles"
-#~ msgstr "Голландські Антильські острови"
-
-#~ msgid "New Caledonia"
-#~ msgstr "Нова Каледонія"
-
-#~ msgid "New Zealand"
-#~ msgstr "Нова Зеландія"
-
-#~ msgid "Nicaragua"
-#~ msgstr "Нікарагуа"
-
-#~ msgid "Niger"
-#~ msgstr "Нігер"
-
-#~ msgid "Nigeria"
-#~ msgstr "Нігерія"
-
-#~ msgid "Niue"
-#~ msgstr "Ніуе о-ви"
-
-#~ msgid "Norfolk Island"
-#~ msgstr "Норфолкські острови"
-
-#~ msgid "Northern Mariana Islands"
-#~ msgstr "Північні Маріанські острови"
-
-#~ msgid "Norway"
-#~ msgstr "Норвегія"
-
-#~ msgid "Oman"
-#~ msgstr "Оман"
-
-#~ msgid "Pakistan"
-#~ msgstr "Пакистан"
-
-#~ msgid "Palau"
-#~ msgstr "Палау"
-
-#~ msgid "Palestinian Territory"
-#~ msgstr "Палестинська територія"
-
-#~ msgid "Panama"
-#~ msgstr "Панама"
-
-#~ msgid "Papua New Guinea"
-#~ msgstr "Папуа Нова Гвінея"
-
-#~ msgid "Paraguay"
-#~ msgstr "Парагвай"
-
-#~ msgid "Peru"
-#~ msgstr "Перу"
-
-#~ msgid "Philippines"
-#~ msgstr "Філіппіни"
-
-#~ msgid "Pitcairn"
-#~ msgstr "Піткерн"
-
-#~ msgid "Poland"
-#~ msgstr "Польща"
-
-#~ msgid "Portugal"
-#~ msgstr "Португалія"
-
-#~ msgid "Puerto Rico"
-#~ msgstr "Пуерто Ріко"
-
-#~ msgid "Qatar"
-#~ msgstr "Катар"
-
-#~ msgid "Reunion"
-#~ msgstr "Реюніон"
-
-#~ msgid "Romania"
-#~ msgstr "Румунія"
-
-#~ msgid "Russian Federation"
-#~ msgstr "Росія"
-
-#~ msgid "Rwanda"
-#~ msgstr "Руанда"
-
-#~ msgid "Saint Kitts And Nevis"
-#~ msgstr "Сент Кіттс та Невіс"
-
-#~ msgid "Saint Lucia"
-#~ msgstr "Санта Лючія"
-
-#~ msgid "Saint Vincent And The Grenadines"
-#~ msgstr "Сант Вінсент та Гренадіни"
-
-#~ msgid "Samoa"
-#~ msgstr "Самоа"
-
-#~ msgid "San Marino"
-#~ msgstr "Сан Маріно"
-
-#~ msgid "Sao Tome And Principe"
-#~ msgstr "Сан Томе і Прінсіпі"
-
-#~ msgid "Saudi Arabia"
-#~ msgstr "Саудівська Аравія"
-
-#~ msgid "Senegal"
-#~ msgstr "Сенегал"
-
-#~ msgid "Serbia And Montenegro"
-#~ msgstr "Сербія та Чорногорія"
-
-#~ msgid "Sierra Leone"
-#~ msgstr "Сьєрра-Леоне"
-
-#~ msgid "Singapore"
-#~ msgstr "Сінгапур"
-
-#~ msgid "Slovakia"
-#~ msgstr "Словаччина"
-
-#~ msgid "Slovenia"
-#~ msgstr "Словенія"
-
-#~ msgid "Solomon Islands"
-#~ msgstr "Соломонові острови"
-
-#~ msgid "Somalia"
-#~ msgstr "Сомалі"
-
-#~ msgid "South Africa"
-#~ msgstr "Південна Африка"
-
-#~ msgid "South Georgia And The South Sandwich Islands"
-#~ msgstr "Південна Джорджія та Південні Сандвічеві острови"
-
-#~ msgid "Spain"
-#~ msgstr "Іспанія"
-
-#~ msgid "Sri Lanka"
-#~ msgstr "Шрі Ланка"
-
-#~ msgid "St. Helena"
-#~ msgstr "Св.Олени"
-
-#~ msgid "St. Pierre And Miquelon"
-#~ msgstr "Сен-П'єр та Мікелон"
-
-#~ msgid "Sudan"
-#~ msgstr "Судан"
-
-#~ msgid "Suriname"
-#~ msgstr "Сурінам"
-
-#~ msgid "Svalbard And Jan Mayen Islands"
-#~ msgstr "О-ви Свальбард та Йан Майен"
-
-#~ msgid "Swaziland"
-#~ msgstr "Свазіленд"
-
-#~ msgid "Sweden"
-#~ msgstr "Швеція"
-
-#~ msgid "Switzerland"
-#~ msgstr "Швейцарія"
-
-#~ msgid "Syria"
-#~ msgstr "Сирія"
-
-#~ msgid "Taiwan"
-#~ msgstr "Тайвань"
-
-#~ msgid "Tajikistan"
-#~ msgstr "Таджикистан"
-
-#~ msgid "Tanzania, United Republic Of"
-#~ msgstr "Танзанія"
-
-#~ msgid "Thailand"
-#~ msgstr "Таїланд"
-
-#~ msgid "Timor-Leste"
-#~ msgstr "Тимор-Лист"
-
-#~ msgid "Togo"
-#~ msgstr "Того"
-
-#~ msgid "Tokelau"
-#~ msgstr "Токелау"
-
-#~ msgid "Tonga"
-#~ msgstr "Тонґа"
-
-#~ msgid "Trinidad And Tobago"
-#~ msgstr "Трінідад і Тобаго"
-
-#~ msgid "Tunisia"
-#~ msgstr "Туніс"
-
-#~ msgid "Turkey"
-#~ msgstr "Туреччина"
-
-#~ msgid "Turkmenistan"
-#~ msgstr "Туркменістан"
-
-#~ msgid "Turks And Caicos Islands"
-#~ msgstr "О-ви Теркс та Кейрос"
-
-#~ msgid "Tuvalu"
-#~ msgstr "Тувалу"
-
-#~ msgid "Uganda"
-#~ msgstr "Уганда"
-
-#~ msgid "Ukraine"
-#~ msgstr "Україна"
-
-#~ msgid "United Arab Emirates"
-#~ msgstr "Об'єднані Арабські Емірати"
-
-#~ msgid "United Kingdom"
-#~ msgstr "Велика Британія"
-
-#~ msgid "United States Minor Outlying Islands"
-#~ msgstr "United States Minor Outlying Islands"
-
-#~ msgid "Uruguay"
-#~ msgstr "Уругвай"
-
-#~ msgid "Uzbekistan"
-#~ msgstr "Узбекистан"
-
-#~ msgid "Vanuatu"
-#~ msgstr "Вануату"
-
-#~ msgid "Venezuela"
-#~ msgstr "Венесуела"
-
-#~ msgid "Viet Nam"
-#~ msgstr "В'єтнам"
-
-#~ msgid "Virgin Islands, British"
-#~ msgstr "Британські Вірджинські ові острови"
-
-#~ msgid "Virgin Islands, U.S."
-#~ msgstr "Американські Вірджинові острови"
-
-#~ msgid "Wallis And Futuna Islands"
-#~ msgstr "О-ви Веліс та Футуна"
-
-#~ msgid "Western Sahara"
-#~ msgstr "Західна Сахара"
-
-#~ msgid "Yemen"
-#~ msgstr "Ємен"
-
-#~ msgid "Zambia"
-#~ msgstr "Замбія"
-
-#~ msgid "Zimbabwe"
-#~ msgstr "Зімбабве"
-
-#~ msgid "AOL Instant Messenger"
-#~ msgstr "AOL Instant Messenger"
-
-#~ msgid "Yahoo Messenger"
-#~ msgstr "Yahoo Messenger"
-
-#~ msgid "Gadu-Gadu Messenger"
-#~ msgstr "Gadu-Gadu Messenger"
-
-#~ msgid "Service"
-#~ msgstr "Служба"
-
-#~ msgid "Username"
-#~ msgstr "Ім'я користувача"
-
-#~ msgid "Address _2:"
-#~ msgstr "Адреса _2:"
-
-#~ msgid "Ci_ty:"
-#~ msgstr "_Місто:"
-
-#~ msgid "Countr_y:"
-#~ msgstr "_Країна:"
-
-#~ msgid "Full Address"
-#~ msgstr "Повна адреса"
-
-#~ msgid "_ZIP Code:"
-#~ msgstr "_Індекс:"
-
-#~ msgid "_Account name:"
-#~ msgstr "_Обліковий запис:"
-
-#~ msgid "_IM Service:"
-#~ msgstr "_IM служба:"
-
-#~ msgid ""
-#~ "We were unable to open this address book.  This either means you have "
-#~ "entered an incorrect URI, or the LDAP server is unreachable."
-#~ msgstr ""
-#~ "Не вдається відкрити цю адресну книгу. Це означає, що або ви вказали "
-#~ "неправильний URI, або сервер LDAP недоступний."
-
-#~ msgid "10 pt. Tahoma"
-#~ msgstr "10 pt. Tahoma"
-
-#~ msgid "8 pt. Tahoma"
-#~ msgstr "8 pt. Tahoma"
-
-#~ msgid "Blank forms at end:"
-#~ msgstr "Порожня форма наприкінці:"
-
-#~ msgid "Body"
-#~ msgstr "Тіло"
-
-#~ msgid "Bottom:"
-#~ msgstr "Внизу:"
-
-#~ msgid "Dimensions:"
-#~ msgstr "Розміри:"
-
-#~ msgid "F_ont..."
-#~ msgstr "_Шрифт..."
-
-#~ msgid "Fonts"
-#~ msgstr "Шрифти"
-
-#~ msgid "Footer:"
-#~ msgstr "Нижній колонтитул:"
-
-#~ msgid "Header/Footer"
-#~ msgstr "Колонтитули"
-
-#~ msgid "Headings"
-#~ msgstr "Верхні колонтитули"
-
-#~ msgid "Headings for each letter"
-#~ msgstr "Верхні колонтитули для кожного листа"
-
-#~ msgid "Height:"
-#~ msgstr "Висота:"
-
-#~ msgid "Immediately follow each other"
-#~ msgstr "Один за другим"
-
-#~ msgid "Landscape"
-#~ msgstr "Альбомна"
-
-#~ msgid "Left:"
-#~ msgstr "Ліворуч:"
-
-#~ msgid "Letter tabs on side"
-#~ msgstr "Вкладки літер збоку"
-
-#~ msgid "Margins"
-#~ msgstr "Поля"
-
-#~ msgid "Number of columns:"
-#~ msgstr "Кількість стовпчиків:"
-
-#~ msgid "Orientation"
-#~ msgstr "Орієнтація"
-
-#~ msgid "Page"
-#~ msgstr "Сторінка"
-
-#~ msgid "Page Setup:"
-#~ msgstr "Параметри сторінки:"
-
-#~ msgid "Paper"
-#~ msgstr "Папір"
-
-#~ msgid "Paper source:"
-#~ msgstr "Джерело паперу:"
-
-#~ msgid "Portrait"
-#~ msgstr "Книжкова"
-
-#~ msgid "Preview:"
-#~ msgstr "Попередній перегляд:"
-
-#~ msgid "Print using gray shading"
-#~ msgstr "Друк з використанням напівтонів"
-
-#~ msgid "Reverse on even pages"
-#~ msgstr "Обертати на парних сторінках"
-
-#~ msgid "Right:"
-#~ msgstr "Праворуч:"
-
-#~ msgid "Sections:"
-#~ msgstr "Розділи:"
-
-#~ msgid "Start on a new page"
-#~ msgstr "Починати з нової сторінки"
-
-#~ msgid "Style name:"
-#~ msgstr "Назва стилю:"
-
-#~ msgid "Top:"
-#~ msgstr "Вгорі:"
-
-#~ msgid "Width:"
-#~ msgstr "Ширина:"
-
-#~ msgid "_Font..."
-#~ msgstr "_Шрифт..."
-
-#~ msgid "Contact Print Style Editor Test"
-#~ msgstr "Перевірка редактора стилю друку контакту"
-
-#~ msgid "Copyright (C) 2000, Ximian, Inc."
-#~ msgstr "Авторські права (C) 2000, Ximian, Inc."
-
-#~ msgid "This should test the contact print style editor widget"
-#~ msgstr "Перевірка вікна редактора стилю друку"
-
-#~ msgid "This should test the contact print code"
-#~ msgstr "Перевірка коду друку контакту"
-
-#~ msgid "Whether to use daylight savings time while displaying events."
-#~ msgstr "Чи використовувати переведення часу при відображенні подій."
-
-#~ msgid "daylight savings time"
-#~ msgstr "переведення часу"
-
-#~ msgid "Business"
-#~ msgstr "Бізнес"
-
-#~ msgid "Competition"
-#~ msgstr "Виконання"
-
-#~ msgid "Favourites"
-#~ msgstr "Улюблене"
-
-#~ msgid "Gifts"
-#~ msgstr "Подарунки"
-
-#~ msgid "Goals/Objectives"
-#~ msgstr "Завдання/Цілі"
-
-#~ msgid "Holiday"
-#~ msgstr "Вихідний"
-
-#~ msgid "Holiday Cards"
-#~ msgstr "Карточки вихідного дня"
-
-#~ msgid "Hot Contacts"
-#~ msgstr "Гарячі контакти"
-
-#~ msgid "Ideas"
-#~ msgstr "Ідеї"
-
-#~ msgid "International"
-#~ msgstr "Міжнародний"
-
-#~ msgid "Key Customer"
-#~ msgstr "Ключовий клієнт"
-
-#~ msgid "Next 7 days"
-#~ msgstr "Наступні 7 днів"
-
-#~ msgid "Phone Calls"
-#~ msgstr "Телефонні дзвінки"
-
-#~ msgid "Strategies"
-#~ msgstr "Стратегії"
-
-#~ msgid "Time &amp; Expenses"
-#~ msgstr "Час та витрати"
-
-#~ msgid "VIP"
-#~ msgstr "VIP"
-
-#~ msgid "Waiting"
-#~ msgstr "Очікування"
-
-#~ msgid "Adjust for daylight sa_ving time"
-#~ msgstr "Коригувати переведення _часу"
-
-#~ msgid "Attached message - %s"
-#~ msgstr "Вкладене повідомлення - %s"
-
-#~ msgid "<b>%d</b> Attachment"
-#~ msgid_plural "<b>%d</b> Attachments"
-#~ msgstr[0] "<b>%d</b> Вкладення"
-#~ msgstr[1] "<b>%d</b> Вкладення"
-#~ msgstr[2] "<b>%d</b> Вкладення"
-
-#~ msgid "Show Attachments"
-#~ msgstr "Показати вкладення"
-
-#~ msgid "Press space key to toggle attachment bar"
-#~ msgstr "Натисніть пробіл для перемикання панелі вкладень"
-
-#~ msgid "<b>Att_endees</b>"
-#~ msgstr "<b>_Відвідувачі</b> "
-
-#~ msgid "C_hange Organizer"
-#~ msgstr "З_мінити організатора"
-
-#~ msgid "Co_ntacts..."
-#~ msgstr "К_онтакти..."
-
-#~ msgid "_Save Selected"
-#~ msgstr "З_берегти виділене"
-
-#~ msgid "Next 7 Days"
-#~ msgstr "Наступні 7 днів"
-
-#~ msgid "_Post-To Field"
-#~ msgstr "Поле \"_До\""
-
-#~ msgid "Toggles whether the Post-To field is displayed"
-#~ msgstr "Перемикнути стан показу поля \"Post-To\""
-
-#~ msgid "_Subject Field"
-#~ msgstr "Поле _теми"
-
-#~ msgid "Toggles whether the Subject field is displayed"
-#~ msgstr "Перемикнути відображення поля \"Тема\""
-
-#~ msgid "_To Field"
-#~ msgstr "Поле \"_Кому\""
-
-#~ msgid "Toggles whether the To field is displayed"
-#~ msgstr "Перемикнути стан показу поля \"Кому\""
-
-#~ msgid "Retrieving Message..."
-#~ msgstr "Отримання повідомлення..."
-
-#~ msgid "C_all To..."
-#~ msgstr "Подзвон_ити..."
-
-#~ msgid "_Save Selected..."
-#~ msgstr "З_берегти виділені..."
-
-#~ msgid "%d at_tachment"
-#~ msgid_plural "%d at_tachments"
-#~ msgstr[0] "%d в_кладення"
-#~ msgstr[1] "%d в_кладення"
-#~ msgstr[2] "%d в_кладень"
-
-#~ msgid "S_ave"
-#~ msgstr "З_берегти"
-
-#~ msgid "No Attachment"
-#~ msgstr "Немає вкладень"
-
-#~ msgid ""
-#~ "Enable side bar search feature so that you can start interactive "
-#~ "searching by typing in the text. Use is that you can easily find a folder "
-#~ "in that side bar by just typing the folder name and the selection jumps "
-#~ "automatically to that folder."
-#~ msgstr ""
-#~ "Увімкнути пошук у бічній панелі, для можливості інтерактивного пошуку при "
-#~ "вводі тексту. Таким чином ви зможете просто знайти теку у бічній панелі "
-#~ "вводячи назву теки і ця тека автоматично буде виділена."
-
-#~ msgid "View/Bcc menu item is checked"
-#~ msgstr "Пункт меню Вигляд/Прихована відмічений"
-
-#~ msgid "View/Bcc menu item is checked."
-#~ msgstr "Пункт меню Вигляд/Прихована відмічений."
-
-#~ msgid "View/Cc menu item is checked"
-#~ msgstr "Пункт меню Вигляд/Копія відмічений"
-
-#~ msgid "View/Cc menu item is checked."
-#~ msgstr "Пункт меню Вигляд/Копія відмічений."
-
-#~ msgid "View/From menu item is checked"
-#~ msgstr "Пункт меню Вигляд/Від відмічений"
-
-#~ msgid "View/From menu item is checked."
-#~ msgstr "Пункт меню Вигляд/Від відмічений."
-
-#~ msgid "View/PostTo menu item is checked"
-#~ msgstr "Пункт меню Вигляд/До відмічений"
-
-#~ msgid "View/PostTo menu item is checked."
-#~ msgstr "Пункт меню Вигляд/До відмічений."
-
-#~ msgid "View/ReplyTo menu item is checked"
-#~ msgstr "Пункт меню Вигляд/Відповідь відмічений"
-
-#~ msgid "View/ReplyTo menu item is checked."
-#~ msgstr "Пункт меню Вигляд/Відповідь відмічений."
-
-#~ msgid "S_OCKS Host:"
-#~ msgstr "Вузол S_OCKS:"
-
-#~ msgid "_Automatic proxy configuration URL:"
-#~ msgstr "Ресурс URL для _автоматичного налаштовування проксі:"
-
-#~ msgid "Case _sensitive"
-#~ msgstr "Враховувати _регістр"
-
-#~ msgid "F_ind:"
-#~ msgstr "З_найти:"
-
-#~ msgid "Find in Message"
-#~ msgstr "Пошук у повідомленні"
-
-#~ msgid "None Selected"
-#~ msgstr "Нічого не вибрано"
-
-#~ msgid "Provides core functionality for local address books."
-#~ msgstr "Надає основну функціональність для локальних адресних книг."
-
-#~ msgid ""
-#~ "Looks for clues in a message for mention of attachments and warns if the "
-#~ "attachment is missing"
-#~ msgstr ""
-#~ "Шукає ключі з посиланнями на кладення у повідомленні та попереджає, якщо "
-#~ "вкладення відсутнє"
-
-#~ msgid ""
-#~ "A formatter plugin which displays audio attachments inline and allows you "
-#~ "to play them directly from Evolution."
-#~ msgstr ""
-#~ "Модуль форматування, який відтворює звукові вкладення, що дозволяє їх "
-#~ "програвати у Evolution."
-
-#~ msgid "A plugin for backing up and restore Evolution data and settings."
-#~ msgstr "Модуль для збереження та відновлення даних та параметрів."
-
-#~ msgid "CalDAV Calendar sources"
-#~ msgstr "Джерела календарів CalDAV"
-
-#~ msgid "Provides core functionality for local calendars."
-#~ msgstr "Надає основну функціональність для локальних календарів."
-
-#~ msgid "HTTP Calendars"
-#~ msgstr "Календарі HTTP"
-
-#~ msgid "Provides core functionality for webcal and http calendars."
-#~ msgstr "Надає функціональність для підтримки календарів webcal та http."
-
-#~ msgid "Weather: Partly Cloudy"
-#~ msgstr "Погода: Змінна хмарність"
-
-#~ msgid "Provides core functionality for weather calendars."
-#~ msgstr "Надає основну функціональність для календарів погоди."
-
-#~ msgid ""
-#~ "A test plugin which demonstrates a popup menu plugin which lets you copy "
-#~ "things to the clipboard."
-#~ msgstr ""
-#~ "Тестовий модуль, що демонструє контекстні меню, що дозволяє копіювати "
-#~ "об'єкти у буфер обміну."
-
-#~ msgid ""
-#~ "Provides functionality for marking a calendar or an address book as the "
-#~ "default one."
-#~ msgstr ""
-#~ "Надає функціональність для встановлення типових календаря та адресної "
-#~ "книги."
-
-#~ msgid ""
-#~ "A plugin that manages a collection of Exchange account specific "
-#~ "operations and features."
-#~ msgstr "Модуль, що надає доступ до додаткової функціональності Exchange."
-
-#~ msgid "Compose messages using an external editor"
-#~ msgstr "Створювати повідомлення у альтернативному редакторі"
-
-#~ msgid ""
-#~ "Allows unsubscribing of mail folders in the folder tree context menu."
-#~ msgstr ""
-#~ "Дозволяє відписатись від поштових тек у контекстному меню дерева тек."
-
-#~ msgid "A plugin to setup Google Calendar and Contacts."
-#~ msgstr "Модуль для налаштовування календаря та контактів Google"
-
-#~ msgid "Google sources"
-#~ msgstr "Джерела Google"
-
-#~ msgid "A plugin to setup GroupWise calendar and contacts sources."
-#~ msgstr "Модуль налаштовування календаря та джерела контактів GroupWise."
-
-#~ msgid "A plugin to setup hula calendar sources."
-#~ msgstr "Модуль для налаштовування джерел календарів hula."
-
-#~ msgid "Hula Account Setup"
-#~ msgstr "Налаштовування облікового рахунку Hula"
-
-#~ msgid "A plugin for the features in the IMAP accounts."
-#~ msgstr "Модуль для підтримки можливостей облікових записів IMAP."
-
-#~ msgid "_Import to Calendar"
-#~ msgstr "_Імпорт у календар"
-
-#~ msgid "Import ICS"
-#~ msgstr "Імпорт ICS"
-
-#~ msgid "Imports ICS attachments to calendar."
-#~ msgstr "Імпорт вкладень ICS у календар"
-
-#~ msgid ""
-#~ "Synchronize the selected task/memo/calendar/address book with Apple iPod"
-#~ msgstr "Синхронізує виділену задачу/календар/адресну книгу з Apple iPod"
-
-#~ msgid "_Tasks :"
-#~ msgstr "_Завдання :"
-
-#~ msgid "Memos :"
-#~ msgstr "Примітки :"
-
-#~ msgid "Allows disabling of accounts."
-#~ msgstr "Дозволяє вимикати облікові записи."
-
-#~ msgid ""
-#~ "Generates a D-Bus message or notifies the user with an icon in "
-#~ "notification area and a notification message whenever a new message has "
-#~ "arrived."
-#~ msgstr ""
-#~ "При появі нової пошти створюється повідомлення D-Bus або користувач "
-#~ "сповіщається значком на панелі сповіщень."
-
-#~ msgid ""
-#~ "A plugin which allows the creation of meetings from the contents of a "
-#~ "mail message."
-#~ msgstr "Модуль, що створює зустрічі з вмісту поштового повідомлення."
-
-#~ msgid "Mail to meeting"
-#~ msgstr "Пошта на зустріч"
-
-#~ msgid ""
-#~ "A plugin which allows the creation of tasks from the contents of a mail "
-#~ "message."
-#~ msgstr "Модуль, що створює завдання з вмісту поштового повідомлення."
-
-#~ msgid "Used for marking all the messages under a folder as read"
-#~ msgstr ""
-#~ "Використовується, щоб позначити всі повідомлення у теці як прочитані"
-
-#~ msgid "A plugin which implements mono plugins."
-#~ msgstr "Модуль, що дозволяє використовувати середовище mono."
-
-#~ msgid "A plugin for managing which plugins are enabled or disabled."
-#~ msgstr "Модуль для вмикання та вимикання інших модулів."
-
-#~ msgid ""
-#~ "A test plugin which demonstrates a formatter plugin which lets you choose "
-#~ "to disable HTML messages.\n"
-#~ "\n"
-#~ "This plugin is unsupported demonstration code only.\n"
-#~ msgstr ""
-#~ "Тестовий модуль, який демонструє застосування модулів форматування та "
-#~ "дозволяє заборонити почту у форматі HTML.\n"
-#~ "\n"
-#~ "Цей модуль призначений лише для демонстрації та не підтримується.\n"
-
-#~ msgid "Writes a log of profiling data events."
-#~ msgstr "Веде журнал подій профілювання даних."
-
-#~ msgid "SpamAssassin (built-in)"
-#~ msgstr "SpamAssassin (вбудований)"
-
-#~ msgid ""
-#~ "Filters junk messages using SpamAssassin. This plugin requires "
-#~ "SpamAssassin to be installed."
-#~ msgstr ""
-#~ "Фільтрує небажані повідомлення за допомогою SpamAssassin. Для цього "
-#~ "модуля вимагається, щоб SpamAssassin був встановлений."
-
-#~ msgid "A plugin for saving all attachments or parts of a message at once."
-#~ msgstr "Модуль для збереження усіх вкладень або частин повідомлення."
-
-#~ msgid "Save Attachments..."
-#~ msgstr "Зберегти вкладення..."
-
-#~ msgid "Save all attachments"
-#~ msgstr "Зберегти усі вкладення"
-
-#~ msgid "Select save base name"
-#~ msgstr "Вибрати базову назву для збереження"
-
-#~ msgid "Indicates if threading of messages should fall back to subject."
-#~ msgstr "Чи має підшивання повідомлень враховувати тему повідомлення."
-
-#~ msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-#~ msgstr ""
-#~ "Простий модуль, що використовує yTNEF для розшифрування вкладень TNEF."
-
-#~ msgid "A plugin to setup WebDAV contacts."
-#~ msgstr "Модуль для налаштовування контактів WebDAV."
-
-#~ msgid "Error opening the FAQ webpage."
-#~ msgstr "Помилка під час відкриття списку частих питань."
-
-#~ msgid "Pos_t New Message to Folder"
-#~ msgstr "_Надіслати повідомлення до теки"
-
-#~ msgid "Post a Repl_y"
-#~ msgstr "Надіслати в_ідповідь"
-
-#~ msgid "Post a message to a Public folder"
-#~ msgstr "Відправити повідомлення до публічної теки"
-
-#~ msgid "Post a reply to a message in a Public folder"
-#~ msgstr "Надіслати відповідь на повідомлення в загальну теку"
-
-#~ msgid "Attachment Bar"
-#~ msgstr "Панель вкладень"
-
-#~ msgid "Cannot attach file %s: %s"
-#~ msgstr "Не вдається вкласти файл %s: %s"
-
-#~ msgid "Cannot attach file %s: not a regular file"
-#~ msgstr "Не вдається вкласти файл %s: не звичайний файл"
-
-#~ msgid "MIME type:"
-#~ msgstr "Тип MIME:"
-
-#~ msgid "Suggest automatic display of attachment"
-#~ msgstr "Пропонувати автоматичне відображення вкладення"
-
-#~ msgid "Expanded"
-#~ msgstr "Розширений"
-
-#~ msgid "Whether or not the expander is expanded"
-#~ msgstr "Чи розширювати розширювач"
-
-#~ msgid "Text of the expander's label"
-#~ msgstr "Текст позначки розширювача"
-
-#~ msgid ""
-#~ "If set, an underline in the text indicates the next character should be "
-#~ "used for the mnemonic accelerator key"
-#~ msgstr ""
-#~ "Якщо встановлено, підкреслення у тексті означає, що наступний символ буде "
-#~ "використовуватись як мнемонічна клавіша акселератора"
-
-#~ msgid "Space to put between the label and the child"
-#~ msgstr "Простір, що вставляється між позначкою та нащадком"
-
-#~ msgid "Label widget"
-#~ msgstr "Вікно позначки"
-
-#~ msgid "A widget to display in place of the usual expander label"
-#~ msgstr "Вікно, що відображається на місці звичайної позначки озширювача"
-
-#~ msgid "Spacing around expander arrow"
-#~ msgstr "Простір навколо стрілки розширювача"
-
-#~ msgid "Current Message"
-#~ msgstr "Поточне повідомлення"
-
-#~ msgid "Edit Master Category List..."
-#~ msgstr "Правка головного списку категорій..."
-
-#~ msgid "Item(s) belong to these _categories:"
-#~ msgstr "Елементи, що належать до цих _категорій:"
-
-#~ msgid "_Available Categories:"
-#~ msgstr "_Наявні категорії:"
-
-#~ msgid "categories"
-#~ msgstr "категорії"
-
-#~ msgid "DnD code"
-#~ msgstr "Код технології перетягування"
-
-#~ msgid "Full Header"
-#~ msgstr "Повний заголовок"
-
-#~ msgid "Font Description"
-#~ msgstr "Опис шрифту"
