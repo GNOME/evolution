@@ -46,6 +46,10 @@
     </placeholder>
   </menubar>
   <toolbar name='main-toolbar'>
+#if !EXPRESS
+    <toolitem action='send-receive'/>
+    <separator/>
+#endif
     <toolitem action='address-book-print'/>
     <toolitem action='delete-selection'/>
     <toolitem action='address-book-stop'/>

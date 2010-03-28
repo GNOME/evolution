@@ -61,11 +61,13 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
-#if EXPRESS
     <placeholder name='toolbar-actions'>
+      <toolitem action='send-receive'/>
+      <separator/>
+#if EXPRESS
       <toolitem action='new-addressbook-window'/>
-    </placeholder>
 #endif
+    </placeholder>
     <placeholder name='mail-toolbar-common'/>
 #if !EXPRESS
     <toolitem action='mail-stop'/>

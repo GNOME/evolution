@@ -29,14 +29,16 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
-    <placeholder name='toolbar-actions'>
-      <toolitem action='cut-clipboard'/>
-      <toolitem action='copy-clipboard'/>
-      <toolitem action='paste-clipboard'/>
-      <separator/>
-      <toolitem action='memo-list-print'/>
-      <toolitem action='delete-selection'/>
-    </placeholder>
+#if !EXPRESS
+    <toolitem action='send-receive'/>
+    <separator/>
+#endif
+    <toolitem action='cut-clipboard'/>
+    <toolitem action='copy-clipboard'/>
+    <toolitem action='paste-clipboard'/>
+    <separator/>
+    <toolitem action='memo-list-print'/>
+    <toolitem action='delete-selection'/>
   </toolbar>
   <popup name='memo-popup'>
     <menuitem action='memo-new'/>
