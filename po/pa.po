@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2010-03-17 15:37+0000\n"
-"PO-Revision-Date: 2010-03-20 23:13+0530\n"
+"POT-Creation-Date: 2010-03-27 10:09+0000\n"
+"PO-Revision-Date: 2010-03-28 09:12+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2540,11 +2540,11 @@ msgstr "ਕਾਰਜਕਾਰੀ ਦਿਨ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਘ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:30
 msgid "If \"true\", show the memo preview pane in the main window."
-msgstr ""
+msgstr "ਜੇ ਸਹੀਂ ਸੈੱਟ ਕੀਤਾ ਤਾਂ, ਮੁੱਖ ਵਿੰਡੋ ਵਿੱਚ ਮੀਮੋ ਝਲਕ ਬਾਹੀ ਵੇਖਾਈ ਜਾਵੇਗੀ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:31
 msgid "If \"true\", show the task preview pane in the main window."
-msgstr ""
+msgstr "ਜੇ ਸਹੀਂ ਸੈੱਟ ਕੀਤਾ ਤਾਂ, ਮੁੱਖ ਵਿੰਡੋ ਵਿੱਚ ਟਾਸਕ ਝਲਕ ਬਾਹੀ ਵੇਖਾਈ ਜਾਵੇਗੀ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:32
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -2595,7 +2595,7 @@ msgstr "ਮੀਮੋ ਲੇਆਉਟ ਸਟਾਈਲ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:43
 msgid "Memo preview pane position (horizontal)"
-msgstr ""
+msgstr "ਮੀਮੋ ਝਲਕ ਬਾਹੀ ਸਥਿਤੀ (ਹਰੀਜੱਟਲ)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:44
 msgid "Memo preview pane position (vertical)"
@@ -2647,15 +2647,15 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
 msgid "Position of the memo preview pane when oriented vertically."
-msgstr ""
+msgstr "ਮੀਮੋ ਝਲਕ ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਵਰਟੀਕਲ ਹੋਵੇ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
 msgid "Position of the task preview pane when oriented horizontally."
-msgstr ""
+msgstr "ਟਾਸਕ ਝਲਕ ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਹਰੀਜੱਟਲ ਹੋਵੇ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Position of the task preview pane when oriented vertically."
-msgstr ""
+msgstr "ਟਾਸਕ ਝਲਕ ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਵਰਟੀਕਲ ਹੋਵੇ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:57
 msgid ""
@@ -2800,6 +2800,9 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
+"ਲੇਆਉਟ ਸਟਾਇਲ ਤਹਿ ਕਰਦਾ ਹੈ ਕਿ ਮੀਮੋ ਲਿਸਟ ਨਾਲ ਸਬੰਧਿਤ ਝਲਕ ਬਾਹੀ ਕਿੱਥੇ ਵੇਖਾਈ ਜਾਵੇ। "
+"\"0\" (ਕਲਾਸਿਕ ਝਲਕ) ਝਲਕ ਬਾਹੀ ਨੂੰ ਮੀਮੋ ਲਿਸਟ ਹੇਠਾਂ ਵੇਖਾਉਂਦੀ ਹੈ। \"1\" (ਵਰਟੀਕਲ ਝਲਕ) "
+"ਝਲਕ ਬਾਹੀ ਨੂੰ ਮੀਮੋ ਲਿਸਟ ਦੇ ਨਾਲ ਰੱਖਦੀ ਹੈ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid ""
@@ -2807,6 +2810,9 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
+"ਲੇਆਉਟ ਸਟਾਇਲ ਤਹਿ ਕਰਦਾ ਹੈ ਕਿ ਟਾਸਕ ਲਿਸਟ ਨਾਲ ਸਬੰਧਿਤ ਝਲਕ ਬਾਹੀ ਕਿੱਥੇ ਵੇਖਾਈ ਜਾਵੇ। "
+"\"0\" (ਕਲਾਸਿਕ ਝਲਕ) ਝਲਕ ਬਾਹੀ ਨੂੰ ਟਾਸਕ ਲਿਸਟ ਹੇਠਾਂ ਵੇਖਾਉਂਦੀ ਹੈ। \"1\" (ਵਰਟੀਕਲ ਝਲਕ) "
+"ਝਲਕ ਬਾਹੀ ਨੂੰ ਟਾਸਕ ਲਿਸਟ ਦੇ ਨਾਲ ਰੱਖਦੀ ਹੈ।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid "The second timezone for a Day View"
@@ -6150,11 +6156,11 @@ msgstr "iCalendar ਜਾਣਕਾਰੀ"
 
 #: ../calendar/gui/itip-utils.c:832
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr ""
+msgstr "ਸਰੋਤ ਬੁੱਕ ਕਰਨ ਲਈ ਅਸਮਰੱਥ, ਨਵਾਂ ਈਵੈਂਟ ਪਹਿਲਾਂ ਦੇ ਕਿਸੇ ਨਾਲ ਟਕਰਾ ਰਿਹਾ ਹੈ।"
 
 #: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
-msgstr ""
+msgstr "ਸਰੋਤ ਬੁੱਕ ਕਰਨ ਲਈ ਅਸਮਰੱਥ, ਗਲਤੀ: "
 
 #: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
@@ -8205,22 +8211,18 @@ msgid "Click here to select folders to post to"
 msgstr "ਭੇਜਣ ਲਈ ਫੋਲਡਰ ਚੁਣਨ ਲਈ ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ"
 
 #: ../composer/e-composer-private.c:199
-#| msgid "Copy the selection"
 msgid "Undo the last action"
 msgstr "ਪਿਛਲੀ ਕਾਰਵਾਈ ਵਾਪਸ ਲਵੋ"
 
 #: ../composer/e-composer-private.c:203
-#| msgid "Send Latest Information"
 msgid "Redo the last undone action"
 msgstr "ਆਖਰੀ ਵਾਪਸ ਕੀਤੀ ਕਾਰਵਾਈ ਨੂੰ ਮੁੜ-ਕਰੋ"
 
 #: ../composer/e-composer-private.c:207
-#| msgid "Search filter"
 msgid "Search for text"
 msgstr "ਟੈਕਸਟ ਖੋਜੋ"
 
 #: ../composer/e-composer-private.c:211
-#| msgid "Search for an iPod failed"
 msgid "Search for and replace text"
 msgstr "ਟੈਕਸਟ ਦੀ ਖੋਜ ਕਰੋ ਅਤੇ ਬਦਲੋ"
 
@@ -8389,37 +8391,31 @@ msgid "Run Anjal in a window"
 msgstr "ਅੰਜਾਲ ਵਿੰਡੋ ਵਿੱਚ ਚਲਾਓ"
 
 #: ../capplet/anjal-settings-main.c:203
-#| msgid "Mark as _default memo list"
 msgid "Make Anjal the default email client"
 msgstr "ਅੰਜਾਲ ਨੂੰ ਡਿਫਾਲਟ ਈਮੇਲ ਕਲਾਇਟ ਬਣਾਓ"
 
 #. TRANSLATORS: don't translate the terms in brackets
 #: ../capplet/anjal-settings-main.c:210
 msgid "ID of the socket to embed in"
-msgstr ""
+msgstr "ਵਿਚੇ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਸਾਕਟ ਦਾ ID"
 
 #: ../capplet/anjal-settings-main.c:211
-#| msgid "sort"
 msgid "socket"
 msgstr "ਸਾਕਟ"
 
 #: ../capplet/anjal-settings-main.c:225
-#| msgid "Default Mail Client"
 msgid "Anjal email client"
 msgstr "ਅੰਜਾਲ ਈਮੇਲ ਕਲਾਇਟ"
 
 #: ../capplet/settings/mail-view.c:244
-#| msgid "New _Task"
 msgid "New Tab"
 msgstr "ਨਵੀਂ ਟੈਬ"
 
 #: ../capplet/settings/mail-account-view.c:56
-#| msgid "Please choose another name."
 msgid "Please enter your full name."
 msgstr "ਆਪਣਾ ਪੂਰਾ ਨਾਂ ਦਿਓ।"
 
 #: ../capplet/settings/mail-account-view.c:57
-#| msgid "Using email address"
 msgid "Please enter your email address."
 msgstr "ਆਪਣਾ ਈਮੇਲ ਐਡਰੈੱਸ ਦਿਓ ਜੀ।"
 
@@ -8428,57 +8424,47 @@ msgid "The email address you have entered is invalid."
 msgstr "ਤੁਹਾਡੇ ਵਲੋਂ ਦਿੱਤਾ ਈਮੇਲ ਐਡਰੈੱਸ ਢੁੱਕਵਾਂ ਨਹੀਂ ਹੈ।"
 
 #: ../capplet/settings/mail-account-view.c:224
-#| msgid "<span weight=\"bold\">Delete Mail</span>"
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
 msgstr "<span size=\"large\" weight=\"bold\">ਨਿੱਜੀ ਵੇਰਵਾ:</span>"
 
 #: ../capplet/settings/mail-account-view.c:229
-#| msgid "_Name:"
 msgid "Name:"
 msgstr "ਨਾਂ:"
 
 #: ../capplet/settings/mail-account-view.c:238
-#| msgid "Email address"
 msgid "Email address:"
 msgstr "ਈ-ਮੇਲ ਐਡਰੈੱਸ:"
 
 #: ../capplet/settings/mail-account-view.c:248
-#| msgid "<span weight=\"bold\">General</span>"
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
 msgstr "<span size=\"large\" weight=\"bold\">ਲੈਣ ਵੇਰਵਾ:</span>"
 
 #: ../capplet/settings/mail-account-view.c:253
 #: ../capplet/settings/mail-account-view.c:303
-#| msgid "Server _Type:"
 msgid "Server type:"
 msgstr "ਸਰਵਰ ਕਿਸਮ:"
 
 #: ../capplet/settings/mail-account-view.c:262
 #: ../capplet/settings/mail-account-view.c:312
-#| msgid "Server Message:"
 msgid "Server address:"
 msgstr "ਸਰਵਰ ਐਡਰੈੱਸ:"
 
 #: ../capplet/settings/mail-account-view.c:272
 #: ../capplet/settings/mail-account-view.c:322
-#| msgid "Us_ername:"
 msgid "Username:"
 msgstr "ਯੂਜ਼ਰ ਨਾਂ:"
 
 #: ../capplet/settings/mail-account-view.c:281
 #: ../capplet/settings/mail-account-view.c:331
-#| msgid "No encryption"
 msgid "Use encryption:"
 msgstr "ਇੰਕ੍ਰਿਪਸ਼ਨ ਵਰਤੋਂ:"
 
 #: ../capplet/settings/mail-account-view.c:286
 #: ../capplet/settings/mail-account-view.c:336
-#| msgid "Never"
 msgid "never"
 msgstr "ਕਦੇ ਨਹੀਂ"
 
 #: ../capplet/settings/mail-account-view.c:298
-#| msgid "<span weight=\"bold\">General</span>"
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
 msgstr "<span size=\"large\" weight=\"bold\">ਭੇਜਣ ਵੇਰਵਾ:</span>"
 
@@ -8488,6 +8474,9 @@ msgid ""
 "address and password in below and we'll try and work out all the settings. "
 "If we can't do it automatically you'll need your server details as well."
 msgstr ""
+"ਈਮੇਲ ਐਪਲੀਕੇਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਨ ਵਾਸਤੇ ਤੁਹਾਨੂੰ ਅਕਾਊਂਟ ਸੈਟਅੱਪ ਕਰਨ ਦੀ ਲੋੜ ਹੈ। ਆਪਣਾ ਈਮੇਲ "
+"ਐਡਰੈੱਸ ਅਤੇ ਪਾਸਵਰਡ ਹੇਠਾਂ ਭਰੋ ਅਟੇ ਅਸੀਂ ਸਭ ਸੈਟਿੰਗ ਆਪਣੇ ਆਪ ਲੈਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗੇ। "
+"ਜੇ ਅਸੀਂ ਇਹ ਸਭ ਕੁਝ ਆਟੋਮੈਟਿਕ ਨਾ ਕਰ ਸਕੇ ਤਾਂ ਤੁਹਾਨੂੰ ਆਪਣੇ ਸਰਵਰ ਬਾਰੇ ਜਾਣਕਾਰੀ ਵੀ ਦੇਣੀ ਪਵੇਗੀ।"
 
 #: ../capplet/settings/mail-account-view.c:357
 msgid ""
@@ -8495,9 +8484,11 @@ msgid ""
 "enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
+"ਅਫਸੋਸ, ਅਸੀਂ ਤੁਹਾਡੀ ਮੇਲ ਲਈ ਆਟੋਮੈਟਿਕ ਸੈਟਿੰਗ ਨਹੀਂ ਲੈ ਸਕੇ। ਇਹ ਹੇਠਾਂ ਦਰਜ ਕਰੋ ਜੀ। "
+"ਅਸੀਂ ਤੁਹਾਡੇ ਵਲੋਂ ਦਿੱਤੀ ਗਈ ਜਾਣਕਾਰੀ ਮੁਤਾਬਕ ਪੂਰਾ ਵੇਰਵਾ ਲੈਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਤਾਂ ਕੀਤੀ ਹੈ, ਪਰ "
+"ਤੁਹਾਨੂੰ ਉਹਨਾਂ ਨੂੰ ਬਦਲਣਾ ਵੀ ਪੈ ਸਕਦਾ ਹੈ।"
 
 #: ../capplet/settings/mail-account-view.c:359
-#| msgid "You may only configure a single Exchange account."
 msgid "You can specify more options to configure the account."
 msgstr "ਤੁਸੀਂ ਅਕਾਊਂਟ ਸੰਰਚਨਾ ਲਈ ਹੋਰ ਚੋਣਾਂ ਦੇ ਸਕਦੇ ਹੋ।"
 
@@ -8506,6 +8497,8 @@ msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
 msgstr ""
+"ਹੁਣ ਤੁਹਾਨੂੰ ਮੇਲ ਭੇਜਣ ਲਈ ਸੈਟਿੰਗ ਦੇਣ ਦੀ ਲੋੜ ਹੈ। ਅਸੀਂ ਕੁਝ ਅੰਦਾਜ਼ਾ ਲਗਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਚੁੱਕੇ ਹਾਂ, ਪਰ ਤੁਹਾਨੂੰ "
+"ਇਹ ਚੈੱਕ ਕਰ ਲੈਣਾ ਚਾਹੀਦਾ ਹੈ ਕਿ ਉਹ ਠੀਕ ਹਨ।"
 
 #: ../capplet/settings/mail-account-view.c:362
 msgid "You can specify your default settings for your account."
@@ -8516,6 +8509,8 @@ msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
 msgstr ""
+"ਸਮਾਂ ਹੈ ਚੈੱਕ ਕਰਨ ਦਾ, ਇਸ ਤੋਂ ਪਹਿਲਾਂ ਕਿ ਅਸੀਂ ਸਰਵਰ ਨਾਲ ਕੁਨੈਕਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੀਏ ਅਤੇ ਤੁਹਾਡੀਆਂ "
+"ਮੇਲਾਂ ਲੈਣੀਆਂ ਸ਼ੁਰੂ ਕਰੀਏ।"
 
 #: ../capplet/settings/mail-account-view.c:378
 #: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
@@ -8524,60 +8519,49 @@ msgid "Identity"
 msgstr "ਪਛਾਣ"
 
 #: ../capplet/settings/mail-account-view.c:378
-#| msgid "Receiving Email"
 msgid "Next - Receiving mail"
 msgstr "ਅੱਗੇ - ਈਮੇਲ ਲੈਣੀਆਂ"
 
 #: ../capplet/settings/mail-account-view.c:379
-#| msgid "Receiving Email"
 msgid "Receiving mail"
 msgstr "ਈਮੇਲ ਲੈਣੀਆਂ"
 
 #: ../capplet/settings/mail-account-view.c:379
 #: ../capplet/settings/mail-account-view.c:380
-#| msgid "Sending Email"
 msgid "Next - Sending mail"
 msgstr "ਅੱਗੇ - ਈਮੇਲ ਭੇਜਣੀਆਂ"
 
 #: ../capplet/settings/mail-account-view.c:379
-#| msgid "Identity"
 msgid "Back - Identity"
 msgstr "ਪਿੱਛੇ - ਪਛਾਣ"
 
 #: ../capplet/settings/mail-account-view.c:379
-#| msgid "Receiving Options"
 msgid "Next - Receiving options"
 msgstr "ਅੱਗੇ - ਲੈਣ ਚੋਣਾਂ"
 
 #: ../capplet/settings/mail-account-view.c:380
-#| msgid "Receiving Options"
 msgid "Receiving options"
 msgstr "ਲੈਣ ਚੋਣਾਂ"
 
 #: ../capplet/settings/mail-account-view.c:380
 #: ../capplet/settings/mail-account-view.c:382
-#| msgid "Receiving Email"
 msgid "Back - Receiving mail"
 msgstr "ਪਿੱਛੇ - ਮੇਲ ਲੈਣੀਆਂ"
 
 #: ../capplet/settings/mail-account-view.c:382
-#| msgid "Sending Email"
 msgid "Sending mail"
 msgstr "ਮੇਲ ਭੇਜਣੀਆਂ"
 
 #: ../capplet/settings/mail-account-view.c:382
 #: ../capplet/settings/mail-account-view.c:383
-#| msgid "Delete account?"
 msgid "Next - Review account"
 msgstr "ਅੱਗੇ - ਅਕਾਊਂਟ ਪੜਤਾਲ"
 
 #: ../capplet/settings/mail-account-view.c:382
-#| msgid "Defaults"
 msgid "Next - Defaults"
 msgstr "ਅੱਗੇ - ਡਿਫਾਲਟ"
 
 #: ../capplet/settings/mail-account-view.c:382
-#| msgid "Receiving Options"
 msgid "Back - Receiving options"
 msgstr "ਪਿੱਛੇ - ਲੈਣ ਚੋਣਾਂ"
 
@@ -8587,49 +8571,40 @@ msgid "Defaults"
 msgstr "ਮੂਲ"
 
 #: ../capplet/settings/mail-account-view.c:383
-#| msgid "Sending Email"
 msgid "Back - Sending mail"
 msgstr "ਪਿੱਛੇ - ਮੇਲ ਭੇਜਣੀਆਂ"
 
 #: ../capplet/settings/mail-account-view.c:385
-#| msgid "Delete account?"
 msgid "Review account"
 msgstr "ਅਕਾਊਂਟ ਪੜਤਾਲ"
 
 #: ../capplet/settings/mail-account-view.c:385
-#| msgid "Fiji"
 msgid "Finish"
 msgstr "ਮੁਕੰਮਲ"
 
 #: ../capplet/settings/mail-account-view.c:385
-#| msgid "Ascending"
 msgid "Back - Sending"
 msgstr "ਪਿੱਛੇ - ਭੇਜਣਾ"
 
 #: ../capplet/settings/mail-account-view.c:719
 #: ../capplet/settings/mail-settings-view.c:266
-#| msgid "Close"
 msgid "Close Tab"
 msgstr "ਟੈਬ ਬੰਦ ਕਰੋ"
 
 #: ../capplet/settings/mail-account-view.c:729
-#| msgid "Account Editor"
 msgid "Account Wizard"
 msgstr "ਅਕਾਊਂਟ ਸਹਾਇਕ"
 
 #: ../capplet/settings/mail-capplet-shell.c:284
-#| msgid "Evolution Account Assistant"
 msgid "Evolution account assistant"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਅਕਾਊਂਟ ਸਹਾਇਕ"
 
 #: ../capplet/settings/mail-capplet-shell.c:320
 #: ../data/evolution-settings.desktop.in.in.h:2
-#| msgid "Junk Mail Settings"
 msgid "Email Settings"
 msgstr "ਈਮੇਲ ਸੈਟਿੰਗ"
 
 #: ../capplet/settings/mail-capplet-shell.c:334
-#| msgid "_Quit"
 msgid "Quit"
 msgstr "ਬਾਹਰ"
 
@@ -8657,17 +8632,14 @@ msgid "Modify"
 msgstr "ਸੋਧ"
 
 #: ../capplet/settings/mail-settings-view.c:150
-#| msgid "Add IM Account"
 msgid "Add a new account"
 msgstr "ਨਵਾਂ ਅਕਾਊਂਟ ਸ਼ਾਮਲ"
 
 #: ../capplet/settings/mail-settings-view.c:185
-#| msgid "<span weight=\"bold\">Account Information</span>"
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
 msgstr "<span size=\"large\" weight=\"bold\">ਅਕਾਊਂਟ ਪਰਬੰਧ</span>"
 
 #: ../capplet/settings/mail-settings-view.c:276
-#| msgid "Junk Settings"
 msgid "Settings"
 msgstr "ਸੈਟਿੰਗ"
 
@@ -8697,7 +8669,6 @@ msgid "Manage your email, contacts and schedule"
 msgstr "ਆਪਣਾ ਈ-ਮੇਲ ਅਕਾਊਂਟ, ਸੰਪਰਕ ਅਤੇ ਸ਼ੈਡਿਊਲ ਦਾ ਪਰਬੰਧ ਕਰੋ"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
-#| msgid "Configure your email accounts here"
 msgid "Configure email accounts"
 msgstr "ਈਮੇਲ ਅਕਾਊਂਟ ਸੰਰਚਨਾ"
 
@@ -10399,12 +10370,11 @@ msgstr "ਈਵੇਲੂਸ਼ਨ ਅਕਾਊਂਟ ਸਹਾਇਕ"
 #: ../mail/em-composer-utils.c:1578
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
-msgstr ""
+msgstr "ਤੁਹਾਡਾ %s ਵੱਲ ਸੁਨੇਹਾ \"%s\" ਬਾਰੇ, ਜੋ %s ਨੂੰ ਭੇਜਿਆ ਸੀ, ਪੜ੍ਹਿਆ ਜਾ ਚੁੱਕਿਆ ਹੈ।"
 
 #. Translators: %s is the subject of the email message
 #: ../mail/em-composer-utils.c:1626
 #, c-format
-#| msgid "Mail Notification Properties"
 msgid "Delivery Notification for: \"%s\""
 msgstr "ਮੇਲ ਨੋਟੀਫਿਕੇਸ਼ਨ ਵਿਸ਼ੇਸ਼ਤਾ: \"%s\""
 
@@ -11727,6 +11697,8 @@ msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
 msgstr ""
+"ਸਹੀਂ ਸੈੱਟ ਕਰੋ, ਜੇ ਤੁਸੀਂ ਮੇਲ ਲਿਖਣ ਦੇ ਦੌਰਾਨ, ਆਪਣੇ ਦਸਤਖਤਾਂ ਤੋਂ ਪਹਿਲਾਂ ਦਸਤਖਤ ਡੀਲਿਮਟਰ ਸ਼ਾਮਲ "
+"ਨਹੀਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।"
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "Show \"Bcc\" field when sending a mail message"
@@ -11782,7 +11754,7 @@ msgstr "ਚਿੱਤਰ ਐਨੀਮੇਸ਼ਨ ਵੇਖੋ"
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Show original \"Date\" header value."
-msgstr ""
+msgstr "ਅਸਲੀ \"ਮਿਤੀ\" ਹੈੱਡਰ ਮੁੱਲ ਵੇਖੋ।"
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Show photo of the sender"
@@ -11848,6 +11820,8 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
+"ਅਸਲੀ \"ਮਿਤੀ\" ਹੈੱਡਰ ਵੇਖੋ (ਲੋਕਲ ਸਮੇਂ ਨਾਲ, ਜੇ ਸਮਾਂ ਖੇਤਰ ਵੱਖਰਾ ਹੋਵੇ)। ਨਹੀਂ ਤਾਂ ਹਮੇਸ਼ਾ \"ਮਿਤੀ\" "
+"ਹੈੱਡਰ ਮੁੱਲ ਯੂਜ਼ਰ ਵਲੋਂ ਦੱਸੇ ਫਾਰਮੈਟ ਨਾਲ ਅਤੇ ਲੋਕਲ ਸਮਾਂ ਖੇਤਰ ਵੇਖੋ।"
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid "Show the photo of the sender in the message reading pane."
@@ -11900,6 +11874,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
+"ਲੇਆਉਟ ਸਟਾਇਲ ਤਹਿ ਕਰਦਾ ਹੈ ਕਿ ਸੁਨੇਹਾ ਲਿਸਟ ਨਾਲ ਸਬੰਧਿਤ ਝਲਕ ਬਾਹੀ ਕਿੱਥੇ ਵੇਖਾਈ ਜਾਵੇ। "
+"\"0\" (ਕਲਾਸਿਕ ਝਲਕ) ਝਲਕ ਬਾਹੀ ਨੂੰ ਸੁਨੇਹਾ ਲਿਸਟ ਹੇਠਾਂ ਵੇਖਾਉਂਦੀ ਹੈ। \"1\" (ਵਰਟੀਕਲ ਝਲਕ) "
+"ਝਲਕ ਬਾਹੀ ਨੂੰ ਸੁਨੇਹਾ ਲਿਸਟ ਦੇ ਨਾਲ ਰੱਖਦੀ ਹੈ।"
 
 #: ../mail/evolution-mail.schemas.in.h:173
 msgid "The terminal font for mail display."
@@ -13455,9 +13432,6 @@ msgid ""
 msgstr "ਜੇਕਰ ਤੁਸੀਂ ਫੋਲਡਰ ਹਟਾ ਦਿੱਤਾ ਤਾਂ, ਇਸ ਅਤੇ ਇਸ ਦੇ ਸਬ-ਫੋਲਡਰਾਂ ਦੇ ਸਾਰੇ ਭਾਗ ਹਮੇਸ਼ਾ ਲਈ ਹਟਾ ਦਿੱਤੇ ਜਾਣਗੇ।"
 
 #: ../mail/mail.error.xml.h:61
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders contents "
-#| "will be deleted permanently."
 msgid "If you delete the folder, all of its contents will be deleted permanently."
 msgstr "ਜੇਕਰ ਤੁਸੀਂ ਫੋਲਡਰ ਹਟਾ ਦਿੱਤਾ ਤਾਂ, ਇਸ ਦੀ ਸਾਰੀ ਸਮੱਗਰੀ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਇਆ ਜਾਵੇਗਾ।"
 
@@ -13573,7 +13547,6 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "ਕੀ ਤੁਸੀਂ ਫੋਲਡਰ \"{0}\" ਅਤੇ ਇਸ ਦੇ ਸਬ-ਫੋਲਡਰ ਨੂੰ ਹਟਾਉਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹੋ?"
 
 #: ../mail/mail.error.xml.h:87
-#| msgid "Cannot delete folder \"{0}\"."
 msgid "Really delete folder \"{0}\"?"
 msgstr "\"{0}\" ਫੋਲਡਰ ਨੂੰ ਹਟਾਉਣਾ ਹੈ?"
 
@@ -13663,12 +13636,16 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"ਅੱਗੇ ਦਿੱਤੇ ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ ਢੁੱਕਵੇਂ ਮੇਲ ਐਡਰੈੱਸ ਵਜੋਂ ਪਛਾਣਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:111
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"ਅੱਗੇ ਦਿੱਤੇ ਪ੍ਰਾਪਤ ਕਰਤਾ ਨੂੰ ਢੁੱਕਵੇਂ ਮੇਲ ਐਡਰੈੱਸ ਵਜੋਂ ਪਛਾਣਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ:\n"
+"{0}"
 
 #  mail:signature-notscript secondary
 #: ../mail/mail.error.xml.h:113
@@ -14063,7 +14040,7 @@ msgstr "ਸੰਪਰਕ ਲੇਆਉਟ ਸਟਾਈਲ"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
 msgid "Contact preview pane position (horizontal)"
-msgstr ""
+msgstr "ਸੰਪਰਕ ਝਲਕ ਬਾਹੀ ਸਥਿਤੀ (ਹਰੀਜੱਟਲ)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
 msgid "Contact preview pane position (vertical)"
@@ -14079,11 +14056,11 @@ msgstr "ਮੁਕੰਮਲ URI ਸੂਚੀ ਲਈ EFolderList XML ਹੈ।"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
 msgid "Position of the contact preview pane when oriented horizontally."
-msgstr ""
+msgstr "ਸੰਪਰਕ ਝਲਕ ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਹਰੀਜੱਟਲ ਹੋਵੇ।"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:8
 msgid "Position of the contact preview pane when oriented vertically."
-msgstr ""
+msgstr "ਸੰਪਰਕ ਝਲਕ ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਵਰਟੀਕਲ ਹੋਵੇ।"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
 msgid "Show autocompleted name with an address"
@@ -14091,7 +14068,7 @@ msgstr "ਐਡਰੈੱਸ ਨਾਲ ਆਟੋ-ਪੂਰਾ ਨਾਂ ਵੇਖ�
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
 msgid "Show preview pane"
-msgstr "ਝਲਕ ਪੈਨ ਵੇਖਾਓ"
+msgstr "ਝਲਕ ਪੈਨ ਵੇਖੋ"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
 msgid ""
@@ -14100,6 +14077,9 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
+"ਲੇਆਉਟ ਸਟਾਇਲ ਤਹਿ ਕਰਦਾ ਹੈ ਕਿ ਸੰਪਰਕ ਲਿਸਟ ਨਾਲ ਸਬੰਧਿਤ ਝਲਕ ਬਾਹੀ ਕਿੱਥੇ ਵੇਖਾਈ ਜਾਵੇ। "
+"\"0\" (ਕਲਾਸਿਕ ਝਲਕ) ਝਲਕ ਬਾਹੀ ਨੂੰ ਸੰਪਰਕ ਲਿਸਟ ਹੇਠਾਂ ਵੇਖਾਉਂਦੀ ਹੈ। \"1\" (ਵਰਟੀਕਲ ਝਲਕ) "
+"ਝਲਕ ਬਾਹੀ ਨੂੰ ਸੰਪਰਕ ਲਿਸਟ ਦੇ ਨਾਲ ਰੱਖਦੀ ਹੈ।"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
 msgid ""
@@ -14198,7 +14178,7 @@ msgstr "ਮੌਜੂਦਾ ਝਲਕ"
 
 #: ../modules/addressbook/e-book-shell-content.c:365
 msgid "The currently selected address book view"
-msgstr ""
+msgstr "ਮੌਜੂਦਾ ਚੁਣੀ ਐਡਰੈੱਸ ਬੁੱਕ ਝਲਕ"
 
 #: ../modules/addressbook/e-book-shell-content.c:374
 msgid "Previewed Contact"
@@ -14279,7 +14259,6 @@ msgid "Source Selector Widget"
 msgstr "ਸਰੋਤ ਚੋਣਕਾਰੀ ਵਿਦਜੈੱਟ"
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:182
-#| msgid "Couldn't get list of address books"
 msgid "This widget displays groups of address books"
 msgstr "ਇਹ ਵਿਦਜੈੱਟ ਐਡਰੈੱਸ-ਬੁੱਕ ਦੇ ਗਰੁੱਪ ਵੇਖਾਉਂਦਾ ਹੈ"
 
@@ -14293,7 +14272,6 @@ msgid "Co_py All Contacts To..."
 msgstr "ਸਭ ਸੰਪਰਕਾਂ ਦੀ ਇੱਥੇ ਕਾਪੀ (_p)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:664
-#| msgid "Copy the contacts of the selected folder into another folder"
 msgid "Copy the contacts of the selected address book to another"
 msgstr "ਚੁਣੀ ਐਡਰੈੱਸ ਬੁੱਕ ਦੇ ਸੰਪਰਕ ਦੀ ਕਾਪੀ ਹੋਰ ਨੂੰ ਭੇਜੋ"
 
@@ -14310,7 +14288,6 @@ msgid "Mo_ve All Contacts To..."
 msgstr "ਸਭ ਸੰਪਰਕਾਂ ਨੂੰ ਭੇਜੋ(_v)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:678
-#| msgid "Move the contacts of the selected folder into another folder"
 msgid "Move the contacts of the selected address book to another"
 msgstr "ਚੁਣੀ ਐਡਰੈੱਸ ਬੁੱਕ ਦੇ ਸੰਪਰਕਾਂ ਨੂੰ ਹੋਰਾਂ ਵਿੱਚ ਭੇਜੋ"
 
@@ -14323,7 +14300,6 @@ msgid "Address _Book Properties"
 msgstr "ਐਡਰੈੱਸ-ਬੁੱਕ ਵਿਸ਼ੇਸ਼ਤਾ (_B)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:692
-#| msgid "Change the properties of the selected folder"
 msgid "Show properties of the selected address book"
 msgstr "ਚੁਣੀ ਐਡਰੈੱਸ ਬੁੱਕ ਦੀ ਵਿਸ਼ੇਸ਼ਤਾ ਵੇਖੋ"
 
@@ -14336,22 +14312,18 @@ msgid "_Rename..."
 msgstr "ਨਾਂ ਬਦਲੋ(_R)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:699
-#| msgid "Rename the selected folder"
 msgid "Rename the selected address book"
 msgstr "ਚੁਣੀ ਐਡਰੈੱਸ ਬੁੱਕ ਦਾ ਨਾਂ ਬਦਲੋ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:704
-#| msgid "S_ave Address Book As VCard"
 msgid "S_ave Address Book as vCard"
 msgstr "ਐਡਰੈੱਸ-ਬੁੱਕ vC_ard ਵਾਂਗ ਸੰਭਾਲੋ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:706
-#| msgid "Save the contacts of the selected folder as VCard"
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "ਚੁਣੀ ਐਡਰੈੱਸ ਬੁੱਕ ਦੇ ਸੰਪਰਕਾਂ ਨੂੰ vCard ਵਾਂਗ ਸੰਭਾਲੋ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:713
-#| msgid "Stop Loading"
 msgid "Stop loading"
 msgstr "ਲੋਡ ਕਰਨਾ ਰੋਕੋ"
 
@@ -14372,7 +14344,6 @@ msgid "_Find in Contact..."
 msgstr "ਸੰਪਰਕ ਵਿੱਚ ਖੋਜ(_F)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:734
-#| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed contact"
 msgstr "ਦਿੱਸ ਰਹੇ ਸੰਪਰਕ ਵਿੱਚ ਟੈਕਸਟ ਦੀ ਖੋਜ"
 
@@ -14389,7 +14360,6 @@ msgid "_Move Contact To..."
 msgstr "ਸੰਪਰਕ ਇੱਥੇ ਭੇਜੋ(_M)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:748
-#| msgid "Move selected contacts to another folder"
 msgid "Move selected contacts to another address book"
 msgstr "ਚੁਣੇ ਸੰਪਰਕ ਹੋਰ ਐਡਰੈੱਸ ਬੁੱਕ ਵਿੱਚ ਭੇਜੋ"
 
@@ -14472,7 +14442,6 @@ msgid "_Vertical View"
 msgstr "ਲੰਬਕਾਰੀ ਝਲਕ(_V)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:869
-#| msgid "Show contact preview window"
 msgid "Show contact preview alongside the contact list"
 msgstr "ਸੰਪਰਕ ਲਿਸਟ ਦੇ ਨਾਲ ਸੰਪਰਕ ਝਲਕ ਵੇਖੋ"
 
@@ -14504,7 +14473,6 @@ msgid "Print all shown contacts"
 msgstr "ਸਭ ਦਿਖਾਈ ਦਿੰਦੇ ਸੰਪਰਕ ਪਰਿੰਟ ਕਰੋ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:934
-#| msgid "Previews the contacts to be printed"
 msgid "Preview the contacts to be printed"
 msgstr "ਪਰਿੰਟ ਜਾਣ ਵਾਲੇ ਸੰਪਰਕਾਂ ਦੀ ਝਲਕ"
 
@@ -14517,7 +14485,6 @@ msgid "Save as vCard..."
 msgstr "vCard ਇੰਝ ਸੰਭਾਲੋ..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:958
-#| msgid "Save selected contacts as a VCard"
 msgid "Save selected contacts as a vCard"
 msgstr "ਚੁਣੇ ਸੰਪਰਕ VCard ਵਜੋਂ ਸੰਭਾਲੋ"
 
@@ -14630,7 +14597,7 @@ msgstr "ਸਹਾਇਕ ਖੋਜ ਆਧਾਰ"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
 msgid "Using distinguished name (DN)"
-msgstr ""
+msgstr "ਵਿੱਲਣ ਨਾਂ (DN) ਵਰਤੋਂ"
 
 #: ../modules/addressbook/ldap-config.ui.h:23
 msgid "Using email address"
@@ -14806,7 +14773,7 @@ msgstr "ਡਾਟਾ ਨੇਵੀਗੇਟਰ ਵਿਦਜੈੱਟ"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:742
 msgid "This widget displays a miniature calendar"
-msgstr ""
+msgstr "ਇਹ ਵਿਦਜੈੱਟ ਮਿੰਨੀਏਟਰ ਕੈਲੰਡਰ ਵੇਖਾਉਂਦਾ ਹੈ"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:751
 msgid "Default Calendar Client"
@@ -14818,12 +14785,11 @@ msgstr "ਕੈਲੰਡਰ ਓਪਰੇਸ਼ਨ ਲਈ ਡਿਫਾਲਟ ਕ�
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:762
 msgid "This widget displays groups of calendars"
-msgstr ""
+msgstr "ਇਹ ਵਿਦਜੈੱਟ ਕੈਲੰਡਰਾਂ ਦਾ ਗਰੁੱਪ ਵੇਖਾਉਂਦਾ ਹੈ"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:950
 #, c-format
-#| msgid "Opening calendar"
 msgid "Opening calendar at %s"
 msgstr "%s ਤੋਂ ਕੈਲੰਡਰ ਖੋਲ੍ਹਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
@@ -14866,7 +14832,6 @@ msgstr "ਈਵੈਂਟ"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:277
 #: ../modules/calendar/e-memo-shell-view-actions.c:494
 #: ../modules/calendar/e-task-shell-view-actions.c:611
-#| msgid "Select a Calendar"
 msgid "Save as iCalendar"
 msgstr "iCalendar ਵਾਂਗ ਸੰਭਾਲੋ"
 
@@ -14876,22 +14841,18 @@ msgid "_Copy..."
 msgstr "ਕਾਪੀ ਕਰੋ(_C)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1237
-#| msgid "Select a Calendar"
 msgid "D_elete Calendar"
 msgstr "ਕੈਲੰਡਰ ਹਟਾਓ(_e)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1239
-#| msgid "Delete the selected folder"
 msgid "Delete the selected calendar"
 msgstr "ਚੁਣਿਆ ਕੈਲੰਡਰ ਹਟਾਓ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1246
-#| msgid "Go back"
 msgid "Go Back"
 msgstr "ਪਿੱਛੇ ਜਾਉ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1253
-#| msgid "Go forward"
 msgid "Go Forward"
 msgstr "ਅੱਗੇ ਜਾਉ"
 
@@ -14931,12 +14892,10 @@ msgid "Re_fresh"
 msgstr "ਮੁੜ-ਤਾਜ਼ਾ(_f)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1295
-#| msgid "Rename the selected folder"
 msgid "Refresh the selected calendar"
 msgstr "ਚੁਣੇ ਕੈਲੰਡਰ ਤਾਜ਼ਾ ਕਰੋ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1302
-#| msgid "Rename the selected folder"
 msgid "Rename the selected calendar"
 msgstr "ਚੁਣੇ ਕੈਲੰਡਰ ਦਾ ਨਾਂ ਬਦਲੋ"
 
@@ -14981,7 +14940,6 @@ msgid "New All Day _Event..."
 msgstr "ਨਵਾਂ ਸਾਰੇ ਦਿਨ ਦਾ ਈਵੈਂਟ(_E)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1351
-#| msgid "Create a new all-day appointment"
 msgid "Create a new all day event"
 msgstr "ਨਵਾਂ ਸਾਰੇ ਦਿਨ ਦਾ ਈਵੈਂਟ ਬਣਾਓ"
 
@@ -15027,7 +14985,6 @@ msgstr "ਜਵਾਬ(_R)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1412
 #: ../modules/calendar/e-cal-shell-view-memopad.c:271
-#| msgid "Save as vCard..."
 msgid "Save as iCalendar..."
 msgstr "iCalendar ਵਾਂਗ ਸੰਭਾਲੋ..."
 
@@ -15036,17 +14993,14 @@ msgid "_Schedule Meeting..."
 msgstr "ਮੀਟਿੰਗ ਨਿਯਤ ਸਮਾਂ(_S)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1421
-#| msgid "Purge old appointments and meetings"
 msgid "Converts an appointment to a meeting"
 msgstr "ਮੁਲਾਕਾਤ ਨੂੰ ਮੀਟਿੰਗ ਵਿੱਚ ਬਦਲੋ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1426
-#| msgid "New _Appointment..."
 msgid "Conv_ert to Appointment..."
 msgstr "ਮੁਲਾਕਤਾ 'ਚ ਬਦਲੋ(_e)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1428
-#| msgid "%s at the end of the appointment"
 msgid "Converts a meeting to an appointment"
 msgstr "ਮੀਟਿੰਗ ਨੂੰ ਮੁਲਾਕਾਤ ਵਿੱਚ ਬਦਲੋ"
 
@@ -15083,7 +15037,6 @@ msgid "Show one week"
 msgstr "ਇੱਕ ਹਫ਼ਤਾ ਵੇਖੋ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1580
-#| msgid "Show one week"
 msgid "Show one work week"
 msgstr "ਇੱਕ ਕੰਮ ਹਫ਼ਤਾ ਵੇਖੋ"
 
@@ -15112,7 +15065,6 @@ msgid "Print this calendar"
 msgstr "ਇਹ ਕੈਲੰਡਰ ਪਰਿੰਟ ਕਰੋ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1659
-#| msgid "Previews the calendar to be printed"
 msgid "Preview the calendar to be printed"
 msgstr "ਪਰਿੰਟ ਹੋਣ ਵਾਲੇ ਕੈਲੰਡਰ ਦੀ ਝਲਕ"
 
@@ -15190,7 +15142,6 @@ msgstr "ਨਾ-ਪੂਰਾ ਬਣਾਓ(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:333
 #: ../modules/calendar/e-task-shell-view-actions.c:757
-#| msgid "Mark selected tasks as complete"
 msgid "Mark selected tasks as incomplete"
 msgstr "ਚੁਣੇ ਕੰਮ ਨੂੰ ਲਿਖੋ ਕਿ ਸਮਾਪਤ"
 
@@ -15251,7 +15202,6 @@ msgid "Create a new memo list"
 msgstr "ਨਵੀਂ ਮੀਮੋ ਸੂਚੀ ਬਣਾਓ"
 
 #: ../modules/calendar/e-memo-shell-backend.c:588
-#| msgid "Primary memo list"
 msgid "The registry of memo lists"
 msgstr "ਮੀਮੋ ਲਿਸਟਾਂ ਦੀ ਰਜਿਸਟਰੀ"
 
@@ -15273,7 +15223,6 @@ msgstr "ਡਿਫਾਲਟ ਮੀਮੋ ਕਲਾਇਟ"
 
 #  mail:async-error-nodescribe primary
 #: ../modules/calendar/e-memo-shell-sidebar.c:678
-#| msgid "Cannot perform the operation."
 msgid "Default client for memo operations"
 msgstr "ਮੀਮੋ ਓਪਰੇਸ਼ਨ ਲਈ ਡਿਫਾਲਟ ਕਲਾਇਟ"
 
@@ -15301,17 +15250,14 @@ msgid "_Find in Memo..."
 msgstr "ਮੀਮੋ 'ਚ ਖੋਜ(_F)..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:563
-#| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed memo"
 msgstr "ਦਿੱਸ ਰਹੇ ਮੀਮੋ ਵਿੱਚ ਟੈਕਸਟ ਦੀ ਖੋਜ"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:582
-#| msgid "_New Memo List"
 msgid "D_elete Memo List"
 msgstr "ਮੀਮੋ ਲਿਸਟ ਹਟਾਓ(_e)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:584
-#| msgid "Delete selected memos"
 msgid "Delete the selected memo list"
 msgstr "ਚੁਣੇ ਮੀਮੋ ਲਿਸਟ ਹਟਾਓ"
 
@@ -15320,17 +15266,14 @@ msgid "_New Memo List"
 msgstr "ਨਵੀਂ ਮੀਮੋ ਲਿਸਟ(_N)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
-#| msgid "Delete selected memos"
 msgid "Refresh the selected memo list"
 msgstr "ਚੁਣੀ ਮੀਮੋ ਲਿਸਟ ਤਾਜ਼ਾ ਕਰੋ"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:612
-#| msgid "Rename the selected folder"
 msgid "Rename the selected memo list"
 msgstr "ਚੁਣੀ ਮੀਮੋ ਲਿਸਟ ਦਾ ਨਾਂ ਬਦਲੋ"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:617
-#| msgid "Show _only this Memo List"
 msgid "Show _Only This Memo List"
 msgstr "ਕੇਵਲ ਇਹ ਮੀਮੋ ਲਿਸਟ ਵੇਖੋ(_O)"
 
@@ -15339,17 +15282,14 @@ msgid "Memo _Preview"
 msgstr "ਮੀਮੋ ਝਲਕ(_P)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:698
-#| msgid "Show preview pane"
 msgid "Show memo preview pane"
 msgstr "ਮੀਮੋ ਝਲਕ ਪੈਨ ਵੇਖੋ"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:719
-#| msgid "Show message preview below the message list"
 msgid "Show memo preview below the memo list"
 msgstr "ਮੀਮੋ ਲਿਸਟ ਦੇ ਹੇਠਾਂ ਮੀਮੋ ਝਲਕ ਵੇਖੋ"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
-#| msgid "Show message preview below the message list"
 msgid "Show memo preview alongside the memo list"
 msgstr "ਮੀਮੋ ਲਿਸਟ ਦੇ ਨਾਲ ਮੀਮੋ ਝਲਕ ਵੇਖੋ"
 
@@ -15358,7 +15298,6 @@ msgid "Print the list of memos"
 msgstr "ਮੀਮੋ ਦੀ ਸੂਚੀ ਪਰਿੰਟ ਕਰੋ"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:791
-#| msgid "Previews the list of memos to be printed"
 msgid "Preview the list of memos to be printed"
 msgstr "ਪਰਿੰਟ ਕੀਤੇ ਜਾਣ ਵਾਲੇ ਮੀਮੋ ਦੀ ਸੂਚੀ ਦੀ ਝਲਕ"
 
@@ -15408,7 +15347,6 @@ msgid "Create a new task list"
 msgstr "ਨਵੀਂ ਕੰਮ ਸੂਚੀ ਬਣਾਉ"
 
 #: ../modules/calendar/e-task-shell-backend.c:598
-#| msgid "Primary task list"
 msgid "The registry of task lists"
 msgstr "ਕੰਮ ਲਿਸਟ ਦੀ ਰਜਿਟਰੀ"
 
@@ -15447,7 +15385,6 @@ msgid "Default Task Client"
 msgstr "ਡਿਫਾਲਟ ਟਾਸਕ ਕਲਾਇਟ"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:678
-#| msgid "Default value for thread expand state"
 msgid "Default client for task operations"
 msgstr "ਟਾਸਕ ਓਪਰੇਸ਼ਨ ਲਈ ਡਿਫਾਲਟ ਕਲਾਇਟ"
 
@@ -15487,7 +15424,6 @@ msgid "_Find in Task..."
 msgstr "ਟਾਸਕ 'ਚ ਖੋਜ(_F)..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:687
-#| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed task"
 msgstr "ਦਿੱਸ ਰਹੀ ਟਾਸਕ ਵਿੱਚ ਟੈਕਸਟ ਦੀ ਖੋਜ"
 
@@ -15496,12 +15432,10 @@ msgid "Copy..."
 msgstr "ਕਾਪੀ..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:706
-#| msgid "Select a Task List"
 msgid "D_elete Task List"
 msgstr "ਕੰਮ ਲਿਸਟ ਹਟਾਓ(_e)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:708
-#| msgid "Delete selected tasks"
 msgid "Delete the selected task list"
 msgstr "ਚੁਣੀ ਕੰਮ ਲਿਸਟ ਹਟਾਓ"
 
@@ -15514,17 +15448,14 @@ msgid "Refresh the selected task list"
 msgstr "ਚੁਣੀ ਟਾਸਕ ਲਿਸਟ ਤਾਜ਼ਾ ਕਰੋ"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:736
-#| msgid "Rename the selected folder"
 msgid "Rename the selected task list"
 msgstr "ਚੁਣੀ ਟਾਸਕ ਲਿਸਟ ਦਾ ਨਾਂ ਬਦਲੋ"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:741
-#| msgid "Show _only this Task List"
 msgid "Show _Only This Task List"
 msgstr "ਇਹ ਟਾਸਕ ਲਿਸਟ ਹੀ ਵੇਖੋ(_O)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:755
-#| msgid "_Mark as Incomplete"
 msgid "Mar_k as Incomplete"
 msgstr "ਅਧੂਰੇ ਵਜੋਂ ਨਿਸ਼ਾਨਬੱਧ(_k)"
 
@@ -15537,17 +15468,14 @@ msgid "Task _Preview"
 msgstr "ਕੰਮ ਝਲਕ(_P)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:862
-#| msgid "Show preview pane"
 msgid "Show task preview pane"
 msgstr "ਟਾਸਕ ਝਲਕ ਪੈਨ ਵੇਖੋ"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:883
-#| msgid "Show message preview below the message list"
 msgid "Show task preview below the task list"
 msgstr "ਟਾਸਕ ਲਿਸਟ ਹੇਠਾਂ ਟਾਸਕ ਝਲਕ ਵੇਖੋ"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:890
-#| msgid "Show message preview below the message list"
 msgid "Show task preview alongside the task list"
 msgstr "ਟਾਸਕ ਲਿਸਟ ਨਾਲ ਟਾਸਕ ਝਲਕ ਵੇਖੋ"
 
@@ -15576,7 +15504,6 @@ msgid "Print the list of tasks"
 msgstr "ਕੰਮ ਸੂਚੀ ਪਰਿੰਟ ਕਰੋ"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:990
-#| msgid "Previews the list of tasks to be printed"
 msgid "Preview the list of tasks to be printed"
 msgstr "ਪਰਿੰਟ ਕੀਤੀ ਜਾਣ ਵਾਲੀ ਕਾਰਜ ਸੂਚੀ ਦੀ ਝਲਕ"
 
@@ -15652,7 +15579,7 @@ msgstr "ਥਰਿੱਡ ਨਾਲ ਗਰੁੱਪ"
 
 #: ../modules/mail/e-mail-shell-content.c:680
 msgid "Whether to group messages by threads"
-msgstr ""
+msgstr "ਕੀ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਾਮਲੇ ਰਾਹੀਂ ਗਰੁੱਪ ਕਰਨਾ ਹੈ"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:855
 #: ../modules/mail/e-mail-shell-view.c:875
@@ -15664,7 +15591,6 @@ msgid "Disable this account"
 msgstr "ਇਹ ਅਕਾਊਂਟ ਅਯੋਗ"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:864
-#| msgid "Permanently remove all deleted messages from all folders"
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "ਸਭ ਫੋਲਡਰਾਂ ਤੋਂ ਸਭ ਹਟਾਏ ਸੁਨੇਹੇ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਓ"
 
@@ -15677,7 +15603,6 @@ msgid "_Download Messages for Offline Usage"
 msgstr "ਆਫਲਾਈਨ ਲਈ ਸੁਨੇਹੇ ਡਾਊਨਲੋਡ ਕਰੋ(_D)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:878
-#| msgid "Download messages of accounts/folders marked for offline"
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "ਆਫਲਾਈਨ ਵਰਤੋਂ ਲਈ ਮਾਰਕ ਕੀਤੇ ਅਕਾਊਂਟ ਅਤੇ ਫੋਲਡਰ ਲਈ ਸੁਨੇਹੇ ਡਾਊਨਲੋਡ ਕਰੋ"
 
@@ -15762,7 +15687,6 @@ msgid "_Unsubscribe"
 msgstr "ਮੈਂਬਰੀ ਹਟਾਓ(_U)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:969
-#| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
 msgstr "ਚੁਣੇ ਫੋਲਡਰ ਤੋਂ ਮੈਂਬਰ ਹਟਾਓ"
 
@@ -15771,7 +15695,6 @@ msgid "Empty _Trash"
 msgstr "ਰੱਦੀ ਖਾਲੀ(_T)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:976
-#| msgid "Permanently remove all deleted messages from all folders"
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "ਸਭ ਅਕਾਊਂਟ ਤੋਂ ਹਟਾਏ ਸੁਨੇਹੇ ਹਮੇਸ਼ਾ ਲਈ ਹਟਾਓ"
 
@@ -15840,7 +15763,6 @@ msgid "Search F_olders"
 msgstr "ਫੋਲਡਰ ਖੋਜ(_o)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1062
-#| msgid "Create or edit Search Folder definitions"
 msgid "Create or edit search folder definitions"
 msgstr "ਖੋਜ ਫੋਲਡਰ ਪਰਿਭਾਸ਼ਾ ਨੂੰ ਬਣਾਓ ਜਾਂ ਸੋਧੋ"
 
@@ -15877,7 +15799,6 @@ msgid "Show Message _Preview"
 msgstr "ਸੁਨੇਹਾ ਝਲਕ ਵੇਖੋ(_P)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1158
-#| msgid "Show message preview window"
 msgid "Show message preview pane"
 msgstr "ਸੁਨੇਹਾ ਝਲਕ ਵਿੰਡੋ ਵੇਖੋ"
 
@@ -15886,7 +15807,6 @@ msgid "_Group By Threads"
 msgstr "ਥਰਿੱਡ ਨਾਲ ਗਰੁੱਪ(_G)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1166
-#| msgid "Threaded Message list"
 msgid "Threaded message list"
 msgstr "ਮਸਲਾ ਸੁਨੇਹਾ ਲਿਸਟ"
 
@@ -15895,7 +15815,6 @@ msgid "Show message preview below the message list"
 msgstr "ਸੁਨੇਹਾ ਸੂਚੀ ਦੇ ਹੇਠਾਂ ਸੁਨੇਹਾ ਝਲਕ ਵੇਖੋ"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1194
-#| msgid "Show message preview below the message list"
 msgid "Show message preview alongside the message list"
 msgstr "ਸੁਨੇਹਾ ਸੂਚੀ ਦੇ ਨਾਲ ਸੁਨੇਹਾ ਝਲਕ ਵੇਖੋ"
 
@@ -15936,7 +15855,6 @@ msgid "Unread Messages"
 msgstr "ਨਾ-ਪੜ੍ਹੇ ਸੁਨੇਹੇ"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1310
-#| msgid "Subject or Addresses contains"
 msgid "Subject or Addresses contain"
 msgstr "ਵਿਸ਼ਾ ਜਾਂ ਭੇਜਣ ਵਾਲਿਆਂ 'ਚ ਹੈ"
 
@@ -16090,7 +16008,6 @@ msgid "_Date header:"
 msgstr "ਮਿਤੀ ਹੈੱਡਰ(_D):"
 
 #: ../modules/mail/em-mailer-prefs.c:1154
-#| msgid "Show _Original Size"
 msgid "Show _original header value"
 msgstr "ਅਸਲੀ ਹੈੱਡਰ ਮੁੱਲ ਵੇਖੋ(_o)"
 
@@ -16168,7 +16085,6 @@ msgid "Inline Audio"
 msgstr "ਲਾਇਨ 'ਚ ਆਡੀਓ"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
-#| msgid "Play audio attachments directly from Evolution."
 msgid "Play audio attachments directly in mail messages."
 msgstr "ਮੇਲ ਸੁਨੇਹਿਆਂ ਤੋਂ ਆਡੀਓ ਅਟੈਚਮੈਂਟ ਸਿੱਧੀਆਂ ਚਲਾਓ।"
 
@@ -16194,9 +16110,8 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
-"ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਆਪਣੇ ਬੈਕਅੱਪ ਤੋਂ ਰੀਸਟੋਰ ਕਰ ਸਕਦੇ ਹੋ। ਇਹ ਸਭ ਮੇਲਾਂ, ਕੈਲੰਡਰ, ਟਾਸਕ, "
-"ਮੀਮੋ, ਸੰਪਰਕ ਆਦਿ ਨੂੰ ਰੀਸਟੋਰ ਕਰ ਸਕਦੈ ਹੈ। ਇਹ ਤੁਹਾਡੀ ਨਿੱਜੀ ਸੈਟਿੰਗ, ਮੇਲ ਫਿਲਟਰ ਆਦਿ ਵੀ "
-"ਰੀਸਟੋਰ ਕਰ ਸਕਦੀ ਹੈ।"
+"ਤੁਸੀਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਆਪਣੇ ਬੈਕਅੱਪ ਤੋਂ ਰੀਸਟੋਰ ਕਰ ਸਕਦੇ ਹੋ। ਇਹ ਸਭ ਮੇਲਾਂ, ਕੈਲੰਡਰ, ਟਾਸਕ, ਮੀਮੋ, ਸੰਪਰਕ ਆਦਿ "
+"ਨੂੰ ਰੀਸਟੋਰ ਕਰ ਸਕਦੈ ਹੈ। ਇਹ ਤੁਹਾਡੀ ਨਿੱਜੀ ਸੈਟਿੰਗ, ਮੇਲ ਫਿਲਟਰ ਆਦਿ ਵੀ ਰੀਸਟੋਰ ਕਰ ਸਕਦੀ ਹੈ।"
 
 #: ../plugins/backup-restore/backup-restore.c:297
 msgid "_Restore Evolution from the backup file"
@@ -16219,7 +16134,6 @@ msgid "_Backup Settings..."
 msgstr "ਬੈਕਅੱਪ ਸੈਟਿੰਗ(_B)..."
 
 #: ../plugins/backup-restore/backup-restore.c:355
-#| msgid "Backup and restore Evolution data and settings"
 msgid "Backup Evolution data and settings to an archive file"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਡਾਟਾ ਅਤੇ ਸੈਟਿੰਗ ਅਕਾਇਵ ਫਾਇਲ ਵਿੱਚ ਬੈਕਅੱਪ ਲਵੋ"
 
@@ -16228,7 +16142,6 @@ msgid "R_estore Settings..."
 msgstr "ਸੈਟਿੰਗ ਰੀਸਟੋਰ(_e)..."
 
 #: ../plugins/backup-restore/backup-restore.c:362
-#| msgid "Backup and restore Evolution data and settings"
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਡਾਟਾ ਅਤੇ ਸੈਟਿੰਗ ਅਕਾਇਵ ਫਾਇਲ ਤੋਂ ਰੀਸਟੋਰ ਕਰੋ"
 
@@ -16444,7 +16357,7 @@ msgstr ""
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:158
 #, c-format
 msgid "Bogofilter is not available. Please install it first."
-msgstr ""
+msgstr "Bogofilter ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ। ਪਹਿਲਾਂ ਇਹ ਇੰਸਟਾਲ ਕਰੋ।"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:162
@@ -16496,11 +16409,11 @@ msgstr "Bogfilter ਨਾਲ ਜੰਕ ਸੁਨੇਹੇ ਫਿਲਟਰ ਕਰ�
 
 #: ../plugins/caldav/caldav-browse-server.c:198
 msgid "Authentication failed. Server requires correct login."
-msgstr ""
+msgstr "ਪਰਮਾਣਕਿਤਾ ਫੇਲ੍ਹ ਹੋਈ। ਸਰਵਰ ਲਈ ਢੁੱਕਵਾਂ ਲਾਗਇਨ ਚਾਹੀਦਾ ਹੈ।"
 
 #: ../plugins/caldav/caldav-browse-server.c:200
 msgid "Given URL cannot be found."
-msgstr ""
+msgstr "ਦਿੱਤਾ URL ਲੱਭਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ।"
 
 #: ../plugins/caldav/caldav-browse-server.c:204
 #, c-format
@@ -16508,6 +16421,8 @@ msgid ""
 "Server returned unexpected data.\n"
 "%d - %s"
 msgstr ""
+"ਸਰਵਰ ਨੇ ਅਣਜਾਣ ਡਾਟਾ ਭੇਜਿਆ ਹੈ।\n"
+"%d - %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:204
 #: ../plugins/caldav/caldav-browse-server.c:1249 ../plugins/face/face.c:169
@@ -16517,39 +16432,30 @@ msgstr "ਅਣਜਾਣੀ ਗਲਤੀ"
 #  FIXME: domain/code
 #: ../plugins/caldav/caldav-browse-server.c:334
 #: ../plugins/caldav/caldav-browse-server.c:585
-#| msgid "Failed to update delegates:"
 msgid "Failed to parse server response."
 msgstr "ਸਰਵਰ ਜਵਾਬ ਪਾਰਸ ਕਰਨ ਲਈ ਫੇਲ੍ਹ ਹੈ।"
 
 #: ../plugins/caldav/caldav-browse-server.c:428
-#| msgid "Ends"
 msgid "Events"
 msgstr "ਈਵੈਂਟ"
 
 #: ../plugins/caldav/caldav-browse-server.c:450
-#| msgid "New calendar"
 msgid "User's calendars"
 msgstr "ਯੂਜ਼ਰ ਦਾ ਕੈਲੰਡਰ"
 
 #: ../plugins/caldav/caldav-browse-server.c:558
 #: ../plugins/caldav/caldav-browse-server.c:629
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to get server URL."
 msgstr "ਸਰਵਰ URL ਲੈਣ ਲਈ ਫੇਲ੍ਹ ਹੈ।"
 
 #: ../plugins/caldav/caldav-browse-server.c:627
 #: ../plugins/caldav/caldav-browse-server.c:668
 #: ../plugins/caldav/caldav-browse-server.c:1272
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Searching for the Contacts..."
 msgid "Searching for user's calendars..."
 msgstr "ਯੂਜ਼ਰ ਦਾ ਕੈਲੰਡਰ ਖੋਜਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #  FIXME: domain/code
 #: ../plugins/caldav/caldav-browse-server.c:666
-#| msgid "Unable to find any calendars"
 msgid "Could not find any user calendar."
 msgstr "ਯੂਜ਼ਰ ਕੈਲੰਡਰ ਨਹੀਂ ਲੱਭਿਆ ਜਾ ਸਕਿਆ।"
 
@@ -16565,40 +16471,29 @@ msgstr "ਪਿਛਲੀ ਕੋਸ਼ਿਸ਼ ਕੋਡ %d ਨਾਲ ਫੇਲ�
 
 #: ../plugins/caldav/caldav-browse-server.c:799
 #, c-format
-#| msgid "Enter password for %s (user %s)"
 msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
 msgstr "<b>%2$s</b> ਸਰਵਰ ਉੱਤੇ <b>%1$s</b> ਯੂਜ਼ਰ ਲਈ ਪਾਸਵਰਡ ਭਰੋ"
 
 #: ../plugins/caldav/caldav-browse-server.c:856
 #, c-format
-#| msgid ""
-#| "Cannot create output file: %s:\n"
-#| " %s"
 msgid "Cannot create soup message for URL '%s'"
 msgstr "URL '%s' ਲਈ soup ਸੁਨੇਹਾ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
 
 #. fetch content
 #: ../plugins/caldav/caldav-browse-server.c:1091
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Searching for the Contacts..."
 msgid "Searching folder content..."
 msgstr "ਫੋਲਡਰ ਸਮੱਗਰੀ ਖੋਜੀ ਜਾ ਰਹੀ ਹੈ..."
 
 #: ../plugins/caldav/caldav-browse-server.c:1134
-#| msgid "Local Calendars"
 msgid "List of available calendars:"
 msgstr "ਉਪਲੱਬਧ ਕੈਲੰਡਰਾਂ ਦੀ ਲਿਸਟ:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1171
-#| msgid "Hula Support"
 msgid "Supports"
 msgstr "ਸਹਿਯੋਗ"
 
 #: ../plugins/caldav/caldav-browse-server.c:1249
 #, c-format
-#| msgid "Failed to create pipe: %s"
 msgid "Failed to create thread: %s"
 msgstr "ਥਰਿੱਡ ਬਣਾਉਣ ਲਈ ਫੇਲ੍ਹ: %s"
 
@@ -16741,7 +16636,6 @@ msgstr "ਇੱਕ ਟਿਕਾਣਾ ਚੁਣੋ"
 #. Translators: "None" location for a weather calendar
 #: ../plugins/calendar-weather/calendar-weather.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:371
-#| msgid "None"
 msgctxt "weather-cal-location"
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
@@ -16768,12 +16662,10 @@ msgstr "ਮੌਸਮ ਕੈਲੰਡਰ"
 
 #: ../plugins/contacts-map/contacts-map.c:55
 #: ../plugins/contacts-map/contacts-map.c:201
-#| msgid "Contacts: "
 msgid "Contacts map"
 msgstr "ਸੰਪਰਕ ਨਕਸ਼ਾ"
 
 #: ../plugins/contacts-map/contacts-map.c:56
-#| msgid "Send a message to the selected contacts"
 msgid "Show a map of all the contacts"
 msgstr "ਸਭ ਸੰਪਰਕਾਂ ਲਈ ਨਕਸ਼ਾ ਵੇਖੋ"
 
@@ -16782,7 +16674,6 @@ msgid "Add a map showing the location of contacts when possible."
 msgstr "ਜਦੋਂ ਵੀ ਸੰਭਵ ਹੋਵੇ ਤਾਂ ਸੰਪਰਕਾਂ ਦਾ ਟਿਕਾਣਾ ਵੇਖਾਉਣ ਲਈ ਨਕਸ਼ਾ ਜੋੜੋ।"
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
-#| msgid "No contacts"
 msgid "Map for contacts"
 msgstr "ਸੰਪਰਕਾਂ ਲਈ ਮੈਪ"
 
@@ -16811,7 +16702,6 @@ msgid "Mark as _default address book"
 msgstr "ਡਿਫਾਲਟ ਐਡਰੈੱਸ ਬੁੱਕ ਵਾਂਗ ਨਿਸ਼ਾਨਬੱਧ(_d)"
 
 #: ../plugins/default-source/default-source.c:88
-#| msgid "Show autocompleted name with an address"
 msgid "A_utocomplete with this address book"
 msgstr "ਇਸ ਐਡਰੈੱਸ ਬੁੱਕ ਨਾਲ ਆਟੋ-ਪੂਰਨ(_u)"
 
@@ -16872,7 +16762,6 @@ msgstr "ਬਹੁਤ ਗੁਪਤ"
 #. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
 #. indicating the header will not be added to a mail message
 #: ../plugins/email-custom-header/email-custom-header.c:379
-#| msgid "None"
 msgctxt "email-custom-header"
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
@@ -16997,14 +16886,14 @@ msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
+"ਕੀ ਭੇਜੇ ਜਾ ਰਹੇ ਸੁਨੇਹਿਆਂ ਵਿੱਚ ਚਿਹਰਾ ਤਸਵੀਰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਜੋੜਨੀ ਹੈ। ਤਸਵੀਰ ਨੂੰ ਇਹ ਕਲਿੱਕ ਕਰਨ ਤੋਂ "
+"ਪਹਿਲਾਂ ਸੈੱਟ ਕਰਨ ਦੀ ਲੋੜ ਹੈ, ਨਹੀਂ ਤਾਂ ਕੁਝ ਨਹੀਂ ਹੋਵੇਗਾ।"
 
 #: ../plugins/face/face.c:286
-#| msgid "Select a (48*48) png of size < 700bytes"
 msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
 msgstr "ਇੱਕ  png ਤਸਵੀਰ ਚੁਣੋ ( ੭੨੦ < ਬਾਇਟ  ਆਕਾਰ ਦਾ ਵਧੀਆ ੪੮*੪੮)"
 
 #: ../plugins/face/face.c:296
-#| msgid "Importing files"
 msgid "Image files"
 msgstr "ਤਸਵੀਰ ਫਾਇਲਾਂ"
 
@@ -17017,36 +16906,30 @@ msgid "Load new _Face picture"
 msgstr "ਨਵੀਂ ਚਿਹਰਾ ਤਸਵੀਰ ਲੋਡ ਕਰੋ(_F)"
 
 #: ../plugins/face/face.c:415
-#| msgid "Include:"
 msgid "Include _Face"
 msgstr "ਚਿਹਰਾ ਸ਼ਾਮਲ(_F)"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "ਭੇਜੇ ਜਾ ਰਹੇ ਸੁਨੇਹਿਆਂ ਵਿੱਚ ਆਪਣੇ ਚਿਹਰੇ ਦੀ ਛੋਟੀ ਜਿਹਾ ਤਸਵੀਰ ਸ਼ਾਮਲ ਕਰੋ।"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
-#| msgid "Table header"
 msgid "Failed Read"
 msgstr "ਪੜ੍ਹਨ ਲਈ ਫੇਲ੍ਹ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
-#| msgid "Invalid Date Value"
 msgid "Invalid Image Size"
 msgstr "ਅਢੁੱਕਵਾਂ ਚਿੱਤਰ ਆਕਾਰ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
-#| msgid "_No image"
 msgid "Not an image"
 msgstr "ਚਿੱਤਰ ਨਹੀਂ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
-#| msgid "Please select an image for this contact"
 msgid "Please select an image of size 48 * 48"
 msgstr "੪੮ * ੪੮ ਆਕਾਰ ਦਾ ਚਿੱਤਰ ਚੁਣੋ ਜੀ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
-#| msgid "The item could not be sent!\n"
 msgid "The file cannot be read"
 msgstr "ਫਾਇਲ ਪੜ੍ਹੀ ਨਹੀਂ ਜਾ ਸਕਦੀ"
 
@@ -17139,17 +17022,6 @@ msgstr "ਫੋਲਡਰ ਬਣਾਓ"
 
 #: ../plugins/groupwise-features/install-shared.c:225
 #, c-format
-#| msgid ""
-#| "The user '%s' has shared a folder with you\n"
-#| "\n"
-#| "Message from '%s'\n"
-#| "\n"
-#| "\n"
-#| "%s\n"
-#| "\n"
-#| "\n"
-#| "Click 'Forward' to install the shared folder\n"
-#| "\n"
 msgid ""
 "The user '%s' has shared a folder with you\n"
 "\n"
@@ -17195,7 +17067,6 @@ msgid "Email:"
 msgstr "ਈਮੇਲ:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
-#| msgid "_Junk List"
 msgid "Junk List:"
 msgstr "ਜੰਕ ਲਿਸਟ:"
 
@@ -17223,15 +17094,12 @@ msgid "Message Retract"
 msgstr "ਸੁਨੇਹਾ ਹਾਲਤ"
 
 #: ../plugins/groupwise-features/mail-retract.c:86
-#| msgid ""
-#| "Retracting a message may remove it from the recipient's mailbox. Are you "
-#| "sure you want to do this ?"
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this?"
 msgstr ""
-"ਇੱਕ ਸੁਨੇਹੇ ਨੂੰ ਮੁੜ-ਜਾਂਚਣ ਨਾਲ ਇਸ ਨੂੰ ਪ੍ਰਾਪਤ-ਕਰਤਾ ਦੇ ਮੇਲ ਬਕਸੇ ਤੋਂ ਮੁੜ-ਟਰੇਸ ਕੀਤਾ ਜਾਵੇਗਾ। ਕੀ ਤੁਸੀਂ "
-"ਇਹ ਕਰਨ ਲਈ ਯਕੀਨੀ ਹੋ?"
+"ਇੱਕ ਸੁਨੇਹੇ ਨੂੰ ਮੁੜ-ਜਾਂਚਣ ਨਾਲ ਇਸ ਨੂੰ ਪ੍ਰਾਪਤ-ਕਰਤਾ ਦੇ ਮੇਲ ਬਕਸੇ ਤੋਂ ਮੁੜ-ਟਰੇਸ ਕੀਤਾ ਜਾਵੇਗਾ। ਕੀ ਤੁਸੀਂ ਇਹ "
+"ਕਰਨ ਲਈ ਯਕੀਨੀ ਹੋ?"
 
 #: ../plugins/groupwise-features/mail-retract.c:107
 msgid "Message retracted successfully"
@@ -17315,17 +17183,14 @@ msgid "You have to specify a user name which you want to add to the list"
 msgstr "ਤੁਹਾਨੂੰ ਇਕ ਯੂਜ਼ਰ ਨਾਂ ਦੇਣਾ ਪਵੇਗਾ, ਜੋ ਕਿ ਲਿਸਟ ਵਿੱਚ ਦੇਣਾ ਚਾਹੁੰਦੇ ਹੋ"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#| msgid "Do you want to resend the meeting ?"
 msgid "Do you want to resend the meeting?"
 msgstr "ਕੀ ਤੁਸੀਂ ਮੀਟਿੰਗ ਮੁੜ-ਭੇਜਣੀ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#| msgid "Do you want to resend the recurring meeting ?"
 msgid "Do you want to resend the recurring meeting?"
 msgstr "ਕੀ ਤੁਸੀਂ ਮੁੜ-ਹੋਣ ਵਾਲੀ ਮੀਟਿੰਗ ਫੇਰ ਭੇਜਣੀ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#| msgid "Do you want to retract the original item ?"
 msgid "Do you want to retract the original item?"
 msgstr "ਕੀ ਤੁਸੀਂ ਅਸਲੀ ਆਈਟਮ ਨੂੰ ਮੁੜ-ਜਾਂਚਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
@@ -17550,12 +17415,10 @@ msgid "Hula Support"
 msgstr "ਹੁਲਾ ਸਹਿਯੋਗ"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#| msgid "Inline"
 msgid "Inline Image"
 msgstr "ਆਨਲਾਈਨ ਚਿੱਤਰ"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
-#| msgid "Show vCards directly in mail messages."
 msgid "View image attachments directly in mail messages."
 msgstr "ਮੇਲ ਸੁਨੇਹਿਆਂ ਵਿੱਚ ਸਿੱਧੇ ਚਿੱਤਰ ਅਟੈਚਮੈਂਟ ਵੇਖੋ।"
 
@@ -17732,12 +17595,10 @@ msgstr "ਮੀਮੋ ਜਾਣਕਾਰੀ ਭੇਜਣ ਲਈ ਅਸਮੱਰ�
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1529
-#| msgid "Calendars"
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1534
-#| msgid "New Calendar"
 msgid "Save Calendar"
 msgstr "ਕੈਲੰਡਰ ਸੰਭਾਲੋ"
 
@@ -17775,9 +17636,7 @@ msgstr "ਨੱਥੀ ਕੈਲੰਡਰ ਵਿੱਚ ਕਈ ਆਈਟਮਾਂ �
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr ""
-"ਇਹਨਾਂ ਸਭ ਆਈਟਮਾਂ ਤੇ ਕਾਰਵਾਈ ਕਰਨ ਲ਼ਈ, ਫਾਇਲ ਨੂੰ ਸੰਭਾਲਣਾ ਪਵੇਗਾ ਅਤੇ ਕੈਲੰਡਰ ਇੰਪੋਰਟ "
-"ਕਰਨਾ ਪਵੇਗਾ"
+msgstr "ਇਹਨਾਂ ਸਭ ਆਈਟਮਾਂ ਤੇ ਕਾਰਵਾਈ ਕਰਨ ਲ਼ਈ, ਫਾਇਲ ਨੂੰ ਸੰਭਾਲਣਾ ਪਵੇਗਾ ਅਤੇ ਕੈਲੰਡਰ ਇੰਪੋਰਟ ਕਰਨਾ ਪਵੇਗਾ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2447
 msgid "This meeting recurs"
@@ -18164,7 +18023,6 @@ msgid "All day:"
 msgstr "ਸਾਰਾ ਦਿਨ:"
 
 #: ../plugins/itip-formatter/itip-view.c:686
-#| msgid "Sta_rt date:"
 msgid "Start day:"
 msgstr "ਦਿਨ ਸ਼ੁਰੂ:"
 
@@ -18175,8 +18033,6 @@ msgid "Start time:"
 msgstr "ਸ਼ੁਰੂ ਸਮਾਂ:"
 
 #: ../plugins/itip-formatter/itip-view.c:698
-#| msgid "%d day"
-#| msgid_plural "%d days"
 msgid "End day:"
 msgstr "ਦਿਨ ਅੰਤ:"
 
@@ -18337,8 +18193,6 @@ msgid "Play sound when new messages arrive."
 msgstr "ਨਵਾਂ ਸੁਨੇਹਾ ਆਉਣ ਉੱਤੇ ਸਾਊਂਡ ਚਲਾਓ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#| msgid ""
-#| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr "ਜੇ ਬੀਪ ਮੋਡ ਵਿੱਚ ਨਾ ਹੋਵੇ ਤਾਂ ਨਵਾਂ ਸੁਨੇਹਾ ਆਉਣ ਉੱਤੇ ਚਲਾਉਣ ਉੱਤੇ ਥੀਮ ਸਾਊਂਡ ਫਾਇਲ।"
 
@@ -18359,7 +18213,6 @@ msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr "ਜੇ ਬੀਪ ਮੋਡ ਵਿੱਚ ਨਾ ਹੋਵੇ ਤਾਂ ਨਵਾਂ ਸੁਨੇਹਾ ਆਉਣ ਉੱਤੇ ਚਲਾਉਣ ਉੱਤੇ ਸਾਊਂਡ ਫਾਇਲ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#| msgid "Use underline"
 msgid "Use sound theme"
 msgstr "ਸਾਊਂਡ ਥੀਮ ਵਰਤੋਂ"
 
@@ -18406,14 +18259,12 @@ msgstr[1] ""
 #. To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:506
 #, c-format
-#| msgid "From %s:"
 msgid "From: %s"
 msgstr "ਵਲੋਂ: %s"
 
 #. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:518
 #, c-format
-#| msgid "Subject:"
 msgid "Subject: %s"
 msgstr "ਵਿਸ਼ਾ: %s"
 
@@ -18450,12 +18301,10 @@ msgid "_Beep"
 msgstr "ਬੀਪ(_B)"
 
 #: ../plugins/mail-notification/mail-notification.c:869
-#| msgid "Use underline"
 msgid "Use sound _theme"
 msgstr "ਸਾਊਂਡ ਥੀਮ ਵਰਤੋਂ(_t)"
 
 #: ../plugins/mail-notification/mail-notification.c:888
-#| msgid "Play _sound file"
 msgid "Play _file:"
 msgstr "ਫਾਇਲ ਚਲਾਓ(_f):"
 
@@ -18694,7 +18543,6 @@ msgid "_Unsubscribe from List"
 msgstr "ਲਿਸਟ ਤੋਂ ਮੈਂਬਰੀ ਹਟਾਓ(_U)"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:320
-#| msgid "Unsubscribe to the mailing list this message belongs to"
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "ਇਸ ਸੁਨੇਹੇ ਦੀ ਮੇਲਿੰਗ ਲਿਸਟ ਲਈ ਮੈਂਬਰੀ ਹਟਾਓ, ਜੋ ਸਬੰਧਿਤ ਹੈ"
 
@@ -18875,7 +18723,6 @@ msgid "Let Evolution choose the best part to show."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਚੁਣਨ ਦਿਓ ਕਿ ਵੇਖਾਉਣ ਲਈ ਕੀ ਸਭ ਤੋਂ ਵਧੀਆ ਹੈ।"
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
-#| msgid "Show HTML if present"
 msgid "Show plain text if present"
 msgstr "ਜੇ ਮੌਜੂਦ ਹੋਵੇ ਤਾਂ ਪਲੇਨ ਟੈਕਸਟ ਵੇਖੋ"
 
@@ -18886,7 +18733,6 @@ msgid ""
 msgstr "ਪਲੇਨ ਟੈਕਸਟ ਭਾਗ ਵੇਖੋ, ਜੇ ਮੌਜੂਦ ਹੋਵੇ, ਨਹੀਂ ਤਾਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਵੇਖਾਉਣ ਲਈ ਵਧੀਆ ਢੰਗ ਚੁਣਨ ਦਿਉ।"
 
 #: ../plugins/prefer-plain/prefer-plain.c:203
-#| msgid "Only ever show PLAIN"
 msgid "Only ever show plain text"
 msgstr "ਹਮੇਸ਼ਾ ਪਲੇਨ ਟੈਕਸਟ ਹੀ ਵੇਖੋ"
 
@@ -19013,12 +18859,10 @@ msgid "_Publish Calendar Information"
 msgstr "ਕੈਲੰਡਰ ਜਾਣਕਾਰੀ ਪਰਕਾਸ਼ਤ(_P)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
-#| msgid "Custom Notification"
 msgid "Custom Location"
 msgstr "ਪਸੰਦੀਦਾ ਟਿਕਾਣਾ"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
-#| msgid "Day"
 msgid "Daily"
 msgstr "ਰੋਜ਼ਾਨਾ"
 
@@ -19027,10 +18871,6 @@ msgid "FTP (with login)"
 msgstr "FTP (ਲਾਗਇਨ ਨਾਲ)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#| msgid ""
-#| "Daily\n"
-#| "Weekly\n"
-#| "Manual (via Actions menu)"
 msgid "Manual (via Actions menu)"
 msgstr "ਖੁਦ (ਐਕਸ਼ਨ ਮੇਨੂ ਰਾਹੀਂ)"
 
@@ -19039,7 +18879,6 @@ msgid "P_ort:"
 msgstr "ਪੋਰਟ(_o):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
-#| msgid "Public"
 msgid "Public FTP"
 msgstr "ਪਬਲਿਕ FTP"
 
@@ -19064,7 +18903,6 @@ msgid "Service _type:"
 msgstr "ਸਰਵਿਸ ਕਿਸਮ(_T): "
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
-#| msgid "Source"
 msgid "Sources"
 msgstr "ਸਰੋਤ"
 
@@ -19073,17 +18911,14 @@ msgid "Time _duration:"
 msgstr "ਸਮਾਂ ਅੰਤਰਾਲ(_d):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
-#| msgid "WebDAV"
 msgid "WebDAV (HTTP)"
 msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
-#| msgid "Week"
 msgid "Weekly"
 msgstr "ਹਫ਼ਤੇਵਾਰ"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
-#| msgid "_Window"
 msgid "Windows share"
 msgstr "Windows ਸਾਂਝ"
 
@@ -19108,7 +18943,6 @@ msgid "_Username:"
 msgstr "ਯੂਜ਼ਰ ਨਾਂ(_U):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
-#| msgid "Call"
 msgid "iCal"
 msgstr "iCal"
 
@@ -19159,7 +18993,6 @@ msgstr "SpamAssassin ਲਈ ਪਾਈਪ ਫੇਲ੍ਹ, ਗਲਤੀ ਕੋਡ
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:510
 #, c-format
-#| msgid "SpamAssassin is not available."
 msgid "SpamAssassin is not available. Please install it first."
 msgstr "SpamAssassin ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ। ਇਹ ਪਹਿਲਾਂ ਇੰਸਟਾਲ ਕਰੋ।"
 
@@ -19293,17 +19126,14 @@ msgid "Select destination file"
 msgstr "ਨਿਯਤ ਫਾਇਲ ਚੁਣੋ"
 
 #: ../plugins/save-calendar/save-calendar.c:325
-#| msgid "Save the selected messages as a text file"
 msgid "Save the selected calendar to disk"
 msgstr "ਚੁਣੇ ਕੈਲੰਡਰ ਨੂੰ ਡਿਸਕ ਉੱਤੇ ਸੰਭਾਲੋ"
 
 #: ../plugins/save-calendar/save-calendar.c:356
-#| msgid "Save the selected messages as a text file"
 msgid "Save the selected memo list to disk"
 msgstr "ਚੁਣੀ ਮੀਮੋ ਲਿਸਟ ਡਿਸਕ ਉੱਤੇ ਸੰਭਾਲੋ"
 
 #: ../plugins/save-calendar/save-calendar.c:387
-#| msgid "Save a calendar or task list to disk."
 msgid "Save the selected task list to disk"
 msgstr "ਚੁਣੀ ਟਾਸਕ ਲਿਸਟ ਡਿਸਕ ਉੱਤੇ ਸੰਭਾਲੋ"
 
@@ -19386,7 +19216,6 @@ msgid "Drafts based template plugin"
 msgstr "ਟੈਪਲੇਟ ਪਲੱਗਇਨ ਮੁਤਾਬਕ ਡਰਾਫਟ"
 
 #: ../plugins/templates/templates.c:617
-#| msgid "No title"
 msgid "No Title"
 msgstr "ਟਾਈਟਲ ਨਹੀਂ"
 
@@ -19475,12 +19304,10 @@ msgid "Default sidebar width"
 msgstr "ਮੂਲ ਬਾਹੀ ਚੌੜਾਈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
-#| msgid "Default window state"
 msgid "Default window X coordinate"
 msgstr "ਮੂਲ ਵਿੰਡੋ X ਧੁਰਾ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
-#| msgid "Default window state"
 msgid "Default window Y coordinate"
 msgstr "ਮੂਲ ਵਿੰਡੋ Y ਧੁਰਾ"
 
@@ -19497,7 +19324,6 @@ msgid "Default window width"
 msgstr "ਡਿਫਾਲਟ ਵਿੰਡੋ ਚੌੜਾਈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-#| msgid "Enable search folders"
 msgid "Enable express mode"
 msgstr "ਐਕਸਪ੍ਰੈਸ ਮੋਡ ਚਾਲੂ"
 
@@ -19628,12 +19454,10 @@ msgid ""
 msgstr "ਈਵੂਲੇਸ਼ਨ ਦਾ ਸੰਰਚਨਾ ਵਰਜਨ, ਵੱਧ/ਘੱਟ/ਸੰਰਚਨਾ ਪੱਧਰ ਨਾਲ (ਉਦਾਹਰਨ ਲਈ \"2.6.0\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
-#| msgid "The default width for the main window, in pixels."
 msgid "The default X coordinate for the main window."
 msgstr "ਮੁੱਖ ਵਿੰਡੋ ਲਈ ਮੂਲ X ਧੁਰਾ ਹੈ।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
-#| msgid "The default width for the main window, in pixels."
 msgid "The default Y coordinate for the main window."
 msgstr "ਮੁੱਖ ਵਿੰਡੋ ਲਈ ਮੂਲ Y ਧੁਰਾ ਹੈ।"
 
@@ -19783,26 +19607,22 @@ msgstr "%ld ਕਿਬਾ"
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:883
-#| msgid "Sho_w: "
 msgid "Sho_w:"
 msgstr "ਵੇਖੋ(_w):"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:910
-#| msgid "Sear_ch: "
 msgid "Sear_ch:"
 msgstr "ਖੋਜ(_c):"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:970
-#| msgid " i_n "
 msgid "i_n"
 msgstr " ਅੰਦਰ(_n)"
 
 #: ../shell/e-shell-switcher.c:448
-#| msgid "Tool_bar Style"
 msgid "Toolbar Style"
 msgstr "ਟੂਲਬਾਰ ਸਟਾਈਲ"
 
@@ -19811,32 +19631,26 @@ msgid "The switcher's toolbar style"
 msgstr "ਸਵਿੱਚਰ ਦਾ ਟੂਲਬਾਰ ਸਟਾਈਲ"
 
 #: ../shell/e-shell-switcher.c:465 ../shell/e-shell-window.c:740
-#| msgid "Toolbar is visible"
 msgid "Toolbar Visible"
 msgstr "ਟੂਲਬਾਰ ਉਪਲੱਬਧ"
 
 #: ../shell/e-shell-switcher.c:466
-#| msgid "Whether the sidebar should be visible."
 msgid "Whether the switcher is visible"
 msgstr "ਕੀ ਸਵਿੱਚਰ ਉਪਲੱਬਧ ਹੋਵੇ"
 
 #: ../shell/e-shell-utils.c:245
-#| msgid "vCard (.vcf, .gcrd)"
 msgid "vCard (.vcf)"
 msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:247
-#| msgid "iCalendar files (.ics)"
 msgid "iCalendar (.ics)"
 msgstr "iCalendar (.ics)"
 
 #: ../shell/e-shell-utils.c:268
-#| msgid "All files"
 msgid "All Files (*)"
 msgstr "ਸਭ ਫਾਇਲਾਂ (*)"
 
 #: ../shell/e-shell-view.c:675
-#| msgid "Switch to %s"
 msgid "Switcher Action"
 msgstr "ਸਵਿੱਚਰ ਐਕਸ਼ਨ"
 
@@ -19845,7 +19659,6 @@ msgid "The switcher action for this shell view"
 msgstr "ਇਹ ਸ਼ੈੱਲ ਝਲਕ ਲਈ ਸਵਿੱਚਰ ਐਕਸ਼ਨ"
 
 #: ../shell/e-shell-view.c:691
-#| msgid "Serial Number"
 msgid "Page Number"
 msgstr "ਸਫ਼ਾ ਨੰਬਰ"
 
@@ -19854,7 +19667,6 @@ msgid "The notebook page number of the shell view"
 msgstr "ਸ਼ੈੱਲ ਝਲਕ ਲਈ ਨੋਟਬੁੱਕ ਸਫ਼ਾ ਨੰਬਰ"
 
 #: ../shell/e-shell-view.c:708
-#| msgid "Search Filter"
 msgid "Search Rule"
 msgstr "ਖੋਜ ਨਿਯਮ"
 
@@ -19875,7 +19687,6 @@ msgid "The content widget appears in a shell window's right pane"
 msgstr "ਸ਼ੈੱਲ ਵਿੰਡੋ ਦੀ ਸੱਜੀ ਬਾਹੀ ਵਿੱਚ ਸਮੱਗਰੀ ਵਿਦਜੈੱਟ ਝਲਕ ਦਿੰਦਾ ਹੈ"
 
 #: ../shell/e-shell-view.c:756
-#| msgid "Default sidebar width"
 msgid "Shell Sidebar Widget"
 msgstr "ਸ਼ੈੱਲ ਬਾਹੀ ਵਿਦਜੈੱਟ"
 
@@ -19889,10 +19700,9 @@ msgstr "ਸੈੱਲ ਟਾਸਕਬਾਰ ਵਿਦਜੈੱਟ"
 
 #: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
-msgstr ""
+msgstr "ਟਾਸਕ-ਬਾਹੀ ਵਿਦਜੈੱਟ ਸ਼ੈੱਲ ਵਿੰਡੋ ਦੇ ਤਲ ਉੱਤੇ ਵੇਖਾਈ ਦਿੰਦਾ ਹੈ"
 
 #: ../shell/e-shell-view.c:788
-#| msgid "New _Window"
 msgid "Shell Window"
 msgstr "ਸ਼ੈੱਲ ਵਿੰਡੋ"
 
@@ -19909,12 +19719,10 @@ msgid "The title of the shell view"
 msgstr "ਸ਼ੈੱਲ ਝਲਕ ਦਾ ਟਾਈਟਲ"
 
 #: ../shell/e-shell-view.c:834
-#| msgid "_Current View"
 msgid "Current View ID"
 msgstr "ਮੌਜੂਦਾ ਝਲਕ ID"
 
 #: ../shell/e-shell-view.c:835
-#| msgid "the current time"
 msgid "The current GAL view ID"
 msgstr "ਮੌਜੂਦਾ GAL ਝਲਕ ID"
 
@@ -19933,22 +19741,18 @@ msgid "Evolution Website"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਵੈੱਬਸਾਇਟ"
 
 #: ../shell/e-shell-window-actions.c:1224
-#| msgid "Bug buddy is not installed."
 msgid "Bug Buddy is not installed."
 msgstr "ਬੱਗ ਬੱਡੀ ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ।"
 
 #: ../shell/e-shell-window-actions.c:1226
-#| msgid "Bug buddy could not be run."
 msgid "Bug Buddy could not be run."
 msgstr "ਬੱਗ ਬੱਡੀ ਨੂੰ ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
 #: ../shell/e-shell-window-actions.c:1343
-#| msgid "Bug buddy is not installed."
 msgid "GNOME Pilot is not installed."
 msgstr "ਗਨੋਮ ਪਾਇਲਟ ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ।"
 
 #: ../shell/e-shell-window-actions.c:1345
-#| msgid "Bug buddy could not be run."
 msgid "GNOME Pilot could not be run."
 msgstr "ਗਨੋਮ ਪਾਈਲਟ ਨੂੰ ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
@@ -19961,12 +19765,10 @@ msgid "_Close Window"
 msgstr "ਵਿੰਡੋ ਬੰਦ ਕਰੋ(_C)"
 
 #: ../shell/e-shell-window-actions.c:1451
-#| msgid "A_ppointments"
 msgid "_Contents"
 msgstr "ਸਮੱਗਰੀ(_C)"
 
 #: ../shell/e-shell-window-actions.c:1453
-#| msgid "Open Other User's Folder"
 msgid "Open the Evolution User Guide"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਯੂਜ਼ਰ ਗਾਈਡ ਖੋਲ੍ਹੋ"
 
@@ -19983,7 +19785,6 @@ msgid "_Forget Passwords"
 msgstr "ਪਾਸਵਰਡ ਭੁੱਲ ਜਾਓ(_F)"
 
 #: ../shell/e-shell-window-actions.c:1488
-#| msgid "Are you sure you want to forget all remembered passwords?"
 msgid "Forget all remembered passwords"
 msgstr "ਸਭ ਯਾਦ ਰੱਖੇ ਪਾਸਵਰਡ ਭੁੱਲ ਜਾਓ"
 
@@ -20000,12 +19801,10 @@ msgid "New _Window"
 msgstr "ਨਵੀਂ ਵਿੰਡੋ(_W)"
 
 #: ../shell/e-shell-window-actions.c:1502
-#| msgid "Create a new window displaying this folder"
 msgid "Create a new window displaying this view"
 msgstr "ਇਸ ਝਲਕ ਨੂੰ ਵੇਖਾਉਣ ਲਈ ਨਵੀਂ ਵਿੰਡੋ ਬਣਾਓ"
 
 #: ../shell/e-shell-window-actions.c:1516
-#| msgid "Configuration"
 msgid "Configure Evolution"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਸੰਰਚਨਾ"
 
@@ -20014,7 +19813,6 @@ msgid "_Quick Reference"
 msgstr "ਤਰੁੰਤ ਹਵਾਲਾ(_Q)"
 
 #: ../shell/e-shell-window-actions.c:1523
-#| msgid "Change Evolution's settings"
 msgid "Show Evolution's shortcut keys"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਦੇ ਸ਼ਾਰਟਕੱਟ ਕੁੰਜੀਆਂ ਵੇਖੋ"
 
@@ -20031,7 +19829,6 @@ msgid "Construct a more advanced search"
 msgstr "ਹੋਰ ਵੀ ਤਕਨੀਕੀ ਖੋਜ ਬਣਾਓ"
 
 #: ../shell/e-shell-window-actions.c:1544
-#| msgid "Clear the search"
 msgid "Clear the current search parameters"
 msgstr "ਮੌਜੂਦਾ ਖੋਜ ਪੈਰਾਮੀਟਰ ਸਾਫ਼ ਕਰੋ"
 
@@ -20040,7 +19837,6 @@ msgid "_Edit Saved Searches..."
 msgstr "ਸੰਭਾਲੀ ਖੋਜ ਵਿੱਚ ਸੋਧ(_E)..."
 
 #: ../shell/e-shell-window-actions.c:1551
-#| msgid "Manage your email, contacts and schedule"
 msgid "Manage your saved searches"
 msgstr "ਆਪਣੀ ਸੰਭਾਲੀ ਖੋਜ ਦਾ ਪਰਬੰਧ ਕਰੋ"
 
@@ -20054,7 +19850,6 @@ msgstr "ਹੁਣ ਖੋਜ(_F)"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1565
-#| msgid "Cancel the current mail operation"
 msgid "Execute the current search parameters"
 msgstr "ਮੌਜੂਦਾ ਖੋਜ ਪੈਰਾਮੀਟਰ ਚਲਾਓ"
 
@@ -20063,7 +19858,6 @@ msgid "_Save Search..."
 msgstr "ਖੋਜ ਸੰਭਾਲੋ(_S)..."
 
 #: ../shell/e-shell-window-actions.c:1572
-#| msgid "Save the current file"
 msgid "Save the current search parameters"
 msgstr "ਮੌਜੂਦਾ ਖੋਜ ਪੈਰਾਮੀਟਰ ਸੰਭਾਲੋ"
 
@@ -20076,7 +19870,6 @@ msgid "Send queued items and retrieve new items"
 msgstr "ਕਤਾਰਬੱਧ ਆਈਟਮਾਂ ਭੇਜੋ ਅਤੇ ਨਵੀਂ ਆਈਟਮਾਂ ਪ੍ਰਾਪਤ ਕਰੋ"
 
 #: ../shell/e-shell-window-actions.c:1591
-#| msgid "Submit _Bug Report"
 msgid "Submit _Bug Report..."
 msgstr "ਬੱਗ ਜਾਣਕਾਰੀ ਦਿਓ(_B)..."
 
@@ -20085,12 +19878,10 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "ਬੱਗ ਬੱਡੀ ਵਰਤ ਕੇ ਬੱਗ ਜਾਣਕਾਰੀ ਭੇਜੋ"
 
 #: ../shell/e-shell-window-actions.c:1598
-#| msgid "iPod Synchronization"
 msgid "GNOME Pilot _Synchronization..."
 msgstr "ਗਨੋਮ ਪਾਈਲਟ ਸੈਕਰੋਨਾਈਜ਼(_S)..."
 
 #: ../shell/e-shell-window-actions.c:1600
-#| msgid "Set up Pilot configuration"
 msgid "Set up GNOME Pilot configuration"
 msgstr "ਗਨੋਮ ਪਾਈਲਟ ਸੰਰਚਨਾ ਸੈੱਟਅੱਪ"
 
@@ -20099,7 +19890,6 @@ msgid "_Work Offline"
 msgstr "ਆਫ਼-ਲਾਈਨ ਜਾਓ(_W)"
 
 #: ../shell/e-shell-window-actions.c:1607
-#| msgid "Start in offline mode"
 msgid "Put Evolution into offline mode"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਆਫਲਾਈਨ ਮੋਡ ਵਿੱਚ ਰੱਖੋ"
 
@@ -20108,7 +19898,6 @@ msgid "_Work Online"
 msgstr "ਆਨ-ਲਾਈਨ ਜਾਓ(_W)"
 
 #: ../shell/e-shell-window-actions.c:1614
-#| msgid "Start in online mode"
 msgid "Put Evolution into online mode"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਆਨਲਾਈਨ ਮੋਡ ਵਿੱਚ ਰੱਖੋ"
 
@@ -20137,17 +19926,14 @@ msgid "Show Side _Bar"
 msgstr "ਸਾਈਡ-ਬਾਰ ਵੇਖੋ(_B)"
 
 #: ../shell/e-shell-window-actions.c:1708
-#| msgid "Show Side _Bar"
 msgid "Show the side bar"
 msgstr "ਸਾਈਡ-ਬਾਰ ਵੇਖੋ"
 
 #: ../shell/e-shell-window-actions.c:1714
-#| msgid "Show Animations"
 msgid "Show _Buttons"
 msgstr "ਬਟਨ ਵੇਖੋ(_B)"
 
 #: ../shell/e-shell-window-actions.c:1716
-#| msgid "Show the second time zone"
 msgid "Show the switcher buttons"
 msgstr "ਸਵਿੱਚਰ ਬਟਨ ਵੇਖੋ"
 
@@ -20156,17 +19942,14 @@ msgid "Show _Status Bar"
 msgstr "ਹਾਲਤ ਪੱਟੀ ਵੇਖੋ(_S)"
 
 #: ../shell/e-shell-window-actions.c:1724
-#| msgid "Show _Status Bar"
 msgid "Show the status bar"
 msgstr "ਹਾਲਤ ਪੱਟੀ ਵੇਖੋ"
 
 #: ../shell/e-shell-window-actions.c:1730
-#| msgid "Show _Toolbar"
 msgid "Show _Tool Bar"
 msgstr "ਟੂਲਬਾਰ ਵੇਖੋ"
 
 #: ../shell/e-shell-window-actions.c:1732
-#| msgid "Show _Toolbar"
 msgid "Show the tool bar"
 msgstr "ਟੂਲਬਾਰ ਵੇਖੋ"
 
@@ -20231,7 +20014,6 @@ msgid "Current view is a customized view"
 msgstr "ਮੌਜੂਦਾ ਝਲਕ ਇੱਕ ਕਸਟਮਾਈਜ਼ ਝਲਕ ਹੈ"
 
 #: ../shell/e-shell-window-actions.c:1823
-#| msgid "Set up the page settings for your current printer"
 msgid "Change the page settings for your current printer"
 msgstr "ਆਪਣੇ ਮੌਜੂਦਾ ਪਰਿੰਟਰ ਲਈ ਸਫ਼ਾ ਸੈਟਿੰਗ ਬਦਲੋ"
 
@@ -20259,7 +20041,6 @@ msgid "Active Shell View"
 msgstr "ਸਰਗਰਮ ਸ਼ੈੱਲ ਝਲਕ"
 
 #: ../shell/e-shell-window.c:617
-#| msgid "Name of new view:"
 msgid "Name of the active shell view"
 msgstr "ਸਰਗਰਮ ਸ਼ੈੱਲ ਝਲਕ ਦਾ ਨਾਂ"
 
@@ -20276,52 +20057,42 @@ msgid "Initial window geometry string"
 msgstr "ਸ਼ੁਰੂਆਤੀ ਵਿੰਡੋ ਜੁਮੈਟਰੀ ਲਾਈਨ"
 
 #: ../shell/e-shell-window.c:662
-#| msgid "_Caret Mode"
 msgid "Safe Mode"
 msgstr "ਸੁਰੱਖਿਅਤ ਢੰਗ"
 
 #: ../shell/e-shell-window.c:663
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the shell window is in safe mode"
 msgstr "ਕੀ ਸੈੱਲ ਵਿੰਡੋ ਸੁਰੱਖਿਅਤ ਢੰਗ ਵਿੱਚ ਹੈ"
 
 #: ../shell/e-shell-window.c:694
-#| msgid "Sidebar is visible"
 msgid "Sidebar Visible"
 msgstr "ਬਾਹੀ ਵੇਖੋ"
 
 #: ../shell/e-shell-window.c:695
-#| msgid "Whether the window buttons should be visible."
 msgid "Whether the shell window's side bar is visible"
 msgstr "ਕੀ ਸ਼ੈੱਲ ਵਿੰਡੋ ਦੀ ਬਾਹੀ ਵੇਖਣੀ ਹੈ"
 
 #: ../shell/e-shell-window.c:709
-#| msgid "Sidebar is visible"
 msgid "Switcher Visible"
 msgstr "ਸਵਿੱਚਰ ਵੇਖੋ"
 
 #: ../shell/e-shell-window.c:710
-#| msgid "Whether the window buttons should be visible."
 msgid "Whether the shell window's switcher buttons are visible"
 msgstr "ਕੀ ਸ਼ੈੱਲ ਵਿੰਡੋ ਦੇ ਸਵਿੱਚਰ ਬਟਨ ਵੇਖਣੇ ਹਨ"
 
 #: ../shell/e-shell-window.c:725
-#| msgid "Statusbar is visible"
 msgid "Taskbar Visible"
 msgstr "ਟਾਸਕਬਾਰ ਵੇਖੋ"
 
 #: ../shell/e-shell-window.c:726
-#| msgid "Whether the status bar should be visible."
 msgid "Whether the shell window's task bar is visible"
 msgstr "ਕੀ ਸ਼ੈੱਲ ਵਿੰਡੋ ਦੀ ਟਾਸਕ ਬਾਰ ਵੇਖਣੀ ਹੈ"
 
 #: ../shell/e-shell-window.c:741
-#| msgid "Whether the window buttons should be visible."
 msgid "Whether the shell window's tool bar is visible"
 msgstr "ਕੀ ਸ਼ੈੱਲ ਵਿੰਡੋ ਦਾ ਟੂਲ ਬਾਰ ਵੇਖਾਈ ਦੇਵੇ"
 
 #: ../shell/e-shell-window.c:755
-#| msgid "Manager"
 msgid "UI Manager"
 msgstr "UI ਮੈਨੇਜਰ"
 
@@ -20330,12 +20101,10 @@ msgid "The shell window's GtkUIManager"
 msgstr "ਸ਼ੈੱਲ ਵਿੰਡੋ GtkUIManager"
 
 #: ../shell/e-shell.c:212
-#| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go offline..."
 msgstr "ਆਫਲਾਈਨ ਜਾਣ ਲਈ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #: ../shell/e-shell.c:262
-#| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go online..."
 msgstr "ਆਨਲਾਈਨ ਜਾਣ ਲਈ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
@@ -20344,7 +20113,6 @@ msgid "Preparing to quit..."
 msgstr "ਬੰਦ ਕਰਨ ਲਈ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #: ../shell/e-shell.c:819
-#| msgid "Save directory"
 msgid "Module Directory"
 msgstr "ਮੋਡੀਊਲ ਡਾਇਰੈਕਟਰੀ"
 
@@ -20353,12 +20121,10 @@ msgid "The directory from which to load EModules"
 msgstr "ਡਾਇਰੈਕਟਰੀ, ਜਿਸ ਵਿੱਚੋਂ ਈਮੋਡੀਊਲ ਲੋਡ ਹੁੰਦੇ ਹਨ"
 
 #: ../shell/e-shell.c:835
-#| msgid "TLS not Available"
 msgid "Network Available"
 msgstr "ਨੈੱਟਵਰਕ ਉਪਲੱਬਧ ਹੈ"
 
 #: ../shell/e-shell.c:836
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the network is available"
 msgstr "ਕੀ ਨੈੱਟਵਰਕ ਉਪਲੱਬਧ ਹੋਵੋ"
 
@@ -20367,7 +20133,6 @@ msgid "Online"
 msgstr "ਆਨਲਾਈਨ"
 
 #: ../shell/e-shell.c:852
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the shell is online"
 msgstr "ਕੀ ਸ਼ੈੱਲ ਆਨਲਾਈਨ ਹੈ"
 
@@ -20425,19 +20190,17 @@ msgstr "ਈਵੇਲੂਸ਼ਨ ਇੱਕ ਖਾਸ ਭਾਗ ਦੀ ਸਰਗਰ�
 
 #: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
-msgstr ""
+msgstr "ਦਿੱਤੀ ਜੁਮੈਟਰੀ ਮੁੱਖ ਵਿੰਡੋ ਉੱਤੇ ਲਾਗੂ ਕਰੋ"
 
 #: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "ਆਨਲਾਇਨ ਮੋਡ ਵਿੱਚ ਸ਼ੁਰੂ"
 
 #: ../shell/main.c:330
-#| msgid "Start in online mode"
 msgid "Start in \"express\" mode"
 msgstr "\"ਐਕਸਪ੍ਰੈਸ\" ਮੋਡ ਵਿੱਚ ਸ਼ੁਰੂ"
 
 #: ../shell/main.c:333
-#| msgid "Forcibly shut down all Evolution components"
 msgid "Forcibly shut down Evolution"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਧੱਕੇ ਨਾਲ ਬੰਦ ਕਰੋ"
 
@@ -20459,10 +20222,9 @@ msgstr "ਮੇਲ, ਸੰਪਰਕ ਅਤੇ ਕੰਮ ਲਈ ਝਲਕ ਪੈ�
 
 #: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
-msgstr ""
+msgstr "URI ਜਾਂ ਬਾਕੀ ਦੇ ਆਰਗੂਮੈਂਟ ਵਜੋਂ ਦਿੱਤੇ ਫਾਇਲ ਨਾਂ ਇੰਪੋਰਟ ਕਰੋ"
 
 #: ../shell/main.c:350
-#| msgid "Restarting Evolution"
 msgid "Request a running Evolution process to quit"
 msgstr "ਚੱਲਦੇ ਈਵੇਲਸ਼ਨ ਪਰੋਸੈਸ ਨੂੰ ਬੰਦ ਕਰਨ ਦੀ ਮੰਗ"
 
@@ -20545,7 +20307,6 @@ msgstr ""
 "evolution&quot;ਦੇ ਭਾਗ ਹਟਾ ਸਕਦੇ ਹੋ।\n"
 
 #: ../shell/shell.error.xml.h:18
-#| msgid "Upgrade from previous version failed: {0}"
 msgid "Upgrade from previous version failed:"
 msgstr "ਪੁਰਾਣੇ ਵਰਜਨ ਉੱਤੇ ਅੱਪਗਰੇਡ ਫੇਲ੍ਹ:"
 
@@ -20575,11 +20336,6 @@ msgid "_Remind Me Later"
 msgstr "ਮੈਨੂੰ ਬਾਅਦ ਵਿੱਚ ਯਾਦ ਕਰਵਾਓ(_R)"
 
 #: ../shell/shell.error.xml.h:25
-#| msgid ""
-#| "{1}\n"
-#| "\n"
-#| "If you choose to continue, you may not have access to some of your old "
-#| "data.\n"
 msgid ""
 "{0}\n"
 "\n"
@@ -20591,8 +20347,6 @@ msgstr ""
 "ਜੇਕਰ ਤੁਸੀਂ ਜਾਰੀ ਰਹੇ ਤਾਂ ਤੁਸੀਂ ਆਪਣੇ ਪੁਰਾਣੇ ਡਾਟਾ ਨੂੰ ਖੋਲ ਨਹੀਂ ਸਕੋਗੇ।\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#| msgctxt "New"
-#| msgid "_Test"
 msgctxt "New"
 msgid "_Test Item"
 msgstr "ਆਈਟਮ ਟੈਸਟ(_T)"
@@ -20602,13 +20356,11 @@ msgid "Create a new test item"
 msgstr "ਇੱਕ ਨਵੀਂ ਜਾਂਚ ਇਕਾਈ ਬਣਾਓ"
 
 #: ../shell/test/e-test-shell-backend.c:70
-#| msgid "Resource"
 msgctxt "New"
 msgid "Test _Source"
 msgstr "ਸਰੋਤ ਟੈਸਟ(_S)"
 
 #: ../shell/test/e-test-shell-backend.c:72
-#| msgid "Create a new test item"
 msgid "Create a new test source"
 msgstr "ਨਵਾਂ ਟੈਸਟ ਸਰੋਤ ਬਣਾਓ"
 
@@ -20640,7 +20392,7 @@ msgstr "ਬੇਪਛਾਣ ਲਾਂਚ ਚੋਣ: %d"
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
+msgstr "ਡੌਕੂਮੈਂਟ URIs  'Type=Link' ਡੈਸਕਟਾਪ ਐਂਟਰੀ ਨੂੰ ਦਿੱਤਾ ਨਹੀਂ ਜਾ ਸਕਦਾ"
 
 #: ../smclient/eggdesktopfile.c:1394
 #, c-format
@@ -20648,12 +20400,10 @@ msgid "Not a launchable item"
 msgstr "ਚੱਲਣਯੋਗ ਆਈਟਮ ਨਹੀਂ ਹੈ"
 
 #: ../smclient/eggsmclient.c:227
-#| msgid "_Direct connection to the Internet"
 msgid "Disable connection to session manager"
 msgstr "ਸ਼ੈਸ਼ਨ ਮੈਨੇਜਰ ਨਾਲ ਕੁਨੈਕਸ਼ਨ ਆਯੋਗ ਕਰੋ"
 
 #: ../smclient/eggsmclient.c:230
-#| msgid "Set up Pilot configuration"
 msgid "Specify file containing saved configuration"
 msgstr "ਸੰਭਾਲੀ ਸੰਰਚਨਾ ਰੱਖਣ ਵਾਲੀ ਫਾਇਲ ਦਿਓ"
 
@@ -20674,7 +20424,6 @@ msgid "Session management options:"
 msgstr "ਸ਼ੈਸ਼ਨ ਪਰਬੰਧ ਚੋਣਾਂ:"
 
 #: ../smclient/eggsmclient.c:255
-#| msgid "Show image animations"
 msgid "Show session management options"
 msgstr "ਸ਼ੈਸ਼ਨ ਪਰਬੰਧ ਚੋਣਾਂ ਵੇਖੋ"
 
@@ -20835,12 +20584,10 @@ msgid "Certificate Authority Trust"
 msgstr "ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਮਾਣਿਕਤਾ ਜਾਂਚ"
 
 #: ../smime/gui/smime-ui.ui.h:8
-#| msgid "<b>Certificate Fields</b>"
 msgid "Certificate Fields"
 msgstr "ਸਰਟੀਫਿਕੇਟ ਖੇਤਰ"
 
 #: ../smime/gui/smime-ui.ui.h:9
-#| msgid "<b>Certificate Hierarchy</b>"
 msgid "Certificate Hierarchy"
 msgstr "ਸਰਟੀਫਿਕੇਟ ਲੜੀ"
 
@@ -20885,12 +20632,10 @@ msgid "Expires On"
 msgstr "ਮਿਆਦ"
 
 #: ../smime/gui/smime-ui.ui.h:21
-#| msgid "Field Name"
 msgid "Field Value"
 msgstr "ਖੇਤਰ ਮੁੱਲ"
 
 #: ../smime/gui/smime-ui.ui.h:22
-#| msgid "MD5 Fingerprint"
 msgid "Fingerprints"
 msgstr "ਫਿੰਗਰਪਰਿੰਟ"
 
@@ -20899,7 +20644,6 @@ msgid "Import"
 msgstr "ਇੰਪੋਰਟ"
 
 #: ../smime/gui/smime-ui.ui.h:25
-#| msgid "Issued On"
 msgid "Issued By"
 msgstr "ਜਾਰੀ ਕੀਤਾ ਵਲੋਂ"
 
@@ -20908,7 +20652,6 @@ msgid "Issued On"
 msgstr "ਜਾਰੀ ਕਰਨ ਦੀ ਮਿਤੀ"
 
 #: ../smime/gui/smime-ui.ui.h:27
-#| msgid "Issued On"
 msgid "Issued To"
 msgstr "ਇਸ ਨੂੰ"
 
@@ -20937,7 +20680,6 @@ msgid "SSL Server Certificate"
 msgstr "SSL ਸਰਵਰ ਸਰਟੀਫਿਕੇਟ"
 
 #: ../smime/gui/smime-ui.ui.h:35
-#| msgid "<b>This certificate has been verified for the following uses:</b>"
 msgid "This certificate has been verified for the following uses:"
 msgstr "ਇਸ ਸਰਟੀਫਿਕੇਟ ਨੂੰ ਅੱਗੇ ਦਿੱਤੀ ਵਰਤੋਂ ਲਈ ਜਾਂਚਿਆ ਹੈ:"
 
@@ -20958,7 +20700,6 @@ msgid "Trust this CA to identify web sites."
 msgstr "ਇਸ CA ਤੇ ਵੈੱਬ ਸਾਇਟਾਂ ਲਈ ਭਰੋਸਾ ਰੱਖੋ।"
 
 #: ../smime/gui/smime-ui.ui.h:40
-#| msgid "<b>Validity</b>"
 msgid "Validity"
 msgstr "ਵੈਧਤਾ"
 
@@ -21253,7 +20994,6 @@ msgid "Select a Time Zone"
 msgstr "ਸਮਾਂ ਖੇਤਰ ਚੁਣੋ"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
-#| msgid "Time _Zone"
 msgid "Time Zones"
 msgstr "ਸਮਾਂ ਖੇਤਰ"
 
@@ -21271,7 +21011,6 @@ msgstr ""
 "ਮਾਊਸ ਦਾ ਸੱਜਾ ਬਟਨ ਖੇਤਰ ਘਟਾਉਣ ਦੇ ਕੰਮ ਆਵੇਗਾ।"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:7
-#| msgid "Selection Mode"
 msgid "_Selection"
 msgstr "ਚੋਣ(_S)"
 
@@ -21341,7 +21080,6 @@ msgid "De_fault"
 msgstr "ਮੂਲ(_f)"
 
 #: ../widgets/misc/e-account-tree-view.c:224
-#| msgid "Account name"
 msgid "Account Name"
 msgstr "ਅਕਾਊਂਟ ਨਾਂ"
 
@@ -21350,7 +21088,6 @@ msgid "Protocol"
 msgstr "ਪ੍ਰੋਟੋਕਾਲ"
 
 #: ../widgets/misc/e-action-combo-box.c:388
-#| msgid "_Actions"
 msgid "Action"
 msgstr "ਕਾਰਵਾਈ"
 
@@ -21517,7 +21254,6 @@ msgstr "ਅਟੈਚਮੈਂਟ ਸੰਭਾਲੀ ਨਹੀਂ ਜਾ ਸਕ�
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:363
-#| msgid "Click to open %s"
 msgid "Ctrl-click to open a link"
 msgstr "ਲਿੰਕ ਖੋਲ੍ਹਣ ਲਈ ਕੰਟਰੋਲ-ਕਲਿੱਕ ਕਰੋ"
 
@@ -21634,7 +21370,6 @@ msgstr "ਕੋਈ ਨਹੀਂ(_N)"
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
 #: ../widgets/misc/e-dateedit.c:1703 ../widgets/misc/e-dateedit.c:1939
-#| msgid "None"
 msgctxt "date"
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
@@ -21684,22 +21419,17 @@ msgstr "ਇੱਕ ਇਕਹੇਰੀ ਫਾਇਲ ਆਯਾਤ ਕਰੋ(_s)"
 
 #: ../widgets/misc/e-import-assistant.c:439
 msgid "Select what type of file you want to import from the list."
-msgstr ""
+msgstr "ਫਾਇਲ ਦੀ ਕਿਸਮ ਚੁਣੋ, ਜੋ ਤੁਸੀਂ ਲਿਸਟ ਤੋਂ ਇੰਪੋਰਟ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ।"
 
 #: ../widgets/misc/e-import-assistant.c:516
-#| msgid ""
-#| "Evolution checked for settings to import from the following\n"
-#| "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
-#| "settings found. If you would like to\n"
-#| "try again, please click the \"Back\" button.\n"
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"ਈਵੇਲੂਸ਼ਨ ਨੇ ਹੇਠ ਲਿਖਿਆਂ ਤੋਂ ਸੈਟਿੰਗ ਇੰਪੋਰਟ ਕਰਨ ਲਈ ਜਾਂਚ ਕੀਤੀ ਹੈ: "
-"Pine, Netscape, Elm, iCalendar। ਕੋਈ ਸੈਟਿੰਗ, ਜੋ ਕਿ ਇੰਪੋਰਟ ਕੀਤੀ "
-"ਜਾ ਸਕੇ ਨਹੀਂ ਲੱਭੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ \"ਪਿੱਛੇ\" ਬਟਨ ਨੂੰ ਦਬਾ ਕੇ ਮੁੜ ਕੋਸ਼ਿਸ ਕਰ ਸਕਦੇ ਹੋ।"
+"ਈਵੇਲੂਸ਼ਨ ਨੇ ਹੇਠ ਲਿਖਿਆਂ ਤੋਂ ਸੈਟਿੰਗ ਇੰਪੋਰਟ ਕਰਨ ਲਈ ਜਾਂਚ ਕੀਤੀ ਹੈ: Pine, Netscape, Elm, "
+"iCalendar। ਕੋਈ ਸੈਟਿੰਗ, ਜੋ ਕਿ ਇੰਪੋਰਟ ਕੀਤੀ ਜਾ ਸਕੇ ਨਹੀਂ ਲੱਭੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ \"ਪਿੱਛੇ"
+"\" ਬਟਨ ਨੂੰ ਦਬਾ ਕੇ ਮੁੜ ਕੋਸ਼ਿਸ ਕਰ ਸਕਦੇ ਹੋ।"
 
 #: ../widgets/misc/e-import-assistant.c:1187
 #: ../widgets/misc/e-import-assistant.c:1214
@@ -21712,10 +21442,6 @@ msgid "Import Location"
 msgstr "ਇੰਪੋਰਟ ਟਿਕਾਣਾ"
 
 #: ../widgets/misc/e-import-assistant.c:1207
-#| msgid ""
-#| "Welcome to the Evolution Import Assistant.\n"
-#| "With this assistant you will be guided through the process of\n"
-#| "importing external files into Evolution."
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -21738,13 +21464,11 @@ msgid "Select a File"
 msgstr "ਫਾਇਲ ਚੁਣੋ"
 
 #: ../widgets/misc/e-import-assistant.c:1255
-#| msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਵਿੱਚ ਫਾਇਲ ਇੰਪੋਰਟ ਕਰਨ ਲਈ \"ਲਾਗੂ ਕਰੋ\" ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
 
 #: ../widgets/misc/e-import-assistant.c:1261
 #: ../widgets/misc/e-import-assistant.c:1271
-#| msgid "Important"
 msgid "Import Data"
 msgstr "ਖਾਸ ਡਾਟਾ"
 
@@ -21761,23 +21485,14 @@ msgstr ""
 "ਦਿੱਤਾ ਕੰਬੋਸਮਾਂ ਖੇਤਰ ਬਕਸਾ ਵਰਤ ਸਕਦੇ ਹਨ।"
 
 #: ../widgets/misc/e-online-button.c:27
-#| msgid ""
-#| "Evolution is currently online.\n"
-#| "Click on this button to work offline."
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਇਸ ਸਮੇਂ ਆਨਲਾਈਨ ਹੈ। ਇਸ ਬਟਨ ਨੂੰ ਆਫਲਾਈਨ ਹੋਣ ਲਈ ਦਬਾਓ।"
 
 #: ../widgets/misc/e-online-button.c:30
-#| msgid ""
-#| "Evolution is currently offline.\n"
-#| "Click on this button to work online."
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਇਸ ਸਮੇਂ ਆਫਲਾਈਨ ਹੈ। ਇਸ ਬਟਨ ਨੂੰ ਆਨਲਾਈਨ ਜਾਣ ਲਈ ਵਰਤੋਂ।"
 
 #: ../widgets/misc/e-online-button.c:33
-#| msgid ""
-#| "Evolution is currently offline.\n"
-#| "Click on this button to work online."
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr "ਈਵੇਲੂਸ਼ਨ ਇਸ ਸਮੇਂ ਆਫਲਾਈਨ ਹੈ। ਇਸ ਬਟਨ ਨੂੰ ਆਨਲਾਈਨ ਜਾਣ ਲਈ ਵਰਤੋਂ।"
 
@@ -21786,40 +21501,36 @@ msgid "The button state is online"
 msgstr "ਬਟਨ ਹਾਲਤ ਆਨਲਾਈਨ ਹੈ"
 
 #: ../widgets/misc/e-paned.c:306
-#| msgid "Horizontal pane position"
 msgid "Horizontal Position"
 msgstr "ਖਿਤਿਜੀ ਸਥਿਤੀ"
 
 #: ../widgets/misc/e-paned.c:307
 msgid "Pane position when oriented horizontally"
-msgstr ""
+msgstr "ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਹਰੀਜੱਟਲ ਹੋਵੇ।"
 
 #: ../widgets/misc/e-paned.c:318
-#| msgid "Vertical pane position"
 msgid "Vertical Position"
 msgstr "ਲੰਬਕਾਰੀ ਸਥਿਤੀ"
 
 #: ../widgets/misc/e-paned.c:319
 msgid "Pane position when oriented vertically"
-msgstr ""
+msgstr "ਬਾਹੀ ਦੀ ਸਥਿਤੀ, ਜਦੋਂ ਸਥਿਤੀ ਵਰਟੀਕਲ ਹੋਵੇ।"
 
 #: ../widgets/misc/e-paned.c:330
-#| msgid "_Properties"
 msgid "Proportion"
 msgstr "ਅਨੁਪਾਤ"
 
 #: ../widgets/misc/e-paned.c:331
 msgid "Proportion of the 2nd pane size"
-msgstr ""
+msgstr "੨ਜੇ ਬਾਹੀ ਆਕਾਰ ਦਾ ਅਨੁਪਾਤ"
 
 #: ../widgets/misc/e-paned.c:342
-#| msgid "_Resize"
 msgid "Fixed Resize"
 msgstr "ਸਥਿਰ ਮੁੜ-ਆਕਾਰ"
 
 #: ../widgets/misc/e-paned.c:343
 msgid "Keep the 2nd pane fixed during resize"
-msgstr ""
+msgstr "੨ਜੀ ਬਾਹੀ ਆਕਾਰ ਬਦਲਣ ਦੌਰਾਨ ਸਥਿਰ ਰੱਖੋ"
 
 #: ../widgets/misc/e-pilot-settings.c:95
 msgid "Sync with:"
@@ -21922,7 +21633,6 @@ msgid "Deli_vered and opened"
 msgstr "ਪਹੁੰਚੇ ਅਤੇ ਖੋਲ੍ਹੇ(_v)"
 
 #: ../widgets/misc/e-send-options.ui.h:5
-#| msgid "<b>Delivery Options</b>"
 msgid "Delivery Options"
 msgstr "ਡਿਲਵਰੀ ਚੋਣਾਂ"
 
@@ -21935,14 +21645,10 @@ msgid "Gene_ral Options"
 msgstr "ਸਧਾਰਨ ਚੋਣ(_r)"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#| msgid ""
-#| "None\n"
-#| "Mail Receipt"
 msgid "Mail Receipt"
 msgstr "ਮੇਲ ਪ੍ਰਾਪਤੀ"
 
 #: ../widgets/misc/e-send-options.ui.h:14
-#| msgid "Priority"
 msgid "Proprietary"
 msgstr "ਪਰੋਪੈਟਰੀ"
 
@@ -21951,7 +21657,6 @@ msgid "R_eply requested"
 msgstr "ਜਵਾਬ ਲੋੜੀਦਾ(_e)"
 
 #: ../widgets/misc/e-send-options.ui.h:17
-#| msgid "<b>Return Notification</b>"
 msgid "Return Notification"
 msgstr "ਜਵਾਬੀ ਸੂਚਨਾ"
 
@@ -21960,17 +21665,14 @@ msgid "Sta_tus Tracking"
 msgstr "ਹਾਲਤ ਖੋਜ(_t)"
 
 #: ../widgets/misc/e-send-options.ui.h:21
-#| msgid "S_tandard Font:"
 msgid "Standard"
 msgstr "ਸਟੈਂਡਰਡ"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#| msgid "Sta_tus Tracking"
 msgid "Status Tracking"
 msgstr "ਹਾਲਤ ਟਰੈਕਿੰਗ"
 
 #: ../widgets/misc/e-send-options.ui.h:23
-#| msgid "Top secret"
 msgid "Top Secret"
 msgstr "ਬਹੁਤ ਗੁਪਤ"
 
@@ -22046,12 +21748,10 @@ msgid "_Signature Name:"
 msgstr "ਦਸਤਖਤ ਨਾਂ(_S):"
 
 #: ../widgets/misc/e-signature-manager.c:294
-#| msgid "Add signature script"
 msgid "Add Signature Script"
 msgstr "ਦਸਤਖਤੀ ਸਕ੍ਰਿਪਟ ਸ਼ਾਮਿਲ"
 
 #: ../widgets/misc/e-signature-manager.c:359
-#| msgid "Edit Signature"
 msgid "Edit Signature Script"
 msgstr "ਦਸਤਖਤ ਸਕ੍ਰਿਪਟ ਸੋਧ"
 
@@ -22060,9 +21760,6 @@ msgid "Add _Script"
 msgstr "ਸਕ੍ਰਿਪਟ ਜੋੜੋ(_S)"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used for display purposes only."
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -22073,13 +21770,11 @@ msgstr ""
 " ਆਵੇਗਾ।"
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
-#| msgid "_Script:"
 msgid "S_cript:"
 msgstr "ਸਕ੍ਰਿਪਟ(_c):"
 
 #  mail:signature-notscript secondary
 #: ../widgets/misc/e-signature-script-dialog.c:342
-#| msgid "The script file must exist and be executable."
 msgid "Script file must be executable."
 msgstr "ਸਕ੍ਰਿਪਟ ਫਾਇਲ ਚੱਲਣਯੋਗ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ।"
 
@@ -22092,7 +21787,6 @@ msgid "_Copy Link Location"
 msgstr "ਲਿੰਕ ਟਿਕਾਣੇ ਦੀ ਨਕਲ(_C)"
 
 #: ../widgets/misc/e-web-view.c:350
-#| msgid "Copy things to the clipboard."
 msgid "Copy the link to the clipboard"
 msgstr "ਲਿੰਕ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
 
@@ -22101,17 +21795,14 @@ msgid "_Open Link in Browser"
 msgstr "ਲਿੰਕ ਬਰਾਊਜ਼ਰ ਵਿੱਚ ਖੋਲ੍ਹੋ(_O)"
 
 #: ../widgets/misc/e-web-view.c:360
-#| msgid "_Open Link in Browser"
 msgid "Open the link in a web browser"
 msgstr "ਲਿੰਕ ਵੈੱਬ ਬਰਾਊਜ਼ਰ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: ../widgets/misc/e-web-view.c:368
-#| msgid "Copy _Email Address"
 msgid "_Copy Email Address"
 msgstr "ਈਮੇਲ ਐਡਰੈੱਸ ਕਾਪੀ ਕਰੋ(_C)"
 
 #: ../widgets/misc/e-web-view.c:397 ../widgets/misc/e-web-view.c:977
-#| msgid "Select all the text in a message"
 msgid "Select all text and images"
 msgstr "ਸਭ ਟੈਕਸਟ ਅਤੇ ਚਿੱਤਰ ਚੁਣੋ"
 
@@ -22154,7 +21845,6 @@ msgstr "ਹੁਣ"
 
 #. Translators: "None" as a label of a button to unset date in a date table cell
 #: ../widgets/table/e-cell-date-edit.c:320
-#| msgid "None"
 msgctxt "table-date"
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
@@ -22318,7 +22008,6 @@ msgid "_Sort..."
 msgstr "ਲੜੀਬੱਧ(_S)..."
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
-#| msgid "Add a C_olumn..."
 msgid "Add a Column"
 msgstr "ਕਾਲਮ ਸ਼ਾਮਲ"
 
@@ -22505,13 +22194,12 @@ msgid "Use click to add"
 msgstr "ਸ਼ਾਮਿਲ ਲਈ ਦਬਾਓ"
 
 #: ../widgets/table/e-table.c:3374
-#| msgid "Indicator Spacing"
 msgid "Vertical Row Spacing"
 msgstr "ਵਰਟੀਕਲ ਕਤਾਰ ਖਾਲੀ ਥਾਂ"
 
 #: ../widgets/table/e-table.c:3375
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
-msgstr ""
+msgstr "ਕਤਾਰਾਂ ਵਿੱਚ ਵਰਟੀਕਲ ਖਾਲੀ ਥਾਂ। ਇਸ ਨੂੰ ਕਤਾਰ ਦੇ ਉੱਤੇ ਤੇ ਹੇਠਾਂ ਜੋੜਿਆ ਜਾਵੇਗਾ।"
 
 #: ../widgets/table/e-tree.c:3392 ../widgets/table/e-tree.c:3393
 msgid "ETree table adapter"
