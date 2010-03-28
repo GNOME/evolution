@@ -138,7 +138,7 @@ struct _EMCreateFolder {
 static gchar *
 create_folder_desc (struct _EMCreateFolder *m)
 {
-	return g_strdup_printf (_("Creating folder `%s'"), m->full_name);
+	return g_strdup_printf (_("Creating folder '%s'"), m->full_name);
 }
 
 static void

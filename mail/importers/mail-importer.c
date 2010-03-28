@@ -152,7 +152,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		if (m->cancel)
 			oldcancel = camel_operation_register(m->cancel);
 
-		camel_operation_start(NULL, _("Importing `%s'"), folder->full_name);
+		camel_operation_start(NULL, _("Importing '%s'"), folder->full_name);
 		camel_folder_freeze(folder);
 		while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 			CamelMimeMessage *msg;

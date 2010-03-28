@@ -370,7 +370,7 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 		if (!e_book_add_contact (new_book,
 					 contact,
 					 &e))
-			g_warning ("contact add failed: `%s'", e->message);
+			g_warning ("contact add failed: '%s'", e->message);
 
 		num_added ++;
 
@@ -400,14 +400,14 @@ migrate_contact_folder_to_source (MigrationContext *context, gchar *old_path, ES
 	old_book = e_book_new (old_source, &e);
 	if (!old_book
 	    || !e_book_open (old_book, TRUE, &e)) {
-		g_warning ("failed to load source book for migration: `%s'", e->message);
+		g_warning ("failed to load source book for migration: '%s'", e->message);
 		goto finish;
 	}
 
 	new_book = e_book_new (new_source, &e);
 	if (!new_book
 	    || !e_book_open (new_book, FALSE, &e)) {
-		g_warning ("failed to load destination book for migration: `%s'", e->message);
+		g_warning ("failed to load destination book for migration: '%s'", e->message);
 		goto finish;
 	}
 
@@ -809,7 +809,7 @@ migrate_completion_folders (MigrationContext *context)
 					e_source_set_property (source, "completion", "true");
 				}
 				else {
-					g_warning ("found completion folder with uri `%s' that "
+					g_warning ("found completion folder with uri '%s' that "
 						   "doesn't correspond to anything we migrated.", physical_uri);
 				}
 
@@ -886,7 +886,7 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 				if (!e_book_commit_contact (book,
 							    contact,
 							    &e))
-					g_warning ("contact commit failed: `%s'", e->message);
+					g_warning ("contact commit failed: '%s'", e->message);
 			}
 
 			num_converted ++;
@@ -989,7 +989,7 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 				if (!e_book_commit_contact (book,
 							    contact,
 							    &e))
-					g_warning ("contact commit failed: `%s'", e->message);
+					g_warning ("contact commit failed: '%s'", e->message);
 			}
 
 			num_converted ++;

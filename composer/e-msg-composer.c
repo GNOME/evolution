@@ -381,7 +381,7 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 }
 
 /* These functions builds a CamelMimeMessage for the message that the user has
- * composed in `composer'.
+ * composed in 'composer'.
  */
 
 static void

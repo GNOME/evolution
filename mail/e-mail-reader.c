@@ -2871,7 +2871,7 @@ e_mail_reader_get_action (EMailReader *reader,
 
 	if (action == NULL)
 		g_critical (
-			"%s: action `%s' not found", G_STRFUNC, action_name);
+			"%s: action '%s' not found", G_STRFUNC, action_name);
 
 	return action;
 }

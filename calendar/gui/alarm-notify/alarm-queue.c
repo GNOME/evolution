@@ -1189,7 +1189,7 @@ notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
 			GtkTreeIter iter;
 			GtkTreeModel *model = NULL;
 
-			/* We can` also use tray_data->iter */
+			/* We can also use tray_data->iter */
 			if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 				if (!gtk_tree_model_get_iter_first (model, &iter)) {

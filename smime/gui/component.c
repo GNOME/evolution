@@ -43,7 +43,7 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, gchar **pass
 
 	g_strchomp (slot_name);
 
-	prompt = g_strdup_printf (_("Enter the password for `%s'"), slot_name);
+	prompt = g_strdup_printf (_("Enter the password for '%s'"), slot_name);
 	g_free (slot_name);
 
 	*passwd = e_passwords_ask_password (_("Enter password"), "SMIME-PKCS11", "",

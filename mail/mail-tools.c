@@ -120,7 +120,7 @@ mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 	path = g_build_filename (data_dir, "spool", NULL);
 
 	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0700) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory `%s': %s"),
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory '%s': %s"),
 				     path, g_strerror(errno));
 		g_free(path);
 		return NULL;
@@ -150,7 +150,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	if (strcmp(uri->protocol, "mbox") != 0) {
 		/* This is really only an internal error anyway */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("Trying to movemail a non-mbox source `%s'"),
+				      _("Trying to movemail a non-mbox source '%s'"),
 				      source_url);
 		camel_url_free(uri);
 		return NULL;
@@ -298,7 +298,7 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
 		/* FIXME?: the filter:get_folder callback should do this itself? */
 		curi = em_uri_to_camel(uri);
 		if (uri == NULL) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Invalid folder: `%s'"), uri);
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Invalid folder: '%s'"), uri);
 			return NULL;
 		}
 		uri = curi;
