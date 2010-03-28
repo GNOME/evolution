@@ -448,10 +448,6 @@ mail_shell_content_constructed (GObject *object)
 	key = "/apps/evolution/mail/display/paned_size";
 	gconf_bridge_bind_property (bridge, key, object, "vposition");
 
-	object = G_OBJECT (shell_content);
-	key = "/apps/evolution/mail/display/show_deleted";
-	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
-
 	/* Message list customizations. */
 
 	reader = E_MAIL_READER (shell_content);

@@ -27,10 +27,7 @@
         <menuitem action='mail-threads-expand-all'/>
         <menuitem action='mail-threads-collapse-all'/>
         <separator/>
-        <menuitem action='mail-hide-deleted'/>
-        <menuitem action='mail-hide-selected'/>
-        <menuitem action='mail-hide-read'/>
-        <menuitem action='mail-show-hidden'/>
+        <menuitem action='mail-show-deleted'/>
       </placeholder>
     </menu>
     <placeholder name='custom-menus'>

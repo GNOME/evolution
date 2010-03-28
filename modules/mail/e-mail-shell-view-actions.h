@@ -99,12 +99,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-forward-inline")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD_QUOTED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-forward-quoted")
-#define E_SHELL_WINDOW_ACTION_MAIL_HIDE_DELETED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-hide-deleted")
-#define E_SHELL_WINDOW_ACTION_MAIL_HIDE_READ(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-hide-read")
-#define E_SHELL_WINDOW_ACTION_MAIL_HIDE_SELECTED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-hide-selected")
 #define E_SHELL_WINDOW_ACTION_MAIL_LABEL_NEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-label-new")
 #define E_SHELL_WINDOW_ACTION_MAIL_LABEL_NONE(window) \
@@ -173,8 +167,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-select-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_ALL_HEADERS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-all-headers")
-#define E_SHELL_WINDOW_ACTION_MAIL_SHOW_HIDDEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-show-hidden")
+#define E_SHELL_WINDOW_ACTION_MAIL_SHOW_DELETED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-show-deleted")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_SOURCE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-source")
 #define E_SHELL_WINDOW_ACTION_MAIL_SMART_BACKWARD(window) \

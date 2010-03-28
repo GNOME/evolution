@@ -106,13 +106,6 @@ struct _MessageList {
 
 	GHashTable *normalised_hash;
 
-	/* UID's to hide.  Keys in the mempool */
-	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
-	GHashTable	 *hidden;
-	struct _EMemPool *hidden_pool;
-	gint hide_unhidden;           /* total length, before hiding */
-	gint hide_before, hide_after; /* hide ranges of messages */
-
 	/* Current search string, or %NULL */
 	gchar *search;
 
@@ -146,9 +139,6 @@ struct _MessageList {
 
 	/* Row-selection and seen-marking timers */
 	guint idle_id, seen_id;
-
-	/* locks */
-	GMutex *hide_lock;	/* for any 'hide' info above */
 
 	/* list of outstanding regeneration requests */
 	GList *regen;
@@ -218,14 +208,6 @@ void		message_list_copy		(MessageList *message_list,
 						 gboolean cut);
 void		message_list_paste		(MessageList *message_list);
 guint		message_list_length		(MessageList *message_list);
-guint		message_list_hidden		(MessageList *message_list);
-void		message_list_hide_add		(MessageList *message_list,
-						 const gchar *expr,
-						 guint lower,
-						 guint upper);
-void		message_list_hide_uids		(MessageList *message_list,
-						 GPtrArray *uids);
-void		message_list_hide_clear		(MessageList *message_list);
 void		message_list_set_threaded	(MessageList *message_list,
 						 gboolean threaded);
 void		message_list_set_threaded_expand_all

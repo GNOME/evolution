@@ -406,53 +406,6 @@ action_mail_global_expunge_cb (GtkAction *action,
 }
 
 static void
-action_mail_hide_deleted_cb (GtkToggleAction *action,
-                             EMailShellView *mail_shell_view)
-{
-	GtkWidget *message_list;
-	EMailReader *reader;
-	gboolean active;
-
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	active = gtk_toggle_action_get_active (action);
-	message_list_set_hidedeleted (MESSAGE_LIST (message_list), active);
-}
-
-static void
-action_mail_hide_read_cb (GtkAction *action,
-                          EMailShellView *mail_shell_view)
-{
-	GtkWidget *message_list;
-	EMailReader *reader;
-
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	message_list_hide_add (
-		MESSAGE_LIST (message_list),
-		"(match-all (system-flag \"seen\"))",
-		ML_HIDE_SAME, ML_HIDE_SAME);
-}
-
-static void
-action_mail_hide_selected_cb (GtkAction *action,
-                              EMailShellView *mail_shell_view)
-{
-	GtkWidget *message_list;
-	EMailReader *reader;
-	GPtrArray *uids;
-
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
-
-	message_list_hide_uids (MESSAGE_LIST (message_list), uids);
-	em_utils_uids_free (uids);
-}
-
-static void
 action_mail_label_cb (GtkToggleAction *action,
                       EMailShellView *mail_shell_view)
 {
@@ -607,16 +560,18 @@ action_mail_label_none_cb (GtkAction *action,
 }
 
 static void
-action_mail_show_hidden_cb (GtkAction *action,
-                            EMailShellView *mail_shell_view)
+action_mail_show_deleted_cb (GtkToggleAction *action,
+                             EMailShellView *mail_shell_view)
 {
 	GtkWidget *message_list;
 	EMailReader *reader;
+	gboolean active;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_hide_clear (MESSAGE_LIST (message_list));
+	active = gtk_toggle_action_get_active (action);
+	message_list_set_hidedeleted (MESSAGE_LIST (message_list), !active);
 }
 
 static void
@@ -992,27 +947,6 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_label_none_cb) },
 
-	{ "mail-hide-read",
-	  NULL,
-	  N_("Hide _Read Messages"),
-	  NULL,
-	  N_("Temporarily hide all messages that have already been read"),
-	  G_CALLBACK (action_mail_hide_read_cb) },
-
-	{ "mail-hide-selected",
-	  NULL,
-	  N_("Hide S_elected Messages"),
-	  NULL,
-	  N_("Temporarily hide the selected messages"),
-	  G_CALLBACK (action_mail_hide_selected_cb) },
-
-	{ "mail-show-hidden",
-	  NULL,
-	  N_("Show Hidde_n Messages"),
-	  NULL,
-	  N_("Show messages that have been temporarily hidden"),
-	  G_CALLBACK (action_mail_show_hidden_cb) },
-
 	{ "mail-smart-backward",
 	  NULL,
 	  NULL,  /* No menu item; key press only */
@@ -1142,15 +1076,6 @@ static EPopupActionEntry mail_popup_entries[] = {
 
 static GtkToggleActionEntry mail_toggle_entries[] = {
 
-	{ "mail-hide-deleted",
-	  NULL,
-	  N_("Hide _Deleted Messages"),
-	  NULL,
-	  N_("Hide deleted messages rather than displaying "
-	     "them with a line through them"),
-	  G_CALLBACK (action_mail_hide_deleted_cb),
-	  TRUE },
-
 	{ "mail-preview",
 	  NULL,
 	  N_("Show Message _Preview"),
@@ -1158,6 +1083,14 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  N_("Show message preview pane"),
 	  NULL,  /* Handled by property bindings */
 	  TRUE },
+
+	{ "mail-show-deleted",
+	  NULL,
+	  N_("Show _Deleted Messages"),
+	  NULL,
+	  N_("Show deleted messages with a line through them"),
+	  G_CALLBACK (action_mail_show_deleted_cb),
+	  FALSE },
 
 	{ "mail-threads-group-by",
 	  NULL,
@@ -1400,6 +1333,10 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	bridge = gconf_bridge_get ();
 
+	object = G_OBJECT (ACTION (MAIL_SHOW_DELETED));
+	key = "/apps/evolution/mail/display/show_deleted";
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
 	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
 	key = "/apps/evolution/mail/display/layout";
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
@@ -1438,11 +1375,9 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		ACTION (MAIL_PREVIEW), "active",
 		ACTION (MAIL_VIEW_VERTICAL), "sensitive");
 
-	/* XXX The boolean sense of the GConf key is the inverse of
-	 *     the menu item, so we have to maintain two properties. */
-	e_mutual_binding_new_with_negation (
-		mail_shell_content, "show-deleted",
-		ACTION (MAIL_HIDE_DELETED), "active");
+	e_mutual_binding_new (
+		ACTION (MAIL_SHOW_DELETED), "active",
+		mail_shell_content, "show-deleted");
 
 	/* Keep the sensitivity of "Create Search Folder from Search"
 	 * in sync with "Save Search" so that its only selectable when
