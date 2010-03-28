@@ -89,8 +89,6 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
-    <toolitem action='send-receive'/>
-    <separator/>
     <placeholder name='toolbar-actions'/>
   </toolbar>
   <toolbar name='search-toolbar'/>
