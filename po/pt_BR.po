@@ -5,7 +5,7 @@
 # Washington Lins <washington-lins@uol.com.br>, 2007, 2008.
 # Guilherme de S. Pastore <gpastore@gnome.org>, 2007.
 # Raul Pereira <contato@raulpereira.com>, 2007.
-# Rodrigo Flores <rodrigomarquesflores@gmail.com>, 2007.
+# Rodrigo Flores <rodrigomarquesflores@gmail.com>, 2007, 2010.
 # Vladimir Melo <vladimirmelo.psi@gmail.com>, 2008
 # Fabrício Godoy <skarllot@gmail.com>, 2008
 # Og Maciel <ogmaciel@gnome.org>, 2008.
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-18 23:31-0300\n"
-"PO-Revision-Date: 2010-03-17 10:16-0300\n"
-"Last-Translator: Djavan Fagundes <djavan@comum.org>\n"
+"POT-Creation-Date: 2010-03-28 20:52-0300\n"
+"PO-Revision-Date: 2010-03-28 20:51-0300\n"
+"Last-Translator: Rodrigo Flores <rlmflores@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8336,27 +8336,20 @@ msgid "Click here to select folders to post to"
 msgstr "Clique aqui para selecionar as pastas onde publicar"
 
 #: ../composer/e-composer-private.c:199
-#, fuzzy
 msgid "Undo the last action"
-msgstr "Copia a seleção"
+msgstr "Desfaz a última ação"
 
 #: ../composer/e-composer-private.c:203
-#, fuzzy
 msgid "Redo the last undone action"
-msgstr "Enviar informação mais recente"
+msgstr "Refaz a última ação desfeita"
 
 #: ../composer/e-composer-private.c:207
-#, fuzzy
 msgid "Search for text"
-msgstr ""
-"\n"
-"\n"
-"Pesquisa pelo contato."
+msgstr "Pesquisar por texto"
 
 #: ../composer/e-composer-private.c:211
-#, fuzzy
 msgid "Search for and replace text"
-msgstr "Pesquisa texto no contato exibido"
+msgstr "Pesquisar por texto e substituir"
 
 #: ../composer/e-composer-private.c:301
 msgid "Save draft"
@@ -8532,101 +8525,85 @@ msgstr "_Salvar rascunho"
 
 #: ../capplet/anjal-settings-main.c:202
 msgid "Run Anjal in a window"
-msgstr ""
+msgstr "Executar Anjal em uma janela"
 
 #: ../capplet/anjal-settings-main.c:203
-#, fuzzy
 msgid "Make Anjal the default email client"
-msgstr "_Marcar como lista de memorandos padrão"
+msgstr "Definir o Anjal como cliente de e-mail padrão"
 
 #. TRANSLATORS: don't translate the terms in brackets
 #: ../capplet/anjal-settings-main.c:210
 msgid "ID of the socket to embed in"
-msgstr ""
+msgstr "ID do socket para ser embarcado"
 
 #: ../capplet/anjal-settings-main.c:211
-#, fuzzy
 msgid "socket"
-msgstr "ordenar"
+msgstr "socket"
 
 #: ../capplet/anjal-settings-main.c:225
-#, fuzzy
 msgid "Anjal email client"
-msgstr "Cliente padrão de correio "
+msgstr "Cliente de e-mail Anjal"
 
 #: ../capplet/settings/mail-view.c:244
-#, fuzzy
 msgid "New Tab"
-msgstr "Nova _tarefa"
+msgstr "Nova aba"
 
 #: ../capplet/settings/mail-account-view.c:56
-#, fuzzy
 msgid "Please enter your full name."
-msgstr "Por favor, selecione outro nome."
+msgstr "Por favor, digite seu nome completo."
 
 #: ../capplet/settings/mail-account-view.c:57
-#, fuzzy
 msgid "Please enter your email address."
-msgstr "Usando endereço de e-mail"
+msgstr "Por favor, digite seu endereço de e-mail."
 
 #: ../capplet/settings/mail-account-view.c:58
 msgid "The email address you have entered is invalid."
-msgstr ""
+msgstr "O endereço de e-mail que você digitou é inválido."
 
 #: ../capplet/settings/mail-account-view.c:224
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span weight=\"bold\">Excluir correio</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Detalhes pessoais:</span>"
 
 #: ../capplet/settings/mail-account-view.c:229
-#, fuzzy
 msgid "Name:"
 msgstr "_Nome:"
 
 #: ../capplet/settings/mail-account-view.c:238
-#, fuzzy
 msgid "Email address:"
 msgstr "Endereço de e_mail:"
 
 #: ../capplet/settings/mail-account-view.c:248
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr "<span weight=\"bold\">Geral</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Detalhes de recebimento:</span>"
 
 #: ../capplet/settings/mail-account-view.c:253
 #: ../capplet/settings/mail-account-view.c:303
-#, fuzzy
 msgid "Server type:"
 msgstr "_Tipo do servidor:"
 
 #: ../capplet/settings/mail-account-view.c:262
 #: ../capplet/settings/mail-account-view.c:312
-#, fuzzy
 msgid "Server address:"
-msgstr "Mensagem do servidor:"
+msgstr "Endereço do servidor:"
 
 #: ../capplet/settings/mail-account-view.c:272
 #: ../capplet/settings/mail-account-view.c:322
-#, fuzzy
 msgid "Username:"
 msgstr "Nom_e de usuário:"
 
 #: ../capplet/settings/mail-account-view.c:281
 #: ../capplet/settings/mail-account-view.c:331
-#, fuzzy
 msgid "Use encryption:"
-msgstr "Sem criptografia"
+msgstr "Utilizar encriptação:"
 
 #: ../capplet/settings/mail-account-view.c:286
 #: ../capplet/settings/mail-account-view.c:336
-#, fuzzy
 msgid "never"
-msgstr "Nunca"
+msgstr "nunca"
 
 #: ../capplet/settings/mail-account-view.c:298
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr "<span weight=\"bold\">Geral</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Detalhes de envio:</span>"
 
 #: ../capplet/settings/mail-account-view.c:355
 msgid ""
@@ -8634,6 +8611,10 @@ msgid ""
 "address and password in below and we'll try and work out all the settings. "
 "If we can't do it automatically you'll need your server details as well."
 msgstr ""
+"Para utilizar o aplicativo de e-mail você terá que configurar uma conta. "
+"Coloque seu endereço de e-mail e senha abaixo e nós tentaremos lidar com as "
+"configurações. Se não for possível fazer isso automaticamente, nós "
+"precisaremos dos detalhes do servidor."
 
 #: ../capplet/settings/mail-account-view.c:357
 msgid ""
@@ -8641,26 +8622,34 @@ msgid ""
 "enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
+"Desculpe, não foi possível lidar com as configurações para configurar seu e-"
+"mail automaticamente. Por favor, digite-as abaixo. Nós tentamos iniciar o "
+"processo com os detalhes que você digitou mas você provavelmente precisa "
+"alterá-los."
 
 #: ../capplet/settings/mail-account-view.c:359
 msgid "You can specify more options to configure the account."
-msgstr ""
+msgstr "Você pode especificar mais opções para configurar a conta."
 
 #: ../capplet/settings/mail-account-view.c:361
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
 msgstr ""
+"Agora precisamos das suas configurações para enviar e-mail. Nós tentamos "
+"adivinhar algumas coisas mas você deve verificá-las para ter certeza."
 
 #: ../capplet/settings/mail-account-view.c:362
 msgid "You can specify your default settings for your account."
-msgstr ""
+msgstr "Você pode especificar suas definições padrões para sua conta."
 
 #: ../capplet/settings/mail-account-view.c:363
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
 msgstr ""
+"É hora de verificar as coisas antes que tentemos conectar ao servidor e "
+"trazer seus e-mails."
 
 #: ../capplet/settings/mail-account-view.c:378
 #: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
@@ -8669,62 +8658,51 @@ msgid "Identity"
 msgstr "Identidade"
 
 #: ../capplet/settings/mail-account-view.c:378
-#, fuzzy
 msgid "Next - Receiving mail"
-msgstr "Recebendo e-mail"
+msgstr "Próximo - Recebendo e-mail"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Receiving mail"
 msgstr "Recebendo e-mail"
 
 #: ../capplet/settings/mail-account-view.c:379
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
 msgid "Next - Sending mail"
-msgstr "Enviando e-mail"
+msgstr "Próximo - Enviando e-mail"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Back - Identity"
-msgstr "Identidade"
+msgstr "Voltar - Identidade"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Next - Receiving options"
-msgstr "Opções de recepção"
+msgstr "Próximo - Opções de recepção"
 
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
 msgid "Receiving options"
 msgstr "Opções de recepção"
 
 #: ../capplet/settings/mail-account-view.c:380
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Back - Receiving mail"
-msgstr "Recebendo e-mail"
+msgstr "Voltar - Recebendo e-mail"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Sending mail"
 msgstr "Enviando e-mail"
 
 #: ../capplet/settings/mail-account-view.c:382
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
 msgid "Next - Review account"
-msgstr "Excluir conta?"
+msgstr "Próximo - Revisar conta"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Next - Defaults"
-msgstr "Padrões"
+msgstr "Próximo - Padrões"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Back - Receiving options"
-msgstr "Opções de recepção"
+msgstr "Próximos - Opções de recebimento"
 
 #: ../capplet/settings/mail-account-view.c:383
 #: ../mail/em-account-editor.c:2774 ../mail/mail-config.ui.h:31
@@ -8732,50 +8710,42 @@ msgid "Defaults"
 msgstr "Padrões"
 
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
 msgid "Back - Sending mail"
-msgstr "Enviando e-mail"
+msgstr "Voltar - Enviando e-mail"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Review account"
-msgstr "Excluir conta?"
+msgstr "Revisar conta"
 
 #: ../capplet/settings/mail-account-view.c:385
 msgid "Finish"
-msgstr ""
+msgstr "Terminar"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Back - Sending"
-msgstr "Crescente"
+msgstr "Voltar - Enviando"
 
 #: ../capplet/settings/mail-account-view.c:719
 #: ../capplet/settings/mail-settings-view.c:266
-#, fuzzy
 msgid "Close Tab"
-msgstr "_Fechar"
+msgstr "_Fechar aba"
 
 #: ../capplet/settings/mail-account-view.c:729
-#, fuzzy
 msgid "Account Wizard"
-msgstr "Editor de contas"
+msgstr "Assistente de conta"
 
 #: ../capplet/settings/mail-capplet-shell.c:284
-#, fuzzy
 msgid "Evolution account assistant"
 msgstr "Assistente de contas do Evolution"
 
 #: ../capplet/settings/mail-capplet-shell.c:320
 #: ../data/evolution-settings.desktop.in.in.h:2
-#, fuzzy
 msgid "Email Settings"
-msgstr "Configurações de spam"
+msgstr "Configurações de e-mail"
 
 #: ../capplet/settings/mail-capplet-shell.c:334
-#, fuzzy
 msgid "Quit"
-msgstr "Citado"
+msgstr "Sair"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
@@ -8801,19 +8771,16 @@ msgid "Modify"
 msgstr "Modificar"
 
 #: ../capplet/settings/mail-settings-view.c:150
-#, fuzzy
 msgid "Add a new account"
-msgstr "Adicionar uma coluna"
+msgstr "Adicionar uma nova conta"
 
 #: ../capplet/settings/mail-settings-view.c:185
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr "<span weight=\"bold\">Informação de conta</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Gerenciamento de conta</span>"
 
 #: ../capplet/settings/mail-settings-view.c:276
-#, fuzzy
 msgid "Settings"
-msgstr "Configurações de spam"
+msgstr "Preferências"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Calendar event notifications"
@@ -8841,9 +8808,8 @@ msgid "Manage your email, contacts and schedule"
 msgstr "Gerencie seus e-mails, contatos e agenda"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
-#, fuzzy
 msgid "Configure email accounts"
-msgstr "Configure aqui as suas contas de e-mail"
+msgstr "Configure as contas de e-mail"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10540,13 +10506,13 @@ msgstr "Assistente de contas do Evolution"
 #: ../mail/em-composer-utils.c:1578
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
-msgstr ""
+msgstr "Sua mensagem para %s sobre \"%s\" enviada em %s foi lida."
 
 #. Translators: %s is the subject of the email message
 #: ../mail/em-composer-utils.c:1626
-#, fuzzy, c-format
+#, c-format
 msgid "Delivery Notification for: \"%s\""
-msgstr "Propriedades da notificação de e-mail"
+msgstr "Notificação de recebimento para: \"%s\""
 
 #: ../mail/em-composer-utils.c:1950
 msgid "an unknown sender"
@@ -13683,12 +13649,10 @@ msgstr ""
 "serão excluído permanentemente."
 
 #: ../mail/mail.error.xml.h:61
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
 msgstr ""
-"Se você excluir a pasta, todo o seu conteúdo e o conteúdo das suas subpastas "
-"serão excluído permanentemente."
+"Se você excluir a pasta, todo o seu conteúdo será excluído permanentemente."
 
 #: ../mail/mail.error.xml.h:62
 msgid "If you proceed, all proxy accounts will be deleted permanently."
@@ -13811,9 +13775,8 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Realmente excluir a pasta \"{0}\" e todas as suas subpastas?"
 
 #: ../mail/mail.error.xml.h:87
-#, fuzzy
 msgid "Really delete folder \"{0}\"?"
-msgstr "Não foi possível excluir a pasta \"{0}\"."
+msgstr "Realmente excluir a pasta \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:88
 msgid "Report Junk Failed"
@@ -19720,9 +19683,8 @@ msgid "Default window width"
 msgstr "Largura padrão da janela"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-#, fuzzy
 msgid "Enable express mode"
-msgstr "Habilitar pastas de pesquisa"
+msgstr "Habilitar modo expresso"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid ""
@@ -19732,7 +19694,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "Opção que habilita uma interface de usuário mais simplificada."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
@@ -20628,9 +20590,8 @@ msgid "Start in online mode"
 msgstr "Inicia no modo conectado"
 
 #: ../shell/main.c:330
-#, fuzzy
 msgid "Start in \"express\" mode"
-msgstr "Inicia no modo conectado"
+msgstr "Inicia no modo \"expresso\""
 
 #: ../shell/main.c:333
 msgid "Forcibly shut down Evolution"
