@@ -12,13 +12,14 @@
 # Petr Kovar <pknbe@volny.cz>, 2008, 2010.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010.
 # Andre Klapper <ak-47@gmx.net>, 2009.
+#
 #: ../shell/main.c:479
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-28 17:40+0200\n"
-"PO-Revision-Date: 2010-03-28 13:12+0100\n"
+"POT-Creation-Date: 2010-03-29 01:27+0200\n"
+"PO-Revision-Date: 2010-03-28 17:41+0100\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8496,11 +8497,11 @@ msgstr "Nová karta"
 
 #: ../capplet/settings/mail-account-view.c:56
 msgid "Please enter your full name."
-msgstr "Zadejte prosím vaše celé jméno"
+msgstr "Zadejte prosím své celé jméno"
 
 #: ../capplet/settings/mail-account-view.c:57
 msgid "Please enter your email address."
-msgstr "Zadejte prosím svou e-mailovou adresu."
+msgstr "Zadejte prosím svoji e-mailovou adresu."
 
 #: ../capplet/settings/mail-account-view.c:58
 msgid "The email address you have entered is invalid."
@@ -8567,7 +8568,7 @@ msgid ""
 "enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
-"Promiňte, bohužel nemůžeme rozchodit nastavení pro vaši poštu automaticky. "
+"Promiňte, bohužel nemůžeme zprovoznit nastavení pro vaši poštu automaticky. "
 "Zadejte je prosím níže. Zkoušeli jsme to nahodit s informacemi, které jste "
 "vložili, ale asi je budete muset změnit."
 
@@ -8638,7 +8639,7 @@ msgstr "Posílání pošty"
 #: ../capplet/settings/mail-account-view.c:382
 #: ../capplet/settings/mail-account-view.c:383
 msgid "Next - Review account"
-msgstr "Další - zkontrolovat účet"
+msgstr "Další - Zkontrolovat účet"
 
 #: ../capplet/settings/mail-account-view.c:382
 msgid "Next - Defaults"
