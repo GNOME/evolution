@@ -167,7 +167,7 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const gchar *path, GError **err
 	fp = g_fopen (path, "rb");
 	if (!fp) {
 		/* XXX gerror */
-		printf ("couldn't open `%s'\n", path);
+		printf ("couldn't open '%s'\n", path);
 		return FALSE;
 	}
 
@@ -319,7 +319,7 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error)
 	gboolean wantRetry;
 	PK11SlotInfo *slot;
 
-	printf ("importing pkcs12 from `%s'\n", path);
+	printf ("importing pkcs12 from '%s'\n", path);
 
 	slot = PK11_GetInternalKeySlot();
 

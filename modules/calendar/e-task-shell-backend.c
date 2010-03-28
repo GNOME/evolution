@@ -424,7 +424,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 	source = e_source_list_peek_source_by_uid (source_list, source_uid);
 	if (source == NULL) {
-		g_printerr ("No source for UID `%s'\n", source_uid);
+		g_printerr ("No source for UID '%s'\n", source_uid);
 		g_object_unref (source_list);
 		goto exit;
 	}

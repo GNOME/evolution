@@ -453,7 +453,7 @@ pst_import_file (PstImporter *m)
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
 
-	camel_operation_start (NULL, _("Importing `%s'"), filename);
+	camel_operation_start (NULL, _("Importing '%s'"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
 		mail_tool_uri_to_folder (m->parent_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
@@ -559,7 +559,7 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 
 	if (item->folder != NULL) {
 		pst_process_folder (m, item);
-		camel_operation_start (NULL, _("Importing `%s'"), item->file_as.str);
+		camel_operation_start (NULL, _("Importing '%s'"), item->file_as.str);
 	} else {
 		if (m->folder_count && (m->current_item < m->folder_count)) {
 			camel_operation_progress (NULL, (m->current_item * 100) / m->folder_count);

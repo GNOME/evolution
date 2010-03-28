@@ -617,7 +617,7 @@ e_task_shell_backend_migrate (EShellBackend *shell_backend,
 
 				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_TODO)) {
 					/* FIXME: domain/code */
-					g_set_error(error, 0, 0, _("Unable to migrate tasks `%s'"), source_name);
+					g_set_error(error, 0, 0, _("Unable to migrate tasks '%s'"), source_name);
 					g_free(source_name);
 					goto fail;
 				}

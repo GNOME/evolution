@@ -1421,7 +1421,7 @@ ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 	 * should be 16 + 4.
 	 * Height of some special font is much higher than others,
 	 * such	as Arabic. So leave some more margin for cell.
-`	 */
+	 */
 	return 16 + 8;
 }
 

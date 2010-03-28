@@ -595,7 +595,7 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 			folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
 			if (camel_exception_is_set(ex)) {
 				g_string_append_printf (err, _("Failed to append to %s: %s\n"
-							"Appending to local `Sent' folder instead."),
+							"Appending to local 'Sent' folder instead."),
 						sent_folder_uri, camel_exception_get_description (ex));
 				camel_exception_clear (ex);
 			}
@@ -622,7 +622,7 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 				if (err->len)
 					g_string_append(err, "\n\n");
 				g_string_append_printf (err, _("Failed to append to %s: %s\n"
-							"Appending to local `Sent' folder instead."),
+							"Appending to local 'Sent' folder instead."),
 						name, camel_exception_get_description (ex));
 				camel_object_ref (sent_folder);
 				camel_object_unref (folder);
@@ -638,7 +638,7 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 
 				if (err->len)
 					g_string_append(err, "\n\n");
-				g_string_append_printf (err, _("Failed to append to local `Sent' folder: %s"),
+				g_string_append_printf (err, _("Failed to append to local 'Sent' folder: %s"),
 						camel_exception_get_description (ex));
 			}
 		}

@@ -1189,7 +1189,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 		rv = FALSE;
 	}
 	else {
-		printf ("importing %d bytes from `%s'\n", bytes_read, file_path);
+		printf ("importing %d bytes from '%s'\n", bytes_read, file_path);
 
 		switch (cert_type) {
 		case E_CERT_CA:

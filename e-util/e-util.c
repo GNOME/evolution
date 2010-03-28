@@ -268,7 +268,7 @@ e_lookup_action (GtkUIManager *ui_manager,
 		iter = g_list_next (iter);
 	}
 
-	g_critical ("%s: action `%s' not found", G_STRFUNC, action_name);
+	g_critical ("%s: action '%s' not found", G_STRFUNC, action_name);
 
 	return NULL;
 }
@@ -307,7 +307,7 @@ e_lookup_action_group (GtkUIManager *ui_manager,
 		iter = g_list_next (iter);
 	}
 
-	g_critical ("%s: action group `%s' not found", G_STRFUNC, group_name);
+	g_critical ("%s: action group '%s' not found", G_STRFUNC, group_name);
 
 	return NULL;
 }

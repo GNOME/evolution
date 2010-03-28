@@ -1395,7 +1395,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 			camel_http_stream_set_proxy ((CamelHttpStream *)instream, proxy);
 			g_free (proxy);
 		}
-		camel_operation_start(NULL, _("Retrieving `%s'"), job->u.uri);
+		camel_operation_start(NULL, _("Retrieving '%s'"), job->u.uri);
 		tmp_stream = (CamelHttpStream *)instream;
 		content_type = camel_http_stream_get_content_type(tmp_stream);
 		length = camel_header_raw_find(&tmp_stream->headers, "Content-Length", NULL);
@@ -1404,7 +1404,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 			total = atoi(length);
 		camel_content_type_unref(content_type);
 	} else
-		camel_operation_start_transient(NULL, _("Retrieving `%s'"), job->u.uri);
+		camel_operation_start_transient(NULL, _("Retrieving '%s'"), job->u.uri);
 
 	camel_url_free(url);
 

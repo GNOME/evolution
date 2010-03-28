@@ -1209,18 +1209,18 @@ is_mail_folder (const gchar *metadata)
 	gchar *type;
 
 	if (!(doc = xmlParseFile (metadata))) {
-		g_warning ("Cannot parse `%s'", metadata);
+		g_warning ("Cannot parse '%s'", metadata);
 		return FALSE;
 	}
 
 	if (!(node = xmlDocGetRootElement (doc))) {
-		g_warning ("`%s' corrupt: document contains no root node", metadata);
+		g_warning ("'%s' corrupt: document contains no root node", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
 
 	if (!node->name || strcmp ((gchar *)node->name, "efolder") != 0) {
-		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
+		g_warning ("'%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
@@ -1591,7 +1591,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 			g_set_error (
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
-				_("Unable to create new folder `%s': %s"),
+				_("Unable to create new folder '%s': %s"),
 				dest->str, g_strerror (errno));
 			goto fatal;
 		}
@@ -1619,7 +1619,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 			g_set_error (
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
-				_("Unable to copy folder `%s' to `%s': %s"),
+				_("Unable to copy folder '%s' to '%s': %s"),
 				src->str, dest->str, g_strerror (errno));
 			goto fatal;
 		}
@@ -1815,7 +1815,7 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, GError **error)
 			error, E_SHELL_MIGRATE_ERROR,
 			E_SHELL_MIGRATE_ERROR_FAILED,
 			_("Unable to scan for existing mailboxes at "
-			  "`%s': %s"), session->srcdir, g_strerror (errno));
+			  "'%s': %s"), session->srcdir, g_strerror (errno));
 		return FALSE;
 	}
 
@@ -2025,7 +2025,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 			error, E_SHELL_MIGRATE_ERROR,
 			E_SHELL_MIGRATE_ERROR_FAILED,
 			_("Unable to open old POP keep-on-server data "
-			  "`%s': %s"), cache_dir, g_strerror (errno));
+			  "'%s': %s"), cache_dir, g_strerror (errno));
 		g_free (cache_dir);
 		return FALSE;
 	}
@@ -2041,7 +2041,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 			error, E_SHELL_MIGRATE_ERROR,
 			E_SHELL_MIGRATE_ERROR_FAILED,
 			_("Unable to create POP3 keep-on-server data "
-			  "directory `%s': %s"), cache_dir,
+			  "directory '%s': %s"), cache_dir,
 			g_strerror (errno));
 		g_string_free (oldpath, TRUE);
 		g_free (cache_dir);
@@ -2073,7 +2073,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
 				_("Unable to copy POP3 keep-on-server data "
-				  "`%s': %s"), oldpath->str,
+				  "'%s': %s"), oldpath->str,
 				g_strerror (errno));
 			success = FALSE;
 		}
@@ -2357,7 +2357,7 @@ e_path_to_physical (const gchar *prefix, const gchar *vpath)
 	ppath_len++;	/* For the separating slash.  */
 
 	/* Take account of the fact that we need to translate every
-	 * separator into `subfolders/'.
+	 * separator into 'subfolders/'.
 	 */
 	p = vpath;
 	while (1) {
@@ -2391,7 +2391,7 @@ e_path_to_physical (const gchar *prefix, const gchar *vpath)
 			break;
 		}
 
-		memcpy (dp, p, newp - p + 1); /* `+ 1' to copy the slash too.  */
+		memcpy (dp, p, newp - p + 1); /* '+ 1' to copy the slash too.  */
 		dp += newp - p + 1;
 
 		memcpy (dp, SUBFOLDER_DIR_NAME, SUBFOLDER_DIR_NAME_LEN);
@@ -2544,7 +2544,7 @@ em_migrate_1_4 (const gchar *data_dir, xmlDocPtr filters, xmlDocPtr vfolders, GE
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
 				_("Failed to create local mail storage "
-				  "`%s': %s"), path + 5, g_strerror (errno));
+				  "'%s': %s"), path + 5, g_strerror (errno));
 			g_free (session->srcdir);
 			camel_object_unref (session);
 			g_free (path);
@@ -2557,7 +2557,7 @@ em_migrate_1_4 (const gchar *data_dir, xmlDocPtr filters, xmlDocPtr vfolders, GE
 		g_set_error (
 			error, E_SHELL_MIGRATE_ERROR,
 			E_SHELL_MIGRATE_ERROR_FAILED,
-			_("Failed to create local mail storage `%s': %s"),
+			_("Failed to create local mail storage '%s': %s"),
 			path, lex.desc);
 		g_free (session->srcdir);
 		camel_object_unref (session);
@@ -3029,7 +3029,7 @@ e_mail_migrate (EShellBackend *shell_backend,
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
 				_("Unable to create local mail folders at "
-				"`%s': %s"), data_dir, g_strerror (errno));
+				"'%s': %s"), data_dir, g_strerror (errno));
 			return FALSE;
 		}
 	}
@@ -3047,7 +3047,7 @@ e_mail_migrate (EShellBackend *shell_backend,
 				error, E_SHELL_MIGRATE_ERROR,
 				E_SHELL_MIGRATE_ERROR_FAILED,
 				_("Unable to read settings from previous "
-				  "Evolution install, `evolution/config.xmldb' "
+				  "Evolution install, 'evolution/config.xmldb' "
 				  "does not exist or is corrupt."));
 			return FALSE;
 		}

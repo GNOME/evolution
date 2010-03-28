@@ -2,13 +2,13 @@
 <error-list domain="mail-composer">
 
  <error id="no-attach" type="error" modal="true">
-  <_primary>You cannot attach the file `{0}' to this message.</_primary>
+  <_primary>You cannot attach the file n{0}' to this message.</_primary>
   <!--For Translators: '{1}' is the exception description,describing why the file could not be attached to the message -->
   <secondary>{1}</secondary>
  </error>
 
  <error id="attach-notfile" type="warning">
-  <_primary>The file `{0}' is not a regular file and cannot be sent in a message.</_primary>
+  <_primary>The file '{0}' is not a regular file and cannot be sent in a message.</_primary>
  </error>
 
  <error id="attach-nomessages" type="error">

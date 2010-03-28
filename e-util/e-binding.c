@@ -30,7 +30,7 @@ e_binding_warn (GObject *object,
                 const gchar *property_name)
 {
 	g_warning (
-		"%s instances have no `%s' property to bind to",
+		"%s instances have no '%s' property to bind to",
 		G_OBJECT_TYPE_NAME (object), property_name);
 
 	return NULL;

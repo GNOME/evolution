@@ -49,18 +49,18 @@ is_type_folder (const gchar *metadata, const gchar *search_type)
 
 	doc = e_xml_parse_file (metadata);
 	if (!doc) {
-		g_warning ("Cannot parse `%s'", metadata);
+		g_warning ("Cannot parse '%s'", metadata);
 		return FALSE;
 	}
 
 	if (!(node = xmlDocGetRootElement (doc))) {
-		g_warning ("`%s' corrupt: document contains no root node", metadata);
+		g_warning ("'%s' corrupt: document contains no root node", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
 
 	if (!node->name || strcmp ((gchar *)node->name, "efolder") != 0) {
-		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
+		g_warning ("'%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
@@ -122,7 +122,7 @@ e_folder_map_dir (const gchar *dirname, const gchar *type, GSList **dir_list)
 	}
 
 	if (!(dir = g_dir_open (path, 0, &error))) {
-		g_warning ("cannot open `%s': %s", path, error->message);
+		g_warning ("cannot open '%s': %s", path, error->message);
 		g_error_free (error);
 		g_free (path);
 		return;
@@ -158,7 +158,7 @@ e_folder_map_local_folders (const gchar *local_dir, const gchar *type)
 	GError *error = NULL;
 
 	if (!(dir = g_dir_open (local_dir, 0, &error))) {
-		g_warning ("cannot open `%s': %s", local_dir, error->message);
+		g_warning ("cannot open '%s': %s", local_dir, error->message);
 		g_error_free (error);
 		return NULL;
 	}
