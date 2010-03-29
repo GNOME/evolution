@@ -72,7 +72,9 @@
     <separator/>
     <menuitem action='contact-popup-open'/>
     <menuitem action='contact-popup-save-as'/>
+#if !EXPRESS
     <menuitem action='contact-popup-print'/>
+#endif
     <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>

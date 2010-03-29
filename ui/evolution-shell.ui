@@ -10,8 +10,10 @@
       <placeholder name='file-actions'/>
       <separator/>
       <menuitem action='import'/>
+#if !EXPRESS
       <separator/>
       <menuitem action='page-setup'/>
+#endif
       <placeholder name='print-actions'/>
       <separator/>
       <placeholder name='long-running-actions'/>
