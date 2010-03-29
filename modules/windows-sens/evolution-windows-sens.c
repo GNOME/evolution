@@ -17,7 +17,7 @@
  */
 
 #ifdef __cplusplus
-extern "C" {
+#error This file cannot be built with C++ compiler
 #endif
 
 #define INITGUID
@@ -593,6 +593,3 @@ e_module_unload (GTypeModule *type_module)
 {
 }
 
-#ifdef __cplusplus
-}
-#endif
