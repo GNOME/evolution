@@ -681,11 +681,8 @@ e_file_lock_exists
 e_util_guess_mime_type
 e_util_get_category_filter_options
 e_charset_add_radio_actions
-e_folder_map_local_folders
 e_file_replace_contents_async
 e_file_replace_contents_finish
-e_fsutils_usage
-e_fsutils_avail
 e_mktemp
 e_mkstemp
 e_mkdtemp
