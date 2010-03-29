@@ -2670,7 +2670,7 @@ init_all (EContactEditor *editor)
 		e_builder_get_widget (editor->builder, "vbox-size-leader"), &tab_req);
 	gtk_widget_set_size_request (
 		e_builder_get_widget (editor->builder, "scrolledwindow-size-leader"),
-		tab_req.width, tab_req.height);
+		tab_req.width, tab_req.height + 8);
 }
 
 static void
