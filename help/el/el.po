@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2010-03-27 10:16+0000\n"
-"PO-Revision-Date: 2010-03-28 20:53+0200\n"
-"Last-Translator: Bakaoukas Nikolaos <nikolaosx1@gmail.com>\n"
+"POT-Creation-Date: 2010-03-29 20:23+0000\n"
+"PO-Revision-Date: 2010-03-30 00:14+0200\n"
+"Last-Translator: nikolaosx1 <nikolaos.x1@gmail.com>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,27 +23,18 @@ msgstr "@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:455(None)
-#| msgid ""
-#| "@@image: 'figures/evo_mereceive_a.png'; "
-#| "md5=c3c759f902c2584ee218dc40d6e46806"
 msgid "@@image: 'figures/evo_mereceive_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_mereceive_a.png'; md5=ΑΥΤΟ ΤΟ ΑΡΧΕΙΟ ΔΕΝ ΥΠΑΡΧΕΙ"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:576(None)
-#| msgid ""
-#| "@@image: 'figures/evo_exchng_mapi.png'; "
-#| "md5=9db32b54e61860f405bf574c6d884bbe"
 msgid "@@image: 'figures/evo_exchng_mapi.png'; md5=e994b432c31237e2dc8b5ffaabbd2962"
 msgstr "@@image: 'figures/evo_exchng_mapi.png'; md5=e994b432c31237e2dc8b5ffaabbd2962"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:587(None)
-#| msgid ""
-#| "@@image: 'figures/evo_imapreceive_a.png'; "
-#| "md5=5948a0fbc61dc3b0efa0e4229f1fbf29"
 msgid "@@image: 'figures/evo_imapreceive_a.png'; md5=abaf292ea7b663824123f1f7f171b014"
 msgstr "@@image: 'figures/evo_imapreceive_a.png'; md5=abaf292ea7b663824123f1f7f171b014"
 
@@ -111,18 +102,12 @@ msgstr "@@image: 'figures/contacts_mainwindow_a.png'; md5=41335f17f056cb0b06e3df
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1099(None)
-#| msgid ""
-#| "@@image: 'figures/evo_backup_warning.png'; "
-#| "md5=80e1ce9a9be3f660bdfbae7dd7b9488b"
 msgid "@@image: 'figures/evo_backup_warning.png'; md5=c05e6d67bae4ae0b9e7fcb9701cbdfe6"
 msgstr "@@image: 'figures/evo_backup_warning.png'; md5=c05e6d67bae4ae0b9e7fcb9701cbdfe6"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1107(None)
-#| msgid ""
-#| "@@image: 'figures/evo_backup_prgsbar.png'; "
-#| "md5=046642d35e096154508269063d672b07"
 msgid "@@image: 'figures/evo_backup_prgsbar.png'; md5=9df6295eb38525fbbfc64cb8928d7fb0"
 msgstr "@@image: 'figures/evo_backup_prgsbar.png'; md5=9df6295eb38525fbbfc64cb8928d7fb0"
 
@@ -141,17 +126,12 @@ msgstr "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1299(None)
-#| msgid ""
-#| "@@image: 'figures/evo_mailnotification.png'; "
-#| "md5=3ec09c3f9b49aee5be6f5fc2df69350d"
 msgid "@@image: 'figures/evo_mailnotification.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_mailnotification.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1309(None)
-#| msgid ""
-#| "@@image: 'figures/network_pref.png'; md5=477a6b35cd47e61b32b9aee6451ec2e1"
 msgid "@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
 msgstr "@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
 
@@ -164,17 +144,12 @@ msgstr "@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1524(None)
-#| msgid ""
-#| "@@image: 'figures/evo_newmess_a.png'; md5=7349234fd8d9d8085745b8c101e6e1ce"
 msgid "@@image: 'figures/evo_newmess_a.png'; md5=8d34b2fa682b559f7150e769e0079d17"
 msgstr "@@image: 'figures/evo_newmess_a.png'; md5=8d34b2fa682b559f7150e769e0079d17"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1582(None)
-#| msgid ""
-#| "@@image: 'figures/evo_customheader.png'; "
-#| "md5=469f72793711212ce624d602e08e3a98"
 msgid "@@image: 'figures/evo_customheader.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_customheader.png'; md5=THIS FILE DOESN'T EXIST"
 
@@ -229,9 +204,6 @@ msgstr "@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3457(None)
-#| msgid ""
-#| "@@image: 'figures/evo_contacteditor_a.png'; "
-#| "md5=4f188bd5d34a9fea7d91fdf5fb943f28"
 msgid "@@image: 'figures/evo_contacteditor_a.png'; md5=fba5d6ebd22fceb554dabb0fc8c02cd3"
 msgstr "@@image: 'figures/evo_contacteditor_a.png'; md5=fba5d6ebd22fceb554dabb0fc8c02cd3"
 
@@ -256,54 +228,36 @@ msgstr "@@image: 'figures/evo_Wcal_prop_a.png'; md5=dcd10f32a1ac7cbcb44d67e1a4b7
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4001(None)
-#| msgid ""
-#| "@@image: 'figures/google_cal_view.png'; "
-#| "md5=50704b4e631ffa57879880836f464a51"
 msgid "@@image: 'figures/google_cal_view.png'; md5=e9ad85fb604b18447bcf9be09a540989"
 msgstr "@@image: 'figures/google_cal_view.png'; md5=e9ad85fb604b18447bcf9be09a540989"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4108(None)
-#| msgid ""
-#| "@@image: 'figures/evo_calender_appointmnt.png'; "
-#| "md5=730ed74addbca4b0638f03cbcde99e71"
 msgid "@@image: 'figures/evo_calender_appointmnt.png'; md5=743dd472bfd9dcda1e7f8021dda97114"
 msgstr "@@image: 'figures/evo_calender_appointmnt.png'; md5=743dd472bfd9dcda1e7f8021dda97114"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4641(None)
-#| msgid ""
-#| "@@image: 'figures/evo_cal_prop_a.png'; "
-#| "md5=f28511f098847b4fc9278ba6c54c9c3d"
 msgid "@@image: 'figures/local_ics_calendar.png'; md5=2ff81d975384c97ad1b73e8c66bc407d"
 msgstr "@@image: 'figures/local_ics_calendar.png'; md5=2ff81d975384c97ad1b73e8c66bc407d"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4960(None)
-#| msgid ""
-#| "@@image: 'figures/evo_timezone_a.png'; "
-#| "md5=4ee80aae45be18c238c25329ab5ce59a"
 msgid "@@image: 'figures/evo_memo_a.png'; md5=29e23aefd253747b3a42f182825b75bd"
 msgstr "@@image: 'figures/evo_memo_a.png'; md5=29e23aefd253747b3a42f182825b75bd"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5362(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-mail.png'; "
-#| "md5=fe7f5e7b758b0306998ec477abf790f3"
 msgid "@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
 msgstr "@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5369(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-options.png'; "
-#| "md5=c3c759f902c2584ee218dc40d6e46806"
 msgid "@@image: 'figures/exchng-rec-options.png'; md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 msgstr "@@image: 'figures/exchng-rec-options.png'; md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 
@@ -328,45 +282,30 @@ msgstr "@@image: 'figures/evo_delegate_permission_a.png'; md5=05df38ad69b20f9bd7
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5733(None)
-#| msgid ""
-#| "@@image: 'figures/mailer_preferences.png'; "
-#| "md5=ad0be84fb36edefd01851653b69b65bb"
 msgid "@@image: 'figures/folder_size_preference.png'; md5=8d9067996afa74c865417b5b9171d4c0"
 msgstr "@@image: 'figures/folder_size_preference.png'; md5=8d9067996afa74c865417b5b9171d4c0"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5737(None)
-#| msgid ""
-#| "@@image: 'figures/evo_exchng_mapi.png'; "
-#| "md5=9db32b54e61860f405bf574c6d884bbe"
 msgid "@@image: 'figures/folder_size_mapi.png'; md5=4b20ea9d82999051360f14da27e7c15d"
 msgstr "@@image: 'figures/folder_size_mapi.png'; md5=4b20ea9d82999051360f14da27e7c15d"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6060(None)
-#| msgid ""
-#| "@@image: 'figures/evo_shd_memo_a.png'; "
-#| "md5=dd7069c9f52641dd13101c1dd935feb8"
 msgid "@@image: 'figures/evo_shd_memo_a.png'; md5=9a72b7725da27ce1970592cff67f4bbd"
 msgstr "@@image: 'figures/evo_shd_memo_a.png'; md5=9a72b7725da27ce1970592cff67f4bbd"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6097(None)
-#| msgid ""
-#| "@@image: 'figures/evo_customheader.png'; "
-#| "md5=469f72793711212ce624d602e08e3a98"
 msgid "@@image: 'figures/groupwise_resend.png'; md5=697ce252ac6f3f2f4f361039818d1262"
 msgstr "@@image: 'figures/groupwise_resend.png'; md5=697ce252ac6f3f2f4f361039818d1262"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6113(None)
-#| msgid ""
-#| "@@image: 'figures/evo_sendstatus_a.png'; "
-#| "md5=36ca2211056c859eb776124bfc364705"
 msgid "@@image: 'figures/groupwise_resend_retract.png'; md5=4eac3186389940b8305cf676f9fc3ef4"
 msgstr "@@image: 'figures/groupwise_resend_retract.png'; md5=4eac3186389940b8305cf676f9fc3ef4"
 
@@ -397,35 +336,24 @@ msgstr "@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab581454
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6606(None)
-#| msgid ""
-#| "@@image: 'figures/mailer_preferences.png'; "
-#| "md5=ad0be84fb36edefd01851653b69b65bb"
 msgid "@@image: 'figures/mailer_preferences.png'; md5=d5b47aa5da56ec9b94188e0f71fc43b1"
 msgstr "@@image: 'figures/mailer_preferences.png'; md5=d5b47aa5da56ec9b94188e0f71fc43b1"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6683(None)
-#| msgid ""
-#| "@@image: 'figures/quick_reference.png'; "
-#| "md5=86fe7457150de2e7efe735c10cd324f5"
 msgid "@@image: 'figures/evolution_contact_preference.png'; md5=cfa45a42e19ea3b09587f08990cf178f"
 msgstr "@@image: 'figures/evolution_contact_preference.png'; md5=cfa45a42e19ea3b09587f08990cf178f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6713(None)
-#| msgid ""
-#| "@@image: 'figures/evo_imapheader_a.png'; "
-#| "md5=b11aa6167ce03769ce3084d32f4b4459"
 msgid "@@image: 'figures/evo_imapheader_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "@@image: 'figures/evo_imapheader_a.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6808(None)
-#| msgid ""
-#| "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
 msgid "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 msgstr "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 
@@ -438,26 +366,18 @@ msgstr "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6853(None)
-#| msgid ""
-#| "@@image: 'figures/mailer_preferences.png'; "
-#| "md5=ad0be84fb36edefd01851653b69b65bb"
 msgid "@@image: 'figures/evolution_mail_preference.png'; md5=191c1e890aa1cded550c9579d1af06e9"
 msgstr "@@image: 'figures/evolution_mail_preference.png'; md5=191c1e890aa1cded550c9579d1af06e9"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6884(None)
-#| msgid ""
-#| "@@image: 'figures/evo_junk_a.png'; md5=9ea63d33ed9dae0df3a8a62a85063340"
 msgid "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 msgstr "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6988(None)
-#| msgid ""
-#| "@@image: 'figures/evo_caltasks_a.png'; "
-#| "md5=6f417a9d9081d2a5ebaeb52a32156bcf"
 msgid "@@image: 'figures/evo_caltasks_a.png'; md5=88a894d8414c9205da0a6bab34de018c"
 msgstr "@@image: 'figures/evo_caltasks_a.png'; md5=88a894d8414c9205da0a6bab34de018c"
 
@@ -489,10 +409,10 @@ msgid "2002-2009"
 msgstr "2002-2009"
 
 #: C/evolution.xml:29(revnumber)
-#: C/evolution.xml:37(revnumber)
 #: C/evolution.xml:88(productnumber)
-msgid "2.28"
-msgstr "2.28"
+#| msgid "2.10"
+msgid "2.30"
+msgstr "2.30"
 
 #: C/evolution.xml:30(date)
 #: C/evolution.xml:38(date)
@@ -502,6 +422,10 @@ msgstr "Σεπτέμβριος 2009"
 #: C/evolution.xml:32(para)
 msgid "Akhil Laddha"
 msgstr "Akhil Laddha"
+
+#: C/evolution.xml:37(revnumber)
+msgid "2.28"
+msgstr "2.28"
 
 #: C/evolution.xml:40(para)
 #: C/evolution.xml:48(para)
@@ -547,8 +471,9 @@ msgid "October 5, 2006"
 msgstr "5 Οκτωβρίου 2006"
 
 #: C/evolution.xml:78(releaseinfo)
-msgid "This manual describes version 2.28 of Evolution"
-msgstr "Αυτός ο οδηγός περιγράφει την έκδοση 2.28 του Evolution."
+#| msgid "This manual describes version 2.28 of Evolution"
+msgid "This manual describes version 2.30 of Evolution"
+msgstr "Αυτός ο οδηγός περιγράφει την έκδοση 2.30 του Evolution."
 
 #: C/evolution.xml:82(para)
 msgid "A user's guide to Evolution which explains how to use its mail, calendar, address book, and task list features."
@@ -566,16 +491,21 @@ msgstr "Φεβρουάριος 2008"
 
 #: C/evolution.xml:90(title)
 #: C/evolution.xml:7883(para)
-msgid "Evolution 2.28 User Guide"
-msgstr "Οδηγός χρήστη για το Evolution 2.28"
+#| msgid "Evolution 2.28 User Guide"
+msgid "Evolution 2.30 User Guide"
+msgstr "Οδηγός χρήστη για το Evolution 2.30"
 
 #: C/evolution.xml:95(title)
 msgid "About This Guide"
 msgstr "Περί αυτού του οδηγού"
 
 #: C/evolution.xml:96(para)
-msgid "This guide describes how to use and manage <trademark>Evolution</trademark> 2.28 client software. This guide is intended for users and is divided into the following sections:"
-msgstr "Αυτός ο οδηγός περιγράφει πώς να χρησιμοποιείτε και να διαχειρίζεστε το λογισμικό πελάτη <trademark>Evolution</trademark> 2.28. Αυτός ο οδηγός προορίζεται για χρήστες και χωρίζεται στις ακόλουθες ενότητες:"
+#| msgid ""
+#| "This guide describes how to use and manage <trademark>Evolution</"
+#| "trademark> 2.28 client software. This guide is intended for users and is "
+#| "divided into the following sections:"
+msgid "This guide describes how to use and manage <trademark>Evolution</trademark> 2.30 client software. This guide is intended for users and is divided into the following sections:"
+msgstr "Αυτός ο οδηγός περιγράφει πώς να χρησιμοποιείτε και να διαχειρίζεστε το λογισμικό πελάτη <trademark>Evolution</trademark> 2.30. Αυτός ο οδηγός προορίζεται για χρήστες και χωρίζεται στις ακόλουθες ενότητες:"
 
 #: C/evolution.xml:99(link)
 #: C/evolution.xml:160(title)
@@ -10546,235 +10476,196 @@ msgstr ""
 #~ msgstr ""
 #~ "@@image: 'figures/evo_identity_a.png'; "
 #~ "md5=51fef803bd3083b0b2c2583221d1c151"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_receive_setup_a.png'; "
 #~ "md5=5add6d290b2df212516dda2463930759"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_receive_setup_a.png'; "
 #~ "md5=5add6d290b2df212516dda2463930759"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_backup.png'; md5=45f1608179074557b35d6a31fbd49cec"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_backup.png'; md5=45f1608179074557b35d6a31fbd49cec"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
-
 #~ msgid ""
 #~ "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
 #~ msgstr ""
 #~ "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_custom_header.png'; "
 #~ "md5=10dfa4db26e3354551653fffb9ec23de"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_custom_header.png'; "
 #~ "md5=10dfa4db26e3354551653fffb9ec23de"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_account_editor_a.png'; "
 #~ "md5=39b83104a4e6ecb9473cbb84121e6be3"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_account_editor_a.png'; "
 #~ "md5=39b83104a4e6ecb9473cbb84121e6be3"
-
 #~ msgid ""
 #~ "@@image: 'figures/account_editor_a.png'; "
 #~ "md5=9d0ad61b553325e9a85ea074fa091703"
 #~ msgstr ""
 #~ "@@image: 'figures/account_editor_a.png'; "
 #~ "md5=9d0ad61b553325e9a85ea074fa091703"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_import.png'; md5=e646910f62cd51db9b88edeb336bac6b"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_import.png'; md5=e646910f62cd51db9b88edeb336bac6b"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_import_asst_a.png'; "
 #~ "md5=e86638d0b3a01478fd4f12e33781a8a0"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_import_asst_a.png'; "
 #~ "md5=e86638d0b3a01478fd4f12e33781a8a0"
-
 #~ msgid ""
 #~ "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
 #~ msgstr ""
 #~ "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_select_folder.png'; "
 #~ "md5=7b99ef6be9990bc1c1d869512ae2f617"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_select_folder.png'; "
 #~ "md5=7b99ef6be9990bc1c1d869512ae2f617"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_message_filters_a.png'; "
 #~ "md5=3b7067638063c6aad2c316db838d2273"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_message_filters_a.png'; "
 #~ "md5=3b7067638063c6aad2c316db838d2273"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_edit_rule_a.png'; "
 #~ "md5=0ae423517b27dfd34cfcb54550335fbb"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_edit_rule_a.png'; "
 #~ "md5=0ae423517b27dfd34cfcb54550335fbb"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_select_add_folder.png'; "
 #~ "md5=01d57d01ff1650d91c1d73de1f4301ab"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_select_add_folder.png'; "
 #~ "md5=01d57d01ff1650d91c1d73de1f4301ab"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_googlecontacts.png'; "
 #~ "md5=2357233124d1191cdbb2279f6f998207"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_googlecontacts.png'; "
 #~ "md5=2357233124d1191cdbb2279f6f998207"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_cal_a.png'; md5=08a60dd21a8c52bace4a9d1d606b3ff5"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_cal_a.png'; md5=08a60dd21a8c52bace4a9d1d606b3ff5"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
-
 #~ msgid ""
 #~ "@@image: 'figures/free_busy.png'; md5=e9401be3e2c00fa9389a81aa438bc67d"
 #~ msgstr ""
 #~ "@@image: 'figures/free_busy.png'; md5=e9401be3e2c00fa9389a81aa438bc67d"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_cal_advsearch.png'; "
 #~ "md5=a99f9f9f5c13ba8cf237b7a79a5af7f1"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_cal_advsearch.png'; "
 #~ "md5=a99f9f9f5c13ba8cf237b7a79a5af7f1"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_memo_a.png'; md5=d3e1bb4520b51afabc1b396fdd4ab82c"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_memo_a.png'; md5=d3e1bb4520b51afabc1b396fdd4ab82c"
-
 #~ msgid ""
 #~ "@@image: 'figures/exchng-identity.png'; "
 #~ "md5=51fef803bd3083b0b2c2583221d1c151"
 #~ msgstr ""
 #~ "@@image: 'figures/exchng-identity.png'; "
 #~ "md5=51fef803bd3083b0b2c2583221d1c151"
-
 #~ msgid ""
 #~ "@@image: 'figures/exchng-rec-mails.png'; "
 #~ "md5=29dcaf684be7ea3554afe4f96885bc4e"
 #~ msgstr ""
 #~ "@@image: 'figures/exchng-rec-mails.png'; "
 #~ "md5=29dcaf684be7ea3554afe4f96885bc4e"
-
 #~ msgid ""
 #~ "@@image: 'figures/exchg-identity.png'; "
 #~ "md5=3733884734da6765870c652f1651bbd2"
 #~ msgstr ""
 #~ "@@image: 'figures/exchg-identity.png'; "
 #~ "md5=3733884734da6765870c652f1651bbd2"
-
 #~ msgid ""
 #~ "@@image: 'figures/exchng-rec-option.png'; "
 #~ "md5=6c0f84b7541a044e900d9d7c5fc4a49b"
 #~ msgstr ""
 #~ "@@image: 'figures/exchng-rec-option.png'; "
 #~ "md5=6c0f84b7541a044e900d9d7c5fc4a49b"
-
 #~ msgid ""
 #~ "@@image: 'figures/exchng-settings.png'; "
 #~ "md5=7e82c0934afd2de5fca76c164d6342f4"
 #~ msgstr ""
 #~ "@@image: 'figures/exchng-settings.png'; "
 #~ "md5=7e82c0934afd2de5fca76c164d6342f4"
-
 #~ msgid ""
 #~ "@@image: 'figures/sub-others-folder.png'; "
 #~ "md5=5e385ee9524f93b65b307f83e1888138"
 #~ msgstr ""
 #~ "@@image: 'figures/sub-others-folder.png'; "
 #~ "md5=5e385ee9524f93b65b307f83e1888138"
-
 #~ msgid ""
 #~ "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
 #~ msgstr ""
 #~ "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_identityedit_a.png'; "
 #~ "md5=78418c3f6214b7494c323df12bc6921f"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_identityedit_a.png'; "
 #~ "md5=78418c3f6214b7494c323df12bc6921f"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_gwreceiveedit_a.png'; "
 #~ "md5=3f5fc5b802eba3ef1a68e6ff675577b0"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_gwreceiveedit_a.png'; "
 #~ "md5=3f5fc5b802eba3ef1a68e6ff675577b0"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_gwreceiveoptedit_a.png'; "
 #~ "md5=1c9e818bb39bb288511cf1cebdd83569"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_gwreceiveoptedit_a.png'; "
 #~ "md5=1c9e818bb39bb288511cf1cebdd83569"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_rmdrnotes_a.png'; "
 #~ "md5=ae24ed3554b8359af96ef2374ccd261a"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_rmdrnotes_a.png'; "
 #~ "md5=ae24ed3554b8359af96ef2374ccd261a"
-
 #~ msgid ""
 #~ "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
 #~ msgstr ""
 #~ "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
-
 #~ msgid ""
 #~ "@@image: 'figures/proxy-cal.png'; md5=8e1f3438047198a963e7642d5ff9cac6"
 #~ msgstr ""
 #~ "@@image: 'figures/proxy-cal.png'; md5=8e1f3438047198a963e7642d5ff9cac6"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
-
 #~ msgid ""
 #~ "@@image: 'figures/evo_debuglogs_a.png'; "
 #~ "md5=07f28e4574670558cf11897915b2ce7e"
 #~ msgstr ""
 #~ "@@image: 'figures/evo_debuglogs_a.png'; "
 #~ "md5=07f28e4574670558cf11897915b2ce7e"
-
 #~ msgid "March 2008"
 #~ msgstr "Μάρτιος 2008"
-
 #~ msgid "Resending items"
 #~ msgstr "Επαναποστολή στοιχείων"
-
 #~ msgid "Retracting items"
 #~ msgstr "Απόσυρση στοιχείων"
-
 #~ msgid "Name begins with"
 #~ msgstr "Όνομα αρχίζει με"
 
@@ -11008,3 +10899,4 @@ msgstr ""
 #, fuzzy
 #~ msgid "<computeroutput/>Contact Management"
 #~ msgstr "Διαχείριση Λογαριασμού"
+
