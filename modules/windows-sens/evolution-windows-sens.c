@@ -189,8 +189,6 @@ struct ISensNetwork {
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
 
-#define NUM_ELEMENTS(x) (sizeof((x)) / sizeof((x)[0]))
-
 /* 4E14FB9F-2E22-11D1-9964-00C04FBBB345 */
 DEFINE_GUID(IID_IEventSystem, 0x4E14FB9F, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
 
@@ -489,7 +487,7 @@ windows_sens_constructed (GObject *object)
 
 		unsigned i;
 
-		for (i=0; i<NUM_ELEMENTS(methods); i++) {
+		for (i=0; i<G_N_ELEMENTS(methods); i++) {
 
 			res=CoCreateInstance (&CLSID_CEventSubscription, 0, CLSCTX_SERVER, &IID_IEventSubscription, (LPVOID*)&pEventSubscription);
 
