@@ -343,14 +343,14 @@ e_sens_network_listener_getidsofnames (ISensNetwork *This,
 
 static HRESULT WINAPI
 e_sens_network_listener_invoke (ISensNetwork *This,
-								DISPID        dispIdMember,
-								REFIID        riid,
-								LCID          lcid,
-								WORD          wFlags,
-								DISPPARAMS   *pDispParams,
-								VARIANT      *pVarResult,
-								EXCEPINFO    *pExcepInfo,
-								UINT         *puArgErr)
+                                DISPID        dispIdMember,
+                                REFIID        riid,
+                                LCID          lcid,
+                                WORD          wFlags,
+                                DISPPARAMS   *pDispParams,
+                                VARIANT      *pVarResult,
+                                EXCEPINFO    *pExcepInfo,
+                                UINT         *puArgErr)
 {
 	return E_NOTIMPL;
 }
