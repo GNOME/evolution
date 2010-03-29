@@ -2235,6 +2235,19 @@
               </object>
             </child>
             <child>
+
+              <object class="GtkScrolledWindow" id="scrolledwindow3">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
+	      <child>
+		<object class="GtkViewport" id="viewport3">
+		  <property name="visible">True</property>
+		  <property name="resize_mode">queue</property>
+
+	      <child>
+
               <object class="GtkVBox" id="vbox39">
                 <property name="visible">True</property>
                 <property name="homogeneous">False</property>
@@ -3370,6 +3383,13 @@
                   </packing>
                 </child>
               </object>
+
+	      </child>
+	      </object>
+	      </child>
+
+	      </object>
+
               <packing>
                 <property name="tab_expand">False</property>
                 <property name="tab_fill">True</property>
