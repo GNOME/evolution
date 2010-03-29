@@ -22,9 +22,169 @@ extern "C" {
 
 #define INITGUID
 #include <windows.h>
+#include <rpc.h>
+
+#if defined(_MSC_VER) || defined(__MINGW64_VERSION_MAJOR)
+
 #include <eventsys.h>
 #include <sensevts.h>
-#include <rpc.h>
+
+#else
+
+/* Extract relevant typedefs from mingw-w64 headers */
+
+typedef struct {
+	DWORD dwSize;
+	DWORD dwFlags;
+	DWORD dwOutSpeed;
+	DWORD dwInSpeed;
+} *LPSENS_QOCINFO;
+
+typedef struct IEnumEventObject IEnumEventObject;
+
+const IID IID_IEnumEventObject;
+typedef struct IEnumEventObjectVtbl {
+	BEGIN_INTERFACE
+		HRESULT (WINAPI *QueryInterface)(IEnumEventObject *This,REFIID riid,void **ppvObject);
+		ULONG (WINAPI *AddRef)(IEnumEventObject *This);
+		ULONG (WINAPI *Release)(IEnumEventObject *This);
+		HRESULT (WINAPI *Clone)(IEnumEventObject *This,IEnumEventObject **ppInterface);
+		HRESULT (WINAPI *Next)(IEnumEventObject *This,ULONG cReqElem,IUnknown **ppInterface,ULONG *cRetElem);
+		HRESULT (WINAPI *Reset)(IEnumEventObject *This);
+		HRESULT (WINAPI *Skip)(IEnumEventObject *This,ULONG cSkipElem);
+	END_INTERFACE
+} IEnumEventObjectVtbl;
+struct IEnumEventObject {
+	CONST_VTBL struct IEnumEventObjectVtbl *lpVtbl;
+};
+
+typedef struct IEventObjectCollection IEventObjectCollection;
+
+const IID IID_IEventObjectCollection;
+typedef struct IEventObjectCollectionVtbl {
+	BEGIN_INTERFACE
+		HRESULT (WINAPI *QueryInterface)(IEventObjectCollection *This,REFIID riid,void **ppvObject);
+		ULONG (WINAPI *AddRef)(IEventObjectCollection *This);
+		ULONG (WINAPI *Release)(IEventObjectCollection *This);
+		HRESULT (WINAPI *GetTypeInfoCount)(IEventObjectCollection *This,UINT *pctinfo);
+		HRESULT (WINAPI *GetTypeInfo)(IEventObjectCollection *This,UINT iTInfo,LCID lcid,ITypeInfo **ppTInfo);
+		HRESULT (WINAPI *GetIDsOfNames)(IEventObjectCollection *This,REFIID riid,LPOLESTR *rgszNames,UINT cNames,LCID lcid,DISPID *rgDispId);
+		HRESULT (WINAPI *Invoke)(IEventObjectCollection *This,DISPID dispIdMember,REFIID riid,LCID lcid,WORD wFlags,DISPPARAMS *pDispParams,VARIANT *pVarResult,EXCEPINFO *pExcepInfo,UINT *puArgErr);
+		HRESULT (WINAPI *get__NewEnum)(IEventObjectCollection *This,IUnknown **ppUnkEnum);
+		HRESULT (WINAPI *get_Item)(IEventObjectCollection *This,BSTR objectID,VARIANT *pItem);
+		HRESULT (WINAPI *get_NewEnum)(IEventObjectCollection *This,IEnumEventObject **ppEnum);
+		HRESULT (WINAPI *get_Count)(IEventObjectCollection *This,long *pCount);
+		HRESULT (WINAPI *Add)(IEventObjectCollection *This,VARIANT *item,BSTR objectID);
+		HRESULT (WINAPI *Remove)(IEventObjectCollection *This,BSTR objectID);
+	END_INTERFACE
+} IEventObjectCollectionVtbl;
+struct IEventObjectCollection {
+	CONST_VTBL struct IEventObjectCollectionVtbl *lpVtbl;
+};
+
+
+typedef struct IEventSystem IEventSystem;
+
+const IID IID_IEventSystem;
+typedef struct IEventSystemVtbl {
+	BEGIN_INTERFACE
+		HRESULT (WINAPI *QueryInterface)(IEventSystem *This,REFIID riid,void **ppvObject);
+		ULONG (WINAPI *AddRef)(IEventSystem *This);
+		ULONG (WINAPI *Release)(IEventSystem *This);
+		HRESULT (WINAPI *GetTypeInfoCount)(IEventSystem *This,UINT *pctinfo);
+		HRESULT (WINAPI *GetTypeInfo)(IEventSystem *This,UINT iTInfo,LCID lcid,ITypeInfo **ppTInfo);
+		HRESULT (WINAPI *GetIDsOfNames)(IEventSystem *This,REFIID riid,LPOLESTR *rgszNames,UINT cNames,LCID lcid,DISPID *rgDispId);
+		HRESULT (WINAPI *Invoke)(IEventSystem *This,DISPID dispIdMember,REFIID riid,LCID lcid,WORD wFlags,DISPPARAMS *pDispParams,VARIANT *pVarResult,EXCEPINFO *pExcepInfo,UINT *puArgErr);
+		HRESULT (WINAPI *Query)(IEventSystem *This,BSTR progID,BSTR queryCriteria,int *errorIndex,IUnknown **ppInterface);
+		HRESULT (WINAPI *Store)(IEventSystem *This,BSTR ProgID,IUnknown *pInterface);
+		HRESULT (WINAPI *Remove)(IEventSystem *This,BSTR progID,BSTR queryCriteria,int *errorIndex);
+		HRESULT (WINAPI *get_EventObjectChangeEventClassID)(IEventSystem *This,BSTR *pbstrEventClassID);
+		HRESULT (WINAPI *QueryS)(IEventSystem *This,BSTR progID,BSTR queryCriteria,IUnknown **ppInterface);
+		HRESULT (WINAPI *RemoveS)(IEventSystem *This,BSTR progID,BSTR queryCriteria);
+	END_INTERFACE
+} IEventSystemVtbl;
+struct IEventSystem {
+	CONST_VTBL struct IEventSystemVtbl *lpVtbl;
+};
+
+typedef struct IEventSubscription IEventSubscription;
+
+const IID IID_IEventSubscription;
+typedef struct IEventSubscriptionVtbl {
+	BEGIN_INTERFACE
+		HRESULT (WINAPI *QueryInterface)(IEventSubscription *This,REFIID riid,void **ppvObject);
+		ULONG (WINAPI *AddRef)(IEventSubscription *This);
+		ULONG (WINAPI *Release)(IEventSubscription *This);
+		HRESULT (WINAPI *GetTypeInfoCount)(IEventSubscription *This,UINT *pctinfo);
+		HRESULT (WINAPI *GetTypeInfo)(IEventSubscription *This,UINT iTInfo,LCID lcid,ITypeInfo **ppTInfo);
+		HRESULT (WINAPI *GetIDsOfNames)(IEventSubscription *This,REFIID riid,LPOLESTR *rgszNames,UINT cNames,LCID lcid,DISPID *rgDispId);
+		HRESULT (WINAPI *Invoke)(IEventSubscription *This,DISPID dispIdMember,REFIID riid,LCID lcid,WORD wFlags,DISPPARAMS *pDispParams,VARIANT *pVarResult,EXCEPINFO *pExcepInfo,UINT *puArgErr);
+		HRESULT (WINAPI *get_SubscriptionID)(IEventSubscription *This,BSTR *pbstrSubscriptionID);
+		HRESULT (WINAPI *put_SubscriptionID)(IEventSubscription *This,BSTR bstrSubscriptionID);
+		HRESULT (WINAPI *get_SubscriptionName)(IEventSubscription *This,BSTR *pbstrSubscriptionName);
+		HRESULT (WINAPI *put_SubscriptionName)(IEventSubscription *This,BSTR bstrSubscriptionName);
+		HRESULT (WINAPI *get_PublisherID)(IEventSubscription *This,BSTR *pbstrPublisherID);
+		HRESULT (WINAPI *put_PublisherID)(IEventSubscription *This,BSTR bstrPublisherID);
+		HRESULT (WINAPI *get_EventClassID)(IEventSubscription *This,BSTR *pbstrEventClassID);
+		HRESULT (WINAPI *put_EventClassID)(IEventSubscription *This,BSTR bstrEventClassID);
+		HRESULT (WINAPI *get_MethodName)(IEventSubscription *This,BSTR *pbstrMethodName);
+		HRESULT (WINAPI *put_MethodName)(IEventSubscription *This,BSTR bstrMethodName);
+		HRESULT (WINAPI *get_SubscriberCLSID)(IEventSubscription *This,BSTR *pbstrSubscriberCLSID);
+		HRESULT (WINAPI *put_SubscriberCLSID)(IEventSubscription *This,BSTR bstrSubscriberCLSID);
+		HRESULT (WINAPI *get_SubscriberInterface)(IEventSubscription *This,IUnknown **ppSubscriberInterface);
+		HRESULT (WINAPI *put_SubscriberInterface)(IEventSubscription *This,IUnknown *pSubscriberInterface);
+		HRESULT (WINAPI *get_PerUser)(IEventSubscription *This,WINBOOL *pfPerUser);
+		HRESULT (WINAPI *put_PerUser)(IEventSubscription *This,WINBOOL fPerUser);
+		HRESULT (WINAPI *get_OwnerSID)(IEventSubscription *This,BSTR *pbstrOwnerSID);
+		HRESULT (WINAPI *put_OwnerSID)(IEventSubscription *This,BSTR bstrOwnerSID);
+		HRESULT (WINAPI *get_Enabled)(IEventSubscription *This,WINBOOL *pfEnabled);
+		HRESULT (WINAPI *put_Enabled)(IEventSubscription *This,WINBOOL fEnabled);
+		HRESULT (WINAPI *get_Description)(IEventSubscription *This,BSTR *pbstrDescription);
+		HRESULT (WINAPI *put_Description)(IEventSubscription *This,BSTR bstrDescription);
+		HRESULT (WINAPI *get_MachineName)(IEventSubscription *This,BSTR *pbstrMachineName);
+		HRESULT (WINAPI *put_MachineName)(IEventSubscription *This,BSTR bstrMachineName);
+		HRESULT (WINAPI *GetPublisherProperty)(IEventSubscription *This,BSTR bstrPropertyName,VARIANT *propertyValue);
+		HRESULT (WINAPI *PutPublisherProperty)(IEventSubscription *This,BSTR bstrPropertyName,VARIANT *propertyValue);
+		HRESULT (WINAPI *RemovePublisherProperty)(IEventSubscription *This,BSTR bstrPropertyName);
+		HRESULT (WINAPI *GetPublisherPropertyCollection)(IEventSubscription *This,IEventObjectCollection **collection);
+		HRESULT (WINAPI *GetSubscriberProperty)(IEventSubscription *This,BSTR bstrPropertyName,VARIANT *propertyValue);
+		HRESULT (WINAPI *PutSubscriberProperty)(IEventSubscription *This,BSTR bstrPropertyName,VARIANT *propertyValue);
+		HRESULT (WINAPI *RemoveSubscriberProperty)(IEventSubscription *This,BSTR bstrPropertyName);
+		HRESULT (WINAPI *GetSubscriberPropertyCollection)(IEventSubscription *This,IEventObjectCollection **collection);
+		HRESULT (WINAPI *get_InterfaceID)(IEventSubscription *This,BSTR *pbstrInterfaceID);
+		HRESULT (WINAPI *put_InterfaceID)(IEventSubscription *This,BSTR bstrInterfaceID);
+	END_INTERFACE
+} IEventSubscriptionVtbl;
+struct IEventSubscription {
+	CONST_VTBL struct IEventSubscriptionVtbl *lpVtbl;
+};
+
+typedef struct ISensNetwork ISensNetwork;
+
+const IID IID_ISensNetwork;
+typedef struct ISensNetworkVtbl {
+	BEGIN_INTERFACE
+		HRESULT (WINAPI *QueryInterface)(ISensNetwork *This,REFIID riid,void **ppvObject);
+		ULONG (WINAPI *AddRef)(ISensNetwork *This);
+		ULONG (WINAPI *Release)(ISensNetwork *This);
+		HRESULT (WINAPI *GetTypeInfoCount)(ISensNetwork *This,UINT *pctinfo);
+		HRESULT (WINAPI *GetTypeInfo)(ISensNetwork *This,UINT iTInfo,LCID lcid,ITypeInfo **ppTInfo);
+		HRESULT (WINAPI *GetIDsOfNames)(ISensNetwork *This,REFIID riid,LPOLESTR *rgszNames,UINT cNames,LCID lcid,DISPID *rgDispId);
+		HRESULT (WINAPI *Invoke)(ISensNetwork *This,DISPID dispIdMember,REFIID riid,LCID lcid,WORD wFlags,DISPPARAMS *pDispParams,VARIANT *pVarResult,EXCEPINFO *pExcepInfo,UINT *puArgErr);
+		HRESULT (WINAPI *ConnectionMade)(ISensNetwork *This,BSTR bstrConnection,ULONG ulType,LPSENS_QOCINFO lpQOCInfo);
+		HRESULT (WINAPI *ConnectionMadeNoQOCInfo)(ISensNetwork *This,BSTR bstrConnection,ULONG ulType);
+		HRESULT (WINAPI *ConnectionLost)(ISensNetwork *This,BSTR bstrConnection,ULONG ulType);
+		HRESULT (WINAPI *DestinationReachable)(ISensNetwork *This,BSTR bstrDestination,BSTR bstrConnection,ULONG ulType,LPSENS_QOCINFO lpQOCInfo);
+		HRESULT (WINAPI *DestinationReachableNoQOCInfo)(ISensNetwork *This,BSTR bstrDestination,BSTR bstrConnection,ULONG ulType);
+	END_INTERFACE
+} ISensNetworkVtbl;
+struct ISensNetwork {
+	CONST_VTBL struct ISensNetworkVtbl *lpVtbl;
+};
+
+#define PROGID_EventSubscription OLESTR("EventSystem.EventSubscription")
+
+#endif
 
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>

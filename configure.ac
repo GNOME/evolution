@@ -1149,11 +1149,15 @@ AC_ARG_ENABLE([sens],
 	[AS_HELP_STRING([--enable-sens],
 	[enable Windows SENS support (default=yes)])],
 	[enable_sens=$enableval],[enable_sens=yes])
+if test "x$os_win32" = xyes; then
+	if test "x$enable_sens" = xyes; then
+		AC_CHECK_HEADER([rpc.h],[ enable_sens="yes" ],[ enable_sens="no" ])
+	fi
+else
+	enable_sens="no"
+fi
 AC_MSG_CHECKING([if Windows SENS support is enabled])
 AC_MSG_RESULT([$enable_sens])
-if test "$enable_sens" = yes; then
-	AC_CHECK_HEADERS([eventsys.h sensevts.h rpc.h],[ enable_sens="yes" ],[ enable_sens="no" ])
-fi
 if test "$enable_sens" = yes; then
 	SENS_LIBS="-lole32 -loleaut32 -luuid -lrpcrt4"
 	AC_SUBST(HAVE_SENS)
