@@ -1,3 +1,97 @@
+Evolution 2.30.0 2010-03-29
+----------------------------
+
+What is new ?
+Diligent UI re-architecture to give farewell to bonobo.
+More GNOME 3.0 cleanup tasks. Gets rid of LibGnome, LibGnomeUi, LibArtLgpl, LibGLade.
+Improved imap implementation with live view updates, non-blocking operations and IDLE support, imapx.
+Evolution-mapi with push mail support and reduced memory footprint.
+Contacts map experimental plugin.
+
+Bug Fixes:
+	#610023 - Does not restore "Current View" on startup (Matthew Barnes)
+	#611727 - Date navigator marks dates for inactive calendars
+		  (Matthew Barnes)
+	#612374 - Build failure due to recent GTK+ deprecations (Matthew Barnes)
+	#612679 - Crash when saving to a directory without permission 
+	          (Matthew Barnes)
+	#612619 - Don't mark message as read after folder change (Matthew Barnes)
+	#612792 - Crash when trying to delete WebDav addressbook (Matthew Barnes)
+	#612916 - e_lookup_action() called too early during initialization
+		  (Matthew Barnes)	
+
+Other Changes:
+	Remove unused variables in evolution-shell.pc. (Matthew Barnes)
+	tag-calendar.c cleanups. (Matthew Barnes)
+	ECalendar header cleanup. (Matthew Barnes)
+	Clean up GalView and related classes. (Matthew Barnes)
+	Prevent "message selected" timeouts from piling up. (Matthew Barnes)
+	Add a private struct to EMailReader. (Matthew Barnes)
+	Shell and UI manager cleanups. (Matthew Barnes)
+	Fix runtime warnings when opening calendar for the first time (Milan Crha)
+	Clean up data/Makefile.am (Ross Burton)
+	Don't poke around a GdkWindowObject directly but use gdk_window_get_parent
+	(Ross Burton)
+	Add missing includes so that -Werror builds don't fail (Ross Burton)
+	Fix missing linker flags in the correct Makefile.am. (Matthew Barnes)
+	Add generic 'express mode' conditionals to the UI XML (Michael Meeks)
+	Add 'express mode' gconf setting (Michael Meeks)
+	Clean up the 'express' mode hooks for UI Managers (Michael Meeks)
+	Restructure capplet stuffs and load only on express mode.
+	(Srinivasa Ragavan)
+	Integrate into new account button. (Srinivasa Ragavan)
+	Integrate account assistant wizard to anjal style. (Srinivasa Ragavan)
+	Integrate anjal's account capplet lib in start up wizard.
+	(Srinivasa Ragavan)
+	Fix POTFILEs to include capplet. (Srinivasa Ragavan)
+	Libify settings capplet. (Srinivasa Ragavan)
+	In express mode, give the accounts first place than on this computer.
+	(Srinivasa Ragavan)
+	Start the mailer's folder sidebar with a reasonable width
+	(Federico Mena Quintero)
+	Update win32 directory relocation and some consistency cleanup
+        (Fridrich Strba)
+	Use proper URIs in markup and be consistent in directory names 
+	(Fridrich Strba)
+	Disabling Gnome schemas for windows (Fridrich Strba)
+
+Translations:
+	Matej Urbančič (sl)
+	Åsmund Skjæveland (nn)
+	Priit Laes (et)
+	Alexander Shopov (bg)
+	Inaki Larranaga Murgoitio (eu)
+	David Planella (ca)
+	Changwoo Ryu (ko)
+	Fran Diéguez (gl)
+	Kenneth Nielsen (da)
+	Daniel Nylander (sv)
+	Jorge González (es)
+	Nils-Christoph Fiedler (nds)
+	Duarte Loreto (pt)
+	Leonid Kanter (ru)
+	Bruce Cowan (en_GB)
+	Luca Ferrett (it)
+	Djavan Fagundes (pt_BR)
+	Rodrigo Flores (pt_BR)
+	Claude Paroz (fr)
+	Bruno Brouard (fr)
+	Chao-Hsiung Liao (zh_HK)
+	A S Alam (pa)
+	Žygimantas Beručka (lt)
+	Adi Roiban (ro)
+	Игор Несторовић (sr)
+	Kostas Papadimas (el)
+	Μάριος Ζηντίλης (el)
+	Nikos Bakaoukas (el)	
+	Christian Kirbach (de)
+	Jamil Ahmed (bn)
+	Maxim V. Dziumanenko (uk)
+	Gabor Kelemen (hu)
+	Kjartan Maraas (nb)
+	Jiri Eischmann (cs)
+	Lucas Lommer (cs)
+
 Evolution 2.29.92 2010-03-08
 ----------------------------
 
