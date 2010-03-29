@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
  <!ENTITY appname "Evolution" >
- <!ENTITY appversion "2.28" >
+ <!ENTITY appversion "2.30" >
  <!ENTITY z-3rdParty "*" >
  <!ENTITY z-SM "(SM)" >
  <!ENTITY z-CM "(CM)" >
