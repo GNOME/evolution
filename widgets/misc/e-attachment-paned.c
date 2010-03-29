@@ -619,10 +619,15 @@ attachment_paned_init (EAttachmentPaned *paned)
 
 	/* Request the width to be as large as possible, and let the
 	 * GtkExpander allocate what space there is.  This effectively
-	 * packs the widget to expand. */
+	 * packs the widget to expand.
+	 *
+	 * XXX This hack causes nasty side-effects in RTL locales,
+	 *     so check the reading direction before applying it.
+	 *     See GNOME bug #614049 for details + screenshot. */
 	widget = gtk_hbox_new (FALSE, 6);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_widget_set_size_request (widget, G_MAXINT, -1);
+	if (gtk_widget_get_direction (widget) != GTK_TEXT_DIR_RTL)
+		gtk_widget_set_size_request (widget, G_MAXINT, -1);
 	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
 	gtk_widget_show (widget);
 
