@@ -1663,10 +1663,6 @@ msg_composer_constructed (GObject *object)
 
 	/* Honor User Preferences */
 
-	active = e_shell_settings_get_boolean (
-		shell_settings, "composer-format-html");
-	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), active);
-
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
 	active = e_shell_settings_get_boolean (
 		shell_settings, "composer-request-receipt");
