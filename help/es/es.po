@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-31 14:05+0000\n"
-"PO-Revision-Date: 2010-01-31 17:47+0100\n"
+"POT-Creation-Date: 2010-03-29 20:23+0000\n"
+"PO-Revision-Date: 2010-03-30 08:52+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -565,10 +565,10 @@ msgstr "Novell, Inc"
 msgid "2002-2009"
 msgstr "2002-2009"
 
-#: C/evolution.xml:29(revnumber) C/evolution.xml:37(revnumber)
-#: C/evolution.xml:88(productnumber)
-msgid "2.28"
-msgstr "2.28"
+#: C/evolution.xml:29(revnumber) C/evolution.xml:88(productnumber)
+#| msgid "2.10"
+msgid "2.30"
+msgstr "2.30"
 
 #: C/evolution.xml:30(date) C/evolution.xml:38(date)
 msgid "September 2009"
@@ -577,6 +577,10 @@ msgstr "Septiembre de 2009"
 #: C/evolution.xml:32(para)
 msgid "Akhil Laddha"
 msgstr "Akhil Laddha"
+
+#: C/evolution.xml:37(revnumber)
+msgid "2.28"
+msgstr "2.28"
 
 #: C/evolution.xml:40(para) C/evolution.xml:48(para) C/evolution.xml:56(para)
 #: C/evolution.xml:72(para)
@@ -620,8 +624,9 @@ msgid "October 5, 2006"
 msgstr "5 de octubre de 2006"
 
 #: C/evolution.xml:78(releaseinfo)
-msgid "This manual describes version 2.28 of Evolution"
-msgstr "Este manual describe la versión 2.28 de Evolution"
+#| msgid "This manual describes version 2.28 of Evolution"
+msgid "This manual describes version 2.30 of Evolution"
+msgstr "Este manual describe la versión 2.30 de Evolution"
 
 #: C/evolution.xml:82(para)
 msgid ""
@@ -641,21 +646,26 @@ msgid "February 2008"
 msgstr "Febrero de 2008"
 
 #: C/evolution.xml:90(title) C/evolution.xml:7883(para)
-msgid "Evolution 2.28 User Guide"
-msgstr "Guía de usuario de Evolution 2.28"
+#| msgid "Evolution 2.28 User Guide"
+msgid "Evolution 2.30 User Guide"
+msgstr "Guía de usuario de Evolution 2.30"
 
 #: C/evolution.xml:95(title)
 msgid "About This Guide"
 msgstr "Acerca de esta guía"
 
 #: C/evolution.xml:96(para)
+#| msgid ""
+#| "This guide describes how to use and manage <trademark>Evolution</"
+#| "trademark> 2.28 client software. This guide is intended for users and is "
+#| "divided into the following sections:"
 msgid ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.28 client software. This guide is intended for users and is divided into "
+"2.30 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
 "Esta guía describe cómo usar y gestionar el cliente de <trademark>Evolution</"
-"trademark> 2.28. Esta guía está dirigida a los usuarios y se divide en las "
+"trademark> 2.30. Esta guía está dirigida a los usuarios y se divide en las "
 "siguientes secciones:"
 
 #: C/evolution.xml:99(link) C/evolution.xml:160(title)
@@ -5975,9 +5985,6 @@ msgid "vCalendar:"
 msgstr "vCalendar:"
 
 #: C/evolution.xml:2545(para)
-#| msgid ""
-#| "A format for storing calender files, which is generally used by "
-#| "Evolution, Microsoft Outlook, Sunbird, and Korganizer."
 msgid ""
 "A format for storing calendar files, which is generally used by Evolution, "
 "Microsoft Outlook, Sunbird, and Korganizer."
@@ -9055,10 +9062,6 @@ msgid "Weather Calendar"
 msgstr "Calendario meteorológico"
 
 #: C/evolution.xml:3991(para)
-#| msgid ""
-#| "In the Properties of a Weather calendar you can specify a location for "
-#| "the weather calender. Click Location to select any world-wide location "
-#| "for the calendar."
 msgid ""
 "In the Properties of a Weather calendar you can specify a location for the "
 "weather calendar. Click Location to select any world-wide location for the "
@@ -9234,8 +9237,6 @@ msgstr ""
 "vista del calendario sobre la que haya pulsado dos veces."
 
 #: C/evolution.xml:4103(para)
-#| msgid ""
-#| "Select the required duration on the calender view and enter the summary."
 msgid ""
 "Select the required duration on the calendar view and enter the summary."
 msgstr ""
@@ -12037,10 +12038,6 @@ msgstr ""
 "o en el buzón de correo de ningún otro usuario."
 
 #: C/evolution.xml:6025(para)
-#| msgid ""
-#| "Evolution integrates this feature into its Memo component so that you can "
-#| "view the Reminder notes listed under Memo at the right bottom side of the "
-#| "calender view."
 msgid ""
 "Evolution integrates this feature into its Memo component so that you can "
 "view the Reminder notes listed under Memo at the right bottom side of the "
@@ -16169,7 +16166,7 @@ msgstr ""
 #: C/evolution.xml:0(None)
 msgid "translator-credits"
 msgstr ""
-"Jorge González <jorgegonz@svn.gnome.org>, 2007-2009\n"
+"Jorge González <jorgegonz@svn.gnome.org>, 2007-2010\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
 #~ msgid ""
