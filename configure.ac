@@ -1,7 +1,7 @@
 dnl Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [30])
-m4_define([evo_micro_version], [0])
+m4_define([evo_micro_version], [0.1])
 m4_define([evo_version],
 	[evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -37,7 +37,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl Required Packages
 m4_define([glib_minimum_version], [2.22.0])
 m4_define([gtk_minimum_version], [2.18.0])
-m4_define([eds_minimum_version], [evo_version])
+m4_define([eds_minimum_version], [2.30.0])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libgtkhtml_minimum_version], [3.29.6])
