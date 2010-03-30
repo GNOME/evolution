@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-21 21:14+0100\n"
-"PO-Revision-Date: 2010-03-21 22:01+0100\n"
+"POT-Creation-Date: 2010-03-30 08:42+0200\n"
+"PO-Revision-Date: 2010-03-30 08:46+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -3772,7 +3772,7 @@ msgstr "_Infoga"
 #: ../calendar/gui/dialogs/comp-editor.c:1044
 #: ../composer/e-composer-actions.c:351
 msgid "_Options"
-msgstr "_Alternativ"
+msgstr "A_lternativ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1051
 #: ../mail/e-mail-browser.c:159
@@ -6221,11 +6221,11 @@ msgstr "iCalendar-information"
 
 #: ../calendar/gui/itip-utils.c:832
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr ""
+msgstr "Kunde inte boka en resurs, det nya evenemanget kolliderar med något annat."
 
 #: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
-msgstr ""
+msgstr "Kunde inte boka en resurs. Fel: "
 
 #: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
@@ -13283,9 +13283,8 @@ msgid "If you delete the folder, all of its contents and its subfolders contents
 msgstr "Om du tar bort denna mapp kommer hela dess innehåll och innehållet i alla dess undermappar att tas bort permanent."
 
 #: ../mail/mail.error.xml.h:61
-#, fuzzy
 msgid "If you delete the folder, all of its contents will be deleted permanently."
-msgstr "Om du tar bort denna mapp kommer hela dess innehåll och innehållet i alla dess undermappar att tas bort permanent."
+msgstr "Om du tar bort mappen så kommer allt dess innehåll att tas bort permanent."
 
 #: ../mail/mail.error.xml.h:62
 msgid "If you proceed, all proxy accounts will be deleted permanently."
@@ -14540,7 +14539,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:742
 msgid "This widget displays a miniature calendar"
-msgstr ""
+msgstr "Denna widget visar en miniatyrkalender"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:751
 msgid "Default Calendar Client"
@@ -14548,11 +14547,11 @@ msgstr "Standardklient för kalendrar"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:752
 msgid "Default client for calendar operations"
-msgstr ""
+msgstr "Standardklient för kalenderåtgärder"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:762
 msgid "This widget displays groups of calendars"
-msgstr ""
+msgstr "Denna widget visar grupper av kalendrar"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:950
@@ -14990,7 +14989,7 @@ msgstr "Standardklient för memoåtgärder"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:688
 msgid "This widget displays groups of memo lists"
-msgstr ""
+msgstr "Denna widget visar grupper av memolistor"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-memo-shell-sidebar.c:868
@@ -15154,7 +15153,7 @@ msgstr "Standardklient för uppgiftsåtgärder"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:688
 msgid "This widget displays groups of task lists"
-msgstr ""
+msgstr "Denna widget visar grupper av uppgiftslistor"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-task-shell-sidebar.c:868
@@ -16435,9 +16434,8 @@ msgid "Mark as _default address book"
 msgstr "Markera som _standardadressbok"
 
 #: ../plugins/default-source/default-source.c:88
-#, fuzzy
 msgid "A_utocomplete with this address book"
-msgstr "Visa automatiskt kompletterat namn med en adress"
+msgstr "Ko_mplettera automatiskt med denna adressbok"
 
 #: ../plugins/default-source/default-source.c:97
 msgid "Mark as _default calendar"
@@ -20711,7 +20709,7 @@ msgstr "Dölj _bilageraden"
 msgid "Show Attachment _Bar"
 msgstr "Visa _bilageraden"
 
-#: ../widgets/misc/e-attachment-paned.c:631
+#: ../widgets/misc/e-attachment-paned.c:636
 msgid "Show _Attachment Bar"
 msgstr "Visa _bilageraden"
 
@@ -21316,15 +21314,14 @@ msgid "Add _Script"
 msgstr "Lägg till _skript"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"Utdata från detta skript kommer att användas som\n"
-"din signatur. Namnet du anger kommer endast att\n"
-"användas för visning."
+"Utdata från detta skript kommer att användas\n"
+"som din signatur. Namnet du anger kommer\n"
+"endast att användas för visning."
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
 msgid "S_cript:"
