@@ -502,7 +502,11 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
-}
+	
+	if(e_shell_get_express_mode(e_shell_get_default()))
+		shell_view_class->construct_searchbar = NULL;
+
+}	
 
 static void
 cal_shell_view_init (ECalShellView *cal_shell_view,
