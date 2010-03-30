@@ -413,12 +413,23 @@ mail_shell_backend_window_created_cb (EShell *shell,
 
 	/* This applies to both the composer and signature editor. */
 	if (GTKHTML_IS_EDITOR (window)) {
+		EShellSettings *shell_settings;
 		GList *spell_languages;
+		gboolean active = TRUE;
 
 		spell_languages = e_load_spell_languages ();
 		gtkhtml_editor_set_spell_languages (
 			GTKHTML_EDITOR (window), spell_languages);
 		g_list_free (spell_languages);
+
+		shell_settings = e_shell_get_shell_settings (shell);
+
+		/* Express mode does not honor this setting. */
+		if (!e_shell_get_express_mode (shell))
+			active = e_shell_settings_get_boolean (
+				shell_settings, "composer-format-html");
+
+		gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (window), active);
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {

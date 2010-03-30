@@ -835,7 +835,6 @@ emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	GtkWidget *editor;
-	gboolean html_mode;
 	gpointer parent;
 
 	shell = e_shell_get_default ();
@@ -844,11 +843,7 @@ emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
 	parent = gtk_widget_get_toplevel (widget);
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	html_mode = e_shell_settings_get_boolean (
-		shell_settings, "composer-format-html");
-
 	editor = e_signature_editor_new ();
-	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (editor), html_mode);
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 	gtk_widget_show (editor);
 }

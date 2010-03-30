@@ -398,10 +398,15 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	/* General tab */
 
 	/* Default Behavior */
+
+	/* Express mode does not honor this setting. */
 	widget = e_builder_get_widget (prefs->builder, "chkSendHTML");
-	e_mutual_binding_new (
-		shell_settings, "composer-format-html",
-		widget, "active");
+	if (e_shell_get_express_mode (shell))
+		gtk_widget_hide (widget);
+	else
+		e_mutual_binding_new (
+			shell_settings, "composer-format-html",
+			widget, "active");
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
 	e_mutual_binding_new (
@@ -517,9 +522,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "editor-created",
 		G_CALLBACK (e_shell_watch_window), shell);
 
-	e_binding_new (
-		shell_settings, "composer-format-html",
-		widget, "prefer-html");
+	/* Express mode does not honor this setting. */
+	if (!e_shell_get_express_mode (shell))
+		e_binding_new (
+			shell_settings, "composer-format-html",
+			widget, "prefer-html");
 
 #ifndef G_OS_WIN32
 	e_binding_new_with_negation (
