@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-30 08:42+0200\n"
-"PO-Revision-Date: 2010-03-30 08:46+0100\n"
+"PO-Revision-Date: 2010-03-30 17:56+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -4304,7 +4304,7 @@ msgstr "Sluttiden för upprepningen var före evenemangets starttid"
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:962
 msgid "on"
-msgstr "vid"
+msgstr "på"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -5235,7 +5235,7 @@ msgstr "En okänd person"
 
 #: ../calendar/gui/e-itip-control.c:1132
 msgid "<br> Please review the following information, and then select an action from the menu below."
-msgstr "<br> Granska följande information, och välj sedan en åtgärd från menyn nedan."
+msgstr "<br> Granska följande information och välj sedan en åtgärd från menyn nedan."
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
@@ -9827,9 +9827,8 @@ msgid "_Flag Completed"
 msgstr "_Flagga som färdig"
 
 #: ../mail/e-mail-reader.c:1222
-#, fuzzy
 msgid "Set the follow-up flag to completed on the selected messages"
-msgstr "Markera alla meddelanden i samma tråd som det markerade meddelandet"
+msgstr "Ställ in uppföljningsflaggan till färdig på alla markerade meddelanden"
 
 #: ../mail/e-mail-reader.c:1227
 msgid "Follow _Up..."
@@ -10273,7 +10272,7 @@ msgstr "Svara"
 
 #: ../mail/e-mail-tag-editor.c:292
 msgid "Flag to Follow Up"
-msgstr "Flagga att följa upp"
+msgstr "Flagga för uppföljning"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
