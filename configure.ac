@@ -1,7 +1,7 @@
 dnl Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [30])
-m4_define([evo_micro_version], [0.1])
+m4_define([evo_micro_version], [1])
 m4_define([evo_version],
 	[evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -14,7 +14,7 @@ dnl Bonobo server files.  This should always be the major/minor of
 dnl the stable version or stable version to be.  Note, this is set
 dnl the way it is so that GETTEXT_PACKAGE will be parsed correctly.
 BASE_VERSION=2.30
-m4_define([base_version], [2.30])
+m4_define([base_version], [evo_version])
 
 dnl Upgrade Revision: This is for triggering migration calls between
 dnl varying versions. Reset to 0 whenever BASE_VERSION changes.
