@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -47,12 +47,16 @@ typedef struct _MailCappletShellClass {
 	GtkWindowClass parent_class;
 
 	void (* ctrl_w_pressed)    (MailCappletShell *class);
-	void (* ctrl_q_pressed)    (MailCappletShell *class);	
+	void (* ctrl_q_pressed)    (MailCappletShell *class);
 } MailCappletShellClass;
 
-MailCappletShell * mail_capplet_shell_new (int socket_id, gboolean just_druid, gboolean main_loop);
-int mail_capplet_shell_toolbar_height (MailCappletShell *shell);
+GType		mail_capplet_shell_get_type	(void);
+MailCappletShell *
+		mail_capplet_shell_new		(gint socket_id,
+						 gboolean just_druid,
+						 gboolean main_loop);
+gint		mail_capplet_shell_toolbar_height
+						(MailCappletShell *shell);
 
 #endif
-
 

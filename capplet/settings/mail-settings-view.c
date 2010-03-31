@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -49,7 +49,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
 
 static void msv_regen_view (MailSettingsView *acview);
 
@@ -92,7 +91,7 @@ mail_settings_view_class_init (MailSettingsViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-	
+
 }
 
 static void
@@ -125,19 +124,18 @@ msv_account_added (EAccountList *al, EAccount *account, MailSettingsView *msv)
 
 #define PACK_BOX(w,s) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, s); gtk_widget_show(box); gtk_widget_show(w); gtk_box_pack_start((GtkBox *)acview->priv->box, box, FALSE, FALSE, 3);
 
-
 static void
 build_account_button (MailSettingsView *acview, EAccount *account)
 {
 	GtkWidget *box, *box1, *label, *tbox, *tlabel;
-	char *tmp;
-	
+	gchar *tmp;
+
 	box1 = gtk_hbox_new (FALSE, 0);
 	gtk_widget_show (box1);
 
 	label = gtk_button_new ();
 	tbox = gtk_hbox_new (FALSE, 0);
-	
+
 	if (FALSE) {
 		tlabel = (GtkWidget *)gtk_image_new_from_stock (account ? "gtk-edit" : "gtk-new", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_show(tlabel);
@@ -171,7 +169,7 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 	PACK_BOX(box1,24);
 }
 
-static void 
+static void
 msv_regen_view (MailSettingsView *acview)
 {
 	struct _EAccount *account;
@@ -195,7 +193,7 @@ msv_regen_view (MailSettingsView *acview)
 	build_account_button (acview, NULL);
 }
 
-void
+static void
 mail_settings_view_construct (MailSettingsView *acview)
 {
 	acview->priv->scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -221,7 +219,7 @@ mail_settings_view_new ()
 	view->uri = "settings://";
 
 	mail_settings_view_construct (view);
-	
+
 	return view;
 }
 
@@ -242,10 +240,8 @@ msv_btn_expose (GtkWidget *w, GdkEventExpose *event, MailSettingsView *mfv)
 static void
 msv_close (GtkButton *w, MailSettingsView *mfv)
 {
-	g_signal_emit (mfv, signals[VIEW_CLOSE], 0);			
+	g_signal_emit (mfv, signals[VIEW_CLOSE], 0);
 }
-
-
 
 GtkWidget *
 mail_settings_view_get_tab_widget(MailSettingsView *mcv)
@@ -253,19 +249,19 @@ mail_settings_view_get_tab_widget(MailSettingsView *mcv)
 	GdkPixbuf *pbuf = gtk_widget_render_icon ((GtkWidget *)mcv, "gtk-close", GTK_ICON_SIZE_MENU, NULL);
 
 	GtkWidget *tool, *box, *img;
-	int w=-1, h=-1;
+	gint w=-1, h=-1;
 	GtkWidget *tab_label;
 
 	img = gtk_image_new_from_pixbuf (pbuf);
 	g_object_set_data ((GObject *)img, "pbuf", pbuf);
 	g_signal_connect (img, "expose-event", G_CALLBACK(msv_btn_expose), mcv);
-	
+
 	tool = gtk_button_new ();
 	gtk_button_set_relief((GtkButton *)tool, GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click ((GtkButton *)tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
 	g_signal_connect (tool, "clicked", G_CALLBACK(msv_close), mcv);
-	
+
 	box = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)box, img, FALSE, FALSE, 0);
 	gtk_container_add ((GtkContainer *)tool, box);
@@ -276,13 +272,13 @@ mail_settings_view_get_tab_widget(MailSettingsView *mcv)
 	box = gtk_label_new (_("Settings"));
 	tab_label = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 0);
-#ifndef ANJAL_SETTINGS	
+#ifndef ANJAL_SETTINGS
 	gtk_box_pack_start ((GtkBox *)tab_label, tool, FALSE, FALSE, 0);
-#endif	
+#endif
 	gtk_widget_show_all (tab_label);
 
 	return tab_label;
-	
+
 }
 
 void

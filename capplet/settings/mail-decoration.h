@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -28,7 +28,6 @@
 #define _MAIL_DECORATION_ 
 
 #include <gtk/gtk.h>
-
 
 #define MAIL_DECORATION_TYPE \
 	(mail_decoration_get_type ())
@@ -53,7 +52,7 @@ typedef struct _MailDecorationClass MailDecorationClass;
 typedef struct _MailDecorationPrivate MailDecorationPrivate;
 
 struct _MailDecoration {
-        GObject parent; 
+        GObject parent;
 
 	GtkWindow *window;
 	MailDecorationPrivate *priv;
@@ -63,7 +62,7 @@ struct _MailDecorationClass {
 	GObjectClass parent_class;
 };
 
-MailDecoration *mail_decoration_new(GtkWindow *);
-
+GType		mail_decoration_get_type	(void);
+MailDecoration *mail_decoration_new		(GtkWindow *);
 
 #endif

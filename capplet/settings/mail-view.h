@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -52,7 +52,7 @@ typedef struct _MailView {
 	GtkWidget *folder_tree;
 	GtkWidget *slider;
 	GtkWidget *check_mail;
-	GtkWidget *sort_by; 
+	GtkWidget *sort_by;
 	MailViewPrivate *priv;
 	EShellView *shell_view;
 } MailView;
@@ -60,7 +60,7 @@ typedef struct _MailView {
 typedef struct _MailViewClass {
 	AnjalMailViewClass parent_class;
 	void (* view_new) (MailView*);
-	
+
 } MailViewClass;
 
 typedef enum {
@@ -69,13 +69,14 @@ typedef enum {
 
 typedef struct _MailViewChild {
 	GtkVBox parent;
-	int type;
-	char *uri;
+	gint type;
+	gchar *uri;
 	MailViewFlags flags;
 }MailViewChild;
 
+GType mail_view_get_type (void);
 MailView * mail_view_new (void);
-void  mail_view_set_folder_uri (MailView *mv, const char *uri);
+void  mail_view_set_folder_uri (MailView *mv, const gchar *uri);
 void mail_view_show_sort_popup (MailView *mv, GtkWidget *);
 void mail_view_show_list (MailView *mv);
 void mail_view_close_view (MailView *mv);
@@ -86,7 +87,7 @@ void mail_view_set_folder_tree_widget (MailView *mv, GtkWidget *tree);
 void mail_view_set_folder_tree (MailView *mv, GtkWidget *tree);
 void mail_view_save (MailView *mv);
 MailViewChild * mail_view_add_page (MailView *mv, guint16 type, gpointer data);
-void mail_view_set_search (MailView *view, const char *search);
+void mail_view_set_search (MailView *view, const gchar *search);
 void mail_view_set_slider (MailView *mv, GtkWidget *slider);
 void mail_view_init_search (MailView *mv, GtkWidget *search);
 void mail_view_switch_to_people (MailView* mv, MailViewChild *mpv);

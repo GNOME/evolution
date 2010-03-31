@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -60,12 +60,10 @@ typedef struct _MAVPage {
 	gboolean done;
 }MAVPage;
 
-
-
 typedef struct _MailAccountView {
 	GtkVBox parent;
-	int type;
-	char *uri;
+	gint type;
+	const gchar *uri;
 	MailViewFlags flags;
 	/* Base class of MailChildView ends */
 
@@ -75,7 +73,7 @@ typedef struct _MailAccountView {
 	MAVPage *pages[6];
 	struct _EAccount *original;
 	GtkWidget *wpages[6];
-	int current_page;
+	gint current_page;
 	struct _EMAccountEditor *edit;
 
 	MailAccountViewPrivate *priv;
@@ -84,10 +82,11 @@ typedef struct _MailAccountView {
 typedef struct _MailAccountViewClass {
 	GtkVBoxClass parent_class;
 
-	void (* view_close) (MailAccountView *);	
+	void (* view_close) (MailAccountView *);
 
 } MailAccountViewClass;
 
+GType mail_account_view_get_type (void);
 MailAccountView *mail_account_view_new (EAccount *account);
 GtkWidget * mail_account_view_get_tab_widget(MailAccountView *mcv);
 void mail_account_view_activate (MailAccountView *mcv, GtkWidget *tree, GtkWidget *folder_tree, GtkWidget *check_mail, GtkWidget *sort_by, gboolean act);

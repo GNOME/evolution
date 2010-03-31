@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,27 +50,15 @@ typedef struct _AnjalMailViewClass {
 	void (*set_folder_tree) (AnjalMailView *mail_view,
 				EMFolderTree *tree);
 	void (*set_search) (AnjalMailView *mail_view,
-				const char *search);
+				const gchar *search);
 	void (* init_search) (AnjalMailView *mail_view, GtkWidget *search);
 } AnjalMailViewClass;
 
 GType anjal_mail_view_get_type (void);
 AnjalMailView * anjal_mail_view_new (void);
-void  anjal_mail_view_set_folder_uri (AnjalMailView *mv, const char *uri);
-#if 0
-void anjal_mail_view_show_sort_popup (AnjalMailView *mv, GtkWidget *);
-void anjal_anjal_mail_view_show_list (AnjalMailView *mv);
-void anjal_mail_view_close_view (AnjalMailView *mv);
-void anjal_mail_view_set_check_email (AnjalMailView *mv, GtkWidget *button);
-void anjal_mail_view_set_sort_by  (AnjalMailView *mv, GtkWidget *button);
-void anjal_mail_view_check_mail(AnjalMailView *mv, gboolean deep);
-void anjal_mail_view_save (AnjalMailView *mv);
-void anjal_mail_view_set_slider (AnjalMailView *mv, GtkWidget *slider);
-void anjal_mail_view_switch_to_people (AnjalMailView* mv, MailViewChild *mpv);
-void anjal_mail_view_switch_to_settings (AnjalMailView* mv, MailViewChild *mpv);
-#endif
+void  anjal_mail_view_set_folder_uri (AnjalMailView *mv, const gchar *uri);
 void anjal_mail_view_set_folder_tree_widget (AnjalMailView *mv, GtkWidget *tree);
 void anjal_mail_view_set_folder_tree (AnjalMailView *mv, GtkWidget *tree);
-void anjal_mail_view_set_search (AnjalMailView *view, const char *search);
+void anjal_mail_view_set_search (AnjalMailView *view, const gchar *search);
 void anjal_mail_view_init_search (AnjalMailView *mv, GtkWidget *search);
 #endif
