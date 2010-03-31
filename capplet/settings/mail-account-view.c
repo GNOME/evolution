@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,8 +50,8 @@ enum {
 };
 
 struct _dialog_errors {
-	int error;
-	char *detail;
+	gint error;
+	const gchar *detail;
 } dialog_errors[] = {
 	{ ERROR_NO_FULLNAME, N_("Please enter your full name.") },
 	{ ERROR_NO_EMAIL, N_("Please enter your email address.") },
@@ -90,7 +90,7 @@ mail_account_view_class_init (MailAccountViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	
+
 }
 
 #ifdef NOT_USED
@@ -101,21 +101,21 @@ enum {
 	AOL
 };
 struct _server_prefill {
-	char *key;
-	char *recv;
-	char *send;
-	char *proto;
-	char *ssl;
+	gchar *key;
+	gchar *recv;
+	gchar *send;
+	gchar *proto;
+	gchar *ssl;
 } std_server [] = {
 	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
 	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
 	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},
 	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never"}
 };
-static int
-check_servers (char *server)
+static gint
+check_servers (gchar *server)
 {
-	int len = G_N_ELEMENTS(std_server), i;
+	gint len = G_N_ELEMENTS(std_server), i;
 
 	for (i=0; i<len; i++) {
 		if (strstr(server, std_server[i].key) != NULL)
@@ -124,67 +124,24 @@ check_servers (char *server)
 
 	return -1;
 }
-#endif 
+#endif
 static void
 save_identity (MailAccountView *view)
 {
-#if 0	
-	if (!view->original) {
-		char *tmp = e_account_get_string(view->edit->account, E_ACCOUNT_ID_ADDRESS);
-		char **token;
-		int index; 
-
-		if (tmp && *tmp) {
-			token = g_strsplit (tmp, "@", 2);
-			index = check_servers(token[1]);
-	
-			if (index != -1) {
-				char *uri = e_account_get_string(view->edit->account, E_ACCOUNT_SOURCE_URL);
-				CamelURL *url;
-				if (uri == NULL || (url = camel_url_new(uri, NULL)) == NULL)
-					return;
-				
-				if (strcmp(url->protocol, std_server[index].proto)) {
-					camel_url_set_protocol (url, std_server[index].proto);
-					g_datalist_clear (&url->params);
-				}
-				camel_url_set_param(url, "use_ssl", std_server[index].ssl);
-				camel_url_set_host (url, std_server[index].recv);
-				camel_url_set_user (url, token[0]);
-				uri = camel_url_to_string(url, 0);
-				e_account_set_string(view->edit->account, E_ACCOUNT_SOURCE_URL, uri);
-				g_free(uri);
-
-				uri = e_account_get_string(view->edit->account, E_ACCOUNT_TRANSPORT_URL);
-				if (uri == NULL || (url = camel_url_new(uri, NULL)) == NULL)
-					return;
-				
-				camel_url_set_protocol (url, "smtp");
-				camel_url_set_param(url, "use_ssl", std_server[index].ssl);
-				camel_url_set_host (url, std_server[index].recv);
-				camel_url_set_user (url, token[0]);
-				uri = camel_url_to_string(url, 0);
-				e_account_set_string(view->edit->account, E_ACCOUNT_TRANSPORT_URL, uri);
-				g_free(uri);
-			}
-			g_strfreev(token);
-		}
-	}
-#endif
 }
 
-static int
+static gint
 validate_identity (MailAccountView *view)
 {
-	char *user = (char *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_NAME);
-	char *email = (char *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_ADDRESS);
-	char *tmp;
+	gchar *user = (gchar *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_NAME);
+	gchar *email = (gchar *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_ADDRESS);
+	gchar *tmp;
 
 	if (!user || !*user)
 		return ERROR_NO_FULLNAME;
-	if (!email || !*email)	
+	if (!email || !*email)
 		return ERROR_NO_EMAIL;
- 	tmp = strchr(email, '@');
+	tmp = strchr(email, '@');
 	if (!tmp || tmp[1] == 0)
 		return ERROR_INVALID_EMAIL;
 
@@ -209,11 +166,11 @@ static GtkWidget *
 create_review (MailAccountView *view)
 {
 	GtkWidget *table, *box, *label, *entry;
-	char *uri; 
-	char *enc;
+	gchar *uri;
+	gchar *enc;
 	CamelURL *url;
 
-	uri = (char *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_SOURCE_URL);
+	uri = (gchar *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_SOURCE_URL);
 	if (!uri  || (url = camel_url_new(uri, NULL)) == NULL)
 		return NULL;
 
@@ -268,7 +225,6 @@ create_review (MailAccountView *view)
 	PACK_BOX(entry);
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
 
-
 	label = gtk_label_new (_("Username:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
@@ -282,15 +238,14 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX(label);
 	gtk_table_attach ((GtkTable *)table, box, 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
-	enc = (char *)camel_url_get_param(url, "use_ssl");
+	enc = (gchar *)camel_url_get_param(url, "use_ssl");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
 
-
 	camel_url_free(url);
-	uri =(char *) e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_TRANSPORT_URL);
+	uri =(gchar *) e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_TRANSPORT_URL);
 	if (!uri  || (url = camel_url_new(uri, NULL)) == NULL)
 		return NULL;
 
@@ -318,7 +273,6 @@ create_review (MailAccountView *view)
 	PACK_BOX(entry);
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 10, 11, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
 
-
 	label = gtk_label_new (_("Username:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
@@ -332,12 +286,12 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX(label);
 	gtk_table_attach ((GtkTable *)table, box, 0, 1, 12, 13, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
-	enc = (char *)camel_url_get_param(url, "use_ssl");
+	enc = (gchar *)camel_url_get_param(url, "use_ssl");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 12, 13, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
-	
+
 /*
 	label = gtk_label_new (_("Organization:"));
 	gtk_widget_show (label);
@@ -347,7 +301,7 @@ create_review (MailAccountView *view)
 	gtk_table_attach (table, entry, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
 	*/
 
-	gtk_widget_show(table);	
+	gtk_widget_show(table);
 
 	return table;
 }
@@ -362,18 +316,18 @@ create_review (MailAccountView *view)
 #define DEFAULTS_DETAIL N_("You can specify your default settings for your account.")
 #define REVIEW_DETAIL N_("Time to check things over before we try and connect to the server and fetch your mail.")
 struct _page_text {
-	int id;
-	char *head;
-	char *next;
-	char *prev;
-	char *next_edit;
-	char *prev_edit;
-	char *detail;
-	char *path;
+	gint id;
+	const gchar *head;
+	const gchar *next;
+	const gchar *prev;
+	const gchar *next_edit;
+	const gchar *prev_edit;
+	const gchar *detail;
+	const gchar *path;
 	GtkWidget * (*create_page) (MailAccountView *view);
 	void (*fill_page) (MailAccountView *view);
 	void (*save_page) (MailAccountView *view);
-	int (*validate_page) (MailAccountView *view);
+	gint (*validate_page) (MailAccountView *view);
 } mail_account_pages[] = {
 	{ MAV_IDENTITY_PAGE, N_("Identity"), N_("Next - Receiving mail"), NULL, N_("Next - Receiving mail"), NULL, IDENTITY_DETAIL, "00.identity",NULL, NULL, save_identity, validate_identity},
 	{ MAV_RECV_PAGE, N_("Receiving mail"), N_("Next - Sending mail"), N_("Back - Identity"), N_("Next - Receiving options"), N_("Back - Identity"), RECEIVE_DETAIL, "10.receive", NULL, NULL, NULL, NULL },
@@ -389,7 +343,7 @@ static void
 mav_next_pressed (GtkButton *button, MailAccountView *mav)
 {
 	if (mail_account_pages[mav->current_page].validate_page) {
-		int ret = (*mail_account_pages[mav->current_page].validate_page) (mav);
+		gint ret = (*mail_account_pages[mav->current_page].validate_page) (mav);
 		MAVPage *page = mav->pages[mav->current_page];
 		if (ret) {
 			gtk_label_set_text ((GtkLabel *)page->error_label, _(dialog_errors[ret-1].detail));
@@ -404,7 +358,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 	}
 
 	if (mav->current_page == MAV_LAST - 1) {
-		char *uri = (char *)e_account_get_string(em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_SOURCE_URL);
+		gchar *uri = (gchar *)e_account_get_string(em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_SOURCE_URL);
 		CamelURL *url;
 
 		e_account_set_string (em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_NAME, e_account_get_string(em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_ID_ADDRESS));
@@ -425,7 +379,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			camel_url_free(url);
 		}
 		em_account_editor_commit (mav->edit);
-		g_signal_emit (mav, signals[VIEW_CLOSE], 0);			
+		g_signal_emit (mav, signals[VIEW_CLOSE], 0);
 		return;
 	}
 
@@ -478,19 +432,18 @@ mav_prev_pressed (GtkButton *button, MailAccountView *mav)
 
 }
 
-
 static GtkWidget *
 mav_construct_page(MailAccountView *view, MAVPageType type)
 {
 	MAVPage *page = g_new0(MAVPage, 1);
 	GtkWidget *box, *tmp, *error_box;
-	char *str;
+	gchar *str;
 
 	page->type = type;
 
 	page->box = gtk_vbox_new (FALSE, 2);
 
-	error_box = gtk_hbox_new (FALSE, 2);	
+	error_box = gtk_hbox_new (FALSE, 2);
 	page->error_label = gtk_label_new ("");
 	tmp = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start ((GtkBox *)error_box, tmp, FALSE, FALSE, 2);
@@ -552,7 +505,7 @@ mav_construct_page(MailAccountView *view, MAVPageType type)
 		tmp = gtk_label_new (_(view->original ? mail_account_pages[type].next_edit : mail_account_pages[type].next));
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		if (FALSE) {
-			tmp = gtk_image_new_from_icon_name ("go-next", GTK_ICON_SIZE_BUTTON);		
+			tmp = gtk_image_new_from_icon_name ("go-next", GTK_ICON_SIZE_BUTTON);
 			gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 0);
 		}
 		page->next = gtk_button_new ();
@@ -560,7 +513,7 @@ mav_construct_page(MailAccountView *view, MAVPageType type)
 		gtk_widget_show_all(page->next);
 		g_signal_connect(page->next, "clicked", G_CALLBACK(mav_next_pressed), view);
 	}
-	
+
 	box = gtk_hbox_new (FALSE, 0);
 	if (page->prev)
 		gtk_box_pack_start ((GtkBox *)box, page->prev, FALSE, FALSE, 12);
@@ -578,17 +531,17 @@ emae_check_servers (const gchar *email)
 {
 	ServerData *sdata = g_new0(ServerData, 1);
 	EmailProvider *provider = g_new0(EmailProvider, 1);
-	char *dupe = g_strdup(email);
-	char *tmp;
+	gchar *dupe = g_strdup(email);
+	gchar *tmp;
 
 	/* FIXME: Find a way to free the provider once given to account settings. */
-	provider->email = (char *)email;
+	provider->email = (gchar *)email;
 	tmp = strchr(email, '@');
 	tmp++;
 	provider->domain = tmp;
 	tmp = strchr(dupe, '@');
 	*tmp = 0;
-	provider->username = (char *)g_quark_to_string(g_quark_from_string(dupe));
+	provider->username = (gchar *)g_quark_to_string(g_quark_from_string(dupe));
 	g_free(dupe);
 
 	if (!mail_guess_servers (provider)) {
@@ -596,11 +549,11 @@ emae_check_servers (const gchar *email)
 		g_free (sdata);
 		return NULL;
 	}
-	/*printf("Recv: %s\n%s(%s), %s by %s \n Send: %s\n%s(%s), %s by %s\n via %s to %s\n", 
+	/*printf("Recv: %s\n%s(%s), %s by %s \n Send: %s\n%s(%s), %s by %s\n via %s to %s\n",
 	  provider->recv_type, provider->recv_hostname, provider->recv_port, provider->recv_username, provider->recv_auth,
 	  provider->send_type, provider->send_hostname, provider->send_port, provider->send_username, provider->send_auth,
 	  provider->recv_socket_type, provider->send_socket_type); */
-	
+
 	sdata->recv = provider->recv_hostname;
 	sdata->recv_port = provider->recv_port;
 	sdata->send = provider->send_hostname;
@@ -612,32 +565,31 @@ emae_check_servers (const gchar *email)
 	else
 		sdata->proto = provider->recv_type;
 	if (provider->recv_socket_type) {
-		if(g_ascii_strcasecmp(provider->recv_socket_type, "SSL") == 0)
+		if (g_ascii_strcasecmp(provider->recv_socket_type, "SSL") == 0)
 			sdata->ssl = g_strdup("always");
-		else if(g_ascii_strcasecmp(provider->recv_socket_type, "secure") == 0)
+		else if (g_ascii_strcasecmp(provider->recv_socket_type, "secure") == 0)
 			sdata->ssl = g_strdup("always");
-		else if(g_ascii_strcasecmp(provider->recv_socket_type, "STARTTLS") == 0)
-			sdata->ssl = g_strdup("when-possible");		
-		else if(g_ascii_strcasecmp(provider->recv_socket_type, "TLS") == 0)
+		else if (g_ascii_strcasecmp(provider->recv_socket_type, "STARTTLS") == 0)
 			sdata->ssl = g_strdup("when-possible");
-		else 
+		else if (g_ascii_strcasecmp(provider->recv_socket_type, "TLS") == 0)
+			sdata->ssl = g_strdup("when-possible");
+		else
 			sdata->ssl = g_strdup("never");
 
 	}
 	sdata->send_user = provider->send_username;
 	sdata->recv_user = provider->recv_username;
 
-	
 	g_free (provider);
 
 	return sdata;
 }
 
-void
+static void
 mail_account_view_construct (MailAccountView *view)
 {
-	int i;
-	
+	gint i;
+
 	view->scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)view->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type ((GtkScrolledWindow *)view->scroll, GTK_SHADOW_NONE);
@@ -676,7 +628,7 @@ mail_account_view_new (EAccount *account)
 	view->uri = "account://";
 	view->original = account;
 	mail_account_view_construct (view);
-	
+
 	return view;
 }
 
@@ -697,7 +649,7 @@ mav_btn_expose (GtkWidget *w, GdkEventExpose *event, MailAccountView *mfv)
 static void
 mav_close (GtkButton *w, MailAccountView *mfv)
 {
-	g_signal_emit (mfv, signals[VIEW_CLOSE], 0);			
+	g_signal_emit (mfv, signals[VIEW_CLOSE], 0);
 }
 
 GtkWidget *
@@ -706,19 +658,19 @@ mail_account_view_get_tab_widget (MailAccountView *mcv)
 	GdkPixbuf *pbuf = gtk_widget_render_icon ((GtkWidget *)mcv, "gtk-close", GTK_ICON_SIZE_MENU, NULL);
 
 	GtkWidget *tool, *box, *img;
-	int w=-1, h=-1;
+	gint w=-1, h=-1;
 	GtkWidget *tab_label;
 
 	img = (GtkWidget *)gtk_image_new_from_pixbuf (pbuf);
 	g_object_set_data ((GObject *)img, "pbuf", pbuf);
 	g_signal_connect (img, "expose-event", G_CALLBACK(mav_btn_expose), mcv);
-	
+
 	tool = gtk_button_new ();
 	gtk_button_set_relief((GtkButton *)tool, GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click ((GtkButton *)tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
 	g_signal_connect (tool, "clicked", G_CALLBACK(mav_close), mcv);
-	
+
 	box = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)box, img, FALSE, FALSE, 0);
 	gtk_container_add ((GtkContainer *)tool, box);
@@ -733,7 +685,7 @@ mail_account_view_get_tab_widget (MailAccountView *mcv)
 	gtk_widget_show_all (tab_label);
 
 	return tab_label;
-	
+
 }
 
 void

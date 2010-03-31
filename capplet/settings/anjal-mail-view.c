@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -31,12 +31,10 @@
 #include "mail/mail-ops.h"
 #include "mail/em-folder-tree.h"
 
-
 struct  _AnjalMailViewPrivate {
 
 	gboolean started;
 };
-
 
 G_DEFINE_TYPE (AnjalMailView, anjal_mail_view, GTK_TYPE_NOTEBOOK)
 
@@ -52,31 +50,31 @@ anjal_mail_view_finalize (GObject *object)
 {
 	AnjalMailView *shell = (AnjalMailView *)object;
 	AnjalMailViewPrivate *priv = shell->priv;
-	
+
 	g_free (priv);
-	
+
 	G_OBJECT_CLASS (anjal_mail_view_parent_class)->finalize (object);
 }
 
-static 	void 
+static 	void
 view_set_folder_uri (AnjalMailView *mail_view, const gchar *uri)
 {
 }
-static void 
+static void
 view_set_folder_tree_widget (AnjalMailView *mail_view, GtkWidget *tree)
 {
 }
-static void 
+static void
 view_set_folder_tree (AnjalMailView *mail_view, EMFolderTree *tree)
 {
 }
 
-static void 
-view_set_search (AnjalMailView *mail_view, const char *search)
+static void
+view_set_search (AnjalMailView *mail_view, const gchar *search)
 {
 }
 
-static void 
+static void
 view_init_search (AnjalMailView *mail_view, GtkWidget *search)
 {
 }
@@ -95,17 +93,16 @@ anjal_mail_view_class_init (AnjalMailViewClass *klass)
 	klass->init_search = view_init_search;
 };
 
-
 AnjalMailView *
 anjal_mail_view_new ()
 {
 	AnjalMailView *shell = g_object_new (ANJAL_MAIL_VIEW_TYPE, NULL);
-	
+
 	return shell;
 }
 
-void  
-anjal_mail_view_set_folder_uri (AnjalMailView *mv, const char *uri)
+void
+anjal_mail_view_set_folder_uri (AnjalMailView *mv, const gchar *uri)
 {
 	if (!mv || !uri)
 		return;
@@ -113,25 +110,25 @@ anjal_mail_view_set_folder_uri (AnjalMailView *mv, const char *uri)
 	ANJAL_MAIL_VIEW_GET_CLASS(mv)->set_folder_uri (mv, uri);
 }
 
-void 
+void
 anjal_mail_view_set_folder_tree_widget (AnjalMailView *mv, GtkWidget *tree)
 {
 	ANJAL_MAIL_VIEW_GET_CLASS(mv)->set_folder_tree_widget (mv, tree);
 }
 
-void 
+void
 anjal_mail_view_set_folder_tree (AnjalMailView *mv, GtkWidget *tree)
 {
 	ANJAL_MAIL_VIEW_GET_CLASS(mv)->set_folder_tree (mv, (EMFolderTree *)tree);
 }
 
-void 
-anjal_mail_view_set_search (AnjalMailView *view, const char *search)
+void
+anjal_mail_view_set_search (AnjalMailView *view, const gchar *search)
 {
 	ANJAL_MAIL_VIEW_GET_CLASS(view)->set_search (view, search);
 }
 
-void 
+void
 anjal_mail_view_init_search (AnjalMailView *mv, GtkWidget *search)
 {
 	ANJAL_MAIL_VIEW_GET_CLASS(mv)->init_search (mv, search);

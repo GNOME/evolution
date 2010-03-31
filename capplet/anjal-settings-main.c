@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,7 +50,6 @@
 #include <windows.h>
 #endif
 
-
 #include <unique/unique.h>
 
 gboolean windowed = FALSE;
@@ -59,7 +58,7 @@ gboolean default_app =  FALSE;
 guint32 socket_id = 0;
 MailCappletShell *main_window;
 static gchar **remaining_args;
-extern char *shell_moduledir;
+extern gchar *shell_moduledir;
 
 #define GCONF_KEY_MAILTO_ENABLED "/desktop/gnome/url-handlers/mailto/enabled"
 #define GCONF_KEY_MAILTO_COMMAND "/desktop/gnome/url-handlers/mailto/command"
@@ -74,8 +73,8 @@ mail_message_received_cb (UniqueApp         *app G_GNUC_UNUSED,
 {
 	 gchar *url;
 	 GtkWindow *window = (GtkWindow *) user_data;
-	 char *args[2];
-	 
+	 gchar *args[2];
+
 	 switch (command) {
 	 case UNIQUE_ACTIVATE :
 		  gtk_window_deiconify (window);
@@ -143,7 +142,7 @@ check_and_set_default_mail (void)
 		g_object_unref (client);
 		return; /* Anjal is the default mailer */
 	}
-	
+
 	gconf_client_set_bool(client, GCONF_KEY_MAILTO_ENABLED, TRUE, NULL);
 	gconf_client_set_string(client, GCONF_KEY_MAILTO_COMMAND, ANJAL_MAILTO_COMMAND, NULL);
 	g_object_unref (client);
@@ -152,12 +151,10 @@ check_and_set_default_mail (void)
 static gboolean
 idle_cb (MailCappletShell *mshell G_GNUC_UNUSED)
 {
-	
+
 	if (default_app) {
 		check_and_set_default_mail ();
 	}
-
-
 
 	return FALSE;
 }
@@ -171,12 +168,12 @@ create_default_shell (void)
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 }
 
-int
-main (int argc, char *argv[])
+gint
+main (gint argc, gchar *argv[])
 {
 	GError *error = NULL;
 	GConfClient *client;
-	
+
 	UniqueApp *app;
 
 #ifdef G_OS_WIN32
@@ -208,7 +205,7 @@ main (int argc, char *argv[])
 		  &socket_id,
 		  /* TRANSLATORS: don't translate the terms in brackets */
 		  N_("ID of the socket to embed in"),
-		  N_("socket") },		
+		  N_("socket") },
 		{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
 		{ NULL, 0, 0, 0, NULL, NULL, NULL }
 	};
@@ -219,7 +216,6 @@ main (int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 #endif
 
-	
 	gtk_set_locale ();
 
 	if (!gtk_init_with_args (&argc, &argv, _("Anjal email client"), entries, NULL, &error)) {
@@ -239,11 +235,11 @@ main (int argc, char *argv[])
 
 	gconf_client_set_bool (client, "/apps/evolution/mail/display/enable_vfolders", FALSE, NULL);
 	g_object_unref (client);
-	
+
 	app = unique_app_new ("org.gnome.AnjalSettings", NULL);
 	  if (unique_app_is_running (app) && !socket_id)  {
 		   gboolean cmd_line =  (remaining_args && remaining_args[0] != NULL);
-		   
+
 		  if (!cmd_line)
 			unique_app_send_message (app, UNIQUE_ACTIVATE, NULL);
 		  else {
@@ -263,73 +259,8 @@ main (int argc, char *argv[])
 
 	if (windowed)
 		anjal_icon_decoration = TRUE;
-	
+
 	gtk_main ();
 
 	return 0;
 }
-
-#ifndef HACK
-gpointer em_format_html_print_new(gpointer p1 G_GNUC_UNUSED,
-				  int i G_GNUC_UNUSED)
-{
-	return NULL;
-}
-
-void em_format_html_print_raw_message (gpointer p1 G_GNUC_UNUSED,
-				       gpointer p2 G_GNUC_UNUSED)
-{
-	return ;
-}
-
-void 
-eab_merging_book_commit_contact ()
-{
-}
-
-void 
-e_searching_tokenizer_set_primary_case_sensitivity ()
-{
-}
-
-void 
-eab_prompt_save_dialog ()
-{
-}
-
-void
-eab_merging_book_add_contact ()
-{
-}
-
-void
-e_searching_tokenizer_match_count ()
-{
-}
-
-void
-addressbook_load_cancel()
-{
-}
-
-void
-e_searching_tokenizer_new ()
-{
-}
-
-void
-e_searching_tokenizer_set_primary_search_string()
-{
-}
-
-void
-addressbook_load()
-{
-}
-
-void
-eab_load_error_dialog()
-{
-}
-
-#endif

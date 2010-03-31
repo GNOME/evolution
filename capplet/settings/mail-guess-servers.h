@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -25,25 +25,25 @@
 
 typedef struct _EmailProvider {
 	/* Input */
-	char *domain;
-	char *email;
-	char *username;
+	gchar *domain;
+	gchar *email;
+	gchar *username;
 
 	/* Receiving server*/
-	char *recv_type;
-	char *recv_hostname;
-	char *recv_port;
-	char *recv_socket_type;
-	char *recv_username;
-	char *recv_auth;
+	gchar *recv_type;
+	gchar *recv_hostname;
+	gchar *recv_port;
+	gchar *recv_socket_type;
+	gchar *recv_username;
+	gchar *recv_auth;
 
 	/* Sending server */
-	char *send_type;
-	char *send_hostname;
-	char *send_port;
-	char *send_socket_type;
-	char *send_username;
-	char *send_auth;
+	gchar *send_type;
+	gchar *send_hostname;
+	gchar *send_port;
+	gchar *send_socket_type;
+	gchar *send_username;
+	gchar *send_auth;
 } EmailProvider;
 
 gboolean mail_guess_servers (EmailProvider *provider);

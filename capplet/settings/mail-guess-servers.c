@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -44,22 +44,23 @@
 
 #include "mail-guess-servers.h"
 
-static char *
+static gchar *
 xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 {
-	char *gxml = NULL;
-	char *tmp; 	
-	char *repl = NULL, *sec_part;
+	gchar *gxml = NULL;
+	gchar *tmp;
+	gchar *repl = NULL;
+	const gchar *sec_part;
 
-	tmp = xml ? strstr(xml, "\%EMAIL") : NULL;
+	tmp = xml ? strstr((gchar *) xml, "\%EMAIL") : NULL;
 
 	if (!tmp) {
-		gxml = xml ? g_strdup(xml) : NULL ;
+		gxml = xml ? g_strdup((gchar *) xml) : NULL;
 	} else {
 	decodepart:
 		*tmp = 0;
 		tmp+=6;
-		if(*tmp == 'A') 
+		if (*tmp == 'A')
 			repl = provider->email;
 		else if (*tmp == 'L')
 			repl = provider->username;
@@ -69,25 +70,25 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 		sec_part++;
 		if (!*sec_part)
 			sec_part = "";
-	
-		gxml = g_strdup_printf("%s%s%s", gxml ? gxml : (char *)xml, repl, sec_part);
+
+		gxml = g_strdup_printf("%s%s%s", gxml ? gxml : (gchar *)xml, repl, sec_part);
 		tmp = strstr (gxml, "\%EMAIL");
-		if(tmp) {
+		if (tmp) {
 			goto decodepart;
 		}
 	}
 
 	xmlFree(xml);
-	
+
 	return gxml;
 }
 
 static SoupMessage *
-get_url (SoupSession *session, const char *url)
+get_url (SoupSession *session, const gchar *url)
 {
-	const char *name;
+	const gchar *name;
 	SoupMessage *msg;
-	const char *header;
+	const gchar *header;
 
 	msg = soup_message_new (SOUP_METHOD_GET, url);
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
@@ -95,7 +96,6 @@ get_url (SoupSession *session, const char *url)
 	soup_session_send_message (session, msg);
 
 	name = soup_message_get_uri (msg)->path;
-
 
 	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
 		header = soup_message_headers_get_one (msg->response_headers,
@@ -110,13 +110,12 @@ get_url (SoupSession *session, const char *url)
 	return NULL;
 }
 
-
-static void 
+static void
 handle_incoming (xmlNodePtr head, EmailProvider *provider)
 {
 	xmlNodePtr node = head->children;
 
-	provider->recv_type = xml_to_gchar(xmlGetProp(head, "type"), provider);
+	provider->recv_type = xml_to_gchar(xmlGetProp(head, (xmlChar *) "type"), provider);
 
 	while (node) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
@@ -126,21 +125,21 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "socketType") == 0) {
 			provider->recv_socket_type = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
-			provider->recv_username = xml_to_gchar(xmlNodeGetContent(node), provider);			
+			provider->recv_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);			
+		 	provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
 	}
 }
 
-static void 
+static void
 handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 {
 	xmlNodePtr node = head->children;
 
-	provider->send_type = xml_to_gchar(xmlGetProp(head, "type"), provider);
+	provider->send_type = xml_to_gchar(xmlGetProp(head, (xmlChar *) "type"), provider);
 
 	while (node) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
@@ -150,9 +149,9 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "socketType") == 0) {
 			provider->send_socket_type = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
-			provider->send_username = xml_to_gchar(xmlNodeGetContent(node), provider);			
+			provider->send_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);			
+		 	provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
@@ -165,7 +164,7 @@ parse_msg (SoupMessage *msg, EmailProvider *provider)
 	xmlDocPtr doc;
 	xmlNodePtr node, top;
 
-	doc = xmlReadMemory ((xmlChar *) msg->response_body->data, msg->response_body->length, "file.xml", NULL, 0);
+	doc = xmlReadMemory (msg->response_body->data, msg->response_body->length, "file.xml", NULL, 0);
 
 	node = doc->children;
 	while (node) {
@@ -202,7 +201,7 @@ parse_msg (SoupMessage *msg, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "outgoingServer") == 0) {
 			/* Handle Outgoing */
 			handle_outgoing (node, provider);
-		} 
+		}
 
 		node = node->next;
 	}
@@ -213,14 +212,13 @@ parse_msg (SoupMessage *msg, EmailProvider *provider)
 gboolean
 mail_guess_servers(EmailProvider *provider)
 {
-	const char *cafile = NULL;
-	char *url;
+	const gchar *cafile = NULL;
+	gchar *url;
 	SoupURI *proxy = NULL, *parsed;
-	int opt;
 	SoupMessage *msg;
 	SoupSession *session;
 
-	url = g_strdup_printf("%s/%s", "https://live.mozillamessaging.com/autoconfig", provider->domain); 
+	url = g_strdup_printf("%s/%s", "https://live.mozillamessaging.com/autoconfig", provider->domain);
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
 
@@ -231,7 +229,7 @@ mail_guess_servers(EmailProvider *provider)
 		NULL);
 
 	if (proxy) {
-		g_object_set (G_OBJECT (session), 
+		g_object_set (G_OBJECT (session),
 			      SOUP_SESSION_PROXY_URI, proxy,
 			      NULL);
 	}
@@ -251,8 +249,8 @@ mail_guess_servers(EmailProvider *provider)
 }
 
 #ifdef TEST
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	EmailProvider *provider;
 	g_thread_init (NULL);
@@ -266,10 +264,10 @@ main (int argc, char **argv)
 
 	mail_guess_servers (provider);
 
-	printf("Recv: %s\n%s(%s), %s by %s \n Send: %s\n%s(%s), %s by %s\n via %s to %s\n", 
+	printf("Recv: %s\n%s(%s), %s by %s \n Send: %s\n%s(%s), %s by %s\n via %s to %s\n",
 	  provider->recv_type, provider->recv_hostname, provider->recv_port, provider->recv_username, provider->recv_auth,
 	  provider->send_type, provider->send_hostname, provider->send_port, provider->send_username, provider->send_auth,
-	  provider->recv_socket_type, provider->send_socket_type);	  
+	  provider->recv_socket_type, provider->send_socket_type);
 	return 0;
 }
 #endif

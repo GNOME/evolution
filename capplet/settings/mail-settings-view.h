@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -33,13 +33,12 @@
 #define IS_MAIL_SETTINGS_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_SETTINGS_VIEW_TYPE))
 #define MAIL_SETTINGS_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), MAIL_SETTINGS_VIEW_TYPE, MailFolderViewClass))
 
-
 typedef struct _MailSettingsViewPrivate MailSettingsViewPrivate;
 
 typedef struct _MailSettingsView {
 	GtkVBox parent;
-	int type;
-	char *uri;
+	gint type;
+	const gchar *uri;
 	MailViewFlags flags;
 	/* Base class of MailChildView ends */
 
@@ -49,10 +48,11 @@ typedef struct _MailSettingsView {
 typedef struct _MailSettingsViewClass {
 	GtkVBoxClass parent_class;
 
-	void (* view_close) (MailSettingsView *);	
+	void (* view_close) (MailSettingsView *);
 	void (* show_account) (MailSettingsView *, gpointer);
 } MailSettingsViewClass;
 
+GType mail_settings_view_get_type (void);
 MailSettingsView *mail_settings_view_new (void);
 GtkWidget * mail_settings_view_get_tab_widget(MailSettingsView *mcv);
 void mail_settings_view_activate (MailSettingsView *mcv, GtkWidget *tree, GtkWidget *folder_tree, GtkWidget *check_mail, GtkWidget *sort_by, GtkWidget *slider, gboolean act);

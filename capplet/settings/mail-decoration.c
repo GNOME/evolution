@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -37,14 +37,14 @@ struct _MailDecorationPrivate
 	gboolean default_cursor;
 	gboolean resizing;
 	GdkWindowEdge last_edge;
-	int resize_width;
-	int top_height;
+	gint resize_width;
+	gint top_height;
 	gboolean check_window;
 	gboolean can_resize;
 	gboolean full_screen;
 
-	int window_width;
-	int window_height;
+	gint window_width;
+	gint window_height;
 };
 
 static GObjectClass *parent_class = NULL;
@@ -80,14 +80,14 @@ mail_decoration_get_type(void)
 	return type;
 }
 
-static void 
-md_translate_position (GdkWindow *w, double ex, double ey, int *x, int *y, GtkWidget *window)
+static void
+md_translate_position (GdkWindow *w, double ex, double ey, gint *x, gint *y, GtkWidget *window)
 {
-	*x = (int)ex;
-	*y = (int)ey;
+	*x = (gint)ex;
+	*y = (gint)ey;
 
 	while (w && w != window->window) {
-		int cx, cy, cw, ch, cd;
+		gint cx, cy, cw, ch, cd;
 		gdk_window_get_geometry (w, &cx, &cy, &cw, &ch, &cd);
                 *x += cx;
                 *y += cy;
@@ -96,29 +96,28 @@ md_translate_position (GdkWindow *w, double ex, double ey, int *x, int *y, GtkWi
 }
 
 static gboolean
-in_top (MailDecoration *md, double y) 
-{ 
-	return y <= md->priv->resize_width; 
+in_top (MailDecoration *md, double y)
+{
+	return y <= md->priv->resize_width;
 }
 
 static gboolean
-in_left (MailDecoration *md, double x) 
-{ 
-	return x <= md->priv->resize_width; 
+in_left (MailDecoration *md, double x)
+{
+	return x <= md->priv->resize_width;
 }
 
-static gboolean 
-in_bottom (MailDecoration *md, double y) 
-{ 
-	return y >= ((GtkWidget *)md->window)->allocation.height - md->priv->resize_width; 
+static gboolean
+in_bottom (MailDecoration *md, double y)
+{
+	return y >= ((GtkWidget *)md->window)->allocation.height - md->priv->resize_width;
 }
 
-static gboolean 
-in_right (MailDecoration *md, double x) 
-{ 
-	return x >= ((GtkWidget *)md->window)->allocation.width - md->priv->resize_width; 
+static gboolean
+in_right (MailDecoration *md, double x)
+{
+	return x >= ((GtkWidget *)md->window)->allocation.width - md->priv->resize_width;
 }
-
 
 static void
 set_cursor (MailDecoration *md, GdkWindowEdge edge)
@@ -145,7 +144,7 @@ update_cursor (MailDecoration *md, double x, double y, gboolean update)
 
 	if (in_top(md, y) && in_left (md, x)) {
 		md->priv->last_edge = GDK_WINDOW_EDGE_NORTH_WEST;
-		set_cursor (md, GDK_WINDOW_EDGE_NORTH_WEST);	
+		set_cursor (md, GDK_WINDOW_EDGE_NORTH_WEST);
 	} else if (in_top (md, y) && in_right (md, x)) {
 		md->priv->last_edge = GDK_WINDOW_EDGE_NORTH_EAST;
 		set_cursor (md, GDK_WINDOW_EDGE_NORTH_EAST);
@@ -174,11 +173,10 @@ update_cursor (MailDecoration *md, double x, double y, gboolean update)
 	}
 }
 
-
-static gboolean            
-md_motion_event (GtkWidget *widget, GdkEventMotion *event, gpointer user_data) 
+static gboolean
+md_motion_event (GtkWidget *widget, GdkEventMotion *event, gpointer user_data)
 {
-	int x, y;
+	gint x, y;
 	MailDecoration *md = (MailDecoration *)user_data;
 
 	md_translate_position (event->window, event->x, event->y, &x, &y, (GtkWidget *)md->window);
@@ -190,11 +188,11 @@ md_motion_event (GtkWidget *widget, GdkEventMotion *event, gpointer user_data)
 	return FALSE;
 }
 
-static gboolean            
-md_enter_event (GtkWidget *widget , GdkEventCrossing *event, gpointer user_data)   
+static gboolean
+md_enter_event (GtkWidget *widget , GdkEventCrossing *event, gpointer user_data)
 {
 	MailDecoration *md = (MailDecoration *)user_data;
-	int x, y;
+	gint x, y;
 
 	md_translate_position (event->window, event->x, event->y, &x, &y, (GtkWidget *)md->window);
 
@@ -205,7 +203,7 @@ md_enter_event (GtkWidget *widget , GdkEventCrossing *event, gpointer user_data)
 	return FALSE;
 }
 
-static gboolean            
+static gboolean
 md_leave_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data)
 {
 	MailDecoration *md = (MailDecoration *)user_data;
@@ -216,17 +214,17 @@ md_leave_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data)
 	return FALSE;
 }
 
-static void                
+static void
 md_size_allocate_event (GtkWidget *widget, GtkAllocation *allocation, gpointer user_data)
 {
-	int width=1024, height=500;
+	gint width=1024, height=500;
 	MailDecoration *md = (MailDecoration *)user_data;
 
 	gtk_widget_queue_draw (widget);
 	gtk_window_get_size ((GtkWindow *)widget, &width, &height);
 	if (width != md->priv->window_width || height != md->priv->window_height) {
 		GConfClient *client = gconf_client_get_default ();
-		
+
 		md->priv->window_height = height;
 		md->priv->window_width = width;
 		gconf_client_set_int (client, "/apps/anjal/window_width", width, NULL);
@@ -236,18 +234,18 @@ md_size_allocate_event (GtkWidget *widget, GtkAllocation *allocation, gpointer u
 
 }
 
-static gboolean            
+static gboolean
 md_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
 	MailDecoration *md = (MailDecoration *)user_data;
-	int x_root = (int) event->x_root;
-	int y_root = (int) event->y_root;
-	int x, y;
+	gint x_root = (gint) event->x_root;
+	gint y_root = (gint) event->y_root;
+	gint x, y;
 
         if (!md->priv->can_resize) {
                 return FALSE;
         }
-        
+
 	md_translate_position (event->window, event->x, event->y, &x, &y, (GtkWidget *)md->window);
         update_cursor (md, x, y, TRUE);
         if (md->priv->resizing && event->button == 1 && event->type != GDK_2BUTTON_PRESS) {
@@ -257,7 +255,7 @@ md_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_d
                 (event->button == 1 && y <= md->priv->top_height && event->type != GDK_2BUTTON_PRESS)) {
                 gtk_window_begin_move_drag ((GtkWindow *)widget, event->button, x_root, y_root, event->time);
 	} else if (y <= md->priv->top_height && event->type == GDK_2BUTTON_PRESS) {
-		if (md->priv->full_screen) 
+		if (md->priv->full_screen)
 			gtk_window_unfullscreen (md->window);
 		else
 			gtk_window_fullscreen (md->window);
@@ -269,15 +267,15 @@ md_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_d
 	return TRUE;
 }
 
-static gboolean            
+static gboolean
 md_button_release_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-	int x, y;
+	gint x, y;
 	MailDecoration *md = (MailDecoration *)user_data;
 
 	md_translate_position (event->window, event->x, event->y, &x, &y, (GtkWidget *)md->window);
 	if (md->priv->resizing) {
-		update_cursor (md, x, y, TRUE);		
+		update_cursor (md, x, y, TRUE);
 	}
 
 	return FALSE;
@@ -287,7 +285,7 @@ MailDecoration* mail_decoration_new(GtkWindow *window)
 {
 	MailDecoration *md = g_object_new(mail_decoration_get_type(), NULL);
 	GConfClient *client = gconf_client_get_default ();
-	int width, height;
+	gint width, height;
 
 	md->priv->window_width = width = gconf_client_get_int (client, "/apps/anjal/window_width", NULL);
 	if (!width)
@@ -299,7 +297,7 @@ MailDecoration* mail_decoration_new(GtkWindow *window)
 
 	md->window = window;
 	gtk_window_set_decorated (window, FALSE);
-	gtk_widget_add_events ((GtkWidget *)window, GDK_BUTTON_PRESS_MASK | 
+	gtk_widget_add_events ((GtkWidget *)window, GDK_BUTTON_PRESS_MASK |
 					GDK_POINTER_MOTION_MASK |
 					GDK_ENTER_NOTIFY_MASK |
 					GDK_LEAVE_NOTIFY_MASK |
@@ -312,10 +310,9 @@ MailDecoration* mail_decoration_new(GtkWindow *window)
 	g_signal_connect (window, "button-release-event", G_CALLBACK(md_button_release_event), md);
 	g_signal_connect (window, "size-allocate", G_CALLBACK(md_size_allocate_event), md);
 	gtk_window_set_default_size ((GtkWindow *)window , width, height);/* We officiall should support 800x600 */
-	
+
 	return md;
 }
-
 
 static void
 mail_decoration_class_init(MailDecorationClass *klass)
@@ -343,7 +340,7 @@ mail_decoration_init(MailDecoration *md)
 	priv->cursors[5]= gdk_cursor_new (GDK_BOTTOM_LEFT_CORNER);
 	priv->cursors[6]= gdk_cursor_new (GDK_BOTTOM_SIDE);
 	priv->cursors[7]= gdk_cursor_new (GDK_BOTTOM_RIGHT_CORNER);
-	
+
 	priv->default_cursor = TRUE;
 	priv->resizing = FALSE;
 	priv->resize_width = 4;
