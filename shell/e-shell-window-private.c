@@ -422,13 +422,16 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	key = "/apps/evolution/shell/view_defaults/sidebar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "sidebar-visible");
 
-	object = G_OBJECT (shell_window);
-	key = "/apps/evolution/shell/view_defaults/statusbar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "taskbar-visible");
-
 	if (e_shell_get_express_mode (shell)) {
+		const char *active_view = e_shell_window_get_active_view (shell_window);
 		e_shell_window_set_switcher_visible (shell_window, FALSE);
+		e_shell_window_set_taskbar_visible (shell_window, active_view &&
+						    !strcmp (active_view, "mail"));
 	} else {
+		object = G_OBJECT (shell_window);
+		key = "/apps/evolution/shell/view_defaults/statusbar_visible";
+		gconf_bridge_bind_property (bridge, key, object, "taskbar-visible");
+
 		object = G_OBJECT (shell_window);
 		key = "/apps/evolution/shell/view_defaults/buttons_visible";
 		gconf_bridge_bind_property (bridge, key, object, "switcher-visible");
