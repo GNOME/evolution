@@ -1,6 +1,9 @@
 SUBDIRS = settings
 
-AM_CPPFLAGS = \
+bin_PROGRAMS = evolution-settings
+
+evolution_settings_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
@@ -30,22 +33,12 @@ AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-mail\"		\
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
-	
-AM_CFLAGS =\
-	 -Wall\
-	 -g -O0 
-
-bin_PROGRAMS = evolution-settings
-
 
 evolution_settings_SOURCES  = \
 	anjal-settings-main.c 
 
-evolution_settings_LDFLAGS = \
-	-Wl,--export-dynamic
-
 if OS_WIN32
-evolution_settings_LDFLAGS += -mwindows
+evolution_settings_LDFLAGS = -mwindows
 endif
 
 evolution_settings_LDADD = 				\
