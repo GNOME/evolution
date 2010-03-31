@@ -1,5 +1,8 @@
 
-AM_CPPFLAGS = \
+privsolib_LTLIBRARIES = libevolution-mail-settings.la
+
+libevolution_mail_settings_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
@@ -16,6 +19,7 @@ AM_CPPFLAGS = \
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
+	-DANJAL_SETTINGS				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -30,12 +34,6 @@ AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-mail\"		\
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
-	
-AM_CFLAGS =\
-	 -Wall\
-	 -g -O0 
-
-privsolib_LTLIBRARIES = libevolution-mail-settings.la
 
 libevolution_mail_settings_la_SOURCES = \
 	mail-settings-view.c \
@@ -52,8 +50,6 @@ libevolution_mail_settings_la_SOURCES = \
 	anjal-mail-view.c \
 	mail-guess-servers.c \
 	mail-guess-servers.h
-
-libevolution_mail_settings_la_CFLAGS = -DANJAL_SETTINGS
 
 libevolution_mail_settings_la_LIBADD = 				\
 	$(EVOLUTION_MAIL_LIBS)				\
