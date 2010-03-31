@@ -40,8 +40,6 @@
 #include <string.h>
 
 #include <libebook/e-book.h>
-#undef EDS_DISABLE_DEPRECATED
-#include <libedataserver/md5-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include <sys/time.h>
@@ -76,15 +74,29 @@ get_buddy_filename (void)
 static gchar *
 get_md5_as_string (const gchar *filename)
 {
-	guchar d[16];
+	GMappedFile *mapped_file;
+	const gchar *contents;
+	gchar *digest;
+	gsize length;
+	GError *error = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	md5_get_digest_from_file (filename, d);
+	mapped_file = g_mapped_file_new (filename, FALSE, &error);
+	if (mapped_file == NULL) {
+		g_warning ("%s", error->message);
+		return NULL;
+	}
 
-	return g_strdup_printf ("%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x",
-		d[0], d[1], d[2],  d[3],  d[4],  d[5],  d[6],  d[7],
-		d[8], d[9], d[10], d[11], d[12], d[13], d[14], d[15]);
+	contents = g_mapped_file_get_contents (mapped_file);
+	length = g_mapped_file_get_length (mapped_file);
+
+	digest = g_compute_checksum_for_data (
+		G_CHECKSUM_MD5, (guchar *) contents, length);
+
+	g_mapped_file_unref (mapped_file);
+
+	return digest;
 }
 
 void
