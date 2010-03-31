@@ -1322,9 +1322,8 @@ msgstr "Копіювати _адресу ел.пошти"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176
 #: ../widgets/misc/e-web-view.c:370
-#, fuzzy
 msgid "Copy the email address to the clipboard"
-msgstr "Копіювати виділені об'єкти в буфер обміну"
+msgstr "Копіює елементи у буфер обміну"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:181
 #: ../widgets/misc/e-web-view.c:375
@@ -1333,9 +1332,8 @@ msgstr "_Надіслати нове повідомлення до..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:183
 #: ../widgets/misc/e-web-view.c:377
-#, fuzzy
 msgid "Send a mail message to this address"
-msgstr "Перетворити  виділене повідомлення у нове завдання"
+msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:258
 #: ../addressbook/gui/widgets/eab-contact-display.c:260
@@ -1890,9 +1888,8 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Видалити , що бажаєте видалити зустріч з назвою '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
-msgstr "Видалити , що бажаєте видалити зустріч з назвою '{0}'?"
+msgstr "Дійсно видалити зустріч із заголовком '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete the memo '{0}'?"
@@ -2129,9 +2126,8 @@ msgid "Would you like to save your changes to this appointment?"
 msgstr "Зберегти зміни цієї зустрічі?"
 
 #: ../calendar/calendar.error.xml.h:67
-#, fuzzy
 msgid "Would you like to save your changes to this meeting?"
-msgstr "Зберегти зміни примітки?"
+msgstr "Зберегти зміни цієї зустрічі?"
 
 #: ../calendar/calendar.error.xml.h:68
 msgid "Would you like to save your changes to this memo?"
@@ -2180,9 +2176,8 @@ msgid "You have changed this appointment, but not yet saved it."
 msgstr "Ви внесли зміни у цю зустріч, але не зберегли їх."
 
 #: ../calendar/calendar.error.xml.h:78
-#, fuzzy
 msgid "You have changed this meeting, but not yet saved it."
-msgstr "Ви внесли зміни у це завдання, але не зберегли їх."
+msgstr "Зустріч змінено, але не зміни збережено."
 
 #: ../calendar/calendar.error.xml.h:79
 msgid "You have changed this task, but not yet saved it."
@@ -2281,10 +2276,9 @@ msgstr[1] "хвилини"
 msgstr[2] "хвилин"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "годин"
+msgstr[0] "година"
 msgstr[1] "години"
 msgstr[2] "годин"
 
@@ -2337,7 +2331,6 @@ msgstr "Нагадати _пізніше"
 #: ../calendar/gui/dialogs/event-page.ui.h:20 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:332
-#, fuzzy
 msgid "hours"
 msgstr "годин"
 
@@ -3045,9 +3038,8 @@ msgid "Workday start minute"
 msgstr "Хвилини початку робочого дня"
 
 #: ../calendar/gui/cal-editor-utils.c:105
-#, fuzzy
 msgid "Invalid object"
-msgstr "Неправильний контакт."
+msgstr "Неправильний об'єкт"
 
 #: ../calendar/gui/calendar-view-factory.c:117
 msgid "Day View"
@@ -3215,9 +3207,8 @@ msgid "Add Alarm"
 msgstr "Додати сигнал"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
-#, fuzzy
 msgid "Alarm"
-msgstr "Сигнали"
+msgstr "Сигнал"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:3
 msgid "Custom _message"
@@ -3236,9 +3227,8 @@ msgid "Options"
 msgstr "Параметри"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
-#, fuzzy
 msgid "Repeat"
-msgstr "<b>Повтор</b>"
+msgstr "Повтор"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 msgid "Select A File"
@@ -3269,7 +3259,6 @@ msgid "after"
 msgstr "після"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:15
-#, fuzzy
 msgid "before"
 msgstr "перед"
 
@@ -3305,9 +3294,8 @@ msgid "minute(s)"
 msgstr "хвилин"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
-#, fuzzy
 msgid "start of appointment"
-msgstr "місце зустрічі"
+msgstr "початок зустрічі"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:242
 msgid "Action/Trigger"
@@ -3327,7 +3315,6 @@ msgstr "Сигнали"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:107
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:156
 #: ../calendar/gui/e-day-view-time-item.c:797
-#, fuzzy
 msgctxt "cal-second-zone"
 msgid "None"
 msgstr "Немає"
@@ -3343,74 +3330,61 @@ msgid "Selected Calendars for Alarms"
 msgstr "Календарі - джерело сигналів"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:785
-#, fuzzy
 msgid "Time and date:"
-msgstr "Часовий пояс:"
+msgstr "Дата та час:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:786
-#, fuzzy
 msgid "Date only:"
-msgstr "Дата:"
+msgstr "Лише дата:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
-msgstr ""
-"<i>%u и %d будуть замінені на користувача та домен з адреси електронної "
-"пошти.</i>"
+msgstr "%u и %d будуть замінені на користувача та домен з адреси електронної пошти."
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:3
 msgid "(Shown in a Day View)"
 msgstr "(Показувати у режимі \"День\")"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:4
-#, fuzzy
 msgid "05 minutes"
-msgstr "хвилини"
+msgstr "05 хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:5
-#, fuzzy
 msgid "10 minutes"
-msgstr "хвилини"
+msgstr "10 хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:6
-#, fuzzy
 msgid "15 minutes"
-msgstr "хвилини"
+msgstr "15 хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:7
-#, fuzzy
 msgid "30 minutes"
-msgstr "хвилини"
+msgstr "30 хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:8
-#, fuzzy
 msgid "60 minutes"
-msgstr "хвилини"
+msgstr "60 хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:10 ../mail/mail-config.ui.h:6
-#, fuzzy
 msgid "Alerts"
 msgstr "Сигнали"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:11
 #: ../mail/mail-config.ui.h:28
 #: ../modules/addressbook/autocompletion-config.c:153
-#, fuzzy
 msgid "Date/Time Format"
-msgstr "Дата й час:"
+msgstr "Формат дати та часу"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:12
 msgid "Day _ends:"
 msgstr "День за_кінчується:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:13
-#, fuzzy
 msgid "Days"
-msgstr "День"
+msgstr "Дні"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:14
-#, fuzzy
 msgid "Default Free/Busy Server"
 msgstr "<span weight=\"bold\">Типовий сервер \"Вільний/зайнятий\"</span>"
 
@@ -3441,14 +3415,12 @@ msgid "General"
 msgstr "Загальне"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:20
-#, fuzzy
 msgid "Hours"
-msgstr "годин"
+msgstr "Години"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:21
-#, fuzzy
 msgid "Minutes"
-msgstr "хвилини"
+msgstr "Хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:22
 #: ../calendar/gui/dialogs/recurrence-page.c:1113
@@ -3840,9 +3812,8 @@ msgstr "Вирізати виділене"
 #: ../calendar/gui/dialogs/comp-editor.c:960
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
-#, fuzzy
 msgid "Delete the selection"
-msgstr "Вирізати виділене"
+msgstr "Видалити виділене"
 
 #: ../calendar/gui/dialogs/comp-editor.c:967
 msgid "Click here to view help available"
@@ -4459,9 +4430,8 @@ msgstr "четвертий"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1040
-#, fuzzy
 msgid "fifth"
-msgstr "Ширина"
+msgstr "п'ятий"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -4831,9 +4801,8 @@ msgid "Untitled"
 msgstr "Без заголовку"
 
 #: ../calendar/gui/e-cal-component-preview.c:198
-#, fuzzy
 msgid "Categories:"
-msgstr "Категорії"
+msgstr "Категорії:"
 
 #: ../calendar/gui/e-cal-component-preview.c:237
 #: ../calendar/gui/e-itip-control.c:1151 ../calendar/gui/e-itip-control.ui.h:9
@@ -4914,7 +4883,6 @@ msgstr ""
 
 #. Translators: "None" for task's status
 #: ../calendar/gui/e-cal-model-tasks.c:731
-#, fuzzy
 msgctxt "cal-task-status"
 msgid "None"
 msgstr "Немає"
@@ -4935,21 +4903,18 @@ msgid "No"
 msgstr "Ні"
 
 #: ../calendar/gui/e-cal-model.c:377
-#, fuzzy
 msgid "Default Client"
-msgstr "Типова поштова програма"
+msgstr "Типовий клієнт"
 
 #: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:518
 #: ../shell/e-shell.c:867
-#, fuzzy
 msgid "Shell Settings"
-msgstr "Параметри Exchange"
+msgstr "Параметри оболонки"
 
 #: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:519
 #: ../shell/e-shell.c:868
-#, fuzzy
 msgid "Application-wide settings"
-msgstr "Параметри автодоповнення"
+msgstr "Глобальні параметри програми"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:562 ../calendar/gui/e-itip-control.c:1197
@@ -5018,24 +4983,20 @@ msgid "Type"
 msgstr "Тип"
 
 #: ../calendar/gui/e-calendar-view.c:392
-#, fuzzy
 msgid "Cut selected events to the clipboard"
-msgstr "Вирізати виділений текст у буфер обміну"
+msgstr "Вирізати виділені події у буфер обміну"
 
 #: ../calendar/gui/e-calendar-view.c:398
-#, fuzzy
 msgid "Copy selected events to the clipboard"
-msgstr "Копіювати виділений текст у буфер обміну"
+msgstr "Копіювати виділені події у буфер обміну"
 
 #: ../calendar/gui/e-calendar-view.c:404
-#, fuzzy
 msgid "Paste events from the clipboard"
-msgstr "Вставити текст з буфера обміну"
+msgstr "Вставити події з буфера обміну"
 
 #: ../calendar/gui/e-calendar-view.c:410
-#, fuzzy
 msgid "Delete selected events"
-msgstr "Видалити вибрані примітки"
+msgstr "Видалити вибрані події"
 
 #: ../calendar/gui/e-calendar-view.c:429 ../calendar/gui/e-memo-table.c:187
 #: ../calendar/gui/e-task-table.c:265
@@ -5311,7 +5272,6 @@ msgstr ""
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
 #: ../plugins/itip-formatter/itip-formatter.c:2313
-#, fuzzy
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Немає"
@@ -5833,17 +5793,14 @@ msgid "Due: "
 msgstr "Завершення: "
 
 #: ../calendar/gui/e-memo-table.c:707
-#, fuzzy
 msgid "Cut selected memos to the clipboard"
-msgstr "Вирізати виділені повідомлення в буфер обміну"
+msgstr "Вирізати виділені примітки в буфер обміну"
 
 #: ../calendar/gui/e-memo-table.c:713
-#, fuzzy
 msgid "Copy selected memos to the clipboard"
-msgstr "Копіювати виділені повідомлення в буфер обміну"
+msgstr "Копіювати виділені примітки в буфер обміну"
 
 #: ../calendar/gui/e-memo-table.c:719
-#, fuzzy
 msgid "Paste memos from the clipboard"
 msgstr "Вставити примітку з буфера обміну"
 
@@ -5853,9 +5810,8 @@ msgid "Delete selected memos"
 msgstr "Видалити вибрані примітки"
 
 #: ../calendar/gui/e-memo-table.c:731
-#, fuzzy
 msgid "Select all visible memos"
-msgstr "Видалити всі видимі повідомлення"
+msgstr "Виділити всі видимі примітки"
 
 #: ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
@@ -5920,14 +5876,12 @@ msgid "Tasks"
 msgstr "Завдання"
 
 #: ../calendar/gui/e-task-table.c:928
-#, fuzzy
 msgid "Cut selected tasks to the clipboard"
-msgstr "Вирізати виділений текст у буфер обміну"
+msgstr "Вирізати виділені завдання у буфер обміну"
 
 #: ../calendar/gui/e-task-table.c:934
-#, fuzzy
 msgid "Copy selected tasks to the clipboard"
-msgstr "Копіювати виділений текст у буфер обміну"
+msgstr "Копіювати виділені завдання у буфер обміну"
 
 #: ../calendar/gui/e-task-table.c:940
 msgid "Paste tasks from the clipboard"
@@ -5939,9 +5893,8 @@ msgid "Delete selected tasks"
 msgstr "Видалити вибрані завдання"
 
 #: ../calendar/gui/e-task-table.c:952
-#, fuzzy
 msgid "Select all visible tasks"
-msgstr "Видалити всі видимі повідомлення"
+msgstr "Виділити всі видимі завдання"
 
 #: ../calendar/gui/e-timezone-entry.c:354
 msgid "Select Timezone"
@@ -9328,7 +9281,6 @@ msgid "Select a time to compare against"
 msgstr "Вибір часу для порівняння"
 
 #: ../filter/e-filter-file.c:184
-#, fuzzy
 msgid "Choose a File"
 msgstr "Виберіть файл"
 
@@ -9770,12 +9722,11 @@ msgid "_Move"
 msgstr "П_еремістити"
 
 #: ../mail/e-mail-reader.c:864
-#, fuzzy
 msgid "Save Message"
 msgid_plural "Save Messages"
-msgstr[0] "Зберегти повідомлення..."
-msgstr[1] "Зберегти повідомлення..."
-msgstr[2] "Зберегти повідомлення..."
+msgstr[0] "Зберегти повідомлення"
+msgstr[1] "Зберегти повідомлення"
+msgstr[2] "Зберегти повідомлення"
 
 #. Translators: This is a part of a suggested file name
 #. * used when saving a message or multiple messages to an
@@ -9785,7 +9736,6 @@ msgstr[2] "Зберегти повідомлення..."
 #. * at the end.
 #: ../mail/e-mail-reader.c:885 ../plugins/groupwise-features/properties.ui.h:5
 #: ../widgets/table/e-table-click-to-add.c:518
-#, fuzzy
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Повідомлення"
@@ -9797,7 +9747,6 @@ msgid "A_dd Sender to Address Book"
 msgstr "_Додати відправника до адресної книги"
 
 #: ../mail/e-mail-reader.c:1145
-#, fuzzy
 msgid "Add sender to address book"
 msgstr "Додати відправника до адресної книги"
 
@@ -9878,16 +9827,14 @@ msgid "_Clear Flag"
 msgstr "О_чистити ознаку"
 
 #: ../mail/e-mail-reader.c:1215
-#, fuzzy
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "Відновити вибрані повідомлення"
+msgstr "Видалити позначку «до виконання» з обраних повідомлень"
 
 #: ../mail/e-mail-reader.c:1220
 msgid "_Flag Completed"
 msgstr "_Ознака \"Завершено\""
 
 #: ../mail/e-mail-reader.c:1222
-#, fuzzy
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Виділити всі повідомлення у гілці вибраного повідомлення"
 
@@ -9896,9 +9843,8 @@ msgid "Follow _Up..."
 msgstr "_До виконання..."
 
 #: ../mail/e-mail-reader.c:1229
-#, fuzzy
 msgid "Flag the selected messages for follow-up"
-msgstr "Позначити вибрані повідомлення до пересилання"
+msgstr "Позначити «до виконання» обрані повідомлення"
 
 #: ../mail/e-mail-reader.c:1234
 msgid "_Attached"
@@ -9909,9 +9855,8 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "Переслати вибране повідомлення до когось як вкладення"
 
 #: ../mail/e-mail-reader.c:1241
-#, fuzzy
 msgid "Forward As _Attached"
-msgstr "Перес_лати як iCalendar"
+msgstr "Переслати як в_кладення"
 
 #: ../mail/e-mail-reader.c:1248
 msgid "_Inline"
@@ -9922,9 +9867,8 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "Переслати вибране повідомлення в тілі нового повідомлення"
 
 #: ../mail/e-mail-reader.c:1255
-#, fuzzy
 msgid "Forward As _Inline"
-msgstr "Стиль _пересилання:"
+msgstr "Переслати як в_будоване"
 
 #: ../mail/e-mail-reader.c:1262
 msgid "_Quoted"
@@ -9935,9 +9879,8 @@ msgid "Forward the selected message quoted like a reply"
 msgstr "Переслати вибране повідомлення процитоване як відповідь"
 
 #: ../mail/e-mail-reader.c:1269
-#, fuzzy
 msgid "Forward As _Quoted"
-msgstr "Стиль _пересилання:"
+msgstr "Переслати як _цитоване"
 
 #: ../mail/e-mail-reader.c:1276
 msgid "_Load Images"
@@ -10106,9 +10049,8 @@ msgid "Reply to _All"
 msgstr "Відповісти _усім"
 
 #: ../mail/e-mail-reader.c:1425
-#, fuzzy
 msgid "Compose a reply to all the recipients of the selected message"
-msgstr "Відповісти усім отримувачам цього повідомлення"
+msgstr "Відповісти усім отримувачам виділеного повідомлення"
 
 #: ../mail/e-mail-reader.c:1430
 msgid "Reply to _List"
@@ -10128,50 +10070,44 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Відповісти відправнику цього повідомлення"
 
 #: ../mail/e-mail-reader.c:1444
-#, fuzzy
 msgid "_Save as mbox..."
-msgstr "Зберегти як..."
+msgstr "З_берегти як mbox..."
 
 #: ../mail/e-mail-reader.c:1446
-#, fuzzy
 msgid "Save selected messages as an mbox file"
-msgstr "Зберегти виділені повідомлення як текстовий файл"
+msgstr "Зберегти виділені повідомлення як файл mbox"
 
 #: ../mail/e-mail-reader.c:1451
 msgid "Search Folder from Mailing _List..."
 msgstr "Створити віртуальну теку з _списку розсилки..."
 
 #: ../mail/e-mail-reader.c:1453
-#, fuzzy
 msgid "Create a search folder for this mailing list"
-msgstr "Створити віртуальну теку для цього списку листування"
+msgstr "Створити теку пошуку для цього списку листування"
 
 #: ../mail/e-mail-reader.c:1458
 msgid "Search Folder from Recipien_ts..."
 msgstr "Теку пошуку за о_тримувачами..."
 
 #: ../mail/e-mail-reader.c:1460
-#, fuzzy
 msgid "Create a search folder for these recipients"
-msgstr "Створити віртуальну теку для цих отримувачів"
+msgstr "Створити теку пошуку для цих отримувачів"
 
 #: ../mail/e-mail-reader.c:1465
 msgid "Search Folder from Sen_der..."
 msgstr "Створити віртуальну теку за _відправником..."
 
 #: ../mail/e-mail-reader.c:1467
-#, fuzzy
 msgid "Create a search folder for this sender"
-msgstr "Створити віртуальну теку для цього відправника"
+msgstr "Створити теку пошуку для цього відправника"
 
 #: ../mail/e-mail-reader.c:1472
 msgid "Search Folder from S_ubject..."
 msgstr "Створити віртуальну теку за _темою..."
 
 #: ../mail/e-mail-reader.c:1474
-#, fuzzy
 msgid "Create a search folder for this subject"
-msgstr "Створити віртуальну теку для цієї теми"
+msgstr "Створити теку пошуку для цієї теми"
 
 #: ../mail/e-mail-reader.c:1479
 msgid "_Message Source"
@@ -10222,7 +10158,6 @@ msgid "Ch_aracter Encoding"
 msgstr "Набір си_мволів"
 
 #: ../mail/e-mail-reader.c:1537
-#, fuzzy
 msgid "F_orward As"
 msgstr "_Переслати як..."
 
@@ -10231,9 +10166,8 @@ msgid "_Go To"
 msgstr "Пере_йти до"
 
 #: ../mail/e-mail-reader.c:1551
-#, fuzzy
 msgid "Mar_k As"
-msgstr "_Позначити як"
+msgstr "По_значити як"
 
 #: ../mail/e-mail-reader.c:1558
 msgid "_Message"
@@ -10264,7 +10198,6 @@ msgid "Mar_k as Read"
 msgstr "Позначити як _прочитане"
 
 #: ../mail/e-mail-reader.c:1614
-#, fuzzy
 msgid "Mark as Uni_mportant"
 msgstr "Позначити як н_еважливе"
 
@@ -10294,9 +10227,9 @@ msgstr "Не вдається отримати повідомлення"
 
 #: ../mail/e-mail-reader.c:1900 ../mail/e-mail-reader.c:1957
 #: ../mail/mail-ops.c:1849
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving message '%s'"
-msgstr "Отримання повідомлення %s"
+msgstr "Отримання повідомлення «%s»"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
@@ -10385,7 +10318,6 @@ msgstr ""
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
 #: ../mail/em-account-editor.c:881 ../widgets/misc/e-signature-combo-box.c:75
-#, fuzzy
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Немає"
@@ -10404,7 +10336,6 @@ msgstr "Питати для кожного повідомлення"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
 #: ../mail/em-account-editor.c:1704 ../widgets/misc/e-account-tree-view.c:124
-#, fuzzy
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Немає"
@@ -10414,7 +10345,6 @@ msgid "Mail Configuration"
 msgstr "Налаштовування пошти"
 
 #: ../mail/em-account-editor.c:2062
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -10440,9 +10370,8 @@ msgid "Receiving Email"
 msgstr "Отримання пошти"
 
 #: ../mail/em-account-editor.c:2068
-#, fuzzy
 msgid "Please configure the following account settings."
-msgstr "Оберіть один з наступних варіантів"
+msgstr "Налаштуйте наступні параметри облікового запису."
 
 #: ../mail/em-account-editor.c:2070 ../mail/em-account-editor.c:2710
 msgid "Sending Email"
@@ -10474,7 +10403,6 @@ msgid "Done"
 msgstr "Виконано"
 
 #: ../mail/em-account-editor.c:2079
-#, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -10484,10 +10412,10 @@ msgid ""
 msgstr ""
 "Вітаємо! Налаштовування пошти завершено.\n"
 "\n"
-"Усе налаштовано до надсилання та отримання ел.пошти \n"
-"з Evolution.\n"
+"Усе налаштовано до надсилання та отримання електронної пошти \n"
+"з використанням Evolution.\n"
 "\n"
-"Щоб зберегти параметри натисніть \"Завершити\"."
+"Щоб зберегти параметри натисніть \"Застосувати\"."
 
 #: ../mail/em-account-editor.c:2520
 msgid "Check for _new messages every"
@@ -10890,10 +10818,10 @@ msgstr "Назва теки не може містити '/'"
 #. * from your translation.
 #.
 #: ../mail/em-folder-tree.c:1083
-#, fuzzy, c-format
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr "%s (%u)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:1289
 msgid "Mail Folder Tree"
@@ -10924,14 +10852,12 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не вдається скинути повідомлення у сховище верхнього рівня"
 
 #: ../mail/em-folder-utils.c:386
-#, fuzzy
 msgid "Move Folder To"
-msgstr "Пере_містити теку у..."
+msgstr "Перемістити теку у"
 
 #: ../mail/em-folder-utils.c:386
-#, fuzzy
 msgid "Copy Folder To"
-msgstr "_Копіювати теку у..."
+msgstr "Копіювати теку у"
 
 #: ../mail/em-folder-utils.c:507
 #: ../plugins/groupwise-features/share-folder-common.c:141
@@ -10940,9 +10866,8 @@ msgid "Creating folder `%s'"
 msgstr "Створення теки \"%s\""
 
 #: ../mail/em-folder-utils.c:670
-#, fuzzy
 msgid "Create Folder"
-msgstr "Створення теки"
+msgstr "Створити теку"
 
 #: ../mail/em-folder-utils.c:671
 #: ../plugins/groupwise-features/install-shared.c:175
@@ -11203,39 +11128,32 @@ msgid "Search _Folders"
 msgstr "_Віртуальні теки"
 
 #: ../mail/em-vfolder-rule.c:522
-#, fuzzy
 msgid "Add Folder"
-msgstr "Тека"
+msgstr "Додати теку"
 
 #: ../mail/evolution-mail.schemas.in.h:1
-#, fuzzy
 msgid "\"Filter Editor\" window height"
-msgstr "Типова висота вікна"
+msgstr "Висота вікна «Редактор фільтрів»"
 
 #: ../mail/evolution-mail.schemas.in.h:2
-#, fuzzy
 msgid "\"Filter Editor\" window maximize state"
-msgstr "Розгорнутий стан вікна «Отримання та надсилання пошти»"
+msgstr "Розгорнутий стан вікна «Редактор фільтрів»"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-#, fuzzy
 msgid "\"Filter Editor\" window width"
-msgstr "Типова ширина вікна"
+msgstr "Ширина вікна «Редактор фільтрів»"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 msgid "\"Search Folder Editor\" window height"
-msgstr "Типова висота вікна"
+msgstr "Висота вікна «Редактор тек пошуку»"
 
 #: ../mail/evolution-mail.schemas.in.h:5
-#, fuzzy
 msgid "\"Search Folder Editor\" window maximize state"
-msgstr "Розгорнутий стан вікна «Отримання та надсилання пошти»"
+msgstr "Розгорнутий стан вікна «Редактор тек пошуку»"
 
 #: ../mail/evolution-mail.schemas.in.h:6
-#, fuzzy
 msgid "\"Search Folder Editor\" window width"
-msgstr "Тека пошуку за _списком розсилки"
+msgstr "Ширина вікна «Редактор тек пошуку»"
 
 #: ../mail/evolution-mail.schemas.in.h:7
 msgid "\"Send and Receive Mail\" window height"
@@ -11346,18 +11264,16 @@ msgid "Default height of the Composer Window."
 msgstr "Типова висота вікна редактора повідомлення."
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Default height of the mail browser window."
-msgstr "Типова висота вікна редактора повідомлення."
+msgstr "Типова висота вікна оглядача пошти."
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Default height of the subscribe dialog."
 msgstr "Типова висота діалогового вікна підписки."
 
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid "Default maximized state of the mail browser window."
-msgstr "Типова висота вікна редагування повідомлення."
+msgstr "Типовий розгорнутий стан вікна оглядача пошти."
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid "Default reply style"
@@ -11372,9 +11288,8 @@ msgid "Default width of the Composer Window."
 msgstr "Типова висота вікна редагування повідомлення."
 
 #: ../mail/evolution-mail.schemas.in.h:38
-#, fuzzy
 msgid "Default width of the mail browser window."
-msgstr "Типова висота вікна редагування повідомлення."
+msgstr "Типова ширина вікна оглядача пошти."
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Default width of the subscribe dialog."
@@ -11439,9 +11354,8 @@ msgid "Disable or enable ellipsizing of folder names in side bar"
 msgstr "Вимкнути чи увімкнути скорочення назв тек у боковій панелі"
 
 #: ../mail/evolution-mail.schemas.in.h:49
-#, fuzzy
 msgid "Do not add signature delimiter"
-msgstr "Не вдається зберегти файл підпису."
+msgstr "Не додавати розділювач для підпису"
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Draw spelling error indicators on words as you type."
@@ -11569,21 +11483,19 @@ msgstr ""
 "MIME базі даних GNOME можуть використовуватись для показу вмісту."
 
 #: ../mail/evolution-mail.schemas.in.h:73
-#, fuzzy
 msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Початкове значення висоти вікна «Надсилання та отримання пошти». Це значення "
+"Початкове значення висоти вікна «Редактор фільтрів». Це значення "
 "змінюється, коли користувач змінює розмір вікна по вертикали."
 
 #: ../mail/evolution-mail.schemas.in.h:74
-#, fuzzy
 msgid ""
 "Initial height of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Початкове значення висоти вікна «Надсилання та отримання пошти». Це значення "
+"Початкове значення висоти вікна «Редактор тек пошуку». Це значення "
 "змінюється, коли користувач змінює розмір вікна по вертикали."
 
 #: ../mail/evolution-mail.schemas.in.h:75
@@ -11595,31 +11507,27 @@ msgstr ""
 "змінюється, коли користувач змінює розмір вікна по вертикали."
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#, fuzzy
 msgid ""
 "Initial maximize state of the \"Filter Editor\" window. The value updates "
 "when the user maximizes or unmaximizes the window. Note, this particular "
 "value is not used by Evolution since the \"Filter Editor\" window cannot be "
 "maximized. This key exists only as an implementation detail."
 msgstr ""
-"Первинний стан вікна «Надсилання та отримання пошти». Це значення змінюється, "
+"Первинний стан вікна «Редактор фільтрів». Це значення змінюється, "
 "коли користувач розгортає вікно на весь екран або згортає його. Зауважте, що "
-"значення не використовується Evolution, оскільки вікно «Надсилання та "
-"отримання пошти» не може бути розгорнуте на весь екран. Цей ключ існує лише "
+"значення не використовується Evolution, оскільки вікно «Редактор фільтрів» не може бути розгорнуте на весь екран. Цей ключ існує лише "
 "як деталь реалізації."
 
 #: ../mail/evolution-mail.schemas.in.h:77
-#, fuzzy
 msgid ""
 "Initial maximize state of the \"Search Folder Editor\" window. The value "
 "updates when the user maximizes or unmaximizes the window. Note, this "
 "particular value is not used by Evolution since the \"Search Folder Editor\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Первинний стан вікна «Надсилання та отримання пошти». Це значення змінюється, "
+"Первинний стан вікна «Редактор тек пошуку». Це значення змінюється, "
 "коли користувач розгортає вікно на весь екран або згортає його. Зауважте, що "
-"значення не використовується Evolution, оскільки вікно «Надсилання та "
-"отримання пошти» не може бути розгорнуте на весь екран. Цей ключ існує лише "
+"значення не використовується Evolution, оскільки вікно «Редактор тек пошуку» не може бути розгорнуте на весь екран. Цей ключ існує лише "
 "як деталь реалізації."
 
 #: ../mail/evolution-mail.schemas.in.h:78
@@ -11637,21 +11545,19 @@ msgstr ""
 "як деталь реалізації."
 
 #: ../mail/evolution-mail.schemas.in.h:79
-#, fuzzy
 msgid ""
 "Initial width of the \"Filter Editor\" window. The value updates as the user "
 "resizes the window horizontally."
 msgstr ""
-"Первинне значення ширини вікна «Надсилання та отримання пошти». Це значення "
+"Первинне значення ширини вікна «Редактор фільтрів». Це значення "
 "зміниться, коли користувач змінює розмір вікна по горизонталі."
 
 #: ../mail/evolution-mail.schemas.in.h:80
-#, fuzzy
 msgid ""
 "Initial width of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Первинне значення ширини вікна «Надсилання та отримання пошти». Це значення "
+"Первинне значення ширини вікна «Редактор тек пошуку». Це значення "
 "зміниться, коли користувач змінює розмір вікна по горизонталі."
 
 #: ../mail/evolution-mail.schemas.in.h:81
@@ -11681,9 +11587,8 @@ msgid "Last time empty trash was run"
 msgstr "Час останнього очищення смітника"
 
 #: ../mail/evolution-mail.schemas.in.h:85
-#, fuzzy
 msgid "Layout style"
-msgstr "_Розташування"
+msgstr "Стиль розташування"
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "List of Labels and their associated colors"
@@ -11953,14 +11858,12 @@ msgid "Show Animations"
 msgstr "Показувати анімацію"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "Show all message headers"
-msgstr "Згорнути усі гілки повідомлень"
+msgstr "Показувати всі заголовки повідомлень"
 
 #: ../mail/evolution-mail.schemas.in.h:146
-#, fuzzy
 msgid "Show all the headers when viewing a messages."
-msgstr "_Також шифрувати для себе при надсиланні повідомлення"
+msgstr "Показувати всі заголовки при перегляді повідомлень."
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid "Show animated images as animations."
@@ -12096,7 +11999,7 @@ msgstr "Час останньої чистки спаму, у днях з поч
 #: ../mail/evolution-mail.schemas.in.h:171
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr ""
-"Останній раз, коли виконувалось очищення смітника, у дніх з початку епохи."
+"Останній раз, коли виконувалось очищення смітника, у днях з початку епохи."
 
 #: ../mail/evolution-mail.schemas.in.h:172
 msgid ""
@@ -12105,6 +12008,10 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
+"Стиль розташування вказує місце для панелі попереднього перегляду "
+"відносно списку повідомлень. «0» (класичний вигляд) панель під "
+"списком повідомлень. «1» (вертикальний вигляд) панель поруч зі списком "
+"повідомлень."
 
 #: ../mail/evolution-mail.schemas.in.h:173
 msgid "The terminal font for mail display."
@@ -12252,6 +12159,8 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"Користувач повністю контролює, куди має потрапити курсор "
+"при відповіді на повідомлення. Цей параметр визначає, чи буде курсор на початку або наприкінці повідомлення."
 
 #: ../mail/evolution-mail.schemas.in.h:197
 msgid ""
@@ -12259,6 +12168,8 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"Користувач може вказати, де має розміщуватися його підпис при відповіді на повідомлення. "
+"Цей параметр вказує, чи буде підпис на початку чи наприкінці повідомлення."
 
 #: ../mail/evolution-mail.schemas.in.h:198
 msgid "Variable width font"
@@ -12401,9 +12312,8 @@ msgid "<b>Top Posting Option</b> (Not Recommended)"
 msgstr "<b>Відповідь на початку листа</b> (Не рекомендується)"
 
 #: ../mail/mail-config.ui.h:3
-#, fuzzy
 msgid "Account Information"
-msgstr "Немає інформації"
+msgstr "Інформація про обліковий запис"
 
 #: ../mail/mail-config.ui.h:4
 msgid "Add Ne_w Signature..."
@@ -12483,9 +12393,8 @@ msgid "Color for _misspelled words:"
 msgstr "Колір _некоректних слів:"
 
 #: ../mail/mail-config.ui.h:25
-#, fuzzy
 msgid "Composing Messages"
-msgstr "Нове повідомлення"
+msgstr "Створення повідомлення"
 
 #: ../mail/mail-config.ui.h:26 ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
@@ -12496,18 +12405,16 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Питати підтвердження при очищенні видалених повідомлень"
 
 #: ../mail/mail-config.ui.h:29
-#, fuzzy
 msgid "Default Behavior"
-msgstr "Типовий пріоритет:"
+msgstr "Типова поведінка"
 
 #: ../mail/mail-config.ui.h:30
 msgid "Default character e_ncoding:"
 msgstr "Типовий _набір символів:"
 
 #: ../mail/mail-config.ui.h:32
-#, fuzzy
 msgid "Delete Mail"
-msgstr "Видалити"
+msgstr "Видалення повідомлень"
 
 #: ../mail/mail-config.ui.h:33
 msgid "Delete junk messages on e_xit"
@@ -12518,9 +12425,8 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "_Підписувати повідомлення, що надсилаються (типово)"
 
 #: ../mail/mail-config.ui.h:36
-#, fuzzy
 msgid "Displayed Message _Headers"
-msgstr "Усі заг_оловки повідомлень"
+msgstr "_Відображені заголовки повідомлень"
 
 #: ../mail/mail-config.ui.h:37
 msgid "Do not format messages when text si_ze exceeds"
@@ -12621,9 +12527,8 @@ msgid "Languages Table"
 msgstr "Таблиця мов"
 
 #: ../mail/mail-config.ui.h:65
-#, fuzzy
 msgid "Loading Images"
-msgstr "_Завантажити зображення"
+msgstr "Завантаження зображень"
 
 #: ../mail/mail-config.ui.h:66
 msgid "Mail Headers Table"
@@ -12634,19 +12539,16 @@ msgid "Mailbox location"
 msgstr "Розміщення локальної скриньки"
 
 #: ../mail/mail-config.ui.h:68
-#, fuzzy
 msgid "Message Display"
-msgstr "Повідомлення"
+msgstr "Показ повідомлень"
 
 #: ../mail/mail-config.ui.h:69
-#, fuzzy
 msgid "Message Fonts"
-msgstr "Повідомлення містить"
+msgstr "Шрифти повідомлення"
 
 #: ../mail/mail-config.ui.h:70
-#, fuzzy
 msgid "Message Receipts"
-msgstr "Відкликання повідомлення"
+msgstr "Звіти"
 
 #: ../mail/mail-config.ui.h:71
 msgid "No _Proxy for:"
@@ -12668,9 +12570,8 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:75
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
-#, fuzzy
 msgid "Optional Information"
-msgstr "Особиста інформація"
+msgstr "Додаткова інформація"
 
 #: ../mail/mail-config.ui.h:77
 msgid "Or_ganization:"
@@ -12695,19 +12596,16 @@ msgstr ""
 "прихованої копії"
 
 #: ../mail/mail-config.ui.h:83
-#, fuzzy
 msgid "Pretty Good Privacy (PGP/GPG)"
-msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
+msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:85
-#, fuzzy
 msgid "Printed Fonts"
-msgstr "Надрукувати примітки"
+msgstr "Друковані шрфитри"
 
 #: ../mail/mail-config.ui.h:86
-#, fuzzy
 msgid "Proxy Settings"
-msgstr "Параметри спаму"
+msgstr "Параметри проксі"
 
 #: ../mail/mail-config.ui.h:87
 msgid "Quoted"
@@ -12726,14 +12624,12 @@ msgid "Remember _password"
 msgstr "Запам'ятати _пароль"
 
 #: ../mail/mail-config.ui.h:92
-#, fuzzy
 msgid "Required Information"
-msgstr "Інформація про сервер"
+msgstr "Обов'язкова інформація"
 
 #: ../mail/mail-config.ui.h:94
-#, fuzzy
 msgid "SSL is not supported in this build of Evolution"
-msgstr "<b>у цій збірці Evolution немає підтримки SSL</b>"
+msgstr "У цій збірці Evolution немає підтримки SSL"
 
 #: ../mail/mail-config.ui.h:95
 msgid "S_earch for sender photograph only in local address books"
@@ -13206,9 +13102,9 @@ msgid "Opening folder '%s'"
 msgstr "Відкривання теки \"%s\""
 
 #: ../mail/mail-ops.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving quota information for folder '%s'"
-msgstr "Інформація про квоту для теки %s"
+msgstr "Отримання інформації про квоту для теки «%s»"
 
 #: ../mail/mail-ops.c:1378
 #, c-format
@@ -13236,14 +13132,14 @@ msgid "Storing account '%s'"
 msgstr "Збереження теки \"%s\""
 
 #: ../mail/mail-ops.c:1685
-#, fuzzy, c-format
+#, c-format
 msgid "Refreshing folder '%s'"
-msgstr "Оновлення теки"
+msgstr "Оновлення теки «%s»"
 
 #: ../mail/mail-ops.c:1725
-#, fuzzy, c-format
+#, c-format
 msgid "Expunging folder '%s'"
-msgstr "Очищення теки"
+msgstr "Очищення теки «%s»"
 
 #: ../mail/mail-ops.c:1770
 #, c-format
@@ -13298,14 +13194,14 @@ msgid "Could not write data: %s"
 msgstr "Не вдається записати дані: %s"
 
 #: ../mail/mail-ops.c:2394
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting from '%s'"
-msgstr "Відключення від %s"
+msgstr "Відключення від «%s»"
 
 #: ../mail/mail-ops.c:2394
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to '%s'"
-msgstr "Повторне підключення до %s"
+msgstr "Повторне підключення до «%s»"
 
 #: ../mail/mail-ops.c:2490
 #, c-format
@@ -13499,18 +13395,13 @@ msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Ви впевнені, що бажаєте надіслати повідомлення у HTML форматі?"
 
 #: ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to send a message with invalid address?"
 msgstr ""
-"Ви дійсно бажаєте надіслати повідомлення лише до отримувачів прихованої "
-"копії?"
+"Дійсно надіслати повідомлення з некоректною адресою?"
 
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message with invalid addresses?"
-msgstr ""
-"Ви дійсно бажаєте надіслати повідомлення лише до отримувачів прихованої "
-"копії?"
+msgstr "Дійсно надіслати повідомлення з некоректними адресами?"
 
 #: ../mail/mail.error.xml.h:18
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -13700,7 +13591,6 @@ msgstr ""
 "видалений."
 
 #: ../mail/mail.error.xml.h:61
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
 msgstr ""
@@ -13826,9 +13716,8 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Справді видалити теку «{0}» та всі її підтеки?"
 
 #: ../mail/mail.error.xml.h:87
-#, fuzzy
 msgid "Really delete folder \"{0}\"?"
-msgstr "Не вдається видалити теку «{0}»."
+msgstr "Дійсно видалити теку «{0}»?"
 
 #: ../mail/mail.error.xml.h:88
 msgid "Report Junk Failed"
@@ -13916,12 +13805,16 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"Адресу електронної пошти наступного отримувача нерозпізнано як коректну:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:111
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"Адреси електронної пошти наступних отримувача нерозпізнано як коректні:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:113
 msgid "The script file must exist and be executable."
@@ -14157,6 +14050,7 @@ msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr ""
+"У цій теці є лише приховані повідомлення. Щоб їх побачити виберіть меню Вигляд -> Показати приховані повідомлення."
 
 #: ../mail/message-list.c:4730
 msgid "There are no messages in this folder."
@@ -14251,9 +14145,8 @@ msgstr ""
 "атак."
 
 #: ../modules/addressbook/addressbook-config.c:592
-#, fuzzy
 msgid "Use in _Birthday & Anniversaries calendar"
-msgstr "Дні народження та річниці"
+msgstr "_Використовувати у календарі днів народжень та річнициць"
 
 #: ../modules/addressbook/addressbook-config.c:628
 msgid "Copy _book content locally for offline operation"
@@ -14323,18 +14216,16 @@ msgid "Autocomplete length"
 msgstr "Довжина автодоповнення"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
-#, fuzzy
 msgid "Contact layout style"
-msgstr "Перевірки друку контакту"
+msgstr "Стиль розташування контактів"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
 msgid "Contact preview pane position (horizontal)"
-msgstr ""
+msgstr "Розташування панелі попереднього вигляду контактів (горизонтально)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
-#, fuzzy
 msgid "Contact preview pane position (vertical)"
-msgstr "Позиція вертикальної панелі при огляді місяця"
+msgstr "Розташування панелі попереднього вигляду контактів (вертикально)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:5
 msgid "EFolderList XML for the list of completion URIs"
@@ -14347,10 +14238,14 @@ msgstr "EFolderList xml для списку доповнення URI"
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
 msgid "Position of the contact preview pane when oriented horizontally."
 msgstr ""
+"Розташування панелі попереднього перегляду контактів при горизонтальній "
+"орієнтації."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:8
 msgid "Position of the contact preview pane when oriented vertically."
 msgstr ""
+"Розташування панелі попереднього перегляду контактів при вертикальній "
+"орієнтації."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
 msgid "Show autocompleted name with an address"
@@ -14367,6 +14262,10 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
+"Стиль розташування визначає місце для панелі попереднього перегляду "
+"відносно списку контактів. «0» (класичний вигляд) панель "
+"попереднього перегляду під списком контактів. «1» (вертикальний вигляд) "
+"панель поруч із списком контактів."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
 msgid ""
@@ -14395,9 +14294,8 @@ msgid "Whether to show the preview pane."
 msgstr "Показувати панель попереднього перегляду."
 
 #: ../modules/addressbook/autocompletion-config.c:159
-#, fuzzy
 msgid "Table column:"
-msgstr "Модель таблиці"
+msgstr "Стовпчик таблиці:"
 
 #: ../modules/addressbook/autocompletion-config.c:162
 msgid "Autocompletion"
@@ -15745,23 +15643,20 @@ msgid "Loading tasks"
 msgstr "Завантаження завдань"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:569
-#, fuzzy
 msgid "Task List Selector"
-msgstr "Вибір джерела завдання"
+msgstr "Вибір списку задач"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:677
-#, fuzzy
 msgid "Default Task Client"
-msgstr "Типова поштова програма"
+msgstr "Типовий клієнт для задач"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:678
-#, fuzzy
 msgid "Default client for task operations"
-msgstr "Типовий стан гілки"
+msgstr "Типовий клієнт для операцій із задачами"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:688
 msgid "This widget displays groups of task lists"
-msgstr ""
+msgstr "Цей віджет показує групи із списків задач"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-task-shell-sidebar.c:868
@@ -15963,29 +15858,25 @@ msgid "Network Preferences"
 msgstr "Параметри мережі"
 
 #: ../modules/mail/e-mail-shell-content.c:679
-#, fuzzy
 msgid "Group by Threads"
-msgstr "Групувати за _гілками"
+msgstr "Групувати за гілками"
 
 #: ../modules/mail/e-mail-shell-content.c:680
 msgid "Whether to group messages by threads"
-msgstr ""
+msgstr "Чи групувати повідомлення за гілками обговорення"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:855
 #: ../modules/mail/e-mail-shell-view.c:875
-#, fuzzy
 msgid "_Disable Account"
-msgstr "Вимикання облікових записів."
+msgstr "В_имкнути обліковий запис"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:857
-#, fuzzy
 msgid "Disable this account"
-msgstr "Вимикання облікових записів."
+msgstr "Вимкнути цей обліковий запис"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:864
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "Знищити в усіх теках повідомлення, що позначені видаленими"
+msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені видаленими"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:869
 msgid "C_reate Search Folder From Search..."
@@ -15996,10 +15887,8 @@ msgid "_Download Messages for Offline Usage"
 msgstr "_Завантажити повідомлення для автономної роботи"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:878
-#, fuzzy
 msgid "Download messages of accounts and folders marked for offline usage"
-msgstr ""
-"Завантажити повідомлення облікових записів/каталогів для автономної роботи"
+msgstr "Завантажити повідомлення облікових записів/каталогів для автономної роботи"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:883
 msgid "Fl_ush Outbox"
@@ -16792,7 +16681,7 @@ msgstr ""
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:158
 #, c-format
 msgid "Bogofilter is not available. Please install it first."
-msgstr ""
+msgstr "Bogofilter недоступний. Встановіть його."
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:162
@@ -16846,6 +16735,7 @@ msgstr "Фільтрує спам використовуючи Bogofilter."
 #: ../plugins/caldav/caldav-browse-server.c:198
 msgid "Authentication failed. Server requires correct login."
 msgstr ""
+"Помилка при автентифікації. Сервер вимагає коректне ім'я облікового запису."
 
 #: ../plugins/caldav/caldav-browse-server.c:200
 msgid "Given URL cannot be found."
@@ -16956,7 +16846,7 @@ msgstr "Використовувати _SSL"
 
 #: ../plugins/caldav/caldav-source.c:228
 msgid "Brows_e server for a calendar"
-msgstr ""
+msgstr "_Переглянути календарі на сервері"
 
 #: ../plugins/caldav/caldav-source.c:237
 #: ../plugins/calendar-file/calendar-file.c:178
@@ -17333,11 +17223,12 @@ msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
+"Чи вставляти типово зображення обличчя у повідомлення. Перед цим "
+"треба встановити зображення, інакше нічого не відбуватиметься."
 
 #: ../plugins/face/face.c:286
-#, fuzzy
 msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
-msgstr "Виберіть зображення у форматі png розміром (48x48) не більше 700 байт"
+msgstr "Виберіть зображення png ( бажано розміром 48x48, не більше 720 байт)"
 
 #: ../plugins/face/face.c:296
 msgid "Image files"
@@ -17357,36 +17248,31 @@ msgstr "Включ_ати особичтк фотографію"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "Вкладати невелике зображення вашого обличчя до повідомлень, що надсилаються."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
-#, fuzzy
 msgid "Failed Read"
-msgstr "Заголовок таблиці"
+msgstr "Не вдається прочитати"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
-#, fuzzy
 msgid "Invalid Image Size"
-msgstr "Неправильне значення дати"
+msgstr "Неправильний розмір зображення"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
-#, fuzzy
 msgid "Not an image"
-msgstr "_Немає зображення"
+msgstr "Не є зображенням"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
-#, fuzzy
 msgid "Please select an image of size 48 * 48"
-msgstr "Виберіть зображення для цього контакту"
+msgstr "Виберіть зображення розміром 48 * 48"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
-#, fuzzy
 msgid "The file cannot be read"
-msgstr "Елемент не може бути відіслано!\n"
+msgstr "Неможливо прочитати файл"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
-msgstr ""
+msgstr "Обраний файл не схожий на коректне зображення .png. Помилка: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:53
 #: ../plugins/google-account-setup/google-source.c:82
@@ -18492,12 +18378,11 @@ msgstr "<b>%s</b> скасував наступну спільну приміт�
 
 #: ../plugins/itip-formatter/itip-view.c:676
 msgid "All day:"
-msgstr ""
+msgstr "Весь день:"
 
 #: ../plugins/itip-formatter/itip-view.c:686
-#, fuzzy
 msgid "Start day:"
-msgstr "По_чаток:"
+msgstr "День початку:"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:686
@@ -18506,9 +18391,8 @@ msgid "Start time:"
 msgstr "Час початку:"
 
 #: ../plugins/itip-formatter/itip-view.c:698
-#, fuzzy
 msgid "End day:"
-msgstr "%d день"
+msgstr "День завершення:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:698
@@ -18820,46 +18704,52 @@ msgstr "Сповіщати про отримання нової пошти."
 #: ../plugins/mail-to-task/mail-to-task.c:166
 #, c-format
 msgid "Created from a mail by %s"
-msgstr ""
+msgstr "Створено з повідомлення від %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:496
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
-msgstr ""
+msgstr "Виділений календар вже містить подію '%s'. Змінити стару подію?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:499
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
-msgstr ""
+msgstr "Виділений список задач вже містить задачу '%s'. Змінити стару задачу?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:502
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
-msgstr ""
+msgstr "Виділений список приміток вже містить примітку '%s'. Змінити стару примітку?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:519
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
 msgstr ""
+"Видалений календар вже містить деякі елементи для даних повідомлень. "
+"Дійсно створити нові події?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:522
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
 msgstr ""
+"Виділений список задач вже містить деякі задачі для даних повідомлень. "
+"Дійсно створити новий список задач?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:525
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
 msgstr ""
+"Виділений список приміток вже містить деякі примітки для даних "
+"повідомлень. Дійсно створити новий список приміток?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:543
 msgid ""
@@ -18869,8 +18759,11 @@ msgid_plural ""
 "Selected calendar contains events for the given mails already. Would you "
 "like to create new events anyway?"
 msgstr[0] ""
+"Виділений календар вже містить подію для цього повідомлення. Створити нову подію попри все?"
 msgstr[1] ""
+"Виділений календар вже містить події для цього повідомлення. Створити нові події попри все?"
 msgstr[2] ""
+"Виділений календар вже містить події для цього повідомлення. Створити нові події попри все?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:549
 msgid ""
@@ -18880,9 +18773,11 @@ msgid_plural ""
 "Selected task list contains tasks for the given mails already. Would you "
 "like to create new tasks anyway?"
 msgstr[0] ""
+"Виділений список задач вже містить задачу для цього повідомлення. Створити нову задачу попри все?"
 msgstr[1] ""
+"Виділений список задач вже містить задачі для цього повідомлення. Створити нові задачі попри все?"
 msgstr[2] ""
-
+"Виділений список задач вже містить задачі для цього повідомлення. Створити нові задачі попри все?"
 #: ../plugins/mail-to-task/mail-to-task.c:555
 msgid ""
 "Selected memo list contains a memo for the given mail already. Would you "
@@ -18891,22 +18786,24 @@ msgid_plural ""
 "Selected memo list contains memos for the given mails already. Would you "
 "like to create new memos anyway?"
 msgstr[0] ""
+"Виділений список приміток вже містить примітку для цього повідомлення. Створити нову примітку попри все?"
 msgstr[1] ""
+"Виділений список приміток вже містить примітки для цього повідомлення. Створити нові примітки попри все?"
 msgstr[2] ""
+"Виділений список приміток вже містить примітки для цього повідомлення. Створити нові примітки попри все?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:614
-#, fuzzy
 msgid "[No Summary]"
-msgstr "Немає зведення"
+msgstr "[Немає зведення]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:625
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Сервер повернув неправильний об'єкт"
 
 #: ../plugins/mail-to-task/mail-to-task.c:696
-#, fuzzy, c-format
+#, c-format
 msgid "An error occurred during processing: %s"
-msgstr "Під час друку виникла помилка"
+msgstr "При обробці виникла помилка: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:725
 #, c-format
@@ -18943,44 +18840,36 @@ msgid "Cannot get source list. %s"
 msgstr "Не вдається отримати список джерела. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1060
-#, fuzzy
 msgid "Create an _Event"
-msgstr "Перетворити у подію"
+msgstr "Створити _подію"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1062
-#, fuzzy
 msgid "Create a new event from the selected message"
-msgstr "Відповісти відправнику цього повідомлення"
+msgstr "Створити нову подію з виділеного повідомлення"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1067
-#, fuzzy
 msgid "Create a Mem_o"
-msgstr "Створити нову примітку"
+msgstr "Створити при_мітку"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1069
-#, fuzzy
 msgid "Create a new memo from the selected message"
-msgstr "Відповісти відправнику цього повідомлення"
+msgstr "Створити нову примітку з виділеного повідомлення"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1074
-#, fuzzy
 msgid "Create a _Task"
-msgstr "Створити нове завдання"
+msgstr "Створити _завдання"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1076
-#, fuzzy
 msgid "Create a new task from the selected message"
-msgstr "Відповісти відправнику цього повідомлення"
+msgstr "Створити нове завдання з виділеного повідомлення"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1084
-#, fuzzy
 msgid "Create a _Meeting"
-msgstr "Перетворити у з_устріч"
+msgstr "Створити з_устріч"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1086
-#, fuzzy
 msgid "Create a new meeting from the selected message"
-msgstr "Створити новий запит на засідання"
+msgstr "Створити нову зустріч з виділеного повідомлення"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid "Convert a mail message to a task."
@@ -19218,33 +19107,35 @@ msgstr "Показувати HTML, якщо є"
 
 #: ../plugins/prefer-plain/prefer-plain.c:201
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "Evolution обирає кращу частину для показу."
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
-#, fuzzy
 msgid "Show plain text if present"
-msgstr "Показувати HTML, якщо є"
+msgstr "Показувати простий текст, якщо є"
 
 #: ../plugins/prefer-plain/prefer-plain.c:202
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
 msgstr ""
+"Показувати частину з простим текстом, якщо вона є, інакше Evolution обере "
+"кращу частину для оказу."
 
 #: ../plugins/prefer-plain/prefer-plain.c:203
-#, fuzzy
 msgid "Only ever show plain text"
-msgstr "Лише коли показується PLAIN"
+msgstr "Завжди показувати простий текст"
 
 #: ../plugins/prefer-plain/prefer-plain.c:203
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
 msgstr ""
+"Завжди показувати часину з простим текстом та робити вкладення з інших частин, "
+"за потреби."
 
 #: ../plugins/prefer-plain/prefer-plain.c:250
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "_Показувати заборонені частини HTML у вигляді вкладень"
 
 #: ../plugins/prefer-plain/prefer-plain.c:270
 msgid "HTML _Mode"
@@ -19359,35 +19250,28 @@ msgid "_Publish Calendar Information"
 msgstr "_Публікувати відомості календаря"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
-#, fuzzy
 msgid "Custom Location"
-msgstr "Додаткове сповіщення"
+msgstr "Інше місце"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
-#, fuzzy
 msgid "Daily"
-msgstr "День"
+msgstr "Щоденно"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "FTP (with login)"
-msgstr ""
+msgstr "FTP (з авторизацією)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#, fuzzy
 msgid "Manual (via Actions menu)"
-msgstr ""
-"Щоденно\n"
-"Щотижня\n"
-"Вручну (з меню Дії)"
+msgstr "Вручну (з меню Дії)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "P_ort:"
 msgstr "_Порт:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
-#, fuzzy
 msgid "Public FTP"
-msgstr "Загальне"
+msgstr "Загальнодоступний FTP"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "Publishing Location"
@@ -19399,39 +19283,35 @@ msgstr "_Частота публікації"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Secure FTP (SSH)"
-msgstr ""
+msgstr "Безпечний FTP (SSH)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "Secure WebDAV (HTTPS)"
-msgstr ""
+msgstr "Безпечний WebDAV (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "Service _type:"
 msgstr "_Тип служби: "
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
-#, fuzzy
 msgid "Sources"
-msgstr "Джерело"
+msgstr "Джерела"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
 msgstr "Тривалість часу:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
-#, fuzzy
 msgid "WebDAV (HTTP)"
-msgstr "WebDAV"
+msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
-#, fuzzy
 msgid "Weekly"
-msgstr "Тиждень"
+msgstr "Щотижня"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
-#, fuzzy
 msgid "Windows share"
-msgstr "_Вікно"
+msgstr "Ресурс Windows"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_File:"
@@ -19852,9 +19732,8 @@ msgid "Default window width"
 msgstr "Типова ширина вікна"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-#, fuzzy
 msgid "Enable express mode"
-msgstr "Увімкнути теки пошуку"
+msgstr "Увімкнути експрес-режим"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid ""
@@ -19864,7 +19743,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "Ознака, яка вмикає сильно спрощений інтерфейс користувача."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
@@ -20158,140 +20037,124 @@ msgstr "%ld кБ"
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:883
-#, fuzzy
 msgid "Sho_w:"
 msgstr "_Показати:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:910
-#, fuzzy
 msgid "Sear_ch:"
-msgstr "З_найти: "
+msgstr "З_найти:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:970
-#, fuzzy
 msgid "i_n"
 msgstr " _у "
 
 #: ../shell/e-shell-switcher.c:448
-#, fuzzy
 msgid "Toolbar Style"
-msgstr "Стиль па_нелі інструментів"
+msgstr "Стиль панелі інструментів"
 
 #: ../shell/e-shell-switcher.c:449
 msgid "The switcher's toolbar style"
-msgstr ""
+msgstr "Стиль панелі інструментів перемикачів"
 
 #: ../shell/e-shell-switcher.c:465 ../shell/e-shell-window.c:740
-#, fuzzy
 msgid "Toolbar Visible"
 msgstr "Панель інструментів є видимою"
 
 #: ../shell/e-shell-switcher.c:466
-#, fuzzy
 msgid "Whether the switcher is visible"
-msgstr "Чи панель бічна панель має бути видимою."
+msgstr "Чи є перемикач видимим."
 
 #: ../shell/e-shell-utils.c:245
-#, fuzzy
 msgid "vCard (.vcf)"
-msgstr "vCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:247
-#, fuzzy
 msgid "iCalendar (.ics)"
-msgstr "Файли iCalendar (.ics)"
+msgstr "iCalendar (.ics)"
 
 #: ../shell/e-shell-utils.c:268
-#, fuzzy
 msgid "All Files (*)"
-msgstr "Усі файли"
+msgstr "Усі файли (*)"
 
 #: ../shell/e-shell-view.c:675
-#, fuzzy
 msgid "Switcher Action"
-msgstr "Перемикнутись на %s"
+msgstr "Дія перемикача"
 
 #: ../shell/e-shell-view.c:676
 msgid "The switcher action for this shell view"
-msgstr ""
+msgstr "Дія перемикача для цього типу оболонки"
 
 #: ../shell/e-shell-view.c:691
-#, fuzzy
 msgid "Page Number"
-msgstr "Серійний номер"
+msgstr "Номер сторінки"
 
 #: ../shell/e-shell-view.c:692
 msgid "The notebook page number of the shell view"
-msgstr ""
+msgstr "Номер сторінки записника вигляду оболонки"
 
 #: ../shell/e-shell-view.c:708
-#, fuzzy
 msgid "Search Rule"
-msgstr "Фільтр пошуку"
+msgstr "Правило пошуку"
 
 #: ../shell/e-shell-view.c:709
 msgid "Criteria for the current search results"
-msgstr ""
+msgstr "Критерій для поточних результатів пошуку"
 
 #: ../shell/e-shell-view.c:724
 msgid "The EShellBackend for this shell view"
-msgstr ""
+msgstr "EShellBackend для цього типу оболонки"
 
 #: ../shell/e-shell-view.c:739
 msgid "Shell Content Widget"
-msgstr ""
+msgstr "Віджет змісту оболонки"
 
 #: ../shell/e-shell-view.c:740
 msgid "The content widget appears in a shell window's right pane"
-msgstr ""
+msgstr "Зміст віджета виводиться у правій панелі вікна оболонки"
 
 #: ../shell/e-shell-view.c:756
-#, fuzzy
 msgid "Shell Sidebar Widget"
-msgstr "Типова ширина бічної панелі"
+msgstr "Віджет бокової панелі оболонки"
 
 #: ../shell/e-shell-view.c:757
 msgid "The sidebar widget appears in a shell window's left pane"
-msgstr ""
+msgstr "Зміст віджету виводиться у лівій панелі вікна оболонки"
 
 #: ../shell/e-shell-view.c:772
 msgid "Shell Taskbar Widget"
-msgstr ""
+msgstr "Віджет панелі задач оболонки"
 
 #: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
-msgstr ""
+msgstr "Віджет панелі задач з'являється у нижній частині вікна оболонки"
 
 #: ../shell/e-shell-view.c:788
-#, fuzzy
 msgid "Shell Window"
-msgstr "Створити _вікно"
+msgstr "Вікно оболонки"
 
 #: ../shell/e-shell-view.c:789
 msgid "The window to which the shell view belongs"
-msgstr ""
+msgstr "Вікно, якому належить вигляд оболонки"
 
 #: ../shell/e-shell-view.c:805
 msgid "The key file holding widget state data"
-msgstr ""
+msgstr "Ключовий файл, що містить стан даних віджета"
 
 #: ../shell/e-shell-view.c:820
 msgid "The title of the shell view"
-msgstr ""
+msgstr "Заголовок вигляду оболонки"
 
 #: ../shell/e-shell-view.c:834
-#, fuzzy
 msgid "Current View ID"
-msgstr "По_точний режим"
+msgstr "ID поточного вигляду"
 
 #: ../shell/e-shell-view.c:835
-#, fuzzy
 msgid "The current GAL view ID"
-msgstr "поточний час"
+msgstr "ID поточного огляду GAL"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
@@ -20309,24 +20172,20 @@ msgid "Evolution Website"
 msgstr "Веб-сайт Evolution"
 
 #: ../shell/e-shell-window-actions.c:1224
-#, fuzzy
 msgid "Bug Buddy is not installed."
-msgstr "Програма \"Bug buddy\" не встановлена."
+msgstr "Bug Buddy не встановлено."
 
 #: ../shell/e-shell-window-actions.c:1226
-#, fuzzy
 msgid "Bug Buddy could not be run."
-msgstr "Не вдається запустити Bug buddy"
+msgstr "Не вдається запустити Bug Buddy."
 
 #: ../shell/e-shell-window-actions.c:1343
-#, fuzzy
 msgid "GNOME Pilot is not installed."
-msgstr "Програма \"Bug buddy\" не встановлена."
+msgstr "GNOME Pilot не встановлено."
 
 #: ../shell/e-shell-window-actions.c:1345
-#, fuzzy
 msgid "GNOME Pilot could not be run."
-msgstr "Не вдається запустити Bug buddy"
+msgstr "Не вдається запустити GNOME Pilot"
 
 #: ../shell/e-shell-window-actions.c:1439
 msgid "Show information about Evolution"
@@ -20337,14 +20196,12 @@ msgid "_Close Window"
 msgstr "_Закрити вікно"
 
 #: ../shell/e-shell-window-actions.c:1451
-#, fuzzy
 msgid "_Contents"
-msgstr "Зустрічі"
+msgstr "_Зміст"
 
 #: ../shell/e-shell-window-actions.c:1453
-#, fuzzy
 msgid "Open the Evolution User Guide"
-msgstr "Відкрити теку іншого користувача"
+msgstr "Відкрити посібник користувача Evolution"
 
 #: ../shell/e-shell-window-actions.c:1479
 msgid "Evolution _FAQ"
@@ -20359,9 +20216,8 @@ msgid "_Forget Passwords"
 msgstr "_Забути паролі"
 
 #: ../shell/e-shell-window-actions.c:1488
-#, fuzzy
 msgid "Forget all remembered passwords"
-msgstr "Ви дійсно бажаєте видалити усі збережені паролі?"
+msgstr "Забути всі збережені паролі"
 
 #: ../shell/e-shell-window-actions.c:1493
 msgid "I_mport..."
@@ -20376,23 +20232,20 @@ msgid "New _Window"
 msgstr "Створити _вікно"
 
 #: ../shell/e-shell-window-actions.c:1502
-#, fuzzy
 msgid "Create a new window displaying this view"
-msgstr "Показати теку в новому вікні"
+msgstr "Створити нове вікно з цим оглядом"
 
 #: ../shell/e-shell-window-actions.c:1516
-#, fuzzy
 msgid "Configure Evolution"
-msgstr "Налаштовування"
+msgstr "Налаштувати Evolution"
 
 #: ../shell/e-shell-window-actions.c:1521
 msgid "_Quick Reference"
 msgstr "_Швидка довідка"
 
 #: ../shell/e-shell-window-actions.c:1523
-#, fuzzy
 msgid "Show Evolution's shortcut keys"
-msgstr "Змінити параметри Evolutuion."
+msgstr "Налаштувати комбінації клавіш Evolutuion."
 
 #: ../shell/e-shell-window-actions.c:1530
 msgid "Exit the program"
@@ -20404,21 +20257,19 @@ msgstr "_Розширений пошук..."
 
 #: ../shell/e-shell-window-actions.c:1537
 msgid "Construct a more advanced search"
-msgstr ""
+msgstr "Створити більш розширені параметри пошуку"
 
 #: ../shell/e-shell-window-actions.c:1544
-#, fuzzy
 msgid "Clear the current search parameters"
-msgstr "Очистити пошук"
+msgstr "Очистити поточні параметри пошуку"
 
 #: ../shell/e-shell-window-actions.c:1549
 msgid "_Edit Saved Searches..."
 msgstr "_Правка збережених результатів пошуку..."
 
 #: ../shell/e-shell-window-actions.c:1551
-#, fuzzy
 msgid "Manage your saved searches"
-msgstr "Ваша електронна пошта та розклад"
+msgstr "Керування збереженими параметрами пошуку"
 
 #: ../shell/e-shell-window-actions.c:1558
 msgid "Click here to change the search type"
@@ -20430,18 +20281,16 @@ msgstr "З_найти зараз"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1565
-#, fuzzy
 msgid "Execute the current search parameters"
-msgstr "Скасувати поточну поштову операцію"
+msgstr "Виконати пошук з поточними параметрами"
 
 #: ../shell/e-shell-window-actions.c:1570
 msgid "_Save Search..."
 msgstr "З_берегти результати пошуку"
 
 #: ../shell/e-shell-window-actions.c:1572
-#, fuzzy
 msgid "Save the current search parameters"
-msgstr "Зберегти поточний файл"
+msgstr "Зберегти поточні параметри пошуку"
 
 #: ../shell/e-shell-window-actions.c:1584
 msgid "Send / _Receive"
@@ -20452,41 +20301,36 @@ msgid "Send queued items and retrieve new items"
 msgstr "Відіслати повідомлення з черги та отримати нові"
 
 #: ../shell/e-shell-window-actions.c:1591
-#, fuzzy
 msgid "Submit _Bug Report..."
-msgstr "Відіслати _звіт про помилку"
+msgstr "_Надіслати повідомлення про помилку..."
 
 #: ../shell/e-shell-window-actions.c:1593
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Відіслати звіт про помилку за допомогою Bug Buddy"
 
 #: ../shell/e-shell-window-actions.c:1598
-#, fuzzy
 msgid "GNOME Pilot _Synchronization..."
-msgstr "Синхронізація з iPod"
+msgstr "Син_хронізація GNOME Pilot..."
 
 #: ../shell/e-shell-window-actions.c:1600
-#, fuzzy
 msgid "Set up GNOME Pilot configuration"
-msgstr "Налаштувати утиліту \"Пілот\""
+msgstr "Налаштувати GNOME Pilot"
 
 #: ../shell/e-shell-window-actions.c:1605
 msgid "_Work Offline"
 msgstr "Пра_цювати автономно"
 
 #: ../shell/e-shell-window-actions.c:1607
-#, fuzzy
 msgid "Put Evolution into offline mode"
-msgstr "Запуск у автономному режимі"
+msgstr "Перевести Evolution у автономний режим"
 
 #: ../shell/e-shell-window-actions.c:1612
 msgid "_Work Online"
 msgstr "Пра_цювати у мережі"
 
 #: ../shell/e-shell-window-actions.c:1614
-#, fuzzy
 msgid "Put Evolution into online mode"
-msgstr "Запуск у режимі підключення до мережі"
+msgstr "Перевести Evolution у режим з'єднання з мережею"
 
 #: ../shell/e-shell-window-actions.c:1642
 msgid "Lay_out"
@@ -20607,9 +20451,8 @@ msgid "Current view is a customized view"
 msgstr "Поточний огляд налаштований користувачем"
 
 #: ../shell/e-shell-window-actions.c:1823
-#, fuzzy
 msgid "Change the page settings for your current printer"
-msgstr "Налаштовування параметрів сторінки для вашого поточного принтера"
+msgstr "Змінити орієнтацію сторінки для вашого поточного принтера"
 
 #: ../shell/e-shell-window-actions.c:2200
 #, c-format
@@ -20618,7 +20461,7 @@ msgstr "Перемикнутись на %s"
 
 #: ../shell/e-shell-window-actions.c:2413
 msgid "Execute these search parameters"
-msgstr ""
+msgstr "Виконати ці параметри пошуку"
 
 #. Translators: This is used for the main window title.
 #: ../shell/e-shell-window-private.c:567
@@ -20632,120 +20475,103 @@ msgstr "Створити"
 
 #: ../shell/e-shell-window.c:616
 msgid "Active Shell View"
-msgstr ""
+msgstr "Поточний вигляд оболонки"
 
 #: ../shell/e-shell-window.c:617
-#, fuzzy
 msgid "Name of the active shell view"
-msgstr "Назва нового режиму:"
+msgstr "Назва поточного вигляду оболонки"
 
 #: ../shell/e-shell-window.c:632
 msgid "The shell window's EFocusTracker"
-msgstr ""
+msgstr "EFocusTracker вікна оболонки"
 
 #: ../shell/e-shell-window.c:646 ../shell/e-shell.c:803
 msgid "Geometry"
-msgstr ""
+msgstr "Геометрія"
 
 #: ../shell/e-shell-window.c:647 ../shell/e-shell.c:804
 msgid "Initial window geometry string"
-msgstr ""
+msgstr "Рядок початкової геометрії вікна"
 
 #: ../shell/e-shell-window.c:662
-#, fuzzy
 msgid "Safe Mode"
-msgstr "Режим _каретки"
+msgstr "Безпечний режим"
 
 #: ../shell/e-shell-window.c:663
-#, fuzzy
 msgid "Whether the shell window is in safe mode"
-msgstr "Чи увімкнено модуль"
+msgstr "Чи знаходиться вікно оболонки у безпечному режимі"
 
 #: ../shell/e-shell-window.c:694
-#, fuzzy
 msgid "Sidebar Visible"
-msgstr "Бічна панель є видимою"
+msgstr "Бічна панель видима"
 
 #: ../shell/e-shell-window.c:695
-#, fuzzy
 msgid "Whether the shell window's side bar is visible"
-msgstr "Чи панель кнопки вікон мають бути видимими."
+msgstr "Чи показувати бічну панель вікна оболонки"
 
 #: ../shell/e-shell-window.c:709
-#, fuzzy
 msgid "Switcher Visible"
-msgstr "Бічна панель є видимою"
+msgstr "Перемикач видимий"
 
 #: ../shell/e-shell-window.c:710
-#, fuzzy
 msgid "Whether the shell window's switcher buttons are visible"
-msgstr "Чи панель кнопки вікон мають бути видимими."
+msgstr "Чи показувати кнопки перемикача вікна оболонки"
 
 #: ../shell/e-shell-window.c:725
-#, fuzzy
 msgid "Taskbar Visible"
-msgstr "Рядок стану є видимим"
+msgstr "Панель задач видима"
 
 #: ../shell/e-shell-window.c:726
-#, fuzzy
 msgid "Whether the shell window's task bar is visible"
-msgstr "Чи рядок стану має бути видимою."
+msgstr "Чи показувати панель задач вікна оболонки"
 
 #: ../shell/e-shell-window.c:741
-#, fuzzy
 msgid "Whether the shell window's tool bar is visible"
-msgstr "Чи панель кнопки вікон мають бути видимими."
+msgstr "Чи показувати панель задач вікна оболонки"
 
 #: ../shell/e-shell-window.c:755
-#, fuzzy
 msgid "UI Manager"
-msgstr "Керівник"
+msgstr "Менеджер інтерфейсу"
 
 #: ../shell/e-shell-window.c:756
 msgid "The shell window's GtkUIManager"
-msgstr ""
+msgstr "GtkUIManager вікна оболонки"
 
 #: ../shell/e-shell.c:212
-#, fuzzy
 msgid "Preparing to go offline..."
-msgstr "Підготовка облікового рахунку '%s' до автономної роботи"
+msgstr "Підготовка до виходу з мережі..."
 
 #: ../shell/e-shell.c:262
-#, fuzzy
 msgid "Preparing to go online..."
-msgstr "Підготовка облікового рахунку '%s' до автономної роботи"
+msgstr "Підготовка до входу у мережу..."
 
 #: ../shell/e-shell.c:330
 msgid "Preparing to quit..."
-msgstr ""
+msgstr "Підготовка до виходу..."
 
 #: ../shell/e-shell.c:819
-#, fuzzy
 msgid "Module Directory"
-msgstr "Зберегти каталог"
+msgstr "Каталог модулів"
 
 #: ../shell/e-shell.c:820
 msgid "The directory from which to load EModules"
-msgstr ""
+msgstr "Каталог, з якого завантажувати EModule"
 
 #: ../shell/e-shell.c:835
-#, fuzzy
 msgid "Network Available"
-msgstr "TLS недоступна"
+msgstr "Мережа доступна"
 
 #: ../shell/e-shell.c:836
-#, fuzzy
 msgid "Whether the network is available"
-msgstr "Чи увімкнено модуль"
+msgstr "Чи доступна мережа"
 
 #: ../shell/e-shell.c:851 ../widgets/misc/e-online-button.c:134
 msgid "Online"
 msgstr "У мережі"
 
 #: ../shell/e-shell.c:852
-#, fuzzy
 msgid "Whether the shell is online"
-msgstr "Чи увімкнено модуль"
+msgstr "Чи знаходиться оболонка у мережі"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:168
@@ -20801,21 +20627,19 @@ msgstr "Запуск Evolution з активуванням вказаного к
 
 #: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
-msgstr ""
+msgstr "Застосувати цю геометрію до головного вікна"
 
 #: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "Запуск у режимі підключення до мережі"
 
 #: ../shell/main.c:330
-#, fuzzy
 msgid "Start in \"express\" mode"
-msgstr "Запуск у режимі підключення до мережі"
+msgstr "Запуск у режимі \"експрес\""
 
 #: ../shell/main.c:333
-#, fuzzy
 msgid "Forcibly shut down Evolution"
-msgstr "Примусово завершити усі компоненти evolution"
+msgstr "Примусове завершення роботы Evolution"
 
 #: ../shell/main.c:337
 msgid "Forcibly re-migrate from Evolution 1.4"
@@ -20835,12 +20659,11 @@ msgstr "Вимкнути область перегляду пошити, кон�
 
 #: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
-msgstr ""
+msgstr "Імпортувати URI чи імена файлів вказані у решті аргументів."
 
 #: ../shell/main.c:350
-#, fuzzy
 msgid "Request a running Evolution process to quit"
-msgstr "Перезапуск Evolutuion"
+msgstr "Запит на завершення запущеного процесу Evolution"
 
 #: ../shell/main.c:465
 msgid "- The Evolution PIM and Email Client"
@@ -20951,105 +20774,97 @@ msgid "_Remind Me Later"
 msgstr "_Нагадати пізніше"
 
 #: ../shell/shell.error.xml.h:25
-#, fuzzy
 msgid ""
 "{0}\n"
 "\n"
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
-"{1}\n"
+"{0}\n"
 "\n"
-"Якщо ви виберете продовжувати, можливо, ви не зможете отримати доступ до "
-"деяких ваших старих даних.\n"
+"Якщо ви виберете продовжувати, ви можете втратити доступ до "
+"деяких старих даних.\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#, fuzzy
 msgctxt "New"
 msgid "_Test Item"
-msgstr "_Перевірка"
+msgstr "_Тестовий елемент"
 
 #: ../shell/test/e-test-shell-backend.c:62
 msgid "Create a new test item"
 msgstr "Створити новий перевірочний елемент"
 
 #: ../shell/test/e-test-shell-backend.c:70
-#, fuzzy
 msgctxt "New"
 msgid "Test _Source"
-msgstr "Ресурс"
+msgstr "Тестове д_жерело"
 
 #: ../shell/test/e-test-shell-backend.c:72
-#, fuzzy
 msgid "Create a new test source"
-msgstr "Створити новий перевірочний елемент"
+msgstr "Створити нове текстове джерело"
 
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
+msgstr "Файл не є дійсний файлом .desktop"
 
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
+msgstr "Невідома версія файлу .desktop «%s»"
 
 #: ../smclient/eggdesktopfile.c:958
-#, fuzzy, c-format
+#, c-format
 msgid "Starting %s"
-msgstr "Сканування %s"
+msgstr "Запуск %s"
 
 #: ../smclient/eggdesktopfile.c:1100
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "Програма не сприймає документи у командному рядку"
 
 #: ../smclient/eggdesktopfile.c:1168
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "Невідомий параметр запуску: %d"
 
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
+msgstr "Не вдається передати URI документів елементу робочого столу «Type=Link»"
 
 #: ../smclient/eggdesktopfile.c:1394
-#, fuzzy, c-format
+#, c-format
 msgid "Not a launchable item"
-msgstr "Не вдається запустити редактор"
+msgstr "Не є елементом з можливістю запуску"
 
 #: ../smclient/eggsmclient.c:227
-#, fuzzy
 msgid "Disable connection to session manager"
-msgstr "_Пряме підключення до Інтернету"
+msgstr "Вимкнути підключення до менеджера сеансів"
 
 #: ../smclient/eggsmclient.c:230
-#, fuzzy
 msgid "Specify file containing saved configuration"
-msgstr "Налаштувати утиліту \"Пілот\""
+msgstr "Вкажіть файл, що містить збережену конфігурацію"
 
 #: ../smclient/eggsmclient.c:230
 msgid "FILE"
-msgstr ""
+msgstr "ФАЙЛ"
 
 #: ../smclient/eggsmclient.c:233
 msgid "Specify session management ID"
-msgstr ""
+msgstr "Вказати ID керування сеансів"
 
 #: ../smclient/eggsmclient.c:233
-#, fuzzy
 msgid "ID"
-msgstr "UID"
+msgstr "ID"
 
 #: ../smclient/eggsmclient.c:254
 msgid "Session management options:"
-msgstr ""
+msgstr "Параметри керування сеансом:"
 
 #: ../smclient/eggsmclient.c:255
-#, fuzzy
 msgid "Show session management options"
-msgstr "_Показувати анімацію"
+msgstr "Показувати параметри керування сеансом"
 
 #: ../smime/gui/ca-trust-dialog.c:96
 #, c-format
@@ -21714,22 +21529,20 @@ msgid "De_fault"
 msgstr "Зробити _типовим"
 
 #: ../widgets/misc/e-account-tree-view.c:224
-#, fuzzy
 msgid "Account Name"
-msgstr "Назва облікового запису:"
+msgstr "Назва облікового запису"
 
 #: ../widgets/misc/e-account-tree-view.c:255
 msgid "Protocol"
 msgstr "Протокол"
 
 #: ../widgets/misc/e-action-combo-box.c:388
-#, fuzzy
 msgid "Action"
-msgstr "Ді_ї"
+msgstr "Дія"
 
 #: ../widgets/misc/e-action-combo-box.c:389
 msgid "A GtkRadioAction"
-msgstr ""
+msgstr "GtkRadioAction"
 
 #: ../widgets/misc/e-attachment-dialog.c:305
 msgid "Attachment Properties"
@@ -22061,19 +21874,18 @@ msgstr "Імпорт _одного файлу"
 
 #: ../widgets/misc/e-import-assistant.c:439
 msgid "Select what type of file you want to import from the list."
-msgstr ""
+msgstr "Виберіть тип файлу зі списку для імпорту"
 
 #: ../widgets/misc/e-import-assistant.c:516
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"Evolution перевірив параметри для імпортування наступних програм:\n"
-"Pine, Netscape, Elm, iCalendar. Не знайдено параметрів, які можна\n"
-"імпортувати. Якщо ви бажаєте спробувати ще раз, натисніть\n"
-"кнопку \"Назад\".\n"
+"Evolution перевірив параметри для імпортування наступних програм: "
+"Pine, Netscape, Elm, iCalendar. Не знайдено параметрів, які можна "
+"імпортувати. Якщо ви бажаєте спробувати ще раз, натисніть "
+"кнопку «Назад»."
 
 #: ../widgets/misc/e-import-assistant.c:1187
 #: ../widgets/misc/e-import-assistant.c:1214
@@ -22158,40 +21970,36 @@ msgid "The button state is online"
 msgstr "Стан кнопки - «у мережі»"
 
 #: ../widgets/misc/e-paned.c:306
-#, fuzzy
 msgid "Horizontal Position"
-msgstr "Позиція горизонтальної панелі"
+msgstr "Горизонтальне положення"
 
 #: ../widgets/misc/e-paned.c:307
 msgid "Pane position when oriented horizontally"
-msgstr ""
+msgstr "Позиція панелі при горизонтальній орієнтації"
 
 #: ../widgets/misc/e-paned.c:318
-#, fuzzy
 msgid "Vertical Position"
-msgstr "Позиція вертикальної панелі"
+msgstr "Вертикальне положення"
 
 #: ../widgets/misc/e-paned.c:319
 msgid "Pane position when oriented vertically"
-msgstr ""
+msgstr "Позиція панелі при вертикальній орієнтації"
 
 #: ../widgets/misc/e-paned.c:330
-#, fuzzy
 msgid "Proportion"
-msgstr "В_ластивості"
+msgstr "Пропорції"
 
 #: ../widgets/misc/e-paned.c:331
 msgid "Proportion of the 2nd pane size"
-msgstr ""
+msgstr "Пропорції розмірів 2-ої панелі"
 
 #: ../widgets/misc/e-paned.c:342
-#, fuzzy
 msgid "Fixed Resize"
-msgstr "З_мінити размір"
+msgstr "Фіксована зміна розміру"
 
 #: ../widgets/misc/e-paned.c:343
 msgid "Keep the 2nd pane fixed during resize"
-msgstr ""
+msgstr "Зберігати розміри= 2-й панелі при зміні розміру вікна"
 
 #: ../widgets/misc/e-pilot-settings.c:95
 msgid "Sync with:"
@@ -22293,57 +22101,48 @@ msgid "Deli_vered and opened"
 msgstr "_Доставлено та відкрито"
 
 #: ../widgets/misc/e-send-options.ui.h:5
-#, fuzzy
 msgid "Delivery Options"
-msgstr "<b>Параметри доставки</b>"
+msgstr "Параметри доставки"
 
 #: ../widgets/misc/e-send-options.ui.h:6
 msgid "For Your Eyes Only"
-msgstr ""
+msgstr "Лише для ваших глаз"
 
 #: ../widgets/misc/e-send-options.ui.h:7
 msgid "Gene_ral Options"
 msgstr "Загальні п_араметри"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#, fuzzy
 msgid "Mail Receipt"
-msgstr ""
-"Немає\n"
-"Сповіщення про прочитання"
+msgstr "Сповіщення про прочитання"
 
 #: ../widgets/misc/e-send-options.ui.h:14
-#, fuzzy
 msgid "Proprietary"
-msgstr "Пріоритет"
+msgstr "Особистий"
 
 #: ../widgets/misc/e-send-options.ui.h:15
 msgid "R_eply requested"
 msgstr "_Відповідь запитується"
 
 #: ../widgets/misc/e-send-options.ui.h:17
-#, fuzzy
 msgid "Return Notification"
-msgstr "<b>Сповіщення про повернення</b>"
+msgstr "Сповіщення про повернення"
 
 #: ../widgets/misc/e-send-options.ui.h:20
 msgid "Sta_tus Tracking"
 msgstr "Відстеження с_татусу"
 
 #: ../widgets/misc/e-send-options.ui.h:21
-#, fuzzy
 msgid "Standard"
-msgstr "_Стандартний шрифт:"
+msgstr "Стандартний"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#, fuzzy
 msgid "Status Tracking"
-msgstr "Відстеження с_татусу"
+msgstr "Відстеження статусу"
 
 #: ../widgets/misc/e-send-options.ui.h:23
-#, fuzzy
 msgid "Top Secret"
-msgstr "Дуже приватно"
+msgstr "Цілковито таємно"
 
 #: ../widgets/misc/e-send-options.ui.h:25
 msgid "When acce_pted:"
@@ -22875,13 +22674,12 @@ msgid "Use click to add"
 msgstr "Використовувати клацання для додавання"
 
 #: ../widgets/table/e-table.c:3374
-#, fuzzy
 msgid "Vertical Row Spacing"
-msgstr "Індикатор простору"
+msgstr "Інтервал між рядками"
 
 #: ../widgets/table/e-table.c:3375
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
-msgstr ""
+msgstr "Простір між рядками. Додається згори та знизу кожного рядка"
 
 #: ../widgets/table/e-tree.c:3392 ../widgets/table/e-tree.c:3393
 msgid "ETree table adapter"
