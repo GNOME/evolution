@@ -20,25 +20,19 @@
 #error This file cannot be built with C++ compiler
 #endif
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #define INITGUID
 #include <windows.h>
 #include <rpc.h>
 
-#if defined(_MSC_VER) || defined(__MINGW64_VERSION_MAJOR)
-
+#ifdef HAVE_EVENTSYS_H
 #include <eventsys.h>
-#include <sensevts.h>
-
 #else
 
 /* Extract relevant typedefs from mingw-w64 headers */
-
-typedef struct {
-	DWORD dwSize;
-	DWORD dwFlags;
-	DWORD dwOutSpeed;
-	DWORD dwInSpeed;
-} *LPSENS_QOCINFO;
 
 typedef struct IEnumEventObject IEnumEventObject;
 
@@ -159,6 +153,23 @@ struct IEventSubscription {
 	CONST_VTBL struct IEventSubscriptionVtbl *lpVtbl;
 };
 
+#define PROGID_EventSubscription OLESTR("EventSystem.EventSubscription")
+
+#endif
+
+#ifdef HAVE_SENSEVTS_H
+#include <sensevts.h>
+#else
+
+/* Extract relevant typedefs from mingw-w64 headers */
+
+typedef struct {
+	DWORD dwSize;
+	DWORD dwFlags;
+	DWORD dwOutSpeed;
+	DWORD dwInSpeed;
+} *LPSENS_QOCINFO;
+
 typedef struct ISensNetwork ISensNetwork;
 
 const IID IID_ISensNetwork;
@@ -181,8 +192,6 @@ typedef struct ISensNetworkVtbl {
 struct ISensNetwork {
 	CONST_VTBL struct ISensNetworkVtbl *lpVtbl;
 };
-
-#define PROGID_EventSubscription OLESTR("EventSystem.EventSubscription")
 
 #endif
 
