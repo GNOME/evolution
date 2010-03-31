@@ -70,4 +70,5 @@ libevolution_mail_settings_la_LIBADD = 				\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/e-util/libeutil.la
 
+libevolution_mail_settings_la_LDFLAGS =  $(NO_UNDEFINED)
 
