@@ -2293,7 +2293,7 @@ msgstr "Зустрічі"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:2
 msgid "Dismiss _All"
-msgstr "Вивільнити все"
+msgstr "_Скасувати все"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
@@ -2310,7 +2310,7 @@ msgstr "Нагадати _через:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:5
 msgid "_Dismiss"
-msgstr "Вивільнити"
+msgstr "_Скасувати"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
 #: ../calendar/gui/dialogs/comp-editor.c:1016
@@ -2479,7 +2479,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:9
 msgid "Color to draw the Marcus Bains line in the Day View."
-msgstr "Колір для лінії Маркуса Байнса у розкладі на день."
+msgstr "Колір для лінії Маркуса	 Байнса у розкладі на день."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:10
 msgid "Compress weekends in month view"
@@ -3394,7 +3394,7 @@ msgstr "Відображення"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:16
 msgid "Display alarms in _notification area only"
-msgstr "Показувати сигнали попередження у області сповіщення"
+msgstr "Показувати сигнали попередження у _області сповіщення"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:18
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
@@ -3443,7 +3443,7 @@ msgstr "Вибір кольору"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
 msgid "S_un"
-msgstr "Ндл"
+msgstr "_Ндл"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
 #: ../calendar/gui/dialogs/recurrence-page.c:1118
@@ -3453,11 +3453,11 @@ msgstr "Субота"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
 msgid "Sc_roll Month View by a week"
-msgstr "Гортати потижнево у режимі \"Місяць\""
+msgstr "_Прокручувати огляд місяцю по тижнях"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
 msgid "Se_cond zone:"
-msgstr "Додатковий пояс:"
+msgstr "Додатковий _часовий пояс:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
 msgid "Select the calendars for alarm notification"
@@ -3473,11 +3473,11 @@ msgstr "Показати _нагадування"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
 msgid "Show week _numbers in date navigator"
-msgstr "Показати _номери тижнів у навігаторі по датам"
+msgstr "Показувати _номери тижнів у навігаторі по датам"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
 msgid "Show week n_umber in Day and Work Week View"
-msgstr "Показати номер тижня у режимах \"День\" та \"Робочий тиждень\""
+msgstr "Показувати н_омери тижнів режимі День та Робочий тиждень"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
 #: ../calendar/gui/dialogs/recurrence-page.c:1119
@@ -3491,7 +3491,7 @@ msgstr "Завдання на _сьогодні:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 msgid "T_hu"
-msgstr "Чтв"
+msgstr "_Чтв"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
 #: ../calendar/gui/dialogs/calendar-setup.c:379
@@ -3531,7 +3531,7 @@ msgstr "Вівторок"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 msgid "Use s_ystem time zone"
-msgstr "Використовувати системний часовий пояс"
+msgstr "Використовувати _системний часовий пояс"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
@@ -3574,7 +3574,7 @@ msgstr "_День починається:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_Fri"
-msgstr "Птн"
+msgstr "_Птн"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Hide completed tasks after"
@@ -3590,7 +3590,7 @@ msgstr "П_рострочені завдання:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
 msgid "_Sat"
-msgstr "Сбт"
+msgstr "С_бт"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Show appointment end times in week and month view"
@@ -3602,11 +3602,11 @@ msgstr "Поділки _часу:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Tue"
-msgstr "Втр"
+msgstr "_Втр"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "_Wed"
-msgstr "Срд"
+msgstr "_Срд"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
 msgid "before every anniversary/birthday"
@@ -8088,7 +8088,7 @@ msgstr "Зберегти поточний файл з іншою назвою"
 
 #: ../composer/e-composer-actions.c:321
 msgid "Save as _Draft"
-msgstr "Зберегти як чернетку"
+msgstr "Зберегти як _чернетку"
 
 #: ../composer/e-composer-actions.c:323
 msgid "Save as draft"
@@ -8934,7 +8934,7 @@ msgstr "_Журнали налагодження"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:208
 msgid "Show _errors in the status bar for"
-msgstr "Показати помилки у рядку статусу для"
+msgstr "Показати _помилки у рядку статусу для"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
@@ -14303,7 +14303,7 @@ msgstr "Автодоповнення"
 
 #: ../modules/addressbook/autocompletion-config.c:165
 msgid "Always _show address of the autocompleted contact"
-msgstr "Завжди показувати адресу контакту автозаповненя"
+msgstr "Завжди _показувати адресу контакту автозаповненя"
 
 #. Create the LDAP source group
 #: ../modules/addressbook/e-book-shell-backend.c:190
@@ -14353,19 +14353,16 @@ msgstr "Контакти"
 #: ../modules/calendar/e-cal-shell-backend.c:777
 #: ../modules/calendar/e-memo-shell-backend.c:587
 #: ../modules/calendar/e-task-shell-backend.c:597
-#, fuzzy
 msgid "Source List"
-msgstr "Джерело"
+msgstr "Список джерело"
 
 #: ../modules/addressbook/e-book-shell-backend.c:597
-#, fuzzy
 msgid "The registry of address books"
-msgstr "Не вдається отримати перелік адресних книг"
+msgstr "Реєстр адресних книг"
 
 #: ../modules/addressbook/e-book-shell-content.c:364
-#, fuzzy
 msgid "Current View"
-msgstr "По_точний режим"
+msgstr "Поточний вигляд"
 
 #: ../modules/addressbook/e-book-shell-content.c:365
 msgid "The currently selected address book view"
@@ -14376,25 +14373,22 @@ msgid "Previewed Contact"
 msgstr "Попередній перегляд контакту"
 
 #: ../modules/addressbook/e-book-shell-content.c:375
-#, fuzzy
 msgid "The contact being shown in the preview pane"
-msgstr "Показувати панель попереднього перегляду."
+msgstr "Контакт, що показується у панелі попереднього перегляду"
 
 #: ../modules/addressbook/e-book-shell-content.c:384
 #: ../modules/calendar/e-memo-shell-content.c:617
 #: ../modules/calendar/e-task-shell-content.c:639
 #: ../modules/mail/e-mail-shell-content.c:689
-#, fuzzy
 msgid "Preview is Visible"
-msgstr "Бічна панель є видимою"
+msgstr "Попередній перегляд увімкнено"
 
 #: ../modules/addressbook/e-book-shell-content.c:385
 #: ../modules/calendar/e-memo-shell-content.c:618
 #: ../modules/calendar/e-task-shell-content.c:640
 #: ../modules/mail/e-mail-shell-content.c:690
-#, fuzzy
 msgid "Whether the preview pane is visible"
-msgstr "Показувати панель попереднього перегляду."
+msgstr "Чи показувати панель попереднього перегляду"
 
 #: ../modules/addressbook/e-book-shell-migrate.c:645
 msgid "LDAP Servers"
@@ -14450,14 +14444,12 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-sidebar.c:761
 #: ../modules/calendar/e-memo-shell-sidebar.c:687
 #: ../modules/calendar/e-task-shell-sidebar.c:687
-#, fuzzy
 msgid "Source Selector Widget"
-msgstr "Вибір джерела примітки"
+msgstr "Віджет видору джерела"
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:182
-#, fuzzy
 msgid "This widget displays groups of address books"
-msgstr "Не вдається отримати перелік адресних книг"
+msgstr "Цей віджет показує групи з адресних книг"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:262
 #: ../modules/addressbook/e-book-shell-view-actions.c:539
@@ -14469,9 +14461,8 @@ msgid "Co_py All Contacts To..."
 msgstr "К_опіювати контакти у..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:664
-#, fuzzy
 msgid "Copy the contacts of the selected address book to another"
-msgstr "Копіювати контакти з виділеної теки у іншу теку"
+msgstr "Копіювати контакти з виділеної адресної книги у іншу книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:669
 msgid "D_elete Address Book"
@@ -14486,9 +14477,8 @@ msgid "Mo_ve All Contacts To..."
 msgstr "Пере_містити контакти у..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:678
-#, fuzzy
 msgid "Move the contacts of the selected address book to another"
-msgstr "Перемістити всі контакти з виділеної теки у іншу теку"
+msgstr "Перемістити контакти з виділеної адресної книги у іншу адресну книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:683
 msgid "_New Address Book"
@@ -14499,9 +14489,8 @@ msgid "Address _Book Properties"
 msgstr "Властивості адресної _книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:692
-#, fuzzy
 msgid "Show properties of the selected address book"
-msgstr "Змінити властивості вибраної теки"
+msgstr "Показати властивості вибраної адресної книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:697
 #: ../modules/calendar/e-cal-shell-view-actions.c:1300
@@ -14512,48 +14501,40 @@ msgid "_Rename..."
 msgstr "Перей_менувати..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:699
-#, fuzzy
 msgid "Rename the selected address book"
-msgstr "Перейменувати виділену теку"
+msgstr "Перейменувати виділену адресну книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:704
-#, fuzzy
 msgid "S_ave Address Book as vCard"
 msgstr "З_берегти адресну книгу у форматі VCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:706
-#, fuzzy
 msgid "Save the contacts of the selected address book as a vCard"
-msgstr "Зберегти контакти з виділеної теки у форматі vCard"
+msgstr "Зберегти контакти з обраної адресної книги у форматі vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:713
-#, fuzzy
 msgid "Stop loading"
 msgstr "Зупинити завантаження"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:718
-#, fuzzy
 msgid "_Copy Contact To..."
 msgstr "_Копіювати контакт у..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:720
-#, fuzzy
 msgid "Copy selected contacts to another address book"
-msgstr "Копіювати вибрані контакти у іншу теку"
+msgstr "Копіювати вибрані контакти у іншу адресну книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:725
 msgid "_Delete Contact"
 msgstr "В_идалити контакт"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:732
-#, fuzzy
 msgid "_Find in Contact..."
-msgstr "_Переслати контакт..."
+msgstr "З_нйти у контактах..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:734
-#, fuzzy
 msgid "Search for text in the displayed contact"
-msgstr "Пошук у тексті відображеного повідомлення"
+msgstr "Пошук тексті у показаному повідомленні"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:739
 msgid "_Forward Contact..."
@@ -14564,14 +14545,12 @@ msgid "Send selected contacts to another person"
 msgstr "Відіслати виділені контакти іншій особі"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:746
-#, fuzzy
 msgid "_Move Contact To..."
 msgstr "Пере_містити контакт у..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:748
-#, fuzzy
 msgid "Move selected contacts to another address book"
-msgstr "Перемістити вибрані контакти у іншу теку"
+msgstr "Перемістити вибрані контакти у іншу адресну книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:753
 msgid "_New Contact..."
@@ -14582,9 +14561,8 @@ msgid "New Contact _List..."
 msgstr "Створити с_писок контактів..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:767
-#, fuzzy
 msgid "_Open Contact"
-msgstr "_Контакт"
+msgstr "_Відкрити контакт"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:769
 msgid "View the current contact"
@@ -14642,9 +14620,8 @@ msgid "_Classic View"
 msgstr "_Класичний вигляд"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:862
-#, fuzzy
 msgid "Show contact preview below the contact list"
-msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
+msgstr "Показувати попередній перегляд контактів нижче списку контактів"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
 #: ../modules/calendar/e-memo-shell-view-actions.c:724
@@ -14654,9 +14631,8 @@ msgid "_Vertical View"
 msgstr "_Вертикальний вигляд"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:869
-#, fuzzy
 msgid "Show contact preview alongside the contact list"
-msgstr "Показати вікно перегляду контакту"
+msgstr "Показувати попередній перегляд контактів поруч зі списком контактів"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:877
 #: ../modules/calendar/e-cal-shell-view-actions.c:1595
@@ -14682,14 +14658,12 @@ msgid "Advanced Search"
 msgstr "Розширений пошук"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:927
-#, fuzzy
 msgid "Print all shown contacts"
-msgstr "Надрукувати виділені контакти"
+msgstr "Друкувати всіх виділених контактів"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:934
-#, fuzzy
 msgid "Preview the contacts to be printed"
-msgstr "Переглянути вигляд контакти при друку"
+msgstr "Попередній перегляд контактів для друку"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:941
 msgid "Print selected contacts"
@@ -14700,9 +14674,8 @@ msgid "Save as vCard..."
 msgstr "Зберегти як VCard..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:958
-#, fuzzy
 msgid "Save selected contacts as a vCard"
-msgstr "Зберегти виділений контакт як vCard"
+msgstr "Зберегти виділені контакти як vCard"
 
 #: ../modules/addressbook/e-book-shell-view.c:338
 msgid "_Forward Contacts"
@@ -14713,19 +14686,16 @@ msgid "_Forward Contact"
 msgstr "_Переслати контакт"
 
 #: ../modules/addressbook/e-book-shell-view.c:371
-#, fuzzy
 msgid "_Send Message to Contacts"
-msgstr "Надіслати _повідомлення до контактів"
+msgstr "Надіслати _повідомлення контактам"
 
 #: ../modules/addressbook/e-book-shell-view.c:373
-#, fuzzy
 msgid "_Send Message to List"
 msgstr "Надіслати _повідомлення у список"
 
 #: ../modules/addressbook/e-book-shell-view.c:375
-#, fuzzy
 msgid "_Send Message to Contact"
-msgstr "Надіслати _повідомлення до контакту"
+msgstr "Надіслати _повідомлення контакту"
 
 #: ../modules/addressbook/eab-composer-util.c:137
 msgid "Multiple vCards"
@@ -14782,9 +14752,8 @@ msgstr "_Ім'я:"
 
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
 #: ../modules/addressbook/ldap-config.ui.h:12
-#, fuzzy
 msgid "One"
-msgstr "У мережі"
+msgstr "Один"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
 msgid "Search Filter"
@@ -14816,9 +14785,8 @@ msgid "Supported Search Bases"
 msgstr "Підтримувані бази пошуку"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
-#, fuzzy
 msgid "Using distinguished name (DN)"
-msgstr "Відокремлене ім'я (DN)"
+msgstr "Використовуючи відокремлене ім'я (DN)"
 
 #: ../modules/addressbook/ldap-config.ui.h:23
 msgid "Using email address"
@@ -14858,7 +14826,7 @@ msgstr "картки"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:259
 msgid "I_mport"
-msgstr "Імпорт"
+msgstr "_Імпорт"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:341
 msgid "Select a Calendar"
@@ -14870,7 +14838,7 @@ msgstr "Виберіть список завдань"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:378
 msgid "I_mport to Calendar"
-msgstr "Імпортувати у календар"
+msgstr "І_мпортувати у календар"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:385
 msgid "I_mport to Tasks"
@@ -15033,30 +15001,26 @@ msgid "Purge events older than"
 msgstr "Очищати події старші за"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:534
-#, fuzzy
 msgid "Copying Items"
 msgstr "Копіювання елементів"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:796
-#, fuzzy
 msgid "Moving Items"
 msgstr "Переміщення елементів"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-actions.c:1098
-#, fuzzy
 msgid "event"
-msgstr "Надіслані"
+msgstr "подія"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1100
 #: ../modules/calendar/e-cal-shell-view-memopad.c:209
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:277
 #: ../modules/calendar/e-memo-shell-view-actions.c:494
 #: ../modules/calendar/e-task-shell-view-actions.c:611
-#, fuzzy
 msgid "Save as iCalendar"
-msgstr "Виберіть календар"
+msgstr "Зберегти як iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1230
 #: ../modules/calendar/e-memo-shell-view-actions.c:575
@@ -15064,22 +15028,18 @@ msgid "_Copy..."
 msgstr "_Копіювати..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1237
-#, fuzzy
 msgid "D_elete Calendar"
-msgstr "Виберіть календар"
+msgstr "В_идалити календар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1239
-#, fuzzy
 msgid "Delete the selected calendar"
-msgstr "Відновити виділені теки"
+msgstr "Видалити виділений календар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1246
-#, fuzzy
 msgid "Go Back"
 msgstr "Перейти назад"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1253
-#, fuzzy
 msgid "Go Forward"
 msgstr "Перейти вперед"
 
@@ -15119,17 +15079,14 @@ msgid "Re_fresh"
 msgstr "О_новити"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1295
-#, fuzzy
 msgid "Refresh the selected calendar"
-msgstr "Перейменувати виділену теку"
+msgstr "Оновити виділений календар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1302
-#, fuzzy
 msgid "Rename the selected calendar"
-msgstr "Перейменувати виділену теку"
+msgstr "Перейменувати виділений каленжар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1307
-#, fuzzy
 msgid "Show _Only This Calendar"
 msgstr "Показувати _лише цей календар"
 
@@ -15142,17 +15099,14 @@ msgid "_Delegate Meeting..."
 msgstr "_Запланувати засідання..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1328
-#, fuzzy
 msgid "_Delete Appointment"
-msgstr "Видалити зустріч"
+msgstr "В_идалити зустріч"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1330
-#, fuzzy
 msgid "Delete selected appointments"
-msgstr "Видалити зустріч"
+msgstr "Видалити виділену зустріч"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1335
-#, fuzzy
 msgid "Delete This _Occurrence"
 msgstr "Видалити цей _екземпляр"
 
@@ -15161,7 +15115,6 @@ msgid "Delete this occurrence"
 msgstr "Видалити цей екземпляр"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1342
-#, fuzzy
 msgid "Delete All Occ_urrences"
 msgstr "Видалити _всі екземпляри"
 
@@ -15170,14 +15123,12 @@ msgid "Delete all occurrences"
 msgstr "Видалити всі екземпляри"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1349
-#, fuzzy
 msgid "New All Day _Event..."
-msgstr "Створити _щоденну подію"
+msgstr "Створити _щоденну подію..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1351
-#, fuzzy
 msgid "Create a new all day event"
-msgstr "Створити нову щоденну зустріч"
+msgstr "Створити нову щоденну подію"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1356
 #: ../modules/calendar/e-cal-shell-view-memopad.c:243
@@ -15188,12 +15139,10 @@ msgid "_Forward as iCalendar..."
 msgstr "Перес_лати як iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1363
-#, fuzzy
 msgid "New _Meeting..."
-msgstr "Створити за_сідання"
+msgstr "Створити за_сідання..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1365
-#, fuzzy
 msgid "Create a new meeting"
 msgstr "Створити новий запит на засідання"
 
@@ -15223,28 +15172,24 @@ msgstr "_Відповісти"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1412
 #: ../modules/calendar/e-cal-shell-view-memopad.c:271
-#, fuzzy
 msgid "Save as iCalendar..."
-msgstr "Зберегти як VCard..."
+msgstr "Зберегти як iCalendar..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1419
 msgid "_Schedule Meeting..."
 msgstr "_Запланувати засідання..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1421
-#, fuzzy
 msgid "Converts an appointment to a meeting"
-msgstr "Очистити старі зустрічі та засідання"
+msgstr "Перетворює зустріч на засідання"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1426
-#, fuzzy
 msgid "Conv_ert to Appointment..."
-msgstr "Створити з_устріч..."
+msgstr "_Перетворити на зустріч..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1428
-#, fuzzy
 msgid "Converts a meeting to an appointment"
-msgstr "%s наприкінці зустрічі"
+msgstr "Перетворює засідання на зустріч"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1550
 msgid "Day"
@@ -15279,9 +15224,8 @@ msgid "Show one week"
 msgstr "Показати один тиждень"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1580
-#, fuzzy
 msgid "Show one work week"
-msgstr "Показати один тиждень"
+msgstr "Показати один робочий тиждень"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1588
 msgid "Active Appointments"
@@ -15289,7 +15233,7 @@ msgstr "Активні зустрічі"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1602
 msgid "Next 7 Days' Appointments"
-msgstr "Зустрічі на наступний тиджень"
+msgstr "Зустрічі на наступний тиждень"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1633
 #: ../modules/calendar/e-memo-shell-view-actions.c:765
@@ -15308,9 +15252,8 @@ msgid "Print this calendar"
 msgstr "Надрукувати цей календар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1659
-#, fuzzy
 msgid "Preview the calendar to be printed"
-msgstr "Переглянути вигляд календаря при друку"
+msgstr "Переглянути перегляд календаря при друку"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1731
 msgid "Go To"
@@ -15320,15 +15263,13 @@ msgstr "Перейти"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:207
 #: ../modules/calendar/e-memo-shell-view-actions.c:492
-#, fuzzy
 msgid "memo"
-msgstr "Примітка"
+msgstr "примітка"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:250
 #: ../modules/calendar/e-memo-shell-view-actions.c:624
-#, fuzzy
 msgid "New _Memo"
-msgstr "Створити примітку"
+msgstr "Створити _примітку"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:252
 #: ../modules/calendar/e-memo-shell-backend.c:320
@@ -15355,9 +15296,8 @@ msgstr "_Відкрити веб-сторінку"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:283
 #: ../modules/calendar/e-memo-shell-view-actions.c:798
-#, fuzzy
 msgid "Print the selected memo"
-msgstr "Переглянути виділені примітки"
+msgstr "Друкувати виділену примітку"
 
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -15365,9 +15305,8 @@ msgstr "Переглянути виділені примітки"
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:275
 #: ../modules/calendar/e-task-shell-view-actions.c:609
-#, fuzzy
 msgid "task"
-msgstr "Завдання"
+msgstr "завдання"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:310
 #: ../modules/calendar/e-task-shell-view-actions.c:671
@@ -15390,9 +15329,8 @@ msgstr "Поз_начити як незавершене"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:333
 #: ../modules/calendar/e-task-shell-view-actions.c:757
-#, fuzzy
 msgid "Mark selected tasks as incomplete"
-msgstr "Позначити вибрані завдання як виконані"
+msgstr "Позначити вибрані завдання як невиконані"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:338
 #: ../modules/calendar/e-task-shell-view-actions.c:762
@@ -15418,15 +15356,13 @@ msgstr "Переглянути виділене завдання"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:359
 #: ../modules/calendar/e-memo-shell-view-actions.c:813
 #: ../modules/calendar/e-task-shell-view-actions.c:1012
-#, fuzzy
 msgid "_Save as iCalendar..."
-msgstr "Перес_лати як iCalendar"
+msgstr "З_юерегти як iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:371
 #: ../modules/calendar/e-task-shell-view-actions.c:997
-#, fuzzy
 msgid "Print the selected task"
-msgstr "Переглянути виділене завдання"
+msgstr "Друкувати виділене завдання"
 
 #: ../modules/calendar/e-memo-shell-backend.c:318
 msgctxt "New"
@@ -15434,21 +15370,18 @@ msgid "Mem_o"
 msgstr "При_мітка"
 
 #: ../modules/calendar/e-memo-shell-backend.c:325
-#, fuzzy
 msgctxt "New"
 msgid "_Shared Memo"
 msgstr "С_пільна примітка"
 
 #: ../modules/calendar/e-memo-shell-backend.c:327
-#, fuzzy
 msgid "Create a new shared memo"
 msgstr "Створити нову спільну примітку"
 
 #: ../modules/calendar/e-memo-shell-backend.c:335
-#, fuzzy
 msgctxt "New"
 msgid "Memo Li_st"
-msgstr "Список приміток"
+msgstr "Сп_исок приміток"
 
 #: ../modules/calendar/e-memo-shell-backend.c:337
 #: ../modules/calendar/e-memo-shell-view-actions.c:591
@@ -15456,33 +15389,28 @@ msgid "Create a new memo list"
 msgstr "Створити новий список приміток"
 
 #: ../modules/calendar/e-memo-shell-backend.c:588
-#, fuzzy
 msgid "The registry of memo lists"
-msgstr "Друкувати список приміток"
+msgstr "Реєстр списків приміток"
 
 #: ../modules/calendar/e-memo-shell-content.c:608
-#, fuzzy
 msgid "The memo table model"
-msgstr "Модель таблиці"
+msgstr "Модель таблиці приміток"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:221
 msgid "Loading memos"
 msgstr "Завантаження приміток"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:569
-#, fuzzy
 msgid "Memo List Selector"
-msgstr "Вибір джерела примітки"
+msgstr "Вибір списку приміток"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:677
-#, fuzzy
 msgid "Default Memo Client"
-msgstr "Типова поштова програма"
+msgstr "Типовий клієнт для приміток"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:678
-#, fuzzy
 msgid "Default client for memo operations"
-msgstr "Помилка при виконанні операції."
+msgstr "Типовий клієнт для роботи з примітками"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:688
 msgid "This widget displays groups of memo lists"
@@ -15508,9 +15436,8 @@ msgid "_Find in Memo..."
 msgstr "З_найти у примітці…"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:563
-#, fuzzy
 msgid "Search for text in the displayed memo"
-msgstr "Пошук у тексті відображеного повідомлення"
+msgstr "Пошук тексту у показаній примітці"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:582
 msgid "D_elete Memo List"
@@ -15549,16 +15476,14 @@ msgid "Show memo preview below the memo list"
 msgstr "Показувати панель попереднього перегляду приміток зі списком приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
-#, fuzzy
 msgid "Show memo preview alongside the memo list"
-msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
+msgstr "Показувати панель попереднього перегляду приміток зі списком приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:784
 msgid "Print the list of memos"
 msgstr "Друкувати список приміток"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:791
-#, fuzzy
 msgid "Preview the list of memos to be printed"
 msgstr "Попередній перегляд списку приміток перед друком"
 
@@ -15572,19 +15497,17 @@ msgstr[2] "%d приміток"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:420
 #: ../modules/calendar/e-task-shell-view-private.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
-msgstr "%d виділене"
+msgstr "виділено %d"
 
 #: ../modules/calendar/e-memo-shell-view.c:223
-#, fuzzy
 msgid "Delete Memos"
-msgstr "В_идалити повідомлення"
+msgstr "Видалити примітки"
 
 #: ../modules/calendar/e-memo-shell-view.c:225
-#, fuzzy
 msgid "Delete Memo"
-msgstr "Доручити"
+msgstr "Видалити примітку"
 
 #: ../modules/calendar/e-task-shell-backend.c:322
 msgctxt "New"
@@ -15601,10 +15524,9 @@ msgid "Create a new assigned task"
 msgstr "Створити нове призначене завдання"
 
 #: ../modules/calendar/e-task-shell-backend.c:339
-#, fuzzy
 msgctxt "New"
 msgid "Tas_k List"
-msgstr "Список завдань"
+msgstr "Список _завдань"
 
 #: ../modules/calendar/e-task-shell-backend.c:341
 #: ../modules/calendar/e-task-shell-view-actions.c:715
@@ -15612,14 +15534,12 @@ msgid "Create a new task list"
 msgstr "Створити новий список завдань"
 
 #: ../modules/calendar/e-task-shell-backend.c:598
-#, fuzzy
 msgid "The registry of task lists"
-msgstr "Надрукувати список завдань"
+msgstr "Реєстр списків завдань"
 
 #: ../modules/calendar/e-task-shell-content.c:630
-#, fuzzy
 msgid "The task table model"
-msgstr "Модель таблиці"
+msgstr "Модель таблиці задач"
 
 #: ../modules/calendar/e-task-shell-migrate.c:98
 msgid ""
@@ -15682,56 +15602,46 @@ msgstr ""
 "Дійсно видалити ці завдання?"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:678
-#, fuzzy
 msgid "_Delete Task"
-msgstr "В_идалити"
+msgstr "В_идалити завдання"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:685
-#, fuzzy
 msgid "_Find in Task..."
-msgstr "З_найти у повідомленні..."
+msgstr "З_найти у завданні..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:687
-#, fuzzy
 msgid "Search for text in the displayed task"
-msgstr "Пошук у тексті відображеного повідомлення"
+msgstr "Пошук тексту у показаному завданні"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:699
-#, fuzzy
 msgid "Copy..."
-msgstr "_Копіювати..."
+msgstr "Копіювати..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:706
-#, fuzzy
 msgid "D_elete Task List"
-msgstr "Виберіть список завдань"
+msgstr "В_идалити список завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:708
-#, fuzzy
 msgid "Delete the selected task list"
-msgstr "Видалити вибрані завдання"
+msgstr "Видалити вибраний список задач"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:713
 msgid "_New Task List"
 msgstr "_Створити список завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:729
-#, fuzzy
 msgid "Refresh the selected task list"
-msgstr "Видалити вибрані завдання"
+msgstr "Оновити обраний список задач"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:736
-#, fuzzy
 msgid "Rename the selected task list"
-msgstr "Перейменувати виділену теку"
+msgstr "Перейменувати виділений список завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:741
-#, fuzzy
 msgid "Show _Only This Task List"
 msgstr "Показувати _лише цей список завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:755
-#, fuzzy
 msgid "Mar_k as Incomplete"
 msgstr "Поз_начити як незавершене"
 
@@ -15744,19 +15654,16 @@ msgid "Task _Preview"
 msgstr "_Попередній перегляд завдання"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:862
-#, fuzzy
 msgid "Show task preview pane"
-msgstr "Показувати панель попереднього перегляду"
+msgstr "Показувати панель попереднього перегляду давдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:883
-#, fuzzy
 msgid "Show task preview below the task list"
-msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
+msgstr "Показувати попередній перегляд завдань нижче списку завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:890
-#, fuzzy
 msgid "Show task preview alongside the task list"
-msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
+msgstr "Показувати попередній перегляд завдань поруч зі списком завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:898
 msgid "Active Tasks"
@@ -15783,13 +15690,12 @@ msgid "Print the list of tasks"
 msgstr "Надрукувати список завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:990
-#, fuzzy
 msgid "Preview the list of tasks to be printed"
-msgstr "Переглянути вигляд списку завдань при друку"
+msgstr "Попередній перегляд списку завдань для друку"
 
 #: ../modules/calendar/e-task-shell-view-private.c:463
 msgid "Expunging"
-msgstr "Очистка теки"
+msgstr "Очищення теки"
 
 #: ../modules/calendar/e-task-shell-view-private.c:565
 #, c-format
@@ -15800,14 +15706,12 @@ msgstr[1] "%d завдання"
 msgstr[2] "%d завдань"
 
 #: ../modules/calendar/e-task-shell-view.c:351
-#, fuzzy
 msgid "Delete Tasks"
-msgstr "Завершені завдання "
+msgstr "Видалити завдання"
 
 #: ../modules/calendar/e-task-shell-view.c:353
-#, fuzzy
 msgid "Delete Task"
-msgstr "Доручити"
+msgstr "Видалити завдання"
 
 #. Translators: This is only for multiple messages.
 #: ../modules/mail/e-mail-attachment-handler.c:335
@@ -15818,7 +15722,6 @@ msgstr "%d вкладених повідомлень"
 #. Translators: "None" for a junk hook name,
 #. * when the junk plugin is not enabled.
 #: ../modules/mail/e-mail-junk-hook.c:90
-#, fuzzy
 msgctxt "mail-junk-hook"
 msgid "None"
 msgstr "Немає"
@@ -15971,27 +15874,24 @@ msgid "_Unsubscribe"
 msgstr "_Відмовитись від підписки"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:969
-#, fuzzy
 msgid "Unsubscribe from the selected folder"
-msgstr "Перейменувати виділену теку"
+msgstr "Відписатися від виділеної теки"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:974
 msgid "Empty _Trash"
 msgstr "О_чистити теку \"Видалені\""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:976
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all accounts"
-msgstr "Знищити в усіх теках повідомлення, що позначені видаленими"
+msgstr "Стерти в усіх облікових записах повідомлення, що позначені видаленими"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:981
 msgid "_New Label"
 msgstr "_Нова позначка"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:990
-#, fuzzy
 msgid "N_one"
-msgstr "Немає"
+msgstr "_Немає"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:997
 msgid "Hide _Read Messages"
@@ -16050,9 +15950,8 @@ msgid "Search F_olders"
 msgstr "Пошук _тек"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1062
-#, fuzzy
 msgid "Create or edit search folder definitions"
-msgstr "Створити або редагувати параметри віртуальної теки"
+msgstr "Створити або редагувати визначення теки пошуку"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1067
 msgid "_Subscriptions..."
@@ -16089,27 +15988,24 @@ msgid "Show Message _Preview"
 msgstr "_Попередній перегляд повідомлення"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1158
-#, fuzzy
 msgid "Show message preview pane"
-msgstr "Показати вікно попереднього перегляду повідомлення"
+msgstr "Показати вікно попереднього перегляду повідомлень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1164
 msgid "_Group By Threads"
 msgstr "Групувати за _гілками"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1166
-#, fuzzy
 msgid "Threaded message list"
-msgstr "Розбитий на гілки список повідомлень"
+msgstr "Список підшитих повідомлень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1187
 msgid "Show message preview below the message list"
 msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1194
-#, fuzzy
 msgid "Show message preview alongside the message list"
-msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
+msgstr "Показувати попередній перегляд повідомлення поруч зі списком повідомлень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1202
 msgid "All Messages"
@@ -16148,7 +16044,6 @@ msgid "Unread Messages"
 msgstr "Непрочитане повідомлення"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1310
-#, fuzzy
 msgid "Subject or Addresses contain"
 msgstr "Тема або адреси містять"
 
@@ -16297,26 +16192,22 @@ msgid ""
 msgstr "Модуль %s недоступний. Перевірте, що відповідний пакет встановлено."
 
 #: ../modules/mail/em-mailer-prefs.c:766
-#, fuzzy
 msgid "No junk plugin available"
 msgstr "Модуль роботи зі спамом недоступний"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/mail/em-mailer-prefs.c:1151
-#, fuzzy
 msgid "_Table column:"
-msgstr "Модель таблиці"
+msgstr "Стовпчик _таблиці:"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1153
-#, fuzzy
 msgid "_Date header:"
-msgstr "Заголовок таблиці"
+msgstr "З_аголовок дати:"
 
 #: ../modules/mail/em-mailer-prefs.c:1154
-#, fuzzy
 msgid "Show _original header value"
-msgstr "Показувати _початковий розмір"
+msgstr "Показувати _первинне значення заголовку"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
@@ -16392,14 +16283,12 @@ msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Нагадує, якщо Ви забули вкласти долучення до поштового повідомлення."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Audio"
-msgstr "У вмісті"
+msgstr "Вбудований звук"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
-#, fuzzy
 msgid "Play audio attachments directly in mail messages."
-msgstr "Відтворює аудіо долучення одразу з Evolution."
+msgstr "Відтворювати звукові вкладення прямо у повідомленнях."
 
 #: ../plugins/backup-restore/backup-restore.c:152
 msgid "Select name of the Evolution backup file"
@@ -16418,14 +16307,13 @@ msgid "_Restart Evolution after restore"
 msgstr "_Перезапустити Evolution після відновлення"
 
 #: ../plugins/backup-restore/backup-restore.c:290
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
 "Дозволяє відновити Evolution з архіву. Таким чином можна відновлювати пошту, "
-"календарі, завдання, примітки та контакти. \n"
+"календарі, завдання, примітки та контакти. "
 "Будуть відновлені також особисті параметри, фільтри пошти та таке інше."
 
 #: ../plugins/backup-restore/backup-restore.c:297
@@ -16449,18 +16337,16 @@ msgid "_Backup Settings..."
 msgstr "З_берегти параметри..."
 
 #: ../plugins/backup-restore/backup-restore.c:355
-#, fuzzy
 msgid "Backup Evolution data and settings to an archive file"
-msgstr "Збереження та відновлення даних та параметрів"
+msgstr "Зберегти дані та параметри Evolution у архівний файл"
 
 #: ../plugins/backup-restore/backup-restore.c:360
 msgid "R_estore Settings..."
 msgstr "Відновити _параметри..."
 
 #: ../plugins/backup-restore/backup-restore.c:362
-#, fuzzy
 msgid "Restore Evolution data and settings from an archive file"
-msgstr "Збереження та відновлення даних та параметрів"
+msgstr "Відновити дані та параметри Evolution з архівного файлу"
 
 #: ../plugins/backup-restore/backup.c:63
 msgid "Backup Evolution directory"
@@ -16960,7 +16846,6 @@ msgstr "Вибір адреси"
 #. Translators: "None" location for a weather calendar
 #: ../plugins/calendar-weather/calendar-weather.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:371
-#, fuzzy
 msgctxt "weather-cal-location"
 msgid "None"
 msgstr "Немає"
@@ -17028,9 +16913,8 @@ msgid "Mark as _default address book"
 msgstr "Позначити як _типову адресну книгу"
 
 #: ../plugins/default-source/default-source.c:88
-#, fuzzy
 msgid "A_utocomplete with this address book"
-msgstr "Показати доповнене ім'я з адресою"
+msgstr "_Використовувати автодоповнення за допомогою цією адресної книги"
 
 #: ../plugins/default-source/default-source.c:97
 msgid "Mark as _default calendar"
@@ -17092,7 +16976,6 @@ msgstr "Дуже приватно"
 #. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
 #. indicating the header will not be added to a mail message
 #: ../plugins/email-custom-header/email-custom-header.c:379
-#, fuzzy
 msgctxt "email-custom-header"
 msgid "None"
 msgstr "Немає"
@@ -17350,7 +17233,7 @@ msgstr "Прийняти експериментально"
 
 #: ../plugins/groupwise-features/gw-ui.c:352
 msgid "Rese_nd Meeting..."
-msgstr "Повторно надіслати засідання..."
+msgstr "Повторно _надіслати засідання..."
 
 #: ../plugins/groupwise-features/install-shared.c:175
 #: ../plugins/groupwise-features/share-folder-common.c:350
@@ -17358,7 +17241,7 @@ msgid "Create folder"
 msgstr "Створення теки"
 
 #: ../plugins/groupwise-features/install-shared.c:225
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The user '%s' has shared a folder with you\n"
 "\n"
@@ -17404,9 +17287,8 @@ msgid "Email:"
 msgstr "Ел. адреса:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
-#, fuzzy
 msgid "Junk List:"
-msgstr "Список _спаму"
+msgstr "Список спаму:"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:5
 #: ../plugins/publish-calendar/publish-calendar.c:596
@@ -17432,7 +17314,6 @@ msgid "Message Retract"
 msgstr "Відкликання повідомлення"
 
 #: ../plugins/groupwise-features/mail-retract.c:86
-#, fuzzy
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this?"
@@ -17521,24 +17402,20 @@ msgid "You have to specify a user name which you want to add to the list"
 msgstr "Слід вказати ім'я користувача, яке треба додати до списку "
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#, fuzzy
 msgid "Do you want to resend the meeting?"
-msgstr "Ви впевнені, що бажаєте повторно надіслати це засідання?"
+msgstr "Дійсно бажаєте повторно надіслати це засідання?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#, fuzzy
 msgid "Do you want to resend the recurring meeting?"
-msgstr ""
-"Ви впевнені, що бажаєте повторно надіслати засідання, яке повторюється?"
+msgstr "Дійсно бажаєте повторно надіслати засідання, яке повторюється?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#, fuzzy
 msgid "Do you want to retract the original item?"
-msgstr "Бажаєте відновити незавершене повідомлення?"
+msgstr "Дійсно відновити первинний елемент?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
 msgid "The original will be removed from the recipient's mailbox."
-msgstr "Елемент буде видалено з поштових скриньок усіх отримувачів."
+msgstr "Елемент буде видалений з поштових скриньок усіх отримувачів."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
 msgid "This is a recurring meeting"
@@ -17756,14 +17633,12 @@ msgid "Hula Support"
 msgstr "Підтримка Hula"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Image"
-msgstr "У вмісті"
+msgstr "Вбудований показ"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
-#, fuzzy
 msgid "View image attachments directly in mail messages."
-msgstr "Показувати візитки одразу у поштовому повідомленні"
+msgstr "Показувати вкладені зображення безпосередньо у поштовому повідомленні"
 
 #: ../plugins/imap-features/imap-headers.c:328
 #: ../plugins/imap-features/imap-headers.ui.h:2
@@ -17807,7 +17682,6 @@ msgstr ""
 "Використовуйте, якщо у вас немає фільтрів на основі списків розсилок"
 
 #: ../plugins/imap-features/imap-headers.ui.h:10
-#, fuzzy
 msgid "_Fetch All Headers"
 msgstr "Розбирати _всі заголовки"
 
@@ -17940,14 +17814,12 @@ msgstr "Не вдається надіслати інформацію про п�
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1529
-#, fuzzy
 msgid "calendar.ics"
-msgstr "Календар"
+msgstr "календар.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1534
-#, fuzzy
 msgid "Save Calendar"
-msgstr "Створити календар"
+msgstr "Зберегти календар"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1587
 #: ../plugins/itip-formatter/itip-formatter.c:1598
@@ -18479,12 +18351,12 @@ msgstr "Показувати час як _зайнятий"
 
 #: ../plugins/itip-formatter/itip-view.c:1166
 msgid "_Preserve my reminder"
-msgstr "Зберегти нагадувач"
+msgstr "З_берегти нагадування"
 
 #. To Translators: This is a check box to inherit a reminder.
 #: ../plugins/itip-formatter/itip-view.c:1172
 msgid "_Inherit reminder"
-msgstr "Наслідувати нагадувач"
+msgstr "_Успадковувати нагадування"
 
 #: ../plugins/itip-formatter/itip-view.c:1915
 msgid "_Tasks:"
@@ -18556,11 +18428,8 @@ msgid "Play sound when new messages arrive."
 msgstr "Програвати звуковий файл при отриманні нової пошти."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 msgid "Play themed sound when new messages arrive, if not in beep mode."
-msgstr ""
-"Звуковий файл, що відтворюється при отриманні нової пошти, якщо не увімкнено "
-"режим звукового сигналу."
+msgstr "Відтворювати звук при отриманні нової пошти, якщо не увімкнено режим гудка."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Popup message together with the icon."
@@ -18582,9 +18451,8 @@ msgstr ""
 "режим звукового сигналу."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#, fuzzy
 msgid "Use sound theme"
-msgstr "Використовувати підкреслення"
+msgstr "Використовувати звукову тему"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether play sound or beep when new messages arrive."
@@ -18627,15 +18495,15 @@ msgstr[2] "Отримано %d повідомлень у %s."
 
 #. To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:506
-#, fuzzy, c-format
+#, c-format
 msgid "From: %s"
-msgstr "Від %s:"
+msgstr "Від: %s"
 
 #. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "Subject: %s"
-msgstr "Тема:"
+msgstr "Тема: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:527
 #, c-format
@@ -18671,14 +18539,12 @@ msgid "_Beep"
 msgstr "_Звуковий сигнал"
 
 #: ../plugins/mail-notification/mail-notification.c:869
-#, fuzzy
 msgid "Use sound _theme"
-msgstr "Використовувати підкреслення"
+msgstr "Використовувати звукову _тему"
 
 #: ../plugins/mail-notification/mail-notification.c:888
-#, fuzzy
 msgid "Play _file:"
-msgstr "Відтворювати зв_уковий файл"
+msgstr "Відтворювати _файл:"
 
 #: ../plugins/mail-notification/mail-notification.c:899
 msgid "Select sound file"
@@ -18922,7 +18788,6 @@ msgid "_Unsubscribe from List"
 msgstr "_Відписатись від списку"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:320
-#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Відписатись від списку розсилки, якому належить це повідомлення"
 
@@ -19031,14 +18896,12 @@ msgstr ""
 "підтеках?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:168
-#, fuzzy
 msgid "In Current Folder and _Subfolders"
-msgstr "у поточній теці та _підтеках"
+msgstr "У поточній теці та в_кладених теках"
 
 #: ../plugins/mark-all-read/mark-all-read.c:182
-#, fuzzy
 msgid "In Current _Folder Only"
-msgstr "лише у по_точній теці"
+msgstr "Лише у пото_чній теці"
 
 #: ../plugins/mark-all-read/mark-all-read.c:402
 msgid "Mark Me_ssages as Read"
@@ -19168,12 +19031,12 @@ msgstr "_Пошта"
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:317
 msgid "_Address Book"
-msgstr "Адресна книга"
+msgstr "_Адресна книга"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:324
 msgid "A_ppointments"
-msgstr "Зустрічі"
+msgstr "_Зустрічі"
 
 #. Tasks
 #: ../plugins/pst-import/pst-importer.c:330 ../views/tasks/galview.xml.h:3
@@ -19183,7 +19046,7 @@ msgstr "_Завдання"
 #. Journal
 #: ../plugins/pst-import/pst-importer.c:336
 msgid "_Journal entries"
-msgstr "Записи у журналі"
+msgstr "Записи у _журналі"
 
 #: ../plugins/pst-import/pst-importer.c:351
 msgid "Importing Outlook data"
@@ -19299,7 +19162,7 @@ msgstr "Джерела"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
-msgstr "Тривалість часу:"
+msgstr "_Тривалість часу:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "WebDAV (HTTP)"
@@ -19334,9 +19197,8 @@ msgid "_Username:"
 msgstr "_Назва запису:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
-#, fuzzy
 msgid "iCal"
-msgstr "Виклик"
+msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-format-fb.c:69
 #: ../plugins/publish-calendar/publish-format-ical.c:82
@@ -19384,9 +19246,9 @@ msgid "Pipe to SpamAssassin failed, error code: %d"
 msgstr "Помилка каналу для SpamAssassin, код помилки: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:510
-#, fuzzy, c-format
+#, c-format
 msgid "SpamAssassin is not available. Please install it first."
-msgstr "SpamAssassin недоступний."
+msgstr "SpamAssassin недоступний. Встановіть його спочатку."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:930
 msgid "This will make SpamAssassin more reliable, but slower"
@@ -19461,29 +19323,24 @@ msgid "Modified"
 msgstr "Змінено"
 
 #: ../plugins/save-calendar/csv-format.c:530
-#, fuzzy
 msgid "A_dvanced options for the CSV format"
-msgstr "Додаткові параметри формату CSV"
+msgstr "_Додаткові параметри формату CSV"
 
 #: ../plugins/save-calendar/csv-format.c:537
-#, fuzzy
 msgid "Prepend a _header"
-msgstr "Попереду заголовок"
+msgstr "Попереду за_головку"
 
 #: ../plugins/save-calendar/csv-format.c:546
-#, fuzzy
 msgid "_Value delimiter:"
-msgstr "Розділювач значень:"
+msgstr "Розділювач _значень:"
 
 #: ../plugins/save-calendar/csv-format.c:553
-#, fuzzy
 msgid "_Record delimiter:"
-msgstr "Розділювач запису:"
+msgstr "_Розділювач записів:"
 
 #: ../plugins/save-calendar/csv-format.c:560
-#, fuzzy
 msgid "_Encapsulate values with:"
-msgstr "Інкапсулювати значення у:"
+msgstr "_Інкапсулювати значення у:"
 
 #: ../plugins/save-calendar/csv-format.c:582
 msgid "Comma separated value format (.csv)"
@@ -19515,28 +19372,24 @@ msgid "RDF format (.rdf)"
 msgstr "Формат RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:111
-#, fuzzy
 msgid "_Format:"
-msgstr "Формат"
+msgstr "_Формат:"
 
 #: ../plugins/save-calendar/save-calendar.c:172
 msgid "Select destination file"
 msgstr "Виберіть файл призначення"
 
 #: ../plugins/save-calendar/save-calendar.c:325
-#, fuzzy
 msgid "Save the selected calendar to disk"
-msgstr "Зберегти виділені повідомлення як текстовий файл"
+msgstr "Зберегти виділений календар на диск"
 
 #: ../plugins/save-calendar/save-calendar.c:356
-#, fuzzy
 msgid "Save the selected memo list to disk"
-msgstr "Зберегти виділені повідомлення як текстовий файл"
+msgstr "Зберегти виділений список приміток на диск"
 
 #: ../plugins/save-calendar/save-calendar.c:387
-#, fuzzy
 msgid "Save the selected task list to disk"
-msgstr "Зберегти календар або список завдань на диск."
+msgstr "Зберегти виділений список завдань на диск"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
@@ -19620,7 +19473,6 @@ msgid "Drafts based template plugin"
 msgstr "Модуль шаблонів на основі чернеток"
 
 #: ../plugins/templates/templates.c:617
-#, fuzzy
 msgid "No Title"
 msgstr "Немає заголовку"
 
@@ -19710,14 +19562,12 @@ msgid "Default sidebar width"
 msgstr "Типова ширина бічної панелі"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
-#, fuzzy
 msgid "Default window X coordinate"
-msgstr "Типовий стан вікна"
+msgstr "Типова координата X"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
-#, fuzzy
 msgid "Default window Y coordinate"
-msgstr "Типовий стан вікна"
+msgstr "Типова координата Y"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window height"
@@ -19875,14 +19725,12 @@ msgstr ""
 "(наприклад \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
-#, fuzzy
 msgid "The default X coordinate for the main window."
-msgstr "Типова ширина головного вікна, у точках."
+msgstr "Типова координата Х для основного вікна."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
-#, fuzzy
 msgid "The default Y coordinate for the main window."
-msgstr "Типова ширина головного вікна, у точках."
+msgstr "Типова координата Y для основного вікна."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid "The default height for the main window, in pixels."
@@ -20357,38 +20205,32 @@ msgid "Show Side _Bar"
 msgstr "Показати _бічну панель"
 
 #: ../shell/e-shell-window-actions.c:1708
-#, fuzzy
 msgid "Show the side bar"
-msgstr "Показати _бічну панель"
+msgstr "Показати бічну панель"
 
 #: ../shell/e-shell-window-actions.c:1714
-#, fuzzy
 msgid "Show _Buttons"
-msgstr "Показувати анімацію"
+msgstr "Показувати _кнопки"
 
 #: ../shell/e-shell-window-actions.c:1716
-#, fuzzy
 msgid "Show the switcher buttons"
-msgstr "Показувати додатковий часовий пояс"
+msgstr "Показувати кнопки перемикача"
 
 #: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Status Bar"
 msgstr "Показати панель _стану"
 
 #: ../shell/e-shell-window-actions.c:1724
-#, fuzzy
 msgid "Show the status bar"
-msgstr "Показати панель _стану"
+msgstr "Показати панель стану"
 
 #: ../shell/e-shell-window-actions.c:1730
-#, fuzzy
 msgid "Show _Tool Bar"
 msgstr "Показати панель _інструментів"
 
 #: ../shell/e-shell-window-actions.c:1732
-#, fuzzy
 msgid "Show the tool bar"
-msgstr "Показати панель _інструментів"
+msgstr "Показати панель інструментів"
 
 #: ../shell/e-shell-window-actions.c:1754
 msgid "_Icons Only"
@@ -20396,7 +20238,7 @@ msgstr "Лише _значки"
 
 #: ../shell/e-shell-window-actions.c:1756
 msgid "Display window buttons with icons only"
-msgstr "Відображати кнопки вікна лише зі значками"
+msgstr "Показувати кнопки вікна лише зі значками"
 
 #: ../shell/e-shell-window-actions.c:1761
 msgid "_Text Only"
@@ -20743,9 +20585,8 @@ msgstr ""
 "час.\n"
 
 #: ../shell/shell.error.xml.h:18
-#, fuzzy
 msgid "Upgrade from previous version failed:"
-msgstr "Помилка при оновленні з попередньої версії: {0}"
+msgstr "Помилка при оновленні з попередньої версії:"
 
 #: ../shell/shell.error.xml.h:19
 msgid ""
@@ -21022,14 +20863,12 @@ msgid "Certificate Authority Trust"
 msgstr "Довіра постачальнику сертифіката"
 
 #: ../smime/gui/smime-ui.ui.h:8
-#, fuzzy
 msgid "Certificate Fields"
-msgstr "<b>Поля сертифікату</b>"
+msgstr "Поля сертифікату"
 
 #: ../smime/gui/smime-ui.ui.h:9
-#, fuzzy
 msgid "Certificate Hierarchy"
-msgstr "<b>Ієрархія сертифікатів</b>"
+msgstr "Ієрархія сертифікатів"
 
 #: ../smime/gui/smime-ui.ui.h:10
 msgid "Certificate details"
@@ -21072,32 +20911,28 @@ msgid "Expires On"
 msgstr "Придатний до"
 
 #: ../smime/gui/smime-ui.ui.h:21
-#, fuzzy
 msgid "Field Value"
-msgstr "Назва поля"
+msgstr "Значення поля"
 
 #: ../smime/gui/smime-ui.ui.h:22
-#, fuzzy
 msgid "Fingerprints"
-msgstr "Відбитки MD5"
+msgstr "Відбитки"
 
 #: ../smime/gui/smime-ui.ui.h:24
 msgid "Import"
 msgstr "Імпорт"
 
 #: ../smime/gui/smime-ui.ui.h:25
-#, fuzzy
 msgid "Issued By"
-msgstr "Випущений"
+msgstr "Виданий ким"
 
 #: ../smime/gui/smime-ui.ui.h:26
 msgid "Issued On"
 msgstr "Випущений"
 
 #: ../smime/gui/smime-ui.ui.h:27
-#, fuzzy
 msgid "Issued To"
-msgstr "Випущений"
+msgstr "Виданий для"
 
 #: ../smime/gui/smime-ui.ui.h:28
 msgid "MD5 Fingerprint"
@@ -21124,9 +20959,8 @@ msgid "SSL Server Certificate"
 msgstr "Сертифікат сервера SSL"
 
 #: ../smime/gui/smime-ui.ui.h:35
-#, fuzzy
 msgid "This certificate has been verified for the following uses:"
-msgstr "<b>Цей сертифікат був перевірений для наступних використань:</b>"
+msgstr "Цей сертифікат був перевірений для наступних використань:"
 
 #: ../smime/gui/smime-ui.ui.h:36
 msgid "Trust the authenticity of this certificate"
@@ -21145,9 +20979,8 @@ msgid "Trust this CA to identify web sites."
 msgstr "Довіряти цій CA для ідентифікації веб-сайтів."
 
 #: ../smime/gui/smime-ui.ui.h:40
-#, fuzzy
 msgid "Validity"
-msgstr "<b>Стан</b>"
+msgstr "Дійсність"
 
 #: ../smime/gui/smime-ui.ui.h:41
 msgid "View"
@@ -21441,9 +21274,8 @@ msgid "Select a Time Zone"
 msgstr "Вибрати часовий пояс"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
-#, fuzzy
 msgid "Time Zones"
-msgstr "_Часовий пояс"
+msgstr "Часові пояси"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
 msgid "Timezone drop-down combination box"
@@ -21459,9 +21291,8 @@ msgstr ""
 "Використовуйте праву кнопку миші для зменшення карти."
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:7
-#, fuzzy
 msgid "_Selection"
-msgstr "Режим виділяння"
+msgstr "_Виділення"
 
 #: ../widgets/menus/gal-define-views-dialog.c:74
 #: ../widgets/menus/gal-define-views-model.c:185
@@ -21578,7 +21409,7 @@ msgstr[2] "Не можу надіслати долучення"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:129
 msgid "_Send To..."
-msgstr "Надіслати до:"
+msgstr "_Надіслати до:"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
 msgid "Send the selected attachments somewhere"
@@ -21705,9 +21536,8 @@ msgstr "Не можу зберегти долучення"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:363
-#, fuzzy
 msgid "Ctrl-click to open a link"
-msgstr "Клацніть щоб відкрити %s"
+msgstr "Ctrl-клацання, щоб відкрити посилання"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1249
@@ -21822,7 +21652,6 @@ msgstr "_Немає"
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
 #: ../widgets/misc/e-dateedit.c:1703 ../widgets/misc/e-dateedit.c:1939
-#, fuzzy
 msgctxt "date"
 msgid "None"
 msgstr "Немає"
@@ -21898,14 +21727,13 @@ msgid "Import Location"
 msgstr "Адреса імпорту"
 
 #: ../widgets/misc/e-import-assistant.c:1207
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
 "external files into Evolution."
 msgstr ""
 "Ласкаво просимо до Асистента імпорту Evolution.\n"
-"Цей асистент допоможе вам імпортувати у Evolution зовнішні файли."
+"Цей асистент допоможе імпортувати у Evolution зовнішні файли."
 
 #: ../widgets/misc/e-import-assistant.c:1223
 msgid "Importer Type"
@@ -21920,15 +21748,13 @@ msgid "Select a File"
 msgstr "Вибір файлу"
 
 #: ../widgets/misc/e-import-assistant.c:1255
-#, fuzzy
 msgid "Click \"Apply\" to begin importing the file into Evolution."
-msgstr "Натисніть \"Імпорт\" для початку імпортування файлу в Evolution. "
+msgstr "Натисніть «Застосувати» для початку імпорту файлу в Evolution. "
 
 #: ../widgets/misc/e-import-assistant.c:1261
 #: ../widgets/misc/e-import-assistant.c:1271
-#, fuzzy
 msgid "Import Data"
-msgstr "Важливо"
+msgstr "Імпорт даних"
 
 #: ../widgets/misc/e-map.c:629
 msgid "World Map"
@@ -21943,27 +21769,18 @@ msgstr ""
 "часовий пояс можна вибрати у розкривному списку, розташованому нижче."
 
 #: ../widgets/misc/e-online-button.c:27
-#, fuzzy
 msgid "Evolution is currently online.  Click this button to work offline."
-msgstr ""
-"Evolution у мережному режимі.\n"
-"Натисніть цю кнопку для переходу у автономний режим."
+msgstr "Evolution у мережному режимі. Натисніть цю кнопку для переходу у автономний режим."
 
 #
 #: ../widgets/misc/e-online-button.c:30
-#, fuzzy
 msgid "Evolution is currently offline.  Click this button to work online."
-msgstr ""
-"Evolution у автономному режимі.\n"
-"Натисніть цю кнопку для переходу до роботи у мережі."
+msgstr "Evolution у автономному режимі. Натисніть цю кнопку для переходу до роботи у мережі."
 
 #
 #: ../widgets/misc/e-online-button.c:33
-#, fuzzy
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr ""
-"Evolution у автономному режимі.\n"
-"Натисніть цю кнопку для переходу до роботи у мережі."
+msgstr "Evolution у автономному режимі, оскільки мережа недоступна."
 
 #: ../widgets/misc/e-online-button.c:135
 msgid "The button state is online"
@@ -22216,21 +22033,18 @@ msgid "_Signature Name:"
 msgstr "_Ім'я підпису:"
 
 #: ../widgets/misc/e-signature-manager.c:294
-#, fuzzy
 msgid "Add Signature Script"
-msgstr "Додати сценарій підпису"
+msgstr "Додати сценарії підпису"
 
 #: ../widgets/misc/e-signature-manager.c:359
-#, fuzzy
 msgid "Edit Signature Script"
-msgstr "Редагувати підпис"
+msgstr "Редагування сценарію підпису"
 
 #: ../widgets/misc/e-signature-manager.c:576
 msgid "Add _Script"
 msgstr "Додати _сценарій"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -22241,14 +22055,12 @@ msgstr ""
 "використовуватись лише для відображення."
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
-#, fuzzy
 msgid "S_cript:"
 msgstr "_Сценарій:"
 
 #: ../widgets/misc/e-signature-script-dialog.c:342
-#, fuzzy
 msgid "Script file must be executable."
-msgstr "Файл сценарію повинен існувати та мати атрибут виконуваного файлу."
+msgstr "Файл сценарію повинен бути виконуваним."
 
 #: ../widgets/misc/e-url-entry.c:105
 msgid "Click here to go to URL"
@@ -22259,28 +22071,24 @@ msgid "_Copy Link Location"
 msgstr "_Копіювати посилання"
 
 #: ../widgets/misc/e-web-view.c:350
-#, fuzzy
 msgid "Copy the link to the clipboard"
-msgstr "Копіювати виділені об'єкти в буфер обміну"
+msgstr "Копіювати посилання у буфер обміну"
 
 #: ../widgets/misc/e-web-view.c:358
 msgid "_Open Link in Browser"
 msgstr "_Відкрити посилання у Інтернет-навігаторі"
 
 #: ../widgets/misc/e-web-view.c:360
-#, fuzzy
 msgid "Open the link in a web browser"
-msgstr "_Відкрити посилання у Інтернет-навігаторі"
+msgstr "Відкрити посилання у Інтернет-навігаторі"
 
 #: ../widgets/misc/e-web-view.c:368
-#, fuzzy
 msgid "_Copy Email Address"
-msgstr "Копіювати _адресу ел.пошти"
+msgstr "_Копіювати адресу ел.пошти"
 
 #: ../widgets/misc/e-web-view.c:397 ../widgets/misc/e-web-view.c:977
-#, fuzzy
 msgid "Select all text and images"
-msgstr "Виділити  весь текст у повідомленні"
+msgstr "Виділити весь текст та зображення"
 
 #: ../widgets/misc/e-web-view.c:752 ../widgets/misc/e-web-view.c:754
 #: ../widgets/misc/e-web-view.c:756
@@ -22321,7 +22129,6 @@ msgstr "зараз"
 
 #. Translators: "None" as a label of a button to unset date in a date table cell
 #: ../widgets/table/e-cell-date-edit.c:320
-#, fuzzy
 msgctxt "table-date"
 msgid "None"
 msgstr "Немає"
@@ -22485,9 +22292,8 @@ msgid "_Sort..."
 msgstr "Сор_тування..."
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
-#, fuzzy
 msgid "Add a Column"
-msgstr "Додати стов_пчик..."
+msgstr "Додати стовпчик"
 
 #: ../widgets/table/e-table-field-chooser.c:151
 msgid ""
