@@ -44,9 +44,8 @@
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-string-utils.h>
 
-#include <libedataserver/e-memory.h>
-
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-poolv.h"
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"

@@ -37,6 +37,7 @@
     <xi:include href="xml/e-html-utils.xml"/>
     <xi:include href="xml/e-icon-factory.xml"/>
     <xi:include href="xml/e-logger.xml"/>
+    <xi:include href="xml/e-poolv.xml"/>
     <xi:include href="xml/e-print.xml"/>
     <xi:include href="xml/e-selection.xml"/>
     <xi:include href="xml/e-signature.xml"/>

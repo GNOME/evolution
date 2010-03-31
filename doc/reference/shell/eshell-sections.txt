@@ -546,6 +546,16 @@ EModulePrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-poolv</FILE>
+<TITLE>EPoolv</TITLE>
+EPoolv
+e_poolv_new
+e_poolv_set
+e_poolv_get
+e_poolv_destroy
+</SECTION>
+
+<SECTION>
 <FILE>e-print</FILE>
 <TITLE>Printing</TITLE>
 e_print_operation_new

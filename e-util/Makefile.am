@@ -36,6 +36,7 @@ eutilinclude_HEADERS = 				\
 	e-mktemp.h				\
 	e-module.h				\
 	e-non-intrusive-error-dialog.h		\
+	e-poolv.h				\
 	e-print.h				\
 	e-plugin.h				\
 	e-plugin-ui.h				\
@@ -114,6 +115,7 @@ libeutil_la_SOURCES =				\
 	e-mktemp.c				\
 	e-module.c				\
 	e-non-intrusive-error-dialog.c		\
+	e-poolv.c				\
 	e-plugin.c				\
 	e-plugin-ui.c				\
 	e-plugin-util.c				\
