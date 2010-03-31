@@ -161,7 +161,7 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 }
 
 static gboolean
-parse_message (const char *msg, int length, EmailProvider *provider)
+parse_message (const gchar *msg, gint length, EmailProvider *provider)
 {
 	xmlDocPtr doc;
 	xmlNodePtr node, top;
@@ -266,7 +266,7 @@ guess_when_online (EmailProvider *provider)
 		return FALSE;
 
 	parse_soup_message (msg, provider);
-	
+
 	g_object_unref (msg);
 	g_object_unref(session);
 	g_free(url);
@@ -275,8 +275,8 @@ guess_when_online (EmailProvider *provider)
 
 }
 
-static char *
-get_filename_for_offline_autoconfig (const char *domain)
+static gchar *
+get_filename_for_offline_autoconfig (const gchar *domain)
 {
 	return g_build_filename (EVOLUTION_PRIVDATADIR, "mail-autoconfig", domain, NULL);
 }
@@ -284,8 +284,8 @@ get_filename_for_offline_autoconfig (const char *domain)
 static gboolean
 guess_when_offline (EmailProvider *provider)
 {
-	char *filename;
-	char *contents;
+	gchar *filename;
+	gchar *contents;
 	gsize length;
 	gboolean success;
 
@@ -298,7 +298,7 @@ guess_when_offline (EmailProvider *provider)
 	if (!g_file_get_contents (filename, &contents, &length, NULL)) /* NULL-GError */
 		goto out;
 
-	success = parse_message (contents, (int) length, provider);
+	success = parse_message (contents, (gint) length, provider);
 
 out:
 	g_free (filename);
