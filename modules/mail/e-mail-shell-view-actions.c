@@ -216,6 +216,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	EShellView *shell_view;
 	CamelFolder *folder;
 	GtkWindow *parent;
+	MessageList *message_list;
 	GPtrArray *uids;
 	const gchar *key;
 	const gchar *prompt;
@@ -236,7 +237,10 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	if (!em_utils_prompt_user (parent, key, prompt, NULL))
 		return;
 
-	uids = e_mail_reader_get_selected_uids (reader);
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	g_return_if_fail (message_list != NULL);
+
+	uids = message_list_get_uids (message_list);
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++)
