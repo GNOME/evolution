@@ -188,13 +188,18 @@ gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (dialog->treeview),
 					 &dialog->model,
 					 &iter)) {
+		GalViewClass *gvclass = NULL;
+
 		gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
 
 		button = e_builder_get_widget (dialog->builder, "button-delete");
 		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in);
 
+		if (item->view)
+			gvclass = GAL_VIEW_GET_CLASS (item->view);
+
 		button = e_builder_get_widget (dialog->builder, "button-modify");
-		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in);
+		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in && gvclass && gvclass->edit != NULL);
 	}
 }
 
