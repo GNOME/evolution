@@ -103,7 +103,14 @@ em_utils_ask_open_many (GtkWindow *parent,
 	if (how_many < TOO_MANY)
 		return TRUE;
 
-	string = g_strdup_printf ("%d", how_many);
+	string = g_strdup_printf (
+		ngettext (
+			/* Translators: This message is shown only for ten or more messages to be opened.
+			   The %d is replaced with the actual count of messages. If you need a '%' in your text,
+			   then write it doubled, like '%%'. */
+			"Are you sure you want to open %d messages at once?",
+			"Are you sure you want to open %d messages at once?", how_many),
+		how_many);
 	proceed = em_utils_prompt_user (
 		parent, "/apps/evolution/mail/prompts/open_many",
 		"mail:ask-open-many", string, NULL);

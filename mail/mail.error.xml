@@ -85,7 +85,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   </error>
 
   <error id="ask-open-many" type="warning" default="GTK_RESPONSE_CANCEL">
-    <_primary>Are you sure you want to open {0} messages at once?</_primary>
+    <primary>{0}</primary>
     <_secondary xml:space="preserve">Opening too many messages at once may take a long time.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Open Messages" response="GTK_RESPONSE_YES"/>
