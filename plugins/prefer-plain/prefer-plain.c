@@ -83,7 +83,7 @@ org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t)
 	if (epp_mode != EPP_TEXT
 	    || strstr (t->format->part_id->str, ".alternative-prefer-plain.") != NULL
 	    || em_format_is_inline (t->format, t->format->part_id->str, t->part, &(t->item->handler)))
-		t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old);
+		t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
 	else if (epp_show_suppressed)
 		make_part_attachment (t->format, t->stream, t->part, -1);
 }
@@ -161,7 +161,7 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 			em_format_part_as (t->format, t->stream, display_part, "text/html");
 			g_string_truncate (t->format->part_id, partidlen);
 		} else {
-			t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old);
+			t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
 		}
 		return;
 	} else if (!CAMEL_IS_MULTIPART(mp)) {

@@ -169,10 +169,10 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMim
 	g_object_unref (gconf);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
-		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);
+		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
-		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);
+		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
 
 	camel_stream_flush(emfq->stream);
 
@@ -474,7 +474,7 @@ emfq_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 
 		camel_stream_write_string(stream, "</font></td></tr></table>");
 
-		handle->handler(emf, stream, part, handle);
+		handle->handler(emf, stream, part, handle, FALSE);
 	}
 }
 

@@ -2741,7 +2741,7 @@ itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	struct _itip_puri *info = (struct _itip_puri *)puri;
 
 	d(printf("writing to frame content, handler is '%s'\n", info->handle->mime_type));
-	info->handle->handler(emf, stream, info->puri.part, info->handle);
+	info->handle->handler(emf, stream, info->puri.part, info->handle, FALSE);
 	camel_stream_close(stream);
 }
 

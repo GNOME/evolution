@@ -261,69 +261,7 @@ namespace Camel {
 			remove { removeEvent("finalize", ref finalise_id, value); }
 		}
 
-		public event MetaChangedEvent MetaChanged {
-			add { addEvent("meta_changed", ref meta_changed_id, (CamelEventFunc)metaChangedHook, value); }
-			remove { removeEvent("meta_changed", ref meta_changed_id, value); }
-		}
-
-		[DllImport("camel-1.2")] static extern IntPtr camel_object_get_ptr(IntPtr raw, ref CamelException ex, int tag);
 		[DllImport("camel-1.2")] static extern void camel_object_free(IntPtr raw, int tag, IntPtr val);
-		[DllImport("camel-1.2")] static extern int camel_object_get_int(IntPtr raw, ref CamelException ex, int tag);
-
-		// maybe we want an indexer class to get properties?
-		// e.g. name = folder.properties[Folder.Tag.NAME]
-		public String getString(int type) {
-			String s;
-			IntPtr o;
-			CamelException ex = new CamelException();
-
-			o = camel_object_get_ptr(cobject, ref ex, type);
-			if (ex.id != 0)
-				throw new Camel.Exception(ex);
-
-			s = Marshal.PtrToStringAuto(o);
-			camel_object_free(cobject, type, o);
-
-			return s;
-		}
-
-		public Camel.Object getObject(int type) {
-			IntPtr o;
-			Camel.Object co;
-			CamelException ex = new CamelException();
-
-			o = camel_object_get_ptr(cobject, ref ex, type);
-			if (ex.id != 0)
-				throw new Camel.Exception(ex);
-
-			co = fromCamel(o);
-			camel_object_free(cobject, type, o);
-
-			return co;
-		}
-
-		public int getInt(int type) {
-			int r;
-			CamelException ex = new CamelException();
-
-			r = camel_object_get_int(cobject, ref ex, type);
-			if (ex.id != 0)
-				throw new Camel.Exception(ex);
-
-			return r;
-		}
-
-		// meta-data
-		[DllImport("camel-1.2")] static extern String camel_object_meta_get(IntPtr raw, string name);
-		[DllImport("camel-1.2")] static extern bool camel_object_meta_set(IntPtr raw, string name, string value);
-
-		public String metaGet(String name) {
-			return camel_object_meta_get(cobject, name);
-		}
-
-		public bool metaSet(String name, String value) {
-			return camel_object_meta_set(cobject, name, value);
-		}
 	}
 
 	public class Provider {

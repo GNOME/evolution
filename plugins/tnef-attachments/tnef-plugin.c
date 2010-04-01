@@ -173,7 +173,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	if (camel_multipart_get_number(mp) > 0)
 		em_format_part_as(t->format, t->stream, mainpart, "multipart/mixed");
 	else if (t->item->handler.old)
-	    t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old);
+	    t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old, FALSE);
 
 	g_string_truncate(t->format->part_id, len);
 
@@ -183,7 +183,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	goto ok;
  fail:
 	if (t->item->handler.old)
-	    t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old);
+	    t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old, FALSE);
  ok:
 	g_free(name);
 	g_free(tmpdir);

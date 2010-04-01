@@ -65,7 +65,7 @@ typedef struct _EMFormatPrivate EMFormatPrivate;
 typedef struct _EMFormatHandler EMFormatHandler;
 typedef struct _EMFormatHeader EMFormatHeader;
 
-typedef void (*EMFormatFunc) (EMFormat *md, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
+typedef void (*EMFormatFunc) (EMFormat *md, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info, gboolean is_fallback);
 
 typedef enum _em_format_mode_t {
 	EM_FORMAT_NORMAL,

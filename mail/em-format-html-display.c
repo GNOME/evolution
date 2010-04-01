@@ -463,7 +463,7 @@ efhd_format_attachment (EMFormat *emf,
 		EM_FORMAT_HTML_VPAD);
 
 	if (handle && info->shown)
-		handle->handler (emf, stream, part, handle);
+		handle->handler (emf, stream, part, handle, FALSE);
 
 	g_free (classid);
 }
@@ -877,7 +877,7 @@ efhd_attachment_frame (EMFormat *emf,
 
 	if (info->shown)
 		info->handle->handler (
-			emf, stream, info->puri.part, info->handle);
+			emf, stream, info->puri.part, info->handle, FALSE);
 
 	camel_stream_close (stream);
 }

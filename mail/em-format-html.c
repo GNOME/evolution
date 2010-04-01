@@ -208,7 +208,7 @@ efh_format_exec (struct _format_msg *m)
 		if (handle != NULL)
 			handle->handler (
 				format, (CamelStream *) m->estream,
-				(CamelMimePart *) m->message, handle);
+				(CamelMimePart *) m->message, handle, FALSE);
 
 		mime_type = "x-evolution/message/rfc822";
 		handle = em_format_find_handler (format, mime_type);
@@ -216,7 +216,7 @@ efh_format_exec (struct _format_msg *m)
 		if (handle != NULL)
 			handle->handler (
 				format, (CamelStream *) m->estream,
-				(CamelMimePart *) m->message, handle);
+				(CamelMimePart *) m->message, handle, FALSE);
 	}
 
 	camel_stream_flush((CamelStream *)m->estream);
@@ -738,7 +738,7 @@ efh_format_attachment (EMFormat *emf,
 	camel_stream_write_string (stream, "</font></td></tr><tr></table>");
 
 	if (handle && em_format_is_inline (emf, emf->part_id->str, part, handle))
-		handle->handler (emf, stream, part, handle);
+		handle->handler (emf, stream, part, handle, FALSE);
 }
 
 static gboolean
@@ -1630,7 +1630,11 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 }
 
 static void
-efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efh_text_plain (EMFormatHTML *efh,
+                CamelStream *stream,
+                CamelMimePart *part,
+                const EMFormatHandler *info,
+                gboolean is_fallback)
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
@@ -1641,15 +1645,9 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	guint32 flags;
 	guint32 rgb;
 	gint i, count, len;
-	gchar *meta;
-	gboolean is_fallback;
 	struct _EMFormatHTMLCache *efhc;
 
 	flags = efh->text_html_flags;
-
-	meta = camel_object_meta_get (part, "EMF-Fallback");
-	is_fallback = meta != NULL;
-	g_free (meta);
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 
@@ -2814,7 +2812,7 @@ efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 
 	handle = em_format_find_handler(emf, "x-evolution/message/post-header");
 	if (handle)
-		handle->handler(emf, stream, part, handle);
+		handle->handler(emf, stream, part, handle, FALSE);
 
 	camel_stream_printf(stream, EM_FORMAT_HTML_VPAD);
 	em_format_part(emf, stream, part);

@@ -670,11 +670,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 		if (handle != NULL
 		    && !em_format_is_attachment(emf, part)) {
 			d(printf("running handler for type '%s'\n", mime_type));
-			if (is_fallback)
-				camel_object_meta_set (part, "EMF-Fallback", "1");
-			handle->handler(emf, stream, part, handle);
-			if (is_fallback)
-				camel_object_meta_set (part, "EMF-Fallback",  NULL);
+			handle->handler(emf, stream, part, handle, is_fallback);
 			goto finish;
 		}
 		d(printf("this type is an attachment? '%s'\n", mime_type));
@@ -1347,7 +1343,11 @@ add_validity_found (EMFormat *emf, CamelCipherValidity *valid)
 
 #ifdef ENABLE_SMIME
 static void
-emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_application_xpkcs7mime (EMFormat *emf,
+                            CamelStream *stream,
+                            CamelMimePart *part,
+                            const EMFormatHandler *info,
+                            gboolean is_fallback)
 {
 	CamelCipherContext *context;
 	CamelException *ex;
@@ -1392,7 +1392,11 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 
 /* RFC 1740 */
 static void
-emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_multipart_appledouble (EMFormat *emf,
+                           CamelStream *stream,
+                           CamelMimePart *part,
+                           const EMFormatHandler *info,
+                           gboolean is_fallback)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
 	CamelMimePart *mime_part;
@@ -1417,7 +1421,11 @@ emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 
 /* RFC ??? */
 static void
-emf_multipart_mixed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_multipart_mixed (EMFormat *emf,
+                     CamelStream *stream,
+                     CamelMimePart *part,
+                     const EMFormatHandler *info,
+                     gboolean is_fallback)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
 	gint i, nparts, len;
@@ -1439,7 +1447,11 @@ emf_multipart_mixed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 
 /* RFC 1740 */
 static void
-emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_multipart_alternative (EMFormat *emf,
+                           CamelStream *stream,
+                           CamelMimePart *part,
+                           const EMFormatHandler *info,
+                           gboolean is_fallback)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
 	gint i, nparts, bestid = 0;
@@ -1486,11 +1498,15 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 		em_format_part(emf, stream, best);
 		g_string_truncate(emf->part_id, len);
 	} else
-		emf_multipart_mixed(emf, stream, part, info);
+		emf_multipart_mixed(emf, stream, part, info, is_fallback);
 }
 
 static void
-emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_multipart_encrypted (EMFormat *emf,
+                         CamelStream *stream,
+                         CamelMimePart *part,
+                         const EMFormatHandler *info,
+                         gboolean is_fallback)
 {
 	CamelCipherContext *context;
 	CamelException *ex;
@@ -1559,7 +1575,11 @@ emf_write_related(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 
 /* RFC 2387 */
 static void
-emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_multipart_related (EMFormat *emf,
+                       CamelStream *stream,
+                       CamelMimePart *part,
+                       const EMFormatHandler *info,
+                       gboolean is_fallback)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
@@ -1601,7 +1621,7 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	}
 
 	if (display_part == NULL) {
-		emf_multipart_mixed(emf, stream, part, info);
+		emf_multipart_mixed(emf, stream, part, info, is_fallback);
 		return;
 	}
 
@@ -1654,7 +1674,11 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 }
 
 static void
-emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_multipart_signed (EMFormat *emf,
+                      CamelStream *stream,
+                      CamelMimePart *part,
+                      const EMFormatHandler *info,
+                      gboolean is_fallback)
 {
 	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
@@ -1728,7 +1752,8 @@ static void
 emf_application_mbox (EMFormat *emf,
                       CamelStream *stream,
                       CamelMimePart *mime_part,
-                      const EMFormatHandler *info)
+                      const EMFormatHandler *info,
+                      gboolean is_fallback)
 {
 	const EMFormatHandler *handle;
 	CamelMimeParser *parser;
@@ -1777,7 +1802,7 @@ emf_application_mbox (EMFormat *emf,
 		}
 
 		/* Render the message. */
-		handle->handler (emf, stream, mime_part, handle);
+		handle->handler (emf, stream, mime_part, handle, FALSE);
 
 		camel_object_unref (message);
 
@@ -1791,7 +1816,11 @@ emf_application_mbox (EMFormat *emf,
 }
 
 static void
-emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_message_rfc822 (EMFormat *emf,
+                    CamelStream *stream,
+                    CamelMimePart *part,
+                    const EMFormatHandler *info,
+                    gboolean is_fallback)
 {
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 	const EMFormatHandler *handle;
@@ -1807,13 +1836,17 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
-		handle->handler(emf, stream, (CamelMimePart *)dw, handle);
+		handle->handler(emf, stream, (CamelMimePart *)dw, handle, FALSE);
 
 	g_string_truncate(emf->part_id, len);
 }
 
 static void
-emf_message_deliverystatus(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+emf_message_deliverystatus (EMFormat *emf,
+                            CamelStream *stream,
+                            CamelMimePart *part,
+                            const EMFormatHandler *info,
+                            gboolean is_fallback)
 {
 	em_format_format_text(emf, stream, (CamelDataWrapper *)part);
 }
