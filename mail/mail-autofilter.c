@@ -424,18 +424,39 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 	if (deleted) {
 		GtkWidget *dialog;
 		GString *s;
+		guint s_count;
+		gchar *info;
 		GList *l;
 
 		s = g_string_new("");
-		l = deleted;
-		while (l) {
-			g_string_append_printf (s, "    %s\n", (gchar *)l->data);
-			l = l->next;
+		s_count = 0;
+		for (l = deleted; l; l = l->next) {
+			const gchar *name = (const gchar *)l->data;
+
+			if (s_count == 0) {
+				g_string_append (s, name);
+			} else {
+				if (s_count == 1) {
+					g_string_prepend (s, "    ");
+					g_string_append (s, "\n");
+				}
+				g_string_append_printf (s, "    %s\n", name);
+			}
+			s_count++;
 		}
 
-		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", s->str, euri, NULL);
-		g_string_free(s, TRUE);
+		info = g_strdup_printf (ngettext (
+			/* Translators: The first %s is name of the affected filter rule(s),
+			   the second %s is uri of the removed folder. For more than one filter
+			   rule is each of them on a separate line, with four spaces in front
+			   of its name, without quotes. */
+			"The filter rule \"%s\" has been updated, because it used just removed folder\n\"%s\".",
+			"The following filter rules\n%s have been updated, because they used just removed folder\n\"%s\".",
+			s_count), s->str, euri);
+		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", info, NULL);
 		em_utils_show_info_silent (dialog);
+		g_string_free (s, TRUE);
+		g_free (info);
 
 		d(printf("Folder delete/rename '%s' changed filters, resaving\n", euri));
 		if (e_rule_context_save ((ERuleContext *) fc, user) == -1)

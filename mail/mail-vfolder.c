@@ -594,6 +594,7 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GString *changed;
+	guint changed_count;
 	gchar *uri;
 	GList *link;
 
@@ -606,6 +607,7 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 
 	g_return_if_fail (mail_in_main_thread());
 
+	changed_count = 0;
 	changed = g_string_new ("");
 
 	G_LOCK (vfolder);
@@ -638,7 +640,16 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 								      0, NULL, rule_changed, vf);
 				em_vfolder_rule_remove_source ((EMVFolderRule *)rule, source);
 				g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), vf);
-				g_string_append_printf (changed, "    %s\n", rule->name);
+				if (changed_count == 0) {
+					g_string_append (changed, rule->name);
+				} else {
+					if (changed_count == 1) {
+						g_string_prepend (changed, "    ");
+						g_string_append (changed, "\n");
+					}
+					g_string_append_printf (changed, "    %s\n", rule->name);
+				}
+				changed_count++;
 				source = NULL;
 			}
 			g_free(csource);
@@ -658,13 +669,22 @@ done:
 
 	G_UNLOCK (vfolder);
 
-	if (changed->str[0]) {
+	if (changed_count > 0) {
 		GtkWidget *dialog;
 		const gchar *data_dir;
-		gchar *user;
+		gchar *user, *info;
 
-		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
+		info = g_strdup_printf (ngettext (
+			/* Translators: The first %s is name of the affected search folder(s),
+			   the second %s is uri of the removed folder. For more than one search
+			   folder is each of them on a separate line, with four spaces in front
+			   of its name, without quotes. */
+			"The Search Folder \"%s\" has been updated, because it used just removed folder\n\"%s\".",
+			"The following Search Folders\n%s have been updated, because they used just removed folder\n\"%s\".",
+			changed_count), changed->str, uri);
+		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", info, NULL);
 		em_utils_show_info_silent (dialog);
+		g_free (info);
 
 		data_dir = mail_session_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);

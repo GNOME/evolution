@@ -322,20 +322,12 @@ go to the Search Folder editor to add it explicitly, if required.</_secondary>
 
   <error id="vfolder-updated" type="info">
     <_primary>Search Folders automatically updated.</_primary>
-    <_secondary xml:space="preserve">The following Search Folder(s):
-{0}
-Used the now removed folder:
-    "{1}"
-And have been updated.</_secondary>
+    <secondary xml:space="preserve">{0}</secondary>
   </error>
 
   <error id="filter-updated" type="info">
     <_primary>Mail filters automatically updated.</_primary>
-    <_secondary xml:space="preserve">The following filter rule(s):
-{0}
-Used the now removed folder:
-    "{1}"
-And have been updated.</_secondary>
+    <secondary xml:space="preserve">{0}</secondary>
   </error>
 
   <error id="no-folder" type="error">
