@@ -58,6 +58,8 @@ libeshell_la_SOURCES =				\
 	e-shell.c				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
+	e-shell-meego.c				\
+	e-shell-meego.h				\
 	e-shell-searchbar.c			\
 	e-shell-settings.c			\
 	e-shell-sidebar.c			\
