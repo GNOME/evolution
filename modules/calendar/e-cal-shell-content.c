@@ -140,6 +140,73 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 	cal_shell_content->priv->paned_binding_id = binding_id;
 }
 
+static gchar *
+cal_chell_content_get_pad_state_filename (EShellContent *shell_content, ETable *table)
+{
+	EShellBackend *shell_backend;
+	EShellView *shell_view;
+	const gchar *config_dir, *nick = NULL;
+
+	g_return_val_if_fail (shell_content != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+	g_return_val_if_fail (table != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE (table), NULL);
+	
+	if (E_IS_TASK_TABLE (table))
+		nick = "TaskPad";
+	else if (E_IS_MEMO_TABLE (table))
+		nick = "MemoPad";
+
+	g_return_val_if_fail (nick != NULL, NULL);
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+
+	return g_build_filename (config_dir, nick, NULL);
+}
+
+static void
+cal_shell_content_save_table_state (EShellContent *shell_content, ETable *table)
+{
+	gchar *filename;
+
+	filename = cal_chell_content_get_pad_state_filename (shell_content, table);
+	g_return_if_fail (filename != NULL);
+
+	e_table_save_state (table, filename);
+	g_free (filename);
+}
+
+static void
+cal_shell_content_load_table_state (EShellContent *shell_content, ETable *table)
+{
+	gchar *filename;
+
+	filename = cal_chell_content_get_pad_state_filename (shell_content, table);
+	g_return_if_fail (filename != NULL);
+
+	e_table_load_state (table, filename);
+	g_free (filename);
+}
+
+void
+e_cal_shell_content_save_state (ECalShellContent *cal_shell_content)
+{
+	ECalShellContentPrivate *priv;
+
+	g_return_if_fail (cal_shell_content != NULL);
+	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
+
+	if (priv->task_table)
+		cal_shell_content_save_table_state (E_SHELL_CONTENT (cal_shell_content), E_TABLE (priv->task_table));
+
+	if (priv->memo_table != NULL)
+		cal_shell_content_save_table_state (E_SHELL_CONTENT (cal_shell_content), E_TABLE (priv->memo_table));
+}
+
 static void
 cal_shell_content_set_property (GObject *object,
                                 guint property_id,
@@ -251,7 +318,6 @@ cal_shell_content_constructed (GObject *object)
 	ECalModel *task_model=NULL;
 	EShell *shell;
 	EShellContent *shell_content;
-	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *foreign_content;
@@ -261,9 +327,7 @@ cal_shell_content_constructed (GObject *object)
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *config_dir;
 	const gchar *key;
-	gchar *filename;
 	gchar *markup;
 	gint ii;
 
@@ -275,9 +339,6 @@ cal_shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	config_dir = e_shell_backend_get_config_dir (shell_backend);
 
 	shell = e_shell_window_get_shell (shell_window);
 
@@ -381,9 +442,7 @@ if(!e_shell_get_express_mode(e_shell_get_default())) {
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	filename = g_build_filename (config_dir, "TaskPad", NULL);
-	e_table_load_state (E_TABLE (widget), filename);
-	g_free (filename);
+	cal_shell_content_load_table_state (shell_content, E_TABLE (widget));
 
 	g_signal_connect_swapped (
 		widget, "open-component",
@@ -421,9 +480,7 @@ if(!e_shell_get_express_mode(e_shell_get_default())) {
 	priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	filename = g_build_filename (config_dir, "MemoPad", NULL);
-	e_table_load_state (E_TABLE (widget), filename);
-	g_free (filename);
+	cal_shell_content_load_table_state (shell_content, E_TABLE (widget));
 
 	e_cal_model_set_default_time_func (
 		memo_model, gc_get_default_time, calendar);

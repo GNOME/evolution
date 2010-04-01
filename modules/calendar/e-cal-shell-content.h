@@ -97,6 +97,8 @@ EShellSearchbar *
 GalViewInstance *
 		e_cal_shell_content_get_view_instance
 					(ECalShellContent *cal_shell_content);
+void		e_cal_shell_content_save_state
+					(ECalShellContent *cal_shell_content);
 
 G_END_DECLS
 
