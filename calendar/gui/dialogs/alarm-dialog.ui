@@ -411,7 +411,7 @@
                         <child>
                           <object class="GtkLabel" id="label1">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">extra times every</property>
+                            <property name="label" translatable="yes" comments="This is part of the sentence: 'Repeat the alarm %d extra times every %d minutes'. Where %d are numbers.">extra times every</property>
                             <property name="use_underline">False</property>
                             <property name="use_markup">False</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
