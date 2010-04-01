@@ -66,6 +66,8 @@
 #include "misc.h"
 #include "ea-calendar.h"
 #include "common/authentication.h"
+#include "e-memo-table.h"
+#include "e-task-table.h"
 
 #define d(x)
 
@@ -88,6 +90,8 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *hpane;
 
 	ECalendar   *date_navigator;
+	GtkWidget   *memo_table; /* EMemoTable, but can be NULL */
+	GtkWidget   *task_table; /* ETaskTable, but can be NULL */
 
 	/* Calendar query for the date navigator */
 	GMutex      *dn_query_lock;
@@ -134,7 +138,9 @@ struct _GnomeCalendarPrivate {
 enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
-	PROP_VIEW
+	PROP_VIEW,
+	PROP_MEMO_TABLE,
+	PROP_TASK_TABLE
 };
 
 enum {
@@ -167,6 +173,7 @@ typedef void (*MessageFunc) (Message *msg);
 
 struct _Message {
 	MessageFunc func;
+	GSourceFunc done;
 };
 
 static void
@@ -175,6 +182,8 @@ message_proxy (Message *msg)
 	g_return_if_fail (msg->func != NULL);
 
 	msg->func (msg);
+	if (msg->done)
+		g_idle_add (msg->done, msg);
 }
 
 static gpointer
@@ -334,6 +343,18 @@ gnome_calendar_set_property (GObject *object,
 				GNOME_CALENDAR (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_MEMO_TABLE:
+			gnome_calendar_set_memo_table (
+				GNOME_CALENDAR (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_TASK_TABLE:
+			gnome_calendar_set_task_table (
+				GNOME_CALENDAR (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -355,6 +376,18 @@ gnome_calendar_get_property (GObject *object,
 		case PROP_VIEW:
 			g_value_set_int (
 				value, gnome_calendar_get_view (
+				GNOME_CALENDAR (object)));
+			return;
+
+		case PROP_MEMO_TABLE:
+			g_value_set_object (
+				value, gnome_calendar_get_memo_table (
+				GNOME_CALENDAR (object)));
+			return;
+
+		case PROP_TASK_TABLE:
+			g_value_set_object (
+				value, gnome_calendar_get_task_table (
 				GNOME_CALENDAR (object)));
 			return;
 	}
@@ -492,6 +525,26 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			GNOME_CAL_DAY_VIEW,
 			GNOME_CAL_LIST_VIEW,
 			GNOME_CAL_DAY_VIEW,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MEMO_TABLE,
+		g_param_spec_object (
+			"memo-table",
+			"Memo table",
+			NULL,
+			E_TYPE_MEMO_TABLE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TASK_TABLE,
+		g_param_spec_object (
+			"task-table",
+			"Task table",
+			NULL,
+			E_TYPE_TASK_TABLE,
 			G_PARAM_READWRITE));
 
 	signals[DATES_SHOWN_CHANGED] =
@@ -981,7 +1034,7 @@ update_query_async (struct _date_query_msg *msg)
 {
 	GnomeCalendar *gcal = msg->gcal;
 	GnomeCalendarPrivate *priv;
-	ECalView *old_query;
+	ECalView *new_query;
 	gchar *real_sexp;
 	GList *list, *iter;
 
@@ -1013,8 +1066,8 @@ update_query_async (struct _date_query_msg *msg)
 			continue;
 
 try_again:
-		old_query = NULL;
-		if (!e_cal_get_query (client, real_sexp, &old_query, &error)) {
+		new_query = NULL;
+		if (!e_cal_get_query (client, real_sexp, &new_query, &error)) {
 			/* If calendar is busy try again for 3 times. */
 			if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 				tries++;
@@ -1031,18 +1084,19 @@ try_again:
 			continue;
 		}
 
-		g_signal_connect (old_query, "objects_added",
+		g_signal_connect (new_query, "objects_added",
 				  G_CALLBACK (dn_e_cal_view_objects_added_cb), gcal);
-		g_signal_connect (old_query, "objects_modified",
+		g_signal_connect (new_query, "objects_modified",
 				  G_CALLBACK (dn_e_cal_view_objects_modified_cb), gcal);
-		g_signal_connect (old_query, "objects_removed",
+		g_signal_connect (new_query, "objects_removed",
 				  G_CALLBACK (dn_e_cal_view_objects_removed_cb), gcal);
-		g_signal_connect (old_query, "view_done",
+		g_signal_connect (new_query, "view_done",
 				  G_CALLBACK (dn_e_cal_view_done_cb), gcal);
 
-		priv->dn_queries = g_list_append (priv->dn_queries, old_query);
-
-		e_cal_view_start (old_query);
+		g_mutex_lock (priv->dn_query_lock);
+		priv->dn_queries = g_list_append (priv->dn_queries, new_query);
+		e_cal_view_start (new_query);
+		g_mutex_unlock (priv->dn_query_lock);
 	}
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
@@ -1068,6 +1122,7 @@ gnome_calendar_update_query (GnomeCalendar *gcal)
 
 	msg = g_slice_new0 (struct _date_query_msg);
 	msg->header.func = (MessageFunc) update_query_async;
+	msg->header.done = NULL;
 	msg->gcal = g_object_ref (gcal);
 
 	message_push ((Message *) msg);
@@ -1119,9 +1174,6 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 			gnome_calendar_update_date_navigator (gcal);
 	} else
 		e_cal_model_set_search_query (model, sexp);
-
-	/* Set the query on the task pad */
-	update_todo_view (gcal);
 }
 
 static void
@@ -1151,7 +1203,6 @@ struct _mupdate_todo_msg {
 	GnomeCalendar *gcal;
 };
 
-#if 0 /* KILL-BONOBO */
 static void
 update_todo_view_async (struct _mupdate_todo_msg *msg)
 {
@@ -1165,6 +1216,8 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 	gcal = msg->gcal;
 	priv = gcal->priv;
 
+	g_return_if_fail (priv->task_table != NULL);
+
 	g_mutex_lock (priv->todo_update_lock);
 
 	/* Set the query on the task pad */
@@ -1173,7 +1226,7 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 		priv->todo_sexp = NULL;
 	}
 
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	model = e_task_table_get_model (E_TASK_TABLE (priv->task_table));
 
 	if ((sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
 		priv->todo_sexp = g_strdup_printf ("(and %s %s)", sexp,
@@ -1185,40 +1238,68 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 		e_cal_model_set_search_query (model, priv->todo_sexp);
 	}
 
+	update_memo_view (msg->gcal);
+
 	g_mutex_unlock (priv->todo_update_lock);
+}
+
+static gboolean
+update_todo_view_done (struct _mupdate_todo_msg *msg)
+{
+	GnomeCalendar *gcal;
+	GnomeCalendarPrivate *priv;
+
+	g_return_val_if_fail (msg != NULL, FALSE);
+
+	gcal = msg->gcal;
+	priv = gcal->priv;
+
+	g_return_val_if_fail (priv->task_table != NULL, FALSE);
+	g_return_val_if_fail (priv->memo_table != NULL, FALSE);
+
+	e_shell_view_unblock_update_actions (e_task_table_get_shell_view (E_TASK_TABLE (priv->task_table)));
+	e_shell_view_unblock_update_actions (e_memo_table_get_shell_view (E_MEMO_TABLE (priv->memo_table)));
 
 	g_object_unref (msg->gcal);
 	g_slice_free (struct _mupdate_todo_msg, msg);
+
+	return FALSE;
 }
-#endif
 
 static void
 update_todo_view (GnomeCalendar *gcal)
 {
-#if 0 /* KILL-BONOBO */
 	struct _mupdate_todo_msg *msg;
+
+	/* they are both or none anyway */
+	if (!gcal->priv->task_table || !gcal->priv->memo_table)
+		return;
 
 	msg = g_slice_new0 (struct _mupdate_todo_msg);
 	msg->header.func = (MessageFunc) update_todo_view_async;
+	msg->header.done = (GSourceFunc) update_todo_view_done;
 	msg->gcal = g_object_ref (gcal);
 
+	e_shell_view_block_update_actions (e_task_table_get_shell_view (E_TASK_TABLE (gcal->priv->task_table)));
+	e_shell_view_block_update_actions (e_memo_table_get_shell_view (E_MEMO_TABLE (gcal->priv->memo_table)));
+
 	message_push ((Message *) msg);
-#endif
 }
 
 static void
 update_memo_view (GnomeCalendar *gcal)
 {
-#if 0 /* KILL-BONOBO */
 	GnomeCalendarPrivate *priv;
 	ECalModel *model, *view_model;
-	time_t start, end;
+	time_t start = -1, end = -1;
 	gchar *iso_start, *iso_end;
 
 	priv = gcal->priv;
+	if (!priv->memo_table)
+		return;
 
 	/* Set the query on the memo pad*/
-	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memo));
+	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memo_table));
 	view_model = gnome_calendar_get_model (gcal);
 	e_cal_model_get_time_range (view_model, &start, &end);
 
@@ -1230,9 +1311,9 @@ update_memo_view (GnomeCalendar *gcal)
 			g_free (priv->memo_sexp);
 		}
 
-		priv->memo_sexp = g_strdup_printf ("(or (not (has-start?)) (and (occur-in-time-range? (make-time \"%s\")"
+		priv->memo_sexp = g_strdup_printf ("(and (or (not (has-start?)) (occur-in-time-range? (make-time \"%s\")"
 				" (make-time \"%s\"))"
-				"  %s))",
+				"  ) %s)",
 				iso_start, iso_end,
 				priv->sexp ? priv->sexp : "");
 
@@ -1241,7 +1322,6 @@ update_memo_view (GnomeCalendar *gcal)
 		g_free (iso_start);
 		g_free (iso_end);
 	}
-#endif
 }
 
 static void
@@ -1322,7 +1402,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Marcus Bains line */
 	priv->update_marcus_bains_line_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_marcus_bains_line_cb, gcal, NULL);
 
-	update_memo_view (gcal);
+	/* update_memo_view (gcal); */
 }
 
 /* Object initialization function for the gnome calendar */
@@ -1817,6 +1897,58 @@ gnome_calendar_set_date_navigator (GnomeCalendar *gcal,
 	g_object_notify (G_OBJECT (gcal), "date-navigator");
 }
 
+GtkWidget *
+gnome_calendar_get_memo_table (GnomeCalendar *gcal)
+{
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	return gcal->priv->memo_table;
+}
+
+void
+gnome_calendar_set_memo_table (GnomeCalendar *gcal, GtkWidget *memo_table)
+{
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	if (memo_table != NULL) {
+		g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+		g_object_ref (memo_table);
+	}
+
+	if (gcal->priv->memo_table != NULL)
+		g_object_unref (gcal->priv->memo_table);
+
+	gcal->priv->memo_table = memo_table;
+
+	g_object_notify (G_OBJECT (gcal), "memo-table");
+}
+
+GtkWidget *
+gnome_calendar_get_task_table (GnomeCalendar *gcal)
+{
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	return gcal->priv->task_table;
+}
+
+void
+gnome_calendar_set_task_table (GnomeCalendar *gcal, GtkWidget *task_table)
+{
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	if (task_table != NULL) {
+		g_return_if_fail (E_IS_TASK_TABLE (task_table));
+		g_object_ref (task_table);
+	}
+
+	if (gcal->priv->task_table != NULL)
+		g_object_unref (gcal->priv->task_table);
+
+	gcal->priv->task_table = task_table;
+
+	g_object_notify (G_OBJECT (gcal), "task-table");
+}
+
 /**
  * gnome_calendar_get_model:
  * @gcal: A calendar view.
@@ -2051,7 +2183,7 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		gtk_widget_queue_draw (GTK_WIDGET (calendar_view));
 		g_signal_emit (gcal, signals[DATES_SHOWN_CHANGED], 0);
 	}
-	update_memo_view (gcal);
+	update_todo_view (gcal);
 }
 
 /* Returns the number of selected events (0 or 1 at present). */

@@ -528,6 +528,15 @@ e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_t
 		return TRUE;
 	}
 
+	if (!n_rows) {
+		ECalModel *model = e_calendar_view_get_model (cal_view);
+
+		/* Use time range set in the model when nothing shown in the list view */
+		e_cal_model_get_time_range (model, start_time, end_time);
+
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
