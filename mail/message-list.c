@@ -3851,6 +3851,33 @@ message_list_set_selected(MessageList *ml, GPtrArray *uids)
 	g_ptr_array_free(paths, TRUE);
 }
 
+struct ml_count_data {
+	MessageList *ml;
+	guint count;
+};
+
+static void
+ml_getcount_cb (ETreePath path, gpointer user_data)
+{
+	struct ml_count_data *data = user_data;
+
+	if (!e_tree_model_node_is_root (data->ml->model, path))
+		data->count++;
+}
+
+guint
+message_list_count (MessageList *message_list)
+{
+	struct ml_count_data data = { message_list, 0 };
+
+	g_return_val_if_fail (message_list != NULL, 0);
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), 0);
+
+	e_tree_path_foreach (E_TREE (message_list), ml_getcount_cb, &data);
+
+	return data.count;
+}
+
 void
 message_list_freeze(MessageList *ml)
 {
