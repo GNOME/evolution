@@ -481,16 +481,24 @@ mail_browser_constructed (GObject *object)
 	const gchar *id;
 	guint merge_id;
 
+	/* Chain up to parent's constructed() method. */
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
+
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
 	reader = E_MAIL_READER (object);
-	ui_manager = priv->ui_manager;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	ui_manager = e_ui_manager_new ();
+	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
+
+	priv->ui_manager = ui_manager;
 	domain = GETTEXT_PACKAGE;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	shell_backend = e_mail_reader_get_shell_backend (reader);
-
-	shell = e_shell_backend_get_shell (shell_backend);
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 
 	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
@@ -796,23 +804,11 @@ mail_browser_iface_init (EMailReaderIface *iface)
 static void
 mail_browser_init (EMailBrowser *browser)
 {
-	EShell *shell;
-	EShellBackend *shell_backend;
-	GtkUIManager *ui_manager;
-	EMailReader *reader;
 	GConfBridge *bridge;
 	const gchar *prefix;
 
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 
-	reader = E_MAIL_READER (browser);
-	shell_backend = e_mail_reader_get_shell_backend (reader);
-	shell = e_shell_backend_get_shell (shell_backend);
-
-	ui_manager = e_ui_manager_new ();
-	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
-
-	browser->priv->ui_manager = ui_manager;
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->html_display = em_format_html_display_new ();
 
