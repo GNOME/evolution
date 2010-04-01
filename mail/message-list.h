@@ -218,6 +218,7 @@ void		message_list_copy		(MessageList *message_list,
 						 gboolean cut);
 void		message_list_paste		(MessageList *message_list);
 guint		message_list_length		(MessageList *message_list);
+guint		message_list_count		(MessageList *message_list);
 guint		message_list_hidden		(MessageList *message_list);
 void		message_list_hide_add		(MessageList *message_list,
 						 const gchar *expr,

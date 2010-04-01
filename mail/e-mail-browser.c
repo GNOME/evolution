@@ -267,6 +267,25 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 }
 
 static gboolean
+close_on_idle_cb (gpointer browser)
+{
+	e_mail_browser_close (browser);
+	return FALSE;
+}
+
+static void
+mail_browser_message_list_built_cb (EMailBrowser *browser, MessageList *message_list)
+{
+	g_return_if_fail (browser != NULL);
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+	g_return_if_fail (message_list != NULL);
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (!message_list_count (message_list))
+		g_idle_add (close_on_idle_cb, browser);
+}
+
+static gboolean
 mail_browser_popup_event_cb (EMailBrowser *browser,
                              GdkEventButton *event,
                              const gchar *uri)
@@ -485,6 +504,10 @@ mail_browser_constructed (GObject *object)
 	g_signal_connect_swapped (
 		priv->message_list, "message-selected",
 		G_CALLBACK (mail_browser_message_selected_cb), object);
+
+	g_signal_connect_swapped (
+		priv->message_list, "message-list-built",
+		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
 	g_signal_connect_swapped (
 		web_view, "popup-event",
