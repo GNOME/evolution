@@ -867,6 +867,7 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 		e_cal_component_set_rdate_list (comp, NULL);
 		e_cal_component_set_rrule_list (comp, NULL);
 		e_cal_component_set_exrule_list (comp, NULL);
+		e_cal_component_set_recurid (comp, NULL);
 	}
 
 	/* Set exceptions */
