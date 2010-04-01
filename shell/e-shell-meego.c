@@ -37,6 +37,9 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 #else
 void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 {
+	/* cannot compile on Fedora, disabling for now */
+	*is_meego = *small_screen = FALSE;
+	/*
 	GdkAtom wm_win, mob_atom;
 	Atom dummy_t;
 	unsigned long dummy_l;
@@ -61,14 +64,14 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 
 	gdk_error_trap_push ();
 
-	/* get the window manager's supporting window */
+	/* get the window manager's supporting window * /
 	XGetWindowProperty (gdk_x11_display_get_xdisplay (display), 
 			    GDK_WINDOW_XID (gdk_screen_get_root_window (screen)),
 			    gdk_x11_atom_to_xatom_for_display (display, wm_win),
 			    0, 1, False, XA_WINDOW, &dummy_t, &dummy_i,
 			    &dummy_l, &dummy_l, (unsigned char **)(&wm_window_v));
 	
-	/* get the '_Moblin' setting */
+	/* get the '_Moblin' setting * /
 	if (wm_window_v && (*wm_window_v != None))
 		XGetWindowProperty (gdk_x11_display_get_xdisplay (display), *wm_window_v,
 				    gdk_x11_atom_to_xatom_for_display (display, mob_atom),
@@ -84,7 +87,7 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 
 		g_warning ("prop '%s'", moblin_string);
 
-		/* use meego theming tweaks */
+		/* use meego theming tweaks * /
 		*is_meego = TRUE;
 
 		props = g_strsplit ((gchar *)moblin_string, ":", -1);
@@ -94,7 +97,7 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 			g_warning ("pair '%s'='%s'", pair ? pair[0] : "<null>",
 				   pair && pair[0] ? pair[1] : "<null>");
 
-			/* Hunt for session-type=small-screen */
+			/* Hunt for session-type=small-screen * /
 			if (pair && pair[0] && !g_ascii_strcasecmp (pair[0], "session-type"))
 				*small_screen = !g_ascii_strcasecmp (pair[1], "small-screen");
 			g_strfreev (pair);
@@ -104,7 +107,7 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	}
 
 	if (wm_window_v)
-	      XFree (wm_window_v);
+	      XFree (wm_window_v);*/
 }
 #endif
 
