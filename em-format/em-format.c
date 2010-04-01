@@ -1782,7 +1782,7 @@ emf_application_mbox (EMFormat *emf,
 
 	mem_stream = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (
-		CAMEL_DATA_WRAPPER (mime_part), mem_stream);
+		camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)), mem_stream);
 	camel_seekable_stream_seek (
 		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET);
 	camel_mime_parser_init_with_stream (parser, mem_stream);
