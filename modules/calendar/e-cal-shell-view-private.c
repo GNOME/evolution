@@ -219,7 +219,7 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 	 *     we could move this handler into ECalShellSidebar. */
 	e_calendar_item_set_selection (calitem, &start_date, &end_date);
 
-	cal_shell_view_date_navigator_date_range_changed_cb (
+	cal_shell_view_date_navigator_selection_changed_cb (
 		cal_shell_view, calitem);
 }
 
@@ -459,8 +459,10 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
 
-	/* Give GnomeCalendar a handle to the date navigator. */
+	/* Give GnomeCalendar a handle to the date navigator, memo and task table. */
 	gnome_calendar_set_date_navigator (calendar, date_navigator);
+	gnome_calendar_set_memo_table (calendar, memo_table ? GTK_WIDGET (memo_table) : NULL);
+	gnome_calendar_set_task_table (calendar, task_table ? GTK_WIDGET (task_table) : NULL);
 
 	e_calendar_item_set_get_time_callback (
 		date_navigator->calitem, (ECalendarItemGetTimeCallback)

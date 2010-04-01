@@ -122,6 +122,10 @@ ECalendar *	gnome_calendar_get_date_navigator
 void		gnome_calendar_set_date_navigator
 						(GnomeCalendar *gcal,
 						 ECalendar *date_navigator);
+GtkWidget *	gnome_calendar_get_memo_table	(GnomeCalendar *gcal);
+void		gnome_calendar_set_memo_table	(GnomeCalendar *gcal, GtkWidget *memo_table);
+GtkWidget *	gnome_calendar_get_task_table	(GnomeCalendar *gcal);
+void		gnome_calendar_set_task_table	(GnomeCalendar *gcal, GtkWidget *task_table);
 ECalModel *	gnome_calendar_get_model	(GnomeCalendar *gcal);
 void		gnome_calendar_update_query	(GnomeCalendar *gcal);
 void		gnome_calendar_set_search_query	(GnomeCalendar *gcal,
