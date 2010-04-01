@@ -303,8 +303,8 @@ paned_class_init (EPanedClass *class)
 		PROP_HPOSITION,
 		g_param_spec_int (
 			"hposition",
-			_("Horizontal Position"),
-			_("Pane position when oriented horizontally"),
+			"Horizontal Position",
+			"Pane position when oriented horizontally",
 			G_MININT,
 			G_MAXINT,
 			0,
@@ -315,8 +315,8 @@ paned_class_init (EPanedClass *class)
 		PROP_VPOSITION,
 		g_param_spec_int (
 			"vposition",
-			_("Vertical Position"),
-			_("Pane position when oriented vertically"),
+			"Vertical Position",
+			"Pane position when oriented vertically",
 			G_MININT,
 			G_MAXINT,
 			0,
@@ -327,8 +327,8 @@ paned_class_init (EPanedClass *class)
 		PROP_PROPORTION,
 		g_param_spec_double (
 			"proportion",
-			_("Proportion"),
-			_("Proportion of the 2nd pane size"),
+			"Proportion",
+			"Proportion of the 2nd pane size",
 			0.0,
 			1.0,
 			0.0,
@@ -339,8 +339,8 @@ paned_class_init (EPanedClass *class)
 		PROP_FIXED_RESIZE,
 		g_param_spec_boolean (
 			"fixed-resize",
-			_("Fixed Resize"),
-			_("Keep the 2nd pane fixed during resize"),
+			"Fixed Resize",
+			"Keep the 2nd pane fixed during resize",
 			TRUE,
 			G_PARAM_READWRITE));
 }

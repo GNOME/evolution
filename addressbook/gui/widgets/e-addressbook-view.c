@@ -755,7 +755,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 		PROP_MODEL,
 		g_param_spec_object (
 			"model",
-			_("Model"),
+			"Model",
 			NULL,
 			E_TYPE_ADDRESSBOOK_MODEL,
 			G_PARAM_READABLE));
@@ -771,7 +771,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 		PROP_SHELL_VIEW,
 		g_param_spec_object (
 			"shell-view",
-			_("Shell View"),
+			"Shell View",
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
@@ -782,7 +782,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 		PROP_SOURCE,
 		g_param_spec_object (
 			"source",
-			_("Source"),
+			"Source",
 			NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |

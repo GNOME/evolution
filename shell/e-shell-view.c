@@ -782,8 +782,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_ACTION,
 		g_param_spec_object (
 			"action",
-			_("Switcher Action"),
-			_("The switcher action for this shell view"),
+			"Switcher Action",
+			"The switcher action for this shell view",
 			GTK_TYPE_RADIO_ACTION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -798,8 +798,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_PAGE_NUM,
 		g_param_spec_int (
 			"page-num",
-			_("Page Number"),
-			_("The notebook page number of the shell view"),
+			"Page Number",
+			"The notebook page number of the shell view",
 			-1,
 			G_MAXINT,
 			-1,
@@ -815,8 +815,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_SEARCH_RULE,
 		g_param_spec_object (
 			"search-rule",
-			_("Search Rule"),
-			_("Criteria for the current search results"),
+			"Search Rule",
+			"Criteria for the current search results",
 			E_TYPE_FILTER_RULE,
 			G_PARAM_READWRITE));
 
@@ -830,8 +830,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_SHELL_BACKEND,
 		g_param_spec_object (
 			"shell-backend",
-			_("Shell Backend"),
-			_("The EShellBackend for this shell view"),
+			"Shell Backend",
+			"The EShellBackend for this shell view",
 			E_TYPE_SHELL_BACKEND,
 			G_PARAM_READABLE));
 
@@ -846,9 +846,9 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_SHELL_CONTENT,
 		g_param_spec_object (
 			"shell-content",
-			_("Shell Content Widget"),
-			_("The content widget appears in "
-			  "a shell window's right pane"),
+			"Shell Content Widget",
+			"The content widget appears in "
+			  "a shell window's right pane",
 			E_TYPE_SHELL_CONTENT,
 			G_PARAM_READABLE));
 
@@ -863,9 +863,9 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_SHELL_SIDEBAR,
 		g_param_spec_object (
 			"shell-sidebar",
-			_("Shell Sidebar Widget"),
-			_("The sidebar widget appears in "
-			  "a shell window's left pane"),
+			"Shell Sidebar Widget",
+			"The sidebar widget appears in "
+			  "a shell window's left pane",
 			E_TYPE_SHELL_SIDEBAR,
 			G_PARAM_READABLE));
 
@@ -879,9 +879,9 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_SHELL_TASKBAR,
 		g_param_spec_object (
 			"shell-taskbar",
-			_("Shell Taskbar Widget"),
-			_("The taskbar widget appears at "
-			  "the bottom of a shell window"),
+			"Shell Taskbar Widget",
+			"The taskbar widget appears at "
+			  "the bottom of a shell window",
 			E_TYPE_SHELL_TASKBAR,
 			G_PARAM_READABLE));
 
@@ -895,8 +895,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_SHELL_WINDOW,
 		g_param_spec_object (
 			"shell-window",
-			_("Shell Window"),
-			_("The window to which the shell view belongs"),
+			"Shell Window",
+			"The window to which the shell view belongs",
 			E_TYPE_SHELL_WINDOW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -912,7 +912,7 @@ shell_view_class_init (EShellViewClass *class)
 		g_param_spec_pointer (
 			"state-key-file",
 			"State Key File",
-			_("The key file holding widget state data"),
+			"The key file holding widget state data",
 			G_PARAM_READABLE));
 
 	/**
@@ -926,8 +926,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_TITLE,
 		g_param_spec_string (
 			"title",
-			_("Title"),
-			_("The title of the shell view"),
+			"Title",
+			"The title of the shell view",
 			NULL,
 			G_PARAM_READWRITE));
 
@@ -941,8 +941,8 @@ shell_view_class_init (EShellViewClass *class)
 		PROP_VIEW_ID,
 		g_param_spec_string (
 			"view-id",
-			_("Current View ID"),
-			_("The current GAL view ID"),
+			"Current View ID",
+			"The current GAL view ID",
 			NULL,
 			G_PARAM_READWRITE));
 

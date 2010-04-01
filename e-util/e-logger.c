@@ -171,8 +171,8 @@ logger_class_init (ELoggerClass *class)
 		PROP_NAME,
 		g_param_spec_string (
 			"name",
-			_("Name"),
-			_("Name of the logger"),
+			"Name",
+			"Name of the logger",
 			"anonymous",
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));

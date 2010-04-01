@@ -674,8 +674,8 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		PROP_DEFAULT_CLIENT,
 		g_param_spec_object (
 			"default-client",
-			_("Default Memo Client"),
-			_("Default client for memo operations"),
+			"Default Memo Client",
+			"Default client for memo operations",
 			E_TYPE_CAL,
 			G_PARAM_READABLE));
 
@@ -684,8 +684,8 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		PROP_SELECTOR,
 		g_param_spec_object (
 			"selector",
-			_("Source Selector Widget"),
-			_("This widget displays groups of memo lists"),
+			"Source Selector Widget",
+			"This widget displays groups of memo lists",
 			E_TYPE_SOURCE_SELECTOR,
 			G_PARAM_READABLE));
 

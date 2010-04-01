@@ -354,22 +354,22 @@ e_cell_pixbuf_class_init (ECellPixbufClass *klass)
 
 	g_object_class_install_property (object_class, PROP_SELECTED_COLUMN,
 					 g_param_spec_int ("selected_column",
-							   _("Selected Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Selected Column",
+							   NULL,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FOCUSED_COLUMN,
 					 g_param_spec_int ("focused_column",
-							   _("Focused Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Focused Column",
+							   NULL,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_UNSELECTED_COLUMN,
 					 g_param_spec_int ("unselected_column",
-							   _("Unselected Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Unselected Column",
+							   NULL,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 }

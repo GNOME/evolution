@@ -1234,8 +1234,8 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 		PROP_BOOK,
 		g_param_spec_object (
 			"book",
-			_("Book"),
-			/*_( */"XXX blurb" /*)*/,
+			"Book",
+			NULL,
 			E_TYPE_BOOK,
 			G_PARAM_READWRITE));
 
@@ -1244,8 +1244,8 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 		PROP_CONTACT,
 		g_param_spec_object (
 			"contact",
-			_("Contact"),
-			/*_( */"XXX blurb" /*)*/,
+			"Contact",
+			NULL,
 			E_TYPE_CONTACT,
 			G_PARAM_READWRITE));
 
@@ -1254,8 +1254,8 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 		PROP_IS_NEW_LIST,
 		g_param_spec_boolean (
 			"is_new_list",
-			_("Is New List"),
-			/*_( */"XXX blurb" /*)*/,
+			"Is New List",
+			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
 
@@ -1264,8 +1264,8 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 		PROP_EDITABLE,
 		g_param_spec_boolean (
 			"editable",
-			_("Editable"),
-			/*_( */"XXX blurb" /*)*/,
+			"Editable",
+			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
 }

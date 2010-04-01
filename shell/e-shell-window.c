@@ -635,8 +635,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_ACTIVE_VIEW,
 		g_param_spec_string (
 			"active-view",
-			_("Active Shell View"),
-			_("Name of the active shell view"),
+			"Active Shell View",
+			"Name of the active shell view",
 			NULL,
 			G_PARAM_READWRITE));
 
@@ -650,8 +650,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_FOCUS_TRACKER,
 		g_param_spec_object (
 			"focus-tracker",
-			_("Focus Tracker"),
-			_("The shell window's EFocusTracker"),
+			"Focus Tracker",
+			"The shell window's EFocusTracker",
 			E_TYPE_FOCUS_TRACKER,
 			G_PARAM_READABLE));
 
@@ -665,8 +665,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_GEOMETRY,
 		g_param_spec_string (
 			"geometry",
-			_("Geometry"),
-			_("Initial window geometry string"),
+			"Geometry",
+			"Initial window geometry string",
 			NULL,
 			G_PARAM_WRITABLE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -681,8 +681,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_SAFE_MODE,
 		g_param_spec_boolean (
 			"safe-mode",
-			_("Safe Mode"),
-			_("Whether the shell window is in safe mode"),
+			"Safe Mode",
+			"Whether the shell window is in safe mode",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
@@ -697,8 +697,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_SHELL,
 		g_param_spec_object (
 			"shell",
-			_("Shell"),
-			_("The EShell singleton"),
+			"Shell",
+			"The EShell singleton",
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -713,8 +713,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_SIDEBAR_VISIBLE,
 		g_param_spec_boolean (
 			"sidebar-visible",
-			_("Sidebar Visible"),
-			_("Whether the shell window's side bar is visible"),
+			"Sidebar Visible",
+			"Whether the shell window's side bar is visible",
 			TRUE,
 			G_PARAM_READWRITE));
 
@@ -728,9 +728,9 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_SWITCHER_VISIBLE,
 		g_param_spec_boolean (
 			"switcher-visible",
-			_("Switcher Visible"),
-			_("Whether the shell window's "
-			  "switcher buttons are visible"),
+			"Switcher Visible",
+			"Whether the shell window's "
+			  "switcher buttons are visible",
 			TRUE,
 			G_PARAM_READWRITE));
 
@@ -744,8 +744,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_TASKBAR_VISIBLE,
 		g_param_spec_boolean (
 			"taskbar-visible",
-			_("Taskbar Visible"),
-			_("Whether the shell window's task bar is visible"),
+			"Taskbar Visible",
+			"Whether the shell window's task bar is visible",
 			TRUE,
 			G_PARAM_READWRITE));
 
@@ -759,8 +759,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_TOOLBAR_VISIBLE,
 		g_param_spec_boolean (
 			"toolbar-visible",
-			_("Toolbar Visible"),
-			_("Whether the shell window's tool bar is visible"),
+			"Toolbar Visible",
+			"Whether the shell window's tool bar is visible",
 			TRUE,
 			G_PARAM_READWRITE));
 
@@ -774,8 +774,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		PROP_UI_MANAGER,
 		g_param_spec_object (
 			"ui-manager",
-			_("UI Manager"),
-			_("The shell window's GtkUIManager"),
+			"UI Manager",
+			"The shell window's GtkUIManager",
 			GTK_TYPE_UI_MANAGER,
 			G_PARAM_READABLE));
 

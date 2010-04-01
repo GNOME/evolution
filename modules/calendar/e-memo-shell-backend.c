@@ -584,8 +584,8 @@ memo_shell_backend_class_init (EMemoShellBackendClass *class)
 		PROP_SOURCE_LIST,
 		g_param_spec_object (
 			"source-list",
-			_("Source List"),
-			_("The registry of memo lists"),
+			"Source List",
+			"The registry of memo lists",
 			E_TYPE_SOURCE_LIST,
 			G_PARAM_READABLE));
 }

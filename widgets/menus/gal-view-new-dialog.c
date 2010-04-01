@@ -57,15 +57,15 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 
 	g_object_class_install_property (object_class, PROP_NAME,
 					 g_param_spec_string ("name",
-							      _("Name"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Name",
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FACTORY,
 					 g_param_spec_object ("factory",
-							      _("Factory"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Factory",
+							      NULL,
 							      GAL_TYPE_VIEW_FACTORY,
 							      G_PARAM_READWRITE));
 }

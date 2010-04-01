@@ -85,14 +85,14 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 
 	g_object_class_install_property (object_class, PROP_NAME,
 					 g_param_spec_pointer ("name",
-							       _("Name"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Name",
+							       NULL,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 }

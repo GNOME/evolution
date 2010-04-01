@@ -293,57 +293,57 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 
 	g_object_class_install_property (object_class, PROP_SOURCE_BOOK,
 					 g_param_spec_object ("source_book",
-							      _("Source Book"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Source Book",
+							      NULL,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_TARGET_BOOK,
 					 g_param_spec_object ("target_book",
-							      _("Target Book"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Target Book",
+							      NULL,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_CONTACT,
 					 g_param_spec_object ("contact",
-							      _("Contact"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Contact",
+							      NULL,
 							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_IS_NEW_CONTACT,
 					 g_param_spec_boolean ("is_new_contact",
-							       _("Is New Contact"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Is New Contact",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_WRITABLE_FIELDS,
 					 g_param_spec_object ("writable_fields",
-							      _("Writable Fields"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Writable Fields",
+							      NULL,
 							      E_TYPE_LIST,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_REQUIRED_FIELDS,
 					 g_param_spec_object ("required_fields",
-							      _("Required Fields"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Required Fields",
+							      NULL,
 							      E_TYPE_LIST,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_CHANGED,
 					 g_param_spec_boolean ("changed",
-							       _("Changed"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Changed",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 }

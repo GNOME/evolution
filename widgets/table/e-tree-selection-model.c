@@ -800,29 +800,29 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 
 	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",
-							   _("Cursor Row"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Cursor Row",
+							   NULL,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_CURSOR_COL,
 					 g_param_spec_int ("cursor_col",
-							   _("Cursor Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Cursor Column",
+							   NULL,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							      _("Model"),
-							      "XXX blurb",
+							      "Model",
+							      NULL,
 							      E_TREE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_ETTA,
 					 g_param_spec_object ("etta",
 							      "ETTA",
-							      "XXX blurb",
+							      NULL,
 							      E_TREE_TABLE_ADAPTER_TYPE,
 							      G_PARAM_READWRITE));
 

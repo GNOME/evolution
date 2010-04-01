@@ -131,8 +131,8 @@ online_button_class_init (EOnlineButtonClass *class)
 		PROP_ONLINE,
 		g_param_spec_boolean (
 			"online",
-			_("Online"),
-			_("The button state is online"),
+			"Online",
+			"The button state is online",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));

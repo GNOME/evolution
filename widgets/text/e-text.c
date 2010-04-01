@@ -3305,241 +3305,239 @@ e_text_class_init (ETextClass *klass)
 
 	g_object_class_install_property (gobject_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							      _( "Model" ),
-							      _( "Model" ),
+							      "Model",
+							      "Model",
 							      E_TYPE_TEXT_MODEL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_EVENT_PROCESSOR,
 					 g_param_spec_object ("event_processor",
-							      _( "Event Processor" ),
-							      _( "Event Processor" ),
+							      "Event Processor",
+							      "Event Processor",
 							      E_TEXT_EVENT_PROCESSOR_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_TEXT,
 					 g_param_spec_string ("text",
-							      _( "Text" ),
-							      _( "Text" ),
+							      "Text",
+							      "Text",
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_BOLD,
 					 g_param_spec_boolean ("bold",
-							       _( "Bold" ),
-							       _( "Bold" ),
+							       "Bold",
+							       "Bold",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_STRIKEOUT,
 					 g_param_spec_boolean ("strikeout",
-							       _( "Strikeout" ),
-							       _( "Strikeout" ),
+							       "Strikeout",
+							       "Strikeout",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_ANCHOR,
 					 g_param_spec_enum ("anchor",
-							    _( "Anchor" ),
-							    _( "Anchor" ),
+							    "Anchor",
+							    "Anchor",
 							    GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
 							    G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_JUSTIFICATION,
 					 g_param_spec_enum ("justification",
-							    _( "Justification" ),
-							    _( "Justification" ),
+							    "Justification",
+							    "Justification",
 							    GTK_TYPE_JUSTIFICATION, GTK_JUSTIFY_LEFT,
 							    G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_CLIP_WIDTH,
 					 g_param_spec_double ("clip_width",
-							      _( "Clip Width" ),
-							      _( "Clip Width" ),
+							      "Clip Width",
+							      "Clip Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_CLIP_HEIGHT,
 					 g_param_spec_double ("clip_height",
-							      _( "Clip Height" ),
-							      _( "Clip Height" ),
+							      "Clip Height",
+							      "Clip Height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_CLIP,
 					 g_param_spec_boolean ("clip",
-							       _( "Clip" ),
-							       _( "Clip" ),
+							       "Clip",
+							       "Clip",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_CLIP_RECTANGLE,
 					 g_param_spec_boolean ("fill_clip_rectangle",
-							       _( "Fill clip rectangle" ),
-							       _( "Fill clip rectangle" ),
+							       "Fill clip rectangle",
+							       "Fill clip rectangle",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_X_OFFSET,
 					 g_param_spec_double ("x_offset",
-							      _( "X Offset" ),
-							      _( "X Offset" ),
+							      "X Offset",
+							      "X Offset",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_Y_OFFSET,
 					 g_param_spec_double ("y_offset",
-							      _( "Y Offset" ),
-							      _( "Y Offset" ),
+							      "Y Offset",
+							      "Y Offset",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR,
 					 g_param_spec_string ("fill_color",
-							      _( "Fill color" ),
-							      _( "Fill color" ),
+							      "Fill color",
+							      "Fill color",
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_GDK,
 					 g_param_spec_boxed ("fill_color_gdk",
-							     _( "GDK fill color" ),
-							     _( "GDK fill color" ),
+							     "GDK fill color",
+							     "GDK fill color",
 							     GDK_TYPE_COLOR,
 							     G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
-							    _( "GDK fill color" ),
-							    _( "GDK fill color" ),
+							    "GDK fill color",
+							    "GDK fill color",
 							    0, G_MAXUINT, 0,
 							    G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_STIPPLE,
 					 g_param_spec_object ("fill_stipple",
-							      _( "Fill stipple" ),
-							      _( "Fill stipple" ),
+							      "Fill stipple",
+							      "Fill stipple",
 							      GDK_TYPE_DRAWABLE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_TEXT_WIDTH,
 					 g_param_spec_double ("text_width",
-							      _( "Text width" ),
-							      _( "Text width" ),
+							      "Text width",
+							      "Text width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
 
 	g_object_class_install_property (gobject_class, PROP_TEXT_HEIGHT,
 					 g_param_spec_double ("text_height",
-							      _( "Text height" ),
-							      _( "Text height" ),
+							      "Text height",
+							      "Text height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
 
 	g_object_class_install_property (gobject_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _( "Editable" ),
-							       _( "Editable" ),
+							       "Editable",
+							       "Editable",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_USE_ELLIPSIS,
 					 g_param_spec_boolean ("use_ellipsis",
-							       _( "Use ellipsis" ),
-							       _( "Use ellipsis" ),
+							       "Use ellipsis",
+							       "Use ellipsis",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_ELLIPSIS,
 					 g_param_spec_string ("ellipsis",
-							      _( "Ellipsis" ),
-							      _( "Ellipsis" ),
+							      "Ellipsis",
+							      "Ellipsis",
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_LINE_WRAP,
 					 g_param_spec_boolean ("line_wrap",
-							       _( "Line wrap" ),
-							       _( "Line wrap" ),
+							       "Line wrap",
+							       "Line wrap",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_BREAK_CHARACTERS,
 					 g_param_spec_string ("break_characters",
-							      _( "Break characters" ),
-							      _( "Break characters" ),
+							      "Break characters",
+							      "Break characters",
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_MAX_LINES,
 					 g_param_spec_int ("max_lines",
-							   _( "Max lines" ),
-							   _( "Max lines" ),
+							   "Max lines",
+							   "Max lines",
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _( "Width" ),
-							      _( "Width" ),
+							      "Width",
+							      "Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _( "Height" ),
-							      _( "Height" ),
+							      "Height",
+							      "Height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_DRAW_BORDERS,
 					 g_param_spec_boolean ("draw_borders",
-							       _( "Draw borders" ),
-							       _( "Draw borders" ),
+							       "Draw borders",
+							       "Draw borders",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_ALLOW_NEWLINES,
 					 g_param_spec_boolean ("allow_newlines",
-							       _( "Allow newlines" ),
-							       _( "Allow newlines" ),
+							       "Allow newlines",
+							       "Allow newlines",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_DRAW_BACKGROUND,
 					 g_param_spec_boolean ("draw_background",
-							       _( "Draw background" ),
-							       _( "Draw background" ),
+							       "Draw background",
+							       "Draw background",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_DRAW_BUTTON,
 					 g_param_spec_boolean ("draw_button",
-							       _( "Draw button" ),
-							       _( "Draw button" ),
+							       "Draw button",
+							       "Draw button",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_CURSOR_POS,
 					 g_param_spec_int ("cursor_pos",
-							   _( "Cursor position" ),
-							   _( "Cursor position" ),
+							   "Cursor position",
+							   "Cursor position",
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_IM_CONTEXT,
 					 g_param_spec_object ("im_context",
-							      /* Translators: Input Method Context */
-							      _( "IM Context" ),
-							      /* Translators: Input Method Context */
-							      _( "IM Context" ),
+							      "IM Context",
+							      "IM Context",
 							      GTK_TYPE_IM_CONTEXT,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_HANDLE_POPUP,
 					 g_param_spec_boolean ("handle_popup",
-							       _( "Handle Popup" ),
-							       _( "Handle Popup" ),
+							       "Handle Popup",
+							       "Handle Popup",
 							       FALSE,
 							       G_PARAM_READWRITE));
 

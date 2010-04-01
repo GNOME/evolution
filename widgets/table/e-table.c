@@ -3336,43 +3336,43 @@ e_table_class_init (ETableClass *class)
 
 	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
 					 g_param_spec_int ("length_threshold",
-							   _("Length Threshold"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Length Threshold",
+							   NULL,
 							   0, G_MAXINT, 0,
 							   G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
 					 g_param_spec_boolean ("uniform_row_height",
-							       _("Uniform row height"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Uniform row height",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_ALWAYS_SEARCH,
 					 g_param_spec_boolean ("always_search",
-							       _("Always search"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Always search",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_USE_CLICK_TO_ADD,
 					 g_param_spec_boolean ("use_click_to_add",
-							       _("Use click to add"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Use click to add",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							      _("Model"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Model",
+							      NULL,
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READABLE));
 
 	gtk_widget_class_install_style_property (widget_class,
 					 g_param_spec_int ("vertical-spacing",
-							   _("Vertical Row Spacing"),
-							   _("Vertical space between rows. It is added to top and to bottom of a row"),
+							   "Vertical Row Spacing",
+							   "Vertical space between rows. It is added to top and to bottom of a row",
 							   0,
 							   G_MAXINT,
 							   3,

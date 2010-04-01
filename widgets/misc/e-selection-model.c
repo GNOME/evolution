@@ -213,23 +213,23 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 
 	g_object_class_install_property (object_class, PROP_SORTER,
 					 g_param_spec_object ("sorter",
-							      _("Sorter"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Sorter",
+							      NULL,
 							      E_SORTER_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_SELECTION_MODE,
 					 g_param_spec_int ("selection_mode",
-							   _("Selection Mode"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Selection Mode",
+							   NULL,
 							   GTK_SELECTION_NONE, GTK_SELECTION_MULTIPLE,
 							   GTK_SELECTION_SINGLE,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_CURSOR_MODE,
 					 g_param_spec_int ("cursor_mode",
-							   _("Cursor Mode"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Cursor Mode",
+							   NULL,
 							   E_CURSOR_LINE, E_CURSOR_SPREADSHEET,
 							   E_CURSOR_LINE,
 							   G_PARAM_READWRITE));

@@ -118,7 +118,7 @@ e_table_col_class_init (ETableColClass *klass)
 
 	g_object_class_install_property (object_class, PROP_COMPARE_COL,
 					 g_param_spec_int ("compare_col",
-							   _( "Width" ),
+							   "Width",
 							   "Width",
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));

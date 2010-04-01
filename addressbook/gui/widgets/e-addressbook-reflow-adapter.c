@@ -410,29 +410,29 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 
 	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
-							      _("Book"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Book",
+							      NULL,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_QUERY,
 					 g_param_spec_string ("query",
-							      _("Query"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Query",
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							       _("Model"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Model",
+							      NULL,
 							      E_TYPE_ADDRESSBOOK_MODEL,
 							      G_PARAM_READABLE));
 

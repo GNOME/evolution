@@ -1953,49 +1953,49 @@ ethi_class_init (ETableHeaderItemClass *klass)
 	g_object_class_install_property (object_class, PROP_DND_CODE,
 					 g_param_spec_string ("dnd_code",
 							      "DnD code",
-							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_FONT_DESC,
 					 g_param_spec_boxed ("font-desc",
 							     "Font Description",
-							     /*_( */"XXX blurb" /*)*/,
+							     NULL,
 							     PANGO_TYPE_FONT_DESCRIPTION,
 							     G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_FULL_HEADER,
 					 g_param_spec_object ("full_header",
 							      "Full Header",
-							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
 					 g_param_spec_object ("ETableHeader",
 							      "Header",
-							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_SORT_INFO,
 					 g_param_spec_object ("sort_info",
 							      "Sort Info",
-							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
 							      E_TABLE_SORT_INFO_TYPE,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE,
 					 g_param_spec_object ("table",
 							      "Table",
-							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
 							      E_TABLE_TYPE,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TREE,
 					 g_param_spec_object ("tree",
 							      "Tree",
-							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
 							      E_TREE_TYPE,
 							      G_PARAM_WRITABLE));
 

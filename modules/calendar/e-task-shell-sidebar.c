@@ -674,8 +674,8 @@ task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 		PROP_DEFAULT_CLIENT,
 		g_param_spec_object (
 			"default-client",
-			_("Default Task Client"),
-			_("Default client for task operations"),
+			"Default Task Client",
+			"Default client for task operations",
 			E_TYPE_CAL,
 			G_PARAM_READABLE));
 
@@ -684,8 +684,8 @@ task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 		PROP_SELECTOR,
 		g_param_spec_object (
 			"selector",
-			_("Source Selector Widget"),
-			_("This widget displays groups of task lists"),
+			"Source Selector Widget",
+			"This widget displays groups of task lists",
 			E_TYPE_SOURCE_SELECTOR,
 			G_PARAM_READABLE));
 

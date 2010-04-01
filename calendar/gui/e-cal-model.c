@@ -322,7 +322,7 @@ e_cal_model_class_init (ECalModelClass *class)
 		PROP_DEFAULT_CLIENT,
 		g_param_spec_object (
 			"default-client",
-			_("Default Client"),
+			"Default Client",
 			NULL,
 			E_TYPE_CAL,
 			G_PARAM_READWRITE));

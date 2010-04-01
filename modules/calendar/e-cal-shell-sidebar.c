@@ -738,8 +738,8 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 		PROP_DATE_NAVIGATOR,
 		g_param_spec_object (
 			"date-navigator",
-			_("Date Navigator Widget"),
-			_("This widget displays a miniature calendar"),
+			"Date Navigator Widget",
+			"This widget displays a miniature calendar",
 			E_TYPE_CALENDAR,
 			G_PARAM_READABLE));
 
@@ -748,8 +748,8 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 		PROP_DEFAULT_CLIENT,
 		g_param_spec_object (
 			"default-client",
-			_("Default Calendar Client"),
-			_("Default client for calendar operations"),
+			"Default Calendar Client",
+			"Default client for calendar operations",
 			E_TYPE_CAL,
 			G_PARAM_READABLE));
 
@@ -758,8 +758,8 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 		PROP_SELECTOR,
 		g_param_spec_object (
 			"selector",
-			_("Source Selector Widget"),
-			_("This widget displays groups of calendars"),
+			"Source Selector Widget",
+			"This widget displays groups of calendars",
 			E_TYPE_SOURCE_SELECTOR,
 			G_PARAM_READABLE));
 

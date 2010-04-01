@@ -170,8 +170,8 @@ ets_class_init (ETableSorterClass *klass)
 
 	g_object_class_install_property (object_class, PROP_SORT_INFO,
 					 g_param_spec_object ("sort_info",
-							      _("Sort Info"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Sort Info",
+							      NULL,
 							      E_TABLE_SORT_INFO_TYPE,
 							      G_PARAM_READWRITE));
 }

@@ -594,8 +594,8 @@ task_shell_backend_class_init (ETaskShellBackendClass *class)
 		PROP_SOURCE_LIST,
 		g_param_spec_object (
 			"source-list",
-			_("Source List"),
-			_("The registry of task lists"),
+			"Source List",
+			"The registry of task lists",
 			E_TYPE_SOURCE_LIST,
 			G_PARAM_READABLE));
 }

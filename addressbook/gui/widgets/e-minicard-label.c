@@ -112,57 +112,57 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _("Width"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Width",
+							      NULL,
 							      0.0, G_MAXDOUBLE, 10.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _("Height"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Height",
+							      NULL,
 							      0.0, G_MAXDOUBLE, 10.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HAS_FOCUS,
 					 g_param_spec_boolean ("has_focus",
-							       _("Has Focus"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Has Focus",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FIELD,
 					 g_param_spec_string ("field",
-							      _("Field"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Field",
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FIELDNAME,
 					 g_param_spec_string ("fieldname",
-							      _("Field Name"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Field Name",
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_TEXT_MODEL,
 					 g_param_spec_object ("text_model",
-							      _("Text Model"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Text Model",
+							      NULL,
 							      E_TYPE_TEXT_MODEL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MAX_FIELD_NAME_WIDTH,
 					 g_param_spec_double ("max_field_name_length",
-							      _("Max field name length"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Max field name length",
+							      NULL,
 							      -1.0, G_MAXDOUBLE, -1.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 

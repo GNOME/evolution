@@ -80,26 +80,26 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _( "Width" ),
-							      _( "Width" ),
+							      "Width",
+							      "Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
 					 g_param_spec_double ("minimum_width",
-							      _( "Minimum width" ),
-							      _( "Minimum Width" ),
+							      "Minimum width",
+							      "Minimum Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _( "Height" ),
-							      _( "Height" ),
+							      "Height",
+							      "Height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
 	g_object_class_install_property (object_class, PROP_SPACING,
 					 g_param_spec_double ("spacing",
-							      _( "Spacing" ),
-							      _( "Spacing" ),
+							      "Spacing",
+							      "Spacing",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 }

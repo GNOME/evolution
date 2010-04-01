@@ -1050,7 +1050,7 @@ memo_table_class_init (EMemoTableClass *class)
 		PROP_MODEL,
 		g_param_spec_object (
 			"model",
-			_("Model"),
+			"Model",
 			NULL,
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READWRITE |
@@ -1067,7 +1067,7 @@ memo_table_class_init (EMemoTableClass *class)
 		PROP_SHELL_VIEW,
 		g_param_spec_object (
 			"shell-view",
-			_("Shell View"),
+			"Shell View",
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |

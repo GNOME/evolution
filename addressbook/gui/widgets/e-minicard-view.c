@@ -524,29 +524,29 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 
 	g_object_class_install_property (object_class, PROP_ADAPTER,
 					 g_param_spec_object ("adapter",
-							      _("Adapter"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Adapter",
+							      NULL,
 							      E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
-							      _("Book"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Book",
+							      NULL,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_QUERY,
 					 g_param_spec_string ("query",
-							      _("Query"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Query",
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 

@@ -147,8 +147,8 @@ e_table_config_class_init (ETableConfigClass *klass)
 
 	g_object_class_install_property (object_class, PROP_STATE,
 					 g_param_spec_object ("state",
-							      _("State"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "State",
+							      NULL,
 							      E_TABLE_STATE_TYPE,
 							      G_PARAM_READABLE));
 }

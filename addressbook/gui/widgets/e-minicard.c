@@ -151,52 +151,52 @@ e_minicard_class_init (EMinicardClass *class)
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _("Width"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Width",
+							      NULL,
 							      0.0, G_MAXDOUBLE, 10.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _("Height"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Height",
+							      NULL,
 							      0.0, G_MAXDOUBLE, 10.0,
 							      G_PARAM_READABLE));
 
 	g_object_class_install_property (object_class, PROP_HAS_FOCUS,
 					 /* XXX should be _enum */
 					 g_param_spec_int ("has_focus",
-							   _("Has Focus"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Has Focus",
+							   NULL,
 							   E_MINICARD_FOCUS_TYPE_START, E_MINICARD_FOCUS_TYPE_END,
 							   E_MINICARD_FOCUS_TYPE_START,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_SELECTED,
 					 g_param_spec_boolean ("selected",
-							       _("Selected"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Selected",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HAS_CURSOR,
 					 g_param_spec_boolean ("has_cursor",
-							       _("Has Cursor"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Has Cursor",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_CONTACT,
 					 g_param_spec_object ("contact",
-							      _("Contact"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Contact",
+							      NULL,
 							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
 

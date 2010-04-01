@@ -509,7 +509,7 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 		PROP_BOOK,
 		g_param_spec_object (
 			"book",
-			_("Book"),
+			"Book",
 			NULL,
 			E_TYPE_BOOK,
 			G_PARAM_READWRITE));
@@ -519,7 +519,7 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 		PROP_EDITABLE,
 		g_param_spec_boolean (
 			"editable",
-			_("Editable"),
+			"Editable",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
@@ -529,7 +529,7 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 		PROP_QUERY,
 		g_param_spec_string (
 			"query",
-			_("Query"),
+			"Query",
 			NULL,
 			NULL,
 			G_PARAM_READWRITE |

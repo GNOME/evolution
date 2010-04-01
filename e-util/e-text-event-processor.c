@@ -73,8 +73,8 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 
 	g_object_class_install_property (object_class, PROP_ALLOW_NEWLINES,
 					 g_param_spec_boolean ("allow_newlines",
-							       _( "Allow newlines" ),
-							       _( "Allow newlines" ),
+							       "Allow newlines",
+							       "Allow newlines",
 							       FALSE,
 							       G_PARAM_READWRITE));
 

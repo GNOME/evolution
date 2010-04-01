@@ -191,8 +191,8 @@ module_class_init (EModuleClass *class)
 		PROP_FILENAME,
 		g_param_spec_string (
 			"filename",
-			_("Filename"),
-			_("The filename of the module"),
+			"Filename",
+			"The filename of the module",
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));

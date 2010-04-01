@@ -2565,8 +2565,8 @@ message_list_class_init (MessageListClass *class)
 		PROP_SHELL_BACKEND,
 		g_param_spec_object (
 			"shell-backend",
-			_("Shell Backend"),
-			_("The mail shell backend"),
+			"Shell Backend",
+			"The mail shell backend",
 			E_TYPE_SHELL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));

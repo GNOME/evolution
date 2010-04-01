@@ -164,8 +164,8 @@ eab_editor_class_init (EABEditorClass *class)
 		PROP_SHELL,
 		g_param_spec_object (
 			"shell",
-			_("Shell"),
-			_("The EShell singleton"),
+			"Shell",
+			"The EShell singleton",
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));

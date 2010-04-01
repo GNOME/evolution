@@ -468,57 +468,57 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR,
 					 g_param_spec_string ("fill_color",
-							      _( "Fill color" ),
-							      _( "Fill color" ),
+							      "Fill color",
+							      "Fill color",
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
 					 g_param_spec_boxed ("fill_color_gdk",
-							     _( "GDK fill color" ),
-							     _( "GDK fill color" ),
+							     "GDK fill color",
+							     "GDK fill color",
 							     GDK_TYPE_COLOR,
 							     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
-							    _( "GDK fill color" ),
-							    _( "GDK fill color" ),
+							    "GDK fill color",
+							    "GDK fill color",
 							    0, G_MAXUINT, 0,
 							    G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_STIPPLE,
 					 g_param_spec_object ("fill_stipple",
-							      _( "Fill stipple" ),
-							      _( "Fill stipple" ),
+							      "Fill stipple",
+							      "Fill stipple",
 							      GDK_TYPE_WINDOW,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_X1,
 					 g_param_spec_double ("x1",
-							      _( "X1" ),
-							      _( "X1" ),
+							      "X1",
+							      "X1",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_X2,
 					 g_param_spec_double ("x2",
-							      _( "X2" ),
-							      _( "X2" ),
+							      "X2",
+							      "X2",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_Y1,
 					 g_param_spec_double ("y1",
-							      _( "Y1" ),
-							      _( "Y1" ),
+							      "Y1",
+							      "Y1",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_Y2,
 					 g_param_spec_double ("y2",
-							      _( "Y2" ),
-							      _( "Y2" ),
+							      "Y2",
+							      "Y2",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 	ecb_signals [STYLE_SET] =

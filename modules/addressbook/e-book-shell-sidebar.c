@@ -178,8 +178,8 @@ book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 		PROP_SELECTOR,
 		g_param_spec_object (
 			"selector",
-			_("Source Selector Widget"),
-			_("This widget displays groups of address books"),
+			"Source Selector Widget",
+			"This widget displays groups of address books",
 			E_TYPE_SOURCE_SELECTOR,
 			G_PARAM_READABLE));
 }

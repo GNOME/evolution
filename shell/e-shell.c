@@ -799,8 +799,8 @@ e_shell_class_init (EShellClass *class)
 		PROP_GEOMETRY,
 		g_param_spec_string (
 			"geometry",
-			_("Geometry"),
-			_("Initial window geometry string"),
+			"Geometry",
+			"Initial window geometry string",
 			NULL,
 			G_PARAM_WRITABLE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -815,8 +815,8 @@ e_shell_class_init (EShellClass *class)
 		PROP_MODULE_DIRECTORY,
 		g_param_spec_string (
 			"module-directory",
-			_("Module Directory"),
-			_("The directory from which to load EModules"),
+			"Module Directory",
+			"The directory from which to load EModules",
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -831,8 +831,8 @@ e_shell_class_init (EShellClass *class)
 		PROP_NETWORK_AVAILABLE,
 		g_param_spec_boolean (
 			"network-available",
-			_("Network Available"),
-			_("Whether the network is available"),
+			"Network Available",
+			"Whether the network is available",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
@@ -847,8 +847,8 @@ e_shell_class_init (EShellClass *class)
 		PROP_ONLINE,
 		g_param_spec_boolean (
 			"online",
-			_("Online"),
-			_("Whether the shell is online"),
+			"Online",
+			"Whether the shell is online",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
@@ -863,8 +863,8 @@ e_shell_class_init (EShellClass *class)
 		PROP_SHELL_SETTINGS,
 		g_param_spec_object (
 			"shell-settings",
-			_("Shell Settings"),
-			_("Application-wide settings"),
+			"Shell Settings",
+			"Application-wide settings",
 			E_TYPE_SHELL_SETTINGS,
 			G_PARAM_READABLE));
 

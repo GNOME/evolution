@@ -1409,43 +1409,43 @@ e_reflow_class_init (EReflowClass *klass)
 
 	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
 					 g_param_spec_double ("minimum_width",
-							      _( "Minimum width" ),
-							      _( "Minimum Width" ),
+							      "Minimum width",
+							      "Minimum Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _( "Width" ),
-							      _( "Width" ),
+							      "Width",
+							      "Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _( "Height" ),
-							      _( "Height" ),
+							      "Height",
+							      "Height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EMPTY_MESSAGE,
 					 g_param_spec_string ("empty_message",
-							      _( "Empty message" ),
-							      _( "Empty message" ),
+							      "Empty message",
+							      "Empty message",
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							      _( "Reflow model" ),
-							      _( "Reflow model" ),
+							      "Reflow model",
+							      "Reflow model",
 							      E_REFLOW_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH,
 					 g_param_spec_double ("column_width",
-							      _( "Column width" ),
-							      _( "Column width" ),
+							      "Column width",
+							      "Column width",
 							      0.0, G_MAXDOUBLE, 150.0,
 							      G_PARAM_READWRITE));
 

@@ -299,15 +299,15 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							      _("Model"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Model",
+							      NULL,
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
-							      _("Header"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Header",
+							      NULL,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 }

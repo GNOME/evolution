@@ -175,15 +175,15 @@ gal_define_views_model_class_init (GalDefineViewsModelClass *klass)
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_COLLECTION,
 					 g_param_spec_object ("collection",
-							      _("Collection"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Collection",
+							      NULL,
 							      GAL_VIEW_COLLECTION_TYPE,
 							      G_PARAM_READWRITE));
 

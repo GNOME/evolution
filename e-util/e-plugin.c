@@ -292,8 +292,8 @@ ep_class_init (EPluginClass *class)
 		EP_PROP_ENABLED,
 		g_param_spec_boolean (
 			"enabled",
-			_("Enabled"),
-			_("Whether the plugin is enabled"),
+			"Enabled",
+			"Whether the plugin is enabled",
 			TRUE,
 			G_PARAM_READWRITE));
 }

@@ -583,85 +583,85 @@ etgl_class_init (ETableGroupLeafClass *klass)
 
 	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
 					 g_param_spec_boolean ("alternating_row_colors",
-							       _( "Alternating Row Colors" ),
-							       _( "Alternating Row Colors" ),
+							       "Alternating Row Colors",
+							       "Alternating Row Colors",
 							       FALSE,
 							       G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_HORIZONTAL_DRAW_GRID,
 					 g_param_spec_boolean ("horizontal_draw_grid",
-							       _( "Horizontal Draw Grid" ),
-							       _( "Horizontal Draw Grid" ),
+							       "Horizontal Draw Grid",
+							       "Horizontal Draw Grid",
 							       FALSE,
 							       G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_VERTICAL_DRAW_GRID,
 					 g_param_spec_boolean ("vertical_draw_grid",
-							       _( "Vertical Draw Grid" ),
-							       _( "Vertical Draw Grid" ),
+							       "Vertical Draw Grid",
+							       "Vertical Draw Grid",
 							       FALSE,
 							       G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_DRAW_FOCUS,
 					 g_param_spec_boolean ("drawfocus",
-							       _( "Draw focus" ),
-							       _( "Draw focus" ),
+							       "Draw focus",
+							       "Draw focus",
 							       FALSE,
 							       G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_CURSOR_MODE,
 					 g_param_spec_int ("cursor_mode",
-							   _( "Cursor mode" ),
-							   _( "Cursor mode" ),
+							   "Cursor mode",
+							   "Cursor mode",
 							   E_CURSOR_LINE, E_CURSOR_SPREADSHEET, E_CURSOR_LINE,
 							   G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
 					 g_param_spec_int ("length_threshold",
-							   _( "Length Threshold" ),
-							   _( "Length Threshold" ),
+							   "Length Threshold",
+							   "Length Threshold",
 							   -1, G_MAXINT, 0,
 							   G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_SELECTION_MODEL,
 					 g_param_spec_object ("selection_model",
-							      _( "Selection model" ),
-							      _( "Selection model" ),
+							      "Selection model",
+							      "Selection model",
 							      E_SELECTION_MODEL_TYPE,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _( "Height" ),
-							      _( "Height" ),
+							      "Height",
+							      "Height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _( "Width" ),
-							      _( "Width" ),
+							      "Width",
+							      "Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
 					 g_param_spec_double ("minimum_width",
-							      _( "Minimum width" ),
-							      _( "Minimum Width" ),
+							      "Minimum width",
+							      "Minimum Width",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FROZEN,
 					 g_param_spec_boolean ("frozen",
-							       _( "Frozen" ),
-							       _( "Frozen" ),
+							       "Frozen",
+							       "Frozen",
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
 					 g_param_spec_boolean ("uniform_row_height",
-							       _( "Uniform row height" ),
-							       _( "Uniform row height" ),
+							       "Uniform row height",
+							       "Uniform row height",
 							       FALSE,
 							       G_PARAM_READWRITE));
 }

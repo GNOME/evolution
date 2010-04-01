@@ -760,7 +760,7 @@ mail_browser_class_init (EMailBrowserClass *class)
 		PROP_FOCUS_TRACKER,
 		g_param_spec_object (
 			"focus-tracker",
-			_("Focus Tracker"),
+			"Focus Tracker",
 			NULL,
 			E_TYPE_FOCUS_TRACKER,
 			G_PARAM_READABLE));
@@ -770,8 +770,8 @@ mail_browser_class_init (EMailBrowserClass *class)
 		PROP_SHELL_BACKEND,
 		g_param_spec_object (
 			"shell-backend",
-			_("Shell Module"),
-			_("The mail shell backend"),
+			"Shell Module",
+			"The mail shell backend",
 			E_TYPE_SHELL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -781,8 +781,8 @@ mail_browser_class_init (EMailBrowserClass *class)
 		PROP_SHOW_DELETED,
 		g_param_spec_boolean (
 			"show-deleted",
-			_("Show Deleted"),
-			_("Show deleted messages"),
+			"Show Deleted",
+			"Show deleted messages",
 			FALSE,
 			G_PARAM_READWRITE));
 }

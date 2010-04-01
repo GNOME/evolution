@@ -361,8 +361,8 @@ book_shell_content_class_init (EBookShellContentClass *class)
 		PROP_CURRENT_VIEW,
 		g_param_spec_object (
 			"current-view",
-			_("Current View"),
-			_("The currently selected address book view"),
+			"Current View",
+			"The currently selected address book view",
 			E_TYPE_ADDRESSBOOK_VIEW,
 			G_PARAM_READWRITE));
 
@@ -371,8 +371,8 @@ book_shell_content_class_init (EBookShellContentClass *class)
 		PROP_PREVIEW_CONTACT,
 		g_param_spec_object (
 			"preview-contact",
-			_("Previewed Contact"),
-			_("The contact being shown in the preview pane"),
+			"Previewed Contact",
+			"The contact being shown in the preview pane",
 			E_TYPE_CONTACT,
 			G_PARAM_READWRITE));
 
@@ -381,8 +381,8 @@ book_shell_content_class_init (EBookShellContentClass *class)
 		PROP_PREVIEW_VISIBLE,
 		g_param_spec_boolean (
 			"preview-visible",
-			_("Preview is Visible"),
-			_("Whether the preview pane is visible"),
+			"Preview is Visible",
+			"Whether the preview pane is visible",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));

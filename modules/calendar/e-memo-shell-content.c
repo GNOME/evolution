@@ -604,8 +604,8 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 		PROP_MODEL,
 		g_param_spec_object (
 			"model",
-			_("Model"),
-			_("The memo table model"),
+			"Model",
+			"The memo table model",
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READABLE));
 
@@ -614,8 +614,8 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 		PROP_PREVIEW_VISIBLE,
 		g_param_spec_boolean (
 			"preview-visible",
-			_("Preview is Visible"),
-			_("Whether the preview pane is visible"),
+			"Preview is Visible",
+			"Whether the preview pane is visible",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));

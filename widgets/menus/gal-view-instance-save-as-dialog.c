@@ -220,8 +220,8 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *k
 
 	g_object_class_install_property (object_class, PROP_INSTANCE,
 					 g_param_spec_object ("instance",
-							      _("Instance"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Instance",
+							      NULL,
 							      GAL_VIEW_INSTANCE_TYPE,
 							      G_PARAM_READWRITE));
 }

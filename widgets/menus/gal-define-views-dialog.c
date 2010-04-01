@@ -71,8 +71,8 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 
 	g_object_class_install_property (object_class, PROP_COLLECTION,
 					 g_param_spec_object ("collection",
-							      _("Collection"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Collection",
+							      NULL,
 							      GAL_VIEW_COLLECTION_TYPE,
 							      G_PARAM_READWRITE));
 }

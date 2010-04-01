@@ -593,8 +593,8 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 		PROP_SOURCE_LIST,
 		g_param_spec_object (
 			"source-list",
-			_("Source List"),
-			_("The registry of address books"),
+			"Source List",
+			"The registry of address books",
 			E_TYPE_SOURCE_LIST,
 			G_PARAM_READABLE));
 }

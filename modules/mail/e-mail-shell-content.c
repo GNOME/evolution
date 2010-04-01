@@ -672,8 +672,8 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 		PROP_GROUP_BY_THREADS,
 		g_param_spec_boolean (
 			"group-by-threads",
-			_("Group by Threads"),
-			_("Whether to group messages by threads"),
+			"Group by Threads",
+			"Whether to group messages by threads",
 			FALSE,
 			G_PARAM_READWRITE));
 
@@ -682,8 +682,8 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 		PROP_PREVIEW_VISIBLE,
 		g_param_spec_boolean (
 			"preview-visible",
-			_("Preview is Visible"),
-			_("Whether the preview pane is visible"),
+			"Preview is Visible",
+			"Whether the preview pane is visible",
 			TRUE,
 			G_PARAM_READWRITE));
 

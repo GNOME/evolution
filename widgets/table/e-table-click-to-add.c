@@ -501,36 +501,36 @@ etcta_class_init (ETableClickToAddClass *klass)
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
-							      _("Header"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Header",
+							      NULL,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
-							      _("Model"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Model",
+							      NULL,
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MESSAGE,
 					 g_param_spec_string ("message",
-							      _("Message"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Message",
+							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _("Width"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Width",
+							      NULL,
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _("Height"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "Height",
+							      NULL,
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE | G_PARAM_LAX_VALIDATION));
 

@@ -460,8 +460,8 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 		PROP_TOOLBAR_STYLE,
 		g_param_spec_enum (
 			"toolbar-style",
-			_("Toolbar Style"),
-			_("The switcher's toolbar style"),
+			"Toolbar Style",
+			"The switcher's toolbar style",
 			GTK_TYPE_TOOLBAR_STYLE,
 			E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
 			G_PARAM_READWRITE |
@@ -477,8 +477,8 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 		PROP_TOOLBAR_VISIBLE,
 		g_param_spec_boolean (
 			"toolbar-visible",
-			_("Toolbar Visible"),
-			_("Whether the switcher is visible"),
+			"Toolbar Visible",
+			"Whether the switcher is visible",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));

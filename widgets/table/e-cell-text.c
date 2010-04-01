@@ -1628,43 +1628,43 @@ e_cell_text_class_init (ECellTextClass *klass)
 
 	g_object_class_install_property (object_class, PROP_STRIKEOUT_COLUMN,
 					 g_param_spec_int ("strikeout_column",
-							   _("Strikeout Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Strikeout Column",
+							   NULL,
 							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_UNDERLINE_COLUMN,
 					 g_param_spec_int ("underline_column",
-							   _("Underline Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Underline Column",
+							   NULL,
 							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_BOLD_COLUMN,
 					 g_param_spec_int ("bold_column",
-							   _("Bold Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Bold Column",
+							   NULL,
 							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_COLOR_COLUMN,
 					 g_param_spec_int ("color_column",
-							   _("Color Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "Color Column",
+							   NULL,
 							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
-							       _("Editable"),
-							       /*_( */"XXX blurb" /*)*/,
+							       "Editable",
+							       NULL,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_BG_COLOR_COLUMN,
 					 g_param_spec_int ("bg_color_column",
-							   _("BG Color Column"),
-							   /*_( */"XXX blurb" /*)*/,
+							   "BG Color Column",
+							   NULL,
 							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
