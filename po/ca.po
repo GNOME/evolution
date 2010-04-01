@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-22 00:16+0100\n"
-"PO-Revision-Date: 2010-03-22 00:14+0100\n"
+"POT-Creation-Date: 2010-04-01 22:45+0200\n"
+"PO-Revision-Date: 2010-04-01 22:46+0200\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgid ""
 "misspelled or your network connection could be down."
 msgstr ""
 "O bé no es pot contactar amb el servidor de la llibreta d'adreces, o bé el "
-"seu nom està mal escrit, o potser no esteu connectats a la xarxa."
+"seu nom està mal escrit, o potser no esteu connectat a la xarxa."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "This address book will be removed permanently."
@@ -514,7 +514,7 @@ msgstr "Codi posta_l:"
 #: ../plugins/caldav/caldav-browse-server.c:1159
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:7
 #: ../plugins/plugin-manager/plugin-manager.c:58
-#: ../widgets/menus/gal-define-views-dialog.c:315
+#: ../widgets/menus/gal-define-views-dialog.c:320
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:90
 #: ../widgets/menus/gal-view-new-dialog.c:60
 msgid "Name"
@@ -970,7 +970,7 @@ msgstr "Segur que voleu suprimir aquests contactes?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1301
 msgid "Are you sure you want to delete this contact?"
-msgstr "Segur que voleu suprimir aquest contactes?"
+msgstr "Segur que voleu suprimir aquest contacte?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1305
 #, c-format
@@ -1150,7 +1150,7 @@ msgid "Telex"
 msgstr "Tèlex"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:819
+#: ../shell/e-shell-view.c:825
 msgid "Title"
 msgstr "Títol"
 
@@ -2349,7 +2349,7 @@ msgid "_Dismiss"
 msgstr "_Descarta"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1016
+#: ../calendar/gui/dialogs/comp-editor.c:1025
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:152
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
@@ -2442,7 +2442,7 @@ msgstr "No em facis més preguntes sobre aquest programa."
 
 #: ../calendar/gui/alarm-notify/util.c:44
 msgid "invalid time"
-msgstr "l'hora no es vàlida"
+msgstr "l'hora no és vàlida"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:406
@@ -2680,7 +2680,7 @@ msgstr "Minut de finalització de la jornada laboral, de 0 a 59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:46
 msgid "Minute the workday starts on, 0 to 59."
-msgstr "Minut d'inici de la jornada laboral, de 0 a 59"
+msgstr "Minut d'inici de la jornada laboral, de 0 a 59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:47
 msgid "Month view horizontal pane position"
@@ -3482,7 +3482,7 @@ msgid "Display alarms in _notification area only"
 msgstr "Mostra les alarmes només a l'àrea de _notificació"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:18
-#: ../calendar/gui/dialogs/recurrence-page.c:1117
+#: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:738
 msgid "Friday"
 msgstr "divendres"
@@ -3509,7 +3509,7 @@ msgstr "Minuts"
 
 # Apareix al mig d'una frase, per això ha d'anar en minúscula (dpm)
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:22
-#: ../calendar/gui/dialogs/recurrence-page.c:1113
+#: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Monday"
 msgstr "dilluns"
@@ -3532,7 +3532,7 @@ msgid "S_un"
 msgstr "d_g"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
-#: ../calendar/gui/dialogs/recurrence-page.c:1118
+#: ../calendar/gui/dialogs/recurrence-page.c:1119
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "Dissabte"
@@ -3568,7 +3568,7 @@ msgstr ""
 "laborables"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1119
+#: ../calendar/gui/dialogs/recurrence-page.c:1120
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "Diumenge"
@@ -3591,7 +3591,7 @@ msgid "Template:"
 msgstr "Plantilla:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
-#: ../calendar/gui/dialogs/recurrence-page.c:1116
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "Dijous"
@@ -3612,7 +3612,7 @@ msgid "Time format:"
 msgstr "Format de l'hora:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1114
+#: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "Dimarts"
@@ -3622,7 +3622,7 @@ msgid "Use s_ystem time zone"
 msgstr "Utilitza el _fus horari del sistema"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1115
+#: ../calendar/gui/dialogs/recurrence-page.c:1116
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "Dimecres"
@@ -3846,231 +3846,231 @@ msgstr "Venciment "
 msgid "Could not save attachments"
 msgstr "No s'han pogut desar els fitxers adjunts"
 
-#: ../calendar/gui/dialogs/comp-editor.c:510
+#: ../calendar/gui/dialogs/comp-editor.c:515
 msgid "Could not update object"
 msgstr "No s'ha pogut actualitzar l'objecte"
 
-#: ../calendar/gui/dialogs/comp-editor.c:605
+#: ../calendar/gui/dialogs/comp-editor.c:614
 msgid "Edit Appointment"
 msgstr "Edita la cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:612
+#: ../calendar/gui/dialogs/comp-editor.c:621
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunió - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:614
+#: ../calendar/gui/dialogs/comp-editor.c:623
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:620
+#: ../calendar/gui/dialogs/comp-editor.c:629
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tasca assignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:622
+#: ../calendar/gui/dialogs/comp-editor.c:631
 #, c-format
 msgid "Task - %s"
 msgstr "Tasca - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:627
+#: ../calendar/gui/dialogs/comp-editor.c:636
 #, c-format
 msgid "Memo - %s"
 msgstr "Anotació - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:643
+#: ../calendar/gui/dialogs/comp-editor.c:652
 msgid "No Summary"
 msgstr "Sense resum"
 
-#: ../calendar/gui/dialogs/comp-editor.c:752
+#: ../calendar/gui/dialogs/comp-editor.c:761
 msgid "Keep original item?"
 msgstr "Voleu mantenir l'element original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:939
+#: ../calendar/gui/dialogs/comp-editor.c:948
 msgid "Click here to close the current window"
 msgstr "Feu clic per tancar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:946 ../mail/e-mail-browser.c:117
+#: ../calendar/gui/dialogs/comp-editor.c:955 ../mail/e-mail-browser.c:117
 #: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:387 ../widgets/misc/e-web-view.c:965
 msgid "Copy the selection"
 msgstr "Copia la selecció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:953 ../mail/e-mail-browser.c:124
+#: ../calendar/gui/dialogs/comp-editor.c:962 ../mail/e-mail-browser.c:124
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:959
 msgid "Cut the selection"
 msgstr "Retalla la selecció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:960
+#: ../calendar/gui/dialogs/comp-editor.c:969
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "Suprimeix la selecció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:967
+#: ../calendar/gui/dialogs/comp-editor.c:976
 msgid "Click here to view help available"
 msgstr "Feu clic per veure l'ajuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:974 ../mail/e-mail-browser.c:131
+#: ../calendar/gui/dialogs/comp-editor.c:983 ../mail/e-mail-browser.c:131
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:971
 msgid "Paste the clipboard"
 msgstr "Enganxa el porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:995
+#: ../calendar/gui/dialogs/comp-editor.c:1004
 msgid "Click here to save the current window"
 msgstr "Feu clic per desar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1002 ../mail/e-mail-browser.c:138
+#: ../calendar/gui/dialogs/comp-editor.c:1011 ../mail/e-mail-browser.c:138
 #: ../shell/e-shell-window-actions.c:1579
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "Selecciona tot el text"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1009
+#: ../calendar/gui/dialogs/comp-editor.c:1018
 msgid "_Classification"
 msgstr "_Classificació"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1023 ../mail/e-mail-browser.c:145
+#: ../calendar/gui/dialogs/comp-editor.c:1032 ../mail/e-mail-browser.c:145
 #: ../shell/e-shell-window-actions.c:1628
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1030
+#: ../calendar/gui/dialogs/comp-editor.c:1039
 #: ../shell/e-shell-window-actions.c:1635
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1037
+#: ../calendar/gui/dialogs/comp-editor.c:1046
 msgid "_Insert"
 msgstr "_Insereix"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1044
+#: ../calendar/gui/dialogs/comp-editor.c:1053
 #: ../composer/e-composer-actions.c:351
 msgid "_Options"
 msgstr "_Opcions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1051 ../mail/e-mail-browser.c:159
+#: ../calendar/gui/dialogs/comp-editor.c:1060 ../mail/e-mail-browser.c:159
 #: ../shell/e-shell-window-actions.c:1670
 msgid "_View"
 msgstr "_Visualitza"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1061
+#: ../calendar/gui/dialogs/comp-editor.c:1070
 #: ../composer/e-composer-actions.c:279
 msgid "_Attachment..."
 msgstr "Fitxer _adjunt..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1063
+#: ../calendar/gui/dialogs/comp-editor.c:1072
 msgid "Click here to attach a file"
 msgstr "Feu clic per adjuntar un fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1071
+#: ../calendar/gui/dialogs/comp-editor.c:1080
 msgid "_Categories"
 msgstr "_Categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1073
+#: ../calendar/gui/dialogs/comp-editor.c:1082
 msgid "Toggles whether to display categories"
 msgstr "Commuta la visualització de categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1079
+#: ../calendar/gui/dialogs/comp-editor.c:1088
 msgid "Time _Zone"
 msgstr "Fus h_orari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1081
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 msgid "Toggles whether the time zone is displayed"
 msgstr "Commuta la visualització del fus horari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1099
 msgid "Pu_blic"
 msgstr "Pú_blic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1092
+#: ../calendar/gui/dialogs/comp-editor.c:1101
 msgid "Classify as public"
 msgstr "Classifica com a públic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1097
+#: ../calendar/gui/dialogs/comp-editor.c:1106
 msgid "_Private"
 msgstr "_Privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1099
+#: ../calendar/gui/dialogs/comp-editor.c:1108
 msgid "Classify as private"
 msgstr "Classifica com a privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1104
+#: ../calendar/gui/dialogs/comp-editor.c:1113
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1106
+#: ../calendar/gui/dialogs/comp-editor.c:1115
 msgid "Classify as confidential"
 msgstr "Classifica com a confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1114
+#: ../calendar/gui/dialogs/comp-editor.c:1123
 msgid "R_ole Field"
 msgstr "Camp del r_ol"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1116
+#: ../calendar/gui/dialogs/comp-editor.c:1125
 msgid "Toggles whether the Role field is displayed"
 msgstr "Commuta la visualització del camp del rol"
 
 # Prové de «Répondez s'il-vous-plaît» (dpm)
-#: ../calendar/gui/dialogs/comp-editor.c:1122
+#: ../calendar/gui/dialogs/comp-editor.c:1131
 msgid "_RSVP"
 msgstr "Esperem la vostra _resposta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1124
+#: ../calendar/gui/dialogs/comp-editor.c:1133
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Commuta si s'ha de mostrar el camp RSVP"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1130
+#: ../calendar/gui/dialogs/comp-editor.c:1139
 msgid "_Status Field"
 msgstr "Camp d'e_stat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1132
+#: ../calendar/gui/dialogs/comp-editor.c:1141
 msgid "Toggles whether the Status field is displayed"
 msgstr "Commuta la visualització del camp d'estat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1138
+#: ../calendar/gui/dialogs/comp-editor.c:1147
 msgid "_Type Field"
 msgstr "Camp de _tipus"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1140
+#: ../calendar/gui/dialogs/comp-editor.c:1149
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Commuta la visualització del camp del tipus d'assistent"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1164
+#: ../calendar/gui/dialogs/comp-editor.c:1173
 #: ../composer/e-composer-private.c:70
 msgid "Recent _Documents"
 msgstr "Documents _recents"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1684
+#: ../calendar/gui/dialogs/comp-editor.c:1693
 #: ../composer/e-composer-actions.c:475
 msgid "Attach"
 msgstr "Adjunta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1739
+#: ../calendar/gui/dialogs/comp-editor.c:1748
 msgid "Save"
 msgstr "Desa"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2016
-#: ../calendar/gui/dialogs/comp-editor.c:2065
-#: ../calendar/gui/dialogs/comp-editor.c:2956
+#: ../calendar/gui/dialogs/comp-editor.c:2025
+#: ../calendar/gui/dialogs/comp-editor.c:2074
+#: ../calendar/gui/dialogs/comp-editor.c:2965
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Els canvis realitzats en aquest element es descartaran en produir-se una "
 "actualització"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2924
+#: ../calendar/gui/dialogs/comp-editor.c:2933
 #: ../plugins/prefer-plain/prefer-plain.c:67
 msgid "attachment"
 msgstr "adjunció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2986
+#: ../calendar/gui/dialogs/comp-editor.c:2995
 msgid "Unable to use current version!"
 msgstr "No s'ha pogut utilitzar la versió actual"
 
@@ -4482,11 +4482,11 @@ msgstr "Tots els casos"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Aquesta cita conté periodicitats que l'Evolution no pot editar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:889
+#: ../calendar/gui/dialogs/recurrence-page.c:890
 msgid "Recurrence date is invalid"
 msgstr "La data de periodicitat no és vàlida"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:933
+#: ../calendar/gui/dialogs/recurrence-page.c:934
 msgid "End time of the recurrence was before event's start"
 msgstr ""
 "L'hora de finalització de la recurrència era abans de l'inici de "
@@ -4494,7 +4494,7 @@ msgstr ""
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:962
+#: ../calendar/gui/dialogs/recurrence-page.c:963
 msgid "on"
 msgstr "el"
 
@@ -4502,7 +4502,7 @@ msgstr "el"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1019
+#: ../calendar/gui/dialogs/recurrence-page.c:1020
 msgid "first"
 msgstr "primer"
 
@@ -4511,7 +4511,7 @@ msgstr "primer"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1025
+#: ../calendar/gui/dialogs/recurrence-page.c:1026
 msgid "second"
 msgstr "segon"
 
@@ -4519,7 +4519,7 @@ msgstr "segon"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1030
+#: ../calendar/gui/dialogs/recurrence-page.c:1031
 msgid "third"
 msgstr "tercer"
 
@@ -4527,7 +4527,7 @@ msgstr "tercer"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1035
+#: ../calendar/gui/dialogs/recurrence-page.c:1036
 msgid "fourth"
 msgstr "quart"
 
@@ -4535,7 +4535,7 @@ msgstr "quart"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1040
+#: ../calendar/gui/dialogs/recurrence-page.c:1041
 msgid "fifth"
 msgstr "cinquè"
 
@@ -4543,13 +4543,13 @@ msgstr "cinquè"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 msgid "last"
 msgstr "últim"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1069
+#: ../calendar/gui/dialogs/recurrence-page.c:1070
 msgid "Other Date"
 msgstr "Una altra data"
 
@@ -4557,7 +4557,7 @@ msgstr "Una altra data"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1075
+#: ../calendar/gui/dialogs/recurrence-page.c:1076
 msgid "1st to 10th"
 msgstr "de l'1 al 10"
 
@@ -4565,7 +4565,7 @@ msgstr "de l'1 al 10"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1081
+#: ../calendar/gui/dialogs/recurrence-page.c:1082
 msgid "11th to 20th"
 msgstr "de l'11 al 20"
 
@@ -4573,45 +4573,45 @@ msgstr "de l'11 al 20"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1087
+#: ../calendar/gui/dialogs/recurrence-page.c:1088
 msgid "21st to 31st"
 msgstr "del 21 al 31"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/dialogs/recurrence-page.c:1112
+#: ../calendar/gui/dialogs/recurrence-page.c:1113
 msgid "day"
 msgstr "dia"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1241
+#: ../calendar/gui/dialogs/recurrence-page.c:1242
 msgid "on the"
 msgstr "al"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1416
+#: ../calendar/gui/dialogs/recurrence-page.c:1417
 msgid "occurrences"
 msgstr "aparicions"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2121
+#: ../calendar/gui/dialogs/recurrence-page.c:2122
 msgid "Add exception"
 msgstr "Afegeix una excepció"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2162
+#: ../calendar/gui/dialogs/recurrence-page.c:2163
 msgid "Could not get a selection to modify."
 msgstr "No s'ha pogut obtenir una selecció per modificar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2168
+#: ../calendar/gui/dialogs/recurrence-page.c:2169
 msgid "Modify exception"
 msgstr "Modifica l'excepció"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2212
+#: ../calendar/gui/dialogs/recurrence-page.c:2213
 msgid "Could not get a selection to delete."
 msgstr "No s'ha pogut obtenir una selecció per suprimir."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2351
+#: ../calendar/gui/dialogs/recurrence-page.c:2352
 msgid "Date/Time"
 msgstr "Data/hora"
 
@@ -5010,12 +5010,12 @@ msgstr "No"
 msgid "Default Client"
 msgstr "Client predeterminat"
 
-#: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:518
+#: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:551
 #: ../shell/e-shell.c:867
 msgid "Shell Settings"
 msgstr "Paràmetres del Shell"
 
-#: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:519
+#: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:552
 #: ../shell/e-shell.c:868
 msgid "Application-wide settings"
 msgstr "Paràmetres de l'aplicació"
@@ -5227,7 +5227,7 @@ msgstr "%A, %d de %B"
 #: ../calendar/gui/e-day-view-top-item.c:868 ../calendar/gui/e-day-view.c:1901
 #: ../calendar/gui/e-week-view-main-item.c:231
 #: ../calendar/gui/ea-gnome-calendar.c:200
-#: ../modules/calendar/e-cal-shell-view-private.c:901
+#: ../modules/calendar/e-cal-shell-view-private.c:907
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -5239,7 +5239,7 @@ msgstr "%a %d %b"
 #: ../calendar/gui/e-day-view-top-item.c:872 ../calendar/gui/e-day-view.c:1917
 #: ../calendar/gui/e-week-view-main-item.c:245
 #: ../calendar/gui/ea-gnome-calendar.c:230
-#: ../modules/calendar/e-cal-shell-view-private.c:937
+#: ../modules/calendar/e-cal-shell-view-private.c:943
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -5655,7 +5655,7 @@ msgid "Send Latest Information"
 msgstr "Envia l'última informació"
 
 #: ../calendar/gui/e-itip-control.c:2452
-#: ../modules/mail/e-mail-shell-view-actions.c:1032
+#: ../modules/mail/e-mail-shell-view-actions.c:1036
 #: ../widgets/misc/e-activity-proxy.c:299
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -5878,7 +5878,7 @@ msgid "Member"
 msgstr "Membre"
 
 #: ../calendar/gui/e-memo-table.c:411
-#: ../modules/calendar/e-cal-shell-content.c:397
+#: ../modules/calendar/e-cal-shell-content.c:456
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view.c:289
@@ -5970,7 +5970,7 @@ msgstr "100%"
 #: ../calendar/gui/e-task-table.c:624 ../calendar/gui/print.c:2043
 #: ../calendar/importers/icalendar-importer.c:76
 #: ../calendar/importers/icalendar-importer.c:749
-#: ../modules/calendar/e-cal-shell-content.c:357
+#: ../modules/calendar/e-cal-shell-content.c:418
 #: ../modules/calendar/e-task-shell-view-actions.c:241
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view.c:437
@@ -6111,16 +6111,16 @@ msgid "Gnome Calendar"
 msgstr "Calendari del Gnome"
 
 #: ../calendar/gui/ea-gnome-calendar.c:197
-#: ../modules/calendar/e-cal-shell-view-private.c:897
+#: ../modules/calendar/e-cal-shell-view-private.c:903
 msgid "%A %d %b %Y"
 msgstr "%A, %d de %B del %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:202
 #: ../calendar/gui/ea-gnome-calendar.c:207
 #: ../calendar/gui/ea-gnome-calendar.c:209
-#: ../modules/calendar/e-cal-shell-view-private.c:904
 #: ../modules/calendar/e-cal-shell-view-private.c:910
-#: ../modules/calendar/e-cal-shell-view-private.c:913
+#: ../modules/calendar/e-cal-shell-view-private.c:916
+#: ../modules/calendar/e-cal-shell-view-private.c:919
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -6128,10 +6128,10 @@ msgstr "%a %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:232
 #: ../calendar/gui/ea-gnome-calendar.c:238
 #: ../calendar/gui/ea-gnome-calendar.c:240
-#: ../modules/calendar/e-cal-shell-view-private.c:930
-#: ../modules/calendar/e-cal-shell-view-private.c:941
-#: ../modules/calendar/e-cal-shell-view-private.c:948
-#: ../modules/calendar/e-cal-shell-view-private.c:951
+#: ../modules/calendar/e-cal-shell-view-private.c:936
+#: ../modules/calendar/e-cal-shell-view-private.c:947
+#: ../modules/calendar/e-cal-shell-view-private.c:954
+#: ../modules/calendar/e-cal-shell-view-private.c:957
 msgid "%d %b %Y"
 msgstr "%d de %B del %Y"
 
@@ -6161,7 +6161,7 @@ msgstr "visualització del calendari per a un mes"
 msgid "calendar view for one or more weeks"
 msgstr "visualització del calendari per a una o més setmanes"
 
-#: ../calendar/gui/gnome-cal.c:2167
+#: ../calendar/gui/gnome-cal.c:2299
 msgid "Purging"
 msgstr "S'està buidant"
 
@@ -8833,7 +8833,7 @@ msgstr "Notificacions d'esdeveniments del calendari"
 msgid "Evolution Alarm Notify"
 msgstr "Notificador d'alarmes de l'Evolution"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:800
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:819
 #: ../shell/e-shell-window-private.c:251
 msgid "Evolution"
 msgstr "Evolution"
@@ -9575,23 +9575,23 @@ msgstr "Vista d'icones"
 msgid "List View"
 msgstr "Vista de llista"
 
-#: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:631
+#: ../mail/e-mail-browser.c:763 ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
 msgstr "Seguidor de focus"
 
-#: ../mail/e-mail-browser.c:742
+#: ../mail/e-mail-browser.c:773
 msgid "Shell Module"
 msgstr "Mòdul del Shell"
 
-#: ../mail/e-mail-browser.c:743 ../mail/message-list.c:2589
+#: ../mail/e-mail-browser.c:774 ../mail/message-list.c:2589
 msgid "The mail shell backend"
 msgstr "El rerefons del Shell del correu"
 
-#: ../mail/e-mail-browser.c:753
+#: ../mail/e-mail-browser.c:784
 msgid "Show Deleted"
 msgstr "Mostra els suprimits"
 
-#: ../mail/e-mail-browser.c:754
+#: ../mail/e-mail-browser.c:785
 msgid "Show deleted messages"
 msgstr "Mostra els missatges suprimits"
 
@@ -9640,7 +9640,7 @@ msgid "_Later"
 msgstr "D_esprés"
 
 #: ../mail/e-mail-label-manager.c:165
-#: ../modules/mail/e-mail-shell-view-actions.c:515
+#: ../modules/mail/e-mail-shell-view-actions.c:519
 msgid "Add Label"
 msgstr "Afegeix una etiqueta"
 
@@ -14090,7 +14090,7 @@ msgid "_Do not Synchronize"
 msgstr "N_o sincronitzis"
 
 #: ../mail/mail.error.xml.h:140
-#: ../modules/mail/e-mail-shell-view-actions.c:862
+#: ../modules/mail/e-mail-shell-view-actions.c:866
 msgid "_Empty Trash"
 msgstr "Buida la _paperera"
 
@@ -14172,16 +14172,16 @@ msgstr "%d de %b del %Y"
 msgid "Select all visible messages"
 msgstr "Selecciona tots els missatges visibles"
 
-#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:723
+#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:729
 msgid "Shell Backend"
 msgstr "Rerefons del Shell"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4399 ../mail/message-list.c:4895
+#: ../mail/message-list.c:4426 ../mail/message-list.c:4922
 msgid "Generating message list"
 msgstr "S'està generant la llista de missatges"
 
-#: ../mail/message-list.c:4726
+#: ../mail/message-list.c:4753
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -14189,7 +14189,7 @@ msgstr ""
 "No hi ha cap missatge que satisfaci els vostres criteris de cerca. Netegeu "
 "la cerca a través de l'element de menú Cerca -> Neteja, o bé canvieu-la."
 
-#: ../mail/message-list.c:4728
+#: ../mail/message-list.c:4755
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
@@ -14197,7 +14197,7 @@ msgstr ""
 "Aquesta carpeta només conté missatges ocults. Utilitzeu l'entrada de menú "
 "«Visualitza->Mostra els missatges amagats» per mostrar-los."
 
-#: ../mail/message-list.c:4730
+#: ../mail/message-list.c:4757
 msgid "There are no messages in this folder."
 msgstr "No hi ha cap missatge en aquesta carpeta."
 
@@ -14235,27 +14235,27 @@ msgid "Subject - Trimmed"
 msgstr "Assumpte - retallat"
 
 #: ../mail/searchtypes.xml.h:1
-#: ../modules/mail/e-mail-shell-view-actions.c:1275
+#: ../modules/mail/e-mail-shell-view-actions.c:1279
 msgid "Body contains"
 msgstr "El cos conté"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1282
+#: ../modules/mail/e-mail-shell-view-actions.c:1286
 msgid "Message contains"
 msgstr "El missatge conté"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1289
+#: ../modules/mail/e-mail-shell-view-actions.c:1293
 msgid "Recipients contain"
 msgstr "Els destinataris contenen"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1296
+#: ../modules/mail/e-mail-shell-view-actions.c:1300
 msgid "Sender contains"
 msgstr "El remitent conté"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1303
+#: ../modules/mail/e-mail-shell-view-actions.c:1307
 msgid "Subject contains"
 msgstr "L'assumpte conté"
 
@@ -14646,7 +14646,7 @@ msgstr "Canvia les propietats de la llibreta d'adreces seleccionada"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1300
 #: ../modules/calendar/e-memo-shell-view-actions.c:610
 #: ../modules/calendar/e-task-shell-view-actions.c:734
-#: ../modules/mail/e-mail-shell-view-actions.c:946
+#: ../modules/mail/e-mail-shell-view-actions.c:950
 msgid "_Rename..."
 msgstr "Can_via el nom..."
 
@@ -14735,7 +14735,7 @@ msgstr "_Accions"
 #: ../modules/addressbook/e-book-shell-view-actions.c:790
 #: ../modules/calendar/e-memo-shell-view-actions.c:647
 #: ../modules/calendar/e-task-shell-view-actions.c:799
-#: ../modules/mail/e-mail-shell-view-actions.c:1090
+#: ../modules/mail/e-mail-shell-view-actions.c:1094
 msgid "_Preview"
 msgstr "_Previsualització"
 
@@ -14765,7 +14765,7 @@ msgstr "Mostra la finestra de previsualització de contactes"
 #: ../modules/addressbook/e-book-shell-view-actions.c:860
 #: ../modules/calendar/e-memo-shell-view-actions.c:717
 #: ../modules/calendar/e-task-shell-view-actions.c:881
-#: ../modules/mail/e-mail-shell-view-actions.c:1185
+#: ../modules/mail/e-mail-shell-view-actions.c:1189
 msgid "_Classic View"
 msgstr "Visualització _clàssica"
 
@@ -14776,7 +14776,7 @@ msgstr "Mostra la previsualització del contacte sota la llista de contactes"
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
 #: ../modules/calendar/e-memo-shell-view-actions.c:724
 #: ../modules/calendar/e-task-shell-view-actions.c:888
-#: ../modules/mail/e-mail-shell-view-actions.c:1192
+#: ../modules/mail/e-mail-shell-view-actions.c:1196
 msgid "_Vertical View"
 msgstr "_Visualització vertical"
 
@@ -14803,7 +14803,7 @@ msgstr "Sense coincidència"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1619
 #: ../modules/calendar/e-memo-shell-view-actions.c:751
 #: ../modules/calendar/e-task-shell-view-actions.c:950
-#: ../modules/mail/e-mail-shell-view-actions.c:1268
+#: ../modules/mail/e-mail-shell-view-actions.c:1272
 #: ../shell/e-shell-content.c:516
 msgid "Advanced Search"
 msgstr "Cerca avançada"
@@ -15924,300 +15924,300 @@ msgstr "Agrupa per fils"
 msgid "Whether to group messages by threads"
 msgstr "Si s'han d'agrupar els missatges per fils"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:855
+#: ../modules/mail/e-mail-shell-view-actions.c:859
 #: ../modules/mail/e-mail-shell-view.c:875
 msgid "_Disable Account"
 msgstr "_Inhabilita el compte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:857
+#: ../modules/mail/e-mail-shell-view-actions.c:861
 msgid "Disable this account"
 msgstr "Inhabilita aquest compte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:864
+#: ../modules/mail/e-mail-shell-view-actions.c:868
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr ""
 "Suprimeix permanentment tots els missatges suprimits de totes les carpetes"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:869
+#: ../modules/mail/e-mail-shell-view-actions.c:873
 msgid "C_reate Search Folder From Search..."
 msgstr "C_rea una carpeta de cerca a partir de la cerca..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:876
+#: ../modules/mail/e-mail-shell-view-actions.c:880
 msgid "_Download Messages for Offline Usage"
 msgstr "_Baixa els missatges per treballar fora de línia"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:878
+#: ../modules/mail/e-mail-shell-view-actions.c:882
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
 "Baixa els missatges dels comptes o carpetes marcats per treballar fora de "
 "línia"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:883
+#: ../modules/mail/e-mail-shell-view-actions.c:887
 msgid "Fl_ush Outbox"
 msgstr "Bui_da la safata de sortida"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:890
+#: ../modules/mail/e-mail-shell-view-actions.c:894
 msgid "_Copy Folder To..."
 msgstr "_Copia la carpeta a..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:892
+#: ../modules/mail/e-mail-shell-view-actions.c:896
 msgid "Copy the selected folder into another folder"
 msgstr "Copia la carpeta seleccionada a una altra carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:899
+#: ../modules/mail/e-mail-shell-view-actions.c:903
 msgid "Permanently remove this folder"
 msgstr "Suprimeix permanentment la carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:904
+#: ../modules/mail/e-mail-shell-view-actions.c:908
 msgid "E_xpunge"
 msgstr "Suprimei_x"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:906
+#: ../modules/mail/e-mail-shell-view-actions.c:910
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Suprimeix permanentment tots els missatges esborrats d'aquesta carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:911
+#: ../modules/mail/e-mail-shell-view-actions.c:915
 msgid "Mar_k All Messages as Read"
 msgstr "Marca _tots els missatges com a llegits"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:913
+#: ../modules/mail/e-mail-shell-view-actions.c:917
 msgid "Mark all messages in the folder as read"
 msgstr "Marca tots els missatges d'aquesta carpeta com a llegits"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:918
+#: ../modules/mail/e-mail-shell-view-actions.c:922
 msgid "_Move Folder To..."
 msgstr "_Mou la carpeta a..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:920
+#: ../modules/mail/e-mail-shell-view-actions.c:924
 msgid "Move the selected folder into another folder"
 msgstr "Mou la carpeta seleccionada a una altra carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:925
+#: ../modules/mail/e-mail-shell-view-actions.c:929
 msgid "_New..."
 msgstr "_Nova..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:927
+#: ../modules/mail/e-mail-shell-view-actions.c:931
 msgid "Create a new folder for storing mail"
 msgstr "Crea una carpeta nova per emmagatzemar correu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:934
+#: ../modules/mail/e-mail-shell-view-actions.c:938
 msgid "Change the properties of this folder"
 msgstr "Canvia les propietats de la carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:941
+#: ../modules/mail/e-mail-shell-view-actions.c:945
 msgid "Refresh the folder"
 msgstr "Refresca la carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:948
+#: ../modules/mail/e-mail-shell-view-actions.c:952
 msgid "Change the name of this folder"
 msgstr "Canvia el nom de la carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:953
+#: ../modules/mail/e-mail-shell-view-actions.c:957
 msgid "Select Message _Thread"
 msgstr "Selecciona el fil del missa_tge"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:955
+#: ../modules/mail/e-mail-shell-view-actions.c:959
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Selecciona tots els missatges del fil del missatge seleccionat"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:960
+#: ../modules/mail/e-mail-shell-view-actions.c:964
 msgid "Select Message S_ubthread"
 msgstr "Selecciona el _subfil del missatge"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:962
+#: ../modules/mail/e-mail-shell-view-actions.c:966
 msgid "Select all replies to the currently selected message"
 msgstr "Selecciona totes les respostes del missatge seleccionat"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:967
+#: ../modules/mail/e-mail-shell-view-actions.c:971
 msgid "_Unsubscribe"
 msgstr "Cancel·la la s_ubscripció"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:969
+#: ../modules/mail/e-mail-shell-view-actions.c:973
 msgid "Unsubscribe from the selected folder"
 msgstr "Cancel·la la subscripció a la carpeta seleccionada"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:974
+#: ../modules/mail/e-mail-shell-view-actions.c:978
 msgid "Empty _Trash"
 msgstr "Buida la _paperera"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:976
+#: ../modules/mail/e-mail-shell-view-actions.c:980
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr ""
 "Suprimeix permanentment tots els missatges suprimits de tots els comptes"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:981
+#: ../modules/mail/e-mail-shell-view-actions.c:985
 msgid "_New Label"
 msgstr "Etiqueta _nova"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:990
+#: ../modules/mail/e-mail-shell-view-actions.c:994
 msgid "N_one"
 msgstr "Ca_p"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:997
+#: ../modules/mail/e-mail-shell-view-actions.c:1001
 msgid "Hide _Read Messages"
 msgstr "Amaga els missatges _llegits"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:999
+#: ../modules/mail/e-mail-shell-view-actions.c:1003
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Amaga temporalment tots els missatges que ja s'hagin llegit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1004
+#: ../modules/mail/e-mail-shell-view-actions.c:1008
 msgid "Hide S_elected Messages"
 msgstr "Amaga _els missatges seleccionats"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1006
+#: ../modules/mail/e-mail-shell-view-actions.c:1010
 msgid "Temporarily hide the selected messages"
 msgstr "Amaga temporalment els missatges seleccionats"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1011
+#: ../modules/mail/e-mail-shell-view-actions.c:1015
 msgid "Show Hidde_n Messages"
 msgstr "Mostra els missatges ama_gats"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1013
+#: ../modules/mail/e-mail-shell-view-actions.c:1017
 msgid "Show messages that have been temporarily hidden"
 msgstr "Mostra els missatges que s'han amagat temporalment"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1034
+#: ../modules/mail/e-mail-shell-view-actions.c:1038
 msgid "Cancel the current mail operation"
 msgstr "Cancel·la l'operació de correu actual"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1039
+#: ../modules/mail/e-mail-shell-view-actions.c:1043
 msgid "Collapse All _Threads"
 msgstr "Col·lapsa tots els _fils"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1041
+#: ../modules/mail/e-mail-shell-view-actions.c:1045
 msgid "Collapse all message threads"
 msgstr "Contrau tots els fils del missatge"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1046
+#: ../modules/mail/e-mail-shell-view-actions.c:1050
 msgid "E_xpand All Threads"
 msgstr "E_xpandeix tots els fils"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1048
+#: ../modules/mail/e-mail-shell-view-actions.c:1052
 msgid "Expand all message threads"
 msgstr "Expandeix tots els fils de missatge"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1053
+#: ../modules/mail/e-mail-shell-view-actions.c:1057
 msgid "_Message Filters"
 msgstr "Filtres de _missatge"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1055
+#: ../modules/mail/e-mail-shell-view-actions.c:1059
 msgid "Create or edit rules for filtering new mail"
 msgstr "Crea o edita les regles per filtrar el correu nou"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1060
+#: ../modules/mail/e-mail-shell-view-actions.c:1064
 msgid "Search F_olders"
 msgstr "Car_petes de cerca"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1062
+#: ../modules/mail/e-mail-shell-view-actions.c:1066
 msgid "Create or edit search folder definitions"
 msgstr "Crea o edita les definicions de carpetes de cerca"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1067
+#: ../modules/mail/e-mail-shell-view-actions.c:1071
 msgid "_Subscriptions..."
 msgstr "_Subscripcions..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1069
+#: ../modules/mail/e-mail-shell-view-actions.c:1073
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Subscriu o cancel·la la subscripció a una carpeta en servidors remots"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1076
+#: ../modules/mail/e-mail-shell-view-actions.c:1080
 msgid "F_older"
 msgstr "C_arpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1083
+#: ../modules/mail/e-mail-shell-view-actions.c:1087
 msgid "_Label"
 msgstr "_Etiqueta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1123
+#: ../modules/mail/e-mail-shell-view-actions.c:1127
 msgid "_New Folder..."
 msgstr "Carpeta _nova..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1147
+#: ../modules/mail/e-mail-shell-view-actions.c:1151
 msgid "Hide _Deleted Messages"
 msgstr "Amaga els missatges _suprimits"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1149
+#: ../modules/mail/e-mail-shell-view-actions.c:1153
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 "Oculta els missatges suprimits en comptes de mostrar-los amb una línia a "
 "sobre"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1156
+#: ../modules/mail/e-mail-shell-view-actions.c:1160
 msgid "Show Message _Preview"
 msgstr "Mostra la _previsualització del missatge"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1158
+#: ../modules/mail/e-mail-shell-view-actions.c:1162
 msgid "Show message preview pane"
 msgstr "Mostra la finestra de previsualització de missatges"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1164
+#: ../modules/mail/e-mail-shell-view-actions.c:1168
 msgid "_Group By Threads"
 msgstr "Agrupa per _fils"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1166
+#: ../modules/mail/e-mail-shell-view-actions.c:1170
 msgid "Threaded message list"
 msgstr "Llista de missatges amb fils"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1187
+#: ../modules/mail/e-mail-shell-view-actions.c:1191
 msgid "Show message preview below the message list"
 msgstr "Mostra la previsualització del missatge sota la llista de missatges"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1194
+#: ../modules/mail/e-mail-shell-view-actions.c:1198
 msgid "Show message preview alongside the message list"
 msgstr ""
 "Mostra la previsualització del missatge al costat de la llista de missatges"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1202
+#: ../modules/mail/e-mail-shell-view-actions.c:1206
 msgid "All Messages"
 msgstr "Tots els missatges"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1209
+#: ../modules/mail/e-mail-shell-view-actions.c:1213
 msgid "Important Messages"
 msgstr "Missatges importants"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1216
+#: ../modules/mail/e-mail-shell-view-actions.c:1220
 msgid "Last 5 Days' Messages"
 msgstr "Missatges dels darrers 5 dies"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1223
+#: ../modules/mail/e-mail-shell-view-actions.c:1227
 msgid "Messages Not Junk"
 msgstr "Missatges que no són brossa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1230
+#: ../modules/mail/e-mail-shell-view-actions.c:1234
 msgid "Messages with Attachments"
 msgstr "Missatges amb fitxers adjunts"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1237
+#: ../modules/mail/e-mail-shell-view-actions.c:1241
 msgid "No Label"
 msgstr "Cap etiqueta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1244
+#: ../modules/mail/e-mail-shell-view-actions.c:1248
 msgid "Read Messages"
 msgstr "Missatges llegits"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1251
+#: ../modules/mail/e-mail-shell-view-actions.c:1255
 msgid "Recent Messages"
 msgstr "Missatges recents"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1258
+#: ../modules/mail/e-mail-shell-view-actions.c:1262
 msgid "Unread Messages"
 msgstr "Missatges sense llegir"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1310
+#: ../modules/mail/e-mail-shell-view-actions.c:1314
 msgid "Subject or Addresses contain"
 msgstr "L'assumpte o les adreces contenen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1320
+#: ../modules/mail/e-mail-shell-view-actions.c:1324
 msgid "All Accounts"
 msgstr "Comptes de correu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1327
+#: ../modules/mail/e-mail-shell-view-actions.c:1331
 msgid "Current Account"
 msgstr "Compte actual"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1334
+#: ../modules/mail/e-mail-shell-view-actions.c:1338
 msgid "Current Folder"
 msgstr "Carpeta actual"
 
@@ -20195,84 +20195,84 @@ msgstr "iCalendar (.ics)"
 msgid "All Files (*)"
 msgstr "Tots els fitxers (*)"
 
-#: ../shell/e-shell-view.c:675
+#: ../shell/e-shell-view.c:681
 msgid "Switcher Action"
 msgstr "Acció del commutador"
 
-#: ../shell/e-shell-view.c:676
+#: ../shell/e-shell-view.c:682
 msgid "The switcher action for this shell view"
 msgstr "L'acció del commutador per a aquesta visualització del Shell"
 
-#: ../shell/e-shell-view.c:691
+#: ../shell/e-shell-view.c:697
 msgid "Page Number"
 msgstr "Número de pàgina"
 
-#: ../shell/e-shell-view.c:692
+#: ../shell/e-shell-view.c:698
 msgid "The notebook page number of the shell view"
 msgstr "El número de pàgina de llibreta de la visualització del Shell"
 
-#: ../shell/e-shell-view.c:708
+#: ../shell/e-shell-view.c:714
 msgid "Search Rule"
 msgstr "Regla de cerca"
 
-#: ../shell/e-shell-view.c:709
+#: ../shell/e-shell-view.c:715
 msgid "Criteria for the current search results"
 msgstr "Criteris dels resultats de la cerca actual"
 
-#: ../shell/e-shell-view.c:724
+#: ../shell/e-shell-view.c:730
 msgid "The EShellBackend for this shell view"
 msgstr "L'EShellBackend per a aquesta visualització del Shell"
 
-#: ../shell/e-shell-view.c:739
+#: ../shell/e-shell-view.c:745
 msgid "Shell Content Widget"
 msgstr "Giny de contingut del Shell"
 
-#: ../shell/e-shell-view.c:740
+#: ../shell/e-shell-view.c:746
 msgid "The content widget appears in a shell window's right pane"
 msgstr ""
 "El giny de contingut apareix a la subfinestra dreta d'una finestra del Shell"
 
-#: ../shell/e-shell-view.c:756
+#: ../shell/e-shell-view.c:762
 msgid "Shell Sidebar Widget"
 msgstr "Giny de la barra lateral del Shell"
 
-#: ../shell/e-shell-view.c:757
+#: ../shell/e-shell-view.c:763
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr ""
 "El giny de barra lateral apareix a la subfinestra esquerra d'una finestra "
 "del Shell"
 
-#: ../shell/e-shell-view.c:772
+#: ../shell/e-shell-view.c:778
 msgid "Shell Taskbar Widget"
 msgstr "Giny de la barra de tasques del Shell"
 
-#: ../shell/e-shell-view.c:773
+#: ../shell/e-shell-view.c:779
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr ""
 "El giny de la barra de tasques es mostra a la part de sota d'una finestra "
 "del Shell"
 
-#: ../shell/e-shell-view.c:788
+#: ../shell/e-shell-view.c:794
 msgid "Shell Window"
 msgstr "Finestra del Shell"
 
-#: ../shell/e-shell-view.c:789
+#: ../shell/e-shell-view.c:795
 msgid "The window to which the shell view belongs"
 msgstr "La finestra a la qual la visualització del Shell pertany"
 
-#: ../shell/e-shell-view.c:805
+#: ../shell/e-shell-view.c:811
 msgid "The key file holding widget state data"
 msgstr "El fitxer de clau que conté les dades d'estat dels ginys"
 
-#: ../shell/e-shell-view.c:820
+#: ../shell/e-shell-view.c:826
 msgid "The title of the shell view"
 msgstr "El títol de la visualització del Shell"
 
-#: ../shell/e-shell-view.c:834
+#: ../shell/e-shell-view.c:840
 msgid "Current View ID"
 msgstr "Identificador de la visualització actual"
 
-#: ../shell/e-shell-view.c:835
+#: ../shell/e-shell-view.c:841
 msgid "The current GAL view ID"
 msgstr ""
 "L'identificador de visualització de la llibreta d'adreces global actual"
@@ -20810,7 +20810,7 @@ msgstr "Segur que voleu oblidar totes les contrasenyes recordades?"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
-msgstr "Continua"
+msgstr "Conté el valor"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
@@ -21013,7 +21013,7 @@ msgid ""
 "indicated here"
 msgstr ""
 "Atès que confieu en l'autoritat de certificació que ha emès aquest "
-"certificat, confieu en l'autenticitat d'aquest certificat a no ser que aquí "
+"certificat, confieu en l'autenticitat d'aquest certificat tret que aquí "
 "s'especifiqui el contrari"
 
 #: ../smime/gui/cert-trust-dialog.c:148
@@ -21023,8 +21023,8 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 "Atès que no confieu en l'autoritat de certificació que ha emès aquest "
-"certificat, no confieu en l'autenticitat d'aquest certificat a no ser que "
-"aquí s'especifiqui el contrari"
+"certificat, no confieu en l'autenticitat d'aquest certificat tret que aquí "
+"s'especifiqui el contrari"
 
 #: ../smime/gui/certificate-manager.c:135
 #: ../smime/gui/certificate-manager.c:382
@@ -21599,14 +21599,14 @@ msgstr "_Selecció"
 msgid "Collection"
 msgstr "Col·lecció"
 
-#: ../widgets/menus/gal-define-views-dialog.c:327
+#: ../widgets/menus/gal-define-views-dialog.c:332
 #: ../widgets/menus/gal-define-views.ui.h:4
 #, no-c-format
 msgid "Define Views for %s"
 msgstr "Defineix les visualitzacions per a %s"
 
-#: ../widgets/menus/gal-define-views-dialog.c:335
-#: ../widgets/menus/gal-define-views-dialog.c:337
+#: ../widgets/menus/gal-define-views-dialog.c:340
+#: ../widgets/menus/gal-define-views-dialog.c:342
 msgid "Define Views"
 msgstr "Defineix les visualitzacions"
 
@@ -21735,7 +21735,7 @@ msgstr "Amaga la _barra d'adjuncions"
 msgid "Show Attachment _Bar"
 msgstr "Mostra la barra _d'adjuncions"
 
-#: ../widgets/misc/e-attachment-paned.c:631
+#: ../widgets/misc/e-attachment-paned.c:636
 msgid "Show _Attachment Bar"
 msgstr "Mostra la barra _de fitxers adjunts"
 
@@ -23010,6 +23010,20 @@ msgstr "Context de MI"
 #: ../widgets/text/e-text.c:3541 ../widgets/text/e-text.c:3542
 msgid "Handle Popup"
 msgstr "Menú emergent de l'ansa"
+
+#, fuzzy
+#~ msgid "Show deleted messages with a line through them"
+#~ msgstr ""
+#~ "Mostra els missatges suprimits a la llista de missatges (amb una ratlla a "
+#~ "sobre)."
+
+#, fuzzy
+#~ msgid "Continue Anyway"
+#~ msgstr "Continua"
+
+#, fuzzy
+#~ msgid "Quit Now"
+#~ msgstr "Surt"
 
 #~ msgid "Loading appointments at %s"
 #~ msgstr "S'estan carregant les cites a %s"
