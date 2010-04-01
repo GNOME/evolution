@@ -333,10 +333,10 @@ void processTnef(TNEFStruct *tnef, const gchar *tmpdir) {
                 /* Ok, it's not an embedded stream, so now we */
 		/* process it. */
                 if ((filename = MAPIFindProperty(&(p->MAPI),
-                                        PROP_TAG(30,0x3707)))
+                                        PROP_TAG(PT_STRING8, PR_ATTACH_LONG_FILENAME)))
                         == MAPI_UNDEFINED) {
                     if ((filename = MAPIFindProperty(&(p->MAPI),
-                                        PROP_TAG(30,0x3001)))
+                                        PROP_TAG(PT_STRING8, PR_DISPLAY_NAME)))
                             == MAPI_UNDEFINED) {
                         filename = &(p->Title);
                     }
