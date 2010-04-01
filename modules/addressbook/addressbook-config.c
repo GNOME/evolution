@@ -589,7 +589,7 @@ eabc_general_use_in_cal (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkW
 	if (old)
 		return old;
 
-	use_in_cal_setting = gtk_check_button_new_with_mnemonic (_("Use in _Birthday & Anniversaries calendar"));
+	use_in_cal_setting = gtk_check_button_new_with_mnemonic (_("U_se in Birthday & Anniversaries calendar"));
 	gtk_widget_show (use_in_cal_setting);
 	gtk_container_add (GTK_CONTAINER (parent), use_in_cal_setting);
 
