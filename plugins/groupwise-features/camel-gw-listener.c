@@ -26,7 +26,7 @@
 
 #include "camel-gw-listener.h"
 #include <string.h>
-#include  <camel/camel-i18n.h>
+#include <glib/gi18n.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-passwords.h>
 #include "e-util/e-alert-dialog.h"

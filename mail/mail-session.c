@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <gtk/gtk.h>
@@ -45,7 +46,6 @@
 
 #include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
 #include <camel/camel-filter-driver.h>
-#include <camel/camel-i18n.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"

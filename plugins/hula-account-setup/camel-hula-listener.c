@@ -25,7 +25,7 @@
 #endif
 
 #include <string.h>
-#include <camel/camel-i18n.h>
+#include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-account.h>
 #include "camel-hula-listener.h"
