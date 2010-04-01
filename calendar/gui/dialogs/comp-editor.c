@@ -392,7 +392,8 @@ save_comp (CompEditor *editor)
 	gboolean result;
 	GError *error = NULL;
 	GHashTable *timezones;
-	const gchar *orig_uid;
+	const gchar *orig_uid = NULL;
+	gchar *orig_uid_copy;
 	icalcomponent *icalcomp;
 
 	priv = editor->priv;
@@ -440,6 +441,8 @@ save_comp (CompEditor *editor)
 	priv->comp = clone;
 
 	e_cal_component_get_uid (priv->comp, &orig_uid);
+	/* make a copy of it, because call of e_cal_create_object rewrites the internal uid */
+	orig_uid_copy = g_strdup (orig_uid);
 
 	/* send timezones */
 	g_hash_table_foreach (timezones, (GHFunc) send_timezone, editor);
@@ -495,8 +498,10 @@ save_comp (CompEditor *editor)
 
 			icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
 		}
-		if (delay_set)
+		if (delay_set) {
+			g_free (orig_uid_copy);
 			return TRUE;
+		}
 	}
 
 	if (!result) {
@@ -514,6 +519,8 @@ save_comp (CompEditor *editor)
 		if (error)
 			g_error_free (error);
 
+		g_free (orig_uid_copy);
+
 		return FALSE;
 	} else {
 		if (priv->source_client &&
@@ -523,10 +530,10 @@ save_comp (CompEditor *editor)
 			/* Comp found a new home. Remove it from old one. */
 
 			if (e_cal_component_is_instance (priv->comp) || e_cal_component_has_recurrences (priv->comp))
-				e_cal_remove_object_with_mod (priv->source_client, orig_uid, NULL,
+				e_cal_remove_object_with_mod (priv->source_client, orig_uid_copy, NULL,
 						CALOBJ_MOD_ALL, NULL);
 			else
-				e_cal_remove_object (priv->source_client, orig_uid, NULL);
+				e_cal_remove_object (priv->source_client, orig_uid_copy, NULL);
 
 			/* Let priv->source_client point to new home, so we can move it
 			 * again this session. */
@@ -538,6 +545,8 @@ save_comp (CompEditor *editor)
 
 		priv->changed = FALSE;
 	}
+
+	g_free (orig_uid_copy);
 
 	return TRUE;
 }
