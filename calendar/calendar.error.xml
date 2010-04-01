@@ -207,7 +207,7 @@
 
  <error id="editor-error" type="error">
   <_primary>Editor could not be loaded.</_primary>
-  <_secondary>{0}.</_secondary>
+  <secondary>{0}.</secondary>
  </error>
 
  <error id="prompt-delete-calendar" type="question" modal="true" default="GTK_RESPONSE_CANCEL">

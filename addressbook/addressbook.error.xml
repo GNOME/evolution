@@ -44,22 +44,18 @@
  </error>
 
  <error id="generic-error" type="error">
- <!--For Translators: '{0}' is the type of error (eg: "invalid contact", "error adding contact", "error modifying contact", "error removing contact") -->
-  <_primary>{0}</_primary>
-  <!-- For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT") -->
-  <_secondary>{1}</_secondary>
+  <primary>{0}</primary>
+  <secondary>{1}</secondary>
  </error>
 
  <error id="load-error" type="error">
   <_primary>Unable to open address book</_primary>
-  <!-- For Translators: {0} is string describing the error why the address book could not be loaded -->
-  <_secondary>{0}</_secondary>
+  <secondary>{0}</secondary>
  </error>
 
  <error id="search-error" type="error">
   <_primary>Unable to perform search.</_primary>
-  <!-- For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query." -->
-  <_secondary>{0}</_secondary>
+  <secondary>{0}</secondary>
  </error>
 
  <error id="prompt-save" type="question" default="GTK_RESPONSE_YES">

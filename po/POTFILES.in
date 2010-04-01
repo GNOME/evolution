@@ -407,7 +407,6 @@ plugins/vcard-inline/vcard-inline.c
 plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml
 plugins/webdav-account-setup/webdav-contacts-source.c
 shell/apps_evolution_shell.schemas.in
-shell/e-config-upgrade.c
 shell/e-shell-backend.c
 shell/e-shell-content.c
 shell/e-shell-migrate.c
