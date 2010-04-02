@@ -33,17 +33,9 @@
 #include <shell/e-shell.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-session.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-data-wrapper.h>
-#include <camel/camel-multipart.h>
 #include <mail/em-folder-tree.h>
 #include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
-#include <camel/camel-medium.h>
 #include <e-gw-connection.h>
 #include <share-folder.h>
 

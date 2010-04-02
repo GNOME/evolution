@@ -20,14 +20,9 @@
 #include "e-signature-utils.h"
 
 #include <errno.h>
+#include <camel/camel.h>
 #include <glib/gstdio.h>
 #include <gconf/gconf-client.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-mime-filter-tohtml.h>
 
 #ifndef G_OS_WIN32
 #include <sys/wait.h>

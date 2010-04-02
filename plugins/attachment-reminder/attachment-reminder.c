@@ -30,14 +30,6 @@
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
 
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-plugin.h>

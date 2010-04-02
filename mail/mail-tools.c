@@ -36,10 +36,6 @@
 
 #include <glib/gi18n.h>
 
-#include <camel/camel-store.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-movemail.h>
-
 #include "em-utils.h"
 #include "mail-folder-cache.h"
 #include "mail-session.h"

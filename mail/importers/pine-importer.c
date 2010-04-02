@@ -41,8 +41,6 @@
 #include <libebook/e-book.h>
 #include <libebook/e-destination.h>
 
-#include <camel/camel-operation.h>
-
 #include "mail-importer.h"
 
 #include "mail/mail-mt.h"

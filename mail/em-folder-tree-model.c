@@ -35,8 +35,6 @@
 
 #include <glib/gi18n.h>
 
-#include <camel/camel-file-utils.h>
-
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-tools.h"
@@ -48,9 +46,6 @@
 #include "em-utils.h"
 #include "em-folder-utils.h"
 #include "em-event.h"
-
-#include <camel/camel-folder.h>
-#include <camel/camel-vee-store.h>
 
 #include "e-mail-local.h"
 #include "shell/e-shell.h"

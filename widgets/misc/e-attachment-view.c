@@ -24,7 +24,6 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <camel/camel-stream-mem.h>
 
 #include "e-util/e-binding.h"
 #include "e-util/e-selection.h"

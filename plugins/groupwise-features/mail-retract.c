@@ -26,8 +26,6 @@
 
 #include <glib/gi18n-lib.h>
 #include <e-gw-connection.h>
-#include <camel/camel-store.h>
-#include <camel/camel-folder.h>
 
 #include <e-util/e-alert-dialog.h>
 

@@ -22,8 +22,6 @@
 #include "e-mail-attachment-handler.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-stream-mem.h>
 
 #include "e-util/e-alert-dialog.h"
 #include "mail/em-composer-utils.h"

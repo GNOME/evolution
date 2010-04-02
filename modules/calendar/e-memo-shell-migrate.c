@@ -23,7 +23,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <camel/camel-url.h>
+#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 #include <libedataserver/e-source.h>

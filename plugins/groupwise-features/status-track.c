@@ -32,11 +32,6 @@
 #include <time.h>
 #include <gtk/gtk.h>
 
-#include <camel/camel-folder.h>
-#include <camel/camel-mime-utils.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-message.h>
-
 #include <mail/e-mail-reader.h>
 #include <mail/em-utils.h>
 #include <mail/message-list.h>

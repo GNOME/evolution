@@ -22,8 +22,7 @@
 #ifndef _MAIL_VFOLDER_H
 #define _MAIL_VFOLDER_H
 
-#include <camel/camel-internet-address.h>
-#include <camel/camel-mime-message.h>
+#include <camel/camel.h>
 
 #include <filter/e-filter-part.h>
 #include <filter/e-filter-rule.h>

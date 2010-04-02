@@ -27,9 +27,6 @@
 
 #include <libedataserver/e-flag.h>
 
-#include <camel/camel-object.h>
-#include <camel/camel-operation.h>
-
 #include "shell/e-shell.h"
 #include "e-util/e-alert-activity.h"
 #include "e-util/e-alert-dialog.h"

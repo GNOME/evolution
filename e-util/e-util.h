@@ -26,9 +26,8 @@
 #include <sys/types.h>
 #include <gtk/gtk.h>
 #include <limits.h>
+#include <camel/camel.h>
 #include <gconf/gconf-client.h>
-#include <camel/camel-object.h>
-#include <cairo.h>
 
 #include <e-util/e-marshal.h>
 

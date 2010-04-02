@@ -26,9 +26,6 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-part.h>
-#include <camel/camel-stream-mem.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkimageview/gtkimagescrollwin.h>
 

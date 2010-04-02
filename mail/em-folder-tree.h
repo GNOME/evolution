@@ -25,7 +25,7 @@
 #define EM_FOLDER_TREE_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-store.h>
+#include <camel/camel.h>
 #include <mail/em-folder-tree-model.h>
 
 /* Standard GObject macros */

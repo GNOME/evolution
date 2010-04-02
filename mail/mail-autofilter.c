@@ -47,9 +47,6 @@
 #include "filter/e-filter-option.h"
 #include "filter/e-filter-input.h"
 
-#include <camel/camel-internet-address.h>
-#include <camel/camel-mime-message.h>
-
 #define d(x)
 
 static void

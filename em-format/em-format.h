@@ -29,13 +29,7 @@
 #define EM_FORMAT_H
 
 #include <glib-object.h>
-#include <camel/camel-url.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-session.h>
-#include <camel/camel-mime-part.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-cipher-context.h>
+#include <camel/camel.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT \

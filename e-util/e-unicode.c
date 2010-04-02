@@ -34,7 +34,7 @@
 #include <gtk/gtk.h>
 #include <libxml/xmlmemory.h>
 
-#include <camel/camel-iconv.h>
+#include <camel/camel.h>
 
 #include <glib/gi18n.h>
 #include "e-unicode.h"

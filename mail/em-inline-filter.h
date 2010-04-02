@@ -24,9 +24,7 @@
 #ifndef EM_INLINE_FILTER_H
 #define EM_INLINE_FILTER_H
 
-#include <camel/camel-mime-filter.h>
-#include <camel/camel-mime-utils.h>
-#include <camel/camel-multipart.h>
+#include <camel/camel.h>
 
 #define EM_INLINE_FILTER_TYPE     (em_inline_filter_get_type ())
 #define EM_INLINE_FILTER(obj)     (CAMEL_CHECK_CAST((obj), EM_INLINE_FILTER_TYPE, EMInlineFilter))

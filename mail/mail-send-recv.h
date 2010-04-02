@@ -24,7 +24,7 @@
 #define MAIL_SEND_RECV_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-session.h>
+#include <camel/camel.h>
 #include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS

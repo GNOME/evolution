@@ -25,8 +25,7 @@
 #define EM_FOLDER_UTILS_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-store.h>
+#include <camel/camel.h>
 #include <mail/em-folder-tree.h>
 
 G_BEGIN_DECLS

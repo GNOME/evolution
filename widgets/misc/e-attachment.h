@@ -23,10 +23,7 @@
 #define E_ATTACHMENT_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-cipher-context.h>
-#include <camel/camel-mime-part.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
+#include <camel/camel.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT \

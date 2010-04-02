@@ -38,7 +38,6 @@
 #include "dialogs/comp-editor-util.h"
 
 #include <composer/e-msg-composer.h>
-#include <camel/camel-mime-filter-tohtml.h>
 
 static const gchar *itip_methods[] = {
 	"PUBLISH",

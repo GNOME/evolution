@@ -27,9 +27,6 @@
 
 #include <glib/gi18n.h>
 
-#include <camel/camel-vee-folder.h>
-#include <camel/camel-vee-store.h>
-#include <camel/camel-vtrash-folder.h>
 #include <libedataserver/e-account-list.h>
 
 #include "e-util/e-alert-dialog.h"

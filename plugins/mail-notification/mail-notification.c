@@ -39,8 +39,6 @@
 
 #include <time.h>
 
-#include <camel/camel-folder.h>
-
 #include <e-util/e-binding.h>
 #include <e-util/e-config.h>
 #include <e-util/gconf-bridge.h>

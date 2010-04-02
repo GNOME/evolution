@@ -25,9 +25,8 @@
 #ifndef EM_JUNK_H
 #define EM_JUNK_H
 
+#include <camel/camel.h>
 #include <e-util/e-plugin.h>
-#include <camel/camel-junk-plugin.h>
-#include <camel/camel-mime-message.h>
 
 #define EM_JUNK_ERROR (em_junk_error_quark ())
 

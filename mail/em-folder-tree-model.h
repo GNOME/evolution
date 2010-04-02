@@ -24,7 +24,7 @@
 #define EM_FOLDER_TREE_MODEL_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-store.h>
+#include <camel/camel.h>
 #include <libedataserver/e-account-list.h>
 
 /* Standard GObject macros */

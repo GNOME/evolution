@@ -22,9 +22,7 @@
 #include "e-mail-store.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-service.h>
-#include <camel/camel-session.h>
-#include <camel/camel-url.h>
+#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 

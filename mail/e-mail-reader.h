@@ -28,7 +28,7 @@
  *     a GtkWidget pointer which almost always has to be type casted. */
 
 #include <gtk/gtk.h>
-#include <camel/camel-folder.h>
+#include <camel/camel.h>
 #include <mail/em-format-html-display.h>
 #include <shell/e-shell-backend.h>
 

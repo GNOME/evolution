@@ -24,7 +24,7 @@
 #define MAIL_CONFIG_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-provider.h>
+#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 

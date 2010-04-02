@@ -33,17 +33,6 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 
-#include <camel/camel-store.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-string-utils.h>
-#include <camel/camel-mime-utils.h>
-#include <camel/camel-mime-part.h>
-#include <camel/camel-url.h>
-
-#include <camel/camel-vee-folder.h>
-#include <camel/camel-vtrash-folder.h>
-
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 

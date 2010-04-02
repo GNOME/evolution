@@ -33,17 +33,6 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
-#include <camel/camel-disco-folder.h>
-#include <camel/camel-disco-store.h>
-#include <camel/camel-mime-filter-from.h>
-#include <camel/camel-offline-folder.h>
-#include <camel/camel-offline-store.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-stream-vfs.h>
-#include <camel/camel-transport.h>
-#include <camel/camel-vee-folder.h>
-#include <camel/camel-vee-store.h>
-
 #include <libedataserver/e-data-server-util.h>
 #include "e-util/e-account-utils.h"
 

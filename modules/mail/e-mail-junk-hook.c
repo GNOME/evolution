@@ -22,7 +22,6 @@
 #include "e-mail-junk-hook.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-junk-plugin.h>
 
 #include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"

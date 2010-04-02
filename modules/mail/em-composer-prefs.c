@@ -37,8 +37,6 @@
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
-#include <camel/camel-iconv.h>
-
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 

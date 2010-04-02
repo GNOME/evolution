@@ -15,7 +15,8 @@ libcal_dialogs_la_CPPFLAGS = 						\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"				\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	$(EVOLUTION_CALENDAR_CFLAGS)					\
+	$(CAMEL_CFLAGS)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
 

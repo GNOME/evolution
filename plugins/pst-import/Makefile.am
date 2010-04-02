@@ -22,7 +22,8 @@ liborg_gnome_pst_import_la_CPPFLAGS =			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(LIBPST_CFLAGS)
+	$(LIBPST_CFLAGS)				\
+	$(CAMEL_CFLAGS)
 
 liborg_gnome_pst_import_la_SOURCES = pst-importer.c
 
@@ -35,7 +36,8 @@ liborg_gnome_pst_import_la_LIBADD =			\
 	$(EVOLUTION_CALENDAR_LIBS)			\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(LIBPST_LIBS)
+	$(LIBPST_LIBS)					\
+	$(CAMEL_LIBS)
 
 EXTRA_DIST = org-gnome-pst-import.eplug.xml
 

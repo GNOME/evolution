@@ -25,10 +25,6 @@
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
 
-#include <camel/camel-url.h>
-#include <camel/camel-store.h>
-#include <camel/camel-session.h>
-
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-folder-utils.h"

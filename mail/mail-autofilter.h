@@ -24,7 +24,7 @@
 #ifndef _MAIL_AUTOFILTER_H
 #define _MAIL_AUTOFILTER_H
 
-#include <camel/camel-mime-message.h>
+#include <camel/camel.h>
 
 #include <filter/e-filter-rule.h>
 #include <mail/em-filter-context.h>

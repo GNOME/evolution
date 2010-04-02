@@ -59,13 +59,6 @@
 #include "em-format-quote.h"
 #include "em-event.h"
 
-#include <camel/camel-folder.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-string-utils.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-nntp-address.h>
-#include <camel/camel-vee-folder.h>
-
 #ifdef G_OS_WIN32
 /* Undef the similar macro from pthread.h, it doesn't check if
  * gmtime() returns NULL.

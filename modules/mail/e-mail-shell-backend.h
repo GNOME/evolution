@@ -24,8 +24,6 @@
 
 #include <mail/e-mail-backend.h>
 
-#include <camel/camel-folder.h>
-#include <camel/camel-store.h>
 #include <e-util/e-signature-list.h>
 #include <libedataserver/e-account-list.h>
 

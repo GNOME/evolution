@@ -44,9 +44,6 @@
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
 
-#include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
-#include <camel/camel-filter-driver.h>
-
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"

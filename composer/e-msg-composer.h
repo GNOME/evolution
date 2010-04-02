@@ -24,9 +24,7 @@
 #ifndef E_MSG_COMPOSER_H
 #define E_MSG_COMPOSER_H
 
-#include <camel/camel-internet-address.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-session.h>
+#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>

@@ -22,7 +22,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <camel/camel-url.h>
+#include <camel/camel.h>
 
 #define E_COMPOSER_POST_HEADER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

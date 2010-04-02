@@ -40,12 +40,6 @@
 #include <libytnef/ytnef.h>
 #endif
 
-#include <camel/camel-mime-part.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-exception.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream-fs.h>
-
 #include <em-format/em-format.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-utils.h>

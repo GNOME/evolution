@@ -22,7 +22,6 @@
 #include "e-account-combo-box.h"
 
 #include <string.h>
-#include <camel/camel-store.h>
 
 #define E_ACCOUNT_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

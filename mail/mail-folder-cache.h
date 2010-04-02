@@ -27,7 +27,7 @@
 #define _MAIL_FOLDER_CACHE_H
 
 #include <glib-object.h>
-#include <camel/camel-store.h>
+#include <camel/camel.h>
 
 G_BEGIN_DECLS
 

@@ -24,7 +24,7 @@
 #include <glib/gi18n.h>
 #include <libical/ical.h>
 #include <libecal/e-cal.h>
-#include <camel/camel-stream-mem.h>
+#include <camel/camel.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include "calendar/common/authentication.h"

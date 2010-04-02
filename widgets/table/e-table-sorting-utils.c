@@ -23,8 +23,7 @@
 #include <config.h>
 
 #include <string.h>
-
-#include <camel/camel-string-utils.h>
+#include <camel/camel.h>
 
 #include "e-util/e-util.h"
 

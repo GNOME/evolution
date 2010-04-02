@@ -30,7 +30,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "camel/camel-url.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
 #include "mail/e-mail-store.h"

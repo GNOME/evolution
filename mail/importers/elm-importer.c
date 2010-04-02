@@ -38,8 +38,6 @@
 
 #include <gconf/gconf-client.h>
 
-#include <camel/camel-operation.h>
-
 #include "mail-importer.h"
 
 #include "mail/mail-mt.h"

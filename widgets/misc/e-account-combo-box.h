@@ -23,7 +23,7 @@
 #define E_ACCOUNT_COMBO_BOX_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-session.h>
+#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 

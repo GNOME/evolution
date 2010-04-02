@@ -22,7 +22,7 @@
 #include "e-mail-label-list-store.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-utf8.h>
+#include <camel/camel.h>
 #include "e-util/gconf-bridge.h"
 
 #define E_MAIL_LABEL_LIST_STORE_GET_PRIVATE(obj) \

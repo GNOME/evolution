@@ -33,7 +33,6 @@
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
-#include <camel/camel-mime-filter-tohtml.h>
 
 #define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

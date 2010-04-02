@@ -52,16 +52,6 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
-#include <camel/camel-folder.h>
-#include <camel/camel-store.h>
-#include <camel/camel-exception.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-data-wrapper.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-file-utils.h>
-
 #include <mail/e-mail-local.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>

@@ -34,9 +34,6 @@
 #include <e-util/e-util.h>
 #include <e-util/e-account-utils.h>
 
-#include <camel/camel-url.h>
-#include <camel/camel-exception.h>
-
 #include <glib/gi18n.h>
 
 typedef struct _epif_data EPImapFeaturesData;

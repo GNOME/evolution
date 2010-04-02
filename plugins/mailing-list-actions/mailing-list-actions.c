@@ -30,10 +30,6 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
 
-#include "camel/camel-multipart.h"
-#include "camel/camel-mime-part.h"
-#include "camel/camel-exception.h"
-#include "camel/camel-folder.h"
 #include "composer/e-msg-composer.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-reader.h"

@@ -30,10 +30,6 @@
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-config.h>
-#include <camel/camel-url.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-string-utils.h>
 
 #include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>

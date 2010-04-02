@@ -23,7 +23,7 @@
 #define E_MAIL_STORE_H
 
 #include <glib.h>
-#include <camel/camel-store.h>
+#include <camel/camel.h>
 
 G_BEGIN_DECLS
 

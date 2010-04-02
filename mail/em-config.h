@@ -23,9 +23,8 @@
 #ifndef __EM_CONFIG_H__
 #define __EM_CONFIG_H__
 
-#include <glib-object.h>
+#include <camel/camel.h>
 #include <gconf/gconf-client.h>
-#include <camel/camel-folder.h>
 #include <libedataserver/e-account.h>
 
 #include "e-util/e-config.h"

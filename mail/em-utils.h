@@ -25,12 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <sys/types.h>
-#include <camel/camel-exception.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-internet-address.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-mime-part.h>
-#include <camel/camel-stream.h>
+#include <camel/camel.h>
 
 #include <mail/e-mail-reader.h>
 #include <mail/em-folder-tree.h>

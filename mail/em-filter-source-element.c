@@ -30,9 +30,9 @@
 #include "em-filter-source-element.h"
 
 #include <gtk/gtk.h>
+#include <camel/camel.h>
 #include <libedataserver/e-sexp.h>
 #include <libedataserver/e-account-list.h>
-#include <camel/camel-url.h>
 
 #include "filter/e-filter-part.h"
 
@@ -44,7 +44,7 @@ static gint source_eq(EFilterElement *fe, EFilterElement *cm);
 static void xml_create(EFilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(EFilterElement *fe);
 static gint xml_decode(EFilterElement *fe, xmlNodePtr node);
-static EFilterElement *clone(EFilterElement *fe);
+static EFilterElement *filter_clone(EFilterElement *fe);
 static GtkWidget *get_widget(EFilterElement *fe);
 static void build_code(EFilterElement *fe, GString *out, EFilterPart *ff);
 static void format_sexp(EFilterElement *, GString *);
@@ -106,7 +106,7 @@ em_filter_source_element_class_init(EMFilterSourceElementClass *klass)
 	fe_class->xml_create = xml_create;
 	fe_class->xml_encode = xml_encode;
 	fe_class->xml_decode = xml_decode;
-	fe_class->clone = clone;
+	fe_class->clone = filter_clone;
 	fe_class->get_widget = get_widget;
 	fe_class->build_code = build_code;
 	fe_class->format_sexp = format_sexp;
@@ -212,7 +212,7 @@ xml_decode(EFilterElement *fe, xmlNodePtr node)
 }
 
 static EFilterElement *
-clone(EFilterElement *fe)
+filter_clone(EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	EMFilterSourceElement *cpy = em_filter_source_element_new();

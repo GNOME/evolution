@@ -24,8 +24,6 @@
 
 #include "e-mail-backend.h"
 
-#include <camel/camel.h>
-
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 

@@ -30,8 +30,6 @@
 #include <config.h>
 #endif
 
-#include <camel/camel-url.h>
-
 #include <glib/gi18n.h>
 
 #include "e-util/e-alert-dialog.h"

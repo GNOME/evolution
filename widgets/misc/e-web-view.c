@@ -25,8 +25,7 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <camel/camel-internet-address.h>
-#include <camel/camel-url.h>
+#include <camel/camel.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-binding.h>

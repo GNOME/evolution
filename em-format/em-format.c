@@ -31,23 +31,6 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-multipart-encrypted.h>
-#include <camel/camel-multipart-signed.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-gpg-context.h>
-#include <camel/camel-smime-context.h>
-#include <camel/camel-string-utils.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-stream-null.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-mime-filter-windows.h>
-#include <camel/camel-mime-filter-pgp.h>
-
 #include "em-format.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"

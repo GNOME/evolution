@@ -27,7 +27,6 @@
 #include <libedataserver/e-account-list.h>
 #include<libedataserver/e-source.h>
 #include<libedataserver/e-source-list.h>
-#include <camel/camel-url.h>
 
 G_BEGIN_DECLS
 

@@ -35,14 +35,7 @@
 
 #include <glib.h>
 #include <glib/gstdio.h>
-
 #include <glib/gi18n.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-store.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-mime-parser.h>
-#include <camel/camel-exception.h>
-#include <camel/camel-stream-mem.h>
 
 #include "e-util/e-util-private.h"
 #include "shell/e-shell-backend.h"

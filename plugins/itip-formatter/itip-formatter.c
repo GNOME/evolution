@@ -29,17 +29,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-utils.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-vee-folder.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-service.h>
-#include <camel/camel-store.h>
-#include <camel/camel-db.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>

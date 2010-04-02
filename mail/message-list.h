@@ -24,11 +24,9 @@
 #define _MESSAGE_LIST_H_
 
 #include <gtk/gtk.h>
-#include <camel/camel-folder-thread.h>
+#include <camel/camel.h>
 
 #include <table/e-tree.h>
-
-#include <camel/camel-folder.h>
 #include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS

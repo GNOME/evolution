@@ -22,7 +22,6 @@
 #include "e-mail-shell-content.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-store.h>
 #include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-util-private.h"

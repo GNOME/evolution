@@ -39,15 +39,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 
-#include <camel/camel-session.h>
-#include <camel/camel-store.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-vee-store.h>
-#include <camel/camel-vtrash-folder.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-file-utils.h>
-#include <camel/camel-stream-fs.h>
-
 #include "e-util/e-account-utils.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-icon-factory.h"

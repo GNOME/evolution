@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <unique/unique.h>
-#include <camel/camel-object.h>
+#include <camel/camel.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 

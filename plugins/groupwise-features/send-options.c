@@ -33,7 +33,6 @@
 #include <misc/e-send-options.h>
 #include <mail/em-config.h>
 #include <e-gw-connection.h>
-#include <camel/camel-url.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-passwords.h>

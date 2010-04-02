@@ -39,13 +39,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glib/gi18n.h>
 
-#include <camel/camel-session.h>
-#include <camel/camel-vee-store.h>
-#include <camel/camel-vtrash-folder.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-file-utils.h>
-#include <camel/camel-stream-fs.h>
-
 #include "e-util/e-mktemp.h"
 
 #include "e-util/e-alert-dialog.h"

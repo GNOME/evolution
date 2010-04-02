@@ -31,7 +31,7 @@ requests are always handled in the main gui thread in the correct order.
 #define EM_SYNC_STREAM_H
 
 #include <glib.h>
-#include <camel/camel-stream.h>
+#include <camel/camel.h>
 
 #define EM_SYNC_STREAM_TYPE \
 	(em_sync_stream_get_type ())

@@ -27,14 +27,9 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include <gconf/gconf-client.h>
-
-#include <camel/camel-store.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-vtrash-folder.h>
-#include <camel/camel-vee-folder.h>
-#include <glib/gi18n.h>
 
 #include "em-folder-properties.h"
 #include "em-config.h"

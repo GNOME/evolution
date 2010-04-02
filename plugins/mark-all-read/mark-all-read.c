@@ -32,7 +32,6 @@
 #include <mail/em-folder-tree.h>
 #include <mail/mail-ops.h>
 #include <mail/mail-mt.h>
-#include <camel/camel-vee-folder.h>
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>

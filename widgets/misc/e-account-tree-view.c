@@ -22,7 +22,7 @@
 #include "e-account-tree-view.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-url.h>
+#include <camel/camel.h>
 
 #define E_ACCOUNT_TREE_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

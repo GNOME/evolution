@@ -36,14 +36,6 @@
 
 #include <gconf/gconf-client.h>
 
-#include <camel/camel-exception.h>
-#include <camel/camel-file-utils.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-folder-thread.h>
-#include <camel/camel-folder-summary.h>
-#include <camel/camel-vee-folder.h>
-#include <camel/camel-string-utils.h>
-
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-poolv.h"
 #include "e-util/e-profile-event.h"

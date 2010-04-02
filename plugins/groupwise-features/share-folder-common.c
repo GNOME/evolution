@@ -38,11 +38,6 @@
 #include <mail/mail-vfolder.h>
 #include <mail/em-vfolder-rule.h>
 #include <filter/e-filter-rule.h>
-#include <camel/camel-store.h>
-#include <camel/camel-session.h>
-#include <camel/camel-store.h>
-#include <camel/camel-vee-store.h>
-#include <camel/camel-folder.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <shell/e-shell-sidebar.h>

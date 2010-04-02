@@ -43,7 +43,7 @@
 #include "eab-contact-merging.h"
 
 /* we link to camel for decoding quoted printable email addresses */
-#include <camel/camel-mime-utils.h>
+#include <camel/camel.h>
 
 #include "addressbook/util/addressbook.h"
 

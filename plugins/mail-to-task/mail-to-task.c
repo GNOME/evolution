@@ -38,14 +38,6 @@
 #include <libedataserver/e-account.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
-#include <camel/camel-folder.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-utf8.h>
-
 #include <mail/e-mail-browser.h>
 #include <mail/em-utils.h>
 #include <mail/em-format-html.h>

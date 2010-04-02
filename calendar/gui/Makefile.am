@@ -75,7 +75,8 @@ libevolution_calendar_la_CPPFLAGS =			\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(LIBSOUP_CFLAGS)				\
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
+	$(CAMEL_CFLAGS)
 
 ui_DATA = 					\
 	e-itip-control.ui			\

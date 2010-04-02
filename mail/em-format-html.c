@@ -54,25 +54,6 @@
 
 #include <glib/gi18n.h>
 
-#include <camel/camel-iconv.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter.h>
-#include <camel/camel-mime-filter-tohtml.h>
-#include <camel/camel-mime-filter-enriched.h>
-#include <camel/camel-mime-filter-basic.h>
-#include <camel/camel-gpg-context.h>
-#include <camel/camel-cipher-context.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-url.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-string-utils.h>
-#include <camel/camel-http-stream.h>
-#include <camel/camel-data-cache.h>
-#include <camel/camel-file-utils.h>
-
 #include "mail-config.h"
 #include "mail-mt.h"
 
@@ -1538,7 +1519,6 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 
 /* ********************************************************************** */
 #include "em-inline-filter.h"
-#include <camel/camel-stream-null.h>
 
 /* FIXME: This is duplicated in em-format-html-display, should be exported or in security module */
 static const struct {

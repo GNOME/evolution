@@ -24,7 +24,7 @@
 #ifndef __EM_FOLDER_PROPERTIES_H__
 #define __EM_FOLDER_PROPERTIES_H__
 
-#include <camel/camel-folder.h>
+#include <camel/camel.h>
 #include <shell/e-shell-view.h>
 
 G_BEGIN_DECLS

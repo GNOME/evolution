@@ -25,14 +25,6 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <camel/camel-iconv.h>
-#include <camel/camel-data-wrapper.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-stream-null.h>
-#include <camel/camel-stream-vfs.h>
-#include <camel/camel-stream-fs.h>
 
 #include <libedataserver/e-data-server-util.h>
 

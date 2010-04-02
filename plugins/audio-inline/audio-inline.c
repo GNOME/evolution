@@ -27,10 +27,6 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 #include "e-util/e-mktemp.h"
-#include "camel/camel-medium.h"
-#include "camel/camel-mime-part.h"
-#include "camel/camel-stream.h"
-#include "camel/camel-stream-fs.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
 #include "gtkhtml/gtkhtml-embedded.h"

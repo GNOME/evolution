@@ -25,7 +25,7 @@
 #define __SHARE_FOLDER_H__
 
 #include <gtk/gtk.h>
-#include <camel/camel-store.h>
+#include <camel/camel.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-name-selector.h>
 

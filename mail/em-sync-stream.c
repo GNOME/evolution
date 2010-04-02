@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <camel/camel-object.h>
 #include <libedataserver/e-flag.h>
 
 #include "mail-mt.h"

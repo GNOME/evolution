@@ -31,11 +31,6 @@
 
 #include "libedataserver/e-account-list.h"
 
-#include "camel/camel-filter-driver.h"
-#include "camel/camel-folder.h"
-#include "camel/camel-operation.h"
-#include "camel/camel-store.h"
-
 #include "shell/e-shell.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/gconf-bridge.h"

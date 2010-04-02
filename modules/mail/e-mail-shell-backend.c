@@ -22,10 +22,6 @@
 #include "e-mail-shell-backend.h"
 
 #include <glib/gi18n.h>
-#include <camel/camel-disco-store.h>
-#include <camel/camel-offline-store.h>
-#include <camel/camel-session.h>
-#include <camel/camel-url.h>
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-binding.h"

@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include "mail/em-account-editor.h"
 #include <libedataserver/e-account-list.h>
-#include <camel/camel-provider.h>
 #include "mail-view.h"
 
 #define MAIL_ACCOUNT_VIEW_TYPE        (mail_account_view_get_type ())

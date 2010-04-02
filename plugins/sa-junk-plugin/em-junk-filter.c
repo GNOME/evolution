@@ -34,12 +34,6 @@
 #include <signal.h>
 #include <time.h>
 
-#include <camel/camel-mime-message.h>
-#include <camel/camel-debug.h>
-#include <camel/camel-file-utils.h>
-#include <camel/camel-data-wrapper.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-stream-mem.h>
 #include <mail/em-junk.h>
 #include <mail/em-utils.h>
 #include <e-util/e-mktemp.h>

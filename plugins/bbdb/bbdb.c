@@ -34,7 +34,6 @@
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
-#include <camel/camel-mime-message.h>
 #include <composer/e-msg-composer.h>
 
 #include "bbdb.h"

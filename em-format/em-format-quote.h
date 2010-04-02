@@ -23,7 +23,6 @@
 #ifndef EM_FORMAT_QUOTE_H
 #define EM_FORMAT_QUOTE_H
 
-#include <camel/camel-stream.h>
 #include "em-format.h"
 
 /* Standard GObject macros */

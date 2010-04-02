@@ -31,7 +31,6 @@
 #include <mail/mail-config.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-msg-composer.h>
-#include <camel/camel-mime-filter-tohtml.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib-object.h>

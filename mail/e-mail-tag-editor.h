@@ -25,8 +25,7 @@
 #define E_MAIL_TAG_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-folder-summary.h>
+#include <camel/camel.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_TAG_EDITOR \

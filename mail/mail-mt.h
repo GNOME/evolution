@@ -23,8 +23,7 @@
 #ifndef _MAIL_MT
 #define _MAIL_MT
 
-#include "camel/camel-exception.h"
-#include "camel/camel-operation.h"
+#include <camel/camel.h>
 
 typedef struct _MailMsg MailMsg;
 typedef struct _MailMsgInfo MailMsgInfo;

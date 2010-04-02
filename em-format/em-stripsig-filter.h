@@ -23,7 +23,7 @@
 #ifndef __EM_STRIPSIG_FILTER_H__
 #define __EM_STRIPSIG_FILTER_H__
 
-#include <camel/camel-mime-filter.h>
+#include <camel/camel.h>
 
 G_BEGIN_DECLS
 
