@@ -350,14 +350,14 @@ static GtkActionEntry entries[] = {
 
 	{ "settings-backup",
 	  NULL,
-	  N_("_Backup Settings..."),
+	  N_("_Backup Evolution Settings..."),
 	  NULL,
 	  N_("Backup Evolution data and settings to an archive file"),
 	  G_CALLBACK (action_settings_backup_cb) },
 
 	{ "settings-restore",
 	  NULL,
-	  N_("R_estore Settings..."),
+	  N_("R_estore Evolution Settings..."),
 	  NULL,
 	  N_("Restore Evolution data and settings from an archive file"),
 	  G_CALLBACK (action_settings_restore_cb) }
