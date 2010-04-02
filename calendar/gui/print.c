@@ -1639,10 +1639,10 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 
 				if (end_day_of_week == 5 || end_day_of_week == 6) {
 					/* Sat or Sun */
-					y1 = y1 +
-						(psi->rows_per_compressed_cell -
-						 psi->rows_per_cell) *
-						psi->row_height - 3.0;
+					y1 = top + start_y * cell_height
+						 + psi->header_row_height
+						 + psi->rows_per_compressed_cell * (psi->row_height + 2);
+
 				}
 			}
 
@@ -1865,7 +1865,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	psi.rows_per_cell = ((cell_height * 2) - psi.header_row_height)
 		/ (psi.row_height + 2);
 	psi.rows_per_compressed_cell = (cell_height - psi.header_row_height)
-		/ psi.row_height;
+		/ (psi.row_height + 2);
 
 	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 	/* Draw the grid and the day names/numbers. */
