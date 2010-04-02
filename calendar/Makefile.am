@@ -12,7 +12,6 @@ errordir = $(privdatadir)/errors
 
 EXTRA_DIST =			\
 	calendar.error.xml	\
-	ChangeLog.pre-1-4	\
 	$(error_DATA)		\
 	zones.h
 

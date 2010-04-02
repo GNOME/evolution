@@ -4,8 +4,6 @@ images_DATA = \
 	minus.png
 
 EXTRA_DIST = 				\
-	ChangeLog			\
-	ChangeLog.pre-1-4		\
 	README				\
 	empty.xpm			\
 	jump.xpm			\

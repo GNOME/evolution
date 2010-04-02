@@ -91,8 +91,7 @@ EXTRA_DIST =				\
 	$(extra_files)		  	\
 	$(installed_content_files)	\
 	$(HTML_IMAGES)			\
-	$(DOC_MAIN_SGML_FILE)		\
-	ChangeLog.pre-1-4
+	$(DOC_MAIN_SGML_FILE)
 
 #	$(DOC_MODULE).types	     \
 #	$(DOC_MODULE)-sections.txt      \

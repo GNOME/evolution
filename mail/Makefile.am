@@ -197,7 +197,6 @@ ui_DATA = mail-config.ui mail-dialogs.ui
 etspec_DATA = message-list.etspec
 
 EXTRA_DIST = 				\
-	ChangeLog.pre-1-4		\
 	README.async			\
 	mail.error.xml			\
 	$(ui_DATA)			\

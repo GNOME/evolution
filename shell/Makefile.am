@@ -196,7 +196,6 @@ endif
 EXTRA_DIST = 					\
 	shell.error.xml				\
 	$(schema_in_files)			\
-	ChangeLog.pre-1-4			\
 	evolution-nognome.in			\
 	evolution-icon.rc			\
 	evolution.ico				\

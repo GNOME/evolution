@@ -63,8 +63,7 @@ libfilter_la_LIBADD = 				\
 
 EXTRA_DIST =					\
 	$(ui_DATA)				\
-	filter.error.xml			\
-	ChangeLog.pre-1-4
+	filter.error.xml
 
 # basic rules.
 error_DATA = filter.error

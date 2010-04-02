@@ -11,7 +11,6 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 EXTRA_DIST =			\
-	ChangeLog.pre-1-4	\
 	addressbook.error.xml
 
 dist-hook:

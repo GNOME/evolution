@@ -205,7 +205,6 @@ errordir = $(privdatadir)/errors
 EXTRA_DIST =				\
 	e-system.error.xml		\
 	$(pilot_sources)		\
-	ChangeLog.pre-1-4		\
 	e-marshal.list
 
 BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)

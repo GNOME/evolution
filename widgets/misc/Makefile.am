@@ -226,7 +226,6 @@ test_preferences_window_LDADD = 		\
 EXTRA_DIST =			\
 	$(ui_DATA)		\
 	e-pilot-settings.h	\
-	e-pilot-settings.c	\
-	ChangeLog.pre-1-4
+	e-pilot-settings.c
 
 -include $(top_srcdir)/git.mk

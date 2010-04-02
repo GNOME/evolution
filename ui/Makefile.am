@@ -7,8 +7,6 @@ ui_DATA =					\
 	evolution-shell.ui			\
 	evolution-tasks.ui
 
-EXTRA_DIST =					\
-	$(ui_DATA)				\
-	ChangeLog.pre-1-4
+EXTRA_DIST = $(ui_DATA)
 
 -include $(top_srcdir)/git.mk

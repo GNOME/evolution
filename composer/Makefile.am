@@ -69,8 +69,7 @@ ui_DATA = evolution-composer.ui
 
 EXTRA_DIST =					\
 	$(ui_DATA)				\
-	mail-composer.error.xml			\
-	ChangeLog.pre-1-4
+	mail-composer.error.xml
 
 BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
