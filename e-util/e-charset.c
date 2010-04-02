@@ -76,24 +76,32 @@ typedef struct {
  * not a lot of point in using, say, ISO-8859-3, if anything that can
  * read that can read UTF8 too.
  */
-/* To Translators: Character set "Logical Hebrew" */
 static ECharset charsets[] = {
 	{ "ISO-8859-6", E_CHARSET_ARABIC, NULL },
 	{ "ISO-8859-13", E_CHARSET_BALTIC, NULL },
 	{ "ISO-8859-4", E_CHARSET_BALTIC, NULL },
 	{ "ISO-8859-2", E_CHARSET_CENTRAL_EUROPEAN, NULL },
+	/* Translators: Character set "Chinese, Traditional" */
 	{ "Big5", E_CHARSET_CHINESE, N_("Traditional") },
+	/* Translators: Character set "Chinese, Traditional" */
 	{ "BIG5HKSCS", E_CHARSET_CHINESE, N_("Traditional") },
+	/* Translators: Character set "Chinese, Traditional" */
 	{ "EUC-TW", E_CHARSET_CHINESE, N_("Traditional") },
+	/* Translators: Character set "Chinese, Simplified" */
 	{ "GB18030", E_CHARSET_CHINESE, N_("Simplified") },
+	/* Translators: Character set "Chinese, Simplified" */
 	{ "GB2312", E_CHARSET_CHINESE, N_("Simplified") },
+	/* Translators: Character set "Chinese, Simplified" */
 	{ "HZ", E_CHARSET_CHINESE, N_("Simplified") },
+	/* Translators: Character set "Chinese, Simplified" */
 	{ "ISO-2022-CN", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "KOI8-R", E_CHARSET_CYRILLIC, NULL },
 	{ "Windows-1251", E_CHARSET_CYRILLIC, NULL },
+	/* Translators: Character set "Cyrillic, Ukrainian" */
 	{ "KOI8-U", E_CHARSET_CYRILLIC, N_("Ukrainian") },
 	{ "ISO-8859-5", E_CHARSET_CYRILLIC, NULL },
 	{ "ISO-8859-7", E_CHARSET_GREEK, NULL },
+	/* Translators: Character set "Hebrew, Visual" */
 	{ "ISO-8859-8", E_CHARSET_HEBREW, N_("Visual") },
 	{ "ISO-2022-JP", E_CHARSET_JAPANESE, NULL },
 	{ "EUC-JP", E_CHARSET_JAPANESE, NULL },
