@@ -166,8 +166,9 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
                                    row);
 
 	gal_a11y_e_cell_add_action (cell,
-				    _("toggle"),	       /* action name*/
-				    _("toggle the cell"), /* action description */
+				    "toggle",
+				    /* Translators: description of a "toggle" action */
+				    _("toggle the cell"),
 				    NULL,              /* action keybinding */
 				    toggle_cell_action);
 

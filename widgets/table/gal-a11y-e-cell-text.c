@@ -613,7 +613,8 @@ ect_action_init (GalA11yECellText *a11y)
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	if (ect->editable && e_table_model_is_cell_editable (gaec->cell_view->e_table_model, gaec->model_col, gaec->row))
 		gal_a11y_e_cell_add_action (gaec,
-				    _("edit"),
+				    "edit",
+				    /* Translators: description of an "edit" action */
 				    _("begin editing this cell"),
 				    NULL,
 				    (ACTION_FUNC) ect_do_action_edit);

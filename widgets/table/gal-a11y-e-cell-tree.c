@@ -207,13 +207,15 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 								    view_col,
 								    row);
 		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
-					    _("expand"),
+					    "expand",
+					    /* Translators: description of an "expand" action */
 					    _("expands the row in the ETree containing this cell"),
 					    NULL,
 					    (ACTION_FUNC)ectr_do_action_expand);
 
 		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
-					    _("collapse"),
+					    "collapse",
+					    /* Translators: description of a "collapse" action */
 					    _("collapses the row in the ETree containing this cell"),
 					    NULL,
 					    (ACTION_FUNC)ectr_do_action_collapse);

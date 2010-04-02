@@ -118,8 +118,9 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 	g_return_val_if_fail (a11y != NULL, NULL);
 	cell = GAL_A11Y_E_CELL(a11y);
 	gal_a11y_e_cell_add_action (cell,
-				    _("popup"),	       /* action name*/
-				    _("popup a child"), /* action description */
+				    "popup",
+				    /* Translators: description of a "popup" action */
+				    _("popup a child"),
 				    "<Alt>Down",              /* action keybinding */
 				    popup_cell_action);
 
