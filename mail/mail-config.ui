@@ -4490,7 +4490,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">0.47999998927116394</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Top Posting Option&lt;/b&gt; (Not Recommended)</property>
+                                    <property name="label" translatable="yes" comments="Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding">&lt;b&gt;Top Posting Option&lt;/b&gt; (Not Recommended)</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                   <packing>
