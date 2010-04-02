@@ -412,6 +412,7 @@ task_table_constructed (GObject *object)
 	GList *strings;
 	AtkObject *a11y;
 	gchar *etspecfile;
+	gint percent;
 
 	task_table = E_TASK_TABLE (object);
 	model = e_task_table_get_model (task_table);
@@ -488,6 +489,7 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Confidential"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
+	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "classification", popup_cell);
 
@@ -511,6 +513,7 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Undefined"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
+	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "priority", popup_cell);
 
@@ -527,19 +530,18 @@ task_table_constructed (GObject *object)
 	g_object_unref (cell);
 
 	strings = NULL;
-	strings = g_list_append (strings, (gchar *) _("0%"));
-	strings = g_list_append (strings, (gchar *) _("10%"));
-	strings = g_list_append (strings, (gchar *) _("20%"));
-	strings = g_list_append (strings, (gchar *) _("30%"));
-	strings = g_list_append (strings, (gchar *) _("40%"));
-	strings = g_list_append (strings, (gchar *) _("50%"));
-	strings = g_list_append (strings, (gchar *) _("60%"));
-	strings = g_list_append (strings, (gchar *) _("70%"));
-	strings = g_list_append (strings, (gchar *) _("80%"));
-	strings = g_list_append (strings, (gchar *) _("90%"));
-	strings = g_list_append (strings, (gchar *) _("100%"));
+	for (percent = 0; percent <= 100; percent += 10) {
+		/* Translators: "%d%%" is the percentage of a task done.
+		   %d is the actual value, %% is replaced with a percent sign.
+		   Result values will be 0%, 10%, 20%, ... 100%
+		*/
+		strings = g_list_append (strings, g_strdup_printf (_("%d%%"), percent));
+	}
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
+
+	g_list_foreach (strings, (GFunc) g_free, NULL);
+	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "percent", popup_cell);
 
@@ -561,6 +563,7 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Busy"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
+	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "transparency", popup_cell);
 
@@ -584,6 +587,7 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Canceled"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
+	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "calstatus", popup_cell);
 

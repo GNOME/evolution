@@ -235,6 +235,7 @@ setup_e_table (ECalListView *cal_list_view)
 	strings = g_list_append (strings, (gchar *) _("Confidential"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
+	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "classification", popup_cell);
 
