@@ -2928,7 +2928,7 @@ For example: "Work" or "Personal"</property>
                             <property name="spacing">4</property>
                             <child>
                               <object class="GtkCheckButton" id="mlimit_checkbutton">
-                                <property name="label" translatable="yes">Do not format messages when text si_ze exceeds</property>
+                                <property name="label" translatable="yes">Do not display messages when text si_ze exceeds</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>

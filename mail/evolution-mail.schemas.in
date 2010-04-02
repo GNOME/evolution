@@ -710,9 +710,9 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Allows Evolution to display text part of limited size</short>
+         <short>Display only message texts not exceeding certain size</short>
          <long>
-         Enable to render message text part of limited size.
+         Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key.
          </long>
       </locale>
     </schema>
@@ -724,10 +724,11 @@
       <type>int</type>
       <default>4096</default>
       <locale name="C">
-         <short>Text message part limit</short>
+         <short>Message text limit for display</short>
          <long>
-         This decides the max size of the text part that can be formatted under
-         Evolution. The default is 4MB / 4096 KB and is specified in terms of KB.
+         This decides the max size of the message text that will be displayed under
+         Evolution, specified in terms of KB. The default is 4096 (4MB). This value
+         is used only when 'force_message_limit' key is activated.
          </long>
       </locale>
     </schema>
