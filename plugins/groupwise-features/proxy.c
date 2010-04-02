@@ -700,7 +700,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		}
 
 		/*To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation*/
-		gtk_notebook_append_page ((GtkNotebook *)(data->parent), (GtkWidget *)priv->tab_dialog, gtk_label_new("Proxy"));
+		gtk_notebook_append_page ((GtkNotebook *)(data->parent), (GtkWidget *)priv->tab_dialog, gtk_label_new (C_("GW", "Proxy")));
 		g_signal_connect ((GtkNotebook *)(data->parent), "switch-page", G_CALLBACK (proxy_page_changed_cb), account);
 		pag_num = gtk_notebook_page_num ((GtkNotebook *)(data->parent), (GtkWidget *)priv->tab_dialog);
 		g_object_set_data ((GObject *) account, "proxy_tab_num", GINT_TO_POINTER (pag_num));

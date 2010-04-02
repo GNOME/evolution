@@ -214,7 +214,7 @@ prompt_retract_dialog (ECalComponent *comp, gchar **retract_text, GtkWidget *par
 	cb = gtk_check_button_new_with_mnemonic (_("_Delete this item from all other recipient's mailboxes?"));
 	gtk_container_add (GTK_CONTAINER (vbox), cb);
 
-	label = gtk_label_new_with_mnemonic ("_Retract comment");
+	label = gtk_label_new_with_mnemonic (_("_Retract comment"));
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_label_widget ((GtkFrame *) frame, label);

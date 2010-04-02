@@ -495,11 +495,11 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->until_label), priv->delay_until);
 
 	if (priv->global) {
-		GtkWidget *widget = gtk_label_new ("Calendar");
-		gtk_label_set_text (GTK_LABEL (priv->sopts_label), "Mail");
+		GtkWidget *widget = gtk_label_new (_("Calendar"));
+		gtk_label_set_text (GTK_LABEL (priv->sopts_label), _("Mail"));
 		gtk_notebook_append_page (priv->notebook, priv->status, widget);
 		gtk_widget_show (widget);
-		widget = gtk_label_new ("Task");
+		widget = gtk_label_new (_("Task"));
 		gtk_widget_show (widget);
 		gtk_notebook_append_page (priv->notebook, priv->status,widget);
 		gtk_notebook_set_show_tabs (priv->notebook, TRUE);
