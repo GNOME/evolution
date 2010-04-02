@@ -767,29 +767,70 @@ web_view_url_requested (GtkHTML *html,
 }
 
 static void
-web_view_link_clicked (GtkHTML *html,
-                       const gchar *uri)
+web_view_gtkhtml_link_clicked (GtkHTML *html,
+                               const gchar *uri)
 {
-	gpointer parent;
+	EWebViewClass *class;
+	EWebView *web_view;
 
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (html));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+	web_view = E_WEB_VIEW (html);
 
-	e_show_uri (parent, uri);
+	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class->link_clicked != NULL);
+
+	class->link_clicked (web_view, uri);
 }
 
 static void
 web_view_on_url (GtkHTML *html,
                  const gchar *uri)
 {
+	EWebViewClass *class;
 	EWebView *web_view;
+
+	web_view = E_WEB_VIEW (html);
+
+	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class->hovering_over_link != NULL);
+
+	/* XXX WebKit would supply a title here. */
+	class->hovering_over_link (web_view, NULL, uri);
+}
+
+static void
+web_view_iframe_created (GtkHTML *html,
+                         GtkHTML *iframe)
+{
+	g_signal_connect_swapped (
+		iframe, "button-press-event",
+		G_CALLBACK (web_view_button_press_event_cb), html);
+}
+
+static gchar *
+web_view_extract_uri (EWebView *web_view,
+                      GdkEventButton *event,
+                      GtkHTML *html)
+{
+	gchar *uri;
+
+	if (event != NULL)
+		uri = gtk_html_get_url_at (html, event->x, event->y);
+	else
+		uri = gtk_html_get_cursor_url (html);
+
+	return uri;
+}
+
+static void
+web_view_hovering_over_link (EWebView *web_view,
+                             const gchar *title,
+                             const gchar *uri)
+{
 	CamelInternetAddress *address;
 	CamelURL *curl;
 	const gchar *format = NULL;
 	gchar *message = NULL;
 	gchar *who;
-
-	web_view = E_WEB_VIEW (html);
 
 	if (uri == NULL || *uri == '\0')
 		goto exit;
@@ -833,27 +874,15 @@ exit:
 }
 
 static void
-web_view_iframe_created (GtkHTML *html,
-                         GtkHTML *iframe)
+web_view_link_clicked (EWebView *web_view,
+                       const gchar *uri)
 {
-	g_signal_connect_swapped (
-		iframe, "button-press-event",
-		G_CALLBACK (web_view_button_press_event_cb), html);
-}
+	gpointer parent;
 
-static gchar *
-web_view_extract_uri (EWebView *web_view,
-                      GdkEventButton *event,
-                      GtkHTML *html)
-{
-	gchar *uri;
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	if (event != NULL)
-		uri = gtk_html_get_url_at (html, event->x, event->y);
-	else
-		uri = gtk_html_get_cursor_url (html);
-
-	return uri;
+	e_show_uri (parent, uri);
 }
 
 static void
@@ -1083,11 +1112,13 @@ e_web_view_class_init (EWebViewClass *class)
 
 	html_class = GTK_HTML_CLASS (class);
 	html_class->url_requested = web_view_url_requested;
-	html_class->link_clicked = web_view_link_clicked;
+	html_class->link_clicked = web_view_gtkhtml_link_clicked;
 	html_class->on_url = web_view_on_url;
 	html_class->iframe_created = web_view_iframe_created;
 
 	class->extract_uri = web_view_extract_uri;
+	class->hovering_over_link = web_view_hovering_over_link;
+	class->link_clicked = web_view_link_clicked;
 	class->load_string = web_view_load_string;
 	class->copy_clipboard = web_view_copy_clipboard;
 	class->cut_clipboard = web_view_cut_clipboard;

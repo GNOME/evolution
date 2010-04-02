@@ -984,31 +984,11 @@ contact_display_url_requested (GtkHTML *html,
 }
 
 static void
-contact_display_link_clicked (GtkHTML *html,
-                              const gchar *uri)
+contact_display_hovering_over_link (EWebView *web_view,
+                                    const gchar *title,
+                                    const gchar *uri)
 {
-	EABContactDisplay *display;
-	gsize length;
-
-	display = EAB_CONTACT_DISPLAY (html);
-
-	length = strlen ("internal-mailto:");
-	if (g_ascii_strncasecmp (uri, "internal-mailto:", length) == 0) {
-		gint index;
-
-		index = atoi (uri + length);
-		contact_display_emit_send_message (display, index);
-		return;
-	}
-
-	/* Chain up to parent's link_clicked() method. */
-	GTK_HTML_CLASS (parent_class)->link_clicked (html, uri);
-}
-
-static void
-contact_display_on_url (GtkHTML *html,
-                        const gchar *uri)
-{
+	EWebViewClass *web_view_class;
 	EABContactDisplay *display;
 	EContact *contact;
 	const gchar *name;
@@ -1020,7 +1000,7 @@ contact_display_on_url (GtkHTML *html,
 	if (!g_str_has_prefix (uri, "internal-mailto:"))
 		goto chainup;
 
-	display = EAB_CONTACT_DISPLAY (html);
+	display = EAB_CONTACT_DISPLAY (web_view);
 	contact = eab_contact_display_get_contact (display);
 
 	name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
@@ -1029,14 +1009,37 @@ contact_display_on_url (GtkHTML *html,
 	g_return_if_fail (name != NULL);
 
 	message = g_strdup_printf (_("Click to mail %s"), name);
-	e_web_view_status_message (E_WEB_VIEW (html), message);
+	e_web_view_status_message (web_view, message);
 	g_free (message);
 
 	return;
 
 chainup:
-	/* Chain up to parent's on_url() method. */
-	GTK_HTML_CLASS (parent_class)->on_url (html, uri);
+	/* Chain up to parent's hovering_over_link() method. */
+	web_view_class = E_WEB_VIEW_CLASS (parent_class);
+	web_view_class->hovering_over_link (web_view, title, uri);
+}
+
+static void
+contact_display_link_clicked (EWebView *web_view,
+                              const gchar *uri)
+{
+	EABContactDisplay *display;
+	gsize length;
+
+	display = EAB_CONTACT_DISPLAY (web_view);
+
+	length = strlen ("internal-mailto:");
+	if (g_ascii_strncasecmp (uri, "internal-mailto:", length) == 0) {
+		gint index;
+
+		index = atoi (uri + length);
+		contact_display_emit_send_message (display, index);
+		return;
+	}
+
+	/* Chain up to parent's link_clicked() method. */
+	E_WEB_VIEW_CLASS (parent_class)->link_clicked (web_view, uri);
 }
 
 static void
@@ -1086,10 +1089,10 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 
 	html_class = GTK_HTML_CLASS (class);
 	html_class->url_requested = contact_display_url_requested;
-	html_class->link_clicked = contact_display_link_clicked;
-	html_class->on_url = contact_display_on_url;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
+	web_view_class->hovering_over_link = contact_display_hovering_over_link;
+	web_view_class->link_clicked = contact_display_link_clicked;
 	web_view_class->update_actions = contact_display_update_actions;
 
 	g_object_class_install_property (

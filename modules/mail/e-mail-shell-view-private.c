@@ -257,19 +257,6 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 }
 
 static void
-mail_shell_view_reader_status_message_cb (EMailShellView *mail_shell_view,
-                                          const gchar *status_message)
-{
-	EShellView *shell_view;
-	EShellTaskbar *shell_taskbar;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
-
-	e_shell_taskbar_set_message (shell_taskbar, status_message);
-}
-
-static void
 mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
                            GtkOrientation orientation,
                            GtkScrollType scroll_type,
@@ -426,6 +413,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellContent *shell_content;
 	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
+	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
 	EMFormatHTMLDisplay *html_display;
@@ -447,6 +435,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -573,8 +562,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	g_signal_connect_swapped (
 		web_view, "status-message",
-		G_CALLBACK (mail_shell_view_reader_status_message_cb),
-		mail_shell_view);
+		G_CALLBACK (e_shell_taskbar_set_message),
+		shell_taskbar);
 
 	/* Need to keep the handler ID so we can disconnect it in
 	 * dispose().  The shell outlives us and we don't want it

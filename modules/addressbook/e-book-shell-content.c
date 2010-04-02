@@ -189,6 +189,7 @@ book_shell_content_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
+	EShellTaskbar *shell_taskbar;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -202,6 +203,7 @@ book_shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
 	container = GTK_WIDGET (object);
@@ -232,6 +234,11 @@ book_shell_content_constructed (GObject *object)
 	g_signal_connect_swapped (
 		widget, "send-message",
 		G_CALLBACK (book_shell_content_send_message_cb), object);
+
+	g_signal_connect_swapped (
+		widget, "status-message",
+		G_CALLBACK (e_shell_taskbar_set_message),
+		shell_taskbar);
 
 	widget = e_preview_pane_new (E_WEB_VIEW (widget));
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);

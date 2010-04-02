@@ -69,6 +69,11 @@ struct _EWebViewClass {
 	gchar *		(*extract_uri)		(EWebView *web_view,
 						 GdkEventButton *event,
 						 GtkHTML *frame);
+	void		(*hovering_over_link)	(EWebView *web_view,
+						 const gchar *title,
+						 const gchar *uri);
+	void		(*link_clicked)		(EWebView *web_view,
+						 const gchar *uri);
 	void		(*load_string)		(EWebView *web_view,
 						 const gchar *load_string);
 
