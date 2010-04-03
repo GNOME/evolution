@@ -266,8 +266,8 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_description (part, desc);
-	camel_medium_set_content_object (CAMEL_MEDIUM (part),
-					 CAMEL_DATA_WRAPPER (message));
+	camel_medium_set_content (
+		CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (message));
 	camel_mime_part_set_content_type (part, "message/rfc822");
 	g_free (desc);
 

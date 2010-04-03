@@ -71,7 +71,7 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *orga
 {
 	GSList *attendees = NULL, *to_free = NULL;
 	ECalComponentAttendee *ca;
-	const CamelInternetAddress *from = NULL, *to, *cc, *bcc, *arr[4];
+	CamelInternetAddress *from = NULL, *to, *cc, *bcc, *arr[4];
 	gint len, i, j;
 
 	if (message->reply_to)
@@ -141,7 +141,7 @@ prepend_from (CamelMimeMessage *message, gchar **text)
 {
 	gchar *res, *tmp, *addr = NULL;
 	const gchar *name = NULL, *eml = NULL;
-	const CamelInternetAddress *from = NULL;
+	CamelInternetAddress *from = NULL;
 
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (text != NULL, NULL);
@@ -180,7 +180,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	gsize bytes_read, bytes_written;
 	gint count = 2;
 
-	content = camel_medium_get_content_object ((CamelMedium *) message);
+	content = camel_medium_get_content ((CamelMedium *) message);
 	if (!content)
 		return;
 
@@ -189,7 +189,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	 */
 	while (CAMEL_IS_MULTIPART (content) && count > 0) {
 		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), 0);
-		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+		content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 		count--;
 	}
 
@@ -312,7 +312,7 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 		gboolean done;
 	} status;
 
-	content = camel_medium_get_content_object ((CamelMedium *) message);
+	content = camel_medium_get_content ((CamelMedium *) message);
 	if (!content || !CAMEL_IS_MULTIPART (content))
 		return;
 

@@ -542,13 +542,14 @@ em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GP
 static gint
 em_utils_write_messages_to_stream(CamelFolder *folder, GPtrArray *uids, CamelStream *stream)
 {
-	CamelStreamFilter *filtered_stream;
-	CamelMimeFilterFrom *from_filter;
+	CamelStream *filtered_stream;
+	CamelMimeFilter *from_filter;
 	gint i, res = 0;
 
 	from_filter = camel_mime_filter_from_new();
-	filtered_stream = camel_stream_filter_new_with_stream(stream);
-	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)from_filter);
+	filtered_stream = camel_stream_filter_new (stream);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream), from_filter);
 	camel_object_unref(from_filter);
 
 	for (i=0; i<uids->len; i++) {
@@ -2198,7 +2199,7 @@ em_utils_guess_account_with_recipients (CamelMimeMessage *message,
 	EAccountList *account_list;
 	GHashTable *recipients;
 	EIterator *iter;
-	const CamelInternetAddress *addr;
+	CamelInternetAddress *addr;
 	const gchar *type;
 	const gchar *key;
 

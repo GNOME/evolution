@@ -164,7 +164,7 @@ emif_add_part(EMInlineFilter *emif, const gchar *data, gint len)
 	dw->encoding = encoding;
 
 	part = camel_mime_part_new();
-	camel_medium_set_content_object((CamelMedium *)part, dw);
+	camel_medium_set_content ((CamelMedium *)part, dw);
 	camel_mime_part_set_encoding(part, encoding);
 	camel_object_unref(dw);
 

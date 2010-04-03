@@ -357,7 +357,7 @@ org_gnome_image_inline_decode (ImageInlinePObject *image_object)
 
 	/* Stream takes ownership of the byte array. */
 	stream = camel_stream_mem_new_with_byte_array (array);
-	data_wrapper = camel_medium_get_content_object (medium);
+	data_wrapper = camel_medium_get_content (medium);
 	camel_data_wrapper_decode_to_stream (data_wrapper, stream);
 
 	/* Don't trust the content type in the MIME part.  It could

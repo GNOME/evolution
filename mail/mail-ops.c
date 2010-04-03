@@ -1182,7 +1182,7 @@ do_build_attachment (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, 
 			camel_object_unref(part);
 		}
 		part = camel_mime_part_new();
-		camel_medium_set_content_object(CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER(multipart));
+		camel_medium_set_content (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER(multipart));
 		camel_object_unref(multipart);
 
 		camel_mime_part_set_description(part, _("Forwarded messages"));
@@ -2053,7 +2053,7 @@ save_prepare_part (CamelMimePart *mime_part)
 	CamelDataWrapper *wrapper;
 	gint parts, i;
 
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	if (!wrapper)
 		return;
 
@@ -2082,8 +2082,8 @@ save_prepare_part (CamelMimePart *mime_part)
 static void
 save_messages_exec (struct _save_messages_msg *m)
 {
-	CamelStreamFilter *filtered_stream;
-	CamelMimeFilterFrom *from_filter;
+	CamelStream *filtered_stream;
+	CamelMimeFilter *from_filter;
 	CamelStream *stream;
 	gint i;
 	gchar *from, *path;
@@ -2095,8 +2095,9 @@ save_messages_exec (struct _save_messages_msg *m)
 
 	stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE);
 	from_filter = camel_mime_filter_from_new();
-	filtered_stream = camel_stream_filter_new_with_stream(stream);
-	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)from_filter);
+	filtered_stream = camel_stream_filter_new (stream);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream), from_filter);
 	camel_object_unref(from_filter);
 
 	if (path != m->path)
@@ -2230,7 +2231,7 @@ save_part_exec (struct _save_part_msg *m)
 	if (path != m->path)
 		g_free (path);
 
-	content = camel_medium_get_content_object (CAMEL_MEDIUM (m->part));
+	content = camel_medium_get_content (CAMEL_MEDIUM (m->part));
 
 	if (camel_data_wrapper_decode_to_stream (content, stream) == -1
 	    || camel_stream_flush (stream) == -1)

@@ -182,7 +182,7 @@ apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 void
 org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 {
-	const CamelInternetAddress *from_addr = NULL;
+	CamelInternetAddress *from_addr = NULL;
 	const gchar *name;
 	const gchar *email;
 	CamelMimeMessage *msg = (CamelMimeMessage *) target->message;
@@ -196,11 +196,11 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	if (((gchar *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification")) == NULL
 	    || (from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message)) == NULL
 	    || !camel_internet_address_get(from_addr, 0, &name, &email)
-	    || (dw = camel_medium_get_content_object (CAMEL_MEDIUM (msg))) == NULL) {
+	    || (dw = camel_medium_get_content (CAMEL_MEDIUM (msg))) == NULL) {
 		return;
 	} else {
 		if (CAMEL_IS_MULTIPART (dw)) {
-			dw = camel_medium_get_content_object((CamelMedium *)camel_multipart_get_part((CamelMultipart *)dw, 0));
+			dw = camel_medium_get_content ((CamelMedium *)camel_multipart_get_part((CamelMultipart *)dw, 0));
 			if (dw == NULL)
 				return;
 		}

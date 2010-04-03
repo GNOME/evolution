@@ -99,7 +99,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 		part = camel_multipart_get_part (mp, i);
 
 		if (part != except) {
-			CamelMultipart *multipart = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+			CamelMultipart *multipart = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 
 			if (CAMEL_IS_MULTIPART (multipart)) {
 				export_as_attachments (multipart, format, stream, except);
@@ -113,7 +113,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 void
 org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)t->part);
+	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)t->part);
 	CamelMimePart *part, *display_part = NULL;
 	gint i, nparts, partidlen, displayid = 0;
 

@@ -89,7 +89,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	out = camel_stream_fs_new_with_name(name, O_RDWR|O_CREAT, 0666);
 	if (out == NULL)
 	    goto fail;
-	content = camel_medium_get_content_object((CamelMedium *)t->part);
+	content = camel_medium_get_content ((CamelMedium *)t->part);
 	if (content == NULL)
 		goto fail;
 	if (camel_data_wrapper_decode_to_stream(content, out) == -1
@@ -120,7 +120,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	camel_data_wrapper_set_mime_type((CamelDataWrapper *)mp, "multipart/mixed");
 	camel_multipart_set_boundary(mp, NULL);
 
-	camel_medium_set_content_object((CamelMedium *)mainpart, (CamelDataWrapper *)mp);
+	camel_medium_set_content ((CamelMedium *)mainpart, (CamelDataWrapper *)mp);
 
 	while ((d = readdir(dir))) {
 		CamelMimePart *part;
@@ -144,7 +144,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 		part = camel_mime_part_new();
 		camel_mime_part_set_encoding(part, CAMEL_TRANSFER_ENCODING_BINARY);
 
-		camel_medium_set_content_object((CamelMedium *)part, content);
+		camel_medium_set_content ((CamelMedium *)part, content);
 		camel_object_unref(content);
 
 		type = em_format_snoop_type(part);

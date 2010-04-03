@@ -459,24 +459,24 @@ pst_import_file (PstImporter *m)
 
 	g_free (filename);
 
-	camel_operation_progress_count (NULL, 1);
+	camel_operation_progress (NULL, 1);
 
 	if ((item = pst_parse_item (&m->pst, m->pst.d_head, NULL)) == NULL) {
 		pst_error_msg ("Could not get root record");
 		return;
 	}
 
-	camel_operation_progress_count (NULL, 2);
+	camel_operation_progress (NULL, 2);
 
 	if ((d_ptr = pst_getTopOfFolders (&m->pst, item)) == NULL) {
 		pst_error_msg ("Top of folders record not found. Cannot continue");
 		return;
 	}
 
-	camel_operation_progress_count (NULL, 3);
+	camel_operation_progress (NULL, 3);
 	pst_import_folders (m, d_ptr);
 
-	camel_operation_progress_count (NULL, 4);
+	camel_operation_progress (NULL, 4);
 
 	camel_operation_end (NULL);
 
@@ -888,7 +888,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 	/*camel_mime_message_dump (msg, TRUE);*/
 
 	if (item->email->htmlbody.str || item->attach) {
-		camel_medium_set_content_object (CAMEL_MEDIUM (msg), CAMEL_DATA_WRAPPER (mp));
+		camel_medium_set_content (CAMEL_MEDIUM (msg), CAMEL_DATA_WRAPPER (mp));
 	} else if (item->body.str) {
 		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->body.str, strlen (item->body.str), "text/plain");
 	} else {
@@ -1231,7 +1231,7 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 			continue;
 		}
 
-		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		content = camel_medium_get_content (CAMEL_MEDIUM (part));
 
 		if (camel_data_wrapper_decode_to_stream (content, stream) == -1
 			|| camel_stream_flush (stream) == -1)

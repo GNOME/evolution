@@ -868,7 +868,7 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 			}
 
 			if (!count1) {
-				const CamelInternetAddress *to;
+				CamelInternetAddress *to;
 				const gchar *name, *addr;
 
 				to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
@@ -925,7 +925,7 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 		CamelStream *mem;
 		gchar *str;
 
-		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		content = camel_medium_get_content (CAMEL_MEDIUM (part));
 		if (!content)
 			return;
 
@@ -972,7 +972,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 		clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
 		g_object_unref (gconf);
 
-		traverse_parts (clue_list, message, camel_medium_get_content_object (CAMEL_MEDIUM (message)));
+		traverse_parts (clue_list, message, camel_medium_get_content (CAMEL_MEDIUM (message)));
 
 		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
 		g_slist_free (clue_list);
@@ -1224,7 +1224,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 			composer = create_new_composer (subject, fromuri, FALSE);
 
 			if (composer) {
-				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
+				if (CAMEL_IS_MULTIPART(camel_medium_get_content ((CamelMedium *)message)))
 					e_msg_composer_add_message_attachments(composer, message, FALSE);
 
 				e_msg_composer_set_body_text (composer, text, len);
@@ -1574,7 +1574,7 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	camel_object_unref (stream);
 
 	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), receipt_text);
+	camel_medium_set_content (CAMEL_MEDIUM (part), receipt_text);
 	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 	camel_object_unref (receipt_text);
 	camel_multipart_add_part (body, part);
@@ -1605,14 +1605,14 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	g_free (recipient);
 	g_free (fake_msgid);
 
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), receipt_data);
+	camel_medium_set_content (CAMEL_MEDIUM (part), receipt_data);
 	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_7BIT);
 	camel_object_unref (receipt_data);
 	camel_multipart_add_part (body, part);
 	camel_object_unref (part);
 
 	/* Finish creating the message */
-	camel_medium_set_content_object (CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
+	camel_medium_set_content (CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
 	camel_object_unref (body);
 
 	/* Translators: %s is the subject of the email message */
@@ -1764,7 +1764,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 static void
 get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
 {
-	const CamelInternetAddress *reply_to;
+	CamelInternetAddress *reply_to;
 	const gchar *name, *addr, *posthdr;
 	gint i;
 
@@ -1833,7 +1833,7 @@ get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 }
 
 static void
-concat_unique_addrs (CamelInternetAddress *dest, const CamelInternetAddress *src, GHashTable *rcpt_hash)
+concat_unique_addrs (CamelInternetAddress *dest, CamelInternetAddress *src, GHashTable *rcpt_hash)
 {
 	const gchar *name, *addr;
 	gint i;
@@ -1849,7 +1849,7 @@ concat_unique_addrs (CamelInternetAddress *dest, const CamelInternetAddress *src
 static void
 get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto)
 {
-	const CamelInternetAddress *reply_to, *to_addrs, *cc_addrs;
+	CamelInternetAddress *reply_to, *to_addrs, *cc_addrs;
 	const gchar *name, *addr, *posthdr;
 	GHashTable *rcpt_hash;
 	gint i;
@@ -1933,7 +1933,7 @@ typedef void (* AttribFormatter) (GString *str, const gchar *attr, CamelMimeMess
 static void
 format_sender (GString *str, const gchar *attr, CamelMimeMessage *message)
 {
-	const CamelInternetAddress *sender;
+	CamelInternetAddress *sender;
 	const gchar *name, *addr = NULL;
 
 	sender = camel_mime_message_get_from (message);

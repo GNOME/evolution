@@ -259,7 +259,7 @@ rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *m
 	}
 	/* should parse the from address into an internet address? */
 	if (flags & AUTO_FROM) {
-		const CamelInternetAddress *from;
+		CamelInternetAddress *from;
 		gint i;
 		const gchar *name, *address;
 		gchar *namestr;

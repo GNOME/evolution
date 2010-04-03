@@ -676,7 +676,7 @@ em_format_part(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 	gchar *mime_type;
 	CamelDataWrapper *dw;
 
-	dw = camel_medium_get_content_object((CamelMedium *)part);
+	dw = camel_medium_get_content ((CamelMedium *)part);
 	mime_type = camel_data_wrapper_get_mime_type(dw);
 	if (mime_type) {
 		camel_strdown(mime_type);
@@ -1003,7 +1003,7 @@ void em_format_add_header(EMFormat *emf, const gchar *name, guint32 flags)
 gint em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
 {
 	/*CamelContentType *ct = camel_mime_part_get_content_type(part);*/
-	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
+	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)part);
 
 	if (!dw)
 		return 0;
@@ -1184,7 +1184,7 @@ em_format_busy (EMFormat *emf)
 void
 em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 {
-	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
+	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)part);
 
 	if (camel_content_type_is (dw->mime_type, "text", "*"))
 		em_format_format_text(emf, stream, (CamelDataWrapper *)part);
@@ -1203,8 +1203,8 @@ em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart *part
 void
 em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 {
-	CamelStreamFilter *filter_stream;
-	CamelMimeFilterCharset *filter;
+	CamelStream *filter_stream;
+	CamelMimeFilter *filter;
 	const gchar *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
 	CamelStream *mem_stream = NULL;
@@ -1225,11 +1225,13 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		 * before we move on... */
 
 		null = camel_stream_null_new();
-		filter_stream = camel_stream_filter_new_with_stream(null);
+		filter_stream = camel_stream_filter_new (null);
 		camel_object_unref(null);
 
 		windows = (CamelMimeFilterWindows *)camel_mime_filter_windows_new(charset);
-		camel_stream_filter_add(filter_stream, (CamelMimeFilter *)windows);
+		camel_stream_filter_add (
+			CAMEL_STREAM_FILTER (filter_stream),
+			CAMEL_MIME_FILTER (windows));
 
 		camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filter_stream);
 		camel_stream_flush((CamelStream *)filter_stream);
@@ -1241,10 +1243,12 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	}
 
 	mem_stream = (CamelStream *)camel_stream_mem_new ();
-	filter_stream = camel_stream_filter_new_with_stream(mem_stream);
+	filter_stream = camel_stream_filter_new (mem_stream);
 
-	if ((filter = camel_mime_filter_charset_new_convert(charset, "UTF-8"))) {
-		camel_stream_filter_add(filter_stream, (CamelMimeFilter *) filter);
+	if ((filter = camel_mime_filter_charset_new (charset, "UTF-8"))) {
+		camel_stream_filter_add (
+			CAMEL_STREAM_FILTER (filter_stream),
+			CAMEL_MIME_FILTER (filter));
 		camel_object_unref(filter);
 	}
 
@@ -1258,7 +1262,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	}
 	g_object_unref (gconf);
 
-	size = camel_data_wrapper_decode_to_stream(emf->mode == EM_FORMAT_SOURCE ? (CamelDataWrapper *)dw: camel_medium_get_content_object((CamelMedium *)dw), (CamelStream *)filter_stream);
+	size = camel_data_wrapper_decode_to_stream(emf->mode == EM_FORMAT_SOURCE ? (CamelDataWrapper *)dw: camel_medium_get_content ((CamelMedium *)dw), (CamelStream *)filter_stream);
 	camel_stream_flush((CamelStream *)filter_stream);
 	camel_object_unref(filter_stream);
 	camel_stream_reset (mem_stream);
@@ -1381,7 +1385,7 @@ emf_multipart_appledouble (EMFormat *emf,
                            const EMFormatHandler *info,
                            gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	CamelMimePart *mime_part;
 	gint len;
 
@@ -1410,7 +1414,7 @@ emf_multipart_mixed (EMFormat *emf,
                      const EMFormatHandler *info,
                      gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	gint i, nparts, len;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
@@ -1436,7 +1440,7 @@ emf_multipart_alternative (EMFormat *emf,
                            const EMFormatHandler *info,
                            gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	gint i, nparts, bestid = 0;
 	CamelMimePart *best = NULL;
 
@@ -1506,7 +1510,7 @@ emf_multipart_encrypted (EMFormat *emf,
 		return;
 	}
 
-	mpe = (CamelMultipartEncrypted*)camel_medium_get_content_object((CamelMedium *)part);
+	mpe = (CamelMultipartEncrypted*)camel_medium_get_content ((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_ENCRYPTED(mpe)) {
 		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
 		em_format_format_source(emf, stream, part);
@@ -1564,7 +1568,7 @@ emf_multipart_related (EMFormat *emf,
                        const EMFormatHandler *info,
                        gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
 	const gchar *start;
@@ -1675,7 +1679,7 @@ emf_multipart_signed (EMFormat *emf,
 		return;
 	}
 
-	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
+	mps = (CamelMultipartSigned *)camel_medium_get_content ((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
 	    || (cpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
 		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
@@ -1765,7 +1769,7 @@ emf_application_mbox (EMFormat *emf,
 
 	mem_stream = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (
-		camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)), mem_stream);
+		camel_medium_get_content (CAMEL_MEDIUM (mime_part)), mem_stream);
 	camel_seekable_stream_seek (
 		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET);
 	camel_mime_parser_init_with_stream (parser, mem_stream);
@@ -1805,7 +1809,7 @@ emf_message_rfc822 (EMFormat *emf,
                     const EMFormatHandler *info,
                     gboolean is_fallback)
 {
-	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
+	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)part);
 	const EMFormatHandler *handle;
 	gint len;
 
@@ -1837,7 +1841,7 @@ emf_message_deliverystatus (EMFormat *emf,
 static void
 emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, EMFormatHandler *info)
 {
-	CamelStreamFilter *filtered_stream;
+	CamelStream *filtered_stream;
 	CamelMimeFilterPgp *pgp_filter;
 	CamelContentType *content_type;
 	CamelCipherContext *cipher;
@@ -1872,15 +1876,17 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 
 	/* Setup output stream */
 	ostream = camel_stream_mem_new();
-	filtered_stream = camel_stream_filter_new_with_stream(ostream);
+	filtered_stream = camel_stream_filter_new (ostream);
 
 	/* Add PGP header / footer filter */
 	pgp_filter = (CamelMimeFilterPgp *)camel_mime_filter_pgp_new();
-	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)pgp_filter);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream),
+		CAMEL_MIME_FILTER (pgp_filter));
 	camel_object_unref(pgp_filter);
 
 	/* Pass through the filters that have been setup */
-	dw = camel_medium_get_content_object((CamelMedium *)ipart);
+	dw = camel_medium_get_content ((CamelMedium *)ipart);
 	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filtered_stream);
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_object_unref(filtered_stream);
@@ -1904,7 +1910,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	g_free (type);
 
 	opart = camel_mime_part_new ();
-	camel_medium_set_content_object ((CamelMedium *) opart, dw);
+	camel_medium_set_content ((CamelMedium *) opart, dw);
 	camel_data_wrapper_set_mime_type_field ((CamelDataWrapper *) opart, dw->mime_type);
 
 	add_validity_found (emf, valid);
@@ -1948,7 +1954,7 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 		return;
 	}
 
-	dw = camel_medium_get_content_object ((CamelMedium *)opart);
+	dw = camel_medium_get_content ((CamelMedium *)opart);
 	mime_type = camel_data_wrapper_get_mime_type (dw);
 
 	/* this ensures to show the 'opart' as inlined, if possible */
@@ -2029,7 +2035,7 @@ em_format_snoop_type (CamelMimePart *part)
 	if (filename != NULL)
 		name_type = e_util_guess_mime_type (filename, FALSE);
 
-	dw = camel_medium_get_content_object((CamelMedium *)part);
+	dw = camel_medium_get_content ((CamelMedium *)part);
 	if (!camel_data_wrapper_is_offline(dw)) {
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
 

@@ -667,17 +667,18 @@ efh_format_source (EMFormat *emf,
                    CamelStream *stream,
                    CamelMimePart *part)
 {
-	CamelStreamFilter *filtered_stream;
+	CamelStream *filtered_stream;
 	CamelMimeFilter *filter;
 	CamelDataWrapper *dw = (CamelDataWrapper *) part;
 
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
+	filtered_stream = camel_stream_filter_new (stream);
 
 	filter = camel_mime_filter_tohtml_new (
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 		CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
-	camel_stream_filter_add (filtered_stream, filter);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream), filter);
 	camel_object_unref (filter);
 
 	camel_stream_write_string (stream, "<table><tr><td><tt>");
@@ -881,7 +882,7 @@ efh_class_init (EMFormatHTMLClass *class)
 	/* cache expiry - 2 hour access, 1 day max */
 	pathname = g_build_filename (
 		e_get_user_data_dir (), "cache", NULL);
-	emfh_http_cache = camel_data_cache_new (pathname, 0, NULL);
+	emfh_http_cache = camel_data_cache_new (pathname, NULL);
 	if (emfh_http_cache) {
 		camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
 		camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);
@@ -1190,7 +1191,7 @@ em_format_html_file_part(EMFormatHTML *efh, const gchar *mime_type, const gchar 
 	if (mime_type)
 		camel_data_wrapper_set_mime_type(dw, mime_type);
 	part = camel_mime_part_new();
-	camel_medium_set_content_object((CamelMedium *)part, dw);
+	camel_medium_set_content ((CamelMedium *)part, dw);
 	camel_object_unref(dw);
 	basename = g_path_get_basename (filename);
 	camel_mime_part_set_filename(part, basename);
@@ -1449,7 +1450,7 @@ efh_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMForm
 
 	puri = em_format_find_visible_puri((EMFormat *)efh, url);
 	if (puri) {
-		CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
+		CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 		CamelContentType *ct = dw?dw->mime_type:NULL;
 
 		/* GtkHTML only handles text and images.
@@ -1616,7 +1617,7 @@ efh_text_plain (EMFormatHTML *efh,
                 const EMFormatHandler *info,
                 gboolean is_fallback)
 {
-	CamelStreamFilter *filtered_stream;
+	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMultipart *mp;
 	CamelDataWrapper *dw;
@@ -1629,7 +1630,7 @@ efh_text_plain (EMFormatHTML *efh,
 
 	flags = efh->text_html_flags;
 
-	dw = camel_medium_get_content_object((CamelMedium *)part);
+	dw = camel_medium_get_content ((CamelMedium *)part);
 
 	/* Check for RFC 2646 flowed text. */
 	if (camel_content_type_is(dw->mime_type, "text", "plain")
@@ -1663,10 +1664,12 @@ efh_text_plain (EMFormatHTML *efh,
 		}
 
 		null = camel_stream_null_new();
-		filtered_stream = camel_stream_filter_new_with_stream(null);
+		filtered_stream = camel_stream_filter_new (null);
 		camel_object_unref(null);
 		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), ct);
-		camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)inline_filter);
+		camel_stream_filter_add (
+			CAMEL_STREAM_FILTER (filtered_stream),
+			CAMEL_MIME_FILTER (inline_filter));
 		camel_data_wrapper_write_to_stream(dw, (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);
 		camel_object_unref(filtered_stream);
@@ -1682,9 +1685,10 @@ efh_text_plain (EMFormatHTML *efh,
 
 	rgb = e_color_to_value (
 		&efh->priv->colors[EM_FORMAT_HTML_COLOR_CITATION]);
-	filtered_stream = camel_stream_filter_new_with_stream(stream);
+	filtered_stream = camel_stream_filter_new (stream);
 	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
-	camel_stream_filter_add(filtered_stream, html_filter);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 	camel_object_unref(html_filter);
 
 	/* We handle our made-up multipart here, so we don't recursively call ourselves */
@@ -1728,7 +1732,7 @@ efh_text_plain (EMFormatHTML *efh,
 static void
 efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
-	CamelStreamFilter *filtered_stream;
+	CamelStream *filtered_stream;
 	CamelMimeFilter *enriched;
 	guint32 flags = 0;
 
@@ -1740,8 +1744,9 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	}
 
 	enriched = camel_mime_filter_enriched_new(flags);
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
-	camel_stream_filter_add(filtered_stream, enriched);
+	filtered_stream = camel_stream_filter_new (stream);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream), enriched);
 	camel_object_unref(enriched);
 
 	camel_stream_printf (
@@ -1773,7 +1778,7 @@ efh_write_text_html(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	fd = dup(STDOUT_FILENO);
 	out = camel_stream_fs_new_with_fd(fd);
 	printf("writing text content to frame '%s'\n", puri->cid);
-	dw = camel_medium_get_content_object(puri->part);
+	dw = camel_medium_get_content (puri->part);
 	if (dw)
 		camel_data_wrapper_write_to_stream(dw, out);
 	camel_object_unref(out);
@@ -1930,7 +1935,7 @@ fail:
 static void
 efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
-	CamelStreamFilter *filtered_stream;
+	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	guint32 rgb = 0x737373;
 
@@ -1947,9 +1952,10 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_TEXT]));
 
-	filtered_stream = camel_stream_filter_new_with_stream(stream);
+	filtered_stream = camel_stream_filter_new (stream);
 	html_filter = camel_mime_filter_tohtml_new(efh->text_html_flags, rgb);
-	camel_stream_filter_add(filtered_stream, html_filter);
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 	camel_object_unref(html_filter);
 
 	camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
@@ -2013,7 +2019,7 @@ emfh_multipart_related_check(struct _EMFormatHTMLJob *job, gint cancelled)
 static void
 efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
+	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
 	const gchar *start;
@@ -2089,7 +2095,7 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 static void
 efh_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
-	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
+	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 
 	d(printf("writing image '%s'\n", puri->cid));
 	camel_data_wrapper_decode_to_stream(dw, stream);

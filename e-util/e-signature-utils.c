@@ -171,12 +171,12 @@ e_read_signature_file (ESignature *signature,
 	input_stream = camel_stream_fs_new_with_fd (fd);
 
 	if (!is_html && convert_to_html) {
-		CamelStreamFilter *filtered_stream;
+		CamelStream *filtered_stream;
 		CamelMimeFilter *filter;
 		gint32 flags;
 
 		filtered_stream =
-			camel_stream_filter_new_with_stream (input_stream);
+			camel_stream_filter_new (input_stream);
 		camel_object_unref (input_stream);
 
 		flags =
@@ -185,10 +185,11 @@ e_read_signature_file (ESignature *signature,
 			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
 			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 		filter = camel_mime_filter_tohtml_new (flags, 0);
-		camel_stream_filter_add (filtered_stream, filter);
+		camel_stream_filter_add (
+			CAMEL_STREAM_FILTER (filtered_stream), filter);
 		camel_object_unref (filter);
 
-		input_stream = (CamelStream *) filtered_stream;
+		input_stream = filtered_stream;
 	}
 
 	buffer = g_byte_array_new ();

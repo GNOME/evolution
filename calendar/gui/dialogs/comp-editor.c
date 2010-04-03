@@ -2907,7 +2907,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 			continue;
 
 		cal_mime_attach = g_malloc0 (sizeof (struct CalMimeAttach));
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+		wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 		mstream = (CamelStreamMem *) camel_stream_mem_new ();
 
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);

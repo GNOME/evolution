@@ -201,7 +201,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 		d(printf ("audio inline formatter: write to temp file %s\n", po->filename));
 
 		stream = camel_stream_fs_new_with_name (po->filename, O_RDWR | O_CREAT | O_TRUNC, 0600);
-		data = camel_medium_get_content_object (CAMEL_MEDIUM (po->part));
+		data = camel_medium_get_content (CAMEL_MEDIUM (po->part));
 		camel_data_wrapper_decode_to_stream (data, stream);
 		camel_stream_flush (stream);
 		camel_object_unref (stream);

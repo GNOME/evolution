@@ -88,7 +88,7 @@ gw_track_message_status_cb (GtkAction *action,
 	CamelMimeMessage *msg = NULL;
 	CamelFolder *folder = NULL;
 	gchar *selected_uid = NULL;
-	const CamelInternetAddress *from;
+	CamelInternetAddress *from;
 	const gchar *namep, *addp;
 
 	GtkDialog *d;

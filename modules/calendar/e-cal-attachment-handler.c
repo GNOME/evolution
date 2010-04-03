@@ -79,7 +79,7 @@ attachment_handler_get_component (EAttachment *attachment)
 	buffer = g_byte_array_new ();
 	stream = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	camel_data_wrapper_decode_to_stream (wrapper, stream);
 	camel_object_unref (stream);
 

@@ -977,7 +977,7 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 
 	*part_list = g_slist_append (*part_list, part);
 
-	containee = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	containee = camel_medium_get_content (CAMEL_MEDIUM (part));
 
 	if (containee == NULL)
 		return;
@@ -2549,7 +2549,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	g_object_unref (gconf);
 
 	/* This is non-gui thread. Download the part for using in the main thread */
-	content = camel_medium_get_content_object ((CamelMedium *) target->part);
+	content = camel_medium_get_content ((CamelMedium *) target->part);
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 

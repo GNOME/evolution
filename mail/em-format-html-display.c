@@ -676,7 +676,7 @@ efhd_builtin_init(EMFormatHTMLDisplayClass *efhc)
 static void
 efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
-	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
+	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 
 	/* TODO: identical to efh_write_image */
 	d(printf("writing image '%s'\n", puri->cid));

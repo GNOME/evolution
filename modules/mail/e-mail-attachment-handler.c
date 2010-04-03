@@ -69,7 +69,7 @@ mail_attachment_handler_forward (GtkAction *action,
 
 	attachment = E_ATTACHMENT (selected->data);
 	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_forward_message (CAMEL_MIME_MESSAGE (wrapper), NULL);
 
@@ -91,7 +91,7 @@ mail_attachment_handler_reply_all (GtkAction *action,
 
 	attachment = E_ATTACHMENT (selected->data);
 	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_reply_to_message (
 		NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
@@ -115,7 +115,7 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 
 	attachment = E_ATTACHMENT (selected->data);
 	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_reply_to_message (
 		NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
@@ -316,7 +316,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		mime_part = camel_mime_part_new ();
 		wrapper = CAMEL_DATA_WRAPPER (message);
 		camel_mime_part_set_disposition (mime_part, "inline");
-		camel_medium_set_content_object (
+		camel_medium_set_content (
 			CAMEL_MEDIUM (mime_part), wrapper);
 		camel_mime_part_set_content_type (mime_part, "message/rfc822");
 		camel_multipart_add_part (multipart, mime_part);
@@ -327,7 +327,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 	mime_part = camel_mime_part_new ();
 	wrapper = CAMEL_DATA_WRAPPER (multipart);
-	camel_medium_set_content_object (CAMEL_MEDIUM (mime_part), wrapper);
+	camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
 
 	/* Translators: This is only for multiple messages. */
 	description = g_strdup_printf (_("%d attached messages"), uids->len);
@@ -399,7 +399,7 @@ mail_attachment_handler_update_actions (EAttachmentView *view)
 	if (!CAMEL_IS_MIME_PART (mime_part))
 		goto exit;
 
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	visible = CAMEL_IS_MIME_MESSAGE (wrapper);
 
