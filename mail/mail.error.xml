@@ -99,6 +99,9 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   </error>
 
   <error id="async-error" type="error">
+    <!-- Translators: the {0} is replaced with an operation name, which failed.
+         It can be basically anything run asynchronously, like "Fetching Mail",
+	 "Sending message" and others, mostly from mail-ops.c file. -->
     <_primary>Error while {0}.</_primary>
     <secondary>{1}</secondary>
   </error>
@@ -162,7 +165,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
   <error id="no-create-tmp-path" type="error">
     <_primary>Cannot create temporary save directory.</_primary>
-    <_secondary xml:space="preserve">Because "{1}".</_secondary>
+    <secondary xml:space="preserve">{1}.</secondary>
   </error>
 
   <error id="no-write-path-exists" type="error">
@@ -177,7 +180,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
   <error id="no-delete-folder" type="error">
     <_primary>Cannot delete folder "{0}".</_primary>
-    <_secondary xml:space="preserve">Because "{1}".</_secondary>
+    <secondary xml:space="preserve">{1}.</secondary>
   </error>
 
   <error id="no-delete-special-folder" type="error">
@@ -231,7 +234,7 @@ Do you really want to do this?</_secondary>
 
   <error id="no-rename-folder" type="error">
     <_primary>Cannot rename "{0}" to "{1}".</_primary>
-    <_secondary xml:space="preserve">Because "{2}".</_secondary>
+    <secondary xml:space="preserve">{2}.</secondary>
   </error>
 
   <error id="no-move-folder-nostore" type="error">
@@ -293,7 +296,7 @@ all proxy information will be deleted permanently.</_secondary>
 
   <error id="no-save-signature" type="error">
     <_primary>Could not save signature file.</_primary>
-    <_secondary xml:space="preserve">Because "{0}".</_secondary>
+    <secondary xml:space="preserve">{0}.</secondary>
   </error>
 
   <error id="signature-notscript" type="error">
