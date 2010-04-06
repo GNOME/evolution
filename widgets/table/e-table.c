@@ -63,10 +63,6 @@
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
 
-#ifdef DOUBLE_CLICK
-#undef DOUBLE_CLICK
-#endif
-
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
