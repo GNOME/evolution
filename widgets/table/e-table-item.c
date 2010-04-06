@@ -69,6 +69,10 @@ static void eti_cancel_drag_due_to_model_change (ETableItem *eti);
    realize and make sure that all of them are doable by all the cells
    and that all of the others are only done after realization. */
 
+#ifdef DOUBLE_CLICK
+#undef DOUBLE_CLICK
+#endif
+
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
