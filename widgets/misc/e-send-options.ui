@@ -194,7 +194,7 @@
                                 <property name="row_spacing">12</property>
                                 <child>
                                   <object class="GtkRadioButton" id="reply-within">
-                                    <property name="label" translatable="yes">Wi_thin</property>
+                                    <property name="label" translatable="yes" comments="Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number" context="ESendOptionsWithin">Wi_thin</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -227,7 +227,7 @@
                                   <object class="GtkLabel" id="label93">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">days</property>
+                                    <property name="label" translatable="yes" comments="Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number" context="ESendOptionsWithin">days</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -334,7 +334,7 @@
                                   <object class="GtkLabel" id="label96">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">_After:</property>
+                                    <property name="label" translatable="yes" comments="Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number" context="ESendOptionsAfter">_After</property>
                                     <property name="use_underline">True</property>
                                     <property name="mnemonic_widget">expire-after</property>
                                   </object>
@@ -361,7 +361,7 @@
                                   <object class="GtkLabel" id="label97">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">days</property>
+                                    <property name="label" translatable="yes" comments="Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number" context="ESendOptionsAfter">days</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -423,7 +423,7 @@
                                   <object class="GtkLabel" id="until-label">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">_Until:</property>
+                                    <property name="label" translatable="yes" comments="Translators: This is part of 'Until [ date ]', where [ date ] is a date picker" context="ESendOptions">_Until</property>
                                     <property name="use_underline">True</property>
                                     <property name="mnemonic_widget">until-date</property>
                                   </object>
