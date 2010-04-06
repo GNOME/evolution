@@ -17,7 +17,7 @@
 	       in a message body</short>
          <long>
 	       List of clues for the attachment reminder plugin to look for
-	       in a message body.
+	       in a message body
          </long>
       </locale>
     </schema>

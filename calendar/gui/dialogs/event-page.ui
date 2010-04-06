@@ -323,7 +323,7 @@
                 <child>
                   <object class="GtkLabel" id="summary-label">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Su_mmary:</property>
+                    <property name="label" translatable="yes">_Summary:</property>
                     <property name="use_underline">True</property>
                     <property name="use_markup">False</property>
                     <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -858,7 +858,7 @@
                                 <child>
                                   <object class="GtkLabel" id="attendees-label">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Attendee_s...</property>
+                                    <property name="label" translatable="yes">Atte_ndees...</property>
                                     <property name="use_underline">True</property>
                                     <property name="use_markup">False</property>
                                     <property name="justify">GTK_JUSTIFY_LEFT</property>

@@ -2976,7 +2976,7 @@ For example: "Work" or "Personal"</property>
                             <property name="visible">True</property>
                             <child>
                               <object class="GtkCheckButton" id="address_checkbox">
-                                <property name="label" translatable="yes">_Shrink To / Cc / Bcc headers to </property>
+                                <property name="label" translatable="yes" comments="Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number">_Shrink To / Cc / Bcc headers to </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -3006,7 +3006,7 @@ For example: "Work" or "Personal"</property>
                             <child>
                               <object class="GtkLabel" id="label584">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">addresses</property>
+                                <property name="label" translatable="yes" comments="Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number">addresses</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

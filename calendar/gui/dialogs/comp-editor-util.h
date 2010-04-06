@@ -32,8 +32,6 @@
 void comp_editor_dates (CompEditorPageDates *date, ECalComponent *comp);
 void comp_editor_free_dates (CompEditorPageDates *dates);
 
-void comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label);
-
 GtkWidget *	comp_editor_new_date_edit	(gboolean show_date,
 						 gboolean show_time,
 						 gboolean make_time_insensitive);

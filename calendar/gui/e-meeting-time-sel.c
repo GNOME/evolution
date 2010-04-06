@@ -562,7 +562,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (hbox);
 
 	mts->add_attendees_button =
-		gtk_button_new_with_mnemonic (_("A_ttendees..."));
+		gtk_button_new_with_mnemonic (_("Atte_ndees..."));
 	gtk_button_set_image (
 		GTK_BUTTON (mts->add_attendees_button),
 		gtk_image_new_from_stock (

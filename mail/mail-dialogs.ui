@@ -690,7 +690,7 @@ Please select a follow up action from the "Flag" menu.</property>
         <child>
           <object class="GtkLabel" id="label14">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">    </property>
+            <property name="label" translatable="no">    </property>
           </object>
           <packing>
             <property name="expand">False</property>

@@ -1540,7 +1540,7 @@
                         <child>
                           <object class="GtkLabel" id="label-weblog">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">_Web Log:</property>
+                            <property name="label" translatable="yes">_Blog:</property>
                             <property name="use_underline">True</property>
                             <property name="use_markup">False</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1570,7 +1570,7 @@
                             <property name="visible">True</property>
                             <child internal-child="accessible">
                               <object class="AtkObject" id="a11y-entry-weblog">
-                                <property name="AtkObject::accessible_name" translatable="yes">Web Log:</property>
+                                <property name="AtkObject::accessible_name" translatable="yes" comments="Translators: an accessibility name">Blog:</property>
                               </object>
                             </child>
                           </object>

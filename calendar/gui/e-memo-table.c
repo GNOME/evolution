@@ -570,6 +570,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 			FALSE, FALSE, buff, 1000);
 
 		if (buff [0]) {
+			/* Translators: This is followed by an event's start date/time */
 			g_string_append (tmp2, _("Start: "));
 			g_string_append (tmp2, buff);
 		}
@@ -588,6 +589,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 			if (tmp2->len)
 				g_string_append (tmp2, "; ");
 
+			/* Translators: This is followed by an event's due date/time */
 			g_string_append (tmp2, _("Due: "));
 			g_string_append (tmp2, buff);
 		}

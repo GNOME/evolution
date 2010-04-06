@@ -259,6 +259,7 @@ action_address_book_save_as_cb (GtkAction *action,
 
 	string = eab_suggest_filename (list);
 	file = e_shell_run_save_dialog (
+		/* Translators: This is a save dialog title */
 		shell, _("Save as vCard"), string,
 		"*.vcf:text/x-vcard,text/directory", NULL, NULL);
 	g_free (string);
@@ -536,6 +537,7 @@ action_contact_save_as_cb (GtkAction *action,
 
 	string = eab_suggest_filename (list);
 	file = e_shell_run_save_dialog (
+		/* Translators: This is a save dialog title */
 		shell, _("Save as vCard"), string,
 		"*.vcf:text/x-vcard,text/directory", NULL, NULL);
 	g_free (string);
@@ -808,6 +810,7 @@ static EPopupActionEntry contact_popup_entries[] = {
 	  "address-book-rename" },
 
 	{ "address-book-popup-save-as",
+	  /* Translators: This is an action label */
 	  N_("_Save as vCard..."),
 	  "address-book-save-as" },
 
@@ -953,7 +956,8 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "contact-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  N_("Save as vCard..."),
+	  /* Translators: This is an action label */
+	  N_("_Save as vCard..."),
 	  NULL,
 	  N_("Save selected contacts as a vCard"),
 	  G_CALLBACK (action_contact_save_as_cb) }

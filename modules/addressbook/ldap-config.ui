@@ -38,13 +38,13 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">389</col>
+        <col id="0" translatable="no">389</col>
       </row>
       <row>
-        <col id="0" translatable="yes">636</col>
+        <col id="0" translatable="no">636</col>
       </row>
       <row>
-        <col id="0" translatable="yes">3268</col>
+        <col id="0" translatable="no">3268</col>
       </row>
     </data>
   </object>
@@ -568,7 +568,7 @@
         <child>
           <object class="GtkLabel" id="label575">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">1</property>
+            <property name="label" translatable="yes" comments="Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option">1</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -590,7 +590,7 @@
         <child>
           <object class="GtkLabel" id="label576">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">5</property>
+            <property name="label" translatable="yes" comments="Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option">5</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -610,7 +610,7 @@
       <object class="GtkLabel" id="label574">
         <property name="visible">True</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">minutes</property>
+        <property name="label" translatable="yes" comments="Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option">minutes</property>
       </object>
       <packing>
         <property name="left_attach">2</property>

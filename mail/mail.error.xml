@@ -192,7 +192,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
   <error id="ask-delete-folder" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Really delete folder "{0}" and all of its subfolders?</_primary>
-    <_secondary xml:space="preserve">If you delete the folder, all of its contents and its subfolders contents will be deleted permanently.</_secondary>
+    <_secondary xml:space="preserve">If you delete the folder, all of its contents and its subfolders' contents will be deleted permanently.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
@@ -256,7 +256,7 @@ Do you really want to do this?</_secondary>
 
   <error id="no-create-folder-nostore" type="error">
     <_primary>Cannot create folder "{0}".</_primary>
-    <_secondary xml:space="preserve">Cannot open source "{1}"</_secondary>
+    <_secondary xml:space="preserve">Cannot open source "{1}".</_secondary>
   </error>
 
   <error id="account-incomplete" type="error">

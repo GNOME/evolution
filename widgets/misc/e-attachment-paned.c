@@ -633,7 +633,7 @@ attachment_paned_init (EAttachmentPaned *paned)
 
 	container = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Show _Attachment Bar"));
+	widget = gtk_label_new_with_mnemonic (_("Show Attachment _Bar"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	paned->priv->show_hide_label = g_object_ref (widget);
 	gtk_widget_show (widget);
