@@ -1421,7 +1421,7 @@ plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-
 plugins_standard="$plugins_standard_always"
 dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
 
-plugins_experimental_always="face external-editor hula-account-setup"
+plugins_experimental_always="face external-editor"
 
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
 dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments contacts-map"
@@ -1776,7 +1776,6 @@ plugins/external-editor/Makefile
 plugins/face/Makefile
 plugins/google-account-setup/Makefile
 plugins/groupwise-features/Makefile
-plugins/hula-account-setup/Makefile
 plugins/image-inline/Makefile
 plugins/imap-features/Makefile
 plugins/itip-formatter/Makefile
