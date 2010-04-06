@@ -206,10 +206,13 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 			else
 				res = g_strdup (_("Yesterday"));
 		} else {
-			if (future)
-				res = g_strdup_printf (_("%d days from now"), diff);
-			else
-				res = g_strdup_printf (_("%d days ago"), diff);
+			if (future) {
+				/* Translators: %d is replaced with a number of days. It's always greater than 1 */
+				res = g_strdup_printf (ngettext ("%d day from now", "%d days from now", diff), diff);
+			} else {
+				/* Translators: %d is replaced with a number of days. It's always greater than 1 */
+				res = g_strdup_printf (ngettext ("%d day ago", "%d days ago", diff), diff);
+			}
 		}
 	}
 
