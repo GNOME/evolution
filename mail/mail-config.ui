@@ -2923,7 +2923,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHBox" id="hbox234">
+                          <object class="GtkHBox" id="hboxMailSizeLimit">
                             <property name="visible">True</property>
                             <property name="spacing">4</property>
                             <child>
@@ -2972,7 +2972,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHBox" id="hbox233">
+                          <object class="GtkHBox" id="hboxShrinkAddresses">
                             <property name="visible">True</property>
                             <child>
                               <object class="GtkCheckButton" id="address_checkbox">
