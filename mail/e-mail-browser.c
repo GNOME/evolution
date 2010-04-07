@@ -243,6 +243,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 	EMailReader *reader;
+	const gchar *title;
 
 	if (uid == NULL)
 		return;
@@ -256,9 +257,11 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	if (info == NULL)
 		return;
 
-	gtk_window_set_title (
-		GTK_WINDOW (browser),
-		camel_message_info_subject (info));
+	title = camel_message_info_subject (info);
+	if (title == NULL || *title == '\0')
+		title = _("(No Subject)");
+
+	gtk_window_set_title (GTK_WINDOW (browser), title);
 	gtk_widget_grab_focus (
 		GTK_WIDGET (((EMFormatHTML *) html_display)->html));
 
