@@ -43,6 +43,7 @@
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-charset-combo-box.h"
+#include "shell/e-shell-utils.h"
 
 #include "e-mail-label-manager.h"
 #include "mail-config.h"
@@ -1205,6 +1206,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	jh_tree_refill (prefs);
 	g_signal_connect (G_OBJECT (prefs->junk_header_add), "clicked", G_CALLBACK (jh_add_cb), prefs);
 	g_signal_connect (G_OBJECT (prefs->junk_header_remove), "clicked", G_CALLBACK (jh_remove_cb), prefs);
+
+	/* Sanitize the dialog for Express mode */
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/mail/express_preferences_hidden");
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs(ec, prefs->gconf);
