@@ -263,9 +263,6 @@ static const gchar *followup_icons[] = {
 	"stock_mail-flag-for-followup-done"
 };
 
-/* FIXME: junk prefs */
-static gboolean junk_folder = TRUE;
-
 #ifdef SMART_ADDRESS_COMPARE
 static EMailAddress *
 e_mail_address_new (const gchar *address)
@@ -2853,6 +2850,20 @@ clear_tree (MessageList *ml, gboolean tfree)
 
 }
 
+static gboolean
+folder_store_supports_vjunk_folder (CamelFolder *folder)
+{
+	CamelStore *store;
+
+	g_return_val_if_fail (folder != NULL, FALSE);
+
+	store = camel_folder_get_parent_store (folder);
+	if (!store)
+		return FALSE;
+
+	return (store->flags & CAMEL_STORE_VJUNK) != 0;
+}
+
 /* Check if the given node is selectable in the current message list,
  * which depends on the type of the folder (normal, junk, trash). */
 static gboolean
@@ -2863,18 +2874,21 @@ is_node_selectable (MessageList *ml, CamelMessageInfo *info)
 	guint32 flags;
 	gboolean flag_junk;
 	gboolean flag_deleted;
+	gboolean store_has_vjunk;
 
 	g_return_val_if_fail (ml != NULL, FALSE);
 	g_return_val_if_fail (ml->folder != NULL, FALSE);
 	g_return_val_if_fail (info != NULL, FALSE);
 
+	store_has_vjunk = folder_store_supports_vjunk_folder (ml->folder);
+
 	/* check folder type */
-	is_junk_folder = ml->folder->folder_flags & CAMEL_FOLDER_IS_JUNK;
+	is_junk_folder = store_has_vjunk && (ml->folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
 	is_trash_folder = ml->folder->folder_flags & CAMEL_FOLDER_IS_TRASH;
 
 	/* check flags set on current message */
 	flags = camel_message_info_flags (info);
-	flag_junk = flags & CAMEL_MESSAGE_JUNK;
+	flag_junk = store_has_vjunk && (flags & CAMEL_MESSAGE_JUNK) != 0;
 	flag_deleted = flags & CAMEL_MESSAGE_DELETED;
 
 	/* perform actions depending on folder type */
@@ -3653,7 +3667,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 		message_list->hidedeleted = hide_deleted && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
-		message_list->hidejunk = junk_folder && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
+		message_list->hidejunk = folder_store_supports_vjunk_folder (message_list->folder) && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 
 		load_hide_state (message_list);
 		if (message_list->frozen == 0)
@@ -4479,6 +4493,8 @@ regen_list_exec (struct _regen_list_msg *m)
 	if (expr == NULL) {
 		uids = camel_folder_get_uids (m->folder);
 	} else {
+		gboolean store_has_vjunk = folder_store_supports_vjunk_folder (m->folder);
+
 		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
 		/* If m->changes is not NULL, then it means we are called from folder_changed event,
 		   thus we will keep the selected message to be sure it doesn't disappear because
@@ -4500,7 +4516,7 @@ regen_list_exec (struct _regen_list_msg *m)
 
 				if (looking_info) {
 					gboolean is_deleted = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_DELETED) != 0;
-					gboolean is_junk = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_JUNK) != 0;
+					gboolean is_junk = store_has_vjunk && (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_JUNK) != 0;
 
 					/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
 					   so I would know whether it was changed locally, and then just check the changes
