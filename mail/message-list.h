@@ -79,6 +79,11 @@ enum {
 #define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \
 					    col == COL_FLAGGED)
 
+#define ML_HIDE_NONE_START (0)
+#define ML_HIDE_NONE_END (2147483647)
+/* dont change */
+#define ML_HIDE_SAME (2147483646)
+
 typedef struct _MessageList MessageList;
 typedef struct _MessageListClass MessageListClass;
 typedef struct _MessageListPrivate MessageListPrivate;
