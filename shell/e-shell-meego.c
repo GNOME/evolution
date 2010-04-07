@@ -45,6 +45,18 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	GdkDisplay *display;
 	Window *wm_window_v = NULL;
 	unsigned char *moblin_string = NULL;
+	GModule *module;
+	/*
+	 * Wow - this is unpleasant, but it is hard to link directly
+	 * to the X libraries, and we have to use XGetWindowProperty
+	 * to get to the (mind-mashed) 'supporting' window.
+	 */
+	struct {
+	  int (*XFree) (void *);
+	  int (*XGetWindowProperty) (Display*, XID, Atom, long, long, Bool,
+				     Atom, Atom *, int *, unsigned long*,
+				     unsigned long*, unsigned char**);
+	} fns = { 0, 0 };
 
 	*is_meego = *small_screen = FALSE;
 
@@ -56,25 +68,36 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	if (!wm_win || !mob_atom)
 		return;
 
+	module = g_module_open (NULL, 0);
+	if (!module)
+		return;
+	g_module_symbol (module, "XFree", (gpointer) &fns.XFree);
+	g_module_symbol (module, "XGetWindowProperty",
+						  (gpointer) &fns.XGetWindowProperty);
+	if (!fns.XFree || !fns.XGetWindowProperty) {
+		fprintf (stderr, "defective X server\n");
+		goto exit;
+	}
+
 	display = gdk_display_get_default ();
 	screen = gdk_display_get_default_screen (gdk_display_get_default());
 
 	gdk_error_trap_push ();
 
 	/* get the window manager's supporting window */
-	XGetWindowProperty (gdk_x11_display_get_xdisplay (display), 
-			    GDK_WINDOW_XID (gdk_screen_get_root_window (screen)),
-			    gdk_x11_atom_to_xatom_for_display (display, wm_win),
-			    0, 1, False, XA_WINDOW, &dummy_t, &dummy_i,
-			    &dummy_l, &dummy_l, (unsigned char **)(&wm_window_v));
+	fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display), 
+				GDK_WINDOW_XID (gdk_screen_get_root_window (screen)),
+				gdk_x11_atom_to_xatom_for_display (display, wm_win),
+				0, 1, False, XA_WINDOW, &dummy_t, &dummy_i,
+				&dummy_l, &dummy_l, (unsigned char **)(&wm_window_v));
 	
 	/* get the '_Moblin' setting */
 	if (wm_window_v && (*wm_window_v != None))
-		XGetWindowProperty (gdk_x11_display_get_xdisplay (display), *wm_window_v,
-				    gdk_x11_atom_to_xatom_for_display (display, mob_atom),
-				    0, 8192, False, XA_STRING,
-				    &dummy_t, &dummy_i, &dummy_l, &dummy_l,
-				    &moblin_string);
+		fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display), *wm_window_v,
+					gdk_x11_atom_to_xatom_for_display (display, mob_atom),
+					0, 8192, False, XA_STRING,
+					&dummy_t, &dummy_i, &dummy_l, &dummy_l,
+					&moblin_string);
 
 	gdk_error_trap_pop ();
 
@@ -100,16 +123,19 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 			g_strfreev (pair);
 		}
 		g_strfreev (props);
-		XFree (moblin_string);
+		fns.XFree (moblin_string);
 	}
 
+ exit:
 	if (wm_window_v)
-	      XFree (wm_window_v);
+	      fns.XFree (wm_window_v);
+
+	g_module_close (module);
 }
 #endif
 
 #ifdef TEST_APP
-/* gcc -g -O0 -Wall -I. -DTEST `pkg-config --cflags --libs gtk+-2.0` e-shell-meego.c && ./a.out */
+/* gcc -g -O0 -Wall -I. -DTEST_APP `pkg-config --cflags --libs gtk+-2.0` e-shell-meego.c && ./a.out */
 #include <gtk/gtk.h>
 
 int main (int argc, char **argv)
