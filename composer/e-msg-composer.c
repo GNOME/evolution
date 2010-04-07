@@ -1359,6 +1359,8 @@ set_editor_text (EMsgComposer *composer,
 
 	if (set_signature)
 		e_msg_composer_show_sig_file (composer);
+
+	g_free (body);
 }
 
 /* Commands.  */
