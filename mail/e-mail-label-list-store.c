@@ -96,17 +96,15 @@ mail_label_list_store_ensure_defaults (EMailLabelListStore *store)
 		label_color = label_defaults[ii].label_color;
 		label_tag = label_defaults[ii].label_tag;
 
+		if (e_mail_label_list_store_lookup (store, label_tag, &iter))
+			continue;
+
 		encoded = mail_label_list_store_encode_label (
 			label_name, label_color, label_tag);
 
-		if (e_mail_label_list_store_lookup (store, label_tag, &iter))
-			gtk_list_store_set (
-				GTK_LIST_STORE (store),
-				&iter, 0, encoded, -1);
-		else
-			gtk_list_store_insert_with_values (
-				GTK_LIST_STORE (store),
-				NULL, -1, 0, encoded, -1);
+		gtk_list_store_insert_with_values (
+			GTK_LIST_STORE (store),
+			NULL, -1, 0, encoded, -1);
 
 		g_free (encoded);
 	}
