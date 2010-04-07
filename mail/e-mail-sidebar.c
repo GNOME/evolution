@@ -151,6 +151,8 @@ mail_sidebar_selection_changed_cb (GtkTreeSelection *selection,
 			key_file, "Folder Tree", "Selected", NULL);
 
 	e_mail_sidebar_key_file_changed (sidebar);
+
+	g_free (uri);
 }
 
 static void
@@ -300,7 +302,6 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	CamelStore *local_store;
 	CamelStore *store;
 	gchar *full_name;
 	gchar *uri;
@@ -312,8 +313,6 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	gboolean is_trash = FALSE;
 	guint32 folder_flags = 0;
 	guint32 state = 0;
-
-	local_store = e_mail_local_get_store ();
 
 	tree_view = GTK_TREE_VIEW (sidebar);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -330,7 +329,10 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		COL_STRING_URI, &uri, -1);
 
 	if (!is_store && full_name != NULL) {
+		CamelStore *local_store;
 		guint32 folder_type;
+
+		local_store = e_mail_local_get_store ();
 
 		/* Is this a virtual junk or trash folder? */
 		is_junk = (strcmp (full_name, CAMEL_VJUNK_NAME) == 0);
@@ -368,6 +370,9 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_STORE;
 	if (is_trash)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_TRASH;
+
+	g_free (full_name);
+	g_free (uri);
 
 	return state;
 }
