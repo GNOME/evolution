@@ -1528,5 +1528,43 @@
       </locale>
     </schema>
 
+    <!-- Widgets to hide in Express mode -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/express_preferences_hidden</key>
+      <applyto>/apps/evolution/mail/express_preferences_hidden</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[hboxReadTimeout,hboxMailSizeLimit,hboxShrinkAddresses,magic_spacebar_checkbox,hboxEnableSearchFolders]</default>
+      <locale name="C">
+         <short>List of controls to hide when in Express mode</short>
+         <long>
+	   List of names for the controls in the user interface,
+	   which should be hidden when Evolution is running in Express
+	   mode.
+	   This pertains to the mailer preferences in mail-config.ui.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/express_preferences_hidden</key>
+      <applyto>/apps/evolution/mail/composer/express_preferences_hidden</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[chkOutlookFilenames,vboxTopPosting,chkPromptEmptySubject]</default>
+      <locale name="C">
+         <short>List of controls to hide when in Express mode</short>
+         <long>
+	   List of names for the controls in the user interface,
+	   which should be hidden when Evolution is running in Express
+	   mode.
+	   This pertains to the mailer preferences in mail-config.ui.
+         </long>
+      </locale>
+    </schema>
+    
   </schemalist>
 </gconfschemafile>
