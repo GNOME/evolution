@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-31 10:57+0300\n"
+"POT-Creation-Date: 2010-04-07 12:47+0300\n"
 "PO-Revision-Date: 2010-03-27 20:20+0300\n"
 "Last-Translator: Maxim Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -222,7 +222,7 @@ msgstr "_Не зберігати"
 
 #: ../addressbook/addressbook.error.xml.h:39
 msgid "_Resize"
-msgstr "З_мінити размір"
+msgstr "З_мінити розмір"
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid "_Use as it is"
@@ -265,7 +265,7 @@ msgstr "Річниця"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:119
+#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:118
 #: ../shell/main.c:112
 msgid "Birthday"
 msgstr "День народження"
@@ -498,7 +498,7 @@ msgstr "_Індекс:"
 #: ../plugins/caldav/caldav-browse-server.c:1159
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:7
 #: ../plugins/plugin-manager/plugin-manager.c:58
-#: ../widgets/menus/gal-define-views-dialog.c:315
+#: ../widgets/menus/gal-define-views-dialog.c:320
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:90
 #: ../widgets/menus/gal-view-new-dialog.c:60
 msgid "Name"
@@ -1131,7 +1131,7 @@ msgid "Telex"
 msgstr "Телекс"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:819
+#: ../shell/e-shell-view.c:825
 msgid "Title"
 msgstr "Титул"
 
@@ -1416,7 +1416,7 @@ msgstr "Веб-журнал"
 #. Create the default Person memo list
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
-#: ../capplet/settings/mail-capplet-shell.c:461 ../mail/e-mail-migrate.c:962
+#: ../capplet/settings/mail-capplet-shell.c:346 ../mail/e-mail-migrate.c:962
 #: ../modules/addressbook/e-book-shell-backend.c:175
 #: ../modules/addressbook/e-book-shell-migrate.c:507
 #: ../modules/calendar/e-cal-shell-backend.c:171
@@ -2313,7 +2313,7 @@ msgid "_Dismiss"
 msgstr "_Скасувати"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1016
+#: ../calendar/gui/dialogs/comp-editor.c:1025
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:152
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
@@ -3398,7 +3398,7 @@ msgid "Display alarms in _notification area only"
 msgstr "Показувати сигнали попередження у _області сповіщення"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:18
-#: ../calendar/gui/dialogs/recurrence-page.c:1117
+#: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:738
 msgid "Friday"
 msgstr "П'ятниця"
@@ -3424,7 +3424,7 @@ msgid "Minutes"
 msgstr "Хвилини"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:22
-#: ../calendar/gui/dialogs/recurrence-page.c:1113
+#: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Monday"
 msgstr "Понеділок"
@@ -3447,7 +3447,7 @@ msgid "S_un"
 msgstr "_Ндл"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
-#: ../calendar/gui/dialogs/recurrence-page.c:1118
+#: ../calendar/gui/dialogs/recurrence-page.c:1119
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "Субота"
@@ -3481,7 +3481,7 @@ msgid "Show week n_umber in Day and Work Week View"
 msgstr "Показувати н_омери тижнів режимі День та Робочий тиждень"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1119
+#: ../calendar/gui/dialogs/recurrence-page.c:1120
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "Неділя"
@@ -3504,7 +3504,7 @@ msgid "Template:"
 msgstr "Шаблон:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
-#: ../calendar/gui/dialogs/recurrence-page.c:1116
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "Четвер"
@@ -3525,7 +3525,7 @@ msgid "Time format:"
 msgstr "Формат часу:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1114
+#: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "Вівторок"
@@ -3535,7 +3535,7 @@ msgid "Use s_ystem time zone"
 msgstr "Використовувати _системний часовий пояс"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
-#: ../calendar/gui/dialogs/recurrence-page.c:1115
+#: ../calendar/gui/dialogs/recurrence-page.c:1116
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "Середа"
@@ -3751,229 +3751,229 @@ msgstr "До дати "
 msgid "Could not save attachments"
 msgstr "Не можу зберегти долучення"
 
-#: ../calendar/gui/dialogs/comp-editor.c:510
+#: ../calendar/gui/dialogs/comp-editor.c:515
 msgid "Could not update object"
 msgstr "Не вдається оновити об'єкт!"
 
-#: ../calendar/gui/dialogs/comp-editor.c:605
+#: ../calendar/gui/dialogs/comp-editor.c:614
 msgid "Edit Appointment"
 msgstr "Змінити зустріч"
 
-#: ../calendar/gui/dialogs/comp-editor.c:612
+#: ../calendar/gui/dialogs/comp-editor.c:621
 #, c-format
 msgid "Meeting - %s"
 msgstr "Засідання - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:614
+#: ../calendar/gui/dialogs/comp-editor.c:623
 #, c-format
 msgid "Appointment - %s"
 msgstr "Зустріч - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:620
+#: ../calendar/gui/dialogs/comp-editor.c:629
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Призначене завдання - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:622
+#: ../calendar/gui/dialogs/comp-editor.c:631
 #, c-format
 msgid "Task - %s"
 msgstr "Завдання - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:627
+#: ../calendar/gui/dialogs/comp-editor.c:636
 #, c-format
 msgid "Memo - %s"
 msgstr "Примітка - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:643
+#: ../calendar/gui/dialogs/comp-editor.c:652
 msgid "No Summary"
 msgstr "Немає зведення"
 
-#: ../calendar/gui/dialogs/comp-editor.c:752
+#: ../calendar/gui/dialogs/comp-editor.c:761
 msgid "Keep original item?"
 msgstr "Зберегти початковий елемент?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:939
+#: ../calendar/gui/dialogs/comp-editor.c:948
 msgid "Click here to close the current window"
 msgstr "Натисніть, щоб закрити поточне вікно"
 
-#: ../calendar/gui/dialogs/comp-editor.c:946 ../mail/e-mail-browser.c:117
+#: ../calendar/gui/dialogs/comp-editor.c:955 ../mail/e-mail-browser.c:117
 #: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:387 ../widgets/misc/e-web-view.c:965
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
 
-#: ../calendar/gui/dialogs/comp-editor.c:953 ../mail/e-mail-browser.c:124
+#: ../calendar/gui/dialogs/comp-editor.c:962 ../mail/e-mail-browser.c:124
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:959
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
-#: ../calendar/gui/dialogs/comp-editor.c:960
+#: ../calendar/gui/dialogs/comp-editor.c:969
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "Видалити виділене"
 
-#: ../calendar/gui/dialogs/comp-editor.c:967
+#: ../calendar/gui/dialogs/comp-editor.c:976
 msgid "Click here to view help available"
 msgstr "Натисніть, щоб переглянути довідку"
 
-#: ../calendar/gui/dialogs/comp-editor.c:974 ../mail/e-mail-browser.c:131
+#: ../calendar/gui/dialogs/comp-editor.c:983 ../mail/e-mail-browser.c:131
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:971
 msgid "Paste the clipboard"
 msgstr "Вставити з буферу обміну"
 
-#: ../calendar/gui/dialogs/comp-editor.c:995
+#: ../calendar/gui/dialogs/comp-editor.c:1004
 msgid "Click here to save the current window"
 msgstr "Натисніть, щоб зберегти поточне вікно"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1002 ../mail/e-mail-browser.c:138
+#: ../calendar/gui/dialogs/comp-editor.c:1011 ../mail/e-mail-browser.c:138
 #: ../shell/e-shell-window-actions.c:1579
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "Виділити весь текст"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1009
+#: ../calendar/gui/dialogs/comp-editor.c:1018
 msgid "_Classification"
 msgstr "Класи_фікація"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1023 ../mail/e-mail-browser.c:145
+#: ../calendar/gui/dialogs/comp-editor.c:1032 ../mail/e-mail-browser.c:145
 #: ../shell/e-shell-window-actions.c:1628
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "_Файл"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1030
+#: ../calendar/gui/dialogs/comp-editor.c:1039
 #: ../shell/e-shell-window-actions.c:1635
 msgid "_Help"
 msgstr "_Довідка"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1037
+#: ../calendar/gui/dialogs/comp-editor.c:1046
 msgid "_Insert"
 msgstr "Вст_авити"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1044
+#: ../calendar/gui/dialogs/comp-editor.c:1053
 #: ../composer/e-composer-actions.c:351
 msgid "_Options"
 msgstr "П_араметри"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1051 ../mail/e-mail-browser.c:159
+#: ../calendar/gui/dialogs/comp-editor.c:1060 ../mail/e-mail-browser.c:159
 #: ../shell/e-shell-window-actions.c:1670
 msgid "_View"
 msgstr "_Вигляд"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1061
+#: ../calendar/gui/dialogs/comp-editor.c:1070
 #: ../composer/e-composer-actions.c:279
 msgid "_Attachment..."
 msgstr "_Вкладення..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1063
+#: ../calendar/gui/dialogs/comp-editor.c:1072
 msgid "Click here to attach a file"
 msgstr "Натисніть, щоб вкласти файл"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1071
+#: ../calendar/gui/dialogs/comp-editor.c:1080
 msgid "_Categories"
 msgstr "_Категорії"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1073
+#: ../calendar/gui/dialogs/comp-editor.c:1082
 msgid "Toggles whether to display categories"
 msgstr "Перемикнути відображення поля \"Категорії\""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1079
+#: ../calendar/gui/dialogs/comp-editor.c:1088
 msgid "Time _Zone"
 msgstr "_Часовий пояс"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1081
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 msgid "Toggles whether the time zone is displayed"
 msgstr "Перемикнути відображення поля часового поясу"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1090
+#: ../calendar/gui/dialogs/comp-editor.c:1099
 msgid "Pu_blic"
 msgstr "П_ублічне"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1092
+#: ../calendar/gui/dialogs/comp-editor.c:1101
 msgid "Classify as public"
 msgstr "Класифікувати як публічне"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1097
+#: ../calendar/gui/dialogs/comp-editor.c:1106
 msgid "_Private"
 msgstr "_Приватне"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1099
+#: ../calendar/gui/dialogs/comp-editor.c:1108
 msgid "Classify as private"
 msgstr "Класифікувати як приватне"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1104
+#: ../calendar/gui/dialogs/comp-editor.c:1113
 msgid "_Confidential"
 msgstr "К_онфіденційне"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1106
+#: ../calendar/gui/dialogs/comp-editor.c:1115
 msgid "Classify as confidential"
 msgstr "Класифікувати як конфіденційне"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1114
+#: ../calendar/gui/dialogs/comp-editor.c:1123
 msgid "R_ole Field"
 msgstr "Поле \"_Посада\""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1116
+#: ../calendar/gui/dialogs/comp-editor.c:1125
 msgid "Toggles whether the Role field is displayed"
 msgstr "Перемикнути відображення поля \"Посада\""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1122
+#: ../calendar/gui/dialogs/comp-editor.c:1131
 msgid "_RSVP"
 msgstr "Про_хання відповісти"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1124
+#: ../calendar/gui/dialogs/comp-editor.c:1133
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Перемикнути відображення поля \"Прохання відповісти\""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1130
+#: ../calendar/gui/dialogs/comp-editor.c:1139
 msgid "_Status Field"
 msgstr "поле _стану"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1132
+#: ../calendar/gui/dialogs/comp-editor.c:1141
 msgid "Toggles whether the Status field is displayed"
 msgstr "Перемикнути відображення поля \"Стан\""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1138
+#: ../calendar/gui/dialogs/comp-editor.c:1147
 msgid "_Type Field"
 msgstr "Поле _типу"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1140
+#: ../calendar/gui/dialogs/comp-editor.c:1149
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Перемикнути відображення поля типу учасників"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1164
+#: ../calendar/gui/dialogs/comp-editor.c:1173
 #: ../composer/e-composer-private.c:70
 msgid "Recent _Documents"
 msgstr "Недавні _документи"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1684
+#: ../calendar/gui/dialogs/comp-editor.c:1693
 #: ../composer/e-composer-actions.c:475
 msgid "Attach"
 msgstr "Вкласти"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1739
+#: ../calendar/gui/dialogs/comp-editor.c:1748
 msgid "Save"
 msgstr "Зберегти"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2016
-#: ../calendar/gui/dialogs/comp-editor.c:2065
-#: ../calendar/gui/dialogs/comp-editor.c:2956
+#: ../calendar/gui/dialogs/comp-editor.c:2025
+#: ../calendar/gui/dialogs/comp-editor.c:2074
+#: ../calendar/gui/dialogs/comp-editor.c:2965
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Внесені в цей елемент зміни може бути скасовано, якщо буде отримане оновлення"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2924
+#: ../calendar/gui/dialogs/comp-editor.c:2933
 #: ../plugins/prefer-plain/prefer-plain.c:67
 msgid "attachment"
 msgstr "вкладення"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2986
+#: ../calendar/gui/dialogs/comp-editor.c:2995
 msgid "Unable to use current version!"
 msgstr "Не вдається використати поточну версію!"
 
@@ -4379,17 +4379,17 @@ msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Ця зустріч містить правила повторення, які Evolution не може редагувати."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:889
+#: ../calendar/gui/dialogs/recurrence-page.c:890
 msgid "Recurrence date is invalid"
 msgstr "Неправильна дата повторення"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:933
+#: ../calendar/gui/dialogs/recurrence-page.c:934
 msgid "End time of the recurrence was before event's start"
 msgstr "Кінцевий час повторювання вказано до початку події"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:962
+#: ../calendar/gui/dialogs/recurrence-page.c:963
 msgid "on"
 msgstr "у"
 
@@ -4397,7 +4397,7 @@ msgstr "у"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1019
+#: ../calendar/gui/dialogs/recurrence-page.c:1020
 msgid "first"
 msgstr "перший"
 
@@ -4406,7 +4406,7 @@ msgstr "перший"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1025
+#: ../calendar/gui/dialogs/recurrence-page.c:1026
 msgid "second"
 msgstr "другий"
 
@@ -4414,7 +4414,7 @@ msgstr "другий"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1030
+#: ../calendar/gui/dialogs/recurrence-page.c:1031
 msgid "third"
 msgstr "третій"
 
@@ -4422,7 +4422,7 @@ msgstr "третій"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1035
+#: ../calendar/gui/dialogs/recurrence-page.c:1036
 msgid "fourth"
 msgstr "четвертий"
 
@@ -4430,7 +4430,7 @@ msgstr "четвертий"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1040
+#: ../calendar/gui/dialogs/recurrence-page.c:1041
 msgid "fifth"
 msgstr "п'ятий"
 
@@ -4438,13 +4438,13 @@ msgstr "п'ятий"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 msgid "last"
 msgstr "останній"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1069
+#: ../calendar/gui/dialogs/recurrence-page.c:1070
 msgid "Other Date"
 msgstr "Інша дата"
 
@@ -4452,7 +4452,7 @@ msgstr "Інша дата"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1075
+#: ../calendar/gui/dialogs/recurrence-page.c:1076
 msgid "1st to 10th"
 msgstr "з 1-го по 10-те"
 
@@ -4460,7 +4460,7 @@ msgstr "з 1-го по 10-те"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1081
+#: ../calendar/gui/dialogs/recurrence-page.c:1082
 msgid "11th to 20th"
 msgstr "з 11-го по 20-те"
 
@@ -4468,45 +4468,45 @@ msgstr "з 11-го по 20-те"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1087
+#: ../calendar/gui/dialogs/recurrence-page.c:1088
 msgid "21st to 31st"
 msgstr "з 21-го по 31-ше"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/dialogs/recurrence-page.c:1112
+#: ../calendar/gui/dialogs/recurrence-page.c:1113
 msgid "day"
 msgstr "день"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1241
+#: ../calendar/gui/dialogs/recurrence-page.c:1242
 msgid "on the"
 msgstr "у"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1416
+#: ../calendar/gui/dialogs/recurrence-page.c:1417
 msgid "occurrences"
 msgstr "випадки"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2121
+#: ../calendar/gui/dialogs/recurrence-page.c:2122
 msgid "Add exception"
 msgstr "Додати виняток"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2162
+#: ../calendar/gui/dialogs/recurrence-page.c:2163
 msgid "Could not get a selection to modify."
 msgstr "Не вдається отримати виділення для зміни."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2168
+#: ../calendar/gui/dialogs/recurrence-page.c:2169
 msgid "Modify exception"
 msgstr "Змінити виняток"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2212
+#: ../calendar/gui/dialogs/recurrence-page.c:2213
 msgid "Could not get a selection to delete."
 msgstr "Не вдається отримати зміну для видалення."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2351
+#: ../calendar/gui/dialogs/recurrence-page.c:2352
 msgid "Date/Time"
 msgstr "Дата й час:"
 
@@ -4576,7 +4576,7 @@ msgstr "Завершено"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:508 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1135 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1132 ../widgets/misc/e-send-options.ui.h:8
 msgid "High"
 msgstr "Високий"
 
@@ -4595,7 +4595,7 @@ msgstr "Виконується"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:510 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1133 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1130 ../widgets/misc/e-send-options.ui.h:9
 msgid "Low"
 msgstr "Низький"
 
@@ -4603,7 +4603,7 @@ msgstr "Низький"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:13
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1304 ../calendar/gui/e-task-table.c:509
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1134
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1131
 #: ../widgets/misc/e-send-options.ui.h:13
 msgid "Normal"
 msgstr "Звичайний"
@@ -4907,12 +4907,12 @@ msgstr "Ні"
 msgid "Default Client"
 msgstr "Типовий клієнт"
 
-#: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:518
+#: ../calendar/gui/e-cal-model.c:387 ../calendar/gui/gnome-cal.c:551
 #: ../shell/e-shell.c:867
 msgid "Shell Settings"
 msgstr "Параметри оболонки"
 
-#: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:519
+#: ../calendar/gui/e-cal-model.c:388 ../calendar/gui/gnome-cal.c:552
 #: ../shell/e-shell.c:868
 msgid "Application-wide settings"
 msgstr "Глобальні параметри програми"
@@ -5123,7 +5123,7 @@ msgstr "%A, %d %B"
 #: ../calendar/gui/e-day-view-top-item.c:868 ../calendar/gui/e-day-view.c:1901
 #: ../calendar/gui/e-week-view-main-item.c:231
 #: ../calendar/gui/ea-gnome-calendar.c:200
-#: ../modules/calendar/e-cal-shell-view-private.c:901
+#: ../modules/calendar/e-cal-shell-view-private.c:907
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
@@ -5135,7 +5135,7 @@ msgstr "%a, %d %b"
 #: ../calendar/gui/e-day-view-top-item.c:872 ../calendar/gui/e-day-view.c:1917
 #: ../calendar/gui/e-week-view-main-item.c:245
 #: ../calendar/gui/ea-gnome-calendar.c:230
-#: ../modules/calendar/e-cal-shell-view-private.c:937
+#: ../modules/calendar/e-cal-shell-view-private.c:943
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -5550,7 +5550,7 @@ msgid "Send Latest Information"
 msgstr "Надіслати останню інформацію"
 
 #: ../calendar/gui/e-itip-control.c:2452
-#: ../modules/mail/e-mail-shell-view-actions.c:1032
+#: ../modules/mail/e-mail-shell-view-actions.c:1036
 #: ../widgets/misc/e-activity-proxy.c:299
 msgid "Cancel"
 msgstr "Скасувати"
@@ -5773,7 +5773,7 @@ msgid "Member"
 msgstr "Член"
 
 #: ../calendar/gui/e-memo-table.c:411
-#: ../modules/calendar/e-cal-shell-content.c:397
+#: ../modules/calendar/e-cal-shell-content.c:456
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view.c:289
@@ -5865,7 +5865,7 @@ msgstr "100%"
 #: ../calendar/gui/e-task-table.c:624 ../calendar/gui/print.c:2043
 #: ../calendar/importers/icalendar-importer.c:76
 #: ../calendar/importers/icalendar-importer.c:749
-#: ../modules/calendar/e-cal-shell-content.c:357
+#: ../modules/calendar/e-cal-shell-content.c:418
 #: ../modules/calendar/e-task-shell-view-actions.c:241
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view.c:437
@@ -6007,16 +6007,16 @@ msgid "Gnome Calendar"
 msgstr "Календар GNOME"
 
 #: ../calendar/gui/ea-gnome-calendar.c:197
-#: ../modules/calendar/e-cal-shell-view-private.c:897
+#: ../modules/calendar/e-cal-shell-view-private.c:903
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:202
 #: ../calendar/gui/ea-gnome-calendar.c:207
 #: ../calendar/gui/ea-gnome-calendar.c:209
-#: ../modules/calendar/e-cal-shell-view-private.c:904
 #: ../modules/calendar/e-cal-shell-view-private.c:910
-#: ../modules/calendar/e-cal-shell-view-private.c:913
+#: ../modules/calendar/e-cal-shell-view-private.c:916
+#: ../modules/calendar/e-cal-shell-view-private.c:919
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -6024,10 +6024,10 @@ msgstr "%a, %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:232
 #: ../calendar/gui/ea-gnome-calendar.c:238
 #: ../calendar/gui/ea-gnome-calendar.c:240
-#: ../modules/calendar/e-cal-shell-view-private.c:930
-#: ../modules/calendar/e-cal-shell-view-private.c:941
-#: ../modules/calendar/e-cal-shell-view-private.c:948
-#: ../modules/calendar/e-cal-shell-view-private.c:951
+#: ../modules/calendar/e-cal-shell-view-private.c:936
+#: ../modules/calendar/e-cal-shell-view-private.c:947
+#: ../modules/calendar/e-cal-shell-view-private.c:954
+#: ../modules/calendar/e-cal-shell-view-private.c:957
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -6057,7 +6057,7 @@ msgstr "вікно календаря для огляду місяця"
 msgid "calendar view for one or more weeks"
 msgstr "вікно календаря одного чи більше тижнів"
 
-#: ../calendar/gui/gnome-cal.c:2167
+#: ../calendar/gui/gnome-cal.c:2299
 msgid "Purging"
 msgstr "Очищення"
 
@@ -8319,15 +8319,15 @@ msgstr ""
 "Не вдається зашифрувати повідомлення: для облікового рахунку не встановлений "
 "сертифікат шифрування"
 
-#: ../composer/e-msg-composer.c:1379
+#: ../composer/e-msg-composer.c:1381
 msgid "Unable to reconstruct message from autosave file"
 msgstr "Не вдається відновити повідомлення з файлу автозбереження"
 
-#: ../composer/e-msg-composer.c:1445 ../composer/e-msg-composer.c:1641
+#: ../composer/e-msg-composer.c:1447 ../composer/e-msg-composer.c:1643
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../composer/e-msg-composer.c:3310
+#: ../composer/e-msg-composer.c:3312
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -8339,8 +8339,8 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
-"Повідомлення містить декілька вкладень, які ще не скачані. Повідомлення буде "
-"відіслане без них."
+"Повідомлення містить декілька вкладень, які ще не завантажені. Повідомлення "
+"буде відіслане без них."
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -8458,30 +8458,26 @@ msgstr "Від_новити"
 msgid "_Save Draft"
 msgstr "З_берегти чернетку"
 
-#: ../capplet/anjal-settings-main.c:202
+#: ../capplet/anjal-settings-main.c:199
 msgid "Run Anjal in a window"
 msgstr "Запустити Anjal у вікні"
 
-#: ../capplet/anjal-settings-main.c:203
+#: ../capplet/anjal-settings-main.c:200
 msgid "Make Anjal the default email client"
 msgstr "Зробити Anjal поштовим типовим клієнтом"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:210
+#: ../capplet/anjal-settings-main.c:207
 msgid "ID of the socket to embed in"
 msgstr "ID сокету для вбудовування"
 
-#: ../capplet/anjal-settings-main.c:211
+#: ../capplet/anjal-settings-main.c:208
 msgid "socket"
 msgstr "сокет"
 
-#: ../capplet/anjal-settings-main.c:225
+#: ../capplet/anjal-settings-main.c:221
 msgid "Anjal email client"
 msgstr "Поштовий клієнт Anjal"
-
-#: ../capplet/settings/mail-view.c:244
-msgid "New Tab"
-msgstr "Нова вкладка"
 
 #: ../capplet/settings/mail-account-view.c:56
 msgid "Please enter your full name."
@@ -8495,52 +8491,52 @@ msgstr "Виберіть адресу електронної пошти."
 msgid "The email address you have entered is invalid."
 msgstr "Ви ввели неправильну адресу електронної пошти."
 
-#: ../capplet/settings/mail-account-view.c:224
+#: ../capplet/settings/mail-account-view.c:181
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
 msgstr "<span size=\"large\" weight=\"bold\">Особисті дані:</span>"
 
-#: ../capplet/settings/mail-account-view.c:229
+#: ../capplet/settings/mail-account-view.c:186
 msgid "Name:"
 msgstr "Ім'я':"
 
-#: ../capplet/settings/mail-account-view.c:238
+#: ../capplet/settings/mail-account-view.c:195
 msgid "Email address:"
 msgstr "Електронна пошта:"
 
-#: ../capplet/settings/mail-account-view.c:248
+#: ../capplet/settings/mail-account-view.c:205
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
 msgstr "<span size=\"large\" weight=\"bold\">Параметри отримання:</span>"
 
-#: ../capplet/settings/mail-account-view.c:253
-#: ../capplet/settings/mail-account-view.c:303
+#: ../capplet/settings/mail-account-view.c:210
+#: ../capplet/settings/mail-account-view.c:258
 msgid "Server type:"
 msgstr "Тип сервера:"
 
-#: ../capplet/settings/mail-account-view.c:262
-#: ../capplet/settings/mail-account-view.c:312
+#: ../capplet/settings/mail-account-view.c:219
+#: ../capplet/settings/mail-account-view.c:267
 msgid "Server address:"
 msgstr "Адреса сервера:"
 
-#: ../capplet/settings/mail-account-view.c:272
-#: ../capplet/settings/mail-account-view.c:322
+#: ../capplet/settings/mail-account-view.c:228
+#: ../capplet/settings/mail-account-view.c:276
 msgid "Username:"
 msgstr "Ім'я користувача:"
 
-#: ../capplet/settings/mail-account-view.c:281
-#: ../capplet/settings/mail-account-view.c:331
+#: ../capplet/settings/mail-account-view.c:237
+#: ../capplet/settings/mail-account-view.c:285
 msgid "Use encryption:"
 msgstr "Використовувати шифрування:"
 
-#: ../capplet/settings/mail-account-view.c:286
-#: ../capplet/settings/mail-account-view.c:336
+#: ../capplet/settings/mail-account-view.c:242
+#: ../capplet/settings/mail-account-view.c:290
 msgid "never"
 msgstr "ніколи"
 
-#: ../capplet/settings/mail-account-view.c:298
+#: ../capplet/settings/mail-account-view.c:253
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
 msgstr "<span size=\"large\" weight=\"bold\">Параметри надсилання:</span>"
 
-#: ../capplet/settings/mail-account-view.c:355
+#: ../capplet/settings/mail-account-view.c:309
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
@@ -8551,7 +8547,7 @@ msgstr ""
 "пароль, і ми спробуємо  підібрати решту параметрів. Якщо не вийде "
 "автоматично підібрати параметри сервера, доведеться ввести їх вручну вручну."
 
-#: ../capplet/settings/mail-account-view.c:357
+#: ../capplet/settings/mail-account-view.c:311
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
@@ -8561,11 +8557,11 @@ msgstr ""
 "пошти. Було виконано спробу підібрати параметри на основі введеної "
 "інформації, змініть їх за потреби."
 
-#: ../capplet/settings/mail-account-view.c:359
+#: ../capplet/settings/mail-account-view.c:313
 msgid "You can specify more options to configure the account."
 msgstr "Можете вказати додаткові параметри налаштовування облікового запису."
 
-#: ../capplet/settings/mail-account-view.c:361
+#: ../capplet/settings/mail-account-view.c:315
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
@@ -8573,11 +8569,11 @@ msgstr ""
 "Тепер треба вказати параметри, потрібні для надсилання эл. пошти. Деякі з "
 "них були підібрані автоматично, перевірте їх правильність."
 
-#: ../capplet/settings/mail-account-view.c:362
+#: ../capplet/settings/mail-account-view.c:316
 msgid "You can specify your default settings for your account."
 msgstr "Можете вказати типові параметри для вашого облікового запису."
 
-#: ../capplet/settings/mail-account-view.c:363
+#: ../capplet/settings/mail-account-view.c:317
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
@@ -8585,109 +8581,100 @@ msgstr ""
 "Тепер можна перевірити всі параметри облікового запису перед спробою "
 "приєднання до сервера та отримання пошти."
 
-#: ../capplet/settings/mail-account-view.c:378
+#: ../capplet/settings/mail-account-view.c:332
 #: ../mail/em-account-editor.c:2064 ../mail/em-account-editor.c:2196
 #: ../mail/mail-config.ui.h:58
 msgid "Identity"
 msgstr "Особисті дані"
 
-#: ../capplet/settings/mail-account-view.c:378
+#: ../capplet/settings/mail-account-view.c:332
 msgid "Next - Receiving mail"
 msgstr "Вперед - Отримання пошти"
 
-#: ../capplet/settings/mail-account-view.c:379
+#: ../capplet/settings/mail-account-view.c:333
 msgid "Receiving mail"
 msgstr "пошти"
 
-#: ../capplet/settings/mail-account-view.c:379
-#: ../capplet/settings/mail-account-view.c:380
+#: ../capplet/settings/mail-account-view.c:333
+#: ../capplet/settings/mail-account-view.c:334
 msgid "Next - Sending mail"
 msgstr "Вперед - Надсилання пошти"
 
-#: ../capplet/settings/mail-account-view.c:379
+#: ../capplet/settings/mail-account-view.c:333
 msgid "Back - Identity"
 msgstr "Назад - Автентичність"
 
-#: ../capplet/settings/mail-account-view.c:379
+#: ../capplet/settings/mail-account-view.c:333
 msgid "Next - Receiving options"
 msgstr "Вперед - Параметри отримання"
 
-#: ../capplet/settings/mail-account-view.c:380
+#: ../capplet/settings/mail-account-view.c:334
 msgid "Receiving options"
 msgstr "Параметри отримання"
 
-#: ../capplet/settings/mail-account-view.c:380
-#: ../capplet/settings/mail-account-view.c:382
+#: ../capplet/settings/mail-account-view.c:334
+#: ../capplet/settings/mail-account-view.c:336
 msgid "Back - Receiving mail"
 msgstr "Назад - Отримання пошти"
 
-#: ../capplet/settings/mail-account-view.c:382
+#: ../capplet/settings/mail-account-view.c:336
 msgid "Sending mail"
 msgstr "Надсилання пошти"
 
-#: ../capplet/settings/mail-account-view.c:382
-#: ../capplet/settings/mail-account-view.c:383
+#: ../capplet/settings/mail-account-view.c:336
+#: ../capplet/settings/mail-account-view.c:337
 msgid "Next - Review account"
 msgstr "Вперед - Огляд облікового запису"
 
-#: ../capplet/settings/mail-account-view.c:382
+#: ../capplet/settings/mail-account-view.c:336
 msgid "Next - Defaults"
 msgstr "Вперед - Типово"
 
-#: ../capplet/settings/mail-account-view.c:382
+#: ../capplet/settings/mail-account-view.c:336
 msgid "Back - Receiving options"
 msgstr "Назад - Параметри отримання"
 
-#: ../capplet/settings/mail-account-view.c:383
+#: ../capplet/settings/mail-account-view.c:337
 #: ../mail/em-account-editor.c:2774 ../mail/mail-config.ui.h:31
 msgid "Defaults"
 msgstr "Умовчання"
 
-#: ../capplet/settings/mail-account-view.c:383
+#: ../capplet/settings/mail-account-view.c:337
 msgid "Back - Sending mail"
 msgstr "Назад - Надсилання ел. пошти"
 
-#: ../capplet/settings/mail-account-view.c:385
+#: ../capplet/settings/mail-account-view.c:339
 msgid "Review account"
 msgstr "Огляд облікового запису"
 
-#: ../capplet/settings/mail-account-view.c:385
+#: ../capplet/settings/mail-account-view.c:339
 msgid "Finish"
 msgstr "Завершено"
 
-#: ../capplet/settings/mail-account-view.c:385
+#: ../capplet/settings/mail-account-view.c:339
 msgid "Back - Sending"
-msgstr "Назад - Надісиланя"
+msgstr "Назад - Надсилання"
 
-#: ../capplet/settings/mail-account-view.c:719
-#: ../capplet/settings/mail-settings-view.c:266
+#: ../capplet/settings/mail-account-view.c:671
+#: ../capplet/settings/mail-settings-view.c:262
 msgid "Close Tab"
 msgstr "Закрити вкладку"
 
-#: ../capplet/settings/mail-account-view.c:729
+#: ../capplet/settings/mail-account-view.c:681
 msgid "Account Wizard"
 msgstr "Помічник облікових записів"
 
-#: ../capplet/settings/mail-capplet-shell.c:284
+#: ../capplet/settings/mail-capplet-shell.c:208
 msgid "Evolution account assistant"
 msgstr "Помічник з облікових записів Evolution"
 
-#: ../capplet/settings/mail-capplet-shell.c:320
-#: ../data/evolution-settings.desktop.in.in.h:2
-msgid "Email Settings"
-msgstr "Параметри ел. пошти"
-
-#: ../capplet/settings/mail-capplet-shell.c:334
-msgid "Quit"
-msgstr "Вийти"
-
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:453 ../mail/e-mail-migrate.c:2949
+#: ../capplet/settings/mail-capplet-shell.c:338 ../mail/e-mail-migrate.c:2948
 #: ../mail/e-mail-store.c:229 ../mail/em-folder-tree-model.c:150
 #: ../mail/em-folder-tree-model.c:153 ../mail/em-folder-tree-model.c:156
 #: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:165
 #: ../mail/em-folder-tree-model.c:167 ../mail/mail-vfolder.c:215
-#: ../mail/message-list.c:1617
+#: ../mail/message-list.c:1614
 #: ../modules/addressbook/e-book-shell-backend.c:125
 #: ../modules/addressbook/e-book-shell-migrate.c:499
 #: ../modules/calendar/e-cal-shell-backend.c:121
@@ -8699,21 +8686,21 @@ msgstr "Вийти"
 msgid "On This Computer"
 msgstr "На цьому комп'ютері"
 
-#: ../capplet/settings/mail-settings-view.c:148
+#: ../capplet/settings/mail-settings-view.c:146
 #: ../plugins/groupwise-features/share-folder.c:747
 msgid "Modify"
 msgstr "Змінити"
 
-#: ../capplet/settings/mail-settings-view.c:150
+#: ../capplet/settings/mail-settings-view.c:148
 msgid "Add a new account"
 msgstr "Додати обліковий рахунок"
 
-#: ../capplet/settings/mail-settings-view.c:185
+#: ../capplet/settings/mail-settings-view.c:183
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
 msgstr ""
 "<span size=\"large\" weight=\"bold\">Керування обліковими рахунками</span>"
 
-#: ../capplet/settings/mail-settings-view.c:276
+#: ../capplet/settings/mail-settings-view.c:272
 msgid "Settings"
 msgstr "Параметри"
 
@@ -8725,7 +8712,7 @@ msgstr "Сповіщення про календарні події"
 msgid "Evolution Alarm Notify"
 msgstr "Сповіщення сигналами у Evolution"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:800
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:819
 #: ../shell/e-shell-window-private.c:251
 msgid "Evolution"
 msgstr "Evolution"
@@ -8745,6 +8732,10 @@ msgstr "Ваша електронна пошта та розклад"
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Configure email accounts"
 msgstr "Налаштовування облікових записів ел. пошти"
+
+#: ../data/evolution-settings.desktop.in.in.h:2
+msgid "Email Settings"
+msgstr "Параметри ел. пошти"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -8951,7 +8942,7 @@ msgstr "Повідомлення з журналу:"
 msgid "Log Level"
 msgstr "Рівень запису до журналу"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2696
+#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2693
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Повідомлення"
@@ -9479,23 +9470,23 @@ msgstr "У вигляді значків"
 msgid "List View"
 msgstr "У вигляді _списку"
 
-#: ../mail/e-mail-browser.c:732 ../shell/e-shell-window.c:631
+#: ../mail/e-mail-browser.c:763 ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
 msgstr "Слідкування за фокусом"
 
-#: ../mail/e-mail-browser.c:742
+#: ../mail/e-mail-browser.c:773
 msgid "Shell Module"
 msgstr "Модуль оболонки"
 
-#: ../mail/e-mail-browser.c:743 ../mail/message-list.c:2589
+#: ../mail/e-mail-browser.c:774 ../mail/message-list.c:2586
 msgid "The mail shell backend"
 msgstr "Бэк-енд поштової оболонки"
 
-#: ../mail/e-mail-browser.c:753
+#: ../mail/e-mail-browser.c:784
 msgid "Show Deleted"
 msgstr "Показати видалені"
 
-#: ../mail/e-mail-browser.c:754
+#: ../mail/e-mail-browser.c:785
 msgid "Show deleted messages"
 msgstr "Показати видалені повідомлення"
 
@@ -9544,7 +9535,7 @@ msgid "_Later"
 msgstr "_Пізніше"
 
 #: ../mail/e-mail-label-manager.c:165
-#: ../modules/mail/e-mail-shell-view-actions.c:515
+#: ../modules/mail/e-mail-shell-view-actions.c:519
 msgid "Add Label"
 msgstr "Додати позначку"
 
@@ -9636,7 +9627,7 @@ msgstr "Не вдається скопіювати теку \"%s\" у \"%s\": %s
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr "Не вдається сканувати наявні поштові скриньки на `%s': %s"
 
-#: ../mail/e-mail-migrate.c:1823 ../mail/e-mail-migrate.c:2933
+#: ../mail/e-mail-migrate.c:1823 ../mail/e-mail-migrate.c:2932
 msgid "Migrating Folders"
 msgstr "Створення тек"
 
@@ -9672,7 +9663,7 @@ msgstr "Не вдається копіювати дані POP3 зберіган�
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Не вдається створити локальне сховище пошти '%s': %s"
 
-#: ../mail/e-mail-migrate.c:2934
+#: ../mail/e-mail-migrate.c:2933
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -9684,12 +9675,12 @@ msgstr ""
 "\n"
 "Будь ласка зачекайте, доки Evolution перенесе ваші теки..."
 
-#: ../mail/e-mail-migrate.c:3031
+#: ../mail/e-mail-migrate.c:3030
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Не вдається створити локальні теки на `%s': %s"
 
-#: ../mail/e-mail-migrate.c:3049
+#: ../mail/e-mail-migrate.c:3048
 #, c-format
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
@@ -10494,7 +10485,7 @@ msgstr "Вибір теки"
 #. Automatically generated. Do not edit.
 #: ../mail/em-filter-i18n.h:2
 msgid "Adjust Score"
-msgstr "Скорегувати вагу"
+msgstr "Скоригувати вагу"
 
 #: ../mail/em-filter-i18n.h:3
 msgid "Assign Color"
@@ -10838,12 +10829,12 @@ msgstr "Переміщення теки %s"
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../mail/em-folder-tree.c:1498 ../mail/message-list.c:2103
+#: ../mail/em-folder-tree.c:1498 ../mail/message-list.c:2100
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../mail/em-folder-tree.c:1500 ../mail/message-list.c:2105
+#: ../mail/em-folder-tree.c:1500 ../mail/message-list.c:2102
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
@@ -12082,7 +12073,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:181
 msgid "This option would help in improving the speed of fetching."
-msgstr "Цей параметр має відвищити швидкість завантаження."
+msgstr "Цей параметр має підвищити швидкість завантаження."
 
 #: ../mail/evolution-mail.schemas.in.h:182
 msgid ""
@@ -12604,7 +12595,7 @@ msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:85
 msgid "Printed Fonts"
-msgstr "Друковані шрфитри"
+msgstr "Друковані шрифти"
 
 #: ../mail/mail-config.ui.h:86
 msgid "Proxy Settings"
@@ -13055,7 +13046,7 @@ msgstr "Не вдається додати до локальної теки \"В
 
 #: ../mail/mail-ops.c:752 ../mail/mail-ops.c:833
 msgid "Sending message"
-msgstr "Надісилається повідомлення"
+msgstr "Надсилається повідомлення"
 
 #: ../mail/mail-ops.c:762
 #, c-format
@@ -13948,7 +13939,7 @@ msgid "_Do not Synchronize"
 msgstr "_Не синхронізувати"
 
 #: ../mail/mail.error.xml.h:140
-#: ../modules/mail/e-mail-shell-view-actions.c:862
+#: ../modules/mail/e-mail-shell-view-actions.c:866
 msgid "_Empty Trash"
 msgstr "О_чистити смітник"
 
@@ -13960,86 +13951,86 @@ msgstr "Вик_реслити"
 msgid "_Open Messages"
 msgstr "_Відкрити повідомлення"
 
-#: ../mail/message-list.c:1122
+#: ../mail/message-list.c:1119
 msgid "Unseen"
 msgstr "Не прочитано"
 
-#: ../mail/message-list.c:1123
+#: ../mail/message-list.c:1120
 msgid "Seen"
 msgstr "Прочитано"
 
-#: ../mail/message-list.c:1124
+#: ../mail/message-list.c:1121
 msgid "Answered"
 msgstr "Дана відповідь"
 
-#: ../mail/message-list.c:1125
+#: ../mail/message-list.c:1122
 msgid "Forwarded"
 msgstr "Переслано"
 
-#: ../mail/message-list.c:1126
+#: ../mail/message-list.c:1123
 msgid "Multiple Unseen Messages"
 msgstr "Декілька непрочитаних повідомлень"
 
-#: ../mail/message-list.c:1127
+#: ../mail/message-list.c:1124
 msgid "Multiple Messages"
 msgstr "Декілька повідомлень"
 
-#: ../mail/message-list.c:1131
+#: ../mail/message-list.c:1128
 msgid "Lowest"
 msgstr "Найнижчий"
 
-#: ../mail/message-list.c:1132
+#: ../mail/message-list.c:1129
 msgid "Lower"
 msgstr "Низький"
 
-#: ../mail/message-list.c:1136
+#: ../mail/message-list.c:1133
 msgid "Higher"
 msgstr "Високий"
 
-#: ../mail/message-list.c:1137
+#: ../mail/message-list.c:1134
 msgid "Highest"
 msgstr "Найвищий"
 
-#: ../mail/message-list.c:1747 ../widgets/table/e-cell-date.c:46
+#: ../mail/message-list.c:1744 ../widgets/table/e-cell-date.c:46
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1754 ../plugins/itip-formatter/itip-view.c:209
+#: ../mail/message-list.c:1751 ../plugins/itip-formatter/itip-view.c:209
 msgid "Today %l:%M %p"
 msgstr "Сьогодні %I:%M %p"
 
-#: ../mail/message-list.c:1763
+#: ../mail/message-list.c:1760
 msgid "Yesterday %l:%M %p"
 msgstr "Вчора %l:%M %p"
 
-#: ../mail/message-list.c:1775
+#: ../mail/message-list.c:1772
 msgid "%a %l:%M %p"
 msgstr "%a, %I:%M %p"
 
-#: ../mail/message-list.c:1783
+#: ../mail/message-list.c:1780
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:1785
+#: ../mail/message-list.c:1782
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2537
+#: ../mail/message-list.c:2534
 msgid "Select all visible messages"
 msgstr "Видалити всі видимі повідомлення"
 
-#: ../mail/message-list.c:2588 ../shell/e-shell-view.c:723
+#: ../mail/message-list.c:2585 ../shell/e-shell-view.c:729
 msgid "Shell Backend"
 msgstr "Бек-енд оболонки"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4399 ../mail/message-list.c:4895
+#: ../mail/message-list.c:4440 ../mail/message-list.c:4938
 msgid "Generating message list"
 msgstr "Створення списку повідомлень"
 
-#: ../mail/message-list.c:4726
+#: ../mail/message-list.c:4769
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -14047,7 +14038,7 @@ msgstr ""
 "Немає листів, що збігаються з критерієм пошуку. Очистите поле пошуку за "
 "допомогою меню Пошук → Очистити або змініть критерії."
 
-#: ../mail/message-list.c:4728
+#: ../mail/message-list.c:4771
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
@@ -14055,7 +14046,7 @@ msgstr ""
 "У цій теці є лише приховані повідомлення. Щоб їх побачити виберіть меню "
 "Вигляд -> Показати приховані повідомлення."
 
-#: ../mail/message-list.c:4730
+#: ../mail/message-list.c:4773
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
@@ -14093,27 +14084,27 @@ msgid "Subject - Trimmed"
 msgstr "Тема - Скорочена"
 
 #: ../mail/searchtypes.xml.h:1
-#: ../modules/mail/e-mail-shell-view-actions.c:1275
+#: ../modules/mail/e-mail-shell-view-actions.c:1279
 msgid "Body contains"
 msgstr "Вміст містить"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1282
+#: ../modules/mail/e-mail-shell-view-actions.c:1286
 msgid "Message contains"
 msgstr "Повідомлення містить"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1289
+#: ../modules/mail/e-mail-shell-view-actions.c:1293
 msgid "Recipients contain"
 msgstr "Отримувач містять"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1296
+#: ../modules/mail/e-mail-shell-view-actions.c:1300
 msgid "Sender contains"
 msgstr "Відправник містить"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1303
+#: ../modules/mail/e-mail-shell-view-actions.c:1307
 msgid "Subject contains"
 msgstr "Тема містить"
 
@@ -14149,7 +14140,7 @@ msgstr ""
 
 #: ../modules/addressbook/addressbook-config.c:592
 msgid "Use in _Birthday & Anniversaries calendar"
-msgstr "_Використовувати у календарі днів народжень та річнициць"
+msgstr "_Використовувати у календарі днів народжень та річниць"
 
 #: ../modules/addressbook/addressbook-config.c:628
 msgid "Copy _book content locally for offline operation"
@@ -14448,7 +14439,7 @@ msgstr ""
 #: ../modules/calendar/e-memo-shell-sidebar.c:687
 #: ../modules/calendar/e-task-shell-sidebar.c:687
 msgid "Source Selector Widget"
-msgstr "Віджет видору джерела"
+msgstr "Віджет вибору джерела"
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:182
 msgid "This widget displays groups of address books"
@@ -14499,7 +14490,7 @@ msgstr "Показати властивості вибраної адресно�
 #: ../modules/calendar/e-cal-shell-view-actions.c:1300
 #: ../modules/calendar/e-memo-shell-view-actions.c:610
 #: ../modules/calendar/e-task-shell-view-actions.c:734
-#: ../modules/mail/e-mail-shell-view-actions.c:946
+#: ../modules/mail/e-mail-shell-view-actions.c:950
 msgid "_Rename..."
 msgstr "Перей_менувати..."
 
@@ -14533,7 +14524,7 @@ msgstr "В_идалити контакт"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:732
 msgid "_Find in Contact..."
-msgstr "З_нйти у контактах..."
+msgstr "З_найти у контактах..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:734
 msgid "Search for text in the displayed contact"
@@ -14588,7 +14579,7 @@ msgstr "Ді_ї"
 #: ../modules/addressbook/e-book-shell-view-actions.c:790
 #: ../modules/calendar/e-memo-shell-view-actions.c:647
 #: ../modules/calendar/e-task-shell-view-actions.c:799
-#: ../modules/mail/e-mail-shell-view-actions.c:1090
+#: ../modules/mail/e-mail-shell-view-actions.c:1094
 msgid "_Preview"
 msgstr "_Попередній перегляд"
 
@@ -14618,7 +14609,7 @@ msgstr "Показати вікно перегляду контакту"
 #: ../modules/addressbook/e-book-shell-view-actions.c:860
 #: ../modules/calendar/e-memo-shell-view-actions.c:717
 #: ../modules/calendar/e-task-shell-view-actions.c:881
-#: ../modules/mail/e-mail-shell-view-actions.c:1185
+#: ../modules/mail/e-mail-shell-view-actions.c:1189
 msgid "_Classic View"
 msgstr "_Класичний вигляд"
 
@@ -14629,7 +14620,7 @@ msgstr "Показувати попередній перегляд контак�
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
 #: ../modules/calendar/e-memo-shell-view-actions.c:724
 #: ../modules/calendar/e-task-shell-view-actions.c:888
-#: ../modules/mail/e-mail-shell-view-actions.c:1192
+#: ../modules/mail/e-mail-shell-view-actions.c:1196
 msgid "_Vertical View"
 msgstr "_Вертикальний вигляд"
 
@@ -14655,7 +14646,7 @@ msgstr "Інше"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1619
 #: ../modules/calendar/e-memo-shell-view-actions.c:751
 #: ../modules/calendar/e-task-shell-view-actions.c:950
-#: ../modules/mail/e-mail-shell-view-actions.c:1268
+#: ../modules/mail/e-mail-shell-view-actions.c:1272
 #: ../shell/e-shell-content.c:516
 msgid "Advanced Search"
 msgstr "Розширений пошук"
@@ -15087,7 +15078,7 @@ msgstr "Оновити виділений календар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1302
 msgid "Rename the selected calendar"
-msgstr "Перейменувати виділений каленжар"
+msgstr "Перейменувати виділений календар"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1307
 msgid "Show _Only This Calendar"
@@ -15360,7 +15351,7 @@ msgstr "Переглянути виділене завдання"
 #: ../modules/calendar/e-memo-shell-view-actions.c:813
 #: ../modules/calendar/e-task-shell-view-actions.c:1012
 msgid "_Save as iCalendar..."
-msgstr "З_юерегти як iCalendar"
+msgstr "З_берегти як iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:371
 #: ../modules/calendar/e-task-shell-view-actions.c:997
@@ -15658,7 +15649,7 @@ msgstr "_Попередній перегляд завдання"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:862
 msgid "Show task preview pane"
-msgstr "Показувати панель попереднього перегляду давдань"
+msgstr "Показувати панель попереднього перегляду завдань"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:883
 msgid "Show task preview below the task list"
@@ -15771,296 +15762,296 @@ msgstr "Групувати за гілками"
 msgid "Whether to group messages by threads"
 msgstr "Чи групувати повідомлення за гілками обговорення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:855
+#: ../modules/mail/e-mail-shell-view-actions.c:859
 #: ../modules/mail/e-mail-shell-view.c:875
 msgid "_Disable Account"
 msgstr "В_имкнути обліковий запис"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:857
+#: ../modules/mail/e-mail-shell-view-actions.c:861
 msgid "Disable this account"
 msgstr "Вимкнути цей обліковий запис"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:864
+#: ../modules/mail/e-mail-shell-view-actions.c:868
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені видаленими"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:869
+#: ../modules/mail/e-mail-shell-view-actions.c:873
 msgid "C_reate Search Folder From Search..."
 msgstr "Створити _віртуальну теку за результатами пошуку..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:876
+#: ../modules/mail/e-mail-shell-view-actions.c:880
 msgid "_Download Messages for Offline Usage"
 msgstr "_Завантажити повідомлення для автономної роботи"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:878
+#: ../modules/mail/e-mail-shell-view-actions.c:882
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
 "Завантажити повідомлення облікових записів/каталогів для автономної роботи"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:883
+#: ../modules/mail/e-mail-shell-view-actions.c:887
 msgid "Fl_ush Outbox"
 msgstr "Надіслати ви_хідні"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:890
+#: ../modules/mail/e-mail-shell-view-actions.c:894
 msgid "_Copy Folder To..."
 msgstr "_Копіювати теку у..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:892
+#: ../modules/mail/e-mail-shell-view-actions.c:896
 msgid "Copy the selected folder into another folder"
 msgstr "Скопіювати вибрану теку у іншу теку"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:899
+#: ../modules/mail/e-mail-shell-view-actions.c:903
 msgid "Permanently remove this folder"
 msgstr "Остаточно видалити цю теку"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:904
+#: ../modules/mail/e-mail-shell-view-actions.c:908
 msgid "E_xpunge"
 msgstr "Вик_реслити"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:906
+#: ../modules/mail/e-mail-shell-view-actions.c:910
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Знищити всі повідомлення, позначені як видалені з цієї теки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:911
+#: ../modules/mail/e-mail-shell-view-actions.c:915
 msgid "Mar_k All Messages as Read"
 msgstr "Позначити повідомлення як про_читані"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:913
+#: ../modules/mail/e-mail-shell-view-actions.c:917
 msgid "Mark all messages in the folder as read"
 msgstr "Позначити всі повідомлення у піці та вкладених теках як прочитані"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:918
+#: ../modules/mail/e-mail-shell-view-actions.c:922
 msgid "_Move Folder To..."
 msgstr "Пере_містити теку у..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:920
+#: ../modules/mail/e-mail-shell-view-actions.c:924
 msgid "Move the selected folder into another folder"
 msgstr "Перемістити вибрану теку у іншу теку"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:925
+#: ../modules/mail/e-mail-shell-view-actions.c:929
 msgid "_New..."
 msgstr "_Створити..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:927
+#: ../modules/mail/e-mail-shell-view-actions.c:931
 msgid "Create a new folder for storing mail"
 msgstr "Створити нову теку для зберігання пошти"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:934
+#: ../modules/mail/e-mail-shell-view-actions.c:938
 msgid "Change the properties of this folder"
 msgstr "Змінити властивості цієї теки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:941
+#: ../modules/mail/e-mail-shell-view-actions.c:945
 msgid "Refresh the folder"
 msgstr "Оновити теку"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:948
+#: ../modules/mail/e-mail-shell-view-actions.c:952
 msgid "Change the name of this folder"
 msgstr "Змінити назву цієї теки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:953
+#: ../modules/mail/e-mail-shell-view-actions.c:957
 msgid "Select Message _Thread"
 msgstr "Виділити _гілку повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:955
+#: ../modules/mail/e-mail-shell-view-actions.c:959
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Виділити всі повідомлення у гілці вибраного повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:960
+#: ../modules/mail/e-mail-shell-view-actions.c:964
 msgid "Select Message S_ubthread"
 msgstr "Виділити _збірку повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:962
+#: ../modules/mail/e-mail-shell-view-actions.c:966
 msgid "Select all replies to the currently selected message"
 msgstr "Виділити всі відповіді на поточні виділені повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:967
+#: ../modules/mail/e-mail-shell-view-actions.c:971
 msgid "_Unsubscribe"
 msgstr "_Відмовитись від підписки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:969
+#: ../modules/mail/e-mail-shell-view-actions.c:973
 msgid "Unsubscribe from the selected folder"
 msgstr "Відписатися від виділеної теки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:974
+#: ../modules/mail/e-mail-shell-view-actions.c:978
 msgid "Empty _Trash"
 msgstr "О_чистити теку \"Видалені\""
 
-#: ../modules/mail/e-mail-shell-view-actions.c:976
+#: ../modules/mail/e-mail-shell-view-actions.c:980
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Стерти в усіх облікових записах повідомлення, що позначені видаленими"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:981
+#: ../modules/mail/e-mail-shell-view-actions.c:985
 msgid "_New Label"
 msgstr "_Нова позначка"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:990
+#: ../modules/mail/e-mail-shell-view-actions.c:994
 msgid "N_one"
 msgstr "_Немає"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:997
+#: ../modules/mail/e-mail-shell-view-actions.c:1001
 msgid "Hide _Read Messages"
 msgstr "Сховати про_читані повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:999
+#: ../modules/mail/e-mail-shell-view-actions.c:1003
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Тимчасово прибрати всі прочитані повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1004
+#: ../modules/mail/e-mail-shell-view-actions.c:1008
 msgid "Hide S_elected Messages"
 msgstr "Сховати виді_лені повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1006
+#: ../modules/mail/e-mail-shell-view-actions.c:1010
 msgid "Temporarily hide the selected messages"
 msgstr "Тимчасово прибрати вибрані повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1011
+#: ../modules/mail/e-mail-shell-view-actions.c:1015
 msgid "Show Hidde_n Messages"
 msgstr "Показати с_ховані повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1013
+#: ../modules/mail/e-mail-shell-view-actions.c:1017
 msgid "Show messages that have been temporarily hidden"
 msgstr "Знову показати тимчасово прибрані повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1034
+#: ../modules/mail/e-mail-shell-view-actions.c:1038
 msgid "Cancel the current mail operation"
 msgstr "Скасувати поточну поштову операцію"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1039
+#: ../modules/mail/e-mail-shell-view-actions.c:1043
 msgid "Collapse All _Threads"
 msgstr "Згорнути усі _гілки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1041
+#: ../modules/mail/e-mail-shell-view-actions.c:1045
 msgid "Collapse all message threads"
 msgstr "Згорнути усі гілки повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1046
+#: ../modules/mail/e-mail-shell-view-actions.c:1050
 msgid "E_xpand All Threads"
 msgstr "_Розгорнути гілки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1048
+#: ../modules/mail/e-mail-shell-view-actions.c:1052
 msgid "Expand all message threads"
 msgstr "розгорнути усі гілки повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1053
+#: ../modules/mail/e-mail-shell-view-actions.c:1057
 msgid "_Message Filters"
 msgstr "_Фільтри повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1055
+#: ../modules/mail/e-mail-shell-view-actions.c:1059
 msgid "Create or edit rules for filtering new mail"
 msgstr "Створити або редагувати правила фільтрації пошти"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1060
+#: ../modules/mail/e-mail-shell-view-actions.c:1064
 msgid "Search F_olders"
 msgstr "Пошук _тек"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1062
+#: ../modules/mail/e-mail-shell-view-actions.c:1066
 msgid "Create or edit search folder definitions"
 msgstr "Створити або редагувати визначення теки пошуку"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1067
+#: ../modules/mail/e-mail-shell-view-actions.c:1071
 msgid "_Subscriptions..."
 msgstr "_Підписка..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1069
+#: ../modules/mail/e-mail-shell-view-actions.c:1073
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Підписатися або відписатися від тек на віддалених серверах"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1076
+#: ../modules/mail/e-mail-shell-view-actions.c:1080
 msgid "F_older"
 msgstr "_Тека"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1083
+#: ../modules/mail/e-mail-shell-view-actions.c:1087
 msgid "_Label"
 msgstr "_Позначка"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1123
+#: ../modules/mail/e-mail-shell-view-actions.c:1127
 msgid "_New Folder..."
 msgstr "_Створити теку..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1147
+#: ../modules/mail/e-mail-shell-view-actions.c:1151
 msgid "Hide _Deleted Messages"
 msgstr "Сховати в_идалені повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1149
+#: ../modules/mail/e-mail-shell-view-actions.c:1153
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 "Приховувати видалені повідомлення замість відображення їх перекресленими"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1156
+#: ../modules/mail/e-mail-shell-view-actions.c:1160
 msgid "Show Message _Preview"
 msgstr "_Попередній перегляд повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1158
+#: ../modules/mail/e-mail-shell-view-actions.c:1162
 msgid "Show message preview pane"
 msgstr "Показати вікно попереднього перегляду повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1164
+#: ../modules/mail/e-mail-shell-view-actions.c:1168
 msgid "_Group By Threads"
 msgstr "Групувати за _гілками"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1166
+#: ../modules/mail/e-mail-shell-view-actions.c:1170
 msgid "Threaded message list"
 msgstr "Список підшитих повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1187
+#: ../modules/mail/e-mail-shell-view-actions.c:1191
 msgid "Show message preview below the message list"
 msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1194
+#: ../modules/mail/e-mail-shell-view-actions.c:1198
 msgid "Show message preview alongside the message list"
 msgstr ""
 "Показувати попередній перегляд повідомлення поруч зі списком повідомлень"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1202
+#: ../modules/mail/e-mail-shell-view-actions.c:1206
 msgid "All Messages"
 msgstr "Усі повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1209
+#: ../modules/mail/e-mail-shell-view-actions.c:1213
 msgid "Important Messages"
 msgstr "Наступне повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1216
+#: ../modules/mail/e-mail-shell-view-actions.c:1220
 msgid "Last 5 Days' Messages"
 msgstr "Останні повідомлення за 5 діб"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1223
+#: ../modules/mail/e-mail-shell-view-actions.c:1227
 msgid "Messages Not Junk"
 msgstr "Повідомлення не є спамом"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1230
+#: ../modules/mail/e-mail-shell-view-actions.c:1234
 msgid "Messages with Attachments"
 msgstr "Повідомлення з вкладеннями"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1237
+#: ../modules/mail/e-mail-shell-view-actions.c:1241
 msgid "No Label"
 msgstr "Немає позначки"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1244
+#: ../modules/mail/e-mail-shell-view-actions.c:1248
 msgid "Read Messages"
 msgstr "Прочитати повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1251
+#: ../modules/mail/e-mail-shell-view-actions.c:1255
 msgid "Recent Messages"
 msgstr "Недавні повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1258
+#: ../modules/mail/e-mail-shell-view-actions.c:1262
 msgid "Unread Messages"
 msgstr "Непрочитане повідомлення"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1310
+#: ../modules/mail/e-mail-shell-view-actions.c:1314
 msgid "Subject or Addresses contain"
 msgstr "Тема або адреси містять"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1320
+#: ../modules/mail/e-mail-shell-view-actions.c:1324
 msgid "All Accounts"
 msgstr "Усі облікові записи"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1327
+#: ../modules/mail/e-mail-shell-view-actions.c:1331
 msgid "Current Account"
 msgstr "Поточний обліковий запис"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1334
+#: ../modules/mail/e-mail-shell-view-actions.c:1338
 msgid "Current Folder"
 msgstr "Поточна тека"
 
@@ -16972,7 +16963,7 @@ msgstr "Захищено"
 #: ../plugins/email-custom-header/email-custom-header.c:324
 #: ../widgets/misc/e-send-options.ui.h:18
 msgid "Secret"
-msgstr "Приванто"
+msgstr "Приватно"
 
 #: ../plugins/email-custom-header/email-custom-header.c:325
 msgid "Top secret"
@@ -17732,7 +17723,7 @@ msgstr "Не вдається знайти цю примітку у жодном
 
 #: ../plugins/itip-formatter/itip-formatter.c:873
 msgid "Opening the calendar. Please wait.."
-msgstr "Відкриваю календар. Зачекайте будь-ласка..."
+msgstr "Відкриваю календар. Зачекайте, будь-ласка..."
 
 #: ../plugins/itip-formatter/itip-formatter.c:876
 msgid "Searching for an existing version of this appointment"
@@ -19946,79 +19937,79 @@ msgstr "iCalendar (.ics)"
 msgid "All Files (*)"
 msgstr "Усі файли (*)"
 
-#: ../shell/e-shell-view.c:675
+#: ../shell/e-shell-view.c:681
 msgid "Switcher Action"
 msgstr "Дія перемикача"
 
-#: ../shell/e-shell-view.c:676
+#: ../shell/e-shell-view.c:682
 msgid "The switcher action for this shell view"
 msgstr "Дія перемикача для цього типу оболонки"
 
-#: ../shell/e-shell-view.c:691
+#: ../shell/e-shell-view.c:697
 msgid "Page Number"
 msgstr "Номер сторінки"
 
-#: ../shell/e-shell-view.c:692
+#: ../shell/e-shell-view.c:698
 msgid "The notebook page number of the shell view"
 msgstr "Номер сторінки записника вигляду оболонки"
 
-#: ../shell/e-shell-view.c:708
+#: ../shell/e-shell-view.c:714
 msgid "Search Rule"
 msgstr "Правило пошуку"
 
-#: ../shell/e-shell-view.c:709
+#: ../shell/e-shell-view.c:715
 msgid "Criteria for the current search results"
 msgstr "Критерій для поточних результатів пошуку"
 
-#: ../shell/e-shell-view.c:724
+#: ../shell/e-shell-view.c:730
 msgid "The EShellBackend for this shell view"
 msgstr "EShellBackend для цього типу оболонки"
 
-#: ../shell/e-shell-view.c:739
+#: ../shell/e-shell-view.c:745
 msgid "Shell Content Widget"
 msgstr "Віджет змісту оболонки"
 
-#: ../shell/e-shell-view.c:740
+#: ../shell/e-shell-view.c:746
 msgid "The content widget appears in a shell window's right pane"
 msgstr "Зміст віджета виводиться у правій панелі вікна оболонки"
 
-#: ../shell/e-shell-view.c:756
+#: ../shell/e-shell-view.c:762
 msgid "Shell Sidebar Widget"
 msgstr "Віджет бокової панелі оболонки"
 
-#: ../shell/e-shell-view.c:757
+#: ../shell/e-shell-view.c:763
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr "Зміст віджету виводиться у лівій панелі вікна оболонки"
 
-#: ../shell/e-shell-view.c:772
+#: ../shell/e-shell-view.c:778
 msgid "Shell Taskbar Widget"
 msgstr "Віджет панелі задач оболонки"
 
-#: ../shell/e-shell-view.c:773
+#: ../shell/e-shell-view.c:779
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr "Віджет панелі задач з'являється у нижній частині вікна оболонки"
 
-#: ../shell/e-shell-view.c:788
+#: ../shell/e-shell-view.c:794
 msgid "Shell Window"
 msgstr "Вікно оболонки"
 
-#: ../shell/e-shell-view.c:789
+#: ../shell/e-shell-view.c:795
 msgid "The window to which the shell view belongs"
 msgstr "Вікно, якому належить вигляд оболонки"
 
-#: ../shell/e-shell-view.c:805
+#: ../shell/e-shell-view.c:811
 msgid "The key file holding widget state data"
 msgstr "Ключовий файл, що містить стан даних віджета"
 
-#: ../shell/e-shell-view.c:820
+#: ../shell/e-shell-view.c:826
 msgid "The title of the shell view"
 msgstr "Заголовок вигляду оболонки"
 
-#: ../shell/e-shell-view.c:834
+#: ../shell/e-shell-view.c:840
 msgid "Current View ID"
 msgstr "ID поточного вигляду"
 
-#: ../shell/e-shell-view.c:835
+#: ../shell/e-shell-view.c:841
 msgid "The current GAL view ID"
 msgstr "ID поточного огляду GAL"
 
@@ -20499,7 +20490,7 @@ msgstr "Запуск у режимі \"експрес\""
 
 #: ../shell/main.c:333
 msgid "Forcibly shut down Evolution"
-msgstr "Примусове завершення роботы Evolution"
+msgstr "Примусове завершення роботи Evolution"
 
 #: ../shell/main.c:337
 msgid "Forcibly re-migrate from Evolution 1.4"
@@ -20743,7 +20734,7 @@ msgid ""
 "indicated here"
 msgstr ""
 "Оскільки ви довіряєте агенції сертифікації, яка видала цей сертифікат, ви "
-"довіряєте автентичності цього сертифікату, якщо тут не буде вказано інше"
+"довіряєте автентичності цього сертифіката, якщо тут не буде вказано інше"
 
 #: ../smime/gui/cert-trust-dialog.c:148
 msgid ""
@@ -20752,7 +20743,7 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 "Оскільки ви не довіряєте агенції сертифікації, яка видала цей сертифікат, ви "
-"не довіряєте автентичності цього сертифікату, якщо тут не буде вказано інше"
+"не довіряєте автентичності цього сертифіката, якщо тут не буде вказано інше"
 
 #: ../smime/gui/certificate-manager.c:135
 #: ../smime/gui/certificate-manager.c:382
@@ -20809,7 +20800,7 @@ msgstr "Сертифікати"
 #: ../smime/gui/certificate-viewer.c:332
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr "Перегляд сертифікату: %s"
+msgstr "Перегляд сертифіката: %s"
 
 #: ../smime/gui/component.c:46
 #, c-format
@@ -20850,7 +20841,7 @@ msgstr "Виберіть сертифікат"
 
 #: ../smime/gui/smime-ui.ui.h:1
 msgid "<Not Part of Certificate>"
-msgstr "<Не є частиною сертифікату>"
+msgstr "<Не є частиною сертифіката>"
 
 #: ../smime/gui/smime-ui.ui.h:2
 msgid "Authorities"
@@ -20882,7 +20873,7 @@ msgstr "Довіра постачальнику сертифіката"
 
 #: ../smime/gui/smime-ui.ui.h:8
 msgid "Certificate Fields"
-msgstr "Поля сертифікату"
+msgstr "Поля сертифіката"
 
 #: ../smime/gui/smime-ui.ui.h:9
 msgid "Certificate Hierarchy"
@@ -20906,7 +20897,7 @@ msgstr "Сертифікати контактів"
 
 #: ../smime/gui/smime-ui.ui.h:15
 msgid "Do not trust the authenticity of this certificate"
-msgstr "Не довіряти дійсності цього сертифікату"
+msgstr "Не довіряти дійсності цього сертифіката"
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Edit"
@@ -20914,7 +20905,7 @@ msgstr "Правка"
 
 #: ../smime/gui/smime-ui.ui.h:17
 msgid "Email Certificate Trust Settings"
-msgstr "Параметри довіри сертифікату пошти"
+msgstr "Параметри довіри сертифіката пошти"
 
 #: ../smime/gui/smime-ui.ui.h:18
 msgid "Email Recipient Certificate"
@@ -20982,7 +20973,7 @@ msgstr "Цей сертифікат був перевірений для нас�
 
 #: ../smime/gui/smime-ui.ui.h:36
 msgid "Trust the authenticity of this certificate"
-msgstr "Довіряти достовірності цього сертифікату"
+msgstr "Довіряти достовірності цього сертифіката"
 
 #: ../smime/gui/smime-ui.ui.h:37
 msgid "Trust this CA to identify email users."
@@ -21020,7 +21011,7 @@ msgstr "Ви маєте сертифікати у файлі, що іденти�
 
 #: ../smime/gui/smime-ui.ui.h:45
 msgid "Your Certificates"
-msgstr "Ваші сетифікати"
+msgstr "Ваші сертифікати"
 
 #: ../smime/gui/smime-ui.ui.h:46
 msgid "_Edit CA Trust"
@@ -21078,11 +21069,11 @@ msgstr "PKCS #1 шифрування RSA"
 
 #: ../smime/lib/e-cert.c:666
 msgid "Certificate Key Usage"
-msgstr "Використання ключа сертифікату"
+msgstr "Використання ключа сертифіката"
 
 #: ../smime/lib/e-cert.c:669
 msgid "Netscape Certificate Type"
-msgstr "Тип сертифікату Netscape"
+msgstr "Тип сертифіката Netscape"
 
 #: ../smime/lib/e-cert.c:672
 msgid "Certificate Authority Key Identifier"
@@ -21176,7 +21167,7 @@ msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1085 ../smime/lib/e-cert.c:1208
 msgid "Certificate Signature Algorithm"
-msgstr "Алгоритм підпису сертифікату"
+msgstr "Алгоритм підпису сертифіката"
 
 #: ../smime/lib/e-cert.c:1094
 msgid "Issuer"
@@ -21192,7 +21183,7 @@ msgstr "Унікальний ID теми"
 
 #: ../smime/lib/e-cert.c:1214
 msgid "Certificate Signature Value"
-msgstr "Значення підпису сертифікату"
+msgstr "Значення підпису сертифіката"
 
 #: ../smime/lib/e-pkcs12.c:250
 msgid "PKCS12 File Password"
@@ -21317,14 +21308,14 @@ msgstr "_Виділення"
 msgid "Collection"
 msgstr "Колекція"
 
-#: ../widgets/menus/gal-define-views-dialog.c:327
+#: ../widgets/menus/gal-define-views-dialog.c:332
 #: ../widgets/menus/gal-define-views.ui.h:4
 #, no-c-format
 msgid "Define Views for %s"
 msgstr "Визначте режим для %s"
 
-#: ../widgets/menus/gal-define-views-dialog.c:335
-#: ../widgets/menus/gal-define-views-dialog.c:337
+#: ../widgets/menus/gal-define-views-dialog.c:340
+#: ../widgets/menus/gal-define-views-dialog.c:342
 msgid "Define Views"
 msgstr "Визначити режим"
 
@@ -22694,3 +22685,9 @@ msgstr "Контекст методу вводу (IM)"
 #: ../widgets/text/e-text.c:3541 ../widgets/text/e-text.c:3542
 msgid "Handle Popup"
 msgstr "Обробляти контексті вікна"
+
+#~ msgid "New Tab"
+#~ msgstr "Нова вкладка"
+
+#~ msgid "Quit"
+#~ msgstr "Вийти"
