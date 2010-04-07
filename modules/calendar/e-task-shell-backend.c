@@ -584,7 +584,7 @@ task_shell_backend_class_init (ETaskShellBackendClass *class)
 	shell_backend_class->name = "tasks";
 	shell_backend_class->aliases = "";
 	shell_backend_class->schemes = "task";
-	shell_backend_class->sort_order = 600;
+	shell_backend_class->sort_order = 500;
 	shell_backend_class->preferences_page = "calendar-and-tasks";
 	shell_backend_class->start = NULL;
 	shell_backend_class->migrate = e_task_shell_backend_migrate;
