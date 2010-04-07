@@ -354,8 +354,6 @@ plugins/groupwise-features/send-options.c
 plugins/groupwise-features/share-folder-common.c
 plugins/groupwise-features/share-folder.c
 plugins/groupwise-features/status-track.c
-plugins/hula-account-setup/camel-hula-listener.c
-plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
 plugins/image-inline/org-gnome-image-inline.eplug.xml
 plugins/imap-features/imap-headers.c
 [type: gettext/glade]plugins/imap-features/imap-headers.ui
