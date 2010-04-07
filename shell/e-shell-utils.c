@@ -346,3 +346,61 @@ e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
 
 	return g_strv_length (uris);
 }
+
+/**
+ * e_shell_hide_widgets_for_express_mode:
+ * @shell: an #EShell
+ * @builder: a #GtkBuilder
+ * @key_with_widget_names: The name of a GConf key; see below.
+ *
+ * If Evolution is running in Express mode (i.e. if the specified @shell is in
+ * Express mode), then this function will first read the specified GConf key.
+ * This key must contain a string list, and each element of that list must be
+ * the name of a widget present in @builder.  Those widgets will then get
+ * hidden.
+ *
+ * This can be used to simplify preference dialogs and such in an easy fashion, for use
+ * in Express mode.
+ *
+ * If Evolution is not running in Express mode, this function does nothing.
+ */
+void
+e_shell_hide_widgets_for_express_mode (EShell *shell,
+				       GtkBuilder *builder,
+				       const char *key_with_widget_names)
+{
+	GConfClient *client;
+	GSList *names;
+	GSList *l;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+	g_return_if_fail (key_with_widget_names != NULL);
+	
+	if (!e_shell_get_express_mode (shell))
+		return;
+
+	client = e_shell_get_gconf_client (shell);
+
+	names = gconf_client_get_list (client, key_with_widget_names, GCONF_VALUE_STRING, NULL); /* NULL-GError */
+	if (!names)
+		return;
+
+	for (l = names; l; l = l->next) {
+		const char *name;
+		GObject *object;
+
+		name = l->data;
+		object = gtk_builder_get_object (builder, name);
+		if (!object || !GTK_IS_WIDGET (object)) {
+			g_error ("Object '%s' was not found in the builder file, or it is not a GtkWidget", name);
+			g_assert_not_reached ();
+		}
+
+		gtk_widget_hide (GTK_WIDGET (object));
+	}
+
+	g_slist_foreach (names, (GFunc) g_free, NULL);
+	g_slist_free (names);
+}
+
