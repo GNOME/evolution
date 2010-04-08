@@ -13,6 +13,7 @@ libevolution_module_network_manager_la_SOURCES =		\
 
 libevolution_module_network_manager_la_LIBADD =			\
 	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(DBUS_GLIB_LIBS)
 
