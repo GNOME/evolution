@@ -239,12 +239,12 @@ mail_display_link_clicked (GtkHTML *html,
 			if (!(flags & EM_FORMAT_HTML_HEADER_CC))
 				flags |= EM_FORMAT_HTML_HEADER_CC;
 			else
-				flags |= EM_FORMAT_HTML_HEADER_CC;
+				flags &= ~EM_FORMAT_HTML_HEADER_CC;
 		} else if (strcmp (uri, "##BCC##") == 0) {
 			if (!(flags & EM_FORMAT_HTML_HEADER_BCC))
 				flags |= EM_FORMAT_HTML_HEADER_BCC;
 			else
-				flags |= EM_FORMAT_HTML_HEADER_BCC;
+				flags &= ~EM_FORMAT_HTML_HEADER_BCC;
 		}
 
 		priv->formatter->header_wrap_flags = flags;
