@@ -1554,7 +1554,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default>[chkOutlookFilenames,vboxTopPosting,chkPromptEmptySubject]</default>
+      <default>[chkOutlookFilenames,vboxTopPosting,labelAlerts,chkPromptEmptySubject]</default>
       <locale name="C">
          <short>List of controls to hide when in Express mode</short>
          <long>
