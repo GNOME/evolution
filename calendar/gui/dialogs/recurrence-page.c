@@ -2087,6 +2087,7 @@ create_exception_dialog (RecurrencePage *rpage, const gchar *title, GtkWidget **
 	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *toplevel;
 	CompEditor *editor;
+	GtkWidget *container;
 
 	priv = rpage->priv;
 

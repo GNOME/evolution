@@ -196,11 +196,7 @@ guess_screen_width (EMailShellSidebar *sidebar)
 		GdkRectangle rect;
 
 		toplevel = gtk_widget_get_toplevel (widget);
-#if GTK_CHECK_VERSION(2,19,7)
 		if (toplevel && gtk_widget_get_realized (toplevel))
-#else
-		if (toplevel && GTK_WIDGET_REALIZED (toplevel))
-#endif
 			monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
 		else {
 			/* We don't know in which monitor the window manager

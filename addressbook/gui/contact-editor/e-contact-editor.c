@@ -3461,6 +3461,15 @@ expand_phone_toggle (EContactEditor *ce)
 }
 
 static void
+expand_mail_toggle (EContactEditor *ce)
+{
+	GtkWidget *mail;
+
+	mail = e_builder_get_widget (ce->builder, "entry-email-4");
+	expand_mail (ce, !gtk_widget_get_visible (mail));
+}
+
+static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GtkBuilder *builder;
