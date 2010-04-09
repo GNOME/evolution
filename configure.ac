@@ -658,8 +658,8 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 
 	CFLAGS_save="$CFLAGS"
 	CFLAGS="$CFLAGS $GNOME_PILOT_CFLAGS"
-	LDFLAGS_save="$LDFLAGS"
-	LDFLAGS="$GNOME_PILOT_LIBS $LDFLAGS"
+	LIBS_save="$LIBS"
+	LIBS="$LIBS $GNOME_PILOT_LIBS $LDFLAGS"
 
 	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions],[ac_cv_pilot_link_utf8],
 	AC_RUN_IFELSE([AC_LANG_SOURCE(
@@ -679,7 +679,7 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 	)],[ac_cv_pilot_link_utf8=yes],[ac_cv_pilot_link_utf8=no],[ac_cv_pilot_link_utf8=no]))
 
 	CFLAGS="$CFLAGS_save"
-	LDFLAGS="$LDFLAGS_save"
+	LIBS="$LIBS_save"
 
 	if test "$ac_cv_pilot_link_utf8" = no; then
 		AC_MSG_ERROR([evolution requires pilot-link to have working UTF-8 conversion routines])
