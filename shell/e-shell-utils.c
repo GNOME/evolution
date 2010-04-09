@@ -76,6 +76,7 @@ e_shell_configure_web_view (EShell *shell,
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
+#ifndef G_OS_WIN32
 	e_binding_new (
 		shell_settings, "disable-printing",
 		web_view, "disable-printing");
@@ -83,6 +84,7 @@ e_shell_configure_web_view (EShell *shell,
 	e_binding_new (
 		shell_settings, "disable-save-to-disk",
 		web_view, "disable-save-to-disk");
+#endif
 }
 
 /**

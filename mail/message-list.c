@@ -2517,12 +2517,6 @@ message_list_finalize (GObject *object)
 }
 
 static void
-message_list_built (MessageList *message_list)
-{
-	gtk_widget_grab_focus (GTK_WIDGET (message_list));
-}
-
-static void
 message_list_selectable_update_actions (ESelectable *selectable,
                                         EFocusTracker *focus_tracker,
                                         GdkAtom *clipboard_targets,
@@ -2563,7 +2557,7 @@ message_list_class_init (MessageListClass *class)
 	gtk_object_class = GTK_OBJECT_CLASS (class);
 	gtk_object_class->destroy = message_list_destroy;
 
-	class->message_list_built = message_list_built;
+	class->message_list_built = NULL;
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (

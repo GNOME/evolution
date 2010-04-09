@@ -14,6 +14,10 @@ if ENABLE_CONNMAN
 CONNMAN_DIR = connman
 endif
 
+if ENABLE_WINDOWS_SENS
+WINDOWS_SENS_DIR = windows-sens
+endif
+
 SUBDIRS = \
 	addressbook \
 	calendar \
@@ -21,7 +25,8 @@ SUBDIRS = \
 	plugin-lib \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
-	$(NETWORK_MANAGER_DIR)
+	$(NETWORK_MANAGER_DIR) \
+	$(WINDOWS_SENS_DIR) \
 	$(CONNMAN_DIR)
 
 -include $(top_srcdir)/git.mk

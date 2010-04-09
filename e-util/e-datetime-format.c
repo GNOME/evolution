@@ -29,6 +29,9 @@
 #define KEYS_GROUPNAME "formats"
 
 #ifdef G_OS_WIN32
+#ifdef localtime_r
+#undef localtime_r
+#endif
 /* The localtime() in Microsoft's C library *is* thread-safe */
 #define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
 #endif

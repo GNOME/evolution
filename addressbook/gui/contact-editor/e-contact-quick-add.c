@@ -605,6 +605,8 @@ e_contact_quick_add_email (const gchar *email, EContactQuickAddCallback cb, gpoi
 	if (lt != NULL && gt != NULL && (gt - lt) > 0) {
 		name = g_strndup (email, lt - email);
 		addr = g_strndup (lt + 1, gt - lt - 1);
+	} else {
+		addr = email;
 	}
 
 	e_contact_quick_add (name, addr, cb, closure);
