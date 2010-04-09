@@ -657,8 +657,8 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 
 	CFLAGS_save="$CFLAGS"
 	CFLAGS="$CFLAGS $GNOME_PILOT_CFLAGS"
-	LDFLAGS_save="$LDFLAGS"
-	LDFLAGS="$GNOME_PILOT_LIBS $LDFLAGS"
+	LIBS_save="$LIBS"
+	LIBS="$LIBS $GNOME_PILOT_LIBS $LDFLAGS"
 
 	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions],[ac_cv_pilot_link_utf8],
 	AC_RUN_IFELSE([AC_LANG_SOURCE(
@@ -678,7 +678,7 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 	)],[ac_cv_pilot_link_utf8=yes],[ac_cv_pilot_link_utf8=no],[ac_cv_pilot_link_utf8=no]))
 
 	CFLAGS="$CFLAGS_save"
-	LDFLAGS="$LDFLAGS_save"
+	LIBS="$LIBS_save"
 
 	if test "$ac_cv_pilot_link_utf8" = no; then
 		AC_MSG_ERROR([evolution requires pilot-link to have working UTF-8 conversion routines])
@@ -1140,7 +1140,43 @@ if test "$enable_nm" = yes; then
 	AC_SUBST(HAVE_NM)
 	AC_SUBST(NM_CFLAGS)
 fi
+
 AM_CONDITIONAL([ENABLE_NETWORK_MANAGER], [test "$enable_nm" = yes])
+
+dnl ******************************
+dnl Check for Windows SENS API
+dnl ******************************
+AC_ARG_ENABLE([sens],
+	[AS_HELP_STRING([--enable-sens],
+	[enable Windows SENS support (default=yes)])],
+	[enable_sens=$enableval],[enable_sens=yes])
+if test "x$os_win32" = xyes; then
+	if test "x$enable_sens" = xyes; then
+		AC_CHECK_HEADER([rpc.h],[ enable_sens="yes" ],[ enable_sens="no" ])
+	fi
+else
+	enable_sens="no"
+fi
+AC_MSG_CHECKING([if Windows SENS support is enabled])
+AC_MSG_RESULT([$enable_sens])
+if test "$enable_sens" = yes; then
+	SENS_LIBS="-lole32 -loleaut32 -luuid -lrpcrt4"
+	AC_CHECK_HEADER([eventsys.h],
+		[AC_DEFINE([HAVE_EVENTSYS_H], 1, [Have <eventsys.h>])],,
+		[[	#if HAVE_EVENTSYS_H
+			#include <eventsys.h>
+			#endif
+		]])
+	AC_CHECK_HEADER([sensevts.h],
+		[AC_DEFINE([HAVE_SENSEVTS_H], 1, [Have <sensevts.h>])],,
+		[[	#if HAVE_SENSEVTS_H
+			#include <sensevts.h>
+			#endif
+		]])
+	AC_SUBST(HAVE_SENS)
+	AC_SUBST(SENS_LIBS)
+fi
+AM_CONDITIONAL([ENABLE_WINDOWS_SENS], [test "$enable_sens" = yes])
 
 dnl ******************************
 dnl Enable ConnMan support ?
@@ -1706,6 +1742,7 @@ modules/connman/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
+modules/windows-sens/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
@@ -1774,6 +1811,8 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	NetworkManager:		$enable_nm
+	Windows SENS:           $enable_sens
+	ConnMan:		$enable_connman
 	Pilot conduits:		$msg_pilot
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5

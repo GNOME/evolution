@@ -2145,8 +2145,12 @@ mail_reader_update_actions (EMailReader *reader)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+#ifndef G_OS_WIN32
 	disable_printing = e_shell_settings_get_boolean (
 		shell_settings, "disable-printing");
+#else
+	disable_printing = FALSE;
+#endif
 
 	have_an_account =
 		(state & E_MAIL_READER_HAVE_ACCOUNT);

@@ -1492,17 +1492,22 @@ efh_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMForm
 	} else if (g_ascii_strncasecmp(url, "http:", 5) == 0 || g_ascii_strncasecmp(url, "https:", 6) == 0) {
 		d(printf(" adding job, get %s\n", url));
 		job = em_format_html_job_new(efh, emfh_gethttp, g_strdup(url));
-	} else if  (g_ascii_strncasecmp(url, "/", 1) == 0) {
+	} else if  (g_str_has_prefix (url, "file://")) {
 		gchar *data = NULL;
 		gsize length = 0;
 		gboolean status;
+		gchar *path;
 
-		status = g_file_get_contents (url, &data, &length, NULL);
+		path = g_filename_from_uri (url, NULL, NULL);
+		g_return_if_fail (path != NULL);
+
+		status = g_file_get_contents (path, &data, &length, NULL);
 		if (status)
 			gtk_html_stream_write (handle, data, length);
 
-		gtk_html_stream_close(handle, status? GTK_HTML_STREAM_OK : GTK_HTML_STREAM_ERROR);
+		gtk_html_stream_close (handle, status ? GTK_HTML_STREAM_OK : GTK_HTML_STREAM_ERROR);
 		g_free (data);
+		g_free (path);
 	} else {
 		d(printf("HTML Includes reference to unknown uri '%s'\n", url));
 		gtk_html_stream_close(handle, GTK_HTML_STREAM_ERROR);
@@ -2307,74 +2312,43 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 
 		/* Let us add a '...' if we have more addresses */
 		if (limit > 0 && wrap && a && (i>(limit-1))) {
-
-			gchar * evolution_imagesdir = g_filename_to_uri(EVOLUTION_IMAGESDIR, NULL, NULL);
+			gchar *evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
 			if (!strcmp (field, _("To"))) {
-
 				g_string_append (out, "<a href=\"##TO##\">...</a>");
-#ifdef G_OS_WIN32
-				str = g_strdup_printf ("<a href=\"##TO##\">+</a>  ");
-#else
-				str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
-#endif
-				g_free(evolution_imagesdir);
-
-				return str;
+				str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/plus.png\"></a>  ", evolution_imagesdir);
 			}
 			else if (!strcmp (field, _("Cc"))) {
 				g_string_append (out, "<a href=\"##CC##\">...</a>");
-#ifdef G_OS_WIN32
-				str = g_strdup_printf ("<a href=\"##CC##\">+</a>  ");
-#else
-				str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
-#endif
-				g_free(evolution_imagesdir);
-
-				return str;
+				str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/plus.png\"></a>  ", evolution_imagesdir);
 			}
 			else if (!strcmp (field, _("Bcc"))) {
 				g_string_append (out, "<a href=\"##BCC##\">...</a>");
-#ifdef G_OS_WIN32
-				str = g_strdup_printf ("<a href=\"##BCC##\">+</a>  ");
-#else
-				str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/plus.png\" /></a>  ", evolution_imagesdir);
-#endif
-				g_free(evolution_imagesdir);
-
-				return str;
+				str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/plus.png\"></a>  ", evolution_imagesdir);
 			}
+
+			g_free (evolution_imagesdir);
+
+			if (str)
+				return str;
 		}
 
 	}
 
 	if (limit > 0 && i>(limit)) {
-
-		gchar * evolution_imagesdir = g_filename_to_uri(EVOLUTION_IMAGESDIR, NULL, NULL);
+		gchar *evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
 		if (!strcmp (field, _("To"))) {
-#ifdef G_OS_WIN32
-			str = g_strdup_printf ("<a href=\"##TO##\">-</a>  ");
-#else
-			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
-#endif
+			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\"></a>  ", evolution_imagesdir);
 		}
 		else if (!strcmp (field, _("Cc"))) {
-#ifdef G_OS_WIN32
-			str = g_strdup_printf ("<a href=\"##CC##\">-</a>  ");
-#else
-			str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
-#endif
+			str = g_strdup_printf ("<a href=\"##CC##\"><img src=\"%s/minus.png\"></a>  ", evolution_imagesdir);
 		}
 		else if (!strcmp (field, _("Bcc"))) {
-#ifdef G_OS_WIN32
-			str = g_strdup_printf ("<a href=\"##BCC##\">-</a>  ");
-#else
-			str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/minus.png\" /></a>  ", evolution_imagesdir);
-#endif
+			str = g_strdup_printf ("<a href=\"##BCC##\"><img src=\"%s/minus.png\"></a>  ", evolution_imagesdir);
 		}
 
-		g_free(evolution_imagesdir);
+		g_free (evolution_imagesdir);
 	}
 
 	return str;
