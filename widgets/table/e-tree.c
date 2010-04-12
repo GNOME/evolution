@@ -1985,10 +1985,6 @@ set_scroll_adjustments   (ETree *tree,
 			  GtkAdjustment *hadjustment,
 			  GtkAdjustment *vadjustment)
 {
-	GtkLayout *layout;
-
-	layout = GTK_LAYOUT (tree->priv->table_canvas);
-
 	if (vadjustment != NULL)
 		gtk_adjustment_set_step_increment (vadjustment, 20);
 
@@ -1996,6 +1992,10 @@ set_scroll_adjustments   (ETree *tree,
 		gtk_adjustment_set_step_increment (hadjustment, 20);
 
 	if (tree->priv) {
+		GtkLayout *layout;
+
+		layout = GTK_LAYOUT (tree->priv->table_canvas);
+
 		gtk_layout_set_hadjustment (layout, hadjustment);
 		gtk_layout_set_vadjustment (layout, vadjustment);
 
