@@ -2142,6 +2142,8 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 		e_cal_model_update_status_message (model, msg, -1.0);
 		g_free (msg);
 
+		e_cal_set_default_timezone (client, e_cal_model_get_timezone (model), NULL);
+
 		g_signal_connect (client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
 		e_cal_open_async (client, TRUE);
 	}
