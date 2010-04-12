@@ -36,6 +36,7 @@
 
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-backend.h"
+#include "e-cal-shell-content.h"
 
 #define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -303,6 +304,7 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 		G_CALLBACK (cal_shell_sidebar_default_opened_cb),
 		cal_shell_sidebar);
 
+	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_cal_shell_content_get_model (E_CAL_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (cal_shell_sidebar)))))), NULL);
 	e_cal_open_async (client, FALSE);
 }
 
@@ -956,6 +958,7 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 		G_CALLBACK (cal_shell_sidebar_client_opened_cb),
 		cal_shell_sidebar);
 
+	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_cal_shell_content_get_model (E_CAL_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (cal_shell_sidebar)))))), NULL);
 	e_cal_open_async (client, FALSE);
 }
 
