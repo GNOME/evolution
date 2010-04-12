@@ -171,10 +171,11 @@ static void
 set_description (ECalComponent *comp, CamelMimeMessage *message)
 {
 	CamelDataWrapper *content;
-	CamelStream *mem;
+	CamelStream *stream;
 	CamelContentType *type;
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
 	ECalComponentText text;
+	GByteArray *byte_array;
 	GSList sl;
 	gchar *str, *convert_str = NULL;
 	gsize bytes_read, bytes_written;
@@ -200,11 +201,11 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	if (!camel_content_type_is (type, "text", "plain"))
 		return;
 
-	mem = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream (content, mem);
-
-	str = g_strndup ((const gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
-	camel_object_unref (mem);
+	byte_array = g_byte_array_new ();
+	stream = camel_stream_mem_new_with_byte_array (byte_array);
+	camel_data_wrapper_decode_to_stream (content, stream);
+	str = g_strndup ((gchar *) byte_array->data, byte_array->len);
+	camel_object_unref (stream);
 
 	/* convert to UTF-8 string */
 	if (str && content->mime_type->params && content->mime_type->params->value) {

@@ -635,21 +635,25 @@ em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
  * Warning: This could block the ui for an extended period.
  **/
 void
-em_utils_selection_set_mailbox(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids)
+em_utils_selection_set_mailbox (GtkSelectionData *data,
+                                CamelFolder *folder,
+                                GPtrArray *uids)
 {
+	GByteArray *byte_array;
 	CamelStream *stream;
 	GdkAtom target;
 
 	target = gtk_selection_data_get_target (data);
 
-	stream = camel_stream_mem_new();
-	if (em_utils_write_messages_to_stream(folder, uids, stream) == 0)
+	byte_array = g_byte_array_new ();
+	stream = camel_stream_mem_new_with_byte_array (byte_array);
+
+	if (em_utils_write_messages_to_stream (folder, uids, stream) == 0)
 		gtk_selection_data_set(
 			data, target, 8,
-			((CamelStreamMem *)stream)->buffer->data,
-			((CamelStreamMem *)stream)->buffer->len);
+			byte_array->data, byte_array->len);
 
-	camel_object_unref(stream);
+	camel_object_unref (stream);
 }
 
 /**

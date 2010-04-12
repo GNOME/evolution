@@ -2036,18 +2036,27 @@ em_format_snoop_type (CamelMimePart *part)
 		name_type = e_util_guess_mime_type (filename, FALSE);
 
 	dw = camel_medium_get_content ((CamelMedium *)part);
-	if (!camel_data_wrapper_is_offline(dw)) {
-		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
+	if (!camel_data_wrapper_is_offline (dw)) {
+		GByteArray *byte_array;
+		CamelStream *stream;
 
-		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0) {
-			gchar *ct = g_content_type_guess (filename, mem->buffer->data, mem->buffer->len, NULL);
+		byte_array = g_byte_array_new ();
+		stream = camel_stream_mem_new_with_byte_array (byte_array);
 
-			if (ct)
-				magic_type = g_content_type_get_mime_type (ct);
+		if (camel_data_wrapper_decode_to_stream (dw, stream) > 0) {
+			gchar *content_type;
 
-			g_free (ct);
+			content_type = g_content_type_guess (
+				filename, byte_array->data,
+				byte_array->len, NULL);
+
+			if (content_type != NULL)
+				magic_type = g_content_type_get_mime_type (content_type);
+
+			g_free (content_type);
 		}
-		camel_object_unref(mem);
+
+		camel_object_unref (stream);
 	}
 
 	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));

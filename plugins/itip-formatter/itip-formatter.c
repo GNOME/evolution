@@ -2524,7 +2524,8 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	gchar *classid;
 	struct _itip_puri *puri;
 	CamelDataWrapper *content;
-	CamelStream *mem;
+	CamelStream *stream;
+	GByteArray *byte_array;
 
 	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
 
@@ -2550,14 +2551,18 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	/* This is non-gui thread. Download the part for using in the main thread */
 	content = camel_medium_get_content ((CamelMedium *) target->part);
-	mem = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream (content, mem);
 
-	if (((CamelStreamMem *) mem)->buffer->len == 0)
+	byte_array = g_byte_array_new ();
+	stream = camel_stream_mem_new_with_byte_array (byte_array);
+	camel_data_wrapper_decode_to_stream (content, stream);
+
+	if (byte_array->len == 0)
 		puri->vcalendar = NULL;
 	else
-		puri->vcalendar = g_strndup ((gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
-	camel_object_unref (mem);
+		puri->vcalendar = g_strndup (
+			(gchar *) byte_array->data, byte_array->len);
+
+	camel_object_unref (stream);
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);

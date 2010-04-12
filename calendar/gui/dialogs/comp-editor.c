@@ -2891,7 +2891,8 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		EAttachment *attachment;
 		CamelDataWrapper *wrapper;
 		CamelMimePart *mime_part;
-		CamelStreamMem *mstream;
+		CamelStream *stream;
+		GByteArray *byte_array;
 		guchar *buffer = NULL;
 		const gchar *desc, *disp;
 		gint column_id;
@@ -2908,15 +2909,17 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 		cal_mime_attach = g_malloc0 (sizeof (struct CalMimeAttach));
 		wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-		mstream = (CamelStreamMem *) camel_stream_mem_new ();
 
-		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
-		buffer = g_memdup (mstream->buffer->data, mstream->buffer->len);
+		byte_array = g_byte_array_new ();
+		stream = camel_stream_mem_new_with_byte_array (byte_array);
+
+		camel_data_wrapper_decode_to_stream (wrapper, stream);
+		buffer = g_memdup (byte_array->data, byte_array->len);
 
 		camel_mime_part_set_content_id (mime_part, NULL);
 
 		cal_mime_attach->encoded_data = (gchar *)buffer;
-		cal_mime_attach->length = mstream->buffer->len;
+		cal_mime_attach->length = byte_array->len;
 		cal_mime_attach->filename = g_strdup (camel_mime_part_get_filename (mime_part));
 		desc = camel_mime_part_get_description (mime_part);
 		if (!desc || *desc == '\0')
@@ -2931,7 +2934,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 		attach_list = g_slist_append (attach_list, cal_mime_attach);
 
-		camel_object_unref (mstream);
+		camel_object_unref (stream);
 
 	}
 
