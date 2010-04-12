@@ -246,7 +246,7 @@ guess_when_online (EmailProvider *provider)
 	SoupMessage *msg;
 	SoupSession *session;
 
-	url = g_strdup_printf("%s/%s", "https://live.mozillamessaging.com/autoconfig", provider->domain);
+	url = g_strdup_printf("%s/%s", "http://api.gnome.org/evolution/autoconfig", provider->domain);
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
 
