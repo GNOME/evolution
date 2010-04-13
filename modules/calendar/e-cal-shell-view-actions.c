@@ -1202,13 +1202,18 @@ quit_calendar_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShell *shell;
+	GdkEvent *event;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	/* Synthesize a delete_event on this window. */
+	event = gdk_event_new (GDK_DELETE);
+	event->any.window = g_object_ref (((GtkWidget *) shell_window)->window);
+	event->any.send_event = TRUE;
+	gtk_main_do_event (event);
+	gdk_event_free (event);
 	
-	shell = e_shell_window_get_shell (shell_window);
-	e_shell_quit (shell);
 }
 
 static void
