@@ -1187,7 +1187,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="ssl_trust_checkbutton">
-                <property name="label" translatable="yes">Trust this CA to identify web sites.</property>
+                <property name="label" translatable="yes">Trust this CA to identify websites.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
