@@ -234,7 +234,7 @@ activity_describe (EActivity *activity)
 		 * complete is known. */
 		g_string_printf (
 			string, _("%s (%d%% complete)"), text,
-			(gint) (percent * 100.0 + 0.5));
+			(gint) (percent));
 	}
 
 	return g_string_free (string, FALSE);
