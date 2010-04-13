@@ -41,6 +41,8 @@
 
 #define d(x)
 
+typedef GtkWidget * (*EConfigItemSectionFactoryFunc)(EConfig *ec, EConfigItem *, GtkWidget *parent, GtkWidget *old, gpointer data, GtkWidget **real_frame);
+
 struct _EConfigFactory {
 	gchar *id;
 	EConfigFactoryFunc func;
@@ -62,6 +64,7 @@ struct _widget_node {
 	EConfigItem *item;
 	GtkWidget *widget; /* widget created by the factory, if any */
 	GtkWidget *frame; /* if created by us */
+	GtkWidget *real_frame; /* used for sections and section tables, this is the real GtkFrame (whereas "frame" above is the internal vbox/table) */
 
 	guint empty:1;		/* set if empty (i.e. hidden) */
 };
@@ -87,6 +90,8 @@ struct _EConfigPrivate {
 
 static gpointer parent_class;
 
+static GtkWidget *ech_config_section_factory (EConfig *config, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data, GtkWidget **real_frame);
+
 static void
 config_finalize (GObject *object)
 {
@@ -94,7 +99,7 @@ config_finalize (GObject *object)
 	EConfigPrivate *p = emp->priv;
 	GList *link;
 
-	d(printf("finalising EConfig %p\n", o));
+	d(printf("finalising EConfig %p\n", object));
 
 	g_free(emp->id);
 
@@ -519,6 +524,7 @@ ec_rebuild (EConfig *emp)
 	struct _widget_node *sectionnode = NULL, *pagenode = NULL;
 	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL, *assistant = NULL;
 	gint pageno = 0, sectionno = 0, itemno = 0;
+	gint n_visible_widgets = 0;
 	struct _widget_node *last_active_page = NULL;
 	gboolean is_assistant;
 	GList *link;
@@ -550,7 +556,7 @@ ec_rebuild (EConfig *emp)
 		if (item->label != NULL)
 			translated_label = gettext (item->label);
 
-		/* If the last section doesn't contain anything, hide it */
+		/* If the last section doesn't contain any visible widgets, hide it */
 		if (sectionnode != NULL
 		    && sectionnode->frame != NULL
 		    && (item->type == E_CONFIG_PAGE_START
@@ -558,11 +564,22 @@ ec_rebuild (EConfig *emp)
 			|| item->type == E_CONFIG_PAGE
 			|| item->type == E_CONFIG_SECTION
 			|| item->type == E_CONFIG_SECTION_TABLE)) {
-			if ((sectionnode->empty = itemno == 0)) {
-				gtk_widget_hide(sectionnode->frame);
+			if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
+				if (sectionnode->real_frame)
+					gtk_widget_hide(sectionnode->real_frame);
+
+				if (sectionnode->frame)
+					gtk_widget_hide(sectionnode->frame);
+
 				sectionno--;
-			} else
-				gtk_widget_show(sectionnode->frame);
+			} else {
+				if (sectionnode->real_frame)
+					gtk_widget_show(sectionnode->real_frame);
+
+				if (sectionnode->frame)
+					gtk_widget_show(sectionnode->frame);
+			}
+
 			d(printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
 		}
 
@@ -791,11 +808,34 @@ ec_rebuild (EConfig *emp)
 			}
 
 			itemno = 0;
+			n_visible_widgets = 0;
+
+			d(printf("Building section %s - '%s' - %s factory\n", item->path, item->label, item->factory ? "with" : "without"));
+
 			if (item->factory) {
-				section = item->factory(emp, item, page, wn->widget, wn->context->data);
+				/* For sections, we pass an extra argument to the usual EConfigItemFactoryFunc.
+				 * If this is an automatically-generated section, that extra argument (real_frame from
+				 * EConfigItemSectionFactoryFunc) will contain the actual GtkFrame upon returning.
+				 */
+				EConfigItemSectionFactoryFunc factory = (EConfigItemSectionFactoryFunc) item->factory;
+
+				section = factory(emp, item, page, wn->widget, wn->context->data, &wn->real_frame);
 				wn->frame = section;
 				if (section)
 					itemno = 1;
+
+				if (factory != ech_config_section_factory) {
+					/* This means there is a section that came from a user-specified factory,
+					 * so we don't know what is inside the section.  In that case, we increment
+					 * n_visible_widgets so that the section will not get hidden later (we don't know
+					 * if the section is empty or not, so we cannot decide to hide it).
+					 *
+					 * For automatically-generated sections, we use a special ech_config_section_factory() -
+					 * see emph_construct_item().
+					 */
+					n_visible_widgets++;
+					d(printf ("  n_visible_widgets++ because there is a section factory -> frame=%p\n", section));
+				}
 
 				if (section
 				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX(section))
@@ -878,6 +918,11 @@ ec_rebuild (EConfig *emp)
 
 			d(printf("item %d:%s widget %p\n", itemno, item->path, w));
 
+			d(printf ("  item %s: (%s - %s)\n",
+				  item->path,
+				  g_type_name_from_instance ((GTypeInstance *) w),
+				  gtk_widget_get_visible (w) ? "visible" : "invisible"));
+
 			if (wn->widget && wn->widget != w) {
 				d(printf("destroy old widget for item '%s'\n", item->path));
 				gtk_widget_destroy(wn->widget);
@@ -887,18 +932,32 @@ ec_rebuild (EConfig *emp)
 			if (w) {
 				g_signal_connect(w, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 				itemno++;
+
+				if (gtk_widget_get_visible (w))
+					n_visible_widgets++;
 			}
 			break;
 		}
 	}
 
-	/* If the last section doesn't contain anything, hide it */
+	/* If the last section doesn't contain any visible widgets, hide it */
 	if (sectionnode != NULL && sectionnode->frame != NULL) {
-		if ((sectionnode->empty = itemno == 0)) {
-			gtk_widget_hide(sectionnode->frame);
+		d(printf ("Section %s - %d visible widgets (frame=%p)\n", sectionnode->item->path, n_visible_widgets, sectionnode->frame));
+		if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
+			if (sectionnode->real_frame)
+				gtk_widget_hide(sectionnode->real_frame);
+
+			if (sectionnode->frame)
+				gtk_widget_hide(sectionnode->frame);
+
 			sectionno--;
-		} else
-			gtk_widget_show(sectionnode->frame);
+		} else {
+			if (sectionnode->real_frame)
+				gtk_widget_show(sectionnode->real_frame);
+
+			if (sectionnode->frame)
+				gtk_widget_show(sectionnode->frame);
+		}
 		d(printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
 	}
 
@@ -1585,7 +1644,8 @@ ech_config_section_factory (EConfig *config,
                             EConfigItem *item,
                             GtkWidget *parent,
                             GtkWidget *old,
-                            gpointer data)
+                            gpointer data,
+			    GtkWidget **real_frame)
 {
 	struct _EConfigHookGroup *group = data;
 	GtkWidget *label = NULL;
@@ -1611,6 +1671,8 @@ ech_config_section_factory (EConfig *config,
 	gtk_frame_set_label_widget (GTK_FRAME (widget), label);
 	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
+
+	*real_frame = widget;
 
 	/* This is why we have a custom factory for sections.
 	 * When the plugin is disabled the frame is invisible. */
@@ -1667,9 +1729,9 @@ emph_construct_item(EPluginHook *eph, EConfigHookGroup *menu, xmlNodePtr root, E
 	if (item->user_data)
 		item->factory = ech_config_widget_factory;
 	else if (item->type == E_CONFIG_SECTION)
-		item->factory = ech_config_section_factory;
+		item->factory = (EConfigItemFactoryFunc) ech_config_section_factory;
 	else if (item->type == E_CONFIG_SECTION_TABLE)
-		item->factory = ech_config_section_factory;
+		item->factory = (EConfigItemFactoryFunc) ech_config_section_factory;
 
 	d(printf("   path=%s label=%s factory=%s\n", item->path, item->label, (gchar *)item->user_data));
 
