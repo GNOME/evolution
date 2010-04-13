@@ -34,6 +34,7 @@
 
 #include "e-task-shell-view.h"
 #include "e-task-shell-backend.h"
+#include "e-task-shell-content.h"
 
 #define E_TASK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -298,6 +299,7 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 		G_CALLBACK (task_shell_sidebar_default_opened_cb),
 		task_shell_sidebar);
 
+	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_task_shell_content_get_task_model (E_TASK_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (task_shell_sidebar)))))), NULL);
 	e_cal_open_async (client, FALSE);
 }
 
@@ -874,6 +876,7 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 		G_CALLBACK (task_shell_sidebar_client_opened_cb),
 		task_shell_sidebar);
 
+	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_task_shell_content_get_task_model (E_TASK_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (task_shell_sidebar)))))), NULL);
 	e_cal_open_async (client, FALSE);
 }
 
