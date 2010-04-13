@@ -252,7 +252,7 @@ restore (const gchar *filename)
 	run_cmd (EVOLUTION " --quit");
 
 	CANCEL (complete);
-	txt = _("Backup current Evolution data");
+	txt = _("Back up current Evolution data");
 	run_cmd ("mv " EVOLUTION_DIR " " EVOLUTION_DIR_BACKUP);
 	run_cmd ("mv $HOME/.camel_certs ~/.camel_certs_old");
 
