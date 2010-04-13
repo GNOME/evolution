@@ -695,7 +695,7 @@ e_week_view_init (EWeekView *week_view)
 	GdkPixbuf *pixbuf;
 	gint i;
 
-	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (week_view), TRUE);
 
 	week_view->query = NULL;
 	week_view->event_destroyed = FALSE;

@@ -546,7 +546,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	container = widget;
 
 	widget = e_attachment_icon_view_new ();
-	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_icon_view_set_model (GTK_ICON_VIEW (widget), bar->priv->model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	bar->priv->icon_view = g_object_ref (widget);
@@ -563,7 +563,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	container = widget;
 
 	widget = e_attachment_tree_view_new ();
-	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (widget), bar->priv->model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	bar->priv->tree_view = g_object_ref (widget);

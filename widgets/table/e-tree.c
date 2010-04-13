@@ -538,7 +538,7 @@ et_search_accept (ETableSearch *search, ETree *et)
 static void
 e_tree_init (ETree *e_tree)
 {
-	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (e_tree), GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (e_tree), TRUE);
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_tree), FALSE);
 
@@ -709,7 +709,7 @@ e_tree_setup_header (ETree *e_tree)
 {
 	gchar *pointer;
 	e_tree->priv->header_canvas = GNOME_CANVAS (e_canvas_new ());
-	GTK_WIDGET_UNSET_FLAGS (e_tree->priv->header_canvas, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (e_tree->priv->header_canvas, FALSE);
 
 	gtk_widget_show (GTK_WIDGET (e_tree->priv->header_canvas));
 

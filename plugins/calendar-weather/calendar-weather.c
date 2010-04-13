@@ -336,7 +336,7 @@ GtkWidget *
 e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	GtkWidget *button, *parent, *text, *label;
-	gint row;
+	guint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	SoupURI *suri;
@@ -353,7 +353,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	parent = data->parent;
 
-	row = ((GtkTable*)parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	label = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (label);
@@ -434,7 +434,7 @@ GtkWidget *
 e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	GtkWidget *combobox, *parent, *label;
-	gint row;
+	guint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 
@@ -443,7 +443,7 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	parent = data->parent;
 
-	row = ((GtkTable*)parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	label = gtk_label_new_with_mnemonic (_("_Units:"));
 	gtk_widget_show (label);

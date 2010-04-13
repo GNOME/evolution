@@ -255,13 +255,13 @@ more_parts (GtkWidget *button,
 	new = e_rule_context_next_part (data->context, NULL);
 	if (new) {
 		GtkWidget *w;
-		gint rows;
+		guint rows;
 
 		new = e_filter_part_clone (new);
 		e_filter_rule_add_part (data->rule, new);
 		w = get_rule_part_widget (data->context, new, data->rule);
 
-		rows = GTK_TABLE (data->parts)->nrows;
+		g_object_get (data->parts, "n-rows", &rows, NULL);
 		gtk_table_resize (GTK_TABLE (data->parts), rows + 1, 2);
 		attach_rule (w, data, new, rows);
 

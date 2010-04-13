@@ -926,17 +926,17 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	header_add = gtk_button_new_from_stock ("gtk-add");
 	gtk_widget_show (header_add);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_add);
-	GTK_WIDGET_SET_FLAGS (header_add, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (header_add, TRUE);
 
 	header_edit = gtk_button_new_from_stock ("gtk-edit");
 	gtk_widget_show (header_edit);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_edit);
-	GTK_WIDGET_SET_FLAGS (header_edit, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (header_edit, TRUE);
 
 	header_remove = gtk_button_new_from_stock ("gtk-remove");
 	gtk_widget_show (header_remove);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_remove);
-	GTK_WIDGET_SET_FLAGS (header_remove, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (header_remove, TRUE);
 
 	cd->gconf = gconf_client_get_default ();
 

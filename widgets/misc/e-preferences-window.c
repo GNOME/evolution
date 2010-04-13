@@ -287,7 +287,7 @@ preferences_window_init (EPreferencesWindow *window)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (gtk_widget_hide), window);
-	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (widget, TRUE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	accel_group = gtk_accel_group_new ();
 	gtk_widget_add_accelerator (

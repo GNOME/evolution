@@ -384,7 +384,9 @@ GtkWidget *
 org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
 	GtkWidget *check;
-	guint i = ((GtkTable *)data->parent)->nrows;
+	guint n_rows;
+
+	g_object_get (data->parent, "n-rows", &n_rows, NULL);
 
 	if (data->old)
                 return data->old;
@@ -393,7 +395,9 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_bf_unicode);
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (convert_unicode_cb), (gpointer) "/apps/evolution/mail/junk/bogofilter/unicode");
-	gtk_table_attach((GtkTable *)data->parent, check, 0, 1, i, i+1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (data->parent), check,
+	                  0, 1, n_rows, n_rows+1,
+	                  0, 0, 0, 0);
 	gtk_widget_show (check);
 	return (GtkWidget *)check;
 }

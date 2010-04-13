@@ -50,8 +50,7 @@ menu_tool_button_get_first_menu_item (GtkMenuToolButton *menu_tool_button)
 	if (!GTK_IS_MENU (menu))
 		return NULL;
 
-	/* XXX GTK+ 2.18 provides no accessor function. */
-	children = GTK_MENU_SHELL (menu)->children;
+	children = gtk_container_get_children (GTK_CONTAINER (menu));
 	if (children == NULL)
 		return NULL;
 

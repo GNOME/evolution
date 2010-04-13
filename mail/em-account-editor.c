@@ -2483,7 +2483,7 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 {
 	EMAccountEditor *emae = data;
 	GtkWidget *w, *box, *spin;
-	gint row;
+	guint row;
 
 	if (emae->priv->source.provider == NULL
 	    || emae->priv->source.provider->extra_conf == NULL)
@@ -2509,7 +2509,7 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 	}
 
 	/* We have to add the automatic mail check item with the rest of the receive options */
-	row = ((GtkTable *)parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	box = gtk_hbox_new (FALSE, 4);
 	w = gtk_check_button_new_with_mnemonic (_("Check for _new messages every"));
@@ -2541,7 +2541,8 @@ emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *par
 	GtkWidget *depw;
 	GSList *depl = NULL, *n;
 	EMAccountEditorService *service = &emae->priv->source;
-	gint row, i;
+	gint i;
+	guint row;
 	GHashTable *extra;
 	CamelURL *url;
 
@@ -2569,7 +2570,7 @@ section:
 	url = emae_account_url (emae, emae_service_info[service->type].account_uri_key);
 	item->extra_table = g_hash_table_new (g_str_hash, g_str_equal);
 	extra = g_hash_table_new (g_str_hash, g_str_equal);
-	row = ((GtkTable *)parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	for (;entries[i].type != CAMEL_PROVIDER_CONF_END && entries[i].type != CAMEL_PROVIDER_CONF_SECTION_END;i++) {
 		if (entries[i].depname) {

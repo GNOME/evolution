@@ -509,7 +509,7 @@ et_finalize (GObject *object)
 static void
 e_table_init (ETable *e_table)
 {
-	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (e_table), GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (e_table), TRUE);
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_table), FALSE);
 

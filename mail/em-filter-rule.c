@@ -480,13 +480,13 @@ more_parts(GtkWidget *button, struct _rule_data *data)
 	new = em_filter_context_next_action((EMFilterContext *)data->f, NULL);
 	if (new) {
 		GtkWidget *w;
-		guint16 rows;
+		guint rows;
 
 		new = e_filter_part_clone(new);
 		em_filter_rule_add_action((EMFilterRule *)data->fr, new);
 		w = get_rule_part_widget(data->f, new, data->fr);
 
-		rows = GTK_TABLE(data->parts)->nrows;
+		g_object_get (data->parts, "n-rows", &rows, NULL);
 		gtk_table_resize(GTK_TABLE(data->parts), rows + 1, 2);
 		attach_rule(w, data, new, rows);
 

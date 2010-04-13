@@ -185,6 +185,7 @@ oge_caldav  (EPlugin                    *epl,
 	SoupURI      *suri;
 	GtkWidget    *parent, *location, *ssl, *user, *browse_cal;
 	gchar        *uri, *username;
+	guint         n_rows;
 
 	source = t->source;
 
@@ -227,7 +228,10 @@ oge_caldav  (EPlugin                    *epl,
 
 	browse_cal = gtk_button_new_with_mnemonic (_("Brows_e server for a calendar"));
 	gtk_widget_show (browse_cal);
-	gtk_table_attach (GTK_TABLE (parent), browse_cal, 1, 2, GTK_TABLE (parent)->nrows, GTK_TABLE (parent)->nrows + 1, GTK_FILL, 0, 0, 0);
+	g_object_get (parent, "n-rows", &n_rows, NULL);
+	gtk_table_attach (GTK_TABLE (parent), browse_cal,
+	                  1, 2, n_rows, n_rows + 1,
+	                  GTK_FILL, 0, 0, 0);
 
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-url", location);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-username", user);

@@ -583,7 +583,7 @@ plugin_google  (EPlugin                    *epl,
 	GtkWidget    *combo;
 	gchar         *uri;
 	const gchar   *username;
-	gint           row;
+	guint            row;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
@@ -626,7 +626,7 @@ plugin_google  (EPlugin                    *epl,
 
 	e_plugin_util_add_refresh (parent, _("Re_fresh:"), source, "refresh");
 
-	row = GTK_TABLE (parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	label = gtk_label_new_with_mnemonic (_("Cal_endar:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);

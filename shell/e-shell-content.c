@@ -313,7 +313,7 @@ e_shell_content_init (EShellContent *shell_content)
 {
 	shell_content->priv = E_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
-	GTK_WIDGET_SET_FLAGS (shell_content, GTK_NO_WINDOW);
+	gtk_widget_set_has_window (shell_content, FALSE);
 }
 
 /**

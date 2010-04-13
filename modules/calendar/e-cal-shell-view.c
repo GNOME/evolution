@@ -326,7 +326,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		gtk_widget_hide(item);	
 
 		scr = gdk_screen_get_default ();
-		monitor = gdk_screen_get_monitor_at_window (scr, GTK_WIDGET (shell_window)->window);
+		monitor = gdk_screen_get_monitor_at_window (scr,
+		                                            gtk_widget_get_window (GTK_WIDGET (shell_window)));
 		gdk_screen_get_monitor_geometry (scr, monitor, &rect);
 		
 		gtk_window_set_default_size ((GtkWindow *)shell_window, rect.width, rect.height);

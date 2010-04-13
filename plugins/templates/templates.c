@@ -385,17 +385,17 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	clue_add = gtk_button_new_from_stock ("gtk-add");
 	gtk_widget_show (clue_add);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_add);
-	GTK_WIDGET_SET_FLAGS (clue_add, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (clue_add, TRUE);
 
 	clue_edit = gtk_button_new_from_stock ("gtk-edit");
 	gtk_widget_show (clue_edit);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_edit);
-	GTK_WIDGET_SET_FLAGS (clue_edit, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (clue_edit, TRUE);
 
 	clue_remove = gtk_button_new_from_stock ("gtk-remove");
 	gtk_widget_show (clue_remove);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
-	GTK_WIDGET_SET_FLAGS (clue_remove, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (clue_remove, TRUE);
 
 	ui->gconf = gconf_client_get_default ();
 

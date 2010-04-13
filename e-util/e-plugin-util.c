@@ -221,7 +221,7 @@ e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source,
 	}
 
 	if (GTK_IS_TABLE (parent))
-		row = GTK_TABLE (parent)->nrows;
+		g_object_get (parent, "n-rows", &row, NULL);
 
 	if (label) {
 		lbl = gtk_label_new_with_mnemonic (label);
@@ -279,6 +279,7 @@ e_plugin_util_add_check (GtkWidget *parent, const gchar *label, ESource *source,
 {
 	GtkWidget *check;
 	const gchar *value;
+	guint row;
 
 	g_return_val_if_fail (parent == NULL || GTK_IS_TABLE (parent) || GTK_IS_CONTAINER (parent), NULL);
 	g_return_val_if_fail (label != NULL, NULL);
@@ -303,7 +304,7 @@ e_plugin_util_add_check (GtkWidget *parent, const gchar *label, ESource *source,
 	gtk_widget_show (check);
 
 	if (parent && GTK_IS_TABLE (parent)) {
-		gint row = GTK_TABLE (parent)->nrows;
+		g_object_get (parent, "n-rows", &row, NULL);
 
 		gtk_table_attach (GTK_TABLE (parent), check, 1, 2, row , row + 1, GTK_FILL, 0, 0, 0);
 	} else if (parent) {
@@ -395,7 +396,7 @@ e_plugin_util_add_refresh (GtkWidget *parent, const gchar *label, ESource *sourc
 	g_return_val_if_fail (*source_property != 0, NULL);
 
 	if (parent)
-		row = GTK_TABLE (parent)->nrows;
+		g_object_get (parent, "n-rows", &row, NULL);
 
 	value = e_source_get_property (source, source_property);
 	if (!value) {

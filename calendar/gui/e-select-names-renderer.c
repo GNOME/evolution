@@ -54,11 +54,13 @@ static void
 e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 {
 	GList *addresses = NULL, *names = NULL, *a, *n;
+	gboolean editing_canceled;
 
 	/* We don't need to listen for the focus out event any more */
 	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
 
-	if (GTK_ENTRY (editable)->editing_canceled) {
+	g_object_get (editable, "editing-canceled", &editing_canceled, NULL);
+	if (editing_canceled) {
 		gtk_cell_renderer_stop_editing (GTK_CELL_RENDERER (cell), TRUE);
 		goto cleanup;
 	}

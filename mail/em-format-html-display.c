@@ -999,7 +999,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 		g_signal_connect(G_OBJECT (button), "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
 	else {
 		gtk_widget_set_sensitive(button, FALSE);
-		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus (button, FALSE);
 	}
 
 	vbox = gtk_vbox_new (FALSE, 0);

@@ -987,7 +987,7 @@ e_day_view_init (EDayView *day_view)
 	GtkLayout *layout;
 	GtkWidget *w;
 
-	GTK_WIDGET_SET_FLAGS (day_view, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (day_view), TRUE);
 
 	day_view->long_events = g_array_new (FALSE, FALSE,
 					     sizeof (EDayViewEvent));

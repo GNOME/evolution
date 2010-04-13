@@ -1191,7 +1191,8 @@ expand_mail (EContactEditor *editor, gboolean expanded)
 	table = GTK_TABLE (e_builder_get_widget (editor->builder, "email-table"));
 	if (check != NULL && table != NULL) {
 		g_object_ref (G_OBJECT (check));
-		gtk_container_remove (GTK_CONTAINER (check->parent), check);
+		gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (check)),
+		                      check);
 		if (expanded)
 			gtk_table_attach_defaults (table, check, 0, 4, 2, 3);
 		else

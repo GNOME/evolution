@@ -97,7 +97,7 @@ composer_header_constructor (GType type,
 
 	if (header->priv->button) {
 		widget = gtk_button_new_with_mnemonic (header->priv->label);
-		GTK_WIDGET_UNSET_FLAGS (widget, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus (widget, FALSE);
 		g_signal_connect (
 			widget, "clicked",
 			G_CALLBACK (composer_header_button_clicked_cb),

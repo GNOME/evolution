@@ -156,14 +156,14 @@ create_content (GnomeCanvas **canvas)
 	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (scrolledwindow1);
 	gtk_box_pack_start (GTK_BOX (vbox_top), scrolledwindow1, TRUE, TRUE, 0);
-	GTK_WIDGET_UNSET_FLAGS (scrolledwindow1, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (scrolledwindow1, FALSE);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	canvas_buttons = e_canvas_new ();
 	gtk_widget_show (canvas_buttons);
 	gtk_container_add (GTK_CONTAINER (scrolledwindow1), canvas_buttons);
-	GTK_WIDGET_UNSET_FLAGS (canvas_buttons, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS (canvas_buttons, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_focus (canvas_buttons, FALSE);
+	gtk_widget_set_can_default (canvas_buttons, FALSE);
 
 	*canvas = GNOME_CANVAS (canvas_buttons);
 

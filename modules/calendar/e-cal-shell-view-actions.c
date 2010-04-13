@@ -1209,7 +1209,7 @@ quit_calendar_cb (GtkAction *action,
 
 	/* Synthesize a delete_event on this window. */
 	event = gdk_event_new (GDK_DELETE);
-	event->any.window = g_object_ref (((GtkWidget *) shell_window)->window);
+	event->any.window = g_object_ref (gtk_widget_get_window (GTK_WIDGET (shell_window)));
 	event->any.send_event = TRUE;
 	gtk_main_do_event (event);
 	gdk_event_free (event);

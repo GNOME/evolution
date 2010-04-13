@@ -238,7 +238,7 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	GtkCellRenderer *cell;
 	GtkListStore *store;
 	GtkWidget *dropdown_label, *info, *check;
-	gint i;
+	guint i;
 	GtkTreeIter iter;
 
 	if (data->old)
@@ -277,7 +277,7 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 
 	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
 
-	i = ((GtkTable *)data->parent)->nrows;
+	g_object_get (data->parent, "n-rows", &i, NULL);
 	gtk_table_attach((GtkTable *)data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_table_attach((GtkTable *)data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
 	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);

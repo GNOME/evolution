@@ -95,6 +95,7 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	const gchar *relative_uri, *value;
+	guint n_rows;
 	GtkWidget *w1, *w2, *box1, *box2, *mainbox, *maincheck;
 
 	if (!e_plugin_util_is_source_proto (source, "file"))
@@ -107,7 +108,10 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	e_source_set_relative_uri (source, e_source_peek_uid (source));
 
 	mainbox = gtk_vbox_new (FALSE, 2);
-	gtk_table_attach (GTK_TABLE (data->parent), mainbox, 1, 2, GTK_TABLE (data->parent)->nrows, GTK_TABLE (data->parent)->nrows + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	g_object_get (data->parent, "n-rows", &n_rows, NULL);
+	gtk_table_attach (GTK_TABLE (data->parent), mainbox,
+	                  1, 2, n_rows, n_rows + 1,
+	                  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	maincheck = gtk_check_button_new_with_mnemonic (_("_Customize options"));
 	gtk_box_pack_start ((GtkBox *)mainbox, maincheck, TRUE, TRUE, 2);

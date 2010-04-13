@@ -137,7 +137,7 @@ static GtkWidget *
 eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	static GtkWidget *label, *type;
-	gint row;
+	guint row;
 	CalendarSourceDialog *sdialog = data;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) ec->target;
 	ESource *source = t->source;
@@ -147,7 +147,7 @@ eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	if (old)
 		gtk_widget_destroy (label);
 
-	row = ((GtkTable *)parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	if (sdialog->original_source) {
 		label = gtk_label_new (_("Type:"));
@@ -214,14 +214,14 @@ static GtkWidget *
 eccp_get_source_name (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	static GtkWidget *label, *entry;
-	gint row;
+	guint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) ec->target;
 	ESource *source = t->source;
 
 	if (old)
 		gtk_widget_destroy (label);
 
-	row = ((GtkTable*)parent)->nrows;
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	label = gtk_label_new_with_mnemonic (_("_Name:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
@@ -257,14 +257,14 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	CalendarSourceDialog *sdialog = data;
 	GtkWidget *offline_setting = NULL;
 	const gchar *offline_sync;
-	gint row;
+	guint row;
 	const gchar *base_uri = e_source_group_peek_base_uri (sdialog->source_group);
 	gboolean is_local = base_uri && (g_str_has_prefix (base_uri, "file://") || g_str_has_prefix (base_uri, "contacts://"));
 	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
 	if (old)
 		return old;
 	else {
-		row = ((GtkTable*)parent)->nrows;
+		g_object_get (parent, "n-rows", &row, NULL);
 
 		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y calendar contents locally for offline operation"));
@@ -322,9 +322,11 @@ eccp_get_source_color (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWid
 {
 	CalendarSourceDialog *sdialog = data;
 	static GtkWidget *label, *color_button;
-	guint row = GTK_TABLE (parent)->nrows;
+	guint row;
 	const gchar *color_spec = NULL;
 	GdkColor color;
+
+	g_object_get (parent, "n-rows", &row, NULL);
 
 	if (old)
 		gtk_widget_destroy (label);

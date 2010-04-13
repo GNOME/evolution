@@ -400,7 +400,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 
 	shell_sidebar->priv = E_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
-	GTK_WIDGET_SET_FLAGS (shell_sidebar, GTK_NO_WINDOW);
+	gtk_widget_set_has_window (GTK_WIDGET (shell_sidebar), FALSE);
 
 	widget = gtk_event_box_new ();
 	style = gtk_widget_get_style (widget);

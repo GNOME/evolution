@@ -304,7 +304,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 
 	timezone_entry->priv = E_TIMEZONE_ENTRY_GET_PRIVATE (timezone_entry);
 
-	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (timezone_entry), GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);
 
 	widget  = gtk_entry_new ();
 	gtk_editable_set_editable (GTK_EDITABLE (widget), FALSE);

@@ -86,7 +86,7 @@ md_translate_position (GdkWindow *w, double ex, double ey, gint *x, gint *y, Gtk
 	*x = (gint)ex;
 	*y = (gint)ey;
 
-	while (w && w != window->window) {
+	while (w && w != gtk_widget_get_window (window)) {
 		gint cx, cy, cw, ch, cd;
 		gdk_window_get_geometry (w, &cx, &cy, &cw, &ch, &cd);
                 *x += cx;
@@ -110,19 +110,28 @@ in_left (MailDecoration *md, double x)
 static gboolean
 in_bottom (MailDecoration *md, double y)
 {
-	return y >= ((GtkWidget *)md->window)->allocation.height - md->priv->resize_width;
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (GTK_WIDGET (md->window), &allocation);
+
+	return y >= allocation.height - md->priv->resize_width;
 }
 
 static gboolean
 in_right (MailDecoration *md, double x)
 {
-	return x >= ((GtkWidget *)md->window)->allocation.width - md->priv->resize_width;
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (GTK_WIDGET (md->window), &allocation);
+
+	return x >= allocation.width - md->priv->resize_width;
 }
 
 static void
 set_cursor (MailDecoration *md, GdkWindowEdge edge)
 {
-	gdk_window_set_cursor (((GtkWidget *)md->window)->window, md->priv->cursors[edge]);
+	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (md->window)),
+	                       md->priv->cursors[edge]);
 	md->priv->default_cursor = FALSE;
 }
 
@@ -131,7 +140,8 @@ reset_cursor (MailDecoration *md)
 {
 	if (!md->priv->default_cursor) {
 		md->priv->default_cursor = TRUE;
-		gdk_window_set_cursor (((GtkWidget *)md->window)->window, NULL);
+		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (md->window)),
+		                       NULL);
 	}
 
 }

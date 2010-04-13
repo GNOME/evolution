@@ -146,12 +146,8 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	gtk_scrolled_window_set_policy (scrolled_window,
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	GTK_WIDGET_UNSET_FLAGS (
-		gtk_scrolled_window_get_hscrollbar (scrolled_window),
-		GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS (
-		gtk_scrolled_window_get_vscrollbar (scrolled_window),
-		GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (gtk_scrolled_window_get_hscrollbar (scrolled_window), FALSE);
+	gtk_widget_set_can_focus (gtk_scrolled_window_get_vscrollbar (scrolled_window), FALSE);
 	gtk_container_add (GTK_CONTAINER (frame), ecc->popup_scrolled_window);
 	gtk_widget_show (ecc->popup_scrolled_window);
 

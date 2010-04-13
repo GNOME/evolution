@@ -227,7 +227,9 @@ static gboolean
 msv_btn_expose (GtkWidget *w, GdkEventExpose *event, MailSettingsView *mfv)
 {
 	GdkPixbuf *img = g_object_get_data ((GObject *)w, "pbuf");
-	cairo_t *cr = gdk_cairo_create (w->window);
+	cairo_t *cr;
+
+	cr = gdk_cairo_create (gtk_widget_get_window (w));
 	cairo_save (cr);
 	gdk_cairo_set_source_pixbuf (cr, img, event->area.x-5, event->area.y-4);
 	cairo_paint(cr);

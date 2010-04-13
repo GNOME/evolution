@@ -547,7 +547,7 @@ attachment_paned_init (EAttachmentPaned *paned)
 	container = widget;
 
 	widget = e_attachment_icon_view_new ();
-	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_icon_view_set_model (GTK_ICON_VIEW (widget), paned->priv->model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	paned->priv->icon_view = g_object_ref (widget);
@@ -567,7 +567,7 @@ attachment_paned_init (EAttachmentPaned *paned)
 	container = widget;
 
 	widget = e_attachment_tree_view_new ();
-	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (widget), paned->priv->model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	paned->priv->tree_view = g_object_ref (widget);

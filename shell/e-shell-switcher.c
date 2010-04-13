@@ -507,7 +507,7 @@ e_shell_switcher_init (EShellSwitcher *switcher)
 {
 	switcher->priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher);
 
-	GTK_WIDGET_SET_FLAGS (switcher, GTK_NO_WINDOW);
+	gtk_widget_set_has_window (GTK_WIDGET (switcher), FALSE);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (switcher));
 }
@@ -545,7 +545,7 @@ tool_item_get_button (GtkWidget *widget)
 
 	g_return_val_if_fail (GTK_IS_TOOL_ITEM (widget), NULL);
 
-	child = GTK_BIN (widget)->child;
+	child = gtk_bin_get_child (GTK_BIN (widget));
 	if (child != NULL && GTK_IS_BUTTON (child))
 		return GTK_BUTTON (child);
 	else

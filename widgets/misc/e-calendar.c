@@ -623,26 +623,29 @@ e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
 void
 e_calendar_set_focusable (ECalendar *cal, gboolean focusable)
 {
+	GtkWidget *widget;
 	GtkWidget *prev_widget, *next_widget;
+	GtkWidget *toplevel;
 
 	g_return_if_fail (E_IS_CALENDAR (cal));
 
+	widget = GTK_WIDGET (cal);
 	prev_widget = GNOME_CANVAS_WIDGET(cal->prev_item)->widget;
 	next_widget = GNOME_CANVAS_WIDGET(cal->next_item)->widget;
 
 	if (focusable) {
-		GTK_WIDGET_SET_FLAGS (cal, GTK_CAN_FOCUS);
-		GTK_WIDGET_SET_FLAGS (prev_widget, GTK_CAN_FOCUS);
-		GTK_WIDGET_SET_FLAGS (next_widget, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus (widget, TRUE);
+		gtk_widget_set_can_focus (prev_widget, TRUE);
+		gtk_widget_set_can_focus (next_widget, TRUE);
 	}
 	else {
 		if (gtk_widget_has_focus (GTK_WIDGET (cal)) || e_calendar_button_has_focus (cal)) {
-			GtkWidget *toplevel = gtk_widget_get_toplevel (GTK_WIDGET (cal));
+			toplevel = gtk_widget_get_toplevel (widget);
 			if (toplevel)
 				gtk_widget_grab_focus (toplevel);
 		}
-		GTK_WIDGET_UNSET_FLAGS (cal, GTK_CAN_FOCUS);
-		GTK_WIDGET_UNSET_FLAGS (prev_widget, GTK_CAN_FOCUS);
-		GTK_WIDGET_UNSET_FLAGS (next_widget, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus (widget, FALSE);
+		gtk_widget_set_can_focus (prev_widget, FALSE);
+		gtk_widget_set_can_focus (next_widget, FALSE);
 	}
 }

@@ -1149,7 +1149,7 @@ folder_tree_new (EMFolderTree *folder_tree)
 
 	/* FIXME Gross hack */
 	tree = GTK_WIDGET (folder_tree);
-	GTK_WIDGET_SET_FLAGS(tree, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (tree, TRUE);
 
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_append_column ((GtkTreeView *) tree, column);

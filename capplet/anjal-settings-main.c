@@ -91,7 +91,7 @@ mail_message_received_cb (UniqueApp         *app G_GNUC_UNUSED,
 		  //mail_shell_set_cmdline_args ((MailShell *)window, args);
 		  //mail_shell_handle_cmdline ((MailShell *)window);
 		  g_free (url);
-		  gdk_window_raise (((GtkWidget *)window)->window);
+		  gdk_window_raise (gtk_widget_get_window (GTK_WIDGET (window)));
 		  gtk_window_deiconify (window);
 		  gtk_window_present (window);
 

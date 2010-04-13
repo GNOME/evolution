@@ -141,7 +141,7 @@ online_button_init (EOnlineButton *button)
 
 	button->priv = E_ONLINE_BUTTON_GET_PRIVATE (button);
 
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (button, FALSE);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 
 	widget = gtk_image_new ();

@@ -267,7 +267,11 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 gint
 mail_capplet_shell_toolbar_height (MailCappletShell *shell)
 {
-	return shell->priv->top_bar->allocation.height;
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (shell->priv->top_bar, &allocation);
+
+	return allocation.height;
 }
 
 MailCappletShell *
