@@ -53,6 +53,8 @@ typedef struct {
                                 that have not received change notification
                                 yet. */
 
+	GConfValue *use_first_value; /* Not NULL when the object is a Widget and wasn't realized */
+
         GObject *object;
         GParamSpec *prop;
         gulong prop_notify_id;
@@ -263,6 +265,9 @@ prop_binding_sync_prop_to_pref (PropBinding *binding)
                                binding->prop->name,
                                &value);
 
+	if (binding->use_first_value) {
+		gconf_value = binding->use_first_value;
+	} else
         switch (value.g_type) {
         case G_TYPE_STRING:
                 gconf_value = gconf_value_new (GCONF_VALUE_STRING);
@@ -356,10 +361,17 @@ prop_binding_sync_prop_to_pref (PropBinding *binding)
         /* Set to GConf */
         gconf_client_set (bridge->client, binding->key, gconf_value, NULL);
 
-        /* Store until change notification comes in, so that we are able
-         * to ignore it */
-        binding->val_changes = g_slist_append (binding->val_changes,
-                                               gconf_value);
+	if (binding->use_first_value) {
+		gconf_value_free (binding->use_first_value);
+		binding->use_first_value = NULL;
+
+		gconf_client_notify (bridge->client, binding->key);
+	} else {
+		/* Store until change notification comes in, so that we are able
+		 * to ignore it */
+		binding->val_changes = g_slist_append (binding->val_changes,
+						       gconf_value);
+	}
 
 done:
         g_value_unset (&value);
@@ -513,6 +525,7 @@ gconf_bridge_bind_property_full (GConfBridge *bridge,
         binding->id = new_id ();
         binding->delayed_mode = delayed_sync;
         binding->val_changes = NULL;
+	binding->use_first_value = NULL;
         binding->key = g_strdup (key);
         binding->object = object;
         binding->prop = pspec;
@@ -536,7 +549,11 @@ gconf_bridge_bind_property_full (GConfBridge *bridge,
         val = gconf_client_get (bridge->client, key, NULL);
         if (val) {
                 prop_binding_sync_pref_to_prop (binding, val);
-                gconf_value_free (val);
+		if (GTK_IS_WIDGET (object) && !gtk_widget_get_realized (GTK_WIDGET (object))) {
+			binding->use_first_value = val;
+		} else {
+			gconf_value_free (val);
+		}
         }
 
         /* Handle case where watched object gets destroyed */
@@ -626,6 +643,11 @@ prop_binding_unbind (PropBinding *binding)
                 binding->val_changes = g_slist_delete_link
                         (binding->val_changes, binding->val_changes);
         }
+
+	if (binding->use_first_value) {
+		gconf_value_free (binding->use_first_value);
+		binding->use_first_value = NULL;
+	}
 
         /* The object might have been destroyed .. */
         if (binding->object) {
