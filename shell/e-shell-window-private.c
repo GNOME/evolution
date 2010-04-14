@@ -413,6 +413,24 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	bridge = gconf_bridge_get ();
 
+	/* First restore window size, then the rest */
+
+	/* Configure the initial size and position of the window by way
+	 * of either a user-supplied geometry string or the last recorded
+	 * values.  Note that if a geometry string is applied, the window
+	 * size and position are -not- recorded. */
+	if (priv->geometry != NULL) {
+		if (!gtk_window_parse_geometry (window, priv->geometry))
+			g_printerr (
+				"Failed to parse geometry '%s'\n",
+				priv->geometry);
+		g_free (priv->geometry);
+		priv->geometry = NULL;
+	} else {
+		key = "/apps/evolution/shell/view_defaults/window";
+		gconf_bridge_bind_window (bridge, key, window, TRUE, TRUE);
+	}
+
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/component_id";
 	gconf_bridge_bind_property (bridge, key, object, "active-view");
@@ -440,22 +458,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/toolbar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "toolbar-visible");
-
-	/* Configure the initial size and position of the window by way
-	 * of either a user-supplied geometry string or the last recorded
-	 * values.  Note that if a geometry string is applied, the window
-	 * size and position are -not- recorded. */
-	if (priv->geometry != NULL) {
-		if (!gtk_window_parse_geometry (window, priv->geometry))
-			g_printerr (
-				"Failed to parse geometry '%s'\n",
-				priv->geometry);
-		g_free (priv->geometry);
-		priv->geometry = NULL;
-	} else {
-		key = "/apps/evolution/shell/view_defaults/window";
-		gconf_bridge_bind_window (bridge, key, window, TRUE, TRUE);
-	}
 
 	shell_window_init_switcher_style (shell_window);
 
