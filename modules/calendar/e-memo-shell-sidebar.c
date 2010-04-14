@@ -34,6 +34,7 @@
 
 #include "e-memo-shell-view.h"
 #include "e-memo-shell-backend.h"
+#include "e-memo-shell-content.h"
 
 #define E_MEMO_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -298,6 +299,7 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
 		G_CALLBACK (memo_shell_sidebar_default_opened_cb),
 		memo_shell_sidebar);
 
+	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_memo_shell_content_get_memo_model (E_MEMO_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (memo_shell_sidebar)))))), NULL);
 	e_cal_open_async (client, FALSE);
 }
 
@@ -874,6 +876,7 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 		G_CALLBACK (memo_shell_sidebar_client_opened_cb),
 		memo_shell_sidebar);
 
+	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_memo_shell_content_get_memo_model (E_MEMO_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (memo_shell_sidebar)))))), NULL);
 	e_cal_open_async (client, FALSE);
 }
 

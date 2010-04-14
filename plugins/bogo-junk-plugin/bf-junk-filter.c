@@ -51,6 +51,7 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-debug.h>
 #include <gconf/gconf-client.h>
+#include "shell/e-shell.h"
 
 #ifndef BOGOFILTER_BINARY
 #define BOGOFILTER_BINARY "/usr/bin/bogofilter"
@@ -388,6 +389,7 @@ convert_unicode_cb (GtkWidget *widget, gpointer data)
 GtkWidget *
 org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
+	EShell *shell;
 	GtkWidget *check;
 	guint i = ((GtkTable *)data->parent)->nrows;
 
@@ -399,7 +401,13 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_bf_unicode);
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (convert_unicode_cb), (gpointer) "/apps/evolution/mail/junk/bogofilter/unicode");
 	gtk_table_attach((GtkTable *)data->parent, check, 0, 1, i, i+1, 0, 0, 0, 0);
-	gtk_widget_show (check);
-	return (GtkWidget *)check;
+
+	shell = e_shell_get_default ();
+	if (e_shell_get_express_mode (shell))
+		gtk_widget_hide (check);
+	else
+		gtk_widget_show (check);
+
+	return check;
 }
 
