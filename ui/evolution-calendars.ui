@@ -55,10 +55,6 @@
 #if !EXPRESS
     <toolitem action='calendar-view-list'/>
 #endif
-#if EXPRESS
-    <separator expand="true"/>
-    <toolitem action='quit-calendar'/>
-#endif
 
   </toolbar>
   <popup name='calendar-popup'>
