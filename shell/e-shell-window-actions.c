@@ -1446,6 +1446,13 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
 
+	{ "close-window",
+	  GTK_STOCK_CLOSE,
+	  N_("_Close Window"),
+	  "<Control>w",
+	  N_("Close this window"),
+	  G_CALLBACK (action_close_cb) },
+
 	{ "contents",
 	  GTK_STOCK_HELP,
 	  N_("_Contents"),

@@ -409,23 +409,6 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
 	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
 
-	if (e_shell_get_meego_mode (shell_window->priv->shell) &&
-	    e_shell_get_small_screen_mode (shell_window->priv->shell)) {
-		GtkWidget *close_button, *image;
-
-		close_button = gtk_button_new ();
-		gtk_widget_set_name (close_button, "MeeGoCloseButton");
-		image = gtk_image_new_from_icon_name ("window-close-hover",
-						      GTK_ICON_SIZE_DIALOG);
-		gtk_container_add (GTK_CONTAINER (close_button), image);
-		gtk_activatable_set_related_action
-			(GTK_ACTIVATABLE (close_button),
-			 gtk_action_group_get_action (ACTION_GROUP (SHELL),
-						      "close"));
-		gtk_widget_show_all (close_button);
-		gtk_box_pack_end (GTK_BOX (box), close_button, FALSE, FALSE, 0);
-	}
-
 	return box;
 }
 
