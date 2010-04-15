@@ -37,11 +37,12 @@
 #include "e-timezone-dialog.h"
 
 #ifdef G_OS_WIN32
-/* Undef the similar macros from pthread.h, they don't check if
- * gmtime() and localtime() return NULL.
- */
+#ifdef gmtime_r
 #undef gmtime_r
+#endif
+#ifdef localtime_r
 #undef localtime_r
+#endif
 
 /* The gmtime() and localtime() in Microsoft's C library are MT-safe */
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)

@@ -75,12 +75,15 @@
 #endif
 
 #ifdef G_OS_WIN32
-/* Undefine the similar macro from <pthread.h>,it doesn't check if
- * localtime() returns NULL.
- */
+#ifdef gmtime_r
+#undef gmtime_r
+#endif
+#ifdef localtime_r
 #undef localtime_r
+#endif
 
-/* The localtime() in Microsoft's C library is MT-safe */
+/* The gmtime() and localtime() in Microsoft's C library are MT-safe */
+#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
 
