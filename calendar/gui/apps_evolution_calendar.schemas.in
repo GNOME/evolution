@@ -828,5 +828,25 @@
          </long>
       </locale>
     </schema>
+
+    <!-- Widgets to hide in Express mode -->
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/express_preferences_hidden</key>
+      <applyto>/apps/evolution/calendar/express_preferences_hidden</applyto>
+      <owner>evolution-calendar</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[label_second_zone,hbox_second_zone,timezone,timezone_label,hbox_use_system_timezone]</default>
+      <locale name="C">
+         <short>List of controls to hide when in Express mode</short>
+         <long>
+	   List of names for the controls in the user interface,
+	   which should be hidden when Evolution is running in Express
+	   mode.
+	   This pertains to the calendar preferences in cal-prefs-dialog.ui.
+         </long>
+      </locale>
+    </schema>
   </schemalist>
 </gconfschemafile>
