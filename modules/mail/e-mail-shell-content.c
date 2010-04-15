@@ -620,7 +620,7 @@ mail_shell_content_set_folder (EMailReader *reader,
 	key = STATE_KEY_GROUP_BY_THREADS;
 	value = g_key_file_get_boolean (key_file, group_name, key, &error);
 	if (error != NULL) {
-		value = FALSE;
+		value = TRUE;
 		g_clear_error (&error);
 	}
 
