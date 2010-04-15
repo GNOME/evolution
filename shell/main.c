@@ -251,18 +251,16 @@ idle_cb (gchar **uris)
 
 static void (*gnome_segv_handler) (gint);
 static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
-static pthread_t main_thread;
+static GThread *main_thread = NULL;
 
 static void
 segv_redirect (gint sig)
 {
-	if (pthread_self () == main_thread)
-		gnome_segv_handler (sig);
-	else {
-		pthread_kill (main_thread, sig);
+	gnome_segv_handler (sig);
 
+	if (g_thread_self () != main_thread) {
 		/* We can't return from the signal handler or the thread may
-		   SEGV again. But we can't pthread_exit, because then the
+		   SEGV again. But we can't g_thread_exit, because then the
 		   thread may get cleaned up before bug-buddy can get a stack
 		   trace. So we block by trying to lock a mutex we know is
 		   already locked.  */
@@ -279,7 +277,7 @@ setup_segv_redirect (void)
 	if (osa.sa_handler == SIG_DFL)
 		return;
 
-	main_thread = pthread_self ();
+	main_thread = g_thread_self ();
 
 	sa.sa_flags = 0;
 	sigemptyset (&sa.sa_mask);

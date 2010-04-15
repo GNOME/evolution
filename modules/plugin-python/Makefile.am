@@ -13,7 +13,7 @@ libevolution_module_plugin_python_la_SOURCES =			\
 	e-plugin-python.h
 
 libevolution_module_plugin_python_la_LIBADD =			\
-	-lpthread -ldl -lutil -lm				\
+	-ldl -lutil -lm						\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(E_UTIL_LIBS)						\
 	$(PY_LIBS)
