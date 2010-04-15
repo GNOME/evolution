@@ -60,6 +60,13 @@
 #include <libpst/libpst.h>
 #include <libpst/timeconv.h>
 
+#ifdef WIN32
+#ifdef gmtime_r
+#undef gmtime_r
+#endif
+#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
+#endif
+
 typedef struct _PstImporter PstImporter;
 
 gint pst_init (pst_file *pst, gchar *filename);
