@@ -1161,6 +1161,18 @@ expand_widget_list (EContactEditor *editor,
 }
 
 static void
+expand_web (EContactEditor *editor, gboolean expanded)
+{
+	const char *names[] = { 
+		"label-videourl", "label-fburl",
+		"entry-videourl", "entry-fburl",
+		NULL
+	};
+	set_arrow_image (editor, "arrow-phone-expand", expanded);
+	expand_widget_list (editor, names, expanded);
+}
+
+static void
 expand_phone (EContactEditor *editor, gboolean expanded)
 {
 	const char *names[] = { 
@@ -1800,6 +1812,8 @@ init_personal (EContactEditor *editor)
 		GTK_EXPANDER (e_builder_get_widget (editor->builder,
 						    "expander-personal-misc")),
 		!editor->compress_ui);
+
+	expand_web (editor, !editor->compress_ui);
 }
 
 static void
@@ -3452,6 +3466,19 @@ setup_tab_order(GtkBuilder *builder)
 }
 
 static void
+expand_web_toggle (EContactEditor *ce)
+{
+	GtkWidget *widget;
+
+	widget = e_builder_get_widget (ce->builder, "label-videourl");
+#if GTK_CHECK_VERSION(2,19,7)
+	expand_web (ce, !gtk_widget_get_visible (widget));
+#else
+	expand_web (ce, !GTK_WIDGET_VISIBLE (widget));
+#endif
+}
+
+static void
 expand_phone_toggle (EContactEditor *ce)
 {
 	GtkWidget *phone_ext_table;
@@ -3535,6 +3562,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect (widget, "clicked", G_CALLBACK (file_cancel_cb), e_contact_editor);
 	widget = e_builder_get_widget (e_contact_editor->builder, "button-help");
 	g_signal_connect (widget, "clicked", G_CALLBACK (show_help_cb), e_contact_editor);
+	widget = e_builder_get_widget (e_contact_editor->builder, "button-web-expand");
+	g_signal_connect_swapped (widget, "clicked", G_CALLBACK (expand_web_toggle), e_contact_editor);
 	widget = e_builder_get_widget (e_contact_editor->builder, "button-phone-expand");
 	g_signal_connect_swapped (widget, "clicked", G_CALLBACK (expand_phone_toggle), e_contact_editor);
 	widget = e_builder_get_widget (e_contact_editor->builder, "button-mail-expand");
