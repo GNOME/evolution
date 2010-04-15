@@ -34,7 +34,8 @@
       <default>true</default>
       <locale name="C">
         <short>Use system timezone</short>
-        <long>Check this to use system timezone in Evolution.</long>
+        <long>Use the system timezone instead of the timezone selected
+        in Evolution.</long>
       </locale>
     </schema>
 
@@ -499,19 +500,6 @@
       <locale name="C">
         <short>Event Gradient</short>
         <long>Gradient of the events in calendar views.</long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/calendar/display/use_system_timezone</key>
-      <applyto>/apps/evolution/calendar/display/use_system_timezone</applyto>
-      <owner>evolution-calendar</owner>
-      <type>bool</type>
-      <default>false</default>
-      <locale name="C">
-        <short>Use system timezone</short>
-        <long>Use the system timezone instead of the timezone selected
-        in Evolution.</long>
       </locale>
     </schema>
 
