@@ -36,6 +36,7 @@
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
+#include "shell/e-shell-utils.h"
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -784,6 +785,9 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
 	e_datetime_format_add_setup_widget (table, 0, "calendar", "table",  DTFormatKindDateTime, _("Time and date:"));
 	e_datetime_format_add_setup_widget (table, 1, "calendar", "table",  DTFormatKindDate, _("Date only:"));
+
+	/* Hide senseless preferences when running in Express mode */
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/calendar/express_preferences_hidden");
 
 	show_config (prefs);
 	/* FIXME: weakref? */
