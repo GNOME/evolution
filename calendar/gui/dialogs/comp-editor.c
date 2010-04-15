@@ -177,9 +177,11 @@ static const gchar *ui =
 "    <toolitem action='print'/>\n"
 "#endif\n"
 "    <separator/>"
-"    <placeholder name='content'/>"
-"    <separator expand='true'/>"
-"    <toolitem action='close'/>"
+"    <placeholder name='content'/>\n"
+"#if EXPRESS\n"
+"    <separator expand='true'/>\n"
+"    <toolitem action='close'/>\n"
+"#endif\n"
 "  </toolbar>"
 "</ui>";
 

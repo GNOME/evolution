@@ -81,8 +81,10 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
-"    <toolitem action='view-time-zone'/>"
-"    <toolitem action='option-status'/>"
+"    <placeholder name='content'>"
+"      <toolitem action='view-time-zone'/>"
+"      <toolitem action='option-status'/>"
+"    </placeholder>"
 "  </toolbar>"
 "</ui>";
 
