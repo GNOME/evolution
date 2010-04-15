@@ -2084,9 +2084,11 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 	/* Add menu separators. */
 
-	separator = gtk_separator_menu_item_new ();
-	new_item_actions = g_list_prepend (new_item_actions, separator);
-	gtk_widget_show (GTK_WIDGET (separator));
+	if (new_item_actions != NULL) {
+		separator = gtk_separator_menu_item_new ();
+		new_item_actions = g_list_prepend (new_item_actions, separator);
+		gtk_widget_show (GTK_WIDGET (separator));
+	}
 
 	if (new_source_actions != NULL) {
 		separator = gtk_separator_menu_item_new ();

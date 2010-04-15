@@ -36,6 +36,7 @@
 #include <e-util/e-binding.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
+#include <e-util/e-ui-manager.h>
 
 #include "event-page.h"
 #include "recurrence-page.h"
@@ -89,11 +90,13 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
-"    <toolitem action='alarms'/>"
-"    <toolitem action='show-time-busy'/>"
-"    <toolitem action='recurrence'/>"
-"    <toolitem action='all-day-event'/>"
-"    <toolitem action='free-busy'/>"
+"    <placeholder name='content'>"
+"      <toolitem action='alarms'/>"
+"      <toolitem action='show-time-busy'/>"
+"      <toolitem action='recurrence'/>"
+"      <toolitem action='all-day-event'/>"
+"      <toolitem action='free-busy'/>"
+"    </placeholder>"
 "  </toolbar>"
 "</ui>";
 
@@ -491,7 +494,7 @@ event_editor_init (EventEditor *ee)
 		G_N_ELEMENTS (meeting_entries), ee);
 
 	ui_manager = comp_editor_get_ui_manager (editor);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+	e_ui_manager_add_ui_from_string (E_UI_MANAGER (ui_manager), ui, &error);
 
 	id = "org.gnome.evolution.event-editor";
 	e_plugin_ui_register_manager (ui_manager, id, ee);

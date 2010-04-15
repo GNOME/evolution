@@ -172,10 +172,14 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
-"    <toolitem action='save'/>"
-"    <toolitem action='print'/>"
-"    <toolitem action='close'/>"
+"    <toolitem action='save'/>\n"
+"#if !EXPRESS\n"
+"    <toolitem action='print'/>\n"
+"#endif\n"
 "    <separator/>"
+"    <placeholder name='content'/>"
+"    <separator expand='true'/>"
+"    <toolitem action='close'/>"
 "  </toolbar>"
 "</ui>";
 
@@ -1596,6 +1600,9 @@ comp_editor_init (CompEditor *editor)
 	gint n_targets;
 	GError *error = NULL;
 
+	/* FIXME Shell should be passed in. */
+	shell = e_shell_get_default ();
+
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
 
 	g_object_weak_ref (
@@ -1619,6 +1626,8 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 
 	priv->ui_manager = e_ui_manager_new ();
+	e_ui_manager_set_express_mode (E_UI_MANAGER (priv->ui_manager),
+				       e_shell_get_express_mode (shell));
 
 	if (comp_lite)
 		gtk_window_set_default_size ((GtkWindow *) editor, 800, 450);
@@ -1696,7 +1705,7 @@ comp_editor_init (CompEditor *editor)
 	action = comp_editor_get_action (editor, "save");
 	gtk_action_set_sensitive (action, FALSE);
 
-	gtk_ui_manager_add_ui_from_string (priv->ui_manager, ui, -1, &error);
+	e_ui_manager_add_ui_from_string (E_UI_MANAGER (priv->ui_manager), ui, &error);
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
@@ -1714,7 +1723,7 @@ comp_editor_init (CompEditor *editor)
 
 	widget = comp_editor_get_managed_widget (editor, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+	gtk_widget_set_visible (widget, !e_shell_get_meego_mode (shell));
 
 	if (!comp_lite) {
 		widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
@@ -1815,9 +1824,8 @@ comp_editor_init (CompEditor *editor)
 
 	comp_editor_bind_gconf (editor);
 
-	/* FIXME Shell should be passed in. */
-	shell = e_shell_get_default ();
 	e_shell_watch_window (shell, GTK_WINDOW (editor));
+	e_shell_adapt_window_size (shell, GTK_WINDOW (editor));
 }
 
 static gboolean
