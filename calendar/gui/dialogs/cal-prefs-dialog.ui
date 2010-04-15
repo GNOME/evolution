@@ -167,7 +167,7 @@
                 <property name="column_spacing">6</property>
                 <property name="row_spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="label63">
+                  <object class="GtkLabel" id="label_second_zone">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Se_cond zone:</property>
@@ -182,7 +182,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox25">
+                  <object class="GtkHBox" id="hbox_second_zone">
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkButton" id="day_second_zone">
@@ -219,7 +219,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label11">
+                  <object class="GtkLabel" id="label_time_format">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Time format:</property>
@@ -232,7 +232,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox4">
+                  <object class="GtkHBox" id="hbox_time_format">
                     <property name="visible">True</property>
                     <property name="spacing">6</property>
                     <child>
@@ -305,7 +305,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox26">
+                  <object class="GtkHBox" id="hbox_use_system_timezone">
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkCheckButton" id="use-system-tz-check">
