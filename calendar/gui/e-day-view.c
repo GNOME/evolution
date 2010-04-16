@@ -992,12 +992,13 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 }
 
 static void
-timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
+timezone_changed_cb (ECalModel *cal_model, icaltimezone *old_zone,
 		     icaltimezone *new_zone, gpointer user_data)
 {
 	struct icaltimetype tt;
 	time_t lower;
-	EDayView *day_view = (EDayView *) cal_view;
+	EDayView *day_view = (EDayView *) user_data;
+	ECalendarView *cal_view = (ECalendarView *) day_view;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -1338,10 +1339,6 @@ e_day_view_init (EDayView *day_view)
 		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
 	e_drag_dest_add_calendar_targets (day_view->main_canvas);
-
-	/* connect to ECalendarView's signals */
-	g_signal_connect (G_OBJECT (day_view), "timezone_changed",
-			  G_CALLBACK (timezone_changed_cb), NULL);
 }
 
 static void
@@ -1358,6 +1355,8 @@ init_model (EDayView *day_view, ECalModel *model)
 			  G_CALLBACK (model_rows_inserted_cb), day_view);
 	g_signal_connect (G_OBJECT (model), "comps_deleted",
 			  G_CALLBACK (model_comps_deleted_cb), day_view);
+	g_signal_connect (G_OBJECT (model), "timezone_changed",
+			  G_CALLBACK (timezone_changed_cb), day_view);
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker

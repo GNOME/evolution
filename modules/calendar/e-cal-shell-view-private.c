@@ -26,6 +26,16 @@
 #include "calendar/gui/calendar-view-factory.h"
 #include "widgets/menus/gal-view-factory-etable.h"
 
+#define CHECK_NB	5
+
+static const gchar * files_to_check [CHECK_NB] = {
+        ETC_TIMEZONE,
+        ETC_TIMEZONE_MAJ,
+        ETC_SYSCONFIG_CLOCK,
+        ETC_CONF_D_CLOCK,
+        ETC_LOCALTIME
+};
+
 static void
 cal_shell_view_process_completed_tasks (ECalShellView *cal_shell_view,
                                         gboolean config_changed)
@@ -416,6 +426,72 @@ e_cal_shell_view_private_init (ECalShellView *cal_shell_view,
 		G_CALLBACK (cal_shell_view_notify_view_id_cb), NULL);
 }
 
+	
+static void
+system_timezone_monitor_changed (GFileMonitor *handle,
+                                 GFile *file,
+                                 GFile *other_file,
+                                 GFileMonitorEvent event,
+                                 gpointer user_data)
+{
+        ECalShellView  *view = E_CAL_SHELL_VIEW (user_data);
+	ECalShellViewPrivate *priv = view->priv;
+	ECalShellContent *cal_shell_content;
+	icaltimezone *timezone = NULL, *current_zone = NULL;
+	EShellSettings *settings;
+	EShellBackend *shell_backend;
+	EShell *shell;
+	ECalModel *model;
+	const gchar *location;
+ 
+ 	if (event != G_FILE_MONITOR_EVENT_CHANGED &&
+            event != G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT &&
+            event != G_FILE_MONITOR_EVENT_DELETED &&
+            event != G_FILE_MONITOR_EVENT_CREATED)
+                return;
+
+	cal_shell_content = priv->cal_shell_content;
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	current_zone = e_cal_model_get_timezone (model);
+	timezone = e_cal_util_get_system_timezone ();
+
+	if (!g_strcmp0 (icaltimezone_get_tzid (timezone), icaltimezone_get_tzid (current_zone)))
+		return;
+
+	shell_backend = e_shell_view_get_shell_backend ((EShellView *) view);
+	shell = e_shell_backend_get_shell (shell_backend);
+	settings = e_shell_get_shell_settings (shell);
+	location = icaltimezone_get_location (timezone);
+	if (location == NULL)
+		location = "UTC";
+	
+	g_object_set (settings, "cal-timezone-string", location, NULL);
+	g_object_set (settings, "cal-timezone", timezone, NULL);
+}
+
+static void
+init_timezone_monitors (ECalShellView *view)
+{
+	ECalShellViewPrivate *priv = view->priv;
+	gint i;
+
+	for (i = 0; i < CHECK_NB; i++) {
+		GFile *file;
+
+		file = g_file_new_for_path (files_to_check[i]);
+		priv->monitors[i] = g_file_monitor_file (file,
+				G_FILE_MONITOR_NONE,
+				NULL, NULL);
+		g_object_unref (file);
+
+		if (priv->monitors[i])
+			g_signal_connect (G_OBJECT (priv->monitors[i]),
+					"changed", 
+					G_CALLBACK (system_timezone_monitor_changed),
+					view);
+	}
+}
+
 void
 e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 {
@@ -569,6 +645,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		(GHookFunc) e_cal_shell_view_update_search_filter,
 		cal_shell_view);
 
+	init_timezone_monitors (cal_shell_view);
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
         e_cal_shell_view_update_search_filter (cal_shell_view);
@@ -592,6 +669,7 @@ void
 e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
+	gint i;
 
 	/* Calling calendar's save state from here, because it is too late in its dispose */
 	if (priv->cal_shell_content)
@@ -620,6 +698,11 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 		e_activity_complete (priv->taskpad_activity);
 		g_object_unref (priv->taskpad_activity);
 		priv->taskpad_activity = NULL;
+	}
+
+	for (i = 0; i < CHECK_NB; i++) {
+		g_object_unref (priv->monitors[i]);
+		priv->monitors[i] = NULL;
 	}
 }
 
@@ -982,7 +1065,7 @@ e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	clients = e_cal_shell_sidebar_get_clients (cal_shell_sidebar);
-
+	
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECal *client = iter->data;
 

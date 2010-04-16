@@ -27,6 +27,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal-time-util.h>
+#include <libecal/e-cal-system-timezone.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-sexp.h>
@@ -81,6 +82,7 @@
 
 /* ETable Specifications */
 #define ETSPEC_FILENAME		"e-calendar-table.etspec"
+#define CHECK_NB	5
 
 G_BEGIN_DECLS
 
@@ -114,6 +116,8 @@ struct _ECalShellViewPrivate {
 	EActivity *calendar_activity;
 	EActivity *memopad_activity;
 	EActivity *taskpad_activity;
+
+        GFileMonitor *monitors[CHECK_NB];
 };
 
 void		e_cal_shell_view_private_init
