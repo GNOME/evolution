@@ -776,10 +776,6 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	e_mutual_binding_new (
 		shell_settings, "cal-free-busy-template",
 		widget, "text");
-	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
-	toplevel = e_config_create_widget ((EConfig *)ec);
-	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
@@ -788,6 +784,13 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	/* Hide senseless preferences when running in Express mode */
 	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/calendar/express_preferences_hidden");
+
+	/* Hook up and add the toplevel widget */
+	
+	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
+	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *)ec);
+	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
 	show_config (prefs);
 	/* FIXME: weakref? */
