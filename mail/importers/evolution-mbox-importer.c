@@ -79,6 +79,7 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWindow *window;
 	GtkWidget *hbox, *w;
+	GtkLabel *label;
 	gchar *select_uri = NULL;
 
 	/* preselect the folder selected in a mail view */
@@ -110,11 +111,14 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	hbox = gtk_hbox_new(FALSE, 0);
 
-	w = gtk_label_new(_("Destination folder:"));
+	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+
+	label = GTK_LABEL (w);
 
 	w = em_folder_selection_button_new(
 		_("Select folder"), _("Select folder to import into"));
+	gtk_label_set_mnemonic_widget (label, w);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
 	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *)target);
 	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
