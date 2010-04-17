@@ -12,13 +12,13 @@
 # Sayamindu Dasgupta <sayamindu@bengalinux.org>, 2004.
 # Runa Bhattacharjee <runabh@gmail.com>, 2006, 2007.
 # Runa Bhattacharjee <runab@fedoraproject.org>, 2008.
-# Runa Bhattacharjee <runab@redhat.com>, 2008, 2009.
+# Runa Bhattacharjee <runab@redhat.com>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: bn_IN\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-12 00:21+0530\n"
+"PO-Revision-Date: 2010-04-17 16:59+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <anubad@lists.ankur.org.in>\n"
 "MIME-Version: 1.0\n"
@@ -635,7 +635,7 @@ msgstr "Evolution S/Mime সার্টিফিকেট পরিচালন
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution folder settings configuration control"
-msgstr "Evolution ফোল্ডারের বৈশিষ্ট্যাবলী কনফিগারেশন নিয়ন্ত্রণ"
+msgstr "Evolution ফোল্ডারের বৈশিষ্ট্য কনফিগারেশন নিয়ন্ত্রণ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Manage your S/MIME certificates here"
@@ -720,14 +720,14 @@ msgstr "নতুন ঠিকানা বই নির্মাণ"
 
 #: ../addressbook/gui/component/addressbook-component.c:389
 msgid "Failed upgrading Address Book settings or folders."
-msgstr "ঠিকানাবইয়ের বৈশিষ্ট্যাবলী অথবা ফোল্ডার আপগ্রেড করতে ব্যর্থ।"
+msgstr "ঠিকানাবইয়ের বৈশিষ্ট্য অথবা ফোল্ডার আপগ্রেড করতে ব্যর্থ।"
 
 #: ../addressbook/gui/component/addressbook-config.c:217
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
-"LDAP সার্ভারের দ্বারা SSL অথবা TLS সমর্থন উপলব্ধ থাকলে এই অপশন নির্বাচনের ফলে "
+"LDAP সার্ভারের দ্বারা SSL অথবা TLS সমর্থন উপলব্ধ থাকলে এই বিকল্প নির্বাচনের ফলে "
 "Evolution শুধুমাত্র আপনার LDAP সার্ভারের সাথে সংযোগ স্থাপন করবে।"
 
 #: ../addressbook/gui/component/addressbook-config.c:219
@@ -735,7 +735,7 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
-"LDAP সার্ভারের দ্বারা SSL অথবা TLS সমর্থন উপলব্ধ থাকলে এই অপশন নির্বাচনের ফলে "
+"LDAP সার্ভারের দ্বারা SSL অথবা TLS সমর্থন উপলব্ধ থাকলে এই বিকল্প নির্বাচনের ফলে "
 "Evolution শুধুমাত্র আপনার LDAP সার্ভারের সাথে সংযোগ স্থাপন করবে।"
 
 #: ../addressbook/gui/component/addressbook-config.c:221
@@ -839,7 +839,7 @@ msgstr "ডাউনলোড ব্যবস্থা"
 #: ../addressbook/gui/component/addressbook-config.c:1243
 #: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "Address Book Properties"
-msgstr "ঠিকানাবইয়ের বৈশিষ্ট্যাবলী"
+msgstr "ঠিকানাবইয়ের বৈশিষ্ট্য"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:74
 #: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1109
@@ -858,7 +858,7 @@ msgstr "LDAP সার্ভার"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:760
 msgid "Autocompletion Settings"
-msgstr "স্বয়ংক্রিয়ভাবে সম্পূর্ণ করার প্রক্রিয়া সংক্রান্ত বৈশিষ্ট্যাবলী"
+msgstr "স্বয়ংক্রিয়ভাবে সম্পূর্ণ করার প্রক্রিয়া সংক্রান্ত বৈশিষ্ট্য"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1136
 msgid ""
@@ -932,7 +932,7 @@ msgstr "vCard হিসাবে সংরক্ষণ করা হবে..."
 #: ../calendar/gui/memos-component.c:479 ../calendar/gui/tasks-component.c:472
 #: ../mail/em-folder-tree.c:2122 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
-msgstr "নাম পরিবর্তন করুন (_R)..."
+msgstr "নাম পরিবর্তন করুন...(_R)"
 
 #: ../addressbook/gui/component/addressbook-view.c:954
 #: ../addressbook/gui/widgets/e-addressbook-view.c:954
@@ -953,7 +953,7 @@ msgstr "মুছে ফেলুন (_D)"
 #: ../mail/em-folder-tree.c:2127 ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
-msgstr "বৈশিষ্ট্যাবলী (_P)"
+msgstr "বিবিধ বৈশিষ্ট্য (_P)"
 
 #: ../addressbook/gui/component/addressbook-view.c:1223
 msgid "Contact Source Selector"
@@ -1000,7 +1000,7 @@ msgid ""
 "preview pane, in pixels."
 msgstr ""
 "পিক্সেলের দ্বারা নির্ধারিত উলম্ব পেইনের অবস্থান, কার্ড ও লিস্ট প্রদর্শন ক্ষেত্রে ও "
-"পূর্বপ্রদর্শন পেইনের মধ্যবর্তী অংশে।"
+"পূর্বদৃশ্য পেইনের মধ্যবর্তী অংশে।"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:5
 msgid "Show autocompleted name with an address"
@@ -1008,7 +1008,7 @@ msgstr "ঠিকানার সাথে স্বয়ং সম্পূর্
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:6
 msgid "Show preview pane"
-msgstr "পূর্বপ্রদর্শন পেইন প্রদর্শন করা হবে"
+msgstr "পূর্বদৃশ্য পেইন প্রদর্শন করা হবে"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:7
 msgid ""
@@ -1041,7 +1041,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:12
 msgid "Whether to show the preview pane."
-msgstr "পূর্বপ্রদর্শন পেইন প্রদর্শন করা হবে কি না।"
+msgstr "পূর্বদৃশ্য পেইন প্রদর্শন করা হবে কি না।"
 
 #: ../addressbook/gui/component/autocompletion-config.c:175
 msgid "Autocompletion"
@@ -1300,7 +1300,7 @@ msgstr "<b>কর্ম</b>"
 #: ../calendar/gui/dialogs/event-page.glade.h:7
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr "শ্রেণীবিভাগ (_t)..."
+msgstr "শ্রেণীবিভাগ...(_t)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:261
@@ -2298,7 +2298,7 @@ msgstr "লিঙ্কের স্থান কপি করুন (_C)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:171 ../mail/em-popup.c:546
 msgid "_Send New Message To..."
-msgstr "নতুন বার্তা প্রাপক (_S)..."
+msgstr "নতুন বার্তা প্রাপক...(_S)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:172
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
@@ -2819,7 +2819,7 @@ msgstr "NUMBER"
 #: ../addressbook/tools/evolution-addressbook-export.c:99
 msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
-"কমান্ড লাইন আর্গুমেন্ট-এ ত্রুটি, অনুগ্রহ করে --help অপশনটির সাহায্যে ব্যবহার প্রক্রিয়া "
+"কমান্ড লাইন আর্গুমেন্ট-এ ত্রুটি, অনুগ্রহ করে --help বিকল্পটির সাহায্যে ব্যবহার প্রক্রিয়া "
 "দেখুন।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:113
@@ -2832,7 +2832,7 @@ msgstr "এসিঙ্ক্রোনাস মোডে আউটপুট ক
 
 #: ../addressbook/tools/evolution-addressbook-export.c:130
 msgid "In normal mode, there is no need for the size option."
-msgstr "স্বাভাবিক মোডে, মাপ সংক্রান্ত কোনো অপশন উল্লেখ করা আবশ্যক নয়।"
+msgstr "স্বাভাবিক মোডে, মাপ সংক্রান্ত কোনো বিকল্প উল্লেখ করা আবশ্যক নয়।"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:161
 msgid "Unhandled error"
@@ -3779,7 +3779,7 @@ msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr ""
-"পিক্সেলের দ্বারা নির্ধারিত উলম্ব পেইনের অবস্থান,  কর্মতালিকা ও কর্ম পূর্বপ্রদর্শন "
+"পিক্সেলের দ্বারা নির্ধারিত উলম্ব পেইনের অবস্থান,  কর্মতালিকা ও কর্ম পূর্বদৃশ্য "
 "ক্ষেত্রের মধ্যবর্তী অংশে।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
@@ -3856,12 +3856,12 @@ msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার স
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 #: ../mail/evolution-mail.schemas.in.h:140
 msgid "Show the \"Preview\" pane"
-msgstr "\"পূর্বপ্রদর্শন\" পেইন প্রদর্শন করা হবে"
+msgstr "\"পূর্বদৃশ্য\" পেইন প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:67
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid "Show the \"Preview\" pane."
-msgstr "\"পূর্বপ্রদর্শন\" পেইন প্রদর্শন করা হবে।"
+msgstr "\"পূর্বদৃশ্য\" পেইন প্রদর্শন করা হবে।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
 msgid "Show timezone field in the event/meeting editor"
@@ -4145,8 +4145,8 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
-"এই অপারেশনটি নির্বাচিত সময়সীমার পূর্ববর্তী সমস্ত অনুষ্ঠানগুলিকে একেবারে মুছে দেবে। "
-"যদি আপনি অগ্রসর হন, আপনি এই অনুষ্ঠানগুলি পুনরুদ্ধার করতে পারবেন না।"
+"এই কাজটি সঞ্চালনার ফলে নির্বাচিত সময়সীমার পূর্ববর্তী সমস্ত অনুষ্ঠানগুলিকে একেবারে মুছে দেবে। "
+"যদি আপনি এগিয়ে যান, আপনি এই অনুষ্ঠানগুলি পুনরুদ্ধার করতে পারবেন না।"
 
 #: ../calendar/gui/calendar-commands.c:337
 msgid "Purge events older than"
@@ -4190,7 +4190,7 @@ msgstr "নতুন বর্ষপঞ্জি (_N)"
 #: ../calendar/gui/memos-component.c:478 ../calendar/gui/tasks-component.c:471
 #: ../mail/em-folder-tree.c:2114
 msgid "_Copy..."
-msgstr "কপি করুন (_C)..."
+msgstr "কপি করুন...(_C)"
 
 #: ../calendar/gui/calendar-component.c:632
 #: ../calendar/gui/memos-component.c:483 ../calendar/gui/tasks-component.c:476
@@ -4451,7 +4451,7 @@ msgstr "<b>সতর্কধ্বনি</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
-msgstr "<b>অপশন</b>"
+msgstr "<b>বিকল্প</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Repeat</b>"
@@ -4555,7 +4555,7 @@ msgstr "সতর্কধ্বনি"
 #: ../widgets/misc/e-attachment-dialog.c:371
 #: ../widgets/misc/e-attachment-store.c:553
 msgid "_Suggest automatic display of attachment"
-msgstr "সংযুক্ত বস্তু স্বয়ংক্রিয়ভাবে প্রদর্শণ করার পরামর্শ (_S)"
+msgstr "সংযুক্ত বস্তু স্বয়ংক্রিয়ভাবে প্রদর্শন করার পরামর্শ (_S)"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:141
 msgid "Attach file(s)"
@@ -4920,7 +4920,7 @@ msgstr "কর্মসূচী"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "Calendar Properties"
-msgstr "বর্ষপঞ্জির বৈশিষ্ট্যাবলী"
+msgstr "বর্ষপঞ্জির বৈশিষ্ট্য"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "New Calendar"
@@ -4928,7 +4928,7 @@ msgstr "নতুন বর্ষপঞ্জি"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "Task List Properties"
-msgstr "কার্য-তালিকার বৈশিষ্ট্যাবলী"
+msgstr "কার্য-তালিকার বৈশিষ্ট্য"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "New Task List"
@@ -4936,7 +4936,7 @@ msgstr "নতুন কর্ম-তালিকা"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "Memo List Properties"
-msgstr "মেমো-তালিকার বৈশিষ্ট্যাবলী"
+msgstr "মেমো-তালিকার বৈশিষ্ট্য"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "New Memo List"
@@ -5118,12 +5118,12 @@ msgstr "বিকল্প (_O)"
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
 msgid "_View"
-msgstr "প্রদর্শণ (_V)"
+msgstr "প্রদর্শন (_V)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1083
 #: ../composer/e-composer-actions.c:315
 msgid "_Attachment..."
-msgstr "সংযুক্ত বস্তু(_A)..."
+msgstr "সংযুক্ত বস্তু...(_A)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1085
 msgid "Click here to attach a file"
@@ -5330,12 +5330,12 @@ msgstr "এই অনুষ্ঠান পুনরাবৃত্তি কর
 #: ../plugins/groupwise-features/send-options.c:212
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "Send Options"
-msgstr "প্রেরণ সংক্রান্ত অপশন"
+msgstr "প্রেরণ সংক্রান্ত বিকল্প"
 
 #: ../calendar/gui/dialogs/event-editor.c:218
 #: ../calendar/gui/dialogs/task-editor.c:125
 msgid "Insert advanced send options"
-msgstr "প্রেরণ সংক্রান্ত উন্নত অপশন সন্নিবেশ করুন"
+msgstr "প্রেরণ সংক্রান্ত উন্নত বিকল্প সন্নিবেশ করুন"
 
 #: ../calendar/gui/dialogs/event-editor.c:226
 msgid "All _Day Event"
@@ -5788,7 +5788,7 @@ msgstr "<b>এক্সেপশন</b>"
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
-msgstr "<b>পূর্বপ্রদর্শন</b>"
+msgstr "<b>পূর্বদৃশ্য</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "<b>Recurrence</b>"
@@ -6344,7 +6344,7 @@ msgstr "ওয়েব পেজ খুলুন (_W)"
 #: ../calendar/gui/e-calendar-view.c:1807 ../calendar/gui/e-memo-table.c:934
 #: ../mail/em-folder-view.c:1336 ../mail/em-popup.c:494
 msgid "_Save As..."
-msgstr "নতুন নামে সংরক্ষণ করুন (_S)..."
+msgstr "নতুন নামে সংরক্ষণ করুন...(_S)"
 
 #: ../calendar/gui/e-calendar-table.c:1594
 #: ../calendar/gui/e-calendar-view.c:1792 ../calendar/gui/e-memo-table.c:935
@@ -6448,7 +6448,7 @@ msgstr "বস্তু কপি করা হচ্ছে"
 
 #: ../calendar/gui/e-calendar-view.c:1786
 msgid "New _Appointment..."
-msgstr "নতুন সাক্ষাৎকার (_A)..."
+msgstr "নতুন সাক্ষাৎকার...(_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1787
 msgid "New All Day _Event"
@@ -6469,7 +6469,7 @@ msgstr "আজকের তারিখ নির্বাচন করুন (_
 
 #: ../calendar/gui/e-calendar-view.c:1802
 msgid "_Select Date..."
-msgstr "তারিখ নির্বাচন করুন (_S)..."
+msgstr "তারিখ নির্বাচন করুন...(_S)"
 
 #: ../calendar/gui/e-calendar-view.c:1808
 msgid "Pri_nt..."
@@ -6477,24 +6477,24 @@ msgstr "প্রিন্ট করুন...(_n)"
 
 #: ../calendar/gui/e-calendar-view.c:1818
 msgid "Cop_y to Calendar..."
-msgstr "বর্ষপঞ্জিতে কপি করুন (_y)..."
+msgstr "বর্ষপঞ্জিতে কপি করুন...(_y)"
 
 #: ../calendar/gui/e-calendar-view.c:1819
 msgid "Mo_ve to Calendar..."
-msgstr "বর্ষপঞ্জিতে স্থানান্তর করুন (_v)..."
+msgstr "বর্ষপঞ্জিতে স্থানান্তর করুন...(_v)"
 
 #: ../calendar/gui/e-calendar-view.c:1820
 msgid "_Delegate Meeting..."
-msgstr "সভার কর্ম বন্টন করুন (_D)..."
+msgstr "সভার কর্ম বন্টন করুন...(_D)"
 
 #: ../calendar/gui/e-calendar-view.c:1821
 msgid "_Schedule Meeting..."
-msgstr "সভার অনুসূচী তৈরি করুন (_S)..."
+msgstr "সভার অনুসূচী তৈরি করুন...(_S)"
 
 # msgstr "সভার অনুসূচনা করে (_ম)..."
 #: ../calendar/gui/e-calendar-view.c:1822
 msgid "_Forward as iCalendar..."
-msgstr "iCalendar হিসাবে ফরওয়ার্ড করুন (_F)...."
+msgstr "iCalendar হিসাবে ফরওয়ার্ড করুন...(_F)"
 
 #: ../calendar/gui/e-calendar-view.c:1823
 msgid "_Reply"
@@ -7162,7 +7162,7 @@ msgstr "শুধুমাত্র কাজের ঘন্টা প্রদ
 
 #: ../calendar/gui/e-meeting-time-sel.c:456
 msgid "Show _zoomed out"
-msgstr "ছোট করে প্রদর্শন করা হবে(_z)"
+msgstr "ছোট মাপে প্রদর্শন করা হবে (_z)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:471
 msgid "_Update free/busy"
@@ -7577,7 +7577,7 @@ msgstr ""
 #: ../calendar/gui/migration.c:774 ../calendar/gui/migration.c:942
 #, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr "evolution/config.xmldb থেকে পুরোনো বৈশিষ্ট্যাবলী পড়া সম্ভব হয়নি"
+msgstr "evolution/config.xmldb থেকে পুরোনো বৈশিষ্ট্যগুলি পড়া সম্ভব হয়নি"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:803
@@ -7863,10 +7863,10 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"এই অপারেশনটি চিহ্নিত কর্মগুলিকে স্থায়ীরূপে মুছে দেবে। অগ্রসর হলে, আপনি এই কাজগুলি "
+"এই অপারেশনটি চিহ্নিত কর্মগুলিকে স্থায়ীরূপে মুছে দেবে। এগিয়ে গেলে, আপনি এই কাজগুলি "
 "পুনরুদ্ধার করতে পারবেন না। \n"
 "\n"
-"সত্যি-ই কাজগুলি মুছে দেবো?"
+"এই কাজগুলি নিশ্চিতরূপে মুছে ফেলা হবে কি?"
 
 #: ../calendar/gui/tasks-control.c:487 ../mail/em-folder-view.c:1126
 msgid "Do not ask me again."
@@ -9511,13 +9511,13 @@ msgstr "বর্তমান ফাইলটি বন্ধ করুন"
 #: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr "প্রিন্ট করুন (_P)..."
+msgstr "প্রিন্ট করুন...(_P)"
 
 #: ../composer/e-composer-actions.c:336 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:72
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "প্রিন্টের পূর্বপ্রদর্শন (_v)"
+msgstr "প্রিন্টের পূর্বদৃশ্য (_v)"
 
 #: ../composer/e-composer-actions.c:345
 msgid "Save the current file"
@@ -9525,7 +9525,7 @@ msgstr "বর্তমান ফাইলটি সংরক্ষণ করু
 
 #: ../composer/e-composer-actions.c:350
 msgid "Save _As..."
-msgstr "নতুন নামে সংরক্ষণ করুন (_A)..."
+msgstr "নতুন নামে সংরক্ষণ করুন...(_A)"
 
 #: ../composer/e-composer-actions.c:352
 msgid "Save the current file with a different name"
@@ -9786,7 +9786,7 @@ msgstr "আপনি '{0}' শীরোনামের যে বার্তা
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr "&quot;{0}&quot;-র কারণে, বিভিন্ন মেইল অপশন নির্বাচন করার প্রয়োজন হতে পারে।"
+msgstr "&quot;{0}&quot;-র কারণে, বিভিন্ন মেইল বিকল্প নির্বাচন করার প্রয়োজন হতে পারে।"
 
 #: ../composer/mail-composer.error.xml.h:5
 msgid "Because &quot;{1}&quot;."
@@ -10362,7 +10362,7 @@ msgstr "থ্রেড অন্তর্ভুক্ত করুন (_n)"
 #: ../filter/filter-rule.c:1038 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:309
 msgid "Incoming"
-msgstr "অন্তর্মুখী"
+msgstr "আগমনকারী"
 
 #: ../filter/filter-rule.c:1038 ../mail/em-utils.c:310
 msgid "Outgoing"
@@ -10499,11 +10499,11 @@ msgstr "নিয়মের নাম"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "কম্পোসারের বৈশিষ্ট্যাবলী"
+msgstr "কম্পোসারের বৈশিষ্ট্য"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Configure mail preferences, including security and message display, here"
-msgstr "সুরক্ষা এবং মেইল প্রদর্শণসহ মেইলের বৈশিষ্ট্য এখানে কনফিগার করুন"
+msgstr "সুরক্ষা এবং মেইল প্রদর্শনসহ মেইলের বৈশিষ্ট্য এখানে কনফিগার করুন"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -10561,7 +10561,7 @@ msgstr "মেইল অ্যাকাউন্ট"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:15
 #: ../mail/mail-config.glade.h:108
 msgid "Mail Preferences"
-msgstr "মেইলের বৈশিষ্ট্যাবলী"
+msgstr "মেইলের বৈশিষ্ট্য"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:16
 msgid "Network Preferences"
@@ -10739,7 +10739,7 @@ msgstr "সুরক্ষা"
 #. Most sections for this is auto-generated fromt the camel config
 #: ../mail/em-account-editor.c:2582 ../mail/em-account-editor.c:2677
 msgid "Receiving Options"
-msgstr "আহরণের অপশন"
+msgstr "আহরণের বিকল্প"
 
 #: ../mail/em-account-editor.c:2583 ../mail/em-account-editor.c:2678
 msgid "Checking for New Messages"
@@ -10938,7 +10938,7 @@ msgstr "নির্ধারিত"
 #: ../mail/em-filter-i18n.h:41 ../mail/mail-config.glade.h:102
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "অনাকাঙ্ক্ষিত"
+msgstr "অবাঞ্ছিত"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Junk Test"
@@ -10966,11 +10966,11 @@ msgstr "বার্তার হেডার"
 
 #: ../mail/em-filter-i18n.h:48
 msgid "Message is Junk"
-msgstr "বার্তাটি অনাকাঙ্ক্ষিত"
+msgstr "বার্তাটি অবাঞ্ছিত"
 
 #: ../mail/em-filter-i18n.h:49
 msgid "Message is not Junk"
-msgstr "বার্তাটি অনাকাঙ্ক্ষিত নয়"
+msgstr "বার্তাটি অবাঞ্ছিত নয়"
 
 #: ../mail/em-filter-i18n.h:50
 msgid "Message Location"
@@ -11088,7 +11088,7 @@ msgstr "কর্ম যোগ করুন (_t)"
 
 #: ../mail/em-folder-browser.c:194
 msgid "C_reate Search Folder From Search..."
-msgstr "অনুসন্ধানের ফলাফল থেকে অনুসন্ধানের ফোল্ডার নির্মাণ করা হবে (_r)..."
+msgstr "অনুসন্ধানের ফলাফল থেকে অনুসন্ধানের ফোল্ডার নির্মাণ করা হবে...(_r)"
 
 #: ../mail/em-folder-browser.c:219
 msgid "All Messages"
@@ -11124,7 +11124,7 @@ msgstr "গুরুত্বপূর্ণ বার্তা"
 
 #: ../mail/em-folder-browser.c:234
 msgid "Messages Not Junk"
-msgstr "বার্তাটি অনাকাঙ্ক্ষিত নয়"
+msgstr "বার্তাটি অবাঞ্ছিত নয়"
 
 #: ../mail/em-folder-browser.c:1194
 msgid "Account Search"
@@ -11171,7 +11171,7 @@ msgstr "ইনবক্স"
 #: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
-msgstr "ফোল্ডারের বৈশিষ্ট্যাবলী"
+msgstr "ফোল্ডারের বৈশিষ্ট্য"
 
 #: ../mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -11297,11 +11297,11 @@ msgstr "নতুন উইন্ডোতে খোলো (_N)"
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2112
 msgid "_New Folder..."
-msgstr "নতুন ফোল্ডার (_N)..."
+msgstr "নতুন ফোল্ডার...(_N)"
 
 #: ../mail/em-folder-tree.c:2115
 msgid "_Move..."
-msgstr "স্থানান্তর করুন (_M)..."
+msgstr "স্থানান্তর করুন...(_M)"
 
 #: ../mail/em-folder-tree.c:2123 ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh"
@@ -11364,7 +11364,7 @@ msgstr "এই বার্তা মুছে ফেলার জন্য প�
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
 #: ../mail/em-folder-view.c:1335 ../ui/evolution-mail-message.xml.h:102
 msgid "_Edit as New Message..."
-msgstr "নতুন বার্তা হিসাবে সম্পাদন করুন (_E)..."
+msgstr "নতুন বার্তা হিসাবে সম্পাদন করুন...(_E)"
 
 #: ../mail/em-folder-view.c:1341
 msgid "U_ndelete"
@@ -11372,7 +11372,7 @@ msgstr "পুনরুদ্ধার করুন (_n)"
 
 #: ../mail/em-folder-view.c:1342
 msgid "_Move to Folder..."
-msgstr "এই ফোল্ডারে সরিয়ে ফেলুন (_M)..."
+msgstr "এই ফোল্ডারে সরিয়ে ফেলুন...(_M)"
 
 #: ../mail/em-folder-view.c:1343
 msgid "_Copy to Folder..."
@@ -11400,7 +11400,7 @@ msgstr "অনাকঙ্ক্ষিত হিসাবে চিহ্নি�
 
 #: ../mail/em-folder-view.c:1351
 msgid "Mark as _Not Junk"
-msgstr "অনাকাঙ্ক্ষিত নয় হিসাবে চিহ্নিত করুন (_N)"
+msgstr "অবাঞ্ছিত নয় হিসাবে চিহ্নিত করুন (_N)"
 
 #: ../mail/em-folder-view.c:1352
 msgid "Mark for Follo_w Up..."
@@ -11968,7 +11968,7 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"পূর্ববর্তী Evolution ইনস্টলেশনের বৈশিষ্ট্যাবলী পড়া সম্ভব হয়নি, `evolution/config."
+"পূর্ববর্তী Evolution ইনস্টলেশনের বৈশিষ্ট্য পড়া সম্ভব হয়নি, `evolution/config."
 "xmldb' সম্ভবত উপস্থিত নেই অথবা ক্ষতিগ্রস্থ হয়েছে।"
 
 #: ../mail/em-popup.c:364
@@ -12319,7 +12319,7 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
-"বার্তার পূর্বপ্রদর্শন ক্ষেত্রে, বার্তার তালিকায় ও ফোল্ডারের মধ্যে স্ক্রোল করার জন্য স্পেস-"
+"বার্তার পূর্বদৃশ্য ক্ষেত্রে, বার্তার তালিকায় ও ফোল্ডারের মধ্যে স্ক্রোল করার জন্য স্পেস-"
 "বার কি ব্যবহার করার জন্য এটি সক্রিয় করুন।"
 
 #: ../mail/evolution-mail.schemas.in.h:56
@@ -12522,11 +12522,11 @@ msgstr "নির্দিষ্ট সময়সীমা পার হয়ে �
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Mark citations in the message \"Preview\""
-msgstr "বার্তার \"পূর্বপ্রদর্শন\"-র মধ্যে উদ্ধৃতি চিহ্নিত করা হবে"
+msgstr "বার্তার \"পূর্বদৃশ্য\"-র মধ্যে উদ্ধৃতি চিহ্নিত করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Mark citations in the message \"Preview\"."
-msgstr "বার্তার \"পূর্বপ্রদর্শন\"-র মধ্যে উদ্ধৃতি চিহ্নিত করা হবে।"
+msgstr "বার্তার \"পূর্বদৃশ্য\"-র মধ্যে উদ্ধৃতি চিহ্নিত করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:93
 msgid "Message Window default height"
@@ -13170,7 +13170,7 @@ msgstr "একটি নতুন মেইল ফোল্ডার তৈর�
 
 #: ../mail/mail-component.c:1109
 msgid "Failed upgrading Mail settings or folders."
-msgstr "মেইলের বৈশিষ্ট্যাবলী অথবা ফোল্ডার আপডেট করতে ব্যর্থ।"
+msgstr "মেইলের বৈশিষ্ট্য অথবা ফোল্ডার আপডেট করতে ব্যর্থ।"
 
 #: ../mail/mail-config.glade.h:1
 msgid "(Note: Requires restart of the application)"
@@ -13251,7 +13251,7 @@ msgstr "<span weight=\"bold\">ঐচ্ছিক তথ্য</span>"
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Options</span>"
-msgstr "<span weight=\"bold\">অপশন</span>"
+msgstr "<span weight=\"bold\">বিকল্প</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
@@ -13295,7 +13295,7 @@ msgstr "অ্যাকাউন্ট নিয়ন্ত্রন"
 
 #: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
-msgstr "নতুন স্বাক্ষর যোগ করা হবে (_w)..."
+msgstr "নতুন স্বাক্ষর যোগ করা হবে...(_w)"
 
 #: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
@@ -13386,7 +13386,7 @@ msgstr "টাইপ করার সময় বানান পরীক্ষ�
 
 #: ../mail/mail-config.glade.h:60
 msgid "Checks incoming mail messages to be Junk"
-msgstr "অন্তর্মুখী মেইলের মাঝে অনাকাঙ্ক্ষিত মেইল পরীক্ষা করে"
+msgstr "আগমনকারী মেইলের মাঝে অবাঞ্ছিত মেইল পরীক্ষা করে"
 
 #: ../mail/mail-config.glade.h:61
 msgid "Cle_ar"
@@ -13645,7 +13645,7 @@ msgstr "শুধুমাত্র স্থানীয় ঠিকানাব�
 
 #: ../mail/mail-config.glade.h:130
 msgid "S_elect..."
-msgstr "নির্বাচন করুন (_e)..."
+msgstr "নির্বাচন করুন...(_e)"
 
 #: ../mail/mail-config.glade.h:131
 msgid "S_end message receipts:"
@@ -14462,7 +14462,7 @@ msgstr "স্বাক্ষরের স্ক্রিপ্ট \"{0}\" স�
 
 #: ../mail/mail.error.xml.h:41
 msgid "Check Junk Failed"
-msgstr "অনাকাঙ্ক্ষিত বার্তা পরীক্ষণ ব্যর্থ"
+msgstr "অবাঞ্ছিত বার্তা পরীক্ষণ ব্যর্থ"
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -14551,7 +14551,7 @@ msgstr "ফাইলটি বর্তমানে উপস্থিত নে
 
 #: ../mail/mail.error.xml.h:61
 msgid "If you continue, you will not be able to recover these messages."
-msgstr "অগ্রসর হলে আপনি এই বার্তাগুলি পুনরায় উদ্ধার করতে পারবে না।"
+msgstr "এগিয়ে গেলে আপনি এই বার্তাগুলি পুনরায় উদ্ধার করতে পারবে না।"
 
 #: ../mail/mail.error.xml.h:62
 msgid ""
@@ -14563,19 +14563,19 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:63
 msgid "If you proceed, all proxy accounts will be deleted permanently."
-msgstr "অগ্রসর হলে, সমস্ত প্রক্সি অ্যাকাউন্ট স্থায়ীরূপে মুছে যাবে।"
+msgstr "এগিয়ে গেলে, সমস্ত প্রক্সি অ্যাকাউন্ট স্থায়ীরূপে মুছে যাবে।"
 
 #: ../mail/mail.error.xml.h:64
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
 msgstr ""
-"অগ্রসর হলে, এই অ্যাকাউন্ট ও প্রক্সি সংক্রান্ত\n"
+"এগিয়ে গেলে, এই অ্যাকাউন্ট ও প্রক্সি সংক্রান্ত\n"
 "সমস্ত তথ্য স্থায়ীরূপে মুছে যাবে।"
 
 #: ../mail/mail.error.xml.h:66
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "অগ্রসর হলে, এই অ্যাকাউন্ট সংক্রান্ত তথ্য স্থায়ীরূপে মুছে যাবে।"
+msgstr "এগিয়ে গেলে, এই অ্যাকাউন্ট সংক্রান্ত তথ্য স্থায়ীরূপে মুছে যাবে।"
 
 #: ../mail/mail.error.xml.h:67
 msgid ""
@@ -14627,7 +14627,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:78
 msgid "Please check your account settings and try again."
-msgstr "অনুগ্রহ করে আপনার অ্যাকাউন্টের বৈশিষ্ট্যাবলী পরীক্ষা করে পুনরায় চেষ্টা করুন।"
+msgstr "অনুগ্রহ করে আপনার অ্যাকাউন্টের বৈশিষ্ট্য পরীক্ষা করে পুনরায় চেষ্টা করুন।"
 
 #: ../mail/mail.error.xml.h:79
 msgid "Please enable the account or send using another account."
@@ -15134,7 +15134,7 @@ msgstr "সংযুক্ত বস্তুবিহীন বার্তা"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
-msgstr "বস্তু সংযুক্ত করুন (_A)..."
+msgstr "বস্তু সংযুক্ত করুন...(_A)"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Edit Message"
@@ -15179,7 +15179,7 @@ msgid ""
 "settings, mail filters etc."
 msgstr ""
 "ব্যাক-আপ থেকে Evolution পুনরুদ্ধার করা যাবে।  সকল বার্তা, বর্ষপঞ্জি, কর্ম, মেমো ও "
-"পরিচিতি সংক্রান্ত তথ্য পুনরায় পাওয়া যাবে।আপনার ব্যক্তিগত ব্যবহারের বৈশিষ্ট্য, মেইল ফিল্টার ইত্যাদিও পুনরায় স্থাপন করা যাবে।"
+"পরিচিতি সংক্রান্ত তথ্য পুনরায় পাওয়া যাবে। আপনার ব্যক্তিগত ব্যবহারের বৈশিষ্ট্য, মেইল ফিল্টার ইত্যাদিও পুনরায় স্থাপন করা যাবে।"
 
 #: ../plugins/backup-restore/backup-restore.c:297
 msgid "_Restore Evolution from the backup file"
@@ -15220,7 +15220,7 @@ msgstr "Evolution বন্ধ করা হচ্ছে"
 
 #: ../plugins/backup-restore/backup.c:195
 msgid "Backing Evolution accounts and settings"
-msgstr "Evolution-র অ্যাকউন্ট ও বৈশিষ্ট্যাবলী ব্যাক-আপ করুন"
+msgstr "Evolution-র অ্যাকউন্ট ও বৈশিষ্ট্য ব্যাক-আপ করুন"
 
 #: ../plugins/backup-restore/backup.c:201
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
@@ -15246,7 +15246,7 @@ msgstr "ব্যাক-আপ থেকে ফাইল উদ্ধার ক�
 
 #: ../plugins/backup-restore/backup.c:266
 msgid "Loading Evolution settings"
-msgstr "Evolution-র বৈশিষ্ট্যাবলী লোড করা হচ্ছে"
+msgstr "Evolution-র বৈশিষ্ট্য লোড করা হচ্ছে"
 
 #: ../plugins/backup-restore/backup.c:273
 msgid "Removing temporary backup files"
@@ -15302,7 +15302,7 @@ msgstr "ব্যাক-আপ ও পুনরুদ্ধার"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore your Evolution data and settings."
-msgstr "Evolution-র তথ্য ও বৈশিষ্ট্যাবলী ব্যাক-আপ এবং পুনরুদ্ধার করুন।"
+msgstr "Evolution-র তথ্য ও বৈশিষ্ট্য ব্যাক-আপ এবং পুনরুদ্ধার করুন।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
@@ -15354,15 +15354,15 @@ msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
-msgstr "Evolution-র তথ্য ও বৈশিষ্ট্যাবলী ব্যাক-আপ এবং পুনরুদ্ধার করুন"
+msgstr "Evolution-র তথ্য ও বৈশিষ্ট্য ব্যাক-আপ এবং পুনরুদ্ধার করুন"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
-msgstr "পুনরুদ্ধার সংক্রান্ত বৈশিষ্ট্যাবলী...(_e)"
+msgstr "পুনরুদ্ধার সংক্রান্ত বৈশিষ্ট্য...(_e)"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "ব্যাক-আপ সংক্রান্ত বৈশিষ্ট্যাবলী ...(_B)"
+msgstr "ব্যাক-আপ সংক্রান্ত বৈশিষ্ট্য...(_B)"
 
 # FIXME
 #: ../plugins/bbdb/bbdb.c:622 ../plugins/bbdb/bbdb.c:631
@@ -15779,7 +15779,7 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"এই অপশনটির মাধ্যমে নিরাপদ পাসওয়ার্ড (NTLM) অনুমোদন ব্যবস্থার সাহায্যে Exchange "
+"এই বিকল্পটির মাধ্যমে নিরাপদ পাসওয়ার্ড (NTLM) অনুমোদন ব্যবস্থার সাহায্যে Exchange "
 "সার্ভারের সাথে সংযোগ করা হবে।"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
@@ -15791,7 +15791,7 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"এই অপশনটির মাধ্যমে প্লেইনটেক্সট পাসওয়ার্ড অনুমোদন ব্যবস্থার সাহায্যে Exchange "
+"এই বিকল্পটির মাধ্যমে প্লেইনটেক্সট পাসওয়ার্ড অনুমোদন ব্যবস্থার সাহায্যে Exchange "
 "সার্ভারের সাথে সংযোগ করা হবে।"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:271
@@ -15829,7 +15829,7 @@ msgstr "পাসওয়ার্ড পরিবর্তন"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:347
 msgid "Manage the delegate settings for Exchange account"
-msgstr "Exchange অ্যাকাউন্টের কর্মবন্টন সংক্রান্ত বৈশিষ্ট্যাবলী পরিচালনা"
+msgstr "Exchange অ্যাকাউন্টের কর্মবন্টন সংক্রান্ত বৈশিষ্ট্য পরিচালনা"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:349
 msgid "Delegation Assistant"
@@ -15852,7 +15852,7 @@ msgstr "ফোল্ডারের মাপ"
 #: ../plugins/exchange-operations/exchange-account-setup.c:380
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
-msgstr "Exchange সংক্রান্ত বৈশিষ্ট্যাবলী"
+msgstr "Exchange সংক্রান্ত বৈশিষ্ট্য"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:726
 msgid "_OWA URL:"
@@ -16105,7 +16105,7 @@ msgstr "কর্ম (_T):"
 #: ../plugins/exchange-operations/exchange-folder-permission.c:62
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
-msgstr "অনুমতিি"
+msgstr "অনুমতি..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:130
 msgid "Folder Name"
@@ -16914,20 +16914,20 @@ msgstr "শেয়ার করা ফোল্ডার ইনস্টলেশ
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:80
 msgid "Junk Settings"
-msgstr "অনাকাঙ্ক্ষিত বস্তু সংক্রান্ত বৈশিষ্ট্যাবলী"
+msgstr "অবাঞ্ছিত বস্তু সংক্রান্ত বৈশিষ্ট্য"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:93
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr "অনাকাঙ্ক্ষিত বার্তা সংক্রান্ত বৈশিষ্ট্যাবলী"
+msgstr "অবাঞ্ছিত বার্তা সংক্রান্ত বৈশিষ্ট্য"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:117
 msgid "Junk Mail Settings..."
-msgstr "অনাকাঙ্ক্ষিত বার্তা সংক্রান্ত বৈশিষ্ট্যাবলী ..."
+msgstr "অবাঞ্ছিত বার্তা সংক্রান্ত বৈশিষ্ট্য..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
-msgstr "<b>অনাকাঙ্ক্ষিত বস্তুর তালিকা:</b>"
+msgstr "<b>অবাঞ্ছিত বস্তুর তালিকা:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
@@ -16944,7 +16944,7 @@ msgstr "সক্রিয় করুন (_E)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr "অনাকাঙ্ক্ষিত বস্তুর তালিকা(_J)"
+msgstr "অবাঞ্ছিত বস্তুর তালিকা(_J)"
 
 #: ../plugins/groupwise-features/mail-retract.c:52
 msgid "Message Retract"
@@ -17145,7 +17145,7 @@ msgstr "পরিচিতি(_t)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 msgid "Modify _folders/options/rules/"
-msgstr "ফোল্ডার/অপশন/নিয়ম পরিবর্তন করুন (_f)"
+msgstr "ফোল্ডার/বিকল্প/নিয়ম পরিবর্তন করুন (_f)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
@@ -17199,7 +17199,7 @@ msgstr "%s %s -র(ব্যবহারকারী %s) জন্য পাস�
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:512
 msgid "_Proxy Login..."
-msgstr "প্রক্সি লগ-ইন(_P)..."
+msgstr "প্রক্সি লগ-ইন...(_P)"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:689
@@ -17226,7 +17226,7 @@ msgstr "ব্যবহারকারীদের নাম উল্লেখ 
 
 #: ../plugins/groupwise-features/share-folder-common.c:340
 msgid "New _Shared Folder..."
-msgstr "যৌথরূপে ব্যবহৃত নতুন ফোল্ডার(_S)..."
+msgstr "যৌথরূপে ব্যবহৃত নতুন ফোল্ডার...(_S)"
 
 #: ../plugins/groupwise-features/share-folder-common.c:447
 msgid "Sharing"
@@ -18361,29 +18361,29 @@ msgstr "উৎসের তালিকা প্রাপ্ত করতে �
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid "Convert a mail message to a task."
-msgstr "একটি বার্তাকে একটি নতুন কর্মতে রূপান্তর করুন।"
+msgstr "একটি বার্তাকে একটি নতুন কর্মে রূপান্তর করুন।"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
 #| msgid "Create a new memo"
 msgid "Create a Mem_o"
-msgstr "নতুন কর্মসূচী নির্মাণ করুন (_o)"
+msgstr "নতুন কর্মসূচী প্রস্তুত করুন (_o)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
 msgid "Create a _Meeting"
-msgstr "সভায় তৈরি করুন (_M)"
+msgstr "নতুন সভা প্রস্তুত করুন (_M)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
 #| msgid "Create a new task"
 msgid "Create a _Task"
-msgstr "একটি কাজ তৈরি করুন (_T)"
+msgstr "নতুন কাজ প্রস্তুত করুন (_T)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
 msgid "Create an _Event"
-msgstr "একটি অনুষ্ঠান তৈরি করুন (_E)"
+msgstr "নতুন অনুষ্ঠান প্রস্তুত করুন (_E)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:6
 msgid "Mail-to-Task"
@@ -19110,7 +19110,7 @@ msgstr "প্রস্তুতির সহকারী"
 
 #: ../plugins/startup-wizard/startup-wizard.c:84
 msgid "Evolution Setup Assistant"
-msgstr "Evolution সেটআপ সাহায়ক"
+msgstr "Evolution প্রস্তুতি সহায়ক ব্যবস্থা"
 
 #: ../plugins/startup-wizard/startup-wizard.c:87
 msgid "Welcome"
@@ -19126,7 +19126,7 @@ msgstr ""
 "Evolution-এ আপনাকে স্বাগতম। পরবর্তী পর্দাগুলির সাহায্যে Evolution আপনার ই-মেইল "
 "অ্যাকাউন্টের সাথে সংযোগ করবে এবং অন্য অ্যাপ্লিকেশন থেকে ফাইল ইম্পোর্ট করবে। \n"
 "\n"
-"অগ্রসর হতে হলে অনুগ্রহ করে \"অগ্রসর\" বাটনটি টিপুন। "
+"এগিয়ে যাওয়ার জন্য অনুগ্রহ করে \"এগিয়ে চলুন\" বাটনটি টিপুন। "
 
 #: ../plugins/startup-wizard/startup-wizard.c:115
 msgid "Importing files"
@@ -19887,7 +19887,7 @@ msgstr "Evolution আরম্ভ করতে ব্যর্থ"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Continue"
-msgstr "অগ্রসর হও"
+msgstr "এগিয়ে চলুন"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Delete old data from version {0}?"
@@ -19961,10 +19961,10 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"আপনার ডাটা এবং বৈশিষ্ট্যাবলী আপগ্রেড করতে হলে ডিস্কে {0} স্থান প্রয়োজন, কিন্তু আপনার "
+"আপনার ডাটা এবং বৈশিষ্ট্য আপগ্রেড করতে হলে ডিস্কে {0} স্থান প্রয়োজন, কিন্তু আপনার "
 "ডিস্কে শুধুমাত্র {1} স্থান উপলব্ধ আছে।\n"
 "\n"
-"অগ্রসর হওয়ার পূর্বে, আপনার ব্যক্তিগত ডিরেক্টরিতে অধিকতর স্থান উপলব্ধ করা আবশ্যক।"
+"এগিয়ে যাওয়ার পূর্বে, আপনার ব্যক্তিগত ডিরেক্টরিতে অধিকতর স্থান উপলব্ধ করা আবশ্যক।"
 
 #: ../shell/shell.error.xml.h:24
 msgid ""
@@ -19972,7 +19972,7 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"আপনার Evolution-র বৈশিষ্ট্যাবলী আপনার সিস্টেমের বৈশিষ্ট্যাবলীর সাথে মেলেনি।\n"
+"আপনার Evolution-র বৈশিষ্ট্য আপনার সিস্টেমের বৈশিষ্ট্যের সাথে মেলেনি।\n"
 "\n"
 "বিস্তারিত বিবরণের জন্য সহায়িকার উপর ক্লিক করুন"
 
@@ -20011,7 +20011,7 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"অগ্রসর হলে আপনি আপনার কিছু পুরোনো ডাটা ব্যবহার করতে সক্ষম হবেন না।\n"
+"এগিয়ে গেলে আপনি আপনার কিছু পুরোনো ডাটা ব্যবহার করতে সক্ষম হবেন না।\n"
 
 #: ../smime/gui/ca-trust-dialog.c:102
 #, c-format
@@ -20226,7 +20226,7 @@ msgstr "সম্পাদন"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "ই-মেইল সার্টিফিকেটের বিশ্বস্ততা সংক্রান্ত বৈশিষ্ট্যাবলী"
+msgstr "ই-মেইল সার্টিফিকেটের বিশ্বস্ততা সংক্রান্ত বৈশিষ্ট্য"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
@@ -20511,11 +20511,11 @@ msgstr "%s (%s) বন্ধ করা হচ্ছে\n"
 # FIXME
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
-msgstr "ঠিকানাবইয়ের বৈশিষ্ট্যাবলী (_B)"
+msgstr "ঠিকানাবইয়ের বৈশিষ্ট্য (_B)"
 
 #: ../ui/evolution-addressbook.xml.h:3
 msgid "Change the properties of the selected folder"
-msgstr "নির্বাচিত ফোল্ডারের বৈশিষ্ট্যাবলী পরিবর্তন করুন"
+msgstr "নির্বাচিত ফোল্ডারের বৈশিষ্ট্য পরিবর্তন করুন"
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
@@ -20523,7 +20523,7 @@ msgstr "সমস্ত পরিচিতি চিহ্নিত স্থা
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
-msgstr "পরিচিতির তথ্যের পূর্বপ্রদর্শন (_P)"
+msgstr "পরিচিতির তথ্যের পূর্বদৃশ্য (_P)"
 
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
@@ -20605,7 +20605,7 @@ msgstr "ক্লিপবোর্ডের বস্তু পেস্ট ক
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
-msgstr "যে পরিচিতিগুলি প্রিন্ট করা হবে তার পূর্বপ্রদর্শন করে"
+msgstr "যে পরিচিতিগুলি প্রিন্ট করা হবে তার পূর্বদৃশ্য করে"
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
@@ -20657,7 +20657,7 @@ msgstr "নির্বাচিত পরিচিতিদের তথ্য 
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
-msgstr "পরিচিতি পূর্বপ্রদর্শনের উইন্ডোটি প্রদর্শন করা হবে"
+msgstr "পরিচিতি পূর্বদৃশ্যের উইন্ডোটি প্রদর্শন করা হবে"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
@@ -20695,7 +20695,7 @@ msgstr "পরিচিতি মুছে ফেলুন (_D)"
 # FIXME
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
-msgstr "পরিচিতি ফরওয়ার্ড করুন(_F)..."
+msgstr "পরিচিতি ফরওয়ার্ড করুন...(_F)"
 
 #: ../ui/evolution-addressbook.xml.h:53
 msgid "_Move Contact to..."
@@ -20723,7 +20723,7 @@ msgstr "ফোল্ডারের বিষয়বস্তু VCard রূপ�
 
 #: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
-msgstr "এই পরিচিতির নিকট বার্তা প্রেরণ করুন(_S)..."
+msgstr "এই পরিচিতির নিকট বার্তা প্রেরণ করুন...(_S)"
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -20747,7 +20747,7 @@ msgstr "এই ঘটনাটি মুছে ফেলুন"
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go To"
-msgstr "এখানে যাও"
+msgstr "চিহ্নিত স্থানে চলুন"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
@@ -20755,7 +20755,7 @@ msgstr "পূর্বাবস্থায় যাও"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr "অগ্রসর হও"
+msgstr "এগিয়ে চলুন"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -20772,7 +20772,7 @@ msgstr "পরবর্তী"
 
 #: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
-msgstr "যে বর্ষপঞ্জিটি প্রিন্ট করা হবে তার পূর্বপ্রদর্শন করে"
+msgstr "যে বর্ষপঞ্জিটি প্রিন্ট করা হবে তার পূর্বদৃশ্য করে"
 
 #: ../ui/evolution-calendar.xml.h:19 ../ui/evolution-mail-message.xml.h:70
 #: ../widgets/misc/e-calendar.c:169
@@ -20899,11 +20899,11 @@ msgstr "ফোল্ডার অনুসন্ধান করুন (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:14
 msgid "Show Message _Preview"
-msgstr "বার্তার পূর্বপ্রদর্শন(_P)"
+msgstr "বার্তার পূর্বদৃশ্য(_P)"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview below the message list"
-msgstr "বার্তা-তলিকায় নীচে বার্তা পূর্বপ্রদর্শন করা হবে"
+msgstr "বার্তা-তলিকায় নীচে বার্তা পূর্বদৃশ্য করা হবে"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview side-by-side with the message list"
@@ -20911,7 +20911,7 @@ msgstr "বার্তা তালিকার পাশাপাশি বা
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "Show message preview window"
-msgstr "বার্তার পূর্বপ্রদর্শনের উইন্ডোটি প্রদর্শন করা হবে"
+msgstr "বার্তার পূর্বদৃশ্যের উইন্ডোটি প্রদর্শন করা হবে"
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -20923,7 +20923,7 @@ msgstr "পারম্পরিক প্রদর্শন(_C)"
 
 #: ../ui/evolution-mail-global.xml.h:21
 msgid "_Copy Folder To..."
-msgstr "ফোল্ডার কপি করার স্থান (_C)..."
+msgstr "ফোল্ডার কপি করার স্থান...(_C)"
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Download Messages for Offline Usage"
@@ -20935,15 +20935,15 @@ msgstr "বার্তা ফিল্টার (_M)"
 
 #: ../ui/evolution-mail-global.xml.h:26
 msgid "_Move Folder To..."
-msgstr "ফোল্ডার স্থানান্তরের স্থান (_M)..."
+msgstr "ফোল্ডার স্থানান্তরের স্থান...(_M)"
 
 #: ../ui/evolution-mail-global.xml.h:27
 msgid "_New..."
-msgstr "নতুন (_N)..."
+msgstr "নতুন...(_N)"
 
 #: ../ui/evolution-mail-global.xml.h:28
 msgid "_Preview"
-msgstr "পূর্বপ্রদর্শন (_P)"
+msgstr "পূর্বদৃশ্য (_P)"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -20962,7 +20962,7 @@ msgstr "চিহ্নিত ফোল্ডারের নাম পরিব
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
-msgstr "এই ফোল্ডারের বৈশিষ্ট্যাবলী পরিবর্তন করুন"
+msgstr "এই ফোল্ডারের বৈশিষ্ট্য পরিবর্তন করুন"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
@@ -21083,7 +21083,7 @@ msgstr "থ্রেড অনুযায়ী বার্তার তালি
 
 #: ../ui/evolution-mail-list.xml.h:36
 msgid "_Group By Threads"
-msgstr "থ্রেড অনুসারে দলভুক্ত করা হবে (_G)"
+msgstr "থ্রেড অনুসারে শ্রেণীবদ্ধ করা হবে (_G)"
 
 #: ../ui/evolution-mail-list.xml.h:37 ../ui/evolution-mail-message.xml.h:111
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -21113,7 +21113,7 @@ msgstr "নির্বাচিত বার্তাগুলিতে ফি�
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr "অনাকাঙ্ক্ষিত বার্তা পরীক্ষা করা হচ্ছে (_J)"
+msgstr "অবাঞ্ছিত বার্তা পরীক্ষা করা হচ্ছে (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -21141,7 +21141,7 @@ msgstr "নির্বাচিত বার্তা ক্লিপবোর�
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
-msgstr "নিয়ম নির্মাণ করুন (_u)"
+msgstr "নতুন নিয়ম প্রস্তুত করুন (_u)"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
@@ -21218,23 +21218,23 @@ msgstr "অনুবর্তন করা হবে চিহ্নিত র�
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "মেইলিং লিস্ট অনুসারে ফিল্টার (_L)..."
+msgstr "মেইলিং লিস্ট অনুসারে ফিল্টার...(_L)"
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "প্রেরক অনুসারে ফিল্টার (_n)..."
+msgstr "প্রেরক অনুসারে ফিল্টার...(_n)"
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "প্রাপক অনুসারে ফিল্টার (_R)..."
+msgstr "প্রাপক অনুসারে ফিল্টার...(_R)"
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "বিষয় অনুসারে ফিল্টার (_S)..."
+msgstr "বিষয় অনুসারে ফিল্টার...(_S)"
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "নির্বাচিত বার্তাগুলিতে অনাকাঙ্ক্ষিত অবস্থা অনুসন্ধান করার জন্য ফিল্টার প্রয়োগ করা হবে"
+msgstr "নির্বাচিত বার্তাগুলিতে অবাঞ্ছিত অবস্থা অনুসন্ধান করার জন্য ফিল্টার প্রয়োগ করা হবে"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
@@ -21282,11 +21282,11 @@ msgstr "নির্বাচিত বার্তাগুলিকে গু�
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected messages as junk"
-msgstr "নির্বাচিত বার্তাগুলিকে অনাকাঙ্ক্ষিত হিসাবে চিহ্নিত করুন"
+msgstr "নির্বাচিত বার্তাগুলিকে অবাঞ্ছিত হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected messages as not being junk"
-msgstr "নির্বাচিত বার্তাগুলিকে অনাকাঙ্ক্ষিত-নয় হিসাবে চিহ্নিত করুন"
+msgstr "নির্বাচিত বার্তাগুলিকে অবাঞ্ছিত-নয় হিসাবে চিহ্নিত করুন"
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected messages as not having been read"
@@ -21318,7 +21318,7 @@ msgstr "পরবর্তী না-পড়া বার্তা (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
-msgstr "অনাকাঙ্ক্ষিত নয়"
+msgstr "অবাঞ্ছিত নয়"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
@@ -21346,7 +21346,7 @@ msgstr "পূর্ববর্তী গুরুত্বপূর্ণ ব�
 
 #: ../ui/evolution-mail-message.xml.h:69
 msgid "Preview the message to be printed"
-msgstr "যে বার্তাটি প্রিন্ট করা হবে তার পূর্বপ্রদর্শন করুন"
+msgstr "যে বার্তাটি প্রিন্ট করা হবে তার পূর্বদৃশ্য করুন"
 
 #: ../ui/evolution-mail-message.xml.h:73
 msgid "Print this message"
@@ -21370,7 +21370,7 @@ msgstr "নির্বাচিত বার্তাগুলি টেক্�
 
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Search Folder from Mailing _List..."
-msgstr "মেইলিং লিস্ট ব্যবহার করে অনুসন্ধান ফোল্ডার নির্মাণ করুন (_L)..."
+msgstr "মেইলিং লিস্ট ব্যবহার করে অনুসন্ধান ফোল্ডার নির্মাণ করুন...(_L)"
 
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Search Folder from Recipien_ts..."
@@ -21378,11 +21378,11 @@ msgstr "প্রাপকদের তথ্য ব্যবহার করে
 
 #: ../ui/evolution-mail-message.xml.h:84
 msgid "Search Folder from S_ubject..."
-msgstr "বিষয় ব্যবহার করে অনুসন্ধান ফোল্ডার নির্মাণ করুন (_u)..."
+msgstr "বিষয় ব্যবহার করে অনুসন্ধান ফোল্ডার নির্মাণ করুন...(_u)"
 
 #: ../ui/evolution-mail-message.xml.h:85
 msgid "Search Folder from Sen_der..."
-msgstr "প্রেরকদের তথ্য ব্যবহার করে অনুসন্ধান ফোল্ডার নির্মাণ করুন (_d)..."
+msgstr "প্রেরকদের তথ্য ব্যবহার করে অনুসন্ধান ফোল্ডার নির্মাণ করুন...(_d)"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search for text in the body of the displayed message"
@@ -21422,7 +21422,7 @@ msgstr "অপ্রয়োজনীয়(_m)"
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Zoom _Out"
-msgstr "ছোট করে প্রদর্শন (_O)"
+msgstr "ছোট মাপে প্রদর্শন (_O)"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "_Attached"
@@ -21442,7 +21442,7 @@ msgstr "বার্তা মুছে ফেলুন (_D)"
 
 #: ../ui/evolution-mail-message.xml.h:103
 msgid "_Find in Message..."
-msgstr "বার্তার মধ্যে অনুসন্ধান করুন (_F)..."
+msgstr "বার্তার মধ্যে অনুসন্ধান করুন...(_F)"
 
 #: ../ui/evolution-mail-message.xml.h:104
 msgid "_Flag Completed"
@@ -21450,7 +21450,7 @@ msgstr "কাজ সমাপ্তির ফ্ল্যাগ (_F)"
 
 #: ../ui/evolution-mail-message.xml.h:106
 msgid "_Go To"
-msgstr "এখানে যাও (_G)"
+msgstr "চিহ্নিত স্থানে চলুন (_G)"
 
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Important"
@@ -21462,7 +21462,7 @@ msgstr "ইনলাইন(_I)"
 
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Junk"
-msgstr "অনাকাঙ্ক্ষিত(_J)"
+msgstr "অবাঞ্ছিত(_J)"
 
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Load Images"
@@ -21482,7 +21482,7 @@ msgstr "স্বাভাবিক মাপ (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Not Junk"
-msgstr "অনাকাঙ্ক্ষিত নয়(_N)"
+msgstr "অবাঞ্ছিত নয়(_N)"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Open in New Window"
@@ -21503,7 +21503,7 @@ msgstr "পড়ুন (_R)"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Save Message..."
-msgstr "বার্তা সংরক্ষণ করুন(_S)..."
+msgstr "বার্তা সংরক্ষণ করুন...(_S)"
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Undelete Message"
@@ -21515,11 +21515,11 @@ msgstr "পড়া হয়নি(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Zoom"
-msgstr "বড় করে প্রদর্শন (_Z)"
+msgstr "প্রদর্শনের মাত্রা (_Z)"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Zoom In"
-msgstr "বড় করে প্রদর্শন (_Z)"
+msgstr "বড় মাপে প্রদর্শন (_Z)"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 msgid "Close"
@@ -21547,7 +21547,7 @@ msgstr "ক্লিপবোর্ড থেকে কর্মসূচী প
 
 #: ../ui/evolution-memos.xml.h:10
 msgid "Previews the list of memos to be printed"
-msgstr "প্রিন্ট করার জন্য চিহ্নিত কর্মসূচী তালিকার পূর্বপ্রদর্শন"
+msgstr "প্রিন্ট করার জন্য চিহ্নিত কর্মসূচী তালিকার পূর্বদৃশ্য"
 
 #: ../ui/evolution-memos.xml.h:13
 msgid "Print the list of memos"
@@ -21591,7 +21591,7 @@ msgstr "ক্লিপবোর্ড থেকে কর্ম পেস্ট
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr "যে কর্মতালিকাটি প্রিন্ট করা হবে তার পূর্বপ্রদর্শন করে"
+msgstr "যে কর্মতালিকাটি প্রিন্ট করা হবে তার পূর্বদৃশ্য করে"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
@@ -21599,11 +21599,11 @@ msgstr "কর্মতালিকা প্রিন্ট করুন"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
-msgstr "কর্ম পূর্বপ্রদর্শনের উইন্ডোটি প্রদর্শন করা হবে"
+msgstr "কর্ম পূর্বদৃশ্যের উইন্ডোটি প্রদর্শন করা হবে"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
-msgstr "কর্মের পূর্বপ্রদর্শন(_P)"
+msgstr "কর্মের পূর্বদৃশ্য(_P)"
 
 #: ../ui/evolution-tasks.xml.h:20
 msgid "View the selected task"
@@ -21619,7 +21619,7 @@ msgstr "Evolution সম্বন্ধে..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr "Evolution-র বৈশিষ্ট্যাবলী পরিবর্তন করুন"
+msgstr "Evolution-র বৈশিষ্ট্য পরিবর্তন করুন"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
@@ -21795,7 +21795,7 @@ msgstr "অদলবদলকারীর চেহারাছবি (_S)"
 
 #: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
-msgstr "সুসংগতি সংক্রান্ত অপশন (_S)..."
+msgstr "সুসংগতি সংক্রান্ত বিকল্প...(_S)"
 
 #: ../ui/evolution.xml.h:54
 msgid "_Text Only"
@@ -21910,7 +21910,7 @@ msgid ""
 msgstr ""
 "মানচিত্রের কোনো অংশ মাউসের বাঁদিকের বাটন ব্যবহার করে বড় করে, একটি সময়ের অঞ্চল "
 "নির্বাচন করুন।\n"
-"মাউসের ডানদিকে বাটন ব্যবহার করে মানচিত্র ছোট করে প্রদর্শন করুন।"
+"মাউসের ডানদিকে বাটন ব্যবহার করে মানচিত্র ছোট মাপে প্রদর্শন করুন।"
 
 #: ../widgets/menus/gal-define-views-dialog.c:74
 #: ../widgets/menus/gal-define-views-model.c:185
@@ -22379,15 +22379,15 @@ msgstr "অনুসন্ধান"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:110
 msgid "_Save Search..."
-msgstr "অনুসন্ধান সংরক্ষণ করুন(_S)..."
+msgstr "অনুসন্ধান সংরক্ষণ করুন...(_S)"
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:111
 msgid "_Edit Saved Searches..."
-msgstr "সংরক্ষিত অনুসন্ধান ফল সম্পাদন করুন (_E)..."
+msgstr "সংরক্ষিত অনুসন্ধান ফল সম্পাদন করুন...(_E)"
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:112
 msgid "_Advanced Search..."
-msgstr "উন্নত অনুসন্ধান প্রক্রিয়া(_A)..."
+msgstr "উন্নত অনুসন্ধান প্রক্রিয়া...(_A)"
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
@@ -22527,7 +22527,7 @@ msgstr "মুছে ফেলার সময়(_l):"
 
 #: ../widgets/misc/e-send-options.glade.h:1
 msgid "<b>Delivery Options</b>"
-msgstr "<b>বিতরণ সংক্রান্ত অপশন</b>"
+msgstr "<b>বিতরণ সংক্রান্ত বিকল্প</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
@@ -22555,7 +22555,7 @@ msgstr "প্রেরিত এবং পড়া হয়েছে (_v)"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Gene_ral Options"
-msgstr "সাধারণ অপশন (_r)"
+msgstr "সাধারণ বিকল্প (_r)"
 
 #: ../widgets/misc/e-send-options.glade.h:9
 msgid ""
@@ -22796,11 +22796,11 @@ msgstr "পরবর্তী ক্রমিক মান"
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Fields Shown..."
-msgstr "প্রদর্শিত ক্ষেত্র (_F)..."
+msgstr "প্রদর্শিত ক্ষেত্র...(_F)"
 
 #: ../widgets/table/e-table-config.glade.h:20
 msgid "_Group By..."
-msgstr "উল্লিখিত বিষয় অনুসারে দল নির্মাণ (_G)..."
+msgstr "উল্লিখিত বিষয় অনুসারে দল নির্মাণ...(_G)"
 
 #: ../widgets/table/e-table-config.glade.h:22
 msgid "_Show field in View"
@@ -22812,7 +22812,7 @@ msgstr "ক্রমানুসারে এই ক্ষেত্রগুল�
 
 #: ../widgets/table/e-table-config.glade.h:24
 msgid "_Sort..."
-msgstr "ক্রমানুসারে বিন্যাস (_S)..."
+msgstr "ক্রমানুসারে বিন্যাস...(_S)"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:114
 msgid "Add a column..."
