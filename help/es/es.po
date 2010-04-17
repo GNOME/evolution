@@ -7,12 +7,13 @@
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # Jorge Gonzalez <jorgegonz@svn.gnome.org>, 2009.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-31 14:05+0000\n"
-"PO-Revision-Date: 2010-01-31 17:47+0100\n"
+"POT-Creation-Date: 2010-04-17 18:26+0000\n"
+"PO-Revision-Date: 2010-04-17 20:32+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5975,9 +5976,6 @@ msgid "vCalendar:"
 msgstr "vCalendar:"
 
 #: C/evolution.xml:2545(para)
-#| msgid ""
-#| "A format for storing calender files, which is generally used by "
-#| "Evolution, Microsoft Outlook, Sunbird, and Korganizer."
 msgid ""
 "A format for storing calendar files, which is generally used by Evolution, "
 "Microsoft Outlook, Sunbird, and Korganizer."
@@ -9055,10 +9053,6 @@ msgid "Weather Calendar"
 msgstr "Calendario meteorológico"
 
 #: C/evolution.xml:3991(para)
-#| msgid ""
-#| "In the Properties of a Weather calendar you can specify a location for "
-#| "the weather calender. Click Location to select any world-wide location "
-#| "for the calendar."
 msgid ""
 "In the Properties of a Weather calendar you can specify a location for the "
 "weather calendar. Click Location to select any world-wide location for the "
@@ -9234,8 +9228,6 @@ msgstr ""
 "vista del calendario sobre la que haya pulsado dos veces."
 
 #: C/evolution.xml:4103(para)
-#| msgid ""
-#| "Select the required duration on the calender view and enter the summary."
 msgid ""
 "Select the required duration on the calendar view and enter the summary."
 msgstr ""
@@ -12037,10 +12029,6 @@ msgstr ""
 "o en el buzón de correo de ningún otro usuario."
 
 #: C/evolution.xml:6025(para)
-#| msgid ""
-#| "Evolution integrates this feature into its Memo component so that you can "
-#| "view the Reminder notes listed under Memo at the right bottom side of the "
-#| "calender view."
 msgid ""
 "Evolution integrates this feature into its Memo component so that you can "
 "view the Reminder notes listed under Memo at the right bottom side of the "
@@ -12215,8 +12203,11 @@ msgstr ""
 "elemento original en el calendario del destinatario."
 
 #: C/evolution.xml:6116(para)
+#| msgid ""
+#| "An email is send to all the recipients to invite them to your updated "
+#| "event."
 msgid ""
-"An email is send to all the recipients to invite them to your updated event."
+"An email is sent to all the recipients to invite them to your updated event."
 msgstr ""
 "Se enviará un correo-e a todos los destinatarios, invitándoles a su "
 "acontecimiento actualizado."
