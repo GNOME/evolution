@@ -58,9 +58,6 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST CALENDAR_CONFIG_PREFIX "/display/day_second_zones"
 #define CALENDAR_CONFIG_DAY_SECOND_ZONES_MAX CALENDAR_CONFIG_PREFIX "/display/day_second_zones_max"
 
-/* Date navigator settings */
-#define CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS CALENDAR_CONFIG_PREFIX "/date_navigator/show_week_numbers" /* FMQ: remove */
-
 /* Task display settings */
 #define CALENDAR_CONFIG_TASKS_SELECTED_TASKS CALENDAR_CONFIG_PREFIX "/tasks/selected_tasks"
 #define CALENDAR_CONFIG_PRIMARY_TASKS CALENDAR_CONFIG_PREFIX "/tasks/primary_tasks"

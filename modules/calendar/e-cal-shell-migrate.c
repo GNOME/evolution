@@ -82,7 +82,7 @@ static e_gconf_map_t calendar_other_map[] = {
 
 static e_gconf_map_t calendar_datenavigator_map[] = {
 	/* /Calendar/DateNavigator */
-	{ "ShowWeekNumbers", "calendar/date_navigator/show_week_numbers", E_GCONF_MAP_BOOL },
+	{ "ShowWeekNumbers", "calendar/display/show_week_numbers", E_GCONF_MAP_BOOL },
 	{ NULL },
 };
 

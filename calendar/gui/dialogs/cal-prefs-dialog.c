@@ -735,11 +735,6 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		shell_settings, "cal-compress-weekend",
 		widget, "active");
 
-	widget = e_builder_get_widget (prefs->builder, "dnav_show_week_no"); /* FMQ: remove */
-	e_mutual_binding_new (
-		shell_settings, "cal-show-week-numbers",
-		widget, "active");
-
 	widget = e_builder_get_widget (prefs->builder, "dview_show_week_no"); /* FMQ: rename */
 	e_mutual_binding_new (
 		shell_settings, "cal-show-week-numbers",

@@ -539,10 +539,6 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/display/show_event_end");
 
 	e_shell_settings_install_property_for_key (
-		"cal-show-week-numbers",
-		"/apps/evolution/calendar/date_navigator/show_week_numbers");
-
-	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-due-today",
 		"/apps/evolution/calendar/tasks/colors/due_today");
 

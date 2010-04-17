@@ -701,20 +701,6 @@
       </locale>
     </schema>
 
-    <!-- Date navigator -->
-
-    <schema>
-      <key>/schemas/apps/evolution/calendar/date_navigator/show_week_numbers</key>
-      <applyto>/apps/evolution/calendar/date_navigator/show_week_numbers</applyto>
-      <owner>evolution-calendar</owner>
-      <type>bool</type>
-      <default>false</default>
-      <locale name="C">
-        <short>Show week numbers in date navigator</short>
-        <long>Whether to show week numbers in the date navigator.</long>
-      </locale>
-    </schema>
-
     <!-- Alarm notification -->
 
     <schema>
