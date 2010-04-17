@@ -963,8 +963,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="dnav_show_week_no">
-                    <property name="label" translatable="yes">Show week _numbers in date navigator</property>
+                  <object class="GtkCheckButton" id="show_week_numbers">
+                    <property name="label" translatable="yes">Show week _numbers</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -975,21 +975,6 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="dview_show_week_no">
-                    <property name="label" translatable="yes">Show week n_umber in Day and Work Week View</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -1004,7 +989,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>
@@ -1441,8 +1426,8 @@
   </object>
   <object class="GtkSizeGroup" id="day_begins_ends_sizegroup">
     <widgets>
-      <widget name="day_end_label"/>
       <widget name="day_start_label"/>
+      <widget name="day_end_label"/>
     </widgets>
   </object>
 </interface>
