@@ -896,7 +896,7 @@
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkHBox" id="hbox10">
+                  <object class="GtkHBox" id="hbox_time_divisions">
                     <property name="visible">True</property>
                     <property name="spacing">6</property>
                     <child>
