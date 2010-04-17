@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="value">1</property>
@@ -526,6 +526,7 @@ a time relative to when filtering occurs.</property>
                       <object class="GtkComboBox" id="combobox_relative">
                         <property name="visible">True</property>
                         <property name="model">model3</property>
+                        <property name="active">0</property>
                         <child>
                           <object class="GtkCellRendererText" id="renderer3"/>
                           <attributes>
@@ -543,6 +544,7 @@ a time relative to when filtering occurs.</property>
                       <object class="GtkComboBox" id="combobox_past_future">
                         <property name="visible">True</property>
                         <property name="model">model4</property>
+                        <property name="active">0</property>
                         <child>
                           <object class="GtkCellRendererText" id="renderer4"/>
                           <attributes>
