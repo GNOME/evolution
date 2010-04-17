@@ -823,7 +823,7 @@
       <owner>evolution-calendar</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default>[label_second_zone,hbox_second_zone,timezone,timezone_label,hbox_use_system_timezone,hbox_time_divisions,month_scroll_by_week]</default>
+      <default>[label_second_zone,hbox_second_zone,timezone,timezone_label,hbox_use_system_timezone,hbox_time_divisions,show_end_times,month_scroll_by_week]</default>
       <locale name="C">
          <short>List of controls to hide when in Express mode</short>
          <long>
