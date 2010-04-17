@@ -785,6 +785,17 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	/* Hide senseless preferences when running in Express mode */
 	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/calendar/express_preferences_hidden");
 
+	/* HACK:  GTK+ 2.18 and 2.20 has a GtkTable which includes row/column spacing even for empty rows/columns.
+	 * When Evo runs in Express mode, we hide all the rows in the Time section of the calendar's General
+	 * preferences page.  However, due to that behavior in GTK+, we get a lot of extra spacing in that
+	 * section.  Since we know that in Express mode we only leave a single row visible, we'll make the
+	 * table's row spacing equal to 0 in that case.
+	 */
+	if (e_shell_get_express_mode (shell)) {
+		widget = e_builder_get_widget (prefs->builder, "time");
+		gtk_table_set_row_spacings (GTK_TABLE (widget), 0);
+	}
+
 	/* Hook up and add the toplevel widget */
 	
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
