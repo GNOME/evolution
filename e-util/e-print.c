@@ -109,6 +109,17 @@ static void
 save_settings (GtkPrintSettings *settings,
                GKeyFile *key_file)
 {
+	/* XXX GtkPrintSettings does not distinguish between settings
+	 *     that should persist and one-time-only settings, such as
+	 *     page range or number of copies.  All print settings are
+	 *     persistent by default and we opt out particular keys by
+	 *     popular demand. */
+
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_N_COPIES);
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PAGE_RANGES);
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PAGE_SET);
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PRINT_PAGES);
+
 	gtk_print_settings_to_key_file (settings, key_file, NULL);
 }
 
