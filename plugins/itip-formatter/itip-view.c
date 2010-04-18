@@ -831,19 +831,19 @@ set_buttons (ItipView *view)
 		/* FIXME Is this really the right button? */
 		if (priv->needs_decline)
 			set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
-		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("A_ccept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		set_one_button (view, is_recur_set ? _("_Decline all") : _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 		set_one_button (view, is_recur_set ? _("_Tentative all") : _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, is_recur_set ? _("_Accept all") : _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, is_recur_set ? _("A_ccept all") : _("A_ccept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		if (priv->type != E_CAL_SOURCE_TYPE_JOURNAL) {
 			set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 			set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
 		}
-		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("A_ccept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		/* FIXME Is this really the right button? */
@@ -859,12 +859,12 @@ set_buttons (ItipView *view)
 	case ITIP_VIEW_MODE_COUNTER:
 		set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 		set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("A_ccept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 		set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
-		set_one_button (view, _("_Accept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, _("A_ccept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	default:
 		break;
