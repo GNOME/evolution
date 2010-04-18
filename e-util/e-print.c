@@ -92,17 +92,12 @@ load_settings (GKeyFile *key_file)
 	GtkPrintSettings *settings;
 	GError *error = NULL;
 
-	/* XXX Use gtk_print_settings_load_key_file() here once
-	 *     GTK+ 2.14 becomes available. */
+	settings = gtk_print_settings_new ();
 
-	if (!g_key_file_has_group (key_file, PRINT_SETTINGS_GROUP_NAME))
-		return gtk_print_settings_new ();
-
-	settings = gtk_print_settings_new_from_key_file (
-		key_file, NULL, &error);
+	gtk_print_settings_load_key_file (
+		settings, key_file, PRINT_SETTINGS_GROUP_NAME, &error);
 
 	if (error != NULL) {
-		settings = gtk_print_settings_new ();
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
@@ -123,17 +118,12 @@ load_page_setup (GKeyFile *key_file)
 	GtkPageSetup *page_setup;
 	GError *error = NULL;
 
-	/* XXX Use gtk_page_setup_load_key_file() here once
-	 *     GTK+ 2.14 becomes available. */
+	page_setup = gtk_page_setup_new ();
 
-	if (!g_key_file_has_group (key_file, PAGE_SETUP_GROUP_NAME))
-		return gtk_page_setup_new ();
-
-	page_setup = gtk_page_setup_new_from_key_file (
-		key_file, NULL, &error);
+	gtk_page_setup_load_key_file (
+		page_setup, key_file, PAGE_SETUP_GROUP_NAME, &error);
 
 	if (error != NULL) {
-		page_setup = gtk_page_setup_new ();
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
