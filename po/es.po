@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-04-17 11:40+0000\n"
-"PO-Revision-Date: 2010-04-17 19:00+0200\n"
+"POT-Creation-Date: 2010-04-18 04:43+0000\n"
+"PO-Revision-Date: 2010-04-18 10:12+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3282,7 +3282,7 @@ msgstr "viernes"
 #: ../modules/addressbook/addressbook-config.c:1005
 #: ../plugins/itip-formatter/itip-formatter.c:2660
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
-#: ../smime/gui/smime-ui.ui.h:23
+#: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
 msgstr "General"
 
@@ -3735,7 +3735,7 @@ msgid "_Options"
 msgstr "_Opciones"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1050 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1674
+#: ../shell/e-shell-window-actions.c:1674 ../smime/gui/smime-ui.ui.h:45
 msgid "_View"
 msgstr "_Ver"
 
@@ -8340,7 +8340,6 @@ msgid "Please enter your email address."
 msgstr "Introduzca su dirección de correo-e."
 
 #: ../capplet/settings/mail-account-view.c:58
-#, fuzzy
 #| msgid "The email addres you have entered is invalid."
 msgid "The email address you have entered is invalid."
 msgstr "La dirección de correo-e que ha introducido no es válida."
@@ -8402,7 +8401,6 @@ msgstr ""
 "también los detalles del servidor."
 
 #: ../capplet/settings/mail-account-view.c:311
-#, fuzzy
 #| msgid ""
 #| "Sorry, we can't work out the settings to get your mail automatically. "
 #| "Please enter them below. We've tried  to make a start with the details "
@@ -8736,20 +8734,20 @@ msgstr "Ayer"
 
 #. Translators: %d is replaced with a number of days. It's always greater than 1
 #: ../e-util/e-datetime-format.c:211
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d days from now"
 msgid "%d day from now"
 msgid_plural "%d days from now"
-msgstr[0] "Dentro de %d días"
+msgstr[0] "Dentro de %d día"
 msgstr[1] "Dentro de %d días"
 
 #. Translators: %d is replaced with a number of days. It's always greater than 1
 #: ../e-util/e-datetime-format.c:214
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d days ago"
 msgid "%d day ago"
 msgid_plural "%d days ago"
-msgstr[0] "Hace %d días"
+msgstr[0] "Hace %d día"
 msgstr[1] "Hace %d días"
 
 #: ../e-util/e-datetime-format.c:289 ../e-util/e-datetime-format.c:299
@@ -9307,10 +9305,9 @@ msgid "List View"
 msgstr "Vista de lista"
 
 #: ../mail/e-mail-browser.c:262
-#, fuzzy
 #| msgid "Subject"
 msgid "(No Subject)"
-msgstr "Asunto"
+msgstr "(Sin asunto)"
 
 #: ../mail/e-mail-display.c:66
 msgid "_Add to Address Book..."
@@ -9440,10 +9437,10 @@ msgstr ""
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
 #: ../mail/e-mail-migrate.c:756
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to create local mail folders at `%s': %s"
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "No es posible crear las carpetas de correo local en: «%s»: %s"
+msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
 
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
@@ -10608,7 +10605,7 @@ msgstr "Copiar carpeta a"
 
 #: ../mail/em-folder-utils.c:500
 #: ../plugins/groupwise-features/share-folder-common.c:136
-#, fuzzy, c-format
+#, c-format
 #| msgid "Creating folder `%s'"
 msgid "Creating folder '%s'"
 msgstr "Creando carpeta «%s»"
@@ -10740,7 +10737,7 @@ msgstr ""
 "difícil que un espía vea el contenido de este mensaje en empleando un tiempo "
 "razonable."
 
-#: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:47
+#: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:46
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
@@ -10795,7 +10792,7 @@ msgid "Formatting Message..."
 msgstr "Formateando el mensaje…"
 
 #: ../mail/em-format-html.c:1380 ../mail/em-format-html.c:1389
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving `%s'"
 msgid "Retrieving '%s'"
 msgstr "Obteniendo «%s»"
@@ -10866,12 +10863,12 @@ msgstr "No se ha seleccionado ningún servidor"
 #. The %d is replaced with the actual count of messages. If you need a '%' in your text,
 #. then write it doubled, like '%%'.
 #: ../mail/em-utils.c:106
-#, fuzzy, c-format
+#, c-format
 #| msgid "Are you sure you want to open {0} messages at once?"
 msgid "Are you sure you want to open %d messages at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
-msgstr[0] "¿Seguro que quiere abrir {0} mensajes a la vez?"
-msgstr[1] "¿Seguro que quiere abrir {0} mensajes a la vez?"
+msgstr[0] "¿Está seguro de que quiere abrir %d mensaje a la vez?"
+msgstr[1] "¿Está seguro de que quiere abrir %d mensajes a la vez?"
 
 #: ../mail/em-utils.c:314
 msgid "Message Filters"
@@ -11351,13 +11348,11 @@ msgstr ""
 "sólo los elimina de los resultados de la búsqueda."
 
 #: ../mail/evolution-mail.schemas.in.h:83
-#, fuzzy
 #| msgid "Last time empty junk was run"
 msgid "Last time Empty Junk was run"
 msgstr "Última vez que se vació el SPAM"
 
 #: ../mail/evolution-mail.schemas.in.h:84
-#, fuzzy
 #| msgid "Last time empty trash was run"
 msgid "Last time Empty Trash was run"
 msgstr "Última vez que se vació la papelera"
@@ -11473,10 +11468,9 @@ msgid "Mark citations in the message \"Preview\"."
 msgstr "Marcar citas textuales en la «vista previa» del mensaje."
 
 #: ../mail/evolution-mail.schemas.in.h:109
-#, fuzzy
 #| msgid "Message Display"
 msgid "Message text limit for display"
-msgstr "Mostrado de mensajes"
+msgstr "Límite del texto del mensaje para mostrarlo"
 
 #: ../mail/evolution-mail.schemas.in.h:110
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
@@ -11765,18 +11759,20 @@ msgid "The default plugin for Junk hook"
 msgstr "El complemento predeterminado para SPAM"
 
 #: ../mail/evolution-mail.schemas.in.h:170
-#, fuzzy
 #| msgid "The last time empty junk was run, in days since the epoch."
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "La última vez que se vació el SPAM, en días desde la época."
+msgstr ""
+"La última vez que se vació el SPAM, en días desde el 1 de enero de 1970 "
+"(época)."
 
 #: ../mail/evolution-mail.schemas.in.h:171
-#, fuzzy
 #| msgid "The last time empty trash was run, in days since the epoch."
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
-msgstr "La última vez que se vació la papelera, en días desde la época."
+msgstr ""
+"La última vez que se vació la papelera, en días desde el 1 de enero de 1970 "
+"(época)."
 
 #: ../mail/evolution-mail.schemas.in.h:172
 msgid ""
@@ -11807,7 +11803,6 @@ msgstr ""
 "para mensajes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:176
-#, fuzzy
 #| msgid ""
 #| "This decides the max size of the text part that can be formatted under "
 #| "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
@@ -11817,8 +11812,9 @@ msgid ""
 "is used only when 'force_message_limit' key is activated."
 msgstr ""
 "Esto decide el tamaño máximo de la parte de texto que se puede formatear "
-"bajo Evolution. Lo predeterminado son 4 MiB/4096 KiB y está especificado en "
-"términos de KiB."
+"bajo Evolution, especificado en términos de KB. Lo predeterminado son 4096 "
+"(4MiB). Este valor sólo se usa cuando la clave 'force_message_limit' está "
+"activada."
 
 #: ../mail/evolution-mail.schemas.in.h:177
 msgid ""
@@ -12016,27 +12012,27 @@ msgstr "Importador de Elm de Evolution"
 msgid "Import mail from Elm."
 msgstr "Importar correo de Elm."
 
-#: ../mail/importers/evolution-mbox-importer.c:113
-#: ../plugins/pst-import/pst-importer.c:308
-msgid "Destination folder:"
-msgstr "Carpeta de destino:"
+#: ../mail/importers/evolution-mbox-importer.c:114
+#| msgid "Destination folder:"
+msgid "_Destination folder:"
+msgstr "Carpeta de _destino:"
 
-#: ../mail/importers/evolution-mbox-importer.c:117
+#: ../mail/importers/evolution-mbox-importer.c:120
 #: ../plugins/pst-import/pst-importer.c:301
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
-#: ../mail/importers/evolution-mbox-importer.c:117
+#: ../mail/importers/evolution-mbox-importer.c:120
 #: ../plugins/pst-import/pst-importer.c:301
 msgid "Select folder to import into"
 msgstr "Seleccione la carpeta en la que importar"
 
-#: ../mail/importers/evolution-mbox-importer.c:258
+#: ../mail/importers/evolution-mbox-importer.c:262
 #: ../shell/e-shell-utils.c:251
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Buzón Berkeley (mbox)"
 
-#: ../mail/importers/evolution-mbox-importer.c:259
+#: ../mail/importers/evolution-mbox-importer.c:263
 msgid "Importer Berkeley Mailbox format folders"
 msgstr "Importador de carpetas en formato buzón de Berkeley"
 
@@ -12702,7 +12698,7 @@ msgstr "_Usar los valores predeterminados del sistema"
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
-#: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:47
 msgid "a"
 msgstr "am"
 
@@ -12711,7 +12707,7 @@ msgstr "am"
 msgid "addresses"
 msgstr "direcciones"
 
-#: ../mail/mail-config.ui.h:168 ../smime/gui/smime-ui.ui.h:49
+#: ../mail/mail-config.ui.h:168 ../smime/gui/smime-ui.ui.h:48
 msgid "b"
 msgstr "por"
 
@@ -12848,7 +12844,7 @@ msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
 #: ../mail/mail-ops.c:586 ../mail/mail-ops.c:613
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Failed to append to %s: %s\n"
 #| "Appending to local `Sent' folder instead."
@@ -12856,12 +12852,11 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
 msgstr ""
-"No es posible anexar a %s: %s\n"
-"Se anexará a la carpeta local «Correo enviado» en su lugar."
+"Falló al anexar a %s: %s\n"
+"En su lugar se anexará a la carpeta local «Correo enviado»."
 
 #: ../mail/mail-ops.c:630
 #, c-format
-#| msgid "Failed to append to local `Sent' folder: %s"
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
@@ -13091,7 +13086,6 @@ msgstr "No se pudo crear el directorio spool «%s»: %s"
 
 #: ../mail/mail-tools.c:149
 #, c-format
-#| msgid "Trying to movemail a non-mbox source `%s'"
 msgid "Trying to movemail a non-mbox source '%s'"
 msgstr "Intentando mover correo desde un origen que no es un buzón «%s»"
 
@@ -13106,7 +13100,6 @@ msgstr "Mensaje reenviado"
 
 #: ../mail/mail-tools.c:297
 #, c-format
-#| msgid "Invalid folder: `%s'"
 msgid "Invalid folder: '%s'"
 msgstr "Carpeta no válida: «%s»"
 
@@ -13151,19 +13144,16 @@ msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 #| msgid "Check Junk Failed"
 msgid "\"Check Junk\" Failed"
 msgstr "Falló la comprobación de SPAM"
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 #| msgid "Report Junk Failed"
 msgid "\"Report Junk\" Failed"
-msgstr "Falló al informe de que es SPAM"
+msgstr "Falló al informar de que es SPAM"
 
 #: ../mail/mail.error.xml.h:3
-#, fuzzy
 #| msgid "Report Not Junk Failed"
 msgid "\"Report Not Junk\" Failed"
 msgstr "Falló al informar de que no es SPAM"
@@ -13302,7 +13292,6 @@ msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "No se puede mover la carpeta «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:32
-#| msgid "Cannot open source \"{1}\""
 msgid "Cannot open source \"{1}\"."
 msgstr "No se puede abrir el origen «{1}»."
 
@@ -13423,9 +13412,6 @@ msgid "If you continue, you will not be able to recover these messages."
 msgstr "Si continua, no podrá recuperar estos mensajes."
 
 #: ../mail/mail.error.xml.h:61
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders contents "
-#| "will be deleted permanently."
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -13940,7 +13926,6 @@ msgstr ""
 "fallos de seguridad."
 
 #: ../modules/addressbook/addressbook-config.c:602
-#| msgid "Use in _Birthday & Anniversaries calendar"
 msgid "U_se in Birthday & Anniversaries calendar"
 msgstr "U_sar en el calendario Cumpleaños y aniversarios"
 
@@ -13985,7 +13970,7 @@ msgid "Server Information"
 msgstr "Información del servidor"
 
 #: ../modules/addressbook/addressbook-config.c:1016
-#: ../smime/gui/smime-ui.ui.h:14
+#: ../smime/gui/smime-ui.ui.h:13
 msgid "Details"
 msgstr "Detalles"
 
@@ -14517,6 +14502,7 @@ msgid "cards"
 msgstr "tarjetas"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:259
+#: ../smime/gui/smime-ui.ui.h:22
 msgid "I_mport"
 msgstr "I_mportar"
 
@@ -15541,12 +15527,10 @@ msgid "Show message preview pane"
 msgstr "Mostrar el correo en el panel de vista previa"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1093
-#| msgid "Show deleted messages"
 msgid "Show _Deleted Messages"
 msgstr "Mostrar los mensajes _eliminados"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1095
-#| msgid "Show deleted messages (with a strike-through) in the message-list."
 msgid "Show deleted messages with a line through them"
 msgstr "Mostrar los mensajes eliminados tachándolos"
 
@@ -15880,7 +15864,6 @@ msgid "Restore from backup"
 msgstr "Restaurar desde un respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:353
-#| msgid "_Backup Settings..."
 msgid "_Backup Evolution Settings..."
 msgstr "_Respaldar ajustes de Evolution…"
 
@@ -15889,7 +15872,6 @@ msgid "Backup Evolution data and settings to an archive file"
 msgstr "Respaldar y restaurar los datos y la configuración a un archivador"
 
 #: ../plugins/backup-restore/backup-restore.c:360
-#| msgid "R_estore Settings..."
 msgid "R_estore Evolution Settings..."
 msgstr "R_estaurar ajustes de Evolution…"
 
@@ -16086,7 +16068,6 @@ msgstr "Contactos de mensajería instantánea"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:745
-#| msgid "Synchronize contact info and images from Pidgin buddy list"
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Sincronizar información e imágenes de contactos desde la lista de contactos "
@@ -17115,7 +17096,6 @@ msgstr ""
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:701
-#| msgid "Proxy"
 msgctxt "GW"
 msgid "Proxy"
 msgstr "Proxy"
@@ -17871,8 +17851,9 @@ msgstr "_Rehusar"
 #: ../plugins/itip-formatter/itip-view.c:846
 #: ../plugins/itip-formatter/itip-view.c:862
 #: ../plugins/itip-formatter/itip-view.c:867
-msgid "_Accept"
-msgstr "_Aceptar"
+#| msgid "Accept"
+msgid "A_ccept"
+msgstr "A_ceptar"
 
 #: ../plugins/itip-formatter/itip-view.c:837
 msgid "_Decline all"
@@ -17890,8 +17871,9 @@ msgid "_Tentative"
 msgstr "_Provisional"
 
 #: ../plugins/itip-formatter/itip-view.c:839
-msgid "_Accept all"
-msgstr "_Aceptar todo"
+#| msgid "_Accept all"
+msgid "A_ccept all"
+msgstr "A_ceptar todo"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:850
@@ -18623,6 +18605,10 @@ msgstr "Carpetas personales de Outlook (.pst)"
 msgid "_Mail"
 msgstr "Co_rreo"
 
+#: ../plugins/pst-import/pst-importer.c:308
+msgid "Destination folder:"
+msgstr "Carpeta de destino:"
+
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:314
 msgid "_Address Book"
@@ -19004,12 +18990,6 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 #: ../plugins/startup-wizard/startup-wizard.c:118
-#| msgid ""
-#| "ZZZ ! Welcome to Evolution. The next few screens will allow Evolution to "
-#| "connect to your email accounts, and to import files from other "
-#| "applications. \n"
-#| "\n"
-#| "Please click the \"Forward\" button to continue. "
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -20134,7 +20114,7 @@ msgstr "Nombre del certificado"
 msgid "Purposes"
 msgstr "Propósito"
 
-#: ../smime/gui/certificate-manager.c:292 ../smime/gui/smime-ui.ui.h:34
+#: ../smime/gui/certificate-manager.c:292 ../smime/gui/smime-ui.ui.h:32
 #: ../smime/lib/e-cert.c:566
 msgid "Serial Number"
 msgstr "Número de serie"
@@ -20210,14 +20190,11 @@ msgid "Authorities"
 msgstr "Autoridades"
 
 #: ../smime/gui/smime-ui.ui.h:3
-msgid "Backup"
-msgstr "Respaldo"
+#| msgid "Backup All"
+msgid "Backup _All"
+msgstr "Respaldar _todo"
 
 #: ../smime/gui/smime-ui.ui.h:4
-msgid "Backup All"
-msgstr "Respaldar todo"
-
-#: ../smime/gui/smime-ui.ui.h:5
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -20225,158 +20202,151 @@ msgstr ""
 "Antes de confiar en esta AC para cualquier propósito, debería examinar su "
 "certificado y su directiva y procedimientos (si están disponibles)."
 
-#: ../smime/gui/smime-ui.ui.h:6 ../smime/lib/e-cert.c:1077
+#: ../smime/gui/smime-ui.ui.h:5 ../smime/lib/e-cert.c:1077
 msgid "Certificate"
 msgstr "Certificado"
 
-#: ../smime/gui/smime-ui.ui.h:7
+#: ../smime/gui/smime-ui.ui.h:6
 msgid "Certificate Authority Trust"
 msgstr "Confianza en la autoridad certificadora"
 
-#: ../smime/gui/smime-ui.ui.h:8
+#: ../smime/gui/smime-ui.ui.h:7
 msgid "Certificate Fields"
 msgstr "Campos del certificado"
 
-#: ../smime/gui/smime-ui.ui.h:9
+#: ../smime/gui/smime-ui.ui.h:8
 msgid "Certificate Hierarchy"
 msgstr "Jerarquía del certificado"
 
-#: ../smime/gui/smime-ui.ui.h:10
+#: ../smime/gui/smime-ui.ui.h:9
 msgid "Certificate details"
 msgstr "Detalles del certificado"
 
-#: ../smime/gui/smime-ui.ui.h:11
+#: ../smime/gui/smime-ui.ui.h:10
 msgid "Certificates Table"
 msgstr "Tabla de certificados"
 
-#: ../smime/gui/smime-ui.ui.h:12
+#: ../smime/gui/smime-ui.ui.h:11
 msgid "Common Name (CN)"
 msgstr "Nombre común (CN)"
 
-#: ../smime/gui/smime-ui.ui.h:13
+#: ../smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
 msgstr "Certificados de contactos"
 
-#: ../smime/gui/smime-ui.ui.h:15
+#: ../smime/gui/smime-ui.ui.h:14
 msgid "Do not trust the authenticity of this certificate"
 msgstr "No confiar en la autenticidad de este certificado"
 
-#: ../smime/gui/smime-ui.ui.h:16
-msgid "Edit"
-msgstr "Editar"
-
-#: ../smime/gui/smime-ui.ui.h:17
+#: ../smime/gui/smime-ui.ui.h:15
 msgid "Email Certificate Trust Settings"
 msgstr "Ajustes de confianza de certificados de correo-e"
 
-#: ../smime/gui/smime-ui.ui.h:18
+#: ../smime/gui/smime-ui.ui.h:16
 msgid "Email Recipient Certificate"
 msgstr "Certificado del destinatario del correo-e"
 
-#: ../smime/gui/smime-ui.ui.h:19
+#: ../smime/gui/smime-ui.ui.h:17
 msgid "Email Signer Certificate"
 msgstr "Certificado del firmante del correo-e"
 
-#: ../smime/gui/smime-ui.ui.h:20
+#: ../smime/gui/smime-ui.ui.h:18
 msgid "Expires On"
 msgstr "Caduca el"
 
-#: ../smime/gui/smime-ui.ui.h:21
+#: ../smime/gui/smime-ui.ui.h:19
 msgid "Field Value"
 msgstr "Valor del campo"
 
-#: ../smime/gui/smime-ui.ui.h:22
+#: ../smime/gui/smime-ui.ui.h:20
 msgid "Fingerprints"
 msgstr "Huellas"
 
-#: ../smime/gui/smime-ui.ui.h:24
-msgid "Import"
-msgstr "Importar"
-
-#: ../smime/gui/smime-ui.ui.h:25
+#: ../smime/gui/smime-ui.ui.h:23
 msgid "Issued By"
 msgstr "Emitido por"
 
-#: ../smime/gui/smime-ui.ui.h:26
+#: ../smime/gui/smime-ui.ui.h:24
 msgid "Issued On"
 msgstr "Emitido el"
 
-#: ../smime/gui/smime-ui.ui.h:27
+#: ../smime/gui/smime-ui.ui.h:25
 msgid "Issued To"
 msgstr "Emitido a"
 
-#: ../smime/gui/smime-ui.ui.h:28
+#: ../smime/gui/smime-ui.ui.h:26
 msgid "MD5 Fingerprint"
 msgstr "Huella MD5"
 
-#: ../smime/gui/smime-ui.ui.h:29
+#: ../smime/gui/smime-ui.ui.h:27
 msgid "Organization (O)"
 msgstr "Organización (O)"
 
-#: ../smime/gui/smime-ui.ui.h:30
+#: ../smime/gui/smime-ui.ui.h:28
 msgid "Organizational Unit (OU)"
 msgstr "Unidad organizativa (OU)"
 
-#: ../smime/gui/smime-ui.ui.h:31
+#: ../smime/gui/smime-ui.ui.h:29
 msgid "SHA1 Fingerprint"
 msgstr "Huella SHA1"
 
-#: ../smime/gui/smime-ui.ui.h:32 ../smime/lib/e-cert.c:815
+#: ../smime/gui/smime-ui.ui.h:30 ../smime/lib/e-cert.c:815
 msgid "SSL Client Certificate"
 msgstr "Certificado de cliente SSL"
 
-#: ../smime/gui/smime-ui.ui.h:33 ../smime/lib/e-cert.c:819
+#: ../smime/gui/smime-ui.ui.h:31 ../smime/lib/e-cert.c:819
 msgid "SSL Server Certificate"
 msgstr "Certificado de servidor SSL"
 
-#: ../smime/gui/smime-ui.ui.h:35
+#: ../smime/gui/smime-ui.ui.h:33
 msgid "This certificate has been verified for the following uses:"
 msgstr "Este certificado ha sido verificado para los siguientes usos:"
 
-#: ../smime/gui/smime-ui.ui.h:36
+#: ../smime/gui/smime-ui.ui.h:34
 msgid "Trust the authenticity of this certificate"
 msgstr "Confiar en la autenticidad de este certificado"
 
-#: ../smime/gui/smime-ui.ui.h:37
+#: ../smime/gui/smime-ui.ui.h:35
 msgid "Trust this CA to identify email users."
 msgstr "Confiar en esta AC para identificar a usuarios de correo-e."
 
-#: ../smime/gui/smime-ui.ui.h:38
+#: ../smime/gui/smime-ui.ui.h:36
 msgid "Trust this CA to identify software developers."
 msgstr "Confiar en esta AC para identificar a desarrolladores de software."
 
-#: ../smime/gui/smime-ui.ui.h:39
+#: ../smime/gui/smime-ui.ui.h:37
 msgid "Trust this CA to identify web sites."
 msgstr "Confiar en esta AC para identificar sitios web."
 
-#: ../smime/gui/smime-ui.ui.h:40
+#: ../smime/gui/smime-ui.ui.h:38
 msgid "Validity"
 msgstr "Validez"
 
-#: ../smime/gui/smime-ui.ui.h:41
-msgid "View"
-msgstr "Ver"
-
-#: ../smime/gui/smime-ui.ui.h:42
+#: ../smime/gui/smime-ui.ui.h:39
 msgid "You have certificates from these organizations that identify you:"
 msgstr "Tiene certificados de estas organizaciones que le identifican:"
 
-#: ../smime/gui/smime-ui.ui.h:43
+#: ../smime/gui/smime-ui.ui.h:40
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "Tiene archivados los certificados que identifican a estas autoridades de "
 "certificación:"
 
-#: ../smime/gui/smime-ui.ui.h:44
+#: ../smime/gui/smime-ui.ui.h:41
 msgid "You have certificates on file that identify these people:"
 msgstr "Tiene archivados los certificados que identifican a estas personas:"
 
-#: ../smime/gui/smime-ui.ui.h:45
+#: ../smime/gui/smime-ui.ui.h:42
 msgid "Your Certificates"
 msgstr "Sus certificados"
 
-#: ../smime/gui/smime-ui.ui.h:46
+#: ../smime/gui/smime-ui.ui.h:43
+#| msgid "Backup"
+msgid "_Backup"
+msgstr "_Respaldar"
+
+#: ../smime/gui/smime-ui.ui.h:44
 msgid "_Edit CA Trust"
 msgstr "_Editar confianza en la AC"
 
@@ -21246,7 +21216,6 @@ msgstr "_Establecer fecha de caducidad"
 
 #. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
 #: ../widgets/misc/e-send-options.ui.h:39
-#| msgid "_Until:"
 msgid "_Until"
 msgstr "_Hasta"
 
@@ -21521,8 +21490,6 @@ msgstr ""
 #.
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
-#| msgid "%s : %s (%d item)"
-#| msgid_plural "%s : %s (%d items)"
 msgid "%s: %s (%d item)"
 msgid_plural "%s: %s (%d items)"
 msgstr[0] "%s: %s (%d elemento)"
@@ -21642,6 +21609,18 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2486
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "_Accept"
+#~ msgstr "_Aceptar"
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Import"
+#~ msgstr "Importar"
+
+#~ msgid "View"
+#~ msgstr "Ver"
 
 #~ msgid "{0}"
 #~ msgstr "{0}"
