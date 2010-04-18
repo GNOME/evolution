@@ -21,10 +21,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-18 12:42+0200\n"
-"PO-Revision-Date: 2010-04-18 12:42+0200\n"
+"POT-Creation-Date: 2010-04-18 12:48+0200\n"
+"PO-Revision-Date: 2010-04-18 12:50+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
-"Language-Team: Galician <gnome@g11n.net>\n"
+"Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3263,7 +3263,7 @@ msgstr "Venres"
 #: ../modules/addressbook/addressbook-config.c:1005
 #: ../plugins/itip-formatter/itip-formatter.c:2660
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
-#: ../smime/gui/smime-ui.ui.h:23
+#: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
 msgstr "Xeral"
 
@@ -3717,7 +3717,7 @@ msgid "_Options"
 msgstr "_Opcións"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1050 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1674
+#: ../shell/e-shell-window-actions.c:1674 ../smime/gui/smime-ui.ui.h:45
 msgid "_View"
 msgstr "_Ver"
 
@@ -10745,7 +10745,7 @@ msgstr ""
 "Esta mensaxe está cifrada cun algoritmo de cifrado forte. Sería moi difícil "
 "para un intruso ver o contido desta mensaxe dentro dun período de tempo útil."
 
-#: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:47
+#: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:46
 msgid "_View Certificate"
 msgstr "_Ver o certificado"
 
@@ -12702,7 +12702,7 @@ msgstr "_Usar as configuracións predefinidas do sistema"
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar os mesmos tipos de letra que noutros aplicativos"
 
-#: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:47
 msgid "a"
 msgstr "am"
 
@@ -12711,7 +12711,7 @@ msgstr "am"
 msgid "addresses"
 msgstr "enderezos"
 
-#: ../mail/mail-config.ui.h:168 ../smime/gui/smime-ui.ui.h:49
+#: ../mail/mail-config.ui.h:168 ../smime/gui/smime-ui.ui.h:48
 msgid "b"
 msgstr "por"
 
@@ -13980,7 +13980,7 @@ msgid "Server Information"
 msgstr "Información do servidor"
 
 #: ../modules/addressbook/addressbook-config.c:1016
-#: ../smime/gui/smime-ui.ui.h:14
+#: ../smime/gui/smime-ui.ui.h:13
 msgid "Details"
 msgstr "Detalles"
 
@@ -14513,6 +14513,7 @@ msgid "cards"
 msgstr "tarxetas"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:259
+#: ../smime/gui/smime-ui.ui.h:22
 msgid "I_mport"
 msgstr "I_mportar"
 
@@ -15938,8 +15939,8 @@ msgid "Restarting Evolution"
 msgstr "Reiniciando o Evolution"
 
 #: ../plugins/backup-restore/backup.c:255
-msgid "Backup current Evolution data"
-msgstr "Facendo unha copia dos datos actuais do Evolution"
+msgid "Back up current Evolution data"
+msgstr ""
 
 #: ../plugins/backup-restore/backup.c:260
 msgid "Extracting files from backup"
@@ -17862,8 +17863,8 @@ msgstr "_Rexeitar"
 #: ../plugins/itip-formatter/itip-view.c:846
 #: ../plugins/itip-formatter/itip-view.c:862
 #: ../plugins/itip-formatter/itip-view.c:867
-msgid "_Accept"
-msgstr "_Aceptar"
+msgid "A_ccept"
+msgstr "A_ceptar"
 
 #: ../plugins/itip-formatter/itip-view.c:837
 msgid "_Decline all"
@@ -17881,7 +17882,7 @@ msgid "_Tentative"
 msgstr "_Provisional"
 
 #: ../plugins/itip-formatter/itip-view.c:839
-msgid "_Accept all"
+msgid "A_ccept all"
 msgstr "_Aceptar todo"
 
 #. FIXME Is this really the right button?
@@ -20127,7 +20128,7 @@ msgstr "Nome do certificado"
 msgid "Purposes"
 msgstr "Obxectivos"
 
-#: ../smime/gui/certificate-manager.c:292 ../smime/gui/smime-ui.ui.h:34
+#: ../smime/gui/certificate-manager.c:292 ../smime/gui/smime-ui.ui.h:32
 #: ../smime/lib/e-cert.c:566
 msgid "Serial Number"
 msgstr "Número de serie"
@@ -20203,14 +20204,10 @@ msgid "Authorities"
 msgstr "Autoridades"
 
 #: ../smime/gui/smime-ui.ui.h:3
-msgid "Backup"
-msgstr ""
+msgid "Backup _All"
+msgstr "Respaldar _todo"
 
 #: ../smime/gui/smime-ui.ui.h:4
-msgid "Backup All"
-msgstr ""
-
-#: ../smime/gui/smime-ui.ui.h:5
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -20218,158 +20215,150 @@ msgstr ""
 "Antes de confiar nesta CA para calquera obxectivo, debería examinar o seu "
 "certificado e as súas directrices e procedementos (se están dispoñíbeis)."
 
-#: ../smime/gui/smime-ui.ui.h:6 ../smime/lib/e-cert.c:1077
+#: ../smime/gui/smime-ui.ui.h:5 ../smime/lib/e-cert.c:1077
 msgid "Certificate"
 msgstr "Certificado"
 
-#: ../smime/gui/smime-ui.ui.h:7
+#: ../smime/gui/smime-ui.ui.h:6
 msgid "Certificate Authority Trust"
 msgstr "Confianza na autoridade do certificado"
 
-#: ../smime/gui/smime-ui.ui.h:8
+#: ../smime/gui/smime-ui.ui.h:7
 msgid "Certificate Fields"
 msgstr "<b>Campos do certificado</b>"
 
-#: ../smime/gui/smime-ui.ui.h:9
+#: ../smime/gui/smime-ui.ui.h:8
 msgid "Certificate Hierarchy"
 msgstr "<b>Xerarquía do certificado</b>"
 
-#: ../smime/gui/smime-ui.ui.h:10
+#: ../smime/gui/smime-ui.ui.h:9
 msgid "Certificate details"
 msgstr "Detalles do certificado"
 
-#: ../smime/gui/smime-ui.ui.h:11
+#: ../smime/gui/smime-ui.ui.h:10
 msgid "Certificates Table"
 msgstr "Táboa de certificados"
 
-#: ../smime/gui/smime-ui.ui.h:12
+#: ../smime/gui/smime-ui.ui.h:11
 msgid "Common Name (CN)"
 msgstr "Nome común (CN)"
 
-#: ../smime/gui/smime-ui.ui.h:13
+#: ../smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
 msgstr "Certificados de contactos"
 
-#: ../smime/gui/smime-ui.ui.h:15
+#: ../smime/gui/smime-ui.ui.h:14
 msgid "Do not trust the authenticity of this certificate"
 msgstr "Non confiar na autenticidade deste certificado"
 
-#: ../smime/gui/smime-ui.ui.h:16
-msgid "Edit"
-msgstr "Editar"
-
-#: ../smime/gui/smime-ui.ui.h:17
+#: ../smime/gui/smime-ui.ui.h:15
 msgid "Email Certificate Trust Settings"
 msgstr "Control de confianza de certificados de correo"
 
-#: ../smime/gui/smime-ui.ui.h:18
+#: ../smime/gui/smime-ui.ui.h:16
 msgid "Email Recipient Certificate"
 msgstr "Certificado do destinatario do correo"
 
-#: ../smime/gui/smime-ui.ui.h:19
+#: ../smime/gui/smime-ui.ui.h:17
 msgid "Email Signer Certificate"
 msgstr "Certificado do asinante do correo"
 
-#: ../smime/gui/smime-ui.ui.h:20
+#: ../smime/gui/smime-ui.ui.h:18
 msgid "Expires On"
 msgstr "Caduca o"
 
-#: ../smime/gui/smime-ui.ui.h:21
+#: ../smime/gui/smime-ui.ui.h:19
 msgid "Field Value"
 msgstr "Nome do campo"
 
-#: ../smime/gui/smime-ui.ui.h:22
+#: ../smime/gui/smime-ui.ui.h:20
 msgid "Fingerprints"
 msgstr "Impresión dixital MD5"
 
-#: ../smime/gui/smime-ui.ui.h:24
-msgid "Import"
-msgstr "Importar"
-
-#: ../smime/gui/smime-ui.ui.h:25
+#: ../smime/gui/smime-ui.ui.h:23
 msgid "Issued By"
 msgstr "Emitido o"
 
-#: ../smime/gui/smime-ui.ui.h:26
+#: ../smime/gui/smime-ui.ui.h:24
 msgid "Issued On"
 msgstr "Emitido o"
 
-#: ../smime/gui/smime-ui.ui.h:27
+#: ../smime/gui/smime-ui.ui.h:25
 msgid "Issued To"
 msgstr "Emitido o"
 
-#: ../smime/gui/smime-ui.ui.h:28
+#: ../smime/gui/smime-ui.ui.h:26
 msgid "MD5 Fingerprint"
 msgstr "Impresión dixital MD5"
 
-#: ../smime/gui/smime-ui.ui.h:29
+#: ../smime/gui/smime-ui.ui.h:27
 msgid "Organization (O)"
 msgstr "Organización (O)"
 
-#: ../smime/gui/smime-ui.ui.h:30
+#: ../smime/gui/smime-ui.ui.h:28
 msgid "Organizational Unit (OU)"
 msgstr "Unidade organizacional (OU)"
 
-#: ../smime/gui/smime-ui.ui.h:31
+#: ../smime/gui/smime-ui.ui.h:29
 msgid "SHA1 Fingerprint"
 msgstr "Impresión dixital SHA1"
 
-#: ../smime/gui/smime-ui.ui.h:32 ../smime/lib/e-cert.c:815
+#: ../smime/gui/smime-ui.ui.h:30 ../smime/lib/e-cert.c:815
 msgid "SSL Client Certificate"
 msgstr "Certificado de cliente SSL"
 
-#: ../smime/gui/smime-ui.ui.h:33 ../smime/lib/e-cert.c:819
+#: ../smime/gui/smime-ui.ui.h:31 ../smime/lib/e-cert.c:819
 msgid "SSL Server Certificate"
 msgstr "Certificado de servidor SSL"
 
-#: ../smime/gui/smime-ui.ui.h:35
+#: ../smime/gui/smime-ui.ui.h:33
 msgid "This certificate has been verified for the following uses:"
 msgstr "<b>Este certificado verificouse para os seguintes usos:</b>"
 
-#: ../smime/gui/smime-ui.ui.h:36
+#: ../smime/gui/smime-ui.ui.h:34
 msgid "Trust the authenticity of this certificate"
 msgstr "Confiar na autenticidade deste certificado"
 
-#: ../smime/gui/smime-ui.ui.h:37
+#: ../smime/gui/smime-ui.ui.h:35
 msgid "Trust this CA to identify email users."
 msgstr "Confiar nesta AC para identificar a usuarios de correo."
 
-#: ../smime/gui/smime-ui.ui.h:38
+#: ../smime/gui/smime-ui.ui.h:36
 msgid "Trust this CA to identify software developers."
 msgstr "Confiar nesta AC para identificar desenvolvedores de software."
 
-#: ../smime/gui/smime-ui.ui.h:39
-msgid "Trust this CA to identify web sites."
+#: ../smime/gui/smime-ui.ui.h:37
+msgid "Trust this CA to identify websites."
 msgstr "Confiar nesta CA para identificar sitios web."
 
-#: ../smime/gui/smime-ui.ui.h:40
+#: ../smime/gui/smime-ui.ui.h:38
 msgid "Validity"
 msgstr "<b>Validación</b>"
 
-#: ../smime/gui/smime-ui.ui.h:41
-msgid "View"
-msgstr "Ver"
-
-#: ../smime/gui/smime-ui.ui.h:42
+#: ../smime/gui/smime-ui.ui.h:39
 msgid "You have certificates from these organizations that identify you:"
 msgstr "Ten certificados destas organizacións que o identifican:"
 
-#: ../smime/gui/smime-ui.ui.h:43
+#: ../smime/gui/smime-ui.ui.h:40
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "Ten nun ficheiro os certificados que identifican a estas autoridades de "
 "certificación:"
 
-#: ../smime/gui/smime-ui.ui.h:44
+#: ../smime/gui/smime-ui.ui.h:41
 msgid "You have certificates on file that identify these people:"
 msgstr "Ten nun ficheiro os certificados que identifican a estas persoas:"
 
-#: ../smime/gui/smime-ui.ui.h:45
+#: ../smime/gui/smime-ui.ui.h:42
 msgid "Your Certificates"
 msgstr "Os seus certificados"
 
-#: ../smime/gui/smime-ui.ui.h:46
+#: ../smime/gui/smime-ui.ui.h:43
+msgid "_Backup"
+msgstr "_Respaldar"
+
+#: ../smime/gui/smime-ui.ui.h:44
 msgid "_Edit CA Trust"
 msgstr "_Editar confianza na CA"
 
@@ -21637,10 +21626,17 @@ msgstr "Seleccionar todo"
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
-#, fuzzy
-#~| msgid "Accept"
-#~ msgid "A_ccept"
-#~ msgstr "Aceptar"
+#~ msgid "_Accept"
+#~ msgstr "_Aceptar"
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Import"
+#~ msgstr "Importar"
+
+#~ msgid "View"
+#~ msgstr "Ver"
 
 #~ msgid "{0}"
 #~ msgstr "{0}"
