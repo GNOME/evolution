@@ -1197,26 +1197,6 @@ action_event_schedule_cb (GtkAction *action,
 }
 
 static void
-quit_calendar_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GdkEvent *event;
-
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	/* Synthesize a delete_event on this window. */
-	event = gdk_event_new (GDK_DELETE);
-	event->any.window = g_object_ref (((GtkWidget *) shell_window)->window);
-	event->any.send_event = TRUE;
-	gtk_main_do_event (event);
-	gdk_event_free (event);
-	
-}
-
-static void
 action_event_schedule_appointment_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
@@ -1448,13 +1428,6 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Converts a meeting to an appointment"),
 	  G_CALLBACK (action_event_schedule_appointment_cb) },
 
-	{ "quit-calendar",
-	  GTK_STOCK_CLOSE,
-	  N_("Quit"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (quit_calendar_cb) },
-	
 	/*** Menus ***/
 
 	{ "calendar-actions-menu",
