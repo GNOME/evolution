@@ -825,7 +825,7 @@ sensitize_widgets (EventPage *epage)
 	} else {
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
-		if (e_shell_get_express_mode(e_shell_get_default()))
+		if (!e_shell_get_express_mode(e_shell_get_default()))
 			gtk_widget_show (priv->attendee_box);
 		gtk_widget_show (priv->organizer);
 		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer:"));
