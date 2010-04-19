@@ -112,6 +112,7 @@ composer_name_header_constructor (GType type,
 	ENameSelectorModel *model;
 	ENameSelectorEntry *entry;
 	GObject *object;
+	GList *sections;
 	gchar *label;
 
 	/* Chain up to parent's constructor() method. */
@@ -125,9 +126,11 @@ composer_name_header_constructor (GType type,
 	label = e_composer_header_get_label (E_COMPOSER_HEADER (object));
 	g_assert (label != NULL);
 
-	/* XXX Peeking at private data. */
-	priv->destination_index = model->sections->len;
+	sections = e_name_selector_model_list_sections (model);
+	priv->destination_index = g_list_length (sections);
 	e_name_selector_model_add_section (model, label, label, NULL);
+	g_list_foreach (sections, (GFunc) g_free, NULL);
+	g_list_free (sections);
 
 	e_composer_header_set_title_tooltip (
 		E_COMPOSER_HEADER (object),

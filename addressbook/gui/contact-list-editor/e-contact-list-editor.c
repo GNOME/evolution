@@ -210,6 +210,7 @@ contact_list_editor_book_loaded (EBook *new_book,
                                  EContactListEditor *editor)
 {
 	EContactListEditorPrivate *priv = editor->priv;
+	EContactStore *contact_store;
 	ENameSelectorEntry *entry;
 
 	priv->load_source_id = 0;
@@ -227,7 +228,8 @@ contact_list_editor_book_loaded (EBook *new_book,
 	}
 
 	entry = E_NAME_SELECTOR_ENTRY (WIDGET (EMAIL_ENTRY));
-	e_contact_store_add_book (entry->contact_store, new_book);
+	contact_store = e_name_selector_entry_peek_contact_store (entry);
+	e_contact_store_add_book (contact_store, new_book);
 	e_contact_list_editor_set_book (editor, new_book);
 	g_object_unref (new_book);
 }
