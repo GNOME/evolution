@@ -464,6 +464,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	em_folder_tree_set_selectable_widget (folder_tree, message_list);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
