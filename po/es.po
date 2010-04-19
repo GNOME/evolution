@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-04-18 09:07+0000\n"
-"PO-Revision-Date: 2010-04-18 21:55+0200\n"
+"PO-Revision-Date: 2010-04-19 09:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -602,15 +602,15 @@ msgstr "_Editar todo"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:433
 msgid "_Full name"
-msgstr "Nombre _completo"
+msgstr "Nombre co_mpleto"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:444
 msgid "E_mail"
-msgstr "_Correo-e"
+msgstr "Correo-_e"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
 msgid "_Select Address Book"
-msgstr "_Seleccione la libreta de direcciones"
+msgstr "_Seleccionar la libreta de direcciones"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Dr."
@@ -1437,8 +1437,8 @@ msgid ""
 msgstr ""
 "Se encontraron más tarjetas que las que el servidor está \n"
 "configurado para devolver o Evolution está configurado\n"
-"para mostrar. Por favor, haga su búsqueda más específica o \n"
-"aumente el límite de resultados en las preferencias del servidor\n"
+"para mostrar. Haga su búsqueda más específica o aumente\n"
+"el límite de resultados en las preferencias del servidor\n"
 "de directorios para esta libreta de direcciones."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:174
@@ -10046,7 +10046,7 @@ msgid ""
 "and tick the check box for accepting it\n"
 msgstr ""
 "\n"
-"Por favor, lea cuidadosamente el acuerdo de licencia\n"
+"Lea cuidadosamente el acuerdo de licencia\n"
 "para %s mostrado abajo\n"
 "y marque la casilla para aceptarlo.\n"
 
@@ -10094,9 +10094,9 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Por favor escriba debajo su nombre y dirección de correo-e. Los campos "
-"«opcionales» no hace falta que los rellene, a menos que quiera incluir esta "
-"información en el correo-e que envíe."
+"Escriba debajo su nombre y dirección de correo-e. Los campos «opcionales» no "
+"hace falta que los rellene, a menos que quiera incluir esta información en "
+"el correo-e que envíe."
 
 #: ../mail/em-account-editor.c:2062 ../mail/em-account-editor.c:2228
 #: ../mail/mail-config.ui.h:91
@@ -10116,9 +10116,9 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Por favor escriba debajo la información acerca de cómo enviará su correo. Si "
-"no está seguro, pregúntele a su administrador de sistemas o a su Proveedor "
-"de Servicios de Internet."
+"Escriba debajo la información acerca de cómo enviará su correo. Si no está "
+"seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
+"Servicios de Internet."
 
 #: ../mail/em-account-editor.c:2068
 msgid "Account Management"
@@ -10156,7 +10156,7 @@ msgstr "Comprobar si hay mensajes _nuevos cada"
 
 #: ../mail/em-account-editor.c:2523
 msgid "minu_tes"
-msgstr "minu_tos"
+msgstr "minuto_s"
 
 #: ../mail/em-account-editor.c:2832 ../mail/mail-config.ui.h:101
 msgid "Security"
@@ -12150,7 +12150,7 @@ msgstr "Conjunto de carac_teres:"
 
 #: ../mail/mail-config.ui.h:18
 msgid "Ch_eck for Supported Types"
-msgstr "_Comprobar tipos soportados"
+msgstr "C_omprobar tipos soportados"
 
 #: ../mail/mail-config.ui.h:19
 msgid "Check cu_stom headers for junk"
@@ -12276,7 +12276,7 @@ msgstr "Dar formato _HTML a los mensajes"
 
 #: ../mail/mail-config.ui.h:53
 msgid "Full Nam_e:"
-msgstr "Nombre _completo:"
+msgstr "Nombre co_mpleto:"
 
 #: ../mail/mail-config.ui.h:55
 msgid "HTML Messages"
@@ -12406,7 +12406,7 @@ msgstr "Res_ponder a:"
 
 #: ../mail/mail-config.ui.h:92
 msgid "Remember _password"
-msgstr "Recordar _contraseña"
+msgstr "Recordar contrase_ña"
 
 #: ../mail/mail-config.ui.h:93
 msgid "Required Information"
@@ -12667,7 +12667,7 @@ msgstr "_Reducir las cabeceras Para / Cc / Cco a "
 
 #: ../mail/mail-config.ui.h:162
 msgid "_Use Secure Connection:"
-msgstr "_Usar conexión segura:"
+msgstr "Usar cone_xión segura:"
 
 #: ../mail/mail-config.ui.h:163
 msgid "_Use system defaults"
@@ -13474,9 +13474,9 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"Por favor, introduzca una dirección de correo válida en el campo «Para:» "
-"Puede buscar direcciones de correo pulsando en el botón «Para:» al lado de la "
-"caja de entrada."
+"Introduzca una dirección de correo válida en el campo «Para:» Puede buscar "
+"direcciones de correo pulsando en el botón «Para:» al lado de la caja de "
+"entrada."
 
 #: ../mail/mail.error.xml.h:80
 msgid ""
@@ -15986,9 +15986,9 @@ msgid ""
 "toggle button."
 msgstr ""
 "El respaldo de Evolution sólo puede iniciarse cuando Evolution no se está "
-"ejecutando. Por favor, asegúrese de que guarda y cierra todas sus ventanas "
-"no guardadas antes de proceder. Si quiere que Evolution se reinicie "
-"automáticamente después del respaldo, active el botón conmutador."
+"ejecutando. Asegúrese de que guarda y cierra todas sus ventanas no guardadas "
+"antes de proceder. Si quiere que Evolution se reinicie automáticamente "
+"después del respaldo, active el botón conmutador."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Insufficient Permissions"
@@ -16016,8 +16016,8 @@ msgid ""
 msgstr ""
 "Esto eliminará todos sus datos actuales de Evolution y los restaurará desde "
 "su respaldo. El restaurador de Evolution sólo puede iniciarse cuando "
-"Evolution no se está ejecutando. Por favor, asegúrese de cerrar todas sus "
-"ventanas no guardadas antes de proceder. Si quiere que Evolution se reinicie "
+"Evolution no se está ejecutando. Asegúrese de cerrar todas sus ventanas no "
+"guardadas antes de proceder. Si quiere que Evolution se reinicie "
 "automáticamente después del restaurado, active el botón conmutador."
 
 #: ../plugins/bbdb/bbdb.c:685 ../plugins/bbdb/bbdb.c:694
@@ -19811,7 +19811,7 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Hola.  Gracias por tomarse el tiempo en descargar esta versión \n"
+"Hola. Gracias por tomarse el tiempo en descargar esta versión \n"
 "preliminar de lanzamiento de la suite para trabajo en grupo Evolution.\n"
 "\n"
 "Esta versión de Evolution todavía no está terminada. Está cerca de\n"
