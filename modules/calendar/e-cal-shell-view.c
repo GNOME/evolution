@@ -320,7 +320,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		
 		item = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar/send-receive");
-		gtk_widget_hide(item);	
+		if (item)
+			gtk_widget_hide(item);	
 	}
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
