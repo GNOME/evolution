@@ -88,65 +88,65 @@ private_icons = \
 # XXX Need to reevaluate which icons we really need and drop the rest.
 #     Many are not Tango-compliant and look dated and out of place.
 stock_private_icons = \
-	hicolor_stock_data_16x16_stock_signature-bad.png \
-	hicolor_stock_data_16x16_stock_signature-ok.png \
-	hicolor_stock_data_16x16_stock_signature.png \
-	hicolor_stock_data_24x24_stock_signature-bad.png \
-	hicolor_stock_data_24x24_stock_signature-ok.png \
-	hicolor_stock_data_24x24_stock_signature.png \
-	hicolor_stock_data_48x48_stock_signature-bad.png \
-	hicolor_stock_data_48x48_stock_signature-ok.png \
-	hicolor_stock_data_48x48_stock_signature.png \
-	hicolor_stock_document_16x16_stock_task-assigned.png \
-	hicolor_stock_document_16x16_stock_task-assigned-to.png \
-	hicolor_stock_document_16x16_stock_task.png \
-	hicolor_stock_document_16x16_stock_task-recurring.png \
-	hicolor_stock_document_16x16_stock_todo.png \
-	hicolor_stock_document_24x24_stock_task-assigned.png \
-	hicolor_stock_document_24x24_stock_task-assigned-to.png \
-	hicolor_stock_document_24x24_stock_task.png \
-	hicolor_stock_document_24x24_stock_task-recurring.png \
-	hicolor_stock_document_24x24_stock_todo.png \
-	hicolor_stock_document_48x48_stock_todo.png \
-	hicolor_stock_generic_16x16_stock_bell.png \
-	hicolor_stock_generic_16x16_stock_check-filled.png \
-	hicolor_stock_generic_16x16_stock_new-meeting.png \
-	hicolor_stock_generic_16x16_stock_score-higher.png \
-	hicolor_stock_generic_16x16_stock_score-highest.png \
-	hicolor_stock_generic_16x16_stock_score-high.png \
-	hicolor_stock_generic_16x16_stock_score-lower.png \
-	hicolor_stock_generic_16x16_stock_score-lowest.png \
-	hicolor_stock_generic_16x16_stock_score-low.png \
-	hicolor_stock_generic_16x16_stock_score-normal.png \
-	hicolor_stock_generic_16x16_stock_show-all.png \
-	hicolor_stock_generic_16x16_stock_timezone.png \
-	hicolor_stock_generic_16x16_stock_view-details.png \
-	hicolor_stock_generic_24x24_stock_new-meeting.png \
-	hicolor_stock_generic_24x24_stock_show-all.png \
-	hicolor_stock_generic_24x24_stock_timezone.png \
-	hicolor_stock_generic_48x48_stock_alarm.png \
-	hicolor_stock_generic_48x48_stock_new-meeting.png \
-	hicolor_stock_generic_48x48_stock_timezone.png \
-	hicolor_stock_net_16x16_stock_contact-list.png \
-	hicolor_stock_net_16x16_stock_mail-filters-apply.png \
-	hicolor_stock_net_16x16_stock_mail-flag-for-followup-done.png \
-	hicolor_stock_net_16x16_stock_mail-flag-for-followup.png \
-	hicolor_stock_net_16x16_stock_mail-open-multiple.png \
-	hicolor_stock_net_16x16_stock_mail-unread-multiple.png \
-	hicolor_stock_net_16x16_stock_shared-by-me.png \
-	hicolor_stock_net_16x16_stock_shared-to-me.png \
-	hicolor_stock_net_16x16_stock_video-conferencing.png \
-	hicolor_stock_net_24x24_stock_contact-list.png \
-	hicolor_stock_net_24x24_stock_mail-filters-apply.png \
-	hicolor_stock_net_24x24_stock_mail-open-multiple.png \
-	hicolor_stock_net_24x24_stock_mail-unread-multiple.png \
-	hicolor_stock_net_24x24_stock_shared-by-me.png \
-	hicolor_stock_net_24x24_stock_shared-to-me.png \
-	hicolor_stock_net_24x24_stock_video-conferencing.png \
-	hicolor_stock_net_48x48_stock_mail-flag-for-followup-done.png \
-	hicolor_stock_net_48x48_stock_mail-flag-for-followup.png \
-	hicolor_stock_object_16x16_stock_insert-note.png \
-	hicolor_stock_object_24x24_stock_insert-note.png \
+	hicolor_actions_16x16_stock_bell.png \
+	hicolor_actions_16x16_stock_contact-list.png \
+	hicolor_actions_16x16_stock_insert-note.png \
+	hicolor_actions_16x16_stock_mail-filters-apply.png \
+	hicolor_actions_16x16_stock_mail-flag-for-followup-done.png \
+	hicolor_actions_16x16_stock_mail-flag-for-followup.png \
+	hicolor_actions_16x16_stock_mail-open-multiple.png \
+	hicolor_actions_16x16_stock_mail-unread-multiple.png \
+	hicolor_actions_16x16_stock_new-meeting.png \
+	hicolor_actions_16x16_stock_shared-by-me.png \
+	hicolor_actions_16x16_stock_shared-to-me.png \
+	hicolor_actions_16x16_stock_show-all.png \
+	hicolor_actions_16x16_stock_task-assigned-to.png \
+	hicolor_actions_16x16_stock_task-assigned.png \
+	hicolor_actions_16x16_stock_task-recurring.png \
+	hicolor_actions_16x16_stock_task.png \
+	hicolor_actions_16x16_stock_timezone.png \
+	hicolor_actions_16x16_stock_todo.png \
+	hicolor_actions_16x16_stock_video-conferencing.png \
+	hicolor_actions_16x16_stock_view-details.png \
+	hicolor_actions_24x24_stock_contact-list.png \
+	hicolor_actions_24x24_stock_insert-note.png \
+	hicolor_actions_24x24_stock_mail-filters-apply.png \
+	hicolor_actions_24x24_stock_mail-open-multiple.png \
+	hicolor_actions_24x24_stock_mail-unread-multiple.png \
+	hicolor_actions_24x24_stock_new-meeting.png \
+	hicolor_actions_24x24_stock_shared-by-me.png \
+	hicolor_actions_24x24_stock_shared-to-me.png \
+	hicolor_actions_24x24_stock_show-all.png \
+	hicolor_actions_24x24_stock_task-assigned-to.png \
+	hicolor_actions_24x24_stock_task-assigned.png \
+	hicolor_actions_24x24_stock_task-recurring.png \
+	hicolor_actions_24x24_stock_task.png \
+	hicolor_actions_24x24_stock_timezone.png \
+	hicolor_actions_24x24_stock_todo.png \
+	hicolor_actions_24x24_stock_video-conferencing.png \
+	hicolor_actions_48x48_stock_alarm.png \
+	hicolor_actions_48x48_stock_mail-flag-for-followup-done.png \
+	hicolor_actions_48x48_stock_mail-flag-for-followup.png \
+	hicolor_actions_48x48_stock_new-meeting.png \
+	hicolor_actions_48x48_stock_timezone.png \
+	hicolor_actions_48x48_stock_todo.png \
+	hicolor_status_16x16_stock_check-filled.png \
+	hicolor_status_16x16_stock_score-high.png \
+	hicolor_status_16x16_stock_score-higher.png \
+	hicolor_status_16x16_stock_score-highest.png \
+	hicolor_status_16x16_stock_score-low.png \
+	hicolor_status_16x16_stock_score-lower.png \
+	hicolor_status_16x16_stock_score-lowest.png \
+	hicolor_status_16x16_stock_score-normal.png \
+	hicolor_status_16x16_stock_signature-bad.png \
+	hicolor_status_16x16_stock_signature-ok.png \
+	hicolor_status_16x16_stock_signature.png \
+	hicolor_status_24x24_stock_signature-bad.png \
+	hicolor_status_24x24_stock_signature-ok.png \
+	hicolor_status_24x24_stock_signature.png \
+	hicolor_status_48x48_stock_signature-bad.png \
+	hicolor_status_48x48_stock_signature-ok.png \
+	hicolor_status_48x48_stock_signature.png \
 	$(NULL)
 
 # hicolor_status_16x16_wrapped.png was copied from Firefox
@@ -225,12 +225,11 @@ install-icons:
 	done
 	for icon in $(stock_private_icons); do \
 		THEME=`echo $$icon | cut -d_ -f1`; \
-		STOCK=`echo $$icon | cut -d_ -f2`; \
-		CONTEXT=`echo $$icon | cut -d_ -f3`; \
-		SIZE=`echo $$icon | cut -d_ -f4`; \
-		ICONFILE=`echo $$icon | cut -d_ -f6`; \
-		mkdir -p $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$STOCK/$$CONTEXT; \
-		$(INSTALL_DATA) $(srcdir)/$$icon $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$STOCK/$$CONTEXT/stock_$$ICONFILE; \
+		CONTEXT=`echo $$icon | cut -d_ -f2`; \
+		SIZE=`echo $$icon | cut -d_ -f3`; \
+		ICONFILE=`echo $$icon | cut -d_ -f5`; \
+		mkdir -p $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$CONTEXT; \
+		$(INSTALL_DATA) $(srcdir)/$$icon $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$CONTEXT/stock_$$ICONFILE; \
 	done
 
 uninstall-icons:
@@ -250,11 +249,10 @@ uninstall-icons:
 	done
 	for icon in $(stock_private_icons); do \
 		THEME=`echo $$icon | cut -d_ -f1`; \
-		STOCK=`echo $$icon | cut -d_ -f2`; \
-		CONTEXT=`echo $$icon | cut -d_ -f3`; \
-		SIZE=`echo $$icon | cut -d_ -f4`; \
-		ICONFILE=`echo $$icon | cut -d_ -f6`; \
-		rm -f $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$STOCK/$$CONTEXT/stock_$$ICONFILE; \
+		CONTEXT=`echo $$icon | cut -d_ -f2`; \
+		SIZE=`echo $$icon | cut -d_ -f3`; \
+		ICONFILE=`echo $$icon | cut -d_ -f5`; \
+		rm -f $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$CONTEXT/stock_$$ICONFILE; \
 	done
 
 install-data-local: install-icons update-icon-cache
