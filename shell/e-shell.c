@@ -1925,8 +1925,7 @@ e_shell_adapt_window_size (EShell    *shell,
 	GdkRectangle rect;
 
 	if (!e_shell_get_meego_mode (shell) &&
-	    !e_shell_get_small_screen_mode (shell) &&
-	    !e_shell_get_express_mode (shell))
+	    !e_shell_get_small_screen_mode (shell))
 		return;
 
 	scr = gdk_screen_get_default ();
