@@ -45,16 +45,26 @@ static gchar *
 composer_post_header_folder_name_to_string (EComposerPostHeader *header,
                                             const gchar *url)
 {
+	gchar *res = NULL;
 	const gchar *base_url = header->priv->base_url;
 
 	if (base_url != NULL) {
 		gsize length = strlen (base_url);
 
-		if (g_ascii_strncasecmp (url, base_url, length) == 0)
-			return g_strdup (url + length);
+		if (g_ascii_strncasecmp (url, base_url, length) == 0) {
+			res = g_uri_unescape_string (url + length, NULL);
+			if (!res)
+				res = g_strdup (url + length);
+		}
+	} 
+
+	if (!res) {
+		res = g_uri_unescape_string (url, NULL);
+		if (!res)
+			res = g_strdup (url);
 	}
 
-	return g_strdup (url);
+	return res;
 }
 
 static void
