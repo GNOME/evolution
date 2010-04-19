@@ -90,12 +90,18 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
-"    <placeholder name='content'>"
-"      <toolitem action='alarms'/>"
-"      <toolitem action='show-time-busy'/>"
-"      <toolitem action='recurrence'/>"
-"      <toolitem action='all-day-event'/>"
-"      <toolitem action='free-busy'/>"
+"    <placeholder name='content'>\n"
+"#if !EXPRESS\n"
+"      <toolitem action='alarms'/>\n"
+"#endif\n"
+"      <toolitem action='show-time-busy'/>\n"
+"#if !EXPRESS\n"
+"      <toolitem action='recurrence'/>\n"
+"#endif\n"
+"      <toolitem action='all-day-event'/>\n"
+"#if !EXPRESS\n"
+"      <toolitem action='free-busy'/>\n"
+"#endif\n"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
@@ -272,6 +278,8 @@ event_editor_constructor (GType type,
 	GtkActionGroup *action_group;
 	ECal *client;
 	gboolean is_meeting;
+	GtkWidget *alarm_page;
+	GtkWidget *attendee_page;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (event_editor_parent_class)->constructor (
@@ -305,11 +313,34 @@ event_editor_constructor (GType type,
 
 	priv->recur_page = recurrence_page_new (editor);
 	page = COMP_EDITOR_PAGE (priv->recur_page);
-	gtk_container_add (
-		GTK_CONTAINER ((GTK_DIALOG (priv->recur_window)->vbox)),
-		comp_editor_page_get_widget (page));
-	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->recur_window)));
-	comp_editor_append_page (editor, page, NULL, FALSE);
+	if (!e_shell_get_express_mode(e_shell_get_default())) {
+		gtk_container_add (
+			GTK_CONTAINER ((GTK_DIALOG (priv->recur_window)->vbox)),
+			comp_editor_page_get_widget (page));
+		gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->recur_window)));
+		comp_editor_append_page (editor, page, NULL, FALSE);
+	} else {
+		comp_editor_append_page (editor, page, _("_Recurrence"), TRUE);
+	}
+
+	if (e_shell_get_express_mode(e_shell_get_default())) {
+		ENameSelector *name_selector;
+
+		priv->sched_page = schedule_page_new (priv->model, editor);
+		page = COMP_EDITOR_PAGE (priv->sched_page);
+
+		name_selector = event_page_get_name_selector (priv->event_page);
+		schedule_page_set_name_selector (priv->sched_page, name_selector);
+
+		comp_editor_append_page (editor, page, _("_Free/Busy"), TRUE);
+		schedule_page_update_free_busy (priv->sched_page);
+
+		/* Alarm page */
+		alarm_page = event_page_get_alarm_page (priv->event_page);
+		comp_editor_append_widget (editor, alarm_page, _("_Alarm"), TRUE);
+		g_object_unref(alarm_page);
+		
+	}
 
 	if (is_meeting) {
 
@@ -326,6 +357,12 @@ event_editor_constructor (GType type,
 
 		event_page_set_meeting (priv->event_page, TRUE);
 		priv->meeting_shown=TRUE;
+
+		if (e_shell_get_express_mode(e_shell_get_default())) {
+			attendee_page = event_page_get_attendee_page (priv->event_page);
+			comp_editor_append_widget (editor, attendee_page, _("Attendee_s"), TRUE);
+			g_object_unref(attendee_page);
+		}
 	}
 
 	return object;

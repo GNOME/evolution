@@ -825,7 +825,8 @@ sensitize_widgets (EventPage *epage)
 	} else {
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
-		gtk_widget_show (priv->attendee_box);
+		if (e_shell_get_express_mode(e_shell_get_default()))
+			gtk_widget_show (priv->attendee_box);
 		gtk_widget_show (priv->organizer);
 		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer:"));
 	}
@@ -2194,7 +2195,7 @@ get_widgets (EventPage *epage)
 
 	priv->invite = GW ("invite");
 	priv->invite_label = GW ("invite-label");
-	if (comp_editor_get_lite ())
+	if (e_shell_get_express_mode (e_shell_get_default ()))
 		gtk_widget_hide (priv->invite);
 	else
 		gtk_widget_hide (priv->invite_label);
@@ -2234,7 +2235,6 @@ get_widgets (EventPage *epage)
 
 	priv->source_selector = GW ("source");
 
-#undef GW
 
 	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/calendar/sources");
 
@@ -3254,3 +3254,44 @@ event_page_remove_all_attendees (EventPage *epage)
 	e_meeting_list_view_remove_all_attendees_from_name_selector (E_MEETING_LIST_VIEW (priv->list_view));
 }
 
+
+GtkWidget *
+event_page_get_alarm_page (EventPage *epage)
+{
+	EventPagePrivate *priv;
+	GtkWidget *alarm_page, *tmp;
+
+	g_return_val_if_fail (epage != NULL, NULL);
+	g_return_val_if_fail (IS_EVENT_PAGE (epage), NULL);
+
+	priv = epage->priv;
+
+	tmp = GW("dialog-vbox1");
+	alarm_page = GW("vbox2");
+	g_object_ref(alarm_page);
+	gtk_container_remove ((GtkContainer *)tmp, alarm_page);
+
+	return alarm_page;
+}	
+
+GtkWidget *
+event_page_get_attendee_page (EventPage *epage)
+{
+	EventPagePrivate *priv;
+	GtkWidget *apage;
+
+	g_return_val_if_fail (epage != NULL, NULL);
+	g_return_val_if_fail (IS_EVENT_PAGE (epage), NULL);
+
+	priv = epage->priv;
+	
+	apage = priv->list_box;
+	g_object_ref(apage);
+	gtk_container_remove ((GtkContainer *)gtk_widget_get_parent(apage), apage);
+	gtk_widget_hide (priv->attendee_box);
+
+	return apage;
+}	
+
+
+#undef GW
