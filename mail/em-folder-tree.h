@@ -127,6 +127,10 @@ void		em_folder_tree_set_skip_double_click
 
 void		em_folder_tree_restore_state	(EMFolderTree *folder_tree,
 						 GKeyFile *key_file);
+
+void		em_folder_tree_set_selectable_widget
+						(EMFolderTree *folder_tree,
+						 GtkWidget *selectable);
 G_END_DECLS
 
 #endif /* EM_FOLDER_TREE_H */
