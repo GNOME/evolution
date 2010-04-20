@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-04-18 09:07+0000\n"
-"PO-Revision-Date: 2010-04-19 09:09+0200\n"
+"POT-Creation-Date: 2010-04-19 17:45+0000\n"
+"PO-Revision-Date: 2010-04-20 08:00+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -678,7 +678,7 @@ msgid "_Suffix:"
 msgstr "_Sufijo:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:674
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:676
 msgid "Contact List Editor"
 msgstr "Editor de listas de contactos"
 
@@ -704,24 +704,24 @@ msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
 "_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:767
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:769
 msgid "Contact List Members"
 msgstr "Miembros de la lista de contactos"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:915
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1331
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:917
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1333
 msgid "_Members"
 msgstr "_Miembros"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1170
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1172
 msgid "Error adding list"
 msgstr "Error al añadir la lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1184
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1186
 msgid "Error modifying list"
 msgstr "Error al modificar la lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1198
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1200
 msgid "Error removing list"
 msgstr "Error al eliminar la lista"
 
@@ -1639,7 +1639,7 @@ msgstr "Introduzca la contraseña para %s (usuario %s)"
 #: ../addressbook/util/addressbook.c:225
 #: ../calendar/common/authentication.c:51
 #: ../plugins/caldav/caldav-browse-server.c:808
-#: ../plugins/google-account-setup/google-source.c:440
+#: ../plugins/google-account-setup/google-source.c:438
 #: ../plugins/publish-calendar/publish-calendar.c:328
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -4025,7 +4025,7 @@ msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
 #: ../calendar/gui/dialogs/event-page.c:1268
-#: ../calendar/gui/dialogs/memo-page.c:655
+#: ../calendar/gui/dialogs/memo-page.c:657
 #: ../calendar/gui/dialogs/task-page.c:861
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
@@ -4043,13 +4043,13 @@ msgid "End time is wrong"
 msgstr "La hora de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1470
-#: ../calendar/gui/dialogs/memo-page.c:696
+#: ../calendar/gui/dialogs/memo-page.c:698
 #: ../calendar/gui/dialogs/task-page.c:921
 msgid "The organizer selected no longer has an account."
 msgstr "El organizador seleccionado ya no tiene una cuenta."
 
 #: ../calendar/gui/dialogs/event-page.c:1476
-#: ../calendar/gui/dialogs/memo-page.c:702
+#: ../calendar/gui/dialogs/memo-page.c:704
 #: ../calendar/gui/dialogs/task-page.c:927
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
@@ -4071,7 +4071,7 @@ msgstr "No es posible abrir el calendario «%s»."
 #. Translators: This string is used when we are creating a Task
 #. on behalf of some other user
 #: ../calendar/gui/dialogs/event-page.c:2635
-#: ../calendar/gui/dialogs/memo-page.c:915
+#: ../calendar/gui/dialogs/memo-page.c:917
 #: ../calendar/gui/dialogs/task-page.c:1743
 #, c-format
 msgid "You are acting on behalf of %s"
@@ -4185,12 +4185,12 @@ msgstr "La nota no se puede editar porque es de sólo lectura"
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "La nota no se puede editar completamente porque no es el organizador"
 
-#: ../calendar/gui/dialogs/memo-page.c:876
+#: ../calendar/gui/dialogs/memo-page.c:878
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "No es posible abrir las notas en «%s»."
 
-#: ../calendar/gui/dialogs/memo-page.c:1043 ../em-format/em-format-quote.c:215
+#: ../calendar/gui/dialogs/memo-page.c:1045 ../em-format/em-format-quote.c:215
 #: ../em-format/em-format.c:939 ../mail/em-format-html.c:2242
 #: ../mail/em-format-html.c:2301 ../mail/em-format-html.c:2325
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:78
@@ -8121,11 +8121,11 @@ msgstr "_Asunto:"
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
-#: ../composer/e-composer-name-header.c:134
+#: ../composer/e-composer-name-header.c:137
 msgid "Click here for the address book"
 msgstr "Pulse aquí para la libreta de direcciones"
 
-#: ../composer/e-composer-post-header.c:116
+#: ../composer/e-composer-post-header.c:126
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
@@ -8827,16 +8827,16 @@ msgstr "Mensajes de error, avisos y depuración"
 msgid "weeks"
 msgstr "semanas"
 
-#: ../e-util/e-print.c:160
+#: ../e-util/e-print.c:161
 msgid "An error occurred while printing"
 msgstr "Ocurrió un error al imprimir"
 
-#: ../e-util/e-print.c:167
+#: ../e-util/e-print.c:168
 msgid "The printing system reported the following details about the error:"
 msgstr ""
 "El sistema de impresión informó de los siguientes detalles sobre el error:"
 
-#: ../e-util/e-print.c:173
+#: ../e-util/e-print.c:174
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr ""
@@ -9376,8 +9376,8 @@ msgid "Name"
 msgstr "Nombre"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:363
-#: ../mail/em-folder-tree-model.c:675 ../mail/em-folder-tree.c:2585
-#: ../modules/mail/e-mail-shell-view-private.c:952
+#: ../mail/em-folder-tree-model.c:675 ../mail/em-folder-tree.c:2674
+#: ../modules/mail/e-mail-shell-view-private.c:953
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
@@ -9968,9 +9968,9 @@ msgstr "Obteniendo mensaje «%s»"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/e-mail-reader.c:2453
-#: ../plugins/google-account-setup/google-source.c:304
-#: ../plugins/google-account-setup/google-source.c:534
-#: ../plugins/google-account-setup/google-source.c:656
+#: ../plugins/google-account-setup/google-source.c:303
+#: ../plugins/google-account-setup/google-source.c:537
+#: ../plugins/google-account-setup/google-source.c:659
 #: ../widgets/misc/e-account-tree-view.c:234
 msgid "Default"
 msgstr "Predeterminado"
@@ -10525,12 +10525,12 @@ msgstr "NO COINCIDENTE"
 msgid "Loading..."
 msgstr "Cargando…"
 
-#: ../mail/em-folder-tree.c:179
+#: ../mail/em-folder-tree.c:183
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/em-folder-tree.c:592
+#: ../mail/em-folder-tree.c:596
 msgid "Folder names cannot contain '/'"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 
@@ -10552,37 +10552,37 @@ msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:1074
+#: ../mail/em-folder-tree.c:1078
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1280
+#: ../mail/em-folder-tree.c:1286
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:1486 ../mail/em-folder-utils.c:92
+#: ../mail/em-folder-tree.c:1575 ../mail/em-folder-utils.c:92
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1488 ../mail/em-folder-utils.c:94
+#: ../mail/em-folder-tree.c:1577 ../mail/em-folder-utils.c:94
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1495 ../mail/message-list.c:2098
+#: ../mail/em-folder-tree.c:1584 ../mail/message-list.c:2098
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1497 ../mail/message-list.c:2100
+#: ../mail/em-folder-tree.c:1586 ../mail/message-list.c:2100
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1512
+#: ../mail/em-folder-tree.c:1601
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
@@ -12552,7 +12552,7 @@ msgstr "Usar aute_nticación"
 
 #: ../mail/mail-config.ui.h:131 ../plugins/caldav/caldav-source.c:222
 #: ../plugins/google-account-setup/google-contacts-source.c:283
-#: ../plugins/google-account-setup/google-source.c:620
+#: ../plugins/google-account-setup/google-source.c:623
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:257
 msgid "User_name:"
 msgstr "_Usuario:"
@@ -15575,57 +15575,57 @@ msgstr "Cuenta actual"
 msgid "Current Folder"
 msgstr "Carpeta actual"
 
-#: ../modules/mail/e-mail-shell-view-private.c:880
+#: ../modules/mail/e-mail-shell-view-private.c:881
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d seleccionado, "
 msgstr[1] "%d seleccionados, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:891
+#: ../modules/mail/e-mail-shell-view-private.c:892
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d borrado"
 msgstr[1] "%d borrados"
 
-#: ../modules/mail/e-mail-shell-view-private.c:897
-#: ../modules/mail/e-mail-shell-view-private.c:904
+#: ../modules/mail/e-mail-shell-view-private.c:898
+#: ../modules/mail/e-mail-shell-view-private.c:905
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d SPAM"
 msgstr[1] "%d SPAM"
 
-#: ../modules/mail/e-mail-shell-view-private.c:910
+#: ../modules/mail/e-mail-shell-view-private.c:911
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d borrador"
 msgstr[1] "%d borradores"
 
-#: ../modules/mail/e-mail-shell-view-private.c:916
+#: ../modules/mail/e-mail-shell-view-private.c:917
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d sin enviar"
 msgstr[1] "%d sin enviar"
 
-#: ../modules/mail/e-mail-shell-view-private.c:922
+#: ../modules/mail/e-mail-shell-view-private.c:923
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d enviado"
 msgstr[1] "%d enviados"
 
-#: ../modules/mail/e-mail-shell-view-private.c:934
+#: ../modules/mail/e-mail-shell-view-private.c:935
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d no leído, "
 msgstr[1] "%d no leídos, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:937
+#: ../modules/mail/e-mail-shell-view-private.c:938
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -15898,7 +15898,6 @@ msgid "Restarting Evolution"
 msgstr "Reiniciando Evolution"
 
 #: ../plugins/backup-restore/backup.c:255
-#| msgid "Backup current Evolution data"
 msgid "Back up current Evolution data"
 msgstr "Respaldar los datos actuales de Evolution"
 
@@ -16251,7 +16250,7 @@ msgstr "_Examinar el servidor para un calendario"
 #: ../plugins/calendar-http/calendar-http.c:111
 #: ../plugins/calendar-weather/calendar-weather.c:395
 #: ../plugins/google-account-setup/google-contacts-source.c:323
-#: ../plugins/google-account-setup/google-source.c:627
+#: ../plugins/google-account-setup/google-source.c:630
 msgid "Re_fresh:"
 msgstr "A_ctualizar:"
 
@@ -16675,7 +16674,7 @@ msgstr ""
 "El archivo que ha seleccionado no parece una imagen .png válida. Error: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:53
-#: ../plugins/google-account-setup/google-source.c:82
+#: ../plugins/google-account-setup/google-source.c:81
 msgid "Google"
 msgstr "Google"
 
@@ -16684,14 +16683,14 @@ msgstr "Google"
 msgid "<b>Server</b>"
 msgstr "<b>Servidor</b>"
 
-#: ../plugins/google-account-setup/google-source.c:439
+#: ../plugins/google-account-setup/google-source.c:437
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Introduzca la contraseña para que el usuario %s acceda a la lista de "
 "calendarios suscritos."
 
-#: ../plugins/google-account-setup/google-source.c:545
+#: ../plugins/google-account-setup/google-source.c:548
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -16700,18 +16699,19 @@ msgstr ""
 "No se pueden leer los datos del servidor de Google.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:545
+#: ../plugins/google-account-setup/google-source.c:548
 #: ../plugins/mail-to-task/mail-to-task.c:718
 #: ../plugins/mail-to-task/mail-to-task.c:934
 msgid "Unknown error."
 msgstr "Error desconocido."
 
-#: ../plugins/google-account-setup/google-source.c:631
+#: ../plugins/google-account-setup/google-source.c:634
 msgid "Cal_endar:"
 msgstr "Cal_endario:"
 
-#: ../plugins/google-account-setup/google-source.c:666
-msgid "Retrieve _list"
+#: ../plugins/google-account-setup/google-source.c:669
+#| msgid "Retrieve _list"
+msgid "Retrieve _List"
 msgstr "Obtener _lista"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
@@ -20286,7 +20286,6 @@ msgid "Trust this CA to identify software developers."
 msgstr "Confiar en esta AC para identificar a desarrolladores de software."
 
 #: ../smime/gui/smime-ui.ui.h:37
-#| msgid "Trust this CA to identify web sites."
 msgid "Trust this CA to identify websites."
 msgstr "Confiar en esta AC para identificar sitios web."
 
