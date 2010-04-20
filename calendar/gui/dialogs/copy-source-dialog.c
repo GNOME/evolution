@@ -32,18 +32,19 @@
 #include "common/authentication.h"
 
 typedef struct {
+	GtkWindow *parent;
 	ESource *orig_source;
 	ECalSourceType obj_type;
 	ESource *selected_source;
 } CopySourceDialogData;
 
 static void
-show_error (GtkWindow *parent, const gchar *msg)
+show_error (CopySourceDialogData *csdd, const gchar *msg)
 {
 	GtkWidget *dialog;
 
 	dialog = gtk_message_dialog_new (
-		parent, 0, GTK_MESSAGE_ERROR,
+		csdd->parent, 0, GTK_MESSAGE_ERROR,
 		GTK_BUTTONS_CLOSE, "%s", msg);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
@@ -88,7 +89,7 @@ copy_source (CopySourceDialogData *csdd)
 	/* open the source */
 	source_client = e_auth_new_cal_from_source (csdd->orig_source, csdd->obj_type);
 	if (!e_cal_open (source_client, TRUE, NULL)) {
-		show_error (NULL, _("Could not open source"));
+		show_error (csdd, _("Could not open source"));
 		g_object_unref (source_client);
 		return FALSE;
 	}
@@ -96,7 +97,7 @@ copy_source (CopySourceDialogData *csdd)
 	/* open the destination */
 	dest_client = e_auth_new_cal_from_source (csdd->selected_source, csdd->obj_type);
 	if (!e_cal_open (dest_client, FALSE, NULL)) {
-		show_error (NULL, _("Could not open destination"));
+		show_error (csdd, _("Could not open destination"));
 		g_object_unref (dest_client);
 		g_object_unref (source_client);
 		return FALSE;
@@ -105,7 +106,7 @@ copy_source (CopySourceDialogData *csdd)
 	/* check if the destination is read only */
 	e_cal_is_read_only (dest_client, &read_only, NULL);
 	if (read_only) {
-		show_error (NULL, _("Destination is read only"));
+		show_error (csdd, _("Destination is read only"));
 	} else {
 		if (e_cal_get_object_list (source_client, "#t", &obj_list, NULL)) {
 			GList *l;
@@ -135,7 +136,7 @@ copy_source (CopySourceDialogData *csdd)
 						g_free (uid);
 					} else {
 						if (error) {
-							show_error (NULL, error->message);
+							show_error (csdd, error->message);
 							g_error_free (error);
 						}
 						break;
@@ -168,6 +169,7 @@ copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType obj_type)
 
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
+	csdd.parent = parent;
 	csdd.orig_source = source;
 	csdd.selected_source = NULL;
 	csdd.obj_type = obj_type;
