@@ -1,5 +1,9 @@
 bin_PROGRAMS = evolution-alarm-notify
 
+if HAVE_WINDRES
+EVOLUTIONALARMNOTIFYICON = evolution-alarm-notify-icon.o
+endif
+
 evolution_alarm_notify_CPPFLAGS = 			\
 	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
@@ -39,12 +43,19 @@ evolution_alarm_notify_LDADD =						\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(CANBERRA_LIBS)						\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)						\
+	$(EVOLUTIONALARMNOTIFYICON)
 
 if OS_WIN32
 evolution_alarm_notify_LDFLAGS = -mwindows
 endif
 
-EXTRA_DIST = $(ui_DATA)
+EXTRA_DIST = $(ui_DATA) \
+	evolution-alarm-notify-icon.rc			\
+	evolution-alarm-notify.ico
+
+
+evolution-alarm-notify-icon.o: evolution-alarm-notify.ico evolution-alarm-notify-icon.rc
+	$(WINDRES) evolution-alarm-notify-icon.rc evolution-alarm-notify-icon.o
 
 -include $(top_srcdir)/git.mk
