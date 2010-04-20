@@ -75,6 +75,7 @@ typedef struct _MailAccountView {
 	GtkWidget *wpages[6];
 	gint current_page;
 	struct _EMAccountEditor *edit;
+	GtkWidget *password;
 
 	MailAccountViewPrivate *priv;
 } MailAccountView;

@@ -30,6 +30,7 @@
 #include "mail-view.h"
 #include "e-util/e-config.h"
 #include "mail/mail-config.h"
+#include "mail/mail-session.h"
 #include "mail-guess-servers.h"
 
 struct _MailAccountViewPrivate {
@@ -47,6 +48,7 @@ enum {
 	ERROR_NO_FULLNAME = 1,
 	ERROR_NO_EMAIL = 2,
 	ERROR_INVALID_EMAIL = 3,
+	ERROR_NO_PASSWORD = 4,
 };
 
 struct _dialog_errors {
@@ -56,6 +58,7 @@ struct _dialog_errors {
 	{ ERROR_NO_FULLNAME, N_("Please enter your full name.") },
 	{ ERROR_NO_EMAIL, N_("Please enter your email address.") },
 	{ ERROR_INVALID_EMAIL, N_("The email address you have entered is invalid.") },
+	{ ERROR_NO_PASSWORD, N_("Please enter your password.") }
 };
 static guint signals[LAST_SIGNAL] = { 0 };
 
@@ -136,11 +139,15 @@ validate_identity (MailAccountView *view)
 	gchar *user = (gchar *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_NAME);
 	gchar *email = (gchar *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_ADDRESS);
 	gchar *tmp;
+	const gchar *pwd = gtk_entry_get_text ((GtkEntry *)view->password);
 
 	if (!user || !*user)
 		return ERROR_NO_FULLNAME;
 	if (!email || !*email)
 		return ERROR_NO_EMAIL;
+	if (!pwd || !*pwd)
+		return ERROR_NO_PASSWORD;
+
 	tmp = strchr(email, '@');
 	if (!tmp || tmp[1] == 0)
 		return ERROR_INVALID_EMAIL;
@@ -377,6 +384,19 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			e_account_set_string(em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_SOURCE_URL, uri);
 			g_free(uri);
 			camel_url_free(url);
+		}
+
+		if (!mav->original) {
+			EAccount *account = em_account_editor_get_modified_account(mav->edit);
+			CamelURL *aurl;
+			char *surl;
+			/* Save the password ahead of time */
+			aurl = camel_url_new (account->source->url, NULL);
+			surl = camel_url_to_string(aurl, CAMEL_URL_HIDE_ALL);
+			mail_session_add_password (surl, gtk_entry_get_text((GtkEntry *)mav->password));
+
+			camel_url_free(aurl);
+			g_free(surl);
 		}
 		em_account_editor_commit (mav->edit);
 		g_signal_emit (mav, signals[VIEW_CLOSE], 0);
@@ -616,8 +636,24 @@ mail_account_view_construct (MailAccountView *view)
 	em_account_editor_check (view->edit, mail_account_pages[0].path);
 	view->pages[0]->done = TRUE;
 
-	if (e_shell_get_express_mode (e_shell_get_default ()))
+	if (e_shell_get_express_mode (e_shell_get_default ())) {
+		GtkWidget *table = em_account_editor_get_widget (view->edit, "identity_required_table"); 
+		GtkWidget *label, *pwd;
 		gtk_widget_hide (em_account_editor_get_widget (view->edit, "identity_optional_frame"));
+	
+
+		if (!view->original) {
+			label = gtk_label_new (_("Password:"));
+			pwd = gtk_entry_new ();
+			gtk_entry_set_visibility ((GtkEntry *)pwd, FALSE);
+			gtk_widget_show(label);
+			gtk_widget_show(pwd);
+			gtk_table_attach ((GtkTable *)table, label, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
+			gtk_table_attach ((GtkTable *)table, pwd, 1, 2, 2, 3, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	
+			view->password = pwd;
+		}
+	}
 }
 
 MailAccountView *
