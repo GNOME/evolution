@@ -89,7 +89,7 @@ libeshell_la_LIBADD =					\
 # Evolution executable
 
 if HAVE_WINDRES
-EVOLUTIONICONRC = evolution-icon.o
+EVOLUTIONICON = evolution-icon.o
 endif
 
 evolution_CPPFLAGS =						\
@@ -131,7 +131,7 @@ evolution_LDADD =							\
 	$(TZDIALOG_LIBS)						\
 	$(SHELL_LIBS)							\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(EVOLUTIONICONRC)
+	$(EVOLUTIONICON)
 
 if OS_WIN32
 evolution_LDFLAGS = -mwindows
