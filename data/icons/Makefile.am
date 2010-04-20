@@ -99,6 +99,7 @@ stock_private_icons = \
 	hicolor_actions_16x16_stock_new-24h-appointment.png \
 	hicolor_actions_16x16_stock_new-meeting.png \
 	hicolor_actions_16x16_stock_notes.png \
+	hicolor_actions_16x16_stock_people.png \
 	hicolor_actions_16x16_stock_shared-by-me.png \
 	hicolor_actions_16x16_stock_shared-to-me.png \
 	hicolor_actions_16x16_stock_show-all.png \
@@ -118,6 +119,7 @@ stock_private_icons = \
 	hicolor_actions_24x24_stock_mail-unread-multiple.png \
 	hicolor_actions_24x24_stock_new-meeting.png \
 	hicolor_actions_24x24_stock_notes.png \
+	hicolor_actions_24x24_stock_people.png
 	hicolor_actions_24x24_stock_shared-by-me.png \
 	hicolor_actions_24x24_stock_shared-to-me.png \
 	hicolor_actions_24x24_stock_show-all.png \
@@ -134,6 +136,7 @@ stock_private_icons = \
 	hicolor_actions_48x48_stock_new-24h-appointment.png \
 	hicolor_actions_48x48_stock_new-meeting.png \
 	hicolor_actions_48x48_stock_notes.png \
+	hicolor_actions_48x48_stock_people.png
 	hicolor_actions_48x48_stock_timezone.png \
 	hicolor_actions_48x48_stock_todo.png \
 	hicolor_status_16x16_stock_check-filled.png \
