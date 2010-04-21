@@ -28,7 +28,7 @@
 	    </group>
 	</hook>
 	<hook class="org.gnome.evolution.calendar.events:1.0">
-	    <event target="component" id="component.migration" handle="e_calendar_weather_migrate"/>
+	    <event target="module" id="module.migration" handle="e_calendar_weather_migrate"/>
 	</hook>
     </e-plugin>
 </e-plugin-list>
