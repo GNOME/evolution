@@ -2,14 +2,18 @@
 #
 # ##
 # appointment  - Termin
+# caveats - (?) Verwahrungswunsch
 # chair person - Vorsitzender
-# delegate - Vertreter / vertreten
+# delegate - Vertreter / übertragen / vertreten
 # delegation - Vertretung/Übertragung
 # delegator  -  (der) Vertretene
 # delivery receipt - Empangsbestätigung
+# frequent contacts - häufig benutzten Kontakte
 # meeting - Besprechung
 # memo  -  Notiz
 # out of office message - Abwesenheitsnachricht
+# posted - beauftragt, aufgegeben
+# proxy - hier: Vertretung
 # read receipt - Lesebestätigung
 # receive email - E-Mail abrufen
 # send options - Versandoptionen
@@ -17,15 +21,14 @@
 # ##
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
-#
+# Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-01 23:05+0000\n"
-"PO-Revision-Date: 2010-02-13 18:28+0100\n"
+"POT-Creation-Date: 2010-04-14 10:45+0000\n"
+"PO-Revision-Date: 2010-04-14 16:04+0200\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,8 +50,7 @@ msgstr "a"
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:455(None)
 #, fuzzy
-msgid ""
-"@@image: 'figures/evo_mereceive_a.png'; md5=97dc5ba0b6f90605056c2ad75c314e72"
+msgid "@@image: 'figures/evo_mereceive_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -163,9 +165,8 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1125(None)
-msgid ""
-"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
-msgstr "a"
+msgid "@@image: 'figures/evo_restore.png'; md5=THIS FILE DOESN'T EXIST"
+msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -177,9 +178,12 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1299(None)
+#, fuzzy
+#| msgid ""
+#| "@@image: 'figures/evo_mailnotification.png'; "
+#| "md5=3ec09c3f9b49aee5be6f5fc2df69350d"
 msgid ""
-"@@image: 'figures/evo_mailnotification.png'; "
-"md5=3ec09c3f9b49aee5be6f5fc2df69350d"
+"@@image: 'figures/evo_mailnotification.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -207,8 +211,11 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1582(None)
-msgid ""
-"@@image: 'figures/evo_customheader.png'; md5=469f72793711212ce624d602e08e3a98"
+#, fuzzy
+#| msgid ""
+#| "@@image: 'figures/evo_customheader.png'; "
+#| "md5=469f72793711212ce624d602e08e3a98"
+msgid "@@image: 'figures/evo_customheader.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -464,8 +471,7 @@ msgstr "a"
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6713(None)
 #, fuzzy
-msgid ""
-"@@image: 'figures/evo_imapheader_a.png'; md5=019c7465ddaa50fda0e39e989fca46e2"
+msgid "@@image: 'figures/evo_imapheader_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -510,10 +516,8 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:7082(None)
-#, fuzzy
-msgid ""
-"@@image: 'figures/network_pref.png'; md5=7d337d7159814de3fed394d67fca83a2"
-msgstr "a"
+msgid "@@image: 'figures/network_pref.png'; md5=THIS FILE DOESN'T EXIST"
+msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -532,10 +536,9 @@ msgstr "Novell, Inc"
 msgid "2002-2009"
 msgstr "2002-2009"
 
-#: C/evolution.xml:29(revnumber) C/evolution.xml:37(revnumber)
-#: C/evolution.xml:88(productnumber)
-msgid "2.28"
-msgstr "2.28"
+#: C/evolution.xml:29(revnumber) C/evolution.xml:88(productnumber)
+msgid "2.30"
+msgstr "2.30"
 
 #: C/evolution.xml:30(date) C/evolution.xml:38(date)
 msgid "September 2009"
@@ -544,6 +547,10 @@ msgstr "September 2009"
 #: C/evolution.xml:32(para)
 msgid "Akhil Laddha"
 msgstr "Akhil Laddha"
+
+#: C/evolution.xml:37(revnumber)
+msgid "2.28"
+msgstr "2.28"
 
 #: C/evolution.xml:40(para) C/evolution.xml:48(para) C/evolution.xml:56(para)
 #: C/evolution.xml:72(para)
@@ -587,8 +594,8 @@ msgid "October 5, 2006"
 msgstr "5. Oktober 2006"
 
 #: C/evolution.xml:78(releaseinfo)
-msgid "This manual describes version 2.28 of Evolution"
-msgstr "Dieses Handbuch beschreibt Version 2.28 von »Evolution«"
+msgid "This manual describes version 2.30 of Evolution"
+msgstr "Dieses Handbuch beschreibt Version 2.30 von »Evolution«"
 
 #: C/evolution.xml:82(para)
 msgid ""
@@ -608,8 +615,8 @@ msgid "February 2008"
 msgstr "Februar 2008"
 
 #: C/evolution.xml:90(title) C/evolution.xml:7883(para)
-msgid "Evolution 2.28 User Guide"
-msgstr "Evolution 2.28 Benutzerhandbuch"
+msgid "Evolution 2.30 User Guide"
+msgstr "Benutzerhandbuch von Evolution 2.30 "
 
 #: C/evolution.xml:95(title)
 msgid "About This Guide"
@@ -618,11 +625,11 @@ msgstr "Über dieses Benutzerhandbuch"
 #: C/evolution.xml:96(para)
 msgid ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.28 client software. This guide is intended for users and is divided into "
+"2.30 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
 "Dieses Benutzerhandbuch beschreibt die Nutzung der Software "
-"<trademark>Evolution</trademark> 2.28. Es ist für Benutzer bestimmt und in "
+"<trademark>Evolution</trademark> 2.30. Es ist für Benutzer bestimmt und in "
 "folgende Kapitel unterteilt:"
 
 #: C/evolution.xml:99(link) C/evolution.xml:160(title)
@@ -2966,7 +2973,7 @@ msgid ""
 "If there are no more unread messages in the mailbox, pressing the Spacebar "
 "takes you to the next unread message in the next folder."
 msgstr ""
-"Falls keine weiteren ungelesenen Nachrichten im Ordner vorhanden sind, so "
+"Falls keine weiteren ungelesenen Nachrichten im Postfach vorhanden sind, so "
 "wird durch das Drücken der Leertaste die erste ungelesene Nachricht im "
 "nächsten Ordner angezeigt."
 
@@ -3307,7 +3314,7 @@ msgstr ""
 
 #: C/evolution.xml:1404(title)
 msgid "Sharing Mailboxes with Other Mail Programs"
-msgstr "Postfächer mit anderen E-Mail-Programmen zusammen benutzen"
+msgstr "Postfächer mit anderen E-Mail-Programmen gemeinsam verwenden"
 
 #: C/evolution.xml:1405(para)
 msgid ""
@@ -3848,7 +3855,7 @@ msgid ""
 "sensitivity and caveats to the outgoing messages."
 msgstr ""
 "Wählen Sie dann »Benutzerdefinierte Kopfzeilen«. Sie können "
-"benutzerdefinierte Kopfzeilen so konfigurieren, dass Dringlichkeit und "
+"benutzerdefinierte Kopfzeilen so konfigurieren, dass Vertraulichkeit und "
 "Verwahrungswunsch (?) in ausgehenden Nachrichten gesetzt werden."
 
 #: C/evolution.xml:1583(para)
@@ -6000,11 +6007,11 @@ msgstr "vCalendar:"
 
 #: C/evolution.xml:2545(para)
 msgid ""
-"A format for storing calender files, which is generally used by Evolution, "
+"A format for storing calendar files, which is generally used by Evolution, "
 "Microsoft Outlook, Sunbird, and Korganizer."
 msgstr ""
-"Ein Format zum Speichern von Kalenderdateien, welches von Evolution, "
-"Microsoft Outlook, Sunbird und KOrganizer genutzt wird."
+"Ein Format zum Speichern von Kalenderdateien, welches im Allgemeinenvon "
+"Evolution, Microsoft Outlook, Sunbird und Korganizer verwendet wird."
 
 #: C/evolution.xml:2548(title)
 msgid "iCalendar or iCal (.ics):"
@@ -7661,8 +7668,8 @@ msgid ""
 "in the <quote>Anna</quote> search folder and in the <quote>Internal "
 "Evolution Discussion</quote> search folder."
 msgstr ""
-"Ein Beispiel für die Nutzung von Ordnern, Suchen, und Suchordnern: Um seine "
-"E-Mails zu organisieren erstellt Berthold einen Suchordner für E-Mails "
+"Ein Beispiel für die Nutzung von Ordnern, Suchen, und Suchordnern: Um sein "
+"Postfach zu organisieren erstellt Berthold einen Suchordner für E-Mails "
 "seiner Freundin und Kollegin Marianne. Er hat einen weiteren Suchordner für "
 "Nachrichten die »novell.com« in der Adresse und »Evolution« in der "
 "Betreffzeile haben, damit er einfach sehen kann, was ihm Leute von der "
@@ -9108,11 +9115,12 @@ msgstr "Wetterkalender"
 #: C/evolution.xml:3991(para)
 msgid ""
 "In the Properties of a Weather calendar you can specify a location for the "
-"weather calender. Click Location to select any world-wide location for the "
+"weather calendar. Click Location to select any world-wide location for the "
 "calendar."
 msgstr ""
 "Im Eigenschaften-Dialog eines Wetterkalenders können Sie den Ort für Ihren "
-"Kalender angeben. Klicken Sie auf »Ort«, um einen Ort auszuwählen."
+"Kalender festlegen. Klicken Sie auf »Ort«, um einen weltweiten Ort "
+"auszuwählen."
 
 #: C/evolution.xml:3993(para)
 msgid ""
@@ -9280,10 +9288,10 @@ msgstr ""
 
 #: C/evolution.xml:4103(para)
 msgid ""
-"Select the required duration on the calender view and enter the summary."
+"Select the required duration on the calendar view and enter the summary."
 msgstr ""
-"Wählen Sie die gewünschte Dauer des Termins in der Kalenderansicht und geben "
-"Sie eine Zusammenfassung ein."
+"Wählen Sie die gewünschte Dauer in der Kalenderansicht und geben Sie eine "
+"Zusammenfassung ein."
 
 #: C/evolution.xml:4106(para) C/evolution.xml:4260(para)
 msgid "Select a calendar in the Calendar drop-down list."
@@ -10137,7 +10145,7 @@ msgstr ""
 "eventuell die Anzeige Ihres Kalenders in Evolution langsamer machen. Um alte "
 "Termine zu entfernen, klicken Sie in der Menüleiste auf Aktionen &gt; "
 "Säubern, und geben Sie die Anzahl der Tage in der Vergangenheit an, deren "
-"Termine Sie erhalten möchten. Klicken Sie auf OK, um die davorliegenden "
+"Termine Sie erhalten möchten. Klicken Sie auf »OK«, um die davor liegenden "
 "Termine endgültig zu löschen."
 
 #: C/evolution.xml:4590(para)
@@ -11294,6 +11302,8 @@ msgid ""
 "Select the sensitivity for your sent message from the given four options "
 "(Normal, Personal, Private, Confidential)."
 msgstr ""
+"Wählen Sie die Vertraulichkeit für die verschickte Nachricht aus den vier "
+"Möglichkeiten (Normal, Persönlich, Privat, Vertraulich)."
 
 #: C/evolution.xml:5478(title)
 msgid "Message Access Delegation:"
@@ -11343,6 +11353,9 @@ msgid ""
 "<guilabel>The message was sent by &lt;Delegator's name&gt; on behalf of &lt;"
 "Delegate's name&gt;</guilabel> on the preview pane header bar."
 msgstr ""
+"Wenn der Empfänger die Nachricht öffnet, so sieht er oder sie im Kopfbereich "
+"der Vorschau die Meldung <guilabel>Die Nachricht wurde von <Name des "
+"Vertreters> im Auftrag von <Name des Vertretenen> verschickt</guilabel>."
 
 #: C/evolution.xml:5498(para)
 msgid ""
@@ -11418,7 +11431,6 @@ msgid "Click the Exchange Settings tab."
 msgstr "Klicken Sie auf den Reiter »Exchange-Einstellungen«."
 
 #: C/evolution.xml:5546(para)
-#, fuzzy
 msgid "Click Delegation Assistant to open the Delegates dialog box."
 msgstr ""
 "Klicken Sie auf »Vertretungs-Assistent« zum Öffnen des Vertretungs-Fensters."
@@ -11595,6 +11607,11 @@ msgid ""
 "your email, you can set an automatic reply so that people know that you are "
 "not ignoring them."
 msgstr ""
+"Eine Abwesenheitsnotiz ist eine automatische gesendete Antwort, die erklärt, "
+"warum Sie nicht unmittelbar auf eine Nachricht antworten. Wenn Sie zum "
+"Beispiel für eine Woche im Urlaub sind und nicht Ihre E-Mails abrufen, dann "
+"können Sie eine automatische Antwort aufsetzen, damit Sie "
+"Kommunikationspartner wissen lassen, dass Sie nicht vergessen wurden."
 
 #: C/evolution.xml:5645(para)
 msgid "Select the Exchange account, then click Edit."
@@ -11606,6 +11623,8 @@ msgid ""
 "Select the Exchange Settings tab. The top option allows you to set an Out of "
 "Office message."
 msgstr ""
+"Wählen Sie den Reiter »Exchange-Einstellungen«. Die oberste Einstellung "
+"ermöglichen die Festlegung einer Abwesenheitsnotiz."
 
 #: C/evolution.xml:5651(para)
 msgid "Click I Am Currently Out of the Office."
@@ -11631,6 +11650,11 @@ msgid ""
 "according to their Exchange calendars, if so, you can reschedule the meeting "
 "altogether."
 msgstr ""
+"Evolution hilft beim bequemen Festlegen einer Besprechung entsprechend der "
+"Verfügbarkeit der Teilnehmer. Die Verteilungsfunktion ermöglicht die "
+"Einsicht in den Exchange-Kalender anderer Benutzer um herauszufinden, ob sie "
+"zu einem Zeitpunkt noch Zeit haben. Wenn ja, dann können Sie die Besprechung "
+"entsprechend verschieben."
 
 #: C/evolution.xml:5669(para)
 msgid "Create a new appointment in the calendar."
@@ -11671,10 +11695,14 @@ msgid ""
 "You can also specify the category as Anniversary, Birthday, Business etc. "
 "from the drop-down list for each address list given."
 msgstr ""
+"Sie können ebenso eine der Kategorien »Jahrestag« , »Geburtstag«, "
+"»Geschäftlich« usw. aus der Auswahlliste jeder Adresse angeben."
 
 #: C/evolution.xml:5694(para)
+#, fuzzy
 msgid "Add the participants to the following categories of attendees."
 msgstr ""
+"Fügen Sie die Teilnehmer zu den folgenden Teilnahmekategorien (?) hinzu."
 
 #: C/evolution.xml:5697(para)
 msgid "Chair Persons"
@@ -11695,12 +11723,17 @@ msgstr "Ressourcen"
 #: C/evolution.xml:5711(para)
 msgid "Click Free/Busy tool at the top right corner."
 msgstr ""
+"Klicken Sie auf das Werkzeug für Verfügbarkeitsinformationen in der rechten "
+"oberen Ecke."
 
 #: C/evolution.xml:5714(para)
 msgid ""
 "Click Options &gt; Update Free/Busy to check participant schedules and, if "
 "possible, update the meeting in all participants' calendars"
 msgstr ""
+"Klicken Sie auf Optionen > Verfügbarkeit, um die Kalender der Teilnehmer zu "
+"prüfen und, wenn möglich, die Besprechung in den Kalendern aller Teilnehmer "
+"zu aktualisieren"
 
 #: C/evolution.xml:5717(para)
 msgid ""
@@ -11712,6 +11745,14 @@ msgid ""
 "satisfied with those results, you can also drag the edges of the area marked "
 "as meeting time to the hours that you want to select."
 msgstr ""
+"Wenn Besprechungsteilnehmer nicht während der geplanten Besprechungszeiten "
+"verfügbar sind, können Sie die Besprechung auf den nächsten möglichen Termin "
+"<quote>verschieben</quote>. Klicken Sie dazu auf die Pfeile neben dem Knopf "
+"»Auto-Auswählen«. Der Knopf »Auto-Auswählen« ermöglicht das Verschieben der "
+"Besprechung auf den zeitlich nächstgelegenen Termin, an dem alle Teilnehmer "
+"verfügbar sind. Wenn Sie mit dem Ergebnis nicht zufrieden sind, können Sie "
+"auch die Randlinien des als Besprechungszeitraum markierten Bereichs auf die "
+"gewünschte Zeit mit der Maus verschieben."
 
 #: C/evolution.xml:5722(para)
 msgid ""
@@ -11778,7 +11819,7 @@ msgstr "GroupWise-Konto in Evolution hinzufügen"
 
 #: C/evolution.xml:5757(link) C/evolution.xml:6065(title)
 msgid "Scheduling Appointments with Free/Busy"
-msgstr ""
+msgstr "Termine anhand von Verfügbarkeitsinformationen planen"
 
 #: C/evolution.xml:5760(link) C/evolution.xml:6127(title)
 msgid "Managing Sent Items"
@@ -11786,7 +11827,7 @@ msgstr "Verschickte Objekte verwalten"
 
 #: C/evolution.xml:5763(link) C/evolution.xml:6316(title)
 msgid "Giving Other People Access to Your Mailbox or Calendar"
-msgstr "Anderen Personen Zugriff auf Ihre E-Mails oder Ihren Kalender gewähren"
+msgstr "Anderen Personen Zugriff auf Ihr Postfach oder Ihren Kalender gewähren"
 
 #: C/evolution.xml:5766(link) C/evolution.xml:6485(title)
 msgid "Junk Mail Handling"
@@ -11873,6 +11914,10 @@ msgid ""
 "to your Personal address book. New Address Book entries can also be added to "
 "your personal address book from received Email messages."
 msgstr ""
+"Wenn Sie eine Karte als Anhang erhalten und auf »Im Adressbuch speichern« "
+"klicken, dann wird sie in ihr persönliches Adressbuch gespeichert. Neue "
+"Einträge im Adressbuch können Ihrem persönlichen Adressbuch auch aus "
+"erhaltenen E-Mail-Nachrichten hinzugefügt werden."
 
 #: C/evolution.xml:5821(para)
 msgid ""
@@ -11882,6 +11927,11 @@ msgid ""
 "system address book is marked for offline use by default. This boosts "
 "performance."
 msgstr ""
+"Um Ihre häufig benutzten GroupWise-Kontakte und Ihr persönliches Adressbuch "
+"zu erstellen, müssen Sie einmalig auf Ihr GroupWise-Konto über den GroupWise "
+"Java-Client zugreifen, weil Evolution derzeit nicht die Erstellung "
+"unterstützt. Das GroupWise-Systemadressbuch ist per Voreinstellung für die "
+"Offline-Verwendung vorgesehen. Das steigert die Geschwindigkeit."
 
 #: C/evolution.xml:5826(para) C/evolution.xml:5892(para)
 msgid "Reminder Note"
@@ -11893,6 +11943,10 @@ msgid ""
 "Reminder notes listed under Memos at the bottom right of the Calendar view "
 "given that you have selected them under the Memos component."
 msgstr ""
+"Erinnerungsmitteilung von GroupWise sind in die Notizverwaltung integriert. "
+"Sie können sich Erinnerungsmitteilung ansehen, die unter Notizen rechts "
+"unten in der Kalenderansicht aufgeführt sind, wenn Sie diese unter Notizen "
+"ausgewählt haben."
 
 #: C/evolution.xml:5834(para)
 msgid "Proxy"
@@ -11951,11 +12005,11 @@ msgstr "Keine Entsprechung, benutzen Sie stattdessen eine Aufgabe"
 
 #: C/evolution.xml:5900(para)
 msgid "Discussion Note"
-msgstr ""
+msgstr "Gesprächsnotiz"
 
 #: C/evolution.xml:5903(para)
 msgid "None; use an assigned task"
-msgstr "Keine Entsprechung, benutzen Sie stattdessen eine Zugewiesene Aufgabe"
+msgstr "Keine Entsprechung, verwenden Sie stattdessen eine Zugewiesene Aufgabe"
 
 #: C/evolution.xml:5908(para)
 msgid "Phone Message"
@@ -12039,6 +12093,8 @@ msgid ""
 "Specify your Post Office Agent SOAP port in the Post Office Agent SOAP Port "
 "field."
 msgstr ""
+"Geben Sie den Post Office Agent SOAP-Port in dem Feld »Post Office Agent "
+"SOAP Port« an."
 
 #: C/evolution.xml:6012(para)
 msgid ""
@@ -12060,19 +12116,30 @@ msgid ""
 "Posted reminder notes are placed in your Calendar on the date you specify. "
 "They are not placed in your Mailbox or in any other user's Mailbox."
 msgstr ""
+"Erinnerungsmitteilung von GroupWise sind im Prinzip Nachrichten, die für "
+"einen speziellen Tag geplant sind und im Kalender an diesem Datum erscheinen "
+"werden. Sie können Erinnerungsmitteilung zur Darstellung von Urlaub, Ferien, "
+"Zahltagen, Geburtstagen usw.  verwenden. Beauftragte Erinnerungsmitteilung "
+"werden zum angegebenen Zeitpunkt in Ihren Kalender übertragen. Sie werden "
+"nicht in Ihrem oder eines anderen Postfach erscheinen."
 
 #: C/evolution.xml:6025(para)
 msgid ""
 "Evolution integrates this feature into its Memo component so that you can "
 "view the Reminder notes listed under Memo at the right bottom side of the "
-"calender view."
+"calendar view."
 msgstr ""
+"Die Notizansicht von Evolution enthält diese Funktion, so dass Sie "
+"Erinnerungsmitteilungen ansehen können, die unter Notizen rechts unten in "
+"der Kalenderansicht aufgeführt sind."
 
 #: C/evolution.xml:6027(para)
 msgid ""
 "Select the memo or the Reminder notes under the Memo component to display it "
 "on the Calendar view."
 msgstr ""
+"Wählen Sie die Notiz oder die Erinnerungsmitteilung in den Notiz-"
+"Komponenten, um sie in der Kalenderansicht darzustellen."
 
 #: C/evolution.xml:6029(para)
 msgid ""
@@ -12133,6 +12200,10 @@ msgid ""
 "locally stored reminders, which work from the moment you log in, regardless "
 "of whether you have run Evolution in the session."
 msgstr ""
+"Terminerinnerungen in Ihrem GroupWise-Kalender funktionieren nicht, sofern "
+"sie nicht mindestens einmal Evolution nach der Anmeldung gestartet haben. Es "
+"unterscheidet sich von lokal gespeicherten Erinnerungen, die ab Anmeldung "
+"funktionieren, unabhängig von einem Start von Evolution in der Sitzung."
 
 #: C/evolution.xml:6070(para)
 msgid "Open a new appointment in the calendar."
@@ -12147,12 +12218,17 @@ msgid ""
 "Add attendees, either by entering their email addresses into the list, or by "
 "clicking the Invite Others button."
 msgstr ""
+"Teilnehmer entweder durch Eingabe der E-Mail-Adresse in die Liste, oder "
+"durch Klick auf den Knopf »Andere einladen« hinzufügen."
 
 #: C/evolution.xml:6079(para)
 msgid ""
 "Click Options, then click Update Free/Busy to check participant schedules "
 "and, if possible, update the meeting in all participants' calendars."
 msgstr ""
+"Klicken Sie auf »Optionen« und dann auch »Verfügbarkeit«, um die Kalender der "
+"Teilnehmer zu prüfen und, wenn möglich, die Besprechung in den Kalendern "
+"aller Teilnehmer zu aktualisieren."
 
 #: C/evolution.xml:6082(para)
 msgid ""
@@ -12164,6 +12240,14 @@ msgid ""
 "those results, you can drag the edges of the meeting time to the hours that "
 "you want to select."
 msgstr ""
+"Wenn Besprechungsteilnehmer nicht während der geplanten Besprechungszeiten "
+"verfügbar sind, können Sie die Besprechung auf den nächsten möglichen Termin "
+"<quote>verschieben</quote>. Klicken Sie dazu auf die Pfeile neben dem Knopf "
+"»Auto-Auswählen«. Der Knopf »Auto-Auswählen« ermöglicht das Verschieben der "
+"Besprechung auf den zeitlich nächstgelegenen Termin, an dem alle Teilnehmer "
+"verfügbar sind. Wenn Sie mit dem Ergebnis nicht zufrieden sind, können Sie "
+"auch die Randlinien des als Besprechungszeitraum markierten Bereichs auf die "
+"gewünschte Zeit mit der Maus verschieben."
 
 #: C/evolution.xml:6087(title)
 msgid "Resending a GroupWise Meeting Request"
@@ -12172,10 +12256,14 @@ msgstr "Erneutes Senden einer GroupWise-Besprechungsanfrage"
 #: C/evolution.xml:6090(para)
 msgid "Right-click an existing meeting that you have organized."
 msgstr ""
+"Klicken Sie mit der rechten Maustaste auf eine bestehende Besprechung, die "
+"Sie geplant haben."
 
 #: C/evolution.xml:6093(para)
 msgid "Select Resend meeting. A confirmation dialog is displayed."
 msgstr ""
+"Wählen Sie »Besprechung erneut versenden«. Es öffnet sich ein "
+"Bestätigungsdialog."
 
 #: C/evolution.xml:6096(para)
 msgid "Click OK to resend the meeting."
@@ -12184,12 +12272,16 @@ msgstr "Klicken Sie auf OK, um die Besprechungsanfrage erneut zu senden."
 #: C/evolution.xml:6100(para)
 msgid "(Optional) Edit any of the fields: Duration, Summary, Description"
 msgstr ""
+"(Optional) Bearbeiten Sie eines der Felder »Dauer«, »Zusammenfassung« oder "
+"»Beschreibung«"
 
 #: C/evolution.xml:6103(para)
 msgid ""
 "(Optional) Add attendees, either by entering their email addresses into the "
 "list, or by clicking the Invite Others button."
 msgstr ""
+"(Optional) Fügen Sie Teilnehmer entweder durch Eingabe der E-Mail-Adresse in "
+"die Liste, oder durch Klick auf den Knopf »Andere einladen« hinzu."
 
 #: C/evolution.xml:6106(para)
 msgid ""
@@ -12204,6 +12296,10 @@ msgid ""
 "or not. Click OK to confirm. Click Cancel if you want to keep the original "
 "item in the recipients' calendar."
 msgstr ""
+"Es wird ein Dialog angezeigt, der fragt, ob Sie das ursprüngliche Objekt "
+"zurückrufen wollen oder nicht. Klicken Sie zur Bestätigung auf »OK«. Klicken "
+"Sie auf »Abbrechen«, wenn Sie das ursprüngliche Objekt im Kalender des "
+"Empfängers verbleiben soll."
 
 #: C/evolution.xml:6116(para)
 msgid ""
@@ -12215,6 +12311,8 @@ msgstr ""
 #: C/evolution.xml:6121(title)
 msgid "GroupWise support for header based threading enabled"
 msgstr ""
+"Unterstützung von GroupWise für die Thread-Anzeige auf Basis der Kopfzeilen "
+"aktivieren"
 
 #: C/evolution.xml:6122(para)
 msgid ""
@@ -12222,10 +12320,14 @@ msgid ""
 "&gt; Preferences &gt; Mail preferences &gt; General tab unless other wise "
 "you want messages to be threaded on subject basis."
 msgstr ""
+"Es muss nicht die Option »Zurückfallen auf betreffsbezogenes Threading der "
+"Nachrichten« im Karteireiter Bearbeiten > Einstellungen > E-Mail-"
+"Einstellungen > Allgemein aktiviert werden, es sei denn Sie möchten "
+"Nachrichten nach dem Betreff gruppieren."
 
 #: C/evolution.xml:6130(link) C/evolution.xml:6150(title)
 msgid "Confirming Delivery of Items You have Sent"
-msgstr ""
+msgstr "Bestätigung der Zustellung von verschickten Objekten"
 
 #: C/evolution.xml:6133(link) C/evolution.xml:6263(title)
 msgid "Displaying Sent Items"
@@ -12245,6 +12347,8 @@ msgid ""
 "You can manage your sent items for GroupWise email only if the recipient is "
 "located on the same GroupWise system as you."
 msgstr ""
+"Sie können Ihre versendeten GroupWise-Objekte nur dann verwalten, wenn der "
+"Empfänger im gleichen GroupWise-System wie Sie ist."
 
 #: C/evolution.xml:6151(para)
 msgid ""
@@ -12253,20 +12357,28 @@ msgid ""
 "For example, you can see when an email was delivered and when the recipient "
 "opened or deleted the email."
 msgstr ""
+"Evolution bietet mehrere Möglichkeiten für eine Bestätigung, dass Ihr Objekt "
+"zugestellt worden ist. Sie können einfach den Nachrichtenstatus jeder "
+"verschickten Nachricht verfolgen. Zum Beispiel können Sie sehen, wenn eine E-"
+"Mail zugestellt wurde und wenn der Empfänger die E-Mail geöffnet oder "
+"gelöscht hat."
 
 #: C/evolution.xml:6153(title)
 msgid "Track an Item You Sent:"
-msgstr ""
+msgstr "Ein versendetes Objekt verfolgen:"
 
 #: C/evolution.xml:6154(para)
 msgid ""
 "You can check the status in the Message Status window of an email you have "
 "sent."
 msgstr ""
+"Sie können den Status im Fenster zum Nachrichtenstatus einer versendeten E-"
+"Mail prüfen."
 
 #: C/evolution.xml:6157(title)
 msgid "Receive Notification When the Item is Opened or Deleted:"
 msgstr ""
+"Benachrichtigungen erhalten sobald ein Objekt geöffnet oder gelöscht wird:"
 
 #: C/evolution.xml:6158(para)
 msgid ""
@@ -12274,6 +12386,10 @@ msgid ""
 "For information, see <link linkend=\"Ak05sv1\">Requesting a Reply for Items "
 "You Send</link>."
 msgstr ""
+"Sie können Benachrichtigungen erhalten, wenn der Empfänger eine Nachricht "
+"öffnet oder löscht. Lesen Sie für weitere Informationen <link linkend="
+"\"Ak05sv1\">Anfrage einer Bestätigung für ein von Ihnen gesendetes Objekt</"
+"link>"
 
 #: C/evolution.xml:6161(title)
 msgid "Request a Reply:"
@@ -12286,6 +12402,11 @@ msgid ""
 "the icon in the recipient's Mailbox to a double arrow. For information, see "
 "<link linkend=\"Ak05sv1\">Requesting a Reply for Items You Send</link>."
 msgstr ""
+"Sie können den Empfänger informieren, dass Sie eine Antwort auf eine E-Mail "
+"benötigen. Evolution fügt dem Objekt einen Text hinzu, der besagt, dass eine "
+"Antwort erbeten wird und ändert das Symbol im Postfach des Empfängers zu "
+"einem Doppelpfeil. Lesen Sie für weitere Informationen<link linkend=\"Ak05sv1"
+"\">Anfrage einer Bestätigung für ein von Ihnen gesendetes Objekt</link>."
 
 #: C/evolution.xml:6166(title) C/evolution.xml:6287(title)
 msgid "Enabling Status Tracking"
@@ -12300,42 +12421,60 @@ msgstr "Wählen Sie im Nachrichteneditor »Einfügen &gt; Versandoptionen«."
 msgid "Select Status Tracking."
 msgstr "Wählen Sie »Statusverfolgung«."
 
+# CHECK
+# scheint nicht mehr aktuell zu sein
 #: C/evolution.xml:6174(para) C/evolution.xml:6295(para)
+#, fuzzy
 msgid "Select the check box next to Create a sent item to track information."
 msgstr ""
+"Markieren Sie das Ankreuzfeld neben »Ein verschicktes Objekt zur "
+"Statusverfolgung erstellen«."
 
 #: C/evolution.xml:6177(para)
 msgid ""
 "Select any of the options given (Delivered, Delivered and opened, All "
 "information)."
 msgstr ""
+"Wählen Sie eine der angebotenen Möglichkeiten (Zugestellt, Zugestellt und "
+"geöffnet, Alle Informationen)."
 
 #: C/evolution.xml:6178(para) C/evolution.xml:6299(para)
 msgid ""
 "Based on this selection, you can view the status of the send message in the "
 "Sent Items folder."
 msgstr ""
+"Entsprechend dieser Auswahl können Sie den Status der verschickten Nachricht "
+"im Ordner »Verschickt« einsehen."
 
 #: C/evolution.xml:6179(para)
 msgid ""
 "For more information, see <link linkend=\"Aal54a9\">Checking the Status of "
 "an Item You Have Sent</link>."
 msgstr ""
+"Lesen Sie für weitere Informationen <link linkend=\"Aal54a9"
+"\">Statusüberprüfung eines von Ihnen gesendeten Objektes</link>."
 
 #: C/evolution.xml:6182(para) C/evolution.xml:6302(para)
 msgid ""
 "(Optional) Select the check box next to Auto-delete sent item to "
 "automatically delete the sent item from the Sent folder."
 msgstr ""
+"(Optional) Wählen Sie das Ankreuzfeld neben »Automatisch verschickte Objekte "
+"löschen«, um automatisch das verschickte Objekt aus dem Ordner »Verschickt« zu "
+"löschen."
 
 #: C/evolution.xml:6185(para) C/evolution.xml:6305(para)
 msgid "Under Return Notification, specify the type of return receipt you want."
 msgstr ""
+"Geben Sie unter Benachrichtigung zurücksenden den Typ Empfangsbestätigung "
+"an, den Sie möchten."
 
 #: C/evolution.xml:6197(para)
 msgid ""
 "Right-click an email in your Sent folder, then click Track Message Status."
 msgstr ""
+"Klicken Sie mit der rechten Maustaste auf eine E-Mail in Ihrem Ordner "
+"»Verschickt«, und dann klicken Sie auf »Nachrichtenstatus verfolgen«."
 
 #: C/evolution.xml:6198(para)
 msgid ""
@@ -12343,6 +12482,9 @@ msgid ""
 "read by them. You also know exactly who received your message, who read your "
 "message, and who deleted it and when."
 msgstr ""
+"Durch die Nachrichtenverfolgung wissen Sie genau, wann ein Objekt den "
+"Empfänger erreicht hat oder gelesen wurde. Sie wissen auch, wer Ihre "
+"Nachricht empfing, wer sie las und wer sie wann gelöscht hat."
 
 #: C/evolution.xml:6205(title)
 msgid "Changing the Priority of an Email"
@@ -12353,14 +12495,18 @@ msgid ""
 "The small icon next to an item in the Mailbox is red when the priority is "
 "high."
 msgstr ""
+"Das kleine Symbol neben einem Objekt im Postfach ist rot, wenn die Priorität "
+"hoch ist."
 
 #: C/evolution.xml:6228(para)
 msgid "Click Reply Requested, then specify when you want to receive the reply."
 msgstr ""
+"Klicken Sie auf »Antwort angefordert«, und geben Sie an, wann Sie eine "
+"Antwort erhalten möchten."
 
 #: C/evolution.xml:6230(title)
 msgid "When convenient:"
-msgstr ""
+msgstr "Wenn gelegen:"
 
 #: C/evolution.xml:6231(para)
 msgid ""
@@ -12368,6 +12514,9 @@ msgid ""
 "you select this option, <emphasis>Reply Requested: When Convenient</"
 "emphasis> appears at the top of the message."
 msgstr ""
+"Wählen Sie diese Option, um den Empfänger bei Gelegenheit antworten zu "
+"lassen. Wenn Sie diese Option wählen, wird <emphasis>Antwort angefordert: "
+"Bei Gelegenheit</emphasis> oben in der Nachricht angezeigt."
 
 #: C/evolution.xml:6234(title)
 msgid "Within days:"
@@ -12376,36 +12525,44 @@ msgstr "Binnen Tagen:"
 #: C/evolution.xml:6235(para)
 msgid "Specify the number of days by when you need a reply."
 msgstr ""
+"Geben Sie die Anzahl an Tagen an, binnen derer Sie eine Antwort benötigen."
 
 #: C/evolution.xml:6240(para)
 msgid ""
 "Click Set Expiration Date, then specify the number of days for this message "
 "to remain in the recipient's Inbox."
 msgstr ""
+"Klicken Sie auf »Ablaufdatum festlegen«, und geben Sie dann die Anzahl an "
+"Tagen an, die diese Nachricht im Posteingang des Empfängers verbleiben soll."
 
 #: C/evolution.xml:6248(title)
 msgid "Setting Message Delivery Options"
-msgstr ""
+msgstr "Festlegen der Zustelloptionen von Nachrichten"
 
 #: C/evolution.xml:6249(para)
 msgid ""
 "You can delay the delivery of an individual message by having it held in the "
 "Outbox for a specified time."
 msgstr ""
+"Sie können die Zustellung einer individuellen Nachricht für eine gewünschte "
+"Zeit durch Zurückhalten der Nachricht im Ausgangsordner verzögern."
 
 #: C/evolution.xml:6252(para)
 msgid "Click Delay message delivery."
-msgstr ""
+msgstr "Klicken Sie auf »Nachrichtenzustellung verzögern«."
 
 #: C/evolution.xml:6255(para)
 msgid ""
 "Use the Date and Time options to specify how long the message should remain "
 "in the Outbox before it is sent to the recipient."
 msgstr ""
+"Verwenden Sie die Einstellungen für Datum und Uhrzeit um festzulegen, wie "
+"lange die Nachricht im Ausgangsordner verbleiben soll, bevor sie an den "
+"Empfänger verschickt wird."
 
 #: C/evolution.xml:6266(para)
 msgid "Click the Sent Items folder in the Folder List."
-msgstr ""
+msgstr "Klicken Sie auf den Ordner »Verschickt« in der Ordnerliste."
 
 #: C/evolution.xml:6269(para)
 msgid ""
@@ -12414,21 +12571,31 @@ msgid ""
 "refer to <link linkend=\"b17s9qmz\">Changing Default Folder for Sent and "
 "Draft Items</link> under <link linkend=\"b13uhy6r\">Default Settings</link>."
 msgstr ""
+"Alle verschickten Objekte verbleiben in diesem Ordner, es sei denn Sie "
+"wählen einen anderen Ordner für verschickte E-Mails in den Vorgabe-"
+"Einstellungen des Kontos. Bitte lesen Sie <link linkend=\"b17s9qmz\">Die "
+"Vorgabeordner für Entwürfe und verschickte Nachrichten ändern</link> unter "
+"<link linkend=\"b13uhy6r\">Vorgabe-Einstellungen</link> für weitere "
+"Informationen."
 
 #: C/evolution.xml:6272(title)
 msgid "Delegating an Item"
-msgstr ""
+msgstr "Ein Objekt delegieren"
 
 #: C/evolution.xml:6275(para)
 msgid ""
 "In the Calendar, right-click the meeting or appointment you want to delegate."
 msgstr ""
+"Klicken Sie im Kalender mit rechts auf eine Besprechung oder einen Termin, "
+"den Sie delegieren möchten."
 
 #: C/evolution.xml:6278(para)
 msgid ""
 "Select Delegate Meeting, then select the contacts you want to delegate the "
 "meeting/appointment for."
 msgstr ""
+"Wählen Sie »Besprechung delegieren«, und wählen Sie dann die Kontakte aus, an "
+"die Sie die Besprechung oder den Termin übertragen möchten."
 
 #: C/evolution.xml:6284(para)
 msgid "Each contact gets a copy of the appointment or meeting."
@@ -12437,12 +12604,16 @@ msgstr "Jeder Kontakt erhält eine Kopie des Termins oder der Besprechung."
 #: C/evolution.xml:6290(para)
 msgid "In the Compose Meeting window, click Insert &gt; Send Options."
 msgstr ""
+"Klicken Sie auf Einfügen > Versandoptionen im Fenster zur Erstellung einer "
+"Besprechung."
 
 #: C/evolution.xml:6298(para)
 msgid ""
 "Select any of the options given (Delivered, Delivered and opened, All "
 "information)"
 msgstr ""
+"Wählen Sie eine der angebotenen Möglichkeiten (Zugestellt, Zugestellt und "
+"geöffnet, Alle Informationen)."
 
 #: C/evolution.xml:6317(para)
 msgid ""
@@ -12450,6 +12621,10 @@ msgid ""
 "perform various actions, such as reading, accepting, and declining items on "
 "behalf of another user, within the restrictions the other user sets."
 msgstr ""
+"Einen Vertreter zur Verwaltung des Postfaches und Kalenders einer anderen "
+"Person einsetzen. Ein Vertreter kann eine Vielzahl verschiedener Aktionen "
+"übernehmen, wie das Lesen, Annehmen und Ablehnen von Objekten im Namen einer "
+"anderen Person. Dies geschieht innerhalb festlegbarer Einschränkungen."
 
 #: C/evolution.xml:6319(para)
 msgid ""
@@ -12457,6 +12632,9 @@ msgid ""
 "that person is in the same GroupWise system. You cannot proxy for a user in "
 "a different GroupWise system."
 msgstr ""
+"Sie können einen Benutzer in einem anderen Postamt oder einer anderen Domäne "
+"vertreten, so lange diese Person im selben GroupWise-System ist. Sie können "
+"keinen Benutzer eines anderen GroupWise-Systems vertreten."
 
 #: C/evolution.xml:6324(link) C/evolution.xml:6341(title)
 msgid "Receiving Proxy Rights"
@@ -12469,6 +12647,7 @@ msgstr "Vertretungsrechte einem anderen Benutzer zuteilen"
 #: C/evolution.xml:6330(link) C/evolution.xml:6417(title)
 msgid "Adding and Removing Proxy Names and Rights in Your Proxy List"
 msgstr ""
+"Vertreternamen und -rechte in Ihre Vertreterliste hinzufügen und entfernen"
 
 #: C/evolution.xml:6333(link) C/evolution.xml:6448(title)
 msgid "Managing Someone Else's Mailbox or Calendar"
@@ -12476,7 +12655,7 @@ msgstr "Das Postfach oder den Kalender einer anderen Person verwalten"
 
 #: C/evolution.xml:6336(link) C/evolution.xml:6470(title)
 msgid "Marking an Item Private"
-msgstr "Markieren eines Objekts als privat"
+msgstr "Eine Objekt als privat markieren"
 
 #: C/evolution.xml:6342(para)
 msgid ""
@@ -12485,6 +12664,11 @@ msgid ""
 "Proxy List in Preferences. Second, you must proxy to the user so you can "
 "access his or her Mailbox or Calendar."
 msgstr ""
+"Zwei Bedingungen müssen erfüllt sein, bevor Sie Vertreter einer anderen "
+"Person werden können. Erstens muss der oder die Vertretene Ihnen Rechte aus "
+"der Vertretungsliste in den Einstellungen gewähren. Und zweitens müssen Sie "
+"die Vertretung annehmen, so dass Sie auf das Postfach oder den Kalender "
+"zugreifen können."
 
 #: C/evolution.xml:6347(para)
 msgid ""
@@ -12495,6 +12679,13 @@ msgid ""
 "your Calendar, give them Read access for appointments. The following table "
 "describes the rights you can grant to users:"
 msgstr ""
+"Verwenden Sie die Vertretungsliste in den Konteneinstellungen, um anderen "
+"Benutzern Vertretungsrechte zu erteilen. Sie können jedem Benutzer "
+"verschiedene Rechte für Kalender und Postfach erteilen. Wenn Sie Benutzer "
+"spezifische Informationen zu einem Termin einsehen lassen wollen, wenn diese "
+"eine Verfügbarkeitssuche auf Ihren Kalender ausführen, dann gewähren Sie "
+"einfach Leserechte für Termine. Die folgende Tabelle beschreibt die Rechte, "
+"die Sie anderen gewähren können:"
 
 #: C/evolution.xml:6355(para)
 msgid "Permission:"
@@ -12513,6 +12704,8 @@ msgid ""
 "Read items you receive. Proxies cannot see your Contacts folder with this or "
 "any other proxy right."
 msgstr ""
+"Objekte lesen, die Sie erhalten. Vertreter können nicht den Ordner mit Ihren "
+"Kontakten mit diesem oder irgend einem anderen Vertreterrecht einsehen."
 
 #: C/evolution.xml:6373(para)
 msgid "Write"
@@ -12524,26 +12717,34 @@ msgid ""
 "have one defined. Assign categories to items, and change the subject of "
 "items."
 msgstr ""
+"Objekte in Ihrem Namen erstellen und verschicken. Dies schließt das Setzen "
+"Ihrer Unterschrift ein, wenn Sie eine Signatur festgelegt haben. Objekte "
+"einer Kategorie zuordnen und den Betreff von Objekten ändern."
 
 #: C/evolution.xml:6381(para)
 msgid "Subscribe to my alarms"
-msgstr ""
+msgstr "Meine Alarme abonnieren"
 
 #: C/evolution.xml:6384(para)
 msgid ""
 "Receive the same alarms you receive. Receiving alarms is supported only if "
 "the proxy is on the same post office you are."
 msgstr ""
+"Die selben Alarme wie Sie erhalten. Das Erhalten von Alarmen wird nur "
+"unterstützt, wenn der Vertreter im selben Postamt wie Sie ist."
 
 #: C/evolution.xml:6389(para)
 msgid "Subscribe to my notifications"
-msgstr ""
+msgstr "Meine Benachrichtigungen abonnieren"
 
 #: C/evolution.xml:6392(para)
 msgid ""
 "Receive notification when you receive items. Receiving notifications is "
 "supported only if the proxy is on the same post office you are."
 msgstr ""
+"Die selben Benachrichtigungen wie Sie erhalten. Das Erhalten von "
+"Benachrichtigungen wird nur unterstützt, wenn der Vertreter im selben "
+"Postamt wie Sie ist."
 
 #: C/evolution.xml:6397(para)
 msgid "Modify options/rules/folders"
@@ -12556,6 +12757,11 @@ msgid ""
 "Mail rights, he or she can create or modify rules and folders. This right "
 "allows a proxy to add, delete, and modify categories."
 msgstr ""
+"Die Einstellungen Ihres Postfaches ändern. Der Vertreter kann beliebige "
+"Einstellungen ändern, einschließlich der Zugriffsberechtigungen für Dritte. "
+"Wenn der Vertreter ebenfalls E-Mail-Rechte hat, kann er oder sie Regeln und "
+"Ordner verändern. Dieses Recht ermöglicht es einem Vertreter Kategorien "
+"hinzuzufügen, zu löschen und zu verändern."
 
 #: C/evolution.xml:6405(para)
 msgid "Read items marked Private"
@@ -12566,6 +12772,9 @@ msgid ""
 "Read the items you marked Private. If you don't give a proxy Private rights, "
 "all items marked Private in your Mailbox are hidden from that proxy."
 msgstr ""
+"Von Ihnen als privat markierte Objekte lesen. Wenn Sie einem Vertreter "
+"private Rechte geben, so sind alle als privat markierten Objekte in Ihrem "
+"Postfach vor dem Vertreter verborgen."
 
 #: C/evolution.xml:6423(para)
 msgid "Select the GroupWise account to edit, then click Edit."
@@ -12648,12 +12857,18 @@ msgid ""
 "appointments. You can also select whether to display the appointments of a "
 "particular user or not."
 msgstr ""
+"Sie können jedem Benutzer verschiedene Farben zuordnen, um leicht zwischen "
+"den Terminen jedes Benutzers unterscheiden zu können. Sie können auch "
+"wählen, ob die Termine eines speziellen Benutzers angezeigt werden sollen."
 
 #: C/evolution.xml:6471(para)
 msgid ""
 "You can limit a proxy's access to individual items in your Mailbox or "
 "Calendar by marking items Private."
 msgstr ""
+"Sie können den Zugriff des Vertreters auf individuelle Objekte in Ihrem "
+"Postfach oder Ihrem Kalender einschränken, indem diese als privat markiert "
+"werden."
 
 #: C/evolution.xml:6472(para)
 msgid ""
@@ -12661,6 +12876,10 @@ msgid ""
 "it. Proxies cannot access items marked Private unless you give them those "
 "rights in your Access List."
 msgstr ""
+"Wenn Sie ein Objekt als privat markieren, verhindern Sie ein Öffnen durch "
+"unberechtigte Vertreter. Vertreter können nicht auf als privat markierte "
+"Objekte zugreifen, es sei denn Sie erteilen Ihnen diese Rechte in Ihrer "
+"Zugriffsliste."
 
 #: C/evolution.xml:6473(para)
 msgid ""
@@ -12671,16 +12890,28 @@ msgid ""
 "display in Busy Search according to the status you selected when you "
 "accepted the appointment."
 msgstr ""
+"Wenn Sie ein Objekt beim Verschicken als privat markieren, dann können weder "
+"Ihr Vertreter noch der Ihres Empfängers das Objekt ohne Rechte öffnen. Wenn "
+"Sie ein Objekt beim Erhalt als privat markieren, dann kann es nicht durch "
+"Ihre unberechtigte Vertretung gelesen werden, aber es kann durch den "
+"Vertreter des Senders gelesen werden. Als privat markierte Termine "
+"erscheinen in der Verfügbarkeitssuche entsprechend des von Ihnen gewählten "
+"Status, als Sie den Termin akzeptiert haben."
 
 #: C/evolution.xml:6476(para)
 msgid "In an open item, click Actions, then click Mark Private."
 msgstr ""
+"Klicken Sie in einem geöffneten Objekt auf »Aktionen« und dann auf »Als "
+"privat markieren«."
 
 #: C/evolution.xml:6478(para)
 msgid ""
 "In your Calendar, click an item in the Appointments, Reminder Notes, or "
 "Tasks List, click Actions, then click Mark Private."
 msgstr ""
+"Klicken Sie in Ihrem Kalender auf ein Objekt in den Terminen, "
+"Erinnerungshinweisen oder der Aufgabenliste, und klicken Sie dann auf "
+"»Aktionen« und auf »Als privat markieren«."
 
 #: C/evolution.xml:6486(para)
 msgid ""
@@ -12690,6 +12921,11 @@ msgid ""
 "settings are on the GroupWise system, your junk list follows you from "
 "computer to computer."
 msgstr ""
+"Die Handhabung von unerwünschten E-Mails ist bei GroupWise-Konten etwas "
+"anders als üblich. Wenn Sie ein Objekt in GroupWise als unerwünscht "
+"markieren, dann wird das Objekt zu der Liste unerwünschter E-Mails im "
+"GroupWise-System hinzugefügt. Weil diese Einstellungen auf dem GroupWise-"
+"System verbleiben, ändert sich die Liste nicht mit einem Rechnerwechsel."
 
 #: C/evolution.xml:6489(link) C/evolution.xml:6506(title)
 msgid "Marking a Message As Junk Mail"
@@ -12701,7 +12937,7 @@ msgstr "Eine Nachricht als Erwünscht markieren"
 
 #: C/evolution.xml:6495(link) C/evolution.xml:6530(title)
 msgid "Enabling or Disabling Your Junk Mail List"
-msgstr ""
+msgstr "Die Liste unerwünschter E-Mails ein- oder ausschalten"
 
 #: C/evolution.xml:6498(link) C/evolution.xml:6545(title)
 msgid "Adding an Email Address to Your Junk List"
@@ -13187,6 +13423,9 @@ msgid ""
 "Select the Always show address of the autocompleted contact check box to "
 "show the email address along with the username."
 msgstr ""
+"Wählen Sie das Ankreuzfeld »Immer Adressen automatisch vervollständigter "
+"Kontakte anzeigen«, um die E-Mail-Adresse zusammen mit dem Benutzernamen "
+"anzeigen zu lassen."
 
 #: C/evolution.xml:6687(title)
 msgid "IMAP Mail Headers"
@@ -14128,10 +14367,13 @@ msgstr ""
 "Termine im jeweiligen Kalender."
 
 #: C/evolution.xml:7062(para)
+#, fuzzy
 msgid ""
 "Click Dismiss to close the alarm. Click Dismiss All to close all the alarm "
 "notifications."
 msgstr ""
+"Klicken Sie auf (?), um den Alarm zu schließen. Klicken Sie auf (?), um alle "
+"Alarmhinweise zu schließen."
 
 #: C/evolution.xml:7066(title)
 msgid "Free/Busy"
@@ -14172,6 +14414,10 @@ msgid ""
 "Evolution uses the proxy settings in the /system/http_proxy and /system/"
 "proxy/gconf keys."
 msgstr ""
+"Wählen Sie diese Option, um die systemweiten Netwerk-Proxy-Einstellungen aus "
+"dem Kontrollzentrum von GNOME zu verwenden. Wenn diese Option gewählt ist, "
+"verwendet Evolution die Proxy-Einstellungen aus den gconf-Schlüsseln in /"
+"system/http_proxy und /system/proxy/."
 
 #: C/evolution.xml:7089(para)
 msgid ""
@@ -14179,6 +14425,10 @@ msgid ""
 "&gt; Network Proxies, Evolution does not work with the proxy and you must "
 "either update these gconf keys or choose Manual proxy configuration."
 msgstr ""
+"Wenn diese Schlüssel nicht den Einstellungen der Netzwerk-Proxy-"
+"Einstellungen des Kontrollzentrums entsprechen, dann funktioniert Evolution "
+"nicht mit dem Proxy und Sie müssen entweder diese gconf-Schlüssel "
+"aktualisieren oder die manuelle Proxy-Konfiguration wählen."
 
 #: C/evolution.xml:7092(title)
 msgid "Direct connection to the Internet:"
@@ -14205,6 +14455,15 @@ msgid ""
 "Authentication to enable the username and password fields. The customized "
 "proxy settings are as follows:"
 msgstr ""
+"Diese Einstellung unterstützt Sie bei der Anpassung der Proxy-Einstellungen "
+"unabhängig von der verwendeten Arbeitsumgebung. Geben Sie Rechner und Ports "
+"für HTTP und bei Bedarf für andere Protokolle an. Geben Sie im Feld »Keine "
+"Proxy-Domäne« an, dass durch Kommata getrennte Domänennamen nicht über den "
+"eingestellten Proxy-Server laufen. Sie können Muster wie *.beispiel.de oder ."
+"beispiel.de in der Liste angeben. Geben Sie einen Benutzernamen und ein "
+"Password an, wenn der Proxy-Server eine Legitimierung erfordert, und wählen "
+"Sie »Legitimierung verwenden«, um die Felder für Benutzernamen und Password "
+"zu aktivieren. Es gibt folgende "
 
 #: C/evolution.xml:7106(para)
 msgid "Proxy Configuration Settings"
@@ -14216,7 +14475,7 @@ msgstr "HTTP-Proxy"
 
 #: C/evolution.xml:7119(para)
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "Der Rechnername, durch den HTTP-Verkehr geleitet werden soll."
 
 #: C/evolution.xml:7124(para) C/evolution.xml:7140(para)
 #: C/evolution.xml:7156(para)
@@ -14228,6 +14487,8 @@ msgid ""
 "The port for the machine defined by the HTTP Proxy field that you proxy "
 "through."
 msgstr ""
+"Der Port des durch das Feld HTTP-Proxy festgelegten Rechners, durch den HTTP-"
+"Datenverkehr geleitet werden soll."
 
 #: C/evolution.xml:7132(para)
 msgid "Secure HTTP Proxy"
@@ -14235,7 +14496,7 @@ msgstr "Sicherer HTTP-Proxy"
 
 #: C/evolution.xml:7135(para)
 msgid "The machine name to proxy secure HTTP through."
-msgstr ""
+msgstr "Der Rechnername, durch den sicherer HTTP-Verkehr geleitet werden soll."
 
 #: C/evolution.xml:7143(para)
 msgid "The port for the machine defined by the Secure HTTP Proxy port field."
@@ -14247,7 +14508,7 @@ msgstr "SOCKS-Rechner"
 
 #: C/evolution.xml:7151(para)
 msgid "The machine name to proxy SOCKS through."
-msgstr ""
+msgstr "Der Rechnername, durch den SOCKS-Verkehr geleitet werden soll."
 
 #: C/evolution.xml:7159(para)
 msgid "The port for the machine defined by the SOCKS host."
@@ -16041,6 +16302,15 @@ msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009\n"
 "Mario Blättermann <mariobl@gnome.org>, 2009, 2010\n"
 "Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009."
+
+#~ msgid ""
+#~ "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
+#~ msgstr "a"
+
+#, fuzzy
+#~ msgid ""
+#~ "@@image: 'figures/network_pref.png'; md5=7d337d7159814de3fed394d67fca83a2"
+#~ msgstr "a"
 
 #~ msgid ""
 #~ "@@image: 'figures/evo_identity_a.png'; "
