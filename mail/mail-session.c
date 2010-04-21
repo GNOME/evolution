@@ -89,7 +89,7 @@ static gchar *mail_data_dir;
 static gchar *mail_config_dir;
 
 static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
-static void forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex);
+static gboolean forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *prompt, gboolean cancel);
 static CamelFilterDriver *get_filter_driver(CamelSession *session, const gchar *type, CamelException *ex);
 static gboolean lookup_addressbook(CamelSession *session, const gchar *name);
@@ -268,13 +268,19 @@ get_password (CamelSession *session, CamelService *service, const gchar *domain,
 	return ret;
 }
 
-static void
-forget_password (CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex)
+static gboolean
+forget_password (CamelSession *session,
+                 CamelService *service,
+                 const gchar *domain,
+                 const gchar *item,
+                 CamelException *ex)
 {
 	gchar *key = make_key (service, item);
 
 	e_passwords_forget_password (domain?domain:"Mail", key);
 	g_free (key);
+
+	return TRUE;
 }
 
 /* ********************************************************************** */
