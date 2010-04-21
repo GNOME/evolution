@@ -17,11 +17,15 @@ Printing
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### FUNCTION e_print_operation_new ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 

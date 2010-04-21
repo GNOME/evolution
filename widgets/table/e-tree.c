@@ -707,11 +707,13 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *e_t
 static void
 e_tree_setup_header (ETree *e_tree)
 {
+	GtkWidget *widget;
 	gchar *pointer;
-	e_tree->priv->header_canvas = GNOME_CANVAS (e_canvas_new ());
-	gtk_widget_set_can_focus (e_tree->priv->header_canvas, FALSE);
 
-	gtk_widget_show (GTK_WIDGET (e_tree->priv->header_canvas));
+	widget = e_canvas_new ();
+	gtk_widget_set_can_focus (widget, FALSE);
+	e_tree->priv->header_canvas = GNOME_CANVAS (widget);
+	gtk_widget_show (widget);
 
 	pointer = g_strdup_printf("%p", (gpointer) e_tree);
 

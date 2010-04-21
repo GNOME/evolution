@@ -17,6 +17,9 @@ Reading and Writing XML
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### FUNCTION e_xml_get_child_by_name_by_lang ##### -->
 <para>
 
