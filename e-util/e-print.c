@@ -92,17 +92,12 @@ load_settings (GKeyFile *key_file)
 	GtkPrintSettings *settings;
 	GError *error = NULL;
 
-	/* XXX Use gtk_print_settings_load_key_file() here once
-	 *     GTK+ 2.14 becomes available. */
+	settings = gtk_print_settings_new ();
 
-	if (!g_key_file_has_group (key_file, PRINT_SETTINGS_GROUP_NAME))
-		return gtk_print_settings_new ();
-
-	settings = gtk_print_settings_new_from_key_file (
-		key_file, NULL, &error);
+	gtk_print_settings_load_key_file (
+		settings, key_file, PRINT_SETTINGS_GROUP_NAME, &error);
 
 	if (error != NULL) {
-		settings = gtk_print_settings_new ();
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
@@ -114,6 +109,17 @@ static void
 save_settings (GtkPrintSettings *settings,
                GKeyFile *key_file)
 {
+	/* XXX GtkPrintSettings does not distinguish between settings
+	 *     that should persist and one-time-only settings, such as
+	 *     page range or number of copies.  All print settings are
+	 *     persistent by default and we opt out particular keys by
+	 *     popular demand. */
+
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_N_COPIES);
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PAGE_RANGES);
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PAGE_SET);
+	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PRINT_PAGES);
+
 	gtk_print_settings_to_key_file (settings, key_file, NULL);
 }
 
@@ -123,17 +129,12 @@ load_page_setup (GKeyFile *key_file)
 	GtkPageSetup *page_setup;
 	GError *error = NULL;
 
-	/* XXX Use gtk_page_setup_load_key_file() here once
-	 *     GTK+ 2.14 becomes available. */
+	page_setup = gtk_page_setup_new ();
 
-	if (!g_key_file_has_group (key_file, PAGE_SETUP_GROUP_NAME))
-		return gtk_page_setup_new ();
-
-	page_setup = gtk_page_setup_new_from_key_file (
-		key_file, NULL, &error);
+	gtk_page_setup_load_key_file (
+		page_setup, key_file, PAGE_SETUP_GROUP_NAME, &error);
 
 	if (error != NULL) {
-		page_setup = gtk_page_setup_new ();
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}

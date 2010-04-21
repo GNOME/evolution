@@ -166,6 +166,9 @@ struct _ECalModelClass {
 	void		(*status_message)	(ECalModel *model,
 						 const gchar *message,
 						 gdouble percent);
+	void		(*timezone_changed)	(ECalModel *model,
+						 icaltimezone *old_zone,
+						 icaltimezone *new_zone);
 };
 
 typedef time_t (*ECalModelDefaultTimeFunc) (ECalModel *model, gpointer user_data);

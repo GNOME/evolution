@@ -54,6 +54,8 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
 
+#include "misc/e-selectable.h"
+
 #include "em-vfolder-rule.h"
 
 #include "mail-mt.h"
@@ -109,6 +111,8 @@ struct _EMFolderTreePrivate {
 	gboolean skip_double_click;
 
 	GtkCellRenderer *text_renderer;
+
+	GtkWidget *selectable; /* an ESelectable, where to pass selectable calls */
 
 	/* Signal handler IDs */
 	gulong selection_changed_handler_id;
@@ -1160,6 +1164,8 @@ folder_tree_new (EMFolderTree *folder_tree)
 	tree = GTK_WIDGET (folder_tree);
 	GTK_WIDGET_SET_FLAGS(tree, GTK_CAN_FOCUS);
 
+	folder_tree->priv->selectable = NULL;
+
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_append_column ((GtkTreeView *) tree, column);
 
@@ -1292,6 +1298,80 @@ folder_tree_init (EMFolderTree *folder_tree)
 	em_folder_tree_construct (folder_tree);
 }
 
+/* Sets a selectable widget, which will be used for update-actions and select-all
+   selectable interface functions. This can be NULL, then nothing can be selected
+   and calling selectable function does nothing. */
+void
+em_folder_tree_set_selectable_widget (EMFolderTree *folder_tree, GtkWidget *selectable)
+{
+	if (selectable)
+		g_return_if_fail (E_IS_SELECTABLE (selectable));
+
+	folder_tree->priv->selectable = selectable;
+}
+
+static void
+folder_tree_selectable_update_actions (ESelectable *selectable,
+                                        EFocusTracker *focus_tracker,
+                                        GdkAtom *clipboard_targets,
+                                        gint n_clipboard_targets)
+{
+	EMFolderTree *folder_tree;
+
+	folder_tree = EM_FOLDER_TREE (selectable);
+	g_return_if_fail (folder_tree != NULL);
+
+	if (folder_tree->priv->selectable) {
+		ESelectableInterface *iface = E_SELECTABLE_GET_INTERFACE (folder_tree->priv->selectable);
+
+		g_return_if_fail (iface != NULL);
+		g_return_if_fail (iface->update_actions != NULL);
+
+		iface->update_actions (E_SELECTABLE (folder_tree->priv->selectable), focus_tracker, clipboard_targets, n_clipboard_targets);
+	}
+}
+
+#define folder_tree_selectable_func(_func)									\
+static void													\
+folder_tree_selectable_ ## _func (ESelectable *selectable)							\
+{														\
+	EMFolderTree *folder_tree;										\
+														\
+	folder_tree = EM_FOLDER_TREE (selectable);								\
+	g_return_if_fail (folder_tree != NULL);									\
+														\
+	if (folder_tree->priv->selectable) {									\
+		ESelectableInterface *iface = E_SELECTABLE_GET_INTERFACE (folder_tree->priv->selectable);	\
+														\
+		g_return_if_fail (iface != NULL);								\
+		if (iface-> _func ) {										\
+			if (gtk_widget_get_can_focus (folder_tree->priv->selectable) &&				\
+			    !gtk_widget_has_focus (folder_tree->priv->selectable))				\
+				gtk_widget_grab_focus (folder_tree->priv->selectable);				\
+			iface-> _func (E_SELECTABLE (folder_tree->priv->selectable));				\
+		}												\
+	}													\
+}
+
+folder_tree_selectable_func (cut_clipboard);
+folder_tree_selectable_func (copy_clipboard);
+folder_tree_selectable_func (paste_clipboard);
+folder_tree_selectable_func (delete_selection);
+folder_tree_selectable_func (select_all);
+
+#undef folder_tree_selectable_func
+
+static void
+folder_tree_selectable_init (ESelectableInterface *interface)
+{
+	interface->update_actions = folder_tree_selectable_update_actions;
+	interface->cut_clipboard = folder_tree_selectable_cut_clipboard;
+	interface->copy_clipboard = folder_tree_selectable_copy_clipboard;
+	interface->paste_clipboard = folder_tree_selectable_paste_clipboard;
+	interface->delete_selection = folder_tree_selectable_delete_selection;
+	interface->select_all = folder_tree_selectable_select_all;
+}
+
 GType
 em_folder_tree_get_type (void)
 {
@@ -1311,8 +1391,17 @@ em_folder_tree_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo selectable_info = {
+			(GInterfaceInitFunc) folder_tree_selectable_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			GTK_TYPE_TREE_VIEW, "EMFolderTree", &type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_SELECTABLE, &selectable_info);
 	}
 
 	return type;

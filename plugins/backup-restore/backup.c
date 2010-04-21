@@ -188,7 +188,7 @@ backup (const gchar *filename)
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
-	run_cmd (EVOLUTION " --force-shutdown");
+	run_cmd (EVOLUTION " --quit");
 
 	run_cmd ("rm $HOME/.evolution/.running");
 
@@ -249,7 +249,7 @@ restore (const gchar *filename)
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
-	run_cmd (EVOLUTION " --force-shutdown");
+	run_cmd (EVOLUTION " --quit");
 
 	CANCEL (complete);
 	txt = _("Backup current Evolution data");

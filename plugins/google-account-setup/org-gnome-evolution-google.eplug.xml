@@ -12,7 +12,7 @@
       </group>
     </hook>
     <hook class="org.gnome.evolution.calendar.events:1.0">
-      <event target="component" id="component.migration" handle="e_calendar_google_migrate"/>
+      <event target="module" id="module.migration" handle="e_calendar_google_migrate"/>
     </hook>
 
     <hook class="org.gnome.evolution.addressbook.config:1.0">

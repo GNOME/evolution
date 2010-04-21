@@ -138,6 +138,7 @@ enum {
 	CAL_VIEW_PROGRESS,
 	CAL_VIEW_DONE,
 	STATUS_MESSAGE,
+	TIMEZONE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -411,6 +412,16 @@ e_cal_model_class_init (ECalModelClass *class)
 		e_marshal_VOID__STRING_DOUBLE,
 		G_TYPE_NONE, 2,
 		G_TYPE_STRING, G_TYPE_DOUBLE);
+	signals[TIMEZONE_CHANGED] = g_signal_new (
+		"timezone-changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalModelClass, timezone_changed),
+		NULL, NULL,
+		e_marshal_VOID__POINTER_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
 }
 
 static void
@@ -1365,12 +1376,14 @@ void
 e_cal_model_set_timezone (ECalModel *model,
                           icaltimezone *zone)
 {
+	icaltimezone *old_zone;
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	if (model->priv->zone == zone)
 		return;
 
 	e_table_model_pre_change (E_TABLE_MODEL (model));
+	old_zone = model->priv->zone;
 	model->priv->zone = zone;
 
 	/* the timezone affects the times shown for date fields,
@@ -1378,6 +1391,8 @@ e_cal_model_set_timezone (ECalModel *model,
 	e_table_model_changed (E_TABLE_MODEL (model));
 
 	g_object_notify (G_OBJECT (model), "timezone");
+	g_signal_emit (G_OBJECT (model), signals[TIMEZONE_CHANGED], 0,
+		       old_zone, zone);
 }
 
 void
