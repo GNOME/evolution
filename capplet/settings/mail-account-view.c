@@ -326,6 +326,8 @@ setup_google_accounts (MailAccountView *mav)
 	g_object_unref (gconf);
 }
 
+#define INDENTATION 10
+
 static GtkWidget *
 create_review (MailAccountView *view)
 {
@@ -345,74 +347,74 @@ create_review (MailAccountView *view)
 	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Personal details:</span>"));
 	gtk_widget_show (label);
 	PACK_BOXF(label)
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Name:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new(e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_NAME));
 	gtk_widget_show(entry);
 	PACK_BOX(entry)
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Email address:"));
 	gtk_widget_show (label);
 	PACK_BOX(label)
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_ID_ADDRESS));
 	gtk_widget_show(entry);
 	PACK_BOX(entry)
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (NULL);
 	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Details:</span>"));
 	gtk_widget_show (label);
 	PACK_BOXF(label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (NULL);
 	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Receiving</span>"));
 	gtk_widget_show (label);
 	PACK_BOXF(label);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Server type:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (url->protocol);
 	gtk_widget_show(entry);
 	PACK_BOX(entry)
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Server address:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (url->host);
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Username:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (url->user);
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Use encryption:"));
 	gtk_widget_show (label);
 	PACK_BOX(label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	enc = (gchar *)camel_url_get_param(url, "use_ssl");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	view->priv->username = g_strdup(url->user);
 	camel_url_free(url);
@@ -424,36 +426,36 @@ create_review (MailAccountView *view)
 	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Sending</span>"));
 	gtk_widget_show (label);
 	PACK_BOXF(label);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 2, 3, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	entry = gtk_label_new (url->protocol);
 	gtk_widget_show(entry);
 	PACK_BOX(entry)
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 2, 3, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	entry = gtk_label_new (url->host);
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 2, 3, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	entry = gtk_label_new (url->user);
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 2, 3, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	enc = (gchar *)camel_url_get_param(url, "use_ssl");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show(entry);
 	PACK_BOX(entry);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach ((GtkTable *)table, box, 2, 3, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 /*
 	label = gtk_label_new (_("Organization:"));
 	gtk_widget_show (label);
 	entry = gtk_entry_new ();
 	gtk_widget_show(entry);
-	gtk_table_attach (table, label, 0, 1, 3, 4, GTK_SHRINK, GTK_SHRINK, 10, 3);
-	gtk_table_attach (table, entry, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
+	gtk_table_attach (table, label, 0, 1, 3, 4, GTK_SHRINK, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach (table, entry, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	*/
 
 	gtk_widget_show(table);
