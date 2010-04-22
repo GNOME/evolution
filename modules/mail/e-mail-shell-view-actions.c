@@ -1223,7 +1223,7 @@ static GtkRadioActionEntry mail_filter_entries[] = {
 	  MAIL_FILTER_LAST_5_DAYS_MESSAGES },
 
 	{ "mail-filter-messages-not-junk",
-	  "mail-mark-notjunk",
+	  "mail-mark-not-junk",
 	  N_("Messages Not Junk"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
