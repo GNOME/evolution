@@ -66,7 +66,15 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	GSList *accounts;
 	EConfig *config;
 	EMAccountEditor *emae;
+	char *req_view;
 
+	req_view = e_shell_get_startup_view(e_shell_get_default());
+
+	if (req_view && strcmp (req_view, "mail") && e_shell_get_express_mode(e_shell_get_default())) {
+		return;
+	}
+
+	
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
 	g_object_unref (client);

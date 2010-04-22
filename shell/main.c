@@ -576,6 +576,11 @@ main (gint argc, gchar **argv)
 		e_plugin_load_plugins ();
 	}
 
+	if (requested_view)
+		e_shell_set_startup_view(shell, requested_view);
+	else if (express_mode)
+		e_shell_set_startup_view(shell, "mail");
+
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
 	e_shell_migrate_attempt (shell);

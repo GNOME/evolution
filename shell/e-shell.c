@@ -61,6 +61,8 @@ struct _EShellPrivate {
 
 	gchar *geometry;
 	gchar *module_directory;
+	
+	gchar *startup_view;
 
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
@@ -617,6 +619,11 @@ shell_dispose (GObject *object)
 
 	priv = E_SHELL_GET_PRIVATE (object);
 
+	if (priv->startup_view != NULL) {
+		g_free (priv->startup_view);
+		priv->startup_view = NULL;
+	}
+
 	if (priv->settings != NULL) {
 		g_object_unref (priv->settings);
 		priv->settings = NULL;
@@ -1152,6 +1159,8 @@ e_shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
+
+	shell->priv->startup_view = NULL;
 
 	g_object_ref_sink (shell->priv->preferences_window);
 
@@ -1935,4 +1944,18 @@ e_shell_adapt_window_size (EShell    *shell,
 	gtk_window_set_default_size (window, rect.width, rect.height);
 	gtk_window_set_decorated (window, FALSE);
 	gtk_window_maximize (window);
+}
+
+void
+e_shell_set_startup_view (EShell *shell,
+			  const char *view)
+{
+	shell->priv->startup_view = g_strdup(view);
+}
+
+
+const char *
+e_shell_get_startup_view (EShell *shell)
+{
+	return shell->priv->startup_view;
 }

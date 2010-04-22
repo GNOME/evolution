@@ -127,6 +127,9 @@ void		e_shell_cancel_quit		(EShell *shell);
 
 void		e_shell_adapt_window_size	(EShell    *shell,
 						 GtkWindow *window);
+void		e_shell_set_startup_view 	(EShell *shell,
+			  			 const char *view);
+const char *	e_shell_get_startup_view 	(EShell *shell);
 
 G_END_DECLS
 
