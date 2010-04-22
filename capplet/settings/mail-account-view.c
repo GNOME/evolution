@@ -608,13 +608,13 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_label_set_markup ((GtkLabel *)tmp, _("<span size=\"large\" weight=\"bold\">Google account settings:</span>"));		
 			gtk_widget_show(tmp);
 
-#define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 3); }
+#define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
 
 			PACK_IN_BOX(page->box,tmp,12);
 			PACK_IN_BOX(page->box,mav->priv->gcontacts,24);
 			PACK_IN_BOX(page->box,mav->priv->gcalendar,24);
 #undef PACK_IN_BOX
-#define PACK_IN_BOX(wid,child1,child2,num1,num2) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child1, FALSE, FALSE, num1); gtk_box_pack_start ((GtkBox *)tbox, child2, FALSE, FALSE, num2); gtk_widget_show_all (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 3); }
+#define PACK_IN_BOX(wid,child1,child2,num1,num2) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child1, FALSE, FALSE, num1); gtk_box_pack_start ((GtkBox *)tbox, child2, FALSE, FALSE, num2); gtk_widget_show_all (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
 
 			PACK_IN_BOX(page->box,mav->priv->gmail_info_label,gtk_link_button_new("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop"), 24, 0);
 
