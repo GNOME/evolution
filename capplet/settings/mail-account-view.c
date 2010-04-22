@@ -26,6 +26,9 @@
 
 #include <glib/gi18n.h>
 #include "mail-account-view.h"
+#include <libedataserverui/e-passwords.h>
+#include <libedataserver/e-source-group.h>
+#include <libedataserver/e-source-list.h>
 #include <libedataserver/e-account-list.h>
 #include "mail-view.h"
 #include "e-util/e-config.h"
@@ -35,6 +38,16 @@
 
 struct _MailAccountViewPrivate {
 	GtkWidget *tab_str;
+
+	GtkWidget *gcalendar;
+	GtkWidget *gcontacts;
+	GtkWidget *gmail_info_label;
+
+	gboolean is_gmail;
+	gboolean do_gcontacts;
+	gboolean do_gcalendar;
+
+	char *username;
 };
 
 G_DEFINE_TYPE (MailAccountView, mail_account_view, GTK_TYPE_VBOX)
@@ -67,12 +80,16 @@ mail_account_view_init (MailAccountView  *shell)
 {
 	shell->priv = g_new0(MailAccountViewPrivate, 1);
 
+	shell->priv->is_gmail = FALSE;
+	shell->priv->username = NULL;
 }
 
 static void
 mail_account_view_finalize (GObject *object)
 {
-	/*MailAccountView *shell = (MailAccountView *)object;*/
+	MailAccountView *shell = (MailAccountView *)object;
+
+	g_free(shell->priv->username);
 
 	G_OBJECT_CLASS (mail_account_view_parent_class)->finalize (object);
 }
@@ -169,6 +186,146 @@ save_account (MailAccountView *view)
 #define PACK_BOX(w) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 12); gtk_widget_show(box);
 #define PACK_BOXF(w) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0); gtk_widget_show(box);
 
+#define CALENDAR_CALDAV_URI "caldav://%s@www.google.com/calendar/dav/%s/events"
+#define CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
+#define CALENDAR_DEFAULT_PATH "/private/full"
+#define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
+
+static gboolean
+is_email (const gchar *address)
+{
+	/* This is supposed to check if the address's domain could be
+           an FQDN but alas, it's not worth the pain and suffering. */
+	const gchar *at;
+
+	at = strchr (address, '@');
+	/* make sure we have an '@' and that it's not the first or last gchar */
+	if (!at || at == address || *(at + 1) == '\0')
+		return FALSE;
+
+	return TRUE;
+}
+
+static gchar *
+sanitize_user_mail (const gchar *user)
+{
+	if (!user)
+		return NULL;
+
+	if (strstr (user, "%40") != NULL) {
+		return g_strdup (user);
+	} else if (!is_email (user)) {
+		return g_strconcat (user, "%40gmail.com", NULL);
+	} else {
+		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (user) + 2));
+		gchar *at = strchr (user, '@');
+
+		strncpy (tmp, user, at - user);
+		strcat (tmp, "%40");
+		strcat (tmp, at + 1);
+
+		return tmp;
+	}
+}
+
+static void
+setup_google_accounts (MailAccountView *mav)
+{
+	GConfClient *gconf = gconf_client_get_default ();
+
+	mav->priv->do_gcontacts = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->gcontacts);
+	mav->priv->do_gcalendar = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->gcalendar);
+
+	if (mav->priv->do_gcalendar) {
+		ESourceList *slist;
+		ESourceGroup *sgrp;
+		ESource *calendar;
+		char *sanitize_uname, *abs_uri, *rel_uri;
+		GSList *ids, *temp;
+		
+		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
+		sgrp = e_source_list_peek_group_by_base_uri (slist, "google://");
+
+		/* FIXME: Not sure if we should localize 'Calendar' */
+		calendar = e_source_new ("Calendar", "");	
+		e_source_set_property (calendar, "ssl", "1");
+		e_source_set_property (calendar, "refresh", "30");
+		e_source_set_property (calendar, "auth", "1");
+		e_source_set_property (calendar, "offline_sync", "1");
+		e_source_set_property (calendar, "username", mav->priv->username);
+		e_source_set_property (calendar, "setup-username", mav->priv->username);		
+		e_source_set_property (calendar, "default", "true");
+		e_source_set_readonly (calendar, FALSE);
+
+		sanitize_uname = sanitize_user_mail (mav->priv->username);
+
+		abs_uri = g_strdup_printf (CALENDAR_CALDAV_URI, sanitize_uname, mav->priv->username);
+		e_source_set_absolute_uri (calendar, abs_uri);
+		
+		e_passwords_add_password (abs_uri, gtk_entry_get_text((GtkEntry *)mav->password));
+		e_passwords_remember_password ("Calendar", abs_uri);
+		rel_uri = g_strconcat ("https", CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
+		e_source_set_relative_uri (calendar, rel_uri);
+
+		e_source_group_add_source (sgrp, calendar, -1);
+		e_source_list_sync (slist, NULL);
+
+		ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
+		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
+		gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
+		temp = ids;
+
+		for (; temp != NULL; temp = g_slist_next (temp))
+			g_free (temp->data);
+		g_slist_free (ids);		
+
+		g_free(abs_uri);
+		g_free(rel_uri);
+		g_free(sanitize_uname);
+		g_object_unref(slist);
+		g_object_unref(sgrp);
+		g_object_unref(calendar);
+	}
+
+	if (mav->priv->do_gcontacts) {
+		ESourceList *slist;
+		ESourceGroup *sgrp;
+		ESource *abook;
+		char *rel_uri;;
+
+		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources" );
+		
+		sgrp = e_source_list_peek_group_by_base_uri (slist, "google://");
+		
+		/* FIXME: Not sure if we should localize 'Contacts' */
+		abook = e_source_new ("Contacts", "");	
+		e_source_set_property (abook, "default", "true");
+		e_source_set_property (abook, "offline_sync", "1");
+		e_source_set_property (abook, "auth", "plain/password");
+		e_source_set_property (abook, "use-ssl", "true");
+		e_source_set_property (abook, "remember_password", "true");
+		e_source_set_property (abook, "refresh-interval", "86400");
+		e_source_set_property (abook, "completion", "true");
+		e_source_set_property (abook, "username", mav->priv->username);
+		e_source_set_relative_uri (abook, mav->priv->username);
+		
+		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
+		e_passwords_add_password (rel_uri, gtk_entry_get_text((GtkEntry *)mav->password));
+		e_passwords_remember_password ("Addressbook", rel_uri);
+		e_source_group_add_source (sgrp, abook, -1);
+		e_source_list_sync (slist, NULL);
+
+		g_free(rel_uri);
+		g_object_unref(slist);
+		g_object_unref(sgrp);
+		g_object_unref(abook);
+
+
+	}
+
+	g_object_unref (gconf);
+}
+
 static GtkWidget *
 create_review (MailAccountView *view)
 {
@@ -257,6 +414,7 @@ create_review (MailAccountView *view)
 	PACK_BOX(entry);
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
 
+	view->priv->username = g_strdup(url->user);
 	camel_url_free(url);
 	uri =(gchar *) e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_TRANSPORT_URL);
 	if (!uri  || (url = camel_url_new(uri, NULL)) == NULL)
@@ -383,11 +541,15 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			/* Save the password ahead of time */
 			aurl = camel_url_new (account->source->url, NULL);
 			surl = camel_url_to_string(aurl, CAMEL_URL_HIDE_ALL);
-			mail_session_add_password (surl, gtk_entry_get_text((GtkEntry *)mav->password));
-
+			e_passwords_add_password (surl, gtk_entry_get_text((GtkEntry *)mav->password));
+			e_passwords_remember_password ("Mail", surl);
 			camel_url_free(aurl);
 			g_free(surl);
 		}
+
+		if (mav->priv->is_gmail && !mav->original) 
+			setup_google_accounts (mav);
+
 		em_account_editor_commit (mav->edit);
 		g_signal_emit (mav, signals[VIEW_CLOSE], 0);
 		return;
@@ -403,7 +565,8 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 	if (mav->current_page == MAV_LAST - 1) {
 		MAVPage *page = mav->pages[mav->current_page];
 		GtkWidget *tmp;
-
+		EAccount *account = em_account_editor_get_modified_account(mav->edit);
+		
 		if (page->main)
 			gtk_widget_destroy (page->main);
 
@@ -413,6 +576,49 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 		gtk_box_pack_start((GtkBox *)page->main, tmp, FALSE, FALSE, 0);
 		gtk_widget_show(tmp);
 		gtk_box_pack_start((GtkBox *)page->box, page->main, FALSE, FALSE, 3);
+		
+		if (mav->priv->is_gmail) {
+			gtk_widget_destroy (mav->priv->gcontacts);
+			gtk_widget_destroy (mav->priv->gcalendar);
+			gtk_widget_destroy (mav->priv->gmail_info_label);
+		}
+
+		if (mav->original == NULL && (g_strrstr(account->source->url, "gmail") ||
+				g_strrstr(account->source->url, "googlemail"))) {
+			/* Google accounts*/
+			GtkWidget *tmp;
+			mav->priv->is_gmail = TRUE;
+			printf("Google account: %s\n", account->source->url);
+			mav->priv->gcontacts = gtk_check_button_new_with_label (_("Setup Google contacts with Evolution"));
+			mav->priv->gcalendar = gtk_check_button_new_with_label (_("Setup Google calendar with Evolution"));
+			
+			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->gcontacts, TRUE);
+			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->gcalendar, TRUE);
+
+			mav->priv->gmail_info_label = gtk_label_new (_("You need to enable IMAP access."));
+			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
+			
+			gtk_widget_show (mav->priv->gcontacts);
+			gtk_widget_show (mav->priv->gcalendar);
+			gtk_widget_show (mav->priv->gmail_info_label);
+			
+			tmp = gtk_label_new (NULL);
+			gtk_label_set_markup ((GtkLabel *)tmp, _("<span size=\"large\" weight=\"bold\">Google account settings:</span>"));		
+			gtk_widget_show(tmp);
+
+#define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 3); }
+
+			PACK_IN_BOX(page->box,tmp,12);
+			PACK_IN_BOX(page->box,mav->priv->gcontacts,24);
+			PACK_IN_BOX(page->box,mav->priv->gcalendar,24);
+#undef PACK_IN_BOX
+#define PACK_IN_BOX(wid,child1,child2,num1,num2) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child1, FALSE, FALSE, num1); gtk_box_pack_start ((GtkBox *)tbox, child2, FALSE, FALSE, num2); gtk_widget_show_all (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 3); }
+
+			PACK_IN_BOX(page->box,mav->priv->gmail_info_label,gtk_link_button_new("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop"), 24, 0);
+
+		} else 
+			mav->priv->is_gmail = FALSE;
+
 	}
 
 	gtk_widget_show (mav->pages[mav->current_page]->box);
