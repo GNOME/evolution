@@ -28,6 +28,16 @@
 
 #define CHECK_NB	5
 
+/* be compatible with older e-d-s for MeeGo */
+#ifndef ETC_TIMEZONE
+#  define ETC_TIMEZONE        "/etc/timezone"
+#  define ETC_TIMEZONE_MAJ    "/etc/TIMEZONE"
+#  define ETC_RC_CONF         "/etc/rc.conf"
+#  define ETC_SYSCONFIG_CLOCK "/etc/sysconfig/clock"
+#  define ETC_CONF_D_CLOCK    "/etc/conf.d/clock"
+#  define ETC_LOCALTIME       "/etc/localtime
+#endif
+
 static const gchar * files_to_check [CHECK_NB] = {
         ETC_TIMEZONE,
         ETC_TIMEZONE_MAJ,
