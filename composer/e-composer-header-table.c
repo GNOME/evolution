@@ -249,7 +249,7 @@ composer_header_table_update_destinations (EDestination **old_destinations,
 		}
 	}
 
-	camel_object_unref (inet_address);
+	g_object_unref (inet_address);
 
 skip_auto:
 

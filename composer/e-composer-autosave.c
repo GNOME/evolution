@@ -388,8 +388,8 @@ autosave_snapshot_cb (GFile *file,
 		CAMEL_STREAM_MEM (camel_stream), buffer);
 	camel_data_wrapper_decode_to_stream (
 		CAMEL_DATA_WRAPPER (message), camel_stream);
-	camel_object_unref (message);
-	camel_object_unref (camel_stream);
+	g_object_unref (message);
+	g_object_unref (camel_stream);
 
 	/* Load the buffer into a GMemoryInputStream.
 	 * But watch out for zero length MIME parts. */

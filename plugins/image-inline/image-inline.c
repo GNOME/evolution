@@ -309,7 +309,7 @@ org_gnome_image_inline_pobject_free (EMFormatHTMLPObject *object)
 	image_object = (ImageInlinePObject *) object;
 
 	if (image_object->mime_part != NULL) {
-		camel_object_unref (image_object->mime_part);
+		g_object_unref (image_object->mime_part);
 		image_object->mime_part = NULL;
 	}
 
@@ -389,7 +389,7 @@ org_gnome_image_inline_decode (ImageInlinePObject *image_object)
 	}
 
 exit:
-	camel_object_unref (stream);
+	g_object_unref (stream);
 	g_object_unref (loader);
 }
 
@@ -458,7 +458,7 @@ org_gnome_image_inline_format (gpointer ep, EMFormatHookTarget *target)
 			classid, target->part,
 			org_gnome_image_inline_embed);
 
-	camel_object_ref (target->part);
+	g_object_ref (target->part);
 	image_object->mime_part = target->part;
 
 	image_object->object.free = org_gnome_image_inline_pobject_free;

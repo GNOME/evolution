@@ -205,7 +205,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	stream = camel_stream_mem_new_with_byte_array (byte_array);
 	camel_data_wrapper_decode_to_stream (content, stream);
 	str = g_strndup ((gchar *) byte_array->data, byte_array->len);
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 	/* convert to UTF-8 string */
 	if (str && content->mime_type->params && content->mime_type->params->value) {

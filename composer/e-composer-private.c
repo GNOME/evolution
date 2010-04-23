@@ -116,7 +116,7 @@ msg_composer_url_requested_cb (GtkHTML *html,
 
 	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
 
-	camel_object_unref (camel_stream);
+	g_object_unref (camel_stream);
 
 	/* gtk_html_end() destroys the GtkHTMLStream, so we need to
 	 * stop the signal emission so nothing else tries to use it. */
@@ -176,7 +176,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->inline_images_by_url = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) camel_object_unref);
+		(GDestroyNotify) g_object_unref);
 
 	priv->charset = e_composer_get_default_charset ();
 
@@ -440,7 +440,7 @@ e_composer_private_dispose (EMsgComposer *composer)
 	g_hash_table_remove_all (composer->priv->inline_images_by_url);
 
 	if (composer->priv->redirect != NULL) {
-		camel_object_unref (composer->priv->redirect);
+		g_object_unref (composer->priv->redirect);
 		composer->priv->redirect = NULL;
 	}
 }

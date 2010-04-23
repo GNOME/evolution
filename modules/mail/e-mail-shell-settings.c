@@ -58,7 +58,7 @@ e_mail_shell_settings_init (EShell *shell)
 			NULL,
 			G_PARAM_READWRITE));
 
-	camel_object_ref (session);
+	g_object_ref (session);
 	e_shell_settings_set_pointer (
 		shell_settings, "mail-session", session);
 

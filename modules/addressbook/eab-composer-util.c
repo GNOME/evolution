@@ -150,7 +150,7 @@ eab_send_as_attachment (GList *destinations)
 	camel_mime_part_set_disposition (attachment, "attachment");
 
 	e_msg_composer_attach (composer, attachment);
-	camel_object_unref (attachment);
+	g_object_unref (attachment);
 
 	if (destinations->next != NULL)
 		e_composer_header_table_set_subject (

@@ -304,7 +304,7 @@ action_mailto_copy_cb (GtkAction *action,
 	if (text == NULL || *text == '\0')
 		text = g_strdup (uri + strlen ("mailto:"));
 
-	camel_object_unref (inet_addr);
+	g_object_unref (inet_addr);
 	camel_url_free (curl);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
@@ -856,7 +856,7 @@ web_view_hovering_over_link (EWebView *web_view,
 	address = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (address), curl->path);
 	who = camel_address_format (CAMEL_ADDRESS (address));
-	camel_object_unref (address);
+	g_object_unref (address);
 	camel_url_free (curl);
 
 	if (who == NULL)

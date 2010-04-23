@@ -132,7 +132,7 @@ free_folder_info(struct _folder_info *info)
 {
 	/*camel_folder_thaw (info->folder);	*/
 	mail_sync_folder(info->folder, NULL, NULL);
-	camel_object_unref(info->folder);
+	g_object_unref (info->folder);
 	g_free(info->uri);
 	g_free(info);
 }
@@ -164,7 +164,7 @@ setup_send_data(void)
 			(GDestroyNotify) free_folder_info);
 		data->inbox = e_mail_local_get_folder (
 			E_MAIL_FOLDER_LOCAL_INBOX);
-		camel_object_ref(data->inbox);
+		g_object_ref (data->inbox);
 		data->active = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
@@ -198,7 +198,7 @@ free_send_data(void)
 	if (data->inbox) {
 		mail_sync_folder(data->inbox, NULL, NULL);
 		/*camel_folder_thaw (data->inbox);		*/
-		camel_object_unref(data->inbox);
+		g_object_unref (data->inbox);
 	}
 
 	g_list_free(data->infos);
@@ -803,7 +803,7 @@ receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelE
 	oldinfo = g_hash_table_lookup(info->data->folders, uri);
 	g_mutex_unlock(info->data->lock);
 	if (oldinfo) {
-		camel_object_ref(oldinfo->folder);
+		g_object_ref (oldinfo->folder);
 		return oldinfo->folder;
 	}
 	folder = mail_tool_uri_to_folder (uri, 0, ex);
@@ -816,7 +816,7 @@ receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelE
 
 	if (g_hash_table_lookup_extended (info->data->folders, uri, &oldkey, &oldinfoptr)) {
 		oldinfo = (struct _folder_info *) oldinfoptr;
-		camel_object_unref(oldinfo->folder);
+		g_object_unref (oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {
 		/*camel_folder_freeze (folder);		*/
@@ -826,7 +826,7 @@ receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelE
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
 
-	camel_object_ref (folder);
+	g_object_ref (folder);
 
 	g_mutex_unlock(info->data->lock);
 
@@ -890,7 +890,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 			camel_exception_clear(&ex);
 			camel_folder_refresh_info(folder, &ex);
 			camel_exception_clear(&ex);
-			camel_object_unref(folder);
+			g_object_unref (folder);
 		} else if (camel_exception_is_set(&ex)) {
 			g_warning ("Failed to refresh folders: %s", camel_exception_get_description (&ex));
 			camel_exception_clear (&ex);
@@ -917,7 +917,7 @@ refresh_folders_free (struct _refresh_folders_msg *m)
 	g_ptr_array_free(m->folders, TRUE);
 
 	camel_store_free_folder_info (m->store, m->finfo);
-	camel_object_unref(m->store);
+	g_object_unref (m->store);
 }
 
 static MailMsgInfo refresh_folders_info = {
@@ -938,7 +938,7 @@ receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, gpointer
 
 		m = mail_msg_new(&refresh_folders_info);
 		m->store = store;
-		camel_object_ref(store);
+		g_object_ref (store);
 		m->folders = folders;
 		m->info = sinfo;
 		m->finfo = info;

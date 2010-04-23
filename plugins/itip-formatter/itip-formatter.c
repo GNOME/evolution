@@ -2562,7 +2562,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 		puri->vcalendar = g_strndup (
 			(gchar *) byte_array->data, byte_array->len);
 
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);

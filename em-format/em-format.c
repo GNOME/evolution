@@ -76,7 +76,7 @@ emf_free_cache(struct _EMFormatCache *efc)
 	if (efc->valid)
 		camel_cipher_validity_free(efc->valid);
 	if (efc->secured)
-		camel_object_unref(efc->secured);
+		g_object_unref (efc->secured);
 	g_free(efc);
 }
 
@@ -98,7 +98,7 @@ emf_finalize (GObject *object)
 	EMFormat *emf = EM_FORMAT (object);
 
 	if (emf->session)
-		camel_object_unref (emf->session);
+		g_object_unref (emf->session);
 
 	g_hash_table_destroy (emf->inline_table);
 
@@ -172,7 +172,7 @@ emf_init (EMFormat *emf)
 	emf->session = e_shell_settings_get_pointer (shell_settings, "mail-session");
 	g_return_if_fail (emf->session != NULL);
 
-	camel_object_ref (emf->session);
+	g_object_ref (emf->session);
 }
 
 GType
@@ -400,7 +400,7 @@ em_format_add_puri (EMFormat *emf,
 	puri->part_id = g_strdup(emf->part_id->str);
 
 	if (part) {
-		camel_object_ref(part);
+		g_object_ref (part);
 		puri->part = part;
 	}
 
@@ -568,7 +568,7 @@ emf_clear_puri_node (GNode *node)
 		g_free(pn->cid);
 		g_free(pn->part_id);
 		if (pn->part)
-			camel_object_unref(pn->part);
+			g_object_unref (pn->part);
 		g_free(pn);
 	}
 
@@ -696,7 +696,7 @@ emf_clone_inlines(gpointer key, gpointer val, gpointer data)
 	if (emfc->valid)
 		new->valid = camel_cipher_validity_clone(emfc->valid);
 	if (emfc->secured)
-		camel_object_ref((new->secured = emfc->secured));
+		g_object_ref ((new->secured = emfc->secured));
 }
 
 static void
@@ -731,9 +731,9 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMime
 	/* what a mess */
 	if (folder != emf->folder) {
 		if (emf->folder)
-			camel_object_unref(emf->folder);
+			g_object_unref (emf->folder);
 		if (folder)
-			camel_object_ref(folder);
+			g_object_ref (folder);
 		emf->folder = folder;
 	}
 
@@ -744,9 +744,9 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMime
 
 	if (msg != emf->message) {
 		if (emf->message)
-			camel_object_unref(emf->message);
+			g_object_unref (emf->message);
 		if (msg)
-			camel_object_ref(msg);
+			g_object_ref (msg);
 		emf->message = msg;
 	}
 
@@ -1226,7 +1226,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 
 		null = camel_stream_null_new();
 		filter_stream = camel_stream_filter_new (null);
-		camel_object_unref(null);
+		g_object_unref (null);
 
 		windows = (CamelMimeFilterWindows *)camel_mime_filter_windows_new(charset);
 		camel_stream_filter_add (
@@ -1235,7 +1235,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 
 		camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filter_stream);
 		camel_stream_flush((CamelStream *)filter_stream);
-		camel_object_unref(filter_stream);
+		g_object_unref (filter_stream);
 
 		charset = camel_mime_filter_windows_real_charset (windows);
 	} else if (charset == NULL) {
@@ -1249,7 +1249,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filter_stream),
 			CAMEL_MIME_FILTER (filter));
-		camel_object_unref(filter);
+		g_object_unref (filter);
 	}
 
 	max = -1;
@@ -1264,7 +1264,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 
 	size = camel_data_wrapper_decode_to_stream(emf->mode == EM_FORMAT_SOURCE ? (CamelDataWrapper *)dw: camel_medium_get_content ((CamelMedium *)dw), (CamelStream *)filter_stream);
 	camel_stream_flush((CamelStream *)filter_stream);
-	camel_object_unref(filter_stream);
+	g_object_unref (filter_stream);
 	camel_stream_reset (mem_stream);
 
 	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
@@ -1275,7 +1275,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	}
 
 	if (windows)
-		camel_object_unref(windows);
+		g_object_unref (windows);
 }
 
 /**
@@ -1365,14 +1365,14 @@ emf_application_xpkcs7mime (EMFormat *emf,
 			emfc = emf_insert_cache(emf, emf->part_id->str);
 
 		emfc->valid = camel_cipher_validity_clone(valid);
-		camel_object_ref((emfc->secured = opart));
+		g_object_ref ((emfc->secured = opart));
 
 		add_validity_found (emf, valid);
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
-	camel_object_unref(opart);
-	camel_object_unref(context);
+	g_object_unref (opart);
+	g_object_unref (context);
 	camel_exception_free(ex);
 }
 #endif
@@ -1541,15 +1541,15 @@ emf_multipart_encrypted (EMFormat *emf,
 			emfc = emf_insert_cache(emf, emf->part_id->str);
 
 		emfc->valid = camel_cipher_validity_clone(valid);
-		camel_object_ref((emfc->secured = opart));
+		g_object_ref ((emfc->secured = opart));
 
 		add_validity_found (emf, valid);
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
 	/* TODO: Make sure when we finalize this part, it is zero'd out */
-	camel_object_unref(opart);
-	camel_object_unref(context);
+	g_object_unref (opart);
+	g_object_unref (context);
 	camel_exception_free(ex);
 }
 
@@ -1723,14 +1723,14 @@ emf_multipart_signed (EMFormat *emf,
 				emfc = emf_insert_cache(emf, emf->part_id->str);
 
 			emfc->valid = camel_cipher_validity_clone(valid);
-			camel_object_ref((emfc->secured = cpart));
+			g_object_ref ((emfc->secured = cpart));
 
 			add_validity_found (emf, valid);
 			em_format_format_secure(emf, stream, cpart, valid);
 		}
 
 		camel_exception_free(ex);
-		camel_object_unref(cipher);
+		g_object_unref (cipher);
 	}
 }
 
@@ -1773,7 +1773,7 @@ emf_application_mbox (EMFormat *emf,
 	camel_seekable_stream_seek (
 		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET);
 	camel_mime_parser_init_with_stream (parser, mem_stream);
-	camel_object_unref (mem_stream);
+	g_object_unref (mem_stream);
 
 	/* Extract messages from the mbox. */
 	state = camel_mime_parser_step (parser, NULL, NULL);
@@ -1784,14 +1784,14 @@ emf_application_mbox (EMFormat *emf,
 		mime_part = CAMEL_MIME_PART (message);
 
 		if (camel_mime_part_construct_from_parser (mime_part, parser) == -1) {
-			camel_object_unref (message);
+			g_object_unref (message);
 			break;
 		}
 
 		/* Render the message. */
 		handle->handler (emf, stream, mime_part, handle, FALSE);
 
-		camel_object_unref (message);
+		g_object_unref (message);
 
 		/* Skip past CAMEL_MIME_PARSER_STATE_FROM_END. */
 		camel_mime_parser_step (parser, NULL, NULL);
@@ -1799,7 +1799,7 @@ emf_application_mbox (EMFormat *emf,
 		state = camel_mime_parser_step (parser, NULL, NULL);
 	}
 
-	camel_object_unref (parser);
+	g_object_unref (parser);
 }
 
 static void
@@ -1870,7 +1870,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 		em_format_format_source(emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 		camel_exception_free(ex);
-		camel_object_unref(cipher);
+		g_object_unref (cipher);
 		return;
 	}
 
@@ -1883,13 +1883,13 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream),
 		CAMEL_MIME_FILTER (pgp_filter));
-	camel_object_unref(pgp_filter);
+	g_object_unref (pgp_filter);
 
 	/* Pass through the filters that have been setup */
 	dw = camel_medium_get_content ((CamelMedium *)ipart);
 	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filtered_stream);
 	camel_stream_flush((CamelStream *)filtered_stream);
-	camel_object_unref(filtered_stream);
+	g_object_unref (filtered_stream);
 
 	/* Create a new text/plain MIME part containing the signed content preserving the original part's Content-Type params */
 	content_type = camel_mime_part_get_content_type (ipart);
@@ -1918,10 +1918,10 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	em_format_format_secure(emf, stream, opart, valid);
 
 	/* Clean Up */
-	camel_object_unref(dw);
-	camel_object_unref(opart);
-	camel_object_unref(ostream);
-	camel_object_unref(cipher);
+	g_object_unref (dw);
+	g_object_unref (opart);
+	g_object_unref (ostream);
+	g_object_unref (cipher);
 	camel_exception_free(ex);
 }
 
@@ -1949,8 +1949,8 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 		em_format_format_source(emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 		camel_exception_free(ex);
-		camel_object_unref(cipher);
-		camel_object_unref(opart);
+		g_object_unref (cipher);
+		g_object_unref (opart);
 		return;
 	}
 
@@ -1972,8 +1972,8 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 	em_format_format_secure(emf, stream, opart, valid);
 
 	/* Clean Up */
-	camel_object_unref(opart);
-	camel_object_unref (cipher);
+	g_object_unref (opart);
+	g_object_unref (cipher);
 	camel_exception_free (ex);
 }
 
@@ -2056,7 +2056,7 @@ em_format_snoop_type (CamelMimePart *part)
 			g_free (content_type);
 		}
 
-		camel_object_unref (stream);
+		g_object_unref (stream);
 	}
 
 	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));

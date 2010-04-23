@@ -1193,7 +1193,7 @@ append_cal_attachments (EMsgComposer *composer,
 			camel_mime_part_set_disposition (
 				attachment, "attachment");
 		e_msg_composer_attach (composer, attachment);
-		camel_object_unref (attachment);
+		g_object_unref (attachment);
 
 		g_free (mime_attach->filename);
 		g_free (mime_attach->content_type);
@@ -1362,7 +1362,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 			camel_mime_part_set_description (attachment, description);
 		camel_mime_part_set_disposition (attachment, "inline");
 		e_msg_composer_attach (composer, attachment);
-		camel_object_unref (attachment);
+		g_object_unref (attachment);
 
 		g_free (description);
 	}

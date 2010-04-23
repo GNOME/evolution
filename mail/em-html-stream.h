@@ -28,17 +28,24 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <mail/em-sync-stream.h>
 
-#define EM_HTML_STREAM_TYPE \
+/* Standard GObject macros */
+#define EM_TYPE_HTML_STREAM \
 	(em_html_stream_get_type ())
 #define EM_HTML_STREAM(obj) \
-	(CAMEL_CHECK_CAST \
-	((obj), EM_HTML_STREAM_TYPE, EMHTMLStream))
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_HTML_STREAM, EMHTMLStream))
 #define EM_HTML_STREAM_CLASS(cls) \
-	(CAMEL_CHECK_CLASS_CAST \
-	((cls), EM_HTML_STREAM_TYPE, EMHTMLStreamClass))
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_HTML_STREAM, EMHTMLStreamClass))
 #define EM_IS_HTML_STREAM(obj) \
-	(CAMEL_CHECK_TYPE \
-	((obj), EM_HTML_STREAM_TYPE))
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_HTML_STREAM))
+#define EM_IS_HTML_STREAM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_HTML_STREAM))
+#define EM_HTML_STREAM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_HTML_STREAM, EMHTMLStreamClass))
 
 G_BEGIN_DECLS
 
@@ -59,7 +66,7 @@ struct _EMHTMLStreamClass {
 
 };
 
-CamelType	em_html_stream_get_type		(void);
+GType		em_html_stream_get_type		(void);
 CamelStream *	em_html_stream_new		(GtkHTML *html,
 						 GtkHTMLStream *html_stream);
 void		em_html_stream_set_flags	(EMHTMLStream *emhs,

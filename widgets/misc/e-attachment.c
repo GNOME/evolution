@@ -670,7 +670,7 @@ attachment_dispose (GObject *object)
 	}
 
 	if (priv->mime_part != NULL) {
-		camel_object_unref (priv->mime_part);
+		g_object_unref (priv->mime_part);
 		priv->mime_part = NULL;
 	}
 
@@ -1003,7 +1003,7 @@ e_attachment_new_for_message (CamelMimeMessage *message)
 
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, mime_part);
-	camel_object_unref (mime_part);
+	g_object_unref (mime_part);
 
 	return attachment;
 }
@@ -1054,15 +1054,15 @@ e_attachment_add_to_multipart (EAttachment *attachment,
 			CAMEL_MIME_FILTER (filter));
 		camel_data_wrapper_decode_to_stream (
 			wrapper, filtered_stream);
-		camel_object_unref (filtered_stream);
-		camel_object_unref (stream);
+		g_object_unref (filtered_stream);
+		g_object_unref (stream);
 
 		/* Retrieve the best encoding from the filter. */
 		encoding = camel_mime_filter_bestenc_get_best_encoding (
 			CAMEL_MIME_FILTER_BESTENC (filter),
 			CAMEL_BESTENC_8BIT);
 		camel_mime_part_set_encoding (mime_part, encoding);
-		camel_object_unref (filter);
+		g_object_unref (filter);
 
 		if (encoding == CAMEL_TRANSFER_ENCODING_7BIT) {
 			/* The text fits within us-ascii, so this is safe.
@@ -1202,11 +1202,11 @@ e_attachment_set_mime_part (EAttachment *attachment,
 
 	if (mime_part != NULL) {
 		g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
-		camel_object_ref (mime_part);
+		g_object_ref (mime_part);
 	}
 
 	if (attachment->priv->mime_part != NULL)
-		camel_object_unref (attachment->priv->mime_part);
+		g_object_unref (attachment->priv->mime_part);
 
 	attachment->priv->mime_part = mime_part;
 
@@ -1531,12 +1531,12 @@ attachment_load_finish (LoadContext *load_context)
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_data_wrapper_set_mime_type (wrapper, mime_type);
 	camel_stream_close (stream);
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 	mime_part = camel_mime_part_new ();
 	camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
 
-	camel_object_unref (wrapper);
+	g_object_unref (wrapper);
 	g_free (mime_type);
 
 	display_name = g_file_info_get_display_name (file_info);
@@ -1559,7 +1559,7 @@ attachment_load_finish (LoadContext *load_context)
 	}
 
 	g_simple_async_result_set_op_res_gpointer (
-		simple, mime_part, (GDestroyNotify) camel_object_unref);
+		simple, mime_part, (GDestroyNotify) g_object_unref);
 
 	g_simple_async_result_complete (simple);
 
@@ -1784,12 +1784,12 @@ attachment_load_from_mime_part (LoadContext *load_context)
 
 	e_attachment_set_file_info (attachment, file_info);
 
-	camel_object_ref (mime_part);
+	g_object_ref (mime_part);
 
 	simple = load_context->simple;
 	g_simple_async_result_set_op_res_gpointer (
 		simple, mime_part,
-		(GDestroyNotify) camel_object_unref);
+		(GDestroyNotify) g_object_unref);
 	g_simple_async_result_complete (simple);
 
 	attachment_load_context_free (load_context);
@@ -2464,7 +2464,7 @@ attachment_save_got_output_stream (SaveContext *save_context)
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	camel_data_wrapper_decode_to_stream (wrapper, stream);
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 	/* Load the buffer into a GMemoryInputStream.
 	 * But watch out for zero length MIME parts. */

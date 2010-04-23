@@ -93,7 +93,7 @@ e_mail_local_init (const gchar *data_dir)
 
 	camel_url_free (url);
 
-	camel_object_ref (service);
+	g_object_ref (service);
 	local_store = CAMEL_STORE (service);
 
 	return;

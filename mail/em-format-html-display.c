@@ -714,7 +714,7 @@ efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMF
 			camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
 			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efhd_write_image);
 			g_free(classid);
-			camel_object_unref(iconpart);
+			g_object_unref (iconpart);
 		}
 	}
 
@@ -1032,7 +1032,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	byte_array = camel_stream_mem_get_byte_array (info->mstream);
 	gtk_text_buffer_set_text (
 		buffer, (gchar *) byte_array->data, byte_array->len);
-	camel_object_unref(info->mstream);
+	g_object_unref (info->mstream);
 	info->mstream = NULL;
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);

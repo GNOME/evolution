@@ -93,7 +93,7 @@ emp_target_free(EConfig *ep, EConfigTarget *t)
 		EMConfigTargetFolder *s = (EMConfigTargetFolder *)t;
 
 		g_free(s->uri);
-		camel_object_unref(s->folder);
+		g_object_unref (s->folder);
 		break; }
 	case EM_CONFIG_TARGET_PREFS: {
 		EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;
@@ -184,7 +184,7 @@ em_config_target_new_folder(EMConfig *emp, CamelFolder *folder, const gchar *uri
 
 	t->uri = g_strdup(uri);
 	t->folder = folder;
-	camel_object_ref(folder);
+	g_object_ref (folder);
 
 	return t;
 }

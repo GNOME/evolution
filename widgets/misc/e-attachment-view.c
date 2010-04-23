@@ -460,7 +460,7 @@ attachment_view_text_calendar (EAttachmentView *view,
 		e_attachment_load_handle_error, parent);
 	g_object_unref (attachment);
 
-	camel_object_unref (mime_part);
+	g_object_unref (mime_part);
 
 	gtk_drag_finish (drag_context, TRUE, FALSE, time);
 }
@@ -514,7 +514,7 @@ attachment_view_text_x_vcard (EAttachmentView *view,
 		e_attachment_load_handle_error, parent);
 	g_object_unref (attachment);
 
-	camel_object_unref (mime_part);
+	g_object_unref (mime_part);
 
 	gtk_drag_finish (drag_context, TRUE, FALSE, time);
 }

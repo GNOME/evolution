@@ -160,7 +160,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			msg = camel_mime_message_new();
 			if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp) == -1) {
 				/* set exception? */
-				camel_object_unref(msg);
+				g_object_unref (msg);
 				break;
 			}
 
@@ -179,7 +179,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			camel_message_info_set_flags(info, flags, ~0);
 			camel_folder_append_message(folder, msg, info, NULL, &m->base.ex);
 			camel_message_info_free(info);
-			camel_object_unref(msg);
+			g_object_unref (msg);
 
 			if (camel_exception_is_set(&m->base.ex))
 				break;
@@ -193,11 +193,11 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		if (m->cancel)
 			camel_operation_register(oldcancel);
 	fail2:
-		camel_object_unref(mp);
+		g_object_unref (mp);
 	}
 fail1:
 	camel_folder_sync(folder, FALSE, NULL);
-	camel_object_unref(folder);
+	g_object_unref (folder);
 }
 
 static void

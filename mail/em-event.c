@@ -63,9 +63,9 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 		EMEventTargetMessage *s = (EMEventTargetMessage *)t;
 
 		if (s->folder)
-			camel_object_unref(s->folder);
+			g_object_unref (s->folder);
 		if (s->message)
-			camel_object_unref(s->message);
+			g_object_unref (s->message);
 		g_free(s->uid);
 		if (s->composer)
 			g_object_unref (s->composer);
@@ -162,10 +162,10 @@ em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage 
 	t->uid = g_strdup (uid);
 	t->folder = folder;
 	if (folder)
-		camel_object_ref(folder);
+		g_object_ref (folder);
 	t->message = message;
 	if (message)
-		camel_object_ref(message);
+		g_object_ref (message);
 	t->target.mask = ~flags;
 	if (composer)
 		t->composer = g_object_ref(G_OBJECT(composer));

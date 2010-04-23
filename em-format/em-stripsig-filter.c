@@ -30,57 +30,17 @@
 
 #include "em-stripsig-filter.h"
 
-static void em_stripsig_filter_class_init (EMStripSigFilterClass *klass);
-static void em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass);
-
-static void filter_filter (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
-			   gchar **out, gsize *outlen, gsize *outprespace);
-static void filter_complete (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
-			     gchar **out, gsize *outlen, gsize *outprespace);
-static void filter_reset (CamelMimeFilter *filter);
-
-static CamelMimeFilterClass *parent_class = NULL;
-
-CamelType
-em_stripsig_filter_get_type (void)
-{
-	static CamelType type = CAMEL_INVALID_TYPE;
-
-	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_mime_filter_get_type (),
-					    "EMStripSigFilter",
-					    sizeof (EMStripSigFilter),
-					    sizeof (EMStripSigFilterClass),
-					    (CamelObjectClassInitFunc) em_stripsig_filter_class_init,
-					    NULL,
-					    (CamelObjectInitFunc) em_stripsig_filter_init,
-					    NULL);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (EMStripSigFilter, em_stripsig_filter, CAMEL_TYPE_MIME_FILTER)
 
 static void
-em_stripsig_filter_class_init (EMStripSigFilterClass *klass)
-{
-	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
-
-	parent_class = CAMEL_MIME_FILTER_CLASS (camel_type_get_global_classfuncs (camel_mime_filter_get_type ()));
-
-	filter_class->reset = filter_reset;
-	filter_class->filter = filter_filter;
-	filter_class->complete = filter_complete;
-}
-
-static void
-em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass)
-{
-	filter->midline = FALSE;
-}
-
-static void
-strip_signature (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
-		 gchar **out, gsize *outlen, gsize *outprespace, gint flush)
+strip_signature (CamelMimeFilter *filter,
+                 const gchar *in,
+                 gsize len,
+                 gsize prespace,
+                 gchar **out,
+                 gsize *outlen,
+                 gsize *outprespace,
+                 gint flush)
 {
 	EMStripSigFilter *stripsig = (EMStripSigFilter *) filter;
 	register const gchar *inptr = in;
@@ -128,17 +88,29 @@ strip_signature (CamelMimeFilter *filter, const gchar *in, gsize len, gsize pres
 }
 
 static void
-filter_filter (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
-	       gchar **out, gsize *outlen, gsize *outprespace)
+filter_filter (CamelMimeFilter *filter,
+               const gchar *in,
+               gsize len,
+               gsize prespace,
+               gchar **out,
+               gsize *outlen,
+               gsize *outprespace)
 {
-	strip_signature (filter, in, len, prespace, out, outlen, outprespace, FALSE);
+	strip_signature (
+		filter, in, len, prespace, out, outlen, outprespace, FALSE);
 }
 
 static void
-filter_complete (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
-		 gchar **out, gsize *outlen, gsize *outprespace)
+filter_complete (CamelMimeFilter *filter,
+                 const gchar *in,
+                 gsize len,
+                 gsize prespace,
+                 gchar **out,
+                 gsize *outlen,
+                 gsize *outprespace)
 {
-	strip_signature (filter, in, len, prespace, out, outlen, outprespace, TRUE);
+	strip_signature (
+		filter, in, len, prespace, out, outlen, outprespace, TRUE);
 }
 
 /* should this 'flush' outstanding state/data bytes? */
@@ -148,6 +120,22 @@ filter_reset (CamelMimeFilter *filter)
 	EMStripSigFilter *stripsig = (EMStripSigFilter *) filter;
 
 	stripsig->midline = FALSE;
+}
+
+static void
+em_stripsig_filter_class_init (EMStripSigFilterClass *class)
+{
+	CamelMimeFilterClass *mime_filter_class;
+
+	mime_filter_class = CAMEL_MIME_FILTER_CLASS (class);
+	mime_filter_class->filter = filter_filter;
+	mime_filter_class->complete = filter_complete;
+	mime_filter_class->reset = filter_reset;
+}
+
+static void
+em_stripsig_filter_init (EMStripSigFilter *filter)
+{
 }
 
 /**
@@ -160,5 +148,5 @@ filter_reset (CamelMimeFilter *filter)
 CamelMimeFilter *
 em_stripsig_filter_new (void)
 {
-	return (CamelMimeFilter *) camel_object_new (EM_TYPE_STRIPSIG_FILTER);
+	return g_object_new (EM_TYPE_STRIPSIG_FILTER, NULL);
 }

@@ -74,7 +74,7 @@ store_info_new (CamelStore *store,
 	store_info = g_slice_new0 (StoreInfo);
 	store_info->ref_count = 1;
 
-	camel_object_ref (store);
+	g_object_ref (store);
 	store_info->store = store;
 
 	if (display_name == NULL)
@@ -113,14 +113,14 @@ store_info_unref (StoreInfo *store_info)
 	if (g_atomic_int_exchange_and_add (&store_info->ref_count, -1) > 1)
 		return;
 
-	camel_object_unref (store_info->store);
+	g_object_unref (store_info->store);
 	g_free (store_info->display_name);
 
 	if (store_info->vtrash != NULL)
-		camel_object_unref (store_info->vtrash);
+		g_object_unref (store_info->vtrash);
 
 	if (store_info->vjunk != NULL)
-		camel_object_unref (store_info->vjunk);
+		g_object_unref (store_info->vjunk);
 
 	g_slice_free (StoreInfo, store_info);
 }
@@ -327,7 +327,7 @@ e_mail_store_add_by_uri (const gchar *uri,
 
 	e_mail_store_add (CAMEL_STORE (service), display_name);
 
-	camel_object_unref (service);
+	g_object_unref (service);
 
 	return CAMEL_STORE (service);
 
@@ -346,7 +346,7 @@ static void
 mail_store_remove_cb (CamelStore *store)
 {
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-	camel_object_unref (store);
+	g_object_unref (store);
 }
 
 void
@@ -366,7 +366,7 @@ e_mail_store_remove (CamelStore *store)
 	if (g_hash_table_lookup (store_table, store) == NULL)
 		return;
 
-	camel_object_ref (store);
+	g_object_ref (store);
 
 	g_hash_table_remove (store_table, store);
 	mail_folder_cache_note_store_remove (mail_folder_cache_get_default (), store);
@@ -402,7 +402,7 @@ e_mail_store_remove_by_uri (const gchar *uri)
 
 	e_mail_store_remove (CAMEL_STORE (service));
 
-	camel_object_unref (service);
+	g_object_unref (service);
 }
 
 void

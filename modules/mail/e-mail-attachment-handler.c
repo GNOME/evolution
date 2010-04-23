@@ -205,8 +205,8 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
 	success = TRUE;
 
 exit:
-	camel_object_unref (message);
-	camel_object_unref (stream);
+	g_object_unref (message);
+	g_object_unref (stream);
 
 	gtk_drag_finish (drag_context, success, FALSE, time);
 }
@@ -294,7 +294,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 			e_attachment_load_handle_error, parent);
 		g_object_unref (attachment);
 
-		camel_object_unref (message);
+		g_object_unref (message);
 		goto exit;
 	}
 
@@ -309,7 +309,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		message = camel_folder_get_message (
 			folder, uids->pdata[ii], &ex);
 		if (message == NULL) {
-			camel_object_unref (multipart);
+			g_object_unref (multipart);
 			goto exit;
 		}
 
@@ -320,9 +320,9 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 			CAMEL_MEDIUM (mime_part), wrapper);
 		camel_mime_part_set_content_type (mime_part, "message/rfc822");
 		camel_multipart_add_part (multipart, mime_part);
-		camel_object_unref (mime_part);
+		g_object_unref (mime_part);
 
-		camel_object_unref (message);
+		g_object_unref (message);
 	}
 
 	mime_part = camel_mime_part_new ();
@@ -342,8 +342,8 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		e_attachment_load_handle_error, parent);
 	g_object_unref (attachment);
 
-	camel_object_unref (mime_part);
-	camel_object_unref (multipart);
+	g_object_unref (mime_part);
+	g_object_unref (multipart);
 
 exit:
 	if (camel_exception_is_set (&ex)) {
@@ -371,7 +371,7 @@ exit:
 	}
 
 	if (folder != NULL)
-		camel_object_unref (folder);
+		g_object_unref (folder);
 
 	g_ptr_array_free (uids, TRUE);
 

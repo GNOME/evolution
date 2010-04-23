@@ -264,7 +264,7 @@ e_mail_address_new (const gchar *address)
 
 	cia = camel_internet_address_new ();
 	if (camel_address_unformat (CAMEL_ADDRESS (cia), address) == -1) {
-		camel_object_unref (cia);
+		g_object_unref (cia);
 		return NULL;
 	}
 	camel_internet_address_get (cia, 0, &name, &addr);
@@ -277,7 +277,7 @@ e_mail_address_new (const gchar *address)
 		new->wname = NULL;
 	}
 
-	camel_object_unref (cia);
+	g_object_unref (cia);
 
 	return new;
 }
@@ -500,7 +500,7 @@ clear_selection(MessageList *ml, struct _MLSelection *selection)
 		selection->uids = NULL;
 	}
 	if (selection->folder) {
-		camel_object_unref(selection->folder);
+		g_object_unref (selection->folder);
 		selection->folder = NULL;
 	}
 	g_free(selection->folder_uri);
@@ -884,7 +884,7 @@ message_list_copy(MessageList *ml, gboolean cut)
 
 		p->clipboard.uids = uids;
 		p->clipboard.folder = ml->folder;
-		camel_object_ref(p->clipboard.folder);
+		g_object_ref (p->clipboard.folder);
 		p->clipboard.folder_uri = g_strdup(ml->folder_uri);
 		gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
 	} else {
@@ -2137,7 +2137,7 @@ static void
 ml_drop_async_free (struct _drop_msg *m)
 {
 	g_object_unref (m->context);
-	camel_object_unref (m->folder);
+	g_object_unref (m->folder);
 	gtk_selection_data_free (m->selection);
 }
 
@@ -2184,7 +2184,7 @@ ml_tree_drag_data_received (ETree *tree,
 	m->context = context;
 	g_object_ref(context);
 	m->folder = ml->folder;
-	camel_object_ref(m->folder);
+	g_object_ref (m->folder);
 	m->action = context->action;
 	m->info = info;
 
@@ -2369,7 +2369,7 @@ message_list_destroy(GtkObject *object)
 		}
 
 		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
-		camel_object_unref (message_list->folder);
+		g_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
 
@@ -3595,7 +3595,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 	if (message_list->folder) {
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
 					  folder_changed, message_list);
-		camel_object_unref (message_list->folder);
+		g_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
 
@@ -3619,7 +3619,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		gint strikeout_col = -1;
 		ECell *cell;
 
-		camel_object_ref (folder);
+		g_object_ref (folder);
 		message_list->folder = folder;
 		message_list->just_set_folder = TRUE;
 
@@ -4461,7 +4461,7 @@ regen_list_free (struct _regen_list_msg *m)
 	g_free (m->search);
 	g_free (m->hideexpr);
 
-	camel_object_unref (m->folder);
+	g_object_unref (m->folder);
 
 	if (m->changes)
 		camel_folder_change_info_free (m->changes);
@@ -4577,7 +4577,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	m->thread_subject = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_subject", NULL);
 	g_object_ref(ml);
 	m->folder = ml->folder;
-	camel_object_ref(m->folder);
+	g_object_ref (m->folder);
 	m->last_row = -1;
 	m->expand_state = NULL;
 

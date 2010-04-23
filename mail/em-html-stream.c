@@ -32,10 +32,10 @@
 
 #define d(x)
 
-static EMSyncStreamClass *parent_class = NULL;
+G_DEFINE_TYPE (EMHTMLStream, em_html_stream, EM_TYPE_SYNC_STREAM)
 
 static void
-emhs_cleanup (EMHTMLStream *emhs)
+html_stream_cleanup (EMHTMLStream *emhs)
 {
 	if (emhs->sync.cancel && emhs->html_stream)
 		gtk_html_stream_close (
@@ -49,17 +49,28 @@ emhs_cleanup (EMHTMLStream *emhs)
 }
 
 static void
-emhs_gtkhtml_destroy (GtkHTML *html,
-                      EMHTMLStream *emhs)
+html_stream_gtkhtml_destroy (GtkHTML *html,
+                             EMHTMLStream *emhs)
 {
 	emhs->sync.cancel = TRUE;
-	emhs_cleanup (emhs);
+	html_stream_cleanup (emhs);
+}
+
+static void
+html_stream_dispose (GObject *object)
+{
+	EMHTMLStream *emhs = EM_HTML_STREAM (object);
+
+	if (emhs->html_stream) {
+		/* set 'in finalise' flag */
+		camel_stream_close (CAMEL_STREAM (emhs));
+	}
 }
 
 static gssize
-emhs_sync_write (CamelStream *stream,
-                 const gchar *buffer,
-                 gsize n)
+html_stream_sync_write (CamelStream *stream,
+                        const gchar *buffer,
+                        gsize n)
 {
 	EMHTMLStream *emhs = EM_HTML_STREAM (stream);
 
@@ -76,7 +87,7 @@ emhs_sync_write (CamelStream *stream,
 }
 
 static gint
-emhs_sync_flush(CamelStream *stream)
+html_stream_sync_flush (CamelStream *stream)
 {
 	EMHTMLStream *emhs = (EMHTMLStream *)stream;
 
@@ -89,7 +100,7 @@ emhs_sync_flush(CamelStream *stream)
 }
 
 static gint
-emhs_sync_close (CamelStream *stream)
+html_stream_sync_close (CamelStream *stream)
 {
 	EMHTMLStream *emhs = (EMHTMLStream *)stream;
 
@@ -97,7 +108,7 @@ emhs_sync_close (CamelStream *stream)
 		return -1;
 
 	gtk_html_stream_close (emhs->html_stream, GTK_HTML_STREAM_OK);
-	emhs_cleanup (emhs);
+	html_stream_cleanup (emhs);
 
 	return 0;
 }
@@ -105,48 +116,21 @@ emhs_sync_close (CamelStream *stream)
 static void
 em_html_stream_class_init (EMHTMLStreamClass *class)
 {
+	GObjectClass *object_class;
 	EMSyncStreamClass *sync_stream_class;
 
-	parent_class = (EMSyncStreamClass *)em_sync_stream_get_type();
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = html_stream_dispose;
 
 	sync_stream_class = EM_SYNC_STREAM_CLASS (class);
-	sync_stream_class->sync_write = emhs_sync_write;
-	sync_stream_class->sync_flush = emhs_sync_flush;
-	sync_stream_class->sync_close = emhs_sync_close;
+	sync_stream_class->sync_write = html_stream_sync_write;
+	sync_stream_class->sync_flush = html_stream_sync_flush;
+	sync_stream_class->sync_close = html_stream_sync_close;
 }
 
 static void
 em_html_stream_init (EMHTMLStream *emhs)
 {
-}
-
-static void
-em_html_stream_finalize (EMHTMLStream *emhs)
-{
-	if (emhs->html_stream) {
-		/* set 'in finalise' flag */
-		camel_stream_close (CAMEL_STREAM (emhs));
-	}
-}
-
-CamelType
-em_html_stream_get_type (void)
-{
-	static CamelType type = CAMEL_INVALID_TYPE;
-
-	if (G_UNLIKELY (type == CAMEL_INVALID_TYPE)) {
-		type = camel_type_register (
-			em_sync_stream_get_type(),
-			"EMHTMLStream",
-			sizeof (EMHTMLStream),
-			sizeof (EMHTMLStreamClass),
-			(CamelObjectClassInitFunc) em_html_stream_class_init,
-			NULL,
-			(CamelObjectInitFunc) em_html_stream_init,
-			(CamelObjectFinalizeFunc) em_html_stream_finalize);
-	}
-
-	return type;
 }
 
 /* TODO: Could pass NULL for html_stream, and do a gtk_html_begin
@@ -159,13 +143,13 @@ em_html_stream_new (GtkHTML *html,
 
 	g_return_val_if_fail (GTK_IS_HTML (html), NULL);
 
-	new = EM_HTML_STREAM (camel_object_new (EM_HTML_STREAM_TYPE));
+	new = g_object_new (EM_TYPE_HTML_STREAM, NULL);
 	new->html_stream = html_stream;
 	new->html = g_object_ref (html);
 	new->flags = 0;
 	new->destroy_id = g_signal_connect (
 		html, "destroy",
-		G_CALLBACK (emhs_gtkhtml_destroy), new);
+		G_CALLBACK (html_stream_gtkhtml_destroy), new);
 
 	em_sync_stream_set_buffer_size (&new->sync, 8192);
 

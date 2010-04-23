@@ -185,7 +185,7 @@ action_add_to_address_book_cb (GtkAction *action,
 
 	cia = camel_internet_address_new ();
 	if (camel_address_decode (CAMEL_ADDRESS (cia), curl->path) < 0) {
-		camel_object_unref (cia);
+		g_object_unref (cia);
 		goto exit;
 	}
 
@@ -197,7 +197,7 @@ action_add_to_address_book_cb (GtkAction *action,
 	e_shell_event (shell, "contact-quick-add-email", email);
 	emu_remove_from_mail_cache_1 (curl->path);
 
-	camel_object_unref (cia);
+	g_object_unref (cia);
 	g_free (email);
 
 exit:
@@ -1092,7 +1092,7 @@ action_search_folder_recipient_cb (GtkAction *action,
 		inet_addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
 		vfolder_gui_add_from_address (inet_addr, AUTO_TO, folder_uri);
-		camel_object_unref (inet_addr);
+		g_object_unref (inet_addr);
 	}
 
 	camel_url_free (curl);
@@ -1130,7 +1130,7 @@ action_search_folder_sender_cb (GtkAction *action,
 		inet_addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
 		vfolder_gui_add_from_address (inet_addr, AUTO_FROM, folder_uri);
-		camel_object_unref (inet_addr);
+		g_object_unref (inet_addr);
 	}
 
 	camel_url_free (curl);

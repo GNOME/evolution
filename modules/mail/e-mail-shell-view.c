@@ -62,12 +62,12 @@ search_results_exec (SearchResultsMsg *msg)
 	camel_operation_register (msg->cancel);
 
 	copied_list = g_list_copy (msg->folder_list);
-	g_list_foreach (copied_list, (GFunc) camel_object_ref, NULL);
+	g_list_foreach (copied_list, (GFunc) g_object_ref, NULL);
 
 	camel_vee_folder_set_folders (
 		CAMEL_VEE_FOLDER (msg->folder), copied_list);
 
-	g_list_foreach (copied_list, (GFunc) camel_object_unref, NULL);
+	g_list_foreach (copied_list, (GFunc) g_object_unref, NULL);
 	g_list_free (copied_list);
 }
 
@@ -79,9 +79,9 @@ search_results_done (SearchResultsMsg *msg)
 static void
 search_results_free (SearchResultsMsg *msg)
 {
-	camel_object_unref (msg->folder);
+	g_object_unref (msg->folder);
 
-	g_list_foreach (msg->folder_list, (GFunc) camel_object_unref, NULL);
+	g_list_foreach (msg->folder_list, (GFunc) g_object_unref, NULL);
 	g_list_free (msg->folder_list);
 }
 
@@ -101,7 +101,7 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 	SearchResultsMsg *msg;
 	gint id;
 
-	camel_object_ref (folder);
+	g_object_ref (folder);
 
 	msg = mail_msg_new (&search_results_setup_info);
 	msg->folder = folder;
@@ -487,7 +487,7 @@ all_accounts:
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if (text == NULL || *text == '\0') {
 		if (priv->search_account_all != NULL) {
-			camel_object_unref (priv->search_account_all);
+			g_object_unref (priv->search_account_all);
 			priv->search_account_all = NULL;
 		}
 
@@ -614,7 +614,7 @@ current_account:
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if (text == NULL || *text == '\0') {
 		if (priv->search_account_current != NULL) {
-			camel_object_unref (priv->search_account_current);
+			g_object_unref (priv->search_account_current);
 			priv->search_account_current = NULL;
 		}
 

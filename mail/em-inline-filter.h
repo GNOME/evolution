@@ -26,14 +26,31 @@
 
 #include <camel/camel.h>
 
-#define EM_INLINE_FILTER_TYPE     (em_inline_filter_get_type ())
-#define EM_INLINE_FILTER(obj)     (CAMEL_CHECK_CAST((obj), EM_INLINE_FILTER_TYPE, EMInlineFilter))
-#define EM_INLINE_FILTER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_INLINE_FILTER_TYPE, EMInlineFilterClass))
-#define EM_IS_INLINE_FILTER(o)    (CAMEL_CHECK_TYPE((o), EM_INLINE_FILTER_TYPE))
+/* Standard GObject macros */
+#define EM_TYPE_INLINE_FILTER \
+	(em_inline_filter_get_type ())
+#define EM_INLINE_FILTER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_INLINE_FILTER, EMInlineFilter))
+#define EM_INLINE_FILTER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_INLINE_FILTER, EMInlineFilterClass))
+#define EM_IS_INLINE_FILTER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_INLINE_FILTER))
+#define EM_IS_INLINE_FILTER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_INLINE_FILTER))
+#define EM_INLINE_FILTER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_INLINE_FILTER, EMInlineFilterClass))
 
 G_BEGIN_DECLS
 
-typedef struct _EMInlineFilter {
+typedef struct _EMInlineFilter EMInlineFilter;
+typedef struct _EMInlineFilterClass EMInlineFilterClass;
+
+struct _EMInlineFilter {
 	CamelMimeFilter filter;
 
 	gint state;
@@ -44,15 +61,16 @@ typedef struct _EMInlineFilter {
 	GByteArray *data;
 	gchar *filename;
 	GSList *parts;
-} EMInlineFilter;
+};
 
-typedef struct _EMInlineFilterClass {
+struct _EMInlineFilterClass {
 	CamelMimeFilterClass filter_class;
-} EMInlineFilterClass;
+};
 
-CamelType    em_inline_filter_get_type(void);
-EMInlineFilter *em_inline_filter_new(CamelTransferEncoding base_encoding, CamelContentType *type);
-CamelMultipart *em_inline_filter_get_multipart(EMInlineFilter *emif);
+GType		em_inline_filter_get_type	(void);
+EMInlineFilter *em_inline_filter_new		(CamelTransferEncoding base_encoding,
+						 CamelContentType *type);
+CamelMultipart *em_inline_filter_get_multipart	(EMInlineFilter *emif);
 
 G_END_DECLS
 

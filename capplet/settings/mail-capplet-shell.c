@@ -240,7 +240,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	gtk_box_pack_end ((GtkBox *)priv->box, (GtkWidget *)shell->view, TRUE, TRUE, 2);
 
 	/* This also initializes Camel, so it needs to happen early. */
-	mail_session_init ();
+	mail_session_start ();
 	mail_config_init ();
 	mail_msg_init ();
 	custom_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);

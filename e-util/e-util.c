@@ -1488,7 +1488,7 @@ static gpointer
 e_camel_object_copy (gpointer camel_object)
 {
 	if (CAMEL_IS_OBJECT (camel_object))
-		camel_object_ref (camel_object);
+		g_object_ref (camel_object);
 
 	return camel_object;
 }
@@ -1497,7 +1497,7 @@ static void
 e_camel_object_free (gpointer camel_object)
 {
 	if (CAMEL_IS_OBJECT (camel_object))
-		camel_object_unref (camel_object);
+		g_object_unref (camel_object);
 }
 
 GType

@@ -177,7 +177,7 @@ e_read_signature_file (ESignature *signature,
 
 		filtered_stream =
 			camel_stream_filter_new (input_stream);
-		camel_object_unref (input_stream);
+		g_object_unref (input_stream);
 
 		flags =
 			CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT |
@@ -187,7 +187,7 @@ e_read_signature_file (ESignature *signature,
 		filter = camel_mime_filter_tohtml_new (flags, 0);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream), filter);
-		camel_object_unref (filter);
+		g_object_unref (filter);
 
 		input_stream = filtered_stream;
 	}
@@ -197,8 +197,8 @@ e_read_signature_file (ESignature *signature,
 	camel_stream_mem_set_byte_array (
 		CAMEL_STREAM_MEM (output_stream), buffer);
 	camel_stream_write_to_stream (input_stream, output_stream);
-	camel_object_unref (output_stream);
-	camel_object_unref (input_stream);
+	g_object_unref (output_stream);
+	g_object_unref (input_stream);
 
 	/* Make sure the buffer is nul-terminated. */
 	length = (gsize) buffer->len;
@@ -291,9 +291,9 @@ e_run_signature_script (const gchar *filename)
 
 		input_stream = camel_stream_fs_new_with_fd (in_fds[0]);
 		camel_stream_write_to_stream (input_stream, output_stream);
-		camel_object_unref (input_stream);
+		g_object_unref (input_stream);
 
-		camel_object_unref (output_stream);
+		g_object_unref (output_stream);
 
 		/* Make sure the buffer is nul-terminated. */
 		length = (gsize) buffer->len;

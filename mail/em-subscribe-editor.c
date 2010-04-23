@@ -144,7 +144,7 @@ sub_unref(EMSubscribe *sub)
 			l = n;
 		}
 		if (sub->store)
-			camel_object_unref(sub->store);
+			g_object_unref (sub->store);
 		g_free(sub->store_uri);
 		g_free(sub);
 	}
@@ -594,7 +594,7 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		GtkTreeStore *model;
 
 		sub->store = store;
-		camel_object_ref(store);
+		g_object_ref (store);
 		sub->folders = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,

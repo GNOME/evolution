@@ -625,12 +625,12 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		DISPOSE (priv->search_rules[ii]);
 
 	if (priv->search_account_all != NULL) {
-		camel_object_unref (priv->search_account_all);
+		g_object_unref (priv->search_account_all);
 		priv->search_account_all = NULL;
 	}
 
 	if (priv->search_account_current != NULL) {
-		camel_object_unref (priv->search_account_current);
+		g_object_unref (priv->search_account_current);
 		priv->search_account_current = NULL;
 	}
 

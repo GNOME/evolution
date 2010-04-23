@@ -33,16 +33,24 @@ requests are always handled in the main gui thread in the correct order.
 #include <glib.h>
 #include <camel/camel.h>
 
-#define EM_SYNC_STREAM_TYPE \
+/* Standard GObject macros */
+#define EM_TYPE_SYNC_STREAM \
 	(em_sync_stream_get_type ())
 #define EM_SYNC_STREAM(obj) \
-	(CAMEL_CHECK_CAST \
-	((obj), EM_SYNC_STREAM_TYPE, EMSyncStream))
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_SYNC_STREAM, EMSyncStream))
 #define EM_SYNC_STREAM_CLASS(cls) \
-	(CAMEL_CHECK_CLASS_CAST \
-	((cls), EM_SYNC_STREAM_TYPE, EMSyncStreamClass))
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_SYNC_STREAM, EMSyncStreamClass))
 #define EM_IS_SYNC_STREAM(obj) \
-	(CAMEL_CHECK_TYPE ((obj), EM_SYNC_STREAM_TYPE))
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_SYNC_STREAM))
+#define EM_IS_SYNC_STREAM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_SYNC_STREAM))
+#define EM_SYNC_STREAM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_SYNC_STREAM, EMSyncStreamClass))
 
 G_BEGIN_DECLS
 
@@ -66,7 +74,7 @@ struct _EMSyncStreamClass {
 	gint		(*sync_flush)		(CamelStream *stream);
 };
 
-CamelType	em_sync_stream_get_type		(void);
+GType		em_sync_stream_get_type		(void);
 void		em_sync_stream_set_buffer_size	(EMSyncStream *stream,
 						 gsize size);
 

@@ -129,7 +129,7 @@ account_combo_box_test_account (EAccount *account)
 		camel_session, url, CAMEL_PROVIDER_STORE, &ex));
 	if (store != NULL) {
 		writable = (store->mode & CAMEL_STORE_WRITE);
-		camel_object_unref (store);
+		g_object_unref (store);
 	}
 	camel_exception_clear (&ex);
 

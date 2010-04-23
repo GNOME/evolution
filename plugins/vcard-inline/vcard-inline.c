@@ -101,8 +101,8 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 	contact_list = eab_contact_list_from_string (string);
 	vcard_object->contact_list = contact_list;
 
-	camel_object_unref (mime_part);
-	camel_object_unref (stream);
+	g_object_unref (mime_part);
+	g_object_unref (stream);
 }
 
 static void
@@ -277,7 +277,7 @@ org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
 			classid, target->part,
 			org_gnome_vcard_inline_embed);
 
-	camel_object_ref (target->part);
+	g_object_ref (target->part);
 
 	vcard_object->object.free = org_gnome_vcard_inline_pobject_free;
 	org_gnome_vcard_inline_decode (vcard_object, target->part);

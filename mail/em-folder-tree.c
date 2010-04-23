@@ -317,7 +317,7 @@ folder_tree_get_folder_info__free (struct _EMFolderTreeGetFolderInfo *m)
 
 	gtk_tree_row_reference_free (m->root);
 	g_object_unref(m->folder_tree);
-	camel_object_unref (m->store);
+	g_object_unref (m->store);
 	g_free (m->top);
 }
 
@@ -341,7 +341,7 @@ folder_tree_free_select_uri (struct _selected_uri *u)
 {
 	g_free (u->uri);
 	if (u->store)
-		camel_object_unref (u->store);
+		g_object_unref (u->store);
 	g_free (u->key);
 	g_free (u->path);
 	g_free (u);
@@ -451,12 +451,12 @@ folder_tree_expand_node (const gchar *key,
 		if (!(store = vfolder_store))
 			return;
 
-		camel_object_ref (store);
+		g_object_ref (store);
 	} else if (!strcmp (uid, "local")) {
 		if (!(store = e_mail_local_get_store ()))
 			return;
 
-		camel_object_ref (store);
+		g_object_ref (store);
 	} else {
 		return;
 	}
@@ -464,11 +464,11 @@ folder_tree_expand_node (const gchar *key,
 	si = em_folder_tree_model_lookup_store_info (
 		EM_FOLDER_TREE_MODEL (model), store);
 	if (si == NULL) {
-		camel_object_unref (store);
+		g_object_unref (store);
 		return;
 	}
 
-	camel_object_unref (store);
+	g_object_unref (store);
 
 	if (p != NULL) {
 		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
@@ -923,7 +923,7 @@ folder_tree_row_expanded (GtkTreeView *tree_view,
 
 	msg = mail_msg_new (&get_folder_info_info);
 	msg->root = gtk_tree_row_reference_new (model, path);
-	camel_object_ref (store);
+	g_object_ref (store);
 	msg->store = store;
 	msg->folder_tree = g_object_ref (tree_view);
 	msg->top = full_name;
@@ -1506,7 +1506,7 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 
 			em_utils_selection_set_urilist(selection, folder, uids);
 			camel_folder_free_uids(folder, uids);
-			camel_object_unref(folder);
+			g_object_unref (folder);
 		}
 		break;
 	default:
@@ -1556,7 +1556,7 @@ folder_tree_drop_folder(struct _DragDataReceivedAsync *m)
 		return;
 
 	em_folder_utils_copy_folders(src->parent_store, src->full_name, m->store, m->full_name?m->full_name:"", m->move);
-	camel_object_unref(src);
+	g_object_unref (src);
 }
 
 static gchar *
@@ -1617,7 +1617,7 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 		default:
 			abort();
 		}
-		camel_object_unref(folder);
+		g_object_unref (folder);
 	}
 }
 
@@ -1625,7 +1625,7 @@ static void
 folder_tree_drop_async__free (struct _DragDataReceivedAsync *m)
 {
 	g_object_unref(m->context);
-	camel_object_unref(m->store);
+	g_object_unref (m->store);
 	g_free(m->full_name);
 	gtk_selection_data_free (m->selection);
 }
@@ -1696,7 +1696,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 	m->context = context;
 	g_object_ref(context);
 	m->store = store;
-	camel_object_ref(store);
+	g_object_ref (store);
 	m->full_name = full_name;
 	m->action = context->action;
 	m->info = info;

@@ -94,10 +94,10 @@ init_db (void)
 
 	camel_mime_parser_init_with_stream (parser, stream);
 	camel_mime_parser_scan_from (parser, FALSE);
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser);
-	camel_object_unref (parser);
+	g_object_unref (parser);
 
 	d(fprintf (stderr, "Initing the bogofilter DB with Welcome message\n"));
 
@@ -106,7 +106,7 @@ init_db (void)
 	}
 
 	pipe_to_bogofilter (msg, argv, NULL);
-	camel_object_unref (msg);
+	g_object_unref (msg);
 
 }
 
@@ -166,7 +166,7 @@ retry:
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
 	camel_stream_flush (stream);
 	camel_stream_close (stream);
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 #ifndef G_OS_WIN32
 	waitres = waitpid (child_pid, &status, 0);

@@ -130,7 +130,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 				}
 
 				em_folder_tree_model_add_store (model, store, account->name);
-				camel_object_unref (store);
+				g_object_unref (store);
 			}
 		}
 
@@ -145,7 +145,7 @@ accept_free(gpointer data)
 {
 	struct AcceptData *accept_data = data;
 
-	camel_object_unref(accept_data->msg);
+	g_object_unref (accept_data->msg);
 	g_free(accept_data);
 }
 
@@ -169,7 +169,7 @@ apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
 	g_free(uri);
 	accept_data->msg = msg;
-	camel_object_ref(msg);
+	g_object_ref (msg);
 	accept_data->model = EM_FOLDER_TREE_MODEL (gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree)));
 	g_object_set_data_full((GObject *)dialog, "accept-data", accept_data, accept_free);
 	g_signal_connect (dialog, "response", G_CALLBACK (install_folder_response), accept_data);
@@ -235,8 +235,8 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 			gtk_window_set_title (GTK_WINDOW (assistant), _("Shared Folder Installation"));
 			gtk_window_set_position (GTK_WINDOW (assistant) , GTK_WIN_POS_CENTER_ALWAYS);
 
-			camel_object_ref (msg);
-			g_object_set_data_full((GObject *)page, "msg", msg, camel_object_unref);
+			g_object_ref (msg);
+			g_object_set_data_full((GObject *)page, "msg", msg, g_object_unref);
 
 			g_signal_connect (assistant, "apply", G_CALLBACK (apply_clicked), msg);
 
@@ -246,7 +246,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		} else
 			g_warning ("Could not get the sender name");
 
-		camel_object_unref (stream);
+		g_object_unref (stream);
 	}
 }
 

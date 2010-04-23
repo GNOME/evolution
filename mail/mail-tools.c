@@ -54,7 +54,7 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 		return NULL;
 
 	folder = camel_store_get_inbox (store, ex);
-	camel_object_unref (store);
+	g_object_unref (store);
 
 	return folder;
 }
@@ -92,7 +92,7 @@ mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex)
 	else
 		trash = NULL;
 
-	camel_object_unref (store);
+	g_object_unref (store);
 
 	return trash;
 }
@@ -328,7 +328,7 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
 				folder = camel_store_get_junk (store, ex);
 		} else
 			folder = camel_store_get_folder (store, name, flags, ex);
-		camel_object_unref (store);
+		g_object_unref (store);
 	}
 
 	if (folder)

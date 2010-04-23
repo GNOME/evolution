@@ -227,7 +227,7 @@ efh_format_exec (struct _format_msg *m)
 			format->base = base;
 
 			/* clean up the job */
-			camel_object_unref(job->stream);
+			g_object_unref (job->stream);
 			if (job->base)
 				camel_url_free(job->base);
 			g_free(job);
@@ -242,7 +242,7 @@ efh_format_exec (struct _format_msg *m)
 			d(printf("out of jobs, closing root stream\n"));
 			camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
 			camel_stream_close((CamelStream *)m->estream);
-			camel_object_unref(m->estream);
+			g_object_unref (m->estream);
 			m->estream = NULL;
 		}
 
@@ -271,13 +271,13 @@ efh_format_free (struct _format_msg *m)
 	g_object_unref(m->format);
 	if (m->estream) {
 		camel_stream_close((CamelStream *)m->estream);
-		camel_object_unref(m->estream);
+		g_object_unref (m->estream);
 	}
 	if (m->folder)
-		camel_object_unref(m->folder);
+		g_object_unref (m->folder);
 	g_free(m->uid);
 	if (m->message)
-		camel_object_unref(m->message);
+		g_object_unref (m->message);
 	if (m->format_source)
 		g_object_unref(m->format_source);
 }
@@ -367,7 +367,7 @@ static void
 efh_free_cache(struct _EMFormatHTMLCache *efhc)
 {
 	if (efhc->textmp)
-		camel_object_unref(efhc->textmp);
+		g_object_unref (efhc->textmp);
 	g_free(efhc);
 }
 
@@ -622,10 +622,10 @@ efh_format_clone (EMFormat *emf,
 		g_object_ref (emfsource);
 
 	if (folder != NULL)
-		camel_object_ref (folder);
+		g_object_ref (folder);
 
 	if (msg != NULL)
-		camel_object_ref (msg);
+		g_object_ref (msg);
 
 	m = mail_msg_new (&efh_format_info);
 	m->format = g_object_ref (emf);
@@ -679,11 +679,11 @@ efh_format_source (EMFormat *emf,
 		CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream), filter);
-	camel_object_unref (filter);
+	g_object_unref (filter);
 
 	camel_stream_write_string (stream, "<table><tr><td><tt>");
 	em_format_format_text (emf, (CamelStream *) filtered_stream, dw);
-	camel_object_unref (filtered_stream);
+	g_object_unref (filtered_stream);
 
 	camel_stream_write_string(stream, "</tt></td></tr></table>");
 }
@@ -1187,12 +1187,12 @@ em_format_html_file_part(EMFormatHTML *efh, const gchar *mime_type, const gchar 
 
 	dw = camel_data_wrapper_new();
 	camel_data_wrapper_construct_from_stream(dw, stream);
-	camel_object_unref(stream);
+	g_object_unref (stream);
 	if (mime_type)
 		camel_data_wrapper_set_mime_type(dw, mime_type);
 	part = camel_mime_part_new();
 	camel_medium_set_content ((CamelMedium *)part, dw);
-	camel_object_unref(dw);
+	g_object_unref (dw);
 	basename = g_path_get_basename (filename);
 	camel_mime_part_set_filename(part, basename);
 	g_free (basename);
@@ -1428,10 +1428,10 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 		/* do not store broken files in a cache */
 		if (n != 0)
 			camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
-		camel_object_unref(costream);
+		g_object_unref (costream);
 	}
 
-	camel_object_unref(instream);
+	g_object_unref (instream);
 done:
 	camel_operation_end(NULL);
 badurl:
@@ -1586,7 +1586,7 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
 		if (iconpart) {
 			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
-			camel_object_unref(iconpart);
+			g_object_unref (iconpart);
 		}
 		g_free (iconpath);
 		g_free(classid);
@@ -1670,21 +1670,21 @@ efh_text_plain (EMFormatHTML *efh,
 
 		null = camel_stream_null_new();
 		filtered_stream = camel_stream_filter_new (null);
-		camel_object_unref(null);
+		g_object_unref (null);
 		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), ct);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream),
 			CAMEL_MIME_FILTER (inline_filter));
 		camel_data_wrapper_write_to_stream(dw, (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);
-		camel_object_unref(filtered_stream);
+		g_object_unref (filtered_stream);
 
 		mp = em_inline_filter_get_multipart(inline_filter);
 		if (efhc == NULL)
 			efhc = efh_insert_cache(efh, ((EMFormat *)efh)->part_id->str);
 		efhc->textmp = mp;
 
-		camel_object_unref(inline_filter);
+		g_object_unref (inline_filter);
 		camel_content_type_unref(ct);
 	}
 
@@ -1694,7 +1694,7 @@ efh_text_plain (EMFormatHTML *efh,
 	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
-	camel_object_unref(html_filter);
+	g_object_unref (html_filter);
 
 	/* We handle our made-up multipart here, so we don't recursively call ourselves */
 
@@ -1731,7 +1731,7 @@ efh_text_plain (EMFormatHTML *efh,
 		}
 	}
 
-	camel_object_unref(filtered_stream);
+	g_object_unref (filtered_stream);
 }
 
 static void
@@ -1752,7 +1752,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	filtered_stream = camel_stream_filter_new (stream);
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream), enriched);
-	camel_object_unref(enriched);
+	g_object_unref (enriched);
 
 	camel_stream_printf (
 		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n" EFH_MESSAGE_START,
@@ -1768,7 +1768,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 
-	camel_object_unref(filtered_stream);
+	g_object_unref (filtered_stream);
 	camel_stream_write_string(stream, "</div>");
 }
 
@@ -1786,7 +1786,7 @@ efh_write_text_html(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	dw = camel_medium_get_content (puri->part);
 	if (dw)
 		camel_data_wrapper_write_to_stream(dw, out);
-	camel_object_unref(out);
+	g_object_unref (out);
 #endif
 	em_format_format_text(emf, stream, (CamelDataWrapper *)puri->part);
 }
@@ -1961,7 +1961,7 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 	html_filter = camel_mime_filter_tohtml_new(efh->text_html_flags, rgb);
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
-	camel_object_unref(html_filter);
+	g_object_unref (html_filter);
 
 	camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
@@ -2091,7 +2091,7 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	/* queue a job to check for un-referenced parts to add as attachments */
 	job = em_format_html_job_new((EMFormatHTML *)emf, emfh_multipart_related_check, NULL);
 	job->stream = stream;
-	camel_object_ref(stream);
+	g_object_ref (stream);
 	em_format_html_job_queue((EMFormatHTML *)emf, job);
 
 	em_format_pull_level(emf);
@@ -2709,11 +2709,11 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					classid);
 				em_format_add_puri(emf, sizeof(EMFormatPURI), classid,
 					photopart, efh_write_image);
-				camel_object_unref(photopart);
+				g_object_unref (photopart);
 
 				g_free(classid);
 			}
-			camel_object_unref(cia);
+			g_object_unref (cia);
 		}
 
 		if (!contact_has_photo && face_decoded) {
@@ -2725,7 +2725,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			classid = g_strdup_printf("icon:///em-format-html/face/photo/header");
 			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=48 src=\"%s\"></td>", classid);
 			em_format_add_puri(emf, sizeof(EMFormatPURI), classid, part, efh_write_image);
-			camel_object_unref(part);
+			g_object_unref (part);
 		}
 
 		if (have_icon && efh->show_icon) {
@@ -2748,7 +2748,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 			if (iconpart) {
 				em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
-				camel_object_unref(iconpart);
+				g_object_unref (iconpart);
 			}
 			g_free(classid);
 		}

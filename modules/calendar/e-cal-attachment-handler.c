@@ -81,7 +81,7 @@ attachment_handler_get_component (EAttachment *attachment)
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	camel_data_wrapper_decode_to_stream (wrapper, stream);
-	camel_object_unref (stream);
+	g_object_unref (stream);
 
 	component = e_cal_util_parse_ics_string ((gchar *) buffer->data);
 

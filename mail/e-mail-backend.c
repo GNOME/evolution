@@ -385,7 +385,7 @@ mail_backend_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	/* This also initializes Camel, so it needs to happen early. */
-	mail_session_init ();
+	mail_session_start ();
 
 	online = e_shell_get_online (shell);
 	camel_session_set_online (CAMEL_SESSION (session), online);

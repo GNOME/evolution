@@ -64,12 +64,13 @@
 CamelSession *session;
 static gint session_check_junk_notify_id = -1;
 
-#define MAIL_SESSION_TYPE     (mail_session_get_type ())
-#define MAIL_SESSION(obj)     (CAMEL_CHECK_CAST((obj), MAIL_SESSION_TYPE, MailSession))
-#define MAIL_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_SESSION_TYPE, MailSessionClass))
-#define MAIL_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), MAIL_SESSION_TYPE))
+#define MAIL_TYPE_SESSION \
+	(mail_session_get_type ())
 
-typedef struct _MailSession {
+typedef struct _MailSession MailSession;
+typedef struct _MailSessionClass MailSessionClass;
+
+struct _MailSession {
 	CamelSession parent_object;
 
 	gboolean interactive;
@@ -77,14 +78,12 @@ typedef struct _MailSession {
 	GList *junk_plugins;
 
 	MailAsyncEvent *async;
-} MailSession;
+};
 
-typedef struct _MailSessionClass {
+struct _MailSessionClass {
 	CamelSessionClass parent_class;
+};
 
-} MailSessionClass;
-
-static CamelSessionClass *ms_parent_class;
 static gchar *mail_data_dir;
 static gchar *mail_config_dir;
 
@@ -99,16 +98,15 @@ static gpointer ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *
 static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m);
 static void ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex);
 
-static void
-init (MailSession *session)
-{
-	session->async = mail_async_event_new();
-	session->junk_plugins = NULL;
-}
+GType mail_session_get_type (void);
+
+G_DEFINE_TYPE (MailSession, mail_session, CAMEL_TYPE_SESSION)
 
 static void
-finalise (MailSession *session)
+mail_session_finalize (GObject *object)
 {
+	MailSession *session = (MailSession *) object;
+
 	if (session_check_junk_notify_id != -1)
 		gconf_client_notify_remove (mail_config_get_gconf_client (), session_check_junk_notify_id);
 
@@ -116,44 +114,37 @@ finalise (MailSession *session)
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (mail_session_parent_class)->finalize (object);
 }
 
 static void
-class_init (MailSessionClass *mail_session_class)
+mail_session_class_init (MailSessionClass *class)
 {
-	CamelSessionClass *camel_session_class = CAMEL_SESSION_CLASS (mail_session_class);
+	GObjectClass *object_class;
+	CamelSessionClass *session_class;
 
-	/* virtual method override */
-	camel_session_class->get_password = get_password;
-	camel_session_class->forget_password = forget_password;
-	camel_session_class->alert_user = alert_user;
-	camel_session_class->get_filter_driver = get_filter_driver;
-	camel_session_class->lookup_addressbook = lookup_addressbook;
-	camel_session_class->thread_msg_new = ms_thread_msg_new;
-	camel_session_class->thread_msg_free = ms_thread_msg_free;
-	camel_session_class->thread_status = ms_thread_status;
-	camel_session_class->forward_to = ms_forward_to;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = mail_session_finalize;
+
+	session_class = CAMEL_SESSION_CLASS (class);
+	session_class->get_password = get_password;
+	session_class->forget_password = forget_password;
+	session_class->alert_user = alert_user;
+	session_class->get_filter_driver = get_filter_driver;
+	session_class->lookup_addressbook = lookup_addressbook;
+	session_class->thread_msg_new = ms_thread_msg_new;
+	session_class->thread_msg_free = ms_thread_msg_free;
+	session_class->thread_status = ms_thread_status;
+	session_class->forward_to = ms_forward_to;
 }
 
-static CamelType
-mail_session_get_type (void)
+static void
+mail_session_init (MailSession *session)
 {
-	static CamelType mail_session_type = CAMEL_INVALID_TYPE;
-
-	if (mail_session_type == CAMEL_INVALID_TYPE) {
-		ms_parent_class = (CamelSessionClass *)camel_session_get_type();
-		mail_session_type = camel_type_register (
-			camel_session_get_type (),
-			"MailSession",
-			sizeof (MailSession),
-			sizeof (MailSessionClass),
-			(CamelObjectClassInitFunc) class_init,
-			NULL,
-			(CamelObjectInitFunc) init,
-			(CamelObjectFinalizeFunc) finalise);
-	}
-
-	return mail_session_type;
+	session->async = mail_async_event_new();
+	session->junk_plugins = NULL;
 }
 
 static gchar *
@@ -424,7 +415,7 @@ lookup_addressbook(CamelSession *session, const gchar *name)
 	addr = camel_internet_address_new ();
 	camel_address_decode ((CamelAddress *)addr, name);
 	ret = em_utils_in_addressbook (addr, mail_config_get_lookup_book_local_only ());
-	camel_object_unref (addr);
+	g_object_unref (addr);
 
 	return ret;
 }
@@ -481,7 +472,7 @@ main_play_sound (CamelFilterDriver *driver, gchar *filename, gpointer user_data)
 		gdk_beep ();
 
 	g_free (filename);
-	camel_object_unref (session);
+	g_object_unref (session);
 }
 
 static void
@@ -489,7 +480,7 @@ session_play_sound (CamelFilterDriver *driver, const gchar *filename, gpointer u
 {
 	MailSession *ms = (MailSession *) session;
 
-	camel_object_ref (session);
+	g_object_ref (session);
 
 	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_play_sound,
 			       driver, g_strdup (filename), user_data);
@@ -499,7 +490,7 @@ static void
 main_system_beep (CamelFilterDriver *driver, gpointer user_data)
 {
 	gdk_beep ();
-	camel_object_unref (session);
+	g_object_unref (session);
 }
 
 static void
@@ -507,7 +498,7 @@ session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 {
 	MailSession *ms = (MailSession *) session;
 
-	camel_object_ref (session);
+	g_object_ref (session);
 
 	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_system_beep,
 			       driver, user_data, NULL);
@@ -609,7 +600,11 @@ static MailMsgInfo ms_thread_info_dummy = { sizeof (MailMsg) };
 
 static gpointer ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, guint size)
 {
-	CamelSessionThreadMsg *msg = ms_parent_class->thread_msg_new(session, ops, size);
+	CamelSessionThreadMsg *msg;
+	CamelSessionClass *session_class;
+
+	session_class = CAMEL_SESSION_CLASS (mail_session_parent_class);
+	msg = session_class->thread_msg_new (session, ops, size);
 
 	/* We create a dummy mail_msg, and then copy its cancellation port over to ours, so
 	   we get cancellation and progress in common with hte existing mail code, for free */
@@ -625,13 +620,19 @@ static gpointer ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *
 	return msg;
 }
 
-static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m)
+static void
+ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m)
 {
+	CamelSessionClass *session_class;
+
+	session_class = CAMEL_SESSION_CLASS (mail_session_parent_class);
+
 	mail_msg_unref(m->data);
-	ms_parent_class->thread_msg_free(session, m);
+	session_class->thread_msg_free(session, m);
 }
 
-static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const gchar *text, gint pc)
+static void
+ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const gchar *text, gint pc)
 {
 	/* This should never be called since we bypass it in alloc! */
 	printf("Thread status '%s' %d%%\n", text, pc);
@@ -680,7 +681,7 @@ ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *mes
 	camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, mem);
 	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET);
 	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)forward, mem);
-	camel_object_unref (mem);
+	g_object_unref (mem);
 
 	/* clear previous recipients */
 	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
@@ -705,13 +706,13 @@ ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *mes
 	addr = camel_internet_address_new ();
 	camel_internet_address_add (addr, account->id->name, account->id->address);
 	camel_mime_message_set_from (forward, addr);
-	camel_object_unref (addr);
+	g_object_unref (addr);
 
 	/* to */
 	addr = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (addr), address);
 	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, addr);
-	camel_object_unref (addr);
+	g_object_unref (addr);
 
 	/* subject */
 	subject = mail_tool_generate_forward_subject (message);
@@ -797,7 +798,7 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 void
-mail_session_init (void)
+mail_session_start (void)
 {
 	GConfClient *gconf;
 
@@ -806,7 +807,7 @@ mail_session_init (void)
 
 	camel_provider_init();
 
-	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
+	session = g_object_new (MAIL_TYPE_SESSION, NULL);
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
 	camel_session_construct (session, mail_session_get_data_dir ());
