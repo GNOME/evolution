@@ -183,6 +183,22 @@ message_push (Message *msg)
 	msg->func (msg);
 }
 
+/*
+ * use a static ring-buffer so we can call this twice
+ * in a printf without getting nonsense results.
+ */
+static const char *
+e_ctime (const time_t *timep)
+{
+  static char *buffer[4] = { 0, };
+  static int next = 0;
+
+  g_free (buffer[next]);
+  buffer[next] = g_strdup (ctime (timep));
+
+  return buffer[next++];
+}
+
 /* Queues an alarm trigger for midnight so that we can load the next day's worth
  * of alarms.
  */
@@ -199,7 +215,7 @@ queue_midnight_refresh (void)
 	zone = config_data_get_timezone ();
 	midnight = time_day_end_with_zone (time (NULL), zone);
 
-	d(printf("%s:%d (queue_midnight_refresh) - Refresh at %s \n",__FILE__, __LINE__, ctime(&midnight)));
+	d(printf("%s:%d (queue_midnight_refresh) - Refresh at %s \n",__FILE__, __LINE__, e_ctime(&midnight)));
 
 	midnight_refresh_id = alarm_add (midnight, midnight_refresh_cb, NULL, NULL);
 	if (!midnight_refresh_id) {
@@ -471,7 +487,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 
 		alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 		if (!alarm_id) {
-			d(printf("%s:%d (add_component_alarms) - Could not schedule a trigger for %s. Discarding \n",__FILE__, __LINE__, ctime(&(instance->trigger))));
+			d(printf("%s:%d (add_component_alarms) - Could not schedule a trigger for %s. Discarding \n",__FILE__, __LINE__, e_ctime(&(instance->trigger))));
 			continue;
 		}
 
@@ -482,7 +498,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		qa->snooze = FALSE;
 
 		cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
-		d(printf("%s:%d (add_component_alarms) - Adding alarm %p %p at %s %s\n",__FILE__, __LINE__, qa, alarm_id, ctime (&(instance->trigger)), ctime(&tnow)));
+		d(printf("%s:%d (add_component_alarms) - Adding alarm %p %p at %s %s\n",__FILE__, __LINE__, qa, alarm_id, ctime (&(instance->trigger)), e_ctime(&tnow)));
 	}
 
 	id = e_cal_component_get_id (alarms->comp);
@@ -571,7 +587,8 @@ load_alarms_for_today (ClientAlarms *ca)
 	from = MAX (config_data_get_last_notification_time (ca->client) + 1, day_start);
 
 	day_end = time_day_end_with_zone (now, zone);
-	d(printf("%s:%d (load_alarms_for_today) - From %s to %s\n",__FILE__, __LINE__, ctime (&from), ctime(&day_end)));
+	d(printf("%s:%d (load_alarms_for_today) - From %s to %s\n",__FILE__, __LINE__,
+		 g_strdup (ctime (&from)), g_strdup (e_ctime(&day_end))));
 	load_alarms (ca, from, day_end);
 }
 
@@ -707,7 +724,7 @@ query_objects_changed_async (struct _query_msg *msg)
 
 	day_end = time_day_end_with_zone (time (NULL), zone);
 
-	d(printf("%s:%d (query_objects_changed_async) - Querying for object between %s to %s\n",__FILE__, __LINE__, ctime(&from), ctime(&day_end)));
+	d(printf("%s:%d (query_objects_changed_async) - Querying for object between %s to %s\n",__FILE__, __LINE__, e_ctime(&from), e_ctime(&day_end)));
 
 	for (l = objects; l != NULL; l = l->next) {
 		ECalComponentId *id;
@@ -771,7 +788,7 @@ query_objects_changed_async (struct _query_msg *msg)
 
 			alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 			if (!alarm_id) {
-				d(printf("%s:%d (query_objects_changed_async) -Unable to schedule trigger for %s \n",__FILE__, __LINE__, ctime(&(instance->trigger))));
+				d(printf("%s:%d (query_objects_changed_async) -Unable to schedule trigger for %s \n",__FILE__, __LINE__, e_ctime(&(instance->trigger))));
 				continue;
 			}
 
@@ -869,14 +886,14 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, gint snooze_mins)
 
 	new_id = alarm_add (t, alarm_trigger_cb, cqa, NULL);
 	if (!new_id) {
-		d(printf("%s:%d (create_snooze) -Unable to schedule trigger for %s \n",__FILE__, __LINE__, ctime(&t)));
+		d(printf("%s:%d (create_snooze) -Unable to schedule trigger for %s \n",__FILE__, __LINE__, e_ctime(&t)));
 		return;
 	}
 
 	orig_qa->instance->trigger = t;
 	orig_qa->alarm_id = new_id;
 	orig_qa->snooze = TRUE;
-	d(printf("%s:%d (create_snooze) - Adding a alarm at %s\n",__FILE__, __LINE__, ctime(&t)));
+	d(printf("%s:%d (create_snooze) - Adding a alarm at %s\n",__FILE__, __LINE__, e_ctime(&t)));
 }
 
 /* Launches a component editor for a component */
@@ -1833,7 +1850,7 @@ alarm_queue_init (gpointer data)
 
 	if (config_data_get_last_notification_time (NULL) == -1) {
 		time_t tmval = time (NULL);
-		d(printf("%s:%d (alarm_queue_init) - Setting last notification time to %s\n",__FILE__, __LINE__, ctime(&tmval)));
+		d(printf("%s:%d (alarm_queue_init) - Setting last notification time to %s\n",__FILE__, __LINE__, e_ctime(&tmval)));
 		config_data_set_last_notification_time (NULL, tmval);
 	}
 
@@ -2139,7 +2156,7 @@ update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 	from = time_day_begin_with_zone (time (NULL), zone);
 	to = time_day_end_with_zone (time (NULL), zone);
 
-	d(printf("%s:%d (update_cqa) - Generating alarms between %s and %s\n",__FILE__, __LINE__, ctime(&from), ctime(&to)));
+	d(printf("%s:%d (update_cqa) - Generating alarms between %s and %s\n",__FILE__, __LINE__, e_ctime(&from), e_ctime(&to)));
 	alarms = e_cal_util_generate_alarms_for_comp (newcomp, from, to, omit,
 					e_cal_resolve_tzid_cb, cqa->parent_client->client, zone);
 
