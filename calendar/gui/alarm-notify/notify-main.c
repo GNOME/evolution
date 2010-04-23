@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <unique/unique.h>
+#include <dbus/dbus-glib.h>
 #include <camel/camel-object.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
