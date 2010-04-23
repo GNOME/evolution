@@ -192,11 +192,14 @@ e_ctime (const time_t *timep)
 {
   static char *buffer[4] = { 0, };
   static int next = 0;
+  const char *ret;
 
   g_free (buffer[next]);
-  buffer[next] = g_strdup (ctime (timep));
+  ret = buffer[next++] = g_strdup (ctime (timep));
+  if (next >= G_N_ELEMENTS (buffer))
+	next = 0;
 
-  return buffer[next++];
+  return ret;
 }
 
 /* Queues an alarm trigger for midnight so that we can load the next day's worth
