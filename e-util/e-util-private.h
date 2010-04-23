@@ -35,6 +35,7 @@
 
 #define fsync(fd) 0
 
+const gchar *_e_get_bindir (void) G_GNUC_CONST;
 const gchar *_e_get_datadir (void) G_GNUC_CONST;
 const gchar *_e_get_ecpsdir (void) G_GNUC_CONST;
 const gchar *_e_get_etspecdir (void) G_GNUC_CONST;
@@ -66,6 +67,9 @@ const gchar *_e_get_uidir (void) G_GNUC_CONST;
 
 #undef PREFIX
 #define PREFIX _e_get_prefix ()
+
+#undef EVOLUTION_BINDIR
+#define EVOLUTION_BINDIR _e_get_bindir ()
 
 #undef EVOLUTION_DATADIR
 #define EVOLUTION_DATADIR _e_get_datadir ()
