@@ -52,6 +52,7 @@ main (gint argc, gchar **argv)
 	textdomain (GETTEXT_PACKAGE);
 
 	g_thread_init (NULL);
+	dbus_g_thread_init ();
 
 	gtk_init (&argc, &argv);
 
