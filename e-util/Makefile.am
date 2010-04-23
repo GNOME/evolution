@@ -63,6 +63,7 @@ libeutil_la_CPPFLAGS =							\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_BINDIR=\""$(bindir)"\"				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
