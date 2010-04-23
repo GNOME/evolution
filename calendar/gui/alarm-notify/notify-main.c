@@ -30,8 +30,9 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <unique/unique.h>
 #include <camel/camel.h>
+#include <unique/unique.h>
+#include <dbus/dbus-glib.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 
