@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
-endif
-
 module_LTLIBRARIES = libevolution-module-addressbook.la
 
 libevolution_module_addressbook_la_CPPFLAGS =			\
