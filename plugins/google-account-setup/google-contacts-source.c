@@ -231,6 +231,7 @@ plugin_google_contacts (EPlugin *epl,
 	const gchar *refresh_interval_str;
 	guint refresh_interval;
 	const gchar *use_ssl_str;
+	gchar *buff;
 	gboolean use_ssl;
 	GtkWidget *parent;
 	GtkWidget *vbox;
@@ -270,7 +271,9 @@ plugin_google_contacts (EPlugin *epl,
 	gtk_box_pack_start (GTK_BOX (vbox), vbox2, FALSE, FALSE, 0);
 
 	section = gtk_label_new (NULL);
-	gtk_label_set_markup (GTK_LABEL (section), _("<b>Server</b>"));
+	buff = g_strconcat ("<b>", _("Server"), "</b>", NULL);
+	gtk_label_set_markup (GTK_LABEL (section), buff);
+	g_free (buff);
 	gtk_misc_set_alignment (GTK_MISC (section), 0.0, 0.0);
 	gtk_box_pack_start (GTK_BOX (vbox2), section, FALSE, FALSE, 0);
 

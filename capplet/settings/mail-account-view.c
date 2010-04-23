@@ -169,6 +169,7 @@ create_review (MailAccountView *view)
 	gchar *uri;
 	gchar *enc;
 	CamelURL *url;
+	gchar *buff;
 
 	uri = (gchar *)e_account_get_string(em_account_editor_get_modified_account(view->edit), E_ACCOUNT_SOURCE_URL);
 	if (!uri  || (url = camel_url_new(uri, NULL)) == NULL)
@@ -178,7 +179,9 @@ create_review (MailAccountView *view)
 	gtk_table_set_row_spacings ((GtkTable *)table, 4);
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Personal details:</span>"));
+	buff = g_strconcat ("<span size=\"large\" weight=\"bold\">", _("Personal details:"), "</span>", NULL);
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF(label)
 	gtk_table_attach ((GtkTable *)table, box, 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
@@ -202,7 +205,9 @@ create_review (MailAccountView *view)
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Receiving details:</span>"));
+	buff = g_strconcat ("<span size=\"large\" weight=\"bold\">", _("Receiving details:"), "</span>", NULL);
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF(label);
 	gtk_table_attach ((GtkTable *)table, box, 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);
@@ -250,7 +255,9 @@ create_review (MailAccountView *view)
 		return NULL;
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Sending details:</span>"));
+	buff = g_strconcat ("<span size=\"large\" weight=\"bold\">", _("Sending details:"), "</span>", NULL);
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF(label);
 	gtk_table_attach ((GtkTable *)table, box, 0, 1, 8, 9, GTK_EXPAND|GTK_FILL, GTK_SHRINK, 10, 3);

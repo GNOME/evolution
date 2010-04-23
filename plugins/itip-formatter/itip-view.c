@@ -333,6 +333,22 @@ format_date_and_time_x		(struct tm	*date_tm,
 		buffer[0] = '\0';
 }
 
+static gchar *
+dupe_first_bold (const gchar *format, const gchar *first, const gchar *second)
+{
+	gchar *f, *s, *res;
+
+	f = g_markup_printf_escaped ("<b>%s</b>", first ? first : "");
+	s = g_markup_escape_text (second ? second : "", -1);
+
+	res = g_strdup_printf (format, f, s);
+
+	g_free (f);
+	g_free (s);
+
+	return res;
+}
+
 static void
 set_calendar_sender_text (ItipView *view)
 {
@@ -348,64 +364,64 @@ set_calendar_sender_text (ItipView *view)
 
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)
-		on_behalf_of = g_markup_printf_escaped (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = dupe_first_bold (_("Please respond on behalf of %s"), priv->proxy, NULL);
 	else if (priv->attendee && priv->proxy)
-		on_behalf_of = g_markup_printf_escaped (_("Received on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = dupe_first_bold (_("Received on behalf of %s"), priv->proxy, NULL);
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has published the following meeting information:"), organizer);
+			sender = dupe_first_bold (_("%s has published the following meeting information:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
 		if (priv->delegator) {
-			sender = g_markup_printf_escaped (_("<b>%s</b> has delegated the following meeting to you:"), priv->delegator);
+			sender = dupe_first_bold (_("%s has delegated the following meeting to you:"), priv->delegator, NULL);
 		} else {
 			if (priv->organizer_sentby)
-				sender = g_markup_printf_escaped (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->organizer_sentby);
+				sender = dupe_first_bold (_("%s through %s requests your presence at the following meeting:"), organizer, priv->organizer_sentby);
 			else
-				sender = g_markup_printf_escaped (_("<b>%s</b> requests your presence at the following meeting:"), organizer);
+				sender = dupe_first_bold (_("%s requests your presence at the following meeting:"), organizer, NULL);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to add to an existing meeting:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s wishes to add to an existing meeting:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to add to an existing meeting:"), organizer);
+			sender = dupe_first_bold (_("%s wishes to add to an existing meeting:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		if (priv->attendee_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to receive the latest information for the following meeting:"), attendee, priv->attendee_sentby);
+			sender = dupe_first_bold (_("%s through %s wishes to receive the latest information for the following meeting:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
+			sender = dupe_first_bold (_("%s wishes to receive the latest information for the following meeting:"), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		if (priv->attendee_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has sent back the following meeting response:"), attendee, priv->attendee_sentby);
+			sender = dupe_first_bold (_("%s through %s has sent back the following meeting response:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has sent back the following meeting response:"), attendee);
+			sender = dupe_first_bold (_("%s has sent back the following meeting response:"), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has canceled the following meeting."), organizer);
+			sender = dupe_first_bold (_("%s has canceled the following meeting."), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has proposed the following meeting changes."), attendee, priv->attendee_sentby);
+			sender = dupe_first_bold (_("%s through %s has proposed the following meeting changes."), attendee, priv->attendee_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has proposed the following meeting changes."), attendee);
+			sender = dupe_first_bold (_("%s has proposed the following meeting changes."), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has declined the following meeting changes:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has declined the following meeting changes:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has declined the following meeting changes."), organizer);
+			sender = dupe_first_bold (_("%s has declined the following meeting changes."), organizer, NULL);
 		break;
 	default:
 		break;
@@ -436,64 +452,64 @@ set_tasklist_sender_text (ItipView *view)
 
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)
-		on_behalf_of = g_markup_printf_escaped (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = dupe_first_bold (_("Please respond on behalf of %s"), priv->proxy, NULL);
 	else if (priv->attendee && priv->proxy)
-		on_behalf_of = g_markup_printf_escaped (_("Received on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = dupe_first_bold (_("Received on behalf of %s"), priv->proxy, NULL);
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has published the following task:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has published the following task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has published the following task:"), organizer);
+			sender = dupe_first_bold (_("%s has published the following task:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
 		if (priv->delegator) {
-			sender = g_markup_printf_escaped (_("<b>%s</b> requests the assignment of %s to the following task:"), organizer, priv->delegator);
+			sender = dupe_first_bold (_("%s requests the assignment of %s to the following task:"), organizer, priv->delegator);
 		} else {
 			if (priv->organizer_sentby)
-				sender = g_markup_printf_escaped (_("<b>%s</b> through %s has assigned you a task:"), organizer, priv->organizer_sentby);
+				sender = dupe_first_bold (_("%s through %s has assigned you a task:"), organizer, priv->organizer_sentby);
 			else
-				sender = g_markup_printf_escaped (_("<b>%s</b> has assigned you a task:"), organizer);
+				sender = dupe_first_bold (_("%s has assigned you a task:"), organizer, NULL);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to add to an existing task:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s wishes to add to an existing task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to add to an existing task:"), organizer);
+			sender = dupe_first_bold (_("%s wishes to add to an existing task:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		if (priv->attendee_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to receive the latest information for the following assigned task:"), attendee, priv->attendee_sentby);
+			sender = dupe_first_bold (_("%s through %s wishes to receive the latest information for the following assigned task:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to receive the latest information for the following assigned task:"), attendee);
+			sender = dupe_first_bold (_("%s wishes to receive the latest information for the following assigned task:"), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		if (priv->attendee_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
+			sender = dupe_first_bold (_("%s through %s has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
+			sender = dupe_first_bold (_("%s has sent back the following assigned task response:"), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has canceled the following assigned task:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has canceled the following assigned task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has canceled the following assigned task:"), organizer);
+			sender = dupe_first_bold (_("%s has canceled the following assigned task:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has proposed the following task assignment changes:"), attendee, priv->attendee_sentby);
+			sender = dupe_first_bold (_("%s through %s has proposed the following task assignment changes:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
+			sender = dupe_first_bold (_("%s has proposed the following task assignment changes:"), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has declined the following assigned task:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has declined the following assigned task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has declined the following assigned task:"), organizer);
+			sender = dupe_first_bold (_("%s has declined the following assigned task:"), organizer, NULL);
 		break;
 	default:
 		break;
@@ -523,29 +539,29 @@ set_journal_sender_text (ItipView *view)
 
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)
-		on_behalf_of = g_markup_printf_escaped (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = dupe_first_bold (_("Please respond on behalf of %s"), priv->proxy, NULL);
 	else if (priv->attendee && priv->proxy)
-		on_behalf_of = g_markup_printf_escaped (_("Received on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = dupe_first_bold (_("Received on behalf of %s"), priv->proxy, NULL);
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has published the following memo:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has published the following memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has published the following memo:"), organizer);
+			sender = dupe_first_bold (_("%s has published the following memo:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to add to an existing memo:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s wishes to add to an existing memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to add to an existing memo:"), organizer);
+			sender = dupe_first_bold (_("%s wishes to add to an existing memo:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has canceled the following shared memo:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has canceled the following shared memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_markup_printf_escaped (_("<b>%s</b> has canceled the following shared memo:"), organizer);
+			sender = dupe_first_bold (_("%s has canceled the following shared memo:"), organizer, NULL);
 		break;
 	default:
 		break;

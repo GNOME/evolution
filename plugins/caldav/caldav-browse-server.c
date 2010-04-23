@@ -788,6 +788,7 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 
 	if (!password || !*password || retrying) {
 		gchar *pass, *prompt, *add = NULL;
+		gchar *bold_user, *bold_host;
 
 		if (retrying && msg && msg->reason_phrase) {
 			add = g_strdup_printf (_("Previous attempt failed: %s"), msg->reason_phrase);
@@ -795,7 +796,11 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 			add = g_strdup_printf (_("Previous attempt failed with code %d"), msg->status_code);
 		}
 
-		prompt = g_strdup_printf (_("Enter password for user <b>%s</b> on server <b>%s</b>"), username, soup_auth_get_host (auth));
+		bold_user = g_strconcat ("<b>", username, "</b>", NULL);
+		bold_host = g_strconcat ("<b>", soup_auth_get_host (auth), "</b>", NULL);
+		prompt = g_strdup_printf (_("Enter password for user %s on server %s"), bold_user, bold_host);
+		g_free (bold_user);
+		g_free (bold_host);
 		if (add) {
 			gchar *tmp;
 

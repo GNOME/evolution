@@ -3305,12 +3305,15 @@ e_msg_composer_set_body (EMsgComposer *composer,
 {
 	EMsgComposerPrivate *p = composer->priv;
 	EComposerHeaderTable *table;
+	gchar *buff;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	table = e_msg_composer_get_header_table (composer);
 
-	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)</b>"), FALSE);
+	buff = g_strconcat ("<b>(", _("The composer contains a non-text message body, which cannot be edited."), ")</b>", NULL);
+	set_editor_text (composer, buff, FALSE);
+	g_free (buff);
 	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), FALSE);
 	disable_editor (composer);
 

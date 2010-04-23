@@ -155,7 +155,7 @@
             <child type="label">
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;b&gt;Account Name&lt;/b&gt;</property>
+                <property name="label" translatable="yes">Account Name</property>
                 <property name="use_underline">False</property>
                 <property name="use_markup">True</property>
                 <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -169,6 +169,9 @@
                 <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
             </child>
           </object>

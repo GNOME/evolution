@@ -176,11 +176,14 @@ msv_regen_view (MailSettingsView *acview)
 	EAccountList *accounts = acview->priv->accounts;
 	EIterator *node;
 	GtkWidget *box, *label;
+	gchar *buff;
 
 	gtk_container_foreach((GtkContainer *)acview->priv->box, (GtkCallback)gtk_widget_destroy, NULL);
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Account management</span>"));
+	buff = g_strconcat ("<span size=\"large\" weight=\"bold\">", _("Account management"), "</span>", NULL);
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	PACK_BOX(label,12);
 
 	node = e_list_get_iterator ((EList *) accounts);

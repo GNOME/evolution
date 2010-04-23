@@ -758,7 +758,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 	struct icalrecurrencetype *r;
 	gint i;
 
-	g_string_append_len (buffer, "<b>Recurring:</b> ", 18);
+	g_string_append_printf (buffer, "<b>%s</b> ", _("Recurring:"));
 
 	if (!e_cal_component_has_simple_recurrence (comp)) {
 		g_string_append_printf (
@@ -1021,6 +1021,18 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 	g_string_free (buffer, TRUE);
 }
 
+static gchar *
+dupe_first_bold (const gchar *format, const gchar *organizer, const gchar *delegator)
+{
+	gchar *tmp, *res;
+
+	tmp = g_strconcat ("<b>", organizer ? organizer : "", "</b>", NULL);
+	res = g_strdup_printf (format, tmp, delegator ? delegator : "");
+	g_free (tmp);
+
+	return res;
+}
+
 static void
 write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title, const gchar *options)
 {
@@ -1072,12 +1084,12 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		e_cal_component_get_attendee_list (priv->comp, &attendees);
 		if (attendees != NULL) {
 			attendee = attendees->data;
-			html = g_strdup_printf (itip_desc,
+			html = dupe_first_bold (itip_desc,
 						attendee->cn ?
 						attendee->cn :
-						itip_strip_mailto (attendee->value));
+						itip_strip_mailto (attendee->value), NULL);
 		} else {
-			html = g_strdup_printf (itip_desc, _("An unknown person"));
+			html = dupe_first_bold (itip_desc, _("An unknown person"), NULL);
 		}
 		break;
 	case ICAL_METHOD_REQUEST:
@@ -1085,7 +1097,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		e_cal_component_get_organizer (priv->comp, &organizer);
 		if (priv->delegator_address != NULL) {
 			if (organizer.value != NULL)
-				html = g_strdup_printf (itip_desc,
+				html = dupe_first_bold (itip_desc,
 							organizer.cn ?
 							organizer.cn :
 							itip_strip_mailto (organizer.value),
@@ -1093,18 +1105,18 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 							priv->delegator_name :
 							priv->delegator_address);
 			else
-				html = g_strdup_printf (itip_desc, _("An unknown person"),
+				html = dupe_first_bold (itip_desc, _("An unknown person"),
 							priv->delegator_name ?
 							priv->delegator_name :
 							priv->delegator_address);
 		} else {
 			if (organizer.value != NULL)
-				html = g_strdup_printf (itip_desc,
+				html = dupe_first_bold (itip_desc,
 							organizer.cn ?
 							organizer.cn :
-							itip_strip_mailto (organizer.value));
+							itip_strip_mailto (organizer.value), NULL);
 			else
-				html = g_strdup_printf (itip_desc, _("An unknown person"));
+				html = dupe_first_bold (itip_desc, _("An unknown person"), NULL);
 		}
 
 		break;
@@ -1116,20 +1128,21 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		/* The organizer sent this */
 		e_cal_component_get_organizer (priv->comp, &organizer);
 		if (organizer.value != NULL)
-			html = g_strdup_printf (itip_desc,
+			html = dupe_first_bold (itip_desc,
 						organizer.cn ?
 						organizer.cn :
-						itip_strip_mailto (organizer.value));
+						itip_strip_mailto (organizer.value), NULL);
 		else
-			html = g_strdup_printf (itip_desc, _("An unknown person"));
+			html = dupe_first_bold (itip_desc, _("An unknown person"), NULL);
 		break;
 	}
 	g_string_append_printf (buffer, "%s", html);
 	g_free (html);
 
+	g_string_append (buffer, "<br> ");
 	/* Describe what the user can do */
 	g_string_append (
-		buffer, _("<br> Please review the following information, "
+		buffer, _("Please review the following information, "
 		"and then select an action from the menu below."));
 
 	/* Separator */
@@ -1353,28 +1366,28 @@ show_current_event (EItipControl *itip)
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
-		itip_desc = _("<b>%s</b> has published meeting information.");
+		itip_desc = _("%s has published meeting information.");
 		itip_title = _("Meeting Information");
 		options = get_publish_options ();
 		show_selector = TRUE;
 		break;
 	case ICAL_METHOD_REQUEST:
 		if (priv->delegator_address != NULL)
-			itip_desc = _("<b>%s</b> requests the presence of %s at a meeting.");
+			itip_desc = _("%s requests the presence of %s at a meeting.");
 		else
-			itip_desc = _("<b>%s</b> requests your presence at a meeting.");
+			itip_desc = _("%s requests your presence at a meeting.");
 		itip_title = _("Meeting Proposal");
 		options = get_request_options ();
 		show_selector = TRUE;
 		break;
 	case ICAL_METHOD_ADD:
 		/* FIXME Whats going on here? */
-		itip_desc = _("<b>%s</b> wishes to be added to an existing meeting.");
+		itip_desc = _("%s wishes to be added to an existing meeting.");
 		itip_title = _("Meeting Update");
 		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REFRESH:
-		itip_desc = _("<b>%s</b> wishes to receive the latest meeting information.");
+		itip_desc = _("%s wishes to receive the latest meeting information.");
 		itip_title = _("Meeting Update Request");
 		options = get_refresh_options ();
 
@@ -1382,7 +1395,7 @@ show_current_event (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = _("<b>%s</b> has replied to a meeting request.");
+		itip_desc = _("%s has replied to a meeting request.");
 		itip_title = _("Meeting Reply");
 		options = get_reply_options ();
 
@@ -1390,7 +1403,7 @@ show_current_event (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
-		itip_desc = _("<b>%s</b> has canceled a meeting.");
+		itip_desc = _("%s has canceled a meeting.");
 		itip_title = _("Meeting Cancelation");
 		/* FIXME priv->current_ecal will always be NULL so the
 		 * user won't see an error message, the OK button will
@@ -1401,7 +1414,7 @@ show_current_event (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	default:
-		itip_desc = _("<b>%s</b> has sent an unintelligible message.");
+		itip_desc = _("%s has sent an unintelligible message.");
 		itip_title = _("Bad Meeting Message");
 		options = NULL;
 	}
@@ -1429,7 +1442,7 @@ show_current_todo (EItipControl *itip)
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
-		itip_desc = _("<b>%s</b> has published task information.");
+		itip_desc = _("%s has published task information.");
 		itip_title = _("Task Information");
 		options = get_publish_options ();
 		show_selector = TRUE;
@@ -1437,21 +1450,21 @@ show_current_todo (EItipControl *itip)
 	case ICAL_METHOD_REQUEST:
 		/* FIXME Does this need to handle like events above? */
 		if (priv->delegator_address != NULL)
-			itip_desc = _("<b>%s</b> requests %s to perform a task.");
+			itip_desc = _("%s requests %s to perform a task.");
 		else
-			itip_desc = _("<b>%s</b> requests you perform a task.");
+			itip_desc = _("%s requests you perform a task.");
 		itip_title = _("Task Proposal");
 		options = get_request_options ();
 		show_selector = TRUE;
 		break;
 	case ICAL_METHOD_ADD:
 		/* FIXME Whats going on here? */
-		itip_desc = _("<b>%s</b> wishes to be added to an existing task.");
+		itip_desc = _("%s wishes to be added to an existing task.");
 		itip_title = _("Task Update");
 		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REFRESH:
-		itip_desc = _("<b>%s</b> wishes to receive the latest task information.");
+		itip_desc = _("%s wishes to receive the latest task information.");
 		itip_title = _("Task Update Request");
 		options = get_refresh_options ();
 
@@ -1459,7 +1472,7 @@ show_current_todo (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = _("<b>%s</b> has replied to a task assignment.");
+		itip_desc = _("%s has replied to a task assignment.");
 		itip_title = _("Task Reply");
 		options = get_reply_options ();
 
@@ -1467,7 +1480,7 @@ show_current_todo (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
-		itip_desc = _("<b>%s</b> has canceled a task.");
+		itip_desc = _("%s has canceled a task.");
 		itip_title = _("Task Cancelation");
 		/* FIXME priv->current_ecal will always be NULL so the
 		 * user won't see an error message, the OK button will
@@ -1478,7 +1491,7 @@ show_current_todo (EItipControl *itip)
 		adjust_item (itip, priv->comp);
 		break;
 	default:
-		itip_desc = _("<b>%s</b> has sent an unintelligible message.");
+		itip_desc = _("%s has sent an unintelligible message.");
 		itip_title = _("Bad Task Message");
 		options = NULL;
 	}
@@ -1503,22 +1516,22 @@ show_current_freebusy (EItipControl *itip)
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
-		itip_desc = _("<b>%s</b> has published free/busy information.");
+		itip_desc = _("%s has published free/busy information.");
 		itip_title = _("Free/Busy Information");
 		options = NULL;
 		break;
 	case ICAL_METHOD_REQUEST:
-		itip_desc = _("<b>%s</b> requests your free/busy information.");
+		itip_desc = _("%s requests your free/busy information.");
 		itip_title = _("Free/Busy Request");
 		options = get_request_fb_options ();
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = _("<b>%s</b> has replied to a free/busy request.");
+		itip_desc = _("%s has replied to a free/busy request.");
 		itip_title = _("Free/Busy Reply");
 		options = NULL;
 		break;
 	default:
-		itip_desc = _("<b>%s</b> has sent an unintelligible message.");
+		itip_desc = _("%s has sent an unintelligible message.");
 		itip_title = _("Bad Free/Busy Message");
 		options = NULL;
 	}
