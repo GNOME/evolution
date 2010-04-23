@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
-endif
-
 SUBDIRS = alarm-notify dialogs
 
 privsolib_LTLIBRARIES = libevolution-calendar.la
