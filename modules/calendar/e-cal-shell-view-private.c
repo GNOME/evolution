@@ -35,7 +35,7 @@
 #  define ETC_RC_CONF         "/etc/rc.conf"
 #  define ETC_SYSCONFIG_CLOCK "/etc/sysconfig/clock"
 #  define ETC_CONF_D_CLOCK    "/etc/conf.d/clock"
-#  define ETC_LOCALTIME       "/etc/localtime
+#  define ETC_LOCALTIME       "/etc/localtime"
 #endif
 
 static const gchar * files_to_check [CHECK_NB] = {
