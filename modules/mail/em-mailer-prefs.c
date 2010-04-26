@@ -44,6 +44,7 @@
 #include "widgets/misc/e-charset-combo-box.h"
 
 #include "e-mail-label-manager.h"
+#include "e-mail-reader-utils.h"
 #include "mail-config.h"
 #include "em-folder-selection-button.h"
 #include "em-junk.h"
@@ -423,7 +424,7 @@ emmp_save_headers (EMMailerPrefs *prefs)
 	header_list = NULL;
 	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->header_list_store), &iter);
 	while (valid) {
-		struct _EMMailerPrefsHeader h;
+		struct _EMailReaderHeader h;
 		gboolean enabled;
 		gchar *xml;
 
@@ -433,7 +434,7 @@ emmp_save_headers (EMMailerPrefs *prefs)
 				    -1);
 		h.enabled = enabled;
 
-		if ((xml = em_mailer_prefs_header_to_xml (&h)))
+		if ((xml = e_mail_reader_header_to_xml (&h)))
 			header_list = g_slist_append (header_list, xml);
 
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
@@ -1092,9 +1093,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	header_add_list = NULL;
 	default_header_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < G_N_ELEMENTS (default_headers); i++) {
-		struct _EMMailerPrefsHeader *h;
+		EMailReaderHeader *h;
 
-		h = g_malloc (sizeof (struct _EMMailerPrefsHeader));
+		h = g_malloc (sizeof (EMailReaderHeader));
 		h->is_default = TRUE;
 		h->name = g_strdup (default_headers[i]);
 		h->enabled = strcmp ((gchar *)default_headers[i], "x-evolution-mailer") != 0;
@@ -1106,15 +1107,15 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	header_config_list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
 	p = header_config_list;
 	while (p) {
-		struct _EMMailerPrefsHeader *h, *def;
+		EMailReaderHeader *h, *def;
 		gchar *xml = (gchar *) p->data;
 
-		h = em_mailer_prefs_header_from_xml (xml);
+		h = e_mail_reader_header_from_xml (xml);
 		if (h) {
 			def = g_hash_table_lookup (default_header_hash, h->name);
 			if (def) {
 				def->enabled = h->enabled;
-				em_mailer_prefs_header_free (h);
+				e_mail_reader_header_free (h);
 			} else {
 				h->is_default = FALSE;
 				header_add_list = g_slist_append (header_add_list, h);
@@ -1130,7 +1131,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	p = header_add_list;
 	while (p) {
-		struct _EMMailerPrefsHeader *h = (struct _EMMailerPrefsHeader *) p->data;
+		struct _EMailReaderHeader *h = (struct _EMailReaderHeader *) p->data;
 		const gchar *name;
 
 		if (g_ascii_strcasecmp (h->name, EM_FORMAT_HEADER_XMAILER) == 0)
@@ -1146,7 +1147,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 				    HEADER_LIST_HEADER_COLUMN, h->name,
 				    -1);
 
-		em_mailer_prefs_header_free (h);
+		e_mail_reader_header_free (h);
 		p = p->next;
 	}
 
@@ -1233,113 +1234,4 @@ em_mailer_prefs_new (EShell *shell)
 	em_mailer_prefs_construct (new, shell);
 
 	return GTK_WIDGET (new);
-}
-
-static struct _EMMailerPrefsHeader *
-emmp_header_from_xmldoc (xmlDocPtr doc)
-{
-	struct _EMMailerPrefsHeader *h;
-	xmlNodePtr root;
-	xmlChar *name;
-
-	if (doc == NULL)
-		return NULL;
-
-	root = doc->children;
-	if (strcmp ((gchar *)root->name, "header") != 0)
-		return NULL;
-
-	name = xmlGetProp (root, (const guchar *)"name");
-	if (name == NULL)
-		return NULL;
-
-	h = g_malloc0 (sizeof (struct _EMMailerPrefsHeader));
-	h->name = g_strdup ((gchar *)name);
-	xmlFree (name);
-
-	if (xmlHasProp (root, (const guchar *)"enabled"))
-		h->enabled = 1;
-	else
-		h->enabled = 0;
-
-	return h;
-}
-
-/**
- * em_mailer_prefs_header_from_xml
- * @xml: XML configuration data
- *
- * Parses passed XML data, which should be of
- * the format <header name="foo" enabled />, and
- * returns a EMMailerPrefs structure, or NULL if there
- * is an error.
- **/
-struct _EMMailerPrefsHeader *
-em_mailer_prefs_header_from_xml (const gchar *xml)
-{
-	struct _EMMailerPrefsHeader *header;
-	xmlDocPtr doc;
-
-	if (!(doc = xmlParseDoc ((guchar *) xml)))
-		return NULL;
-
-	header = emmp_header_from_xmldoc (doc);
-	xmlFreeDoc (doc);
-
-	return header;
-}
-
-/**
- * em_mailer_prefs_header_free
- * @header: header to free
- *
- * Frees the memory associated with the passed header
- * structure.
- */
-void
-em_mailer_prefs_header_free (struct _EMMailerPrefsHeader *header)
-{
-	if (header == NULL)
-		return;
-
-	g_free (header->name);
-	g_free (header);
-}
-
-/**
- * em_mailer_prefs_header_to_xml
- * @header: header from which to generate XML
- *
- * Returns the passed header as a XML structure,
- * or NULL on error
- */
-gchar *
-em_mailer_prefs_header_to_xml (struct _EMMailerPrefsHeader *header)
-{
-	xmlDocPtr doc;
-	xmlNodePtr root;
-	xmlChar *xml;
-	gchar *out;
-	gint size;
-
-	g_return_val_if_fail (header != NULL, NULL);
-	g_return_val_if_fail (header->name != NULL, NULL);
-
-	doc = xmlNewDoc ((const guchar *)"1.0");
-
-	root = xmlNewDocNode (doc, NULL, (const guchar *)"header", NULL);
-	xmlSetProp (root, (const guchar *)"name", (guchar *)header->name);
-	if (header->enabled)
-		xmlSetProp (root, (const guchar *)"enabled", NULL);
-
-	xmlDocSetRootElement (doc, root);
-	xmlDocDumpMemory (doc, &xml, &size);
-	xmlFreeDoc (doc);
-
-	out = g_malloc (size + 1);
-	memcpy (out, xml, size);
-	out[size] = '\0';
-	xmlFree (xml);
-
-	return out;
 }

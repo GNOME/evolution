@@ -24,6 +24,7 @@
 #include "e-mail-reader-utils.h"
 
 #include <glib/gi18n.h>
+#include <libxml/tree.h>
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel.h>
 
@@ -35,6 +36,7 @@
 #include "mail/em-format-html-print.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
+#include "mail/mail-config.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-vfolder.h"
@@ -553,4 +555,188 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 	}
 
 	em_utils_uids_free (uids);
+}
+
+static EMailReaderHeader *
+emr_header_from_xmldoc (xmlDocPtr doc)
+{
+	EMailReaderHeader *h;
+	xmlNodePtr root;
+	xmlChar *name;
+
+	if (doc == NULL)
+		return NULL;
+
+	root = doc->children;
+	if (strcmp ((gchar *)root->name, "header") != 0)
+		return NULL;
+
+	name = xmlGetProp (root, (const guchar *)"name");
+	if (name == NULL)
+		return NULL;
+
+	h = g_malloc0 (sizeof (EMailReaderHeader));
+	h->name = g_strdup ((gchar *)name);
+	xmlFree (name);
+
+	if (xmlHasProp (root, (const guchar *)"enabled"))
+		h->enabled = 1;
+	else
+		h->enabled = 0;
+
+	return h;
+}
+
+/**
+ * e_mail_reader_header_from_xml
+ * @xml: XML configuration data
+ *
+ * Parses passed XML data, which should be of
+ * the format <header name="foo" enabled />, and
+ * returns a EMailReaderHeader structure, or NULL if there
+ * is an error.
+ **/
+EMailReaderHeader *
+e_mail_reader_header_from_xml (const gchar *xml)
+{
+	EMailReaderHeader *header;
+	xmlDocPtr doc;
+
+	if (!(doc = xmlParseDoc ((guchar *) xml)))
+		return NULL;
+
+	header = emr_header_from_xmldoc (doc);
+	xmlFreeDoc (doc);
+
+	return header;
+}
+
+/**
+ * e_mail_reader_header_to_xml
+ * @header: header from which to generate XML
+ *
+ * Returns the passed header as a XML structure,
+ * or NULL on error
+ */
+gchar *
+e_mail_reader_header_to_xml (EMailReaderHeader *header)
+{
+	xmlDocPtr doc;
+	xmlNodePtr root;
+	xmlChar *xml;
+	gchar *out;
+	gint size;
+
+	g_return_val_if_fail (header != NULL, NULL);
+	g_return_val_if_fail (header->name != NULL, NULL);
+
+	doc = xmlNewDoc ((const guchar *)"1.0");
+
+	root = xmlNewDocNode (doc, NULL, (const guchar *)"header", NULL);
+	xmlSetProp (root, (const guchar *)"name", (guchar *)header->name);
+	if (header->enabled)
+		xmlSetProp (root, (const guchar *)"enabled", NULL);
+
+	xmlDocSetRootElement (doc, root);
+	xmlDocDumpMemory (doc, &xml, &size);
+	xmlFreeDoc (doc);
+
+	out = g_malloc (size + 1);
+	memcpy (out, xml, size);
+	out[size] = '\0';
+	xmlFree (xml);
+
+	return out;
+}
+
+/**
+ * e_mail_reader_header_free
+ * @header: header to free
+ *
+ * Frees the memory associated with the passed header
+ * structure.
+ */
+void
+e_mail_reader_header_free (EMailReaderHeader *header)
+{
+	if (header == NULL)
+		return;
+
+	g_free (header->name);
+	g_free (header);
+}
+
+static void
+headers_changed_cb (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMailReader *reader)
+{
+	EMFormat *emf;
+	EMFormatHTMLDisplay *emfhd;
+	GSList *header_config_list, *p;
+
+	g_return_if_fail (gconf != NULL);
+	g_return_if_fail (reader != NULL);
+
+	emfhd = e_mail_reader_get_html_display (reader);
+	if (!emfhd)
+		return;
+
+	emf = EM_FORMAT (emfhd);
+	g_return_if_fail (emf != NULL);
+
+	header_config_list = gconf_client_get_list (gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
+	em_format_clear_headers (emf);
+	for (p = header_config_list; p; p = g_slist_next(p)) {
+		EMailReaderHeader *h;
+		gchar *xml = (gchar *)p->data;
+
+		h = e_mail_reader_header_from_xml (xml);
+		if (h && h->enabled) {
+			em_format_add_header (emf, h->name, EM_FORMAT_HEADER_BOLD);
+		}
+
+		e_mail_reader_header_free (h);
+	}
+
+	g_slist_foreach(header_config_list, (GFunc) g_free, NULL);
+	g_slist_free(header_config_list);
+
+	/* force a redraw */
+	if (emf->message)
+		em_format_redraw (emf);
+}
+
+static void
+remove_header_notify_cb (gpointer data)
+{
+	GConfClient *gconf = mail_config_get_gconf_client ();
+	guint notify_id;
+
+	g_return_if_fail (gconf != NULL);
+
+	notify_id = GPOINTER_TO_INT (data);
+	g_return_if_fail (notify_id != 0);
+
+	gconf_client_notify_remove (gconf, notify_id);
+	gconf_client_remove_dir (gconf, "/apps/evolution/mail/display", NULL);
+}
+
+/**
+ * e_mail_reader_connect_headers
+ * @reader: an #EMailReader
+ *
+ * Connects @reader to listening for changes in headers and
+ * updates the EMFormat whenever it changes and on this call too.
+ **/
+void
+e_mail_reader_connect_headers (EMailReader *reader)
+{
+	GConfClient *gconf = mail_config_get_gconf_client ();
+	guint notify_id;
+
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display", GCONF_CLIENT_PRELOAD_NONE, NULL);
+	notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/headers", (GConfClientNotifyFunc) headers_changed_cb, reader, NULL, NULL);
+
+	g_object_set_data_full (G_OBJECT (reader), "reader-header-notify-id", GINT_TO_POINTER (notify_id), remove_header_notify_cb);
+
+	headers_changed_cb (gconf, 0, NULL, reader);
 }

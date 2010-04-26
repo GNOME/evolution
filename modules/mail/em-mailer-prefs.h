@@ -50,13 +50,6 @@ G_BEGIN_DECLS
 
 typedef struct _EMMailerPrefs EMMailerPrefs;
 typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
-typedef struct _EMMailerPrefsHeader EMMailerPrefsHeader;
-
-struct _EMMailerPrefsHeader {
-	gchar *name;
-	guint enabled:1;
-	guint is_default:1;
-};
 
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
@@ -119,11 +112,6 @@ GType		em_mailer_prefs_get_type	(void);
 GtkWidget *	create_combo_text_widget	(void);
 
 GtkWidget *	em_mailer_prefs_new		(EShell *shell);
-
-EMMailerPrefsHeader *
-		em_mailer_prefs_header_from_xml	(const gchar *xml);
-gchar *		em_mailer_prefs_header_to_xml	(EMMailerPrefsHeader *header);
-void		em_mailer_prefs_header_free	(EMMailerPrefsHeader *header);
 
 G_END_DECLS
 
