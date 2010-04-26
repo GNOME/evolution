@@ -39,15 +39,18 @@
 struct _MailAccountViewPrivate {
 	GtkWidget *tab_str;
 
-	GtkWidget *gcalendar;
+	GtkWidget *calendar;
 	GtkWidget *gcontacts;
 	GtkWidget *gmail_info_label;
 
 	gboolean is_gmail;
+	gboolean is_yahoo;
 	gboolean do_gcontacts;
-	gboolean do_gcalendar;
+	gboolean do_calendar;
 
 	char *username;
+
+	GtkWidget *yahoo_cal_entry;
 };
 
 G_DEFINE_TYPE (MailAccountView, mail_account_view, GTK_TYPE_VBOX)
@@ -81,6 +84,7 @@ mail_account_view_init (MailAccountView  *shell)
 	shell->priv = g_new0(MailAccountViewPrivate, 1);
 
 	shell->priv->is_gmail = FALSE;
+	shell->priv->is_yahoo = FALSE;
 	shell->priv->username = NULL;
 }
 
@@ -187,10 +191,10 @@ save_account (MailAccountView *view)
 #define PACK_BOXF(w) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0); gtk_widget_show(box);
 
 #define CALENDAR_CALDAV_URI "caldav://%s@www.google.com/calendar/dav/%s/events"
-#define CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
+#define GMAIL_CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
 #define CALENDAR_DEFAULT_PATH "/private/full"
 #define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
-
+#define YAHOO_CALENDAR_LOCATION "%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s"
 static gboolean
 is_email (const gchar *address)
 {
@@ -229,14 +233,120 @@ sanitize_user_mail (const gchar *user)
 }
 
 static void
+setup_yahoo_account (MailAccountView *mav)
+{
+	GConfClient *gconf = gconf_client_get_default ();
+
+	mav->priv->do_gcontacts = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->gcontacts);
+	mav->priv->do_calendar = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->calendar);
+
+	if (mav->priv->do_calendar) {
+		ESourceList *slist;
+		ESourceGroup *sgrp;
+		ESource *calendar;
+		char *sanitize_uname, *abs_uri, *rel_uri;
+		GSList *ids, *temp;
+		const char *email = e_account_get_string(em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_ID_ADDRESS);
+	
+		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
+		sgrp = e_source_list_peek_group_by_base_uri (slist, "caldav://");
+		if (!sgrp) {
+			sgrp = e_source_list_ensure_group (slist, _("CalDAV"), "caldav://", TRUE);
+		}
+
+		printf("Setting up Yahoo Calendar: list:%p CalDAVGrp: %p\n", slist, sgrp);
+
+		/* FIXME: Not sure if we should localize 'Calendar' */
+		calendar = e_source_new ("Yahoo", "");	
+		e_source_set_property (calendar, "ssl", "1");
+		e_source_set_property (calendar, "refresh", "30");
+		e_source_set_property (calendar, "refresh-type", "0");		
+		e_source_set_property (calendar, "auth", "1");
+		e_source_set_property (calendar, "offline_sync", "1");
+		e_source_set_property (calendar, "username", email);
+		e_source_set_property (calendar, "default", "true");
+		e_source_set_property (calendar, "alarm", "true");
+		
+		e_source_set_readonly (calendar, FALSE);
+		
+		sanitize_uname = sanitize_user_mail (email);
+		
+		abs_uri = g_strdup_printf ("caldav://%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s/", sanitize_uname, email,  gtk_entry_get_text((GtkEntry *)mav->priv->yahoo_cal_entry));
+		e_passwords_add_password (abs_uri, gtk_entry_get_text((GtkEntry *)mav->password));
+		e_passwords_remember_password ("Calendar", abs_uri);
+
+		rel_uri = g_strdup_printf (YAHOO_CALENDAR_LOCATION, sanitize_uname, email, gtk_entry_get_text((GtkEntry *)mav->priv->yahoo_cal_entry));
+		e_source_set_relative_uri (calendar, rel_uri);
+
+		e_source_group_add_source (sgrp, calendar, -1);
+		e_source_list_sync (slist, NULL);
+
+		ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
+		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
+		gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
+		temp = ids;
+
+		for (; temp != NULL; temp = g_slist_next (temp))
+			g_free (temp->data);
+		g_slist_free (ids);		
+
+		g_free(abs_uri);
+		g_free(rel_uri);
+		g_free(sanitize_uname);
+		g_object_unref(slist);
+		g_object_unref(sgrp);
+		g_object_unref(calendar);
+	} else
+		printf("Not setting up Yahoo Calendar\n");
+
+	if (mav->priv->do_gcontacts) {
+		ESourceList *slist;
+		ESourceGroup *sgrp;
+		ESource *abook;
+		char *rel_uri;;
+
+		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources" );
+		
+		sgrp = e_source_list_peek_group_by_base_uri (slist, "google://");
+		
+		/* FIXME: Not sure if we should localize 'Contacts' */
+		abook = e_source_new ("Contacts", "");	
+		e_source_set_property (abook, "default", "true");
+		e_source_set_property (abook, "offline_sync", "1");
+		e_source_set_property (abook, "auth", "plain/password");
+		e_source_set_property (abook, "use-ssl", "true");
+		e_source_set_property (abook, "remember_password", "true");
+		e_source_set_property (abook, "refresh-interval", "86400");
+		e_source_set_property (abook, "completion", "true");
+		e_source_set_property (abook, "username", mav->priv->username);
+		e_source_set_relative_uri (abook, mav->priv->username);
+		
+		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
+		e_passwords_add_password (rel_uri, gtk_entry_get_text((GtkEntry *)mav->password));
+		e_passwords_remember_password ("Addressbook", rel_uri);
+		e_source_group_add_source (sgrp, abook, -1);
+		e_source_list_sync (slist, NULL);
+
+		g_free(rel_uri);
+		g_object_unref(slist);
+		g_object_unref(sgrp);
+		g_object_unref(abook);
+
+
+	}
+
+	g_object_unref (gconf);
+}
+
+static void
 setup_google_accounts (MailAccountView *mav)
 {
 	GConfClient *gconf = gconf_client_get_default ();
 
 	mav->priv->do_gcontacts = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->gcontacts);
-	mav->priv->do_gcalendar = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->gcalendar);
+	mav->priv->do_calendar = gtk_toggle_button_get_active((GtkToggleButton *)mav->priv->calendar);
 
-	if (mav->priv->do_gcalendar) {
+	if (mav->priv->do_calendar) {
 		ESourceList *slist;
 		ESourceGroup *sgrp;
 		ESource *calendar;
@@ -269,7 +379,7 @@ setup_google_accounts (MailAccountView *mav)
 		
 		e_passwords_add_password (abs_uri, gtk_entry_get_text((GtkEntry *)mav->password));
 		e_passwords_remember_password ("Calendar", abs_uri);
-		rel_uri = g_strconcat ("https", CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
+		rel_uri = g_strconcat ("https", GMAIL_CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
 		e_source_set_relative_uri (calendar, rel_uri);
 
 		e_source_group_add_source (sgrp, calendar, -1);
@@ -557,6 +667,8 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 
 		if (mav->priv->is_gmail && !mav->original) 
 			setup_google_accounts (mav);
+		else if (mav->priv->is_yahoo && !mav->original)
+			setup_yahoo_account (mav);
 
 		em_account_editor_commit (mav->edit);
 		g_signal_emit (mav, signals[VIEW_CLOSE], 0);
@@ -587,8 +699,12 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 		
 		if (mav->priv->is_gmail) {
 			gtk_widget_destroy (mav->priv->gcontacts);
-			gtk_widget_destroy (mav->priv->gcalendar);
+			gtk_widget_destroy (mav->priv->calendar);
 			gtk_widget_destroy (mav->priv->gmail_info_label);
+		} else if (mav->priv->is_yahoo) {
+			gtk_widget_destroy (mav->priv->calendar);
+			gtk_widget_destroy (mav->priv->gmail_info_label);
+			gtk_widget_destroy (mav->priv->yahoo_cal_entry);
 		}
 
 		if (mav->original == NULL && (g_strrstr(account->source->url, "gmail") ||
@@ -596,18 +712,18 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			/* Google accounts*/
 			GtkWidget *tmp;
 			mav->priv->is_gmail = TRUE;
-			printf("Google account: %s\n", account->source->url);
+
 			mav->priv->gcontacts = gtk_check_button_new_with_label (_("Setup Google contacts with Evolution"));
-			mav->priv->gcalendar = gtk_check_button_new_with_label (_("Setup Google calendar with Evolution"));
+			mav->priv->calendar = gtk_check_button_new_with_label (_("Setup Google calendar with Evolution"));
 			
 			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->gcontacts, TRUE);
-			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->gcalendar, TRUE);
+			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->calendar, TRUE);
 
 			mav->priv->gmail_info_label = gtk_label_new (_("You need to enable IMAP access."));
 			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
 			
 			gtk_widget_show (mav->priv->gcontacts);
-			gtk_widget_show (mav->priv->gcalendar);
+			gtk_widget_show (mav->priv->calendar);
 			gtk_widget_show (mav->priv->gmail_info_label);
 			
 			tmp = gtk_label_new (NULL);
@@ -618,14 +734,57 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 
 			PACK_IN_BOX(page->box,tmp,12);
 			PACK_IN_BOX(page->box,mav->priv->gcontacts,24);
-			PACK_IN_BOX(page->box,mav->priv->gcalendar,24);
+			PACK_IN_BOX(page->box,mav->priv->calendar,24);
 #undef PACK_IN_BOX
 #define PACK_IN_BOX(wid,child1,child2,num1,num2) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child1, FALSE, FALSE, num1); gtk_box_pack_start ((GtkBox *)tbox, child2, FALSE, FALSE, num2); gtk_widget_show_all (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
 
 			PACK_IN_BOX(page->box,mav->priv->gmail_info_label,gtk_link_button_new("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop"), 24, 0);
+#undef PACK_IN_BOX
+		} else if (mav->original == NULL && 
+				(g_strrstr(account->source->url, "yahoo.") ||
+				 g_strrstr(account->source->url, "ymail.") ||
+				 g_strrstr(account->source->url, "rocketmail."))) {
+			/* Yahoo accounts*/
+			GtkWidget *tmp;
+			char *cal_name;
+			GtkWidget *tmpbox;
 
-		} else 
+			mav->priv->is_yahoo = TRUE;
+			printf("Google account: %s\n", account->source->url);
+			mav->priv->calendar = gtk_check_button_new_with_label (_("Setup Yahoo calendar with Evolution"));
+			
+			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->calendar, TRUE);
+
+			mav->priv->gmail_info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
+			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
+			
+			gtk_widget_show (mav->priv->calendar);
+			gtk_widget_show (mav->priv->gmail_info_label);
+			
+			tmp = gtk_label_new (NULL);
+			gtk_label_set_markup ((GtkLabel *)tmp, _("<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"));		
+			gtk_widget_show(tmp);
+
+#define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
+#define PACK_IN_BOX_AND_TEXT(txt, child,num) { GtkWidget *txtlbl = gtk_label_new (txt); tmpbox = gtk_hbox_new (FALSE, 12); gtk_box_pack_start ((GtkBox *)tmpbox, txtlbl, FALSE, FALSE, num); gtk_box_pack_start ((GtkBox *)tmpbox, child, FALSE, FALSE, num); gtk_widget_show_all (tmpbox);}
+
+			PACK_IN_BOX(page->box,tmp,12);
+			PACK_IN_BOX(page->box,mav->priv->calendar,24);
+
+			mav->priv->yahoo_cal_entry = gtk_entry_new ();
+			gtk_widget_show (mav->priv->yahoo_cal_entry);
+			PACK_IN_BOX(page->box,mav->priv->gmail_info_label, 24);
+			PACK_IN_BOX_AND_TEXT(_("Yahoo Calendar name:"), mav->priv->yahoo_cal_entry, 0);
+			PACK_IN_BOX(page->box, tmpbox, 24);
+			cal_name = g_strdup(e_account_get_string(em_account_editor_get_modified_account(mav->edit), E_ACCOUNT_ID_NAME));
+			cal_name = g_strdelimit(cal_name, " ", '_');
+			gtk_entry_set_text ((GtkEntry *)mav->priv->yahoo_cal_entry, cal_name);
+			g_free (cal_name);
+#undef PACK_IN_BOX
+		} else {
 			mav->priv->is_gmail = FALSE;
+			mav->priv->is_yahoo = FALSE;
+		}
 
 	}
 
