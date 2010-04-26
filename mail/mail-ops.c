@@ -279,9 +279,11 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 			/* this handles 'keep on server' stuff, if we have any new uid's to copy
 			   across, we need to copy them to a new array 'cause of the way fetch_mail_free works */
 			CamelUIDCache *cache = NULL;
+			CamelStore *parent_store;
 			gchar *cachename;
 
-			cachename = uid_cachename_hack (folder->parent_store);
+			parent_store = camel_folder_get_parent_store (folder);
+			cachename = uid_cachename_hack (parent_store);
 			cache = camel_uid_cache_new (cachename);
 			g_free (cachename);
 
@@ -605,14 +607,15 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 			sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
-				const gchar *name;
+				const gchar *description;
 
-				camel_object_get (folder, NULL, CAMEL_OBJECT_DESCRIPTION, (gchar **) &name, 0);
+				description = camel_folder_get_description (folder);
 				if (err->len)
 					g_string_append(err, "\n\n");
-				g_string_append_printf (err, _("Failed to append to %s: %s\n"
-							"Appending to local 'Sent' folder instead."),
-						name, camel_exception_get_description (ex));
+				g_string_append_printf (
+					err, _("Failed to append to %s: %s\n"
+					"Appending to local 'Sent' folder instead."),
+					description, camel_exception_get_description (ex));
 				g_object_ref (sent_folder);
 				g_object_unref (folder);
 				folder = sent_folder;
@@ -1486,19 +1489,21 @@ remove_folder_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
 static void
 remove_folder_exec (struct _remove_folder_msg *m)
 {
-	CamelStore *store;
 	CamelFolderInfo *fi;
+	CamelStore *parent_store;
+	const gchar *full_name;
 
 	m->removed = FALSE;
 
-	store = m->folder->parent_store;
+	full_name = camel_folder_get_full_name (m->folder);
+	parent_store = camel_folder_get_parent_store (m->folder);
 
-	fi = camel_store_get_folder_info (store, m->folder->full_name, CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &m->base.ex);
+	fi = camel_store_get_folder_info (parent_store, full_name, CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &m->base.ex);
 	if (camel_exception_is_set (&m->base.ex))
 		return;
 
-	remove_folder_rec (store, fi, &m->base.ex);
-	camel_store_free_folder_info (store, fi);
+	remove_folder_rec (parent_store, fi, &m->base.ex);
+	camel_store_free_folder_info (parent_store, fi);
 
 	m->removed = !camel_exception_is_set (&m->base.ex);
 }

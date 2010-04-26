@@ -385,18 +385,23 @@ mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids)
 gchar *
 mail_tools_folder_to_url (CamelFolder *folder)
 {
+	CamelStore *parent_store;
+	const gchar *full_name;
 	CamelURL *url;
 	gchar *out;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	url = camel_url_copy(((CamelService *)folder->parent_store)->url);
-	if (((CamelService *)folder->parent_store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
-		camel_url_set_fragment(url, folder->full_name);
-	} else {
-		gchar *name = g_alloca(strlen(folder->full_name)+2);
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
 
-		sprintf(name, "/%s", folder->full_name);
+	url = camel_url_copy(((CamelService *)parent_store)->url);
+	if (((CamelService *)parent_store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
+		camel_url_set_fragment(url, full_name);
+	} else {
+		gchar *name = g_alloca(strlen(full_name)+2);
+
+		sprintf(name, "/%s", full_name);
 		camel_url_set_path(url, name);
 	}
 

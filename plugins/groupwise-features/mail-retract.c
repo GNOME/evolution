@@ -63,7 +63,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 {
 	EGwConnection *cnc;
 	CamelFolder *folder;
-	CamelStore *store;
+	CamelStore *parent_store;
 	gchar *id = NULL;
 	GtkWidget *confirm_dialog, *confirm_warning;
 	GtkWidget *content_area;
@@ -72,9 +72,9 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 	g_return_if_fail (get_selected_info (shell_view, &folder, &id));
 	g_return_if_fail (folder != NULL);
 
-	store = folder->parent_store;
+	parent_store = camel_folder_get_parent_store (folder);
 
-	cnc = get_cnc (store);
+	cnc = get_cnc (parent_store);
 
 	if (cnc && E_IS_GW_CONNECTION(cnc)) {
 		confirm_dialog = gtk_dialog_new_with_buttons (

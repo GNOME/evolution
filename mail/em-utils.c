@@ -849,7 +849,9 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 	/* TODO: Handle conflicts? */
 	if (file == NULL) {
 		/* Drop filename for messages from a mailbox */
-		file = g_strdup_printf(_("Messages from %s"), folder->name);
+		file = g_strdup_printf (
+			_("Messages from %s"),
+			camel_folder_get_name (folder));
 	}
 
 	e_filename_make_safe(file);
@@ -1013,6 +1015,7 @@ gboolean
 em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_templates_folder;
+	CamelStore *parent_store;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
@@ -1028,6 +1031,8 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	if (folder == NULL || uri == NULL)
 		return FALSE;
 
+	parent_store = camel_folder_get_parent_store (folder);
+
 	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *)accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1035,7 +1040,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 
 		if (account->templates_folder_uri) {
 			templates_uri = em_uri_to_camel (account->templates_folder_uri);
-			if (camel_store_folder_uri_equal (folder->parent_store, templates_uri, uri)) {
+			if (camel_store_folder_uri_equal (parent_store, templates_uri, uri)) {
 				g_free (templates_uri);
 				is = TRUE;
 				break;
@@ -1064,6 +1069,7 @@ gboolean
 em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_drafts_folder;
+	CamelStore *parent_store;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
@@ -1079,6 +1085,8 @@ em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri)
 	if (folder == NULL || uri == NULL)
 		return FALSE;
 
+	parent_store = camel_folder_get_parent_store (folder);
+
 	accounts = e_get_account_list ();
 	iter = e_list_get_iterator((EList *)accounts);
 	while (e_iterator_is_valid(iter)) {
@@ -1086,7 +1094,7 @@ em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri)
 
 		if (account->drafts_folder_uri) {
 			drafts_uri = em_uri_to_camel (account->drafts_folder_uri);
-			if (camel_store_folder_uri_equal (folder->parent_store, drafts_uri, uri)) {
+			if (camel_store_folder_uri_equal (parent_store, drafts_uri, uri)) {
 				g_free (drafts_uri);
 				is = TRUE;
 				break;
@@ -1115,6 +1123,7 @@ gboolean
 em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_sent_folder;
+	CamelStore *parent_store;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
@@ -1129,6 +1138,8 @@ em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri)
 	if (folder == NULL || uri == NULL)
 		return FALSE;
 
+	parent_store = camel_folder_get_parent_store (folder);
+
 	accounts = e_get_account_list ();
 	iter = e_list_get_iterator((EList *)accounts);
 	while (e_iterator_is_valid(iter)) {
@@ -1136,7 +1147,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri)
 
 		if (account->sent_folder_uri) {
 			sent_uri = em_uri_to_camel (account->sent_folder_uri);
-			if (camel_store_folder_uri_equal (folder->parent_store, sent_uri, uri)) {
+			if (camel_store_folder_uri_equal (parent_store, sent_uri, uri)) {
 				g_free (sent_uri);
 				is = TRUE;
 				break;
@@ -1179,7 +1190,7 @@ em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 		return FALSE;
 
 	return camel_store_folder_uri_equal (
-		local_outbox_folder->parent_store,
+		camel_folder_get_parent_store (local_outbox_folder),
 		local_outbox_folder_uri, uri);
 }
 
@@ -1300,14 +1311,17 @@ em_utils_message_to_html (CamelMimeMessage *message, const gchar *credits, guint
 void
 em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 {
-	gchar *name;
+	const gchar *description;
 
-	camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
+	description = camel_folder_get_description (folder);
 
-	if (!em_utils_prompt_user ((GtkWindow *) parent, "/apps/evolution/mail/prompts/expunge", "mail:ask-expunge", name, NULL))
+	if (!em_utils_prompt_user (
+		GTK_WINDOW (parent),
+		"/apps/evolution/mail/prompts/expunge",
+		"mail:ask-expunge", description, NULL))
 		return;
 
-	mail_expunge_folder(folder, NULL, NULL);
+	mail_expunge_folder (folder, NULL, NULL);
 }
 
 /**
@@ -2139,10 +2153,12 @@ static EAccount *
 guess_account_from_folder (CamelFolder *folder)
 {
 	CamelService *service;
+	CamelStore *parent_store;
 	EAccount *account;
 	gchar *source_url;
 
-	service = CAMEL_SERVICE (folder->parent_store);
+	parent_store = camel_folder_get_parent_store (folder);
+	service = CAMEL_SERVICE (parent_store);
 
 	source_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	account = mail_config_get_account_by_source_url (source_url);

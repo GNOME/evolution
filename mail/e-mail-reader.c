@@ -1905,12 +1905,15 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	GtkWidget *message_list;
 	EWebView *web_view;
 	CamelFolder *folder;
+	CamelStore *parent_store;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	folder = e_mail_reader_get_folder (reader);
+	parent_store = camel_folder_get_parent_store (folder);
+
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -1942,7 +1945,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			e_web_view_load_string (web_view, string);
 			g_free (string);
 
-			store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
+			store_async = parent_store->flags & CAMEL_STORE_ASYNC;
 
 			if (store_async)
 				disp_func = mail_msg_unordered_push;
@@ -1976,11 +1979,13 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	MessageList *message_list;
 	gboolean store_async;
 	CamelFolder *folder;
+	CamelStore *parent_store;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	folder = e_mail_reader_get_folder (reader);
-	store_async = folder->parent_store->flags & CAMEL_STORE_ASYNC;
+	parent_store = camel_folder_get_parent_store (folder);
+	store_async = parent_store->flags & CAMEL_STORE_ASYNC;
 
 	/* Cancel previous message retrieval if the store is not async. */
 	if (!store_async && priv->retrieving_message_operation_id > 0)
@@ -2726,7 +2731,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (folder != NULL) {
-		store = CAMEL_STORE (folder->parent_store);
+		store = camel_folder_get_parent_store (folder);
 		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
 	}
 

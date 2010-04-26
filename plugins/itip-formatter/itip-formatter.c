@@ -816,6 +816,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
 	const gchar *uid;
 	gchar *rid = NULL;
+	CamelStore *parent_store;
 	CamelURL *url;
 	gchar *uri;
 	ESource *source = NULL, *current_source = NULL;
@@ -823,8 +824,10 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 	e_cal_component_get_uid (comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (comp);
 
-        url = CAMEL_SERVICE (pitip->folder->parent_store)->url;
-        uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	parent_store = camel_folder_get_parent_store (pitip->folder);
+
+	url = CAMEL_SERVICE (parent_store)->url;
+	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
@@ -1981,8 +1984,10 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				tag = camel_message_info_user_tag (mi, "recurrence-key");
 				camel_message_info_free (mi);
 				if (tag) {
-					gint i = 0, count;
+					CamelStore *parent_store;
 					GSList *list = NULL;
+					const gchar *full_name;
+					gint i = 0, count;
 
 					count = camel_folder_summary_count (pitip->folder->summary);
 					for (i = 0; i < count; i++) {
@@ -2001,7 +2006,10 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 						}
 						camel_message_info_free (mi);
 					}
-					camel_db_delete_uids (pitip->folder->parent_store->cdb_w, pitip->folder->full_name, list, NULL);
+
+					full_name = camel_folder_get_full_name (pitip->folder);
+					parent_store = camel_folder_get_parent_store (pitip->folder);
+					camel_db_delete_uids (parent_store->cdb_w, full_name, list, NULL);
 					g_slist_free (list);
 				}
 			} else {

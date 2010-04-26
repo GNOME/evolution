@@ -313,7 +313,7 @@ update_1folder(MailFolderCache *self, struct _folder_info *mfi, gint new, const 
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
 					unread -= deleted;
 
-				camel_object_get (folder, NULL, CAMEL_FOLDER_JUNKED, &junked, NULL);
+				junked = folder->summary->junk_count;
 				if (junked > 0)
 					unread -= junked;
 
@@ -406,17 +406,19 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelFolder *local_drafts;
 	CamelFolder *local_outbox;
 	CamelFolder *local_sent;
-	CamelStore *store = folder->parent_store;
+	CamelStore *parent_store;
 	CamelMessageInfo *info;
 	struct _store_info *si;
 	struct _folder_info *mfi;
+	const gchar *full_name;
 	gint new = 0;
 	gint i;
 	guint32 flags;
 	gchar *uid = NULL, *sender = NULL, *subject = NULL;
 	MailFolderCache *self = (MailFolderCache*) user_data;
 
-	d(printf("folder '%s' changed\n", folder->full_name));
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
 
 	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
@@ -462,8 +464,8 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 
 	g_mutex_lock (self->priv->stores_mutex);
 	if (self->priv->stores != NULL
-	    && (si = g_hash_table_lookup(self->priv->stores, store)) != NULL
-	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
+	    && (si = g_hash_table_lookup(self->priv->stores, parent_store)) != NULL
+	    && (mfi = g_hash_table_lookup(si->folders, full_name)) != NULL
 	    && mfi->folder == folder) {
 		update_1folder (self, mfi, new, uid, sender, subject, NULL);
 	}
@@ -478,16 +480,19 @@ static void
 folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolder *folder = (CamelFolder *)o;
-	CamelStore *store = folder->parent_store;
+	CamelStore *parent_store;
 	struct _store_info *si;
 	struct _folder_info *mfi;
 	MailFolderCache *self = (MailFolderCache*) user_data;
+	const gchar *full_name;
 
-	d(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
 	g_mutex_lock (self->priv->stores_mutex);
 	if (self->priv->stores != NULL
-	    && (si = g_hash_table_lookup(self->priv->stores, store)) != NULL
-	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
+	    && (si = g_hash_table_lookup(self->priv->stores, parent_store)) != NULL
+	    && (mfi = g_hash_table_lookup(si->folders, full_name)) != NULL
 	    && mfi->folder == folder) {
 		mfi->folder = NULL;
 	}
@@ -499,8 +504,6 @@ folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolder *folder = (CamelFolder *)o;
 	gchar *old = event_data;
-
-	d(printf("Folder renamed from '%s' to '%s'\n", old, folder->full_name));
 
 	old = old;
 	folder = folder;
@@ -516,16 +519,18 @@ folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
  */
 void mail_folder_cache_note_folder(MailFolderCache *self, CamelFolder *folder)
 {
-	CamelStore *store = folder->parent_store;
+	CamelStore *parent_store;
 	struct _store_info *si;
 	struct _folder_info *mfi;
+	const gchar *full_name;
 
-	d(printf("noting folder '%s'\n", folder->full_name));
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
 
 	g_mutex_lock (self->priv->stores_mutex);
 	if (self->priv->stores == NULL
-	    || (si = g_hash_table_lookup(self->priv->stores, store)) == NULL
-	    || (mfi = g_hash_table_lookup(si->folders, folder->full_name)) == NULL) {
+	    || (si = g_hash_table_lookup(self->priv->stores, parent_store)) == NULL
+	    || (mfi = g_hash_table_lookup(si->folders, full_name)) == NULL) {
 		w(g_warning("Noting folder before store initialised"));
 		g_mutex_unlock (self->priv->stores_mutex);
 		return;

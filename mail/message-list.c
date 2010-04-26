@@ -1972,6 +1972,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
 	if (message_list->folder) {
+		CamelStore *parent_store;
 		gchar *path;
 		gchar *name;
 		gint data = 1;
@@ -1982,7 +1983,8 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 
 		g_object_set (message_list, "uniform_row_height", TRUE, NULL);
 
-		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
+		parent_store = camel_folder_get_parent_store (message_list->folder);
+		name = camel_service_get_name (CAMEL_SERVICE (parent_store), TRUE);
 		d(printf ("folder name is '%s'\n", name));
 
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
@@ -2094,10 +2096,14 @@ struct _drop_msg {
 static gchar *
 ml_drop_async_desc (struct _drop_msg *m)
 {
+	const gchar *full_name;
+
+	full_name = camel_folder_get_full_name (m->folder);
+
 	if (m->move)
-		return g_strdup_printf(_("Moving messages into folder %s"), m->folder->full_name);
+		return g_strdup_printf(_("Moving messages into folder %s"), full_name);
 	else
-		return g_strdup_printf(_("Copying messages into folder %s"), m->folder->full_name);
+		return g_strdup_printf(_("Copying messages into folder %s"), full_name);
 }
 
 static void

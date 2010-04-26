@@ -273,7 +273,6 @@ mail_backend_quit_requested_cb (EShell *shell,
 {
 	CamelFolder *folder;
 	GtkWindow *window;
-	guint32 unsent;
 	gint response;
 
 	window = e_shell_get_active_window (shell);
@@ -288,11 +287,7 @@ mail_backend_quit_requested_cb (EShell *shell,
 	if (folder == NULL)
 		return;
 
-	if (camel_object_get (
-		folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) != 0)
-		return;
-
-	if (unsent == 0)
+	if (folder->summary->visible_count == 0)
 		return;
 
 	response = e_alert_run_dialog_for_args (

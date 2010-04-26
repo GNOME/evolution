@@ -66,6 +66,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	CamelFolder *folder;
+	CamelStore *parent_store;
 	GtkWidget *check_button;
 	GtkWidget *content_area;
 	GtkWidget *dialog;
@@ -88,7 +89,9 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	prompt_delete_in_vfolder = e_shell_settings_get_boolean (
 		shell_settings, "mail-prompt-delete-in-vfolder");
 
-	if (!CAMEL_IS_VEE_STORE (folder->parent_store))
+	parent_store = camel_folder_get_parent_store (folder);
+
+	if (!CAMEL_IS_VEE_STORE (parent_store))
 		return TRUE;
 
 	if (!prompt_delete_in_vfolder)
@@ -96,7 +99,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	dialog = e_alert_dialog_new_for_args (
 		window, "mail:ask-delete-vfolder-msg",
-		folder->full_name, NULL);
+		camel_folder_get_full_name (folder), NULL);
 
 	/* XXX e-error should provide a widget layout and API suitable
 	 *     for packing additional widgets to the right of the alert

@@ -1726,7 +1726,12 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 		gchar *post;
 
 		if (folder) {
-			store_url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
+			CamelStore *parent_store;
+
+			parent_store = camel_folder_get_parent_store (folder);
+			store_url = camel_url_to_string (
+				CAMEL_SERVICE (parent_store)->url,
+				CAMEL_URL_HIDE_ALL);
 			if (store_url[strlen (store_url) - 1] == '/')
 				store_url[strlen (store_url)-1] = '\0';
 		}

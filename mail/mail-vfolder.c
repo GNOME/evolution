@@ -81,7 +81,9 @@ struct _setup_msg {
 static gchar *
 vfolder_setup_desc (struct _setup_msg *m)
 {
-	return g_strdup_printf(_("Setting up Search Folder: %s"), m->folder->full_name);
+	return g_strdup_printf (
+		_("Setting up Search Folder: %s"),
+		camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -89,8 +91,6 @@ vfolder_setup_exec (struct _setup_msg *m)
 {
 	GList *l, *list = NULL;
 	CamelFolder *folder;
-
-	d(printf("Setting up Search Folder: %s\n", m->folder->full_name));
 
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
@@ -110,7 +110,6 @@ vfolder_setup_exec (struct _setup_msg *m)
 
 	l = m->sources_folder;
 	while (l && !vfolder_shutdown) {
-		d(printf(" Adding folder: %s\n", ((CamelFolder *)l->data)->full_name));
 		g_object_ref (l->data);
 		list = g_list_append(list, l->data);
 		l = l->next;
@@ -807,9 +806,12 @@ rule_changed(EFilterRule *rule, CamelFolder *folder)
 {
 	GList *sources_uri = NULL, *sources_folder = NULL;
 	GString *query;
+	const gchar *full_name;
+
+	full_name = camel_folder_get_full_name (folder);
 
 	/* if the folder has changed name, then add it, then remove the old manually */
-	if (strcmp(folder->full_name, rule->name) != 0) {
+	if (strcmp (full_name, rule->name) != 0) {
 		gchar *oldname;
 
 		gpointer key;
@@ -817,18 +819,17 @@ rule_changed(EFilterRule *rule, CamelFolder *folder)
 
 		G_LOCK (vfolder);
 		d(printf("Changing folder name in hash table to '%s'\n", rule->name));
-		if (g_hash_table_lookup_extended (vfolder_hash, folder->full_name, &key, &oldfolder)) {
+		if (g_hash_table_lookup_extended (vfolder_hash, full_name, &key, &oldfolder)) {
 			g_hash_table_remove (vfolder_hash, key);
 			g_free (key);
 			g_hash_table_insert (vfolder_hash, g_strdup(rule->name), folder);
 			G_UNLOCK (vfolder);
 		} else {
 			G_UNLOCK (vfolder);
-			g_warning("couldn't find a vfolder rule in our table? %s", folder->full_name);
+			g_warning("couldn't find a vfolder rule in our table? %s", full_name);
 		}
 
-		/* TODO: make the folder->full_name var thread accessible */
-		oldname = g_strdup(folder->full_name);
+		oldname = g_strdup (full_name);
 		camel_store_rename_folder(vfolder_store, oldname, rule->name, NULL);
 		g_free(oldname);
 	}
@@ -1023,6 +1024,7 @@ vfolder_load_storage(void)
 	EFilterRule *rule;
 	gchar *xmlfile;
 	GConfClient *gconf;
+	CamelException ex;
 
 	G_LOCK (vfolder_hash);
 
@@ -1036,14 +1038,18 @@ vfolder_load_storage(void)
 
 	G_UNLOCK (vfolder_hash);
 
+	camel_exception_init (&ex);
+
 	/* first, create the vfolder store, and set it up */
 	data_dir = mail_session_get_data_dir ();
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
-	vfolder_store = camel_session_get_store(session, storeuri, NULL);
+	vfolder_store = camel_session_get_store(session, storeuri, &ex);
 	if (vfolder_store == NULL) {
 		g_warning("Cannot open vfolder store - no vfolders available");
 		return;
 	}
+
+	camel_exception_clear (&ex);
 
 	camel_object_hook_event(vfolder_store, "folder_created",
 				(CamelObjectEventHookFunc)store_folder_created, NULL);

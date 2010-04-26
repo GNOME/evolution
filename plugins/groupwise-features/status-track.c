@@ -184,7 +184,7 @@ gw_track_message_status_cb (GtkAction *action,
 	gtk_table_set_col_spacings (table ,12);
 	gtk_table_set_row_spacings (table, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (table), FALSE, TRUE, 0);
-	cnc = get_cnc (folder->parent_store);
+	cnc = get_cnc (camel_folder_get_parent_store (folder));
 
 	if (E_IS_GW_CONNECTION(cnc)) {
 		GSList *recipient_list;

@@ -77,7 +77,7 @@ gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
-	cnc = get_cnc (folder->parent_store);
+	cnc = get_cnc (camel_folder_get_parent_store (folder));
 
 	dialog =  gtk_dialog_new_with_buttons (_("Junk Settings"),
 			NULL,

@@ -554,22 +554,24 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		GPtrArray *uids;
 		GtkAction *action;
 		const gchar *action_label;
+		const gchar *folder_name;
 		gchar *action_name;
 		gchar *path;
 		guint ii;
 
 		folder = camel_store_get_folder (
 			store, folder_info->full_name, 0, NULL);
+		folder_name = camel_folder_get_name (folder);
 
 		action_name = g_strdup_printf (
 			"templates-menu-%d", *action_count);
 		*action_count = *action_count + 1;
 
 		/* To avoid having a Templates dir, we ignore the top level */
-		if (g_str_has_suffix (folder->name, "Templates"))
+		if (g_str_has_suffix (folder_name, "Templates"))
 			action_label = _("Templates");
 		else
-			action_label = folder->name;
+			action_label = folder_name;
 
 		action = gtk_action_new (
 			action_name, action_label, NULL, NULL);
@@ -700,6 +702,7 @@ update_actions_cb (EShellView *shell_view)
 	CamelStore *store;
 	EMailReader *reader;
 	GPtrArray *uids;
+	const gchar *full_name;
 	guint action_count = 0;
 	guint merge_id;
 	gpointer data;
@@ -730,9 +733,10 @@ update_actions_cb (EShellView *shell_view)
 
 	store = e_mail_local_get_store ();
 	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+	full_name = camel_folder_get_full_name (templates_folder);
 
 	folder_info = camel_store_get_folder_info (
-		store, templates_folder->full_name,
+		store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 

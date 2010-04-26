@@ -1545,18 +1545,26 @@ struct _DragDataReceivedAsync {
 static void
 folder_tree_drop_folder(struct _DragDataReceivedAsync *m)
 {
-	CamelFolder *src;
+	CamelFolder *folder;
+	CamelStore *parent_store;
+	const gchar *full_name;
 	const guchar *data;
 
 	data = gtk_selection_data_get_data (m->selection);
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
-	if (!(src = mail_tool_uri_to_folder((gchar *)data, 0, &m->base.ex)))
+	if (!(folder = mail_tool_uri_to_folder((gchar *)data, 0, &m->base.ex)))
 		return;
 
-	em_folder_utils_copy_folders(src->parent_store, src->full_name, m->store, m->full_name?m->full_name:"", m->move);
-	g_object_unref (src);
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
+	em_folder_utils_copy_folders (
+		parent_store, full_name, m->store,
+		m->full_name ? m->full_name : "", m->move);
+
+	g_object_unref (folder);
 }
 
 static gchar *

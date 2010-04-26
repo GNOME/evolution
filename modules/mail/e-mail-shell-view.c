@@ -664,7 +664,7 @@ current_account:
 
 	/* Create a new search folder. */
 
-	store = folder->parent_store;
+	store = camel_folder_get_parent_store (folder);
 	list = NULL;  /* list of CamelFolders */
 
 	if (store->folders != NULL) {

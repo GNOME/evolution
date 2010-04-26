@@ -93,12 +93,14 @@ void
 shared_folder_commit (EPlugin *ep, EConfigTarget *tget)
 {
 	EMConfigTargetFolder *target =  (EMConfigTargetFolder *)tget->config->target;
-	CamelFolder *folder = target->folder;
-	CamelStore *store = folder->parent_store;
+	CamelStore *parent_store;
 	EMFolderTreeModel *model = NULL; /*mail_component_peek_tree_model (mail_component_peek ())*/;
+
+	parent_store = camel_folder_get_parent_store (target->folder);
+
 	if (common) {
 		share_folder (common);
-		refresh_folder_tree (model, store);
+		refresh_folder_tree (model, parent_store);
 		g_object_run_dispose ((GObject *)common);
 		common = NULL;
 	}
@@ -370,7 +372,7 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)hook_data->config->target;
 	CamelFolder *folder = target->folder;
 
-	folder_name = g_strdup (folder->full_name);
+	folder_name = g_strdup (camel_folder_get_full_name (folder));
 	folderuri = g_strdup(target->uri);
 	if (folderuri && folder_name)
 		account = g_strrstr(folderuri, "groupwise");
@@ -396,8 +398,10 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	}
 
 	if (account) {
-		CamelStore *store = folder->parent_store;
-		cnc = get_cnc (store);
+		CamelStore *parent_store;
+
+		parent_store = camel_folder_get_parent_store (folder);
+		cnc = get_cnc (parent_store);
 
 		if (E_IS_GW_CONNECTION (cnc))
 			id = get_container_id (cnc, folder_name);

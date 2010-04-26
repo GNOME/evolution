@@ -217,7 +217,10 @@ static void
 read_notify_dbus (EMEventTargetMessage *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("MessageReading", t->folder->name, 0, NULL, NULL, NULL);
+		send_dbus_message (
+			"MessageReading",
+			camel_folder_get_name (t->folder),
+			0, NULL, NULL, NULL);
 }
 
 static void

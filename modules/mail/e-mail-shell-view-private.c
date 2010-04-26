@@ -821,12 +821,13 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	EShellView *shell_view;
 	EMailReader *reader;
 	CamelStore *local_store;
+	CamelStore *parent_store;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	GString *buffer;
 	const gchar *display_name;
+	const gchar *folder_name;
 	const gchar *folder_uri;
-	gchar *folder_name;
 	gchar *title;
 	guint32 num_deleted;
 	guint32 num_junked;
@@ -863,15 +864,14 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		return;
 	}
 
-	camel_object_get (
-		folder, NULL,
-		CAMEL_FOLDER_NAME, &folder_name,
-		CAMEL_FOLDER_DELETED, &num_deleted,
-		CAMEL_FOLDER_JUNKED, &num_junked,
-		CAMEL_FOLDER_JUNKED_NOT_DELETED, &num_junked_not_deleted,
-		CAMEL_FOLDER_UNREAD, &num_unread,
-		CAMEL_FOLDER_VISIBLE, &num_visible,
-		NULL);
+	folder_name = camel_folder_get_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
+	num_deleted = folder->summary->deleted_count;
+	num_junked = folder->summary->junk_count;
+	num_junked_not_deleted = folder->summary->junk_not_deleted_count;
+	num_unread = folder->summary->unread_count;
+	num_visible = folder->summary->visible_count;
 
 	buffer = g_string_sized_new (256);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -942,7 +942,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	em_utils_uids_free (uids);
 
 	/* Choose a suitable folder name for displaying. */
-	if (folder->parent_store == local_store && (
+	if (parent_store == local_store && (
 		strcmp (folder_name, "Drafts") == 0 ||
 		strcmp (folder_name, "Inbox") == 0 ||
 		strcmp (folder_name, "Outbox") == 0 ||
@@ -959,6 +959,5 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	e_shell_view_set_title (shell_view, title);
 	g_free (title);
 
-	camel_object_free (folder, CAMEL_FOLDER_NAME, folder_name);
 	g_string_free (buffer, TRUE);
 }

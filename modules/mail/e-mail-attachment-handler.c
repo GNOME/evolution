@@ -347,25 +347,15 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 exit:
 	if (camel_exception_is_set (&ex)) {
-		gchar *folder_name;
+		const gchar *folder_name = data;
 
 		if (folder != NULL)
-			camel_object_get (
-				folder, NULL, CAMEL_FOLDER_NAME,
-				&folder_name, NULL);
-		else
-			folder_name = g_strdup (data);
+			folder_name = camel_folder_get_name (folder);
 
 		e_alert_run_dialog_for_args (
 			parent, "mail-composer:attach-nomessages",
 			folder_name, camel_exception_get_description (&ex),
 			NULL);
-
-		if (folder != NULL)
-			camel_object_free (
-				folder, CAMEL_FOLDER_NAME, folder_name);
-		else
-			g_free (folder_name);
 
 		camel_exception_clear (&ex);
 	}

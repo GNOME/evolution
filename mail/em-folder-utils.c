@@ -403,8 +403,10 @@ emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, gpo
 		GtkWidget *w;
 
 		w = e_alert_dialog_new_for_args (
-			e_shell_get_active_window (NULL), "mail:no-delete-folder",
-			folder->full_name, camel_exception_get_description (ex), NULL);
+			e_shell_get_active_window (NULL),
+			"mail:no-delete-folder",
+			camel_folder_get_full_name (folder),
+			camel_exception_get_description (ex), NULL);
 		em_utils_show_error_silent (w);
 		camel_exception_clear (ex);
 	}
@@ -431,23 +433,30 @@ void
 em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local_store;
+	CamelStore *parent_store;
 	GtkWindow *parent = e_shell_get_active_window (NULL);
 	GtkWidget *dialog;
+	const gchar *full_name;
 	gint flags = 0;
+
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
 
 	local_store = e_mail_local_get_store ();
 
-	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
+	if (parent_store == local_store && emfu_is_special_local_folder (full_name)) {
 		dialog = e_alert_dialog_new_for_args (
 			parent, "mail:no-delete-special-folder",
-			folder->full_name, NULL);
+			full_name, NULL);
 		em_utils_show_error_silent (dialog);
 		return;
 	}
 
 	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (), folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
 	{
-		e_alert_run_dialog_for_args (parent,"mail:no-delete-special-folder", folder->name, NULL);
+		e_alert_run_dialog_for_args (
+			parent,"mail:no-delete-special-folder",
+			camel_folder_get_name (folder), NULL);
 		return;
 	}
 
@@ -455,13 +464,13 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 
 	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (), folder, &flags) && (flags & CAMEL_FOLDER_CHILDREN)) {
 		dialog = e_alert_dialog_new_for_args (parent,
-			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
-			     folder->full_name, NULL);
+			     (parent_store && CAMEL_IS_VEE_STORE(parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
+			     full_name, NULL);
 	}
 	else {
 		dialog = e_alert_dialog_new_for_args (parent,
-			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder-nochild":"mail:ask-delete-folder-nochild",
-			     folder->full_name, NULL);
+			     (parent_store && CAMEL_IS_VEE_STORE(parent_store))?"mail:ask-delete-vfolder-nochild":"mail:ask-delete-folder-nochild",
+			     full_name, NULL);
 	}
 
 	g_object_set_data_full ((GObject *) dialog, "folder", folder, g_object_unref);
