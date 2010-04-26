@@ -21,6 +21,7 @@ liborg_gnome_face_la_SOURCES = face.c
 
 liborg_gnome_face_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/composer/libcomposer.la 		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
 	$(EVOLUTION_MAIL_LIBS)					\
