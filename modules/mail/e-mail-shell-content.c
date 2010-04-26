@@ -40,6 +40,7 @@
 #include "message-list.h"
 
 #include "e-mail-reader.h"
+#include "e-mail-reader-utils.h"
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
 
@@ -461,6 +462,8 @@ mail_shell_content_constructed (GObject *object)
 		message_list, "message-selected",
 		G_CALLBACK (mail_shell_content_message_selected_cb),
 		shell_content);
+
+	e_mail_reader_connect_headers (reader);
 }
 
 static guint32
