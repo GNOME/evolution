@@ -14,7 +14,7 @@ dnl Bonobo server files.  This should always be the major/minor of
 dnl the stable version or stable version to be.  Note, this is set
 dnl the way it is so that GETTEXT_PACKAGE will be parsed correctly.
 BASE_VERSION=2.30
-m4_define([base_version], [evo_version])
+m4_define([base_version], [2.30])
 
 dnl Upgrade Revision: This is for triggering migration calls between
 dnl varying versions. Reset to 0 whenever BASE_VERSION changes.
@@ -37,7 +37,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl Required Packages
 m4_define([glib_minimum_version], [2.22.0])
 m4_define([gtk_minimum_version], [2.18.0])
-m4_define([eds_minimum_version], [2.30.0])
+m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libgtkhtml_minimum_version], [3.29.6])
