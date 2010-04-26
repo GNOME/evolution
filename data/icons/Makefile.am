@@ -119,7 +119,7 @@ stock_private_icons = \
 	hicolor_actions_24x24_stock_mail-unread-multiple.png \
 	hicolor_actions_24x24_stock_new-meeting.png \
 	hicolor_actions_24x24_stock_notes.png \
-	hicolor_actions_24x24_stock_people.png
+	hicolor_actions_24x24_stock_people.png \
 	hicolor_actions_24x24_stock_shared-by-me.png \
 	hicolor_actions_24x24_stock_shared-to-me.png \
 	hicolor_actions_24x24_stock_show-all.png \
