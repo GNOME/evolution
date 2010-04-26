@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-03-18 11:05+0000\n"
-"PO-Revision-Date: 2010-03-18 14:42+0300\n"
+"PO-Revision-Date: 2010-04-20 08:44+0300\n"
 "Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6712,7 +6712,7 @@ msgid "R_ule name:"
 msgstr "_Reegli nimi:"
 
 msgid "Find items that meet the following conditions"
-msgstr "Järgnevatele tingimustele vastavate kirjete leidmine"
+msgstr "Kui leitakse järgnevatele tingimustele vastav kirje"
 
 msgid "A_dd Condition"
 msgstr "Lisa _tingimus"
@@ -6724,7 +6724,7 @@ msgid "If any conditions are met"
 msgstr "Kui vähemalt üks tingimustest on täidetud"
 
 msgid "_Find items:"
-msgstr "_Kirjeid otsitakse:"
+msgstr "_Kirjed sobivad:"
 
 msgid "All related"
 msgstr "Kõik seonduvad"
@@ -6751,7 +6751,7 @@ msgid "Add Rule"
 msgstr "Reegli lisamine"
 
 msgid "Edit Rule"
-msgstr "Muuda reeglit"
+msgstr "Reegli muutmine"
 
 msgid "Bad regular expression &quot;{0}&quot;."
 msgstr "Vigane regulaaravaldis &quot;{0}&quot;."
@@ -7794,7 +7794,7 @@ msgstr "Määramata olek"
 
 #. and now for the action area
 msgid "Then"
-msgstr "Siis"
+msgstr "siis"
 
 msgid "Add Ac_tion"
 msgstr "Lisa _tegevus"
@@ -12107,8 +12107,8 @@ msgstr "Evolutioni kontode ja seadistuste varundamine"
 
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
-"Evolutioni andmete (e-post, kontaktid, kalender, ülesanded, märkmed) "
-"varundamine"
+"Evolutioni andmete varundamine (e-post, kontaktid, kalender, ülesanded, "
+"märkmed)"
 
 msgid "Backup complete"
 msgstr "Varundamine on valmis"
@@ -12120,7 +12120,7 @@ msgid "Backup current Evolution data"
 msgstr "Praeguste Evolutioni andmete varundamine"
 
 msgid "Extracting files from backup"
-msgstr "Varukoopiast failide väljavõtmine"
+msgstr "Failide lahtipakkimine varukoopiast"
 
 msgid "Loading Evolution settings"
 msgstr "Evolutioni sätete laadimine"
@@ -16456,7 +16456,7 @@ msgid "Add Signature Script"
 msgstr "Allkirjaskripti lisamine"
 
 msgid "Edit Signature Script"
-msgstr "Allkirja muutmine"
+msgstr "Allkirjaskripti muutmine"
 
 msgid "Add _Script"
 msgstr "Lisa _skript"
