@@ -136,7 +136,7 @@ stock_private_icons = \
 	hicolor_actions_48x48_stock_new-24h-appointment.png \
 	hicolor_actions_48x48_stock_new-meeting.png \
 	hicolor_actions_48x48_stock_notes.png \
-	hicolor_actions_48x48_stock_people.png
+	hicolor_actions_48x48_stock_people.png \
 	hicolor_actions_48x48_stock_timezone.png \
 	hicolor_actions_48x48_stock_todo.png \
 	hicolor_status_16x16_stock_check-filled.png \
