@@ -17,6 +17,9 @@ GConf Bridge
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT GConfBridge ##### -->
 <para>
 
@@ -28,6 +31,7 @@ GConf Bridge
 
 </para>
 
+@void: 
 
 
 <!-- ##### FUNCTION gconf_bridge_get ##### -->
@@ -35,6 +39,7 @@ GConf Bridge
 
 </para>
 
+@void: 
 @Returns: 
 
 

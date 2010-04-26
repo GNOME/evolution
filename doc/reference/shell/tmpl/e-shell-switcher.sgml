@@ -17,6 +17,9 @@ EShellSwitcher
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT EShellSwitcher ##### -->
 <para>
 
@@ -46,6 +49,7 @@ EShellSwitcher
 
 </para>
 
+@void: 
 @Returns: 
 
 
