@@ -1,3 +1,9 @@
+Evolution 2.30.1.1 2010-04-26
+-----------------------------
+
+	Brown paper bag release to correct a versioning error.
+	See git commit 6891b6f00cbe5f0480303f1859ef123bf679005e.
+
 Evolution 2.30.1 2010-04-26
 ---------------------------
 
