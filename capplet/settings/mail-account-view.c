@@ -245,6 +245,11 @@ setup_google_accounts (MailAccountView *mav)
 		
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
 		sgrp = e_source_list_peek_group_by_base_uri (slist, "google://");
+		if (!sgrp) {
+			sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
+		}
+
+		printf("Setting up Google Calendar: list:%p GoogleGrp: %p\n", slist, sgrp);
 
 		/* FIXME: Not sure if we should localize 'Calendar' */
 		calendar = e_source_new ("Calendar", "");	
@@ -285,7 +290,8 @@ setup_google_accounts (MailAccountView *mav)
 		g_object_unref(slist);
 		g_object_unref(sgrp);
 		g_object_unref(calendar);
-	}
+	} else
+		printf("Not setting up Google Calendar\n");
 
 	if (mav->priv->do_gcontacts) {
 		ESourceList *slist;
