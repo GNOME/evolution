@@ -697,8 +697,11 @@ headers_changed_cb (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMailR
 		e_mail_reader_header_free (h);
 	}
 
-	g_slist_foreach(header_config_list, (GFunc) g_free, NULL);
-	g_slist_free(header_config_list);
+	if (!header_config_list)
+		em_format_default_headers (emf);
+
+	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
+	g_slist_free (header_config_list);
 
 	/* force a redraw */
 	if (emf->message)
