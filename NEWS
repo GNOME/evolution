@@ -1,5 +1,103 @@
+Evolution 2.30.1 2010-04-26
+---------------------------
+
+Bug Fixes:
+
+	#374533 - Read window stays open after last email is deleted
+	          (Milan Crha)
+	#488979 - Disable Edit for card views in contacts (Milan Crha)
+	#569945 - Recurrence icon not removed after changing to single event
+	          (Milan Crha)
+	#589393 - Configure fails to detect pilot-link utf8 capabilities
+	          (Dominique Leuenberger)
+	#592117 - Calendar compressed weekend print improvement (pepp)
+	#600861 - Backup utility should use --quit instead of --force-shutdown
+	          (Matthew Barnes)
+	#608203 - Left pane of mailer window is really narrow at startup
+	          (Milan Crha)
+	#610229 - Status bar progress goes beyond 100 percentage (punit)
+	#611646 - Calendar shows recurring birthdays incorrectly (Milan Crha)
+	#612236 - Find-As-You-Type in Folder list stops working (Milan Crha)
+	#612821 - Uses freed memory when changing task's source (Milan Crha)
+	#612916 - Runtime error on console when opening a message window
+	          (Milan Crha)
+	#613261 - application/mbox not shown properly (Milan Crha)
+	#613352 - Changed time range not propagated to calendar (Milan Crha)
+	#613354 - Folder->Mark all messages as read does not work (Milan Crha)
+	#613356 - Calendar doesn't save Task/Memo table state (Milan Crha)
+	#613564 - If no <> in the email address, addr should be the full
+	          email address. (Jeff Cai)
+	#614325 - Shrink/expand To,Cc header images is missing (Milan Crha)
+	#614644 - Email window's title is blank when subject is blank
+	          (Matthew Barnes)
+	#614647 - Don't reset names and colors of default mail labels
+	          (Matt McCutchen)
+	#614813 - Crash during e-mail migration (Jürg Billeter)
+	#614889 - Memory leaks in EMailSidebar (Paolo Borelli)
+	#614892 - String leak in the composer (Paolo Borelli)
+	#614918 - GnomeGoal: Correct Desktop Files (Javier Jardón)
+	#614926 - Memos and Tasks accelerators switched since 2.28
+	          (Matt McCutchen 2)
+	#615331 - Message list/Folder tree focus policy has changed (Milan Crha)
+	#616097 - Remembers page ranges (Matthew Barnes)
+
+
+Other Changes:
+
+	* Fix build settings under capplet. (Matthew Barnes)
+	* Fix build break due to GTK+ deprecations. (Matthew Barnes)
+	* Fix a potential crasher in e_contact_quick_add_email().
+	  (Matthew Barnes)
+	* Initialize dbus threading to avoid loosing alarms (Michael Meeks)
+	* Work around another dropped gnome-icon-theme icon. (Matthew Barnes)
+	* Fix migration event hook for google-account-setup and
+	  calendar-weather plugins (Philip Withnall)
+	* Fix disappearing e-table headers by realising the (horrible)
+	  pet widget we are going to steal the gc from, so it actually
+	  has it. (Michael Meeks)
+	* Add more stock icons dropped from gnome-icon-theme. (Matthew Barnes)
+	* Revise legacy stock icon contexts. (Matthew Barnes)
+	* Use newer GTK+ API to manage print settings. (Matthew Barnes)
+	* Install stock icons in "hicolor" instead of "gnome". (Matthew Barnes)
+	* Remove duplicate use_system_timezone pref, set default to true
+	  (Sandy Armstrong)
+	* Add missing linker flag to NetworkManager extension. (Matthew Barnes)
+	* Remove gtk_notebook_set_tab_label_packing(). (Matthew Barnes)
+	* Introduce a simple extension system for objects. (Matthew Barnes)
+	* Make EShell extensible. (Matthew Barnes)
+	* Convert NetworkManager integration to an EShell extension.
+	  (Matthew Barnes)
+	* Do not hide junk mail when vJunk folder not supported by store
+	  (Milan Crha)
+	* Build libevolution-mail-settings as dll on windows (Fridrich Štrba)
+	* Relocating EVOLUTION_BINDIR which will be used in plugin setting
+	  Evolution comme defaut mail application on windows. (Fridrich Štrba)
+	* Don't bundle 256x256 icon since it does not work anyway
+	  (Fridrich Štrba)
+	* Give the windows version of evolution-alarm-notify a nice win32 icon
+	  (Fridrich Štrba)
+	* Adding the stock_people icon needed and absent in gnome-icon-theme
+	  (Fridrich Štrba)
+	* [win32] Be consistent in disabling the lockdown options.
+	  (Fridrich Strba)
+	* Avoid warning about redefined localtime_r (Fridrich Štrba)
+	* [win32] Implement network status detection (Fridrich Strba)
+
+Translations:
+
+	Jordi Serratosa (ca)
+	Carles Ferrando (ca@valencia)
+	Christian Kirbach (de)
+	Nikos Bakaoukas (el)
+	Jorge González (es)
+	Shankar Prasad (kn)
+	Daniel Nylander (sv)
+	Theppitak Karoonboonyanan (th)
+	Maxim V. Dziumanenko (uk)
+	Funda Wang (zh_CN)
+
 Evolution 2.30.0 2010-03-29
-----------------------------
+---------------------------
 
 What is new ?
 Diligent UI re-architecture to give farewell to bonobo.
