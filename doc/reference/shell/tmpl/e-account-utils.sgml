@@ -17,11 +17,15 @@ Mail Account Functions
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### FUNCTION e_get_account_list ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -30,6 +34,7 @@ Mail Account Functions
 
 </para>
 
+@void: 
 @Returns: 
 
 

@@ -17,6 +17,9 @@ EShell
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT EShell ##### -->
 <para>
 
@@ -129,6 +132,7 @@ EShell
 
 </para>
 
+@void: 
 @Returns: 
 
 

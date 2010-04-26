@@ -17,6 +17,9 @@ Personalized Signatures
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT ESignature ##### -->
 <para>
 
@@ -58,6 +61,7 @@ Personalized Signatures
 
 </para>
 
+@void: 
 @Returns: 
 
 

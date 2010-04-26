@@ -17,11 +17,15 @@ Miscellaneous Utilities
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### FUNCTION e_get_user_data_dir ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -30,6 +34,7 @@ Miscellaneous Utilities
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -281,6 +286,7 @@ Miscellaneous Utilities
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -289,6 +295,7 @@ Miscellaneous Utilities
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -297,6 +304,7 @@ Miscellaneous Utilities
 
 </para>
 
+@void: 
 
 
 <!-- ##### FUNCTION e_file_lock_exists ##### -->
@@ -304,6 +312,7 @@ Miscellaneous Utilities
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -322,6 +331,7 @@ Miscellaneous Utilities
 
 </para>
 
+@void: 
 @Returns: 
 
 
