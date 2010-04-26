@@ -719,7 +719,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->gcontacts, TRUE);
 			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->calendar, TRUE);
 
-			mav->priv->gmail_info_label = gtk_label_new (_("You need to enable IMAP access."));
+			mav->priv->gmail_info_label = gtk_label_new (_("You may need to enable IMAP access."));
 			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
 			
 			gtk_widget_show (mav->priv->gcontacts);
