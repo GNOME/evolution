@@ -778,7 +778,16 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	e_datetime_format_add_setup_widget (table, 1, "calendar", "table",  DTFormatKindDate, _("Date only:"));
 
 	/* Hide senseless preferences when running in Express mode */
-	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/calendar/express_preferences_hidden");
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
+					       "label_second_zone",
+					       "hbox_second_zone",
+					       "timezone",
+					       "timezone_label",
+					       "hbox_use_system_timezone",
+					       "hbox_time_divisions",
+					       "show_end_times",
+					       "month_scroll_by_week",
+					       NULL);
 
 	/* HACK:  GTK+ 2.18 and 2.20 has a GtkTable which includes row/column spacing even for empty rows/columns.
 	 * When Evo runs in Express mode, we hide all the rows in the Time section of the calendar's General

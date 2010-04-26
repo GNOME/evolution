@@ -1208,7 +1208,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_signal_connect (G_OBJECT (prefs->junk_header_remove), "clicked", G_CALLBACK (jh_remove_cb), prefs);
 
 	/* Sanitize the dialog for Express mode */
-	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/mail/express_preferences_hidden");
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
+					       "hboxReadTimeout",
+					       "hboxMailSizeLimit",
+					       "hboxShrinkAddresses",
+					       "magic_spacebar_checkbox",
+					       "hboxEnableSearchFolders",
+					       NULL);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs(ec, prefs->gconf);

@@ -554,7 +554,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "signature");
 
 	/* Sanitize the dialog for Express mode */
-	e_shell_hide_widgets_for_express_mode (shell, prefs->builder, "/apps/evolution/mail/composer/express_preferences_hidden");
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
+					       "chkOutlookFilenames",
+					       "vboxTopPosting",
+					       "labelAlerts",
+					       "chkPromptEmptySubject",
+					       NULL);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, client);
