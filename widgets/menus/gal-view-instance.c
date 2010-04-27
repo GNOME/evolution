@@ -394,8 +394,9 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance, const gchar *v
 		connect_view (instance, gal_view_clone (view));
 	}
 
-	save_current_view (instance);
-	gal_view_instance_changed(instance);
+	if (instance->loaded)
+		save_current_view (instance);
+	gal_view_instance_changed (instance);
 }
 
 GalView *
