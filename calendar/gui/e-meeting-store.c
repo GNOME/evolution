@@ -1258,6 +1258,11 @@ freebusy_async (gpointer data)
 	default_fb_uri = g_strdup (fbd->fb_uri);
 	fburi = g_strdup (e_meeting_attendee_get_fburi (attendee));
 
+	if (fburi && !*fburi) {
+		g_free (fburi);
+		fburi = NULL;
+	}
+
 	if (fburi) {
 		priv->num_queries++;
 		start_async_read (fburi, fbd->qdata);
