@@ -476,7 +476,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	bridge = gconf_bridge_get ();
 
 	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
+	key = "/apps/evolution/calendar/display/date_navigator_pane_position";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
@@ -624,7 +624,8 @@ cal_shell_sidebar_constructed (GObject *object)
 	calitem = E_CALENDAR (widget)->calitem;
 	e_calendar_item_set_days_start_week_sel (calitem, 9);
 	e_calendar_item_set_max_days_sel (calitem, 42);
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	gtk_widget_set_size_request (widget, -1, 200);
 	priv->date_navigator = g_object_ref (widget);
 	gtk_widget_show (widget);
 
