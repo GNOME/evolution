@@ -1,3 +1,15 @@
+Evolution 2.30.1.2 2010-04-27
+-----------------------------
+
+	Another brown paper bag release to correct some build mishaps.
+
+	- Missing linker flag in plugins/face/Makefile.am.
+	  See git commit f5e88e03a2548891e4e37769571034b545149efc
+
+	- Missing backslashes in data/icons/Makefile.am.
+	  See git commits f7896b3c106fed6c3767ce35b74f38c87979e43a
+	  and a30c983004a2b1df6e70e7d3ddbd63274d9371e7.
+
 Evolution 2.30.1.1 2010-04-26
 -----------------------------
 
