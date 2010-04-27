@@ -1424,7 +1424,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->todo_update_lock = g_mutex_new ();
 	priv->dn_query_lock = g_mutex_new ();
 
-	priv->current_view_type = GNOME_CAL_DAY_VIEW;
+	priv->current_view_type = GNOME_CAL_WORK_WEEK_VIEW;
 	priv->range_selected = FALSE;
 	priv->lview_select_daten_range = TRUE;
 
