@@ -34,6 +34,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include <e-util/e-alert-dialog.h>
+#include <e-util/e-plugin.h>
 #include <string.h>
 
 #include <shell/e-shell-sidebar.h>
@@ -49,6 +50,14 @@ gboolean	memo_list_save_as_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 gboolean	task_list_save_as_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
+
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 enum {  /* GtkComboBox enum */
 	DEST_NAME_COLUMN,

@@ -45,6 +45,13 @@
 
 gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 static void
 button_clicked_cb (GtkButton *button,

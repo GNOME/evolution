@@ -34,6 +34,14 @@
 
 #define d(x)
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 void org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t);
 
 static volatile gint org_gnome_audio_class_id_counter = 0;

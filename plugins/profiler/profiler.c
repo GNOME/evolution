@@ -34,6 +34,14 @@
 
 void org_gnome_evolution_profiler_event (EPlugin *ep, EProfileEventTarget *t);
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 void
 org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
 {

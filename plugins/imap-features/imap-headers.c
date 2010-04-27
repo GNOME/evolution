@@ -59,6 +59,13 @@ static EPImapFeaturesData *ui = NULL;
 void imap_headers_abort (EPlugin *efp, EConfigHookItemFactoryData *data);
 void imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data);
 GtkWidget * org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 void
 imap_headers_abort (EPlugin *efp, EConfigHookItemFactoryData *data)

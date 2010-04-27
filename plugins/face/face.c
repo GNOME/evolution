@@ -397,11 +397,18 @@ action_toggle_face_cb (GtkToggleAction *action, EMsgComposer *composer)
 
 /* ----------------------------------------------------------------- */
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 void face_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 
 /* ----------------------------------------------------------------- */
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 gboolean
 e_plugin_ui_init (GtkUIManager *ui_manager,

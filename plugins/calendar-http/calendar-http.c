@@ -34,6 +34,14 @@ gboolean   e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget * e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data);
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 static void
 url_changed (GtkEntry *entry, ESource *source)
 {

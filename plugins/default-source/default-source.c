@@ -37,6 +37,14 @@ GtkWidget *org_gnome_autocomplete_book (EPlugin *epl, EConfigHookItemFactoryData
 void commit_default_calendar (EPlugin *epl, EConfigTarget *target);
 void commit_default_book (EPlugin *epl, EConfigTarget *target);
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 void
 commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 {

@@ -34,6 +34,7 @@
 
 #include "capplet/settings/mail-capplet-shell.h"
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
 GtkWidget *startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 gboolean startup_wizard_check (EPlugin *ep, EConfigHookPageCheckData *check_data);
@@ -45,6 +46,12 @@ static EImportTargetHome *import_target;
 static EImportImporter *import_importer;
 static GtkWidget *import_dialog, *import_progress, *import_label;
 static GSList *import_iterator, *import_importers;
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 G_GNUC_NORETURN static void
 startup_wizard_terminate (void) {

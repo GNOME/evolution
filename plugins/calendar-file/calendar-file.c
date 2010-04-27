@@ -27,6 +27,14 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 static void
 location_changed (GtkFileChooserButton *widget, ESource *source)
 {

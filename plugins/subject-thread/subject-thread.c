@@ -36,6 +36,13 @@
 #define GCONF_KEY "/apps/evolution/mail/display/thread_subject"
 
 GtkWidget *org_gnome_subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 static void
 toggled_cb (GtkWidget *widget, EConfig *config)

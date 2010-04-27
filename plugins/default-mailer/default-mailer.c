@@ -35,6 +35,13 @@
 #define EVOLUTION_MAILTO_COMMAND "evolution --component=mail %s"
 
 void org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *target);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 static gboolean
 evolution_is_default_mailer (const gchar *mailto_command)

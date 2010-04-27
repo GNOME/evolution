@@ -133,6 +133,7 @@ struct _itip_puri {
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 static void itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 typedef struct {
 	struct _itip_puri *puri;
@@ -147,6 +148,12 @@ typedef struct {
 typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
 
 static gboolean check_is_instance (icalcomponent *icalcomp);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 static icalproperty *
 find_attendee (icalcomponent *ical_comp, const gchar *address)

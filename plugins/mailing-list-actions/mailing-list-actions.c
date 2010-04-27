@@ -89,6 +89,13 @@ gboolean	mail_browser_init		(GtkUIManager *ui_manager,
 						 EMailBrowser *browser);
 gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 typedef struct {
 	EMailReader *reader;

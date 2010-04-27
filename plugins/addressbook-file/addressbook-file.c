@@ -25,6 +25,14 @@
 #include <libedataserver/e-source.h>
 #include <string.h>
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 GtkWidget *e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 GtkWidget *

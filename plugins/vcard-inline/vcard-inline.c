@@ -49,6 +49,13 @@ static gint org_gnome_vcard_inline_classid;
 
 /* Forward Declarations */
 void org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
 
 static void
 org_gnome_vcard_inline_pobject_free (EMFormatHTMLPObject *object)

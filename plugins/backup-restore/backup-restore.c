@@ -51,6 +51,14 @@ typedef enum _br_flags {
 	BR_START = 1<<1
 }br_flags;
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 static void
 backup (const gchar *filename, gboolean restart)
 {

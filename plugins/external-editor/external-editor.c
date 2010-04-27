@@ -64,6 +64,14 @@ static gboolean key_press_cb(GtkWidget * widget, GdkEventKey * event, EMsgCompos
 /* used to track when the external editor is active */
 static GThread *editor_thread;
 
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	return 0;
+}
+
 void
 ee_editor_command_changed (GtkWidget *textbox)
 {
