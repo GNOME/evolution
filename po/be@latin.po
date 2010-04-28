@@ -13749,7 +13749,7 @@ msgstr "Zmoŭčanaja šyrynia akna lista"
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr ""
-"Styl demanstracyi lista (\"zvyčajny\", \"poŭnyja zahałoŭki\",\" krynica\")"
+"Styl demanstracyi lista (\"normal\" - zvyčajny, \"full headers\" - poŭnyja zahałoŭki, \"source\" - krynica)"
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum days between emptying the junk on exit"
