@@ -4358,7 +4358,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Reply style:</property>
                                 <property name="use_underline">True</property>
-                                <property name="justify">center</property>
+                                <property name="justify">left</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -4436,7 +4436,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Forward style:</property>
                                 <property name="use_underline">True</property>
-                                <property name="justify">center</property>
+                                <property name="justify">left</property>
                               </object>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
