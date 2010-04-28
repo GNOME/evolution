@@ -36,6 +36,7 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
@@ -1587,6 +1588,7 @@ comp_editor_init (CompEditor *editor)
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	GtkActionGroup *action_group;
+	GtkActionGroup *action_group_2;
 	GtkAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -1807,6 +1809,13 @@ comp_editor_init (CompEditor *editor)
 
 	gtk_window_set_type_hint (
 		GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
+
+	action_group = comp_editor_get_action_group (editor, "individual");
+	action_group_2 = e_attachment_view_get_action_group (view, "editable");
+
+	e_binding_new (
+		action_group, "sensitive",
+		action_group_2, "sensitive");
 
 	/* Listen for attachment store changes. */
 
