@@ -185,11 +185,11 @@ send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *c
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-			id = "calendar:prompt-send-no-subject-calendar";
+			id = "calendar:prompt-save-no-subject-calendar";
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-			id = "calendar:prompt-send-no-subject-task";
+			id = "calendar:prompt-save-no-subject-task";
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
 			id = "calendar:prompt-send-no-subject-memo";

@@ -219,18 +219,18 @@
   <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
  </error>
  
- <error id="prompt-send-no-subject-calendar" type="question" default="GTK_RESPONSE_YES">
-  <_primary>Are you sure you want to send the appointment without a summary?</_primary>
-  <_secondary>Adding a meaningful summary to your appointment will give your recipients an idea of what your appointment is about.</_secondary>
+ <error id="prompt-save-no-subject-calendar" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to save the appointment without a summary?</_primary>
+  <_secondary>Adding a meaningful summary to your appointment will give you an idea of what your appointment is about.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Save" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="prompt-send-no-subject-task" type="question" default="GTK_RESPONSE_YES">
-  <_primary>Are you sure you want to send the task without a summary?</_primary>
-  <_secondary>Adding a meaningful summary to your task will give your recipients an idea of what your task is about.</_secondary>
+ <error id="prompt-save-no-subject-task" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to save the task without a summary?</_primary>
+  <_secondary>Adding a meaningful summary to your task will give you an idea of what your task is about.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="_Send" response="GTK_RESPONSE_YES"/>
+  <button _label="_Save" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="prompt-send-no-subject-memo" type="question" default="GTK_RESPONSE_CANCEL">
