@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-04-19 17:45+0000\n"
-"PO-Revision-Date: 2010-04-20 08:00+0200\n"
+"POT-Creation-Date: 2010-04-27 14:10+0000\n"
+"PO-Revision-Date: 2010-04-29 08:31+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -419,7 +419,7 @@ msgstr "_Blog:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
 #: ../calendar/gui/dialogs/event-page.c:823
 #: ../calendar/gui/dialogs/event-page.ui.h:14
-#: ../plugins/itip-formatter/itip-view.c:1905
+#: ../plugins/itip-formatter/itip-view.c:1921
 msgid "_Calendar:"
 msgstr "_Calendario:"
 
@@ -695,7 +695,7 @@ msgid "_List name:"
 msgstr "_Nombre de la lista:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
-#: ../mail/mail-config.ui.h:155
+#: ../mail/mail-config.ui.h:157
 msgid "_Select..."
 msgstr "_Seleccionar…"
 
@@ -1638,7 +1638,7 @@ msgstr "Introduzca la contraseña para %s (usuario %s)"
 
 #: ../addressbook/util/addressbook.c:225
 #: ../calendar/common/authentication.c:51
-#: ../plugins/caldav/caldav-browse-server.c:808
+#: ../plugins/caldav/caldav-browse-server.c:813
 #: ../plugins/google-account-setup/google-source.c:438
 #: ../plugins/publish-calendar/publish-calendar.c:328
 #: ../smime/gui/component.c:49
@@ -2126,8 +2126,8 @@ msgstr "Descartar _todo"
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1573
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1579
-#: ../calendar/gui/e-itip-control.c:1162
-#: ../plugins/itip-formatter/itip-view.c:1027
+#: ../calendar/gui/e-itip-control.c:1175
+#: ../plugins/itip-formatter/itip-view.c:1043
 msgid "Location:"
 msgstr "Lugar:"
 
@@ -2157,7 +2157,7 @@ msgstr "_Posponer"
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
 #: ../calendar/gui/dialogs/event-page.ui.h:20 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
-#: ../plugins/google-account-setup/google-contacts-source.c:332
+#: ../plugins/google-account-setup/google-contacts-source.c:335
 msgid "hours"
 msgstr "horas"
 
@@ -2170,7 +2170,7 @@ msgstr "lugar de la cita"
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
 #: ../calendar/gui/dialogs/event-page.ui.h:21 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:17 ../modules/addressbook/ldap-config.ui.h:34
-#: ../plugins/google-account-setup/google-contacts-source.c:331
+#: ../plugins/google-account-setup/google-contacts-source.c:334
 msgid "minutes"
 msgstr "minutos"
 
@@ -3140,7 +3140,7 @@ msgstr "día(s)"
 #. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:17 ../e-util/e-plugin-util.c:425
 #: ../filter/filter.ui.h:14 ../modules/calendar/e-cal-shell-view-actions.c:336
-#: ../plugins/google-account-setup/google-contacts-source.c:333
+#: ../plugins/google-account-setup/google-contacts-source.c:336
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../widgets/misc/e-send-options.ui.h:43
 msgid "days"
@@ -3512,7 +3512,7 @@ msgstr "Tipo:"
 msgid "_Type:"
 msgstr "_Tipo:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:226 ../mail/mail-config.ui.h:147
+#: ../calendar/gui/dialogs/calendar-setup.c:226 ../mail/mail-config.ui.h:149
 #: ../modules/addressbook/ldap-config.ui.h:26
 #: ../plugins/groupwise-features/properties.ui.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
@@ -4193,7 +4193,7 @@ msgstr "No es posible abrir las notas en «%s»."
 #: ../calendar/gui/dialogs/memo-page.c:1045 ../em-format/em-format-quote.c:215
 #: ../em-format/em-format.c:939 ../mail/em-format-html.c:2242
 #: ../mail/em-format-html.c:2301 ../mail/em-format-html.c:2325
-#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:78
+#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:79
 msgid "To"
 msgstr "Para"
 
@@ -4679,7 +4679,7 @@ msgid "Categories:"
 msgstr "Categorías:"
 
 #: ../calendar/gui/e-cal-component-preview.c:236
-#: ../calendar/gui/e-itip-control.c:1151 ../calendar/gui/e-itip-control.ui.h:9
+#: ../calendar/gui/e-itip-control.c:1164 ../calendar/gui/e-itip-control.ui.h:9
 msgid "Summary:"
 msgstr "Resumen:"
 
@@ -4694,8 +4694,8 @@ msgstr "Fecha de vencimiento:"
 
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:284
-#: ../calendar/gui/e-itip-control.c:1176
-#: ../plugins/itip-formatter/itip-view.c:1058
+#: ../calendar/gui/e-itip-control.c:1189
+#: ../plugins/itip-formatter/itip-view.c:1074
 msgid "Status:"
 msgstr "Estado:"
 
@@ -4704,7 +4704,7 @@ msgid "Priority:"
 msgstr "Prioridad:"
 
 #: ../calendar/gui/e-cal-component-preview.c:336
-#: ../calendar/gui/e-itip-control.c:1214 ../calendar/gui/e-itip-control.ui.h:4
+#: ../calendar/gui/e-itip-control.c:1227 ../calendar/gui/e-itip-control.ui.h:4
 #: ../mail/mail-config.ui.h:35
 msgid "Description:"
 msgstr "Descripción:"
@@ -4777,8 +4777,8 @@ msgid "No"
 msgstr "No"
 
 #. This is the default filename used for temporary file creation
-#: ../calendar/gui/e-cal-model.c:501 ../calendar/gui/e-itip-control.c:1197
-#: ../calendar/gui/e-itip-control.c:1336
+#: ../calendar/gui/e-cal-model.c:501 ../calendar/gui/e-itip-control.c:1210
+#: ../calendar/gui/e-itip-control.c:1349
 #: ../calendar/gui/e-meeting-list-view.c:163
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-store.c:127 ../calendar/gui/e-meeting-store.c:162
@@ -4869,7 +4869,7 @@ msgid "Updating objects"
 msgstr "Actualizando objetos"
 
 #: ../calendar/gui/e-calendar-view.c:1706
-#: ../calendar/gui/e-itip-control.c:1182
+#: ../calendar/gui/e-itip-control.c:1195
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:189 ../calendar/gui/e-meeting-store.c:212
 #: ../plugins/itip-formatter/itip-formatter.c:2315
@@ -4877,7 +4877,7 @@ msgid "Accepted"
 msgstr "Aceptado"
 
 #: ../calendar/gui/e-calendar-view.c:1707
-#: ../calendar/gui/e-itip-control.c:1192
+#: ../calendar/gui/e-itip-control.c:1205
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:191 ../calendar/gui/e-meeting-store.c:214
 #: ../plugins/itip-formatter/itip-formatter.c:2321
@@ -5016,6 +5016,11 @@ msgstr "pm"
 msgid "Week %d"
 msgstr "Semana %d"
 
+#: ../calendar/gui/e-itip-control.c:761
+#| msgid "Recurring"
+msgid "Recurring:"
+msgstr "Repetición:"
+
 #: ../calendar/gui/e-itip-control.c:765
 msgid "Yes. (Complex Recurrence)"
 msgstr "Sí. (Repetición compuesta)"
@@ -5097,7 +5102,7 @@ msgstr "Termina"
 msgid "Due"
 msgstr "Vence"
 
-#: ../calendar/gui/e-itip-control.c:986 ../calendar/gui/e-itip-control.c:1047
+#: ../calendar/gui/e-itip-control.c:986 ../calendar/gui/e-itip-control.c:1059
 msgid "iCalendar Information"
 msgstr "Información de iCalendar"
 
@@ -5106,37 +5111,39 @@ msgstr "Información de iCalendar"
 msgid "iCalendar Error"
 msgstr "Error de iCalendar"
 
-#: ../calendar/gui/e-itip-control.c:1080 ../calendar/gui/e-itip-control.c:1096
-#: ../calendar/gui/e-itip-control.c:1107 ../calendar/gui/e-itip-control.c:1124
-#: ../plugins/itip-formatter/itip-view.c:346
-#: ../plugins/itip-formatter/itip-view.c:347
-#: ../plugins/itip-formatter/itip-view.c:434
-#: ../plugins/itip-formatter/itip-view.c:435
-#: ../plugins/itip-formatter/itip-view.c:522
+#: ../calendar/gui/e-itip-control.c:1092 ../calendar/gui/e-itip-control.c:1108
+#: ../calendar/gui/e-itip-control.c:1119 ../calendar/gui/e-itip-control.c:1136
+#: ../plugins/itip-formatter/itip-view.c:362
+#: ../plugins/itip-formatter/itip-view.c:363
+#: ../plugins/itip-formatter/itip-view.c:450
+#: ../plugins/itip-formatter/itip-view.c:451
+#: ../plugins/itip-formatter/itip-view.c:538
 msgid "An unknown person"
 msgstr "Una persona desconocida"
 
-#: ../calendar/gui/e-itip-control.c:1132
+#: ../calendar/gui/e-itip-control.c:1145
+#| msgid ""
+#| "<br> Please review the following information, and then select an action "
+#| "from the menu below."
 msgid ""
-"<br> Please review the following information, and then select an action from "
-"the menu below."
+"Please review the following information, and then select an action from the "
+"menu below."
 msgstr ""
-"<br> Revise la siguiente información y seleccione una acción del menú de "
-"abajo."
+"Revise la siguiente información y seleccione una acción del menú de abajo."
 
 #. Translators: "None" used as a default value for events without Summary received by mail
-#: ../calendar/gui/e-itip-control.c:1147
+#: ../calendar/gui/e-itip-control.c:1160
 #: ../plugins/itip-formatter/itip-formatter.c:2302
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ninguno"
 
-#: ../calendar/gui/e-itip-control.c:1187
+#: ../calendar/gui/e-itip-control.c:1200
 #: ../plugins/itip-formatter/itip-formatter.c:2318
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
-#: ../calendar/gui/e-itip-control.c:1277
+#: ../calendar/gui/e-itip-control.c:1290
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
@@ -5144,273 +5151,291 @@ msgstr ""
 "La reunión ha sido cancelada, sin embargo no pudo encontrarse en sus "
 "calendarios"
 
-#: ../calendar/gui/e-itip-control.c:1279
+#: ../calendar/gui/e-itip-control.c:1292
 msgid ""
 "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 "La tarea ha sido cancelada, sin embargo no pudo encontrarse en sus listas de "
 "tareas"
 
-#: ../calendar/gui/e-itip-control.c:1356
+#: ../calendar/gui/e-itip-control.c:1369
 #, c-format
-msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> ha publicado información de reunión."
+#| msgid "<b>%s</b> has published meeting information."
+msgid "%s has published meeting information."
+msgstr "%s ha publicado información de reunión."
 
-#: ../calendar/gui/e-itip-control.c:1357
+#: ../calendar/gui/e-itip-control.c:1370
 msgid "Meeting Information"
 msgstr "Información de reunión"
 
-#: ../calendar/gui/e-itip-control.c:1363
+#: ../calendar/gui/e-itip-control.c:1376
 #, c-format
-msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> solicita la presencia de %s en una reunión."
+#| msgid "<b>%s</b> requests the presence of %s at a meeting."
+msgid "%s requests the presence of %s at a meeting."
+msgstr "%s solicita la presencia de %s en una reunión."
 
-#: ../calendar/gui/e-itip-control.c:1365
+#: ../calendar/gui/e-itip-control.c:1378
 #, c-format
-msgid "<b>%s</b> requests your presence at a meeting."
-msgstr "<b>%s</b> solicita su presencia en una reunión."
+#| msgid "<b>%s</b> requests your presence at a meeting."
+msgid "%s requests your presence at a meeting."
+msgstr "%s solicita su presencia en una reunión."
 
-#: ../calendar/gui/e-itip-control.c:1366
+#: ../calendar/gui/e-itip-control.c:1379
 msgid "Meeting Proposal"
 msgstr "Propuesta de reunión"
 
 #. FIXME Whats going on here?
-#: ../calendar/gui/e-itip-control.c:1372
-#, c-format
-msgid "<b>%s</b> wishes to be added to an existing meeting."
+#: ../calendar/gui/e-itip-control.c:1385
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to be added to an existing meeting."
+msgid "%s wishes to be added to an existing meeting."
 msgstr "<b>%s</b> desea apuntarse a una reunión existente."
 
-#: ../calendar/gui/e-itip-control.c:1373
+#: ../calendar/gui/e-itip-control.c:1386
 msgid "Meeting Update"
 msgstr "Actualización de reunión"
 
-#: ../calendar/gui/e-itip-control.c:1377
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest meeting information."
+#: ../calendar/gui/e-itip-control.c:1390
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to receive the latest meeting information."
+msgid "%s wishes to receive the latest meeting information."
 msgstr "<b>%s</b> desea recibir la última información de la reunión."
 
-#: ../calendar/gui/e-itip-control.c:1378
+#: ../calendar/gui/e-itip-control.c:1391
 msgid "Meeting Update Request"
 msgstr "Solicitud de actualización de la reunión"
 
-#: ../calendar/gui/e-itip-control.c:1385
-#, c-format
-msgid "<b>%s</b> has replied to a meeting request."
+#: ../calendar/gui/e-itip-control.c:1398
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has replied to a meeting request."
+msgid "%s has replied to a meeting request."
 msgstr "<b>%s</b> ha contestado a la solicitud de reunión."
 
-#: ../calendar/gui/e-itip-control.c:1386
+#: ../calendar/gui/e-itip-control.c:1399
 msgid "Meeting Reply"
 msgstr "Respuesta de reunión"
 
-#: ../calendar/gui/e-itip-control.c:1393
-#, c-format
-msgid "<b>%s</b> has canceled a meeting."
+#: ../calendar/gui/e-itip-control.c:1406
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled a meeting."
+msgid "%s has canceled a meeting."
 msgstr "<b>%s</b> ha cancelado una reunión."
 
-#: ../calendar/gui/e-itip-control.c:1394
+#: ../calendar/gui/e-itip-control.c:1407
 msgid "Meeting Cancelation"
 msgstr "Cancelación de reunión"
 
-#: ../calendar/gui/e-itip-control.c:1404 ../calendar/gui/e-itip-control.c:1481
-#: ../calendar/gui/e-itip-control.c:1521
-#, c-format
-msgid "<b>%s</b> has sent an unintelligible message."
+#: ../calendar/gui/e-itip-control.c:1417 ../calendar/gui/e-itip-control.c:1494
+#: ../calendar/gui/e-itip-control.c:1534
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has sent an unintelligible message."
+msgid "%s has sent an unintelligible message."
 msgstr "<b>%s</b> ha enviado un mensaje ininteligible."
 
-#: ../calendar/gui/e-itip-control.c:1405
+#: ../calendar/gui/e-itip-control.c:1418
 msgid "Bad Meeting Message"
 msgstr "Mensaje de reunión erróneo"
 
-#: ../calendar/gui/e-itip-control.c:1432
-#, c-format
-msgid "<b>%s</b> has published task information."
+#: ../calendar/gui/e-itip-control.c:1445
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published task information."
+msgid "%s has published task information."
 msgstr "<b>%s</b> ha publicado la información de la tarea."
 
-#: ../calendar/gui/e-itip-control.c:1433
+#: ../calendar/gui/e-itip-control.c:1446
 msgid "Task Information"
 msgstr "Información de la tarea"
 
-#: ../calendar/gui/e-itip-control.c:1440
-#, c-format
-msgid "<b>%s</b> requests %s to perform a task."
+#: ../calendar/gui/e-itip-control.c:1453
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests %s to perform a task."
+msgid "%s requests %s to perform a task."
 msgstr "<b>%s</b> pide a %s que realice una tarea."
 
-#: ../calendar/gui/e-itip-control.c:1442
-#, c-format
-msgid "<b>%s</b> requests you perform a task."
+#: ../calendar/gui/e-itip-control.c:1455
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests you perform a task."
+msgid "%s requests you perform a task."
 msgstr "<b>%s</b> le pide que realice una tarea."
 
-#: ../calendar/gui/e-itip-control.c:1443
+#: ../calendar/gui/e-itip-control.c:1456
 msgid "Task Proposal"
 msgstr "Propuesta de tarea"
 
 #. FIXME Whats going on here?
-#: ../calendar/gui/e-itip-control.c:1449
-#, c-format
-msgid "<b>%s</b> wishes to be added to an existing task."
+#: ../calendar/gui/e-itip-control.c:1462
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to be added to an existing task."
+msgid "%s wishes to be added to an existing task."
 msgstr "<b>%s</b> desea añadirse a una tarea existente."
 
-#: ../calendar/gui/e-itip-control.c:1450
+#: ../calendar/gui/e-itip-control.c:1463
 msgid "Task Update"
 msgstr "Actualización de tarea"
 
-#: ../calendar/gui/e-itip-control.c:1454
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest task information."
+#: ../calendar/gui/e-itip-control.c:1467
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to receive the latest task information."
+msgid "%s wishes to receive the latest task information."
 msgstr "<b>%s</b> quiere recibir la última información de la tarea."
 
-#: ../calendar/gui/e-itip-control.c:1455
+#: ../calendar/gui/e-itip-control.c:1468
 msgid "Task Update Request"
 msgstr "Solicitud de actualización de tarea"
 
-#: ../calendar/gui/e-itip-control.c:1462
+#: ../calendar/gui/e-itip-control.c:1475
 #, c-format
-msgid "<b>%s</b> has replied to a task assignment."
-msgstr "<b>%s</b> ha contestado a una asignación de tarea."
+#| msgid "<b>%s</b> has replied to a task assignment."
+msgid "%s has replied to a task assignment."
+msgstr "%s ha contestado a una asignación de tarea."
 
-#: ../calendar/gui/e-itip-control.c:1463
+#: ../calendar/gui/e-itip-control.c:1476
 msgid "Task Reply"
 msgstr "Respuesta a una tarea"
 
-#: ../calendar/gui/e-itip-control.c:1470
+#: ../calendar/gui/e-itip-control.c:1483
 #, c-format
-msgid "<b>%s</b> has canceled a task."
-msgstr "<b>%s</b> ha cancelado una tarea."
+#| msgid "<b>%s</b> has canceled a task."
+msgid "%s has canceled a task."
+msgstr "%s ha cancelado una tarea."
 
-#: ../calendar/gui/e-itip-control.c:1471
+#: ../calendar/gui/e-itip-control.c:1484
 msgid "Task Cancelation"
 msgstr "Cancelación de tarea"
 
-#: ../calendar/gui/e-itip-control.c:1482
+#: ../calendar/gui/e-itip-control.c:1495
 msgid "Bad Task Message"
 msgstr "Mensaje de tarea erróneo"
 
-#: ../calendar/gui/e-itip-control.c:1506
+#: ../calendar/gui/e-itip-control.c:1519
 #, c-format
-msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> ha publicado la información de disponibilidad."
+#| msgid "<b>%s</b> has published free/busy information."
+msgid "%s has published free/busy information."
+msgstr "%s ha publicado la información de disponibilidad."
 
-#: ../calendar/gui/e-itip-control.c:1507
+#: ../calendar/gui/e-itip-control.c:1520
 msgid "Free/Busy Information"
 msgstr "Información de disponibilidad"
 
-#: ../calendar/gui/e-itip-control.c:1511
+#: ../calendar/gui/e-itip-control.c:1524
 #, c-format
-msgid "<b>%s</b> requests your free/busy information."
-msgstr "<b>%s</b> pide su información de disponibilidad."
+#| msgid "<b>%s</b> requests your free/busy information."
+msgid "%s requests your free/busy information."
+msgstr "%s pide su información de disponibilidad."
 
-#: ../calendar/gui/e-itip-control.c:1512
+#: ../calendar/gui/e-itip-control.c:1525
 msgid "Free/Busy Request"
 msgstr "Solicitud de disponibilidad"
 
-#: ../calendar/gui/e-itip-control.c:1516
+#: ../calendar/gui/e-itip-control.c:1529
 #, c-format
-msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b> ha contestado a una solicitud de disponibilidad."
+#| msgid "<b>%s</b> has replied to a free/busy request."
+msgid "%s has replied to a free/busy request."
+msgstr "%s ha contestado a una solicitud de disponibilidad."
 
-#: ../calendar/gui/e-itip-control.c:1517
+#: ../calendar/gui/e-itip-control.c:1530
 msgid "Free/Busy Reply"
 msgstr "Respuesta sobre disponibilidad"
 
-#: ../calendar/gui/e-itip-control.c:1522
+#: ../calendar/gui/e-itip-control.c:1535
 msgid "Bad Free/Busy Message"
 msgstr "Mensaje de disponibilidad erróneo"
 
-#: ../calendar/gui/e-itip-control.c:1598
+#: ../calendar/gui/e-itip-control.c:1611
 msgid "The message does not appear to be properly formed"
 msgstr "El mensaje no parece estar formado correctamente"
 
-#: ../calendar/gui/e-itip-control.c:1657
+#: ../calendar/gui/e-itip-control.c:1670
 msgid "The message contains only unsupported requests."
 msgstr "Este mensaje sólo contiene solicitudes no soportadas."
 
-#: ../calendar/gui/e-itip-control.c:1690
+#: ../calendar/gui/e-itip-control.c:1703
 msgid "The attachment does not contain a valid calendar message"
 msgstr "El adjunto no contiene un mensaje de calendario válido"
 
-#: ../calendar/gui/e-itip-control.c:1728
+#: ../calendar/gui/e-itip-control.c:1741
 msgid "The attachment has no viewable calendar items"
 msgstr "El adjunto no tiene elementos de calendario visibles"
 
-#: ../calendar/gui/e-itip-control.c:1970
+#: ../calendar/gui/e-itip-control.c:1983
 msgid "Update complete\n"
 msgstr "Actualización terminada\n"
 
-#: ../calendar/gui/e-itip-control.c:2004
+#: ../calendar/gui/e-itip-control.c:2017
 msgid "Object is invalid and cannot be updated\n"
 msgstr "El objeto es inválido y no puede ser actualizado\n"
 
-#: ../calendar/gui/e-itip-control.c:2022
+#: ../calendar/gui/e-itip-control.c:2035
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 "Esta respuesta no es de un participante. ¿Desea añadirlo como participante?"
 
-#: ../calendar/gui/e-itip-control.c:2040
+#: ../calendar/gui/e-itip-control.c:2053
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "El estado del participante no pudo actualizarse debido a un estado inválido\n"
 
-#: ../calendar/gui/e-itip-control.c:2064
+#: ../calendar/gui/e-itip-control.c:2077
 msgid "Attendee status updated\n"
 msgstr "Estado del participante actualizado\n"
 
-#: ../calendar/gui/e-itip-control.c:2071
+#: ../calendar/gui/e-itip-control.c:2084
 #: ../plugins/itip-formatter/itip-formatter.c:1410
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "El estado del participante no pudo actualizarse porque ya no existe el "
 "elemento"
 
-#: ../calendar/gui/e-itip-control.c:2102 ../calendar/gui/e-itip-control.c:2159
+#: ../calendar/gui/e-itip-control.c:2115 ../calendar/gui/e-itip-control.c:2172
 msgid "Item sent!\n"
 msgstr "Elemento enviado.\n"
 
-#: ../calendar/gui/e-itip-control.c:2108 ../calendar/gui/e-itip-control.c:2167
+#: ../calendar/gui/e-itip-control.c:2121 ../calendar/gui/e-itip-control.c:2180
 msgid "The item could not be sent!\n"
 msgstr "El elemento no pudo enviarse.\n"
 
-#: ../calendar/gui/e-itip-control.c:2260
+#: ../calendar/gui/e-itip-control.c:2273
 msgid "Choose an action:"
 msgstr "Elija una acción:"
 
 #. To translators: RSVP means "please reply"
-#: ../calendar/gui/e-itip-control.c:2289
+#: ../calendar/gui/e-itip-control.c:2302
 #: ../calendar/gui/e-meeting-list-view.c:591
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Confirmar"
 
-#: ../calendar/gui/e-itip-control.c:2329
+#: ../calendar/gui/e-itip-control.c:2342
 msgid "Update"
 msgstr "Actualizar"
 
-#: ../calendar/gui/e-itip-control.c:2353
+#: ../calendar/gui/e-itip-control.c:2366
 #: ../plugins/groupwise-features/gw-ui.c:331
 msgid "Accept"
 msgstr "Aceptar"
 
-#: ../calendar/gui/e-itip-control.c:2354
+#: ../calendar/gui/e-itip-control.c:2367
 msgid "Tentatively accept"
 msgstr "Aceptar provisionalmente"
 
-#: ../calendar/gui/e-itip-control.c:2355
+#: ../calendar/gui/e-itip-control.c:2368
 #: ../plugins/groupwise-features/gw-ui.c:345
 msgid "Decline"
 msgstr "Rehusar"
 
-#: ../calendar/gui/e-itip-control.c:2380
+#: ../calendar/gui/e-itip-control.c:2393
 msgid "Send Free/Busy Information"
 msgstr "Enviar información de disponibilidad"
 
-#: ../calendar/gui/e-itip-control.c:2404
+#: ../calendar/gui/e-itip-control.c:2417
 msgid "Update respondent status"
 msgstr "Actualizar el estado del remitente"
 
-#: ../calendar/gui/e-itip-control.c:2428
+#: ../calendar/gui/e-itip-control.c:2441
 msgid "Send Latest Information"
 msgstr "Enviar la última información"
 
-#: ../calendar/gui/e-itip-control.c:2452
+#: ../calendar/gui/e-itip-control.c:2465
 #: ../modules/mail/e-mail-shell-view-actions.c:970
 #: ../widgets/misc/e-activity-proxy.c:298
 msgid "Cancel"
@@ -8081,7 +8106,7 @@ msgstr "_De:"
 #: ../composer/e-composer-header-table.c:958
 #: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:937
 #: ../mail/e-mail-tag-editor.c:323 ../mail/message-list.etspec.h:7
-#: ../modules/mail/em-mailer-prefs.c:76
+#: ../modules/mail/em-mailer-prefs.c:77
 msgid "From"
 msgstr "De"
 
@@ -8178,13 +8203,14 @@ msgstr "No se pudo reconstruir el mensaje desde el archivo autoguardado"
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:3313
-msgid ""
-"<b>(The composer contains a non-text message body, which cannot be edited.)</"
-"b>"
+#: ../composer/e-msg-composer.c:3314
+#| msgid ""
+#| "<b>(The composer contains a non-text message body, which cannot be "
+#| "edited.)</b>"
+msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
-"<b>(El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no "
-"puede editarse.)</b>"
+"El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
+"editarse."
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -8343,52 +8369,55 @@ msgstr "Introduzca su dirección de correo-e."
 msgid "The email address you have entered is invalid."
 msgstr "La dirección de correo-e que ha introducido no es válida."
 
-#: ../capplet/settings/mail-account-view.c:181
-msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Detalles personales:</span>"
+#: ../capplet/settings/mail-account-view.c:182
+#| msgid "Personal"
+msgid "Personal details:"
+msgstr "Detalles personales:"
 
-#: ../capplet/settings/mail-account-view.c:186
+#: ../capplet/settings/mail-account-view.c:189
 msgid "Name:"
 msgstr "Nombre:"
 
-#: ../capplet/settings/mail-account-view.c:195
+#: ../capplet/settings/mail-account-view.c:198
 msgid "Email address:"
 msgstr "Dirección de correo-e:"
 
-#: ../capplet/settings/mail-account-view.c:205
-msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Detalles de recepción:</span>"
+#: ../capplet/settings/mail-account-view.c:208
+#| msgid "Receiving mail"
+msgid "Receiving details:"
+msgstr "Detalles de recepción:"
 
-#: ../capplet/settings/mail-account-view.c:210
-#: ../capplet/settings/mail-account-view.c:258
+#: ../capplet/settings/mail-account-view.c:215
+#: ../capplet/settings/mail-account-view.c:265
 msgid "Server type:"
 msgstr "Tipo de servidor:"
 
-#: ../capplet/settings/mail-account-view.c:219
-#: ../capplet/settings/mail-account-view.c:267
+#: ../capplet/settings/mail-account-view.c:224
+#: ../capplet/settings/mail-account-view.c:274
 msgid "Server address:"
 msgstr "Dirección del servidor:"
 
-#: ../capplet/settings/mail-account-view.c:228
-#: ../capplet/settings/mail-account-view.c:276
+#: ../capplet/settings/mail-account-view.c:233
+#: ../capplet/settings/mail-account-view.c:283
 msgid "Username:"
 msgstr "Nombre de usuario:"
 
-#: ../capplet/settings/mail-account-view.c:237
-#: ../capplet/settings/mail-account-view.c:285
+#: ../capplet/settings/mail-account-view.c:242
+#: ../capplet/settings/mail-account-view.c:292
 msgid "Use encryption:"
 msgstr "Usar cifrado:"
 
-#: ../capplet/settings/mail-account-view.c:242
-#: ../capplet/settings/mail-account-view.c:290
+#: ../capplet/settings/mail-account-view.c:247
+#: ../capplet/settings/mail-account-view.c:297
 msgid "never"
 msgstr "nunca"
 
-#: ../capplet/settings/mail-account-view.c:253
-msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Detalles de envío:</span>"
+#: ../capplet/settings/mail-account-view.c:258
+#| msgid "Sending mail"
+msgid "Sending details:"
+msgstr "Detalles de envío:"
 
-#: ../capplet/settings/mail-account-view.c:309
+#: ../capplet/settings/mail-account-view.c:316
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
@@ -8399,7 +8428,7 @@ msgstr ""
 "averiguar los ajustes. Si no se puede hacer automáticamente necesitará "
 "también los detalles del servidor."
 
-#: ../capplet/settings/mail-account-view.c:311
+#: ../capplet/settings/mail-account-view.c:318
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
@@ -8409,11 +8438,11 @@ msgstr ""
 "Intrdúzcalos debajo. Se ha intentado hacer una aproximación inicial con los "
 "detallas que ha introducido pero puede que tenga que cambiarlos."
 
-#: ../capplet/settings/mail-account-view.c:313
+#: ../capplet/settings/mail-account-view.c:320
 msgid "You can specify more options to configure the account."
 msgstr "Puede especificar más opciones para configurar la cuenta."
 
-#: ../capplet/settings/mail-account-view.c:315
+#: ../capplet/settings/mail-account-view.c:322
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
@@ -8421,11 +8450,11 @@ msgstr ""
 "Ahora se necesitan sus ajustes para el envío de correo. Se intentaron hacer "
 "algunas averiguaciones pero debería comprobarlas para asegurarse."
 
-#: ../capplet/settings/mail-account-view.c:316
+#: ../capplet/settings/mail-account-view.c:323
 msgid "You can specify your default settings for your account."
 msgstr "Puede especificar sus ajustes predeterminados para su cuenta."
 
-#: ../capplet/settings/mail-account-view.c:317
+#: ../capplet/settings/mail-account-view.c:324
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
@@ -8433,86 +8462,86 @@ msgstr ""
 "Hora de comprobar los ajustes antes de intentar conectar con el servidor y "
 "obtener su correo."
 
-#: ../capplet/settings/mail-account-view.c:332
+#: ../capplet/settings/mail-account-view.c:339
 #: ../mail/em-account-editor.c:2059 ../mail/em-account-editor.c:2191
 #: ../mail/mail-config.ui.h:59
 msgid "Identity"
 msgstr "Identidad"
 
-#: ../capplet/settings/mail-account-view.c:332
+#: ../capplet/settings/mail-account-view.c:339
 msgid "Next - Receiving mail"
 msgstr "Siguiente - Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:333
+#: ../capplet/settings/mail-account-view.c:340
 msgid "Receiving mail"
 msgstr "Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:333
-#: ../capplet/settings/mail-account-view.c:334
+#: ../capplet/settings/mail-account-view.c:340
+#: ../capplet/settings/mail-account-view.c:341
 msgid "Next - Sending mail"
 msgstr "Siguiente - Envío de correo"
 
-#: ../capplet/settings/mail-account-view.c:333
+#: ../capplet/settings/mail-account-view.c:340
 msgid "Back - Identity"
 msgstr "Atrás - Identidad"
 
-#: ../capplet/settings/mail-account-view.c:333
+#: ../capplet/settings/mail-account-view.c:340
 msgid "Next - Receiving options"
 msgstr "Siguiente - Opciones de recepción"
 
-#: ../capplet/settings/mail-account-view.c:334
+#: ../capplet/settings/mail-account-view.c:341
 msgid "Receiving options"
 msgstr "Opciones de recepción"
 
-#: ../capplet/settings/mail-account-view.c:334
-#: ../capplet/settings/mail-account-view.c:336
+#: ../capplet/settings/mail-account-view.c:341
+#: ../capplet/settings/mail-account-view.c:343
 msgid "Back - Receiving mail"
 msgstr "Siguiente - Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:336
+#: ../capplet/settings/mail-account-view.c:343
 msgid "Sending mail"
 msgstr "Envío de correo"
 
-#: ../capplet/settings/mail-account-view.c:336
-#: ../capplet/settings/mail-account-view.c:337
+#: ../capplet/settings/mail-account-view.c:343
+#: ../capplet/settings/mail-account-view.c:344
 msgid "Next - Review account"
 msgstr "Siguiente - Revisar la cuenta"
 
-#: ../capplet/settings/mail-account-view.c:336
+#: ../capplet/settings/mail-account-view.c:343
 msgid "Next - Defaults"
 msgstr "Siguiente - Predeterminados"
 
-#: ../capplet/settings/mail-account-view.c:336
+#: ../capplet/settings/mail-account-view.c:343
 msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
-#: ../capplet/settings/mail-account-view.c:337
+#: ../capplet/settings/mail-account-view.c:344
 #: ../mail/em-account-editor.c:2770 ../mail/mail-config.ui.h:32
 msgid "Defaults"
 msgstr "Predeterminados"
 
-#: ../capplet/settings/mail-account-view.c:337
+#: ../capplet/settings/mail-account-view.c:344
 msgid "Back - Sending mail"
 msgstr "Atrás - Envío de correo"
 
-#: ../capplet/settings/mail-account-view.c:339
+#: ../capplet/settings/mail-account-view.c:346
 msgid "Review account"
 msgstr "Revisar la cuenta"
 
-#: ../capplet/settings/mail-account-view.c:339
+#: ../capplet/settings/mail-account-view.c:346
 msgid "Finish"
 msgstr "Finalizar"
 
-#: ../capplet/settings/mail-account-view.c:339
+#: ../capplet/settings/mail-account-view.c:346
 msgid "Back - Sending"
 msgstr "Atras - Envío"
 
-#: ../capplet/settings/mail-account-view.c:673
-#: ../capplet/settings/mail-settings-view.c:264
+#: ../capplet/settings/mail-account-view.c:680
+#: ../capplet/settings/mail-settings-view.c:267
 msgid "Close Tab"
 msgstr "Cerrar solapa"
 
-#: ../capplet/settings/mail-account-view.c:683
+#: ../capplet/settings/mail-account-view.c:690
 msgid "Account Wizard"
 msgstr "Asistente de cuentas"
 
@@ -8521,7 +8550,7 @@ msgid "Evolution account assistant"
 msgstr "Asistente de cuentas de Evolution"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:342 ../mail/e-mail-migrate.c:675
+#: ../capplet/settings/mail-capplet-shell.c:342 ../mail/e-mail-migrate.c:659
 #: ../mail/e-mail-store.c:227 ../mail/em-folder-tree-model.c:145
 #: ../mail/em-folder-tree-model.c:148 ../mail/em-folder-tree-model.c:151
 #: ../mail/em-folder-tree-model.c:153 ../mail/em-folder-tree-model.c:160
@@ -8547,11 +8576,12 @@ msgstr "Modificar"
 msgid "Add a new account"
 msgstr "Añadir una cuenta nueva"
 
-#: ../capplet/settings/mail-settings-view.c:183
-msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Gestión de cuentas</span>"
+#: ../capplet/settings/mail-settings-view.c:184
+#| msgid "Account Management"
+msgid "Account management"
+msgstr "Gestión de cuentas"
 
-#: ../capplet/settings/mail-settings-view.c:274
+#: ../capplet/settings/mail-settings-view.c:277
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -8563,7 +8593,7 @@ msgstr "Notificaciones de acontecimientos del calendario"
 msgid "Evolution Alarm Notify"
 msgstr "Notificador de alertas de Evolution"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:821
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:823
 #: ../shell/e-shell-window-private.c:251
 msgid "Evolution"
 msgstr "Evolution"
@@ -8822,7 +8852,7 @@ msgid "Error, Warnings and Debug messages"
 msgstr "Mensajes de error, avisos y depuración"
 
 #: ../e-util/e-plugin-util.c:426 ../filter/filter.ui.h:22
-#: ../plugins/google-account-setup/google-contacts-source.c:334
+#: ../plugins/google-account-setup/google-contacts-source.c:337
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 msgid "weeks"
 msgstr "semanas"
@@ -8889,32 +8919,32 @@ msgid "All further errors shown only on terminal."
 msgstr "En adelante todos los errores sólo se mostrarán en el terminal."
 
 #: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:938
-#: ../modules/mail/em-mailer-prefs.c:77
+#: ../modules/mail/em-mailer-prefs.c:78
 msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:940
 #: ../mail/em-format-html.c:2243 ../mail/em-format-html.c:2305
-#: ../mail/em-format-html.c:2328 ../modules/mail/em-mailer-prefs.c:79
+#: ../mail/em-format-html.c:2328 ../modules/mail/em-mailer-prefs.c:80
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:941
 #: ../mail/em-format-html.c:2244 ../mail/em-format-html.c:2309
-#: ../mail/em-format-html.c:2331 ../modules/mail/em-mailer-prefs.c:80
+#: ../mail/em-format-html.c:2331 ../modules/mail/em-mailer-prefs.c:81
 msgid "Bcc"
 msgstr "Cco"
 
 #: ../em-format/em-format-quote.c:347 ../em-format/em-format.c:942
 #: ../mail/e-mail-tag-editor.c:328 ../mail/em-filter-i18n.h:74
-#: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:81
-#: ../plugins/groupwise-features/properties.ui.h:7 ../smime/lib/e-cert.c:1131
+#: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:82
+#: ../plugins/groupwise-features/properties.ui.h:6 ../smime/lib/e-cert.c:1131
 msgid "Subject"
 msgstr "Asunto"
 
 #. pseudo-header
 #: ../em-format/em-format-quote.c:358 ../mail/em-format-html.c:2425
-#: ../modules/mail/em-mailer-prefs.c:1137
+#: ../modules/mail/em-mailer-prefs.c:1138
 msgid "Mailer"
 msgstr "Transporte"
 
@@ -8923,16 +8953,16 @@ msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
 #: ../em-format/em-format.c:943 ../mail/message-list.etspec.h:2
-#: ../modules/mail/em-mailer-prefs.c:82 ../widgets/misc/e-dateedit.c:524
+#: ../modules/mail/em-mailer-prefs.c:83 ../widgets/misc/e-dateedit.c:524
 #: ../widgets/misc/e-dateedit.c:546
 msgid "Date"
 msgstr "Fecha"
 
-#: ../em-format/em-format.c:944 ../modules/mail/em-mailer-prefs.c:83
+#: ../em-format/em-format.c:944 ../modules/mail/em-mailer-prefs.c:84
 msgid "Newsgroups"
 msgstr "Grupos de noticias"
 
-#: ../em-format/em-format.c:945 ../modules/mail/em-mailer-prefs.c:84
+#: ../em-format/em-format.c:945 ../modules/mail/em-mailer-prefs.c:85
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
 msgstr "Cara"
@@ -9262,7 +9292,7 @@ msgstr "en el futuro"
 msgid "months"
 msgstr "meses"
 
-#: ../filter/filter.ui.h:19 ../mail/mail-config.ui.h:171
+#: ../filter/filter.ui.h:19 ../mail/mail-config.ui.h:173
 msgid "seconds"
 msgstr "segundos"
 
@@ -9367,7 +9397,7 @@ msgid "Color"
 msgstr "Color"
 
 #: ../mail/e-mail-label-tree-view.c:96
-#: ../plugins/caldav/caldav-browse-server.c:1158
+#: ../plugins/caldav/caldav-browse-server.c:1163
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:7
 #: ../plugins/plugin-manager/plugin-manager.c:58
 #: ../widgets/menus/gal-define-views-dialog.c:327
@@ -9399,24 +9429,24 @@ msgstr "Correo enviado"
 msgid "Templates"
 msgstr "Plantillas"
 
-#: ../mail/e-mail-migrate.c:147
+#: ../mail/e-mail-migrate.c:131
 msgid "Migrating..."
 msgstr "Migrando…"
 
-#: ../mail/e-mail-migrate.c:180
+#: ../mail/e-mail-migrate.c:164
 msgid "Migration"
 msgstr "Migración"
 
-#: ../mail/e-mail-migrate.c:220
+#: ../mail/e-mail-migrate.c:204
 #, c-format
 msgid "Migrating '%s':"
 msgstr "Migrando «%s»:"
 
-#: ../mail/e-mail-migrate.c:659
+#: ../mail/e-mail-migrate.c:643
 msgid "Migrating Folders"
 msgstr "Migrando carpetas"
 
-#: ../mail/e-mail-migrate.c:660
+#: ../mail/e-mail-migrate.c:644
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -9428,7 +9458,7 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#: ../mail/e-mail-migrate.c:756
+#: ../mail/e-mail-migrate.c:740
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
@@ -9436,7 +9466,7 @@ msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
 #. *     icon.  But for now, screw it.
-#: ../mail/e-mail-reader-utils.c:103
+#: ../mail/e-mail-reader-utils.c:105
 #: ../modules/calendar/e-task-shell-view-actions.c:561
 msgid "Do not ask me again"
 msgstr "No preguntarme de nuevo"
@@ -9469,7 +9499,7 @@ msgstr[1] "Guardar mensajes"
 #. * Subject. The extension ".mbox" is appended to this
 #. * string, thus it will be something like "Message.mbox"
 #. * at the end.
-#: ../mail/e-mail-reader.c:885 ../plugins/groupwise-features/properties.ui.h:5
+#: ../mail/e-mail-reader.c:885 ../plugins/groupwise-features/properties.ui.h:4
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensaje"
@@ -10492,7 +10522,7 @@ msgid "Quota usage"
 msgstr "Uso de cuota"
 
 #: ../mail/em-folder-properties.c:395
-#: ../plugins/groupwise-features/properties.ui.h:4
+#: ../plugins/groupwise-features/properties.ui.h:3
 msgid "Folder Properties"
 msgstr "Propiedades de la carpeta"
 
@@ -10821,11 +10851,11 @@ msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#.
-#: ../mail/em-format-html.c:2598
+#: ../mail/em-format-html.c:2600
 #, c-format
-msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
-msgstr "Este mensaje lo envió <b>%s</b> en nombre de <b>%s</b>"
+#| msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
+msgid "This message was sent by %s on behalf of %s"
+msgstr "%s envió este mensaje en nombre de %s"
 
 #: ../mail/em-subscribe-editor.c:583
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -12090,14 +12120,14 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../mail/mail-config.ui.h:1
+#. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
+#: ../mail/mail-config.ui.h:2
+msgid "(Not Recommended)"
+msgstr "(No recomendado)"
+
+#: ../mail/mail-config.ui.h:3
 msgid "(Note: Requires restart of the application)"
 msgstr "(Nota: Requiere reiniciar la aplicación)"
-
-#. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
-#: ../mail/mail-config.ui.h:3
-msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr "<b>Opción publicar por encima</b> (no se recomienda)"
 
 #: ../mail/mail-config.ui.h:4
 msgid "Account Information"
@@ -12534,7 +12564,14 @@ msgstr ""
 "El nombre que especifique se usará únicamente \n"
 "para mostrarlo por pantalla. "
 
-#: ../mail/mail-config.ui.h:127
+#. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
+#: ../mail/mail-config.ui.h:128
+#, fuzzy
+#| msgid "Posting destination"
+msgid "Top Posting Option"
+msgstr "Destino de publicación"
+
+#: ../mail/mail-config.ui.h:129
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -12542,160 +12579,160 @@ msgstr ""
 "Teclee el nombre por el que quiere identificar a esta cuenta.\n"
 "Por ejemplo: «Trabajo» o «Personal»"
 
-#: ../mail/mail-config.ui.h:129
+#: ../mail/mail-config.ui.h:131
 msgid "Us_ername:"
 msgstr "_Usuario:"
 
-#: ../mail/mail-config.ui.h:130
+#: ../mail/mail-config.ui.h:132
 msgid "Use Authe_ntication"
 msgstr "Usar aute_nticación"
 
-#: ../mail/mail-config.ui.h:131 ../plugins/caldav/caldav-source.c:222
-#: ../plugins/google-account-setup/google-contacts-source.c:283
+#: ../mail/mail-config.ui.h:133 ../plugins/caldav/caldav-source.c:222
+#: ../plugins/google-account-setup/google-contacts-source.c:286
 #: ../plugins/google-account-setup/google-source.c:623
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:257
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:260
 msgid "User_name:"
 msgstr "_Usuario:"
 
-#: ../mail/mail-config.ui.h:132
+#: ../mail/mail-config.ui.h:134
 msgid "V_ariable-width:"
 msgstr "An_chura variable:"
 
-#: ../mail/mail-config.ui.h:133
+#: ../mail/mail-config.ui.h:135
 msgid "_Add Signature"
 msgstr "_Añadir firma"
 
-#: ../mail/mail-config.ui.h:134
+#: ../mail/mail-config.ui.h:136
 msgid "_Always load images from the Internet"
 msgstr "_Siempre cargar las imágenes desde Internet"
 
-#: ../mail/mail-config.ui.h:135
+#: ../mail/mail-config.ui.h:137
 msgid "_Authentication Type"
 msgstr "Tipo de _autenticación"
 
-#: ../mail/mail-config.ui.h:136
+#: ../mail/mail-config.ui.h:138
 msgid "_Default junk plugin:"
 msgstr "Complemento SPAM pre_determinado:"
 
-#: ../mail/mail-config.ui.h:137
+#: ../mail/mail-config.ui.h:139
 msgid "_Direct connection to the Internet"
 msgstr "Conexión _directa a Internet"
 
-#: ../mail/mail-config.ui.h:138
+#: ../mail/mail-config.ui.h:140
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
-#: ../mail/mail-config.ui.h:139
+#: ../mail/mail-config.ui.h:141
 msgid "_Forward style:"
 msgstr "_Estilo de reenvío:"
 
-#: ../mail/mail-config.ui.h:140
+#: ../mail/mail-config.ui.h:142
 msgid "_Keep Signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
 
-#: ../mail/mail-config.ui.h:141
+#: ../mail/mail-config.ui.h:143
 msgid "_Languages"
 msgstr "_Idiomas"
 
-#: ../mail/mail-config.ui.h:142
+#: ../mail/mail-config.ui.h:144
 msgid "_Load images in messages from contacts"
 msgstr "_Cargar imágenes en los mensajes de mis contactos"
 
-#: ../mail/mail-config.ui.h:143
+#: ../mail/mail-config.ui.h:145
 msgid "_Lookup in local address book only"
 msgstr "_Buscar sólo en la libreta de direcciones local"
 
-#: ../mail/mail-config.ui.h:144
+#: ../mail/mail-config.ui.h:146
 msgid "_Make this my default account"
 msgstr "_Hacer que ésta sea mi cuenta predeterminada"
 
-#: ../mail/mail-config.ui.h:145
+#: ../mail/mail-config.ui.h:147
 msgid "_Manual proxy configuration:"
 msgstr "Configuración _manual del proxy:"
 
-#: ../mail/mail-config.ui.h:146
+#: ../mail/mail-config.ui.h:148
 msgid "_Mark messages as read after"
 msgstr "_Marcar mensajes como leídos tras"
 
-#: ../mail/mail-config.ui.h:148
+#: ../mail/mail-config.ui.h:150
 msgid "_Never load images from the Internet"
 msgstr "_Nunca cargar imágenes desde Internet"
 
-#: ../mail/mail-config.ui.h:149
+#: ../mail/mail-config.ui.h:151
 msgid "_Path:"
 msgstr "R_uta:"
 
-#: ../mail/mail-config.ui.h:150
+#: ../mail/mail-config.ui.h:152
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "_Preguntar al enviar mensajes en HTML a contactos que no los quieren"
 
-#: ../mail/mail-config.ui.h:151
+#: ../mail/mail-config.ui.h:153
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Pr_eguntar al enviar mensajes con el asunto vacío"
 
-#: ../mail/mail-config.ui.h:152
+#: ../mail/mail-config.ui.h:154
 msgid "_Reply style:"
 msgstr "Estilo de _respuesta:"
 
-#: ../mail/mail-config.ui.h:153
+#: ../mail/mail-config.ui.h:155
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.ui.h:154
+#: ../mail/mail-config.ui.h:156
 msgid "_Secure HTTP Proxy:"
 msgstr "Proxy HTTP _seguro:"
 
-#: ../mail/mail-config.ui.h:156 ../modules/addressbook/ldap-config.ui.h:29
+#: ../mail/mail-config.ui.h:158 ../modules/addressbook/ldap-config.ui.h:29
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "_Servidor:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:158
+#: ../mail/mail-config.ui.h:160
 msgid "_Show image animations"
 msgstr "_Mostrar animaciones"
 
-#: ../mail/mail-config.ui.h:159
+#: ../mail/mail-config.ui.h:161
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 
 #. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
-#: ../mail/mail-config.ui.h:161
+#: ../mail/mail-config.ui.h:163
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "_Reducir las cabeceras Para / Cc / Cco a "
 
-#: ../mail/mail-config.ui.h:162
+#: ../mail/mail-config.ui.h:164
 msgid "_Use Secure Connection:"
 msgstr "Usar cone_xión segura:"
 
-#: ../mail/mail-config.ui.h:163
+#: ../mail/mail-config.ui.h:165
 msgid "_Use system defaults"
 msgstr "_Usar los valores predeterminados del sistema"
 
-#: ../mail/mail-config.ui.h:164
+#: ../mail/mail-config.ui.h:166
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
-#: ../mail/mail-config.ui.h:165 ../smime/gui/smime-ui.ui.h:47
+#: ../mail/mail-config.ui.h:167 ../smime/gui/smime-ui.ui.h:47
 msgid "a"
 msgstr "am"
 
 #. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
-#: ../mail/mail-config.ui.h:167
+#: ../mail/mail-config.ui.h:169
 msgid "addresses"
 msgstr "direcciones"
 
-#: ../mail/mail-config.ui.h:168 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:170 ../smime/gui/smime-ui.ui.h:48
 msgid "b"
 msgstr "por"
 
 # Esta traducción debe mantenerse así
-#: ../mail/mail-config.ui.h:169
+#: ../mail/mail-config.ui.h:171
 msgid "color"
 msgstr "color"
 
-#: ../mail/mail-config.ui.h:170
+#: ../mail/mail-config.ui.h:172
 msgid "description"
 msgstr "descripción"
 
@@ -13021,36 +13058,36 @@ msgstr "Esperando…"
 msgid "Checking for new mail"
 msgstr "Comprobando correo nuevo"
 
-#: ../mail/mail-session.c:217
+#: ../mail/mail-session.c:208
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduzca la contraseña para %s"
 
-#: ../mail/mail-session.c:219
+#: ../mail/mail-session.c:210
 msgid "Enter Passphrase"
 msgstr "Introduzca la contraseña"
 
-#: ../mail/mail-session.c:222
+#: ../mail/mail-session.c:213
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduzca su contraseña para %s"
 
-#: ../mail/mail-session.c:224
+#: ../mail/mail-session.c:215
 msgid "Enter Password"
 msgstr "Introduzca contraseña"
 
-#: ../mail/mail-session.c:266
+#: ../mail/mail-session.c:257
 msgid "User canceled operation."
 msgstr "El usuario canceló la operación."
 
-#: ../mail/mail-session.c:660
+#: ../mail/mail-session.c:667
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/mail-session.c:666
+#: ../mail/mail-session.c:673
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
@@ -14054,7 +14091,7 @@ msgstr "Indica si se muestra el panel de vista previa."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:159
-#: ../modules/mail/em-mailer-prefs.c:1158
+#: ../modules/mail/em-mailer-prefs.c:1159
 msgid "_Table column:"
 msgstr "Columna de _tabla:"
 
@@ -15655,66 +15692,66 @@ msgstr "Activado"
 msgid "Language(s)"
 msgstr "Idioma(s)"
 
-#: ../modules/mail/em-mailer-prefs.c:95
+#: ../modules/mail/em-mailer-prefs.c:96
 msgid "Every time"
 msgstr "Cada vez"
 
-#: ../modules/mail/em-mailer-prefs.c:96
+#: ../modules/mail/em-mailer-prefs.c:97
 msgid "Once per day"
 msgstr "Una vez por día"
 
-#: ../modules/mail/em-mailer-prefs.c:97
+#: ../modules/mail/em-mailer-prefs.c:98
 msgid "Once per week"
 msgstr "Una vez por semana"
 
-#: ../modules/mail/em-mailer-prefs.c:98
+#: ../modules/mail/em-mailer-prefs.c:99
 msgid "Once per month"
 msgstr "Una vez por mes"
 
-#: ../modules/mail/em-mailer-prefs.c:223
+#: ../modules/mail/em-mailer-prefs.c:224
 msgid "Add Custom Junk Header"
 msgstr "Añadir cabecera de SPAM personalizada"
 
-#: ../modules/mail/em-mailer-prefs.c:231
+#: ../modules/mail/em-mailer-prefs.c:232
 msgid "Header Name:"
 msgstr "Nombre de la cabecera:"
 
-#: ../modules/mail/em-mailer-prefs.c:232
+#: ../modules/mail/em-mailer-prefs.c:233
 msgid "Header Value Contains:"
 msgstr "El valor de cabecera contiene:"
 
-#: ../modules/mail/em-mailer-prefs.c:332
+#: ../modules/mail/em-mailer-prefs.c:333
 msgid "Header"
 msgstr "Cabecera"
 
-#: ../modules/mail/em-mailer-prefs.c:336
+#: ../modules/mail/em-mailer-prefs.c:337
 msgid "Contains Value"
 msgstr "Contiene el valor"
 
 #. May be a better text
-#: ../modules/mail/em-mailer-prefs.c:729 ../modules/mail/em-mailer-prefs.c:800
+#: ../modules/mail/em-mailer-prefs.c:730 ../modules/mail/em-mailer-prefs.c:801
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "El complemento %s está disponible y el binario está instalado."
 
 #. May be a better text
-#: ../modules/mail/em-mailer-prefs.c:737 ../modules/mail/em-mailer-prefs.c:809
+#: ../modules/mail/em-mailer-prefs.c:738 ../modules/mail/em-mailer-prefs.c:810
 #, c-format
 msgid ""
 "%s plugin is not available. Please check whether the package is installed."
 msgstr ""
 "El complemento %s no está disponible. Compruebe si el paquete está instalado."
 
-#: ../modules/mail/em-mailer-prefs.c:773
+#: ../modules/mail/em-mailer-prefs.c:774
 msgid "No junk plugin available"
 msgstr "No existe un complemento de SPAM disponible"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../modules/mail/em-mailer-prefs.c:1160
+#: ../modules/mail/em-mailer-prefs.c:1161
 msgid "_Date header:"
 msgstr "Cabecera de _fecha:"
 
-#: ../modules/mail/em-mailer-prefs.c:1161
+#: ../modules/mail/em-mailer-prefs.c:1162
 msgid "Show _original header value"
 msgstr "Mostrar el valor _original de la cabecera"
 
@@ -16147,7 +16184,7 @@ msgstr ""
 "%d - %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:203
-#: ../plugins/caldav/caldav-browse-server.c:1249 ../plugins/face/face.c:169
+#: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -16171,7 +16208,7 @@ msgstr "Falló al obtener el URL del servidor."
 
 #: ../plugins/caldav/caldav-browse-server.c:626
 #: ../plugins/caldav/caldav-browse-server.c:667
-#: ../plugins/caldav/caldav-browse-server.c:1272
+#: ../plugins/caldav/caldav-browse-server.c:1277
 msgid "Searching for user's calendars..."
 msgstr "Buscando los calendarios del usuario…"
 
@@ -16179,51 +16216,52 @@ msgstr "Buscando los calendarios del usuario…"
 msgid "Could not find any user calendar."
 msgstr "No se pudo encontrar ningún calendario del usuario."
 
-#: ../plugins/caldav/caldav-browse-server.c:793
+#: ../plugins/caldav/caldav-browse-server.c:794
 #, c-format
 msgid "Previous attempt failed: %s"
 msgstr "Falló el intento anterior: %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:795
+#: ../plugins/caldav/caldav-browse-server.c:796
 #, c-format
 msgid "Previous attempt failed with code %d"
 msgstr "El intento anterior falló con el código %d"
 
-#: ../plugins/caldav/caldav-browse-server.c:798
-#, c-format
-msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
+#: ../plugins/caldav/caldav-browse-server.c:801
+#, fuzzy, c-format
+#| msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
+msgid "Enter password for user %s on server %s"
 msgstr ""
 "Introduzca la contraseña para el usuario <b>%s</b> en el servidor <b>%s</b>"
 
-#: ../plugins/caldav/caldav-browse-server.c:855
+#: ../plugins/caldav/caldav-browse-server.c:860
 #, c-format
 msgid "Cannot create soup message for URL '%s'"
 msgstr "No se puede crear el mensaje «soup» para el URL «%s»"
 
 #. fetch content
-#: ../plugins/caldav/caldav-browse-server.c:1090
+#: ../plugins/caldav/caldav-browse-server.c:1095
 msgid "Searching folder content..."
 msgstr "Buscando el contenido de la carpeta…"
 
-#: ../plugins/caldav/caldav-browse-server.c:1133
+#: ../plugins/caldav/caldav-browse-server.c:1138
 msgid "List of available calendars:"
 msgstr "Lista de calendarios disponibles:"
 
-#: ../plugins/caldav/caldav-browse-server.c:1170
+#: ../plugins/caldav/caldav-browse-server.c:1175
 msgid "Supports"
 msgstr "Soporta"
 
-#: ../plugins/caldav/caldav-browse-server.c:1249
+#: ../plugins/caldav/caldav-browse-server.c:1254
 #, c-format
 msgid "Failed to create thread: %s"
 msgstr "Falló al crear la conversación: %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:1357
+#: ../plugins/caldav/caldav-browse-server.c:1362
 #, c-format
 msgid "Server URL '%s' is not a valid URL"
 msgstr "El URL del servidor «%s» no es un URL válido"
 
-#: ../plugins/caldav/caldav-browse-server.c:1363
+#: ../plugins/caldav/caldav-browse-server.c:1368
 msgid "Browse for a CalDAV calendar"
 msgstr "Examinar para calendarios CalDAV"
 
@@ -16237,7 +16275,7 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:220
-#: ../plugins/google-account-setup/google-contacts-source.c:305
+#: ../plugins/google-account-setup/google-contacts-source.c:308
 msgid "Use _SSL"
 msgstr "Usar _SSL"
 
@@ -16249,7 +16287,7 @@ msgstr "_Examinar el servidor para un calendario"
 #: ../plugins/calendar-file/calendar-file.c:182
 #: ../plugins/calendar-http/calendar-http.c:111
 #: ../plugins/calendar-weather/calendar-weather.c:395
-#: ../plugins/google-account-setup/google-contacts-source.c:323
+#: ../plugins/google-account-setup/google-contacts-source.c:326
 #: ../plugins/google-account-setup/google-source.c:630
 msgid "Re_fresh:"
 msgstr "A_ctualizar:"
@@ -16678,10 +16716,11 @@ msgstr ""
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-contacts-source.c:273
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:235
-msgid "<b>Server</b>"
-msgstr "<b>Servidor</b>"
+#: ../plugins/google-account-setup/google-contacts-source.c:274
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:236
+#| msgid "_Server:"
+msgid "Server"
+msgstr "Servidor"
 
 #: ../plugins/google-account-setup/google-source.c:437
 #, c-format
@@ -16710,7 +16749,6 @@ msgid "Cal_endar:"
 msgstr "Cal_endario:"
 
 #: ../plugins/google-account-setup/google-source.c:669
-#| msgid "Retrieve _list"
 msgid "Retrieve _List"
 msgstr "Obtener _lista"
 
@@ -16965,24 +17003,25 @@ msgid "Would you like to decline it?"
 msgstr "¿Quiere rechazarlo?"
 
 #: ../plugins/groupwise-features/properties.ui.h:1
-msgid "<b>Users:</b>"
-msgstr "<b>Usuarios:</b>"
-
-#: ../plugins/groupwise-features/properties.ui.h:2
 msgid "C_ustomize notification message"
 msgstr "_Personalizar el mensaje de notificación"
 
-#: ../plugins/groupwise-features/properties.ui.h:3
+#: ../plugins/groupwise-features/properties.ui.h:2
 msgid "Con_tacts..."
 msgstr "Con_tactos…"
 
-#: ../plugins/groupwise-features/properties.ui.h:6
+#: ../plugins/groupwise-features/properties.ui.h:5
 msgid "Shared Folder Notification"
 msgstr "Notificación de carpeta compartida"
 
-#: ../plugins/groupwise-features/properties.ui.h:8
+#: ../plugins/groupwise-features/properties.ui.h:7
 msgid "The participants will receive the following notification.\n"
 msgstr "Los participantes recibirán la notificación siguiente.\n"
+
+#: ../plugins/groupwise-features/properties.ui.h:9
+#| msgid "Users"
+msgid "Users:"
+msgstr "Usuarios:"
 
 #: ../plugins/groupwise-features/properties.ui.h:12
 msgid "_Not Shared"
@@ -17041,8 +17080,9 @@ msgid "Proxy"
 msgstr "Proxy"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.ui.h:1
-msgid "<b>Account Name</b>"
-msgstr "<b>Nombre de la cuenta</b>"
+#: ../widgets/misc/e-account-tree-view.c:224
+msgid "Account Name"
+msgstr "Nombre de la cuenta"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.ui.h:2
 msgid "Proxy Login"
@@ -17544,359 +17584,409 @@ msgstr "%A, %e de %B de %Y, a las %l:%M %p"
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y a las %l:%M:%S %p"
 
-#: ../plugins/itip-formatter/itip-view.c:351
-#: ../plugins/itip-formatter/itip-view.c:439
-#: ../plugins/itip-formatter/itip-view.c:526
+#: ../plugins/itip-formatter/itip-view.c:367
+#: ../plugins/itip-formatter/itip-view.c:455
+#: ../plugins/itip-formatter/itip-view.c:542
 #, c-format
-msgid "Please respond on behalf of <b>%s</b>"
-msgstr "Responda en nombre de <b>%s</b>"
+#| msgid "Please respond on behalf of <b>%s</b>"
+msgid "Please respond on behalf of %s"
+msgstr "Responda en nombre de %s"
 
-#: ../plugins/itip-formatter/itip-view.c:353
-#: ../plugins/itip-formatter/itip-view.c:441
-#: ../plugins/itip-formatter/itip-view.c:528
+#: ../plugins/itip-formatter/itip-view.c:369
+#: ../plugins/itip-formatter/itip-view.c:457
+#: ../plugins/itip-formatter/itip-view.c:544
 #, c-format
-msgid "Received on behalf of <b>%s</b>"
-msgstr "Recibido en nombre de <b>%s</b>"
+#| msgid "Received on behalf of <b>%s</b>"
+msgid "Received on behalf of %s"
+msgstr "Recibido en nombre de %s"
 
-#: ../plugins/itip-formatter/itip-view.c:358
+#: ../plugins/itip-formatter/itip-view.c:374
 #, c-format
-msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> ha publicado información de reunión a través de %s:"
-
-#: ../plugins/itip-formatter/itip-view.c:360
-#, c-format
-msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> ha publicado la siguiente información de reunión:"
-
-#: ../plugins/itip-formatter/itip-view.c:365
-#, c-format
-msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> ha delegado la reunión siguiente en usted:"
-
-#: ../plugins/itip-formatter/itip-view.c:368
-#, c-format
-msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr ""
-"<b>%s</b> solicita su presencia en la siguiente reunión a través de %s:"
-
-#: ../plugins/itip-formatter/itip-view.c:370
-#, c-format
-msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> solicita su presencia en la siguiente reunión:"
+#| msgid ""
+#| "<b>%s</b> through %s has published the following meeting information:"
+msgid "%s through %s has published the following meeting information:"
+msgstr "%s ha publicado información de reunión a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+#| msgid "<b>%s</b> has published the following meeting information:"
+msgid "%s has published the following meeting information:"
+msgstr "%s ha publicado la siguiente información de reunión:"
+
+#: ../plugins/itip-formatter/itip-view.c:381
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has delegated the following meeting to you:"
+msgid "%s has delegated the following meeting to you:"
+msgstr "<b>%s</b> ha delegado la reunión siguiente en usted:"
+
+#: ../plugins/itip-formatter/itip-view.c:384
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s requests your presence at the following meeting:"
+msgid "%s through %s requests your presence at the following meeting:"
+msgstr ""
+"<b>%s</b> solicita su presencia en la siguiente reunión a través de %s:"
+
+#: ../plugins/itip-formatter/itip-view.c:386
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests your presence at the following meeting:"
+msgid "%s requests your presence at the following meeting:"
+msgstr "<b>%s</b> solicita su presencia en la siguiente reunión:"
+
+#: ../plugins/itip-formatter/itip-view.c:392
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> desea apuntarse a una reunión existente a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:378
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing meeting:"
+#: ../plugins/itip-formatter/itip-view.c:394
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to add to an existing meeting:"
+msgid "%s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> desea apuntarse a una reunión existente:"
 
-#: ../plugins/itip-formatter/itip-view.c:382
-#, c-format
+#: ../plugins/itip-formatter/itip-view.c:398
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s wishes to receive the latest information for the "
+#| "following meeting:"
 msgid ""
-"<b>%s</b> through %s wishes to receive the latest information for the "
-"following meeting:"
+"%s through %s wishes to receive the latest information for the following "
+"meeting:"
 msgstr ""
 "<b>%s</b> desea recibir la última información de la siguiente reunión a "
 "través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:384
-#, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+#: ../plugins/itip-formatter/itip-view.c:400
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> wishes to receive the latest information for the following "
+#| "meeting:"
+msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> desea recibir la última información de la reunión siguiente:"
 
-#: ../plugins/itip-formatter/itip-view.c:388
-#, c-format
-msgid "<b>%s</b> through %s has sent back the following meeting response:"
+#: ../plugins/itip-formatter/itip-view.c:404
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has sent back the following meeting response:"
+msgid "%s through %s has sent back the following meeting response:"
 msgstr ""
 "<b>%s</b> ha devuelto la siguiente respuesta a la reunión a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:390
-#, c-format
-msgid "<b>%s</b> has sent back the following meeting response:"
+#: ../plugins/itip-formatter/itip-view.c:406
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has sent back the following meeting response:"
+msgid "%s has sent back the following meeting response:"
 msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la reunión:"
 
-#: ../plugins/itip-formatter/itip-view.c:394
-#, c-format
-msgid "<b>%s</b> through %s has canceled the following meeting:"
+#: ../plugins/itip-formatter/itip-view.c:410
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has canceled the following meeting:"
+msgid "%s through %s has canceled the following meeting:"
 msgstr "<b>%s</b> ha cancelado la siguiente reunión a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:396
-#, c-format
-msgid "<b>%s</b> has canceled the following meeting."
+#: ../plugins/itip-formatter/itip-view.c:412
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled the following meeting."
+msgid "%s has canceled the following meeting."
 msgstr "<b>%s</b> ha cancelado la reunión siguiente."
 
-#: ../plugins/itip-formatter/itip-view.c:400
-#, c-format
-msgid "<b>%s</b> through %s has proposed the following meeting changes."
+#: ../plugins/itip-formatter/itip-view.c:416
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has proposed the following meeting changes."
+msgid "%s through %s has proposed the following meeting changes."
 msgstr ""
 "<b>%s</b> ha propuesto los cambios siguientes para la reunión a través de %s."
 
-#: ../plugins/itip-formatter/itip-view.c:402
-#, c-format
-msgid "<b>%s</b> has proposed the following meeting changes."
+#: ../plugins/itip-formatter/itip-view.c:418
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has proposed the following meeting changes."
+msgid "%s has proposed the following meeting changes."
 msgstr "<b>%s</b> ha propuesto los cambios siguientes para la reunión."
 
-#: ../plugins/itip-formatter/itip-view.c:406
-#, c-format
-msgid "<b>%s</b> through %s has declined the following meeting changes:"
+#: ../plugins/itip-formatter/itip-view.c:422
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has declined the following meeting changes:"
+msgid "%s through %s has declined the following meeting changes:"
 msgstr ""
 "<b>%s</b> ha rehusado los siguientes cambios para la reunión a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:408
-#, c-format
-msgid "<b>%s</b> has declined the following meeting changes."
+#: ../plugins/itip-formatter/itip-view.c:424
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has declined the following meeting changes."
+msgid "%s has declined the following meeting changes."
 msgstr "<b>%s</b> ha rehusado los cambios siguientes para la reunión."
 
-#: ../plugins/itip-formatter/itip-view.c:446
-#, c-format
-msgid "<b>%s</b> through %s has published the following task:"
+#: ../plugins/itip-formatter/itip-view.c:462
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has published the following task:"
+msgid "%s through %s has published the following task:"
 msgstr "<b>%s</b> ha publicado la siguiente tarea a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:448
-#, c-format
-msgid "<b>%s</b> has published the following task:"
+#: ../plugins/itip-formatter/itip-view.c:464
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published the following task:"
+msgid "%s has published the following task:"
 msgstr "<b>%s</b> ha publicado la tarea siguiente:"
 
-#: ../plugins/itip-formatter/itip-view.c:453
-#, c-format
-msgid "<b>%s</b> requests the assignment of %s to the following task:"
+#: ../plugins/itip-formatter/itip-view.c:469
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests the assignment of %s to the following task:"
+msgid "%s requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> solicita la asignación de %s para la siguiente tarea:"
 
-#: ../plugins/itip-formatter/itip-view.c:456
-#, c-format
-msgid "<b>%s</b> through %s has assigned you a task:"
+#: ../plugins/itip-formatter/itip-view.c:472
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has assigned you a task:"
+msgid "%s through %s has assigned you a task:"
 msgstr "<b>%s</b> le ha asignado una tarea a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:458
-#, c-format
-msgid "<b>%s</b> has assigned you a task:"
+#: ../plugins/itip-formatter/itip-view.c:474
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has assigned you a task:"
+msgid "%s has assigned you a task:"
 msgstr "<b>%s</b> le ha asignado a usted una tarea:"
 
-#: ../plugins/itip-formatter/itip-view.c:464
-#, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing task:"
+#: ../plugins/itip-formatter/itip-view.c:480
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s wishes to add to an existing task:"
+msgid "%s through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> desea añadirse a una tarea existente a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:466
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing task:"
+#: ../plugins/itip-formatter/itip-view.c:482
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to add to an existing task:"
+msgid "%s wishes to add to an existing task:"
 msgstr "<b>%s</b> desea añadirse a una tarea existente:"
 
-#: ../plugins/itip-formatter/itip-view.c:470
-#, c-format
+#: ../plugins/itip-formatter/itip-view.c:486
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s wishes to receive the latest information for the "
+#| "following assigned task:"
 msgid ""
-"<b>%s</b> through %s wishes to receive the latest information for the "
-"following assigned task:"
+"%s through %s wishes to receive the latest information for the following "
+"assigned task:"
 msgstr ""
 "<b>%s</b> desea recibir la última información para la siguiente tarea "
 "asignada a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:472
-#, c-format
+#: ../plugins/itip-formatter/itip-view.c:488
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> wishes to receive the latest information for the following "
+#| "assigned task:"
 msgid ""
-"<b>%s</b> wishes to receive the latest information for the following "
-"assigned task:"
+"%s wishes to receive the latest information for the following assigned task:"
 msgstr ""
 "<b>%s</b> quiere recibir la última información para la siguiente tarea "
 "asignada:"
 
-#: ../plugins/itip-formatter/itip-view.c:476
-#, c-format
-msgid ""
-"<b>%s</b> through %s has sent back the following assigned task response:"
+#: ../plugins/itip-formatter/itip-view.c:492
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s has sent back the following assigned task response:"
+msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
 "<b>%s</b> ha devuelto la siguiente respuesta a la tarea asignada a través de "
 "%s:"
 
-#: ../plugins/itip-formatter/itip-view.c:478
-#, c-format
-msgid "<b>%s</b> has sent back the following assigned task response:"
+#: ../plugins/itip-formatter/itip-view.c:494
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has sent back the following assigned task response:"
+msgid "%s has sent back the following assigned task response:"
 msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea:"
 
-#: ../plugins/itip-formatter/itip-view.c:482
-#, c-format
-msgid "<b>%s</b> through %s has canceled the following assigned task:"
+#: ../plugins/itip-formatter/itip-view.c:498
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has canceled the following assigned task:"
+msgid "%s through %s has canceled the following assigned task:"
 msgstr ""
 "<b>%s</b> ha cancelado la siguiente asignación de tarea a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:484
-#, c-format
-msgid "<b>%s</b> has canceled the following assigned task:"
+#: ../plugins/itip-formatter/itip-view.c:500
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled the following assigned task:"
+msgid "%s has canceled the following assigned task:"
 msgstr "<b>%s</b> ha cancelado la siguiente tarea asignada:"
 
-#: ../plugins/itip-formatter/itip-view.c:488
-#, c-format
-msgid ""
-"<b>%s</b> through %s has proposed the following task assignment changes:"
+#: ../plugins/itip-formatter/itip-view.c:504
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s has proposed the following task assignment changes:"
+msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
 "<b>%s</b> ha propuesto los siguientes cambios en la asignación de tareas a "
 "través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:490
-#, c-format
-msgid "<b>%s</b> has proposed the following task assignment changes:"
+#: ../plugins/itip-formatter/itip-view.c:506
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has proposed the following task assignment changes:"
+msgid "%s has proposed the following task assignment changes:"
 msgstr ""
 "<b>%s</b> ha propuesto los siguientes cambios en la asignación de tareas:"
 
-#: ../plugins/itip-formatter/itip-view.c:494
-#, c-format
-msgid "<b>%s</b> through %s has declined the following assigned task:"
+#: ../plugins/itip-formatter/itip-view.c:510
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has declined the following assigned task:"
+msgid "%s through %s has declined the following assigned task:"
 msgstr "<b>%s</b> ha rehusado la siguiente tarea asignada a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:496
-#, c-format
-msgid "<b>%s</b> has declined the following assigned task:"
+#: ../plugins/itip-formatter/itip-view.c:512
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has declined the following assigned task:"
+msgid "%s has declined the following assigned task:"
 msgstr "<b>%s</b> ha rehusado la siguiente tarea asignada:"
 
-#: ../plugins/itip-formatter/itip-view.c:533
-#, c-format
-msgid "<b>%s</b> through %s has published the following memo:"
+#: ../plugins/itip-formatter/itip-view.c:549
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has published the following memo:"
+msgid "%s through %s has published the following memo:"
 msgstr "<b>%s</b> ha publicado la siguiente nota a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:535
-#, c-format
-msgid "<b>%s</b> has published the following memo:"
+#: ../plugins/itip-formatter/itip-view.c:551
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published the following memo:"
+msgid "%s has published the following memo:"
 msgstr "<b>%s</b> ha publicado la nota siguiente:"
 
-#: ../plugins/itip-formatter/itip-view.c:540
-#, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing memo:"
+#: ../plugins/itip-formatter/itip-view.c:556
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s wishes to add to an existing memo:"
+msgid "%s through %s wishes to add to an existing memo:"
 msgstr "<b>%s</b> desea añadir algo a una nota existente a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:542
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing memo:"
+#: ../plugins/itip-formatter/itip-view.c:558
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to add to an existing memo:"
+msgid "%s wishes to add to an existing memo:"
 msgstr "<b>%s</b> desea añadir algo a una nota existente:"
 
-#: ../plugins/itip-formatter/itip-view.c:546
-#, c-format
-msgid "<b>%s</b> through %s has canceled the following shared memo:"
+#: ../plugins/itip-formatter/itip-view.c:562
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has canceled the following shared memo:"
+msgid "%s through %s has canceled the following shared memo:"
 msgstr "<b>%s</b> ha cancelado la siguiente nota compartida a través de %s:"
 
-#: ../plugins/itip-formatter/itip-view.c:548
+#: ../plugins/itip-formatter/itip-view.c:564
 #, c-format
-msgid "<b>%s</b> has canceled the following shared memo:"
-msgstr "<b>%s</b> ha cancelado la siguiente nota compartida:"
+#| msgid "<b>%s</b> has canceled the following shared memo:"
+msgid "%s has canceled the following shared memo:"
+msgstr "%s ha cancelado la siguiente nota compartida:"
 
-#: ../plugins/itip-formatter/itip-view.c:672
+#: ../plugins/itip-formatter/itip-view.c:688
 msgid "All day:"
 msgstr "Todo el día:"
 
-#: ../plugins/itip-formatter/itip-view.c:682
+#: ../plugins/itip-formatter/itip-view.c:698
 msgid "Start day:"
 msgstr "Día de inicio:"
 
 #. Start time
-#: ../plugins/itip-formatter/itip-view.c:682
-#: ../plugins/itip-formatter/itip-view.c:1037
+#: ../plugins/itip-formatter/itip-view.c:698
+#: ../plugins/itip-formatter/itip-view.c:1053
 msgid "Start time:"
 msgstr "Hora de inicio:"
 
-#: ../plugins/itip-formatter/itip-view.c:694
+#: ../plugins/itip-formatter/itip-view.c:710
 msgid "End day:"
 msgstr "Día de fin:"
 
 #. End time
-#: ../plugins/itip-formatter/itip-view.c:694
-#: ../plugins/itip-formatter/itip-view.c:1048
+#: ../plugins/itip-formatter/itip-view.c:710
+#: ../plugins/itip-formatter/itip-view.c:1064
 msgid "End time:"
 msgstr "Hora de fin:"
 
 #. Everything gets the open button
-#: ../plugins/itip-formatter/itip-view.c:827
+#: ../plugins/itip-formatter/itip-view.c:843
 msgid "_Open Calendar"
 msgstr "_Abrir calendario"
 
-#: ../plugins/itip-formatter/itip-view.c:833
-#: ../plugins/itip-formatter/itip-view.c:837
-#: ../plugins/itip-formatter/itip-view.c:843
-#: ../plugins/itip-formatter/itip-view.c:860
-#: ../plugins/itip-formatter/itip-view.c:865
+#: ../plugins/itip-formatter/itip-view.c:849
+#: ../plugins/itip-formatter/itip-view.c:853
+#: ../plugins/itip-formatter/itip-view.c:859
+#: ../plugins/itip-formatter/itip-view.c:876
+#: ../plugins/itip-formatter/itip-view.c:881
 msgid "_Decline"
 msgstr "_Rehusar"
 
-#: ../plugins/itip-formatter/itip-view.c:834
-#: ../plugins/itip-formatter/itip-view.c:839
-#: ../plugins/itip-formatter/itip-view.c:846
+#: ../plugins/itip-formatter/itip-view.c:850
+#: ../plugins/itip-formatter/itip-view.c:855
 #: ../plugins/itip-formatter/itip-view.c:862
-#: ../plugins/itip-formatter/itip-view.c:867
+#: ../plugins/itip-formatter/itip-view.c:878
+#: ../plugins/itip-formatter/itip-view.c:883
 msgid "A_ccept"
 msgstr "A_ceptar"
 
-#: ../plugins/itip-formatter/itip-view.c:837
+#: ../plugins/itip-formatter/itip-view.c:853
 msgid "_Decline all"
 msgstr "_Rehusar todo"
 
-#: ../plugins/itip-formatter/itip-view.c:838
+#: ../plugins/itip-formatter/itip-view.c:854
 msgid "_Tentative all"
 msgstr "_Provisional todo"
 
-#: ../plugins/itip-formatter/itip-view.c:838
-#: ../plugins/itip-formatter/itip-view.c:844
-#: ../plugins/itip-formatter/itip-view.c:861
-#: ../plugins/itip-formatter/itip-view.c:866
+#: ../plugins/itip-formatter/itip-view.c:854
+#: ../plugins/itip-formatter/itip-view.c:860
+#: ../plugins/itip-formatter/itip-view.c:877
+#: ../plugins/itip-formatter/itip-view.c:882
 msgid "_Tentative"
 msgstr "_Provisional"
 
-#: ../plugins/itip-formatter/itip-view.c:839
+#: ../plugins/itip-formatter/itip-view.c:855
 msgid "A_ccept all"
 msgstr "A_ceptar todo"
 
 #. FIXME Is this really the right button?
-#: ../plugins/itip-formatter/itip-view.c:850
+#: ../plugins/itip-formatter/itip-view.c:866
 msgid "_Send Information"
 msgstr "_Enviar información"
 
 #. FIXME Is this really the right button?
-#: ../plugins/itip-formatter/itip-view.c:854
+#: ../plugins/itip-formatter/itip-view.c:870
 msgid "_Update Attendee Status"
 msgstr "_Actualizar el estado del participante"
 
-#: ../plugins/itip-formatter/itip-view.c:857
+#: ../plugins/itip-formatter/itip-view.c:873
 msgid "_Update"
 msgstr "_Actualizar"
 
 #. Comment
-#: ../plugins/itip-formatter/itip-view.c:1068
-#: ../plugins/itip-formatter/itip-view.c:1122
+#: ../plugins/itip-formatter/itip-view.c:1084
+#: ../plugins/itip-formatter/itip-view.c:1138
 msgid "Comment:"
 msgstr "Comentario:"
 
-#: ../plugins/itip-formatter/itip-view.c:1107
+#: ../plugins/itip-formatter/itip-view.c:1123
 msgid "Send _reply to sender"
 msgstr "_Responder al remitente"
 
-#: ../plugins/itip-formatter/itip-view.c:1137
+#: ../plugins/itip-formatter/itip-view.c:1153
 msgid "Send _updates to attendees"
 msgstr "Mandar _actualizaciones a los participantes"
 
-#: ../plugins/itip-formatter/itip-view.c:1146
+#: ../plugins/itip-formatter/itip-view.c:1162
 msgid "_Apply to all instances"
 msgstr "_Aplicar a todas las instancias"
 
-#: ../plugins/itip-formatter/itip-view.c:1155
+#: ../plugins/itip-formatter/itip-view.c:1171
 msgid "Show time as _free"
 msgstr "Mostrar hora como _libre"
 
-#: ../plugins/itip-formatter/itip-view.c:1158
+#: ../plugins/itip-formatter/itip-view.c:1174
 msgid "_Preserve my reminder"
 msgstr "Conser_var mi recordatorio"
 
 #. To Translators: This is a check box to inherit a reminder.
-#: ../plugins/itip-formatter/itip-view.c:1164
+#: ../plugins/itip-formatter/itip-view.c:1180
 msgid "_Inherit reminder"
 msgstr "_Heredar recordatorio"
 
-#: ../plugins/itip-formatter/itip-view.c:1907
+#: ../plugins/itip-formatter/itip-view.c:1923
 msgid "_Tasks:"
 msgstr "_Tareas:"
 
-#: ../plugins/itip-formatter/itip-view.c:1909
+#: ../plugins/itip-formatter/itip-view.c:1925
 msgid "_Memos:"
 msgstr "_Notas:"
 
@@ -19091,11 +19181,11 @@ msgstr "Contactos WebDAV"
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:245
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:248
 msgid "URL:"
 msgstr "URL:"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:271
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:274
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "_Evitar IfMatch (necesario en Apache < 2.2.8)"
 
@@ -19151,7 +19241,7 @@ msgstr "Opción que activa una interfaz mucho más simple."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
-msgstr "Nombre del equipo proxy HTtP"
+msgstr "Nombre del servidor proxy HTtP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "HTTP proxy password"
@@ -19215,7 +19305,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Non-proxy hosts"
-msgstr "Equipos que no sean proxy"
+msgstr "Servidores que no sean proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Password to pass as authentication when doing HTTP proxying."
@@ -19227,7 +19317,7 @@ msgstr "Modo de configuración del proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "SOCKS proxy host name"
-msgstr "Nombre del equipo proxy SOCKS"
+msgstr "Nombre del servidor proxy SOCKS"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "SOCKS proxy port"
@@ -19235,7 +19325,7 @@ msgstr "Puerto del proxy SOCKS"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Secure HTTP proxy host name"
-msgstr "Nombre del equipo proxy HTTP seguro"
+msgstr "Nombre del servidor proxy HTTP seguro"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Secure HTTP proxy port"
@@ -19358,10 +19448,10 @@ msgid ""
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
 msgstr ""
-"Esta clave contiene una lista de anfitriones con los que está conectado "
+"Esta clave contiene una lista de servidores con los que está conectado "
 "directamente, en vez de por medio del proxy (si está activo). Los valores "
 "pueden ser nombres de equipo, dominios (usando un comodín auxiliar como *."
-"foo.com), direcciones IP de anfitriones (tanto IPv4 como IPv6) y direcciones "
+"foo.com), direcciones IP de servidores (tanto IPv4 como IPv6) y direcciones "
 "de red con una máscara (algo como 192.168.0.0/24)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
@@ -20665,10 +20755,6 @@ msgstr "Tipo de vista:"
 msgid "De_fault"
 msgstr "_Predeterminada"
 
-#: ../widgets/misc/e-account-tree-view.c:224
-msgid "Account Name"
-msgstr "Nombre de la cuenta"
-
 #: ../widgets/misc/e-account-tree-view.c:255
 msgid "Protocol"
 msgstr "Protocolo"
@@ -21579,6 +21665,30 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2486
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles personales:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles de recepción:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles de envío:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Gestión de cuentas</span>"
+
+#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
+#~ msgstr "<b>Opción publicar por encima</b> (no se recomienda)"
+
+#~ msgid "<b>Server</b>"
+#~ msgstr "<b>Servidor</b>"
+
+#~ msgid "<b>Users:</b>"
+#~ msgstr "<b>Usuarios:</b>"
+
+#~ msgid "<b>Account Name</b>"
+#~ msgstr "<b>Nombre de la cuenta</b>"
 
 #~ msgid "_Accept"
 #~ msgstr "_Aceptar"
