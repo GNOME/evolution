@@ -1467,23 +1467,23 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 		return;
 
 	if (camel_message_info_user_flag(info, "receipt-handled")) {
-		camel_message_info_free(info);
+		camel_folder_free_message_info (folder, info);
 		return;
 	}
 
 	if (msg == NULL) {
 		mail_get_messagex(folder, uid, emu_handle_receipt_message, NULL, mail_msg_unordered_push);
-		camel_message_info_free(info);
+		camel_folder_free_message_info (folder, info);
 		return;
 	}
 
 	if ((addr = camel_medium_get_header((CamelMedium *)msg, "Disposition-Notification-To")) == NULL) {
-		camel_message_info_free(info);
+		camel_folder_free_message_info (folder, info);
 		return;
 	}
 
 	camel_message_info_set_user_flag(info, "receipt-handled", TRUE);
-	camel_message_info_free(info);
+	camel_folder_free_message_info (folder, info);
 
 	account = em_utils_guess_account_with_recipients (msg, folder);
 

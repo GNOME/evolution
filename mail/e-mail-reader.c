@@ -151,6 +151,8 @@ action_mail_add_sender_cb (GtkAction *action,
 	e_shell_event (shell, "contact-quick-add-email", (gpointer) address);
 	emu_remove_from_mail_cache_1 (address);
 exit:
+	if (info)
+		camel_folder_free_message_info (folder, info);
 	em_utils_uids_free (uids);
 }
 
@@ -870,7 +872,7 @@ action_mail_save_as_cb (GtkAction *action,
 
 		if (subject)
 			suggestion = g_strconcat (subject, ".mbox", NULL);
-		camel_message_info_free (info);
+		camel_folder_free_message_info (folder, info);
 	}
 
 	if (!suggestion) {
@@ -2807,6 +2809,8 @@ e_mail_reader_check_state (EMailReader *reader)
 
 		string = camel_message_info_mlist (info);
 		is_mailing_list &= (string != NULL && *string != '\0');
+
+		camel_folder_free_message_info (folder, info);
 	}
 
 	if (em_utils_check_user_can_send_mail ())

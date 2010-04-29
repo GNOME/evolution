@@ -249,6 +249,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		}
 
 		g_free (real_folder_uri);
+		camel_folder_free_message_info (folder, info);
 	}
 
 	for (ii = 0; ii < views->len; ii++) {

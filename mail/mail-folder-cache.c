@@ -452,7 +452,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 						subject = NULL;
 					}
 				}
-				camel_message_info_free (info);
+				camel_folder_free_message_info (folder, info);
 			}
 		}
 	}

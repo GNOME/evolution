@@ -4134,8 +4134,7 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 		g_ptr_array_add (sort_data.sort_columns, data);
 	}
 
-	if (uids->len - camel_folder_summary_cache_size (ml->folder->summary) > 50)
-		camel_folder_summary_reload_from_db (ml->folder->summary, NULL);
+	camel_folder_summary_prepare_fetch_all (ml->folder->summary, NULL);
 
 	for (i = 0; i < uids->len; i++) {
 		gchar *uid;
@@ -4297,7 +4296,7 @@ regen_list_exec (struct _regen_list_msg *m)
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
-	/* camel_folder_summary_reload_from_db (m->folder->summary, NULL); */
+	/* camel_folder_summary_prepare_fetch_all (m->folder->summary, NULL); */
 	if (!camel_operation_cancel_check(m->base.cancel)) {
 		/* update/build a new tree */
 		if (m->dotree) {
@@ -4308,18 +4307,18 @@ regen_list_exec (struct _regen_list_msg *m)
 			else
 				m->tree = camel_folder_thread_messages_new (m->folder, uids, m->thread_subject);
 		} else {
+			CamelException ex;
+
 			camel_folder_sort_uids (m->ml->folder, uids);
 			m->summary = g_ptr_array_new ();
-			if (uids->len > camel_folder_summary_cache_size (m->folder->summary) ) {
-				CamelException ex;
-				camel_exception_init (&ex);
-				camel_folder_summary_reload_from_db (m->folder->summary, &ex);
-				if (camel_exception_is_set (&ex)) {
-					g_warning ("Exception while reloading: %s\n", camel_exception_get_description (&ex));
-					camel_exception_clear (&ex);
-				}
 
+			camel_exception_init (&ex);
+			camel_folder_summary_prepare_fetch_all (m->folder->summary, &ex);
+			if (camel_exception_is_set (&ex)) {
+				g_warning ("Exception while reloading: %s\n", camel_exception_get_description (&ex));
+				camel_exception_clear (&ex);
 			}
+
 			for (i = 0; i < uids->len; i++) {
 				info = camel_folder_get_message_info (m->folder, uids->pdata[i]);
 				if (info)
