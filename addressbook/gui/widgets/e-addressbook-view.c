@@ -1239,7 +1239,6 @@ e_addressbook_view_print (EAddressbookView *view,
 		widget = gtk_bin_get_child (GTK_BIN (view));
 		printable = e_table_get_printable (E_TABLE (widget));
 		g_object_ref_sink (printable);
-		g_object_unref (widget);
 
 		e_contact_print_button (printable, action);
 
