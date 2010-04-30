@@ -55,6 +55,10 @@
 #if !EXPRESS
     <toolitem action='calendar-view-list'/>
 #endif
+#if EXPRESS
+    <separator/>
+    <toolitem action='preferences'/>
+#endif
 
   </toolbar>
   <popup name='calendar-popup'>
