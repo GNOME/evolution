@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-04-29 15:40+0000\n"
-"PO-Revision-Date: 2010-04-29 20:00+0200\n"
+"PO-Revision-Date: 2010-04-30 08:13+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4083,7 +4083,7 @@ msgstr "No es posible abrir el calendario «%s»."
 #: ../calendar/gui/dialogs/task-page.c:1743
 #, c-format
 msgid "You are acting on behalf of %s"
-msgstr "Está actuando en nombre de <b>%s</b>"
+msgstr "Está actuando en nombre de %s"
 
 #: ../calendar/gui/dialogs/event-page.c:2937
 #, c-format
@@ -12554,10 +12554,9 @@ msgstr ""
 
 #. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
 #: ../mail/mail-config.ui.h:128
-#, fuzzy
 #| msgid "Posting destination"
 msgid "Top Posting Option"
-msgstr "Destino de publicación"
+msgstr "Opción de publicar por encima"
 
 #: ../mail/mail-config.ui.h:129
 msgid ""
@@ -17657,87 +17656,85 @@ msgid "%s has sent back the following meeting response:"
 msgstr "%s ha devuelto la siguiente respuesta a la reunión:"
 
 #: ../plugins/itip-formatter/itip-view.c:410
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgid "%s through %s has canceled the following meeting:"
-msgstr "<b>%s</b> ha cancelado la siguiente reunión a través de %s:"
+msgstr "%s ha cancelado la siguiente reunión a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:412
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled the following meeting."
 msgid "%s has canceled the following meeting."
-msgstr "<b>%s</b> ha cancelado la reunión siguiente."
+msgstr "%s ha cancelado la siguiente reunión."
 
 #: ../plugins/itip-formatter/itip-view.c:416
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has proposed the following meeting changes."
 msgid "%s through %s has proposed the following meeting changes."
-msgstr ""
-"<b>%s</b> ha propuesto los cambios siguientes para la reunión a través de %s."
+msgstr "%s ha propuesto los siguientes cambios para la reunión a través de %s."
 
 #: ../plugins/itip-formatter/itip-view.c:418
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has proposed the following meeting changes."
 msgid "%s has proposed the following meeting changes."
-msgstr "<b>%s</b> ha propuesto los cambios siguientes para la reunión."
+msgstr "%s ha propuesto los siguientes cambios para la reunión."
 
 #: ../plugins/itip-formatter/itip-view.c:422
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgid "%s through %s has declined the following meeting changes:"
-msgstr ""
-"<b>%s</b> ha rehusado los siguientes cambios para la reunión a través de %s:"
+msgstr "%s ha rehusado los siguientes cambios para la reunión a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:424
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has declined the following meeting changes."
 msgid "%s has declined the following meeting changes."
-msgstr "<b>%s</b> ha rehusado los cambios siguientes para la reunión."
+msgstr "%s ha rehusado los siguientes cambios para la reunión."
 
 #: ../plugins/itip-formatter/itip-view.c:462
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has published the following task:"
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b> ha publicado la siguiente tarea a través de %s:"
+msgstr "%s ha publicado la siguiente tarea a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:464
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published the following task:"
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> ha publicado la tarea siguiente:"
+msgstr "%s ha publicado la siguiente tarea:"
 
 #: ../plugins/itip-formatter/itip-view.c:469
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> solicita la asignación de %s para la siguiente tarea:"
+msgstr "%s solicita la asignación de %s para la siguiente tarea:"
 
 #: ../plugins/itip-formatter/itip-view.c:472
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has assigned you a task:"
 msgid "%s through %s has assigned you a task:"
-msgstr "<b>%s</b> le ha asignado una tarea a través de %s:"
+msgstr "%s le ha asignado una tarea a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has assigned you a task:"
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> le ha asignado a usted una tarea:"
+msgstr "%s le ha asignado a usted una tarea:"
 
 #: ../plugins/itip-formatter/itip-view.c:480
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> desea añadirse a una tarea existente a través de %s:"
+msgstr "%s desea añadirse a una tarea existente a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:482
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to add to an existing task:"
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> desea añadirse a una tarea existente:"
+msgstr "%s desea añadirse a una tarea existente:"
 
 #: ../plugins/itip-formatter/itip-view.c:486
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s wishes to receive the latest information for the "
 #| "following assigned task:"
@@ -17745,105 +17742,101 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"<b>%s</b> desea recibir la última información para la siguiente tarea "
-"asignada a través de %s:"
+"%s desea recibir la última información para la siguiente tarea asignada a "
+"través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:488
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following "
 #| "assigned task:"
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr ""
-"<b>%s</b> quiere recibir la última información para la siguiente tarea "
-"asignada:"
+"%s quiere recibir la última información para la siguiente tarea asignada:"
 
 #: ../plugins/itip-formatter/itip-view.c:492
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s has sent back the following assigned task response:"
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
-"<b>%s</b> ha devuelto la siguiente respuesta a la tarea asignada a través de "
-"%s:"
+"%s ha devuelto la siguiente respuesta a la tarea asignada a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:494
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has sent back the following assigned task response:"
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea:"
+msgstr "%s ha devuelto la siguiente respuesta a la tarea:"
 
 #: ../plugins/itip-formatter/itip-view.c:498
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgid "%s through %s has canceled the following assigned task:"
-msgstr ""
-"<b>%s</b> ha cancelado la siguiente asignación de tarea a través de %s:"
+msgstr "%s ha cancelado la siguiente asignación de tarea a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:500
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled the following assigned task:"
 msgid "%s has canceled the following assigned task:"
-msgstr "<b>%s</b> ha cancelado la siguiente tarea asignada:"
+msgstr "%s ha cancelado la siguiente tarea asignada:"
 
 #: ../plugins/itip-formatter/itip-view.c:504
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s has proposed the following task assignment changes:"
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
-"<b>%s</b> ha propuesto los siguientes cambios en la asignación de tareas a "
-"través de %s:"
+"%s ha propuesto los siguientes cambios en la asignación de tareas a través "
+"de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:506
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgid "%s has proposed the following task assignment changes:"
-msgstr ""
-"<b>%s</b> ha propuesto los siguientes cambios en la asignación de tareas:"
+msgstr "%s ha propuesto los siguientes cambios en la asignación de tareas:"
 
 #: ../plugins/itip-formatter/itip-view.c:510
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgid "%s through %s has declined the following assigned task:"
-msgstr "<b>%s</b> ha rehusado la siguiente tarea asignada a través de %s:"
+msgstr "%s ha rehusado la siguiente tarea asignada a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:512
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has declined the following assigned task:"
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> ha rehusado la siguiente tarea asignada:"
+msgstr "%s ha rehusado la siguiente tarea asignada:"
 
 #: ../plugins/itip-formatter/itip-view.c:549
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has published the following memo:"
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b> ha publicado la siguiente nota a través de %s:"
+msgstr "%s ha publicado la siguiente nota a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:551
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published the following memo:"
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> ha publicado la nota siguiente:"
+msgstr "%s ha publicado la siguiente nota:"
 
 #: ../plugins/itip-formatter/itip-view.c:556
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing memo:"
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> desea añadir algo a una nota existente a través de %s:"
+msgstr "%s desea añadir algo a una nota existente a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:558
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to add to an existing memo:"
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> desea añadir algo a una nota existente:"
+msgstr "%s desea añadir algo a una nota existente:"
 
 #: ../plugins/itip-formatter/itip-view.c:562
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has canceled the following shared memo:"
 msgid "%s through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> ha cancelado la siguiente nota compartida a través de %s:"
+msgstr "%s ha cancelado la siguiente nota compartida a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:564
 #, c-format
