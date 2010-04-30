@@ -749,14 +749,14 @@ eti_get_height (ETableItem *eti)
 		return 0;
 
 	if (eti->uniform_row_height) {
-		gint row_height = eti_row_height(eti, -1);
+		gint row_height = ETI_ROW_HEIGHT(eti, -1);
 		return ((row_height + height_extra) * rows + height_extra);
 	} else {
 		gint height;
 		gint row;
 		if (eti->length_threshold != -1) {
 			if (rows > eti->length_threshold) {
-				gint row_height = eti_row_height(eti, 0);
+				gint row_height = ETI_ROW_HEIGHT(eti, 0);
 				if (eti->height_cache) {
 					height = 0;
 					for (row = 0; row < rows; row++) {
@@ -768,7 +768,7 @@ eti_get_height (ETableItem *eti)
 							height += eti->height_cache[row] + height_extra;
 					}
 				} else
-					height = (eti_row_height (eti, 0) + height_extra) * rows;
+					height = (ETI_ROW_HEIGHT (eti, 0) + height_extra) * rows;
 
 				/*
 				 * 1 pixel at the top
@@ -779,7 +779,7 @@ eti_get_height (ETableItem *eti)
 
 		height = height_extra;
 		for (row = 0; row < rows; row++)
-			height += eti_row_height (eti, row) + height_extra;
+			height += ETI_ROW_HEIGHT (eti, row) + height_extra;
 
 		return height;
 	}
@@ -817,12 +817,12 @@ e_table_item_row_diff (ETableItem *eti, gint start_row, gint end_row)
 		end_row = eti->rows;
 
 	if (eti->uniform_row_height) {
-		return ((end_row - start_row) * (eti_row_height(eti, -1) + height_extra));
+		return ((end_row - start_row) * (ETI_ROW_HEIGHT(eti, -1) + height_extra));
 	} else {
 		gint row, total;
 		total = 0;
 		for (row = start_row; row < end_row; row++)
-			total += eti_row_height (eti, row) + height_extra;
+			total += ETI_ROW_HEIGHT (eti, row) + height_extra;
 
 		return total;
 	}
@@ -1788,11 +1788,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	 * Compute row span.
 	 */
 	if (eti->uniform_row_height) {
-		first_row = (y          - floor (eti_base.y) - height_extra) / (eti_row_height (eti, -1) + height_extra);
-		last_row  = (y + height - floor (eti_base.y)               ) / (eti_row_height (eti, -1) + height_extra) + 1;
+		first_row = (y          - floor (eti_base.y) - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
+		last_row  = (y + height - floor (eti_base.y)               ) / (ETI_ROW_HEIGHT (eti, -1) + height_extra) + 1;
 		if (first_row > last_row)
 			goto exit;
-		y_offset = floor (eti_base.y) - y + height_extra + first_row * (eti_row_height (eti, -1) + height_extra);
+		y_offset = floor (eti_base.y) - y + height_extra + first_row * (ETI_ROW_HEIGHT (eti, -1) + height_extra);
 		if (first_row < 0)
 			first_row = 0;
 		if (last_row > eti->rows)
@@ -2077,8 +2077,8 @@ find_cell (ETableItem *eti, gdouble x, gdouble y, gint *view_col_res, gint *view
 	if (eti->uniform_row_height) {
 		if (y < height_extra)
 			return FALSE;
-		row = (y - height_extra) / (eti_row_height (eti, -1) + height_extra);
-		y1 = row * (eti_row_height (eti, -1) + height_extra) + height_extra;
+		row = (y - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
+		y1 = row * (ETI_ROW_HEIGHT (eti, -1) + height_extra) + height_extra;
 		if (row >= eti->rows)
 			return FALSE;
 	} else {
