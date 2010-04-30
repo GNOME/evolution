@@ -199,15 +199,6 @@ composer_header_set_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-void
-e_composer_header_set_property (GObject *object,
-                              guint property_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
-{
-	composer_header_set_property (object, property_id, value, pspec);
-}
-
 static void
 composer_header_get_property (GObject *object,
                               guint property_id,
