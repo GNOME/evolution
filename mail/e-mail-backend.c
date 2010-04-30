@@ -22,6 +22,7 @@
  *
  */
 
+#include <string.h>
 #include "e-mail-backend.h"
 
 #include <camel/camel.h>
@@ -282,6 +283,11 @@ mail_backend_quit_requested_cb (EShell *shell,
 
 	/* We can quit immediately if offline. */
 	if (!e_shell_get_online (shell))
+		return;
+	
+	/* In express mode, don't raise mail request in non mail window. */
+	if (e_shell_get_express_mode(shell) && 
+		strcmp(e_shell_window_get_active_view((EShellWindow *)window), "mail") != 0)
 		return;
 
 	/* Check Outbox for any unsent messages. */
