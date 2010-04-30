@@ -109,7 +109,7 @@
     <menuitem action='mail-popup-mark-important'/>
     <menuitem action='mail-popup-mark-unimportant'/>
     <menuitem action='mail-popup-mark-junk'/>
-    <menuitem action='mail-popup-mark-not-junk'/>
+    <menuitem action='mail-popup-mark-notjunk'/>
     <menuitem action='mail-popup-flag-for-followup'/>
     <menuitem action="mail-popup-flag-clear"/>
     <menuitem action="mail-popup-flag-completed"/>
