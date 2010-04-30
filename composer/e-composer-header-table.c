@@ -68,7 +68,6 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
-	GtkHBox *actions_container;
 };
 
 static gpointer parent_class;
@@ -158,11 +157,7 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	if (e_msg_composer_get_lite () && strcmp (property_name, "destinations-to") == 0)
-		parent = g_object_get_data (
-			G_OBJECT (header->input_widget), "parent");
-	else
-		parent = gtk_widget_get_parent (header->input_widget);
+	parent = gtk_widget_get_parent (header->input_widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -508,41 +503,12 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->title_widget,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
-		if (e_msg_composer_get_lite () && ii == E_COMPOSER_HEADER_TO) {
-			GtkWidget *box = gtk_hbox_new (FALSE, 0);
-			g_object_set_data (
-				G_OBJECT (priv->headers[ii]->input_widget),
-				"parent", object);
-			gtk_box_pack_start (
-				GTK_BOX (box), priv->headers[ii]->input_widget,
-				TRUE, TRUE, 3);
-			gtk_box_pack_start (
-				GTK_BOX (box),
-				GTK_WIDGET (priv->actions_container),
-				FALSE, FALSE, 0);
-			gtk_widget_show (box);
-			gtk_table_attach (
-				GTK_TABLE (object), box, 1, 4, ii, ii + 1,
-				GTK_FILL | GTK_EXPAND, 0, 0, 3);
-
-		} else {
-			gtk_table_attach (
-				GTK_TABLE (object),
-				priv->headers[ii]->input_widget, 1, 4,
-				ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
-		}
-		if (e_msg_composer_get_lite () && priv->headers[ii]->action_widget) {
-			/* Pack the widgets to the end. Helps formatting
-			 * when hiding the From field. */
-			gtk_box_pack_end (
-				GTK_BOX (priv->actions_container),
-				priv->headers[ii]->action_widget,
-				FALSE, FALSE, 6);
-		}
+		gtk_table_attach (
+			GTK_TABLE (object),
+			priv->headers[ii]->input_widget, 1, 4,
+			ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
 	}
 
-	if (e_msg_composer_get_lite ())
-		gtk_widget_show_all ((GtkWidget *)priv->actions_container);
 	ii = E_COMPOSER_HEADER_FROM;
 
 	/* Leave room in the "From" row for signature stuff. */
@@ -953,9 +919,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 	name_selector = e_name_selector_new ();
 	table->priv->name_selector = name_selector;
 
-	table->priv->actions_container = (GtkHBox *)gtk_hbox_new (FALSE, 6);
-
-	header = e_composer_from_header_new_with_action (_("Fr_om:"), _("From"));
+	header = e_composer_from_header_new (_("Fr_om:"));
 	composer_header_table_bind_header ("account", "changed", header);
 	composer_header_table_bind_header ("account-list", "refreshed", header);
 	composer_header_table_bind_header ("account-name", "changed", header);
@@ -964,24 +928,21 @@ composer_header_table_init (EComposerHeaderTable *table)
 		composer_header_table_from_changed_cb), table);
 	table->priv->headers[E_COMPOSER_HEADER_FROM] = header;
 
-	header = e_composer_text_header_new_label (_("_Reply-To:"), "");
+	header = e_composer_text_header_new_label (_("_Reply-To:"));
 	composer_header_table_bind_header ("reply-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
 
-	header = e_composer_name_header_new_with_label (
-		_("_To:"), name_selector);
+	header = e_composer_name_header_new (_("_To:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
 	composer_header_table_bind_header ("destinations-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
-	header = e_composer_name_header_new_with_action (
-		_("_Cc:"), _("CC"), name_selector);
+	header = e_composer_name_header_new (_("_Cc:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
-	header = e_composer_name_header_new_with_action (
-		_("_Bcc:"), _("BCC"), name_selector);
+	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
@@ -990,7 +951,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 	composer_header_table_bind_header ("post-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
 
-	header = e_composer_text_header_new_label (_("S_ubject:"), NULL);
+	header = e_composer_text_header_new_label (_("S_ubject:"));
 	composer_header_table_bind_header ("subject", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
 

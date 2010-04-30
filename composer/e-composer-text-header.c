@@ -108,23 +108,21 @@ e_composer_text_header_get_type (void)
 }
 
 EComposerHeader *
-e_composer_text_header_new_label (const gchar *label, const gchar *action_label)
+e_composer_text_header_new_label (const gchar *label)
 {
-	return g_object_new (
-		E_TYPE_COMPOSER_TEXT_HEADER, "label", label,
-		"button", FALSE, "addaction", action_label && *action_label,
-		"addaction_text", action_label,
-		"visible", action_label == NULL, NULL);
+	return g_object_new (E_TYPE_COMPOSER_TEXT_HEADER,
+			     "label", label,
+			     "button", FALSE,
+			     NULL);
 }
 
 EComposerHeader *
-e_composer_text_header_new_button (const gchar *label, const gchar *action_label)
+e_composer_text_header_new_button (const gchar *label)
 {
-	return g_object_new (
-		E_TYPE_COMPOSER_TEXT_HEADER, "label", label,
-		"button", TRUE, "addaction", action_label != NULL,
-		"addaction_text", action_label,
-		"visible", action_label == NULL, NULL);
+	return g_object_new (E_TYPE_COMPOSER_TEXT_HEADER,
+			     "label", label,
+			     "button", TRUE,
+			     NULL);
 }
 
 const gchar *

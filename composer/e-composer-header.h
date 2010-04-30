@@ -49,7 +49,6 @@ struct _EComposerHeader {
 	GObject parent;
 	GtkWidget *title_widget;
 	GtkWidget *input_widget;
-        GtkWidget *action_widget;
 	EComposerHeaderPrivate *priv;
 };
 
