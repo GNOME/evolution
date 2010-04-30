@@ -33,11 +33,17 @@
 
 struct _EPreferencesWindowPrivate {
 	GtkWidget *icon_view;
+	GtkWidget *scroll;
 	GtkWidget *notebook;
 	GHashTable *index;
+
+	GtkListStore *store;
+	GtkTreeModelFilter *filter;
+	const char *filter_view;
 };
 
 enum {
+	COLUMN_ID,	/* G_TYPE_STRING */
 	COLUMN_TEXT,	/* G_TYPE_STRING */
 	COLUMN_PIXBUF,	/* GDK_TYPE_PIXBUF */
 	COLUMN_PAGE,	/* G_TYPE_INT */
@@ -102,7 +108,7 @@ preferences_window_selection_changed_cb (EPreferencesWindow *window)
 	if (list == NULL)
 		return;
 
-	model = gtk_icon_view_get_model (icon_view);
+	model = window->priv->store;
 	gtk_tree_model_get_iter (model, &iter, list->data);
 	gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page, -1);
 
@@ -190,6 +196,40 @@ preferences_window_class_init (EPreferencesWindowClass *class)
 	widget_class->show = preferences_window_show;
 }
 
+static gboolean
+filter_view (GtkTreeModel *model,
+              GtkTreeIter  *iter,
+              gpointer      data)
+{
+	EPreferencesWindow *window = (EPreferencesWindow *)data;
+	gchar *str;
+	gboolean visible = FALSE;
+
+	if (!window->priv->filter_view)
+		return TRUE;
+
+	gtk_tree_model_get (model, iter, COLUMN_ID, &str, -1);
+	if (strncmp(window->priv->filter_view, "mail", 4) == 0) {
+		/* Show everything except calendar */
+		if (str && (strncmp (str, "cal", 3) == 0))
+			visible = FALSE;
+		else 
+			visible = TRUE;
+	} else if (strncmp(window->priv->filter_view, "cal", 3) == 0) {
+		/* Show only calendar and nothing else */
+		if (str && (strncmp (str, "cal", 3) != 0))
+			visible = FALSE;
+		else 
+			visible = TRUE;
+
+	} else  /* In any other case, show everything */
+		visible = TRUE;
+	
+  	g_free (str);
+
+	return visible;
+}
+
 static void
 preferences_window_init (EPreferencesWindow *window)
 {
@@ -209,11 +249,16 @@ preferences_window_init (EPreferencesWindow *window)
 
 	window->priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
 	window->priv->index = index;
+	window->priv->filter_view = NULL;
 
 	store = gtk_list_store_new (
-		4, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_INT);
+		5, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_INT);
 	gtk_tree_sortable_set_sort_column_id (
 		GTK_TREE_SORTABLE (store), COLUMN_SORT, GTK_SORT_ASCENDING);
+	window->priv->store = store;
+
+	window->priv->filter = (GtkTreeModelFilter *)gtk_tree_model_filter_new ((GtkTreeModel *)store, NULL);
+	gtk_tree_model_filter_set_visible_func (window->priv->filter, filter_view, window, NULL);
 
 	title = _("Evolution Preferences");
 	gtk_window_set_title (GTK_WINDOW (window), title);
@@ -243,11 +288,12 @@ preferences_window_init (EPreferencesWindow *window)
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
+	window->priv->scroll = widget;
 	gtk_widget_show (widget);
-
+	
 	container = widget;
 
-	widget = gtk_icon_view_new_with_model (GTK_TREE_MODEL (store));
+	widget = gtk_icon_view_new_with_model (GTK_TREE_MODEL (window->priv->filter));
 	gtk_icon_view_set_columns (GTK_ICON_VIEW (widget), 1);
 	gtk_icon_view_set_text_column (GTK_ICON_VIEW (widget), COLUMN_TEXT);
 	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (widget), COLUMN_PIXBUF);
@@ -359,13 +405,14 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	notebook = GTK_NOTEBOOK (window->priv->notebook);
 
 	page = gtk_notebook_get_n_pages (notebook);
-	model = gtk_icon_view_get_model (icon_view);
+	model = window->priv->store;
 	pixbuf = preferences_window_load_pixbuf (icon_name);
 
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
+		COLUMN_ID, page_name,
 		COLUMN_TEXT, caption, COLUMN_PIXBUF, pixbuf,
 		COLUMN_PAGE, page, COLUMN_SORT, sort_order, -1);
 
@@ -405,3 +452,35 @@ e_preferences_window_show_page (EPreferencesWindow *window,
 	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
 	gtk_tree_path_free (path);
 }
+
+void
+e_preferences_window_filter_page (EPreferencesWindow *window,
+                                  const gchar *page_name)
+{
+	GtkTreeRowReference *reference;
+	GtkIconView *icon_view;
+	GtkTreePath *path;
+
+	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
+	g_return_if_fail (page_name != NULL);
+
+	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
+	reference = g_hash_table_lookup (window->priv->index, page_name);
+	g_return_if_fail (reference != NULL);
+
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_icon_view_select_path (icon_view, path);
+	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
+	gtk_tree_path_free (path);
+
+	window->priv->filter_view = page_name;
+	gtk_tree_model_filter_refilter (window->priv->filter);
+
+	/* XXX: We need a better solution to hide the icon view when 
+	 * there is just one entry */
+	if (strncmp(page_name, "cal", 3) == 0) {
+		gtk_widget_hide (window->priv->scroll);
+	} else
+		gtk_widget_show (window->priv->scroll);
+}
+
