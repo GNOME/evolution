@@ -63,7 +63,6 @@ typedef struct _EMsgComposerPrivate EMsgComposerPrivate;
 struct _EMsgComposer {
 	GtkhtmlEditor parent;
 	EMsgComposerPrivate *priv;
-	gboolean lite;
 };
 
 struct _EMsgComposerClass {

@@ -2145,7 +2145,6 @@ msg_composer_class_init (EMsgComposerClass *class)
 static void
 msg_composer_init (EMsgComposer *composer)
 {
-	composer->lite = composer_lite;
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 }
 

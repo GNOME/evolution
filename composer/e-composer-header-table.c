@@ -26,13 +26,12 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-signature-combo-box.h"
 
+#include "e-msg-composer.h"
 #include "e-composer-private.h"
 #include "e-composer-from-header.h"
 #include "e-composer-name-header.h"
 #include "e-composer-post-header.h"
 #include "e-composer-text-header.h"
-
-extern gboolean composer_lite;
 
 #define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -159,7 +158,7 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	if (composer_lite && strcmp (property_name, "destinations-to") == 0)
+	if (e_msg_composer_get_lite () && strcmp (property_name, "destinations-to") == 0)
 		parent = g_object_get_data (
 			G_OBJECT (header->input_widget), "parent");
 	else
@@ -174,7 +173,7 @@ composer_header_table_notify_widget (GtkWidget *widget,
 {
 	GtkWidget *parent;
 
-	if (composer_lite) {
+	if (e_msg_composer_get_lite ()) {
 		parent = gtk_widget_get_parent (widget);
 		parent = g_object_get_data (G_OBJECT (parent), "pdata");
 	} else
@@ -509,7 +508,7 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->title_widget,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
-		if (composer_lite && ii == E_COMPOSER_HEADER_TO) {
+		if (e_msg_composer_get_lite () && ii == E_COMPOSER_HEADER_TO) {
 			GtkWidget *box = gtk_hbox_new (FALSE, 0);
 			g_object_set_data (
 				G_OBJECT (priv->headers[ii]->input_widget),
@@ -532,7 +531,7 @@ composer_header_table_constructor (GType type,
 				priv->headers[ii]->input_widget, 1, 4,
 				ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
 		}
-		if (composer_lite && priv->headers[ii]->action_widget) {
+		if (e_msg_composer_get_lite () && priv->headers[ii]->action_widget) {
 			/* Pack the widgets to the end. Helps formatting
 			 * when hiding the From field. */
 			gtk_box_pack_end (
@@ -542,7 +541,7 @@ composer_header_table_constructor (GType type,
 		}
 	}
 
-	if (composer_lite)
+	if (e_msg_composer_get_lite ())
 		gtk_widget_show_all ((GtkWidget *)priv->actions_container);
 	ii = E_COMPOSER_HEADER_FROM;
 
@@ -561,13 +560,13 @@ composer_header_table_constructor (GType type,
 		priv->signature_combo_box, "visible");
 
 	/* Now add the signature stuff. */
-	if (!composer_lite) {
+	if (!e_msg_composer_get_lite ()) {
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_label,
 			2, 3, ii, ii + 1, 0, 0, 0, 3);
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_combo_box,
-			3, 4, ii, ii + 1, composer_lite ? GTK_FILL: 0, 0, 0, 3);
+			3, 4, ii, ii + 1, e_msg_composer_get_lite () ? GTK_FILL: 0, 0, 0, 3);
 	} else {
 		GtkWidget *box = gtk_hbox_new (FALSE, 0);
 
