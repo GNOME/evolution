@@ -1136,7 +1136,7 @@ set_attributes_named (EVCard *vcard, const gchar *attr_name, GList *attr_list)
 
 static void
 set_arrow_image (EContactEditor *editor,
-		 const char *arrow_widget,
+		 const gchar *arrow_widget,
 		 gboolean expanded)
 {
 	GtkWidget *arrow;
@@ -1150,10 +1150,10 @@ set_arrow_image (EContactEditor *editor,
 
 static void
 expand_widget_list (EContactEditor *editor,
-		    const char **widget_names,
+		    const gchar **widget_names,
 		    gboolean expanded)
 {
-	int i;
+	gint i;
 	for (i = 0; widget_names[i]; i++)
 		gtk_widget_set_visible (
 			e_builder_get_widget (editor->builder, widget_names[i]),
@@ -1163,7 +1163,7 @@ expand_widget_list (EContactEditor *editor,
 static void
 expand_phone (EContactEditor *editor, gboolean expanded)
 {
-	const char *names[] = { 
+	const gchar *names[] = {
 		"entry-phone-2", "combobox-phone-2",
 		"entry-phone-4", "combobox-phone-4",
 		"table-phone-extended", NULL
@@ -1177,7 +1177,7 @@ expand_mail (EContactEditor *editor, gboolean expanded)
 {
 	GtkTable  *table;
 	GtkWidget *check;
-	const char *names[] = { 
+	const gchar *names[] = {
 		"entry-email-2", "combobox-email-2",
 		"entry-email-3", "combobox-email-3",
 		"entry-email-4", "combobox-email-4",
@@ -1190,14 +1190,16 @@ expand_mail (EContactEditor *editor, gboolean expanded)
 	check = e_builder_get_widget (editor->builder, "checkbutton-htmlmail");
 	table = GTK_TABLE (e_builder_get_widget (editor->builder, "email-table"));
 	if (check != NULL && table != NULL) {
-		g_object_ref (G_OBJECT (check));
-		gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (check)),
-		                      check);
+		GtkWidget *parent;
+
+		g_object_ref (check);
+		parent = gtk_widget_get_parent (check);
+		gtk_container_remove (GTK_CONTAINER (parent), check);
 		if (expanded)
 			gtk_table_attach_defaults (table, check, 0, 4, 2, 3);
 		else
 			gtk_table_attach_defaults (table, check, 2, 4, 0, 1);
-		g_object_unref (G_OBJECT (check));
+		g_object_unref (check);
 	}
 }
 

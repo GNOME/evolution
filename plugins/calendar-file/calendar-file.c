@@ -117,9 +117,10 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	mainbox = gtk_vbox_new (FALSE, 2);
 	g_object_get (data->parent, "n-rows", &n_rows, NULL);
-	gtk_table_attach (GTK_TABLE (data->parent), mainbox,
-	                  1, 2, n_rows, n_rows + 1,
-	                  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (data->parent), mainbox,
+		1, 2, n_rows, n_rows + 1,
+		GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	maincheck = gtk_check_button_new_with_mnemonic (_("_Customize options"));
 	gtk_box_pack_start ((GtkBox *)mainbox, maincheck, TRUE, TRUE, 2);

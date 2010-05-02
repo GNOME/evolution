@@ -215,7 +215,9 @@ e_alert_dialog_constructed (GObject *obj)
 
 	if (e_alert_get_scroll (alert)) {
 		scroll = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scroll, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+		gtk_scrolled_window_set_policy (
+			GTK_SCROLLED_WINDOW (scroll),
+			GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	}
 	w = gtk_label_new(NULL);
 	gtk_label_set_selectable((GtkLabel *)w, TRUE);
@@ -270,7 +272,9 @@ e_alert_dialog_class_init (EAlertDialogClass *klass)
 GtkWidget*
 e_alert_dialog_new (GtkWindow *parent, EAlert *alert)
 {
-	return (GtkWidget*) g_object_new (E_TYPE_ALERT_DIALOG, "parent", parent, "alert", alert, NULL);
+	return g_object_new (
+		E_TYPE_ALERT_DIALOG,
+		"parent", parent, "alert", alert, NULL);
 }
 
 GtkWidget*

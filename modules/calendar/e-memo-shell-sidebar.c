@@ -272,9 +272,15 @@ static void
 memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
                                 ESource *source)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EMemoShellContent *memo_shell_content;
 	ECalSourceType source_type;
 	GHashTable *client_table;
+	ECalModel *model;
 	ECal *client;
+	icaltimezone *timezone;
 	const gchar *uid;
 
 	source_type = E_CAL_SOURCE_TYPE_JOURNAL;
@@ -299,7 +305,17 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
 		G_CALLBACK (memo_shell_sidebar_default_opened_cb),
 		memo_shell_sidebar);
 
-	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_memo_shell_content_get_memo_model (E_MEMO_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (memo_shell_sidebar)))))), NULL);
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to EMemoShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	model = e_memo_shell_content_get_memo_model (memo_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_set_default_timezone (client, timezone, NULL);
 	e_cal_open_async (client, FALSE);
 }
 
@@ -813,11 +829,17 @@ void
 e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
                                  ESource *source)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EMemoShellContent *memo_shell_content;
 	ECalSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
+	ECalModel *model;
 	ECal *default_client;
 	ECal *client;
+	icaltimezone *timezone;
 	const gchar *uid;
 	const gchar *uri;
 	gchar *message;
@@ -876,7 +898,17 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 		G_CALLBACK (memo_shell_sidebar_client_opened_cb),
 		memo_shell_sidebar);
 
-	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_memo_shell_content_get_memo_model (E_MEMO_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (memo_shell_sidebar)))))), NULL);
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to EMemoShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	model = e_memo_shell_content_get_memo_model (memo_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_set_default_timezone (client, timezone, NULL);
 	e_cal_open_async (client, FALSE);
 }
 

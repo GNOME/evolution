@@ -151,7 +151,7 @@ cal_chell_content_get_pad_state_filename (EShellContent *shell_content, ETable *
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 	g_return_val_if_fail (table != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE (table), NULL);
-	
+
 	if (E_IS_TASK_TABLE (table))
 		nick = "TaskPad";
 	else if (E_IS_MEMO_TABLE (table))
@@ -200,11 +200,15 @@ e_cal_shell_content_save_state (ECalShellContent *cal_shell_content)
 
 	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
 
-	if (priv->task_table)
-		cal_shell_content_save_table_state (E_SHELL_CONTENT (cal_shell_content), E_TABLE (priv->task_table));
+	if (priv->task_table != NULL)
+		cal_shell_content_save_table_state (
+			E_SHELL_CONTENT (cal_shell_content),
+			E_TABLE (priv->task_table));
 
 	if (priv->memo_table != NULL)
-		cal_shell_content_save_table_state (E_SHELL_CONTENT (cal_shell_content), E_TABLE (priv->memo_table));
+		cal_shell_content_save_table_state (
+			E_SHELL_CONTENT (cal_shell_content),
+			E_TABLE (priv->memo_table));
 }
 
 static void
@@ -344,11 +348,11 @@ cal_shell_content_constructed (GObject *object)
 
 	/* We borrow the memopad and taskpad models from the memo
 	 * and task views, loading the views if necessary. */
-	if(!e_shell_get_express_mode(e_shell_get_default())) {
+	if (!e_shell_get_express_mode(e_shell_get_default())) {
 		foreign_view = e_shell_window_get_shell_view (shell_window, "memos");
 		foreign_content = e_shell_view_get_shell_content (foreign_view);
 		g_object_get (foreign_content, "model", &memo_model, NULL);
-	
+
 		foreign_view = e_shell_window_get_shell_view (shell_window, "tasks");
 		foreign_content = e_shell_view_get_shell_content (foreign_view);
 		g_object_get (foreign_content, "model", &task_model, NULL);
@@ -356,7 +360,7 @@ cal_shell_content_constructed (GObject *object)
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
-	
+
 	if (!e_shell_get_express_mode(e_shell_get_default())) {
 		widget = e_paned_new (GTK_ORIENTATION_HORIZONTAL);
 		gtk_container_add (GTK_CONTAINER (container), widget);
@@ -369,7 +373,7 @@ cal_shell_content_constructed (GObject *object)
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	if (!e_shell_get_express_mode(e_shell_get_default()))	
+	if (!e_shell_get_express_mode(e_shell_get_default()))
 		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	else
 		gtk_container_add (GTK_CONTAINER (container), widget);
@@ -408,7 +412,7 @@ cal_shell_content_constructed (GObject *object)
 		priv->notebook, "page");
 
 	container = priv->vpaned;
-if(!e_shell_get_express_mode(e_shell_get_default())) {
+if (!e_shell_get_express_mode(e_shell_get_default())) {
 	widget = gtk_vbox_new (FALSE, 0);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
 	gtk_widget_show (widget);
@@ -501,7 +505,7 @@ if(!e_shell_get_express_mode(e_shell_get_default())) {
 	 *     The GtkWidget::map() callback below explains why. */
 	priv->view_instance = view_instance;
 
-	if (!e_shell_get_express_mode(e_shell_get_default())) {	
+	if (!e_shell_get_express_mode(e_shell_get_default())) {
 		g_signal_connect_swapped (
 			shell_view, "notify::view-id",
 			G_CALLBACK (cal_shell_content_notify_view_id_cb),
@@ -552,7 +556,7 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 	object_class->get_property = cal_shell_content_get_property;
 	object_class->dispose = cal_shell_content_dispose;
 	object_class->constructed = cal_shell_content_constructed;
-	
+
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = cal_shell_content_map;
 

@@ -1213,7 +1213,7 @@ quit_calendar_cb (GtkAction *action,
 	event->any.send_event = TRUE;
 	gtk_main_do_event (event);
 	gdk_event_free (event);
-	
+
 }
 
 static void
@@ -1454,7 +1454,7 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (quit_calendar_cb) },
-	
+
 	/*** Menus ***/
 
 	{ "calendar-actions-menu",
@@ -1716,7 +1716,7 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
-	
+
 	/* Calendar Actions */
 	action_group = ACTION_GROUP (CALENDAR);
 	gtk_action_group_add_actions (

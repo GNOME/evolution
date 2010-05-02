@@ -272,9 +272,15 @@ static void
 task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
                                 ESource *source)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	ETaskShellContent *task_shell_content;
 	ECalSourceType source_type;
 	GHashTable *client_table;
+	ECalModel *model;
 	ECal *client;
+	icaltimezone *timezone;
 	const gchar *uid;
 
 	source_type = E_CAL_SOURCE_TYPE_TODO;
@@ -299,7 +305,17 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 		G_CALLBACK (task_shell_sidebar_default_opened_cb),
 		task_shell_sidebar);
 
-	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_task_shell_content_get_task_model (E_TASK_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (task_shell_sidebar)))))), NULL);
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ETaskShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	model = e_task_shell_content_get_task_model (task_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_set_default_timezone (client, timezone, NULL);
 	e_cal_open_async (client, FALSE);
 }
 
@@ -813,11 +829,17 @@ void
 e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
                                  ESource *source)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	ETaskShellContent *task_shell_content;
 	ECalSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
+	ECalModel *model;
 	ECal *default_client;
 	ECal *client;
+	icaltimezone *timezone;
 	const gchar *uid;
 	const gchar *uri;
 	gchar *message;
@@ -876,7 +898,17 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 		G_CALLBACK (task_shell_sidebar_client_opened_cb),
 		task_shell_sidebar);
 
-	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_task_shell_content_get_task_model (E_TASK_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (task_shell_sidebar)))))), NULL);
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ETaskShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	model = e_task_shell_content_get_task_model (task_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_set_default_timezone (client, timezone, NULL);
 	e_cal_open_async (client, FALSE);
 }
 

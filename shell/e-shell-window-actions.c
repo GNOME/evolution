@@ -1888,7 +1888,7 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
 	gchar *path;
-	
+
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -2113,8 +2113,8 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 static GtkAction *
 e_shell_window_create_switcher_action (GType type, EShellViewClass *class,
-				       const char *name, const char *tooltip,
-				       const char *view_name)
+				       const gchar *name, const gchar *tooltip,
+				       const gchar *view_name)
 {
 	GtkAction *action;
 

@@ -443,7 +443,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	gconf_bridge_bind_property (bridge, key, object, "sidebar-visible");
 
 	if (e_shell_get_express_mode (shell)) {
-		const char *active_view = e_shell_window_get_active_view (shell_window);
+		const gchar *active_view = e_shell_window_get_active_view (shell_window);
 		e_shell_window_set_switcher_visible (shell_window, FALSE);
 		e_shell_window_set_taskbar_visible (shell_window, active_view &&
 						    !strcmp (active_view, "mail"));

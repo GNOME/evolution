@@ -130,8 +130,9 @@ in_right (MailDecoration *md, double x)
 static void
 set_cursor (MailDecoration *md, GdkWindowEdge edge)
 {
-	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (md->window)),
-	                       md->priv->cursors[edge]);
+	gdk_window_set_cursor (
+		gtk_widget_get_window (GTK_WIDGET (md->window)),
+		md->priv->cursors[edge]);
 	md->priv->default_cursor = FALSE;
 }
 
@@ -140,8 +141,9 @@ reset_cursor (MailDecoration *md)
 {
 	if (!md->priv->default_cursor) {
 		md->priv->default_cursor = TRUE;
-		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (md->window)),
-		                       NULL);
+		gdk_window_set_cursor (
+			gtk_widget_get_window (GTK_WIDGET (md->window)),
+			NULL);
 	}
 
 }

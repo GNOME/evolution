@@ -215,13 +215,19 @@ oge_caldav  (EPlugin                    *epl,
 
 	location = e_plugin_util_add_entry (parent, _("_URL:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (location), uri);
-	g_signal_connect (G_OBJECT (location), "changed", G_CALLBACK (location_changed_cb), source);
+
+	g_signal_connect (
+		location, "changed",
+		G_CALLBACK (location_changed_cb), source);
 
 	ssl = e_plugin_util_add_check (parent, _("Use _SSL"), source, "ssl", "1", "0");
 
 	user = e_plugin_util_add_entry (parent, _("User_name:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (user), username ? username : "");
-	g_signal_connect (G_OBJECT (user), "changed", G_CALLBACK (user_changed_cb), source);
+
+	g_signal_connect (
+		user, "changed",
+		G_CALLBACK (user_changed_cb), source);
 
         g_free (uri);
 	g_free (username);
@@ -229,14 +235,18 @@ oge_caldav  (EPlugin                    *epl,
 	browse_cal = gtk_button_new_with_mnemonic (_("Brows_e server for a calendar"));
 	gtk_widget_show (browse_cal);
 	g_object_get (parent, "n-rows", &n_rows, NULL);
-	gtk_table_attach (GTK_TABLE (parent), browse_cal,
-	                  1, 2, n_rows, n_rows + 1,
-	                  GTK_FILL, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (parent), browse_cal, 1, 2,
+		n_rows, n_rows + 1, GTK_FILL, 0, 0, 0);
 
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-url", location);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-username", user);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-ssl", ssl);
-	g_signal_connect  (G_OBJECT (browse_cal), "clicked", G_CALLBACK (browse_cal_clicked_cb), GINT_TO_POINTER (t->source_type));
+
+	g_signal_connect  (
+		browse_cal, "clicked",
+		G_CALLBACK (browse_cal_clicked_cb),
+		GINT_TO_POINTER (t->source_type));
 
 	e_plugin_util_add_refresh (parent, _("Re_fresh:"), source, "refresh");
 

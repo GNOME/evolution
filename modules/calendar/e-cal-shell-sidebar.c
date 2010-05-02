@@ -277,9 +277,15 @@ static void
 cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
                                ESource *source)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	ECalShellContent *cal_shell_content;
 	ECalSourceType source_type;
 	GHashTable *client_table;
+	ECalModel *model;
 	ECal *client;
+	icaltimezone *timezone;
 	const gchar *uid;
 
 	source_type = E_CAL_SOURCE_TYPE_EVENT;
@@ -304,7 +310,17 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 		G_CALLBACK (cal_shell_sidebar_default_opened_cb),
 		cal_shell_sidebar);
 
-	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_cal_shell_content_get_model (E_CAL_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (cal_shell_sidebar)))))), NULL);
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ECalShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_set_default_timezone (client, timezone, NULL);
 	e_cal_open_async (client, FALSE);
 }
 
@@ -895,11 +911,17 @@ void
 e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
                                 ESource *source)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	ECalShellContent *cal_shell_content;
 	ECalSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
+	ECalModel *model;
 	ECal *default_client;
 	ECal *client;
+	icaltimezone *timezone;
 	const gchar *uid;
 	const gchar *uri;
 	gchar *message;
@@ -958,7 +980,17 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 		G_CALLBACK (cal_shell_sidebar_client_opened_cb),
 		cal_shell_sidebar);
 
-	e_cal_set_default_timezone (client, e_cal_model_get_timezone (e_cal_shell_content_get_model (E_CAL_SHELL_CONTENT (e_shell_view_get_shell_content (e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (cal_shell_sidebar)))))), NULL);
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ECalShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_set_default_timezone (client, timezone, NULL);
 	e_cal_open_async (client, FALSE);
 }
 

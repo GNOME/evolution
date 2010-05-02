@@ -1724,7 +1724,10 @@ e_shell_view_unblock_update_actions (EShellView *shell_view)
 	g_return_if_fail (shell_view->priv->update_actions_blocked > 0);
 
 	shell_view->priv->update_actions_blocked--;
-	if (!shell_view->priv->update_actions_blocked && shell_view->priv->update_actions_called) {
+
+	if (!shell_view->priv->update_actions_blocked &&
+		shell_view->priv->update_actions_called) {
+
 		shell_view->priv->update_actions_called = FALSE;
 		e_shell_view_update_actions (shell_view);
 	}

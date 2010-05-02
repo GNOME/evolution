@@ -303,35 +303,37 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if(e_shell_get_express_mode(e_shell_get_default())) {
+	if (e_shell_get_express_mode(e_shell_get_default())) {
 		GtkWidget *widget, *item;
 		GdkScreen *scr;
 		gint monitor;
 		GdkRectangle rect;
 
-		/* Hack: Get rid of New and Send/Receive in toolbar 
+		/* Hack: Get rid of New and Send/Receive in toolbar
 		 * while in express mode */
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar");
 
 		item = (GtkWidget *)gtk_toolbar_get_nth_item ((GtkToolbar *)widget, 0);
 		gtk_widget_hide(item);
-	
+
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-menu");
 		gtk_widget_hide(widget);
-		
+
 		item = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar/send-receive");
-		gtk_widget_hide(item);	
+		gtk_widget_hide(item);
 
 		scr = gdk_screen_get_default ();
-		monitor = gdk_screen_get_monitor_at_window (scr,
-		                                            gtk_widget_get_window (GTK_WIDGET (shell_window)));
+		monitor = gdk_screen_get_monitor_at_window (
+			scr, gtk_widget_get_window (GTK_WIDGET (shell_window)));
 		gdk_screen_get_monitor_geometry (scr, monitor, &rect);
-		
-		gtk_window_set_default_size ((GtkWindow *)shell_window, rect.width, rect.height);
-		gtk_window_set_decorated ((GtkWindow *)shell_window, FALSE);
+
+		gtk_window_set_default_size (
+			GTK_WINDOW (shell_window), rect.width, rect.height);
+		gtk_window_set_decorated (
+			GTK_WINDOW (shell_window), FALSE);
 
 	}
 	cal_shell_content = priv->cal_shell_content;
@@ -503,11 +505,11 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
-	
-	if(e_shell_get_express_mode(e_shell_get_default()))
+
+	if (e_shell_get_express_mode(e_shell_get_default()))
 		shell_view_class->construct_searchbar = NULL;
 
-}	
+}
 
 static void
 cal_shell_view_init (ECalShellView *cal_shell_view,

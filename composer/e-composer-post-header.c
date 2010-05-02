@@ -56,7 +56,7 @@ composer_post_header_folder_name_to_string (EComposerPostHeader *header,
 			if (!res)
 				res = g_strdup (url + length);
 		}
-	} 
+	}
 
 	if (!res) {
 		res = g_uri_unescape_string (url, NULL);

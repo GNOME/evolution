@@ -58,7 +58,9 @@
 #define d(x)
 
 #if d(!)0
-#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#define e_table_item_leave_edit_(x) \
+	(e_table_item_leave_edit ((x)), \
+	 g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
 #else
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
@@ -199,7 +201,9 @@ e_table_state_change (ETable *et)
 	g_signal_emit (G_OBJECT (et), et_signals [STATE_CHANGE], 0);
 }
 
-#define CHECK_HORIZONTAL(et) if ((et)->horizontal_scrolling || (et)->horizontal_resize) e_table_header_update_horizontal (et->header);
+#define CHECK_HORIZONTAL(et) \
+	if ((et)->horizontal_scrolling || (et)->horizontal_resize) \
+		e_table_header_update_horizontal (et->header);
 
 static void
 clear_current_search_col (ETable *et)
@@ -288,7 +292,8 @@ connect_header (ETable *e_table, ETableState *state)
 	if (e_table->header != NULL)
 		disconnect_header (e_table);
 
-	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
+	e_table->header = e_table_state_to_header (
+		GTK_WIDGET (e_table), e_table->full_header, state);
 
 	e_table->structure_change_id =
 		g_signal_connect (G_OBJECT (e_table->header), "structure_change",
@@ -409,7 +414,11 @@ et_unrealize (GtkWidget *widget)
 }
 
 static gboolean
-check_row (ETable *et, gint model_row, gint col, ETableSearchFunc search, gchar *string)
+check_row (ETable *et,
+           gint model_row,
+           gint col,
+           ETableSearchFunc search,
+           gchar *string)
 {
 	gconstpointer value;
 
@@ -419,7 +428,10 @@ check_row (ETable *et, gint model_row, gint col, ETableSearchFunc search, gchar 
 }
 
 static gboolean
-et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, ETable *et)
+et_search_search (ETableSearch *search,
+                  gchar *string,
+                  ETableSearchFlags flags,
+                  ETable *et)
 {
 	gint cursor;
 	gint rows;
@@ -435,7 +447,9 @@ et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, 
 		     "cursor_row", &cursor,
 		     NULL);
 
-	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col->col_idx, col->search, string))
+	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) &&
+		cursor < rows && cursor >= 0 &&
+		check_row (et, cursor, col->col_idx, col->search, string))
 		return TRUE;
 
 	cursor = e_sorter_model_to_sorted (E_SORTER (et->sorter), cursor);
@@ -443,7 +457,9 @@ et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, 
 	for (i = cursor + 1; i < rows; i++) {
 		gint model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
 		if (check_row (et, model_row, col->col_idx, col->search, string)) {
-			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
+			e_selection_model_select_as_key_press (
+				E_SELECTION_MODEL (et->selection),
+				model_row, col->col_idx, GDK_CONTROL_MASK);
 			return TRUE;
 		}
 	}
@@ -451,7 +467,9 @@ et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, 
 	for (i = 0; i < cursor; i++) {
 		gint model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
 		if (check_row (et, model_row, col->col_idx, col->search, string)) {
-			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
+			e_selection_model_select_as_key_press (
+				E_SELECTION_MODEL (et->selection),
+				model_row, col->col_idx, GDK_CONTROL_MASK);
 			return TRUE;
 		}
 	}
@@ -459,7 +477,9 @@ et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, 
 	cursor = e_sorter_sorted_to_model (E_SORTER (et->sorter), cursor);
 
 	/* Check if the cursor row is the only matching row. */
-	return (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col->col_idx, col->search, string));
+	return (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) &&
+		cursor < rows && cursor >= 0 &&
+		check_row (et, cursor, col->col_idx, col->search, string));
 }
 
 static void
@@ -471,10 +491,10 @@ et_search_accept (ETableSearch *search, ETable *et)
 	if (col == NULL)
 		return;
 
-	g_object_get(et->selection,
-		     "cursor_row", &cursor,
-		     NULL);
-	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), cursor, col->col_idx, 0);
+	g_object_get (et->selection, "cursor_row", &cursor, NULL);
+
+	e_selection_model_select_as_key_press (
+		E_SELECTION_MODEL (et->selection), cursor, col->col_idx, 0);
 }
 
 static void
@@ -749,7 +769,9 @@ static void
 table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 {
 	if (!e_table->reflow_idle_id)
-		e_table->reflow_idle_id = g_idle_add_full (400, (GSourceFunc) table_canvas_reflow_idle, e_table, NULL);
+		e_table->reflow_idle_id = g_idle_add_full (
+			400, (GSourceFunc) table_canvas_reflow_idle,
+			e_table, NULL);
 }
 
 static void
@@ -791,7 +813,11 @@ static gboolean
 group_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
 	gboolean return_val = FALSE;
-	g_signal_emit (G_OBJECT (et), et_signals [RIGHT_CLICK], 0, row, col, event, &return_val);
+
+	g_signal_emit (
+		et, et_signals[RIGHT_CLICK], 0,
+		row, col, event, &return_val);
+
 	return return_val;
 }
 
@@ -834,7 +860,9 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 
 		row_local = e_table_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
-		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
+		e_selection_model_select_as_key_press (
+			E_SELECTION_MODEL (et->selection),
+			row_local, col_local, key->state);
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
@@ -852,7 +880,9 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 
 		row_local = e_table_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
-		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
+		e_selection_model_select_as_key_press (
+			E_SELECTION_MODEL (et->selection),
+			row_local, col_local, key->state);
 		return_val = 1;
 		break;
 	case GDK_BackSpace:
@@ -862,7 +892,9 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 		/* Fall through */
 	default:
 		init_search (et);
-		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK | GDK_MOD4_MASK | GDK_MOD5_MASK)) == 0
+		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK |
+			GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK |
+			GDK_MOD4_MASK | GDK_MOD5_MASK)) == 0
 		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
 			(key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
 			(key->keyval >= GDK_0 && key->keyval <= GDK_9)))
@@ -954,20 +986,25 @@ et_build_groups (ETable *et)
 				       0);
 
 	if (et->use_click_to_add_end)
-		e_canvas_vbox_add_item_start(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
+		e_canvas_vbox_add_item_start (
+			E_CANVAS_VBOX (et->canvas_vbox),
+			GNOME_CANVAS_ITEM (et->group));
 	else
-		e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
+		e_canvas_vbox_add_item (
+			E_CANVAS_VBOX (et->canvas_vbox),
+			GNOME_CANVAS_ITEM (et->group));
 
-	gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
-			      "alternating_row_colors", et->alternating_row_colors,
-			      "horizontal_draw_grid", et->horizontal_draw_grid,
-			      "vertical_draw_grid", et->vertical_draw_grid,
-			      "drawfocus", et->draw_focus,
-			      "cursor_mode", et->cursor_mode,
-			      "length_threshold", et->length_threshold,
-			      "uniform_row_height", et->uniform_row_height,
-			      "selection_model", et->selection,
-			      NULL);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM(et->group),
+		"alternating_row_colors", et->alternating_row_colors,
+		"horizontal_draw_grid", et->horizontal_draw_grid,
+		"vertical_draw_grid", et->vertical_draw_grid,
+		"drawfocus", et->draw_focus,
+		"cursor_mode", et->cursor_mode,
+		"length_threshold", et->length_threshold,
+		"uniform_row_height", et->uniform_row_height,
+		"selection_model", et->selection,
+		NULL);
 
 	g_signal_connect (G_OBJECT (et->group), "cursor_change",
 			  G_CALLBACK (group_cursor_change), et);
@@ -988,20 +1025,25 @@ et_build_groups (ETable *et)
 		et_disconnect_model (et);
 
 	if (et->is_grouped && (!was_grouped)) {
-		et->table_model_change_id = g_signal_connect (G_OBJECT (et->model), "model_changed",
-							      G_CALLBACK (et_table_model_changed), et);
+		et->table_model_change_id = g_signal_connect (
+			et->model, "model_changed",
+			G_CALLBACK (et_table_model_changed), et);
 
-		et->table_row_change_id = g_signal_connect (G_OBJECT (et->model), "model_row_changed",
-							    G_CALLBACK (et_table_row_changed), et);
+		et->table_row_change_id = g_signal_connect (
+			et->model, "model_row_changed",
+			G_CALLBACK (et_table_row_changed), et);
 
-		et->table_cell_change_id = g_signal_connect (G_OBJECT (et->model), "model_cell_changed",
-							     G_CALLBACK (et_table_cell_changed), et);
+		et->table_cell_change_id = g_signal_connect (
+			et->model, "model_cell_changed",
+			G_CALLBACK (et_table_cell_changed), et);
 
-		et->table_rows_inserted_id = g_signal_connect (G_OBJECT (et->model), "model_rows_inserted",
-							       G_CALLBACK (et_table_rows_inserted), et);
+		et->table_rows_inserted_id = g_signal_connect (
+			et->model, "model_rows_inserted",
+			G_CALLBACK (et_table_rows_inserted), et);
 
-		et->table_rows_deleted_id = g_signal_connect (G_OBJECT (et->model), "model_rows_deleted",
-							      G_CALLBACK (et_table_rows_deleted), et);
+		et->table_rows_deleted_id = g_signal_connect (
+			et->model, "model_rows_deleted",
+			G_CALLBACK (et_table_rows_deleted), et);
 
 	}
 
@@ -1577,7 +1619,9 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->use_click_to_add_end = specification->click_to_add_end;
-	e_table->click_to_add_message = specification->click_to_add_message ? g_strdup (dgettext (e_table->domain, specification->click_to_add_message)) : NULL;
+	e_table->click_to_add_message = specification->click_to_add_message ?
+		g_strdup (dgettext (e_table->domain,
+		specification->click_to_add_message)) : NULL;
 	e_table->alternating_row_colors = specification->alternating_row_colors;
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
 	e_table->vertical_draw_grid = specification->vertical_draw_grid;
@@ -1813,7 +1857,10 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
-e_table_new (ETableModel *etm, ETableExtras *ete, const gchar *spec, const gchar *state)
+e_table_new (ETableModel *etm,
+             ETableExtras *ete,
+             const gchar *spec,
+             const gchar *state)
 {
 	ETable *e_table;
 
@@ -1850,7 +1897,10 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const gchar *spec, const gchar
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
-e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const gchar *spec_fn, const gchar *state_fn)
+e_table_new_from_spec_file (ETableModel *etm,
+                            ETableExtras *ete,
+                            const gchar *spec_fn,
+                            const gchar *state_fn)
 {
 	ETable *e_table;
 
@@ -2445,8 +2495,10 @@ e_table_get_cell_at (ETable *table,
  * @table: The #ETable.
  * @row: The row to get the geometry of.
  * @col: The col to get the geometry of.
- * @x_return: Returns the x coordinate of the upper left hand corner of the cell with respect to the widget.
- * @y_return: Returns the y coordinate of the upper left hand corner of the cell with respect to the widget.
+ * @x_return: Returns the x coordinate of the upper left hand corner
+ *            of the cell with respect to the widget.
+ * @y_return: Returns the y coordinate of the upper left hand corner
+ *            of the cell with respect to the widget.
  * @width_return: Returns the width of the cell.
  * @height_return: Returns the height of the cell.
  *
@@ -2493,7 +2545,9 @@ e_table_get_cell_geometry (ETable *table,
 
 /**
  * e_table_get_mouse_over_cell:
- * Similar to e_table_get_cell_at, only here we check based on the mouse motion information in the group.
+ *
+ * Similar to e_table_get_cell_at, only here we check
+ * based on the mouse motion information in the group.
  **/
 void
 e_table_get_mouse_over_cell (ETable *table, gint *row, gint *col)
@@ -3466,7 +3520,8 @@ e_table_class_init (ETableClass *class)
 							   0,
 							   G_MAXINT,
 							   3,
-							   G_PARAM_READABLE | G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB));
+							   G_PARAM_READABLE |
+							   G_PARAM_STATIC_STRINGS));
 
 	gal_a11y_e_table_init ();
 }

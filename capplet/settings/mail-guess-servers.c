@@ -129,7 +129,7 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
 			provider->recv_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
@@ -153,7 +153,7 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
 			provider->send_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
@@ -246,7 +246,9 @@ guess_when_online (EmailProvider *provider)
 	SoupMessage *msg;
 	SoupSession *session;
 
-	url = g_strdup_printf("%s/%s", "https://live.mozillamessaging.com/autoconfig", provider->domain);
+	url = g_strdup_printf (
+		"https://live.mozillamessaging.com/autoconfig/%s",
+		provider->domain);
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
 
@@ -332,10 +334,17 @@ main (gint argc, gchar **argv)
 
 	mail_guess_servers (provider);
 
-	printf("Recv: %s\n%s(%s), %s by %s \n Send: %s\n%s(%s), %s by %s\n via %s to %s\n",
-	  provider->recv_type, provider->recv_hostname, provider->recv_port, provider->recv_username, provider->recv_auth,
-	  provider->send_type, provider->send_hostname, provider->send_port, provider->send_username, provider->send_auth,
-	  provider->recv_socket_type, provider->send_socket_type);
+	printf (
+		"Recv: %s\n%s(%s), %s by %s \n "
+		"Send: %s\n%s(%s), %s by %s\n via %s to %s\n",
+		provider->recv_type, provider->recv_hostname,
+		provider->recv_port, provider->recv_username,
+		provider->recv_auth,
+		provider->send_type, provider->send_hostname,
+		provider->send_port, provider->send_username,
+		provider->send_auth,
+		provider->recv_socket_type,
+		provider->send_socket_type);
 	return 0;
 }
 #endif

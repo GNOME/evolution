@@ -2821,22 +2821,22 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 			goto next;
 
 		group_name = g_strdup_printf ("Store %s", uri);
-		
+
 		if (e_shell_get_express_mode (shell)) {
 			gboolean system = FALSE;
 
 			if (strncmp (uri, "vfolder", 7) == 0 ||
 					strncmp(uri, "mbox", 4) == 0)
 				system = TRUE;
-				
+
 			if (!system && !g_key_file_has_key (key_file, group_name, key, NULL)) {
 				GtkTreePath *path;
-	
+
 				path = gtk_tree_model_get_path (tree_model, &iter);
 				gtk_tree_view_expand_row (tree_view, path, FALSE);
 				gtk_tree_path_free (path);
 			}
-			
+
 		} else if (!g_key_file_has_key (key_file, group_name, key, NULL)) {
 			GtkTreePath *path;
 

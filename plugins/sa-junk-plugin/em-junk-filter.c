@@ -939,9 +939,9 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), !em_junk_sa_local_only);
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (use_remote_tests_cb), (gpointer) "/apps/evolution/mail/junk/sa/local_only");
-	gtk_table_attach (GTK_TABLE (data->parent), vbox,
-	                  0, 1, n_rows, n_rows+1,
-	                  0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (data->parent), vbox,
+		0, 1, n_rows, n_rows+1, 0, 0, 0, 0);
 	gtk_widget_show_all (vbox);
 	return (GtkWidget *)vbox;
 }

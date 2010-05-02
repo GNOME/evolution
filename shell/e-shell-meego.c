@@ -40,11 +40,11 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	GdkAtom wm_win, mob_atom;
 	Atom dummy_t;
 	unsigned long dummy_l;
-	int dummy_i;
+	gint dummy_i;
 	GdkScreen *screen;
 	GdkDisplay *display;
 	Window *wm_window_v = NULL;
-	unsigned char *moblin_string = NULL;
+	guchar *moblin_string = NULL;
 	GModule *module;
 	/*
 	 * Wow - this is unpleasant, but it is hard to link directly
@@ -52,10 +52,10 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	 * to get to the (mind-mashed) 'supporting' window.
 	 */
 	struct {
-	  int (*XFree) (void *);
-	  int (*XGetWindowProperty) (Display*, XID, Atom, long, long, Bool,
-				     Atom, Atom *, int *, unsigned long*,
-				     unsigned long*, unsigned char**);
+	  gint (*XFree) (gpointer);
+	  gint (*XGetWindowProperty) (Display*, XID, Atom, long, long, Bool,
+				     Atom, Atom *, gint *, unsigned long*,
+				     unsigned long*, guchar **);
 	} fns = { 0, 0 };
 
 	*is_meego = *small_screen = FALSE;
@@ -85,12 +85,12 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	gdk_error_trap_push ();
 
 	/* get the window manager's supporting window */
-	fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display), 
+	fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display),
 				GDK_WINDOW_XID (gdk_screen_get_root_window (screen)),
 				gdk_x11_atom_to_xatom_for_display (display, wm_win),
 				0, 1, False, XA_WINDOW, &dummy_t, &dummy_i,
-				&dummy_l, &dummy_l, (unsigned char **)(&wm_window_v));
-	
+				&dummy_l, &dummy_l, (guchar **)(&wm_window_v));
+
 	/* get the '_Moblin' setting */
 	if (wm_window_v && (*wm_window_v != None))
 		fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display), *wm_window_v,
@@ -102,8 +102,8 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 	gdk_error_trap_pop ();
 
 	if (moblin_string) {
-		int i;
-		char **props;
+		gint i;
+		gchar **props;
 
 		g_warning ("prop '%s'", moblin_string);
 
@@ -112,7 +112,7 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 
 		props = g_strsplit ((gchar *)moblin_string, ":", -1);
 		for (i = 0; props && props[i]; i++) {
-			char **pair = g_strsplit (props[i], "=", 2);
+			gchar **pair = g_strsplit (props[i], "=", 2);
 
 			g_warning ("pair '%s'='%s'", pair ? pair[0] : "<null>",
 				   pair && pair[0] ? pair[1] : "<null>");
@@ -138,7 +138,7 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 /* gcc -g -O0 -Wall -I. -DTEST_APP `pkg-config --cflags --libs gtk+-2.0` e-shell-meego.c && ./a.out */
 #include <gtk/gtk.h>
 
-int main (int argc, char **argv)
+gint main (gint argc, gchar **argv)
 {
 	gboolean is_meego, small_screen;
 

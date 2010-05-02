@@ -1007,7 +1007,6 @@ struct _date_query_msg {
 	GnomeCalendar *gcal;
 };
 
-
 static void
 free_dn_queries (GnomeCalendar *gcal)
 {
@@ -1455,7 +1454,6 @@ gnome_calendar_do_dispose (GObject *object)
 	gcal = GNOME_CALENDAR (object);
 	priv = gcal->priv;
 
-	
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			priv->model, view_progress_cb, gcal);

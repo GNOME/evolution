@@ -53,7 +53,8 @@ typedef struct {
                                 that have not received change notification
                                 yet. */
 
-	GConfValue *use_first_value; /* Not NULL when the object is a Widget and wasn't realized */
+        GConfValue *use_first_value; /* Not NULL when the object is a
+                                        Widget and wasn't realized. */
 
         GObject *object;
         GParamSpec *prop;
