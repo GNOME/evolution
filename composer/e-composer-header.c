@@ -75,6 +75,7 @@ composer_header_constructor (GType type,
 	GObject *object;
 	GtkWidget *widget;
 	EComposerHeader *header;
+	GtkWidget *label;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (parent_class)->constructor (
@@ -89,11 +90,14 @@ composer_header_constructor (GType type,
 			widget, "clicked",
 			G_CALLBACK (composer_header_button_clicked_cb),
 			header);
+		label = gtk_bin_get_child (GTK_BIN (widget));
 	} else {
 		widget = gtk_label_new_with_mnemonic (header->priv->label);
-		gtk_label_set_mnemonic_widget (
-			GTK_LABEL (widget), header->input_widget);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), header->input_widget);
+		label = widget;
 	}
+
+	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
 
 	header->priv->action_label = NULL;
 
