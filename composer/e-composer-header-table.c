@@ -276,6 +276,27 @@ skip_custom:
 	return new_destinations;
 }
 
+static int
+count_from_accounts (EComposerHeaderTable *table)
+{
+	EComposerHeader *header;
+	EAccountComboBox *combo_box;
+
+	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
+	combo_box = E_ACCOUNT_COMBO_BOX (header->input_widget);
+
+	return e_account_combo_box_count_displayed_accounts (combo_box);
+}
+
+static gboolean
+from_header_should_be_visible (EComposerHeaderTable *table)
+{
+	int num_accounts;
+
+	num_accounts = count_from_accounts (table);
+	return (num_accounts > 1);
+}
+
 static void
 composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 {
@@ -288,6 +309,8 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		EComposerHeader *header;
 		const gchar *key;
 		guint binding_id;
+		gboolean sensitive;
+		gboolean visible;
 
 		binding_id = table->priv->gconf_bindings[ii];
 		header = e_composer_header_table_get_header (table, ii);
@@ -304,10 +327,6 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 				key = COMPOSER_GCONF_PREFIX "/show_mail_cc";
 				break;
 
-			case E_COMPOSER_HEADER_FROM:
-				key = COMPOSER_GCONF_PREFIX "/show_mail_from";
-				break;
-
 			case E_COMPOSER_HEADER_REPLY_TO:
 				key = COMPOSER_GCONF_PREFIX "/show_mail_reply_to";
 				break;
@@ -318,21 +337,28 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		}
 
 		switch (ii) {
+			case E_COMPOSER_HEADER_FROM:
+				sensitive = TRUE;
+				visible = from_header_should_be_visible (table);
+				break;
+
 			case E_COMPOSER_HEADER_BCC:
 			case E_COMPOSER_HEADER_CC:
-			case E_COMPOSER_HEADER_FROM:
 			case E_COMPOSER_HEADER_REPLY_TO:
 			case E_COMPOSER_HEADER_SUBJECT:
 			case E_COMPOSER_HEADER_TO:
-				e_composer_header_set_sensitive (header, TRUE);
-				e_composer_header_set_visible (header, TRUE);
+				sensitive = TRUE;
+				visible = TRUE;
 				break;
 
 			default:
-				e_composer_header_set_sensitive (header, FALSE);
-				e_composer_header_set_visible (header, FALSE);
+				sensitive = FALSE;
+				visible = FALSE;
 				break;
 		}
+
+		e_composer_header_set_sensitive (header, sensitive);
+		e_composer_header_set_visible (header, visible);
 
 		if (key != NULL)
 			binding_id = gconf_bridge_bind_property (
