@@ -351,10 +351,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 				action = ACTION (VIEW_CC);
 				break;
 
-			case E_COMPOSER_HEADER_FROM:
-				action = ACTION (VIEW_FROM);
-				break;
-
 			case E_COMPOSER_HEADER_REPLY_TO:
 				action = ACTION (VIEW_REPLY_TO);
 				break;
