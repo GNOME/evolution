@@ -181,7 +181,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 
 			/* subscribe to the new folder if appropriate */
 			if (camel_store_supports_subscriptions (m->tostore)
-			    && !camel_store_folder_subscribed (m->tostore, toname->str))
+			    && !camel_store_folder_is_subscribed (m->tostore, toname->str))
 				camel_store_subscribe_folder (m->tostore, toname->str, NULL);
 
 			info = info->next;

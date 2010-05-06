@@ -984,7 +984,7 @@ mail_send_receive (GtkWindow *parent)
 		return send_recv_dialog;
 	}
 
-	if (!camel_session_is_online (session))
+	if (!camel_session_get_online (session))
 		return send_recv_dialog;
 
 	account = e_get_default_account ();
@@ -1043,7 +1043,7 @@ auto_timeout(gpointer data)
 {
 	struct _auto_data *info = data;
 
-	if (camel_session_is_online (session)) {
+	if (camel_session_get_online (session)) {
 		const gchar *uri;
 		gboolean keep_on_server;
 

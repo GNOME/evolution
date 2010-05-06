@@ -32,11 +32,6 @@
 #include "config.h"
 #endif
 
-#ifdef G_LOG_DOMAIN
-#undef G_LOG_DOMAIN
-#endif
-#define G_LOG_DOMAIN "folder tree"
-
 #include <string.h>
 #include <time.h>
 
@@ -63,13 +58,11 @@
 
 /* This code is a mess, there is no reason it should be so complicated. */
 
-G_DEFINE_TYPE (MailFolderCache, mail_folder_cache, G_TYPE_OBJECT)
+#define MAIL_FOLDER_CACHE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate))
 
-#define FOLDER_CACHE_PRIVATE(o) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate))
-
-struct _MailFolderCachePrivate
-{
+struct _MailFolderCachePrivate {
 	/* source id for the ping timeout callback */
 	guint ping_id;
 	/* Store to storeinfo table, active stores */
@@ -85,8 +78,7 @@ struct _MailFolderCachePrivate
 	gint count_trash;
 };
 
-enum
-{
+enum {
 	FOLDER_AVAILABLE,
 	FOLDER_UNAVAILABLE,
 	FOLDER_DELETED,
@@ -106,7 +98,7 @@ struct _folder_info {
 
 	guint32 flags;
 
-	CamelFolder *folder;	/* if known */
+	gpointer folder;	/* if known (weak pointer) */
 };
 
 /* pending list of updates */
@@ -141,11 +133,7 @@ struct _store_info {
 	GQueue folderinfo_updates;
 };
 
-static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_data);
-static void folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data);
-static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data);
-
-static gboolean ping_cb (gpointer user_data);
+G_DEFINE_TYPE (MailFolderCache, mail_folder_cache, G_TYPE_OBJECT)
 
 static void
 free_update(struct _folder_update *up)
@@ -227,45 +215,6 @@ flush_updates (MailFolderCache *self)
 			self, NULL, NULL);
 }
 
-static void
-unset_folder_info(MailFolderCache *self, struct _folder_info *mfi, gint delete, gint unsub)
-{
-	struct _folder_update *up;
-
-	d(printf("unset folderinfo '%s'\n", mfi->uri));
-
-	if (mfi->folder) {
-		CamelFolder *folder = mfi->folder;
-
-		camel_object_unhook_event(folder, "folder_changed", folder_changed, self);
-		camel_object_unhook_event(folder, "renamed", folder_renamed, self);
-		camel_object_unhook_event(folder, "finalize", folder_finalised, self);
-	}
-
-	if ((mfi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
-		up = g_malloc0(sizeof(*up));
-
-		up->remove = TRUE;
-		up->delete = delete;
-		up->unsub = unsub;
-		up->store = mfi->store_info->store;
-		up->full_name = g_strdup (mfi->full_name);
-		g_object_ref (up->store);
-		up->uri = g_strdup(mfi->uri);
-
-		g_queue_push_head (&self->priv->updates, up);
-		flush_updates(self);
-	}
-}
-
-static void
-free_folder_info(struct _folder_info *mfi)
-{
-	g_free(mfi->full_name);
-	g_free(mfi->uri);
-	g_free(mfi);
-}
-
 /* This is how unread counts work (and don't work):
  *
  * camel_folder_unread_message_count() only gives a correct answer if
@@ -337,72 +286,21 @@ update_1folder(MailFolderCache *self, struct _folder_info *mfi, gint new, const 
 	up->full_name = g_strdup(mfi->full_name);
 	up->unread = unread;
 	up->new = new;
-	up->store = mfi->store_info->store;
+	up->store = g_object_ref (mfi->store_info->store);
 	up->uri = g_strdup(mfi->uri);
 	up->msg_uid = g_strdup (msg_uid);
 	up->msg_sender = g_strdup (msg_sender);
 	up->msg_subject = g_strdup (msg_subject);
-	g_object_ref (up->store);
 	g_queue_push_head (&self->priv->updates, up);
 	flush_updates(self);
 }
 
 static void
-setup_folder(MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
-{
-	struct _folder_info *mfi;
-	struct _folder_update *up;
-
-	mfi = g_hash_table_lookup(si->folders, fi->full_name);
-	if (mfi) {
-		update_1folder (self, mfi, 0, NULL, NULL, NULL, fi);
-	} else {
-		d(printf("Adding new folder: %s (%s)\n", fi->full_name, fi->uri));
-		mfi = g_malloc0(sizeof(*mfi));
-		mfi->full_name = g_strdup(fi->full_name);
-		mfi->uri = g_strdup(fi->uri);
-		mfi->store_info = si;
-		mfi->flags = fi->flags;
-
-		g_hash_table_insert(si->folders, mfi->full_name, mfi);
-		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
-
-		up = g_malloc0(sizeof(*up));
-		up->full_name = g_strdup(mfi->full_name);
-		up->uri = g_strdup(fi->uri);
-		up->unread = fi->unread;
-		up->store = si->store;
-		g_object_ref (up->store);
-
-		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
-			up->add = TRUE;
-
-		g_queue_push_head (&self->priv->updates, up);
-		flush_updates(self);
-	}
-}
-
-static void
-create_folders(MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
-{
-	d(printf("Setup new folder: %s\n  %s\n", fi->uri, fi->full_name));
-
-	while (fi) {
-		setup_folder(self, fi, si);
-
-		if (fi->child)
-			create_folders(self, fi->child, si);
-
-		fi = fi->next;
-	}
-}
-
-static void
-folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+folder_changed_cb (CamelFolder *folder,
+                   CamelFolderChangeInfo *changes,
+                   MailFolderCache *self)
 {
 	static time_t last_newmail = 0;
-	CamelFolderChangeInfo *changes = event_data;
-	CamelFolder *folder = (CamelFolder *)o;
 	CamelFolder *local_drafts;
 	CamelFolder *local_outbox;
 	CamelFolder *local_sent;
@@ -415,7 +313,6 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	gint i;
 	guint32 flags;
 	gchar *uid = NULL, *sender = NULL, *subject = NULL;
-	MailFolderCache *self = (MailFolderCache*) user_data;
 
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
@@ -477,146 +374,158 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 static void
-folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
+unset_folder_info(MailFolderCache *self, struct _folder_info *mfi, gint delete, gint unsub)
 {
-	CamelFolder *folder = (CamelFolder *)o;
-	CamelStore *parent_store;
-	struct _store_info *si;
-	struct _folder_info *mfi;
-	MailFolderCache *self = (MailFolderCache*) user_data;
-	const gchar *full_name;
+	struct _folder_update *up;
 
-	full_name = camel_folder_get_full_name (folder);
-	parent_store = camel_folder_get_parent_store (folder);
+	d(printf("unset folderinfo '%s'\n", mfi->uri));
 
-	g_mutex_lock (self->priv->stores_mutex);
-	if (self->priv->stores != NULL
-	    && (si = g_hash_table_lookup(self->priv->stores, parent_store)) != NULL
-	    && (mfi = g_hash_table_lookup(si->folders, full_name)) != NULL
-	    && mfi->folder == folder) {
-		mfi->folder = NULL;
+	if (mfi->folder) {
+		CamelFolder *folder = mfi->folder;
+
+		g_signal_handlers_disconnect_by_func (
+			folder, folder_changed_cb, self);
+
+		g_object_remove_weak_pointer (
+			G_OBJECT (mfi->folder), &mfi->folder);
 	}
-	g_mutex_unlock (self->priv->stores_mutex);
+
+	if ((mfi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+		up = g_malloc0(sizeof(*up));
+
+		up->remove = TRUE;
+		up->delete = delete;
+		up->unsub = unsub;
+		up->store = g_object_ref (mfi->store_info->store);
+		up->full_name = g_strdup (mfi->full_name);
+		up->uri = g_strdup(mfi->uri);
+
+		g_queue_push_head (&self->priv->updates, up);
+		flush_updates(self);
+	}
 }
 
 static void
-folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
+free_folder_info(struct _folder_info *mfi)
 {
-	CamelFolder *folder = (CamelFolder *)o;
-	gchar *old = event_data;
-
-	old = old;
-	folder = folder;
-	/* Dont do anything, do it from the store rename event? */
-}
-
-/**
- * mail_folder_cache_note_folder:
- *
- * When a folder has been opened, notify it for watching.  The folder must have
- * already been created on the store (which has already been noted) before the
- * folder can be opened
- */
-void mail_folder_cache_note_folder(MailFolderCache *self, CamelFolder *folder)
-{
-	CamelStore *parent_store;
-	struct _store_info *si;
-	struct _folder_info *mfi;
-	const gchar *full_name;
-
-	full_name = camel_folder_get_full_name (folder);
-	parent_store = camel_folder_get_parent_store (folder);
-
-	g_mutex_lock (self->priv->stores_mutex);
-	if (self->priv->stores == NULL
-	    || (si = g_hash_table_lookup(self->priv->stores, parent_store)) == NULL
-	    || (mfi = g_hash_table_lookup(si->folders, full_name)) == NULL) {
-		w(g_warning("Noting folder before store initialised"));
-		g_mutex_unlock (self->priv->stores_mutex);
-		return;
-	}
-
-	/* dont do anything if we already have this */
-	if (mfi->folder == folder) {
-		g_mutex_unlock (self->priv->stores_mutex);
-		return;
-	}
-
-	mfi->folder = folder;
-
-	update_1folder (self, mfi, 0, NULL, NULL, NULL, NULL);
-
-	g_mutex_unlock (self->priv->stores_mutex);
-
-	camel_object_hook_event(folder, "folder_changed", folder_changed, self);
-	camel_object_hook_event(folder, "renamed", folder_renamed, self);
-	camel_object_hook_event(folder, "finalize", folder_finalised, self);
+	g_free(mfi->full_name);
+	g_free(mfi->uri);
+	g_free(mfi);
 }
 
 static void
-store_folder_subscribed(CamelObject *o, gpointer event_data, gpointer data)
+setup_folder(MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
 {
-	struct _store_info *si;
-	CamelFolderInfo *fi = event_data;
-	MailFolderCache *self = (MailFolderCache*) data;
+	struct _folder_info *mfi;
+	struct _folder_update *up;
 
-	d(printf("Store folder subscribed '%s' store '%s' \n", fi->full_name, camel_url_to_string(((CamelService *)o)->url, 0)));
+	mfi = g_hash_table_lookup(si->folders, fi->full_name);
+	if (mfi) {
+		update_1folder (self, mfi, 0, NULL, NULL, NULL, fi);
+	} else {
+		d(printf("Adding new folder: %s (%s)\n", fi->full_name, fi->uri));
+		mfi = g_malloc0(sizeof(*mfi));
+		mfi->full_name = g_strdup(fi->full_name);
+		mfi->uri = g_strdup(fi->uri);
+		mfi->store_info = si;
+		mfi->flags = fi->flags;
 
-	g_mutex_lock (self->priv->stores_mutex);
-	si = g_hash_table_lookup(self->priv->stores, o);
-	if (si)
+		g_hash_table_insert(si->folders, mfi->full_name, mfi);
+		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
+
+		up = g_malloc0(sizeof(*up));
+		up->full_name = g_strdup(mfi->full_name);
+		up->uri = g_strdup(fi->uri);
+		up->unread = fi->unread;
+		up->store = g_object_ref (si->store);
+
+		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
+			up->add = TRUE;
+
+		g_queue_push_head (&self->priv->updates, up);
+		flush_updates(self);
+	}
+}
+
+static void
+create_folders(MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
+{
+	d(printf("Setup new folder: %s\n  %s\n", fi->uri, fi->full_name));
+
+	while (fi) {
 		setup_folder(self, fi, si);
+
+		if (fi->child)
+			create_folders(self, fi->child, si);
+
+		fi = fi->next;
+	}
+}
+
+static void
+store_folder_subscribed_cb (CamelStore *store,
+                            CamelFolderInfo *info,
+                            MailFolderCache *self)
+{
+	struct _store_info *si;
+
+	g_mutex_lock (self->priv->stores_mutex);
+	si = g_hash_table_lookup (self->priv->stores, store);
+	if (si)
+		setup_folder (self, info, si);
 	g_mutex_unlock (self->priv->stores_mutex);
 }
 
 static void
-store_folder_created(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_created_cb (CamelStore *store,
+                         CamelFolderInfo *info,
+                         MailFolderCache *cache)
 {
-	/* we only want created events to do more work if we dont support subscriptions */
-	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
-		store_folder_subscribed(o, event_data, data);
+	/* We only want created events to do more work
+	 * if we dont support subscriptions. */
+	if (!camel_store_supports_subscriptions (store))
+		store_folder_subscribed_cb (store, info, cache);
 }
 
 static void
-store_folder_opened(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_opened_cb (CamelStore *store,
+                        CamelFolder *folder,
+                        MailFolderCache *self)
 {
-	CamelFolder *folder = event_data;
-	MailFolderCache *self = (MailFolderCache*) data;
-
-	mail_folder_cache_note_folder(self, folder);
+	mail_folder_cache_note_folder (self, folder);
 }
 
 static void
-store_folder_unsubscribed(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_unsubscribed_cb (CamelStore *store,
+                              CamelFolderInfo *info,
+                              MailFolderCache *self)
 {
 	struct _store_info *si;
-	CamelFolderInfo *fi = event_data;
 	struct _folder_info *mfi;
-	CamelStore *store = (CamelStore *)o;
-	MailFolderCache *self = (MailFolderCache*) data;
-
-	d(printf("Store Folder deleted: %s\n", fi->full_name));
 
 	g_mutex_lock (self->priv->stores_mutex);
-	si = g_hash_table_lookup(self->priv->stores, store);
+	si = g_hash_table_lookup (self->priv->stores, store);
 	if (si) {
-		mfi = g_hash_table_lookup(si->folders, fi->full_name);
+		mfi = g_hash_table_lookup(si->folders, info->full_name);
 		if (mfi) {
-			g_hash_table_remove(si->folders, mfi->full_name);
-			g_hash_table_remove(si->folders_uri, mfi->uri);
-			unset_folder_info(self, mfi, TRUE, TRUE);
-			free_folder_info(mfi);
+			g_hash_table_remove (si->folders, mfi->full_name);
+			g_hash_table_remove (si->folders_uri, mfi->uri);
+			unset_folder_info (self, mfi, TRUE, TRUE);
+			free_folder_info (mfi);
 		}
 	}
 	g_mutex_unlock (self->priv->stores_mutex);
 }
 
 static void
-store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_deleted_cb (CamelStore *store,
+                         CamelFolderInfo *info,
+                         MailFolderCache *self)
 {
-	/* we only want deleted events to do more work if we dont support subscriptions */
-	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
-		store_folder_unsubscribed(o, event_data, data);
+	/* We only want deleted events to do more work
+	 * if we dont support subscriptions. */
+	if (!camel_store_supports_subscriptions (store))
+		store_folder_unsubscribed_cb (store, info, self);
 }
 
 static gchar *
@@ -687,8 +596,7 @@ rename_folders(MailFolderCache *self, struct _store_info *si, const gchar *oldba
 	up->full_name = g_strdup(mfi->full_name);
 	up->uri = g_strdup(mfi->uri);
 	up->unread = fi->unread==-1?0:fi->unread;
-	up->store = si->store;
-	g_object_ref (up->store);
+	up->store = g_object_ref (si->store);
 
 	if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
 		up->add = TRUE;
@@ -747,14 +655,12 @@ folder_cmp(gconstpointer ap, gconstpointer bp)
 }
 
 static void
-store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_renamed_cb (CamelStore *store,
+                         const gchar *old_name,
+                         CamelFolderInfo *info,
+                         MailFolderCache *self)
 {
-	CamelStore *store = (CamelStore *)o;
-	CamelRenameInfo *info = event_data;
 	struct _store_info *si;
-	MailFolderCache *self = (MailFolderCache*) data;
-
-	d(printf("Folder renamed: oldbase = '%s' new->full = '%s'\n", info->old_base, info->new->full_name));
 
 	g_mutex_lock (self->priv->stores_mutex);
 	si = g_hash_table_lookup(self->priv->stores, store);
@@ -765,12 +671,12 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 
 		/* Ok, so for some reason the folderinfo we have comes in all messed up from
 		   imap, should find out why ... this makes it workable */
-		get_folders(info->new, folders);
+		get_folders(info, folders);
 		qsort(folders->pdata, folders->len, sizeof(folders->pdata[0]), folder_cmp);
 
 		top = folders->pdata[0];
 		for (i=0;i<folders->len;i++) {
-			rename_folders(self, si, info->old_base, top->full_name, folders->pdata[i]);
+			rename_folders(self, si, old_name, top->full_name, folders->pdata[i]);
 		}
 
 		g_ptr_array_free(folders, TRUE);
@@ -799,58 +705,6 @@ static void
 free_folder_info_hash(gchar *path, struct _folder_info *mfi, gpointer data)
 {
 	free_folder_info(mfi);
-}
-
-/**
- * mail_folder_cache_note_store_remove:
- *
- * Notify the cache that the specified @store can be removed from the cache
- */
-void
-mail_folder_cache_note_store_remove(MailFolderCache *self, CamelStore *store)
-{
-	struct _store_info *si;
-
-	g_return_if_fail (CAMEL_IS_STORE(store));
-
-	if (self->priv->stores == NULL)
-		return;
-
-	d(printf("store removed!!\n"));
-	g_mutex_lock (self->priv->stores_mutex);
-	si = g_hash_table_lookup(self->priv->stores, store);
-	if (si) {
-		GList *link;
-		g_hash_table_remove(self->priv->stores, store);
-
-		camel_object_unhook_event(store, "folder_opened", store_folder_opened, self);
-		camel_object_unhook_event(store, "folder_created", store_folder_created, self);
-		camel_object_unhook_event(store, "folder_deleted", store_folder_deleted, self);
-		camel_object_unhook_event(store, "folder_renamed", store_folder_renamed, self);
-		camel_object_unhook_event(store, "folder_subscribed", store_folder_subscribed, self);
-		camel_object_unhook_event(store, "folder_unsubscribed", store_folder_unsubscribed, self);
-		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info_hash, self);
-
-		link = g_queue_peek_head_link (&si->folderinfo_updates);
-
-		while (link != NULL) {
-			struct _update_data *ud = link->data;
-
-			d(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
-			mail_msg_cancel(ud->id);
-			ud->cancel = 1;
-
-			link = g_list_next (link);
-		}
-
-		g_object_unref (si->store);
-		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info_hash, NULL);
-		g_hash_table_destroy(si->folders);
-		g_hash_table_destroy(si->folders_uri);
-		g_free(si);
-	}
-
-	g_mutex_unlock (self->priv->stores_mutex);
 }
 
 static gboolean
@@ -883,16 +737,16 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, gpointer data)
 
 struct _ping_store_msg {
 	MailMsg base;
-
 	CamelStore *store;
 };
 
 static gchar *
 ping_store_desc (struct _ping_store_msg *m)
 {
-	gchar *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	gchar *service_name;
 	gchar *msg;
 
+	service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
 	msg = g_strdup_printf (_("Pinging %s"), service_name);
 	g_free (service_name);
 
@@ -931,28 +785,25 @@ static MailMsgInfo ping_store_info = {
 };
 
 static void
-ping_store (gpointer key, gpointer val, gpointer user_data)
+ping_store (CamelStore *store)
 {
-	CamelStore *store = (CamelStore *) key;
 	struct _ping_store_msg *m;
 
 	if (CAMEL_SERVICE (store)->status != CAMEL_SERVICE_CONNECTED)
 		return;
 
 	m = mail_msg_new (&ping_store_info);
-	m->store = store;
-	g_object_ref (store);
+	m->store = g_object_ref (store);
 
 	mail_msg_slow_ordered_push (m);
 }
 
 static gboolean
-ping_cb (gpointer user_data)
+ping_cb (MailFolderCache *self)
 {
-	MailFolderCache *self = (MailFolderCache*) user_data;
 	g_mutex_lock (self->priv->stores_mutex);
 
-	g_hash_table_foreach (self->priv->stores, ping_store, NULL);
+	g_hash_table_foreach (self->priv->stores, (GHFunc) ping_store, NULL);
 
 	g_mutex_unlock (self->priv->stores_mutex);
 
@@ -978,84 +829,6 @@ store_online_cb (CamelStore *store, gpointer data)
 	g_mutex_unlock (ud->cache->priv->stores_mutex);
 }
 
-/**
- * mail_folder_cache_note_store:
- *
- * Add a store whose folders should appear in the shell The folders are scanned
- * from the store, and/or added at runtime via the folder_created event.  The
- * @done function returns if we can free folder info.
- */
-void
-mail_folder_cache_note_store(MailFolderCache *self, CamelStore *store, CamelOperation *op,
-			     NoteDoneFunc done, gpointer data)
-{
-	struct _store_info *si;
-	struct _update_data *ud;
-	gint hook = 0;
-
-	g_return_if_fail (CAMEL_IS_STORE(store));
-	g_return_if_fail (mail_in_main_thread());
-
-	g_mutex_lock (self->priv->stores_mutex);
-
-	si = g_hash_table_lookup(self->priv->stores, store);
-	if (si == NULL) {
-		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
-
-		si = g_malloc0(sizeof(*si));
-		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
-		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
-						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
-		si->store = store;
-		g_object_ref ((CamelObject *)store);
-		g_hash_table_insert(self->priv->stores, store, si);
-		g_queue_init (&si->folderinfo_updates);
-		hook = TRUE;
-	}
-
-	ud = g_malloc(sizeof(*ud));
-	ud->done = done;
-	ud->data = data;
-	ud->cancel = 0;
-	ud->cache = self;
-
-	/* We might get a race when setting up a store, such that it is still left in offline mode,
-	   after we've gone online.  This catches and fixes it up when the shell opens us */
-	if (CAMEL_IS_DISCO_STORE (store)) {
-		if (camel_session_is_online (session)
-		    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
-			/* Note: we use the 'id' here, even though its not the right id, its still ok */
-			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
-		} else {
-			goto normal_setup;
-		}
-	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
-		if (camel_session_is_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
-			/* Note: we use the 'id' here, even though its not the right id, its still ok */
-			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
-		} else {
-			goto normal_setup;
-		}
-	} else {
-	normal_setup:
-		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
-	}
-
-	g_queue_push_tail (&si->folderinfo_updates, ud);
-
-	g_mutex_unlock (self->priv->stores_mutex);
-
-	/* there is potential for race here, but it is safe as we check for the store anyway */
-	if (hook) {
-		camel_object_hook_event(store, "folder_opened", store_folder_opened, self);
-		camel_object_hook_event(store, "folder_created", store_folder_created, self);
-		camel_object_hook_event(store, "folder_deleted", store_folder_deleted, self);
-		camel_object_hook_event(store, "folder_renamed", store_folder_renamed, self);
-		camel_object_hook_event(store, "folder_subscribed", store_folder_subscribed, self);
-		camel_object_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, self);
-	}
-}
-
 struct _find_info {
 	const gchar *uri;
 	struct _folder_info *fi;
@@ -1063,7 +836,10 @@ struct _find_info {
 };
 
 /* look up on each storeinfo using proper hash function for that stores uri's */
-static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si, struct _find_info *fi)
+static void
+storeinfo_find_folder_info (CamelStore *store,
+                            struct _store_info *si,
+                            struct _find_info *fi)
 {
 	if (fi->fi == NULL) {
 		if (((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
@@ -1076,77 +852,11 @@ static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si
 	}
 }
 
-/**
- * mail_folder_cache_get_folder_from_uri:
- *
- * Gets the #CamelFolder for the supplied @uri.
- *
- * Return value: TRUE if the uri is available, folderp is set to a reffed folder if
- * the folder has also already been opened
- */
-gboolean
-mail_folder_cache_get_folder_from_uri(MailFolderCache *self, const gchar *uri, CamelFolder **folderp)
-{
-	struct _find_info fi = { uri, NULL, NULL };
-
-	if (self->priv->stores == NULL)
-		return FALSE;
-
-	fi.url = camel_url_new(uri, NULL);
-
-	g_mutex_lock (self->priv->stores_mutex);
-	g_hash_table_foreach(self->priv->stores, (GHFunc)storeinfo_find_folder_info, &fi);
-	if (folderp) {
-		if (fi.fi && fi.fi->folder) {
-			*folderp = fi.fi->folder;
-			g_object_ref (*folderp);
-		} else {
-			*folderp = NULL;
-		}
-	}
-	g_mutex_unlock (self->priv->stores_mutex);
-
-	camel_url_free(fi.url);
-
-	return fi.fi != NULL;
-}
-
-gboolean
-mail_folder_cache_get_folder_info_flags (MailFolderCache *self, CamelFolder *folder, gint *flags)
-{
-	gchar *uri = mail_tools_folder_to_url (folder);
-	struct _find_info fi = { uri, NULL, NULL };
-
-	if (self->priv->stores == NULL)
-		return FALSE;
-
-	fi.url = camel_url_new (uri, NULL);
-
-	g_mutex_lock (self->priv->stores_mutex);
-	g_hash_table_foreach(self->priv->stores, (GHFunc)storeinfo_find_folder_info, &fi);
-	if (flags) {
-		if (fi.fi) {
-			*flags = fi.fi->flags;
-		}
-	}
-	g_mutex_unlock (self->priv->stores_mutex);
-
-	camel_url_free(fi.url);
-	g_free (uri);
-
-	return fi.fi != NULL;
-}
-
-static void
-mail_folder_cache_dispose (GObject *object)
-{
-	G_OBJECT_CLASS (mail_folder_cache_parent_class)->dispose (object);
-}
-
 static void
 mail_folder_cache_finalize (GObject *object)
 {
 	MailFolderCache *cache = (MailFolderCache*) object;
+
 	g_hash_table_destroy (cache->priv->stores);
 	g_mutex_free (cache->priv->stores_mutex);
 
@@ -1160,17 +870,18 @@ mail_folder_cache_finalize (GObject *object)
 		cache->priv->update_id = 0;
 	}
 
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (mail_folder_cache_parent_class)->finalize (object);
 }
 
 static void
-mail_folder_cache_class_init (MailFolderCacheClass *klass)
+mail_folder_cache_class_init (MailFolderCacheClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (MailFolderCachePrivate));
+	g_type_class_add_private (class, sizeof (MailFolderCachePrivate));
 
-	object_class->dispose = mail_folder_cache_dispose;
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_folder_cache_finalize;
 
 	/**
@@ -1186,9 +897,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__BOXED_STRING,
+			      e_marshal_VOID__OBJECT_STRING,
 			      G_TYPE_NONE, 2,
-			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING);
+			      CAMEL_TYPE_OBJECT, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-unavailable
@@ -1205,9 +916,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__BOXED_STRING,
+			      e_marshal_VOID__OBJECT_STRING,
 			      G_TYPE_NONE, 2,
-			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING);
+			      CAMEL_TYPE_OBJECT, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-deleted
@@ -1222,9 +933,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__BOXED_STRING,
+			      e_marshal_VOID__OBJECT_STRING,
 			      G_TYPE_NONE, 2,
-			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING);
+			      CAMEL_TYPE_OBJECT, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-renamed
@@ -1240,9 +951,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__BOXED_STRING_STRING,
+			      e_marshal_VOID__OBJECT_STRING_STRING,
 			      G_TYPE_NONE, 3,
-			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING, G_TYPE_STRING);
+			      CAMEL_TYPE_OBJECT, G_TYPE_STRING, G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-unread-updated
@@ -1258,9 +969,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__BOXED_STRING_INT,
+			      e_marshal_VOID__OBJECT_STRING_INT,
 			      G_TYPE_NONE, 3,
-			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING, G_TYPE_INT);
+			      CAMEL_TYPE_OBJECT, G_TYPE_STRING, G_TYPE_INT);
 
 	/**
 	 * MailFolderCache::folder-changed
@@ -1281,9 +992,9 @@ mail_folder_cache_class_init (MailFolderCacheClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      0, /* struct offset */
 			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__BOXED_STRING_STRING_INT_STRING_STRING_STRING,
+			      e_marshal_VOID__OBJECT_STRING_STRING_INT_STRING_STRING_STRING,
 			      G_TYPE_NONE, 7,
-			      E_TYPE_CAMEL_OBJECT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
+			      CAMEL_TYPE_OBJECT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
 			      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 }
 
@@ -1293,7 +1004,7 @@ mail_folder_cache_init (MailFolderCache *self)
 	const gchar *buf;
 	guint timeout;
 
-	self->priv = FOLDER_CACHE_PRIVATE (self);
+	self->priv = MAIL_FOLDER_CACHE_GET_PRIVATE (self);
 
 	/* initialize values */
 	self->priv->stores = g_hash_table_new(NULL, NULL);
@@ -1306,19 +1017,8 @@ mail_folder_cache_init (MailFolderCache *self)
 
 	buf = getenv ("EVOLUTION_PING_TIMEOUT");
 	timeout = buf ? strtoul (buf, NULL, 10) : 600;
-	self->priv->ping_id = g_timeout_add_seconds (timeout, ping_cb, self);
-}
-
-/**
- * mail_folder_cache_new:
- *
- * You probably don't want to use this. Use mail_folder_cache_get_default()
- * instead
- */
-MailFolderCache *
-mail_folder_cache_new (void)
-{
-	return g_object_new (MAIL_TYPE_FOLDER_CACHE, NULL);
+	self->priv->ping_id = g_timeout_add_seconds (
+		timeout, (GSourceFunc) ping_cb, self);
 }
 
 static MailFolderCache *default_cache = NULL;
@@ -1339,3 +1039,265 @@ mail_folder_cache_get_default (void)
 
 	return default_cache;
 }
+
+/**
+ * mail_folder_cache_note_store:
+ *
+ * Add a store whose folders should appear in the shell The folders are scanned
+ * from the store, and/or added at runtime via the folder_created event.  The
+ * @done function returns if we can free folder info.
+ */
+void
+mail_folder_cache_note_store (MailFolderCache *self,
+                              CamelStore *store,
+                              CamelOperation *op,
+                              NoteDoneFunc done,
+                              gpointer data)
+{
+	struct _store_info *si;
+	struct _update_data *ud;
+	gint hook = 0;
+
+	g_return_if_fail (CAMEL_IS_STORE(store));
+	g_return_if_fail (mail_in_main_thread());
+
+	g_mutex_lock (self->priv->stores_mutex);
+
+	si = g_hash_table_lookup (self->priv->stores, store);
+	if (si == NULL) {
+		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
+
+		si = g_malloc0(sizeof(*si));
+		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
+		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
+						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
+		si->store = g_object_ref (store);
+		g_hash_table_insert(self->priv->stores, store, si);
+		g_queue_init (&si->folderinfo_updates);
+		hook = TRUE;
+	}
+
+	ud = g_malloc(sizeof(*ud));
+	ud->done = done;
+	ud->data = data;
+	ud->cancel = 0;
+	ud->cache = self;
+
+	/* We might get a race when setting up a store, such that it is still left in offline mode,
+	   after we've gone online.  This catches and fixes it up when the shell opens us */
+	if (CAMEL_IS_DISCO_STORE (store)) {
+		if (camel_session_get_online (session)
+		    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
+			/* Note: we use the 'id' here, even though its not the right id, its still ok */
+			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+		} else {
+			goto normal_setup;
+		}
+	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
+		if (camel_session_get_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+			/* Note: we use the 'id' here, even though its not the right id, its still ok */
+			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+		} else {
+			goto normal_setup;
+		}
+	} else {
+	normal_setup:
+		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
+	}
+
+	g_queue_push_tail (&si->folderinfo_updates, ud);
+
+	g_mutex_unlock (self->priv->stores_mutex);
+
+	/* there is potential for race here, but it is safe as we check for the store anyway */
+	if (hook) {
+		g_signal_connect (
+			store, "folder-opened",
+			G_CALLBACK (store_folder_opened_cb), self);
+		g_signal_connect (
+			store, "folder-created",
+			G_CALLBACK (store_folder_created_cb), self);
+		g_signal_connect (
+			store, "folder-deleted",
+			G_CALLBACK (store_folder_deleted_cb), self);
+		g_signal_connect (
+			store, "folder-renamed",
+			G_CALLBACK (store_folder_renamed_cb), self);
+		g_signal_connect (
+			store, "folder-subscribed",
+			G_CALLBACK (store_folder_subscribed_cb), self);
+		g_signal_connect (
+			store, "folder-unsubscribed",
+			G_CALLBACK (store_folder_unsubscribed_cb), self);
+	}
+}
+
+/**
+ * mail_folder_cache_note_store_remove:
+ *
+ * Notify the cache that the specified @store can be removed from the cache
+ */
+void
+mail_folder_cache_note_store_remove (MailFolderCache *self,
+                                     CamelStore *store)
+{
+	struct _store_info *si;
+
+	g_return_if_fail (CAMEL_IS_STORE(store));
+
+	if (self->priv->stores == NULL)
+		return;
+
+	d(printf("store removed!!\n"));
+	g_mutex_lock (self->priv->stores_mutex);
+	si = g_hash_table_lookup (self->priv->stores, store);
+	if (si) {
+		GList *link;
+
+		g_hash_table_remove(self->priv->stores, store);
+
+		g_signal_handlers_disconnect_matched (
+			store, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, self);
+
+		g_hash_table_foreach (
+			si->folders, (GHFunc)
+			unset_folder_info_hash, self);
+
+		link = g_queue_peek_head_link (&si->folderinfo_updates);
+
+		while (link != NULL) {
+			struct _update_data *ud = link->data;
+
+			d(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
+			mail_msg_cancel(ud->id);
+			ud->cancel = 1;
+
+			link = g_list_next (link);
+		}
+
+		g_object_unref (si->store);
+		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info_hash, NULL);
+		g_hash_table_destroy(si->folders);
+		g_hash_table_destroy(si->folders_uri);
+		g_free(si);
+	}
+
+	g_mutex_unlock (self->priv->stores_mutex);
+}
+
+/**
+ * mail_folder_cache_note_folder:
+ *
+ * When a folder has been opened, notify it for watching.  The folder must have
+ * already been created on the store (which has already been noted) before the
+ * folder can be opened
+ */
+void
+mail_folder_cache_note_folder (MailFolderCache *self,
+                               CamelFolder *folder)
+{
+	CamelStore *parent_store;
+	struct _store_info *si;
+	struct _folder_info *mfi;
+	const gchar *full_name;
+
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
+	g_mutex_lock (self->priv->stores_mutex);
+	if (self->priv->stores == NULL
+	    || (si = g_hash_table_lookup(self->priv->stores, parent_store)) == NULL
+	    || (mfi = g_hash_table_lookup(si->folders, full_name)) == NULL) {
+		w(g_warning("Noting folder before store initialised"));
+		g_mutex_unlock (self->priv->stores_mutex);
+		return;
+	}
+
+	/* dont do anything if we already have this */
+	if (mfi->folder == folder) {
+		g_mutex_unlock (self->priv->stores_mutex);
+		return;
+	}
+
+	mfi->folder = folder;
+
+	g_object_add_weak_pointer (G_OBJECT (folder), &mfi->folder);
+
+	update_1folder (self, mfi, 0, NULL, NULL, NULL, NULL);
+
+	g_mutex_unlock (self->priv->stores_mutex);
+
+	g_signal_connect (
+		folder, "changed",
+		G_CALLBACK (folder_changed_cb), self);
+}
+
+/**
+ * mail_folder_cache_get_folder_from_uri:
+ *
+ * Gets the #CamelFolder for the supplied @uri.
+ *
+ * Returns: %TRUE if the URI is available, folderp is set to a reffed
+ *          folder if the folder has also already been opened
+ */
+gboolean
+mail_folder_cache_get_folder_from_uri (MailFolderCache *self,
+                                       const gchar *uri,
+                                       CamelFolder **folderp)
+{
+	struct _find_info fi = { uri, NULL, NULL };
+
+	if (self->priv->stores == NULL)
+		return FALSE;
+
+	fi.url = camel_url_new (uri, NULL);
+
+	g_mutex_lock (self->priv->stores_mutex);
+	g_hash_table_foreach (
+		self->priv->stores, (GHFunc)
+		storeinfo_find_folder_info, &fi);
+	if (folderp) {
+		if (fi.fi && fi.fi->folder)
+			*folderp = g_object_ref (fi.fi->folder);
+		else
+			*folderp = NULL;
+	}
+	g_mutex_unlock (self->priv->stores_mutex);
+
+	camel_url_free (fi.url);
+
+	return fi.fi != NULL;
+}
+
+gboolean
+mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
+                                         CamelFolder *folder,
+                                         gint *flags)
+{
+	gchar *uri = mail_tools_folder_to_url (folder);
+	struct _find_info fi = { uri, NULL, NULL };
+
+	if (self->priv->stores == NULL)
+		return FALSE;
+
+	fi.url = camel_url_new (uri, NULL);
+
+	g_mutex_lock (self->priv->stores_mutex);
+	g_hash_table_foreach (
+		self->priv->stores, (GHFunc)
+		storeinfo_find_folder_info, &fi);
+	if (flags) {
+		if (fi.fi)
+			*flags = fi.fi->flags;
+		else
+			*flags = 0;
+	}
+	g_mutex_unlock (self->priv->stores_mutex);
+
+	camel_url_free (fi.url);
+	g_free (uri);
+
+	return fi.fi != NULL;
+}
+

@@ -251,7 +251,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
 
-		if (send->send && camel_session_is_online (session)) {
+		if (send->send && camel_session_get_online (session)) {
 			/* queue a message send */
 			mail_send ();
 		}

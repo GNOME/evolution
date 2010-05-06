@@ -895,20 +895,9 @@ static void context_rule_removed(ERuleContext *ctx, EFilterRule *rule)
 }
 
 static void
-store_folder_created(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_deleted_cb (CamelStore *store,
+                         CamelFolderInfo *info)
 {
-	CamelStore *store = (CamelStore *)o;
-	CamelFolderInfo *info = event_data;
-
-	store = store;
-	info = info;
-}
-
-static void
-store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
-{
-	CamelStore *store = (CamelStore *)o;
-	CamelFolderInfo *info = event_data;
 	EFilterRule *rule;
 	gchar *user;
 
@@ -943,9 +932,10 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 }
 
 static void
-store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
+store_folder_renamed_cb (CamelStore *store,
+                         const gchar *old_name,
+                         CamelFolderInfo *info)
 {
-	CamelRenameInfo *info = event_data;
 	EFilterRule *rule;
 	gchar *user;
 
@@ -953,19 +943,19 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 
 	/* This should be more-or-less thread-safe */
 
-	d(printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base));
+	d(printf("Folder renamed to '%s' from '%s'\n", info->full_name, old_name));
 
 	/* Folder is already renamed? */
 	G_LOCK (vfolder);
-	d(printf("Changing folder name in hash table to '%s'\n", info->new->full_name));
-	if (g_hash_table_lookup_extended (vfolder_hash, info->old_base, &key, &folder)) {
+	d(printf("Changing folder name in hash table to '%s'\n", info->full_name));
+	if (g_hash_table_lookup_extended (vfolder_hash, old_name, &key, &folder)) {
 		const gchar *data_dir;
 
 		g_hash_table_remove (vfolder_hash, key);
 		g_free (key);
-		g_hash_table_insert (vfolder_hash, g_strdup(info->new->full_name), folder);
+		g_hash_table_insert (vfolder_hash, g_strdup(info->full_name), folder);
 
-		rule = e_rule_context_find_rule((ERuleContext *)context, info->old_base, NULL);
+		rule = e_rule_context_find_rule((ERuleContext *)context, old_name, NULL);
 		if (!rule) {
 			G_UNLOCK (vfolder);
 			g_warning ("Rule shouldn't be NULL\n");
@@ -974,7 +964,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 
 		g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 						     0, NULL, rule_changed, folder);
-		e_filter_rule_set_name(rule, info->new->full_name);
+		e_filter_rule_set_name(rule, info->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
 		data_dir = mail_session_get_data_dir ();
@@ -985,7 +975,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 		G_UNLOCK (vfolder);
 	} else {
 		G_UNLOCK (vfolder);
-		g_warning("couldn't find a vfolder rule in our table? %s", info->new->full_name);
+		g_warning("couldn't find a vfolder rule in our table? %s", info->full_name);
 	}
 }
 
@@ -1051,12 +1041,13 @@ vfolder_load_storage(void)
 
 	camel_exception_clear (&ex);
 
-	camel_object_hook_event(vfolder_store, "folder_created",
-				(CamelObjectEventHookFunc)store_folder_created, NULL);
-	camel_object_hook_event(vfolder_store, "folder_deleted",
-				(CamelObjectEventHookFunc)store_folder_deleted, NULL);
-	camel_object_hook_event(vfolder_store, "folder_renamed",
-				(CamelObjectEventHookFunc)store_folder_renamed, NULL);
+	g_signal_connect (
+		vfolder_store, "folder-deleted",
+		G_CALLBACK (store_folder_deleted_cb), NULL);
+
+	g_signal_connect (
+		vfolder_store, "folder-renamed",
+		G_CALLBACK (store_folder_renamed_cb), NULL);
 
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
 

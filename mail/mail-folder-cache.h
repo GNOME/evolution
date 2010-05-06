@@ -23,48 +23,35 @@
  *
  */
 
-#ifndef _MAIL_FOLDER_CACHE_H
-#define _MAIL_FOLDER_CACHE_H
+#ifndef MAIL_FOLDER_CACHE_H
+#define MAIL_FOLDER_CACHE_H
 
-#include <glib-object.h>
 #include <camel/camel.h>
 
-G_BEGIN_DECLS
+/* Standard GObject macros */
+#define MAIL_TYPE_FOLDER_CACHE \
+	(mail_folder_cache_get_type ())
+#define MAIL_FOLDER_CACHE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCache))
+#define MAIL_FOLDER_CACHE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), MAIL_TYPE_FOLDER_CACHE, MailFolderCacheClass))
+#define MAIL_IS_FOLDER_CACHE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), MAIL_TYPE_FOLDER_CACHE))
+#define MAIL_IS_FOLDER_CACHE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), MAIL_TYPE_FOLDER_CACHE))
+#define MAIL_FOLDER_CACHE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCacheClass))
 
-#define MAIL_TYPE_FOLDER_CACHE            mail_folder_cache_get_type()
-#define MAIL_FOLDER_CACHE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCache))
-#define MAIL_FOLDER_CACHE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MAIL_TYPE_FOLDER_CACHE, MailFolderCacheClass))
-#define MAIL_IS_FOLDER_CACHE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAIL_TYPE_FOLDER_CACHE))
-#define MAIL_IS_FOLDER_CACHE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAIL_TYPE_FOLDER_CACHE))
-#define MAIL_FOLDER_CACHE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCacheClass))
+G_BEGIN_DECLS
 
 typedef struct _MailFolderCache MailFolderCache;
 typedef struct _MailFolderCacheClass MailFolderCacheClass;
 typedef struct _MailFolderCachePrivate MailFolderCachePrivate;
-
-/**
- * MailFolderCache:
- *
- * Contains only private data that should be read and manipulated using the
- * functions below.
- */
-struct _MailFolderCache
-{
-	GObject parent;
-
-	MailFolderCachePrivate *priv;
-};
-
-struct _MailFolderCacheClass
-{
-	GObjectClass parent_class;
-};
-
-GType mail_folder_cache_get_type (void) G_GNUC_CONST;
-
-MailFolderCache *mail_folder_cache_new (void);
-
-MailFolderCache *mail_folder_cache_get_default (void);
 
 /**
  * NoteDoneFunc:
@@ -73,11 +60,44 @@ MailFolderCache *mail_folder_cache_get_default (void);
  * mail_folder_cache_note_store()
  */
 typedef gboolean (*NoteDoneFunc)(CamelStore *store, CamelFolderInfo *info, gpointer data);
-void mail_folder_cache_note_store (MailFolderCache *self, CamelStore *store, CamelOperation *op, NoteDoneFunc done, gpointer data);
-void mail_folder_cache_note_store_remove (MailFolderCache *self, CamelStore *store);
-void mail_folder_cache_note_folder (MailFolderCache *self, CamelFolder *folder);
-gboolean mail_folder_cache_get_folder_from_uri (MailFolderCache *self, const gchar *uri, CamelFolder **folderp);
-gboolean mail_folder_cache_get_folder_info_flags (MailFolderCache *self, CamelFolder *folder, gint *flags);
+
+/**
+ * MailFolderCache:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ */
+struct _MailFolderCache {
+	GObject parent;
+	MailFolderCachePrivate *priv;
+};
+
+struct _MailFolderCacheClass {
+	GObjectClass parent_class;
+};
+
+GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
+MailFolderCache *
+		mail_folder_cache_get_default	(void);
+void		mail_folder_cache_note_store	(MailFolderCache *self,
+						 CamelStore *store,
+						 CamelOperation *op,
+						 NoteDoneFunc done,
+						 gpointer data);
+void		mail_folder_cache_note_store_remove
+						(MailFolderCache *self,
+						 CamelStore *store);
+void		mail_folder_cache_note_folder	(MailFolderCache *self,
+						 CamelFolder *folder);
+gboolean	mail_folder_cache_get_folder_from_uri
+						(MailFolderCache *self,
+						 const gchar *uri,
+						 CamelFolder **folderp);
+gboolean	mail_folder_cache_get_folder_info_flags
+						(MailFolderCache *self,
+						 CamelFolder *folder,
+						 gint *flags);
 
 G_END_DECLS
-#endif
+
+#endif /* MAIL_FOLDER_CACHE_H */

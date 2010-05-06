@@ -784,11 +784,11 @@ attachment_class_init (EAttachmentClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_MIME_PART,
-		g_param_spec_boxed (
+		g_param_spec_object (
 			"mime-part",
 			"MIME Part",
 			NULL,
-			E_TYPE_CAMEL_OBJECT,
+			CAMEL_TYPE_MIME_PART,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (

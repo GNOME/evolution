@@ -26,7 +26,6 @@
 #include <sys/types.h>
 #include <gtk/gtk.h>
 #include <limits.h>
-#include <camel/camel.h>
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-marshal.h>
@@ -141,11 +140,6 @@ GSList *	e_util_get_category_filter_options
 
 void		e_util_set_source_combo_box_list(GtkWidget *source_combo_box,
 						 const gchar *source_gconf_path);
-
-/* Camel uses its own object system, so we have to box
- * CamelObjects to safely use them as GObject properties. */
-#define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
-GType		e_camel_object_get_type		(void);
 
 G_END_DECLS
 

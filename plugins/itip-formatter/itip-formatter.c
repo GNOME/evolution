@@ -2017,7 +2017,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				camel_folder_summary_remove_uid(pitip->folder->summary, pitip->uid);
 				camel_folder_change_info_remove_uid (changes, pitip->uid);
 			}
-			camel_object_trigger_event (pitip->folder, "folder_changed", changes);
+			camel_folder_changed (pitip->folder, changes);
 			camel_folder_change_info_free (changes);
 		}
 	}

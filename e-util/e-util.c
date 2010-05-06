@@ -48,6 +48,7 @@
 #include <windows.h>
 #endif
 
+#include <camel/camel.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-source-list.h>
@@ -1484,32 +1485,3 @@ e_util_set_source_combo_box_list (GtkWidget *source_combo_box,
 	g_object_unref (gconf_client);
 }
 
-static gpointer
-e_camel_object_copy (gpointer camel_object)
-{
-	if (CAMEL_IS_OBJECT (camel_object))
-		g_object_ref (camel_object);
-
-	return camel_object;
-}
-
-static void
-e_camel_object_free (gpointer camel_object)
-{
-	if (CAMEL_IS_OBJECT (camel_object))
-		g_object_unref (camel_object);
-}
-
-GType
-e_camel_object_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0))
-		type = g_boxed_type_register_static (
-			"ECamelObject",
-			(GBoxedCopyFunc) e_camel_object_copy,
-			(GBoxedFreeFunc) e_camel_object_free);
-
-	return type;
-}

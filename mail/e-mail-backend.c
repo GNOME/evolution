@@ -26,6 +26,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-binding.h"
 
 #include "misc/e-account-combo-box.h"
 
@@ -79,17 +80,6 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 	g_object_unref (E_ACTIVITY (user_data));
 }
 
-static void
-mail_backend_notify_online_cb (EShell *shell,
-                               GParamSpec *pspec,
-                               EMailBackend *backend)
-{
-	gboolean online;
-
-	online = e_shell_get_online (shell);
-	camel_session_set_online (session, online);
-}
-
 /* Helper for mail_backend_prepare_for_offline_cb() */
 static void
 mail_store_prepare_for_offline_cb (CamelService *service,
@@ -119,7 +109,7 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 
 	if (!synchronize) {
 		mail_cancel_all ();
-		camel_session_set_network_state (session, FALSE);
+		camel_session_set_network_available (session, FALSE);
 	}
 
 	e_mail_store_foreach (
@@ -374,7 +364,6 @@ mail_backend_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
 	const gchar *data_dir;
-	gboolean online;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -382,16 +371,10 @@ mail_backend_constructed (GObject *object)
 	/* This also initializes Camel, so it needs to happen early. */
 	mail_session_start ();
 
-	online = e_shell_get_online (shell);
-	camel_session_set_online (CAMEL_SESSION (session), online);
+	e_binding_new (shell, "online", session, "online");
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 
 	folder_cache = mail_folder_cache_get_default ();
-
-	g_signal_connect (
-		shell, "notify::online",
-		G_CALLBACK (mail_backend_notify_online_cb),
-		shell_backend);
 
 	g_signal_connect (
 		shell, "prepare-for-offline",

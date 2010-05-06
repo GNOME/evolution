@@ -201,14 +201,16 @@ static gint on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent 
 static gchar *filter_date (time_t date);
 static gchar *filter_size (gint size);
 
-static void folder_changed (CamelObject *o, gpointer event_data, gpointer user_data);
-
 /* note: @changes is owned/freed by the caller */
 /*static void mail_do_regenerate_messagelist (MessageList *list, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes);*/
 static void mail_regen_list(MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes);
 static void mail_regen_cancel(MessageList *ml);
 
 static void clear_info(gchar *key, ETreePath *node, MessageList *ml);
+
+static void	folder_changed			(CamelFolder *folder,
+						 CamelFolderChangeInfo *info,
+						 MessageList *ml);
 
 enum {
 	MESSAGE_SELECTED,
@@ -2374,7 +2376,8 @@ message_list_destroy(GtkObject *object)
 			message_list->uid_nodemap = NULL;
 		}
 
-		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
+		g_signal_handlers_disconnect_by_func (
+			message_list->folder, folder_changed, message_list);
 		g_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
@@ -3530,22 +3533,25 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 static void
-folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+folder_changed (CamelFolder *folder,
+                CamelFolderChangeInfo *info,
+                MessageList *ml)
 {
 	CamelFolderChangeInfo *changes;
-	MessageList *ml = MESSAGE_LIST (user_data);
 
 	if (ml->priv->destroyed)
 		return;
 
-	if (event_data) {
+	if (info != NULL) {
 		changes = camel_folder_change_info_new();
-		camel_folder_change_info_cat(changes, (CamelFolderChangeInfo *)event_data);
+		camel_folder_change_info_cat (changes, info);
 	} else {
 		changes = NULL;
 	}
 
-	mail_async_event_emit(ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, changes, user_data);
+	mail_async_event_emit (
+		ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		main_folder_changed, folder, changes, ml);
 }
 
 /**
@@ -3599,8 +3605,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 	}
 
 	if (message_list->folder) {
-		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
-					  folder_changed, message_list);
+		g_signal_handlers_disconnect_by_func (
+			message_list->folder, folder_changed, message_list);
 		g_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
@@ -3651,7 +3657,9 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
 
-		camel_object_hook_event (folder, "folder_changed", folder_changed, message_list);
+		g_signal_connect (
+			folder, "changed",
+			G_CALLBACK (folder_changed), message_list);
 
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);

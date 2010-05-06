@@ -97,11 +97,11 @@ static guint signals[LAST_SIGNAL];
 static void
 store_info_free (EMFolderTreeModelStoreInfo *si)
 {
-	camel_object_remove_event (si->store, si->created_id);
-	camel_object_remove_event (si->store, si->deleted_id);
-	camel_object_remove_event (si->store, si->renamed_id);
-	camel_object_remove_event (si->store, si->subscribed_id);
-	camel_object_remove_event (si->store, si->unsubscribed_id);
+	g_signal_handler_disconnect (si->store, si->created_id);
+	g_signal_handler_disconnect (si->store, si->deleted_id);
+	g_signal_handler_disconnect (si->store, si->renamed_id);
+	g_signal_handler_disconnect (si->store, si->subscribed_id);
+	g_signal_handler_disconnect (si->store, si->unsubscribed_id);
 
 	g_free (si->display_name);
 	g_object_unref (si->store);
@@ -941,9 +941,14 @@ folder_deleted_cb (CamelStore *store,
 		folder_unsubscribed_cb, store, fi, model);
 }
 
+typedef struct {
+	gchar *old_base;
+	CamelFolderInfo *new;
+} RenameInfo;
+
 static void
 folder_renamed (CamelStore *store,
-                CamelRenameInfo *info,
+                RenameInfo *info,
                 EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
@@ -966,7 +971,7 @@ folder_renamed (CamelStore *store,
 
 	em_folder_tree_model_remove_folders (model, si, &iter);
 
-	parent = g_strdup(info->new->full_name);
+	parent = g_strdup (info->new->full_name);
 	p = strrchr(parent, '/');
 	if (p)
 		*p = 0;
@@ -998,16 +1003,17 @@ done:
 
 static void
 folder_renamed_cb (CamelStore *store,
-                   gpointer event_data,
+                   const gchar *old_name,
+                   CamelFolderInfo *info,
                    EMFolderTreeModel *model)
 {
-	CamelRenameInfo *rinfo, *info = event_data;
+	RenameInfo *rinfo;
 
 	g_object_ref (store);
 
-	rinfo = g_new0 (CamelRenameInfo, 1);
-	rinfo->old_base = g_strdup (info->old_base);
-	rinfo->new = camel_folder_info_clone (info->new);
+	rinfo = g_new0 (RenameInfo, 1);
+	rinfo->old_base = g_strdup (old_name);
+	rinfo->new = camel_folder_info_clone (info);
 
 	mail_async_event_emit (
 		mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
@@ -1090,21 +1096,21 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		-1);
 
 	/* listen to store events */
-	si->created_id = camel_object_hook_event (
-		store, "folder_created",
-		(CamelObjectEventHookFunc) folder_created_cb, model);
-	si->deleted_id = camel_object_hook_event (
-		store, "folder_deleted",
-		(CamelObjectEventHookFunc) folder_deleted_cb, model);
-	si->renamed_id = camel_object_hook_event (
+	si->created_id = g_signal_connect (
+		store, "folder-created",
+		G_CALLBACK (folder_created_cb), model);
+	si->deleted_id = g_signal_connect (
+		store, "folder-deleted",
+		G_CALLBACK (folder_deleted_cb), model);
+	si->renamed_id = g_signal_connect (
 		store, "folder_renamed",
-		(CamelObjectEventHookFunc) folder_renamed_cb, model);
-	si->subscribed_id = camel_object_hook_event (
+		G_CALLBACK (folder_renamed_cb), model);
+	si->subscribed_id = g_signal_connect (
 		store, "folder_subscribed",
-		(CamelObjectEventHookFunc) folder_subscribed_cb, model);
-	si->unsubscribed_id = camel_object_hook_event (
+		G_CALLBACK (folder_subscribed_cb), model);
+	si->unsubscribed_id = g_signal_connect (
 		store, "folder_unsubscribed",
-		(CamelObjectEventHookFunc) folder_unsubscribed_cb, model);
+		G_CALLBACK (folder_unsubscribed_cb), model);
 
 	g_signal_emit (model, signals[LOADED_ROW], 0, path, &root);
 	gtk_tree_path_free (path);

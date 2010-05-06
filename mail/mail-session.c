@@ -549,7 +549,7 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
 	if ((!strcmp (type, E_FILTER_SOURCE_INCOMING) || !strcmp (type, E_FILTER_SOURCE_JUNKTEST))
-	    && camel_session_check_junk (session)) {
+	    && camel_session_get_check_junk (session)) {
 		/* implicit junk check as 1st rule */
 		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
 	}
