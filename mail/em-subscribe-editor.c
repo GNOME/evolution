@@ -585,7 +585,6 @@ sub_subscribe_toggled(GtkCellRendererToggle *render, const gchar *spath, EMSubsc
 		}
 
 		sub_subscribe_folder(sub, node, subscribed, spath);
-		g_free (free_path);
 	}
 }
 
