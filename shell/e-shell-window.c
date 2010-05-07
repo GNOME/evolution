@@ -408,6 +408,8 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 		shell_window, "/search-toolbar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
 	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
+	if (e_shell_get_meego_mode (shell_window->priv->shell))
+		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 
 	return box;
 }
