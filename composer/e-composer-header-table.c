@@ -502,6 +502,17 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_mail_headers (table);
 }
 
+static int
+get_row_padding (void)
+{
+	/* For small screens, make the header-table's rows be packed closely together */
+
+	if (e_msg_composer_get_lite ())
+		return 0;
+	else
+		return 3;
+}
+
 static GObject *
 composer_header_table_constructor (GType type,
                                    guint n_construct_properties,
@@ -510,6 +521,7 @@ composer_header_table_constructor (GType type,
 	GObject *object;
 	EComposerHeaderTablePrivate *priv;
 	guint rows, ii;
+	int row_padding;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (parent_class)->constructor (
@@ -525,14 +537,16 @@ composer_header_table_constructor (GType type,
 	/* Use "ypadding" instead of "row-spacing" because some rows may
 	 * be invisible and we don't want spacing around them. */
 
+	row_padding = get_row_padding ();
+
 	for (ii = 0; ii < rows; ii++) {
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->title_widget,
-			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
+			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, row_padding);
 		gtk_table_attach (
 			GTK_TABLE (object),
 			priv->headers[ii]->input_widget, 1, 4,
-			ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+			ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, row_padding);
 	}
 
 	ii = E_COMPOSER_HEADER_FROM;
@@ -555,10 +569,10 @@ composer_header_table_constructor (GType type,
 	if (!e_msg_composer_get_lite ()) {
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_label,
-			2, 3, ii, ii + 1, 0, 0, 0, 3);
+			2, 3, ii, ii + 1, 0, 0, 0, row_padding);
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_combo_box,
-			3, 4, ii, ii + 1, e_msg_composer_get_lite () ? GTK_FILL: 0, 0, 0, 3);
+			3, 4, ii, ii + 1, e_msg_composer_get_lite () ? GTK_FILL: 0, 0, 0, row_padding);
 	} else {
 		GtkWidget *box = gtk_hbox_new (FALSE, 0);
 
@@ -571,7 +585,7 @@ composer_header_table_constructor (GType type,
 		g_object_set_data (G_OBJECT (box), "pdata", object);
 		gtk_table_attach (
 			GTK_TABLE (object), box,
-			3, 4, ii, ii + 1, GTK_FILL, 0, 0, 3);
+			3, 4, ii, ii + 1, GTK_FILL, 0, 0, row_padding);
 		gtk_widget_hide (box);
 	}
 
