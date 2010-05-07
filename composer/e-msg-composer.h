@@ -71,9 +71,7 @@ struct _EMsgComposerClass {
 
 GType		e_msg_composer_get_type		(void);
 EMsgComposer *	e_msg_composer_new		(void);
-void		e_msg_composer_set_lite		(void);
 gboolean	e_msg_composer_get_lite		(void);
-EMsgComposer *	e_msg_composer_lite_new		(void);
 EMsgComposer *	e_msg_composer_new_with_message	(CamelMimeMessage *msg);
 EMsgComposer *	e_msg_composer_new_from_url	(const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(CamelMimeMessage *message,
