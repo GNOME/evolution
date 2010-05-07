@@ -2145,7 +2145,14 @@ msg_composer_class_init (EMsgComposerClass *class)
 static void
 msg_composer_init (EMsgComposer *composer)
 {
+	EShell *shell = e_shell_get_default ();
+
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+
+	if (e_shell_get_express_mode (shell)) {
+		GtkWindow *window = e_shell_get_active_window(shell);
+		gtk_window_set_transient_for (GTK_WINDOW(composer), window);
+	}
 }
 
 GType

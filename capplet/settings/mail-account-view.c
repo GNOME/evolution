@@ -166,6 +166,8 @@ validate_identity (MailAccountView *view)
 		return ERROR_NO_FULLNAME;
 	if (!email || !*email)
 		return ERROR_NO_EMAIL;
+	if (view->original) /* We don't query/store pwd on edit. */
+		return 0;
 	if (!pwd || !*pwd)
 		return ERROR_NO_PASSWORD;
 
