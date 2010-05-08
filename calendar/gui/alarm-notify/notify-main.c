@@ -45,6 +45,7 @@
 gint
 main (gint argc, gchar **argv)
 {
+	GtkIconTheme *icon_theme;
 	AlarmNotify *alarm_notify_service;
 	UniqueApp *app;
 
@@ -70,6 +71,9 @@ main (gint argc, gchar **argv)
 
 	/* Initialize Camel's type system. */
 	camel_object_get_type();
+
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 
 	gtk_main ();
 
