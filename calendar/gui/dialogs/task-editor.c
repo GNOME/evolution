@@ -333,7 +333,7 @@ task_editor_init (TaskEditor *te)
 
 	te->priv->task_details_page = task_details_page_new (editor);
 	content_area = gtk_dialog_get_content_area (
-		GTK_DIALOG (te->priv->task_details_page));
+		GTK_DIALOG (te->priv->task_details_window));
 	gtk_container_add (
 		GTK_CONTAINER (content_area),
 		comp_editor_page_get_widget ((CompEditorPage *) te->priv->task_details_page));
