@@ -720,16 +720,14 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 /* Composing messages... */
 
 static EMsgComposer *
-create_new_composer (const gchar *subject, const gchar *fromuri, gboolean lite)
+create_new_composer (const gchar *subject, const gchar *fromuri)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 
-	if (lite)
-		composer = e_msg_composer_lite_new ();
-	else
-		composer = e_msg_composer_new ();
+	composer = e_msg_composer_new ();
+
 	table = e_msg_composer_get_header_table (composer);
 
 	if (fromuri != NULL) {
@@ -759,33 +757,13 @@ em_utils_compose_new_message (const gchar *fromuri)
 {
 	GtkWidget *composer;
 
-	composer = (GtkWidget *) create_new_composer ("", fromuri, FALSE);
+	composer = (GtkWidget *) create_new_composer ("", fromuri);
 	if (composer == NULL)
 		return;
 
 	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
 
 	gtk_widget_show (composer);
-}
-
-/**
- * em_utils_compose_lite_new_message:
- *
- * Opens a new composer window as a child window of @parent's toplevel
- * window.
- **/
-EMsgComposer *
-em_utils_compose_lite_new_message (const gchar *fromuri)
-{
-	GtkWidget *composer;
-
-	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE);
-	if (composer == NULL)
-		return NULL;
-
-	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
-
-	return E_MSG_COMPOSER (composer);
 }
 
 /**
@@ -1146,7 +1124,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 {
 	EMsgComposer *composer;
 
-	composer = create_new_composer (subject, fromuri, FALSE);
+	composer = create_new_composer (subject, fromuri);
 	if (composer == NULL)
 		return NULL;
 
@@ -1228,7 +1206,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL, &validity_found);
 
 		if (text) {
-			composer = create_new_composer (subject, fromuri, FALSE);
+			composer = create_new_composer (subject, fromuri);
 
 			if (composer) {
 				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))

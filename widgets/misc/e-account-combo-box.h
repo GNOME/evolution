@@ -78,6 +78,8 @@ gboolean	e_account_combo_box_set_active_name
 						(EAccountComboBox *combo_box,
 						 const gchar *account_name);
 
+int		e_account_combo_box_count_displayed_accounts (EAccountComboBox *combo_box);
+
 G_END_DECLS
 
 #endif /* E_ACCOUNT_COMBO_BOX_H */

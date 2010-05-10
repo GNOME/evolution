@@ -145,9 +145,18 @@ e_composer_private_constructed (EMsgComposer *composer)
 	html = gtkhtml_editor_get_html (editor);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
-	if (composer->lite) {
+	if (e_msg_composer_get_lite ()) {
+#if 0
+		/* In the lite composer, for small screens, we are not ready yet
+		 * to hide the menubar.  It still has useful items like the ones
+		 * to show/hide the various header fields, plus the security options.
+		 *
+		 * When we move those options out of the menu and into the composer's
+		 * toplevel, we can probably get rid of the menu.
+		 */
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-menu");
 		gtk_widget_hide (widget);
+#endif
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-toolbar");
 		gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 		gtk_widget_hide (widget);
@@ -243,8 +252,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	widget = e_composer_header_table_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
-	if (composer->lite)
-		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 0);
+	if (e_msg_composer_get_lite ())
+		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 1);
 	else
 		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 2);
 
@@ -253,7 +262,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the attachment paned. */
 
-	if (composer->lite) {
+	if (e_msg_composer_get_lite ()) {
 		e_attachment_paned_set_default_height (75); /* short attachment bar for Anjal */
 		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
 	}
@@ -262,7 +271,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->attachment_paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	if (composer->lite) {
+	if (e_msg_composer_get_lite ()) {
 		GtkWidget *tmp, *tmp1, *tmp_box, *container;
 		GtkWidget *combo;
 
@@ -349,10 +358,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 			case E_COMPOSER_HEADER_CC:
 				action = ACTION (VIEW_CC);
-				break;
-
-			case E_COMPOSER_HEADER_FROM:
-				action = ACTION (VIEW_FROM);
 				break;
 
 			case E_COMPOSER_HEADER_REPLY_TO:

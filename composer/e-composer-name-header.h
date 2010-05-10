@@ -62,14 +62,6 @@ struct _EComposerNameHeaderClass {
 GType		e_composer_name_header_get_type	(void);
 EComposerHeader * e_composer_name_header_new	(const gchar *label,
 						 ENameSelector *name_selector);
-/*No button. Just a label.*/
-EComposerHeader * e_composer_name_header_new_with_label	(const gchar *label,
-							 ENameSelector *name_selector);
-
-/*No button. Label with a Link button for show/hide.*/
-EComposerHeader * e_composer_name_header_new_with_action (const gchar *label,
-							  const gchar *action,
-							  ENameSelector *name_selector);
 
 ENameSelector *	e_composer_name_header_get_name_selector
 						(EComposerNameHeader *header);

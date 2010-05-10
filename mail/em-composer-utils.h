@@ -33,7 +33,6 @@
 G_BEGIN_DECLS
 
 void em_utils_compose_new_message (const gchar *fromuri);
-EMsgComposer * em_utils_compose_lite_new_message (const gchar *fromuri);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
 EMsgComposer * em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
