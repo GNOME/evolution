@@ -138,6 +138,7 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 		EVCardAttribute *a = attr->data;
 		gboolean location_only = TRUE;
 		gboolean no_location = TRUE;
+		gboolean is_work_home = FALSE;
 		GList *params, *param;
 
 		if (g_ascii_strcasecmp (e_vcard_attribute_get_name (a),
@@ -155,6 +156,10 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 
 			vs = e_vcard_attribute_param_get_values (p);
 			for (v = vs; v; v = v->next) {
+				is_work_home = is_work_home ||
+					!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
+					!g_ascii_strcasecmp ((gchar *)v->data, "HOME");
+
 				if (!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
 				    !g_ascii_strcasecmp ((gchar *)v->data, "HOME") ||
 				    !g_ascii_strcasecmp ((gchar *)v->data, "OTHER"))
@@ -164,17 +169,21 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 			}
 		}
 
-		if (location_only) {
-			/* add VOICE */
-			e_vcard_attribute_add_param_with_value (a,
-								e_vcard_attribute_param_new (EVC_TYPE),
-								"VOICE");
-		}
-		if (no_location) {
-			/* add OTHER */
-			e_vcard_attribute_add_param_with_value (a,
-								e_vcard_attribute_param_new (EVC_TYPE),
-								"OTHER");
+		if (is_work_home) {
+			/* only WORK and HOME phone numbers require locations,
+			   the rest should be kept as is */
+			if (location_only) {
+				/* add VOICE */
+				e_vcard_attribute_add_param_with_value (a,
+									e_vcard_attribute_param_new (EVC_TYPE),
+									"VOICE");
+			}
+			if (no_location) {
+				/* add OTHER */
+				e_vcard_attribute_add_param_with_value (a,
+									e_vcard_attribute_param_new (EVC_TYPE),
+									"OTHER");
+			}
 		}
 	}
 
