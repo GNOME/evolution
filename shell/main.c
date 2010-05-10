@@ -410,6 +410,8 @@ main (gint argc, gchar **argv)
 	GError *error = NULL;
 
 #ifdef G_OS_WIN32
+	gchar *path;
+
 	if (fileno (stdout) != -1 && _get_osfhandle (fileno (stdout)) != -1) {
 		/* stdout is fine, presumably redirected to a file or pipe */
 	} else {
@@ -426,6 +428,13 @@ main (gint argc, gchar **argv)
 			dup2 (fileno (stderr), 2);
 		}
 	}
+	
+	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
+
+	if (!g_setenv ("PATH", path, TRUE))
+		g_warning ("Could not set PATH for Evolution and its child processes");
+
+	g_free (path);	
 #endif
 
 	/* Make ElectricFence work.  */
