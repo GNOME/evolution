@@ -1420,6 +1420,10 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, 
 	GdkCursor *cursor;
 	GdkWindow *window;
 
+	/* nothing to refresh, lets not leak a busy cursor */
+	if (e_meeting_store_count_actual_attendees (mts->model) <= 0)
+		return;
+
 	start = mts->meeting_start_time;
 	g_date_subtract_days (&start.date, E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE);
 	start.hour = 0;
