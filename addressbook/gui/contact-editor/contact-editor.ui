@@ -1962,7 +1962,6 @@
                   <object class="GtkExpander" id="expander-personal-misc">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <object class="GtkTable" id="table89">
                         <property name="border_width">12</property>
