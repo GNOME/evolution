@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-30 12:59+0000\n"
-"PO-Revision-Date: 2010-05-10 21:01+0200\n"
+"PO-Revision-Date: 2010-05-10 21:12+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@googlemail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4641(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/local_ics_calendar.png'; "
 "md5=2ff81d975384c97ad1b73e8c66bc407d"
