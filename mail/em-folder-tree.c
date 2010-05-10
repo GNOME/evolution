@@ -1791,11 +1791,14 @@ folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkT
 		GtkTreePath *src_path = gtk_tree_row_reference_get_path(p->drag_row);
 
 		if (src_path) {
+			guint32 src_flags = 0;
+
 			if (gtk_tree_model_get_iter (model, &iter, src_path))
 				gtk_tree_model_get (
 					model, &iter,
 					COL_POINTER_CAMEL_STORE, &sstore,
-					COL_STRING_URI, &src_uri, -1);
+					COL_STRING_URI, &src_uri,
+					COL_UINT_FLAGS, &src_flags, -1);
 
 			/* can't dnd onto itself or below itself - bad things happen,
 			   no point dragging to where we were either */
@@ -1808,6 +1811,26 @@ folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkT
 			}
 
 			gtk_tree_path_free(src_path);
+
+			if ((src_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX || (src_flags & CAMEL_FOLDER_SYSTEM) != 0) {
+				/* allow only copy of the Inbox and other system folders */
+				GdkAtom xfolder;
+
+				/* TODO: not sure if this is legal, but it works, force copy for special local folders */
+				context->suggested_action = GDK_ACTION_COPY;
+				context->actions = GDK_ACTION_COPY;
+				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
+				while (targets != NULL) {
+					if (targets->data == (gpointer) xfolder) {
+						atom = xfolder;
+						goto done;
+					}
+
+					targets = targets->next;
+				}
+
+				goto done;
+			}
 		}
 	}
 
@@ -1829,6 +1852,7 @@ folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkT
 
 				/* TODO: not sure if this is legal, but it works, force copy for special local folders */
 				context->suggested_action = GDK_ACTION_COPY;
+				context->actions = GDK_ACTION_COPY;
 				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
 				while (targets != NULL) {
 					if (targets->data == (gpointer) xfolder) {
