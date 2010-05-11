@@ -59,7 +59,12 @@
     <separator/>
     <toolitem action='preferences'/>
 #endif
-
+  </toolbar>
+  <toolbar name='close-toolbar'>
+#if EXPRESS
+    <separator expand="true"/>
+    <toolitem action='quit-calendar'/>
+#endif
   </toolbar>
   <popup name='calendar-popup'>
     <menuitem action='calendar-new'/>
