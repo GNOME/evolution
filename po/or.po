@@ -5145,21 +5145,21 @@ msgstr "ହଁ। (ଜଟିଳ ଆବ୍ରୁତି)"
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "ପ୍ରତି ଦିନ"
-msgstr[1] "ପ୍ରତି ଦିନ"
+msgstr[1] "ପ୍ରତି %d ଦିନ"
 
 #: ../calendar/gui/e-itip-control.c:795
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "ପ୍ରତି ସପ୍ତାହ"
-msgstr[1] "ପ୍ରତି ସପ୍ତାହ"
+msgstr[1] "ପ୍ରତି %d ସପ୍ତାହ"
 
 #: ../calendar/gui/e-itip-control.c:802
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "ପ୍ରତି ସପ୍ତାହରେ"
-msgstr[1] "ପ୍ରତି ସପ୍ତାହରେ"
+msgstr[1] "ପ୍ରତି %d ସପ୍ତାହରେ"
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:813
@@ -5181,14 +5181,14 @@ msgstr "ଏହାର %s %s"
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "ପ୍ରତି ମାସ"
-msgstr[1] "ପ୍ରତି ମାସ"
+msgstr[1] "ପ୍ରତି %d ମାସ"
 
 #: ../calendar/gui/e-itip-control.c:861
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "ପ୍ରତି ବର୍ଷ"
-msgstr[1] "ପ୍ରତି ବର୍ଷ"
+msgstr[1] "ପ୍ରତି %d ବର୍ଷ"
 
 #: ../calendar/gui/e-itip-control.c:874
 #, c-format
@@ -9251,98 +9251,98 @@ msgstr "PGP ସନ୍ଦେଶକୁ ବିଶ୍ଳେଷଣ କରିହେଲ
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "1 ସେକଣ୍ଡ ପୂର୍ବରୁ"
-msgstr[1] "1 ସେକଣ୍ଡ ପୂର୍ବରୁ"
+msgstr[1] "%d ସେକଣ୍ଡ ପୂର୍ବରୁ"
 
 #: ../filter/e-filter-datespec.c:74
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ସେକଣ୍ଡ"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ସେକଣ୍ଡ"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ସେକଣ୍ଡ"
 
 #: ../filter/e-filter-datespec.c:75
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 ମିନଟ ପୂର୍ବରୁ"
-msgstr[1] "1 ମିନଟ ପୂର୍ବରୁ"
+msgstr[1] "%d ମିନଟ ପୂର୍ବରୁ"
 
 #: ../filter/e-filter-datespec.c:75
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ମିନଟ"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ମିନଟ"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ମିନଟ"
 
 #: ../filter/e-filter-datespec.c:76
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 ଘଣ୍ଟା ପୂର୍ବରୁ"
-msgstr[1] "1 ଘଣ୍ଟା ପୂର୍ବରୁ"
+msgstr[1] "%d ଘଣ୍ଟା ପୂର୍ବରୁ"
 
 #: ../filter/e-filter-datespec.c:76
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ଘଣ୍ଟା"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ଘଣ୍ଟା"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ଘଣ୍ଟା"
 
 #: ../filter/e-filter-datespec.c:77
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 ଦିନ ପୂର୍ବରୁ"
-msgstr[1] "1 ଦିନ ପୂର୍ବରୁ"
+msgstr[1] "%d ଦିନ ପୂର୍ବରୁ"
 
 #: ../filter/e-filter-datespec.c:77
 #, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ଦିନ"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ଦିନ"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ଦିନ"
 
 #: ../filter/e-filter-datespec.c:78
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 ସପ୍ତାହ ପୂର୍ବେ"
-msgstr[1] "1 ସପ୍ତାହ ପୂର୍ବେ"
+msgstr[1] "%d ସପ୍ତାହ ପୂର୍ବେ"
 
 #: ../filter/e-filter-datespec.c:78
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ସପ୍ତାହ"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ସପ୍ତାହ"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ସପ୍ତାହ"
 
 #: ../filter/e-filter-datespec.c:79
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 ମାସ ପୂର୍ବରୁ"
-msgstr[1] "1 ମାସ ପୂର୍ବରୁ"
+msgstr[1] "%d ମାସ ପୂର୍ବରୁ"
 
 #: ../filter/e-filter-datespec.c:79
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ମାସ"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ମାସ"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ମାସ"
 
 #: ../filter/e-filter-datespec.c:80
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 ବର୍ଷ ପୂର୍ବରୁ"
-msgstr[1] "1 ବର୍ଷ ପୂର୍ବରୁ"
+msgstr[1] "%d ବର୍ଷ ପୂର୍ବରୁ"
 
 #: ../filter/e-filter-datespec.c:80
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
 msgstr[0] "ଭବିଷ୍ୟତରେ 1 ବର୍ଷ"
-msgstr[1] "ଭବିଷ୍ୟତରେ 1 ବର୍ଷ"
+msgstr[1] "ଭବିଷ୍ୟତରେ %d ବର୍ଷ"
 
 #: ../filter/e-filter-datespec.c:119
 msgid "<click here to select a date>"
