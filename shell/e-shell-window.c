@@ -344,11 +344,34 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		shell_window, "/main-menu");
 	gtk_widget_show (main_menu);
 
+	if (e_shell_get_small_screen_mode (shell_window->priv->shell)) {
+		GtkWidget *parent, *child;
+
+		parent = gtk_widget_get_parent (main_menu);
+		g_object_ref (parent);
+		gtk_container_remove ((GtkContainer *)parent, main_menu);
+		child = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)child, main_menu, TRUE, TRUE, 0);
+		gtk_widget_show (child);
+		gtk_container_add ((GtkContainer *)parent, child);
+		shell_window->priv->menubar_box = child;
+		
+		e_mutual_binding_new (main_menu, "visible",
+				child, "visible");
+		main_menu = child;
+	}
+
 	g_signal_connect (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
 
 	return main_menu;
+}
+
+GtkWidget *
+e_shell_window_get_menu_bar_box (EShellWindow *shell_window)
+{
+	return shell_window->priv->menubar_box;
 }
 
 static GtkWidget *
@@ -411,6 +434,13 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	if (e_shell_get_meego_mode (shell_window->priv->shell))
 		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 
+	toolbar = e_shell_window_get_managed_widget (
+		shell_window, "/close-toolbar");
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
+	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
+	if (e_shell_get_meego_mode (shell_window->priv->shell))
+		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
+	
 	return box;
 }
 

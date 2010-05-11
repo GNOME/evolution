@@ -670,7 +670,8 @@ shell_view_construct_searchbar (EShellView *shell_view)
 		item = gtk_tool_button_new (image, gtk_action_get_label (action));
 		gtk_widget_set_name (GTK_WIDGET (item), "MeeGoCloseButton");
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (item), action);
-		gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, -1);
+		gtk_box_pack_start ((GtkBox *)e_shell_window_get_menu_bar_box(shell_window), (GtkWidget *)item, FALSE, FALSE, 0);
+		gtk_widget_show_all((GtkWidget *)item);
 	}
 
 	return widget;

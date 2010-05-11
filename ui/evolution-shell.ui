@@ -94,4 +94,6 @@
     <placeholder name='toolbar-actions'/>
   </toolbar>
   <toolbar name='search-toolbar'/>
+  <toolbar name='close-toolbar'/>
+
 </ui>
