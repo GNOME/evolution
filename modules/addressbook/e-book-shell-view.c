@@ -299,6 +299,10 @@ book_shell_view_update_actions (EShellView *shell_view)
 	any_contacts_selected =
 		(single_contact_selected || multiple_contacts_selected);
 
+	action = ACTION (ADDRESS_BOOK_MOVE);
+	sensitive = source_is_editable;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (ADDRESS_BOOK_DELETE);
 	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
