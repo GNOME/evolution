@@ -825,7 +825,6 @@ e_attachment_view_init (EAttachmentView *view)
 	attachment_view_init_handlers (view);
 
 	e_attachment_view_drag_source_set (view);
-	e_attachment_view_drag_dest_set (view);
 
 	/* Connect built-in drag and drop handlers. */
 
@@ -925,6 +924,11 @@ e_attachment_view_set_editable (EAttachmentView *view,
 
 	priv = e_attachment_view_get_private (view);
 	priv->editable = editable;
+
+	if (editable)
+		e_attachment_view_drag_dest_set (view);
+	else
+		e_attachment_view_drag_dest_unset (view);
 
 	g_object_notify (G_OBJECT (view), "editable");
 }
@@ -1314,6 +1318,11 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+
+	/* Prevent the user from dragging and dropping to
+	 * the same attachment view, which would duplicate
+	 * the attachment. */
+	e_attachment_view_drag_dest_unset (view);
 }
 
 void
@@ -1322,6 +1331,10 @@ e_attachment_view_drag_end (EAttachmentView *view,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+
+	/* Restore the previous drag destination state. */
+	if (e_attachment_view_get_editable (view))
+		e_attachment_view_drag_dest_set (view);
 }
 
 static void
@@ -1463,10 +1476,6 @@ e_attachment_view_drag_drop (EAttachmentView *view,
 {
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (GDK_IS_DRAG_CONTEXT (context), FALSE);
-
-	/* Disallow drops if we're not editable. */
-	if (!e_attachment_view_get_editable (view))
-		return FALSE;
 
 	return TRUE;
 }
