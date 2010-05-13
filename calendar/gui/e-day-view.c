@@ -1526,7 +1526,7 @@ e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *
 	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
 	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
 
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
+	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
 	     &bg_color)) {
                 GdkColormap *colormap;
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
@@ -2009,6 +2009,9 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
 
+			if (!is_comp_data_valid (event))
+				continue;
+
 			u = icalcomponent_get_uid (event->comp_data->icalcomp);
 			if (uid && !strcmp (uid, u)) {
 				if (!(*callback) (day_view, day, event_num, data))
@@ -2022,6 +2025,9 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 	     event_num--) {
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
+
+		if (!is_comp_data_valid (event))
+			continue;
 
 		u = icalcomponent_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
@@ -2044,12 +2050,19 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		 day, event_num);
 #endif
 
-	if (day == E_DAY_VIEW_LONG_EVENT)
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return TRUE;
+
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
-	else
+	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return TRUE;
+
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
+	}
 
 	if (!event)
 		return TRUE;
@@ -2069,7 +2082,8 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	if (event->canvas_item)
 		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
 
-	g_object_unref (event->comp_data);
+	if (is_comp_data_valid (event))
+		g_object_unref (event->comp_data);
 	event->comp_data = NULL;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
@@ -2092,6 +2106,9 @@ set_text_as_bold (EDayViewEvent *event)
 	GSList *attendees = NULL, *l;
 	gchar *address;
 	ECalComponentAttendee *at = NULL;
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -2131,10 +2148,13 @@ e_day_view_update_event_label (EDayView *day_view,
 	gchar *text;
 	gint interval;
 
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
 
 	/* If the event isn't visible just return. */
-	if (!event->canvas_item)
+	if (!event->canvas_item || !is_comp_data_valid (event))
 		return;
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
@@ -2182,11 +2202,14 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	const gchar *summary;
 	gboolean free_text = FALSE;
 
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return;
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
 	/* If the event isn't visible just return. */
-	if (!event->canvas_item)
+	if (!event->canvas_item || !is_comp_data_valid (event))
 		return;
 
 	summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
@@ -2271,6 +2294,9 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
 
+			if (!is_comp_data_valid (event))
+				continue;
+
 			if (event->comp_data->client != client)
 				continue;
 
@@ -2298,6 +2324,9 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 	     event_num++) {
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
+
+		if (!is_comp_data_valid (event))
+			continue;
 
 		if (event->comp_data->client != client)
 			continue;
@@ -3424,6 +3453,9 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 	} else if (event->button == 3) {
 		EDayViewEvent *e;
 
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return TRUE;
+
 		e = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 
 		e_day_view_set_selected_time_range_in_top_visible (day_view, e->start, e->end);
@@ -3462,6 +3494,9 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 	} else if (event->button == 3) {
 		EDayViewEvent *e;
 
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return TRUE;
+
 		e = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
 
 		e_day_view_set_selected_time_range_visible (day_view, e->start, e->end);
@@ -3488,8 +3523,14 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	gint start_day, end_day, day;
 	gint item_x, item_y, item_w, item_h;
 
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return;
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
@@ -3563,8 +3604,14 @@ e_day_view_on_event_click (EDayView *day_view,
 	GdkWindow *window;
 	gint tmp_day, row, start_row;
 
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
@@ -3639,12 +3686,22 @@ e_day_view_on_event_double_click (EDayView *day_view,
 	EDayViewEvent *event;
 	icalproperty *attendee_prop = NULL;
 
-	if (day == -1)
+	if (day == -1) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
-	else
+	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+	}
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 
@@ -3686,23 +3743,37 @@ e_day_view_get_selected_events (ECalendarView *cal_view)
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
 
 	if (day_view->editing_event_num != -1) {
-		if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
+		if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT) {
+			if (!is_array_index_in_bounds (day_view->long_events, day_view->editing_event_num))
+				return NULL;
+
 			event = &g_array_index (day_view->long_events,
 						EDayViewEvent,
 						day_view->editing_event_num);
-		else
+		} else {
+			if (!is_array_index_in_bounds (day_view->events[day_view->editing_event_day], day_view->editing_event_num))
+				return NULL;
+
 			event = &g_array_index (day_view->events[day_view->editing_event_day],
 						EDayViewEvent,
 						day_view->editing_event_num);
+		}
 	} else if (day_view->popup_event_num != -1) {
-		if (day_view->popup_event_day == E_DAY_VIEW_LONG_EVENT)
+		if (day_view->popup_event_day == E_DAY_VIEW_LONG_EVENT) {
+			if (!is_array_index_in_bounds (day_view->long_events, day_view->popup_event_num))
+				return NULL;
+
 			event = &g_array_index (day_view->long_events,
 						EDayViewEvent,
 						day_view->popup_event_num);
-		else
+		} else {
+			if (!is_array_index_in_bounds (day_view->events[day_view->popup_event_day], day_view->popup_event_num))
+				return NULL;
+
 			event = &g_array_index (day_view->events[day_view->popup_event_day],
 						EDayViewEvent,
 						day_view->popup_event_num);
+		}
 	}
 
 	if (event)
@@ -3850,9 +3921,13 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	pos = e_day_view_convert_position_in_top_canvas (day_view,
 							 canvas_x, canvas_y,
 							 &day, &event_num);
-	if (event_num != -1)
+	if (event_num != -1) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return FALSE;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
+	}
 
 	if (day_view->selection_is_being_dragged) {
 		e_day_view_update_selection (day_view, day, -1);
@@ -3865,8 +3940,14 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	} else if (day_view->pressed_event_day == E_DAY_VIEW_LONG_EVENT) {
 		GtkTargetList *target_list;
 
+		if (!is_array_index_in_bounds (day_view->long_events, day_view->pressed_event_num))
+			return FALSE;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->pressed_event_num);
+
+		if (!is_comp_data_valid (event))
+			return FALSE;
 
 		if (!e_cal_util_component_has_recurrences (event->comp_data->icalcomp)
 		    && (abs (canvas_x - day_view->drag_event_x)
@@ -3895,7 +3976,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+		if (event && is_comp_data_valid (event) && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 			case E_CALENDAR_VIEW_POS_RIGHT_EDGE:
@@ -3955,9 +4036,13 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 							  canvas_x, canvas_y,
 							  &day, &row,
 							  &event_num);
-	if (event_num != -1)
+	if (event_num != -1) {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return FALSE;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
+	}
 
 	if (day_view->selection_is_being_dragged) {
 		if (pos != E_CALENDAR_VIEW_POS_OUTSIDE) {
@@ -4004,7 +4089,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Check if the event is editable and client is not readonly while changing the cursor */
-		if (event && event->is_editable && e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && !read_only) {
+		if (event && event->is_editable && is_comp_data_valid (event) && e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && !read_only) {
 
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
@@ -4194,10 +4279,14 @@ e_day_view_update_resize (EDayView *day_view,
 
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
+
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
-	if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+	if (event && (!event->is_editable || !is_comp_data_valid (event) || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
 		return;
 	}
 
@@ -4241,8 +4330,15 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	gint is_date;
 
 	event_num = day_view->resize_event_num;
+
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return;
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	client = event->comp_data->client;
 
@@ -4352,8 +4448,15 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
+
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	client = event->comp_data->client;
 
@@ -4503,7 +4606,8 @@ e_day_view_free_event_array (EDayView *day_view,
 		if (event->canvas_item)
 			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
 
-		g_object_unref (event->comp_data);
+		if (is_comp_data_valid (event))
+			g_object_unref (event->comp_data);
 	}
 
 	g_array_set_size (array, 0);
@@ -4716,6 +4820,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	PangoContext *pango_context;
 	PangoLayout *layout;
 
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return;
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
@@ -4729,6 +4836,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		}
 		return;
 	}
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	/* Take off the border and padding. */
 	item_x += E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD;
@@ -4875,6 +4985,10 @@ e_day_view_reshape_day_events (EDayView *day_view,
 
 		e_day_view_reshape_day_event (day_view, day, event_num);
 		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+
+		if (!is_comp_data_valid (event))
+			continue;
+
 		current_comp_string = icalcomponent_as_ical_string_r (event->comp_data->icalcomp);
 		if (day_view->last_edited_comp_string == NULL) {
 			g_free (current_comp_string);
@@ -4899,6 +5013,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 	gint item_x, item_y, item_w, item_h;
 	gint num_icons, icons_offset;
 
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
@@ -4920,9 +5037,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		   draw them on top of the resize rect. */
 		icons_offset = 0;
 		num_icons = 0;
-		if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
+		if (is_comp_data_valid (event) && (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
-		    || day_view->resize_event_num != event_num) {
+		    || day_view->resize_event_num != event_num)) {
 			ECalComponent *comp;
 
 			comp = e_cal_component_new ();
@@ -5991,12 +6108,21 @@ e_day_view_start_editing_event (EDayView *day_view,
 		return;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 	}
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	if (!e_cal_is_read_only (event->comp_data->client, &read_only, NULL) || read_only)
 		return;
@@ -6069,10 +6195,20 @@ cancel_editing (EDayView *day_view)
 
 	g_return_if_fail (day != -1);
 
-	if (day == E_DAY_VIEW_LONG_EVENT)
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
-	else
+	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+	}
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	/* Reset the text to what was in the component */
 
@@ -6091,9 +6227,15 @@ tooltip_get_view_event (EDayView *day_view, gint day, gint event_num)
 	EDayViewEvent *pevent;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return  NULL;
+
 		pevent = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return NULL;
+
 		pevent = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 	}
@@ -6310,6 +6452,9 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
 		return FALSE;
 
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return FALSE;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 	day_view->resize_event_day = day;
@@ -6386,8 +6531,16 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
+
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 
 	/* We use a temporary shallow copy of the ico since we don't want to
@@ -6461,6 +6614,10 @@ e_day_view_change_event_end_time_up (EDayView *day_view)
 	event_num = day_view->editing_event_num;
 	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
 		return;
+
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 	day_view->resize_event_day = day;
@@ -6491,6 +6648,10 @@ e_day_view_change_event_end_time_down (EDayView *day_view)
 	event_num = day_view->editing_event_num;
 	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
 		return;
+
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 	day_view->resize_event_day = day;
@@ -6600,13 +6761,22 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		return;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 
 	}
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	/* Reset the edit fields. */
 	day_view->editing_event_day = -1;
@@ -6956,6 +7126,9 @@ e_day_view_get_event_rows (EDayView *day_view,
 	g_return_val_if_fail (day < E_DAY_VIEW_LONG_EVENT, FALSE);
 	g_return_val_if_fail (event_num >= 0, FALSE);
 
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return FALSE;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 	start_row = event->start_minute / day_view->mins_per_row;
@@ -6979,6 +7152,9 @@ e_day_view_get_event_position (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint start_row, end_row, cols_in_row, start_col, num_columns;
+
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return FALSE;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
@@ -7033,6 +7209,9 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 					 gint		*item_h)
 {
 	EDayViewEvent *event;
+
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return FALSE;
 
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
@@ -7304,6 +7483,9 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	num_days = 1;
 
 	if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, day_view->drag_event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->drag_event_num);
 		row = event->start_row_or_col + 1;
@@ -7320,6 +7502,9 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 		day = MIN (day, day_view->days_shown - num_days);
 
 	} else if (day_view->drag_event_day != -1) {
+		if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day_view->drag_event_day],
 					EDayViewEvent,
 					day_view->drag_event_num);
@@ -7367,7 +7552,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	      & GNOME_CANVAS_ITEM_VISIBLE)) {
 		const gchar *summary;
 
-		if (event) {
+		if (event && is_comp_data_valid (event)) {
 			summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 			text = g_strdup (summary);
 		} else {
@@ -7460,9 +7645,15 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	num_rows = 1;
 
 	if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, day_view->drag_event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->drag_event_num);
 	} else if (day_view->drag_event_day != -1) {
+		if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day_view->drag_event_day],
 					EDayViewEvent,
 					day_view->drag_event_num);
@@ -7526,7 +7717,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	if (!(day_view->drag_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		const gchar *summary;
 
-		if (event) {
+		if (event && is_comp_data_valid (event)) {
 			summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 			text = g_strdup (summary);
 		} else {
@@ -7590,12 +7781,19 @@ e_day_view_on_drag_begin (GtkWidget      *widget,
 	g_return_if_fail (day != -1);
 	g_return_if_fail (event_num != -1);
 
-	if (day == E_DAY_VIEW_LONG_EVENT)
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
-	else
+	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
+	}
 
 	/* Hide the text item, since it will be shown in the special drag
 	   items. */
@@ -7619,10 +7817,16 @@ e_day_view_on_drag_end (GtkWidget      *widget,
 		return;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 		gtk_widget_queue_draw (day_view->top_canvas);
 	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 		gtk_widget_queue_draw (day_view->main_canvas);
@@ -7655,12 +7859,22 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 	g_return_if_fail (day != -1);
 	g_return_if_fail (event_num != -1);
 
-	if (day == E_DAY_VIEW_LONG_EVENT)
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
-	else
+	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
+	}
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	vcal = e_cal_util_new_top_level ();
 	e_cal_util_add_timezones_from_component (
@@ -7742,8 +7956,15 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			end_offset = 0;
 
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
+				if (!is_array_index_in_bounds (day_view->long_events, day_view->drag_event_num))
+					return;
+
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
+
+				if (!is_comp_data_valid (event))
+					return;
+
 				day -= day_view->drag_event_offset;
 				day = MAX (day, 0);
 
@@ -7759,9 +7980,15 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				start_offset = event->start_minute;
 				end_offset = event->end_minute;
 			} else {
+				if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
+					return;
+
 				event = &g_array_index (day_view->events[day_view->drag_event_day],
 							EDayViewEvent,
 							day_view->drag_event_num);
+
+				if (!is_comp_data_valid (event))
+					return;
 			}
 
 			client = event->comp_data->client;
@@ -7973,12 +8200,25 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			end_offset = 0;
 
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
+				if (!is_array_index_in_bounds (day_view->long_events, day_view->drag_event_num))
+					return;
+
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
+
+				if (!is_comp_data_valid (event))
+					return;
 			} else {
+				if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
+					return;
+
 				event = &g_array_index (day_view->events[day_view->drag_event_day],
 							EDayViewEvent,
 							day_view->drag_event_num);
+
+				if (!is_comp_data_valid (event))
+					return;
+
 				row -= day_view->drag_event_offset;
 
 				/* Calculate time offset from start row. */
@@ -8233,10 +8473,16 @@ e_day_view_paste_text (ECalendarView *cal_view)
 		return;
 
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, day_view->editing_event_num))
+			return;
+
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent,
 					day_view->editing_event_num);
 	} else {
+		if (!is_array_index_in_bounds (day_view->events[day_view->editing_event_day], day_view->editing_event_num))
+			return;
+
 		event = &g_array_index (day_view->events[day_view->editing_event_day],
 					EDayViewEvent,
 					day_view->editing_event_num);

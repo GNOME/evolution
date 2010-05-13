@@ -107,6 +107,9 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 		gboolean first = TRUE;
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 
+		if (!is_comp_data_valid (event))
+			continue;
+
 		/* If the event is TRANSPARENT, skip it. */
 		if (icalcomp_is_transparent (event->comp_data->icalcomp)) {
 			continue;
@@ -248,8 +251,14 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	font_options = get_font_options ();
 
+	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+		return;
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	/* Fill in the event background. Note that for events in the first
 	   column of the day, we might not want to paint over the vertical bar,
@@ -865,6 +874,9 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
 	/* Draw the busy times corresponding to the events in the day. */
 	for (event_num = 0; event_num < day_view->events[day]->len; event_num++) {
 		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+
+		if (!is_comp_data_valid (event))
+			continue;
 
 		/* We can skip the events in the first column since they will
 		   draw over this anyway. */

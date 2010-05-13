@@ -421,6 +421,9 @@ e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_
 		ECalComponentDateTime dtstart, dtend;
 		ECalComponent *comp;
 
+		if (!is_comp_data_valid (event))
+			return FALSE;
+
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		if (start_time) {

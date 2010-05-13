@@ -384,7 +384,7 @@ update_cal_entries_cb (EShellView *shell_view, gpointer user_data)
 			ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
 			const gchar *uri;
 
-			uri = event->comp_data ? e_cal_get_uri (event->comp_data->client) : NULL;
+			uri = is_comp_data_valid (event) ? e_cal_get_uri (event->comp_data->client) : NULL;
 
 			if (uri && g_ascii_strncasecmp (uri, "groupwise://", 12) == 0) {
 				visible = e_cal_util_component_has_attendee (event->comp_data->icalcomp);

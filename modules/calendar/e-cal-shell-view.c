@@ -353,7 +353,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		gboolean user_org = FALSE;
 		gboolean read_only = TRUE;
 
-		if (!event || !event->comp_data)
+		if (!is_comp_data_valid (event))
 			continue;
 
 		client = event->comp_data->client;

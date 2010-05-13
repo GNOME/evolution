@@ -132,12 +132,21 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 
 	week_view = E_WEEK_VIEW (parent);
 
+	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
+		return TRUE;
+
 	event = &g_array_index (
 		week_view->events, EWeekViewEvent,
 		event_item->priv->event_num);
 
+	if (!is_comp_data_valid (event))
+		return TRUE;
+
 	if (week_view->editing_event_num >= 0) {
 		EWeekViewEvent *editing;
+
+		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+			return TRUE;
 
 		editing = &g_array_index (
 			week_view->events, EWeekViewEvent,
@@ -147,6 +156,7 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 		 * on the component, which is not on the server. */
 		if (editing && event &&
 			editing->comp_data == event->comp_data &&
+			is_comp_data_valid (editing) &&
 			(!event->comp_data ||
 			 !is_icalcomp_on_the_server (
 				event->comp_data->icalcomp,
@@ -182,8 +192,15 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 
 	week_view = E_WEEK_VIEW (parent);
 
+	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
+		return FALSE;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + event_item->priv->span_num))
+		return FALSE;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + event_item->priv->span_num);
 
@@ -390,8 +407,15 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	parent = gtk_widget_get_parent (GTK_WIDGET (canvas));
 	week_view = E_WEEK_VIEW (parent);
 
+	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -510,8 +534,14 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	parent = gtk_widget_get_parent (GTK_WIDGET (canvas));
 	week_view = E_WEEK_VIEW (parent);
 
+	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	cr = gdk_cairo_create (drawable);
 
@@ -716,12 +746,21 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 	g_return_if_fail (event_item->priv->event_num < week_view->events->len);
 
+	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				event_item->priv->event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	g_return_if_fail (
 		event->spans_index + event_item->priv->span_num <
 		week_view->spans->len);
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + event_item->priv->span_num))
+		return;
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + event_item->priv->span_num);

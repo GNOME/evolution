@@ -144,12 +144,18 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-		ECalComponent *comp = e_cal_component_new ();
-		ReceiveData *r_data = g_new0 (ReceiveData, 1);
+		ECalComponent *comp;
+		ReceiveData *r_data;
 		gboolean recurring = FALSE;
 		GThread *thread = NULL;
 		GError *error = NULL;
 		gchar *address = NULL;
+
+		if (!is_comp_data_valid (event))
+			return;
+
+		comp = e_cal_component_new ();
+		r_data = g_new0 (ReceiveData, 1);
 
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		address = itip_get_comp_attendee (comp, event->comp_data->client);
@@ -373,7 +379,7 @@ gw_resend_meeting_cb (GtkAction *action, EShellView *shell_view)
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-		ECalComponent *comp = e_cal_component_new ();
+		ECalComponent *comp;
 		ECalComponent *new_comp = NULL;
 		gboolean recurring = FALSE;
 		CalObjModType mod = CALOBJ_MOD_THIS;
@@ -383,6 +389,10 @@ gw_resend_meeting_cb (GtkAction *action, EShellView *shell_view)
 		/* inserting the boolean to share the code between resend and retract */
 		gboolean resend = TRUE;
 
+		if (!is_comp_data_valid (event))
+			return;
+
+		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
 			recurring = TRUE;

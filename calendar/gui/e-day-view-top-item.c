@@ -93,8 +93,15 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	if (h % 2 == 0)
 		c1--;
 
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return;
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	cairo_save (cr);
 	/* Fill it in. */
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
@@ -187,8 +194,14 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 						 &item_w, &item_h))
 		return;
 
+	if (!is_array_index_in_bounds (day_view->long_events, event_num))
+		return;
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gc = day_view->main_gc;

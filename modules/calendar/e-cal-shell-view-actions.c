@@ -512,7 +512,7 @@ action_event_copy_cb (GtkAction *action,
 	if (selected->data) {
 		ECalendarViewEvent *event = selected->data;
 
-		if (event && event->comp_data && event->comp_data->client)
+		if (is_comp_data_valid (event) && event->comp_data->client)
 			source_source = e_cal_get_source (event->comp_data->client);
 	}
 
@@ -577,6 +577,10 @@ action_event_delegate_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	clone = icalcomponent_new_clone (event->comp_data->icalcomp);
 
@@ -707,6 +711,10 @@ action_event_forward_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
@@ -774,7 +782,7 @@ action_event_move_cb (GtkAction *action,
 	if (selected->data) {
 		ECalendarViewEvent *event = selected->data;
 
-		if (event && event->comp_data && event->comp_data->client)
+		if (is_comp_data_valid (event) && event->comp_data->client)
 			source_source = e_cal_get_source (event->comp_data->client);
 	}
 
@@ -863,6 +871,10 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
@@ -961,6 +973,10 @@ action_event_print_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
@@ -1000,6 +1016,10 @@ action_event_reply_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
@@ -1040,6 +1060,10 @@ action_event_reply_all_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
@@ -1090,6 +1114,10 @@ action_event_save_as_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
@@ -1148,6 +1176,10 @@ edit_event_as (ECalShellView *cal_shell_view, gboolean as_meeting)
 	g_return_if_fail (g_list_length (selected) == 1);
 
 	event = selected->data;
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 

@@ -1092,6 +1092,9 @@ print_day_long_event (GtkPrintContext *context,
 	struct tm date_tm;
 	gdouble red, green, blue;
 
+	if (!is_comp_data_valid (event))
+		return;
+
 	/* If the event starts before the first day being printed, draw a
 	   triangle. (Note that I am assuming we are just showing 1 day at
 	   the moment.) */
@@ -1171,6 +1174,9 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 	gboolean display_times = FALSE;
 	struct tm date_tm;
 	gdouble red, green, blue;
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	if ((event->start_minute >= pdi->end_minute_offset)
 	    || (event->end_minute <= pdi->start_minute_offset))
@@ -1560,6 +1566,9 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 	gdouble x1, x2, y1;
 	gdouble red, green, blue;
 	GdkPixbuf *pixbuf = NULL;
+
+	if (!is_comp_data_valid (event))
+		return;
 
 	text = get_summary_with_location (event->comp_data->icalcomp);
 

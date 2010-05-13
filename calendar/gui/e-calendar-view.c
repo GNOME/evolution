@@ -170,6 +170,9 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	gboolean  delete = FALSE;
 	GError *error = NULL;
 
+	if (!is_comp_data_valid (event))
+		return;
+
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
@@ -451,6 +454,9 @@ calendar_view_cut_clipboard (ESelectable *selectable)
 		if (!event)
 			continue;
 
+		if (!is_comp_data_valid (event))
+			continue;
+
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -560,7 +566,7 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 	for (l = selected; l != NULL; l = l->next) {
 		event = (ECalendarViewEvent *) l->data;
 
-		if (event) {
+		if (event && is_comp_data_valid (event)) {
 			e_cal_util_add_timezones_from_component (vcal_comp, event->comp_data->icalcomp);
 
 			add_related_timezones (vcal_comp, event->comp_data->icalcomp, event->comp_data->client);
@@ -569,6 +575,9 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 
 	for (l = selected; l != NULL; l = l->next) {
 		event = (ECalendarViewEvent *) l->data;
+
+		if (!is_comp_data_valid (event))
+			continue;
 
 		new_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
 
@@ -1205,6 +1214,9 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	if (!selected)
 		return;
 	event = (ECalendarViewEvent *) selected->data;
+	if (!is_comp_data_valid (event))
+		return;
+
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
@@ -1315,7 +1327,7 @@ e_calendar_view_open_event (ECalendarView *cal_view)
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-		if (event)
+		if (event && is_comp_data_valid (event))
 			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
 					event->comp_data->icalcomp, icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
 
@@ -1803,6 +1815,9 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	default_zone = e_calendar_view_get_timezone  (data->cal_view);
 	pevent = data->get_view_event (data->cal_view, data->day, data->event_num);
 
+	if (!is_comp_data_valid (pevent))
+		return FALSE;
+
 	client = pevent->comp_data->client;
 
 	clone_comp = icalcomponent_new_clone (pevent->comp_data->icalcomp);
@@ -2104,3 +2119,38 @@ get_today_background (const GdkColor base_background)
 	return res;
 }
 
+gboolean
+is_comp_data_valid_func (ECalendarViewEvent *event, const gchar *location)
+{
+	g_return_val_if_fail (location != NULL, FALSE);
+
+	if (!event) {
+		g_warning ("%s: event is NULL", location);
+		return FALSE;
+	}
+
+	if (!event->comp_data) {
+		g_warning ("%s: event's (%p) comp_data is NULL", location, event);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+gboolean
+is_array_index_in_bounds_func (GArray *array, gint index, const gchar *location)
+{
+	g_return_val_if_fail (location != NULL, FALSE);
+
+	if (!array) {
+		g_warning ("%s: array is NULL", location);
+		return FALSE;
+	}
+
+	if (index < 0 || index >= array->len) {
+		g_warning ("%s: index %d is out of bounds [0,%d) at array %p", location, index, array->len, array);
+		return FALSE;
+	}
+
+	return TRUE;
+}

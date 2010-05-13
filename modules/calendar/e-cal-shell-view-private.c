@@ -742,6 +742,9 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 	g_return_if_fail (event != NULL);
 	g_return_if_fail (E_IS_CAL (destination_client));
 
+	if (!is_comp_data_valid (event))
+		return;
+
 	icalcomp_event = event->comp_data->icalcomp;
 	uid = icalcomponent_get_uid (icalcomp_event);
 

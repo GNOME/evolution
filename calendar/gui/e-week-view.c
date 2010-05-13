@@ -1043,7 +1043,7 @@ e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidg
 	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
 	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
 
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
+	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
 	     &bg_color)) {
                 GdkColormap *colormap;
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
@@ -1520,9 +1520,16 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 			EWeekViewEventSpan *span;
 			gint current_day;
 
+			if (!is_array_index_in_bounds (week_view->events, new_event_num))
+				break;
+
 			event = &g_array_index (week_view->events,
 						EWeekViewEvent,
 						new_event_num);
+
+			if (!is_array_index_in_bounds (week_view->spans, event->spans_index + new_span_num))
+				break;
+
 			span = &g_array_index (week_view->spans,
 					       EWeekViewEventSpan,
 					       event->spans_index + new_span_num);
@@ -1552,9 +1559,15 @@ e_week_view_get_selected_events (ECalendarView *cal_view)
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
 
 	if (week_view->editing_event_num != -1) {
+		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+			return NULL;
+
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					week_view->editing_event_num);
 	} else if (week_view->popup_event_num != -1) {
+		if (!is_array_index_in_bounds (week_view->events, week_view->popup_event_num))
+			return NULL;
+
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					week_view->popup_event_num);
 	}
@@ -2129,6 +2142,9 @@ set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 	gchar *address;
 	ECalComponentAttendee *at = NULL;
 
+	if (!is_comp_data_valid (event))
+		return;
+
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	address = itip_get_comp_attendee (comp, event->comp_data->client);
@@ -2174,6 +2190,9 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
+		if (!is_comp_data_valid (event))
+			continue;
+
 		u = icalcomponent_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			if (!(*callback) (week_view, event_num, data))
@@ -2191,6 +2210,9 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	EWeekViewEventSpan *span;
 	gint span_num;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return TRUE;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	if (!event)
 		return TRUE;
@@ -2203,13 +2225,17 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	if (week_view->popup_event_num == event_num)
 		week_view->popup_event_num = -1;
 
-	g_object_unref (event->comp_data);
+	if (is_comp_data_valid (event))
+		g_object_unref (event->comp_data);
 	event->comp_data = NULL;
 
 	if (week_view->spans) {
 		/* We leave the span elements in the array, but set the canvas item
 		   pointers to NULL. */
 		for (span_num = 0; span_num < event->num_spans; span_num++) {
+			if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+				break;
+
 			span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 					       event->spans_index + span_num);
 
@@ -2307,6 +2333,9 @@ e_week_view_get_span_position	(EWeekView	*week_view,
 
 	g_return_val_if_fail (span_num < event->num_spans, FALSE);
 
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+		return FALSE;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
@@ -2349,7 +2378,14 @@ ewv_pass_gdkevent_to_etext (EWeekView *week_view, GdkEvent *gevent)
 		EWeekViewEvent *event;
 		EWeekViewEventSpan *span;
 
+		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+			return FALSE;
+
 		event = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+
+		if (!is_array_index_in_bounds (week_view->spans, event->spans_index + week_view->editing_span_num))
+			return FALSE;
+
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + week_view->editing_span_num);
 
 		if (span->text_item && E_IS_TEXT (span->text_item)) {
@@ -2660,7 +2696,9 @@ e_week_view_free_events (EWeekView *week_view)
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		g_object_unref (event->comp_data);
+
+		if (is_comp_data_valid (event))
+			g_object_unref (event->comp_data);
 	}
 
 	g_array_set_size (week_view->events, 0);
@@ -2842,6 +2880,9 @@ e_week_view_reshape_events (EWeekView *week_view)
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
+		if (!is_comp_data_valid (event))
+			continue;
+
 		for (span_num = 0; span_num < event->num_spans; span_num++) {
 			gchar *current_comp_string;
 
@@ -2852,6 +2893,12 @@ e_week_view_reshape_events (EWeekView *week_view)
 			current_comp_string = icalcomponent_as_ical_string_r (event->comp_data->icalcomp);
 			if (strncmp (current_comp_string, week_view->last_edited_comp_string,50) == 0) {
 				EWeekViewEventSpan *span;
+
+				if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num)) {
+					g_free (current_comp_string);
+					continue;
+				}
+
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
 				e_canvas_item_grab_focus (span->text_item, TRUE);
 				g_free (week_view->last_edited_comp_string);
@@ -2899,6 +2946,9 @@ static EWeekViewEvent *
 tooltip_get_view_event (EWeekView *week_view, gint day, gint event_num)
 {
 	EWeekViewEvent *pevent;
+
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return NULL;
 
 	pevent = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
@@ -2998,7 +3048,17 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+		return;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 	comp = e_cal_component_new ();
@@ -3268,7 +3328,17 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	    && span_num == week_view->editing_span_num)
 		return TRUE;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return FALSE;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+	if (!is_comp_data_valid (event))
+		return FALSE;
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+		return FALSE;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
@@ -3280,7 +3350,12 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		return FALSE;
 
 	if (week_view->editing_event_num >= 0) {
-		EWeekViewEvent *editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+		EWeekViewEvent *editing;
+
+		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+			return FALSE;
+
+		editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
 
 		/* do not change to other part of same component - the event is spread into more days */
 		if (editing && event && editing->comp_data == event->comp_data)
@@ -3317,6 +3392,10 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		}
 		g_return_val_if_fail (event_num >= 0, FALSE);
 	}
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+		return FALSE;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,  event->spans_index + span_num);
 
 	/* Try to move the cursor to the end of the text. */
@@ -3361,7 +3440,17 @@ cancel_editing (EWeekView *week_view)
 
 	g_return_if_fail (event_num != -1);
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+		return;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
 
 	/* Reset the text to what was in the component */
@@ -3417,8 +3506,14 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						       &event_num, &span_num))
 			return FALSE;
 
+		if (!is_array_index_in_bounds (week_view->events, event_num))
+			return FALSE;
+
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
+
+		if (!is_comp_data_valid (event))
+			return FALSE;
 
 		/* if we started to editing new item on the canvas, then do not open editing dialog until it's saved,
 		   because the save of the event recalculates event numbers and you can edit different one */
@@ -3445,6 +3540,9 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 				return FALSE;
 			}
+
+			if (!is_array_index_in_bounds (week_view->events, event_num))
+				return FALSE;
 
 			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
@@ -3583,7 +3681,13 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 	if (event_num == -1)
 		return FALSE;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return FALSE;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+	if (!is_comp_data_valid (event))
+		return FALSE;
 
 	end_dt = event->end;
 	start_time = icalcomponent_get_dtstart (event->comp_data->icalcomp);
@@ -3711,7 +3815,14 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	if (event_num == -1)
 		return;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
 	client = event->comp_data->client;
 
 	/* We use a temporary shallow copy of the ico since we don't want to
@@ -3818,7 +3929,17 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	if (event_num == -1)
 		return;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+	if (!is_comp_data_valid (event))
+		return;
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+		return;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
@@ -3967,6 +4088,9 @@ e_week_view_find_event_from_item (EWeekView	  *week_view,
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 		for (span_num = 0; span_num < event->num_spans; span_num++) {
+			if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num))
+				continue;
+
 			span = &g_array_index (week_view->spans,
 					       EWeekViewEventSpan,
 					       event->spans_index + span_num);
@@ -4009,6 +4133,9 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
+		if (!is_comp_data_valid (event))
+			continue;
+
 		if (event->comp_data->client != client)
 			continue;
 
@@ -4040,8 +4167,14 @@ e_week_view_is_one_day_event	(EWeekView	*week_view,
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return FALSE;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	if (event->num_spans != 1)
+		return FALSE;
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index))
 		return FALSE;
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
@@ -4172,8 +4305,15 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *
 		return FALSE;
 	}
 
+	if (!is_array_index_in_bounds (week_view->events, event_num))
+		return FALSE;
+
 	wvevent = &g_array_index (week_view->events, EWeekViewEvent,
 				  event_num);
+
+	if (!is_array_index_in_bounds (week_view->spans, wvevent->spans_index + 0))
+		return FALSE;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       wvevent->spans_index + 0);
 
@@ -4553,8 +4693,15 @@ e_week_view_paste_text (ECalendarView *cal_view)
 	    !e_week_view_add_new_event_in_selected_range (week_view, NULL))
 		return;
 
+	if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+		return;
+
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->editing_event_num);
+
+	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + week_view->editing_span_num))
+		return;
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + week_view->editing_span_num);
 

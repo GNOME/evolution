@@ -198,9 +198,17 @@ ea_cal_view_event_new (GObject *obj)
 						       &event_num,
 						       &span_num))
 			return NULL;
+
+		if (!is_array_index_in_bounds (week_view->events, event_num))
+			return NULL;
+
 		week_view_event = &g_array_index (week_view->events,
 						  EWeekViewEvent,
 						  event_num);
+
+		if (!is_array_index_in_bounds (week_view->spans, week_view_event->spans_index))
+			return NULL;
+
 		/* get the first span */
 		event_span = &g_array_index (week_view->spans,
 					     EWeekViewEventSpan,
@@ -269,6 +277,8 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	if (!g_obj || !E_IS_TEXT (g_obj))
 		return NULL;
 	event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
+	if (!is_comp_data_valid (event))
+		return NULL;
 
 	alarm_string = recur_string = meeting_string = "";
 	if (event && event->comp_data) {
