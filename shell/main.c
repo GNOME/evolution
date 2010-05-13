@@ -552,6 +552,9 @@ main (gint argc, gchar **argv)
 	 * as both shell backends and certain plugins hook into this. */
 	e_shell_migrate_attempt (shell);
 
+	/* This is an alternative to the "upgrade.done" EEvent. */
+	e_shell_event (shell, "ready-to-start", NULL);
+
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 
 	gtk_main ();

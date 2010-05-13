@@ -22,6 +22,7 @@ SUBDIRS = \
 	addressbook \
 	calendar \
 	mail \
+	mailto-handler \
 	plugin-lib \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
