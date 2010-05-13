@@ -108,7 +108,9 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialo
 						    COL_GALVIEW_DATA, item,
 						    -1);
 
-				gal_view_edit (view, GTK_WINDOW (dialog));
+
+				if (view && GAL_VIEW_GET_CLASS (view)->edit)
+					gal_view_edit (view, GTK_WINDOW (dialog));
 				g_object_unref (view);
 			}
 		}
@@ -139,6 +141,9 @@ gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 					 &dialog->model,
 					 &iter)) {
 		gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
+
+		g_return_if_fail (item && !item->built_in);
+
 		gal_view_edit (item->view, GTK_WINDOW (dialog));
 	}
 }
@@ -158,6 +163,8 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 					 &dialog->model,
 					 &iter)) {
 		gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
+
+		g_return_if_fail (item && !item->built_in);
 
 		for (row=0; row<dialog->collection->view_count; row++) {
 			if (item == dialog->collection->view_data[row]) {
@@ -179,28 +186,25 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_selection_changed_callback (GtkTreeSelection *selection, GalDefineViewsDialog *dialog)
 {
 	GtkWidget *button;
 	GtkTreeIter iter;
-	GalViewCollectionItem *item;
+	GalViewCollectionItem *item = NULL;
+	GalViewClass *gvclass = NULL;
 
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (dialog->treeview),
-					 &dialog->model,
-					 &iter)) {
-		GalViewClass *gvclass = NULL;
-
+	if (gtk_tree_selection_get_selected (selection, &dialog->model, &iter)) {
 		gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
 
-		button = e_builder_get_widget (dialog->builder, "button-delete");
-		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in);
-
-		if (item->view)
+		if (item && item->view)
 			gvclass = GAL_VIEW_GET_CLASS (item->view);
-
-		button = e_builder_get_widget (dialog->builder, "button-modify");
-		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in && gvclass && gvclass->edit != NULL);
 	}
+
+	button = e_builder_get_widget (dialog->builder, "button-delete");
+	gtk_widget_set_sensitive (GTK_WIDGET (button), item && !item->built_in);
+
+	button = e_builder_get_widget (dialog->builder, "button-modify");
+	gtk_widget_set_sensitive (GTK_WIDGET (button), item && !item->built_in && gvclass && gvclass->edit != NULL);
 }
 
 static void
@@ -226,6 +230,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	GtkWidget *content_area;
 	GtkWidget *parent;
 	GtkWidget *widget;
+	GtkTreeSelection *selection;
 
 	dialog->collection = NULL;
 
@@ -263,8 +268,11 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gdvd_connect_signal (dialog, "button-new",    "clicked", G_CALLBACK (gdvd_button_new_callback));
 	gdvd_connect_signal (dialog, "button-modify", "clicked", G_CALLBACK (gdvd_button_modify_callback));
 	gdvd_connect_signal (dialog, "button-delete", "clicked", G_CALLBACK (gdvd_button_delete_callback));
-	gdvd_connect_signal (dialog, "treeview1", "cursor-changed", G_CALLBACK (gdvd_cursor_changed_callback));
 	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), NULL);
+
+	selection = gtk_tree_view_get_selection (dialog->treeview);
+	g_signal_connect (selection, "changed", G_CALLBACK (gdvd_selection_changed_callback), dialog);
+	gdvd_selection_changed_callback (selection, dialog);
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
