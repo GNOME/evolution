@@ -334,7 +334,6 @@ action_memo_new_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ECalModelComponent *comp_data;
 	ECal *client;
 	ECalComponent *comp;
 	CompEditor *editor;
@@ -348,11 +347,21 @@ action_memo_new_cb (GtkAction *action,
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
 	list = e_memo_table_get_selected (memo_table);
-	g_return_if_fail (list != NULL);
-	comp_data = list->data;
-	g_slist_free (list);
+	if (list == NULL) {
+		ECalModel *model;
 
-	client = comp_data->client;
+		model = e_memo_table_get_model (memo_table);
+		client = e_cal_model_get_default_client (model);
+	} else {
+		ECalModelComponent *comp_data;
+
+		comp_data = list->data;
+		client = comp_data->client;
+		g_slist_free (list);
+	}
+
+	g_return_if_fail (client != NULL);
+
 	editor = memo_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_memo_new_with_defaults (client);
 	comp_editor_edit_comp (editor, comp);

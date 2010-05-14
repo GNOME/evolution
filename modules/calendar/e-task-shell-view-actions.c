@@ -402,7 +402,6 @@ action_task_new_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
-	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
 	ECal *client;
 	ECalComponent *comp;
@@ -417,11 +416,21 @@ action_task_new_cb (GtkAction *action,
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
 	list = e_task_table_get_selected (task_table);
-	g_return_if_fail (list != NULL);
-	comp_data = list->data;
-	g_slist_free (list);
+	if (list == NULL) {
+		ECalModel *model;
 
-	client = comp_data->client;
+		model = e_task_table_get_model (task_table);
+		client = e_cal_model_get_default_client (model);
+	} else {
+		ECalModelComponent *comp_data;
+
+		comp_data = list->data;
+		client = comp_data->client;
+		g_slist_free (list);
+	}
+
+	g_return_if_fail (client != NULL);
+
 	editor = task_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_task_new_with_defaults (client);
 	comp_editor_edit_comp (editor, comp);
