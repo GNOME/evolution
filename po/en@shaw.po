@@ -1,13 +1,15 @@
 # Shavian translation for evolution.
-# Copyright (C) 2009 The Gnome Foundation.
+# Copyright (C) 2009-2010 The Gnome Foundation.
 # Thomas Thurman <tthurman@gnome.org>, 2009.
+# Transliterate Evolution as ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯
+# Transliterate GNOME as ·𐑯𐑴𐑥
 #: ../shell/main.c:463
 msgid ""
 msgstr ""
-"Project-Id-Version: metacity\n"
+"Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2010-05-12 21:52+0000\n"
-"PO-Revision-Date: 2010-05-12 18:35 -0400\n"
+"PO-Revision-Date: 2010-05-14 13:48 -0400\n"
 "Last-Translator: Thomas Thurman <tthurman@gnome.org>\n"
 "Language-Team: Shavian <ubuntu-l10n-en-shaw@launchpad.net>\n"
 "MIME-Version: 1.0\n"
@@ -57,23 +59,21 @@ msgstr ""
 "𐑗𐑧𐑒 𐑑 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑿𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑦𐑟 𐑕𐑐𐑧𐑤𐑛 𐑒𐑼𐑧𐑒𐑑𐑤𐑦 𐑯 𐑞𐑨𐑑 𐑿 𐑸 𐑿𐑟𐑦𐑙 𐑩 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑤𐑪𐑜𐑦𐑯 "
 "𐑥𐑧𐑔𐑩𐑛. 𐑮𐑦𐑥𐑧𐑥𐑚𐑼 𐑞𐑨𐑑 𐑥𐑧𐑯𐑦 𐑐𐑭𐑕𐑢𐑼𐑛𐑟 𐑸 𐑒𐑱𐑕 𐑕𐑧𐑯𐑕𐑦𐑑𐑦𐑝; 𐑿𐑼 𐑒𐑨𐑐𐑕 𐑤𐑪𐑒 𐑥𐑲𐑑 𐑚𐑰 𐑪𐑯."
 
-#, fuzzy
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
-msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑜𐑧𐑑 schema 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 ·𐑤·𐑛·𐑨·𐑐 𐑕𐑻𐑝𐑼."
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑜𐑧𐑑 𐑕𐑒𐑰𐑥𐑩 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 LDAP 𐑕𐑻𐑝𐑼."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
 msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑦𐑥𐑵𐑝 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒."
 
-#, fuzzy
 #: ../addressbook/addressbook.error.xml.h:11
 msgid ""
 "Currently you can only access the GroupWise System Address Book from "
 "Evolution. Please use some other GroupWise mail client once to get your "
 "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
-"𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑿 𐑒𐑨𐑯 𐑴𐑯𐑤𐑦 𐑨𐑒𐑕𐑧𐑕 𐑞 GroupWise 𐑕𐑦𐑕𐑑𐑩𐑥 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑓𐑮𐑪𐑥 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑐𐑤𐑰𐑟 𐑿𐑟 "
+"𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑿 𐑒𐑨𐑯 𐑴𐑯𐑤𐑦 𐑨𐑒𐑕𐑧𐑕 𐑞 GroupWise 𐑕𐑦𐑕𐑑𐑩𐑥 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑓𐑮𐑪𐑥 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑐𐑤𐑰𐑟 𐑿𐑟 "
 "𐑕𐑳𐑥 𐑳𐑞𐑼 GroupWise 𐑥𐑱𐑤 𐑒𐑤𐑲𐑩𐑯𐑑 𐑢𐑳𐑯𐑕 𐑑 𐑜𐑧𐑑 𐑿𐑼 GroupWise 𐑓𐑮𐑰𐑒𐑢𐑧𐑯𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑯 "
 "Groupwise 𐑐𐑻𐑕𐑩𐑯𐑩𐑤 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑓𐑴𐑤𐑛𐑼𐑟."
 
@@ -95,15 +95,13 @@ msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑑 𐑢𐑦𐑞 
 msgid "Failed to delete contact"
 msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
 
-#, fuzzy
 #: ../addressbook/addressbook.error.xml.h:16
 msgid "GroupWise Address book creation:"
 msgstr "GroupWise 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑒𐑮𐑰𐑱𐑖𐑩𐑯:"
 
-#, fuzzy
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "LDAP server did not respond with valid schema information."
-msgstr "·𐑤·𐑛·𐑨·𐑐 𐑕𐑻𐑝𐑼 𐑛𐑦𐑛 𐑯𐑪𐑑 𐑮𐑰𐑕𐑐𐑪𐑯𐑛 𐑢𐑦𐑞 𐑝𐑨𐑤𐑦𐑛 schema 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "LDAP 𐑕𐑻𐑝𐑼 𐑛𐑦𐑛 𐑯𐑪𐑑 𐑮𐑰𐑕𐑐𐑪𐑯𐑛 𐑢𐑦𐑞 𐑝𐑨𐑤𐑦𐑛 𐑕𐑒𐑰𐑥𐑩 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Some features may not work properly with your current server"
@@ -125,7 +123,7 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
-"𐑞𐑦𐑕 ·𐑤·𐑛·𐑨·𐑐 𐑕𐑻𐑝𐑼 𐑥𐑱 𐑿𐑟 𐑩𐑯 𐑴𐑤𐑛𐑼 𐑝𐑻𐑠𐑩𐑯 𐑝 ·𐑤·𐑛·𐑨·𐑐, 𐑢𐑦𐑗 𐑛𐑴𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑞𐑦𐑕 "
+"𐑞𐑦𐑕 LDAP 𐑕𐑻𐑝𐑼 𐑥𐑱 𐑿𐑟 𐑩𐑯 𐑴𐑤𐑛𐑼 𐑝𐑻𐑠𐑩𐑯 𐑝 LDAP, 𐑢𐑦𐑗 𐑛𐑴𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑞𐑦𐑕 "
 "𐑓𐑩𐑙𐑒𐑖𐑩𐑯𐑨𐑤𐑦𐑑𐑰 𐑹 𐑦𐑑 𐑥𐑱 𐑚𐑰 misconfigured. 𐑭𐑕𐑒 𐑿𐑼 𐑩𐑛𐑥𐑦𐑯𐑦𐑕𐑑𐑮𐑱𐑑𐑼 𐑓𐑹 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑕𐑻𐑗 "
 "𐑚𐑱𐑕𐑩𐑟."
 
@@ -149,10 +147,9 @@ msgstr ""
 msgid "This address book will be removed permanently."
 msgstr "𐑞𐑦𐑕 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑢𐑦𐑤 𐑚𐑰 𐑮𐑦𐑥𐑵𐑝𐑛 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦."
 
-#, fuzzy
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "This server does not support LDAPv3 schema information."
-msgstr "𐑞𐑦𐑕 𐑕𐑻𐑝𐑼 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 LDAPv3 schema 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "𐑞𐑦𐑕 𐑕𐑻𐑝𐑼 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 LDAPv3 𐑕𐑒𐑰𐑥𐑩 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "Unable to open address book"
@@ -178,7 +175,6 @@ msgstr ""
 "𐑿 𐑸 𐑩𐑑𐑧𐑥𐑐𐑑𐑦𐑙 𐑑 𐑥𐑵𐑝 𐑩 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑓𐑮𐑪𐑥 𐑢𐑳𐑯 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑑 𐑩𐑯𐑳𐑞𐑼 𐑚𐑳𐑑 𐑦𐑑 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 "
 "𐑮𐑦𐑥𐑵𐑝𐑛 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑹𐑕. 𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑱𐑝 𐑩 𐑒𐑪𐑐𐑦 𐑦𐑯𐑕𐑑𐑧𐑛?"
 
-#, fuzzy
 #: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
@@ -186,7 +182,7 @@ msgid ""
 "supported version"
 msgstr ""
 "𐑿 𐑸 𐑒𐑩𐑯𐑧𐑒𐑑𐑦𐑙 𐑑 𐑩𐑯 𐑳𐑯𐑕𐑩𐑐𐑹𐑑𐑩𐑛 GroupWise 𐑕𐑻𐑝𐑼 𐑯 𐑥𐑱 𐑦𐑯𐑒𐑶𐑯𐑑𐑻 𐑐𐑮𐑪𐑚𐑤𐑩𐑥𐑟 𐑿𐑟𐑦𐑙 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑓𐑹 𐑚𐑧𐑕𐑑 𐑮𐑦𐑟𐑳𐑤𐑑𐑕 𐑞 𐑕𐑻𐑝𐑼 𐑖𐑫𐑛 𐑚𐑰 𐑩𐑐𐑜𐑮𐑱𐑛𐑩𐑛 𐑑 𐑩 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑝𐑻𐑠𐑩𐑯"
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑓𐑹 𐑚𐑧𐑕𐑑 𐑮𐑦𐑟𐑳𐑤𐑑𐑕 𐑞 𐑕𐑻𐑝𐑼 𐑖𐑫𐑛 𐑚𐑰 𐑩𐑐𐑜𐑮𐑱𐑛𐑩𐑛 𐑑 𐑩 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑝𐑻𐑠𐑩𐑯"
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid "You do not have permission to delete contacts in this address book."
@@ -259,7 +255,6 @@ msgid "Birthday"
 msgstr "𐑚𐑻𐑔𐑛𐑱"
 
 #. Translators: an accessibility name
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:4
 msgid "Blog:"
 msgstr "𐑚𐑤𐑪𐑜:"
@@ -270,7 +265,6 @@ msgstr "𐑚𐑤𐑪𐑜:"
 msgid "Ca_tegories..."
 msgstr "𐑒𐑩_𐑑𐑩𐑜𐑹𐑦𐑟..."
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
 msgid "Calendar:"
 msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼:"
@@ -296,10 +290,9 @@ msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑧𐑛𐑦𐑑𐑹"
 msgid "Email"
 msgstr "𐑰𐑥𐑱𐑤"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:10
 msgid "Free/Busy:"
-msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑰:"
+msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑦:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Full _Name..."
@@ -311,7 +304,6 @@ msgstr "𐑓𐑫𐑤 _𐑯𐑱𐑥..."
 msgid "Home"
 msgstr "𐑣𐑴𐑥"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
 msgid "Home Page:"
 msgstr "𐑣𐑴𐑥 𐑐𐑱𐑡:"
@@ -320,21 +312,18 @@ msgstr "𐑣𐑴𐑥 𐑐𐑱𐑡:"
 msgid "Image"
 msgstr "𐑦𐑥𐑦𐑡"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
 msgid "Instant Messaging"
 msgstr "𐑦𐑯𐑕𐑑𐑩𐑯𐑑 𐑥𐑧𐑕𐑦𐑡𐑦𐑙"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:16
 msgid "Job"
-msgstr "·𐑡𐑴𐑚"
+msgstr "𐑡𐑪𐑚"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "Mailing Address"
 msgstr "𐑥𐑱𐑤𐑦𐑙 𐑩𐑛𐑮𐑧𐑕"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:18
 #: ../calendar/gui/dialogs/task-details-page.ui.h:11
 msgid "Miscellaneous"
@@ -368,12 +357,10 @@ msgstr "𐑐𐑻𐑕𐑩𐑯𐑩𐑤 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 msgid "Telephone"
 msgstr "𐑑𐑧𐑤𐑩𐑓𐑴𐑯"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
 msgid "Video Chat:"
 msgstr "𐑝𐑦𐑛𐑦𐑴 𐑗𐑨𐑑:"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:25
 msgid "Web Addresses"
 msgstr "𐑢𐑧𐑚 𐑩𐑛𐑮𐑧𐑕𐑩𐑟"
@@ -502,25 +489,21 @@ msgstr "·𐑡𐑨𐑚𐑼"
 msgid "Yahoo"
 msgstr "·𐑘𐑭𐑣𐑵"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:171
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
 msgid "Gadu-Gadu"
-msgstr "Gadu-Gadu"
+msgstr "·𐑜𐑭𐑛𐑵-𐑜𐑭𐑛𐑵"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:172
 #: ../addressbook/gui/widgets/eab-contact-display.c:543
 msgid "MSN"
 msgstr "MSN"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:173
 #: ../addressbook/gui/widgets/eab-contact-display.c:541
 msgid "ICQ"
 msgstr "ICQ"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:174
 #: ../addressbook/gui/widgets/eab-contact-display.c:540
 msgid "GroupWise"
@@ -603,65 +586,54 @@ msgstr "𐑰_𐑥𐑱𐑤"
 msgid "_Select Address Book"
 msgstr "_𐑕𐑩𐑤𐑧𐑒𐑑 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Dr."
-msgstr "𐑛𐑮𐑲𐑝."
+msgstr "𐑛𐑪𐑒𐑑𐑼"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:2
 msgid "Esq."
-msgstr "𐑧𐑕𐑒𐑢𐑲𐑼."
+msgstr "𐑧𐑕𐑒𐑢𐑲𐑼"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Full Name"
 msgstr "𐑓𐑫𐑤 𐑯𐑱𐑥"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:4
 msgid "I"
-msgstr "𐑲"
+msgstr "I"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:5
 msgid "II"
 msgstr "II"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:6
 msgid "III"
 msgstr "III"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:7
 msgid "Jr."
 msgstr "𐑡𐑵𐑯𐑘𐑻."
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:8
 msgid "Miss"
 msgstr "𐑥𐑦𐑕"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:9
 msgid "Mr."
-msgstr "𐑥𐑦𐑕𐑑𐑼."
+msgstr "𐑥𐑦𐑕𐑑𐑼"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:10
 msgid "Mrs."
-msgstr "𐑥𐑦𐑕𐑩𐑕."
+msgstr "𐑥𐑦𐑕𐑩𐑕"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:11
 msgid "Ms."
-msgstr "𐑥𐑦𐑟."
+msgstr "𐑥𐑦𐑟"
 
-#, fuzzy
 #: ../addressbook/gui/contact-editor/fullname.ui.h:12
 msgid "Sr."
-msgstr "𐑕𐑰𐑯𐑘𐑻."
+msgstr "𐑕𐑰𐑯𐑘𐑼"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 msgid "_First:"
@@ -684,7 +656,6 @@ msgstr "_𐑕𐑳𐑓𐑦𐑒𐑕:"
 msgid "Contact List Editor"
 msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑 𐑧𐑛𐑦𐑑𐑹"
 
-#, fuzzy
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 msgid "Members"
 msgstr "𐑥𐑧𐑥𐑚𐑼𐑟"
@@ -816,17 +787,14 @@ msgstr "𐑕𐑻𐑗 𐑦𐑯𐑑𐑼𐑳𐑐𐑑𐑩𐑛"
 msgid "Error modifying card"
 msgstr "𐑻𐑼 𐑥𐑪𐑛𐑦𐑓𐑲𐑦𐑙 𐑒𐑸𐑛"
 
-#, fuzzy
 #: ../addressbook/gui/widgets/e-addressbook-view.c:618
 msgid "Cut selected contacts to the clipboard"
 msgstr "𐑒𐑳𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../addressbook/gui/widgets/e-addressbook-view.c:624
 msgid "Copy selected contacts to the clipboard"
 msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../addressbook/gui/widgets/e-addressbook-view.c:630
 msgid "Paste contacts from the clipboard"
 msgstr "𐑐𐑱𐑕𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
@@ -836,7 +804,6 @@ msgstr "𐑐𐑱𐑕𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑓𐑮𐑪𐑥 𐑞 
 msgid "Delete selected contacts"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
 
-#, fuzzy
 #: ../addressbook/gui/widgets/e-addressbook-view.c:642
 msgid "Select all visible contacts"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑝𐑦𐑕𐑦𐑚𐑩𐑤 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
@@ -963,7 +930,6 @@ msgstr "𐑣𐑴𐑥 𐑓𐑴𐑯"
 msgid "Home Phone 2"
 msgstr "𐑣𐑴𐑥 𐑓𐑴𐑯 2"
 
-#, fuzzy
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "ISDN Phone"
 msgstr "ISDN 𐑓𐑴𐑯"
@@ -1033,7 +999,6 @@ msgstr "𐑕𐑐𐑶𐑕"
 #. Device for Deaf". However, you probably want to leave this
 #. abbreviation unchanged unless you know that there is actually a
 #. different and established translation for this in your language.
-#, fuzzy
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
 msgstr "TTYTDD"
@@ -1127,7 +1092,7 @@ msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑: "
 #, fuzzy
 #: ../addressbook/gui/widgets/ea-minicard.c:180
 msgid "evolution minicard"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 minicard"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 minicard"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174
 msgid "Copy _Email Address"
@@ -1333,7 +1298,6 @@ msgid "Authentication Required"
 msgstr "𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑮𐑦𐑒𐑢𐑲𐑼𐑛"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
-#, fuzzy
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 msgid "TLS not Available"
 msgstr "TLS 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤"
@@ -1438,7 +1402,6 @@ msgid "This query did not complete successfully."
 msgstr "𐑞𐑦𐑕 𐑒𐑢𐑽𐑦 𐑛𐑦𐑛 𐑯𐑪𐑑 𐑒𐑩𐑥𐑐𐑤𐑰𐑑 𐑕𐑩𐑒𐑕𐑧𐑕𐑓𐑩𐑤𐑦."
 
 #. This is a filename. Translators take note.
-#, fuzzy
 #: ../addressbook/gui/widgets/eab-gui-util.c:208
 msgid "card.vcf"
 msgstr "𐑒𐑸𐑛.vcf"
@@ -1502,39 +1465,38 @@ msgstr "Mozilla CSV 𐑯 𐑑𐑨𐑚 𐑦𐑥𐑐𐑹𐑑𐑼"
 #, fuzzy
 #: ../addressbook/importers/evolution-csv-importer.c:876
 msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 CSV 𐑹 𐑑𐑨𐑚 (.csv, .𐑑𐑨𐑚)"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 CSV 𐑹 𐑑𐑨𐑚 (.csv, .𐑑𐑨𐑚)"
 
 #, fuzzy
 #: ../addressbook/importers/evolution-csv-importer.c:877
 msgid "Evolution CSV and Tab Importer"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 CSV 𐑯 𐑑𐑨𐑚 𐑦𐑥𐑐𐑹𐑑𐑼"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 CSV 𐑯 𐑑𐑨𐑚 𐑦𐑥𐑐𐑹𐑑𐑼"
 
 #, fuzzy
 #: ../addressbook/importers/evolution-ldif-importer.c:689
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "·𐑤·𐑛·𐑨·𐑐 𐑛𐑱𐑑𐑩 𐑦𐑯𐑑𐑻𐑗𐑱𐑯𐑡 𐑓𐑹𐑥𐑨𐑑 (.ldif)"
+msgstr "LDAP 𐑛𐑱𐑑𐑩 𐑦𐑯𐑑𐑻𐑗𐑱𐑯𐑡 𐑓𐑹𐑥𐑨𐑑 (.ldif)"
 
 #, fuzzy
 #: ../addressbook/importers/evolution-ldif-importer.c:690
 msgid "Evolution LDIF importer"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 LDIF 𐑦𐑥𐑐𐑹𐑑𐑼"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 LDIF 𐑦𐑥𐑐𐑹𐑑𐑼"
 
 #, fuzzy
 #: ../addressbook/importers/evolution-vcard-importer.c:565
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
-#, fuzzy
 #: ../addressbook/importers/evolution-vcard-importer.c:566
 msgid "Evolution vCard Importer"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 vCard 𐑦𐑥𐑐𐑹𐑑𐑼"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 vCard 𐑦𐑥𐑐𐑹𐑑𐑼"
 
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
-#, fuzzy, c-format
+#, c-format
 #: ../addressbook/printing/e-contact-print.c:733
 msgid "Page %d"
-msgstr "𐑐𐑱𐑡 %d 𐑝 %d"
+msgstr "𐑐𐑱𐑡 %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -1542,7 +1504,6 @@ msgstr "𐑐𐑱𐑡 %d 𐑝 %d"
 msgid "Can not open file"
 msgstr "𐑒𐑨𐑯 𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑓𐑲𐑤"
 
-#, fuzzy
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:42
 msgid "Couldn't get list of address books"
 msgstr "𐑒𐑫𐑛𐑯𐑑 𐑜𐑧𐑑 𐑤𐑦𐑕𐑑 𐑝 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒𐑕"
@@ -1564,12 +1525,10 @@ msgstr "OUTPUTFILE"
 msgid "List local address book folders"
 msgstr "𐑤𐑦𐑕𐑑 𐑤𐑴𐑒𐑩𐑤 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑓𐑴𐑤𐑛𐑼𐑟"
 
-#, fuzzy
 #: ../addressbook/tools/evolution-addressbook-export.c:52
 msgid "Show cards as vcard or csv file"
 msgstr "𐑖𐑴 𐑒𐑸𐑛𐑟 𐑨𐑟 vcard 𐑹 csv 𐑓𐑲𐑤"
 
-#, fuzzy
 #: ../addressbook/tools/evolution-addressbook-export.c:53
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
@@ -1592,7 +1551,6 @@ msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr "𐑒𐑩𐑥𐑭𐑯𐑛 𐑤𐑲𐑯 𐑸𐑜𐑿𐑥𐑩𐑯𐑑𐑕 𐑻𐑼, 𐑐𐑤𐑰𐑟 𐑿𐑟 --help 𐑪𐑐𐑖𐑩𐑯 𐑑 𐑕𐑰 𐑞 𐑿𐑕𐑦𐑡."
 
-#, fuzzy
 #: ../addressbook/tools/evolution-addressbook-export.c:115
 msgid "Only support csv or vcard format."
 msgstr "𐑴𐑯𐑤𐑦 𐑕𐑩𐑐𐑹𐑑 csv 𐑹 vcard 𐑓𐑹𐑥𐑨𐑑."
@@ -1653,7 +1611,6 @@ msgstr ""
 "'{0}' 𐑦𐑟 𐑩 𐑮𐑧𐑛-𐑴𐑯𐑤𐑦 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑯 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑪𐑛𐑦𐑓𐑲𐑛. 𐑐𐑤𐑰𐑟 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑛𐑦𐑓𐑼𐑩𐑯𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 "
 "𐑞𐑨𐑑 𐑒𐑨𐑯 𐑨𐑒𐑕𐑧𐑐𐑑 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕."
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of what "
@@ -1662,7 +1619,6 @@ msgstr ""
 "𐑨𐑛𐑦𐑙 𐑩 𐑥𐑰𐑯𐑦𐑙𐑓𐑩𐑤 𐑕𐑳𐑥𐑼𐑦 𐑑 𐑿𐑼 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑢𐑦𐑤 𐑜𐑦𐑝 𐑿 𐑩𐑯 𐑲𐑛𐑾 𐑝 𐑢𐑪𐑑 𐑿𐑼 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑦𐑟 "
 "𐑩𐑚𐑬𐑑."
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:6
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
@@ -1715,7 +1671,6 @@ msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 �
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑞 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑑𐑲𐑑𐑩𐑤𐑛 '{0}'?"
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑞 𐑥𐑰𐑑𐑦𐑙 𐑑𐑲𐑑𐑩𐑤𐑛 '{0}'?"
@@ -1758,7 +1713,6 @@ msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 �
 msgid "Are you sure you want to delete this task?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑑𐑭𐑕𐑒?"
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:26
 msgid "Are you sure you want to save the appointment without a summary?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑱𐑝 𐑞 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑢𐑦𐑞𐑬𐑑 𐑩 𐑕𐑳𐑥𐑼𐑦?"
@@ -1767,7 +1721,6 @@ msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑱𐑝 𐑞 𐑩
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑱𐑝 𐑞 𐑥𐑧𐑥𐑴 𐑢𐑦𐑞𐑬𐑑 𐑩 𐑕𐑳𐑥𐑼𐑦?"
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:28
 msgid "Are you sure you want to save the task without a summary?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑱𐑝 𐑞 𐑑𐑭𐑕𐑒 𐑢𐑦𐑞𐑬𐑑 𐑩 𐑕𐑳𐑥𐑼𐑦?"
@@ -1937,7 +1890,6 @@ msgstr "𐑞𐑦𐑕 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑 𐑢𐑦𐑤 𐑚𐑰 �
 msgid "Would you like to save your changes to this appointment?"
 msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑕𐑱𐑝 𐑿𐑼 𐑗𐑱𐑯𐑡𐑩𐑟 𐑑 𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑?"
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:62
 msgid "Would you like to save your changes to this meeting?"
 msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑕𐑱𐑝 𐑿𐑼 𐑗𐑱𐑯𐑡𐑩𐑟 𐑑 𐑞𐑦𐑕 𐑥𐑰𐑑𐑦𐑙?"
@@ -1976,7 +1928,6 @@ msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑕𐑧𐑯𐑛 𐑳𐑐𐑛𐑱�
 msgid "Would you like to send updated task information to participants?"
 msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑕𐑧𐑯𐑛 𐑳𐑐𐑛𐑱𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑑 𐑐𐑭𐑮𐑑𐑦𐑕𐑩𐑐𐑩𐑯𐑑𐑕?"
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:71
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
@@ -1984,13 +1935,12 @@ msgid ""
 "a supported version."
 msgstr ""
 "𐑿 𐑸 𐑒𐑩𐑯𐑧𐑒𐑑𐑦𐑙 𐑑 𐑩𐑯 𐑳𐑯𐑕𐑩𐑐𐑹𐑑𐑩𐑛 GroupWise 𐑕𐑻𐑝𐑼 𐑯 𐑥𐑱 𐑦𐑯𐑒𐑶𐑯𐑑𐑻 𐑐𐑮𐑪𐑚𐑤𐑩𐑥𐑟 𐑿𐑟𐑦𐑙 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑓𐑹 𐑚𐑧𐑕𐑑 𐑮𐑦𐑟𐑳𐑤𐑑𐑕, 𐑞 𐑕𐑻𐑝𐑼 𐑖𐑫𐑛 𐑚𐑰 𐑩𐑐𐑜𐑮𐑱𐑛𐑩𐑛 𐑑 𐑩 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑝𐑻𐑠𐑩𐑯."
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑓𐑹 𐑚𐑧𐑕𐑑 𐑮𐑦𐑟𐑳𐑤𐑑𐑕, 𐑞 𐑕𐑻𐑝𐑼 𐑖𐑫𐑛 𐑚𐑰 𐑩𐑐𐑜𐑮𐑱𐑛𐑩𐑛 𐑑 𐑩 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑝𐑻𐑠𐑩𐑯."
 
 #: ../calendar/calendar.error.xml.h:72
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "𐑿 𐑣𐑨𐑝 𐑗𐑱𐑯𐑡𐑛 𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑, 𐑚𐑳𐑑 𐑯𐑪𐑑 𐑘𐑧𐑑 𐑕𐑱𐑝𐑛 𐑦𐑑."
 
-#, fuzzy
 #: ../calendar/calendar.error.xml.h:73
 msgid "You have changed this meeting, but not yet saved it."
 msgstr "𐑿 𐑣𐑨𐑝 𐑗𐑱𐑯𐑡𐑛 𐑞𐑦𐑕 𐑥𐑰𐑑𐑦𐑙, 𐑚𐑳𐑑 𐑯𐑪𐑑 𐑘𐑧𐑑 𐑕𐑱𐑝𐑛 𐑦𐑑."
@@ -2070,17 +2020,15 @@ msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑲𐑑 𐑐𐑲𐑤𐑩𐑑'𐑕 𐑥�
 msgid "Default Priority:"
 msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑐𐑮𐑲𐑪𐑮𐑦𐑑𐑦:"
 
-#, fuzzy
 #: ../calendar/conduits/todo/todo-conduit.c:1106
 #: ../calendar/conduits/todo/todo-conduit.c:1109
 msgid "Could not read pilot's ToDo application block"
-msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑧𐑛 𐑐𐑲𐑤𐑩𐑑𐑕 ToDo 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯 𐑚𐑤𐑪𐑒"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑧𐑛 𐑐𐑲𐑤𐑩𐑑𐑕 𐑑𐑵𐑛𐑵 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯 𐑚𐑤𐑪𐑒"
 
-#, fuzzy
 #: ../calendar/conduits/todo/todo-conduit.c:1151
 #: ../calendar/conduits/todo/todo-conduit.c:1154
 msgid "Could not write pilot's ToDo application block"
-msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑲𐑑 𐑐𐑲𐑤𐑩𐑑𐑕 ToDo 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯 𐑚𐑤𐑪𐑒"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑲𐑑 𐑐𐑲𐑤𐑩𐑑𐑕 𐑑𐑵𐑛𐑵 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯 𐑚𐑤𐑪𐑒"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:102
 msgid "minute"
@@ -2088,7 +2036,6 @@ msgid_plural "minutes"
 msgstr[0] "𐑥𐑦𐑯𐑩𐑑"
 msgstr[1] "𐑥𐑦𐑯𐑩𐑑𐑕"
 
-#, fuzzy
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:117
 msgid "hour"
 msgid_plural "hours"
@@ -2139,7 +2086,6 @@ msgstr "_𐑧𐑛𐑦𐑑"
 msgid "_Snooze"
 msgstr "_𐑕𐑯𐑵𐑟"
 
-#, fuzzy
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
 #: ../calendar/gui/dialogs/event-page.ui.h:20 ../e-util/e-plugin-util.c:424
@@ -2256,12 +2202,10 @@ msgstr "𐑩𐑥𐑬𐑯𐑑 𐑝 𐑑𐑲𐑥 𐑦𐑯 𐑕𐑧𐑒𐑩𐑯𐑛
 msgid "Ask for confirmation when deleting items"
 msgstr "𐑭𐑕𐑒 𐑓𐑹 𐑒𐑪𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑢𐑧𐑯 𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑲𐑑𐑩𐑥𐑟"
 
-#, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:4
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgstr "𐑚𐑨𐑒𐑜𐑮𐑬𐑯𐑛 𐑒𐑳𐑤𐑼 𐑝 𐑑𐑭𐑕𐑒𐑕 𐑞𐑨𐑑 𐑸 𐑛𐑿 𐑑𐑫𐑛𐑱, 𐑦𐑯 \"#rrggbb\" 𐑓𐑹𐑥𐑨𐑑."
 
-#, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:5
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgstr "𐑚𐑨𐑒𐑜𐑮𐑬𐑯𐑛 𐑒𐑳𐑤𐑼 𐑝 𐑑𐑭𐑕𐑒𐑕 𐑞𐑨𐑑 𐑸 𐑴𐑝𐑻𐑛𐑵, 𐑦𐑯 \"#rrggbb\" 𐑓𐑹𐑥𐑨𐑑."
@@ -2533,7 +2477,6 @@ msgstr "𐑕𐑱𐑝 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 𐑓𐑹 𐑩𐑤𐑸𐑥 
 msgid "Scroll Month View by a week"
 msgstr "𐑕𐑒𐑮𐑴𐑤 𐑥𐑳𐑯𐑔 𐑝𐑿 𐑚𐑲 𐑩 𐑢𐑰𐑒"
 
-#, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "𐑖𐑴 RSVP 𐑓𐑰𐑤𐑛 𐑦𐑯 𐑞 𐑦𐑝𐑧𐑯𐑑/𐑑𐑭𐑕𐑒/𐑥𐑰𐑑𐑦𐑙 𐑧𐑛𐑦𐑑𐑹"
@@ -2623,7 +2566,7 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
-"𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 timezone 𐑑 𐑿𐑕 𐑓𐑹 𐑛𐑱𐑑𐑕 𐑯 𐑑𐑲𐑥𐑟 𐑦𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼, 𐑨𐑟 𐑩𐑯 untranslated 𐑴𐑤𐑕𐑩𐑯 "
+"𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 timezone 𐑑 𐑿𐑕 𐑓𐑹 𐑛𐑱𐑑𐑕 𐑯 𐑑𐑲𐑥𐑟 𐑦𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼, 𐑨𐑟 𐑩𐑯 untranslated ·𐑴𐑤𐑕𐑩𐑯 "
 "timezone 𐑛𐑱𐑑𐑩𐑚𐑱𐑕 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑤𐑲𐑒 \"·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑯𐑿 ·𐑘𐑹𐑒\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
@@ -2712,7 +2655,7 @@ msgstr "𐑿𐑟 𐑕𐑦𐑕𐑑𐑩𐑥 timezone"
 #, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:101
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr "𐑿𐑟 𐑞 𐑕𐑦𐑕𐑑𐑩𐑥 timezone 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑞 timezone 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑯 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑿𐑟 𐑞 𐑕𐑦𐑕𐑑𐑩𐑥 timezone 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑞 timezone 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Vertical pane position"
@@ -2734,10 +2677,9 @@ msgstr "𐑢𐑧𐑞𐑼 𐑹 𐑯𐑪𐑑 𐑑 𐑿𐑕 𐑞 𐑯𐑴𐑑𐑦�
 msgid "Whether to ask for confirmation when deleting an appointment or task."
 msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑭𐑕𐑒 𐑓𐑹 𐑒𐑪𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑢𐑧𐑯 𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑩𐑯 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑹 𐑑𐑭𐑕𐑒."
 
-#, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:107
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑭𐑕𐑒 𐑓𐑹 𐑒𐑪𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑢𐑧𐑯 expunging 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕 𐑯 𐑑𐑭𐑕𐑒𐑕."
+msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑭𐑕𐑒 𐑓𐑹 𐑒𐑪𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑢𐑧𐑯 𐑧𐑒𐑕𐑐𐑳𐑯𐑡𐑦𐑙 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕 𐑯 𐑑𐑭𐑕𐑒𐑕."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:108
 msgid ""
@@ -2768,7 +2710,6 @@ msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑕𐑒𐑮𐑴𐑤 𐑩 𐑥𐑳𐑯𐑔 𐑝�
 msgid "Whether to set a default reminder for appointments."
 msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑕𐑧𐑑 𐑩 𐑛𐑦𐑓𐑷𐑤𐑑 𐑮𐑦𐑥𐑲𐑯𐑛𐑼 𐑓𐑹 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕."
 
-#, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:114
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑖𐑴 RSVP 𐑓𐑰𐑤𐑛 𐑦𐑯 𐑞 𐑦𐑝𐑧𐑯𐑑/𐑑𐑭𐑕𐑒/𐑥𐑰𐑑𐑦𐑙 𐑧𐑛𐑦𐑑𐑹"
@@ -2788,7 +2729,7 @@ msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑖𐑴 𐑕𐑑𐑱𐑑𐑫𐑕 𐑓𐑰𐑤𐑛
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:118
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑖𐑴 𐑑𐑲𐑥𐑟 𐑦𐑯 𐑑𐑢𐑧𐑯𐑑𐑦 𐑓𐑹 𐑬𐑼 𐑓𐑹𐑥𐑨𐑑 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑿𐑟𐑦𐑙 𐑨𐑥/𐑐𐑰𐑧𐑥."
+msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑖𐑴 𐑑𐑲𐑥𐑟 𐑦𐑯 𐑑𐑢𐑧𐑯𐑑𐑦 𐑓𐑹 𐑬𐑼 𐑓𐑹𐑥𐑨𐑑 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑿𐑟𐑦𐑙 am/pm."
 
 #, fuzzy
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:119
@@ -2996,7 +2937,6 @@ msgstr "𐑕𐑧𐑯𐑛 𐑩𐑯 𐑰𐑥𐑱𐑤"
 msgid "Add Alarm"
 msgstr "𐑨𐑛 𐑩𐑤𐑸𐑥"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
 msgid "Alarm"
 msgstr "𐑩𐑤𐑸𐑥"
@@ -3013,12 +2953,10 @@ msgstr "𐑒𐑳𐑕𐑑𐑩𐑥 𐑩𐑤𐑸𐑥 𐑕𐑬𐑯𐑛"
 msgid "Mes_sage:"
 msgstr "𐑥𐑧_𐑕𐑦𐑡:"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:6 ../mail/mail-config.ui.h:77
 msgid "Options"
 msgstr "𐑪𐑐𐑖𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
 msgid "Repeat"
 msgstr "𐑮𐑦𐑐𐑰𐑑"
@@ -3047,21 +2985,18 @@ msgstr "_𐑮𐑦𐑐𐑰𐑑 𐑞 𐑩𐑤𐑸𐑥"
 msgid "_Sound:"
 msgstr "_𐑕𐑬𐑯𐑛:"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:14
 msgid "after"
 msgstr "𐑭𐑓𐑑𐑼"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:15
 msgid "before"
 msgstr "𐑚𐑦𐑓𐑹"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:7
 msgid "day(s)"
-msgstr "𐑛𐑱(𐑕)"
+msgstr "𐑛𐑱(𐑟)"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -3074,7 +3009,6 @@ msgstr "𐑛𐑱(𐑕)"
 msgid "days"
 msgstr "𐑛𐑱𐑟"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:18
 msgid "end of appointment"
 msgstr "𐑧𐑯𐑛 𐑝 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
@@ -3084,17 +3018,14 @@ msgstr "𐑧𐑯𐑛 𐑝 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 msgid "extra times every"
 msgstr "𐑧𐑒𐑕𐑑𐑮𐑩 𐑑𐑲𐑥𐑟 𐑧𐑝𐑮𐑦"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:21
 msgid "hour(s)"
-msgstr "𐑬𐑼(𐑕)"
+msgstr "𐑬𐑼(𐑟)"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:23
 msgid "minute(s)"
 msgstr "𐑥𐑦𐑯𐑩𐑑(𐑕)"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:25
 msgid "start of appointment"
 msgstr "𐑕𐑑𐑸𐑑 𐑝 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
@@ -3114,7 +3045,6 @@ msgid "Alarms"
 msgstr "𐑩𐑤𐑸𐑥𐑟"
 
 #. Translators: "None" indicates no second time zone set for a day view
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:107
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:156
 #: ../calendar/gui/e-day-view-time-item.c:797
@@ -3142,41 +3072,36 @@ msgstr "Ti_me 𐑯 𐑛𐑱𐑑:"
 msgid "_Date only:"
 msgstr "_Date 𐑴𐑯𐑤𐑦:"
 
-#, fuzzy, no-c-format
+#, no-c-format
+#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:2
 msgid "%u and %d will be replaced by user and domain from the email address."
-msgstr "<i>%u 𐑯 %d 𐑢𐑦𐑤 𐑚𐑰 𐑮𐑦𐑐𐑤𐑱𐑕𐑑 𐑚𐑲 𐑿𐑟𐑼 𐑯 𐑛𐑴𐑥𐑱𐑯 𐑓𐑮𐑪𐑥 𐑞 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕.</i>"
+msgstr "%u 𐑯 %d 𐑢𐑦𐑤 𐑚𐑰 𐑮𐑦𐑐𐑤𐑱𐑕𐑑 𐑚𐑲 𐑿𐑟𐑼 𐑯 𐑛𐑴𐑥𐑱𐑯 𐑓𐑮𐑪𐑥 𐑞 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕."
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:3
 msgid "(Shown in a Day View)"
 msgstr "(𐑖𐑴𐑯 𐑦𐑯 𐑩 𐑛𐑱 𐑝𐑿)"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:4
 msgid "05 minutes"
 msgstr "05 𐑥𐑦𐑯𐑦𐑑𐑕"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:5
 msgid "10 minutes"
 msgstr "10 𐑥𐑦𐑯𐑦𐑑𐑕"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:6
 msgid "15 minutes"
 msgstr "15 𐑥𐑦𐑯𐑦𐑑𐑕"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:7
 msgid "30 minutes"
 msgstr "30 𐑥𐑦𐑯𐑦𐑑𐑕"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:8
 msgid "60 minutes"
 msgstr "60 𐑥𐑦𐑯𐑦𐑑𐑕"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:10 ../mail/mail-config.ui.h:7
 msgid "Alerts"
 msgstr "𐑩𐑤𐑻𐑑𐑕"
@@ -3191,12 +3116,10 @@ msgstr "𐑛𐑱𐑑/𐑑𐑲𐑥 𐑓𐑹𐑥𐑨𐑑"
 msgid "Day _ends:"
 msgstr "𐑛𐑱 _𐑧𐑯𐑛𐑟:"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:13
 msgid "Days"
 msgstr "𐑛𐑱𐑟"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:14
 msgid "Default Free/Busy Server"
 msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑕𐑻𐑝𐑼"
@@ -3227,12 +3150,10 @@ msgstr "·𐑓𐑮𐑲𐑛𐑱"
 msgid "General"
 msgstr "𐑡𐑧𐑯𐑼𐑩𐑤"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:20
 msgid "Hours"
 msgstr "𐑬𐑼𐑟"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:21
 msgid "Minutes"
 msgstr "𐑥𐑦𐑯𐑦𐑑𐑕"
@@ -3393,10 +3314,9 @@ msgid "_Day begins:"
 msgstr "_𐑛𐑱 𐑚𐑩𐑜𐑦𐑯𐑟:"
 
 #. Friday
-#, fuzzy
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
 msgid "_Fri"
-msgstr "_Fri"
+msgstr "_𐑓"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Hide completed tasks after"
@@ -3617,7 +3537,6 @@ msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯"
 msgid "Cut the selection"
 msgstr "𐑒𐑳𐑑 𐑞 𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/comp-editor.c:959
 #: ../shell/e-shell-window-actions.c:1478
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
@@ -3731,12 +3650,10 @@ msgstr "𐑮_𐑴𐑤 𐑓𐑰𐑤𐑛"
 msgid "Toggles whether the Role field is displayed"
 msgstr "𐑑𐑪𐑜𐑩𐑤𐑟 𐑢𐑧𐑞𐑼 𐑞 𐑮𐑴𐑤 𐑓𐑰𐑤𐑛 𐑦𐑟 𐑛𐑩𐑕𐑐𐑤𐑱𐑛"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/comp-editor.c:1121
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "𐑑𐑪𐑜𐑩𐑤𐑟 𐑢𐑧𐑞𐑼 𐑞 RSVP 𐑓𐑰𐑤𐑛 𐑦𐑟 𐑛𐑩𐑕𐑐𐑤𐑱𐑛"
@@ -3807,22 +3724,18 @@ msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑲𐑑𐑩𐑥 𐑓𐑮𐑪𐑥 �
 msgid "_Retract comment"
 msgstr "_Retract 𐑒𐑳𐑥𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/delete-error.c:55
 msgid "The event could not be deleted due to a corba error"
 msgstr "𐑞 𐑦𐑝𐑧𐑯𐑑 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑛𐑿 𐑑 𐑩 corba 𐑻𐑼"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/delete-error.c:58
 msgid "The task could not be deleted due to a corba error"
 msgstr "𐑞 𐑑𐑭𐑕𐑒 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑛𐑿 𐑑 𐑩 corba 𐑻𐑼"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/delete-error.c:61
 msgid "The memo could not be deleted due to a corba error"
 msgstr "𐑞 𐑥𐑧𐑥𐑴 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑛𐑿 𐑑 𐑩 corba 𐑻𐑼"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/delete-error.c:64
 msgid "The item could not be deleted due to a corba error"
 msgstr "𐑞 𐑲𐑑𐑩𐑥 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑛𐑿 𐑑 𐑩 corba 𐑻𐑼"
@@ -4044,23 +3957,19 @@ msgid "Customize"
 msgstr "𐑒𐑩𐑕𐑑𐑩𐑥𐑲𐑟"
 
 #. Translators: "None" for "No alarm set"
-#, fuzzy
 #: ../calendar/gui/dialogs/event-page.c:2964
 msgctxt "cal-alarms"
 msgid "None"
 msgstr "𐑯𐑳𐑯"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/event-page.ui.h:1
 msgid "1 day before appointment"
 msgstr "1 𐑛𐑱 𐑚𐑦𐑓𐑹 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/event-page.ui.h:2
 msgid "1 hour before appointment"
 msgstr "1 𐑬𐑼 𐑚𐑦𐑓𐑹 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/event-page.ui.h:3
 msgid "15 minutes before appointment"
 msgstr "15 𐑥𐑦𐑯𐑦𐑑𐑕 𐑚𐑦𐑓𐑹 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
@@ -4110,13 +4019,11 @@ msgstr "_Summary:"
 msgid "_Time:"
 msgstr "_𐑑𐑲𐑥:"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/event-page.ui.h:19
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgid "for"
 msgstr "𐑓𐑹"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/event-page.ui.h:22
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:11
 msgid "until"
@@ -4205,7 +4112,7 @@ msgstr "𐑷𐑤 𐑦𐑯𐑕𐑑𐑨𐑯𐑕𐑩𐑟"
 #, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.c:560
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 recurrences 𐑞𐑨𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑧𐑛𐑦𐑑."
+msgstr "𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 recurrences 𐑞𐑨𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑧𐑛𐑦𐑑."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:892
 msgid "Recurrence date is invalid"
@@ -4342,12 +4249,10 @@ msgstr "𐑛𐑱𐑑/𐑑𐑲𐑥"
 msgid "Every"
 msgstr "𐑧𐑝𐑮𐑦"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:2
 msgid "Exceptions"
 msgstr "𐑦𐑒𐑕𐑧𐑐𐑖𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:3 ../mail/mail-config.ui.h:85
 msgid "Preview"
 msgstr "𐑐𐑮𐑰𐑝𐑿"
@@ -4356,25 +4261,21 @@ msgstr "𐑐𐑮𐑰𐑝𐑿"
 msgid "This appointment rec_urs"
 msgstr "𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑮𐑧𐑒𐑻𐑟"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:9
 msgid "forever"
 msgstr "𐑓𐑹𐑧𐑝𐑼"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:10
 msgid "month(s)"
 msgstr "𐑥𐑳𐑯𐑔(𐑕)"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
 msgid "week(s)"
 msgstr "𐑢𐑰𐑒(𐑕)"
 
-#, fuzzy
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:13
 msgid "year(s)"
-msgstr "𐑘𐑽(𐑕)"
+msgstr "𐑘𐑽(𐑟)"
 
 #: ../calendar/gui/dialogs/send-comp.c:162
 msgid "Send my alarms with this event"
@@ -4454,7 +4355,7 @@ msgstr "𐑯𐑪𐑑 𐑕𐑑𐑸𐑑𐑩𐑛"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:16
 msgid "P_ercent complete:"
-msgstr "𐑐_𐑻𐑕𐑧𐑯𐑑 𐑒𐑩𐑥𐑐𐑤𐑰𐑑:"
+msgstr "𐑐_𐑼𐑕𐑧𐑯𐑑 𐑒𐑩𐑥𐑐𐑤𐑰𐑑:"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 msgid "Stat_us:"
@@ -4709,7 +4610,6 @@ msgstr ""
 "𐑞 𐑡𐑰𐑩𐑜𐑮𐑨𐑓𐑦𐑒𐑩𐑤 𐑐𐑩𐑟𐑦𐑖𐑩𐑯 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑧𐑯𐑑𐑻𐑛 𐑦𐑯 𐑞 𐑓𐑹𐑥𐑨𐑑: \n\n45.436845,125.862501"
 
 #. Translators: "None" for task's status
-#, fuzzy
 #: ../calendar/gui/e-cal-model-tasks.c:709
 msgctxt "cal-task-status"
 msgid "None"
@@ -4796,22 +4696,18 @@ msgstr "𐑕𐑑𐑸𐑑 𐑛𐑱𐑑"
 msgid "Type"
 msgstr "𐑑𐑲𐑐"
 
-#, fuzzy
 #: ../calendar/gui/e-calendar-view.c:404
 msgid "Cut selected events to the clipboard"
 msgstr "𐑒𐑳𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑝𐑧𐑯𐑑𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../calendar/gui/e-calendar-view.c:410
 msgid "Copy selected events to the clipboard"
 msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑝𐑧𐑯𐑑𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../calendar/gui/e-calendar-view.c:416
 msgid "Paste events from the clipboard"
 msgstr "𐑐𐑱𐑕𐑑 𐑦𐑝𐑧𐑯𐑑𐑕 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../calendar/gui/e-calendar-view.c:422
 msgid "Delete selected events"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑝𐑧𐑯𐑑𐑕"
@@ -4970,7 +4866,6 @@ msgstr "pm"
 msgid "Week %d"
 msgstr "𐑢𐑰𐑒 %d"
 
-#, fuzzy
 #: ../calendar/gui/e-itip-control.c:761
 msgid "Recurring:"
 msgstr "𐑮𐑦𐑒𐑻𐑦𐑙:"
@@ -5056,13 +4951,11 @@ msgstr "𐑧𐑯𐑛𐑟"
 msgid "Due"
 msgstr "𐑛𐑿"
 
-#, fuzzy
 #: ../calendar/gui/e-itip-control.c:986 ../calendar/gui/e-itip-control.c:1059
 msgid "iCalendar Information"
 msgstr "iCalendar 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
 #. Title
-#, fuzzy
 #: ../calendar/gui/e-itip-control.c:1008
 msgid "iCalendar Error"
 msgstr "iCalendar 𐑻𐑼"
@@ -5077,7 +4970,6 @@ msgstr "iCalendar 𐑻𐑼"
 msgid "An unknown person"
 msgstr "𐑩𐑯 𐑳𐑯𐑴𐑯 𐑐𐑻𐑕𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/gui/e-itip-control.c:1145
 msgid ""
 "Please review the following information, and then select an action from the "
@@ -5085,7 +4977,6 @@ msgid ""
 msgstr "𐑐𐑤𐑰𐑟 𐑮𐑦𐑝𐑿 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯, 𐑯 𐑞𐑧𐑯 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩𐑯 𐑨𐑒𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 𐑞 𐑥𐑧𐑯𐑿 𐑚𐑩𐑤𐑴."
 
 #. Translators: "None" used as a default value for events without Summary received by mail
-#, fuzzy
 #: ../calendar/gui/e-itip-control.c:1160
 #: ../plugins/itip-formatter/itip-formatter.c:2317
 msgctxt "cal-itip"
@@ -5107,132 +4998,132 @@ msgid ""
 "The task has been canceled, however it could not be found in your task lists"
 msgstr "𐑞 𐑑𐑭𐑕𐑒 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑒𐑨𐑯𐑕𐑩𐑤𐑛, 𐑣𐑬𐑧𐑝𐑼 𐑦𐑑 𐑒𐑫𐑛 𐑯𐑪𐑑 𐑚𐑰 𐑓𐑬𐑯𐑛 𐑦𐑯 𐑿𐑼 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑𐑕"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1369
 msgid "%s has published meeting information."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../calendar/gui/e-itip-control.c:1370
 msgid "Meeting Information"
 msgstr "𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1376
 msgid "%s requests the presence of %s at a meeting."
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑞 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑝 %s 𐑨𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙."
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑞 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑝 %s 𐑨𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙."
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1378
 msgid "%s requests your presence at a meeting."
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙."
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙."
 
 #: ../calendar/gui/e-itip-control.c:1379
 msgid "Meeting Proposal"
 msgstr "𐑥𐑰𐑑𐑦𐑙 𐑐𐑮𐑩𐑐𐑴𐑟𐑩𐑤"
 
 #. FIXME Whats going on here?
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1385
 msgid "%s wishes to be added to an existing meeting."
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑚𐑰 𐑨𐑛𐑩𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙."
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑚𐑰 𐑨𐑛𐑩𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙."
 
 #: ../calendar/gui/e-itip-control.c:1386
 msgid "Meeting Update"
 msgstr "𐑥𐑰𐑑𐑦𐑙 𐑳𐑐𐑛𐑱𐑑"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1390
 msgid "%s wishes to receive the latest meeting information."
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../calendar/gui/e-itip-control.c:1391
 msgid "Meeting Update Request"
 msgstr "𐑥𐑰𐑑𐑦𐑙 𐑳𐑐𐑛𐑱𐑑 𐑮𐑦𐑒𐑢𐑧𐑕𐑑"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1398
 msgid "%s has replied to a meeting request."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑮𐑦𐑐𐑤𐑲𐑛 𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑒𐑢𐑧𐑕𐑑."
+msgstr "%s 𐑣𐑨𐑟 𐑮𐑦𐑐𐑤𐑲𐑛 𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑒𐑢𐑧𐑕𐑑."
 
 #: ../calendar/gui/e-itip-control.c:1399
 msgid "Meeting Reply"
 msgstr "𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑐𐑤𐑲"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1406
 msgid "%s has canceled a meeting."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑩 𐑥𐑰𐑑𐑦𐑙."
+msgstr "%s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑩 𐑥𐑰𐑑𐑦𐑙."
 
 #, fuzzy
 #: ../calendar/gui/e-itip-control.c:1407
 msgid "Meeting Cancelation"
 msgstr "𐑥𐑰𐑑𐑦𐑙 Cancelation"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1417 ../calendar/gui/e-itip-control.c:1494
 #: ../calendar/gui/e-itip-control.c:1534
 msgid "%s has sent an unintelligible message."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑩𐑯 𐑩𐑯𐑦𐑯𐑑𐑧𐑤𐑩𐑡𐑩𐑚𐑩𐑤 𐑥𐑧𐑕𐑦𐑡."
+msgstr "%s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑩𐑯 𐑩𐑯𐑦𐑯𐑑𐑧𐑤𐑩𐑡𐑩𐑚𐑩𐑤 𐑥𐑧𐑕𐑦𐑡."
 
 #: ../calendar/gui/e-itip-control.c:1418
 msgid "Bad Meeting Message"
 msgstr "𐑚𐑨𐑛 𐑥𐑰𐑑𐑦𐑙 𐑥𐑧𐑕𐑦𐑡"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1445
 msgid "%s has published task information."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../calendar/gui/e-itip-control.c:1446
 msgid "Task Information"
 msgstr "𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1453
 msgid "%s requests %s to perform a task."
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 %s 𐑑 𐑐𐑼𐑓𐑹𐑥 𐑩 𐑑𐑭𐑕𐑒."
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 %s 𐑑 𐑐𐑼𐑓𐑹𐑥 𐑩 𐑑𐑭𐑕𐑒."
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1455
 msgid "%s requests you perform a task."
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿 𐑐𐑼𐑓𐑹𐑥 𐑩 𐑑𐑭𐑕𐑒."
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿 𐑐𐑼𐑓𐑹𐑥 𐑩 𐑑𐑭𐑕𐑒."
 
 #: ../calendar/gui/e-itip-control.c:1456
 msgid "Task Proposal"
 msgstr "𐑑𐑭𐑕𐑒 𐑐𐑮𐑩𐑐𐑴𐑟𐑩𐑤"
 
 #. FIXME Whats going on here?
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1462
 msgid "%s wishes to be added to an existing task."
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑚𐑰 𐑨𐑛𐑩𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒."
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑚𐑰 𐑨𐑛𐑩𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒."
 
 #: ../calendar/gui/e-itip-control.c:1463
 msgid "Task Update"
 msgstr "𐑑𐑭𐑕𐑒 𐑳𐑐𐑛𐑱𐑑"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1467
 msgid "%s wishes to receive the latest task information."
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑑𐑭𐑕𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../calendar/gui/e-itip-control.c:1468
 msgid "Task Update Request"
 msgstr "𐑑𐑭𐑕𐑒 𐑳𐑐𐑛𐑱𐑑 𐑮𐑦𐑒𐑢𐑧𐑕𐑑"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1475
 msgid "%s has replied to a task assignment."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑮𐑦𐑐𐑤𐑲𐑛 𐑑 𐑩 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑."
+msgstr "%s 𐑣𐑨𐑟 𐑮𐑦𐑐𐑤𐑲𐑛 𐑑 𐑩 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑."
 
 #: ../calendar/gui/e-itip-control.c:1476
 msgid "Task Reply"
 msgstr "𐑑𐑭𐑕𐑒 𐑮𐑦𐑐𐑤𐑲"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1483
 msgid "%s has canceled a task."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑩 𐑑𐑭𐑕𐑒."
+msgstr "%s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑩 𐑑𐑭𐑕𐑒."
 
 #, fuzzy
 #: ../calendar/gui/e-itip-control.c:1484
@@ -5243,36 +5134,36 @@ msgstr "𐑑𐑭𐑕𐑒 Cancelation"
 msgid "Bad Task Message"
 msgstr "𐑚𐑨𐑛 𐑑𐑭𐑕𐑒 𐑥𐑧𐑕𐑦𐑡"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1519
 msgid "%s has published free/busy information."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../calendar/gui/e-itip-control.c:1520
 msgid "Free/Busy Information"
 msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1524
 msgid "%s requests your free/busy information."
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
 
 #: ../calendar/gui/e-itip-control.c:1525
 msgid "Free/Busy Request"
-msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑮𐑦𐑒𐑢𐑧𐑕𐑑"
+msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑮𐑦𐑒𐑢𐑧𐑕𐑑"
 
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-itip-control.c:1529
 msgid "%s has replied to a free/busy request."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑮𐑦𐑐𐑤𐑲𐑛 𐑑 𐑩 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑮𐑦𐑒𐑢𐑧𐑕𐑑."
+msgstr "%s 𐑣𐑨𐑟 𐑮𐑦𐑐𐑤𐑲𐑛 𐑑 𐑩 𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑮𐑦𐑒𐑢𐑧𐑕𐑑."
 
 #: ../calendar/gui/e-itip-control.c:1530
 msgid "Free/Busy Reply"
-msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑮𐑦𐑐𐑤𐑲"
+msgstr "𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑮𐑦𐑐𐑤𐑲"
 
 #: ../calendar/gui/e-itip-control.c:1535
 msgid "Bad Free/Busy Message"
-msgstr "𐑚𐑨𐑛 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑥𐑧𐑕𐑦𐑡"
+msgstr "𐑚𐑨𐑛 𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑥𐑧𐑕𐑦𐑡"
 
 #: ../calendar/gui/e-itip-control.c:1611
 msgid "The message does not appear to be properly formed"
@@ -5329,7 +5220,6 @@ msgid "Choose an action:"
 msgstr "𐑗𐑵𐑟 𐑩𐑯 𐑨𐑒𐑖𐑩𐑯:"
 
 #. To translators: RSVP means "please reply"
-#, fuzzy
 #: ../calendar/gui/e-itip-control.c:2302
 #: ../calendar/gui/e-meeting-list-view.c:591
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
@@ -5356,7 +5246,7 @@ msgstr "𐑛𐑦𐑒𐑤𐑲𐑯"
 
 #: ../calendar/gui/e-itip-control.c:2393
 msgid "Send Free/Busy Information"
-msgstr "𐑕𐑧𐑯𐑛 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+msgstr "𐑕𐑧𐑯𐑛 𐑓𐑮𐑰/𐑚𐑦𐑟𐑦 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
 #: ../calendar/gui/e-itip-control.c:2417
 msgid "Update respondent status"
@@ -5525,7 +5415,6 @@ msgstr "𐑖𐑴 _𐑟𐑵𐑥𐑛 𐑬𐑑"
 msgid "_Update free/busy"
 msgstr "_𐑳𐑐𐑛𐑱𐑑 𐑓𐑮𐑰/𐑚𐑦𐑟𐑰"
 
-#, fuzzy
 #: ../calendar/gui/e-meeting-time-sel.c:659
 msgid "_<<"
 msgstr "_<<"
@@ -5535,7 +5424,6 @@ msgstr "_<<"
 msgid "_Autopick"
 msgstr "_Autopick"
 
-#, fuzzy
 #: ../calendar/gui/e-meeting-time-sel.c:692
 msgid ">_>"
 msgstr ">_>"
@@ -5611,17 +5499,14 @@ msgstr "𐑕𐑑𐑸𐑑: "
 msgid "Due: "
 msgstr "𐑛𐑿: "
 
-#, fuzzy
 #: ../calendar/gui/e-memo-table.c:709
 msgid "Cut selected memos to the clipboard"
 msgstr "𐑒𐑳𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴𐑟 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../calendar/gui/e-memo-table.c:715
 msgid "Copy selected memos to the clipboard"
 msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴𐑟 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../calendar/gui/e-memo-table.c:721
 msgid "Paste memos from the clipboard"
 msgstr "𐑐𐑱𐑕𐑑 𐑥𐑧𐑥𐑴𐑟 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
@@ -5631,7 +5516,6 @@ msgstr "𐑐𐑱𐑕𐑑 𐑥𐑧𐑥𐑴𐑟 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦
 msgid "Delete selected memos"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴𐑟"
 
-#, fuzzy
 #: ../calendar/gui/e-memo-table.c:733
 msgid "Select all visible memos"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑝𐑦𐑕𐑦𐑚𐑩𐑤 𐑥𐑧𐑥𐑴𐑟"
@@ -5644,10 +5528,10 @@ msgstr "𐑒𐑤𐑦𐑒 𐑑 𐑨𐑛 𐑩 𐑥𐑧𐑥𐑴"
 #. %d is the actual value, %% is replaced with a percent sign.
 #. Result values will be 0%, 10%, 20%, ... 100%
 #.
-#, fuzzy, c-format
+#, c-format
 #: ../calendar/gui/e-task-table.c:538
 msgid "%d%%"
-msgstr "%d %b"
+msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:628 ../calendar/gui/print.c:2043
 #: ../calendar/importers/icalendar-importer.c:76
@@ -5663,12 +5547,10 @@ msgstr "%d %b"
 msgid "Tasks"
 msgstr "𐑑𐑭𐑕𐑒𐑕"
 
-#, fuzzy
 #: ../calendar/gui/e-task-table.c:932
 msgid "Cut selected tasks to the clipboard"
 msgstr "𐑒𐑳𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
 
-#, fuzzy
 #: ../calendar/gui/e-task-table.c:938
 msgid "Copy selected tasks to the clipboard"
 msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕 𐑑 𐑞 𐑒𐑤𐑦𐑐𐑚𐑹𐑛"
@@ -5682,7 +5564,6 @@ msgstr "𐑐𐑱𐑕𐑑 𐑑𐑭𐑕𐑒𐑕 𐑓𐑮𐑪𐑥 𐑞 𐑒𐑤𐑦
 msgid "Delete selected tasks"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒𐑕"
 
-#, fuzzy
 #: ../calendar/gui/e-task-table.c:956
 msgid "Select all visible tasks"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑝𐑦𐑕𐑦𐑚𐑩𐑤 𐑑𐑭𐑕𐑒𐑕"
@@ -5848,65 +5729,53 @@ msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑝𐑿 𐑓𐑹 𐑩 𐑥𐑳𐑯𐑔"
 msgid "calendar view for one or more weeks"
 msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑝𐑿 𐑓𐑹 𐑢𐑳𐑯 𐑹 𐑥𐑹 𐑢𐑰𐑒𐑕"
 
-#, fuzzy
 #: ../calendar/gui/gnome-cal.c:2240
 msgid "Purging"
 msgstr "𐑐𐑻𐑡𐑦𐑙"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:1
 msgid "April"
 msgstr "·𐑱𐑐𐑮𐑩𐑤"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:2
 msgid "August"
-msgstr "𐑷𐑜𐑩𐑕𐑑"
+msgstr "·𐑷𐑜𐑩𐑕𐑑"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:3
 msgid "December"
-msgstr "𐑛𐑦𐑕𐑧𐑥𐑚𐑼"
+msgstr "·𐑛𐑦𐑕𐑧𐑥𐑚𐑼"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:4
 msgid "February"
 msgstr "·𐑓𐑧𐑚𐑮𐑵𐑩𐑮𐑦"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:5
 msgid "January"
-msgstr "𐑡𐑨𐑯𐑘𐑫𐑼𐑦"
+msgstr "·𐑡𐑨𐑯𐑘𐑫𐑼𐑦"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:6
 msgid "July"
-msgstr "𐑡𐑿𐑤𐑲"
+msgstr "·𐑡𐑿𐑤𐑲"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:7
 msgid "June"
-msgstr "𐑡𐑿𐑯"
+msgstr "·𐑡𐑿𐑯"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:8
 msgid "March"
-msgstr "𐑥𐑸𐑗"
+msgstr "·𐑥𐑸𐑗"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:9
 msgid "May"
-msgstr "𐑥𐑱"
+msgstr "·𐑥𐑱"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:10
 msgid "November"
-msgstr "𐑯𐑴𐑝𐑧𐑥𐑚𐑼"
+msgstr "·𐑯𐑴𐑝𐑧𐑥𐑚𐑼"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:11
 msgid "October"
-msgstr "𐑪𐑒𐑑𐑴𐑚𐑼"
+msgstr "·𐑪𐑒𐑑𐑴𐑚𐑼"
 
 #: ../calendar/gui/goto-dialog.ui.h:12
 msgid "Select Date"
@@ -5917,10 +5786,9 @@ msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑛𐑱𐑑"
 msgid "Select _Today"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 _𐑑𐑫𐑛𐑱"
 
-#, fuzzy
 #: ../calendar/gui/goto-dialog.ui.h:14
 msgid "September"
-msgstr "𐑕𐑩𐑐𐑑𐑧𐑥𐑚𐑼"
+msgstr "·𐑕𐑩𐑐𐑑𐑧𐑥𐑚𐑼"
 
 #: ../calendar/gui/itip-utils.c:408 ../calendar/gui/itip-utils.c:459
 #: ../calendar/gui/itip-utils.c:551
@@ -6188,10 +6056,9 @@ msgstr "𐑢"
 msgid "Th"
 msgstr "𐑔"
 
-#, fuzzy
 #: ../calendar/gui/print.c:594
 msgid "Fr"
-msgstr "Fr"
+msgstr "𐑓"
 
 #: ../calendar/gui/print.c:594
 msgid "Sa"
@@ -6306,29 +6173,25 @@ msgstr "𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕 𐑯 𐑥𐑰𐑑𐑦𐑙𐑟"
 msgid "Opening calendar"
 msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 
-#, fuzzy
 #: ../calendar/importers/icalendar-importer.c:442
 msgid "iCalendar files (.ics)"
 msgstr "iCalendar 𐑓𐑲𐑤𐑟 (.ics)"
 
-#, fuzzy
 #: ../calendar/importers/icalendar-importer.c:443
 msgid "Evolution iCalendar importer"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 iCalendar 𐑦𐑥𐑐𐑹𐑑𐑼"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 iCalendar 𐑦𐑥𐑐𐑹𐑑𐑼"
 
 #: ../calendar/importers/icalendar-importer.c:531
 msgid "Reminder!"
 msgstr "𐑮𐑦𐑥𐑲𐑯𐑛𐑼!"
 
-#, fuzzy
 #: ../calendar/importers/icalendar-importer.c:583
 msgid "vCalendar files (.vcf)"
 msgstr "vCalendar 𐑓𐑲𐑤𐑟 (.vcf)"
 
-#, fuzzy
 #: ../calendar/importers/icalendar-importer.c:584
 msgid "Evolution vCalendar importer"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 vCalendar 𐑦𐑥𐑐𐑹𐑑𐑼"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 vCalendar 𐑦𐑥𐑐𐑹𐑑𐑼"
 
 #: ../calendar/importers/icalendar-importer.c:744
 msgid "Calendar Events"
@@ -8587,13 +8450,11 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are composing?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑕𐑒𐑭𐑮𐑛 𐑞 𐑥𐑧𐑕𐑦𐑡, 𐑑𐑲𐑑𐑩𐑤𐑛 '{0}', 𐑿 𐑸 𐑒𐑩𐑥𐑐𐑴𐑟𐑦𐑙?"
 
-#, fuzzy
 #: ../composer/mail-composer.error.xml.h:4
 msgid ""
 "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr "𐑚𐑦𐑒𐑪𐑟 &quot;{0}&quot;, 𐑿 𐑥𐑱 𐑯𐑰𐑛 𐑑 𐑕𐑩𐑤𐑧𐑒𐑑 𐑛𐑦𐑓𐑼𐑩𐑯𐑑 𐑥𐑱𐑤 𐑪𐑐𐑖𐑩𐑯𐑟."
 
-#, fuzzy
 #: ../composer/mail-composer.error.xml.h:5
 msgid "Because &quot;{1}&quot;."
 msgstr "𐑚𐑦𐑒𐑪𐑟 &quot;{1}&quot;."
@@ -8615,7 +8476,6 @@ msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑒𐑩𐑥𐑐𐑴𐑟�
 msgid "Could not create message."
 msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑥𐑧𐑕𐑦𐑡."
 
-#, fuzzy
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not read signature file &quot;{0}&quot;."
 msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑧𐑛 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑓𐑲𐑤 &quot;{0}&quot;."
@@ -8655,13 +8515,12 @@ msgstr ""
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr "𐑞 𐑓𐑲𐑤 '{0}' 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑮𐑧𐑜𐑘𐑫𐑤𐑼 𐑓𐑲𐑤 𐑯 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑕𐑧𐑯𐑑 𐑦𐑯 𐑩 𐑥𐑧𐑕𐑦𐑡."
 
-#, fuzzy
 #: ../composer/mail-composer.error.xml.h:17
 msgid ""
 "Unable to activate the HTML editor control.\n\nPlease make sure that you have "
 "the correct version of gtkhtml and libgtkhtml installed."
 msgstr ""
-"𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑨𐑒𐑑𐑦𐑝𐑱𐑑 𐑞 ·𐑣·𐑑·𐑥·𐑤 𐑧𐑛𐑦𐑑𐑹 𐑒𐑩𐑯𐑑𐑮𐑴𐑤.\n\n𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 𐑣𐑨𐑝 𐑞 𐑒𐑩𐑮𐑧𐑒𐑑 "
+"𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑨𐑒𐑑𐑦𐑝𐑱𐑑 𐑞 HTML 𐑧𐑛𐑦𐑑𐑹 𐑒𐑩𐑯𐑑𐑮𐑴𐑤.\n\n𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 𐑣𐑨𐑝 𐑞 𐑒𐑩𐑮𐑧𐑒𐑑 "
 "𐑝𐑻𐑠𐑩𐑯 𐑝 gtkhtml 𐑯 libgtkhtml 𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
 
 #, fuzzy
@@ -8940,7 +8799,7 @@ msgstr "𐑩𐑒𐑬𐑯𐑑 𐑢𐑦𐑟𐑼𐑛"
 #, fuzzy
 #: ../capplet/settings/mail-capplet-shell.c:208
 msgid "Evolution account assistant"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑩𐑒𐑬𐑯𐑑 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑩𐑒𐑬𐑯𐑑 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:342 ../mail/e-mail-migrate.c:659
@@ -9155,19 +9014,21 @@ msgid "Yesterday"
 msgstr "𐑘𐑧𐑕𐑑𐑼𐑛𐑱"
 
 #. Translators: %d is replaced with a number of days. It's always greater than 1
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../e-util/e-datetime-format.c:211
 msgid "%d day from now"
 msgid_plural "%d days from now"
-msgstr[0] "%d 𐑛𐑱𐑟 𐑓𐑮𐑪𐑥 𐑯𐑬"
+msgstr[0] "%d 𐑛𐑱 𐑓𐑮𐑪𐑥 𐑯𐑬"
 msgstr[1] "%d 𐑛𐑱𐑟 𐑓𐑮𐑪𐑥 𐑯𐑬"
 
 #. Translators: %d is replaced with a number of days. It's always greater than 1
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../e-util/e-datetime-format.c:214
 msgid "%d day ago"
 msgid_plural "%d days ago"
-msgstr[0] "%d 𐑛𐑱𐑟 𐑩𐑜𐑴"
+msgstr[0] "%d 𐑛𐑱 𐑩𐑜𐑴"
 msgstr[1] "%d 𐑛𐑱𐑟 𐑩𐑜𐑴"
 
 #: ../e-util/e-datetime-format.c:289 ../e-util/e-datetime-format.c:299
@@ -9185,17 +9046,19 @@ msgid "(Unknown Filename)"
 msgstr "(𐑳𐑯𐑴𐑯 𐑓𐑲𐑤𐑯𐑱𐑥)"
 
 #. Translators: The string value is the basename of a file.
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../e-util/e-file-utils.c:140
 msgid "Writing \"%s\""
-msgstr "𐑕𐑑𐑸𐑑𐑦𐑙 %s"
+msgstr "𐑮𐑲𐑑𐑦𐑙 \"%s\""
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../e-util/e-file-utils.c:145
 msgid "Writing \"%s\" to %s"
-msgstr "𐑒𐑪𐑐𐑦𐑦𐑙 `%s' 𐑑 `%s'"
+msgstr "𐑮𐑲𐑑𐑦𐑙 \"%s\" 𐑑 %s"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:194
 msgid "Debug Logs"
@@ -9305,10 +9168,11 @@ msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑞 𐑤𐑦𐑙𐑒."
 msgid "Could not display help for Evolution."
 msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑛𐑩𐑕𐑐𐑤𐑱 𐑣𐑧𐑤𐑐 𐑓𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../e-util/gconf-bridge.c:1304
 msgid "GConf error: %s"
-msgstr "𐑝𐑨𐑤𐑩𐑛𐑱𐑖𐑩𐑯 𐑻𐑼: %s"
+msgstr "GConf 𐑻𐑼: %s"
 
 #: ../e-util/gconf-bridge.c:1315
 msgid "All further errors shown only on terminal."
@@ -9861,13 +9725,14 @@ msgid ""
 "since Evolution 2.24.\n\nPlease be patient while Evolution migrates your "
 "folders..."
 msgstr ""
-"𐑞 𐑕𐑳𐑥𐑼𐑦 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑞 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑥𐑵𐑝𐑛 𐑑 SQLite 𐑕𐑦𐑯𐑕 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 "
-"2.24.\n\n𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+"𐑞 𐑕𐑳𐑥𐑼𐑦 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑥𐑵𐑝𐑛 𐑑 SQLite 𐑕𐑦𐑯𐑕 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 "
+"2.24.\n\n𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/e-mail-migrate.c:740
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑤𐑴𐑒𐑩𐑤 𐑥𐑱𐑤 𐑓𐑴𐑤𐑛𐑼𐑟 𐑨𐑑 `%s': %s"
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑤𐑴𐑒𐑩𐑤 𐑥𐑱𐑤 𐑓𐑴𐑤𐑛𐑼𐑟 𐑨𐑑 '%s': %s"
 
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
@@ -10255,7 +10120,6 @@ msgstr "𐑒𐑩𐑥𐑐𐑴𐑟 𐑩 𐑮𐑦𐑐𐑤𐑲 𐑑 𐑞 𐑕𐑧�
 msgid "_Save as mbox..."
 msgstr "_Save 𐑨𐑟 mbox..."
 
-#, fuzzy
 #: ../mail/e-mail-reader.c:1448
 msgid "Save selected messages as an mbox file"
 msgstr "𐑕𐑱𐑝 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑩𐑯 mbox 𐑓𐑲𐑤"
@@ -10631,16 +10495,18 @@ msgid "Evolution Account Assistant"
 msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑩𐑒𐑬𐑯𐑑 𐑩𐑕𐑦𐑕𐑑𐑩𐑯𐑑"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/em-composer-utils.c:1570
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "𐑿𐑼 𐑥𐑧𐑕𐑦𐑡 𐑑 %s 𐑩𐑚𐑬𐑑 \"%s\" 𐑪𐑯 %s 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑮𐑧𐑛."
 
 #. Translators: %s is the subject of the email message
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/em-composer-utils.c:1618
 msgid "Delivery Notification for: \"%s\""
-msgstr "𐑥𐑱𐑤 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+msgstr "𐑛𐑦𐑤𐑦𐑝𐑼𐑦 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑓𐑹: \"%s\""
 
 #: ../mail/em-composer-utils.c:1947
 msgid "an unknown sender"
@@ -10836,10 +10702,9 @@ msgstr "𐑮𐑧𐑛"
 msgid "Recipients"
 msgstr "𐑮𐑦𐑕𐑦𐑐𐑰𐑩𐑯𐑑𐑕"
 
-#, fuzzy
 #: ../mail/em-filter-i18n.h:56
 msgid "Regex Match"
-msgstr "Regex 𐑥𐑨𐑗"
+msgstr "𐑮𐑧𐑡𐑧𐑒𐑕 𐑥𐑨𐑗"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Replied to"
@@ -11048,11 +10913,12 @@ msgstr "𐑥𐑵𐑝 𐑓𐑴𐑤𐑛𐑼 𐑑"
 msgid "Copy Folder To"
 msgstr "𐑒𐑪𐑐𐑦 𐑓𐑴𐑤𐑛𐑼 𐑑"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/em-folder-utils.c:509
 #: ../plugins/groupwise-features/share-folder-common.c:138
 msgid "Creating folder '%s'"
-msgstr "𐑒𐑮𐑦𐑱𐑑𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 `%s'"
+msgstr "𐑒𐑮𐑦𐑱𐑑𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
 
 #: ../mail/em-folder-utils.c:672
 msgid "Create Folder"
@@ -11064,10 +10930,11 @@ msgstr "𐑒𐑮𐑦𐑱𐑑 𐑓𐑴𐑤𐑛𐑼"
 msgid "Specify where to create the folder:"
 msgstr "𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑢𐑺 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑞 𐑓𐑴𐑤𐑛𐑼:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/em-folder-utils.c:693
 msgid "Unsubscribing from folder \"%s\""
-msgstr "𐑮𐑩𐑕𐑑𐑹𐑦𐑙 𐑓𐑮𐑪𐑥 𐑞 𐑓𐑴𐑤𐑛𐑼 %s"
+msgstr "Unsubscribing 𐑓𐑮𐑪𐑥 𐑓𐑴𐑤𐑛𐑼 \"%s\""
 
 #: ../mail/em-format-html-display.c:90 ../mail/em-format-html.c:1533
 msgid "Unsigned"
@@ -11189,7 +11056,7 @@ msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑮𐑧𐑯𐑛𐑻 𐑞𐑦𐑕 𐑰𐑥𐑱𐑤 𐑨𐑟 𐑦𐑑 𐑦𐑟 𐑑𐑵 𐑤𐑸𐑡 𐑑 𐑐𐑮𐑴𐑕𐑧𐑕. 𐑿 𐑒𐑨𐑯 𐑝𐑿 𐑦𐑑 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑮𐑧𐑯𐑛𐑻 𐑞𐑦𐑕 𐑰𐑥𐑱𐑤 𐑨𐑟 𐑦𐑑 𐑦𐑟 𐑑𐑵 𐑤𐑸𐑡 𐑑 𐑐𐑮𐑴𐑕𐑧𐑕. 𐑿 𐑒𐑨𐑯 𐑝𐑿 𐑦𐑑 "
 "unformatted 𐑹 𐑢𐑦𐑞 𐑩𐑯 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑑𐑧𐑒𐑕𐑑 𐑧𐑛𐑦𐑑𐑹."
 
 #: ../mail/em-format-html-display.c:726
@@ -11232,10 +11099,11 @@ msgstr "𐑓𐑹𐑥𐑨𐑑𐑦𐑙 𐑥𐑧𐑕𐑦𐑡"
 msgid "Formatting Message..."
 msgstr "𐑓𐑹𐑥𐑨𐑑𐑦𐑙 𐑥𐑧𐑕𐑦𐑡..."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/em-format-html.c:1380 ../mail/em-format-html.c:1389
 msgid "Retrieving '%s'"
-msgstr "𐑮𐑦𐑑𐑮𐑰𐑝𐑦𐑙 `%s'"
+msgstr "𐑮𐑦𐑑𐑮𐑰𐑝𐑦𐑙 '%s'"
 
 #: ../mail/em-format-html.c:1854
 msgid "Unknown external-body part."
@@ -11245,10 +11113,11 @@ msgstr "𐑳𐑯𐑴𐑯 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤-𐑚𐑪𐑛𐑦 𐑐�
 msgid "Malformed external-body part."
 msgstr "𐑥𐑨𐑤𐑓𐑹𐑥𐑛 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤-𐑚𐑪𐑛𐑦 𐑐𐑸𐑑."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/em-format-html.c:1892
 msgid "Pointer to FTP site (%s)"
-msgstr "𐑐𐑶𐑯𐑑𐑼 𐑑 𐑤𐑴𐑒𐑩𐑤 𐑓𐑲𐑤 (%s)"
+msgstr "𐑐𐑶𐑯𐑑𐑼 𐑑 FTP 𐑕𐑲𐑑 (%s)"
 
 #, c-format
 #: ../mail/em-format-html.c:1903
@@ -11272,10 +11141,10 @@ msgstr "𐑐𐑶𐑯𐑑𐑼 𐑑 𐑳𐑯𐑴𐑯 𐑦𐑒𐑕𐑑𐑻𐑯𐑩�
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#, fuzzy, c-format
+#, c-format
 #: ../mail/em-format-html.c:2600
 msgid "This message was sent by %s on behalf of %s"
-msgstr "𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑢𐑪𐑟 𐑕𐑧𐑯𐑑 𐑚𐑲 <b>%s</b> 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 <b>%s</b>"
+msgstr "𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑢𐑪𐑟 𐑕𐑧𐑯𐑑 𐑚𐑲 %s 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 %s"
 
 #: ../mail/em-subscribe-editor.c:668
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -11301,12 +11170,12 @@ msgstr "𐑯𐑴 𐑕𐑻𐑝𐑼 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑕𐑩𐑤𐑧𐑒
 #. Translators: This message is shown only for ten or more messages to be opened.
 #. The %d is replaced with the actual count of messages. If you need a '%' in your text,
 #. then write it doubled, like '%%'.
-#, fuzzy, c-format
+#, c-format
 #: ../mail/em-utils.c:106
 msgid "Are you sure you want to open %d messages at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
-msgstr[0] "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑴𐑐𐑩𐑯 {0} 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑑 𐑢𐑳𐑯𐑕?"
-msgstr[1] "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑴𐑐𐑩𐑯 {0} 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑑 𐑢𐑳𐑯𐑕?"
+msgstr[0] "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑴𐑐𐑩𐑯 %d 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑑 𐑢𐑳𐑯𐑕?"
+msgstr[1] "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑴𐑐𐑩𐑯 %d 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑑 𐑢𐑳𐑯𐑕?"
 
 #: ../mail/em-utils.c:314
 msgid "Message Filters"
@@ -11397,18 +11266,16 @@ msgstr "𐑒𐑩𐑥𐑐𐑴𐑟𐑼 𐑢𐑦𐑯𐑛𐑴 𐑛𐑦𐑓𐑷𐑤�
 msgid "Composer load/attach directory"
 msgstr "𐑒𐑩𐑥𐑐𐑴𐑟𐑼 𐑤𐑴𐑛/𐑩𐑑𐑨𐑗 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr "𐑒𐑩𐑥𐑐𐑮𐑧𐑕 𐑛𐑩𐑕𐑐𐑤𐑱 𐑝 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑦𐑯 𐑑/𐑕𐑰𐑕𐑰/BCC"
+msgstr "𐑒𐑩𐑥𐑐𐑮𐑧𐑕 𐑛𐑩𐑕𐑐𐑤𐑱 𐑝 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑦𐑯 𐑑/CC/BCC"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
-"𐑒𐑩𐑥𐑐𐑮𐑧𐑕 𐑛𐑩𐑕𐑐𐑤𐑱 𐑝 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑦𐑯 𐑑/𐑕𐑰𐑕𐑰/BCC 𐑑 𐑞 𐑯𐑳𐑥𐑚𐑼 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑛 𐑦𐑯 address_count."
+"𐑒𐑩𐑥𐑐𐑮𐑧𐑕 𐑛𐑩𐑕𐑐𐑤𐑱 𐑝 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑦𐑯 𐑑/CC/BCC 𐑑 𐑞 𐑯𐑳𐑥𐑚𐑼 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑛 𐑦𐑯 address_count."
 
 #: ../mail/evolution-mail.schemas.in.h:22
 msgid ""
@@ -11512,7 +11379,7 @@ msgid ""
 msgstr ""
 "𐑛𐑦𐑑𐑻𐑥𐑦𐑯𐑟 𐑢𐑧𐑞𐑼 𐑑 𐑤𐑫𐑒𐑩𐑐 𐑞 𐑕𐑧𐑯𐑛𐑻 𐑰𐑥𐑱𐑤 𐑦𐑯 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒. 𐑦𐑓 𐑓𐑬𐑯𐑛, 𐑦𐑑 𐑖𐑫𐑛𐑯𐑑 𐑚𐑰 𐑩 𐑕𐑐𐑨𐑥. "
 "𐑦𐑑 𐑤𐑫𐑒𐑕 𐑳𐑐 𐑦𐑯 𐑞 𐑚𐑫𐑒𐑕 𐑥𐑸𐑒𐑑 𐑓𐑹 autocompletion. 𐑦𐑑 𐑒𐑨𐑯 𐑚𐑰 𐑕𐑤𐑴, 𐑦𐑓 𐑮𐑦𐑥𐑴𐑑 𐑩𐑛𐑮𐑧𐑕 "
-"𐑚𐑫𐑒𐑕 (𐑤𐑲𐑒 ·𐑤·𐑛·𐑨·𐑐) 𐑸 𐑥𐑸𐑒𐑑 𐑓𐑹 autocompletion."
+"𐑚𐑫𐑒𐑕 (𐑤𐑲𐑒 LDAP) 𐑸 𐑥𐑸𐑒𐑑 𐑓𐑹 autocompletion."
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Determines whether to use custom headers to check for junk"
@@ -11548,7 +11415,6 @@ msgstr "𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 𐑓𐑹 𐑕𐑱𐑝𐑦𐑙 𐑥𐑱�
 msgid "Disable or enable ellipsizing of folder names in side bar"
 msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑹 𐑦𐑯𐑱𐑚𐑩𐑤 ellipsizing 𐑝 𐑓𐑴𐑤𐑛𐑼 𐑯𐑱𐑥𐑟 𐑦𐑯 𐑕𐑲𐑛 𐑚𐑸"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Display only message texts not exceeding certain size"
 msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 𐑴𐑯𐑤𐑦 𐑥𐑧𐑕𐑦𐑡 𐑑𐑧𐑒𐑕𐑑𐑕 𐑯𐑪𐑑 𐑩𐑒𐑕𐑰𐑛𐑦𐑙 𐑕𐑻𐑑𐑩𐑯 𐑕𐑲𐑟"
@@ -11652,7 +11518,7 @@ msgid ""
 "standard."
 msgstr ""
 "𐑧𐑯𐑒𐑴𐑛 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑦𐑯 𐑞 𐑥𐑱𐑤 𐑣𐑧𐑛𐑼𐑟 𐑕𐑱𐑥 𐑨𐑟 𐑬𐑑𐑤𐑫𐑒 𐑹 GMail 𐑛𐑵, 𐑑 𐑤𐑧𐑑 𐑞𐑧𐑥 𐑛𐑩𐑕𐑐𐑤𐑱 "
-"𐑒𐑩𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑢𐑦𐑞 UTF-8 𐑤𐑧𐑑𐑼𐑟 𐑕𐑧𐑯𐑑 𐑚𐑲 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑚𐑦𐑒𐑪𐑟 𐑞𐑱 𐑛𐑵 𐑯𐑪𐑑 𐑓𐑪𐑤𐑴 𐑞 "
+"𐑒𐑩𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑢𐑦𐑞 UTF-8 𐑤𐑧𐑑𐑼𐑟 𐑕𐑧𐑯𐑑 𐑚𐑲 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑚𐑦𐑒𐑪𐑟 𐑞𐑱 𐑛𐑵 𐑯𐑪𐑑 𐑓𐑪𐑤𐑴 𐑞 "
 "RFC 2231, 𐑚𐑳𐑑 𐑿𐑕 𐑞 𐑦𐑯𐑒𐑩𐑮𐑧𐑒𐑑 RFC 2047 𐑕𐑑𐑨𐑯𐑛𐑼𐑛."
 
 #: ../mail/evolution-mail.schemas.in.h:68
@@ -11682,7 +11548,7 @@ msgid ""
 "any MIME types appearing in this list which map to a Bonobo component viewer "
 "in GNOME's MIME type database may be used for displaying content."
 msgstr ""
-"𐑦𐑓 𐑞𐑺 𐑦𐑟𐑯𐑑 𐑩 builtin 𐑝𐑿𐑼 𐑓𐑹 𐑩 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑥𐑲𐑥 𐑑𐑲𐑐 𐑦𐑯𐑕𐑲𐑛 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑧𐑯𐑦 𐑥𐑲𐑥 𐑑𐑲𐑐𐑕 "
+"𐑦𐑓 𐑞𐑺 𐑦𐑟𐑯𐑑 𐑩 builtin 𐑝𐑿𐑼 𐑓𐑹 𐑩 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑥𐑲𐑥 𐑑𐑲𐑐 𐑦𐑯𐑕𐑲𐑛 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑧𐑯𐑦 𐑥𐑲𐑥 𐑑𐑲𐑐𐑕 "
 "𐑩𐑐𐑽𐑦𐑙 𐑦𐑯 𐑞𐑦𐑕 𐑤𐑦𐑕𐑑 𐑢𐑦𐑗 𐑥𐑨𐑐 𐑑 𐑩 𐑚𐑭𐑯𐑭𐑚𐑴 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝𐑿𐑼 𐑦𐑯 GNOME's 𐑥𐑲𐑥 𐑑𐑲𐑐 𐑛𐑱𐑑𐑩𐑚𐑱𐑕 "
 "𐑥𐑱 𐑚𐑰 𐑿𐑟𐑛 𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱𐑦𐑙 𐑒𐑪𐑯𐑑𐑧𐑯𐑑."
 
@@ -11723,7 +11589,7 @@ msgid ""
 msgstr ""
 "𐑦𐑯𐑦𐑖𐑩𐑤 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟 𐑕𐑑𐑱𐑑 𐑝 𐑞 \"𐑓𐑦𐑤𐑑𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴. 𐑞 𐑝𐑨𐑤𐑿 𐑳𐑐𐑛𐑱𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑿𐑟𐑼 "
 "𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑦𐑟 𐑹 unmaximizes 𐑞 𐑢𐑦𐑯𐑛𐑴. 𐑯𐑴𐑑, 𐑞𐑦𐑕 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑯𐑪𐑑 𐑿𐑕𐑑 𐑚𐑲 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑓𐑦𐑤𐑑𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑴𐑯𐑤𐑦 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑓𐑦𐑤𐑑𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑴𐑯𐑤𐑦 "
 "𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
 
 #, fuzzy
@@ -11736,7 +11602,7 @@ msgid ""
 msgstr ""
 "𐑦𐑯𐑦𐑖𐑩𐑤 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟 𐑕𐑑𐑱𐑑 𐑝 𐑞 \"𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴. 𐑞 𐑝𐑨𐑤𐑿 𐑳𐑐𐑛𐑱𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑿𐑟𐑼 "
 "𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑦𐑟 𐑹 unmaximizes 𐑞 𐑢𐑦𐑯𐑛𐑴. 𐑯𐑴𐑑, 𐑞𐑦𐑕 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑯𐑪𐑑 𐑿𐑕𐑑 𐑚𐑲 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
 "𐑴𐑯𐑤𐑦 𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
 
 #, fuzzy
@@ -11749,7 +11615,7 @@ msgid ""
 msgstr ""
 "𐑦𐑯𐑦𐑖𐑩𐑤 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟 𐑕𐑑𐑱𐑑 𐑝 𐑞 \"𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤\" 𐑢𐑦𐑯𐑛𐑴. 𐑞 𐑝𐑨𐑤𐑿 𐑳𐑐𐑛𐑱𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑿𐑟𐑼 "
 "𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑦𐑟 𐑹 unmaximizes 𐑞 𐑢𐑦𐑯𐑛𐑴. 𐑯𐑴𐑑, 𐑞𐑦𐑕 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑯𐑪𐑑 𐑿𐑕𐑑 𐑚𐑲 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
 "𐑴𐑯𐑤𐑦 𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
 
 #, fuzzy
@@ -11788,12 +11654,10 @@ msgstr ""
 "𐑦𐑑 𐑛𐑦𐑕𐑱𐑚𐑩𐑤𐑟/𐑦𐑯𐑱𐑚𐑩𐑤𐑟 𐑞 𐑮𐑦𐑐𐑰𐑑𐑩𐑛 𐑐𐑮𐑪𐑥𐑐𐑑𐑕 𐑑 𐑢𐑹𐑯 𐑞𐑨𐑑 𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑩 𐑕𐑻𐑗 "
 "𐑓𐑴𐑤𐑛𐑼 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑛𐑦𐑤𐑰𐑑𐑕 𐑞 𐑥𐑧𐑕𐑦𐑡, 𐑯𐑪𐑑 𐑕𐑦𐑥𐑐𐑤𐑦 𐑮𐑦𐑥𐑵𐑝𐑦𐑙 𐑦𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑻𐑗 𐑮𐑦𐑟𐑳𐑤𐑑𐑕."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Last time Empty Junk was run"
 msgstr "𐑤𐑭𐑕𐑑 𐑑𐑲𐑥 𐑧𐑥𐑐𐑑𐑦 𐑡𐑩𐑙𐑒 𐑢𐑪𐑟 𐑮𐑳𐑯"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Last time Empty Trash was run"
 msgstr "𐑤𐑭𐑕𐑑 𐑑𐑲𐑥 𐑧𐑥𐑐𐑑𐑦 𐑑𐑮𐑨𐑖 𐑢𐑪𐑟 𐑮𐑳𐑯"
@@ -11824,8 +11688,8 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
-"𐑤𐑦𐑕𐑑 𐑝 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯𐑴𐑯 𐑑 𐑞 𐑥𐑱𐑤 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑞 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑑𐑮𐑦𐑙𐑟 𐑯𐑱𐑥𐑦𐑙 "
-"subdirectories 𐑮𐑧𐑤𐑩𐑑𐑦𐑝 𐑑 /𐑨𐑐𐑕/𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑥𐑱𐑤/𐑩𐑒𐑬𐑯𐑑𐑕."
+"𐑤𐑦𐑕𐑑 𐑝 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯𐑴𐑯 𐑑 𐑞 𐑥𐑱𐑤 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑞 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑑𐑮𐑦𐑙𐑟 𐑯𐑱𐑥𐑦𐑙 "
+"subdirectories 𐑮𐑧𐑤𐑩𐑑𐑦𐑝 𐑑 /𐑨𐑐𐑕/·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑥𐑱𐑤/𐑩𐑒𐑬𐑯𐑑𐑕."
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "List of custom headers and whether they are enabled."
@@ -11907,7 +11771,6 @@ msgstr "𐑥𐑸𐑒 𐑕𐑲𐑑𐑱𐑖𐑩𐑯𐑟 𐑦𐑯 𐑞 𐑥𐑧𐑕
 msgid "Mark citations in the message \"Preview\"."
 msgstr "𐑥𐑸𐑒 𐑕𐑲𐑑𐑱𐑖𐑩𐑯𐑟 𐑦𐑯 𐑞 𐑥𐑧𐑕𐑦𐑡 \"𐑐𐑮𐑰𐑝𐑿\"."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:109
 msgid "Message text limit for display"
 msgstr "𐑥𐑧𐑕𐑦𐑡 𐑑𐑧𐑒𐑕𐑑 𐑤𐑦𐑥𐑦𐑑 𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱"
@@ -11932,10 +11795,9 @@ msgstr "𐑥𐑦𐑯𐑩𐑥𐑩𐑥 𐑑𐑲𐑥 𐑚𐑦𐑑𐑢𐑰𐑯 𐑧�
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "𐑥𐑦𐑯𐑩𐑥𐑩𐑥 𐑑𐑲𐑥 𐑚𐑦𐑑𐑢𐑰𐑯 𐑧𐑥𐑐𐑑𐑰𐑦𐑙 𐑞 𐑑𐑮𐑨𐑖 𐑪𐑯 𐑧𐑜𐑟𐑦𐑑, 𐑦𐑯 𐑛𐑱𐑟."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Number of addresses to display in TO/CC/BCC"
-msgstr "𐑯𐑳𐑥𐑚𐑼 𐑝 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑑 𐑛𐑦𐑕𐑐𐑤𐑱 𐑦𐑯 𐑑/𐑕𐑰𐑕𐑰/BCC"
+msgstr "𐑯𐑳𐑥𐑚𐑼 𐑝 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑑 𐑛𐑦𐑕𐑐𐑤𐑱 𐑦𐑯 𐑑/CC/BCC"
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid "Prompt on empty subject"
@@ -11959,7 +11821,6 @@ msgstr "𐑐𐑮𐑪𐑥𐑐𐑑 𐑢𐑧𐑯 𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑥�
 msgid "Prompt when user expunges"
 msgstr "𐑐𐑮𐑪𐑥𐑐𐑑 𐑢𐑧𐑯 𐑿𐑟𐑼 expunges"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid "Prompt when user only fills Bcc"
 msgstr "𐑐𐑮𐑪𐑥𐑐𐑑 𐑢𐑧𐑯 𐑿𐑟𐑼 𐑴𐑯𐑤𐑦 𐑓𐑦𐑤𐑟 Bcc"
@@ -12042,7 +11903,6 @@ msgstr ""
 "𐑕𐑧𐑑 𐑑 𐑑𐑮𐑵 𐑦𐑯 𐑒𐑱𐑕 𐑿 𐑛𐑵 𐑯𐑪𐑑 𐑢𐑪𐑯𐑑 𐑑 𐑨𐑛 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 delimiter 𐑚𐑦𐑓𐑹 𐑿𐑼 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑢𐑧𐑯 "
 "𐑒𐑩𐑥𐑐𐑴𐑟𐑦𐑙 𐑩 𐑥𐑱𐑤."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid "Show \"Bcc\" field when sending a mail message"
 msgstr "𐑖𐑴 \"Bcc\" 𐑓𐑰𐑤𐑛 𐑢𐑧𐑯 𐑕𐑧𐑯𐑛𐑦𐑙 𐑩 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡"
@@ -12095,7 +11955,6 @@ msgstr "𐑖𐑴 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦�
 msgid "Show image animations"
 msgstr "𐑖𐑴 𐑦𐑥𐑦𐑡 𐑨𐑯𐑩𐑥𐑱𐑖𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Show original \"Date\" header value."
 msgstr "𐑖𐑴 𐑩𐑮𐑦𐑡𐑩𐑯𐑩𐑤 \"𐑛𐑱𐑑\" 𐑣𐑧𐑛𐑼 𐑝𐑨𐑤𐑿."
@@ -12104,7 +11963,6 @@ msgstr "𐑖𐑴 𐑩𐑮𐑦𐑡𐑩𐑯𐑩𐑤 \"𐑛𐑱𐑑\" 𐑣𐑧𐑛�
 msgid "Show photo of the sender"
 msgstr "𐑖𐑴 𐑓𐑴𐑑𐑴 𐑝 𐑞 𐑕𐑧𐑯𐑛𐑻"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:154
 msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
@@ -12158,7 +12016,6 @@ msgid ""
 "Show the email-address of the sender in a separate column in the message list."
 msgstr "𐑖𐑴 𐑞 𐑰𐑥𐑱𐑤-𐑩𐑛𐑮𐑧𐑕 𐑝 𐑞 𐑕𐑧𐑯𐑛𐑻 𐑦𐑯 𐑩 𐑕𐑧𐑐𐑼𐑩𐑑 𐑒𐑪𐑤𐑩𐑥 𐑦𐑯 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑤𐑦𐑕𐑑."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
@@ -12201,13 +12058,11 @@ msgstr "𐑑𐑻𐑥𐑦𐑯𐑩𐑤 𐑓𐑪𐑯𐑑"
 msgid "The default plugin for Junk hook"
 msgstr "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑐𐑤𐑳𐑜𐑦𐑯 𐑓𐑹 𐑡𐑩𐑙𐑒 𐑣𐑫𐑒"
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:170
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "𐑞 𐑤𐑭𐑕𐑑 𐑑𐑲𐑥 𐑧𐑥𐑐𐑑𐑦 𐑡𐑩𐑙𐑒 𐑢𐑪𐑟 𐑮𐑳𐑯, 𐑦𐑯 𐑛𐑱𐑟 𐑕𐑦𐑯𐑕 𐑡𐑨𐑯𐑘𐑫𐑼𐑦 1st, 1970 (𐑧𐑐𐑩𐑒)."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:171
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
@@ -12240,14 +12095,13 @@ msgstr ""
 "𐑞𐑦𐑕 𐑒𐑨𐑯 𐑣𐑨𐑝 𐑔𐑮𐑰 𐑐𐑪𐑕𐑩𐑚𐑩𐑤 𐑝𐑨𐑤𐑿𐑟. \"0\" 𐑓𐑹 𐑻𐑼𐑟. \"1\" 𐑓𐑹 𐑢𐑪𐑮𐑯𐑦𐑙𐑟. \"2\" 𐑓𐑹 𐑛𐑰𐑚𐑳𐑜 "
 "𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid ""
 "This decides the max size of the message text that will be displayed under "
 "Evolution, specified in terms of KB. The default is 4096 (4MB). This value is "
 "used only when 'force_message_limit' key is activated."
 msgstr ""
-"𐑞𐑦𐑕 𐑛𐑦𐑕𐑲𐑛𐑟 𐑞 𐑥𐑨𐑒𐑕 𐑕𐑲𐑟 𐑝 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑑𐑧𐑒𐑕𐑑 𐑞𐑨𐑑 𐑢𐑦𐑤 𐑚𐑰 𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑳𐑯𐑛𐑼 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, "
+"𐑞𐑦𐑕 𐑛𐑦𐑕𐑲𐑛𐑟 𐑞 𐑥𐑨𐑒𐑕 𐑕𐑲𐑟 𐑝 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑑𐑧𐑒𐑕𐑑 𐑞𐑨𐑑 𐑢𐑦𐑤 𐑚𐑰 𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑳𐑯𐑛𐑼 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, "
 "𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑛 𐑦𐑯 𐑑𐑻𐑥𐑟 𐑝 KB. 𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 𐑦𐑟 4096 (4MB). 𐑞𐑦𐑕 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑿𐑟𐑛 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 "
 "'force_message_limit' 𐑒𐑰 𐑦𐑟 𐑨𐑒𐑑𐑦𐑝𐑱𐑑𐑩𐑛."
 
@@ -12270,7 +12124,6 @@ msgstr ""
 "𐑞𐑦𐑕 𐑒𐑰 𐑦𐑟 𐑮𐑧𐑛 𐑴𐑯𐑤𐑦 𐑢𐑳𐑯𐑕 𐑯 𐑮𐑰𐑕𐑧𐑑 𐑑 \"𐑓𐑷𐑤𐑕\" 𐑭𐑓𐑑𐑼 𐑮𐑧𐑛. 𐑞𐑦𐑕 unselects 𐑞 𐑥𐑱𐑤 𐑦𐑯 𐑞 "
 "𐑤𐑦𐑕𐑑 𐑯 𐑮𐑦𐑥𐑵𐑝𐑟 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑓𐑹 𐑞𐑨𐑑 𐑓𐑴𐑤𐑛𐑼."
 
-#, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
@@ -12278,8 +12131,8 @@ msgid ""
 "&lt;header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"𐑞𐑦𐑕 𐑒𐑰 𐑖𐑫𐑛 𐑒𐑩𐑯𐑑𐑱𐑯 𐑩 𐑤𐑦𐑕𐑑 𐑝 ·𐑦·𐑥·𐑤 𐑕𐑑𐑮𐑳𐑒𐑗𐑼𐑟 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑦𐑙 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟, 𐑯 𐑢𐑧𐑞𐑼 𐑞𐑱 "
-"𐑸 𐑑 𐑚𐑰 𐑛𐑩𐑕𐑐𐑤𐑱𐑛. 𐑞 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑞 ·𐑦·𐑥·𐑤 𐑕𐑑𐑮𐑳𐑒𐑗𐑼 𐑦𐑟 &lt;𐑣𐑧𐑛𐑼 𐑦𐑯𐑱𐑚𐑩𐑤𐑛&gt; - 𐑕𐑧𐑑 "
+"𐑞𐑦𐑕 𐑒𐑰 𐑖𐑫𐑛 𐑒𐑩𐑯𐑑𐑱𐑯 𐑩 𐑤𐑦𐑕𐑑 𐑝 XML 𐑕𐑑𐑮𐑳𐑒𐑗𐑼𐑟 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑦𐑙 𐑒𐑳𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟, 𐑯 𐑢𐑧𐑞𐑼 𐑞𐑱 "
+"𐑸 𐑑 𐑚𐑰 𐑛𐑩𐑕𐑐𐑤𐑱𐑛. 𐑞 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑞 XML 𐑕𐑑𐑮𐑳𐑒𐑗𐑼 𐑦𐑟 &lt;𐑣𐑧𐑛𐑼 𐑦𐑯𐑱𐑚𐑩𐑤𐑛&gt; - 𐑕𐑧𐑑 "
 "𐑦𐑯𐑱𐑚𐑩𐑤𐑛 𐑦𐑓 𐑞 𐑣𐑧𐑛𐑼 𐑦𐑟 𐑑 𐑚𐑰 𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑦𐑯 𐑞 𐑥𐑱𐑤 𐑝𐑿."
 
 #: ../mail/evolution-mail.schemas.in.h:180
@@ -12470,12 +12323,13 @@ msgid "Importing mailbox"
 msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑥𐑱𐑤𐑚𐑪𐑒𐑕"
 
 #. Destination folder, was set in our widget
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/importers/mail-importer.c:149
 #: ../plugins/pst-import/pst-importer.c:453
 #: ../plugins/pst-import/pst-importer.c:559
 msgid "Importing '%s'"
-msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 `%s'"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 '%s'"
 
 #, c-format
 #: ../mail/importers/mail-importer.c:293
@@ -12527,7 +12381,8 @@ msgstr "𐑨𐑛 𐑓𐑦𐑤𐑑𐑼 𐑮𐑵𐑤"
 #. the second %s is uri of the removed folder. For more than one filter
 #. rule is each of them on a separate line, with four spaces in front
 #. of its name, without quotes.
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-autofilter.c:450
 msgid ""
 "The filter rule \"%s\" has been updated, because it used just removed "
@@ -12890,7 +12745,7 @@ msgstr "𐑮𐑦𐑒𐑢𐑲𐑼𐑛 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 #, fuzzy
 #: ../mail/mail-config.ui.h:95
 msgid "SSL is not supported in this build of Evolution"
-msgstr "·𐑕·𐑕·𐑤 𐑦𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑦𐑯 𐑞𐑦𐑕 𐑚𐑦𐑤𐑛 𐑝 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
+msgstr "·𐑕·𐑕·𐑤 𐑦𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑦𐑯 𐑞𐑦𐑕 𐑚𐑦𐑤𐑛 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
 
 #, fuzzy
 #: ../mail/mail-config.ui.h:96
@@ -13341,15 +13196,17 @@ msgstr "𐑓𐑧𐑗𐑦𐑙 𐑥𐑱𐑤"
 msgid "Failed to apply outgoing filters: %s"
 msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑤𐑲 𐑬𐑑𐑜𐑴𐑦𐑙 𐑓𐑦𐑤𐑑𐑼𐑟: %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-ops.c:588 ../mail/mail-ops.c:616
 msgid "Failed to append to %s: %s\nAppending to local 'Sent' folder instead."
-msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑧𐑯𐑛 𐑑 𐑤𐑴𐑒𐑩𐑤 `𐑕𐑧𐑯𐑑' 𐑓𐑴𐑤𐑛𐑼: %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑧𐑯𐑛 𐑑 %s: %s\nAppending 𐑑 𐑤𐑴𐑒𐑩𐑤 '𐑕𐑧𐑯𐑑' 𐑓𐑴𐑤𐑛𐑼 𐑦𐑯𐑕𐑑𐑧𐑛."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-ops.c:633
 msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑧𐑯𐑛 𐑑 𐑤𐑴𐑒𐑩𐑤 `𐑕𐑧𐑯𐑑' 𐑓𐑴𐑤𐑛𐑼: %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑧𐑯𐑛 𐑑 𐑤𐑴𐑒𐑩𐑤 '𐑕𐑧𐑯𐑑' 𐑓𐑴𐑤𐑛𐑼: %s"
 
 #: ../mail/mail-ops.c:744 ../mail/mail-ops.c:825
 msgid "Sending message"
@@ -13422,10 +13279,11 @@ msgstr "𐑮𐑦𐑥𐑵𐑝𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
 msgid "Storing folder '%s'"
 msgstr "𐑕𐑑𐑹𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-ops.c:1624
 msgid "Expunging and storing account '%s'"
-msgstr "𐑕𐑑𐑹𐑦𐑙 𐑩𐑒𐑬𐑯𐑑 '%s'"
+msgstr "Expunging 𐑯 𐑕𐑑𐑹𐑦𐑙 𐑩𐑒𐑬𐑯𐑑 '%s'"
 
 #, c-format
 #: ../mail/mail-ops.c:1625
@@ -13437,10 +13295,11 @@ msgstr "𐑕𐑑𐑹𐑦𐑙 𐑩𐑒𐑬𐑯𐑑 '%s'"
 msgid "Refreshing folder '%s'"
 msgstr "𐑮𐑰𐑓𐑮𐑧𐑖𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-ops.c:1719
 msgid "Expunging folder '%s'"
-msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
+msgstr "Expunging 𐑓𐑴𐑤𐑛𐑼 '%s'"
 
 #, c-format
 #: ../mail/mail-ops.c:1764
@@ -13528,10 +13387,11 @@ msgstr "𐑢𐑱𐑑𐑦𐑙..."
 msgid "Checking for new mail"
 msgstr "𐑗𐑧𐑒𐑦𐑙 𐑓𐑹 𐑯𐑿 𐑥𐑱𐑤"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-session.c:208
 msgid "Enter Passphrase for %s"
-msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 %s"
+msgstr "𐑧𐑯𐑑𐑼 Passphrase 𐑓𐑹 %s"
 
 #, fuzzy
 #: ../mail/mail-session.c:210
@@ -13560,12 +13420,14 @@ msgstr "𐑯𐑴 𐑛𐑧𐑕𐑑𐑦𐑯𐑱𐑖𐑩𐑯 𐑩𐑛𐑮𐑧𐑕 �
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "𐑯𐑴 𐑩𐑒𐑬𐑯𐑑 𐑓𐑬𐑯𐑛 𐑑 𐑿𐑕, 𐑓𐑹𐑢𐑼𐑛 𐑝 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑒𐑨𐑯𐑕𐑩𐑤𐑛."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-tools.c:119
 msgid "Could not create spool directory '%s': %s"
-msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑕𐑐𐑵𐑤 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 `%s': %s"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑕𐑐𐑵𐑤 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 '%s': %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-tools.c:149
 msgid "Trying to movemail a non-mbox source '%s'"
 msgstr "𐑑𐑮𐑲𐑦𐑙 𐑑 movemail 𐑩 𐑯𐑪𐑯-mbox 𐑕𐑹𐑕 '%s'"
@@ -13579,10 +13441,11 @@ msgstr "𐑓𐑪𐑮𐑢𐑻𐑛𐑦𐑛 𐑥𐑧𐑕𐑦𐑡 - %s"
 msgid "Forwarded message"
 msgstr "𐑓𐑪𐑮𐑢𐑻𐑛𐑦𐑛 𐑥𐑧𐑕𐑦𐑡"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-tools.c:297
 msgid "Invalid folder: '%s'"
-msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑓𐑴𐑤𐑛𐑼: `%s'"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑓𐑴𐑤𐑛𐑼: '%s'"
 
 #, c-format
 #: ../mail/mail-vfolder.c:85
@@ -13603,7 +13466,8 @@ msgstr "𐑳𐑐𐑛𐑱𐑑𐑦𐑙 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼𐑟 𐑓�
 #. the second %s is uri of the removed folder. For more than one search
 #. folder is each of them on a separate line, with four spaces in front
 #. of its name, without quotes.
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../mail/mail-vfolder.c:678
 msgid ""
 "The Search Folder \"%s\" has been updated, because it used just removed "
@@ -14370,8 +14234,8 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
-"𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞𐑦𐑕 𐑪𐑐𐑖𐑩𐑯 𐑥𐑰𐑯𐑟 𐑞𐑨𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑴𐑯𐑤𐑦 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑 𐑿𐑼 ·𐑤·𐑛·𐑨·𐑐 𐑕𐑻𐑝𐑼 𐑦𐑓 𐑿𐑼 "
-"·𐑤·𐑛·𐑨·𐑐 𐑕𐑻𐑝𐑼 𐑕𐑩𐑐𐑹𐑑𐑕 TLS."
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞𐑦𐑕 𐑪𐑐𐑖𐑩𐑯 𐑥𐑰𐑯𐑟 𐑞𐑨𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑴𐑯𐑤𐑦 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑 𐑿𐑼 LDAP 𐑕𐑻𐑝𐑼 𐑦𐑓 𐑿𐑼 "
+"LDAP 𐑕𐑻𐑝𐑼 𐑕𐑩𐑐𐑹𐑑𐑕 TLS."
 
 #, fuzzy
 #: ../modules/addressbook/addressbook-config.c:210
@@ -14467,12 +14331,12 @@ msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑐𐑩�
 #, fuzzy
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:5
 msgid "EFolderList XML for the list of completion URIs"
-msgstr "EFolderList ·𐑦·𐑥·𐑤 𐑓𐑹 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑒𐑩𐑥𐑐𐑤𐑰𐑖𐑩𐑯 URIs"
+msgstr "EFolderList XML 𐑓𐑹 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑒𐑩𐑥𐑐𐑤𐑰𐑖𐑩𐑯 URIs"
 
 #, fuzzy
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:6
 msgid "EFolderList XML for the list of completion URIs."
-msgstr "EFolderList ·𐑦·𐑥·𐑤 𐑓𐑹 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑒𐑩𐑥𐑐𐑤𐑰𐑖𐑩𐑯 URIs."
+msgstr "EFolderList XML 𐑓𐑹 𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑒𐑩𐑥𐑐𐑤𐑰𐑖𐑩𐑯 URIs."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
 msgid "Position of the contact preview pane when oriented horizontally."
@@ -14508,7 +14372,7 @@ msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
-"𐑞 𐑯𐑳𐑥𐑚𐑼 𐑝 𐑒𐑨𐑮𐑩𐑒𐑑𐑼𐑟 𐑞𐑨𐑑 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑑𐑲𐑐𐑑 𐑚𐑦𐑓𐑹 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑩𐑑𐑧𐑥𐑐𐑑 𐑑 autocomplete."
+"𐑞 𐑯𐑳𐑥𐑚𐑼 𐑝 𐑒𐑨𐑮𐑩𐑒𐑑𐑼𐑟 𐑞𐑨𐑑 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑑𐑲𐑐𐑑 𐑚𐑦𐑓𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑩𐑑𐑧𐑥𐑐𐑑 𐑑 autocomplete."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
 msgid "URI for the folder last used in the select names dialog"
@@ -14855,10 +14719,11 @@ msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑
 msgid "Multiple vCards"
 msgstr "𐑥𐑳𐑤𐑑𐑦𐑐𐑩𐑤 vCards"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../modules/addressbook/eab-composer-util.c:145
 msgid "vCard for %s"
-msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑓𐑴𐑤𐑛𐑼: `%s'"
+msgstr "vCard 𐑓𐑹 %s"
 
 #, c-format
 #: ../modules/addressbook/eab-composer-util.c:157
@@ -16153,12 +16018,13 @@ msgid_plural "%d drafts"
 msgstr[0] "%d 𐑛𐑮𐑭𐑓𐑑"
 msgstr[1] "%d 𐑛𐑮𐑭𐑓𐑑𐑕"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../modules/mail/e-mail-shell-view-private.c:917
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "%d 𐑕𐑧𐑯𐑑"
-msgstr[1] "%d 𐑕𐑧𐑯𐑑"
+msgstr[0] "%d unsent"
+msgstr[1] "%d unsent"
 
 #, c-format
 #: ../modules/mail/e-mail-shell-view-private.c:923
@@ -16388,7 +16254,7 @@ msgstr "𐑮𐑩𐑕𐑑𐑹 𐑓𐑮𐑪𐑥 𐑚𐑨𐑒𐑳𐑐"
 #, fuzzy
 #: ../plugins/backup-restore/backup-restore.c:361
 msgid "_Backup Evolution Settings..."
-msgstr "_Backup 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
+msgstr "_Backup ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
 
 #: ../plugins/backup-restore/backup-restore.c:363
 msgid "Backup Evolution data and settings to an archive file"
@@ -16397,7 +16263,7 @@ msgstr "𐑚𐑨𐑒𐑳𐑐 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩
 #, fuzzy
 #: ../plugins/backup-restore/backup-restore.c:368
 msgid "R_estore Evolution Settings..."
-msgstr "R_estore 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
+msgstr "R_estore ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
 
 #: ../plugins/backup-restore/backup-restore.c:370
 msgid "Restore Evolution data and settings from an archive file"
@@ -16449,7 +16315,7 @@ msgstr "𐑮𐑰𐑕𐑑𐑸𐑑𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
 #, fuzzy
 #: ../plugins/backup-restore/backup.c:255
 msgid "Back up current Evolution data"
-msgstr "𐑚𐑨𐑒 𐑳𐑐 𐑒𐑳𐑮𐑩𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
+msgstr "𐑚𐑨𐑒 𐑳𐑐 𐑒𐑳𐑮𐑩𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
 
 #: ../plugins/backup-restore/backup.c:260
 msgid "Extracting files from backup"
@@ -16532,8 +16398,8 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
-"𐑕𐑱𐑝 𐑯 𐑒𐑤𐑴𐑕 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑐𐑮𐑩𐑕𐑰𐑛𐑦𐑙.  𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
+"𐑕𐑱𐑝 𐑯 𐑒𐑤𐑴𐑕 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑐𐑮𐑩𐑕𐑰𐑛𐑦𐑙.  𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
 "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑭𐑓𐑑𐑼 𐑚𐑨𐑒𐑳𐑐, 𐑐𐑤𐑰𐑟 𐑦𐑯𐑱𐑚𐑩𐑤 𐑞 𐑑𐑪𐑜𐑩𐑤 𐑚𐑳𐑑𐑩𐑯."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
@@ -16561,9 +16427,9 @@ msgid ""
 "proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
-"𐑞𐑦𐑕 𐑢𐑦𐑤 𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 𐑿𐑼 𐑒𐑳𐑮𐑩𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑯 𐑮𐑩𐑕𐑑𐑹 𐑞𐑧𐑥 𐑓𐑮𐑪𐑥 𐑿𐑼 𐑚𐑨𐑒𐑳𐑐. "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑮𐑩𐑕𐑑𐑹 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
-"𐑒𐑤𐑴𐑟 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛. 𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
+"𐑞𐑦𐑕 𐑢𐑦𐑤 𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 𐑿𐑼 𐑒𐑳𐑮𐑩𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑯 𐑮𐑩𐑕𐑑𐑹 𐑞𐑧𐑥 𐑓𐑮𐑪𐑥 𐑿𐑼 𐑚𐑨𐑒𐑳𐑐. "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑮𐑩𐑕𐑑𐑹 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
+"𐑒𐑤𐑴𐑟 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛. 𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
 "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑮𐑰𐑕𐑑𐑸𐑑 𐑭𐑓𐑑𐑼 𐑮𐑩𐑕𐑑𐑹, 𐑐𐑤𐑰𐑟 𐑦𐑯𐑱𐑚𐑩𐑤 𐑞 𐑑𐑪𐑜𐑩𐑤 𐑚𐑳𐑑𐑩𐑯."
 
 #: ../plugins/bbdb/bbdb.c:685 ../plugins/bbdb/bbdb.c:694
@@ -16616,7 +16482,8 @@ msgstr ""
 "𐑢𐑦𐑞 𐑯𐑱𐑥𐑟 𐑯 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑨𐑟 𐑿 𐑮𐑦𐑐𐑤𐑲 𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟.  𐑷𐑤𐑕𐑴 𐑓𐑦𐑤𐑟 𐑦𐑯 𐑦𐑥 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 "
 "𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 𐑿𐑼 𐑚𐑩𐑛𐑰 𐑤𐑦𐑕𐑑𐑕."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:153
 msgid "Bogofilter is not available. Please install it first."
 msgstr "Bogofilter 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤. 𐑐𐑤𐑰𐑟 𐑦𐑯𐑕𐑑𐑷𐑤 𐑦𐑑 𐑓𐑻𐑕𐑑."
@@ -16627,17 +16494,20 @@ msgstr "Bogofilter 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤. 𐑐�
 msgid "Error occurred while spawning %s: %s."
 msgstr "𐑻𐑼 𐑪𐑒𐑻𐑛 𐑢𐑲𐑤 𐑕𐑐𐑭𐑯𐑦𐑙 %s: %s."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:185
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "Bogofilter 𐑗𐑲𐑤𐑛 𐑐𐑮𐑴𐑕𐑧𐑕 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑮𐑰𐑕𐑐𐑪𐑯𐑛, 𐑒𐑦𐑤𐑦𐑙..."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:187
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr "𐑢𐑱𐑑 𐑓𐑹 Bogofilter 𐑗𐑲𐑤𐑛 𐑐𐑮𐑴𐑕𐑧𐑕 𐑦𐑯𐑑𐑼𐑳𐑐𐑑𐑩𐑛, 𐑑𐑻𐑥𐑩𐑯𐑱𐑑𐑦𐑙..."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:210
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr "𐑐𐑲𐑐 𐑑 Bogofilter 𐑓𐑱𐑤𐑛, 𐑻𐑼 𐑒𐑴𐑛: %d."
@@ -16682,9 +16552,10 @@ msgstr "𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑓𐑱𐑤𐑛. 𐑕𐑻�
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:199
 msgid "Given URL cannot be found."
-msgstr "𐑜𐑦𐑝𐑩𐑯 ·𐑿·𐑮·𐑤 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑓𐑬𐑯𐑛."
+msgstr "𐑜𐑦𐑝𐑩𐑯 URL 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑓𐑬𐑯𐑛."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:203
 msgid "Server returned unexpected data.\n%d - %s"
 msgstr "𐑕𐑻𐑝𐑼 𐑮𐑦𐑑𐑻𐑯𐑛 𐑳𐑯𐑦𐑒𐑕𐑐𐑧𐑒𐑑𐑩𐑛 𐑛𐑱𐑑𐑩.\n%d - %s"
@@ -16714,7 +16585,7 @@ msgstr "𐑿𐑟𐑼'𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
 #: ../plugins/caldav/caldav-browse-server.c:557
 #: ../plugins/caldav/caldav-browse-server.c:628
 msgid "Failed to get server URL."
-msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑜𐑧𐑑 𐑕𐑻𐑝𐑼 ·𐑿·𐑮·𐑤."
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑜𐑧𐑑 𐑕𐑻𐑝𐑼 URL."
 
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:626
@@ -16728,25 +16599,29 @@ msgstr "𐑕𐑻𐑗𐑦𐑙 𐑓𐑹 𐑿𐑟𐑼'𐑟 𐑒𐑨𐑤𐑩𐑯𐑛
 msgid "Could not find any user calendar."
 msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑓𐑲𐑯𐑛 𐑧𐑯𐑦 𐑿𐑟𐑼 𐑒𐑨𐑤𐑩𐑯𐑛𐑼."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:794
 msgid "Previous attempt failed: %s"
 msgstr "𐑐𐑮𐑰𐑝𐑦𐑩𐑕 𐑩𐑑𐑧𐑥𐑐𐑑 𐑓𐑱𐑤𐑛: %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:796
 msgid "Previous attempt failed with code %d"
 msgstr "𐑐𐑮𐑰𐑝𐑦𐑩𐑕 𐑩𐑑𐑧𐑥𐑐𐑑 𐑓𐑱𐑤𐑛 𐑢𐑦𐑞 𐑒𐑴𐑛 %d"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:801
 msgid "Enter password for user %s on server %s"
-msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 %s (𐑿𐑟𐑼 %s)"
+msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 𐑿𐑟𐑼 %s 𐑪𐑯 𐑕𐑻𐑝𐑼 %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:860
 msgid "Cannot create soup message for URL '%s'"
-msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑬𐑑𐑐𐑫𐑑 𐑓𐑲𐑤: %s:\n %s"
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑕𐑵𐑐 𐑥𐑧𐑕𐑦𐑡 𐑓𐑹 URL '%s'"
 
 #. fetch content
 #, fuzzy
@@ -16764,15 +16639,17 @@ msgstr "𐑤𐑦𐑕𐑑 𐑝 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑒𐑨𐑤𐑩�
 msgid "Supports"
 msgstr "𐑕𐑩𐑐𐑹𐑑𐑕"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1254
 msgid "Failed to create thread: %s"
-msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑐𐑲𐑐: %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑔𐑮𐑧𐑛: %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1362
 msgid "Server URL '%s' is not a valid URL"
-msgstr "𐑕𐑻𐑝𐑼 ·𐑿·𐑮·𐑤 '%s' 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑝𐑨𐑤𐑦𐑛 ·𐑿·𐑮·𐑤"
+msgstr "𐑕𐑻𐑝𐑼 URL '%s' 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑝𐑨𐑤𐑦𐑛 URL"
 
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1368
@@ -16812,7 +16689,7 @@ msgstr "Re_fresh:"
 #, fuzzy
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
-msgstr "𐑨𐑛 CalDAV 𐑕𐑩𐑐𐑹𐑑 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑨𐑛 CalDAV 𐑕𐑩𐑐𐑹𐑑 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #, fuzzy
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
@@ -17241,7 +17118,8 @@ msgstr "𐑕𐑻𐑝𐑼"
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 𐑿𐑟𐑼 %s 𐑑 𐑨𐑒𐑕𐑧𐑕 𐑤𐑦𐑕𐑑 𐑝 𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/google-account-setup/google-source.c:548
 msgid "Cannot read data from Google server.\n%s"
 msgstr "𐑒𐑨𐑯𐑪𐑑 𐑮𐑰𐑛 𐑛𐑱𐑑𐑩 𐑓𐑮𐑪𐑥 Google 𐑕𐑻𐑝𐑼.\n%s"
@@ -17265,7 +17143,7 @@ msgstr "𐑮𐑦𐑑𐑮𐑰𐑝 _List"
 #, fuzzy
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
-msgstr "𐑨𐑛 Google 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑨𐑛 Google 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #, fuzzy
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
@@ -18088,225 +17966,266 @@ msgstr "%A, %B %e, %Y %l:%M %p"
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y %l:%M:%s %p"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:367
 #: ../plugins/itip-formatter/itip-view.c:455
 #: ../plugins/itip-formatter/itip-view.c:542
 msgid "Please respond on behalf of %s"
-msgstr "𐑐𐑤𐑰𐑟 𐑮𐑰𐑕𐑐𐑪𐑯𐑛 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 <b>%s</b>"
+msgstr "𐑐𐑤𐑰𐑟 𐑮𐑰𐑕𐑐𐑪𐑯𐑛 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:369
 #: ../plugins/itip-formatter/itip-view.c:457
 #: ../plugins/itip-formatter/itip-view.c:544
 msgid "Received on behalf of %s"
-msgstr "𐑮𐑦𐑕𐑰𐑝𐑛 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 <b>%s</b>"
+msgstr "𐑮𐑦𐑕𐑰𐑝𐑛 𐑪𐑯 𐑚𐑦𐑣𐑭𐑓 𐑝 %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:374
 msgid "%s through %s has published the following meeting information:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:376
 msgid "%s has published the following meeting information:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯:"
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:381
 msgid "%s has delegated the following meeting to you:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑛𐑧𐑤𐑩𐑜𐑱𐑑𐑩𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑑 𐑿:"
+msgstr "%s 𐑣𐑨𐑟 𐑛𐑧𐑤𐑩𐑜𐑱𐑑𐑩𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑑 𐑿:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:384
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:386
 msgid "%s requests your presence at the following meeting:"
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑿𐑼 𐑐𐑮𐑧𐑟𐑩𐑯𐑕 𐑨𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:392
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:394
 msgid "%s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:398
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:400
 msgid "%s wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:404
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:406
 msgid "%s has sent back the following meeting response:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+msgstr "%s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:410
 msgid "%s through %s has canceled the following meeting:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:412
 msgid "%s has canceled the following meeting."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙."
+msgstr "%s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:416
 msgid "%s through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:418
 msgid "%s has proposed the following meeting changes."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:422
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:424
 msgid "%s has declined the following meeting changes."
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
+msgstr "%s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑰𐑑𐑦𐑙 𐑗𐑱𐑯𐑡𐑩𐑟."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:462
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:464
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:469
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑞 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑝 %s 𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 𐑞 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑝 %s 𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:472
 msgid "%s through %s has assigned you a task:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑨𐑟𐑕𐑲𐑯𐑛 𐑿 𐑩 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑨𐑟𐑕𐑲𐑯𐑛 𐑿 𐑩 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:474
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑨𐑟𐑕𐑲𐑯𐑛 𐑿 𐑩 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑣𐑨𐑟 𐑨𐑟𐑕𐑲𐑯𐑛 𐑿 𐑩 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:480
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:482
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:486
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
-msgstr ""
-"<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:488
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑤𐑱𐑑𐑩𐑕𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:492
 msgid "%s through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:494
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
+msgstr "%s 𐑣𐑨𐑟 𐑕𐑧𐑯𐑑 𐑚𐑨𐑒 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒 𐑮𐑦𐑕𐑐𐑪𐑯𐑕:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:498
 msgid "%s through %s has canceled the following assigned task:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:500
 msgid "%s has canceled the following assigned task:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:504
 msgid "%s through %s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑗𐑱𐑯𐑡𐑩𐑟:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑗𐑱𐑯𐑡𐑩𐑟:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:506
 msgid "%s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑗𐑱𐑯𐑡𐑩𐑟:"
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑮𐑩𐑐𐑴𐑟𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑑𐑭𐑕𐑒 𐑩𐑕𐑲𐑯𐑥𐑩𐑯𐑑 𐑗𐑱𐑯𐑡𐑩𐑟:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:510
 msgid "%s through %s has declined the following assigned task:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:512
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
+msgstr "%s 𐑣𐑨𐑟 𐑛𐑦𐑒𐑤𐑲𐑯𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:549
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑧𐑥𐑴:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑧𐑥𐑴:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:551
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑧𐑥𐑴:"
+msgstr "%s 𐑣𐑨𐑟 𐑐𐑳𐑚𐑤𐑦𐑖𐑑 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑥𐑧𐑥𐑴:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:556
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑧𐑥𐑴:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑧𐑥𐑴:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:558
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑧𐑥𐑴:"
+msgstr "%s 𐑢𐑦𐑖𐑩𐑟 𐑑 𐑨𐑛 𐑑 𐑩𐑯 𐑧𐑒𐑟𐑦𐑕𐑑𐑦𐑙 𐑥𐑧𐑥𐑴:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:562
 msgid "%s through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
+msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:564
 msgid "%s has canceled the following shared memo:"
-msgstr "<b>%s</b> 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
+msgstr "%s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
 
 #, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:688
@@ -19040,7 +18959,7 @@ msgstr "𐑷𐑤𐑢𐑱𐑟 𐑖𐑴 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑 𐑐
 #, fuzzy
 #: ../plugins/prefer-plain/prefer-plain.c:247
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr "𐑖𐑴 s_uppressed ·𐑣·𐑑·𐑥·𐑤 𐑐𐑸𐑑𐑕 𐑨𐑟 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+msgstr "𐑖𐑴 s_uppressed HTML 𐑐𐑸𐑑𐑕 𐑨𐑟 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
 
 #: ../plugins/prefer-plain/prefer-plain.c:267
 msgid "HTML _Mode"
@@ -19278,7 +19197,8 @@ msgstr "𐑯𐑿 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
 msgid "Edit Location"
 msgstr "𐑧𐑛𐑦𐑑 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:120
 msgid "SpamAssassin not found, code: %d"
 msgstr "SpamAssassin 𐑯𐑪𐑑 𐑓𐑬𐑯𐑛, 𐑒𐑴𐑛: %d"
@@ -19294,22 +19214,26 @@ msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑐𐑲𐑐: %s"
 msgid "Error after fork: %s"
 msgstr "𐑻𐑼 𐑭𐑓𐑑𐑼 𐑓𐑹𐑒: %s"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:230
 msgid "SpamAssassin child process does not respond, killing..."
 msgstr "SpamAssassin 𐑗𐑲𐑤𐑛 𐑐𐑮𐑴𐑕𐑧𐑕 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑮𐑰𐑕𐑐𐑪𐑯𐑛, 𐑒𐑦𐑤𐑦𐑙..."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:232
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
 msgstr "𐑢𐑱𐑑 𐑓𐑹 SpamAssassin 𐑗𐑲𐑤𐑛 𐑐𐑮𐑴𐑕𐑧𐑕 𐑦𐑯𐑑𐑼𐑳𐑐𐑑𐑩𐑛, 𐑑𐑻𐑥𐑩𐑯𐑱𐑑𐑦𐑙..."
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:241
 msgid "Pipe to SpamAssassin failed, error code: %d"
 msgstr "𐑐𐑲𐑐 𐑑 SpamAssassin 𐑓𐑱𐑤𐑛, 𐑻𐑼 𐑒𐑴𐑛: %d"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:504
 msgid "SpamAssassin is not available. Please install it first."
 msgstr "SpamAssassin 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤. 𐑐𐑤𐑰𐑟 𐑦𐑯𐑕𐑑𐑷𐑤 𐑦𐑑 𐑓𐑻𐑕𐑑."
@@ -19608,7 +19532,7 @@ msgstr "𐑕𐑱𐑝 𐑦𐑯 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
 #, fuzzy
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
 msgid "Add WebDAV contacts to Evolution."
-msgstr "𐑨𐑛 WebDAV 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑨𐑛 WebDAV 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #, fuzzy
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
@@ -19710,8 +19634,8 @@ msgid ""
 "~/.gnome2_private/Evolution password file."
 msgstr ""
 "𐑦𐑓 𐑑𐑮𐑵, 𐑞𐑧𐑯 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯𐑟 𐑑 𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑻𐑝𐑼 𐑮𐑦𐑒𐑢𐑲𐑼 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯. 𐑞 𐑿𐑟𐑼𐑯𐑱𐑥 𐑦𐑟 𐑮𐑦𐑑𐑮𐑰𐑝𐑛 "
-"𐑓𐑮𐑪𐑥 𐑞 \"/𐑨𐑐𐑕/𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑖𐑧𐑤/network_config/authentication_user\" GConf 𐑒𐑰, 𐑯 𐑞 "
-"𐑐𐑭𐑕𐑢𐑼𐑛 𐑦𐑟 𐑮𐑦𐑑𐑮𐑰𐑝𐑛 𐑓𐑮𐑪𐑥 𐑲𐑞𐑼 𐑯𐑴𐑥-𐑒𐑰𐑮𐑦𐑙 𐑹 𐑞 ~/.gnome2_private/𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑭𐑕𐑢𐑼𐑛 "
+"𐑓𐑮𐑪𐑥 𐑞 \"/𐑨𐑐𐑕/·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑖𐑧𐑤/network_config/authentication_user\" GConf 𐑒𐑰, 𐑯 𐑞 "
+"𐑐𐑭𐑕𐑢𐑼𐑛 𐑦𐑟 𐑮𐑦𐑑𐑮𐑰𐑝𐑛 𐑓𐑮𐑪𐑥 𐑲𐑞𐑼 𐑯𐑴𐑥-𐑒𐑰𐑮𐑦𐑙 𐑹 𐑞 ~/.gnome2_private/·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑭𐑕𐑢𐑼𐑛 "
 "𐑓𐑲𐑤."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
@@ -19781,7 +19705,7 @@ msgid ""
 msgstr ""
 "𐑕𐑩𐑤𐑧𐑒𐑑 𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑥𐑴𐑛. 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑝𐑨𐑤𐑿𐑟 𐑸 0, 1, 2, 𐑯 3 𐑮𐑧𐑐𐑮𐑩𐑟𐑧𐑯𐑑𐑦𐑙 "
 "\"𐑿𐑟 𐑕𐑦𐑕𐑑𐑩𐑥 𐑕𐑧𐑑𐑦𐑙𐑟\", \"𐑯𐑴 𐑐𐑮𐑪𐑒𐑕𐑦\", \"𐑿𐑕 𐑥𐑨𐑯𐑘𐑫𐑩𐑤 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯\" 𐑯 "
-"\"𐑿𐑕 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑐𐑮𐑩𐑝𐑲𐑛𐑩𐑛 𐑦𐑯 𐑞 autoconfig ·𐑿·𐑮·𐑤\" 𐑮𐑦𐑕𐑐𐑧𐑒𐑑𐑦𐑝𐑤𐑦."
+"\"𐑿𐑕 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑐𐑮𐑩𐑝𐑲𐑛𐑩𐑛 𐑦𐑯 𐑞 autoconfig URL\" 𐑮𐑦𐑕𐑐𐑧𐑒𐑑𐑦𐑝𐑤𐑦."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "Sidebar is visible"
@@ -19978,17 +19902,14 @@ msgstr "Sear_ch:"
 msgid "i_n"
 msgstr "𐑦_𐑯"
 
-#, fuzzy
 #: ../shell/e-shell-utils.c:253
 msgid "vCard (.vcf)"
 msgstr "vCard (.vcf)"
 
-#, fuzzy
 #: ../shell/e-shell-utils.c:255
 msgid "iCalendar (.ics)"
 msgstr "iCalendar (.ics)"
 
-#, fuzzy
 #: ../shell/e-shell-utils.c:276
 msgid "All Files (*)"
 msgstr "𐑷𐑤 𐑓𐑲𐑤𐑟 (*)"
@@ -20036,10 +19957,9 @@ msgstr "_𐑒𐑪𐑯𐑑𐑩𐑯𐑑𐑕"
 msgid "Open the Evolution User Guide"
 msgstr "𐑴𐑐𐑩𐑯 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑿𐑟𐑼 𐑜𐑲𐑛"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1483
 msgid "Evolution _FAQ"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 _FAQ"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 _FAQ"
 
 #, fuzzy
 #: ../shell/e-shell-window-actions.c:1485
@@ -20147,12 +20067,11 @@ msgstr "𐑕𐑩𐑚𐑥𐑦𐑑 𐑩 𐑚𐑳𐑜 𐑮𐑩𐑐𐑹𐑑 𐑿𐑟
 #, fuzzy
 #: ../shell/e-shell-window-actions.c:1602
 msgid "GNOME Pilot _Synchronization..."
-msgstr "𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 _Synchronization..."
+msgstr "·𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 _Synchronization..."
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1604
 msgid "Set up GNOME Pilot configuration"
-msgstr "𐑕𐑧𐑑 𐑳𐑐 𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯"
+msgstr "𐑕𐑧𐑑 𐑳𐑐 ·𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯"
 
 #: ../shell/e-shell-window-actions.c:1609
 msgid "_Work Offline"
@@ -20219,7 +20138,6 @@ msgstr "𐑖𐑴 𐑞 𐑕𐑑𐑱𐑑𐑫𐑕 𐑚𐑸"
 msgid "Show _Tool Bar"
 msgstr "𐑖𐑴 _𐑑𐑵𐑤 𐑚𐑸"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1736
 msgid "Show the tool bar"
 msgstr "𐑖𐑴 𐑞 𐑑𐑵𐑤 𐑚𐑸"
@@ -20335,11 +20253,11 @@ msgid ""
 "anger.\n\nWe hope that you enjoy the results of our hard work, and "
 "we\neagerly await your contributions!\n"
 msgstr ""
-"𐑣𐑲.  𐑔𐑨𐑙𐑒𐑕 𐑓𐑹 𐑑𐑱𐑒𐑦𐑙 𐑞 𐑑𐑲𐑥 𐑑 𐑛𐑬𐑯𐑤𐑴𐑛 𐑞𐑦𐑕 𐑐𐑮𐑰𐑝𐑿 𐑮𐑦𐑤𐑰𐑕\n𐑝 𐑞 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑜𐑮𐑵𐑐𐑢𐑧𐑮 "
-"𐑕𐑢𐑰𐑑.\n\n𐑞𐑦𐑕 𐑝𐑻𐑠𐑩𐑯 𐑝 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑘𐑧𐑑 𐑒𐑩𐑥𐑐𐑤𐑰𐑑. 𐑦𐑑 𐑦𐑟 𐑜𐑧𐑑𐑦𐑙 𐑒𐑤𐑴𐑟,\n𐑚𐑳𐑑 𐑕𐑳𐑥 "
+"𐑣𐑲.  𐑔𐑨𐑙𐑒𐑕 𐑓𐑹 𐑑𐑱𐑒𐑦𐑙 𐑞 𐑑𐑲𐑥 𐑑 𐑛𐑬𐑯𐑤𐑴𐑛 𐑞𐑦𐑕 𐑐𐑮𐑰𐑝𐑿 𐑮𐑦𐑤𐑰𐑕\n𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑜𐑮𐑵𐑐𐑢𐑧𐑮 "
+"𐑕𐑢𐑰𐑑.\n\n𐑞𐑦𐑕 𐑝𐑻𐑠𐑩𐑯 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑘𐑧𐑑 𐑒𐑩𐑥𐑐𐑤𐑰𐑑. 𐑦𐑑 𐑦𐑟 𐑜𐑧𐑑𐑦𐑙 𐑒𐑤𐑴𐑟,\n𐑚𐑳𐑑 𐑕𐑳𐑥 "
 "𐑓𐑰𐑗𐑼𐑟 𐑸 𐑲𐑞𐑼 𐑩𐑯𐑓𐑦𐑯𐑦𐑖𐑑 𐑹 𐑛𐑵 𐑯𐑪𐑑 𐑢𐑻𐑒 𐑐𐑮𐑪𐑐𐑼𐑤𐑦.\n\n𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 𐑩 𐑕𐑑𐑨𐑚𐑩𐑤 𐑝𐑻𐑠𐑩𐑯 𐑝 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑢𐑰 𐑻𐑡 𐑿 𐑑 uninstall\n𐑞𐑦𐑕 𐑝𐑻𐑠𐑩𐑯, 𐑯 𐑦𐑯𐑕𐑑𐑷𐑤 𐑝𐑻𐑠𐑩𐑯 %s 𐑦𐑯𐑕𐑑𐑧𐑛.\n\n𐑦𐑓 𐑿 "
-"𐑓𐑲𐑯𐑛 𐑚𐑳𐑜𐑟, 𐑐𐑤𐑰𐑟 𐑮𐑩𐑐𐑹𐑑 𐑞𐑧𐑥 𐑑 𐑳𐑕 𐑨𐑑 bugzilla.𐑯𐑴𐑥.𐑹𐑜.\n𐑞𐑦𐑕 𐑐𐑮𐑪𐑛𐑩𐑒𐑑 𐑒𐑳𐑥𐑟 𐑢𐑦𐑞 𐑯𐑴 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑢𐑰 𐑻𐑡 𐑿 𐑑 𐑳𐑯𐑦𐑯𐑕𐑑𐑷𐑤\n𐑞𐑦𐑕 𐑝𐑻𐑠𐑩𐑯, 𐑯 𐑦𐑯𐑕𐑑𐑷𐑤 𐑝𐑻𐑠𐑩𐑯 %s 𐑦𐑯𐑕𐑑𐑧𐑛.\n\n𐑦𐑓 𐑿 "
+"𐑓𐑲𐑯𐑛 𐑚𐑳𐑜𐑟, 𐑐𐑤𐑰𐑟 𐑮𐑩𐑐𐑹𐑑 𐑞𐑧𐑥 𐑑 𐑳𐑕 𐑨𐑑 bugzilla.gnome.org.\n𐑞𐑦𐑕 𐑐𐑮𐑪𐑛𐑩𐑒𐑑 𐑒𐑳𐑥𐑟 𐑢𐑦𐑞 𐑯𐑴 "
 "𐑢𐑪𐑮𐑩𐑯𐑑𐑰 𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑦𐑯𐑑𐑧𐑯𐑛𐑩𐑛 𐑓𐑹\n𐑦𐑯𐑛𐑦𐑝𐑦𐑛𐑿𐑩𐑤𐑟 𐑐𐑮𐑴𐑯 𐑑 𐑝𐑲𐑩𐑤𐑩𐑯𐑑 𐑓𐑦𐑑𐑕 𐑝 𐑨𐑙𐑜𐑼.\n\n𐑢𐑰 "
 "𐑣𐑴𐑐 𐑞𐑨𐑑 𐑿 𐑦𐑯𐑡𐑶 𐑞 𐑮𐑦𐑟𐑳𐑤𐑑𐑕 𐑝 𐑬𐑼 𐑣𐑸𐑛 𐑢𐑻𐑒, 𐑯 𐑢𐑰\n𐑰𐑜𐑼𐑤𐑦 𐑩𐑢𐑱𐑑 𐑿𐑼 𐑒𐑪𐑯𐑑𐑮𐑦𐑚𐑿𐑖𐑩𐑯𐑟!\n"
 
@@ -20355,7 +20273,6 @@ msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑑𐑧𐑤 𐑥𐑰 𐑩𐑜𐑱𐑯"
 msgid "Start Evolution activating the specified component"
 msgstr "𐑕𐑑𐑸𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑨𐑒𐑑𐑩𐑝𐑱𐑑𐑦𐑙 𐑞 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑛 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../shell/main.c:303
 msgid "Apply the given geometry to the main window"
 msgstr "𐑩𐑐𐑤𐑲 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑡𐑦𐑪𐑥𐑩𐑑𐑮𐑦 𐑑 𐑞 𐑥𐑱𐑯 𐑢𐑦𐑯𐑛𐑴"
@@ -20364,7 +20281,6 @@ msgstr "𐑩𐑐𐑤𐑲 𐑞 𐑜𐑦𐑝𐑩𐑯 𐑡𐑦𐑪𐑥𐑩𐑑𐑮�
 msgid "Start in online mode"
 msgstr "𐑕𐑑𐑸𐑑 𐑦𐑯 𐑪𐑯𐑤𐑲𐑯 𐑥𐑴𐑛"
 
-#, fuzzy
 #: ../shell/main.c:309
 msgid "Start in \"express\" mode"
 msgstr "𐑕𐑑𐑸𐑑 𐑦𐑯 \"𐑦𐑒𐑕𐑐𐑮𐑧𐑕\" 𐑥𐑴𐑛"
@@ -20385,20 +20301,17 @@ msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑤𐑴𐑛𐑦𐑙 𐑝 𐑧𐑯𐑦 𐑐
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑝 𐑥𐑱𐑤, 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑯 𐑑𐑭𐑕𐑒𐑕."
 
-#, fuzzy
 #: ../shell/main.c:323
 msgid "Import URIs or file names given as rest of arguments."
-msgstr "𐑦𐑥𐑐𐑹𐑑 URIs 𐑹 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑜𐑦𐑝𐑩𐑯 𐑨𐑟 𐑮𐑧𐑕𐑑 𐑝 𐑸𐑜𐑿𐑥𐑩𐑯𐑑𐑕."
+msgstr "𐑦𐑥𐑐𐑹𐑑 URI𐑟 𐑹 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑜𐑦𐑝𐑩𐑯 𐑨𐑟 𐑮𐑧𐑕𐑑 𐑝 𐑸𐑜𐑿𐑥𐑩𐑯𐑑𐑕."
 
-#, fuzzy
 #: ../shell/main.c:325
 msgid "Request a running Evolution process to quit"
-msgstr "𐑮𐑦𐑒𐑢𐑧𐑕𐑑 𐑩 𐑮𐑳𐑯𐑦𐑙 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑮𐑴𐑕𐑧𐑕 𐑑 𐑒𐑢𐑦𐑑"
+msgstr "𐑮𐑦𐑒𐑢𐑧𐑕𐑑 𐑩 𐑮𐑳𐑯𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑮𐑴𐑕𐑧𐑕 𐑑 𐑒𐑢𐑦𐑑"
 
-#, fuzzy
 #: ../shell/main.c:449
 msgid "- The Evolution PIM and Email Client"
-msgstr "- 𐑞 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 PIM 𐑯 𐑰𐑥𐑱𐑤 𐑒𐑤𐑲𐑩𐑯𐑑"
+msgstr "- 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 PIM 𐑯 𐑰𐑥𐑱𐑤 𐑒𐑤𐑲𐑩𐑯𐑑"
 
 #, c-format
 #: ../shell/main.c:475
@@ -20406,31 +20319,28 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n  Use %s --help for more "
 "information.\n"
 msgstr ""
-"%s: --𐑪𐑯𐑤𐑲𐑯 𐑯 --𐑪𐑓𐑤𐑲𐑯 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑿𐑟𐑛 𐑑𐑫𐑜𐑧𐑞𐑼.\n  𐑿𐑟 %s --𐑣𐑧𐑤𐑐 𐑓𐑹 𐑥𐑹 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯.\n"
+"%s: --online 𐑯 --offline 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑿𐑟𐑛 𐑑𐑫𐑜𐑧𐑞𐑼.\n  𐑿𐑟 %s --help 𐑓𐑹 𐑥𐑹 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯.\n"
 
 #: ../shell/shell.error.xml.h:1
 msgid "Are you sure you want to forget all remembered passwords?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑓𐑼𐑜𐑧𐑑 𐑷𐑤 𐑮𐑦𐑥𐑧𐑥𐑚𐑼𐑛 𐑐𐑭𐑕𐑢𐑼𐑛𐑟?"
 
-#, fuzzy
 #: ../shell/shell.error.xml.h:2
 msgid "Cannot upgrade directly from version {0}"
 msgstr "𐑒𐑨𐑯𐑪𐑑 𐑳𐑐𐑜𐑮𐑱𐑛 𐑛𐑲𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑮𐑪𐑥 𐑝𐑻𐑠𐑩𐑯 {0}"
 
-#, fuzzy
 #: ../shell/shell.error.xml.h:3
 msgid "Continue Anyway"
 msgstr "𐑒𐑩𐑯𐑑𐑦𐑯𐑿 𐑧𐑯𐑦𐑢𐑱"
 
-#, fuzzy
 #: ../shell/shell.error.xml.h:4
 msgid ""
 "Evolution no longer supports upgrading directly from version {0}. However as "
 "a workaround you might try first upgrading to Evolution 2, and then upgrading "
 "to Evolution 3."
 msgstr ""
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑯𐑴 𐑤𐑪𐑙𐑜𐑼 𐑕𐑩𐑐𐑹𐑑𐑕 𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑛𐑲𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑮𐑪𐑥 𐑝𐑻𐑠𐑩𐑯 {0}. 𐑣𐑬𐑧𐑝𐑼 𐑨𐑟 𐑩 "
-"workaround 𐑿 𐑥𐑲𐑑 𐑑𐑮𐑲 𐑓𐑻𐑕𐑑 𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 2, 𐑯 𐑞𐑧𐑯 𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 3."
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑯𐑴 𐑤𐑪𐑙𐑜𐑼 𐑕𐑩𐑐𐑹𐑑𐑕 𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑛𐑲𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑮𐑪𐑥 𐑝𐑻𐑠𐑩𐑯 {0}. 𐑣𐑬𐑧𐑝𐑼 𐑨𐑟 𐑩 "
+"𐑢𐑻𐑒𐑩𐑮𐑬𐑯𐑛 𐑿 𐑥𐑲𐑑 𐑑𐑮𐑲 𐑓𐑻𐑕𐑑 𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 2, 𐑯 𐑞𐑧𐑯 𐑩𐑐𐑜𐑮𐑱𐑛𐑦𐑙 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 3."
 
 #, fuzzy
 #: ../shell/shell.error.xml.h:5
@@ -20441,7 +20351,6 @@ msgstr ""
 "𐑓𐑼𐑜𐑧𐑑𐑦𐑙 𐑿𐑼 𐑐𐑭𐑕𐑢𐑼𐑛𐑟 𐑢𐑦𐑤 𐑒𐑤𐑽 𐑷𐑤 𐑮𐑦𐑥𐑧𐑥𐑚𐑼𐑛 𐑐𐑭𐑕𐑢𐑼𐑛𐑟. 𐑿 𐑢𐑦𐑤 𐑚𐑰 reprompted 𐑯𐑧𐑒𐑕𐑑 𐑑𐑲𐑥 "
 "𐑞𐑱 𐑸 𐑯𐑰𐑛𐑩𐑛."
 
-#, fuzzy
 #: ../shell/shell.error.xml.h:7
 msgid "Quit Now"
 msgstr "𐑒𐑢𐑦𐑑 𐑯𐑬"
@@ -20503,12 +20412,13 @@ msgstr "𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑨𐑒�
 msgid "Unrecognized launch option: %d"
 msgstr "𐑩𐑯𐑮𐑧𐑒𐑩𐑜𐑯𐑲𐑟𐑛 𐑤𐑷𐑯𐑗 𐑪𐑐𐑖𐑩𐑯: %d"
 
-#, fuzzy, c-format
+#, c-format
 #: ../smclient/eggdesktopfile.c:1373
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "𐑒𐑭𐑯𐑑 𐑐𐑭𐑕 𐑛𐑪𐑒𐑿𐑥𐑩𐑯𐑑 URIs 𐑑 𐑩 '𐑑𐑲𐑐=𐑤𐑦𐑙𐑒' 𐑛𐑧𐑕𐑒𐑑𐑪𐑐 𐑧𐑯𐑑𐑮𐑦"
+msgstr "𐑒𐑭𐑯𐑑 𐑐𐑭𐑕 𐑛𐑪𐑒𐑿𐑥𐑩𐑯𐑑 URIs 𐑑 𐑩 'Type=Link' 𐑛𐑧𐑕𐑒𐑑𐑪𐑐 𐑧𐑯𐑑𐑮𐑦"
 
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 #: ../smclient/eggdesktopfile.c:1394
 msgid "Not a launchable item"
 msgstr "𐑯𐑪𐑑 𐑩 launchable 𐑲𐑑𐑩𐑥"
@@ -20621,10 +20531,10 @@ msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕"
 msgid "Certificate Viewer: %s"
 msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑝𐑿𐑼: %s"
 
-#, fuzzy, c-format
+#, c-format
 #: ../smime/gui/component.c:46
 msgid "Enter the password for '%s'"
-msgstr "𐑧𐑯𐑑𐑼 𐑞 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 `%s'"
+msgstr "𐑧𐑯𐑑𐑼 𐑞 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 '%s'"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:69
@@ -20679,12 +20589,10 @@ msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
 msgid "Certificate Authority Trust"
 msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑷𐑔𐑪𐑮𐑦𐑑𐑰 𐑑𐑮𐑳𐑕𐑑"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:7
 msgid "Certificate Fields"
 msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑓𐑰𐑤𐑛𐑟"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:8
 msgid "Certificate Hierarchy"
 msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑣𐑲𐑻𐑭𐑮𐑒𐑰"
@@ -20697,7 +20605,6 @@ msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑛𐑰𐑑𐑱𐑤𐑟"
 msgid "Certificates Table"
 msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕 𐑑𐑱𐑚𐑩𐑤"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:11
 msgid "Common Name (CN)"
 msgstr "𐑒𐑪𐑥𐑩𐑯 𐑯𐑱𐑥 (CN)"
@@ -20726,17 +20633,14 @@ msgstr "𐑰𐑥𐑱𐑤 𐑕𐑲𐑯𐑻 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
 msgid "Expires On"
 msgstr "𐑦𐑒𐑕𐑐𐑲𐑻𐑟 𐑪𐑯"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:19
 msgid "Field Value"
 msgstr "𐑓𐑰𐑤𐑛 𐑝𐑨𐑤𐑿"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "Fingerprints"
 msgstr "𐑓𐑦𐑙𐑜𐑼𐑐𐑮𐑦𐑯𐑑𐑕"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "Issued By"
 msgstr "𐑦𐑖𐑵𐑛 𐑚𐑲"
@@ -20745,7 +20649,6 @@ msgstr "𐑦𐑖𐑵𐑛 𐑚𐑲"
 msgid "Issued On"
 msgstr "𐑦𐑖𐑵𐑛 𐑪𐑯"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:25
 msgid "Issued To"
 msgstr "𐑦𐑖𐑵𐑛 𐑑"
@@ -20774,7 +20677,6 @@ msgstr "SSL 𐑒𐑤𐑲𐑩𐑯𐑑 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
 msgid "SSL Server Certificate"
 msgstr "SSL 𐑕𐑻𐑝𐑼 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:33
 msgid "This certificate has been verified for the following uses:"
 msgstr "𐑞𐑦𐑕 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑝𐑧𐑮𐑦𐑓𐑲𐑛 𐑓𐑹 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑿𐑟𐑩𐑟:"
@@ -20796,10 +20698,9 @@ msgstr "𐑑𐑮𐑳𐑕𐑑 𐑞𐑦𐑕 CA 𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓�
 msgid "Trust this CA to identify websites."
 msgstr "𐑑𐑮𐑳𐑕𐑑 𐑞𐑦𐑕 𐑒𐑩 𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 websites."
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:38
 msgid "Validity"
-msgstr "𐑝𐑩𐑤𐑦𐑛𐑩𐑑𐑰"
+msgstr "𐑝𐑩𐑤𐑦𐑛𐑩𐑑𐑦"
 
 #: ../smime/gui/smime-ui.ui.h:39
 msgid "You have certificates from these organizations that identify you:"
@@ -20960,7 +20861,6 @@ msgstr "𐑒𐑰 𐑩𐑜𐑮𐑰𐑥𐑩𐑯𐑑"
 msgid "Certificate Signer"
 msgstr "𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑 𐑕𐑲𐑯𐑻"
 
-#, fuzzy
 #: ../smime/lib/e-cert.c:887
 msgid "CRL Signer"
 msgstr "CRL 𐑕𐑲𐑯𐑻"
@@ -21098,7 +20998,6 @@ msgid "With _Status"
 msgstr "𐑢𐑦𐑞 _𐑕𐑑𐑱𐑑𐑫𐑕"
 
 #. Put the "UTC" entry at the top of the combo's list.
-#, fuzzy
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:227
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:439
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:441
@@ -21111,7 +21010,6 @@ msgstr "UTC"
 msgid "Select a Time Zone"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑑𐑲𐑥 𐑟𐑴𐑯"
 
-#, fuzzy
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
 msgid "Time Zones"
 msgstr "𐑑𐑲𐑥 𐑟𐑴𐑯𐑟"
@@ -21409,7 +21307,6 @@ msgstr "_𐑯𐑳𐑯"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#, fuzzy
 #: ../widgets/misc/e-dateedit.c:1682 ../widgets/misc/e-dateedit.c:1914
 msgctxt "date"
 msgid "None"
@@ -21461,19 +21358,17 @@ msgstr "𐑦𐑥𐑐𐑹𐑑 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑓
 msgid "Import a _single file"
 msgstr "𐑦𐑥𐑐𐑹𐑑 𐑩 _𐑕𐑦𐑙𐑜𐑩𐑤 𐑓𐑲𐑤"
 
-#, fuzzy
 #: ../widgets/misc/e-import-assistant.c:439
 msgid "Select what type of file you want to import from the list."
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑢𐑪𐑑 𐑑𐑲𐑐 𐑝 𐑓𐑲𐑤 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑤𐑦𐑕𐑑."
 
-#, fuzzy
 #: ../widgets/misc/e-import-assistant.c:516
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑗𐑧𐑒𐑑 𐑓𐑹 𐑕𐑧𐑑𐑦𐑙𐑟 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯𐑟: 𐑐𐑲𐑯, 𐑯𐑧𐑑𐑕𐑒𐑱𐑐, 𐑧𐑤𐑥, "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑗𐑧𐑒𐑑 𐑓𐑹 𐑕𐑧𐑑𐑦𐑙𐑟 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯𐑟: ·𐑐𐑲𐑯, ·𐑯𐑧𐑑𐑕𐑒𐑱𐑐, ·𐑧𐑤𐑥, "
 "iCalendar. 𐑯𐑴 𐑦𐑥𐑐𐑹𐑑𐑩𐑚𐑩𐑤 𐑕𐑧𐑑𐑦𐑙𐑟 𐑓𐑬𐑯𐑛. 𐑦𐑓 𐑿 𐑢𐑫𐑛 𐑤𐑲𐑒 𐑑 𐑑𐑮𐑲 𐑩𐑜𐑱𐑯, 𐑐𐑤𐑰𐑟 𐑒𐑤𐑦𐑒 𐑞 "
 "\"𐑚𐑨𐑒\" 𐑚𐑳𐑑𐑩𐑯."
 
@@ -21622,12 +21517,10 @@ msgstr "Creat_e 𐑩 𐑕𐑧𐑯𐑑 𐑲𐑑𐑩𐑥 𐑑 𐑑𐑮𐑨𐑒 �
 msgid "Deli_vered and opened"
 msgstr "Deli_vered 𐑯 𐑴𐑐𐑩𐑯𐑛"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:5
 msgid "Delivery Options"
 msgstr "𐑛𐑦𐑤𐑦𐑝𐑼𐑦 𐑪𐑐𐑖𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:6
 msgid "For Your Eyes Only"
 msgstr "𐑓𐑹 𐑿𐑼 𐑲𐑟 𐑴𐑯𐑤𐑦"
@@ -21637,12 +21530,10 @@ msgstr "𐑓𐑹 𐑿𐑼 𐑲𐑟 𐑴𐑯𐑤𐑦"
 msgid "Gene_ral Options"
 msgstr "Gene_ral 𐑪𐑐𐑖𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:10
 msgid "Mail Receipt"
 msgstr "𐑥𐑱𐑤 𐑮𐑦𐑕𐑰𐑑"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:14
 msgid "Proprietary"
 msgstr "𐑐𐑮𐑩𐑐𐑮𐑲𐑩𐑑𐑧𐑮𐑰"
@@ -21652,7 +21543,6 @@ msgstr "𐑐𐑮𐑩𐑐𐑮𐑲𐑩𐑑𐑧𐑮𐑰"
 msgid "R_eply requested"
 msgstr "R_eply 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:17
 msgid "Return Notification"
 msgstr "𐑮𐑦𐑑𐑻𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
@@ -21662,17 +21552,14 @@ msgstr "𐑮𐑦𐑑𐑻𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
 msgid "Sta_tus Tracking"
 msgstr "Sta_tus 𐑑𐑮𐑨𐑒𐑦𐑙"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:21
 msgid "Standard"
 msgstr "𐑕𐑑𐑨𐑯𐑛𐑼𐑛"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:22
 msgid "Status Tracking"
 msgstr "𐑕𐑑𐑱𐑑𐑫𐑕 𐑑𐑮𐑨𐑒𐑦𐑙"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:23
 msgid "Top Secret"
 msgstr "𐑑𐑪𐑐 𐑕𐑰𐑒𐑮𐑩𐑑"
@@ -21810,7 +21697,6 @@ msgstr "𐑴𐑐𐑩𐑯 𐑞 𐑤𐑦𐑙𐑒 𐑦𐑯 𐑩 𐑢𐑧𐑚 𐑚�
 msgid "_Copy Email Address"
 msgstr "_𐑒𐑪𐑐𐑦 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕"
 
-#, fuzzy
 #: ../widgets/misc/e-web-view.c:408 ../widgets/misc/e-web-view.c:1063
 msgid "Select all text and images"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑷𐑤 𐑑𐑧𐑒𐑕𐑑 𐑯 𐑦𐑥𐑦𐑡𐑩𐑟"
@@ -21854,7 +21740,6 @@ msgid "Now"
 msgstr "𐑯𐑬"
 
 #. Translators: "None" as a label of a button to unset date in a date table cell
-#, fuzzy
 #: ../widgets/table/e-cell-date-edit.c:320
 msgctxt "table-date"
 msgid "None"
@@ -21984,7 +21869,6 @@ msgstr "_𐑖𐑴 𐑞𐑰𐑟 𐑓𐑰𐑤𐑛𐑟 𐑦𐑯 𐑹𐑛𐑼:"
 msgid "_Sort..."
 msgstr "_𐑕𐑹𐑑..."
 
-#, fuzzy
 #: ../widgets/table/e-table-field-chooser-dialog.c:117
 msgid "Add a Column"
 msgstr "𐑨𐑛 𐑩 𐑒𐑪𐑤𐑩𐑥"
@@ -22003,12 +21887,12 @@ msgstr ""
 #. Finally the %d is replaced with count of items in this group.
 #. Example: "Family name: Smith (13 items)"
 #.
-#, fuzzy, c-format
+#, c-format
 #: ../widgets/table/e-table-group-container.c:351
 msgid "%s: %s (%d item)"
 msgid_plural "%s: %s (%d items)"
-msgstr[0] "%s : %s (%d 𐑲𐑑𐑩𐑥)"
-msgstr[1] "%s : %s (%d 𐑲𐑑𐑩𐑥𐑟)"
+msgstr[0] "%s: %s (%d 𐑲𐑑𐑩𐑥)"
+msgstr[1] "%s: %s (%d 𐑲𐑑𐑩𐑥𐑟)"
 
 #. Translators: This text is used as a special row when an ETable
 #. has turned on grouping on a column, which doesn't have set a title.
@@ -22102,13 +21986,11 @@ msgid "toggle the cell"
 msgstr "𐑑𐑪𐑜𐑩𐑤 𐑞 𐑕𐑧𐑤"
 
 #. Translators: description of an "expand" action
-#, fuzzy
 #: ../widgets/table/gal-a11y-e-cell-tree.c:212
 msgid "expands the row in the ETree containing this cell"
 msgstr "𐑦𐑒𐑕𐑐𐑨𐑯𐑛𐑟 𐑞 𐑮𐑴 𐑦𐑯 𐑞 ETree 𐑒𐑩𐑯𐑑𐑱𐑯𐑦𐑙 𐑞𐑦𐑕 𐑕𐑧𐑤"
 
 #. Translators: description of a "collapse" action
-#, fuzzy
 #: ../widgets/table/gal-a11y-e-cell-tree.c:219
 msgid "collapses the row in the ETree containing this cell"
 msgstr "𐑒𐑩𐑤𐑨𐑐𐑕𐑩𐑟 𐑞 𐑮𐑴 𐑦𐑯 𐑞 ETree 𐑒𐑩𐑯𐑑𐑱𐑯𐑦𐑙 𐑞𐑦𐑕 𐑕𐑧𐑤"
