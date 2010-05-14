@@ -1675,7 +1675,7 @@ efh_text_plain (EMFormatHTML *efh,
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream),
 			CAMEL_MIME_FILTER (inline_filter));
-		camel_data_wrapper_write_to_stream(dw, (CamelStream *)filtered_stream);
+		camel_data_wrapper_decode_to_stream (dw, (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);
 		g_object_unref (filtered_stream);
 
