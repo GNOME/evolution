@@ -794,10 +794,8 @@ em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri
 
 	composer_set_no_change (composer, TRUE, url == NULL);
 
-	if (!e_msg_composer_get_lite ()) {
-		gtk_widget_show ((GtkWidget *) composer);
-		gdk_window_raise (((GtkWidget *) composer)->window);
-	}
+	gtk_widget_show ((GtkWidget *) composer);
+	gdk_window_raise (((GtkWidget *) composer)->window);
 
 	return composer;
 }
@@ -974,8 +972,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
-	if (!e_msg_composer_get_lite())
-		gtk_widget_show (GTK_WIDGET (composer));
+	gtk_widget_show (GTK_WIDGET (composer));
 
 	return (GtkWidget *)composer;
 }
@@ -1135,8 +1132,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 
 	composer_set_no_change (composer, TRUE, TRUE);
 
-	if (!e_msg_composer_get_lite())
-		gtk_widget_show (GTK_WIDGET (composer));
+	gtk_widget_show (GTK_WIDGET (composer));
 
 	return composer;
 }
@@ -1223,8 +1219,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 
 				emu_update_composers_security (composer, validity_found);
 				composer_set_no_change (composer, TRUE, TRUE);
-				if (!e_msg_composer_get_lite())
-					gtk_widget_show (GTK_WIDGET (composer));
+				gtk_widget_show (GTK_WIDGET (composer));
 			}
 			g_free (text);
 		}
@@ -2266,8 +2261,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	composer_set_no_change (composer, TRUE, TRUE);
 
-	if (!e_msg_composer_get_lite())
-		gtk_widget_show (GTK_WIDGET (composer));
+	gtk_widget_show (GTK_WIDGET (composer));
 
 	return composer;
 }
