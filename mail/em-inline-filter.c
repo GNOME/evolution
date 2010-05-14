@@ -30,6 +30,8 @@
 #include <camel/camel-mime-part.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
+#include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-stream-filter.h>
 
 #include "em-utils.h"
 #include "em-format/em-format.h"
@@ -140,11 +142,26 @@ emif_add_part(EMInlineFilter *emif, const gchar *data, gint len)
 	if (emif->data->len <= 0) {
 		return;
 	}
-	mem = camel_stream_mem_new_with_byte_array(emif->data);
+
+	mem = camel_stream_mem_new_with_byte_array (emif->data);
 	emif->data = g_byte_array_new();
 
 	dw = camel_data_wrapper_new();
-	camel_data_wrapper_construct_from_stream(dw, mem);
+	if (encoding == emif->base_encoding && (encoding == CAMEL_TRANSFER_ENCODING_BASE64 || encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)) {
+		CamelMimeFilterBasic *enc_filter = camel_mime_filter_basic_new_type (encoding == CAMEL_TRANSFER_ENCODING_BASE64 ? CAMEL_MIME_FILTER_BASIC_BASE64_ENC : CAMEL_MIME_FILTER_BASIC_QP_ENC);
+		CamelStreamFilter *filter_stream;
+
+		filter_stream = camel_stream_filter_new_with_stream (mem);
+		camel_stream_filter_add (filter_stream, CAMEL_MIME_FILTER (enc_filter));
+
+		/* properly encode content */
+		camel_data_wrapper_construct_from_stream (dw, CAMEL_STREAM (filter_stream));
+
+		camel_object_unref (enc_filter);
+		camel_object_unref (filter_stream);
+	} else {
+		camel_data_wrapper_construct_from_stream (dw, mem);
+	}
 	camel_object_unref(mem);
 
 	if (emif_types[emif->state].plain && emif->base_type) {
@@ -199,12 +216,14 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 	gchar *start;
 
 	while (inptr < inend) {
+		gint rest_len;
+
 		start = inptr;
 
 		while (inptr < inend && *inptr != '\n')
 			inptr++;
 
-		if (inptr == inend) {
+		if (inptr == inend && start == inptr) {
 			if (!final) {
 				camel_mime_filter_backup(f, start, inend-start);
 				inend = start;
@@ -212,22 +231,26 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 			break;
 		}
 
-		*inptr++ = 0;
+		rest_len = inend - start;
+		if (inptr < inend) 
+			*inptr++ = 0;
+
+		#define restore_inptr() G_STMT_START { if (inptr < inend) inptr[-1] = '\n'; } G_STMT_END
 
 		switch (emif->state) {
 		case EMIF_PLAIN:
-			/* This could use some funky plugin shit, but this'll do for now */
-			if (strncmp(start, "begin ", 6) == 0
+			/* This could use some funky plugin, but this'll do for now */
+			if (rest_len > 6 && strncmp (start, "begin ", 6) == 0
 			    && start[6] >= '0' && start[6] <= '7') {
 				gint i = 7;
 				gchar *name;
 
-				while (start[i] >='0' && start[i] <='7')
+				while (i < rest_len && start[i] >='0' && start[i] <='7')
 					i++;
 
-				inptr[-1] = '\n';
+				restore_inptr ();
 
-				if (start[i++] != ' ')
+				if (i >= rest_len || start[i++] != ' ')
 					break;
 
 				emif_add_part(emif, data_start, start-data_start);
@@ -237,23 +260,23 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				g_free(name);
 				data_start = start;
 				emif->state = EMIF_UUENC;
-			} else if (strncmp(start, "(This file must be converted with BinHex 4.0)", 45) == 0) {
-				inptr[-1] = '\n';
+			} else if (rest_len >= 45 && strncmp (start, "(This file must be converted with BinHex 4.0)", 45) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, start-data_start);
 				data_start = start;
 				emif->state = EMIF_BINHEX;
-			} else if (strncmp(start, "%!PS-Adobe-", 11) == 0) {
-				inptr[-1] = '\n';
+			} else if (rest_len >= 11 && strncmp (start, "%!PS-Adobe-", 11) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, start-data_start);
 				data_start = start;
 				emif->state = EMIF_POSTSCRIPT;
-			} else if (strncmp(start, "-----BEGIN PGP SIGNED MESSAGE-----", 34) == 0) {
-				inptr[-1] = '\n';
+			} else if (rest_len >= 34 && strncmp (start, "-----BEGIN PGP SIGNED MESSAGE-----", 34) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, start-data_start);
 				data_start = start;
 				emif->state = EMIF_PGPSIGNED;
-			} else if (strncmp(start, "-----BEGIN PGP MESSAGE-----", 27) == 0) {
-				inptr[-1] = '\n';
+			} else if (rest_len >= 27 && strncmp (start, "-----BEGIN PGP MESSAGE-----", 27) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, start-data_start);
 				data_start = start;
 				emif->state = EMIF_PGPENCRYPTED;
@@ -261,8 +284,8 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 
 			break;
 		case EMIF_UUENC:
-			if (strcmp(start, "end") == 0) {
-				inptr[-1] = '\n';
+			if (rest_len >= 3 && strncmp (start, "end", 3) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
@@ -278,7 +301,7 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				linelen /= 4;
 				linelen *= 3;
 				if (!(len == linelen || len == linelen-1 || len == linelen-2)) {
-					inptr[-1] = '\n';
+					restore_inptr ();
 					emif_add_part(emif, data_start, start-data_start);
 					data_start = start;
 					inptr = start;
@@ -289,31 +312,31 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 			break;
 		case EMIF_BINHEX:
 			if (inptr > (start+1) && inptr[-2] == ':') {
-				inptr[-1] = '\n';
+				restore_inptr ();
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 			}
 			break;
 		case EMIF_POSTSCRIPT:
-			if (strcmp(start, "%%EOF") == 0) {
-				inptr[-1] = '\n';
+			if (rest_len >= 5 && strncmp (start, "%%EOF", 5) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 			}
 			break;
 		case EMIF_PGPSIGNED:
-			if (strcmp(start, "-----END PGP SIGNATURE-----") == 0) {
-				inptr[-1] = '\n';
+			if (rest_len >= 27 && strncmp (start, "-----END PGP SIGNATURE-----", 27) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 			}
 			break;
 		case EMIF_PGPENCRYPTED:
-			if (strcmp(start, "-----END PGP MESSAGE-----") == 0) {
-				inptr[-1] = '\n';
+			if (rest_len >= 25 && strncmp (start, "-----END PGP MESSAGE-----", 25) == 0) {
+				restore_inptr ();
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
@@ -321,7 +344,9 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 			break;
 		}
 
-		inptr[-1] = '\n';
+		restore_inptr ();
+
+		#undef restore_inptr
 	}
 
 	if (final) {
