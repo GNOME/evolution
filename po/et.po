@@ -1,25 +1,25 @@
 # Evolutioni eesti keele tõlge.
 # Estonian translation of Evolution.
 #
-# Copyright (C) 2001-2006 Free Software Foundation, Inc.
-# Copyright (C) 2007-2009 The GNOME Project.
+# Copyright (C) 2001–2006 Free Software Foundation, Inc.
+# Copyright (C) 2007–2010 The GNOME Project.
 # This file is distributed under the same license as the evolution package.
 #
 # Ilmar Kerm <ikerm hot ee>, 2001.
 # Marek Sepp <marek sepp ttu ee>, 2001, 2002.
-# Ivar Smolin <okul linux ee>, 2002, 2003, 2005-2009.
+# Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2010.
 # Kaarel Jõgi <kaarel gg ee>, 2002.
-# Priit Laes <plaes plaes org>, 2003-2007, 2009, 2010.
-# Mattias Põldaru <mahfiaz gmail com>, 2009-2010.
+# Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.
+# Mattias Põldaru <mahfiaz gmail com>, 2009–2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-03-18 11:05+0000\n"
-"PO-Revision-Date: 2010-05-03 19:55+0300\n"
-"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
+"POT-Creation-Date: 2010-05-12 23:13+0000\n"
+"PO-Revision-Date: 2010-05-15 10:33+0300\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -193,14 +193,6 @@ msgstr "_Vähenda"
 msgid "_Use as it is"
 msgstr "_Kasuta nii, nagu on"
 
-#. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query."
-msgid "{0}"
-msgstr "{0}"
-
-#. For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT")
-msgid "{1}"
-msgstr "{1}"
-
 msgid "Default Sync Address:"
 msgstr "Vaikimisi sünkroniseerimisaadress:"
 
@@ -220,6 +212,10 @@ msgstr "Aastapäev"
 #. * the directory components.
 msgid "Birthday"
 msgstr "Sünnipäev"
+
+#. Translators: an accessibility name
+msgid "Blog:"
+msgstr "Blogi:"
 
 msgid "Ca_tegories..."
 msgstr "Kate_gooriad..."
@@ -284,10 +280,6 @@ msgstr "Videovestlus:"
 msgid "Web Addresses"
 msgstr "Veebiaadressid"
 
-msgid "Web Log:"
-msgstr "Veebilogi:"
-
-#. red
 msgid "Work"
 msgstr "Töö"
 
@@ -302,6 +294,9 @@ msgstr "Ass_istent:"
 
 msgid "_Birthday:"
 msgstr "_Sünnipäev:"
+
+msgid "_Blog:"
+msgstr "_Blogi:"
 
 msgid "_Calendar:"
 msgstr "Kalen_der:"
@@ -354,20 +349,11 @@ msgstr "_Videovestlus:"
 msgid "_Wants to receive HTML mail"
 msgstr "Soovib saada _HTML sõnumeid"
 
-msgid "_Web Log:"
-msgstr "Veebilo_gi:"
-
 msgid "_Where:"
 msgstr "K_us:"
 
 msgid "_Zip/Postal Code:"
 msgstr "_Postiindeks:"
-
-msgid "Name"
-msgstr "Nimi"
-
-msgid "Editable"
-msgstr "Muudetav"
 
 msgid "AIM"
 msgstr "AIM"
@@ -401,24 +387,6 @@ msgstr "Viga kontakti muutmisel"
 
 msgid "Error removing contact"
 msgstr "Viga kontakti eemaldamisel"
-
-msgid "Source Book"
-msgstr "Lähteraamat"
-
-msgid "Target Book"
-msgstr "Sihtraamat"
-
-msgid "Is New Contact"
-msgstr "Tegemist on uue kontaktiga"
-
-msgid "Writable Fields"
-msgstr "Muudetavad väljad"
-
-msgid "Required Fields"
-msgstr "Vajalikud väljad"
-
-msgid "Changed"
-msgstr "Muudetud"
 
 #, c-format
 msgid "Contact Editor - %s"
@@ -468,12 +436,6 @@ msgstr "E-_post:"
 
 msgid "_Select Address Book"
 msgstr "_Vali aadressiraamat"
-
-msgid "Shell"
-msgstr "Kest"
-
-msgid "The EShell singleton"
-msgstr ""
 
 msgid "Dr."
 msgstr "Dr"
@@ -557,12 +519,6 @@ msgstr "Viga loendi muutmisel"
 msgid "Error removing list"
 msgstr "Viga loendi eemaldamisel"
 
-msgid "Book"
-msgstr "Raamat"
-
-msgid "Is New List"
-msgstr "On uus loend"
-
 msgid "Changed Contact:"
 msgstr "Muudetud kontakt:"
 
@@ -619,14 +575,8 @@ msgstr[1] "%d kontakti"
 msgid "Error getting book view"
 msgstr "Viga raamatu vaate hankimisel"
 
-msgid "Query"
-msgstr "Päring"
-
 msgid "Search Interrupted"
 msgstr "Otsing katkestati"
-
-msgid "Model"
-msgstr "Mudel"
 
 msgid "Error modifying card"
 msgstr "Viga kaardi muutmisel"
@@ -645,12 +595,6 @@ msgstr "Valitud kontaktide kustutamine"
 
 msgid "Select all visible contacts"
 msgstr "Kõigi nähtaval olevate kontaktide valimine"
-
-msgid "Shell View"
-msgstr "Kestvaade"
-
-msgid "Source"
-msgstr "Allikas"
 
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Kas soovid kustutada need kontaktide loendid?"
@@ -803,30 +747,6 @@ msgstr "Ühik"
 msgid "Web Site"
 msgstr "Koduleht"
 
-msgid "Width"
-msgstr "Laius"
-
-msgid "Height"
-msgstr "Kõrgus"
-
-msgid "Has Focus"
-msgstr "On fookuses"
-
-msgid "Field"
-msgstr "Väli"
-
-msgid "Field Name"
-msgstr "Välja nimi"
-
-msgid "Text Model"
-msgstr "Teksti mudel"
-
-msgid "Max field name length"
-msgstr "Suurim välja nime pikkus"
-
-msgid "Column Width"
-msgstr "Veeru laius"
-
 msgid ""
 "\n"
 "\n"
@@ -880,9 +800,6 @@ msgstr ""
 "\n"
 "Selles vaates kirjed puuduvad."
 
-msgid "Adapter"
-msgstr "Adapter"
-
 msgid "Work Email"
 msgstr "Töö e-post"
 
@@ -891,12 +808,6 @@ msgstr "Kodune e-post"
 
 msgid "Other Email"
 msgstr "Muu e-post"
-
-msgid "Selected"
-msgstr "Valitud"
-
-msgid "Has Cursor"
-msgstr "On fookuses"
 
 msgid "evolution address book"
 msgstr "Evolutioni aadressiraamat"
@@ -979,8 +890,6 @@ msgstr "Koduleht"
 msgid "Web Log"
 msgstr "Veebilogi"
 
-#. Create the default Person addressbook
-#. orange
 #. Create the default Person addressbook
 #. Create the default Person calendar
 #. Create the default Person memo list
@@ -1207,6 +1116,12 @@ msgstr "vKaart (.vcf, .gcrd)"
 msgid "Evolution vCard Importer"
 msgstr "Evolutioni vKaardi importija"
 
+#. Uncomment next if it is successful to get total number if pages in list view
+#. * g_object_get (operation, "n-pages", &n_pages, NULL)
+#, c-format
+msgid "Page %d"
+msgstr "Lehekülg %d"
+
 msgid "Can not open file"
 msgstr "Faili pole võimalik avada"
 
@@ -1289,16 +1204,24 @@ msgstr ""
 "Kalendriallikas '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. Palun "
 "vali kalender, mis võimaldab sündmuseid sisestada."
 
+#, fuzzy
+#| msgid ""
+#| "Adding a meaningful summary to your appointment will give your recipients "
+#| "an idea of what your appointment is about."
 msgid ""
-"Adding a meaningful summary to your appointment will give your recipients an "
-"idea of what your appointment is about."
+"Adding a meaningful summary to your appointment will give you an idea of "
+"what your appointment is about."
 msgstr ""
 "Sündmusele mõtestatud kokkuvõtte lisamine annab adressaatidele aimu sündmuse "
 "sisu kohta."
 
+#, fuzzy
+#| msgid ""
+#| "Adding a meaningful summary to your task will give your recipients an "
+#| "idea of what your task is about."
 msgid ""
-"Adding a meaningful summary to your task will give your recipients an idea "
-"of what your task is about."
+"Adding a meaningful summary to your task will give you an idea of what your "
+"task is about."
 msgstr ""
 "Ülesandele mõtestatud kokkuvõtte lisamine annab adressaatidele aimu ülesande "
 "sisu kohta."
@@ -1383,19 +1306,20 @@ msgstr "Kas soovid kustutada selle märkme?"
 msgid "Are you sure you want to delete this task?"
 msgstr "Kas soovid kustutada selle ülesande?"
 
-msgid "Are you sure you want to save the memo without a summary?"
-msgstr "Kas oled kindel, et soovid salvestada selle märkme ilma kokkuvõtteta?"
-
-msgid "Are you sure you want to send the appointment without a summary?"
+#, fuzzy
+#| msgid "Are you sure you want to send the appointment without a summary?"
+msgid "Are you sure you want to save the appointment without a summary?"
 msgstr ""
 "Kas oled kindel, et soovid salvestada selle sündmuse ilma kokkuvõtteta?"
 
-msgid "Are you sure you want to send the task without a summary?"
+msgid "Are you sure you want to save the memo without a summary?"
+msgstr "Kas oled kindel, et soovid salvestada selle märkme ilma kokkuvõtteta?"
+
+#, fuzzy
+#| msgid "Are you sure you want to send the task without a summary?"
+msgid "Are you sure you want to save the task without a summary?"
 msgstr ""
 "Kas oled kindel, et soovid salvestada selle ülesande ilma kokkuvõtteta?"
-
-msgid "Calendar repository is offline."
-msgstr "Kalendrihoidla pole võrku ühendatud."
 
 msgid "Cannot create a new event"
 msgstr "Uut sündmust pole võimalik luua"
@@ -1446,10 +1370,6 @@ msgstr "Viga märkmeloendi laadimisel"
 msgid "Error loading task list"
 msgstr "Viga ülesandeloendi laadimisel"
 
-#. For Translators: {0} is specify the backend server
-msgid "Error on '{0}'"
-msgstr "Viga toimingul '{0}'"
-
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
@@ -1470,9 +1390,6 @@ msgid ""
 msgstr ""
 "Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad selle "
 "ülesande kustutamisest mitte teada saada."
-
-msgid "No response from the server."
-msgstr "Serverist ei tulnud vastust."
 
 msgid ""
 "Sending updated information allows other participants to keep their "
@@ -1535,9 +1452,6 @@ msgstr "See märkmeloend eemaldatakse jäädavalt."
 
 msgid "This task list will be removed permanently."
 msgstr "See ülesandeloend eemaldatakse jäädavalt."
-
-msgid "Unable to load the calendar"
-msgstr "Kalendrit pole võimalik laadida"
 
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Kas soovid selle sündmuse muudatused salvestada?"
@@ -1614,9 +1528,6 @@ msgstr "Saa_da"
 msgid "_Send Notice"
 msgstr "Saada _teavitus"
 
-msgid "{0}."
-msgstr "{0}."
-
 msgid "Split Multi-Day Events:"
 msgstr "Mitmepäevaste sündmuste osadeks jagamine:"
 
@@ -1682,6 +1593,7 @@ msgstr "tundi"
 msgid "location of appointment"
 msgstr "sündmuse asukoht"
 
+#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 msgid "minutes"
 msgstr "minutit"
 
@@ -1773,9 +1685,6 @@ msgstr "Tähtaja ületanud ülesannete värvus \"#rrggbb\" vormingus."
 
 msgid "Calendars to run alarms for"
 msgstr "Kalendrid, mille jaoks alarme käivitada"
-
-msgid "Check this to use system timezone in Evolution."
-msgstr "Märgi see, et kasutada Evolutionis süsteemi ajavööndit."
 
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
@@ -2345,12 +2254,14 @@ msgstr "päev(a)"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
+#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 msgid "days"
 msgstr "päeva"
 
 msgid "end of appointment"
 msgstr "sündmuse lõpp"
 
+#. This is part of the sentence: 'Repeat the alarm %d extra times every %d minutes'. Where %d are numbers.
 msgid "extra times every"
 msgstr "korda vahemikuga"
 
@@ -2383,10 +2294,14 @@ msgstr "Vali..."
 msgid "Selected Calendars for Alarms"
 msgstr "Alarmidele valitud kalendrid"
 
-msgid "Time and date:"
+#, fuzzy
+#| msgid "Time and date:"
+msgid "Ti_me and date:"
 msgstr "Kuupäev ja kellaaeg:"
 
-msgid "Date only:"
+#, fuzzy
+#| msgid "Date only:"
+msgid "_Date only:"
 msgstr "Ainult kuupäev:"
 
 #, no-c-format
@@ -2458,6 +2373,7 @@ msgstr "Puudub"
 msgid "Pick a color"
 msgstr "Värvuse valimine"
 
+#. Sunday
 msgid "S_un"
 msgstr "_P"
 
@@ -2473,9 +2389,11 @@ msgstr "_Teine ajavöönd:"
 msgid "Select the calendars for alarm notification"
 msgstr "Alarmmärguannetega kalendrite valimine"
 
+#. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
 msgid "Sh_ow a reminder"
 msgstr "_Meeldetuletusi näidatakse"
 
+#. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 msgid "Show a _reminder"
 msgstr "_Meeldetuletusi näidatakse"
 
@@ -2491,6 +2409,7 @@ msgstr "Pühapäev"
 msgid "T_asks due today:"
 msgstr "_Tänase tähtajaga ülesanded:"
 
+#. Thursday
 msgid "T_hu"
 msgstr "_N"
 
@@ -2521,6 +2440,7 @@ msgstr "Näidatakse _süsteemi ajavööndit"
 msgid "Wednesday"
 msgstr "Kolmapäev"
 
+#. A weekday like "Monday" follows
 msgid "Wee_k starts on:"
 msgstr "Nä_dala algus:"
 
@@ -2545,18 +2465,21 @@ msgstr "Nädalalõppe kuvatakse kokkusurutud _vormis"
 msgid "_Day begins:"
 msgstr "Päev al_gab:"
 
+#. Friday
 msgid "_Fri"
 msgstr "_R"
 
 msgid "_Hide completed tasks after"
 msgstr "Täidetud ülesanded _peidetakse pärast"
 
+#. Monday
 msgid "_Mon"
 msgstr "_E"
 
 msgid "_Overdue tasks:"
 msgstr "Tä_htaja ületanud ülesanded:"
 
+#. Saturday
 msgid "_Sat"
 msgstr "_L"
 
@@ -2566,15 +2489,19 @@ msgstr "Nädala ja kuu vaadetel näidatakse sündmuste _lõpuaegu"
 msgid "_Time divisions:"
 msgstr "Aeg _jaotatakse:"
 
+#. Tuesday
 msgid "_Tue"
 msgstr "_T"
 
+#. Wednesday
 msgid "_Wed"
 msgstr "_K"
 
+#. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 msgid "before every anniversary/birthday"
 msgstr "enne aasta-/sünnipäeva"
 
+#. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
 msgid "before every appointment"
 msgstr "enne iga sündmuse algust"
 
@@ -2664,21 +2591,6 @@ msgstr "%s  Muudatusi ei ole tehtud. Kas värskendada redaktorit?"
 #, c-format
 msgid "Validation error: %s"
 msgstr "Valideerimisviga: %s"
-
-msgid " to "
-msgstr " kuni "
-
-msgid " (Completed "
-msgstr " (Täidetud "
-
-msgid "Completed "
-msgstr "Täidetud"
-
-msgid " (Due "
-msgstr " (Tähtaeg "
-
-msgid "Due "
-msgstr "Tähtaeg "
 
 msgid "Could not save attachments"
 msgstr "Manuseid pole võimalik salvestada"
@@ -2847,6 +2759,11 @@ msgstr "Sihtkoht on kirjutuskaitsega"
 
 msgid "_Delete this item from all other recipient's mailboxes?"
 msgstr "_Kas kustutada see kirje kõigi teiste adressaatide kirjakastidest?"
+
+#, fuzzy
+#| msgid "P_ercent complete:"
+msgid "_Retract comment"
+msgstr "Täitmis_protsent"
 
 msgid "The event could not be deleted due to a corba error"
 msgstr "Seda sündmust pole võimalik corba vea tõttu kustutada"
@@ -3028,7 +2945,7 @@ msgstr "1 tund enne sündmust"
 msgid "15 minutes before appointment"
 msgstr "15 minut enne sündmust"
 
-msgid "Attendee_s..."
+msgid "Atte_ndees..."
 msgstr "_Osalejad..."
 
 msgid "Attendees"
@@ -3040,9 +2957,6 @@ msgstr "Kohandatud alarm:"
 msgid "Event Description"
 msgstr "Sündmuse kirjeldus"
 
-msgid "Su_mmary:"
-msgstr "Kokkuvõt_e:"
-
 msgid "_Alarm"
 msgstr "_Alarm"
 
@@ -3051,6 +2965,9 @@ msgstr "_Kirjeldus:"
 
 msgid "_Location:"
 msgstr "Asuko_ht:"
+
+msgid "_Summary:"
+msgstr "_Kokkuvõte:"
 
 msgid "_Time:"
 msgstr "Ae_g:"
@@ -3080,6 +2997,9 @@ msgstr "Kellele"
 
 msgid "Sta_rt date:"
 msgstr "_Algusaeg:"
+
+msgid "Su_mmary:"
+msgstr "Kokkuvõt_e:"
 
 msgid "T_o:"
 msgstr "_Kellele:"
@@ -3345,9 +3265,6 @@ msgstr "Tähtaja kuupäev on vale"
 msgid "Unable to open tasks in '%s'."
 msgstr "Ülesandeid pole võimalik '%s'-s avada."
 
-msgid "Atte_ndees..."
-msgstr "_Osalejad..."
-
 msgid "Categor_ies..."
 msgstr "Kate_gooriad..."
 
@@ -3487,15 +3404,6 @@ msgstr "Jah"
 
 msgid "No"
 msgstr "Ei"
-
-msgid "Default Client"
-msgstr "Vaikimisi klient"
-
-msgid "Shell Settings"
-msgstr "Kesta sätted"
-
-msgid "Application-wide settings"
-msgstr "Rakendust hõlmavad sätted"
 
 #. This is the default filename used for temporary file creation
 msgid "Unknown"
@@ -3657,6 +3565,9 @@ msgstr "pl"
 msgid "Week %d"
 msgstr "%d. nädal"
 
+msgid "Recurring:"
+msgstr "Korduv:"
+
 msgid "Yes. (Complex Recurrence)"
 msgstr "Jah. (keeruline kordumine)"
 
@@ -3733,9 +3644,13 @@ msgstr "iKalendri viga"
 msgid "An unknown person"
 msgstr "Tundmatu isik"
 
+#, fuzzy
+#| msgid ""
+#| "<br> Please review the following information, and then select an action "
+#| "from the menu below."
 msgid ""
-"<br> Please review the following information, and then select an action from "
-"the menu below."
+"Please review the following information, and then select an action from the "
+"menu below."
 msgstr ""
 "<br> Palun vaata järgnev info üle ja vali alumisest menüüst  sobilik tegevus."
 
@@ -3758,102 +3673,117 @@ msgid ""
 msgstr ""
 "Ülesanne on tühistatud, kuid seda pole sinu ülesannete hulgast võimalik leida"
 
-#, c-format
-msgid "<b>%s</b> has published meeting information."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published meeting information."
+msgid "%s has published meeting information."
 msgstr "<b>%s</b> avaldas koosoleku andmed."
 
 msgid "Meeting Information"
 msgstr "Koosoleku andmed"
 
-#, c-format
-msgid "<b>%s</b> requests the presence of %s at a meeting."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests the presence of %s at a meeting."
+msgid "%s requests the presence of %s at a meeting."
 msgstr "<b>%s</b> soovib, et koosolekul osaleks ka %s."
 
-#, c-format
-msgid "<b>%s</b> requests your presence at a meeting."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests your presence at a meeting."
+msgid "%s requests your presence at a meeting."
 msgstr "<b>%s</b> soovib, et sa osaleksid koosolekul."
 
 msgid "Meeting Proposal"
 msgstr "Koosoleku ettepanek"
 
 #. FIXME Whats going on here?
-#, c-format
-msgid "<b>%s</b> wishes to be added to an existing meeting."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to be added to an existing meeting."
+msgid "%s wishes to be added to an existing meeting."
 msgstr "<b>%s</b> soovib liituda olemasoleva koosolekuga."
 
 msgid "Meeting Update"
 msgstr "Koosoleku info uuendus"
 
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest meeting information."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to receive the latest meeting information."
+msgid "%s wishes to receive the latest meeting information."
 msgstr "<b>%s</b> soovib saada värskemaid andmeid koosoleku kohta."
 
 msgid "Meeting Update Request"
 msgstr "Soov muuta koosolekut"
 
-#, c-format
-msgid "<b>%s</b> has replied to a meeting request."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has replied to a meeting request."
+msgid "%s has replied to a meeting request."
 msgstr "<b>%s</b> vastas koosoleku soovile."
 
 msgid "Meeting Reply"
 msgstr "Koosoleku vastus"
 
-#, c-format
-msgid "<b>%s</b> has canceled a meeting."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled a meeting."
+msgid "%s has canceled a meeting."
 msgstr "<b>%s</b> tühistas koosoleku."
 
 msgid "Meeting Cancelation"
 msgstr "Koosoleku tühistamine"
 
-#, c-format
-msgid "<b>%s</b> has sent an unintelligible message."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has sent an unintelligible message."
+msgid "%s has sent an unintelligible message."
 msgstr "<b>%s</b> saatis arusaamatu sõnumi."
 
 msgid "Bad Meeting Message"
 msgstr "Vigane koosoleku sõnum"
 
-#, c-format
-msgid "<b>%s</b> has published task information."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published task information."
+msgid "%s has published task information."
 msgstr "<b>%s</b> avaldas ülesande andmed."
 
 msgid "Task Information"
 msgstr "Ülesande andmed"
 
-#, c-format
-msgid "<b>%s</b> requests %s to perform a task."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests %s to perform a task."
+msgid "%s requests %s to perform a task."
 msgstr "<b>%s</b> soovib, et %s täidaks ülesande."
 
-#, c-format
-msgid "<b>%s</b> requests you perform a task."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests you perform a task."
+msgid "%s requests you perform a task."
 msgstr "<b>%s</b> soovib, et sa täidaksid ülesande."
 
 msgid "Task Proposal"
 msgstr "Ettepanek ülesandeks"
 
 #. FIXME Whats going on here?
-#, c-format
-msgid "<b>%s</b> wishes to be added to an existing task."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to be added to an existing task."
+msgid "%s wishes to be added to an existing task."
 msgstr "<b>%s</b> soovib liituda olemasoleva ülesandega."
 
 msgid "Task Update"
 msgstr "Ülesande uuendus"
 
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest task information."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to receive the latest task information."
+msgid "%s wishes to receive the latest task information."
 msgstr "<b>%s</b> soovib saada värskemaid andmeid ülesande kohta."
 
 msgid "Task Update Request"
 msgstr "Soov muuta ülesannet"
 
-#, c-format
-msgid "<b>%s</b> has replied to a task assignment."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has replied to a task assignment."
+msgid "%s has replied to a task assignment."
 msgstr "<b>%s</b> vastas ülesande täitjaks määramisele."
 
 msgid "Task Reply"
 msgstr "Ülesande vastus"
 
-#, c-format
-msgid "<b>%s</b> has canceled a task."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled a task."
+msgid "%s has canceled a task."
 msgstr "<b>%s</b> tühistas ülesande."
 
 msgid "Task Cancelation"
@@ -3862,22 +3792,25 @@ msgstr "Ülesande tühistamine"
 msgid "Bad Task Message"
 msgstr "Vigane ülesande sõnum"
 
-#, c-format
-msgid "<b>%s</b> has published free/busy information."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published free/busy information."
+msgid "%s has published free/busy information."
 msgstr "<b>%s</b> avaldas vaba/hõivatud andmed."
 
 msgid "Free/Busy Information"
 msgstr "Vaba/hõivatud andmed"
 
-#, c-format
-msgid "<b>%s</b> requests your free/busy information."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests your free/busy information."
+msgid "%s requests your free/busy information."
 msgstr "<b>%s</b> soovib saada sinu vaba/hõivatud andmeid."
 
 msgid "Free/Busy Request"
 msgstr "Soov saada vaba/hõivatud teavet"
 
-#, c-format
-msgid "<b>%s</b> has replied to a free/busy request."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has replied to a free/busy request."
+msgid "%s has replied to a free/busy request."
 msgstr "<b>%s</b> vastas vaba/hõivatud päringule."
 
 msgid "Free/Busy Reply"
@@ -4044,9 +3977,6 @@ msgstr "Kontorist väljas"
 msgid "No Information"
 msgstr "Andmed puuduvad"
 
-msgid "A_ttendees..."
-msgstr "_Osalejad..."
-
 msgid "O_ptions"
 msgstr "_Valikud"
 
@@ -4110,9 +4040,11 @@ msgstr "Märkmed"
 msgid "* No Summary *"
 msgstr "* Kokkuvõte puudub *"
 
+#. Translators: This is followed by an event's start date/time
 msgid "Start: "
 msgstr "Algus: "
 
+#. Translators: This is followed by an event's due date/time
 msgid "Due: "
 msgstr "Tähtaeg: "
 
@@ -4134,38 +4066,13 @@ msgstr "Kõigi nähtavate märkmete valimine"
 msgid "Click to add a memo"
 msgstr "Märkme lisamiseks klõpsa siia"
 
-msgid "0%"
-msgstr "0%"
-
-msgid "10%"
-msgstr "10%"
-
-msgid "20%"
-msgstr "20%"
-
-msgid "30%"
-msgstr "30%"
-
-msgid "40%"
-msgstr "40%"
-
-msgid "50%"
-msgstr "50%"
-
-msgid "60%"
-msgstr "60%"
-
-msgid "70%"
-msgstr "70%"
-
-msgid "80%"
-msgstr "80%"
-
-msgid "90%"
-msgstr "90%"
-
-msgid "100%"
-msgstr "100%"
+#. Translators: "%d%%" is the percentage of a task done.
+#. %d is the actual value, %% is replaced with a percent sign.
+#. Result values will be 0%, 10%, 20%, ... 100%
+#.
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
 
 msgid "Tasks"
 msgstr "Ülesanded"
@@ -4336,11 +4243,11 @@ msgstr "Oktoober"
 msgid "Select Date"
 msgstr "Kuupäeva valimine"
 
+msgid "Select _Today"
+msgstr "Vali _tänane kuupäev"
+
 msgid "September"
 msgstr "September"
-
-msgid "_Select Today"
-msgstr "_Vali tänane kuupäev"
 
 msgid "An organizer must be set."
 msgstr "Korraldaja peab olema määratud."
@@ -4556,6 +4463,33 @@ msgstr "R"
 
 msgid "Sa"
 msgstr "L"
+
+#. Translators: This is part of "START to END" text,
+#. * where START and END are date/times.
+msgid " to "
+msgstr " kuni "
+
+#. Translators: This is part of "START to END
+#. * (Completed COMPLETED)", where COMPLETED is a
+#. * completed date/time.
+msgid " (Completed "
+msgstr " (Täidetud "
+
+#. Translators: This is part of "Completed COMPLETED",
+#. * where COMPLETED is a completed date/time.
+msgid "Completed "
+msgstr "Täidetud"
+
+#. Translators: This is part of "START (Due DUE)",
+#. * where START and DUE are dates/times.
+msgid " (Due "
+msgstr " (Tähtaeg "
+
+#. Translators: This is part of "Due DUE",
+#. * where DUE is a date/time due the event
+#. * should be finished.
+msgid "Due "
+msgstr "Tähtaeg "
 
 msgid "Appointment"
 msgstr "Sündmus"
@@ -6017,9 +5951,11 @@ msgstr "Ei suudetud taastada sõnumit automaatsalvestusfailist"
 msgid "Compose Message"
 msgstr "Sõnumi koostamine"
 
-msgid ""
-"<b>(The composer contains a non-text message body, which cannot be edited.)</"
-"b>"
+#, fuzzy
+#| msgid ""
+#| "<b>(The composer contains a non-text message body, which cannot be "
+#| "edited.)</b>"
+msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "<b>(Redaktor sisaldab mittetekstilist sõnumit, mida pole võimalik muuta.)</b>"
 
@@ -6083,7 +6019,10 @@ msgstr ""
 "Evolution lõpetas ootamatult uue sõnumi koostamise ajal. Sõnumi taastamine "
 "võimaldab jätkata sealt, kuhu pooleli jäid."
 
-msgid "The file `{0}' is not a regular file and cannot be sent in a message."
+#, fuzzy
+#| msgid ""
+#| "The file `{0}' is not a regular file and cannot be sent in a message."
+msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr "Fail `{0}' ei ole tavaline fail ja seda pole võimalik sõnumiga saata."
 
 msgid ""
@@ -6100,7 +6039,9 @@ msgstr ""
 msgid "Unable to activate the address selector control."
 msgstr "Aadressi valimise juhtimist pole võimalik aktiveerida."
 
-msgid "You cannot attach the file `{0}' to this message."
+#, fuzzy
+#| msgid "You cannot attach the file `{0}' to this message."
+msgid "You cannot attach the file n{0}' to this message."
 msgstr "Sul pole võimalik sellele sõnumile faili `{0}' manustada."
 
 msgid "You need to configure an account before you can compose mail."
@@ -6134,9 +6075,6 @@ msgstr "pesa"
 msgid "Anjal email client"
 msgstr "Anjal meiliklient"
 
-msgid "New Tab"
-msgstr "Uus sakk"
-
 msgid "Please enter your full name."
 msgstr "Palun sisesta enda täisnimi."
 
@@ -6146,8 +6084,8 @@ msgstr "Palun sisesta enda meiliaadress."
 msgid "The email address you have entered is invalid."
 msgstr "Sisestatud meiliaadress ei ole korrektne."
 
-msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Isiklikud andmed:</span>"
+msgid "Personal details:"
+msgstr "Isiklikud üksikasjad:"
 
 msgid "Name:"
 msgstr "Nimi:"
@@ -6155,8 +6093,8 @@ msgstr "Nimi:"
 msgid "Email address:"
 msgstr "E-posti aadress:"
 
-msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Vastuvõtmise andmed:</span>"
+msgid "Receiving details:"
+msgstr "Vastuvõtmise üksikasjad:"
 
 msgid "Server type:"
 msgstr "Serveri liik:"
@@ -6173,8 +6111,8 @@ msgstr "Kasutatav krüptimine:"
 msgid "never"
 msgstr "mitte kunagi"
 
-msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Saatmise andmed:</span>"
+msgid "Sending details:"
+msgstr "Saatmise üksikasjad:"
 
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
@@ -6274,12 +6212,6 @@ msgstr "Konto nõustaja"
 msgid "Evolution account assistant"
 msgstr "Evolutioni kontoabiline"
 
-msgid "Email Settings"
-msgstr "E-posti sätted"
-
-msgid "Quit"
-msgstr "Lõpeta"
-
 #. create the local source group
 msgid "On This Computer"
 msgstr "Kohalikus arvutis"
@@ -6290,8 +6222,8 @@ msgstr "Muuda"
 msgid "Add a new account"
 msgstr "Uue konto lisamine"
 
-msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Konto haldus</span>"
+msgid "Account management"
+msgstr "Kontohaldus"
 
 msgid "Settings"
 msgstr "Sätted"
@@ -6316,6 +6248,9 @@ msgstr "Oma e-posti, kontaktide ja kalendri haldamine"
 
 msgid "Configure email accounts"
 msgstr "E-posti kontode seadistused"
+
+msgid "Email Settings"
+msgstr "E-posti sätted"
 
 msgid "address card"
 msgstr "aadressikaart"
@@ -6395,15 +6330,19 @@ msgstr "Lääne-Euroopa"
 msgid "Western European, New"
 msgstr "Lääne-Euroopa, uus"
 
+#. Translators: Character set "Chinese, Traditional"
 msgid "Traditional"
 msgstr "Traditsiooniline"
 
+#. Translators: Character set "Chinese, Simplified"
 msgid "Simplified"
 msgstr "Lihtsustatud"
 
+#. Translators: Character set "Cyrillic, Ukrainian"
 msgid "Ukrainian"
 msgstr "Ukraina"
 
+#. Translators: Character set "Hebrew, Visual"
 msgid "Visual"
 msgstr "Visuaalne"
 
@@ -6418,13 +6357,19 @@ msgstr "Homme"
 msgid "Yesterday"
 msgstr "Eile"
 
+#. Translators: %d is replaced with a number of days. It's always greater than 1
 #, c-format
-msgid "%d days from now"
-msgstr "%d päeva alates praegusest"
+msgid "%d day from now"
+msgid_plural "%d days from now"
+msgstr[0] "%d päev alates praegusest"
+msgstr[1] "%d päeva alates praegusest"
 
+#. Translators: %d is replaced with a number of days. It's always greater than 1
 #, c-format
-msgid "%d days ago"
-msgstr "%d päeva tagasi"
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] "%d päev tagasi"
+msgstr[1] "%d päeva tagasi"
 
 msgid "Use locale default"
 msgstr "Kasutatakse lokaadi vaikeväärtuseid"
@@ -6445,15 +6390,6 @@ msgstr "\"%s\" kirjutamine"
 #, c-format
 msgid "Writing \"%s\" to %s"
 msgstr "\"%s\" kirjutamine kohta %s"
-
-msgid "Name of the logger"
-msgstr "Logiva komponendi nimi"
-
-msgid "Filename"
-msgstr "Failinimi"
-
-msgid "The filename of the module"
-msgstr "Mooduli failinimi"
 
 msgid "Debug Logs"
 msgstr "Silumislogid"
@@ -6492,12 +6428,6 @@ msgstr "Silumine"
 
 msgid "Error, Warnings and Debug messages"
 msgstr "Vea-, hoiatus- ja silumisteated"
-
-msgid "Enabled"
-msgstr "Lubatud"
-
-msgid "Whether the plugin is enabled"
-msgstr "Kas plugin on lubatud või mitte"
 
 msgid "weeks"
 msgstr "nädalat"
@@ -6851,20 +6781,8 @@ msgstr "Ikoonivaade"
 msgid "List View"
 msgstr "Loeteluvaade"
 
-msgid "Focus Tracker"
-msgstr ""
-
-msgid "Shell Module"
-msgstr "Kesta moodul"
-
-msgid "The mail shell backend"
-msgstr "Meilikesta taustprogramm"
-
-msgid "Show Deleted"
-msgstr "Kustutatuid näidatakse"
-
-msgid "Show deleted messages"
-msgstr "Kustutatud sõnumite kuvamine"
+msgid "(No Subject)"
+msgstr "(Teema puudub)"
 
 msgid "_Add to Address Book..."
 msgstr "_Lisa aadressiraamatusse..."
@@ -6916,6 +6834,9 @@ msgstr ""
 msgid "Color"
 msgstr "Värvus"
 
+msgid "Name"
+msgstr "Nimi"
+
 msgid "Inbox"
 msgstr "Saabuvad"
 
@@ -6931,17 +6852,6 @@ msgstr "Saadetud"
 msgid "Templates"
 msgstr "Mallid"
 
-msgid "Important"
-msgstr "Tähtis"
-
-#. green
-msgid "To Do"
-msgstr "Ülesanne"
-
-#. blue
-msgid "Later"
-msgstr "Hiljem"
-
 msgid "Migrating..."
 msgstr "Siirdamine..."
 
@@ -6952,47 +6862,8 @@ msgstr "Siirdamine"
 msgid "Migrating '%s':"
 msgstr "Siirdamine '%s':"
 
-#, c-format
-msgid "Unable to create new folder `%s': %s"
-msgstr "Uut kataloogi `%s' pole võimalik luua: %s"
-
-#, c-format
-msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "Kausta `%s' pole võimalik kopeerida `%s': %s"
-
-#, c-format
-msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "Olemasolevaid postkaste asukohas '%s' pole võimalik läbi vaadata: %s"
-
 msgid "Migrating Folders"
 msgstr "Kaustade siirdamine"
-
-msgid ""
-"The location and hierarchy of the Evolution mailbox folders has changed "
-"since Evolution 1.x.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
-"versioonist muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution siirdab sinu kaustu..."
-
-#, c-format
-msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "Vana POP `%s' hoia-serveris andmeid pole võimalik avada: %s"
-
-#, c-format
-msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "POP3 hoia-serveris andmekataloogi `%s' pole võimalik luua: %s"
-
-#, c-format
-msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "POP3 hoia-serveris `%s' andmeid pole võimalik kopeerida: %s"
-
-#, c-format
-msgid "Failed to create local mail storage `%s': %s"
-msgstr "Tõrge kohapealse postisalvesti `%s' loomisel: %s"
 
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
@@ -7005,17 +6876,10 @@ msgstr ""
 "\n"
 "Palun oota, kuni Evolution siirdab sinu kaustu..."
 
-#, c-format
-msgid "Unable to create local mail folders at `%s': %s"
+#, fuzzy, c-format
+#| msgid "Unable to create local mail folders at `%s': %s"
+msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Kohalikku postikausta pole võimalik asukohas `%s' luua: %s"
-
-#, c-format
-msgid ""
-"Unable to read settings from previous Evolution install, `evolution/config."
-"xmldb' does not exist or is corrupt."
-msgstr ""
-"Eelmisest Evolutioni paigaldusest pole võimalik sätteid lugeda, `evolution/"
-"configxmldb' pole olemas või on see rikutud."
 
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
@@ -7676,6 +7540,9 @@ msgstr "Jälgimislipp"
 msgid "Forward to"
 msgstr "Edasta aadressile"
 
+msgid "Important"
+msgstr "Tähtis"
+
 msgid "is after"
 msgstr "on pärast"
 
@@ -7902,8 +7769,8 @@ msgid "Copy Folder To"
 msgstr "Kausta kopeerimine kohta"
 
 #, c-format
-msgid "Creating folder `%s'"
-msgstr "Kataloogi `%s' loomine"
+msgid "Creating folder '%s'"
+msgstr "Kataloogi '%s' loomine"
 
 msgid "Create Folder"
 msgstr "Kausta loomine"
@@ -8051,8 +7918,8 @@ msgid "Formatting Message..."
 msgstr "Sõnumi vormindamine..."
 
 #, c-format
-msgid "Retrieving `%s'"
-msgstr "`%s' tõmbamine"
+msgid "Retrieving '%s'"
+msgstr "'%s' tõmbamine"
 
 msgid "Unknown external-body part."
 msgstr "Tundmatu väliskeha (external-body) osa."
@@ -8082,9 +7949,9 @@ msgstr "Viide tundmatutele välistele andmetele (tüüp \"%s\")"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#.
-#, c-format
-msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
+#, fuzzy, c-format
+#| msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
+msgid "This message was sent by %s on behalf of %s"
 msgstr "Selle sõnumi on <b>%2$s</b> nimel saatnud <b>%1$s</b>"
 
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -8103,10 +7970,19 @@ msgstr "Palun vali server."
 msgid "No server has been selected"
 msgstr "Serverit ei ole valitud"
 
+#. Translators: This message is shown only for ten or more messages to be opened.
+#. The %d is replaced with the actual count of messages. If you need a '%' in your text,
+#. then write it doubled, like '%%'.
+#, fuzzy, c-format
+#| msgid "Are you sure you want to open {0} messages at once?"
+msgid "Are you sure you want to open %d messages at once?"
+msgid_plural "Are you sure you want to open %d messages at once?"
+msgstr[0] "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
+msgstr[1] "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
+
 msgid "Message Filters"
 msgstr "Sõnumifiltrid"
 
-#. Drop filename for messages from a mailbox
 #, c-format
 msgid "Messages from %s"
 msgstr "Sõnumid postkastist %s"
@@ -8143,9 +8019,6 @@ msgstr "\"Posti saatmise ja vastuvõtmise\" maksimeerimise olek"
 
 msgid "\"Send and Receive Mail\" window width"
 msgstr "\"Posti saatmise ja vastuvõtmise\" akna laius"
-
-msgid "Allows Evolution to display text part of limited size"
-msgstr "Piiratud suurusega tekstiosa kuvamise lubamine"
 
 msgid "Always request read receipt"
 msgstr "Lugemiskinnitust küsitakse alati"
@@ -8290,6 +8163,9 @@ msgstr "Meilikomponentide failide salvestamise kataloog."
 msgid "Disable or enable ellipsizing of folder names in side bar"
 msgstr ""
 
+msgid "Display only message texts not exceeding certain size"
+msgstr ""
+
 msgid "Do not add signature delimiter"
 msgstr "Signatuuri eraldajat ei lisata"
 
@@ -8349,8 +8225,10 @@ msgstr ""
 "Selle märkimisega lubatakse sõnumi eelvaates, sõnumite nimekirjas ja "
 "kataloogides kasutada tühikuklahvi kuva edasikerimiseks."
 
-msgid "Enable to render message text part of limited size."
-msgstr "Piiratud suurusega tekstiosa kuvamise lubamine."
+msgid ""
+"Enable to display only message texts not exceeding size defined in "
+"'message_text_part_limit' key."
+msgstr ""
 
 msgid "Enable/disable caret mode"
 msgstr "Kursorirežiimi lubamine/keelamine"
@@ -8482,10 +8360,14 @@ msgstr ""
 "kustutamine kustutab sõnumid jäädavalt, mitte ei eemalda neid "
 "otsingutulemuste seast."
 
-msgid "Last time empty junk was run"
+#, fuzzy
+#| msgid "Last time empty junk was run"
+msgid "Last time Empty Junk was run"
 msgstr "Viimane kord, kui rämpsukausta tühjendati"
 
-msgid "Last time empty trash was run"
+#, fuzzy
+#| msgid "Last time empty trash was run"
+msgid "Last time Empty Trash was run"
 msgstr "Viimane kord, kui prügikasti tühjendati"
 
 msgid "Layout style"
@@ -8573,6 +8455,11 @@ msgstr "Tsitaatide märkimine sõnumi eelvaates"
 
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Tsitaatide märkimine sõnumi eelvaates."
+
+#, fuzzy
+#| msgid "Message Display"
+msgid "Message text limit for display"
+msgstr "Sõnumi kuva"
 
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr ""
@@ -8800,16 +8687,19 @@ msgstr "Tellimisdialoogi vaikimisi laius"
 msgid "Terminal font"
 msgstr "Terminali kirjatüüp"
 
-msgid "Text message part limit"
-msgstr "Sõnumi tekstiosa piirang"
-
 msgid "The default plugin for Junk hook"
 msgstr "Vaikimisi plugin rämpsposti käsitlemiseks"
 
-msgid "The last time empty junk was run, in days since the epoch."
+#, fuzzy
+#| msgid "The last time empty junk was run, in days since the epoch."
+msgid ""
+"The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Viimane rämpsukausta tühjendamise aeg päevades alates epohhi algusest."
 
-msgid "The last time empty trash was run, in days since the epoch."
+#, fuzzy
+#| msgid "The last time empty trash was run, in days since the epoch."
+msgid ""
+"The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Viimane prügikasti tühjendamise aeg päevades alates epohhi algusest."
 
 msgid ""
@@ -8835,9 +8725,14 @@ msgstr ""
 "Siin on kolm võimalikku väärtust. \"0\" vigade jaoks, \"1\" hoiatuste jaoks "
 "ja \"2\" silumisteadete jaoks."
 
+#, fuzzy
+#| msgid ""
+#| "This decides the max size of the text part that can be formatted under "
+#| "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 msgid ""
-"This decides the max size of the text part that can be formatted under "
-"Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
+"This decides the max size of the message text that will be displayed under "
+"Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
+"is used only when 'force_message_limit' key is activated."
 msgstr ""
 "Selle alusel otsustatakse Evolutioni abil vormindatava sõnumi tekstiosa "
 "suurim suurus. Väärtus määratakse kilobaitides ja vaikimisi on selleks 4MB / "
@@ -8996,7 +8891,9 @@ msgstr "Evolutioni Elmi importija"
 msgid "Import mail from Elm."
 msgstr "Postkasti importimine programmist Elm."
 
-msgid "Destination folder:"
+#, fuzzy
+#| msgid "Destination folder:"
+msgid "_Destination folder:"
 msgstr "Sihtkataloog:"
 
 msgid "Select folder"
@@ -9016,7 +8913,7 @@ msgstr "Postkasti importimine"
 
 #. Destination folder, was set in our widget
 #, c-format
-msgid "Importing `%s'"
+msgid "Importing '%s'"
 msgstr "'%s' importimine"
 
 #, c-format
@@ -9054,11 +8951,28 @@ msgstr "%s postiloend"
 msgid "Add Filter Rule"
 msgstr "Lisa filtreerimisreegel"
 
+#. Translators: The first %s is name of the affected filter rule(s),
+#. the second %s is uri of the removed folder. For more than one filter
+#. rule is each of them on a separate line, with four spaces in front
+#. of its name, without quotes.
+#, c-format
+msgid ""
+"The filter rule \"%s\" has been updated, because it used just removed "
+"folder\n"
+"\"%s\"."
+msgid_plural ""
+"The following filter rules\n"
+"%s have been updated, because they used just removed folder\n"
+"\"%s\"."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
+msgid "(Not Recommended)"
+msgstr ""
+
 msgid "(Note: Requires restart of the application)"
 msgstr "(Märkus: rakendus tuleb taaskäivitada)"
-
-msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr "<b>Vastus kirja päises</b> (pole soovitatav)"
 
 msgid "Account Information"
 msgstr "Konto andmed"
@@ -9144,10 +9058,14 @@ msgstr "Lõpetamisel _kustutatakse rämpspost"
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 
-msgid "Displayed Message _Headers"
+#, fuzzy
+#| msgid "Displayed Message _Headers"
+msgid "Displayed Message Headers"
 msgstr "Kuvatavad sõnumi _päised"
 
-msgid "Do not format messages when text si_ze exceeds"
+#, fuzzy
+#| msgid "Do not format messages when text si_ze exceeds"
+msgid "Do not display messages when text si_ze exceeds"
 msgstr "Sõnumite tekstiosa ei vo_rmindata, kui selle suurus ületab"
 
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -9383,6 +9301,12 @@ msgstr ""
 "Selle skripti väljundit kasutatakse sinu signatuurina.\n"
 "Nimevälja kasutatakse ainult kuvamiseks."
 
+#. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
+#, fuzzy
+#| msgid "Posting destination"
+msgid "Top Posting Option"
+msgstr "Postituse sihtkoht"
+
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -9476,6 +9400,7 @@ msgstr "_Pildianimatsioone näitatakse"
 msgid "_Show the photograph of sender in the message preview"
 msgstr "E-sõnumi eelvaates näidatakse saatja _fotot"
 
+#. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "Kellele / koopia / pimekoopia välju vä_hendatakse"
 
@@ -9491,6 +9416,7 @@ msgstr "_Kirjatüüp on sama, mis teistes rakendustes"
 msgid "a"
 msgstr "a"
 
+#. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
 msgid "addresses"
 msgstr "aadressid"
 
@@ -9502,9 +9428,6 @@ msgstr "värvusega"
 
 msgid "description"
 msgstr "kirjeldus"
-
-msgid "    "
-msgstr "    "
 
 msgid "All active remote folders"
 msgstr "Kõik aktiivsed võrgukaustad"
@@ -9521,11 +9444,21 @@ msgstr "Helista"
 msgid "Co_mpleted"
 msgstr "_Valmis"
 
+#, fuzzy
+#| msgid "collapse"
+msgid "Collapse _all"
+msgstr "ahenda"
+
 msgid "Digital Signature"
 msgstr "Digiallkiri"
 
 msgid "Do Not Forward"
 msgstr "Ära edasta"
+
+#, fuzzy
+#| msgid "E_xpand All Threads"
+msgid "E_xpand all"
+msgstr "A_va kõik lõimed"
 
 msgid "Encryption"
 msgstr "Krüpteering"
@@ -9556,6 +9489,9 @@ msgstr "Vaata üle"
 
 msgid "S_erver:"
 msgstr "_Server:"
+
+msgid "S_how only items containing:"
+msgstr ""
 
 msgid "Search Folder Sources"
 msgstr "Otsingukausta allikad"
@@ -9600,16 +9536,20 @@ msgstr "E-posti võtmine"
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Tõrge väljundfiltrite rakendamisel: %s"
 
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Failed to append to %s: %s\n"
+#| "Appending to local `Sent' folder instead."
 msgid ""
 "Failed to append to %s: %s\n"
-"Appending to local `Sent' folder instead."
+"Appending to local 'Sent' folder instead."
 msgstr ""
 "Tõrge lisamisel kausta %s: %s\n"
 "Selle asemel lisatakse kohalikku kausta `Saadetud'."
 
-#, c-format
-msgid "Failed to append to local `Sent' folder: %s"
+#, fuzzy, c-format
+#| msgid "Failed to append to local `Sent' folder: %s"
+msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Tõrge lisamisel kohalikku `Saadetud' kausta: %s"
 
 msgid "Sending message"
@@ -9784,13 +9724,15 @@ msgstr "Sihtaadressi ei määratud, sõnumi edastamine katkestati."
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Ei leitud kontot, mida kasutada, sõnumi edastamine katkestati."
 
-#, c-format
-msgid "Could not create spool directory `%s': %s"
+#, fuzzy, c-format
+#| msgid "Could not create spool directory `%s': %s"
+msgid "Could not create spool directory '%s': %s"
 msgstr "Puhverkataloogi `%s' pole võimalik luua: %s"
 
 # ???
-#, c-format
-msgid "Trying to movemail a non-mbox source `%s'"
+#, fuzzy, c-format
+#| msgid "Trying to movemail a non-mbox source `%s'"
+msgid "Trying to movemail a non-mbox source '%s'"
 msgstr "Movemaili proovimine mitte-mbox allikaga `%s'"
 
 #, c-format
@@ -9800,8 +9742,9 @@ msgstr "Edastatud sõnum - %s"
 msgid "Forwarded message"
 msgstr "Edastatud sõnum"
 
-#, c-format
-msgid "Invalid folder: `%s'"
+#, fuzzy, c-format
+#| msgid "Invalid folder: `%s'"
+msgid "Invalid folder: '%s'"
 msgstr "Vigane kaust: `%s'"
 
 #, c-format
@@ -9816,11 +9759,42 @@ msgstr "'%s:%s' otsingukaustade uuendamine"
 msgid "Updating Search Folders for '%s'"
 msgstr "'%s' otsingukaustade uuendamine"
 
+#. Translators: The first %s is name of the affected search folder(s),
+#. the second %s is uri of the removed folder. For more than one search
+#. folder is each of them on a separate line, with four spaces in front
+#. of its name, without quotes.
+#, c-format
+msgid ""
+"The Search Folder \"%s\" has been updated, because it used just removed "
+"folder\n"
+"\"%s\"."
+msgid_plural ""
+"The following Search Folders\n"
+"%s have been updated, because they used just removed folder\n"
+"\"%s\"."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Edit Search Folder"
 msgstr "Otsingukausta muutmine"
 
 msgid "New Search Folder"
 msgstr "Uus otsingukaust"
+
+#, fuzzy
+#| msgid "Check Junk Failed"
+msgid "\"Check Junk\" Failed"
+msgstr "Tõrge rämpsposti kontrollimisel"
+
+#, fuzzy
+#| msgid "Report Junk Failed"
+msgid "\"Report Junk\" Failed"
+msgstr "Tõrge rämpspostist raporteerimisel"
+
+#, fuzzy
+#| msgid "Report Not Junk Failed"
+msgid "\"Report Not Junk\" Failed"
+msgstr "Mitterämpspostist teatamine nurjus"
 
 msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgstr "Kaust nimega \"{0}\" on juba olemas. Palun kasuta teistsugust nime."
@@ -9870,9 +9844,6 @@ msgid ""
 msgstr ""
 "Kas soovid keelata selle konto ja kustutada kõik sellega seotud proksid?"
 
-msgid "Are you sure you want to open {0} messages at once?"
-msgstr "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
-
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
@@ -9902,12 +9873,6 @@ msgstr ""
 
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "Kas oled kindel, et soovid selle sõnumi saata ilma pealkirjata?"
-
-msgid "Because \"{0}\"."
-msgstr "Põhjus: \"{0}\"."
-
-msgid "Because \"{2}\"."
-msgstr "Põhjus: \"{2}\"."
 
 msgid "Blank Signature"
 msgstr "Tühi allkiri"
@@ -9939,7 +9904,9 @@ msgstr "Otsingukausta \"{0}\" pole võimalik muuta, kuna seda pole olemas."
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Kausta \"{0}\" pole võimalik kausta \"{1}\" ümber tõsta."
 
-msgid "Cannot open source \"{1}\""
+#, fuzzy
+#| msgid "Cannot open source \"{1}\""
+msgid "Cannot open source \"{1}\"."
 msgstr "Allikat \"{1}\" pole võimalik avada"
 
 msgid "Cannot open source \"{2}\"."
@@ -9972,9 +9939,6 @@ msgstr "Faili \"{0}\" pole võimalik salvestada."
 
 msgid "Cannot set signature script \"{0}\"."
 msgstr "Signatuuriskripti \"{0}\" pole võimalik määrata."
-
-msgid "Check Junk Failed"
-msgstr "Tõrge rämpsposti kontrollimisel"
 
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
@@ -10021,6 +9985,9 @@ msgstr "Viga filtridefinitsioonide laadimisel."
 msgid "Error while performing operation."
 msgstr "Viga käsu täitmisel."
 
+#. Translators: the {0} is replaced with an operation name, which failed.
+#. It can be basically anything run asynchronously, like "Fetching Mail",
+#. "Sending message" and others, mostly from mail-ops.c file.
 msgid "Error while {0}."
 msgstr "Viga toimingul: {0}."
 
@@ -10033,8 +10000,12 @@ msgstr "Fail on juba olemas, aga see ei ole tavaline fail."
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Kui jätkad, siis neid sõnumeid ei ole võimalik enam taastada."
 
+#, fuzzy
+#| msgid ""
+#| "If you delete the folder, all of its contents and its subfolders contents "
+#| "will be deleted permanently."
 msgid ""
-"If you delete the folder, all of its contents and its subfolders contents "
+"If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
 msgstr ""
 "Kui selle kausta kustutad, siis kustuvad jäädavalt ka kõik selles olevad "
@@ -10135,12 +10106,6 @@ msgstr "Kas tõesti kustutada kaust \"{0}\" ja selle kõik alamkaustad?"
 msgid "Really delete folder \"{0}\"?"
 msgstr "Kas tõesti kustutada kaust \"{0}\"?"
 
-msgid "Report Junk Failed"
-msgstr "Tõrge rämpspostist raporteerimisel"
-
-msgid "Report Not Junk Failed"
-msgstr "Mitterämpspostist teatamine nurjus"
-
 msgid "Search Folders automatically updated."
 msgstr "Otsingukaustad automaatselt uuendatud."
 
@@ -10178,32 +10143,6 @@ msgstr ""
 "Paljud meilisüsteemid lisavad "
 
 msgid ""
-"The following Search Folder(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    \"{1}\"\n"
-"And have been updated."
-msgstr ""
-"Järgnevad otsingukaustad:\n"
-"{0}\n"
-"Kasutasid nüüdseks eemaldatud kausta:\n"
-"    \"{1}\"\n"
-"Otsingukaustad on nüüd uuendatud."
-
-msgid ""
-"The following filter rule(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    \"{1}\"\n"
-"And have been updated."
-msgstr ""
-"Järgnevad filtreerimisreeglid:\n"
-"{0}\n"
-"Kasutasid nüüdseks eemaldatud kausta:\n"
-"    \"{1}\"\n"
-"Reeglid on nüüd uuendatud."
-
-msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
@@ -10218,7 +10157,7 @@ msgstr ""
 "{0}"
 
 msgid "The script file must exist and be executable."
-msgstr "Skriptifail peab eksisteerima ja olema käivitatav."
+msgstr "Skriptifail peab olemas olema ja samuti olema käivitatav."
 
 msgid ""
 "This folder may have been added implicitly,\n"
@@ -10383,9 +10322,6 @@ msgstr "%d. %b %Y"
 msgid "Select all visible messages"
 msgstr "Kõigi peitmata sõnumite valimine"
 
-msgid "Shell Backend"
-msgstr "Kesta taustprogramm"
-
 #. there is some info why the message list is empty, let it be something useful
 msgid "Generating message list"
 msgstr "Sõnumiloendi genereerimine"
@@ -10396,13 +10332,6 @@ msgid ""
 msgstr ""
 "Mitte ükski sõnum ei sobi sinu määratud otsikriteeriumitega. Muuda otsingut "
 "või puhasta see menüüst Otsing -> Puhasta."
-
-msgid ""
-"There are only hidden messages in this folder. Use View->Show Hidden "
-"Messages to show them."
-msgstr ""
-"Selles kaustas on ainult varjatud sõnumid. Nende nägemiseks vali Vaade -> "
-"Kuva peidetud sõnumeid."
 
 msgid "There are no messages in this folder."
 msgstr "Selles kaustas pole sõnumeid."
@@ -10471,7 +10400,9 @@ msgstr ""
 "See valik tähendab, et sinu server ei toeta SSL-i ega TLS-i. Seega pole sinu "
 "ühendus turvaline ja võib olla ohustatud turvaaukudest."
 
-msgid "Use in _Birthday & Anniversaries calendar"
+#, fuzzy
+#| msgid "Use in _Birthday & Anniversaries calendar"
+msgid "U_se in Birthday & Anniversaries calendar"
 msgstr "Kasutatakse _sünnipäevade ja aastapäevade kalendris"
 
 msgid "Copy _book content locally for offline operation"
@@ -10585,8 +10516,9 @@ msgstr "Kas sundida meiliaadressi kuvamist koos automaatlõpetatud nimega."
 msgid "Whether to show the preview pane."
 msgstr "Kas kuvada eelvaatluspaani."
 
-msgid "Table column:"
-msgstr "Tabeli veerg:"
+#. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
+msgid "_Table column:"
+msgstr "_Tabeli veerg:"
 
 msgid "Autocompletion"
 msgstr "Automaatlõpetus"
@@ -10623,80 +10555,7 @@ msgstr "Uue aadressiraamatu loomine"
 msgid "Contacts"
 msgstr "Kontaktid"
 
-msgid "Source List"
-msgstr "Allikate loend"
-
-msgid "The registry of address books"
-msgstr "Aadressiraamatute nimekiri"
-
-msgid "Current View"
-msgstr "Käesolev vaade"
-
-msgid "The currently selected address book view"
-msgstr "Praegu valitud aadressiraamatu vaade"
-
-msgid "Previewed Contact"
-msgstr "Eelvaatlusel olev kontakt"
-
-msgid "The contact being shown in the preview pane"
-msgstr "Kontakt, mida kuvatakse eelvaatluspaanil"
-
-msgid "Preview is Visible"
-msgstr "Eelvaade on nähtav"
-
-msgid "Whether the preview pane is visible"
-msgstr "Kas eelvaatluspaan on nähtav"
-
-msgid "LDAP Servers"
-msgstr "LDAP-serverid"
-
-msgid "Autocompletion Settings"
-msgstr "Automaatlõpetamise sätted"
-
-msgid ""
-"The location and hierarchy of the Evolution contact folders has changed "
-"since Evolution 1.x.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
-"versioonist muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution siirdab sinu kaustad..."
-
-msgid ""
-"The format of mailing list contacts has changed.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Postiloendi kontaktide salvestusvorming on muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution siirdab sinu kaustad..."
-
-msgid ""
-"The way Evolution stores some phone numbers has changed.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Viis, kuidas Evolution salvestab mõningaid telefoninumbreid, on muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution siirdab sinu kaustad..."
-
-msgid ""
-"Evolution's Palm Sync changelog and map files have changed.\n"
-"\n"
-"Please be patient while Evolution migrates your Pilot Sync data..."
-msgstr ""
-"Evolutioni Palm Sync muutuste logi ja kaardifailid on muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution migreerib sinu Pilot Sync andmed..."
-
-msgid "Source Selector Widget"
-msgstr "Allika valija vidin"
-
-msgid "This widget displays groups of address books"
-msgstr "See vidin kuvab aadressiraamatute gruppe"
-
+#. Translators: This is a save dialog title
 msgid "Save as vCard"
 msgstr "Salvesta vKaardina"
 
@@ -10802,6 +10661,7 @@ msgstr "_Kustuta"
 msgid "_Properties"
 msgstr "_Omadused"
 
+#. Translators: This is an action label
 msgid "_Save as vCard..."
 msgstr "_Salvesta vKaardina..."
 
@@ -10841,9 +10701,6 @@ msgstr "Prinditavate kontaktide eelvaatlemine"
 msgid "Print selected contacts"
 msgstr "Valitud kontaktide printimine"
 
-msgid "Save as vCard..."
-msgstr "Salvesta vKaardina..."
-
 msgid "Save selected contacts as a vCard"
 msgstr "Valitud kontaktide salvestamine vKaardina."
 
@@ -10877,20 +10734,13 @@ msgstr "Kontaktandmed"
 msgid "Contact information for %s"
 msgstr "Kontaktandmed - %s"
 
+#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 msgid "1"
 msgstr "1"
 
-msgid "3268"
-msgstr "3268"
-
-msgid "389"
-msgstr "389"
-
+#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 msgid "5"
 msgstr "5"
-
-msgid "636"
-msgstr "636"
 
 msgid "Anonymously"
 msgstr "Anonüümselt"
@@ -11015,31 +10865,6 @@ msgstr "Uue kalendri loomine"
 msgid "Calendar and Tasks"
 msgstr "Kalender ja ülesanded"
 
-msgid "The registry of calendars"
-msgstr "Kalendrite register"
-
-msgid ""
-"The location and hierarchy of the Evolution calendar folders has changed "
-"since Evolution 1.x.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
-"versioonist muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution siirdab sinu kaustad..."
-
-#. FIXME: set proper domain/code
-#, c-format
-msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr ""
-"Vanade sätete migreerimine failist evolution/config.xmldb pole võimalik"
-
-#. FIXME: domain/code
-#, c-format
-msgid "Unable to migrate calendar `%s'"
-msgstr "Kalendrit `%s' pole võimalik siirdada"
-
 #, c-format
 msgid ""
 "Error on %s\n"
@@ -11053,21 +10878,6 @@ msgstr "Kalendrite laadimine"
 
 msgid "Calendar Selector"
 msgstr "Kalendri valimine"
-
-msgid "Date Navigator Widget"
-msgstr "Kuupäeva navigeerimisvidin"
-
-msgid "This widget displays a miniature calendar"
-msgstr "See vidin kuvab pisikese kalendri"
-
-msgid "Default Calendar Client"
-msgstr "Vaikimisi kalendriklient"
-
-msgid "Default client for calendar operations"
-msgstr "Vaikimisi klient kalendritoiminguteks"
-
-msgid "This widget displays groups of calendars"
-msgstr "See vidin kuvab kalendreid gruppidena"
 
 #. Translators: The string field is a URI.
 #, c-format
@@ -11118,9 +10928,6 @@ msgstr "Tagasiliikumine"
 
 msgid "Go Forward"
 msgstr "Edasiliikumine"
-
-msgid "Select _Today"
-msgstr "Vali _tänane kuupäev"
 
 msgid "Select today"
 msgstr "Tänase kuupäeva valimine"
@@ -11223,6 +11030,9 @@ msgstr "_Teisenda sündmuseks..."
 
 msgid "Converts a meeting to an appointment"
 msgstr "Koosoleku teisendamine sündmuseks"
+
+msgid "Quit"
+msgstr "Lõpeta"
 
 msgid "Day"
 msgstr "Päev"
@@ -11353,26 +11163,11 @@ msgstr "Märkme_loend"
 msgid "Create a new memo list"
 msgstr "Uue märkmeloendi loomine"
 
-msgid "The registry of memo lists"
-msgstr "Märkmeloendite nimekiri"
-
-msgid "The memo table model"
-msgstr "Märkmete tabeli mudel"
-
 msgid "Loading memos"
 msgstr "Märkmete laadimine"
 
 msgid "Memo List Selector"
 msgstr "Märkmete loendi valija"
-
-msgid "Default Memo Client"
-msgstr "Vaikimisi märkmeklient"
-
-msgid "Default client for memo operations"
-msgstr "Märkmetoimingute vaikimisi klient"
-
-msgid "This widget displays groups of memo lists"
-msgstr "See vidin kuvab märmeloendeid gruppidena"
 
 #. Translators: The string field is a URI.
 #, c-format
@@ -11461,42 +11256,11 @@ msgstr "Ü_lesandeloend"
 msgid "Create a new task list"
 msgstr "Uue ülesandeloendi loomine"
 
-msgid "The registry of task lists"
-msgstr "Ülesandeloendite register"
-
-msgid "The task table model"
-msgstr "Ülesannete tabeli mudel"
-
-msgid ""
-"The location and hierarchy of the Evolution task folders has changed since "
-"Evolution 1.x.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on pärast Evolution 1.x. "
-"versiooni muutunud.\n"
-"\n"
-"Palun oota, kuni Evolution siirdab sinu kaustad..."
-
-#. FIXME: domain/code
-#, c-format
-msgid "Unable to migrate tasks `%s'"
-msgstr "Ülesandeid `%s' pole võimalik siirdada"
-
 msgid "Loading tasks"
 msgstr "Ülesannete laadimine"
 
 msgid "Task List Selector"
 msgstr "Ülesannete loendi valija"
-
-msgid "Default Task Client"
-msgstr "Vaikimisi ülesandeklient"
-
-msgid "Default client for task operations"
-msgstr "Ülesandetegevuste vaikimisi klient"
-
-msgid "This widget displays groups of task lists"
-msgstr "See vidin kuvab ülesandeloendeid gruppidena"
 
 #. Translators: The string field is a URI.
 #, c-format
@@ -11637,12 +11401,6 @@ msgstr "Sõnumikoostaja eelistused"
 msgid "Network Preferences"
 msgstr "Võrgueelistused"
 
-msgid "Group by Threads"
-msgstr "Grupeeri lõimedena"
-
-msgid "Whether to group messages by threads"
-msgstr "Kas sõnumid grupeerida lõimedeks."
-
 msgid "_Disable Account"
 msgstr "_Keela konto"
 
@@ -11738,24 +11496,6 @@ msgstr "_Uus silt"
 msgid "N_one"
 msgstr "_Puudub"
 
-msgid "Hide _Read Messages"
-msgstr "Peida _loetud sõnumid"
-
-msgid "Temporarily hide all messages that have already been read"
-msgstr "Kõigi loetud sõnumite ajutine peitmine"
-
-msgid "Hide S_elected Messages"
-msgstr "Peida _valitud sõnumid"
-
-msgid "Temporarily hide the selected messages"
-msgstr "Valitud sõnumite ajutine peitmine"
-
-msgid "Show Hidde_n Messages"
-msgstr "_Näita peidetud sõnumeid"
-
-msgid "Show messages that have been temporarily hidden"
-msgstr "Ajutiselt peidetud sõnumite peidust väljatoomine"
-
 msgid "Cancel the current mail operation"
 msgstr "Käimasoleva sõnumioperatsiooni katkestamine"
 
@@ -11798,19 +11538,21 @@ msgstr "_Märgista"
 msgid "_New Folder..."
 msgstr "_Uus kaust..."
 
-msgid "Hide _Deleted Messages"
-msgstr "Peida _kustutatud sõnumid"
-
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
-"Kustutatud sõnumite peitmine selle asemel, et neid läbikriipsutatuna kuvada"
-
 msgid "Show Message _Preview"
 msgstr "Sõnumi _eelvaade"
 
 msgid "Show message preview pane"
 msgstr "Sõnumi eelvaateakna näitamine"
+
+#, fuzzy
+#| msgid "Show deleted messages"
+msgid "Show _Deleted Messages"
+msgstr "Kustutatud sõnumite kuvamine"
+
+#, fuzzy
+#| msgid "Show deleted messages (with a strike-through) in the message-list."
+msgid "Show deleted messages with a line through them"
+msgstr "Kustutatud sõnumite kuvamine (läbikriipsutatult) sõnumiloendis."
 
 msgid "_Group By Threads"
 msgstr "_Grupeeri lõimedena"
@@ -11920,6 +11662,9 @@ msgstr "Kontootsing"
 msgid "Proxy _Logout"
 msgstr "Voliniku välja_logimine"
 
+msgid "Enabled"
+msgstr "Lubatud"
+
 msgid "Language(s)"
 msgstr "Keel(ed)"
 
@@ -11965,10 +11710,6 @@ msgstr ""
 msgid "No junk plugin available"
 msgstr "Ühtegi rämpsposti pluginat pole saadaval"
 
-#. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
-msgid "_Table column:"
-msgstr "_Tabeli veerg:"
-
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 msgid "_Date header:"
 msgstr "_Kuupäeva päis:"
@@ -12000,13 +11741,6 @@ msgid ""
 msgstr ""
 "Fraaside kirjeldamine, mille esinemisel näidatakse manuse puudumise kohta "
 "meeldetuletust"
-
-msgid ""
-"List of clues for the attachment reminder plugin to look for in a message "
-"body."
-msgstr ""
-"Fraaside kirjeldamine, mille esinemisel näidatakse manuse puudumise kohta "
-"meeldetuletust."
 
 msgid "Keywords"
 msgstr "Võtmesõnad"
@@ -12072,13 +11806,17 @@ msgstr "Taastatava faili valimine"
 msgid "Restore from backup"
 msgstr "Taastamine varukoopiast"
 
-msgid "_Backup Settings..."
+#, fuzzy
+#| msgid "_Backup Settings..."
+msgid "_Backup Evolution Settings..."
 msgstr "_Varunda sätted..."
 
 msgid "Backup Evolution data and settings to an archive file"
 msgstr "Evolutioni andmete ja seadistuste varundamine arhiivifaili"
 
-msgid "R_estore Settings..."
+#, fuzzy
+#| msgid "R_estore Settings..."
+msgid "R_estore Evolution Settings..."
 msgstr "_Taasta sätted..."
 
 msgid "Restore Evolution data and settings from an archive file"
@@ -12116,7 +11854,9 @@ msgstr "Varundamine on valmis"
 msgid "Restarting Evolution"
 msgstr "Evolutioni taaskäivitamine"
 
-msgid "Backup current Evolution data"
+#, fuzzy
+#| msgid "Backup current Evolution data"
+msgid "Back up current Evolution data"
 msgstr "Praeguste Evolutioni andmete varundamine"
 
 msgid "Extracting files from backup"
@@ -12225,7 +11965,9 @@ msgid "Instant Messaging Contacts"
 msgstr "Kiirsuhtluse kontaktid"
 
 #. Enable Gaim Checkbox
-msgid "Synchronize contact info and images from Pidgin buddy list"
+#, fuzzy
+#| msgid "Synchronize contact info and images from Pidgin buddy list"
+msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "Kontaktandmete ja piltide sünkroniseerimine Pidgini sõbranimekirjaga"
 
 msgid "Select Address book for Pidgin buddy list"
@@ -12338,8 +12080,9 @@ msgstr "Eelmine katse nurjus: %s"
 msgid "Previous attempt failed with code %d"
 msgstr "Eelmine katse nurjus koodiga %d"
 
-#, c-format
-msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
+#, fuzzy, c-format
+#| msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
+msgid "Enter password for user %s on server %s"
 msgstr "Sisesta kasutaja <b>%s</b> parool serveril <b>%s</b>"
 
 #, c-format
@@ -12700,8 +12443,8 @@ msgstr "Tundub, et valitud pilt ei ole korrektne .png pilt. Viga: {0}"
 msgid "Google"
 msgstr "Google"
 
-msgid "<b>Server</b>"
-msgstr "<b>Server</b>"
+msgid "Server"
+msgstr "Server"
 
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
@@ -12722,7 +12465,9 @@ msgstr "Tundmatu viga."
 msgid "Cal_endar:"
 msgstr "Kalen_der:"
 
-msgid "Retrieve _list"
+#, fuzzy
+#| msgid "Retrieve _list"
+msgid "Retrieve _List"
 msgstr "Hangi _loend"
 
 msgid "Add Google Calendars to Evolution."
@@ -12914,9 +12659,6 @@ msgstr "Kas nõustud sellega?"
 msgid "Would you like to decline it?"
 msgstr "Kas lükkad selle tagasi?"
 
-msgid "<b>Users:</b>"
-msgstr "<b>Kasutajad:</b>"
-
 msgid "C_ustomize notification message"
 msgstr "Ko_handa teavitussõnumit"
 
@@ -12928,6 +12670,9 @@ msgstr "Jagatud kataloogi teavitus"
 
 msgid "The participants will receive the following notification.\n"
 msgstr "Osalejad saavad järgneva teate.\n"
+
+msgid "Users:"
+msgstr "Kasutajad:"
 
 msgid "_Not Shared"
 msgstr "_Väljajagamata"
@@ -12971,8 +12716,8 @@ msgstr "Lu_gemine"
 msgid "Proxy"
 msgstr "Volinik"
 
-msgid "<b>Account Name</b>"
-msgstr "<b>Konto nimi</b>"
+msgid "Account Name"
+msgstr "Konto nimi"
 
 # Proxy tähendab siin kedagi, kes on volitatud
 msgid "Proxy Login"
@@ -12991,6 +12736,11 @@ msgstr "Voliniku sakk on saadaval ainult juhul, kui konto on võrku ühendatud."
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Voliniku sakk on saadaval ainult juhul, kui konto on lubatud."
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+msgctxt "GW"
+msgid "Proxy"
+msgstr "Proksi"
 
 msgid "Add User"
 msgstr "Kasutaja lisamine"
@@ -13049,12 +12799,6 @@ msgstr "Täidetud: "
 
 msgid "Undelivered: "
 msgstr "Kohale toimetamata: "
-
-msgid "Add Hula support to Evolution."
-msgstr "Hula toe lisamine Evolutionile."
-
-msgid "Hula Support"
-msgstr "Hula tugi"
 
 msgid "Inline Image"
 msgstr "Sõnumisisene pilt"
@@ -13363,186 +13107,236 @@ msgstr "%A, %e. %B %Y, %l:%M %p"
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %e. %B %Y, %l:%M%S %p"
 
-#, c-format
-msgid "Please respond on behalf of <b>%s</b>"
+#, fuzzy, c-format
+#| msgid "Please respond on behalf of <b>%s</b>"
+msgid "Please respond on behalf of %s"
 msgstr "Palun vasta kasutaja <b>%s</b> nimel"
 
-#, c-format
-msgid "Received on behalf of <b>%s</b>"
+#, fuzzy, c-format
+#| msgid "Received on behalf of <b>%s</b>"
+msgid "Received on behalf of %s"
 msgstr "Võeti vastu <b>%s</b> nimel"
 
-#, c-format
-msgid "<b>%s</b> through %s has published the following meeting information:"
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s has published the following meeting information:"
+msgid "%s through %s has published the following meeting information:"
 msgstr "<b>%s</b> avaldas %s kaudu teabe järgneva koosoleku kohta:"
 
-#, c-format
-msgid "<b>%s</b> has published the following meeting information:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published the following meeting information:"
+msgid "%s has published the following meeting information:"
 msgstr "<b>%s</b> avaldas järgneva koosoleku teabe:"
 
-#, c-format
-msgid "<b>%s</b> has delegated the following meeting to you:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has delegated the following meeting to you:"
+msgid "%s has delegated the following meeting to you:"
 msgstr "<b>%s</b> delegeeris järgneva koosoleku sulle:"
 
-#, c-format
-msgid "<b>%s</b> through %s requests your presence at the following meeting:"
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s requests your presence at the following meeting:"
+msgid "%s through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> taotleb %s kaudu, et sa osaleksid järgneval koosolekul:"
 
-#, c-format
-msgid "<b>%s</b> requests your presence at the following meeting:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests your presence at the following meeting:"
+msgid "%s requests your presence at the following meeting:"
 msgstr "<b>%s</b> taotleb, et sa osaleksid järgneval koosolekul:"
 
-#, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale koosolekule:"
 
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing meeting:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to add to an existing meeting:"
+msgid "%s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule:"
 
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s wishes to receive the latest information for the "
+#| "following meeting:"
 msgid ""
-"<b>%s</b> through %s wishes to receive the latest information for the "
-"following meeting:"
+"%s through %s wishes to receive the latest information for the following "
+"meeting:"
 msgstr ""
 "<b>%s</b> soovib %s kaudu saada värskemat teavet järgneva koosoleku kohta:"
 
-#, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> wishes to receive the latest information for the following "
+#| "meeting:"
+msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> soovib saada värskemat teavet järgneva koosoleku kohta:"
 
-#, c-format
-msgid "<b>%s</b> through %s has sent back the following meeting response:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has sent back the following meeting response:"
+msgid "%s through %s has sent back the following meeting response:"
 msgstr "<b>%s</b> saatis %s kaudu järgneva koosoleku kohta vastukaja:"
 
-#, c-format
-msgid "<b>%s</b> has sent back the following meeting response:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has sent back the following meeting response:"
+msgid "%s has sent back the following meeting response:"
 msgstr "<b>%s</b> saatis koosoleku kohta järgneva vastukaja:"
 
-#, c-format
-msgid "<b>%s</b> through %s has canceled the following meeting:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has canceled the following meeting:"
+msgid "%s through %s has canceled the following meeting:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
 
-#, c-format
-msgid "<b>%s</b> has canceled the following meeting."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled the following meeting."
+msgid "%s has canceled the following meeting."
 msgstr "<b>%s</b> tühistas järgneva koosoleku."
 
-#, c-format
-msgid "<b>%s</b> through %s has proposed the following meeting changes."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has proposed the following meeting changes."
+msgid "%s through %s has proposed the following meeting changes."
 msgstr "<b>%s</b> pakkus %s kaudu välja järgmised koosoleku muudatused."
 
-#, c-format
-msgid "<b>%s</b> has proposed the following meeting changes."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has proposed the following meeting changes."
+msgid "%s has proposed the following meeting changes."
 msgstr "<b>%s</b> esitas järgnevad koosoleku muudatused."
 
-#, c-format
-msgid "<b>%s</b> through %s has declined the following meeting changes:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has declined the following meeting changes:"
+msgid "%s through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> tühistas %s kaudu järgnevad koosoleku muudatused:"
 
-#, c-format
-msgid "<b>%s</b> has declined the following meeting changes."
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has declined the following meeting changes."
+msgid "%s has declined the following meeting changes."
 msgstr "<b>%s</b> keeldus järgnevatest koosoleku muudatusest."
 
-#, c-format
-msgid "<b>%s</b> through %s has published the following task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has published the following task:"
+msgid "%s through %s has published the following task:"
 msgstr "<b>%s</b> avaldas %s kaudu järgneva ülesande:"
 
-#, c-format
-msgid "<b>%s</b> has published the following task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published the following task:"
+msgid "%s has published the following task:"
 msgstr "<b>%s</b> avaldas järgmise ülesande:"
 
-#, c-format
-msgid "<b>%s</b> requests the assignment of %s to the following task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> requests the assignment of %s to the following task:"
+msgid "%s requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> taotleb %s määramist järgneva ülesande täitjaks:"
 
-#, c-format
-msgid "<b>%s</b> through %s has assigned you a task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has assigned you a task:"
+msgid "%s through %s has assigned you a task:"
 msgstr "<b>%s</b> määras %s kaudu sulle ülesande:"
 
-#, c-format
-msgid "<b>%s</b> has assigned you a task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has assigned you a task:"
+msgid "%s has assigned you a task:"
 msgstr "<b>%s</b> määras sulle ülesande:"
 
-#, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s wishes to add to an existing task:"
+msgid "%s through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale ülesandele:"
 
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to add to an existing task:"
+msgid "%s wishes to add to an existing task:"
 msgstr "<b>%s</b> soovib lisada olemasolevale ülesandele:"
 
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s wishes to receive the latest information for the "
+#| "following assigned task:"
 msgid ""
-"<b>%s</b> through %s wishes to receive the latest information for the "
-"following assigned task:"
+"%s through %s wishes to receive the latest information for the following "
+"assigned task:"
 msgstr ""
 "<b>%s</b> soovib %s kaudu saada värskemat teavet järgneva omistatud ülesande "
 "kohta:"
 
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> wishes to receive the latest information for the following "
+#| "assigned task:"
 msgid ""
-"<b>%s</b> wishes to receive the latest information for the following "
-"assigned task:"
+"%s wishes to receive the latest information for the following assigned task:"
 msgstr ""
 "<b>%s</b> soovib saada värskemat teavet järgneva omistatud ülesande kohta:"
 
-#, c-format
-msgid ""
-"<b>%s</b> through %s has sent back the following assigned task response:"
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s has sent back the following assigned task response:"
+msgid "%s through %s has sent back the following assigned task response:"
 msgstr "<b>%s</b> saatis %s kasutades omistatud ülesandele järgmise vastuse:"
 
-#, c-format
-msgid "<b>%s</b> has sent back the following assigned task response:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has sent back the following assigned task response:"
+msgid "%s has sent back the following assigned task response:"
 msgstr "<b>%s</b> saatis omistatud ülesandele järgmise vastuse:"
 
-#, c-format
-msgid "<b>%s</b> through %s has canceled the following assigned task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has canceled the following assigned task:"
+msgid "%s through %s has canceled the following assigned task:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva omistatud ülesande:"
 
-#, c-format
-msgid "<b>%s</b> has canceled the following assigned task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled the following assigned task:"
+msgid "%s has canceled the following assigned task:"
 msgstr "<b>%s</b> tühistas järgneva omistatud ülesande:"
 
-#, c-format
-msgid ""
-"<b>%s</b> through %s has proposed the following task assignment changes:"
+#, fuzzy, c-format
+#| msgid ""
+#| "<b>%s</b> through %s has proposed the following task assignment changes:"
+msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
 "<b>%s</b> pakkus %s kaudu välja järgmised ülesande täitjate muudatused:"
 
-#, c-format
-msgid "<b>%s</b> has proposed the following task assignment changes:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has proposed the following task assignment changes:"
+msgid "%s has proposed the following task assignment changes:"
 msgstr "<b>%s</b> esitas järgnevad ülesande täitjate muudatused:"
 
-#, c-format
-msgid "<b>%s</b> through %s has declined the following assigned task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has declined the following assigned task:"
+msgid "%s through %s has declined the following assigned task:"
 msgstr "<b>%s</b> keeldus %s kaudu järgneva ülesande täitmisest:"
 
-#, c-format
-msgid "<b>%s</b> has declined the following assigned task:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has declined the following assigned task:"
+msgid "%s has declined the following assigned task:"
 msgstr "<b>%s</b> keeldus järgneva ülesande täitmisest:"
 
-#, c-format
-msgid "<b>%s</b> through %s has published the following memo:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has published the following memo:"
+msgid "%s through %s has published the following memo:"
 msgstr "<b>%s</b> avaldas %s kaudu järgneva märkme:"
 
-#, c-format
-msgid "<b>%s</b> has published the following memo:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has published the following memo:"
+msgid "%s has published the following memo:"
 msgstr "<b>%s</b> avaldas järgmise märkme:"
 
-#, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing memo:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s wishes to add to an existing memo:"
+msgid "%s through %s wishes to add to an existing memo:"
 msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale märkmele:"
 
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing memo:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> wishes to add to an existing memo:"
+msgid "%s wishes to add to an existing memo:"
 msgstr "<b>%s</b> soovib lisada olemasolevale märkmele:"
 
-#, c-format
-msgid "<b>%s</b> through %s has canceled the following shared memo:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> through %s has canceled the following shared memo:"
+msgid "%s through %s has canceled the following shared memo:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva jagatud märkme:"
 
-#, c-format
-msgid "<b>%s</b> has canceled the following shared memo:"
+#, fuzzy, c-format
+#| msgid "<b>%s</b> has canceled the following shared memo:"
+msgid "%s has canceled the following shared memo:"
 msgstr "<b>%s</b> tühistas järgneva jagatud märkme:"
 
 msgid "All day:"
@@ -13569,8 +13363,10 @@ msgstr "_Ava kalender"
 msgid "_Decline"
 msgstr "_Lükka tagasi"
 
-msgid "_Accept"
-msgstr "_Nõustu"
+#, fuzzy
+#| msgid "Accept"
+msgid "A_ccept"
+msgstr "Nõustun"
 
 msgid "_Decline all"
 msgstr "_Lükka kõik tagasi"
@@ -13581,7 +13377,9 @@ msgstr "Kõik _võimaluse korral"
 msgid "_Tentative"
 msgstr "_Võimaluse korral"
 
-msgid "_Accept all"
+#, fuzzy
+#| msgid "_Accept all"
+msgid "A_ccept all"
 msgstr "_Nõustu kõigiga"
 
 #. FIXME Is this really the right button?
@@ -14134,7 +13932,7 @@ msgstr ""
 "nõutud."
 
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr "Mittekuvatud HTML-i näidatakse manusena"
+msgstr "Mittek_uvatud HTML-i näidatakse manusena"
 
 msgid "HTML _Mode"
 msgstr "_HTML-režiim"
@@ -14157,6 +13955,9 @@ msgstr "Outlooki isiklikud kataloogid (.pst)"
 
 msgid "_Mail"
 msgstr "_Post"
+
+msgid "Destination folder:"
+msgstr "Sihtkataloog:"
 
 #. Address book
 msgid "_Address Book"
@@ -14806,10 +14607,6 @@ msgstr "Otsingud"
 msgid "Save Search"
 msgstr "Salvesta otsing"
 
-#, c-format
-msgid "%ld KB"
-msgstr "%ld KB"
-
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
@@ -14827,18 +14624,6 @@ msgstr "Ot_sing: "
 msgid "i_n"
 msgstr "_ "
 
-msgid "Toolbar Style"
-msgstr "Tööriistariba laad"
-
-msgid "The switcher's toolbar style"
-msgstr "Vahetaja tööriistariba laad"
-
-msgid "Toolbar Visible"
-msgstr "Tööriistariba on nähtav"
-
-msgid "Whether the switcher is visible"
-msgstr "Kas vahetaja on nähtaval"
-
 msgid "vCard (.vcf)"
 msgstr "vKaart (.vcf)"
 
@@ -14848,63 +14633,6 @@ msgstr "iKalendri failid (.ics)"
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
 
-msgid "Switcher Action"
-msgstr "Vahetaja tegevus"
-
-msgid "The switcher action for this shell view"
-msgstr "Selle kestavaate vahetaja tegevus"
-
-msgid "Page Number"
-msgstr "Lehekülje number"
-
-msgid "The notebook page number of the shell view"
-msgstr "Kestavaate märkmiku lehekülg"
-
-msgid "Search Rule"
-msgstr "Otsingufilter"
-
-msgid "Criteria for the current search results"
-msgstr "Nende otsingutulemuste kriteeriumid"
-
-msgid "The EShellBackend for this shell view"
-msgstr "Selle kestvaate EShellBackend"
-
-msgid "Shell Content Widget"
-msgstr "Kesta sisuvidin"
-
-msgid "The content widget appears in a shell window's right pane"
-msgstr "Sisuvidin paikneb kestaakna paremal paanil"
-
-msgid "Shell Sidebar Widget"
-msgstr "Külgpaani kesta vidin"
-
-msgid "The sidebar widget appears in a shell window's left pane"
-msgstr "Külgriba vidin paikneb kestaakna vasakul paanil"
-
-msgid "Shell Taskbar Widget"
-msgstr "Kesta ülesanderiba vidin"
-
-msgid "The taskbar widget appears at the bottom of a shell window"
-msgstr "Ülesanderiba vidin paikneb kestaakna all"
-
-msgid "Shell Window"
-msgstr "Kestaken"
-
-msgid "The window to which the shell view belongs"
-msgstr "Aken, millele kestavaade kuulub"
-
-msgid "The key file holding widget state data"
-msgstr "Võtmefail, mis sisaldab vidina oleku andmeid"
-
-msgid "The title of the shell view"
-msgstr "Kestavaate pealkiri"
-
-msgid "Current View ID"
-msgstr "Käesoleva vaate ID"
-
-msgid "The current GAL view ID"
-msgstr "Praeguse GAL-vaate ID"
-
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
@@ -14912,10 +14640,10 @@ msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm hot ee>, 2001.\n"
 "Marek Sepp <marek sepp ttu ee>, 2001, 2002.\n"
-"Ivar Smolin <okul linux ee>, 2002, 2003, 2005-2009.\n"
+"Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2010.\n"
 "Kaarel Jõgi <kaarel gg ee>, 2002.\n"
-"Priit Laes <plaes plaes org>, 2003-2007, 2009, 2010.\n"
-"Mattias Põldaru <mahfiaz gmail com>, 2009-2010."
+"Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.\n"
+"Mattias Põldaru <mahfiaz gmail com>, 2009–2010."
 
 msgid "Evolution Website"
 msgstr "Evolutioni veebisait"
@@ -15024,7 +14752,7 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Veateate saatmine Bug Buddy abil"
 
 msgid "GNOME Pilot _Synchronization..."
-msgstr "GNOME Pilot-iga sünkroniseerimine..."
+msgstr "GNOME Pilot-iga _sünkroniseerimine..."
 
 msgid "Set up GNOME Pilot configuration"
 msgstr "GNOME Piloti sätete määramine"
@@ -15143,54 +14871,6 @@ msgstr "%s - Evolution"
 msgid "New"
 msgstr "Uus"
 
-msgid "Active Shell View"
-msgstr "Aktiivse kesta vaade"
-
-msgid "Name of the active shell view"
-msgstr "Aktiivse kestaakna nimi"
-
-msgid "The shell window's EFocusTracker"
-msgstr "Kestakna EFocusTracker"
-
-msgid "Geometry"
-msgstr "Geomeetria"
-
-msgid "Initial window geometry string"
-msgstr "Esialgse akna geomeetriasõne"
-
-msgid "Safe Mode"
-msgstr "Ohutu režiim"
-
-msgid "Whether the shell window is in safe mode"
-msgstr "Kas kestaaken peaks olema ohutus režiimis"
-
-msgid "Sidebar Visible"
-msgstr "Külgpaan on nähtav"
-
-msgid "Whether the shell window's side bar is visible"
-msgstr "Kas kestakna külgriba peaks nähtav olema"
-
-msgid "Switcher Visible"
-msgstr "Vahetaja on nähtav"
-
-msgid "Whether the shell window's switcher buttons are visible"
-msgstr "Kas kestakna vahetusnupud peaksid olema nähtaval"
-
-msgid "Taskbar Visible"
-msgstr "Ülesanderiba on nähtav"
-
-msgid "Whether the shell window's task bar is visible"
-msgstr "Kas kestakna ülesanderiba peaks olema nähtav"
-
-msgid "Whether the shell window's tool bar is visible"
-msgstr "Kas kestakna tööriistariba peaks olema nähtav"
-
-msgid "UI Manager"
-msgstr "Kasutajaliidese haldur"
-
-msgid "The shell window's GtkUIManager"
-msgstr "Kestakna GtkUIManager"
-
 msgid "Preparing to go offline..."
 msgstr "Ettevalmistused võrguvabaks režiimiks..."
 
@@ -15199,24 +14879,6 @@ msgstr "Ettevalmistused võrgurežiimiks..."
 
 msgid "Preparing to quit..."
 msgstr "Lõpetamise ettevalmistamine..."
-
-msgid "Module Directory"
-msgstr "Moodulite kataloog"
-
-msgid "The directory from which to load EModules"
-msgstr "Kataloog, millest laaditakse EModules"
-
-msgid "Network Available"
-msgstr "Võrk on saadaval"
-
-msgid "Whether the network is available"
-msgstr "Kas võrguühendus on saadaval"
-
-msgid "Online"
-msgstr "Ühendatud"
-
-msgid "Whether the shell is online"
-msgstr "Kas kest on võrku ühendatud või mitte"
 
 #. Preview/Alpha/Beta version warning message
 #, no-c-format
@@ -15280,9 +14942,6 @@ msgstr "Alustamine ekspressrežiimis"
 msgid "Forcibly shut down Evolution"
 msgstr "Evolutioni sundimine töö lõpetamisele"
 
-msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "Uuesti Evolutioni versioonist 1.4 migreerumisele sundimine"
-
 msgid "Send the debugging output of all components to a file."
 msgstr "Kõikide komponentide silumisinfo saatmine faili."
 
@@ -15312,11 +14971,21 @@ msgstr ""
 msgid "Are you sure you want to forget all remembered passwords?"
 msgstr "Kas soovid unustada kõik meeldejäetud paroolid?"
 
-msgid "Continue"
+#, fuzzy
+#| msgid "Delete old data from version {0}?"
+msgid "Cannot upgrade directly from version {0}"
+msgstr "Kas kustutada vanad andmed versioonist {0}?"
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Continue Anyway"
 msgstr "Jätka"
 
-msgid "Delete old data from version {0}?"
-msgstr "Kas kustutada vanad andmed versioonist {0}?"
+msgid ""
+"Evolution no longer supports upgrading directly from version {0}. However as "
+"a workaround you might try first upgrading to Evolution 2, and then "
+"upgrading to Evolution 3."
+msgstr ""
 
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
@@ -15325,69 +14994,16 @@ msgstr ""
 "Meeldejäetud paroolide unustamine nullib ära kõik meeldejäetud paroolid. "
 "Paroolid küsitakse uuesti järgmisel korral, mil neid vaja läheb."
 
-msgid "Insufficient disk space for upgrade."
-msgstr "Uuendamiseks napib kettaruumi."
-
-msgid "Really delete old data?"
-msgstr "Kas tõesti kustutada vanad andmed?"
-
-msgid ""
-"The entire contents of the &quot;evolution&quot; directory are about to be "
-"permanently removed.\n"
-"\n"
-"It is suggested you manually verify that all of your mail, contact, and "
-"calendar data is present, and that this version of Evolution operates "
-"correctly before deleting this old data.\n"
-"\n"
-"Once deleted, you cannot downgrade to the previous version of Evolution "
-"without manual intervention.\n"
-msgstr ""
-"Kogu &quot;evolution&quot; kataloogi sisu eemaldatakse jäädavalt.\n"
-"\n"
-"Sul on soovitatav kõik oma e-posti, kontaktide ja kalendrite andmed üle "
-"vaadata ning enne vanade andmete kustutamist veenduda, et see Evolutioni "
-"versioon käitub korrektselt.\n"
-"\n"
-"Pärast kustutamist pole sul võimalik ilma käsitsi sekkumiseta enam "
-"Evolutioni vanemat versiooni kasutada.\n"
-
-msgid ""
-"The previous version of Evolution stored its data in a different location.\n"
-"\n"
-"If you choose to remove this data, the entire contents of the &quot;"
-"evolution&quot; directory will be removed permanently. If you choose to keep "
-"this data, then you may manually remove the contents of &quot;"
-"evolution&quot; at your convenience.\n"
-msgstr ""
-"Evolutioni eelmine versioon hoidis andmeid teises kohas.\n"
-"\n"
-"Kui valid andmete eemaldamise, siis eemaldatakse kogu kataloog &quot;"
-"evolution&quot; jäädavalt. Kui valid andmete säilitamise, siis võid hiljem "
-"omal vabal valikul kataloogi &quot;evolution&quot; käsitsi eemaldada.\n"
+#, fuzzy
+#| msgid "Quit"
+msgid "Quit Now"
+msgstr "Lõpeta"
 
 msgid "Upgrade from previous version failed:"
 msgstr "Tõrge eelmisest versioonist uuendamisel:"
 
-msgid ""
-"Upgrading your data and settings will require up to {0} of disk space, but "
-"you only have {1} available.\n"
-"\n"
-"You will need to make more space available in your home directory before you "
-"can continue."
-msgstr ""
-"Sinu andmete ja sätete uuendamine vajab kuni {0} kettaruumi, kuid saadaval "
-"on ainult {1}.\n"
-"\n"
-"Enne jätkamist pead oma kodukataloogis vabastama ruumi."
-
 msgid "_Forget"
 msgstr "_Unusta"
-
-msgid "_Keep Data"
-msgstr "_Säilita andmed"
-
-msgid "_Remind Me Later"
-msgstr "_Tuleta mulle hiljem meelde"
 
 msgid ""
 "{0}\n"
@@ -15527,8 +15143,9 @@ msgstr "Sertifikaadid"
 msgid "Certificate Viewer: %s"
 msgstr "Sertifikaadivaatur: %s"
 
-#, c-format
-msgid "Enter the password for `%s'"
+#, fuzzy, c-format
+#| msgid "Enter the password for `%s'"
+msgid "Enter the password for '%s'"
 msgstr "Sisesta parool '%s' jaoks"
 
 #. we're setting the password initially
@@ -15564,10 +15181,9 @@ msgstr "<Ei ole sertifikaadi osa>"
 msgid "Authorities"
 msgstr "Sertifitseerimiskeskused"
 
-msgid "Backup"
-msgstr "Varunda"
-
-msgid "Backup All"
+#, fuzzy
+#| msgid "Backup All"
+msgid "Backup _All"
 msgstr "Varunda kõik"
 
 msgid ""
@@ -15605,9 +15221,6 @@ msgstr "Kontaktide sertifikaadid"
 msgid "Do not trust the authenticity of this certificate"
 msgstr "Ära selle sertifikaadi autentsust usalda"
 
-msgid "Edit"
-msgstr "Redigeerimine"
-
 msgid "Email Certificate Trust Settings"
 msgstr "E-posti sertifikaadi usaldussätted"
 
@@ -15625,9 +15238,6 @@ msgstr "Välja väärtus"
 
 msgid "Fingerprints"
 msgstr "Sõrmejäljed"
-
-msgid "Import"
-msgstr "Impordi"
 
 msgid "Issued By"
 msgstr "Väljastaja"
@@ -15670,14 +15280,13 @@ msgid "Trust this CA to identify software developers."
 msgstr ""
 "Seda sertifitseerimiskeskust usaldatakse tarkvaraarendajate tuvastamisel."
 
-msgid "Trust this CA to identify web sites."
+#, fuzzy
+#| msgid "Trust this CA to identify web sites."
+msgid "Trust this CA to identify websites."
 msgstr "Seda sertifitseerimiskeskust usaldatakse veebisaitide tuvastamisel."
 
 msgid "Validity"
 msgstr "Kehtivus"
-
-msgid "View"
-msgstr "Vaata"
 
 msgid "You have certificates from these organizations that identify you:"
 msgstr "Sinu sertifikaadid organisatsioonidelt, mis aitavad sind tuvastada:"
@@ -15693,6 +15302,9 @@ msgstr "Failis on sertifikaadid, mis sul aitavad neid inimesi tuvastada:"
 
 msgid "Your Certificates"
 msgstr "Sinu sertifikaadid"
+
+msgid "_Backup"
+msgstr "_Varunda"
 
 msgid "_Edit CA Trust"
 msgstr "_Muuda SK usaldust"
@@ -15805,6 +15417,12 @@ msgstr "Mittekriitiline"
 msgid "Extensions"
 msgstr "Laiendused"
 
+#. Translators: This string is used in Certificate details for fields like Issuer
+#. or Subject, which shows the field name on the left and its respective value
+#. on the right, both as stored in the certificate itself. You probably do not
+#. need to change this string, unless changing the order of name and value.
+#. As a result example: "OU = VeriSign Trust Network"
+#.
 #, c-format
 msgid "%s = %s"
 msgstr "%s = %s"
@@ -15911,9 +15529,6 @@ msgstr ""
 msgid "_Selection"
 msgstr "_Valik"
 
-msgid "Collection"
-msgstr "Kollektsioon"
-
 #, no-c-format
 msgid "Define Views for %s"
 msgstr "Vaadete kirjeldamine %s jaoks"
@@ -15928,9 +15543,6 @@ msgstr "\"%s\" jaoks vaadete kirjeldamine"
 msgid "Table"
 msgstr "Tabel"
 
-msgid "Instance"
-msgstr "Instants"
-
 msgid "Save Current View"
 msgstr "Salvesta käesolev vaade"
 
@@ -15939,9 +15551,6 @@ msgstr "_Loo uus vaade"
 
 msgid "_Replace existing view"
 msgstr "_Asenda olemasolev vaade"
-
-msgid "Factory"
-msgstr "Factory"
 
 msgid "Define New View"
 msgstr "Uue vaate kirjeldamine"
@@ -15958,17 +15567,8 @@ msgstr "Vaate liik:"
 msgid "De_fault"
 msgstr "_Vaikimisi"
 
-msgid "Account Name"
-msgstr "Konto nimi"
-
 msgid "Protocol"
 msgstr "Protokoll"
-
-msgid "Action"
-msgstr "Tegevus"
-
-msgid "A GtkRadioAction"
-msgstr "GtkRadioAction"
 
 msgid "Attachment Properties"
 msgstr "Manuse omadused"
@@ -16010,9 +15610,6 @@ msgid "Hide Attachment _Bar"
 msgstr "Peida _manuseriba"
 
 msgid "Show Attachment _Bar"
-msgstr "Näita _manuseriba"
-
-msgid "Show _Attachment Bar"
 msgstr "Näita _manuseriba"
 
 msgid "Add Attachment"
@@ -16101,36 +15698,6 @@ msgstr "%B %Y"
 
 msgid "Month Calendar"
 msgstr "Kuu kalender"
-
-msgid "Fill color"
-msgstr "Täitevärvus"
-
-msgid "GDK fill color"
-msgstr "GDK täitevärvus"
-
-msgid "Fill stipple"
-msgstr "Täpiline täide"
-
-msgid "X1"
-msgstr "X1"
-
-msgid "X2"
-msgstr "X2"
-
-msgid "Y1"
-msgstr "Y1"
-
-msgid "Y2"
-msgstr "Y2"
-
-msgid "Minimum width"
-msgstr "Vähim laius"
-
-msgid "Minimum Width"
-msgstr "Vähim laius"
-
-msgid "Spacing"
-msgstr "Jaotus"
 
 msgid "Character Encoding"
 msgstr "Kooditabel"
@@ -16268,33 +15835,6 @@ msgstr ""
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr "Evolution on hetkel võrguvabas olekus, kuna võrk pole saadaval."
 
-msgid "The button state is online"
-msgstr "Nupu olek on saadaval"
-
-msgid "Horizontal Position"
-msgstr "Rõhtsuunaline asukoht"
-
-msgid "Pane position when oriented horizontally"
-msgstr "Paani asukoht, kui horisontaalselt suunatud"
-
-msgid "Vertical Position"
-msgstr "Püstsuunaline asukoht"
-
-msgid "Pane position when oriented vertically"
-msgstr "Paani asukoht, kui vertikaalselt suunatud"
-
-msgid "Proportion"
-msgstr "Proportsioonid"
-
-msgid "Proportion of the 2nd pane size"
-msgstr "Teise paani suuruse proportsioonid"
-
-msgid "Fixed Resize"
-msgstr "Fikseeritud mõõtmed"
-
-msgid "Keep the 2nd pane fixed during resize"
-msgstr "Teise paani suuruse hoidmine suuruse muutmisel"
-
 msgid "Sync with:"
 msgstr "Millega sünkroniseerida:"
 
@@ -16340,21 +15880,6 @@ msgstr "Jõuti lehekülje lõppu, jätkati algusest"
 
 msgid "Reached top of page, continued from bottom"
 msgstr "Jõuti lehekülje algusesse, jätkati lõpust"
-
-msgid "Cursor Row"
-msgstr "Kursori rida"
-
-msgid "Cursor Column"
-msgstr "Kursori veerg"
-
-msgid "Sorter"
-msgstr "Sortija"
-
-msgid "Selection Mode"
-msgstr "Valimise režiim"
-
-msgid "Cursor Mode"
-msgstr "Kursorirežiim"
 
 msgid "When de_leted:"
 msgstr "Kui _kustutatakse:"
@@ -16410,11 +15935,13 @@ msgstr "Kui _täidetakse:"
 msgid "When decli_ned:"
 msgstr "Kui k_eeldutakse:"
 
+#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
 msgid "Wi_thin"
 msgstr ""
 
-msgid "_After:"
-msgstr "_Pärast:"
+#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
+msgid "_After"
+msgstr "_Pärast"
 
 msgid "_All information"
 msgstr "_Kogu teave"
@@ -16431,8 +15958,9 @@ msgstr "_Kohale toimetatud"
 msgid "_Set expiration date"
 msgstr "_Määra aegumistähtaeg"
 
-msgid "_Until:"
-msgstr "_Kuni:"
+#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
+msgid "_Until"
+msgstr "_Kuni"
 
 msgid "_When convenient"
 msgstr "_Kui sobib"
@@ -16538,35 +16066,8 @@ msgstr "Kellaaeg peab olema sisestatud %s formaadis"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Protsendi väärtus peab olema 0 - 100."
 
-msgid "Selected Column"
-msgstr "Valitud veerg"
-
-msgid "Focused Column"
-msgstr "Fokusseeritud veerg"
-
-msgid "Unselected Column"
-msgstr "Valimata veerg"
-
-msgid "Strikeout Column"
-msgstr "Läbikriipsutatud veerg"
-
-msgid "Underline Column"
-msgstr "Allajoonitud veerg"
-
-msgid "Bold Column"
-msgstr "Rasvane veerg"
-
-msgid "Color Column"
-msgstr "Värviline veerg"
-
-msgid "BG Color Column"
-msgstr "Taustavärviga veerg"
-
 msgid "click to add"
 msgstr "lisamiseks klõpsa"
-
-msgid "State"
-msgstr "Seisund"
 
 msgid "(Ascending)"
 msgstr "(Kasvav)"
@@ -16653,44 +16154,30 @@ msgstr ""
 "Tabelisse veeru lisamiseks tuleb see\n"
 "lohistada kohale, kus seda näha soovid."
 
+#. Translators: This text is used as a special row when an ETable
+#. has turned on grouping on a column, which has set a title.
+#. The first %s is replaced with a column title.
+#. The second %s is replaced with an actual  group value.
+#. Finally the %d is replaced with count of items in this group.
+#. Example: "Family name: Smith (13 items)"
+#.
 #, c-format
-msgid "%s : %s (%d item)"
-msgid_plural "%s : %s (%d items)"
-msgstr[0] "%s : %s (%d kirje)"
-msgstr[1] "%s : %s (%d kirjet)"
+msgid "%s: %s (%d item)"
+msgid_plural "%s: %s (%d items)"
+msgstr[0] "%s: %s (%d kirje)"
+msgstr[1] "%s: %s (%d kirjet)"
 
+#. Translators: This text is used as a special row when an ETable
+#. has turned on grouping on a column, which doesn't have set a title.
+#. The %s is replaced with an actual group value.
+#. The %d is replaced with count of items in this group.
+#. Example: "Smith (13 items)"
+#.
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d kirje)"
 msgstr[1] "%s (%d kirjet)"
-
-msgid "Alternating Row Colors"
-msgstr "Reavärvuste asendamine"
-
-msgid "Horizontal Draw Grid"
-msgstr ""
-
-msgid "Vertical Draw Grid"
-msgstr ""
-
-msgid "Draw focus"
-msgstr "Haara fookus"
-
-msgid "Cursor mode"
-msgstr "Kursorirežiim"
-
-msgid "Selection model"
-msgstr "Valikumudel"
-
-msgid "Length Threshold"
-msgstr "Pikkuse lävi"
-
-msgid "Uniform row height"
-msgstr "Ühtlane rea kõrgus"
-
-msgid "Frozen"
-msgstr "Külmutatud"
 
 msgid "Customize Current View"
 msgstr "Käesoleva vaate kohandamine"
@@ -16735,74 +16222,23 @@ msgstr "_Sordi välja järgi"
 msgid "_Custom"
 msgstr "_Kohandatud"
 
-msgid "Table header"
-msgstr "Tabeli päis"
-
-msgid "Table model"
-msgstr "Tabeli mudel"
-
-msgid "Cursor row"
-msgstr "Kursori rida"
-
-msgid "Sort Info"
-msgstr "Sortimisandmed"
-
-msgid "Always search"
-msgstr "Alati otsitakse"
-
-msgid "Use click to add"
-msgstr "Klõpsa lisamiseks"
-
-msgid "Vertical Row Spacing"
-msgstr "Ridade vahekaugus"
-
-msgid "Vertical space between rows. It is added to top and to bottom of a row"
-msgstr "Vertikaalne vahe ridade vahel. See lisatakse rea alla ja kohale."
-
-msgid "ETree table adapter"
-msgstr "ETree tabeliadapter"
-
-msgid "Retro Look"
-msgstr "Retrovälimus"
-
-msgid "Draw lines and +/- expanders."
-msgstr "Joonte ning +/- laiendajate joonistamine."
-
-msgid "Expander Size"
-msgstr "Laiendaja suurus"
-
-msgid "Size of the expander arrow"
-msgstr "Laienduse noole suurus"
-
-msgid "popup"
-msgstr "hüpikaken"
-
-#. action name
+#. Translators: description of a "popup" action
 msgid "popup a child"
 msgstr ""
 
-msgid "edit"
-msgstr "redigeerimine"
-
+#. Translators: description of an "edit" action
 msgid "begin editing this cell"
 msgstr "selle välja muutmise alustamine"
 
-msgid "toggle"
-msgstr "lüliti"
-
-#. action name
+#. Translators: description of a "toggle" action
 msgid "toggle the cell"
 msgstr "lahtri ümberlülitamine"
 
-msgid "expand"
-msgstr "laienda"
-
+#. Translators: description of an "expand" action
 msgid "expands the row in the ETree containing this cell"
 msgstr "ETree seda välja sisaldava rea laiendamine"
 
-msgid "collapse"
-msgstr "ahenda"
-
+#. Translators: description of a "collapse" action
 msgid "collapses the row in the ETree containing this cell"
 msgstr "ETree seda välja sisaldava rea ahendamine"
 
@@ -16821,81 +16257,949 @@ msgstr "Vali kõik"
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
 
-msgid "Event Processor"
-msgstr "Sündmusteprotsessor"
+#~ msgid "Editable"
+#~ msgstr "Muudetav"
 
-msgid "Text"
-msgstr "Tekst"
+#~ msgid "Source Book"
+#~ msgstr "Lähteraamat"
 
-msgid "Bold"
-msgstr "Rasvane"
+#~ msgid "Target Book"
+#~ msgstr "Sihtraamat"
 
-msgid "Strikeout"
-msgstr "Läbikriipsutatud"
+#~ msgid "Is New Contact"
+#~ msgstr "Tegemist on uue kontaktiga"
 
-msgid "Anchor"
-msgstr "Ankur"
+#~ msgid "Writable Fields"
+#~ msgstr "Muudetavad väljad"
 
-msgid "Justification"
-msgstr "Rööpjoondus"
+#~ msgid "Required Fields"
+#~ msgstr "Vajalikud väljad"
 
-msgid "Clip Width"
-msgstr "Klambri laius"
+#~ msgid "Changed"
+#~ msgstr "Muudetud"
 
-msgid "Clip Height"
-msgstr "Klambri kõrgus"
+#~ msgid "Shell"
+#~ msgstr "Kest"
 
-msgid "Clip"
-msgstr "Klamber"
+#~ msgid "Book"
+#~ msgstr "Raamat"
 
-msgid "Fill clip rectangle"
-msgstr ""
+#~ msgid "Is New List"
+#~ msgstr "On uus loend"
 
-msgid "X Offset"
-msgstr "X-nihe"
+#~ msgid "Query"
+#~ msgstr "Päring"
 
-msgid "Y Offset"
-msgstr "Y-nihe"
+#~ msgid "Model"
+#~ msgstr "Mudel"
 
-msgid "Text width"
-msgstr "Teksti laius"
+#~ msgid "Shell View"
+#~ msgstr "Kestvaade"
 
-msgid "Text height"
-msgstr "Teksti kõrgus"
+#~ msgid "Source"
+#~ msgstr "Allikas"
 
-msgid "Use ellipsis"
-msgstr "Ellipsite kasutamine"
+#~ msgid "Width"
+#~ msgstr "Laius"
 
-msgid "Ellipsis"
-msgstr "Ellipsid"
+#~ msgid "Height"
+#~ msgstr "Kõrgus"
 
-msgid "Line wrap"
-msgstr "Reamurdmine"
+#~ msgid "Has Focus"
+#~ msgstr "On fookuses"
 
-msgid "Break characters"
-msgstr "Murdmismärgid"
+#~ msgid "Field"
+#~ msgstr "Väli"
 
-msgid "Max lines"
-msgstr "Suurim ridade arv"
+#~ msgid "Field Name"
+#~ msgstr "Välja nimi"
 
-msgid "Draw borders"
-msgstr "Piirjoonte näitamine"
+#~ msgid "Text Model"
+#~ msgstr "Teksti mudel"
 
-msgid "Allow newlines"
-msgstr "Reamurdmise lubamine"
+#~ msgid "Max field name length"
+#~ msgstr "Suurim välja nime pikkus"
 
-msgid "Draw background"
-msgstr "Tausta joonistamine"
+#~ msgid "Column Width"
+#~ msgstr "Veeru laius"
 
-msgid "Draw button"
-msgstr "Nupu joonistamine"
+#~ msgid "Adapter"
+#~ msgstr "Adapter"
 
-msgid "Cursor position"
-msgstr "Kursori asukoht"
+#~ msgid "Selected"
+#~ msgstr "Valitud"
 
-#. Translators: Input Method Context
-msgid "IM Context"
-msgstr "Välksõnumikontekst"
+#~ msgid "Has Cursor"
+#~ msgstr "On fookuses"
 
-msgid "Handle Popup"
-msgstr ""
+#~ msgid "Calendar repository is offline."
+#~ msgstr "Kalendrihoidla pole võrku ühendatud."
+
+#~ msgid "Error on '{0}'"
+#~ msgstr "Viga toimingul '{0}'"
+
+#~ msgid "No response from the server."
+#~ msgstr "Serverist ei tulnud vastust."
+
+#~ msgid "Unable to load the calendar"
+#~ msgstr "Kalendrit pole võimalik laadida"
+
+#~ msgid "Check this to use system timezone in Evolution."
+#~ msgstr "Märgi see, et kasutada Evolutionis süsteemi ajavööndit."
+
+#~ msgid "Attendee_s..."
+#~ msgstr "_Osalejad..."
+
+#~ msgid "Default Client"
+#~ msgstr "Vaikimisi klient"
+
+#~ msgid "Shell Settings"
+#~ msgstr "Kesta sätted"
+
+#~ msgid "Application-wide settings"
+#~ msgstr "Rakendust hõlmavad sätted"
+
+#~ msgid "A_ttendees..."
+#~ msgstr "_Osalejad..."
+
+#~ msgid "_Select Today"
+#~ msgstr "_Vali tänane kuupäev"
+
+#~ msgid "New Tab"
+#~ msgstr "Uus sakk"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Isiklikud andmed:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Vastuvõtmise andmed:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Saatmise andmed:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Konto haldus</span>"
+
+#~ msgid "Name of the logger"
+#~ msgstr "Logiva komponendi nimi"
+
+#~ msgid "Filename"
+#~ msgstr "Failinimi"
+
+#~ msgid "The filename of the module"
+#~ msgstr "Mooduli failinimi"
+
+#~ msgid "Whether the plugin is enabled"
+#~ msgstr "Kas plugin on lubatud või mitte"
+
+#~ msgid "Shell Module"
+#~ msgstr "Kesta moodul"
+
+#~ msgid "The mail shell backend"
+#~ msgstr "Meilikesta taustprogramm"
+
+#~ msgid "Show Deleted"
+#~ msgstr "Kustutatuid näidatakse"
+
+#~ msgid "To Do"
+#~ msgstr "Ülesanne"
+
+#~ msgid "Later"
+#~ msgstr "Hiljem"
+
+#~ msgid "Unable to create new folder `%s': %s"
+#~ msgstr "Uut kataloogi `%s' pole võimalik luua: %s"
+
+#~ msgid "Unable to copy folder `%s' to `%s': %s"
+#~ msgstr "Kausta `%s' pole võimalik kopeerida `%s': %s"
+
+#~ msgid "Unable to scan for existing mailboxes at `%s': %s"
+#~ msgstr ""
+#~ "Olemasolevaid postkaste asukohas '%s' pole võimalik läbi vaadata: %s"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution mailbox folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+#~ "versioonist muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution siirdab sinu kaustu..."
+
+#~ msgid "Unable to open old POP keep-on-server data `%s': %s"
+#~ msgstr "Vana POP `%s' hoia-serveris andmeid pole võimalik avada: %s"
+
+#~ msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
+#~ msgstr "POP3 hoia-serveris andmekataloogi `%s' pole võimalik luua: %s"
+
+#~ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
+#~ msgstr "POP3 hoia-serveris `%s' andmeid pole võimalik kopeerida: %s"
+
+#~ msgid "Failed to create local mail storage `%s': %s"
+#~ msgstr "Tõrge kohapealse postisalvesti `%s' loomisel: %s"
+
+#~ msgid ""
+#~ "Unable to read settings from previous Evolution install, `evolution/"
+#~ "config.xmldb' does not exist or is corrupt."
+#~ msgstr ""
+#~ "Eelmisest Evolutioni paigaldusest pole võimalik sätteid lugeda, "
+#~ "`evolution/configxmldb' pole olemas või on see rikutud."
+
+#~ msgid "Allows Evolution to display text part of limited size"
+#~ msgstr "Piiratud suurusega tekstiosa kuvamise lubamine"
+
+#~ msgid "Enable to render message text part of limited size."
+#~ msgstr "Piiratud suurusega tekstiosa kuvamise lubamine."
+
+#~ msgid "Text message part limit"
+#~ msgstr "Sõnumi tekstiosa piirang"
+
+#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
+#~ msgstr "<b>Vastus kirja päises</b> (pole soovitatav)"
+
+#~ msgid "    "
+#~ msgstr "    "
+
+#~ msgid "Because \"{0}\"."
+#~ msgstr "Põhjus: \"{0}\"."
+
+#~ msgid "Because \"{2}\"."
+#~ msgstr "Põhjus: \"{2}\"."
+
+#~ msgid ""
+#~ "The following Search Folder(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "Järgnevad otsingukaustad:\n"
+#~ "{0}\n"
+#~ "Kasutasid nüüdseks eemaldatud kausta:\n"
+#~ "    \"{1}\"\n"
+#~ "Otsingukaustad on nüüd uuendatud."
+
+#~ msgid ""
+#~ "The following filter rule(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "Järgnevad filtreerimisreeglid:\n"
+#~ "{0}\n"
+#~ "Kasutasid nüüdseks eemaldatud kausta:\n"
+#~ "    \"{1}\"\n"
+#~ "Reeglid on nüüd uuendatud."
+
+#~ msgid "Shell Backend"
+#~ msgstr "Kesta taustprogramm"
+
+#~ msgid ""
+#~ "There are only hidden messages in this folder. Use View->Show Hidden "
+#~ "Messages to show them."
+#~ msgstr ""
+#~ "Selles kaustas on ainult varjatud sõnumid. Nende nägemiseks vali Vaade -> "
+#~ "Kuva peidetud sõnumeid."
+
+#~ msgid "Table column:"
+#~ msgstr "Tabeli veerg:"
+
+#~ msgid "Source List"
+#~ msgstr "Allikate loend"
+
+#~ msgid "The registry of address books"
+#~ msgstr "Aadressiraamatute nimekiri"
+
+#~ msgid "Current View"
+#~ msgstr "Käesolev vaade"
+
+#~ msgid "The currently selected address book view"
+#~ msgstr "Praegu valitud aadressiraamatu vaade"
+
+#~ msgid "Previewed Contact"
+#~ msgstr "Eelvaatlusel olev kontakt"
+
+#~ msgid "The contact being shown in the preview pane"
+#~ msgstr "Kontakt, mida kuvatakse eelvaatluspaanil"
+
+#~ msgid "Preview is Visible"
+#~ msgstr "Eelvaade on nähtav"
+
+#~ msgid "Whether the preview pane is visible"
+#~ msgstr "Kas eelvaatluspaan on nähtav"
+
+#~ msgid "LDAP Servers"
+#~ msgstr "LDAP-serverid"
+
+#~ msgid "Autocompletion Settings"
+#~ msgstr "Automaatlõpetamise sätted"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution contact folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+#~ "versioonist muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution siirdab sinu kaustad..."
+
+#~ msgid ""
+#~ "The format of mailing list contacts has changed.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Postiloendi kontaktide salvestusvorming on muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution siirdab sinu kaustad..."
+
+#~ msgid ""
+#~ "The way Evolution stores some phone numbers has changed.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Viis, kuidas Evolution salvestab mõningaid telefoninumbreid, on "
+#~ "muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution siirdab sinu kaustad..."
+
+#~ msgid ""
+#~ "Evolution's Palm Sync changelog and map files have changed.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your Pilot Sync data..."
+#~ msgstr ""
+#~ "Evolutioni Palm Sync muutuste logi ja kaardifailid on muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution migreerib sinu Pilot Sync andmed..."
+
+#~ msgid "Source Selector Widget"
+#~ msgstr "Allika valija vidin"
+
+#~ msgid "This widget displays groups of address books"
+#~ msgstr "See vidin kuvab aadressiraamatute gruppe"
+
+#~ msgid "Save as vCard..."
+#~ msgstr "Salvesta vKaardina..."
+
+#~ msgid "3268"
+#~ msgstr "3268"
+
+#~ msgid "389"
+#~ msgstr "389"
+
+#~ msgid "636"
+#~ msgstr "636"
+
+#~ msgid "The registry of calendars"
+#~ msgstr "Kalendrite register"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution calendar folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+#~ "versioonist muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution siirdab sinu kaustad..."
+
+#~ msgid "Unable to migrate old settings from evolution/config.xmldb"
+#~ msgstr ""
+#~ "Vanade sätete migreerimine failist evolution/config.xmldb pole võimalik"
+
+#~ msgid "Unable to migrate calendar `%s'"
+#~ msgstr "Kalendrit `%s' pole võimalik siirdada"
+
+#~ msgid "Date Navigator Widget"
+#~ msgstr "Kuupäeva navigeerimisvidin"
+
+#~ msgid "This widget displays a miniature calendar"
+#~ msgstr "See vidin kuvab pisikese kalendri"
+
+#~ msgid "Default Calendar Client"
+#~ msgstr "Vaikimisi kalendriklient"
+
+#~ msgid "Default client for calendar operations"
+#~ msgstr "Vaikimisi klient kalendritoiminguteks"
+
+#~ msgid "This widget displays groups of calendars"
+#~ msgstr "See vidin kuvab kalendreid gruppidena"
+
+#~ msgid "The registry of memo lists"
+#~ msgstr "Märkmeloendite nimekiri"
+
+#~ msgid "The memo table model"
+#~ msgstr "Märkmete tabeli mudel"
+
+#~ msgid "Default Memo Client"
+#~ msgstr "Vaikimisi märkmeklient"
+
+#~ msgid "Default client for memo operations"
+#~ msgstr "Märkmetoimingute vaikimisi klient"
+
+#~ msgid "This widget displays groups of memo lists"
+#~ msgstr "See vidin kuvab märmeloendeid gruppidena"
+
+#~ msgid "The registry of task lists"
+#~ msgstr "Ülesandeloendite register"
+
+#~ msgid "The task table model"
+#~ msgstr "Ülesannete tabeli mudel"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution task folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Evolutioni kontaktikaustade asukoht ja hierarhia on pärast Evolution 1.x. "
+#~ "versiooni muutunud.\n"
+#~ "\n"
+#~ "Palun oota, kuni Evolution siirdab sinu kaustad..."
+
+#~ msgid "Unable to migrate tasks `%s'"
+#~ msgstr "Ülesandeid `%s' pole võimalik siirdada"
+
+#~ msgid "Default Task Client"
+#~ msgstr "Vaikimisi ülesandeklient"
+
+#~ msgid "Default client for task operations"
+#~ msgstr "Ülesandetegevuste vaikimisi klient"
+
+#~ msgid "This widget displays groups of task lists"
+#~ msgstr "See vidin kuvab ülesandeloendeid gruppidena"
+
+#~ msgid "Group by Threads"
+#~ msgstr "Grupeeri lõimedena"
+
+#~ msgid "Whether to group messages by threads"
+#~ msgstr "Kas sõnumid grupeerida lõimedeks."
+
+#~ msgid "Hide _Read Messages"
+#~ msgstr "Peida _loetud sõnumid"
+
+#~ msgid "Temporarily hide all messages that have already been read"
+#~ msgstr "Kõigi loetud sõnumite ajutine peitmine"
+
+#~ msgid "Hide S_elected Messages"
+#~ msgstr "Peida _valitud sõnumid"
+
+#~ msgid "Temporarily hide the selected messages"
+#~ msgstr "Valitud sõnumite ajutine peitmine"
+
+#~ msgid "Show Hidde_n Messages"
+#~ msgstr "_Näita peidetud sõnumeid"
+
+#~ msgid "Show messages that have been temporarily hidden"
+#~ msgstr "Ajutiselt peidetud sõnumite peidust väljatoomine"
+
+#~ msgid "Hide _Deleted Messages"
+#~ msgstr "Peida _kustutatud sõnumid"
+
+#~ msgid ""
+#~ "Hide deleted messages rather than displaying them with a line through them"
+#~ msgstr ""
+#~ "Kustutatud sõnumite peitmine selle asemel, et neid läbikriipsutatuna "
+#~ "kuvada"
+
+#~ msgid ""
+#~ "List of clues for the attachment reminder plugin to look for in a message "
+#~ "body."
+#~ msgstr ""
+#~ "Fraaside kirjeldamine, mille esinemisel näidatakse manuse puudumise kohta "
+#~ "meeldetuletust."
+
+#~ msgid "<b>Server</b>"
+#~ msgstr "<b>Server</b>"
+
+#~ msgid "<b>Users:</b>"
+#~ msgstr "<b>Kasutajad:</b>"
+
+#~ msgid "<b>Account Name</b>"
+#~ msgstr "<b>Konto nimi</b>"
+
+#~ msgid "Add Hula support to Evolution."
+#~ msgstr "Hula toe lisamine Evolutionile."
+
+#~ msgid "Hula Support"
+#~ msgstr "Hula tugi"
+
+#~ msgid "_Accept"
+#~ msgstr "_Nõustu"
+
+#~ msgid "%ld KB"
+#~ msgstr "%ld KB"
+
+#~ msgid "Toolbar Style"
+#~ msgstr "Tööriistariba laad"
+
+#~ msgid "The switcher's toolbar style"
+#~ msgstr "Vahetaja tööriistariba laad"
+
+#~ msgid "Toolbar Visible"
+#~ msgstr "Tööriistariba on nähtav"
+
+#~ msgid "Whether the switcher is visible"
+#~ msgstr "Kas vahetaja on nähtaval"
+
+#~ msgid "Switcher Action"
+#~ msgstr "Vahetaja tegevus"
+
+#~ msgid "The switcher action for this shell view"
+#~ msgstr "Selle kestavaate vahetaja tegevus"
+
+#~ msgid "Page Number"
+#~ msgstr "Lehekülje number"
+
+#~ msgid "The notebook page number of the shell view"
+#~ msgstr "Kestavaate märkmiku lehekülg"
+
+#~ msgid "Search Rule"
+#~ msgstr "Otsingufilter"
+
+#~ msgid "Criteria for the current search results"
+#~ msgstr "Nende otsingutulemuste kriteeriumid"
+
+#~ msgid "The EShellBackend for this shell view"
+#~ msgstr "Selle kestvaate EShellBackend"
+
+#~ msgid "Shell Content Widget"
+#~ msgstr "Kesta sisuvidin"
+
+#~ msgid "The content widget appears in a shell window's right pane"
+#~ msgstr "Sisuvidin paikneb kestaakna paremal paanil"
+
+#~ msgid "Shell Sidebar Widget"
+#~ msgstr "Külgpaani kesta vidin"
+
+#~ msgid "The sidebar widget appears in a shell window's left pane"
+#~ msgstr "Külgriba vidin paikneb kestaakna vasakul paanil"
+
+#~ msgid "Shell Taskbar Widget"
+#~ msgstr "Kesta ülesanderiba vidin"
+
+#~ msgid "The taskbar widget appears at the bottom of a shell window"
+#~ msgstr "Ülesanderiba vidin paikneb kestaakna all"
+
+#~ msgid "Shell Window"
+#~ msgstr "Kestaken"
+
+#~ msgid "The window to which the shell view belongs"
+#~ msgstr "Aken, millele kestavaade kuulub"
+
+#~ msgid "The key file holding widget state data"
+#~ msgstr "Võtmefail, mis sisaldab vidina oleku andmeid"
+
+#~ msgid "The title of the shell view"
+#~ msgstr "Kestavaate pealkiri"
+
+#~ msgid "Current View ID"
+#~ msgstr "Käesoleva vaate ID"
+
+#~ msgid "The current GAL view ID"
+#~ msgstr "Praeguse GAL-vaate ID"
+
+#~ msgid "Active Shell View"
+#~ msgstr "Aktiivse kesta vaade"
+
+#~ msgid "Name of the active shell view"
+#~ msgstr "Aktiivse kestaakna nimi"
+
+#~ msgid "The shell window's EFocusTracker"
+#~ msgstr "Kestakna EFocusTracker"
+
+#~ msgid "Geometry"
+#~ msgstr "Geomeetria"
+
+#~ msgid "Initial window geometry string"
+#~ msgstr "Esialgse akna geomeetriasõne"
+
+#~ msgid "Safe Mode"
+#~ msgstr "Ohutu režiim"
+
+#~ msgid "Whether the shell window is in safe mode"
+#~ msgstr "Kas kestaaken peaks olema ohutus režiimis"
+
+#~ msgid "Sidebar Visible"
+#~ msgstr "Külgpaan on nähtav"
+
+#~ msgid "Whether the shell window's side bar is visible"
+#~ msgstr "Kas kestakna külgriba peaks nähtav olema"
+
+#~ msgid "Switcher Visible"
+#~ msgstr "Vahetaja on nähtav"
+
+#~ msgid "Whether the shell window's switcher buttons are visible"
+#~ msgstr "Kas kestakna vahetusnupud peaksid olema nähtaval"
+
+#~ msgid "Taskbar Visible"
+#~ msgstr "Ülesanderiba on nähtav"
+
+#~ msgid "Whether the shell window's task bar is visible"
+#~ msgstr "Kas kestakna ülesanderiba peaks olema nähtav"
+
+#~ msgid "Whether the shell window's tool bar is visible"
+#~ msgstr "Kas kestakna tööriistariba peaks olema nähtav"
+
+#~ msgid "UI Manager"
+#~ msgstr "Kasutajaliidese haldur"
+
+#~ msgid "The shell window's GtkUIManager"
+#~ msgstr "Kestakna GtkUIManager"
+
+#~ msgid "Module Directory"
+#~ msgstr "Moodulite kataloog"
+
+#~ msgid "The directory from which to load EModules"
+#~ msgstr "Kataloog, millest laaditakse EModules"
+
+#~ msgid "Network Available"
+#~ msgstr "Võrk on saadaval"
+
+#~ msgid "Whether the network is available"
+#~ msgstr "Kas võrguühendus on saadaval"
+
+#~ msgid "Online"
+#~ msgstr "Ühendatud"
+
+#~ msgid "Whether the shell is online"
+#~ msgstr "Kas kest on võrku ühendatud või mitte"
+
+#~ msgid "Forcibly re-migrate from Evolution 1.4"
+#~ msgstr "Uuesti Evolutioni versioonist 1.4 migreerumisele sundimine"
+
+#~ msgid "Insufficient disk space for upgrade."
+#~ msgstr "Uuendamiseks napib kettaruumi."
+
+#~ msgid "Really delete old data?"
+#~ msgstr "Kas tõesti kustutada vanad andmed?"
+
+#~ msgid ""
+#~ "The entire contents of the &quot;evolution&quot; directory are about to "
+#~ "be permanently removed.\n"
+#~ "\n"
+#~ "It is suggested you manually verify that all of your mail, contact, and "
+#~ "calendar data is present, and that this version of Evolution operates "
+#~ "correctly before deleting this old data.\n"
+#~ "\n"
+#~ "Once deleted, you cannot downgrade to the previous version of Evolution "
+#~ "without manual intervention.\n"
+#~ msgstr ""
+#~ "Kogu &quot;evolution&quot; kataloogi sisu eemaldatakse jäädavalt.\n"
+#~ "\n"
+#~ "Sul on soovitatav kõik oma e-posti, kontaktide ja kalendrite andmed üle "
+#~ "vaadata ning enne vanade andmete kustutamist veenduda, et see Evolutioni "
+#~ "versioon käitub korrektselt.\n"
+#~ "\n"
+#~ "Pärast kustutamist pole sul võimalik ilma käsitsi sekkumiseta enam "
+#~ "Evolutioni vanemat versiooni kasutada.\n"
+
+#~ msgid ""
+#~ "The previous version of Evolution stored its data in a different "
+#~ "location.\n"
+#~ "\n"
+#~ "If you choose to remove this data, the entire contents of the &quot;"
+#~ "evolution&quot; directory will be removed permanently. If you choose to "
+#~ "keep this data, then you may manually remove the contents of &quot;"
+#~ "evolution&quot; at your convenience.\n"
+#~ msgstr ""
+#~ "Evolutioni eelmine versioon hoidis andmeid teises kohas.\n"
+#~ "\n"
+#~ "Kui valid andmete eemaldamise, siis eemaldatakse kogu kataloog &quot;"
+#~ "evolution&quot; jäädavalt. Kui valid andmete säilitamise, siis võid "
+#~ "hiljem omal vabal valikul kataloogi &quot;evolution&quot; käsitsi "
+#~ "eemaldada.\n"
+
+#~ msgid ""
+#~ "Upgrading your data and settings will require up to {0} of disk space, "
+#~ "but you only have {1} available.\n"
+#~ "\n"
+#~ "You will need to make more space available in your home directory before "
+#~ "you can continue."
+#~ msgstr ""
+#~ "Sinu andmete ja sätete uuendamine vajab kuni {0} kettaruumi, kuid "
+#~ "saadaval on ainult {1}.\n"
+#~ "\n"
+#~ "Enne jätkamist pead oma kodukataloogis vabastama ruumi."
+
+#~ msgid "_Keep Data"
+#~ msgstr "_Säilita andmed"
+
+#~ msgid "_Remind Me Later"
+#~ msgstr "_Tuleta mulle hiljem meelde"
+
+#~ msgid "Edit"
+#~ msgstr "Redigeerimine"
+
+#~ msgid "Import"
+#~ msgstr "Impordi"
+
+#~ msgid "View"
+#~ msgstr "Vaata"
+
+#~ msgid "Collection"
+#~ msgstr "Kollektsioon"
+
+#~ msgid "Instance"
+#~ msgstr "Instants"
+
+#~ msgid "Factory"
+#~ msgstr "Factory"
+
+#~ msgid "Action"
+#~ msgstr "Tegevus"
+
+#~ msgid "A GtkRadioAction"
+#~ msgstr "GtkRadioAction"
+
+#~ msgid "Show _Attachment Bar"
+#~ msgstr "Näita _manuseriba"
+
+#~ msgid "Fill color"
+#~ msgstr "Täitevärvus"
+
+#~ msgid "GDK fill color"
+#~ msgstr "GDK täitevärvus"
+
+#~ msgid "Fill stipple"
+#~ msgstr "Täpiline täide"
+
+#~ msgid "X1"
+#~ msgstr "X1"
+
+#~ msgid "X2"
+#~ msgstr "X2"
+
+#~ msgid "Y1"
+#~ msgstr "Y1"
+
+#~ msgid "Y2"
+#~ msgstr "Y2"
+
+#~ msgid "Minimum width"
+#~ msgstr "Vähim laius"
+
+#~ msgid "Minimum Width"
+#~ msgstr "Vähim laius"
+
+#~ msgid "Spacing"
+#~ msgstr "Jaotus"
+
+#~ msgid "The button state is online"
+#~ msgstr "Nupu olek on saadaval"
+
+#~ msgid "Horizontal Position"
+#~ msgstr "Rõhtsuunaline asukoht"
+
+#~ msgid "Pane position when oriented horizontally"
+#~ msgstr "Paani asukoht, kui horisontaalselt suunatud"
+
+#~ msgid "Vertical Position"
+#~ msgstr "Püstsuunaline asukoht"
+
+#~ msgid "Pane position when oriented vertically"
+#~ msgstr "Paani asukoht, kui vertikaalselt suunatud"
+
+#~ msgid "Proportion"
+#~ msgstr "Proportsioonid"
+
+#~ msgid "Proportion of the 2nd pane size"
+#~ msgstr "Teise paani suuruse proportsioonid"
+
+#~ msgid "Fixed Resize"
+#~ msgstr "Fikseeritud mõõtmed"
+
+#~ msgid "Keep the 2nd pane fixed during resize"
+#~ msgstr "Teise paani suuruse hoidmine suuruse muutmisel"
+
+#~ msgid "Cursor Row"
+#~ msgstr "Kursori rida"
+
+#~ msgid "Cursor Column"
+#~ msgstr "Kursori veerg"
+
+#~ msgid "Sorter"
+#~ msgstr "Sortija"
+
+#~ msgid "Selection Mode"
+#~ msgstr "Valimise režiim"
+
+#~ msgid "Cursor Mode"
+#~ msgstr "Kursorirežiim"
+
+#~ msgid "Selected Column"
+#~ msgstr "Valitud veerg"
+
+#~ msgid "Focused Column"
+#~ msgstr "Fokusseeritud veerg"
+
+#~ msgid "Unselected Column"
+#~ msgstr "Valimata veerg"
+
+#~ msgid "Strikeout Column"
+#~ msgstr "Läbikriipsutatud veerg"
+
+#~ msgid "Underline Column"
+#~ msgstr "Allajoonitud veerg"
+
+#~ msgid "Bold Column"
+#~ msgstr "Rasvane veerg"
+
+#~ msgid "Color Column"
+#~ msgstr "Värviline veerg"
+
+#~ msgid "BG Color Column"
+#~ msgstr "Taustavärviga veerg"
+
+#~ msgid "State"
+#~ msgstr "Seisund"
+
+#~ msgid "Alternating Row Colors"
+#~ msgstr "Reavärvuste asendamine"
+
+#~ msgid "Draw focus"
+#~ msgstr "Haara fookus"
+
+#~ msgid "Cursor mode"
+#~ msgstr "Kursorirežiim"
+
+#~ msgid "Selection model"
+#~ msgstr "Valikumudel"
+
+#~ msgid "Length Threshold"
+#~ msgstr "Pikkuse lävi"
+
+#~ msgid "Uniform row height"
+#~ msgstr "Ühtlane rea kõrgus"
+
+#~ msgid "Frozen"
+#~ msgstr "Külmutatud"
+
+#~ msgid "Table header"
+#~ msgstr "Tabeli päis"
+
+#~ msgid "Table model"
+#~ msgstr "Tabeli mudel"
+
+#~ msgid "Cursor row"
+#~ msgstr "Kursori rida"
+
+#~ msgid "Sort Info"
+#~ msgstr "Sortimisandmed"
+
+#~ msgid "Always search"
+#~ msgstr "Alati otsitakse"
+
+#~ msgid "Use click to add"
+#~ msgstr "Klõpsa lisamiseks"
+
+#~ msgid "Vertical Row Spacing"
+#~ msgstr "Ridade vahekaugus"
+
+#~ msgid ""
+#~ "Vertical space between rows. It is added to top and to bottom of a row"
+#~ msgstr "Vertikaalne vahe ridade vahel. See lisatakse rea alla ja kohale."
+
+#~ msgid "ETree table adapter"
+#~ msgstr "ETree tabeliadapter"
+
+#~ msgid "Retro Look"
+#~ msgstr "Retrovälimus"
+
+#~ msgid "Draw lines and +/- expanders."
+#~ msgstr "Joonte ning +/- laiendajate joonistamine."
+
+#~ msgid "Expander Size"
+#~ msgstr "Laiendaja suurus"
+
+#~ msgid "Size of the expander arrow"
+#~ msgstr "Laienduse noole suurus"
+
+#~ msgid "popup"
+#~ msgstr "hüpikaken"
+
+#~ msgid "edit"
+#~ msgstr "redigeerimine"
+
+#~ msgid "toggle"
+#~ msgstr "lüliti"
+
+#~ msgid "expand"
+#~ msgstr "laienda"
+
+#~ msgid "Event Processor"
+#~ msgstr "Sündmusteprotsessor"
+
+#~ msgid "Text"
+#~ msgstr "Tekst"
+
+#~ msgid "Bold"
+#~ msgstr "Rasvane"
+
+#~ msgid "Strikeout"
+#~ msgstr "Läbikriipsutatud"
+
+#~ msgid "Anchor"
+#~ msgstr "Ankur"
+
+#~ msgid "Justification"
+#~ msgstr "Rööpjoondus"
+
+#~ msgid "Clip Width"
+#~ msgstr "Klambri laius"
+
+#~ msgid "Clip Height"
+#~ msgstr "Klambri kõrgus"
+
+#~ msgid "Clip"
+#~ msgstr "Klamber"
+
+#~ msgid "X Offset"
+#~ msgstr "X-nihe"
+
+#~ msgid "Y Offset"
+#~ msgstr "Y-nihe"
+
+#~ msgid "Text width"
+#~ msgstr "Teksti laius"
+
+#~ msgid "Text height"
+#~ msgstr "Teksti kõrgus"
+
+#~ msgid "Use ellipsis"
+#~ msgstr "Ellipsite kasutamine"
+
+#~ msgid "Ellipsis"
+#~ msgstr "Ellipsid"
+
+#~ msgid "Line wrap"
+#~ msgstr "Reamurdmine"
+
+#~ msgid "Break characters"
+#~ msgstr "Murdmismärgid"
+
+#~ msgid "Max lines"
+#~ msgstr "Suurim ridade arv"
+
+#~ msgid "Draw borders"
+#~ msgstr "Piirjoonte näitamine"
+
+#~ msgid "Allow newlines"
+#~ msgstr "Reamurdmise lubamine"
+
+#~ msgid "Draw background"
+#~ msgstr "Tausta joonistamine"
+
+#~ msgid "Draw button"
+#~ msgstr "Nupu joonistamine"
+
+#~ msgid "Cursor position"
+#~ msgstr "Kursori asukoht"
+
+#~ msgid "IM Context"
+#~ msgstr "Välksõnumikontekst"
