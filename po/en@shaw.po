@@ -122,9 +122,8 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
-"𐑞𐑦𐑕 LDAP 𐑕𐑻𐑝𐑼 𐑥𐑱 𐑿𐑟 𐑩𐑯 𐑴𐑤𐑛𐑼 𐑝𐑻𐑠𐑩𐑯 𐑝 LDAP, 𐑢𐑦𐑗 𐑛𐑴𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑞𐑦𐑕 "
-"𐑓𐑩𐑙𐑒𐑖𐑩𐑯𐑨𐑤𐑦𐑑𐑰 𐑹 𐑦𐑑 𐑥𐑱 𐑚𐑰 𐑥𐑦𐑕𐑒𐑪𐑯𐑓𐑦𐑜𐑼𐑛. 𐑭𐑕𐑒 𐑿𐑼 𐑩𐑛𐑥𐑦𐑯𐑦𐑕𐑑𐑮𐑱𐑑𐑼 𐑓𐑹 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑕𐑻𐑗 "
-"𐑚𐑱𐑕𐑩𐑟."
+"𐑞𐑦𐑕 LDAP 𐑕𐑻𐑝𐑼 𐑥𐑱 𐑿𐑟 𐑩𐑯 𐑴𐑤𐑛𐑼 𐑝𐑻𐑠𐑩𐑯 𐑝 LDAP, 𐑢𐑦𐑗 𐑛𐑴𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑞𐑦𐑕 𐑓𐑩𐑙𐑒𐑖𐑩𐑯𐑨𐑤𐑦𐑑𐑰 "
+"𐑹 𐑦𐑑 𐑥𐑱 𐑚𐑰 𐑥𐑦𐑕𐑒𐑪𐑯𐑓𐑦𐑜𐑼𐑛. 𐑭𐑕𐑒 𐑿𐑼 𐑩𐑛𐑥𐑦𐑯𐑦𐑕𐑑𐑮𐑱𐑑𐑼 𐑓𐑹 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑕𐑻𐑗 𐑚𐑱𐑕𐑩𐑟."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "This address book could not be opened."
@@ -1087,7 +1086,7 @@ msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑: "
 
 #: ../addressbook/gui/widgets/ea-minicard.c:180
 msgid "evolution minicard"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑦𐑯𐑦𐑒𐑸𐑛"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑦𐑯𐑦𐑒𐑸𐑛"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174
 msgid "Copy _Email Address"
@@ -1467,7 +1466,7 @@ msgstr "LDAP 𐑛𐑱𐑑𐑩 𐑦𐑯𐑑𐑻𐑗𐑱𐑯𐑡 𐑓𐑹𐑥𐑨�
 
 #: ../addressbook/importers/evolution-ldif-importer.c:690
 msgid "Evolution LDIF importer"
-msgstr "𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 LDIF 𐑦𐑥𐑐𐑹𐑑𐑼"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 LDIF 𐑦𐑥𐑐𐑹𐑑𐑼"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:565
 msgid "vCard (.vcf, .gcrd)"
@@ -2541,7 +2540,7 @@ msgid ""
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
 "𐑞 𐑛𐑦𐑓𐑷𐑤𐑑 timezone 𐑑 𐑿𐑕 𐑓𐑹 𐑛𐑱𐑑𐑕 𐑯 𐑑𐑲𐑥𐑟 𐑦𐑯 𐑞 𐑒𐑨𐑤𐑩𐑯𐑛𐑼, 𐑨𐑟 𐑩𐑯 untranslated 𐑴𐑤𐑕𐑩𐑯 "
-"timezone 𐑛𐑱𐑑𐑩𐑚𐑱𐑕 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑤𐑲𐑒 \"·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑯𐑿 ·𐑘𐑹𐑒\"."
+"timezone 𐑛𐑱𐑑𐑩𐑚𐑱𐑕 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑤𐑲𐑒 \"·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑯𐑿 ·𐑘𐑹𐑒\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid ""
@@ -2625,7 +2624,7 @@ msgstr "𐑿𐑟 𐑕𐑦𐑕𐑑𐑩𐑥 𐑑𐑲𐑥𐑟𐑴𐑯"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:101
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr "𐑿𐑟 𐑞 𐑕𐑦𐑕𐑑𐑩𐑥 𐑑𐑲𐑥𐑟𐑴𐑯 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑞 𐑑𐑲𐑥𐑟𐑴𐑯 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑯 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑿𐑟 𐑞 𐑕𐑦𐑕𐑑𐑩𐑥 𐑑𐑲𐑥𐑟𐑴𐑯 𐑦𐑯𐑕𐑑𐑧𐑛 𐑝 𐑞 𐑑𐑲𐑥𐑟𐑴𐑯 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑦𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Vertical pane position"
@@ -4071,7 +4070,7 @@ msgstr "𐑷𐑤 𐑦𐑯𐑕𐑑𐑨𐑯𐑕𐑩𐑟"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:560
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑮𐑧𐑒𐑫𐑮𐑧𐑯𐑕𐑧𐑟 𐑞𐑨𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑧𐑛𐑦𐑑."
+msgstr "𐑞𐑦𐑕 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑮𐑧𐑒𐑫𐑮𐑧𐑯𐑕𐑧𐑟 𐑞𐑨𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑧𐑛𐑦𐑑."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:892
 msgid "Recurrence date is invalid"
@@ -6181,10 +6180,9 @@ msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑦𐑯
 #. * We only place them here so gettext picks them up for translation.
 #. * Don't include in any C files.
 #.
-#, fuzzy
 #: ../calendar/zones.h:26
 msgid "Africa/Abidjan"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑨𐑚𐑦𐑡𐑭𐑯"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑨𐑚𐑦𐑡𐑭𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:27
@@ -6196,20 +6194,18 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Accra"
 msgid "Africa/Addis_Ababa"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/_AddisAbaba"
 
-#, fuzzy
 #: ../calendar/zones.h:29
 msgid "Africa/Algiers"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑨𐑤𐑡𐑦𐑮𐑟"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑨𐑤𐑡𐑦𐑮𐑟"
 
 #, fuzzy
 #: ../calendar/zones.h:30
 msgid "Africa/Asmera"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Asmera"
 
-#, fuzzy
 #: ../calendar/zones.h:31
 msgid "Africa/Bamako"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑚𐑨𐑥𐑩𐑒𐑴"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑚𐑨𐑥𐑩𐑒𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:32
@@ -6231,25 +6227,21 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Bissau"
 msgid "Africa/Blantyre"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Blantyre"
 
-#, fuzzy
 #: ../calendar/zones.h:36
 msgid "Africa/Brazzaville"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑚𐑮𐑨𐑟𐑩𐑝𐑦𐑤"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑚𐑮𐑨𐑟𐑩𐑝𐑦𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:37
 msgid "Africa/Bujumbura"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑚𐑵𐑡𐑩𐑥𐑚𐑫𐑮𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑚𐑵𐑡𐑩𐑥𐑚𐑫𐑮𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:38
 msgid "Africa/Cairo"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑒𐑲𐑮𐑴"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑒𐑲𐑮𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:39
 msgid "Africa/Casablanca"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑒𐑨𐑕𐑩𐑚𐑤𐑨𐑙𐑒𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑒𐑨𐑕𐑩𐑚𐑤𐑨𐑙𐑒𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:40
@@ -6261,20 +6253,18 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Ceuta"
 msgid "Africa/Conakry"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Conakry"
 
-#, fuzzy
 #: ../calendar/zones.h:42
 msgid "Africa/Dakar"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑛𐑭𐑒𐑭𐑮"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑛𐑭𐑒𐑸"
 
 #, fuzzy
 #: ../calendar/zones.h:43
 msgid "Africa/Dar_es_Salaam"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/_Dares_𐑕𐑩𐑤𐑭𐑥"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Dar_es_𐑕𐑩𐑤𐑭𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:44
 msgid "Africa/Djibouti"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑡𐑦𐑚𐑵𐑑𐑰"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑡𐑦𐑚𐑵𐑑𐑰"
 
 #, fuzzy
 #: ../calendar/zones.h:45
@@ -6284,52 +6274,44 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Douala"
 #, fuzzy
 #: ../calendar/zones.h:46
 msgid "Africa/El_Aaiun"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/_ElAaiun"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/El_Aaiun"
 
-#, fuzzy
 #: ../calendar/zones.h:47
 msgid "Africa/Freetown"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑓𐑮𐑰𐑑𐑶𐑯"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑓𐑮𐑰𐑑𐑶𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:48
 msgid "Africa/Gaborone"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Gaborone"
 
-#, fuzzy
 #: ../calendar/zones.h:49
 msgid "Africa/Harare"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑣𐑻𐑭𐑮𐑰"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑣𐑻𐑭𐑮𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:50
 msgid "Africa/Johannesburg"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑡𐑴𐑣𐑨𐑯𐑦𐑕𐑚𐑻𐑜"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑡𐑴𐑣𐑨𐑯𐑦𐑕𐑚𐑻𐑜"
 
-#, fuzzy
 #: ../calendar/zones.h:51
 msgid "Africa/Kampala"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑒𐑩𐑥𐑐𐑭𐑤𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑒𐑩𐑥𐑐𐑭𐑤𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:52
 msgid "Africa/Khartoum"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑒𐑭𐑮𐑑𐑵𐑥"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑒𐑸𐑑𐑵𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:53
 msgid "Africa/Kigali"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑒𐑰𐑜𐑭𐑤𐑰"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑒𐑰𐑜𐑭𐑤𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:54
 msgid "Africa/Kinshasa"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑒𐑦𐑯𐑖𐑭𐑕𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑒𐑦𐑯𐑖𐑭𐑕𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:55
 msgid "Africa/Lagos"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑤𐑱𐑜𐑪𐑕"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑤𐑱𐑜𐑪𐑕"
 
 #, fuzzy
 #: ../calendar/zones.h:56
@@ -6341,30 +6323,27 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Libreville"
 msgid "Africa/Lome"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Lome"
 
-#, fuzzy
 #: ../calendar/zones.h:58
 msgid "Africa/Luanda"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑤𐑵𐑭𐑯𐑛𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑤𐑵𐑭𐑯𐑛𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:59
 msgid "Africa/Lubumbashi"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Lubumbashi"
 
-#, fuzzy
 #: ../calendar/zones.h:60
 msgid "Africa/Lusaka"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑤𐑵𐑕𐑭𐑒𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑤𐑵𐑕𐑭𐑒𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:61
 msgid "Africa/Malabo"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Malabo"
 
-#, fuzzy
 #: ../calendar/zones.h:62
 msgid "Africa/Maputo"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑥𐑩𐑐𐑵𐑑𐑴"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑥𐑩𐑐𐑵𐑑𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:63
@@ -6376,20 +6355,17 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Maseru"
 msgid "Africa/Mbabane"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Mbabane"
 
-#, fuzzy
 #: ../calendar/zones.h:65
 msgid "Africa/Mogadishu"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑥𐑴𐑜𐑩𐑛𐑰𐑖𐑵"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑥𐑴𐑜𐑩𐑛𐑰𐑖𐑵"
 
-#, fuzzy
 #: ../calendar/zones.h:66
 msgid "Africa/Monrovia"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑥𐑭𐑯𐑮𐑴𐑝𐑰𐑩"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑥𐑪𐑯𐑮𐑴𐑝𐑰𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:67
 msgid "Africa/Nairobi"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑯𐑲𐑮𐑴𐑚𐑰"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑯𐑲𐑮𐑴𐑚𐑰"
 
 #, fuzzy
 #: ../calendar/zones.h:68
@@ -6406,1138 +6382,1001 @@ msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Niamey"
 msgid "Africa/Nouakchott"
 msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Nouakchott"
 
-#, fuzzy
 #: ../calendar/zones.h:71
 msgid "Africa/Ouagadougou"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑢𐑭𐑜𐑩𐑛𐑵𐑜𐑵"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑢𐑭𐑜𐑩𐑛𐑵𐑜𐑵"
 
-#, fuzzy
 #: ../calendar/zones.h:72
 msgid "Africa/Porto-Novo"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑐𐑪𐑮𐑑𐑴-𐑯𐑴𐑝𐑴"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑐𐑪𐑮𐑑𐑴-𐑯𐑴𐑝𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:73
 msgid "Africa/Sao_Tome"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/_SaoTome"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/Sao_Tome"
 
-#, fuzzy
 #: ../calendar/zones.h:74
 msgid "Africa/Timbuktu"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑑𐑦𐑥𐑚𐑩𐑒𐑑𐑵"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑑𐑦𐑥𐑚𐑩𐑒𐑑𐑵"
 
-#, fuzzy
 #: ../calendar/zones.h:75
 msgid "Africa/Tripoli"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑑𐑮𐑦𐑐𐑩𐑤𐑰"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑑𐑮𐑦𐑐𐑩𐑤𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:76
 msgid "Africa/Tunis"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑑𐑵𐑯𐑦𐑕"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑑𐑵𐑯𐑦𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:77
 msgid "Africa/Windhoek"
-msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/𐑢𐑦𐑯𐑛𐑣𐑴𐑒"
+msgstr "·𐑨𐑓𐑮𐑦𐑒𐑩/·𐑢𐑦𐑯𐑛𐑣𐑴𐑒"
 
-#, fuzzy
 #: ../calendar/zones.h:78
 msgid "America/Adak"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑩𐑛𐑨𐑒"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑩𐑛𐑨𐑒"
 
-#, fuzzy
 #: ../calendar/zones.h:79
 msgid "America/Anchorage"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑨𐑙𐑒𐑻𐑩𐑡"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑨𐑙𐑒𐑻𐑩𐑡"
 
-#, fuzzy
 #: ../calendar/zones.h:80
 msgid "America/Anguilla"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑨𐑙𐑢𐑦𐑤𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑨𐑙𐑢𐑦𐑤𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:81
 msgid "America/Antigua"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑨𐑯𐑑𐑰𐑜𐑢𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑨𐑯𐑑𐑰𐑜𐑢𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:82
 msgid "America/Araguaina"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Araguaina"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Araguaina"
 
-#, fuzzy
 #: ../calendar/zones.h:83
 msgid "America/Aruba"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑻𐑵𐑚𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑻𐑵𐑚𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:84
 msgid "America/Asuncion"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑩𐑕𐑩𐑯𐑖𐑩𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑩𐑕𐑩𐑯𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:85
 msgid "America/Barbados"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑚𐑭𐑮𐑚𐑱𐑛𐑴𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑚𐑭𐑮𐑚𐑱𐑛𐑴𐑕"
 
 #, fuzzy
 #: ../calendar/zones.h:86
 msgid "America/Belem"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Belem"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Belem"
 
-#, fuzzy
 #: ../calendar/zones.h:87
 msgid "America/Belize"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑚𐑧𐑤𐑰𐑟"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑚𐑧𐑤𐑰𐑟"
 
 #, fuzzy
 #: ../calendar/zones.h:88
 msgid "America/Boa_Vista"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_BoaVista"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Boa_Vista"
 
-#, fuzzy
 #: ../calendar/zones.h:89
 msgid "America/Bogota"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑚𐑴𐑜𐑩𐑑𐑭"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑚𐑴𐑜𐑩𐑑𐑭"
 
-#, fuzzy
 #: ../calendar/zones.h:90
 msgid "America/Boise"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑚𐑬𐑟𐑰"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑚𐑬𐑟𐑰"
 
 #, fuzzy
 #: ../calendar/zones.h:91
 msgid "America/Buenos_Aires"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_BuenosAires"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Buenos_Aires"
 
 #, fuzzy
 #: ../calendar/zones.h:92
 msgid "America/Cambridge_Bay"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_CambridgeBay"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Cambridge_Bay"
 
-#, fuzzy
 #: ../calendar/zones.h:93
 msgid "America/Cancun"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑨𐑙𐑒𐑩𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑨𐑙𐑒𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:94
 msgid "America/Caracas"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑻𐑭𐑒𐑩𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑻𐑭𐑒𐑩𐑕"
 
 #, fuzzy
 #: ../calendar/zones.h:95
 msgid "America/Catamarca"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Catamarca"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Catamarca"
 
-#, fuzzy
 #: ../calendar/zones.h:96
 msgid "America/Cayenne"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑲𐑧𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑲𐑧𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:97
 msgid "America/Cayman"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑱𐑥𐑩𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑱𐑥𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:98
 msgid "America/Chicago"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑖𐑩𐑒𐑭𐑜𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑖𐑩𐑒𐑭𐑜𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:99
 msgid "America/Chihuahua"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑗𐑩𐑢𐑭𐑢𐑭"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑗𐑩𐑢𐑭𐑢𐑭"
 
-#, fuzzy
 #: ../calendar/zones.h:100
 msgid "America/Cordoba"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑪𐑮𐑛𐑴𐑚𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑪𐑮𐑛𐑴𐑚𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:101
 msgid "America/Costa_Rica"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_CostaRica"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_CostaRica"
 
 #, fuzzy
 #: ../calendar/zones.h:102
 msgid "America/Cuiaba"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Cuiaba"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Cuiaba"
 
-#, fuzzy
 #: ../calendar/zones.h:103
 msgid "America/Curacao"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑘𐑫𐑮𐑩𐑕𐑶"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑘𐑫𐑮𐑩𐑕𐑶"
 
 #, fuzzy
 #: ../calendar/zones.h:104
 msgid "America/Danmarkshavn"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Danmarkshavn"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Danmarkshavn"
 
-#, fuzzy
 #: ../calendar/zones.h:105
 msgid "America/Dawson"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑛𐑪𐑕𐑩𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑛𐑪𐑕𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:106
 msgid "America/Dawson_Creek"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_DawsonCreek"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_DawsonCreek"
 
-#, fuzzy
 #: ../calendar/zones.h:107
 msgid "America/Denver"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑛𐑧𐑯𐑝𐑻"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑛𐑧𐑯𐑝𐑻"
 
-#, fuzzy
 #: ../calendar/zones.h:108
 msgid "America/Detroit"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑛𐑦𐑑𐑮𐑬𐑑"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑛𐑦𐑑𐑮𐑬𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:109
 msgid "America/Dominica"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑛𐑩𐑥𐑦𐑯𐑦𐑒𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑛𐑩𐑥𐑦𐑯𐑦𐑒𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:110
 msgid "America/Edmonton"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑧𐑛𐑥𐑩𐑯𐑑𐑩𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑧𐑛𐑥𐑩𐑯𐑑𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:111
 msgid "America/Eirunepe"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Eirunepe"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Eirunepe"
 
 #, fuzzy
 #: ../calendar/zones.h:112
 msgid "America/El_Salvador"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_ElSalvador"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_ElSalvador"
 
 #, fuzzy
 #: ../calendar/zones.h:113
 msgid "America/Fortaleza"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Fortaleza"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Fortaleza"
 
 #, fuzzy
 #: ../calendar/zones.h:114
 msgid "America/Glace_Bay"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_GlaceBay"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_GlaceBay"
 
 #, fuzzy
 #: ../calendar/zones.h:115
 msgid "America/Godthab"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Godthab"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Godthab"
 
 #, fuzzy
 #: ../calendar/zones.h:116
 msgid "America/Goose_Bay"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_GooseBay"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_GooseBay"
 
 #, fuzzy
 #: ../calendar/zones.h:117
 msgid "America/Grand_Turk"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_GrandTurk"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_GrandTurk"
 
-#, fuzzy
 #: ../calendar/zones.h:118
 msgid "America/Grenada"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑜𐑮𐑦𐑯𐑱𐑛𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑜𐑮𐑦𐑯𐑱𐑛𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:119
 msgid "America/Guadeloupe"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑜𐑢𐑭𐑛𐑩𐑤𐑵𐑐"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑜𐑢𐑭𐑛𐑩𐑤𐑵𐑐"
 
-#, fuzzy
 #: ../calendar/zones.h:120
 msgid "America/Guatemala"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑜𐑢𐑭𐑑𐑩𐑥𐑭𐑤𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑜𐑢𐑭𐑑𐑩𐑥𐑭𐑤𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:121
 msgid "America/Guayaquil"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Guayaquil"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Guayaquil"
 
-#, fuzzy
 #: ../calendar/zones.h:122
 msgid "America/Guyana"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑜𐑲𐑭𐑯𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑜𐑲𐑭𐑯𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:123
 msgid "America/Halifax"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑣𐑨𐑤𐑦𐑓𐑨𐑒𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑣𐑨𐑤𐑦𐑓𐑨𐑒𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:124
 msgid "America/Havana"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑣𐑩𐑝𐑨𐑯𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑣𐑩𐑝𐑨𐑯𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:125
 msgid "America/Hermosillo"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑣𐑻𐑥𐑩𐑕𐑦𐑤𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑣𐑻𐑥𐑩𐑕𐑦𐑤𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:126
 msgid "America/Indiana/Indianapolis"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑦𐑯𐑛𐑰𐑨𐑯𐑩/𐑦𐑯𐑛𐑰𐑩𐑯𐑨𐑐𐑩𐑤𐑦𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑦𐑯𐑛𐑰𐑨𐑯𐑩/·𐑦𐑯𐑛𐑰𐑩𐑯𐑨𐑐𐑩𐑤𐑦𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:127
 msgid "America/Indiana/Knox"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑦𐑯𐑛𐑰𐑨𐑯𐑩/𐑯𐑭𐑒𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑦𐑯𐑛𐑰𐑨𐑯𐑩/·𐑯𐑭𐑒𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:128
 msgid "America/Indiana/Marengo"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑦𐑯𐑛𐑰𐑨𐑯𐑩/Marengo"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑦𐑯𐑛𐑰𐑨𐑯𐑩/·𐑥𐑩𐑮𐑧𐑯𐑜𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:129
 msgid "America/Indiana/Vevay"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑦𐑯𐑛𐑰𐑨𐑯𐑩/𐑝𐑧𐑝𐑱"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑦𐑯𐑛𐑰𐑨𐑯𐑩/·𐑝𐑧𐑝𐑱"
 
-#, fuzzy
 #: ../calendar/zones.h:130
 msgid "America/Indianapolis"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑦𐑯𐑛𐑰𐑩𐑯𐑨𐑐𐑩𐑤𐑦𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑦𐑯𐑛𐑰𐑩𐑯𐑨𐑐𐑩𐑤𐑦𐑕"
 
 #, fuzzy
 #: ../calendar/zones.h:131
 msgid "America/Inuvik"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Inuvik"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Inuvik"
 
 #, fuzzy
 #: ../calendar/zones.h:132
 msgid "America/Iqaluit"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Iqaluit"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Iqaluit"
 
-#, fuzzy
 #: ../calendar/zones.h:133
 msgid "America/Jamaica"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑡𐑩𐑥𐑱𐑒𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑡𐑩𐑥𐑱𐑒𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:134
 msgid "America/Jujuy"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Jujuy"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Jujuy"
 
-#, fuzzy
 #: ../calendar/zones.h:135
 msgid "America/Juneau"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑡𐑵𐑯𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑡𐑵𐑯𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:136
 msgid "America/Kentucky/Louisville"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑩𐑯𐑑𐑩𐑒𐑰/𐑤𐑵𐑰𐑝𐑦𐑤"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑩𐑯𐑑𐑩𐑒𐑰/·𐑤𐑵𐑰𐑝𐑦𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:137
 msgid "America/Kentucky/Monticello"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑒𐑩𐑯𐑑𐑩𐑒𐑰/𐑥𐑭𐑯𐑑𐑩𐑕𐑧𐑤𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑒𐑩𐑯𐑑𐑩𐑒𐑰/·𐑥𐑪𐑯𐑑𐑩𐑕𐑧𐑤𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:138
 msgid "America/La_Paz"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_LaPaz"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_LaPaz"
 
-#, fuzzy
 #: ../calendar/zones.h:139
 msgid "America/Lima"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑤𐑲𐑥𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑤𐑲𐑥𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:140
 msgid "America/Los_Angeles"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_LosAngeles"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑤𐑪𐑕_𐑨𐑯𐑡𐑩𐑤𐑰𐑟"
 
-#, fuzzy
 #: ../calendar/zones.h:141
 msgid "America/Louisville"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑤𐑵𐑰𐑝𐑦𐑤"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑤𐑵𐑰𐑝𐑦𐑤"
 
 #, fuzzy
 #: ../calendar/zones.h:142
 msgid "America/Maceio"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Maceio"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Maceio"
 
-#, fuzzy
 #: ../calendar/zones.h:143
 msgid "America/Managua"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑩𐑯𐑭𐑜𐑢𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑩𐑯𐑭𐑜𐑢𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:144
 msgid "America/Manaus"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Manaus"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Manaus"
 
-#, fuzzy
 #: ../calendar/zones.h:145
 msgid "America/Martinique"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑭𐑮𐑑𐑦𐑯𐑰𐑒"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑭𐑮𐑑𐑦𐑯𐑰𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:146
 msgid "America/Mazatlan"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Mazatlan"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Mazatlan"
 
-#, fuzzy
 #: ../calendar/zones.h:147
 msgid "America/Mendoza"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑧𐑯𐑛𐑴𐑟𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑧𐑯𐑛𐑴𐑟𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:148
 msgid "America/Menominee"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Menominee"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Menominee"
 
-#, fuzzy
 #: ../calendar/zones.h:149
 msgid "America/Merida"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑻𐑰𐑛𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑻𐑰𐑛𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:150
 msgid "America/Mexico_City"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_MexicoCity"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑧𐑒𐑕𐑦𐑒𐑴_𐑕𐑦𐑑𐑦"
 
 #, fuzzy
 #: ../calendar/zones.h:151
 msgid "America/Miquelon"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Miquelon"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Miquelon"
 
-#, fuzzy
 #: ../calendar/zones.h:152
 msgid "America/Monterrey"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑭𐑯𐑑𐑻𐑱"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑭𐑯𐑑𐑻𐑱"
 
-#, fuzzy
 #: ../calendar/zones.h:153
 msgid "America/Montevideo"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑭𐑯𐑑𐑩𐑝𐑦𐑛𐑰𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑭𐑯𐑑𐑩𐑝𐑦𐑛𐑰𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:154
 msgid "America/Montreal"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑩𐑯𐑑𐑮𐑰𐑪𐑤"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑩𐑯𐑑𐑮𐑰𐑪𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:155
 msgid "America/Montserrat"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑥𐑭𐑯𐑕𐑻𐑭𐑑"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑥𐑭𐑯𐑕𐑻𐑭𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:156
 msgid "America/Nassau"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑯𐑨𐑕𐑪"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑯𐑨𐑕𐑪"
 
 #, fuzzy
 #: ../calendar/zones.h:157
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:1
 msgid "America/New_York"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_NewYork"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_NewYork"
 
 #, fuzzy
 #: ../calendar/zones.h:158
 msgid "America/Nipigon"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Nipigon"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Nipigon"
 
-#, fuzzy
 #: ../calendar/zones.h:159
 msgid "America/Nome"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑯𐑴𐑥"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑯𐑴𐑥"
 
 #, fuzzy
 #: ../calendar/zones.h:160
 msgid "America/Noronha"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Noronha"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Noronha"
 
 #, fuzzy
 #: ../calendar/zones.h:161
 msgid "America/North_Dakota/Center"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_NorthDakota/𐑕𐑧𐑯𐑑𐑼"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_NorthDakota/𐑕𐑧𐑯𐑑𐑼"
 
-#, fuzzy
 #: ../calendar/zones.h:162
 msgid "America/Panama"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑐𐑨𐑯𐑩𐑥𐑭"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑐𐑨𐑯𐑩𐑥𐑭"
 
 #, fuzzy
 #: ../calendar/zones.h:163
 msgid "America/Pangnirtung"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Pangnirtung"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Pangnirtung"
 
 #, fuzzy
 #: ../calendar/zones.h:164
 msgid "America/Paramaribo"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Paramaribo"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Paramaribo"
 
-#, fuzzy
 #: ../calendar/zones.h:165
 msgid "America/Phoenix"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑓𐑰𐑯𐑦𐑒𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑓𐑰𐑯𐑦𐑒𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:166
 msgid "America/Port-au-Prince"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑐𐑹𐑑-𐑴-𐑐𐑮𐑦𐑯𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑐𐑹𐑑-𐑴-𐑐𐑮𐑦𐑯𐑕"
 
 #, fuzzy
 #: ../calendar/zones.h:167
 msgid "America/Port_of_Spain"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_Portof_·𐑕𐑐𐑱𐑯"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_Portof_·𐑕𐑐𐑱𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:168
 msgid "America/Porto_Velho"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_PortoVelho"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_PortoVelho"
 
 #, fuzzy
 #: ../calendar/zones.h:169
 msgid "America/Puerto_Rico"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_PuertoRico"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_PuertoRico"
 
 #, fuzzy
 #: ../calendar/zones.h:170
 msgid "America/Rainy_River"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_RainyRiver"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_RainyRiver"
 
 #, fuzzy
 #: ../calendar/zones.h:171
 msgid "America/Rankin_Inlet"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_RankinInlet"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_RankinInlet"
 
 #, fuzzy
 #: ../calendar/zones.h:172
 msgid "America/Recife"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Recife"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Recife"
 
-#, fuzzy
 #: ../calendar/zones.h:173
 msgid "America/Regina"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑮𐑦𐑡𐑰𐑯𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑮𐑦𐑡𐑰𐑯𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:174
 msgid "America/Rio_Branco"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_RioBranco"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_RioBranco"
 
-#, fuzzy
 #: ../calendar/zones.h:175
 msgid "America/Rosario"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑮𐑴𐑟𐑭𐑮𐑰𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑮𐑴𐑟𐑭𐑮𐑰𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:176
 msgid "America/Santiago"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑕𐑨𐑯𐑑𐑰𐑭𐑜𐑴"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑕𐑨𐑯𐑑𐑰𐑭𐑜𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:177
 msgid "America/Santo_Domingo"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_SantoDomingo"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_SantoDomingo"
 
 #, fuzzy
 #: ../calendar/zones.h:178
 msgid "America/Sao_Paulo"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_SaoPaulo"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_SaoPaulo"
 
 #, fuzzy
 #: ../calendar/zones.h:179
 msgid "America/Scoresbysund"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Scoresbysund"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Scoresbysund"
 
 #, fuzzy
 #: ../calendar/zones.h:180
 msgid "America/Shiprock"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Shiprock"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Shiprock"
 
 #, fuzzy
 #: ../calendar/zones.h:181
 msgid "America/St_Johns"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_StJohns"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_StJohns"
 
 #, fuzzy
 #: ../calendar/zones.h:182
 msgid "America/St_Kitts"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_StKitts"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_StKitts"
 
 #, fuzzy
 #: ../calendar/zones.h:183
 msgid "America/St_Lucia"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_StLucia"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_StLucia"
 
 #, fuzzy
 #: ../calendar/zones.h:184
 msgid "America/St_Thomas"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_StThomas"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_StThomas"
 
 #, fuzzy
 #: ../calendar/zones.h:185
 msgid "America/St_Vincent"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_StVincent"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_StVincent"
 
 #, fuzzy
 #: ../calendar/zones.h:186
 msgid "America/Swift_Current"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_SwiftCurrent"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_SwiftCurrent"
 
-#, fuzzy
 #: ../calendar/zones.h:187
 msgid "America/Tegucigalpa"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑑𐑧𐑜𐑵𐑕𐑰𐑜𐑨𐑤𐑐𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑑𐑧𐑜𐑵𐑕𐑰𐑜𐑨𐑤𐑐𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:188
 msgid "America/Thule"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Thule"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Thule"
 
 #, fuzzy
 #: ../calendar/zones.h:189
 msgid "America/Thunder_Bay"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/_ThunderBay"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·_ThunderBay"
 
-#, fuzzy
 #: ../calendar/zones.h:190
 msgid "America/Tijuana"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑑𐑦𐑢𐑭𐑯𐑩"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑑𐑦𐑢𐑭𐑯𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:191
 msgid "America/Tortola"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Tortola"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Tortola"
 
-#, fuzzy
 #: ../calendar/zones.h:192
 msgid "America/Vancouver"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑝𐑨𐑯𐑒𐑵𐑝𐑻"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑝𐑨𐑯𐑒𐑵𐑝𐑻"
 
-#, fuzzy
 #: ../calendar/zones.h:193
 msgid "America/Whitehorse"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑢𐑲𐑑𐑣𐑪𐑮𐑕"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑢𐑲𐑑𐑣𐑪𐑮𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:194
 msgid "America/Winnipeg"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑢𐑦𐑯𐑦𐑐𐑩𐑜"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑢𐑦𐑯𐑦𐑐𐑩𐑜"
 
 #, fuzzy
 #: ../calendar/zones.h:195
 msgid "America/Yakutat"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/Yakutat"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·Yakutat"
 
-#, fuzzy
 #: ../calendar/zones.h:196
 msgid "America/Yellowknife"
-msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/𐑘𐑧𐑤𐑴𐑯𐑲𐑓"
+msgstr "·𐑩𐑥𐑧𐑮𐑦𐑒𐑩/·𐑘𐑧𐑤𐑴𐑯𐑲𐑓"
 
-#, fuzzy
 #: ../calendar/zones.h:197
 msgid "Antarctica/Casey"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/𐑒𐑱𐑕𐑰"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·𐑒𐑱𐑕𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:198
 msgid "Antarctica/Davis"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/𐑛𐑱𐑝𐑩𐑕"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·𐑛𐑱𐑝𐑩𐑕"
 
 #, fuzzy
 #: ../calendar/zones.h:199
 msgid "Antarctica/DumontDUrville"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/DumontDUrville"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·DumontDUrville"
 
-#, fuzzy
 #: ../calendar/zones.h:200
 msgid "Antarctica/Mawson"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/𐑥𐑪𐑕𐑩𐑯"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·𐑥𐑪𐑕𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:201
 msgid "Antarctica/McMurdo"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/𐑥𐑩𐑒𐑥𐑻𐑛𐑴"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·𐑥𐑩𐑒𐑥𐑻𐑛𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:202
 msgid "Antarctica/Palmer"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/𐑐𐑭𐑥𐑻"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·𐑐𐑭𐑥𐑻"
 
 #, fuzzy
 #: ../calendar/zones.h:203
 msgid "Antarctica/South_Pole"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/_SouthPole"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·_SouthPole"
 
 #, fuzzy
 #: ../calendar/zones.h:204
 msgid "Antarctica/Syowa"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/Syowa"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·Syowa"
 
 #, fuzzy
 #: ../calendar/zones.h:205
 msgid "Antarctica/Vostok"
-msgstr "𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/Vostok"
+msgstr "·𐑨𐑯𐑑𐑭𐑮𐑒𐑑𐑦𐑒𐑩/·Vostok"
 
 #, fuzzy
 #: ../calendar/zones.h:206
 msgid "Arctic/Longyearbyen"
 msgstr "𐑭𐑮𐑒𐑑𐑦𐑒/Longyearbyen"
 
-#, fuzzy
 #: ../calendar/zones.h:207
 msgid "Asia/Aden"
-msgstr "·𐑱𐑠𐑩/𐑱𐑛𐑩𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑱𐑛𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:208
 msgid "Asia/Almaty"
-msgstr "·𐑱𐑠𐑩/Almaty"
+msgstr "·𐑱𐑠𐑩/·Almaty"
 
-#, fuzzy
 #: ../calendar/zones.h:209
 msgid "Asia/Amman"
-msgstr "·𐑱𐑠𐑩/𐑨𐑥𐑩𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑨𐑥𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:210
 msgid "Asia/Anadyr"
-msgstr "·𐑱𐑠𐑩/Anadyr"
+msgstr "·𐑱𐑠𐑩/·Anadyr"
 
 #, fuzzy
 #: ../calendar/zones.h:211
 msgid "Asia/Aqtau"
-msgstr "·𐑱𐑠𐑩/Aqtau"
+msgstr "·𐑱𐑠𐑩/·Aqtau"
 
 #, fuzzy
 #: ../calendar/zones.h:212
 msgid "Asia/Aqtobe"
-msgstr "·𐑱𐑠𐑩/Aqtobe"
+msgstr "·𐑱𐑠𐑩/·Aqtobe"
 
 #, fuzzy
 #: ../calendar/zones.h:213
 msgid "Asia/Ashgabat"
-msgstr "·𐑱𐑠𐑩/Ashgabat"
+msgstr "·𐑱𐑠𐑩/·Ashgabat"
 
-#, fuzzy
 #: ../calendar/zones.h:214
 msgid "Asia/Baghdad"
-msgstr "·𐑱𐑠𐑩/𐑚𐑨𐑜𐑛𐑨𐑛"
+msgstr "·𐑱𐑠𐑩/·𐑚𐑨𐑜𐑛𐑨𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:215
 msgid "Asia/Bahrain"
-msgstr "·𐑱𐑠𐑩/𐑚𐑭𐑮𐑱𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑚𐑭𐑮𐑱𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:216
 msgid "Asia/Baku"
-msgstr "·𐑱𐑠𐑩/𐑚𐑭𐑒𐑵"
+msgstr "·𐑱𐑠𐑩/·𐑚𐑭𐑒𐑵"
 
-#, fuzzy
 #: ../calendar/zones.h:217
 msgid "Asia/Bangkok"
-msgstr "·𐑱𐑠𐑩/𐑚𐑨𐑙𐑒𐑭𐑒"
+msgstr "·𐑱𐑠𐑩/·𐑚𐑨𐑙𐑒𐑭𐑒"
 
-#, fuzzy
 #: ../calendar/zones.h:218
 msgid "Asia/Beirut"
-msgstr "·𐑱𐑠𐑩/𐑚𐑱𐑮𐑵𐑑"
+msgstr "·𐑱𐑠𐑩/·𐑚𐑱𐑮𐑵𐑑"
 
 #, fuzzy
 #: ../calendar/zones.h:219
 msgid "Asia/Bishkek"
-msgstr "·𐑱𐑠𐑩/Bishkek"
+msgstr "·𐑱𐑠𐑩/·Bishkek"
 
-#, fuzzy
 #: ../calendar/zones.h:220
 msgid "Asia/Brunei"
-msgstr "·𐑱𐑠𐑩/𐑚𐑮𐑵𐑯𐑲"
+msgstr "·𐑱𐑠𐑩/·𐑚𐑮𐑵𐑯𐑲"
 
-#, fuzzy
 #: ../calendar/zones.h:221
 msgid "Asia/Calcutta"
-msgstr "·𐑱𐑠𐑩/𐑒𐑨𐑤𐑒𐑩𐑑𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑨𐑤𐑒𐑩𐑑𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:222
 msgid "Asia/Choibalsan"
-msgstr "·𐑱𐑠𐑩/Choibalsan"
+msgstr "·𐑱𐑠𐑩/·Choibalsan"
 
-#, fuzzy
 #: ../calendar/zones.h:223
 msgid "Asia/Chongqing"
-msgstr "·𐑱𐑠𐑩/𐑗𐑪𐑙𐑒𐑦𐑙"
+msgstr "·𐑱𐑠𐑩/·𐑗𐑪𐑙𐑒𐑦𐑙"
 
-#, fuzzy
 #: ../calendar/zones.h:224
 msgid "Asia/Colombo"
-msgstr "·𐑱𐑠𐑩/𐑒𐑩𐑤𐑩𐑥𐑚𐑴"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑩𐑤𐑩𐑥𐑚𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:225
 msgid "Asia/Damascus"
 msgstr "·𐑱𐑠𐑩/·𐑛𐑩𐑥𐑨𐑕𐑒𐑩𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:226
 msgid "Asia/Dhaka"
-msgstr "·𐑱𐑠𐑩/𐑛𐑭𐑒𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑛𐑭𐑒𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:227
 msgid "Asia/Dili"
-msgstr "·𐑱𐑠𐑩/Dili"
+msgstr "·𐑱𐑠𐑩/·Dili"
 
-#, fuzzy
 #: ../calendar/zones.h:228
 msgid "Asia/Dubai"
-msgstr "·𐑱𐑠𐑩/𐑛𐑵𐑚𐑲"
+msgstr "·𐑱𐑠𐑩/·𐑛𐑵𐑚𐑲"
 
 #, fuzzy
 #: ../calendar/zones.h:229
 msgid "Asia/Dushanbe"
-msgstr "·𐑱𐑠𐑩/Dushanbe"
+msgstr "·𐑱𐑠𐑩/·Dushanbe"
 
-#, fuzzy
 #: ../calendar/zones.h:230
 msgid "Asia/Gaza"
-msgstr "·𐑱𐑠𐑩/𐑜𐑭𐑟𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑜𐑭𐑟𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:231
 msgid "Asia/Harbin"
-msgstr "·𐑱𐑠𐑩/𐑣𐑭𐑮𐑚𐑦𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑣𐑭𐑮𐑚𐑦𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:232
 msgid "Asia/Hong_Kong"
-msgstr "·𐑱𐑠𐑩/_𐑣𐑪𐑙𐑒𐑪𐑙"
+msgstr "·𐑱𐑠𐑩/·_𐑣𐑪𐑙𐑒𐑪𐑙"
 
 #, fuzzy
 #: ../calendar/zones.h:233
 msgid "Asia/Hovd"
-msgstr "·𐑱𐑠𐑩/Hovd"
+msgstr "·𐑱𐑠𐑩/·Hovd"
 
-#, fuzzy
 #: ../calendar/zones.h:234
 msgid "Asia/Irkutsk"
-msgstr "·𐑱𐑠𐑩/𐑻𐑒𐑫𐑑𐑕𐑒"
+msgstr "·𐑱𐑠𐑩/·𐑻𐑒𐑫𐑑𐑕𐑒"
 
-#, fuzzy
 #: ../calendar/zones.h:235
 msgid "Asia/Istanbul"
-msgstr "·𐑱𐑠𐑩/𐑦𐑕𐑑𐑭𐑯𐑚𐑵𐑤"
+msgstr "·𐑱𐑠𐑩/·𐑦𐑕𐑑𐑭𐑯𐑚𐑵𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:236
 msgid "Asia/Jakarta"
-msgstr "·𐑱𐑠𐑩/𐑡𐑩𐑒𐑭𐑮𐑑𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑡𐑩𐑒𐑭𐑮𐑑𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:237
 msgid "Asia/Jayapura"
-msgstr "·𐑱𐑠𐑩/Jayapura"
+msgstr "·𐑱𐑠𐑩/·Jayapura"
 
-#, fuzzy
 #: ../calendar/zones.h:238
 msgid "Asia/Jerusalem"
 msgstr "·𐑱𐑠𐑩/·𐑡𐑩𐑮𐑵𐑕𐑩𐑤𐑧𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:239
 msgid "Asia/Kabul"
-msgstr "·𐑱𐑠𐑩/𐑒𐑭𐑚𐑫𐑤"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑭𐑚𐑫𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:240
 msgid "Asia/Kamchatka"
-msgstr "·𐑱𐑠𐑩/𐑒𐑨𐑥𐑗𐑨𐑑𐑒𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑨𐑥𐑗𐑨𐑑𐑒𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:241
 msgid "Asia/Karachi"
-msgstr "·𐑱𐑠𐑩/𐑒𐑭𐑮𐑭𐑗𐑰"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑭𐑮𐑭𐑗𐑰"
 
 #, fuzzy
 #: ../calendar/zones.h:242
 msgid "Asia/Kashgar"
-msgstr "·𐑱𐑠𐑩/Kashgar"
+msgstr "·𐑱𐑠𐑩/·Kashgar"
 
-#, fuzzy
 #: ../calendar/zones.h:243
 msgid "Asia/Katmandu"
-msgstr "·𐑱𐑠𐑩/𐑒𐑨𐑑𐑥𐑨𐑯𐑛𐑵"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑨𐑑𐑥𐑨𐑯𐑛𐑵"
 
-#, fuzzy
 #: ../calendar/zones.h:244
 msgid "Asia/Krasnoyarsk"
-msgstr "·𐑱𐑠𐑩/𐑒𐑮𐑨𐑕𐑯𐑬𐑭𐑮𐑕𐑒"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑮𐑨𐑕𐑯𐑬𐑭𐑮𐑕𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:245
 msgid "Asia/Kuala_Lumpur"
-msgstr "·𐑱𐑠𐑩/_KualaLumpur"
+msgstr "·𐑱𐑠𐑩/·_KualaLumpur"
 
 #, fuzzy
 #: ../calendar/zones.h:246
 msgid "Asia/Kuching"
-msgstr "·𐑱𐑠𐑩/Kuching"
+msgstr "·𐑱𐑠𐑩/·Kuching"
 
-#, fuzzy
 #: ../calendar/zones.h:247
 msgid "Asia/Kuwait"
-msgstr "·𐑱𐑠𐑩/𐑒𐑵𐑢𐑱𐑑"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑵𐑢𐑱𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:248
 msgid "Asia/Macao"
-msgstr "·𐑱𐑠𐑩/𐑥𐑩𐑒𐑶"
+msgstr "·𐑱𐑠𐑩/·𐑥𐑩𐑒𐑶"
 
-#, fuzzy
 #: ../calendar/zones.h:249
 msgid "Asia/Macau"
-msgstr "·𐑱𐑠𐑩/𐑥𐑩𐑒𐑶"
+msgstr "·𐑱𐑠𐑩/·𐑥𐑩𐑒𐑶"
 
-#, fuzzy
 #: ../calendar/zones.h:250
 msgid "Asia/Magadan"
-msgstr "·𐑱𐑠𐑩/𐑥𐑨𐑜𐑩𐑛𐑨𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑥𐑨𐑜𐑩𐑛𐑨𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:251
 msgid "Asia/Makassar"
-msgstr "·𐑱𐑠𐑩/Makassar"
+msgstr "·𐑱𐑠𐑩/·Makassar"
 
-#, fuzzy
 #: ../calendar/zones.h:252
 msgid "Asia/Manila"
-msgstr "·𐑱𐑠𐑩/𐑥𐑩𐑯𐑦𐑤𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑥𐑩𐑯𐑦𐑤𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:253
 msgid "Asia/Muscat"
-msgstr "·𐑱𐑠𐑩/𐑥𐑩𐑕𐑒𐑨𐑑"
+msgstr "·𐑱𐑠𐑩/·𐑥𐑩𐑕𐑒𐑨𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:254
 msgid "Asia/Nicosia"
-msgstr "·𐑱𐑠𐑩/𐑯𐑦𐑒𐑩𐑕𐑰𐑩"
+msgstr "·𐑱𐑠𐑩/·𐑯𐑦𐑒𐑩𐑕𐑰𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:255
 msgid "Asia/Novosibirsk"
-msgstr "·𐑱𐑠𐑩/𐑯𐑴𐑝𐑩𐑕𐑰𐑚𐑦𐑮𐑕𐑒"
+msgstr "·𐑱𐑠𐑩/·𐑯𐑴𐑝𐑩𐑕𐑰𐑚𐑦𐑮𐑕𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:256
 msgid "Asia/Omsk"
-msgstr "·𐑱𐑠𐑩/Omsk"
+msgstr "·𐑱𐑠𐑩/·Omsk"
 
-#, fuzzy
 #: ../calendar/zones.h:257
 msgid "Asia/Oral"
-msgstr "·𐑱𐑠𐑩/𐑪𐑮𐑩𐑤"
+msgstr "·𐑱𐑠𐑩/·𐑪𐑮𐑩𐑤"
 
 #, fuzzy
 #: ../calendar/zones.h:258
 msgid "Asia/Phnom_Penh"
-msgstr "·𐑱𐑠𐑩/_PhnomPenh"
+msgstr "·𐑱𐑠𐑩/·_PhnomPenh"
 
 #, fuzzy
 #: ../calendar/zones.h:259
 msgid "Asia/Pontianak"
-msgstr "·𐑱𐑠𐑩/Pontianak"
+msgstr "·𐑱𐑠𐑩/·Pontianak"
 
-#, fuzzy
 #: ../calendar/zones.h:260
 msgid "Asia/Pyongyang"
-msgstr "·𐑱𐑠𐑩/𐑐𐑘𐑪𐑙𐑘𐑨𐑙"
+msgstr "·𐑱𐑠𐑩/·𐑐𐑘𐑪𐑙𐑘𐑨𐑙"
 
-#, fuzzy
 #: ../calendar/zones.h:261
 msgid "Asia/Qatar"
-msgstr "·𐑱𐑠𐑩/𐑒𐑩𐑑𐑭𐑮"
+msgstr "·𐑱𐑠𐑩/·𐑒𐑩𐑑𐑭𐑮"
 
 #, fuzzy
 #: ../calendar/zones.h:262
 msgid "Asia/Qyzylorda"
-msgstr "·𐑱𐑠𐑩/Qyzylorda"
+msgstr "·𐑱𐑠𐑩/·Qyzylorda"
 
-#, fuzzy
 #: ../calendar/zones.h:263
 msgid "Asia/Rangoon"
-msgstr "·𐑱𐑠𐑩/𐑮𐑨𐑙𐑜𐑵𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑮𐑨𐑙𐑜𐑵𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:264
 msgid "Asia/Riyadh"
-msgstr "·𐑱𐑠𐑩/𐑮𐑰𐑨𐑛"
+msgstr "·𐑱𐑠𐑩/·𐑮𐑰𐑨𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:265
 msgid "Asia/Saigon"
-msgstr "·𐑱𐑠𐑩/𐑕𐑲𐑜𐑭𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑕𐑲𐑜𐑭𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:266
 msgid "Asia/Sakhalin"
-msgstr "·𐑱𐑠𐑩/𐑕𐑨𐑒𐑣𐑩𐑤𐑦𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑕𐑨𐑒𐑣𐑩𐑤𐑦𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:267
 msgid "Asia/Samarkand"
-msgstr "·𐑱𐑠𐑩/𐑕𐑨𐑥𐑭𐑮𐑒𐑨𐑯𐑛"
+msgstr "·𐑱𐑠𐑩/·𐑕𐑨𐑥𐑭𐑮𐑒𐑨𐑯𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:268
 msgid "Asia/Seoul"
-msgstr "·𐑱𐑠𐑩/𐑕𐑴𐑤"
+msgstr "·𐑱𐑠𐑩/·𐑕𐑴𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:269
 msgid "Asia/Shanghai"
-msgstr "·𐑱𐑠𐑩/𐑖𐑨𐑙𐑣𐑲"
+msgstr "·𐑱𐑠𐑩/·𐑖𐑨𐑙𐑣𐑲"
 
-#, fuzzy
 #: ../calendar/zones.h:270
 msgid "Asia/Singapore"
-msgstr "·𐑱𐑠𐑩/𐑕𐑦𐑙𐑩𐑐𐑪𐑮"
+msgstr "·𐑱𐑠𐑩/·𐑕𐑦𐑙𐑩𐑐𐑪𐑮"
 
-#, fuzzy
 #: ../calendar/zones.h:271
 msgid "Asia/Taipei"
-msgstr "·𐑱𐑠𐑩/𐑑𐑲𐑐𐑱"
+msgstr "·𐑱𐑠𐑩/·𐑑𐑲𐑐𐑱"
 
-#, fuzzy
 #: ../calendar/zones.h:272
 msgid "Asia/Tashkent"
-msgstr "·𐑱𐑠𐑩/𐑑𐑨𐑖𐑒𐑧𐑯𐑑"
+msgstr "·𐑱𐑠𐑩/·𐑑𐑨𐑖𐑒𐑧𐑯𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:273
 msgid "Asia/Tbilisi"
-msgstr "·𐑱𐑠𐑩/𐑑𐑩𐑚𐑦𐑤𐑰𐑕𐑰"
+msgstr "·𐑱𐑠𐑩/·𐑑𐑩𐑚𐑦𐑤𐑰𐑕𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:274
 msgid "Asia/Tehran"
-msgstr "·𐑱𐑠𐑩/𐑑𐑱𐑮𐑭𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑑𐑱𐑮𐑭𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:275
 msgid "Asia/Thimphu"
-msgstr "·𐑱𐑠𐑩/Thimphu"
+msgstr "·𐑱𐑠𐑩/·Thimphu"
 
-#, fuzzy
 #: ../calendar/zones.h:276
 msgid "Asia/Tokyo"
-msgstr "·𐑱𐑠𐑩/𐑑𐑴𐑒𐑰𐑴"
+msgstr "·𐑱𐑠𐑩/·𐑑𐑴𐑒𐑰𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:277
 msgid "Asia/Ujung_Pandang"
-msgstr "·𐑱𐑠𐑩/_UjungPandang"
+msgstr "·𐑱𐑠𐑩/·_UjungPandang"
 
 #, fuzzy
 #: ../calendar/zones.h:278
 msgid "Asia/Ulaanbaatar"
-msgstr "·𐑱𐑠𐑩/Ulaanbaatar"
+msgstr "·𐑱𐑠𐑩/·Ulaanbaatar"
 
 #, fuzzy
 #: ../calendar/zones.h:279
 msgid "Asia/Urumqi"
-msgstr "·𐑱𐑠𐑩/Urumqi"
+msgstr "·𐑱𐑠𐑩/·Urumqi"
 
 #, fuzzy
 #: ../calendar/zones.h:280
 msgid "Asia/Vientiane"
-msgstr "·𐑱𐑠𐑩/Vientiane"
+msgstr "·𐑱𐑠𐑩/·Vientiane"
 
-#, fuzzy
 #: ../calendar/zones.h:281
 msgid "Asia/Vladivostok"
-msgstr "·𐑱𐑠𐑩/𐑝𐑤𐑨𐑛𐑦𐑝𐑪𐑕𐑑𐑭𐑒"
+msgstr "·𐑱𐑠𐑩/·𐑝𐑤𐑨𐑛𐑦𐑝𐑪𐑕𐑑𐑭𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:282
 msgid "Asia/Yakutsk"
-msgstr "·𐑱𐑠𐑩/Yakutsk"
+msgstr "·𐑱𐑠𐑩/·Yakutsk"
 
-#, fuzzy
 #: ../calendar/zones.h:283
 msgid "Asia/Yekaterinburg"
-msgstr "·𐑱𐑠𐑩/𐑘𐑧𐑒𐑨𐑑𐑻𐑰𐑯𐑚𐑩𐑮𐑜"
+msgstr "·𐑱𐑠𐑩/·𐑘𐑧𐑒𐑨𐑑𐑻𐑰𐑯𐑚𐑩𐑮𐑜"
 
-#, fuzzy
 #: ../calendar/zones.h:284
 msgid "Asia/Yerevan"
-msgstr "·𐑱𐑠𐑩/𐑘𐑧𐑮𐑩𐑝𐑩𐑯"
+msgstr "·𐑱𐑠𐑩/·𐑘𐑧𐑮𐑩𐑝𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:285
 msgid "Atlantic/Azores"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/𐑩𐑟𐑪𐑮𐑟"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·𐑩𐑟𐑪𐑮𐑟"
 
-#, fuzzy
 #: ../calendar/zones.h:286
 msgid "Atlantic/Bermuda"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/𐑚𐑻𐑥𐑘𐑵𐑛𐑩"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·𐑚𐑻𐑥𐑘𐑵𐑛𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:287
 msgid "Atlantic/Canary"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/𐑒𐑩𐑯𐑺𐑦"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·𐑒𐑩𐑯𐑺𐑦"
 
 #, fuzzy
 #: ../calendar/zones.h:288
 msgid "Atlantic/Cape_Verde"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/_CapeVerde"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·_CapeVerde"
 
 #, fuzzy
 #: ../calendar/zones.h:289
 msgid "Atlantic/Faeroe"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/Faeroe"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·Faeroe"
 
 #, fuzzy
 #: ../calendar/zones.h:290
 msgid "Atlantic/Jan_Mayen"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/_JanMayen"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·_JanMayen"
 
-#, fuzzy
 #: ../calendar/zones.h:291
 msgid "Atlantic/Madeira"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/𐑥𐑩𐑛𐑦𐑮𐑩"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·𐑥𐑩𐑛𐑦𐑮𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:292
 msgid "Atlantic/Reykjavik"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/𐑮𐑧𐑒𐑘𐑩𐑝𐑦𐑒"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·𐑮𐑧𐑒𐑘𐑩𐑝𐑦𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:293
 msgid "Atlantic/South_Georgia"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/_SouthGeorgia"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·_SouthGeorgia"
 
 #, fuzzy
 #: ../calendar/zones.h:294
 msgid "Atlantic/St_Helena"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/_StHelena"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·_StHelena"
 
-#, fuzzy
 #: ../calendar/zones.h:295
 msgid "Atlantic/Stanley"
-msgstr "𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/𐑕𐑑𐑨𐑯𐑤𐑰"
+msgstr "·𐑩𐑑𐑤𐑨𐑯𐑑𐑦𐑒/·𐑕𐑑𐑨𐑯𐑤𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:296
 msgid "Australia/Adelaide"
 msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑨𐑛𐑩𐑤𐑱𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:297
 msgid "Australia/Brisbane"
 msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑚𐑮𐑦𐑟𐑚𐑱𐑯"
@@ -7547,545 +7386,472 @@ msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑚𐑮𐑦𐑟𐑚𐑱𐑯"
 msgid "Australia/Broken_Hill"
 msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/_BrokenHill"
 
-#, fuzzy
 #: ../calendar/zones.h:299
 msgid "Australia/Darwin"
 msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑛𐑭𐑮𐑢𐑦𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:300
 msgid "Australia/Hobart"
-msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑣𐑴𐑚𐑭𐑮𐑑"
+msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/·𐑣𐑴𐑚𐑭𐑮𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:301
 msgid "Australia/Lindeman"
-msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑤𐑦𐑯𐑛𐑥𐑩𐑯"
+msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/·𐑤𐑦𐑯𐑛𐑥𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:302
 msgid "Australia/Lord_Howe"
-msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/_LordHowe"
+msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/·Lord_Howe"
 
-#, fuzzy
 #: ../calendar/zones.h:303
 msgid "Australia/Melbourne"
-msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑥𐑧𐑤𐑚𐑻𐑯"
+msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/·𐑥𐑧𐑤𐑚𐑻𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:304
 msgid "Australia/Perth"
-msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑐𐑻𐑔"
+msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/·𐑐𐑻𐑔"
 
-#, fuzzy
 #: ../calendar/zones.h:305
 msgid "Australia/Sydney"
-msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/𐑕𐑦𐑛𐑯𐑰"
+msgstr "·𐑪𐑕𐑑𐑮𐑱𐑤𐑾/·𐑕𐑦𐑛𐑯𐑦"
 
-#, fuzzy
 #: ../calendar/zones.h:306
 msgid "Europe/Amsterdam"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑨𐑥𐑕𐑑𐑻𐑛𐑨𐑥"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑨𐑥𐑕𐑑𐑻𐑛𐑨𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:307
 msgid "Europe/Andorra"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑨𐑯𐑛𐑪𐑮𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑨𐑯𐑛𐑪𐑮𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:308
 msgid "Europe/Athens"
 msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑨𐑔𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../calendar/zones.h:309
 msgid "Europe/Belfast"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑚𐑧𐑤𐑓𐑨𐑕𐑑"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑚𐑧𐑤𐑓𐑨𐑕𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:310
 msgid "Europe/Belgrade"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑚𐑧𐑤𐑜𐑮𐑱𐑛"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑚𐑧𐑤𐑜𐑮𐑱𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:311
 msgid "Europe/Berlin"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑚𐑻𐑤𐑦𐑯"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑚𐑻𐑤𐑦𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:312
 msgid "Europe/Bratislava"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Bratislava"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Bratislava"
 
-#, fuzzy
 #: ../calendar/zones.h:313
 msgid "Europe/Brussels"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑚𐑮𐑩𐑕𐑩𐑤𐑟"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑚𐑮𐑩𐑕𐑩𐑤𐑟"
 
-#, fuzzy
 #: ../calendar/zones.h:314
 msgid "Europe/Bucharest"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑚𐑘𐑵𐑒𐑻𐑧𐑕𐑑"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑚𐑘𐑵𐑒𐑻𐑧𐑕𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:315
 msgid "Europe/Budapest"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑚𐑵𐑛𐑩𐑐𐑧𐑕𐑑"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑚𐑵𐑛𐑩𐑐𐑧𐑕𐑑"
 
 #, fuzzy
 #: ../calendar/zones.h:316
 msgid "Europe/Chisinau"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Chisinau"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Chisinau"
 
-#, fuzzy
 #: ../calendar/zones.h:317
 msgid "Europe/Copenhagen"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑒𐑴𐑐𐑩𐑯𐑣𐑱𐑜𐑩𐑯"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑒𐑴𐑐𐑩𐑯𐑣𐑱𐑜𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:318
 msgid "Europe/Dublin"
 msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑛𐑳𐑚𐑤𐑦𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:319
 msgid "Europe/Gibraltar"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑡𐑦𐑚𐑮𐑪𐑤𐑑𐑻"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑡𐑦𐑚𐑮𐑪𐑤𐑑𐑻"
 
-#, fuzzy
 #: ../calendar/zones.h:320
 msgid "Europe/Helsinki"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑣𐑧𐑤𐑕𐑦𐑙𐑒𐑰"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑣𐑧𐑤𐑕𐑦𐑙𐑒𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:321
 msgid "Europe/Istanbul"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑦𐑕𐑑𐑭𐑯𐑚𐑵𐑤"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑦𐑕𐑑𐑭𐑯𐑚𐑵𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:322
 msgid "Europe/Kaliningrad"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑒𐑩𐑤𐑦𐑯𐑦𐑙𐑜𐑮𐑨𐑛"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑒𐑩𐑤𐑦𐑯𐑦𐑙𐑜𐑮𐑨𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:323
 msgid "Europe/Kiev"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑒𐑰𐑧𐑝"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑒𐑰𐑧𐑝"
 
-#, fuzzy
 #: ../calendar/zones.h:324
 msgid "Europe/Lisbon"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑤𐑦𐑟𐑚𐑩𐑯"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑤𐑦𐑟𐑚𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:325
 msgid "Europe/Ljubljana"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑤𐑘𐑵𐑚𐑤𐑘𐑭𐑯𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑤𐑘𐑵𐑚𐑤𐑘𐑭𐑯𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:326
 msgid "Europe/London"
 msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑤𐑳𐑯𐑛𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:327
 msgid "Europe/Luxembourg"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑤𐑩𐑒𐑕𐑩𐑥𐑚𐑪𐑮𐑜"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑤𐑩𐑒𐑕𐑩𐑥𐑚𐑪𐑮𐑜"
 
-#, fuzzy
 #: ../calendar/zones.h:328
 msgid "Europe/Madrid"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑥𐑩𐑛𐑮𐑦𐑛"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑥𐑩𐑛𐑮𐑦𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:329
 msgid "Europe/Malta"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑥𐑪𐑤𐑑𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑥𐑪𐑤𐑑𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:330
 msgid "Europe/Minsk"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑥𐑦𐑯𐑕𐑒"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑥𐑦𐑯𐑕𐑒"
 
-#, fuzzy
 #: ../calendar/zones.h:331
 msgid "Europe/Monaco"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑥𐑭𐑯𐑩𐑒𐑴"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑥𐑭𐑯𐑩𐑒𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:332
 msgid "Europe/Moscow"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑥𐑭𐑕𐑒𐑴"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑥𐑭𐑕𐑒𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:333
 msgid "Europe/Nicosia"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑯𐑦𐑒𐑩𐑕𐑰𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑯𐑦𐑒𐑩𐑕𐑰𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:334
 msgid "Europe/Oslo"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑭𐑟𐑤𐑴"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑭𐑟𐑤𐑴"
 
-#, fuzzy
 #: ../calendar/zones.h:335
 msgid "Europe/Paris"
 msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑐𐑨𐑮𐑦𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:336
 msgid "Europe/Prague"
 msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑐𐑮𐑭𐑜"
 
-#, fuzzy
 #: ../calendar/zones.h:337
 msgid "Europe/Riga"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑮𐑰𐑜𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑮𐑰𐑜𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:338
 msgid "Europe/Rome"
 msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑮𐑴𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:339
 msgid "Europe/Samara"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑕𐑨𐑥𐑻𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑕𐑨𐑥𐑻𐑩"
 
 #, fuzzy
 #: ../calendar/zones.h:340
 msgid "Europe/San_Marino"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/_SanMarino"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·_SanMarino"
 
-#, fuzzy
 #: ../calendar/zones.h:341
 msgid "Europe/Sarajevo"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑕𐑭𐑮𐑩𐑘𐑱𐑝𐑴"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑕𐑭𐑮𐑩𐑘𐑱𐑝𐑴"
 
 #, fuzzy
 #: ../calendar/zones.h:342
 msgid "Europe/Simferopol"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Simferopol"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Simferopol"
 
-#, fuzzy
 #: ../calendar/zones.h:343
 msgid "Europe/Skopje"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑕𐑒𐑪𐑐𐑤𐑰𐑱"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑕𐑒𐑪𐑐𐑤𐑰𐑱"
 
-#, fuzzy
 #: ../calendar/zones.h:344
 msgid "Europe/Sofia"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑕𐑴𐑓𐑰𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑕𐑴𐑓𐑰𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:345
 msgid "Europe/Stockholm"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑕𐑑𐑭𐑒𐑣𐑴𐑤𐑥"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑕𐑑𐑭𐑒𐑣𐑴𐑤𐑥"
 
 #, fuzzy
 #: ../calendar/zones.h:346
 msgid "Europe/Tallinn"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Tallinn"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Tallinn"
 
-#, fuzzy
 #: ../calendar/zones.h:347
 msgid "Europe/Tirane"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑑𐑦𐑮𐑱𐑯"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑑𐑦𐑮𐑱𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:348
 msgid "Europe/Uzhgorod"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Uzhgorod"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Uzhgorod"
 
 #, fuzzy
 #: ../calendar/zones.h:349
 msgid "Europe/Vaduz"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Vaduz"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Vaduz"
 
-#, fuzzy
 #: ../calendar/zones.h:350
 msgid "Europe/Vatican"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑝𐑨𐑑𐑦𐑒𐑩𐑯"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑝𐑨𐑑𐑦𐑒𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:351
 msgid "Europe/Vienna"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑝𐑰𐑧𐑯𐑩"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑝𐑰𐑧𐑯𐑩"
 
-#, fuzzy
 #: ../calendar/zones.h:352
 msgid "Europe/Vilnius"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑝𐑦𐑤𐑯𐑰𐑩𐑕"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑝𐑦𐑤𐑯𐑰𐑩𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:353
 msgid "Europe/Warsaw"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑢𐑪𐑮𐑕𐑪"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑢𐑪𐑮𐑕𐑪"
 
-#, fuzzy
 #: ../calendar/zones.h:354
 msgid "Europe/Zagreb"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑟𐑭𐑜𐑮𐑧𐑚"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑟𐑭𐑜𐑮𐑧𐑚"
 
 #, fuzzy
 #: ../calendar/zones.h:355
 msgid "Europe/Zaporozhye"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/Zaporozhye"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·Zaporozhye"
 
-#, fuzzy
 #: ../calendar/zones.h:356
 msgid "Europe/Zurich"
-msgstr "·𐑘𐑫𐑼𐑩𐑐/𐑟𐑫𐑮𐑦𐑒"
+msgstr "·𐑘𐑫𐑼𐑩𐑐/·𐑟𐑫𐑮𐑦𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:357
 msgid "Indian/Antananarivo"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/Antananarivo"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·Antananarivo"
 
 #, fuzzy
 #: ../calendar/zones.h:358
 msgid "Indian/Chagos"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/Chagos"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·Chagos"
 
-#, fuzzy
 #: ../calendar/zones.h:359
 msgid "Indian/Christmas"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑒𐑮𐑦𐑕𐑥𐑩𐑕"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑒𐑮𐑦𐑕𐑥𐑩𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:360
 msgid "Indian/Cocos"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑒𐑴𐑒𐑴𐑟"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑒𐑴𐑒𐑴𐑟"
 
 #, fuzzy
 #: ../calendar/zones.h:361
 msgid "Indian/Comoro"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/Comoro"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·Comoro"
 
 #, fuzzy
 #: ../calendar/zones.h:362
 msgid "Indian/Kerguelen"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/Kerguelen"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·Kerguelen"
 
-#, fuzzy
 #: ../calendar/zones.h:363
 msgid "Indian/Mahe"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑥𐑱𐑣𐑰"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑥𐑱𐑣𐑰"
 
-#, fuzzy
 #: ../calendar/zones.h:364
 msgid "Indian/Maldives"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑥𐑪𐑤𐑛𐑲𐑝𐑟"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑥𐑪𐑤𐑛𐑲𐑝𐑟"
 
-#, fuzzy
 #: ../calendar/zones.h:365
 msgid "Indian/Mauritius"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑥𐑪𐑮𐑦𐑑𐑰𐑩𐑕"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑥𐑪𐑮𐑦𐑑𐑰𐑩𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:366
 msgid "Indian/Mayotte"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑥𐑱𐑪𐑑"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑥𐑱𐑪𐑑"
 
-#, fuzzy
 #: ../calendar/zones.h:367
 msgid "Indian/Reunion"
-msgstr "𐑦𐑯𐑛𐑦𐑩𐑯/𐑮𐑰𐑵𐑯𐑘𐑩𐑯"
+msgstr "·𐑦𐑯𐑛𐑦𐑩𐑯/·𐑮𐑰𐑵𐑯𐑘𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:368
 msgid "Pacific/Apia"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Apia"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Apia"
 
-#, fuzzy
 #: ../calendar/zones.h:369
 msgid "Pacific/Auckland"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑭𐑒𐑤𐑩𐑯𐑛"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑭𐑒𐑤𐑩𐑯𐑛"
 
-#, fuzzy
 #: ../calendar/zones.h:370
 msgid "Pacific/Chatham"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑗𐑨𐑑𐑩𐑥"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑗𐑨𐑑𐑩𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:371
 msgid "Pacific/Easter"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑰𐑕𐑑𐑻"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑰𐑕𐑑𐑻"
 
 #, fuzzy
 #: ../calendar/zones.h:372
 msgid "Pacific/Efate"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Efate"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Efate"
 
 #, fuzzy
 #: ../calendar/zones.h:373
 msgid "Pacific/Enderbury"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Enderbury"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Enderbury"
 
 #, fuzzy
 #: ../calendar/zones.h:374
 msgid "Pacific/Fakaofo"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Fakaofo"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Fakaofo"
 
-#, fuzzy
 #: ../calendar/zones.h:375
 msgid "Pacific/Fiji"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑓𐑰𐑡𐑰"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑓𐑰𐑡𐑰"
 
 #, fuzzy
 #: ../calendar/zones.h:376
 msgid "Pacific/Funafuti"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Funafuti"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Funafuti"
 
-#, fuzzy
 #: ../calendar/zones.h:377
 msgid "Pacific/Galapagos"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑜𐑩𐑤𐑭𐑐𐑩𐑜𐑴𐑟"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑜𐑩𐑤𐑭𐑐𐑩𐑜𐑴𐑟"
 
 #, fuzzy
 #: ../calendar/zones.h:378
 msgid "Pacific/Gambier"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Gambier"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Gambier"
 
-#, fuzzy
 #: ../calendar/zones.h:379
 msgid "Pacific/Guadalcanal"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑜𐑢𐑭𐑛𐑩𐑤𐑒𐑩𐑯𐑨𐑤"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑜𐑢𐑭𐑛𐑩𐑤𐑒𐑩𐑯𐑨𐑤"
 
-#, fuzzy
 #: ../calendar/zones.h:380
 msgid "Pacific/Guam"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑜𐑢𐑭𐑥"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑜𐑢𐑭𐑥"
 
-#, fuzzy
 #: ../calendar/zones.h:381
 msgid "Pacific/Honolulu"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑣𐑭𐑯𐑩𐑤𐑵𐑤𐑵"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑣𐑭𐑯𐑩𐑤𐑵𐑤𐑵"
 
-#, fuzzy
 #: ../calendar/zones.h:382
 msgid "Pacific/Johnston"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑡𐑭𐑯𐑕𐑑𐑩𐑯"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑡𐑭𐑯𐑕𐑑𐑩𐑯"
 
 #, fuzzy
 #: ../calendar/zones.h:383
 msgid "Pacific/Kiritimati"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Kiritimati"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Kiritimati"
 
 #, fuzzy
 #: ../calendar/zones.h:384
 msgid "Pacific/Kosrae"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Kosrae"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Kosrae"
 
 #, fuzzy
 #: ../calendar/zones.h:385
 msgid "Pacific/Kwajalein"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Kwajalein"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Kwajalein"
 
 #, fuzzy
 #: ../calendar/zones.h:386
 msgid "Pacific/Majuro"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Majuro"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Majuro"
 
 #, fuzzy
 #: ../calendar/zones.h:387
 msgid "Pacific/Marquesas"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Marquesas"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Marquesas"
 
-#, fuzzy
 #: ../calendar/zones.h:388
 msgid "Pacific/Midway"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑥𐑦𐑛𐑢𐑱"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑥𐑦𐑛𐑢𐑱"
 
 #, fuzzy
 #: ../calendar/zones.h:389
 msgid "Pacific/Nauru"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Nauru"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Nauru"
 
 #, fuzzy
 #: ../calendar/zones.h:390
 msgid "Pacific/Niue"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Niue"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Niue"
 
-#, fuzzy
 #: ../calendar/zones.h:391
 msgid "Pacific/Norfolk"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑯𐑪𐑮𐑓𐑩𐑒"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑯𐑪𐑮𐑓𐑩𐑒"
 
 #, fuzzy
 #: ../calendar/zones.h:392
 msgid "Pacific/Noumea"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Noumea"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Noumea"
 
 #, fuzzy
 #: ../calendar/zones.h:393
 msgid "Pacific/Pago_Pago"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/_PagoPago"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·_PagoPago"
 
-#, fuzzy
 #: ../calendar/zones.h:394
 msgid "Pacific/Palau"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑐𐑨𐑤𐑶"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑐𐑨𐑤𐑶"
 
 #, fuzzy
 #: ../calendar/zones.h:395
 msgid "Pacific/Pitcairn"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Pitcairn"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Pitcairn"
 
 #, fuzzy
 #: ../calendar/zones.h:396
 msgid "Pacific/Ponape"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Ponape"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Ponape"
 
 #, fuzzy
 #: ../calendar/zones.h:397
 msgid "Pacific/Port_Moresby"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/_PortMoresby"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·_PortMoresby"
 
 #, fuzzy
 #: ../calendar/zones.h:398
 msgid "Pacific/Rarotonga"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Rarotonga"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Rarotonga"
 
-#, fuzzy
 #: ../calendar/zones.h:399
 msgid "Pacific/Saipan"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑕𐑱𐑐𐑩𐑯"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑕𐑱𐑐𐑩𐑯"
 
-#, fuzzy
 #: ../calendar/zones.h:400
 msgid "Pacific/Tahiti"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑑𐑩𐑣𐑰𐑑𐑰"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑑𐑩𐑣𐑰𐑑𐑰"
 
 #, fuzzy
 #: ../calendar/zones.h:401
 msgid "Pacific/Tarawa"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Tarawa"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Tarawa"
 
 #, fuzzy
 #: ../calendar/zones.h:402
 msgid "Pacific/Tongatapu"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Tongatapu"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Tongatapu"
 
 #, fuzzy
 #: ../calendar/zones.h:403
 msgid "Pacific/Truk"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/Truk"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·Truk"
 
-#, fuzzy
 #: ../calendar/zones.h:404
 msgid "Pacific/Wake"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑢𐑱𐑒"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑢𐑱𐑒"
 
-#, fuzzy
 #: ../calendar/zones.h:405
 msgid "Pacific/Wallis"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑢𐑪𐑤𐑦𐑕"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑢𐑪𐑤𐑦𐑕"
 
-#, fuzzy
 #: ../calendar/zones.h:406
 msgid "Pacific/Yap"
-msgstr "𐑐𐑩𐑕𐑦𐑓𐑦𐑒/𐑘𐑨𐑐"
+msgstr "·𐑐𐑩𐑕𐑦𐑓𐑦𐑒/·𐑘𐑨𐑐"
 
 #, fuzzy
 #: ../composer/e-composer-actions.c:81
@@ -9592,8 +9358,8 @@ msgid ""
 "since Evolution 2.24.\n\nPlease be patient while Evolution migrates your "
 "folders..."
 msgstr ""
-"𐑞 𐑕𐑳𐑥𐑼𐑦 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑞 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑥𐑵𐑝𐑛 𐑑 SQLite 𐑕𐑦𐑯𐑕 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 "
-"2.24.\n\n𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+"𐑞 𐑕𐑳𐑥𐑼𐑦 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑥𐑵𐑝𐑛 𐑑 SQLite 𐑕𐑦𐑯𐑕 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 2.24.\n\n𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
 
 #, c-format
 #: ../mail/e-mail-migrate.c:740
@@ -10895,7 +10661,7 @@ msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑮𐑧𐑯𐑛𐑻 𐑞𐑦𐑕 𐑰𐑥𐑱𐑤 𐑨𐑟 𐑦𐑑 𐑦𐑟 𐑑𐑵 𐑤𐑸𐑡 𐑑 𐑐𐑮𐑴𐑕𐑧𐑕. 𐑿 𐑒𐑨𐑯 𐑝𐑿 𐑦𐑑 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑨𐑯𐑪𐑑 𐑮𐑧𐑯𐑛𐑻 𐑞𐑦𐑕 𐑰𐑥𐑱𐑤 𐑨𐑟 𐑦𐑑 𐑦𐑟 𐑑𐑵 𐑤𐑸𐑡 𐑑 𐑐𐑮𐑴𐑕𐑧𐑕. 𐑿 𐑒𐑨𐑯 𐑝𐑿 𐑦𐑑 "
 "unformatted 𐑹 𐑢𐑦𐑞 𐑩𐑯 𐑦𐑒𐑕𐑑𐑻𐑯𐑩𐑤 𐑑𐑧𐑒𐑕𐑑 𐑧𐑛𐑦𐑑𐑹."
 
 #: ../mail/em-format-html-display.c:726
@@ -11352,7 +11118,7 @@ msgid ""
 "standard."
 msgstr ""
 "𐑧𐑯𐑒𐑴𐑛 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑦𐑯 𐑞 𐑥𐑱𐑤 𐑣𐑧𐑛𐑼𐑟 𐑕𐑱𐑥 𐑨𐑟 ·𐑬𐑑𐑤𐑫𐑒 𐑹 GMail 𐑛𐑵, 𐑑 𐑤𐑧𐑑 𐑞𐑧𐑥 𐑛𐑩𐑕𐑐𐑤𐑱 "
-"𐑒𐑩𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑢𐑦𐑞 UTF-8 𐑤𐑧𐑑𐑼𐑟 𐑕𐑧𐑯𐑑 𐑚𐑲 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑚𐑦𐑒𐑪𐑟 𐑞𐑱 𐑛𐑵 𐑯𐑪𐑑 𐑓𐑪𐑤𐑴 𐑞 "
+"𐑒𐑩𐑮𐑧𐑒𐑑𐑤𐑦 𐑓𐑲𐑤 𐑯𐑱𐑥𐑟 𐑢𐑦𐑞 UTF-8 𐑤𐑧𐑑𐑼𐑟 𐑕𐑧𐑯𐑑 𐑚𐑲 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑚𐑦𐑒𐑪𐑟 𐑞𐑱 𐑛𐑵 𐑯𐑪𐑑 𐑓𐑪𐑤𐑴 𐑞 "
 "RFC 2231, 𐑚𐑳𐑑 𐑿𐑕 𐑞 𐑦𐑯𐑒𐑩𐑮𐑧𐑒𐑑 RFC 2047 𐑕𐑑𐑨𐑯𐑛𐑼𐑛."
 
 #: ../mail/evolution-mail.schemas.in.h:68
@@ -11382,8 +11148,8 @@ msgid ""
 "in GNOME's MIME type database may be used for displaying content."
 msgstr ""
 "𐑦𐑓 𐑞𐑺 𐑦𐑟𐑯𐑑 𐑩 𐑚𐑦𐑤𐑑𐑦𐑯 𐑝𐑿𐑼 𐑓𐑹 𐑩 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 MIME 𐑑𐑲𐑐 𐑦𐑯𐑕𐑲𐑛 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑧𐑯𐑦 MIME 𐑑𐑲𐑐𐑕 "
-"𐑩𐑐𐑽𐑦𐑙 𐑦𐑯 𐑞𐑦𐑕 𐑤𐑦𐑕𐑑 𐑢𐑦𐑗 𐑥𐑨𐑐 𐑑 𐑩 ·𐑚𐑪𐑯𐑴𐑚𐑴 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝𐑿𐑼 𐑦𐑯 ·𐑜𐑯𐑴𐑥𐑟 MIME 𐑑𐑲𐑐 𐑛𐑱𐑑𐑩𐑚𐑱𐑕 "
-"𐑥𐑱 𐑚𐑰 𐑿𐑟𐑛 𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱𐑦𐑙 𐑒𐑪𐑯𐑑𐑧𐑯𐑑."
+"𐑩𐑐𐑽𐑦𐑙 𐑦𐑯 𐑞𐑦𐑕 𐑤𐑦𐑕𐑑 𐑢𐑦𐑗 𐑥𐑨𐑐 𐑑 𐑩 ·𐑚𐑪𐑯𐑴𐑚𐑴 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝𐑿𐑼 𐑦𐑯 ·𐑜𐑯𐑴𐑥𐑟 MIME 𐑑𐑲𐑐 "
+"𐑛𐑱𐑑𐑩𐑚𐑱𐑕 𐑥𐑱 𐑚𐑰 𐑿𐑟𐑛 𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱𐑦𐑙 𐑒𐑪𐑯𐑑𐑧𐑯𐑑."
 
 #, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:73
@@ -11422,8 +11188,8 @@ msgid ""
 msgstr ""
 "𐑦𐑯𐑦𐑖𐑩𐑤 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟 𐑕𐑑𐑱𐑑 𐑝 𐑞 \"𐑓𐑦𐑤𐑑𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴. 𐑞 𐑝𐑨𐑤𐑿 𐑳𐑐𐑛𐑱𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑿𐑟𐑼 "
 "𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑦𐑟 𐑹 unmaximizes 𐑞 𐑢𐑦𐑯𐑛𐑴. 𐑯𐑴𐑑, 𐑞𐑦𐑕 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑯𐑪𐑑 𐑿𐑕𐑑 𐑚𐑲 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑓𐑦𐑤𐑑𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑴𐑯𐑤𐑦 "
-"𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑓𐑦𐑤𐑑𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
+"𐑴𐑯𐑤𐑦 𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
 
 #, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:77
@@ -11435,7 +11201,7 @@ msgid ""
 msgstr ""
 "𐑦𐑯𐑦𐑖𐑩𐑤 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟 𐑕𐑑𐑱𐑑 𐑝 𐑞 \"𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴. 𐑞 𐑝𐑨𐑤𐑿 𐑳𐑐𐑛𐑱𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑿𐑟𐑼 "
 "𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑦𐑟 𐑹 unmaximizes 𐑞 𐑢𐑦𐑯𐑛𐑴. 𐑯𐑴𐑑, 𐑞𐑦𐑕 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑯𐑪𐑑 𐑿𐑕𐑑 𐑚𐑲 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
 "𐑴𐑯𐑤𐑦 𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
 
 #, fuzzy
@@ -11448,8 +11214,8 @@ msgid ""
 msgstr ""
 "𐑦𐑯𐑦𐑖𐑩𐑤 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟 𐑕𐑑𐑱𐑑 𐑝 𐑞 \"𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤\" 𐑢𐑦𐑯𐑛𐑴. 𐑞 𐑝𐑨𐑤𐑿 𐑳𐑐𐑛𐑱𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑿𐑟𐑼 "
 "𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑦𐑟 𐑹 unmaximizes 𐑞 𐑢𐑦𐑯𐑛𐑴. 𐑯𐑴𐑑, 𐑞𐑦𐑕 𐑐𐑼𐑑𐑦𐑒𐑿𐑤𐑼 𐑝𐑨𐑤𐑿 𐑦𐑟 𐑯𐑪𐑑 𐑿𐑕𐑑 𐑚𐑲 "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 "
-"𐑴𐑯𐑤𐑦 𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑦𐑯𐑕 𐑞 \"𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤\" 𐑢𐑦𐑯𐑛𐑴 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑥𐑨𐑒𐑕𐑩𐑥𐑲𐑟𐑛. 𐑞𐑦𐑕 𐑒𐑰 "
+"𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑴𐑯𐑤𐑦 𐑨𐑟 𐑩𐑯 𐑦𐑥𐑐𐑤𐑩𐑥𐑧𐑯𐑑𐑱𐑖𐑩𐑯 𐑛𐑰𐑑𐑱𐑤."
 
 #, fuzzy
 #: ../mail/evolution-mail.schemas.in.h:79
@@ -11521,8 +11287,8 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
-"𐑤𐑦𐑕𐑑 𐑝 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯𐑴𐑯 𐑑 𐑞 𐑥𐑱𐑤 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑞 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑑𐑮𐑦𐑙𐑟 𐑯𐑱𐑥𐑦𐑙 "
-"subdirectories 𐑮𐑧𐑤𐑩𐑑𐑦𐑝 𐑑 /𐑨𐑐𐑕/𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑥𐑱𐑤/𐑩𐑒𐑬𐑯𐑑𐑕."
+"𐑤𐑦𐑕𐑑 𐑝 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯𐑴𐑯 𐑑 𐑞 𐑥𐑱𐑤 𐑒𐑩𐑥𐑐𐑴𐑯𐑩𐑯𐑑 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯. 𐑞 𐑤𐑦𐑕𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟 𐑕𐑑𐑮𐑦𐑙𐑟 𐑯𐑱𐑥𐑦𐑙 "
+"subdirectories 𐑮𐑧𐑤𐑩𐑑𐑦𐑝 𐑑 /𐑨𐑐𐑕/·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑥𐑱𐑤/𐑩𐑒𐑬𐑯𐑑𐑕."
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "List of custom headers and whether they are enabled."
@@ -12809,20 +12575,18 @@ msgstr "_𐑿𐑟 𐑕𐑦𐑕𐑑𐑩𐑥 𐑛𐑦𐑓𐑷𐑤𐑑𐑕"
 msgid "_Use the same fonts as other applications"
 msgstr "_𐑿𐑟 𐑞 𐑕𐑱𐑥 𐑓𐑪𐑯𐑑𐑕 𐑨𐑟 𐑳𐑞𐑼 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯𐑟"
 
-#, fuzzy
 #: ../mail/mail-config.ui.h:167 ../smime/gui/smime-ui.ui.h:47
 msgid "a"
-msgstr "𐑩"
+msgstr "𐑐"
 
 #. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
 #: ../mail/mail-config.ui.h:169
 msgid "addresses"
 msgstr "𐑩𐑛𐑮𐑧𐑕𐑩𐑟"
 
-#, fuzzy
 #: ../mail/mail-config.ui.h:170 ../smime/gui/smime-ui.ui.h:48
 msgid "b"
-msgstr "𐑚𐑰"
+msgstr "𐑑"
 
 #: ../mail/mail-config.ui.h:171
 msgid "color"
@@ -12848,17 +12612,14 @@ msgstr "𐑷𐑤 𐑤𐑴𐑒𐑩𐑤 𐑓𐑴𐑤𐑛𐑼𐑟"
 msgid "Call"
 msgstr "𐑒𐑷𐑤"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:5
 msgid "Co_mpleted"
 msgstr "_𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:6
 msgid "Collapse _all"
 msgstr "𐑒𐑩𐑤𐑨𐑐𐑕 _𐑷𐑤"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:7
 msgid "Digital Signature"
 msgstr "𐑛𐑦𐑡𐑩𐑑𐑩𐑤 𐑕𐑦𐑜𐑯𐑩𐑗𐑼"
@@ -12867,12 +12628,10 @@ msgstr "𐑛𐑦𐑡𐑩𐑑𐑩𐑤 𐑕𐑦𐑜𐑯𐑩𐑗𐑼"
 msgid "Do Not Forward"
 msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑓𐑹𐑢𐑼𐑛"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:9
 msgid "E_xpand all"
 msgstr "_𐑦𐑒𐑕𐑐𐑨𐑯𐑛 𐑷𐑤"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:10
 msgid "Encryption"
 msgstr "𐑦𐑯𐑒𐑮𐑦𐑐𐑖𐑩𐑯"
@@ -12913,12 +12672,10 @@ msgstr "𐑮𐑦𐑝𐑿"
 msgid "S_erver:"
 msgstr "𐑕_𐑻𐑝𐑼:"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:23
 msgid "S_how only items containing:"
 msgstr "_𐑖𐑴 𐑴𐑯𐑤𐑦 𐑲𐑑𐑩𐑥𐑟 𐑒𐑩𐑯𐑑𐑱𐑯𐑦𐑙:"
 
-#, fuzzy
 #: ../mail/mail-dialogs.ui.h:24
 msgid "Search Folder Sources"
 msgstr "𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑕𐑹𐑕𐑩𐑟"
@@ -13267,17 +13024,14 @@ msgstr "𐑧𐑛𐑦𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼"
 msgid "New Search Folder"
 msgstr "𐑯𐑿 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:1
 msgid "\"Check Junk\" Failed"
 msgstr "\"𐑗𐑧𐑒 𐑡𐑩𐑙𐑒\" 𐑓𐑱𐑤𐑛"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:2
 msgid "\"Report Junk\" Failed"
 msgstr "\"𐑮𐑩𐑐𐑹𐑑 𐑡𐑩𐑙𐑒\" 𐑓𐑱𐑤𐑛"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:3
 msgid "\"Report Not Junk\" Failed"
 msgstr "\"𐑮𐑩𐑐𐑹𐑑 𐑯𐑪𐑑 𐑡𐑩𐑙𐑒\" 𐑓𐑱𐑤𐑛"
@@ -13351,12 +13105,10 @@ msgstr ""
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑧𐑯𐑛 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑦𐑯 HTML 𐑓𐑹𐑥𐑨𐑑?"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:18
 msgid "Are you sure you want to send a message with invalid address?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑧𐑯𐑛 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑢𐑦𐑞 𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑩𐑛𐑮𐑧𐑕?"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:19
 msgid "Are you sure you want to send a message with invalid addresses?"
 msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑧𐑯𐑛 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑢𐑦𐑞 𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑩𐑛𐑮𐑧𐑕𐑩𐑟?"
@@ -13410,7 +13162,6 @@ msgstr "𐑒𐑨𐑯𐑪𐑑 𐑧𐑛𐑦𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "𐑒𐑨𐑯𐑪𐑑 𐑥𐑵𐑝 𐑓𐑴𐑤𐑛𐑼 \"{0}\" 𐑑 \"{1}\"."
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot open source \"{1}\"."
 msgstr "𐑒𐑨𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑕𐑹𐑕 \"{1}\"."
@@ -13471,7 +13222,6 @@ msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑱𐑝 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑓
 msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 \"{0}\"?"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:45
 msgid "Do not d_elete"
 msgstr "𐑛𐑵 𐑯𐑪𐑑 _𐑛𐑦𐑤𐑰𐑑"
@@ -13538,7 +13288,6 @@ msgstr ""
 "𐑦𐑓 𐑿 𐑛𐑦𐑤𐑰𐑑 𐑞 𐑓𐑴𐑤𐑛𐑼, 𐑷𐑤 𐑝 𐑦𐑑𐑕 𐑒𐑪𐑯𐑑𐑩𐑯𐑑𐑕 𐑯 𐑦𐑑𐑕 subfolders' 𐑒𐑪𐑯𐑑𐑩𐑯𐑑𐑕 𐑢𐑦𐑤 𐑚𐑰 "
 "𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦."
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:62
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
@@ -13654,7 +13403,6 @@ msgstr "𐑮𐑧𐑛 𐑮𐑦𐑕𐑰𐑑 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛."
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "𐑮𐑾𐑤𐑦 𐑛𐑦𐑤𐑰𐑑 𐑓𐑴𐑤𐑛𐑼 \"{0}\" 𐑯 𐑷𐑤 𐑝 𐑦𐑑𐑕 subfolders?"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:88
 msgid "Really delete folder \"{0}\"?"
 msgstr "𐑮𐑾𐑤𐑦 𐑛𐑦𐑤𐑰𐑑 𐑓𐑴𐑤𐑛𐑼 \"{0}\"?"
@@ -13701,13 +13449,11 @@ msgstr ""
 "𐑣𐑧𐑛𐑼, 𐑦𐑓 𐑨𐑛𐑩𐑛, 𐑢𐑦𐑤 𐑤𐑦𐑕𐑑 𐑷𐑤 𐑝 𐑿𐑼 𐑮𐑦𐑕𐑦𐑐𐑰𐑩𐑯𐑑𐑕 𐑦𐑯 𐑿𐑼 𐑥𐑧𐑕𐑦𐑡. 𐑑 𐑩𐑝𐑶𐑛 𐑞𐑦𐑕, 𐑿 𐑖𐑫𐑛 𐑨𐑛 "
 "𐑨𐑑 𐑤𐑰𐑕𐑑 𐑢𐑳𐑯 𐑑: 𐑹 𐑕𐑰𐑕𐑰: 𐑮𐑩𐑕𐑦𐑐𐑰𐑩𐑯𐑑. "
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:98
 msgid ""
 "The following recipient was not recognized as a valid mail address:\n{0}"
 msgstr "𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑮𐑩𐑕𐑦𐑐𐑰𐑩𐑯𐑑 𐑢𐑪𐑟 𐑯𐑪𐑑 𐑮𐑧𐑒𐑪𐑜𐑯𐑲𐑟𐑛 𐑨𐑟 𐑩 𐑝𐑨𐑤𐑦𐑛 𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕:\n{0}"
 
-#, fuzzy
 #: ../mail/mail.error.xml.h:100
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n{0}"
@@ -13751,7 +13497,7 @@ msgstr "𐑞𐑦𐑕 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑗
 #: ../mail/mail.error.xml.h:109
 msgid ""
 "This will mark all messages as read in the selected folder and its subfolders."
-msgstr "𐑞𐑦𐑕 𐑢𐑦𐑤 ·𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛 𐑦𐑯 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛𐑼 𐑯 𐑦𐑑𐑕 subfolders."
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑤 𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛 𐑦𐑯 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛𐑼 𐑯 𐑦𐑑𐑕 subfolders."
 
 #, fuzzy
 #: ../mail/mail.error.xml.h:110
@@ -14012,7 +13758,7 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
-"𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞𐑦𐑕 𐑪𐑐𐑖𐑩𐑯 𐑥𐑰𐑯𐑟 𐑞𐑨𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑴𐑯𐑤𐑦 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑 𐑿𐑼 LDAP 𐑕𐑻𐑝𐑼 𐑦𐑓 𐑿𐑼 "
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞𐑦𐑕 𐑪𐑐𐑖𐑩𐑯 𐑥𐑰𐑯𐑟 𐑞𐑨𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑴𐑯𐑤𐑦 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑 𐑿𐑼 LDAP 𐑕𐑻𐑝𐑼 𐑦𐑓 𐑿𐑼 "
 "LDAP 𐑕𐑻𐑝𐑼 𐑕𐑩𐑐𐑹𐑑𐑕 TLS."
 
 #, fuzzy
@@ -14025,7 +13771,6 @@ msgstr ""
 "𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞𐑦𐑕 𐑪𐑐𐑖𐑩𐑯 𐑥𐑰𐑯𐑟 𐑞𐑨𐑑 𐑿𐑼 𐑕𐑻𐑝𐑼 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑲𐑞𐑼 ·𐑕·𐑕·𐑤 𐑹 TLS. 𐑞𐑦𐑕 𐑥𐑰𐑯𐑟 "
 "𐑞𐑨𐑑 𐑿𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯 𐑢𐑦𐑤 𐑚𐑰 𐑦𐑯𐑕𐑩𐑒𐑘𐑻, 𐑯 𐑞𐑨𐑑 𐑿 𐑢𐑦𐑤 𐑚𐑰 𐑝𐑩𐑤𐑯𐑻𐑩𐑚𐑩𐑤 𐑑 𐑕𐑦𐑒𐑘𐑫𐑼𐑦𐑑𐑦 𐑧𐑒𐑕𐑐𐑤𐑬𐑑𐑕."
 
-#, fuzzy
 #: ../modules/addressbook/addressbook-config.c:602
 msgid "U_se in Birthday & Anniversaries calendar"
 msgstr "_𐑿𐑟 𐑦𐑯 𐑚𐑻𐑔𐑛𐑱 & 𐑨𐑯𐑩𐑝𐑻𐑕𐑻𐑰𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
@@ -14150,7 +13895,7 @@ msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
-"𐑞 𐑯𐑳𐑥𐑚𐑼 𐑝 𐑒𐑨𐑮𐑩𐑒𐑑𐑼𐑟 𐑞𐑨𐑑 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑑𐑲𐑐𐑑 𐑚𐑦𐑓𐑹 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑩𐑑𐑧𐑥𐑐𐑑 𐑑 autocomplete."
+"𐑞 𐑯𐑳𐑥𐑚𐑼 𐑝 𐑒𐑨𐑮𐑩𐑒𐑑𐑼𐑟 𐑞𐑨𐑑 𐑥𐑳𐑕𐑑 𐑚𐑰 𐑑𐑲𐑐𐑑 𐑚𐑦𐑓𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑩𐑑𐑧𐑥𐑐𐑑 𐑑 autocomplete."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
 msgid "URI for the folder last used in the select names dialog"
@@ -14173,7 +13918,6 @@ msgid "Whether to show the preview pane."
 msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑖𐑴 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
-#, fuzzy
 #: ../modules/addressbook/autocompletion-config.c:159
 #: ../modules/mail/em-mailer-prefs.c:1159
 msgid "_Table column:"
@@ -14240,7 +13984,6 @@ msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
 msgid "Save as vCard"
 msgstr "𐑕𐑱𐑝 𐑨𐑟 vCard"
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:664
 msgid "Co_py All Contacts To..."
 msgstr "_𐑒𐑪𐑐𐑦 𐑷𐑤 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑..."
@@ -14249,7 +13992,6 @@ msgstr "_𐑒𐑪𐑐𐑦 𐑷𐑤 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑..."
 msgid "Copy the contacts of the selected address book to another"
 msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑝 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑑 𐑩𐑯𐑳𐑞𐑼"
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:671
 msgid "D_elete Address Book"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
@@ -14258,7 +14000,6 @@ msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
 msgid "Delete the selected address book"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:678
 msgid "Mo_ve All Contacts To..."
 msgstr "_𐑥𐑵𐑝 𐑷𐑤 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑..."
@@ -14317,12 +14058,10 @@ msgstr "𐑒𐑪𐑐𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑪𐑯𐑑𐑨�
 msgid "_Delete Contact"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:734
 msgid "_Find in Contact..."
 msgstr "_𐑓𐑲𐑯𐑛 𐑦𐑯 𐑒𐑪𐑯𐑑𐑨𐑒𐑑..."
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:736
 msgid "Search for text in the displayed contact"
 msgstr "𐑕𐑻𐑗 𐑓𐑹 𐑑𐑧𐑒𐑕𐑑 𐑦𐑯 𐑞 𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
@@ -14351,7 +14090,6 @@ msgstr "_𐑯𐑿 𐑒𐑪𐑯𐑑𐑨𐑒𐑑..."
 msgid "New Contact _List..."
 msgstr "𐑯𐑿 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 _𐑤𐑦𐑕𐑑..."
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:769
 msgid "_Open Contact"
 msgstr "_𐑴𐑐𐑩𐑯 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
@@ -14454,7 +14192,6 @@ msgstr "𐑩𐑯𐑥𐑨𐑗𐑑"
 msgid "Advanced Search"
 msgstr "𐑩𐑛𐑝𐑭𐑯𐑕𐑑 𐑕𐑻𐑗"
 
-#, fuzzy
 #: ../modules/addressbook/e-book-shell-view-actions.c:930
 msgid "Print all shown contacts"
 msgstr "𐑐𐑮𐑦𐑯𐑑 𐑷𐑤 𐑖𐑴𐑯 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
@@ -14524,24 +14261,20 @@ msgstr "1"
 msgid "5"
 msgstr "5"
 
-#, fuzzy
 #: ../modules/addressbook/ldap-config.ui.h:5
 msgid "Anonymously"
 msgstr "𐑩𐑯𐑪𐑯𐑦𐑥𐑩𐑕𐑤𐑦"
 
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
-#, fuzzy
 #: ../modules/addressbook/ldap-config.ui.h:7
 msgid "B_rowse this book until limit reached"
 msgstr "_𐑚𐑮𐑬𐑟 𐑞𐑦𐑕 𐑚𐑫𐑒 𐑳𐑯𐑑𐑦𐑤 𐑤𐑦𐑥𐑦𐑑 𐑮𐑰𐑗𐑑"
 
-#, fuzzy
 #: ../modules/addressbook/ldap-config.ui.h:8
 msgid "Lo_gin:"
 msgstr "_𐑤𐑪𐑜𐑦𐑯:"
 
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#, fuzzy
 #: ../modules/addressbook/ldap-config.ui.h:11
 msgid "One"
 msgstr "𐑢𐑳𐑯"
@@ -14567,7 +14300,6 @@ msgstr ""
 "𐑢𐑦𐑤 𐑚𐑰 𐑐𐑼𐑓𐑹𐑥𐑛 𐑪𐑯 𐑞 𐑑𐑲𐑐 \"𐑐𐑻𐑕𐑩𐑯\"."
 
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#, fuzzy
 #: ../modules/addressbook/ldap-config.ui.h:18
 msgid "Sub"
 msgstr "𐑕𐑳𐑚"
@@ -14581,7 +14313,6 @@ msgstr "𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑕𐑻𐑗 𐑚𐑱𐑕𐑩𐑟"
 msgid "Using distinguished name (DN)"
 msgstr "𐑿𐑟𐑦𐑙 𐑛𐑦𐑕𐑑𐑦𐑙𐑜𐑢𐑦𐑖𐑑 𐑯𐑱𐑥 (DN)"
 
-#, fuzzy
 #: ../modules/addressbook/ldap-config.ui.h:22
 msgid "Using email address"
 msgstr "𐑿𐑟𐑦𐑙 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕"
@@ -14618,7 +14349,6 @@ msgstr "_𐑿𐑟 𐑕𐑦𐑒𐑘𐑫𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯:"
 msgid "cards"
 msgstr "𐑒𐑸𐑛𐑟"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-attachment-handler.c:259
 #: ../smime/gui/smime-ui.ui.h:22
 msgid "I_mport"
@@ -14632,12 +14362,10 @@ msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 msgid "Select a Task List"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-attachment-handler.c:378
 msgid "I_mport to Calendar"
 msgstr "_𐑦𐑥𐑐𐑹𐑑 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-attachment-handler.c:385
 msgid "I_mport to Tasks"
 msgstr "_𐑦𐑥𐑐𐑹𐑑 𐑑 𐑑𐑭𐑕𐑒𐑕"
@@ -14672,7 +14400,6 @@ msgstr "_𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 msgid "Create a new appointment"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-backend.c:453
 msgctxt "New"
 msgid "All Day A_ppointment"
@@ -14682,7 +14409,6 @@ msgstr "𐑷𐑤 𐑛𐑱 _𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 msgid "Create a new all-day appointment"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑷𐑤-𐑛𐑱 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-backend.c:460
 msgctxt "New"
 msgid "M_eeting"
@@ -14692,7 +14418,6 @@ msgstr "_𐑥𐑰𐑑𐑦𐑙"
 msgid "Create a new meeting request"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑒𐑢𐑧𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-backend.c:470
 msgctxt "New"
 msgid "Cale_ndar"
@@ -14759,7 +14484,6 @@ msgstr "𐑥𐑵𐑝𐑦𐑙 𐑲𐑑𐑩𐑥𐑟"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1098
 msgid "event"
 msgstr "𐑦𐑝𐑧𐑯𐑑"
@@ -14778,12 +14502,10 @@ msgstr "𐑕𐑱𐑝 𐑨𐑟 iCalendar"
 msgid "_Copy..."
 msgstr "_𐑒𐑪𐑐𐑦..."
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1257
 msgid "D_elete Calendar"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1259
 msgid "Delete the selected calendar"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
@@ -14812,7 +14534,6 @@ msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑕𐑐𐑩𐑕𐑦𐑓𐑦𐑒 𐑛𐑱�
 msgid "_New Calendar"
 msgstr "_𐑯𐑿 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1306
 #: ../modules/calendar/e-task-shell-view-actions.c:784
 msgid "Purg_e"
@@ -14822,14 +14543,12 @@ msgstr "_𐑐𐑻𐑡"
 msgid "Purge old appointments and meetings"
 msgstr "𐑐𐑻𐑡 𐑴𐑤𐑛 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕 𐑯 𐑥𐑰𐑑𐑦𐑙𐑟"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1313
 #: ../modules/calendar/e-memo-shell-view-actions.c:603
 #: ../modules/calendar/e-task-shell-view-actions.c:728
 msgid "Re_fresh"
 msgstr "_𐑮𐑰𐑓𐑮𐑧𐑖"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1315
 msgid "Refresh the selected calendar"
 msgstr "𐑮𐑰𐑓𐑮𐑧𐑖 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
@@ -14842,7 +14561,6 @@ msgstr "𐑮𐑰𐑯𐑱𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑒𐑨𐑤�
 msgid "Show _Only This Calendar"
 msgstr "𐑖𐑴 _𐑴𐑯𐑤𐑦 𐑞𐑦𐑕 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Cop_y to Calendar..."
 msgstr "_𐑒𐑪𐑐𐑦 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼..."
@@ -14851,12 +14569,10 @@ msgstr "_𐑒𐑪𐑐𐑦 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼..."
 msgid "_Delegate Meeting..."
 msgstr "_𐑛𐑧𐑤𐑩𐑜𐑱𐑑 𐑥𐑰𐑑𐑦𐑙..."
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1348
 msgid "_Delete Appointment"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1350
 msgid "Delete selected appointments"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕"
@@ -14869,7 +14585,6 @@ msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 _𐑪𐑒𐑻𐑩𐑯𐑕"
 msgid "Delete this occurrence"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑪𐑒𐑻𐑩𐑯𐑕"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1362
 msgid "Delete All Occ_urrences"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 _𐑩𐑒𐑻𐑩𐑯𐑕𐑦𐑟"
@@ -14903,7 +14618,6 @@ msgstr "𐑯𐑿 _𐑥𐑰𐑑𐑦𐑙..."
 msgid "Create a new meeting"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑥𐑰𐑑𐑦𐑙"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1390
 msgid "Mo_ve to Calendar..."
 msgstr "_𐑥𐑵𐑝 𐑑 𐑒𐑨𐑤𐑩𐑯𐑛𐑼..."
@@ -14938,22 +14652,18 @@ msgstr "𐑕𐑱𐑝 𐑨𐑟 iCalendar..."
 msgid "_Schedule Meeting..."
 msgstr "_𐑖𐑧𐑛𐑿𐑤 𐑥𐑰𐑑𐑦𐑙..."
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1441
 msgid "Converts an appointment to a meeting"
 msgstr "𐑒𐑭𐑯𐑝𐑻𐑑𐑕 𐑩𐑯 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑 𐑑 𐑩 𐑥𐑰𐑑𐑦𐑙"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1446
 msgid "Conv_ert to Appointment..."
 msgstr "_𐑒𐑩𐑯𐑝𐑻𐑑 𐑑 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑..."
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Converts a meeting to an appointment"
 msgstr "𐑒𐑭𐑯𐑝𐑻𐑑𐑕 𐑩 𐑥𐑰𐑑𐑦𐑙 𐑑 𐑩𐑯 𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-actions.c:1453
 msgid "Quit"
 msgstr "𐑒𐑢𐑦𐑑"
@@ -15028,7 +14738,6 @@ msgstr "𐑜𐑴 𐑑"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-memopad.c:207
 #: ../modules/calendar/e-memo-shell-view-actions.c:492
 msgid "memo"
@@ -15071,7 +14780,6 @@ msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥�
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
-#, fuzzy
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:275
 #: ../modules/calendar/e-task-shell-view-actions.c:610
 msgid "task"
@@ -15134,7 +14842,6 @@ msgstr "_𐑕𐑱𐑝 𐑨𐑟 iCalendar..."
 msgid "Print the selected task"
 msgstr "𐑐𐑮𐑦𐑯𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-backend.c:318
 msgctxt "New"
 msgid "Mem_o"
@@ -15149,7 +14856,6 @@ msgstr "_𐑖𐑺𐑛 𐑥𐑧𐑥𐑴"
 msgid "Create a new shared memo"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-backend.c:335
 msgctxt "New"
 msgid "Memo Li_st"
@@ -15184,22 +14890,18 @@ msgstr "𐑐𐑮𐑦𐑯𐑑 𐑥𐑧𐑥𐑴𐑟"
 msgid "_Delete Memo"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-view-actions.c:561
 msgid "_Find in Memo..."
 msgstr "_𐑓𐑲𐑯𐑛 𐑦𐑯 𐑥𐑧𐑥𐑴..."
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-view-actions.c:563
 msgid "Search for text in the displayed memo"
 msgstr "𐑕𐑻𐑗 𐑓𐑹 𐑑𐑧𐑒𐑕𐑑 𐑦𐑯 𐑞 𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑥𐑧𐑥𐑴"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-view-actions.c:582
 msgid "D_elete Memo List"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-view-actions.c:584
 msgid "Delete the selected memo list"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
@@ -15208,7 +14910,6 @@ msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥�
 msgid "_New Memo List"
 msgstr "_𐑯𐑿 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
 msgid "Refresh the selected memo list"
 msgstr "𐑮𐑰𐑓𐑮𐑧𐑖 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑥𐑴 𐑤𐑦𐑕𐑑"
@@ -15262,7 +14963,6 @@ msgstr "%d 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛"
 msgid "Delete Memos"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴𐑟"
 
-#, fuzzy
 #: ../modules/calendar/e-memo-shell-view.c:225
 msgid "Delete Memo"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑥𐑴"
@@ -15272,7 +14972,6 @@ msgctxt "New"
 msgid "_Task"
 msgstr "_𐑑𐑭𐑕𐑒"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-backend.c:329
 msgctxt "New"
 msgid "Assigne_d Task"
@@ -15282,7 +14981,6 @@ msgstr "_𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒"
 msgid "Create a new assigned task"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑨𐑟𐑕𐑲𐑯𐑛 𐑑𐑭𐑕𐑒"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-backend.c:339
 msgctxt "New"
 msgid "Tas_k List"
@@ -15326,12 +15024,10 @@ msgstr ""
 msgid "_Delete Task"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:686
 msgid "_Find in Task..."
 msgstr "_𐑓𐑲𐑯𐑛 𐑦𐑯 𐑑𐑭𐑕𐑒..."
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:688
 msgid "Search for text in the displayed task"
 msgstr "𐑕𐑻𐑗 𐑓𐑹 𐑑𐑧𐑒𐑕𐑑 𐑦𐑯 𐑞 𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑑𐑭𐑕𐑒"
@@ -15340,12 +15036,10 @@ msgstr "𐑕𐑻𐑗 𐑓𐑹 𐑑𐑧𐑒𐑕𐑑 𐑦𐑯 𐑞 𐑛𐑩𐑕�
 msgid "Copy..."
 msgstr "𐑒𐑪𐑐𐑦..."
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:707
 msgid "D_elete Task List"
 msgstr "_𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:709
 msgid "Delete the selected task list"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
@@ -15354,7 +15048,6 @@ msgstr "𐑛𐑦𐑤𐑰𐑑 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕�
 msgid "_New Task List"
 msgstr "_𐑯𐑿 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:730
 msgid "Refresh the selected task list"
 msgstr "𐑮𐑰𐑓𐑮𐑧𐑖 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
@@ -15367,10 +15060,9 @@ msgstr "𐑮𐑰𐑯𐑱𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑑𐑭𐑕�
 msgid "Show _Only This Task List"
 msgstr "𐑖𐑴 _𐑴𐑯𐑤𐑦 𐑞𐑦𐑕 𐑑𐑭𐑕𐑒 𐑤𐑦𐑕𐑑"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:756
 msgid "Mar_k as Incomplete"
-msgstr "_·𐑥𐑸𐑒 𐑨𐑟 𐑦𐑯𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
+msgstr "_𐑥𐑸𐑒 𐑨𐑟 𐑦𐑯𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:786
 msgid "Delete completed tasks"
@@ -15436,7 +15128,6 @@ msgstr[1] "%d 𐑑𐑭𐑕𐑒𐑕"
 msgid "Delete Tasks"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒𐑕"
 
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view.c:353
 msgid "Delete Task"
 msgstr "𐑛𐑦𐑤𐑰𐑑 𐑑𐑭𐑕𐑒"
@@ -15449,7 +15140,6 @@ msgstr "%d 𐑩𐑑𐑨𐑗𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
 
 #. Translators: "None" for a junk hook name,
 #. * when the junk plugin is not enabled.
-#, fuzzy
 #: ../modules/mail/e-mail-junk-hook.c:89
 msgctxt "mail-junk-hook"
 msgid "None"
@@ -15502,7 +15192,6 @@ msgstr "𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑"
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑞 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑷𐑤 𐑓𐑴𐑤𐑛𐑼𐑟"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:828
 msgid "C_reate Search Folder From Search..."
 msgstr "_𐑒𐑮𐑦𐑱𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑓𐑮𐑪𐑥 𐑕𐑻𐑗..."
@@ -15511,7 +15200,6 @@ msgstr "_𐑒𐑮𐑦𐑱𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑓𐑮𐑪𐑥
 msgid "_Download Messages for Offline Usage"
 msgstr "_𐑛𐑬𐑯𐑤𐑴𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑿𐑕𐑦𐑡"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:837
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "𐑛𐑬𐑯𐑤𐑴𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑝 𐑩𐑒𐑬𐑯𐑑𐑕 𐑯 𐑓𐑴𐑤𐑛𐑼𐑟 𐑥𐑸𐑒𐑑 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑿𐑕𐑦𐑡"
@@ -15533,7 +15221,6 @@ msgstr "𐑒𐑪𐑐𐑦 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑴𐑤𐑛�
 msgid "Permanently remove this folder"
 msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:863
 msgid "E_xpunge"
 msgstr "_𐑦𐑒𐑕𐑐𐑩𐑯𐑡"
@@ -15542,10 +15229,9 @@ msgstr "_𐑦𐑒𐑕𐑐𐑩𐑯𐑡"
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:870
 msgid "Mar_k All Messages as Read"
-msgstr "_·𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛"
+msgstr "_𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:872
 msgid "Mark all messages in the folder as read"
@@ -15608,7 +15294,6 @@ msgstr "𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩�
 msgid "Empty _Trash"
 msgstr "𐑧𐑥𐑐𐑑𐑦 _𐑑𐑮𐑨𐑖"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:935
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑞 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑷𐑤 𐑩𐑒𐑬𐑯𐑑𐑕"
@@ -15617,7 +15302,6 @@ msgstr "𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 �
 msgid "_New Label"
 msgstr "_𐑯𐑿 𐑤𐑱𐑚𐑩𐑤"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:949
 msgid "N_one"
 msgstr "_𐑯𐑳𐑯"
@@ -15634,7 +15318,6 @@ msgstr "𐑒𐑩𐑤𐑨𐑐𐑕 𐑷𐑤 _𐑔𐑮𐑧𐑛𐑟"
 msgid "Collapse all message threads"
 msgstr "𐑒𐑩𐑤𐑨𐑐𐑕 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡 𐑔𐑮𐑧𐑛𐑟"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:984
 msgid "E_xpand All Threads"
 msgstr "_𐑦𐑒𐑕𐑐𐑨𐑯𐑛 𐑷𐑤 𐑔𐑮𐑧𐑛𐑟"
@@ -15651,7 +15334,6 @@ msgstr "_𐑥𐑧𐑕𐑦𐑡 𐑓𐑦𐑤𐑑𐑼𐑟"
 msgid "Create or edit rules for filtering new mail"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑹 𐑧𐑛𐑦𐑑 𐑮𐑵𐑤𐑟 𐑓𐑹 𐑓𐑦𐑤𐑑𐑼𐑦𐑙 𐑯𐑿 𐑥𐑱𐑤"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:998
 msgid "Search F_olders"
 msgstr "𐑕𐑻𐑗 _𐑓𐑴𐑤𐑛𐑼𐑟"
@@ -15668,7 +15350,6 @@ msgstr "_𐑕𐑩𐑚𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯𐑟..."
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑹 𐑩𐑯𐑕𐑩𐑚𐑕𐑒𐑮𐑲𐑚 𐑑 𐑓𐑴𐑤𐑛𐑼𐑟 𐑪𐑯 𐑮𐑦𐑥𐑴𐑑 𐑕𐑻𐑝𐑼𐑟"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:1014
 msgid "F_older"
 msgstr "_𐑓𐑴𐑤𐑛𐑼"
@@ -15689,12 +15370,10 @@ msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 _𐑐𐑮𐑰𐑝𐑿"
 msgid "Show message preview pane"
 msgstr "𐑖𐑴 𐑥𐑧𐑕𐑦𐑡 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:1093
 msgid "Show _Deleted Messages"
 msgstr "𐑖𐑴 _𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view-actions.c:1095
 msgid "Show deleted messages with a line through them"
 msgstr "𐑖𐑴 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑦𐑞 𐑩 𐑤𐑲𐑯 𐑔𐑮𐑵 𐑞𐑧𐑥"
@@ -15825,12 +15504,10 @@ msgid_plural "%d total"
 msgstr[0] "%d 𐑑𐑴𐑑𐑩𐑤"
 msgstr[1] "%d 𐑑𐑴𐑑𐑩𐑤"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view.c:548
 msgid "All Account Search"
 msgstr "𐑷𐑤 𐑩𐑒𐑬𐑯𐑑 𐑕𐑻𐑗"
 
-#, fuzzy
 #: ../modules/mail/e-mail-shell-view.c:685
 msgid "Account Search"
 msgstr "𐑩𐑒𐑬𐑯𐑑 𐑕𐑻𐑗"
@@ -15900,18 +15577,15 @@ msgid ""
 "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s 𐑐𐑤𐑳𐑜𐑦𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤. 𐑐𐑤𐑰𐑟 𐑗𐑧𐑒 𐑢𐑧𐑞𐑼 𐑞 𐑐𐑨𐑒𐑦𐑡 𐑦𐑟 𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
 
-#, fuzzy
 #: ../modules/mail/em-mailer-prefs.c:774
 msgid "No junk plugin available"
 msgstr "𐑯𐑴 𐑡𐑩𐑙𐑒 𐑐𐑤𐑳𐑜𐑦𐑯 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#, fuzzy
 #: ../modules/mail/em-mailer-prefs.c:1161
 msgid "_Date header:"
 msgstr "_𐑛𐑱𐑑 𐑣𐑧𐑛𐑼:"
 
-#, fuzzy
 #: ../modules/mail/em-mailer-prefs.c:1162
 msgid "Show _original header value"
 msgstr "𐑖𐑴 _𐑩𐑮𐑦𐑡𐑩𐑯𐑩𐑤 𐑣𐑧𐑛𐑼 𐑝𐑨𐑤𐑿"
@@ -16029,19 +15703,17 @@ msgstr "𐑗𐑵𐑟 𐑩 𐑓𐑲𐑤 𐑑 𐑮𐑩𐑕𐑑𐑹"
 msgid "Restore from backup"
 msgstr "𐑮𐑩𐑕𐑑𐑹 𐑓𐑮𐑪𐑥 𐑚𐑨𐑒𐑳𐑐"
 
-#, fuzzy
 #: ../plugins/backup-restore/backup-restore.c:361
 msgid "_Backup Evolution Settings..."
-msgstr "_𐑚𐑨𐑒𐑳𐑐 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
+msgstr "_𐑚𐑨𐑒𐑳𐑐 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
 
 #: ../plugins/backup-restore/backup-restore.c:363
 msgid "Backup Evolution data and settings to an archive file"
 msgstr "𐑚𐑨𐑒𐑳𐑐 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑑 𐑩𐑯 𐑸𐑒𐑲𐑝 𐑓𐑲𐑤"
 
-#, fuzzy
 #: ../plugins/backup-restore/backup-restore.c:368
 msgid "R_estore Evolution Settings..."
-msgstr "_𐑮𐑩𐑕𐑑𐑹 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
+msgstr "_𐑮𐑩𐑕𐑑𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑧𐑑𐑦𐑙𐑟..."
 
 #: ../plugins/backup-restore/backup-restore.c:370
 msgid "Restore Evolution data and settings from an archive file"
@@ -16090,10 +15762,9 @@ msgstr "𐑚𐑨𐑒𐑳𐑐 𐑒𐑩𐑥𐑐𐑤𐑰𐑑"
 msgid "Restarting Evolution"
 msgstr "𐑮𐑰𐑕𐑑𐑸𐑑𐑦𐑙 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../plugins/backup-restore/backup.c:255
 msgid "Back up current Evolution data"
-msgstr "𐑚𐑨𐑒 𐑳𐑐 𐑒𐑳𐑮𐑩𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
+msgstr "𐑚𐑨𐑒 𐑳𐑐 𐑒𐑳𐑮𐑩𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩"
 
 #: ../plugins/backup-restore/backup.c:260
 msgid "Extracting files from backup"
@@ -16176,8 +15847,8 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
-"𐑕𐑱𐑝 𐑯 𐑒𐑤𐑴𐑕 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑐𐑮𐑩𐑕𐑰𐑛𐑦𐑙.  𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑚𐑨𐑒𐑳𐑐 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
+"𐑕𐑱𐑝 𐑯 𐑒𐑤𐑴𐑕 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑐𐑮𐑩𐑕𐑰𐑛𐑦𐑙.  𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
 "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑭𐑓𐑑𐑼 𐑚𐑨𐑒𐑳𐑐, 𐑐𐑤𐑰𐑟 𐑦𐑯𐑱𐑚𐑩𐑤 𐑞 𐑑𐑪𐑜𐑩𐑤 𐑚𐑳𐑑𐑩𐑯."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
@@ -16205,9 +15876,9 @@ msgid ""
 "proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
-"𐑞𐑦𐑕 𐑢𐑦𐑤 𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 𐑿𐑼 𐑒𐑳𐑮𐑩𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑯 𐑮𐑩𐑕𐑑𐑹 𐑞𐑧𐑥 𐑓𐑮𐑪𐑥 𐑿𐑼 𐑚𐑨𐑒𐑳𐑐. "
-"𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑮𐑩𐑕𐑑𐑹 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
-"𐑒𐑤𐑴𐑟 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛. 𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
+"𐑞𐑦𐑕 𐑢𐑦𐑤 𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 𐑿𐑼 𐑒𐑳𐑮𐑩𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑛𐑱𐑑𐑩 𐑯 𐑕𐑧𐑑𐑦𐑙𐑟 𐑯 𐑮𐑩𐑕𐑑𐑹 𐑞𐑧𐑥 𐑓𐑮𐑪𐑥 𐑿𐑼 𐑚𐑨𐑒𐑳𐑐. "
+"·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑮𐑩𐑕𐑑𐑹 𐑒𐑨𐑯 𐑕𐑑𐑸𐑑 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑯𐑪𐑑 𐑮𐑳𐑯𐑦𐑙. 𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞𐑨𐑑 𐑿 "
+"𐑒𐑤𐑴𐑟 𐑷𐑤 𐑿𐑼 unsaved 𐑢𐑦𐑯𐑛𐑴𐑟 𐑚𐑦𐑓𐑹 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛. 𐑦𐑓 𐑿 𐑢𐑪𐑯𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑮𐑰𐑕𐑑𐑸𐑑 "
 "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑮𐑰𐑕𐑑𐑸𐑑 𐑭𐑓𐑑𐑼 𐑮𐑩𐑕𐑑𐑹, 𐑐𐑤𐑰𐑟 𐑦𐑯𐑱𐑚𐑩𐑤 𐑞 𐑑𐑪𐑜𐑩𐑤 𐑚𐑳𐑑𐑩𐑯."
 
 #: ../plugins/bbdb/bbdb.c:685 ../plugins/bbdb/bbdb.c:694
@@ -16322,7 +15993,6 @@ msgstr "Bogofilter 𐑪𐑐𐑖𐑩𐑯𐑟"
 msgid "Filter junk messages using Bogofilter."
 msgstr "𐑓𐑦𐑤𐑑𐑼 𐑡𐑩𐑙𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑿𐑟𐑦𐑙 Bogofilter."
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:197
 msgid "Authentication failed. Server requires correct login."
 msgstr "𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑓𐑱𐑤𐑛. 𐑕𐑻𐑝𐑼 𐑮𐑦𐑒𐑢𐑲𐑼𐑟 𐑒𐑩𐑮𐑧𐑒𐑑 𐑤𐑪𐑜𐑦𐑯."
@@ -16330,7 +16000,7 @@ msgstr "𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑓𐑱𐑤𐑛. 𐑕𐑻�
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:199
 msgid "Given URL cannot be found."
-msgstr "𐑜𐑦𐑝𐑩𐑯 ·𐑿·𐑮·𐑤 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑓𐑬𐑯𐑛."
+msgstr "𐑜𐑦𐑝𐑩𐑯 URL 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑓𐑬𐑯𐑛."
 
 #, c-format
 #, fuzzy
@@ -16343,18 +16013,15 @@ msgstr "𐑕𐑻𐑝𐑼 𐑮𐑦𐑑𐑻𐑯𐑛 𐑳𐑯𐑦𐑒𐑕𐑐𐑧�
 msgid "Unknown error"
 msgstr "𐑳𐑯𐑴𐑯 𐑻𐑼"
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:333
 #: ../plugins/caldav/caldav-browse-server.c:584
 msgid "Failed to parse server response."
 msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑐𐑸𐑕 𐑕𐑻𐑝𐑼 𐑮𐑦𐑕𐑐𐑪𐑯𐑕."
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:427
 msgid "Events"
 msgstr "𐑦𐑝𐑧𐑯𐑑𐑕"
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:449
 msgid "User's calendars"
 msgstr "𐑿𐑟𐑼'𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
@@ -16363,16 +16030,14 @@ msgstr "𐑿𐑟𐑼'𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
 #: ../plugins/caldav/caldav-browse-server.c:557
 #: ../plugins/caldav/caldav-browse-server.c:628
 msgid "Failed to get server URL."
-msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑜𐑧𐑑 𐑕𐑻𐑝𐑼 ·𐑿·𐑮·𐑤."
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑜𐑧𐑑 𐑕𐑻𐑝𐑼 URL."
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:626
 #: ../plugins/caldav/caldav-browse-server.c:667
 #: ../plugins/caldav/caldav-browse-server.c:1277
 msgid "Searching for user's calendars..."
 msgstr "𐑕𐑻𐑗𐑦𐑙 𐑓𐑹 𐑿𐑟𐑼'𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟..."
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:665
 msgid "Could not find any user calendar."
 msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑓𐑲𐑯𐑛 𐑧𐑯𐑦 𐑿𐑟𐑼 𐑒𐑨𐑤𐑩𐑯𐑛𐑼."
@@ -16399,20 +16064,17 @@ msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 𐑿𐑟𐑼 %s 𐑪�
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:860
 msgid "Cannot create soup message for URL '%s'"
-msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑕𐑵𐑐 𐑥𐑧𐑕𐑦𐑡 𐑓𐑹 ·𐑿·𐑮·𐑤 '%s'"
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑕𐑵𐑐 𐑥𐑧𐑕𐑦𐑡 𐑓𐑹 URL '%s'"
 
 #. fetch content
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1095
 msgid "Searching folder content..."
 msgstr "𐑕𐑻𐑗𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 𐑒𐑪𐑯𐑑𐑧𐑯𐑑..."
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1138
 msgid "List of available calendars:"
 msgstr "𐑤𐑦𐑕𐑑 𐑝 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟:"
 
-#, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1175
 msgid "Supports"
 msgstr "𐑕𐑩𐑐𐑹𐑑𐑕"
@@ -16427,7 +16089,7 @@ msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑒𐑮𐑦𐑱𐑑 𐑔𐑮𐑧𐑛: %s"
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1362
 msgid "Server URL '%s' is not a valid URL"
-msgstr "𐑕𐑻𐑝𐑼 ·𐑿·𐑮·𐑤 '%s' 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑝𐑨𐑤𐑦𐑛 ·𐑿·𐑮·𐑤"
+msgstr "𐑕𐑻𐑝𐑼 URL '%s' 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑝𐑨𐑤𐑦𐑛 URL"
 
 #, fuzzy
 #: ../plugins/caldav/caldav-browse-server.c:1368
@@ -16449,12 +16111,10 @@ msgstr "_URL:"
 msgid "Use _SSL"
 msgstr "𐑿𐑟 _SSL"
 
-#, fuzzy
 #: ../plugins/caldav/caldav-source.c:235
 msgid "Brows_e server for a calendar"
 msgstr "_𐑚𐑮𐑬𐑟 𐑕𐑻𐑝𐑼 𐑓𐑹 𐑩 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 
-#, fuzzy
 #: ../plugins/caldav/caldav-source.c:251
 #: ../plugins/calendar-file/calendar-file.c:191
 #: ../plugins/calendar-http/calendar-http.c:119
@@ -16467,7 +16127,7 @@ msgstr "_𐑮𐑰𐑓𐑮𐑧𐑖:"
 #, fuzzy
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
-msgstr "𐑨𐑛 CalDAV 𐑕𐑩𐑐𐑹𐑑 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑨𐑛 CalDAV 𐑕𐑩𐑐𐑹𐑑 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #, fuzzy
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
@@ -16514,7 +16174,6 @@ msgstr "𐑤𐑴𐑒𐑩𐑤 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
 msgid "_Secure connection"
 msgstr "_𐑕𐑦𐑒𐑘𐑫𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../plugins/calendar-http/calendar-http.c:194
 msgid "Userna_me:"
 msgstr "_𐑿𐑟𐑼𐑯𐑱𐑥:"
@@ -16568,7 +16227,6 @@ msgid "Select a location"
 msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
 
 #. Translators: "None" location for a weather calendar
-#, fuzzy
 #: ../plugins/calendar-weather/calendar-weather.c:328
 #: ../plugins/calendar-weather/calendar-weather.c:373
 msgctxt "weather-cal-location"
@@ -16596,23 +16254,19 @@ msgstr "𐑨𐑛 𐑢𐑧𐑞𐑼 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 ·𐑧�
 msgid "Weather Calendars"
 msgstr "𐑢𐑧𐑞𐑼 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟"
 
-#, fuzzy
 #: ../plugins/contacts-map/contacts-map.c:55
 #: ../plugins/contacts-map/contacts-map.c:201
 msgid "Contacts map"
 msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑥𐑨𐑐"
 
-#, fuzzy
 #: ../plugins/contacts-map/contacts-map.c:56
 msgid "Show a map of all the contacts"
 msgstr "𐑖𐑴 𐑩 𐑥𐑨𐑐 𐑝 𐑷𐑤 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
 
-#, fuzzy
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:1
 msgid "Add a map showing the location of contacts when possible."
 msgstr "𐑨𐑛 𐑩 𐑥𐑨𐑐 𐑖𐑴𐑦𐑙 𐑞 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑝 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑢𐑧𐑯 𐑐𐑪𐑕𐑩𐑚𐑩𐑤."
 
-#, fuzzy
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
 msgid "Map for contacts"
 msgstr "𐑥𐑨𐑐 𐑓𐑹 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
@@ -16704,7 +16358,6 @@ msgstr "𐑑𐑪𐑐 𐑕𐑰𐑒𐑮𐑩𐑑"
 
 #. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
 #. indicating the header will not be added to a mail message
-#, fuzzy
 #: ../plugins/email-custom-header/email-custom-header.c:379
 msgctxt "email-custom-header"
 msgid "None"
@@ -16885,7 +16538,6 @@ msgstr "𐑞 𐑓𐑲𐑤 𐑿 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑛𐑳𐑟 �
 msgid "Google"
 msgstr "Google"
 
-#, fuzzy
 #: ../plugins/google-account-setup/google-contacts-source.c:274
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:236
 msgid "Server"
@@ -16908,12 +16560,10 @@ msgstr "𐑒𐑨𐑯𐑪𐑑 𐑮𐑰𐑛 𐑛𐑱𐑑𐑩 𐑓𐑮𐑪𐑥 Goog
 msgid "Unknown error."
 msgstr "𐑳𐑯𐑴𐑯 𐑻𐑼."
 
-#, fuzzy
 #: ../plugins/google-account-setup/google-source.c:634
 msgid "Cal_endar:"
 msgstr "_𐑒𐑨𐑤𐑩𐑯𐑛𐑼:"
 
-#, fuzzy
 #: ../plugins/google-account-setup/google-source.c:669
 msgid "Retrieve _List"
 msgstr "𐑮𐑦𐑑𐑮𐑰𐑝 _𐑤𐑦𐑕𐑑"
@@ -16921,7 +16571,7 @@ msgstr "𐑮𐑦𐑑𐑮𐑰𐑝 _𐑤𐑦𐑕𐑑"
 #, fuzzy
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
-msgstr "𐑨𐑛 Google 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑨𐑛 Google 𐑒𐑨𐑤𐑩𐑯𐑛𐑼𐑟 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #, fuzzy
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
@@ -16996,7 +16646,6 @@ msgstr "𐑡𐑩𐑙𐑒 𐑥𐑱𐑤 𐑕𐑧𐑑𐑦𐑙𐑟"
 msgid "Email:"
 msgstr "𐑰𐑥𐑱𐑤:"
 
-#, fuzzy
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
 msgid "Junk List:"
 msgstr "𐑡𐑩𐑙𐑒 𐑤𐑦𐑕𐑑:"
@@ -17161,12 +16810,10 @@ msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑨𐑒𐑕𐑧𐑐𐑑 𐑦𐑑?"
 msgid "Would you like to decline it?"
 msgstr "𐑢𐑫𐑛 𐑿 𐑤𐑲𐑒 𐑑 𐑛𐑦𐑒𐑤𐑲𐑯 𐑦𐑑?"
 
-#, fuzzy
 #: ../plugins/groupwise-features/properties.ui.h:1
 msgid "C_ustomize notification message"
 msgstr "_𐑒𐑩𐑕𐑑𐑩𐑥𐑲𐑟 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑥𐑧𐑕𐑦𐑡"
 
-#, fuzzy
 #: ../plugins/groupwise-features/properties.ui.h:2
 msgid "Con_tacts..."
 msgstr "_𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕..."
@@ -17179,7 +16826,6 @@ msgstr "𐑖𐑺𐑛 𐑓𐑴𐑤𐑛𐑼 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖�
 msgid "The participants will receive the following notification.\n"
 msgstr "𐑞 𐑐𐑭𐑮𐑑𐑦𐑕𐑩𐑐𐑩𐑯𐑑𐑕 𐑢𐑦𐑤 𐑮𐑦𐑕𐑰𐑝 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯.\n"
 
-#, fuzzy
 #: ../plugins/groupwise-features/properties.ui.h:9
 msgid "Users:"
 msgstr "𐑿𐑟𐑼𐑟:"
@@ -17204,7 +16850,6 @@ msgstr "𐑨𐑒𐑕𐑧𐑕 𐑮𐑲𐑑𐑕"
 msgid "Add/Edit"
 msgstr "𐑨𐑛/𐑧𐑛𐑦𐑑"
 
-#, fuzzy
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:4
 msgid "Con_tacts"
 msgstr "_𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
@@ -17269,7 +16914,6 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑑𐑨𐑚 𐑢𐑦𐑤 𐑚𐑰 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑴𐑯𐑤𐑦 𐑢𐑧𐑯 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑦𐑟 𐑦𐑯𐑱𐑚𐑩𐑤𐑛."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
-#, fuzzy
 #: ../plugins/groupwise-features/proxy.c:701
 msgctxt "GW"
 msgid "Proxy"
@@ -17359,7 +17003,6 @@ msgstr "𐑩𐑯𐑛𐑦𐑤𐑦𐑝𐑻𐑛: "
 msgid "Inline Image"
 msgstr "Inline 𐑦𐑥𐑦𐑡"
 
-#, fuzzy
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
 msgid "View image attachments directly in mail messages."
 msgstr "𐑝𐑿 𐑦𐑥𐑦𐑡 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕 𐑛𐑲𐑮𐑧𐑒𐑑𐑤𐑦 𐑦𐑯 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
@@ -17539,7 +17182,6 @@ msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑕𐑧𐑯𐑛 𐑥𐑧𐑥𐑴 𐑦𐑯
 msgid "calendar.ics"
 msgstr "𐑒𐑨𐑤𐑩𐑯𐑛𐑼.ics"
 
-#, fuzzy
 #: ../plugins/itip-formatter/itip-formatter.c:1533
 msgid "Save Calendar"
 msgstr "𐑕𐑱𐑝 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
@@ -18005,12 +17647,10 @@ msgstr "%s 𐑔𐑮𐑵 %s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓�
 msgid "%s has canceled the following shared memo:"
 msgstr "%s 𐑣𐑨𐑟 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑖𐑺𐑛 𐑥𐑧𐑥𐑴:"
 
-#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:688
 msgid "All day:"
 msgstr "𐑷𐑤 𐑛𐑱:"
 
-#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:698
 msgid "Start day:"
 msgstr "𐑕𐑑𐑸𐑑 𐑛𐑱:"
@@ -18021,7 +17661,6 @@ msgstr "𐑕𐑑𐑸𐑑 𐑛𐑱:"
 msgid "Start time:"
 msgstr "𐑕𐑑𐑸𐑑 𐑑𐑲𐑥:"
 
-#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:710
 msgid "End day:"
 msgstr "𐑧𐑯𐑛 𐑛𐑱:"
@@ -18045,7 +17684,6 @@ msgstr "_𐑴𐑐𐑩𐑯 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
 msgid "_Decline"
 msgstr "_𐑛𐑦𐑒𐑤𐑲𐑯"
 
-#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:850
 #: ../plugins/itip-formatter/itip-view.c:855
 #: ../plugins/itip-formatter/itip-view.c:862
@@ -18069,7 +17707,6 @@ msgstr "_𐑑𐑧𐑯𐑑𐑩𐑑𐑦𐑝 𐑷𐑤"
 msgid "_Tentative"
 msgstr "_𐑑𐑧𐑯𐑑𐑩𐑑𐑦𐑝"
 
-#, fuzzy
 #: ../plugins/itip-formatter/itip-view.c:855
 msgid "A_ccept all"
 msgstr "_𐑨𐑒𐑕𐑧𐑐𐑑 𐑷𐑤"
@@ -18274,7 +17911,6 @@ msgstr "𐑯𐑿 𐑰𐑥𐑱𐑤"
 msgid "Show icon in _notification area"
 msgstr "𐑖𐑴 𐑲𐑒𐑪𐑯 𐑦𐑯 _𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑺𐑦𐑩"
 
-#, fuzzy
 #: ../plugins/mail-notification/mail-notification.c:636
 msgid "B_link icon in notification area"
 msgstr "_𐑚𐑤𐑦𐑙𐑒 𐑲𐑒𐑪𐑯 𐑦𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑺𐑦𐑩"
@@ -18468,7 +18104,6 @@ msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩𐑯 _𐑦𐑝𐑧𐑯𐑑"
 msgid "Create a new event from the selected message"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑦𐑝𐑧𐑯𐑑 𐑓𐑮𐑪𐑥 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡"
 
-#, fuzzy
 #: ../plugins/mail-to-task/mail-to-task.c:1060
 msgid "Create a Mem_o"
 msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 _𐑥𐑧𐑥𐑴"
@@ -18625,7 +18260,7 @@ msgstr "_𐑕𐑧𐑯𐑛 𐑥𐑧𐑕𐑦𐑡"
 #, fuzzy
 #: ../plugins/mark-all-read/mark-all-read.c:41
 msgid "Also mark messages in subfolders?"
-msgstr "𐑷𐑤𐑕𐑴 ·𐑥𐑸𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 subfolders?"
+msgstr "𐑷𐑤𐑕𐑴 𐑥𐑸𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 subfolders?"
 
 #, fuzzy
 #: ../plugins/mark-all-read/mark-all-read.c:43
@@ -18633,8 +18268,8 @@ msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
-"𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 ·𐑥𐑸𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛 𐑦𐑯 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 𐑴𐑯𐑤𐑦, 𐑹 𐑦𐑯 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 "
-"𐑨𐑟 𐑢𐑧𐑤 𐑨𐑟 𐑷𐑤 subfolders?"
+"𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑥𐑸𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛 𐑦𐑯 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 𐑴𐑯𐑤𐑦, 𐑹 𐑦𐑯 𐑞 𐑒𐑳𐑮𐑩𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 𐑨𐑟 "
+"𐑢𐑧𐑤 𐑨𐑟 𐑷𐑤 subfolders?"
 
 #, fuzzy
 #: ../plugins/mark-all-read/mark-all-read.c:175
@@ -18645,10 +18280,9 @@ msgstr "𐑦𐑯 𐑒𐑳𐑮𐑩𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 𐑯 _Subfolders"
 msgid "In Current _Folder Only"
 msgstr "𐑦𐑯 𐑒𐑳𐑮𐑩𐑯𐑑 _𐑓𐑴𐑤𐑛𐑼 𐑴𐑯𐑤𐑦"
 
-#, fuzzy
 #: ../plugins/mark-all-read/mark-all-read.c:412
 msgid "Mark Me_ssages as Read"
-msgstr "·𐑥𐑸𐑒 _𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛"
+msgstr "𐑥𐑸𐑒 _𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -18737,7 +18371,7 @@ msgstr "𐑷𐑤𐑢𐑱𐑟 𐑖𐑴 𐑐𐑤𐑱𐑯 𐑑𐑧𐑒𐑕𐑑 𐑐
 #, fuzzy
 #: ../plugins/prefer-plain/prefer-plain.c:247
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr "𐑖𐑴 _𐑕𐑳𐑐𐑮𐑧𐑕𐑑 ·𐑣·𐑑·𐑥·𐑤 𐑐𐑸𐑑𐑕 𐑨𐑟 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
+msgstr "𐑖𐑴 _𐑕𐑳𐑐𐑮𐑧𐑕𐑑 HTML 𐑐𐑸𐑑𐑕 𐑨𐑟 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
 
 #: ../plugins/prefer-plain/prefer-plain.c:267
 msgid "HTML _Mode"
@@ -18780,7 +18414,6 @@ msgid "_Address Book"
 msgstr "_𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
 
 #. Appointments
-#, fuzzy
 #: ../plugins/pst-import/pst-importer.c:321
 msgid "A_ppointments"
 msgstr "_𐑩𐑐𐑶𐑯𐑑𐑥𐑩𐑯𐑑𐑕"
@@ -18839,7 +18472,6 @@ msgstr "𐑐𐑳𐑚𐑤𐑦𐑖𐑦𐑙 𐑑 %s 𐑓𐑦𐑯𐑦𐑖𐑑 𐑕�
 msgid "Mount of %s failed:"
 msgstr "𐑥𐑬𐑯𐑑 𐑝 %s 𐑓𐑱𐑤𐑛:"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.c:596
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
 msgid "E_nable"
@@ -18860,12 +18492,10 @@ msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑐𐑳𐑚𐑤𐑦𐑖 
 msgid "_Publish Calendar Information"
 msgstr "_𐑐𐑳𐑚𐑤𐑦𐑖 𐑒𐑨𐑤𐑩𐑯𐑛𐑼 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Custom Location"
 msgstr "𐑒𐑳𐑕𐑑𐑩𐑥 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Daily"
 msgstr "𐑛𐑱𐑤𐑦"
@@ -18875,12 +18505,10 @@ msgstr "𐑛𐑱𐑤𐑦"
 msgid "FTP (with login)"
 msgstr "FTP (𐑢𐑦𐑞 𐑤𐑪𐑜𐑦𐑯)"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
 msgid "Manual (via Actions menu)"
 msgstr "𐑥𐑨𐑯𐑘𐑫𐑩𐑤 (𐑝𐑲𐑩 𐑨𐑒𐑖𐑩𐑯𐑟 𐑥𐑧𐑯𐑿)"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "P_ort:"
 msgstr "_𐑐𐑹𐑑:"
@@ -18912,7 +18540,6 @@ msgstr "𐑕𐑦𐑒𐑘𐑫𐑼 WebDAV (HTTPS)"
 msgid "Service _type:"
 msgstr "𐑕𐑻𐑝𐑦𐑕 _𐑑𐑲𐑐:"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Sources"
 msgstr "𐑕𐑹𐑕𐑩𐑟"
@@ -18926,12 +18553,10 @@ msgstr "𐑑𐑲𐑥 _𐑛𐑫𐑮𐑱𐑖𐑩𐑯:"
 msgid "WebDAV (HTTP)"
 msgstr "WebDAV (·𐑣·𐑑·𐑑·𐑐)"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 msgid "Weekly"
 msgstr "𐑢𐑰𐑒𐑤𐑰"
 
-#, fuzzy
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 msgid "Windows share"
 msgstr "𐑢𐑦𐑯𐑛𐑴𐑟 𐑖𐑺"
@@ -19021,7 +18646,6 @@ msgstr "SpamAssassin 𐑦𐑟 𐑯𐑪𐑑 𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤. �
 msgid "This will make SpamAssassin more reliable, but slower"
 msgstr "𐑞𐑦𐑕 𐑢𐑦𐑤 𐑥𐑱𐑒 SpamAssassin 𐑥𐑹 𐑮𐑦𐑤𐑲𐑩𐑚𐑩𐑤, 𐑚𐑳𐑑 𐑕𐑤𐑴𐑼"
 
-#, fuzzy
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:932
 msgid "I_nclude remote tests"
 msgstr "_𐑦𐑯𐑒𐑤𐑵𐑛 𐑮𐑦𐑥𐑴𐑑 𐑑𐑧𐑕𐑑𐑕"
@@ -19233,7 +18857,6 @@ msgid "Thread messages by subject"
 msgstr "𐑔𐑮𐑧𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑚𐑲 𐑕𐑳𐑚𐑡𐑧𐑒𐑑"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
-#, fuzzy
 #: ../plugins/subject-thread/subject-thread.c:63
 msgid "F_all back to threading messages by subject"
 msgstr "_𐑓𐑷𐑤 𐑚𐑨𐑒 𐑑 𐑔𐑮𐑧𐑛𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑚𐑲 𐑕𐑳𐑚𐑡𐑧𐑒𐑑"
@@ -19310,7 +18933,7 @@ msgstr "𐑕𐑱𐑝 𐑦𐑯 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
 #, fuzzy
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
 msgid "Add WebDAV contacts to Evolution."
-msgstr "𐑨𐑛 WebDAV 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
+msgstr "𐑨𐑛 WebDAV 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯."
 
 #, fuzzy
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
@@ -19367,7 +18990,6 @@ msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 𐑕𐑑𐑱𐑑"
 msgid "Default window width"
 msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑢𐑦𐑯𐑛𐑴 𐑢𐑦𐑛𐑔"
 
-#, fuzzy
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid "Enable express mode"
 msgstr "𐑦𐑯𐑱𐑚𐑩𐑤 𐑦𐑒𐑕𐑐𐑮𐑧𐑕 𐑥𐑴𐑛"
@@ -19377,7 +18999,6 @@ msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr "𐑦𐑯𐑱𐑚𐑩𐑤𐑟 𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑧𐑑𐑦𐑙𐑟 𐑢𐑧𐑯 𐑨𐑒𐑕𐑧𐑕𐑦𐑙 HTTP/𐑕𐑦𐑒𐑘𐑫𐑼 HTTP 𐑴𐑝𐑼 𐑞 ·𐑦𐑯𐑑𐑼𐑯𐑧𐑑."
 
-#, fuzzy
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "Flag that enables a much simplified user interface."
 msgstr "𐑓𐑤𐑨𐑜 𐑞𐑨𐑑 𐑦𐑯𐑱𐑚𐑩𐑤𐑟 𐑩 𐑥𐑳𐑗 𐑕𐑦𐑥𐑐𐑤𐑩𐑓𐑲𐑛 𐑿𐑟𐑼 𐑦𐑯𐑑𐑼𐑓𐑱𐑕."
@@ -19412,8 +19033,9 @@ msgid ""
 "~/.gnome2_private/Evolution password file."
 msgstr ""
 "𐑦𐑓 𐑑𐑮𐑵, 𐑞𐑧𐑯 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯𐑟 𐑑 𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑻𐑝𐑼 𐑮𐑦𐑒𐑢𐑲𐑼 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯. 𐑞 𐑿𐑟𐑼𐑯𐑱𐑥 𐑦𐑟 𐑮𐑦𐑑𐑮𐑰𐑝𐑛 "
-"𐑓𐑮𐑪𐑥 𐑞 \"/𐑨𐑐𐑕/𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑖𐑧𐑤/_networkconfig/_authenticationuser\" GConf 𐑒𐑰, 𐑯 𐑞 "
-"𐑐𐑭𐑕𐑢𐑼𐑛 𐑦𐑟 𐑮𐑦𐑑𐑮𐑰𐑝𐑛 𐑓𐑮𐑪𐑥 𐑲𐑞𐑼 𐑯𐑴𐑥-𐑒𐑰𐑮𐑦𐑙 𐑹 𐑞 ~/.gnome2_𐑐𐑮𐑲𐑝𐑩𐑑/𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑲𐑤."
+"𐑓𐑮𐑪𐑥 𐑞 \"/𐑨𐑐𐑕/·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯/𐑖𐑧𐑤/_networkconfig/_authenticationuser\" GConf 𐑒𐑰, 𐑯 "
+"𐑞 𐑐𐑭𐑕𐑢𐑼𐑛 𐑦𐑟 𐑮𐑦𐑑𐑮𐑰𐑝𐑛 𐑓𐑮𐑪𐑥 𐑲𐑞𐑼 𐑯𐑴𐑥-𐑒𐑰𐑮𐑦𐑙 𐑹 𐑞 ~/.gnome2_𐑐𐑮𐑲𐑝𐑩𐑑/·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑐𐑭𐑕𐑢𐑼𐑛 "
+"𐑓𐑲𐑤."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Initial attachment view"
@@ -19482,7 +19104,7 @@ msgid ""
 msgstr ""
 "𐑕𐑩𐑤𐑧𐑒𐑑 𐑞 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑥𐑴𐑛. 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑝𐑨𐑤𐑿𐑟 𐑸 0, 1, 2, 𐑯 3 𐑮𐑧𐑐𐑮𐑩𐑟𐑧𐑯𐑑𐑦𐑙 "
 "\"𐑿𐑟 𐑕𐑦𐑕𐑑𐑩𐑥 𐑕𐑧𐑑𐑦𐑙𐑟\", \"𐑯𐑴 𐑐𐑮𐑪𐑒𐑕𐑦\", \"𐑿𐑕 𐑥𐑨𐑯𐑘𐑫𐑩𐑤 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯\" 𐑯 "
-"\"𐑿𐑕 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑐𐑮𐑩𐑝𐑲𐑛𐑩𐑛 𐑦𐑯 𐑞 autoconfig ·𐑿·𐑮·𐑤\" 𐑮𐑦𐑕𐑐𐑧𐑒𐑑𐑦𐑝𐑤𐑦."
+"\"𐑿𐑕 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑐𐑮𐑩𐑝𐑲𐑛𐑩𐑛 𐑦𐑯 𐑞 autoconfig URL\" 𐑮𐑦𐑕𐑐𐑧𐑒𐑑𐑦𐑝𐑤𐑦."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "Sidebar is visible"
@@ -19661,14 +19283,12 @@ msgstr "𐑕𐑱𐑝 𐑕𐑻𐑗"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#, fuzzy
 #: ../shell/e-shell-searchbar.c:918
 msgid "Sho_w:"
 msgstr "_𐑖𐑴:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#, fuzzy
 #: ../shell/e-shell-searchbar.c:949
 msgid "Sear_ch:"
 msgstr "_𐑕𐑻𐑗:"
@@ -19751,7 +19371,6 @@ msgstr "_𐑓𐑼𐑜𐑧𐑑 𐑐𐑭𐑕𐑢𐑼𐑛𐑟"
 msgid "Forget all remembered passwords"
 msgstr "𐑓𐑼𐑜𐑧𐑑 𐑷𐑤 𐑮𐑦𐑥𐑧𐑥𐑚𐑼𐑛 𐑐𐑭𐑕𐑢𐑼𐑛𐑟"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1497
 msgid "I_mport..."
 msgstr "_𐑦𐑥𐑐𐑹𐑑..."
@@ -19841,7 +19460,6 @@ msgstr "𐑕𐑩𐑚𐑥𐑦𐑑 _𐑚𐑳𐑜 𐑮𐑩𐑐𐑹𐑑..."
 msgid "Submit a bug report using Bug Buddy"
 msgstr "𐑕𐑩𐑚𐑥𐑦𐑑 𐑩 𐑚𐑳𐑜 𐑮𐑩𐑐𐑹𐑑 𐑿𐑟𐑦𐑙 ·𐑚𐑳𐑜 ·𐑚𐑩𐑛𐑰"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1602
 msgid "GNOME Pilot _Synchronization..."
 msgstr "𐑯𐑴𐑥 𐑐𐑲𐑤𐑩𐑑 _𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑩𐑟𐑱𐑖𐑩𐑯..."
@@ -19866,7 +19484,6 @@ msgstr "_𐑢𐑻𐑒 𐑪𐑯𐑤𐑲𐑯"
 msgid "Put Evolution into online mode"
 msgstr "𐑐𐑫𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑯𐑑𐑫 𐑪𐑯𐑤𐑲𐑯 𐑥𐑴𐑛"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1646
 msgid "Lay_out"
 msgstr "_𐑤𐑱𐑬𐑑"
@@ -19943,7 +19560,6 @@ msgstr "𐑲𐑒𐑪𐑯𐑟 _𐑯 𐑑𐑧𐑒𐑕𐑑"
 msgid "Display window buttons with icons and text"
 msgstr "𐑛𐑩𐑕𐑐𐑤𐑱 𐑢𐑦𐑯𐑛𐑴 𐑚𐑳𐑑𐑩𐑯𐑟 𐑢𐑦𐑞 𐑲𐑒𐑪𐑯𐑟 𐑯 𐑑𐑧𐑒𐑕𐑑"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1779
 msgid "Tool_bar Style"
 msgstr "_𐑑𐑵𐑤𐑚𐑸 𐑕𐑑𐑲𐑤"
@@ -19968,7 +19584,6 @@ msgstr "𐑕𐑱𐑝 𐑒𐑳𐑕𐑑𐑩𐑥 𐑝𐑿..."
 msgid "Save current custom view"
 msgstr "𐑕𐑱𐑝 𐑒𐑳𐑮𐑩𐑯𐑑 𐑒𐑳𐑕𐑑𐑩𐑥 𐑝𐑿"
 
-#, fuzzy
 #: ../shell/e-shell-window-actions.c:1805
 msgid "C_urrent View"
 msgstr "_𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿"
@@ -20347,7 +19962,6 @@ msgstr "<𐑯𐑪𐑑 𐑐𐑸𐑑 𐑝 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑>"
 msgid "Authorities"
 msgstr "𐑷𐑔𐑹𐑦𐑑𐑰𐑟"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "Backup _All"
 msgstr "𐑚𐑨𐑒𐑳𐑐 _𐑷𐑤"
@@ -20498,7 +20112,6 @@ msgstr "𐑿 𐑣𐑨𐑝 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕 𐑪𐑯 𐑓
 msgid "Your Certificates"
 msgstr "𐑿𐑼 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑𐑕"
 
-#, fuzzy
 #: ../smime/gui/smime-ui.ui.h:43
 msgid "_Backup"
 msgstr "_𐑚𐑨𐑒𐑳𐑐"
@@ -20711,7 +20324,6 @@ msgstr "_𐑩𐑛𐑮𐑧𐑕 𐑒𐑸𐑛𐑟"
 msgid "_List View"
 msgstr "_𐑤𐑦𐑕𐑑 𐑝𐑿"
 
-#, fuzzy
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
 msgstr "_𐑢𐑰𐑒 𐑝𐑿"
@@ -20728,7 +20340,6 @@ msgstr "_𐑥𐑳𐑯𐑔 𐑝𐑿"
 msgid "_Work Week View"
 msgstr "_𐑢𐑻𐑒 𐑢𐑰𐑒 𐑝𐑿"
 
-#, fuzzy
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
 msgstr "𐑨𐑟 𐑕𐑧𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 𐑓𐑹 _𐑢𐑲𐑛 𐑝𐑿"
@@ -20737,17 +20348,14 @@ msgstr "𐑨𐑟 𐑕𐑧𐑯𐑑 𐑓𐑴𐑤𐑛𐑼 𐑓𐑹 _𐑢𐑲𐑛 �
 msgid "As _Sent Folder"
 msgstr "𐑨𐑟 _𐑕𐑧𐑯𐑑 𐑓𐑴𐑤𐑛𐑼"
 
-#, fuzzy
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
 msgstr "𐑚𐑲 _𐑕𐑑𐑱𐑑𐑫𐑕"
 
-#, fuzzy
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
 msgstr "𐑚𐑲 _𐑕𐑧𐑯𐑛𐑻"
 
-#, fuzzy
 #: ../views/mail/galview.xml.h:5
 msgid "By Su_bject"
 msgstr "𐑚𐑲 _𐑕𐑳𐑚𐑡𐑧𐑒𐑑"
@@ -20806,7 +20414,6 @@ msgstr ""
 "𐑿𐑟 𐑞 𐑤𐑧𐑓𐑑 𐑥𐑬𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑟𐑵𐑥 𐑦𐑯 𐑪𐑯 𐑩𐑯 𐑺𐑦𐑩 𐑝 𐑞 𐑥𐑨𐑐 𐑯 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑑𐑲𐑥 𐑟𐑴𐑯.\n𐑿𐑟 𐑞 𐑮𐑲𐑑 "
 "𐑥𐑬𐑕 𐑚𐑳𐑑𐑩𐑯 𐑑 𐑟𐑵𐑥 𐑬𐑑."
 
-#, fuzzy
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:7
 msgid "_Selection"
 msgstr "_𐑕𐑦𐑤𐑧𐑒𐑖𐑩𐑯"
@@ -20859,7 +20466,6 @@ msgstr "𐑑𐑲𐑐 𐑝 𐑝𐑿"
 msgid "Type of view:"
 msgstr "𐑑𐑲𐑐 𐑝 𐑝𐑿:"
 
-#, fuzzy
 #: ../widgets/misc/e-account-manager.c:348
 msgid "De_fault"
 msgstr "_𐑛𐑦𐑓𐑷𐑤𐑑"
@@ -20917,12 +20523,10 @@ msgstr "𐑤𐑴𐑛𐑦𐑙"
 msgid "Saving"
 msgstr "𐑕𐑱𐑝𐑦𐑙"
 
-#, fuzzy
 #: ../widgets/misc/e-attachment-paned.c:87
 msgid "Hide Attachment _Bar"
 msgstr "𐑣𐑲𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 _𐑚𐑸"
 
-#, fuzzy
 #: ../widgets/misc/e-attachment-paned.c:89
 #: ../widgets/misc/e-attachment-paned.c:636
 msgid "Show Attachment _Bar"
@@ -20932,7 +20536,6 @@ msgstr "𐑖𐑴 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑 _𐑚𐑸"
 msgid "Add Attachment"
 msgstr "𐑨𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../widgets/misc/e-attachment-store.c:541
 msgid "A_ttach"
 msgstr "_𐑩𐑑𐑨𐑗"
@@ -20949,12 +20552,10 @@ msgstr[1] "𐑕𐑱𐑝 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑𐑕"
 msgid "attachment.dat"
 msgstr "𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑.dat"
 
-#, fuzzy
 #: ../widgets/misc/e-attachment-view.c:299
 msgid "S_ave All"
 msgstr "_𐑕𐑱𐑝 𐑷𐑤"
 
-#, fuzzy
 #: ../widgets/misc/e-attachment-view.c:325
 msgid "A_dd Attachment..."
 msgstr "_𐑨𐑛 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑..."
@@ -21107,7 +20708,6 @@ msgstr ""
 "𐑗𐑵𐑟 𐑞 𐑓𐑲𐑤 𐑞𐑨𐑑 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑦𐑯𐑑𐑫 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯, 𐑯 𐑕𐑩𐑤𐑧𐑒𐑑 𐑢𐑪𐑑 𐑑𐑲𐑐 𐑝 𐑓𐑲𐑤 𐑦𐑑 𐑦𐑟 "
 "𐑓𐑮𐑪𐑥 𐑞 𐑤𐑦𐑕𐑑."
 
-#, fuzzy
 #: ../widgets/misc/e-import-assistant.c:255
 msgid "F_ilename:"
 msgstr "_𐑓𐑲𐑤𐑯𐑱𐑥:"
@@ -21276,22 +20876,18 @@ msgstr "𐑮𐑰𐑗𐑑 𐑚𐑪𐑑𐑫𐑥 𐑝 𐑐𐑱𐑡, 𐑒𐑩𐑯�
 msgid "Reached top of page, continued from bottom"
 msgstr "𐑮𐑰𐑗𐑑 𐑑𐑪𐑐 𐑝 𐑐𐑱𐑡, 𐑒𐑩𐑯𐑑𐑦𐑯𐑿𐑛 𐑓𐑮𐑪𐑥 𐑚𐑪𐑑𐑫𐑥"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.c:515
 msgid "When de_leted:"
 msgstr "𐑢𐑧𐑯 _𐑛𐑦𐑤𐑰𐑑𐑩𐑛:"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:1
 msgid "A_uto-delete sent item"
 msgstr "_𐑷𐑑𐑴-𐑛𐑦𐑤𐑰𐑑 𐑕𐑧𐑯𐑑 𐑲𐑑𐑩𐑥"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:3
 msgid "Creat_e a sent item to track information"
 msgstr "_𐑒𐑮𐑦𐑱𐑑 𐑩 𐑕𐑧𐑯𐑑 𐑲𐑑𐑩𐑥 𐑑 𐑑𐑮𐑨𐑒 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:4
 msgid "Deli_vered and opened"
 msgstr "_𐑛𐑩𐑤𐑦𐑝𐑼𐑛 𐑯 𐑴𐑐𐑩𐑯𐑛"
@@ -21304,7 +20900,6 @@ msgstr "𐑛𐑦𐑤𐑦𐑝𐑼𐑦 𐑪𐑐𐑖𐑩𐑯𐑟"
 msgid "For Your Eyes Only"
 msgstr "𐑓𐑹 𐑿𐑼 𐑲𐑟 𐑴𐑯𐑤𐑦"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:7
 msgid "Gene_ral Options"
 msgstr "_𐑡𐑧𐑯𐑼𐑩𐑤 𐑪𐑐𐑖𐑩𐑯𐑟"
@@ -21317,7 +20912,6 @@ msgstr "𐑥𐑱𐑤 𐑮𐑦𐑕𐑰𐑑"
 msgid "Proprietary"
 msgstr "𐑐𐑮𐑩𐑐𐑮𐑲𐑩𐑑𐑧𐑮𐑰"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:15
 msgid "R_eply requested"
 msgstr "_𐑮𐑦𐑐𐑤𐑲 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛"
@@ -21326,7 +20920,6 @@ msgstr "_𐑮𐑦𐑐𐑤𐑲 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛"
 msgid "Return Notification"
 msgstr "𐑮𐑦𐑑𐑻𐑯 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:20
 msgid "Sta_tus Tracking"
 msgstr "_𐑕𐑑𐑱𐑑𐑫𐑕 𐑑𐑮𐑨𐑒𐑦𐑙"
@@ -21343,29 +20936,24 @@ msgstr "𐑕𐑑𐑱𐑑𐑫𐑕 𐑑𐑮𐑨𐑒𐑦𐑙"
 msgid "Top Secret"
 msgstr "𐑑𐑪𐑐 𐑕𐑰𐑒𐑮𐑩𐑑"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:25
 msgid "When acce_pted:"
 msgstr "𐑢𐑧𐑯 _𐑨𐑒𐑕𐑧𐑐𐑑𐑩𐑛:"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:26
 msgid "When co_mpleted:"
 msgstr "𐑢𐑧𐑯 _𐑒𐑩𐑥𐑐𐑤𐑰𐑑𐑩𐑛:"
 
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:27
 msgid "When decli_ned:"
 msgstr "𐑢𐑧𐑯 _𐑛𐑦𐑒𐑤𐑲𐑯𐑛:"
 
 #. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:29
 msgid "Wi_thin"
 msgstr "_𐑢𐑦𐑞𐑦𐑯"
 
 #. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:31
 msgid "_After"
 msgstr "_𐑭𐑓𐑑𐑼"
@@ -21391,7 +20979,6 @@ msgid "_Set expiration date"
 msgstr "_𐑕𐑧𐑑 𐑧𐑒𐑕𐑐𐑻𐑱𐑖𐑩𐑯 𐑛𐑱𐑑"
 
 #. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
-#, fuzzy
 #: ../widgets/misc/e-send-options.ui.h:39
 msgid "_Until"
 msgstr "_𐑳𐑯𐑑𐑦𐑤"
@@ -21443,7 +21030,6 @@ msgstr ""
 "𐑞 𐑬𐑑𐑐𐑫𐑑 𐑝 𐑞𐑦𐑕 𐑕𐑒𐑮𐑦𐑐𐑑 𐑢𐑦𐑤 𐑚𐑰 𐑿𐑟𐑛 𐑨𐑟 𐑿𐑼\n𐑕𐑦𐑜𐑯𐑩𐑗𐑼. 𐑞 𐑯𐑱𐑥 𐑿 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑢𐑦𐑤 𐑚𐑰 "
 "𐑿𐑟𐑛\n𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱 𐑐𐑻𐑐𐑩𐑕𐑩𐑟 𐑴𐑯𐑤𐑦."
 
-#, fuzzy
 #: ../widgets/misc/e-signature-script-dialog.c:311
 msgid "S_cript:"
 msgstr "_𐑕𐑒𐑮𐑦𐑐𐑑:"
@@ -21568,7 +21154,6 @@ msgstr "𐑖𐑴 𐑓𐑰𐑤𐑛𐑟"
 msgid "Available Fields"
 msgstr "𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑓𐑰𐑤𐑛𐑟"
 
-#, fuzzy
 #: ../widgets/table/e-table-config.ui.h:1
 msgid "A_vailable Fields:"
 msgstr "_𐑩𐑝𐑱𐑤𐑩𐑚𐑩𐑤 𐑓𐑰𐑤𐑛𐑟:"
@@ -21607,7 +21192,6 @@ msgstr "𐑥𐑵𐑝 _𐑳𐑐"
 msgid "Show _field in View"
 msgstr "𐑖𐑴 _𐑓𐑰𐑤𐑛 𐑦𐑯 𐑝𐑿"
 
-#, fuzzy
 #: ../widgets/table/e-table-config.ui.h:13
 msgid "Show field i_n View"
 msgstr "𐑖𐑴 𐑓𐑰𐑤𐑛 _𐑦𐑯 𐑝𐑿"
@@ -21715,27 +21299,22 @@ msgstr "𐑜𐑮𐑵𐑐 𐑚𐑲 _𐑚𐑪𐑒𐑕"
 msgid "Remove This _Column"
 msgstr "𐑮𐑦𐑥𐑵𐑝 𐑞𐑦𐑕 _𐑒𐑪𐑤𐑩𐑥"
 
-#, fuzzy
 #: ../widgets/table/e-table-header-item.c:1581
 msgid "Add a C_olumn..."
 msgstr "𐑨𐑛 𐑩 _𐑒𐑪𐑤𐑩𐑥..."
 
-#, fuzzy
 #: ../widgets/table/e-table-header-item.c:1585
 msgid "A_lignment"
 msgstr "_𐑩𐑤𐑲𐑯𐑥𐑩𐑯𐑑"
 
-#, fuzzy
 #: ../widgets/table/e-table-header-item.c:1588
 msgid "B_est Fit"
 msgstr "_𐑚𐑧𐑕𐑑 𐑓𐑦𐑑"
 
-#, fuzzy
 #: ../widgets/table/e-table-header-item.c:1591
 msgid "Format Column_s..."
 msgstr "𐑓𐑹𐑥𐑨𐑑 _𐑒𐑪𐑤𐑩𐑥𐑟..."
 
-#, fuzzy
 #: ../widgets/table/e-table-header-item.c:1595
 msgid "Custo_mize Current View..."
 msgstr "_𐑒𐑩𐑕𐑑𐑩𐑥𐑲𐑟 𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿..."
