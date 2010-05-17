@@ -1,4 +1,4 @@
-bin_PROGRAMS = evolution-alarm-notify
+privlibexec_PROGRAMS = evolution-alarm-notify
 
 if HAVE_WINDRES
 EVOLUTIONALARMNOTIFYICON = evolution-alarm-notify-icon.o
