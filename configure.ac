@@ -1382,6 +1382,9 @@ AC_SUBST(viewsdir)
 privconduitdir="$privlibdir/conduits"
 AC_SUBST(privconduitdir)
 
+dnl For evolution-alarm-notify.desktop
+AS_AC_EXPAND(PRIVLIBEXECDIR, "$privlibexecdir")
+
 dnl ************************
 dnl Plugins
 dnl ************************
@@ -1646,6 +1649,9 @@ addressbook/tools/csv2vcard
 addressbook/util/Makefile
 art/Makefile
 data/Makefile
+data/evolution.desktop.in
+data/evolution-alarm-notify.desktop.in
+data/evolution-settings.desktop.in
 data/icons/Makefile
 doc/Makefile
 doc/reference/Makefile

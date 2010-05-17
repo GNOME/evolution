@@ -151,7 +151,6 @@ capplet/settings/mail-settings-view.c
 data/evolution-alarm-notify.desktop.in.in
 data/evolution.desktop.in.in
 data/evolution-settings.desktop.in.in
-data/evolution.keys.in.in
 e-util/e-activity.c
 e-util/e-alert.c
 e-util/e-categories-config.c
