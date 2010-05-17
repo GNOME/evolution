@@ -148,7 +148,7 @@ _e_win32_register_mailer_impl (WINBOOL system)
 		return;
 
 	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
-	openCommand = g_strconcat("\"", evolutionBinary, "\" -component=mail", NULL);
+	openCommand = g_strconcat("\"", evolutionBinary, "\" --component=mail", NULL);
 	g_free (evolutionBinary);
 	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)openCommand, strlen (openCommand) + 1))) {
 		g_free (openCommand);
