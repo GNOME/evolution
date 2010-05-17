@@ -280,6 +280,8 @@ modules/mail/e-mail-shell-view.c
 modules/mail/em-account-prefs.c
 modules/mail/em-composer-prefs.c
 modules/mail/em-mailer-prefs.c
+modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in
+modules/mailto-handler/evolution-mailto-handler.c
 modules/plugin-python/example/org-gnome-hello-python-ui.xml
 modules/plugin-python/example/org-gnome-hello-python.eplug.xml
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
@@ -308,9 +310,6 @@ plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
 plugins/contacts-map/contacts-map.c
 plugins/contacts-map/org-gnome-contacts-map.eplug.xml
-plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in
-plugins/default-mailer/org-gnome-default-mailer.eplug.xml
-plugins/default-mailer/org-gnome-default-mailer.error.xml
 plugins/default-source/default-source.c
 plugins/default-source/org-gnome-default-source.eplug.xml
 plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
