@@ -104,8 +104,6 @@ _e_win32_register_mailer_impl (WINBOOL system)
 	DWORD i, dwDisposition;
 	gchar *defaultIcon = NULL;
 	gchar *dllPath = NULL;
-	gchar *dllShortPath = NULL;
-	DWORD dllShortPathLength;
 	gchar *evolutionBinary = NULL;
 	gchar *openCommand = NULL;
 	gchar *setDefaultCommand = NULL;
@@ -166,28 +164,24 @@ _e_win32_register_mailer_impl (WINBOOL system)
 		return;
 	
 	dllPath = _e_win32_sanitize_path (g_build_path(G_DIR_SEPARATOR_S, _e_get_bindir (), EUTILDLL, NULL));
-	dllShortPathLength = GetShortPathNameA (dllPath, NULL, 0);
-	dllShortPath = g_new0 (char, dllShortPathLength);
-	GetShortPathNameA (dllPath, dllShortPath, dllShortPathLength);
+	
+	setDefaultCommand = g_strconcat ("%SystemRoot%\\system32\\rundll32.exe \"", dllPath, "\",_e_win32_set_default_mailer", NULL);
+	unsetDefaultCommand = g_strconcat ("%SystemRoot%\\system32\\rundll32.exe \"", dllPath, "\",_e_win32_unset_default_mailer", NULL);
 	g_free (dllPath);
-	
-	setDefaultCommand = g_strconcat ("rundll32 ", dllShortPath, ",_e_win32_set_default_mailer", NULL);
-	unsetDefaultCommand = g_strconcat ("rundll32 ", dllShortPath, ",_e_win32_set_default_mailer", NULL);
-	g_free (dllShortPath);
 
-	if ((returnValue = RegSetValueExA (reg_subkey, "ReinstallCommand", 0, REG_SZ, (const BYTE *)setDefaultCommand, strlen (setDefaultCommand) + 1))) {
+	if ((returnValue = RegSetValueExA (reg_subkey, "ReinstallCommand", 0, REG_EXPAND_SZ, (const BYTE *)setDefaultCommand, strlen (setDefaultCommand) + 1))) {
 		g_free (setDefaultCommand);
 		g_free (unsetDefaultCommand);
 		return;
 	}
 	
-	if ((returnValue = RegSetValueExA (reg_subkey, "ShowIconsCommand", 0, REG_SZ, (const BYTE *)setDefaultCommand, strlen (setDefaultCommand) + 1))) {
+	if ((returnValue = RegSetValueExA (reg_subkey, "ShowIconsCommand", 0, REG_EXPAND_SZ, (const BYTE *)setDefaultCommand, strlen (setDefaultCommand) + 1))) {
 		g_free (setDefaultCommand);
 		g_free (unsetDefaultCommand);
 		return;
 	}
 
-	if ((returnValue = RegSetValueExA (reg_subkey, "HideIconsCommand", 0, REG_SZ, (const BYTE *)unsetDefaultCommand, strlen (unsetDefaultCommand) + 1))) {
+	if ((returnValue = RegSetValueExA (reg_subkey, "HideIconsCommand", 0, REG_EXPAND_SZ, (const BYTE *)unsetDefaultCommand, strlen (unsetDefaultCommand) + 1))) {
 		g_free (setDefaultCommand);
 		g_free (unsetDefaultCommand);
 		return;
