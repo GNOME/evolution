@@ -58,6 +58,9 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#ifdef G_OS_WIN32
+#include "e-util/e-win32-defaults.h"
+#endif
 
 #include <fcntl.h>
 #include <signal.h>
@@ -428,13 +431,6 @@ main (gint argc, gchar **argv)
 			dup2 (fileno (stderr), 2);
 		}
 	}
-	
-	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
-
-	if (!g_setenv ("PATH", path, TRUE))
-		g_warning ("Could not set PATH for Evolution and its child processes");
-
-	g_free (path);	
 #endif
 
 	/* Make ElectricFence work.  */
@@ -460,6 +456,15 @@ main (gint argc, gchar **argv)
 	dbus_g_thread_init ();
 
 #ifdef G_OS_WIN32
+	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
+
+	if (!g_setenv ("PATH", path, TRUE))
+		g_warning ("Could not set PATH for Evolution and its child processes");
+
+	g_free (path);
+	
+	_e_win32_register_mailer ();
+	
 	if (strcmp (gettext (""), "") == 0) {
 		/* No message catalog installed for the current locale
 		 * language, so don't bother with the localisations
