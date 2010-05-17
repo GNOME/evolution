@@ -913,7 +913,7 @@ static GtkActionEntry mail_entries[] = {
 	{ "mail-folder-mark-all-as-read",
 	  "mail-read",
 	  N_("Mar_k All Messages as Read"),
-	  NULL,
+	  "<Control>slash",
 	  N_("Mark all messages in the folder as read"),
 	  G_CALLBACK (action_mail_folder_mark_all_as_read_cb) },
 

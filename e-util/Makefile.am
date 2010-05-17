@@ -4,7 +4,7 @@ ecpsdir = $(privdatadir)/ecps
 ruledir = $(privdatadir)
 
 if OS_WIN32
-PLATFORM_SOURCES = e-win32-reloc.c
+PLATFORM_SOURCES = e-win32-reloc.c e-win32-defaults.c e-win32-defaults.h
 endif
 
 privsolib_LTLIBRARIES = libeutil.la libeconduit.la
