@@ -1091,7 +1091,7 @@ static GtkActionEntry individual_entries[] = {
 	  G_CALLBACK (action_attach_cb) }
 };
 
-static GtkToggleActionEntry personal_toggle_entries[] = {
+static GtkToggleActionEntry core_toggle_entries[] = {
 
 	{ "view-categories",
 	  NULL,
@@ -1593,6 +1593,9 @@ comp_editor_init (CompEditor *editor)
 	gtk_action_group_add_actions (
 		action_group, core_entries,
 		G_N_ELEMENTS (core_entries), editor);
+	gtk_action_group_add_toggle_actions (
+		action_group, core_toggle_entries,
+		G_N_ELEMENTS (core_toggle_entries), editor);
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
@@ -1615,9 +1618,6 @@ comp_editor_init (CompEditor *editor)
 	action_group = gtk_action_group_new ("editable");
 	gtk_action_group_set_translation_domain (
 		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_toggle_actions (
-		action_group, personal_toggle_entries,
-		G_N_ELEMENTS (personal_toggle_entries), editor);
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
