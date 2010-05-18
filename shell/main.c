@@ -78,6 +78,11 @@
 #endif
 
 /* Command-line options.  */
+#ifdef G_OS_WIN32
+static gboolean reinstall = FALSE;
+static gboolean show_icons = FALSE;
+static gboolean hide_icons = FALSE;
+#endif /* G_OS_WIN32 */
 static gboolean express_mode = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
@@ -300,6 +305,14 @@ setup_segv_redirect (void)
 #endif
 
 static GOptionEntry entries[] = {
+#ifdef G_OS_WIN32
+	{ "--reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
+	  NULL, NULL },
+	{ "--show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
+	  NULL, NULL },
+	{ "--hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
+	  NULL, NULL },
+#endif /* G_OS_WIN32 */
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	  N_("Start Evolution activating the specified component"), NULL },
 	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
@@ -465,6 +478,21 @@ main (gint argc, gchar **argv)
 	
 	_e_win32_register_mailer ();
 	
+	if (reinstall) {
+		_e_win32_set_default_mailer ();
+		exit (0);
+	}
+
+	if (show_icons) {
+		_e_win32_set_default_mailer ();
+		exit (0);
+	}
+
+	if (hide_icons) {
+		_e_win32_unset_default_mailer ();
+		exit (0);
+	}
+
 	if (strcmp (gettext (""), "") == 0) {
 		/* No message catalog installed for the current locale
 		 * language, so don't bother with the localisations
