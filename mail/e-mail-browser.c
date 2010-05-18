@@ -280,11 +280,10 @@ close_on_idle_cb (gpointer browser)
 }
 
 static void
-mail_browser_message_list_built_cb (EMailBrowser *browser, MessageList *message_list)
+mail_browser_message_list_built_cb (EMailBrowser *browser,
+                                    MessageList *message_list)
 {
-	g_return_if_fail (browser != NULL);
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
-	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	if (!message_list_count (message_list))
