@@ -1063,7 +1063,7 @@ static GtkActionEntry individual_entries[] = {
 	  G_CALLBACK (action_attach_cb) }
 };
 
-static GtkToggleActionEntry individual_toggle_entries[] = {
+static GtkToggleActionEntry personal_toggle_entries[] = {
 
 	{ "view-categories",
 	  NULL,
@@ -1634,14 +1634,21 @@ comp_editor_init (CompEditor *editor)
 	gtk_action_group_add_actions (
 		action_group, individual_entries,
 		G_N_ELEMENTS (individual_entries), editor);
-	gtk_action_group_add_toggle_actions (
-		action_group, individual_toggle_entries,
-		G_N_ELEMENTS (individual_toggle_entries), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, classification_radio_entries,
 		G_N_ELEMENTS (classification_radio_entries),
 		E_CAL_COMPONENT_CLASS_PUBLIC,
 		G_CALLBACK (action_classification_cb), editor);
+	gtk_ui_manager_insert_action_group (
+		priv->ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	action_group = gtk_action_group_new ("editable");
+	gtk_action_group_set_translation_domain (
+		action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_toggle_actions (
+		action_group, personal_toggle_entries,
+		G_N_ELEMENTS (personal_toggle_entries), editor);
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
