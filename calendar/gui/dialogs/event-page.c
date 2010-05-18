@@ -806,6 +806,9 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->invite, (!read_only &&  sens) || delegate);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 
+	action_group = comp_editor_get_action_group (editor, "editable");
+	gtk_action_group_set_sensitive (action_group, !read_only);
+
 	action_group = comp_editor_get_action_group (editor, "individual");
 	gtk_action_group_set_sensitive (action_group, sensitize);
 
