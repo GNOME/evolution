@@ -441,7 +441,8 @@ mail_browser_dispose (GObject *object)
 	}
 
 	if (priv->message_list != NULL) {
-		g_object_unref (priv->message_list);
+		/* This will cancel a regen operation. */
+		gtk_widget_destroy (priv->message_list);
 		priv->message_list = NULL;
 	}
 

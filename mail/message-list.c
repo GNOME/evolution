@@ -4580,7 +4580,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 #endif
 
 	m = mail_msg_new (&regen_list_info);
-	m->ml = ml;
+	m->ml = g_object_ref (ml);
 	m->search = g_strdup (search);
 	m->hideexpr = g_strdup (hideexpr);
 	m->changes = changes;
@@ -4588,9 +4588,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	m->hidedel = ml->hidedeleted;
 	m->hidejunk = ml->hidejunk;
 	m->thread_subject = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_subject", NULL);
-	g_object_ref(ml);
-	m->folder = ml->folder;
-	g_object_ref (m->folder);
+	m->folder = g_object_ref (ml->folder);
 	m->last_row = -1;
 	m->expand_state = NULL;
 
