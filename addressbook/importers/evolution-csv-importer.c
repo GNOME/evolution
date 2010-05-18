@@ -762,17 +762,26 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	CSVImporter *gci;
 	EBook *book;
+	gchar *filename;
 	FILE *file;
 	EImportTargetURI *s = (EImportTargetURI *) target;
+
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (filename == NULL) {
+		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		return;
+	}
 
 	book = e_book_new(g_datalist_get_data(&target->data, "csv-source"), NULL);
 	if (book == NULL) {
 		g_message("Couldn't Create EBook");
 		e_import_complete(ei, target);
+		g_free (filename);
 		return;
 	}
 
-	file = g_fopen (g_filename_from_uri(s->uri_src, NULL, NULL), "r");
+	file = g_fopen (filename, "r");
+	g_free (filename);
 	if (file == NULL) {
 		g_message("Can't open .csv file");
 		e_import_complete(ei, target);
@@ -825,6 +834,73 @@ csv_cancel(EImport *ei, EImportTarget *target, EImportImporter *im) {
 		gci->state = 1;
 }
 
+static GtkWidget *
+csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	GtkWidget *preview;
+	GList *contacts = NULL;
+	EContact *contact;
+	EImportTargetURI *s = (EImportTargetURI *)target;
+	gchar *filename;
+	FILE *file;
+	CSVImporter *gci;
+
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (filename == NULL) {
+		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		return NULL;
+	}
+
+	file = g_fopen (filename, "r");
+	g_free (filename);
+	if (file == NULL) {
+		g_message (G_STRLOC ": Can't open .csv file");
+		return NULL;
+	}
+
+	gci = g_malloc0 (sizeof (*gci));
+	gci->file = file;
+	gci->count = 0;
+	fseek(file, 0, SEEK_END);
+	gci->size = ftell (file);
+	fseek (file, 0, SEEK_SET);
+
+	while (contact = getNextCSVEntry (gci, gci->file), contact != NULL) {
+		contacts = g_list_prepend (contacts, contact);
+	}
+
+	contacts = g_list_reverse (contacts);
+	preview = evolution_contact_importer_get_preview_widget (contacts);
+
+	g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
+	g_list_free (contacts);
+	fclose (file);
+	g_free (gci);
+
+	return preview;
+}
+
+static GtkWidget *
+outlook_csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	importer = OUTLOOK_IMPORTER;
+	return csv_get_preview (ei, target, im);
+}
+
+static GtkWidget *
+mozilla_csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	importer = MOZILLA_IMPORTER;
+	return csv_get_preview (ei, target, im);
+}
+
+static GtkWidget *
+evolution_csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	importer = EVOLUTION_IMPORTER;
+	return csv_get_preview (ei, target, im);
+}
+
 static EImportImporter csv_outlook_importer = {
 	E_IMPORT_TARGET_URI,
 	0,
@@ -832,6 +908,7 @@ static EImportImporter csv_outlook_importer = {
 	csv_getwidget,
 	outlook_csv_import,
 	csv_cancel,
+	outlook_csv_get_preview,
 };
 
 static EImportImporter csv_mozilla_importer = {
@@ -841,6 +918,7 @@ static EImportImporter csv_mozilla_importer = {
 	csv_getwidget,
 	mozilla_csv_import,
 	csv_cancel,
+	mozilla_csv_get_preview,
 };
 
 static EImportImporter csv_evolution_importer = {
@@ -850,6 +928,7 @@ static EImportImporter csv_evolution_importer = {
 	csv_getwidget,
 	evolution_csv_import,
 	csv_cancel,
+	evolution_csv_get_preview,
 };
 
 EImportImporter *

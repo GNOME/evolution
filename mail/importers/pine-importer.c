@@ -410,6 +410,7 @@ static EImportImporter pine_importer = {
 	pine_getwidget,
 	pine_import,
 	pine_cancel,
+	NULL, /* get_preview */
 };
 
 EImportImporter *

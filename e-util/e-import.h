@@ -78,6 +78,8 @@ enum _e_import_target_t {
  * @supported: Callback to see if this target is supported by the importer.
  * @get_widget: A widget factory for this importer, if it needs any extra information in the assistant.  It will update the target.
  * @import: Run the import.
+ * @cancel: Cancel the import.
+ * @get_preview: Callback to create a preview widget for just importing data.
  * @user_data: User data for the callbacks;
  *
  * Base importer description.
@@ -91,6 +93,7 @@ struct _EImportImporter {
 	EImportWidgetFunc get_widget;
 	EImportImportFunc import;
 	EImportImportFunc cancel;
+	EImportWidgetFunc get_preview;
 
 	gpointer user_data;
 
@@ -199,6 +202,9 @@ void		e_import_cancel			(EImport *import,
 GtkWidget *	e_import_get_widget		(EImport *import,
 						 EImportTarget *target,
 						 EImportImporter *importer);
+GtkWidget *	e_import_get_preview_widget	(EImport *import,
+						 EImportTarget *target,
+						 EImportImporter *im);
 void		e_import_status			(EImport *import,
 						 EImportTarget *target,
 						 const gchar *what,

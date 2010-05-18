@@ -23,3 +23,6 @@ struct _EImportImporter *evolution_vcard_importer_peek(void);
 struct _EImportImporter *evolution_csv_outlook_importer_peek(void);
 struct _EImportImporter *evolution_csv_mozilla_importer_peek(void);
 struct _EImportImporter *evolution_csv_evolution_importer_peek(void);
+
+/* private utility function for importers only */
+struct _GtkWidget *evolution_contact_importer_get_preview_widget (const GList *contacts);

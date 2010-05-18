@@ -71,8 +71,12 @@ struct _ImportProgressPage {
 };
 
 struct _ImportSimplePage {
+	GtkWidget *actionlabel;
+	GtkWidget *filetypetable;
 	GtkWidget *filetype;
-	GtkWidget *control; /* importer's destination widget in an alignment */
+	GtkWidget *control; /* importer's destination or preview widget in an alignment */
+	gboolean has_preview; /* TRUE when 'control' holds a preview widget,
+				   otherwise holds destination widget */
 
 	EImportTargetURI *target;
 	EImportImporter *importer;
@@ -427,7 +431,6 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 	GtkWidget *widget;
 	GtkCellRenderer *cell;
 	GtkListStore *store;
-	const gchar *text;
 	gint row = 0;
 
 	page = gtk_vbox_new (FALSE, 6);
@@ -436,12 +439,11 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 
 	container = page;
 
-	text = _("Select what type of file you want to import from the list.");
-
-	widget = gtk_label_new (text);
+	widget = gtk_label_new ("");
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
+	import_assistant->priv->simple_page.actionlabel = widget;
 
 	widget = gtk_table_new (2, 1, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (widget), 2);
@@ -449,6 +451,7 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 8);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
+	import_assistant->priv->simple_page.filetypetable = widget;
 
 	container = widget;
 
@@ -743,7 +746,7 @@ prepare_progress_page (GtkAssistant *assistant,
 
 	g_object_get (G_OBJECT (assistant), "is-simple", &is_simple, NULL);
 
-	intelligent_import = gtk_toggle_button_get_active (
+	intelligent_import = is_simple ? FALSE : gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (priv->type_page.intelligent));
 
 	if (is_simple) {
@@ -797,9 +800,15 @@ simple_filetype_changed_cb (GtkComboBox *combo_box, GtkAssistant *assistant)
 
 	if (page->control)
 		gtk_widget_destroy (page->control);
+	page->has_preview = FALSE;
 
-	control = create_importer_control (
-		priv->import, (EImportTarget *)page->target, page->importer);
+	control = e_import_get_preview_widget (priv->import, (EImportTarget *) page->target, page->importer);
+	if (control) {
+		page->has_preview = TRUE;
+		gtk_widget_set_size_request (control, 320, 240);
+	} else
+		control = create_importer_control (priv->import, (EImportTarget *)page->target, page->importer);
+
 	page->control = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_widget_show (page->control);
 	gtk_container_add (GTK_CONTAINER (page->control), control);
@@ -847,8 +856,6 @@ prepare_simple_page (GtkAssistant *assistant, GtkWidget *vbox)
 			-1);
 	}
 
-	g_slist_free (importers);
-
 	gtk_combo_box_set_active (GTK_COMBO_BOX (page->filetype), 0);
 	g_object_set_data (G_OBJECT (page->filetype), "page-vbox", vbox);
 
@@ -857,6 +864,56 @@ prepare_simple_page (GtkAssistant *assistant, GtkWidget *vbox)
 	g_signal_connect (
 		page->filetype, "changed",
 		G_CALLBACK (simple_filetype_changed_cb), assistant);
+
+	if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) == 1) {
+		gchar *title;
+
+		/* only one importer found, make it even simpler */
+		gtk_label_set_text (GTK_LABEL (page->actionlabel),
+			page->has_preview ?
+				_("Preview data to be imported") :
+				_("Choose the destination for this import"));
+
+		gtk_widget_hide (page->filetypetable);
+
+		title = g_strconcat (_("Import Data"), " - ", ((EImportImporter *)importers->data)->name, NULL);
+		gtk_assistant_set_page_title (assistant, vbox, title);
+		g_free (title);
+	} else {
+		/* multiple importers found, be able to choose from them */
+		gtk_label_set_text (GTK_LABEL (page->actionlabel), _("Select what type of file you want to import from the list."));
+
+		gtk_widget_show (page->filetypetable);
+
+		gtk_assistant_set_page_title (assistant, vbox, _("Import Data"));
+	}
+
+	g_slist_free (importers);
+}
+
+static gboolean
+prepare_simple_destination_page (GtkAssistant *assistant,
+                          GtkWidget *vbox)
+{
+	EImportAssistantPrivate *priv;
+	ImportDestinationPage *page;
+	ImportSimplePage *simple_page;
+
+	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
+	page = &priv->destination_page;
+	simple_page = &priv->simple_page;
+
+	if (page->control)
+		gtk_container_remove (GTK_CONTAINER (vbox), page->control);
+
+	page->control = create_importer_control (
+		priv->import, (EImportTarget *)
+		simple_page->target, simple_page->importer);
+
+	gtk_box_pack_start (GTK_BOX (vbox), page->control, TRUE, TRUE, 0);
+	gtk_assistant_set_page_complete (assistant, vbox, TRUE);
+
+	return FALSE;
 }
 
 static gint
@@ -864,6 +921,16 @@ forward_cb (gint current_page,
             EImportAssistant *import_assistant)
 {
 	GtkToggleButton *toggle_button;
+	gboolean is_simple = FALSE;
+
+	g_object_get (G_OBJECT (import_assistant), "is-simple", &is_simple, NULL);
+
+	if (is_simple) {
+		if (!import_assistant->priv->simple_page.has_preview)
+			current_page++;
+
+		return current_page + 1;
+	}
 
 	toggle_button = GTK_TOGGLE_BUTTON (
 		import_assistant->priv->type_page.intelligent);
@@ -1076,6 +1143,8 @@ import_assistant_prepare (GtkAssistant *assistant,
 		if (page_no == 0) {
 			prepare_simple_page (assistant, page);
 		} else if (page_no == 1) {
+			prepare_simple_destination_page (assistant, page);
+		} else if (page_no == 2) {
 			prepare_progress_page (assistant, page);
 		}
 
@@ -1193,6 +1262,14 @@ import_assistant_construct (EImportAssistant *import_assistant)
 
 		gtk_assistant_append_page (assistant, page);
 		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
+		gtk_assistant_set_page_title (assistant, page, _("Import Data"));
+		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
+
+		/* File destination page - when with preview*/
+		page = import_assistant_destination_page_init (import_assistant);
+
+		gtk_assistant_append_page (assistant, page);
+		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Import Location"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 	} else {
@@ -1272,11 +1349,9 @@ import_assistant_construct (EImportAssistant *import_assistant)
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_PROGRESS);
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
-	if (!import_assistant->priv->is_simple) {
-		gtk_assistant_set_forward_page_func (
-			assistant, (GtkAssistantPageFunc)
-			forward_cb, import_assistant, NULL);
-	}
+	gtk_assistant_set_forward_page_func (
+		assistant, (GtkAssistantPageFunc)
+		forward_cb, import_assistant, NULL);
 
 	g_object_unref (pixbuf);
 

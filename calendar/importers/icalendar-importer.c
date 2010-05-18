@@ -36,13 +36,18 @@
 #include <gtk/gtk.h>
 
 #include <libecal/e-cal.h>
+#include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libical/icalvcal.h>
 #include "evolution-calendar-importer.h"
+#include "shell/e-shell.h"
 #include "common/authentication.h"
+#include "gui/calendar-config-keys.h"
 
 #include "e-util/e-import.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-datetime-format.h"
+#include "misc/e-web-view-preview.h"
 
 /* We timeout after 2 minutes, when opening the folders. */
 #define IMPORTER_TIMEOUT_SECONDS 120
@@ -80,6 +85,16 @@ static const gchar *import_type_strings[] = {
 /*
  * Functions shared by iCalendar & vCalendar importer.
  */
+
+static GtkWidget *ical_get_preview (icalcomponent *icalcomp);
+
+static gboolean
+is_icalcomp_usable (icalcomponent *icalcomp)
+{
+	return icalcomp && icalcomponent_is_valid (icalcomp) && (
+		icalcomponent_get_first_component (icalcomp, ICAL_VEVENT_COMPONENT) != NULL ||
+		icalcomponent_get_first_component (icalcomp, ICAL_VTODO_COMPONENT) != NULL);
+}
 
 static void
 ivcal_import_done(ICalImporter *ici)
@@ -379,13 +394,14 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return FALSE;
 
 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
-		icalcomponent *icalcomp;
+		icalcomponent *icalcomp = NULL;
 
-		icalcomp = e_cal_util_parse_ics_string (contents);
+		if (g_ascii_strncasecmp (contents, "BEGIN:", 6) == 0)
+			icalcomp = e_cal_util_parse_ics_string (contents);
 		g_free (contents);
 
 		if (icalcomp) {
-			if (icalcomponent_is_valid (icalcomp))
+			if (is_icalcomp_usable (icalcomp))
 				ret = TRUE;
 			else
 				ret = FALSE;
@@ -427,6 +443,40 @@ ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		e_import_complete(ei, target);
 }
 
+static GtkWidget *
+ivcal_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	GtkWidget *preview;
+	EImportTargetURI *s = (EImportTargetURI *)target;
+	gchar *filename;
+	icalcomponent *icalcomp;
+	gchar *contents;
+
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (filename == NULL) {
+		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		return NULL;
+	}
+
+	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+		g_free (filename);
+		return NULL;
+	}
+	g_free (filename);
+
+	icalcomp = e_cal_util_parse_ics_string (contents);
+	g_free (contents);
+
+	if (!icalcomp)
+		return NULL;
+
+	preview = ical_get_preview (icalcomp);
+
+	icalcomponent_free (icalcomp);
+
+	return preview;
+}
+
 static EImportImporter ical_importer = {
 	E_IMPORT_TARGET_URI,
 	0,
@@ -434,6 +484,7 @@ static EImportImporter ical_importer = {
 	ivcal_getwidget,
 	ical_import,
 	ivcal_cancel,
+	ivcal_get_preview,
 };
 
 EImportImporter *
@@ -480,7 +531,7 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 		icalcomp = e_cal_util_parse_ics_string (contents);
 
-		if (icalcomp && icalcomponent_is_valid (icalcomp)) {
+		if (icalcomp && is_icalcomp_usable (icalcomp)) {
 			/* If we can create proper iCalendar from the file, then
 			   rather use ics importer, because it knows to read more
 			   information than older version, the vCalendar. */
@@ -568,6 +619,33 @@ vcal_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		e_import_complete(ei, target);
 }
 
+static GtkWidget *
+vcal_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	GtkWidget *preview;
+	EImportTargetURI *s = (EImportTargetURI *)target;
+	gchar *filename;
+	icalcomponent *icalcomp;
+
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	if (filename == NULL) {
+		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		return NULL;
+	}
+
+	icalcomp = load_vcalendar_file (filename);
+	g_free (filename);
+
+	if (!icalcomp)
+		return NULL;
+
+	preview = ical_get_preview (icalcomp);
+
+	icalcomponent_free (icalcomp);
+
+	return preview;
+}
+
 static EImportImporter vcal_importer = {
 	E_IMPORT_TARGET_URI,
 	0,
@@ -575,6 +653,7 @@ static EImportImporter vcal_importer = {
 	ivcal_getwidget,
 	vcal_import,
 	ivcal_cancel,
+	vcal_get_preview,
 };
 
 EImportImporter *
@@ -772,6 +851,7 @@ static EImportImporter gnome_calendar_importer = {
 	gnome_calendar_getwidget,
 	gnome_calendar_import,
 	gnome_calendar_cancel,
+	NULL, /* get_preview */
 };
 
 EImportImporter *
@@ -781,4 +861,431 @@ gnome_calendar_importer_peek(void)
 	gnome_calendar_importer.description = _("Evolution Calendar intelligent importer");
 
 	return &gnome_calendar_importer;
+}
+
+/* ********************************************************************** */
+
+static gchar *
+format_dt (const ECalComponentDateTime *dt, GHashTable *timezones, icaltimezone *users_zone)
+{
+	struct tm tm;
+
+	g_return_val_if_fail (dt != NULL, NULL);
+	g_return_val_if_fail (timezones != NULL, NULL);
+
+	if (!dt->value)
+		return NULL;
+
+	dt->value->zone = NULL;
+	if (dt->tzid) {
+		dt->value->zone = g_hash_table_lookup (timezones, dt->tzid);
+		if (!dt->value->zone)
+			dt->value->zone = icaltimezone_get_builtin_timezone_from_tzid (dt->tzid);
+	}
+
+	if (dt->value->zone)
+		tm = icaltimetype_to_tm_with_zone (dt->value, (icaltimezone *) dt->value->zone, users_zone);
+	else
+		tm = icaltimetype_to_tm (dt->value);
+
+	return e_datetime_format_format_tm ("calendar", "table", dt->value->is_date ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+}
+
+static const gchar *
+strip_mailto (const gchar *str)
+{
+	if (!str || g_ascii_strncasecmp (str, "mailto:", 7) != 0)
+		return str;
+
+	return str + 7;
+}
+
+static void
+preview_comp (EWebViewPreview *preview, ECalComponent *comp)
+{
+	ECalComponentText text = { 0 };
+	ECalComponentDateTime dt;
+	ECalComponentClassification classif;
+	const gchar *str;
+	gchar *tmp;
+	gint percent;
+	gboolean have;
+	GHashTable *timezones;
+	icaltimezone *users_zone;
+	GSList *slist, *l;
+
+	g_return_if_fail (preview != NULL);
+	g_return_if_fail (comp != NULL);
+
+	timezones = g_object_get_data (G_OBJECT (preview), "iCalImp-timezones");
+	users_zone = g_object_get_data (G_OBJECT (preview), "iCalImp-userszone");
+
+	str = NULL;
+	switch (e_cal_component_get_vtype (comp)) {
+	case E_CAL_COMPONENT_EVENT:
+		str = e_cal_component_has_attendees (comp) ? C_("iCalImp", "Meeting") : C_("iCalImp", "Event");
+		break;
+	case E_CAL_COMPONENT_TODO:
+		str = C_("iCalImp", "Task");
+		break;
+	case E_CAL_COMPONENT_JOURNAL:
+		str = C_("iCalImp", "Memo");
+		break;
+	default:
+		str = "??? Other ???";
+		break;
+	}
+
+	have = FALSE;
+	if (e_cal_component_has_recurrences (comp)) {
+		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "has recurrences"));
+		have = TRUE;
+	}
+
+	if (e_cal_component_is_instance (comp)) {
+		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "is an instance"));
+		have = TRUE;
+	}
+
+	if (e_cal_component_has_alarms (comp)) {
+		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "has alarms"));
+		have = TRUE;
+	}
+
+	if (e_cal_component_has_attachments (comp)) {
+		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "has attachments"));
+		have = TRUE;
+	}
+
+	if (!have) {
+		e_web_view_preview_add_section (preview, str, "");
+	}
+
+	str = NULL;
+	classif = E_CAL_COMPONENT_CLASS_NONE;
+	e_cal_component_get_classification (comp, &classif);
+	if (classif == E_CAL_COMPONENT_CLASS_PUBLIC) {
+		/* Translators: Appointment's classification */
+		str = C_("iCalImp", "Public");
+	} else if (classif == E_CAL_COMPONENT_CLASS_PRIVATE) {
+		/* Translators: Appointment's classification */
+		str = C_("iCalImp", "Private");
+	} else if (classif == E_CAL_COMPONENT_CLASS_CONFIDENTIAL) {
+		/* Translators: Appointment's classification */
+		str = C_("iCalImp", "Confidential");
+	}
+	if (str)
+		/* Translators: Appointment's classification section name */
+		e_web_view_preview_add_section (preview, C_("iCalImp", "Classification"), str);
+
+	e_cal_component_get_summary (comp, &text);
+	if ((text.value && *text.value) || (text.altrep && *text.altrep))
+		/* Translators: Appointment's summary */
+		e_web_view_preview_add_section (preview, C_("iCalImp", "Summary"), (text.value && *text.value) ? text.value : text.altrep);
+
+	str = NULL;
+	e_cal_component_get_location (comp, &str);
+	if (str && *str)
+		/* Translators: Appointment's location */
+		e_web_view_preview_add_section (preview, C_("iCalImp", "Location"), str);
+
+	dt.value = NULL;
+	e_cal_component_get_dtstart (comp, &dt);
+	if (dt.value) {
+		tmp = format_dt (&dt, timezones, users_zone);
+		if (tmp)
+			/* Translators: Appointment's start time */
+			e_web_view_preview_add_section (preview, C_("iCalImp", "Start"), tmp);
+		g_free (tmp);
+	}
+	e_cal_component_free_datetime (&dt);
+
+	dt.value = NULL;
+	e_cal_component_get_due (comp, &dt);
+	if (dt.value) {
+		tmp = format_dt (&dt, timezones, users_zone);
+		if (tmp)
+			/* Translators: 'Due' like the time due a task should be finished */
+			e_web_view_preview_add_section (preview, C_("iCalImp", "Due"), tmp);
+		g_free (tmp);
+	} else {
+		e_cal_component_free_datetime (&dt);
+
+		dt.value = NULL;
+		e_cal_component_get_dtend (comp, &dt);
+		if (dt.value) {
+			tmp = format_dt (&dt, timezones, users_zone);
+
+			if (tmp)
+				/* Translators: Appointment's end time */
+				e_web_view_preview_add_section (preview, C_("iCalImp", "End"), tmp);
+			g_free (tmp);
+		}
+	}
+	e_cal_component_free_datetime (&dt);
+
+	str = NULL;
+	e_cal_component_get_categories (comp, &str);
+	if (str && *str)
+		/* Translators: Appointment's categories */
+		e_web_view_preview_add_section (preview, C_("iCalImp", "Categories"), str);
+
+	percent = e_cal_component_get_percent_as_int (comp);
+	if (percent >= 0) {
+		tmp = NULL;
+		if (percent == 100) {
+			icaltimetype *completed = NULL;
+
+			e_cal_component_get_completed (comp, &completed);
+
+			if (completed) {
+				dt.tzid = "UTC";
+				dt.value = completed;
+
+				tmp = format_dt (&dt, timezones, users_zone);
+
+				e_cal_component_free_icaltimetype (completed);
+			}
+		}
+
+		if (!tmp)
+			tmp = g_strdup_printf ("%d%%", percent);
+
+		/* Translators: Appointment's complete value (either percentage, or a date/time of a completion) */
+		e_web_view_preview_add_section (preview, C_("iCalImp", "Completed"), tmp);
+		g_free (tmp);
+	}
+
+	str = NULL;
+	e_cal_component_get_url (comp, &str);
+	if (str && *str)
+		/* Translators: Appointment's URL */
+		e_web_view_preview_add_section (preview, C_("iCalImp", "URL"), str);
+
+	if (e_cal_component_has_organizer (comp)) {
+		ECalComponentOrganizer organizer = { 0 };
+
+		e_cal_component_get_organizer (comp, &organizer);
+
+		if (organizer.value && *organizer.value) {
+			if (organizer.cn && *organizer.cn) {
+				tmp = g_strconcat (organizer.cn, " <", strip_mailto (organizer.value), ">", NULL);
+				/* Translators: Appointment's organizer */
+				e_web_view_preview_add_section (preview, C_("iCalImp", "Organizer"), tmp);
+				g_free (tmp);
+			} else {
+				e_web_view_preview_add_section (preview, C_("iCalImp", "Organizer"), strip_mailto (organizer.value));
+			}
+		}
+	}
+
+	if (e_cal_component_has_attendees (comp)) {
+		GSList *attendees = NULL, *a;
+		have = FALSE;
+
+		e_cal_component_get_attendee_list (comp, &attendees);
+
+		for (a = attendees; a; a = a->next) {
+			ECalComponentAttendee *attnd = a->data;
+
+			if (!attnd || !attnd->value || !*attnd->value)
+				continue;
+
+			if (attnd->cn && *attnd->cn) {
+				tmp = g_strconcat (attnd->cn, " <", strip_mailto (attnd->value), ">", NULL);
+				/* Translators: Appointment's attendees */
+				e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), tmp);
+				g_free (tmp);
+			} else {
+				e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), strip_mailto (attnd->value));
+			}
+
+			have = TRUE;
+		}
+
+		e_cal_component_free_attendee_list (attendees);
+	}
+
+	slist = NULL;
+	e_cal_component_get_description_list (comp, &slist);
+	for (l = slist; l; l = l->next) {
+		ECalComponentText *txt = l->data;
+
+		e_web_view_preview_add_section (preview, l != slist ? NULL : C_("iCalImp", "Description"), (txt && txt->value) ? txt->value : "");
+	}
+
+	e_cal_component_free_text_list (slist);
+}
+
+static void
+preview_selection_changed_cb (GtkTreeSelection *selection, EWebViewPreview *preview)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model = NULL;
+
+	g_return_if_fail (selection != NULL);
+	g_return_if_fail (preview != NULL);
+
+	e_web_view_preview_begin_update (preview);
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter) && model) {
+		ECalComponent *comp = NULL;
+
+		gtk_tree_model_get (model, &iter, 3, &comp, -1);
+
+		if (comp) {
+			preview_comp (preview, comp);
+			g_object_unref (comp);
+		}
+	}
+
+	e_web_view_preview_end_update (preview);
+}
+
+static icaltimezone *
+get_users_timezone (void)
+{
+	/* more or less copy&paste of calendar_config_get_icaltimezone */
+	icaltimezone *zone = NULL;
+	gchar *location;
+
+	if (e_shell_settings_get_boolean (e_shell_get_shell_settings (e_shell_get_default ()), "cal-use-system-timezone")) {
+		location = e_cal_util_get_system_timezone_location ();
+	} else {
+		GConfClient *client = gconf_client_get_default ();
+
+		location = gconf_client_get_string (client, CALENDAR_CONFIG_TIMEZONE, NULL);
+
+		g_object_unref (client);
+	}
+
+	if (location) {
+		zone = icaltimezone_get_builtin_timezone (location);
+
+		g_free (location);
+	}
+
+	return zone;
+}
+
+static void
+free_zone_cb (gpointer ptr)
+{
+	icaltimezone *zone = ptr;
+
+	if (zone)
+		icaltimezone_free (zone, 1);
+}
+
+static GtkWidget *
+ical_get_preview (icalcomponent *icalcomp)
+{
+	GtkWidget *preview;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GHashTable *timezones;
+	icalcomponent *subcomp;
+	icaltimezone *users_zone;
+
+	if (!icalcomp || !is_icalcomp_usable (icalcomp))
+		return NULL;
+
+	store = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, E_TYPE_CAL_COMPONENT);
+
+	timezones = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, free_zone_cb);
+	users_zone = get_users_timezone ();
+
+	/* get timezones first */
+	for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VTIMEZONE_COMPONENT);
+	     subcomp;
+	     subcomp = icalcomponent_get_next_component (icalcomp,  ICAL_VTIMEZONE_COMPONENT)) {
+		icaltimezone *zone = icaltimezone_new ();
+		if (!icaltimezone_set_component (zone, icalcomponent_new_clone (subcomp)) || !icaltimezone_get_tzid (zone)) {
+			icaltimezone_free (zone, 1);
+		} else {
+			g_hash_table_insert (timezones, (gchar *) icaltimezone_get_tzid (zone), zone);
+		}
+	}
+
+	/* then each component */
+	for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+	     subcomp;
+	     subcomp = icalcomponent_get_next_component (icalcomp,  ICAL_ANY_COMPONENT)) {
+		icalcomponent_kind kind = icalcomponent_isa (subcomp);
+
+		if (kind == ICAL_VEVENT_COMPONENT ||
+		    kind == ICAL_VTODO_COMPONENT ||
+		    kind == ICAL_VJOURNAL_COMPONENT) {
+			ECalComponent *comp = e_cal_component_new ();
+			ECalComponentText summary = { 0 };
+			ECalComponentDateTime dt = { 0 };
+			gchar *formatted_dt;
+
+			if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (subcomp))) {
+				g_object_unref (comp);
+				continue;
+			}
+
+			e_cal_component_get_summary (comp, &summary);
+			e_cal_component_get_dtstart (comp, &dt);
+			formatted_dt = format_dt (&dt, timezones, users_zone);
+
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter,
+				0, kind == ICAL_VEVENT_COMPONENT ? (e_cal_component_has_attendees (comp) ? C_("iCalImp", "Meeting") : C_("iCalImp", "Event")) :
+				   kind == ICAL_VTODO_COMPONENT ? C_("iCalImp", "Task") :
+				   kind == ICAL_VJOURNAL_COMPONENT ? C_("iCalImp", "Memo") : "??? Other ???",
+				1, formatted_dt ? formatted_dt : "",
+				2, summary.value && *summary.value ? summary.value : summary.altrep && *summary.altrep ? summary.altrep : "",
+				3, comp,
+				-1);
+
+			g_free (formatted_dt);
+			e_cal_component_free_datetime (&dt);
+			g_object_unref (comp);
+		}
+	}
+
+	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter)) {
+		g_object_unref (store);
+		g_hash_table_destroy (timezones);
+		return NULL;
+	}
+
+	preview = e_web_view_preview_new ();
+	gtk_widget_show (preview);
+
+	g_object_set_data_full (G_OBJECT (preview), "iCalImp-timezones", timezones, (GDestroyNotify) g_hash_table_destroy);
+	g_object_set_data (G_OBJECT (preview), "iCalImp-userszone", users_zone);
+
+	tree_view = e_web_view_preview_get_tree_view (E_WEB_VIEW_PREVIEW (preview));
+	g_return_val_if_fail (tree_view != NULL, NULL);
+
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	/* Translators: Column header for a component type; it can be Event, Task or Memo */
+	gtk_tree_view_insert_column_with_attributes (tree_view, -1, C_("iCalImp", "Type"),
+		gtk_cell_renderer_text_new (), "text", 0, NULL);
+
+	/* Translators: Column header for a component start date/time */
+	gtk_tree_view_insert_column_with_attributes (tree_view, -1, C_("iCalImp", "Start"),
+		gtk_cell_renderer_text_new (), "text", 1, NULL);
+
+	/* Translators: Column header for a component summary */
+	gtk_tree_view_insert_column_with_attributes (tree_view, -1, C_("iCalImp", "Summary"),
+		gtk_cell_renderer_text_new (), "text", 2, NULL);
+
+	if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) > 1)
+		e_web_view_preview_show_tree_view (E_WEB_VIEW_PREVIEW (preview));
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_select_iter (selection, &iter);
+	g_signal_connect (selection, "changed", G_CALLBACK (preview_selection_changed_cb), preview);
+
+	preview_selection_changed_cb (selection, E_WEB_VIEW_PREVIEW (preview));
+
+	return preview;
 }

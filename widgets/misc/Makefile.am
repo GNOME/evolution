@@ -71,6 +71,7 @@ widgetsinclude_HEADERS =			\
 	e-signature-tree-view.h			\
 	e-url-entry.h				\
 	e-web-view.h				\
+	e-web-view-preview.h			\
 	ea-calendar-cell.h			\
 	ea-calendar-item.h			\
 	ea-cell-table.h				\
@@ -147,6 +148,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-tree-view.c			\
 	e-url-entry.c				\
 	e-web-view.c				\
+	e-web-view-preview.c			\
 	ea-calendar-cell.c			\
 	ea-calendar-item.c			\
 	ea-cell-table.c				\

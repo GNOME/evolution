@@ -216,6 +216,32 @@ e_import_get_widget (EImport *import,
 }
 
 /**
+ * e_import_get_preview_widget:
+ * @import: an #EImport
+ * @target: Target of interest
+ * @im: Importer to get a preview widget of
+ *
+ * Gets a widget that the importer uses to preview data to be
+ * imported.  This widget should be packed into a container
+ * widget.  It should not be shown_all.
+ *
+ * Return value: NULL if the importer doesn't support preview.
+ **/
+GtkWidget *
+e_import_get_preview_widget (EImport *import,
+                     EImportTarget *target,
+                     EImportImporter *im)
+{
+	g_return_val_if_fail (im != NULL, NULL);
+	g_return_val_if_fail (target != NULL, NULL);
+
+	if (!im->get_preview)
+		return NULL;
+
+	return im->get_preview (import, target, im);
+}
+
+/**
  * e_import_complete:
  * @import: an #EImport
  * @target: Target just completed (unused currently)

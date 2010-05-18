@@ -357,6 +357,7 @@ static EImportImporter elm_importer = {
 	elm_getwidget,
 	elm_import,
 	elm_cancel,
+	NULL, /* get_preview */
 };
 
 EImportImporter *

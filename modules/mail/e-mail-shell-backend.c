@@ -31,6 +31,7 @@
 #include "shell/e-shell-window.h"
 #include "composer/e-msg-composer.h"
 #include "widgets/misc/e-preferences-window.h"
+#include "widgets/misc/e-web-view.h"
 
 #include "e-mail-shell-settings.h"
 #include "e-mail-shell-sidebar.h"
@@ -70,6 +71,9 @@ struct _EMailShellBackendPrivate {
 static gpointer parent_class;
 static GType mail_shell_backend_type;
 
+static void mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget);
+static void mbox_fill_preview_cb (GObject *preview, CamelMimeMessage *msg);
+
 static void
 mail_shell_backend_init_importers (void)
 {
@@ -80,6 +84,7 @@ mail_shell_backend_init_importers (void)
 
 	importer = mbox_importer_peek ();
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
+	mbox_importer_set_preview_funcs (mbox_create_preview_cb, mbox_fill_preview_cb);
 
 	importer = elm_importer_peek ();
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
@@ -769,4 +774,32 @@ e_mail_labels_get_filter_options (void)
 	g_object_unref (list_store);
 
 	return g_slist_reverse (list);
+}
+
+/* utility functions for mbox importer */
+static void
+mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget)
+{
+	EMFormatHTMLDisplay *format;
+
+	g_return_if_fail (preview != NULL);
+	g_return_if_fail (preview_widget != NULL);
+
+	format = em_format_html_display_new ();
+	g_object_set_data_full (preview, "mbox-imp-formatter", format, g_object_unref);
+	*preview_widget = GTK_WIDGET (EM_FORMAT_HTML (format)->html);
+}
+
+static void
+mbox_fill_preview_cb (GObject *preview, CamelMimeMessage *msg)
+{
+	EMFormatHTMLDisplay *format;
+
+	g_return_if_fail (preview != NULL);
+	g_return_if_fail (msg != NULL);
+
+	format = g_object_get_data (preview, "mbox-imp-formatter");
+	g_return_if_fail (format != NULL);
+
+	em_format_format (EM_FORMAT (format), NULL, NULL, msg);
 }
