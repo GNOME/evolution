@@ -194,7 +194,7 @@ action_show_time_busy_cb (GtkToggleAction *action,
 	event_page_set_show_time_busy (editor->priv->event_page, active);
 }
 
-static GtkActionEntry event_entries[] = {
+static GtkActionEntry editable_entries[] = {
 
 	{ "alarms",
 	  "appointment-soon",
@@ -202,6 +202,20 @@ static GtkActionEntry event_entries[] = {
 	  NULL,
 	  N_("Click here to set or unset alarms for this event"),
 	  G_CALLBACK (action_alarms_cb) },
+};
+
+static GtkToggleActionEntry editable_toggle_entries[] = {
+
+	{ "show-time-busy",
+	  GTK_STOCK_DIALOG_ERROR,
+	  N_("Show Time as _Busy"),
+	  NULL,
+	  N_("Toggles whether to show time as busy"),
+	  G_CALLBACK (action_show_time_busy_cb),
+	  FALSE }
+};
+
+static GtkActionEntry event_entries[] = {
 
 	{ "recurrence",
 	  "stock_task-recurring",
@@ -227,14 +241,6 @@ static GtkToggleActionEntry event_toggle_entries[] = {
 	  N_("Toggles whether to have All Day Event"),
 	  G_CALLBACK (action_all_day_event_cb),
 	  FALSE },
-
-	{ "show-time-busy",
-	  GTK_STOCK_DIALOG_ERROR,
-	  N_("Show Time as _Busy"),
-	  NULL,
-	  N_("Toggles whether to show time as busy"),
-	  G_CALLBACK (action_show_time_busy_cb),
-	  FALSE }
 };
 
 static GtkActionEntry meeting_entries[] = {
@@ -497,6 +503,14 @@ event_editor_init (EventEditor *ee)
 	gtk_action_group_add_toggle_actions (
 		action_group, event_toggle_entries,
 		G_N_ELEMENTS (event_toggle_entries), ee);
+
+	action_group = comp_editor_get_action_group (editor, "editable");
+	gtk_action_group_add_actions (
+		action_group, editable_entries,
+		G_N_ELEMENTS (editable_entries), ee);
+	gtk_action_group_add_toggle_actions (
+		action_group, editable_toggle_entries,
+		G_N_ELEMENTS (editable_toggle_entries), ee);
 
 	action_group = comp_editor_get_action_group (editor, "coordinated");
 	gtk_action_group_add_actions (
