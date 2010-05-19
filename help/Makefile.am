@@ -42,7 +42,6 @@ DOC_FIGURES =  \
 	figures/evo_mboxreceive_a.png 		\
 	figures/evo_memo_a.png 			\
 	figures/evo_mhreceive_a.png 		\
-	figures/evo_mail_notifier.png		\
 	figures/evo_memo_a.png			\
 	figures/evo_newmess_a.png 		\
 	figures/evo_newmail.png			\
