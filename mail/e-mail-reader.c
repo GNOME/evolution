@@ -2606,6 +2606,7 @@ e_mail_reader_init (EMailReader *reader)
 
 	/* Add the other actions the normal way. */
 
+	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
 		G_N_ELEMENTS (mail_reader_entries), reader);
