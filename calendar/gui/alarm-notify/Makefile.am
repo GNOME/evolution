@@ -11,6 +11,7 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/calendar			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
+	-DEVOLUTION_ICONDIR=\""$(icondir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
 	$(GNOME_PLATFORM_CFLAGS)			\

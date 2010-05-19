@@ -21,20 +21,20 @@
 # ##
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
 # Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
+# Christian Kirbach <christian.kirbach@googlemail.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 10:45+0000\n"
-"PO-Revision-Date: 2010-04-14 16:04+0200\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
-"Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"POT-Creation-Date: 2010-04-30 12:59+0000\n"
+"PO-Revision-Date: 2010-05-10 21:12+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@googlemail.com>\n"
+"Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 0.3\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
@@ -49,9 +49,8 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:455(None)
-#, fuzzy
 msgid "@@image: 'figures/evo_mereceive_a.png'; md5=THIS FILE DOESN'T EXIST"
-msgstr "a"
+msgstr "THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -203,7 +202,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1524(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_newmess_a.png'; md5=8d34b2fa682b559f7150e769e0079d17"
 msgstr "a"
@@ -326,7 +324,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4641(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/local_ics_calendar.png'; "
 "md5=2ff81d975384c97ad1b73e8c66bc407d"
@@ -335,14 +332,12 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4960(None)
-#, fuzzy
 msgid "@@image: 'figures/evo_memo_a.png'; md5=29e23aefd253747b3a42f182825b75bd"
 msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5362(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
 msgstr "a"
@@ -398,7 +393,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6060(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_shd_memo_a.png'; md5=9a72b7725da27ce1970592cff67f4bbd"
 msgstr "a"
@@ -452,7 +446,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6606(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/mailer_preferences.png'; "
 "md5=d5b47aa5da56ec9b94188e0f71fc43b1"
@@ -461,7 +454,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6683(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evolution_contact_preference.png'; "
 "md5=cfa45a42e19ea3b09587f08990cf178f"
@@ -477,7 +469,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6808(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 msgstr "a"
@@ -492,7 +483,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6853(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evolution_mail_preference.png'; "
 "md5=191c1e890aa1cded550c9579d1af06e9"
@@ -501,14 +491,12 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6884(None)
-#, fuzzy
 msgid "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6988(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_caltasks_a.png'; md5=88a894d8414c9205da0a6bab34de018c"
 msgstr "a"
@@ -3024,8 +3012,9 @@ msgid ""
 "headers\">Mail Header Preferences</link>, or ask your system administrator."
 msgstr ""
 "Falls Sie eine Fehlermeldung anstelle von E-Mails erhalten, so prüfen Sie "
-"bitte Ihre Netzwerkeinstellungen. lesen Sie bitte hierzu TODO, oder fragen "
-"Sie Ihren System-Administrator."
+"bitte Ihre Netzwerkeinstellungen. Lesen Sie bitte hierzu <link linkend="
+"\"mail-prefs-headers\">Kopfzeilen-Einstellungen</link>, oder fragen Sie "
+"Ihren System-Administrator."
 
 #: C/evolution.xml:1294(title)
 msgid "New Mail Notification"
@@ -3849,14 +3838,13 @@ msgid "Select Edit &gt; Plugins."
 msgstr "Klicken Sie auf Bearbeiten &gt; Plugins."
 
 #: C/evolution.xml:1581(para)
-#, fuzzy
 msgid ""
 "Then select Custom Header. You can configure custom headers to set "
 "sensitivity and caveats to the outgoing messages."
 msgstr ""
 "Wählen Sie dann »Benutzerdefinierte Kopfzeilen«. Sie können "
 "benutzerdefinierte Kopfzeilen so konfigurieren, dass Vertraulichkeit und "
-"Verwahrungswunsch (?) in ausgehenden Nachrichten gesetzt werden."
+"Verwahrungswunsch in ausgehenden Nachrichten gesetzt werden."
 
 #: C/evolution.xml:1583(para)
 msgid ""
@@ -9597,8 +9585,8 @@ msgid ""
 msgstr ""
 "Falls Sie einen Novell GroupWise- oder Microsoft Exchange-Server benutzen, "
 "können andere Benutzer dieses Servers Ihren Kalender einsehen, um "
-"herauszufinden ob Sie zu einer bestimmten Zeit verfügbar sind. Falls Sie "
-"einen Termin haben der einfach verschoben werden kann, oder dessen Zeit als "
+"herauszufinden, ob Sie zu einer bestimmten Zeit verfügbar sind. Falls Sie "
+"einen Termin haben, der einfach verschoben werden kann, oder dessen Zeit als "
 "frei und nicht als beschäftigt markiert werden soll, wählen Sie Optionen "
 "&gt; Zeit als beschäftigt anzeigen in der Menüleiste. Per Vorgabe werden "
 "Termine als beschäftigt angezeigt."
@@ -9621,7 +9609,10 @@ msgstr ""
 msgid ""
 "You can add a new category to your category list by clicking Edit Master "
 "Category List, then click Click Here To Add A Category."
-msgstr "Um eine neue Kategorie zur Kategorienliste hinzuzufügen, TODO"
+msgstr ""
+"Um eine neue Kategorie zur Kategorienliste hinzuzufügen, klicken Sie auf "
+"»Kategorieliste bearbeiten« und dann auf »Hier zum Hinzufügen einer Kategorie "
+"klicken»."
 
 #: C/evolution.xml:4235(para)
 msgid ""
@@ -11699,10 +11690,8 @@ msgstr ""
 "»Geschäftlich« usw. aus der Auswahlliste jeder Adresse angeben."
 
 #: C/evolution.xml:5694(para)
-#, fuzzy
 msgid "Add the participants to the following categories of attendees."
-msgstr ""
-"Fügen Sie die Teilnehmer zu den folgenden Teilnahmekategorien (?) hinzu."
+msgstr "Fügen Sie die Teilnehmer zu den folgenden Teilnehmerkategorien hinzu."
 
 #: C/evolution.xml:5697(para)
 msgid "Chair Persons"
@@ -12424,7 +12413,6 @@ msgstr "Wählen Sie »Statusverfolgung«."
 # CHECK
 # scheint nicht mehr aktuell zu sein
 #: C/evolution.xml:6174(para) C/evolution.xml:6295(para)
-#, fuzzy
 msgid "Select the check box next to Create a sent item to track information."
 msgstr ""
 "Markieren Sie das Ankreuzfeld neben »Ein verschicktes Objekt zur "
@@ -13372,6 +13360,13 @@ msgid ""
 "accordingly response to your message. Enable status tracking and set Return "
 "Notification for Mail, Calendar and Task."
 msgstr ""
+"Sie können die Vorgabeeinstellungen Ihrer verschickten Objekte ändern. "
+"Klicken Sie auf »Erweiterte Sendeoptionen«, um verschickte Nachrichten zu "
+"priorisieren und klassifizieren. Sie können auch das Datum für "
+"Antwortaufforderungen festlegen, so dass der Empfänger die Dringlichkeit "
+"erfährt und entsprechend auf Ihre Nachricht antworten kann. Aktivieren Sie "
+"die Statusverfolgung und legen Sie Antwortaufforderungen für E-Mails, den "
+"Kalender und die Aufgaben fest."
 
 #: C/evolution.xml:6670(title)
 msgid "Security:"
@@ -13882,6 +13877,10 @@ msgid ""
 "formats, an advanced user can write acceptable strftime, with new tag %ad "
 "for an abbreviated date to show in tables and date headers."
 msgstr ""
+"Obwohl die Komponenten von Evolution eine Menge an vordefinierten Datum- und "
+"Zeitformaten haben, kann ein fortgeschrittener Benutzer eigene im Format von "
+"strftime festlegen, wobei %ad für eine Kurzform eines Datums steht, die in "
+"Tabellen und Datumskopfzeilen gezeigt wird."
 
 #: C/evolution.xml:6858(para)
 msgid ""
@@ -14272,7 +14271,7 @@ msgid ""
 "The Display page lets you choose how your appointments and tasks appear in "
 "your calendar."
 msgstr ""
-"Im Reiter »Anzeigen« können Sie die entscheiden, wie Termine und Aufgaben "
+"Im Reiter »Anzeigen« können Sie entscheiden, wie Termine und Aufgaben "
 "dargestellt werden sollen."
 
 #: C/evolution.xml:7027(title)
@@ -14296,7 +14295,7 @@ msgid ""
 "If there is space, Evolution shows the end times in the week and month views "
 "for each appointment."
 msgstr ""
-"Falls Platz vorhanden ist, zeigt Evolution die Endzeiten in der Wochen- und "
+"Falls Platz vorhanden ist, stellt Evolution die Endzeiten in der Wochen- und "
 "Monatsansicht für jeden Termin dar."
 
 #: C/evolution.xml:7035(title)
@@ -14367,13 +14366,12 @@ msgstr ""
 "Termine im jeweiligen Kalender."
 
 #: C/evolution.xml:7062(para)
-#, fuzzy
 msgid ""
 "Click Dismiss to close the alarm. Click Dismiss All to close all the alarm "
 "notifications."
 msgstr ""
-"Klicken Sie auf (?), um den Alarm zu schließen. Klicken Sie auf (?), um alle "
-"Alarmhinweise zu schließen."
+"Klicken Sie auf »Verwerfen«, um den Alarm zu schließen. Klicken Sie auf »Alle "
+"Verwerfen«, um alle Alarmhinweise zu schließen."
 
 #: C/evolution.xml:7066(title)
 msgid "Free/Busy"
@@ -16301,7 +16299,7 @@ msgid "translator-credits"
 msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009\n"
 "Mario Blättermann <mariobl@gnome.org>, 2009, 2010\n"
-"Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009."
+"Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010."
 
 #~ msgid ""
 #~ "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"

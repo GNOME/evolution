@@ -2300,7 +2300,7 @@ mail_reader_update_actions (EMailReader *reader)
 	action_name = "mail-mark-junk";
 	sensitive = selection_has_not_junk_messages;
 	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_sensitive (action, sensitive && !(state & E_MAIL_READER_FOLDER_IS_JUNK));
 
 	action_name = "mail-mark-not-junk";
 	sensitive = selection_has_junk_messages;
@@ -2718,6 +2718,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean drafts_or_outbox;
 	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
+	gboolean is_junk_folder = FALSE;
 	guint32 state = 0;
 	guint ii;
 
@@ -2730,6 +2731,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	if (folder != NULL) {
 		store = CAMEL_STORE (folder->parent_store);
 		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
+		is_junk_folder = (folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
 	}
 
 	drafts_or_outbox =
@@ -2845,6 +2847,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_HAS_UNREAD;
 	if (is_mailing_list)
 		state |= E_MAIL_READER_SELECTION_IS_MAILING_LIST;
+	if (is_junk_folder)
+		state |= E_MAIL_READER_FOLDER_IS_JUNK;
 
 	em_utils_uids_free (uids);
 

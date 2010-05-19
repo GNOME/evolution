@@ -672,7 +672,11 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 	if (folderinfo != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);
-	gtk_widget_show (dialog);
+
+	if (!parent || !GTK_IS_DIALOG (parent))
+		gtk_widget_show (dialog);
+	else
+		gtk_dialog_run (GTK_DIALOG (dialog));
 }
 
 struct _folder_unsub_t {
