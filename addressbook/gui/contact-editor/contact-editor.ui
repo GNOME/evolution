@@ -448,7 +448,7 @@
                             <property name="row_spacing">6</property>
                             <property name="column_spacing">6</property>
                             <child>
-                              <object class="GtkEntry" id="entry-email-2">
+                              <object class="GtkEntry" id="entry-email-3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="editable">True</property>
@@ -486,7 +486,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="entry-email-3">
+                              <object class="GtkEntry" id="entry-email-2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="editable">True</property>
@@ -567,7 +567,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="combobox-email-2">
+                              <object class="GtkComboBox" id="combobox-email-3">
                                 <property name="visible">True</property>
                                 <property name="add_tearoffs">False</property>
                                 <property name="focus_on_click">True</property>
@@ -589,7 +589,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="combobox-email-3">
+                              <object class="GtkComboBox" id="combobox-email-2">
                                 <property name="visible">True</property>
                                 <property name="add_tearoffs">False</property>
                                 <property name="focus_on_click">True</property>
@@ -752,7 +752,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkEntry" id="entry-phone-2">
+                                      <object class="GtkEntry" id="entry-phone-3">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="editable">True</property>
@@ -790,7 +790,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkEntry" id="entry-phone-3">
+                                      <object class="GtkEntry" id="entry-phone-2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="editable">True</property>
@@ -824,7 +824,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="combobox-phone-2">
+                                      <object class="GtkComboBox" id="combobox-phone-3">
                                         <property name="visible">True</property>
                                         <property name="add_tearoffs">False</property>
                                         <property name="focus_on_click">True</property>
@@ -839,7 +839,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="combobox-phone-3">
+                                      <object class="GtkComboBox" id="combobox-phone-2">
                                         <property name="visible">True</property>
                                         <property name="add_tearoffs">False</property>
                                         <property name="focus_on_click">True</property>
@@ -902,7 +902,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkEntry" id="entry-phone-6">
+                                      <object class="GtkEntry" id="entry-phone-7">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="editable">True</property>
@@ -921,7 +921,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkEntry" id="entry-phone-7">
+                                      <object class="GtkEntry" id="entry-phone-6">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="editable">True</property>
@@ -974,7 +974,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="combobox-phone-6">
+                                      <object class="GtkComboBox" id="combobox-phone-7">
                                         <property name="visible">True</property>
                                         <property name="add_tearoffs">False</property>
                                         <property name="focus_on_click">True</property>
@@ -989,7 +989,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="combobox-phone-7">
+                                      <object class="GtkComboBox" id="combobox-phone-6">
                                         <property name="visible">True</property>
                                         <property name="add_tearoffs">False</property>
                                         <property name="focus_on_click">True</property>
