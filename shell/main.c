@@ -555,6 +555,9 @@ main (gint argc, gchar **argv)
 		key = "/apps/evolution/addressbook/display/show_preview";
 		gconf_client_set_bool (client, key, FALSE, NULL);
 
+		key = "/apps/evolution/calendar/display/show_memo_preview";
+		gconf_client_set_bool (client, key, FALSE, NULL);
+
 		key = "/apps/evolution/calendar/display/show_task_preview";
 		gconf_client_set_bool (client, key, FALSE, NULL);
 	}
