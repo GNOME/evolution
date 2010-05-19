@@ -89,6 +89,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-reply-all")
 #define E_SHELL_WINDOW_ACTION_EVENT_OCCURRENCE_MOVABLE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-occurrence-movable")
+#define E_SHELL_WINDOW_ACTION_EVENT_MEETING_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-meeting-new")
 
 /* Memo Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_FORWARD(window) \

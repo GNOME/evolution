@@ -283,6 +283,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	GtkAction *action;
 	GList *list, *iter;
 	gboolean sensitive;
+	gboolean visible;
 	guint32 state;
 	gint n_selected;
 
@@ -464,6 +465,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (EVENT_REPLY_ALL);
 	sensitive = (n_selected == 1) && is_meeting;
 	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_MEETING_NEW);
+	visible = itip_addresses_get_default() != NULL;
+	gtk_action_set_visible (action, visible);
 }
 
 static void
