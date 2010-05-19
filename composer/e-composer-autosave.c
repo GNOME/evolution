@@ -32,13 +32,17 @@
 typedef struct _AutosaveState AutosaveState;
 
 struct _AutosaveState {
+	EMsgComposer *composer;
 	GFile *file;
+	gboolean changed;
+	guint source_id; /* timeout source ID */
 	gboolean enabled;
 	gboolean error_shown;
 };
 
 static GList *autosave_registry;
-static guint autosave_source_id;
+
+static void composer_changed_cb (EMsgComposer *composer);
 
 static EMsgComposer *
 composer_autosave_registry_lookup (const gchar *basename)
@@ -67,12 +71,17 @@ composer_autosave_registry_lookup (const gchar *basename)
 }
 
 static AutosaveState *
-composer_autosave_state_new (void)
+composer_autosave_state_new (EMsgComposer *composer)
 {
 	AutosaveState *state;
 
 	state = g_slice_new0 (AutosaveState);
 	state->enabled = TRUE;
+	state->changed = FALSE;
+	state->source_id = 0;
+	state->composer = composer;
+
+	g_signal_connect (composer, "notify::changed", G_CALLBACK (composer_changed_cb), NULL);
 
 	return state;
 }
@@ -80,6 +89,8 @@ composer_autosave_state_new (void)
 static void
 composer_autosave_state_free (AutosaveState *state)
 {
+	if (state->source_id)
+		g_source_remove (state->source_id);
 	if (state->file)
 		g_object_unref (state->file);
 	g_slice_free (AutosaveState, state);
@@ -153,26 +164,54 @@ composer_autosave_finish_cb (EMsgComposer *composer,
 	}
 }
 
-static void
-composer_autosave_foreach (EMsgComposer *composer)
+static gboolean
+composer_autosave_timeout (EMsgComposer *composer)
 {
-	/* Make sure the composer is still alive. */
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	AutosaveState *state;
 
-	if (e_composer_autosave_get_enabled (composer))
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	state = g_object_get_data (G_OBJECT (composer), "autosave");
+	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_val_if_fail (state->composer == composer, FALSE);
+
+	if (!state->changed) {
+		state->source_id = 0;
+		return FALSE;
+	}
+
+	composer = state->composer;
+
+	if (e_composer_autosave_get_enabled (composer)) {
+		state->changed = FALSE;
 		e_composer_autosave_snapshot_async (
 			composer, (GAsyncReadyCallback)
 			composer_autosave_finish_cb, NULL);
-}
-
-static gboolean
-composer_autosave_timeout (void)
-{
-	g_list_foreach (
-		autosave_registry, (GFunc)
-		composer_autosave_foreach, NULL);
+	}
 
 	return TRUE;
+}
+
+static void
+composer_changed_cb (EMsgComposer *composer)
+{
+	AutosaveState *state;
+
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	state = g_object_get_data (G_OBJECT (composer), "autosave");
+	g_return_if_fail (state != NULL);
+	g_return_if_fail (state->composer == composer);
+
+	g_object_get (G_OBJECT (composer), "changed", &state->changed, NULL);
+
+	if (state->changed && state->source_id == 0) {
+		state->source_id = g_timeout_add_seconds (
+			AUTOSAVE_INTERVAL, (GSourceFunc)
+			composer_autosave_timeout, state->composer);
+	}
 }
 
 static void
@@ -182,12 +221,6 @@ composer_autosave_notify (gpointer unused,
 	/* Remove the dead composer from the registry. */
 	autosave_registry = g_list_remove (
 		autosave_registry, where_the_object_was);
-
-	/* Cancel timeouts if the registry is now empty. */
-	if (autosave_registry == NULL && autosave_source_id != 0) {
-		g_source_remove (autosave_source_id);
-		autosave_source_id = 0;
-	}
 }
 
 GList *
@@ -256,7 +289,7 @@ e_composer_autosave_register (EMsgComposer *composer)
 
 	g_object_set_data_full (
 		G_OBJECT (composer), "autosave",
-		composer_autosave_state_new (),
+		composer_autosave_state_new (composer),
 		(GDestroyNotify) composer_autosave_state_free);
 
 	autosave_registry = g_list_prepend (autosave_registry, composer);
@@ -264,11 +297,6 @@ e_composer_autosave_register (EMsgComposer *composer)
 	g_object_weak_ref (
 		G_OBJECT (composer), (GWeakNotify)
 		composer_autosave_notify, NULL);
-
-	if (autosave_source_id == 0)
-		autosave_source_id = g_timeout_add_seconds (
-			AUTOSAVE_INTERVAL, (GSourceFunc)
-			composer_autosave_timeout, NULL);
 }
 
 void
