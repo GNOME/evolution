@@ -635,6 +635,15 @@ get_oid_text (SECItem *oid, gchar **text)
 	case SEC_OID_PKCS1_SHA1_WITH_RSA_ENCRYPTION:
 		*text = g_strdup (_("PKCS #1 SHA-1 With RSA Encryption"));
 		break;
+	case SEC_OID_PKCS1_SHA256_WITH_RSA_ENCRYPTION:
+		*text = g_strdup (_("PKCS #1 SHA-256 With RSA Encryption"));
+		break;
+	case SEC_OID_PKCS1_SHA384_WITH_RSA_ENCRYPTION:
+		*text = g_strdup (_("PKCS #1 SHA-384 With RSA Encryption"));
+		break;
+	case SEC_OID_PKCS1_SHA512_WITH_RSA_ENCRYPTION:
+		*text = g_strdup (_("PKCS #1 SHA-512 With RSA Encryption"));
+		break;
 	case SEC_OID_AVA_COUNTRY_NAME:
 		*text = g_strdup ("C");
 		break;

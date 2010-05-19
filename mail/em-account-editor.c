@@ -2775,6 +2775,65 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	return w;
 }
 
+static void
+emae_account_hash_algo_combo_changed_cb (GtkComboBox *combobox, EMAccountEditor *emae)
+{
+	EAccount *account;
+	gpointer data;
+	const gchar *text = NULL;
+
+	account = em_account_editor_get_modified_account (emae);
+	data = g_object_get_data (G_OBJECT (combobox), "account-item");
+
+	switch (gtk_combo_box_get_active (combobox)) {
+	case 1: text = "sha1";
+		break;
+	case 2: text = "sha256";
+		break;
+	case 3:
+		text = "sha384";
+		break;
+	case 4:
+		text = "sha512";
+		break;
+	}
+
+	e_account_set_string (account, GPOINTER_TO_INT (data), text);
+}
+
+static GtkComboBox *
+emae_account_hash_algo_combo (EMAccountEditor *emae, const gchar *name, gint item, GtkBuilder *builder)
+{
+	EAccount *account;
+	GtkComboBox *combobox;
+	const gchar *text;
+	gint index = 0;
+
+	account = em_account_editor_get_modified_account (emae);
+	combobox = GTK_COMBO_BOX (e_builder_get_widget (builder, name));
+	g_return_val_if_fail (combobox != NULL, NULL);
+
+	text = e_account_get_string (account, item);
+	if (text) {
+		if (g_ascii_strcasecmp (text, "sha1") == 0)
+			index = 1;
+		else if (g_ascii_strcasecmp (text, "sha256") == 0)
+			index = 2;
+		else if (g_ascii_strcasecmp (text, "sha384") == 0)
+			index = 3;
+		else if (g_ascii_strcasecmp (text, "sha512") == 0)
+			index = 4;
+	}
+
+	gtk_combo_box_set_active (combobox, index);
+
+	g_object_set_data (G_OBJECT (combobox), "account-item", GINT_TO_POINTER (item));
+	g_signal_connect (combobox, "changed", G_CALLBACK (emae_account_hash_algo_combo_changed_cb), emae);
+	gtk_widget_set_sensitive (GTK_WIDGET (combobox), e_account_writable (account, item));
+
+	return combobox;
+}
+
 static GtkWidget *
 emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
@@ -2793,6 +2852,7 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	/* Security */
 	emae_account_entry (emae, "pgp_key", E_ACCOUNT_PGP_KEY, builder);
+	emae_account_hash_algo_combo (emae, "pgp_hash_algo", E_ACCOUNT_PGP_HASH_ALGORITHM, builder);
 	emae_account_toggle (emae, "pgp_encrypt_to_self", E_ACCOUNT_PGP_ENCRYPT_TO_SELF, builder);
 	emae_account_toggle (emae, "pgp_always_sign", E_ACCOUNT_PGP_ALWAYS_SIGN, builder);
 	emae_account_toggle (emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN, builder);
@@ -2806,6 +2866,7 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	g_signal_connect (priv->smime_sign_key_select, "clicked", G_CALLBACK(smime_sign_key_select), emae);
 	g_signal_connect (priv->smime_sign_key_clear, "clicked", G_CALLBACK(smime_sign_key_clear), emae);
 
+	emae_account_hash_algo_combo (emae, "smime_hash_algo", E_ACCOUNT_SMIME_HASH_ALGORITHM, builder);
 	priv->smime_sign_default = emae_account_toggle (emae, "smime_sign_default", E_ACCOUNT_SMIME_SIGN_DEFAULT, builder);
 
 	priv->smime_encrypt_key = emae_account_entry (emae, "smime_encrypt_key", E_ACCOUNT_SMIME_ENCRYPT_KEY, builder);

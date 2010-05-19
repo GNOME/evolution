@@ -559,6 +559,25 @@ build_message_headers (EMsgComposer *composer,
 	}
 }
 
+static CamelCipherHash
+account_hash_algo_to_camel_hash (const gchar *hash_algo)
+{
+	CamelCipherHash res = CAMEL_CIPHER_HASH_DEFAULT;
+
+	if (hash_algo && *hash_algo) {
+		if (g_ascii_strcasecmp (hash_algo, "sha1") == 0)
+			res = CAMEL_CIPHER_HASH_SHA1;
+		else if (g_ascii_strcasecmp (hash_algo, "sha256") == 0)
+			res = CAMEL_CIPHER_HASH_SHA256;
+		else if (g_ascii_strcasecmp (hash_algo, "sha384") == 0)
+			res = CAMEL_CIPHER_HASH_SHA384;
+		else if (g_ascii_strcasecmp (hash_algo, "sha512") == 0)
+			res = CAMEL_CIPHER_HASH_SHA512;
+	}
+
+	return res;
+}
+
 static CamelMimeMessage *
 build_message (EMsgComposer *composer,
                gboolean html_content,
@@ -895,15 +914,12 @@ build_message (EMsgComposer *composer,
 		const gchar *pgp_userid;
 		CamelInternetAddress *from = NULL;
 		CamelCipherContext *cipher;
-		EAccount *account;
 
 		part = camel_mime_part_new ();
 		camel_medium_set_content (CAMEL_MEDIUM (part), current);
 		if (current == plain)
 			camel_mime_part_set_encoding (part, plain_encoding);
 		g_object_unref (current);
-
-		account = e_composer_header_table_get_account (table);
 
 		if (account && account->pgp_key && *account->pgp_key) {
 			pgp_userid = account->pgp_key;
@@ -921,7 +937,8 @@ build_message (EMsgComposer *composer,
 					CAMEL_GPG_CONTEXT (cipher),
 					account->pgp_always_trust);
 			camel_cipher_sign (
-				cipher, pgp_userid, CAMEL_CIPHER_HASH_SHA1,
+				cipher, pgp_userid, account_hash_algo_to_camel_hash (
+				account ? e_account_get_string (account, E_ACCOUNT_PGP_HASH_ALGORITHM) : NULL),
 				part, npart, &ex);
 			g_object_unref (cipher);
 
@@ -1009,7 +1026,9 @@ build_message (EMsgComposer *composer,
 				camel_smime_context_set_encrypt_key ((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
 			}
 
-			camel_cipher_sign (cipher, account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
+			camel_cipher_sign (cipher, account->smime_sign_key,
+				account_hash_algo_to_camel_hash (account ? e_account_get_string (account, E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
+				part, npart, &ex);
 			g_object_unref (cipher);
 
 			if (camel_exception_is_set (&ex)) {
