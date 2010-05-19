@@ -69,10 +69,9 @@ struct _EMailShellContentPrivate {
 	/* Signal handler IDs */
 	guint message_list_built_id;
 
-	guint group_by_threads			: 1;
-	guint preview_visible			: 1;
-	guint suppress_message_selection	: 1;
-	guint show_deleted			: 1;
+	guint group_by_threads	: 1;
+	guint preview_visible	: 1;
+	guint show_deleted	: 1;
 };
 
 enum {
@@ -120,8 +119,9 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
                                           MessageList *message_list)
 {
 	EMailShellContentPrivate *priv = mail_shell_content->priv;
-	EShellContent *shell_content;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
 	GKeyFile *key_file;
 	gchar *uid;
 
@@ -131,6 +131,8 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 
 	shell_content = E_SHELL_CONTENT (mail_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	if (message_list->cursor_uid != NULL)
@@ -139,10 +141,11 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	else if (message_list->folder_uri == NULL)
 		uid = NULL;
 
-	else if (mail_shell_content->priv->suppress_message_selection)
+	else if (e_shell_window_get_safe_mode (shell_window)) {
+		e_shell_window_set_safe_mode (shell_window, FALSE);
 		uid = NULL;
 
-	else {
+	} else {
 		const gchar *folder_uri;
 		const gchar *key;
 		gchar *group_name;
@@ -561,28 +564,32 @@ mail_shell_content_set_folder (EMailReader *reader,
                                CamelFolder *folder,
                                const gchar *folder_uri)
 {
+	EShell *shell;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellContent *shell_content;
+	EShellSettings *shell_settings;
 	EMailShellContentPrivate *priv;
 	EMailReaderIface *default_iface;
 	GtkWidget *message_list;
-	CamelFolder *old_folder;
 	GKeyFile *key_file;
 	gchar *group_name;
 	const gchar *key;
-	gboolean different_folder;
 	gboolean value;
 	GError *error = NULL;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
-	old_folder = e_mail_reader_get_folder (reader);
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_freeze (MESSAGE_LIST (message_list));
-
-	different_folder =
-		(old_folder != NULL && folder != old_folder);
 
 	/* Chain up to interface's default set_folder() method. */
 	default_iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
@@ -593,12 +600,6 @@ mail_shell_content_set_folder (EMailReader *reader,
 
 	mail_refresh_folder (folder, NULL, NULL);
 
-	/* This function gets triggered several times at startup,
-	 * so we don't want to reset the message suppression state
-	 * unless we're actually switching to a different folder. */
-	if (different_folder)
-		priv->suppress_message_selection = FALSE;
-
 	/* This is a one-time-only callback. */
 	if (MESSAGE_LIST (message_list)->cursor_uid == NULL &&
 		priv->message_list_built_id == 0)
@@ -608,9 +609,6 @@ mail_shell_content_set_folder (EMailReader *reader,
 			reader);
 
 	/* Restore the folder's preview and threaded state. */
-
-	shell_content = E_SHELL_CONTENT (reader);
-	shell_view = e_shell_content_get_shell_view (shell_content);
 
 	key_file = e_shell_view_get_state_key_file (shell_view);
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
@@ -630,6 +628,17 @@ mail_shell_content_set_folder (EMailReader *reader,
 	if (error != NULL) {
 		value = TRUE;
 		g_clear_error (&error);
+	}
+
+	/* XXX This is a little confusing and needs rethought.  The
+	 *     EShellWindow:safe-mode property blocks automatic message
+	 *     selection, but the "mail-safe-list" shell setting blocks
+	 *     both the preview pane and automatic message selection. */
+	if (e_shell_settings_get_boolean (shell_settings, "mail-safe-list")) {
+		e_shell_settings_set_boolean (
+			shell_settings, "mail-safe-list", FALSE);
+		e_shell_window_set_safe_mode (shell_window, TRUE);
+		value = FALSE;
 	}
 
 	e_mail_shell_content_set_preview_visible (

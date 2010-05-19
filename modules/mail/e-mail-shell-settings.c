@@ -166,6 +166,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/format/reply_style");
 
 	e_shell_settings_install_property_for_key (
+		"mail-safe-list",
+		"/apps/evolution/mail/display/safe_list");
+
+	e_shell_settings_install_property_for_key (
 		"mail-show-animated-images",
 		"/apps/evolution/mail/display/animated_images");
 
