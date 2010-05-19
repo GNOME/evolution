@@ -31,6 +31,8 @@ void	_e_win32_register_mailer (void);
 void	_e_win32_set_default_mailer (void);
 void	_e_win32_unset_default_mailer (void);
 
+void	_e_win32_register_addressbook (void);
+
 G_END_DECLS
 
 #endif /* __E_WIN32_DEFAULTS__ */

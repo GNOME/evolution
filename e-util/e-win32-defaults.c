@@ -43,6 +43,152 @@ _e_win32_sanitize_path (gchar *path)
 	return path;
 }
 
+/*
+ * Addressbook Client registration
+ */
+
+static void
+_e_register_vcard_structure (HKEY hKey)
+{
+
+	LONG returnValue;
+	DWORD dwDisposition;
+	gchar *defaultIcon = NULL;
+	gchar *evolutionBinary = NULL;
+	gchar *vcardCommand = NULL;
+	BYTE editFlags[4] = { 0x02, 0x00, 0x00, 0x00 };
+
+	static HKEY tmp_subkey = (HKEY) INVALID_HANDLE_VALUE;
+	
+	if ((returnValue = RegCreateKeyExA (hKey, ".vcf", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (hKey, NULL, 0, REG_SZ, (const BYTE *)"vcard_evo_auto_file", strlen ("vcard_evo_auto_file") + 1)))
+		goto cleanup;
+	if ((returnValue = RegSetValueExA (hKey, "Content Type", 0, REG_SZ, (const BYTE *)"text/x-vcard", strlen ("text/x-vcard") + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "MIME\\Database\\Content Type\\text/x-vcard", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (hKey, "Extension", 0, REG_SZ, (const BYTE *)".vcf", strlen (".vcf") + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "vcard_evo_auto_file", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (hKey, NULL, 0, REG_SZ, (const BYTE *)"vCard File", strlen ("vCard File") + 1)))
+		goto cleanup;
+	if ((returnValue = RegSetValueExA (hKey, "EditFlags", 0, REG_BINARY, editFlags, G_N_ELEMENTS (editFlags))))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "vcard_evo_auto_file\\DefaultIcon", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
+	defaultIcon = g_strconcat (evolutionBinary, ",0", NULL);
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)defaultIcon, strlen (defaultIcon) + 1)))
+		goto cleanup;
+
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "vcard_evo_auto_file\\shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	vcardCommand = g_strconcat("\"", evolutionBinary,  "\" --component=addressbook \%1", NULL);
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)vcardCommand, strlen (vcardCommand) + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+cleanup:
+	g_free (defaultIcon);
+	g_free (evolutionBinary);
+	g_free (vcardCommand);
+}
+
+static void
+_e_win32_register_addressbook_impl (gboolean system)
+{
+	LONG returnValue;
+	DWORD dwDisposition;
+	gchar *evolutionBinary = NULL;
+	gchar *openCommand = NULL;
+
+	static HKEY reg_key = (HKEY) INVALID_HANDLE_VALUE;
+	static HKEY reg_subkey = (HKEY) INVALID_HANDLE_VALUE;
+
+
+	if ((returnValue = RegCreateKeyExA (system ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER,
+		"Software\\Clients\\Contacts\\" CANONICALNAME, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_key, &dwDisposition)))
+		goto cleanup;
+	
+	if ((returnValue = RegSetValueExA (reg_key, NULL, 0, REG_SZ, (const BYTE *)CANONICALNAME, strlen (CANONICALNAME) + 1)))
+		goto cleanup;
+	
+	RegFlushKey (reg_key);
+	
+	if ((returnValue = RegCreateKeyExA (reg_key, "DefaultIcon", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
+		goto cleanup;
+	
+	if ((returnValue = RegCreateKeyExA (reg_key, "shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
+		goto cleanup;
+
+	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
+	openCommand = g_strconcat("\"", evolutionBinary, "\" --component=addressbook", NULL);
+	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)openCommand, strlen (openCommand) + 1)))
+		goto cleanup;
+	
+	RegFlushKey (reg_subkey);
+	
+	RegCloseKey (reg_subkey);
+
+	
+	if ((returnValue = RegCreateKeyExA (reg_key, "Protocols", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
+		goto cleanup;
+
+	_e_register_vcard_structure (reg_subkey);
+
+	RegCloseKey (reg_subkey);
+	
+	RegCloseKey (reg_key);
+
+cleanup:
+	g_free (evolutionBinary);
+	g_free (openCommand);
+}
+
+void
+_e_win32_register_addressbook (void)
+{
+	_e_win32_register_addressbook_impl (TRUE);
+	_e_win32_register_addressbook_impl (FALSE);
+}
+
+
+/*
+ * Mail Client registration
+ */
+
 static void
 _e_register_mailto_structure (HKEY hKey)
 {
@@ -84,7 +230,7 @@ _e_register_mailto_structure (HKEY hKey)
 	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
 	mailtoCommand = g_strconcat("\"", evolutionBinary,  "\" --component=mail mailto:\%1", NULL);
 
-	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)mailtoCommand, strlen(mailtoCommand) + 1)))
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)mailtoCommand, strlen (mailtoCommand) + 1)))
 		goto cleanup;
 
 	
@@ -99,7 +245,7 @@ cleanup:
 }
 
 static void
-_e_win32_register_mailer_impl (WINBOOL system)
+_e_win32_register_mailer_impl (gboolean system)
 {
 	LONG returnValue;
 	DWORD i, dwDisposition;
@@ -119,7 +265,7 @@ _e_win32_register_mailer_impl (WINBOOL system)
 		"Software\\Clients\\Mail\\" CANONICALNAME, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_key, &dwDisposition)))
 		goto cleanup;
 	
-	if ((returnValue = RegSetValueExA (reg_key, NULL, 0, REG_SZ, (const BYTE *)CANONICALNAME, strlen(CANONICALNAME) + 1)))
+	if ((returnValue = RegSetValueExA (reg_key, NULL, 0, REG_SZ, (const BYTE *)CANONICALNAME, strlen (CANONICALNAME) + 1)))
 		goto cleanup;
 	
 	dllPath = _e_win32_sanitize_path (g_build_path(G_DIR_SEPARATOR_S, _e_get_bindir (), EUTILDLL, NULL));
@@ -213,7 +359,7 @@ _e_win32_register_mailer (void)
 }
 
 static void
-_e_win32_set_default_mailer_impl (WINBOOL system)
+_e_win32_set_default_mailer_impl (gboolean system)
 {
 	LONG returnValue;
 	DWORD dwDisposition;
