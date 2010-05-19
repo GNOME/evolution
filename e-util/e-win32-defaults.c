@@ -146,6 +146,7 @@ _e_win32_register_mailer_impl (WINBOOL system)
 	if ((returnValue = RegCreateKeyExA (reg_key, "shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
 		goto cleanup;
 
+	openCommand = g_strconcat("\"", evolutionBinary, "\" --component=mail", NULL);
 	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)openCommand, strlen (openCommand) + 1)))
 		goto cleanup;
 	
@@ -201,7 +202,7 @@ cleanup:
 	g_free (openCommand);
 	g_free (reinstallCommand);
 	g_free (showIconsCommand);
-	g_free (showIconsCommand);
+	g_free (hideIconsCommand);
 }
 
 void

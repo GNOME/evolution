@@ -306,11 +306,11 @@ setup_segv_redirect (void)
 
 static GOptionEntry entries[] = {
 #ifdef G_OS_WIN32
-	{ "--reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
+	{ "reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
 	  NULL, NULL },
-	{ "--show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
+	{ "show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
 	  NULL, NULL },
-	{ "--hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
+	{ "hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
 	  NULL, NULL },
 #endif /* G_OS_WIN32 */
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
