@@ -63,9 +63,9 @@ _e_register_vcard_structure (HKEY hKey)
 	if ((returnValue = RegCreateKeyExA (hKey, ".vcf", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
 		goto cleanup;
 
-	if ((returnValue = RegSetValueExA (hKey, NULL, 0, REG_SZ, (const BYTE *)"vcard_evo_auto_file", strlen ("vcard_evo_auto_file") + 1)))
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)"vcard_evo_auto_file", strlen ("vcard_evo_auto_file") + 1)))
 		goto cleanup;
-	if ((returnValue = RegSetValueExA (hKey, "Content Type", 0, REG_SZ, (const BYTE *)"text/x-vcard", strlen ("text/x-vcard") + 1)))
+	if ((returnValue = RegSetValueExA (tmp_subkey, "Content Type", 0, REG_SZ, (const BYTE *)"text/x-vcard", strlen ("text/x-vcard") + 1)))
 		goto cleanup;
 	
 	RegFlushKey (tmp_subkey);
@@ -75,7 +75,7 @@ _e_register_vcard_structure (HKEY hKey)
 	if ((returnValue = RegCreateKeyExA (hKey, "MIME\\Database\\Content Type\\text/x-vcard", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
 		goto cleanup;
 
-	if ((returnValue = RegSetValueExA (hKey, "Extension", 0, REG_SZ, (const BYTE *)".vcf", strlen (".vcf") + 1)))
+	if ((returnValue = RegSetValueExA (tmp_subkey, "Extension", 0, REG_SZ, (const BYTE *)".vcf", strlen (".vcf") + 1)))
 		goto cleanup;
 	
 	RegFlushKey (tmp_subkey);
@@ -85,9 +85,9 @@ _e_register_vcard_structure (HKEY hKey)
 	if ((returnValue = RegCreateKeyExA (hKey, "vcard_evo_auto_file", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
 		goto cleanup;
 
-	if ((returnValue = RegSetValueExA (hKey, NULL, 0, REG_SZ, (const BYTE *)"vCard File", strlen ("vCard File") + 1)))
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)"vCard File", strlen ("vCard File") + 1)))
 		goto cleanup;
-	if ((returnValue = RegSetValueExA (hKey, "EditFlags", 0, REG_BINARY, editFlags, G_N_ELEMENTS (editFlags))))
+	if ((returnValue = RegSetValueExA (tmp_subkey, "EditFlags", 0, REG_BINARY, editFlags, G_N_ELEMENTS (editFlags))))
 		goto cleanup;
 	
 	RegFlushKey (tmp_subkey);
@@ -127,6 +127,97 @@ cleanup:
 }
 
 static void
+_e_register_ldif_structure (HKEY hKey)
+{
+
+	LONG returnValue;
+	DWORD dwDisposition;
+	gchar *defaultIcon = NULL;
+	gchar *evolutionBinary = NULL;
+	gchar *vcardCommand = NULL;
+	BYTE editFlags[4] = { 0x02, 0x00, 0x00, 0x00 };
+
+	static HKEY tmp_subkey = (HKEY) INVALID_HANDLE_VALUE;
+	
+	if ((returnValue = RegCreateKeyExA (hKey, ".ldi", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)"ldif_evo_auto_file", strlen ("ldif_evo_auto_file") + 1)))
+		goto cleanup;
+	if ((returnValue = RegSetValueExA (tmp_subkey, "Content Type", 0, REG_SZ, (const BYTE *)"text/x-ldif", strlen ("text/x-ldif") + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, ".ldif", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)"ldif_evo_auto_file", strlen ("ldif_evo_auto_file") + 1)))
+		goto cleanup;
+	if ((returnValue = RegSetValueExA (tmp_subkey, "Content Type", 0, REG_SZ, (const BYTE *)"text/x-ldif", strlen ("text/x-ldif") + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "MIME\\Database\\Content Type\\text/x-ldif", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, "Extension", 0, REG_SZ, (const BYTE *)".ldi", strlen (".ldi") + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "ldif_evo_auto_file", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)"LDIF File", strlen ("LDIF File") + 1)))
+		goto cleanup;
+	if ((returnValue = RegSetValueExA (tmp_subkey, "EditFlags", 0, REG_BINARY, editFlags, G_N_ELEMENTS (editFlags))))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "ldif_evo_auto_file\\DefaultIcon", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
+	defaultIcon = g_strconcat (evolutionBinary, ",0", NULL);
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)defaultIcon, strlen (defaultIcon) + 1)))
+		goto cleanup;
+
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+	if ((returnValue = RegCreateKeyExA (hKey, "ldif_evo_auto_file\\shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
+		goto cleanup;
+
+	vcardCommand = g_strconcat("\"", evolutionBinary,  "\" --component=addressbook \%1", NULL);
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)vcardCommand, strlen (vcardCommand) + 1)))
+		goto cleanup;
+	
+	RegFlushKey (tmp_subkey);
+	
+	RegCloseKey (tmp_subkey);
+	
+cleanup:
+	g_free (defaultIcon);
+	g_free (evolutionBinary);
+	g_free (vcardCommand);
+}
+
+static void
 _e_win32_register_addressbook_impl (gboolean system)
 {
 	LONG returnValue;
@@ -147,9 +238,6 @@ _e_win32_register_addressbook_impl (gboolean system)
 	
 	RegFlushKey (reg_key);
 	
-	if ((returnValue = RegCreateKeyExA (reg_key, "DefaultIcon", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
-		goto cleanup;
-	
 	if ((returnValue = RegCreateKeyExA (reg_key, "shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
 		goto cleanup;
 
@@ -167,11 +255,22 @@ _e_win32_register_addressbook_impl (gboolean system)
 		goto cleanup;
 
 	_e_register_vcard_structure (reg_subkey);
+	_e_register_ldif_structure (reg_subkey);
 
 	RegCloseKey (reg_subkey);
 	
 	RegCloseKey (reg_key);
+	
+	if ((returnValue = RegCreateKeyExA (system ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER,
+		"Software\\Classes", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_key, &dwDisposition)))
+		return;
+	
+	_e_register_ldif_structure (reg_key);
 
+	RegFlushKey (reg_key);
+	
+	RegCloseKey (reg_key);
+	
 cleanup:
 	g_free (evolutionBinary);
 	g_free (openCommand);
