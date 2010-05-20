@@ -130,6 +130,20 @@ attachment_icon_view_button_release_event (GtkWidget *widget,
 }
 
 static gboolean
+attachment_icon_view_motion_notify_event (GtkWidget *widget,
+                                          GdkEventMotion *event)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+
+	if (e_attachment_view_motion_notify_event (view, event))
+		return TRUE;
+
+	/* Chain up to parent's motion_notify_event() method. */
+	return GTK_WIDGET_CLASS (parent_class)->
+		motion_notify_event (widget, event);
+}
+
+static gboolean
 attachment_icon_view_key_press_event (GtkWidget *widget,
                                       GdkEventKey *event)
 {
@@ -408,6 +422,7 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = attachment_icon_view_button_press_event;
 	widget_class->button_release_event = attachment_icon_view_button_release_event;
+	widget_class->motion_notify_event = attachment_icon_view_motion_notify_event;
 	widget_class->key_press_event = attachment_icon_view_key_press_event;
 	widget_class->drag_begin = attachment_icon_view_drag_begin;
 	widget_class->drag_end = attachment_icon_view_drag_end;

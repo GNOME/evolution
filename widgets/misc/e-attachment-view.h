@@ -103,6 +103,12 @@ struct _EAttachmentViewPrivate {
 	GtkUIManager *ui_manager;
 	guint merge_id;
 
+	/* Multi-DnD State */
+	GList *event_list;
+	GList *selected;
+	gint start_x;
+	gint start_y;
+
 	guint editable : 1;
 };
 
@@ -139,6 +145,9 @@ gboolean	e_attachment_view_button_press_event
 gboolean	e_attachment_view_button_release_event
 						(EAttachmentView *view,
 						 GdkEventButton *event);
+gboolean	e_attachment_view_motion_notify_event
+						(EAttachmentView *view,
+						 GdkEventMotion *event);
 gboolean	e_attachment_view_key_press_event
 						(EAttachmentView *view,
 						 GdkEventKey *event);
