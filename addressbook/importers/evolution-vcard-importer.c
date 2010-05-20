@@ -868,6 +868,7 @@ evolution_contact_importer_get_preview_widget (const GList *contacts)
 
 	for (c = contacts; c; c = c->next) {
 		const gchar *description;
+		gchar *free_description = NULL;
 		EContact *contact = (EContact *) c->data;
 
 		if (!contact || !E_IS_CONTACT (contact))
@@ -876,12 +877,26 @@ evolution_contact_importer_get_preview_widget (const GList *contacts)
 		description = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (!description)
 			description = e_contact_get_const (contact, E_CONTACT_UID);
+		if (!description)
+			description = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
+		if (!description) {
+			description = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
+			if (description) {
+				const gchar *at = strchr (description, '@');
+				if (at) {
+					free_description = g_strndup (description, (gsize)(at - description));
+					description = free_description;
+				}
+			}
+		}
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
 			0, description ? description : "",
 			1, contact,
 			-1 );
+
+		g_free (free_description);
 	}
 
 	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter)) {
