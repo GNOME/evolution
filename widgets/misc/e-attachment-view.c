@@ -875,6 +875,12 @@ e_attachment_view_finalize (EAttachmentView *view)
 	priv = e_attachment_view_get_private (view);
 
 	g_ptr_array_free (priv->handlers, TRUE);
+
+	g_list_foreach (priv->event_list, (GFunc) gdk_event_free, NULL);
+	g_list_free (priv->event_list);
+
+	g_list_foreach (priv->selected, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->selected);
 }
 
 EAttachmentViewPrivate *
@@ -1074,30 +1080,55 @@ gboolean
 e_attachment_view_button_press_event (EAttachmentView *view,
                                       GdkEventButton *event)
 {
+	EAttachmentViewPrivate *priv;
 	GtkTreePath *path;
 	gboolean editable;
 	gboolean handled = FALSE;
+	gboolean path_is_selected = FALSE;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
+	priv = e_attachment_view_get_private (view);
+
+	if (g_list_find (priv->event_list, event) != NULL)
+		return FALSE;
+
+	if (priv->event_list != NULL) {
+		/* Save the event to be propagated in order. */
+		priv->event_list = g_list_append (
+			priv->event_list,
+			gdk_event_copy ((GdkEvent *) event));
+		return TRUE;
+	}
+
 	editable = e_attachment_view_get_editable (view);
 	path = e_attachment_view_get_path_at_pos (view, event->x, event->y);
+	path_is_selected = e_attachment_view_path_is_selected (view, path);
 
-	/* Cancel drag and drop if there are no selected items,
-	 * or if any of the selected items are loading or saving. */
 	if (event->button == 1 && event->type == GDK_BUTTON_PRESS) {
 		GList *selected, *iter;
 		gboolean busy = FALSE;
 
 		selected = e_attachment_view_get_selected_attachments (view);
+
 		for (iter = selected; iter != NULL; iter = iter->next) {
 			EAttachment *attachment = iter->data;
 			busy |= e_attachment_get_loading (attachment);
 			busy |= e_attachment_get_saving (attachment);
 		}
-		if (selected == NULL || busy)
-			e_attachment_view_drag_source_unset (view);
+
+		/* Prepare for dragging if the clicked item is selected
+		 * and none of the selected items are loading or saving. */
+		if (path_is_selected && !busy) {
+			priv->start_x = event->x;
+			priv->start_y = event->y;
+			priv->event_list = g_list_append (
+				priv->event_list,
+				gdk_event_copy ((GdkEvent *) event));
+			handled = TRUE;
+		}
+
 		g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 		g_list_free (selected);
 	}
@@ -1109,7 +1140,7 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 		 * click on an item, clear the current selection. */
 		if (path == NULL)
 			e_attachment_view_unselect_all (view);
-		else if (!e_attachment_view_path_is_selected (view, path)) {
+		else if (!path_is_selected) {
 			e_attachment_view_unselect_all (view);
 			e_attachment_view_select_path (view, path);
 		}
@@ -1134,15 +1165,61 @@ gboolean
 e_attachment_view_button_release_event (EAttachmentView *view,
                                         GdkEventButton *event)
 {
+	EAttachmentViewPrivate *priv;
+	GtkWidget *widget = GTK_WIDGET (view);
+	GList *iter;
+
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	/* Restore the attachment view as a drag source, in case
-	 * we had to cancel during a button press event. */
-	if (event->button == 1)
-		e_attachment_view_drag_source_set (view);
+	priv = e_attachment_view_get_private (view);
+
+	for (iter = priv->event_list; iter != NULL; iter = iter->next) {
+		GdkEvent *event = iter->data;
+
+		gtk_propagate_event (widget, event);
+		gdk_event_free (event);
+	}
+
+	g_list_free (priv->event_list);
+	priv->event_list = NULL;
 
 	return FALSE;
+}
+
+gboolean
+e_attachment_view_motion_notify_event (EAttachmentView *view,
+                                       GdkEventMotion *event)
+{
+	EAttachmentViewPrivate *priv;
+	GtkWidget *widget = GTK_WIDGET (view);
+	GdkDragContext *context;
+	GtkTargetList *targets;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	priv = e_attachment_view_get_private (view);
+
+	if (priv->event_list == NULL)
+		return FALSE;
+
+	if (!gtk_drag_check_threshold (
+		widget, priv->start_x, priv->start_y, event->x, event->y))
+		return TRUE;
+
+	g_list_foreach (priv->event_list, (GFunc) gdk_event_free, NULL);
+	g_list_free (priv->event_list);
+	priv->event_list = NULL;
+
+	targets = gtk_drag_source_get_target_list (widget);
+
+	context = gtk_drag_begin (
+		widget, targets, GDK_ACTION_COPY, 1, (GdkEvent *) event);
+
+	gtk_drag_set_icon_default (context);
+
+	return TRUE;
 }
 
 gboolean
@@ -1199,7 +1276,10 @@ e_attachment_view_path_is_selected (EAttachmentView *view,
 	EAttachmentViewIface *iface;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
-	g_return_val_if_fail (path != NULL, FALSE);
+
+	/* Handle NULL paths gracefully. */
+	if (path == NULL)
+		return FALSE;
 
 	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
 	g_return_val_if_fail (iface->path_is_selected != NULL, FALSE);
@@ -1285,18 +1365,23 @@ e_attachment_view_sync_selection (EAttachmentView *view,
 void
 e_attachment_view_drag_source_set (EAttachmentView *view)
 {
+	EAttachmentViewIface *iface;
 	GtkTargetEntry *targets;
 	GtkTargetList *list;
 	gint n_targets;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
+	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
+	if (iface->drag_source_set == NULL)
+		return;
+
 	list = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_uri_targets (list, 0);
 	targets = gtk_target_table_new_from_list (list, &n_targets);
 
-	gtk_drag_source_set (
-		GTK_WIDGET (view), GDK_BUTTON1_MASK,
+	iface->drag_source_set (
+		view, GDK_BUTTON1_MASK,
 		targets, n_targets, GDK_ACTION_COPY);
 
 	gtk_target_table_free (targets, n_targets);
@@ -1306,34 +1391,55 @@ e_attachment_view_drag_source_set (EAttachmentView *view)
 void
 e_attachment_view_drag_source_unset (EAttachmentView *view)
 {
+	EAttachmentViewIface *iface;
+
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	gtk_drag_source_unset (GTK_WIDGET (view));
+	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
+	if (iface->drag_source_unset == NULL)
+		return;
+
+	iface->drag_source_unset (view);
 }
 
 void
 e_attachment_view_drag_begin (EAttachmentView *view,
                               GdkDragContext *context)
 {
+	EAttachmentViewPrivate *priv;
+
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+
+	priv = e_attachment_view_get_private (view);
 
 	/* Prevent the user from dragging and dropping to
 	 * the same attachment view, which would duplicate
 	 * the attachment. */
 	e_attachment_view_drag_dest_unset (view);
+
+	g_warn_if_fail (priv->selected == NULL);
+	priv->selected = e_attachment_view_get_selected_attachments (view);
 }
 
 void
 e_attachment_view_drag_end (EAttachmentView *view,
                             GdkDragContext *context)
 {
+	EAttachmentViewPrivate *priv;
+
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+
+	priv = e_attachment_view_get_private (view);
 
 	/* Restore the previous drag destination state. */
 	if (e_attachment_view_get_editable (view))
 		e_attachment_view_drag_dest_set (view);
+
+	g_list_foreach (priv->selected, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->selected);
+	priv->selected = NULL;
 }
 
 static void
@@ -1361,8 +1467,8 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
                                  guint info,
                                  guint time)
 {
+	EAttachmentViewPrivate *priv;
 	EAttachmentStore *store;
-	GList *selected;
 
 	struct {
 		gchar **uris;
@@ -1376,18 +1482,15 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
 	status.uris = NULL;
 	status.done = FALSE;
 
+	priv = e_attachment_view_get_private (view);
 	store = e_attachment_view_get_store (view);
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	if (selected == NULL)
+	if (priv->selected == NULL)
 		return;
 
 	e_attachment_store_get_uris_async (
-		store, selected, (GAsyncReadyCallback)
+		store, priv->selected, (GAsyncReadyCallback)
 		attachment_view_got_uris_cb, &status);
-
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
 
 	/* We can't return until we have results, so crank
 	 * the main loop until the callback gets triggered. */
@@ -1405,19 +1508,22 @@ void
 e_attachment_view_drag_dest_set (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
+	EAttachmentViewIface *iface;
 	GtkTargetEntry *targets;
 	gint n_targets;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
+	if (iface->drag_dest_set == NULL)
+		return;
 
 	priv = e_attachment_view_get_private (view);
 
 	targets = gtk_target_table_new_from_list (
 		priv->target_list, &n_targets);
 
-	gtk_drag_dest_set (
-		GTK_WIDGET (view), GTK_DEST_DEFAULT_ALL,
-		targets, n_targets, priv->drag_actions);
+	iface->drag_dest_set (view, targets, n_targets, priv->drag_actions);
 
 	gtk_target_table_free (targets, n_targets);
 }
@@ -1425,9 +1531,15 @@ e_attachment_view_drag_dest_set (EAttachmentView *view)
 void
 e_attachment_view_drag_dest_unset (EAttachmentView *view)
 {
+	EAttachmentViewIface *iface;
+
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	gtk_drag_dest_unset (GTK_WIDGET (view));
+	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
+	if (iface->drag_dest_unset == NULL)
+		return;
+
+	iface->drag_dest_unset (view);
 }
 
 gboolean
