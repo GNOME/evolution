@@ -599,6 +599,11 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
 
+	/* Force 24 hour format for locales which don't support 12 hour format */
+	if (!locale_supports_12_hour_format
+	    && !e_shell_settings_get_boolean (shell_settings, "cal-use-24-hour-format"))
+		e_shell_settings_set_boolean (shell_settings, "cal-use-24-hour-format", TRUE);
+
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
 	E_TYPE_DATE_EDIT;
