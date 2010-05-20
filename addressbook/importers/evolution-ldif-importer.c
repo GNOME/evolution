@@ -565,8 +565,8 @@ ldif_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	return vbox;
 }
 
-static const gchar *supported_extensions[2] = {
-	".ldif", NULL
+static const gchar *supported_extensions[3] = {
+	".ldif", ".ldi", NULL
 };
 
 static gboolean
