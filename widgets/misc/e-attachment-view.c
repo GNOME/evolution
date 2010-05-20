@@ -1075,29 +1075,13 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 {
 	GtkTreePath *path;
 	gboolean editable;
-	gboolean item_clicked;
+	gboolean handled = FALSE;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	editable = e_attachment_view_get_editable (view);
-
-	/* If the user clicked on a selected item, retain the current
-	 * selection.  If the user clicked on an unselected item, select
-	 * the clicked item only.  If the user did not click on an item,
-	 * clear the current selection. */
 	path = e_attachment_view_get_path_at_pos (view, event->x, event->y);
-	if (path != NULL) {
-		if (!e_attachment_view_path_is_selected (view, path)) {
-			e_attachment_view_unselect_all (view);
-			e_attachment_view_select_path (view, path);
-		}
-		gtk_tree_path_free (path);
-		item_clicked = TRUE;
-	} else {
-		e_attachment_view_unselect_all (view);
-		item_clicked = FALSE;
-	}
 
 	/* Cancel drag and drop if there are no selected items,
 	 * or if any of the selected items are loading or saving. */
@@ -1118,17 +1102,31 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 	}
 
 	if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
+		/* If the user clicked on a selected item, retain the
+		 * current selection.  If the user clicked on an unselected
+		 * item, select the clicked item only.  If the user did not
+		 * click on an item, clear the current selection. */
+		if (path == NULL)
+			e_attachment_view_unselect_all (view);
+		else if (!e_attachment_view_path_is_selected (view, path)) {
+			e_attachment_view_unselect_all (view);
+			e_attachment_view_select_path (view, path);
+		}
+
 		/* Non-editable attachment views should only show a
 		 * popup menu when right-clicking on an attachment,
 		 * but editable views can show the menu any time. */
-		if (item_clicked || editable) {
+		if (path != NULL || editable) {
 			e_attachment_view_show_popup_menu (
 				view, event, NULL, NULL);
-			return TRUE;
+			handled = TRUE;
 		}
 	}
 
-	return FALSE;
+	if (path != NULL)
+		gtk_tree_path_free (path);
+
+	return handled;
 }
 
 gboolean

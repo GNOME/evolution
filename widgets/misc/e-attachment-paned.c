@@ -92,36 +92,6 @@ attachment_paned_notify_cb (EAttachmentPaned *paned,
 }
 
 static void
-attachment_paned_sync_icon_view (EAttachmentPaned *paned)
-{
-	EAttachmentView *source;
-	EAttachmentView *target;
-
-	source = E_ATTACHMENT_VIEW (paned->priv->tree_view);
-	target = E_ATTACHMENT_VIEW (paned->priv->icon_view);
-
-	/* Only sync if the tree view is active.  This prevents the
-	 * two views from endlessly trying to sync with each other. */
-	if (e_attachment_paned_get_active_view (paned) == 1)
-		e_attachment_view_sync_selection (source, target);
-}
-
-static void
-attachment_paned_sync_tree_view (EAttachmentPaned *paned)
-{
-	EAttachmentView *source;
-	EAttachmentView *target;
-
-	source = E_ATTACHMENT_VIEW (paned->priv->icon_view);
-	target = E_ATTACHMENT_VIEW (paned->priv->tree_view);
-
-	/* Only sync if the icon view is active.  This prevents the
-	 * two views from endlessly trying to sync with each other. */
-	if (e_attachment_paned_get_active_view (paned) == 0)
-		e_attachment_view_sync_selection (source, target);
-}
-
-static void
 attachment_paned_update_status (EAttachmentPaned *paned)
 {
 	EAttachmentView *view;
@@ -509,7 +479,6 @@ static void
 attachment_paned_init (EAttachmentPaned *paned)
 {
 	EAttachmentView *view;
-	GtkTreeSelection *selection;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -662,17 +631,6 @@ attachment_paned_init (EAttachmentPaned *paned)
 	paned->priv->status_label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	selection = gtk_tree_view_get_selection (
-		GTK_TREE_VIEW (paned->priv->tree_view));
-
-	g_signal_connect_swapped (
-		selection, "changed",
-		G_CALLBACK (attachment_paned_sync_icon_view), paned);
-
-	g_signal_connect_swapped (
-		paned->priv->icon_view, "selection-changed",
-		G_CALLBACK (attachment_paned_sync_tree_view), paned);
-
 	g_signal_connect_swapped (
 		paned->priv->expander, "notify::expanded",
 		G_CALLBACK (attachment_paned_notify_cb), paned);
@@ -750,10 +708,30 @@ void
 e_attachment_paned_set_active_view (EAttachmentPaned *paned,
                                     gint active_view)
 {
+	EAttachmentView *source;
+	EAttachmentView *target;
+
 	g_return_if_fail (E_IS_ATTACHMENT_PANED (paned));
 	g_return_if_fail (active_view >= 0 && active_view < NUM_VIEWS);
 
+	if (active_view == paned->priv->active_view)
+		return;
+
 	paned->priv->active_view = active_view;
+
+	/* Synchronize the item selection of the view we're
+	 * switching TO with the view we're switching FROM. */
+	if (active_view == 0) {
+		/* from tree view to icon view */
+		source = E_ATTACHMENT_VIEW (paned->priv->tree_view);
+		target = E_ATTACHMENT_VIEW (paned->priv->icon_view);
+	} else {
+		/* from icon view to tree view */
+		source = E_ATTACHMENT_VIEW (paned->priv->icon_view);
+		target = E_ATTACHMENT_VIEW (paned->priv->tree_view);
+	}
+
+	e_attachment_view_sync_selection (source, target);
 
 	g_object_notify (G_OBJECT (paned), "active-view");
 }

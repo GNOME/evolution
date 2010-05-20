@@ -64,36 +64,6 @@ enum {
 static gpointer parent_class;
 
 static void
-mail_attachment_bar_sync_icon_view (EMailAttachmentBar *bar)
-{
-	EAttachmentView *source;
-	EAttachmentView *target;
-
-	source = E_ATTACHMENT_VIEW (bar->priv->tree_view);
-	target = E_ATTACHMENT_VIEW (bar->priv->icon_view);
-
-	/* Only sync if the tree view is active.  This prevents the
-	 * two views from endlessly trying to sync with each other. */
-	if (e_mail_attachment_bar_get_active_view (bar) == 1)
-		e_attachment_view_sync_selection (source, target);
-}
-
-static void
-mail_attachment_bar_sync_tree_view (EMailAttachmentBar *bar)
-{
-	EAttachmentView *source;
-	EAttachmentView *target;
-
-	source = E_ATTACHMENT_VIEW (bar->priv->icon_view);
-	target = E_ATTACHMENT_VIEW (bar->priv->tree_view);
-
-	/* Only sync if the icon view is active.  This prevents the
-	 * two views from endlessly trying to sync with each other. */
-	if (e_mail_attachment_bar_get_active_view (bar) == 0)
-		e_attachment_view_sync_selection (source, target);
-}
-
-static void
 mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 {
 	EAttachmentView *view;
@@ -512,7 +482,6 @@ static void
 mail_attachment_bar_init (EMailAttachmentBar *bar)
 {
 	EAttachmentView *view;
-	GtkTreeSelection *selection;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -558,7 +527,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	bar->priv->tree_frame = g_object_ref (widget);
-	gtk_widget_show (widget);
+	gtk_widget_hide (widget);
 
 	container = widget;
 
@@ -641,17 +610,6 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	bar->priv->status_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	selection = gtk_tree_view_get_selection (
-		GTK_TREE_VIEW (bar->priv->tree_view));
-
-	g_signal_connect_swapped (
-		selection, "changed",
-		G_CALLBACK (mail_attachment_bar_sync_icon_view), bar);
-
-	g_signal_connect_swapped (
-		bar->priv->icon_view, "selection-changed",
-		G_CALLBACK (mail_attachment_bar_sync_tree_view), bar);
-
 	g_signal_connect_swapped (
 		bar->priv->model, "notify::num-attachments",
 		G_CALLBACK (mail_attachment_bar_update_status), bar);
@@ -718,8 +676,14 @@ void
 e_mail_attachment_bar_set_active_view (EMailAttachmentBar *bar,
                                        gint active_view)
 {
+	EAttachmentView *source;
+	EAttachmentView *target;
+
 	g_return_if_fail (E_IS_MAIL_ATTACHMENT_BAR (bar));
 	g_return_if_fail (active_view >= 0 && active_view < NUM_VIEWS);
+
+	if (active_view == bar->priv->active_view)
+		return;
 
 	bar->priv->active_view = active_view;
 
@@ -730,6 +694,20 @@ e_mail_attachment_bar_set_active_view (EMailAttachmentBar *bar,
 		gtk_widget_hide (bar->priv->icon_frame);
 		gtk_widget_show (bar->priv->tree_frame);
 	}
+
+	/* Synchronize the item selection of the view we're
+	 * switching TO with the view we're switching FROM. */
+	if (active_view == 0) {
+		/* from tree view to icon view */
+		source = E_ATTACHMENT_VIEW (bar->priv->tree_view);
+		target = E_ATTACHMENT_VIEW (bar->priv->icon_view);
+	} else {
+		/* from icon view to tree view */
+		source = E_ATTACHMENT_VIEW (bar->priv->icon_view);
+		target = E_ATTACHMENT_VIEW (bar->priv->tree_view);
+	}
+
+	e_attachment_view_sync_selection (source, target);
 
 	g_object_notify (G_OBJECT (bar), "active-view");
 }
