@@ -486,6 +486,7 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
+	GtkWidget *tbox_account_name;
 	gboolean is_store = FALSE;
 	gchar *uri = NULL;
 	proxyLoginPrivate *priv;
@@ -528,6 +529,8 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 					   );
 	proxy_login_setup_tree_view ();
 	proxy_login_update_tree ();
+	tbox_account_name = e_builder_get_widget (priv->builder, "account_name");
+	gtk_widget_grab_focus (tbox_account_name);
 	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(proxy_login_cb), e_shell_view_get_shell_window (shell_view));
 	gtk_widget_show (GTK_WIDGET (priv->main));
 
