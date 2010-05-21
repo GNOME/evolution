@@ -1640,7 +1640,8 @@ msg_composer_constructed (GObject *object)
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
 	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
-
+	
+	e_shell_adapt_window_size (shell, GTK_WINDOW (composer));
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 
 	/* Restore Persistent State */
