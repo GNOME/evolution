@@ -97,6 +97,7 @@ struct _folder_info {
 	gchar *uri;		/* uri of folder */
 
 	guint32 flags;
+	gboolean has_children;
 
 	gpointer folder;	/* if known (weak pointer) */
 };
@@ -429,6 +430,7 @@ setup_folder(MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
 		mfi->uri = g_strdup(fi->uri);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
+		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
@@ -577,6 +579,7 @@ rename_folders(MailFolderCache *self, struct _store_info *si, const gchar *oldba
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
 		mfi->flags = fi->flags;
+		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
@@ -588,6 +591,7 @@ rename_folders(MailFolderCache *self, struct _store_info *si, const gchar *oldba
 		mfi->uri = g_strdup(fi->uri);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
+		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
@@ -1301,3 +1305,32 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
 	return fi.fi != NULL;
 }
 
+/* Returns whether folder 'folder' has children based on folder_info->child property.
+   If not found returns FALSE and sets 'found' to FALSE, if not NULL. */
+gboolean
+mail_folder_cache_get_folder_has_children (MailFolderCache *self, CamelFolder *folder, gboolean *found)
+{
+	gchar *uri = mail_tools_folder_to_url (folder);
+	struct _find_info fi = { uri, NULL, NULL };
+
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (folder != NULL, FALSE);
+
+	if (self->priv->stores == NULL)
+		return FALSE;
+
+	fi.url = camel_url_new (uri, NULL);
+
+	g_mutex_lock (self->priv->stores_mutex);
+	g_hash_table_foreach (
+		self->priv->stores, (GHFunc)
+		storeinfo_find_folder_info, &fi);
+	if (found)
+		*found = fi.fi != NULL;
+	g_mutex_unlock (self->priv->stores_mutex);
+
+	camel_url_free (fi.url);
+	g_free (uri);
+
+	return fi.fi != NULL && fi.fi->has_children;
+}

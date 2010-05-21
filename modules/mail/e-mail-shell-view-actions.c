@@ -19,6 +19,7 @@
  *
  */
 
+#include "mail/mail-folder-cache.h"
 #include "e-mail-shell-view-private.h"
 
 static void
@@ -232,7 +233,10 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	g_return_if_fail (folder != NULL);
 
 	key = "/apps/evolution/mail/prompts/mark_all_read";
-	prompt = "mail:ask-mark-all-read";
+	if (mail_folder_cache_get_folder_has_children (mail_folder_cache_get_default (), folder, NULL))
+		prompt = "mail:ask-mark-all-read-sub";
+	else
+		prompt = "mail:ask-mark-all-read";
 
 	if (!em_utils_prompt_user (parent, key, prompt, NULL))
 		return;

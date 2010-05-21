@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include <e-util/e-plugin-ui.h>
 #include <mail/em-folder-tree.h>
+#include <mail/em-utils.h>
 #include <mail/mail-ops.h>
 #include <mail/mail-mt.h>
 
@@ -77,7 +78,7 @@ box_mapped_cb (GtkWidget *box,
 }
 
 static gint
-prompt_user (void)
+prompt_user (gboolean has_subfolders)
 {
 	GtkWidget *container;
 	GtkWidget *dialog;
@@ -88,6 +89,11 @@ prompt_user (void)
 	GtkWidget *vbox;
 	gchar *markup;
 	gint response;
+
+	if (!has_subfolders) {
+		return em_utils_prompt_user (e_shell_get_active_window (e_shell_get_default ()), NULL, "mail:ask-mark-all-read", NULL) ?
+			GTK_RESPONSE_NO : GTK_RESPONSE_CANCEL;
+	}
 
 	dialog = gtk_dialog_new ();
 	widget = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
@@ -371,7 +377,7 @@ mar_got_folder (gchar *folder_uri,
 		goto exit;
 
 	if (scan_folder_tree_for_unread (folder_uri) > 1)
-		response = prompt_user ();
+		response = prompt_user (folder_info->child != NULL);
 	else
 		response = GTK_RESPONSE_NO;
 
