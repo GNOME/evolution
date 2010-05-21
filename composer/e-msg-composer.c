@@ -1605,6 +1605,17 @@ msg_composer_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static gboolean
+msg_composer_delete_event_cb (GtkWidget *widget, gpointer user_data)
+{
+	/* This is needed for the ACTION macro. */
+	EMsgComposer *composer = E_MSG_COMPOSER (widget);
+
+	gtk_action_activate (ACTION (CLOSE));
+
+	return FALSE;
+}
+
 static void
 msg_composer_constructed (GObject *object)
 {
@@ -1642,6 +1653,9 @@ msg_composer_constructed (GObject *object)
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
 	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
+
+	g_signal_connect (object, "delete-event",
+		G_CALLBACK (msg_composer_delete_event_cb), NULL);
 
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 
@@ -1799,18 +1813,6 @@ msg_composer_map (GtkWidget *widget)
 
 	/* Jump to the editor as a last resort. */
 	gtkhtml_editor_run_command (GTKHTML_EDITOR (widget), "grab-focus");
-}
-
-static gint
-msg_composer_delete_event (GtkWidget *widget,
-			   GdkEventAny *event)
-{
-	/* This is needed for the ACTION macro. */
-	EMsgComposer *composer = E_MSG_COMPOSER (widget);
-
-	gtk_action_activate (ACTION (CLOSE));
-
-	return TRUE;
 }
 
 static gboolean
@@ -2094,7 +2096,6 @@ msg_composer_class_init (EMsgComposerClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = msg_composer_map;
-	widget_class->delete_event = msg_composer_delete_event;
 	widget_class->key_press_event = msg_composer_key_press_event;
 	widget_class->drag_motion = msg_composer_drag_motion;
 	widget_class->drag_data_received = msg_composer_drag_data_received;
