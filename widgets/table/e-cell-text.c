@@ -1439,7 +1439,6 @@ ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 	PangoFontDescription *font_des;
 	PangoLayout *layout;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	ECellTextView *ectView = (ECellTextView *)ecell_view;
 	gchar *string;
 	gdouble text_width = 0.0, text_height = 0.0;
 	gint lines=1;

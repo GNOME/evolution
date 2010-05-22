@@ -723,7 +723,7 @@ contact_page_draw_footer (GtkPrintOperation *operation,
 	PangoFontDescription *desc;
 	PangoLayout *layout;
 	gdouble x, y, page_height, page_width, page_margin;
-	gint n_pages;
+	/*gint n_pages;*/
 	gchar *text;
 	cairo_t *cr;
 	GtkPageSetup *setup;
