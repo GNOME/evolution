@@ -400,7 +400,7 @@ update_system_tz_widgets (EShellSettings *shell_settings,
 
 	zone = e_cal_util_get_system_timezone ();
 	if (zone) {
-		gchar *tmp = g_strdup_printf ("(%s)", icaltimezone_get_display_name (zone));
+		gchar *tmp = g_strdup_printf ("(%s)", _(icaltimezone_get_display_name (zone)));
 		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), tmp);
 		g_free (tmp);
 	} else {
