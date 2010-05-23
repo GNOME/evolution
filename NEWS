@@ -1,5 +1,101 @@
+Evolution 2.31.2 2010-05-24
+---------------------------
+
+Bug Fixes:
+	#220672 - Excessive autosaving uses lots of resources (Milan Crha)
+	#240317 - Allow searching in subscribe dialog (Milan Crha)
+	#304415 - Allow change of signature hash algorithm (Milan Crha)
+	#499320 - Preview before import from command line (Milan Crha)
+	#523775 - Order of Email Addresses in UI is broken (Milan Crha)
+	#531013 - Proxy login window is not in focus. (Vibha Yadav)
+	#531912 - Mail inline parser doesn't always work (Milan Crha)
+	#545462 - Printing of contacts is weird. (Vibha Yadav)
+	#546551 - Dialog for mark-all-read always mentions subfolders
+	          (Milan Crha)
+	#593890 - New folder window is not in focus in filter dialog
+	          (Milan Crha)
+	#594153 - Allow setting alarms on any meeting (Jim Ramsay)
+	#598833 - Do not ship dropped evo_mail_notifier.png (Yves-Alexis Perez)
+	#603006 - Move All Contacts To enabled for read-only address books
+	          (Milan Crha)
+	#604971 - Evolution allows deletion of default views (Milan Crha)
+	#607257 - Add checks for event->comp_data != NULL (Milan Crha)
+	#608855 - Can't drag and drop multiple attachments (Matthew Barnes)
+	#611560 - 'Mark as junk' should be disabled in junk folder (Milan Crha)
+	#615291 - Preview pane's attachment bar accepts drop (Matthew Barnes)
+	#615745 - New task pop up in calendar day view doesn't work
+	          (Matthew Barnes)
+	#616640 - Don't display attachment size if it's unknown (Matthew Barnes)
+	#616823 - Evolution allows moving IMAP Inbox to other folders
+	          (Milan Crha)
+	#616889 - Force 24h format for locales not supporting 12h format
+	          (Gert Michael Kulyk)
+	#617041 - Set translation domain for e-mail-reader actions (Gert Kulyk)
+	#617496 - Critical warnings when open a task (Milan Crha)
+	#617557 - Quits without asking user to save unfinished messages
+	          (Milan Crha)
+	#617865 - Various data file cleanups (Matthew Barnes)
+	#618113 - Missing icon in alarm dialog (Matthew Barnes)
+	#618177 - Mobile Phone of imported contact not shown in preview
+	          (Milan Crha)
+	#618400 - "Mark All Messages as Read" shortcut missing (Matthew Barnes)
+	#618578 - Require automake >= 1.10 (Matthew Barnes)
+	#618902 - Crash when viewing/closing messages quickly (Matthew Barnes)
+	#619010 - Mailer's crash avoidance features are broken (Matthew Barnes)
+
+Other Changes:
+	* Convert "default-mailer" plugin to an extension. (Matthew Barnes)
+	* Initial implementation of setting evolution as default mail client
+	  and mailto handler. (Fridrich Štrba)
+	* Require GtkHtml 3.31.2 for new API in bug #220672. (Matthew Barnes)
+	* Improve attachment bar selection behavior. (Matthew Barnes)
+	* Create the source groups required to ensure local adresssbooks and
+	  calendars are created (Chenthill Palanisamy)
+	* Consider full name and also the first part of e-mail address for
+	  contact description in the import dialogue. (Fridrich Štrba)
+	* On Windows, some LDIF files can have .ldi extension (Fridrich Štrba)
+	* [win32] Set patch to evolution's bindir because some child
+	  processes need it in some situations. (Fridrich Štrba)
+	* [win32] Don't call glib functions before g_thread_init was called
+	  and register evolution as capable to handle mailto: protocol on
+	  startup (Fridrich Štrba)
+	* [win32] Make Evolution actually appear in "Set Program Access and
+	  Defaults" dialogue and use quoted string instead of short path,
+	  since this is how the "Hotmail" e-mail provider is doing it
+	  (unlike what documentation says) (Fridrich Štrba)
+	* [win32] Implement --reinstall, --show-icons, --hide-icons options
+	  to be used by windows default application setting dialogue
+	  (Fridrich Štrba)
+	* [win32] Try to get the default application registration right
+	  (Fridrich Štrba)
+	* [win32] Register evolution as "Contacts" application and .vcf
+	  handler (Fridrich Štrba)
+	* [win32] Register evolution as able to handle ldif files too
+	  (Fridrich Štrba)
+
+Translations:
+[be8a061] Updated Galician translations (Fran Diéguez)
+[3a9faf9] Updated Shavian translation (Thomas Thurman)
+[491100b] Updated Spanish translation (Jorge González)
+[c5fa894] Updated Spanish translation (Jorge González)
+[ce37e4c] Estonian translation updated (Ivar Smolin)
+[85ebbc3] Updated Shavian translation (Thomas Thurman)
+[fd151ac] Updated Shavian translation (Thomas Thurman)
+[801c425] Updated Shavian transliteration (Thomas Thurman)
+[933e668] Updated Galician translations (Fran Diéguez)
+[073d7e1] Updated Norwegian bokmål translation (Kjartan Maraas)
+[2f57daa] Updated Oriya Translation (Manoj Kumar Giri)
+[a516af7] Updated Oriya Translation (Manoj Kumar Giri)
+[aa3e354] Updated Oriya Translation (Manoj Kumar Giri)
+[8254cec] [help] Updated German help translation screenshots (Christian Kirbach)
+[e1bae28] Updated Spanish translation (Jorge González)
+[518c616] Estonian translation updated (Mattias Põldaru)
+[27eb820] Added be to LINGUAS (Ihar Hrachyshka)
+[1d4c54e] Updated Galician translations (Fran Diéguez)
+
 Evolution 2.31.1 2010-05-03
 ----------------------------
+
 Bug Fixes:
 	Bug #614346 - Use cached table row height rather than recalculate (Michel Dänzer)
 	Bug #545505 - Properly free unused message infos periodically (Milan Crha)
