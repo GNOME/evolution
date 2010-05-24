@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-05-12 23:13+0000\n"
-"PO-Revision-Date: 2010-05-15 10:33+0300\n"
+"POT-Creation-Date: 2010-05-24 14:20+0000\n"
+"PO-Revision-Date: 2010-05-24 18:51+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1959,18 +1959,18 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
 
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
 
 msgid "The second timezone for a Day View"
 msgstr "Päeva vaate teine ajavöönd"
@@ -2139,7 +2139,7 @@ msgid "Category"
 msgstr "Kategooria"
 
 msgid "Classification"
-msgstr "Liigitamine"
+msgstr "Liigitus"
 
 msgid "Confidential"
 msgstr "Salajane"
@@ -2816,6 +2816,12 @@ msgstr "_Alarmid"
 msgid "Click here to set or unset alarms for this event"
 msgstr "Klõpsa siia, et seada või eemaldada selle sündmuse alarme"
 
+msgid "Show Time as _Busy"
+msgstr "Näita aega _hõivatuna"
+
+msgid "Toggles whether to show time as busy"
+msgstr "Aja kui hõivatud aja kuvamise sisse- ja väljalülitamine"
+
 msgid "_Recurrence"
 msgstr "_Kordumine"
 
@@ -2834,12 +2840,6 @@ msgstr "Kogu _päeva kestev sündmus"
 msgid "Toggles whether to have All Day Event"
 msgstr "Kogu päeva hõlmava sündmuse sisse- ja väljalülitamine"
 
-msgid "Show Time as _Busy"
-msgstr "Näita aega _hõivatuna"
-
-msgid "Toggles whether to show time as busy"
-msgstr "Aja kui hõivatud aja kuvamise sisse- ja väljalülitamine"
-
 msgid "_Free/Busy"
 msgstr "_Vaba/hõivatud"
 
@@ -2848,6 +2848,9 @@ msgstr "Osalejate vaba/hõivatud andmete pärimine"
 
 msgid "Appoint_ment"
 msgstr "Sünd_mus"
+
+msgid "Print this event"
+msgstr "Valitud sündmuse printimine"
 
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
@@ -2980,6 +2983,9 @@ msgstr "kuni"
 
 msgid "Memo"
 msgstr "Märge"
+
+msgid "Print this memo"
+msgstr "Valitud märkme printimine"
 
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
@@ -3246,6 +3252,9 @@ msgstr "_Ülesanne"
 
 msgid "Task Details"
 msgstr "Ülesande üksikasjad"
+
+msgid "Print this task"
+msgstr "Valitud ülesande printimine"
 
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
@@ -3673,118 +3682,103 @@ msgid ""
 msgstr ""
 "Ülesanne on tühistatud, kuid seda pole sinu ülesannete hulgast võimalik leida"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published meeting information."
+#, c-format
 msgid "%s has published meeting information."
-msgstr "<b>%s</b> avaldas koosoleku andmed."
+msgstr "%s avaldas koosoleku andmed."
 
 msgid "Meeting Information"
 msgstr "Koosoleku andmed"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests the presence of %s at a meeting."
+#, c-format
 msgid "%s requests the presence of %s at a meeting."
-msgstr "<b>%s</b> soovib, et koosolekul osaleks ka %s."
+msgstr "%s soovib, et koosolekul osaleks ka %s."
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests your presence at a meeting."
+#, c-format
 msgid "%s requests your presence at a meeting."
-msgstr "<b>%s</b> soovib, et sa osaleksid koosolekul."
+msgstr "%s soovib, et sa osaleksid koosolekul."
 
 msgid "Meeting Proposal"
 msgstr "Koosoleku ettepanek"
 
 #. FIXME Whats going on here?
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to be added to an existing meeting."
+#, c-format
 msgid "%s wishes to be added to an existing meeting."
-msgstr "<b>%s</b> soovib liituda olemasoleva koosolekuga."
+msgstr "%s soovib liituda olemasoleva koosolekuga."
 
 msgid "Meeting Update"
 msgstr "Koosoleku info uuendus"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to receive the latest meeting information."
+#, c-format
 msgid "%s wishes to receive the latest meeting information."
-msgstr "<b>%s</b> soovib saada värskemaid andmeid koosoleku kohta."
+msgstr "%s soovib saada värskemaid andmeid koosoleku kohta."
 
 msgid "Meeting Update Request"
 msgstr "Soov muuta koosolekut"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has replied to a meeting request."
+#, c-format
 msgid "%s has replied to a meeting request."
-msgstr "<b>%s</b> vastas koosoleku soovile."
+msgstr "%s vastas koosoleku soovile."
 
 msgid "Meeting Reply"
 msgstr "Koosoleku vastus"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled a meeting."
+#, c-format
 msgid "%s has canceled a meeting."
-msgstr "<b>%s</b> tühistas koosoleku."
+msgstr "%s tühistas koosoleku."
 
 msgid "Meeting Cancelation"
 msgstr "Koosoleku tühistamine"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent an unintelligible message."
+#, c-format
 msgid "%s has sent an unintelligible message."
-msgstr "<b>%s</b> saatis arusaamatu sõnumi."
+msgstr "%s saatis arusaamatu sõnumi."
 
 msgid "Bad Meeting Message"
 msgstr "Vigane koosoleku sõnum"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published task information."
+#, c-format
 msgid "%s has published task information."
-msgstr "<b>%s</b> avaldas ülesande andmed."
+msgstr "%s avaldas ülesande andmed."
 
 msgid "Task Information"
 msgstr "Ülesande andmed"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests %s to perform a task."
+#, c-format
 msgid "%s requests %s to perform a task."
-msgstr "<b>%s</b> soovib, et %s täidaks ülesande."
+msgstr "%s soovib, et %s täidaks ülesande."
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests you perform a task."
+#, c-format
 msgid "%s requests you perform a task."
-msgstr "<b>%s</b> soovib, et sa täidaksid ülesande."
+msgstr "%s soovib, et sa täidaksid ülesande."
 
 msgid "Task Proposal"
 msgstr "Ettepanek ülesandeks"
 
 #. FIXME Whats going on here?
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to be added to an existing task."
+#, c-format
 msgid "%s wishes to be added to an existing task."
-msgstr "<b>%s</b> soovib liituda olemasoleva ülesandega."
+msgstr "%s soovib liituda olemasoleva ülesandega."
 
 msgid "Task Update"
 msgstr "Ülesande uuendus"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to receive the latest task information."
+#, c-format
 msgid "%s wishes to receive the latest task information."
-msgstr "<b>%s</b> soovib saada värskemaid andmeid ülesande kohta."
+msgstr "%s soovib saada värskemaid andmeid ülesande kohta."
 
 msgid "Task Update Request"
 msgstr "Soov muuta ülesannet"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has replied to a task assignment."
+#, c-format
 msgid "%s has replied to a task assignment."
-msgstr "<b>%s</b> vastas ülesande täitjaks määramisele."
+msgstr "%s vastas ülesande täitjaks määramisele."
 
 msgid "Task Reply"
 msgstr "Ülesande vastus"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled a task."
+#, c-format
 msgid "%s has canceled a task."
-msgstr "<b>%s</b> tühistas ülesande."
+msgstr "%s tühistas ülesande."
 
 msgid "Task Cancelation"
 msgstr "Ülesande tühistamine"
@@ -3792,26 +3786,23 @@ msgstr "Ülesande tühistamine"
 msgid "Bad Task Message"
 msgstr "Vigane ülesande sõnum"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published free/busy information."
+#, c-format
 msgid "%s has published free/busy information."
-msgstr "<b>%s</b> avaldas vaba/hõivatud andmed."
+msgstr "%s avaldas vaba/hõivatud andmed."
 
 msgid "Free/Busy Information"
 msgstr "Vaba/hõivatud andmed"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests your free/busy information."
+#, c-format
 msgid "%s requests your free/busy information."
-msgstr "<b>%s</b> soovib saada sinu vaba/hõivatud andmeid."
+msgstr "%s soovib saada sinu vaba/hõivatud andmeid."
 
 msgid "Free/Busy Request"
 msgstr "Soov saada vaba/hõivatud teavet"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has replied to a free/busy request."
+#, c-format
 msgid "%s has replied to a free/busy request."
-msgstr "<b>%s</b> vastas vaba/hõivatud päringule."
+msgstr "%s vastas vaba/hõivatud päringule."
 
 msgid "Free/Busy Reply"
 msgstr "Vaba/hõivatud vastus"
@@ -4569,6 +4560,119 @@ msgstr "Kalendrisündmused"
 
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolutioni intelligentne kalendriimportija"
+
+msgctxt "iCalImp"
+msgid "Meeting"
+msgstr "Koosolek"
+
+msgctxt "iCalImp"
+msgid "Event"
+msgstr "Sündmus"
+
+msgctxt "iCalImp"
+msgid "Task"
+msgstr "Ülesanne"
+
+msgctxt "iCalImp"
+msgid "Memo"
+msgstr "Märge"
+
+msgctxt "iCalImp"
+msgid "has recurrences"
+msgstr "kordub"
+
+msgctxt "iCalImp"
+msgid "is an instance"
+msgstr ""
+
+msgctxt "iCalImp"
+msgid "has alarms"
+msgstr "on alarmidega"
+
+msgctxt "iCalImp"
+msgid "has attachments"
+msgstr "on manustega"
+
+#. Translators: Appointment's classification
+msgctxt "iCalImp"
+msgid "Public"
+msgstr "Avalik"
+
+#. Translators: Appointment's classification
+msgctxt "iCalImp"
+msgid "Private"
+msgstr "Isiklik"
+
+#. Translators: Appointment's classification
+msgctxt "iCalImp"
+msgid "Confidential"
+msgstr "Salajane"
+
+#. Translators: Appointment's classification section name
+msgctxt "iCalImp"
+msgid "Classification"
+msgstr "Liigitus"
+
+#. Translators: Appointment's summary
+#. Translators: Column header for a component summary
+msgctxt "iCalImp"
+msgid "Summary"
+msgstr "Kokkuvõte"
+
+#. Translators: Appointment's location
+msgctxt "iCalImp"
+msgid "Location"
+msgstr "Asukoht"
+
+#. Translators: Appointment's start time
+#. Translators: Column header for a component start date/time
+msgctxt "iCalImp"
+msgid "Start"
+msgstr "Algus"
+
+#. Translators: 'Due' like the time due a task should be finished
+msgctxt "iCalImp"
+msgid "Due"
+msgstr "Tähtaeg"
+
+#. Translators: Appointment's end time
+msgctxt "iCalImp"
+msgid "End"
+msgstr "Lõpp"
+
+#. Translators: Appointment's categories
+msgctxt "iCalImp"
+msgid "Categories"
+msgstr "Kategooriad"
+
+#. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
+msgctxt "iCalImp"
+msgid "Completed"
+msgstr "Täidetud"
+
+#. Translators: Appointment's URL
+msgctxt "iCalImp"
+msgid "URL"
+msgstr "URL"
+
+#. Translators: Appointment's organizer
+msgctxt "iCalImp"
+msgid "Organizer"
+msgstr "Korraldaja"
+
+#. Translators: Appointment's attendees
+msgctxt "iCalImp"
+msgid "Attendees"
+msgstr "Osalejad"
+
+msgctxt "iCalImp"
+msgid "Description"
+msgstr "Kirjeldus"
+
+#. Translators: Column header for a component type; it can be Event, Task or Memo
+msgctxt "iCalImp"
+msgid "Type"
+msgstr "Liik"
 
 #.
 #. *
@@ -6019,11 +6123,8 @@ msgstr ""
 "Evolution lõpetas ootamatult uue sõnumi koostamise ajal. Sõnumi taastamine "
 "võimaldab jätkata sealt, kuhu pooleli jäid."
 
-#, fuzzy
-#| msgid ""
-#| "The file `{0}' is not a regular file and cannot be sent in a message."
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
-msgstr "Fail `{0}' ei ole tavaline fail ja seda pole võimalik sõnumiga saata."
+msgstr "Fail '{0}' ei ole tavaline fail ja seda pole võimalik sõnumiga saata."
 
 msgid ""
 "Unable to activate the HTML editor control.\n"
@@ -6251,12 +6352,6 @@ msgstr "E-posti kontode seadistused"
 
 msgid "Email Settings"
 msgstr "E-posti sätted"
-
-msgid "address card"
-msgstr "aadressikaart"
-
-msgid "calendar information"
-msgstr "kalendri andmed"
 
 #. Translators: This is a cancelled activity.
 #, c-format
@@ -7980,6 +8075,11 @@ msgid_plural "Are you sure you want to open %d messages at once?"
 msgstr[0] "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
 msgstr[1] "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
 
+#, fuzzy
+#| msgid "_Do not show this message again."
+msgid "_Do not show this message again"
+msgstr "Seda teadet enam _uuesti mitte näidata."
+
 msgid "Message Filters"
 msgstr "Sõnumifiltrid"
 
@@ -8708,9 +8808,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
 
 msgid "The terminal font for mail display."
 msgstr "Terminali kirjatüüp sõnumikuvas."
@@ -8891,16 +8991,24 @@ msgstr "Evolutioni Elmi importija"
 msgid "Import mail from Elm."
 msgstr "Postkasti importimine programmist Elm."
 
-#, fuzzy
-#| msgid "Destination folder:"
 msgid "_Destination folder:"
-msgstr "Sihtkataloog:"
+msgstr "_Sihtkaust:"
 
 msgid "Select folder"
 msgstr "Kausta valimine"
 
 msgid "Select folder to import into"
 msgstr "Vali kaust, kuhu importida"
+
+#. Translators: Column header for a message subject
+msgctxt "mboxImp"
+msgid "Subject"
+msgstr "Teema"
+
+#. Translators: Column header for a message From address
+msgctxt "mboxImp"
+msgid "From"
+msgstr "Saatja"
 
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Berkeley postkast (mbox)"
@@ -8969,7 +9077,7 @@ msgstr[1] ""
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 msgid "(Not Recommended)"
-msgstr ""
+msgstr "(pole soovitatav)"
 
 msgid "(Note: Requires restart of the application)"
 msgstr "(Märkus: rakendus tuleb taaskäivitada)"
@@ -9058,10 +9166,8 @@ msgstr "Lõpetamisel _kustutatakse rämpspost"
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 
-#, fuzzy
-#| msgid "Displayed Message _Headers"
 msgid "Displayed Message Headers"
-msgstr "Kuvatavad sõnumi _päised"
+msgstr "Kuvatavad sõnumi päised"
 
 #, fuzzy
 #| msgid "Do not format messages when text si_ze exceeds"
@@ -9208,6 +9314,18 @@ msgstr "Parool jäetakse _meelde"
 msgid "Required Information"
 msgstr "Nõutud andmed"
 
+msgid "SHA1"
+msgstr "SHA1"
+
+msgid "SHA256"
+msgstr "SHA256"
+
+msgid "SHA384"
+msgstr "SHA384"
+
+msgid "SHA512"
+msgstr "SHA512"
+
 msgid "SSL is not supported in this build of Evolution"
 msgstr "Käesolev Evolution on ehitatud ilma SSL-i toeta"
 
@@ -9265,6 +9383,11 @@ msgstr "Serveri seadistus"
 msgid "Server _Type:"
 msgstr "Serveri l_iik:"
 
+#, fuzzy
+#| msgid "Sig_ning certificate:"
+msgid "Si_gning algorithm:"
+msgstr "All_kirjastamissertifikaat:"
+
 msgid "Sig_natures"
 msgstr "_Allkirjad"
 
@@ -9276,6 +9399,11 @@ msgstr "All_kiri:"
 
 msgid "Signatures"
 msgstr "Allkirjad"
+
+#, fuzzy
+#| msgid "Sig_ning certificate:"
+msgid "Signing _algorithm:"
+msgstr "All_kirjastamissertifikaat:"
 
 msgid "Spell Checking"
 msgstr "Õigekirja kontrollimine"
@@ -9302,10 +9430,8 @@ msgstr ""
 "Nimevälja kasutatakse ainult kuvamiseks."
 
 #. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
-#, fuzzy
-#| msgid "Posting destination"
 msgid "Top Posting Option"
-msgstr "Postituse sihtkoht"
+msgstr "Tipp-postituse valik"
 
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -9547,10 +9673,9 @@ msgstr ""
 "Tõrge lisamisel kausta %s: %s\n"
 "Selle asemel lisatakse kohalikku kausta `Saadetud'."
 
-#, fuzzy, c-format
-#| msgid "Failed to append to local `Sent' folder: %s"
+#, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "Tõrge lisamisel kohalikku `Saadetud' kausta: %s"
+msgstr "Tõrge lisamisel kohalikku 'Saadetud' kausta: %s"
 
 msgid "Sending message"
 msgstr "Sõnumi saatmine"
@@ -9742,10 +9867,9 @@ msgstr "Edastatud sõnum - %s"
 msgid "Forwarded message"
 msgstr "Edastatud sõnum"
 
-#, fuzzy, c-format
-#| msgid "Invalid folder: `%s'"
+#, c-format
 msgid "Invalid folder: '%s'"
-msgstr "Vigane kaust: `%s'"
+msgstr "Vigane kaust: '%s'"
 
 #, c-format
 msgid "Setting up Search Folder: %s"
@@ -9904,10 +10028,8 @@ msgstr "Otsingukausta \"{0}\" pole võimalik muuta, kuna seda pole olemas."
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Kausta \"{0}\" pole võimalik kausta \"{1}\" ümber tõsta."
 
-#, fuzzy
-#| msgid "Cannot open source \"{1}\""
 msgid "Cannot open source \"{1}\"."
-msgstr "Allikat \"{1}\" pole võimalik avada"
+msgstr "Allikat \"{1}\" pole võimalik avada."
 
 msgid "Cannot open source \"{2}\"."
 msgstr "Allikat \"{2}\" pole võimalik avada."
@@ -10189,6 +10311,15 @@ msgstr "See allkiri on muudetud, kuid seda ei ole salvestatud."
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
+msgstr ""
+"Kõigi valitud kataloogis ja selle alamkataloogides olevate sõnumite "
+"loetuksmärkimine"
+
+#, fuzzy
+#| msgid ""
+#| "This will mark all messages as read in the selected folder and its "
+#| "subfolders."
+msgid "This will mark all messages as read in the selected folder."
 msgstr ""
 "Kõigi valitud kataloogis ja selle alamkataloogides olevate sõnumite "
 "loetuksmärkimine"
@@ -10491,9 +10622,9 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
 
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
@@ -11074,7 +11205,7 @@ msgid "Summary contains"
 msgstr "Kokkuvõte sisaldab"
 
 msgid "Print this calendar"
-msgstr "Kalendri printimine"
+msgstr "Valitud kalendri printimine"
 
 msgid "Preview the calendar to be printed"
 msgstr "Prinditava kalendri eelvaatlemine"
@@ -11544,10 +11675,8 @@ msgstr "Sõnumi _eelvaade"
 msgid "Show message preview pane"
 msgstr "Sõnumi eelvaateakna näitamine"
 
-#, fuzzy
-#| msgid "Show deleted messages"
 msgid "Show _Deleted Messages"
-msgstr "Kustutatud sõnumite kuvamine"
+msgstr "_Kustutatud sõnumite kuvamine"
 
 #, fuzzy
 #| msgid "Show deleted messages (with a strike-through) in the message-list."
@@ -11717,6 +11846,20 @@ msgstr "_Kuupäeva päis:"
 msgid "Show _original header value"
 msgstr "Näita päise _algset väärtust"
 
+msgid "Check whether Evolution is the default mailer"
+msgstr "Kontroll, kas Evolution on vaikimisi postiprogramm"
+
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+msgstr ""
+"Evolutioni iga käivitamise ajal kontrollitakse, kas Evolution on vaikimisi "
+"postiprogramm või mitte."
+
+#, fuzzy
+#| msgid "Do you want to make Evolution your default e-mail client?"
+msgid "Do you want to make Evolution your default email client?"
+msgstr "Kas soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
+
 msgid "Hello Python"
 msgstr "Tere Python"
 
@@ -11806,18 +11949,14 @@ msgstr "Taastatava faili valimine"
 msgid "Restore from backup"
 msgstr "Taastamine varukoopiast"
 
-#, fuzzy
-#| msgid "_Backup Settings..."
 msgid "_Backup Evolution Settings..."
-msgstr "_Varunda sätted..."
+msgstr "_Varunda Evolutioni sätted..."
 
 msgid "Backup Evolution data and settings to an archive file"
 msgstr "Evolutioni andmete ja seadistuste varundamine arhiivifaili"
 
-#, fuzzy
-#| msgid "R_estore Settings..."
 msgid "R_estore Evolution Settings..."
-msgstr "_Taasta sätted..."
+msgstr "_Taasta Evolutioni sätted..."
 
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Evolutioni andmete ja seadistuste taastamine arhiivifailist"
@@ -11854,8 +11993,6 @@ msgstr "Varundamine on valmis"
 msgid "Restarting Evolution"
 msgstr "Evolutioni taaskäivitamine"
 
-#, fuzzy
-#| msgid "Backup current Evolution data"
 msgid "Back up current Evolution data"
 msgstr "Praeguste Evolutioni andmete varundamine"
 
@@ -12231,24 +12368,6 @@ msgstr "Kaardi lisamine, millel võimalusel kuvatakse kontaktide asukohti"
 
 msgid "Map for contacts"
 msgstr "Kontaktide kaart"
-
-msgid "Check whether Evolution is the default mailer"
-msgstr "Kontroll, kas Evolution on vaikimisi postiprogramm"
-
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
-msgstr ""
-"Evolutioni iga käivitamise ajal kontrollitakse, kas Evolution on vaikimisi "
-"postiprogramm või mitte."
-
-msgid "Check whether Evolution is the default mail client on startup."
-msgstr "Käivitumisel kontrollitakse, kas Evolution on vaikimisi meiliklient."
-
-msgid "Default Mail Client"
-msgstr "Vaikimisi postiklient"
-
-msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "Kas soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
 
 msgid "Mark as _default address book"
 msgstr "Märgitud _vaikimisi aadressiraamatuks"
@@ -13117,227 +13236,171 @@ msgstr "Palun vasta kasutaja <b>%s</b> nimel"
 msgid "Received on behalf of %s"
 msgstr "Võeti vastu <b>%s</b> nimel"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s has published the following meeting information:"
+#, c-format
 msgid "%s through %s has published the following meeting information:"
-msgstr "<b>%s</b> avaldas %s kaudu teabe järgneva koosoleku kohta:"
+msgstr "%s avaldas %s kaudu teabe järgneva koosoleku kohta:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following meeting information:"
+#, c-format
 msgid "%s has published the following meeting information:"
-msgstr "<b>%s</b> avaldas järgneva koosoleku teabe:"
+msgstr "%s avaldas järgneva koosoleku teabe:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has delegated the following meeting to you:"
+#, c-format
 msgid "%s has delegated the following meeting to you:"
-msgstr "<b>%s</b> delegeeris järgneva koosoleku sulle:"
+msgstr "%s delegeeris järgneva koosoleku sulle:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s requests your presence at the following meeting:"
+#, c-format
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> taotleb %s kaudu, et sa osaleksid järgneval koosolekul:"
+msgstr "%s taotleb %s kaudu sinu osalemist järgneval koosolekul:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests your presence at the following meeting:"
+#, c-format
 msgid "%s requests your presence at the following meeting:"
-msgstr "<b>%s</b> taotleb, et sa osaleksid järgneval koosolekul:"
+msgstr "%s taotleb sinu osalemist järgneval koosolekul:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+#, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale koosolekule:"
+msgstr "%s soovib %s kaudu lisada olemasolevale koosolekule:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing meeting:"
+#, c-format
 msgid "%s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule:"
+msgstr "%s soovib lisada olemasolevale koosolekule:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s wishes to receive the latest information for the "
-#| "following meeting:"
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
-msgstr ""
-"<b>%s</b> soovib %s kaudu saada värskemat teavet järgneva koosoleku kohta:"
+msgstr "%s soovib %s kaudu saada värskemat teavet järgneva koosoleku kohta:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following "
-#| "meeting:"
+#, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> soovib saada värskemat teavet järgneva koosoleku kohta:"
+msgstr "%s soovib saada värskemat teavet järgneva koosoleku kohta:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has sent back the following meeting response:"
+#, c-format
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> saatis %s kaudu järgneva koosoleku kohta vastukaja:"
+msgstr "%s saatis %s kaudu järgneva koosoleku kohta vastukaja:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following meeting response:"
+#, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr "<b>%s</b> saatis koosoleku kohta järgneva vastukaja:"
+msgstr "%s saatis koosoleku kohta järgneva vastukaja:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following meeting:"
+#, c-format
 msgid "%s through %s has canceled the following meeting:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
+msgstr "%s tühistas %s kaudu järgneva koosoleku:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following meeting."
+#, c-format
 msgid "%s has canceled the following meeting."
-msgstr "<b>%s</b> tühistas järgneva koosoleku."
+msgstr "%s tühistas järgneva koosoleku."
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has proposed the following meeting changes."
+#, c-format
 msgid "%s through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> pakkus %s kaudu välja järgmised koosoleku muudatused."
+msgstr "%s pakkus %s kaudu välja järgmised koosoleku muudatused."
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following meeting changes."
+#, c-format
 msgid "%s has proposed the following meeting changes."
-msgstr "<b>%s</b> esitas järgnevad koosoleku muudatused."
+msgstr "%s esitas järgnevad koosoleku muudatused."
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has declined the following meeting changes:"
+#, c-format
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> tühistas %s kaudu järgnevad koosoleku muudatused:"
+msgstr "%s tühistas %s kaudu järgnevad koosoleku muudatused:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has declined the following meeting changes."
+#, c-format
 msgid "%s has declined the following meeting changes."
-msgstr "<b>%s</b> keeldus järgnevatest koosoleku muudatusest."
+msgstr "%s keeldus järgnevatest koosoleku muudatusest."
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following task:"
+#, c-format
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b> avaldas %s kaudu järgneva ülesande:"
+msgstr "%s avaldas %s kaudu järgneva ülesande:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following task:"
+#, c-format
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> avaldas järgmise ülesande:"
+msgstr "%s avaldas järgmise ülesande:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests the assignment of %s to the following task:"
+#, c-format
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> taotleb %s määramist järgneva ülesande täitjaks:"
+msgstr "%s taotleb %s määramist järgneva ülesande täitjaks:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has assigned you a task:"
+#, c-format
 msgid "%s through %s has assigned you a task:"
-msgstr "<b>%s</b> määras %s kaudu sulle ülesande:"
+msgstr "%s määras %s kaudu sulle ülesande:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has assigned you a task:"
+#, c-format
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> määras sulle ülesande:"
+msgstr "%s määras sulle ülesande:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing task:"
+#, c-format
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale ülesandele:"
+msgstr "%s soovib %s kaudu lisada olemasolevale ülesandele:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing task:"
+#, c-format
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> soovib lisada olemasolevale ülesandele:"
+msgstr "%s soovib lisada olemasolevale ülesandele:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s wishes to receive the latest information for the "
-#| "following assigned task:"
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"<b>%s</b> soovib %s kaudu saada värskemat teavet järgneva omistatud ülesande "
-"kohta:"
+"%s soovib %s kaudu saada värskemat teavet järgneva omistatud ülesande kohta:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following "
-#| "assigned task:"
+#, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
-msgstr ""
-"<b>%s</b> soovib saada värskemat teavet järgneva omistatud ülesande kohta:"
+msgstr "%s soovib saada värskemat teavet järgneva omistatud ülesande kohta:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s has sent back the following assigned task response:"
+#, c-format
 msgid "%s through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> saatis %s kasutades omistatud ülesandele järgmise vastuse:"
+msgstr "%s saatis %s kasutades omistatud ülesandele järgmise vastuse:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following assigned task response:"
+#, c-format
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> saatis omistatud ülesandele järgmise vastuse:"
+msgstr "%s saatis omistatud ülesandele järgmise vastuse:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following assigned task:"
+#, c-format
 msgid "%s through %s has canceled the following assigned task:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva omistatud ülesande:"
+msgstr "%s tühistas %s kaudu järgneva omistatud ülesande:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following assigned task:"
+#, c-format
 msgid "%s has canceled the following assigned task:"
-msgstr "<b>%s</b> tühistas järgneva omistatud ülesande:"
+msgstr "%s tühistas järgneva omistatud ülesande:"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s has proposed the following task assignment changes:"
+#, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
-msgstr ""
-"<b>%s</b> pakkus %s kaudu välja järgmised ülesande täitjate muudatused:"
+msgstr "%s pakkus %s kaudu välja järgmised ülesande täitjate muudatused:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following task assignment changes:"
+#, c-format
 msgid "%s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> esitas järgnevad ülesande täitjate muudatused:"
+msgstr "%s esitas järgnevad ülesande täitjate muudatused:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has declined the following assigned task:"
+#, c-format
 msgid "%s through %s has declined the following assigned task:"
-msgstr "<b>%s</b> keeldus %s kaudu järgneva ülesande täitmisest:"
+msgstr "%s keeldus %s kaudu järgneva ülesande täitmisest:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has declined the following assigned task:"
+#, c-format
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> keeldus järgneva ülesande täitmisest:"
+msgstr "%s keeldus järgneva ülesande täitmisest:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following memo:"
+#, c-format
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b> avaldas %s kaudu järgneva märkme:"
+msgstr "%s avaldas %s kaudu järgneva märkme:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following memo:"
+#, c-format
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> avaldas järgmise märkme:"
+msgstr "%s avaldas järgmise märkme:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing memo:"
+#, c-format
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale märkmele:"
+msgstr "%s soovib %s kaudu lisada olemasolevale märkmele:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing memo:"
+#, c-format
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> soovib lisada olemasolevale märkmele:"
+msgstr "%s soovib lisada olemasolevale märkmele:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following shared memo:"
+#, c-format
 msgid "%s through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva jagatud märkme:"
+msgstr "%s tühistas %s kaudu järgneva jagatud märkme:"
 
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following shared memo:"
+#, c-format
 msgid "%s has canceled the following shared memo:"
-msgstr "<b>%s</b> tühistas järgneva jagatud märkme:"
+msgstr "%s tühistas järgneva jagatud märkme:"
 
 msgid "All day:"
 msgstr "Iga päev:"
@@ -13363,10 +13426,8 @@ msgstr "_Ava kalender"
 msgid "_Decline"
 msgstr "_Lükka tagasi"
 
-#, fuzzy
-#| msgid "Accept"
 msgid "A_ccept"
-msgstr "Nõustun"
+msgstr "_Nõustun"
 
 msgid "_Decline all"
 msgstr "_Lükka kõik tagasi"
@@ -15344,6 +15405,15 @@ msgstr "PKCS #1 MD5 koos RSA krüpteeringuga"
 msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 koos RSA krüpteeringuga"
 
+msgid "PKCS #1 SHA-256 With RSA Encryption"
+msgstr "PKCS #1 SHA-256 koos RSA krüpteeringuga"
+
+msgid "PKCS #1 SHA-384 With RSA Encryption"
+msgstr "PKCS #1 SHA-384 koos RSA krüpteeringuga"
+
+msgid "PKCS #1 SHA-512 With RSA Encryption"
+msgstr "PKCS #1 SHA-512 koos RSA krüpteeringuga"
+
 msgid "PKCS #1 RSA Encryption"
 msgstr "PKCS #1 RSA krüptimine"
 
@@ -15771,9 +15841,6 @@ msgstr "Andmete ja seadistuste importimine _vanematest programmidest"
 msgid "Import a _single file"
 msgstr "Üksiku _faili importimine"
 
-msgid "Select what type of file you want to import from the list."
-msgstr "Vali loendist, millist liiki faile importida."
-
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
@@ -15782,6 +15849,16 @@ msgstr ""
 "Evolution kontrollis järgnevate rakenduste sätete importimise võimalust: "
 "Pine, Netscape, Elm ja iCalendar. Paraku ei leitud ühtegi imporditavat "
 "seadistusfaili. Kui soovid veel proovida, siis vajuta \"Tagasi\" nuppu."
+
+msgid "Preview data to be imported"
+msgstr "Imporditavate andmete eelvaatlemine"
+
+msgid "Import Data"
+msgstr "Andmete importimine"
+
+#. multiple importers found, be able to choose from them
+msgid "Select what type of file you want to import from the list."
+msgstr "Vali loendist, millist liiki faile importida."
 
 msgid "Evolution Import Assistant"
 msgstr "Evolutioni impordiabiline"
@@ -15809,9 +15886,6 @@ msgstr "Faili valimine"
 
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "Faili importimiseks Evolutioni vajuta \"Rakenda\"."
-
-msgid "Import Data"
-msgstr "Andmete importimine"
 
 msgid "World Map"
 msgstr "Maailmakaart"
@@ -16256,6 +16330,19 @@ msgstr "Vali kõik"
 
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
+
+#~ msgid "address card"
+#~ msgstr "aadressikaart"
+
+#~ msgid "calendar information"
+#~ msgstr "kalendri andmed"
+
+#~ msgid "Check whether Evolution is the default mail client on startup."
+#~ msgstr ""
+#~ "Käivitumisel kontrollitakse, kas Evolution on vaikimisi meiliklient."
+
+#~ msgid "Default Mail Client"
+#~ msgstr "Vaikimisi postiklient"
 
 #~ msgid "Editable"
 #~ msgstr "Muudetav"
