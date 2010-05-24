@@ -308,6 +308,7 @@ task_editor_init (TaskEditor *te)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkWidget *content_area;
+	GtkAction *action;
 	const gchar *id;
 	GError *error = NULL;
 
@@ -362,6 +363,9 @@ task_editor_init (TaskEditor *te)
 		g_critical ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
+	action = comp_editor_get_action (editor, "print");
+	gtk_action_set_tooltip (action, _("Print this task"));
 
 	g_signal_connect_swapped (
 		te->priv->model, "row_changed",

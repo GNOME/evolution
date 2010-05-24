@@ -133,6 +133,7 @@ memo_editor_init (MemoEditor *me)
 {
 	CompEditor *editor = COMP_EDITOR (me);
 	GtkUIManager *ui_manager;
+	GtkAction *action;
 	const gchar *id;
 	GError *error = NULL;
 
@@ -150,6 +151,9 @@ memo_editor_init (MemoEditor *me)
 		g_critical ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
+	action = comp_editor_get_action (editor, "print");
+	gtk_action_set_tooltip (action, _("Print this memo"));
 }
 
 /**

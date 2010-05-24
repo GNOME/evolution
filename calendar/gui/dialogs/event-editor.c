@@ -524,6 +524,9 @@ event_editor_init (EventEditor *ee)
 		g_error_free (error);
 	}
 
+	action = comp_editor_get_action (editor, "print");
+	gtk_action_set_tooltip (action, _("Print this event"));
+
 	/* Hide send options. */
 	action = comp_editor_get_action (editor, "send-options");
 	gtk_action_set_visible (action, FALSE);
