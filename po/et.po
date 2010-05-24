@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution 2.30\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-03-24 13:21+0000\n"
-"PO-Revision-Date: 2010-05-15 10:33+0300\n"
+"POT-Creation-Date: 2010-05-21 15:35+0000\n"
+"PO-Revision-Date: 2010-05-24 18:51+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1774,9 +1774,6 @@ msgstr "Tähtaja ületanud ülesannete värvus \"#rrggbb\" vormingus."
 msgid "Calendars to run alarms for"
 msgstr "Kalendrid, mille jaoks alarme käivitada"
 
-msgid "Check this to use system timezone in Evolution."
-msgstr "Märgi see, et kasutada Evolutionis süsteemi ajavööndit."
-
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "Marcus Bainsi joone värvus ajaribal (vaikimisi tühi)."
@@ -2050,18 +2047,18 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
 
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
 
 msgid "The second timezone for a Day View"
 msgstr "Päeva vaate teine ajavöönd"
@@ -2230,7 +2227,7 @@ msgid "Category"
 msgstr "Kategooria"
 
 msgid "Classification"
-msgstr "Liigitamine"
+msgstr "Liigitus"
 
 msgid "Confidential"
 msgstr "Salajane"
@@ -2899,6 +2896,12 @@ msgstr "_Alarmid"
 msgid "Click here to set or unset alarms for this event"
 msgstr "Klõpsa siia, et seada või eemaldada selle sündmuse alarme"
 
+msgid "Show Time as _Busy"
+msgstr "Näita aega _hõivatuna"
+
+msgid "Toggles whether to show time as busy"
+msgstr "Aja kui hõivatud aja kuvamise sisse- ja väljalülitamine"
+
 msgid "_Recurrence"
 msgstr "_Kordumine"
 
@@ -2916,12 +2919,6 @@ msgstr "Kogu _päeva kestev sündmus"
 
 msgid "Toggles whether to have All Day Event"
 msgstr "Kogu päeva hõlmava sündmuse sisse- ja väljalülitamine"
-
-msgid "Show Time as _Busy"
-msgstr "Näita aega _hõivatuna"
-
-msgid "Toggles whether to show time as busy"
-msgstr "Aja kui hõivatud aja kuvamise sisse- ja väljalülitamine"
 
 msgid "_Free/Busy"
 msgstr "_Vaba/hõivatud"
@@ -5982,7 +5979,6 @@ msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
 msgid "Undo the last action"
 msgstr "Viimase tegevuse tagasivõtmine"
 
-#| msgid "Send Latest Information"
 msgid "Redo the last undone action"
 msgstr "Viimase tagasivõetud tegevuse uuesti sooritamine"
 
@@ -6122,7 +6118,6 @@ msgstr "_Salvesta mustand"
 msgid "Run Anjal in a window"
 msgstr "Anjali jooksutamine aknas"
 
-#| msgid "Mark as _default memo list"
 msgid "Make Anjal the default email client"
 msgstr "Anjali määramine vaikimisi meilikliendiks"
 
@@ -6130,24 +6125,15 @@ msgstr "Anjali määramine vaikimisi meilikliendiks"
 msgid "ID of the socket to embed in"
 msgstr "Pesa ID, millesse kaasatakse"
 
-#| msgid "sort"
 msgid "socket"
 msgstr "pesa"
 
-#| msgid "Default Mail Client"
 msgid "Anjal email client"
 msgstr "Anjal meiliklient"
 
-#, fuzzy
-#| msgid "New _Task"
-msgid "New Tab"
-msgstr "Uus ü_lesanne"
-
-#| msgid "Please choose another name."
 msgid "Please enter your full name."
 msgstr "Palun sisesta enda täisnimi."
 
-#| msgid "Using email address"
 msgid "Please enter your email address."
 msgstr "Palun sisesta enda meiliaadress."
 
@@ -6155,41 +6141,34 @@ msgid "The email address you have entered is invalid."
 msgstr "Sisestatud meiliaadress ei ole korrektne."
 
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Isiklikud üksikasjad:</span>"
 
-#| msgid "_Name:"
 msgid "Name:"
 msgstr "Nimi:"
 
-#| msgid "Email _Address:"
 msgid "Email address:"
 msgstr "E-posti aadress:"
 
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Vastuvõtmise üksikasjad:</span>"
 
-#| msgid "Server _Type:"
 msgid "Server type:"
 msgstr "Serveri liik:"
 
-#| msgid "Server Message:"
 msgid "Server address:"
 msgstr "Serveri aadress:"
 
-#| msgid "Us_ername:"
 msgid "Username:"
 msgstr "Kasutajanimi:"
 
-#| msgid "No encryption"
 msgid "Use encryption:"
 msgstr "Kasutatav krüptimine:"
 
-#| msgid "Never"
 msgid "never"
 msgstr "mitte kunagi"
 
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Saatmise üksikasjad:</span>"
 
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
@@ -6232,7 +6211,6 @@ msgstr ""
 msgid "Identity"
 msgstr "Identiteet"
 
-#| msgid "Receiving Email"
 msgid "Next - Receiving mail"
 msgstr "Edasi - e-posti  vastuvõtmine"
 
@@ -6241,15 +6219,12 @@ msgstr "Edasi - e-posti  vastuvõtmine"
 msgid "Receiving mail"
 msgstr "E-posti vastuvõtmine"
 
-#| msgid "Sending Email"
 msgid "Next - Sending mail"
 msgstr "Edasi - kirjade saatmine"
 
-#| msgid "Identity"
 msgid "Back - Identity"
 msgstr "Tagasi - identiteet"
 
-#| msgid "Receiving Options"
 msgid "Next - Receiving options"
 msgstr "Edasi - vastuvõtmise valikud"
 
@@ -6258,7 +6233,6 @@ msgstr "Edasi - vastuvõtmise valikud"
 msgid "Receiving options"
 msgstr "Vastuvõtmise valikud"
 
-#| msgid "Receiving Email"
 msgid "Back - Receiving mail"
 msgstr "Tagasi - e-posti vastuvõtmine"
 
@@ -6270,37 +6244,30 @@ msgstr "Kirjade saatmine"
 msgid "Next - Review account"
 msgstr "Edasi - konto ülevaatamine"
 
-#| msgid "Defaults"
 msgid "Next - Defaults"
 msgstr "Edasi - vaikimisi"
 
-#| msgid "Receiving Options"
 msgid "Back - Receiving options"
 msgstr "Tagasi - vastuvõtmise valikud"
 
 msgid "Defaults"
 msgstr "Vaikimisi"
 
-#| msgid "Sending Email"
 msgid "Back - Sending mail"
 msgstr "Tagasi - kirjade saatmine"
 
-#| msgid "List of accounts"
 msgid "Review account"
 msgstr "Konto ülevaatus"
 
 msgid "Finish"
 msgstr "Lõpeta"
 
-#| msgid "Ascending"
 msgid "Back - Sending"
 msgstr "Tagasi - saatmine"
 
-#| msgid "_Close"
 msgid "Close Tab"
 msgstr "Saki sulgemine"
 
-#| msgid "Account Editor"
 msgid "Account Wizard"
 msgstr "Konto nõustaja"
 
@@ -6309,14 +6276,6 @@ msgstr "Konto nõustaja"
 msgid "Evolution account assistant"
 msgstr "Evolutioni kontoabiline"
 
-#| msgid "Junk Mail Settings"
-msgid "Email Settings"
-msgstr "E-posti sätted"
-
-#| msgid "Quoted"
-msgid "Quit"
-msgstr "Lõpeta"
-
 #. create the local source group
 msgid "On This Computer"
 msgstr "Kohalikus arvutis"
@@ -6324,14 +6283,12 @@ msgstr "Kohalikus arvutis"
 msgid "Modify"
 msgstr "Muuda"
 
-#| msgid "Add a Column"
 msgid "Add a new account"
 msgstr "Uue konto lisamine"
 
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Kontohaldus</span>"
 
-#| msgid "Junk Settings"
 msgid "Settings"
 msgstr "Sätted"
 
@@ -6354,15 +6311,11 @@ msgstr "Grupitöövahend"
 msgid "Manage your email, contacts and schedule"
 msgstr "Oma e-posti, kontaktide ja kalendri haldamine"
 
-#| msgid "Configuration"
 msgid "Configure email accounts"
 msgstr "E-posti kontode seadistused"
 
-msgid "address card"
-msgstr "aadressikaart"
-
-msgid "calendar information"
-msgstr "kalendri andmed"
+msgid "Email Settings"
+msgstr "E-posti sätted"
 
 #. Translators: This is a cancelled activity.
 #, c-format
@@ -7631,7 +7584,6 @@ msgstr "Sinu sõnumit vastuvõtjale %s teemal \"%s\" loeti %s."
 
 #. Translators: %s is the subject of the email message
 #, c-format
-#| msgid "Mail Notification Properties"
 msgid "Delivery Notification for: \"%s\""
 msgstr "Sõnumiteavitus kirjale \"%s\""
 
@@ -8860,9 +8812,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
 
 msgid "The terminal font for mail display."
 msgstr "Terminali kirjatüüp sõnumikuvas."
@@ -10598,9 +10550,9 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
 
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
@@ -11302,7 +11254,7 @@ msgid "Summary contains"
 msgstr "Kokkuvõte sisaldab"
 
 msgid "Print this calendar"
-msgstr "Kalendri printimine"
+msgstr "Valitud kalendri printimine"
 
 msgid "Preview the calendar to be printed"
 msgstr "Prinditava kalendri eelvaatlemine"
@@ -14614,7 +14566,6 @@ msgstr "Akna vaikimisi olek"
 msgid "Default window width"
 msgstr "Akna vaikimisi laius"
 
-#| msgid "Enable search folders"
 msgid "Enable express mode"
 msgstr "Ekspressrežiimi lubamine"
 
@@ -15314,7 +15265,6 @@ msgstr "Antud geomeetria rakendamine peaaknale"
 msgid "Start in online mode"
 msgstr "Alustamine võrgurežiimis"
 
-#| msgid "Start in online mode"
 msgid "Start in \"express\" mode"
 msgstr "Alustamine ekspressrežiimis"
 
