@@ -61,6 +61,9 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#ifdef G_OS_WIN32
+#include "e-util/e-win32-defaults.h"
+#endif
 
 #include <fcntl.h>
 #include <signal.h>
@@ -78,6 +81,11 @@
 #endif
 
 /* Command-line options.  */
+#ifdef G_OS_WIN32
+static gboolean reinstall = FALSE;
+static gboolean show_icons = FALSE;
+static gboolean hide_icons = FALSE;
+#endif /* G_OS_WIN32 */
 static gboolean express_mode = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
@@ -319,6 +327,14 @@ setup_segv_redirect (void)
 #endif
 
 static GOptionEntry entries[] = {
+#ifdef G_OS_WIN32
+	{ "reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
+	  NULL, NULL },
+	{ "show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
+	  NULL, NULL },
+	{ "hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
+	  NULL, NULL },
+#endif /* G_OS_WIN32 */
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	  N_("Start Evolution activating the specified component"), NULL },
 	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
@@ -460,13 +476,6 @@ main (gint argc, gchar **argv)
 			dup2 (fileno (stderr), 2);
 		}
 	}
-	
-	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
-
-	if (!g_setenv ("PATH", path, TRUE))
-		g_warning ("Could not set PATH for Evolution and its child processes");
-
-	g_free (path);	
 #endif
 
 	/* Make ElectricFence work.  */
@@ -492,6 +501,30 @@ main (gint argc, gchar **argv)
 	dbus_g_thread_init ();
 
 #ifdef G_OS_WIN32
+	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
+
+	if (!g_setenv ("PATH", path, TRUE))
+		g_warning ("Could not set PATH for Evolution and its child processes");
+
+	g_free (path);
+	
+	_e_win32_register_mailer ();
+	
+	if (reinstall) {
+		_e_win32_set_default_mailer ();
+		exit (0);
+	}
+
+	if (show_icons) {
+		_e_win32_set_default_mailer ();
+		exit (0);
+	}
+
+	if (hide_icons) {
+		_e_win32_unset_default_mailer ();
+		exit (0);
+	}
+
 	if (strcmp (gettext (""), "") == 0) {
 		/* No message catalog installed for the current locale
 		 * language, so don't bother with the localisations
@@ -527,6 +560,9 @@ main (gint argc, gchar **argv)
 		gconf_client_set_bool (client, key, TRUE, NULL);
 
 		key = "/apps/evolution/addressbook/display/show_preview";
+		gconf_client_set_bool (client, key, FALSE, NULL);
+
+		key = "/apps/evolution/calendar/display/show_memo_preview";
 		gconf_client_set_bool (client, key, FALSE, NULL);
 
 		key = "/apps/evolution/calendar/display/show_task_preview";

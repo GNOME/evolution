@@ -9,6 +9,9 @@ addressbook/tools/evolution-addressbook-import.c
 calendar/gui/calendar-component.c
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/e-pub-utils.c
+data/evolution-alarm-notify.desktop.in
+data/evolution-settings.desktop.in
+data/evolution.desktop.in
 designs/OOA/ooa.ui
 designs/read_receipts/read.ui
 mail/em-folder-browser.c

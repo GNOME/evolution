@@ -29,15 +29,6 @@ Miscellaneous Utilities
 @Returns: 
 
 
-<!-- ##### FUNCTION e_get_gnome2_user_dir ##### -->
-<para>
-
-</para>
-
-@void: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_get_accels_filename ##### -->
 <para>
 

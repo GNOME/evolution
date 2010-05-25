@@ -56,45 +56,46 @@ _e_register_mailto_structure (HKEY hKey)
 	static HKEY tmp_subkey = (HKEY) INVALID_HANDLE_VALUE;
 	
 	if ((returnValue = RegSetValueExA (hKey, NULL, 0, REG_SZ, (const BYTE *)"URL:MailTo Protocol", strlen ("URL:MailTo Protocol") + 1)))
-		return;
+		goto cleanup;
 	if ((returnValue = RegSetValueExA (hKey, "EditFlags", 0, REG_BINARY, editFlags, G_N_ELEMENTS (editFlags))))
-		return;
+		goto cleanup;
 	if ((returnValue = RegSetValueExA (hKey, "URL Protocol", 0, REG_SZ, (const BYTE *)"", strlen ("") + 1)))
-		return;
+		goto cleanup;
 
 	RegFlushKey (hKey);
 
 	if ((returnValue = RegCreateKeyExA (hKey, "DefaultIcon", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
-		return;
+		goto cleanup;
 
 	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
 	defaultIcon = g_strconcat (evolutionBinary, ",1", NULL);
-	g_free (evolutionBinary);
-	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)defaultIcon, strlen (defaultIcon) + 1))) {
-		g_free (defaultIcon);
-		return;
-	}
-	g_free (defaultIcon);
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)defaultIcon, strlen (defaultIcon) + 1)))
+		goto cleanup;
+
 	
 	RegFlushKey (tmp_subkey);
 	
 	RegCloseKey (tmp_subkey);
 	
 	if ((returnValue = RegCreateKeyExA (hKey, "shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &tmp_subkey, &dwDisposition)))
-		return;
+		goto cleanup;
 
 	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
 	mailtoCommand = g_strconcat("\"", evolutionBinary,  "\" --component=mail mailto:\%1", NULL);
-	g_free (evolutionBinary);
-	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)mailtoCommand, strlen(mailtoCommand) + 1))) {
-		g_free (mailtoCommand);
-		return;
-	}
-	g_free (mailtoCommand);
+
+	if ((returnValue = RegSetValueExA (tmp_subkey, NULL, 0, REG_SZ, (const BYTE *)mailtoCommand, strlen(mailtoCommand) + 1)))
+		goto cleanup;
+
 	
 	RegFlushKey (tmp_subkey);
 	
 	RegCloseKey (tmp_subkey);
+
+cleanup:
+	g_free (defaultIcon);
+	g_free (evolutionBinary);
+	g_free (mailtoCommand);
 }
 
 static void
@@ -104,12 +105,11 @@ _e_win32_register_mailer_impl (WINBOOL system)
 	DWORD i, dwDisposition;
 	gchar *defaultIcon = NULL;
 	gchar *dllPath = NULL;
-	gchar *dllShortPath = NULL;
-	DWORD dllShortPathLength;
 	gchar *evolutionBinary = NULL;
 	gchar *openCommand = NULL;
-	gchar *setDefaultCommand = NULL;
-	gchar *unsetDefaultCommand = NULL;
+	gchar *reinstallCommand = NULL;
+	gchar *showIconsCommand = NULL;
+	gchar *hideIconsCommand = NULL;
 
 	static HKEY reg_key = (HKEY) INVALID_HANDLE_VALUE;
 	static HKEY reg_subkey = (HKEY) INVALID_HANDLE_VALUE;
@@ -117,104 +117,92 @@ _e_win32_register_mailer_impl (WINBOOL system)
 
 	if ((returnValue = RegCreateKeyExA (system ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER,
 		"Software\\Clients\\Mail\\" CANONICALNAME, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_key, &dwDisposition)))
-		return;
+		goto cleanup;
 	
 	if ((returnValue = RegSetValueExA (reg_key, NULL, 0, REG_SZ, (const BYTE *)CANONICALNAME, strlen(CANONICALNAME) + 1)))
-		return;
+		goto cleanup;
 	
 	dllPath = _e_win32_sanitize_path (g_build_path(G_DIR_SEPARATOR_S, _e_get_bindir (), EUTILDLL, NULL));
-	if ((returnValue = RegSetValueExA (reg_key, "DLLPath", 0, REG_SZ, (const BYTE *)dllPath, strlen (dllPath) + 1))) {
-		g_free (dllPath);
-		return;
-	}
-	g_free(dllPath);
+
+	if ((returnValue = RegSetValueExA (reg_key, "DLLPath", 0, REG_SZ, (const BYTE *)dllPath, strlen (dllPath) + 1)))
+		goto cleanup;
 
 	RegFlushKey (reg_key);
 	
 	if ((returnValue = RegCreateKeyExA (reg_key, "DefaultIcon", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
-		return;
+		goto cleanup;
 	
 	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
 	defaultIcon = g_strconcat(evolutionBinary, ",0", NULL);
-	g_free (evolutionBinary);
-	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)defaultIcon, strlen (defaultIcon) + 1))) {
-		g_free (defaultIcon);
-		return;
-	}
+
+	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)defaultIcon, strlen (defaultIcon) + 1)))
+		goto cleanup;
+
 	
 	RegFlushKey (reg_subkey);
 	
 	RegCloseKey (reg_subkey);
 	
 	if ((returnValue = RegCreateKeyExA (reg_key, "shell\\open\\command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
-		return;
+		goto cleanup;
 
-	evolutionBinary = _e_win32_sanitize_path (g_build_path (G_DIR_SEPARATOR_S, _e_get_bindir (), EVOBINARY, NULL));
-	openCommand = g_strconcat("\"", evolutionBinary, "\" -component=mail", NULL);
-	g_free (evolutionBinary);
-	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)openCommand, strlen (openCommand) + 1))) {
-		g_free (openCommand);
-		return;
-	}
-	g_free (openCommand);
+	openCommand = g_strconcat("\"", evolutionBinary, "\" --component=mail", NULL);
+	if ((returnValue = RegSetValueExA (reg_subkey, NULL, 0, REG_SZ, (const BYTE *)openCommand, strlen (openCommand) + 1)))
+		goto cleanup;
 	
 	RegFlushKey (reg_subkey);
 	
 	RegCloseKey (reg_subkey);
 
 	if ((returnValue = RegCreateKeyExA (reg_key, "InstallInfo", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
-		return;
-	
-	dllPath = _e_win32_sanitize_path (g_build_path(G_DIR_SEPARATOR_S, _e_get_bindir (), EUTILDLL, NULL));
-	dllShortPathLength = GetShortPathNameA (dllPath, NULL, 0);
-	dllShortPath = g_new0 (char, dllShortPathLength);
-	GetShortPathNameA (dllPath, dllShortPath, dllShortPathLength);
-	g_free (dllPath);
-	
-	setDefaultCommand = g_strconcat ("rundll32 ", dllShortPath, ",_e_win32_set_default_mailer", NULL);
-	unsetDefaultCommand = g_strconcat ("rundll32 ", dllShortPath, ",_e_win32_set_default_mailer", NULL);
-	g_free (dllShortPath);
+		goto cleanup;
 
-	if ((returnValue = RegSetValueExA (reg_subkey, "ReinstallCommand", 0, REG_SZ, (const BYTE *)setDefaultCommand, strlen (setDefaultCommand) + 1))) {
-		g_free (setDefaultCommand);
-		g_free (unsetDefaultCommand);
-		return;
-	}
-	
-	if ((returnValue = RegSetValueExA (reg_subkey, "ShowIconsCommand", 0, REG_SZ, (const BYTE *)setDefaultCommand, strlen (setDefaultCommand) + 1))) {
-		g_free (setDefaultCommand);
-		g_free (unsetDefaultCommand);
-		return;
-	}
+	reinstallCommand = g_strconcat ("\"", evolutionBinary, "\" --reinstall", NULL);
 
-	if ((returnValue = RegSetValueExA (reg_subkey, "HideIconsCommand", 0, REG_SZ, (const BYTE *)unsetDefaultCommand, strlen (unsetDefaultCommand) + 1))) {
-		g_free (setDefaultCommand);
-		g_free (unsetDefaultCommand);
-		return;
-	}
+	if ((returnValue = RegSetValueExA (reg_subkey, "ReinstallCommand", 0, REG_EXPAND_SZ, (const BYTE *)reinstallCommand, strlen (reinstallCommand) + 1)))
+		goto cleanup;
 
-	g_free (setDefaultCommand);
-	g_free (unsetDefaultCommand);
+
+	showIconsCommand = g_strconcat ("\"", evolutionBinary, "\" --show-icons", NULL);
 	
+	if ((returnValue = RegSetValueExA (reg_subkey, "ShowIconsCommand", 0, REG_EXPAND_SZ, (const BYTE *)showIconsCommand, strlen (showIconsCommand) + 1)))
+		goto cleanup;
+
+
+	hideIconsCommand = g_strconcat ("\"", evolutionBinary, "\" --hide-icons", NULL);
+
+	if ((returnValue = RegSetValueExA (reg_subkey, "HideIconsCommand", 0, REG_EXPAND_SZ, (const BYTE *)hideIconsCommand, strlen (hideIconsCommand) + 1)))
+		goto cleanup;
+	
+
 	i = 1;	
 	if ((returnValue = RegSetValueExA (reg_subkey, "IconsVisible", 0, REG_DWORD, (BYTE*)&i, sizeof (i))))
-		return;
+		goto cleanup;
 	
 	RegFlushKey (reg_subkey);
 	
 	RegCloseKey (reg_subkey);
 	
 	if ((returnValue = RegCreateKeyExA (reg_key, "Protocols\\mailto", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &reg_subkey, &dwDisposition)))
-		return;
+		goto cleanup;
 
 	if ((returnValue = RegSetValueExA (reg_key, NULL, 0, REG_SZ, (const BYTE *)CANONICALNAME, strlen (CANONICALNAME) + 1)))
-		return;
+		goto cleanup;
 	
 	_e_register_mailto_structure (reg_subkey);
 
 	RegCloseKey (reg_subkey);
 	
 	RegCloseKey (reg_key);
+
+cleanup:
+	g_free (defaultIcon);
+	g_free (dllPath);
+	g_free (evolutionBinary);
+	g_free (openCommand);
+	g_free (reinstallCommand);
+	g_free (showIconsCommand);
+	g_free (hideIconsCommand);
 }
 
 void

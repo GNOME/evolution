@@ -2,12 +2,12 @@
 # Estonian translation of Evolution.
 #
 # Copyright (C) 2001-2006 Free Software Foundation, Inc.
-# Copyright (C) 2007-2009 The GNOME Project.
+# Copyright (C) 2007-2010 The GNOME Project.
 # This file is distributed under the same license as the evolution package.
 #
 # Ilmar Kerm <ikerm hot ee>, 2001.
 # Marek Sepp <marek sepp ttu ee>, 2001, 2002.
-# Ivar Smolin <okul linux ee>, 2002, 2003, 2005-2009.
+# Ivar Smolin <okul linux ee>, 2002, 2003, 2005-2010.
 # Kaarel Jõgi <kaarel gg ee>, 2002.
 # Priit Laes <plaes plaes org>, 2003-2007, 2009, 2010.
 # Mattias Põldaru <mahfiaz gmail com>, 2009-2010.
@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: Evolution 2.30\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-03-24 13:21+0000\n"
-"PO-Revision-Date: 2010-03-08 22:04+0300\n"
-"Last-Translator: Priit Laes <plaes@plaes.org>\n"
+"POT-Creation-Date: 2010-05-21 15:35+0000\n"
+"PO-Revision-Date: 2010-05-24 18:51+0300\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1774,9 +1774,6 @@ msgstr "Tähtaja ületanud ülesannete värvus \"#rrggbb\" vormingus."
 msgid "Calendars to run alarms for"
 msgstr "Kalendrid, mille jaoks alarme käivitada"
 
-msgid "Check this to use system timezone in Evolution."
-msgstr "Märgi see, et kasutada Evolutionis süsteemi ajavööndit."
-
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "Marcus Bainsi joone värvus ajaribal (vaikimisi tühi)."
@@ -2050,18 +2047,18 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
 
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
 
 msgid "The second timezone for a Day View"
 msgstr "Päeva vaate teine ajavöönd"
@@ -2230,7 +2227,7 @@ msgid "Category"
 msgstr "Kategooria"
 
 msgid "Classification"
-msgstr "Liigitamine"
+msgstr "Liigitus"
 
 msgid "Confidential"
 msgstr "Salajane"
@@ -2899,6 +2896,12 @@ msgstr "_Alarmid"
 msgid "Click here to set or unset alarms for this event"
 msgstr "Klõpsa siia, et seada või eemaldada selle sündmuse alarme"
 
+msgid "Show Time as _Busy"
+msgstr "Näita aega _hõivatuna"
+
+msgid "Toggles whether to show time as busy"
+msgstr "Aja kui hõivatud aja kuvamise sisse- ja väljalülitamine"
+
 msgid "_Recurrence"
 msgstr "_Kordumine"
 
@@ -2916,12 +2919,6 @@ msgstr "Kogu _päeva kestev sündmus"
 
 msgid "Toggles whether to have All Day Event"
 msgstr "Kogu päeva hõlmava sündmuse sisse- ja väljalülitamine"
-
-msgid "Show Time as _Busy"
-msgstr "Näita aega _hõivatuna"
-
-msgid "Toggles whether to show time as busy"
-msgstr "Aja kui hõivatud aja kuvamise sisse- ja väljalülitamine"
 
 msgid "_Free/Busy"
 msgstr "_Vaba/hõivatud"
@@ -4278,7 +4275,7 @@ msgid "%d %b %Y"
 msgstr "%d. %B %Y"
 
 msgid "Jump button"
-msgstr ""
+msgstr "Liikumise nupp"
 
 msgid "Click here, you can find more events."
 msgstr "Täiendavate sündmuste leidmiseks klõpsa siia."
@@ -5982,10 +5979,8 @@ msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
 msgid "Undo the last action"
 msgstr "Viimase tegevuse tagasivõtmine"
 
-#, fuzzy
-#| msgid "Send Latest Information"
 msgid "Redo the last undone action"
-msgstr "Värskemate andmete saatmine"
+msgstr "Viimase tagasivõetud tegevuse uuesti sooritamine"
 
 msgid "Search for text"
 msgstr "Tekstiotsing"
@@ -6121,154 +6116,125 @@ msgid "_Save Draft"
 msgstr "_Salvesta mustand"
 
 msgid "Run Anjal in a window"
-msgstr ""
+msgstr "Anjali jooksutamine aknas"
 
-#, fuzzy
-#| msgid "Mark as _default memo list"
 msgid "Make Anjal the default email client"
-msgstr "Märgitud _vaikimisi märkmeloendiks"
+msgstr "Anjali määramine vaikimisi meilikliendiks"
 
 #. TRANSLATORS: don't translate the terms in brackets
 msgid "ID of the socket to embed in"
-msgstr ""
+msgstr "Pesa ID, millesse kaasatakse"
 
-#, fuzzy
-#| msgid "sort"
 msgid "socket"
-msgstr "sordi"
+msgstr "pesa"
 
-#, fuzzy
-#| msgid "Default Mail Client"
 msgid "Anjal email client"
-msgstr "Vaikimisi postiklient"
+msgstr "Anjal meiliklient"
 
-#, fuzzy
-#| msgid "New _Task"
-msgid "New Tab"
-msgstr "Uus ü_lesanne"
-
-#, fuzzy
-#| msgid "Please choose another name."
 msgid "Please enter your full name."
-msgstr "Palun vali mõni teine nimi."
+msgstr "Palun sisesta enda täisnimi."
 
-#, fuzzy
-#| msgid "Using email address"
 msgid "Please enter your email address."
-msgstr "Meiliaadressi kasutamine"
+msgstr "Palun sisesta enda meiliaadress."
 
 msgid "The email address you have entered is invalid."
-msgstr ""
+msgstr "Sisestatud meiliaadress ei ole korrektne."
 
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Isiklikud üksikasjad:</span>"
 
-#, fuzzy
-#| msgid "_Name:"
 msgid "Name:"
-msgstr "_Nimi:"
+msgstr "Nimi:"
 
-#, fuzzy
-#| msgid "Email _Address:"
 msgid "Email address:"
-msgstr "E-posti _aadress:"
+msgstr "E-posti aadress:"
 
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Vastuvõtmise üksikasjad:</span>"
 
-#, fuzzy
-#| msgid "Server _Type:"
 msgid "Server type:"
-msgstr "Serveri l_iik:"
+msgstr "Serveri liik:"
 
-#, fuzzy
-#| msgid "Server Message:"
 msgid "Server address:"
-msgstr "Serveri teade:"
+msgstr "Serveri aadress:"
 
-#, fuzzy
-#| msgid "Us_ername:"
 msgid "Username:"
-msgstr "_Kasutajanimi:"
+msgstr "Kasutajanimi:"
 
-#, fuzzy
-#| msgid "No encryption"
 msgid "Use encryption:"
-msgstr "Krüptimine puudub"
+msgstr "Kasutatav krüptimine:"
 
-#, fuzzy
-#| msgid "Never"
 msgid "never"
-msgstr "Mitte kunagi"
+msgstr "mitte kunagi"
 
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Saatmise üksikasjad:</span>"
 
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
 "If we can't do it automatically you'll need your server details as well."
 msgstr ""
+"Meilirakenduse kasutamiseks tuleb seadistada konto. Sisesta allapoole oma "
+"meiliaadress ja konto ning püüame kõik sätted määrata. Kui seda pole "
+"võimalik automaatselt teha, tuleb sisestada ka serveri andmed."
 
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
+"Kahjuks me ei suutnud meilisätteid automaatselt tuvastada. Palun sisesta "
+"need allapoole. Püüdsime alustada sätetega, mille sa just sisestasid, aga "
+"võimalik, et neid tuleb muuta."
 
 msgid "You can specify more options to configure the account."
-msgstr ""
+msgstr "Võid konto seadistamiseks sisestada rohkem sätteid."
 
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
 msgstr ""
+"Nüüd on vajalikud meilisaatmise sätted. Püüdsime need ära arvata, aga "
+"kindluse mõttes tuleks need üle kontrollida."
 
 msgid "You can specify your default settings for your account."
-msgstr ""
+msgstr "Võid määrata oma konto vaikimisi sätted."
 
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
 msgstr ""
+"Sobilik aeg kontrollida sätted üle enne, kui ühendume serveriga ja tõmbame "
+"kirjad alla."
 
 msgid "Identity"
 msgstr "Identiteet"
 
-#, fuzzy
-#| msgid "Receiving Email"
 msgid "Next - Receiving mail"
-msgstr "E-posti vastuvõtmine"
+msgstr "Edasi - e-posti  vastuvõtmine"
 
 #, fuzzy
 #| msgid "Receiving Email"
 msgid "Receiving mail"
 msgstr "E-posti vastuvõtmine"
 
-#, fuzzy
-#| msgid "Sending Email"
 msgid "Next - Sending mail"
-msgstr "Kirjade saatmine"
+msgstr "Edasi - kirjade saatmine"
 
-#, fuzzy
-#| msgid "Identity"
 msgid "Back - Identity"
-msgstr "Identiteet"
+msgstr "Tagasi - identiteet"
 
-#, fuzzy
-#| msgid "Receiving Options"
 msgid "Next - Receiving options"
-msgstr "Vastuvõtmise valikud"
+msgstr "Edasi - vastuvõtmise valikud"
 
 #, fuzzy
 #| msgid "Receiving Options"
 msgid "Receiving options"
 msgstr "Vastuvõtmise valikud"
 
-#, fuzzy
-#| msgid "Receiving Email"
 msgid "Back - Receiving mail"
-msgstr "E-posti vastuvõtmine"
+msgstr "Tagasi - e-posti vastuvõtmine"
 
 #, fuzzy
 #| msgid "Sending Email"
@@ -6276,63 +6242,39 @@ msgid "Sending mail"
 msgstr "Kirjade saatmine"
 
 msgid "Next - Review account"
-msgstr ""
+msgstr "Edasi - konto ülevaatamine"
 
-#, fuzzy
-#| msgid "Defaults"
 msgid "Next - Defaults"
-msgstr "Vaikimisi"
+msgstr "Edasi - vaikimisi"
 
-#, fuzzy
-#| msgid "Receiving Options"
 msgid "Back - Receiving options"
-msgstr "Vastuvõtmise valikud"
+msgstr "Tagasi - vastuvõtmise valikud"
 
 msgid "Defaults"
 msgstr "Vaikimisi"
 
-#, fuzzy
-#| msgid "Sending Email"
 msgid "Back - Sending mail"
-msgstr "Kirjade saatmine"
+msgstr "Tagasi - kirjade saatmine"
 
-#, fuzzy
-#| msgid "List of accounts"
 msgid "Review account"
-msgstr "Kontode nimekiri"
+msgstr "Konto ülevaatus"
 
 msgid "Finish"
-msgstr ""
+msgstr "Lõpeta"
 
-#, fuzzy
-#| msgid "Ascending"
 msgid "Back - Sending"
-msgstr "Kasvavas järjestuses"
+msgstr "Tagasi - saatmine"
 
-#, fuzzy
-#| msgid "_Close"
 msgid "Close Tab"
-msgstr "Sul_ge"
+msgstr "Saki sulgemine"
 
-#, fuzzy
-#| msgid "Account Editor"
 msgid "Account Wizard"
-msgstr "Kontoredaktor"
+msgstr "Konto nõustaja"
 
 #, fuzzy
 #| msgid "Evolution Account Assistant"
 msgid "Evolution account assistant"
 msgstr "Evolutioni kontoabiline"
-
-#, fuzzy
-#| msgid "Junk Mail Settings"
-msgid "Email Settings"
-msgstr "Rämpsposti sätted"
-
-#, fuzzy
-#| msgid "Quoted"
-msgid "Quit"
-msgstr "Tsitaadina"
 
 #. create the local source group
 msgid "On This Computer"
@@ -6341,18 +6283,14 @@ msgstr "Kohalikus arvutis"
 msgid "Modify"
 msgstr "Muuda"
 
-#, fuzzy
-#| msgid "Add a Column"
 msgid "Add a new account"
-msgstr "Tulba lisamine"
+msgstr "Uue konto lisamine"
 
 msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-msgstr ""
+msgstr "<span size=\"large\" weight=\"bold\">Kontohaldus</span>"
 
-#, fuzzy
-#| msgid "Junk Settings"
 msgid "Settings"
-msgstr "Rämpsposti sätted"
+msgstr "Sätted"
 
 msgid "Calendar event notifications"
 msgstr "Kalendrisündmuste märguanded"
@@ -6373,16 +6311,11 @@ msgstr "Grupitöövahend"
 msgid "Manage your email, contacts and schedule"
 msgstr "Oma e-posti, kontaktide ja kalendri haldamine"
 
-#, fuzzy
-#| msgid "Configuration"
 msgid "Configure email accounts"
-msgstr "Seadistused"
+msgstr "E-posti kontode seadistused"
 
-msgid "address card"
-msgstr "aadressikaart"
-
-msgid "calendar information"
-msgstr "kalendri andmed"
+msgid "Email Settings"
+msgstr "E-posti sätted"
 
 #. Translators: This is a cancelled activity.
 #, c-format
@@ -6773,7 +6706,7 @@ msgid "R_ule name:"
 msgstr "_Reegli nimi:"
 
 msgid "Find items that meet the following conditions"
-msgstr "Järgnevatele tingimustele vastavate kirjete leidmine"
+msgstr "Kui leitakse järgnevatele tingimustele vastav kirje"
 
 msgid "A_dd Condition"
 msgstr "Lisa _tingimus"
@@ -6785,7 +6718,7 @@ msgid "If any conditions are met"
 msgstr "Kui vähemalt üks tingimustest on täidetud"
 
 msgid "_Find items:"
-msgstr "_Kirjeid otsitakse:"
+msgstr "_Kirjed sobivad:"
 
 msgid "All related"
 msgstr "Kõik seonduvad"
@@ -6812,7 +6745,7 @@ msgid "Add Rule"
 msgstr "Reegli lisamine"
 
 msgid "Edit Rule"
-msgstr "Muuda reeglit"
+msgstr "Reegli muutmine"
 
 msgid "Bad regular expression &quot;{0}&quot;."
 msgstr "Vigane regulaaravaldis &quot;{0}&quot;."
@@ -7647,13 +7580,12 @@ msgstr "Evolutioni kontoabiline"
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
-msgstr ""
+msgstr "Sinu sõnumit vastuvõtjale %s teemal \"%s\" loeti %s."
 
 #. Translators: %s is the subject of the email message
-#, fuzzy, c-format
-#| msgid "Mail Notification Properties"
+#, c-format
 msgid "Delivery Notification for: \"%s\""
-msgstr "Sõnumiteavituse omadused"
+msgstr "Sõnumiteavitus kirjale \"%s\""
 
 msgid "an unknown sender"
 msgstr "tundmatu saatja"
@@ -7856,7 +7788,7 @@ msgstr "Määramata olek"
 
 #. and now for the action area
 msgid "Then"
-msgstr "Siis"
+msgstr "siis"
 
 msgid "Add Ac_tion"
 msgstr "Lisa _tegevus"
@@ -8169,9 +8101,9 @@ msgid "Message Filters"
 msgstr "Sõnumifiltrid"
 
 #. Drop filename for messages from a mailbox
-#, fuzzy, c-format
+#, c-format
 msgid "Messages from %s"
-msgstr "Sõnumid aadressilt %s"
+msgstr "Sõnumid postkastist %s"
 
 msgid "Search _Folders"
 msgstr "_Otsingukaustad"
@@ -8880,9 +8812,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
 
 msgid "The terminal font for mail display."
 msgstr "Terminali kirjatüüp sõnumikuvas."
@@ -9551,13 +9483,13 @@ msgid "_Use the same fonts as other applications"
 msgstr "_Kirjatüüp on sama, mis teistes rakendustes"
 
 msgid "a"
-msgstr ""
+msgstr "a"
 
 msgid "addresses"
 msgstr "aadressid"
 
 msgid "b"
-msgstr ""
+msgstr "b"
 
 msgid "color"
 msgstr "värvusega"
@@ -10276,7 +10208,7 @@ msgstr ""
 "{0}"
 
 msgid "The script file must exist and be executable."
-msgstr "Skriptifail peab eksisteerima ja olema käivitatav."
+msgstr "Skriptifail peab olemas olema ja samuti olema käivitatav."
 
 msgid ""
 "This folder may have been added implicitly,\n"
@@ -10618,9 +10550,9 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
 
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
@@ -11322,7 +11254,7 @@ msgid "Summary contains"
 msgstr "Kokkuvõte sisaldab"
 
 msgid "Print this calendar"
-msgstr "Kalendri printimine"
+msgstr "Valitud kalendri printimine"
 
 msgid "Preview the calendar to be printed"
 msgstr "Prinditava kalendri eelvaatlemine"
@@ -12165,8 +12097,8 @@ msgstr "Evolutioni kontode ja seadistuste varundamine"
 
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
-"Evolutioni andmete (e-post, kontaktid, kalender, ülesanded, märkmed) "
-"varundamine"
+"Evolutioni andmete varundamine (e-post, kontaktid, kalender, ülesanded, "
+"märkmed)"
 
 msgid "Backup complete"
 msgstr "Varundamine on valmis"
@@ -12178,7 +12110,7 @@ msgid "Backup current Evolution data"
 msgstr "Praeguste Evolutioni andmete varundamine"
 
 msgid "Extracting files from backup"
-msgstr "Varukoopiast failide väljavõtmine"
+msgstr "Failide lahtipakkimine varukoopiast"
 
 msgid "Loading Evolution settings"
 msgstr "Evolutioni sätete laadimine"
@@ -13015,7 +12947,7 @@ msgid "Reminder Notes"
 msgstr "Meeldetuletaja märkmed"
 
 msgid "Subscribe to my _alarms"
-msgstr "Minu _häirete tellimine"
+msgstr "Minu _alarmide tellimine"
 
 msgid "Subscribe to my _notifications"
 msgstr "Minu _märguannete tellimine"
@@ -14192,7 +14124,7 @@ msgstr ""
 "nõutud."
 
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr "Mittekuvatud HTML-i näidatakse manusena"
+msgstr "Mittek_uvatud HTML-i näidatakse manusena"
 
 msgid "HTML _Mode"
 msgstr "_HTML-režiim"
@@ -14634,17 +14566,15 @@ msgstr "Akna vaikimisi olek"
 msgid "Default window width"
 msgstr "Akna vaikimisi laius"
 
-#, fuzzy
-#| msgid "Enable search folders"
 msgid "Enable express mode"
-msgstr "Otsingukaustade lubamine"
+msgstr "Ekspressrežiimi lubamine"
 
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr "Proksi sätete lubamine HTTP ja HTTPS protokollidele."
 
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "Lipp, mis määrab oluliselt lihtsustatud kasutajaliidese kasutamise."
 
 msgid "HTTP proxy host name"
 msgstr "HTTP-proksi hostinimi"
@@ -14973,10 +14903,10 @@ msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm hot ee>, 2001.\n"
 "Marek Sepp <marek sepp ttu ee>, 2001, 2002.\n"
-"Ivar Smolin <okul linux ee>, 2002, 2003, 2005-2009.\n"
+"Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2010.\n"
 "Kaarel Jõgi <kaarel gg ee>, 2002.\n"
-"Priit Laes <plaes plaes org>, 2003-2007, 2009, 2010.\n"
-"Mattias Põldaru <mahfiaz gmail com>, 2009-2010."
+"Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.\n"
+"Mattias Põldaru <mahfiaz gmail com>, 2009–2010."
 
 msgid "Evolution Website"
 msgstr "Evolutioni veebisait"
@@ -15085,7 +15015,7 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Veateate saatmine Bug Buddy abil"
 
 msgid "GNOME Pilot _Synchronization..."
-msgstr "GNOME Pilot-iga sünkroniseerimine..."
+msgstr "GNOME Pilot-iga _sünkroniseerimine..."
 
 msgid "Set up GNOME Pilot configuration"
 msgstr "GNOME Piloti sätete määramine"
@@ -15335,10 +15265,8 @@ msgstr "Antud geomeetria rakendamine peaaknale"
 msgid "Start in online mode"
 msgstr "Alustamine võrgurežiimis"
 
-#, fuzzy
-#| msgid "Start in online mode"
 msgid "Start in \"express\" mode"
-msgstr "Alustamine võrgurežiimis"
+msgstr "Alustamine ekspressrežiimis"
 
 msgid "Forcibly shut down Evolution"
 msgstr "Evolutioni sundimine töö lõpetamisele"
@@ -16498,7 +16426,7 @@ msgid "_Until:"
 msgstr "_Kuni:"
 
 msgid "_When convenient"
-msgstr "_Kui sobiv"
+msgstr "_Kui sobib"
 
 msgid "_When opened:"
 msgstr "Kui _avatakse:"
@@ -16519,7 +16447,7 @@ msgid "Add Signature Script"
 msgstr "Allkirjaskripti lisamine"
 
 msgid "Edit Signature Script"
-msgstr "Allkirja muutmine"
+msgstr "Allkirjaskripti muutmine"
 
 msgid "Add _Script"
 msgstr "Lisa _skript"

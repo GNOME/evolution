@@ -36,6 +36,7 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
@@ -1078,7 +1079,7 @@ static GtkActionEntry individual_entries[] = {
 	  G_CALLBACK (action_attach_cb) }
 };
 
-static GtkToggleActionEntry individual_toggle_entries[] = {
+static GtkToggleActionEntry core_toggle_entries[] = {
 
 	{ "view-categories",
 	  NULL,
@@ -1592,6 +1593,7 @@ comp_editor_init (CompEditor *editor)
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	GtkActionGroup *action_group;
+	GtkActionGroup *action_group_2;
 	GtkAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -1642,6 +1644,9 @@ comp_editor_init (CompEditor *editor)
 	gtk_action_group_add_actions (
 		action_group, core_entries,
 		G_N_ELEMENTS (core_entries), editor);
+	gtk_action_group_add_toggle_actions (
+		action_group, core_toggle_entries,
+		G_N_ELEMENTS (core_toggle_entries), editor);
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
@@ -1652,14 +1657,18 @@ comp_editor_init (CompEditor *editor)
 	gtk_action_group_add_actions (
 		action_group, individual_entries,
 		G_N_ELEMENTS (individual_entries), editor);
-	gtk_action_group_add_toggle_actions (
-		action_group, individual_toggle_entries,
-		G_N_ELEMENTS (individual_toggle_entries), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, classification_radio_entries,
 		G_N_ELEMENTS (classification_radio_entries),
 		E_CAL_COMPONENT_CLASS_PUBLIC,
 		G_CALLBACK (action_classification_cb), editor);
+	gtk_ui_manager_insert_action_group (
+		priv->ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	action_group = gtk_action_group_new ("editable");
+	gtk_action_group_set_translation_domain (
+		action_group, GETTEXT_PACKAGE);
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
@@ -1809,6 +1818,13 @@ comp_editor_init (CompEditor *editor)
 
 	gtk_window_set_type_hint (
 		GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
+
+	action_group = comp_editor_get_action_group (editor, "individual");
+	action_group_2 = e_attachment_view_get_action_group (view, "editable");
+
+	e_binding_new (
+		action_group, "sensitive",
+		action_group_2, "sensitive");
 
 	/* Listen for attachment store changes. */
 

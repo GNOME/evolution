@@ -166,6 +166,13 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 			 *     Open ... because of invalid URI" error. */
 			save_list = TRUE;
 		}
+	} else {
+		ESourceGroup *source_group;
+
+		source_group = e_source_group_new (name, base_uri);
+		e_source_list_add_group (priv->source_list, source_group, -1);
+		on_this_computer = source_group;
+		g_object_unref (source_group);
 	}
 
 	name = _("Personal");
