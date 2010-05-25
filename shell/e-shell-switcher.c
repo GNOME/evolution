@@ -573,7 +573,7 @@ tool_item_button_cb (GtkWidget      *internal_widget,
  *
  * Adds a button to @switcher that proxies for @switcher_action.
  * Switcher buttons appear in the order they were added. A middle
- * click opens a new window of this type.  
+ * click opens a new window of this type.
  *
  * #EShellWindow adds switcher actions in the order given by the
  * <structfield>sort_order</structfield> field in #EShellBackendClass.

@@ -304,25 +304,25 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if(e_shell_get_express_mode(e_shell_get_default())) {
+	if (e_shell_get_express_mode(e_shell_get_default())) {
 		GtkWidget *widget, *item;
 
-		/* Hack: Get rid of New and Send/Receive in toolbar 
+		/* Hack: Get rid of New and Send/Receive in toolbar
 		 * while in express mode */
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar");
 
 		item = (GtkWidget *)gtk_toolbar_get_nth_item ((GtkToolbar *)widget, 0);
 		gtk_widget_hide(item);
-	
+
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-menu");
 		gtk_widget_hide(widget);
-		
+
 		item = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar/send-receive");
 		if (item)
-			gtk_widget_hide(item);	
+			gtk_widget_hide(item);
 	}
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
@@ -497,7 +497,7 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
-}	
+}
 
 static void
 cal_shell_view_init (ECalShellView *cal_shell_view,

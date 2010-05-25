@@ -661,17 +661,24 @@ shell_view_construct_searchbar (EShellView *shell_view)
 
 	if (e_shell_get_small_screen_mode (shell)) {
 		GtkWidget *image;
+		GtkWidget *container;
 		GtkAction *action;
 		GtkToolItem *item;
 
-		action = e_shell_window_get_action (shell_window, "close-window");
-		image = gtk_image_new_from_icon_name ("window-close-hover",
-						      GTK_ICON_SIZE_DIALOG);
-		item = gtk_tool_button_new (image, gtk_action_get_label (action));
+		action = e_shell_window_get_action (
+			shell_window, "close-window");
+		image = gtk_image_new_from_icon_name (
+			"window-close-hover", GTK_ICON_SIZE_DIALOG);
+		item = gtk_tool_button_new (
+			image, gtk_action_get_label (action));
 		gtk_widget_set_name (GTK_WIDGET (item), "MeeGoCloseButton");
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (item), action);
-		gtk_box_pack_start ((GtkBox *)e_shell_window_get_menu_bar_box(shell_window), (GtkWidget *)item, FALSE, FALSE, 0);
-		gtk_widget_show_all((GtkWidget *)item);
+		gtk_activatable_set_related_action (
+			GTK_ACTIVATABLE (item), action);
+		container = e_shell_window_get_menu_bar_box (shell_window);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			GTK_WIDGET (item), FALSE, FALSE, 0);
+		gtk_widget_show_all (GTK_WIDGET (item));
 	}
 
 	return widget;
@@ -1739,7 +1746,8 @@ e_shell_view_unblock_update_actions (EShellView *shell_view)
 	g_return_if_fail (shell_view->priv->update_actions_blocked > 0);
 
 	shell_view->priv->update_actions_blocked--;
-	if (!shell_view->priv->update_actions_blocked && shell_view->priv->update_actions_called) {
+	if (!shell_view->priv->update_actions_blocked &&
+		shell_view->priv->update_actions_called) {
 		shell_view->priv->update_actions_called = FALSE;
 		e_shell_view_update_actions (shell_view);
 	}

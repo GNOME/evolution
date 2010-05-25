@@ -60,7 +60,7 @@ e_notice (gpointer parent, GtkMessageType type, const gchar *format, ...)
 		parent = gtk_widget_get_toplevel (parent);
 	if (parent)
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
-		
+
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

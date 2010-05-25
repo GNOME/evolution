@@ -187,12 +187,12 @@ message_push (Message *msg)
  * use a static ring-buffer so we can call this twice
  * in a printf without getting nonsense results.
  */
-static const char *
+static const gchar *
 e_ctime (const time_t *timep)
 {
-  static char *buffer[4] = { 0, };
-  static int next = 0;
-  const char *ret;
+  static gchar *buffer[4] = { 0, };
+  static gint next = 0;
+  const gchar *ret;
 
   g_free (buffer[next]);
   ret = buffer[next++] = g_strdup (ctime (timep));

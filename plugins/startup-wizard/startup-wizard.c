@@ -76,7 +76,6 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 		return;
 	}
 
-	
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
 	g_object_unref (client);

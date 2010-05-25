@@ -51,7 +51,7 @@ static gboolean network_manager_connect (EConnMan *extension);
 G_DEFINE_DYNAMIC_TYPE (EConnMan, e_connman, E_TYPE_EXTENSION)
 
 static void
-extension_set_state (EConnMan *extension, const char *state)
+extension_set_state (EConnMan *extension, const gchar *state)
 {
 	EExtensible *extensible;
 
@@ -66,7 +66,7 @@ connman_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		 DBusMessage *message,
 		 gpointer user_data)
 {
-	char *value;
+	gchar *value;
 	EConnMan *extension = user_data;
 	DBusError error = DBUS_ERROR_INIT;
 	DBusHandlerResult ret = DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
@@ -103,7 +103,7 @@ connman_check_initial_state (EConnMan *extension)
 		extension->connection, message, 100, &error);
 
 	if (response != NULL) {
-		const char *value;
+		const gchar *value;
 		if (dbus_message_get_args (message, &error,
 					   DBUS_TYPE_STRING, &value,
 					   DBUS_TYPE_INVALID))

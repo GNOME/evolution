@@ -178,12 +178,12 @@ mail_shell_sidebar_constructed (GObject *object)
 		shell_sidebar);
 }
 
-static int
+static gint
 guess_screen_width (EMailShellSidebar *sidebar)
 {
 	GtkWidget *widget;
 	GdkScreen *screen;
-	int screen_width;
+	gint screen_width;
 
 	widget = GTK_WIDGET (sidebar);
 
@@ -192,7 +192,7 @@ guess_screen_width (EMailShellSidebar *sidebar)
 	screen = gtk_widget_get_screen (widget);
 	if (screen) {
 		GtkWidget *toplevel;
-		int monitor;
+		gint monitor;
 		GdkRectangle rect;
 
 		toplevel = gtk_widget_get_toplevel (widget);
@@ -201,11 +201,12 @@ guess_screen_width (EMailShellSidebar *sidebar)
 #else
 		if (toplevel && GTK_WIDGET_REALIZED (toplevel))
 #endif
-			monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
+			monitor = gdk_screen_get_monitor_at_window (
+				screen, gtk_widget_get_window (toplevel));
 		else {
 			/* We don't know in which monitor the window manager
-			 * will put us.  So we will just use the geometry of the
-			 * first monitor.
+			 * will put us.  So we will just use the geometry of
+			 * the first monitor.
 			 */
 			monitor = 0;
 		}
@@ -221,34 +222,38 @@ guess_screen_width (EMailShellSidebar *sidebar)
 }
 
 static void
-mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
+mail_shell_sidebar_size_request (GtkWidget *widget,
+                                 GtkRequisition *requisition)
 {
 	/* We override the normal size-request handler so that we can
-	 * spit out a treeview with a suitable width.  We measure the length
-	 * of a typical string and use that as the requisition's width.
+	 * spit out a treeview with a suitable width.  We measure the
+	 * length of a typical string and use that as the requisition's
+	 * width.
 	 *
-	 * EMFolderTreeClass, our parent class, is based on GtkTreeView, which
-	 * doesn't really have a good way of figuring out a minimum width for
-	 * the tree.  This is really GTK+'s fault at large, as it only has
-	 * "minimum size / allocated size", instead of "minimum size / preferred
-	 * size / allocated size".  Hopefully the extended-layout branch of GTK+
-	 * will get merged soon and then we can remove this crap.
+	 * EMFolderTreeClass, our parent class, is based on GtkTreeView,
+	 * which doesn't really have a good way of figuring out a minimum
+	 * width for the tree.  This is really GTK+'s fault at large, as
+	 * it only has "minimum size / allocated size", instead of
+	 * "minimum size / preferred size / allocated size".  Hopefully
+	 * the extended-layout branch of GTK+ will get merged soon and
+	 * then we can remove this crap.
 	 */
 
 	EMailShellSidebar *sidebar;
 	PangoLayout *layout;
 	PangoRectangle ink_rect;
 	GtkStyle *style;
-	int border;
-	int sidebar_width;
-	int screen_width;
+	gint border;
+	gint sidebar_width;
+	gint screen_width;
 
 	sidebar = E_MAIL_SHELL_SIDEBAR (widget);
 
 	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
 
 	/* This string is a mockup only; it doesn't need to be translated */
-	layout = gtk_widget_create_pango_layout (widget, "typical.account@mailservice.com");
+	layout = gtk_widget_create_pango_layout (
+		widget, "typical.account@mailservice.com");
 	pango_layout_get_pixel_extents (layout, &ink_rect, NULL);
 	g_object_unref (layout);
 
@@ -256,7 +261,8 @@ mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
 
 	screen_width = guess_screen_width (sidebar);
 
-	border = 2 * style->xthickness + 4; /* Thickness of frame shadow plus some slack for padding */
+	/* Thickness of frame shadow plus some slack for padding. */
+	border = 2 * style->xthickness + 4;
 	sidebar_width = ink_rect.width + border;
 	sidebar_width = MIN (sidebar_width, screen_width / 4);
 	requisition->width = MAX (requisition->width, sidebar_width);

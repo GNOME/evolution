@@ -151,7 +151,7 @@ cal_chell_content_get_pad_state_filename (EShellContent *shell_content, ETable *
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 	g_return_val_if_fail (table != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE (table), NULL);
-	
+
 	if (E_IS_TASK_TABLE (table))
 		nick = "TaskPad";
 	else if (E_IS_MEMO_TABLE (table))
@@ -348,7 +348,7 @@ cal_shell_content_constructed (GObject *object)
 		foreign_view = e_shell_window_get_shell_view (shell_window, "memos");
 		foreign_content = e_shell_view_get_shell_content (foreign_view);
 		g_object_get (foreign_content, "model", &memo_model, NULL);
-	
+
 		foreign_view = e_shell_window_get_shell_view (shell_window, "tasks");
 		foreign_content = e_shell_view_get_shell_content (foreign_view);
 		g_object_get (foreign_content, "model", &task_model, NULL);
@@ -356,7 +356,7 @@ cal_shell_content_constructed (GObject *object)
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
-	
+
 	if (!e_shell_get_express_mode (shell)) {
 		widget = e_paned_new (GTK_ORIENTATION_HORIZONTAL);
 		gtk_container_add (GTK_CONTAINER (container), widget);
@@ -556,7 +556,7 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 	object_class->get_property = cal_shell_content_get_property;
 	object_class->dispose = cal_shell_content_dispose;
 	object_class->constructed = cal_shell_content_constructed;
-	
+
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = cal_shell_content_map;
 

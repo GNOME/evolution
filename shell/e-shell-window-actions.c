@@ -934,7 +934,7 @@ action_preferences_cb (GtkAction *action,
 		} else {
 			e_preferences_window_show_page (
 				E_PREFERENCES_WINDOW (preferences_window),
-				shell_backend_class->preferences_page);			
+				shell_backend_class->preferences_page);
 		}
 	}
 }
@@ -1460,7 +1460,6 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
 
-
 	{ "close-window",
 	  GTK_STOCK_CLOSE,
 	  N_("_Close Window"),
@@ -1906,7 +1905,7 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
 	gchar *path;
-	
+
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -2133,8 +2132,8 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 static GtkAction *
 e_shell_window_create_switcher_action (GType type, EShellViewClass *class,
-				       const char *name, const char *tooltip,
-				       const char *view_name)
+				       const gchar *name, const gchar *tooltip,
+				       const gchar *view_name)
 {
 	GtkAction *action;
 

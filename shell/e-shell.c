@@ -61,7 +61,7 @@ struct _EShellPrivate {
 
 	gchar *geometry;
 	gchar *module_directory;
-	
+
 	gchar *startup_view;
 
 	guint auto_reconnect	: 1;
@@ -1940,7 +1940,7 @@ e_shell_adapt_window_size (EShell    *shell,
 	scr = gdk_screen_get_default ();
 	monitor = gdk_screen_get_monitor_at_window (scr, GTK_WIDGET (window)->window);
 	gdk_screen_get_monitor_geometry (scr, monitor, &rect);
-		
+
 	gtk_window_set_default_size (window, rect.width, rect.height);
 	gtk_window_set_decorated (window, FALSE);
 	gtk_window_maximize (window);
@@ -1948,13 +1948,12 @@ e_shell_adapt_window_size (EShell    *shell,
 
 void
 e_shell_set_startup_view (EShell *shell,
-			  const char *view)
+			  const gchar *view)
 {
 	shell->priv->startup_view = g_strdup(view);
 }
 
-
-const char *
+const gchar *
 e_shell_get_startup_view (EShell *shell)
 {
 	return shell->priv->startup_view;

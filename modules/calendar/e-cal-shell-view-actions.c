@@ -1715,7 +1715,7 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
-	
+
 	/* Calendar Actions */
 	action_group = ACTION_GROUP (CALENDAR);
 	gtk_action_group_add_actions (

@@ -2314,7 +2314,7 @@ comp_editor_append_widget (CompEditor *editor,
 		gtk_notebook_append_page (priv->notebook, page, label_widget);
 
 	/* Listen for when the page is mapped/unmapped so we can
-	   install/uninstall the appropriate GtkAccelGroup. 
+	   install/uninstall the appropriate GtkAccelGroup.
 	g_signal_connect (
 		page, "map",
 		G_CALLBACK (page_mapped_cb), page);

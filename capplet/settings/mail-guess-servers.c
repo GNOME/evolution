@@ -131,7 +131,7 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
 			provider->recv_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
@@ -155,7 +155,7 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
 			provider->send_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;

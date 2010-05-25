@@ -274,10 +274,13 @@ add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 
 static void
 account_added_cb (EAccountList *accounts,
-                    EAccount *account,
-                    EMFolderTreeModel *model)
+                  EAccount *account,
+                  EMFolderTreeModel *model)
 {
-	mail_get_store (e_account_get_string (account, E_ACCOUNT_SOURCE_URL), NULL, add_new_store, account);
+	const gchar *uri;
+
+	uri = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
+	mail_get_store (uri, NULL, add_new_store, account);
 }
 
 static void

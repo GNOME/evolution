@@ -560,10 +560,10 @@ cal_shell_sidebar_finalize (GObject *object)
 }
 
 static void
-new_calendar_clicked (GtkButton *button, 
+new_calendar_clicked (GtkButton *button,
 		      EShellSidebar *shell_sidebar)
 {
-	EShellView *shell_view;	
+	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 
@@ -571,7 +571,7 @@ new_calendar_clicked (GtkButton *button,
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	calendar_setup_new_calendar (GTK_WINDOW (shell_window));	
+	calendar_setup_new_calendar (GTK_WINDOW (shell_window));
 }
 
 static void
@@ -621,7 +621,7 @@ cal_shell_sidebar_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	if(!e_shell_get_express_mode(e_shell_get_default())) {
+	if (!e_shell_get_express_mode(e_shell_get_default())) {
 		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
 	} else {
 		GtkWidget *button;

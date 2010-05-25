@@ -806,7 +806,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	}
 
 	/* Hook up and add the toplevel widget */
-	
+
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *)ec);

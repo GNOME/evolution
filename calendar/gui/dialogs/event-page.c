@@ -2238,7 +2238,6 @@ get_widgets (EventPage *epage)
 
 	priv->source_selector = GW ("source");
 
-
 	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/calendar/sources");
 
 	completion = e_category_completion_new ();
@@ -3257,7 +3256,6 @@ event_page_remove_all_attendees (EventPage *epage)
 	e_meeting_list_view_remove_all_attendees_from_name_selector (E_MEETING_LIST_VIEW (priv->list_view));
 }
 
-
 GtkWidget *
 event_page_get_alarm_page (EventPage *epage)
 {
@@ -3275,7 +3273,7 @@ event_page_get_alarm_page (EventPage *epage)
 	gtk_container_remove ((GtkContainer *)tmp, alarm_page);
 
 	return alarm_page;
-}	
+}
 
 GtkWidget *
 event_page_get_attendee_page (EventPage *epage)
@@ -3287,14 +3285,13 @@ event_page_get_attendee_page (EventPage *epage)
 	g_return_val_if_fail (IS_EVENT_PAGE (epage), NULL);
 
 	priv = epage->priv;
-	
+
 	apage = priv->list_box;
 	g_object_ref(apage);
 	gtk_container_remove ((GtkContainer *)gtk_widget_get_parent(apage), apage);
 	gtk_widget_hide (priv->attendee_box);
 
 	return apage;
-}	
-
+}
 
 #undef GW

@@ -669,7 +669,10 @@ e_mail_reader_header_free (EMailReaderHeader *header)
 }
 
 static void
-headers_changed_cb (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMailReader *reader)
+headers_changed_cb (GConfClient *gconf,
+                    guint cnxn_id,
+                    GConfEntry *entry,
+                    EMailReader *reader)
 {
 	EMFormat *emf;
 	EMFormatHTMLDisplay *emfhd;
@@ -685,16 +688,18 @@ headers_changed_cb (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMailR
 	emf = EM_FORMAT (emfhd);
 	g_return_if_fail (emf != NULL);
 
-	header_config_list = gconf_client_get_list (gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
+	header_config_list = gconf_client_get_list (
+		gconf, "/apps/evolution/mail/display/headers",
+		GCONF_VALUE_STRING, NULL);
 	em_format_clear_headers (emf);
 	for (p = header_config_list; p; p = g_slist_next(p)) {
 		EMailReaderHeader *h;
 		gchar *xml = (gchar *)p->data;
 
 		h = e_mail_reader_header_from_xml (xml);
-		if (h && h->enabled) {
-			em_format_add_header (emf, h->name, EM_FORMAT_HEADER_BOLD);
-		}
+		if (h && h->enabled)
+			em_format_add_header (
+				emf, h->name, EM_FORMAT_HEADER_BOLD);
 
 		e_mail_reader_header_free (h);
 	}
@@ -738,10 +743,16 @@ e_mail_reader_connect_headers (EMailReader *reader)
 	GConfClient *gconf = mail_config_get_gconf_client ();
 	guint notify_id;
 
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display", GCONF_CLIENT_PRELOAD_NONE, NULL);
-	notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/headers", (GConfClientNotifyFunc) headers_changed_cb, reader, NULL, NULL);
-
-	g_object_set_data_full (G_OBJECT (reader), "reader-header-notify-id", GINT_TO_POINTER (notify_id), remove_header_notify_cb);
+	gconf_client_add_dir (
+		gconf, "/apps/evolution/mail/display",
+		GCONF_CLIENT_PRELOAD_NONE, NULL);
+	notify_id = gconf_client_notify_add (
+		gconf, "/apps/evolution/mail/display/headers",
+		(GConfClientNotifyFunc) headers_changed_cb,
+		reader, NULL, NULL);
+	g_object_set_data_full (
+		G_OBJECT (reader), "reader-header-notify-id",
+		GINT_TO_POINTER (notify_id), remove_header_notify_cb);
 
 	headers_changed_cb (gconf, 0, NULL, reader);
 }

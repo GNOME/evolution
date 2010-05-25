@@ -39,7 +39,7 @@ struct _EPreferencesWindowPrivate {
 
 	GtkListStore *store;
 	GtkTreeModelFilter *filter;
-	const char *filter_view;
+	const gchar *filter_view;
 };
 
 enum {
@@ -213,19 +213,19 @@ filter_view (GtkTreeModel *model,
 		/* Show everything except calendar */
 		if (str && (strncmp (str, "cal", 3) == 0))
 			visible = FALSE;
-		else 
+		else
 			visible = TRUE;
 	} else if (strncmp(window->priv->filter_view, "cal", 3) == 0) {
 		/* Show only calendar and nothing else */
 		if (str && (strncmp (str, "cal", 3) != 0))
 			visible = FALSE;
-		else 
+		else
 			visible = TRUE;
 
 	} else  /* In any other case, show everything */
 		visible = TRUE;
-	
-  	g_free (str);
+
+	g_free (str);
 
 	return visible;
 }
@@ -252,13 +252,16 @@ preferences_window_init (EPreferencesWindow *window)
 	window->priv->filter_view = NULL;
 
 	store = gtk_list_store_new (
-		5, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_INT);
+		5, G_TYPE_STRING, G_TYPE_STRING,
+		GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_INT);
 	gtk_tree_sortable_set_sort_column_id (
 		GTK_TREE_SORTABLE (store), COLUMN_SORT, GTK_SORT_ASCENDING);
 	window->priv->store = store;
 
-	window->priv->filter = (GtkTreeModelFilter *)gtk_tree_model_filter_new ((GtkTreeModel *)store, NULL);
-	gtk_tree_model_filter_set_visible_func (window->priv->filter, filter_view, window, NULL);
+	window->priv->filter = (GtkTreeModelFilter *)
+		gtk_tree_model_filter_new (GTK_TREE_MODEL (store), NULL);
+	gtk_tree_model_filter_set_visible_func (
+		window->priv->filter, filter_view, window, NULL);
 
 	title = _("Evolution Preferences");
 	gtk_window_set_title (GTK_WINDOW (window), title);
@@ -290,7 +293,7 @@ preferences_window_init (EPreferencesWindow *window)
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
 	window->priv->scroll = widget;
 	gtk_widget_show (widget);
-	
+
 	container = widget;
 
 	widget = gtk_icon_view_new_with_model (GTK_TREE_MODEL (window->priv->filter));
@@ -476,7 +479,7 @@ e_preferences_window_filter_page (EPreferencesWindow *window,
 	window->priv->filter_view = page_name;
 	gtk_tree_model_filter_refilter (window->priv->filter);
 
-	/* XXX: We need a better solution to hide the icon view when 
+	/* XXX: We need a better solution to hide the icon view when
 	 * there is just one entry */
 	if (strncmp(page_name, "cal", 3) == 0) {
 		gtk_widget_hide (window->priv->scroll);

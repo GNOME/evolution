@@ -41,7 +41,7 @@ enum {
 struct _EAccountComboBoxPrivate {
 	EAccountList *account_list;
 	GHashTable *index;
-	int num_displayed_accounts;
+	gint num_displayed_accounts;
 };
 
 static gpointer parent_class;
@@ -529,7 +529,7 @@ e_account_combo_box_set_active_name (EAccountComboBox *combo_box,
  *
  * Return value: number of active and valid accounts as shown in the @combo_box.
  */
-int
+gint
 e_account_combo_box_count_displayed_accounts (EAccountComboBox *combo_box)
 {
 	g_return_val_if_fail (E_IS_ACCOUNT_COMBO_BOX (combo_box), -1);

@@ -436,7 +436,6 @@ e_cal_shell_view_private_init (ECalShellView *cal_shell_view,
 		G_CALLBACK (cal_shell_view_notify_view_id_cb), NULL);
 }
 
-	
 static void
 system_timezone_monitor_changed (GFileMonitor *handle,
                                  GFile *file,
@@ -453,12 +452,12 @@ system_timezone_monitor_changed (GFileMonitor *handle,
 	EShell *shell;
 	ECalModel *model;
 	const gchar *location;
- 
- 	if (event != G_FILE_MONITOR_EVENT_CHANGED &&
-            event != G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT &&
-            event != G_FILE_MONITOR_EVENT_DELETED &&
-            event != G_FILE_MONITOR_EVENT_CREATED)
-                return;
+
+	if (event != G_FILE_MONITOR_EVENT_CHANGED &&
+	    event != G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT &&
+	    event != G_FILE_MONITOR_EVENT_DELETED &&
+	    event != G_FILE_MONITOR_EVENT_CREATED)
+		return;
 
 	cal_shell_content = priv->cal_shell_content;
 	model = e_cal_shell_content_get_model (cal_shell_content);
@@ -474,7 +473,7 @@ system_timezone_monitor_changed (GFileMonitor *handle,
 	location = icaltimezone_get_location (timezone);
 	if (location == NULL)
 		location = "UTC";
-	
+
 	g_object_set (settings, "cal-timezone-string", location, NULL);
 	g_object_set (settings, "cal-timezone", timezone, NULL);
 }
@@ -496,7 +495,7 @@ init_timezone_monitors (ECalShellView *view)
 
 		if (priv->monitors[i])
 			g_signal_connect (G_OBJECT (priv->monitors[i]),
-					"changed", 
+					"changed",
 					G_CALLBACK (system_timezone_monitor_changed),
 					view);
 	}
@@ -621,7 +620,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
 		cal_shell_view);
 
-	if (memo_table) 
+	if (memo_table)
 		g_signal_connect_swapped (
 			memo_table, "popup-event",
 			G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
@@ -650,7 +649,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 			task_table, "status-message",
 			G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
 			cal_shell_view);
-	
+
 	if (task_table)
 		g_signal_connect_swapped (
 			task_table, "selection-change",
@@ -1081,7 +1080,7 @@ e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	clients = e_cal_shell_sidebar_get_clients (cal_shell_sidebar);
-	
+
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECal *client = iter->data;
 

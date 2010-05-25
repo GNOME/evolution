@@ -355,7 +355,7 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		gtk_widget_show (child);
 		gtk_container_add ((GtkContainer *)parent, child);
 		shell_window->priv->menubar_box = child;
-		
+
 		e_mutual_binding_new (main_menu, "visible",
 				child, "visible");
 		main_menu = child;
@@ -440,7 +440,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
 	if (e_shell_get_meego_mode (shell_window->priv->shell))
 		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
-	
+
 	return box;
 }
 
@@ -682,7 +682,6 @@ e_shell_window_class_init (EShellWindowClass *class)
 	class->construct_content = shell_window_construct_content;
 	class->construct_taskbar = shell_window_construct_taskbar;
 	class->create_shell_view = shell_window_create_shell_view;
-
 
 	/**
 	 * EShellWindow:active-view

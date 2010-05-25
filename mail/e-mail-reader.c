@@ -2300,9 +2300,11 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-mark-junk";
-	sensitive = selection_has_not_junk_messages;
+	sensitive =
+		selection_has_not_junk_messages &&
+		!(state & E_MAIL_READER_FOLDER_IS_JUNK);
 	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive && !(state & E_MAIL_READER_FOLDER_IS_JUNK));
+	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-mark-not-junk";
 	sensitive = selection_has_junk_messages;

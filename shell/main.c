@@ -507,9 +507,9 @@ main (gint argc, gchar **argv)
 		g_warning ("Could not set PATH for Evolution and its child processes");
 
 	g_free (path);
-	
+
 	_e_win32_register_mailer ();
-	
+
 	if (reinstall) {
 		_e_win32_set_default_mailer ();
 		exit (0);

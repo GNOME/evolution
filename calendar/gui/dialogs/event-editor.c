@@ -345,7 +345,7 @@ event_editor_constructor (GType type,
 		alarm_page = event_page_get_alarm_page (priv->event_page);
 		comp_editor_append_widget (editor, alarm_page, _("_Alarm"), TRUE);
 		g_object_unref(alarm_page);
-		
+
 	}
 
 	if (is_meeting) {

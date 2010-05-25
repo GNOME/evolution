@@ -2087,7 +2087,7 @@ emae_create_basic_assistant_page (EMAccountEditor *emae, GtkAssistant *assistant
 	gtk_widget_show (lbl);
 
 	if (g_ascii_strcasecmp (page_id, "start_page") == 0)
-		g_hash_table_insert (emae->priv->widgets, (char *)"start_page_label", lbl);
+		g_hash_table_insert (emae->priv->widgets, (gchar *)"start_page_label", lbl);
 
 	if (old) {
 		/* keep page on its previous index */
@@ -2118,7 +2118,6 @@ static struct {
 	{ "identity_organization", E_ACCOUNT_ID_ORGANIZATION },
 };
 
-
 static void
 emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *first, ...)
 {
@@ -2126,7 +2125,7 @@ emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *fir
 
 	va_start (ap, first);
 	while (first) {
-		g_hash_table_insert (emae->priv->widgets, (char *)first, e_builder_get_widget (builder, first));
+		g_hash_table_insert (emae->priv->widgets, (gchar *)first, e_builder_get_widget (builder, first));
 		first = va_arg (ap, const gchar *);
 	}
 	va_end (ap);

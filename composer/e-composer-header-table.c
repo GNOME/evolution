@@ -276,7 +276,7 @@ skip_custom:
 	return new_destinations;
 }
 
-static int
+static gint
 count_from_accounts (EComposerHeaderTable *table)
 {
 	EComposerHeader *header;
@@ -291,7 +291,7 @@ count_from_accounts (EComposerHeaderTable *table)
 static gboolean
 from_header_should_be_visible (EComposerHeaderTable *table)
 {
-	int num_accounts;
+	gint num_accounts;
 
 	num_accounts = count_from_accounts (table);
 	return (num_accounts > 1);
@@ -502,7 +502,7 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_mail_headers (table);
 }
 
-static int
+static gint
 get_row_padding (void)
 {
 	/* For small screens, make the header-table's rows be packed closely together */
@@ -521,7 +521,7 @@ composer_header_table_constructor (GType type,
 	GObject *object;
 	EComposerHeaderTablePrivate *priv;
 	guint rows, ii;
-	int row_padding;
+	gint row_padding;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (parent_class)->constructor (

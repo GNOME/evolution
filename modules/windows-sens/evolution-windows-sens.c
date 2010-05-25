@@ -39,7 +39,7 @@ typedef struct IEnumEventObject IEnumEventObject;
 const IID IID_IEnumEventObject;
 typedef struct IEnumEventObjectVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEnumEventObject *This,REFIID riid,void **ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEnumEventObject *This,REFIID riid,gpointer *ppvObject);
 		ULONG (WINAPI *AddRef)(IEnumEventObject *This);
 		ULONG (WINAPI *Release)(IEnumEventObject *This);
 		HRESULT (WINAPI *Clone)(IEnumEventObject *This,IEnumEventObject **ppInterface);
@@ -57,7 +57,7 @@ typedef struct IEventObjectCollection IEventObjectCollection;
 const IID IID_IEventObjectCollection;
 typedef struct IEventObjectCollectionVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEventObjectCollection *This,REFIID riid,void **ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEventObjectCollection *This,REFIID riid,gpointer *ppvObject);
 		ULONG (WINAPI *AddRef)(IEventObjectCollection *This);
 		ULONG (WINAPI *Release)(IEventObjectCollection *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(IEventObjectCollection *This,UINT *pctinfo);
@@ -76,13 +76,12 @@ struct IEventObjectCollection {
 	CONST_VTBL struct IEventObjectCollectionVtbl *lpVtbl;
 };
 
-
 typedef struct IEventSystem IEventSystem;
 
 const IID IID_IEventSystem;
 typedef struct IEventSystemVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEventSystem *This,REFIID riid,void **ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEventSystem *This,REFIID riid,gpointer *ppvObject);
 		ULONG (WINAPI *AddRef)(IEventSystem *This);
 		ULONG (WINAPI *Release)(IEventSystem *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(IEventSystem *This,UINT *pctinfo);
@@ -106,7 +105,7 @@ typedef struct IEventSubscription IEventSubscription;
 const IID IID_IEventSubscription;
 typedef struct IEventSubscriptionVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEventSubscription *This,REFIID riid,void **ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEventSubscription *This,REFIID riid,gpointer *ppvObject);
 		ULONG (WINAPI *AddRef)(IEventSubscription *This);
 		ULONG (WINAPI *Release)(IEventSubscription *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(IEventSubscription *This,UINT *pctinfo);
@@ -175,7 +174,7 @@ typedef struct ISensNetwork ISensNetwork;
 const IID IID_ISensNetwork;
 typedef struct ISensNetworkVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(ISensNetwork *This,REFIID riid,void **ppvObject);
+		HRESULT (WINAPI *QueryInterface)(ISensNetwork *This,REFIID riid,gpointer *ppvObject);
 		ULONG (WINAPI *AddRef)(ISensNetwork *This);
 		ULONG (WINAPI *Release)(ISensNetwork *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(ISensNetwork *This,UINT *pctinfo);
@@ -212,7 +211,6 @@ DEFINE_GUID(CLSID_CEventSystem, 0x4E14FBA2, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0x
 
 /* 7542e960-79c7-11d1-88f9-0080c7d771bf */
 DEFINE_GUID(CLSID_CEventSubscription, 0x7542e960, 0x79c7, 0x11d1, 0x88, 0xf9, 0x00, 0x80, 0xc7, 0xd7, 0x71, 0xbf);
-
 
 /* Standard GObject macros */
 #define E_TYPE_WINDOWS_SENS \
@@ -263,7 +261,7 @@ static void e_sens_network_listener_init(ESensNetworkListener**,EWindowsSENS*);
 
 /* Functions to implement ISensNetwork interface */
 
-static HRESULT WINAPI e_sens_network_listener_queryinterface (ISensNetwork*,REFIID,void**);
+static HRESULT WINAPI e_sens_network_listener_queryinterface (ISensNetwork*,REFIID,gpointer *);
 static ULONG WINAPI e_sens_network_listener_addref (ISensNetwork*);
 static ULONG WINAPI e_sens_network_listener_release (ISensNetwork*);
 static HRESULT WINAPI e_sens_network_listener_gettypeinfocount (ISensNetwork*, UINT*);
@@ -292,7 +290,6 @@ static ISensNetworkVtbl ESensNetworkListenerVtbl = {
 	e_sens_network_listener_destinationreachable,
 	e_sens_network_listener_destinationreachablenoqocinfo
 };
-
 
 static HRESULT WINAPI
 e_sens_network_listener_queryinterface (ISensNetwork *This,
@@ -381,7 +378,7 @@ e_sens_network_listener_connectionmade (ISensNetwork  *This,
 }
 
 static HRESULT WINAPI
-e_sens_network_listener_connectionmadenoqocinfo (ISensNetwork *This, 
+e_sens_network_listener_connectionmadenoqocinfo (ISensNetwork *This,
                                                  BSTR          bstrConnection,
                                                  ULONG         ulType)
 {
@@ -438,19 +435,18 @@ e_sens_network_listener_init(ESensNetworkListener **esnl_ptr,
 	(*esnl_ptr)->ref = 1;
 }
 
-
 static BSTR
-_mb2wchar (const char* a)
+_mb2wchar (const gchar * a)
 {
 	static WCHAR b[64];
 	MultiByteToWideChar (0, 0, a, -1, b, 64);
 	return b;
 }
 
-static const char* add_curly_braces_to_uuid (const char* string_uuid)
+static const gchar * add_curly_braces_to_uuid (const gchar * string_uuid)
 {
-	static char curly_braced_uuid_string[64];
-	int i;
+	static gchar curly_braced_uuid_string[64];
+	gint i;
 	if (!string_uuid)
 		return NULL;
 	lstrcpy(curly_braced_uuid_string,"{");
@@ -459,8 +455,8 @@ static const char* add_curly_braces_to_uuid (const char* string_uuid)
 	i = strlen(curly_braced_uuid_string);
 	lstrcat(curly_braced_uuid_string+i,"}");
 	return curly_braced_uuid_string;
-}	
-	
+}
+
 static void
 windows_sens_constructed (GObject *object)
 {
@@ -468,22 +464,22 @@ windows_sens_constructed (GObject *object)
 	static IEventSystem *pEventSystem =0;
 	static IEventSubscription* pEventSubscription = 0;
 	static ESensNetworkListener *pESensNetworkListener = 0;
-	static const char* eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
-	static const char* methods[]={
+	static const gchar * eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
+	static const gchar * methods[]={
 		"ConnectionMade",
 		"ConnectionMadeNoQOCInfo",
 		"ConnectionLost",
 		"DestinationReachable",
 		"DestinationReachableNoQOCInfo"
 	};
-	static const char* names[]={
+	static const gchar * names[]={
 		"EWS_ConnectionMade",
 		"EWS_ConnectionMadeNoQOCInfo",
 		"EWS_ConnectionLost",
 		"EWS_DestinationReachable",
 		"EWS_DestinationReachableNoQOCInfo"
 	};
-	unsigned char* subids[] = { 0, 0, 0, 0, 0 };
+	guchar * subids[] = { 0, 0, 0, 0, 0 };
 
 	EWindowsSENS *extension = (E_WINDOWS_SENS (object));
 	e_sens_network_listener_init(&pESensNetworkListener, extension);
@@ -504,7 +500,7 @@ windows_sens_constructed (GObject *object)
 				UUID tmp_uuid;
 				UuidCreate(&tmp_uuid);
 				UuidToString(&tmp_uuid, &subids[i]);
-				res=pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((char*)subids[i])));
+				res=pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((gchar *)subids[i])));
 				if (res) {
 					RpcStringFree (&subids[i]);
 					break;
@@ -540,7 +536,7 @@ windows_sens_constructed (GObject *object)
 		if (pEventSubscription)
 			pEventSubscription->lpVtbl->Release(pEventSubscription);
 	}
-	
+
 	/* Do not try to get initial state when we are sure we will not get system events.
 	 * Like that we don't get stuck with Disconnected status if we were disconnected
 	 * on start.
