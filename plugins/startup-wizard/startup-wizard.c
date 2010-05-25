@@ -60,17 +60,19 @@ startup_wizard_close (void) {
 void
 startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 {
+	EShell *shell;
 	GtkWidget *start_page;
 	GtkLabel  *start_page_label;
 	GConfClient *client;
 	GSList *accounts;
 	EConfig *config;
 	EMAccountEditor *emae;
-	char *req_view;
+	const gchar *req_view;
 
-	req_view = e_shell_get_startup_view(e_shell_get_default());
+	shell = e_shell_get_default ();
+	req_view = e_shell_get_startup_view (shell);
 
-	if (req_view && strcmp (req_view, "mail") && e_shell_get_express_mode(e_shell_get_default())) {
+	if (req_view && strcmp (req_view, "mail") && e_shell_get_express_mode (shell)) {
 		return;
 	}
 
@@ -86,7 +88,7 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 		return;
 	}
 
-	if (e_shell_get_express_mode (e_shell_get_default ())) {
+	if (e_shell_get_express_mode (shell)) {
 		start_page = (GtkWidget *)mail_capplet_shell_new (0, TRUE, TRUE);
 		gtk_widget_show (start_page);
 

@@ -108,7 +108,7 @@ preferences_window_selection_changed_cb (EPreferencesWindow *window)
 	if (list == NULL)
 		return;
 
-	model = window->priv->store;
+	model = GTK_TREE_MODEL (window->priv->store);
 	gtk_tree_model_get_iter (model, &iter, list->data);
 	gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page, -1);
 
@@ -405,7 +405,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	notebook = GTK_NOTEBOOK (window->priv->notebook);
 
 	page = gtk_notebook_get_n_pages (notebook);
-	model = window->priv->store;
+	model = GTK_TREE_MODEL (window->priv->store);
 	pixbuf = preferences_window_load_pixbuf (icon_name);
 
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
