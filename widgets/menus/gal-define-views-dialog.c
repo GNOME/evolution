@@ -108,7 +108,6 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialo
 						    COL_GALVIEW_DATA, item,
 						    -1);
 
-
 				if (view && GAL_VIEW_GET_CLASS (view)->edit)
 					gal_view_edit (view, GTK_WINDOW (dialog));
 				g_object_unref (view);

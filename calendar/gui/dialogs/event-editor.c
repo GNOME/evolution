@@ -287,6 +287,7 @@ event_editor_constructor (GType type,
 	EventEditorPrivate *priv;
 	GtkActionGroup *action_group;
 	GtkWidget *content_area;
+	EShell *shell;
 	ECal *client;
 	gboolean is_meeting;
 	GtkWidget *alarm_page;
@@ -298,6 +299,8 @@ event_editor_constructor (GType type,
 
 	editor = COMP_EDITOR (object);
 	priv = EVENT_EDITOR_GET_PRIVATE (object);
+
+	shell = comp_editor_get_shell (editor);
 
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
@@ -327,7 +330,7 @@ event_editor_constructor (GType type,
 
 	priv->recur_page = recurrence_page_new (editor);
 	page = COMP_EDITOR_PAGE (priv->recur_page);
-	if (!e_shell_get_express_mode(e_shell_get_default())) {
+	if (!e_shell_get_express_mode (shell)) {
 		gtk_container_add (
 			GTK_CONTAINER ((GTK_DIALOG (priv->recur_window)->vbox)),
 			comp_editor_page_get_widget (page));
@@ -337,7 +340,7 @@ event_editor_constructor (GType type,
 		comp_editor_append_page (editor, page, _("_Recurrence"), TRUE);
 	}
 
-	if (e_shell_get_express_mode(e_shell_get_default())) {
+	if (e_shell_get_express_mode (shell)) {
 		ENameSelector *name_selector;
 
 		priv->sched_page = schedule_page_new (priv->model, editor);
@@ -372,7 +375,7 @@ event_editor_constructor (GType type,
 		event_page_set_meeting (priv->event_page, TRUE);
 		priv->meeting_shown=TRUE;
 
-		if (e_shell_get_express_mode(e_shell_get_default())) {
+		if (e_shell_get_express_mode (shell)) {
 			attendee_page = event_page_get_attendee_page (priv->event_page);
 			comp_editor_append_widget (editor, attendee_page, _("Attendee_s"), TRUE);
 			g_object_unref(attendee_page);

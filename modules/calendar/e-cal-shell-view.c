@@ -277,6 +277,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	ECalShellContent *cal_shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
+	EShell *shell;
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalendarView *view;
@@ -303,8 +304,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
-	if (e_shell_get_express_mode(e_shell_get_default())) {
+	if (e_shell_get_express_mode (shell)) {
 		GtkWidget *widget, *item;
 
 		/* Hack: Get rid of New and Send/Receive in toolbar
@@ -498,7 +500,10 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
 
-	if (e_shell_get_express_mode(e_shell_get_default()))
+	/* XXX This is an unusual place to need an EShell instance.
+	 *     Would be cleaner to implement a method that either
+	 *     chains up or does nothing based on express mode. */
+	if (e_shell_get_express_mode (e_shell_get_default ()))
 		shell_view_class->construct_searchbar = NULL;
 
 }

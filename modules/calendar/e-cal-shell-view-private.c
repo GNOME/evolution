@@ -464,7 +464,9 @@ system_timezone_monitor_changed (GFileMonitor *handle,
 	current_zone = e_cal_model_get_timezone (model);
 	timezone = e_cal_util_get_system_timezone ();
 
-	if (!g_strcmp0 (icaltimezone_get_tzid (timezone), icaltimezone_get_tzid (current_zone)))
+	if (!g_strcmp0 (
+		icaltimezone_get_tzid (timezone),
+		icaltimezone_get_tzid (current_zone)))
 		return;
 
 	shell_backend = e_shell_view_get_shell_backend ((EShellView *) view);

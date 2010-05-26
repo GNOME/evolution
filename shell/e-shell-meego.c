@@ -140,7 +140,8 @@ void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
 #endif
 
 #ifdef TEST_APP
-/* gcc -g -O0 -Wall -I. -DTEST_APP `pkg-config --cflags --libs gtk+-2.0` e-shell-meego.c && ./a.out */
+/* gcc -g -O0 -Wall -I. -DTEST_APP `pkg-config --cflags --libs gtk+-2.0`
+ *     e-shell-meego.c && ./a.out */
 #include <gtk/gtk.h>
 
 gint main (gint argc, gchar **argv)

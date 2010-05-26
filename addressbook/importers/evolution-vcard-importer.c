@@ -739,28 +739,40 @@ preview_contact (EWebViewPreview *preview, EContact *contact)
 				g_date_set_dmy (&gd, dt->day, dt->month, dt->year);
 				g_date_to_struct_tm (&gd, &tm);
 
-				value = e_datetime_format_format_tm ("addressbook", "table", DTFormatKindDate, &tm);
+				value = e_datetime_format_format_tm (
+					"addressbook", "table",
+					DTFormatKindDate, &tm);
 				if (value) {
-					e_web_view_preview_add_section (preview, e_contact_pretty_name (field), value);
+					e_web_view_preview_add_section (
+						preview,
+						e_contact_pretty_name (field),
+						value);
 					had_value = TRUE;
 				}
 
 				g_free (value);
 				e_contact_date_free (dt);
 			}
-		} else if (field == E_CONTACT_IS_LIST || field == E_CONTACT_WANTS_HTML || field == E_CONTACT_LIST_SHOW_ADDRESSES) {
+		} else if (field == E_CONTACT_IS_LIST ||
+			   field == E_CONTACT_WANTS_HTML ||
+			   field == E_CONTACT_LIST_SHOW_ADDRESSES) {
 			if (e_contact_get (contact, field)) {
-				e_web_view_preview_add_text (preview, e_contact_pretty_name (field));
+				e_web_view_preview_add_text (
+					preview, e_contact_pretty_name (field));
 				had_value = TRUE;
 			}
-		} else if (field == E_CONTACT_ADDRESS_HOME || field == E_CONTACT_ADDRESS_WORK || field == E_CONTACT_ADDRESS_OTHER) {
+		} else if (field == E_CONTACT_ADDRESS_HOME ||
+			   field == E_CONTACT_ADDRESS_WORK ||
+			   field == E_CONTACT_ADDRESS_OTHER) {
 			EContactAddress *addr = e_contact_get (contact, field);
 			if (addr) {
 				gboolean have = FALSE;
 
 				#define add_it(_what)	\
 					if (addr->_what && *addr->_what) {	\
-						e_web_view_preview_add_section (preview, have ? NULL : e_contact_pretty_name (field), addr->_what);	\
+						e_web_view_preview_add_section ( \
+							preview, have ? NULL : \
+							e_contact_pretty_name (field), addr->_what);	\
 						have = TRUE;	\
 						had_value = TRUE;	\
 					}
@@ -777,10 +789,14 @@ preview_contact (EWebViewPreview *preview, EContact *contact)
 
 				e_contact_address_free (addr);
 			}
-		} else if (field == E_CONTACT_IM_AIM || field == E_CONTACT_IM_GROUPWISE ||
-			   field == E_CONTACT_IM_JABBER || field == E_CONTACT_IM_YAHOO ||
-			   field == E_CONTACT_IM_MSN || field == E_CONTACT_IM_ICQ ||
-			   field == E_CONTACT_IM_GADUGADU || field == E_CONTACT_IM_SKYPE ||
+		} else if (field == E_CONTACT_IM_AIM ||
+			   field == E_CONTACT_IM_GROUPWISE ||
+			   field == E_CONTACT_IM_JABBER ||
+			   field == E_CONTACT_IM_YAHOO ||
+			   field == E_CONTACT_IM_MSN ||
+			   field == E_CONTACT_IM_ICQ ||
+			   field == E_CONTACT_IM_GADUGADU ||
+			   field == E_CONTACT_IM_SKYPE ||
 			   field == E_CONTACT_EMAIL) {
 			GList *attrs, *a;
 			gboolean have = FALSE;
@@ -797,7 +813,9 @@ preview_contact (EWebViewPreview *preview, EContact *contact)
 					const gchar *str = value->data;
 
 					if (str && *str) {
-						e_web_view_preview_add_section (preview, have ? NULL : e_contact_pretty_name (field), str);
+						e_web_view_preview_add_section (
+							preview, have ? NULL :
+							e_contact_pretty_name (field), str);
 						have = TRUE;
 						had_value = TRUE;
 					}
@@ -921,7 +939,9 @@ evolution_contact_importer_get_preview_widget (const GList *contacts)
 
 	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_select_iter (selection, &iter);
-	g_signal_connect (selection, "changed", G_CALLBACK (preview_selection_changed_cb), preview);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (preview_selection_changed_cb), preview);
 
 	preview_selection_changed_cb (selection, E_WEB_VIEW_PREVIEW (preview));
 

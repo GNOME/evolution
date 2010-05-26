@@ -217,6 +217,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	EShellView *shell_view;
 	CamelFolder *folder;
 	GtkWindow *parent;
+	MailFolderCache *cache;
 	MessageList *message_list;
 	GPtrArray *uids;
 	const gchar *key;
@@ -232,8 +233,9 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
+	cache = mail_folder_cache_get_default ();
 	key = "/apps/evolution/mail/prompts/mark_all_read";
-	if (mail_folder_cache_get_folder_has_children (mail_folder_cache_get_default (), folder, NULL))
+	if (mail_folder_cache_get_folder_has_children (cache, folder, NULL))
 		prompt = "mail:ask-mark-all-read-sub";
 	else
 		prompt = "mail:ask-mark-all-read";

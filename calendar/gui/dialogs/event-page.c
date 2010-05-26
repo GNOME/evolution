@@ -724,6 +724,7 @@ static void
 sensitize_widgets (EventPage *epage)
 {
 	ECal *client;
+	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags;
 	GtkActionGroup *action_group;
@@ -735,6 +736,7 @@ sensitize_widgets (EventPage *epage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
 
 	priv = epage->priv;
 	if (flags & COMP_EDITOR_MEETING)
@@ -828,7 +830,7 @@ sensitize_widgets (EventPage *epage)
 	} else {
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
-		if (!e_shell_get_express_mode(e_shell_get_default()))
+		if (!e_shell_get_express_mode (shell))
 			gtk_widget_show (priv->attendee_box);
 		gtk_widget_show (priv->organizer);
 		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer:"));
@@ -2131,6 +2133,7 @@ event_page_set_info_string (EventPage *epage, const gchar *icon, const gchar *ms
 static gboolean
 get_widgets (EventPage *epage)
 {
+	EShell *shell;
 	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (epage);
 	GtkEntryCompletion *completion;
@@ -2146,6 +2149,7 @@ get_widgets (EventPage *epage)
 #define GW(name) e_builder_get_widget (priv->builder, name)
 
 	editor = comp_editor_page_get_editor (page);
+	shell = comp_editor_get_shell (editor);
 
 	priv->main = GW ("event-page");
 	if (!priv->main)
@@ -2200,7 +2204,7 @@ get_widgets (EventPage *epage)
 
 	priv->invite = GW ("invite");
 	priv->invite_label = GW ("invite-label");
-	if (e_shell_get_express_mode (e_shell_get_default ()))
+	if (e_shell_get_express_mode (shell))
 		gtk_widget_hide (priv->invite);
 	else
 		gtk_widget_hide (priv->invite_label);

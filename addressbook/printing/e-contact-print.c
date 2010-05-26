@@ -277,7 +277,6 @@ e_contact_get_contact_height (EContact *contact, EContactPrintContext *ctxt)
 	return cntct_height;
 }
 
-
 static void
 e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 {
@@ -338,10 +337,16 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 				ctxt->context, ctxt->style->body_font,
 				ctxt->x, ctxt->y, ctxt->column_width + 4, text);
 
-		if ( get_font_width (ctxt->context, ctxt->style->body_font, text) > ctxt->column_width)
-			wrapped_lines =  ( get_font_width (ctxt->context, ctxt->style->body_font, text) / (ctxt->column_width+4)) + 1;
-		ctxt->y = ctxt->y + ((wrapped_lines+1) *e_contact_text_height (
-			ctxt->context, ctxt->style->body_font, text));
+		if (get_font_width (ctxt->context,
+			ctxt->style->body_font, text) > ctxt->column_width)
+			wrapped_lines =
+				(get_font_width (ctxt->context,
+				ctxt->style->body_font, text) /
+				(ctxt->column_width+4)) + 1;
+		ctxt->y =
+			ctxt->y + ((wrapped_lines + 1) *
+			e_contact_text_height (ctxt->context,
+			ctxt->style->body_font, text));
 
 		ctxt->y += .2 * get_font_height (ctxt->style->body_font);
 
@@ -352,8 +357,6 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 
 	cairo_restore (cr);
 }
-
-
 
 static gint
 contact_compare (EContact *contact1, EContact *contact2)
@@ -651,7 +654,8 @@ contact_draw (EContact *contact, EContactPrintContext *ctxt)
 		ctxt->first_section = FALSE;
 	}
 
-	else if (!ctxt->first_contact && (( ctxt->y + e_contact_get_contact_height (contact, ctxt)) > page_height)) {
+	else if (!ctxt->first_contact && ((ctxt->y +
+		e_contact_get_contact_height (contact, ctxt)) > page_height)) {
 		e_contact_start_new_column (ctxt);
 		if (ctxt->style->letter_headings)
 			e_contact_print_letter_heading (ctxt, ctxt->section);
@@ -712,8 +716,8 @@ contact_begin_print (GtkPrintOperation *operation,
 	}
 }
 
-/* contact_page_draw_footer inserts the 
- * page number at the end of each page 
+/* contact_page_draw_footer inserts the
+ * page number at the end of each page
  * while printing*/
 void
 contact_page_draw_footer (GtkPrintOperation *operation,
@@ -727,7 +731,7 @@ contact_page_draw_footer (GtkPrintOperation *operation,
 	gchar *text;
 	cairo_t *cr;
 	GtkPageSetup *setup;
-	
+
 	/*Uncomment next if it is successful to get total number if pages in list view
 	 * g_object_get (operation, "n-pages", &n_pages, NULL)*/
 	text = g_strdup_printf (_("Page %d"), page_nr + 1);

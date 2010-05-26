@@ -1518,7 +1518,9 @@ view_transfer_contacts (EAddressbookView *view,
 		e_book_query_unref (query);
 
 		if (error) {
-			e_alert_run_dialog_for_args (parent, "addressbook:search-error", error->message, NULL);
+			e_alert_run_dialog_for_args (
+				parent, "addressbook:search-error",
+				error->message, NULL);
 			g_error_free (error);
 			return;
 		}

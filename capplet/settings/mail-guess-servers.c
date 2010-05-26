@@ -226,15 +226,8 @@ is_online (void)
 {
 	EShell *shell;
 
+	/* FIXME Pass this in. */
 	shell = e_shell_get_default ();
-	if (!shell) {
-		 /* FIXME: do we always have a shell?  What do we do if one
-		  * hasn't been created yet?  e_shell_get_default() won't create
-		  * a shell; it will just return one that has been created
-		  * before.
-		  */
-		return FALSE;
-	}
 
 	return e_shell_get_online (shell);
 }
@@ -252,7 +245,9 @@ guess_when_online (EmailProvider *provider)
 	proxy = e_proxy_new ();
 	e_proxy_setup_proxy (proxy);
 
-	url = g_strdup_printf("%s/%s", "http://api.gnome.org/evolution/autoconfig", provider->domain);
+	url = g_strdup_printf (
+		"%s/%s", "http://api.gnome.org/evolution/autoconfig",
+		provider->domain);
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
 

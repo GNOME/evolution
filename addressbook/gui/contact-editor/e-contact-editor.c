@@ -3508,6 +3508,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GtkWidget *widget, *label;
 	GtkEntryCompletion *completion;
 
+	/* FIXME The shell should be obtained
+	 *       through a constructor property. */
+	shell = e_shell_get_default ();
+
 	e_contact_editor->name = e_contact_name_new();
 
 	e_contact_editor->contact = NULL;
@@ -3518,7 +3522,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->target_editable = TRUE;
 	e_contact_editor->fullname_dialog = NULL;
 	e_contact_editor->categories_dialog = NULL;
-	e_contact_editor->compress_ui = e_shell_get_express_mode (e_shell_get_default ());
+	e_contact_editor->compress_ui = e_shell_get_express_mode (shell);
 
 	e_contact_editor->load_source_id = 0;
 	e_contact_editor->load_book = NULL;
@@ -3587,8 +3591,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	/* show window */
 	gtk_widget_show (e_contact_editor->app);
 
-	/* FIXME Shell should be passed in. */
-	shell = e_shell_get_default ();
 	e_shell_watch_window (shell, GTK_WINDOW (e_contact_editor->app));
 }
 

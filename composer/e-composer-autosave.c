@@ -81,7 +81,9 @@ composer_autosave_state_new (EMsgComposer *composer)
 	state->source_id = 0;
 	state->composer = composer;
 
-	g_signal_connect (composer, "notify::changed", G_CALLBACK (composer_changed_cb), NULL);
+	g_signal_connect (
+		composer, "notify::changed",
+		G_CALLBACK (composer_changed_cb), NULL);
 
 	return state;
 }

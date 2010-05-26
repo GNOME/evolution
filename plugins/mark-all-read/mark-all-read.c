@@ -91,7 +91,14 @@ prompt_user (gboolean has_subfolders)
 	gint response;
 
 	if (!has_subfolders) {
-		return em_utils_prompt_user (e_shell_get_active_window (e_shell_get_default ()), NULL, "mail:ask-mark-all-read", NULL) ?
+		EShell *shell;
+		GtkWindow *parent;
+
+		shell = e_shell_get_default ();
+		parent = e_shell_get_active_window (shell);
+
+		return em_utils_prompt_user (
+			parent, NULL, "mail:ask-mark-all-read", NULL) ?
 			GTK_RESPONSE_NO : GTK_RESPONSE_CANCEL;
 	}
 

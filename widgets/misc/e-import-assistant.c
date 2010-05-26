@@ -802,12 +802,16 @@ simple_filetype_changed_cb (GtkComboBox *combo_box, GtkAssistant *assistant)
 		gtk_widget_destroy (page->control);
 	page->has_preview = FALSE;
 
-	control = e_import_get_preview_widget (priv->import, (EImportTarget *) page->target, page->importer);
+	control = e_import_get_preview_widget (
+		priv->import, (EImportTarget *)
+		page->target, page->importer);
 	if (control) {
 		page->has_preview = TRUE;
 		gtk_widget_set_size_request (control, 320, 240);
 	} else
-		control = create_importer_control (priv->import, (EImportTarget *)page->target, page->importer);
+		control = create_importer_control (
+			priv->import, (EImportTarget *)
+			page->target, page->importer);
 
 	page->control = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_widget_show (page->control);
@@ -876,12 +880,17 @@ prepare_simple_page (GtkAssistant *assistant, GtkWidget *vbox)
 
 		gtk_widget_hide (page->filetypetable);
 
-		title = g_strconcat (_("Import Data"), " - ", ((EImportImporter *)importers->data)->name, NULL);
+		title = g_strconcat (
+			_("Import Data"), " - ",
+			((EImportImporter *)importers->data)->name, NULL);
 		gtk_assistant_set_page_title (assistant, vbox, title);
 		g_free (title);
 	} else {
 		/* multiple importers found, be able to choose from them */
-		gtk_label_set_text (GTK_LABEL (page->actionlabel), _("Select what type of file you want to import from the list."));
+		gtk_label_set_text (
+			GTK_LABEL (page->actionlabel),
+			_("Select what type of file you "
+			  "want to import from the list."));
 
 		gtk_widget_show (page->filetypetable);
 

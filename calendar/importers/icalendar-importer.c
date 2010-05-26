@@ -1146,10 +1146,16 @@ static icaltimezone *
 get_users_timezone (void)
 {
 	/* more or less copy&paste of calendar_config_get_icaltimezone */
+	EShell *shell;
+	EShellSettings *shell_settings;
 	icaltimezone *zone = NULL;
 	gchar *location;
 
-	if (e_shell_settings_get_boolean (e_shell_get_shell_settings (e_shell_get_default ()), "cal-use-system-timezone")) {
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	if (e_shell_settings_get_boolean (shell_settings, "cal-use-system-timezone")) {
 		location = e_cal_util_get_system_timezone_location ();
 	} else {
 		GConfClient *client = gconf_client_get_default ();

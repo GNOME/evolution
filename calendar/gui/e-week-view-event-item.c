@@ -195,10 +195,13 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
 		return FALSE;
 
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				event_item->priv->event_num);
+	event = &g_array_index (
+		week_view->events, EWeekViewEvent,
+		event_item->priv->event_num);
 
-	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + event_item->priv->span_num))
+	if (!is_array_index_in_bounds (
+		week_view->spans, event->spans_index +
+		event_item->priv->span_num))
 		return FALSE;
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
@@ -759,11 +762,14 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		event->spans_index + event_item->priv->span_num <
 		week_view->spans->len);
 
-	if (!is_array_index_in_bounds (week_view->spans, event->spans_index + event_item->priv->span_num))
+	if (!is_array_index_in_bounds (
+		week_view->spans, event->spans_index +
+		event_item->priv->span_num))
 		return;
 
-	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-			       event->spans_index + event_item->priv->span_num);
+	span = &g_array_index (
+		week_view->spans, EWeekViewEventSpan,
+		event->spans_index + event_item->priv->span_num);
 
 	gc = week_view->main_gc;
 

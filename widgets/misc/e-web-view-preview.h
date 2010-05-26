@@ -80,8 +80,8 @@ GtkTreeView *	e_web_view_preview_get_tree_view(EWebViewPreview *preview);
 GtkWidget *	e_web_view_preview_get_preview	(EWebViewPreview *preview);
 void		e_web_view_preview_set_preview  (EWebViewPreview *preview, GtkWidget *preview_widget);
 
-void 		e_web_view_preview_show_tree_view(EWebViewPreview *preview);
-void 		e_web_view_preview_hide_tree_view(EWebViewPreview *preview);
+void		e_web_view_preview_show_tree_view(EWebViewPreview *preview);
+void		e_web_view_preview_hide_tree_view(EWebViewPreview *preview);
 
 void		e_web_view_preview_set_escape_values(EWebViewPreview *preview, gboolean escape);
 gboolean	e_web_view_preview_get_escape_values(EWebViewPreview *preview);

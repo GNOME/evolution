@@ -637,7 +637,7 @@ cal_shell_sidebar_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	if (!e_shell_get_express_mode(e_shell_get_default())) {
+	if (!e_shell_get_express_mode (shell)) {
 		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
 	} else {
 		GtkWidget *button;
@@ -647,7 +647,9 @@ cal_shell_sidebar_constructed (GObject *object)
 
 		button = gtk_button_new_with_label (_("New Calendar..."));
 		gtk_box_pack_start (GTK_BOX(container), button, FALSE, FALSE, 0);
-		g_signal_connect (button, "clicked", G_CALLBACK(new_calendar_clicked), shell_sidebar);
+		g_signal_connect (
+			button, "clicked",
+			G_CALLBACK (new_calendar_clicked), shell_sidebar);
 
 		gtk_paned_pack1 (GTK_PANED (priv->paned), container, TRUE, TRUE);
 		gtk_widget_show_all (container);

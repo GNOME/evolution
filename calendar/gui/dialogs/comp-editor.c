@@ -1590,11 +1590,14 @@ comp_editor_init (CompEditor *editor)
 	GtkWindow *window;
 	GtkWidget *scroll = NULL;
 	EShell *shell;
+	gboolean express_mode;
 	gint n_targets;
 	GError *error = NULL;
 
-	/* FIXME Shell should be passed in. */
+	/* FIXME We already have a 'shell' property.  Move stuff
+	 *       that depends on it to a constructed() method. */
 	shell = e_shell_get_default ();
+	express_mode = e_shell_get_express_mode (shell);
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
 
@@ -1619,8 +1622,8 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 
 	priv->ui_manager = e_ui_manager_new ();
-	e_ui_manager_set_express_mode (E_UI_MANAGER (priv->ui_manager),
-				       e_shell_get_express_mode (shell));
+	e_ui_manager_set_express_mode (
+		E_UI_MANAGER (priv->ui_manager), express_mode);
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (editor),
@@ -1719,7 +1722,7 @@ comp_editor_init (CompEditor *editor)
 
 	container = widget;
 
-	if (!e_shell_get_express_mode (shell)) {
+	if (!express_mode) {
 		widget = comp_editor_get_managed_widget (editor, "/main-menu");
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 		gtk_widget_set_visible (widget, !e_shell_get_meego_mode (shell));
@@ -1735,7 +1738,7 @@ comp_editor_init (CompEditor *editor)
 	priv->attachment_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	if (e_shell_get_express_mode (shell)) {
+	if (express_mode) {
 		/*GtkWidget *tmp, *tmp1, *tmp_box, */
 		GtkWidget *cont;
 		GtkWidget *combo;
@@ -1773,7 +1776,7 @@ comp_editor_init (CompEditor *editor)
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_view));
 
-	if (e_shell_get_express_mode (shell)) {
+	if (express_mode) {
 		scroll = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_widget_show(scroll);
@@ -1781,14 +1784,14 @@ comp_editor_init (CompEditor *editor)
 	}
 
 	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), e_shell_get_express_mode (shell));
-	if (!e_shell_get_express_mode (shell))
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), express_mode);
+	if (!express_mode)
 		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	else
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) scroll, widget);
 	priv->notebook = GTK_NOTEBOOK (widget);
 	gtk_widget_show (widget);
-	if (e_shell_get_express_mode (shell))
+	if (express_mode)
 		gtk_widget_set_size_request (scroll, 300, -1);
 	comp_editor_setup_recent_menu (editor);
 
