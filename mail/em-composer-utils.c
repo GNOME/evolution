@@ -585,8 +585,6 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	if (!ok)
 		goto done;
 
-	composer_set_no_change (sdi->composer, FALSE, FALSE);
-
 	if ((emcs = sdi->emcs) == NULL)
 		emcs = emcs_new ();
 
@@ -994,7 +992,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 		emcs_set_drafts_info (emcs, drafts, uid);
 	}
 
-	composer_set_no_change (composer, TRUE, FALSE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	if (!e_msg_composer_get_lite())
 		gtk_widget_show (GTK_WIDGET (composer));
