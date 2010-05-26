@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-05-26 13:29+0000\n"
-"PO-Revision-Date: 2010-05-26 17:52+0200\n"
+"POT-Creation-Date: 2010-05-25 07:44+0000\n"
+"PO-Revision-Date: 2010-05-25 18:07+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3996,6 +3996,7 @@ msgid "Appoint_ment"
 msgstr "_Cita"
 
 #: ../calendar/gui/dialogs/event-editor.c:528
+#| msgid "Print this message"
 msgid "Print this event"
 msgstr "Imprime este acontecimiento"
 
@@ -4190,6 +4191,7 @@ msgid "Memo"
 msgstr "Nota"
 
 #: ../calendar/gui/dialogs/memo-editor.c:156
+#| msgid "Print the list of memos"
 msgid "Print this memo"
 msgstr "Imprimir esta nota"
 
@@ -4577,6 +4579,7 @@ msgid "Task Details"
 msgstr "Detalles"
 
 #: ../calendar/gui/dialogs/task-editor.c:368
+#| msgid "Print the list of tasks"
 msgid "Print this task"
 msgstr "Imprimir esta tarea"
 
@@ -4785,12 +4788,14 @@ msgstr "Ninguna"
 #: ../calendar/gui/e-meeting-list-view.c:187
 #: ../calendar/gui/e-meeting-store.c:169 ../calendar/gui/e-meeting-store.c:179
 #: ../calendar/gui/e-meeting-store.c:829
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "Sí"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1065 ../calendar/gui/e-cal-model.c:1249
 #: ../calendar/gui/e-meeting-list-view.c:188
 #: ../calendar/gui/e-meeting-store.c:181
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "No"
 
@@ -6376,68 +6381,81 @@ msgstr "Importador inteligente del calendario de Evolution"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1237
+#| msgctxt "New"
+#| msgid "M_eeting"
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Reunión"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1237
+#| msgid "Events"
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Acontecimiento"
 
 #: ../calendar/importers/icalendar-importer.c:929
 #: ../calendar/importers/icalendar-importer.c:1238
+#| msgid "Task"
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Tarea"
 
 #: ../calendar/importers/icalendar-importer.c:932
 #: ../calendar/importers/icalendar-importer.c:1239
+#| msgid "Memo"
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Nota"
 
 #: ../calendar/importers/icalendar-importer.c:941
+#| msgid "It has recurrences."
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "tiene repeticiones"
 
 #: ../calendar/importers/icalendar-importer.c:946
+#| msgid "This and Prior Instances"
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "es una instancia"
 
 #: ../calendar/importers/icalendar-importer.c:951
+#| msgid "It has alarms."
 msgctxt "iCalImp"
 msgid "has alarms"
 msgstr "tiene alertas"
 
 #: ../calendar/importers/icalendar-importer.c:956
+#| msgid "%s attachment"
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "tiene adjuntos"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:969
+#| msgid "Public"
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Pública"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:972
+#| msgid "Private"
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Privado"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:975
+#| msgid "Confidential"
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Confidencial"
 
 #. Translators: Appointment's classification section name
 #: ../calendar/importers/icalendar-importer.c:979
+#| msgid "Classification"
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Clasificación"
@@ -6446,12 +6464,14 @@ msgstr "Clasificación"
 #. Translators: Column header for a component summary
 #: ../calendar/importers/icalendar-importer.c:984
 #: ../calendar/importers/icalendar-importer.c:1278
+#| msgid "Summary"
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Resumen"
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:990
+#| msgid "Location"
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Lugar"
@@ -6460,36 +6480,42 @@ msgstr "Lugar"
 #. Translators: Column header for a component start date/time
 #: ../calendar/importers/icalendar-importer.c:998
 #: ../calendar/importers/icalendar-importer.c:1274
+#| msgid "Start"
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Empieza"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1009
+#| msgid "Due"
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Vence"
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1021
+#| msgid "End"
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Termina"
 
 #. Translators: Appointment's categories
 #: ../calendar/importers/icalendar-importer.c:1031
+#| msgid "Categories"
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Categorías"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
 #: ../calendar/importers/icalendar-importer.c:1055
+#| msgid "Completed"
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Completada"
 
 #. Translators: Appointment's URL
 #: ../calendar/importers/icalendar-importer.c:1063
+#| msgid "URL"
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
@@ -6497,6 +6523,7 @@ msgstr "URL"
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1074
 #: ../calendar/importers/icalendar-importer.c:1077
+#| msgid "Organizer"
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizador"
@@ -6504,17 +6531,20 @@ msgstr "Organizador"
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1097
 #: ../calendar/importers/icalendar-importer.c:1100
+#| msgid "Attendees"
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Participantes"
 
 #: ../calendar/importers/icalendar-importer.c:1114
+#| msgid "Description"
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Descripción"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
 #: ../calendar/importers/icalendar-importer.c:1270
+#| msgid "Type"
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tipo"
@@ -9080,7 +9110,7 @@ msgstr "Asunto"
 msgid "Mailer"
 msgstr "Transporte"
 
-#: ../em-format/em-format-quote.c:423 ../mail/em-composer-utils.c:1218
+#: ../em-format/em-format-quote.c:423 ../mail/em-composer-utils.c:1220
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
@@ -10343,25 +10373,25 @@ msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#: ../mail/em-composer-utils.c:1568
+#: ../mail/em-composer-utils.c:1570
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Su mensaje para %s acerca de «%s» se ha leído el «%s»"
 
 #. Translators: %s is the subject of the email message
-#: ../mail/em-composer-utils.c:1616
+#: ../mail/em-composer-utils.c:1618
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Notificación de entrega para: «%s»"
 
-#: ../mail/em-composer-utils.c:1945
+#: ../mail/em-composer-utils.c:1947
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1992
+#: ../mail/em-composer-utils.c:1994
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10369,15 +10399,15 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:2136
+#: ../mail/em-composer-utils.c:2138
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
-#: ../mail/em-composer-utils.c:2317
+#: ../mail/em-composer-utils.c:2319
 msgid "Posting destination"
 msgstr "Destino de publicación"
 
-#: ../mail/em-composer-utils.c:2318
+#: ../mail/em-composer-utils.c:2320
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
@@ -12173,12 +12203,14 @@ msgstr "Seleccione la carpeta en la que importar"
 
 #. Translators: Column header for a message subject
 #: ../mail/importers/evolution-mbox-importer.c:372
+#| msgid "Subject"
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Asunto"
 
 #. Translators: Column header for a message From address
 #: ../mail/importers/evolution-mbox-importer.c:376
+#| msgid "From"
 msgctxt "mboxImp"
 msgid "From"
 msgstr "De"
@@ -12682,6 +12714,7 @@ msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
 #: ../mail/mail-config.ui.h:120
+#| msgid "Sig_ning certificate:"
 msgid "Si_gning algorithm:"
 msgstr "Algoritmo de _firma:"
 
@@ -12702,6 +12735,7 @@ msgid "Signatures"
 msgstr "Firmas"
 
 #: ../mail/mail-config.ui.h:125
+#| msgid "Sig_ning certificate:"
 msgid "Signing _algorithm:"
 msgstr "_Algoritmo de firma:"
 
@@ -13845,6 +13879,9 @@ msgstr ""
 "subcarpetas."
 
 #: ../mail/mail.error.xml.h:110
+#| msgid ""
+#| "This will mark all messages as read in the selected folder and its "
+#| "subfolders."
 msgid "This will mark all messages as read in the selected folder."
 msgstr ""
 "Esto marcará todos los mensajes como leídos en la carpeta seleccionada."
@@ -15953,6 +15990,7 @@ msgstr ""
 "predeterminado."
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:138
+#| msgid "Do you want to make Evolution your default e-mail client?"
 msgid "Do you want to make Evolution your default email client?"
 msgstr "¿Quiere que Evolution sea su cliente de correo predeterminado?"
 
@@ -18110,17 +18148,16 @@ msgid "Itip Formatter"
 msgstr "Formateador iTip"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
-#| msgid ""
-#| "&quot;{0}&quot; has delegated the meeting. Do you want to add the "
-#| "delegate &quot;{1}&quot;?"
-msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
+msgid ""
+"&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
+"&quot;{1}&quot;?"
 msgstr "«{0}» ha delegado la reunión. ¿Quiere añadir al delegado «{1}»?"
 
-#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
 msgstr "Esta reunión se ha delegado"
 
-#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "Esta respuesta no es de un asistente. ¿Desea añadirlo como asistente?"
@@ -20569,14 +20606,17 @@ msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 con cifrado RSA"
 
 #: ../smime/lib/e-cert.c:639
+#| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-256 With RSA Encryption"
 msgstr "PKCS #1 SHA-256 con cifrado RSA"
 
 #: ../smime/lib/e-cert.c:642
+#| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-384 With RSA Encryption"
 msgstr "PKCS #1 SHA-384 con cifrado RSA"
 
 #: ../smime/lib/e-cert.c:645
+#| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-512 With RSA Encryption"
 msgstr "PKCS #1 SHA-512 con cifrado RSA"
 
@@ -21158,6 +21198,7 @@ msgstr ""
 "botón «Atrás»."
 
 #: ../widgets/misc/e-import-assistant.c:874
+#| msgid "Preview the message to be printed"
 msgid "Preview data to be imported"
 msgstr "Vista previa de los datos para importar"
 

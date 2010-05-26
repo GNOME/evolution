@@ -59,10 +59,10 @@ struct _EComposerTextHeaderClass {
 GType		e_composer_text_header_get_type	(void);
 
 EComposerHeader *
-e_composer_text_header_new_label (const gchar *label, const gchar *action_label);
+e_composer_text_header_new_label (const gchar *label);
 
 EComposerHeader *
-e_composer_text_header_new_button (const gchar *label, const gchar *action_label);
+e_composer_text_header_new_button (const gchar *label);
 
 const gchar *	e_composer_text_header_get_text	(EComposerTextHeader *header);
 void		e_composer_text_header_set_text (EComposerTextHeader *header,

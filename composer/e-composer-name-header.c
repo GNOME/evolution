@@ -295,33 +295,11 @@ e_composer_name_header_new (const gchar *label,
 {
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 
-	return g_object_new (
-		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", !e_msg_composer_get_lite(), "name-selector", name_selector, NULL);
-}
-
-EComposerHeader *
-e_composer_name_header_new_with_label (const gchar *label,
-                                       ENameSelector *name_selector)
-{
-	return g_object_new (
-		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", !e_msg_composer_get_lite(),  "name-selector", name_selector,
-		"addaction", FALSE, "visible", TRUE, NULL);
-}
-
-EComposerHeader *
-e_composer_name_header_new_with_action (const gchar *label,
-                                        const gchar *action_label,
-                                        ENameSelector *name_selector)
-{
-	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
-
-	return g_object_new (
-		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", !e_msg_composer_get_lite(), "name-selector", name_selector,
-		"addaction_text", action_label,
-		"addaction", action_label != NULL, NULL);
+	return g_object_new (E_TYPE_COMPOSER_NAME_HEADER,
+			     "label", label,
+			     "button", TRUE,
+			     "name-selector", name_selector,
+			     NULL);
 }
 
 ENameSelector *

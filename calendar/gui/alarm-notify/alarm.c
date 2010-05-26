@@ -152,7 +152,8 @@ setup_timeout (void)
 	now = time (NULL);
 
 	/* Add the time out */
-	d(g_message ("Setting timeout for %d %lu %lu", diff, ar->trigger, now));
+	d(g_message ("Setting timeout for %d.%2d (from now) %lu %lu",
+		     diff / 60, diff % 60, ar->trigger, now));
 	d(g_message (" %s", ctime (&ar->trigger)));
 	d(g_message (" %s", ctime (&now)));
 	timeout_id = g_timeout_add_seconds (diff, alarm_ready_cb, NULL);

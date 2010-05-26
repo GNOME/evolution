@@ -50,6 +50,11 @@ guint		e_shell_utils_import_uris	(EShell *shell,
 						 gchar **uris,
 						 gboolean preview);
 
+void		e_shell_hide_widgets_for_express_mode (EShell *shell,
+						       GtkBuilder *builder,
+						       const gchar *widget_name,
+						       ...) G_GNUC_NULL_TERMINATED;
+
 G_END_DECLS
 
 #endif /* E_SHELL_UTILS_H */

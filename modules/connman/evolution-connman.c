@@ -71,6 +71,11 @@ connman_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	DBusError error = DBUS_ERROR_INIT;
 	DBusHandlerResult ret = DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
+	if (!dbus_message_has_path (message, CM_DBUS_PATH) ||
+	    !dbus_message_has_interface (message, CM_DBUS_INTERFACE) ||
+	    !dbus_message_has_member (message, "StateChanged"))
+		goto err_exit;
+
 	if (!dbus_message_get_args (message, &error,
 				    DBUS_TYPE_STRING, &value,
 				    DBUS_TYPE_INVALID))

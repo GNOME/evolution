@@ -93,6 +93,7 @@ struct _EShellWindowPrivate {
 	GtkWidget *status_notebook;
 
 	/* Miscellaneous */
+	GtkWidget *menubar_box;
 
 	/* Shell signal handlers. */
 	GArray *signal_handler_ids;

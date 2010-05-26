@@ -36,6 +36,7 @@
 
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
+#include "shell/e-shell-utils.h"
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
@@ -549,6 +550,14 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	e_binding_new (
 		signature_tree_view, "selected",
 		widget, "signature");
+
+	/* Sanitize the dialog for Express mode */
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
+					       "chkOutlookFilenames",
+					       "vboxTopPosting",
+					       "labelAlerts",
+					       "chkPromptEmptySubject",
+					       NULL);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, client);

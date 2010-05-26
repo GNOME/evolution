@@ -432,7 +432,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/component_id";
-	gconf_bridge_bind_property (bridge, key, object, "active-view");
+	g_object_set (object, "active-view",
+		      gconf_client_get_string (e_shell_get_gconf_client (shell), key, NULL),
+		      NULL);
 
 	object = G_OBJECT (priv->content_pane);
 	key = "/apps/evolution/shell/view_defaults/folder_bar/width";

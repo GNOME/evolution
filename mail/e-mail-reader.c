@@ -1288,8 +1288,8 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Mark the selected messages as junk"),
 	  G_CALLBACK (action_mail_mark_junk_cb) },
 
-	{ "mail-mark-notjunk",
-	  "mail-mark-notjunk",
+	{ "mail-mark-not-junk",
+	  "mail-mark-not-junk",
 	  N_("_Not Junk"),
 	  "<Shift><Control>j",
 	  N_("Mark the selected messages as not being junk"),
@@ -1598,9 +1598,9 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  N_("Mark as _Junk"),
 	  "mail-mark-junk" },
 
-	{ "mail-popup-mark-notjunk",
+	{ "mail-popup-mark-not-junk",
 	  N_("Mark as _Not Junk"),
-	  "mail-mark-notjunk" },
+	  "mail-mark-not-junk" },
 
 	{ "mail-popup-mark-read",
 	  N_("Mar_k as Read"),
@@ -2303,11 +2303,13 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-mark-junk";
-	sensitive = selection_has_not_junk_messages;
+	sensitive =
+		selection_has_not_junk_messages &&
+		!(state & E_MAIL_READER_FOLDER_IS_JUNK);
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive && !(state & E_MAIL_READER_FOLDER_IS_JUNK));
 
-	action_name = "mail-mark-notjunk";
+	action_name = "mail-mark-not-junk";
 	sensitive = selection_has_junk_messages;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);

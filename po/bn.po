@@ -549,12 +549,12 @@ msgstr "জ্যাবার"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:170
 #: ../addressbook/gui/widgets/eab-contact-display.c:544
 msgid "Yahoo"
-msgstr "Yahoo"
+msgstr "ইয়াহু"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:171
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
 msgid "Gadu-Gadu"
-msgstr "Gadu-Gadu"
+msgstr "গাদু-গাদু"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:172
 #: ../addressbook/gui/widgets/eab-contact-display.c:543
@@ -14898,7 +14898,7 @@ msgstr "সমর্থিত অনুসন্ধানের স্থান"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
 msgid "Using distinguished name (DN)"
-msgstr "Distinguished name"
+msgstr "বিশেষ নাম ব্যবহার করে (DN)"
 
 #: ../modules/addressbook/ldap-config.ui.h:23
 msgid "Using email address"
@@ -15167,7 +15167,7 @@ msgstr "আজকের তারিখ নির্বাচন করুন"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1265
 msgid "Select _Date"
-msgstr "তারিখ নির্বাচন করুন(_D)"
+msgstr "তারিখ নির্বাচন করুন (_D)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1267
 msgid "Select a specific date"
@@ -16329,7 +16329,7 @@ msgstr "মূল মাপ প্রদর্শন করা হবে (_O)"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
-msgstr "Hello Python"
+msgstr "হ্যালো পাইথন"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
@@ -18119,79 +18119,79 @@ msgstr "%A"
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:265
 msgid "%A %H:%M"
-msgstr "%1$A %2$H:%3$M"
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:269
 msgid "%A %H:%M:%S"
-msgstr "%1$A %2$H:%3$M:%4$S"
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:274
 msgid "%A %l:%M %p"
-msgstr "%1$A %2$l:%3$M %4$p"
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:278
 msgid "%A %l:%M:%S %p"
-msgstr "%1$A %2$l:%3$M:%4$S %5$p"
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:287
 msgid "%A, %B %e"
-msgstr "1$%A, %2$B %3$e"
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:293
 msgid "%A, %B %e %H:%M"
-msgstr "%1$A, %2$B %3$e %4$H:%5$M"
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:297
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%1$A, %2$B %3$e %4$H:%5$M:%6$S"
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:302
 msgid "%A, %B %e %l:%M %p"
-msgstr "%1$A, %2$B %3$e %4$l:%5$M %6$p"
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:306
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%1$A, %2$B %3$e %4$l:%5$M:%6$S %7$p"
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:312
 msgid "%A, %B %e, %Y"
-msgstr "%1$A, %2$B %3$e, %4$Y"
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:317
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%1$A, %2$B %3$e, %4$Y %5$H:%6$M"
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:321
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%1$A, %2$B %3$e, %4$Y %5$H:%6$M:%7$S"
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:326
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%1$A, %2$B %3$e, %4$Y %5$l:%6$M %7$p"
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
@@ -19158,12 +19158,12 @@ msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
 msgstr ""
-"Always show plain text part and make attachments from other parts, if "
-"requested."
+"যদি অনুরোধ করা হয় তবে সবসময় অন্য অংশ হতে সংযুক্তি করুন এবং প্লেইন টেক্সট "
+"পার্ট দেখান।"
 
 #: ../plugins/prefer-plain/prefer-plain.c:250
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr "Show s_uppressed HTML parts as attachments"
+msgstr "সংযুক্তি হিসেবে HTML পার্ট দেখান (_u)"
 
 #: ../plugins/prefer-plain/prefer-plain.c:270
 msgid "HTML _Mode"
@@ -19171,7 +19171,7 @@ msgstr "HTML মোড (_M)"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 msgid "Evolution Profiler"
-msgstr "Evolution Profiler"
+msgstr "Evolution প্রোফাইলার"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
@@ -19302,7 +19302,7 @@ msgstr "পোর্ট (_o):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
 msgid "Public FTP"
-msgstr "Public FTP"
+msgstr "পাবলিক FTP"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "Publishing Location"
@@ -19314,15 +19314,15 @@ msgstr "প্রকাশনার হার (_F):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Secure FTP (SSH)"
-msgstr "Secure FTP (SSH)"
+msgstr "সিকিউর FTP (SSH)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "Secure WebDAV (HTTPS)"
-msgstr "Secure WebDAV (HTTPS)"
+msgstr "সিকিউর WebDAV (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "Service _type:"
-msgstr "সার্ভারের ধরন (_t): "
+msgstr "সার্ভিসের ধরন (_t):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Sources"
@@ -20121,7 +20121,7 @@ msgstr "অফলাইন অবস্থায় ব্যবহারের জ
 
 #: ../shell/e-shell-view.c:724
 msgid "The EShellBackend for this shell view"
-msgstr "The EShellBackend for this shell view"
+msgstr "শেল ভিউয়ের জন্য EShellBackend"
 
 #: ../shell/e-shell-view.c:739
 msgid "Shell Content Widget"
@@ -20129,7 +20129,7 @@ msgstr "বিষয়বস্তু/কন্টেন্ট"
 
 #: ../shell/e-shell-view.c:740
 msgid "The content widget appears in a shell window's right pane"
-msgstr "The content widget appears in a shell window's right pane"
+msgstr "বিষয়বস্তু উইজেড শেল উইন্ডোর ডান প্যানে দেখায় যায়"
 
 #: ../shell/e-shell-view.c:756
 msgid "Shell Sidebar Widget"
@@ -20141,7 +20141,7 @@ msgstr "অফলাইন অবস্থায় ব্যবহারের জ
 
 #: ../shell/e-shell-view.c:772
 msgid "Shell Taskbar Widget"
-msgstr "Shell Taskbar Widget"
+msgstr "শেল টাস্কবার উইজেড"
 
 #: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
@@ -20867,7 +20867,7 @@ msgstr "FILE"
 
 #: ../smclient/eggsmclient.c:233
 msgid "Specify session management ID"
-msgstr "Specify session management ID"
+msgstr "সেশন ম্যানেজমেন্ট ID সুনির্দিষ্টভাবে উল্লেখ করুন"
 
 #: ../smclient/eggsmclient.c:233
 msgid "ID"
@@ -20875,7 +20875,7 @@ msgstr "ID"
 
 #: ../smclient/eggsmclient.c:254
 msgid "Session management options:"
-msgstr "Session management options:"
+msgstr "সেশন ম্যানেজমেন্ট অপশন:"
 
 #: ../smclient/eggsmclient.c:255
 msgid "Show session management options"
@@ -21191,7 +21191,7 @@ msgstr "এই সার্টিফিকেটটি ইতিমধ্যে�
 
 #: ../smime/lib/e-cert.c:228 ../smime/lib/e-cert.c:238
 msgid "%d/%m/%Y"
-msgstr "%1$d/%2$m/%3$Y"
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:414
@@ -21331,7 +21331,7 @@ msgstr "এক্সটেনশন"
 #: ../smime/lib/e-cert.c:1030
 #, c-format
 msgid "%s = %s"
-msgstr "%1$s = %2$s"
+msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1085 ../smime/lib/e-cert.c:1208
 msgid "Certificate Signature Algorithm"
@@ -21551,7 +21551,7 @@ msgstr "কাজ"
 
 #: ../widgets/misc/e-action-combo-box.c:389
 msgid "A GtkRadioAction"
-msgstr "A GtkRadioAction"
+msgstr "একটি GtkRadioAction"
 
 #: ../widgets/misc/e-attachment-dialog.c:305
 msgid "Attachment Properties"
@@ -21718,7 +21718,7 @@ msgstr "%s খোলার জন্য ক্লিক করুন"
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1249
 msgid "%B %Y"
-msgstr "%1$B %2$Y"
+msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:217
 msgid "Month Calendar"
@@ -21895,7 +21895,7 @@ msgstr ""
 #: ../widgets/misc/e-import-assistant.c:1187
 #: ../widgets/misc/e-import-assistant.c:1214
 msgid "Evolution Import Assistant"
-msgstr "Evolution Import Assistant"
+msgstr "Evolution ইম্পোর্ট অ্যাসিস্টেন্ট"
 
 #: ../widgets/misc/e-import-assistant.c:1196
 #: ../widgets/misc/e-import-assistant.c:1248

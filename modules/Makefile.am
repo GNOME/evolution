@@ -10,12 +10,12 @@ if ENABLE_NETWORK_MANAGER
 NETWORK_MANAGER_DIR = network-manager
 endif
 
-if ENABLE_WINDOWS_SENS
-WINDOWS_SENS_DIR = windows-sens
-endif
-
 if ENABLE_CONNMAN
 CONNMAN_DIR = connman
+endif
+
+if ENABLE_WINDOWS_SENS
+WINDOWS_SENS_DIR = windows-sens
 endif
 
 SUBDIRS = \

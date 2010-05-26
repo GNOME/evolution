@@ -270,7 +270,8 @@ e_alert_dialog_class_init (EAlertDialogClass *klass)
 }
 
 GtkWidget*
-e_alert_dialog_new (GtkWindow *parent, EAlert *alert)
+e_alert_dialog_new (GtkWindow *parent,
+                    EAlert *alert)
 {
 	return g_object_new (
 		E_TYPE_ALERT_DIALOG,

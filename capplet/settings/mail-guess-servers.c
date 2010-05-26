@@ -42,6 +42,8 @@
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
+#include <libedataserver/e-proxy.h>
+
 #include <shell/e-shell.h>
 
 #include "mail-guess-servers.h"
@@ -242,13 +244,15 @@ guess_when_online (EmailProvider *provider)
 {
 	const gchar *cafile = NULL;
 	gchar *url;
-	SoupURI *proxy = NULL, *parsed;
+	EProxy *proxy;
+	SoupURI *parsed;
 	SoupMessage *msg;
 	SoupSession *session;
 
-	url = g_strdup_printf (
-		"https://live.mozillamessaging.com/autoconfig/%s",
-		provider->domain);
+	proxy = e_proxy_new ();
+	e_proxy_setup_proxy (proxy);
+
+	url = g_strdup_printf("%s/%s", "http://api.gnome.org/evolution/autoconfig", provider->domain);
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
 
@@ -257,10 +261,11 @@ guess_when_online (EmailProvider *provider)
 		SOUP_SESSION_USER_AGENT, "get ",
 		NULL);
 
-	if (proxy) {
-		g_object_set (G_OBJECT (session),
-			      SOUP_SESSION_PROXY_URI, proxy,
-			      NULL);
+	if (e_proxy_require_proxy_for_uri (proxy, url)) {
+		SoupURI *proxy_uri = e_proxy_peek_uri_for (proxy, url);
+/*		fprintf (stderr, "URL '%s' requires a proxy: '%s'\n",
+			 url, soup_uri_to_string (proxy_uri, FALSE)); */
+		g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
 	}
 
 	msg = get_url (session, url);
@@ -269,6 +274,7 @@ guess_when_online (EmailProvider *provider)
 
 	parse_soup_message (msg, provider);
 
+	g_object_unref (proxy);
 	g_object_unref (msg);
 	g_object_unref(session);
 	g_free(url);

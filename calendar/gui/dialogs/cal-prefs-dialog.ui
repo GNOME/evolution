@@ -167,7 +167,7 @@
                 <property name="column_spacing">6</property>
                 <property name="row_spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="label63">
+                  <object class="GtkLabel" id="label_second_zone">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Se_cond zone:</property>
@@ -182,7 +182,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox25">
+                  <object class="GtkHBox" id="hbox_second_zone">
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkButton" id="day_second_zone">
@@ -219,64 +219,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label11">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Time format:</property>
-                  </object>
-                  <packing>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkHBox" id="hbox4">
-                    <property name="visible">True</property>
-                    <property name="spacing">6</property>
-                    <child>
-                      <object class="GtkRadioButton" id="use_12_hour">
-                        <property name="label" translatable="yes">_12 hour (AM/PM)</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="use_24_hour">
-                        <property name="label" translatable="yes">_24 hour</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">use_12_hour</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options">GTK_FILL</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="ETimezoneEntry" id="timezone">
                     <property name="visible">True</property>
                     <accessibility>
@@ -286,8 +228,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
@@ -300,12 +242,14 @@
                     <property name="mnemonic_widget">timezone</property>
                   </object>
                   <packing>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox26">
+                  <object class="GtkHBox" id="hbox_use_system_timezone">
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkCheckButton" id="use-system-tz-check">
@@ -337,7 +281,64 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_time_format">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Time format:</property>
+                  </object>
+                  <packing>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox_time_format">
+                    <property name="visible">True</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkRadioButton" id="use_12_hour">
+                        <property name="label" translatable="yes">_12 hour (AM/PM)</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="use_24_hour">
+                        <property name="label" translatable="yes">_24 hour</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">use_12_hour</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
@@ -895,7 +896,7 @@
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkHBox" id="hbox10">
+                  <object class="GtkHBox" id="hbox_time_divisions">
                     <property name="visible">True</property>
                     <property name="spacing">6</property>
                     <child>
@@ -962,8 +963,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="dnav_show_week_no">
-                    <property name="label" translatable="yes">Show week _numbers in date navigator</property>
+                  <object class="GtkCheckButton" id="show_week_numbers">
+                    <property name="label" translatable="yes">Show week _numbers</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -974,21 +975,6 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="dview_show_week_no">
-                    <property name="label" translatable="yes">Show week n_umber in Day and Work Week View</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -1003,7 +989,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>
@@ -1051,12 +1037,9 @@
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkTable" id="table2">
+                  <object class="GtkHBox" id="hbox14">
                     <property name="visible">True</property>
-                    <property name="n_rows">2</property>
-                    <property name="n_columns">2</property>
-                    <property name="column_spacing">6</property>
-                    <property name="row_spacing">6</property>
+                    <property name="spacing">12</property>
                     <child>
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
@@ -1066,8 +1049,23 @@
                         <property name="mnemonic_widget">tasks_due_today_color</property>
                       </object>
                       <packing>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkColorButton" id="tasks_due_today_color">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="title" translatable="yes">Pick a color</property>
+                        <property name="color">#000000000000</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -1079,44 +1077,31 @@
                         <property name="mnemonic_widget">tasks_overdue_color</property>
                       </object>
                       <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkColorButton" id="tasks_due_today_color">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="title" translatable="yes">Pick a color</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="x_options"></property>
-                        <property name="y_options"></property>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkColorButton" id="tasks_overdue_color">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="receives_default">True</property>
                         <property name="title" translatable="yes">Pick a color</property>
+                        <property name="color">#000000000000</property>
                       </object>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options"></property>
-                        <property name="y_options"></property>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -1441,8 +1426,8 @@
   </object>
   <object class="GtkSizeGroup" id="day_begins_ends_sizegroup">
     <widgets>
-      <widget name="day_end_label"/>
       <widget name="day_start_label"/>
+      <widget name="day_end_label"/>
     </widgets>
   </object>
 </interface>

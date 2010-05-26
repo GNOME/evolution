@@ -491,8 +491,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/prompts/confirm_purge");
 
 	e_shell_settings_install_property_for_key (
-		"cal-day-view-show-week-numbers",
-		"/apps/evolution/calendar/display/day_view_show_week_number");
+		"cal-show-week-numbers",
+		"/apps/evolution/calendar/display/show_week_numbers");
 
 	e_shell_settings_install_property_for_key (
 		"cal-free-busy-template",
@@ -537,10 +537,6 @@ e_cal_shell_backend_init_settings (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"cal-show-event-end-times",
 		"/apps/evolution/calendar/display/show_event_end");
-
-	e_shell_settings_install_property_for_key (
-		"cal-show-week-numbers",
-		"/apps/evolution/calendar/date_navigator/show_week_numbers");
 
 	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-due-today",

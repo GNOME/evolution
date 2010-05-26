@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 02:54+0000\n"
-"PO-Revision-Date: 2010-03-16 02:30+0000\n"
+"POT-Creation-Date: 2010-03-18 01:08+0000\n"
+"PO-Revision-Date: 2010-03-18 01:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -8541,7 +8541,7 @@ msgid "Please enter your email address."
 msgstr "Introduza o seu endereço de email."
 
 #: ../capplet/settings/mail-account-view.c:58
-msgid "The email addres you have entered is invalid."
+msgid "The email address you have entered is invalid."
 msgstr "O endereço de email introduzido é inválido."
 
 #: ../capplet/settings/mail-account-view.c:224
@@ -8603,12 +8603,13 @@ msgstr ""
 #: ../capplet/settings/mail-account-view.c:357
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
-"enter them below. We've tried  to make a start with the details you just "
+"enter them below. We've tried to make a start with the details you just "
 "entered but you may need to change them."
 msgstr ""
 "Não é possível inferir as definições necessárias para configurar "
-"automaticamente o seu email. Introduza a informação abaixo. Tentou-se "
-"começar com os detalhes que introduziu mas poderá ter de os alterar."
+"automaticamente o seu email. Introduza a informação abaixo. Foi realizada "
+"uma tentativa de preenchimento com os detalhes que introduziu mas poderá ter "
+"de os alterar."
 
 #: ../capplet/settings/mail-account-view.c:359
 msgid "You can specify more options to configure the account."
@@ -19512,9 +19513,8 @@ msgstr "Bem Vindo"
 
 #: ../plugins/startup-wizard/startup-wizard.c:118
 msgid ""
-"ZZZ ! Welcome to Evolution. The next few screens will allow Evolution to "
-"connect to your email accounts, and to import files from other "
-"applications. \n"
+"Welcome to Evolution. The next few screens will allow Evolution to connect "
+"to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""

@@ -3029,7 +3029,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHBox" id="hbox234">
+                          <object class="GtkHBox" id="hboxMailSizeLimit">
                             <property name="visible">True</property>
                             <property name="spacing">4</property>
                             <child>
@@ -3078,7 +3078,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHBox" id="hbox233">
+                          <object class="GtkHBox" id="hboxShrinkAddresses">
                             <property name="visible">True</property>
                             <child>
                               <object class="GtkCheckButton" id="address_checkbox">
@@ -4587,7 +4587,7 @@ For example: "Work" or "Personal"</property>
                             <property name="visible">True</property>
                             <property name="spacing">2</property>
                             <child>
-                              <object class="GtkVBox" id="vbox207">
+                              <object class="GtkVBox" id="vboxTopPosting">
                                 <property name="visible">True</property>
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">8</property>
@@ -4672,7 +4672,7 @@ For example: "Work" or "Personal"</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label506">
+              <object class="GtkLabel" id="labelAlerts">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Alerts</property>

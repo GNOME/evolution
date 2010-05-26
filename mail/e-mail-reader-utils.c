@@ -699,9 +699,9 @@ headers_changed_cb (GConfClient *client,
 		gchar *xml = (gchar *)p->data;
 
 		h = e_mail_reader_header_from_xml (xml);
-		if (h && h->enabled) {
-			em_format_add_header (emf, h->name, EM_FORMAT_HEADER_BOLD);
-		}
+		if (h && h->enabled)
+			em_format_add_header (
+				emf, h->name, EM_FORMAT_HEADER_BOLD);
 
 		e_mail_reader_header_free (h);
 	}

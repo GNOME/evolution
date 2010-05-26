@@ -428,11 +428,12 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 }
 
 static void
-timezone_changed_cb (ECalendarView *cal_view,
+timezone_changed_cb (ECalModel *cal_model,
                      icaltimezone *old_zone,
                      icaltimezone *new_zone,
                      gpointer user_data)
 {
+	ECalendarView *cal_view = (ECalendarView *) user_data;
 	struct icaltimetype tt = icaltime_null_time ();
 	time_t lower;
 	EWeekView *week_view = (EWeekView *) cal_view;
@@ -828,10 +829,6 @@ e_week_view_init (EWeekView *week_view)
 	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
-
-		/* connect to ECalendarView's signals */
-	g_signal_connect (G_OBJECT (week_view), "timezone_changed",
-			  G_CALLBACK (timezone_changed_cb), NULL);
 }
 
 /**
@@ -843,9 +840,14 @@ e_week_view_init (EWeekView *week_view)
 ECalendarView *
 e_week_view_new (ECalModel *model)
 {
+	ECalendarView *view;
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	return g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
+	view = g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
+
+	g_signal_connect (G_OBJECT (model), "timezone_changed",
+			  G_CALLBACK (timezone_changed_cb), view);
+	return view;
 }
 
 static void

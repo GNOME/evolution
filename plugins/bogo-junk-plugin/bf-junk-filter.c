@@ -46,6 +46,7 @@
 #include "mail/em-config.h"
 #include <mail/em-junk.h>
 #include <gconf/gconf-client.h>
+#include "shell/e-shell.h"
 
 #ifndef BOGOFILTER_BINARY
 #define BOGOFILTER_BINARY "/usr/bin/bogofilter"
@@ -383,6 +384,7 @@ convert_unicode_cb (GtkWidget *widget, gpointer data)
 GtkWidget *
 org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
+	EShell *shell;
 	GtkWidget *check;
 	guint n_rows;
 
@@ -398,7 +400,13 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 	gtk_table_attach (
 		GTK_TABLE (data->parent), check,
 		0, 1, n_rows, n_rows+1, 0, 0, 0, 0);
-	gtk_widget_show (check);
-	return (GtkWidget *)check;
+
+	shell = e_shell_get_default ();
+	if (e_shell_get_express_mode (shell))
+		gtk_widget_hide (check);
+	else
+		gtk_widget_show (check);
+
+	return check;
 }
 

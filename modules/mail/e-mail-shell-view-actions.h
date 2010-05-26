@@ -109,8 +109,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-mark-important")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_JUNK(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-mark-junk")
-#define E_SHELL_WINDOW_ACTION_MAIL_MARK_NOTJUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-notjunk")
+#define E_SHELL_WINDOW_ACTION_MAIL_MARK_NOT_JUNK(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-mark-not-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_READ(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-mark-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_UNIMPORTANT(window) \

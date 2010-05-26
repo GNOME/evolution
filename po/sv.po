@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-14 09:07+0100\n"
-"PO-Revision-Date: 2010-03-14 10:16+0100\n"
+"POT-Creation-Date: 2010-03-30 08:42+0200\n"
+"PO-Revision-Date: 2010-03-30 17:56+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgstr "Jubileum"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
 #: ../calendar/gui/e-calendar-view.c:1986
-#: ../capplet/anjal-settings-main.c:112
+#: ../capplet/anjal-settings-main.c:119
 #: ../shell/main.c:112
 msgid "Birthday"
 msgstr "Födelsedag"
@@ -631,13 +631,13 @@ msgstr "_Välj adressbok"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:167
 #: ../shell/e-shell-backend.c:218
-#: ../shell/e-shell-window.c:679
+#: ../shell/e-shell-window.c:678
 msgid "Shell"
 msgstr "Skal"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:168
 #: ../shell/e-shell-backend.c:219
-#: ../shell/e-shell-window.c:680
+#: ../shell/e-shell-window.c:679
 msgid "The EShell singleton"
 msgstr ""
 
@@ -874,19 +874,16 @@ msgid "Error modifying card"
 msgstr "Fel vid ändring av kort"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:616
-#, fuzzy
 msgid "Cut selected contacts to the clipboard"
-msgstr "Klipp ut markerad text till urklipp"
+msgstr "Klipp ut markerad kontakter till urklipp"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:622
-#, fuzzy
 msgid "Copy selected contacts to the clipboard"
-msgstr "Kopiera markerad text till urklipp"
+msgstr "Kopiera markerade kontakter till urklipp"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:628
-#, fuzzy
 msgid "Paste contacts from the clipboard"
-msgstr "Klistra in uppgifter från urklipp"
+msgstr "Klistra in kontakter från urklipp"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:634
 #: ../modules/addressbook/e-book-shell-view-actions.c:727
@@ -935,13 +932,13 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Är du säker på att du vill ta bort kontakten (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1460
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr ""
-"Att öppna %d kontakt kommer även att öppna %d nytt fönster.\n"
-"Vill du verkligen visa denna kontakt?"
+"Öppna %d kontakter kommer även att öppna %d nya fönster.\n"
+"Vill du verkligen visa alla dessa kontakter?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1465
 msgid "_Don't Display"
@@ -1107,7 +1104,7 @@ msgid "Telex"
 msgstr "Telex"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../shell/e-shell-view.c:818
+#: ../shell/e-shell-view.c:819
 msgid "Title"
 msgstr "Titel"
 
@@ -1401,7 +1398,7 @@ msgstr "Webblogg"
 #. Create the default Person memo list
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
-#: ../capplet/settings/mail-capplet-shell.c:457
+#: ../capplet/settings/mail-capplet-shell.c:461
 #: ../mail/e-mail-migrate.c:962
 #: ../modules/addressbook/e-book-shell-backend.c:175
 #: ../modules/addressbook/e-book-shell-migrate.c:507
@@ -1829,9 +1826,8 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Är du säker på att du vill ta bort mötet med namnet \"{0}\"?"
 
 #: ../calendar/calendar.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
-msgstr "Är du säker på att du vill ta bort mötet med namnet \"{0}\"?"
+msgstr "Är du säker på att du vill ta bort sammanträdet med namnet \"{0}\"?"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete the memo '{0}'?"
@@ -2227,7 +2223,7 @@ msgstr "S_täng"
 #: ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:152
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1620
+#: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Redigera"
@@ -3704,7 +3700,7 @@ msgstr "Klicka här för att stänga aktuellt fönster"
 
 #: ../calendar/gui/dialogs/comp-editor.c:946
 #: ../mail/e-mail-browser.c:117
-#: ../shell/e-shell-window-actions.c:1459
+#: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:115
 #: ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:387
@@ -3714,7 +3710,7 @@ msgstr "Kopiera markeringen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:953
 #: ../mail/e-mail-browser.c:124
-#: ../shell/e-shell-window-actions.c:1466
+#: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:108
 #: ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:959
@@ -3722,7 +3718,7 @@ msgid "Cut the selection"
 msgstr "Klipp ut markeringen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:960
-#: ../shell/e-shell-window-actions.c:1473
+#: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:129
 #: ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
@@ -3734,7 +3730,7 @@ msgstr "Klicka här för att visa tillgänglig hjälp"
 
 #: ../calendar/gui/dialogs/comp-editor.c:974
 #: ../mail/e-mail-browser.c:131
-#: ../shell/e-shell-window-actions.c:1508
+#: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:122
 #: ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:971
@@ -3747,7 +3743,7 @@ msgstr "Klicka här för att spara aktuellt fönster"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1002
 #: ../mail/e-mail-browser.c:138
-#: ../shell/e-shell-window-actions.c:1578
+#: ../shell/e-shell-window-actions.c:1579
 #: ../widgets/misc/e-focus-tracker.c:136
 #: ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
@@ -3759,13 +3755,13 @@ msgstr "_Klassificering"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1023
 #: ../mail/e-mail-browser.c:145
-#: ../shell/e-shell-window-actions.c:1627
+#: ../shell/e-shell-window-actions.c:1628
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "_Arkiv"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1030
-#: ../shell/e-shell-window-actions.c:1634
+#: ../shell/e-shell-window-actions.c:1635
 msgid "_Help"
 msgstr "_Hjälp"
 
@@ -3776,11 +3772,11 @@ msgstr "_Infoga"
 #: ../calendar/gui/dialogs/comp-editor.c:1044
 #: ../composer/e-composer-actions.c:351
 msgid "_Options"
-msgstr "_Alternativ"
+msgstr "A_lternativ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1051
 #: ../mail/e-mail-browser.c:159
-#: ../shell/e-shell-window-actions.c:1669
+#: ../shell/e-shell-window-actions.c:1670
 msgid "_View"
 msgstr "_Visa"
 
@@ -4308,7 +4304,7 @@ msgstr "Sluttiden för upprepningen var före evenemangets starttid"
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:962
 msgid "on"
-msgstr "vid"
+msgstr "på"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -4439,7 +4435,7 @@ msgstr "Undantag"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:3
 #: ../mail/mail-config.ui.h:84
 msgid "Preview"
-msgstr "Förhandsgranskning"
+msgstr "Förhandsvisning"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:5
 msgid "This appointment rec_urs"
@@ -4856,9 +4852,8 @@ msgstr "Skalinställningar"
 #: ../calendar/gui/e-cal-model.c:388
 #: ../calendar/gui/gnome-cal.c:519
 #: ../shell/e-shell.c:868
-#, fuzzy
 msgid "Application-wide settings"
-msgstr "Inställningar för automatisk ifyllning"
+msgstr "Programinställningar"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:562
@@ -4872,7 +4867,7 @@ msgstr "Inställningar för automatisk ifyllning"
 #: ../calendar/gui/print.c:972
 #: ../calendar/gui/print.c:989
 #: ../e-util/e-charset.c:52
-#: ../mail/em-utils.c:931
+#: ../mail/em-utils.c:930
 #: ../plugins/itip-formatter/itip-formatter.c:461
 #: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../plugins/plugin-manager/plugin-manager.c:89
@@ -5240,7 +5235,7 @@ msgstr "En okänd person"
 
 #: ../calendar/gui/e-itip-control.c:1132
 msgid "<br> Please review the following information, and then select an action from the menu below."
-msgstr "<br> Granska följande information, och välj sedan en åtgärd från menyn nedan."
+msgstr "<br> Granska följande information och välj sedan en åtgärd från menyn nedan."
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 #: ../calendar/gui/e-itip-control.c:1147
@@ -6226,11 +6221,11 @@ msgstr "iCalendar-information"
 
 #: ../calendar/gui/itip-utils.c:832
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr ""
+msgstr "Kunde inte boka en resurs, det nya evenemanget kolliderar med något annat."
 
 #: ../calendar/gui/itip-utils.c:834
 msgid "Unable to book a resource, error: "
-msgstr ""
+msgstr "Kunde inte boka en resurs. Fel: "
 
 #: ../calendar/gui/itip-utils.c:987
 msgid "You must be an attendee of the event."
@@ -8300,7 +8295,7 @@ msgstr "Spara utkast"
 
 #. Check buttons
 #: ../composer/e-msg-composer.c:187
-#: ../mail/em-utils.c:150
+#: ../mail/em-utils.c:149
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
 msgstr "Visa _inte detta meddelande igen."
@@ -8430,24 +8425,24 @@ msgstr "_Återställ"
 msgid "_Save Draft"
 msgstr "_Spara utkast"
 
-#: ../capplet/anjal-settings-main.c:181
+#: ../capplet/anjal-settings-main.c:202
 msgid "Run Anjal in a window"
 msgstr "Kör Anjal i ett fönster"
 
-#: ../capplet/anjal-settings-main.c:182
+#: ../capplet/anjal-settings-main.c:203
 msgid "Make Anjal the default email client"
 msgstr "Gör Anjal till standardklient för e-post"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:189
+#: ../capplet/anjal-settings-main.c:210
 msgid "ID of the socket to embed in"
 msgstr ""
 
-#: ../capplet/anjal-settings-main.c:190
+#: ../capplet/anjal-settings-main.c:211
 msgid "socket"
 msgstr "uttag"
 
-#: ../capplet/anjal-settings-main.c:204
+#: ../capplet/anjal-settings-main.c:225
 msgid "Anjal email client"
 msgstr "E-postklienten Anjal"
 
@@ -8464,13 +8459,12 @@ msgid "Please enter your email address."
 msgstr "Ange din e-postadress."
 
 #: ../capplet/settings/mail-account-view.c:58
-msgid "The email addres you have entered is invalid."
-msgstr ""
+msgid "The email address you have entered is invalid."
+msgstr "E-postadressen som du angav är ogiltig."
 
 #: ../capplet/settings/mail-account-view.c:224
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span weight=\"bold\">Borttagning av e-post</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Personliga uppgifter:</span>"
 
 #: ../capplet/settings/mail-account-view.c:229
 msgid "Name:"
@@ -8481,9 +8475,8 @@ msgid "Email address:"
 msgstr "E-postadress:"
 
 #: ../capplet/settings/mail-account-view.c:248
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-msgstr "<span weight=\"bold\">Allmänt</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Mottagningsuppgifter:</span>"
 
 #: ../capplet/settings/mail-account-view.c:253
 #: ../capplet/settings/mail-account-view.c:303
@@ -8511,16 +8504,15 @@ msgid "never"
 msgstr "aldrig"
 
 #: ../capplet/settings/mail-account-view.c:298
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-msgstr "<span weight=\"bold\">Allmänt</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Sändningsuppgifter:</span>"
 
 #: ../capplet/settings/mail-account-view.c:355
 msgid "To use the email application you'll need to setup an account. Put your email address and password in below and we'll try and work out all the settings. If we can't do it automatically you'll need your server details as well."
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:357
-msgid "Sorry, we can't work out the settings to get your mail automatically. Please enter them below. We've tried  to make a start with the details you just entered but you may need to change them."
+msgid "Sorry, we can't work out the settings to get your mail automatically. Please enter them below. We've tried to make a start with the details you just entered but you may need to change them."
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:359
@@ -8533,7 +8525,7 @@ msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:362
 msgid "You can specify your default settings for your account."
-msgstr ""
+msgstr "Du kan ange dina standardinställningar för ditt konto."
 
 #: ../capplet/settings/mail-account-view.c:363
 msgid "Time to check things over before we try and connect to the server and fetch your mail."
@@ -8547,62 +8539,51 @@ msgid "Identity"
 msgstr "Identitet"
 
 #: ../capplet/settings/mail-account-view.c:378
-#, fuzzy
 msgid "Next - Receiving mail"
-msgstr "Mottagande av e-post"
+msgstr "Nästa- Mottagande av e-post"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Receiving mail"
 msgstr "Mottagande av e-post"
 
 #: ../capplet/settings/mail-account-view.c:379
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
 msgid "Next - Sending mail"
-msgstr "Sändning av e-post"
+msgstr "Nästa - Sändning av e-post"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Back - Identity"
-msgstr "Identitet"
+msgstr "Bakåt - Identitet"
 
 #: ../capplet/settings/mail-account-view.c:379
-#, fuzzy
 msgid "Next - Receiving options"
-msgstr "Alternativ för mottagning"
+msgstr "Nästa - Alternativ för mottagning"
 
 #: ../capplet/settings/mail-account-view.c:380
-#, fuzzy
 msgid "Receiving options"
 msgstr "Alternativ för mottagning"
 
 #: ../capplet/settings/mail-account-view.c:380
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Back - Receiving mail"
-msgstr "Mottagande av e-post"
+msgstr "Bakåt - Mottagande av e-post"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Sending mail"
 msgstr "Sändning av e-post"
 
 #: ../capplet/settings/mail-account-view.c:382
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
 msgid "Next - Review account"
-msgstr "Ta bort kontot?"
+msgstr "Nästa - Granska kontot"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Next - Defaults"
-msgstr "Standardvärden"
+msgstr "Nästa - Standardvärden"
 
 #: ../capplet/settings/mail-account-view.c:382
-#, fuzzy
 msgid "Back - Receiving options"
-msgstr "Alternativ för mottagning"
+msgstr "Bakåt - Alternativ för mottagning"
 
 #: ../capplet/settings/mail-account-view.c:383
 #: ../mail/em-account-editor.c:2774
@@ -8611,24 +8592,20 @@ msgid "Defaults"
 msgstr "Standardvärden"
 
 #: ../capplet/settings/mail-account-view.c:383
-#, fuzzy
 msgid "Back - Sending mail"
-msgstr "Sändning av e-post"
+msgstr "Bakåt - Sändning av e-post"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Review account"
-msgstr "Ta bort kontot?"
+msgstr "Granska kontot"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Finish"
-msgstr "Fiji"
+msgstr "Färdigställ"
 
 #: ../capplet/settings/mail-account-view.c:385
-#, fuzzy
 msgid "Back - Sending"
-msgstr "Stigande"
+msgstr "Bakåt - Sändning"
 
 #: ../capplet/settings/mail-account-view.c:719
 #: ../capplet/settings/mail-settings-view.c:266
@@ -8639,22 +8616,22 @@ msgstr "Stäng flik"
 msgid "Account Wizard"
 msgstr "Kontoguide"
 
-#: ../capplet/settings/mail-capplet-shell.c:280
+#: ../capplet/settings/mail-capplet-shell.c:284
 #, fuzzy
 msgid "Evolution account assistant"
 msgstr "Evolutions kontoguide"
 
-#: ../capplet/settings/mail-capplet-shell.c:316
+#: ../capplet/settings/mail-capplet-shell.c:320
 #: ../data/evolution-settings.desktop.in.in.h:2
 msgid "Email Settings"
 msgstr "E-postinställningar"
 
-#: ../capplet/settings/mail-capplet-shell.c:330
+#: ../capplet/settings/mail-capplet-shell.c:334
 msgid "Quit"
 msgstr "Avsluta"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:449
+#: ../capplet/settings/mail-capplet-shell.c:453
 #: ../mail/e-mail-migrate.c:2949
 #: ../mail/e-mail-store.c:229
 #: ../mail/em-folder-tree-model.c:150
@@ -8714,7 +8691,7 @@ msgid "Evolution Mail and Calendar"
 msgstr "Evolutions e-post och kalender"
 
 #: ../data/evolution.desktop.in.in.h:3
-#: ../shell/e-shell-window-actions.c:653
+#: ../shell/e-shell-window-actions.c:654
 msgid "Groupware Suite"
 msgstr "Grupprogramvarusvit"
 
@@ -8947,7 +8924,7 @@ msgstr "Meddelanden"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:306
 #: ../mail/e-mail-browser.c:110
-#: ../shell/e-shell-window-actions.c:1445
+#: ../shell/e-shell-window-actions.c:1446
 msgid "Close this window"
 msgstr "Stäng detta fönster"
 
@@ -9332,12 +9309,12 @@ msgstr "I_nkludera trådar"
 
 #: ../filter/e-filter-rule.c:1141
 #: ../filter/filter.ui.h:2
-#: ../mail/em-utils.c:301
+#: ../mail/em-utils.c:300
 msgid "Incoming"
 msgstr "Inkommande"
 
 #: ../filter/e-filter-rule.c:1141
-#: ../mail/em-utils.c:302
+#: ../mail/em-utils.c:301
 msgid "Outgoing"
 msgstr "Utgående"
 
@@ -9488,7 +9465,7 @@ msgid "List View"
 msgstr "Listvy"
 
 #: ../mail/e-mail-browser.c:732
-#: ../shell/e-shell-window.c:632
+#: ../shell/e-shell-window.c:631
 msgid "Focus Tracker"
 msgstr ""
 
@@ -9563,11 +9540,12 @@ msgid "Edit Label"
 msgstr "Redigera etikett"
 
 #: ../mail/e-mail-label-manager.c:349
-#, fuzzy
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
-msgstr "Observera: Understreck i etikettnamnet används som identifierare i menyn."
+msgstr ""
+"Observera: Understreck i etikettnamnet\n"
+"används som snabbtangent i menyn."
 
 #: ../mail/e-mail-label-tree-view.c:86
 msgid "Color"
@@ -9841,27 +9819,24 @@ msgid "_Clear Flag"
 msgstr "_Ta bort flagga"
 
 #: ../mail/e-mail-reader.c:1215
-#, fuzzy
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "Skapa en ny uppgift från markerat meddelande"
+msgstr "Ta bort uppföljningsflaggan från de markerade meddelandena"
 
 #: ../mail/e-mail-reader.c:1220
 msgid "_Flag Completed"
 msgstr "_Flagga som färdig"
 
 #: ../mail/e-mail-reader.c:1222
-#, fuzzy
 msgid "Set the follow-up flag to completed on the selected messages"
-msgstr "Markera alla meddelanden i samma tråd som det markerade meddelandet"
+msgstr "Ställ in uppföljningsflaggan till färdig på alla markerade meddelanden"
 
 #: ../mail/e-mail-reader.c:1227
 msgid "Follow _Up..."
 msgstr "Följ _upp..."
 
 #: ../mail/e-mail-reader.c:1229
-#, fuzzy
 msgid "Flag the selected messages for follow-up"
-msgstr "Markera markerade meddelanden för uppföljning"
+msgstr "Flagga de markerade meddelandena för uppföljning"
 
 #: ../mail/e-mail-reader.c:1234
 msgid "_Attached"
@@ -10070,9 +10045,8 @@ msgid "Reply to _All"
 msgstr "Svara till _alla"
 
 #: ../mail/e-mail-reader.c:1425
-#, fuzzy
 msgid "Compose a reply to all the recipients of the selected message"
-msgstr "Skriv ett svar till alla mottagare av det markerade meddelandet"
+msgstr "Skriv ett svar till alla mottagare i det markerade meddelandet"
 
 #: ../mail/e-mail-reader.c:1430
 msgid "Reply to _List"
@@ -10096,9 +10070,8 @@ msgid "_Save as mbox..."
 msgstr "_Spara som mbox..."
 
 #: ../mail/e-mail-reader.c:1446
-#, fuzzy
 msgid "Save selected messages as an mbox file"
-msgstr "Spara de markerade meddelandena som en textfil"
+msgstr "Spara markerade meddelanden som en mbox-fil"
 
 #: ../mail/e-mail-reader.c:1451
 msgid "Search Folder from Mailing _List..."
@@ -10299,7 +10272,7 @@ msgstr "Svara"
 
 #: ../mail/e-mail-tag-editor.c:292
 msgid "Flag to Follow Up"
-msgstr "Flagga att följa upp"
+msgstr "Flagga för uppföljning"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -10412,11 +10385,12 @@ msgid "Account Management"
 msgstr "Kontohantering"
 
 #: ../mail/em-account-editor.c:2074
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
-msgstr "Ange ett beskrivande namn för detta konto i fältet nedan. Detta namn kommer endast att användas för visningsändamål."
+msgstr ""
+"Ange ett beskrivande namn för detta konto i fältet nedan.\n"
+"Detta namn kommer endast att användas för visningsändamål."
 
 #: ../mail/em-account-editor.c:2078
 msgid "Done"
@@ -11114,12 +11088,12 @@ msgstr "Välj en server."
 msgid "No server has been selected"
 msgstr "Ingen server har valts"
 
-#: ../mail/em-utils.c:311
+#: ../mail/em-utils.c:310
 msgid "Message Filters"
 msgstr "Meddelandefilter"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:815
+#: ../mail/em-utils.c:814
 #, c-format
 msgid "Messages from %s"
 msgstr "Meddelanden från %s"
@@ -11259,9 +11233,8 @@ msgid "Default height of the Composer Window."
 msgstr "Standardhöjd för redigerarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Default height of the mail browser window."
-msgstr "Standardhöjd för redigerarfönstret."
+msgstr "Standardhöjd för e-postbläddrarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Default height of the subscribe dialog."
@@ -12350,9 +12323,8 @@ msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:85
-#, fuzzy
 msgid "Printed Fonts"
-msgstr "Skriv ut markerade kontakter"
+msgstr "Utskrivna typsnitt"
 
 #: ../mail/mail-config.ui.h:86
 msgid "Proxy Settings"
@@ -12488,15 +12460,14 @@ msgid "The list of languages here reflects only the languages for which you have
 msgstr "Listan med språk här återspeglar endast de språk för vilka en ordbok är installerad."
 
 #: ../mail/mail-config.ui.h:123
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
-"Utdata från detta skript kommer att användas som\n"
-"din signatur. Namnet du anger kommer endast att\n"
-"användas för visning."
+"Utdata från detta skript kommer att användas\n"
+"som din signatur. Namnet du anger kommer\n"
+"endast att användas för visning."
 
 #: ../mail/mail-config.ui.h:126
 msgid ""
@@ -13133,14 +13104,12 @@ msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Är du säker på att du vill skicka ett meddelande i HTML-format?"
 
 #: ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to send a message with invalid address?"
-msgstr "Är du säker på att du vill skicka ett meddelande med endast blindkopiemottagare?"
+msgstr "Är du säker på att du vill skicka ett meddelande med ogiltig adress?"
 
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message with invalid addresses?"
-msgstr "Är du säker på att du vill skicka ett meddelande med endast blindkopiemottagare?"
+msgstr "Är du säker på att du vill skicka ett meddelande med ogiltiga adresser?"
 
 #: ../mail/mail.error.xml.h:18
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -13313,9 +13282,8 @@ msgid "If you delete the folder, all of its contents and its subfolders contents
 msgstr "Om du tar bort denna mapp kommer hela dess innehåll och innehållet i alla dess undermappar att tas bort permanent."
 
 #: ../mail/mail.error.xml.h:61
-#, fuzzy
 msgid "If you delete the folder, all of its contents will be deleted permanently."
-msgstr "Om du tar bort denna mapp kommer hela dess innehåll och innehållet i alla dess undermappar att tas bort permanent."
+msgstr "Om du tar bort mappen så kommer allt dess innehåll att tas bort permanent."
 
 #: ../mail/mail.error.xml.h:62
 msgid "If you proceed, all proxy accounts will be deleted permanently."
@@ -13492,12 +13460,16 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"Följande mottagare kunde inte identifieras som en giltig e-postadress:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:111
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"Följande mottagare kunde inte identifieras som giltiga e-postadresser:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:113
 msgid "The script file must exist and be executable."
@@ -13693,7 +13665,7 @@ msgid "Select all visible messages"
 msgstr "Markera alla synliga meddelanden"
 
 #: ../mail/message-list.c:2588
-#: ../shell/e-shell-view.c:722
+#: ../shell/e-shell-view.c:723
 msgid "Shell Backend"
 msgstr ""
 
@@ -13808,7 +13780,7 @@ msgstr "Detta är den metod som Evolution kommer att använda för att autentise
 
 #: ../modules/addressbook/addressbook-config.c:885
 msgid "The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base."
-msgstr "Sökomfattningen anger hur djupt du vill att sökningen ska gå ner i katalogträdet. En sökomfattning som är \"sub\" kommer att inkludera alla poster under din sökbas. En sökomfattning som är \"one\" kommer endast att inkludera de poster som är en nivå under din sökbas."
+msgstr "Sökomfattningen anger hur djupt du vill att sökningen ska gå ner i katalogträdet. En sökomfattning som är \"under\" kommer att inkludera alla poster under din sökbas. En sökomfattning som är \"en\" kommer endast att inkludera de poster som är en nivå under din sökbas."
 
 #: ../modules/addressbook/addressbook-config.c:991
 msgid "Server Information"
@@ -13876,7 +13848,7 @@ msgstr "Visa automatiskt kompletterat namn med en adress"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
 msgid "Show preview pane"
-msgstr "Visa förhandsgranskningspanelen"
+msgstr "Visa förhandsvisningspanelen"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
 msgid "The layout style determines where to place the preview pane in relation to the contact list. \"0\" (Classic View) places the preview pane below the contact list. \"1\" (Vertical View) places the preview pane next to the contact list."
@@ -13900,7 +13872,7 @@ msgstr "Huruvida visning ska tvingas av e-postadressen med namnet för den autom
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:16
 msgid "Whether to show the preview pane."
-msgstr "Huruvida förhandsgranskningspanelen ska visas."
+msgstr "Huruvida förhandsvisningspanelen ska visas."
 
 #: ../modules/addressbook/autocompletion-config.c:159
 msgid "Table column:"
@@ -13983,25 +13955,22 @@ msgid "Previewed Contact"
 msgstr "Ny kontakt"
 
 #: ../modules/addressbook/e-book-shell-content.c:375
-#, fuzzy
 msgid "The contact being shown in the preview pane"
-msgstr "Huruvida förhandsgranskningspanelen ska visas."
+msgstr "Kontakten som visas i förhandsvisningspanelen"
 
 #: ../modules/addressbook/e-book-shell-content.c:384
 #: ../modules/calendar/e-memo-shell-content.c:617
 #: ../modules/calendar/e-task-shell-content.c:639
 #: ../modules/mail/e-mail-shell-content.c:689
-#, fuzzy
 msgid "Preview is Visible"
-msgstr "Sidoraden är synlig"
+msgstr "Förhandsvisning är synlig"
 
 #: ../modules/addressbook/e-book-shell-content.c:385
 #: ../modules/calendar/e-memo-shell-content.c:618
 #: ../modules/calendar/e-task-shell-content.c:640
 #: ../modules/mail/e-mail-shell-content.c:690
-#, fuzzy
 msgid "Whether the preview pane is visible"
-msgstr "Huruvida förhandsgranskningspanelen ska visas."
+msgstr "Huruvida förhandsvisningspanelen är synlig"
 
 #: ../modules/addressbook/e-book-shell-migrate.c:645
 msgid "LDAP Servers"
@@ -14060,9 +14029,8 @@ msgid "Source Selector Widget"
 msgstr "Väljare för memokälla"
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:182
-#, fuzzy
 msgid "This widget displays groups of address books"
-msgstr "Kunde inte hämta lista med adressböcker"
+msgstr "Denna widget visar grupper av adressböcker"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:262
 #: ../modules/addressbook/e-book-shell-view-actions.c:539
@@ -14074,9 +14042,8 @@ msgid "Co_py All Contacts To..."
 msgstr "Ko_piera alla kontakter till..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:664
-#, fuzzy
 msgid "Copy the contacts of the selected address book to another"
-msgstr "Kopiera kontakterna i den markerade mappen till en annan mapp"
+msgstr "Kopiera kontakterna i den markerade adressboken till en annan"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:669
 msgid "D_elete Address Book"
@@ -14091,9 +14058,8 @@ msgid "Mo_ve All Contacts To..."
 msgstr "Flyt_ta alla kontakter till..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:678
-#, fuzzy
 msgid "Move the contacts of the selected address book to another"
-msgstr "Flytta kontakterna i den markerade mappen till en annan mapp"
+msgstr "Flytta kontakterna i den markerade adressboken till en annan"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:683
 msgid "_New Address Book"
@@ -14104,9 +14070,8 @@ msgid "Address _Book Properties"
 msgstr "Egenskaper för adress_boken"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:692
-#, fuzzy
 msgid "Show properties of the selected address book"
-msgstr "Ändra egenskaperna för den markerade mappen"
+msgstr "Visa egenskaper för den markerade adressboken"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:697
 #: ../modules/calendar/e-cal-shell-view-actions.c:1300
@@ -14117,18 +14082,16 @@ msgid "_Rename..."
 msgstr "_Byt namn..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:699
-#, fuzzy
 msgid "Rename the selected address book"
-msgstr "Byt namn på vald mapp"
+msgstr "Byt namn på markerad adressbok"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:704
 msgid "S_ave Address Book as vCard"
 msgstr "S_para adressbok som vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:706
-#, fuzzy
 msgid "Save the contacts of the selected address book as a vCard"
-msgstr "Spara kontakterna i den markerade mappen som VCard"
+msgstr "Spara kontakterna i den markerade adressboken som ett vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:713
 msgid "Stop loading"
@@ -14139,9 +14102,8 @@ msgid "_Copy Contact To..."
 msgstr "_Kopiera kontakt till..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:720
-#, fuzzy
 msgid "Copy selected contacts to another address book"
-msgstr "Kopiera markerade kontakter till en annan mapp"
+msgstr "Kopiera markerade kontakter till en annan adressbok"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:725
 msgid "_Delete Contact"
@@ -14152,9 +14114,8 @@ msgid "_Find in Contact..."
 msgstr "_Sök i kontakt..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:734
-#, fuzzy
 msgid "Search for text in the displayed contact"
-msgstr "Sök efter text i meddelandetexten på det visade meddelandet"
+msgstr "Sök efter text i den visade kontakten"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:739
 msgid "_Forward Contact..."
@@ -14169,9 +14130,8 @@ msgid "_Move Contact To..."
 msgstr "_Flytta kontakt till..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:748
-#, fuzzy
 msgid "Move selected contacts to another address book"
-msgstr "Flytta markerade kontakter till en annan mapp"
+msgstr "Flytta markerade kontakter till en annan adressbok"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:753
 msgid "_New Contact..."
@@ -14231,7 +14191,7 @@ msgstr "Förhandsgranskning av _kontakt"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:841
 msgid "Show contact preview window"
-msgstr "Visa förhandsgranskningsfönster för kontakter"
+msgstr "Visa förhandsvisningsfönster för kontakter"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:860
 #: ../modules/calendar/e-memo-shell-view-actions.c:717
@@ -14241,9 +14201,8 @@ msgid "_Classic View"
 msgstr "_Klassisk vy"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:862
-#, fuzzy
 msgid "Show contact preview below the contact list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsvisning av kontakter nedanför kontaktlistan"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:867
 #: ../modules/calendar/e-memo-shell-view-actions.c:724
@@ -14253,9 +14212,8 @@ msgid "_Vertical View"
 msgstr "_Vertikal vy"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:869
-#, fuzzy
 msgid "Show contact preview alongside the contact list"
-msgstr "Visa förhandsgranskningsfönster för kontakter"
+msgstr "Visa förhandsvisning av kontakter bredvid kontaktlistan"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:877
 #: ../modules/calendar/e-cal-shell-view-actions.c:1595
@@ -14285,9 +14243,8 @@ msgid "Print all shown contacts"
 msgstr "Skriv ut alla visade kontakter"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:934
-#, fuzzy
 msgid "Preview the contacts to be printed"
-msgstr "Förhandsgranskar kontakterna som ska skrivas ut"
+msgstr "Förhandsgranska kontakterna som ska skrivas ut"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:941
 msgid "Print selected contacts"
@@ -14376,9 +14333,8 @@ msgstr "Inlo_ggning:"
 
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
 #: ../modules/addressbook/ldap-config.ui.h:12
-#, fuzzy
 msgid "One"
-msgstr "Ansluten"
+msgstr "En"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
 msgid "Search Filter"
@@ -14400,7 +14356,7 @@ msgstr "Sökfilter är den typ av objekt som ska sökas efter. Om det inte ändr
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
 #: ../modules/addressbook/ldap-config.ui.h:19
 msgid "Sub"
-msgstr "Pren"
+msgstr "Under"
 
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "Supported Search Bases"
@@ -14582,20 +14538,19 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:742
 msgid "This widget displays a miniature calendar"
-msgstr ""
+msgstr "Denna widget visar en miniatyrkalender"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:751
-#, fuzzy
 msgid "Default Calendar Client"
-msgstr "Standardklient för e-post"
+msgstr "Standardklient för kalendrar"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:752
 msgid "Default client for calendar operations"
-msgstr ""
+msgstr "Standardklient för kalenderåtgärder"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:762
 msgid "This widget displays groups of calendars"
-msgstr ""
+msgstr "Denna widget visar grupper av kalendrar"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:950
@@ -14870,9 +14825,8 @@ msgid "Print this calendar"
 msgstr "Skriv ut denna kalender"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1659
-#, fuzzy
 msgid "Preview the calendar to be printed"
-msgstr "Förhandsgranskar kalendern som ska skrivas ut"
+msgstr "Förhandsgranska kalendern som ska skrivas ut"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1731
 msgid "Go To"
@@ -15034,7 +14988,7 @@ msgstr "Standardklient för memoåtgärder"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:688
 msgid "This widget displays groups of memo lists"
-msgstr ""
+msgstr "Denna widget visar grupper av memolistor"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-memo-shell-sidebar.c:868
@@ -15089,28 +15043,24 @@ msgid "Memo _Preview"
 msgstr "F_örhandsgranskning"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:698
-#, fuzzy
 msgid "Show memo preview pane"
-msgstr "Visa förhandsgranskningspanelen"
+msgstr "Visa förvisningspanel för memon"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:719
-#, fuzzy
 msgid "Show memo preview below the memo list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsvisning av memon nedanför memolistan"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
-#, fuzzy
 msgid "Show memo preview alongside the memo list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsvisning av memon bredvid memolistan"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:784
 msgid "Print the list of memos"
 msgstr "Skriv ut memolistan"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:791
-#, fuzzy
 msgid "Preview the list of memos to be printed"
-msgstr "Förhandsgranskar memolistan som ska skrivas ut"
+msgstr "Förhandsgranska memolistan som ska skrivas ut"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:416
 #, c-format
@@ -15148,10 +15098,9 @@ msgid "Create a new assigned task"
 msgstr "Skapa en ny tilldelad uppgift"
 
 #: ../modules/calendar/e-task-shell-backend.c:339
-#, fuzzy
 msgctxt "New"
 msgid "Tas_k List"
-msgstr "Uppgiftslista"
+msgstr "Upp_giftslista"
 
 #: ../modules/calendar/e-task-shell-backend.c:341
 #: ../modules/calendar/e-task-shell-view-actions.c:715
@@ -15194,18 +15143,16 @@ msgid "Task List Selector"
 msgstr "Väljare för uppgiftskälla"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:677
-#, fuzzy
 msgid "Default Task Client"
-msgstr "Standardklient för e-post"
+msgstr "Standardklient för uppgifter"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:678
-#, fuzzy
 msgid "Default client for task operations"
-msgstr "Standardvärde för trådexpandering"
+msgstr "Standardklient för uppgiftsåtgärder"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:688
 msgid "This widget displays groups of task lists"
-msgstr ""
+msgstr "Denna widget visar grupper av uppgiftslistor"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-task-shell-sidebar.c:868
@@ -15285,14 +15232,12 @@ msgid "Show task preview pane"
 msgstr "Visa förhandsvisningspanel för uppgifter"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:883
-#, fuzzy
 msgid "Show task preview below the task list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsvisning av uppgifter nedanför uppgiftslistan"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:890
-#, fuzzy
 msgid "Show task preview alongside the task list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsvisning av uppgifter bredvid uppgiftslistan"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:898
 msgid "Active Tasks"
@@ -15319,9 +15264,8 @@ msgid "Print the list of tasks"
 msgstr "Skriv ut listan med uppgifter"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:990
-#, fuzzy
 msgid "Preview the list of tasks to be printed"
-msgstr "Förhandsgranskar listan med uppgifter som ska skrivas ut"
+msgstr "Förhandsgranska listan med uppgifter som ska skrivas ut"
 
 #: ../modules/calendar/e-task-shell-view-private.c:463
 msgid "Expunging"
@@ -15504,9 +15448,8 @@ msgid "_Unsubscribe"
 msgstr "_Säg upp prenumeration"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:969
-#, fuzzy
 msgid "Unsubscribe from the selected folder"
-msgstr "Byt namn på vald mapp"
+msgstr "Säg upp prenumeration på vald mapp"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:974
 msgid "Empty _Trash"
@@ -15582,9 +15525,8 @@ msgid "Search F_olders"
 msgstr "Sök_mappar"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1062
-#, fuzzy
 msgid "Create or edit search folder definitions"
-msgstr "Skapa eller redigera definitioner för virtuella mappar"
+msgstr "Skapa eller redigera definitioner för sökmappar"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1067
 msgid "_Subscriptions..."
@@ -15627,7 +15569,6 @@ msgid "_Group By Threads"
 msgstr "_Gruppera efter trådar"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1166
-#, fuzzy
 msgid "Threaded message list"
 msgstr "Trådad meddelandelista"
 
@@ -15636,9 +15577,8 @@ msgid "Show message preview below the message list"
 msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1194
-#, fuzzy
 msgid "Show message preview alongside the message list"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa förhandsgranskning av meddelanden bredvid meddelandelistan"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1202
 msgid "All Messages"
@@ -15897,14 +15837,12 @@ msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Påminner dig när du glömmer att lägga till en bilaga till ett e-postmeddelande."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Audio"
-msgstr "Inuti"
+msgstr "Inbäddat ljud"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
-#, fuzzy
 msgid "Play audio attachments directly in mail messages."
-msgstr "Spela upp ljudbilagor direkt från Evolution."
+msgstr "Spela upp ljudbilagor direkt i e-postmeddelanden."
 
 #: ../plugins/backup-restore/backup-restore.c:152
 msgid "Select name of the Evolution backup file"
@@ -15947,18 +15885,16 @@ msgid "_Backup Settings..."
 msgstr "Inst_ällningar för säkerhetskopiering..."
 
 #: ../plugins/backup-restore/backup-restore.c:355
-#, fuzzy
 msgid "Backup Evolution data and settings to an archive file"
-msgstr "Säkerhetskopiera och återställ data och inställningar i Evolution"
+msgstr "Säkerhetskopiera data och inställningar i Evolution till en arkivfil"
 
 #: ../plugins/backup-restore/backup-restore.c:360
 msgid "R_estore Settings..."
 msgstr "Åters_täll inställningar..."
 
 #: ../plugins/backup-restore/backup-restore.c:362
-#, fuzzy
 msgid "Restore Evolution data and settings from an archive file"
-msgstr "Säkerhetskopiera och återställ data och inställningar i Evolution"
+msgstr "Återställ data och inställningar i Evolution från en arkivfil"
 
 #: ../plugins/backup-restore/backup.c:63
 msgid "Backup Evolution directory"
@@ -16226,9 +16162,8 @@ msgstr "Okänt fel"
 
 #: ../plugins/caldav/caldav-browse-server.c:334
 #: ../plugins/caldav/caldav-browse-server.c:585
-#, fuzzy
 msgid "Failed to parse server response."
-msgstr "Misslyckades med att uppdatera delegater:"
+msgstr "Misslyckades med att tolka serverns svar."
 
 #: ../plugins/caldav/caldav-browse-server.c:428
 msgid "Events"
@@ -16458,23 +16393,20 @@ msgstr "Väderkalendrar"
 
 #: ../plugins/contacts-map/contacts-map.c:55
 #: ../plugins/contacts-map/contacts-map.c:201
-#, fuzzy
 msgid "Contacts map"
-msgstr "Kontakter: "
+msgstr "Kontaktkarta "
 
 #: ../plugins/contacts-map/contacts-map.c:56
-#, fuzzy
 msgid "Show a map of all the contacts"
-msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
+msgstr "Visa en karta över alla kontakter"
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:1
 msgid "Add a map showing the location of contacts when possible."
 msgstr ""
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
-#, fuzzy
 msgid "Map for contacts"
-msgstr "Inga kontakter"
+msgstr "Karta för kontakter"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -16501,9 +16433,8 @@ msgid "Mark as _default address book"
 msgstr "Markera som _standardadressbok"
 
 #: ../plugins/default-source/default-source.c:88
-#, fuzzy
 msgid "A_utocomplete with this address book"
-msgstr "Visa automatiskt kompletterat namn med en adress"
+msgstr "Ko_mplettera automatiskt med denna adressbok"
 
 #: ../plugins/default-source/default-source.c:97
 msgid "Mark as _default calendar"
@@ -16684,7 +16615,7 @@ msgstr ""
 
 #: ../plugins/face/face.c:366
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "Läs in ny ans_iktsbild"
 
 #: ../plugins/face/face.c:415
 msgid "Include _Face"
@@ -16692,7 +16623,7 @@ msgstr "Inkludera a_nsikte"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "Bifoga en liten bild av ditt ansikte till utgående meddelanden."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 msgid "Failed Read"
@@ -16716,7 +16647,7 @@ msgstr "Filen kan inte läsas"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
-msgstr ""
+msgstr "Filen som du valde verkar inte vara en giltig .png-bild. Fel: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:53
 #: ../plugins/google-account-setup/google-source.c:82
@@ -16875,7 +16806,6 @@ msgid "Message Retract"
 msgstr "Återkalla meddelande"
 
 #: ../plugins/groupwise-features/mail-retract.c:86
-#, fuzzy
 msgid "Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this?"
 msgstr "Återkalla ett meddelande kan ta bort det från mottagarens brevlåda. Är du säker på att du vill göra det?"
 
@@ -17771,7 +17701,7 @@ msgstr "<b>%s</b> har avbrutit följande delat memo:"
 
 #: ../plugins/itip-formatter/itip-view.c:676
 msgid "All day:"
-msgstr ""
+msgstr "Hela dagen:"
 
 #: ../plugins/itip-formatter/itip-view.c:686
 msgid "Start day:"
@@ -18243,7 +18173,6 @@ msgid "_Unsubscribe from List"
 msgstr "Av_sluta prenumerationen på listan"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:320
-#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Säg upp prenumerationen på sändlistan som detta meddelande tillhör"
 
@@ -18809,19 +18738,16 @@ msgid "Select destination file"
 msgstr "Välj målfil"
 
 #: ../plugins/save-calendar/save-calendar.c:325
-#, fuzzy
 msgid "Save the selected calendar to disk"
-msgstr "Spara de markerade meddelandena som en textfil"
+msgstr "Spara den markerade kalendern till disk"
 
 #: ../plugins/save-calendar/save-calendar.c:356
-#, fuzzy
 msgid "Save the selected memo list to disk"
-msgstr "Spara de markerade meddelandena som en textfil"
+msgstr "Spara den markerade memolistan till disk"
 
 #: ../plugins/save-calendar/save-calendar.c:387
-#, fuzzy
 msgid "Save the selected task list to disk"
-msgstr "Spara en kalender eller uppgiftslista till disk."
+msgstr "Spara den markerade uppgiftslistan till disk"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
@@ -18841,11 +18767,11 @@ msgstr "Välkommen"
 
 #: ../plugins/startup-wizard/startup-wizard.c:118
 msgid ""
-"ZZZ ! Welcome to Evolution. The next few screens will allow Evolution to connect to your email accounts, and to import files from other applications. \n"
+"Welcome to Evolution. The next few screens will allow Evolution to connect to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"ZZZ ! Välkommen till Evolution. De följande skärmarna kommer att låta Evolution ansluta till dina e-postkonton samt importera filer från andra program. \n"
+"Välkommen till Evolution. De följande skärmarna kommer att låta Evolution ansluta till dina e-postkonton samt importera filer från andra program. \n"
 "\n"
 "Klicka på knappen \"Framåt\" för att fortsätta. "
 
@@ -18986,14 +18912,12 @@ msgid "Default sidebar width"
 msgstr "Standardbredd på sidopanel"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
-#, fuzzy
 msgid "Default window X coordinate"
-msgstr "Standardfönstertillstånd"
+msgstr "Fönstrets X-koordinat som standard"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
-#, fuzzy
 msgid "Default window Y coordinate"
-msgstr "Standardfönstertillstånd"
+msgstr "Fönstrets Y-koordinat som standard"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window height"
@@ -19017,7 +18941,7 @@ msgstr "Aktiverar proxyinställningarna vid åtkomst via HTTP/HTTPS över Intern
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "Flagga som aktiverar ett mycket enklare användargränssnitt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
@@ -19108,7 +19032,7 @@ msgid "Skip development warning dialog"
 msgstr "Hoppa över varningsdialogen för utveckling"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:35
-#: ../shell/main.c:323
+#: ../shell/main.c:326
 msgid "Start in offline mode"
 msgstr "Starta i frånkopplat läge"
 
@@ -19121,14 +19045,12 @@ msgid "The configuration version of Evolution, with major/minor/configuration le
 msgstr "Evolutions konfigurationsversion, med överordnad/underordnad/konfigurationsnivå (till exempel \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
-#, fuzzy
 msgid "The default X coordinate for the main window."
-msgstr "Standardbredd för huvudfönstret, i bildpunkter."
+msgstr "X-koordinat som standard för huvudfönstret."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
-#, fuzzy
 msgid "The default Y coordinate for the main window."
-msgstr "Standardbredd för huvudfönstret, i bildpunkter."
+msgstr "Y-koordinat som standard för huvudfönstret."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid "The default height for the main window, in pixels."
@@ -19274,7 +19196,7 @@ msgid "The switcher's toolbar style"
 msgstr ""
 
 #: ../shell/e-shell-switcher.c:465
-#: ../shell/e-shell-window.c:741
+#: ../shell/e-shell-window.c:740
 msgid "Toolbar Visible"
 msgstr "Verktygsraden är synlig"
 
@@ -19294,82 +19216,81 @@ msgstr "iCalendar-filer (.ics)"
 msgid "All Files (*)"
 msgstr "Alla filer (*)"
 
-#: ../shell/e-shell-view.c:674
+#: ../shell/e-shell-view.c:675
 msgid "Switcher Action"
 msgstr "Växlaråtgärd"
 
-#: ../shell/e-shell-view.c:675
+#: ../shell/e-shell-view.c:676
 msgid "The switcher action for this shell view"
 msgstr ""
 
-#: ../shell/e-shell-view.c:690
+#: ../shell/e-shell-view.c:691
 msgid "Page Number"
 msgstr "Sidnummer"
 
-#: ../shell/e-shell-view.c:691
+#: ../shell/e-shell-view.c:692
 msgid "The notebook page number of the shell view"
 msgstr ""
 
-#: ../shell/e-shell-view.c:707
+#: ../shell/e-shell-view.c:708
 msgid "Search Rule"
 msgstr "Sökregel"
 
-#: ../shell/e-shell-view.c:708
-#, fuzzy
+#: ../shell/e-shell-view.c:709
 msgid "Criteria for the current search results"
-msgstr "Töm sökfältet"
+msgstr "Kriterium för det aktuella sökresultatet"
 
-#: ../shell/e-shell-view.c:723
+#: ../shell/e-shell-view.c:724
 msgid "The EShellBackend for this shell view"
 msgstr ""
 
-#: ../shell/e-shell-view.c:738
+#: ../shell/e-shell-view.c:739
 msgid "Shell Content Widget"
 msgstr ""
 
-#: ../shell/e-shell-view.c:739
+#: ../shell/e-shell-view.c:740
 msgid "The content widget appears in a shell window's right pane"
 msgstr ""
 
-#: ../shell/e-shell-view.c:755
+#: ../shell/e-shell-view.c:756
 #, fuzzy
 msgid "Shell Sidebar Widget"
 msgstr "Standardbredd på sidopanel"
 
-#: ../shell/e-shell-view.c:756
+#: ../shell/e-shell-view.c:757
 msgid "The sidebar widget appears in a shell window's left pane"
 msgstr ""
 
-#: ../shell/e-shell-view.c:771
+#: ../shell/e-shell-view.c:772
 msgid "Shell Taskbar Widget"
 msgstr ""
 
-#: ../shell/e-shell-view.c:772
+#: ../shell/e-shell-view.c:773
 msgid "The taskbar widget appears at the bottom of a shell window"
 msgstr ""
 
-#: ../shell/e-shell-view.c:787
+#: ../shell/e-shell-view.c:788
 msgid "Shell Window"
 msgstr "Skalfönster"
 
-#: ../shell/e-shell-view.c:788
+#: ../shell/e-shell-view.c:789
 msgid "The window to which the shell view belongs"
 msgstr ""
 
-#: ../shell/e-shell-view.c:804
+#: ../shell/e-shell-view.c:805
 msgid "The key file holding widget state data"
 msgstr ""
 
-#: ../shell/e-shell-view.c:819
+#: ../shell/e-shell-view.c:820
 msgid "The title of the shell view"
 msgstr ""
 
-#: ../shell/e-shell-view.c:833
+#: ../shell/e-shell-view.c:834
 #, fuzzy
 msgid "Current View ID"
 msgstr "_Aktuell vy"
 
-#: ../shell/e-shell-view.c:834
+#: ../shell/e-shell-view.c:835
 #, fuzzy
 msgid "The current GAL view ID"
 msgstr "aktuell tid"
@@ -19377,7 +19298,7 @@ msgstr "aktuell tid"
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:644
+#: ../shell/e-shell-window-actions.c:645
 msgid "translator-credits"
 msgstr ""
 "Daniel Nylander <po@danielnylander.se>\n"
@@ -19390,302 +19311,299 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: ../shell/e-shell-window-actions.c:655
+#: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
 msgstr "Evolutions webbplats"
 
-#: ../shell/e-shell-window-actions.c:1223
+#: ../shell/e-shell-window-actions.c:1224
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy är inte installerat."
 
-#: ../shell/e-shell-window-actions.c:1225
+#: ../shell/e-shell-window-actions.c:1226
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy kunde inte köras."
 
-#: ../shell/e-shell-window-actions.c:1342
+#: ../shell/e-shell-window-actions.c:1343
 msgid "GNOME Pilot is not installed."
 msgstr "GNOME-pilot är inte installerat."
 
-#: ../shell/e-shell-window-actions.c:1344
+#: ../shell/e-shell-window-actions.c:1345
 msgid "GNOME Pilot could not be run."
 msgstr "GNOME-pilot kunde inte köras."
 
-#: ../shell/e-shell-window-actions.c:1438
+#: ../shell/e-shell-window-actions.c:1439
 msgid "Show information about Evolution"
 msgstr "Visa information om Evolution"
 
-#: ../shell/e-shell-window-actions.c:1443
+#: ../shell/e-shell-window-actions.c:1444
 msgid "_Close Window"
 msgstr "S_täng fönster"
 
-#: ../shell/e-shell-window-actions.c:1450
+#: ../shell/e-shell-window-actions.c:1451
 msgid "_Contents"
 msgstr "_Innehåll"
 
-#: ../shell/e-shell-window-actions.c:1452
+#: ../shell/e-shell-window-actions.c:1453
 msgid "Open the Evolution User Guide"
 msgstr "Öppna användarguiden för Evolution"
 
-#: ../shell/e-shell-window-actions.c:1478
+#: ../shell/e-shell-window-actions.c:1479
 msgid "Evolution _FAQ"
 msgstr "Vanliga fr_ågor om Evolution"
 
-#: ../shell/e-shell-window-actions.c:1480
+#: ../shell/e-shell-window-actions.c:1481
 msgid "Open the Frequently Asked Questions webpage"
 msgstr "Öppna webbsidan för frågor och svar"
 
-#: ../shell/e-shell-window-actions.c:1485
+#: ../shell/e-shell-window-actions.c:1486
 msgid "_Forget Passwords"
 msgstr "Glöm lös_enord"
 
-#: ../shell/e-shell-window-actions.c:1487
+#: ../shell/e-shell-window-actions.c:1488
 msgid "Forget all remembered passwords"
 msgstr "Glöm alla ihågkomna lösenord"
 
-#: ../shell/e-shell-window-actions.c:1492
+#: ../shell/e-shell-window-actions.c:1493
 msgid "I_mport..."
 msgstr "I_mportera..."
 
-#: ../shell/e-shell-window-actions.c:1494
+#: ../shell/e-shell-window-actions.c:1495
 msgid "Import data from other programs"
 msgstr "Importera data från andra program"
 
-#: ../shell/e-shell-window-actions.c:1499
+#: ../shell/e-shell-window-actions.c:1500
 msgid "New _Window"
 msgstr "Nytt _fönster"
 
-#: ../shell/e-shell-window-actions.c:1501
+#: ../shell/e-shell-window-actions.c:1502
 msgid "Create a new window displaying this view"
 msgstr "Skapa ett nytt fönster som visar denna vy"
 
-#: ../shell/e-shell-window-actions.c:1515
+#: ../shell/e-shell-window-actions.c:1516
 msgid "Configure Evolution"
 msgstr "Konfigurera Evolution"
 
-#: ../shell/e-shell-window-actions.c:1520
+#: ../shell/e-shell-window-actions.c:1521
 msgid "_Quick Reference"
 msgstr "_Snabbreferens"
 
-#: ../shell/e-shell-window-actions.c:1522
+#: ../shell/e-shell-window-actions.c:1523
 msgid "Show Evolution's shortcut keys"
 msgstr "Visa snabbtangenter i Evolution"
 
-#: ../shell/e-shell-window-actions.c:1529
+#: ../shell/e-shell-window-actions.c:1530
 msgid "Exit the program"
 msgstr "Avsluta programmet"
 
-#: ../shell/e-shell-window-actions.c:1534
+#: ../shell/e-shell-window-actions.c:1535
 msgid "_Advanced Search..."
 msgstr "_Avancerad sökning..."
 
-#: ../shell/e-shell-window-actions.c:1536
+#: ../shell/e-shell-window-actions.c:1537
 msgid "Construct a more advanced search"
 msgstr "Skapa en mer avancerad sökning"
 
-#: ../shell/e-shell-window-actions.c:1543
+#: ../shell/e-shell-window-actions.c:1544
 msgid "Clear the current search parameters"
 msgstr "Töm de aktuella sökparametrarna"
 
-#: ../shell/e-shell-window-actions.c:1548
+#: ../shell/e-shell-window-actions.c:1549
 msgid "_Edit Saved Searches..."
 msgstr "_Redigera sparade sökningar..."
 
-#: ../shell/e-shell-window-actions.c:1550
+#: ../shell/e-shell-window-actions.c:1551
 msgid "Manage your saved searches"
 msgstr "Hantera dina sparade sökningar"
 
-#: ../shell/e-shell-window-actions.c:1557
+#: ../shell/e-shell-window-actions.c:1558
 msgid "Click here to change the search type"
 msgstr "Klicka här för att ändra söktypen"
 
-#: ../shell/e-shell-window-actions.c:1562
+#: ../shell/e-shell-window-actions.c:1563
 msgid "_Find Now"
 msgstr "_Sök nu"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1564
+#: ../shell/e-shell-window-actions.c:1565
 msgid "Execute the current search parameters"
 msgstr "Kör de aktuella sökparametrarna"
 
-#: ../shell/e-shell-window-actions.c:1569
+#: ../shell/e-shell-window-actions.c:1570
 msgid "_Save Search..."
 msgstr "S_para sökning..."
 
-#: ../shell/e-shell-window-actions.c:1571
+#: ../shell/e-shell-window-actions.c:1572
 msgid "Save the current search parameters"
 msgstr "Spara de aktuella sökparametrarna"
 
-#: ../shell/e-shell-window-actions.c:1583
+#: ../shell/e-shell-window-actions.c:1584
 msgid "Send / _Receive"
 msgstr "Ski_cka / Ta emot"
 
-#: ../shell/e-shell-window-actions.c:1585
+#: ../shell/e-shell-window-actions.c:1586
 msgid "Send queued items and retrieve new items"
 msgstr "Skicka kölagda objekt och hämta nya objekt"
 
-#: ../shell/e-shell-window-actions.c:1590
+#: ../shell/e-shell-window-actions.c:1591
 msgid "Submit _Bug Report..."
 msgstr "Skicka in f_elrapport..."
 
-#: ../shell/e-shell-window-actions.c:1592
+#: ../shell/e-shell-window-actions.c:1593
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Skicka en felrapport med Bug-Buddy"
 
-#: ../shell/e-shell-window-actions.c:1597
-#, fuzzy
+#: ../shell/e-shell-window-actions.c:1598
 msgid "GNOME Pilot _Synchronization..."
-msgstr "iPod-synkronisering"
+msgstr "GNOME Pilot-s_ynkronisering..."
 
-#: ../shell/e-shell-window-actions.c:1599
-#, fuzzy
+#: ../shell/e-shell-window-actions.c:1600
 msgid "Set up GNOME Pilot configuration"
-msgstr "Konfigurera Pilotkonfiguration"
+msgstr "Konfigurera GNOME Pilot-konfiguration"
 
-#: ../shell/e-shell-window-actions.c:1604
+#: ../shell/e-shell-window-actions.c:1605
 msgid "_Work Offline"
 msgstr "A_rbeta frånkopplad"
 
-#: ../shell/e-shell-window-actions.c:1606
+#: ../shell/e-shell-window-actions.c:1607
 msgid "Put Evolution into offline mode"
 msgstr "Försätt Evolution i frånkopplat läge"
 
-#: ../shell/e-shell-window-actions.c:1611
+#: ../shell/e-shell-window-actions.c:1612
 msgid "_Work Online"
 msgstr "A_rbeta ansluten"
 
-#: ../shell/e-shell-window-actions.c:1613
+#: ../shell/e-shell-window-actions.c:1614
 msgid "Put Evolution into online mode"
 msgstr "Försätt Evolution i anslutet läge"
 
-#: ../shell/e-shell-window-actions.c:1641
+#: ../shell/e-shell-window-actions.c:1642
 msgid "Lay_out"
 msgstr "La_yout"
 
-#: ../shell/e-shell-window-actions.c:1648
+#: ../shell/e-shell-window-actions.c:1649
 msgid "_New"
 msgstr "_Nytt"
 
-#: ../shell/e-shell-window-actions.c:1655
+#: ../shell/e-shell-window-actions.c:1656
 msgid "_Search"
 msgstr "_Sök"
 
 # Osäker.
-#: ../shell/e-shell-window-actions.c:1662
+#: ../shell/e-shell-window-actions.c:1663
 msgid "_Switcher Appearance"
 msgstr "_Utseende för växlaren"
 
-#: ../shell/e-shell-window-actions.c:1676
+#: ../shell/e-shell-window-actions.c:1677
 msgid "_Window"
 msgstr "_Fönster"
 
-#: ../shell/e-shell-window-actions.c:1705
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show Side _Bar"
 msgstr "Visa sido_rad"
 
-#: ../shell/e-shell-window-actions.c:1707
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show the side bar"
 msgstr "Visa sidoraden"
 
-#: ../shell/e-shell-window-actions.c:1713
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Buttons"
 msgstr "Visa _knappar"
 
-#: ../shell/e-shell-window-actions.c:1715
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show the switcher buttons"
 msgstr "Visa växlarknapparna"
 
-#: ../shell/e-shell-window-actions.c:1721
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Status Bar"
 msgstr "Visa _statusrad"
 
-#: ../shell/e-shell-window-actions.c:1723
+#: ../shell/e-shell-window-actions.c:1724
 msgid "Show the status bar"
 msgstr "Visa statusraden"
 
-#: ../shell/e-shell-window-actions.c:1729
+#: ../shell/e-shell-window-actions.c:1730
 msgid "Show _Tool Bar"
 msgstr "Visa _verktygsrad"
 
-#: ../shell/e-shell-window-actions.c:1731
+#: ../shell/e-shell-window-actions.c:1732
 msgid "Show the tool bar"
 msgstr "Visa verktygsraden"
 
-#: ../shell/e-shell-window-actions.c:1753
+#: ../shell/e-shell-window-actions.c:1754
 msgid "_Icons Only"
 msgstr "Endast _ikoner"
 
-#: ../shell/e-shell-window-actions.c:1755
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Display window buttons with icons only"
 msgstr "Visa fönsterknappar med endast ikoner"
 
-#: ../shell/e-shell-window-actions.c:1760
+#: ../shell/e-shell-window-actions.c:1761
 msgid "_Text Only"
 msgstr "Endast _text"
 
-#: ../shell/e-shell-window-actions.c:1762
+#: ../shell/e-shell-window-actions.c:1763
 msgid "Display window buttons with text only"
 msgstr "Visa fönsterknappar med endast text"
 
-#: ../shell/e-shell-window-actions.c:1767
+#: ../shell/e-shell-window-actions.c:1768
 msgid "Icons _and Text"
 msgstr "Ikoner _och text"
 
-#: ../shell/e-shell-window-actions.c:1769
+#: ../shell/e-shell-window-actions.c:1770
 msgid "Display window buttons with icons and text"
 msgstr "Visa fönsterknappar med ikoner och text"
 
-#: ../shell/e-shell-window-actions.c:1774
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Tool_bar Style"
 msgstr "Stil på verktygs_rad"
 
-#: ../shell/e-shell-window-actions.c:1776
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Visa fönsterknappar med skrivbordets verktygsradsinställning"
 
-#: ../shell/e-shell-window-actions.c:1784
+#: ../shell/e-shell-window-actions.c:1785
 msgid "Define Views..."
 msgstr "Definiera vyer..."
 
-#: ../shell/e-shell-window-actions.c:1786
+#: ../shell/e-shell-window-actions.c:1787
 msgid "Create or edit views"
 msgstr "Skapa eller redigera vyer"
 
-#: ../shell/e-shell-window-actions.c:1791
+#: ../shell/e-shell-window-actions.c:1792
 msgid "Save Custom View..."
 msgstr "Spara anpassad vy..."
 
-#: ../shell/e-shell-window-actions.c:1793
+#: ../shell/e-shell-window-actions.c:1794
 msgid "Save current custom view"
 msgstr "Spara aktuell anpassad vy"
 
-#: ../shell/e-shell-window-actions.c:1800
+#: ../shell/e-shell-window-actions.c:1801
 msgid "C_urrent View"
 msgstr "Aktu_ell vy"
 
-#: ../shell/e-shell-window-actions.c:1810
+#: ../shell/e-shell-window-actions.c:1811
 msgid "Custom View"
 msgstr "Anpassad vy"
 
-#: ../shell/e-shell-window-actions.c:1812
+#: ../shell/e-shell-window-actions.c:1813
 msgid "Current view is a customized view"
 msgstr "Aktuell vy är en anpassad vy"
 
-#: ../shell/e-shell-window-actions.c:1822
-#, fuzzy
+#: ../shell/e-shell-window-actions.c:1823
 msgid "Change the page settings for your current printer"
-msgstr "Ställ in sidinställningarna för din aktuella skrivare"
+msgstr "Ändra sidinställningarna för din aktuella skrivare"
 
-#: ../shell/e-shell-window-actions.c:2199
+#: ../shell/e-shell-window-actions.c:2200
 #, c-format
 msgid "Switch to %s"
 msgstr "Växla till %s"
 
-#: ../shell/e-shell-window-actions.c:2412
+#: ../shell/e-shell-window-actions.c:2413
 msgid "Execute these search parameters"
-msgstr ""
+msgstr "Kör dessa sökparametrar"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:566
+#: ../shell/e-shell-window-private.c:567
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -19694,79 +19612,70 @@ msgstr "%s - Evolution"
 msgid "New"
 msgstr "Nytt"
 
-#: ../shell/e-shell-window.c:617
+#: ../shell/e-shell-window.c:616
 msgid "Active Shell View"
 msgstr ""
 
-#: ../shell/e-shell-window.c:618
+#: ../shell/e-shell-window.c:617
 #, fuzzy
 msgid "Name of the active shell view"
 msgstr "Namn på ny vy:"
 
-#: ../shell/e-shell-window.c:633
+#: ../shell/e-shell-window.c:632
 msgid "The shell window's EFocusTracker"
 msgstr ""
 
-#: ../shell/e-shell-window.c:647
+#: ../shell/e-shell-window.c:646
 #: ../shell/e-shell.c:803
 msgid "Geometry"
 msgstr "Geometri"
 
-#: ../shell/e-shell-window.c:648
+#: ../shell/e-shell-window.c:647
 #: ../shell/e-shell.c:804
 msgid "Initial window geometry string"
 msgstr ""
 
-#: ../shell/e-shell-window.c:663
+#: ../shell/e-shell-window.c:662
 msgid "Safe Mode"
 msgstr "Säkert läge"
 
-#: ../shell/e-shell-window.c:664
-#, fuzzy
+#: ../shell/e-shell-window.c:663
 msgid "Whether the shell window is in safe mode"
-msgstr "Huruvida insticksmodulen är aktiverad"
+msgstr "Huruvida skalfönstret är i säkert läge"
 
-#: ../shell/e-shell-window.c:695
-#, fuzzy
+#: ../shell/e-shell-window.c:694
 msgid "Sidebar Visible"
 msgstr "Sidoraden är synlig"
 
-#: ../shell/e-shell-window.c:696
-#, fuzzy
+#: ../shell/e-shell-window.c:695
 msgid "Whether the shell window's side bar is visible"
-msgstr "Huruvida sidoraden ska vara synlig."
+msgstr "Huruvida skalfönstrets sidopanel är synlig"
+
+#: ../shell/e-shell-window.c:709
+msgid "Switcher Visible"
+msgstr "Växlare är synlig"
 
 #: ../shell/e-shell-window.c:710
-#, fuzzy
-msgid "Switcher Visible"
-msgstr "Sidoraden är synlig"
-
-#: ../shell/e-shell-window.c:711
-#, fuzzy
 msgid "Whether the shell window's switcher buttons are visible"
-msgstr "Huruvida fönsterknapparna ska vara synliga."
+msgstr "Huruvida skalfönstrets växlingsknappar är synliga"
+
+#: ../shell/e-shell-window.c:725
+msgid "Taskbar Visible"
+msgstr "Åtgärdsraden är synlig"
 
 #: ../shell/e-shell-window.c:726
-#, fuzzy
-msgid "Taskbar Visible"
-msgstr "Verktygsraden är synlig"
-
-#: ../shell/e-shell-window.c:727
-#, fuzzy
 msgid "Whether the shell window's task bar is visible"
-msgstr "Huruvida sidoraden ska vara synlig."
+msgstr "Huruvida skalfönstrets åtgärdsrad är synlig"
 
-#: ../shell/e-shell-window.c:742
-#, fuzzy
+#: ../shell/e-shell-window.c:741
 msgid "Whether the shell window's tool bar is visible"
-msgstr "Huruvida sidoraden ska vara synlig."
+msgstr "Huruvida skalfönstrets verktygsrad är synlig"
+
+#: ../shell/e-shell-window.c:755
+msgid "UI Manager"
+msgstr "Gränssnittshanterare"
 
 #: ../shell/e-shell-window.c:756
-#, fuzzy
-msgid "UI Manager"
-msgstr "Manager"
-
-#: ../shell/e-shell-window.c:757
 msgid "The shell window's GtkUIManager"
 msgstr ""
 
@@ -19788,7 +19697,7 @@ msgstr "Modulkatalog"
 
 #: ../shell/e-shell.c:820
 msgid "The directory from which to load EModules"
-msgstr ""
+msgstr "Katalogen från vilken EModules ska läsas in"
 
 #: ../shell/e-shell.c:835
 msgid "Network Available"
@@ -19804,9 +19713,8 @@ msgid "Online"
 msgstr "Ansluten"
 
 #: ../shell/e-shell.c:852
-#, fuzzy
 msgid "Whether the shell is online"
-msgstr "Huruvida insticksmodulen är aktiverad"
+msgstr "Huruvida skalet är anslutet"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:168
@@ -19858,58 +19766,55 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "Tala inte om för mig igen"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:322
 msgid "Start Evolution activating the specified component"
 msgstr "Starta Evolution och aktivera den angivna komponenten"
 
-#: ../shell/main.c:321
+#: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
-msgstr ""
+msgstr "Tillämpa angiven geometri på huvudfönstret"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "Starta i anslutet läge"
 
-#: ../shell/main.c:327
-#, fuzzy
-msgid "Start in \"express\" mode"
-msgstr "Starta i anslutet läge"
-
 #: ../shell/main.c:330
-#, fuzzy
-msgid "Forcibly shut down Evolution"
-msgstr "Tvinga fram nedstängning av alla Evolution-komponenter"
+msgid "Start in \"express\" mode"
+msgstr "Starta i \"express\"-läge"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:333
+msgid "Forcibly shut down Evolution"
+msgstr "Tvinga avstängning av Evolution"
+
+#: ../shell/main.c:337
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Tvinga fram ommigrering från Evolution 1.4"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:340
 msgid "Send the debugging output of all components to a file."
 msgstr "Skicka felsökningsinformation från alla komponenter till en fil."
 
-#: ../shell/main.c:339
+#: ../shell/main.c:342
 msgid "Disable loading of any plugins."
 msgstr "Inaktivera inläsning av alla insticksmoduler."
 
-#: ../shell/main.c:341
+#: ../shell/main.c:344
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Inaktivera förhandsvisningspanelen för e-post, kontakter och uppgifter."
 
-#: ../shell/main.c:345
+#: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
 msgstr ""
 
-#: ../shell/main.c:347
-#, fuzzy
+#: ../shell/main.c:350
 msgid "Request a running Evolution process to quit"
-msgstr "Startar om Evolution"
+msgstr "Begär en körande Evolution-process att avsluta"
 
-#: ../shell/main.c:511
+#: ../shell/main.c:465
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Den personliga informationshanteraren och e-postklienten Evolution"
 
-#: ../shell/main.c:537
+#: ../shell/main.c:491
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19967,9 +19872,8 @@ msgstr ""
 "Om du väljer att ta bort detta data så kommer hela innehållet i &quot;evolution&quot;-katalogen att tas bort permanent. Om du väljer att behålla detta data så kan du manuellt ta bort innehållet i &quot;evolution&quot; när det passar dig.\n"
 
 #: ../shell/shell.error.xml.h:18
-#, fuzzy
 msgid "Upgrade from previous version failed:"
-msgstr "Uppgradering från tidigare version misslyckades: {0}"
+msgstr "Uppgradering från tidigare version misslyckades:"
 
 #: ../shell/shell.error.xml.h:19
 msgid ""
@@ -20025,7 +19929,7 @@ msgstr "Skapa en ny testkälla"
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
+msgstr "Filen är inte en giltig .desktop-fil"
 
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
@@ -20040,12 +19944,12 @@ msgstr "Startar %s"
 #: ../smclient/eggdesktopfile.c:1100
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "Programmet accepterar inte dokument på kommandoraden"
 
 #: ../smclient/eggdesktopfile.c:1168
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "Okänd startflagga: %d"
 
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
@@ -20053,9 +19957,9 @@ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr ""
 
 #: ../smclient/eggdesktopfile.c:1394
-#, fuzzy, c-format
+#, c-format
 msgid "Not a launchable item"
-msgstr "Inte möjligt att köra redigeraren"
+msgstr "Inte ett körbart objekt"
 
 #: ../smclient/eggsmclient.c:227
 msgid "Disable connection to session manager"
@@ -20071,7 +19975,7 @@ msgstr "FIL"
 
 #: ../smclient/eggsmclient.c:233
 msgid "Specify session management ID"
-msgstr ""
+msgstr "Ange ID för sessionshantering"
 
 #: ../smclient/eggsmclient.c:233
 msgid "ID"
@@ -20804,7 +20708,7 @@ msgstr "Dölj _bilageraden"
 msgid "Show Attachment _Bar"
 msgstr "Visa _bilageraden"
 
-#: ../widgets/misc/e-attachment-paned.c:631
+#: ../widgets/misc/e-attachment-paned.c:636
 msgid "Show _Attachment Bar"
 msgstr "Visa _bilageraden"
 
@@ -21079,16 +20983,11 @@ msgstr "Importera en _enda fil"
 
 #: ../widgets/misc/e-import-assistant.c:439
 msgid "Select what type of file you want to import from the list."
-msgstr ""
+msgstr "Välj vilken typ av fil från listan som du vill importera."
 
 #: ../widgets/misc/e-import-assistant.c:516
-#, fuzzy
 msgid "Evolution checked for settings to import from the following applications: Pine, Netscape, Elm, iCalendar. No importable settings found. If you would like to try again, please click the \"Back\" button."
-msgstr ""
-"Evolution letade efter inställningar att importera från\n"
-"följande program: Pine, Netscape, Elm, iCalendar. Inga\n"
-"inställningar som kunde importeras hittades. Om du vill\n"
-"försöka igen bör du klicka på knappen \"Bakåt\".\n"
+msgstr "Evolution letade efter inställningar att importera från följande program: Pine, Netscape, Elm, iCalendar. Inga inställningar hittades som kunde importeras. Om du vill försöka igen bör du klicka på knappen \"Bakåt\"."
 
 #: ../widgets/misc/e-import-assistant.c:1187
 #: ../widgets/misc/e-import-assistant.c:1214
@@ -21159,7 +21058,7 @@ msgstr "Horisontell position"
 
 #: ../widgets/misc/e-paned.c:307
 msgid "Pane position when oriented horizontally"
-msgstr ""
+msgstr "Panelens position när horisontellt justerad"
 
 #: ../widgets/misc/e-paned.c:318
 msgid "Vertical Position"
@@ -21167,7 +21066,7 @@ msgstr "Vertikal position"
 
 #: ../widgets/misc/e-paned.c:319
 msgid "Pane position when oriented vertically"
-msgstr ""
+msgstr "Panelens position när vertikalt justerad"
 
 #: ../widgets/misc/e-paned.c:330
 #, fuzzy
@@ -21414,15 +21313,14 @@ msgid "Add _Script"
 msgstr "Lägg till _skript"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"Utdata från detta skript kommer att användas som\n"
-"din signatur. Namnet du anger kommer endast att\n"
-"användas för visning."
+"Utdata från detta skript kommer att användas\n"
+"som din signatur. Namnet du anger kommer\n"
+"endast att användas för visning."
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
 msgid "S_cript:"
@@ -21875,7 +21773,7 @@ msgstr "Vertikal panelposition"
 
 #: ../widgets/table/e-table.c:3375
 msgid "Vertical space between rows. It is added to top and to bottom of a row"
-msgstr ""
+msgstr "Vertikalt utrymme mellan rader. Det läggs till överst och nederst för en rad"
 
 #: ../widgets/table/e-tree.c:3392
 #: ../widgets/table/e-tree.c:3393

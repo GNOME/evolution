@@ -40,6 +40,7 @@ enum {
 struct _EAccountComboBoxPrivate {
 	EAccountList *account_list;
 	GHashTable *index;
+	gint num_displayed_accounts;
 };
 
 static gpointer parent_class;
@@ -149,6 +150,8 @@ account_combo_box_refresh_cb (EAccountList *account_list,
 	GList *list = NULL;
 	GList *iter;
 
+	combo_box->priv->num_displayed_accounts = 0;
+
 	store = gtk_list_store_new (2, G_TYPE_STRING, E_TYPE_ACCOUNT);
 	model = GTK_TREE_MODEL (store);
 	index = combo_box->priv->index;
@@ -181,6 +184,7 @@ account_combo_box_refresh_cb (EAccountList *account_list,
 		gchar *string;
 
 		account = iter->data;
+		combo_box->priv->num_displayed_accounts++;
 
 		/* Show the account name for duplicate email addresses. */
 		if (account_combo_box_has_dupes (list, account->id->address))
@@ -512,4 +516,22 @@ e_account_combo_box_set_active_name (EAccountComboBox *combo_box,
 		return FALSE;
 
 	return e_account_combo_box_set_active (combo_box, account);
+}
+
+/**
+ * e_account_combo_box_count_displayed_accounts:
+ * @combo_box: an #EAccountComboBox
+ *
+ * Counts the number of accounts that are displayed in the @combo_box.  This may not
+ * be the actual number of accounts that are configured, as some of those accounts
+ * may be disabled by the user.
+ *
+ * Return value: number of active and valid accounts as shown in the @combo_box.
+ */
+gint
+e_account_combo_box_count_displayed_accounts (EAccountComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_ACCOUNT_COMBO_BOX (combo_box), -1);
+
+	return combo_box->priv->num_displayed_accounts;
 }

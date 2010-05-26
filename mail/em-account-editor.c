@@ -2190,7 +2190,9 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
 	}
 
-	emae_queue_widgets (emae, builder, "account_vbox", "identity_required_table", "identity_optional_table", "identity_optional_frame", NULL);
+	emae_queue_widgets (emae, builder, "account_vbox", "identity_required_table",
+			    "identity_optional_table", "identity_optional_frame",
+			    "identity_address", NULL);
 
 	g_object_unref (builder);
 

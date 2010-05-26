@@ -283,6 +283,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	GtkAction *action;
 	GList *list, *iter;
 	gboolean sensitive;
+	gboolean visible;
 	guint32 state;
 	gint n_selected;
 
@@ -305,9 +306,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	if (e_shell_get_express_mode(e_shell_get_default())) {
 		GtkWidget *widget, *item;
-		GdkScreen *scr;
-		gint monitor;
-		GdkRectangle rect;
 
 		/* Hack: Get rid of New and Send/Receive in toolbar
 		 * while in express mode */
@@ -323,18 +321,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 		item = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar/send-receive");
-		gtk_widget_hide(item);
-
-		scr = gdk_screen_get_default ();
-		monitor = gdk_screen_get_monitor_at_window (
-			scr, gtk_widget_get_window (GTK_WIDGET (shell_window)));
-		gdk_screen_get_monitor_geometry (scr, monitor, &rect);
-
-		gtk_window_set_default_size (
-			GTK_WINDOW (shell_window), rect.width, rect.height);
-		gtk_window_set_decorated (
-			GTK_WINDOW (shell_window), FALSE);
-
+		if (item)
+			gtk_widget_hide(item);
 	}
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
@@ -477,6 +465,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (EVENT_REPLY_ALL);
 	sensitive = (n_selected == 1) && is_meeting;
 	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_MEETING_NEW);
+	visible = itip_addresses_get_default() != NULL;
+	gtk_action_set_visible (action, visible);
 }
 
 static void

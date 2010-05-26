@@ -160,21 +160,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/show_mail_from</key>
-      <applyto>/apps/evolution/mail/composer/show_mail_from</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-         <short>Show "From" field when sending a mail message</short>
-         <long>
-           Show the "From" field when sending a mail message.  This is
-           controlled from the View menu when a mail account is chosen.
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/mail/composer/show_mail_reply_to</key>
       <applyto>/apps/evolution/mail/composer/show_mail_reply_to</applyto>
       <owner>evolution-mail</owner>

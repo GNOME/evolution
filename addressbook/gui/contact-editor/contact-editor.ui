@@ -1586,6 +1586,13 @@
                       </object>
                     </child>
                     <child type="label">
+                              <object class="GtkHBox" id="hbox5617">
+                                <property name="visible">True</property>
+                                <property name="homogeneous">False</property>
+                                <property name="spacing">4</property>
+                                <child>
+
+
                       <object class="GtkLabel" id="label410">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Web Addresses</property>
@@ -1605,7 +1612,40 @@
                           <attribute name="weight" value="bold"/>
                         </attributes>
                       </object>
-                    </child>
+		     </child>
+                                <child>
+                                  <object class="GtkButton" id="button-web-expand">
+                                    <property name="width_request">20</property>
+                                    <property name="height_request">20</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="relief">GTK_RELIEF_NONE</property>
+                                    <property name="focus_on_click">True</property>
+                                    <child>
+                                      <object class="GtkArrow" id="arrow-web-expand">
+                                        <property name="visible">True</property>
+                                        <property name="arrow_type">GTK_ARROW_RIGHT</property>
+                                        <property name="shadow_type">GTK_SHADOW_NONE</property>
+                                        <property name="xalign">0.5</property>
+                                        <property name="yalign">0.5</property>
+                                        <property name="xpad">0</property>
+                                        <property name="ypad">0</property>
+                                      </object>
+                                    </child>
+                                    <child internal-child="accessible">
+                                      <object class="AtkObject" id="a11y-button-web-expand1">
+                                        <property name="AtkObject::accessible_name" translatable="yes">Web addresses</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="padding">0</property>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                  </packing>
+                                </child>
+                              </object>
+                         </child>
                   </object>
                   <packing>
                     <property name="padding">0</property>
@@ -1962,6 +2002,7 @@
                   <object class="GtkExpander" id="expander-personal-misc">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <object class="GtkTable" id="table89">
                         <property name="border_width">12</property>

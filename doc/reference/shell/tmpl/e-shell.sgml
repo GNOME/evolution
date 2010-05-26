@@ -107,6 +107,11 @@ EShell
 
 </para>
 
+<!-- ##### ARG EShell:meego-mode ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShell:module-directory ##### -->
 <para>
 
@@ -123,6 +128,11 @@ EShell
 </para>
 
 <!-- ##### ARG EShell:shell-settings ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShell:small-screen-mode ##### -->
 <para>
 
 </para>

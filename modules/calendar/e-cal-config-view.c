@@ -43,7 +43,7 @@ cal_config_view_constructed (GObject *object)
 	if (E_IS_DAY_VIEW (extensible)) {
 
 		e_binding_new (
-			shell_settings, "cal-day-view-show-week-numbers",
+			shell_settings, "cal-show-week-numbers",
 			E_DAY_VIEW (extensible)->week_number_label, "visible");
 
 		e_binding_new (

@@ -895,6 +895,16 @@ web_view_load_string (EWebView *web_view,
 }
 
 static void
+web_view_load_string (EWebView *web_view,
+                      const gchar *string)
+{
+	if (string != NULL && *string != '\0')
+		gtk_html_load_from_string (GTK_HTML (web_view), string, -1);
+	else
+		e_web_view_clear (web_view);
+}
+
+static void
 web_view_copy_clipboard (EWebView *web_view)
 {
 	gtk_html_command (GTK_HTML (web_view), "copy");

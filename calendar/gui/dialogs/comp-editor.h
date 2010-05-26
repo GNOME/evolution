@@ -127,6 +127,11 @@ void		comp_editor_append_page		(CompEditor *editor,
 						 CompEditorPage *page,
 						 const gchar *label,
 						 gboolean add);
+void		comp_editor_append_widget	(CompEditor *editor,
+						 GtkWidget  *page,
+						 const gchar *label,
+						 gboolean add);
+
 void		comp_editor_remove_page		(CompEditor *editor,
 						 CompEditorPage *page);
 void		comp_editor_show_page		(CompEditor *editor,
@@ -164,9 +169,6 @@ GtkActionGroup *
 GtkWidget *	comp_editor_get_managed_widget	(CompEditor *editor,
 						 const gchar *widget_path);
 CompEditor *	comp_editor_find_instance	(const gchar *uid);
-
-void		comp_editor_set_lite		(gboolean status);
-gboolean	comp_editor_get_lite		(void);
 
 G_END_DECLS
 

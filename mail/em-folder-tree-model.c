@@ -39,6 +39,7 @@
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
+#include "mail-ops.h"
 
 /* sigh, these 2 only needed for outbox total count checking - a mess */
 #include "mail-folder-cache.h"
@@ -48,6 +49,7 @@
 #include "em-event.h"
 
 #include "e-mail-local.h"
+#include "e-mail-store.h"
 #include "shell/e-shell.h"
 
 #define d(x)
@@ -75,6 +77,7 @@ struct _EMFolderTreeModelPrivate {
 
 	gulong account_changed_id;
 	gulong account_removed_id;
+	gulong account_added_id;
 };
 
 enum {
@@ -251,6 +254,29 @@ account_removed_cb (EAccountList *accounts,
 	em_folder_tree_model_remove_store (model, si->store);
 }
 
+/* HACK: FIXME: the component should listen to the account object directly */
+static void
+add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
+{
+	EAccount *account = user_data;
+
+	if (store == NULL)
+		return;
+
+	e_mail_store_add (store, account->name);
+}
+
+static void
+account_added_cb (EAccountList *accounts,
+                  EAccount *account,
+                  EMFolderTreeModel *model)
+{
+	const gchar *uri;
+
+	uri = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
+	mail_get_store (uri, NULL, add_new_store, account);
+}
+
 static void
 folder_tree_model_selection_finalized_cb (EMFolderTreeModel *model)
 {
@@ -327,6 +353,8 @@ folder_tree_model_finalize (GObject *object)
 		priv->accounts, priv->account_changed_id);
 	g_signal_handler_disconnect (
 		priv->accounts, priv->account_removed_id);
+	g_signal_handler_disconnect (
+		priv->accounts, priv->account_added_id);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -507,6 +535,9 @@ folder_tree_model_init (EMFolderTreeModel *model)
 	model->priv->account_removed_id = g_signal_connect (
 		model->priv->accounts, "account-removed",
 		G_CALLBACK (account_removed_cb), model);
+	model->priv->account_added_id = g_signal_connect (
+		model->priv->accounts, "account-added",
+		G_CALLBACK (account_added_cb), model);
 
 	g_signal_connect (mail_folder_cache_get_default (),
 			  "folder-unread-updated",

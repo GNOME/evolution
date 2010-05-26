@@ -49,6 +49,7 @@
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"
+#include "e-shell-meego.h"
 #include "es-event.h"
 
 #include "e-util/e-dialog-utils.h"
@@ -362,6 +363,7 @@ create_default_shell (void)
 	gboolean online = TRUE;
 	const gchar *key;
 	GError *error = NULL;
+	gboolean is_meego = FALSE, small_screen = FALSE;
 
 	client = gconf_client_get_default ();
 
@@ -396,6 +398,9 @@ create_default_shell (void)
 	if (!express_mode)
 		express_mode = gconf_client_get_bool (client, key, &error);
 
+	if (express_mode)
+		e_shell_detect_meego (&is_meego, &small_screen);
+
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_clear_error (&error);
@@ -406,7 +411,9 @@ create_default_shell (void)
 		"name", "org.gnome.Evolution",
 		"geometry", geometry,
 		"module-directory", EVOLUTION_MODULEDIR,
+		"meego-mode", is_meego,
 		"express-mode", express_mode,
+		"small-screen-mode", small_screen,
 		"online", online,
 		NULL);
 
@@ -584,6 +591,11 @@ main (gint argc, gchar **argv)
 		 * registered in GType now, so load plugins now. */
 		e_plugin_load_plugins ();
 	}
+
+	if (requested_view)
+		e_shell_set_startup_view(shell, requested_view);
+	else if (express_mode)
+		e_shell_set_startup_view(shell, "mail");
 
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */

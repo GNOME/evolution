@@ -32,8 +32,6 @@ enum {
 	PROP_0,
 	PROP_BUTTON,
 	PROP_LABEL,
-	PROP_ADDACTION,
-	PROP_ADDACTION_TEXT,
 	PROP_SENSITIVE,
 	PROP_VISIBLE
 };
@@ -47,8 +45,6 @@ enum {
 struct _EComposerHeaderPrivate {
 	gchar *label;
 	gboolean button;
-	gchar *addaction_text;
-	gboolean addaction; /*For Add button.*/
 	GtkWidget *action_label;
 
 	GtkWidget *add_icon;
@@ -71,15 +67,6 @@ composer_header_button_clicked_cb (GtkButton *button,
 	g_signal_emit (header, signal_ids[CLICKED], 0);
 }
 
-static void
-composer_header_addaction_clicked_cb (GtkButton *button,
-				      EComposerHeader *header)
-{
-	gboolean show = !e_composer_header_get_visible(header);
-
-	e_composer_header_set_visible (header, show);
-}
-
 static GObject *
 composer_header_constructor (GType type,
                              guint n_construct_properties,
@@ -88,6 +75,7 @@ composer_header_constructor (GType type,
 	GObject *object;
 	GtkWidget *widget;
 	EComposerHeader *header;
+	GtkWidget *label;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (parent_class)->constructor (
@@ -102,51 +90,16 @@ composer_header_constructor (GType type,
 			widget, "clicked",
 			G_CALLBACK (composer_header_button_clicked_cb),
 			header);
+		label = gtk_bin_get_child (GTK_BIN (widget));
 	} else {
 		widget = gtk_label_new_with_mnemonic (header->priv->label);
-		gtk_label_set_mnemonic_widget (
-			GTK_LABEL (widget), header->input_widget);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), header->input_widget);
+		label = widget;
 	}
+
+	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
 
 	header->priv->action_label = NULL;
-	if (header->priv->addaction) {
-		GtkWidget *box, *tmp;
-		gchar *str;
-
-		header->priv->action_label = gtk_label_new (NULL);
-		header->action_widget = gtk_button_new ();
-		box = gtk_hbox_new (FALSE, 0);
-		tmp = gtk_image_new_from_stock (
-			GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
-		header->priv->add_icon = tmp;
-		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
-		tmp = gtk_image_new_from_stock (
-			GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
-		header->priv->remove_icon = tmp;
-		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
-		tmp = gtk_label_new (NULL);
-		str = g_strdup_printf (
-			"<span>%s %s</span>", _("Show"),
-			header->priv->addaction_text);
-		gtk_label_set_markup((GtkLabel *)tmp, str);
-		g_free (str);
-		header->priv->show_label = tmp;
-		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
-		tmp = gtk_label_new (NULL);
-		str = g_strdup_printf (
-			"<span>%s %s</span>", _("Hide"),
-			header->priv->addaction_text);
-		gtk_label_set_markup((GtkLabel *)tmp, str);
-		header->priv->hide_label = tmp;
-		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
-
-		gtk_container_add((GtkContainer *)header->action_widget, box);
-		gtk_widget_show_all(header->action_widget);
-		g_signal_connect (
-			header->action_widget, "clicked",
-			G_CALLBACK (composer_header_addaction_clicked_cb),
-			header);
-	}
 
 	header->title_widget = g_object_ref_sink (widget);
 
@@ -171,14 +124,6 @@ composer_header_set_property (GObject *object,
 			priv->button = g_value_get_boolean (value);
 			return;
 
-		case PROP_ADDACTION:	/* construct only */
-			priv->addaction = g_value_get_boolean (value);
-			return;
-
-		case PROP_ADDACTION_TEXT:/* construct only */
-			priv->addaction_text = g_value_dup_string (value);
-			return;
-
 		case PROP_LABEL:	/* construct only */
 			priv->label = g_value_dup_string (value);
 			return;
@@ -199,15 +144,6 @@ composer_header_set_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-void
-e_composer_header_set_property (GObject *object,
-                              guint property_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
-{
-	composer_header_set_property (object, property_id, value, pspec);
-}
-
 static void
 composer_header_get_property (GObject *object,
                               guint property_id,
@@ -221,15 +157,6 @@ composer_header_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_BUTTON:	/* construct only */
 			g_value_set_boolean (value, priv->button);
-			return;
-
-		case PROP_ADDACTION:	/* construct only */
-			g_value_set_boolean (value, priv->button);
-			return;
-
-		case PROP_ADDACTION_TEXT:	/* construct only */
-			g_value_take_string (
-				value, priv->addaction_text);
 			return;
 
 		case PROP_LABEL:	/* construct only */
@@ -295,28 +222,6 @@ composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ADDACTION,
-		g_param_spec_boolean (
-			"addaction",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ADDACTION_TEXT,
-		g_param_spec_string (
-			"addaction_text",
-			NULL,
-			NULL,
-			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 

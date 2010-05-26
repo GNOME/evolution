@@ -294,7 +294,9 @@ free_slist_strs (gpointer data)
  * @note The list is just string of emails separated by ';'
  **/
 void
-comp_editor_manage_new_attendees (ECalComponent *comp, EMeetingAttendee *ma, gboolean add)
+comp_editor_manage_new_attendees (ECalComponent *comp,
+                                  EMeetingAttendee *ma,
+                                  gboolean add)
 {
 	const gchar *eml;
 
@@ -306,7 +308,11 @@ comp_editor_manage_new_attendees (ECalComponent *comp, EMeetingAttendee *ma, gbo
 		eml = itip_strip_mailto (eml);
 	g_return_if_fail (eml != NULL);
 
-	g_object_set_data_full (G_OBJECT (comp), "new-attendees", manage_new_attendees (g_object_get_data (G_OBJECT (comp), "new-attendees"), eml, add), free_slist_strs);
+	g_object_set_data_full (
+		G_OBJECT (comp), "new-attendees",
+		manage_new_attendees (
+			g_object_get_data (G_OBJECT (comp), "new-attendees"),
+			eml, add), free_slist_strs);
 }
 
 /**
@@ -349,15 +355,19 @@ comp_editor_have_in_new_attendees (ECalComponent *comp, EMeetingAttendee *ma)
 		eml = itip_strip_mailto (eml);
 	g_return_val_if_fail (eml != NULL, FALSE);
 
-	return comp_editor_have_in_new_attendees_lst (g_object_get_data (G_OBJECT (comp), "new-attendees"), eml);
+	return comp_editor_have_in_new_attendees_lst (
+		g_object_get_data (G_OBJECT (comp), "new-attendees"), eml);
 }
 
 /**
  * comp_editor_have_in_new_attendees_lst:
- * Same as @ref comp_editor_have_in_new_attendees only parameters are direct GSList and string.
+ *
+ * Same as comp_editor_have_in_new_attendees() only parameters are
+ * direct GSList and string.
  **/
 gboolean
-comp_editor_have_in_new_attendees_lst (const GSList *new_attendees, const gchar *eml)
+comp_editor_have_in_new_attendees_lst (const GSList *new_attendees,
+                                       const gchar *eml)
 {
 	const GSList *l;
 

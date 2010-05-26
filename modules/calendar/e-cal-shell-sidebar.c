@@ -33,6 +33,7 @@
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/misc.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
 
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-backend.h"
@@ -492,7 +493,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	bridge = gconf_bridge_get ();
 
 	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
+	key = "/apps/evolution/calendar/display/date_navigator_pane_position";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
@@ -575,6 +576,21 @@ cal_shell_sidebar_finalize (GObject *object)
 }
 
 static void
+new_calendar_clicked (GtkButton *button,
+		      EShellSidebar *shell_sidebar)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
+
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	calendar_setup_new_calendar (GTK_WINDOW (shell_window));
+}
+
+static void
 cal_shell_sidebar_constructed (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
@@ -621,7 +637,21 @@ cal_shell_sidebar_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
+	if (!e_shell_get_express_mode(e_shell_get_default())) {
+		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
+	} else {
+		GtkWidget *button;
+
+		container = gtk_vbox_new (FALSE, 6);
+		gtk_box_pack_start (GTK_BOX(container), widget, TRUE, TRUE, 0);
+
+		button = gtk_button_new_with_label (_("New Calendar..."));
+		gtk_box_pack_start (GTK_BOX(container), button, FALSE, FALSE, 0);
+		g_signal_connect (button, "clicked", G_CALLBACK(new_calendar_clicked), shell_sidebar);
+
+		gtk_paned_pack1 (GTK_PANED (priv->paned), container, TRUE, TRUE);
+		gtk_widget_show_all (container);
+	}
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -640,7 +670,8 @@ cal_shell_sidebar_constructed (GObject *object)
 	calitem = E_CALENDAR (widget)->calitem;
 	e_calendar_item_set_days_start_week_sel (calitem, 9);
 	e_calendar_item_set_max_days_sel (calitem, 42);
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	gtk_widget_set_size_request (widget, -1, 200);
 	priv->date_navigator = g_object_ref (widget);
 	gtk_widget_show (widget);
 

@@ -36,6 +36,7 @@
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
+#include "shell/e-shell-utils.h"
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -739,14 +740,9 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		shell_settings, "cal-compress-weekend",
 		widget, "active");
 
-	widget = e_builder_get_widget (prefs->builder, "dnav_show_week_no");
+	widget = e_builder_get_widget (prefs->builder, "show_week_numbers");
 	e_mutual_binding_new (
 		shell_settings, "cal-show-week-numbers",
-		widget, "active");
-
-	widget = e_builder_get_widget (prefs->builder, "dview_show_week_no");
-	e_mutual_binding_new (
-		shell_settings, "cal-day-view-show-week-numbers",
 		widget, "active");
 
 	prefs->month_scroll_by_week = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
@@ -780,15 +776,41 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	e_mutual_binding_new (
 		shell_settings, "cal-free-busy-template",
 		widget, "text");
-	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
-	toplevel = e_config_create_widget ((EConfig *)ec);
-	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
 	e_datetime_format_add_setup_widget (table, 0, "calendar", "table",  DTFormatKindDateTime, _("Ti_me and date:"));
 	e_datetime_format_add_setup_widget (table, 1, "calendar", "table",  DTFormatKindDate, _("_Date only:"));
+
+	/* Hide senseless preferences when running in Express mode */
+	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
+					       "label_second_zone",
+					       "hbox_second_zone",
+					       "timezone",
+					       "timezone_label",
+					       "hbox_use_system_timezone",
+					       "hbox_time_divisions",
+					       "show_end_times",
+					       "month_scroll_by_week",
+					       NULL);
+
+	/* HACK:  GTK+ 2.18 and 2.20 has a GtkTable which includes row/column spacing even for empty rows/columns.
+	 * When Evo runs in Express mode, we hide all the rows in the Time section of the calendar's General
+	 * preferences page.  However, due to that behavior in GTK+, we get a lot of extra spacing in that
+	 * section.  Since we know that in Express mode we only leave a single row visible, we'll make the
+	 * table's row spacing equal to 0 in that case.
+	 */
+	if (e_shell_get_express_mode (shell)) {
+		widget = e_builder_get_widget (prefs->builder, "time");
+		gtk_table_set_row_spacings (GTK_TABLE (widget), 0);
+	}
+
+	/* Hook up and add the toplevel widget */
+
+	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
+	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *)ec);
+	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
 	show_config (prefs);
 	/* FIXME: weakref? */

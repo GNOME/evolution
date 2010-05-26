@@ -1157,6 +1157,8 @@ folder_tree_new (EMFolderTree *folder_tree)
 
 	folder_tree->priv->selectable = NULL;
 
+	folder_tree->priv->selectable = NULL;
+
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_append_column ((GtkTreeView *) tree, column);
 

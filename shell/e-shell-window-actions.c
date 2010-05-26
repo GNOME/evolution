@@ -930,10 +930,17 @@ action_preferences_cb (GtkAction *action,
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 
-	if (shell_backend_class->preferences_page != NULL)
-		e_preferences_window_show_page (
-			E_PREFERENCES_WINDOW (preferences_window),
-			shell_backend_class->preferences_page);
+	if (shell_backend_class->preferences_page != NULL) {
+		if (e_shell_get_express_mode (shell)) {
+			e_preferences_window_filter_page (
+				E_PREFERENCES_WINDOW (preferences_window),
+				shell_backend_class->preferences_page);
+		} else {
+			e_preferences_window_show_page (
+				E_PREFERENCES_WINDOW (preferences_window),
+				shell_backend_class->preferences_page);
+		}
+	}
 }
 
 /**
@@ -1444,6 +1451,20 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_about_cb) },
 
 	{ "close",
+	  GTK_STOCK_CLOSE,
+	  N_("_Close Window"),
+	  "<Control>w",
+	  N_("Close this window"),
+	  G_CALLBACK (action_close_cb) },
+
+	{ "close-window-menu",
+	  GTK_STOCK_CLOSE,
+	  NULL,
+	  "<Control>w",
+	  N_("Close this window"),
+	  G_CALLBACK (action_close_cb) },
+
+	{ "close-window",
 	  GTK_STOCK_CLOSE,
 	  N_("_Close Window"),
 	  "<Control>w",
@@ -2081,9 +2102,11 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 	/* Add menu separators. */
 
-	separator = gtk_separator_menu_item_new ();
-	new_item_actions = g_list_prepend (new_item_actions, separator);
-	gtk_widget_show (GTK_WIDGET (separator));
+	if (new_item_actions != NULL) {
+		separator = gtk_separator_menu_item_new ();
+		new_item_actions = g_list_prepend (new_item_actions, separator);
+		gtk_widget_show (GTK_WIDGET (separator));
+	}
 
 	if (new_source_actions != NULL) {
 		separator = gtk_separator_menu_item_new ();

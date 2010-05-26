@@ -85,8 +85,6 @@ enum {
 	LAST_SIGNAL
 };
 
-gboolean composer_lite = FALSE;
-
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
@@ -1681,6 +1679,7 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect (object, "delete-event",
 		G_CALLBACK (msg_composer_delete_event_cb), NULL);
 
+	e_shell_adapt_window_size (shell, GTK_WINDOW (composer));
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 
 	/* Restore Persistent State */
@@ -2170,8 +2169,14 @@ msg_composer_class_init (EMsgComposerClass *class)
 static void
 msg_composer_init (EMsgComposer *composer)
 {
-	composer->lite = composer_lite;
+	EShell *shell = e_shell_get_default ();
+
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+
+	if (e_shell_get_express_mode (shell)) {
+		GtkWindow *window = e_shell_get_active_window(shell);
+		gtk_window_set_transient_for (GTK_WINDOW(composer), window);
+	}
 }
 
 GType
@@ -2217,29 +2222,21 @@ e_msg_composer_new (void)
 		"html", e_web_view_new (), NULL);
 }
 
-void
-e_msg_composer_set_lite (void)
-{
-	composer_lite = TRUE;
-}
-
+/**
+ * e_msg_composer_get_lite:
+ *
+ * Used within the composer to see if it should be made suitable for small
+ * screens.
+ *
+ * Return value: whether the surrounding #EShell is in small screen mode.
+ */
 gboolean
 e_msg_composer_get_lite (void)
 {
-	return composer_lite;
-}
+	EShell *shell;
 
-EMsgComposer *
-e_msg_composer_lite_new (void)
-{
-	EMsgComposer *composer;
-
-	/* Init lite-composer for ever for the session */
-	composer_lite = TRUE;
-
-	composer = e_msg_composer_new ();
-
-	return composer;
+	shell = e_shell_get_default ();
+	return e_shell_get_small_screen_mode (shell);
 }
 
 EFocusTracker *

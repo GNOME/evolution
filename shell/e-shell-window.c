@@ -324,9 +324,15 @@ shell_window_finalize (GObject *object)
 static void
 shell_window_constructed (GObject *object)
 {
-	e_shell_window_private_constructed (E_SHELL_WINDOW (object));
+	EShellWindow *shell_window = E_SHELL_WINDOW (object);
+
+	e_shell_window_private_constructed (shell_window);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	if (e_shell_get_meego_mode (shell_window->priv->shell) &&
+	    e_shell_get_small_screen_mode (shell_window->priv->shell))
+		gtk_window_set_decorated (GTK_WINDOW (object), FALSE);
 }
 
 static GtkWidget *
@@ -338,11 +344,34 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		shell_window, "/main-menu");
 	gtk_widget_show (main_menu);
 
+	if (e_shell_get_small_screen_mode (shell_window->priv->shell)) {
+		GtkWidget *parent, *child;
+
+		parent = gtk_widget_get_parent (main_menu);
+		g_object_ref (parent);
+		gtk_container_remove ((GtkContainer *)parent, main_menu);
+		child = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)child, main_menu, TRUE, TRUE, 0);
+		gtk_widget_show (child);
+		gtk_container_add ((GtkContainer *)parent, child);
+		shell_window->priv->menubar_box = child;
+
+		e_mutual_binding_new (main_menu, "visible",
+				child, "visible");
+		main_menu = child;
+	}
+
 	g_signal_connect (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
 
 	return main_menu;
+}
+
+GtkWidget *
+e_shell_window_get_menu_bar_box (EShellWindow *shell_window)
+{
+	return shell_window->priv->menubar_box;
 }
 
 static GtkWidget *
@@ -364,6 +393,9 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/main-toolbar");
+
+	if (e_shell_get_meego_mode (shell_window->priv->shell))
+		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 
 	/* XXX Having this separator in the UI definition doesn't work
 	 *     because GtkUIManager is unaware of the "New" button, so
@@ -399,6 +431,15 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 		shell_window, "/search-toolbar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
 	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
+	if (e_shell_get_meego_mode (shell_window->priv->shell))
+		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
+
+	toolbar = e_shell_window_get_managed_widget (
+		shell_window, "/close-toolbar");
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
+	gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
+	if (e_shell_get_meego_mode (shell_window->priv->shell))
+		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 
 	return box;
 }
@@ -605,9 +646,23 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 }
 
 static void
+shell_window_realize (GtkWidget *widget)
+{
+	EShellWindow *shell_window;
+
+	shell_window = E_SHELL_WINDOW (widget);
+	e_shell_adapt_window_size (shell_window->priv->shell,
+				   GTK_WINDOW (widget));
+
+	/* Chain up to parent's dispose() method. */
+	GTK_WIDGET_CLASS (e_shell_window_parent_class)->realize (widget);
+}
+
+static void
 e_shell_window_class_init (EShellWindowClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
 
@@ -617,6 +672,9 @@ e_shell_window_class_init (EShellWindowClass *class)
 	object_class->dispose = shell_window_dispose;
 	object_class->finalize = shell_window_finalize;
 	object_class->constructed = shell_window_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = shell_window_realize;
 
 	class->construct_menubar = shell_window_construct_menubar;
 	class->construct_toolbar = shell_window_construct_toolbar;

@@ -25,13 +25,12 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-signature-combo-box.h"
 
+#include "e-msg-composer.h"
 #include "e-composer-private.h"
 #include "e-composer-from-header.h"
 #include "e-composer-name-header.h"
 #include "e-composer-post-header.h"
 #include "e-composer-text-header.h"
-
-extern gboolean composer_lite;
 
 #define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -68,7 +67,6 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
-	GtkHBox *actions_container;
 };
 
 static gpointer parent_class;
@@ -158,11 +156,7 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	if (composer_lite && strcmp (property_name, "destinations-to") == 0)
-		parent = g_object_get_data (
-			G_OBJECT (header->input_widget), "parent");
-	else
-		parent = gtk_widget_get_parent (header->input_widget);
+	parent = gtk_widget_get_parent (header->input_widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -173,7 +167,7 @@ composer_header_table_notify_widget (GtkWidget *widget,
 {
 	GtkWidget *parent;
 
-	if (composer_lite) {
+	if (e_msg_composer_get_lite ()) {
 		parent = gtk_widget_get_parent (widget);
 		parent = g_object_get_data (G_OBJECT (parent), "pdata");
 	} else
@@ -281,6 +275,27 @@ skip_custom:
 	return new_destinations;
 }
 
+static gint
+count_from_accounts (EComposerHeaderTable *table)
+{
+	EComposerHeader *header;
+	EAccountComboBox *combo_box;
+
+	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
+	combo_box = E_ACCOUNT_COMBO_BOX (header->input_widget);
+
+	return e_account_combo_box_count_displayed_accounts (combo_box);
+}
+
+static gboolean
+from_header_should_be_visible (EComposerHeaderTable *table)
+{
+	gint num_accounts;
+
+	num_accounts = count_from_accounts (table);
+	return (num_accounts > 1);
+}
+
 static void
 composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 {
@@ -293,6 +308,8 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		EComposerHeader *header;
 		const gchar *key;
 		guint binding_id;
+		gboolean sensitive;
+		gboolean visible;
 
 		binding_id = table->priv->gconf_bindings[ii];
 		header = e_composer_header_table_get_header (table, ii);
@@ -309,10 +326,6 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 				key = COMPOSER_GCONF_PREFIX "/show_mail_cc";
 				break;
 
-			case E_COMPOSER_HEADER_FROM:
-				key = COMPOSER_GCONF_PREFIX "/show_mail_from";
-				break;
-
 			case E_COMPOSER_HEADER_REPLY_TO:
 				key = COMPOSER_GCONF_PREFIX "/show_mail_reply_to";
 				break;
@@ -323,21 +336,28 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		}
 
 		switch (ii) {
+			case E_COMPOSER_HEADER_FROM:
+				sensitive = TRUE;
+				visible = from_header_should_be_visible (table);
+				break;
+
 			case E_COMPOSER_HEADER_BCC:
 			case E_COMPOSER_HEADER_CC:
-			case E_COMPOSER_HEADER_FROM:
 			case E_COMPOSER_HEADER_REPLY_TO:
 			case E_COMPOSER_HEADER_SUBJECT:
 			case E_COMPOSER_HEADER_TO:
-				e_composer_header_set_sensitive (header, TRUE);
-				e_composer_header_set_visible (header, TRUE);
+				sensitive = TRUE;
+				visible = TRUE;
 				break;
 
 			default:
-				e_composer_header_set_sensitive (header, FALSE);
-				e_composer_header_set_visible (header, FALSE);
+				sensitive = FALSE;
+				visible = FALSE;
 				break;
 		}
+
+		e_composer_header_set_sensitive (header, sensitive);
+		e_composer_header_set_visible (header, visible);
 
 		if (key != NULL)
 			binding_id = gconf_bridge_bind_property (
@@ -481,6 +501,17 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_mail_headers (table);
 }
 
+static gint
+get_row_padding (void)
+{
+	/* For small screens, make the header-table's rows be packed closely together */
+
+	if (e_msg_composer_get_lite ())
+		return 0;
+	else
+		return 3;
+}
+
 static GObject *
 composer_header_table_constructor (GType type,
                                    guint n_construct_properties,
@@ -489,6 +520,7 @@ composer_header_table_constructor (GType type,
 	GObject *object;
 	EComposerHeaderTablePrivate *priv;
 	guint rows, ii;
+	gint row_padding;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (parent_class)->constructor (
@@ -504,45 +536,18 @@ composer_header_table_constructor (GType type,
 	/* Use "ypadding" instead of "row-spacing" because some rows may
 	 * be invisible and we don't want spacing around them. */
 
+	row_padding = get_row_padding ();
+
 	for (ii = 0; ii < rows; ii++) {
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->title_widget,
-			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
-		if (composer_lite && ii == E_COMPOSER_HEADER_TO) {
-			GtkWidget *box = gtk_hbox_new (FALSE, 0);
-			g_object_set_data (
-				G_OBJECT (priv->headers[ii]->input_widget),
-				"parent", object);
-			gtk_box_pack_start (
-				GTK_BOX (box), priv->headers[ii]->input_widget,
-				TRUE, TRUE, 3);
-			gtk_box_pack_start (
-				GTK_BOX (box),
-				GTK_WIDGET (priv->actions_container),
-				FALSE, FALSE, 0);
-			gtk_widget_show (box);
-			gtk_table_attach (
-				GTK_TABLE (object), box, 1, 4, ii, ii + 1,
-				GTK_FILL | GTK_EXPAND, 0, 0, 3);
-
-		} else {
-			gtk_table_attach (
-				GTK_TABLE (object),
-				priv->headers[ii]->input_widget, 1, 4,
-				ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
-		}
-		if (composer_lite && priv->headers[ii]->action_widget) {
-			/* Pack the widgets to the end. Helps formatting
-			 * when hiding the From field. */
-			gtk_box_pack_end (
-				GTK_BOX (priv->actions_container),
-				priv->headers[ii]->action_widget,
-				FALSE, FALSE, 6);
-		}
+			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, row_padding);
+		gtk_table_attach (
+			GTK_TABLE (object),
+			priv->headers[ii]->input_widget, 1, 4,
+			ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, row_padding);
 	}
 
-	if (composer_lite)
-		gtk_widget_show_all ((GtkWidget *)priv->actions_container);
 	ii = E_COMPOSER_HEADER_FROM;
 
 	/* Leave room in the "From" row for signature stuff. */
@@ -560,13 +565,13 @@ composer_header_table_constructor (GType type,
 		priv->signature_combo_box, "visible");
 
 	/* Now add the signature stuff. */
-	if (!composer_lite) {
+	if (!e_msg_composer_get_lite ()) {
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_label,
-			2, 3, ii, ii + 1, 0, 0, 0, 3);
+			2, 3, ii, ii + 1, 0, 0, 0, row_padding);
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_combo_box,
-			3, 4, ii, ii + 1, composer_lite ? GTK_FILL: 0, 0, 0, 3);
+			3, 4, ii, ii + 1, e_msg_composer_get_lite () ? GTK_FILL: 0, 0, 0, row_padding);
 	} else {
 		GtkWidget *box = gtk_hbox_new (FALSE, 0);
 
@@ -579,7 +584,7 @@ composer_header_table_constructor (GType type,
 		g_object_set_data (G_OBJECT (box), "pdata", object);
 		gtk_table_attach (
 			GTK_TABLE (object), box,
-			3, 4, ii, ii + 1, GTK_FILL, 0, 0, 3);
+			3, 4, ii, ii + 1, GTK_FILL, 0, 0, row_padding);
 		gtk_widget_hide (box);
 	}
 
@@ -953,9 +958,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 	name_selector = e_name_selector_new ();
 	table->priv->name_selector = name_selector;
 
-	table->priv->actions_container = (GtkHBox *)gtk_hbox_new (FALSE, 6);
-
-	header = e_composer_from_header_new_with_action (_("Fr_om:"), _("From"));
+	header = e_composer_from_header_new (_("Fr_om:"));
 	composer_header_table_bind_header ("account", "changed", header);
 	composer_header_table_bind_header ("account-list", "refreshed", header);
 	composer_header_table_bind_header ("account-name", "changed", header);
@@ -964,24 +967,21 @@ composer_header_table_init (EComposerHeaderTable *table)
 		composer_header_table_from_changed_cb), table);
 	table->priv->headers[E_COMPOSER_HEADER_FROM] = header;
 
-	header = e_composer_text_header_new_label (_("_Reply-To:"), "");
+	header = e_composer_text_header_new_label (_("_Reply-To:"));
 	composer_header_table_bind_header ("reply-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
 
-	header = e_composer_name_header_new_with_label (
-		_("_To:"), name_selector);
+	header = e_composer_name_header_new (_("_To:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
 	composer_header_table_bind_header ("destinations-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
-	header = e_composer_name_header_new_with_action (
-		_("_Cc:"), _("CC"), name_selector);
+	header = e_composer_name_header_new (_("_Cc:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
-	header = e_composer_name_header_new_with_action (
-		_("_Bcc:"), _("BCC"), name_selector);
+	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
@@ -990,7 +990,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 	composer_header_table_bind_header ("post-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
 
-	header = e_composer_text_header_new_label (_("S_ubject:"), NULL);
+	header = e_composer_text_header_new_label (_("S_ubject:"));
 	composer_header_table_bind_header ("subject", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
 

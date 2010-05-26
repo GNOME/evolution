@@ -348,3 +348,59 @@ e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
 
 	return g_strv_length (uris);
 }
+
+/**
+ * e_shell_hide_widgets_for_express_mode:
+ * @shell: an #EShell
+ * @builder: a #GtkBuilder
+ * @widget_name: NULL-terminated list of strings
+ *
+ * If Evolution is running in Express mode (i.e. if the specified @shell is
+ * in Express mode), then this function will hide a list of widgets, based
+ * on their specified names.  The list of names must be NULL-terminated,
+ * and each element of that list must be the name of a widget present in
+ * @builder.  Those widgets will then get hidden.
+ *
+ * This can be used to simplify preference dialogs and such in an easy
+ * fashion, for use in Express mode.
+ *
+ * If Evolution is not running in Express mode, this function does nothing.
+ */
+void
+e_shell_hide_widgets_for_express_mode (EShell *shell,
+                                       GtkBuilder *builder,
+                                       const gchar *widget_name,
+                                       ...)
+{
+	va_list args;
+	const gchar *name;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+	g_return_if_fail (widget_name != NULL);
+
+	if (!e_shell_get_express_mode (shell))
+		return;
+
+	va_start (args, widget_name);
+
+	name = va_arg (args, const gchar *);
+	while (name) {
+		GObject *object;
+
+		object = gtk_builder_get_object (builder, name);
+		if (!GTK_IS_WIDGET (object)) {
+			g_error (
+				"Object '%s' was not found in the builder "
+				"file, or it is not a GtkWidget", name);
+			g_assert_not_reached ();
+		}
+
+		gtk_widget_hide (GTK_WIDGET (object));
+
+		name = va_arg (args, const gchar *);
+	}
+
+	va_end (args);
+}
+

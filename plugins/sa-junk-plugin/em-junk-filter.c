@@ -41,6 +41,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include "mail/em-config.h"
+#include "shell/e-shell.h"
 
 #include <gconf/gconf-client.h>
 
@@ -920,6 +921,7 @@ use_remote_tests_cb (GtkWidget *widget, gpointer data)
 GtkWidget *
 org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
+	EShell *shell;
 	GtkWidget *check, *vbox, *label;
 	gchar *text = g_strdup_printf ("    <small>%s</small>", _("This will make SpamAssassin more reliable, but slower"));
 	guint n_rows;
@@ -942,7 +944,13 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 	gtk_table_attach (
 		GTK_TABLE (data->parent), vbox,
 		0, 1, n_rows, n_rows+1, 0, 0, 0, 0);
-	gtk_widget_show_all (vbox);
-	return (GtkWidget *)vbox;
+
+	shell = e_shell_get_default ();
+	if (e_shell_get_express_mode (shell))
+		gtk_widget_hide (vbox);
+	else
+		gtk_widget_show_all (vbox);
+
+	return vbox;
 }
 

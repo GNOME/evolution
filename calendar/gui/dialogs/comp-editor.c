@@ -65,8 +65,6 @@
 
 #define d(x)
 
-static gboolean comp_lite = FALSE;
-
 /* Private part of the CompEditor structure */
 struct _CompEditorPrivate {
 
@@ -163,10 +161,16 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
-"    <toolitem action='save'/>"
-"    <toolitem action='print'/>"
-"    <toolitem action='close'/>"
+"    <toolitem action='save'/>\n"
+"#if !EXPRESS\n"
+"    <toolitem action='print'/>\n"
+"#endif\n"
 "    <separator/>"
+"    <placeholder name='content'/>\n"
+"#if EXPRESS\n"
+"    <separator expand='true'/>\n"
+"    <toolitem action='close'/>\n"
+"#endif\n"
 "  </toolbar>"
 "</ui>";
 
@@ -411,7 +415,7 @@ save_comp (CompEditor *editor)
 	clone = e_cal_component_clone (priv->comp);
 	comp_editor_copy_new_attendees (clone, priv->comp);
 	for (l = priv->pages; l != NULL; l = l->next) {
-		if (!comp_editor_page_fill_component (l->data, clone)) {
+		if (IS_COMP_EDITOR_PAGE(l->data) && !comp_editor_page_fill_component (l->data, clone)) {
 			g_object_unref (clone);
 			g_hash_table_destroy (timezones);
 			comp_editor_show_page (editor, COMP_EDITOR_PAGE (l->data));
@@ -419,7 +423,8 @@ save_comp (CompEditor *editor)
 		}
 
 		/* retrieve all timezones */
-		comp_editor_page_fill_timezones (l->data, timezones);
+		if (IS_COMP_EDITOR_PAGE(l->data))
+			comp_editor_page_fill_timezones (l->data, timezones);
 	}
 
 	/* If we are not the organizer, we don't update the sequence number */
@@ -1588,6 +1593,9 @@ comp_editor_init (CompEditor *editor)
 	gint n_targets;
 	GError *error = NULL;
 
+	/* FIXME Shell should be passed in. */
+	shell = e_shell_get_default ();
+
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
 
 	g_object_weak_ref (
@@ -1611,9 +1619,9 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 
 	priv->ui_manager = e_ui_manager_new ();
+	e_ui_manager_set_express_mode (E_UI_MANAGER (priv->ui_manager),
+				       e_shell_get_express_mode (shell));
 
-	if (comp_lite)
-		gtk_window_set_default_size ((GtkWindow *) editor, 800, 450);
 	gtk_window_add_accel_group (
 		GTK_WINDOW (editor),
 		gtk_ui_manager_get_accel_group (priv->ui_manager));
@@ -1695,7 +1703,7 @@ comp_editor_init (CompEditor *editor)
 	action = comp_editor_get_action (editor, "save");
 	gtk_action_set_sensitive (action, FALSE);
 
-	gtk_ui_manager_add_ui_from_string (priv->ui_manager, ui, -1, &error);
+	e_ui_manager_add_ui_from_string (E_UI_MANAGER (priv->ui_manager), ui, &error);
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
@@ -1711,15 +1719,15 @@ comp_editor_init (CompEditor *editor)
 
 	container = widget;
 
-	widget = comp_editor_get_managed_widget (editor, "/main-menu");
+	if (!e_shell_get_express_mode (shell)) {
+		widget = comp_editor_get_managed_widget (editor, "/main-menu");
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_set_visible (widget, !e_shell_get_meego_mode (shell));
+	}
+
+	widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-
-	if (!comp_lite) {
-		widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-		gtk_widget_show (widget);
-	}
 
 	widget = e_attachment_paned_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
@@ -1727,8 +1735,9 @@ comp_editor_init (CompEditor *editor)
 	priv->attachment_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	if (comp_lite) {
-		GtkWidget *tmp, *tmp1, *tmp_box, *cont;
+	if (e_shell_get_express_mode (shell)) {
+		/*GtkWidget *tmp, *tmp1, *tmp_box, */
+		GtkWidget *cont;
 		GtkWidget *combo;
 
 		e_attachment_paned_set_expanded (E_ATTACHMENT_PANED (widget), TRUE);
@@ -1739,7 +1748,7 @@ comp_editor_init (CompEditor *editor)
 		gtk_widget_hide (combo);
 		cont = e_attachment_paned_get_controls_container (
 			E_ATTACHMENT_PANED (widget));
-
+		/*
 		tmp_box = gtk_hbox_new (FALSE, 0);
 		tmp = gtk_hbox_new (FALSE, 0);
 		tmp1 = gtk_image_new_from_stock (GTK_STOCK_SAVE, GTK_ICON_SIZE_BUTTON);
@@ -1759,12 +1768,12 @@ comp_editor_init (CompEditor *editor)
 
 		gtk_widget_show(tmp_box);
 		gtk_box_pack_end (GTK_BOX (cont), tmp_box, FALSE, FALSE, 4);
-
+		*/
 	}
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_view));
 
-	if (comp_lite) {
+	if (e_shell_get_express_mode (shell)) {
 		scroll = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_widget_show(scroll);
@@ -1772,14 +1781,14 @@ comp_editor_init (CompEditor *editor)
 	}
 
 	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	if (!comp_lite)
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), e_shell_get_express_mode (shell));
+	if (!e_shell_get_express_mode (shell))
 		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	else
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) scroll, widget);
 	priv->notebook = GTK_NOTEBOOK (widget);
 	gtk_widget_show (widget);
-	if (comp_lite)
+	if (e_shell_get_express_mode (shell))
 		gtk_widget_set_size_request (scroll, 300, -1);
 	comp_editor_setup_recent_menu (editor);
 
@@ -1821,9 +1830,8 @@ comp_editor_init (CompEditor *editor)
 
 	comp_editor_bind_gconf (editor);
 
-	/* FIXME Shell should be passed in. */
-	shell = e_shell_get_default ();
 	e_shell_watch_window (shell, GTK_WINDOW (editor));
+	e_shell_adapt_window_size (shell, GTK_WINDOW (editor));
 }
 
 static gboolean
@@ -2263,6 +2271,51 @@ page_unmapped_cb (GtkWidget *page_widget,
 }
 
 /**
+ * comp_editor_append_widget:
+ * @editor: A component editor
+ * @page: A component editor page
+ * @label: Label of the page. Should be NULL if add is FALSE.
+ * @add: Add's the page into the notebook if TRUE
+ *
+ * Appends a page to the notebook if add is TRUE else
+ * just adds it to the list of pages.
+ **/
+void
+comp_editor_append_widget (CompEditor *editor,
+			 GtkWidget *page,
+			 const gchar *label,
+			 gboolean add)
+{
+	CompEditorPrivate *priv;
+	GtkWidget *label_widget = NULL;
+
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	g_object_ref (page);
+
+	if (label)
+		label_widget = gtk_label_new_with_mnemonic (label);
+
+	priv->pages = g_list_append (priv->pages, page);
+
+	if (add)
+		gtk_notebook_append_page (priv->notebook, page, label_widget);
+
+	/* Listen for when the page is mapped/unmapped so we can
+	   install/uninstall the appropriate GtkAccelGroup.
+	g_signal_connect (
+		page, "map",
+		G_CALLBACK (page_mapped_cb), page);
+	g_signal_connect(
+		page, "unmap",
+		G_CALLBACK (page_unmapped_cb), page);
+		*/
+
+}
+
+/**
  * comp_editor_append_page:
  * @editor: A component editor
  * @page: A component editor page
@@ -2553,8 +2606,10 @@ fill_widgets (CompEditor *editor)
 	g_signal_handlers_block_by_func (
 		action, G_CALLBACK (action_classification_cb), editor);
 
-	for (iter = priv->pages; iter != NULL; iter = iter->next)
-		comp_editor_page_fill_widgets (iter->data, priv->comp);
+	for (iter = priv->pages; iter != NULL; iter = iter->next) {
+		if (IS_COMP_EDITOR_PAGE(iter->data))
+			comp_editor_page_fill_widgets (iter->data, priv->comp);
+	}
 
 	g_signal_handlers_unblock_by_func (
 		action, G_CALLBACK (action_classification_cb), editor);
@@ -2797,8 +2852,10 @@ comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
 	comp = e_cal_component_clone (priv->comp);
 	comp_editor_copy_new_attendees (comp, priv->comp);
 	if (priv->changed) {
-		for (l = priv->pages; l != NULL; l = l->next)
-			all_ok = comp_editor_page_fill_component (l->data, comp) && all_ok;
+		for (l = priv->pages; l != NULL; l = l->next) {
+			if (IS_COMP_EDITOR_PAGE(l->data))
+				all_ok = comp_editor_page_fill_component (l->data, comp) && all_ok;
+		}
 	}
 
 	if (correct)
@@ -2966,7 +3023,7 @@ page_dates_changed_cb (CompEditor *editor,
 	GList *l;
 
 	for (l = priv->pages; l != NULL; l = l->next)
-		if (page != (CompEditorPage *) l->data)
+		if (page != (CompEditorPage *) l->data && IS_COMP_EDITOR_PAGE(l->data))
 			comp_editor_page_set_dates (l->data, dates);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org && !(editor->priv->flags & COMP_EDITOR_NEW_ITEM)) {
@@ -3023,14 +3080,3 @@ obj_removed_cb (ECal *client,
 		close_dialog (editor);
 }
 
-gboolean
-comp_editor_get_lite ()
-{
-	return comp_lite;
-}
-
-void
-comp_editor_set_lite (gboolean status)
-{
-	comp_lite = status;
-}

@@ -62,17 +62,23 @@ struct _EShellPrivate {
 	gchar *geometry;
 	gchar *module_directory;
 
+	gchar *startup_view;
+
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
 	guint online		: 1;
 	guint quit_cancelled	: 1;
 	guint safe_mode		: 1;
 	guint express_mode	: 1;
+	guint meego_mode	: 1;
+	guint small_screen_mode	: 1;
 };
 
 enum {
 	PROP_0,
 	PROP_EXPRESS_MODE,
+	PROP_MEEGO_MODE,
+	PROP_SMALL_SCREEN_MODE,
 	PROP_GEOMETRY,
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
@@ -471,6 +477,18 @@ shell_set_express_mode (EShell *shell,
 }
 
 static void
+shell_set_meego_mode (EShell *shell, gboolean is_meego)
+{
+	shell->priv->meego_mode = is_meego;
+}
+
+static void
+shell_set_small_screen_mode (EShell *shell, gboolean small_screen)
+{
+	shell->priv->small_screen_mode = small_screen;
+}
+
+static void
 shell_set_geometry (EShell *shell,
                     const gchar *geometry)
 {
@@ -497,6 +515,18 @@ shell_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_EXPRESS_MODE:
 			shell_set_express_mode (
+				E_SHELL (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_MEEGO_MODE:
+			shell_set_meego_mode (
+				E_SHELL (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SMALL_SCREEN_MODE:
+			shell_set_small_screen_mode (
 				E_SHELL (object),
 				g_value_get_boolean (value));
 			return;
@@ -542,6 +572,18 @@ shell_get_property (GObject *object,
 				E_SHELL (object)));
 			return;
 
+		case PROP_MEEGO_MODE:
+			g_value_set_boolean (
+				value, e_shell_get_meego_mode (
+				E_SHELL (object)));
+			return;
+
+		case PROP_SMALL_SCREEN_MODE:
+			g_value_set_boolean (
+				value, e_shell_get_small_screen_mode (
+				E_SHELL (object)));
+			return;
+
 		case PROP_MODULE_DIRECTORY:
 			g_value_set_string (
 				value, e_shell_get_module_directory (
@@ -576,6 +618,11 @@ shell_dispose (GObject *object)
 	EShellPrivate *priv;
 
 	priv = E_SHELL_GET_PRIVATE (object);
+
+	if (priv->startup_view != NULL) {
+		g_free (priv->startup_view);
+		priv->startup_view = NULL;
+	}
 
 	if (priv->settings != NULL) {
 		g_object_unref (priv->settings);
@@ -784,6 +831,40 @@ e_shell_class_init (EShellClass *class)
 			"express-mode",
 			"Express Mode",
 			"Whether express mode is enabled",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShell:meego
+	 *
+	 * Are we running under meego - if so, adapt ourselves
+	 * to fit in well with their theming.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_MEEGO_MODE,
+		g_param_spec_boolean (
+			"meego-mode",
+			"Meego Mode",
+			"Whether meego mode is enabled",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShell:small-screen
+	 *
+	 * Are we running with a small (1024x600) screen - if so, start
+	 * throwing the babies overboard to fit onto that screen size.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SMALL_SCREEN_MODE,
+		g_param_spec_boolean (
+			"small-screen-mode",
+			"Small Screen Mode",
+			"Whether we run on a rather small screen",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -1078,6 +1159,8 @@ e_shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
+
+	shell->priv->startup_view = NULL;
 
 	g_object_ref_sink (shell->priv->preferences_window);
 
@@ -1580,6 +1663,38 @@ e_shell_get_express_mode (EShell *shell)
 }
 
 /**
+ * e_shell_get_meego_mode:
+ * @shell: an #EShell
+ *
+ * Returns %TRUE if Evolution is in MeeGo mode.
+ *
+ * Returns: %TRUE if Evolution is in MeeGo mode
+ **/
+gboolean
+e_shell_get_meego_mode (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->meego_mode;
+}
+
+/**
+ * e_shell_get_small_screen_mode:
+ * @shell: an #EShell
+ *
+ * Returns %TRUE if Evolution is in small (netbook) screen mode.
+ *
+ * Returns: %TRUE if Evolution is in small screen mode
+ **/
+gboolean
+e_shell_get_small_screen_mode (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->small_screen_mode;
+}
+
+/**
  * e_shell_get_module_directory:
  * @shell: an #EShell
  *
@@ -1796,4 +1911,50 @@ e_shell_cancel_quit (EShell *shell)
 	shell->priv->quit_cancelled = TRUE;
 
 	g_signal_stop_emission (shell, signals[QUIT_REQUESTED], 0);
+}
+
+/**
+ * e_shell_adapt_window_size:
+ * @shell: an #EShell
+ * @window: a #GtkWindow to adapt to full-screen
+ *
+ * This is used to adapt to window's size to be optimal for
+ * the platform. The shell settings are used to determine if
+ * a window should be set to full screen etc.
+ *
+ * This method is best called when the widget is realized on
+ * a given screen.
+ **/
+void
+e_shell_adapt_window_size (EShell    *shell,
+			   GtkWindow *window)
+{
+	gint monitor;
+	GdkScreen *scr;
+	GdkRectangle rect;
+
+	if (!e_shell_get_meego_mode (shell) ||
+	    !e_shell_get_small_screen_mode (shell))
+		return;
+
+	scr = gdk_screen_get_default ();
+	monitor = gdk_screen_get_monitor_at_window (scr, GTK_WIDGET (window)->window);
+	gdk_screen_get_monitor_geometry (scr, monitor, &rect);
+
+	gtk_window_set_default_size (window, rect.width, rect.height);
+	gtk_window_set_decorated (window, FALSE);
+	gtk_window_maximize (window);
+}
+
+void
+e_shell_set_startup_view (EShell *shell,
+			  const gchar *view)
+{
+	shell->priv->startup_view = g_strdup(view);
+}
+
+const gchar *
+e_shell_get_startup_view (EShell *shell)
+{
+	return shell->priv->startup_view;
 }

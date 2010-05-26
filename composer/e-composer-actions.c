@@ -422,14 +422,6 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
-	{ "view-from",
-	  NULL,
-	  N_("_From Field"),
-	  NULL,
-	  N_("Toggles whether the From chooser is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
 	{ "view-reply-to",
 	  NULL,
 	  N_("_Reply-To Field"),
