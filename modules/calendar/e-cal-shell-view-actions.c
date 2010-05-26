@@ -1228,31 +1228,13 @@ action_event_schedule_cb (GtkAction *action,
 	edit_event_as (cal_shell_view, TRUE);
 }
 
- static void
-quit_calendar_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GdkEvent *event;
-
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	/* Synthesize a delete_event on this window. */
-	event = gdk_event_new (GDK_DELETE);
-	event->any.window = g_object_ref (((GtkWidget *) shell_window)->window);
-	event->any.send_event = TRUE;
-	gtk_main_do_event (event);
-	gdk_event_free (event);
-}
-
 static void
 quit_calendar_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+                  ECalShellView *cal_shell_view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	GdkWindow *window;
 	GdkEvent *event;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
@@ -1260,7 +1242,8 @@ quit_calendar_cb (GtkAction *action,
 
 	/* Synthesize a delete_event on this window. */
 	event = gdk_event_new (GDK_DELETE);
-	event->any.window = g_object_ref (gtk_widget_get_window (GTK_WIDGET (shell_window)));
+	window = gtk_widget_get_window (GTK_WIDGET (shell_window));
+	event->any.window = g_object_ref (window);
 	event->any.send_event = TRUE;
 	gtk_main_do_event (event);
 	gdk_event_free (event);
@@ -1269,7 +1252,7 @@ quit_calendar_cb (GtkAction *action,
 
 static void
 action_event_schedule_appointment_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+                                      ECalShellView *cal_shell_view)
 {
 	edit_event_as (cal_shell_view, FALSE);
 }
