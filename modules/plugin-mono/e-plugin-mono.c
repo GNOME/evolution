@@ -121,6 +121,11 @@ plugin_mono_invoke (EPlugin *plugin,
 	plugin_mono = E_PLUGIN_MONO (plugin);
 	priv = plugin_mono->priv;
 
+	if (!domain) {
+		mono_config_parse (NULL);
+		domain = mono_jit_init (plugin_mono->location);
+	}
+	
 	/* We need to do this every time since we may
 	 * be called from any thread for some uses. */
 	mono_thread_attach (domain);
@@ -258,7 +263,4 @@ e_plugin_mono_register_type (GTypeModule *type_module)
 	plugin_mono_type = g_type_module_register_type (
 		type_module, E_TYPE_PLUGIN,
 		"EPluginMono", &type_info, 0);
-
-	domain = mono_jit_init ("Evolution");
-	mono_thread_attach (domain);
 }
