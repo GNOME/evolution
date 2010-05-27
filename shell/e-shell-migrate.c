@@ -49,6 +49,10 @@ shell_migrate_attempt (EShell *shell,
 	parent = e_shell_get_active_window (shell);
 	backends = e_shell_get_shell_backends (shell);
 
+	/* New user accounts have nothing to migrate. */
+	if (major == 0 && minor == 0 && micro == 0)
+		return TRUE;
+
 	/* We only support migrating from version 2 now. */
 	if (major < 2) {
 		gchar *version;
