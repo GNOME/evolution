@@ -14,11 +14,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution master\n"
+"Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-05-24 14:20+0000\n"
-"PO-Revision-Date: 2010-05-24 18:51+0300\n"
+"POT-Creation-Date: 2010-05-26 17:36+0000\n"
+"PO-Revision-Date: 2010-05-27 11:24+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -278,6 +278,9 @@ msgid "Video Chat:"
 msgstr "Videovestlus:"
 
 msgid "Web Addresses"
+msgstr "Veebiaadressid"
+
+msgid "Web addresses"
 msgstr "Veebiaadressid"
 
 msgid "Work"
@@ -1914,11 +1917,10 @@ msgstr "Ajavööndi välja näitamine sündmuste/koosolekute redaktoris"
 msgid "Show type field in the event/task/meeting editor"
 msgstr "Liigivälja näitamine sündmuste/koosolekute redaktoris"
 
-msgid "Show week number in Day and Work Week View"
+#, fuzzy
+#| msgid "Show week number in Day and Work Week View"
+msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr "Nädalanumbrite näitamine päeva- ja töönädala vaates"
-
-msgid "Show week numbers in date navigator"
-msgstr "Nädalanumbrite näitamine kuupäevavalikus"
 
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
@@ -2090,11 +2092,8 @@ msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris."
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
-msgid "Whether to show week number in the Day and Work Week View."
-msgstr "Kas päeva- ja töönädalavaates näidatakse nädala numbrit."
-
-msgid "Whether to show week numbers in the date navigator."
-msgstr "Kas kuupäevasirvijas näidatakse nädalate numbreid."
+msgid "Whether to show week numbers in various places in the Calendar."
+msgstr "Kas kalendris näidatakse nädalate numbreid."
 
 msgid "Work days"
 msgstr "Tööpäevad"
@@ -2294,15 +2293,11 @@ msgstr "Vali..."
 msgid "Selected Calendars for Alarms"
 msgstr "Alarmidele valitud kalendrid"
 
-#, fuzzy
-#| msgid "Time and date:"
 msgid "Ti_me and date:"
-msgstr "Kuupäev ja kellaaeg:"
+msgstr "Kuu_päev ja kellaaeg:"
 
-#, fuzzy
-#| msgid "Date only:"
 msgid "_Date only:"
-msgstr "Ainult kuupäev:"
+msgstr "Ainult _kuupäev:"
 
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
@@ -2397,11 +2392,10 @@ msgstr "_Meeldetuletusi näidatakse"
 msgid "Show a _reminder"
 msgstr "_Meeldetuletusi näidatakse"
 
-msgid "Show week _numbers in date navigator"
+#, fuzzy
+#| msgid "Show week _numbers in date navigator"
+msgid "Show week _numbers"
 msgstr "_Kuupäeva valimisel kuvatakse nädalate numbreid"
-
-msgid "Show week n_umber in Day and Work Week View"
-msgstr "_Nädalanumbrite näitamine päeva- ja töönädala vaates"
 
 msgid "Sunday"
 msgstr "Pühapäev"
@@ -2735,9 +2729,6 @@ msgstr "_Hiljutised dokumendid"
 msgid "Attach"
 msgstr "Manusta"
 
-msgid "Save"
-msgstr "Salvesta"
-
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Sellele kirjele tehtud muudatused tühistatakse uuenduste saabumise korral"
@@ -2849,6 +2840,14 @@ msgstr "Osalejate vaba/hõivatud andmete pärimine"
 msgid "Appoint_ment"
 msgstr "Sünd_mus"
 
+msgid "_Alarm"
+msgstr "_Alarm"
+
+#, fuzzy
+#| msgid "Attendees"
+msgid "Attendee_s"
+msgstr "Osalejad"
+
 msgid "Print this event"
 msgstr "Valitud sündmuse printimine"
 
@@ -2959,9 +2958,6 @@ msgstr "Kohandatud alarm:"
 
 msgid "Event Description"
 msgstr "Sündmuse kirjeldus"
-
-msgid "_Alarm"
-msgstr "_Alarm"
 
 msgid "_Description:"
 msgstr "_Kirjeldus:"
@@ -3653,15 +3649,11 @@ msgstr "iKalendri viga"
 msgid "An unknown person"
 msgstr "Tundmatu isik"
 
-#, fuzzy
-#| msgid ""
-#| "<br> Please review the following information, and then select an action "
-#| "from the menu below."
 msgid ""
 "Please review the following information, and then select an action from the "
 "menu below."
 msgstr ""
-"<br> Palun vaata järgnev info üle ja vali alumisest menüüst  sobilik tegevus."
+"Palun vaata järgnev info üle ja vali alumisest menüüst sobilik tegevus."
 
 #. Translators: "None" used as a default value for events without Summary received by mail
 msgctxt "cal-itip"
@@ -4840,7 +4832,7 @@ msgid "Africa/Porto-Novo"
 msgstr "Aafrika/Porto-Novo"
 
 msgid "Africa/Sao_Tome"
-msgstr "Aafrika/São Tomé"
+msgstr "Aafrika/São_Tomé"
 
 msgid "Africa/Timbuktu"
 msgstr "Aafrika/Timbuktu"
@@ -5944,12 +5936,6 @@ msgstr "K_oopia (Cc) väli"
 msgid "Toggles whether the CC field is displayed"
 msgstr "Koopiavälja kuvamise sisse- või väljalülitamine"
 
-msgid "_From Field"
-msgstr "_Saatja väli"
-
-msgid "Toggles whether the From chooser is displayed"
-msgstr "Saatja valija kuvamise sisse- või väljalülitamine"
-
 msgid "_Reply-To Field"
 msgstr "Kellele-_vastata väli"
 
@@ -5958,12 +5944,6 @@ msgstr "Kellele-vastata välja kuvamise sisse- või väljalülitamine"
 
 msgid "Save Draft"
 msgstr "Mustandi salvestamine"
-
-msgid "Show"
-msgstr "Näita"
-
-msgid "Hide"
-msgstr "Peida"
 
 msgid "Enter the recipients of the message"
 msgstr "Sisesta sõnumi adressaadid"
@@ -5981,9 +5961,6 @@ msgstr ""
 msgid "Fr_om:"
 msgstr "_Saatja:"
 
-msgid "From"
-msgstr "Saatja"
-
 msgid "_Reply-To:"
 msgstr "Kellele-v_astata:"
 
@@ -5993,14 +5970,8 @@ msgstr "_Kellele:"
 msgid "_Cc:"
 msgstr "K_oopia:"
 
-msgid "CC"
-msgstr "Koopia"
-
 msgid "_Bcc:"
 msgstr "_Pimekoopia:"
-
-msgid "BCC"
-msgstr "Pimekoopia"
 
 msgid "_Post To:"
 msgstr "Ku_hu postitada:"
@@ -6185,6 +6156,15 @@ msgstr "Palun sisesta enda meiliaadress."
 msgid "The email address you have entered is invalid."
 msgstr "Sisestatud meiliaadress ei ole korrektne."
 
+msgid "Please enter your password."
+msgstr "Palun sisesta enda parool."
+
+msgid "CalDAV"
+msgstr "CalDAV"
+
+msgid "Google"
+msgstr "Google"
+
 msgid "Personal details:"
 msgstr "Isiklikud üksikasjad:"
 
@@ -6194,8 +6174,11 @@ msgstr "Nimi:"
 msgid "Email address:"
 msgstr "E-posti aadress:"
 
-msgid "Receiving details:"
-msgstr "Vastuvõtmise üksikasjad:"
+msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Üksikasjad:</span>"
+
+msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Vastuvõtmine</span>"
 
 msgid "Server type:"
 msgstr "Serveri liik:"
@@ -6212,8 +6195,8 @@ msgstr "Kasutatav krüptimine:"
 msgid "never"
 msgstr "mitte kunagi"
 
-msgid "Sending details:"
-msgstr "Saatmise üksikasjad:"
+msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Saatmine</span>"
 
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
@@ -6303,6 +6286,38 @@ msgstr "Lõpeta"
 
 msgid "Back - Sending"
 msgstr "Tagasi - saatmine"
+
+#, fuzzy
+#| msgid "Add WebDAV contacts to Evolution."
+msgid "Setup Google contacts with Evolution"
+msgstr "WebDAVi kontaktide lisamine Evolutioni."
+
+msgid "Setup Google calendar with Evolution"
+msgstr "Google kalendrite seadistamine Evolutionile."
+
+msgid "You may need to enable IMAP access."
+msgstr ""
+
+msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Google konto sätted:</span>"
+
+msgid "Setup Yahoo calendar with Evolution"
+msgstr "Yahoo kalendrite seadistamine Evolutionile."
+
+msgid ""
+"Yahoo calendars are named as firstname_lastname. We have tried to form the "
+"calendar name. So please confirm and re-enter the calendar name if it is not "
+"correct."
+msgstr ""
+
+msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
+msgstr "<span size=\"large\" weight=\"bold\">Yahoo konto sätted:</span>"
+
+msgid "Yahoo Calendar name:"
+msgstr "Yahoo kalendri nimi:"
+
+msgid "Password:"
+msgstr "Parool:"
 
 msgid "Close Tab"
 msgstr "Saki sulgemine"
@@ -6570,6 +6585,9 @@ msgstr "GConfi viga: %s"
 
 msgid "All further errors shown only on terminal."
 msgstr "Kõiki ülejäänud vigu näidatakse ainult terminalis."
+
+msgid "From"
+msgstr "Saatja"
 
 msgid "Reply-To"
 msgstr "Vastus-kuhu"
@@ -7587,8 +7605,14 @@ msgstr "Omista värvus"
 msgid "Assign Score"
 msgstr "Määra punktid"
 
+msgid "BCC"
+msgstr "Pimekoopia"
+
 msgid "Beep"
 msgstr "Piiksu"
+
+msgid "CC"
+msgstr "Koopia"
 
 msgid "Completed On"
 msgstr "Täidetud"
@@ -8460,13 +8484,9 @@ msgstr ""
 "kustutamine kustutab sõnumid jäädavalt, mitte ei eemalda neid "
 "otsingutulemuste seast."
 
-#, fuzzy
-#| msgid "Last time empty junk was run"
 msgid "Last time Empty Junk was run"
 msgstr "Viimane kord, kui rämpsukausta tühjendati"
 
-#, fuzzy
-#| msgid "Last time empty trash was run"
 msgid "Last time Empty Trash was run"
 msgstr "Viimane kord, kui prügikasti tühjendati"
 
@@ -8556,10 +8576,8 @@ msgstr "Tsitaatide märkimine sõnumi eelvaates"
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Tsitaatide märkimine sõnumi eelvaates."
 
-#, fuzzy
-#| msgid "Message Display"
 msgid "Message text limit for display"
-msgstr "Sõnumi kuva"
+msgstr "Sõnumi tekstiosa kuvamise piirang"
 
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr ""
@@ -8674,9 +8692,6 @@ msgstr "Meili saatmisel kuvatakse \"Koopia\" välja"
 msgid "Show \"From\" field when posting to a newsgroup"
 msgstr "Uudisegruppi postitamisel kuvatakse \"Kellelt\" välja"
 
-msgid "Show \"From\" field when sending a mail message"
-msgstr "Meili saatmisel kuvatakse \"Kellelt\" välja"
-
 msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr "Uudisegruppi postitamisel kuvatakse \"Vastamise aadress\" välja"
 
@@ -8730,13 +8745,6 @@ msgid ""
 msgstr ""
 "Uudisegruppi postitamisel kuvatakse \"Kellelt\" välja. Seda saab muuta vaate "
 "menüüst, kui meilikonto on valitud."
-
-msgid ""
-"Show the \"From\" field when sending a mail message. This is controlled from "
-"the View menu when a mail account is chosen."
-msgstr ""
-"Meili saatmisel kuvatakse \"Kellelt\" välja. Seda saab muuta vaate menüüst, "
-"kui meilikonto on valitud."
 
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
@@ -11007,6 +11015,9 @@ msgstr ""
 msgid "Loading calendars"
 msgstr "Kalendrite laadimine"
 
+msgid "New Calendar..."
+msgstr "Uus kalender..."
+
 msgid "Calendar Selector"
 msgstr "Kalendri valimine"
 
@@ -12217,10 +12228,9 @@ msgstr "Eelmine katse nurjus: %s"
 msgid "Previous attempt failed with code %d"
 msgstr "Eelmine katse nurjus koodiga %d"
 
-#, fuzzy, c-format
-#| msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
+#, c-format
 msgid "Enter password for user %s on server %s"
-msgstr "Sisesta kasutaja <b>%s</b> parool serveril <b>%s</b>"
+msgstr "Sisesta kasutaja %s parool serveris %s"
 
 #, c-format
 msgid "Cannot create soup message for URL '%s'"
@@ -12246,9 +12256,6 @@ msgstr "Serveri URL '%s' pole korrektne URL"
 
 msgid "Browse for a CalDAV calendar"
 msgstr "CalDAV kalendri asukoha sirvimine"
-
-msgid "CalDAV"
-msgstr "CalDAV"
 
 msgid "_URL:"
 msgstr "_URL:"
@@ -12558,9 +12565,6 @@ msgstr "Seda faili pole võimalik lugeda"
 
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
 msgstr "Tundub, et valitud pilt ei ole korrektne .png pilt. Viga: {0}"
-
-msgid "Google"
-msgstr "Google"
 
 msgid "Server"
 msgstr "Server"
@@ -13489,9 +13493,11 @@ msgstr "\"text/calendar\" MIME-tüübiga osade kuvamine sõnumis."
 msgid "Itip Formatter"
 msgstr "Itip vormindaja"
 
-msgid ""
-"&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
-"&quot;{1}&quot;?"
+#, fuzzy
+#| msgid ""
+#| "&quot;{0}&quot; has delegated the meeting. Do you want to add the "
+#| "delegate &quot;{1}&quot;?"
+msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr ""
 "&quot;{0}&quot; delegeeris koosoleku. Kas soovid lisada delegaadi &quot;{1}"
 "&quot;?"
@@ -15037,10 +15043,8 @@ msgstr "Kas soovid unustada kõik meeldejäetud paroolid?"
 msgid "Cannot upgrade directly from version {0}"
 msgstr "Kas kustutada vanad andmed versioonist {0}?"
 
-#, fuzzy
-#| msgid "Continue"
 msgid "Continue Anyway"
-msgstr "Jätka"
+msgstr "Jätka ikkagi"
 
 msgid ""
 "Evolution no longer supports upgrading directly from version {0}. However as "
@@ -15055,10 +15059,8 @@ msgstr ""
 "Meeldejäetud paroolide unustamine nullib ära kõik meeldejäetud paroolid. "
 "Paroolid küsitakse uuesti järgmisel korral, mil neid vaja läheb."
 
-#, fuzzy
-#| msgid "Quit"
 msgid "Quit Now"
-msgstr "Lõpeta"
+msgstr "Lõpeta kohe"
 
 msgid "Upgrade from previous version failed:"
 msgstr "Tõrge eelmisest versioonist uuendamisel:"
@@ -15204,8 +15206,7 @@ msgstr "Sertifikaadid"
 msgid "Certificate Viewer: %s"
 msgstr "Sertifikaadivaatur: %s"
 
-#, fuzzy, c-format
-#| msgid "Enter the password for `%s'"
+#, c-format
 msgid "Enter the password for '%s'"
 msgstr "Sisesta parool '%s' jaoks"
 
@@ -16331,6 +16332,46 @@ msgstr "Vali kõik"
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
 
+#~ msgid "Show week numbers in date navigator"
+#~ msgstr "Nädalanumbrite näitamine kuupäevavalikus"
+
+#~ msgid "Whether to show week number in the Day and Work Week View."
+#~ msgstr "Kas päeva- ja töönädalavaates näidatakse nädala numbrit."
+
+#~ msgid "Show week n_umber in Day and Work Week View"
+#~ msgstr "_Nädalanumbrite näitamine päeva- ja töönädala vaates"
+
+#~ msgid "Save"
+#~ msgstr "Salvesta"
+
+#~ msgid "_From Field"
+#~ msgstr "_Saatja väli"
+
+#~ msgid "Toggles whether the From chooser is displayed"
+#~ msgstr "Saatja valija kuvamise sisse- või väljalülitamine"
+
+#~ msgid "Show"
+#~ msgstr "Näita"
+
+#~ msgid "Hide"
+#~ msgstr "Peida"
+
+#~ msgid "Receiving details:"
+#~ msgstr "Vastuvõtmise üksikasjad:"
+
+#~ msgid "Sending details:"
+#~ msgstr "Saatmise üksikasjad:"
+
+#~ msgid "Show \"From\" field when sending a mail message"
+#~ msgstr "Meili saatmisel kuvatakse \"Kellelt\" välja"
+
+#~ msgid ""
+#~ "Show the \"From\" field when sending a mail message. This is controlled "
+#~ "from the View menu when a mail account is chosen."
+#~ msgstr ""
+#~ "Meili saatmisel kuvatakse \"Kellelt\" välja. Seda saab muuta vaate "
+#~ "menüüst, kui meilikonto on valitud."
+
 #~ msgid "address card"
 #~ msgstr "aadressikaart"
 
@@ -16454,18 +16495,6 @@ msgstr "Sisestusmeetodid"
 
 #~ msgid "New Tab"
 #~ msgstr "Uus sakk"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Isiklikud andmed:</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Vastuvõtmise andmed:</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Saatmise andmed:</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Konto haldus</span>"
 
 #~ msgid "Name of the logger"
 #~ msgstr "Logiva komponendi nimi"
