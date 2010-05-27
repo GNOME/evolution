@@ -351,7 +351,6 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
 	gint row = gtk_tree_path_get_indices (treepath)[0];
 	EMeetingAttendee *existing_attendee;
-	gboolean removed = FALSE, address_changed = FALSE;
 
 	existing_attendee = e_meeting_store_find_attendee_at_row (model, row);
 
@@ -385,28 +384,25 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				e_meeting_attendee_set_delfrom (attendee, (gchar *)e_meeting_attendee_get_delfrom (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
+			g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) attendee);
 		}
 
 		if (existing_attendee && can_remove) {
-			removed = TRUE;
-			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
-						existing_attendee);
+			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
 			e_meeting_store_remove_attendee (model, existing_attendee);
 		}
-
 	} else if (g_list_length (addresses) == 1) {
 		gchar *name = names->data, *email = addresses->data;
 		gint existing_row;
 
 		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)) {
 			if (existing_attendee) {
-				removed = TRUE;
-				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
-						existing_attendee);
+				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
 				e_meeting_store_remove_attendee (model, existing_attendee);
 			}
 		} else {
-			EMeetingAttendee *attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
+			gboolean address_changed = FALSE;
+			EMeetingAttendee *attendee = e_meeting_store_add_attendee_with_defaults (model);
 
 			if (existing_attendee) {
 				const gchar *addr = e_meeting_attendee_get_address (existing_attendee);
@@ -417,6 +413,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				address_changed = addr && g_ascii_strcasecmp (addr, email) != 0;
 
 				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
+				e_meeting_store_remove_attendee (model, existing_attendee);
 			}
 
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
@@ -426,28 +423,22 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			e_meeting_attendee_set_cn (attendee, g_strdup (name));
 			e_meeting_attendee_set_role (attendee, ICAL_ROLE_REQPARTICIPANT);
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
-			g_object_unref (attendee);
-		}
-	} else {
-		if (existing_attendee) {
-			const gchar *address = e_meeting_attendee_get_address (existing_attendee);
 
-			if (!(address && *address)) {
-				removed = TRUE;
-				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
-				e_meeting_store_remove_attendee (model, existing_attendee);
-			}
+			if (address_changed)
+				e_meeting_attendee_set_status (existing_attendee, ICAL_PARTSTAT_NEEDSACTION);
+
+			g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) attendee);
+		}
+	} else if (existing_attendee) {
+		const gchar *address = e_meeting_attendee_get_address (existing_attendee);
+
+		if (!(address && *address)) {
+			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
+			e_meeting_store_remove_attendee (model, existing_attendee);
 		}
 	}
 
 	gtk_tree_path_free (treepath);
-
-	if (!removed) {
-		if (address_changed)
-			e_meeting_attendee_set_status (existing_attendee, ICAL_PARTSTAT_NEEDSACTION);
-
-		g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) existing_attendee);
-	}
 }
 
 static void

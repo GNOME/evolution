@@ -1555,7 +1555,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				ECalComponentAttendee *ca;
 
 				/* Remove the duplicate user from the component if present */
-				if (e_meeting_attendee_is_set_delto (ia)) {
+				if (e_meeting_attendee_is_set_delfrom (ia) || e_meeting_attendee_is_set_delto (ia)) {
 					for (l = attendee_list; l; l = l->next) {
 						ECalComponentAttendee *a = l->data;
 
@@ -1931,24 +1931,20 @@ attendee_added_cb (EMeetingListView *emlv,
 		return;
 	}
 
-	if (existing_attendee (ia, priv->comp)) {
-		e_meeting_store_remove_attendee (priv->model, ia);
-	} else {
-		if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
-			const gchar *delegator_id = e_meeting_attendee_get_delfrom (ia);
-			EMeetingAttendee *delegator;
+	/* do not remove here, it did EMeetingListView already */
+	e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", priv->user_add ? priv->user_add : ""));
 
-			delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
+	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
+		EMeetingAttendee *delegator;
 
-			g_return_if_fail (delegator != NULL);
+		gtk_widget_set_sensitive (priv->invite, FALSE);
+		gtk_widget_set_sensitive (priv->add, FALSE);
+		gtk_widget_set_sensitive (priv->edit, FALSE);
 
-			e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (ia)));
+		delegator = e_meeting_store_find_attendee (priv->model, priv->user_add, NULL);
+		g_return_if_fail (delegator != NULL);
 
-			e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", delegator_id));
-			gtk_widget_set_sensitive (priv->invite, FALSE);
-			gtk_widget_set_sensitive (priv->add, FALSE);
-			gtk_widget_set_sensitive (priv->edit, FALSE);
-		}
+		e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (ia)));
 	}
 }
 
@@ -3270,6 +3266,10 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 	g_return_if_fail (IS_EVENT_PAGE (epage));
 
 	priv = epage->priv;
+
+	if ((comp_editor_get_flags (comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage))) & COMP_EDITOR_DELEGATE) != 0) {
+		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", epage->priv->user_add));
+	}
 
 	e_meeting_store_add_attendee (priv->model, attendee);
 	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
