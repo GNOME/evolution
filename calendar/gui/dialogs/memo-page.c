@@ -320,6 +320,32 @@ memo_page_init (MemoPage *mpage)
 	mpage->priv = MEMO_PAGE_GET_PRIVATE (mpage);
 }
 
+/* returns whether changed info text */
+static gboolean
+check_starts_in_the_past (MemoPage *mpage)
+{
+	MemoPagePrivate *priv;
+	struct icaltimetype start_tt = icaltime_null_time ();
+
+	if ((comp_editor_get_flags (comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage))) & COMP_EDITOR_NEW_ITEM) == 0)
+		return FALSE;
+
+	priv = mpage->priv;
+
+	start_tt.is_date = TRUE;
+	if (e_date_edit_get_date (E_DATE_EDIT (priv->start_date), &start_tt.year, &start_tt.month, &start_tt.day) &&
+	    comp_editor_test_time_in_the_past (start_tt)) {
+		gchar *tmp = g_strconcat ("<b>", _("Memo's start date is in the past"), "</b>",
+			priv->subscriber_info_text ? "\n" : "", priv->subscriber_info_text, NULL);
+		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_WARNING, tmp);
+		g_free (tmp);
+	} else {
+		memo_page_set_info_string (mpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+	}
+
+	return TRUE;
+}
+
 static void
 sensitize_widgets (MemoPage *mpage)
 {
@@ -354,7 +380,7 @@ sensitize_widgets (MemoPage *mpage)
 		gchar *tmp = g_strconcat ("<b>", _("Memo cannot be fully edited, because you are not the organizer"), "</b>", NULL);
 		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, tmp);
 		g_free (tmp);
-	} else {
+	} else if (!check_starts_in_the_past (mpage)) {
 		memo_page_set_info_string (mpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
 	}
 
@@ -918,13 +944,13 @@ set_subscriber_info_string (MemoPage *mpage,
 		/* Translators: This string is used when we are creating a Memo
 		   on behalf of some other user */
 		mpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
-		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, mpage->priv->subscriber_info_text);
 	} else {
 		g_free (mpage->priv->subscriber_info_text);
 		mpage->priv->subscriber_info_text = NULL;
-
-		memo_page_set_info_string (mpage, NULL, NULL);
 	}
+
+	if (!check_starts_in_the_past (mpage))
+		memo_page_set_info_string (mpage, mpage->priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, mpage->priv->subscriber_info_text);
 }
 
 static void
@@ -952,6 +978,13 @@ to_button_clicked_cb (GtkButton *button,
 	name_selector_dialog = e_name_selector_peek_dialog (
 		mpage->priv->name_selector);
 	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+}
+
+static void
+memo_page_start_date_changed_cb (MemoPage *mpage)
+{
+	check_starts_in_the_past (mpage);
+	comp_editor_page_changed (COMP_EDITOR_PAGE (mpage));
 }
 
 /* Hooks the widget signals */
@@ -1013,7 +1046,7 @@ init_widgets (MemoPage *mpage)
 
 	g_signal_connect_swapped (
 		priv->start_date, "changed",
-		G_CALLBACK (comp_editor_page_changed), mpage);
+		G_CALLBACK (memo_page_start_date_changed_cb), mpage);
 
 	if (priv->name_selector) {
 		ENameSelectorDialog *name_selector_dialog;

@@ -720,6 +720,41 @@ create_image_event_box (const gchar *image_text, const gchar *tip_text)
 	return box;
 }
 
+/* returns whether changed info text */
+static gboolean
+check_starts_in_the_past (EventPage *epage)
+{
+	EventPagePrivate *priv;
+	struct icaltimetype start_tt = icaltime_null_time ();
+	gboolean date_set;
+
+	if ((comp_editor_get_flags (comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage))) & COMP_EDITOR_NEW_ITEM) == 0)
+		return FALSE;
+
+	priv = epage->priv;
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time), &start_tt.year, &start_tt.month, &start_tt.day);
+
+	g_return_val_if_fail (date_set, FALSE);
+
+	if (priv->all_day_event) {
+		start_tt.is_date = TRUE;
+	} else {
+		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time), &start_tt.hour, &start_tt.minute);
+		start_tt.zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+	}
+
+	if (comp_editor_test_time_in_the_past (start_tt)) {
+		gchar *tmp = g_strconcat ("<b>", _("Event's start time is in the past"), "</b>",
+			priv->subscriber_info_text ? "\n" : "", priv->subscriber_info_text, NULL);
+		event_page_set_info_string (epage, GTK_STOCK_DIALOG_WARNING, tmp);
+		g_free (tmp);
+	} else {
+		event_page_set_info_string (epage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+	}
+
+	return TRUE;
+}
+
 static void
 sensitize_widgets (EventPage *epage)
 {
@@ -757,7 +792,7 @@ sensitize_widgets (EventPage *epage)
 		gchar *tmp = g_strconcat ("<b>", _("Event cannot be fully edited, because you are not the organizer"), "</b>", NULL);
 		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, tmp);
 		g_free (tmp);
-	} else {
+	} else if (!check_starts_in_the_past (epage)) {
 		event_page_set_info_string (epage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
 	}
 
@@ -2311,6 +2346,8 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (epage),
 					       &dates);
+
+	check_starts_in_the_past (epage);
 }
 
 static gboolean
@@ -2639,14 +2676,13 @@ set_subscriber_info_string (EventPage *epage, const gchar *backend_address)
 		/* Translators: This string is used when we are creating an Event
 		   (meeting or appointment)  on behalf of some other user */
 		epage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
-
-		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, epage->priv->subscriber_info_text);
 	} else {
 		g_free (epage->priv->subscriber_info_text);
 		epage->priv->subscriber_info_text = NULL;
-
-		event_page_set_info_string (epage, NULL, NULL);
 	}
+
+	if (!check_starts_in_the_past (epage))
+		event_page_set_info_string (epage, epage->priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, epage->priv->subscriber_info_text);
 }
 
 static void

@@ -47,4 +47,6 @@ void comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src);
 gboolean comp_editor_have_in_new_attendees (ECalComponent *comp, EMeetingAttendee *ma);
 gboolean comp_editor_have_in_new_attendees_lst (const GSList *new_attendees, const gchar *eml);
 
+gboolean comp_editor_test_time_in_the_past (const struct icaltimetype time_tt);
+
 #endif

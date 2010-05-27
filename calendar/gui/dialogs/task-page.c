@@ -309,6 +309,49 @@ task_page_set_view_rsvp (TaskPage *page, gboolean state)
 	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
 }
 
+static gboolean
+date_in_past (TaskPage *tpage, EDateEdit *date)
+{
+	struct icaltimetype tt = icaltime_null_time ();
+
+	if (!e_date_edit_get_date (date, &tt.year, &tt.month, &tt.day))
+		return FALSE;
+
+	if (e_date_edit_get_time_of_day (date, &tt.hour, &tt.minute))
+		tt.zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (tpage->priv->timezone));
+	else
+		tt.is_date = TRUE;
+
+	return comp_editor_test_time_in_the_past (tt);
+}
+
+/* returns whether changed info text */
+static gboolean
+check_starts_in_the_past (TaskPage *tpage)
+{
+	TaskPagePrivate *priv;
+	gboolean start_in_past, due_in_past;
+
+	if ((comp_editor_get_flags (comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage))) & COMP_EDITOR_NEW_ITEM) == 0)
+		return FALSE;
+
+	priv = tpage->priv;
+	start_in_past = date_in_past (tpage, E_DATE_EDIT (priv->start_date));
+	due_in_past = date_in_past (tpage, E_DATE_EDIT (priv->due_date));
+
+	if (start_in_past || due_in_past) {
+		gchar *tmp = g_strconcat ("<b>", start_in_past ? _("Task's start date is in the past") : "",
+			start_in_past && due_in_past ? "\n" : "", due_in_past ? _("Task's due date is in the past") : "", "</b>",
+			priv->subscriber_info_text ? "\n" : "", priv->subscriber_info_text, NULL);
+		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_WARNING, tmp);
+		g_free (tmp);
+	} else {
+		task_page_set_info_string (tpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+	}
+
+	return TRUE;
+}
+
 static void
 sensitize_widgets (TaskPage *tpage)
 {
@@ -340,7 +383,7 @@ sensitize_widgets (TaskPage *tpage)
 		gchar *tmp = g_strconcat ("<b>", _("Task cannot be fully edited, because you are not the organizer"), "</b>", NULL);
 		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tmp);
 		g_free (tmp);
-	} else {
+	} else if (!check_starts_in_the_past (tpage)) {
 		task_page_set_info_string (tpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
 	}
 
@@ -1506,6 +1549,8 @@ date_changed_cb (EDateEdit *dedit,
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tpage),
 					       &dates);
+
+	check_starts_in_the_past (tpage);
 }
 
 static void
@@ -1744,14 +1789,13 @@ set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address)
 		/* Translators: This string is used when we are creating a Task
 		   on behalf of some other user */
 		tpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
-
-		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tpage->priv->subscriber_info_text);
 	} else {
 		g_free (tpage->priv->subscriber_info_text);
 		tpage->priv->subscriber_info_text = NULL;
-
-		task_page_set_info_string (tpage, NULL, NULL);
 	}
+
+	if (!check_starts_in_the_past (tpage))
+		task_page_set_info_string (tpage, tpage->priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, tpage->priv->subscriber_info_text);
 }
 
 void

@@ -381,3 +381,34 @@ comp_editor_have_in_new_attendees_lst (const GSList *new_attendees,
 
 	return FALSE;
 }
+
+/**
+ * comp_editor_test_time_in_the_past:
+ * @time_tt: Time to check.
+ * @parent: Parent window for a question dialog.
+ * @tag: Question message tag to use.
+ * Returns whether given time is in the past.
+ *
+ * Tests the given @time_tt whether occurs in the past,
+ * and if so, returns TRUE.
+ **/
+gboolean
+comp_editor_test_time_in_the_past (const struct icaltimetype time_tt)
+{
+	struct icaltimetype now_tt;
+	gboolean is_past;
+
+	if (icaltime_is_null_time (time_tt))
+		return FALSE;
+
+	if (time_tt.is_date) {
+		now_tt = icaltime_today ();
+		is_past = icaltime_compare_date_only (time_tt, now_tt) < 0;
+	} else {
+		now_tt = icaltime_current_time_with_zone (time_tt.zone);
+		now_tt.zone = time_tt.zone;
+		is_past = icaltime_compare (time_tt, now_tt) < 0;
+	}
+
+	return is_past;
+}
