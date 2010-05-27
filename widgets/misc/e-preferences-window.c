@@ -108,7 +108,7 @@ preferences_window_selection_changed_cb (EPreferencesWindow *window)
 	if (list == NULL)
 		return;
 
-	model = GTK_TREE_MODEL (window->priv->store);
+	model = GTK_TREE_MODEL (window->priv->filter);
 	gtk_tree_model_get_iter (model, &iter, list->data);
 	gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page, -1);
 
