@@ -82,7 +82,7 @@
           <menuitem action="mail-mark-unimportant"/>
           <separator/>
           <menuitem action="mail-mark-junk"/>
-          <menuitem action="mail-mark-not-junk"/>
+          <menuitem action="mail-mark-notjunk"/>
           <separator/>
           <menuitem action="mail-flag-for-followup"/>
           <menuitem action="mail-flag-clear"/>
@@ -127,7 +127,7 @@
 #endif
       <toolitem action='mail-delete'/>
       <toolitem action='mail-mark-junk'/>
-      <toolitem action='mail-mark-not-junk'/>
+      <toolitem action='mail-mark-notjunk'/>
     </placeholder>
     <separator/>
     <placeholder name='mail-toolbar-navigation'>
