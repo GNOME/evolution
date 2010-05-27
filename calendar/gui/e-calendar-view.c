@@ -895,8 +895,6 @@ e_calendar_view_init (ECalendarView *calendar_view)
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	calendar_view->priv->paste_target_list = target_list;
-
-	e_extensible_load_extensions (E_EXTENSIBLE (calendar_view));
 }
 
 static void
