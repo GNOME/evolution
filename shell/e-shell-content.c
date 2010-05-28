@@ -254,13 +254,13 @@ shell_content_forall (GtkContainer *container,
                       gpointer callback_data)
 {
 	EShellContentPrivate *priv;
-	GtkWidget *parent;
+	GtkWidget *parent = NULL;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
-	parent = gtk_widget_get_parent (priv->searchbar);
+	if (priv->searchbar != NULL)
+		parent = gtk_widget_get_parent (priv->searchbar);
 
-	if (include_internals && priv->searchbar != NULL &&
-		container == GTK_CONTAINER (parent))
+	if (include_internals && parent == GTK_WIDGET (container))
 		callback (priv->searchbar, callback_data);
 
 	/* Chain up to parent's forall() method. */
