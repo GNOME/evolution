@@ -1,4 +1,8 @@
+if OS_WIN32
+bin_PROGRAMS = evolution-alarm-notify
+else
 privlibexec_PROGRAMS = evolution-alarm-notify
+endif
 
 if HAVE_WINDRES
 EVOLUTIONALARMNOTIFYICON = evolution-alarm-notify-icon.o
