@@ -1166,8 +1166,10 @@ e_calendar_view_set_selected_time_range (ECalendarView *cal_view,
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
+	/* Not all views implement this, so return silently. */
 	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
-	g_return_if_fail (class->set_selected_time_range != NULL);
+	if (class->set_selected_time_range == NULL)
+		return;
 
 	class->set_selected_time_range (cal_view, start_time, end_time);
 }

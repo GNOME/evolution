@@ -484,7 +484,7 @@ gnome_calendar_constructed (GObject *object)
 		model, "notify::week-start-day",
 		G_CALLBACK (gnome_calendar_notify_week_start_day_cb), gcal);
 
-	gnome_calendar_update_time_range (gcal);
+	gnome_calendar_goto_today (gcal);
 }
 
 /* Class initialization function for the gnome calendar */
@@ -1615,10 +1615,9 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 
 	gnome_calendar_set_selected_time_range (gcal, new_time);
 
-	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-		if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (priv->views[i]))->set_selected_time_range)
-			E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (priv->views[i]))->set_selected_time_range (priv->views[i], new_time, new_time);
-	}
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
+		e_calendar_view_set_selected_time_range (
+			priv->views[i], new_time, new_time);
 }
 
 void
