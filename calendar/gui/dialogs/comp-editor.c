@@ -1588,9 +1588,9 @@ comp_editor_init (CompEditor *editor)
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWindow *window;
-	GtkWidget *scroll = NULL;
 	EShell *shell;
 	gboolean express_mode;
+	gboolean meego_mode;
 	gint n_targets;
 	GError *error = NULL;
 
@@ -1598,6 +1598,7 @@ comp_editor_init (CompEditor *editor)
 	 *       that depends on it to a constructed() method. */
 	shell = e_shell_get_default ();
 	express_mode = e_shell_get_express_mode (shell);
+	meego_mode = e_shell_get_meego_mode (shell);
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
 
@@ -1725,7 +1726,7 @@ comp_editor_init (CompEditor *editor)
 	if (!express_mode) {
 		widget = comp_editor_get_managed_widget (editor, "/main-menu");
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-		gtk_widget_set_visible (widget, !e_shell_get_meego_mode (shell));
+		gtk_widget_set_visible (widget, !meego_mode);
 	}
 
 	widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
@@ -1739,60 +1740,42 @@ comp_editor_init (CompEditor *editor)
 	gtk_widget_show (widget);
 
 	if (express_mode) {
-		/*GtkWidget *tmp, *tmp1, *tmp_box, */
-		GtkWidget *cont;
-		GtkWidget *combo;
+		e_attachment_paned_set_expanded (
+			E_ATTACHMENT_PANED (widget), TRUE);
+		e_attachment_paned_set_expanded (
+			E_ATTACHMENT_PANED (widget), FALSE);
 
-		e_attachment_paned_set_expanded (E_ATTACHMENT_PANED (widget), TRUE);
-		e_attachment_paned_set_expanded (E_ATTACHMENT_PANED (widget), FALSE);
-
-		combo = e_attachment_paned_get_view_combo (
+		widget = e_attachment_paned_get_view_combo (
 			E_ATTACHMENT_PANED (widget));
-		gtk_widget_hide (combo);
-		cont = e_attachment_paned_get_controls_container (
-			E_ATTACHMENT_PANED (widget));
-		/*
-		tmp_box = gtk_hbox_new (FALSE, 0);
-		tmp = gtk_hbox_new (FALSE, 0);
-		tmp1 = gtk_image_new_from_stock (GTK_STOCK_SAVE, GTK_ICON_SIZE_BUTTON);
-		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
-		tmp1 = gtk_label_new_with_mnemonic (_("Save"));
-		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
-		gtk_widget_show_all(tmp);
-
-		combo = gtk_ui_manager_get_widget (priv->ui_manager, "/main-toolbar/save");
-		gtk_widget_reparent (combo, tmp_box);
-		gtk_box_set_child_packing ((GtkBox *)tmp_box, combo, FALSE, FALSE, 6, GTK_PACK_END);
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (combo), TRUE);
-		combo = gtk_bin_get_child ((GtkBin *)combo);
-		gtk_container_remove((GtkContainer *)combo, gtk_bin_get_child ((GtkBin *)combo));
-		gtk_container_add((GtkContainer *)combo, tmp);
-		gtk_button_set_relief ((GtkButton *)combo, GTK_RELIEF_NORMAL);
-
-		gtk_widget_show(tmp_box);
-		gtk_box_pack_end (GTK_BOX (cont), tmp_box, FALSE, FALSE, 4);
-		*/
+		gtk_widget_hide (widget);
 	}
+
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_view));
 
 	if (express_mode) {
-		scroll = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_widget_show(scroll);
-		gtk_box_pack_start (GTK_BOX (container), scroll, TRUE, TRUE, 0);
+		widget = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (
+			GTK_SCROLLED_WINDOW (widget),
+			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+		gtk_widget_set_size_request (widget, 300, -1);
+		gtk_widget_show (widget);
+
+		container = widget;
 	}
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), express_mode);
 	if (!express_mode)
-		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container), widget, TRUE, TRUE, 0);
 	else
-		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) scroll, widget);
+		gtk_scrolled_window_add_with_viewport (
+			GTK_SCROLLED_WINDOW (container), widget);
 	priv->notebook = GTK_NOTEBOOK (widget);
 	gtk_widget_show (widget);
-	if (express_mode)
-		gtk_widget_set_size_request (scroll, 300, -1);
+
 	comp_editor_setup_recent_menu (editor);
 
 	/* Drag-and-Drop Support */
