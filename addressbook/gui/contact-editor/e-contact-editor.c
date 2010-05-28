@@ -3474,11 +3474,7 @@ expand_web_toggle (EContactEditor *ce)
 	GtkWidget *widget;
 
 	widget = e_builder_get_widget (ce->builder, "label-videourl");
-#if GTK_CHECK_VERSION(2,19,7)
 	expand_web (ce, !gtk_widget_get_visible (widget));
-#else
-	expand_web (ce, !GTK_WIDGET_VISIBLE (widget));
-#endif
 }
 
 static void
