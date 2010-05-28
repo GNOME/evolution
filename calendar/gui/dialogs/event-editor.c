@@ -313,7 +313,7 @@ event_editor_constructor (GType type,
 	priv->event_page = event_page_new (priv->model, editor);
 	comp_editor_append_page (
 		editor, COMP_EDITOR_PAGE (priv->event_page),
-		_("Appoint_ment"), TRUE);
+		_("Appointment"), TRUE);
 
 	priv->recur_window = gtk_dialog_new_with_buttons (
 		_("Recurrence"), GTK_WINDOW (editor), GTK_DIALOG_MODAL,
@@ -337,7 +337,7 @@ event_editor_constructor (GType type,
 		gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->recur_window)));
 		comp_editor_append_page (editor, page, NULL, FALSE);
 	} else {
-		comp_editor_append_page (editor, page, _("_Recurrence"), TRUE);
+		comp_editor_append_page (editor, page, _("Recurrence"), TRUE);
 	}
 
 	if (e_shell_get_express_mode (shell)) {
@@ -349,12 +349,12 @@ event_editor_constructor (GType type,
 		name_selector = event_page_get_name_selector (priv->event_page);
 		schedule_page_set_name_selector (priv->sched_page, name_selector);
 
-		comp_editor_append_page (editor, page, _("_Free/Busy"), TRUE);
+		comp_editor_append_page (editor, page, _("Free/Busy"), TRUE);
 		schedule_page_update_free_busy (priv->sched_page);
 
 		/* Alarm page */
 		alarm_page = event_page_get_alarm_page (priv->event_page);
-		comp_editor_append_widget (editor, alarm_page, _("_Alarm"), TRUE);
+		comp_editor_append_widget (editor, alarm_page, _("Alarm"), TRUE);
 		g_object_unref(alarm_page);
 
 	}
@@ -377,7 +377,7 @@ event_editor_constructor (GType type,
 
 		if (e_shell_get_express_mode (shell)) {
 			attendee_page = event_page_get_attendee_page (priv->event_page);
-			comp_editor_append_widget (editor, attendee_page, _("Attendee_s"), TRUE);
+			comp_editor_append_widget (editor, attendee_page, _("Attendees"), TRUE);
 			g_object_unref(attendee_page);
 		}
 	}

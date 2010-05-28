@@ -322,7 +322,7 @@ task_editor_init (TaskEditor *te)
 	te->priv->task_page = task_page_new (te->priv->model, editor);
 	comp_editor_append_page (
 		editor, COMP_EDITOR_PAGE (te->priv->task_page),
-		_("_Task"), TRUE);
+		_("Task"), TRUE);
 
 	te->priv->task_details_window = gtk_dialog_new_with_buttons (
 		_("Task Details"), GTK_WINDOW (te), GTK_DIALOG_MODAL,
