@@ -48,6 +48,9 @@ main (gint argc, gchar **argv)
 	GtkIconTheme *icon_theme;
 	AlarmNotify *alarm_notify_service;
 	UniqueApp *app;
+#ifdef G_OS_WIN32
+	gchar *path;
+#endif
 
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -55,6 +58,13 @@ main (gint argc, gchar **argv)
 
 	g_thread_init (NULL);
 	dbus_g_thread_init ();
+
+#ifdef G_OS_WIN32
+	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
+
+	if (!g_setenv ("PATH", path, TRUE))
+		g_warning ("Could not set PATH for Evolution Alarm Notifier");
+#endif
 
 	gtk_init (&argc, &argv);
 
