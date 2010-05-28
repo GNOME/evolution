@@ -266,6 +266,31 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 		memo_shell_content, 0, E_TABLE (memo_table));
 }
 
+static void
+memo_shell_content_restore_state_cb (EShellWindow *shell_window,
+                                     EShellView *shell_view,
+                                     EShellContent *shell_content)
+{
+	EMemoShellContentPrivate *priv;
+	GConfBridge *bridge;
+	GObject *object;
+	const gchar *key;
+
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/memo_hpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/memo_vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+}
+
 static GtkOrientation
 memo_shell_content_get_orientation (EMemoShellContent *memo_shell_content)
 {
@@ -395,14 +420,13 @@ memo_shell_content_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
+	EShellWindow *shell_window;
 	GalViewInstance *view_instance;
 	icaltimezone *timezone;
-	GConfBridge *bridge;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *key;
 	gint n_targets;
 
 	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
@@ -414,6 +438,7 @@ memo_shell_content_constructed (GObject *object)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -524,17 +549,12 @@ memo_shell_content_constructed (GObject *object)
 	gal_view_instance_load (view_instance);
 	priv->view_instance = view_instance;
 
-	/* Bind GObject properties to GConf keys. */
-
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/memo_hpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/memo_vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+	/* Restore pane positions from the last session once
+	 * the shell view is fully initialized and visible. */
+	g_signal_connect (
+		shell_window, "shell-view-created::memos",
+		G_CALLBACK (memo_shell_content_restore_state_cb),
+		shell_content);
 }
 
 static guint32

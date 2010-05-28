@@ -66,6 +66,31 @@ book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
 	eab_send_as_to (&node);
 }
 
+static void
+book_shell_content_restore_state_cb (EShellWindow *shell_window,
+                                     EShellView *shell_view,
+                                     EShellContent *shell_content)
+{
+	EBookShellContentPrivate *priv;
+	GConfBridge *bridge;
+	GObject *object;
+	const gchar *key;
+
+	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/addressbook/display/hpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/addressbook/display/vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+}
+
 static GtkOrientation
 book_shell_content_get_orientation (EBookShellContent *book_shell_content)
 {
@@ -190,10 +215,8 @@ book_shell_content_constructed (GObject *object)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
-	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *key;
 
 	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
 
@@ -247,17 +270,12 @@ book_shell_content_constructed (GObject *object)
 
 	e_binding_new (object, "preview-visible", widget, "visible");
 
-	/* Bind GObject properties to GConf keys. */
-
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/addressbook/display/hpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/addressbook/display/vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+	/* Restore pane positions from the last session once
+	 * the shell view is fully initialized and visible. */
+	g_signal_connect (
+		shell_window, "shell-view-created::addressbook",
+		G_CALLBACK (book_shell_content_restore_state_cb),
+		shell_content);
 }
 
 static void

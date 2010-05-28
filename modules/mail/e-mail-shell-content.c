@@ -227,6 +227,31 @@ mail_shell_content_message_selected_cb (EMailShellContent *mail_shell_content,
 	g_free (group_name);
 }
 
+static void
+mail_shell_content_restore_state_cb (EShellWindow *shell_window,
+                                     EShellView *shell_view,
+                                     EShellContent *shell_content)
+{
+	EMailShellContentPrivate *priv;
+	GConfBridge *bridge;
+	GObject *object;
+	const gchar *key;
+
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/mail/display/hpaned_size";
+	gconf_bridge_bind_property (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/mail/display/paned_size";
+	gconf_bridge_bind_property (bridge, key, object, "vposition");
+}
+
 static GtkOrientation
 mail_shell_content_get_orientation (EMailShellContent *mail_shell_content)
 {
@@ -365,15 +390,14 @@ mail_shell_content_constructed (GObject *object)
 	EMailShellContentPrivate *priv;
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	ESearchBar *search_bar;
 	EMailReader *reader;
 	GtkWidget *message_list;
-	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
 	EWebView *web_view;
-	const gchar *key;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 	priv->html_display = em_format_html_display_new ();
@@ -383,6 +407,7 @@ mail_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	web_view = E_WEB_VIEW (EM_FORMAT_HTML (priv->html_display)->html);
@@ -439,18 +464,6 @@ mail_shell_content_constructed (GObject *object)
 	e_mail_shell_content_update_view_instance (
 		E_MAIL_SHELL_CONTENT (shell_content));
 
-	/* Bind GObject properties to GConf keys. */
-
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/mail/display/hpaned_size";
-	gconf_bridge_bind_property (bridge, key, object, "hposition");
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/mail/display/paned_size";
-	gconf_bridge_bind_property (bridge, key, object, "vposition");
-
 	/* Message list customizations. */
 
 	reader = E_MAIL_READER (shell_content);
@@ -459,6 +472,13 @@ mail_shell_content_constructed (GObject *object)
 	g_signal_connect_swapped (
 		message_list, "message-selected",
 		G_CALLBACK (mail_shell_content_message_selected_cb),
+		shell_content);
+
+	/* Restore pane positions from the last session once
+	 * the shell view is fully initialized and visible. */
+	g_signal_connect (
+		shell_window, "shell-view-created::mail",
+		G_CALLBACK (mail_shell_content_restore_state_cb),
 		shell_content);
 
 	e_mail_reader_connect_headers (reader);

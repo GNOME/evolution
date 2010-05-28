@@ -264,6 +264,31 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 		task_shell_content, 0, E_TABLE (task_table));
 }
 
+static void
+task_shell_content_restore_state_cb (EShellWindow *shell_window,
+                                     EShellView *shell_view,
+                                     EShellContent *shell_content)
+{
+	ETaskShellContentPrivate *priv;
+	GConfBridge *bridge;
+	GObject *object;
+	const gchar *key;
+
+	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/task_hpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/task_vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+}
+
 static GtkOrientation
 task_shell_content_get_orientation (ETaskShellContent *task_shell_content)
 {
@@ -395,12 +420,10 @@ task_shell_content_constructed (GObject *object)
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
 	icaltimezone *timezone;
-	GConfBridge *bridge;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *key;
 	gint n_targets;
 
 	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
@@ -521,17 +544,12 @@ task_shell_content_constructed (GObject *object)
 	gal_view_instance_load (view_instance);
 	priv->view_instance = view_instance;
 
-	/* Bind GObject properties to GConf keys. */
-
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/task_hpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/task_vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+	/* Restore pane positions from the last session once
+	 * the shell view is fully initialized and visible. */
+	g_signal_connect (
+		shell_window, "shell-view-created::tasks",
+		G_CALLBACK (task_shell_content_restore_state_cb),
+		shell_content);
 }
 
 static guint32
