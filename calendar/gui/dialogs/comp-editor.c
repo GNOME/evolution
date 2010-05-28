@@ -1753,7 +1753,7 @@ comp_editor_init (CompEditor *editor)
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_view));
 
-	if (express_mode) {
+	if (meego_mode) {
 		widget = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (
 			GTK_SCROLLED_WINDOW (widget),
@@ -1767,7 +1767,7 @@ comp_editor_init (CompEditor *editor)
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), express_mode);
-	if (!express_mode)
+	if (!meego_mode)
 		gtk_box_pack_start (
 			GTK_BOX (container), widget, TRUE, TRUE, 0);
 	else
