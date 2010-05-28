@@ -307,25 +307,21 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	shell = e_shell_window_get_shell (shell_window);
 
 	if (e_shell_get_express_mode (shell)) {
-		GtkWidget *widget, *item;
+		GtkWidget *widget;
 
-		/* Hack: Get rid of New and Send/Receive in toolbar
-		 * while in express mode */
+		/* Hide the New button on the toolbar. */
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar");
+		widget = (GtkWidget *)gtk_toolbar_get_nth_item (
+			GTK_TOOLBAR (widget), 0);
+		gtk_widget_hide (widget);
 
-		item = (GtkWidget *)gtk_toolbar_get_nth_item ((GtkToolbar *)widget, 0);
-		gtk_widget_hide(item);
-
+		/* Hide the main menu. */
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-menu");
-		gtk_widget_hide(widget);
-
-		item = e_shell_window_get_managed_widget (
-			shell_window, "/main-toolbar/send-receive");
-		if (item)
-			gtk_widget_hide(item);
+		gtk_widget_hide (widget);
 	}
+
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	view_type = gnome_calendar_get_view (calendar);
@@ -469,7 +465,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_MEETING_NEW);
-	visible = itip_addresses_get_default() != NULL;
+	visible = itip_addresses_get_default () != NULL;
 	gtk_action_set_visible (action, visible);
 }
 
