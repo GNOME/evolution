@@ -1168,7 +1168,7 @@ expand_web (EContactEditor *editor, gboolean expanded)
 		"entry-videourl", "entry-fburl",
 		NULL
 	};
-	set_arrow_image (editor, "arrow-phone-expand", expanded);
+	set_arrow_image (editor, "arrow-web-expand", expanded);
 	expand_widget_list (editor, names, expanded);
 }
 
