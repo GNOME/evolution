@@ -373,7 +373,6 @@ e_shell_hide_widgets_for_express_mode (EShell *shell,
                                        ...)
 {
 	va_list args;
-	const gchar *name;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (GTK_IS_BUILDER (builder));
@@ -384,21 +383,20 @@ e_shell_hide_widgets_for_express_mode (EShell *shell,
 
 	va_start (args, widget_name);
 
-	name = va_arg (args, const gchar *);
-	while (name) {
+	while (widget_name != NULL) {
 		GObject *object;
 
-		object = gtk_builder_get_object (builder, name);
+		object = gtk_builder_get_object (builder, widget_name);
 		if (!GTK_IS_WIDGET (object)) {
 			g_error (
 				"Object '%s' was not found in the builder "
-				"file, or it is not a GtkWidget", name);
+				"file, or it is not a GtkWidget", widget_name);
 			g_assert_not_reached ();
 		}
 
 		gtk_widget_hide (GTK_WIDGET (object));
 
-		name = va_arg (args, const gchar *);
+		widget_name = va_arg (args, const gchar *);
 	}
 
 	va_end (args);
