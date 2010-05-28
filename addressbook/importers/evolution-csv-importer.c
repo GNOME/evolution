@@ -57,6 +57,7 @@ typedef struct {
 	FILE *file;
 	gulong size;
 	gint count;
+	GHashTable *fields_map; /* gint->gint, column index in the csv file to an index in the known fields array */
 
 	EBook *book;
 	GSList *contacts;
@@ -262,27 +263,14 @@ static import_fields csv_fields_evolution[] = {
 };
 
 static void
-add_to_notes(EContact *contact, gint i, gchar *val) {
-	const gchar *old_text;
-	const gchar *field_text = NULL;
+add_to_notes(EContact *contact, const gchar *field_text, gchar *val)
+{
 	GString *new_text;
 
-	old_text = e_contact_get_const(contact, E_CONTACT_NOTE);
-	if (importer == OUTLOOK_IMPORTER) {
-		if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook))
-			field_text = csv_fields_outlook[i].csv_attribute;
-	} else if (importer == MOZILLA_IMPORTER) {
-		if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla))
-			field_text = csv_fields_mozilla[i].csv_attribute;
-	} else {
-		if (i >= 0 && i < G_N_ELEMENTS (csv_fields_evolution))
-			field_text = csv_fields_evolution[i].csv_attribute;
-	}
-
-	if (!field_text)
+	if (!field_text || !val || !*val)
 		return;
 
-	new_text = g_string_new(old_text);
+	new_text = g_string_new (e_contact_get_const (contact, E_CONTACT_NOTE));
 	if (strlen(new_text->str) != 0)
 		new_text = g_string_append_c(new_text, '\n');
 	new_text = g_string_append(new_text, field_text);
@@ -326,12 +314,105 @@ date_from_string (const gchar *str)
 	return date;
 }
 
+static GString *
+parseNextValue (const gchar **pptr)
+{
+	GString *value;
+	const gchar *ptr = *pptr;
+
+	g_return_val_if_fail (pptr != NULL, NULL);
+	g_return_val_if_fail (*pptr != NULL, NULL);
+	
+	if (!*ptr || *ptr == '\n')
+		return NULL;
+
+	value = g_string_new ("");
+
+	while (*ptr != delimiter) {
+		if (*ptr == '\n')
+			break;
+		if (*ptr != '"') {
+			g_string_append_unichar (value, g_utf8_get_char (ptr));
+		} else {
+			ptr = g_utf8_next_char (ptr);
+			while (*ptr && *ptr != '"') {
+				g_string_append_unichar (value, g_utf8_get_char (ptr));
+				ptr = g_utf8_next_char (ptr);
+			}
+
+			if (!*ptr)
+				break;
+		}
+
+		ptr = g_utf8_next_char (ptr);
+	}
+
+	if (*ptr != 0 && *ptr != '\n')
+		ptr = g_utf8_next_char (ptr);
+
+	*pptr = ptr;
+
+	return value;
+}
+
+static GHashTable *
+map_fields (const gchar *header_line, gint pimporter)
+{
+	import_fields *fields_array = NULL;
+	gint n_fields = -1, idx, j;
+	GString *value;
+	GHashTable *fmap;
+	const gchar *pptr = header_line;
+	gboolean any_found = FALSE;
+
+	if (pimporter == OUTLOOK_IMPORTER) {
+		fields_array = csv_fields_outlook;
+		n_fields = G_N_ELEMENTS (csv_fields_outlook);
+	} else if (pimporter == EVOLUTION_IMPORTER) {
+		fields_array = csv_fields_evolution;
+		n_fields = G_N_ELEMENTS (csv_fields_evolution);
+	}
+
+	g_return_val_if_fail (fields_array != NULL, NULL);
+	g_return_val_if_fail (n_fields > 0, NULL);
+
+	fmap = g_hash_table_new (g_direct_hash, g_direct_equal);
+	idx = 0;
+	while (value = parseNextValue (&pptr), value != NULL) {
+		for (j = 0; j < n_fields; j++) {
+			if (g_ascii_strcasecmp (fields_array[j].csv_attribute, value->str) == 0) {
+				g_hash_table_insert (fmap, GINT_TO_POINTER (idx), GINT_TO_POINTER (j + 1));
+				any_found = TRUE;
+				break;
+			}
+		}
+
+		if (j >= n_fields)
+			g_hash_table_insert (fmap, GINT_TO_POINTER (idx), GINT_TO_POINTER (-1));
+
+		g_string_free (value, TRUE);
+		idx++;
+	}
+
+	if (!any_found) {
+		/* column names not in English? */
+		g_hash_table_destroy (fmap);
+		fmap = NULL;
+	} else {
+		/* also add last index, to be always skipped */
+		g_hash_table_insert (fmap, GINT_TO_POINTER (idx), GINT_TO_POINTER (-1));
+	}
+
+	return fmap;
+}
+
 static gboolean
 parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 
-	gchar *ptr = buf, *do_free = NULL;
+	const gchar *pptr = buf, *field_text;
+	gchar *do_free = NULL;
 	GString *value;
-	gint i = 0;
+	gint ii = 0, idx;
 	gint flags = 0;
 	gint contact_field;
 	EContactAddress *home_address = NULL, *work_address = NULL, *other_address = NULL;
@@ -345,69 +426,59 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 	other_address = g_new0(EContactAddress, 1);
 	bday = g_new0(EContactDate, 1);
 
-	if (!g_utf8_validate (ptr, -1, NULL)) {
-		do_free = g_convert (ptr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-		ptr = do_free;
+	if (!g_utf8_validate (pptr, -1, NULL)) {
+		do_free = g_convert (pptr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+		pptr = do_free;
 	}
 
-	while (*ptr != '\n') {
-		value = g_string_new("");
-		while (*ptr != delimiter) {
-			if (*ptr == '\n')
-				break;
-			if (*ptr != '"') {
-				g_string_append_unichar (value, g_utf8_get_char (ptr));
-			}
-			else {
-				ptr = g_utf8_next_char (ptr);
-				while (*ptr && *ptr != '"') {
-					g_string_append_unichar (value, g_utf8_get_char (ptr));
-					ptr = g_utf8_next_char (ptr);
-				}
-
-				if (!*ptr)
-					break;
-			}
-			ptr = g_utf8_next_char (ptr);
-		}
-
+	while (value = parseNextValue (&pptr), value != NULL) {
 		contact_field = NOMAP;
 		flags = FLAG_INVALID;
+		field_text = NULL;
+
+		idx = ii;
+		if (gci->fields_map) {
+			gpointer found = g_hash_table_lookup (gci->fields_map, GINT_TO_POINTER (idx));
+
+			if (!found) {
+				g_warning ("%s: No map for index %d, skipping it", G_STRFUNC, idx);
+				idx = -1;
+			} else {
+				idx = GPOINTER_TO_INT (found) - 1;
+			}
+		}
 
 		if (importer == OUTLOOK_IMPORTER) {
-			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook)) {
-				contact_field = csv_fields_outlook[i].contact_field;
-				flags = csv_fields_outlook[i].flags;
+			if (idx >= 0 && idx < G_N_ELEMENTS (csv_fields_outlook)) {
+				contact_field = csv_fields_outlook[idx].contact_field;
+				flags = csv_fields_outlook[idx].flags;
+				field_text = csv_fields_outlook[idx].csv_attribute;
 			}
 		}
 		else if (importer == MOZILLA_IMPORTER) {
-			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla)) {
-				contact_field = csv_fields_mozilla[i].contact_field;
-				flags = csv_fields_mozilla[i].flags;
+			if (idx >= 0 && idx < G_N_ELEMENTS (csv_fields_mozilla)) {
+				contact_field = csv_fields_mozilla[idx].contact_field;
+				flags = csv_fields_mozilla[idx].flags;
+				field_text = csv_fields_mozilla[idx].csv_attribute;
 			}
 		}
 		else {
-			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_evolution)) {
-				contact_field = csv_fields_evolution[i].contact_field;
-				flags = csv_fields_evolution[i].flags;
+			if (idx >= 0 && idx < G_N_ELEMENTS (csv_fields_evolution)) {
+				contact_field = csv_fields_evolution[idx].contact_field;
+				flags = csv_fields_evolution[idx].flags;
+				field_text = csv_fields_evolution[idx].csv_attribute;
 			}
 		}
 
-		if (strlen(value->str) != 0) {
+		if (*value->str) {
 			if (contact_field != NOMAP) {
-				if (importer == OUTLOOK_IMPORTER) {
-					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook))
-						e_contact_set (contact, csv_fields_outlook[i].contact_field, value->str);
-				} else if (importer == MOZILLA_IMPORTER) {
-					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla))
-						e_contact_set (contact, csv_fields_mozilla[i].contact_field, value->str);
+				if (importer == OUTLOOK_IMPORTER || importer == MOZILLA_IMPORTER) {
+					e_contact_set (contact, contact_field, value->str);
 				} else {
-					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_evolution)) {
-						if (csv_fields_evolution[i].contact_field == E_CONTACT_WANTS_HTML)
-							e_contact_set (contact, csv_fields_evolution[i].contact_field, GINT_TO_POINTER (g_ascii_strcasecmp (value->str, "TRUE") == 0));
-						else
-							e_contact_set (contact, csv_fields_evolution[i].contact_field, value->str);
-					}
+					if (contact_field == E_CONTACT_WANTS_HTML)
+						e_contact_set (contact, contact_field, GINT_TO_POINTER (g_ascii_strcasecmp (value->str, "TRUE") == 0));
+					else
+						e_contact_set (contact, contact_field, value->str);
 				}
 			}
 			else {
@@ -501,15 +572,13 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 					break;
 
 				default:
-					add_to_notes(contact, i, value->str);
+					add_to_notes (contact, field_text, value->str);
 
 				}
 			}
 		}
-		i++;
+		ii++;
 		g_string_free(value, TRUE);
-		if (*ptr != '\n')
-			ptr = g_utf8_next_char (ptr);
 	}
 	if (strlen(home_street->str) != 0)
 		home_address->street = g_strdup(home_street->str);
@@ -549,17 +618,6 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	gchar *buf;
 	gchar c;
 
-	/*
-	if (!fgets(line, sizeof(line),f))
-		return NULL;
-
-	if (gci->count == 0 && importer != MOZILLA_IMPORTER) {
-		if (!fgets(line, sizeof(line),f))
-			return NULL;
-		gci->count ++;
-	}
-	*/
-
 	line = g_string_new("");
 	while (1) {
 		c = fgetc (f);
@@ -583,6 +641,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	}
 
 	if (gci->count == 0 && importer != MOZILLA_IMPORTER) {
+		gci->fields_map = map_fields (line->str, importer);
 		g_string_free (line, TRUE);
 		line = g_string_new("");
 		while (1) {
@@ -751,6 +810,9 @@ csv_import_done(CSVImporter *gci)
 	g_slist_foreach(gci->contacts, (GFunc) g_object_unref, NULL);
 	g_slist_free(gci->contacts);
 
+	if (gci->fields_map)
+		g_hash_table_destroy (gci->fields_map);
+
 	e_import_complete(gci->import, gci->target);
 	g_object_unref(gci->import);
 
@@ -795,6 +857,7 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->target = target;
 	gci->book = book;
 	gci->file = file;
+	gci->fields_map = NULL;
 	gci->count = 0;
 	fseek(file, 0, SEEK_END);
 	gci->size = ftell(file);
@@ -860,6 +923,7 @@ csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	gci = g_malloc0 (sizeof (*gci));
 	gci->file = file;
+	gci->fields_map = NULL;
 	gci->count = 0;
 	fseek(file, 0, SEEK_END);
 	gci->size = ftell (file);
