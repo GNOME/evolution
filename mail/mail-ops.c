@@ -515,8 +515,42 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 	if (resent_from) {
 		camel_address_decode (from, resent_from);
 	} else {
-		iaddr = camel_mime_message_get_from (message);
-		camel_address_copy (from, CAMEL_ADDRESS (iaddr));
+		/* Don't get the 'from' from the headers */
+		/* See https://bugzilla.gnome.org/show_bug.cgi?id=585577 */
+		gchar *fake_msgid;
+		gchar *hostname;
+		EAccount *account;
+		gchar *address;
+		gchar *cp;
+
+		/* We use camel_header_msgid_generate () to get a canonical
+		 * hostname, then skip the part leading to '@' */
+		fake_msgid = camel_header_msgid_generate ();
+		hostname = strchr (fake_msgid, '@');
+		hostname++;
+
+		/* wfm but it should probably be getpwent->pw_name instead */
+		account = e_get_default_account ();
+		if (!account) {
+			/* XXX Not sure what we should do here. */
+			address = g_strdup ("fakename");
+		} else {
+			address = g_strdup (
+				e_account_get_string (
+				account, E_ACCOUNT_ID_ADDRESS));
+			cp = strchr (address, '@');
+			if (cp != NULL)
+				*cp = '\0';
+		}
+
+		cp = g_strconcat (address, "@", hostname, NULL);
+		g_free (address);
+		address = cp;
+
+		camel_address_decode (from, address);
+
+		g_free (fake_msgid);
+		g_free (address);
 	}
 
 	recipients = (CamelAddress *) camel_internet_address_new ();
