@@ -2630,6 +2630,10 @@ e_mail_reader_init (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Delete"), NULL);
 
+	action_name = "mail-forward";
+	action = e_mail_reader_get_action (reader, action_name);
+	g_object_set (action, "is-important", TRUE, NULL);
+
 	action_name = "mail-next";
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Next"), NULL);
@@ -2638,9 +2642,15 @@ e_mail_reader_init (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Previous"), NULL);
 
+	action_name = "mail-reply-all";
+	action = e_mail_reader_get_action (reader, action_name);
+	g_object_set (action, "is-important", TRUE, NULL);
+
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "short-label", _("Reply"), NULL);
+	g_object_set (
+		action, "is-important", TRUE,
+		"short-label", _("Reply"), NULL);
 
 	action_name = "add-to-address-book";
 	action = e_web_view_get_action (web_view, action_name);
