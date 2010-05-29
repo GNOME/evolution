@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-17 18:26+0000\n"
-"PO-Revision-Date: 2010-05-16 11:19+0200\n"
+"POT-Creation-Date: 2010-05-28 12:28+0000\n"
+"PO-Revision-Date: 2010-05-29 11:53+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -566,10 +566,10 @@ msgstr "Novell, Inc"
 msgid "2002-2009"
 msgstr "2002-2009"
 
-#: C/evolution.xml:29(revnumber) C/evolution.xml:37(revnumber)
-#: C/evolution.xml:88(productnumber)
-msgid "2.28"
-msgstr "2.28"
+#: C/evolution.xml:29(revnumber) C/evolution.xml:88(productnumber)
+#| msgid "2.10"
+msgid "2.30"
+msgstr "2.30"
 
 #: C/evolution.xml:30(date) C/evolution.xml:38(date)
 msgid "September 2009"
@@ -578,6 +578,10 @@ msgstr "Septiembre de 2009"
 #: C/evolution.xml:32(para)
 msgid "Akhil Laddha"
 msgstr "Akhil Laddha"
+
+#: C/evolution.xml:37(revnumber)
+msgid "2.28"
+msgstr "2.28"
 
 #: C/evolution.xml:40(para) C/evolution.xml:48(para) C/evolution.xml:56(para)
 #: C/evolution.xml:72(para)
@@ -621,8 +625,9 @@ msgid "October 5, 2006"
 msgstr "5 de octubre de 2006"
 
 #: C/evolution.xml:78(releaseinfo)
-msgid "This manual describes version 2.28 of Evolution"
-msgstr "Este manual describe la versión 2.28 de Evolution"
+#| msgid "This manual describes version 2.28 of Evolution"
+msgid "This manual describes version 2.30 of Evolution"
+msgstr "Este manual describe la versión 2.30 de Evolution"
 
 #: C/evolution.xml:82(para)
 msgid ""
@@ -642,21 +647,26 @@ msgid "February 2008"
 msgstr "Febrero de 2008"
 
 #: C/evolution.xml:90(title) C/evolution.xml:7883(para)
-msgid "Evolution 2.28 User Guide"
-msgstr "Guía de usuario de Evolution 2.28"
+#| msgid "Evolution 2.28 User Guide"
+msgid "Evolution 2.30 User Guide"
+msgstr "Guía de usuario de Evolution 2.30"
 
 #: C/evolution.xml:95(title)
 msgid "About This Guide"
 msgstr "Acerca de esta guía"
 
 #: C/evolution.xml:96(para)
+#| msgid ""
+#| "This guide describes how to use and manage <trademark>Evolution</"
+#| "trademark> 2.28 client software. This guide is intended for users and is "
+#| "divided into the following sections:"
 msgid ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.28 client software. This guide is intended for users and is divided into "
+"2.30 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
 "Esta guía describe cómo usar y gestionar el cliente de <trademark>Evolution</"
-"trademark> 2.28. Esta guía está dirigida a los usuarios y se divide en las "
+"trademark> 2.30. Esta guía está dirigida a los usuarios y se divide en las "
 "siguientes secciones:"
 
 #: C/evolution.xml:99(link) C/evolution.xml:160(title)
@@ -12203,9 +12213,6 @@ msgstr ""
 "elemento original en el calendario del destinatario."
 
 #: C/evolution.xml:6116(para)
-#| msgid ""
-#| "An email is send to all the recipients to invite them to your updated "
-#| "event."
 msgid ""
 "An email is sent to all the recipients to invite them to your updated event."
 msgstr ""
@@ -14187,8 +14194,9 @@ msgstr ""
 "de dos en la vista mensual."
 
 #: C/evolution.xml:7039(title)
-msgid "Show week numbers in date navigator:"
-msgstr "Muestra los números de las semanas en el navegador de fechas:"
+#| msgid "Show week numbers in date navigator:"
+msgid "Show week numbers:"
+msgstr "Muestra los números de las semanas:"
 
 #: C/evolution.xml:7040(para)
 msgid "Shows the week numbers next to the respective weeks in the calendar."
@@ -16160,7 +16168,7 @@ msgstr ""
 #: C/evolution.xml:0(None)
 msgid "translator-credits"
 msgstr ""
-"Jorge González <jorgegonz@svn.gnome.org>, 2007-2009\n"
+"Jorge González <jorgegonz@svn.gnome.org>, 2007-2010\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
 #~ msgid ""
