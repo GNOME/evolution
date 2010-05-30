@@ -65,7 +65,6 @@ struct _EMFormatQuote {
 	guint32 flags;
 
 	guint32 text_html_flags;
-	guint32 citation_colour;
 };
 
 struct _EMFormatQuoteClass {

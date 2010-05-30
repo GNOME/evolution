@@ -68,7 +68,6 @@ typedef enum {
 
 /* Configuration */
 void mail_config_init (void);
-void mail_config_clear (void);
 void mail_config_write (void);
 
 GConfClient *mail_config_get_gconf_client (void);
