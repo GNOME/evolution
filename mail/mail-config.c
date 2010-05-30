@@ -118,11 +118,7 @@ config_write_style (void)
 
 	fprintf (rc, "}\n\n");
 
-	fprintf (rc, "widget \"*.EMFolderView.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	fprintf (rc, "widget \"*.EMFolderBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	fprintf (rc, "widget \"*.EMMessageBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	fprintf (rc, "widget \"EMsgComposer.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	fprintf (rc, "widget \"*.EvolutionMailPrintHTMLWidget\" style \"evolution-mail-custom-fonts\"\n");
+	fprintf (rc, "class \"EWebView\" style \"evolution-mail-custom-fonts\"\n");
 	fflush (rc);
 	fclose (rc);
 
@@ -227,13 +223,6 @@ gconf_int_value_changed (GConfClient *client,
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
-}
-
-void
-mail_config_clear (void)
-{
-	if (!config)
-		return;
 }
 
 void
@@ -619,8 +608,6 @@ mail_config_init (void)
 	config->gtkrc = g_build_filename (
 		mail_session_get_config_dir (),
 		"gtkrc-mail-fonts", NULL);
-
-	mail_config_clear ();
 
 	gtk_rc_parse (config->gtkrc);
 
