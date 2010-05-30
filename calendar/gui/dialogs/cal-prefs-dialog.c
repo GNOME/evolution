@@ -396,16 +396,23 @@ update_system_tz_widgets (EShellSettings *shell_settings,
                           GParamSpec *pspec,
                           CalendarPrefsDialog *prefs)
 {
+	GtkWidget *widget;
 	icaltimezone *zone;
+	const gchar *display_name;
+	gchar *text;
+
+	widget = e_builder_get_widget (prefs->builder, "system-tz-label");
+	g_return_if_fail (GTK_IS_LABEL (widget));
 
 	zone = e_cal_util_get_system_timezone ();
-	if (zone) {
-		gchar *tmp = g_strdup_printf ("(%s)", _(icaltimezone_get_display_name (zone)));
-		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), tmp);
-		g_free (tmp);
-	} else {
-		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), "(UTC)");
-	}
+	if (zone != NULL)
+		display_name = gettext (icaltimezone_get_display_name (zone));
+	else
+		display_name = "UTC";
+
+	text = g_strdup_printf ("(%s)", display_name);
+	gtk_label_set_text (GTK_LABEL (widget), text);
+	g_free (text);
 }
 
 static void
@@ -635,6 +642,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	g_signal_connect (
 		shell_settings, "notify::cal-use-system-timezone",
 		G_CALLBACK (update_system_tz_widgets), prefs);
+	g_object_notify (G_OBJECT (shell_settings), "cal-use-system-timezone");
 
 	widget = e_builder_get_widget (prefs->builder, "timezone");
 	e_mutual_binding_new (
@@ -645,7 +653,6 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		widget, "sensitive");
 
 	/* General tab */
-	prefs->system_tz_label = e_builder_get_widget (prefs->builder, "system-tz-label");
 	prefs->day_second_zone = e_builder_get_widget (prefs->builder, "day_second_zone");
 
 	widget = e_builder_get_widget (prefs->builder, "sun_button");
