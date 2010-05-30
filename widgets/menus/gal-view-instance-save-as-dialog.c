@@ -230,7 +230,6 @@ static void
 gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 {
 	GtkWidget *content_area;
-	GtkWidget *parent;
 	GtkWidget *widget;
 
 	dialog->instance = NULL;
@@ -242,27 +241,19 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 		dialog->builder, "gal-view-instance-save-as-dialog.ui");
 
 	widget = e_builder_get_widget (dialog->builder, "vbox-top");
-	if (!widget) {
-		return;
-	}
-
-	g_object_ref (widget);
-
-	parent = gtk_widget_get_parent (widget);
-	gtk_container_remove (GTK_CONTAINER (parent), widget);
-
-	/* TODO: add position/size saving/restoring */
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 360);
-
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
-	g_object_unref (widget);
+	/* TODO: add position/size saving/restoring */
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 360);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (dialog),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+		NULL);
 
 	dialog->scrolledwindow = e_builder_get_widget (dialog->builder, "scrolledwindow2");
 	dialog->treeview = GTK_TREE_VIEW (e_builder_get_widget (dialog->builder, "custom-replace"));
