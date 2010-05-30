@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-29 04:06+0200\n"
-"PO-Revision-Date: 2010-05-29 04:06+0200\n"
+"POT-Creation-Date: 2010-05-30 17:57+0200\n"
+"PO-Revision-Date: 2010-05-30 17:56+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome@g11.net>\n"
 "MIME-Version: 1.0\n"
@@ -102,43 +102,48 @@ msgid "Delete address book '{0}'?"
 msgstr "Quere eliminar a axenda de enderezos '{0}'?"
 
 #: ../addressbook/addressbook.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:34 ../mail/mail.error.xml.h:45
+msgid "Do _Not Delete"
+msgstr "_Non eliminar"
+
+#: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
 msgstr "Produciuse un erro ao gardar {0} en {1}: {2}"
 
-#: ../addressbook/addressbook.error.xml.h:14
+#: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
 msgstr "Produciuse un fallo ao autenticarse no servidor LDAP."
 
 #. Unknown error
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:16
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1268
 msgid "Failed to delete contact"
 msgstr "Produciuse un fallo ao eliminar o contacto"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "GroupWise Address book creation:"
 msgstr "Creación da axenda de enderezos do GroupWise:"
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
 msgstr "O servidor LDAP non respondeu cunha información válida do esquema."
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "Some features may not work properly with your current server"
 msgstr ""
 "Algunhas características pode que non funcionen apropiadamente co servidor "
 "actual"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "A axenda de enderezos do Evolution saíu inesperadamente."
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:21
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr "A imaxe que seleccionou é grande. Quere redimensionala e almacenala?"
 
-#: ../addressbook/addressbook.error.xml.h:21
+#: ../addressbook/addressbook.error.xml.h:22
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -148,16 +153,16 @@ msgstr ""
 "permite esta funcionalidade ou que está mal configurada. Pida bases de busca "
 "compatíbeis ao seu administrador de sistema."
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "This address book could not be opened."
 msgstr "Non é posíbel abrir esta axenda de enderezos."
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "This address book server does not have any suggested search bases."
 msgstr ""
 "Este servidor de axenda de enderezos non ten ningunha base de busca suxerida."
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -166,31 +171,31 @@ msgstr ""
 "servidor pode estar escrito incorrectamente, ou a súa conexión de rede pode "
 "estar caída."
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This address book will be removed permanently."
 msgstr "Esta axenda de enderezos eliminarase permanentemente."
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "This server does not support LDAPv3 schema information."
 msgstr "Este servidor non é compatíbel  co esquema de información LDAPv3."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to open address book"
 msgstr "Non é posíbel abrir a axenda de enderezos"
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to perform search."
 msgstr "Non é posíbel realizar a busca."
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to save {0}."
 msgstr "Non é posíbel gardar {0}."
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:31
 msgid "Would you like to save your changes?"
 msgstr "Quere gardar os cambios?"
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:32
 msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -198,7 +203,7 @@ msgstr ""
 "Está tentando mover un contacto dunha axenda de enderezos a outra mais non é "
 "posíbel eliminar da orixe. Quere gardar unha copia en seu lugar?"
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
@@ -208,44 +213,44 @@ msgstr ""
 "problemas ao usar o Evolution. Para ter os mellores resultados o servidor "
 "debería ser actualizado a unha versión compatíbel"
 
-#: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/addressbook.error.xml.h:34
 msgid "You do not have permission to delete contacts in this address book."
 msgstr ""
 "Vostede non ten permisos para eliminar contactos de esta axenda de enderezos."
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:35
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr "Fixo modificacións neste contacto. Quere gardar esas modificacións?"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:36
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Os seus contactos para {0} non estarán dispoñíbeis até que o Evolution sexa "
 "reiniciado."
 
-#: ../addressbook/addressbook.error.xml.h:36 ../mail/em-vfolder-rule.c:521
+#: ../addressbook/addressbook.error.xml.h:37 ../mail/em-vfolder-rule.c:521
 #: ../plugins/groupwise-features/junk-settings.ui.h:4
 #: ../plugins/groupwise-features/properties.ui.h:10
 #: ../widgets/table/e-table-config.ui.h:18
 msgid "_Add"
 msgstr "Eng_adir"
 
-#: ../addressbook/addressbook.error.xml.h:37
+#: ../addressbook/addressbook.error.xml.h:38
 msgid "_Discard"
 msgstr "Re_xeitar"
 
-#: ../addressbook/addressbook.error.xml.h:38
+#: ../addressbook/addressbook.error.xml.h:39
 msgid "_Do not save"
 msgstr "Non gar_dar"
 
-#: ../addressbook/addressbook.error.xml.h:39
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "_Resize"
 msgstr "_Redimensionar"
 
-#: ../addressbook/addressbook.error.xml.h:40
+#: ../addressbook/addressbook.error.xml.h:41
 msgid "_Use as it is"
 msgstr "_Usar tal como está"
 
@@ -1818,23 +1823,23 @@ msgstr "Quere eliminar a lista de notas '{0}'?"
 msgid "Delete task list '{0}'?"
 msgstr "Quere eliminar a lista de tarefas '{0}'?"
 
-#: ../calendar/calendar.error.xml.h:34
+#: ../calendar/calendar.error.xml.h:35
 msgid "Do _not Send"
 msgstr "_Non enviar"
 
-#: ../calendar/calendar.error.xml.h:35
+#: ../calendar/calendar.error.xml.h:36
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "Hai unha descarga en progreso. Quere gardar a cita?"
 
-#: ../calendar/calendar.error.xml.h:36
+#: ../calendar/calendar.error.xml.h:37
 msgid "Download in progress. Do you want to save the task?"
 msgstr "Hai unha descarga en progreso. Quere gardar a tarefa?"
 
-#: ../calendar/calendar.error.xml.h:37
+#: ../calendar/calendar.error.xml.h:38
 msgid "Editor could not be loaded."
 msgstr "Non foi posíbel cargar o editor."
 
-#: ../calendar/calendar.error.xml.h:38
+#: ../calendar/calendar.error.xml.h:39
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -1842,26 +1847,26 @@ msgstr ""
 "Enviaranse convites por correo electrónico a todos os participantes e "
 "permitiráselles aceptar esta tarefa."
 
-#: ../calendar/calendar.error.xml.h:39
+#: ../calendar/calendar.error.xml.h:40
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Enviaranse convites por correo electrónico a todos os participantes e "
 "permitiráselles confirmalos."
 
-#: ../calendar/calendar.error.xml.h:40
+#: ../calendar/calendar.error.xml.h:41
 msgid "Error loading calendar"
 msgstr "Produciuse un erro ao cargar o calendario"
 
-#: ../calendar/calendar.error.xml.h:41
+#: ../calendar/calendar.error.xml.h:42
 msgid "Error loading memo list"
 msgstr "Produciuse un erro ao cargar a lista de notas"
 
-#: ../calendar/calendar.error.xml.h:42
+#: ../calendar/calendar.error.xml.h:43
 msgid "Error loading task list"
 msgstr "Produciuse un erro ao cargar a lista de tarefas"
 
-#: ../calendar/calendar.error.xml.h:43
+#: ../calendar/calendar.error.xml.h:44
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
@@ -1869,7 +1874,7 @@ msgstr ""
 "Se non envía unha notificación de cancelación, os outros participantes "
 "quizais non saiban que se cancelou a cita."
 
-#: ../calendar/calendar.error.xml.h:44
+#: ../calendar/calendar.error.xml.h:45
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the memo has been deleted."
@@ -1877,7 +1882,7 @@ msgstr ""
 "Se non envía unha notificación de cancelación, os outros participantes "
 "quizais non saiban que se eliminou a nota."
 
-#: ../calendar/calendar.error.xml.h:45
+#: ../calendar/calendar.error.xml.h:46
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
@@ -1885,7 +1890,7 @@ msgstr ""
 "Se non envía unha notificación de cancelación, os outros participantes "
 "quizais non saiban que se eliminou a tarefa."
 
-#: ../calendar/calendar.error.xml.h:46
+#: ../calendar/calendar.error.xml.h:47
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -1893,7 +1898,7 @@ msgstr ""
 "Ao enviar información actualizada permite que outros participantes manteñan "
 "os seus calendarios ao día."
 
-#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/calendar.error.xml.h:48
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -1901,7 +1906,7 @@ msgstr ""
 "Ao enviar información actualizada permítese que outros participantes "
 "manteñan a súa lista de tarefas ao día."
 
-#: ../calendar/calendar.error.xml.h:48
+#: ../calendar/calendar.error.xml.h:49
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -1909,7 +1914,7 @@ msgstr ""
 "Estanse descargando algúns anexos. Gardar a cita fará que se perdan eses "
 "anexos."
 
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:50
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -1917,94 +1922,94 @@ msgstr ""
 "Estanse descargando algúns anexos. Gardar a tarefa fará que se perdan eses "
 "anexos."
 
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:51
 msgid "Some features may not work properly with your current server."
 msgstr ""
 "Pode que algunhas características non funcionen apropiadamente co servidor "
 "actual."
 
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:52
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "O calendario do Evolution saíu inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:53
 msgid "The Evolution calendars have quit unexpectedly."
 msgstr "Os calendarios do Evolution saíron inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:54
 msgid "The Evolution memo has quit unexpectedly."
 msgstr "As notas do Evolution saíron inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:55
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "As tarefas do Evolution saíron inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:56
 msgid "The calendar is not marked for offline usage."
 msgstr "O calendario non está marcado para o uso sen conexión."
 
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:57
 msgid "The memo list is not marked for offline usage."
 msgstr "A lista de notas non está marcada para o uso no modo sen conexión."
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:58
 msgid "The task list is not marked for offline usage."
 msgstr "A lista de tarefas non está marcada para o uso sen conexión."
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:59
 msgid "This calendar will be removed permanently."
 msgstr "Este calendario eliminarase permanentemente."
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:60
 msgid "This memo list will be removed permanently."
 msgstr "Esta lista de notas vaise eliminar permanentemente."
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:61
 msgid "This task list will be removed permanently."
 msgstr "Esta lista de tarefas vaise eliminar permanentemente."
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:62
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Quere gardar as modificacións feitas nesta cita?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:63
 msgid "Would you like to save your changes to this meeting?"
 msgstr "Quere gardar as modificacións feitas nesta nota?"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:64
 msgid "Would you like to save your changes to this memo?"
 msgstr "Quere gardar as modificacións feitas nesta nota?"
 
-#: ../calendar/calendar.error.xml.h:64
+#: ../calendar/calendar.error.xml.h:65
 msgid "Would you like to save your changes to this task?"
 msgstr "Quere gardar as modificacións feitas nesta tarefa?"
 
-#: ../calendar/calendar.error.xml.h:65
+#: ../calendar/calendar.error.xml.h:66
 msgid "Would you like to send a cancelation notice for this memo?"
 msgstr "Quere enviar unha notificación de cancelación para esta nota?"
 
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:67
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr ""
 "Quere enviar a todos os participantes unha notificación de cancelación?"
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:68
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Quere enviar convites para a cita aos participantes?"
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:69
 msgid "Would you like to send this task to participants?"
 msgstr "Quere enviar esta tarefa aos participantes?"
 
-#: ../calendar/calendar.error.xml.h:69
+#: ../calendar/calendar.error.xml.h:70
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Quere enviar información actualizada da cita aos participantes?"
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:71
 msgid "Would you like to send updated task information to participants?"
 msgstr "Quere enviar información actualizada das tarefas aos participantes?"
 
-#: ../calendar/calendar.error.xml.h:71
+#: ../calendar/calendar.error.xml.h:72
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -2014,55 +2019,55 @@ msgstr ""
 "problemas ao usar o Evolution. Para os mellores resultados, o servidor "
 "debería actualizarse a unha versión compatíbel."
 
-#: ../calendar/calendar.error.xml.h:72
+#: ../calendar/calendar.error.xml.h:73
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Modificou esta cita, mais aínda non a gardou."
 
-#: ../calendar/calendar.error.xml.h:73
+#: ../calendar/calendar.error.xml.h:74
 msgid "You have changed this meeting, but not yet saved it."
 msgstr "Modificou esta tarefa, mais aínda non a gardou."
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:75
 msgid "You have changed this task, but not yet saved it."
 msgstr "Modificou esta tarefa, mais aínda non a gardou."
 
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:76
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Realizou modificacións nesta nota, mais aínda non as gardou."
 
-#: ../calendar/calendar.error.xml.h:76
+#: ../calendar/calendar.error.xml.h:77
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
 "Os seus calendarios non estarán dispoñíbeis até que reinicie o Evolution."
 
-#: ../calendar/calendar.error.xml.h:77
+#: ../calendar/calendar.error.xml.h:78
 msgid "Your memos will not be available until Evolution is restarted."
 msgstr "As súas notas non estarán dispoñíbeis até que reinicie o Evolution."
 
-#: ../calendar/calendar.error.xml.h:78
+#: ../calendar/calendar.error.xml.h:79
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "As súas tarefas non estarán dispoñíbeis até que reinicie o Evolution."
 
-#: ../calendar/calendar.error.xml.h:79
+#: ../calendar/calendar.error.xml.h:80
 #: ../composer/mail-composer.error.xml.h:24
 msgid "_Discard Changes"
 msgstr "_Rexeitar as modificacións"
 
-#: ../calendar/calendar.error.xml.h:80 ../composer/e-composer-actions.c:309
+#: ../calendar/calendar.error.xml.h:81 ../composer/e-composer-actions.c:309
 msgid "_Save"
 msgstr "_Gardar"
 
-#: ../calendar/calendar.error.xml.h:81
+#: ../calendar/calendar.error.xml.h:82
 msgid "_Save Changes"
 msgstr "_Gardar modificacións"
 
-#: ../calendar/calendar.error.xml.h:82
-#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:134
+#: ../calendar/calendar.error.xml.h:83
+#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:133
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Enviar"
 
-#: ../calendar/calendar.error.xml.h:83
+#: ../calendar/calendar.error.xml.h:84
 msgid "_Send Notice"
 msgstr "_Enviar notificación"
 
@@ -3178,15 +3183,15 @@ msgstr "Ningún"
 msgid "Select..."
 msgstr "Seleccionar..."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:497
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:504
 msgid "Selected Calendars for Alarms"
 msgstr "Seleccionar calendario para alarmas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:782
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:789
 msgid "Ti_me and date:"
 msgstr "_Hora e data:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:783
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:790
 msgid "_Date only:"
 msgstr "Só _data:"
 
@@ -9055,7 +9060,7 @@ msgstr "Quere sobrescribilo?"
 msgid "File exists \"{0}\"."
 msgstr "O ficheiro xa existe \"{0}\"."
 
-#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:133
+#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:132
 msgid "_Overwrite"
 msgstr "S_obrescribir"
 
@@ -9391,7 +9396,7 @@ msgstr "Falta a data."
 msgid "Missing file name."
 msgstr "Falta o nome do ficheiro."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:74
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:75
 msgid "Missing name."
 msgstr "Falta o nome."
 
@@ -10171,7 +10176,7 @@ msgid "Unable to retrieve message"
 msgstr "Non foi posíbel obter a mensaxe"
 
 #: ../mail/e-mail-reader.c:1886 ../mail/e-mail-reader.c:1946
-#: ../mail/mail-ops.c:1843
+#: ../mail/mail-ops.c:1877
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Recuperando a mensaxe %s"
@@ -10200,19 +10205,19 @@ msgstr "Reenviar a alguén a mensaxe seleccionada"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../mail/e-mail-reader.c:2635
+#: ../mail/e-mail-reader.c:2639
 #: ../modules/calendar/e-cal-shell-view-actions.c:1305
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "Seguinte"
 
-#: ../mail/e-mail-reader.c:2639
+#: ../mail/e-mail-reader.c:2643
 #: ../modules/calendar/e-cal-shell-view-actions.c:1298
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../mail/e-mail-reader.c:2643 ../mail/mail-dialogs.ui.h:19
+#: ../mail/e-mail-reader.c:2653 ../mail/mail-dialogs.ui.h:19
 msgid "Reply"
 msgstr "Responder"
 
@@ -13088,12 +13093,12 @@ msgid "Fetching Mail"
 msgstr "Recibindo correo"
 
 #. sending mail, filtering failed
-#: ../mail/mail-ops.c:576
+#: ../mail/mail-ops.c:610
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Produciuse un fallo ao aplicar os filtros ao correo saínte: %s"
 
-#: ../mail/mail-ops.c:588 ../mail/mail-ops.c:616
+#: ../mail/mail-ops.c:622 ../mail/mail-ops.c:650
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13102,126 +13107,126 @@ msgstr ""
 "Produciuse un fallo ao anexar a %s: %s\n"
 "No seu lugar anexaranse ao cartafol local «Enviados»."
 
-#: ../mail/mail-ops.c:633
+#: ../mail/mail-ops.c:667
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Produciuse un fallo ao anexar ao cartafol local «Enviados»: %s"
 
-#: ../mail/mail-ops.c:744 ../mail/mail-ops.c:825
+#: ../mail/mail-ops.c:778 ../mail/mail-ops.c:859
 msgid "Sending message"
 msgstr "Enviando a mensaxe"
 
-#: ../mail/mail-ops.c:754
+#: ../mail/mail-ops.c:788
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando a mensaxe %d de %d"
 
-#: ../mail/mail-ops.c:781
+#: ../mail/mail-ops.c:815
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Produciuse un fallo ao enviar %d de %d mensaxes"
 
-#: ../mail/mail-ops.c:783 ../mail/mail-send-recv.c:761
+#: ../mail/mail-ops.c:817 ../mail/mail-send-recv.c:761
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:785 ../mail/mail-send-recv.c:763
+#: ../mail/mail-ops.c:819 ../mail/mail-send-recv.c:763
 msgid "Complete."
 msgstr "Terminado."
 
-#: ../mail/mail-ops.c:897
+#: ../mail/mail-ops.c:931
 #, c-format
 msgid "Saving message to folder '%s'"
 msgstr "Gardando a mensaxe no cartafol %s"
 
-#: ../mail/mail-ops.c:974
+#: ../mail/mail-ops.c:1008
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Movendo as mensaxes a %s"
 
-#: ../mail/mail-ops.c:974
+#: ../mail/mail-ops.c:1008
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando as mensaxes a %s"
 
-#: ../mail/mail-ops.c:1083
+#: ../mail/mail-ops.c:1117
 #, c-format
 msgid "Scanning folders in '%s'"
 msgstr "Examinando os cartafoles en \"%s\""
 
-#: ../mail/mail-ops.c:1191
+#: ../mail/mail-ops.c:1225
 msgid "Forwarded messages"
 msgstr "Mensaxes reenviadas"
 
-#: ../mail/mail-ops.c:1232
+#: ../mail/mail-ops.c:1266
 #, c-format
 msgid "Opening folder '%s'"
 msgstr "Abrindo cartafol %s"
 
-#: ../mail/mail-ops.c:1298
+#: ../mail/mail-ops.c:1332
 #, c-format
 msgid "Retrieving quota information for folder '%s'"
 msgstr "Obtendo a información de cuota do cartafol %s"
 
-#: ../mail/mail-ops.c:1370
+#: ../mail/mail-ops.c:1404
 #, c-format
 msgid "Opening store '%s'"
 msgstr "Abrindo almacenamento %s"
 
-#: ../mail/mail-ops.c:1441
+#: ../mail/mail-ops.c:1475
 #, c-format
 msgid "Removing folder '%s'"
 msgstr "Eliminando o cartafol %s"
 
-#: ../mail/mail-ops.c:1561
+#: ../mail/mail-ops.c:1595
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Almacenando o cartafol '%s'"
 
-#: ../mail/mail-ops.c:1624
+#: ../mail/mail-ops.c:1658
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando e almacenando a conta '%s'"
 
-#: ../mail/mail-ops.c:1625
+#: ../mail/mail-ops.c:1659
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando a conta '%s'"
 
-#: ../mail/mail-ops.c:1679
+#: ../mail/mail-ops.c:1713
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando o cartafol %s"
 
-#: ../mail/mail-ops.c:1719
+#: ../mail/mail-ops.c:1753
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando o cartafol %s"
 
-#: ../mail/mail-ops.c:1764
+#: ../mail/mail-ops.c:1798
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Baleirando o lixo en '%s'"
 
-#: ../mail/mail-ops.c:1765
+#: ../mail/mail-ops.c:1799
 msgid "Local Folders"
 msgstr "Cartafoles locais"
 
-#: ../mail/mail-ops.c:1961
+#: ../mail/mail-ops.c:1995
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Recuperando %d mensaxe"
 msgstr[1] "Recuperando %d mensaxes"
 
-#: ../mail/mail-ops.c:2050
+#: ../mail/mail-ops.c:2084
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Gardando %d mensaxe"
 msgstr[1] "Gardando %d mensaxes"
 
-#: ../mail/mail-ops.c:2131
+#: ../mail/mail-ops.c:2165
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13230,11 +13235,11 @@ msgstr ""
 "Produciuse un erro ao gardar as mensaxes en: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2203
+#: ../mail/mail-ops.c:2237
 msgid "Saving attachment"
 msgstr "Gardando anexo"
 
-#: ../mail/mail-ops.c:2221 ../mail/mail-ops.c:2229
+#: ../mail/mail-ops.c:2255 ../mail/mail-ops.c:2263
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13243,27 +13248,27 @@ msgstr ""
 "Non é posíbel crear o ficheiro de saída: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2244
+#: ../mail/mail-ops.c:2278
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Non é posíbel escribir os datos: %s"
 
-#: ../mail/mail-ops.c:2389
+#: ../mail/mail-ops.c:2423
 #, c-format
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de %s"
 
-#: ../mail/mail-ops.c:2389
+#: ../mail/mail-ops.c:2423
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Conectando novamente con %s"
 
-#: ../mail/mail-ops.c:2485
+#: ../mail/mail-ops.c:2519
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando a conta '%s' para o modo sen conexión"
 
-#: ../mail/mail-ops.c:2571
+#: ../mail/mail-ops.c:2605
 msgid "Checking Service"
 msgstr "Verificando o servizo"
 
@@ -13602,19 +13607,19 @@ msgstr "Non foi posíbel gardar o ficheiro de sinatura."
 msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "Quere eliminar as mensaxes no Cartafol de busca \"{0}\"?"
 
-#: ../mail/mail.error.xml.h:45
-msgid "Do not d_elete"
-msgstr "Non _eliminar"
-
 #: ../mail/mail.error.xml.h:46
-msgid "Do not delete"
-msgstr "Non eliminar"
+msgid "Do _Not Disable"
+msgstr "_Non desactivar"
 
 #: ../mail/mail.error.xml.h:47
-msgid "Do not disable"
-msgstr "Non desactivar"
+msgid "Do _Not Send"
+msgstr "_Non enviar"
 
 #: ../mail/mail.error.xml.h:48
+msgid "Do _Not Synchronize"
+msgstr "_Non sincronizar"
+
+#: ../mail/mail.error.xml.h:49
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
@@ -13622,46 +13627,46 @@ msgstr ""
 "Quere sincronizar localmente os cartafoles que están marcados para o uso sen "
 "conexión?"
 
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:50
 msgid "Do you want to mark all messages as read?"
 msgstr "Quere marcar todas as mensaxes como lidas?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:51
 msgid "Do you wish to save your changes?"
 msgstr "Quere gardar as modificacións?"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:52
 msgid "Enter password."
 msgstr "Introduza o contrasinal."
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:53
 msgid "Error loading filter definitions."
 msgstr "Produciuse un erro ao cargar as definicións dos filtros."
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:54
 msgid "Error while performing operation."
 msgstr "Produciuse un erro ao efectuar a operación."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
 #. It can be basically anything run asynchronously, like "Fetching Mail",
 #. "Sending message" and others, mostly from mail-ops.c file.
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:58
 msgid "Error while {0}."
 msgstr "Produciuse un erro ao {0}."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:59
 msgid "File exists but cannot overwrite it."
 msgstr "O ficheiro existe mais non é posíbel sobrescribilo."
 
-#: ../mail/mail.error.xml.h:59
+#: ../mail/mail.error.xml.h:60
 msgid "File exists but is not a regular file."
 msgstr "O ficheiro existe mais non é un ficheiro normal."
 
-#: ../mail/mail.error.xml.h:60
+#: ../mail/mail.error.xml.h:61
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Se continúa non poderá recuperar estas mensaxes."
 
-#: ../mail/mail.error.xml.h:61
+#: ../mail/mail.error.xml.h:62
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -13669,16 +13674,16 @@ msgstr ""
 "Se elimina o cartafol todo o seu contido e o dos seus subcartafoles "
 "eliminarase permanentemente."
 
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:63
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
 msgstr "Se elimina o cartafol eliminarase permanentemente todo o seu contido."
 
-#: ../mail/mail.error.xml.h:63
+#: ../mail/mail.error.xml.h:64
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Se procede, as contas proxy eliminaranse permanentemente."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:65
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -13686,11 +13691,11 @@ msgstr ""
 "Se continúa, a información da conta e toda a\n"
 "información do proxy eliminarase permanentemente."
 
-#: ../mail/mail.error.xml.h:66
+#: ../mail/mail.error.xml.h:67
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Se procede, a información da conta eliminarase permanentemente."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:68
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -13698,23 +13703,23 @@ msgstr ""
 "Se sae, estas mensaxes non se enviarán até que o Evolution sexa iniciado de "
 "novo."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:69
 msgid "Ignore"
 msgstr "Ignorar"
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:70
 msgid "Invalid authentication"
 msgstr "Autenticación non válida"
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:71
 msgid "Mail Deletion Failed"
 msgstr "Produciuse un fallo na eliminación de correo"
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "Mail filters automatically updated."
 msgstr "Filtros de correo actualizados automaticamente."
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:73
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -13726,27 +13731,27 @@ msgstr ""
 "todas as formas todos os destinatarios da súa mensaxe. Para evitar isto "
 "debería engadir polo menos un destinatario Para: ou CC:."
 
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:74
 msgid "Missing folder."
 msgstr "Falta o cartafol."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid "No sources selected."
 msgstr "Non se seleccionou ningunha orixe."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid "Opening too many messages at once may take a long time."
 msgstr "Abrir demasiadas mensaxes ao mesmo tempo pode levar moito tempo."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid "Please check your account settings and try again."
 msgstr "Verifique a configuración da conta e ténteo outra vez."
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid "Please enable the account or send using another account."
 msgstr "Active a conta ou envíe usando outra conta."
 
-#: ../mail/mail.error.xml.h:79
+#: ../mail/mail.error.xml.h:80
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -13754,7 +13759,7 @@ msgstr ""
 "Introduza un enderezo de correo válido no campo Para:. Pode buscar enderezos "
 "de correo premendo no botón Para: ao lado da caixa de entrada."
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -13764,59 +13769,51 @@ msgstr ""
 "HTML:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:83
 msgid "Please provide an unique name to identify this signature."
 msgstr "Introduza un nome único para identificar esta sinatura."
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:84
 msgid "Please wait."
 msgstr "Agarde."
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Produciuse un problema ao migrar o cartafol de correo antigo \"{0}\"."
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:86
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
 "Estase consultando o servidor sobre unha lista de mecanismos de "
 "autenticación compatíbeis."
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:87
 msgid "Read receipt requested."
 msgstr "Solicitouse unha confirmación de lectura."
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:88
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr ""
 "Está seguro de que quere eliminar o cartafol \"{0}\" e todos os seus "
 "cartafoles secundarios?"
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:89
 msgid "Really delete folder \"{0}\"?"
 msgstr "Confirma o borrado do cartafol \"{0}\"?"
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:90
 msgid "Search Folders automatically updated."
 msgstr "Os cartafoles de busca actualizáronse automaticamente."
-
-#: ../mail/mail.error.xml.h:90
-msgid "Send Receipt"
-msgstr "Enviar notificación de recepción"
 
 #: ../mail/mail.error.xml.h:91
 msgid "Signature Already Exists"
 msgstr "A sinatura xa existe"
 
 #: ../mail/mail.error.xml.h:92
-msgid "Synchronize"
-msgstr "Sincronizar"
-
-#: ../mail/mail.error.xml.h:93
 msgid "Synchronize folders locally for offline usage?"
 msgstr "Sincronizar os cartafoles localmente para o uso sen conexión?"
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:93
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
@@ -13824,7 +13821,7 @@ msgstr ""
 "O Evolution precisa os cartafoles de sistema para funcionar correctamente e "
 "non é posíbel renomear, mover nin eliminar."
 
-#: ../mail/mail.error.xml.h:95
+#: ../mail/mail.error.xml.h:94
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -13841,7 +13838,7 @@ msgstr ""
 "destinatarios na súa mensaxe. Para evitar isto, debería engadir polo menos "
 "un destinatario a Para: ou Cc:. "
 
-#: ../mail/mail.error.xml.h:98
+#: ../mail/mail.error.xml.h:97
 msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
@@ -13850,7 +13847,7 @@ msgstr ""
 "electrónico correcto:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:99
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
@@ -13859,11 +13856,11 @@ msgstr ""
 "electrónico correcto:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:101
 msgid "The script file must exist and be executable."
 msgstr "O ficheiro de script debe existir e ser executábel."
 
-#: ../mail/mail.error.xml.h:103
+#: ../mail/mail.error.xml.h:102
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -13872,7 +13869,7 @@ msgstr ""
 "vaia ao editor de cartafoles de busca para engadilo explicitamente, se é "
 "necesario."
 
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:104
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -13880,14 +13877,14 @@ msgstr ""
 "Esta mensaxe non pode ser enviada porque a conta que escolleu para enviala "
 "non está activada"
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:105
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 "Esta mensaxe non pode ser enviada porque non se especificou ningún "
 "destinatario"
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:106
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -13895,11 +13892,11 @@ msgstr ""
 "Este servidor non é compatíbel con este tipo de autenticación e quizais non "
 "permita ningún tipo de autenticación."
 
-#: ../mail/mail.error.xml.h:108
+#: ../mail/mail.error.xml.h:107
 msgid "This signature has been changed, but has not been saved."
 msgstr "Modificouse esta sinatura mais non foi gardada."
 
-#: ../mail/mail.error.xml.h:109
+#: ../mail/mail.error.xml.h:108
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
@@ -13907,15 +13904,15 @@ msgstr ""
 "Isto marcará todas as mensaxes como lidas no cartafol seleccionado e nos "
 "seus subcartafoles."
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:109
 msgid "This will mark all messages as read in the selected folder."
 msgstr "Isto marcará todas as mensaxes como lidas no cartafol seleccionado."
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:110
 msgid "Unable to connect to the GroupWise server."
 msgstr "Non foi posíbel conectar co servidor GroupWise."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:111
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -13923,19 +13920,19 @@ msgstr ""
 "Non é posíbel abrir o cartafol de borradores nesta conta. Quere usar no seu "
 "lugar o cartafol de borradores do sistema?"
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:112
 msgid "Unable to read license file."
 msgstr "Non é posíbel ler o ficheiro da licenza."
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:113
 msgid "Use _Default"
 msgstr "Usar o pre_determinado"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:114
 msgid "Use default drafts folder?"
 msgstr "Quere usar o cartafol de borradores predefinidos?"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:115
 msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual "
 "message from one of your local or remote folders.\n"
@@ -13945,31 +13942,31 @@ msgstr ""
 "mensaxes reais dun dos seus cartafoles locais ou remotos.\n"
 "Está seguro de que quere facer isto?"
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:117
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Vostede non ten os permisos suficientes para eliminar este correo."
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:118
 msgid "You have not filled in all of the required information."
 msgstr "Non encheu toda a información requirida."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:119
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Ten mensaxes non enviadas. Aínda así quere saír?"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:120
 msgid "You may not create two accounts with the same name."
 msgstr "Non pode crear dúas contas co mesmo nome."
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:121
 msgid "You must name this Search Folder."
 msgstr "Debe dar un nome a este cartafol de busca."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:122
 msgid "You must specify a folder."
 msgstr "Debe especificar un cartafol."
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:123
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -13979,35 +13976,45 @@ msgstr ""
 "Fágao seleccionando os cartafoles individualmente, ou seleccionando todos os "
 "cartafoles locais e todos os cartafoles remotos ou ambos."
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:125
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr ""
 "Produciuse un fallo no seu inicio de sesión no servidor \"{0}\" como \"{0}\"."
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:126
 msgid "_Append"
 msgstr "_Engadir"
+
+#: ../mail/mail.error.xml.h:127
+#: ../plugins/groupwise-features/junk-settings.ui.h:5
+#: ../plugins/publish-calendar/publish-calendar.c:596
+msgid "_Disable"
+msgstr "_Desactivar"
 
 #: ../mail/mail.error.xml.h:128
 msgid "_Discard changes"
 msgstr "_Rexeitar as modificacións"
 
 #: ../mail/mail.error.xml.h:129
-msgid "_Do not Synchronize"
-msgstr "_Non sincronizar"
-
-#: ../mail/mail.error.xml.h:130
 #: ../modules/mail/e-mail-shell-view-actions.c:827
 msgid "_Empty Trash"
 msgstr "_Baleirar o lixo"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:130
 msgid "_Expunge"
 msgstr "_Compactar"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:131
 msgid "_Open Messages"
 msgstr "_Abrir mensaxes"
+
+#: ../mail/mail.error.xml.h:134
+msgid "_Send Receipt"
+msgstr "_Enviar confirmación"
+
+#: ../mail/mail.error.xml.h:135
+msgid "_Synchronize"
+msgstr "_Sincronizar"
 
 #: ../mail/message-list.c:1112
 msgid "Unseen"
@@ -17093,11 +17100,6 @@ msgstr "Correo electrónico:"
 #: ../plugins/groupwise-features/junk-settings.ui.h:2
 msgid "Junk List:"
 msgstr "Lista de correo non dese_xado"
-
-#: ../plugins/groupwise-features/junk-settings.ui.h:5
-#: ../plugins/publish-calendar/publish-calendar.c:596
-msgid "_Disable"
-msgstr "_Desactivar"
 
 #: ../plugins/groupwise-features/junk-settings.ui.h:6
 msgid "_Enable"
@@ -20596,7 +20598,7 @@ msgid "_Edit CA Trust"
 msgstr "_Editar confianza na CA"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:711
+#: ../smime/lib/e-cert-db.c:734
 msgid "Certificate already exists"
 msgstr "O certificado xa existe"
 
@@ -20920,7 +20922,7 @@ msgstr "Definir vistas para \"%s\""
 msgid "Table"
 msgstr "Táboa"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.c:283
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:274
 msgid "Save Current View"
 msgstr "Gardar vista actual"
 
@@ -21874,6 +21876,9 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2486
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Do not d_elete"
+#~ msgstr "Non _eliminar"
 
 #~ msgid "Show week numbers in date navigator"
 #~ msgstr "Mostrar os números de semana no navegador de datas"
