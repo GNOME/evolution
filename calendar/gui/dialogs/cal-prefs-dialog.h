@@ -61,7 +61,6 @@ struct _CalendarPrefsDialog {
 	GConfClient *gconf;
 
 	/* General tab */
-	GtkWidget *system_tz_label;
 	GtkWidget *day_second_zone;
 	GtkWidget *working_days[7];
 	GtkWidget *week_start_day;
