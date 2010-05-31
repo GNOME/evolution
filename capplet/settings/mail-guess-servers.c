@@ -45,6 +45,7 @@
 #include <libedataserver/e-proxy.h>
 
 #include <shell/e-shell.h>
+#include <e-util/e-util-private.h>
 
 #include "mail-guess-servers.h"
 
