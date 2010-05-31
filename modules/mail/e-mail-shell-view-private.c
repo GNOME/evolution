@@ -268,10 +268,13 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 	EShellWindow *shell_window;
 	EShellSettings *shell_settings;
 	EMailReader *reader;
+	EWebView *web_view;
 	GtkWidget *message_list;
 	gboolean magic_spacebar;
 
-	if (html->binding_handled || gtk_html_get_caret_mode (html))
+	web_view = E_WEB_VIEW (html);
+
+	if (html->binding_handled || e_web_view_get_caret_mode (web_view))
 		return;
 
 	if (orientation != GTK_ORIENTATION_VERTICAL)

@@ -30,6 +30,7 @@
 
 #include "e-util/e-alert-dialog.h"
 #include "filter/e-filter-rule.h"
+#include "misc/e-web-view.h"
 
 #include "mail/e-mail-browser.h"
 #include "mail/em-composer-utils.h"
@@ -358,6 +359,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	CamelMimeMessage *new_message;
 	CamelMimeMessage *src_message;
 	CamelFolder *folder;
+	EWebView *web_view;
 	GtkHTML *html;
 	struct _camel_header_raw *header;
 	const gchar *uid;
@@ -372,6 +374,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	html_display = e_mail_reader_get_html_display (reader);
 	html = ((EMFormatHTML *) html_display)->html;
+	web_view = E_WEB_VIEW (html);
 
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -379,7 +382,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
-	if (!gtk_html_command (html, "is-selection-active"))
+	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
 
 	selection = gtk_html_get_selection_html (html, &length);
