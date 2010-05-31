@@ -65,16 +65,15 @@ static void
 efhp_init (GObject *o)
 {
 	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *)o;
-	GtkWidget *html = (GtkWidget *)efhp->parent.html;
+	EWebView *web_view;
 
-	/* ?? */
-	gtk_widget_set_name(html, "EvolutionMailPrintHTMLWidget");
+	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhp));
 
 	/* gtk widgets don't like to be realized outside top level widget
 	   so we put new html widget into gtk window */
 	efhp->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_container_add (GTK_CONTAINER (efhp->window), html);
-	gtk_widget_realize (html);
+	gtk_container_add (GTK_CONTAINER (efhp->window), GTK_WIDGET (web_view));
+	gtk_widget_realize (GTK_WIDGET (web_view));
 	efhp->parent.show_icon = FALSE;
 	((EMFormat *)efhp)->print = TRUE;
 }
@@ -190,12 +189,16 @@ static void
 emfhp_complete (EMFormatHTMLPrint *efhp)
 {
 	GtkPrintOperation *operation;
+	EWebView *web_view;
 	GError *error = NULL;
+
+	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhp));
 
 	operation = e_print_operation_new ();
 
 	gtk_html_print_operation_run (
-		efhp->parent.html, operation, efhp->action, NULL,
+		GTK_HTML (web_view),
+		operation, efhp->action, NULL,
 		(GtkHTMLPrintCalcHeight) NULL,
 		(GtkHTMLPrintCalcHeight) efhp_calc_footer_height,
 		(GtkHTMLPrintDrawFunc) NULL,

@@ -893,18 +893,18 @@ text_contains_nonwhitespace (const gchar *text, gint len)
 static gchar *
 get_selected_text (EMailReader *reader)
 {
-	EMFormatHTMLDisplay *html_display;
-	GtkHTML *html;
+	EMFormatHTML *formatter;
+	EWebView *web_view;
 	gchar *text = NULL;
 	gint len;
 
-	html_display = e_mail_reader_get_html_display (reader);
-	html = EM_FORMAT_HTML (html_display)->html;
+	formatter = e_mail_reader_get_formatter (reader);
+	web_view = em_format_html_get_web_view (formatter);
 
-	if (!gtk_html_command (html, "is-selection-active"))
+	if (!e_web_view_is_selection_active (web_view))
 		return NULL;
 
-	text = gtk_html_get_selection_plain_text (html, &len);
+	text = gtk_html_get_selection_plain_text (GTK_HTML (web_view), &len);
 
 	if (text == NULL || !text_contains_nonwhitespace (text, len)) {
 		g_free (text);

@@ -48,6 +48,7 @@
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 #include "e-util/e-extensible.h"
+#include "misc/e-web-view.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -77,6 +78,8 @@ struct _EMFormatHTMLCache {
 };
 
 struct _EMFormatHTMLPrivate {
+	EWebView *web_view;
+
 	CamelMimeMessage *last_part;	/* not reffed, DO NOT dereference */
 	volatile gint format_id;		/* format thread id */
 	guint format_timeout_id;
@@ -109,7 +112,8 @@ enum {
 	PROP_ONLY_LOCAL_PHOTOS,
 	PROP_SHOW_SENDER_PHOTO,
 	PROP_SHOW_REAL_DATE,
-	PROP_TEXT_COLOR
+	PROP_TEXT_COLOR,
+	PROP_WEB_VIEW
 };
 
 static void efh_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMFormatHTML *efh);
@@ -156,7 +160,7 @@ efh_format_exec (struct _format_msg *m)
 	gint cancelled = FALSE;
 	CamelURL *base;
 
-	if (m->format->html == NULL)
+	if (m->format->priv->web_view == NULL)
 		return;
 
 	format = EM_FORMAT (m->format);
@@ -213,7 +217,7 @@ efh_format_exec (struct _format_msg *m)
 
 			/* This is an implicit check to see if the gtkhtml has been destroyed */
 			if (!cancelled)
-				cancelled = m->format->html == NULL;
+				cancelled = m->format->priv->web_view == NULL;
 
 			/* Now do an explicit check for user cancellation */
 			if (!cancelled)
@@ -296,8 +300,11 @@ efh_format_timeout(struct _format_msg *m)
 	GtkHTMLStream *hstream;
 	EMFormatHTML *efh = m->format;
 	struct _EMFormatHTMLPrivate *p = efh->priv;
+	EWebView *web_view;
 
-	if (m->format->html == NULL) {
+	web_view = em_format_html_get_web_view (m->format);
+
+	if (web_view == NULL) {
 		mail_msg_unref(m);
 		return FALSE;
 	}
@@ -326,7 +333,7 @@ efh_format_timeout(struct _format_msg *m)
 	}
 
 	if (m->message == NULL) {
-		hstream = gtk_html_begin(efh->html);
+		hstream = gtk_html_begin (GTK_HTML (web_view));
 		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
 		mail_msg_unref(m);
 		p->last_part = NULL;
@@ -334,13 +341,14 @@ efh_format_timeout(struct _format_msg *m)
 		efh->state = EM_FORMAT_HTML_STATE_RENDERING;
 
 		if (p->last_part != m->message) {
-			hstream = gtk_html_begin (efh->html);
+			hstream = gtk_html_begin (GTK_HTML (web_view));
 			gtk_html_stream_printf (hstream, "<h5>%s</h5>", _("Formatting Message..."));
 			gtk_html_stream_close (hstream, GTK_HTML_STREAM_OK);
 		}
 
 		hstream = NULL;
-		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
+		m->estream = (EMHTMLStream *)em_html_stream_new (
+			GTK_HTML (web_view), hstream);
 
 		if (p->last_part == m->message) {
 			em_html_stream_set_flags (m->estream,
@@ -385,9 +393,9 @@ efh_gtkhtml_destroy(GtkHTML *html, EMFormatHTML *efh)
 	if (efh->priv->format_id != -1)
 		mail_msg_cancel(efh->priv->format_id);
 
-	if (efh->html != NULL) {
-		g_object_unref (efh->html);
-		efh->html = NULL;
+	if (efh->priv->web_view != NULL) {
+		g_object_unref (efh->priv->web_view);
+		efh->priv->web_view = NULL;
 	}
 }
 
@@ -573,6 +581,12 @@ efh_get_property (GObject *object,
 				&color);
 			g_value_set_boxed (value, &color);
 			return;
+
+		case PROP_WEB_VIEW:
+			g_value_set_object (
+				value, em_format_html_get_web_view (
+				EM_FORMAT_HTML (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -586,7 +600,7 @@ efh_finalize (GObject *object)
 	/* FIXME: check for leaked stuff */
 
 	em_format_html_clear_pobject (efh);
-	efh_gtkhtml_destroy (efh->html, efh);
+	efh_gtkhtml_destroy (GTK_HTML (efh->priv->web_view), efh);
 
 	g_hash_table_destroy (efh->priv->text_inline_parts);
 
@@ -606,7 +620,7 @@ efh_format_clone (EMFormat *emf,
 
 	/* How to sub-class ?  Might need to adjust api ... */
 
-	if (efh->html == NULL)
+	if (efh->priv->web_view == NULL)
 		return;
 
 	d(printf("efh_format called\n"));
@@ -761,7 +775,7 @@ efh_class_init (EMFormatHTMLClass *class)
 	format_class->format_secure = efh_format_secure;
 	format_class->busy = efh_busy;
 
-	class->html_widget_type = GTK_TYPE_HTML;
+	class->html_widget_type = E_TYPE_WEB_VIEW;
 
 	g_object_class_install_property (
 		object_class,
@@ -879,6 +893,16 @@ efh_class_init (EMFormatHTMLClass *class)
 			GDK_TYPE_COLOR,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_WEB_VIEW,
+		g_param_spec_object (
+			"web-view",
+			"Web View",
+			NULL,
+			E_TYPE_WEB_VIEW,
+			G_PARAM_READABLE));
+
 	/* cache expiry - 2 hour access, 1 day max */
 	pathname = g_build_filename (
 		e_get_user_data_dir (), "cache", NULL);
@@ -894,7 +918,7 @@ static void
 efh_init (EMFormatHTML *efh,
           EMFormatHTMLClass *class)
 {
-	GtkHTML *html;
+	EWebView *web_view;
 	GdkColor *color;
 
 	efh->priv = EM_FORMAT_HTML_GET_PRIVATE (efh);
@@ -908,19 +932,21 @@ efh_init (EMFormatHTML *efh,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) efh_free_cache);
 
-	html = g_object_new (class->html_widget_type, NULL);
-	efh->html = g_object_ref_sink (html);
+	web_view = g_object_new (class->html_widget_type, NULL);
+	efh->priv->web_view = g_object_ref_sink (web_view);
 
-	gtk_html_set_blocking (html, FALSE);
-	gtk_html_set_caret_first_focus_anchor (html, EFM_MESSAGE_START_ANAME);
-	gtk_html_set_default_content_type (html, "text/html; charset=utf-8");
-	gtk_html_set_editable (html, FALSE);
+	gtk_html_set_blocking (GTK_HTML (web_view), FALSE);
+	gtk_html_set_caret_first_focus_anchor (
+		GTK_HTML (web_view), EFM_MESSAGE_START_ANAME);
+	gtk_html_set_default_content_type (
+		GTK_HTML (web_view), "text/html; charset=utf-8");
+	e_web_view_set_editable (web_view, FALSE);
 
 	g_signal_connect (
-		html, "url-requested",
+		web_view, "url-requested",
 		G_CALLBACK (efh_url_requested), efh);
 	g_signal_connect (
-		html, "object-requested",
+		web_view, "object-requested",
 		G_CALLBACK (efh_object_requested), efh);
 
 	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_BODY];
@@ -986,6 +1012,14 @@ em_format_html_get_type (void)
 	}
 
 	return type;
+}
+
+EWebView *
+em_format_html_get_web_view (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), NULL);
+
+	return efh->priv->web_view;
 }
 
 void

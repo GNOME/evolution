@@ -781,13 +781,17 @@ static void
 mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget)
 {
 	EMFormatHTMLDisplay *format;
+	EWebView *web_view;
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (preview_widget != NULL);
 
 	format = em_format_html_display_new ();
-	g_object_set_data_full (preview, "mbox-imp-formatter", format, g_object_unref);
-	*preview_widget = GTK_WIDGET (EM_FORMAT_HTML (format)->html);
+	g_object_set_data_full (
+		preview, "mbox-imp-formatter", format, g_object_unref);
+	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (format));
+
+	*preview_widget = GTK_WIDGET (web_view);
 }
 
 static void

@@ -131,7 +131,7 @@ void
 e_mail_reader_mark_as_read (EMailReader *reader,
                             const gchar *uid)
 {
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	CamelFolder *folder;
 	guint32 mask, set;
 	guint32 flags;
@@ -140,14 +140,14 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 	g_return_if_fail (uid != NULL);
 
 	folder = e_mail_reader_get_folder (reader);
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
 
 	flags = camel_folder_get_message_flags (folder, uid);
 
 	if (!(flags & CAMEL_MESSAGE_SEEN)) {
 		CamelMimeMessage *message;
 
-		message = ((EMFormat *) html_display)->message;
+		message = EM_FORMAT (formatter)->message;
 		em_utils_handle_receipt (folder, uid, message);
 	}
 
@@ -278,7 +278,7 @@ void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	EMFormatHTMLPrint *html_print;
 	CamelFolder *folder;
 	GPtrArray *uids;
@@ -293,13 +293,11 @@ e_mail_reader_print (EMailReader *reader,
 	if (uids->len != 1)
 		goto exit;
 
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
 
-	html_print = em_format_html_print_new (
-		(EMFormatHTML *) html_display, action);
+	html_print = em_format_html_print_new (formatter, action);
 	em_format_merge_handler (
-		(EMFormat *) html_print,
-		(EMFormat *) html_display);
+		EM_FORMAT (html_print), EM_FORMAT (formatter));
 	em_format_html_print_message (html_print, folder, uids->pdata[0]);
 	g_object_unref (html_print);
 
@@ -354,13 +352,12 @@ void
 e_mail_reader_reply_to_message (EMailReader *reader,
                                 gint reply_mode)
 {
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
 	CamelMimeMessage *src_message;
 	CamelFolder *folder;
 	EWebView *web_view;
-	GtkHTML *html;
 	struct _camel_header_raw *header;
 	const gchar *uid;
 	gchar *selection = NULL;
@@ -372,9 +369,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	html_display = e_mail_reader_get_html_display (reader);
-	html = ((EMFormatHTML *) html_display)->html;
-	web_view = E_WEB_VIEW (html);
+	formatter = e_mail_reader_get_formatter (reader);
+	web_view = em_format_html_get_web_view (formatter);
 
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -385,15 +381,14 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
 
-	selection = gtk_html_get_selection_html (html, &length);
+	selection = gtk_html_get_selection_html (GTK_HTML (web_view), &length);
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
 	if (!html_contains_nonwhitespace (selection, length))
 		goto whole_message;
 
-	src_message =
-		CAMEL_MIME_MESSAGE (((EMFormat *) html_display)->message);
+	src_message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
 	new_message = camel_mime_message_new ();
 
 	/* Filter out "content-*" headers. */
@@ -424,7 +419,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 whole_message:
 	em_utils_reply_to_message (
-		folder, uid, NULL, reply_mode, (EMFormat *) html_display);
+		folder, uid, NULL, reply_mode, EM_FORMAT (formatter));
 }
 
 void
@@ -679,24 +674,18 @@ headers_changed_cb (GConfClient *client,
                     GConfEntry *entry,
                     EMailReader *reader)
 {
-	EMFormat *emf;
-	EMFormatHTMLDisplay *emfhd;
+	EMFormatHTML *formatter;
 	GSList *header_config_list, *p;
 
 	g_return_if_fail (client != NULL);
 	g_return_if_fail (reader != NULL);
 
-	emfhd = e_mail_reader_get_html_display (reader);
-	if (!emfhd)
-		return;
-
-	emf = EM_FORMAT (emfhd);
-	g_return_if_fail (emf != NULL);
+	formatter = e_mail_reader_get_formatter (reader);
 
 	header_config_list = gconf_client_get_list (
 		client, "/apps/evolution/mail/display/headers",
 		GCONF_VALUE_STRING, NULL);
-	em_format_clear_headers (emf);
+	em_format_clear_headers (EM_FORMAT (formatter));
 	for (p = header_config_list; p; p = g_slist_next(p)) {
 		EMailReaderHeader *h;
 		gchar *xml = (gchar *)p->data;
@@ -704,20 +693,21 @@ headers_changed_cb (GConfClient *client,
 		h = e_mail_reader_header_from_xml (xml);
 		if (h && h->enabled)
 			em_format_add_header (
-				emf, h->name, EM_FORMAT_HEADER_BOLD);
+				EM_FORMAT (formatter),
+				h->name, EM_FORMAT_HEADER_BOLD);
 
 		e_mail_reader_header_free (h);
 	}
 
 	if (!header_config_list)
-		em_format_default_headers (emf);
+		em_format_default_headers (EM_FORMAT (formatter));
 
 	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
 	g_slist_free (header_config_list);
 
 	/* force a redraw */
-	if (emf->message)
-		em_format_redraw (emf);
+	if (EM_FORMAT (formatter)->message)
+		em_format_redraw (EM_FORMAT (formatter));
 }
 
 static void

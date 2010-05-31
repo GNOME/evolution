@@ -610,14 +610,14 @@ efhd_class_init (EMFormatHTMLDisplayClass *class)
 static void
 efhd_init (EMFormatHTMLDisplay *efhd)
 {
-	GtkHTML *html;
+	EWebView *web_view;
 
-	html = EM_FORMAT_HTML (efhd)->html;
+	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
 
 	efhd->priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efhd);
 
 	e_mail_display_set_formatter (
-		E_MAIL_DISPLAY (html), EM_FORMAT_HTML (efhd));
+		E_MAIL_DISPLAY (web_view), EM_FORMAT_HTML (efhd));
 
 	/* we want to convert url's etc */
 	EM_FORMAT_HTML (efhd)->text_html_flags |=
@@ -785,6 +785,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EAttachment *attachment;
+	EWebView *web_view;
 	GtkWidget *widget;
 	gpointer parent;
 	EMFormat *emf = (EMFormat *) efh;
@@ -821,7 +822,8 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	e_attachment_set_encrypted (attachment, info->encrypt);
 	e_attachment_set_can_show (attachment, info->handle != NULL);
 
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
+	web_view = em_format_html_get_web_view (efh);
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	view = em_format_html_display_get_attachment_view (efhd);
@@ -876,12 +878,15 @@ efhd_bar_resize (EMFormatHTML *efh,
 {
 	EMFormatHTMLDisplayPrivate *priv;
 	GtkAllocation allocation;
+	EWebView *web_view;
 	GtkWidget *widget;
 	gint width;
 
 	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
-	widget = GTK_WIDGET (efh->html);
+	web_view = em_format_html_get_web_view (efh);
+
+	widget = GTK_WIDGET (web_view);
 	gtk_widget_get_allocation (widget, &allocation);
 	width = allocation.width - 12;
 
@@ -955,9 +960,11 @@ efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
 static void
 efhd_resize (GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 {
+	EWebView *web_view;
 	GtkAllocation allocation;
 
-	gtk_widget_get_allocation (GTK_WIDGET (efh->html), &allocation);
+	web_view = em_format_html_get_web_view (efh);
+	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation);
 	gtk_widget_set_size_request (w, allocation.width - 48, 250);
 }
 
@@ -972,6 +979,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	GtkAllocation allocation;
 	GtkTextBuffer *buffer;
 	GByteArray *byte_array;
+	EWebView *web_view;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content for optional rendering\n"));
@@ -1041,7 +1049,8 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	gtk_box_pack_start(GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
 	gtk_widget_show (GTK_WIDGET(view));
 
-	gtk_widget_get_allocation (GTK_WIDGET (efh->html), &allocation);
+	web_view = em_format_html_get_web_view (efh);
+	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation);
 	gtk_widget_set_size_request (scroll, allocation.width - 48, 250);
 	g_signal_connect (scroll, "size_allocate", G_CALLBACK(efhd_resize), efh);
 	gtk_widget_show (scroll);

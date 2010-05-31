@@ -14,6 +14,7 @@ plugin_LTLIBRARIES = liborg-gnome-audio-inline.la
 liborg_gnome_audio_inline_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(GSTREAMER_CFLAGS)

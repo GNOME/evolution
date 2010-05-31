@@ -29,7 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <mail/em-format-html-display.h>
+#include <mail/em-format-html.h>
 #include <shell/e-shell-backend.h>
 
 /* Standard GObject macros */
@@ -84,9 +84,8 @@ struct _EMailReaderIface {
 
 	GtkActionGroup *
 			(*get_action_group)	(EMailReader *reader);
+	EMFormatHTML *	(*get_formatter)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
-	EMFormatHTMLDisplay *
-			(*get_html_display)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
@@ -115,9 +114,8 @@ GtkAction *	e_mail_reader_get_action	(EMailReader *reader,
 						 const gchar *action_name);
 GtkActionGroup *
 		e_mail_reader_get_action_group	(EMailReader *reader);
+EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
-EMFormatHTMLDisplay *
-		e_mail_reader_get_html_display	(EMailReader *reader);
 GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);

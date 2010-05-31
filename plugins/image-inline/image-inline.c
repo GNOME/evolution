@@ -233,15 +233,15 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
                   ImageInlinePObject *image_object)
 {
 	GtkAllocation image_allocation;
-	GtkWidget *widget;
+	EWebView *web_view;
 	gint pixbuf_width;
 	gint pixbuf_height;
 	gint widget_width;
 	gint widget_height;
 	gdouble zoom = 1.0;
 
-	widget = GTK_WIDGET (image_object->object.format->html);
-	gtk_widget_get_allocation (widget, &image_allocation);
+	web_view = em_format_html_get_web_view (image_object->object.format);
+	gtk_widget_get_allocation (GTK_WIDGET (web_view), &image_allocation);
 	widget_width = image_allocation.width - 12;
 
 	pixbuf_width = gdk_pixbuf_get_width (image_object->pixbuf);
@@ -264,10 +264,10 @@ mouse_wheel_scroll_cb (GtkWidget *image_view,
 {
 	GtkOrientation orientation;
 	GtkScrollType scroll_type;
-	GtkHTML *html;
+	EWebView *web_view;
 	gint steps = 2;
 
-	html = image_object->object.format->html;
+	web_view = em_format_html_get_web_view (image_object->object.format);
 
 	switch (direction) {
 		case GDK_SCROLL_UP:
@@ -296,7 +296,8 @@ mouse_wheel_scroll_cb (GtkWidget *image_view,
 
 	while (steps > 0) {
 		g_signal_emit_by_name (
-			html, "scroll", orientation, scroll_type, 2.0, NULL);
+			web_view, "scroll",
+			orientation, scroll_type, 2.0, NULL);
 		steps--;
 	}
 }

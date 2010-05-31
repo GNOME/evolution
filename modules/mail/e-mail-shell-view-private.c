@@ -419,7 +419,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	EMFolderTree *folder_tree;
 	EActionComboBox *combo_box;
 	ERuleContext *context;
@@ -462,7 +462,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
 	reader = E_MAIL_READER (shell_content);
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
@@ -480,7 +480,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		folder_tree, "sensitive",
 		combo_box, "sensitive");
 
-	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
+	web_view = em_format_html_get_web_view (formatter);
 
 	g_signal_connect_swapped (
 		folder_tree, "folder-selected",

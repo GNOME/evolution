@@ -57,7 +57,7 @@ struct _EMailShellContentPrivate {
 	GtkWidget *message_list;
 	GtkWidget *search_bar;
 
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTMLDisplay *formatter;
 	GalViewInstance *view_instance;
 	GtkOrientation orientation;
 
@@ -370,9 +370,9 @@ mail_shell_content_dispose (GObject *object)
 		priv->search_bar = NULL;
 	}
 
-	if (priv->html_display != NULL) {
-		g_object_unref (priv->html_display);
-		priv->html_display = NULL;
+	if (priv->formatter != NULL) {
+		g_object_unref (priv->formatter);
+		priv->formatter = NULL;
 	}
 
 	if (priv->view_instance != NULL) {
@@ -400,7 +400,7 @@ mail_shell_content_constructed (GObject *object)
 	EWebView *web_view;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
-	priv->html_display = em_format_html_display_new ();
+	priv->formatter = em_format_html_display_new ();
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -410,7 +410,8 @@ mail_shell_content_constructed (GObject *object)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	web_view = E_WEB_VIEW (EM_FORMAT_HTML (priv->html_display)->html);
+	web_view = em_format_html_get_web_view (
+		EM_FORMAT_HTML (priv->formatter));
 
 	/* Build content widgets. */
 
@@ -457,7 +458,7 @@ mail_shell_content_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		search_bar, "changed",
-		G_CALLBACK (em_format_redraw), priv->html_display);
+		G_CALLBACK (em_format_redraw), priv->formatter);
 
 	/* Load the view instance. */
 
@@ -504,6 +505,16 @@ mail_shell_content_get_action_group (EMailReader *reader)
 	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
+static EMFormatHTML *
+mail_shell_content_get_formatter (EMailReader *reader)
+{
+	EMailShellContentPrivate *priv;
+
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+
+	return EM_FORMAT_HTML (priv->formatter);
+}
+
 static gboolean
 mail_shell_content_get_hide_deleted (EMailReader *reader)
 {
@@ -512,16 +523,6 @@ mail_shell_content_get_hide_deleted (EMailReader *reader)
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
 
 	return !e_mail_shell_content_get_show_deleted (mail_shell_content);
-}
-
-static EMFormatHTMLDisplay *
-mail_shell_content_get_html_display (EMailReader *reader)
-{
-	EMailShellContentPrivate *priv;
-
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
-
-	return priv->html_display;
 }
 
 static GtkWidget *
@@ -736,8 +737,8 @@ static void
 mail_shell_content_reader_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_shell_content_get_action_group;
+	iface->get_formatter = mail_shell_content_get_formatter;
 	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
-	iface->get_html_display = mail_shell_content_get_html_display;
 	iface->get_message_list = mail_shell_content_get_message_list;
 	iface->get_popup_menu = mail_shell_content_get_popup_menu;
 	iface->get_shell_backend = mail_shell_content_get_shell_backend;

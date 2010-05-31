@@ -594,11 +594,11 @@ action_mail_smart_backward_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	EMailReader *reader;
 	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
-	GtkHTML *html;
+	EWebView *web_view;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
 
@@ -613,7 +613,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	magic_spacebar = e_shell_settings_get_boolean (
@@ -622,9 +622,9 @@ action_mail_smart_backward_cb (GtkAction *action,
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
 
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = em_format_html_get_web_view (formatter);
 
-	if (e_web_view_scroll_backward (E_WEB_VIEW (html)))
+	if (e_web_view_scroll_backward (web_view))
 		return;
 
 	if (caret_mode || !magic_spacebar)
@@ -660,11 +660,11 @@ action_mail_smart_forward_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	EMailReader *reader;
 	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
-	GtkHTML *html;
+	EWebView *web_view;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
 
@@ -679,7 +679,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	magic_spacebar = e_shell_settings_get_boolean (
@@ -688,9 +688,9 @@ action_mail_smart_forward_cb (GtkAction *action,
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
 
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = em_format_html_get_web_view (formatter);
 
-	if (e_web_view_scroll_forward (E_WEB_VIEW (html)))
+	if (e_web_view_scroll_forward (web_view))
 		return;
 
 	if (caret_mode || !magic_spacebar)

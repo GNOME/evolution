@@ -49,7 +49,7 @@ struct _EMailBrowserPrivate {
 	EFocusTracker *focus_tracker;
 	EShellBackend *shell_backend;
 	GtkActionGroup *action_group;
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTMLDisplay *formatter;
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
@@ -239,10 +239,11 @@ static void
 mail_browser_message_selected_cb (EMailBrowser *browser,
                                   const gchar *uid)
 {
-	EMFormatHTMLDisplay *html_display;
+	EMFormatHTML *formatter;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 	EMailReader *reader;
+	EWebView *web_view;
 	const gchar *title;
 
 	if (uid == NULL)
@@ -250,7 +251,8 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 
 	reader = E_MAIL_READER (browser);
 	folder = e_mail_reader_get_folder (reader);
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
+	web_view = em_format_html_get_web_view (formatter);
 
 	info = camel_folder_get_message_info (folder, uid);
 
@@ -262,8 +264,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		title = _("(No Subject)");
 
 	gtk_window_set_title (GTK_WINDOW (browser), title);
-	gtk_widget_grab_focus (
-		GTK_WIDGET (((EMFormatHTML *) html_display)->html));
+	gtk_widget_grab_focus (GTK_WIDGET (web_view));
 
 	camel_folder_free_message_info (folder, info);
 }
@@ -425,9 +426,9 @@ mail_browser_dispose (GObject *object)
 		priv->action_group = NULL;
 	}
 
-	if (priv->html_display != NULL) {
-		g_object_unref (priv->html_display);
-		priv->html_display = NULL;
+	if (priv->formatter != NULL) {
+		g_object_unref (priv->formatter);
+		priv->formatter = NULL;
 	}
 
 	if (priv->main_menu != NULL) {
@@ -463,8 +464,8 @@ mail_browser_dispose (GObject *object)
 static void
 mail_browser_constructed (GObject *object)
 {
-	EMFormatHTMLDisplay *html_display;
 	EMailBrowserPrivate *priv;
+	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EShellBackend *shell_backend;
 	EShell *shell;
@@ -500,10 +501,10 @@ mail_browser_constructed (GObject *object)
 	priv->ui_manager = ui_manager;
 	domain = GETTEXT_PACKAGE;
 
-	html_display = e_mail_reader_get_html_display (reader);
+	formatter = e_mail_reader_get_formatter (reader);
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 
-	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
+	web_view = em_format_html_get_web_view (formatter);
 
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
@@ -602,7 +603,7 @@ mail_browser_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		search_bar, "changed",
-		G_CALLBACK (em_format_redraw), priv->html_display);
+		G_CALLBACK (em_format_redraw), priv->formatter);
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -653,14 +654,14 @@ mail_browser_get_hide_deleted (EMailReader *reader)
 	return !e_mail_browser_get_show_deleted (browser);
 }
 
-static EMFormatHTMLDisplay *
-mail_browser_get_html_display (EMailReader *reader)
+static EMFormatHTML *
+mail_browser_get_formatter (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
 
-	return priv->html_display;
+	return EM_FORMAT_HTML (priv->formatter);
 }
 
 static GtkWidget *
@@ -795,8 +796,8 @@ static void
 mail_browser_iface_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_browser_get_action_group;
+	iface->get_formatter = mail_browser_get_formatter;
 	iface->get_hide_deleted = mail_browser_get_hide_deleted;
-	iface->get_html_display = mail_browser_get_html_display;
 	iface->get_message_list = mail_browser_get_message_list;
 	iface->get_popup_menu = mail_browser_get_popup_menu;
 	iface->get_shell_backend = mail_browser_get_shell_backend;
@@ -814,7 +815,7 @@ mail_browser_init (EMailBrowser *browser)
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
-	browser->priv->html_display = em_format_html_display_new ();
+	browser->priv->formatter = em_format_html_display_new ();
 
 	bridge = gconf_bridge_get ();
 	prefix = "/apps/evolution/mail/mail_browser";

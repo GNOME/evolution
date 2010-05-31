@@ -30,7 +30,7 @@
 
 #include <em-format/em-format.h>
 #include <mail/mail-config.h>
-#include <gtkhtml/gtkhtml.h>
+#include <misc/e-web-view.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 
 /* Standard GObject macros */
@@ -195,8 +195,6 @@ struct _EMFormatHTML {
 	EMFormat parent;
 	EMFormatHTMLPrivate *priv;
 
-	GtkHTML *html;
-
 	GQueue pending_object_list;
 
 	GSList *headers;
@@ -217,6 +215,7 @@ struct _EMFormatHTMLClass {
 };
 
 GType		em_format_html_get_type		(void);
+EWebView *	em_format_html_get_web_view	(EMFormatHTML *efh);
 void		em_format_html_load_images	(EMFormatHTML *efh);
 void		em_format_html_get_color	(EMFormatHTML *efh,
 						 EMFormatHTMLColorType type,

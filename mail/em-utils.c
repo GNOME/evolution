@@ -367,10 +367,10 @@ em_utils_flag_for_followup (EMailReader *reader,
                             CamelFolder *folder,
                             GPtrArray *uids)
 {
-	EMFormatHTMLDisplay *html_display;
+	EShell *shell;
 	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
-	EShell *shell;
+	EMFormatHTML *formatter;
 	GtkWidget *editor;
 	GtkWindow *window;
 	CamelTag *tags;
@@ -454,8 +454,8 @@ em_utils_flag_for_followup (EMailReader *reader,
 	camel_folder_thaw (folder);
 	camel_tag_list_free (&tags);
 
-	html_display = e_mail_reader_get_html_display (reader);
-	em_format_redraw (EM_FORMAT (html_display));
+	formatter = e_mail_reader_get_formatter (reader);
+	em_format_redraw (EM_FORMAT (formatter));
 
 exit:
 	/* XXX We shouldn't be freeing this. */
