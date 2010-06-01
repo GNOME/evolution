@@ -3204,8 +3204,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					camel_url_set_protocol (url, "smtp");
 					camel_url_set_param (url, "use_ssl", sdata->ssl);
 					camel_url_set_host (url, sdata->send);
-					if (sdata->recv_port && *sdata->recv_port)
-						camel_url_set_port (url, atoi(sdata->recv_port));
+					if (sdata->send_port && *sdata->send_port)
+						camel_url_set_port (url, atoi(sdata->send_port));
 
 					if (sdata->send_user && *sdata->send_user)
 						camel_url_set_user (url, sdata->send_user);
