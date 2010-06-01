@@ -2661,15 +2661,8 @@ section:
 	}
 
 	camel_url_free (url);
-
-	/* Since EConfig destroys the factory widget when it changes, we
-	 * need to destroy our own ones as well, and add a dummy item
-	 * so it knows this section isn't empty */
-
-	w = gtk_label_new ("");
-	gtk_widget_hide (w);
-	gtk_table_attach ((GtkTable *)parent, w, 0, 2, row, row+1, 0, 0, 0, 0);
-
+	gtk_widget_show (w);
+	
 	return w;
 }
 
