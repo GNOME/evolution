@@ -77,7 +77,6 @@ struct _EMAccountEditor {
 	EMAccountEditorPrivate *priv;
 
 	EMAccountEditorType type;
-	GtkWidget *editor; /* gtknotebook or gtkassistant, depending on type */
 
 	EMConfig *config; /* driver object */
 
@@ -108,15 +107,8 @@ EAccount *	em_account_editor_get_original_account
 void		em_account_editor_commit	(EMAccountEditor *emae);
 gboolean	em_account_editor_check		(EMAccountEditor *emae,
 						 const gchar *page);
-gboolean	em_account_editor_save		(EMAccountEditor *emae);
-void		em_account_editor_destroy	(EMAccountEditor *emae);
-void		em_account_editor_build_extra_conf
-						(EMAccountEditor *emae,
-						 const gchar *url);
-void		em_account_editor_auto_detect_extra_conf
-						(EMAccountEditor *emae);
 GtkWidget *	em_account_editor_get_widget    (EMAccountEditor *emae,
-						 const gchar     *name);
+						 const gchar *name);
 
 G_END_DECLS
 

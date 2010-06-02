@@ -51,8 +51,7 @@ typedef struct _MailCappletShellClass {
 } MailCappletShellClass;
 
 GType		mail_capplet_shell_get_type	(void);
-MailCappletShell *
-		mail_capplet_shell_new		(gint socket_id,
+GtkWidget *	mail_capplet_shell_new		(gint socket_id,
 						 gboolean just_druid,
 						 gboolean main_loop);
 gint		mail_capplet_shell_toolbar_height

@@ -274,13 +274,13 @@ mail_capplet_shell_toolbar_height (MailCappletShell *shell)
 	return allocation.height;
 }
 
-MailCappletShell *
+GtkWidget *
 mail_capplet_shell_new (gint socket_id, gboolean just_druid, gboolean main_loop)
 {
 	MailCappletShell *shell = g_object_new (MAIL_CAPPLET_SHELL_TYPE, NULL);
 	mail_capplet_shell_construct (shell, socket_id, just_druid, main_loop);
 
-	return shell;
+	return GTK_WIDGET (shell);
 }
 
 #define PERSONAL_RELATIVE_URI "system"

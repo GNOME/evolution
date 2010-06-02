@@ -609,8 +609,17 @@ emae_display_license (EMAccountEditor *emae, CamelProvider *prov)
 		gtk_text_view_set_editable ((GtkTextView *)w, FALSE);
 		response = gtk_dialog_run ((GtkDialog *)dialog);
 	} else {
-		e_alert_run_dialog_for_args (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : e_shell_get_active_window (NULL),
-			    "mail:no-load-license", prov->license_file, NULL);
+		GtkWidget *editor;
+		GtkWindow *window;
+
+		editor = E_CONFIG (emae->config)->window;
+		if (editor != NULL)
+			window = (GtkWindow *) gtk_widget_get_toplevel (editor);
+		else
+			window = e_shell_get_active_window (NULL);
+		e_alert_run_dialog_for_args (
+			window, "mail:no-load-license",
+			prov->license_file, NULL);
 	}
 
 	gtk_widget_destroy (dialog);
@@ -1882,9 +1891,16 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 		camel_url_free (url);
 }
 
-static void emae_check_authtype_done (const gchar *uri, CamelProviderType type, GList *types, gpointer data)
+static void
+emae_check_authtype_done (const gchar *uri,
+                          CamelProviderType type,
+                          GList *types,
+                          gpointer data)
 {
 	EMAccountEditorService *service = data;
+	GtkWidget *editor;
+
+	editor = E_CONFIG (service->emae->config)->window;
 
 	if (service->check_dialog) {
 		if (service->authtypes)
@@ -1895,41 +1911,52 @@ static void emae_check_authtype_done (const gchar *uri, CamelProviderType type, 
 		gtk_widget_destroy (service->check_dialog);
 	}
 
-	if (service->emae->editor)
-		gtk_widget_set_sensitive (service->emae->editor, TRUE);
+	if (editor != NULL)
+		gtk_widget_set_sensitive (editor, TRUE);
 
 	service->check_id = -1;
 	g_object_unref (service->emae);
 }
 
-static void emae_check_authtype_response (GtkWidget *d, gint button, EMAccountEditorService *service)
+static void
+emae_check_authtype_response (GtkWidget *d,
+                              gint button,
+                              EMAccountEditorService *service)
 {
+	GtkWidget *editor;
+
+	editor = E_CONFIG (service->emae->config)->window;
+
 	mail_msg_cancel (service->check_id);
 	gtk_widget_destroy (service->check_dialog);
 	service->check_dialog = NULL;
 
-	if (service->emae->editor)
-		gtk_widget_set_sensitive (service->emae->editor, TRUE);
+	if (editor != NULL)
+		gtk_widget_set_sensitive (editor, TRUE);
 }
 
-static void emae_check_authtype (GtkWidget *w, EMAccountEditorService *service)
+static void
+emae_check_authtype (GtkWidget *w,
+                     EMAccountEditorService *service)
 {
 	EMAccountEditor *emae = service->emae;
 	EAccount *account;
+	GtkWidget *editor;
 	const gchar *uri;
 
 	account = em_account_editor_get_modified_account (emae);
+	editor = E_CONFIG (service->emae->config)->window;
 
 	/* TODO: do we need to remove the auth mechanism from the uri? */
 	uri = e_account_get_string (account, emae_service_info[service->type].account_uri_key);
 	g_object_ref (emae);
 
-	service->check_dialog = e_alert_dialog_new_for_args (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : (GtkWindow *)gtk_widget_get_toplevel (w),
+	service->check_dialog = e_alert_dialog_new_for_args (editor ? (GtkWindow *)gtk_widget_get_toplevel (editor) : (GtkWindow *)gtk_widget_get_toplevel (w),
 					    "mail:checking-service", NULL);
 	g_signal_connect (service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
 	gtk_widget_show (service->check_dialog);
-	if (emae->editor)
-		gtk_widget_set_sensitive (emae->editor, FALSE);
+	if (editor != NULL)
+		gtk_widget_set_sensitive (editor, FALSE);
 	service->check_id = mail_check_service (uri, service->type, emae_check_authtype_done, service);
 }
 
@@ -3363,13 +3390,6 @@ em_account_editor_commit (EMAccountEditor *emae)
 }
 
 static void
-emae_editor_destroyed (GtkWidget *dialog, EMAccountEditor *emae)
-{
-	emae->editor = NULL;
-	g_object_unref (emae);
-}
-
-static void
 em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
@@ -3464,13 +3484,5 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 	account = em_account_editor_get_modified_account (emae);
 	target = em_config_target_new_account (ec, account);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
-
-	if (type != EMAE_PAGES) {
-		emae->editor = e_config_create_window ((EConfig *)ec, NULL, type==EMAE_NOTEBOOK?_("Account Editor"):_("Evolution Account Assistant"));
-		g_signal_connect (emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
-	} else {
-		GtkWidget *noshow = e_config_create_widget ((EConfig *)ec);
-		gtk_widget_hide (noshow);
-	}
 }
 

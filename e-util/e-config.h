@@ -133,6 +133,7 @@ enum _e_config_t {
 	E_CONFIG_PAGE,
 	E_CONFIG_PAGE_START,	/* only allowed in assistant types */
 	E_CONFIG_PAGE_FINISH,	/* only allowed in assistant types */
+	E_CONFIG_PAGE_PROGRESS,	/* only allowed in assistant types */
 	E_CONFIG_SECTION,
 	E_CONFIG_SECTION_TABLE,
 	E_CONFIG_ITEM,

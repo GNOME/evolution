@@ -24,6 +24,7 @@ SUBDIRS = \
 	mail \
 	mailto-handler \
 	plugin-lib \
+	startup-wizard \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
 	$(NETWORK_MANAGER_DIR) \

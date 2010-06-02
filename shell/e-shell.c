@@ -1948,13 +1948,17 @@ e_shell_adapt_window_size (EShell    *shell,
 
 void
 e_shell_set_startup_view (EShell *shell,
-			  const gchar *view)
+                          const gchar *view)
 {
-	shell->priv->startup_view = g_strdup(view);
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	shell->priv->startup_view = g_strdup (view);
 }
 
 const gchar *
 e_shell_get_startup_view (EShell *shell)
 {
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
 	return shell->priv->startup_view;
 }

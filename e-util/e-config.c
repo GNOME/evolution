@@ -404,7 +404,8 @@ ec_assistant_find_page (EConfig *ec, GtkWidget *page, gint *page_index)
 		if (wn->frame == page
 		    && (wn->item->type == E_CONFIG_PAGE
 			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH))
+			|| wn->item->type == E_CONFIG_PAGE_FINISH
+			|| wn->item->type == E_CONFIG_PAGE_PROGRESS))
 				break;
 
 		link = g_list_next (link);
@@ -503,7 +504,8 @@ ec_assistant_forward (gint current_page, gpointer user_data)
 			if (!wn->empty && wn->frame != NULL
 			    && (wn->item->type == E_CONFIG_PAGE
 				|| wn->item->type == E_CONFIG_PAGE_START
-				|| wn->item->type == E_CONFIG_PAGE_FINISH))
+				|| wn->item->type == E_CONFIG_PAGE_FINISH
+				|| wn->item->type == E_CONFIG_PAGE_PROGRESS))
 				break;
 		}
 	}
@@ -559,9 +561,10 @@ ec_rebuild (EConfig *emp)
 		/* If the last section doesn't contain any visible widgets, hide it */
 		if (sectionnode != NULL
 		    && sectionnode->frame != NULL
-		    && (item->type == E_CONFIG_PAGE_START
+		    && (item->type == E_CONFIG_PAGE
+			|| item->type == E_CONFIG_PAGE_START
 			|| item->type == E_CONFIG_PAGE_FINISH
-			|| item->type == E_CONFIG_PAGE
+			|| item->type == E_CONFIG_PAGE_PROGRESS
 			|| item->type == E_CONFIG_SECTION
 			|| item->type == E_CONFIG_SECTION_TABLE)) {
 			if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
@@ -586,9 +589,10 @@ ec_rebuild (EConfig *emp)
 		/* If the last page doesn't contain anything, hide it */
 		if (pagenode != NULL
 		    && pagenode->frame != NULL
-		    && (item->type == E_CONFIG_PAGE_START
+		    && (item->type == E_CONFIG_PAGE
+			|| item->type == E_CONFIG_PAGE_START
 			|| item->type == E_CONFIG_PAGE_FINISH
-			|| item->type == E_CONFIG_PAGE)) {
+			|| item->type == E_CONFIG_PAGE_PROGRESS)) {
 			if ((pagenode->empty = sectionno == 0)) {
 				gtk_widget_hide(pagenode->frame);
 				pageno--;
@@ -727,7 +731,8 @@ ec_rebuild (EConfig *emp)
 			sectionnode = NULL;
 			sectionno = 1; /* never want to hide these */
 			break;
-		case E_CONFIG_PAGE: {
+		case E_CONFIG_PAGE:
+		case E_CONFIG_PAGE_PROGRESS:
 			/* CONFIG_PAGEs depend on the config type.
 			   E_CONFIG_BOOK:
 				The page is a VBox, stored in the notebook.
@@ -737,6 +742,11 @@ ec_rebuild (EConfig *emp)
 			sectionno = 0;
 			if (root == NULL) {
 				g_warning("EConfig page defined before container widget: %s", item->path);
+				break;
+			}
+			if (item->type == E_CONFIG_PAGE_PROGRESS &&
+			    emp->type != E_CONFIG_ASSISTANT) {
+				g_warning("EConfig assistant progress pages can't be used on E_CONFIG_BOOKs");
 				break;
 			}
 
@@ -763,7 +773,7 @@ ec_rebuild (EConfig *emp)
 					} else {
 						gtk_assistant_prepend_page (GTK_ASSISTANT (assistant), page);
 					}
-					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, GTK_ASSISTANT_PAGE_CONTENT);
+					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, item->type == E_CONFIG_PAGE ? GTK_ASSISTANT_PAGE_CONTENT : GTK_ASSISTANT_PAGE_PROGRESS);
 					gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), page, translated_label);
 					gtk_widget_show_all (page);
 
@@ -794,7 +804,7 @@ ec_rebuild (EConfig *emp)
 			wn->widget = page;
 			if (page)
 				g_signal_connect(page, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
-			break; }
+			break;
 		case E_CONFIG_SECTION:
 		case E_CONFIG_SECTION_TABLE:
 			/* The section factory is always called with
@@ -1314,7 +1324,8 @@ e_config_page_get(EConfig *ec, const gchar *pageid)
 		if (!wn->empty
 		    && (wn->item->type == E_CONFIG_PAGE
 			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH)
+			|| wn->item->type == E_CONFIG_PAGE_FINISH
+			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)
 		    && !strcmp(wn->item->path, pageid))
 			return wn->frame;
 
@@ -1350,7 +1361,8 @@ e_config_page_next(EConfig *ec, const gchar *pageid)
 		if (!wn->empty
 		    && (wn->item->type == E_CONFIG_PAGE
 			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH)) {
+			|| wn->item->type == E_CONFIG_PAGE_FINISH
+			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)) {
 			if (found)
 				return wn->item->path;
 			else if (strcmp(wn->item->path, pageid) == 0)
@@ -1389,7 +1401,8 @@ e_config_page_prev(EConfig *ec, const gchar *pageid)
 		if (!wn->empty
 		    && (wn->item->type == E_CONFIG_PAGE
 			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH)) {
+			|| wn->item->type == E_CONFIG_PAGE_FINISH
+			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)) {
 			if (found)
 				return wn->item->path;
 			else if (strcmp(wn->item->path, pageid) == 0)

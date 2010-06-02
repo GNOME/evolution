@@ -1004,6 +1004,7 @@ mail_account_view_construct (MailAccountView *view)
 	view->current_page = 0;
 	gtk_box_pack_start ((GtkBox *)view, view->scroll, TRUE, TRUE, 0);
 	view->edit = em_account_editor_new_for_pages (view->original, EMAE_PAGES, "org.gnome.evolution.mail.config.accountWizard", view->wpages);
+	gtk_widget_hide (e_config_create_widget (E_CONFIG (view->edit->config)));
 	view->edit->emae_check_servers = emae_check_servers;
 	if (!view->original) {
 		e_account_set_bool (em_account_editor_get_modified_account(view->edit), E_ACCOUNT_SOURCE_SAVE_PASSWD, TRUE);

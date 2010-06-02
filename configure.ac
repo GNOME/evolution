@@ -1435,7 +1435,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
+plugins_base_always="calendar-file calendar-http itip-formatter plugin-manager default-source addressbook-file mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
 dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-junk-plugin"
@@ -1785,6 +1785,7 @@ modules/connman/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
+modules/startup-wizard/Makefile
 modules/windows-sens/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
@@ -1817,7 +1818,6 @@ plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/sa-junk-plugin/Makefile
 plugins/save-calendar/Makefile
-plugins/startup-wizard/Makefile
 plugins/subject-thread/Makefile
 plugins/templates/Makefile
 plugins/tnef-attachments/Makefile

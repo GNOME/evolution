@@ -283,6 +283,7 @@ modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in
 modules/mailto-handler/evolution-mailto-handler.c
 modules/plugin-python/example/org-gnome-hello-python-ui.xml
 modules/plugin-python/example/org-gnome-hello-python.eplug.xml
+modules/startup-wizard/evolution-startup-wizard.c
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
 plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in
 plugins/attachment-reminder/attachment-reminder.c
@@ -390,8 +391,6 @@ plugins/save-calendar/ical-format.c
 plugins/save-calendar/org-gnome-save-calendar.eplug.xml
 plugins/save-calendar/rdf-format.c
 plugins/save-calendar/save-calendar.c
-plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml
-plugins/startup-wizard/startup-wizard.c
 plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
 plugins/templates/apps-evolution-template-placeholders.schemas.in

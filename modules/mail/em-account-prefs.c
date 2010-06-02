@@ -124,7 +124,13 @@ account_prefs_add_account (EAccountManager *manager)
 		emae = em_account_editor_new (
 			NULL, EMAE_ASSISTANT,
 			"org.gnome.evolution.mail.config.accountAssistant");
-		priv->assistant = emae->editor;
+		e_config_create_window (
+			E_CONFIG (emae->config), NULL,
+			_("Evolution Account Assistant"));
+		priv->assistant = E_CONFIG (emae->config)->window;
+		g_object_set_data_full (
+			G_OBJECT (priv->assistant), "AccountEditor",
+			emae, (GDestroyNotify) g_object_unref);
 	} else {
 		priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
 	}
@@ -168,10 +174,14 @@ account_prefs_edit_account (EAccountManager *manager)
 	emae = em_account_editor_new (
 		account, EMAE_NOTEBOOK,
 		"org.gnome.evolution.mail.config.accountEditor");
-	priv->editor = emae->editor;
+	e_config_create_window (
+		E_CONFIG (emae->config), parent, _("Account Editor"));
+	priv->editor = E_CONFIG (emae->config)->window;
+	g_object_set_data_full (
+		G_OBJECT (priv->editor), "AccountEditor",
+		emae, (GDestroyNotify) g_object_unref);
 
 	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
-	gtk_window_set_transient_for (GTK_WINDOW (priv->editor), parent);
 	gtk_widget_show (priv->editor);
 }
 
