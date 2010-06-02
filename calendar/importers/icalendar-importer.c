@@ -659,7 +659,7 @@ static EImportImporter vcal_importer = {
 EImportImporter *
 vcal_importer_peek(void)
 {
-	vcal_importer.name = _("vCalendar files (.vcf)");
+	vcal_importer.name = _("vCalendar files (.vcs)");
 	vcal_importer.description = _("Evolution vCalendar importer");
 
 	return &vcal_importer;
