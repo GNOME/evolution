@@ -509,12 +509,21 @@ get_question_create_new (ECalSourceType source_type)
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
+		/* Translators: Codewise it is impossible to provide separate strings for all
+		   combinations of singular and plural. Please translate it in the way that you
+		   feel is most appropriate for your language. */
 		ask = _("Selected calendar contains some events for the given mails already. Would you like to create new events anyway?");
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
+		/* Translators: Codewise it is impossible to provide separate strings for all
+		   combinations of singular and plural. Please translate it in the way that you
+		   feel is most appropriate for your language. */
 		ask = _("Selected task list contains some tasks for the given mails already. Would you like to create new tasks anyway?");
 		break;
 	case E_CAL_SOURCE_TYPE_JOURNAL:
+		/* Translators: Codewise it is impossible to provide separate strings for all
+		   combinations of singular and plural. Please translate it in the way that you
+		   feel is most appropriate for your language. */
 		ask = _("Selected memo list contains some memos for the given mails already. Would you like to create new memos anyway?");
 		break;
 	default:
@@ -533,18 +542,27 @@ get_question_create_new_n (ECalSourceType source_type, gint count)
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		ask = ngettext (
+			/* Translators: Codewise it is impossible to provide separate strings for all
+			   combinations of singular and plural. Please translate it in the way that you
+			   feel is most appropriate for your language. */
 			"Selected calendar contains an event for the given mail already. Would you like to create new event anyway?",
 			"Selected calendar contains events for the given mails already. Would you like to create new events anyway?",
 			count);
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
 		ask = ngettext (
+			/* Translators: Codewise it is impossible to provide separate strings for all
+			   combinations of singular and plural. Please translate it in the way that you
+			   feel is most appropriate for your language. */
 			"Selected task list contains a task for the given mail already. Would you like to create new task anyway?",
 			"Selected task list contains tasks for the given mails already. Would you like to create new tasks anyway?",
 			count);
 		break;
 	case E_CAL_SOURCE_TYPE_JOURNAL:
 		ask = ngettext (
+			/* Translators: Codewise it is impossible to provide separate strings for all
+			   combinations of singular and plural. Please translate it in the way that you
+			   feel is most appropriate for your language. */
 			"Selected memo list contains a memo for the given mail already. Would you like to create new memo anyway?",
 			"Selected memo list contains memos for the given mails already. Would you like to create new memos anyway?",
 			count);
