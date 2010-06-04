@@ -37,6 +37,7 @@
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
+#include "e-util/gtk-compat.h"
 #include "misc/e-canvas.h"
 #include "misc/e-popup-menu.h"
 
@@ -614,24 +615,26 @@ do_drag_motion (ETableHeaderItem *ethi,
 {
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))) {
+		GdkDragAction suggested_action;
 		gint col;
 		d(g_print("In header\n"));
 
 		col = ethi_find_col_by_x_nearest (ethi, x);
+		suggested_action = gdk_drag_context_get_suggested_action (context);
 
 		if (ethi->drag_col != -1 && (col == ethi->drag_col || col == ethi->drag_col + 1)) {
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
 
 			ethi_remove_drop_marker (ethi);
-			gdk_drag_status (context, context->suggested_action, time);
+			gdk_drag_status (context, suggested_action, time);
 		}
 		else if (col != -1) {
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
 
 			ethi_add_drop_marker (ethi, col, recreate);
-			gdk_drag_status (context, context->suggested_action, time);
+			gdk_drag_status (context, suggested_action, time);
 		} else {
 			ethi_remove_drop_marker (ethi);
 			if (ethi->drag_col != -1)
@@ -750,6 +753,7 @@ ethi_drag_motion (GtkWidget *widget,
 {
 	GtkAllocation allocation;
 	GtkAdjustment *adjustment;
+	GList *targets;
 	gdouble hadjustment_value;
 	gdouble vadjustment_value;
 	gchar *droptype, *headertype;
@@ -757,7 +761,8 @@ ethi_drag_motion (GtkWidget *widget,
 
 	gdk_drag_status (context, 0, time);
 
-	droptype = gdk_atom_name (GDK_POINTER_TO_ATOM (context->targets->data));
+	targets = gdk_drag_context_list_targets (context);
+	droptype = gdk_atom_name (GDK_POINTER_TO_ATOM (targets->data));
 	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE,
 				      ethi->dnd_code);
 

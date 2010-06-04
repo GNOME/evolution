@@ -332,7 +332,7 @@ event_editor_constructor (GType type,
 	page = COMP_EDITOR_PAGE (priv->recur_page);
 	if (!e_shell_get_express_mode (shell)) {
 		gtk_container_add (
-			GTK_CONTAINER ((GTK_DIALOG (priv->recur_window)->vbox)),
+			GTK_CONTAINER (content_area),
 			comp_editor_page_get_widget (page));
 		gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->recur_window)));
 		comp_editor_append_page (editor, page, NULL, FALSE);

@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include "e-util/gtk-compat.h"
+
 #include "a11y/gal-a11y-util.h"
 #include "table/e-table-item.h"
 #include "table/e-tree.h"
@@ -47,10 +49,12 @@ static void
 init_child_item (GalA11yETree *a11y)
 {
 	GalA11yETreePrivate *priv = GET_PRIVATE (a11y);
-	ETree *tree = E_TREE (GTK_ACCESSIBLE (a11y)->widget);
+	ETree *tree;
 	ETableItem * eti;
 
+	tree = E_TREE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 	g_return_if_fail (tree);
+
 	eti = e_tree_get_item (tree);
 	if (priv->child_item == NULL) {
 		priv->child_item = atk_gobject_accessible_for_object (G_OBJECT (eti));
@@ -174,7 +178,8 @@ gal_a11y_e_tree_new (GObject *widget)
 
 	a11y = g_object_new (gal_a11y_e_tree_get_type (), NULL);
 
-	GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);
+	/* FIXME No way to do this in GTK 3. */
+	/*GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);*/
 
 	return ATK_OBJECT (a11y);
 }

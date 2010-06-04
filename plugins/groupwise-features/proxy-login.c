@@ -406,8 +406,9 @@ proxy_login_tree_view_changed_cb(GtkDialog *dialog)
 
 	account_select = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->tree));
 	gtk_tree_selection_get_selected (account_select, &model, &iter);
-	if ((priv->store)->stamp != (&iter)->stamp)
-		return;
+	/* FIXME Find a different way to check whatever this is checking. */
+	/*if ((priv->store)->stamp != (&iter)->stamp)
+		return;*/
 	gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
 	account_mailid = g_strrstr (account_mailid, "\n") + 1;
 	account_name_tbox = e_builder_get_widget (priv->builder, "account_name");

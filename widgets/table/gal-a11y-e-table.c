@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include "e-util/gtk-compat.h"
+
 #include "a11y/gal-a11y-util.h"
 #include "table/e-table.h"
 #include "table/e-table-click-to-add.h"
@@ -89,7 +91,7 @@ init_child_item (GalA11yETable *a11y)
 	if (!a11y || !GTK_IS_ACCESSIBLE (a11y))
 		return FALSE;
 
-	table = E_TABLE (GTK_ACCESSIBLE (a11y)->widget);
+	table = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER(table->group)) {
 		ETableGroupContainer *etgc =  (ETableGroupContainer *)table->group;
 		GList *list;
@@ -127,7 +129,7 @@ et_get_n_children (AtkObject *accessible)
 	ETable * et;
 	gint n = 0;
 
-	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
+	et = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 
 	if (et->group) {
 		if (E_IS_TABLE_GROUP_LEAF (et->group))
@@ -152,7 +154,7 @@ et_ref_child (AtkObject *accessible,
 	ETable * et;
 	gint child_no;
 
-	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
+	et = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 
 	child_no = et_get_n_children (accessible);
 	if (i == 0 || i < child_no - 1) {
@@ -281,7 +283,8 @@ gal_a11y_e_table_new (GObject *widget)
 
 	a11y = g_object_new (gal_a11y_e_table_get_type (), NULL);
 
-	GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);
+	/* FIXME No way to do this in GTK 3. */
+	/*GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);*/
 
 	/* we need to init all the children for multiple table items */
 	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {

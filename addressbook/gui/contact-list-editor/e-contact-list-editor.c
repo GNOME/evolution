@@ -26,6 +26,7 @@
 #include <e-util/e-util-private.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-selection.h>
+#include <e-util/gtk-compat.h>
 #include "shell/e-shell.h"
 
 #include <string.h>
@@ -508,9 +509,12 @@ contact_list_editor_drag_drop_cb (GtkWidget *widget,
                                   gint x, gint y,
                                   guint time)
 {
+	GList *targets;
 	GList *iter;
 
-	for (iter = context->targets; iter != NULL; iter = iter->next) {
+	targets = gdk_drag_context_list_targets (context);
+
+	for (iter = targets; iter != NULL; iter = iter->next) {
 		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
 
 		if (e_targets_include_directory (&target, 1)) {
@@ -534,9 +538,12 @@ contact_list_editor_drag_motion_cb (GtkWidget *widget,
                                     gint x, gint y,
                                     guint time)
 {
+	GList *targets;
 	GList *iter;
 
-	for (iter = context->targets; iter != NULL; iter = iter->next) {
+	targets = gdk_drag_context_list_targets (context);
+
+	for (iter = targets; iter != NULL; iter = iter->next) {
 		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
 
 		if (e_targets_include_directory (&target, 1)) {

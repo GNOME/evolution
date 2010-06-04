@@ -27,6 +27,8 @@
 #include <text/e-text.h>
 #include <glib/gi18n.h>
 
+#include <e-util/gtk-compat.h>
+
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 
 static G_CONST_RETURN gchar * ea_week_view_get_name (AtkObject *accessible);
@@ -124,15 +126,17 @@ ea_week_view_get_name (AtkObject *accessible)
 	GnomeCalendar *gcal;
 	const gchar *label_text;
 	GnomeCalendarViewType view_type;
+	GtkWidget *widget;
 	gint n_events;
 	gchar *event_str, *name_str;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), NULL);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
 
-	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+	week_view = E_WEEK_VIEW (widget);
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
 	if (!gtk_widget_get_visible (GTK_WIDGET (gcal)))
 		return NULL;
@@ -168,12 +172,15 @@ static G_CONST_RETURN gchar *
 ea_week_view_get_description (AtkObject *accessible)
 {
 	EWeekView *week_view;
+	GtkWidget *widget;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), NULL);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
-	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+
+	week_view = E_WEEK_VIEW (widget);
 
 	if (accessible->description)
 		return accessible->description;
@@ -195,14 +202,17 @@ static gint
 ea_week_view_get_n_children (AtkObject *accessible)
 {
 	EWeekView *week_view;
+	GtkWidget *widget;
 	gint i, count = 0;
 	gint event_index;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), -1);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return -1;
-	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+
+	week_view = E_WEEK_VIEW (widget);
 
 	for (event_index = 0; event_index < week_view->events->len;
 	     ++event_index) {
@@ -249,6 +259,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 	EWeekView *week_view;
 	gint child_num, max_count;
 	AtkObject *atk_object = NULL;
+	GtkWidget *widget;
 	gint event_index;
 	gint jump_button = -1;
 	gint span_num = 0;
@@ -260,9 +271,11 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 	if (child_num <= 0 || index < 0 || index >= child_num)
 		return NULL;
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
-	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+
+	week_view = E_WEEK_VIEW (widget);
 	max_count = week_view->events->len;
 
 	if (index == 0) {

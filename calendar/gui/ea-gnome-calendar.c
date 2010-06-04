@@ -29,6 +29,8 @@
 #include <libedataserver/e-data-server-util.h>
 #include <glib/gi18n.h>
 
+#include <e-util/gtk-compat.h>
+
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
 
 static gint ea_gnome_calendar_get_n_children (AtkObject* obj);
@@ -253,8 +255,9 @@ ea_gnome_calendar_get_n_children (AtkObject* obj)
 {
 	g_return_val_if_fail (EA_IS_GNOME_CALENDAR (obj), 0);
 
-	if (!GTK_ACCESSIBLE (obj)->widget)
+	if (gtk_accessible_get_widget (GTK_ACCESSIBLE (obj)) == NULL)
 		return -1;
+
 	return 2;
 }
 
@@ -267,15 +270,18 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 	ECalendarView *view;
 	ECalendar *date_navigator;
 	GtkWidget *childWidget;
+	GtkWidget *widget;
 
 	g_return_val_if_fail (EA_IS_GNOME_CALENDAR (obj), NULL);
 	/* valid child index range is [0-3] */
 	if (i < 0 || i >3 )
 		return NULL;
 
-	if (!GTK_ACCESSIBLE (obj)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (obj));
+	if (widget == NULL)
 		return NULL;
-	calendarWidget = GNOME_CALENDAR (GTK_ACCESSIBLE (obj)->widget);
+
+	calendarWidget = GNOME_CALENDAR (widget);
 
 	switch (i) {
 	case 0:

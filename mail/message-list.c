@@ -41,6 +41,7 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#include "e-util/gtk-compat.h"
 
 #include "misc/e-selectable.h"
 
@@ -2193,7 +2194,7 @@ ml_tree_drag_data_received (ETree *tree,
 	g_object_ref(context);
 	m->folder = ml->folder;
 	g_object_ref (m->folder);
-	m->action = context->action;
+	m->action = gdk_drag_context_get_selected_action (context);
 	m->info = info;
 
 	/* need to copy, goes away once we exit */
@@ -2246,18 +2247,21 @@ ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint 
 		return TRUE;
 	}
 
-	for (targets = context->targets; targets; targets = targets->next) {
+	targets = gdk_drag_context_list_targets (context);
+	while (targets != NULL) {
 		gint i;
 
 		d(printf("atom drop '%s'\n", gdk_atom_name(targets->data)));
 		for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
 			if (targets->data == (gpointer)ml_drag_info[i].atom)
 				actions |= ml_drag_info[i].actions;
+
+		targets = g_list_next (targets);
 	}
 	d(printf("\n"));
 
-	actions &= context->actions;
-	action = context->suggested_action;
+	actions &= gdk_drag_context_get_actions (context);
+	action = gdk_drag_context_get_suggested_action (context);
 	if (action == GDK_ACTION_COPY && (actions & GDK_ACTION_MOVE))
 		action = GDK_ACTION_MOVE;
 

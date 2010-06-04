@@ -28,6 +28,8 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include <e-util/gtk-compat.h>
+
 static void ea_day_view_class_init (EaDayViewClass *klass);
 
 static G_CONST_RETURN gchar * ea_day_view_get_name (AtkObject *accessible);
@@ -123,15 +125,17 @@ ea_day_view_get_name (AtkObject *accessible)
 	GnomeCalendar *gcal;
 	const gchar *label_text;
 	GnomeCalendarViewType view_type;
+	GtkWidget *widget;
 	gint n_events;
 	gchar *event_str, *name_str;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), NULL);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
 
-	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+	day_view = E_DAY_VIEW (widget);
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
 	if (!gtk_widget_get_visible (GTK_WIDGET (gcal)))
 		return NULL;
@@ -177,12 +181,15 @@ static G_CONST_RETURN gchar *
 ea_day_view_get_description (AtkObject *accessible)
 {
 	EDayView *day_view;
+	GtkWidget *widget;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), NULL);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
-	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+
+	day_view = E_DAY_VIEW (widget);
 
 	if (accessible->description)
 		return accessible->description;
@@ -204,15 +211,17 @@ static gint
 ea_day_view_get_n_children (AtkObject *accessible)
 {
 	EDayView *day_view;
+	GtkWidget *widget;
 	gint day;
 	gint child_num = 0;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), -1);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return -1;
 
-	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+	day_view = E_DAY_VIEW (widget);
 
 	child_num += day_view->long_events->len;
 
@@ -232,6 +241,7 @@ ea_day_view_ref_child (AtkObject *accessible, gint index)
 	gint day;
 	AtkObject *atk_object = NULL;
 	EDayViewEvent *event = NULL;
+	GtkWidget *widget;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), NULL);
 
@@ -239,9 +249,11 @@ ea_day_view_ref_child (AtkObject *accessible, gint index)
 	if (child_num <= 0 || index < 0 || index >= child_num)
 		return NULL;
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
-	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+
+	day_view = E_DAY_VIEW (widget);
 
 	if (index == 0) {
 		/* index == 0 is the main item */

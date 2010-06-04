@@ -640,6 +640,15 @@ import_intelligent_done (EImport *ei,
 }
 
 static void
+import_cancelled (EImportAssistant *assistant)
+{
+	e_import_cancel (
+		assistant->priv->import,
+		assistant->priv->import_target,
+		assistant->priv->import_importer);
+}
+
+static void
 prepare_file_page (GtkAssistant *assistant,
                    GtkWidget *vbox)
 {
@@ -734,15 +743,36 @@ prepare_progress_page (GtkAssistant *assistant,
 	EImportAssistantPrivate *priv;
 	EImportCompleteFunc done = NULL;
 	ImportSelectionPage *page;
+	GtkWidget *cancel_button;
 	gboolean intelligent_import;
 	gboolean is_simple = FALSE;
 
 	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
 	page = &priv->selection_page;
 
-	/* Hide the Back and Forward buttons, so only Cancel is visible. */
+#if GTK_CHECK_VERSION(2,21,2)
+	/* Because we're a GTK_ASSISTANT_PAGE_PROGRESS, this will
+	 * prevent the assistant window from being closed via window
+	 * manager decorations while importing. */
+	gtk_assistant_commit (assistant);
+#else
+	/* Hide all GtkAssistant buttons. */
 	gtk_widget_hide (assistant->back);
 	gtk_widget_hide (assistant->forward);
+	gtk_widget_hide (assistant->cancel);
+#endif
+
+	/* Install a custom "Cancel Import" button. */
+	cancel_button = gtk_button_new_with_mnemonic (_("_Cancel Import"));
+	gtk_button_set_image (
+		GTK_BUTTON (cancel_button),
+		gtk_image_new_from_stock (
+		GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON));
+	g_signal_connect_swapped (
+		cancel_button, "clicked",
+		G_CALLBACK (import_cancelled), assistant);
+	gtk_assistant_add_action_widget (assistant, cancel_button);
+	gtk_widget_show (cancel_button);
 
 	g_object_get (G_OBJECT (assistant), "is-simple", &is_simple, NULL);
 
@@ -1179,24 +1209,6 @@ import_assistant_prepare (GtkAssistant *assistant,
 }
 
 static void
-import_assistant_cancel (GtkAssistant *assistant)
-{
-	EImportAssistantPrivate *priv;
-	gint current_page;
-
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-
-	current_page = gtk_assistant_get_current_page (assistant);
-
-	/* Cancel the import if it's in progress. */
-	if (current_page == PAGE_PROGRESS)
-		e_import_cancel (
-			priv->import,
-			priv->import_target,
-			priv->import_importer);
-}
-
-static void
 import_assistant_class_init (EImportAssistantClass *class)
 {
 	GObjectClass *object_class;
@@ -1217,7 +1229,6 @@ import_assistant_class_init (EImportAssistantClass *class)
 
 	assistant_class = GTK_ASSISTANT_CLASS (class);
 	assistant_class->prepare = import_assistant_prepare;
-	assistant_class->cancel = import_assistant_cancel;
 
 	g_object_class_install_property (
 		object_class,

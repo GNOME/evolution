@@ -29,6 +29,7 @@
 #include "e-image-chooser.h"
 #include "e-util/e-util.h"
 #include "e-util/e-icon-factory.h"
+#include "e-util/gtk-compat.h"
 
 #define E_IMAGE_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -166,11 +167,12 @@ image_drag_motion_cb (GtkWidget *widget,
                       EImageChooser *chooser)
 {
 	GtkFrame *frame;
-	GList *p;
+	GList *targets, *p;
 
 	frame = GTK_FRAME (chooser->priv->frame);
+	targets = gdk_drag_context_list_targets (context);
 
-	for (p = context->targets; p != NULL; p = p->next) {
+	for (p = targets; p != NULL; p = p->next) {
 		gchar *possible_type;
 
 		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
@@ -210,16 +212,17 @@ image_drag_drop_cb (GtkWidget *widget,
                     EImageChooser *chooser)
 {
 	GtkFrame *frame;
-	GList *p;
+	GList *targets, *p;
 
 	frame = GTK_FRAME (chooser->priv->frame);
+	targets = gdk_drag_context_list_targets (context);
 
-	if (context->targets == NULL) {
+	if (targets == NULL) {
 		gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 		return FALSE;
 	}
 
-	for (p = context->targets; p != NULL; p = p->next) {
+	for (p = targets; p != NULL; p = p->next) {
 		gchar *possible_type;
 
 		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));

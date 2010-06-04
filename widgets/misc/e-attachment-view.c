@@ -29,6 +29,8 @@
 #include "e-util/e-selection.h"
 #include "e-util/e-ui-manager.h"
 #include "e-util/e-util.h"
+#include "e-util/gtk-compat.h"
+
 #include "e-attachment-dialog.h"
 #include "e-attachment-handler-image.h"
 #include "e-attachment-handler-sendto.h"
@@ -1561,8 +1563,9 @@ e_attachment_view_drag_motion (EAttachmentView *view,
 	if (!e_attachment_view_get_editable (view))
 		return FALSE;
 
-	actions = priv->drag_actions & context->actions;
-	chosen_action = context->suggested_action;
+	actions = gdk_drag_context_get_actions (context);
+	actions &= priv->drag_actions;
+	chosen_action = gdk_drag_context_get_suggested_action (context);
 
 	if (chosen_action == GDK_ACTION_ASK) {
 		GdkDragAction mask;

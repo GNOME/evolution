@@ -1926,20 +1926,22 @@ e_shell_cancel_quit (EShell *shell)
  * a given screen.
  **/
 void
-e_shell_adapt_window_size (EShell    *shell,
-			   GtkWindow *window)
+e_shell_adapt_window_size (EShell *shell,
+                           GtkWindow *window)
 {
-	gint monitor;
-	GdkScreen *scr;
+	GdkScreen *screen;
 	GdkRectangle rect;
+	GdkWindow *gdk_window;
+	gint monitor;
 
 	if (!e_shell_get_meego_mode (shell) ||
 	    !e_shell_get_small_screen_mode (shell))
 		return;
 
-	scr = gdk_screen_get_default ();
-	monitor = gdk_screen_get_monitor_at_window (scr, GTK_WIDGET (window)->window);
-	gdk_screen_get_monitor_geometry (scr, monitor, &rect);
+	screen = gdk_screen_get_default ();
+	gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
+	monitor = gdk_screen_get_monitor_at_window (screen, gdk_window);
+	gdk_screen_get_monitor_geometry (screen, monitor, &rect);
 
 	gtk_window_set_default_size (window, rect.width, rect.height);
 	gtk_window_set_decorated (window, FALSE);

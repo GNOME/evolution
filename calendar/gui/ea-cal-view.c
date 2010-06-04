@@ -28,6 +28,8 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include <e-util/gtk-compat.h>
+
 static void ea_cal_view_class_init (EaCalViewClass *klass);
 
 static AtkObject* ea_cal_view_get_parent (AtkObject *accessible);
@@ -172,13 +174,15 @@ ea_cal_view_get_parent (AtkObject *accessible)
 {
 	ECalendarView *cal_view;
 	GnomeCalendar *gnomeCalendar;
+	GtkWidget *widget;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW (accessible), NULL);
 
-	if (!GTK_ACCESSIBLE (accessible)->widget)
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+	if (widget == NULL)
 		return NULL;
-	cal_view = E_CALENDAR_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
+	cal_view = E_CALENDAR_VIEW (widget);
 	gnomeCalendar = e_calendar_view_get_calendar (cal_view);
 
 	return gtk_widget_get_accessible (GTK_WIDGET(gnomeCalendar));
@@ -324,7 +328,7 @@ action_interface_do_action (AtkAction *action, gint index)
 	time_t dtstart, dtend;
 	ECalendarView *cal_view;
 
-	widget = GTK_ACCESSIBLE (action)->widget;
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (action));
 	if (widget == NULL)
 		/*
 		 * State is defunct
@@ -388,7 +392,7 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 {
 	GtkWidget *widget;
 
-	widget = GTK_ACCESSIBLE (action)->widget;
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (action));
 	if (widget == NULL)
 		/*
 		 * State is defunct
