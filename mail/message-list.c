@@ -631,6 +631,12 @@ message_list_select(MessageList *ml, MessageListSelectDirection direction, guint
 	path = ml_search_path(ml, direction, flags, mask);
 	if (path) {
 		select_path(ml, path);
+
+		/* This function is usually called in response to a key
+		 * press, so grab focus if the message list is visible. */
+		if (gtk_widget_get_visible (GTK_WIDGET (ml)))
+			gtk_widget_grab_focus (GTK_WIDGET (ml));
+
 		return TRUE;
 	} else
 		return FALSE;
