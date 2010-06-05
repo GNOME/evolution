@@ -408,6 +408,8 @@ event_editor_dispose (GObject *object)
 	}
 
 	if (priv->model) {
+		g_signal_handlers_disconnect_by_func (
+			priv->model, event_editor_model_changed_cb, object);
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}
