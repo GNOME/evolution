@@ -115,11 +115,11 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-	if (response == GTK_RESPONSE_OK)
+	if (response != GTK_RESPONSE_DELETE_EVENT)
 		e_shell_settings_set_boolean (
 			shell_settings,
 			"mail-prompt-delete-in-vfolder",
-			gtk_toggle_button_get_active (
+			!gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_button)));
 
 	gtk_widget_destroy (dialog);
