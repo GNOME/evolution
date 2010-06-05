@@ -809,6 +809,7 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 #define DIR_PROXY "/system/proxy"
+#define MODE_PROXY "/system/proxy/mode"
 #define KEY_SOCKS_HOST "/system/proxy/socks_host"
 #define KEY_SOCKS_PORT "/system/proxy/socks_port"
 
@@ -816,16 +817,19 @@ static void
 set_socks_proxy_from_gconf (void)
 {
 	GConfClient *client;
-	gchar *host;
+	gchar *mode, *host;
 	gint port;
 
 	client = mail_config_get_gconf_client ();
 
-	host = gconf_client_get_string (client, KEY_SOCKS_HOST, NULL); /* NULL-GError */
-	port = gconf_client_get_int (client, KEY_SOCKS_PORT, NULL); /* NULL-GError */
-	camel_session_set_socks_proxy (session, host, port);
-
-	g_free (host);
+	mode = gconf_client_get_string (client, MODE_PROXY, NULL);
+	if (!strcmp(mode, "manual")) {
+		host = gconf_client_get_string (client, KEY_SOCKS_HOST, NULL); /* NULL-GError */
+		port = gconf_client_get_int (client, KEY_SOCKS_PORT, NULL); /* NULL-GError */
+		camel_session_set_socks_proxy (session, host, port);
+		g_free (host);
+	}
+	g_free (mode);
 }
 
 static void
