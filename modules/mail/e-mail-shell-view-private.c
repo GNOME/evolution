@@ -304,19 +304,16 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
-		gtk_widget_grab_focus (message_list);
+	if (scroll_type == GTK_SCROLL_PAGE_FORWARD)
 		message_list_select (
 			MESSAGE_LIST (message_list),
 			MESSAGE_LIST_SELECT_NEXT,
 			0, CAMEL_MESSAGE_SEEN);
-	} else {
-		gtk_widget_grab_focus (message_list);
+	else
 		message_list_select (
 			MESSAGE_LIST (message_list),
 			MESSAGE_LIST_SELECT_PREVIOUS,
 			0, CAMEL_MESSAGE_SEEN);
-	}
 }
 
 static void
