@@ -15,9 +15,9 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-06-04 12:35+0000\n"
-"PO-Revision-Date: 2010-06-06 16:45+0700\n"
-"Last-Translator: Sira Nokyoongtong <gumaraa@gmail.com>\n"
+"POT-Creation-Date: 2010-06-06 12:23+0000\n"
+"PO-Revision-Date: 2010-06-06 22:30+0700\n"
+"Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3709,10 +3709,8 @@ msgid "_Delete this item from all other recipient's mailboxes?"
 msgstr "_ลบรายการนี้ออกจากกล่องจดหมายของผู้รับอื่นทั้งหมดหรือไม่?"
 
 #: ../calendar/gui/dialogs/delete-comp.c:217
-#, fuzzy
-#| msgid "P_ercent complete:"
 msgid "_Retract comment"
-msgstr "เ_ปอร์เซ็นต์งานที่เสร็จ:"
+msgstr "_ถอนความเห็นคืน"
 
 #: ../calendar/gui/dialogs/delete-error.c:55
 msgid "The event could not be deleted due to a corba error"
@@ -3836,7 +3834,7 @@ msgstr "นัดหมาย"
 msgid "Attendees"
 msgstr "ผู้เข้าประชุม"
 
-#: ../calendar/gui/dialogs/event-editor.c:571
+#: ../calendar/gui/dialogs/event-editor.c:573
 msgid "Print this event"
 msgstr "พิมพ์เหตุการณ์นี้"
 
@@ -4312,7 +4310,7 @@ msgstr "เสร็จแล้ว"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:510 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1126 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1132 ../widgets/misc/e-send-options.ui.h:8
 msgid "High"
 msgstr "สูง"
 
@@ -4331,7 +4329,7 @@ msgstr "กำลังดำเนินการ"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:512 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1124 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1130 ../widgets/misc/e-send-options.ui.h:9
 msgid "Low"
 msgstr "ต่ำ"
 
@@ -4339,7 +4337,7 @@ msgstr "ต่ำ"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:13
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1254 ../calendar/gui/e-task-table.c:511
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1125
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1131
 #: ../widgets/misc/e-send-options.ui.h:13
 msgid "Normal"
 msgstr "ปกติ"
@@ -8501,6 +8499,8 @@ msgid ""
 "calendar name. So please confirm and re-enter the calendar name if it is not "
 "correct."
 msgstr ""
+"ชื่อของปฏิทินยาฮูจะอยู่ในรูป 'ชื่อ_นามสกุล' เราได้พยายามเดาชื่อปฏิทินตามรูปแบบนี้ "
+"กรุณายืนยันหรือป้อนชื่อปฏิทินใหม่ถ้ายังไม่ถูกต้อง"
 
 #: ../capplet/settings/mail-account-view.c:768
 msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
@@ -8533,7 +8533,7 @@ msgstr "เครื่องมือช่วยตั้งค่าบัญ
 #: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
 #: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:163
 #: ../mail/em-folder-tree-model.c:165 ../mail/mail-vfolder.c:211
-#: ../mail/message-list.c:1608
+#: ../mail/message-list.c:1614
 #: ../modules/addressbook/e-book-shell-backend.c:125
 #: ../modules/addressbook/e-book-shell-migrate.c:126
 #: ../modules/calendar/e-cal-shell-backend.c:121
@@ -8791,7 +8791,7 @@ msgstr "ข้อความบันทึก:"
 msgid "Log Level"
 msgstr "ระดับการบันทึก"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2690
+#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2696
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "ข้อความ"
@@ -9381,7 +9381,7 @@ msgstr "ชื่อ"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:283
 #: ../mail/em-folder-tree-model.c:706 ../mail/em-folder-tree.c:2729
-#: ../modules/mail/e-mail-shell-view-private.c:956
+#: ../modules/mail/e-mail-shell-view-private.c:953
 msgid "Inbox"
 msgstr "จดหมายเข้า"
 
@@ -10573,12 +10573,12 @@ msgstr "กำลังย้ายโฟลเดอร์ %s"
 msgid "Copying folder %s"
 msgstr "กำลังคัดลอกโฟลเดอร์ %s"
 
-#: ../mail/em-folder-tree.c:1602 ../mail/message-list.c:2107
+#: ../mail/em-folder-tree.c:1602 ../mail/message-list.c:2113
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "กำลังย้ายข้อความไปยังโฟลเดอร์ %s"
 
-#: ../mail/em-folder-tree.c:1604 ../mail/message-list.c:2109
+#: ../mail/em-folder-tree.c:1604 ../mail/message-list.c:2115
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "กำลังคัดลอกข้อความไปยังโฟลเดอร์ %s"
@@ -10709,7 +10709,8 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"ข้อความนี้ถูกเข้ารหัสลับด้วยอัลกอริทึมเข้ารหัสลับที่แน่นหนา บุคคลอื่นดักอ่านเนื้อหาได้ยากมาก ด้วยเวลาปกติ"
+"ข้อความนี้ถูกเข้ารหัสลับด้วยอัลกอริทึมเข้ารหัสลับที่แน่นหนา บุคคลอื่นดักอ่านเนื้อหาได้ยากมาก "
+"ด้วยเวลาปกติ"
 
 #: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:46
 msgid "_View Certificate"
@@ -11078,7 +11079,7 @@ msgstr "ปิดหรือเปิดการละชื่อโฟลเ
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Display only message texts not exceeding certain size"
-msgstr ""
+msgstr "แสดงเฉพาะข้อความที่ใหญ่ไม่เกินขนาดที่กำหนด"
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Do not add signature delimiter"
@@ -11156,6 +11157,8 @@ msgid ""
 "Enable to display only message texts not exceeding size defined in "
 "'message_text_part_limit' key."
 msgstr ""
+"เปิดใช้ตัวเลือกนี้ถ้าต้องการให้แสดงเฉพาะข้อความที่ใหญ่ไม่เกินขนาดที่กำหนดไว้ในคีย์ "
+"'message_text_part_limit'"
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "Enable/disable caret mode"
@@ -11415,10 +11418,8 @@ msgid "Mark citations in the message \"Preview\"."
 msgstr "เน้นการอ้างคำพูดในตัวอย่างข้อความ"
 
 #: ../mail/evolution-mail.schemas.in.h:109
-#, fuzzy
-#| msgid "Message Display"
 msgid "Message text limit for display"
-msgstr "การแสดงข้อความ"
+msgstr "ขีดจำกัดของข้อความที่แสดง"
 
 #: ../mail/evolution-mail.schemas.in.h:110
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
@@ -11719,17 +11720,13 @@ msgstr ""
 "สำหรับข้อความดีบั๊ก"
 
 #: ../mail/evolution-mail.schemas.in.h:174
-#, fuzzy
-#| msgid ""
-#| "This decides the max size of the text part that can be formatted under "
-#| "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 msgid ""
 "This decides the max size of the message text that will be displayed under "
 "Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
 "is used only when 'force_message_limit' key is activated."
 msgstr ""
-"ค่านี้กำหนดขนาดสูงสุดของส่วนของข้อความที่จะสามารถจัดรูปแบบใน Evolution ได้ ค่าปริยายคือ 4 "
-"MB หรือ 4096 KB และกำหนดค่าในหน่วย KB"
+"ค่านี้กำหนดขนาดสูงสุดของข้อความที่จะแสดงใน Evolution ได้ โดยกำหนดเป็นจำนวน KB "
+"ค่าปริยายคือ 4096 (4 MB) ค่านี้จะมีผลเมื่อเปิดใช้คีย์ 'force_message_limit เท่านั้น"
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid ""
@@ -12017,7 +12014,12 @@ msgid_plural ""
 "%s have been updated, because they used just removed folder\n"
 "\"%s\"."
 msgstr[0] ""
+"กฎการกรอง \"%s\" ได้รับการปรับข้อมูล เพราะมีการใช้โฟลเดอร์ที่เพิ่งถูกลบไป\n"
+"\"%s\""
 msgstr[1] ""
+"กฎการกรองต่อไปนี้\n"
+"%s ได้รับการปรับข้อมูล เพราะมีการใช้โฟลเดอร์ที่เพิ่งถูกลบไป\n"
+"\"%s\""
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 #: ../mail/mail-config.ui.h:2
@@ -12729,7 +12731,7 @@ msgstr "เซิร์_ฟเวอร์:"
 
 #: ../mail/mail-dialogs.ui.h:23
 msgid "S_how only items containing:"
-msgstr ""
+msgstr "แ_สดงเฉพาะรายการที่มีข้อความ:"
 
 #: ../mail/mail-dialogs.ui.h:24
 msgid "Search Folder Sources"
@@ -13070,7 +13072,12 @@ msgid_plural ""
 "%s have been updated, because they used just removed folder\n"
 "\"%s\"."
 msgstr[0] ""
+"โฟลเดอร์ค้นหา \"%s\" ได้รับการปรับข้อมูล เพราะมีการใช้โฟลเดอร์ที่เพิ่งถูกลบไป\n"
+"\"%s\""
 msgstr[1] ""
+"โฟลเดอร์ค้นหาต่อไปนี้\n"
+"%s ได้รับการปรับข้อมูล เพราะมีการใช้โฟลเดอร์ที่เพิ่งถูกลบไป\n"
+"\"%s\""
 
 #: ../mail/mail-vfolder.c:1188
 msgid "Edit Search Folder"
@@ -13659,82 +13666,82 @@ msgstr "_ส่งการแจ้งรับ"
 msgid "_Synchronize"
 msgstr "_ปรับข้อมูล"
 
-#: ../mail/message-list.c:1113
+#: ../mail/message-list.c:1119
 msgid "Unseen"
 msgstr "ยังไม่อ่าน"
 
-#: ../mail/message-list.c:1114
+#: ../mail/message-list.c:1120
 msgid "Seen"
 msgstr "อ่านแล้ว"
 
-#: ../mail/message-list.c:1115
+#: ../mail/message-list.c:1121
 msgid "Answered"
 msgstr "ตอบแล้ว"
 
-#: ../mail/message-list.c:1116
+#: ../mail/message-list.c:1122
 msgid "Forwarded"
 msgstr "ส่งต่อแล้ว"
 
-#: ../mail/message-list.c:1117
+#: ../mail/message-list.c:1123
 msgid "Multiple Unseen Messages"
 msgstr "ข้อความยังไม่อ่านหลายฉบับ"
 
-#: ../mail/message-list.c:1118
+#: ../mail/message-list.c:1124
 msgid "Multiple Messages"
 msgstr "ข้อความหลายฉบับ"
 
-#: ../mail/message-list.c:1122
+#: ../mail/message-list.c:1128
 msgid "Lowest"
 msgstr "ต่ำที่สุด"
 
-#: ../mail/message-list.c:1123
+#: ../mail/message-list.c:1129
 msgid "Lower"
 msgstr "ต่ำกว่า"
 
-#: ../mail/message-list.c:1127
+#: ../mail/message-list.c:1133
 msgid "Higher"
 msgstr "สูงกว่า"
 
-#: ../mail/message-list.c:1128
+#: ../mail/message-list.c:1134
 msgid "Highest"
 msgstr "สูงที่สุด"
 
-#: ../mail/message-list.c:1738 ../widgets/table/e-cell-date.c:46
+#: ../mail/message-list.c:1744 ../widgets/table/e-cell-date.c:46
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1745 ../plugins/itip-formatter/itip-view.c:205
+#: ../mail/message-list.c:1751 ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M %p"
 msgstr "วันนี้ %l:%M %p"
 
-#: ../mail/message-list.c:1754
+#: ../mail/message-list.c:1760
 msgid "Yesterday %l:%M %p"
 msgstr "เมื่อวาน %l:%M %p"
 
-#: ../mail/message-list.c:1766
+#: ../mail/message-list.c:1772
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1774
+#: ../mail/message-list.c:1780
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: ../mail/message-list.c:1776
+#: ../mail/message-list.c:1782
 msgid "%b %d %Y"
 msgstr "%d %b %Ey"
 
-#: ../mail/message-list.c:2531
+#: ../mail/message-list.c:2537
 msgid "Select all visible messages"
 msgstr "เลือกข้อความทั้งหมดที่มองเห็น"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4216 ../mail/message-list.c:4610
+#: ../mail/message-list.c:4222 ../mail/message-list.c:4616
 msgid "Generating message list"
 msgstr "กำลังสร้างรายการข้อความ"
 
-#: ../mail/message-list.c:4449
+#: ../mail/message-list.c:4455
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -13742,7 +13749,7 @@ msgstr ""
 "ไม่มีข้อความที่ตรงกับเงื่อนไขการค้นหาของคุณ กรุณาล้างการค้นหาด้วยเมนู ค้นหา->ล้าง "
 "หรือเปลี่ยนเงื่อนไข"
 
-#: ../mail/message-list.c:4451
+#: ../mail/message-list.c:4457
 msgid "There are no messages in this folder."
 msgstr "ไม่มีข้อความในโฟลเดอร์นี้"
 
@@ -15490,57 +15497,57 @@ msgstr "บัญชีปัจจุบัน"
 msgid "Current Folder"
 msgstr "โฟลเดอร์ปัจจุบัน"
 
-#: ../modules/mail/e-mail-shell-view-private.c:884
+#: ../modules/mail/e-mail-shell-view-private.c:881
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "เลือกอยู่ %d รายการ, "
 msgstr[1] "เลือกอยู่ %d รายการ, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:895
+#: ../modules/mail/e-mail-shell-view-private.c:892
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "ลบข้อความไป %d ฉบับ"
 msgstr[1] "ลบข้อความไป %d ฉบับ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:901
-#: ../modules/mail/e-mail-shell-view-private.c:908
+#: ../modules/mail/e-mail-shell-view-private.c:898
+#: ../modules/mail/e-mail-shell-view-private.c:905
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "เมลขยะ %d ฉบับ"
 msgstr[1] "เมลขยะ %d ฉบับ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:914
+#: ../modules/mail/e-mail-shell-view-private.c:911
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "จดหมายร่าง %d ฉบับ"
 msgstr[1] "จดหมายร่าง %d ฉบับ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:920
+#: ../modules/mail/e-mail-shell-view-private.c:917
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "ยังไม่ส่ง %d ฉบับ"
 msgstr[1] "ยังไม่ส่ง %d ฉบับ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:926
+#: ../modules/mail/e-mail-shell-view-private.c:923
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "ส่งแล้ว %d ฉบับ"
 msgstr[1] "ส่งแล้ว %d ฉบับ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:938
+#: ../modules/mail/e-mail-shell-view-private.c:935
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "ยังไม่อ่าน %d, "
 msgstr[1] "ยังไม่อ่าน %d, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:941
+#: ../modules/mail/e-mail-shell-view-private.c:938
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -19673,6 +19680,8 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
+"Evolution ไม่รองรับการปรับรุ่นจากรุ่น {0} โดยตรงแล้ว คุณอาจแก้ปัญหานี้ได้โดยลองปรับรุ่นเป็น "
+"Evolution 2 ก่อน แล้วจึงปรับรุ่นขึ้นเป็น Evolution 3 อีกทีหนึ่ง"
 
 #: ../shell/shell.error.xml.h:5
 msgid ""
