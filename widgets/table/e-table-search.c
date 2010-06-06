@@ -50,10 +50,11 @@ enum {
 static guint e_table_search_signals [LAST_SIGNAL] = { 0, };
 
 static gboolean
-e_table_search_search (ETableSearch *e_table_search, gchar *string, ETableSearchFlags flags)
+e_table_search_search (ETableSearch *e_table_search,
+                       gchar *string,
+                       ETableSearchFlags flags)
 {
 	gboolean ret_val;
-	g_return_val_if_fail (e_table_search != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (e_table_search), FALSE);
 
 	g_signal_emit (G_OBJECT (e_table_search),
@@ -66,7 +67,6 @@ e_table_search_search (ETableSearch *e_table_search, gchar *string, ETableSearch
 static void
 e_table_search_accept (ETableSearch *e_table_search)
 {
-	g_return_if_fail (e_table_search != NULL);
 	g_return_if_fail (E_IS_TABLE_SEARCH (e_table_search));
 
 	g_signal_emit (G_OBJECT (e_table_search),
@@ -193,7 +193,8 @@ e_table_search_input_character (ETableSearch *ets, gunichar character)
 	}
 
 	if (character == ets->priv->last_character) {
-		if (ets->priv->search_string && e_table_search_search (ets, ets->priv->search_string, 0)) {
+		if (ets->priv->search_string &&
+			e_table_search_search (ets, ets->priv->search_string, 0)) {
 			add_timeout (ets);
 		}
 	}

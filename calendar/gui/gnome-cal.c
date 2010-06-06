@@ -127,8 +127,9 @@ struct _GnomeCalendarPrivate {
 	time_t visible_end;
 	gboolean updating;
 
-	/* If this is true list view uses range of showing the events as the  dates selected in date navigator which is one month, else
-	   it uses the date range set in search bar */
+	/* If this is true, list view uses range of showing the events
+	 * as the dates selected in date navigator which is one month,
+	 * else it uses the date range set in search bar. */
 	gboolean lview_select_daten_range;
 
 	/* used in update_todo_view, to prevent interleaving when called in separate thread */
@@ -162,7 +163,9 @@ static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
-static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
+static gboolean	gnome_calendar_hpane_resized	(GtkWidget *widget,
+						 GdkEventButton *e,
+						 GnomeCalendar *gcal);
 
 static void update_todo_view (GnomeCalendar *gcal);
 static void update_memo_view (GnomeCalendar *gcal);
@@ -768,8 +771,10 @@ dn_e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer data)
 			continue;
 		}
 
-		tag_calendar_by_comp (priv->date_navigator, comp, e_cal_view_get_client (query), NULL,
-				      FALSE, TRUE);
+		tag_calendar_by_comp (
+			priv->date_navigator, comp,
+			e_cal_view_get_client (query),
+			NULL, FALSE, TRUE);
 		g_object_unref (comp);
 	}
 }
@@ -820,7 +825,11 @@ gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
 }
 
 static void
-get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_t *start_time, time_t *end_time, time_t *select_time)
+get_times_for_views (GnomeCalendar *gcal,
+                     GnomeCalendarViewType view_type,
+                     time_t *start_time,
+                     time_t *end_time,
+                     time_t *select_time)
 {
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
@@ -918,7 +927,9 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 		/* FIXME We should be using the same day of the week enum every where */
 		display_start = (E_WEEK_VIEW (priv->views[view_type])->display_start_day + 1) % 7;
 
-		if (!range_selected && (!E_WEEK_VIEW (priv->views[view_type])->multi_week_view || !E_WEEK_VIEW (priv->views[view_type])->month_scroll_by_week))
+		if (!range_selected && (
+			!E_WEEK_VIEW (priv->views[view_type])->multi_week_view ||
+			!E_WEEK_VIEW (priv->views[view_type])->month_scroll_by_week))
 			*start_time = time_month_begin_with_zone (*start_time, timezone);
 		*start_time = time_week_begin_with_zone (*start_time, display_start, timezone);
 		*end_time = time_add_week_with_zone (*start_time, shown, timezone);
@@ -1248,19 +1259,25 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 static gboolean
 update_todo_view_done (struct _mupdate_todo_msg *msg)
 {
+	EMemoTable *memo_table;
+	ETaskTable *task_table;
+	EShellView *shell_view;
 	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
 
 	g_return_val_if_fail (msg != NULL, FALSE);
 
 	gcal = msg->gcal;
-	priv = gcal->priv;
 
-	g_return_val_if_fail (priv->task_table != NULL, FALSE);
-	g_return_val_if_fail (priv->memo_table != NULL, FALSE);
+	g_return_val_if_fail (gcal->priv->task_table != NULL, FALSE);
+	g_return_val_if_fail (gcal->priv->memo_table != NULL, FALSE);
 
-	e_shell_view_unblock_update_actions (e_task_table_get_shell_view (E_TASK_TABLE (priv->task_table)));
-	e_shell_view_unblock_update_actions (e_memo_table_get_shell_view (E_MEMO_TABLE (priv->memo_table)));
+	task_table = E_TASK_TABLE (gcal->priv->task_table);
+	shell_view = e_task_table_get_shell_view (task_table);
+	e_shell_view_unblock_update_actions (shell_view);
+
+	memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
+	shell_view = e_memo_table_get_shell_view (memo_table);
+	e_shell_view_unblock_update_actions (shell_view);
 
 	g_object_unref (msg->gcal);
 	g_slice_free (struct _mupdate_todo_msg, msg);
@@ -1271,6 +1288,9 @@ update_todo_view_done (struct _mupdate_todo_msg *msg)
 static void
 update_todo_view (GnomeCalendar *gcal)
 {
+	EMemoTable *memo_table;
+	ETaskTable *task_table;
+	EShellView *shell_view;
 	struct _mupdate_todo_msg *msg;
 
 	/* they are both or none anyway */
@@ -1282,8 +1302,13 @@ update_todo_view (GnomeCalendar *gcal)
 	msg->header.done = (GSourceFunc) update_todo_view_done;
 	msg->gcal = g_object_ref (gcal);
 
-	e_shell_view_block_update_actions (e_task_table_get_shell_view (E_TASK_TABLE (gcal->priv->task_table)));
-	e_shell_view_block_update_actions (e_memo_table_get_shell_view (E_MEMO_TABLE (gcal->priv->memo_table)));
+	task_table = E_TASK_TABLE (gcal->priv->task_table);
+	shell_view = e_task_table_get_shell_view (task_table);
+	e_shell_view_block_update_actions (shell_view);
+
+	memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
+	shell_view = e_memo_table_get_shell_view (memo_table);
+	e_shell_view_block_update_actions (shell_view);
 
 	message_push ((Message *) msg);
 }
@@ -1309,15 +1334,14 @@ update_memo_view (GnomeCalendar *gcal)
 		iso_start = isodate_from_time_t (start);
 		iso_end = isodate_from_time_t (end);
 
-		if (priv->memo_sexp) {
-			g_free (priv->memo_sexp);
-		}
+		g_free (priv->memo_sexp);
 
-		priv->memo_sexp = g_strdup_printf ("(and (or (not (has-start?)) (occur-in-time-range? (make-time \"%s\")"
-				" (make-time \"%s\"))"
-				"  ) %s)",
-				iso_start, iso_end,
-				priv->sexp ? priv->sexp : "");
+		priv->memo_sexp = g_strdup_printf (
+			"(and (or (not (has-start?)) "
+			"(occur-in-time-range? (make-time \"%s\")"
+			" (make-time \"%s\"))) %s)",
+			iso_start, iso_end,
+			priv->sexp ? priv->sexp : "");
 
 		e_cal_model_set_search_query (model, priv->memo_sexp);
 
@@ -1336,7 +1360,10 @@ process_completed_tasks (GnomeCalendar *gcal, gboolean config_changed)
 
 	priv = gcal->priv;
 
-	e_calendar_table_process_completed_tasks (E_CALENDAR_TABLE (priv->todo), priv->clients_list[E_CAL_SOURCE_TYPE_TODO], config_changed);
+	e_calendar_table_process_completed_tasks (
+		E_CALENDAR_TABLE (priv->todo),
+		priv->clients_list[E_CAL_SOURCE_TYPE_TODO],
+		config_changed);
 #endif
 }
 
@@ -1398,11 +1425,15 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* Timeout check to hide completed items */
 #if 0 /* KILL-BONOBO */
-	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_todo_view_cb, gcal, NULL);
+	priv->update_timeout = g_timeout_add_full (
+		G_PRIORITY_LOW, 60000, (GSourceFunc)
+		update_todo_view_cb, gcal, NULL);
 #endif
 
 	/* The Marcus Bains line */
-	priv->update_marcus_bains_line_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_marcus_bains_line_cb, gcal, NULL);
+	priv->update_marcus_bains_line_timeout = g_timeout_add_full (
+		G_PRIORITY_LOW, 60000, (GSourceFunc)
+		update_marcus_bains_line_cb, gcal, NULL);
 
 	/* update_memo_view (gcal); */
 }
@@ -1417,10 +1448,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	gcal->priv = priv;
 
 	if (non_intrusive_error_table == NULL)
-		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-
-	if (non_intrusive_error_table == NULL)
-		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+		non_intrusive_error_table = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	priv->todo_update_lock = g_mutex_new ();
 	priv->dn_query_lock = g_mutex_new ();
@@ -1637,7 +1666,9 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal,
 
 	model = gnome_calendar_get_model (gcal);
 
-	get_times_for_views (gcal, priv->current_view_type, &real_start_time, &end_time, &select_time);
+	get_times_for_views (
+		gcal, priv->current_view_type,
+		&real_start_time, &end_time, &select_time);
 
 	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)
 		return;
@@ -1645,7 +1676,9 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal,
 	e_cal_model_set_time_range (model, real_start_time, end_time);
 
 	if (select_time != 0 && select_time >= real_start_time && select_time <= end_time)
-		e_calendar_view_set_selected_time_range (priv->views[priv->current_view_type], select_time, select_time);
+		e_calendar_view_set_selected_time_range (
+			priv->views[priv->current_view_type],
+			select_time, select_time);
 }
 
 static void
@@ -2033,12 +2066,14 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (model));
 
 	if (dtstart) {
-		itt = icaltime_from_timet_with_zone (*dtstart, FALSE, e_cal_model_get_timezone (model));
+		itt = icaltime_from_timet_with_zone (
+			*dtstart, FALSE, e_cal_model_get_timezone (model));
 		e_cal_component_set_dtstart (comp, &dt);
 	}
 
 	if (dtend) {
-		itt = icaltime_from_timet_with_zone (*dtend, FALSE, e_cal_model_get_timezone (model));
+		itt = icaltime_from_timet_with_zone (
+			*dtend, FALSE, e_cal_model_get_timezone (model));
 		e_cal_component_set_due (comp, &dt); /* task uses 'due' not 'dtend' */
 	}
 
@@ -2115,7 +2150,9 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 }
 
 static gboolean
-gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
+gnome_calendar_hpane_resized (GtkWidget *widget,
+                              GdkEventButton *event,
+                              GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	ECalendarView *view;
@@ -2139,9 +2176,13 @@ gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 	times_width = e_day_view_time_item_get_column_width (
 		E_DAY_VIEW_TIME_ITEM (E_DAY_VIEW (view)->time_canvas_item));
 	if (times_width < priv->hpane_pos - 20)
-		gtk_widget_set_size_request (E_DAY_VIEW (view)->time_canvas, times_width, -1);
+		gtk_widget_set_size_request (
+			E_DAY_VIEW (view)->time_canvas,
+			times_width, -1);
 	else
-		gtk_widget_set_size_request (E_DAY_VIEW (view)->time_canvas, priv->hpane_pos - 20, -1);
+		gtk_widget_set_size_request (
+			E_DAY_VIEW (view)->time_canvas,
+			priv->hpane_pos - 20, -1);
 
 	return FALSE;
 }
@@ -2260,7 +2301,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			/* FIXME write occur-before and occur-after
 			 * sexp funcs so we don't have to use the max
 			 * gint */
-			if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+			if (!e_cal_get_static_capability (
+				client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
 				struct purge_data pd;
 
 				pd.remove = TRUE;
@@ -2279,7 +2321,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				const gchar *uid = icalcomponent_get_uid (m->data);
 				GError *error = NULL;
 
-				if (e_cal_util_component_is_instance (m->data) || e_cal_util_component_has_recurrences (m->data)) {
+				if (e_cal_util_component_is_instance (m->data) ||
+					e_cal_util_component_has_recurrences (m->data)) {
 					gchar *rid = NULL;
 					struct icaltimetype recur_id = icalcomponent_get_recurrenceid (m->data);
 

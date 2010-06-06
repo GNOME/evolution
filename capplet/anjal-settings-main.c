@@ -56,7 +56,7 @@ gboolean windowed = FALSE;
 gboolean anjal_icon_decoration = FALSE;
 gboolean default_app =  FALSE;
 guint32 socket_id = 0;
-MailCappletShell *main_window;
+GtkWidget *main_window;
 static gchar **remaining_args;
 extern gchar *shell_moduledir;
 
@@ -164,7 +164,7 @@ create_default_shell (void)
 {
 	main_window = mail_capplet_shell_new(socket_id, FALSE, TRUE);
 	if (!socket_id)
-		gtk_widget_show (GTK_WIDGET (main_window));
+		gtk_widget_show (main_window);
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 }
 
@@ -254,8 +254,9 @@ main (gint argc, gchar *argv[])
 
 	create_default_shell ();
 
-	g_signal_connect (UNIQUE_APP(app), "message-received",
-                    G_CALLBACK (mail_message_received_cb),  main_window);
+	g_signal_connect (
+		UNIQUE_APP(app), "message-received",
+		G_CALLBACK (mail_message_received_cb),  main_window);
 
 	if (windowed)
 		anjal_icon_decoration = TRUE;

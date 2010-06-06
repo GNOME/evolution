@@ -57,7 +57,10 @@ typedef struct {
 	FILE *file;
 	gulong size;
 	gint count;
-	GHashTable *fields_map; /* gint->gint, column index in the csv file to an index in the known fields array */
+
+	/* gint -> gint -- Column index in the CSV
+	 * file to an index in the known fields array. */
+	GHashTable *fields_map;
 
 	EBook *book;
 	GSList *contacts;
@@ -322,7 +325,7 @@ parseNextValue (const gchar **pptr)
 
 	g_return_val_if_fail (pptr != NULL, NULL);
 	g_return_val_if_fail (*pptr != NULL, NULL);
-	
+
 	if (!*ptr || *ptr == '\n')
 		return NULL;
 
@@ -476,7 +479,11 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 					e_contact_set (contact, contact_field, value->str);
 				} else {
 					if (contact_field == E_CONTACT_WANTS_HTML)
-						e_contact_set (contact, contact_field, GINT_TO_POINTER (g_ascii_strcasecmp (value->str, "TRUE") == 0));
+						e_contact_set (
+							contact, contact_field,
+							GINT_TO_POINTER (
+							g_ascii_strcasecmp (
+							value->str, "TRUE") == 0));
 					else
 						e_contact_set (contact, contact_field, value->str);
 				}

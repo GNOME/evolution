@@ -2689,7 +2689,7 @@ section:
 
 	camel_url_free (url);
 	gtk_widget_show (w);
-	
+
 	return w;
 }
 

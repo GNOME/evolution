@@ -117,7 +117,12 @@ static DBusConnection *bus = NULL;
 static gboolean init_dbus (void);
 
 static void
-send_dbus_message (const gchar *name, const gchar *data, guint new, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject)
+send_dbus_message (const gchar *name,
+                   const gchar *data,
+                   guint new,
+                   const gchar *msg_uid,
+                   const gchar *msg_sender,
+                   const gchar *msg_subject)
 {
 	DBusMessage *message;
 
@@ -210,7 +215,9 @@ static void
 new_notify_dbus (EMEventTargetFolder *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("Newmail", t->uri, t->new, t->msg_uid, t->msg_sender, t->msg_subject);
+		send_dbus_message (
+			"Newmail", t->uri, t->new, t->msg_uid,
+			t->msg_sender, t->msg_subject);
 }
 
 static void
@@ -343,7 +350,9 @@ do_properties (GtkMenuItem *item, gpointer user_data)
 	if (!cfg)
 		return;
 
-	text = g_strconcat ("<span size=\"x-large\">", _("Evolution's Mail Notification"), "</span>", NULL);
+	text = g_markup_printf_escaped (
+		"<span size=\"x-large\">%s</span>",
+		_("Evolution's Mail Notification"));
 
 	vbox = gtk_vbox_new (FALSE, 10);
 	label = gtk_label_new (NULL);
@@ -384,7 +393,10 @@ do_properties (GtkMenuItem *item, gpointer user_data)
 }
 
 static void
-popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time, gpointer user_data)
+popup_menu_status (GtkStatusIcon *status_icon,
+                   guint button,
+                   guint activate_time,
+                   gpointer user_data)
 {
 	GtkMenu *menu;
 	GtkWidget *item;
@@ -495,10 +507,12 @@ new_notify_status (EMEventTargetFolder *t)
 
 		status_count = t->new;
 
-		/* To translators: '%d' is the count of mails received and '%s' is the name of the folder*/
-		msg = g_strdup_printf (ngettext ("You have received %d new message\nin %s.",
-						 "You have received %d new messages\nin %s.",
-						 status_count), status_count, name);
+		/* Translators: '%d' is the count of mails received
+		 * and '%s' is the name of the folder*/
+		msg = g_strdup_printf (ngettext (
+			"You have received %d new message\nin %s.",
+			"You have received %d new messages\nin %s.",
+			status_count), status_count, name);
 
 		if (name != t->name)
 			g_free (name);
@@ -506,7 +520,8 @@ new_notify_status (EMEventTargetFolder *t)
 		if (t->msg_sender) {
 			gchar *tmp, *str;
 
-			/* To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com" */
+			/* Translators: "From:" is preceding a new mail
+			 * sender address, like "From: user@example.com" */
 			str = g_strdup_printf (_("From: %s"), t->msg_sender);
 			tmp = g_strconcat (msg, "\n", str, NULL);
 
@@ -518,7 +533,8 @@ new_notify_status (EMEventTargetFolder *t)
 		if (t->msg_subject) {
 			gchar *tmp, *str;
 
-			/* To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again" */
+			/* Translators: "Subject:" is preceding a new mail
+			 * subject, like "Subject: It happened again" */
 			str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
 			tmp = g_strconcat (msg, "\n", str, NULL);
 
@@ -528,8 +544,10 @@ new_notify_status (EMEventTargetFolder *t)
 		}
 	} else {
 		status_count += t->new;
-		msg = g_strdup_printf (ngettext ("You have received %d new message.",
-						 "You have received %d new messages.", status_count), status_count);
+		msg = g_strdup_printf (ngettext (
+			"You have received %d new message.",
+			"You have received %d new messages.",
+			status_count), status_count);
 	}
 
 	gtk_status_icon_set_tooltip_text (status_icon, msg);
@@ -546,20 +564,30 @@ new_notify_status (EMEventTargetFolder *t)
 	if (is_part_enabled (GCONF_KEY_STATUS_NOTIFICATION)) {
 		safetext = g_markup_escape_text(msg, strlen(msg));
 		if (notify) {
-			notify_notification_update (notify, _("New email"), safetext, "mail-unread");
+			notify_notification_update (
+				notify, _("New email"),
+				safetext, "mail-unread");
 		} else {
 			if (!notify_init ("evolution-mail-notification"))
 				fprintf (stderr,"notify init error");
 
-			notify  = notify_notification_new (_("New email"), safetext, "mail-unread", NULL);
-			notify_notification_attach_to_status_icon (notify, status_icon);
+			notify  = notify_notification_new (
+				_("New email"), safetext,
+				"mail-unread", NULL);
+			notify_notification_attach_to_status_icon (
+				notify, status_icon);
 
 			/* Check if actions are supported */
 			if (can_support_actions ()) {
-				notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
-				notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
-				notify_notification_add_action(notify, "default", "Default", notifyActionCallback, NULL, NULL);
-				g_timeout_add (500, notification_callback, notify);
+				notify_notification_set_urgency (
+					notify, NOTIFY_URGENCY_NORMAL);
+				notify_notification_set_timeout (
+					notify, NOTIFY_EXPIRES_DEFAULT);
+				notify_notification_add_action (
+					notify, "default", "Default",
+					notifyActionCallback, NULL, NULL);
+				g_timeout_add (
+					500, notification_callback, notify);
 			}
 		}
 		g_free(safetext);
@@ -778,8 +806,10 @@ new_notify_sound (EMEventTargetFolder *t)
 	time (&last_newmail);
 
 	/* just put it to the idle queue */
-	if (data.notify_idle_id == 0 && (last_newmail - data.last_notify >= NOTIFY_THROTTLE))
-		data.notify_idle_id = g_idle_add_full (G_PRIORITY_LOW, sound_notify_idle_cb, &data, NULL);
+	if (data.notify_idle_id == 0 &&
+		(last_newmail - data.last_notify >= NOTIFY_THROTTLE))
+		data.notify_idle_id = g_idle_add_full (
+			G_PRIORITY_LOW, sound_notify_idle_cb, &data, NULL);
 }
 
 static void
@@ -996,7 +1026,8 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
 	g_return_if_fail (t != NULL);
 
-	if (!enabled || !t->new || (!t->is_inbox && is_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX)))
+	if (!enabled || !t->new || (!t->is_inbox &&
+		is_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX)))
 		return;
 
 	g_static_mutex_lock (&mlock);

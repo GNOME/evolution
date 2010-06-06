@@ -33,7 +33,9 @@
 #include "e-table-header-utils.h"
 
 ETableHeader *
-e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableState *state)
+e_table_state_to_header (GtkWidget *widget,
+                         ETableHeader *full_header,
+                         ETableState *state)
 {
 	ETableHeader *nh;
 	GtkStyle *style;
@@ -172,7 +174,10 @@ check_col (ETableCol *col, gpointer user_data)
 }
 
 ETableCol *
-e_table_util_calculate_current_search_col (ETableHeader *header, ETableHeader *full_header, ETableSortInfo *sort_info, gboolean always_search)
+e_table_util_calculate_current_search_col (ETableHeader *header,
+                                           ETableHeader *full_header,
+                                           ETableSortInfo *sort_info,
+                                           gboolean always_search)
 {
 	gint i;
 	gint count;

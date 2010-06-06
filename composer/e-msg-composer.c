@@ -94,14 +94,24 @@ static GList *add_recipients (GList *list, const gchar *recips);
 static void handle_mailto (EMsgComposer *composer, const gchar *mailto);
 
 /* used by e_msg_composer_add_message_attachments () */
-static void add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipart,
-					    gboolean just_inlines, gint depth);
+static void	add_attachments_from_multipart	(EMsgComposer *composer,
+						 CamelMultipart *multipart,
+						 gboolean just_inlines,
+						 gint depth);
 
 /* used by e_msg_composer_new_with_message () */
-static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
-static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
-static void handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, gint depth);
-static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
+static void	handle_multipart		(EMsgComposer *composer,
+						 CamelMultipart *multipart,
+						 gint depth);
+static void	handle_multipart_alternative	(EMsgComposer *composer,
+						 CamelMultipart *multipart,
+						 gint depth);
+static void	handle_multipart_encrypted	(EMsgComposer *composer,
+						 CamelMimePart *multipart,
+						 gint depth);
+static void	handle_multipart_signed		(EMsgComposer *composer,
+						 CamelMultipart *multipart,
+						 gint depth);
 
 static void	msg_composer_drag_data_received	(GtkWidget *widget,
 						 GdkDragContext *context,
@@ -137,11 +147,14 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 	emfq = em_format_quote_new (NULL, (CamelStream *)mem, EM_FORMAT_QUOTE_KEEP_SIG);
 	((EMFormat *) emfq)->composer = TRUE;
 	if (source) {
-		/* copy over things we can, other things are internal, perhaps need different api than 'clone' */
+		/* Copy over things we can, other things are internal.
+		 * XXX Perhaps need different api than 'clone'. */
 		if (source->default_charset)
-			em_format_set_default_charset((EMFormat *)emfq, source->default_charset);
+			em_format_set_default_charset (
+				(EMFormat *) emfq, source->default_charset);
 		if (source->charset)
-			em_format_set_default_charset((EMFormat *)emfq, source->charset);
+			em_format_set_default_charset (
+				(EMFormat *) emfq, source->charset);
 	}
 	em_format_part((EMFormat *) emfq, (CamelStream *)mem, part);
 	g_object_unref(emfq);
@@ -192,7 +205,10 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, .
 
 	button = gtk_dialog_run (mbox);
 	if (promptkey)
-		gconf_client_set_bool(gconf, promptkey, !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)), NULL);
+		gconf_client_set_bool (
+			gconf, promptkey,
+			!gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (check)), NULL);
 
 	gtk_widget_destroy((GtkWidget*) mbox);
 	g_object_unref (gconf);
@@ -302,7 +318,9 @@ best_encoding (GByteArray *buf, const gchar *charset)
 	if (status == (gsize) -1 || status > 0)
 		return -1;
 
-	if ((count == 0) && (buf->len < LINE_LEN) && !text_requires_quoted_printable ((const gchar *)buf->data, buf->len))
+	if ((count == 0) && (buf->len < LINE_LEN) &&
+		!text_requires_quoted_printable (
+		(const gchar *) buf->data, buf->len))
 		return CAMEL_TRANSFER_ENCODING_7BIT;
 	else if (count <= buf->len * 0.17)
 		return CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
@@ -311,7 +329,9 @@ best_encoding (GByteArray *buf, const gchar *charset)
 }
 
 static gchar *
-best_charset (GByteArray *buf, const gchar *default_charset, CamelTransferEncoding *encoding)
+best_charset (GByteArray *buf,
+              const gchar *default_charset,
+              CamelTransferEncoding *encoding)
 {
 	gchar *charset;
 
@@ -894,7 +914,11 @@ build_message (EMsgComposer *composer,
 	/* Setup working recipient list if we're encrypting */
 	if (pgp_encrypt || smime_encrypt) {
 		gint j;
-		const gchar *types[] = { CAMEL_RECIPIENT_TYPE_TO, CAMEL_RECIPIENT_TYPE_CC, CAMEL_RECIPIENT_TYPE_BCC };
+		const gchar *types[] = {
+			CAMEL_RECIPIENT_TYPE_TO,
+			CAMEL_RECIPIENT_TYPE_CC,
+			CAMEL_RECIPIENT_TYPE_BCC
+		};
 
 		recipients = g_ptr_array_new ();
 		for (i = 0; i < G_N_ELEMENTS (types); i++) {
@@ -952,7 +976,8 @@ build_message (EMsgComposer *composer,
 		if (pgp_encrypt) {
 			CamelMimePart *npart = camel_mime_part_new ();
 
-			/* check to see if we should encrypt to self, NB gets removed immediately after use */
+			/* Check to see if we should encrypt to self.
+			 * NB gets removed immediately after use */
 			if (account && account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_add (recipients, g_strdup (pgp_userid));
 
@@ -997,17 +1022,25 @@ build_message (EMsgComposer *composer,
 			camel_mime_part_set_encoding (part, plain_encoding);
 		g_object_unref (current);
 
-		if (smime_sign
-		    && (account == NULL || account->smime_sign_key == NULL || account->smime_sign_key[0] == 0)) {
-			camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Cannot sign outgoing message: No signing certificate set for this account"));
+		if (smime_sign && (account == NULL ||
+				account->smime_sign_key == NULL ||
+				account->smime_sign_key[0] == 0)) {
+			camel_exception_set (
+				&ex, CAMEL_EXCEPTION_SYSTEM,
+				_("Cannot sign outgoing message: "
+				  "No signing certificate set for "
+				  "this account"));
 			goto exception;
 		}
 
-		if (smime_encrypt
-		    && (account == NULL || account->smime_sign_key == NULL || account->smime_sign_key[0] == 0)) {
-			camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Cannot encrypt outgoing message: No encryption certificate set for this account"));
+		if (smime_encrypt && (account == NULL ||
+				account->smime_sign_key == NULL ||
+				account->smime_sign_key[0] == 0)) {
+			camel_exception_set (
+				&ex, CAMEL_EXCEPTION_SYSTEM,
+				_("Cannot encrypt outgoing message: "
+				  "No encryption certificate set for "
+				  "this account"));
 			goto exception;
 		}
 
@@ -1018,14 +1051,25 @@ build_message (EMsgComposer *composer,
 
 			/* if we're also encrypting, envelope-sign rather than clear-sign */
 			if (smime_encrypt) {
-				camel_smime_context_set_sign_mode ((CamelSMIMEContext *)cipher, CAMEL_SMIME_SIGN_ENVELOPED);
-				camel_smime_context_set_encrypt_key ((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
-			} else if (account && account->smime_encrypt_key && *account->smime_encrypt_key) {
-				camel_smime_context_set_encrypt_key ((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
+				camel_smime_context_set_sign_mode (
+					(CamelSMIMEContext *) cipher,
+					CAMEL_SMIME_SIGN_ENVELOPED);
+				camel_smime_context_set_encrypt_key (
+					(CamelSMIMEContext *) cipher,
+					TRUE, account->smime_encrypt_key);
+			} else if (account &&
+					account->smime_encrypt_key &&
+					*account->smime_encrypt_key) {
+				camel_smime_context_set_encrypt_key (
+					(CamelSMIMEContext *) cipher,
+					TRUE, account->smime_encrypt_key);
 			}
 
 			camel_cipher_sign (cipher, account->smime_sign_key,
-				account_hash_algo_to_camel_hash (account ? e_account_get_string (account, E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
+				account_hash_algo_to_camel_hash (
+					(account != NULL) ?
+					e_account_get_string (account,
+					E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
 				part, npart, &ex);
 			g_object_unref (cipher);
 
@@ -1042,10 +1086,14 @@ build_message (EMsgComposer *composer,
 
 			/* check to see if we should encrypt to self, NB removed after use */
 			if (account->smime_encrypt_to_self)
-				g_ptr_array_add (recipients, g_strdup (account->smime_encrypt_key));
+				g_ptr_array_add (
+					recipients, g_strdup (
+					account->smime_encrypt_key));
 
 			cipher = camel_smime_context_new (session);
-			camel_smime_context_set_encrypt_key ((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
+			camel_smime_context_set_encrypt_key (
+				(CamelSMIMEContext *) cipher, TRUE,
+				account->smime_encrypt_key);
 
 			camel_cipher_encrypt (cipher, NULL, recipients, part, (CamelMimePart *)new, &ex);
 			g_object_unref (cipher);
@@ -1246,8 +1294,12 @@ add_signature_delim (void)
 
 #define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 #define NO_SIGNATURE_TEXT	\
-	"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->" \
-	"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:Noname\">--><BR>"
+	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
+	"                     key=\"signature\" " \
+	"                   value=\"1\">-->" \
+	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
+	"                     key=\"signature_name\" " \
+	"                   value=\"uid:Noname\">--><BR>"
 
 static gchar *
 get_signature_html (EMsgComposer *composer)
@@ -1292,7 +1344,9 @@ get_signature_html (EMsgComposer *composer)
 		id = account->id;
 		address = id->address ? camel_text_to_html (id->address, CONVERT_SPACES, 0) : NULL;
 		name = id->name ? camel_text_to_html (id->name, CONVERT_SPACES, 0) : NULL;
-		organization = id->organization ? camel_text_to_html (id->organization, CONVERT_SPACES, 0) : NULL;
+		organization =
+			id->organization ? camel_text_to_html (
+			id->organization, CONVERT_SPACES, 0) : NULL;
 
 		text = g_strdup_printf ("%s%s%s%s%s%s%s%s%s",
 					add_delim ? "-- \n<BR>" : "",
@@ -1319,21 +1373,26 @@ get_signature_html (EMsgComposer *composer)
 		if (signature)
 			encoded_uid = encode_signature_uid (signature);
 
-		/* The signature dash convention ("-- \n") is specified in the
-		 * "Son of RFC 1036": http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html,
-		 * section 4.3.2.
+		/* The signature dash convention ("-- \n") is specified
+		 * in the "Son of RFC 1036", section 4.3.2.
+		 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
 		 */
-		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
-					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
-					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
-					"%s%s%s%s"
-					"%s</TD></TR></TABLE>",
-					encoded_uid ? encoded_uid : "",
-					format_html ? "" : "<PRE>\n",
-					!add_delim ? "" : (!strncmp (sig_delim, text, strlen (sig_delim)) || strstr (text, sig_delim_ent)) ? "" : sig_delim,
-					text,
-					format_html ? "" : "</PRE>\n",
-					is_top_signature (composer) ? "<BR>" : "");
+		html = g_strdup_printf (
+			"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
+			"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
+			"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
+			"%s%s%s%s"
+			"%s</TD></TR></TABLE>",
+			encoded_uid ? encoded_uid : "",
+			format_html ? "" : "<PRE>\n",
+			!add_delim ? "" :
+				(!strncmp (
+				sig_delim, text, strlen (sig_delim)) ||
+				strstr (text, sig_delim_ent))
+				? "" : sig_delim,
+			text,
+			format_html ? "" : "</PRE>\n",
+			is_top_signature (composer) ? "<BR>" : "");
 		g_free (text);
 		g_free (encoded_uid);
 		text = html;
@@ -2298,8 +2357,10 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 				composer, mime_part);
 	} else if (related && camel_content_type_is (content_type, "image", "*")) {
 		e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
-	} else if (camel_content_type_is (content_type, "text", "*") && camel_mime_part_get_filename (mime_part) == NULL) {
-		/* do nothing if this is a text/anything without filename, otherwise attach it too */
+	} else if (camel_content_type_is (content_type, "text", "*") &&
+		camel_mime_part_get_filename (mime_part) == NULL) {
+		/* Do nothing if this is a text/anything without a
+		 * filename, otherwise attach it too. */
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -2372,15 +2433,18 @@ handle_multipart_signed (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
-	GtkToggleAction *action = NULL;
+	GtkToggleAction *action;
 	const gchar *protocol;
 
-	content_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
+	content = CAMEL_DATA_WRAPPER (multipart);
+	content_type = camel_data_wrapper_get_mime_type_field (content);
 	protocol = camel_content_type_param (content_type, "protocol");
 
-	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0)
+	if (protocol == NULL)
+		action = NULL;
+	else if (g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0)
 		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	else if (protocol && g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0)
+	else if (g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0)
 		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
 
 	if (action)
@@ -2393,7 +2457,6 @@ handle_multipart_signed (EMsgComposer *composer,
 		return;
 
 	content_type = camel_mime_part_get_content_type (mime_part);
-
 	content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	if (CAMEL_IS_MULTIPART (content)) {
@@ -2405,18 +2468,26 @@ handle_multipart_signed (EMsgComposer *composer,
 		   here. */
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
-			/* handle the signed content and configure the composer to sign outgoing messages */
+			/* Handle the signed content and configure
+			 * the composer to sign outgoing messages. */
 			handle_multipart_signed (composer, multipart, depth);
+
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
-			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+			/* Decrypt the encrypted content and configure
+			 * the composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (composer, mime_part, depth);
+
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
-			/* this contains the text/plain and text/html versions of the message body */
-			handle_multipart_alternative (composer, multipart, depth);
+			/* This contains the text/plain and text/html
+			 * versions of the message body. */
+			handle_multipart_alternative (
+				composer, multipart, depth);
+
 		} else {
-			/* there must be attachments... */
+			/* There must be attachments... */
 			handle_multipart (composer, multipart, depth);
 		}
+
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		gchar *html;
 		gssize length;
@@ -2480,18 +2551,27 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		   here. */
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
-			/* handle the signed content and configure the composer to sign outgoing messages */
-			handle_multipart_signed (composer, content_multipart, depth);
+			/* Handle the signed content and configure the
+			 * composer to sign outgoing messages. */
+			handle_multipart_signed (
+				composer, content_multipart, depth);
+
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
-			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+			/* Decrypt the encrypted content and configure the
+			 * composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (composer, mime_part, depth);
+
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
-			/* this contains the text/plain and text/html versions of the message body */
-			handle_multipart_alternative (composer, content_multipart, depth);
+			/* This contains the text/plain and text/html
+			 * versions of the message body. */
+			handle_multipart_alternative (
+				composer, content_multipart, depth);
+
 		} else {
-			/* there must be attachments... */
+			/* There must be attachments... */
 			handle_multipart (composer, content_multipart, depth);
 		}
+
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		gchar *html;
 		gssize length;
@@ -2535,15 +2615,22 @@ handle_multipart_alternative (EMsgComposer *composer,
 			mp = CAMEL_MULTIPART (content);
 
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
-				/* handle the signed content and configure the composer to sign outgoing messages */
+				/* Handle the signed content and configure
+				 * the composer to sign outgoing messages. */
 				handle_multipart_signed (composer, mp, depth + 1);
+
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
-				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, mime_part, depth + 1);
+				/* Decrypt the encrypted content and configure
+				 * the composer to encrypt outgoing messages. */
+				handle_multipart_encrypted (
+					composer, mime_part, depth + 1);
+
 			} else {
-				/* depth doesn't matter so long as we don't pass 0 */
+				/* Depth doesn't matter so long as we
+				 * don't pass 0. */
 				handle_multipart (composer, mp, depth + 1);
 			}
+
 		} else if (camel_content_type_is (content_type, "text", "html")) {
 			/* text/html is preferable, so once we find it we're done... */
 			text_part = mime_part;
@@ -2595,17 +2682,26 @@ handle_multipart (EMsgComposer *composer,
 			mp = CAMEL_MULTIPART (content);
 
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
-				/* handle the signed content and configure the composer to sign outgoing messages */
+				/* Handle the signed content and configure
+				 * the composer to sign outgoing messages. */
 				handle_multipart_signed (composer, mp, depth + 1);
+
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
-				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, mime_part, depth + 1);
+				/* Decrypt the encrypted content and configure
+				 * the composer to encrypt outgoing messages. */
+				handle_multipart_encrypted (
+					composer, mime_part, depth + 1);
+
 			} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
-				handle_multipart_alternative (composer, mp, depth + 1);
+				handle_multipart_alternative (
+					composer, mp, depth + 1);
+
 			} else {
-				/* depth doesn't matter so long as we don't pass 0 */
+				/* Depth doesn't matter so long as we
+				 * don't pass 0. */
 				handle_multipart (composer, mp, depth + 1);
 			}
+
 		} else if (depth == 0 && i == 0) {
 			gchar *html;
 			gssize length;
@@ -2701,7 +2797,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 
 	/* Restore the Account preference */
-	account_name = (gchar *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	account_name = (gchar *) camel_medium_get_header (
+		CAMEL_MEDIUM (message), "X-Evolution-Account");
 	if (account_name) {
 		account_name = g_strdup (account_name);
 		g_strstrip (account_name);
@@ -2914,16 +3011,23 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
-			/* handle the signed content and configure the composer to sign outgoing messages */
+			/* Handle the signed content and configure the
+			 * composer to sign outgoing messages. */
 			handle_multipart_signed (composer, multipart, 0);
+
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
-			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-			handle_multipart_encrypted (composer, CAMEL_MIME_PART (message), 0);
+			/* Decrypt the encrypted content and configure the
+			 * composer to encrypt outgoing messages. */
+			handle_multipart_encrypted (
+				composer, CAMEL_MIME_PART (message), 0);
+
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
-			/* this contains the text/plain and text/html versions of the message body */
+			/* This contains the text/plain and text/html
+			 * versions of the message body. */
 			handle_multipart_alternative (composer, multipart, 0);
+
 		} else {
-			/* there must be attachments... */
+			/* There must be attachments... */
 			handle_multipart (composer, multipart, 0);
 		}
 	} else {
@@ -3328,7 +3432,9 @@ e_msg_composer_set_body (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
-	buff = g_strconcat ("<b>(", _("The composer contains a non-text message body, which cannot be edited."), ")</b>", NULL);
+	buff = g_markup_printf_escaped ("<b>%s</b>",
+		_("The composer contains a non-text "
+		  "message body, which cannot be edited."));
 	set_editor_text (composer, buff, FALSE);
 	g_free (buff);
 	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), FALSE);

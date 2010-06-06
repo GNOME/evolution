@@ -57,8 +57,13 @@ static gboolean selection_interface_is_child_selected (AtkSelection *selection,
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean atk_action_interface_do_action (AtkAction *iface, gint i);
 static gint atk_action_interface_get_n_action (AtkAction *iface);
-static G_CONST_RETURN gchar * atk_action_interface_get_description (AtkAction *iface, gint i);
-static G_CONST_RETURN gchar * atk_action_interface_get_name (AtkAction *iface, gint i);
+static G_CONST_RETURN gchar *
+		atk_action_interface_get_description
+						(AtkAction *iface,
+						 gint i);
+static G_CONST_RETURN gchar *
+		atk_action_interface_get_name	(AtkAction *iface,
+						 gint i);
 
 static gpointer parent_class = NULL;
 
@@ -145,7 +150,8 @@ ea_minicard_view_get_name (AtkObject *accessible)
 
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
 
-	reflow = E_REFLOW(atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
+	reflow = E_REFLOW (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (accessible)));
 
 	if (!reflow)
 		return NULL;
@@ -201,7 +207,8 @@ ea_minicard_view_get_n_children (AtkObject *accessible)
 
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), -1);
 
-	reflow = E_REFLOW (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible)));
+	reflow = E_REFLOW (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE(accessible)));
 
 	if (!reflow)
 		return -1;
@@ -245,7 +252,8 @@ ea_minicard_view_ref_child (AtkObject *accessible, gint index)
 	if (child_num <= 0 || index < 0 || index >= child_num)
 		return NULL;
 
-	reflow = E_REFLOW (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
+	reflow = E_REFLOW (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (accessible)));
 	if (!reflow)
 		return NULL;
 	if (!reflow->items )

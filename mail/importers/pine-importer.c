@@ -118,8 +118,10 @@ import_contact(EBook *book, gchar *line)
 			addr[len-1] = 0;
 			addrs = g_strsplit(addr+1, ",", 0);
 			list = NULL;
-			/* So ... this api is just insane ... we set plain strings as the contact email if it
-			   is a normal contact, but need to do this xml crap for mailing lists */
+			/* XXX So ... this api is just insane ... we set
+			 *     plain strings as the contact email if it
+			 *     is a normal contact, but need to do this
+			 *     XML crap for mailing lists. */
 			for (i=0;addrs[i];i++) {
 				EDestination *d;
 				EVCardAttribute *attr;
@@ -241,7 +243,7 @@ pine_import_exec(struct _pine_import_msg *m)
 }
 
 static void
-pine_import_done(struct _pine_import_msg *m)
+pine_import_done (struct _pine_import_msg *m)
 {
 	printf("importing complete\n");
 
@@ -260,7 +262,7 @@ pine_import_done(struct _pine_import_msg *m)
 }
 
 static void
-pine_import_free(struct _pine_import_msg *m)
+pine_import_free (struct _pine_import_msg *m)
 {
 	camel_operation_unref(m->status);
 
@@ -274,7 +276,10 @@ pine_import_free(struct _pine_import_msg *m)
 }
 
 static void
-pine_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
+pine_status (CamelOperation *op,
+             const gchar *what,
+             gint pc,
+             gpointer data)
 {
 	struct _pine_import_msg *importer = data;
 
@@ -291,9 +296,8 @@ pine_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 }
 
 static gboolean
-pine_status_timeout(gpointer data)
+pine_status_timeout (struct _pine_import_msg *importer)
 {
-	struct _pine_import_msg *importer = data;
 	gint pc;
 	gchar *what;
 
@@ -304,7 +308,9 @@ pine_status_timeout(gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock(importer->status_lock);
 
-		e_import_status(importer->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (
+			importer->import, (EImportTarget *)
+			importer->target, what, pc);
 	}
 
 	return TRUE;
@@ -319,7 +325,8 @@ static MailMsgInfo pine_import_info = {
 };
 
 static gint
-mail_importer_pine_import(EImport *ei, EImportTarget *target)
+mail_importer_pine_import (EImport *ei,
+                           EImportTarget *target)
 {
 	struct _pine_import_msg *m;
 	gint id;
@@ -329,7 +336,8 @@ mail_importer_pine_import(EImport *ei, EImportTarget *target)
 	m->import = ei;
 	g_object_ref(m->import);
 	m->target = target;
-	m->status_timeout_id = g_timeout_add(100, pine_status_timeout, m);
+	m->status_timeout_id = g_timeout_add (
+		100, (GSourceFunc) pine_status_timeout, m);
 	m->status_lock = g_mutex_new();
 	m->status = camel_operation_new(pine_status, m);
 
@@ -341,15 +349,29 @@ mail_importer_pine_import(EImport *ei, EImportTarget *target)
 }
 
 static void
-checkbox_mail_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
+checkbox_mail_toggle_cb (GtkToggleButton *tb,
+                         EImportTarget *target)
 {
-	g_datalist_set_data(&target->data, "pine-do-mail", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (tb);
+
+	g_datalist_set_data (
+		&target->data, "pine-do-mail",
+		GINT_TO_POINTER (active));
 }
 
 static void
-checkbox_addr_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
+checkbox_addr_toggle_cb (GtkToggleButton *tb,
+                         EImportTarget *target)
 {
-	g_datalist_set_data(&target->data, "pine-do-addr", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (tb);
+
+	g_datalist_set_data (
+		&target->data, "pine-do-addr",
+		GINT_TO_POINTER (active));
 }
 
 static GtkWidget *
@@ -360,12 +382,18 @@ pine_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gboolean done_mail, done_addr;
 
 	gconf = gconf_client_get_default ();
-	done_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/mail", NULL);
-	done_addr = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/address", NULL);
+	done_mail = gconf_client_get_bool (
+		gconf, "/apps/evolution/importer/pine/mail", NULL);
+	done_addr = gconf_client_get_bool (
+		gconf, "/apps/evolution/importer/pine/address", NULL);
 	g_object_unref(gconf);
 
-	g_datalist_set_data(&target->data, "pine-do-mail", GINT_TO_POINTER(!done_mail));
-	g_datalist_set_data(&target->data, "pine-do-addr", GINT_TO_POINTER(!done_addr));
+	g_datalist_set_data (
+		&target->data, "pine-do-mail",
+		GINT_TO_POINTER (!done_mail));
+	g_datalist_set_data (
+		&target->data, "pine-do-addr",
+		GINT_TO_POINTER (!done_addr));
 
 	box = gtk_vbox_new(FALSE, 2);
 

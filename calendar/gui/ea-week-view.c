@@ -147,7 +147,9 @@ ea_week_view_get_name (AtkObject *accessible)
 	/* the child main item is always there */
 	--n_events;
 	if (n_events >= 1)
-		event_str = g_strdup_printf (ngettext ("It has %d event.", "It has %d events.", n_events), n_events);
+		event_str = g_strdup_printf (
+			ngettext ("It has %d event.", "It has %d events.",
+			n_events), n_events);
 	else
 		event_str = g_strdup (_("It has no events."));
 
@@ -280,7 +282,8 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 
 	if (index == 0) {
 		/* index == 0 is the main item */
-		atk_object = atk_gobject_accessible_for_object (G_OBJECT (week_view->main_canvas_item));
+		atk_object = atk_gobject_accessible_for_object (
+			G_OBJECT (week_view->main_canvas_item));
 		g_object_ref (atk_object);
 	} else
 	for (event_index = 0; event_index < max_count; ++event_index) {
@@ -318,7 +321,11 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 				atk_object = ea_calendar_helpers_get_accessible_for (span->text_item);
 			}
 			else {
-					atk_object = ea_calendar_helpers_get_accessible_for (week_view->jump_buttons[current_day == -1 ? 0 : current_day]);
+				gint index;
+
+				index = (current_day != -1) ? current_day : 0;
+				atk_object = ea_calendar_helpers_get_accessible_for (
+					week_view->jump_buttons[index]);
 			}
 			g_object_ref (atk_object);
 			break;

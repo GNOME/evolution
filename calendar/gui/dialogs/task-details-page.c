@@ -88,85 +88,7 @@ static const gint priority_map[] = {
 	-1
 };
 
-static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
-static void task_details_page_focus_main_widget (CompEditorPage *page);
-static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
-static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
-static gboolean task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
-
 G_DEFINE_TYPE (TaskDetailsPage, task_details_page, TYPE_COMP_EDITOR_PAGE)
-
-static void
-task_details_page_dispose (GObject *object)
-{
-	TaskDetailsPagePrivate *priv;
-
-	priv = TASK_DETAILS_PAGE_GET_PRIVATE (object);
-
-	if (priv->main != NULL) {
-		g_object_unref (priv->main);
-		priv->main = NULL;
-	}
-
-	if (priv->builder != NULL) {
-		g_object_unref (priv->builder);
-		priv->builder = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (task_details_page_parent_class)->dispose (object);
-}
-
-static void
-task_details_page_class_init (TaskDetailsPageClass *class)
-{
-	GObjectClass *object_class;
-	CompEditorPageClass *editor_page_class;
-
-	g_type_class_add_private (class, sizeof (TaskDetailsPagePrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = task_details_page_dispose;
-
-	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
-	editor_page_class->get_widget = task_details_page_get_widget;
-	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
-	editor_page_class->fill_widgets = task_details_page_fill_widgets;
-	editor_page_class->fill_component = task_details_page_fill_component;
-	editor_page_class->fill_timezones = task_details_page_fill_timezones;
-}
-
-static void
-task_details_page_init (TaskDetailsPage *tdpage)
-{
-	tdpage->priv = TASK_DETAILS_PAGE_GET_PRIVATE (tdpage);
-}
-
-/* get_widget handler for the task page */
-static GtkWidget *
-task_details_page_get_widget (CompEditorPage *page)
-{
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
-
-	tdpage = TASK_DETAILS_PAGE (page);
-	priv = tdpage->priv;
-
-	return priv->main;
-}
-
-/* focus_main_widget handler for the task page */
-static void
-task_details_page_focus_main_widget (CompEditorPage *page)
-{
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
-
-	tdpage = TASK_DETAILS_PAGE (page);
-	priv = tdpage->priv;
-
-	gtk_widget_grab_focus (priv->status_combo);
-}
 
 static TaskEditorPriority
 priority_value_to_index (gint priority_value)
@@ -231,6 +153,7 @@ sensitize_widgets (TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv = tdpage->priv;
 	CompEditor *editor;
+	GtkWidget *entry;
 	ECal *client;
 	gboolean read_only;
 
@@ -245,12 +168,59 @@ sensitize_widgets (TaskDetailsPage *tdpage)
 	gtk_widget_set_sensitive (priv->percent_complete, !read_only);
 	gtk_widget_set_sensitive (priv->completed_date, !read_only);
 	gtk_widget_set_sensitive (priv->url_label, !read_only);
-	gtk_editable_set_editable (GTK_EDITABLE (e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry))), !read_only);
+
+	entry = e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry));
+	gtk_editable_set_editable (GTK_EDITABLE (entry), !read_only);
 }
 
-/* fill_widgets handler for the task page */
+static void
+task_details_page_dispose (GObject *object)
+{
+	TaskDetailsPagePrivate *priv;
+
+	priv = TASK_DETAILS_PAGE_GET_PRIVATE (object);
+
+	if (priv->main != NULL) {
+		g_object_unref (priv->main);
+		priv->main = NULL;
+	}
+
+	if (priv->builder != NULL) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (task_details_page_parent_class)->dispose (object);
+}
+
+static GtkWidget *
+task_details_page_get_widget (CompEditorPage *page)
+{
+	TaskDetailsPage *tdpage;
+	TaskDetailsPagePrivate *priv;
+
+	tdpage = TASK_DETAILS_PAGE (page);
+	priv = tdpage->priv;
+
+	return priv->main;
+}
+
+static void
+task_details_page_focus_main_widget (CompEditorPage *page)
+{
+	TaskDetailsPage *tdpage;
+	TaskDetailsPagePrivate *priv;
+
+	tdpage = TASK_DETAILS_PAGE (page);
+	priv = tdpage->priv;
+
+	gtk_widget_grab_focus (priv->status_combo);
+}
+
 static gboolean
-task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
+task_details_page_fill_widgets (CompEditorPage *page,
+                                ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -337,9 +307,9 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	return TRUE;
 }
 
-/* fill_component handler for the task page */
 static gboolean
-task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
+task_details_page_fill_component (CompEditorPage *page,
+                                  ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -376,7 +346,9 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	/* Completed Date. */
 	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->completed_date)) ||
 	    !e_date_edit_time_is_valid (E_DATE_EDIT (priv->completed_date))) {
-		comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
+		comp_editor_page_display_validation_error (
+			page, _("Completed date is wrong"),
+			priv->completed_date);
 		return FALSE;
 	}
 
@@ -396,7 +368,9 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				icaltimezone_get_utc_timezone());
 
 		if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) {
-			comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
+			comp_editor_page_display_validation_error (
+				page, _("Completed date is wrong"),
+				priv->completed_date);
 			return FALSE;
 		}
 
@@ -422,9 +396,9 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	return TRUE;
 }
 
-/* fill_timezones handler for the event page */
 static gboolean
-task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
+task_details_page_fill_timezones (CompEditorPage *page,
+                                  GHashTable *timezones)
 {
 	icaltimezone *zone;
 
@@ -438,7 +412,30 @@ task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 	return TRUE;
 }
 
-
+static void
+task_details_page_class_init (TaskDetailsPageClass *class)
+{
+	GObjectClass *object_class;
+	CompEditorPageClass *editor_page_class;
+
+	g_type_class_add_private (class, sizeof (TaskDetailsPagePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = task_details_page_dispose;
+
+	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
+	editor_page_class->get_widget = task_details_page_get_widget;
+	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
+	editor_page_class->fill_widgets = task_details_page_fill_widgets;
+	editor_page_class->fill_component = task_details_page_fill_component;
+	editor_page_class->fill_timezones = task_details_page_fill_timezones;
+}
+
+static void
+task_details_page_init (TaskDetailsPage *tdpage)
+{
+	tdpage->priv = TASK_DETAILS_PAGE_GET_PRIVATE (tdpage);
+}
 
 /* Gets the widgets from the XML file and returns if they are all available. */
 static gboolean
@@ -674,8 +671,12 @@ init_widgets (TaskDetailsPage *tdpage)
 					   tdpage, NULL);
 
 	/* These are created by hand, so hook the mnemonics manually */
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->date_completed_label), priv->completed_date);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->url_label), priv->url_entry);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (priv->date_completed_label),
+		priv->completed_date);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (priv->url_label),
+		priv->url_entry);
 
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need

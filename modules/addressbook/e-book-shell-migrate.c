@@ -96,9 +96,13 @@ create_groups (MigrationContext *context,
 
 			group = E_SOURCE_GROUP (g->data);
 
-			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+			if (!*on_this_computer &&
+					!strcmp (base_uri_proto,
+					e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);
-			else if (!*on_ldap_servers && !strcmp (LDAP_BASE_URI, e_source_group_peek_base_uri (group)))
+			else if (!*on_ldap_servers &&
+					!strcmp (LDAP_BASE_URI,
+					e_source_group_peek_base_uri (group)))
 				*on_ldap_servers = g_object_ref (group);
 		}
 	}

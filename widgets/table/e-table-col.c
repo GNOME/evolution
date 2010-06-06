@@ -79,7 +79,10 @@ etc_dispose (GObject *object)
 }
 
 static void
-etc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+etc_set_property (GObject *object,
+                  guint prop_id,
+                  const GValue *value,
+                  GParamSpec *pspec)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
@@ -93,7 +96,10 @@ etc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpe
 }
 
 static void
-etc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+etc_get_property (GObject *object,
+                  guint prop_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
@@ -147,9 +153,9 @@ e_table_col_init (ETableCol *etc)
  * @priority: FIXME
  *
  * The ETableCol represents a column to be used inside an ETable.  The
- * ETableCol objects are inserted inside an ETableHeader (which is just a collection
- * of ETableCols).  The ETableHeader is the definition of the order in which
- * columns are shown to the user.
+ * ETableCol objects are inserted inside an ETableHeader (which is just a
+ * collection of ETableCols).  The ETableHeader is the definition of the
+ * order in which columns are shown to the user.
  *
  * The @text argument is the the text that will be shown as a header to the
  * user. @col_idx reflects where the data for this ETableCol object will
@@ -157,11 +163,12 @@ e_table_col_init (ETableCol *etc)
  * of the columns being viewed (the ETableCols in the ETableHeader), the
  * column will always point to the same column inside the ETableModel.
  *
- * The @ecell argument is an ECell object that needs to know how to render the
- * data in the ETableModel for this specific row.
+ * The @ecell argument is an ECell object that needs to know how to
+ * render the data in the ETableModel for this specific row.
  *
- * Data passed to @compare can be (if not %NULL) a cmp_cache, which can be accessed
- * by @ref e_table_sorting_utils_add_to_cmp_cache and @ref e_table_sorting_utils_lookup_cmp_cache.
+ * Data passed to @compare can be (if not %NULL) a cmp_cache, which
+ * can be accessed by e_table_sorting_utils_add_to_cmp_cache() and
+ * e_table_sorting_utils_lookup_cmp_cache().
  *
  * Returns: the newly created ETableCol object.
  */

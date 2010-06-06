@@ -49,8 +49,8 @@
  */
 xmlNode *
 e_xml_get_child_by_name_by_lang (const xmlNode *parent,
-				 const xmlChar *child_name,
-				 const gchar *lang)
+                                 const xmlChar *child_name,
+                                 const gchar *lang)
 {
 #ifdef G_OS_WIN32
 	gchar *freeme = NULL;
@@ -94,9 +94,9 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 
 static xmlNode *
 e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
-						 const gchar *name,
-						 const GList *lang_list,
-						 gint *best_lang_score)
+                                                 const gchar *name,
+                                                 const GList *lang_list,
+                                                 gint *best_lang_score)
 {
 	xmlNodePtr best_node = NULL, node;
 
@@ -133,14 +133,10 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 	return best_node;
 }
 
-/*
- * e_xml_get_child_by_name_by_lang_list:
- *
- */
 xmlNode *
 e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
-				      const gchar *name,
-				      const GList *lang_list)
+                                      const gchar *name,
+                                      const GList *lang_list)
 {
 	gint best_lang_score = INT_MAX;
 
@@ -161,12 +157,9 @@ e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
 		 &best_lang_score);
 }
 
-/*
- * e_xml_get_child_by_name_no_lang
- *
- */
 xmlNode *
-e_xml_get_child_by_name_no_lang (const xmlNode *parent, const gchar *name)
+e_xml_get_child_by_name_no_lang (const xmlNode *parent,
+                                 const gchar *name)
 {
 	xmlNodePtr node;
 
@@ -190,7 +183,8 @@ e_xml_get_child_by_name_no_lang (const xmlNode *parent, const gchar *name)
 }
 
 gint
-e_xml_get_integer_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_integer_prop_by_name (const xmlNode *parent,
+                                const xmlChar *prop_name)
 {
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
@@ -200,8 +194,8 @@ e_xml_get_integer_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 
 gint
 e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent,
-					     const xmlChar *prop_name,
-					     gint def)
+                                             const xmlChar *prop_name,
+                                             gint def)
 {
 	xmlChar *prop;
 	gint ret_val = def;
@@ -219,8 +213,8 @@ e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent,
 
 void
 e_xml_set_integer_prop_by_name (xmlNode *parent,
-				const xmlChar *prop_name,
-				gint value)
+                                const xmlChar *prop_name,
+                                gint value)
 {
 	gchar *valuestr;
 
@@ -233,7 +227,8 @@ e_xml_set_integer_prop_by_name (xmlNode *parent,
 }
 
 guint
-e_xml_get_uint_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_uint_prop_by_name (const xmlNode *parent,
+                             const xmlChar *prop_name)
 {
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
@@ -243,8 +238,8 @@ e_xml_get_uint_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 
 guint
 e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent,
-					  const xmlChar *prop_name,
-					  guint def)
+                                          const xmlChar *prop_name,
+                                          guint def)
 {
 	xmlChar *prop;
 	guint ret_val = def;
@@ -262,8 +257,8 @@ e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent,
 
 void
 e_xml_set_uint_prop_by_name (xmlNode *parent,
-			     const xmlChar *prop_name,
-			     guint value)
+                             const xmlChar *prop_name,
+                             guint value)
 {
 	gchar *valuestr;
 
@@ -277,7 +272,7 @@ e_xml_set_uint_prop_by_name (xmlNode *parent,
 
 gboolean
 e_xml_get_bool_prop_by_name (const xmlNode *parent,
-			     const xmlChar *prop_name)
+                             const xmlChar *prop_name)
 {
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
@@ -288,9 +283,9 @@ e_xml_get_bool_prop_by_name (const xmlNode *parent,
 }
 
 gboolean
-e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent,
-					 const xmlChar *prop_name,
-					 gboolean def)
+e_xml_get_bool_prop_by_name_with_default (const xmlNode *parent,
+                                          const xmlChar *prop_name,
+                                          gboolean def)
 {
 	xmlChar *prop;
 	gboolean ret_val = def;
@@ -311,7 +306,9 @@ e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent,
 }
 
 void
-e_xml_set_bool_prop_by_name (xmlNode *parent, const xmlChar *prop_name, gboolean value)
+e_xml_set_bool_prop_by_name (xmlNode *parent,
+                             const xmlChar *prop_name,
+                             gboolean value)
 {
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
@@ -324,7 +321,8 @@ e_xml_set_bool_prop_by_name (xmlNode *parent, const xmlChar *prop_name, gboolean
 }
 
 gdouble
-e_xml_get_double_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_double_prop_by_name (const xmlNode *parent,
+                               const xmlChar *prop_name)
 {
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
@@ -333,7 +331,9 @@ e_xml_get_double_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 }
 
 gdouble
-e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, gdouble def)
+e_xml_get_double_prop_by_name_with_default (const xmlNode *parent,
+                                            const xmlChar *prop_name,
+                                            gdouble def)
 {
 	xmlChar *prop;
 	gdouble ret_val = def;
@@ -350,7 +350,9 @@ e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 }
 
 void
-e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble value)
+e_xml_set_double_prop_by_name (xmlNode *parent,
+                               const xmlChar *prop_name,
+                               gdouble value)
 {
 	gchar buffer[E_ASCII_DTOSTR_BUF_SIZE];
 	gchar *format;
@@ -379,7 +381,9 @@ e_xml_get_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 }
 
 gchar *
-e_xml_get_string_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, const gchar *def)
+e_xml_get_string_prop_by_name_with_default (const xmlNode *parent,
+                                            const xmlChar *prop_name,
+                                            const gchar *def)
 {
 	xmlChar *prop;
 	gchar *ret_val;
@@ -398,7 +402,9 @@ e_xml_get_string_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 }
 
 void
-e_xml_set_string_prop_by_name (xmlNode *parent, const xmlChar *prop_name, const gchar *value)
+e_xml_set_string_prop_by_name (xmlNode *parent,
+                               const xmlChar *prop_name,
+                               const gchar *value)
 {
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
@@ -409,7 +415,8 @@ e_xml_set_string_prop_by_name (xmlNode *parent, const xmlChar *prop_name, const 
 }
 
 gchar *
-e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_translated_string_prop_by_name (const xmlNode *parent,
+                                          const xmlChar *prop_name)
 {
 	xmlChar *prop;
 	gchar *ret_val = NULL;
