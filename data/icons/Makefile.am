@@ -91,6 +91,8 @@ stock_private_icons = \
 	hicolor_actions_16x16_stock_bell.png \
 	hicolor_actions_16x16_stock_contact-list.png \
 	hicolor_actions_16x16_stock_insert-note.png \
+	hicolor_actions_16x16_stock_insert-rule.png \
+	hicolor_actions_16x16_stock_insert-table.png \
 	hicolor_actions_16x16_stock_mail-filters-apply.png \
 	hicolor_actions_16x16_stock_mail-flag-for-followup-done.png \
 	hicolor_actions_16x16_stock_mail-flag-for-followup.png \
@@ -107,6 +109,7 @@ stock_private_icons = \
 	hicolor_actions_16x16_stock_task-assigned.png \
 	hicolor_actions_16x16_stock_task-recurring.png \
 	hicolor_actions_16x16_stock_task.png \
+	hicolor_actions_16x16_stock_text-monospaced.png \
 	hicolor_actions_16x16_stock_timezone.png \
 	hicolor_actions_16x16_stock_todo.png \
 	hicolor_actions_16x16_stock_video-conferencing.png \
@@ -114,6 +117,8 @@ stock_private_icons = \
 	hicolor_actions_24x24_stock_new-24h-appointment.png \
 	hicolor_actions_24x24_stock_contact-list.png \
 	hicolor_actions_24x24_stock_insert-note.png \
+	hicolor_actions_24x24_stock_insert-rule.png \
+	hicolor_actions_24x24_stock_insert-table.png \
 	hicolor_actions_24x24_stock_mail-filters-apply.png \
 	hicolor_actions_24x24_stock_mail-open-multiple.png \
 	hicolor_actions_24x24_stock_mail-unread-multiple.png \
@@ -127,6 +132,7 @@ stock_private_icons = \
 	hicolor_actions_24x24_stock_task-assigned.png \
 	hicolor_actions_24x24_stock_task-recurring.png \
 	hicolor_actions_24x24_stock_task.png \
+	hicolor_actions_24x24_stock_text-monospaced.png \
 	hicolor_actions_24x24_stock_timezone.png \
 	hicolor_actions_24x24_stock_todo.png \
 	hicolor_actions_24x24_stock_video-conferencing.png \
