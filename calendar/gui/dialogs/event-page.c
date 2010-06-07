@@ -705,19 +705,38 @@ event_page_set_view_rsvp (EventPage *epage, gboolean state)
 	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
 }
 
-static GtkWidget *
-create_image_event_box (const gchar *image_text, const gchar *tip_text)
+static void
+alarm_image_button_clicked_cb (GtkWidget *button, EventPage *epage)
 {
-	GtkWidget *image, *box;
+	CompEditor *editor;
+	GtkAction *action;
 
-	box = gtk_event_box_new ();
+	g_return_if_fail (epage != NULL);
+	g_return_if_fail (IS_EVENT_PAGE (epage));
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	action = comp_editor_get_action (editor, "alarms");
+	gtk_action_activate (action);
+}
+
+static GtkWidget *
+create_alarm_image_button (const gchar *image_text, const gchar *tip_text, EventPage *epage)
+{
+	GtkWidget *image, *button;
+
+	button = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_widget_set_can_focus (button, FALSE);
+
 	image = gtk_image_new_from_icon_name (image_text, GTK_ICON_SIZE_MENU);
 
-	gtk_container_add ((GtkContainer *) box, image);
-	gtk_widget_show_all (box);
-	gtk_widget_set_tooltip_text (box, tip_text);
+	gtk_container_add ((GtkContainer *) button, image);
+	gtk_widget_show_all (button);
+	gtk_widget_set_tooltip_text (button, tip_text);
 
-	return box;
+	g_signal_connect (button, "clicked", G_CALLBACK (alarm_image_button_clicked_cb), epage);
+
+	return button;
 }
 
 /* returns whether changed info text */
@@ -801,7 +820,7 @@ sensitize_widgets (EventPage *epage)
 		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
 
 	if (alarm && !priv->alarm_icon) {
-		priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
+		priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has alarms"), epage);
 		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 	}
 
@@ -2753,7 +2772,7 @@ alarm_changed_cb (GtkWidget *widget,
 			e_alarm_list_append (priv->alarm_list_store, NULL, ca);
 		}
 		if (!priv->alarm_icon) {
-			priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
+			priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has alarms"), epage);
 			gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 		}
 	} else {
