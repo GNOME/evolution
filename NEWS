@@ -1,4 +1,4 @@
-Evolution 2.31.2 2010-06-07
+Evolution 2.31.3 2010-06-07
 ---------------------------
 Bug Fixes:
 	Bug 620150 - EventEditor: Disconnect signal handlers before disposing model (Matthew Barnes)
