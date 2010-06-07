@@ -1,3 +1,59 @@
+Evolution 2.31.2 2010-06-07
+---------------------------
+Bug Fixes:
+	Bug 620150 - EventEditor: Disconnect signal handlers before disposing model (Matthew Barnes)
+	Bug 620602 - Next/prev shortcuts should focus message list (Matthew Barnes)
+	Bug 620628 - Checkbox in vfolder deletion prompt is saved backwards (Matthew Barnes)
+	Bug 620635 - do not setup proxy if it's not enabled (Lucian Langa)
+	Bug 257776 - Import assistant shows wrong extension for vCalendar files (Matthew Barnes)
+	Bug 620207 - Receiving options are missing in preference window (Chenthill Palanisamy)
+	Bug 617579 - HIG issues in "Save Current View" dialog (Matthew Barnes)
+	Bug 617094 - System timezone label not initialized in preferences (Matthew Barnes)
+	Bug 619345 - GtkHTML color settings not being honored (Matthew Barnes)
+	Bug 620044 - Reply and Forward actions should have "is-important" set (Matthew Barnes)
+	Bug 585301 - Use NSS SQLite database, if available (Craig Ringer)
+	Bug 619417 - system_tz_label is not translated in cal-prefs-dialog (Gert Michael Kulyk)
+	Bug 585577 - Wrong FROM in envelope during SMTP negotiation (Fabien Tassin)
+	Bug 619637 - Inconsistent buttons in delete confirmation dialogs (Matthew Barnes)
+	Bug 619783 - Web Addresses arrow button doesn't change (Matthew Barnes)
+	Bug 613038 - Preview pane size not remembered (Matthew Barnes)
+	Bug 619903 - Event editor is too small in express mode (Matthew Barnes)
+	Bug 619900 - First widget skipped in e_shell_hide_widgets_for_express_mode() (Matthew Barnes)
+	Bug 619904 - Mnemonic issues in express mode (Matthew Barnes)
+	Bug 573510 - Outlook type CSV import broken (Milan Crha)
+	Bug 313791 - Delegator can be repeated when delegating a meeting (Milan Crha)
+	Bug 619781 - Some preference sections don't show the right preferences (Matthew Barnes)
+	Bug 248105 - No warning if you create an appointment in the past (Milan Crha)
+	Bug 613798 - Marcus Bains line is grey (Matthew Barnes)
+	Bug 619811 - Bogus "Cannot update from version 0.0" dialog on start (Matthew Barnes)
+	Bug 478090 - Meeting acceptances for attendees who weren't listed are lost (Milan Crha)
+	Bug 599794 - Reopened drafts shouldn't ask for save without change (Milan Crha)
+	Bug 576165 - SIGSEGV in e_plugin_mono_register_type (bnc) (Chenthill Palanisamy)
+
+Miscellaneous Fixes:
+	Add more missing icons for GtkhtmlEditor. (Matthew Barnes)
+	More GTK3 preparation. (Matthew Barnes)
+	Hook up GNOME's configured SOCKS4 proxy in the mail session (Federico Mena Quintero)
+	Convert "startup-wizard" to an EExtension. (Matthew Barnes)
+	Use the send_port, not the recv_port, when configuring SMTP for an account (Federico Mena Quintero)
+	[win32] Relocate the position of mail-autoconfig directory (Fridrich 真trba)
+	Use EWebView functions whenever possible. (Matthew Barnes)
+	Fix alignment of lblCarset in composer-prefs-dialog (Gert Michael Kulyk)
+	Simplify the Notes tab in Contact Editor. (Matthew Barnes)
+	Install evolution-alarm-notify into bindir for windows (Fridrich 真trba)
+	[win32] Set a path in evolution-alarm-notify binary, so it finds its dependencies even if it is started by a link in StartUp submenu of Program menu. (Fridrich 真trba)
+	Revert "don't bridge to the active-view gconf setting" (Matthew Barnes)
+	Merge branch 'express2' (Matthew Barnes)
+	Add tooltips for print button on CompEditor toolbar. (Matthew Barnes)
+
+Translations:
+	Ivar Smolin (et)
+	Jorge Gonz真lez (es)
+	Fran Di真guez (gl)
+	Theppitak Karoonboonyanan (th)
+	Sira Nokyoongtong (th)
+	Kjartan Maraas (nn)
+
 Evolution 2.31.2 2010-05-24
 ---------------------------
 
