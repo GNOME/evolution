@@ -873,6 +873,22 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/filters/flush-outbox</key>
+      <applyto>/apps/evolution/mail/filters/flush-outbox</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Flush Outbox after filtering</short>
+         <long>
+          Whether to flush Outbox after filtering is done. Outbox flush will happen
+	  only when there was used any 'Forward to' filter action and approximately
+	  one minute after the last action invocation.
+         </long>
+      </locale>
+    </schema>
+
     <!-- Format settings -->
 
     <schema>

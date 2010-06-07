@@ -56,6 +56,7 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
+#include "mail-send-recv.h"
 #include "mail-session.h"
 #include "mail-tools.h"
 
@@ -649,13 +650,35 @@ ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const gchar 
 	printf("Thread status '%s' %d%%\n", text, pc);
 }
 
+static gboolean
+forward_to_flush_outbox_cb (gpointer data)
+{
+	guint *preparing_flush = data;
+
+	g_return_val_if_fail (preparing_flush != NULL, FALSE);
+
+	*preparing_flush = 0;
+	mail_send ();
+
+	return FALSE;
+}
+
 static void
 ms_forward_to_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
 		  gint queued, const gchar *appended_uid, gpointer data)
 {
+	static guint preparing_flush = 0;
+
 	camel_message_info_free (info);
-	/* do not call mail send, just pile them all in the outbox */
-	/* mail_send (); */
+
+	/* do not call mail send immediately, just pile them all in the outbox */
+	if (preparing_flush ||
+	    gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/filters/flush-outbox", NULL)) {
+		if (preparing_flush)
+			g_source_remove (preparing_flush);
+
+		preparing_flush = g_timeout_add_seconds (60, forward_to_flush_outbox_cb, &preparing_flush);
+	}
 }
 
 static void
