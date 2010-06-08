@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-05-21 15:35+0000\n"
-"PO-Revision-Date: 2010-05-24 18:51+0300\n"
+"PO-Revision-Date: 2010-05-31 16:43+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr ""
 "kontakti sama aadressiga?"
 
 msgid "Address '{0}' already exists."
-msgstr "Aadress '{0}' on juba olemas"
+msgstr "Aadress '{0}' on juba olemas."
 
 msgid "Cannot add new contact"
 msgstr "Uut kontakti pole võimalik lisada"
@@ -929,7 +929,7 @@ msgid "Copy _Email Address"
 msgstr "Kopeeri _e-posti aadress"
 
 msgid "Copy the email address to the clipboard"
-msgstr "Meiliaadressi kopeerimine lõikelauale."
+msgstr "Meiliaadressi kopeerimine lõikelauale"
 
 msgid "_Send New Message To..."
 msgstr "_Saada uus sõnum aadressil..."
@@ -1479,14 +1479,14 @@ msgid ""
 "calendars up to date."
 msgstr ""
 "Värskendatud andmete saatmine aitab teistel osalejatel nende kalendreid "
-"ajakohasena hoida"
+"ajakohasena hoida."
 
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
 "Värskendatud andmete saatmine aitab teistel osalejatel nende ülesannete "
-"nimekirja ajakohasena hoida"
+"nimekirja ajakohasena hoida."
 
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
@@ -2160,20 +2160,20 @@ msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "Kas RSVP välja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
 
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr "Kas kategooriate välja näidatakse sündmuste/koosolekute redaktoris."
+msgstr "Kas kategooriate välja näidatakse sündmuste/koosolekute redaktoris"
 
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr "Kas rollivälja näidatakse sündmuste/ülesannete/koosolekute redaktoris."
+msgstr "Kas rollivälja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
 
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr "Kas olekuvälja näidatakse sündmuste/ülesannete/koosolekute redaktoris."
+msgstr "Kas olekuvälja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
 
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "Kas kellaaegu kuvatakse 24-tunnises või EL/PL vormingus."
 
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris."
+msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris"
 
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
@@ -2200,7 +2200,7 @@ msgid "Workday start minute"
 msgstr "Minut, millal tööpäev algab"
 
 msgid "Invalid object"
-msgstr "Vigane objekt."
+msgstr "Vigane objekt"
 
 msgid "Day View"
 msgstr "Päeva vaade"
@@ -4799,7 +4799,7 @@ msgid "Africa/Porto-Novo"
 msgstr "Aafrika/Porto-Novo"
 
 msgid "Africa/Sao_Tome"
-msgstr "Aafrika/São Tomé"
+msgstr "Aafrika/São_Tomé"
 
 msgid "Africa/Timbuktu"
 msgstr "Aafrika/Timbuktu"
@@ -5999,14 +5999,14 @@ msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Väljuvat sõnumit pole võimalik signeerida: selle konto jaoks ei ole "
-"signeerimissertifikaati määratud."
+"signeerimissertifikaati määratud"
 
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
 "Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole "
-"krüptimissertifikaati määratud."
+"krüptimissertifikaati määratud"
 
 msgid "Unable to reconstruct message from autosave file"
 msgstr "Ei suudetud taastada sõnumit automaatsalvestusfailist"
@@ -8011,7 +8011,7 @@ msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
-"Evolutionil pole võimalik seda meili renderdada, kuna see on töötlemiseks "
+"Evolutionil pole võimalik seda sõnumit renderdada, kuna see on töötlemiseks "
 "liiga suur. Võid vaadata seda vormindamata kujul või välise tekstiredaktori "
 "abil."
 
@@ -8377,7 +8377,7 @@ msgid ""
 "they really want to do it."
 msgstr ""
 "Korraga kümne või enama sõnumi avamise korral kasutaja käest kinnituse "
-"küsimine"
+"küsimine."
 
 msgid ""
 "If there isn't a builtin viewer for a particular MIME type inside Evolution, "
@@ -8509,7 +8509,7 @@ msgstr "Kohandatud päiste ja nende lubamise tingimuste loend."
 
 msgid "List of dictionary language codes used for spell checking."
 msgstr ""
-"Õigekirjakontrolli jaoks kasutatavate sõnaraamatukeelte koodide loetelu"
+"Õigekirjakontrolli jaoks kasutatavate sõnaraamatukeelte koodide loetelu."
 
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
@@ -9375,7 +9375,7 @@ msgid ""
 "for display purposes only. "
 msgstr ""
 "Selle skripti väljundit kasutatakse sinu signatuurina.\n"
-"Nimevälja kasutatakse ainult kuvamiseks."
+"Nimevälja kasutatakse ainult kuvamiseks. "
 
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -10242,7 +10242,7 @@ msgid ""
 "subfolders."
 msgstr ""
 "Kõigi valitud kataloogis ja selle alamkataloogides olevate sõnumite "
-"loetuksmärkimine"
+"loetuksmärkimine."
 
 msgid "Unable to connect to the GroupWise server."
 msgstr "GroupWise serveriga pole võimalik ühenduda."
@@ -10255,7 +10255,7 @@ msgstr ""
 "süsteemset mustandite kasuta?"
 
 msgid "Unable to read license file."
-msgstr "Litsentsifaili pole võimalik lugeda"
+msgstr "Litsentsifaili pole võimalik lugeda."
 
 msgid "Use _Default"
 msgstr "Kasuta _vaikimisi valikut"
@@ -10778,7 +10778,7 @@ msgid "_Send Message to Contact..."
 msgstr "_Saada kontaktile sõnum..."
 
 msgid "Send a message to the selected contacts"
-msgstr "Sõnumi saatmine valitud kontaktidele."
+msgstr "Sõnumi saatmine valitud kontaktidele"
 
 msgid "_Actions"
 msgstr "_Tegevused"
@@ -10835,7 +10835,7 @@ msgid "Save as vCard..."
 msgstr "Salvesta vKaardina..."
 
 msgid "Save selected contacts as a vCard"
-msgstr "Valitud kontaktide salvestamine vKaardina."
+msgstr "Valitud kontaktide salvestamine vKaardina"
 
 msgid "_Forward Contacts"
 msgstr "_Edasta kontaktid"
@@ -11173,7 +11173,7 @@ msgid "Create a new all day event"
 msgstr "Uue kogu päeva hõlmava sündmuse lisamine"
 
 msgid "_Forward as iCalendar..."
-msgstr "Edasta i_Kalendrina"
+msgstr "Edasta i_Kalendrina..."
 
 msgid "New _Meeting..."
 msgstr "Uus _koosolek..."
@@ -12186,7 +12186,7 @@ msgid "Please select a valid backup file to restore."
 msgstr "Taastamiseks vali palun töökorras varukoopiafail."
 
 msgid "The selected folder is not writable."
-msgstr "Valitud kaust pole kirjutatav"
+msgstr "Valitud kaust pole kirjutatav."
 
 msgid ""
 "This will delete all your current Evolution data and settings and restore "
@@ -12260,7 +12260,7 @@ msgstr "Oota, kuni Bogofilteri lapsprotsess katkestab, lõpetamine..."
 
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr "Tõrge Bogofilteri torus, veakood: %d"
+msgstr "Tõrge Bogofilteri torus, veakood: %d."
 
 msgid "Convert message text to _Unicode"
 msgstr "Teisenda sõnumi tekst _Unicode kooditabelisse"
@@ -12474,7 +12474,7 @@ msgid "Show a map of all the contacts"
 msgstr "Kõigi kontaktide kaardi kuvamine"
 
 msgid "Add a map showing the location of contacts when possible."
-msgstr "Kaardi lisamine, millel võimalusel kuvatakse kontaktide asukohti"
+msgstr "Kaardi lisamine, millel võimalusel kuvatakse kontaktide asukohti."
 
 msgid "Map for contacts"
 msgstr "Kontaktide kaart"
@@ -12528,8 +12528,8 @@ msgid ""
 msgstr ""
 "See võti määrab kohandatud päiste loendi, mida võid lisada väljuvale "
 "sõnumile. Päise ja päise väärtuse määramise vorming on järgmine: päise nimi, "
-"seejärel võrdusmärk \"=\" ja väärtus, omavahel eraldatakse need "
-"semikooloniga \";\"."
+"seejärel võrdusmärk \"=\" ja väärtus, omavahel eraldatakse need semikooloniga "
+"\";\""
 
 msgid "Security:"
 msgstr "Turvalisus:"
@@ -13773,7 +13773,7 @@ msgstr "Märguanne uue sõnumi saabumisel."
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
 #, c-format
 msgid "Created from a mail by %s"
-msgstr "Loodud %s saadetud meili põhjal."
+msgstr "Loodud %s saadetud sõnumi põhjal"
 
 #, c-format
 msgid ""
@@ -14495,7 +14495,7 @@ msgid "Save as Template"
 msgstr "Mallina salvestamine"
 
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr "Microsoft Outlooki TNEF-lisade (winmail.dat) lahtikodeerija"
+msgstr "Microsoft Outlooki TNEF-lisade (winmail.dat) lahtikodeerija."
 
 msgid "TNEF Decoder"
 msgstr "TNEF-lahtikodeerija"
@@ -15281,7 +15281,7 @@ msgid "Disable loading of any plugins."
 msgstr "Kõigi pluginate laadimise keelamine."
 
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr "Sõnumite, kontaktide ja ülesannete eelvaatepaani keelamine"
+msgstr "Sõnumite, kontaktide ja ülesannete eelvaatepaani keelamine."
 
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Importimise URI-d või failinimed, antud teiste argumentidega koos."
@@ -15690,7 +15690,7 @@ msgstr "_Muuda SK usaldust"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 msgid "Certificate already exists"
-msgstr "Sertifikaat on juba olemas."
+msgstr "Sertifikaat on juba olemas"
 
 msgid "%d/%m/%Y"
 msgstr "%d/%m/%Y"
@@ -16036,7 +16036,7 @@ msgstr "_Kuva kirja sees"
 
 #, c-format
 msgid "Open with \"%s\""
-msgstr "Ava programmiga \"%s\"..."
+msgstr "Ava programmiga \"%s\""
 
 #, c-format
 msgid "Open this attachment in %s"
@@ -16457,7 +16457,7 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"Selle skripti väljundit kasutatakse sinu allkirjana.\n"
+"Selle skripti väljundit kasutatakse sinu signatuurina.\n"
 "Nimevälja kasutatakse ainult kuvamiseks."
 
 msgid "S_cript:"
@@ -16473,7 +16473,7 @@ msgid "_Copy Link Location"
 msgstr "Kopeeri _lingi asukoht"
 
 msgid "Copy the link to the clipboard"
-msgstr "Viida kopeerimine lõikelauale."
+msgstr "Viida kopeerimine lõikelauale"
 
 msgid "_Open Link in Browser"
 msgstr "Ava _viit veebilehitsejas"
@@ -16527,7 +16527,7 @@ msgid "The time must be in the format: %s"
 msgstr "Kellaaeg peab olema sisestatud %s formaadis"
 
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr "Protsendi väärtus peab olema 0 - 100."
+msgstr "Protsendi väärtus peab olema 0 - 100"
 
 msgid "Selected Column"
 msgstr "Valitud veerg"
