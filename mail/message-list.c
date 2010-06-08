@@ -2864,7 +2864,7 @@ folder_store_supports_vjunk_folder (CamelFolder *folder)
 	if (!store)
 		return FALSE;
 
-	return (store->flags & CAMEL_STORE_VJUNK) != 0;
+	return (store->flags & (CAMEL_STORE_VJUNK | CAMEL_STORE_REAL_JUNK_FOLDER)) != 0;
 }
 
 /* Check if the given node is selectable in the current message list,
