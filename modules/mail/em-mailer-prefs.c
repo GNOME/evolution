@@ -921,6 +921,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	e_mutual_binding_new (
 		shell_settings, "mail-magic-spacebar",
 		widget, "active");
+	
+	widget = e_builder_get_widget (prefs->builder, "view-check");
+	e_mutual_binding_new (
+		shell_settings, "mail-global-view-setting",
+		widget, "active");
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxDefaultCharset");

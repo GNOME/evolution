@@ -968,9 +968,12 @@ void
 e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content)
 {
 	EMailReader *reader;
+	EShell *shell;
 	EShellContent *shell_content;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellViewClass *shell_view_class;
+	EShellSettings *shell_settings;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	CamelFolder *folder;
@@ -987,6 +990,10 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
+	
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	reader = E_MAIL_READER (mail_shell_content);
 	folder = e_mail_reader_get_folder (reader);
@@ -1005,7 +1012,11 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	}
 
 	view_id = mail_config_folder_to_safe_url (folder);
-	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
+	if (e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting"))
+		view_instance = e_shell_view_new_view_instance (shell_view, "global_view_setting");
+	else
+		view_instance = e_shell_view_new_view_instance (shell_view, view_id);
+
 	mail_shell_content->priv->view_instance = view_instance;
 
 	orientable = GTK_ORIENTABLE (mail_shell_content);

@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="value">1.5</property>
     <property name="upper">10</property>
+    <property name="value">1.5</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
@@ -14,9 +14,9 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
-    <property name="value">5</property>
     <property name="lower">1</property>
     <property name="upper">100</property>
+    <property name="value">5</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -97,7 +97,7 @@
   </object>
   <object class="GtkListStore" id="hash_algo_model">
     <columns>
-      <!-- column-name Hash Algo Name -->
+      <!-- column-name Hash -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -121,12 +121,10 @@
   <object class="GtkVBox" id="vboxIdentityBorder">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkVBox" id="management_frame">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label470">
@@ -165,7 +163,6 @@
                 <child>
                   <object class="GtkVBox" id="account_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="management_description_label">
@@ -236,7 +233,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="identity_required_frame">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label464">
@@ -361,7 +357,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="identity_optional_frame">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label466">
@@ -435,7 +430,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <signal name="clicked" handler="sigAddNewClicked"/>
+                        <signal name="clicked" handler="sigAddNewClicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -561,12 +556,10 @@ For example: "Work" or "Personal"</property>
   <object class="GtkVBox" id="vboxSourceBorder">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkVBox" id="source_vbox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkTable" id="source_type_table">
@@ -652,7 +645,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="source_frame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label472">
@@ -796,7 +788,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="source_security_frame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label515">
@@ -831,7 +822,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vbox181">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="source_ssl_hbox">
@@ -930,7 +920,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="source_auth_frame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label474">
@@ -966,7 +955,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vbox179">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox199">
@@ -1049,12 +1037,10 @@ For example: "Work" or "Personal"</property>
   <object class="GtkVBox" id="vboxTransportBorder">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkVBox" id="transport_vbox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkTable" id="transport_type_table">
@@ -1137,12 +1123,10 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="transport_frame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkVBox" id="transport_server_frame">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label476">
@@ -1181,7 +1165,6 @@ For example: "Work" or "Personal"</property>
                         <child>
                           <object class="GtkVBox" id="vbox12">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkTable" id="table6">
@@ -1255,7 +1238,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkVBox" id="transport_security_frame">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label517">
@@ -1289,7 +1271,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vbox183">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkHBox" id="transport_ssl_hbox">
@@ -1384,7 +1365,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkVBox" id="transport_auth_frame">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label478">
@@ -1423,7 +1403,6 @@ For example: "Work" or "Personal"</property>
                         <child>
                           <object class="GtkVBox" id="vbox61">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkTable" id="table31">
@@ -1578,12 +1557,10 @@ For example: "Work" or "Personal"</property>
   <object class="GtkVBox" id="vboxFoldersBorder">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkVBox" id="folders_frame">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label482">
@@ -1622,7 +1599,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vbox184">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkTable" id="folders_table">
@@ -1637,7 +1613,6 @@ For example: "Work" or "Personal"</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Drafts _Folder:</property>
                             <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">drafts_button</property>
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
@@ -1650,38 +1625,12 @@ For example: "Work" or "Personal"</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Sent _Messages Folder:</property>
                             <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">sent_button</property>
                           </object>
                           <packing>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="EMFolderSelectionButton" id="sent_button">
-                            <property name="title" translatable="yes">Select Sent Folder</property>
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options">GTK_FILL</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="EMFolderSelectionButton" id="drafts_button">
-                            <property name="title" translatable="yes">Select Drafts Folder</property>
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
@@ -1743,6 +1692,12 @@ For example: "Work" or "Personal"</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">0</property>
@@ -1770,7 +1725,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="frame2">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label484">
@@ -1815,7 +1769,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vbox186">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkCheckButton" id="always_cc">
@@ -1854,7 +1807,6 @@ For example: "Work" or "Personal"</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox187">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkEntry" id="cc_addrs">
@@ -1882,7 +1834,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vbox188">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkCheckButton" id="always_bcc">
@@ -1921,7 +1872,6 @@ For example: "Work" or "Personal"</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox189">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkEntry" id="bcc_addrs">
@@ -1972,7 +1922,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="vbox205">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label578">
@@ -2055,12 +2004,10 @@ For example: "Work" or "Personal"</property>
   <object class="GtkVBox" id="vboxSecurityBorder">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkVBox" id="general_vbox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
@@ -2122,7 +2069,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="pgp_frame">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label486">
@@ -2161,7 +2107,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vboxPGP">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkHBox" id="hbox63">
@@ -2197,7 +2142,7 @@ For example: "Work" or "Personal"</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
-                     <child>
+                    <child>
                       <object class="GtkHBox" id="hbox4">
                         <property name="visible">True</property>
                         <property name="spacing">12</property>
@@ -2305,7 +2250,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="smime_vbox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label519">
@@ -2699,9 +2643,8 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkAlignment" id="smime_hash_algo_alignment">
                     <property name="visible">True</property>
-                    <property name="left_padding">0</property>
-                    <property name="xalign">0.0</property>
-                    <property name="xscale">0.0</property>
+                    <property name="xalign">0</property>
+                    <property name="xscale">0</property>
                     <child>
                       <object class="GtkComboBox" id="smime_hash_algo">
                         <property name="visible">True</property>
@@ -2723,6 +2666,9 @@ For example: "Work" or "Personal"</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -2778,12 +2724,10 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vboxMailGeneral">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkVBox" id="FontsFrame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label492">
@@ -2822,7 +2766,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vboxMessageFonts">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkCheckButton" id="radFontUseSame">
@@ -2866,7 +2809,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="title" translatable="yes">Select HTML fixed width font</property>
-                                <signal name="font_set" handler="changed"/>
+                                <signal name="font-set" handler="changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2883,7 +2826,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="title" translatable="yes">Select HTML variable width font</property>
-                                <signal name="font_set" handler="changed"/>
+                                <signal name="font-set" handler="changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2935,7 +2878,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="MessageDisplayFrame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label494">
@@ -2974,7 +2916,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vboxMessageDisplay">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkHBox" id="hboxReadTimeout">
@@ -3255,6 +3196,20 @@ For example: "Work" or "Personal"</property>
                             <property name="position">6</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkCheckButton" id="view-check">
+                            <property name="label" translatable="yes">Apply the same _view settings to all folders</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">7</property>
+                          </packing>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -3277,7 +3232,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="DeleteMailFrame">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label496">
@@ -3316,7 +3270,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vboxDeletingMail">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkHBox" id="hbox220">
@@ -3410,7 +3363,6 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vboxHtmlMail">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkLabel" id="label530">
@@ -3444,7 +3396,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkVBox" id="vbox173">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkCheckButton" id="chkShowAnimatedImages">
@@ -3493,7 +3444,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="vboxLoadingImages">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label500">
@@ -3527,7 +3477,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vbox190">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkRadioButton" id="radImagesNever">
@@ -3618,7 +3567,6 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="frameColours">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label502">
@@ -3668,12 +3616,10 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vboxHeaderTab">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkVBox" id="vbox206">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">3</property>
             <child>
               <object class="GtkHBox" id="hbox238">
@@ -3702,7 +3648,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkHBox" id="hbox239">
                     <property name="visible">True</property>
@@ -3803,7 +3748,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkVBox" id="vbox199">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkEntry" id="txtHeaders">
@@ -3848,7 +3792,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkVBox" id="vbox200">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkButton" id="cmdHeadersAdd">
@@ -3894,7 +3837,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="vbox210">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label591">
                 <property name="visible">True</property>
@@ -3975,12 +3917,10 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vbox161">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkVBox" id="vbox192">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label526">
                 <property name="visible">True</property>
@@ -4298,7 +4238,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="vbox195">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -4330,12 +4269,10 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vboxComposerGeneral">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">18</property>
         <child>
           <object class="GtkVBox" id="frameBehavior">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label504">
@@ -4374,7 +4311,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vboxBehavior">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">8</property>
                         <child>
                           <object class="GtkCheckButton" id="chkSendHTML">
@@ -4464,7 +4400,6 @@ For example: "Work" or "Personal"</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Reply style:</property>
                                 <property name="use_underline">True</property>
-                                <property name="justify">left</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -4542,7 +4477,6 @@ For example: "Work" or "Personal"</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Forward style:</property>
                                 <property name="use_underline">True</property>
-                                <property name="justify">left</property>
                               </object>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
@@ -4591,7 +4525,6 @@ For example: "Work" or "Personal"</property>
                             <child>
                               <object class="GtkVBox" id="vboxTopPosting">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <property name="spacing">8</property>
                                 <child>
                                   <object class="GtkHBox" id="hbox242">
@@ -4691,7 +4624,6 @@ For example: "Work" or "Personal"</property>
             <child>
               <object class="GtkHBox" id="hbox190">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkLabel" id="label507">
                     <property name="visible">True</property>
@@ -4711,7 +4643,6 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkVBox" id="vboxAlerts">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkCheckButton" id="chkPromptEmptySubject">
@@ -4781,12 +4712,10 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vboxSignatures">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkVBox" id="vbox201">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label548">
@@ -4824,7 +4753,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="vbox202">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label551">
@@ -4905,12 +4833,10 @@ For example: "Work" or "Personal"</property>
       <object class="GtkVBox" id="vboxSpellChecking">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkVBox" id="vbox196">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label534">
@@ -4946,12 +4872,10 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vbox197">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkVBox" id="vbox178">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkHBox" id="hbox192">
@@ -5049,7 +4973,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="frameSpellChecking">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label508">
@@ -5083,7 +5006,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="GtkVBox" id="vboxOptions">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="chkEnableSpellChecking">
@@ -5176,7 +5098,6 @@ For example: "Work" or "Personal"</property>
     <child>
       <object class="GtkVBox" id="toplevel">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <placeholder/>
@@ -5184,7 +5105,6 @@ For example: "Work" or "Personal"</property>
         <child>
           <object class="GtkVBox" id="frame4">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label512">
@@ -5258,7 +5178,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="title" translatable="yes">Select HTML fixed width font for printing</property>
-                        <signal name="font_set" handler="changed"/>
+                        <signal name="font-set" handler="changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -5275,7 +5195,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="title" translatable="yes">Select HTML variable width font for printing</property>
-                        <signal name="font_set" handler="changed"/>
+                        <signal name="font-set" handler="changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -5310,17 +5230,14 @@ For example: "Work" or "Personal"</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkVBox" id="vbox160">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkVBox" id="vbox_add_script_signature">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkHBox" id="hboxImageAndHelp">
@@ -5527,12 +5444,10 @@ for display purposes only. </property>
       <object class="GtkVBox" id="vboxNetworkGeneral">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">18</property>
         <child>
           <object class="GtkVBox" id="frameProxy">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label76">
@@ -5551,7 +5466,6 @@ for display purposes only. </property>
               <object class="GtkVBox" id="vboxProxy">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">8</property>
                 <child>
                   <object class="GtkRadioButton" id="rdoSysSettings">
@@ -5601,7 +5515,6 @@ for display purposes only. </property>
                     <child>
                       <object class="GtkVBox" id="vbox18">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkTable" id="table9">

@@ -326,6 +326,19 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/global_view_setting</key>
+      <applyto>/apps/evolution/mail/display/global_view_setting</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Enable to use a similar message list view settings for all folders</short>
+         <long> Enable to use a similar message list view settings for all folders.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mark_citations</key>
       <applyto>/apps/evolution/mail/display/mark_citations</applyto>
       <owner>evolution-mail</owner>
