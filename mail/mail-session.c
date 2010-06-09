@@ -846,7 +846,7 @@ set_socks_proxy_from_gconf (void)
 	client = mail_config_get_gconf_client ();
 
 	mode = gconf_client_get_string (client, MODE_PROXY, NULL);
-	if (!strcmp(mode, "manual")) {
+	if (!g_strcmp0(mode, "manual")) {
 		host = gconf_client_get_string (client, KEY_SOCKS_HOST, NULL); /* NULL-GError */
 		port = gconf_client_get_int (client, KEY_SOCKS_PORT, NULL); /* NULL-GError */
 		camel_session_set_socks_proxy (session, host, port);
