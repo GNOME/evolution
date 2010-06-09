@@ -72,10 +72,8 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	ESource *personal;
 	EShell *shell;
 	EShellSettings *shell_settings;
-	const gchar *data_dir;
+	GSList *sources, *iter;
 	const gchar *name;
-	gchar *base_uri, base_uri_seventh;
-	gchar *filename;
 	gboolean save_list = FALSE;
 
 	personal = NULL;
@@ -90,64 +88,24 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		return;
 	}
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	filename = g_build_filename (data_dir, "local", NULL);
-	base_uri = g_filename_to_uri (filename, NULL, NULL);
-	g_free (filename);
-
-	if (strlen (base_uri) > 7) {
-		/* Compare only file:// part. If user home dir name
-		 * changes we do not want to create one more group. */
-		base_uri_seventh = base_uri[7];
-		base_uri[7] = 0;
-	} else {
-		base_uri_seventh = -1;
-	}
-
 	on_this_computer = e_source_list_ensure_group (
-		priv->source_list, _("On This Computer"), base_uri, TRUE);
+		priv->source_list, _("On This Computer"), "local:", TRUE);
 	e_source_list_ensure_group (
-		priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
+		priv->source_list, _("On The Web"), "webcal://", FALSE);
 
-	if (base_uri_seventh != -1) {
-		base_uri[7] = base_uri_seventh;
-	}
+	g_return_if_fail (on_this_computer);
 
-	if (on_this_computer != NULL) {
-		GSList *sources, *iter;
-		const gchar *group_base_uri;
+	sources = e_source_group_peek_sources (on_this_computer);
 
-		sources = e_source_group_peek_sources (on_this_computer);
-		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
+	/* Make sure this group includes a "Personal" source. */
+	for (iter = sources; iter != NULL; iter = iter->next) {
+		ESource *source = iter->data;
+		const gchar *relative_uri;
 
-		/* Make sure this group includes a "Personal" source. */
-		for (iter = sources; iter != NULL; iter = iter->next) {
-			ESource *source = iter->data;
-			const gchar *relative_uri;
-
-			relative_uri = e_source_peek_relative_uri (source);
-			if (relative_uri == NULL)
-				continue;
-
-			if (strcmp (PERSONAL_RELATIVE_URI, relative_uri) != 0)
-				continue;
-
+		relative_uri = e_source_peek_relative_uri (source);
+		if (g_strcmp0 (relative_uri, "system") == 0) {
 			personal = source;
 			break;
-		}
-
-		/* Make sure we have the correct base URI.  This can
-		 * change when the user's home directory changes. */
-		if (strcmp (base_uri, group_base_uri) != 0) {
-			e_source_group_set_base_uri (
-				on_this_computer, base_uri);
-
-			/* XXX We shouldn't need this sync call here as
-			 *     set_base_uri() results in synching to GConf,
-			 *     but that happens in an idle loop and too late
-			 *     to prevent the user from seeing a "Cannot
-			 *     Open ... because of invalid URI" error. */
-			save_list = TRUE;
 		}
 	}
 
@@ -158,7 +116,7 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		GSList *selected;
 		gchar *primary;
 
-		source = e_source_new (name, PERSONAL_RELATIVE_URI);
+		source = e_source_new (name, "system");
 		e_source_set_color_spec (source, "#BECEDD");
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
@@ -189,7 +147,6 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	}
 
 	g_object_unref (on_this_computer);
-	g_free (base_uri);
 
 	if (save_list)
 		e_source_list_sync (priv->source_list, NULL);

@@ -57,9 +57,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate))
 
-#define LDAP_BASE_URI		"ldap://"
-#define PERSONAL_RELATIVE_URI	"system"
-
 struct _EBookShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -80,16 +77,11 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 	EBookShellBackendPrivate *priv;
 	ESourceGroup *on_this_computer;
-	ESourceGroup *on_ldap_servers;
 	ESource *personal;
-	GSList *groups, *iter;
-	const gchar *data_dir;
+	GSList *sources, *iter;
 	const gchar *name;
-	gchar *base_uri;
-	gchar *filename;
 
 	on_this_computer = NULL;
-	on_ldap_servers = NULL;
 	personal = NULL;
 
 	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
@@ -99,78 +91,25 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		return;
 	}
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	filename = g_build_filename (data_dir, "local", NULL);
-	base_uri = g_filename_to_uri (filename, NULL, NULL);
-	g_free (filename);
+	on_this_computer = e_source_list_ensure_group (
+		priv->source_list, _("On This Computer"), "local:", TRUE);
+	e_source_list_ensure_group (
+		priv->source_list, _("On LDAP Servers"), "ldap://", FALSE);
 
-	groups = e_source_list_peek_groups (priv->source_list);
-	for (iter = groups; iter != NULL; iter = iter->next) {
-		ESourceGroup *source_group = iter->data;
-		const gchar *group_base_uri;
+	g_return_if_fail (on_this_computer != NULL);
 
-		group_base_uri = e_source_group_peek_base_uri (source_group);
+	sources = e_source_group_peek_sources (on_this_computer);
 
-		/* Compare only "file://" part.  If the user's home
-		 * changes, we do not want to create another group. */
-		if (on_this_computer == NULL &&
-			strncmp (base_uri, group_base_uri, 7) == 0)
-			on_this_computer = source_group;
+	/* Make sure this group includes a "Personal" source. */
+	for (iter = sources; iter != NULL; iter = iter->next) {
+		ESource *source = iter->data;
+		const gchar *relative_uri;
 
-		else if (on_ldap_servers == NULL &&
-			strcmp (LDAP_BASE_URI, group_base_uri) == 0)
-			on_ldap_servers = source_group;
-	}
-
-	name = _("On This Computer");
-
-	if (on_this_computer != NULL) {
-		GSList *sources;
-		const gchar *group_base_uri;
-
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (on_this_computer, name);
-
-		sources = e_source_group_peek_sources (on_this_computer);
-		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
-
-		/* Make sure this group includes a "Personal" source. */
-		for (iter = sources; iter != NULL; iter = iter->next) {
-			ESource *source = iter->data;
-			const gchar *relative_uri;
-
-			relative_uri = e_source_peek_relative_uri (source);
-			if (relative_uri == NULL)
-				continue;
-
-			if (strcmp (PERSONAL_RELATIVE_URI, relative_uri) != 0)
-				continue;
-
+		relative_uri = e_source_peek_relative_uri (source);
+		if (g_strcmp0 (relative_uri, "system") == 0) {
 			personal = source;
 			break;
 		}
-
-		/* Make sure we have the correct base URI.  This can
-		 * change when the user's home directory changes. */
-		if (strcmp (base_uri, group_base_uri) != 0) {
-			e_source_group_set_base_uri (
-				on_this_computer, base_uri);
-
-			/* XXX We shouldn't need this sync call here as
-			 *     set_base_uri() results in synching to GConf,
-			 *     but that happens in an idle loop and too late
-			 *     to prevent the user from seeing a "Cannot
-			 *     Open ... because of invalid URI" error. */
-			e_source_list_sync (priv->source_list, NULL);
-		}
-
-	} else {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, base_uri);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		on_this_computer = source_group;
-		g_object_unref (source_group);
 	}
 
 	name = _("Personal");
@@ -179,7 +118,7 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		ESource *source;
 
 		/* Create the default Personal address book. */
-		source = e_source_new (name, PERSONAL_RELATIVE_URI);
+		source = e_source_new (name, "system");
 		e_source_group_add_source (on_this_computer, source, -1);
 		e_source_set_property (source, "completion", "true");
 		g_object_unref (source);
@@ -188,20 +127,7 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		e_source_set_name (personal, name);
 	}
 
-	name = _("On LDAP Servers");
-
-	if (on_ldap_servers == NULL) {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, LDAP_BASE_URI);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
-	} else {
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (on_ldap_servers, name);
-	}
-
-	g_free (base_uri);
+	g_object_unref (on_this_computer);
 }
 
 static void
