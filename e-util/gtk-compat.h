@@ -19,7 +19,7 @@
 	(GTK_ACCESSIBLE (accessible)->widget)
 #endif
 
-#if GTK_CHECK_VERSION (2,21,1)
+#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 21 && GTK_MICRO_VERSION == 1
 #define gdk_drag_context_get_selected_action(context)  gdk_drag_context_get_action(context)
 #endif
 
