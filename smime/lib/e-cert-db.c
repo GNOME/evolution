@@ -48,6 +48,9 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
+
+#include <camel/camel.h>        /* FIXME: this is where camel_init is defined; it shouldn't include everything else */
+
 /* private NSS defines used by PSM */
 /* (must be declated before cert.h) */
 #define CERT_NewTempCertificate __CERT_NewTempCertificate
@@ -155,37 +158,10 @@ pk11_password (PK11SlotInfo* slot, PRBool retry, gpointer  arg)
 static void
 initialize_nss (void)
 {
-	gchar *evolution_dir_path;
-	gboolean success;
+	/* Use camel_init() to initialise NSS consistently... */
+	camel_init(e_get_user_data_dir(), TRUE);
 
-#ifdef G_OS_WIN32
-	/* NSS wants filenames in system codepage */
-	evolution_dir_path = g_win32_locale_filename_from_utf8 (e_get_user_data_dir ());
-#else
-	evolution_dir_path = g_strdup (e_get_user_data_dir ());
-#endif
-
-	/* we initialize NSS here to make sure it only happens once */
-	success = (SECSuccess == NSS_InitReadWrite (evolution_dir_path));
-	if (!success) {
-		success = (SECSuccess == NSS_Init (evolution_dir_path));
-		if (success)
-			g_warning ("opening cert databases read-only");
-	}
-	if (!success) {
-		success = (SECSuccess == NSS_NoDB_Init (evolution_dir_path));
-		if (success)
-			g_warning ("initializing security library without cert databases.");
-	}
-	g_free (evolution_dir_path);
-
-	if (!success) {
-		g_warning ("Failed all methods for initializing NSS");
-		return;
-	}
-
-	NSS_SetDomesticPolicy();
-
+	/* ... except for the bits we only seem to do here. FIXME */
 	PK11_SetPasswordFunc(pk11_password);
 
 	/* Enable ciphers for PKCS#12 */
