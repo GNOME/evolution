@@ -34,6 +34,9 @@
 #define E_IS_CERT_DB_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CERT_DB))
 #define E_CERT_DB_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_CERT_DB, ECertDBClass))
 
+#define E_CERTDB_ERROR e_certdb_error_quark()
+GQuark e_certdb_error_quark (void) G_GNUC_CONST;
+
 typedef struct _ECertDB ECertDB;
 typedef struct _ECertDBClass ECertDBClass;
 typedef struct _ECertDBPrivate ECertDBPrivate;
@@ -102,10 +105,12 @@ gboolean             e_cert_db_delete_cert (ECertDB *certdb,
 gboolean             e_cert_db_import_certs (ECertDB *certdb,
 					     gchar *data, guint32 length,
 					     ECertType cert_type,
+					     GSList **imported_certs,
 					     GError **error);
 
 gboolean             e_cert_db_import_email_cert (ECertDB *certdb,
 						  gchar *data, guint32 length,
+						  GSList **imported_certs,
 						  GError **error);
 
 gboolean             e_cert_db_import_user_cert (ECertDB *certdb,
@@ -114,11 +119,13 @@ gboolean             e_cert_db_import_user_cert (ECertDB *certdb,
 
 gboolean             e_cert_db_import_server_cert (ECertDB *certdb,
 						   gchar *data, guint32 length,
+						   GSList **imported_certs,
 						   GError **error);
 
 gboolean             e_cert_db_import_certs_from_file (ECertDB *cert_db,
 						       const gchar *file_path,
 						       ECertType cert_type,
+						       GSList **imported_certs,
 						       GError **error);
 
 gboolean             e_cert_db_import_pkcs12_file (ECertDB *cert_db,

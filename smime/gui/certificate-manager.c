@@ -46,6 +46,7 @@
 #include <pk11func.h>
 
 #include "shell/e-shell.h"
+#include "e-util/e-dialog-utils.h"
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-preferences-window.h"
@@ -89,6 +90,18 @@ static void load_certs (CertificateManagerData *cfm, ECertType type, AddCertCb a
 static void add_user_cert (CertificateManagerData *cfm, ECert *cert);
 static void add_contact_cert (CertificateManagerData *cfm, ECert *cert);
 static void add_ca_cert (CertificateManagerData *cfm, ECert *cert);
+
+static void
+report_and_free_error (CertificateManagerData *cfm, const gchar *where, GError *error)
+{
+	g_return_if_fail (cfm != NULL);
+
+	e_notice (gtk_widget_get_toplevel (cfm->yourcerts_treeview),
+		  GTK_MESSAGE_ERROR, "%s: %s", where, error ? error->message : _("Unknown error"));
+
+	if (error)
+		g_error_free (error);
+}
 
 static void
 handle_selection_changed (GtkTreeSelection *selection,
@@ -153,17 +166,20 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
 		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		GError *error = NULL;
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
 
 		if (e_cert_db_import_pkcs12_file (e_cert_db_peek (),
-						  filename, NULL /* XXX */)) {
+						  filename, &error)) {
 			/* there's no telling how many certificates were added during the import,
 			   so we blow away the contact cert display and regenerate it. */
 			unload_certs (cfm, E_CERT_USER);
 			load_certs (cfm, E_CERT_USER, add_user_cert);
 			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->yourcerts_treeview));
+		} else {
+			report_and_free_error (cfm, _("Failed to import user's certificate"), error);
 		}
 
 		g_free (filename);
@@ -189,7 +205,6 @@ delete_your (GtkWidget *widget, CertificateManagerData *cfm)
 		if (cert
 		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
-			printf ("DELETE\n");
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->yourcerts_streemodel),
 									&child_iter,
 									&iter);
@@ -241,6 +256,69 @@ static void
 backup_all_your (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	/* FIXME: implement */
+}
+
+struct find_cert_data {
+	ECert *cert;
+	GtkTreePath *path;
+	gint cert_index;
+};
+
+static gboolean
+find_cert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	struct find_cert_data *fcd = data;
+	ECert *cert = NULL;
+
+	g_return_val_if_fail (model != NULL, TRUE);
+	g_return_val_if_fail (iter != NULL, TRUE);
+	g_return_val_if_fail (data != NULL, TRUE);
+
+	gtk_tree_model_get (model, iter, fcd->cert_index, &cert, -1);
+
+	if (cert && g_strcmp0 (e_cert_get_serial_number (cert), e_cert_get_serial_number (fcd->cert)) == 0
+	    && g_strcmp0 (e_cert_get_subject_name (cert), e_cert_get_subject_name (fcd->cert)) == 0
+	    && g_strcmp0 (e_cert_get_sha1_fingerprint (cert), e_cert_get_sha1_fingerprint (fcd->cert)) == 0
+	    && g_strcmp0 (e_cert_get_md5_fingerprint (cert), e_cert_get_md5_fingerprint (fcd->cert)) == 0) {
+		fcd->path = gtk_tree_path_copy (path);
+	}
+
+	return fcd->path != NULL;
+}
+
+static void
+select_certificate (CertificateManagerData *cfm, GtkTreeView *treeview, ECert *cert)
+{
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
+	struct find_cert_data fcd;
+
+	g_return_if_fail (treeview != NULL);
+	g_return_if_fail (GTK_IS_TREE_VIEW (treeview));
+	g_return_if_fail (cert != NULL);
+	g_return_if_fail (E_IS_CERT (cert));
+
+	model = gtk_tree_view_get_model (treeview);
+	g_return_if_fail (model != NULL);
+
+	fcd.cert = cert;
+	fcd.path = NULL;
+	fcd.cert_index = cfm->yourcerts_treeview == GTK_WIDGET (treeview) ? 4
+		       : cfm->authoritycerts_treeview == GTK_WIDGET (treeview) ? 1
+		       : 3;
+
+	gtk_tree_model_foreach (model, find_cert_cb, &fcd);
+
+	if (fcd.path) {
+		gtk_tree_view_expand_to_path (treeview, fcd.path);
+
+		selection = gtk_tree_view_get_selection (treeview);
+		gtk_tree_selection_select_path (selection, fcd.path);
+
+		gtk_tree_view_scroll_to_cell (treeview, fcd.path, NULL, FALSE, 0.0, 0.0);
+
+		gtk_tree_path_free (fcd.path);
+	}
 }
 
 static void
@@ -400,6 +478,8 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
 		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		GError *error = NULL;
+		GSList *imported_certs = NULL;
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
@@ -407,16 +487,24 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
 						      filename,
 						      E_CERT_CONTACT,
-						      NULL)) {
+						      &imported_certs,
+						      &error)) {
 
 			/* there's no telling how many certificates were added during the import,
 			   so we blow away the contact cert display and regenerate it. */
 			unload_certs (cfm, E_CERT_CONTACT);
 			load_certs (cfm, E_CERT_CONTACT, add_contact_cert);
 			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
+
+			if (imported_certs)
+				select_certificate (cfm, GTK_TREE_VIEW (cfm->contactcerts_treeview), imported_certs->data);
+		} else {
+			report_and_free_error (cfm, _("Failed to import contact's certificate"), error);
 		}
 
 		g_free (filename);
+		g_slist_foreach (imported_certs, (GFunc) g_object_unref, NULL);
+		g_slist_free (imported_certs);
 	} else
 		gtk_widget_destroy (filesel);
 }
@@ -439,7 +527,6 @@ delete_contact (GtkWidget *widget, CertificateManagerData *cfm)
 		if (cert
 		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
-			printf ("DELETE\n");
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->contactcerts_streemodel),
 									&child_iter,
 									&iter);
@@ -627,6 +714,8 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
 		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		GSList *imported_certs = NULL;
+		GError *error = NULL;
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
@@ -634,14 +723,22 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
 						      filename,
 						      E_CERT_CA,
-						      NULL)) {
+						      &imported_certs,
+						      &error)) {
 
 			/* there's no telling how many certificates were added during the import,
 			   so we blow away the CA cert display and regenerate it. */
 			unload_certs (cfm, E_CERT_CA);
 			load_certs (cfm, E_CERT_CA, add_ca_cert);
+
+			if (imported_certs)
+				select_certificate (cfm, GTK_TREE_VIEW (cfm->authoritycerts_treeview), imported_certs->data);
+		} else {
+			report_and_free_error (cfm, _("Failed to import certificate authority's certificate"), error);
 		}
 
+		g_slist_foreach (imported_certs, (GFunc) g_object_unref, NULL);
+		g_slist_free (imported_certs);
 		g_free (filename);
 	} else
 		gtk_widget_destroy (filesel);
@@ -665,7 +762,6 @@ delete_ca (GtkWidget *widget, CertificateManagerData *cfm)
 		if (cert
 		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
-			printf ("DELETE\n");
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->authoritycerts_streemodel),
 									&child_iter,
 									&iter);
