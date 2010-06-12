@@ -73,6 +73,7 @@ EShell
 </para>
 
 @eshell: the object which received the signal.
+@Param2: 
 
 <!-- ##### SIGNAL EShell::send-receive ##### -->
 <para>
@@ -339,6 +340,7 @@ EShell
 </para>
 
 @shell: 
+@reason: 
 @Returns: 
 
 

@@ -1012,7 +1012,7 @@ action_quit_cb (GtkAction *action,
 	EShell *shell;
 
 	shell = e_shell_window_get_shell (shell_window);
-	e_shell_quit (shell);
+	e_shell_quit (shell, E_SHELL_QUIT_ACTION);
 }
 
 /**

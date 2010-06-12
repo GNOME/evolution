@@ -260,6 +260,7 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 static void
 mail_backend_quit_requested_cb (EShell *shell,
+                                EShellQuitReason reason,
                                 EShellBackend *shell_backend)
 {
 	CamelFolder *folder;
@@ -270,6 +271,10 @@ mail_backend_quit_requested_cb (EShell *shell,
 
 	/* We can quit immediately if offline. */
 	if (!e_shell_get_online (shell))
+		return;
+
+	/* Or if another Evolution process asked us to. */
+	if (reason == E_SHELL_QUIT_REMOTE_REQUEST)
 		return;
 
 	/* In express mode, don't raise mail request in non mail window. */

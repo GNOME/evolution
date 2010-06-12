@@ -38,6 +38,7 @@
 #include "widgets/misc/e-preferences-window.h"
 
 #include "e-shell-backend.h"
+#include "e-shell-enumtypes.h"
 #include "e-shell-window.h"
 #include "e-shell-utils.h"
 
@@ -65,6 +66,7 @@ struct _EShellPrivate {
 	gchar *startup_view;
 
 	guint auto_reconnect	: 1;
+	guint modules_loaded	: 1;
 	guint network_available	: 1;
 	guint online		: 1;
 	guint quit_cancelled	: 1;
@@ -145,7 +147,7 @@ shell_window_delete_event_cb (EShell *shell,
 		return FALSE;
 
 	/* Otherwise we initiate application quit. */
-	e_shell_quit (shell);
+	e_shell_quit (shell, E_SHELL_QUIT_LAST_WINDOW);
 
 	return TRUE;
 }
@@ -311,15 +313,6 @@ shell_ready_for_quit (EShell *shell,
 	/* Finalize the activity. */
 	g_object_ref (activity);
 
-	/* This handles a strange corner case where --quit is given on
-	 * the command-line but no other Evolution process is running.
-	 * We bring all the shell backends up and then immediately run
-	 * the shutdown procedure, which gets us here.  But because no
-	 * windows have been shown yet, the usual "main loop ends when
-	 * the last window is destroyed" trick won't work. */
-	if (e_shell_get_watched_windows (shell) == NULL)
-		gtk_main_quit ();
-
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a
 	 * watched window will modify the watched windows list, which
@@ -362,7 +355,8 @@ shell_prepare_for_quit (EShell *shell)
 }
 
 static gboolean
-shell_request_quit (EShell *shell)
+shell_request_quit (EShell *shell,
+                    EShellQuitReason reason)
 {
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_quit != NULL)
@@ -370,26 +364,9 @@ shell_request_quit (EShell *shell)
 
 	/* Give the application a chance to cancel quit. */
 	shell->priv->quit_cancelled = FALSE;
-	g_signal_emit (shell, signals[QUIT_REQUESTED], 0);
+	g_signal_emit (shell, signals[QUIT_REQUESTED], 0, reason);
 
 	return !shell->priv->quit_cancelled;
-}
-
-static void
-shell_load_modules (EShell *shell)
-{
-	const gchar *module_directory;
-	GList *modules = NULL;
-
-	/* Load all shared library modules. */
-
-	module_directory = e_shell_get_module_directory (shell);
-	g_return_if_fail (module_directory != NULL);
-
-	modules = e_module_load_all_in_directory (module_directory);
-
-	g_list_foreach (modules, (GFunc) g_type_module_unuse, NULL);
-	g_list_free (modules);
 }
 
 /* Helper for shell_add_backend() */
@@ -443,12 +420,13 @@ static void
 shell_sm_quit_requested_cb (EShell *shell,
                             EggSMClient *sm_client)
 {
+	EShellQuitReason reason = E_SHELL_QUIT_SESSION_REQUEST;
 	gboolean will_quit;
 
 	/* If preparations are already in progress then we have already
 	 * committed ourselves to quitting, and can answer 'yes'. */
 	if (shell->priv->preparing_for_quit == NULL)
-		will_quit = shell_request_quit (shell);
+		will_quit = shell_request_quit (shell, reason);
 	else
 		will_quit = TRUE;
 
@@ -675,34 +653,14 @@ shell_finalize (GObject *object)
 static void
 shell_constructed (GObject *object)
 {
-	EShellPrivate *priv;
-	GList *list;
-
-	priv = E_SHELL_GET_PRIVATE (object);
-
 	/* The first EShell instance is the default. */
 	if (default_shell == NULL) {
 		default_shell = object;
 		g_object_add_weak_pointer (object, &default_shell);
 	}
 
-	/* UniqueApp will have by this point determined whether we're
-	 * the only Evolution process running.  If so, proceed normally.
-	 * Otherwise we just issue commands to the other process. */
-	if (unique_app_is_running (UNIQUE_APP (object)))
-		return;
-
-	e_file_lock_create ();
-
-	shell_load_modules (E_SHELL (object));
-
-	/* Process shell backends. */
-	list = g_list_sort (
-		e_extensible_list_extensions (
-		E_EXTENSIBLE (object), E_TYPE_SHELL_BACKEND),
-		(GCompareFunc) e_shell_backend_compare);
-	g_list_foreach (list, (GFunc) shell_process_backend, object);
-	priv->loaded_backends = list;
+	if (!unique_app_is_running (UNIQUE_APP (object)))
+		e_file_lock_create ();
 }
 
 static UniqueResponse
@@ -753,7 +711,7 @@ shell_message_handle_close (EShell *shell,
 {
 	UniqueResponse response;
 
-	if (e_shell_quit (shell))
+	if (e_shell_quit (shell, E_SHELL_QUIT_REMOTE_REQUEST))
 		response = UNIQUE_RESPONSE_OK;
 	else
 		response = UNIQUE_RESPONSE_CANCEL;
@@ -1070,6 +1028,7 @@ e_shell_class_init (EShellClass *class)
 	/**
 	 * EShell::quit-requested
 	 * @shell: the #EShell which emitted the signal
+	 * @reason: the reason for quitting
 	 *
 	 * Emitted when the user elects to quit the application, before
 	 * #EShell::prepare-for-quit.
@@ -1086,8 +1045,9 @@ e_shell_class_init (EShellClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EShellClass, quit_requested),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_cclosure_marshal_VOID__ENUM,
+		G_TYPE_NONE, 1,
+		E_TYPE_SHELL_QUIT_REASON);
 
 	/**
 	 * EShell::send-receive
@@ -1242,6 +1202,46 @@ EShell *
 e_shell_get_default (void)
 {
 	return default_shell;
+}
+
+/**
+ * e_shell_load_modules:
+ * @shell: an #EShell
+ *
+ * Loads all installed modules and performs some internal bookkeeping.
+ * This function should be called after creating the #EShell instance
+ * but before initiating migration or starting the main loop.
+ **/
+void
+e_shell_load_modules (EShell *shell)
+{
+	const gchar *module_directory;
+	GList *list;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (shell->priv->modules_loaded)
+		return;
+
+	/* Load all shared library modules. */
+
+	module_directory = e_shell_get_module_directory (shell);
+	g_return_if_fail (module_directory != NULL);
+
+	list = e_module_load_all_in_directory (module_directory);
+	g_list_foreach (list, (GFunc) g_type_module_unuse, NULL);
+	g_list_free (list);
+
+	/* Process shell backends. */
+
+	list = g_list_sort (
+		e_extensible_list_extensions (
+		E_EXTENSIBLE (shell), E_TYPE_SHELL_BACKEND),
+		(GCompareFunc) e_shell_backend_compare);
+	g_list_foreach (list, (GFunc) shell_process_backend, shell);
+	shell->priv->loaded_backends = list;
+
+	shell->priv->modules_loaded = TRUE;
 }
 
 /**
@@ -1846,6 +1846,7 @@ e_shell_event (EShell *shell,
 /**
  * e_shell_quit:
  * @shell: an #EShell
+ * @reason: the reason for quitting
  *
  * Requests an application shutdown.  This happens in two phases: the
  * first is synchronous, the second is asynchronous.
@@ -1866,7 +1867,8 @@ e_shell_event (EShell *shell,
  * Returns: %TRUE if shutdown is underway, %FALSE if it was cancelled
  **/
 gboolean
-e_shell_quit (EShell *shell)
+e_shell_quit (EShell *shell,
+              EShellQuitReason reason)
 {
 	UniqueApp *app;
 	UniqueResponse response;
@@ -1878,7 +1880,7 @@ e_shell_quit (EShell *shell)
 	if (unique_app_is_running (app))
 		goto unique;
 
-	if (!shell_request_quit (shell))
+	if (!shell_request_quit (shell, reason))
 		return FALSE;
 
 	shell_prepare_for_quit (shell);

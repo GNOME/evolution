@@ -232,9 +232,7 @@ idle_cb (gchar **uris)
 
 	/* These calls do the right thing when another Evolution
 	 * process is running. */
-	if (quit)
-		e_shell_quit (shell);
-	else if (uris != NULL && *uris != NULL) {
+	if (uris != NULL && *uris != NULL) {
 		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
 			gtk_main_quit ();
 	} else {
@@ -578,6 +576,13 @@ main (gint argc, gchar **argv)
 
 	shell = create_default_shell ();
 
+	if (quit) {
+		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
+		goto exit;
+	}
+
+	e_shell_load_modules (shell);
+
 	if (!disable_eplugin) {
 		/* Register built-in plugin hook types. */
 		es_event_hook_get_type ();
@@ -593,9 +598,9 @@ main (gint argc, gchar **argv)
 	}
 
 	if (requested_view)
-		e_shell_set_startup_view(shell, requested_view);
+		e_shell_set_startup_view (shell, requested_view);
 	else if (express_mode)
-		e_shell_set_startup_view(shell, "mail");
+		e_shell_set_startup_view (shell, "mail");
 
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
@@ -608,6 +613,7 @@ main (gint argc, gchar **argv)
 
 	gtk_main ();
 
+exit:
 	/* Drop what should be the last reference to the shell.
 	 * That will cause e_shell_get_default() to henceforth
 	 * return NULL.  Use that to check for reference leaks. */

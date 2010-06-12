@@ -57,10 +57,15 @@ static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 static void
-eab_editor_quit_requested_cb (EABEditor *editor,
-                              EShell *shell)
+eab_editor_quit_requested_cb (EShell *shell,
+                              EShellQuitReason reason,
+                              EABEditor *editor)
 {
 	GtkWindow *window;
+
+	/* Quit immediately if another Evolution process asked us to. */
+	if (reason == E_SHELL_QUIT_REMOTE_REQUEST)
+		return;
 
 	window = eab_editor_get_window (editor);
 
@@ -78,7 +83,7 @@ eab_editor_set_shell (EABEditor *editor,
 
 	editor->priv->shell = g_object_ref (shell);
 
-	g_signal_connect_swapped (
+	g_signal_connect (
 		shell, "quit-requested",
 		G_CALLBACK (eab_editor_quit_requested_cb), editor);
 }

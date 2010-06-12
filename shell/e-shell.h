@@ -57,6 +57,32 @@ typedef struct _EShellClass EShellClass;
 typedef struct _EShellPrivate EShellPrivate;
 
 /**
+ * EShellQuitReason:
+ *
+ * @E_SHELL_QUIT_ACTION:
+ *   @E_SHELL_WINDOW_ACTION_QUIT was activated.
+ * @E_SHELL_QUIT_LAST_WINDOW:
+ *   The last watched window has been destroyed.
+ * @E_SHELL_QUIT_OPTION:
+ *   The program was invoked with --quit.  Extensions will never
+ *   see this value because they are not loaded when --quit is given.
+ * @E_SHELL_QUIT_REMOTE_REQUEST:
+ *   Another Evolution process requested we quit.
+ * @E_SHELL_QUIT_SESSION_REQUEST:
+ *   The desktop session requested we quit.
+ *
+ * These values are passed in the #EShell::quit-requested signal to
+ * indicate why the shell is requesting to shut down.
+ **/
+typedef enum {
+	E_SHELL_QUIT_ACTION,
+	E_SHELL_QUIT_LAST_WINDOW,
+	E_SHELL_QUIT_OPTION,
+	E_SHELL_QUIT_REMOTE_REQUEST,
+	E_SHELL_QUIT_SESSION_REQUEST
+} EShellQuitReason;
+
+/**
  * EShell:
  *
  * Contains only private data that should be read and manipulated using the
@@ -78,7 +104,8 @@ struct _EShellClass {
 						 EActivity *activity);
 	void		(*prepare_for_quit)	(EShell *shell,
 						 EActivity *activity);
-	void		(*quit_requested)	(EShell *shell);
+	void		(*quit_requested)	(EShell *shell,
+						 EShellQuitReason reason);
 	void		(*send_receive)		(EShell *shell,
 						 GtkWindow *parent);
 	void		(*window_created)	(EShell *shell,
@@ -88,6 +115,7 @@ struct _EShellClass {
 
 GType		e_shell_get_type		(void);
 EShell *	e_shell_get_default		(void);
+void		e_shell_load_modules		(EShell *shell);
 GList *		e_shell_get_shell_backends	(EShell *shell);
 const gchar *	e_shell_get_canonical_name	(EShell *shell,
 						 const gchar *name);
@@ -122,7 +150,8 @@ GtkWidget *	e_shell_get_preferences_window	(EShell *shell);
 void		e_shell_event			(EShell *shell,
 						 const gchar *event_name,
 						 gpointer event_data);
-gboolean	e_shell_quit			(EShell *shell);
+gboolean	e_shell_quit			(EShell *shell,
+						 EShellQuitReason reason);
 void		e_shell_cancel_quit		(EShell *shell);
 
 void		e_shell_adapt_window_size	(EShell    *shell,

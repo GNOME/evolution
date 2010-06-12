@@ -6,15 +6,23 @@ endif
 bin_PROGRAMS = evolution
 
 # Shell library
-privsolib_LTLIBRARIES =	libeshell.la
+privsolib_LTLIBRARIES = libeshell.la
 
 eshellincludedir = $(privincludedir)/shell
+
+include $(top_srcdir)/glib-gen.mak
+glib_enum_headers=e-shell.h
+glib_enum_define=E_SHELL
+glib_enum_prefix=e_shell
+
+ENUM_GENERATED = e-shell-enumtypes.h e-shell-enumtypes.c
 
 eshellinclude_HEADERS = 			\
 	e-shell.h				\
 	e-shell-backend.h			\
 	e-shell-common.h			\
 	e-shell-content.h			\
+	e-shell-enumtypes.h			\
 	e-shell-searchbar.h			\
 	e-shell-settings.h			\
 	e-shell-sidebar.h			\
@@ -58,6 +66,7 @@ libeshell_la_SOURCES =				\
 	e-shell.c				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
+	e-shell-enumtypes.c			\
 	e-shell-meego.c				\
 	e-shell-meego.h				\
 	e-shell-searchbar.c			\
@@ -217,7 +226,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(error_DATA)
+BUILT_SOURCES = $(error_DATA) $(ENUM_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
