@@ -156,13 +156,14 @@ libemiscwidgets_la_SOURCES =			\
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 
-libemiscwidgets_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/a11y/libevolution-a11y.la	\
-	$(EVOLUTION_MAIL_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(MATH_LIB)					\
+libemiscwidgets_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/a11y/libevolution-a11y.la		\
+	$(top_builddir)/libgnomecanvas/libgnomecanvas-2.la	\
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(MATH_LIB)						\
 	$(ICONV_LIBS)
 
 noinst_PROGRAMS = 			\

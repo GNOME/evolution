@@ -41,9 +41,10 @@ m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libgtkhtml_minimum_version], [3.31.2])
+m4_define([gail_minimum_version], [1.9.0])		dnl For libgnomecanvas
+m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
-m4_define([libgnomecanvas_minimum_version], [2.0.0])	dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
@@ -221,9 +222,10 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
 	 gthread-2.0 >= glib_minimum_version
 	 gtk+-2.0 >= gtk_minimum_version
+	 gail >= gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
-	 libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
+	 pangoft2 >= pangoft2_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gnome-desktop-2.0 >= gnome_desktop_minimum_version
 	 unique-1.0 >= unique_minimum_version])
@@ -1721,6 +1723,8 @@ help/quickref/pl/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
+libart_lgpl/Makefile
+libgnomecanvas/Makefile
 shell/Makefile
 shell/evolution-nognome
 shell/test/Makefile
