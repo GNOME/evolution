@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-13 16:57+0200\n"
-"PO-Revision-Date: 2010-06-13 17:09+0200\n"
+"POT-Creation-Date: 2010-06-13 17:21+0200\n"
+"PO-Revision-Date: 2010-06-13 17:31+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome@g11.net>\n"
 "MIME-Version: 1.0\n"
@@ -11413,6 +11413,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
+"Activar o uso das opcións de visualización de lista de mensaxes simiares "
+"para todos os cartafoles"
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid "Enable to use a similar message list view settings for all folders."
@@ -11442,7 +11444,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Flush Outbox after filtering"
-msgstr ""
+msgstr "Limpar a Caixa de saída despois de flitrar"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Height of the message-list pane"
@@ -12199,6 +12201,10 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"Indica se limpar a Caixa de saída despois de que remate o filtrado. A "
+"limpeza da Caixa de saída só acontecerá cando se use calquera acción de "
+"filtrado «Reenviar a» e aproximadamente un minuto despois da invocación da "
+"última acción."
 
 #: ../mail/evolution-mail.schemas.in.h:205
 msgid "Width of the message-list pane"
@@ -12387,7 +12393,7 @@ msgstr "Requirir sempre confirmación de lec_tura"
 
 #: ../mail/mail-config.ui.h:14
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "Aplicar as mesmas opcións de _vista para todos os cartafoles"
 
 #: ../mail/mail-config.ui.h:16
 #: ../modules/addressbook/addressbook-config.c:1013
@@ -16943,7 +16949,7 @@ msgstr "Editor externo"
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
 msgid "Use an external editor to compose plain-text mail messages."
 msgstr ""
-"Empregar un editor externo para crear mensaxes de correo en texto plano."
+"Empregar un editor externo para crear mensaxes de correo en texto simple."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:1
 msgid "Cannot create Temporary File"
@@ -18866,16 +18872,16 @@ msgstr "Activar e desactivar engadidos"
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:2
 msgid "Plain Text Mode"
-msgstr "Modo de texto plano"
+msgstr "Modo de texto simple"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:3
 msgid "Prefer Plain Text"
-msgstr "Preferir texto plano"
+msgstr "Preferir texto simple"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr ""
-"Ver mensaxes de correo como texto plano aínda que conteñan contido HTML."
+"Ver mensaxes de correo como texto simple aínda que conteñan contido HTML."
 
 #: ../plugins/prefer-plain/prefer-plain.c:198
 msgid "Show HTML if present"
@@ -20433,6 +20439,7 @@ msgstr "Todos os ficheiros CA de certificación de correo"
 #: ../smime/gui/certificate-manager.c:737
 msgid "Failed to import certificate authority's certificate"
 msgstr ""
+"Produciuse un fallo ao importar o certificado da autoridade certificadora"
 
 #: ../smime/gui/certificate-manager.c:1148
 msgid "Certificates"
