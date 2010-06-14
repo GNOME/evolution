@@ -167,14 +167,16 @@ libetableinclude_HEADERS = 			\
 
 libetable_la_LDFLAGS = $(NO_UNDEFINED)
 
-libetable_la_LIBADD =					\
-	$(top_builddir)/a11y/libevolution-a11y.la	\
-	$(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/widgets/text/libetext.la	\
-	$(E_UTIL_LIBS)					\
-	$(E_WIDGETS_LIBS)				\
-	$(MATH_LIB)					\
+libetable_la_LIBADD =						\
+	$(top_builddir)/a11y/libevolution-a11y.la		\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/widgets/text/libetext.la		\
+	$(top_builddir)/libgnomecanvas/libgnomecanvas-2.la	\
+	$(top_builddir)/libart_lgpl/libart_lgpl_2.la		\
+	$(E_UTIL_LIBS)						\
+	$(E_WIDGETS_LIBS)					\
+	$(MATH_LIB)						\
 	$(GNOME_PLATFORM_LIBS)
 
 icons = 			\
