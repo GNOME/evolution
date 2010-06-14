@@ -34,7 +34,7 @@ libetext_la_LIBADD = 						\
 	$(top_builddir)/a11y/libevolution-a11y.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(top_builddir)/libgnomecanvas/libgnomecanvas-2.la	\
+	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
 	$(E_UTIL_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(REGEX_LIBS)

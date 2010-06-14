@@ -1,16 +1,16 @@
-privsolib_LTLIBRARIES = libart_lgpl_2.la
+privsolib_LTLIBRARIES = libart_lgpl.la
 
 if OS_WIN32
 else
 libm = -lm
 endif
 
-libart_lgpl_2_la_CPPFLAGS = \
+libart_lgpl_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-I$(top_srcdir) \
 	$(GNOME_PLATFORM_CFLAGS)
 
-libart_lgpl_2_la_SOURCES = \
+libart_lgpl_la_SOURCES = \
 	art_affine.c \
 	art_affine.h \
 	art_alphagamma.c \
@@ -94,9 +94,9 @@ libart_lgpl_2_la_SOURCES = \
 	art_vpath_svp.h \
 	libart.h
 
-libart_lgpl_2_la_LDFLAGS = $(NO_UNDEFINED)
+libart_lgpl_la_LDFLAGS = $(NO_UNDEFINED)
 
-libart_lgpl_2_la_LIBADD = \
+libart_lgpl_la_LIBADD = \
 	$(GNOME_PLATFORM_LIBS) \
 	$(libm)
 

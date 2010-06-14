@@ -1,6 +1,6 @@
-privsolib_LTLIBRARIES = libgnomecanvas-2.la
+privsolib_LTLIBRARIES = libgnomecanvas.la
 
-libgnomecanvas_2_la_CPPFLAGS = \
+libgnomecanvas_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir) 				\
 	$(GNOME_PLATFORM_CFLAGS)			\
@@ -11,13 +11,13 @@ libgnomecanvas_2_la_CPPFLAGS = \
 	-DGNOMECANVASLOCALSTATEDIR=\""$(localstatedir)"\" 	\
 	-DG_LOG_DOMAIN=\"GnomeCanvas\"
 
-libgnomecanvas_2_la_LIBADD = \
-	$(top_builddir)/libart_lgpl/libart_lgpl_2.la	\
+libgnomecanvas_la_LIBADD = \
+	$(top_builddir)/libart_lgpl/libart_lgpl.la	\
 	$(GNOME_PLATFORM_LIBS)
 
-libgnomecanvas_2_la_LDFLAGS = $(NO_UNDEFINED)
+libgnomecanvas_la_LDFLAGS = $(NO_UNDEFINED)
 
-libgnomecanvas_2_la_SOURCES =			\
+libgnomecanvas_la_SOURCES =			\
 	gailcanvas.c				\
 	gailcanvas.h				\
 	gailcanvasgroup.c			\
