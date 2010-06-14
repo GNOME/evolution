@@ -402,7 +402,8 @@ create_folders(MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *s
 static void
 folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	static time_t last_newmail = 0;
+	static GHashTable *last_newmail_per_folder = NULL;
+	time_t latest_received;
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *)o;
 	CamelFolder *local_drafts;
@@ -419,6 +420,12 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	MailFolderCache *self = (MailFolderCache*) user_data;
 
 	d(printf("folder '%s' changed\n", folder->full_name));
+
+	if (!last_newmail_per_folder)
+		last_newmail_per_folder = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	/* it's fine to hash them by folder pointer here */
+	latest_received = GPOINTER_TO_INT (g_hash_table_lookup (last_newmail_per_folder, folder));
 
 	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
@@ -438,7 +445,8 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
-				    (camel_message_info_date_received (info) > last_newmail)) {
+				    (camel_message_info_date_received (info) > latest_received)) {
+					latest_received = camel_message_info_date_received (info);
 					new++;
 					if (new == 1) {
 						uid = g_strdup (camel_message_info_uid (info));
@@ -459,8 +467,8 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		}
 	}
 
-	if (new > 0 || !last_newmail)
-		time (&last_newmail);
+	if (new > 0)
+		g_hash_table_insert (last_newmail_per_folder, folder, GINT_TO_POINTER (latest_received));
 
 	g_mutex_lock (self->priv->stores_mutex);
 	if (self->priv->stores != NULL
