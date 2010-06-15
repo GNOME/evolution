@@ -90,17 +90,17 @@ typedef struct _GnomeCanvasGroupClass GnomeCanvasGroupClass;
  */
 
 /* Object flags for items */
-typedef enum {
-	GNOME_CANVAS_ITEM_REALIZED      = 1 << 0,
-	GNOME_CANVAS_ITEM_MAPPED        = 1 << 1,
-	GNOME_CANVAS_ITEM_ALWAYS_REDRAW = 1 << 2,
-	GNOME_CANVAS_ITEM_VISIBLE       = 1 << 3,
-	GNOME_CANVAS_ITEM_NEED_UPDATE	= 1 << 4,
-	GNOME_CANVAS_ITEM_NEED_AFFINE	= 1 << 5,
-	GNOME_CANVAS_ITEM_NEED_CLIP	= 1 << 6,
-	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 7,
-	GNOME_CANVAS_ITEM_AFFINE_FULL	= 1 << 8
-} GnomeCanvasItemFlags;
+enum {
+	GNOME_CANVAS_ITEM_REALIZED      = 1 << 4,
+	GNOME_CANVAS_ITEM_MAPPED        = 1 << 5,
+	GNOME_CANVAS_ITEM_ALWAYS_REDRAW = 1 << 6,
+	GNOME_CANVAS_ITEM_VISIBLE       = 1 << 7,
+	GNOME_CANVAS_ITEM_NEED_UPDATE	= 1 << 8,
+	GNOME_CANVAS_ITEM_NEED_AFFINE	= 1 << 9,
+	GNOME_CANVAS_ITEM_NEED_CLIP	= 1 << 10,
+	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 11,
+	GNOME_CANVAS_ITEM_AFFINE_FULL	= 1 << 12
+};
 
 /* Update flags for items */
 enum {
@@ -161,10 +161,6 @@ struct _GnomeCanvasItem {
 
 	/* Bounding box for this item (in canvas coordinates) */
 	double x1, y1, x2, y2;
-
-	/* XXX GtkObject flags are sealed now, so we have to provide
-	 *     our own.  This breaks ABI compatibility with upstream. */
-	GnomeCanvasItemFlags flags;
 };
 
 struct _GnomeCanvasItemClass {

@@ -1096,18 +1096,14 @@ gnome_canvas_line_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_pa
 static void
 gnome_canvas_line_realize (GnomeCanvasItem *item)
 {
-	GtkLayout *layout;
 	GnomeCanvasLine *line;
-	GdkWindow *bin_window;
 
 	line = GNOME_CANVAS_LINE (item);
 
 	if (parent_class->realize)
 		(* parent_class->realize) (item);
 
-	layout = GTK_LAYOUT (item->canvas);
-	bin_window = gtk_layout_get_bin_window (layout);
-	line->gc = gdk_gc_new (bin_window);
+	line->gc = gdk_gc_new (item->canvas->layout.bin_window);
 
 #if 0
 	(* GNOME_CANVAS_ITEM_CLASS (item->object.klass)->update) (item, NULL, NULL, 0);

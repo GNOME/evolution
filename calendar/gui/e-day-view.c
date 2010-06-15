@@ -1931,11 +1931,7 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 
 	day_view = E_DAY_VIEW (widget);
 
-	/* XXX Can't access flags directly anymore, but is it really needed?
-	 *     If so, could we call gtk_widget_send_focus_change() instead? */
-#if 0
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
-#endif
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -1954,11 +1950,7 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	day_view = E_DAY_VIEW (widget);
 
-	/* XXX Can't access flags directly anymore, but is it really needed?
-	 *     If so, could we call gtk_widget_send_focus_change() instead? */
-#if 0
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
-#endif
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -7108,8 +7100,10 @@ e_day_view_auto_scroll_handler (gpointer data)
 			e_day_view_update_selection (day_view, day, row);
 		} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
 			e_day_view_update_resize (day_view, row);
-		} else if (day_view->drag_item->flags & GNOME_CANVAS_ITEM_VISIBLE) {
-			e_day_view_update_main_canvas_drag (day_view, row, day);
+		} else if (day_view->drag_item->object.flags
+			   & GNOME_CANVAS_ITEM_VISIBLE) {
+			e_day_view_update_main_canvas_drag (day_view, row,
+							    day);
 		}
 	}
 
@@ -7517,7 +7511,8 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 
 	/* If the position hasn't changed, just return. */
 	if (day_view->drag_last_day == day
-	    && (day_view->drag_long_event_item->flags & GNOME_CANVAS_ITEM_VISIBLE))
+	    && (day_view->drag_long_event_item->object.flags
+		& GNOME_CANVAS_ITEM_VISIBLE))
 		return;
 
 	day_view->drag_last_day = day;
@@ -7544,7 +7539,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 				     item_x + E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD,
 				     item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD);
 
-	if (!(day_view->drag_long_event_rect_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
+	if (!(day_view->drag_long_event_rect_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		gnome_canvas_item_raise_to_top (day_view->drag_long_event_rect_item);
 		gnome_canvas_item_show (day_view->drag_long_event_rect_item);
 	}
@@ -7552,7 +7547,8 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	/* Set the text, if necessary. We don't want to set the text every
 	   time it moves, so we check if it is currently invisible and only
 	   set the text then. */
-	if (!(day_view->drag_long_event_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
+	if (!(day_view->drag_long_event_item->object.flags
+	      & GNOME_CANVAS_ITEM_VISIBLE)) {
 		const gchar *summary;
 
 		if (event && is_comp_data_valid (event)) {
@@ -7633,7 +7629,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	/* If the position hasn't changed, just return. */
 	if (day_view->drag_last_day == day
 	    && day_view->drag_last_row == row
-	    && (day_view->drag_item->flags & GNOME_CANVAS_ITEM_VISIBLE))
+	    && (day_view->drag_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE))
 		return;
 
 	day_view->drag_last_day = day;
@@ -7704,12 +7700,12 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 				     item_x + E_DAY_VIEW_BAR_WIDTH + E_DAY_VIEW_EVENT_X_PAD,
 				     item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD);
 
-	if (!(day_view->drag_bar_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
+	if (!(day_view->drag_bar_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		gnome_canvas_item_raise_to_top (day_view->drag_bar_item);
 		gnome_canvas_item_show (day_view->drag_bar_item);
 	}
 
-	if (!(day_view->drag_rect_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
+	if (!(day_view->drag_rect_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		gnome_canvas_item_raise_to_top (day_view->drag_rect_item);
 		gnome_canvas_item_show (day_view->drag_rect_item);
 	}
@@ -7717,7 +7713,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	/* Set the text, if necessary. We don't want to set the text every
 	   time it moves, so we check if it is currently invisible and only
 	   set the text then. */
-	if (!(day_view->drag_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
+	if (!(day_view->drag_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		const gchar *summary;
 
 		if (event && is_comp_data_valid (event)) {

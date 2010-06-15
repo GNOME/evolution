@@ -242,7 +242,7 @@ ea_week_view_get_n_children (AtkObject *accessible)
 
 	/* add the number of visible jump buttons */
 	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
-		if (week_view->jump_buttons[i]->flags & GNOME_CANVAS_ITEM_VISIBLE)
+		if (week_view->jump_buttons[i]->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
 			++count;
 	}
 

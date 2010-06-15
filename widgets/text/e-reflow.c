@@ -730,14 +730,14 @@ e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 		break;
 	case PROP_MINIMUM_WIDTH:
 		reflow->minimum_width = g_value_get_double (value);
-		if (item->flags & GNOME_CANVAS_ITEM_REALIZED)
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(object))
 			set_empty(reflow);
 		e_canvas_item_request_reflow(item);
 		break;
 	case PROP_EMPTY_MESSAGE:
 		g_free(reflow->empty_message);
 		reflow->empty_message = g_strdup(g_value_get_string (value));
-		if (item->flags & GNOME_CANVAS_ITEM_REALIZED)
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(object))
 			set_empty(reflow);
 		break;
 	case PROP_MODEL:
@@ -1382,7 +1382,7 @@ e_reflow_reflow( GnomeCanvasItem *item, gint flags )
 	gint next_column;
 	gint i;
 
-	if (!(item->flags & GNOME_CANVAS_ITEM_REALIZED))
+	if (!(GTK_OBJECT_FLAGS (reflow) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
 
 	if (reflow->need_reflow_columns) {

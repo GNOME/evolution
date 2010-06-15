@@ -321,7 +321,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 		if (e_minicard->width != g_value_get_double (value)) {
 			e_minicard->width = g_value_get_double (value);
 			e_minicard_resize_children(e_minicard);
-			if (item->flags & GNOME_CANVAS_ITEM_REALIZED)
+			if (GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED)
 				e_canvas_item_request_reflow(item);
 		}
 	  break;
@@ -467,9 +467,7 @@ e_minicard_finalize (GObject *object)
 static void
 e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (minicard);
-
-	if ((item->flags & GNOME_CANVAS_ITEM_REALIZED))
+	if ((GTK_OBJECT_FLAGS( minicard ) & GNOME_CANVAS_ITEM_REALIZED))
 		set_selected (minicard, minicard->selected);
 }
 
@@ -912,12 +910,9 @@ get_left_width (EMinicard *e_minicard, gboolean is_list)
 static void
 remodel( EMinicard *e_minicard )
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (e_minicard);
 	gint count = 0;
-
-	if (!(item->flags & GNOME_CANVAS_ITEM_REALIZED))
+	if (!(GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
-
 	if (e_minicard->contact) {
 		EContactField field;
 		GList *list;
@@ -1017,8 +1012,7 @@ static void
 e_minicard_reflow(GnomeCanvasItem *item, gint flags)
 {
 	EMinicard *e_minicard = E_MINICARD(item);
-
-	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
+	if (GTK_OBJECT_FLAGS (e_minicard) & GNOME_CANVAS_ITEM_REALIZED) {
 		GList *list;
 		gdouble text_height;
 		gint old_height;

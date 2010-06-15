@@ -1040,7 +1040,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 	if (frozen)
 		return;
 
-	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
+	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED) {
 		gdouble running_height = 0;
 		gdouble running_width = 0;
 		gdouble old_height;

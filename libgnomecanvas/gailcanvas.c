@@ -29,8 +29,6 @@
 #include "gailcanvasitemfactory.h"
 #include "gailcanvaswidgetfactory.h"
 
-#include <e-util/gtk-compat.h>
-
 static void       gail_canvas_class_init          (GailCanvasClass *klass);
 static void       gail_canvas_real_initialize     (AtkObject       *obj,
                                                    gpointer        data);
@@ -182,13 +180,13 @@ gail_canvas_real_initialize (AtkObject *obj,
 
   canvas = GNOME_CANVAS (data);
 
-  adj = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
+  adj = canvas->layout.hadjustment;
   g_signal_connect (adj,
                     "value_changed",
                     G_CALLBACK (adjustment_changed),
                     canvas);
 
-  adj = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
+  adj = canvas->layout.vadjustment;
   g_signal_connect (adj,
                     "value_changed",
                     G_CALLBACK (adjustment_changed),
@@ -208,7 +206,7 @@ gail_canvas_get_n_children (AtkObject* obj)
   g_return_val_if_fail (GAIL_IS_CANVAS (obj), 0);
 
   accessible = GTK_ACCESSIBLE (obj);
-  widget = gtk_accessible_get_widget (accessible);
+  widget = accessible->widget;
   if (widget == NULL)
     /* State is defunct */
     return 0;
@@ -237,7 +235,7 @@ gail_canvas_ref_child (AtkObject *obj,
   g_return_val_if_fail (GAIL_IS_CANVAS (obj), NULL);
 
   accessible = GTK_ACCESSIBLE (obj);
-  widget = gtk_accessible_get_widget (accessible);
+  widget = accessible->widget;
   if (widget == NULL)
     /* State is defunct */
     return NULL;

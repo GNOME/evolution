@@ -648,18 +648,12 @@ gnome_canvas_shape_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	if (!item->canvas->aa) {
-		GtkLayout *layout;
-		GdkWindow *bin_window;
-
 		gcbp_ensure_gdk (shape);
 
-		layout = GTK_LAYOUT (item->canvas);
-		bin_window = gtk_layout_get_bin_window (layout);
+		g_assert(item->canvas->layout.bin_window != NULL);
 
-		g_assert (bin_window != NULL);
-
-		shape->priv->gdk->fill_gc = gdk_gc_new (bin_window);
-		shape->priv->gdk->outline_gc = gdk_gc_new (bin_window);
+		shape->priv->gdk->fill_gc = gdk_gc_new (item->canvas->layout.bin_window);
+		shape->priv->gdk->outline_gc = gdk_gc_new (item->canvas->layout.bin_window);
 	}
 }
 
@@ -1434,11 +1428,10 @@ gcbp_ensure_mask (GnomeCanvasShape * shape, gint width, gint height)
 
 	if ((width > ctx->width) || (height > ctx->height)) {
 		/* Ctx is too small */
-		GtkWidget *widget;
+
 		GdkWindow * window;
 
-		widget = GTK_WIDGET (GNOME_CANVAS_ITEM (shape)->canvas);
-		window = gtk_widget_get_window (widget);
+		window = ((GtkWidget *) (((GnomeCanvasItem *) shape)->canvas))->window;
 
 		if (ctx->clear_gc) g_object_unref (ctx->clear_gc);
 		if (ctx->xor_gc) g_object_unref (ctx->xor_gc);
