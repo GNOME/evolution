@@ -669,7 +669,7 @@ rename_folders(MailFolderCache *self, struct _store_info *si, const gchar *oldba
 
 		/* Its a rename op */
 		g_hash_table_remove(si->folders, mfi->full_name);
-		g_hash_table_remove(si->folders, mfi->uri);
+		g_hash_table_remove(si->folders_uri, mfi->uri);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
 		mfi->flags = fi->flags;
