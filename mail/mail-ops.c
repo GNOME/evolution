@@ -550,7 +550,6 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 	/* Now check for posting, failures are ignored */
 	info = camel_message_info_new(NULL);
 	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
-	camel_mime_message_set_date(message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
 	for (header = xev;header;header=header->next) {
 		gchar *uri;
