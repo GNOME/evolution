@@ -56,47 +56,8 @@ static void
 action_close_cb (GtkAction *action,
                  EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
-	EComposerHeaderTable *table;
-	GtkWidget *widget;
-	const gchar *subject;
-	gint response;
-
-	editor = GTKHTML_EDITOR (composer);
-	widget = GTK_WIDGET (composer);
-
-	if (!gtkhtml_editor_get_changed (editor)) {
-		gtk_widget_destroy (widget);
-		return;
-	}
-
-	gdk_window_raise (widget->window);
-
-	table = e_msg_composer_get_header_table (composer);
-	subject = e_composer_header_table_get_subject (table);
-
-	if (subject == NULL || *subject == '\0')
-		subject = _("Untitled Message");
-
-	response = e_alert_run_dialog_for_args (
-		GTK_WINDOW (composer),
-		"mail-composer:exit-unsaved",
-		subject, NULL);
-
-	switch (response) {
-		case GTK_RESPONSE_YES:
-			gtk_widget_hide (widget);
-			e_msg_composer_request_close (composer);
-			gtk_action_activate (ACTION (SAVE_DRAFT));
-			break;
-
-		case GTK_RESPONSE_NO:
-			gtk_widget_destroy (widget);
-			break;
-
-		case GTK_RESPONSE_CANCEL:
-			break;
-	}
+	if (e_msg_composer_can_close (composer, TRUE))
+		gtk_widget_destroy (GTK_WIDGET (composer));
 }
 
 static void
