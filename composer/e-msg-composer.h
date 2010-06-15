@@ -134,6 +134,9 @@ void		e_msg_composer_add_message_attachments
 						 gboolean just_inlines);
 
 void		e_msg_composer_request_close	(EMsgComposer *composer);
+gboolean	e_msg_composer_can_close	(EMsgComposer *composer,
+						 gboolean can_save_draft);
+
 EMsgComposer *	e_msg_composer_load_from_file	(const gchar *filename);
 void		e_msg_composer_check_autosave	(GtkWindow *parent);
 

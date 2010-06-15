@@ -1689,12 +1689,50 @@ msg_composer_finalize (GObject *object)
 static gboolean
 msg_composer_delete_event_cb (GtkWidget *widget, gpointer user_data)
 {
-	/* This is needed for the ACTION macro. */
-	EMsgComposer *composer = E_MSG_COMPOSER (widget);
+	EShell *shell;
 
-	gtk_action_activate (ACTION (CLOSE));
+	shell = e_shell_get_default ();
 
-	return FALSE;
+	if (g_list_length (e_shell_get_watched_windows (shell)) == 1) {
+		/* This is the last watched window, use the quit
+		   mechanism to have a draft saved properly */
+		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
+	} else {
+		/* This is needed for the ACTION macro. */
+		EMsgComposer *composer = E_MSG_COMPOSER (widget);
+
+		/* There are more watched windows opened,
+		   invoke only a close action */
+		gtk_action_activate (ACTION (CLOSE));
+	}
+
+	return TRUE;
+}
+
+static void
+msg_composer_prepare_for_quit_cb (EShell *shell, EActivity *activity, EMsgComposer *composer)
+{
+	if (e_msg_composer_is_exiting (composer)) {
+		/* needs save draft first */
+		g_object_ref (activity);
+		g_object_weak_ref (G_OBJECT (composer), (GWeakNotify) g_object_unref, activity);
+		gtk_action_activate (ACTION (SAVE_DRAFT));
+	}
+}
+
+static void
+msg_composer_quit_requested_cb (EShell *shell, EShellQuitReason reason, EMsgComposer *composer)
+{
+	if (e_msg_composer_is_exiting (composer)) {
+		EShell *shell;
+
+		shell = e_shell_get_default ();
+
+		g_signal_handlers_disconnect_by_func (shell, msg_composer_quit_requested_cb, composer);
+		g_signal_handlers_disconnect_by_func (shell, msg_composer_prepare_for_quit_cb, composer);
+	} else if (!e_msg_composer_can_close (composer, FALSE) && !e_msg_composer_is_exiting (composer)) {
+		e_shell_cancel_quit (shell);
+	}
 }
 
 static void
@@ -1740,6 +1778,12 @@ msg_composer_constructed (GObject *object)
 
 	e_shell_adapt_window_size (shell, GTK_WINDOW (composer));
 	e_shell_watch_window (shell, GTK_WINDOW (object));
+
+	g_signal_connect (shell, "quit-requested",
+		G_CALLBACK (msg_composer_quit_requested_cb), composer);
+
+	g_signal_connect (shell, "prepare-for-quit",
+		G_CALLBACK (msg_composer_prepare_for_quit_cb), composer);
 
 	/* Restore Persistent State */
 
@@ -1847,11 +1891,17 @@ static void
 msg_composer_destroy (GtkObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
+	EShell *shell;
 
 	if (composer->priv->address_dialog != NULL) {
 		gtk_widget_destroy (composer->priv->address_dialog);
 		composer->priv->address_dialog = NULL;
 	}
+
+	shell = e_shell_get_default ();
+
+	g_signal_handlers_disconnect_by_func (shell, msg_composer_quit_requested_cb, composer);
+	g_signal_handlers_disconnect_by_func (shell, msg_composer_prepare_for_quit_cb, composer);
 
 	/* Chain up to parent's destroy() method. */
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -4007,6 +4057,61 @@ e_msg_composer_request_close (EMsgComposer *composer)
 	g_return_if_fail (composer != NULL);
 
 	composer->priv->application_exiting = TRUE;
+}
+
+/* Returns whether can close the composer immediately. It will return FALSE also when
+   saving to drafts, but the e_msg_composer_is_exiting will return TRUE for this case.
+   can_save_draft means whether can save draft immediately, or rather keep it on the
+   caller (when FALSE). If kept on the folder, then returns FALSE and sets interval
+   variable to return TRUE in e_msg_composer_is_exiting. */
+gboolean
+e_msg_composer_can_close (EMsgComposer *composer, gboolean can_save_draft)
+{
+	gboolean res = FALSE;
+	GtkhtmlEditor *editor;
+	EComposerHeaderTable *table;
+	GdkWindow *window;
+	GtkWidget *widget;
+	const gchar *subject;
+	gint response;
+
+	editor = GTKHTML_EDITOR (composer);
+	widget = GTK_WIDGET (composer);
+
+	if (!gtkhtml_editor_get_changed (editor))
+		return TRUE;
+
+	window = gtk_widget_get_window (widget);
+	gdk_window_raise (window);
+
+	table = e_msg_composer_get_header_table (composer);
+	subject = e_composer_header_table_get_subject (table);
+
+	if (subject == NULL || *subject == '\0')
+		subject = _("Untitled Message");
+
+	response = e_alert_run_dialog_for_args (
+		GTK_WINDOW (composer),
+		"mail-composer:exit-unsaved",
+		subject, NULL);
+
+	switch (response) {
+		case GTK_RESPONSE_YES:
+			gtk_widget_hide (widget);
+			e_msg_composer_request_close (composer);
+			if (can_save_draft)
+				gtk_action_activate (ACTION (SAVE_DRAFT));
+			break;
+
+		case GTK_RESPONSE_NO:
+			res = TRUE;
+			break;
+
+		case GTK_RESPONSE_CANCEL:
+			break;
+	}
+
+	return res;
 }
 
 EMsgComposer *
