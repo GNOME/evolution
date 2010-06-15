@@ -1603,7 +1603,7 @@ For example: "Work" or "Personal"</property>
                     <child>
                       <object class="GtkTable" id="folders_table">
                         <property name="visible">True</property>
-                        <property name="n_rows">3</property>
+                        <property name="n_rows">5</property>
                         <property name="n_columns">3</property>
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
@@ -1710,8 +1710,110 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">3</property>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
+                          </packing>
+                        </child>
+
+                        <child>
+                          <object class="GtkCheckButton" id="trash_folder_check">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Trash Folder:</property>
+                            <property name="use_underline">True</property>
+                            <property name="relief">GTK_RELIEF_NORMAL</property>
+                            <property name="focus_on_click">True</property>
+                            <property name="active">False</property>
+                            <property name="inconsistent">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="right_attach">1</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
+                            <property name="x_options">fill</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+
+                        <child>
+                          <object class="EMFolderSelectionButton" id="trash_folder_butt">
+                            <property name="title" translatable="yes">Select Trash Folder</property>
+                            <property name="visible">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">fill</property>
+                            <property name="y_options">fill</property>
+                          </packing>
+                        </child>
+
+                        <child>
+                          <object class="GtkCheckButton" id="junk_folder_check">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Junk Folder:</property>
+                            <property name="use_underline">True</property>
+                            <property name="relief">GTK_RELIEF_NORMAL</property>
+                            <property name="focus_on_click">True</property>
+                            <property name="active">False</property>
+                            <property name="inconsistent">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="right_attach">1</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options">fill</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+
+                        <child>
+                          <object class="EMFolderSelectionButton" id="junk_folder_butt">
+                            <property name="title" translatable="yes">Select Junk Folder</property>
+                            <property name="visible">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options">fill</property>
+                            <property name="y_options">fill</property>
+                          </packing>
+                        </child>
+
+                        <child>
+                          <object class="GtkFixed" id="trash_folder_fixed">
+                            <property name="visible">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">2</property>
+                            <property name="right_attach">3</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">fill</property>
+                            <property name="y_options">fill</property>
+                          </packing>
+                        </child>
+
+                        <child>
+                          <object class="GtkFixed" id="junk_folder_fixed">
+                            <property name="visible">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">2</property>
+                            <property name="right_attach">3</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options">fill</property>
+                            <property name="y_options">fill</property>
                           </packing>
                         </child>
                         <child>

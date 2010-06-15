@@ -3581,6 +3581,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
 	GConfClient *gconf;
+	CamelStore *folder_store;
 	CamelException ex;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
@@ -3645,8 +3646,11 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		message_list->folder = folder;
 		message_list->just_set_folder = TRUE;
 
+		/* hide deleted messages also when the store has a real trash */
+		folder_store = camel_folder_get_parent_store (folder);
+
 		/* Setup the strikeout effect for non-trash folders */
-		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH))
+		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) || !(folder_store->flags & CAMEL_STORE_VTRASH))
 			strikeout_col = COL_DELETED;
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_date");
@@ -3673,7 +3677,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
-		message_list->hidedeleted = hide_deleted && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
+		message_list->hidedeleted = hide_deleted && (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) || !(folder_store->flags & CAMEL_STORE_VTRASH));
 		message_list->hidejunk = folder_store_supports_vjunk_folder (message_list->folder) && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 
 		if (message_list->frozen == 0)

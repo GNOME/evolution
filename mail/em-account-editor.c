@@ -50,6 +50,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-account-utils.h"
+#include "e-util/e-dialog-utils.h"
 #include "e-util/e-signature-list.h"
 #include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
@@ -171,6 +172,12 @@ struct _EMAccountEditorPrivate {
 	/* special folders */
 	GtkButton *drafts_folder_button;
 	GtkButton *sent_folder_button;
+	GtkToggleButton *trash_folder_check;
+	GtkButton *trash_folder_button;
+	GtkWidget *trash_folder_fixed;
+	GtkToggleButton *junk_folder_check;
+	GtkButton *junk_folder_button;
+	GtkWidget *junk_folder_fixed;
 	GtkButton *restore_folders_button;
 
 	/* Security */
@@ -671,6 +678,9 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)emae->priv->sent_folder_button, uri);
 	emae_account_folder_changed ((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
+
+	gtk_toggle_button_set_active (emae->priv->trash_folder_check, FALSE);
+	gtk_toggle_button_set_active (emae->priv->junk_folder_check, FALSE);
 }
 
 /* The camel provider auto-detect interface should be deprecated.
@@ -2734,6 +2744,177 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 	return w;
 }
 
+static void
+emae_get_checkable_folder_keys_widgets (EMAccountEditor *emae, guint32 flag, GtkWidget **check, GtkWidget **button, const gchar **param_key)
+{
+	g_return_if_fail (emae != NULL);
+	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
+
+	if (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER) {
+		if (check) *check = (GtkWidget *) emae->priv->trash_folder_check;
+		if (button) *button = (GtkWidget *) emae->priv->trash_folder_button;
+		if (param_key) *param_key = "real_trash_path";
+	} else {
+		if (check) *check = (GtkWidget *) emae->priv->junk_folder_check;
+		if (button) *button = (GtkWidget *) emae->priv->junk_folder_button;
+		if (param_key) *param_key = "real_junk_path";
+	}
+}
+
+static void
+emae_real_url_toggled (GtkToggleButton *check, EMAccountEditor *emae)
+{
+	guint32 flag;
+	GtkWidget *butt = NULL;
+	gboolean checked;
+	const gchar *param_key;
+
+	g_return_if_fail (check != NULL);
+	g_return_if_fail (emae != NULL);
+
+	if (!gtk_widget_is_sensitive (GTK_WIDGET (check)) || !gtk_widget_get_visible (GTK_WIDGET (check)))
+		return;
+
+	flag = GPOINTER_TO_INT (g_object_get_data ((GObject *)check, "url-flag"));
+	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
+
+	emae_get_checkable_folder_keys_widgets (emae, flag, NULL, &butt, &param_key);
+
+	checked = gtk_toggle_button_get_active (check);
+	gtk_widget_set_sensitive (butt, checked);
+
+	if (!checked) {
+		CamelURL *url;
+
+		url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
+		camel_url_set_param (url, param_key, NULL);
+		emae_uri_changed (&emae->priv->source, url);
+		camel_url_free (url);
+
+		/* clear the previous selection */
+		em_folder_selection_button_set_selection ((EMFolderSelectionButton *)butt, "");
+	}
+}
+
+static void
+emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae)
+{
+	CamelURL *url;
+	guint32 flag;
+	GtkWidget *check = NULL;
+	gboolean changed = FALSE;
+	const gchar *param_key = NULL, *curi_selected;
+
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (emae != NULL);
+
+	if (!gtk_widget_is_sensitive (GTK_WIDGET (folder)) || !gtk_widget_get_visible (GTK_WIDGET (folder)))
+		return;
+
+	flag = GPOINTER_TO_INT (g_object_get_data ((GObject *)folder, "url-flag"));
+	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
+
+	emae_get_checkable_folder_keys_widgets (emae, flag, &check, NULL, &param_key);
+
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
+		return;
+
+	url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
+
+	curi_selected = em_folder_selection_button_get_selection (folder);
+	if (!curi_selected || !*curi_selected) {
+		camel_url_set_param (url, param_key, NULL);
+		changed = TRUE;
+	} else {
+		CamelURL *url_selected = camel_url_new (curi_selected, NULL);
+
+		if (url_selected && emae->priv->source.provider && emae->priv->source.provider->url_equal (url, url_selected) && url_selected->path) {
+			camel_url_set_param (url, param_key, (*url_selected->path) == '/' ? url_selected->path + 1 : url_selected->path);
+			changed = TRUE;
+		} else {
+			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", _("Please select a folder from the current account."));
+			em_folder_selection_button_set_selection (folder, "");
+		}
+
+		if (url_selected)
+			camel_url_free (url_selected);
+	}
+
+	if (changed)
+		emae_uri_changed (&emae->priv->source, url);
+	camel_url_free (url);
+}
+
+static void
+setup_checkable_folder (EMAccountEditor *emae, guint32 flag, GtkWidget *check, GtkWidget *button, GtkWidget *fixed)
+{
+	EAccount *account;
+	gboolean available;
+	EMFolderSelectionButton *folderbutt;
+	CamelURL *url;
+	const gchar *value, *param_key = NULL;
+
+	g_return_if_fail (emae != NULL);
+	g_return_if_fail (check != NULL);
+	g_return_if_fail (button != NULL);
+	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
+
+	account = em_account_editor_get_modified_account (emae);
+	g_return_if_fail (account != NULL);
+
+	folderbutt = (EMFolderSelectionButton *)button;
+	url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
+
+	emae_get_checkable_folder_keys_widgets (emae, flag, NULL, NULL, &param_key);
+
+	value = camel_url_get_param (url, param_key);
+	available = account->enabled;
+	gtk_widget_set_sensitive (check, available);
+
+	if (value && *value) {
+		gchar *url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		if (!url_string) {
+			em_folder_selection_button_set_selection (folderbutt, "");
+		} else {
+			CamelURL *copy = camel_url_new (url_string, NULL);
+
+			if (copy->path)
+				g_free (copy->path);
+			copy->path = g_strconcat ("/", value, NULL);
+			g_free (url_string);
+
+			url_string = camel_url_to_string (copy, CAMEL_URL_HIDE_ALL);
+			em_folder_selection_button_set_selection (folderbutt, url_string ? url_string : "");
+			g_free (url_string);
+		}
+	} else {
+		em_folder_selection_button_set_selection (folderbutt, "");
+	}
+
+	value = em_folder_selection_button_get_selection (folderbutt);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), value && *value);
+	gtk_widget_set_sensitive (button, available && value && *value);
+
+	g_object_set_data ((GObject *)check, "url-flag", GINT_TO_POINTER(flag));
+	g_object_set_data ((GObject *)folderbutt, "url-flag", GINT_TO_POINTER(flag));
+
+	g_signal_connect (check, "toggled", G_CALLBACK (emae_real_url_toggled), emae);
+	g_signal_connect (folderbutt, "selected", G_CALLBACK (emae_real_url_folder_changed), emae);
+
+	available = emae->priv->source.provider && ((emae->priv->source.provider->flags & flag) == flag);
+	if (available) {
+		gtk_widget_show (check);
+		gtk_widget_show (button);
+		gtk_widget_show (fixed);
+	} else {
+		gtk_widget_hide (check);
+		gtk_widget_hide (button);
+		gtk_widget_hide (fixed);
+	}
+
+	camel_url_free (url);
+}
+
 static GtkWidget *
 emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
@@ -2756,6 +2937,16 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	/* Special folders */
 	priv->drafts_folder_button = (GtkButton *)emae_account_folder (emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, E_MAIL_FOLDER_DRAFTS, builder);
 	priv->sent_folder_button = (GtkButton *)emae_account_folder (emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, E_MAIL_FOLDER_SENT, builder);
+
+	priv->trash_folder_check = GTK_TOGGLE_BUTTON (e_builder_get_widget (builder, "trash_folder_check"));
+	priv->trash_folder_button = GTK_BUTTON (e_builder_get_widget (builder, "trash_folder_butt"));
+	priv->trash_folder_fixed = e_builder_get_widget (builder, "trash_folder_fixed");
+	setup_checkable_folder (emae, CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER, GTK_WIDGET (priv->trash_folder_check), GTK_WIDGET (priv->trash_folder_button), priv->trash_folder_fixed);
+
+	priv->junk_folder_check = GTK_TOGGLE_BUTTON (e_builder_get_widget (builder, "junk_folder_check"));
+	priv->junk_folder_button = GTK_BUTTON (e_builder_get_widget (builder, "junk_folder_butt"));
+	priv->junk_folder_fixed = e_builder_get_widget (builder, "junk_folder_fixed");
+	setup_checkable_folder (emae, CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER, GTK_WIDGET (priv->junk_folder_check), GTK_WIDGET (priv->junk_folder_button), priv->junk_folder_fixed);
 
 	/* Special Folders "Reset Defaults" button */
 	priv->restore_folders_button = (GtkButton *)e_builder_get_widget (builder, "default_folders_button");
