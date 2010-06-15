@@ -103,8 +103,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "switcher-style-text")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-style-user")
-#define E_SHELL_WINDOW_ACTION_SYNC_OPTIONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "sync-options")
 #define E_SHELL_WINDOW_ACTION_WORK_OFFLINE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "work-offline")
 #define E_SHELL_WINDOW_ACTION_WORK_ONLINE(window) \

@@ -72,14 +72,6 @@ dependencies should be compiled in the order they are listed here):
           Many distributions ship these as Mozilla development
           packages.
 
-	* [Optional] gnome-pilot 2.0 or later
-
-	  This is only necessary if you want to be able to synchronize
-	  your Palm device with Evolution.
-
-	     ftp://ftp.gnome.org/pub/gnome/sources/gnome-pilot
-	     ftp://ftp.gnome.org/pub/gnome/sources/gnome-pilot-conduits
-
 	* [Optional] gnome-spell 1.0.1 or later
 
 	  This is only necessary if you want to have the spell
@@ -146,16 +138,6 @@ OPTIONAL FEATURES
 
 Some optional features can be enabled at compilation time by passing
 appropriate flags to the configure script:
-
-	* GNOME Pilot support.
-
-	  Assuming you have installed gnome-pilot, add the following
-	  options:
-
-	    --with-pisock=<prefix> --enable-pilot-conduits=yes
-
-	  Where <prefix> is the location where pilot-link (a package
-	  that gnome-pilot depends on) was installed.
 
 	* SSL support.
 

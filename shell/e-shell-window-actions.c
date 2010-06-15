@@ -1328,38 +1328,6 @@ action_switcher_style_cb (GtkRadioAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_SYNC_OPTIONS:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the Gnome Pilot settings.
- *
- * Main menu item: Edit -> GNOME Pilot Synchronization...
- **/
-static void
-action_sync_options_cb (GtkAction *action,
-                        EShellWindow *shell_window)
-{
-	const gchar *command_line;
-	GError *error = NULL;
-
-	command_line = "gpilotd-control-applet";
-
-	g_debug ("Spawning: %s", command_line);
-	g_spawn_command_line_async (command_line, &error);
-
-	if (error != NULL) {
-		const gchar *message;
-
-		if (error->code == G_SPAWN_ERROR_NOENT)
-			message = _("GNOME Pilot is not installed.");
-		else
-			message = _("GNOME Pilot could not be run.");
-		e_notice (shell_window, GTK_MESSAGE_ERROR, message);
-		g_error_free (error);
-	}
-}
-
-/**
  * E_SHELL_WINDOW_ACTION_WORK_OFFLINE:
  * @window: an #EShellWindow
  *
@@ -1617,13 +1585,6 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Submit a bug report using Bug Buddy"),
 	  G_CALLBACK (action_submit_bug_cb) },
-
-	{ "sync-options",
-	  NULL,
-	  N_("GNOME Pilot _Synchronization..."),
-	  NULL,
-	  N_("Set up GNOME Pilot configuration"),
-	  G_CALLBACK (action_sync_options_cb) },
 
 	{ "work-offline",
 	  "stock_disconnect",
@@ -2019,12 +1980,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	path = g_find_program_in_path ("bug-buddy");
 	if (path == NULL)
 		gtk_action_set_visible (ACTION (SUBMIT_BUG), FALSE);
-	g_free (path);
-
-	/* Sychronizing your Palm PDA requires gnome-pilot. */
-	path = g_find_program_in_path ("gpilotd-control-applet");
-	if (path == NULL)
-		gtk_action_set_visible (ACTION (SYNC_OPTIONS), FALSE);
 	g_free (path);
 }
 

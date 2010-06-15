@@ -1,7 +1,6 @@
 # List of source files containing translatable strings.
 # Please keep this list in alphabetic order.
 addressbook/addressbook.error.xml
-addressbook/conduit/address-conduit.c
 [type: gettext/glade]addressbook/gui/contact-editor/contact-editor.ui
 addressbook/gui/contact-editor/e-contact-editor-fullname.c
 addressbook/gui/contact-editor/e-contact-editor.c
@@ -40,9 +39,6 @@ addressbook/tools/evolution-addressbook-export.c
 addressbook/util/addressbook.c
 calendar/calendar.error.xml
 calendar/common/authentication.c
-calendar/conduits/calendar/calendar-conduit.c
-calendar/conduits/memo/memo-conduit.c
-calendar/conduits/todo/todo-conduit.c
 calendar/gui/alarm-notify/alarm-notify-dialog.c
 [type: gettext/glade]calendar/gui/alarm-notify/alarm-notify.ui
 calendar/gui/alarm-notify/alarm-queue.c
@@ -473,7 +469,6 @@ widgets/misc/e-import-assistant.c
 widgets/misc/e-map.c
 widgets/misc/e-online-button.c
 widgets/misc/e-paned.c
-widgets/misc/e-pilot-settings.c
 widgets/misc/e-popup-action.c
 widgets/misc/e-preferences-window.c
 widgets/misc/e-search-bar.c

@@ -2,18 +2,9 @@ privsolib_LTLIBRARIES = libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/misc
 
-if ENABLE_PILOT_CONDUITS
-pilot_sources = e-pilot-settings.c
-pilot_headers = e-pilot-settings.h
-else
-pilot_sources =
-pilot_headers =
-endif
-
 ui_DATA = e-send-options.ui
 
 widgetsinclude_HEADERS =			\
-	$(pilot_headers)			\
 	e-account-combo-box.h			\
 	e-account-manager.h			\
 	e-account-tree-view.h			\
@@ -90,7 +81,6 @@ libemiscwidgets_la_CPPFLAGS =						\
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
-	$(pilot_sources)			\
 	e-account-combo-box.c			\
 	e-account-manager.c			\
 	e-account-tree-view.c			\
@@ -224,10 +214,6 @@ test_preferences_window_LDADD = 		\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(E_WIDGETS_LIBS)
 
-
-EXTRA_DIST =			\
-	$(ui_DATA)		\
-	e-pilot-settings.h	\
-	e-pilot-settings.c
+EXTRA_DIST = $(ui_DATA)
 
 -include $(top_srcdir)/git.mk

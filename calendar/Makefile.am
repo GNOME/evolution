@@ -1,10 +1,4 @@
-if ENABLE_PILOT_CONDUITS
-CONDUIT_DIR = conduits
-else
-CONDUIT_DIR =
-endif
-
-SUBDIRS = common importers gui $(CONDUIT_DIR)
+SUBDIRS = common importers gui
 
 error_DATA = calendar.error
 errordir = $(privdatadir)/errors

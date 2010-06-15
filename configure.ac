@@ -57,7 +57,6 @@ m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([clutter_gtk_minimum_version], [0.10.0])
 m4_define([libnotify_minimum_version], [0.3.0])
-m4_define([gnome_pilot_minimum_version], [2.0.16])
 m4_define([gweather_minimum_version], [2.25.3])
 m4_define([gtkimageview_minimum_version], [1.6])
 m4_define([gladeui_minimum_version], [3.0.0])
@@ -646,68 +645,6 @@ dnl *************************
 PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-3.14 >= libgtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-
-dnl ******************************
-dnl Pilot checking
-dnl ******************************
-AC_ARG_ENABLE([pilot-conduits],
-	AS_HELP_STRING([--enable-pilot-conduits],
-	[Enable support for building pilot conduits.]),,
-	[enable_pilot_conduits=no])
-if test "x$enable_pilot_conduits" = "xyes"; then
-	PKG_CHECK_MODULES([GNOME_PILOT], [gnome-pilot-2.0 >= gnome_pilot_minimum_version])
-
-	CFLAGS_save="$CFLAGS"
-	CFLAGS="$CFLAGS $GNOME_PILOT_CFLAGS"
-	LIBS_save="$LIBS"
-	LIBS="$LIBS $GNOME_PILOT_LIBS $LDFLAGS"
-
-	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions],[ac_cv_pilot_link_utf8],
-	AC_RUN_IFELSE([AC_LANG_SOURCE(
-	[[	#include <stdlib.h>
-		#include <string.h>
-		#include <pi-util.h>
-
-		int main (){
-		const char *utf8 = "\x66\x66\x66\x66\x66\x66\x66\xC2\xA9";
-		size_t utf8_real_len = strlen (utf8);
-		char *pstring;
-		if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
-			exit (1);
-		return (0);
-		}
-	]]
-	)],[ac_cv_pilot_link_utf8=yes],[ac_cv_pilot_link_utf8=no],[ac_cv_pilot_link_utf8=no]))
-
-	CFLAGS="$CFLAGS_save"
-	LIBS="$LIBS_save"
-
-	if test "$ac_cv_pilot_link_utf8" = no; then
-		AC_MSG_ERROR([evolution requires pilot-link to have working UTF-8 conversion routines])
-	fi
-fi
-AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, [test x$enable_pilot_conduits = xyes])
-dnl ******************************
-dnl If pilot conduits are enabled, check version of pilot-link
-dnl ******************************
-if test x$enable_pilot_conduits = xyes; then
-	msg_pilot=yes
-
-	PILOT_LINK_CHECK(0.11.4)
-	AC_SUBST(PILOT_LINK_MAJOR)
-	AC_SUBST(PILOT_LINK_MINOR)
-	AC_SUBST(PILOT_LINK_MICRO)
-	AC_SUBST(PILOT_LINK_PATCH)
-	AC_SUBST(PILOT_LINK_VERSION)
-
-	if test $PILOT_LINK_MINOR -ge 12; then
-		AC_DEFINE(PILOT_LINK_0_12,,[Building against pilot-link 0.12.0 or greater])
-	fi
-else
-	msg_pilot=no
-fi
-AC_SUBST(GNOME_PILOT_CFLAGS)
-AC_SUBST(GNOME_PILOT_LIBS)
 
 dnl ************
 dnl Kerberos 5
@@ -1298,12 +1235,6 @@ EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
 
-if test x$enable_pilot_conduits = xyes; then
-EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK_CONDUIT, gnome-pilot-2.0 $EVOLUTION_ADDRESSBOOK_DEPS)
-AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
-AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
-fi
-
 dnl ***************
 dnl Libnotify Flags
 dnl ***************
@@ -1333,12 +1264,6 @@ AC_SUBST(GDATA_LIBS)
 EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
-
-if test x$enable_pilot_conduits = xyes; then
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gnome-pilot-2.0, $EVOLUTION_CALENDAR_CFLAGS, $EVOLUTION_CALENDAR_LIBS)
-AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
-AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
-fi
 
 dnl **********
 dnl Mail Flags
@@ -1414,9 +1339,6 @@ AC_SUBST(etspecdir)
 
 viewsdir="$privdatadir/views"
 AC_SUBST(viewsdir)
-
-privconduitdir="$privlibdir/conduits"
-AC_SUBST(privconduitdir)
 
 dnl For evolution-alarm-notify.desktop
 AS_AC_EXPAND(PRIVLIBEXECDIR, "$privlibexecdir")
@@ -1685,7 +1607,6 @@ AC_CONFIG_FILES([ po/Makefile.in
 Makefile
 a11y/Makefile
 addressbook/Makefile
-addressbook/conduit/Makefile
 addressbook/gui/Makefile
 addressbook/gui/contact-editor/Makefile
 addressbook/gui/contact-list-editor/Makefile
@@ -1744,11 +1665,6 @@ widgets/table/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/common/Makefile
-calendar/conduits/Makefile
-calendar/conduits/common/Makefile
-calendar/conduits/todo/Makefile
-calendar/conduits/calendar/Makefile
-calendar/conduits/memo/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
@@ -1858,7 +1774,6 @@ echo "
 	NetworkManager:		$enable_nm
 	Windows SENS:           $enable_sens
 	ConnMan:		$enable_connman
-	Pilot conduits:		$msg_pilot
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
 	SSL support:		$msg_ssl

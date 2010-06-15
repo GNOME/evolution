@@ -34,7 +34,6 @@
       <separator/>
       <placeholder name='edit-actions'/>
       <separator/>
-      <menuitem action='sync-options'/>
       <placeholder name='administrative-actions'/>
       <menuitem action='preferences'/>
     </menu>

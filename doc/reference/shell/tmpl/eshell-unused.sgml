@@ -4,6 +4,13 @@
 </para>
 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SYNC_OPTIONS ##### -->
+<para>
+
+</para>
+
+@window: 
+
 <!-- ##### FUNCTION e_shell_content_get_search_name ##### -->
 <para>
 

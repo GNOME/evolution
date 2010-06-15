@@ -12,7 +12,6 @@ cd @prefix@
 rm $ZIP
 zip -r $ZIP -@ <<EOF
 bin/libeabutil-0.dll
-bin/libeconduit-0.dll
 bin/libecontacteditor-0.dll
 bin/libecontactlisteditor-0.dll
 bin/libefilterbar-0.dll
@@ -63,7 +62,6 @@ fi
 rm $DEVZIP
 zip -r $DEVZIP -@ <<EOF
 lib/libeabutil.dll.a
-lib/libeconduit.dll.a
 lib/libecontacteditor.dll.a
 lib/libecontactlisteditor.dll.a
 lib/libefilterbar.dll.a
