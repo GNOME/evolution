@@ -12,6 +12,6 @@ privincludedir=@privincludedir@
 Name: Evolution Calendar
 Description: Calendar utilities for Evolution
 Version: @VERSION@
-Requires: evolution-shell libgnomecanvas-2.0
+Requires: evolution-shell
 Libs: -L${privlibdir} -levolution-calendar
 Cflags: -I${privincludedir}
