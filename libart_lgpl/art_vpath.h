@@ -44,20 +44,11 @@ void
 art_vpath_add_point (ArtVpath **p_vpath, int *pn_points, int *pn_points_max,
 		     ArtPathcode code, double x, double y);
 
-ArtVpath *
-art_vpath_new_circle (double x, double y, double r);
-
-ArtVpath *
-art_vpath_affine_transform (const ArtVpath *src, const double matrix[6]);
-
 void
 art_vpath_bbox_drect (const ArtVpath *vec, ArtDRect *drect);
 
 void
 art_vpath_bbox_irect (const ArtVpath *vec, ArtIRect *irect);
-
-ArtVpath *
-art_vpath_perturb (ArtVpath *src);
 
 #ifdef __cplusplus
 }

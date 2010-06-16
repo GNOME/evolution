@@ -40,10 +40,6 @@ struct _ArtIRect {
 /* Make a copy of the rectangle. */
 void art_irect_copy (ArtIRect *dest, const ArtIRect *src);
 
-/* Find the smallest rectangle that includes both source rectangles. */
-void art_irect_union (ArtIRect *dest,
-		      const ArtIRect *src1, const ArtIRect *src2);
-
 /* Return the intersection of the two rectangles */
 void art_irect_intersect (ArtIRect *dest,
 			  const ArtIRect *src1, const ArtIRect *src2);
@@ -57,10 +53,6 @@ void art_drect_copy (ArtDRect *dest, const ArtDRect *src);
 /* Find the smallest rectangle that includes both source rectangles. */
 void art_drect_union (ArtDRect *dest,
 		      const ArtDRect *src1, const ArtDRect *src2);
-
-/* Return the intersection of the two rectangles */
-void art_drect_intersect (ArtDRect *dest,
-			  const ArtDRect *src1, const ArtDRect *src2);
 
 /* Return true if the rectangle is empty. */
 int art_drect_empty (const ArtDRect *src);

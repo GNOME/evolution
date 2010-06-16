@@ -39,13 +39,6 @@ typedef enum {
 } ArtWindRule;
 #endif
 
-ArtSVP *
-art_svp_uncross (ArtSVP *vp);
-
-ArtSVP *
-art_svp_rewind_uncrossed (ArtSVP *vp, ArtWindRule rule);
-
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

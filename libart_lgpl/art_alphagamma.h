@@ -38,12 +38,6 @@ struct _ArtAlphaGamma {
   art_u8 invtable[1];
 };
 
-ArtAlphaGamma *
-art_alphagamma_new (double gamma);
-
-void
-art_alphagamma_free (ArtAlphaGamma *alphagamma);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

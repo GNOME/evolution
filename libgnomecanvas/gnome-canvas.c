@@ -86,7 +86,6 @@
 #include <libart_lgpl/art_rect.h>
 #include <libart_lgpl/art_rect_uta.h>
 #include <libart_lgpl/art_uta_rect.h>
-#include <libart_lgpl/art_uta_ops.h>
 
 #include "gnome-canvas-marshal.h"
 #include "gnome-canvas-marshal.c"

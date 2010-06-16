@@ -139,27 +139,6 @@ struct _ArtRender {
   art_boolean need_span;
 };
 
-ArtRender *
-art_render_new (int x0, int y0, int x1, int y1,
-		art_u8 *pixels, int rowstride,
-		int n_chan, int depth, ArtAlphaType alpha_type,
-		ArtAlphaGamma *alphagamma);
-
-void
-art_render_invoke (ArtRender *render);
-
-void
-art_render_clear (ArtRender *render, const ArtPixMaxDepth *clear_color);
-
-void
-art_render_clear_rgb (ArtRender *render, art_u32 clear_rgb);
-
-void
-art_render_mask_solid (ArtRender *render, int opacity);
-
-void
-art_render_image_solid (ArtRender *render, ArtPixMaxDepth *color);
-
 /* The next two functions are for custom mask sources only. */
 void
 art_render_add_mask_source (ArtRender *render, ArtMaskSource *mask_source);

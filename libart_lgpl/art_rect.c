@@ -48,28 +48,6 @@ art_irect_copy (ArtIRect *dest, const ArtIRect *src) {
 }
 
 /**
- * art_irect_union: Find union of two integer rectangles.
- * @dest: Where the result is stored.
- * @src1: A source rectangle.
- * @src2: Another source rectangle.
- *
- * Finds the smallest rectangle that includes @src1 and @src2.
- **/
-void
-art_irect_union (ArtIRect *dest, const ArtIRect *src1, const ArtIRect *src2) {
-  if (art_irect_empty (src1)) {
-    art_irect_copy (dest, src2);
-  } else if (art_irect_empty (src2)) {
-    art_irect_copy (dest, src1);
-  } else {
-    dest->x0 = MIN (src1->x0, src2->x0);
-    dest->y0 = MIN (src1->y0, src2->y0);
-    dest->x1 = MAX (src1->x1, src2->x1);
-    dest->y1 = MAX (src1->y1, src2->y1);
-  }
-}
-
-/**
  * art_irect_intersection: Find intersection of two integer rectangles.
  * @dest: Where the result is stored.
  * @src1: A source rectangle.
@@ -138,22 +116,6 @@ art_drect_union (ArtDRect *dest, const ArtDRect *src1, const ArtDRect *src2) {
     dest->x1 = MAX (src1->x1, src2->x1);
     dest->y1 = MAX (src1->y1, src2->y1);
   }
-}
-
-/**
- * art_drect_intersection: Find intersection of two rectangles.
- * @dest: Where the result is stored.
- * @src1: A source rectangle.
- * @src2: Another source rectangle.
- *
- * Finds the intersection of @src1 and @src2.
- **/
-void
-art_drect_intersect (ArtDRect *dest, const ArtDRect *src1, const ArtDRect *src2) {
-  dest->x0 = MAX (src1->x0, src2->x0);
-  dest->y0 = MAX (src1->y0, src2->y0);
-  dest->x1 = MIN (src1->x1, src2->x1);
-  dest->y1 = MIN (src1->y1, src2->y1);
 }
 
 /**

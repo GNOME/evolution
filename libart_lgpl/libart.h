@@ -27,7 +27,6 @@
 #include <libart_lgpl/art_svp_vpath_stroke.h>
 #include <libart_lgpl/art_svp_wind.h>
 #include <libart_lgpl/art_uta.h>
-#include <libart_lgpl/art_uta_ops.h>
 #include <libart_lgpl/art_uta_rect.h>
 #include <libart_lgpl/art_uta_svp.h>
 #include <libart_lgpl/art_uta_vpath.h>
