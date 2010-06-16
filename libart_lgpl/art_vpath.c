@@ -59,9 +59,6 @@ art_vpath_add_point (ArtVpath **p_vpath, int *pn_points, int *pn_points_max,
   (*p_vpath)[i].y = y;
 }
 
-/* number of steps should really depend on radius. */
-#define CIRCLE_STEPS 128
-
 /**
  * art_vpath_bbox_drect: Determine bounding box of vpath.
  * @vec: Source vpath.

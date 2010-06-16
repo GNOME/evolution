@@ -33,21 +33,6 @@
 /* rectangle primitives stolen from gzilla */
 
 /**
- * art_irect_copy: Make a copy of an integer rectangle.
- * @dest: Where the copy is stored.
- * @src: The source rectangle.
- *
- * Copies the rectangle.
- **/
-void
-art_irect_copy (ArtIRect *dest, const ArtIRect *src) {
-  dest->x0 = src->x0;
-  dest->y0 = src->y0;
-  dest->x1 = src->x1;
-  dest->y1 = src->y1;
-}
-
-/**
  * art_irect_intersection: Find intersection of two integer rectangles.
  * @dest: Where the result is stored.
  * @src1: A source rectangle.
@@ -73,13 +58,6 @@ int
 art_irect_empty (const ArtIRect *src) {
   return (src->x1 <= src->x0 || src->y1 <= src->y0);
 }
-
-#if 0
-gboolean irect_point_inside (ArtIRect *rect, GzwPoint *point) {
-  return (point->x >= rect->x0 && point->y >= rect->y0 &&
-	  point->x < rect->x1 && point->y < rect->y1);
-}
-#endif
 
 /**
  * art_drect_copy: Make a copy of a rectangle.

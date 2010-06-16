@@ -139,17 +139,6 @@ struct _ArtRender {
   art_boolean need_span;
 };
 
-/* The next two functions are for custom mask sources only. */
-void
-art_render_add_mask_source (ArtRender *render, ArtMaskSource *mask_source);
-
-void
-art_render_invoke_callbacks (ArtRender *render, art_u8 *dest, int y);
-
-/* The following function is for custom image sources only. */
-void
-art_render_add_image_source (ArtRender *render, ArtImageSource *image_source);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

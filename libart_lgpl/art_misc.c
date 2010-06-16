@@ -61,22 +61,6 @@ art_warn (const char *fmt, ...)
   va_end (ap);
 }
 
-/**
- * art_dprint: Print the debug message to stderr.
- * @fmt: The printf-style format for the debug message.
- *
- * Used for generating debug output.
- **/
-void
-art_dprint (const char *fmt, ...)
-{
-  va_list ap;
-
-  va_start (ap, fmt);
-  vfprintf (stderr, fmt, ap);
-  va_end (ap);
-}
-
 void *art_alloc(size_t size)
 {
   return malloc(size);

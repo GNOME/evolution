@@ -15,7 +15,6 @@ libart_lgplinclude_HEADERS = \
 	art_gray_svp.h \
 	art_misc.h \
 	art_pathcode.h \
-	art_pixbuf.h \
 	art_point.h \
 	art_rect.h \
 	art_rect_svp.h \
@@ -49,7 +48,6 @@ libart_lgpl_la_SOURCES = \
 	art_bpath.c \
 	art_gray_svp.c \
 	art_misc.c \
-	art_pixbuf.c \
 	art_rect.c \
 	art_rect_svp.c \
 	art_rect_uta.c \

@@ -34,9 +34,6 @@ void
 art_affine_invert (double dst_affine[6], const double src_affine[6]);
 
 void
-art_affine_to_string (char str[128], const double src[6]);
-
-void
 art_affine_multiply (double dst[6],
 		     const double src1[6], const double src2[6]);
 

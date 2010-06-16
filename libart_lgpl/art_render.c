@@ -39,10 +39,6 @@ struct _ArtRenderPriv {
   ArtRenderCallback **callbacks;
 };
 
-/* todo on clear routines: I haven't really figured out what to do
-   with clearing the alpha channel. It _should_ be possible to clear
-   to an arbitrary RGBA color. */
-
 static void
 art_render_nop_done (ArtRenderCallback *self, ArtRender *render)
 {
@@ -739,93 +735,4 @@ const ArtRenderCallback art_render_composite_8_opt2_obj =
   art_render_nop_done
 };
 
-
-/**
- * art_render_invoke_callbacks: Invoke the callbacks in the render object.
- * @render: The render object.
- * @y: The current Y coordinate value.
- *
- * Invokes the callbacks of the render object in the appropriate
- * order.  Drivers should call this routine once per scanline.
- *
- * todo: should management of dest devolve to this routine? very
- * plausibly yes.
- **/
-void
-art_render_invoke_callbacks (ArtRender *render, art_u8 *dest, int y)
-{
-  ArtRenderPriv *priv = (ArtRenderPriv *)render;
-  int i;
-
-  for (i = 0; i < priv->n_callbacks; i++)
-    {
-      ArtRenderCallback *callback;
-
-      callback = priv->callbacks[i];
-      callback->render (callback, render, dest, y);
-    }
-}
-
-/**
- * art_render_add_mask_source: Add a mask source to the render object.
- * @render: Render object.
- * @mask_source: Mask source to add.
- *
- * This routine adds a mask source to the render object. In general,
- * client api's for adding mask sources should just take a render object,
- * then the mask source creation function should call this function.
- * Clients should never have to call this function directly, unless of
- * course they're creating custom mask sources.
- **/
-void
-art_render_add_mask_source (ArtRender *render, ArtMaskSource *mask_source)
-{
-  ArtRenderPriv *priv = (ArtRenderPriv *)render;
-  int n_mask_source = priv->n_mask_source++;
-
-  if (n_mask_source == 0)
-    priv->mask_source = art_new (ArtMaskSource *, 1);
-  /* This predicate is true iff n_mask_source is a power of two */
-  else if (!(n_mask_source & (n_mask_source - 1)))
-    priv->mask_source = art_renew (priv->mask_source, ArtMaskSource *,
-				   n_mask_source << 1);
-
-  priv->mask_source[n_mask_source] = mask_source;
-}
-
-/**
- * art_render_add_image_source: Add a mask source to the render object.
- * @render: Render object.
- * @image_source: Image source to add.
- *
- * This routine adds an image source to the render object. In general,
- * client api's for adding image sources should just take a render
- * object, then the mask source creation function should call this
- * function.  Clients should never have to call this function
- * directly, unless of course they're creating custom image sources.
- **/
-void
-art_render_add_image_source (ArtRender *render, ArtImageSource *image_source)
-{
-  ArtRenderPriv *priv = (ArtRenderPriv *)render;
-
-  if (priv->image_source != NULL)
-    {
-      art_warn ("art_render_add_image_source: image source already present.\n");
-      return;
-    }
-  priv->image_source = image_source;
-}
-
-/* Solid image source object and methods. Perhaps this should go into a
-   separate file. */
-
-typedef struct _ArtImageSourceSolid ArtImageSourceSolid;
-
-struct _ArtImageSourceSolid {
-  ArtImageSource super;
-  ArtPixMaxDepth color[ART_MAX_CHAN];
-  art_u32 *rgbtab;
-  art_boolean init;
-};
 

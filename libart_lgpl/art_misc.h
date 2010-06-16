@@ -86,9 +86,6 @@ art_die (const char *fmt, ...) ART_GNUC_PRINTF (1, 2);
 void
 art_warn (const char *fmt, ...) ART_GNUC_PRINTF (1, 2);
 
-void
-art_dprint (const char *fmt, ...) ART_GNUC_PRINTF (1, 2);
-
 #ifdef __cplusplus
 }
 #endif
