@@ -1,3 +1,5 @@
+libgnomecanvasincludedir = $(privincludedir)/libgnomecanvas
+
 privsolib_LTLIBRARIES = libgnomecanvas.la
 
 libgnomecanvas_la_CPPFLAGS = \
@@ -11,60 +13,56 @@ libgnomecanvas_la_CPPFLAGS = \
 	-DGNOMECANVASLOCALSTATEDIR=\""$(localstatedir)"\" 	\
 	-DG_LOG_DOMAIN=\"GnomeCanvas\"
 
-libgnomecanvas_la_LIBADD = \
-	$(top_builddir)/libart_lgpl/libart_lgpl.la	\
-	$(GNOME_PLATFORM_LIBS)
-
-libgnomecanvas_la_LDFLAGS = $(NO_UNDEFINED)
+libgnomecanvasinclude_HEADERS =			\
+	gailcanvas.h				\
+	gailcanvasgroup.h			\
+	gailcanvasgroupfactory.h		\
+	gailcanvasitem.h			\
+	gailcanvasitemfactory.h			\
+	gailcanvastext.h			\
+	gailcanvastextfactory.h			\
+	gailcanvaswidget.h			\
+	gailcanvaswidgetfactory.h		\
+	gnome-canvas-bpath.h			\
+	gnome-canvas-clipgroup.h		\
+	gnome-canvas-i18n.h			\
+	gnome-canvas-line.h			\
+	gnome-canvas-path-def.h			\
+	gnome-canvas-pixbuf.h			\
+	gnome-canvas-polygon.h			\
+	gnome-canvas-rect-ellipse.h		\
+	gnome-canvas-rich-text.h		\
+	gnome-canvas-shape.h			\
+	gnome-canvas-text.h			\
+	gnome-canvas-util.h			\
+	gnome-canvas-widget.h			\
+	gnome-canvas.h				\
+	libgnomecanvas.h
 
 libgnomecanvas_la_SOURCES =			\
 	gailcanvas.c				\
-	gailcanvas.h				\
 	gailcanvasgroup.c			\
-	gailcanvasgroup.h			\
 	gailcanvasgroupfactory.c		\
-	gailcanvasgroupfactory.h		\
 	gailcanvasitem.c			\
-	gailcanvasitem.h			\
 	gailcanvasitemfactory.c			\
-	gailcanvasitemfactory.h			\
 	gailcanvastext.c			\
-	gailcanvastext.h			\
 	gailcanvastextfactory.c			\
-	gailcanvastextfactory.h			\
 	gailcanvaswidget.c			\
-	gailcanvaswidget.h			\
 	gailcanvaswidgetfactory.c		\
-	gailcanvaswidgetfactory.h		\
 	gnome-canvas-bpath.c			\
-	gnome-canvas-bpath.h			\
 	gnome-canvas-clipgroup.c		\
-	gnome-canvas-clipgroup.h		\
-	gnome-canvas-i18n.h			\
 	gnome-canvas-line.c			\
-	gnome-canvas-line.h			\
 	gnome-canvas-path-def.c			\
-	gnome-canvas-path-def.h			\
 	gnome-canvas-pixbuf.c			\
-	gnome-canvas-pixbuf.h			\
 	gnome-canvas-polygon.c			\
-	gnome-canvas-polygon.h			\
 	gnome-canvas-rect-ellipse.c		\
-	gnome-canvas-rect-ellipse.h		\
 	gnome-canvas-rich-text.c		\
-	gnome-canvas-rich-text.h		\
 	gnome-canvas-shape-private.h		\
 	gnome-canvas-shape.c			\
-	gnome-canvas-shape.h			\
 	gnome-canvas-text.c			\
-	gnome-canvas-text.h			\
 	gnome-canvas-util.c			\
-	gnome-canvas-util.h			\
 	gnome-canvas-widget.c			\
-	gnome-canvas-widget.h			\
 	gnome-canvas.c				\
-	gnome-canvas.h				\
-	libgnomecanvas.h			\
 	libgnomecanvastypes.c
 
 MARSHAL_GENERATED =				\
@@ -72,6 +70,12 @@ MARSHAL_GENERATED =				\
 	gnome-canvas-marshal.h
 
 @EVO_MARSHAL_RULE@
+
+libgnomecanvas_la_LIBADD = \
+	$(top_builddir)/libart_lgpl/libart_lgpl.la	\
+	$(GNOME_PLATFORM_LIBS)
+
+libgnomecanvas_la_LDFLAGS = $(NO_UNDEFINED)
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 
