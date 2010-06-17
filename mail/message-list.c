@@ -114,6 +114,12 @@ struct _MessageListPrivate {
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
+
+	/* This aids in automatic message selection. */
+	time_t latest_read_date;
+	const gchar *latest_read_uid;
+	time_t latest_unread_date;
+	const gchar *latest_unread_uid;
 };
 
 enum {
@@ -667,19 +673,47 @@ message_list_can_select(MessageList *ml, MessageListSelectDirection direction, g
  * Selects the message with the given UID.
  **/
 void
-message_list_select_uid (MessageList *message_list, const gchar *uid)
+message_list_select_uid (MessageList *message_list,
+                         const gchar *uid,
+                         gboolean with_fallback)
 {
-	ETreePath node;
+	MessageListPrivate *priv;
+	GHashTable *uid_nodemap;
+	ETreePath node = NULL;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	priv = message_list->priv;
+	uid_nodemap = message_list->uid_nodemap;
 
 	if (message_list->folder == NULL)
 		return;
 
+	/* Try to find the requested message UID. */
+	if (uid != NULL)
+		node = g_hash_table_lookup (uid_nodemap, uid);
+
+	/* If we're busy or waiting to regenerate the message list, cache
+	 * the UID so we can try again when we're done.  Otherwise if the
+	 * requested message UID was not found and 'with_fallback' is set,
+	 * try a couple fallbacks:
+	 *
+	 * 1) Most recently received unread message in the list.
+	 * 2) Most recently received read message in the list.
+	 */
 	if (message_list->regen || message_list->regen_timeout_id) {
-		g_free(message_list->pending_select_uid);
-		message_list->pending_select_uid = g_strdup(uid);
+		g_free (message_list->pending_select_uid);
+		message_list->pending_select_uid = g_strdup (uid);
+		message_list->pending_select_fallback = with_fallback;
+	} else if (with_fallback) {
+		if (node == NULL && priv->latest_unread_uid != NULL)
+			node = g_hash_table_lookup (
+				uid_nodemap, priv->latest_unread_uid);
+		if (node == NULL && priv->latest_read_uid != NULL)
+			node = g_hash_table_lookup (
+				uid_nodemap, priv->latest_read_uid);
 	}
 
-	node = g_hash_table_lookup (message_list->uid_nodemap, uid);
 	if (node) {
 		ETree *tree;
 		ETreePath old_cur;
@@ -691,11 +725,17 @@ message_list_select_uid (MessageList *message_list, const gchar *uid)
 		e_tree_set_cursor (tree, node);
 
 		if (old_cur == node)
-			g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
+			g_signal_emit (
+				message_list,
+				message_list_signals[MESSAGE_SELECTED],
+				0, message_list->cursor_uid);
 	} else {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
-		g_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], 0, NULL);
+		g_signal_emit (
+			message_list,
+			message_list_signals[MESSAGE_SELECTED],
+			0, NULL);
 	}
 }
 
@@ -2836,6 +2876,11 @@ clear_tree (MessageList *ml, gboolean tfree)
 	g_hash_table_destroy (ml->uid_nodemap);
 	ml->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 
+	ml->priv->latest_read_date = 0;
+	ml->priv->latest_read_uid = NULL;
+	ml->priv->latest_unread_date = 0;
+	ml->priv->latest_unread_uid = NULL;
+
 	if (ml->tree_root) {
 		/* we should be frozen already */
 		e_tree_memory_node_remove (E_TREE_MEMORY(etm), ml->tree_root);
@@ -2970,6 +3015,70 @@ find_next_selectable (MessageList *ml)
 	return NULL;
 }
 
+static ETreePath *
+ml_uid_nodemap_insert (MessageList *message_list,
+                       CamelMessageInfo *info,
+                       ETreePath *parent_node,
+                       gint row)
+{
+	ETreeMemory *tree;
+	ETreePath *node;
+	const gchar *uid;
+	time_t date;
+	guint flags;
+
+	if (parent_node == NULL)
+		parent_node = message_list->tree_root;
+
+	tree = E_TREE_MEMORY (message_list->model);
+	node = e_tree_memory_node_insert (tree, parent_node, row, info);
+
+	uid = camel_message_info_uid (info);
+	flags = camel_message_info_flags (info);
+	date = camel_message_info_date_received (info);
+
+	camel_folder_ref_message_info (message_list->folder, info);
+	g_hash_table_insert (message_list->uid_nodemap, (gpointer) uid, node);
+
+	/* Track the latest seen and unseen messages shown, used in
+	 * fallback heuristics for automatic message selection. */
+	if (flags & CAMEL_MESSAGE_SEEN) {
+		if (date > message_list->priv->latest_read_date) {
+			message_list->priv->latest_read_date = date;
+			message_list->priv->latest_read_uid = uid;
+		}
+	} else {
+		if (date > message_list->priv->latest_unread_date) {
+			message_list->priv->latest_unread_date = date;
+			message_list->priv->latest_unread_uid = uid;
+		}
+	}
+
+	return node;
+}
+
+static void
+ml_uid_nodemap_remove (MessageList *message_list,
+                       CamelMessageInfo *info)
+{
+	const gchar *uid;
+
+	uid = camel_message_info_uid (info);
+
+	if (uid == message_list->priv->latest_read_uid) {
+		message_list->priv->latest_read_date = 0;
+		message_list->priv->latest_read_uid = NULL;
+	}
+
+	if (uid == message_list->priv->latest_unread_uid) {
+		message_list->priv->latest_unread_date = 0;
+		message_list->priv->latest_unread_uid = NULL;
+	}
+
+	g_hash_table_remove (message_list->uid_nodemap, uid);
+	camel_folder_free_message_info (message_list->folder, info);
+}
+
 /* only call if we have a tree model */
 /* builds the tree structure */
 
@@ -3067,7 +3176,6 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 static void
 build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, gint *row)
 {
-	ETreeModel *tree = ml->model;
 	ETreePath node;
 
 	while (c) {
@@ -3078,9 +3186,8 @@ build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, gint
 			continue;
 		}
 
-		node = e_tree_memory_node_insert(E_TREE_MEMORY(tree), parent, -1, (gpointer)c->message);
-		g_hash_table_insert(ml->uid_nodemap, (gpointer)camel_message_info_uid(c->message), node);
-		camel_folder_ref_message_info(ml->folder, (CamelMessageInfo *)c->message);
+		node = ml_uid_nodemap_insert (
+			ml, (CamelMessageInfo *) c->message, parent, -1);
 
 		if (c->child) {
 			build_subtree(ml, node, c->child, row);
@@ -3149,16 +3256,17 @@ tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 static void
 add_node_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, gint *row, gint myrow)
 {
-	ETreeModel *etm = ml->model;
+	CamelMessageInfo *info;
 	ETreePath node;
 
 	g_return_if_fail (c->message != NULL);
 
-	/* we just update the hashtable key, umm, does this leak the info on the message node? */
-	g_hash_table_remove(ml->uid_nodemap, camel_message_info_uid(c->message));
-	node = e_tree_memory_node_insert(E_TREE_MEMORY(etm), parent, myrow, (gpointer)c->message);
-	g_hash_table_insert(ml->uid_nodemap, (gpointer)camel_message_info_uid(c->message), node);
-	camel_folder_ref_message_info(ml->folder, (CamelMessageInfo *)c->message);
+	/* XXX Casting away constness. */
+	info = (CamelMessageInfo *) c->message;
+
+	/* we just update the hashtable key */
+	ml_uid_nodemap_remove (ml, info);
+	node = ml_uid_nodemap_insert (ml, info, parent, myrow);
 	(*row)++;
 
 	if (c->child) {
@@ -3192,8 +3300,7 @@ remove_node_diff(MessageList *ml, ETreePath node, gint depth)
 		e_tree_memory_node_remove(E_TREE_MEMORY(etm), node);
 
 	g_return_if_fail (info);
-	g_hash_table_remove(ml->uid_nodemap, camel_message_info_uid(info));
-	camel_folder_free_message_info(ml->folder, info);
+	ml_uid_nodemap_remove (ml, info);
 }
 
 /* applies a new tree structure to an existing tree, but only by changing things
@@ -3341,12 +3448,9 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml, FALSE);
 		for (i = 0; i < summary->len; i++) {
-			ETreePath node;
 			CamelMessageInfo *info = summary->pdata[i];
 
-			node = e_tree_memory_node_insert(E_TREE_MEMORY(etm), ml->tree_root, -1, info);
-			g_hash_table_insert(ml->uid_nodemap, (gpointer)camel_message_info_uid(info), node);
-			camel_folder_ref_message_info(ml->folder, info);
+			ml_uid_nodemap_insert (ml, info, NULL, -1);
 		}
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
 #ifdef BROKEN_ETREE
@@ -3418,8 +3522,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 		if (node) {
 			info = e_tree_memory_node_get_data(E_TREE_MEMORY(ml->model), node);
 			e_tree_memory_node_remove(E_TREE_MEMORY(ml->model), node);
-			camel_folder_free_message_info(ml->folder, info);
-			g_hash_table_remove(ml->uid_nodemap, changes->uid_removed->pdata[i]);
+			ml_uid_nodemap_remove (ml, info);
 		}
 	}
 
@@ -3429,8 +3532,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 		info = camel_folder_get_message_info (ml->folder, changes->uid_added->pdata[i]);
 		if (info) {
 			d(printf(" %s\n", (gchar *)changes->uid_added->pdata[i]));
-			node = e_tree_memory_node_insert (E_TREE_MEMORY (ml->model), ml->tree_root, -1, info);
-			g_hash_table_insert (ml->uid_nodemap, (gpointer)camel_message_info_uid (info), node);
+			ml_uid_nodemap_insert (ml, info, NULL, -1);
 		}
 	}
 
@@ -4432,10 +4534,13 @@ regen_list_done (struct _regen_list_msg *m)
 	g_mutex_unlock (m->ml->regen_lock);
 
 	if (m->ml->regen == NULL && m->ml->pending_select_uid) {
-		gchar *uid = m->ml->pending_select_uid;
+		gchar *uid;
+		gboolean with_fallback;
 
+		uid = m->ml->pending_select_uid;
 		m->ml->pending_select_uid = NULL;
-		message_list_select_uid(m->ml, uid);
+		with_fallback = m->ml->pending_select_fallback;
+		message_list_select_uid (m->ml, uid, with_fallback);
 		g_free(uid);
 	} else if (m->ml->regen == NULL && m->ml->cursor_uid == NULL && m->last_row != -1) {
 		ETreeTableAdapter *etta = e_tree_get_table_adapter (tree);
