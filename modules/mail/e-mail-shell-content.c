@@ -124,7 +124,6 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	GKeyFile *key_file;
-	gchar *uid;
 
 	g_signal_handler_disconnect (
 		message_list, priv->message_list_built_id);
@@ -137,40 +136,28 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	if (message_list->cursor_uid != NULL)
-		uid = NULL;
+		;  /* do nothing */
 
 	else if (message_list->folder_uri == NULL)
-		uid = NULL;
+		;  /* do nothing */
 
-	else if (e_shell_window_get_safe_mode (shell_window)) {
+	else if (e_shell_window_get_safe_mode (shell_window))
 		e_shell_window_set_safe_mode (shell_window, FALSE);
-		uid = NULL;
 
-	} else {
+	else {
 		const gchar *folder_uri;
 		const gchar *key;
 		gchar *group_name;
+		gchar *uid;
 
 		key = STATE_KEY_SELECTED_MESSAGE;
 		folder_uri = message_list->folder_uri;
 		group_name = g_strdup_printf ("Folder %s", folder_uri);
 		uid = g_key_file_get_string (key_file, group_name, key, NULL);
 		g_free (group_name);
-	}
 
-	if (uid != NULL) {
-		CamelFolder *folder;
-		CamelMessageInfo *info;
-
-		folder = message_list->folder;
-		info = camel_folder_get_message_info (folder, uid);
-		if (info != NULL) {
-			EMailReader *reader;
-
-			reader = E_MAIL_READER (mail_shell_content);
-			e_mail_reader_set_message (reader, uid);
-			camel_folder_free_message_info (folder, info);
-		}
+		/* Use selection fallbacks if UID is not found. */
+		message_list_select_uid (message_list, uid, TRUE);
 
 		g_free (uid);
 	}

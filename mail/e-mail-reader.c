@@ -2122,7 +2122,7 @@ mail_reader_set_message (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_uid (MESSAGE_LIST (message_list), uid);
+	message_list_select_uid (MESSAGE_LIST (message_list), uid, FALSE);
 }
 
 static void

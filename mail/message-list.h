@@ -154,6 +154,7 @@ struct _MessageList {
 	GList *regen;
 	GMutex *regen_lock; /* when writing to the regen, guard with this lock too */
 	gchar *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
+	gboolean pending_select_fallback;
 	guint regen_timeout_id;
 	gpointer regen_timeout_msg;
 
@@ -208,7 +209,8 @@ gboolean	message_list_can_select		(MessageList *message_list,
 						 guint32 flags,
 						 guint32 mask);
 void		message_list_select_uid		(MessageList *message_list,
-						 const gchar *uid);
+						 const gchar *uid,
+						 gboolean with_fallback);
 void		message_list_select_next_thread	(MessageList *message_list);
 void		message_list_select_all		(MessageList *message_list);
 void		message_list_select_thread	(MessageList *message_list);
