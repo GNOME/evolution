@@ -44,6 +44,12 @@
 	N_("Do you want to mark messages as read in the current folder " \
 	   "only, or in the current folder as well as all subfolders?")
 
+enum {
+	MARK_ALL_READ_CANCEL,
+	MARK_ALL_READ_CURRENT_FOLDER,
+	MARK_ALL_READ_WITH_SUBFOLDERS
+};
+
 gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 
@@ -81,7 +87,7 @@ prompt_user (void)
 	GtkWidget *widget;
 	GtkWidget *vbox;
 	gchar *markup;
-	gint response;
+	gint response, ret;
 
 	dialog = gtk_dialog_new ();
 	gtk_widget_hide (GTK_DIALOG (dialog)->action_area);
@@ -193,7 +199,14 @@ prompt_user (void)
 
 	gtk_widget_destroy (dialog);
 
-	return response;
+	if (response == GTK_RESPONSE_YES)
+		ret = MARK_ALL_READ_WITH_SUBFOLDERS;
+	else if (response == GTK_RESPONSE_NO)
+		ret = MARK_ALL_READ_CURRENT_FOLDER;
+	else
+		ret = MARK_ALL_READ_CANCEL;
+
+	return ret;
 }
 
 static gboolean
@@ -360,14 +373,14 @@ mar_got_folder (gchar *folder_uri,
 	if (camel_exception_is_set (&ex))
 		goto exit;
 
-	if (scan_folder_tree_for_unread (folder_uri) > 1)
-		response = prompt_user ();
-	else
-		response = GTK_RESPONSE_NO;
+	response = prompt_user ();
 
-	if (response == GTK_RESPONSE_NO)
+	if (response == MARK_ALL_READ_CANCEL)
+		return;
+
+	if (response == MARK_ALL_READ_CURRENT_FOLDER)
 		mark_all_as_read (folder);
-	else if (response == GTK_RESPONSE_YES)
+	else if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
 		mar_all_sub_folders (store, folder_info, &ex);
 
 exit:
