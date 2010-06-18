@@ -510,6 +510,9 @@ main (gint argc, gchar **argv)
 	if (register_handlers || reinstall || show_icons) {
 		_e_win32_register_mailer ();
 	}
+	
+	if (register_handlers)
+		exit (0);
 
 	if (reinstall) {
 		_e_win32_set_default_mailer ();
