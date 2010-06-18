@@ -928,7 +928,7 @@
  </part>
  <part name="colour">
   <title>Assign Color</title>
-  <code>(set-colour ${colour})</code>
+  <code>(set-color ${colour})</code>
   <input type="colour" name="colour"/>
  </part>
  <part name="score">

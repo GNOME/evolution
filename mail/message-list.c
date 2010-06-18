@@ -1580,7 +1580,7 @@ ml_tree_value_at_ex (ETreeModel *etm, ETreePath path, gint col, CamelMessageInfo
 		/* To add to the woes, what color to show when the user choose multiple labels ?
 		Don't say that I need to have the new labels [with subject] column visible always */
 
-		colour = camel_message_info_user_tag(msg_info, "colour");
+		colour = camel_message_info_user_tag(msg_info, "color");
 		due_by = camel_message_info_user_tag(msg_info, "due-by");
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
 		followup = camel_message_info_user_tag(msg_info, "follow-up");
