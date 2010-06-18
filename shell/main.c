@@ -81,9 +81,11 @@
 
 /* Command-line options.  */
 #ifdef G_OS_WIN32
+static gboolean register_handlers = FALSE;
 static gboolean reinstall = FALSE;
 static gboolean show_icons = FALSE;
 static gboolean hide_icons = FALSE;
+static gboolean unregister_handlers = FALSE;
 #endif /* G_OS_WIN32 */
 static gboolean express_mode = FALSE;
 static gboolean start_online = FALSE;
@@ -327,11 +329,15 @@ setup_segv_redirect (void)
 
 static GOptionEntry entries[] = {
 #ifdef G_OS_WIN32
+	{ "register-handlers", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &register_handlers,
+	  NULL, NULL },
 	{ "reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
 	  NULL, NULL },
 	{ "show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
 	  NULL, NULL },
 	{ "hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
+	  NULL, NULL },
+	{ "unregister-handlers", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &unregister_handlers,
 	  NULL, NULL },
 #endif /* G_OS_WIN32 */
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
@@ -500,9 +506,11 @@ main (gint argc, gchar **argv)
 		g_warning ("Could not set PATH for Evolution and its child processes");
 
 	g_free (path);
-	
-	_e_win32_register_mailer ();
-	
+
+	if (register_handlers || reinstall || show_icons) {
+		_e_win32_register_mailer ();
+	}
+
 	if (reinstall) {
 		_e_win32_set_default_mailer ();
 		exit (0);
@@ -515,6 +523,11 @@ main (gint argc, gchar **argv)
 
 	if (hide_icons) {
 		_e_win32_unset_default_mailer ();
+		exit (0);
+	}
+	
+	if (unregister_handlers) {
+		_e_win32_unregister_mailer();
 		exit (0);
 	}
 

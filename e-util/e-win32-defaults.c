@@ -43,6 +43,11 @@ _e_win32_sanitize_path (gchar *path)
 	return path;
 }
 
+
+/*
+ * Mail Client registration
+ */
+
 static void
 _e_register_mailto_structure (HKEY hKey)
 {
@@ -210,6 +215,11 @@ _e_win32_register_mailer (void)
 {
 	_e_win32_register_mailer_impl (TRUE);
 	_e_win32_register_mailer_impl (FALSE);
+}
+
+void
+_e_win32_unregister_mailer (void)
+{
 }
 
 static void
