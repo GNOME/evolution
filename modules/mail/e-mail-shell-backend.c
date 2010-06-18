@@ -239,6 +239,7 @@ mail_shell_backend_sync_store_done_cb (CamelStore *store,
 
 static void
 mail_shell_backend_sync_store_cb (CamelStore *store,
+                                  const gchar *display_name,
                                   EMailShellBackend *mail_shell_backend)
 {
 	mail_shell_backend->priv->mail_sync_in_progress++;
