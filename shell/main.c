@@ -491,6 +491,9 @@ main (gint argc, gchar **argv)
 		_e_win32_register_mailer ();
 		_e_win32_register_addressbook ();
 	}
+	
+	if (register_handlers)
+		exit (0);
 
 	if (reinstall) {
 		_e_win32_set_default_mailer ();
