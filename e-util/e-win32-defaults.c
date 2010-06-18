@@ -283,6 +283,10 @@ _e_win32_register_addressbook (void)
 	_e_win32_register_addressbook_impl (FALSE);
 }
 
+void
+_e_win32_unregister_addressbook (void)
+{
+}
 
 /*
  * Mail Client registration
@@ -455,6 +459,11 @@ _e_win32_register_mailer (void)
 {
 	_e_win32_register_mailer_impl (TRUE);
 	_e_win32_register_mailer_impl (FALSE);
+}
+
+void
+_e_win32_unregister_mailer (void)
+{
 }
 
 static void
