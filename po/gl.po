@@ -17,13 +17,13 @@
 # Antón Méixome <meixome@certima.net>, 2010.
 # Fran Diéguez <frandieguez@ubuntu.com>, 2009, 2010.
 #
-#: ../shell/main.c:502
+#: ../shell/main.c:519
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-14 16:58+0200\n"
-"PO-Revision-Date: 2010-06-14 18:00+0200\n"
+"POT-Creation-Date: 2010-06-18 21:55+0200\n"
+"PO-Revision-Date: 2010-06-18 21:55+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome@g11.net>\n"
 "MIME-Version: 1.0\n"
@@ -254,20 +254,6 @@ msgstr "_Redimensionar"
 msgid "_Use as it is"
 msgstr "_Usar tal como está"
 
-#: ../addressbook/conduit/address-conduit.c:597
-msgid "Default Sync Address:"
-msgstr "Enderezo de sincronización predefinido:"
-
-#: ../addressbook/conduit/address-conduit.c:1631
-#: ../addressbook/conduit/address-conduit.c:1632
-msgid "Could not load address book"
-msgstr "Non foi posíbel cargar a axenda de enderezos"
-
-#: ../addressbook/conduit/address-conduit.c:1709
-#: ../addressbook/conduit/address-conduit.c:1712
-msgid "Could not read pilot's Address application block"
-msgstr "Non foi posíbel ler o bloque de Aplicativo de enderezos do pilot"
-
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:583
 #: ../calendar/gui/e-calendar-view.c:2022
@@ -282,7 +268,7 @@ msgstr "Aniversario"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
 #: ../calendar/gui/e-calendar-view.c:2021 ../capplet/anjal-settings-main.c:118
-#: ../shell/main.c:116
+#: ../shell/main.c:118
 msgid "Birthday"
 msgstr "Aniversario"
 
@@ -708,7 +694,7 @@ msgid "_List name:"
 msgstr "_Nome da lista:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
-#: ../mail/mail-config.ui.h:165
+#: ../mail/mail-config.ui.h:168
 msgid "_Select..."
 msgstr "_Seleccionar..."
 
@@ -1125,7 +1111,7 @@ msgid "Home Email"
 msgstr "Correo electrónico particular"
 
 #: ../addressbook/gui/widgets/e-minicard.c:101
-#: ../addressbook/gui/widgets/e-minicard.c:805
+#: ../addressbook/gui/widgets/e-minicard.c:807
 msgid "Other Email"
 msgstr "Outro correo electrónico"
 
@@ -2053,7 +2039,7 @@ msgstr "As súas tarefas non estarán dispoñíbeis até que reinicie o Evolutio
 msgid "_Discard Changes"
 msgstr "_Rexeitar as modificacións"
 
-#: ../calendar/calendar.error.xml.h:81 ../composer/e-composer-actions.c:309
+#: ../calendar/calendar.error.xml.h:81 ../composer/e-composer-actions.c:268
 msgid "_Save"
 msgstr "_Gardar"
 
@@ -2070,49 +2056,6 @@ msgstr "_Enviar"
 #: ../calendar/calendar.error.xml.h:84
 msgid "_Send Notice"
 msgstr "_Enviar notificación"
-
-#: ../calendar/conduits/calendar/calendar-conduit.c:252
-msgid "Split Multi-Day Events:"
-msgstr "Dividir eventos de días múltiples:"
-
-#: ../calendar/conduits/calendar/calendar-conduit.c:1532
-#: ../calendar/conduits/calendar/calendar-conduit.c:1533
-#: ../calendar/conduits/memo/memo-conduit.c:821
-#: ../calendar/conduits/memo/memo-conduit.c:822
-#: ../calendar/conduits/todo/todo-conduit.c:1022
-#: ../calendar/conduits/todo/todo-conduit.c:1023
-msgid "Could not start evolution-data-server"
-msgstr "Non foi posíbel iniciar o evolution-data-server"
-
-#: ../calendar/conduits/calendar/calendar-conduit.c:1640
-#: ../calendar/conduits/calendar/calendar-conduit.c:1643
-msgid "Could not read pilot's Calendar application block"
-msgstr "Non foi posíbel ler o bloque do Aplicativo de Calendario do pilot"
-
-#: ../calendar/conduits/memo/memo-conduit.c:915
-#: ../calendar/conduits/memo/memo-conduit.c:918
-msgid "Could not read pilot's Memo application block"
-msgstr "Non foi posíbel ler o bloque do Aplicativo Memo do pilot"
-
-#: ../calendar/conduits/memo/memo-conduit.c:962
-#: ../calendar/conduits/memo/memo-conduit.c:965
-msgid "Could not write pilot's Memo application block"
-msgstr "Non foi posíbel escribir o bloque do Aplicativo Memo do pilot"
-
-#: ../calendar/conduits/todo/todo-conduit.c:231
-msgid "Default Priority:"
-msgstr "Prioridade predefinida:"
-
-#: ../calendar/conduits/todo/todo-conduit.c:1106
-#: ../calendar/conduits/todo/todo-conduit.c:1109
-msgid "Could not read pilot's ToDo application block"
-msgstr "Non foi posíbel ler o bloque do Aplicativo Tarefas pendentes do pilot"
-
-#: ../calendar/conduits/todo/todo-conduit.c:1151
-#: ../calendar/conduits/todo/todo-conduit.c:1154
-msgid "Could not write pilot's ToDo application block"
-msgstr ""
-"Non foi posíbel escribir o bloque do Aplicativo Tarefas pendentes do pilot"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:102
 msgid "minute"
@@ -2161,7 +2104,7 @@ msgstr "_Ignorar"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:151
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1646
+#: ../shell/e-shell-window-actions.c:1607
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Editar"
@@ -3493,7 +3436,7 @@ msgstr "Tipo:"
 msgid "_Type:"
 msgstr "_Tipo:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:226 ../mail/mail-config.ui.h:157
+#: ../calendar/gui/dialogs/calendar-setup.c:226 ../mail/mail-config.ui.h:160
 #: ../modules/addressbook/ldap-config.ui.h:26
 #: ../plugins/groupwise-features/properties.ui.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
@@ -3653,21 +3596,21 @@ msgid "Click here to close the current window"
 msgstr "Prema aquí para pechar a xanela actual"
 
 #: ../calendar/gui/dialogs/comp-editor.c:951 ../mail/e-mail-browser.c:116
-#: ../shell/e-shell-window-actions.c:1485
+#: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:398 ../widgets/misc/e-web-view.c:1051
 msgid "Copy the selection"
 msgstr "Copiar a selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:958 ../mail/e-mail-browser.c:123
-#: ../shell/e-shell-window-actions.c:1492
+#: ../shell/e-shell-window-actions.c:1460
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:1045
 msgid "Cut the selection"
 msgstr "Cortar a selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:965
-#: ../shell/e-shell-window-actions.c:1499
+#: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "Cortar a selección"
@@ -3677,7 +3620,7 @@ msgid "Click here to view help available"
 msgstr "Prema aquí para ver a axuda dispoñíbel"
 
 #: ../calendar/gui/dialogs/comp-editor.c:979 ../mail/e-mail-browser.c:130
-#: ../shell/e-shell-window-actions.c:1534
+#: ../shell/e-shell-window-actions.c:1502
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:1057
 msgid "Paste the clipboard"
@@ -3688,7 +3631,7 @@ msgid "Click here to save the current window"
 msgstr "Prema aquí para gardar a xanela actual"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1007 ../mail/e-mail-browser.c:137
-#: ../shell/e-shell-window-actions.c:1604
+#: ../shell/e-shell-window-actions.c:1572
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "Seleccionar todo o texto"
@@ -3698,13 +3641,13 @@ msgid "_Classification"
 msgstr "_Clasificación"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1028 ../mail/e-mail-browser.c:144
-#: ../shell/e-shell-window-actions.c:1653
+#: ../shell/e-shell-window-actions.c:1614
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "_Ficheiro"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1035
-#: ../shell/e-shell-window-actions.c:1660
+#: ../shell/e-shell-window-actions.c:1621
 msgid "_Help"
 msgstr "A_xuda"
 
@@ -3713,17 +3656,17 @@ msgid "_Insert"
 msgstr "_Inserir"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1049
-#: ../composer/e-composer-actions.c:353
+#: ../composer/e-composer-actions.c:312
 msgid "_Options"
 msgstr "_Opcións"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1056 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1695 ../smime/gui/smime-ui.ui.h:45
+#: ../shell/e-shell-window-actions.c:1656 ../smime/gui/smime-ui.ui.h:45
 msgid "_View"
 msgstr "_Ver"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1066
-#: ../composer/e-composer-actions.c:281
+#: ../composer/e-composer-actions.c:240
 msgid "_Attachment..."
 msgstr "_Anexo..."
 
@@ -3809,7 +3752,7 @@ msgid "Recent _Documents"
 msgstr "_Documentos recentes"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1704
-#: ../composer/e-composer-actions.c:469
+#: ../composer/e-composer-actions.c:428
 msgid "Attach"
 msgstr "Anexar"
 
@@ -4457,7 +4400,7 @@ msgstr "Terminada"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:510 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1132 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1172 ../widgets/misc/e-send-options.ui.h:8
 msgid "High"
 msgstr "Alta"
 
@@ -4476,7 +4419,7 @@ msgstr "En progreso"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:512 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1130 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1170 ../widgets/misc/e-send-options.ui.h:9
 msgid "Low"
 msgstr "Baixa"
 
@@ -4484,7 +4427,7 @@ msgstr "Baixa"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:13
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1254 ../calendar/gui/e-task-table.c:511
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1131
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1171
 #: ../widgets/misc/e-send-options.ui.h:13
 msgid "Normal"
 msgstr "Normal"
@@ -5024,7 +4967,7 @@ msgid "pm"
 msgstr "pm"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2637
+#: ../calendar/gui/e-day-view.c:2645
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -8066,149 +8009,145 @@ msgstr "Pacífico/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
-#: ../composer/e-composer-actions.c:81
-msgid "Untitled Message"
-msgstr "Mensaxe sen título"
-
-#: ../composer/e-composer-actions.c:204
+#: ../composer/e-composer-actions.c:163
 msgid "Save as..."
 msgstr "Gardar como..."
 
-#: ../composer/e-composer-actions.c:283
+#: ../composer/e-composer-actions.c:242
 #: ../widgets/misc/e-attachment-view.c:329
 msgid "Attach a file"
 msgstr "Anexar un ficheiro"
 
-#: ../composer/e-composer-actions.c:288
+#: ../composer/e-composer-actions.c:247
 #: ../widgets/misc/e-signature-editor.c:203
 msgid "_Close"
 msgstr "_Pechar"
 
-#: ../composer/e-composer-actions.c:290
+#: ../composer/e-composer-actions.c:249
 msgid "Close the current file"
 msgstr "Pechar o ficheiro actual"
 
-#: ../composer/e-composer-actions.c:295
+#: ../composer/e-composer-actions.c:254
 msgid "_Print..."
 msgstr "_Imprimir..."
 
-#: ../composer/e-composer-actions.c:302
+#: ../composer/e-composer-actions.c:261
 msgid "Print Pre_view"
 msgstr "Pre_visualización da impresión"
 
-#: ../composer/e-composer-actions.c:311
+#: ../composer/e-composer-actions.c:270
 msgid "Save the current file"
 msgstr "Gardar o ficheiro actual"
 
-#: ../composer/e-composer-actions.c:316
+#: ../composer/e-composer-actions.c:275
 msgid "Save _As..."
 msgstr "Gardar _como..."
 
-#: ../composer/e-composer-actions.c:318
+#: ../composer/e-composer-actions.c:277
 msgid "Save the current file with a different name"
 msgstr "Gardar o ficheiro actual cun nome diferente"
 
-#: ../composer/e-composer-actions.c:323
+#: ../composer/e-composer-actions.c:282
 msgid "Save as _Draft"
 msgstr "Gardar como borra_dor"
 
-#: ../composer/e-composer-actions.c:325
+#: ../composer/e-composer-actions.c:284
 msgid "Save as draft"
 msgstr "Gardar como borrador"
 
-#: ../composer/e-composer-actions.c:330 ../composer/e-composer-private.c:290
+#: ../composer/e-composer-actions.c:289 ../composer/e-composer-private.c:290
 msgid "S_end"
 msgstr "_Enviar"
 
-#: ../composer/e-composer-actions.c:332
+#: ../composer/e-composer-actions.c:291
 msgid "Send this message"
 msgstr "Enviar esta mensaxe"
 
-#: ../composer/e-composer-actions.c:337
+#: ../composer/e-composer-actions.c:296
 msgid "New _Message"
 msgstr "_Mensaxe nova"
 
-#: ../composer/e-composer-actions.c:339
+#: ../composer/e-composer-actions.c:298
 msgid "Open New Message window"
 msgstr "Abrir unha xanela de Mensaxe nova"
 
-#: ../composer/e-composer-actions.c:346
+#: ../composer/e-composer-actions.c:305
 msgid "Character _Encoding"
 msgstr "C_odificación de caracteres"
 
-#: ../composer/e-composer-actions.c:363
+#: ../composer/e-composer-actions.c:322
 msgid "PGP _Encrypt"
 msgstr "C_ifrar con PGP"
 
-#: ../composer/e-composer-actions.c:365
+#: ../composer/e-composer-actions.c:324
 msgid "Encrypt this message with PGP"
 msgstr "Cifrar esta mensaxe con PGP"
 
-#: ../composer/e-composer-actions.c:371
+#: ../composer/e-composer-actions.c:330
 msgid "PGP _Sign"
 msgstr "A_sinar con PGP"
 
-#: ../composer/e-composer-actions.c:373
+#: ../composer/e-composer-actions.c:332
 msgid "Sign this message with your PGP key"
 msgstr "Asinar esta mensaxe coa súa chave PGP"
 
-#: ../composer/e-composer-actions.c:379
+#: ../composer/e-composer-actions.c:338
 msgid "_Prioritize Message"
 msgstr "_Mensaxe prioritaria"
 
-#: ../composer/e-composer-actions.c:381
+#: ../composer/e-composer-actions.c:340
 msgid "Set the message priority to high"
 msgstr "Definir a prioridade da mensaxe como alta"
 
-#: ../composer/e-composer-actions.c:387
+#: ../composer/e-composer-actions.c:346
 msgid "Re_quest Read Receipt"
 msgstr "_Requirir confirmación de lectura"
 
-#: ../composer/e-composer-actions.c:389
+#: ../composer/e-composer-actions.c:348
 msgid "Get delivery notification when your message is read"
 msgstr "Obter unha notificación de entrega cando se lea a súa mensaxe"
 
-#: ../composer/e-composer-actions.c:395
+#: ../composer/e-composer-actions.c:354
 msgid "S/MIME En_crypt"
 msgstr "_Cifrar con S/MIME"
 
-#: ../composer/e-composer-actions.c:397
+#: ../composer/e-composer-actions.c:356
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Cifrar esta mensaxe co seu certificado de cifrado S/MIME"
 
-#: ../composer/e-composer-actions.c:403
+#: ../composer/e-composer-actions.c:362
 msgid "S/MIME Sig_n"
 msgstr "Si_natura S/MIME"
 
-#: ../composer/e-composer-actions.c:405
+#: ../composer/e-composer-actions.c:364
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Asinar esta mensaxe co seu certificado de sinatura S/MIME"
 
-#: ../composer/e-composer-actions.c:411
+#: ../composer/e-composer-actions.c:370
 msgid "_Bcc Field"
 msgstr "Campo _Cco"
 
-#: ../composer/e-composer-actions.c:413
+#: ../composer/e-composer-actions.c:372
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Alterna entre se se mostra ou non o campo CCO"
 
-#: ../composer/e-composer-actions.c:419
+#: ../composer/e-composer-actions.c:378
 msgid "_Cc Field"
 msgstr "Campo _Cc"
 
-#: ../composer/e-composer-actions.c:421
+#: ../composer/e-composer-actions.c:380
 msgid "Toggles whether the CC field is displayed"
 msgstr "Alterna entre se se mostra ou non o campo CC"
 
-#: ../composer/e-composer-actions.c:427
+#: ../composer/e-composer-actions.c:386
 msgid "_Reply-To Field"
 msgstr "Campo _Responder a"
 
-#: ../composer/e-composer-actions.c:429
+#: ../composer/e-composer-actions.c:388
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Alterna entre se se mostra ou non o campo Responder a"
 
-#: ../composer/e-composer-actions.c:472
+#: ../composer/e-composer-actions.c:431
 msgid "Save Draft"
 msgstr "Gardar borrador"
 
@@ -8313,15 +8252,19 @@ msgstr ""
 msgid "Unable to reconstruct message from autosave file"
 msgstr "Non é posíbel obter a mensaxe do editor"
 
-#: ../composer/e-msg-composer.c:1528 ../composer/e-msg-composer.c:1735
+#: ../composer/e-msg-composer.c:1528 ../composer/e-msg-composer.c:1773
 msgid "Compose Message"
 msgstr "Escribir unha mensaxe"
 
-#: ../composer/e-msg-composer.c:3436
+#: ../composer/e-msg-composer.c:3486
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "(O editor contén un corpo de mensaxe que non ten texto, polo que non se pode "
 "editar.)"
+
+#: ../composer/e-msg-composer.c:4091
+msgid "Untitled Message"
+msgstr "Mensaxe sen título"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -8591,7 +8534,7 @@ msgstr ""
 "obter o seu correo electrónico"
 
 #: ../capplet/settings/mail-account-view.c:608
-#: ../mail/em-account-editor.c:2086 ../mail/em-account-editor.c:2217
+#: ../mail/em-account-editor.c:2096 ../mail/em-account-editor.c:2227
 #: ../mail/mail-config.ui.h:61
 msgid "Identity"
 msgstr "Identidade"
@@ -8644,7 +8587,7 @@ msgid "Back - Receiving options"
 msgstr "Anterior - Opcións de recepción"
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2791 ../mail/mail-config.ui.h:34
+#: ../mail/em-account-editor.c:2982 ../mail/mail-config.ui.h:34
 msgid "Defaults"
 msgstr "Predefinidos"
 
@@ -8725,7 +8668,7 @@ msgstr "Asistente de contas do Evolution"
 #: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
 #: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:163
 #: ../mail/em-folder-tree-model.c:165 ../mail/mail-vfolder.c:211
-#: ../mail/message-list.c:1614
+#: ../mail/message-list.c:1654
 #: ../modules/addressbook/e-book-shell-backend.c:125
 #: ../modules/addressbook/e-book-shell-migrate.c:130
 #: ../modules/calendar/e-cal-shell-backend.c:121
@@ -8984,15 +8927,15 @@ msgstr "Rexistro de mensaxes:"
 msgid "Log Level"
 msgstr "Nivel de rexistro"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2696
+#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2736
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensaxes"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:109
-#: ../shell/e-shell-window-actions.c:1457
-#: ../shell/e-shell-window-actions.c:1464
-#: ../shell/e-shell-window-actions.c:1471
+#: ../shell/e-shell-window-actions.c:1425
+#: ../shell/e-shell-window-actions.c:1432
+#: ../shell/e-shell-window-actions.c:1439
 msgid "Close this window"
 msgstr "Pechar esta xanela"
 
@@ -9478,7 +9421,7 @@ msgstr ""
 msgid "months"
 msgstr "Mes"
 
-#: ../filter/filter.ui.h:19 ../mail/mail-config.ui.h:181
+#: ../filter/filter.ui.h:19 ../mail/mail-config.ui.h:185
 msgid "seconds"
 msgstr "segundos"
 
@@ -9495,7 +9438,7 @@ msgid "years"
 msgstr "Cabeceiras"
 
 #: ../libgnomecanvas/gnome-canvas-rich-text.c:210
-#: ../libgnomecanvas/gnome-canvas-text.c:206
+#: ../libgnomecanvas/gnome-canvas-text.c:204
 msgid "Text"
 msgstr "Texto"
 
@@ -9504,7 +9447,7 @@ msgid "Text to display"
 msgstr "Texto a mostrar"
 
 #: ../libgnomecanvas/gnome-canvas-rich-text.c:218
-#: ../libgnomecanvas/gnome-canvas.c:1400 ../libgnomecanvas/gnome-canvas.c:1401
+#: ../libgnomecanvas/gnome-canvas.c:1417 ../libgnomecanvas/gnome-canvas.c:1418
 msgid "X"
 msgstr "X"
 
@@ -9513,7 +9456,7 @@ msgid "X position"
 msgstr "Posición X"
 
 #: ../libgnomecanvas/gnome-canvas-rich-text.c:226
-#: ../libgnomecanvas/gnome-canvas.c:1407 ../libgnomecanvas/gnome-canvas.c:1408
+#: ../libgnomecanvas/gnome-canvas.c:1424 ../libgnomecanvas/gnome-canvas.c:1425
 msgid "Y"
 msgstr "Y"
 
@@ -9657,68 +9600,68 @@ msgstr "Sangría"
 msgid "Number of pixels for indentation"
 msgstr "Número de píxeles para a sangría."
 
-#: ../libgnomecanvas/gnome-canvas-text.c:207
+#: ../libgnomecanvas/gnome-canvas-text.c:205
 msgid "Text to render"
 msgstr "Texto a renderizar"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:215
+#: ../libgnomecanvas/gnome-canvas-text.c:213
 msgid "Markup"
 msgstr "Marcado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:216
+#: ../libgnomecanvas/gnome-canvas-text.c:214
 msgid "Marked up text to render"
 msgstr "Texto marcado para renderizar"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:241
+#: ../libgnomecanvas/gnome-canvas-text.c:239
 msgid "Font"
 msgstr "Tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:242
+#: ../libgnomecanvas/gnome-canvas-text.c:240
 msgid "Font description as a string"
 msgstr "Descrición do tipo de letra como unha cadea"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:250
+#: ../libgnomecanvas/gnome-canvas-text.c:248
 msgid "Font description"
 msgstr "Descrición do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:251
+#: ../libgnomecanvas/gnome-canvas-text.c:249
 msgid "Font description as a PangoFontDescription struct"
 msgstr "Descrición do tipo de letra como unha estrutura PangoFontDescription"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:259
+#: ../libgnomecanvas/gnome-canvas-text.c:257
 msgid "Font family"
 msgstr "Familia do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:260
+#: ../libgnomecanvas/gnome-canvas-text.c:258
 msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
 msgstr ""
 "Nome da familia do tipo de letra, p.ex. Sans, Helvetica, Times, Monospace"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:276
-#: ../libgnomecanvas/gnome-canvas-text.c:277
+#: ../libgnomecanvas/gnome-canvas-text.c:274
+#: ../libgnomecanvas/gnome-canvas-text.c:275
 msgid "Font style"
 msgstr "Estilo do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:286
-#: ../libgnomecanvas/gnome-canvas-text.c:287
+#: ../libgnomecanvas/gnome-canvas-text.c:284
+#: ../libgnomecanvas/gnome-canvas-text.c:285
 msgid "Font variant"
 msgstr "Variante do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:296
-#: ../libgnomecanvas/gnome-canvas-text.c:297
+#: ../libgnomecanvas/gnome-canvas-text.c:294
+#: ../libgnomecanvas/gnome-canvas-text.c:295
 msgid "Font weight"
 msgstr "Anchura do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:308
-#: ../libgnomecanvas/gnome-canvas-text.c:309
+#: ../libgnomecanvas/gnome-canvas-text.c:306
+#: ../libgnomecanvas/gnome-canvas-text.c:307
 msgid "Font stretch"
 msgstr "Estiramento do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:318
+#: ../libgnomecanvas/gnome-canvas-text.c:316
 msgid "Font size"
 msgstr "Tamaño do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:319
+#: ../libgnomecanvas/gnome-canvas-text.c:317
 msgid ""
 "Font size (as a multiple of PANGO_SCALE, eg. 12*PANGO_SCALE for a 12pt font "
 "size)"
@@ -9726,177 +9669,177 @@ msgstr ""
 "Tamaño do tipo de letra (como un múltiplo de PANGO_SCALE, p.ex. "
 "12*PANGO_SCALE para un tamaño de tipo de letra de 12pt)"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:329
+#: ../libgnomecanvas/gnome-canvas-text.c:327
 msgid "Font points"
 msgstr "Puntos do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:330
+#: ../libgnomecanvas/gnome-canvas-text.c:328
 msgid "Font size in points (eg. 12 for a 12pt font size)"
 msgstr ""
 "Tamaño do tipo de letra en puntos (p.ex 12 para un tamaño de tipo de letra "
 "de 12pt)"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:340
+#: ../libgnomecanvas/gnome-canvas-text.c:338
 msgid "Rise"
 msgstr "Elevación"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:341
+#: ../libgnomecanvas/gnome-canvas-text.c:339
 msgid ""
 "Offset of text above the baseline (below the baseline if rise is negative)"
 msgstr ""
 "Desprazamento do texto por enriba da liña base (por embaixo se a elevación é "
 "negativa)"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:351
+#: ../libgnomecanvas/gnome-canvas-text.c:349
 msgid "Strikethrough"
 msgstr "Riscado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:352
+#: ../libgnomecanvas/gnome-canvas-text.c:350
 msgid "Whether to strike through the text"
 msgstr "Indica se riscar ou non o texto"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:360
+#: ../libgnomecanvas/gnome-canvas-text.c:358
 msgid "Underline"
 msgstr "Subliñado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:361
+#: ../libgnomecanvas/gnome-canvas-text.c:359
 msgid "Style of underline for this text"
 msgstr "Estilo do subliñado para este texto"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:370
+#: ../libgnomecanvas/gnome-canvas-text.c:368
 msgid "Scale"
 msgstr "Escala"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:371
+#: ../libgnomecanvas/gnome-canvas-text.c:369
 msgid "Size of font, relative to default size"
 msgstr "Tamaño do tipo de letra, relativo ao tamaño predefinido"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:425
-#: ../libgnomecanvas/gnome-canvas-text.c:433
-#: ../libgnomecanvas/gnome-canvas-text.c:441
+#: ../libgnomecanvas/gnome-canvas-text.c:423
+#: ../libgnomecanvas/gnome-canvas-text.c:431
+#: ../libgnomecanvas/gnome-canvas-text.c:439
 #: ../mail/e-mail-label-tree-view.c:86
 msgid "Color"
 msgstr "Cor"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:426
+#: ../libgnomecanvas/gnome-canvas-text.c:424
 msgid "Text color, as string"
 msgstr "Cor do texto, como unha cadea"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:434
+#: ../libgnomecanvas/gnome-canvas-text.c:432
 msgid "Text color, as a GdkColor"
 msgstr "Cor do texto, como un GdkColor"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:442
+#: ../libgnomecanvas/gnome-canvas-text.c:440
 msgid "Text color, as an R/G/B/A combined integer"
 msgstr "Cor do texto, como un enteiro combinado R/G/B/A"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:455
+#: ../libgnomecanvas/gnome-canvas-text.c:453
 msgid "Text width"
 msgstr "Largura do texto"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:456
+#: ../libgnomecanvas/gnome-canvas-text.c:454
 msgid "Width of the rendered text"
 msgstr "Anchura do texto renderizado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:463
+#: ../libgnomecanvas/gnome-canvas-text.c:461
 msgid "Text height"
 msgstr "Altura do texto"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:464
+#: ../libgnomecanvas/gnome-canvas-text.c:462
 msgid "Height of the rendered text"
 msgstr "Altura do texto renderizado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:472
+#: ../libgnomecanvas/gnome-canvas-text.c:470
 msgid "Font family set"
 msgstr ""
 
-#: ../libgnomecanvas/gnome-canvas-text.c:473
+#: ../libgnomecanvas/gnome-canvas-text.c:471
 msgid "Whether this tag affects the font family"
 msgstr "Indica se esta etiqueta afecta á familia do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:476
+#: ../libgnomecanvas/gnome-canvas-text.c:474
 #, fuzzy
 msgid "Font style set"
 msgstr "Disp_osición"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:477
+#: ../libgnomecanvas/gnome-canvas-text.c:475
 msgid "Whether this tag affects the font style"
 msgstr "Indica se esta etiqueta afecta ao estilo de tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:480
+#: ../libgnomecanvas/gnome-canvas-text.c:478
 msgid "Font variant set"
 msgstr ""
 
-#: ../libgnomecanvas/gnome-canvas-text.c:481
+#: ../libgnomecanvas/gnome-canvas-text.c:479
 msgid "Whether this tag affects the font variant"
 msgstr "Indica se esta etiqueta afecta á variante do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:484
+#: ../libgnomecanvas/gnome-canvas-text.c:482
 msgid "Font weight set"
 msgstr ""
 
-#: ../libgnomecanvas/gnome-canvas-text.c:485
+#: ../libgnomecanvas/gnome-canvas-text.c:483
 msgid "Whether this tag affects the font weight"
 msgstr "Indica se esta etiqueta afecta ao peso do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:488
+#: ../libgnomecanvas/gnome-canvas-text.c:486
 msgid "Font stretch set"
 msgstr ""
 
-#: ../libgnomecanvas/gnome-canvas-text.c:489
+#: ../libgnomecanvas/gnome-canvas-text.c:487
 msgid "Whether this tag affects the font stretch"
 msgstr "Indica se esta etiqueta afecta ao estiramento do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:492
+#: ../libgnomecanvas/gnome-canvas-text.c:490
 msgid "Font size set"
 msgstr ""
 
-#: ../libgnomecanvas/gnome-canvas-text.c:493
+#: ../libgnomecanvas/gnome-canvas-text.c:491
 msgid "Whether this tag affects the font size"
 msgstr "Indica se esta etiqueta afecta ao tamaño do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:496
+#: ../libgnomecanvas/gnome-canvas-text.c:494
 #, fuzzy
 msgid "Rise set"
 msgstr "está definida"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:497
+#: ../libgnomecanvas/gnome-canvas-text.c:495
 msgid "Whether this tag affects the rise"
 msgstr "Indica se esta etiqueta afecta á elevación"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:500
+#: ../libgnomecanvas/gnome-canvas-text.c:498
 #, fuzzy
 msgid "Strikethrough set"
 msgstr "Riscado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:501
+#: ../libgnomecanvas/gnome-canvas-text.c:499
 msgid "Whether this tag affects strikethrough"
 msgstr "Indica se esta etiqueta afecta ao riscado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:504
+#: ../libgnomecanvas/gnome-canvas-text.c:502
 #, fuzzy
 msgid "Underline set"
 msgstr "Subliñar columna"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:505
+#: ../libgnomecanvas/gnome-canvas-text.c:503
 msgid "Whether this tag affects underlining"
 msgstr "Indica se esta etiqueta afecta ao subliñado"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:508
+#: ../libgnomecanvas/gnome-canvas-text.c:506
 #, fuzzy
 msgid "Scale set"
 msgstr "Data de envío"
 
-#: ../libgnomecanvas/gnome-canvas-text.c:509
+#: ../libgnomecanvas/gnome-canvas-text.c:507
 msgid "Whether this tag affects font scaling"
 msgstr "Indica se esta etiqueta afecta ao escalado do tipo de letra"
 
-#: ../libgnomecanvas/gnome-canvas.c:2051
+#: ../libgnomecanvas/gnome-canvas.c:2068
 msgid "Antialiased"
 msgstr "Antialias"
 
 # (pofilter) variables: (u'translation contains variables not in original: %d',)
-#: ../libgnomecanvas/gnome-canvas.c:2052
+#: ../libgnomecanvas/gnome-canvas.c:2069
 msgid "The antialiasing mode of the canvas."
 msgstr "O modo antialias do canvas."
 
@@ -10578,7 +10521,7 @@ msgid "Unable to retrieve message"
 msgstr "Non foi posíbel obter a mensaxe"
 
 #: ../mail/e-mail-reader.c:1886 ../mail/e-mail-reader.c:1946
-#: ../mail/mail-ops.c:1843
+#: ../mail/mail-ops.c:1842
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Recuperando a mensaxe %s"
@@ -10629,7 +10572,7 @@ msgstr "Marcar para facer seguimento"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:499 ../mail/mail-config.ui.h:75
+#: ../mail/em-account-editor.c:506 ../mail/mail-config.ui.h:75
 #: ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
 msgstr "Sen cifrado"
@@ -10637,7 +10580,7 @@ msgstr "Sen cifrado"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:503 ../mail/mail-config.ui.h:129
+#: ../mail/em-account-editor.c:510 ../mail/mail-config.ui.h:131
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
 msgstr "Cifrado TLS"
@@ -10645,17 +10588,17 @@ msgstr "Cifrado TLS"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:507 ../mail/mail-config.ui.h:100
+#: ../mail/em-account-editor.c:514 ../mail/mail-config.ui.h:100
 #: ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "Cifrado SSL"
 
-#: ../mail/em-account-editor.c:594
+#: ../mail/em-account-editor.c:601
 #, c-format
 msgid "%s License Agreement"
 msgstr "Acordo de licenza %s"
 
-#: ../mail/em-account-editor.c:601
+#: ../mail/em-account-editor.c:608
 #, c-format
 msgid ""
 "\n"
@@ -10669,34 +10612,34 @@ msgstr ""
 "e marque a caixa de verificación para aceptalo\n"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:885 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:895 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ningún"
 
-#: ../mail/em-account-editor.c:969
+#: ../mail/em-account-editor.c:979
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/em-account-editor.c:970
+#: ../mail/em-account-editor.c:980
 msgid "Always"
 msgstr "Sempre"
 
-#: ../mail/em-account-editor.c:971
+#: ../mail/em-account-editor.c:981
 msgid "Ask for each message"
 msgstr "Preguntar para cada mensaxe"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1708 ../widgets/misc/e-account-tree-view.c:124
+#: ../mail/em-account-editor.c:1718 ../widgets/misc/e-account-tree-view.c:124
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ningún"
 
-#: ../mail/em-account-editor.c:2083
+#: ../mail/em-account-editor.c:2093
 msgid "Mail Configuration"
 msgstr "Configuración do correo"
 
-#: ../mail/em-account-editor.c:2084
+#: ../mail/em-account-editor.c:2094
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -10706,7 +10649,7 @@ msgstr ""
 "\n"
 "Prema en \"Adiante\" para comezar."
 
-#: ../mail/em-account-editor.c:2087
+#: ../mail/em-account-editor.c:2097
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -10716,20 +10659,20 @@ msgstr ""
 "abaixo non necesitan encherse, a non ser que desexe incluír esta información "
 "no correo que envíe."
 
-#: ../mail/em-account-editor.c:2089 ../mail/em-account-editor.c:2256
+#: ../mail/em-account-editor.c:2099 ../mail/em-account-editor.c:2266
 #: ../mail/mail-config.ui.h:93
 msgid "Receiving Email"
 msgstr "Recibindo correo"
 
-#: ../mail/em-account-editor.c:2090
+#: ../mail/em-account-editor.c:2100
 msgid "Please configure the following account settings."
 msgstr "Configure as seguintes opcións de conta."
 
-#: ../mail/em-account-editor.c:2092 ../mail/em-account-editor.c:2727
+#: ../mail/em-account-editor.c:2102 ../mail/em-account-editor.c:2737
 msgid "Sending Email"
 msgstr "Enviando correo"
 
-#: ../mail/em-account-editor.c:2093
+#: ../mail/em-account-editor.c:2103
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -10738,11 +10681,11 @@ msgstr ""
 "seguro, pregunte ao seu administrador do sistema ou provedor de acceso a "
 "Internet."
 
-#: ../mail/em-account-editor.c:2095
+#: ../mail/em-account-editor.c:2105
 msgid "Account Management"
 msgstr "Xestión de contas"
 
-#: ../mail/em-account-editor.c:2096
+#: ../mail/em-account-editor.c:2106
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -10750,11 +10693,11 @@ msgstr ""
 "Introduza un nome descritivo para esta conta no espazo de abaixo.\n"
 "Este nome usarase só para os efectos de vista."
 
-#: ../mail/em-account-editor.c:2100
+#: ../mail/em-account-editor.c:2110
 msgid "Done"
 msgstr "Feito"
 
-#: ../mail/em-account-editor.c:2101
+#: ../mail/em-account-editor.c:2111
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -10769,25 +10712,29 @@ msgstr ""
 "\n"
 "Prema en \"Aplicar\" para gardar a súa configuración."
 
-#: ../mail/em-account-editor.c:2543
+#: ../mail/em-account-editor.c:2553
 msgid "Check for _new messages every"
 msgstr "Verificar automaticamente se hai mensaxes _novas cada"
 
-#: ../mail/em-account-editor.c:2551
+#: ../mail/em-account-editor.c:2561
 msgid "minu_tes"
 msgstr "minu_tos"
 
-#: ../mail/em-account-editor.c:2914 ../mail/mail-config.ui.h:107
+#: ../mail/em-account-editor.c:2835
+msgid "Please select a folder from the current account."
+msgstr "Seleccione un cartafol desde a conta actual."
+
+#: ../mail/em-account-editor.c:3105 ../mail/mail-config.ui.h:107
 msgid "Security"
 msgstr "Seguranza"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2959 ../mail/em-account-editor.c:3027
+#: ../mail/em-account-editor.c:3150 ../mail/em-account-editor.c:3218
 msgid "Receiving Options"
 msgstr "Opcións de recepción"
 
-#: ../mail/em-account-editor.c:2960 ../mail/em-account-editor.c:3028
+#: ../mail/em-account-editor.c:3151 ../mail/em-account-editor.c:3219
 msgid "Checking for New Messages"
 msgstr "Comprobando se hai mensaxes novas"
 
@@ -11191,12 +11138,12 @@ msgstr "Movendo o cartafol %s"
 msgid "Copying folder %s"
 msgstr "Copiando cartafol %s"
 
-#: ../mail/em-folder-tree.c:1602 ../mail/message-list.c:2113
+#: ../mail/em-folder-tree.c:1602 ../mail/message-list.c:2153
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Movendo mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:1604 ../mail/message-list.c:2115
+#: ../mail/em-folder-tree.c:1604 ../mail/message-list.c:2155
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando mensaxes ao cartafol %s"
@@ -13136,74 +13083,82 @@ msgid "Select HTML variable width font for printing"
 msgstr "Seleccione o tipo de letra de largura variábel en HTML para imprimir"
 
 #: ../mail/mail-config.ui.h:113
+msgid "Select Junk Folder"
+msgstr "Seleccione o cartafol de correo non desexado"
+
+#: ../mail/mail-config.ui.h:114
 msgid "Select Sent Folder"
 msgstr "Seleccionar cartafol"
 
-#: ../mail/mail-config.ui.h:114
+#: ../mail/mail-config.ui.h:115
+msgid "Select Trash Folder"
+msgstr "Seleccionar o cartafol de Lixo"
+
+#: ../mail/mail-config.ui.h:116
 msgid "Sender Photograph"
 msgstr "<b>Fotografía do remitente</b>"
 
-#: ../mail/mail-config.ui.h:115
+#: ../mail/mail-config.ui.h:117
 msgid "Sending Mail"
 msgstr "Enviando correo"
 
-#: ../mail/mail-config.ui.h:116
+#: ../mail/mail-config.ui.h:118
 msgid "Sent _Messages Folder:"
 msgstr "Cartafol de _mensaxes enviadas:"
 
-#: ../mail/mail-config.ui.h:117
+#: ../mail/mail-config.ui.h:119
 msgid "Sent and Draft Messages"
 msgstr "Mensaxes enviadas"
 
-#: ../mail/mail-config.ui.h:118
+#: ../mail/mail-config.ui.h:120
 msgid "Ser_ver requires authentication"
 msgstr "O ser_vidor require autenticación"
 
-#: ../mail/mail-config.ui.h:119
+#: ../mail/mail-config.ui.h:121
 msgid "Server Configuration"
 msgstr "Información do servidor"
 
-#: ../mail/mail-config.ui.h:120
+#: ../mail/mail-config.ui.h:122
 msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
-#: ../mail/mail-config.ui.h:121
+#: ../mail/mail-config.ui.h:123
 msgid "Si_gning algorithm:"
 msgstr "Algoritmo de si_natura:"
 
-#: ../mail/mail-config.ui.h:122
+#: ../mail/mail-config.ui.h:124
 msgid "Sig_natures"
 msgstr "Sinaturas"
 
-#: ../mail/mail-config.ui.h:123
+#: ../mail/mail-config.ui.h:125
 msgid "Sig_ning certificate:"
 msgstr "Certificado de si_natura:"
 
-#: ../mail/mail-config.ui.h:124
+#: ../mail/mail-config.ui.h:126
 msgid "Signat_ure:"
 msgstr "Sinat_ura:"
 
-#: ../mail/mail-config.ui.h:125
+#: ../mail/mail-config.ui.h:127
 msgid "Signatures"
 msgstr "Sinaturas"
 
-#: ../mail/mail-config.ui.h:126
+#: ../mail/mail-config.ui.h:128
 msgid "Signing _algorithm:"
 msgstr "_Algoritmo de sinatura:"
 
-#: ../mail/mail-config.ui.h:127
+#: ../mail/mail-config.ui.h:129
 msgid "Spell Checking"
 msgstr "Verificación ortográfica"
 
-#: ../mail/mail-config.ui.h:128
+#: ../mail/mail-config.ui.h:130
 msgid "Start _typing at the bottom on replying"
 msgstr "Comezar a escri_bir ao final da resposta"
 
-#: ../mail/mail-config.ui.h:130
+#: ../mail/mail-config.ui.h:132
 msgid "T_ype:"
 msgstr "T_ipo:"
 
-#: ../mail/mail-config.ui.h:131
+#: ../mail/mail-config.ui.h:133
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -13211,7 +13166,7 @@ msgstr ""
 "Esta lista de idiomas reflicte unicamente os idiomas para os cales hai "
 "instalado un dicionario."
 
-#: ../mail/mail-config.ui.h:132
+#: ../mail/mail-config.ui.h:134
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -13221,11 +13176,11 @@ msgstr ""
 "sinatura. O nome que especifique usarase só para os efectos de visualización."
 
 #. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
-#: ../mail/mail-config.ui.h:136
+#: ../mail/mail-config.ui.h:138
 msgid "Top Posting Option"
 msgstr "Opción de publicar por enriba"
 
-#: ../mail/mail-config.ui.h:137
+#: ../mail/mail-config.ui.h:139
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -13233,158 +13188,166 @@ msgstr ""
 "Teclee o nome polo que quere identificar a esta conta.\n"
 "Por exemplo: \"Traballo\" ou \"Persoal\""
 
-#: ../mail/mail-config.ui.h:139
+#: ../mail/mail-config.ui.h:141
 msgid "Us_ername:"
 msgstr "Nome de _usuario:"
 
-#: ../mail/mail-config.ui.h:140
+#: ../mail/mail-config.ui.h:142
 msgid "Use Authe_ntication"
 msgstr "Usar aute_nticación"
 
-#: ../mail/mail-config.ui.h:141 ../plugins/caldav/caldav-source.c:225
+#: ../mail/mail-config.ui.h:143 ../plugins/caldav/caldav-source.c:225
 #: ../plugins/google-account-setup/google-contacts-source.c:286
 #: ../plugins/google-account-setup/google-source.c:623
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:260
 msgid "User_name:"
 msgstr "_Nome de usuario:"
 
-#: ../mail/mail-config.ui.h:142
+#: ../mail/mail-config.ui.h:144
 msgid "V_ariable-width:"
 msgstr "Largura v_ariábel:"
 
-#: ../mail/mail-config.ui.h:143
+#: ../mail/mail-config.ui.h:145
 msgid "_Add Signature"
 msgstr "_Engadir sinatura"
 
-#: ../mail/mail-config.ui.h:144
+#: ../mail/mail-config.ui.h:146
 msgid "_Always load images from the Internet"
 msgstr "Cargar _sempre as imaxes desde Internet"
 
-#: ../mail/mail-config.ui.h:145
+#: ../mail/mail-config.ui.h:147
 msgid "_Authentication Type"
 msgstr "Tipo de _autenticación"
 
-#: ../mail/mail-config.ui.h:146
+#: ../mail/mail-config.ui.h:148
 msgid "_Default junk plugin:"
 msgstr "engadido por _omisión de correo non desexado:"
 
-#: ../mail/mail-config.ui.h:147
+#: ../mail/mail-config.ui.h:149
 msgid "_Direct connection to the Internet"
 msgstr "Conexión _directa a Internet"
 
-#: ../mail/mail-config.ui.h:148
+#: ../mail/mail-config.ui.h:150
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "_Non asinar as peticións de cita (para a compatibilidade co Outlook)"
 
-#: ../mail/mail-config.ui.h:149
+#: ../mail/mail-config.ui.h:151
 msgid "_Forward style:"
 msgstr "Estilo de _reenvío:"
 
-#: ../mail/mail-config.ui.h:150
+#: ../mail/mail-config.ui.h:152
+msgid "_Junk Folder:"
+msgstr "Cartafol de correo non _desexado:"
+
+#: ../mail/mail-config.ui.h:153
 msgid "_Keep Signature above the original message on replying"
 msgstr "_Manter a sinatura sobre a mensaxe orixinal ao responder"
 
-#: ../mail/mail-config.ui.h:151
+#: ../mail/mail-config.ui.h:154
 msgid "_Languages"
 msgstr "Idioma"
 
-#: ../mail/mail-config.ui.h:152
+#: ../mail/mail-config.ui.h:155
 msgid "_Load images in messages from contacts"
 msgstr "Ca_rgar as imaxes nas mensaxes dos contactos"
 
-#: ../mail/mail-config.ui.h:153
+#: ../mail/mail-config.ui.h:156
 msgid "_Lookup in local address book only"
 msgstr "_Buscar só nas axendas de enderezos locais"
 
-#: ../mail/mail-config.ui.h:154
+#: ../mail/mail-config.ui.h:157
 msgid "_Make this my default account"
 msgstr "_Facer desta a miña conta predefinida"
 
-#: ../mail/mail-config.ui.h:155
+#: ../mail/mail-config.ui.h:158
 msgid "_Manual proxy configuration:"
 msgstr "Configuración _manual do proxy:"
 
-#: ../mail/mail-config.ui.h:156
+#: ../mail/mail-config.ui.h:159
 msgid "_Mark messages as read after"
 msgstr "_Marcar as mensaxes como lidas despois de"
 
-#: ../mail/mail-config.ui.h:158
+#: ../mail/mail-config.ui.h:161
 msgid "_Never load images from the Internet"
 msgstr "_Nunca cargar as imaxes desde Internet"
 
-#: ../mail/mail-config.ui.h:159
+#: ../mail/mail-config.ui.h:162
 msgid "_Path:"
 msgstr "_Camiño:"
 
-#: ../mail/mail-config.ui.h:160
+#: ../mail/mail-config.ui.h:163
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "_Preguntar ao enviar correo HTML aos contactos que non o queren"
 
-#: ../mail/mail-config.ui.h:161
+#: ../mail/mail-config.ui.h:164
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Preguntar cando se envíen mensaxes cun asunto baleiro"
 
-#: ../mail/mail-config.ui.h:162
+#: ../mail/mail-config.ui.h:165
 msgid "_Reply style:"
 msgstr "Estilo da _resposta:"
 
-#: ../mail/mail-config.ui.h:163
+#: ../mail/mail-config.ui.h:166
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.ui.h:164
+#: ../mail/mail-config.ui.h:167
 msgid "_Secure HTTP Proxy:"
 msgstr "Proxy HTTP _seguro:"
 
-#: ../mail/mail-config.ui.h:166 ../modules/addressbook/ldap-config.ui.h:29
+#: ../mail/mail-config.ui.h:169 ../modules/addressbook/ldap-config.ui.h:29
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "_Servidor:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:168
+#: ../mail/mail-config.ui.h:171
 msgid "_Show image animations"
 msgstr "_Mostrar animacións de imaxes"
 
-#: ../mail/mail-config.ui.h:169
+#: ../mail/mail-config.ui.h:172
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Mostrar a fotografía do remitente na previsualización da mensaxe"
 
 #. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
-#: ../mail/mail-config.ui.h:171
+#: ../mail/mail-config.ui.h:174
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "_Reducir as cabeceiras Para/Cc/Cco como "
 
-#: ../mail/mail-config.ui.h:172
+#: ../mail/mail-config.ui.h:175
+msgid "_Trash Folder:"
+msgstr "Cartafol de correo _lixo:"
+
+#: ../mail/mail-config.ui.h:176
 msgid "_Use Secure Connection:"
 msgstr "_Usar unha conexión segura:"
 
-#: ../mail/mail-config.ui.h:173
+#: ../mail/mail-config.ui.h:177
 msgid "_Use system defaults"
 msgstr "_Usar as configuracións predefinidas do sistema"
 
-#: ../mail/mail-config.ui.h:174
+#: ../mail/mail-config.ui.h:178
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar os mesmos tipos de letra que noutros aplicativos"
 
-#: ../mail/mail-config.ui.h:175 ../smime/gui/smime-ui.ui.h:47
+#: ../mail/mail-config.ui.h:179 ../smime/gui/smime-ui.ui.h:47
 msgid "a"
 msgstr "am"
 
 #. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
-#: ../mail/mail-config.ui.h:177
+#: ../mail/mail-config.ui.h:181
 msgid "addresses"
 msgstr "enderezos"
 
-#: ../mail/mail-config.ui.h:178 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:182 ../smime/gui/smime-ui.ui.h:48
 msgid "b"
 msgstr "por"
 
-#: ../mail/mail-config.ui.h:179
+#: ../mail/mail-config.ui.h:183
 msgid "color"
 msgstr "cor"
 
-#: ../mail/mail-config.ui.h:180
+#: ../mail/mail-config.ui.h:184
 msgid "description"
 msgstr "descrición"
 
@@ -13504,7 +13467,7 @@ msgstr "_Marca:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Ma_rque isto para aceptar o acordo de licenza"
 
-#: ../mail/mail-folder-cache.c:754
+#: ../mail/mail-folder-cache.c:762
 #, c-format
 msgid "Pinging %s"
 msgstr "Facendo ping a %s"
@@ -13518,12 +13481,12 @@ msgid "Fetching Mail"
 msgstr "Recibindo correo"
 
 #. sending mail, filtering failed
-#: ../mail/mail-ops.c:576
+#: ../mail/mail-ops.c:575
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Produciuse un fallo ao aplicar os filtros ao correo saínte: %s"
 
-#: ../mail/mail-ops.c:588 ../mail/mail-ops.c:616
+#: ../mail/mail-ops.c:587 ../mail/mail-ops.c:615
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13532,126 +13495,126 @@ msgstr ""
 "Produciuse un fallo ao anexar a %s: %s\n"
 "No seu lugar anexaranse ao cartafol local «Enviados»."
 
-#: ../mail/mail-ops.c:633
+#: ../mail/mail-ops.c:632
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Produciuse un fallo ao anexar ao cartafol local «Enviados»: %s"
 
-#: ../mail/mail-ops.c:744 ../mail/mail-ops.c:825
+#: ../mail/mail-ops.c:743 ../mail/mail-ops.c:824
 msgid "Sending message"
 msgstr "Enviando a mensaxe"
 
-#: ../mail/mail-ops.c:754
+#: ../mail/mail-ops.c:753
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando a mensaxe %d de %d"
 
-#: ../mail/mail-ops.c:781
+#: ../mail/mail-ops.c:780
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Produciuse un fallo ao enviar %d de %d mensaxes"
 
-#: ../mail/mail-ops.c:783 ../mail/mail-send-recv.c:761
+#: ../mail/mail-ops.c:782 ../mail/mail-send-recv.c:761
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:785 ../mail/mail-send-recv.c:763
+#: ../mail/mail-ops.c:784 ../mail/mail-send-recv.c:763
 msgid "Complete."
 msgstr "Terminado."
 
-#: ../mail/mail-ops.c:897
+#: ../mail/mail-ops.c:896
 #, c-format
 msgid "Saving message to folder '%s'"
 msgstr "Gardando a mensaxe no cartafol %s"
 
-#: ../mail/mail-ops.c:974
+#: ../mail/mail-ops.c:973
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Movendo as mensaxes a %s"
 
-#: ../mail/mail-ops.c:974
+#: ../mail/mail-ops.c:973
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando as mensaxes a %s"
 
-#: ../mail/mail-ops.c:1083
+#: ../mail/mail-ops.c:1082
 #, c-format
 msgid "Scanning folders in '%s'"
 msgstr "Examinando os cartafoles en «%s»"
 
-#: ../mail/mail-ops.c:1191
+#: ../mail/mail-ops.c:1190
 msgid "Forwarded messages"
 msgstr "Mensaxes reenviadas"
 
-#: ../mail/mail-ops.c:1232
+#: ../mail/mail-ops.c:1231
 #, c-format
 msgid "Opening folder '%s'"
 msgstr "Abrindo cartafol %s"
 
-#: ../mail/mail-ops.c:1298
+#: ../mail/mail-ops.c:1297
 #, c-format
 msgid "Retrieving quota information for folder '%s'"
 msgstr "Obtendo a información de cuota do cartafol %s"
 
-#: ../mail/mail-ops.c:1370
+#: ../mail/mail-ops.c:1369
 #, c-format
 msgid "Opening store '%s'"
 msgstr "Abrindo almacenamento %s"
 
-#: ../mail/mail-ops.c:1441
+#: ../mail/mail-ops.c:1440
 #, c-format
 msgid "Removing folder '%s'"
 msgstr "Eliminando o cartafol %s"
 
-#: ../mail/mail-ops.c:1561
+#: ../mail/mail-ops.c:1560
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Almacenando o cartafol «%s»"
 
-#: ../mail/mail-ops.c:1624
+#: ../mail/mail-ops.c:1623
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando e almacenando a conta «%s»"
 
-#: ../mail/mail-ops.c:1625
+#: ../mail/mail-ops.c:1624
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando a conta «%s»"
 
-#: ../mail/mail-ops.c:1679
+#: ../mail/mail-ops.c:1678
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando o cartafol %s"
 
-#: ../mail/mail-ops.c:1719
+#: ../mail/mail-ops.c:1718
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando o cartafol %s"
 
-#: ../mail/mail-ops.c:1764
+#: ../mail/mail-ops.c:1763
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Baleirando o lixo en «%s»"
 
-#: ../mail/mail-ops.c:1765
+#: ../mail/mail-ops.c:1764
 msgid "Local Folders"
 msgstr "Cartafoles locais"
 
-#: ../mail/mail-ops.c:1961
+#: ../mail/mail-ops.c:1960
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Recuperando %d mensaxe"
 msgstr[1] "Recuperando %d mensaxes"
 
-#: ../mail/mail-ops.c:2050
+#: ../mail/mail-ops.c:2049
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Gardando %d mensaxe"
 msgstr[1] "Gardando %d mensaxes"
 
-#: ../mail/mail-ops.c:2131
+#: ../mail/mail-ops.c:2130
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13660,11 +13623,11 @@ msgstr ""
 "Produciuse un erro ao gardar as mensaxes en: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2203
+#: ../mail/mail-ops.c:2202
 msgid "Saving attachment"
 msgstr "Gardando anexo"
 
-#: ../mail/mail-ops.c:2221 ../mail/mail-ops.c:2229
+#: ../mail/mail-ops.c:2220 ../mail/mail-ops.c:2228
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13673,27 +13636,27 @@ msgstr ""
 "Non é posíbel crear o ficheiro de saída: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2244
+#: ../mail/mail-ops.c:2243
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Non é posíbel escribir os datos: %s"
 
-#: ../mail/mail-ops.c:2389
+#: ../mail/mail-ops.c:2388
 #, c-format
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de %s"
 
-#: ../mail/mail-ops.c:2389
+#: ../mail/mail-ops.c:2388
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Conectando novamente con %s"
 
-#: ../mail/mail-ops.c:2485
+#: ../mail/mail-ops.c:2484
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando a conta «%s» para o modo sen conexión"
 
-#: ../mail/mail-ops.c:2571
+#: ../mail/mail-ops.c:2570
 msgid "Checking Service"
 msgstr "Verificando o servizo"
 
@@ -14441,85 +14404,85 @@ msgstr "_Enviar confirmación"
 msgid "_Synchronize"
 msgstr "_Sincronizar"
 
-#: ../mail/message-list.c:1119
+#: ../mail/message-list.c:1159
 msgid "Unseen"
 msgstr "Non vista"
 
-#: ../mail/message-list.c:1120
+#: ../mail/message-list.c:1160
 msgid "Seen"
 msgstr "Vista"
 
-#: ../mail/message-list.c:1121
+#: ../mail/message-list.c:1161
 msgid "Answered"
 msgstr "Respondida"
 
-#: ../mail/message-list.c:1122
+#: ../mail/message-list.c:1162
 msgid "Forwarded"
 msgstr "Reenviada"
 
-#: ../mail/message-list.c:1123
+#: ../mail/message-list.c:1163
 msgid "Multiple Unseen Messages"
 msgstr "Múltiples mensaxes non vistas"
 
-#: ../mail/message-list.c:1124
+#: ../mail/message-list.c:1164
 msgid "Multiple Messages"
 msgstr "Múltiples mensaxes"
 
-#: ../mail/message-list.c:1128
+#: ../mail/message-list.c:1168
 msgid "Lowest"
 msgstr "A máis baixa"
 
-#: ../mail/message-list.c:1129
+#: ../mail/message-list.c:1169
 msgid "Lower"
 msgstr "Inferior"
 
-#: ../mail/message-list.c:1133
+#: ../mail/message-list.c:1173
 msgid "Higher"
 msgstr "Superior"
 
-#: ../mail/message-list.c:1134
+#: ../mail/message-list.c:1174
 msgid "Highest"
 msgstr "A máis alta"
 
-#: ../mail/message-list.c:1744 ../widgets/table/e-cell-date.c:46
+#: ../mail/message-list.c:1784 ../widgets/table/e-cell-date.c:46
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1751 ../plugins/itip-formatter/itip-view.c:205
+#: ../mail/message-list.c:1791 ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M %p"
 msgstr "Hoxe ás %l:%M %p"
 
-#: ../mail/message-list.c:1760
+#: ../mail/message-list.c:1800
 msgid "Yesterday %l:%M %p"
 msgstr "Onte ás %l:%M %p"
 
 # (pofilter) variables: do not translate: %a, %l, %p
-#: ../mail/message-list.c:1772
+#: ../mail/message-list.c:1812
 msgid "%a %l:%M %p"
 msgstr "O %A ás %k:%M"
 
 # (pofilter) variables: do not translate: %b, %l, %p
-#: ../mail/message-list.c:1780
+#: ../mail/message-list.c:1820
 msgid "%b %d %l:%M %p"
 msgstr "O %d de %B ás %k:%M"
 
 # (pofilter) variables: do not translate: %b
-#: ../mail/message-list.c:1782
+#: ../mail/message-list.c:1822
 msgid "%b %d %Y"
 msgstr "%d de %B de %Y"
 
-#: ../mail/message-list.c:2537
+#: ../mail/message-list.c:2577
 msgid "Select all visible messages"
 msgstr "Seleccionar todas as mensaxes visíbeis"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4222 ../mail/message-list.c:4616
+#: ../mail/message-list.c:4328 ../mail/message-list.c:4725
 msgid "Generating message list"
 msgstr "Xerando a lista de mensaxes"
 
-#: ../mail/message-list.c:4455
+#: ../mail/message-list.c:4564
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -14527,7 +14490,7 @@ msgstr ""
 "Non hai mensaxes que satisfagan os seus criterios de busca. Limpe a busca no "
 "elemento de menú Buscar->Limpar ou cámbieo."
 
-#: ../mail/message-list.c:4457
+#: ../mail/message-list.c:4566
 msgid "There are no messages in this folder."
 msgstr "Non hai mensaxes neste cartafol."
 
@@ -19217,15 +19180,15 @@ msgstr ""
 "Quere marcar as mensaxes do cartafol actual como lidas ou tamén as dos seus "
 "subcartafoles?"
 
-#: ../plugins/mark-all-read/mark-all-read.c:188
+#: ../plugins/mark-all-read/mark-all-read.c:194
 msgid "In Current Folder and _Subfolders"
 msgstr "No cartafol actual e _subcartafoles"
 
-#: ../plugins/mark-all-read/mark-all-read.c:202
+#: ../plugins/mark-all-read/mark-all-read.c:208
 msgid "In Current _Folder Only"
 msgstr "Só no carta_fol actual"
 
-#: ../plugins/mark-all-read/mark-all-read.c:425
+#: ../plugins/mark-all-read/mark-all-read.c:438
 msgid "Mark Me_ssages as Read"
 msgstr "Marcar as men_saxes como lidas"
 
@@ -19987,7 +19950,7 @@ msgstr "A barra lateral é visíbel"
 msgid "Skip development warning dialog"
 msgstr "Saltar o diálogo de aviso de desenvolvemento"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:320
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:326
 msgid "Start in offline mode"
 msgstr "Iniciar en modo sen conexión"
 
@@ -20207,284 +20170,268 @@ msgstr "O Bug buddy non está instalado."
 msgid "Bug Buddy could not be run."
 msgstr "Non foi posíbel executar o Bug Buddy."
 
-#: ../shell/e-shell-window-actions.c:1354
-msgid "GNOME Pilot is not installed."
-msgstr "O Bug buddy non está instalado."
-
-#: ../shell/e-shell-window-actions.c:1356
-msgid "GNOME Pilot could not be run."
-msgstr "Non foi posíbel executar o Bug Buddy."
-
-#: ../shell/e-shell-window-actions.c:1450
+#: ../shell/e-shell-window-actions.c:1418
 msgid "Show information about Evolution"
 msgstr "Mostrar información sobre o Evolution"
 
-#: ../shell/e-shell-window-actions.c:1455
-#: ../shell/e-shell-window-actions.c:1469
+#: ../shell/e-shell-window-actions.c:1423
+#: ../shell/e-shell-window-actions.c:1437
 msgid "_Close Window"
 msgstr "_Pechar xanela"
 
-#: ../shell/e-shell-window-actions.c:1476
+#: ../shell/e-shell-window-actions.c:1444
 msgid "_Contents"
 msgstr "Ci_tas"
 
-#: ../shell/e-shell-window-actions.c:1478
+#: ../shell/e-shell-window-actions.c:1446
 msgid "Open the Evolution User Guide"
 msgstr "Abrir o cartafol doutro usuario"
 
-#: ../shell/e-shell-window-actions.c:1504
+#: ../shell/e-shell-window-actions.c:1472
 msgid "Evolution _FAQ"
 msgstr "_FAQ do Evolution"
 
-#: ../shell/e-shell-window-actions.c:1506
+#: ../shell/e-shell-window-actions.c:1474
 msgid "Open the Frequently Asked Questions webpage"
 msgstr "Abrir a páxina web das Preguntas frecuentes (FAQ)"
 
-#: ../shell/e-shell-window-actions.c:1511
+#: ../shell/e-shell-window-actions.c:1479
 msgid "_Forget Passwords"
 msgstr "_Esquecer os contrasinais"
 
-#: ../shell/e-shell-window-actions.c:1513
+#: ../shell/e-shell-window-actions.c:1481
 msgid "Forget all remembered passwords"
 msgstr "Está seguro de que quere esquecer todos os contrasinais memorizados?"
 
-#: ../shell/e-shell-window-actions.c:1518
+#: ../shell/e-shell-window-actions.c:1486
 msgid "I_mport..."
 msgstr "I_mportar..."
 
-#: ../shell/e-shell-window-actions.c:1520
+#: ../shell/e-shell-window-actions.c:1488
 msgid "Import data from other programs"
 msgstr "Importar datos doutros programas"
 
-#: ../shell/e-shell-window-actions.c:1525
+#: ../shell/e-shell-window-actions.c:1493
 msgid "New _Window"
 msgstr "_Xanela nova"
 
-#: ../shell/e-shell-window-actions.c:1527
+#: ../shell/e-shell-window-actions.c:1495
 msgid "Create a new window displaying this view"
 msgstr "Crear unha xanela nova ao mostrar este cartafol"
 
-#: ../shell/e-shell-window-actions.c:1541
+#: ../shell/e-shell-window-actions.c:1509
 msgid "Configure Evolution"
 msgstr "Configuración"
 
-#: ../shell/e-shell-window-actions.c:1546
+#: ../shell/e-shell-window-actions.c:1514
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../shell/e-shell-window-actions.c:1548
+#: ../shell/e-shell-window-actions.c:1516
 msgid "Show Evolution's shortcut keys"
 msgstr "Modificar a configuración do Evolution"
 
-#: ../shell/e-shell-window-actions.c:1555
+#: ../shell/e-shell-window-actions.c:1523
 msgid "Exit the program"
 msgstr "Saír do programa"
 
-#: ../shell/e-shell-window-actions.c:1560
+#: ../shell/e-shell-window-actions.c:1528
 msgid "_Advanced Search..."
 msgstr "Busca _avanzada..."
 
-#: ../shell/e-shell-window-actions.c:1562
+#: ../shell/e-shell-window-actions.c:1530
 msgid "Construct a more advanced search"
 msgstr "Constrúe unha búsqueda máis avanzada"
 
-#: ../shell/e-shell-window-actions.c:1569
+#: ../shell/e-shell-window-actions.c:1537
 msgid "Clear the current search parameters"
 msgstr "Limpar búsqueda"
 
-#: ../shell/e-shell-window-actions.c:1574
+#: ../shell/e-shell-window-actions.c:1542
 msgid "_Edit Saved Searches..."
 msgstr "_Editar as buscas gardadas..."
 
-#: ../shell/e-shell-window-actions.c:1576
+#: ../shell/e-shell-window-actions.c:1544
 msgid "Manage your saved searches"
 msgstr "Xestionar o seu correo, contactos e calendario"
 
-#: ../shell/e-shell-window-actions.c:1583
+#: ../shell/e-shell-window-actions.c:1551
 msgid "Click here to change the search type"
 msgstr "Prema aquí para cambiar o tipo de busca"
 
-#: ../shell/e-shell-window-actions.c:1588
+#: ../shell/e-shell-window-actions.c:1556
 msgid "_Find Now"
 msgstr "_Buscar agora"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1590
+#: ../shell/e-shell-window-actions.c:1558
 msgid "Execute the current search parameters"
 msgstr "Cancelar a operación de correo actual"
 
-#: ../shell/e-shell-window-actions.c:1595
+#: ../shell/e-shell-window-actions.c:1563
 msgid "_Save Search..."
 msgstr "_Gardar a busca..."
 
-#: ../shell/e-shell-window-actions.c:1597
+#: ../shell/e-shell-window-actions.c:1565
 msgid "Save the current search parameters"
 msgstr "Gardar o ficheiro actual"
 
-#: ../shell/e-shell-window-actions.c:1609
+#: ../shell/e-shell-window-actions.c:1577
 msgid "Send / _Receive"
 msgstr "Enviar/_Recibir"
 
-#: ../shell/e-shell-window-actions.c:1611
+#: ../shell/e-shell-window-actions.c:1579
 msgid "Send queued items and retrieve new items"
 msgstr "Enviar elementos da fila e obter elementos novos"
 
-#: ../shell/e-shell-window-actions.c:1616
+#: ../shell/e-shell-window-actions.c:1584
 msgid "Submit _Bug Report..."
 msgstr "Enviar un _informe de erro"
 
-#: ../shell/e-shell-window-actions.c:1618
+#: ../shell/e-shell-window-actions.c:1586
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Enviar un informe de erro usando o Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1623
-msgid "GNOME Pilot _Synchronization..."
-msgstr "_Sincronización con GNOME Pilot..."
-
-#: ../shell/e-shell-window-actions.c:1625
-msgid "Set up GNOME Pilot configuration"
-msgstr "Definir a configuración do GNOME Pilot"
-
-#: ../shell/e-shell-window-actions.c:1630
+#: ../shell/e-shell-window-actions.c:1591
 msgid "_Work Offline"
 msgstr "_Traballar sen conexión"
 
-#: ../shell/e-shell-window-actions.c:1632
+#: ../shell/e-shell-window-actions.c:1593
 msgid "Put Evolution into offline mode"
 msgstr "Iniciar en modo sen conexión"
 
-#: ../shell/e-shell-window-actions.c:1637
+#: ../shell/e-shell-window-actions.c:1598
 msgid "_Work Online"
 msgstr "_Traballar con conexión"
 
-#: ../shell/e-shell-window-actions.c:1639
+#: ../shell/e-shell-window-actions.c:1600
 msgid "Put Evolution into online mode"
 msgstr "Iniciar en modo con conexión"
 
-#: ../shell/e-shell-window-actions.c:1667
+#: ../shell/e-shell-window-actions.c:1628
 msgid "Lay_out"
 msgstr "Disp_osición"
 
-#: ../shell/e-shell-window-actions.c:1674
+#: ../shell/e-shell-window-actions.c:1635
 msgid "_New"
 msgstr "_Novo"
 
-#: ../shell/e-shell-window-actions.c:1681
+#: ../shell/e-shell-window-actions.c:1642
 msgid "_Search"
 msgstr "_Buscar"
 
-#: ../shell/e-shell-window-actions.c:1688
+#: ../shell/e-shell-window-actions.c:1649
 msgid "_Switcher Appearance"
 msgstr "Aparencia do _selector"
 
-#: ../shell/e-shell-window-actions.c:1702
+#: ../shell/e-shell-window-actions.c:1663
 msgid "_Window"
 msgstr "_Xanela"
 
-#: ../shell/e-shell-window-actions.c:1731
+#: ../shell/e-shell-window-actions.c:1692
 msgid "Show Side _Bar"
 msgstr "Mostrar _barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1733
+#: ../shell/e-shell-window-actions.c:1694
 msgid "Show the side bar"
 msgstr "Mostrar _barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1739
+#: ../shell/e-shell-window-actions.c:1700
 msgid "Show _Buttons"
 msgstr "Mostrar animacións"
 
-#: ../shell/e-shell-window-actions.c:1741
+#: ../shell/e-shell-window-actions.c:1702
 msgid "Show the switcher buttons"
 msgstr "Mostrar o fuso horario secundario"
 
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show _Status Bar"
 msgstr "Mostrar _barra de estado"
 
-#: ../shell/e-shell-window-actions.c:1749
+#: ../shell/e-shell-window-actions.c:1710
 msgid "Show the status bar"
 msgstr "Mostrar _barra de estado"
 
-#: ../shell/e-shell-window-actions.c:1755
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _ferramentas"
 
-#: ../shell/e-shell-window-actions.c:1757
+#: ../shell/e-shell-window-actions.c:1718
 msgid "Show the tool bar"
 msgstr "Mostrar barra de _ferramentas"
 
-#: ../shell/e-shell-window-actions.c:1779
+#: ../shell/e-shell-window-actions.c:1740
 msgid "_Icons Only"
 msgstr "Só _iconas"
 
-#: ../shell/e-shell-window-actions.c:1781
+#: ../shell/e-shell-window-actions.c:1742
 msgid "Display window buttons with icons only"
 msgstr "Mostrar os botóns da xanela só con iconas"
 
-#: ../shell/e-shell-window-actions.c:1786
+#: ../shell/e-shell-window-actions.c:1747
 msgid "_Text Only"
 msgstr "Só _texto"
 
-#: ../shell/e-shell-window-actions.c:1788
+#: ../shell/e-shell-window-actions.c:1749
 msgid "Display window buttons with text only"
 msgstr "Mostrar os botóns da xanela só con texto"
 
-#: ../shell/e-shell-window-actions.c:1793
+#: ../shell/e-shell-window-actions.c:1754
 msgid "Icons _and Text"
 msgstr "Iconas _e texto"
 
-#: ../shell/e-shell-window-actions.c:1795
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Display window buttons with icons and text"
 msgstr "Mostrar os botóns da xanela con iconas e texto"
 
-#: ../shell/e-shell-window-actions.c:1800
+#: ../shell/e-shell-window-actions.c:1761
 msgid "Tool_bar Style"
 msgstr "Estilo da _barra de ferramentas"
 
-#: ../shell/e-shell-window-actions.c:1802
+#: ../shell/e-shell-window-actions.c:1763
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Mostrar os botóns da xanela usando a configuración da barra de ferramentas "
 "do escritorio"
 
-#: ../shell/e-shell-window-actions.c:1810
+#: ../shell/e-shell-window-actions.c:1771
 msgid "Define Views..."
 msgstr "Definir vistas..."
 
-#: ../shell/e-shell-window-actions.c:1812
+#: ../shell/e-shell-window-actions.c:1773
 msgid "Create or edit views"
 msgstr "Crear ou editar vistas"
 
-#: ../shell/e-shell-window-actions.c:1817
+#: ../shell/e-shell-window-actions.c:1778
 msgid "Save Custom View..."
 msgstr "Gardar vista personalizada..."
 
-#: ../shell/e-shell-window-actions.c:1819
+#: ../shell/e-shell-window-actions.c:1780
 msgid "Save current custom view"
 msgstr "Gardar a vista personalizada actual"
 
-#: ../shell/e-shell-window-actions.c:1826
+#: ../shell/e-shell-window-actions.c:1787
 msgid "C_urrent View"
 msgstr "Visualización act_ual"
 
-#: ../shell/e-shell-window-actions.c:1836
+#: ../shell/e-shell-window-actions.c:1797
 msgid "Custom View"
 msgstr "Visualización personalizada"
 
-#: ../shell/e-shell-window-actions.c:1838
+#: ../shell/e-shell-window-actions.c:1799
 msgid "Current view is a customized view"
 msgstr "A vista actual é unha visualización personalizada"
 
-#: ../shell/e-shell-window-actions.c:1848
+#: ../shell/e-shell-window-actions.c:1809
 msgid "Change the page settings for your current printer"
 msgstr "Definir a configuración da páxina para a impresora actual"
 
-#: ../shell/e-shell-window-actions.c:2227
+#: ../shell/e-shell-window-actions.c:2182
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
 
-#: ../shell/e-shell-window-actions.c:2440
+#: ../shell/e-shell-window-actions.c:2395
 msgid "Execute these search parameters"
 msgstr "Executar estes parámetros de búsqueda"
 
@@ -20511,7 +20458,7 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para saír..."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:173
+#: ../shell/main.c:175
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20548,7 +20495,7 @@ msgstr ""
 "Esperamos que lles sexa de proveito o resultado do noso duro traballo, e\n"
 "agardamos ansiosamente as súas colaboracións!\n"
 
-#: ../shell/main.c:197
+#: ../shell/main.c:199
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20556,57 +20503,57 @@ msgstr ""
 "Grazas\n"
 "O equipo do Evolution\n"
 
-#: ../shell/main.c:204
+#: ../shell/main.c:206
 msgid "Do not tell me again"
 msgstr "Non preguntarme de novo"
 
-#: ../shell/main.c:316
+#: ../shell/main.c:322
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar o Evolution activando o compoñente especificado"
 
-#: ../shell/main.c:318
+#: ../shell/main.c:324
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar a xeometría fornecida á xanela principal"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:328
 msgid "Start in online mode"
 msgstr "Iniciar en modo con conexión"
 
-#: ../shell/main.c:324
+#: ../shell/main.c:330
 msgid "Start in \"express\" mode"
 msgstr "Iniciar en modo \"express\""
 
-#: ../shell/main.c:327
+#: ../shell/main.c:333
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar o peche de todos os compoñentes do Evolution"
 
-#: ../shell/main.c:330
+#: ../shell/main.c:336
 msgid "Send the debugging output of all components to a file."
 msgstr "Enviar a saída da depuración de todos os compoñentes a un ficheiro."
 
-#: ../shell/main.c:332
+#: ../shell/main.c:338
 msgid "Disable loading of any plugins."
 msgstr "Desactivar a carga de calquera engadido."
 
-#: ../shell/main.c:334
+#: ../shell/main.c:340
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar o panel de previsualización de correo, contactos e tarefas."
 
-#: ../shell/main.c:338
+#: ../shell/main.c:344
 msgid "Import URIs or file names given as rest of arguments."
 msgstr ""
 "Imporatar os URIs ou nomes de ficheiros fornecidos como o resto dos "
 "argumentos."
 
-#: ../shell/main.c:340
+#: ../shell/main.c:346
 msgid "Request a running Evolution process to quit"
 msgstr "Reiniciando o Evolution"
 
-#: ../shell/main.c:463
+#: ../shell/main.c:469
 msgid "- The Evolution PIM and Email Client"
 msgstr "- O cliente de correo e PIM do Evolution"
 
-#: ../shell/main.c:514
+#: ../shell/main.c:531
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21780,18 +21727,6 @@ msgstr ""
 "O Evolution está actualmente desconectado.\n"
 "Prema neste botón para traballar conectado."
 
-#: ../widgets/misc/e-pilot-settings.c:95
-msgid "Sync with:"
-msgstr "Sincronizar con:"
-
-#: ../widgets/misc/e-pilot-settings.c:103
-msgid "Sync Private Records:"
-msgstr "Sincronizar rexistros privados:"
-
-#: ../widgets/misc/e-pilot-settings.c:112
-msgid "Sync Categories:"
-msgstr "Sincronizar categorías:"
-
 #: ../widgets/misc/e-preferences-window.c:266
 msgid "Evolution Preferences"
 msgstr "Preferencias do Evolution"
@@ -22339,6 +22274,62 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2486
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Default Sync Address:"
+#~ msgstr "Enderezo de sincronización predefinido:"
+
+#~ msgid "Could not load address book"
+#~ msgstr "Non foi posíbel cargar a axenda de enderezos"
+
+#~ msgid "Could not read pilot's Address application block"
+#~ msgstr "Non foi posíbel ler o bloque de Aplicativo de enderezos do pilot"
+
+#~ msgid "Split Multi-Day Events:"
+#~ msgstr "Dividir eventos de días múltiples:"
+
+#~ msgid "Could not start evolution-data-server"
+#~ msgstr "Non foi posíbel iniciar o evolution-data-server"
+
+#~ msgid "Could not read pilot's Calendar application block"
+#~ msgstr "Non foi posíbel ler o bloque do Aplicativo de Calendario do pilot"
+
+#~ msgid "Could not read pilot's Memo application block"
+#~ msgstr "Non foi posíbel ler o bloque do Aplicativo Memo do pilot"
+
+#~ msgid "Could not write pilot's Memo application block"
+#~ msgstr "Non foi posíbel escribir o bloque do Aplicativo Memo do pilot"
+
+#~ msgid "Default Priority:"
+#~ msgstr "Prioridade predefinida:"
+
+#~ msgid "Could not read pilot's ToDo application block"
+#~ msgstr ""
+#~ "Non foi posíbel ler o bloque do Aplicativo Tarefas pendentes do pilot"
+
+#~ msgid "Could not write pilot's ToDo application block"
+#~ msgstr ""
+#~ "Non foi posíbel escribir o bloque do Aplicativo Tarefas pendentes do pilot"
+
+#~ msgid "GNOME Pilot is not installed."
+#~ msgstr "O Bug buddy non está instalado."
+
+#~ msgid "GNOME Pilot could not be run."
+#~ msgstr "Non foi posíbel executar o Bug Buddy."
+
+#~ msgid "GNOME Pilot _Synchronization..."
+#~ msgstr "_Sincronización con GNOME Pilot..."
+
+#~ msgid "Set up GNOME Pilot configuration"
+#~ msgstr "Definir a configuración do GNOME Pilot"
+
+#~ msgid "Sync with:"
+#~ msgstr "Sincronizar con:"
+
+#~ msgid "Sync Private Records:"
+#~ msgstr "Sincronizar rexistros privados:"
+
+#~ msgid "Sync Categories:"
+#~ msgstr "Sincronizar categorías:"
 
 #~ msgid "Guides you through your initial account setup."
 #~ msgstr "Guíao durante a configuración inicial da súa conta."
