@@ -201,8 +201,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
                 (gobject_class,
                  PROP_TEXT,
                  g_param_spec_string ("text",
-				      _("Text"),
-				      _("Text to render"),
+				      "Text",
+				      "Text to render",
                                       NULL,
                                       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
@@ -210,8 +210,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
                 (gobject_class,
                  PROP_MARKUP,
                  g_param_spec_string ("markup",
-				      _("Markup"),
-				      _("Marked up text to render"),
+				      "Markup",
+				      "Marked up text to render",
 				      NULL,
                                       (G_PARAM_WRITABLE)));
 
@@ -236,8 +236,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
                 (gobject_class,
                  PROP_FONT,
                  g_param_spec_string ("font",
-				      _("Font"),
-				      _("Font description as a string"),
+				      "Font",
+				      "Font description as a string",
                                       NULL,
                                       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	
@@ -245,8 +245,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_FONT_DESC,
 		 g_param_spec_boxed ("font_desc",
-				     _("Font description"),
-				     _("Font description as a PangoFontDescription struct"),
+				     "Font description",
+				     "Font description as a PangoFontDescription struct",
 				     PANGO_TYPE_FONT_DESCRIPTION,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
@@ -254,8 +254,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_FAMILY,
 		 g_param_spec_string ("family",
-				      _("Font family"),
-				      _("Name of the font family, e.g. Sans, Helvetica, Times, Monospace"),
+				      "Font family",
+				      "Name of the font family, e.g. Sans, Helvetica, Times, Monospace",
 				      NULL,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	
@@ -271,8 +271,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_STYLE,
 		 g_param_spec_enum ("style",
-				    _("Font style"),
-				    _("Font style"),
+				    "Font style",
+				    "Font style",
 				    PANGO_TYPE_STYLE,
 				    PANGO_STYLE_NORMAL,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -281,8 +281,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_VARIANT,
 		 g_param_spec_enum ("variant",
-				    _("Font variant"),
-				    _("Font variant"),
+				    "Font variant",
+				    "Font variant",
 				    PANGO_TYPE_VARIANT,
 				    PANGO_VARIANT_NORMAL,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -291,8 +291,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_WEIGHT,
 		 g_param_spec_int ("weight",
-				   _("Font weight"),
-				   _("Font weight"),
+				   "Font weight",
+				   "Font weight",
 				   0,
 				   G_MAXINT,
 				   PANGO_WEIGHT_NORMAL,
@@ -303,8 +303,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_STRETCH,
 		 g_param_spec_enum ("stretch",
-				    _("Font stretch"),
-				    _("Font stretch"),
+				    "Font stretch",
+				    "Font stretch",
 				    PANGO_TYPE_STRETCH,
 				    PANGO_STRETCH_NORMAL,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -313,8 +313,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_SIZE,
 		 g_param_spec_int ("size",
-				   _("Font size"),
-				   _("Font size (as a multiple of PANGO_SCALE, eg. 12*PANGO_SCALE for a 12pt font size)"),
+				   "Font size",
+				   "Font size (as a multiple of PANGO_SCALE, eg. 12*PANGO_SCALE for a 12pt font size)",
 				   0,
 				   G_MAXINT,
 				   0,
@@ -324,8 +324,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		PROP_SIZE_POINTS,
 		g_param_spec_double ("size_points",
-				     _("Font points"),
-				     _("Font size in points (eg. 12 for a 12pt font size)"),
+				     "Font points",
+				     "Font size in points (eg. 12 for a 12pt font size)",
 				     0.0,
 				     G_MAXDOUBLE,
 				     0.0,
@@ -335,8 +335,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_RISE,
 		 g_param_spec_int ("rise",
-				   _("Rise"),
-				   _("Offset of text above the baseline (below the baseline if rise is negative)"),
+				   "Rise",
+				   "Offset of text above the baseline (below the baseline if rise is negative)",
 				   -G_MAXINT,
 				   G_MAXINT,
 				   0,
@@ -346,8 +346,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_STRIKETHROUGH,
 		 g_param_spec_boolean ("strikethrough",
-				       _("Strikethrough"),
-				       _("Whether to strike through the text"),
+				       "Strikethrough",
+				       "Whether to strike through the text",
 				       FALSE,
 				       G_PARAM_READABLE | G_PARAM_WRITABLE));
 	
@@ -355,8 +355,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_UNDERLINE,
 		 g_param_spec_enum ("underline",
-				    _("Underline"),
-				    _("Style of underline for this text"),
+				    "Underline",
+				    "Style of underline for this text",
 				    PANGO_TYPE_UNDERLINE,
 				    PANGO_UNDERLINE_NONE,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -365,8 +365,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		(gobject_class,
 		 PROP_SCALE,
 		 g_param_spec_double ("scale",
-				      _("Scale"),
-				      _("Size of font, relative to default size"),
+				      "Scale",
+				      "Size of font, relative to default size",
 				      0.0,
 				      G_MAXDOUBLE,
 				      1.0,
@@ -420,24 +420,24 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
                 (gobject_class,
                  PROP_FILL_COLOR,
                  g_param_spec_string ("fill_color",
-				      _("Color"),
-				      _("Text color, as string"),
+				      "Color",
+				      "Text color, as string",
                                       NULL,
                                       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
                  g_param_spec_boxed ("fill_color_gdk",
-				     _("Color"),
-				     _("Text color, as a GdkColor"),
+				     "Color",
+				     "Text color, as a GdkColor",
 				     GDK_TYPE_COLOR,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
                  g_param_spec_uint ("fill_color_rgba",
-				    _("Color"),
-				    _("Text color, as an R/G/B/A combined integer"),
+				    "Color",
+				    "Text color, as an R/G/B/A combined integer",
 				    0, G_MAXUINT, 0,
 				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
@@ -450,16 +450,16 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
                 (gobject_class,
                  PROP_TEXT_WIDTH,
                  g_param_spec_double ("text_width",
-				      _("Text width"),
-				      _("Width of the rendered text"),
+				      "Text width",
+				      "Width of the rendered text",
 				      0.0, G_MAXDOUBLE, 0.0,
 				      G_PARAM_READABLE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_TEXT_HEIGHT,
                  g_param_spec_double ("text_height",
-				      _("Text height"),
-				      _("Height of the rendered text"),
+				      "Text height",
+				      "Height of the rendered text",
 				      0.0, G_MAXDOUBLE, 0.0,
 				      G_PARAM_READABLE));
 
@@ -467,44 +467,44 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 #define ADD_SET_PROP(propname, propval, nick, blurb) g_object_class_install_property (gobject_class, propval, g_param_spec_boolean (propname, nick, blurb, FALSE, G_PARAM_READABLE | G_PARAM_WRITABLE))
 
 	ADD_SET_PROP ("family_set", PROP_FAMILY_SET,
-		      _("Font family set"),
-		      _("Whether this tag affects the font family"));  
+		      "Font family set",
+		      "Whether this tag affects the font family");  
 	
 	ADD_SET_PROP ("style_set", PROP_STYLE_SET,
-		      _("Font style set"),
-		      _("Whether this tag affects the font style"));
+		      "Font style set",
+		      "Whether this tag affects the font style");
 	
 	ADD_SET_PROP ("variant_set", PROP_VARIANT_SET,
-		      _("Font variant set"),
-		      _("Whether this tag affects the font variant"));
+		      "Font variant set",
+		      "Whether this tag affects the font variant");
 	
 	ADD_SET_PROP ("weight_set", PROP_WEIGHT_SET,
-		      _("Font weight set"),
-		      _("Whether this tag affects the font weight"));
+		      "Font weight set",
+		      "Whether this tag affects the font weight");
 	
 	ADD_SET_PROP ("stretch_set", PROP_STRETCH_SET,
-		      _("Font stretch set"),
-		      _("Whether this tag affects the font stretch"));
+		      "Font stretch set",
+		      "Whether this tag affects the font stretch");
 	
 	ADD_SET_PROP ("size_set", PROP_SIZE_SET,
-		      _("Font size set"),
-		      _("Whether this tag affects the font size"));
+		      "Font size set",
+		      "Whether this tag affects the font size");
 	
 	ADD_SET_PROP ("rise_set", PROP_RISE_SET,
-		      _("Rise set"),
-		      _("Whether this tag affects the rise"));
+		      "Rise set",
+		      "Whether this tag affects the rise");
 	
 	ADD_SET_PROP ("strikethrough_set", PROP_STRIKETHROUGH_SET,
-		      _("Strikethrough set"),
-		      _("Whether this tag affects strikethrough"));
+		      "Strikethrough set",
+		      "Whether this tag affects strikethrough");
 	
 	ADD_SET_PROP ("underline_set", PROP_UNDERLINE_SET,
-		      _("Underline set"),
-		      _("Whether this tag affects underlining"));
+		      "Underline set",
+		      "Whether this tag affects underlining");
 
 	ADD_SET_PROP ("scale_set", PROP_SCALE_SET,
-		      _("Scale set"),
-		      _("Whether this tag affects font scaling"));
+		      "Scale set",
+		      "Whether this tag affects font scaling");
 #undef ADD_SET_PROP
 	
 	object_class->destroy = gnome_canvas_text_destroy;

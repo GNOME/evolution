@@ -1414,15 +1414,15 @@ gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 	g_object_class_install_property
 		(gobject_class, GROUP_PROP_X,
 		 g_param_spec_double ("x",
-				      _("X"),
-				      _("X"),
+				      "X",
+				      "X",
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class, GROUP_PROP_Y,
 		 g_param_spec_double ("y",
-				      _("Y"),
-				      _("Y"),
+				      "Y",
+				      "Y",
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
@@ -2065,8 +2065,8 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 	g_object_class_install_property (G_OBJECT_CLASS (object_class),
 					 PROP_AA,
 					 g_param_spec_boolean ("aa",
-							       _("Antialiased"),
-							       _("The antialiasing mode of the canvas."),
+							       "Antialiased",
+							       "The antialiasing mode of the canvas.",
 							       FALSE,
 							       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 

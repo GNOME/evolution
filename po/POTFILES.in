@@ -177,9 +177,6 @@ filter/e-rule-context.c
 filter/e-rule-editor.c
 filter/filter.error.xml
 [type: gettext/glade]filter/filter.ui
-libgnomecanvas/gnome-canvas-rich-text.c
-libgnomecanvas/gnome-canvas-text.c
-libgnomecanvas/gnome-canvas.c
 mail/e-mail-attachment-bar.c
 mail/e-mail-browser.c
 mail/e-mail-display.c
