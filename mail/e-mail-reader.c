@@ -76,6 +76,8 @@ struct _EMailReaderPrivate {
 	 * happen when the -user- selects a message. */
 	guint folder_was_just_selected    : 1;
 	guint restoring_message_selection : 1;
+
+	guint group_by_threads : 1;
 };
 
 enum {
@@ -2487,6 +2489,15 @@ mail_reader_class_init (EMailReaderIface *iface)
 	iface->set_message = mail_reader_set_message;
 	iface->update_actions = mail_reader_update_actions;
 
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"group-by-threads",
+			"Group by Threads",
+			"Whether to group messages by threads",
+			FALSE,
+			G_PARAM_READWRITE));
+
 	signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (iface),
@@ -3098,6 +3109,42 @@ e_mail_reader_set_message (EMailReader *reader,
 	g_return_if_fail (iface->set_message != NULL);
 
 	iface->set_message (reader, uid);
+}
+
+gboolean
+e_mail_reader_get_group_by_threads (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	return priv->group_by_threads;
+}
+
+void
+e_mail_reader_set_group_by_threads (EMailReader *reader,
+                                    gboolean group_by_threads)
+{
+	EMailReaderPrivate *priv;
+	GtkWidget *message_list;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (group_by_threads == priv->group_by_threads)
+		return;
+
+	priv->group_by_threads = group_by_threads;
+
+	/* XXX MessageList should define a property for this. */
+	message_list = e_mail_reader_get_message_list (reader);
+	message_list_set_threaded (
+		MESSAGE_LIST (message_list), group_by_threads);
+
+	g_object_notify (G_OBJECT (reader), "group-by-threads");
 }
 
 void

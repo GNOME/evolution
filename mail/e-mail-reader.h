@@ -130,6 +130,11 @@ void		e_mail_reader_set_folder_uri	(EMailReader *reader,
 						 const gchar *folder_uri);
 void		e_mail_reader_set_message	(EMailReader *reader,
 						 const gchar *uid);
+gboolean	e_mail_reader_get_group_by_threads
+						(EMailReader *reader);
+void		e_mail_reader_set_group_by_threads
+						(EMailReader *reader,
+						 gboolean group_by_threads);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,

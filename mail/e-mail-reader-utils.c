@@ -264,6 +264,9 @@ e_mail_reader_open_selected (EMailReader *reader)
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
+		e_mail_reader_set_group_by_threads (
+			E_MAIL_READER (browser),
+			e_mail_reader_get_group_by_threads (reader));
 		gtk_widget_show (browser);
 	}
 

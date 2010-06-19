@@ -69,7 +69,6 @@ struct _EMailShellContentPrivate {
 	/* Signal handler IDs */
 	guint message_list_built_id;
 
-	guint group_by_threads	: 1;
 	guint preview_visible	: 1;
 	guint show_deleted	: 1;
 };
@@ -239,6 +238,18 @@ mail_shell_content_restore_state_cb (EShellWindow *shell_window,
 	gconf_bridge_bind_property (bridge, key, object, "vposition");
 }
 
+static void
+mail_shell_content_notify_group_by_threads_cb (EMailReader *reader)
+{
+	gboolean group_by_threads;
+
+	group_by_threads = e_mail_reader_get_group_by_threads (reader);
+
+	mail_shell_content_save_boolean (
+		E_MAIL_SHELL_CONTENT (reader),
+		STATE_KEY_GROUP_BY_THREADS, group_by_threads);
+}
+
 static GtkOrientation
 mail_shell_content_get_orientation (EMailShellContent *mail_shell_content)
 {
@@ -264,8 +275,8 @@ mail_shell_content_set_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_GROUP_BY_THREADS:
-			e_mail_shell_content_set_group_by_threads (
-				E_MAIL_SHELL_CONTENT (object),
+			e_mail_reader_set_group_by_threads (
+				E_MAIL_READER (object),
 				g_value_get_boolean (value));
 			return;
 
@@ -301,8 +312,8 @@ mail_shell_content_get_property (GObject *object,
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value,
-				e_mail_shell_content_get_group_by_threads (
-				E_MAIL_SHELL_CONTENT (object)));
+				e_mail_reader_get_group_by_threads (
+				E_MAIL_READER (object)));
 			return;
 
 		case PROP_ORIENTATION:
@@ -628,8 +639,7 @@ mail_shell_content_set_folder (EMailReader *reader,
 		g_clear_error (&error);
 	}
 
-	e_mail_shell_content_set_group_by_threads (
-		E_MAIL_SHELL_CONTENT (shell_content), value);
+	e_mail_reader_set_group_by_threads (reader, value);
 
 	key = STATE_KEY_PREVIEW_VISIBLE;
 	value = g_key_file_get_boolean (key_file, group_name, key, &error);
@@ -686,15 +696,11 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = mail_shell_content_check_state;
 
-	g_object_class_install_property (
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
 		object_class,
 		PROP_GROUP_BY_THREADS,
-		g_param_spec_boolean (
-			"group-by-threads",
-			"Group by Threads",
-			"Whether to group messages by threads",
-			FALSE,
-			G_PARAM_READWRITE));
+		"group-by-threads");
 
 	g_object_class_install_property (
 		object_class,
@@ -741,6 +747,11 @@ mail_shell_content_init (EMailShellContent *mail_shell_content)
 		E_MAIL_SHELL_CONTENT_GET_PRIVATE (mail_shell_content);
 
 	mail_shell_content->priv->preview_visible = TRUE;
+
+	g_signal_connect (
+		mail_shell_content, "notify::group-by-threads",
+		G_CALLBACK (mail_shell_content_notify_group_by_threads_cb),
+		NULL);
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -800,42 +811,6 @@ e_mail_shell_content_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_MAIL_SHELL_CONTENT,
 		"shell-view", shell_view, NULL);
-}
-
-gboolean
-e_mail_shell_content_get_group_by_threads (EMailShellContent *mail_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), FALSE);
-
-	return mail_shell_content->priv->group_by_threads;
-}
-
-void
-e_mail_shell_content_set_group_by_threads (EMailShellContent *mail_shell_content,
-                                           gboolean group_by_threads)
-{
-	EMailReader *reader;
-	GtkWidget *message_list;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
-
-	if (group_by_threads == mail_shell_content->priv->group_by_threads)
-		return;
-
-	mail_shell_content->priv->group_by_threads = group_by_threads;
-
-	mail_shell_content_save_boolean (
-		mail_shell_content,
-		STATE_KEY_GROUP_BY_THREADS, group_by_threads);
-
-	/* XXX MessageList should define a property for this. */
-	reader = E_MAIL_READER (mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	message_list_set_threaded (
-		MESSAGE_LIST (message_list), group_by_threads);
-
-	g_object_notify (G_OBJECT (mail_shell_content), "group-by-threads");
 }
 
 gboolean

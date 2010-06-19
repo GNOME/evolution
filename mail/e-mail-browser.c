@@ -63,6 +63,7 @@ struct _EMailBrowserPrivate {
 enum {
 	PROP_0,
 	PROP_FOCUS_TRACKER,
+	PROP_GROUP_BY_THREADS,
 	PROP_SHELL_BACKEND,
 	PROP_SHOW_DELETED,
 	PROP_UI_MANAGER
@@ -348,6 +349,12 @@ mail_browser_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_GROUP_BY_THREADS:
+			e_mail_reader_set_group_by_threads (
+				E_MAIL_READER (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHELL_BACKEND:
 			mail_browser_set_shell_backend (
 				E_MAIL_BROWSER (object),
@@ -375,6 +382,12 @@ mail_browser_get_property (GObject *object,
 			g_value_set_object (
 				value, e_mail_browser_get_focus_tracker (
 				E_MAIL_BROWSER (object)));
+			return;
+
+		case PROP_GROUP_BY_THREADS:
+			g_value_set_boolean (
+				value, e_mail_reader_get_group_by_threads (
+				E_MAIL_READER (object)));
 			return;
 
 		case PROP_SHELL_BACKEND:
@@ -769,6 +782,12 @@ mail_browser_class_init (EMailBrowserClass *class)
 			NULL,
 			E_TYPE_FOCUS_TRACKER,
 			G_PARAM_READABLE));
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_GROUP_BY_THREADS,
+		"group-by-threads");
 
 	g_object_class_install_property (
 		object_class,
