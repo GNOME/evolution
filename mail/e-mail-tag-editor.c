@@ -170,7 +170,7 @@ mail_tag_editor_get_tag_list (EMailTagEditor *editor)
 		text = camel_header_format_date (date, 0);
 		camel_tag_set (&tag_list, "due-by", text);
 		g_free (text);
-	}
+	} else
 		camel_tag_set (&tag_list, "due-by", "");
 
 	if (e_mail_tag_editor_get_completed (editor)) {
@@ -178,7 +178,7 @@ mail_tag_editor_get_tag_list (EMailTagEditor *editor)
 			editor->priv->completed_date, 0);
 		camel_tag_set (&tag_list, "completed-on", text);
 		g_free (text);
-	}
+	} else
 		camel_tag_set (&tag_list, "completed-on", "");
 
 	return tag_list;
