@@ -426,6 +426,12 @@ shell_switcher_get_relief_style (GtkToolShell *shell)
 	return GTK_RELIEF_NORMAL;
 }
 
+static gfloat
+shell_switcher_get_text_alignment (GtkToolShell *shell)
+{
+	return 0.0;
+}
+
 static void
 e_shell_switcher_class_init (EShellSwitcherClass *class)
 {
@@ -519,6 +525,7 @@ shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface)
 	iface->get_orientation = shell_switcher_get_orientation;
 	iface->get_style = shell_switcher_get_style;
 	iface->get_relief_style = shell_switcher_get_relief_style;
+	iface->get_text_alignment = shell_switcher_get_text_alignment;
 }
 
 /**
