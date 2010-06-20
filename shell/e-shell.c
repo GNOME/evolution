@@ -455,13 +455,15 @@ shell_set_express_mode (EShell *shell,
 }
 
 static void
-shell_set_meego_mode (EShell *shell, gboolean is_meego)
+shell_set_meego_mode (EShell *shell,
+                      gboolean is_meego)
 {
 	shell->priv->meego_mode = is_meego;
 }
 
 static void
-shell_set_small_screen_mode (EShell *shell, gboolean small_screen)
+shell_set_small_screen_mode (EShell *shell,
+                             gboolean small_screen)
 {
 	shell->priv->small_screen_mode = small_screen;
 }
@@ -1486,7 +1488,8 @@ e_shell_handle_uris (EShell *shell,
 		}
 
 		if (n_handled == 0)
-			n_handled = e_shell_utils_import_uris (shell, uris, TRUE);
+			n_handled = e_shell_utils_import_uris (
+				shell, uris, TRUE);
 	}
 
 	return n_handled;
