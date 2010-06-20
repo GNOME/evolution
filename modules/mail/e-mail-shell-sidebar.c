@@ -178,12 +178,12 @@ mail_shell_sidebar_constructed (GObject *object)
 		shell_sidebar);
 }
 
-static int
+static gint
 guess_screen_width (EMailShellSidebar *sidebar)
 {
 	GtkWidget *widget;
 	GdkScreen *screen;
-	int screen_width;
+	gint screen_width;
 
 	widget = GTK_WIDGET (sidebar);
 
@@ -192,7 +192,7 @@ guess_screen_width (EMailShellSidebar *sidebar)
 	screen = gtk_widget_get_screen (widget);
 	if (screen) {
 		GtkWidget *toplevel;
-		int monitor;
+		gint monitor;
 		GdkRectangle rect;
 
 		toplevel = gtk_widget_get_toplevel (widget);
@@ -239,9 +239,9 @@ mail_shell_sidebar_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	PangoLayout *layout;
 	PangoRectangle ink_rect;
 	GtkStyle *style;
-	int border;
-	int sidebar_width;
-	int screen_width;
+	gint border;
+	gint sidebar_width;
+	gint screen_width;
 
 	sidebar = E_MAIL_SHELL_SIDEBAR (widget);
 

@@ -56,7 +56,7 @@ anjal_mail_view_finalize (GObject *object)
 	G_OBJECT_CLASS (anjal_mail_view_parent_class)->finalize (object);
 }
 
-static 	void
+static void
 view_set_folder_uri (AnjalMailView *mail_view, const gchar *uri)
 {
 }

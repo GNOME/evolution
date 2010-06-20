@@ -127,7 +127,7 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
 			provider->recv_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
@@ -151,7 +151,7 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
 			provider->send_username = xml_to_gchar(xmlNodeGetContent(node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-		 	provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
 		}
 
 		node = node->next;
@@ -222,7 +222,6 @@ mail_guess_servers(EmailProvider *provider)
 	parsed = soup_uri_new (url);
 	soup_uri_free (parsed);
 
-
 	session = soup_session_sync_new_with_options (
 		SOUP_SESSION_SSL_CA_FILE, cafile,
 		SOUP_SESSION_USER_AGENT, "get ",
@@ -239,7 +238,7 @@ mail_guess_servers(EmailProvider *provider)
 		return FALSE;
 
 	parse_msg(msg, provider);
-	
+
 	g_object_unref (msg);
 	g_object_unref(session);
 	g_free(url);

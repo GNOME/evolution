@@ -1043,7 +1043,6 @@ struct _date_query_msg {
 	GnomeCalendar *gcal;
 };
 
-
 static void
 free_dn_queries (GnomeCalendar *gcal)
 {
@@ -1491,7 +1490,6 @@ gnome_calendar_do_dispose (GObject *object)
 	gcal = GNOME_CALENDAR (object);
 	priv = gcal->priv;
 
-	
 	if (priv->shell_settings != NULL) {
 		g_object_unref (priv->shell_settings);
 		priv->shell_settings = NULL;

@@ -232,7 +232,7 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		}
 
 		rest_len = inend - start;
-		if (inptr < inend) 
+		if (inptr < inend)
 			*inptr++ = 0;
 
 		#define restore_inptr() G_STMT_START { if (inptr < inend) inptr[-1] = '\n'; } G_STMT_END

@@ -125,7 +125,7 @@ plugin_mono_invoke (EPlugin *plugin,
 		mono_config_parse (NULL);
 		domain = mono_jit_init (plugin_mono->location);
 	}
-	
+
 	/* We need to do this every time since we may
 	 * be called from any thread for some uses. */
 	mono_thread_attach (domain);

@@ -300,7 +300,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->gal_view_merge_id = merge_id;
 
-
 	/* Construct window widgets. */
 
 	widget = gtk_vbox_new (FALSE, 0);

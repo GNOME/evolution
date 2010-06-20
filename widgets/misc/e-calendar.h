@@ -91,7 +91,7 @@ void		e_calendar_set_minimum_size	(ECalendar *cal,
 						 gint rows,
 						 gint cols);
 void		e_calendar_set_maximum_size	(ECalendar *cal,
-					 	 gint rows,
+						 gint rows,
 						 gint cols);
 void		e_calendar_get_border_size	(ECalendar *cal,
 						 gint *top,

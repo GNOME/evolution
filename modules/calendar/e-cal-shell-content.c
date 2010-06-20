@@ -151,7 +151,7 @@ cal_chell_content_get_pad_state_filename (EShellContent *shell_content, ETable *
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 	g_return_val_if_fail (table != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE (table), NULL);
-	
+
 	if (E_IS_TASK_TABLE (table))
 		nick = "TaskPad";
 	else if (E_IS_MEMO_TABLE (table))
