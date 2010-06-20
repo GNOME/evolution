@@ -666,6 +666,35 @@ shell_constructed (GObject *object)
 }
 
 static UniqueResponse
+shell_message_handle_activate (EShell *shell,
+                               UniqueMessageData *data)
+{
+	GList *watched_windows;
+	GdkScreen *screen;
+
+	screen = unique_message_data_get_screen (data);
+	watched_windows = e_shell_get_watched_windows (shell);
+
+	/* Present the first EShellWindow, if found. */
+	while (watched_windows != NULL) {
+		GtkWindow *window = GTK_WINDOW (watched_windows->data);
+
+		if (E_IS_SHELL_WINDOW (window)) {
+			gtk_window_set_screen (window, screen);
+			gtk_window_present (window);
+			return UNIQUE_RESPONSE_OK;
+		}
+
+		watched_windows = g_list_next (watched_windows);
+	}
+
+	/* No EShellWindow found, so create one. */
+	e_shell_create_shell_window (shell, NULL);
+
+	return UNIQUE_RESPONSE_OK;
+}
+
+static UniqueResponse
 shell_message_handle_new (EShell *shell,
                           UniqueMessageData *data)
 {
@@ -731,7 +760,7 @@ shell_message_received (UniqueApp *app,
 
 	switch (command) {
 		case UNIQUE_ACTIVATE:
-			break;  /* use the default behavior */
+			return shell_message_handle_activate (shell, data);
 
 		case UNIQUE_NEW:
 			return shell_message_handle_new (shell, data);
