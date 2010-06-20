@@ -23,6 +23,8 @@
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 #include <libebook/e-destination.h>
+
+#include <shell/e-shell.h>
 #include <e-util/e-signature.h>
 #include <e-util/e-signature-list.h>
 
@@ -75,8 +77,11 @@ struct _EComposerHeaderTableClass {
 };
 
 GType		e_composer_header_table_get_type (void);
-GtkWidget *	e_composer_header_table_new	(void);
-EComposerHeader * e_composer_header_table_get_header
+GtkWidget *	e_composer_header_table_new	(EShell *shell);
+EShell *	e_composer_header_table_get_shell
+						(EComposerHeaderTable *table);
+EComposerHeader *
+		e_composer_header_table_get_header
 						(EComposerHeaderTable *table,
 						 EComposerHeaderType type);
 EAccount *	e_composer_header_table_get_account

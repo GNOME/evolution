@@ -127,6 +127,7 @@ void
 e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
+	EShell *shell;
 	EFocusTracker *focus_tracker;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
@@ -144,6 +145,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	editor = GTKHTML_EDITOR (composer);
 	html = gtkhtml_editor_get_html (editor);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
+
+	shell = e_shell_get_default ();
 
 	if (e_msg_composer_get_lite ()) {
 #if 0
@@ -249,7 +252,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	container = editor->vbox;
 
-	widget = e_composer_header_table_new ();
+	widget = e_composer_header_table_new (shell);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
 	if (e_msg_composer_get_lite ())

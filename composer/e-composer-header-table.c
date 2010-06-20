@@ -21,9 +21,10 @@
 #include <glib/gi18n-lib.h>
 #include <libedataserverui/e-name-selector.h>
 
-#include "e-util/e-binding.h"
-#include "e-util/gconf-bridge.h"
-#include "widgets/misc/e-signature-combo-box.h"
+#include <shell/e-shell.h>
+#include <e-util/e-binding.h>
+#include <e-util/gconf-bridge.h>
+#include <misc/e-signature-combo-box.h>
 
 #include "e-msg-composer.h"
 #include "e-composer-private.h"
@@ -56,6 +57,7 @@ enum {
 	PROP_DESTINATIONS_TO,
 	PROP_POST_TO,
 	PROP_REPLY_TO,
+	PROP_SHELL,
 	PROP_SIGNATURE,
 	PROP_SIGNATURE_LIST,
 	PROP_SUBJECT
@@ -67,6 +69,7 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
+	EShell *shell;
 };
 
 static gpointer parent_class;
@@ -275,25 +278,25 @@ skip_custom:
 	return new_destinations;
 }
 
-static gint
-count_from_accounts (EComposerHeaderTable *table)
-{
-	EComposerHeader *header;
-	EAccountComboBox *combo_box;
-
-	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
-	combo_box = E_ACCOUNT_COMBO_BOX (header->input_widget);
-
-	return e_account_combo_box_count_displayed_accounts (combo_box);
-}
-
 static gboolean
 from_header_should_be_visible (EComposerHeaderTable *table)
 {
-	gint num_accounts;
+	EShell *shell;
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EAccountComboBox *combo_box;
 
-	num_accounts = count_from_accounts (table);
-	return (num_accounts > 1);
+	shell = e_composer_header_table_get_shell (table);
+
+	/* Always display From in standard mode. */
+	if (!e_shell_get_express_mode (shell))
+		return TRUE;
+
+	type = E_COMPOSER_HEADER_FROM;
+	header = e_composer_header_table_get_header (table, type);
+	combo_box = E_ACCOUNT_COMBO_BOX (header->input_widget);
+
+	return (e_account_combo_box_count_displayed_accounts (combo_box) > 1);
 }
 
 static void
@@ -501,6 +504,16 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_mail_headers (table);
 }
 
+static void
+composer_header_table_set_shell (EComposerHeaderTable *table,
+                                 EShell *shell)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (table->priv->shell == NULL);
+
+	table->priv->shell = g_object_ref (shell);
+}
+
 static gint
 get_row_padding (void)
 {
@@ -657,6 +670,12 @@ composer_header_table_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_SHELL:
+			composer_header_table_set_shell (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SIGNATURE:
 			e_composer_header_table_set_signature (
 				E_COMPOSER_HEADER_TABLE (object),
@@ -749,6 +768,13 @@ composer_header_table_get_property (GObject *object,
 				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
+		case PROP_SHELL:
+			g_value_set_object (
+				value,
+				e_composer_header_table_get_shell (
+				E_COMPOSER_HEADER_TABLE (object)));
+			return;
+
 		case PROP_SIGNATURE:
 			g_value_set_object (
 				value,
@@ -797,6 +823,11 @@ composer_header_table_dispose (GObject *object)
 	if (priv->name_selector != NULL) {
 		g_object_unref (priv->name_selector);
 		priv->name_selector = NULL;
+	}
+
+	if (priv->shell != NULL) {
+		g_object_unref (priv->shell);
+		priv->shell = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -913,6 +944,17 @@ composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL,
+		g_param_spec_object (
+			"shell",
+			NULL,
+			NULL,
+			E_TYPE_SHELL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -1044,9 +1086,21 @@ e_composer_header_table_get_type (void)
 }
 
 GtkWidget *
-e_composer_header_table_new (void)
+e_composer_header_table_new (EShell *shell)
 {
-	return g_object_new (E_TYPE_COMPOSER_HEADER_TABLE, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return g_object_new (
+		E_TYPE_COMPOSER_HEADER_TABLE,
+		"shell", shell, NULL);
+}
+
+EShell *
+e_composer_header_table_get_shell (EComposerHeaderTable *table)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+
+	return table->priv->shell;
 }
 
 EComposerHeader *
