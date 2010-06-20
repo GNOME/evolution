@@ -73,7 +73,6 @@ gail_canvas_group_get_n_children (AtkObject *obj)
   return g_list_length (group->item_list);
 }
 
-
 static AtkObject *
 gail_canvas_group_ref_child (AtkObject *obj,
                              gint      i)

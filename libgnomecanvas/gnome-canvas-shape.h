@@ -19,7 +19,6 @@
 
 G_BEGIN_DECLS
 
-
 /* Shape item for the canvas.
  *
  * The following object arguments are available:
@@ -36,13 +35,13 @@ G_BEGIN_DECLS
  * outline_stipple	GdkBitmap*		RW		Stipple pattern for outline
  * width_pixels		uint			RW		Width of the outline in pixels.  The outline will
  *								not be scaled when the canvas zoom factor is changed.
- * width_units		double			RW		Width of the outline in canvas units.  The outline
+ * width_units		gdouble			RW		Width of the outline in canvas units.  The outline
  *								will be scaled when the canvas zoom factor is changed.
  * cap_style		GdkCapStyle		RW		Cap ("endpoint") style for the bpath.
  * join_style		GdkJoinStyle		RW		Join ("vertex") style for the bpath.
  * wind                 ArtWindRule             RW              Winding rule for the bpath.
  * dash			ArtVpathDash		RW		Dashing pattern
- * miterlimit		double			RW		Minimum angle between segments, where miter join
+ * miterlimit		gdouble			RW		Minimum angle between segments, where miter join
  *								rule is applied.
  */
 
@@ -51,7 +50,6 @@ G_BEGIN_DECLS
 #define GNOME_CANVAS_SHAPE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_SHAPE, GnomeCanvasShapeClass))
 #define GNOME_IS_CANVAS_SHAPE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_SHAPE))
 #define GNOME_IS_CANVAS_SHAPE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_SHAPE))
-
 
 typedef struct _GnomeCanvasShape GnomeCanvasShape;
 typedef struct _GnomeCanvasShapePriv GnomeCanvasShapePriv;
@@ -66,7 +64,6 @@ struct _GnomeCanvasShape {
 struct _GnomeCanvasShapeClass {
 	GnomeCanvasItemClass parent_class;
 };
-
 
 /* WARNING! These are not usable from modifying shapes from user programs */
 /* These are meant, to set master shape from subclass ::update method */

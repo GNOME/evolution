@@ -46,10 +46,10 @@
  * desired.
  **/
 void
-art_vpath_add_point (ArtVpath **p_vpath, int *pn_points, int *pn_points_max,
-		     ArtPathcode code, double x, double y)
+art_vpath_add_point (ArtVpath **p_vpath, gint *pn_points, gint *pn_points_max,
+		     ArtPathcode code, gdouble x, gdouble y)
 {
-  int i;
+  gint i;
 
   i = (*pn_points)++;
   if (i == *pn_points_max)
@@ -69,8 +69,8 @@ art_vpath_add_point (ArtVpath **p_vpath, int *pn_points, int *pn_points_max,
 void
 art_vpath_bbox_drect (const ArtVpath *vec, ArtDRect *drect)
 {
-  int i;
-  double x0, y0, x1, y1;
+  gint i;
+  gdouble x0, y0, x1, y1;
 
   if (vec[0].code == ART_END)
     {

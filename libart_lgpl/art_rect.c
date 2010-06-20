@@ -54,7 +54,7 @@ art_irect_intersect (ArtIRect *dest, const ArtIRect *src1, const ArtIRect *src2)
  *
  * Return value: TRUE if @src is an empty rectangle, FALSE otherwise.
  **/
-int
+gint
 art_irect_empty (const ArtIRect *src) {
   return (src->x1 <= src->x0 || src->y1 <= src->y0);
 }
@@ -102,7 +102,7 @@ art_drect_union (ArtDRect *dest, const ArtDRect *src1, const ArtDRect *src2) {
  *
  * Return value: TRUE if @src is an empty rectangle, FALSE otherwise.
  **/
-int
+gint
 art_drect_empty (const ArtDRect *src) {
   return (src->x1 <= src->x0 || src->y1 <= src->y0);
 }
@@ -119,10 +119,12 @@ art_drect_empty (const ArtDRect *src) {
  * is a conservative approximation.
  **/
 void
-art_drect_affine_transform (ArtDRect *dst, const ArtDRect *src, const double matrix[6])
+art_drect_affine_transform (ArtDRect *dst,
+                            const ArtDRect *src,
+                            const gdouble matrix[6])
 {
-  double x00, y00, x10, y10;
-  double x01, y01, x11, y11;
+  gdouble x00, y00, x10, y10;
+  gdouble x01, y01, x11, y11;
 
   x00 = src->x0 * matrix[0] + src->y0 * matrix[2] + matrix[4];
   y00 = src->x0 * matrix[1] + src->y0 * matrix[3] + matrix[5];

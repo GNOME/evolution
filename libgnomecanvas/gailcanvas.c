@@ -84,9 +84,9 @@ gail_canvas_get_type (void)
 
   if (!type)
     {
-      GType parent_type = g_type_parent (GNOME_TYPE_CANVAS);      
+      GType parent_type = g_type_parent (GNOME_TYPE_CANVAS);
       AtkObjectFactory *factory = atk_registry_get_factory (
-				   atk_get_default_registry (), 
+				   atk_get_default_registry (),
 				   parent_type);
       GType atkobject_parent_type = atk_object_factory_get_accessible_type (factory);
       GTypeQuery query;
@@ -118,28 +118,28 @@ gail_canvas_get_type (void)
 static AtkObjectClass *parent_atk_object_class;
 
 /**
- * Tell ATK how to create the appropriate AtkObject peers 
+ * Tell ATK how to create the appropriate AtkObject peers
  **/
 void
 gail_canvas_init (void)
 {
   atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS, 
+				 GNOME_TYPE_CANVAS,
 				 gail_canvas_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS_GROUP, 
+				 GNOME_TYPE_CANVAS_GROUP,
 				 gail_canvas_group_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS_TEXT, 
+				 GNOME_TYPE_CANVAS_TEXT,
 				 gail_canvas_text_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS_RICH_TEXT, 
+				 GNOME_TYPE_CANVAS_RICH_TEXT,
 				 gail_canvas_text_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
 				 GNOME_TYPE_CANVAS_WIDGET,
 				 gail_canvas_widget_factory_get_type());
   atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS_ITEM, 
+				 GNOME_TYPE_CANVAS_ITEM,
 				 gail_canvas_item_factory_get_type ());
 }
 
@@ -154,7 +154,7 @@ gail_canvas_class_init (GailCanvasClass *klass)
   class->initialize = gail_canvas_real_initialize;
 }
 
-AtkObject* 
+AtkObject*
 gail_canvas_new (GtkWidget *widget)
 {
   GObject *object;
@@ -169,7 +169,6 @@ gail_canvas_new (GtkWidget *widget)
 
   return accessible;
 }
-
 
 static void
 gail_canvas_real_initialize (AtkObject *obj,
@@ -197,7 +196,7 @@ gail_canvas_real_initialize (AtkObject *obj,
   obj->role =  ATK_ROLE_LAYERED_PANE;
 }
 
-static gint 
+static gint
 gail_canvas_get_n_children (AtkObject* obj)
 {
   GtkAccessible *accessible;
@@ -221,7 +220,7 @@ gail_canvas_get_n_children (AtkObject* obj)
   return 1;
 }
 
-static AtkObject* 
+static AtkObject*
 gail_canvas_ref_child (AtkObject *obj,
 		       gint       i)
 {

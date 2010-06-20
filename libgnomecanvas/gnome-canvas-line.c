@@ -47,7 +47,6 @@
 #define NUM_ARROW_POINTS     6		/* number of points in an arrowhead */
 #define NUM_STATIC_POINTS    256	/* number of static points to use to avoid allocating arrays */
 
-
 #define GROW_BOUNDS(bx1, by1, bx2, by2, x, y) {	\
 	if (x < bx1)				\
 		bx1 = x;			\
@@ -61,7 +60,6 @@
 	if (y > by2)				\
 		by2 = y;			\
 }
-
 
 enum {
 	PROP_0,
@@ -84,7 +82,6 @@ enum {
 	PROP_ARROW_SHAPE_C
 };
 
-
 static void gnome_canvas_line_class_init   (GnomeCanvasLineClass *class);
 static void gnome_canvas_line_init         (GnomeCanvasLine      *line);
 static void gnome_canvas_line_destroy      (GtkObject            *object);
@@ -97,19 +94,17 @@ static void gnome_canvas_line_get_property (GObject              *object,
 					    GValue               *value,
 					    GParamSpec           *pspec);
 
-static void   gnome_canvas_line_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
+static void   gnome_canvas_line_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 static void   gnome_canvas_line_realize     (GnomeCanvasItem *item);
 static void   gnome_canvas_line_unrealize   (GnomeCanvasItem *item);
 static void   gnome_canvas_line_draw        (GnomeCanvasItem *item, GdkDrawable *drawable,
-					     int x, int y, int width, int height);
-static double gnome_canvas_line_point       (GnomeCanvasItem *item, double x, double y,
-					     int cx, int cy, GnomeCanvasItem **actual_item);
-static void   gnome_canvas_line_bounds      (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2);
+					     gint x, gint y, gint width, gint height);
+static gdouble gnome_canvas_line_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
+					     gint cx, gint cy, GnomeCanvasItem **actual_item);
+static void   gnome_canvas_line_bounds      (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 static void   gnome_canvas_line_render      (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 
-
 static GnomeCanvasItemClass *parent_class;
-
 
 GType
 gnome_canvas_line_get_type (void)
@@ -332,18 +327,18 @@ gnome_canvas_line_destroy (GtkObject *object)
  * points in the line is not zero.
  */
 static void
-get_bounds (GnomeCanvasLine *line, double *bx1, double *by1, double *bx2, double *by2)
+get_bounds (GnomeCanvasLine *line, gdouble *bx1, gdouble *by1, gdouble *bx2, gdouble *by2)
 {
-	double *coords;
-	double x1, y1, x2, y2;
-	double width;
-	int i;
+	gdouble *coords;
+	gdouble x1, y1, x2, y2;
+	gdouble width;
+	gint i;
 
 	if (!line->coords) {
 	    *bx1 = *by1 = *bx2 = *by2 = 0.0;
 	    return;
 	}
-	
+
 	/* Find bounding box of line's points */
 
 	x1 = x2 = line->coords[0];
@@ -370,7 +365,7 @@ get_bounds (GnomeCanvasLine *line, double *bx1, double *by1, double *bx2, double
 
 	if (line->join == GDK_JOIN_MITER)
 		for (i = line->num_points, coords = line->coords; i >= 3; i--, coords += 2) {
-			double mx1, my1, mx2, my2;
+			gdouble mx1, my1, mx2, my2;
 
 			if (gnome_canvas_get_miter_points (coords[0], coords[1],
 							   coords[2], coords[3],
@@ -404,7 +399,7 @@ get_bounds (GnomeCanvasLine *line, double *bx1, double *by1, double *bx2, double
  * not zero. Affine is the i2c transformation.
  */
 static void
-get_bounds_canvas (GnomeCanvasLine *line, double *bx1, double *by1, double *bx2, double *by2, double affine[6])
+get_bounds_canvas (GnomeCanvasLine *line, gdouble *bx1, gdouble *by1, gdouble *bx2, gdouble *by2, gdouble affine[6])
 {
 	/* It would be possible to tighten the bounds somewhat by transforming the individual points before
 	   aggregating them into the bbox. But it hardly seems worth it. */
@@ -425,15 +420,15 @@ get_bounds_canvas (GnomeCanvasLine *line, double *bx1, double *by1, double *bx2,
 static void
 reconfigure_arrows (GnomeCanvasLine *line)
 {
-	double *poly, *coords;
-	double dx, dy, length;
-	double sin_theta, cos_theta, tmp;
-	double frac_height;	/* Line width as fraction of arrowhead width */
-	double backup;		/* Distance to backup end points so the line ends in the middle of the arrowhead */
-	double vx, vy;		/* Position of arrowhead vertex */
-	double shape_a, shape_b, shape_c;
-	double width;
-	int i;
+	gdouble *poly, *coords;
+	gdouble dx, dy, length;
+	gdouble sin_theta, cos_theta, tmp;
+	gdouble frac_height;	/* Line width as fraction of arrowhead width */
+	gdouble backup;		/* Distance to backup end points so the line ends in the middle of the arrowhead */
+	gdouble vx, vy;		/* Position of arrowhead vertex */
+	gdouble shape_a, shape_b, shape_c;
+	gdouble width;
+	gint i;
 
 	if (line->num_points == 0)
 		return;
@@ -600,15 +595,15 @@ set_line_gc_foreground (GnomeCanvasLine *line)
 static void
 set_line_gc_width (GnomeCanvasLine *line)
 {
-	int width;
+	gint width;
 
 	if (!line->gc)
 		return;
 
 	if (line->width_pixels)
-		width = (int) line->width;
+		width = (gint) line->width;
 	else
-		width = (int) (line->width * line->item.canvas->pixels_per_unit + 0.5);
+		width = (gint) (line->width * line->item.canvas->pixels_per_unit + 0.5);
 
 	gdk_gc_set_line_attributes (line->gc,
 				    width,
@@ -619,7 +614,7 @@ set_line_gc_width (GnomeCanvasLine *line)
 
 /* Sets the stipple pattern for the line */
 static void
-set_stipple (GnomeCanvasLine *line, GdkBitmap *stipple, int reconfigure)
+set_stipple (GnomeCanvasLine *line, GdkBitmap *stipple, gint reconfigure)
 {
 	if (line->stipple && !reconfigure)
 		g_object_unref (line->stipple);
@@ -649,7 +644,7 @@ gnome_canvas_line_set_property (GObject              *object,
 	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
 	gboolean color_changed;
-	int have_pixel;
+	gint have_pixel;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_LINE (object));
@@ -674,7 +669,7 @@ gnome_canvas_line_set_property (GObject              *object,
 		else {
 			line->num_points = points->num_points;
 			line->coords = g_new (double, 2 * line->num_points);
-			memcpy (line->coords, points->coords, 2 * line->num_points * sizeof (double));
+			memcpy (line->coords, points->coords, 2 * line->num_points * sizeof (gdouble));
 		}
 
 		/* Drop the arrowhead polygons if they exist -- they will be regenerated */
@@ -814,10 +809,10 @@ gnome_canvas_line_set_property (GObject              *object,
 
 		gnome_canvas_item_request_redraw_svp (item, line->fill_svp);
 
-		if (line->first_svp) 
+		if (line->first_svp)
 			gnome_canvas_item_request_redraw_svp (item, line->first_svp);
 
-		if (line->last_svp) 
+		if (line->last_svp)
 			gnome_canvas_item_request_redraw_svp (item, line->last_svp);
 
 	}
@@ -830,7 +825,7 @@ static GnomeCanvasPoints *
 get_points (GnomeCanvasLine *line)
 {
 	GnomeCanvasPoints *points;
-	int start_ofs, end_ofs;
+	gint start_ofs, end_ofs;
 
 	if (line->num_points == 0)
 		return NULL;
@@ -859,7 +854,7 @@ get_points (GnomeCanvasLine *line)
 
 	memcpy (points->coords + 2 * start_ofs,
 		line->coords + 2 * start_ofs,
-		2 * (line->num_points - (start_ofs + end_ofs)) * sizeof (double));
+		2 * (line->num_points - (start_ofs + end_ofs)) * sizeof (gdouble));
 
 	return points;
 }
@@ -912,11 +907,11 @@ gnome_canvas_line_get_property (GObject              *object,
 	case PROP_WIDTH_PIXELS:
 		g_value_set_uint (value, line->width);
 		break;
-		
+
 	case PROP_WIDTH_UNITS:
 		g_value_set_double (value, line->width);
 		break;
-		
+
 	case PROP_CAP_STYLE:
 		g_value_set_enum (value, line->cap);
 		break;
@@ -981,14 +976,13 @@ gnome_canvas_line_render (GnomeCanvasItem *item,
 		gnome_canvas_render_svp (buf, line->last_svp, line->fill_rgba);
 }
 
-
 static ArtSVP *
-svp_from_points (const double *item_coords, int num_points, const double affine[6])
+svp_from_points (const gdouble *item_coords, gint num_points, const gdouble affine[6])
 {
 	ArtVpath *vpath;
 	ArtSVP *svp;
-	double x, y;
-	int i;
+	gdouble x, y;
+	gint i;
 
 	vpath = art_new (ArtVpath, num_points + 2);
 
@@ -1017,15 +1011,15 @@ svp_from_points (const double *item_coords, int num_points, const double affine[
 }
 
 static void
-gnome_canvas_line_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_line_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	GnomeCanvasLine *line;
-	int i;
+	gint i;
 	ArtVpath *vpath;
 	ArtPoint pi, pc;
-	double width;
+	gdouble width;
 	ArtSVP *svp;
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	line = GNOME_CANVAS_LINE (item);
 
@@ -1071,17 +1065,15 @@ gnome_canvas_line_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_pa
 
 		if (line->first_arrow && line->first_coords) {
 			svp = svp_from_points (line->first_coords, NUM_ARROW_POINTS, affine);
-                        gnome_canvas_item_update_svp_clip (item, 
+                        gnome_canvas_item_update_svp_clip (item,
                                         &line->first_svp, svp, clip_path);
                 }
 
-
 		if (line->last_arrow && line->last_coords) {
 			svp = svp_from_points (line->last_coords, NUM_ARROW_POINTS, affine);
-                        gnome_canvas_item_update_svp_clip (item, 
+                        gnome_canvas_item_update_svp_clip (item,
                                         &line->last_svp, svp, clip_path);
                 }
-
 
 	} else {
 		set_line_gc_foreground (line);
@@ -1129,17 +1121,17 @@ gnome_canvas_line_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-item_to_canvas (GnomeCanvas *canvas, double *item_coords, GdkPoint *canvas_coords, int num_points,
-		int *num_drawn_points, double i2c[6], int x, int y)
+item_to_canvas (GnomeCanvas *canvas, gdouble *item_coords, GdkPoint *canvas_coords, gint num_points,
+		gint *num_drawn_points, gdouble i2c[6], gint x, gint y)
 {
-	int i;
-	int old_cx, old_cy;
-	int cx, cy;
+	gint i;
+	gint old_cx, old_cy;
+	gint cx, cy;
 	ArtPoint pi, pc;
 
 #ifdef VERBOSE
 	{
-		char str[128];
+		gchar str[128];
 		art_affine_to_string (str, i2c);
 		g_print ("line item_to_canvas %s\n", str);
 	}
@@ -1178,13 +1170,13 @@ item_to_canvas (GnomeCanvas *canvas, double *item_coords, GdkPoint *canvas_coord
 
 static void
 gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-			int x, int y, int width, int height)
+			gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasLine *line;
 	GdkPoint static_points[NUM_STATIC_POINTS];
 	GdkPoint *points;
-	int actual_num_points_drawn;
-	double i2c[6];
+	gint actual_num_points_drawn;
+	gdouble i2c[6];
 
 	line = GNOME_CANVAS_LINE (item);
 
@@ -1197,7 +1189,6 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		points = static_points;
 	else
 		points = g_new (GdkPoint, line->num_points);
-
 
 	gnome_canvas_item_i2c_affine (item, i2c);
 
@@ -1230,18 +1221,18 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 }
 
 static double
-gnome_canvas_line_point (GnomeCanvasItem *item, double x, double y,
-			 int cx, int cy, GnomeCanvasItem **actual_item)
+gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
+			 gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	GnomeCanvasLine *line;
-	double *line_points = NULL, *coords;
-	double static_points[2 * NUM_STATIC_POINTS];
-	double poly[10];
-	double best, dist;
-	double dx, dy;
-	double width;
-	int num_points = 0, i;
-	int changed_miter_to_bevel;
+	gdouble *line_points = NULL, *coords;
+	gdouble static_points[2 * NUM_STATIC_POINTS];
+	gdouble poly[10];
+	gdouble best, dist;
+	gdouble dx, dy;
+	gdouble width;
+	gint num_points = 0, i;
+	gint changed_miter_to_bevel;
 
 #ifdef VERBOSE
 	g_print ("gnome_canvas_line_point x, y = (%g, %g); cx, cy = (%d, %d)\n", x, y, cx, cy);
@@ -1412,7 +1403,7 @@ done:
 }
 
 static void
-gnome_canvas_line_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+gnome_canvas_line_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
 	GnomeCanvasLine *line;
 

@@ -17,8 +17,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#define noVERBOSE
-
 /* Vector path set operations, over sorted vpaths. */
 
 #include "config.h"
@@ -56,8 +54,8 @@ static ArtSVP *
 art_svp_merge (const ArtSVP *svp1, const ArtSVP *svp2)
 {
   ArtSVP *svp_new;
-  int ix;
-  int ix1, ix2;
+  gint ix;
+  gint ix1, ix2;
 
   svp_new = (ArtSVP *)art_alloc (sizeof(ArtSVP) +
 				 (svp1->n_segs + svp2->n_segs - 1) *
@@ -77,77 +75,6 @@ art_svp_merge (const ArtSVP *svp1, const ArtSVP *svp2)
   svp_new->n_segs = ix;
   return svp_new;
 }
-
-#ifdef VERBOSE
-
-#define XOFF 50
-#define YOFF 700
-
-static void
-print_ps_vpath (ArtVpath *vpath)
-{
-  int i;
-
-  printf ("gsave %d %d translate 1 -1 scale\n", XOFF, YOFF);
-  for (i = 0; vpath[i].code != ART_END; i++)
-    {
-      switch (vpath[i].code)
-	{
-	case ART_MOVETO:
-	  printf ("%g %g moveto\n", vpath[i].x, vpath[i].y);
-	  break;
-	case ART_LINETO:
-	  printf ("%g %g lineto\n", vpath[i].x, vpath[i].y);
-	  break;
-	default:
-	  break;
-	}
-    }
-  printf ("stroke grestore showpage\n");
-}
-
-#define DELT 4
-
-static void
-print_ps_svp (ArtSVP *vpath)
-{
-  int i, j;
-
-  printf ("%% begin\n");
-  for (i = 0; i < vpath->n_segs; i++)
-    {
-      printf ("%g setgray\n", vpath->segs[i].dir ? 0.7 : 0);
-      for (j = 0; j < vpath->segs[i].n_points; j++)
-	{
-	  printf ("%g %g %s\n",
-		  XOFF + vpath->segs[i].points[j].x,
-		  YOFF - vpath->segs[i].points[j].y,
-		  j ? "lineto" : "moveto");
-	}
-      printf ("%g %g moveto %g %g lineto %g %g lineto %g %g lineto stroke\n",
-	      XOFF + vpath->segs[i].points[0].x - DELT,
-	      YOFF - DELT - vpath->segs[i].points[0].y,
-	      XOFF + vpath->segs[i].points[0].x - DELT,
-	      YOFF - vpath->segs[i].points[0].y,
-	      XOFF + vpath->segs[i].points[0].x + DELT,
-	      YOFF - vpath->segs[i].points[0].y,
-	      XOFF + vpath->segs[i].points[0].x + DELT,
-	      YOFF - DELT - vpath->segs[i].points[0].y);
-      printf ("%g %g moveto %g %g lineto %g %g lineto %g %g lineto stroke\n",
-	      XOFF + vpath->segs[i].points[j - 1].x - DELT,
-	      YOFF + DELT - vpath->segs[i].points[j - 1].y,
-	      XOFF + vpath->segs[i].points[j - 1].x - DELT,
-	      YOFF - vpath->segs[i].points[j - 1].y,
-	      XOFF + vpath->segs[i].points[j - 1].x + DELT,
-	      YOFF - vpath->segs[i].points[j - 1].y,
-	      XOFF + vpath->segs[i].points[j - 1].x + DELT,
-	      YOFF + DELT - vpath->segs[i].points[j - 1].y);
-      printf ("stroke\n");
-    }
-
-  printf ("showpage\n");
-}
-#endif
 
 #ifndef ART_USE_NEW_INTERSECTOR
 static ArtSVP *
@@ -171,11 +98,6 @@ art_svp_merge_perturbed (const ArtSVP *svp1, const ArtSVP *svp2)
   art_free (vpath2_p);
 
   svp_new = art_svp_merge (svp1_p, svp2_p);
-#ifdef VERBOSE
-  print_ps_svp (svp1_p);
-  print_ps_svp (svp2_p);
-  print_ps_svp (svp_new);
-#endif
   art_free (svp1_p);
   art_free (svp2_p);
 
@@ -220,7 +142,7 @@ art_svp_merge_perturbed (const ArtSVP *svp1, const ArtSVP *svp2)
 ArtSVP *
 art_svp_intersect (const ArtSVP *svp1, const ArtSVP *svp2)
 {
-#ifdef ART_USE_NEW_INTERSECTOR 
+#ifdef ART_USE_NEW_INTERSECTOR
   ArtSVP *svp3, *svp_new;
   ArtSvpWriter *swr;
 

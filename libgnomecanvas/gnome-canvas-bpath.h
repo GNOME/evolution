@@ -20,7 +20,6 @@
 
 G_BEGIN_DECLS
 
-
 /* Bpath item for the canvas.
  *
  * The following object arguments are available:
@@ -38,20 +37,18 @@ G_BEGIN_DECLS
 #define GNOME_IS_CANVAS_BPATH(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_BPATH))
 #define GNOME_IS_CANVAS_BPATH_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_BPATH))
 
-
 typedef struct _GnomeCanvasBpath GnomeCanvasBpath;
 typedef struct _GnomeCanvasBpathPriv GnomeCanvasBpathPriv;
 typedef struct _GnomeCanvasBpathClass GnomeCanvasBpathClass;
 
 struct _GnomeCanvasBpath {
 	GnomeCanvasShape item;
-	
+
 };
 
 struct _GnomeCanvasBpathClass {
 	GnomeCanvasShapeClass parent_class;
 };
-
 
 /* Standard Gtk function */
 GType gnome_canvas_bpath_get_type (void) G_GNUC_CONST;

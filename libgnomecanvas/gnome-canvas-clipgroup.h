@@ -24,13 +24,11 @@
 
 G_BEGIN_DECLS
 
-
 #define GNOME_TYPE_CANVAS_CLIPGROUP            (gnome_canvas_clipgroup_get_type ())
 #define GNOME_CANVAS_CLIPGROUP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_CLIPGROUP, GnomeCanvasClipgroup))
 #define GNOME_CANVAS_CLIPGROUP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_CLIPGROUP, GnomeCanvasClipgroupClass))
 #define GNOME_IS_CANVAS_CLIPGROUP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_CLIPGROUP))
 #define GNOME_IS_CANVAS_CLIPGROUP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_CLIPGROUP))
-
 
 typedef struct _GnomeCanvasClipgroup GnomeCanvasClipgroup;
 typedef struct _GnomeCanvasClipgroupClass GnomeCanvasClipgroupClass;
@@ -48,10 +46,8 @@ struct _GnomeCanvasClipgroupClass {
 	GnomeCanvasGroupClass parent_class;
 };
 
-
 /* Standard Gtk function */
 GType gnome_canvas_clipgroup_get_type (void) G_GNUC_CONST;
-
 
 G_END_DECLS
 

@@ -43,20 +43,20 @@
  * Return value: An array containing the resulting rectangles.
  **/
 ArtIRect *
-art_rect_list_from_uta (ArtUta *uta, int max_width, int max_height,
-			int *p_nrects)
+art_rect_list_from_uta (ArtUta *uta, gint max_width, gint max_height,
+			gint *p_nrects)
 {
   ArtIRect *rects;
-  int n_rects, n_rects_max;
-  int x, y;
-  int width, height;
-  int ix;
-  int left_ix;
+  gint n_rects, n_rects_max;
+  gint x, y;
+  gint width, height;
+  gint ix;
+  gint left_ix;
   ArtUtaBbox *utiles;
   ArtUtaBbox bb;
-  int x0, y0, x1, y1;
-  int *glom;
-  int glom_rect;
+  gint x0, y0, x1, y1;
+  gint *glom;
+  gint glom_rect;
 
   n_rects = 0;
   n_rects_max = 1;
@@ -95,7 +95,6 @@ art_rect_list_from_uta (ArtUta *uta, int max_width, int max_height,
 		x++;
 	      }
 	    x1 = ((uta->x0 + x) << ART_UTILE_SHIFT) + ART_UTA_BBOX_X1(bb);
-
 
 	    /* if rectangle nonempty */
 	    if ((x1 ^ x0) | (y1 ^ y0))

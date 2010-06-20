@@ -20,6 +20,8 @@
 #ifndef __ART_POINT_H__
 #define __ART_POINT_H__
 
+#include <glib.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -28,7 +30,7 @@ typedef struct _ArtPoint ArtPoint;
 
 struct _ArtPoint {
   /*< public >*/
-  double x, y;
+  gdouble x, y;
 };
 
 #ifdef __cplusplus

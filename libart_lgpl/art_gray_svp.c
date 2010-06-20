@@ -32,20 +32,20 @@ typedef struct _ArtGraySVPData ArtGraySVPData;
 
 struct _ArtGraySVPData {
   art_u8 *buf;
-  int rowstride;
-  int x0, x1;
+  gint rowstride;
+  gint x0, x1;
 };
 
 static void
-art_gray_svp_callback (void *callback_data, int y,
-		       int start, ArtSVPRenderAAStep *steps, int n_steps)
+art_gray_svp_callback (gpointer callback_data, gint y,
+		       gint start, ArtSVPRenderAAStep *steps, gint n_steps)
 {
   ArtGraySVPData *data = (ArtGraySVPData *)callback_data;
   art_u8 *linebuf;
-  int run_x0, run_x1;
-  int running_sum = start;
-  int x0, x1;
-  int k;
+  gint run_x0, run_x1;
+  gint running_sum = start;
+  gint x0, x1;
+  gint k;
 
 #if 0
   printf ("start = %d", start);
@@ -110,8 +110,8 @@ art_gray_svp_callback (void *callback_data, int y,
  **/
 void
 art_gray_svp_aa (const ArtSVP *svp,
-		 int x0, int y0, int x1, int y1,
-		 art_u8 *buf, int rowstride)
+		 gint x0, gint y0, gint x1, gint y1,
+		 art_u8 *buf, gint rowstride)
 {
   ArtGraySVPData data;
 

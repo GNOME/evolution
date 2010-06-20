@@ -32,9 +32,9 @@ typedef struct _ArtAlphaGamma ArtAlphaGamma;
 
 struct _ArtAlphaGamma {
   /*< private >*/
-  double gamma;
-  int invtable_size;
-  int table[256];
+  gdouble gamma;
+  gint invtable_size;
+  gint table[256];
   art_u8 invtable[1];
 };
 

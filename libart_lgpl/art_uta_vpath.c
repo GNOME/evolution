@@ -55,18 +55,18 @@
  * details.
  **/
 void
-art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
-		  int *rbuf, int rbuf_rowstride)
+art_uta_add_line (ArtUta *uta, gdouble x0, gdouble y0, gdouble x1, gdouble y1,
+		  gint *rbuf, gint rbuf_rowstride)
 {
-  int xmin, ymin;
-  double xmax, ymax;
-  int xmaxf, ymaxf;
-  int xmaxc, ymaxc;
-  int xt0, yt0;
-  int xt1, yt1;
-  int xf0, yf0;
-  int xf1, yf1;
-  int ix, ix1;
+  gint xmin, ymin;
+  gdouble xmax, ymax;
+  gint xmaxf, ymaxf;
+  gint xmaxc, ymaxc;
+  gint xt0, yt0;
+  gint xt1, yt1;
+  gint xf0, yf0;
+  gint xf1, yf1;
+  gint ix, ix1;
   ArtUtaBbox bb;
 
   xmin = floor (MIN(x0, x1));
@@ -102,8 +102,8 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
     }
   else
     {
-      double dx, dy;
-      int sx, sy;
+      gdouble dx, dy;
+      gint sx, sy;
 
       dx = x1 - x0;
       dy = y1 - y0;
@@ -146,9 +146,9 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
       else
 	{
 	  /* Do a Bresenham-style traversal of the line */
-	  double dx_dy;
-	  double x, y;
-	  double xn, yn;
+	  gdouble dx_dy;
+	  gdouble x, y;
+	  gdouble xn, yn;
 
 	  /* normalize coordinates to uta origin */
 	  x0 -= uta->x0 << ART_UTILE_SHIFT;
@@ -157,7 +157,7 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 	  y1 -= uta->y0 << ART_UTILE_SHIFT;
 	  if (dy < 0)
 	    {
-	      double tmp;
+	      gdouble tmp;
 
 	      tmp = x0;
 	      x0 = x1;
@@ -173,27 +173,21 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 	      /* we leave sy alone, because it would always be 1,
 		 and we need it for the rbuf stuff. */
 	    }
-	  xt0 = ((int)floor (x0) >> ART_UTILE_SHIFT);
-	  xt1 = ((int)floor (x1) >> ART_UTILE_SHIFT);
+	  xt0 = ((gint)floor (x0) >> ART_UTILE_SHIFT);
+	  xt1 = ((gint)floor (x1) >> ART_UTILE_SHIFT);
 	  /* now [xy]0 is above [xy]1 */
 
 	  ix = yt0 * uta->width + xt0;
 	  ix1 = yt1 * uta->width + xt1;
-#ifdef VERBOSE
-	  printf ("%% ix = %d,%d; ix1 = %d,%d\n", xt0, yt0, xt1, yt1);
-#endif
 
 	  dx_dy = dx / dy;
 	  x = x0;
 	  y = y0;
 	  while (ix != ix1)
 	    {
-	      int dix;
+	      gint dix;
 
 	      /* figure out whether next crossing is horizontal or vertical */
-#ifdef VERBOSE
-	      printf ("%% %d,%d\n", xt0, yt0);
-#endif
 	      yn = (yt0 + 1) << ART_UTILE_SHIFT;
 
 	      /* xn is the intercept with bottom edge of this tile. The
@@ -201,7 +195,7 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 		 x1 when yn = y1. */
 	      xn = x1 + dx_dy * (yn - y1);
 
-	      if (xt0 != (int)floor (xn) >> ART_UTILE_SHIFT)
+	      if (xt0 != (gint)floor (xn) >> ART_UTILE_SHIFT)
 		{
 		  /* horizontal crossing */
 		  xt0 += sx;
@@ -211,7 +205,7 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 		      xn = xt0 << ART_UTILE_SHIFT;
 		      yn = y0 + (xn - x0) / dx_dy;
 
-		      xf0 = (int)floor (x) & (ART_UTILE_SIZE - 1);
+		      xf0 = (gint)floor (x) & (ART_UTILE_SIZE - 1);
 		      xf1 = ART_UTILE_SIZE;
 		    }
 		  else
@@ -220,20 +214,20 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 		      yn = y0 + (xn - x0) / dx_dy;
 
 		      xf0 = 0;
-		      xmaxc = (int)ceil (x);
+		      xmaxc = (gint)ceil (x);
 		      xf1 = xmaxc - ((xt0 + 1) << ART_UTILE_SHIFT);
 		    }
-		  ymaxf = (int)floor (yn);
-		  ymaxc = (int)ceil (yn);
+		  ymaxf = (gint)floor (yn);
+		  ymaxc = (gint)ceil (yn);
 		  yf1 = (ymaxf & (ART_UTILE_SIZE - 1)) + ymaxc - ymaxf;
 		}
 	      else
 		{
 		  /* vertical crossing */
 		  dix = uta->width;
-		  xf0 = (int)floor (MIN(x, xn)) & (ART_UTILE_SIZE - 1);
+		  xf0 = (gint)floor (MIN(x, xn)) & (ART_UTILE_SIZE - 1);
 		  xmax = MAX(x, xn);
-		  xmaxc = (int)ceil (xmax);
+		  xmaxc = (gint)ceil (xmax);
 		  xf1 = xmaxc - (xt0 << ART_UTILE_SHIFT);
 		  yf1 = ART_UTILE_SIZE;
 
@@ -242,7 +236,7 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 
 		  yt0++;
 		}
-	      yf0 = (int)floor (y) & (ART_UTILE_SIZE - 1);
+	      yf0 = (gint)floor (y) & (ART_UTILE_SIZE - 1);
 	      bb = uta->utiles[ix];
 	      if (bb == 0)
 		bb = ART_UTA_BBOX_CONS(xf0, yf0, xf1, yf1);
@@ -260,8 +254,8 @@ art_uta_add_line (ArtUta *uta, double x0, double y0, double x1, double y1,
 	  xmax = MAX(x, x1);
 	  xmaxc = ceil (xmax);
 	  ymaxc = ceil (y1);
-	  xf0 = (int)floor (MIN(x1, x)) & (ART_UTILE_SIZE - 1);
-	  yf0 = (int)floor (y) & (ART_UTILE_SIZE - 1);
+	  xf0 = (gint)floor (MIN(x1, x)) & (ART_UTILE_SIZE - 1);
+	  yf0 = (gint)floor (y) & (ART_UTILE_SIZE - 1);
 	  xf1 = xmaxc - (xt0 << ART_UTILE_SHIFT);
 	  yf1 = ymaxc - (yt0 << ART_UTILE_SHIFT);
 	  bb = uta->utiles[ix];
@@ -291,16 +285,16 @@ art_uta_from_vpath (const ArtVpath *vec)
 {
   ArtUta *uta;
   ArtIRect bbox;
-  int *rbuf;
-  int i;
-  double x, y;
-  int sum;
-  int xt, yt;
+  gint *rbuf;
+  gint i;
+  gdouble x, y;
+  gint sum;
+  gint xt, yt;
   ArtUtaBbox *utiles;
   ArtUtaBbox bb;
-  int width;
-  int height;
-  int ix;
+  gint width;
+  gint height;
+  gint ix;
 
   art_vpath_bbox_irect (vec, &bbox);
 

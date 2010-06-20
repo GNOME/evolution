@@ -25,7 +25,6 @@
 #include "gal-a11y-e-text-factory.h"
 #include "gal-a11y-e-text.h"
 
-#define CS_CLASS(factory) (G_TYPE_INSTANCE_GET_CLASS ((factory), C_TYPE_STREAM, GalA11yETextFactoryClass))
 static AtkObjectFactoryClass *parent_class;
 #define PARENT_TYPE (ATK_TYPE_OBJECT_FACTORY)
 

@@ -33,22 +33,22 @@ typedef struct _ArtSVP ArtSVP;
 typedef struct _ArtSVPSeg ArtSVPSeg;
 
 struct _ArtSVPSeg {
-  int n_points;
-  int dir; /* == 0 for "up", 1 for "down" */
+  gint n_points;
+  gint dir; /* == 0 for "up", 1 for "down" */
   ArtDRect bbox;
   ArtPoint *points;
 };
 
 struct _ArtSVP {
-  int n_segs;
+  gint n_segs;
   ArtSVPSeg segs[1];
 };
 
 void
 art_svp_free (ArtSVP *svp);
 
-int
-art_svp_seg_compare (const void *s1, const void *s2);
+gint
+art_svp_seg_compare (gconstpointer s1, gconstpointer s2);
 
 #ifdef __cplusplus
 }

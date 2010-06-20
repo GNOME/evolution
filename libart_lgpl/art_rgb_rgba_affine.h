@@ -32,10 +32,10 @@ extern "C" {
 
 void
 art_rgb_rgba_affine (art_u8 *dst,
-		     int x0, int y0, int x1, int y1, int dst_rowstride,
+		     gint x0, gint y0, gint x1, gint y1, gint dst_rowstride,
 		     const art_u8 *src,
-		     int src_width, int src_height, int src_rowstride,
-		     const double affine[6],
+		     gint src_width, gint src_height, gint src_rowstride,
+		     const gdouble affine[6],
 		     ArtFilterLevel level,
 		     ArtAlphaGamma *alphagamma);
 

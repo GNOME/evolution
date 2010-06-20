@@ -64,27 +64,27 @@
  **/
 void
 art_rgb_rgba_affine (art_u8 *dst,
-		     int x0, int y0, int x1, int y1, int dst_rowstride,
+		     gint x0, gint y0, gint x1, gint y1, gint dst_rowstride,
 		     const art_u8 *src,
-		     int src_width, int src_height, int src_rowstride,
-		     const double affine[6],
+		     gint src_width, gint src_height, gint src_rowstride,
+		     const gdouble affine[6],
 		     ArtFilterLevel level,
 		     ArtAlphaGamma *alphagamma)
 {
   /* Note: this is a slow implementation, and is missing all filter
      levels other than NEAREST. It is here for clarity of presentation
      and to establish the interface. */
-  int x, y;
-  double inv[6];
+  gint x, y;
+  gdouble inv[6];
   art_u8 *dst_p, *dst_linestart;
   const art_u8 *src_p;
   ArtPoint pt, src_pt;
-  int src_x, src_y;
-  int alpha;
+  gint src_x, src_y;
+  gint alpha;
   art_u8 bg_r, bg_g, bg_b;
   art_u8 fg_r, fg_g, fg_b;
-  int tmp;
-  int run_x0, run_x1;
+  gint tmp;
+  gint run_x0, run_x1;
 
   dst_linestart = dst;
   art_affine_invert (inv, affine);
@@ -121,14 +121,14 @@ art_rgb_rgba_affine (art_u8 *dst,
 		  bg_r = dst_p[0];
 		  bg_g = dst_p[1];
 		  bg_b = dst_p[2];
-		  
+
 		  tmp = (src_p[0] - bg_r) * alpha;
 		  fg_r = bg_r + ((tmp + (tmp >> 8) + 0x80) >> 8);
 		  tmp = (src_p[1] - bg_g) * alpha;
 		  fg_g = bg_g + ((tmp + (tmp >> 8) + 0x80) >> 8);
 		  tmp = (src_p[2] - bg_b) * alpha;
 		  fg_b = bg_b + ((tmp + (tmp >> 8) + 0x80) >> 8);
-		  
+
 		  dst_p[0] = fg_r;
 		  dst_p[1] = fg_g;
 		  dst_p[2] = fg_b;

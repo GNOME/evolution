@@ -23,14 +23,16 @@
 /* This module handles compositing of affine-transformed rgb images
    over rgb pixel buffers. */
 
+#include <glib.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 void
-art_rgb_affine_run (int *p_x0, int *p_x1, int y,
-		    int src_width, int src_height,
-		    const double affine[6]);
+art_rgb_affine_run (gint *p_x0, gint *p_x1, gint y,
+		    gint src_width, gint src_height,
+		    const gdouble affine[6]);
 
 #ifdef __cplusplus
 }

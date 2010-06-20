@@ -42,7 +42,7 @@ G_BEGIN_DECLS
 #    ifdef GNOME_EXPLICIT_TRANSLATION_DOMAIN
 #        undef _
 #        define _(String) dgettext (GNOME_EXPLICIT_TRANSLATION_DOMAIN, String)
-#    else 
+#    else
 #        define _(String) gettext (String)
 #    endif
 #    ifdef gettext_noop

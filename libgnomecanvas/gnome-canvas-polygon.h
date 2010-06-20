@@ -35,13 +35,11 @@
 #ifndef GNOME_CANVAS_POLYGON_H
 #define GNOME_CANVAS_POLYGON_H
 
-
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-shape.h>
 #include <libgnomecanvas/gnome-canvas-path-def.h>
 
 G_BEGIN_DECLS
-
 
 /* Polygon item for the canvas.  A polygon is a bit different from rectangles and ellipses in that
  * points inside it will always be considered "inside", even if the fill color is not set.  If you
@@ -66,7 +64,6 @@ G_BEGIN_DECLS
 #define GNOME_IS_CANVAS_POLYGON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_POLYGON))
 #define GNOME_CANVAS_POLYGON_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_POLYGON, GnomeCanvasPolygonClass))
 
-
 typedef struct _GnomeCanvasPolygon GnomeCanvasPolygon;
 typedef struct _GnomeCanvasPolygonClass GnomeCanvasPolygonClass;
 
@@ -79,7 +76,6 @@ struct _GnomeCanvasPolygon {
 struct _GnomeCanvasPolygonClass {
 	GnomeCanvasShapeClass parent_class;
 };
-
 
 /* Standard Gtk function */
 GType gnome_canvas_polygon_get_type (void) G_GNUC_CONST;

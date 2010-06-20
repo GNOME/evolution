@@ -31,17 +31,17 @@
 
 #include <stdio.h>
 
-typedef double artfloat;
+typedef gdouble artfloat;
 
 struct _ArtSVPRenderAAIter {
   const ArtSVP *svp;
-  int x0, x1;
-  int y;
-  int seg_ix;
+  gint x0, x1;
+  gint y;
+  gint seg_ix;
 
-  int *active_segs;
-  int n_active_segs;
-  int *cursor;
+  gint *active_segs;
+  gint n_active_segs;
+  gint *cursor;
   artfloat *seg_x;
   artfloat *seg_dx;
 
@@ -49,12 +49,12 @@ struct _ArtSVPRenderAAIter {
 };
 
 static void
-art_svp_render_insert_active (int i, int *active_segs, int n_active_segs,
+art_svp_render_insert_active (gint i, gint *active_segs, gint n_active_segs,
 			      artfloat *seg_x, artfloat *seg_dx)
 {
-  int j;
+  gint j;
   artfloat x;
-  int tmp1, tmp2;
+  gint tmp1, tmp2;
 
   /* this is a cheap hack to get ^'s sorted correctly */
   x = seg_x[i] + 0.001 * seg_dx[i];
@@ -72,9 +72,9 @@ art_svp_render_insert_active (int i, int *active_segs, int n_active_segs,
 }
 
 static void
-art_svp_render_delete_active (int *active_segs, int j, int n_active_segs)
+art_svp_render_delete_active (gint *active_segs, gint j, gint n_active_segs)
 {
-  int k;
+  gint k;
 
   for (k = j; k < n_active_segs; k++)
     active_segs[k] = active_segs[k + 1];
@@ -129,7 +129,7 @@ art_svp_render_delete_active (int *active_segs, int j, int n_active_segs)
 
 ArtSVPRenderAAIter *
 art_svp_render_aa_iter (const ArtSVP *svp,
-			int x0, int y0, int x1, int y1)
+			gint x0, gint y0, gint x1, gint y1)
 {
   ArtSVPRenderAAIter *iter = art_new (ArtSVPRenderAAIter, 1);
 
@@ -184,40 +184,40 @@ art_svp_render_aa_iter (const ArtSVP *svp,
     }
 
 void
-art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, int *p_start,
-			     ArtSVPRenderAAStep **p_steps, int *p_n_steps)
+art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, gint *p_start,
+			     ArtSVPRenderAAStep **p_steps, gint *p_n_steps)
 {
   const ArtSVP *svp = iter->svp;
-  int *active_segs = iter->active_segs;
-  int n_active_segs = iter->n_active_segs;
-  int *cursor = iter->cursor;
+  gint *active_segs = iter->active_segs;
+  gint n_active_segs = iter->n_active_segs;
+  gint *cursor = iter->cursor;
   artfloat *seg_x = iter->seg_x;
   artfloat *seg_dx = iter->seg_dx;
-  int i = iter->seg_ix;
-  int j;
-  int x0 = iter->x0;
-  int x1 = iter->x1;
-  int y = iter->y;
-  int seg_index;
+  gint i = iter->seg_ix;
+  gint j;
+  gint x0 = iter->x0;
+  gint x1 = iter->x1;
+  gint y = iter->y;
+  gint seg_index;
 
-  int x;
+  gint x;
   ArtSVPRenderAAStep *steps = iter->steps;
-  int n_steps;
+  gint n_steps;
   artfloat y_top, y_bot;
   artfloat x_top, x_bot;
   artfloat x_min, x_max;
-  int ix_min, ix_max;
-  artfloat delta; /* delta should be int too? */
-  int last, this;
-  int xdelta;
+  gint ix_min, ix_max;
+  artfloat delta; /* delta should be gint too? */
+  gint last, this;
+  gint xdelta;
   artfloat rslope, drslope;
-  int start;
+  gint start;
   const ArtSVPSeg *seg;
-  int curs;
+  gint curs;
   artfloat dy;
 
-  int sx;
-  
+  gint sx;
+
   /* insert new active segments */
   for (; i < svp->n_segs && svp->segs[i].bbox.y0 < y + 1; i++)
     {
@@ -310,7 +310,7 @@ art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, int *p_start,
 		if (ix_min >= x0)
 		  {
 		    ADD_STEP(ix_min, xdelta)
-		    
+
 		    x = ix_min + 1;
 		  }
 		else
@@ -339,7 +339,7 @@ art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, int *p_start,
 		    last = this;
 
 		    ADD_STEP(x, xdelta)
-		    
+
 		    if (x + 1 < x1)
 		      {
 			xdelta = delta - last;
@@ -433,25 +433,24 @@ art_svp_render_aa_iter_done (ArtSVPRenderAAIter *iter)
  * 0xff8000 represents 100% coverage. This format is designed so that
  * >> 16 results in a standard 0x00..0xff value range, with nice
  * rounding.
- * 
+ *
  **/
 void
 art_svp_render_aa (const ArtSVP *svp,
-		   int x0, int y0, int x1, int y1,
-		   void (*callback) (void *callback_data,
-				     int y,
-				     int start,
-				     ArtSVPRenderAAStep *steps, int n_steps),
-		   void *callback_data)
+		   gint x0, gint y0, gint x1, gint y1,
+		   void (*callback) (gpointer callback_data,
+				     gint y,
+				     gint start,
+				     ArtSVPRenderAAStep *steps, gint n_steps),
+		   gpointer callback_data)
 {
   ArtSVPRenderAAIter *iter;
-  int y;
-  int start;
+  gint y;
+  gint start;
   ArtSVPRenderAAStep *steps;
-  int n_steps;
+  gint n_steps;
 
   iter = art_svp_render_aa_iter (svp, x0, y0, x1, y1);
-
 
   for (y = y0; y < y1; y++)
     {

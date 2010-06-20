@@ -35,12 +35,9 @@
 #ifndef GNOME_CANVAS_LINE_H
 #define GNOME_CANVAS_LINE_H
 
-
 #include <libgnomecanvas/gnome-canvas.h>
 
-
 G_BEGIN_DECLS
-
 
 /* Line item for the canvas.  This is a polyline with configurable width, cap/join styles, and arrowheads.
  * If arrowheads are enabled, then three values are used to specify their shape:
@@ -64,7 +61,7 @@ G_BEGIN_DECLS
  * fill_stipple		GdkBitmap*		RW		Stipple pattern for the line
  * width_pixels		uint			R		Width of the line in pixels.  The line width
  *								will not be scaled when the canvas zoom factor changes.
- * width_units		double			R		Width of the line in canvas units.  The line width
+ * width_units		gdouble			R		Width of the line in canvas units.  The line width
  *								will be scaled when the canvas zoom factor changes.
  * cap_style		GdkCapStyle		RW		Cap ("endpoint") style for the line.
  * join_style		GdkJoinStyle		RW		Join ("vertex") style for the line.
@@ -76,11 +73,10 @@ G_BEGIN_DECLS
  * smooth		boolean			RW		Specifies whether to smooth the line using
  *								parabolic splines.
  * spline_steps		uint			RW		Specifies the number of steps to use when rendering curves.
- * arrow_shape_a	double			RW		First arrow shape specifier.
- * arrow_shape_b	double			RW		Second arrow shape specifier.
- * arrow_shape_c	double			RW		Third arrow shape specifier.
+ * arrow_shape_a	gdouble			RW		First arrow shape specifier.
+ * arrow_shape_b	gdouble			RW		Second arrow shape specifier.
+ * arrow_shape_c	gdouble			RW		Third arrow shape specifier.
  */
-
 
 #define GNOME_TYPE_CANVAS_LINE            (gnome_canvas_line_get_type ())
 #define GNOME_CANVAS_LINE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_LINE, GnomeCanvasLine))
@@ -89,14 +85,13 @@ G_BEGIN_DECLS
 #define GNOME_IS_CANVAS_LINE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_LINE))
 #define GNOME_CANVAS_LINE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_LINE, GnomeCanvasLineClass))
 
-
 typedef struct _GnomeCanvasLine GnomeCanvasLine;
 typedef struct _GnomeCanvasLineClass GnomeCanvasLineClass;
 
 struct _GnomeCanvasLine {
 	GnomeCanvasItem item;
 
-	double *coords;		/* Array of coordinates for the line's points.  X coords are in the
+	gdouble *coords;		/* Array of coordinates for the line's points.  X coords are in the
 				 * even indices, Y coords are in the odd indices.  If the line has
 				 * arrowheads then the first and last points have been adjusted to
 				 * refer to the necks of the arrowheads rather than their tips.  The
@@ -104,8 +99,8 @@ struct _GnomeCanvasLine {
 				 * arrays, if they exist.
 				 */
 
-	double *first_coords;	/* Array of points describing polygon for the first arrowhead */
-	double *last_coords;	/* Array of points describing polygon for the last arrowhead */
+	gdouble *first_coords;	/* Array of points describing polygon for the first arrowhead */
+	gdouble *last_coords;	/* Array of points describing polygon for the last arrowhead */
 
 	GdkGC *gc;		/* GC for drawing line */
 
@@ -115,11 +110,11 @@ struct _GnomeCanvasLine {
 	ArtSVP *first_svp;		/* The SVP for the first arrow */ /*AA*/
 	ArtSVP *last_svp;		/* The SVP for the last arrow */ /*AA*/
 
-	double width;		/* Width of the line */
+	gdouble width;		/* Width of the line */
 
-	double shape_a;		/* Distance from tip of arrowhead to center */
-	double shape_b;		/* Distance from tip of arrowhead to trailing point, measured along shaft */
-	double shape_c;		/* Distance of trailing points from outside edge of shaft */
+	gdouble shape_a;		/* Distance from tip of arrowhead to center */
+	gdouble shape_b;		/* Distance from tip of arrowhead to trailing point, measured along shaft */
+	gdouble shape_c;		/* Distance of trailing points from outside edge of shaft */
 
 	GdkCapStyle cap;	/* Cap style for line */
 	GdkJoinStyle join;	/* Join style for line */
@@ -129,10 +124,10 @@ struct _GnomeCanvasLine {
 
 	guint32 fill_rgba;		/* RGBA color for outline */ /*AA*/
 
-	int num_points;		/* Number of points in the line */
+	gint num_points;		/* Number of points in the line */
 	guint fill_color;	/* Fill color, RGBA */
 
-	int spline_steps;	/* Number of steps in each spline segment */
+	gint spline_steps;	/* Number of steps in each spline segment */
 
 	guint width_pixels : 1;	/* Is the width specified in pixels or units? */
 	guint first_arrow : 1;	/* Draw first arrowhead? */
@@ -144,10 +139,8 @@ struct _GnomeCanvasLineClass {
 	GnomeCanvasItemClass parent_class;
 };
 
-
 /* Standard Gtk function */
 GType gnome_canvas_line_get_type (void) G_GNUC_CONST;
-
 
 G_END_DECLS
 

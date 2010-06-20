@@ -952,7 +952,7 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
-	
+
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);

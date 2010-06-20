@@ -27,7 +27,6 @@
 #include <stdio.h> /* for sprintf */
 #include <string.h> /* for strcpy */
 
-
 /* According to a strict interpretation of the libart structure, this
    routine should go into its own module, art_point_affine.  However,
    it's only two lines of code, and it can be argued that it is one of
@@ -42,9 +41,9 @@
  **/
 void
 art_affine_point (ArtPoint *dst, const ArtPoint *src,
-		  const double affine[6])
+		  const gdouble affine[6])
 {
-  double x, y;
+  gdouble x, y;
 
   x = src->x;
   y = src->y;
@@ -64,9 +63,9 @@ art_affine_point (ArtPoint *dst, const ArtPoint *src,
  * will be (to within roundoff error) the identity affine.
  **/
 void
-art_affine_invert (double dst[6], const double src[6])
+art_affine_invert (gdouble dst[6], const gdouble src[6])
 {
-  double r_det;
+  gdouble r_det;
 
   r_det = 1.0 / (src[0] * src[3] - src[1] * src[2]);
   dst[0] = src[3] * r_det;
@@ -76,80 +75,6 @@ art_affine_invert (double dst[6], const double src[6])
   dst[4] = -src[4] * dst[0] - src[5] * dst[2];
   dst[5] = -src[4] * dst[1] - src[5] * dst[3];
 }
-
-#define EPSILON 1e-6
-
-/* It's ridiculous I have to write this myself. This is hardcoded to
-   six digits of precision, which is good enough for PostScript.
-
-   The return value is the number of characters (i.e. strlen (str)).
-   It is no more than 12. */
-static int
-art_ftoa (char str[80], double x)
-{
-  char *p = str;
-  int i, j;
-
-  p = str;
-  if (fabs (x) < EPSILON / 2)
-    {
-      strcpy (str, "0");
-      return 1;
-    }
-  if (x < 0)
-    {
-      *p++ = '-';
-      x = -x;
-    }
-  if ((int)floor ((x + EPSILON / 2) < 1))
-    {
-      *p++ = '0';
-      *p++ = '.';
-      i = sprintf (p, "%06d", (int)floor ((x + EPSILON / 2) * 1e6));
-      while (i && p[i - 1] == '0')
-	i--;
-      if (i == 0)
-	i--;
-      p += i;
-    }
-  else if (x < 1e6)
-    {
-      i = sprintf (p, "%d", (int)floor (x + EPSILON / 2));
-      p += i;
-      if (i < 6)
-	{
-	  int ix;
-
-	  *p++ = '.';
-	  x -= floor (x + EPSILON / 2);
-	  for (j = i; j < 6; j++)
-	    x *= 10;
-	  ix = floor (x + 0.5);
-
-	  for (j = 0; j < i; j++)
-	    ix *= 10;
-
-	  /* A cheap hack, this routine can round wrong for fractions
-	     near one. */
-	  if (ix == 1000000)
-	    ix = 999999;
-
-	  sprintf (p, "%06d", ix);
-	  i = 6 - i;
-	  while (i && p[i - 1] == '0')
-	    i--;
-	  if (i == 0)
-	    i--;
-	  p += i;
-	}
-    }
-  else
-    p += sprintf (p, "%g", x);
-
-  *p = '\0';
-  return p - str;
-}
-
 
 /**
  * art_affine_multiply: Multiply two affine transformation matrices.
@@ -165,9 +90,9 @@ art_ftoa (char str[80], double x)
  * It is safe to call this function with @dst equal to @src1 or @src2.
  **/
 void
-art_affine_multiply (double dst[6], const double src1[6], const double src2[6])
+art_affine_multiply (gdouble dst[6], const gdouble src1[6], const gdouble src2[6])
 {
-  double d0, d1, d2, d3, d4, d5;
+  gdouble d0, d1, d2, d3, d4, d5;
 
   d0 = src1[0] * src2[0] + src1[1] * src2[2];
   d1 = src1[0] * src2[1] + src1[1] * src2[3];
@@ -190,7 +115,7 @@ art_affine_multiply (double dst[6], const double src1[6], const double src2[6])
  * Sets up an identity matrix.
  **/
 void
-art_affine_identity (double dst[6])
+art_affine_identity (gdouble dst[6])
 {
   dst[0] = 1;
   dst[1] = 0;
@@ -199,7 +124,6 @@ art_affine_identity (double dst[6])
   dst[4] = 0;
   dst[5] = 0;
 }
-
 
 /**
  * art_affine_scale: Set up a scaling matrix.
@@ -210,7 +134,7 @@ art_affine_identity (double dst[6])
  * Sets up a scaling matrix.
  **/
 void
-art_affine_scale (double dst[6], double sx, double sy)
+art_affine_scale (gdouble dst[6], gdouble sx, gdouble sy)
 {
   dst[0] = sx;
   dst[1] = 0;
@@ -229,7 +153,7 @@ art_affine_scale (double dst[6], double sx, double sy)
  * Sets up a translation matrix.
  **/
 void
-art_affine_translate (double dst[6], double tx, double ty)
+art_affine_translate (gdouble dst[6], gdouble tx, gdouble ty)
 {
   dst[0] = 1;
   dst[1] = 0;
@@ -250,8 +174,8 @@ art_affine_translate (double dst[6], double tx, double ty)
  *
  * Return value: the expansion factor.
  **/
-double
-art_affine_expansion (const double src[6])
+gdouble
+art_affine_expansion (const gdouble src[6])
 {
   return sqrt (fabs (src[0] * src[3] - src[1] * src[2]));
 }

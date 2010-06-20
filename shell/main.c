@@ -491,7 +491,7 @@ main (gint argc, gchar **argv)
 		_e_win32_register_mailer ();
 		_e_win32_register_addressbook ();
 	}
-	
+
 	if (register_handlers)
 		exit (0);
 
@@ -509,7 +509,7 @@ main (gint argc, gchar **argv)
 		_e_win32_unset_default_mailer ();
 		exit (0);
 	}
-	
+
 	if (unregister_handlers) {
 		_e_win32_unregister_mailer();
 		_e_win32_unregister_addressbook();

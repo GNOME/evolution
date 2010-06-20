@@ -24,7 +24,6 @@
 
 #include <math.h>
 
-
 /**
  * art_bpath_affine_transform: Affine transform an #ArtBpath.
  * @src: The source #ArtBpath.
@@ -39,13 +38,13 @@
  * Return value: the transformed #ArtBpath.
  **/
 ArtBpath *
-art_bpath_affine_transform (const ArtBpath *src, const double matrix[6])
+art_bpath_affine_transform (const ArtBpath *src, const gdouble matrix[6])
 {
-  int i;
-  int size;
+  gint i;
+  gint size;
   ArtBpath *new;
   ArtPathcode code;
-  double x, y;
+  gdouble x, y;
 
   for (i = 0; src[i].code != ART_END; i++);
   size = i;

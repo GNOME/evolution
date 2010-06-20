@@ -39,7 +39,6 @@
 #include <libart_lgpl/art_vpath.h>
 #include <libart_lgpl/art_svp_vpath_stroke.h>
 
-
 G_BEGIN_DECLS
 
 typedef struct _GnomeCanvasPoints GnomeCanvasPoints;
@@ -49,14 +48,13 @@ typedef struct _GnomeCanvasPoints GnomeCanvasPoints;
  * number of points, so the array is 2*num_points elements big.
  */
 struct _GnomeCanvasPoints {
-	double *coords;
-	int num_points;
-	int ref_count;
+	gdouble *coords;
+	gint num_points;
+	gint ref_count;
 };
 
-
 /* Allocate a new GnomeCanvasPoints structure with enough space for the specified number of points */
-GnomeCanvasPoints *gnome_canvas_points_new (int num_points);
+GnomeCanvasPoints *gnome_canvas_points_new (gint num_points);
 
 /* Increate ref count */
 GnomeCanvasPoints *gnome_canvas_points_ref (GnomeCanvasPoints *points);
@@ -71,9 +69,9 @@ void gnome_canvas_points_free (GnomeCanvasPoints *points);
  * If the angle is less than 11 degrees, then FALSE is returned and the return points are not
  * modified.  Otherwise, TRUE is returned.
  */
-int gnome_canvas_get_miter_points (double x1, double y1, double x2, double y2, double x3, double y3,
-				   double width,
-				   double *mx1, double *my1, double *mx2, double *my2);
+gint gnome_canvas_get_miter_points (gdouble x1, gdouble y1, gdouble x2, gdouble y2, gdouble x3, gdouble y3,
+				   gdouble width,
+				   gdouble *mx1, gdouble *my1, gdouble *mx2, gdouble *my2);
 
 /* Compute the butt points of a line segment.  If project is FALSE, then the results are as follows:
  *
@@ -92,15 +90,14 @@ int gnome_canvas_get_miter_points (double x1, double y1, double x2, double y2, d
  *                               |
  *            -------------------* (bx2, by2)
  */
-void gnome_canvas_get_butt_points (double x1, double y1, double x2, double y2,
-				   double width, int project,
-				   double *bx1, double *by1, double *bx2, double *by2);
+void gnome_canvas_get_butt_points (gdouble x1, gdouble y1, gdouble x2, gdouble y2,
+				   gdouble width, gint project,
+				   gdouble *bx1, gdouble *by1, gdouble *bx2, gdouble *by2);
 
 /* Calculate the distance from a polygon to a point.  The polygon's X coordinates are in the even
  * indices of the poly array, and the Y coordinates are in the odd indices.
  */
-double gnome_canvas_polygon_to_point (double *poly, int num_points, double x, double y);
-
+gdouble gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdouble y);
 
 /* Render the svp over the buf. */
 void gnome_canvas_render_svp (GnomeCanvasBuf *buf, ArtSVP *svp, guint32 rgba);
@@ -139,7 +136,7 @@ void gnome_canvas_item_update_svp_clip (GnomeCanvasItem *item, ArtSVP **p_svp, A
 void gnome_canvas_item_request_redraw_svp (GnomeCanvasItem *item, const ArtSVP *svp);
 
 /* Sets the bbox to the new value, requesting full repaint. */
-void gnome_canvas_update_bbox (GnomeCanvasItem *item, int x1, int y1, int x2, int y2);
+void gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2, gint y2);
 
 /* Ensure that the buffer is in RGB format, suitable for compositing. */
 void gnome_canvas_buf_ensure_buf (GnomeCanvasBuf *buf);

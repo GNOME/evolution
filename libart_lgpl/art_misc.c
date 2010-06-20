@@ -35,7 +35,7 @@
  * Used for dealing with severe errors.
  **/
 void
-art_die (const char *fmt, ...)
+art_die (const gchar *fmt, ...)
 {
   va_list ap;
 
@@ -52,7 +52,7 @@ art_die (const char *fmt, ...)
  * Used for generating warnings.
  **/
 void
-art_warn (const char *fmt, ...)
+art_warn (const gchar *fmt, ...)
 {
   va_list ap;
 
@@ -61,17 +61,17 @@ art_warn (const char *fmt, ...)
   va_end (ap);
 }
 
-void *art_alloc(size_t size)
+gpointer art_alloc(gsize size)
 {
   return malloc(size);
 }
 
-void art_free(void *ptr)
+void art_free(gpointer ptr)
 {
   free(ptr);
 }
 
-void *art_realloc(void *ptr, size_t size)
+gpointer art_realloc(gpointer ptr, gsize size)
 {
   return realloc(ptr, size);
 }

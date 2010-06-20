@@ -31,7 +31,6 @@ G_BEGIN_DECLS
 #define GAIL_IS_CANVAS_TEXT_FACTORY_CLASS(klass)      (G_TYPE_CHECK_CLASS_TYPE ((klass), GAIL_TYPE_CANVAS_TEXT_FACTORY))
 #define GAIL_CANVAS_TEXT_FACTORY_GET_CLASS(obj)       (G_TYPE_INSTANCE_GET_CLASS ((obj), GAIL_TYPE_CANVAS_TEXT_FACTORY, GailCanvasTextFactoryClass))
 
-
 typedef struct _GailCanvasTextFactory                GailCanvasTextFactory;
 typedef struct _GailCanvasTextFactoryClass           GailCanvasTextFactoryClass;
 

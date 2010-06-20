@@ -72,23 +72,23 @@ static void gnome_canvas_shape_get_property (GObject               *object,
 					     GValue                *value,
                                              GParamSpec            *pspec);
 
-static void   gnome_canvas_shape_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
+static void   gnome_canvas_shape_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 static void   gnome_canvas_shape_realize     (GnomeCanvasItem *item);
 static void   gnome_canvas_shape_unrealize   (GnomeCanvasItem *item);
 static void   gnome_canvas_shape_draw        (GnomeCanvasItem *item, GdkDrawable *drawable,
-                                              int x, int y, int width, int height);
-static double gnome_canvas_shape_point       (GnomeCanvasItem *item, double x, double y,
-                                              int cx, int cy, GnomeCanvasItem **actual_item);
+                                              gint x, gint y, gint width, gint height);
+static gdouble gnome_canvas_shape_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
+                                              gint cx, gint cy, GnomeCanvasItem **actual_item);
 static void   gnome_canvas_shape_render      (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 static void   gnome_canvas_shape_bounds      (GnomeCanvasItem *item,
-					      double *x1, double *y1, double *x2, double *y2);
+					      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 static gulong get_pixel_from_rgba (GnomeCanvasItem *item, guint32 rgba_color);
 static guint32 get_rgba_from_color (GdkColor * color);
 static void set_gc_foreground (GdkGC *gc, gulong pixel);
 static void gcbp_ensure_gdk (GnomeCanvasShape * bpath);
 static void gcbp_destroy_gdk (GnomeCanvasShape * bpath);
-static void set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, int reconfigure);
+static void set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, gint reconfigure);
 static void gcbp_ensure_mask (GnomeCanvasShape * bpath, gint width, gint height);
 static void gcbp_draw_ctx_unref (GCBPDrawCtx * ctx);
 
@@ -139,8 +139,6 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
 
 	gobject_class->set_property = gnome_canvas_shape_set_property;
 	gobject_class->get_property = gnome_canvas_shape_get_property;
-
-
 
         g_object_class_install_property (gobject_class,
                                          PROP_FILL_COLOR,
@@ -282,9 +280,9 @@ gnome_canvas_shape_destroy (GtkObject *object)
 		if (priv->dash.dash) g_free (priv->dash.dash);
 		if (priv->fill_svp) art_svp_free (priv->fill_svp);
 		if (priv->outline_svp) art_svp_free (priv->outline_svp);
-		
+
 		g_free (shape->priv);
-	        shape->priv = NULL;
+		shape->priv = NULL;
 	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -294,16 +292,16 @@ gnome_canvas_shape_destroy (GtkObject *object)
 /**
  * gnome_canvas_shape_set_path_def:
  * @shape: a GnomeCanvasShape
- * @def: a GnomeCanvasPathDef 
+ * @def: a GnomeCanvasPathDef
  *
  * This function sets the the GnomeCanvasPathDef used by the
  * GnomeCanvasShape. Notice, that it does not request updates, as
  * it is meant to be used from item implementations, from inside
  * update queue.
  */
- 
+
 void
-gnome_canvas_shape_set_path_def (GnomeCanvasShape *shape, GnomeCanvasPathDef *def) 
+gnome_canvas_shape_set_path_def (GnomeCanvasShape *shape, GnomeCanvasPathDef *def)
 {
 	GnomeCanvasShapePriv *priv;
 
@@ -470,7 +468,7 @@ gnome_canvas_shape_set_property (GObject      *object,
 		priv->join = g_value_get_enum (value);
 		gnome_canvas_item_request_update (item);
 		break;
-	
+
 	case PROP_MITERLIMIT:
 		priv->miterlimit = g_value_get_double (value);
 		gnome_canvas_item_request_update (item);
@@ -486,7 +484,7 @@ gnome_canvas_shape_set_property (GObject      *object,
 			priv->dash.n_dash = dash->n_dash;
 			if (dash->dash != NULL) {
 				priv->dash.dash = g_new (double, dash->n_dash);
-				memcpy (priv->dash.dash, dash->dash, dash->n_dash * sizeof (double));
+				memcpy (priv->dash.dash, dash->dash, dash->n_dash * sizeof (gdouble));
 			}
 		}
 		gnome_canvas_item_request_update (item);
@@ -498,7 +496,7 @@ gnome_canvas_shape_set_property (GObject      *object,
 }
 
 /* Allocates a GdkColor structure filled with the specified pixel, and
- * puts it into the specified value for returning it in the get_property 
+ * puts it into the specified value for returning it in the get_property
  * method.
  */
 
@@ -524,12 +522,12 @@ get_color_value (GnomeCanvasShape *shape, gulong pixel, GValue *value)
  *
  * Returns: a #GnomeCanvasPathDef or NULL if none is set for the shape.
  */
- 
+
 GnomeCanvasPathDef *
 gnome_canvas_shape_get_path_def (GnomeCanvasShape *shape)
 {
 	GnomeCanvasShapePriv *priv;
-	
+
 	g_return_val_if_fail (shape != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CANVAS_SHAPE (shape), NULL);
 
@@ -539,7 +537,7 @@ gnome_canvas_shape_get_path_def (GnomeCanvasShape *shape)
 		gnome_canvas_path_def_ref (priv->path);
 		return priv->path;
 	}
-	
+
 	return NULL;
 }
 
@@ -570,7 +568,7 @@ gnome_canvas_shape_get_property (GObject     *object,
 			get_color_value (shape, 0, value);
 		}
 		break;
-		
+
 	case PROP_OUTLINE_COLOR_GDK:
 		if (gdk) {
 			get_color_value (shape, gdk->outline_pixel, value);
@@ -630,7 +628,7 @@ gnome_canvas_shape_get_property (GObject     *object,
 	case PROP_DASH:
 		g_value_set_pointer (value, &priv->dash);
 		break;
-		
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -706,10 +704,10 @@ gnome_canvas_shape_render (GnomeCanvasItem *item,
 static void
 gnome_canvas_shape_draw (GnomeCanvasItem *item,
 	GdkDrawable *drawable,
-	int x,
-	int y,
-	int width,
-	int height)
+	gint x,
+	gint y,
+	gint width,
+	gint height)
 {
 	static GdkPoint * dpoints = NULL;
 	static gint num_dpoints = 0;
@@ -836,14 +834,14 @@ gnome_canvas_shape_ensure_gdk_points (GnomeCanvasShapePrivGdk *gdk, gint num)
 }
 
 static void
-gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP * clip, int flags)
+gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, gdouble * affine, ArtSVP * clip, gint flags)
 {
 	GnomeCanvasShapePriv * priv;
 	GnomeCanvasShapePrivGdk * gdk;
-	int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+	gint x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 	gboolean bbox_set = FALSE;
 	gint width = 0; /* silence gcc */
-	
+
 	g_assert (!((GnomeCanvasItem *) shape)->canvas->aa);
 
 	priv = shape->priv;
@@ -854,14 +852,14 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 		GdkLineStyle style;
 
 		if (priv->width_pixels) {
-			width = (int) floor (priv->width + 0.5);
+			width = (gint) floor (priv->width + 0.5);
 			/* Never select 0 pixels unless the user asked for it,
 			 * since that is the X11 zero width lines are non-specified */
 			if (priv->width_pixels != 0 && width == 0) {
 				width = 1;
 			}
 		} else {
-			width = (int) floor ((priv->width * priv->scale) + 0.5);
+			width = (gint) floor ((priv->width * priv->scale) + 0.5);
 			/* Never select 0 pixels unless the user asked for it,
 			 * since that is the X11 zero width lines are non-speciifed */
 			if (priv->width != 0 && width == 0) {
@@ -894,14 +892,14 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 		}
 
 		/* Set line width, cap, join */
-		if(gdk->outline_gc) {
-			
+		if (gdk->outline_gc) {
+
 			gdk_gc_set_line_attributes (gdk->outline_gc,
 						    width,
 						    style,
 						    priv->cap,
 						    priv->join);
-			
+
 			/* Colors and stipples */
 			set_gc_foreground (gdk->outline_gc, gdk->outline_pixel);
 			set_stipple (gdk->outline_gc, &gdk->outline_stipple, gdk->outline_stipple, TRUE);
@@ -911,7 +909,7 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 	if (priv->fill_set) {
 
 		/* Colors and stipples */
-		if(gdk->fill_gc) {
+		if (gdk->fill_gc) {
 			set_gc_foreground (gdk->fill_gc, gdk->fill_pixel);
 			set_stipple (gdk->fill_gc, &gdk->fill_stipple, gdk->fill_stipple, TRUE);
 		}
@@ -978,7 +976,7 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 			path = (GnomeCanvasPathDef *) clist->data;
 			bpath = gnome_canvas_path_def_bpath (path);
 			vpath = art_bez_path_to_vec (bpath, 0.1);
-			for (len = 0; vpath[len].code != ART_END; len++) ;
+			for (len = 0; vpath[len].code != ART_END; len++);
 
 			gnome_canvas_shape_ensure_gdk_points (gdk, len);
 			for (i = 0; i < len; i++) {
@@ -1020,13 +1018,13 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 			path = (GnomeCanvasPathDef *) olist->data;
 			bpath = gnome_canvas_path_def_bpath (path);
 			vpath = art_bez_path_to_vec (bpath, 0.1);
-			for (len = 0; vpath[len].code != ART_END; len++) ;
+			for (len = 0; vpath[len].code != ART_END; len++);
 
 			gnome_canvas_shape_ensure_gdk_points (gdk, len);
 			for (i = 0; i < len; i++) {
 				gdk->points[pos + i].x = (gint) floor (vpath[i].x + 0.5);
 				gdk->points[pos + i].y = (gint) floor (vpath[i].y + 0.5);
-				
+
 				if (bbox_set) {
 					x1 = MIN (x1, gdk->points[pos + i].x);
 					x2 = MAX (x2, gdk->points[pos + i].x);
@@ -1055,7 +1053,7 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 
 	if (bbox_set) {
 		if (priv->outline_set) {
-			int stroke_border = (priv->join == GDK_JOIN_MITER)
+			gint stroke_border = (priv->join == GDK_JOIN_MITER)
 				? ceil (10.43*width/2) /* 10.43 is the miter limit for X11 */
 				: ceil (width/2);
 			x1 -= stroke_border;
@@ -1063,16 +1061,16 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, double * affine, ArtSVP
 			y1 -= stroke_border;
 			y2 += stroke_border;
 		}
-		
+
 		gnome_canvas_update_bbox (GNOME_CANVAS_ITEM (shape),
 					  x1, y1,
 					  x2 + 1, y2 + 1);
 	}
-	
+
 }
 
 static void
-gnome_canvas_shape_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	GnomeCanvasShape * shape;
 	GnomeCanvasShapePriv * priv;
@@ -1094,7 +1092,7 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_p
 	if (item->canvas->aa) {
 		gnome_canvas_item_reset_bounds (item);
 	}
-	
+
 	/* Clipped fill SVP */
 
 	if ((priv->fill_set) && (priv->path) && (gnome_canvas_path_def_any_closed (priv->path))) {
@@ -1152,9 +1150,9 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_p
 		} else {
 			width = priv->width * priv->scale;
 		}
-		
+
 		if (width < 0.5) width = 0.5;
-		
+
 		/* Render full path until vpath */
 
 		abp = art_bpath_affine_transform (gnome_canvas_path_def_bpath (priv->path), affine);
@@ -1167,11 +1165,11 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_p
 		if (priv->dash.dash != NULL)
 		{
 			ArtVpath *old = vpath;
-			
+
 			vpath = art_vpath_dash (old, &priv->dash);
 			art_free (old);
 		}
-		
+
 		/* Stroke vpath to SVP */
 
 		svp = art_svp_vpath_stroke (vpath,
@@ -1196,19 +1194,19 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_p
 	}
 
 	/* Gdk requires additional handling */
-	
+
 	if (!item->canvas->aa) {
 		gnome_canvas_shape_update_gdk (shape, affine, clip_path, flags);
 	}
 }
 
 static double
-gnome_canvas_shape_point (GnomeCanvasItem *item, double x, double y,
-			    int cx, int cy, GnomeCanvasItem **actual_item)
+gnome_canvas_shape_point (GnomeCanvasItem *item, gdouble x, gdouble y,
+			    gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	GnomeCanvasShape *shape;
-	double dist;
-	int wind;
+	gdouble dist;
+	gint wind;
 
 #if 0
 	/* fixme: This is just for debugging, canvas should ensure that */
@@ -1288,7 +1286,7 @@ set_gc_foreground (GdkGC *gc, gulong pixel)
 /* Sets the stipple pattern for the specified gc */
 
 static void
-set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, int reconfigure)
+set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, gint reconfigure)
 {
 	if (*internal_stipple && !reconfigure)
 		g_object_unref (*internal_stipple);
@@ -1471,14 +1469,14 @@ gcbp_draw_ctx_unref (GCBPDrawCtx * ctx)
 			g_object_unref (ctx->mask);
 		if (ctx->clip)
 			g_object_unref (ctx->clip);
-		
+
 		g_object_set_data (G_OBJECT (ctx->canvas), "BpathDrawCtx", NULL);
 		g_free (ctx);
 	}
 }
 
 static void
-gnome_canvas_shape_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+gnome_canvas_shape_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
 	GnomeCanvasShape * shape;
 	GnomeCanvasShapePriv * priv;
@@ -1505,9 +1503,9 @@ gnome_canvas_shape_bounds (GnomeCanvasItem *item, double *x1, double *y1, double
 		} else {
 			width = priv->width * priv->scale;
 		}
-		
+
 		if (width < 0.5) width = 0.5;
-		
+
 		/* Render full path until vpath */
 
 		vpath = art_bez_path_to_vec (gnome_canvas_path_def_bpath (priv->path), 0.1);
@@ -1517,11 +1515,11 @@ gnome_canvas_shape_bounds (GnomeCanvasItem *item, double *x1, double *y1, double
 		if (priv->dash.dash != NULL)
 		{
 			ArtVpath *old = vpath;
-			
+
 			vpath = art_vpath_dash (old, &priv->dash);
 			art_free (old);
 		}
-		
+
 		/* Stroke vpath to SVP */
 
 		svp = art_svp_vpath_stroke (vpath,
@@ -1547,13 +1545,13 @@ gnome_canvas_shape_bounds (GnomeCanvasItem *item, double *x1, double *y1, double
 
 		svp = art_svp_from_vpath (vpath);
 		art_free (vpath);
-		
+
 		swr = art_svp_writer_rewind_new (shape->priv->wind);
 		art_svp_intersector (svp, swr);
-		
+
 		svp2 = art_svp_writer_rewind_reap (swr);
 		art_svp_free (svp);
-  
+
 		art_drect_svp (&bbox, svp2);
 		art_svp_free (svp2);
 	}

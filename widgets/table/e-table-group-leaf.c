@@ -187,13 +187,17 @@ etgl_double_click (GtkObject *object, gint model_row, gint model_col, GdkEvent *
 }
 
 static gboolean
-etgl_key_press (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
+etgl_key_press (GtkObject *object,
+                gint row,
+                gint col,
+                GdkEvent *event,
+                ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->ets)->n_map && row >= 0)
-		return e_table_group_key_press (E_TABLE_GROUP(etgl),
-						E_TABLE_SUBSET(etgl->ets)->map_table[row],
-						col,
-						event);
+		return e_table_group_key_press (
+			E_TABLE_GROUP(etgl),
+			E_TABLE_SUBSET(etgl->ets)->map_table[row],
+			col, event);
 	else
 		return FALSE;
 }
@@ -219,7 +223,11 @@ etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *ev
 }
 
 static gboolean
-etgl_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
+etgl_click (GtkObject *object,
+            gint row,
+            gint col,
+            GdkEvent *event,
+            ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
 		return e_table_group_click (E_TABLE_GROUP(etgl),
@@ -349,7 +357,9 @@ etgl_increment (ETableGroup *etg, gint position, gint amount)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
-		e_table_subset_variable_increment (E_TABLE_SUBSET_VARIABLE(etgl->ets), position, amount);
+		e_table_subset_variable_increment (
+			E_TABLE_SUBSET_VARIABLE (etgl->ets),
+			position, amount);
 	}
 }
 
@@ -359,7 +369,9 @@ etgl_decrement (ETableGroup *etg, gint position, gint amount)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
-		e_table_subset_variable_decrement (E_TABLE_SUBSET_VARIABLE(etgl->ets), position, amount);
+		e_table_subset_variable_decrement (
+			E_TABLE_SUBSET_VARIABLE (etgl->ets),
+			position, amount);
 	}
 }
 
@@ -377,7 +389,9 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (direction == E_FOCUS_END) {
-		e_table_item_set_cursor (etgl->item, view_col, e_table_model_row_count(E_TABLE_MODEL(etgl->ets)) - 1);
+		e_table_item_set_cursor (
+			etgl->item, view_col,
+			e_table_model_row_count (E_TABLE_MODEL(etgl->ets)) - 1);
 	} else {
 		e_table_item_set_cursor (etgl->item, view_col, 0);
 	}
@@ -421,7 +435,13 @@ etgl_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 }
 
 static void
-etgl_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y, gint *width, gint *height)
+etgl_get_cell_geometry (ETableGroup *etg,
+                        gint *row,
+                        gint *col,
+                        gint *x,
+                        gint *y,
+                        gint *width,
+                        gint *height)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -429,7 +449,10 @@ etgl_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y
 }
 
 static void
-etgl_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+etgl_set_property (GObject *object,
+                   guint prop_id,
+                   const GValue *value,
+                   GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);

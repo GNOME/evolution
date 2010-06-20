@@ -69,10 +69,18 @@ static struct _e_alert_button default_ok_button = {
 };
 
 static struct _e_alert default_alerts[] = {
-	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", "{1}", NULL, FALSE, &default_ok_button },
-	{ GTK_DIALOG_MODAL, "error-primary", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", NULL, NULL, FALSE, &default_ok_button },
-	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", "{1}", NULL, FALSE, &default_ok_button },
-	{ GTK_DIALOG_MODAL, "warning-primary", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", NULL, NULL, FALSE, &default_ok_button },
+	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK,
+	  N_("Evolution Error"), "{0}", "{1}", NULL, FALSE,
+	  &default_ok_button },
+	{ GTK_DIALOG_MODAL, "error-primary", 3, GTK_RESPONSE_OK,
+	  N_("Evolution Error"), "{0}", NULL, NULL, FALSE,
+	  &default_ok_button },
+	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK,
+	  N_("Evolution Warning"), "{0}", "{1}", NULL, FALSE,
+	  &default_ok_button },
+	{ GTK_DIALOG_MODAL, "warning-primary", 1, GTK_RESPONSE_OK,
+	  N_("Evolution Warning"), "{0}", NULL, NULL, FALSE,
+	  &default_ok_button },
 };
 
 /* ********************************************************************** */
@@ -150,12 +158,14 @@ struct _EAlertPrivate
 /*
   XML format:
 
- <error id="error-id" type="info|warning|question|error"? response="default_response"? modal="true"? >
+ <error id="error-id" type="info|warning|question|error"?
+      response="default_response"? modal="true"? >
   <title>Window Title</title>?
   <primary>Primary error text.</primary>?
   <secondary>Secondary error text.</secondary>?
   <help uri="help uri"/> ?
-  <button stock="stock-button-id"? label="button label"? response="response_id"? /> *
+  <button stock="stock-button-id"? label="button label"?
+      response="response_id"? /> *
  </error>
 
  The tool e-error-tool is used to extract the translatable strings for
@@ -335,7 +345,9 @@ e_alert_load_tables(void)
 	table->domain = "builtin";
 	table->alerts = g_hash_table_new(g_str_hash, g_str_equal);
 	for (i = 0; i < G_N_ELEMENTS (default_alerts); i++)
-		g_hash_table_insert(table->alerts, (gpointer) default_alerts[i].id, &default_alerts[i]);
+		g_hash_table_insert (
+			table->alerts, (gpointer)
+			default_alerts[i].id, &default_alerts[i]);
 	g_hash_table_insert(alert_table, (gpointer) table->domain, table);
 
 	/* look for installed alert tables */
@@ -544,7 +556,10 @@ e_alert_append_text_escaped (GString *out, const gchar *text)
 }
 
 static void
-e_alert_format_string (GString *out, const gchar *fmt, GPtrArray *args, gboolean escape_args)
+e_alert_format_string (GString *out,
+                       const gchar *fmt,
+                       GPtrArray *args,
+                       gboolean escape_args)
 {
 	const gchar *end, *newstart;
 	gint id;

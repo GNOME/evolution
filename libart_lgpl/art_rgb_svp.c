@@ -32,29 +32,29 @@ typedef struct _ArtRgbSVPAlphaData ArtRgbSVPAlphaData;
 struct _ArtRgbSVPData {
   art_u32 rgbtab[256];
   art_u8 *buf;
-  int rowstride;
-  int x0, x1;
+  gint rowstride;
+  gint x0, x1;
 };
 
 struct _ArtRgbSVPAlphaData {
-  int alphatab[256];
+  gint alphatab[256];
   art_u8 r, g, b, alpha;
   art_u8 *buf;
-  int rowstride;
-  int x0, x1;
+  gint rowstride;
+  gint x0, x1;
 };
 
 static void
-art_rgb_svp_callback (void *callback_data, int y,
-		      int start, ArtSVPRenderAAStep *steps, int n_steps)
+art_rgb_svp_callback (gpointer callback_data, gint y,
+		      gint start, ArtSVPRenderAAStep *steps, gint n_steps)
 {
   ArtRgbSVPData *data = (ArtRgbSVPData *)callback_data;
   art_u8 *linebuf;
-  int run_x0, run_x1;
+  gint run_x0, run_x1;
   art_u32 running_sum = start;
   art_u32 rgb;
-  int x0, x1;
-  int k;
+  gint x0, x1;
+  gint k;
 
   linebuf = data->buf;
   x0 = data->x0;
@@ -137,18 +137,18 @@ art_rgb_svp_callback (void *callback_data, int y,
  **/
 void
 art_rgb_svp_aa (const ArtSVP *svp,
-		int x0, int y0, int x1, int y1,
+		gint x0, gint y0, gint x1, gint y1,
 		art_u32 fg_color, art_u32 bg_color,
-		art_u8 *buf, int rowstride,
+		art_u8 *buf, gint rowstride,
 		ArtAlphaGamma *alphagamma)
 {
   ArtRgbSVPData data;
 
-  int r_fg, g_fg, b_fg;
-  int r_bg, g_bg, b_bg;
-  int r, g, b;
-  int dr, dg, db;
-  int i;
+  gint r_fg, g_fg, b_fg;
+  gint r_bg, g_bg, b_bg;
+  gint r, g, b;
+  gint dr, dg, db;
+  gint i;
 
   if (alphagamma == NULL)
     {
@@ -177,7 +177,7 @@ art_rgb_svp_aa (const ArtSVP *svp,
     }
   else
     {
-      int *table;
+      gint *table;
       art_u8 *invtab;
 
       table = alphagamma->table;
@@ -216,18 +216,18 @@ art_rgb_svp_aa (const ArtSVP *svp,
 }
 
 static void
-art_rgb_svp_alpha_callback (void *callback_data, int y,
-			    int start, ArtSVPRenderAAStep *steps, int n_steps)
+art_rgb_svp_alpha_callback (gpointer callback_data, gint y,
+			    gint start, ArtSVPRenderAAStep *steps, gint n_steps)
 {
   ArtRgbSVPAlphaData *data = (ArtRgbSVPAlphaData *)callback_data;
   art_u8 *linebuf;
-  int run_x0, run_x1;
+  gint run_x0, run_x1;
   art_u32 running_sum = start;
-  int x0, x1;
-  int k;
+  gint x0, x1;
+  gint k;
   art_u8 r, g, b;
-  int *alphatab;
-  int alpha;
+  gint *alphatab;
+  gint alpha;
 
   linebuf = data->buf;
   x0 = data->x0;
@@ -287,19 +287,19 @@ art_rgb_svp_alpha_callback (void *callback_data, int y,
 }
 
 static void
-art_rgb_svp_alpha_opaque_callback (void *callback_data, int y,
-				   int start,
-				   ArtSVPRenderAAStep *steps, int n_steps)
+art_rgb_svp_alpha_opaque_callback (gpointer callback_data, gint y,
+				   gint start,
+				   ArtSVPRenderAAStep *steps, gint n_steps)
 {
   ArtRgbSVPAlphaData *data = (ArtRgbSVPAlphaData *)callback_data;
   art_u8 *linebuf;
-  int run_x0, run_x1;
+  gint run_x0, run_x1;
   art_u32 running_sum = start;
-  int x0, x1;
-  int k;
+  gint x0, x1;
+  gint k;
   art_u8 r, g, b;
-  int *alphatab;
-  int alpha;
+  gint *alphatab;
+  gint alpha;
 
   linebuf = data->buf;
   x0 = data->x0;
@@ -415,15 +415,15 @@ art_rgb_svp_alpha_opaque_callback (void *callback_data, int y,
  **/
 void
 art_rgb_svp_alpha (const ArtSVP *svp,
-		   int x0, int y0, int x1, int y1,
+		   gint x0, gint y0, gint x1, gint y1,
 		   art_u32 rgba,
-		   art_u8 *buf, int rowstride,
+		   art_u8 *buf, gint rowstride,
 		   ArtAlphaGamma *alphagamma)
 {
   ArtRgbSVPAlphaData data;
-  int r, g, b, alpha;
-  int i;
-  int a, da;
+  gint r, g, b, alpha;
+  gint i;
+  gint a, da;
 
   r = rgba >> 24;
   g = (rgba >> 16) & 0xff;

@@ -76,13 +76,13 @@ typedef enum {
 } ArtImageSourceFlags;
 
 struct _ArtRenderMaskRun {
-  int x;
-  int alpha;
+  gint x;
+  gint alpha;
 };
 
 struct _ArtRenderCallback {
   void (*render) (ArtRenderCallback *self, ArtRender *render,
-		  art_u8 *dest, int y);
+		  art_u8 *dest, gint y);
   void (*done) (ArtRenderCallback *self, ArtRender *render);
 };
 
@@ -90,12 +90,12 @@ struct _ArtImageSource {
   ArtRenderCallback super;
   void (*negotiate) (ArtImageSource *self, ArtRender *render,
 		     ArtImageSourceFlags *p_flags,
-		     int *p_buf_depth, ArtAlphaType *p_alpha_type);
+		     gint *p_buf_depth, ArtAlphaType *p_alpha_type);
 };
 
 struct _ArtMaskSource {
   ArtRenderCallback super;
-  int (*can_drive) (ArtMaskSource *self, ArtRender *render);
+  gint (*can_drive) (ArtMaskSource *self, ArtRender *render);
   /* For each mask source, ::prepare() is invoked if it is not
      a driver, or ::invoke_driver() if it is. */
   void (*invoke_driver) (ArtMaskSource *self, ArtRender *render);
@@ -104,12 +104,12 @@ struct _ArtMaskSource {
 
 struct _ArtRender {
   /* parameters of destination image */
-  int x0, y0;
-  int x1, y1;
+  gint x0, y0;
+  gint x1, y1;
   art_u8 *pixels;
-  int rowstride;
-  int n_chan;
-  int depth;
+  gint rowstride;
+  gint n_chan;
+  gint depth;
   ArtAlphaType alpha_type;
 
   art_boolean clear;
@@ -123,18 +123,18 @@ struct _ArtRender {
   art_u8 *alpha_buf;
 
   /* parameters of intermediate buffer */
-  int buf_depth;
+  gint buf_depth;
   ArtAlphaType buf_alpha;
   art_u8 *image_buf;
 
   /* driving alpha scanline data */
   /* A "run" is a contiguous sequence of x values with the same alpha value. */
-  int n_run;
+  gint n_run;
   ArtRenderMaskRun *run;
 
   /* A "span" is a contiguous sequence of x values with non-zero alpha. */
-  int n_span;
-  int *span_x;
+  gint n_span;
+  gint *span_x;
 
   art_boolean need_span;
 };

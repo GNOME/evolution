@@ -35,8 +35,6 @@
    should not be necessary. */
 #define CHEAP_SANITYCHECK
 
-#define noVERBOSE
-
 #include "art_misc.h"
 
 /* A priority queue - perhaps move to a separate file if it becomes
@@ -48,15 +46,15 @@ typedef struct _ArtPriQ ArtPriQ;
 typedef struct _ArtPriPoint ArtPriPoint;
 
 struct _ArtPriQ {
-  int n_items;
-  int n_items_max;
+  gint n_items;
+  gint n_items_max;
   ArtPriPoint **items;
 };
 
 struct _ArtPriPoint {
-  double x;
-  double y;
-  void *user_data;
+  gdouble x;
+  gdouble y;
+  gpointer user_data;
 };
 
 static ArtPriQ *
@@ -89,10 +87,10 @@ art_pri_empty (ArtPriQ *pq)
    http://www.cs.rutgers.edu/~chvatal/notes/pq.html#heap */
 
 static void
-art_pri_bubble_up (ArtPriQ *pq, int vacant, ArtPriPoint *missing)
+art_pri_bubble_up (ArtPriQ *pq, gint vacant, ArtPriPoint *missing)
 {
   ArtPriPoint **items = pq->items;
-  int parent;
+  gint parent;
 
   parent = (vacant - 1) >> 1;
   while (vacant > 0 && (missing->y < items[parent]->y ||
@@ -120,8 +118,8 @@ static void
 art_pri_sift_down_from_root (ArtPriQ *pq, ArtPriPoint *missing)
 {
   ArtPriPoint **items = pq->items;
-  int vacant = 0, child = 2;
-  int n = pq->n_items;
+  gint vacant = 0, child = 2;
+  gint n = pq->n_items;
 
   while (child < n)
     {
@@ -157,10 +155,10 @@ art_pri_choose (ArtPriQ *pq)
 static ArtPriPoint *
 art_pri_choose (ArtPriQ *pq)
 {
-  int i;
-  int best = 0;
-  double best_x, best_y;
-  double y;
+  gint i;
+  gint best = 0;
+  gdouble best_x, best_y;
+  gdouble y;
   ArtPriPoint *result;
 
   if (pq->n_items == 0)
@@ -201,9 +199,9 @@ art_pri_insert (ArtPriQ *pq, ArtPriPoint *point)
 #include <stdio.h>
 
 static double
-double_rand (double lo, double hi, int quant)
+double_rand (gdouble lo, gdouble hi, gint quant)
 {
-  int tmp = rand () / (RAND_MAX * (1.0 / quant)) + 0.5;
+  gint tmp = rand () / (RAND_MAX * (1.0 / quant)) + 0.5;
   return lo + tmp * ((hi - lo) / quant);
 }
 
@@ -256,14 +254,14 @@ art_pri_pt_pool_free (ArtPriPtPool *pool)
   art_free (pool);
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
   ArtPriPtPool *pool = art_pri_pt_pool_new ();
   ArtPriQ *pq;
-  int i, j;
-  const int n_iter = 1;
-  const int pq_size = 100;
+  gint i, j;
+  const gint n_iter = 1;
+  const gint pq_size = 100;
 
   for (j = 0; j < n_iter; j++)
     {
@@ -274,7 +272,7 @@ main (int argc, char **argv)
 	  ArtPriPoint *pt = art_pri_pt_alloc (pool);
 	  pt->x = double_rand (0, 1, 100);
 	  pt->y = double_rand (0, 1, 100);
-	  pt->user_data = (void *)i;
+	  pt->user_data = (gpointer)i;
 	  art_pri_insert (pq, pt);
 	}
 
@@ -282,7 +280,7 @@ main (int argc, char **argv)
 	{
 	  ArtPriPoint *pt = art_pri_choose (pq);
 	  if (n_iter == 1)
-	    printf ("(%g, %g), %d\n", pt->x, pt->y, (int)pt->user_data);
+	    printf ("(%g, %g), %d\n", pt->x, pt->y, (gint)pt->user_data);
 	  art_pri_pt_free (pool, pt);
 	}
 
@@ -307,21 +305,21 @@ struct _ArtSvpWriterRewind {
   ArtSvpWriter super;
   ArtWindRule rule;
   ArtSVP *svp;
-  int n_segs_max;
-  int *n_points_max;
+  gint n_segs_max;
+  gint *n_points_max;
 };
 
-static int
-art_svp_writer_rewind_add_segment (ArtSvpWriter *self, int wind_left,
-				   int delta_wind, double x, double y)
+static gint
+art_svp_writer_rewind_add_segment (ArtSvpWriter *self, gint wind_left,
+				   gint delta_wind, gdouble x, gdouble y)
 {
   ArtSvpWriterRewind *swr = (ArtSvpWriterRewind *)self;
   ArtSVP *svp;
   ArtSVPSeg *seg;
   art_boolean left_filled, right_filled;
-  int wind_right = wind_left + delta_wind;
-  int seg_num;
-  const int init_n_points_max = 4;
+  gint wind_right = wind_left + delta_wind;
+  gint seg_num;
+  const gint init_n_points_max = 4;
 
   switch (swr->rule)
     {
@@ -377,12 +375,12 @@ art_svp_writer_rewind_add_segment (ArtSvpWriter *self, int wind_left,
 }
 
 static void
-art_svp_writer_rewind_add_point (ArtSvpWriter *self, int seg_id,
-				 double x, double y)
+art_svp_writer_rewind_add_point (ArtSvpWriter *self, gint seg_id,
+				 gdouble x, gdouble y)
 {
   ArtSvpWriterRewind *swr = (ArtSvpWriterRewind *)self;
   ArtSVPSeg *seg;
-  int n_points;
+  gint n_points;
 
   if (seg_id < 0)
     /* omitted segment */
@@ -402,7 +400,7 @@ art_svp_writer_rewind_add_point (ArtSvpWriter *self, int seg_id,
 }
 
 static void
-art_svp_writer_rewind_close_segment (ArtSvpWriter *self, int seg_id)
+art_svp_writer_rewind_close_segment (ArtSvpWriter *self, gint seg_id)
 {
   /* Not needed for this simple implementation. A potential future
      optimization is to merge segments that can be merged safely. */
@@ -443,7 +441,7 @@ art_svp_writer_rewind_new (ArtWindRule rule)
 
   result->rule = rule;
   result->n_segs_max = 16;
-  result->svp = art_alloc (sizeof(ArtSVP) + 
+  result->svp = art_alloc (sizeof(ArtSVP) +
 			   (result->n_segs_max - 1) * sizeof(ArtSVPSeg));
   result->svp->n_segs = 0;
   result->n_points_max = art_new (int, result->n_segs_max);
@@ -474,28 +472,28 @@ typedef struct _ArtActiveSeg ArtActiveSeg;
 #define ART_ACTIVE_FLAGS_IN_HORIZ 16
 
 struct _ArtActiveSeg {
-  int flags;
-  int wind_left, delta_wind;
+  gint flags;
+  gint wind_left, delta_wind;
   ArtActiveSeg *left, *right; /* doubly linked list structure */
 
   const ArtSVPSeg *in_seg;
-  int in_curs;
+  gint in_curs;
 
-  double x[2];
-  double y0, y1;
-  double a, b, c; /* line equation; ax+by+c = 0 for the line, a^2 + b^2 = 1,
+  gdouble x[2];
+  gdouble y0, y1;
+  gdouble a, b, c; /* line equation; ax+by+c = 0 for the line, a^2 + b^2 = 1,
 		     and a>0 */
 
   /* bottom point and intersection point stack */
-  int n_stack;
-  int n_stack_max;
+  gint n_stack;
+  gint n_stack_max;
   ArtPoint *stack;
 
   /* horiz commit list */
   ArtActiveSeg *horiz_left, *horiz_right;
-  double horiz_x;
-  int horiz_delta_wind;
-  int seg_id;
+  gdouble horiz_x;
+  gint horiz_delta_wind;
+  gint seg_id;
 };
 
 typedef struct _ArtIntersectCtx ArtIntersectCtx;
@@ -508,12 +506,12 @@ struct _ArtIntersectCtx {
 
   ArtActiveSeg *active_head;
 
-  double y;
+  gdouble y;
   ArtActiveSeg *horiz_first;
   ArtActiveSeg *horiz_last;
 
   /* segment index of next input segment to be added to pri q */
-  int in_curs;
+  gint in_curs;
 };
 
 #define EPSILON_A 1e-5 /* Threshold for breaking lines at point insertions */
@@ -532,10 +530,10 @@ static void
 art_svp_intersect_setup_seg (ArtActiveSeg *seg, ArtPriPoint *pri_pt)
 {
   const ArtSVPSeg *in_seg = seg->in_seg;
-  int in_curs = seg->in_curs++;
-  double x0, y0, x1, y1;
-  double dx, dy, s;
-  double a, b, r2;
+  gint in_curs = seg->in_curs++;
+  gdouble x0, y0, x1, y1;
+  gdouble dx, dy, s;
+  gdouble a, b, r2;
 
   x0 = in_seg->points[in_curs].x;
   y0 = in_seg->points[in_curs].y;
@@ -582,7 +580,6 @@ art_svp_intersect_add_horiz (ArtIntersectCtx *ctx, ArtActiveSeg *seg)
   ArtActiveSeg *place;
   ArtActiveSeg *place_right = NULL;
 
-
 #ifdef CHEAP_SANITYCHECK
   if (seg->flags & ART_ACTIVE_FLAGS_IN_HORIZ)
     {
@@ -611,10 +608,10 @@ art_svp_intersect_add_horiz (ArtIntersectCtx *ctx, ArtActiveSeg *seg)
 
 static void
 art_svp_intersect_push_pt (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
-			   double x, double y)
+			   gdouble x, gdouble y)
 {
   ArtPriPoint *pri_pt;
-  int n_stack = seg->n_stack;
+  gint n_stack = seg->n_stack;
 
   if (n_stack == seg->n_stack_max)
     art_expand (seg->stack, ArtPoint, seg->n_stack_max);
@@ -647,12 +644,12 @@ typedef enum {
  */
 static double
 art_svp_intersect_break (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
-			 double x_ref, double y, ArtBreakFlags break_flags)
+			 gdouble x_ref, gdouble y, ArtBreakFlags break_flags)
 {
-  double x0, y0, x1, y1;
+  gdouble x0, y0, x1, y1;
   const ArtSVPSeg *in_seg = seg->in_seg;
-  int in_curs = seg->in_curs;
-  double x;
+  gint in_curs = seg->in_curs;
+  gdouble x;
 
   x0 = in_seg->points[in_curs - 1].x;
   y0 = in_seg->points[in_curs - 1].y;
@@ -691,22 +688,22 @@ art_svp_intersect_break (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
  * NULL if the new point is leftmost.
  **/
 static ArtActiveSeg *
-art_svp_intersect_add_point (ArtIntersectCtx *ctx, double x, double y,
+art_svp_intersect_add_point (ArtIntersectCtx *ctx, gdouble x, gdouble y,
 			     ArtActiveSeg *seg, ArtBreakFlags break_flags)
 {
   ArtActiveSeg *left, *right;
-  double x_min = x, x_max = x;
+  gdouble x_min = x, x_max = x;
   art_boolean left_live, right_live;
-  double d;
-  double new_x;
+  gdouble d;
+  gdouble new_x;
   ArtActiveSeg *test, *result = NULL;
-  double x_test;
+  gdouble x_test;
 
   left = seg;
   if (left == NULL)
     right = ctx->active_head;
   else
-    right = left->right; 
+    right = left->right;
   left_live = (break_flags & ART_BREAK_LEFT) && (left != NULL);
   right_live = (break_flags & ART_BREAK_RIGHT) && (right != NULL);
   while (left_live || right_live)
@@ -834,16 +831,15 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 			      ArtActiveSeg *left_seg, ArtActiveSeg *right_seg,
 			      ArtBreakFlags break_flags)
 {
-  double left_x0, left_y0, left_x1;
-  double left_y1 = left_seg->y1;
-  double right_y1 = right_seg->y1;
-  double d;
+  gdouble left_x0, left_y0, left_x1;
+  gdouble left_y1 = left_seg->y1;
+  gdouble right_y1 = right_seg->y1;
+  gdouble d;
 
   const ArtSVPSeg *in_seg;
-  int in_curs;
-  double d0, d1, t;
-  double x, y; /* intersection point */
-
+  gint in_curs;
+  gdouble d0, d1, t;
+  gdouble x, y; /* intersection point */
 
   if (left_seg->y0 == right_seg->y0 && left_seg->x[0] == right_seg->x[0])
     {
@@ -855,7 +851,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
       if (left_y1 < right_y1)
 	{
 	  /* Test left (x1, y1) against right segment */
-	  double left_x1 = left_seg->x[1];
+	  gdouble left_x1 = left_seg->x[1];
 
 	  if (left_x1 <
 	      right_seg->x[(right_seg->flags & ART_ACTIVE_FLAGS_BNEG) ^ 1] ||
@@ -867,7 +863,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 	  else if (d < EPSILON_A)
 	    {
 	      /* I'm unsure about the break flags here. */
-	      double right_x1 = art_svp_intersect_break (ctx, right_seg,
+	      gdouble right_x1 = art_svp_intersect_break (ctx, right_seg,
 							 left_x1, left_y1,
 							 ART_BREAK_RIGHT);
 	      if (left_x1 <= right_x1)
@@ -877,7 +873,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
       else if (left_y1 > right_y1)
 	{
 	  /* Test right (x1, y1) against left segment */
-	  double right_x1 = right_seg->x[1];
+	  gdouble right_x1 = right_seg->x[1];
 
 	  if (right_x1 > left_seg->x[left_seg->flags & ART_ACTIVE_FLAGS_BNEG] ||
 	      right_y1 == left_seg->y0)
@@ -888,7 +884,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 	  else if (d > -EPSILON_A)
 	    {
 	      /* See above regarding break flags. */
-	      double left_x1 = art_svp_intersect_break (ctx, left_seg,
+	      gdouble left_x1 = art_svp_intersect_break (ctx, left_seg,
 							right_x1, right_y1,
 							ART_BREAK_LEFT);
 	      if (left_x1 <= right_x1)
@@ -897,8 +893,8 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 	}
       else /* left_y1 == right_y1 */
 	{
-	  double left_x1 = left_seg->x[1];
-	  double right_x1 = right_seg->x[1];
+	  gdouble left_x1 = left_seg->x[1];
+	  gdouble right_x1 = right_seg->x[1];
 
 	  if (left_x1 <= right_x1)
 	    return ART_FALSE;
@@ -910,7 +906,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
   if (left_y1 < right_y1)
     {
       /* Test left (x1, y1) against right segment */
-      double left_x1 = left_seg->x[1];
+      gdouble left_x1 = left_seg->x[1];
 
       if (left_x1 <
 	  right_seg->x[(right_seg->flags & ART_ACTIVE_FLAGS_BNEG) ^ 1] ||
@@ -921,7 +917,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 	return ART_FALSE;
       else if (d < EPSILON_A)
 	{
-	  double right_x1 = art_svp_intersect_break (ctx, right_seg,
+	  gdouble right_x1 = art_svp_intersect_break (ctx, right_seg,
 						     left_x1, left_y1,
 						     ART_BREAK_RIGHT);
 	  if (left_x1 <= right_x1)
@@ -931,7 +927,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
   else if (left_y1 > right_y1)
     {
       /* Test right (x1, y1) against left segment */
-      double right_x1 = right_seg->x[1];
+      gdouble right_x1 = right_seg->x[1];
 
       if (right_x1 > left_seg->x[left_seg->flags & ART_ACTIVE_FLAGS_BNEG] ||
 	  right_y1 == left_seg->y0)
@@ -941,7 +937,7 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 	return ART_FALSE;
       else if (d > -EPSILON_A)
 	{
-	  double left_x1 = art_svp_intersect_break (ctx, left_seg,
+	  gdouble left_x1 = art_svp_intersect_break (ctx, left_seg,
 						    right_x1, right_y1,
 						    ART_BREAK_LEFT);
 	  if (left_x1 <= right_x1)
@@ -949,9 +945,9 @@ art_svp_intersect_test_cross (ArtIntersectCtx *ctx,
 	}
     }
   else /* left_y1 == right_y1 */
-    { 
-      double left_x1 = left_seg->x[1];
-      double right_x1 = right_seg->x[1];
+    {
+      gdouble left_x1 = left_seg->x[1];
+      gdouble right_x1 = right_seg->x[1];
 
       if (left_x1 <= right_x1)
 	return ART_FALSE;
@@ -1168,7 +1164,7 @@ art_svp_intersect_insert_cross (ArtIntersectCtx *ctx,
  **/
 static void
 art_svp_intersect_horiz (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
-			 double x0, double x1)
+			 gdouble x0, gdouble x1)
 {
   ArtActiveSeg *hs;
 
@@ -1209,7 +1205,7 @@ art_svp_intersect_horiz (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
 
       for (left = seg->left; left != NULL; left = seg->left)
 	{
-	  int left_bneg = left->flags & ART_ACTIVE_FLAGS_BNEG;
+	  gint left_bneg = left->flags & ART_ACTIVE_FLAGS_BNEG;
 
 	  if (left->x[left_bneg] <= x1)
 	    break;
@@ -1236,7 +1232,7 @@ art_svp_intersect_horiz (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
 
       for (right = seg->right; right != NULL; right = seg->right)
 	{
-	  int right_bneg = right->flags & ART_ACTIVE_FLAGS_BNEG;
+	  gint right_bneg = right->flags & ART_ACTIVE_FLAGS_BNEG;
 
 	  if (right->x[right_bneg ^ 1] >= x1)
 	    break;
@@ -1291,7 +1287,7 @@ static void
 art_svp_intersect_process_intersection (ArtIntersectCtx *ctx,
 					ArtActiveSeg *seg)
 {
-  int n_stack = --seg->n_stack;
+  gint n_stack = --seg->n_stack;
   seg->x[1] = seg->stack[n_stack - 1].x;
   seg->y1 = seg->stack[n_stack - 1].y;
   seg->x[0] = seg->stack[n_stack].x;
@@ -1305,7 +1301,7 @@ art_svp_intersect_advance_cursor (ArtIntersectCtx *ctx, ArtActiveSeg *seg,
 				  ArtPriPoint *pri_pt)
 {
   const ArtSVPSeg *in_seg = seg->in_seg;
-  int in_curs = seg->in_curs;
+  gint in_curs = seg->in_curs;
   ArtSvpWriter *swr = seg->flags & ART_ACTIVE_FLAGS_OUT ? ctx->out : NULL;
 
   if (swr != NULL)
@@ -1342,7 +1338,7 @@ art_svp_intersect_add_seg (ArtIntersectCtx *ctx, const ArtSVPSeg *in_seg)
 {
   ArtActiveSeg *seg = art_new (ArtActiveSeg, 1);
   ArtActiveSeg *test;
-  double x0, y0;
+  gdouble x0, y0;
   ArtActiveSeg *beg_range;
   ArtActiveSeg *last = NULL;
   ArtActiveSeg *left, *right;
@@ -1356,7 +1352,7 @@ art_svp_intersect_add_seg (ArtIntersectCtx *ctx, const ArtSVPSeg *in_seg)
   seg->stack = art_new (ArtPoint, seg->n_stack_max);
 
   seg->horiz_delta_wind = 0;
-  
+
   seg->wind_left = 0;
 
   pri_pt->user_data = seg;
@@ -1372,8 +1368,8 @@ art_svp_intersect_add_seg (ArtIntersectCtx *ctx, const ArtSVPSeg *in_seg)
   beg_range = NULL;
   for (test = ctx->active_head; test != NULL; test = test->right)
     {
-      double d;
-      int test_bneg = test->flags & ART_ACTIVE_FLAGS_BNEG;
+      gdouble d;
+      gint test_bneg = test->flags & ART_ACTIVE_FLAGS_BNEG;
 
       if (x0 < test->x[test_bneg])
 	{
@@ -1386,7 +1382,8 @@ art_svp_intersect_add_seg (ArtIntersectCtx *ctx, const ArtSVPSeg *in_seg)
       last = test;
     }
 
-  left = art_svp_intersect_add_point (ctx, x0, y0, last, ART_BREAK_LEFT | ART_BREAK_RIGHT);
+  left = art_svp_intersect_add_point (ctx, x0, y0, last,
+                                      ART_BREAK_LEFT | ART_BREAK_RIGHT);
   seg->left = left;
   if (left == NULL)
     {
@@ -1408,35 +1405,6 @@ art_svp_intersect_add_seg (ArtIntersectCtx *ctx, const ArtSVPSeg *in_seg)
   art_svp_intersect_insert_line (ctx, seg);
 }
 
-#ifdef SANITYCHECK
-static void
-art_svp_intersect_sanitycheck_winding (ArtIntersectCtx *ctx)
-{
-#if 0
-  /* At this point, we seem to be getting false positives, so it's
-     turned off for now. */
-
-  ArtActiveSeg *seg;
-  int winding_number = 0;
-
-  for (seg = ctx->active_head; seg != NULL; seg = seg->right)
-    {
-      /* Check winding number consistency. */
-      if (seg->flags & ART_ACTIVE_FLAGS_OUT)
-	{
-	  if (winding_number != seg->wind_left)
-	    art_warn ("*** art_svp_intersect_sanitycheck_winding: seg %lx has wind_left of %d, expected %d\n",
-		  (unsigned long) seg, seg->wind_left, winding_number);
-	  winding_number = seg->wind_left + seg->delta_wind;
-	}
-    }
-  if (winding_number != 0)
-    art_warn ("*** art_svp_intersect_sanitycheck_winding: non-balanced winding number %d\n",
-	      winding_number);
-#endif
-}
-#endif
-
 /**
  * art_svp_intersect_horiz_commit: Commit points in horiz list to output.
  * @ctx: Intersection context.
@@ -1457,22 +1425,22 @@ static void
 art_svp_intersect_horiz_commit (ArtIntersectCtx *ctx)
 {
   ArtActiveSeg *seg;
-  int winding_number = 0; /* initialization just to avoid warning */
-  int horiz_wind = 0;
-  double last_x = 0; /* initialization just to avoid warning */
+  gint winding_number = 0; /* initialization just to avoid warning */
+  gint horiz_wind = 0;
+  gdouble last_x = 0; /* initialization just to avoid warning */
 
   /* Output points to svp writer. */
   for (seg = ctx->horiz_first; seg != NULL;)
     {
       /* Find a cluster with common horiz_x, */
       ArtActiveSeg *curs;
-      double x = seg->horiz_x;
+      gdouble x = seg->horiz_x;
 
       /* Generate any horizontal segments. */
       if (horiz_wind != 0)
 	{
 	  ArtSvpWriter *swr = ctx->out;
-	  int seg_id;
+	  gint seg_id;
 
 	  seg_id = swr->add_segment (swr, winding_number, horiz_wind,
 				     last_x, ctx->y);
@@ -1552,9 +1520,6 @@ art_svp_intersect_horiz_commit (ArtIntersectCtx *ctx)
     }
   ctx->horiz_first = NULL;
   ctx->horiz_last = NULL;
-#ifdef SANITYCHECK
-  art_svp_intersect_sanitycheck_winding (ctx);
-#endif
 }
 
 #ifdef SANITYCHECK
@@ -1563,7 +1528,7 @@ art_svp_intersect_sanitycheck (ArtIntersectCtx *ctx)
 {
   ArtActiveSeg *seg;
   ArtActiveSeg *last = NULL;
-  double d;
+  gdouble d;
 
   for (seg = ctx->active_head; seg != NULL; seg = seg->right)
     {
@@ -1687,7 +1652,7 @@ art_svp_intersector (const ArtSVP *in, ArtSvpWriter *out)
 	}
       else
 	{
-	  int n_stack = seg->n_stack;
+	  gint n_stack = seg->n_stack;
 
 	  if (n_stack > 1)
 	    {

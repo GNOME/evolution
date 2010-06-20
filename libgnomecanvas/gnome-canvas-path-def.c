@@ -66,10 +66,10 @@ gnome_canvas_path_def_get_type (void)
 
 /**
  * gnome_canvas_path_def_new:
- * 
+ *
  * This function creates a new empty #gnome_canvas_path_def.
  *
- * Returns: the new canvas path definition. 
+ * Returns: the new canvas path definition.
  */
 GnomeCanvasPathDef *
 gnome_canvas_path_def_new (void)
@@ -289,7 +289,7 @@ gnome_canvas_path_def_ensure_space (GnomeCanvasPathDef * path, gint space)
  * array is freed and @dest is marked as non-static (editable),
  * regardless of the status of @src.
  */
-void 
+void
 gnome_canvas_path_def_copy (GnomeCanvasPathDef * dst, const GnomeCanvasPathDef * src)
 {
 	g_return_if_fail (dst != NULL);
@@ -304,7 +304,6 @@ gnome_canvas_path_def_copy (GnomeCanvasPathDef * dst, const GnomeCanvasPathDef *
 
 	dst->sbpath = FALSE;
 }
-
 
 /**
  * gnome_canvas_path_def_duplicate:
@@ -407,7 +406,9 @@ gnome_canvas_path_def_split (const GnomeCanvasPathDef * path)
 
 	while (p < path->end) {
 		i = 1;
-		while ((path->bpath[p + i].code == ART_LINETO) || (path->bpath[p + i].code == ART_CURVETO)) i++;
+		while ((path->bpath[p + i].code == ART_LINETO) ||
+		       (path->bpath[p + i].code == ART_CURVETO))
+			i++;
 		new = gnome_canvas_path_def_new_sized (i + 1);
 		memcpy (new->bpath, path->bpath + p, i * sizeof (ArtBpath));
 		new->end = i;
@@ -424,7 +425,7 @@ gnome_canvas_path_def_split (const GnomeCanvasPathDef * path)
 /**
  * gnome_canvas_path_def_open_parts:
  * @path: a GnomeCanvasPathDef
- * 
+ *
  * This function creates a new GnomeCanvasPathDef that contains all of
  * the open segments on the passed @path.
  *
@@ -496,7 +497,7 @@ gnome_canvas_path_def_open_parts (const GnomeCanvasPathDef * path)
 /**
  * gnome_canvas_path_def_closed_parts:
  * @path: a GnomeCanvasPathDef
- * 
+ *
  * This function returns a new GnomeCanvasPathDef that contains the
  * all of close parts of passed @path.
  *
@@ -668,7 +669,6 @@ gnome_canvas_path_def_unref (GnomeCanvasPathDef * path)
 	}
 }
 
-
 /* Methods */
 /**
  * gnome_canvas_path_def_reset:
@@ -781,7 +781,6 @@ gnome_canvas_path_def_lineto (GnomeCanvasPathDef * path, gdouble x, gdouble y)
 	path->end++;
 }
 
-
 /**
  * gnome_canvas_path_def_lineto_moving:
  * @path: a GnomeCanvasPathDef
@@ -793,7 +792,7 @@ gnome_canvas_path_def_lineto (GnomeCanvasPathDef * path, gdouble x, gdouble y)
  * can change the coordinates of loose endpoint as many times as you want,
  * the last ones set will be fixed, if you continue line. This is useful
  * for handling drawing with mouse.
- */ 
+ */
 void
 gnome_canvas_path_def_lineto_moving (GnomeCanvasPathDef * path, gdouble x, gdouble y)
 {
@@ -860,9 +859,15 @@ gnome_canvas_path_def_lineto_moving (GnomeCanvasPathDef * path, gdouble x, gdoub
  *
  * This function adds a bezier curve segment to the path definition.
  */
- 
+
 void
-gnome_canvas_path_def_curveto (GnomeCanvasPathDef * path, gdouble x0, gdouble y0, gdouble x1, gdouble y1, gdouble x2, gdouble y2)
+gnome_canvas_path_def_curveto (GnomeCanvasPathDef * path,
+                               gdouble x0,
+                               gdouble y0,
+                               gdouble x1,
+                               gdouble y1,
+                               gdouble x2,
+                               gdouble y2)
 {
 	ArtBpath * bp;
 
@@ -1073,7 +1078,7 @@ gnome_canvas_path_def_currentpoint (const GnomeCanvasPathDef * path, ArtPoint * 
 	} else {
 		p->x = (path->bpath + path->end - 1)->x3;
 		p->y = (path->bpath + path->end - 1)->y3;
-	}	
+	}
 }
 
 /**
@@ -1223,7 +1228,9 @@ sp_bpath_check_subpath (ArtBpath * bpath)
 
 	len = 0;
 
-	for (i = 1; (bpath[i].code != ART_END) && (bpath[i].code != ART_MOVETO) && (bpath[i].code != ART_MOVETO_OPEN); i++) {
+	for (i = 1; (bpath[i].code != ART_END) &&
+		    (bpath[i].code != ART_MOVETO) &&
+		    (bpath[i].code != ART_MOVETO_OPEN); i++) {
 		switch (bpath[i].code) {
 			case ART_LINETO:
 			case ART_CURVETO:
@@ -1251,7 +1258,7 @@ sp_bpath_length (const ArtBpath * bpath)
 
 	g_return_val_if_fail (bpath != NULL, FALSE);
 
-	for (l = 0; bpath[l].code != ART_END; l++) ;
+	for (l = 0; bpath[l].code != ART_END; l++);
 
 	l++;
 
@@ -1283,5 +1290,4 @@ sp_bpath_all_open (const ArtBpath * bpath)
 
 	return TRUE;
 }
-
 

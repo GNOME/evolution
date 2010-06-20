@@ -167,10 +167,12 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	GtkWidget *combobox;
 	gint i;
 	GtkTreeViewColumn *column;
+	GtkTreeModel *model;
 	GSList *sources = NULL;
 
-        combobox = e_builder_get_widget (builder, "filter_source_combobox");
-	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox))));
+	combobox = e_builder_get_widget (builder, "filter_source_combobox");
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+	gtk_list_store_clear (GTK_LIST_STORE (model));
 
 	for (i = 0; source_names[i].source; i++) {
 		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), source_names[i].name);
@@ -182,7 +184,9 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	g_object_set_data_full (G_OBJECT (combobox), "sources", sources, free_sources);
 	gtk_widget_show (combobox);
 
-	e_rule_editor_construct ((ERuleEditor *) fe, (ERuleContext *) fc, builder, source_names[0].source, _("_Filter Rules"));
+	e_rule_editor_construct (
+		(ERuleEditor *) fe, (ERuleContext *) fc,
+		builder, source_names[0].source, _("_Filter Rules"));
 
 	/* Show the Enabled column, we support it here */
 	column = gtk_tree_view_get_column (GTK_TREE_VIEW (E_RULE_EDITOR (fe)->list), 0);

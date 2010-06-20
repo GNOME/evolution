@@ -47,7 +47,6 @@ enum {
 	PROP_SIZE_PIXELS
 };
 
-
 static void gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class);
 static void gnome_canvas_widget_init       (GnomeCanvasWidget      *witem);
 static void gnome_canvas_widget_destroy    (GtkObject              *object);
@@ -60,20 +59,19 @@ static void gnome_canvas_widget_set_property (GObject            *object,
 					      const GValue       *value,
 					      GParamSpec         *pspec);
 
-static void   gnome_canvas_widget_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
-static double gnome_canvas_widget_point       (GnomeCanvasItem *item, double x, double y,
-					       int cx, int cy, GnomeCanvasItem **actual_item);
-static void   gnome_canvas_widget_bounds      (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2);
+static void   gnome_canvas_widget_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
+static gdouble gnome_canvas_widget_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
+					       gint cx, gint cy, GnomeCanvasItem **actual_item);
+static void   gnome_canvas_widget_bounds      (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 static void gnome_canvas_widget_render (GnomeCanvasItem *item,
 					GnomeCanvasBuf *buf);
 static void gnome_canvas_widget_draw (GnomeCanvasItem *item,
 				      GdkDrawable *drawable,
-				      int x, int y,
-				      int width, int height);
+				      gint x, gint y,
+				      gint width, gint height);
 
 static GnomeCanvasItemClass *parent_class;
-
 
 GType
 gnome_canvas_widget_get_type (void)
@@ -205,7 +203,7 @@ static void
 recalc_bounds (GnomeCanvasWidget *witem)
 {
 	GnomeCanvasItem *item;
-	double wx, wy;
+	gdouble wx, wy;
 
 	item = GNOME_CANVAS_ITEM (witem);
 
@@ -299,8 +297,8 @@ gnome_canvas_widget_set_property (GObject            *object,
 	GnomeCanvasItem *item;
 	GnomeCanvasWidget *witem;
 	GObject *obj;
-	int update;
-	int calc_bounds;
+	gint update;
+	gint calc_bounds;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_WIDGET (object));
@@ -333,49 +331,49 @@ gnome_canvas_widget_set_property (GObject            *object,
 		break;
 
 	case PROP_X:
-	        if (witem->x != g_value_get_double (value))
+		if (witem->x != g_value_get_double (value))
 		{
-		        witem->x = g_value_get_double (value);
+			witem->x = g_value_get_double (value);
 			calc_bounds = TRUE;
 		}
 		break;
 
 	case PROP_Y:
-	        if (witem->y != g_value_get_double (value))
+		if (witem->y != g_value_get_double (value))
 		{
-		        witem->y = g_value_get_double (value);
+			witem->y = g_value_get_double (value);
 			calc_bounds = TRUE;
 		}
 		break;
 
 	case PROP_WIDTH:
-	        if (witem->width != fabs (g_value_get_double (value)))
+		if (witem->width != fabs (g_value_get_double (value)))
 		{
-		        witem->width = fabs (g_value_get_double (value));
+			witem->width = fabs (g_value_get_double (value));
 			update = TRUE;
 		}
 		break;
 
 	case PROP_HEIGHT:
-	        if (witem->height != fabs (g_value_get_double (value)))
+		if (witem->height != fabs (g_value_get_double (value)))
 		{
-		        witem->height = fabs (g_value_get_double (value));
+			witem->height = fabs (g_value_get_double (value));
 			update = TRUE;
 		}
 		break;
 
 	case PROP_ANCHOR:
-	        if (witem->anchor != g_value_get_enum (value))
+		if (witem->anchor != g_value_get_enum (value))
 		{
-		        witem->anchor = g_value_get_enum (value);
+			witem->anchor = g_value_get_enum (value);
 			update = TRUE;
 		}
 		break;
 
 	case PROP_SIZE_PIXELS:
-	        if (witem->size_pixels != g_value_get_boolean (value))
+		if (witem->size_pixels != g_value_get_boolean (value))
 		{
-		        witem->size_pixels = g_value_get_boolean (value);
+			witem->size_pixels = g_value_get_boolean (value);
 			update = TRUE;
 		}
 		break;
@@ -441,7 +439,7 @@ gnome_canvas_widget_get_property (GObject            *object,
 }
 
 static void
-gnome_canvas_widget_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_widget_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	GnomeCanvasWidget *witem;
 
@@ -452,11 +450,11 @@ gnome_canvas_widget_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_
 
 	if (witem->widget) {
 		if (witem->size_pixels) {
-			witem->cwidth = (int) (witem->width + 0.5);
-			witem->cheight = (int) (witem->height + 0.5);
+			witem->cwidth = (gint) (witem->width + 0.5);
+			witem->cheight = (gint) (witem->height + 0.5);
 		} else {
-			witem->cwidth = (int) (witem->width * item->canvas->pixels_per_unit + 0.5);
-			witem->cheight = (int) (witem->height * item->canvas->pixels_per_unit + 0.5);
+			witem->cwidth = (gint) (witem->width * item->canvas->pixels_per_unit + 0.5);
+			witem->cheight = (gint) (witem->height * item->canvas->pixels_per_unit + 0.5);
 		}
 
 		gtk_widget_set_size_request (witem->widget, witem->cwidth, witem->cheight);
@@ -477,7 +475,7 @@ gnome_canvas_widget_render (GnomeCanvasItem *item,
 
 	witem = GNOME_CANVAS_WIDGET (item);
 
-	if (witem->widget) 
+	if (witem->widget)
 		gtk_widget_queue_draw (witem->widget);
 #endif
 
@@ -486,8 +484,8 @@ gnome_canvas_widget_render (GnomeCanvasItem *item,
 static void
 gnome_canvas_widget_draw (GnomeCanvasItem *item,
 			  GdkDrawable *drawable,
-			  int x, int y,
-			  int width, int height)
+			  gint x, gint y,
+			  gint width, gint height)
 {
 #if 0
 	GnomeCanvasWidget *witem;
@@ -500,12 +498,12 @@ gnome_canvas_widget_draw (GnomeCanvasItem *item,
 }
 
 static double
-gnome_canvas_widget_point (GnomeCanvasItem *item, double x, double y,
-			   int cx, int cy, GnomeCanvasItem **actual_item)
+gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
+			   gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	GnomeCanvasWidget *witem;
-	double x1, y1, x2, y2;
-	double dx, dy;
+	gdouble x1, y1, x2, y2;
+	gdouble dx, dy;
 
 	witem = GNOME_CANVAS_WIDGET (item);
 
@@ -541,7 +539,7 @@ gnome_canvas_widget_point (GnomeCanvasItem *item, double x, double y,
 }
 
 static void
-gnome_canvas_widget_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+gnome_canvas_widget_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
 	GnomeCanvasWidget *witem;
 

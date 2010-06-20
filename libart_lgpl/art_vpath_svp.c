@@ -31,15 +31,15 @@
 typedef struct _ArtVpathSVPEnd ArtVpathSVPEnd;
 
 struct _ArtVpathSVPEnd {
-  int seg_num;
-  int which; /* 0 = top, 1 = bottom */
-  double x, y;
+  gint seg_num;
+  gint which; /* 0 = top, 1 = bottom */
+  gdouble x, y;
 };
 
 #define EPSILON 1e-6
 
-static int
-art_vpath_svp_point_compare (double x1, double y1, double x2, double y2)
+static gint
+art_vpath_svp_point_compare (gdouble x1, gdouble y1, gdouble x2, gdouble y2)
 {
   if (y1 - EPSILON > y2) return 1;
   if (y1 + EPSILON < y2) return -1;
@@ -48,8 +48,8 @@ art_vpath_svp_point_compare (double x1, double y1, double x2, double y2)
   return 0;
 }
 
-static int
-art_vpath_svp_compare (const void *s1, const void *s2)
+static gint
+art_vpath_svp_compare (gconstpointer s1, gconstpointer s2)
 {
   const ArtVpathSVPEnd *e1 = s1;
   const ArtVpathSVPEnd *e2 = s2;
@@ -83,18 +83,18 @@ art_vpath_svp_compare (const void *s1, const void *s2)
 ArtVpath *
 art_vpath_from_svp (const ArtSVP *svp)
 {
-  int n_segs = svp->n_segs;
+  gint n_segs = svp->n_segs;
   ArtVpathSVPEnd *ends;
   ArtVpath *new;
-  int *visited;
-  int n_new, n_new_max;
-  int i, k;
-  int j = 0; /* Quiet compiler */
-  int seg_num;
-  int first;
-  double last_x, last_y;
-  int n_points;
-  int pt_num;
+  gint *visited;
+  gint n_new, n_new_max;
+  gint i, k;
+  gint j = 0; /* Quiet compiler */
+  gint seg_num;
+  gint first;
+  gdouble last_x, last_y;
+  gint n_points;
+  gint pt_num;
 
   last_x = 0; /* to eliminate "uninitialized" warning */
   last_y = 0;
@@ -102,7 +102,7 @@ art_vpath_from_svp (const ArtSVP *svp)
   ends = art_new (ArtVpathSVPEnd, n_segs * 2);
   for (i = 0; i < svp->n_segs; i++)
     {
-      int lastpt;
+      gint lastpt;
 
       ends[i * 2].seg_num = i;
       ends[i * 2].which = 0;

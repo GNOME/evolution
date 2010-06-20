@@ -50,7 +50,7 @@
 void
 art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, gint n)
 {
-  int i;
+  gint i;
 
   if (r == g && g == b)
     {
@@ -87,10 +87,10 @@ art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, gint n)
  * The implementation of this routine is very highly optimized.
  **/
 void
-art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, int n)
+art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, gint n)
 {
-  int i;
-  unsigned int v1, v2, v3;
+  gint i;
+  guint v1, v2, v3;
 
   if (r == g && g == b)
     {
@@ -157,10 +157,10 @@ art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, int n)
  * opacity @alpha.
  **/
 void
-art_rgb_run_alpha (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, int alpha, int n)
+art_rgb_run_alpha (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, gint alpha, gint n)
 {
-  int i;
-  int v;
+  gint i;
+  gint v;
 
   for (i = 0; i < n; i++)
     {

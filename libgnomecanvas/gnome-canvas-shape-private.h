@@ -80,7 +80,7 @@ struct _GnomeCanvasShapePriv {
 	guint outline_set : 1;		/* Is outline color set? */
 	guint width_pixels : 1;		/* Is outline width specified in pixels or units? */
 
-	double width;			/* Width of outline, in user coords */
+	gdouble width;			/* Width of outline, in user coords */
 
 	guint32 fill_rgba;		/* Fill color, RGBA */
 	guint32 outline_rgba;		/* Outline color, RGBA */
@@ -88,7 +88,7 @@ struct _GnomeCanvasShapePriv {
 	GdkCapStyle cap;		/* Cap style for line */
 	GdkJoinStyle join;		/* Join style for line */
 	ArtWindRule wind;		/* Winding rule */
-	double miterlimit;		/* Miter limit */
+	gdouble miterlimit;		/* Miter limit */
 
 	ArtVpathDash dash;		/* Dashing pattern */
 

@@ -27,11 +27,11 @@ extern "C" {
 #endif
 
 void
-art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, int n);
+art_rgb_fill_run (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, gint n);
 
 void
-art_rgb_run_alpha (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, int alpha,
-		   int n);
+art_rgb_run_alpha (art_u8 *buf, art_u8 r, art_u8 g, art_u8 b, gint alpha,
+		   gint n);
 
 #ifdef __cplusplus
 }

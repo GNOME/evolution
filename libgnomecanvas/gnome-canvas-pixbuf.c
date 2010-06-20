@@ -35,16 +35,16 @@ typedef struct {
 	GdkPixbuf *pixbuf;
 
 	/* Width value */
-	double width;
+	gdouble width;
 
 	/* Height value */
-	double height;
+	gdouble height;
 
 	/* X translation */
-	double x;
+	gdouble x;
 
 	/* Y translation */
-	double y;
+	gdouble y;
 
 	/* Whether dimensions are set and whether they are in pixels or units */
 	guint width_set : 1;
@@ -53,7 +53,7 @@ typedef struct {
 	guint height_in_pixels : 1;
 	guint x_in_pixels : 1;
 	guint y_in_pixels : 1;
-	
+
 	/* Whether the pixbuf has changed */
 	guint need_pixbuf_update : 1;
 
@@ -93,15 +93,19 @@ static void gnome_canvas_pixbuf_get_property (GObject *object,
 					      GValue *value,
 					      GParamSpec *pspec);
 
-static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item, double *affine,
-					ArtSVP *clip_path, int flags);
+static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item, gdouble *affine,
+					ArtSVP *clip_path, gint flags);
 static void gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-				      int x, int y, int width, int height);
+				      gint x, gint y, gint width, gint height);
 static void gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
-static double gnome_canvas_pixbuf_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+static gdouble gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
+					 gdouble x,
+					 gdouble y,
+					 gint cx,
+					 gint cy,
 					 GnomeCanvasItem **actual_item);
 static void gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
-					double *x1, double *y1, double *x2, double *y2);
+					gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 static GnomeCanvasItemClass *parent_class;
 
@@ -276,7 +280,8 @@ gnome_canvas_pixbuf_destroy (GtkObject *object)
 	/* remember, destroy can be run multiple times! */
 
 	if (priv) {
-	    gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+	    gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
 
 	    if (priv->pixbuf)
 		g_object_unref (priv->pixbuf);
@@ -302,7 +307,7 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
 	GdkPixbuf *pixbuf;
-	double val;
+	gdouble val;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_PIXBUF (object));
@@ -495,7 +500,7 @@ gnome_canvas_pixbuf_get_property (GObject            *object,
  * scaled by an affine transformation.
  */
 static void
-compute_xform_scaling (double *affine, ArtPoint *i_c, ArtPoint *j_c)
+compute_xform_scaling (gdouble *affine, ArtPoint *i_c, ArtPoint *j_c)
 {
 	ArtPoint orig, orig_c;
 	ArtPoint i, j;
@@ -526,16 +531,18 @@ compute_xform_scaling (double *affine, ArtPoint *i_c, ArtPoint *j_c)
  * args
  */
 static void
-compute_viewport_affine (GnomeCanvasPixbuf *gcp, double *viewport_affine, double *i2c)
+compute_viewport_affine (GnomeCanvasPixbuf *gcp,
+                         gdouble *viewport_affine,
+                         gdouble *i2c)
 {
 	PixbufPrivate *priv;
 	ArtPoint i_c, j_c;
-	double i_len, j_len;
-	double si_len, sj_len;
-	double ti_len, tj_len;
-	double scale[6], translate[6];
-	double w, h;
-	double x, y;
+	gdouble i_len, j_len;
+	gdouble si_len, sj_len;
+	gdouble ti_len, tj_len;
+	gdouble scale[6], translate[6];
+	gdouble w, h;
+	gdouble x, y;
 
 	priv = gcp->priv;
 
@@ -628,7 +635,7 @@ compute_viewport_affine (GnomeCanvasPixbuf *gcp, double *viewport_affine, double
 	case GTK_ANCHOR_NE:
 		tj_len *= y;
 		break;
-		
+
 	case GTK_ANCHOR_W:
 	case GTK_ANCHOR_CENTER:
 	case GTK_ANCHOR_E:
@@ -649,7 +656,7 @@ compute_viewport_affine (GnomeCanvasPixbuf *gcp, double *viewport_affine, double
 
 	art_affine_scale (scale, si_len, sj_len);
 	art_affine_translate (translate, ti_len, tj_len);
-  	art_affine_multiply (viewport_affine, scale, translate); 
+	art_affine_multiply (viewport_affine, scale, translate);
 }
 
 /* Computes the affine transformation with which the pixbuf needs to be
@@ -658,9 +665,9 @@ compute_viewport_affine (GnomeCanvasPixbuf *gcp, double *viewport_affine, double
  * by some other amount.
  */
 static void
-compute_render_affine (GnomeCanvasPixbuf *gcp, double *ra, double *i2c)
+compute_render_affine (GnomeCanvasPixbuf *gcp, gdouble *ra, gdouble *i2c)
 {
-	double va[6];
+	gdouble va[6];
 
 	compute_viewport_affine (gcp, va, i2c);
 #ifdef GNOME_CANVAS_PIXBUF_VERBOSE
@@ -681,7 +688,7 @@ recompute_bounding_box (GnomeCanvasPixbuf *gcp, gdouble *i2c)
 {
 	GnomeCanvasItem *item;
 	PixbufPrivate *priv;
-	double ra[6];
+	gdouble ra[6];
 	ArtDRect rect;
 
 	item = GNOME_CANVAS_ITEM (gcp);
@@ -723,7 +730,10 @@ recompute_bounding_box (GnomeCanvasPixbuf *gcp, gdouble *i2c)
 
 /* Update handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
+                            gdouble *affine,
+                            ArtSVP *clip_path,
+                            gint flags)
 {
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
@@ -765,9 +775,11 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_
 		priv->need_xform_update = FALSE;
 	}
 #else   /* ordinary update logic */
-        gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+        gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
         recompute_bounding_box (gcp, affine);
-        gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+        gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
         priv->need_pixbuf_update = FALSE;
         priv->need_xform_update = FALSE;
 #endif
@@ -778,21 +790,31 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_
 /* Rendering */
 
 /* This is private to libart, but we need it.  Sigh. */
-extern void art_rgb_affine_run (int *p_x0, int *p_x1, int y, int src_width, int src_height,
-				const double affine[6]);
+extern void art_rgb_affine_run (gint *p_x0,
+                                gint *p_x1,
+                                gint y,
+                                gint src_width,
+                                gint src_height,
+                                const gdouble affine[6]);
 
 /* Fills the specified buffer with the transformed version of a pixbuf */
 static void
-transform_pixbuf (guchar *dest, int x, int y, int width, int height, int rowstride,
-		  GdkPixbuf *pixbuf, double *affine)
+transform_pixbuf (guchar *dest,
+                  gint x,
+                  gint y,
+                  gint width,
+                  gint height,
+                  gint rowstride,
+                  GdkPixbuf *pixbuf,
+                  gdouble *affine)
 {
-	int xx, yy;
-	double inv[6];
+	gint xx, yy;
+	gdouble inv[6];
 	guchar *src, *d;
 	ArtPoint src_p, dest_p;
-	int run_x1, run_x2;
-	int src_x, src_y;
-	int i;
+	gint run_x1, run_x2;
+	gint src_x, src_y;
+	gint i;
 
 	art_affine_invert (inv, affine);
 
@@ -831,15 +853,15 @@ transform_pixbuf (guchar *dest, int x, int y, int width, int height, int rowstri
 /* Draw handler for the pixbuf canvas item */
 static void
 gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-			  int x, int y, int width, int height)
+			  gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
-	double i2c[6], render_affine[6];
+	gdouble i2c[6], render_affine[6];
 	guchar *buf;
 	GdkPixbuf *pixbuf;
 	ArtIRect p_rect, a_rect, d_rect;
-	int w, h;
+	gint w, h;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -901,7 +923,7 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 {
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
-	double i2c[6], render_affine[6];
+	gdouble i2c[6], render_affine[6];
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -913,14 +935,13 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 	compute_render_affine (gcp, render_affine, i2c);
         gnome_canvas_buf_ensure_buf (buf);
 
-
 	if ((fabs (render_affine[1]) < GNOME_CANVAS_EPSILON) &&
 	    (fabs (render_affine[2]) < GNOME_CANVAS_EPSILON) &&
 	    render_affine[0] > 0.0 &&
 	    render_affine[3] > 0.0)
 	  {
 	    GdkPixbuf *dest_pixbuf;
-	    int x0, y0, x1, y1;
+	    gint x0, y0, x1, y1;
 
 	    dest_pixbuf = gdk_pixbuf_new_from_data (buf->buf,
 						    GDK_COLORSPACE_RGB,
@@ -930,7 +951,6 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 						    buf->rect.y1 - buf->rect.y0,
 						    buf->buf_rowstride,
 						    NULL, NULL);
-
 
 	    x0 = floor (render_affine[4] - buf->rect.x0 + 0.5);
 	    y0 = floor (render_affine[5] - buf->rect.y0 + 0.5);
@@ -942,12 +962,12 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 	    x0 = MIN (x0, buf->rect.x1 - buf->rect.x0);
 	    y0 = MAX (y0, 0);
 	    y0 = MIN (y0, buf->rect.y1 - buf->rect.y0);
-	    
+
 	    x1 = MAX (x1, 0);
 	    x1 = MIN (x1, buf->rect.x1 - buf->rect.x0);
 	    y1 = MAX (y1, 0);
 	    y1 = MIN (y1, buf->rect.y1 - buf->rect.y0);
-	    
+
 	    gdk_pixbuf_composite  (priv->pixbuf,
 				   dest_pixbuf,
 				   x0, y0,
@@ -991,15 +1011,19 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 
 /* Point handler for the pixbuf canvas item */
 static double
-gnome_canvas_pixbuf_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-			   GnomeCanvasItem **actual_item)
+gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
+                           gdouble x,
+                           gdouble y,
+                           gint cx,
+                           gint cy,
+                           GnomeCanvasItem **actual_item)
 {
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
-	double i2c[6], render_affine[6], inv[6];
+	gdouble i2c[6], render_affine[6], inv[6];
 	ArtPoint c, p;
-	int px, py;
-	double no_hit;
+	gint px, py;
+	gdouble no_hit;
 	guchar *src;
 	GdkPixbuf *pixbuf;
 
@@ -1045,11 +1069,15 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item, double x, double y, int cx, in
 
 /* Bounds handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
+                            gdouble *x1,
+                            gdouble *y1,
+                            gdouble *x2,
+                            gdouble *y2)
 {
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
-	double i2c[6], viewport_affine[6];
+	gdouble i2c[6], viewport_affine[6];
 	ArtDRect rect;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);

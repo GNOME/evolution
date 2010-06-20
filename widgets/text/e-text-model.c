@@ -48,15 +48,26 @@ struct _ETextModelPrivate {
 	GString *text;
 };
 
-static void e_text_model_dispose    (GObject *object);
+static void	e_text_model_dispose		(GObject *object);
 
-static gint         e_text_model_real_validate_position (ETextModel *, gint pos);
-static const gchar *e_text_model_real_get_text          (ETextModel *model);
-static gint         e_text_model_real_get_text_length   (ETextModel *model);
-static void         e_text_model_real_set_text          (ETextModel *model, const gchar *text);
-static void         e_text_model_real_insert            (ETextModel *model, gint postion, const gchar *text);
-static void         e_text_model_real_insert_length     (ETextModel *model, gint postion, const gchar *text, gint length);
-static void         e_text_model_real_delete            (ETextModel *model, gint postion, gint length);
+static gint	e_text_model_real_validate_position
+						(ETextModel *, gint pos);
+static const gchar *
+		e_text_model_real_get_text	(ETextModel *model);
+static gint	e_text_model_real_get_text_length
+						(ETextModel *model);
+static void	e_text_model_real_set_text	(ETextModel *model,
+						 const gchar *text);
+static void	e_text_model_real_insert	(ETextModel *model,
+						 gint postion,
+						 const gchar *text);
+static void	e_text_model_real_insert_length	(ETextModel *model,
+						 gint postion,
+						 const gchar *text,
+						 gint length);
+static void	e_text_model_real_delete	(ETextModel *model,
+						 gint postion,
+						 gint length);
 
 G_DEFINE_TYPE (ETextModel, e_text_model, G_TYPE_OBJECT)
 
@@ -219,7 +230,10 @@ e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 }
 
 static void
-e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
+e_text_model_real_insert_length (ETextModel *model,
+                                 gint position,
+                                 const gchar *text,
+                                 gint length)
 {
 	EReposInsertShift repos;
 	gint model_len = e_text_model_real_get_text_length (model);
@@ -392,7 +406,10 @@ e_text_model_insert (ETextModel *model, gint position, const gchar *text)
 }
 
 void
-e_text_model_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
+e_text_model_insert_length (ETextModel *model,
+                            gint position,
+                            const gchar *text,
+                            gint length)
 {
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));

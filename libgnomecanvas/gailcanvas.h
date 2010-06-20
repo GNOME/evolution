@@ -1,4 +1,4 @@
-/* gailcanvas.h - code from GAIL, the 
+/* gailcanvas.h - code from GAIL, the
  * Gnome Accessibility Implementation Library
  * Copyright 2001-2006 Sun Microsystems Inc.
  *
@@ -55,7 +55,6 @@ struct _GailCanvasFactoryClass
 {
   AtkObjectFactoryClass parent_class;
 };
-
 
 GType gail_canvas_get_type (void);
 

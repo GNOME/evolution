@@ -36,12 +36,9 @@
 #ifndef GNOME_CANVAS_TEXT_H
 #define GNOME_CANVAS_TEXT_H
 
-
 #include <libgnomecanvas/gnome-canvas.h>
 
-
 G_BEGIN_DECLS
-
 
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
  *
@@ -64,34 +61,34 @@ G_BEGIN_DECLS
  * text			string			RW		The string of the text label
  * markup		string			 W		A Pango markup string for the text label
  *
- * x			double			RW		X coordinate of anchor point
- * y			double			RW		Y coordinate of anchor point
+ * x			gdouble			RW		X coordinate of anchor point
+ * y			gdouble			RW		Y coordinate of anchor point
  *
  * font			string			 W		A string describing the font
- * font_desc	        PangoFontDescription*	RW		Pointer to a PangoFontDescriptor
+ * font_desc		PangoFontDescription*	RW		Pointer to a PangoFontDescriptor
  * attributes           PangoAttrList*          RW		Pointer to a Pango attribute list
  * style		PangoStyle		RW		Pango style of font to use	[*]
  * variant		PangoVariant		RW		Pango variant of font to use	[*]
- * weight		int			RW		Pango weight of font to use	[*]
+ * weight		gint			RW		Pango weight of font to use	[*]
  * stretch		PangoStretch		RW		Pango stretch of font to use	[*]
- * size			int			RW		Size (in pixels) of font	[*]
- * size_points		double			RW		Size (in points) of font
- * scale                double                  RW              Ratio to scale font		[*]
+ * size			gint			RW		Size (in pixels) of font	[*]
+ * size_points		gdouble			RW		Size (in points) of font
+ * scale                gdouble                  RW              Ratio to scale font		[*]
  *
  * anchor		GtkAnchorType		RW		Anchor side for the text
  * justification	GtkJustification	RW		Justification for multiline text
- * clip_width		double			RW		Width of clip rectangle
- * clip_height		double			RW		Height of clip rectangle
+ * clip_width		gdouble			RW		Width of clip rectangle
+ * clip_height		gdouble			RW		Height of clip rectangle
  * clip			boolean			RW		Use clipping rectangle?
- * x_offset		double			RW		Horizontal offset distance from anchor position
- * y_offset		double			RW		Vertical offset distance from anchor position
+ * x_offset		gdouble			RW		Horizontal offset distance from anchor position
+ * y_offset		gdouble			RW		Vertical offset distance from anchor position
  *
- * text_width		double			R		Used to query the width of the rendered text
- * text_height		double			R		Used to query the rendered height of the text
+ * text_width		gdouble			R		Used to query the width of the rendered text
+ * text_height		gdouble			R		Used to query the rendered height of the text
  *
  * fill_color		string			 W		X color specification for text
  * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
- * fill_color_rgba	guint   		RW		RGBA value used for AA color.
+ * fill_color_rgba	guint			RW		RGBA value used for AA color.
  * fill_stipple		GdkBitmap*		RW		Stipple pattern for filling the text
  */
 
@@ -101,7 +98,6 @@ G_BEGIN_DECLS
 #define GNOME_IS_CANVAS_TEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_TEXT))
 #define GNOME_IS_CANVAS_TEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_TEXT))
 #define GNOME_CANVAS_TEXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_TEXT, GnomeCanvasTextClass))
-
 
 typedef struct _GnomeCanvasText GnomeCanvasText;
 typedef struct _GnomeCanvasTextClass GnomeCanvasTextClass;
@@ -115,33 +111,33 @@ struct _GnomeCanvasText {
 	PangoAttrList *attr_list;        /* Attribute list of the text (caching) */
 	PangoUnderline underline;
 	gboolean       strikethrough;
-	int            rise;
-	double         scale;
-	
-	char *text;			/* Text to display */
+	gint            rise;
+	gdouble         scale;
+
+	gchar *text;			/* Text to display */
 	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
         PangoLayout *layout;            /* The PangoLayout containing the text */
 
 	gulong pixel;			/* Fill color */
 
-	double x, y;			/* Position at anchor */
+	gdouble x, y;			/* Position at anchor */
 
-	double clip_width;		/* Width of optional clip rectangle */
-	double clip_height;		/* Height of optional clip rectangle */
+	gdouble clip_width;		/* Width of optional clip rectangle */
+	gdouble clip_height;		/* Height of optional clip rectangle */
 
-	double xofs, yofs;		/* Text offset distance from anchor position */
+	gdouble xofs, yofs;		/* Text offset distance from anchor position */
 
-	double affine[6];               /* The item -> canvas affine */ /*AA*/
+	gdouble affine[6];               /* The item -> canvas affine */ /*AA*/
 
 	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
 
-	int cx, cy;			/* Top-left canvas coordinates for text */
-	int clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
-	int clip_cwidth, clip_cheight;	/* Size of clip rectangle in pixels */
-	int max_width;			/* Maximum width of text lines */
-	int height;			/* Rendered text height in pixels */
+	gint cx, cy;			/* Top-left canvas coordinates for text */
+	gint clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
+	gint clip_cwidth, clip_cheight;	/* Size of clip rectangle in pixels */
+	gint max_width;			/* Maximum width of text lines */
+	gint height;			/* Rendered text height in pixels */
 
         guint32 rgba;			/* RGBA color for text */ /*AA*/
 
@@ -153,17 +149,15 @@ struct _GnomeCanvasText {
 
 	guint scale_set     : 1;        /* Apply specified font scaling ratio? */
 
-	GnomeCanvasTextPrivate *priv;	
+	GnomeCanvasTextPrivate *priv;
 };
 
 struct _GnomeCanvasTextClass {
 	GnomeCanvasItemClass parent_class;
 };
 
-
 /* Standard Gtk function */
 GType gnome_canvas_text_get_type (void) G_GNUC_CONST;
-
 
 G_END_DECLS
 

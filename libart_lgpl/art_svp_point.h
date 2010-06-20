@@ -28,18 +28,15 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int
-art_svp_point_wind (ArtSVP *svp, double x, double y);
+gint
+art_svp_point_wind (ArtSVP *svp, gdouble x, gdouble y);
 
-double
-art_svp_point_dist (ArtSVP *svp, double x, double y);
+gdouble
+art_svp_point_dist (ArtSVP *svp, gdouble x, gdouble y);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
 #endif /* __ART_SVP_H__ */
-
-
-
 

@@ -32,29 +32,29 @@ typedef struct _ArtSVPRenderAAStep ArtSVPRenderAAStep;
 typedef struct _ArtSVPRenderAAIter ArtSVPRenderAAIter;
 
 struct _ArtSVPRenderAAStep {
-  int x;
-  int delta; /* stored with 16 fractional bits */
+  gint x;
+  gint delta; /* stored with 16 fractional bits */
 };
 
 ArtSVPRenderAAIter *
 art_svp_render_aa_iter (const ArtSVP *svp,
-			int x0, int y0, int x1, int y1);
+			gint x0, gint y0, gint x1, gint y1);
 
 void
-art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, int *p_start,
-			     ArtSVPRenderAAStep **p_steps, int *p_n_steps);
+art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, gint *p_start,
+			     ArtSVPRenderAAStep **p_steps, gint *p_n_steps);
 
 void
 art_svp_render_aa_iter_done (ArtSVPRenderAAIter *iter);
 
 void
 art_svp_render_aa (const ArtSVP *svp,
-		   int x0, int y0, int x1, int y1,
-		   void (*callback) (void *callback_data,
-				     int y,
-				     int start,
-				     ArtSVPRenderAAStep *steps, int n_steps),
-		   void *callback_data);
+		   gint x0, gint y0, gint x1, gint y1,
+		   void (*callback) (gpointer callback_data,
+				     gint y,
+				     gint start,
+				     ArtSVPRenderAAStep *steps, gint n_steps),
+		   gpointer callback_data);
 
 #ifdef __cplusplus
 }

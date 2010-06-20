@@ -39,10 +39,10 @@ art_uta_from_irect (ArtIRect *bbox)
   ArtUta *uta;
   ArtUtaBbox *utiles;
   ArtUtaBbox bb;
-  int width, height;
-  int x, y;
-  int xf0, yf0, xf1, yf1;
-  int ix;
+  gint width, height;
+  gint x, y;
+  gint xf0, yf0, xf1, yf1;
+  gint ix;
 
   uta = art_new (ArtUta, 1);
   uta->x0 = bbox->x0 >> ART_UTILE_SHIFT;

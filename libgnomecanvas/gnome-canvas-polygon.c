@@ -61,7 +61,7 @@ static void gnome_canvas_polygon_get_property (GObject              *object,
 					       GValue               *value,
 					       GParamSpec           *pspec);
 
-static void gnome_canvas_polygon_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
+static void gnome_canvas_polygon_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 
 static GnomeCanvasItemClass *parent_class;
 
@@ -137,11 +137,10 @@ gnome_canvas_polygon_destroy (GtkObject *object)
 
 	/* remember, destroy can be run multiple times! */
 
-	if(poly->path_def)
+	if (poly->path_def)
 		gnome_canvas_path_def_unref(poly->path_def);
 
 	poly->path_def = NULL;
-
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -150,8 +149,7 @@ gnome_canvas_polygon_destroy (GtkObject *object)
 static void
 set_points (GnomeCanvasPolygon *poly, GnomeCanvasPoints *points)
 {
-	int i;
-
+	gint i;
 
 	if (poly->path_def)
 		gnome_canvas_path_def_unref(poly->path_def);
@@ -161,7 +159,6 @@ set_points (GnomeCanvasPolygon *poly, GnomeCanvasPoints *points)
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (poly), poly->path_def);
 		return;
 	}
-
 
 	/* Optomize the path def to the number of points */
 	poly->path_def = gnome_canvas_path_def_new_sized(points->num_points+1);
@@ -173,9 +170,8 @@ set_points (GnomeCanvasPolygon *poly, GnomeCanvasPoints *points)
 		     || (points->coords[1] != points->coords[2 * points->num_points - 1]));
 #endif
 
-	
 	gnome_canvas_path_def_moveto (poly->path_def, points->coords[0], points->coords[1]);
-	
+
 	for (i = 1; i < points->num_points; i++) {
 		gnome_canvas_path_def_lineto(poly->path_def, points->coords[i * 2], points->coords[(i * 2) + 1]);
 	}
@@ -184,7 +180,6 @@ set_points (GnomeCanvasPolygon *poly, GnomeCanvasPoints *points)
 
 	gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (poly), poly->path_def);
 }
-
 
 static void
 gnome_canvas_polygon_set_property (GObject              *object,
@@ -210,12 +205,11 @@ gnome_canvas_polygon_set_property (GObject              *object,
 
 		gnome_canvas_item_request_update (item);
 		break;
- 	default:
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
 	}
 }
-
 
 static void
 gnome_canvas_polygon_get_property (GObject              *object,
@@ -235,9 +229,8 @@ gnome_canvas_polygon_get_property (GObject              *object,
 	}
 }
 
-
 static void
-gnome_canvas_polygon_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_polygon_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	/* Since the path has already been defined just pass the update up. */
 

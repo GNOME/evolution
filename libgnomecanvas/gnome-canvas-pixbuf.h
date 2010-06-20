@@ -23,7 +23,6 @@
 #ifndef GNOME_CANVAS_PIXBUF_H
 #define GNOME_CANVAS_PIXBUF_H
 
-
 #include <libgnomecanvas/gnome-canvas.h>
 
 G_BEGIN_DECLS
@@ -36,7 +35,6 @@ G_BEGIN_DECLS
 #define GNOME_IS_CANVAS_PIXBUF(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_PIXBUF))
 #define GNOME_IS_CANVAS_PIXBUF_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_PIXBUF))
 #define GNOME_CANVAS_PIXBUF_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufClass))
-
 
 typedef struct _GnomeCanvasPixbuf GnomeCanvasPixbuf;
 typedef struct _GnomeCanvasPixbufClass GnomeCanvasPixbufClass;
@@ -51,7 +49,6 @@ struct _GnomeCanvasPixbuf {
 struct _GnomeCanvasPixbufClass {
 	GnomeCanvasItemClass parent_class;
 };
-
 
 GType gnome_canvas_pixbuf_get_type (void) G_GNUC_CONST;
 

@@ -29,14 +29,13 @@
 
 #include "art_vpath.h"
 
-
 /* Return the length of the largest subpath within vpath */
-static int
+static gint
 art_vpath_dash_max_subpath (const ArtVpath *vpath)
 {
-  int max_subpath;
-  int i;
-  int start;
+  gint max_subpath;
+  gint i;
+  gint start;
 
   max_subpath = 0;
   start = 0;
@@ -79,23 +78,23 @@ art_vpath_dash_max_subpath (const ArtVpath *vpath)
 ArtVpath *
 art_vpath_dash (const ArtVpath *vpath, const ArtVpathDash *dash)
 {
-  int max_subpath;
-  double *dists;
+  gint max_subpath;
+  gdouble *dists;
   ArtVpath *result;
-  int n_result, n_result_max;
-  int start, end;
-  int i;
-  double total_dist;
+  gint n_result, n_result_max;
+  gint start, end;
+  gint i;
+  gdouble total_dist;
 
   /* state while traversing dasharray - offset is offset of current dash
      value, toggle is 0 for "off" and 1 for "on", and phase is the distance
      in, >= 0, < dash->dash[offset]. */
-  int offset, toggle;
-  double phase;
+  gint offset, toggle;
+  gdouble phase;
 
   /* initial values */
-  int offset_init, toggle_init;
-  double phase_init;
+  gint offset_init, toggle_init;
+  gdouble phase_init;
 
   max_subpath = art_vpath_dash_max_subpath (vpath);
   dists = art_new (double, max_subpath);
@@ -124,7 +123,7 @@ art_vpath_dash (const ArtVpath *vpath, const ArtVpathDash *dash)
       total_dist = 0;
       for (i = start; i < end - 1; i++)
 	{
-	  double dx, dy;
+	  gdouble dx, dy;
 
 	  dx = vpath[i + 1].x - vpath[i].x;
 	  dy = vpath[i + 1].y - vpath[i].y;
@@ -145,7 +144,7 @@ art_vpath_dash (const ArtVpath *vpath, const ArtVpathDash *dash)
 	{
 	  /* subpath is composed of at least one dash - thus all
 	     generated pieces are open */
-	  double dist;
+	  gdouble dist;
 
 	  phase = phase_init;
 	  offset = offset_init;
@@ -160,8 +159,8 @@ art_vpath_dash (const ArtVpath *vpath, const ArtVpathDash *dash)
 	      if (dists[i - start] - dist > dash->dash[offset] - phase)
 		{
 		  /* dash boundary is next */
-		  double a;
-		  double x, y;
+		  gdouble a;
+		  gdouble x, y;
 
 		  dist += dash->dash[offset] - phase;
 		  a = dist / dists[i - start];

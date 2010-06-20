@@ -33,13 +33,11 @@
 #include "gal-a11y-e-text.h"
 #include "gal-a11y-e-text-factory.h"
 
-#define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETextClass))
 static GObjectClass *parent_class;
 static AtkComponentIface *component_parent_iface;
 static GType parent_type;
 static gint priv_offset;
 static GQuark		quark_accessible_object = 0;
-#define GET_PRIVATE(object) ((GalA11yETextPrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETextPrivate {
@@ -63,7 +61,8 @@ et_get_extents (AtkComponent *component,
 		gint *height,
 		AtkCoordType coord_type)
 {
-	EText *item = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component)));
+	EText *item = E_TEXT (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (component)));
 	gdouble real_width;
 	gdouble real_height;
 	gint fake_width;
@@ -92,7 +91,8 @@ et_get_extents (AtkComponent *component,
 static const gchar *
 et_get_full_text (AtkText *text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
+	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (text)));
 	ETextModel *model;
 	const gchar *full_text;
 
@@ -107,7 +107,8 @@ static void
 et_set_full_text (AtkEditableText *text,
 		  const gchar *full_text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
+	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (text)));
 	ETextModel *model;
 
 	g_object_get (etext, "model", &model, NULL);
@@ -655,7 +656,8 @@ et_get_offset_at_point (AtkText *text,
 static gint
 et_get_n_selections (AtkText *text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
+	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (text)));
 	if (etext->selection_start !=
 	    etext->selection_end)
 		return 1;
@@ -836,7 +838,9 @@ et_insert_text (AtkEditableText *text,
 	if (full_text == NULL)
 		return;
 
-	result = g_strdup_printf ("%.*s%.*s%s", *position, full_text, length, string, full_text + *position);
+	result = g_strdup_printf (
+		"%.*s%.*s%s", *position, full_text,
+		length, string, full_text + *position);
 
 	et_set_full_text (text, result);
 
@@ -1033,21 +1037,18 @@ et_class_init (GalA11yETextClass *klass)
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	AtkObjectClass *atk_class = ATK_OBJECT_CLASS (klass);
 
-	quark_accessible_object               = g_quark_from_static_string ("gtk-accessible-object");
-	parent_class                          = g_type_class_ref (PARENT_TYPE);
-	component_parent_iface                = g_type_interface_peek(parent_class, ATK_TYPE_COMPONENT);
-	object_class->dispose                 = et_dispose;
-	atk_class->initialize                 = et_real_initialize;
+	quark_accessible_object =
+		g_quark_from_static_string ("gtk-accessible-object");
+	parent_class = g_type_class_ref (PARENT_TYPE);
+	component_parent_iface =
+		g_type_interface_peek (parent_class, ATK_TYPE_COMPONENT);
+	object_class->dispose = et_dispose;
+	atk_class->initialize = et_real_initialize;
 }
 
 static void
 et_init (GalA11yEText *a11y)
 {
-#if 0
-	GalA11yETextPrivate *priv;
-
-	priv = GET_PRIVATE (a11y);
-#endif
 }
 
 /**
@@ -1096,11 +1097,13 @@ gal_a11y_e_text_get_type (void)
 			NULL
 		};
 
-		factory = atk_registry_get_factory (atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
 		parent_type = atk_object_factory_get_accessible_type (factory);
 
-		type = gal_a11y_type_register_static_with_private (PARENT_TYPE, "GalA11yEText", &info, 0,
-								   sizeof (GalA11yETextPrivate), &priv_offset);
+		type = gal_a11y_type_register_static_with_private (
+			PARENT_TYPE, "GalA11yEText", &info, 0,
+			sizeof (GalA11yETextPrivate), &priv_offset);
 
 		g_type_add_interface_static (type, ATK_TYPE_COMPONENT, &atk_component_info);
 		g_type_add_interface_static (type, ATK_TYPE_TEXT, &atk_text_info);

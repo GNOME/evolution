@@ -45,8 +45,7 @@ static void gnome_canvas_bpath_get_property (GObject               *object,
 					     GValue                *value,
                                              GParamSpec            *pspec);
 
-static void   gnome_canvas_bpath_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
-
+static void   gnome_canvas_bpath_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 
 static GnomeCanvasShapeClass *parent_class;
 
@@ -145,7 +144,6 @@ gnome_canvas_bpath_set_property (GObject      *object,
 	}
 }
 
-
 static void
 gnome_canvas_bpath_get_property (GObject     *object,
                                  guint        param_id,
@@ -167,9 +165,9 @@ gnome_canvas_bpath_get_property (GObject     *object,
 }
 
 static void
-gnome_canvas_bpath_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_bpath_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
-	if(GNOME_CANVAS_ITEM_CLASS(parent_class)->update) {
+	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->update) {
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->update)(item, affine, clip_path, flags);
 	}
 }

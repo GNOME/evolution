@@ -36,9 +36,13 @@
 
 EA_FACTORY (EA_TYPE_CAL_VIEW, ea_cal_view, ea_cal_view_new)
 EA_FACTORY (EA_TYPE_DAY_VIEW, ea_day_view, ea_day_view_new)
-EA_FACTORY_GOBJECT (EA_TYPE_DAY_VIEW_MAIN_ITEM, ea_day_view_main_item, ea_day_view_main_item_new)
+EA_FACTORY_GOBJECT (
+	EA_TYPE_DAY_VIEW_MAIN_ITEM,
+	ea_day_view_main_item, ea_day_view_main_item_new)
 EA_FACTORY (EA_TYPE_WEEK_VIEW, ea_week_view, ea_week_view_new)
-EA_FACTORY_GOBJECT (EA_TYPE_WEEK_VIEW_MAIN_ITEM, ea_week_view_main_item, ea_week_view_main_item_new)
+EA_FACTORY_GOBJECT (
+	EA_TYPE_WEEK_VIEW_MAIN_ITEM,
+	ea_week_view_main_item, ea_week_view_main_item_new)
 EA_FACTORY (EA_TYPE_GNOME_CALENDAR, ea_gnome_calendar, ea_gnome_calendar_new)
 
 static gboolean ea_calendar_focus_watcher (GSignalInvocationHint *ihint,

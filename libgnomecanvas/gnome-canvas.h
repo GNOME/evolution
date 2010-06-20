@@ -47,10 +47,8 @@
 
 G_BEGIN_DECLS
 
-
 /* "Small" value used by canvas stuff */
 #define GNOME_CANVAS_EPSILON 1e-10
-
 
 /* Macros for building colors that fit in a 32-bit integer.  The values are in
  * [0, 255].
@@ -64,8 +62,7 @@ G_BEGIN_DECLS
 #define GNOME_CANVAS_COLOR_A(r, g, b, a) ((((unsigned int) (r) & 0xff) << 24)	\
 					  | (((unsigned int) (g) & 0xff) << 16)	\
 					  | (((unsigned int) (b) & 0xff) << 8)	\
-					  | ((unsigned int) (a) & 0xff))
-
+					  | ((guint) (a) & 0xff))
 
 typedef struct _GnomeCanvas           GnomeCanvas;
 typedef struct _GnomeCanvasClass      GnomeCanvasClass;
@@ -73,7 +70,6 @@ typedef struct _GnomeCanvasItem       GnomeCanvasItem;
 typedef struct _GnomeCanvasItemClass  GnomeCanvasItemClass;
 typedef struct _GnomeCanvasGroup      GnomeCanvasGroup;
 typedef struct _GnomeCanvasGroupClass GnomeCanvasGroupClass;
-
 
 /* GnomeCanvasItem - base item class for canvas items
  *
@@ -120,7 +116,7 @@ typedef struct {
 	ArtIRect rect;
 
 	/* Rowstride for the buffer */
-	int buf_rowstride;
+	gint buf_rowstride;
 
 	/* Background color, given as 0xrrggbb */
 	guint32 bg_color;
@@ -128,12 +124,11 @@ typedef struct {
 	/* Invariant: at least one of the following flags is true. */
 
 	/* Set when the render rectangle area is the solid color bg_color */
-	unsigned int is_bg : 1;
+	guint is_bg : 1;
 
 	/* Set when the render rectangle area is represented by the buf */
-	unsigned int is_buf : 1;
+	guint is_buf : 1;
 } GnomeCanvasBuf;
-
 
 #define GNOME_TYPE_CANVAS_ITEM            (gnome_canvas_item_get_type ())
 #define GNOME_CANVAS_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_ITEM, GnomeCanvasItem))
@@ -141,7 +136,6 @@ typedef struct {
 #define GNOME_IS_CANVAS_ITEM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_ITEM))
 #define GNOME_IS_CANVAS_ITEM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_ITEM))
 #define GNOME_CANVAS_ITEM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ITEM, GnomeCanvasItemClass))
-
 
 struct _GnomeCanvasItem {
 	GtkObject object;
@@ -157,10 +151,10 @@ struct _GnomeCanvasItem {
 	 * flags contains AFFINE_FULL, a six-element array containing an affine
 	 * transformation.
 	 */
-	double *xform;
+	gdouble *xform;
 
 	/* Bounding box for this item (in canvas coordinates) */
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	/* XXX GtkObject flags are sealed now, so we have to provide
 	 *     our own.  This breaks ABI compatibility with upstream. */
@@ -176,7 +170,7 @@ struct _GnomeCanvasItemClass {
 	 * affine, if used, is a pointer to a 6-element array of doubles.  The
 	 * update method also recomputes the bounding box of the item.
 	 */
-	void (* update) (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
+	void (* update) (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 
 	/* Realize an item -- create GCs, etc. */
 	void (* realize) (GnomeCanvasItem *item);
@@ -198,7 +192,7 @@ struct _GnomeCanvasItemClass {
 	 * drawn.  (width, height) are the dimensions of the drawable.
 	 */
 	void (* draw) (GnomeCanvasItem *item, GdkDrawable *drawable,
-		       int x, int y, int width, int height);
+		       gint x, gint y, gint width, gint height);
 
 	/* Render the item over the buffer given.  The buf data structure
 	 * contains both a pointer to a packed 24-bit RGB array, and the
@@ -214,13 +208,13 @@ struct _GnomeCanvasItemClass {
          * being a canvas group.  (cx, cy) are the canvas pixel coordinates that
          * correspond to the item-relative coordinates (x, y).
 	 */
-	double (* point) (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+	gdouble (* point) (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
 			  GnomeCanvasItem **actual_item);
 
 	/* Fetch the item's bounding box (need not be exactly tight).  This
 	 * should be in item-relative coordinates.
 	 */
-	void (* bounds) (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2);
+	void (* bounds) (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 	/* Signal: an event occurred for an item of this type.  The (x, y)
 	 * coordinates are in the canvas world coordinate system.
@@ -230,7 +224,6 @@ struct _GnomeCanvasItemClass {
 	/* Reserved for future expansion */
 	gpointer spare_vmethods [4];
 };
-
 
 GType gnome_canvas_item_get_type (void) G_GNUC_CONST;
 
@@ -255,23 +248,23 @@ void gnome_canvas_item_set_valist (GnomeCanvasItem *item,
 				   const gchar *first_arg_name, va_list args);
 
 /* Move an item by the specified amount */
-void gnome_canvas_item_move (GnomeCanvasItem *item, double dx, double dy);
+void gnome_canvas_item_move (GnomeCanvasItem *item, gdouble dx, gdouble dy);
 
 /* Apply a relative affine transformation to the item. */
-void gnome_canvas_item_affine_relative (GnomeCanvasItem *item, const double affine[6]);
+void gnome_canvas_item_affine_relative (GnomeCanvasItem *item, const gdouble affine[6]);
 
 /* Apply an absolute affine transformation to the item. */
-void gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const double affine[6]);
+void gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const gdouble affine[6]);
 
 /* Raise an item in the z-order of its parent group by the specified number of
  * positions.
  */
-void gnome_canvas_item_raise (GnomeCanvasItem *item, int positions);
+void gnome_canvas_item_raise (GnomeCanvasItem *item, gint positions);
 
 /* Lower an item in the z-order of its parent group by the specified number of
  * positions.
  */
-void gnome_canvas_item_lower (GnomeCanvasItem *item, int positions);
+void gnome_canvas_item_lower (GnomeCanvasItem *item, gint positions);
 
 /* Raise an item to the top of its parent group's z-order. */
 void gnome_canvas_item_raise_to_top (GnomeCanvasItem *item);
@@ -294,7 +287,7 @@ void gnome_canvas_item_hide (GnomeCanvasItem *item);
  * grab.  Time is a proper X event time parameter.  Returns the same values as
  * XGrabPointer().
  */
-int gnome_canvas_item_grab (GnomeCanvasItem *item, unsigned int event_mask,
+gint gnome_canvas_item_grab (GnomeCanvasItem *item, guint event_mask,
 			    GdkCursor *cursor, guint32 etime);
 
 /* Ungrabs the mouse -- the specified item must be the same that was passed to
@@ -305,24 +298,24 @@ void gnome_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime);
 /* These functions convert from a coordinate system to another.  "w" is world
  * coordinates and "i" is item coordinates.
  */
-void gnome_canvas_item_w2i (GnomeCanvasItem *item, double *x, double *y);
-void gnome_canvas_item_i2w (GnomeCanvasItem *item, double *x, double *y);
+void gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y);
+void gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y);
 
 /* Gets the affine transform that converts from item-relative coordinates to
  * world coordinates.
  */
-void gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, double affine[6]);
+void gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, gdouble affine[6]);
 
 /* Gets the affine transform that converts from item-relative coordinates to
  * canvas pixel coordinates.
  */
-void gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, double affine[6]);
+void gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, gdouble affine[6]);
 
 /* Remove the item from its parent group and make the new group its parent.  The
  * item will be put on top of all the items in the new group.  The item's
  * coordinates relative to its new parent to *not* change -- this means that the
  * item could potentially move on the screen.
- * 
+ *
  * The item and the group must be in the same canvas.  An item cannot be
  * reparented to a group that is the item itself or that is an inferior of the
  * item.
@@ -339,13 +332,12 @@ void gnome_canvas_item_grab_focus (GnomeCanvasItem *item);
  * box is in the coordinate system of the item's parent.
  */
 void gnome_canvas_item_get_bounds (GnomeCanvasItem *item,
-				   double *x1, double *y1, double *x2, double *y2);
+				   gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 /* Request that the update method eventually get called.  This should be used
  * only by item implementations.
  */
 void gnome_canvas_item_request_update (GnomeCanvasItem *item);
-
 
 /* GnomeCanvasGroup - a group of canvas items
  *
@@ -363,10 +355,9 @@ void gnome_canvas_item_request_update (GnomeCanvasItem *item);
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
- * x		double		RW		X coordinate of group's origin
- * y		double		RW		Y coordinate of group's origin
+ * x		gdouble		RW		X coordinate of group's origin
+ * y		gdouble		RW		Y coordinate of group's origin
  */
-
 
 #define GNOME_TYPE_CANVAS_GROUP            (gnome_canvas_group_get_type ())
 #define GNOME_CANVAS_GROUP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_GROUP, GnomeCanvasGroup))
@@ -374,7 +365,6 @@ void gnome_canvas_item_request_update (GnomeCanvasItem *item);
 #define GNOME_IS_CANVAS_GROUP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_GROUP))
 #define GNOME_IS_CANVAS_GROUP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_GROUP))
 #define GNOME_CANVAS_GROUP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_GROUP, GnomeCanvasGroupClass))
-
 
 struct _GnomeCanvasGroup {
 	GnomeCanvasItem item;
@@ -388,12 +378,9 @@ struct _GnomeCanvasGroupClass {
 	GnomeCanvasItemClass parent_class;
 };
 
-
 GType gnome_canvas_group_get_type (void) G_GNUC_CONST;
 
-
 /*** GnomeCanvas ***/
-
 
 #define GNOME_TYPE_CANVAS            (gnome_canvas_get_type ())
 #define GNOME_CANVAS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS, GnomeCanvas))
@@ -401,7 +388,6 @@ GType gnome_canvas_group_get_type (void) G_GNUC_CONST;
 #define GNOME_IS_CANVAS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS))
 #define GNOME_IS_CANVAS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS))
 #define GNOME_CANVAS_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS, GnomeCanvasClass))
-
 
 struct _GnomeCanvas {
 	GtkLayout layout;
@@ -431,11 +417,11 @@ struct _GnomeCanvas {
 	GdkEvent pick_event;
 
 	/* Scrolling region */
-	double scroll_x1, scroll_y1;
-	double scroll_x2, scroll_y2;
+	gdouble scroll_x1, scroll_y1;
+	gdouble scroll_x2, scroll_y2;
 
 	/* Scaling factor to be used for display */
-	double pixels_per_unit;
+	gdouble pixels_per_unit;
 
 	/* Idle handler ID */
 	guint idle_id;
@@ -446,46 +432,46 @@ struct _GnomeCanvas {
 	/* Area that is being redrawn.  Contains (x1, y1) but not (x2, y2).
 	 * Specified in canvas pixel coordinates.
 	 */
-	int redraw_x1, redraw_y1;
-	int redraw_x2, redraw_y2;
+	gint redraw_x1, redraw_y1;
+	gint redraw_x2, redraw_y2;
 
 	/* Offsets of the temprary drawing pixmap */
-	int draw_xofs, draw_yofs;
+	gint draw_xofs, draw_yofs;
 
 	/* Internal pixel offsets when zoomed out */
-	int zoom_xofs, zoom_yofs;
+	gint zoom_xofs, zoom_yofs;
 
 	/* Last known modifier state, for deferred repick when a button is down */
-	int state;
+	gint state;
 
 	/* Event mask specified when grabbing an item */
 	guint grabbed_event_mask;
 
 	/* Tolerance distance for picking items */
-	int close_enough;
+	gint close_enough;
 
 	/* Whether the canvas should center the scroll region in the middle of
 	 * the window if the scroll region is smaller than the window.
 	 */
-	unsigned int center_scroll_region : 1;
+	guint center_scroll_region : 1;
 
 	/* Whether items need update at next idle loop iteration */
-	unsigned int need_update : 1;
+	guint need_update : 1;
 
 	/* Whether the canvas needs redrawing at the next idle loop iteration */
-	unsigned int need_redraw : 1;
+	guint need_redraw : 1;
 
 	/* Whether current item will be repicked at next idle loop iteration */
-	unsigned int need_repick : 1;
+	guint need_repick : 1;
 
 	/* For use by internal pick_current_item() function */
-	unsigned int left_grabbed_item : 1;
+	guint left_grabbed_item : 1;
 
 	/* For use by internal pick_current_item() function */
-	unsigned int in_repick : 1;
+	guint in_repick : 1;
 
 	/* Whether the canvas is in antialiased mode or not */
-	unsigned int aa : 1;
+	guint aa : 1;
 
 	/* Which dither mode to use for antialiased mode drawing */
 	GdkRgbDither dither;
@@ -498,7 +484,7 @@ struct _GnomeCanvasClass {
 	 * for non-antialiased canvases.
 	 */
 	void (* draw_background) (GnomeCanvas *canvas, GdkDrawable *drawable,
-				  int x, int y, int width, int height);
+				  gint x, gint y, gint width, gint height);
 
 	/* Render the background for the buffer given. The buf data structure
 	 * contains both a pointer to a packed 24-bit RGB array, and the
@@ -512,7 +498,6 @@ struct _GnomeCanvasClass {
 	/* Reserved for future expansion */
 	gpointer spare_vmethods [4];
 };
-
 
 GType gnome_canvas_get_type (void) G_GNUC_CONST;
 
@@ -537,11 +522,11 @@ GnomeCanvasGroup *gnome_canvas_root (GnomeCanvas *canvas);
 
 /* Sets the limits of the scrolling region, in world coordinates */
 void gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
-				     double x1, double y1, double x2, double y2);
+				     gdouble x1, gdouble y1, gdouble x2, gdouble y2);
 
 /* Gets the limits of the scrolling region, in world coordinates */
 void gnome_canvas_get_scroll_region (GnomeCanvas *canvas,
-				     double *x1, double *y1, double *x2, double *y2);
+				     gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 /* Whether the canvas centers the scroll region if it is smaller than the window */
 void gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas, gboolean center_scroll_region);
@@ -550,16 +535,16 @@ void gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas, gboolean center
 gboolean gnome_canvas_get_center_scroll_region (GnomeCanvas *canvas);
 
 /* Sets the number of pixels that correspond to one unit in world coordinates */
-void gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, double n);
+void gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, gdouble n);
 
 /* Scrolls the canvas to the specified offsets, given in canvas pixel coordinates */
-void gnome_canvas_scroll_to (GnomeCanvas *canvas, int cx, int cy);
+void gnome_canvas_scroll_to (GnomeCanvas *canvas, gint cx, gint cy);
 
 /* Returns the scroll offsets of the canvas in canvas pixel coordinates.  You
  * can specify NULL for any of the values, in which case that value will not be
  * queried.
  */
-void gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, int *cx, int *cy);
+void gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy);
 
 /* Requests that the canvas be repainted immediately instead of in the idle
  * loop.
@@ -569,7 +554,7 @@ void gnome_canvas_update_now (GnomeCanvas *canvas);
 /* Returns the item that is at the specified position in world coordinates, or
  * NULL if no item is there.
  */
-GnomeCanvasItem *gnome_canvas_get_item_at (GnomeCanvas *canvas, double x, double y);
+GnomeCanvasItem *gnome_canvas_get_item_at (GnomeCanvas *canvas, gdouble x, gdouble y);
 
 /* For use only by item type implementations. Request that the canvas eventually
  * redraw the specified region. The region is specified as a microtile
@@ -581,42 +566,41 @@ void gnome_canvas_request_redraw_uta (GnomeCanvas *canvas, ArtUta *uta);
  * eventually redraw the specified region, specified in canvas pixel
  * coordinates.  The region contains (x1, y1) but not (x2, y2).
  */
-void gnome_canvas_request_redraw (GnomeCanvas *canvas, int x1, int y1, int x2, int y2);
+void gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gint y2);
 
 /* Gets the affine transform that converts world coordinates into canvas pixel
  * coordinates.
  */
-void gnome_canvas_w2c_affine (GnomeCanvas *canvas, double affine[6]);
+void gnome_canvas_w2c_affine (GnomeCanvas *canvas, gdouble affine[6]);
 
 /* These functions convert from a coordinate system to another.  "w" is world
  * coordinates, "c" is canvas pixel coordinates (pixel coordinates that are
  * (0,0) for the upper-left scrolling limit and something else for the
  * lower-left scrolling limit).
  */
-void gnome_canvas_w2c (GnomeCanvas *canvas, double wx, double wy, int *cx, int *cy);
-void gnome_canvas_w2c_d (GnomeCanvas *canvas, double wx, double wy, double *cx, double *cy);
-void gnome_canvas_c2w (GnomeCanvas *canvas, int cx, int cy, double *wx, double *wy);
+void gnome_canvas_w2c (GnomeCanvas *canvas, gdouble wx, gdouble wy, gint *cx, gint *cy);
+void gnome_canvas_w2c_d (GnomeCanvas *canvas, gdouble wx, gdouble wy, gdouble *cx, gdouble *cy);
+void gnome_canvas_c2w (GnomeCanvas *canvas, gint cx, gint cy, gdouble *wx, gdouble *wy);
 
 /* This function takes in coordinates relative to the GTK_LAYOUT
  * (canvas)->bin_window and converts them to world coordinates.
  */
 void gnome_canvas_window_to_world (GnomeCanvas *canvas,
-				   double winx, double winy, double *worldx, double *worldy);
+				   gdouble winx, gdouble winy, gdouble *worldx, gdouble *worldy);
 
 /* This is the inverse of gnome_canvas_window_to_world() */
 void gnome_canvas_world_to_window (GnomeCanvas *canvas,
-				   double worldx, double worldy, double *winx, double *winy);
+				   gdouble worldx, gdouble worldy, gdouble *winx, gdouble *winy);
 
 /* Takes a string specification for a color and allocates it into the specified
  * GdkColor.  If the string is null, then it returns FALSE. Otherwise, it
  * returns TRUE.
  */
-int gnome_canvas_get_color (GnomeCanvas *canvas, const char *spec, GdkColor *color);
+gint gnome_canvas_get_color (GnomeCanvas *canvas, const gchar *spec, GdkColor *color);
 
 /* Allocates a color from the RGB value passed into this function. */
 gulong gnome_canvas_get_color_pixel (GnomeCanvas *canvas,
 				     guint        rgba);
-     
 
 /* Sets the stipple origin of the specified gc so that it will be aligned with
  * all the stipples used in the specified canvas.  This is intended for use only

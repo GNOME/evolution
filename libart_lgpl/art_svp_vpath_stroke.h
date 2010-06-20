@@ -45,18 +45,18 @@ ArtSVP *
 art_svp_vpath_stroke (ArtVpath *vpath,
 		      ArtPathStrokeJoinType join,
 		      ArtPathStrokeCapType cap,
-		      double line_width,
-		      double miter_limit,
-		      double flatness);
+		      gdouble line_width,
+		      gdouble miter_limit,
+		      gdouble flatness);
 
 /* This version may have winding numbers exceeding 1. */
 ArtVpath *
 art_svp_vpath_stroke_raw (ArtVpath *vpath,
 			  ArtPathStrokeJoinType join,
 			  ArtPathStrokeCapType cap,
-			  double line_width,
-			  double miter_limit,
-			  double flatness);
+			  gdouble line_width,
+			  gdouble miter_limit,
+			  gdouble flatness);
 
 #ifdef __cplusplus
 }

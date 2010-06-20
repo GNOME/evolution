@@ -220,7 +220,8 @@ validate(EFilterRule *fr, EAlert **alert)
 
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
-	if (((EMVFolderRule *)fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC && ((EMVFolderRule *)fr)->sources == NULL) {
+	if (((EMVFolderRule *)fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC &&
+		((EMVFolderRule *)fr)->sources == NULL) {
 		if (alert)
 			*alert = e_alert_new ("mail:vfolder-no-source", NULL);
 		return 0;
@@ -394,8 +395,11 @@ static struct {
 static void
 set_sensitive(struct _source_data *data)
 {
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_ADD], TRUE);
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_REMOVE], data->current != NULL);
+	gtk_widget_set_sensitive (
+		GTK_WIDGET (data->buttons[BUTTON_ADD]), TRUE);
+	gtk_widget_set_sensitive (
+		GTK_WIDGET (data->buttons[BUTTON_REMOVE]),
+		data->current != NULL);
 }
 
 static void
@@ -621,18 +625,27 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 	g_signal_connect(data->list, "cursor-changed", G_CALLBACK(select_source), data);
 
 	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_rb");
-	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+	g_signal_connect (
+		rb, "toggled",
+		G_CALLBACK (select_source_with_changed), data);
 
 	rb = (GtkRadioButton *)e_builder_get_widget (builder, "remote_rb");
-	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+	g_signal_connect (
+		rb, "toggled",
+		G_CALLBACK (select_source_with_changed), data);
 
 	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_and_remote_rb");
-	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+	g_signal_connect (
+		rb, "toggled",
+		G_CALLBACK (select_source_with_changed), data);
 
-	rb = (GtkRadioButton *)e_builder_get_widget (builder, "specific_rb");
-	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
+	rb = (GtkRadioButton *) e_builder_get_widget (builder, "specific_rb");
+	g_signal_connect (
+		rb, "toggled",
+		G_CALLBACK (select_source_with_changed), data);
 
-	data->source_selector = (GtkWidget *)e_builder_get_widget (builder, "source_selector");
+	data->source_selector = (GtkWidget *)
+		e_builder_get_widget (builder, "source_selector");
 
 	rb = g_slist_nth_data(gtk_radio_button_get_group (rb), vr->with);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb), TRUE);

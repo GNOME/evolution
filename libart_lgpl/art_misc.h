@@ -29,9 +29,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void *art_alloc(size_t size);
-void art_free(void *ptr);
-void *art_realloc(void *ptr, size_t size);
+gpointer art_alloc(gsize size);
+void art_free(gpointer ptr);
+gpointer art_realloc(gpointer ptr, gsize size);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
@@ -45,9 +45,11 @@ void *art_realloc(void *ptr, size_t size);
 
 /* This one must be used carefully - in particular, p and max should
    be variables. They can also be pstruct->el lvalues. */
-#define art_expand(p, type, max) do { if(max) { p = art_renew (p, type, max <<= 1); } else { max = 1; p = art_new(type, 1); } } while (0)
+#define art_expand(p, type, max) \
+	do { if(max) { p = art_renew (p, type, max <<= 1); } \
+	else { max = 1; p = art_new(type, 1); } } while (0)
 
-typedef int art_boolean;
+typedef gint art_boolean;
 #define ART_FALSE 0
 #define ART_TRUE 1
 
@@ -81,10 +83,10 @@ typedef guint16 art_u16;
 typedef guint32 art_u32;
 
 void ART_GNUC_NORETURN
-art_die (const char *fmt, ...) ART_GNUC_PRINTF (1, 2);
+art_die (const gchar *fmt, ...) ART_GNUC_PRINTF (1, 2);
 
 void
-art_warn (const char *fmt, ...) ART_GNUC_PRINTF (1, 2);
+art_warn (const gchar *fmt, ...) ART_GNUC_PRINTF (1, 2);
 
 #ifdef __cplusplus
 }

@@ -35,7 +35,10 @@
 static GHashTable *source_lists_hash = NULL;
 
 static gchar *
-auth_func_cb (ECal *ecal, const gchar *prompt, const gchar *key, gpointer user_data)
+auth_func_cb (ECal *ecal,
+              const gchar *prompt,
+              const gchar *key,
+              gpointer user_data)
 {
 	gboolean remember;
 	gchar *password, *auth_domain;
@@ -48,11 +51,16 @@ auth_func_cb (ECal *ecal, const gchar *prompt, const gchar *key, gpointer user_d
 	password = e_passwords_get_password (component_name, key);
 
 	if (!password)
-		password = e_passwords_ask_password (_("Enter password"), component_name, key, prompt,
-						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
-						     &remember,
-						     NULL);
+		password = e_passwords_ask_password (
+			_("Enter password"),
+			component_name, key, prompt,
+			E_PASSWORDS_REMEMBER_FOREVER |
+			E_PASSWORDS_SECRET |
+			E_PASSWORDS_ONLINE,
+			&remember, NULL);
+
 	g_free (auth_domain);
+
 	return password;
 }
 
@@ -139,7 +147,8 @@ e_auth_new_cal_from_uri (const gchar *uri, ECalSourceType type)
 	if (source_list) {
 		GSList *gl;
 
-		for (gl = e_source_list_peek_groups (source_list); gl != NULL && source == NULL; gl = gl->next) {
+		for (gl = e_source_list_peek_groups (source_list);
+		     gl != NULL && source == NULL; gl = gl->next) {
 			GSList *sl;
 
 			for (sl = e_source_group_peek_sources (gl->data); sl != NULL; sl = sl->next) {

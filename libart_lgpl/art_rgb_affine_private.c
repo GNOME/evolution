@@ -40,14 +40,14 @@
 #define EPSILON 1e-6
 
 void
-art_rgb_affine_run (int *p_x0, int *p_x1, int y,
-		    int src_width, int src_height,
-		    const double affine[6])
+art_rgb_affine_run (gint *p_x0, gint *p_x1, gint y,
+		    gint src_width, gint src_height,
+		    const gdouble affine[6])
 {
-  int x0, x1;
-  double z;
-  double x_intercept;
-  int xi;
+  gint x0, x1;
+  gdouble z;
+  gdouble x_intercept;
+  gint xi;
 
   x0 = *p_x0;
   x1 = *p_x1;

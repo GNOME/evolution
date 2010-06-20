@@ -32,10 +32,10 @@ struct _ArtRenderPriv {
 
   ArtImageSource *image_source;
 
-  int n_mask_source;
+  gint n_mask_source;
   ArtMaskSource **mask_source;
 
-  int n_callbacks;
+  gint n_callbacks;
   ArtRenderCallback **callbacks;
 };
 
@@ -46,9 +46,9 @@ art_render_nop_done (ArtRenderCallback *self, ArtRender *render)
 
 static void
 art_render_clear_render_rgb8 (ArtRenderCallback *self, ArtRender *render,
-			      art_u8 *dest, int y)
+			      art_u8 *dest, gint y)
 {
-  int width = render->x1 - render->x0;
+  gint width = render->x1 - render->x0;
   art_u8 r, g, b;
   ArtPixMaxDepth color_max;
 
@@ -64,12 +64,12 @@ art_render_clear_render_rgb8 (ArtRenderCallback *self, ArtRender *render,
 
 static void
 art_render_clear_render_8 (ArtRenderCallback *self, ArtRender *render,
-			   art_u8 *dest, int y)
+			   art_u8 *dest, gint y)
 {
-  int width = render->x1 - render->x0;
-  int i, j;
-  int n_ch = render->n_chan + (render->alpha_type != ART_ALPHA_NONE);
-  int ix;
+  gint width = render->x1 - render->x0;
+  gint i, j;
+  gint n_ch = render->n_chan + (render->alpha_type != ART_ALPHA_NONE);
+  gint ix;
   art_u8 color[ART_MAX_CHAN + 1];
 
   for (j = 0; j < n_ch; j++)
@@ -100,18 +100,18 @@ const ArtRenderCallback art_render_clear_8_obj =
 
 static void
 art_render_clear_render_16 (ArtRenderCallback *self, ArtRender *render,
-			    art_u8 *dest, int y)
+			    art_u8 *dest, gint y)
 {
-  int width = render->x1 - render->x0;
-  int i, j;
-  int n_ch = render->n_chan + (render->alpha_type != ART_ALPHA_NONE);
-  int ix;
+  gint width = render->x1 - render->x0;
+  gint i, j;
+  gint n_ch = render->n_chan + (render->alpha_type != ART_ALPHA_NONE);
+  gint ix;
   art_u16 *dest_16 = (art_u16 *)dest;
   art_u8 color[ART_MAX_CHAN + 1];
 
   for (j = 0; j < n_ch; j++)
     {
-      int color_16 = render->clear_color[j];
+      gint color_16 = render->clear_color[j];
       color[j] = color_16;
     }
 
@@ -135,31 +135,31 @@ const ArtRenderCallback art_render_clear_16_obj =
    lead to overflow. */
 static void
 art_render_composite (ArtRenderCallback *self, ArtRender *render,
-					art_u8 *dest, int y)
+					art_u8 *dest, gint y)
 {
   ArtRenderMaskRun *run = render->run;
   art_u32 depth = render->depth;
-  int n_run = render->n_run;
-  int x0 = render->x0;
-  int x;
-  int run_x0, run_x1;
+  gint n_run = render->n_run;
+  gint x0 = render->x0;
+  gint x;
+  gint run_x0, run_x1;
   art_u8 *alpha_buf = render->alpha_buf;
   art_u8 *image_buf = render->image_buf;
-  int i, j;
+  gint i, j;
   art_u32 tmp;
   art_u32 run_alpha;
   art_u32 alpha;
-  int image_ix;
+  gint image_ix;
   art_u16 src[ART_MAX_CHAN + 1];
   art_u16 dst[ART_MAX_CHAN + 1];
-  int n_chan = render->n_chan;
+  gint n_chan = render->n_chan;
   ArtAlphaType alpha_type = render->alpha_type;
-  int n_ch = n_chan + (alpha_type != ART_ALPHA_NONE);
-  int dst_pixstride = n_ch * (depth >> 3);
-  int buf_depth = render->buf_depth;
+  gint n_ch = n_chan + (alpha_type != ART_ALPHA_NONE);
+  gint dst_pixstride = n_ch * (depth >> 3);
+  gint buf_depth = render->buf_depth;
   ArtAlphaType buf_alpha = render->buf_alpha;
-  int buf_n_ch = n_chan + (buf_alpha != ART_ALPHA_NONE);
-  int buf_pixstride = buf_n_ch * (buf_depth >> 3);
+  gint buf_n_ch = n_chan + (buf_alpha != ART_ALPHA_NONE);
+  gint buf_pixstride = buf_n_ch * (buf_depth >> 3);
   art_u8 *bufptr;
   art_u32 src_alpha;
   art_u32 src_mul;
@@ -176,7 +176,7 @@ art_render_composite (ArtRenderCallback *self, ArtRender *render,
       if (tmp < 0x8100)
 	continue;
 
-      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8; /* range [0 .. 0x10000] */
+      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8;
       bufptr = image_buf + (run_x0 - x0) * buf_pixstride;
       dstptr = dest + (run_x0 - x0) * dst_pixstride;
       for (x = run_x0; x < run_x1; x++)
@@ -356,27 +356,27 @@ const ArtRenderCallback art_render_composite_obj =
 
 static void
 art_render_composite_8 (ArtRenderCallback *self, ArtRender *render,
-			art_u8 *dest, int y)
+			art_u8 *dest, gint y)
 {
   ArtRenderMaskRun *run = render->run;
-  int n_run = render->n_run;
-  int x0 = render->x0;
-  int x;
-  int run_x0, run_x1;
+  gint n_run = render->n_run;
+  gint x0 = render->x0;
+  gint x;
+  gint run_x0, run_x1;
   art_u8 *alpha_buf = render->alpha_buf;
   art_u8 *image_buf = render->image_buf;
-  int i, j;
+  gint i, j;
   art_u32 tmp;
   art_u32 run_alpha;
   art_u32 alpha;
-  int image_ix;
-  int n_chan = render->n_chan;
+  gint image_ix;
+  gint n_chan = render->n_chan;
   ArtAlphaType alpha_type = render->alpha_type;
-  int n_ch = n_chan + (alpha_type != ART_ALPHA_NONE);
-  int dst_pixstride = n_ch;
+  gint n_ch = n_chan + (alpha_type != ART_ALPHA_NONE);
+  gint dst_pixstride = n_ch;
   ArtAlphaType buf_alpha = render->buf_alpha;
-  int buf_n_ch = n_chan + (buf_alpha != ART_ALPHA_NONE);
-  int buf_pixstride = buf_n_ch;
+  gint buf_n_ch = n_chan + (buf_alpha != ART_ALPHA_NONE);
+  gint buf_pixstride = buf_n_ch;
   art_u8 *bufptr;
   art_u32 src_alpha;
   art_u32 src_mul;
@@ -393,7 +393,7 @@ art_render_composite_8 (ArtRenderCallback *self, ArtRender *render,
       if (tmp < 0x10000)
 	continue;
 
-      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8; /* range [0 .. 0x10000] */
+      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8;
       bufptr = image_buf + (run_x0 - x0) * buf_pixstride;
       dstptr = dest + (run_x0 - x0) * dst_pixstride;
       for (x = run_x0; x < run_x1; x++)
@@ -497,7 +497,6 @@ const ArtRenderCallback art_render_composite_8_obj =
   art_render_nop_done
 };
 
-
 /* Assumes:
  * alpha_buf is NULL
  * buf_alpha = ART_ALPHA_NONE  (source)
@@ -506,18 +505,18 @@ const ArtRenderCallback art_render_composite_8_obj =
  */
 static void
 art_render_composite_8_opt1 (ArtRenderCallback *self, ArtRender *render,
-			     art_u8 *dest, int y)
+			     art_u8 *dest, gint y)
 {
   ArtRenderMaskRun *run = render->run;
-  int n_run = render->n_run;
-  int x0 = render->x0;
-  int x;
-  int run_x0, run_x1;
+  gint n_run = render->n_run;
+  gint x0 = render->x0;
+  gint x;
+  gint run_x0, run_x1;
   art_u8 *image_buf = render->image_buf;
-  int i, j;
+  gint i, j;
   art_u32 tmp;
   art_u32 run_alpha;
-  int image_ix;
+  gint image_ix;
   art_u8 *bufptr;
   art_u32 src_mul;
   art_u8 *dstptr;
@@ -533,7 +532,7 @@ art_render_composite_8_opt1 (ArtRenderCallback *self, ArtRender *render,
       if (tmp < 0x10000)
 	continue;
 
-      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8; /* range [0 .. 0x10000] */
+      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8;
       bufptr = image_buf + (run_x0 - x0) * 3;
       dstptr = dest + (run_x0 - x0) * 4;
       if (run_alpha == 0x10000)
@@ -551,27 +550,27 @@ art_render_composite_8_opt1 (ArtRenderCallback *self, ArtRender *render,
 	  for (x = run_x0; x < run_x1; x++)
 	    {
 	      src_mul = run_alpha * 0x101;
-	      
+
 	      tmp = dstptr[3];
 	      /* range 0..0xff */
 	      dst_alpha = (tmp << 8) + tmp + (tmp >> 7);
 	      dst_mul = dst_alpha;
 	      /* dst_alpha is the alpha of the dest pixel,
 		 range 0..0x10000 */
-	      
+
 	      dst_mul *= 0x101;
-	      
+
 	      dst_alpha += ((((0x10000 - dst_alpha) * run_alpha) >> 8) + 0x80) >> 8;
 	      if (dst_alpha == 0)
 		  dst_save_mul = 0xff;
 	      else /* (dst_alpha != 0) */
 		  dst_save_mul = 0xff0000 / dst_alpha;
-	      
+
 	      for (j = 0; j < 3; j++)
 		{
 		  art_u32 src, dst;
 		  art_u32 tmp;
-		  
+
 		  src = (bufptr[j] * src_mul + 0x8000) >> 16;
 		  dst = (dstptr[j] * dst_mul + 0x8000) >> 16;
 		  tmp = ((dst * (0x10000 - run_alpha) + 0x8000) >> 16) + src;
@@ -579,14 +578,13 @@ art_render_composite_8_opt1 (ArtRenderCallback *self, ArtRender *render,
 		  dstptr[j] = (tmp * dst_save_mul + 0x8000) >> 16;
 		}
 	      dstptr[3] = (dst_alpha * 0xff + 0x8000) >> 16;
-	      
+
 	      bufptr += 3;
 	      dstptr += 4;
 	    }
 	}
     }
 }
-
 
 const ArtRenderCallback art_render_composite_8_opt1_obj =
 {
@@ -602,18 +600,18 @@ const ArtRenderCallback art_render_composite_8_opt1_obj =
  */
 static void
 art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
-			     art_u8 *dest, int y)
+			     art_u8 *dest, gint y)
 {
   ArtRenderMaskRun *run = render->run;
-  int n_run = render->n_run;
-  int x0 = render->x0;
-  int x;
-  int run_x0, run_x1;
+  gint n_run = render->n_run;
+  gint x0 = render->x0;
+  gint x;
+  gint run_x0, run_x1;
   art_u8 *image_buf = render->image_buf;
-  int i, j;
+  gint i, j;
   art_u32 tmp;
   art_u32 run_alpha;
-  int image_ix;
+  gint image_ix;
   art_u8 *bufptr;
   art_u32 src_alpha;
   art_u32 src_mul;
@@ -630,7 +628,7 @@ art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
       if (tmp < 0x10000)
 	continue;
 
-      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8; /* range [0 .. 0x10000] */
+      run_alpha = (tmp + (tmp >> 8) + (tmp >> 16) - 0x8000) >> 8;
       bufptr = image_buf + (run_x0 - x0) * 4;
       dstptr = dest + (run_x0 - x0) * 4;
       if (run_alpha == 0x10000)
@@ -640,28 +638,28 @@ art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
 	      src_alpha = (bufptr[3] << 8) + bufptr[3] + (bufptr[3] >> 7);
 	      /* src_alpha is the (alpha of the source pixel),
 		 range 0..0x10000 */
-	      
+
 	      dst_alpha = (dstptr[3] << 8) + dstptr[3] + (dstptr[3] >> 7);
 	      /* dst_alpha is the alpha of the dest pixel,
 		 range 0..0x10000 */
-	      
+
 	      dst_mul = dst_alpha*0x101;
-	      
+
 	      if (src_alpha >= 0x10000)
 		dst_alpha = 0x10000;
 	      else
 		dst_alpha += ((((0x10000 - dst_alpha) * src_alpha) >> 8) + 0x80) >> 8;
-	      
+
 	      if (dst_alpha == 0)
 		  dst_save_mul = 0xff;
 	      else /* dst_alpha != 0) */
 		  dst_save_mul = 0xff0000 / dst_alpha;
-	      
+
 	      for (j = 0; j < 3; j++)
 		{
 		  art_u32 src, dst;
 		  art_u32 tmp;
-		  
+
 		  src = (bufptr[j] << 8) |  bufptr[j];
 		  dst = (dstptr[j] * dst_mul + 0x8000) >> 16;
 		  tmp = ((dst * (0x10000 - src_alpha) + 0x8000) >> 16) + src;
@@ -669,7 +667,7 @@ art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
 		  dstptr[j] = (tmp * dst_save_mul + 0x8000) >> 16;
 		}
 	      dstptr[3] = (dst_alpha * 0xff + 0x8000) >> 16;
-	      
+
 	      bufptr += 4;
 	      dstptr += 4;
 	    }
@@ -683,23 +681,23 @@ art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
 	      src_alpha = (tmp + (tmp >> 8) + (tmp >> 16)) >> 8;
 	      /* src_alpha is the (alpha of the source pixel * alpha),
 		 range 0..0x10000 */
-	      
+
 	      src_mul = run_alpha * 0x101;
-	      
+
 	      tmp = dstptr[3];
 	      /* range 0..0xff */
 	      dst_alpha = (tmp << 8) + tmp + (tmp >> 7);
 	      dst_mul = dst_alpha;
 	      /* dst_alpha is the alpha of the dest pixel,
 		 range 0..0x10000 */
-	      
+
 	      dst_mul *= 0x101;
-	      
+
 	      if (src_alpha >= 0x10000)
 		dst_alpha = 0x10000;
 	      else
 		dst_alpha += ((((0x10000 - dst_alpha) * src_alpha) >> 8) + 0x80) >> 8;
-	      
+
 	      if (dst_alpha == 0)
 		{
 		  dst_save_mul = 0xff;
@@ -708,12 +706,12 @@ art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
 		{
 		  dst_save_mul = 0xff0000 / dst_alpha;
 		}
-	      
+
 	      for (j = 0; j < 3; j++)
 		{
 		  art_u32 src, dst;
 		  art_u32 tmp;
-		  
+
 		  src = (bufptr[j] * src_mul + 0x8000) >> 16;
 		  dst = (dstptr[j] * dst_mul + 0x8000) >> 16;
 		  tmp = ((dst * (0x10000 - src_alpha) + 0x8000) >> 16) + src;
@@ -721,7 +719,7 @@ art_render_composite_8_opt2 (ArtRenderCallback *self, ArtRender *render,
 		  dstptr[j] = (tmp * dst_save_mul + 0x8000) >> 16;
 		}
 	      dstptr[3] = (dst_alpha * 0xff + 0x8000) >> 16;
-	      
+
 	      bufptr += 4;
 	      dstptr += 4;
 	    }
@@ -734,5 +732,4 @@ const ArtRenderCallback art_render_composite_8_opt2_obj =
   art_render_composite_8_opt2,
   art_render_nop_done
 };
-
 

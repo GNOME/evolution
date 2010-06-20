@@ -80,9 +80,11 @@ create_task_sources (EShellBackend *shell_backend,
 
 			group = E_SOURCE_GROUP (g->data);
 
-			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+			if (!*on_this_computer && !strcmp (base_uri_proto,
+				e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);
-			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI, e_source_group_peek_base_uri (group)))
+			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI,
+				e_source_group_peek_base_uri (group)))
 				*on_the_web = g_object_ref (group);
 		}
 	}

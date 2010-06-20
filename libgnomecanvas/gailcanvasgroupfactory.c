@@ -32,7 +32,7 @@ gail_canvas_group_factory_get_type (void)
 {
   static GType type = 0;
 
-  if (!type) 
+  if (!type)
   {
     static const GTypeInfo tinfo =
     {
@@ -48,14 +48,14 @@ gail_canvas_group_factory_get_type (void)
       NULL /* value table */
     };
     type = g_type_register_static (
-                           ATK_TYPE_OBJECT_FACTORY, 
+                           ATK_TYPE_OBJECT_FACTORY,
                            "GailCanvasGroupFactory" , &tinfo, 0);
   }
 
   return type;
 }
 
-static void 
+static void
 gail_canvas_group_factory_class_init (GailCanvasGroupFactoryClass *klass)
 {
   AtkObjectFactoryClass *class = ATK_OBJECT_FACTORY_CLASS (klass);
@@ -64,7 +64,7 @@ gail_canvas_group_factory_class_init (GailCanvasGroupFactoryClass *klass)
   class->get_accessible_type = gail_canvas_group_factory_get_accessible_type;
 }
 
-static AtkObject* 
+static AtkObject*
 gail_canvas_group_factory_create_accessible (GObject   *obj)
 {
   return gail_canvas_group_new (obj);

@@ -24,18 +24,17 @@
 
 #include "art_misc.h"
 
-
 /**
  * art_svp_free: Free an #ArtSVP structure.
  * @svp: #ArtSVP to free.
- * 
+ *
  * Frees an #ArtSVP structure and all the segments in it.
  **/
 void
 art_svp_free (ArtSVP *svp)
 {
-  int n_segs = svp->n_segs;
-  int i;
+  gint n_segs = svp->n_segs;
+  gint i;
 
   for (i = 0; i < n_segs; i++)
     art_free (svp->segs[i].points);
@@ -52,12 +51,12 @@ art_svp_free (ArtSVP *svp)
  * art_svp_seg_compare: Compare two segments of an svp.
  * @seg1: First segment to compare.
  * @seg2: Second segment to compare.
- * 
+ *
  * Compares two segments of an svp. Return 1 if @seg2 is below or to the
  * right of @seg1, -1 otherwise.
  **/
-int
-art_svp_seg_compare (const void *s1, const void *s2)
+gint
+art_svp_seg_compare (gconstpointer s1, gconstpointer s2)
 {
   const ArtSVPSeg *seg1 = s1;
   const ArtSVPSeg *seg2 = s2;

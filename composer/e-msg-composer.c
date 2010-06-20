@@ -1710,27 +1710,36 @@ msg_composer_delete_event_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-msg_composer_prepare_for_quit_cb (EShell *shell, EActivity *activity, EMsgComposer *composer)
+msg_composer_prepare_for_quit_cb (EShell *shell,
+                                  EActivity *activity,
+                                  EMsgComposer *composer)
 {
 	if (e_msg_composer_is_exiting (composer)) {
 		/* needs save draft first */
 		g_object_ref (activity);
-		g_object_weak_ref (G_OBJECT (composer), (GWeakNotify) g_object_unref, activity);
+		g_object_weak_ref (
+			G_OBJECT (composer), (GWeakNotify)
+			g_object_unref, activity);
 		gtk_action_activate (ACTION (SAVE_DRAFT));
 	}
 }
 
 static void
-msg_composer_quit_requested_cb (EShell *shell, EShellQuitReason reason, EMsgComposer *composer)
+msg_composer_quit_requested_cb (EShell *shell,
+                                EShellQuitReason reason,
+                                EMsgComposer *composer)
 {
 	if (e_msg_composer_is_exiting (composer)) {
 		EShell *shell;
 
 		shell = e_shell_get_default ();
 
-		g_signal_handlers_disconnect_by_func (shell, msg_composer_quit_requested_cb, composer);
-		g_signal_handlers_disconnect_by_func (shell, msg_composer_prepare_for_quit_cb, composer);
-	} else if (!e_msg_composer_can_close (composer, FALSE) && !e_msg_composer_is_exiting (composer)) {
+		g_signal_handlers_disconnect_by_func (
+			shell, msg_composer_quit_requested_cb, composer);
+		g_signal_handlers_disconnect_by_func (
+			shell, msg_composer_prepare_for_quit_cb, composer);
+	} else if (!e_msg_composer_can_close (composer, FALSE) &&
+			!e_msg_composer_is_exiting (composer)) {
 		e_shell_cancel_quit (shell);
 	}
 }
@@ -1900,8 +1909,10 @@ msg_composer_destroy (GtkObject *object)
 
 	shell = e_shell_get_default ();
 
-	g_signal_handlers_disconnect_by_func (shell, msg_composer_quit_requested_cb, composer);
-	g_signal_handlers_disconnect_by_func (shell, msg_composer_prepare_for_quit_cb, composer);
+	g_signal_handlers_disconnect_by_func (
+		shell, msg_composer_quit_requested_cb, composer);
+	g_signal_handlers_disconnect_by_func (
+		shell, msg_composer_prepare_for_quit_cb, composer);
 
 	/* Chain up to parent's destroy() method. */
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);

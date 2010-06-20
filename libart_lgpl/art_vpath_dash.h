@@ -31,9 +31,9 @@ extern "C" {
 typedef struct _ArtVpathDash ArtVpathDash;
 
 struct _ArtVpathDash {
-  double offset;
-  int n_dash;
-  double *dash;
+  gdouble offset;
+  gint n_dash;
+  gdouble *dash;
 };
 
 ArtVpath *

@@ -38,14 +38,14 @@ struct _GnomeCanvasRichTextPrivate {
 	GtkTextLayout *layout;
 	GtkTextBuffer *buffer;
 
-	char *text;
+	gchar *text;
 
 	/* Position at anchor */
-	double x, y;
+	gdouble x, y;
 	/* Dimensions */
-	double width, height;
+	gdouble width, height;
 	/* Top-left canvas coordinates for text */
-	int cx, cy;
+	gint cx, cy;
 
 	gboolean cursor_visible;
 	gboolean cursor_blink;
@@ -56,12 +56,12 @@ struct _GnomeCanvasRichTextPrivate {
 	GtkJustification justification;
 	GtkTextDirection direction;
 	GtkAnchorType anchor;
-	int pixels_above_lines;
-	int pixels_below_lines;
-	int pixels_inside_wrap;
-	int left_margin;
-	int right_margin;
-	int indent;
+	gint pixels_above_lines;
+	gint pixels_below_lines;
+	gint pixels_inside_wrap;
+	gint left_margin;
+	gint right_margin;
+	gint indent;
 
 	guint preblink_timeout;
 	guint blink_timeout;
@@ -73,7 +73,7 @@ struct _GnomeCanvasRichTextPrivate {
 
 	gboolean just_selected_element;
 
-	int clicks;
+	gint clicks;
 	guint click_timeout;
 };
 
@@ -115,34 +115,34 @@ static void gnome_canvas_rich_text_set_property(GObject *object, guint property_
 						const GValue *value, GParamSpec *pspec);
 static void gnome_canvas_rich_text_get_property(GObject *object, guint property_id,
 						GValue *value, GParamSpec *pspec);
-static void gnome_canvas_rich_text_update(GnomeCanvasItem *item, double *affine,
-					  ArtSVP *clip_path, int flags);
+static void gnome_canvas_rich_text_update(GnomeCanvasItem *item, gdouble *affine,
+					  ArtSVP *clip_path, gint flags);
 static void gnome_canvas_rich_text_realize(GnomeCanvasItem *item);
 static void gnome_canvas_rich_text_unrealize(GnomeCanvasItem *item);
-static double gnome_canvas_rich_text_point(GnomeCanvasItem *item, 
-					   double x, double y,
-					   int cx, int cy, 
+static gdouble gnome_canvas_rich_text_point(GnomeCanvasItem *item,
+					   gdouble x, gdouble y,
+					   gint cx, gint cy,
 					   GnomeCanvasItem **actual_item);
-static void gnome_canvas_rich_text_draw(GnomeCanvasItem *item, 
+static void gnome_canvas_rich_text_draw(GnomeCanvasItem *item,
 					GdkDrawable *drawable,
-					int x, int y, int width, int height);
+					gint x, gint y, gint width, gint height);
 static void gnome_canvas_rich_text_render(GnomeCanvasItem *item,
 					  GnomeCanvasBuf *buf);
-static gint gnome_canvas_rich_text_event(GnomeCanvasItem *item, 
+static gint gnome_canvas_rich_text_event(GnomeCanvasItem *item,
 					 GdkEvent *event);
-static void gnome_canvas_rich_text_get_bounds(GnomeCanvasItem *text, double *px1, double *py1,
-	   double *px2, double *py2);
+static void gnome_canvas_rich_text_get_bounds(GnomeCanvasItem *text,
+					      gdouble *px1, gdouble *py1,
+					      gdouble *px2, gdouble *py2);
 
 static void gnome_canvas_rich_text_ensure_layout(GnomeCanvasRichText *text);
 static void gnome_canvas_rich_text_destroy_layout(GnomeCanvasRichText *text);
-static void gnome_canvas_rich_text_start_cursor_blink(GnomeCanvasRichText *text, gboolean delay);
+static void gnome_canvas_rich_text_start_cursor_blink(GnomeCanvasRichText *text,
+						      gboolean delay);
 static void gnome_canvas_rich_text_stop_cursor_blink(GnomeCanvasRichText *text);
 static void gnome_canvas_rich_text_move_cursor(GnomeCanvasRichText *text,
 					       GtkMovementStep step,
 					       gint count,
 					       gboolean extend_selection);
-
-
 
 static GtkTextBuffer *get_buffer(GnomeCanvasRichText *text);
 static gint blink_cb(gpointer data);
@@ -170,8 +170,9 @@ gnome_canvas_rich_text_get_type(void)
 			NULL			/* value_table */
 		};
 
-		rich_text_type = g_type_register_static (GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasRichText",
-							 &object_info, 0);
+		rich_text_type = g_type_register_static (
+			GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasRichText",
+			&object_info, 0);
 	}
 
 	return rich_text_type;
@@ -197,7 +198,7 @@ gnome_canvas_rich_text_class_init(GnomeCanvasRichTextClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS(klass);
-	
+
 	parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = gnome_canvas_rich_text_set_property;
@@ -417,7 +418,7 @@ gnome_canvas_rich_text_init(GnomeCanvasRichText *text)
 	text->_priv->justification = GTK_JUSTIFY_LEFT;
 	text->_priv->direction = gtk_widget_get_default_direction();
 	text->_priv->anchor = GTK_ANCHOR_NW;
-	
+
 	text->_priv->blink_timeout = 0;
 	text->_priv->preblink_timeout = 0;
 
@@ -506,7 +507,7 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		text->_priv->wrap_mode = g_value_get_enum (value);
 
 		if (text->_priv->layout) {
-			text->_priv->layout->default_style->wrap_mode = 
+			text->_priv->layout->default_style->wrap_mode =
 				text->_priv->wrap_mode;
 			gtk_text_layout_default_style_changed(text->_priv->layout);
 		}
@@ -534,7 +535,7 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_PIXELS_ABOVE_LINES:
 		text->_priv->pixels_above_lines = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->pixels_above_lines =
 				text->_priv->pixels_above_lines;
@@ -543,7 +544,7 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_PIXELS_BELOW_LINES:
 		text->_priv->pixels_below_lines = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->pixels_below_lines =
 				text->_priv->pixels_below_lines;
@@ -552,7 +553,7 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_PIXELS_INSIDE_WRAP:
 		text->_priv->pixels_inside_wrap = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->pixels_inside_wrap =
 				text->_priv->pixels_inside_wrap;
@@ -561,7 +562,7 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_LEFT_MARGIN:
 		text->_priv->left_margin = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->left_margin =
 				text->_priv->left_margin;
@@ -570,7 +571,7 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_RIGHT_MARGIN:
 		text->_priv->right_margin = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->right_margin =
 				text->_priv->right_margin;
@@ -579,13 +580,13 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_INDENT:
 		text->_priv->pixels_above_lines = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->indent = text->_priv->indent;
 			gtk_text_layout_default_style_changed(text->_priv->layout);
 		}
 		break;
-		       
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -724,7 +725,7 @@ gnome_canvas_rich_text_move_cursor(GnomeCanvasRichText *text,
 	GtkTextIter insert, newplace;
 
 	gtk_text_buffer_get_iter_at_mark(
-		get_buffer(text), &insert, 
+		get_buffer(text), &insert,
 		gtk_text_buffer_get_mark(get_buffer(text), "insert"));
 
 	newplace = insert;
@@ -747,7 +748,7 @@ gnome_canvas_rich_text_move_cursor(GnomeCanvasRichText *text,
 		gnome_canvas_rich_text_move_iter_by_lines(
 			text, &newplace, count);
 		gtk_text_layout_move_iter_to_x(
-			text->_priv->layout, &newplace, 
+			text->_priv->layout, &newplace,
 			gnome_canvas_rich_text_get_cursor_x_position(text));
 		break;
 	case GTK_MOVEMENT_DISPLAY_LINE_ENDS:
@@ -759,7 +760,7 @@ gnome_canvas_rich_text_move_cursor(GnomeCanvasRichText *text,
 			gnome_canvas_rich_text_move_iter_by_lines(
 				text, &newplace, ++count);
 		}
-	       
+
 		if (count != 0) {
 			gtk_text_layout_move_iter_to_line_end(
 				text->_priv->layout, &newplace, count);
@@ -842,7 +843,7 @@ gnome_canvas_rich_text_delete_from_cursor(GnomeCanvasRichText *text,
 	/* Special case: If the user wants to delete a character and there is
 	   a selection, then delete the selection and return */
 	if (type == GTK_DELETE_CHARS) {
-		if (gtk_text_buffer_delete_selection(get_buffer(text), TRUE, 
+		if (gtk_text_buffer_delete_selection(get_buffer(text), TRUE,
 						     text->_priv->editable))
 			return;
 	}
@@ -915,15 +916,15 @@ selection_motion_event_handler(GnomeCanvasRichText *text, GdkEvent *event,
 {
 	GtkTextIter newplace;
 	GtkTextMark *mark;
-	double newx, newy;
+	gdouble newx, newy;
 
 	/* We only want to handle motion events... */
 	if (event->type != GDK_MOTION_NOTIFY)
 		return FALSE;
 
-	newx = (event->motion.x - text->_priv->x) * 
+	newx = (event->motion.x - text->_priv->x) *
 		GNOME_CANVAS_ITEM(text)->canvas->pixels_per_unit;
-	newy = (event->motion.y - text->_priv->y) * 
+	newy = (event->motion.y - text->_priv->y) *
 		GNOME_CANVAS_ITEM(text)->canvas->pixels_per_unit;
 
 	gtk_text_layout_get_iter_at_pixel(text->_priv->layout, &newplace, newx, newy);
@@ -979,9 +980,9 @@ gnome_canvas_rich_text_emit_tag_changed(GnomeCanvasRichText *text,
 {
 	g_signal_emit(G_OBJECT(text), signals[TAG_CHANGED], 0, tag);
 } /* gnome_canvas_rich_text_emit_tag_changed */
-						
+
 static gint
-gnome_canvas_rich_text_key_press_event(GnomeCanvasItem *item, 
+gnome_canvas_rich_text_key_press_event(GnomeCanvasItem *item,
 				       GdkEventKey *event)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
@@ -1018,7 +1019,7 @@ gnome_canvas_rich_text_key_press_event(GnomeCanvasItem *item,
 	case GDK_Right:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor(
-				text, GTK_MOVEMENT_WORDS, 1, 
+				text, GTK_MOVEMENT_WORDS, 1,
 				extend_selection);
 			handled = TRUE;
 		}
@@ -1211,12 +1212,12 @@ gnome_canvas_rich_text_key_press_event(GnomeCanvasItem *item,
 	}
 
 	gnome_canvas_rich_text_start_cursor_blink(text, TRUE);
-	
+
 	return TRUE;
 } /* gnome_canvas_rich_text_key_press_event */
 
 static gint
-gnome_canvas_rich_text_key_release_event(GnomeCanvasItem *item, 
+gnome_canvas_rich_text_key_release_event(GnomeCanvasItem *item,
 					 GdkEventKey *event)
 {
 	return FALSE;
@@ -1240,11 +1241,11 @@ gnome_canvas_rich_text_button_press_event(GnomeCanvasItem *item,
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
 	GtkTextIter iter;
 	GdkEventType event_type;
-	double newx, newy;
+	gdouble newx, newy;
 
 	newx = (event->x - text->_priv->x) * item->canvas->pixels_per_unit;
 	newy = (event->y - text->_priv->y) * item->canvas->pixels_per_unit;
-	
+
 	gtk_text_layout_get_iter_at_pixel(text->_priv->layout, &iter, newx, newy);
 
 	/* The canvas doesn't give us double- or triple-click events, so
@@ -1289,7 +1290,7 @@ gnome_canvas_rich_text_button_press_event(GnomeCanvasItem *item,
 #if 0
 		printf("double-click\n");
 #endif
-		
+
 		gnome_canvas_rich_text_end_selection_drag(text, event);
 
 		start = iter;
@@ -1298,7 +1299,7 @@ gnome_canvas_rich_text_button_press_event(GnomeCanvasItem *item,
 		if (gtk_text_iter_inside_word(&start)) {
 			if (!gtk_text_iter_starts_word(&start))
 				gtk_text_iter_backward_word_start(&start);
-			
+
 			if (!gtk_text_iter_ends_word(&end))
 				gtk_text_iter_forward_word_end(&end);
 		}
@@ -1360,7 +1361,7 @@ gnome_canvas_rich_text_button_press_event(GnomeCanvasItem *item,
 			gtk_clipboard_get (GDK_SELECTION_PRIMARY),
 			&iter, text->_priv->editable);
 	}
-		
+
 	return FALSE;
 } /* gnome_canvas_rich_text_button_press_event */
 
@@ -1369,11 +1370,11 @@ gnome_canvas_rich_text_button_release_event(GnomeCanvasItem *item,
 					    GdkEventButton *event)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
-	double newx, newy;
+	gdouble newx, newy;
 
 	newx = (event->x - text->_priv->x) * item->canvas->pixels_per_unit;
 	newy = (event->y - text->_priv->y) * item->canvas->pixels_per_unit;
-	
+
 	if (event->button == 1) {
 		if (text->_priv->drag_start_x >= 0) {
 			text->_priv->drag_start_x = -1;
@@ -1433,7 +1434,7 @@ static gboolean
 get_event_coordinates(GdkEvent *event, gint *x, gint *y)
 {
 	g_return_val_if_fail(event, FALSE);
-	
+
 	switch (event->type) {
 	case GDK_MOTION_NOTIFY:
 		*x = event->motion.x;
@@ -1453,12 +1454,12 @@ get_event_coordinates(GdkEvent *event, gint *x, gint *y)
 } /* get_event_coordinates */
 
 static void
-emit_event_on_tags(GnomeCanvasRichText *text, GdkEvent *event, 
+emit_event_on_tags(GnomeCanvasRichText *text, GdkEvent *event,
 		   GtkTextIter *iter)
 {
 	GSList *tags;
 	GSList *i;
-	
+
 	tags = gtk_text_iter_get_tags(iter);
 
 	i = tags;
@@ -1469,7 +1470,7 @@ emit_event_on_tags(GnomeCanvasRichText *text, GdkEvent *event,
 
 		/* The cursor has been moved to within this tag. Emit the
 		   tag_changed signal */
-		if (event->type == GDK_BUTTON_RELEASE || 
+		if (event->type == GDK_BUTTON_RELEASE ||
 		    event->type == GDK_KEY_PRESS ||
 		    event->type == GDK_KEY_RELEASE) {
 			gnome_canvas_rich_text_emit_tag_changed(
@@ -1486,7 +1487,7 @@ static gint
 gnome_canvas_rich_text_event(GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
-	int x, y;
+	gint x, y;
 
 	if (get_event_coordinates(event, &x, &y)) {
 		GtkTextIter iter;
@@ -1549,7 +1550,7 @@ gnome_canvas_rich_text_event(GnomeCanvasItem *item, GdkEvent *event)
 /**
  * gnome_canvas_rich_text_cut_clipboard:
  * @text: a #GnomeCanvasRichText.
- * 
+ *
  * Copies the currently selected @text to clipboard, then deletes said text
  * if it's editable.
  **/
@@ -1563,7 +1564,6 @@ gnome_canvas_rich_text_cut_clipboard(GnomeCanvasRichText *text)
 				      gtk_clipboard_get (GDK_SELECTION_PRIMARY),
 				      text->_priv->editable);
 } /* gnome_canvas_rich_text_cut_clipboard */
-
 
 /**
  * gnome_canvas_rich_text_copy_clipboard:
@@ -1580,7 +1580,6 @@ gnome_canvas_rich_text_copy_clipboard(GnomeCanvasRichText *text)
 	gtk_text_buffer_copy_clipboard(get_buffer(text),
 				       gtk_clipboard_get (GDK_SELECTION_PRIMARY));
 } /* gnome_canvas_rich_text_cut_clipboard */
-
 
 /**
  * gnome_canvas_rich_text_paste_clipboard:
@@ -1721,12 +1720,12 @@ scale_fonts(GtkTextTag *tag, gpointer data)
 #endif
 
 	g_object_set(
-		G_OBJECT(tag), "scale", 
+		G_OBJECT(tag), "scale",
 		text->_priv->layout->default_style->font_scale, NULL);
 } /* scale_fonts */
 
 static void
-changed_handler(GtkTextLayout *layout, gint start_y, 
+changed_handler(GtkTextLayout *layout, gint start_y,
 		gint old_height, gint new_height, gpointer data)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(data);
@@ -1735,11 +1734,11 @@ changed_handler(GtkTextLayout *layout, gint start_y,
 	printf("Layout %p is being changed.\n", text->_priv->layout);
 #endif
 
-	if (text->_priv->layout->default_style->font_scale != 
+	if (text->_priv->layout->default_style->font_scale !=
 	    GNOME_CANVAS_ITEM(text)->canvas->pixels_per_unit) {
 		GtkTextTagTable *tag_table;
 
-		text->_priv->layout->default_style->font_scale = 
+		text->_priv->layout->default_style->font_scale =
 			GNOME_CANVAS_ITEM(text)->canvas->pixels_per_unit;
 
 		tag_table = gtk_text_buffer_get_tag_table(get_buffer(text));
@@ -1749,7 +1748,7 @@ changed_handler(GtkTextLayout *layout, gint start_y,
 	}
 
 	if (text->_priv->grow_height) {
-		int width, height;
+		gint width, height;
 
 		gtk_text_layout_get_size(text->_priv->layout, &width, &height);
 
@@ -1762,16 +1761,15 @@ changed_handler(GtkTextLayout *layout, gint start_y,
 	g_idle_add(request_update, text);
 } /* changed_handler */
 
-
 /**
  * gnome_canvas_rich_text_set_buffer:
  * @text: a #GnomeCanvasRichText.
  * @buffer: a #GtkTextBuffer.
  *
- * Sets the buffer field of the @text to @buffer. 
- **/ 
+ * Sets the buffer field of the @text to @buffer.
+ **/
 void
-gnome_canvas_rich_text_set_buffer(GnomeCanvasRichText *text, 
+gnome_canvas_rich_text_set_buffer(GnomeCanvasRichText *text,
 				  GtkTextBuffer *buffer)
 {
 	g_return_if_fail(GNOME_IS_CANVAS_RICH_TEXT(text));
@@ -1810,7 +1808,6 @@ get_buffer(GnomeCanvasRichText *text)
 	return text->_priv->buffer;
 } /* get_buffer */
 
-
 /**
  * gnome_canvas_rich_text_get_buffer:
  * @text: a #GnomeCanvasRichText.
@@ -1827,7 +1824,6 @@ gnome_canvas_rich_text_get_buffer(GnomeCanvasRichText *text)
 
 	return get_buffer(text);
 } /* gnome_canvas_rich_text_get_buffer */
-
 
 /**
  * gnome_canvas_rich_text_get_iter_location:
@@ -1848,7 +1844,6 @@ gnome_canvas_rich_text_get_iter_location (GnomeCanvasRichText *text,
   gtk_text_layout_get_iter_location (text->_priv->layout, iter, location);
 }
 
-
 /**
  * gnome_canvas_rich_text_get_iter_at_location:
  * @text: a #GnomeCanvasRichText.
@@ -1856,8 +1851,8 @@ gnome_canvas_rich_text_get_iter_location (GnomeCanvasRichText *text,
  * @x: x position, in buffer coordinates.
  * @y: y position, in buffer coordinates.
  *
- * Retrieves the iterator at the buffer coordinates x and y. 
- **/ 
+ * Retrieves the iterator at the buffer coordinates x and y.
+ **/
 void
 gnome_canvas_rich_text_get_iter_at_location (GnomeCanvasRichText *text,
                                     GtkTextIter *iter,
@@ -1874,7 +1869,6 @@ gnome_canvas_rich_text_get_iter_at_location (GnomeCanvasRichText *text,
                                      y);
 }
 
-
 static void
 gnome_canvas_rich_text_set_attributes_from_style(GnomeCanvasRichText *text,
 						 GtkTextAttributes *values,
@@ -1882,7 +1876,7 @@ gnome_canvas_rich_text_set_attributes_from_style(GnomeCanvasRichText *text,
 {
 	values->appearance.bg_color = style->base[GTK_STATE_NORMAL];
 	values->appearance.fg_color = style->fg[GTK_STATE_NORMAL];
-	
+
 	if (values->font)
 		pango_font_description_free (values->font);
 
@@ -1974,9 +1968,9 @@ gnome_canvas_rich_text_destroy_layout(GnomeCanvasRichText *text)
 } /* gnome_canvas_rich_text_destroy_layout */
 
 static void
-adjust_for_anchors(GnomeCanvasRichText *text, double *ax, double *ay)
+adjust_for_anchors(GnomeCanvasRichText *text, gdouble *ax, gdouble *ay)
 {
-	double x, y;
+	gdouble x, y;
 
 	x = text->_priv->x;
 	y = text->_priv->y;
@@ -2033,13 +2027,13 @@ adjust_for_anchors(GnomeCanvasRichText *text, double *ax, double *ay)
 } /* adjust_for_anchors */
 
 static void
-get_bounds(GnomeCanvasRichText *text, double *px1, double *py1,
-	   double *px2, double *py2)
+get_bounds(GnomeCanvasRichText *text, gdouble *px1, gdouble *py1,
+	   gdouble *px2, gdouble *py2)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM(text);
-	double x, y;
-	double x1, x2, y1, y2;
-	int cx1, cx2, cy1, cy2;
+	gdouble x, y;
+	gdouble x1, x2, y1, y2;
+	gint cx1, cx2, cy1, cy2;
 
 	adjust_for_anchors(text, &x, &y);
 
@@ -2059,19 +2053,23 @@ get_bounds(GnomeCanvasRichText *text, double *px1, double *py1,
 	*py2 = cy2;
 } /* get_bounds */
 
-static void gnome_canvas_rich_text_get_bounds(GnomeCanvasItem *item, double *px1, double *py1,
-	   double *px2, double *py2)
+static void
+gnome_canvas_rich_text_get_bounds (GnomeCanvasItem *item,
+                                   gdouble *px1,
+                                   gdouble *py1,
+                                   gdouble *px2,
+                                   gdouble *py2)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
 	get_bounds (text, px1, py1, px2, py2);
 }
 
 static void
-gnome_canvas_rich_text_update(GnomeCanvasItem *item, double *affine,
-			      ArtSVP *clip_path, int flags)
+gnome_canvas_rich_text_update(GnomeCanvasItem *item, gdouble *affine,
+			      ArtSVP *clip_path, gint flags)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 	GtkTextIter start;
 
 	(* GNOME_CANVAS_ITEM_CLASS(parent_class)->update)(
@@ -2086,15 +2084,15 @@ gnome_canvas_rich_text_update(GnomeCanvasItem *item, double *affine,
 
 	gnome_canvas_update_bbox(item, x1, y1, x2, y2);
 } /* gnome_canvas_rich_text_update */
-			       			  
+
 static double
-gnome_canvas_rich_text_point(GnomeCanvasItem *item, double x, double y,
-			     int cx, int cy, GnomeCanvasItem **actual_item)
+gnome_canvas_rich_text_point(GnomeCanvasItem *item, gdouble x, gdouble y,
+			     gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
-	double ax, ay;
-	double x1, x2, y1, y2;
-	double dx, dy;
+	gdouble ax, ay;
+	gdouble x1, x2, y1, y2;
+	gdouble dx, dy;
 
 	*actual_item = item;
 
@@ -2129,14 +2127,14 @@ gnome_canvas_rich_text_point(GnomeCanvasItem *item, double x, double y,
 
 static void
 gnome_canvas_rich_text_draw(GnomeCanvasItem *item, GdkDrawable *drawable,
-			    int x, int y, int width, int height)
+			    gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT(item);
 	GtkStyle *style;
 	GtkWidget *widget;
-	double i2w[6], w2c[6], i2c[6];
-	double ax, ay;
-	int x1, y1, x2, y2;
+	gdouble i2w[6], w2c[6], i2c[6];
+	gdouble ax, ay;
+	gint x1, y1, x2, y2;
 	ArtPoint i1, i2;
 	ArtPoint c1, c2;
 
@@ -2182,9 +2180,9 @@ gnome_canvas_rich_text_render(GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 
 #if 0
 static GtkTextTag *
-gnome_canvas_rich_text_add_tag(GnomeCanvasRichText *text, char *tag_name,
-			       int start_offset, int end_offset, 
-			       const char *first_property_name, ...)
+gnome_canvas_rich_text_add_tag(GnomeCanvasRichText *text, gchar *tag_name,
+			       gint start_offset, gint end_offset,
+			       const gchar *first_property_name, ...)
 {
 	GtkTextTag *tag;
 	GtkTextIter start, end;

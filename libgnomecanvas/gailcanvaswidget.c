@@ -59,7 +59,7 @@ gail_canvas_widget_class_init (GailCanvasWidgetClass *klass)
   class->ref_child = gail_canvas_widget_ref_child;
 }
 
-static gint 
+static gint
 gail_canvas_widget_get_n_children (AtkObject *obj)
 {
   AtkGObjectAccessible *atk_gobj;

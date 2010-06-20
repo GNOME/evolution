@@ -38,7 +38,6 @@
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-shape.h"
 
-
 #include <libart_lgpl/art_vpath.h>
 #include <libart_lgpl/art_svp.h>
 #include <libart_lgpl/art_svp_vpath.h>
@@ -56,7 +55,6 @@ enum {
 	PROP_Y2
 };
 
-
 static void gnome_canvas_re_class_init (GnomeCanvasREClass *class);
 static void gnome_canvas_re_init       (GnomeCanvasRE      *re);
 static void gnome_canvas_re_destroy    (GtkObject          *object);
@@ -69,11 +67,10 @@ static void gnome_canvas_re_get_property (GObject              *object,
 					  GValue               *value,
 					  GParamSpec           *pspec);
 
-static void gnome_canvas_rect_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
-static void gnome_canvas_ellipse_update      (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags);
+static void gnome_canvas_rect_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
+static void gnome_canvas_ellipse_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 
 static GnomeCanvasItemClass *re_parent_class;
-
 
 GType
 gnome_canvas_re_get_type (void)
@@ -248,8 +245,6 @@ gnome_canvas_re_get_property (GObject              *object,
 /* Rectangle item */
 static void gnome_canvas_rect_class_init (GnomeCanvasRectClass *class);
 
-
-
 GType
 gnome_canvas_rect_get_type (void)
 {
@@ -287,22 +282,22 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 }
 
 static void
-gnome_canvas_rect_update (GnomeCanvasItem *item, double affine[6], ArtSVP *clip_path, gint flags)
-{	GnomeCanvasRE *re;	
+gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags)
+{	GnomeCanvasRE *re;
 
 	GnomeCanvasPathDef *path_def;
 
 	re = GNOME_CANVAS_RE(item);
 
-	if (re->path_dirty) {		
+	if (re->path_dirty) {
 		path_def = gnome_canvas_path_def_new ();
-		
+
 		gnome_canvas_path_def_moveto(path_def, re->x1, re->y1);
 		gnome_canvas_path_def_lineto(path_def, re->x2, re->y1);
 		gnome_canvas_path_def_lineto(path_def, re->x2, re->y2);
 		gnome_canvas_path_def_lineto(path_def, re->x1, re->y2);
-		gnome_canvas_path_def_lineto(path_def, re->x1, re->y1);		
-		gnome_canvas_path_def_closepath_current(path_def);		
+		gnome_canvas_path_def_lineto(path_def, re->x1, re->y1);
+		gnome_canvas_path_def_closepath_current(path_def);
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
 		gnome_canvas_path_def_unref(path_def);
 		re->path_dirty = 0;
@@ -314,9 +309,7 @@ gnome_canvas_rect_update (GnomeCanvasItem *item, double affine[6], ArtSVP *clip_
 
 /* Ellipse item */
 
-
 static void gnome_canvas_ellipse_class_init (GnomeCanvasEllipseClass *class);
-
 
 GType
 gnome_canvas_ellipse_get_type (void)
@@ -357,7 +350,7 @@ gnome_canvas_ellipse_class_init (GnomeCanvasEllipseClass *class)
 #define N_PTS 90
 
 static void
-gnome_canvas_ellipse_update (GnomeCanvasItem *item, double affine[6], ArtSVP *clip_path, gint flags) {
+gnome_canvas_ellipse_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags) {
 	GnomeCanvasPathDef *path_def;
 	GnomeCanvasRE *re;
 
@@ -401,7 +394,7 @@ gnome_canvas_ellipse_update (GnomeCanvasItem *item, double affine[6], ArtSVP *cl
 					       cx - mx - dx2, cy - my + dy2,
 					       cx - rx, cy - dy1,
 					       cx - rx, cy);
-		
+
 		gnome_canvas_path_def_curveto (path_def,
 					       cx - rx, cy + dy1,
 					       cx - mx - dx2, cy + my - dy2,
@@ -418,9 +411,9 @@ gnome_canvas_ellipse_update (GnomeCanvasItem *item, double affine[6], ArtSVP *cl
 					       cx + mx + dx2, cy + my - dy2,
 					       cx + rx, cy + dy1,
 					       cx + rx, cy);
-		
+
 		gnome_canvas_path_def_closepath_current(path_def);
-		
+
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
 		gnome_canvas_path_def_unref(path_def);
 		re->path_dirty = 0;

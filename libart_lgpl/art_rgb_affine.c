@@ -61,23 +61,23 @@
  * implemented.
  **/
 void
-art_rgb_affine (art_u8 *dst, int x0, int y0, int x1, int y1, int dst_rowstride,
+art_rgb_affine (art_u8 *dst, gint x0, gint y0, gint x1, gint y1, gint dst_rowstride,
 		const art_u8 *src,
-		int src_width, int src_height, int src_rowstride,
-		const double affine[6],
+		gint src_width, gint src_height, gint src_rowstride,
+		const gdouble affine[6],
 		ArtFilterLevel level,
 		ArtAlphaGamma *alphagamma)
 {
   /* Note: this is a slow implementation, and is missing all filter
      levels other than NEAREST. It is here for clarity of presentation
      and to establish the interface. */
-  int x, y;
-  double inv[6];
+  gint x, y;
+  gdouble inv[6];
   art_u8 *dst_p, *dst_linestart;
   const art_u8 *src_p;
   ArtPoint pt, src_pt;
-  int src_x, src_y;
-  int run_x0, run_x1;
+  gint src_x, src_y;
+  gint run_x0, run_x1;
 
   dst_linestart = dst;
   art_affine_invert (inv, affine);

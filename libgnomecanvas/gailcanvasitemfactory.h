@@ -31,7 +31,6 @@ G_BEGIN_DECLS
 #define GAIL_IS_CANVAS_ITEM_FACTORY_CLASS(klass)      (G_TYPE_CHECK_CLASS_TYPE ((klass), GAIL_TYPE_CANVAS_ITEM_FACTORY))
 #define GAIL_CANVAS_ITEM_FACTORY_GET_CLASS(obj)       (G_TYPE_INSTANCE_GET_CLASS ((obj), GAIL_TYPE_CANVAS_ITEM_FACTORY, GailCanvasItemFactoryClass))
 
-
 typedef struct _GailCanvasItemFactory                GailCanvasItemFactory;
 typedef struct _GailCanvasItemFactoryClass           GailCanvasItemFactoryClass;
 

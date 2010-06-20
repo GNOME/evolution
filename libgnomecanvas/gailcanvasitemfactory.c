@@ -35,7 +35,7 @@ gail_canvas_item_factory_init (GailCanvasItemFactory *foo)
   ;
 }
 
-static void 
+static void
 gail_canvas_item_factory_class_init (GailCanvasItemFactoryClass *klass)
 {
   AtkObjectFactoryClass *class = ATK_OBJECT_FACTORY_CLASS (klass);
@@ -44,7 +44,7 @@ gail_canvas_item_factory_class_init (GailCanvasItemFactoryClass *klass)
   class->get_accessible_type = gail_canvas_item_factory_get_accessible_type;
 }
 
-static AtkObject* 
+static AtkObject*
 gail_canvas_item_factory_create_accessible (GObject   *obj)
 {
   return gail_canvas_item_new (obj);

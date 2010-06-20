@@ -28,32 +28,30 @@ extern "C" {
 
 void
 art_affine_point (ArtPoint *dst, const ArtPoint *src,
-		  const double affine[6]);
+		  const gdouble affine[6]);
 
 void
-art_affine_invert (double dst_affine[6], const double src_affine[6]);
+art_affine_invert (gdouble dst_affine[6], const gdouble src_affine[6]);
 
 void
-art_affine_multiply (double dst[6],
-		     const double src1[6], const double src2[6]);
+art_affine_multiply (gdouble dst[6],
+		     const gdouble src1[6], const gdouble src2[6]);
 
 /* set up the identity matrix */
 void
-art_affine_identity (double dst[6]);
+art_affine_identity (gdouble dst[6]);
 
 /* set up a scaling matrix */
 void
-art_affine_scale (double dst[6], double sx, double sy);
+art_affine_scale (gdouble dst[6], gdouble sx, gdouble sy);
 
 /* set up a translation matrix */
 void
-art_affine_translate (double dst[6], double tx, double ty);
-
+art_affine_translate (gdouble dst[6], gdouble tx, gdouble ty);
 
 /* find the affine's "expansion factor", i.e. the scale amount */
-double
-art_affine_expansion (const double src[6]);
-
+gdouble
+art_affine_expansion (const gdouble src[6]);
 
 #ifdef __cplusplus
 }

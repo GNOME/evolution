@@ -34,7 +34,6 @@
 #ifndef GNOME_CANVAS_RECT_ELLIPSE_H
 #define GNOME_CANVAS_RECT_ELLIPSE_H
 
-
 #include <libgnomecanvas/gnome-canvas.h>
 
 #include <libgnomecanvas/gnome-canvas-shape.h>
@@ -43,16 +42,15 @@
 
 G_BEGIN_DECLS
 
-
 /* Base class for rectangle and ellipse item types.  These are defined by their top-left and
  * bottom-right corners.  Rectangles and ellipses share the following arguments:
  *
  * name			type		read/write	description
  * ------------------------------------------------------------------------------------------
- * x1			double		RW		Leftmost coordinate of rectangle or ellipse
- * y1			double		RW		Topmost coordinate of rectangle or ellipse
- * x2			double		RW		Rightmost coordinate of rectangle or ellipse
- * y2			double		RW		Bottommost coordinate of rectangle or ellipse
+ * x1			gdouble		RW		Leftmost coordinate of rectangle or ellipse
+ * y1			gdouble		RW		Topmost coordinate of rectangle or ellipse
+ * x2			gdouble		RW		Rightmost coordinate of rectangle or ellipse
+ * y2			gdouble		RW		Bottommost coordinate of rectangle or ellipse
  * fill_color		string		W		X color specification for fill color,
  *							or NULL pointer for no color (transparent)
  * fill_color_gdk	GdkColor*	RW		Allocated GdkColor for fill
@@ -63,10 +61,9 @@ G_BEGIN_DECLS
  * outline_stipple	GdkBitmap*	RW		Stipple pattern for outline
  * width_pixels		uint		RW		Width of the outline in pixels.  The outline will
  *							not be scaled when the canvas zoom factor is changed.
- * width_units		double		RW		Width of the outline in canvas units.  The outline
+ * width_units		gdouble		RW		Width of the outline in canvas units.  The outline
  *							will be scaled when the canvas zoom factor is changed.
  */
-
 
 #define GNOME_TYPE_CANVAS_RE            (gnome_canvas_re_get_type ())
 #define GNOME_CANVAS_RE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_RE, GnomeCanvasRE))
@@ -75,31 +72,27 @@ G_BEGIN_DECLS
 #define GNOME_IS_CANVAS_RE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RE))
 #define GNOME_CANVAS_RE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RE, GnomeCanvasREClass))
 
-
 typedef struct _GnomeCanvasRE      GnomeCanvasRE;
 typedef struct _GnomeCanvasREClass GnomeCanvasREClass;
 
 struct _GnomeCanvasRE {
 	GnomeCanvasShape item;
 
-	double x1, y1, x2, y2;		/* Corners of item */
+	gdouble x1, y1, x2, y2;		/* Corners of item */
 
-	unsigned int path_dirty : 1;
+	guint path_dirty : 1;
 };
 
 struct _GnomeCanvasREClass {
 	GnomeCanvasShapeClass parent_class;
 };
 
-
 /* Standard Gtk function */
 GType gnome_canvas_re_get_type (void) G_GNUC_CONST;
-
 
 /* Rectangle item.  No configurable or queryable arguments are available (use those in
  * GnomeCanvasRE).
  */
-
 
 #define GNOME_TYPE_CANVAS_RECT            (gnome_canvas_rect_get_type ())
 #define GNOME_CANVAS_RECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_RECT, GnomeCanvasRect))
@@ -107,7 +100,6 @@ GType gnome_canvas_re_get_type (void) G_GNUC_CONST;
 #define GNOME_IS_CANVAS_RECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_RECT))
 #define GNOME_IS_CANVAS_RECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RECT))
 #define GNOME_CANVAS_RECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectClass))
-
 
 typedef struct _GnomeCanvasRect GnomeCanvasRect;
 typedef struct _GnomeCanvasRectClass GnomeCanvasRectClass;
@@ -120,15 +112,12 @@ struct _GnomeCanvasRectClass {
 	GnomeCanvasREClass parent_class;
 };
 
-
 /* Standard Gtk function */
 GType gnome_canvas_rect_get_type (void) G_GNUC_CONST;
-
 
 /* Ellipse item.  No configurable or queryable arguments are available (use those in
  * GnomeCanvasRE).
  */
-
 
 #define GNOME_TYPE_CANVAS_ELLIPSE            (gnome_canvas_ellipse_get_type ())
 #define GNOME_CANVAS_ELLIPSE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_ELLIPSE, GnomeCanvasEllipse))
@@ -136,7 +125,6 @@ GType gnome_canvas_rect_get_type (void) G_GNUC_CONST;
 #define GNOME_IS_CANVAS_ELLIPSE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_ELLIPSE))
 #define GNOME_IS_CANVAS_ELLIPSE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_ELLIPSE))
 #define GNOME_CANVAS_ELLIPSE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ELLIPSE, GnomeCanvasEllipseClass))
-
 
 typedef struct _GnomeCanvasEllipse GnomeCanvasEllipse;
 typedef struct _GnomeCanvasEllipseClass GnomeCanvasEllipseClass;
@@ -149,10 +137,8 @@ struct _GnomeCanvasEllipseClass {
 	GnomeCanvasREClass parent_class;
 };
 
-
 /* Standard Gtk function */
 GType gnome_canvas_ellipse_get_type (void) G_GNUC_CONST;
-
 
 G_END_DECLS
 

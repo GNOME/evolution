@@ -45,18 +45,18 @@ typedef struct _ArtUta ArtUta;
 /* Coordinates are shifted right by ART_UTILE_SHIFT wrt the real
    coordinates. */
 struct _ArtUta {
-  int x0;
-  int y0;
-  int width;
-  int height;
+  gint x0;
+  gint y0;
+  gint width;
+  gint height;
   ArtUtaBbox *utiles;
 };
 
 ArtUta *
-art_uta_new (int x0, int y0, int x1, int y1);
+art_uta_new (gint x0, gint y0, gint x1, gint y1);
 
 ArtUta *
-art_uta_new_coords (int x0, int y0, int x1, int y1);
+art_uta_new_coords (gint x0, gint y0, gint x1, gint y1);
 
 void
 art_uta_free (ArtUta *uta);

@@ -60,7 +60,6 @@ typedef enum {
 
 */
 
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

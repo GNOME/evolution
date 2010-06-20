@@ -54,9 +54,9 @@ static void gnome_canvas_clipgroup_get_property    (GObject                   *o
                                                     GValue                    *value,
                                                     GParamSpec                *pspec);
 static void gnome_canvas_clipgroup_update          (GnomeCanvasItem           *item,
-                                                    double                    *affine,
+                                                    gdouble                    *affine,
                                                     ArtSVP                    *clip_path,
-                                                    int                        flags);
+                                                    gint                        flags);
 
 /*
  * Generic clipping stuff
@@ -166,7 +166,7 @@ gnome_canvas_clipgroup_destroy (GtkObject *object)
 		gnome_canvas_path_def_unref (clipgroup->path);
 		clipgroup->path = NULL;
 	}
-	
+
 	if (clipgroup->svp) {
 		art_svp_free (clipgroup->svp);
 		clipgroup->svp = NULL;
@@ -175,7 +175,6 @@ gnome_canvas_clipgroup_destroy (GtkObject *object)
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
-
 
 static void
 gnome_canvas_clipgroup_set_property (GObject      *object,
@@ -235,13 +234,13 @@ gnome_canvas_clipgroup_get_property (GObject    *object,
 		break;
 
 	default:
-	        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
 	}
 }
 
 static void
-gnome_canvas_clipgroup_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_clipgroup_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	GnomeCanvasClipgroup *clipgroup;
 	ArtSvpWriter *swr;
@@ -266,13 +265,13 @@ gnome_canvas_clipgroup_update (GnomeCanvasItem *item, double *affine, ArtSVP *cl
 
 		svp1 = art_svp_from_vpath (vpath);
 		art_free (vpath);
-		
+
 		swr = art_svp_writer_rewind_new (clipgroup->wind);
 		art_svp_intersector (svp1, swr);
 
 		svp2 = art_svp_writer_rewind_reap (swr);
 		art_svp_free (svp1);
-		
+
 		if (clip_path != NULL) {
 			svp = art_svp_intersect (svp2, clip_path);
 			art_svp_free (svp2);

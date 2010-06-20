@@ -48,7 +48,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-
 #include <camel/camel.h>        /* FIXME: this is where camel_init is defined; it shouldn't include everything else */
 
 /* private NSS defines used by PSM */

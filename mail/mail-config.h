@@ -66,35 +66,41 @@ typedef enum {
 	MAIL_CONFIG_XMAILER_RUPERT_APPROVED = 4
 } MailConfigXMailerDisplayStyle;
 
-/* Configuration */
-void mail_config_init (void);
-void mail_config_write (void);
+GType		evolution_mail_config_get_type	(void);
 
-GConfClient *mail_config_get_gconf_client (void);
+/* Configuration */
+void		mail_config_init		(void);
+void		mail_config_write		(void);
+
+GConfClient *	mail_config_get_gconf_client	(void);
 
 /* General Accessor functions */
 
-void mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd);
+void		mail_config_service_set_save_passwd
+						(EAccountService *service,
+						 gboolean save_passwd);
 
 /* accounts */
-EAccount *mail_config_get_account_by_source_url (const gchar *url);
-EAccount *mail_config_get_account_by_transport_url (const gchar *url);
+EAccount *	mail_config_get_account_by_source_url
+						(const gchar *url);
+EAccount *	mail_config_get_account_by_transport_url
+						(const gchar *url);
 
-gint mail_config_get_address_count (void);
+gint		mail_config_get_address_count	(void);
 
-EAccountService  *mail_config_get_default_transport (void);
+EAccountService *
+		mail_config_get_default_transport (void);
 
 /* static utility functions */
-gchar *mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix);
-gchar *mail_config_folder_to_safe_url (CamelFolder *folder);
+gchar *		mail_config_folder_to_cachename	(CamelFolder *folder,
+						 const gchar *prefix);
+gchar *		mail_config_folder_to_safe_url	(CamelFolder *folder);
 
-gint mail_config_get_sync_timeout (void);
+gint		mail_config_get_sync_timeout	(void);
 
-void mail_config_reload_junk_headers (void);
-gboolean mail_config_get_lookup_book (void);
-gboolean mail_config_get_lookup_book_local_only (void);
-
-GType evolution_mail_config_get_type (void);
+void		mail_config_reload_junk_headers	(void);
+gboolean	mail_config_get_lookup_book	(void);
+gboolean	mail_config_get_lookup_book_local_only (void);
 
 G_END_DECLS
 

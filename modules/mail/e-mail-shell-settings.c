@@ -129,7 +129,7 @@ e_mail_shell_settings_init (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"mail-magic-spacebar",
 		"/apps/evolution/mail/display/magic_spacebar");
-	
+
 	e_shell_settings_install_property_for_key (
 		"mail-global-view-setting",
 		"/apps/evolution/mail/display/global_view_setting");

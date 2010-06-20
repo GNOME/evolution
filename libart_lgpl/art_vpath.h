@@ -34,15 +34,15 @@ typedef struct _ArtVpath ArtVpath;
 /* CURVETO is not allowed! */
 struct _ArtVpath {
   ArtPathcode code;
-  double x;
-  double y;
+  gdouble x;
+  gdouble y;
 };
 
 /* Some of the functions need to go into their own modules */
 
 void
-art_vpath_add_point (ArtVpath **p_vpath, int *pn_points, int *pn_points_max,
-		     ArtPathcode code, double x, double y);
+art_vpath_add_point (ArtVpath **p_vpath, gint *pn_points, gint *pn_points_max,
+		     ArtPathcode code, gdouble x, gdouble y);
 
 void
 art_vpath_bbox_drect (const ArtVpath *vec, ArtDRect *drect);

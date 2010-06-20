@@ -54,15 +54,15 @@
 /**
  * gnome_canvas_points_new:
  * @num_points: The number of points to allocate space for in the array.
- * 
+ *
  * Creates a structure that should be used to pass an array of points to
  * items.
- * 
+ *
  * Return value: A newly-created array of points.  It should be filled in
  * by the user.
  **/
 GnomeCanvasPoints *
-gnome_canvas_points_new (int num_points)
+gnome_canvas_points_new (gint num_points)
 {
 	GnomeCanvasPoints *points;
 
@@ -79,9 +79,9 @@ gnome_canvas_points_new (int num_points)
 /**
  * gnome_canvas_points_ref:
  * @points: A canvas points structure.
- * 
+ *
  * Increases the reference count of the specified points structure.
- * 
+ *
  * Return value: The canvas points structure itself.
  **/
 GnomeCanvasPoints *
@@ -96,7 +96,7 @@ gnome_canvas_points_ref (GnomeCanvasPoints *points)
 /**
  * gnome_canvas_points_free:
  * @points: A canvas points structure.
- * 
+ *
  * Decreases the reference count of the specified points structure.  If it
  * reaches zero, then the structure is freed.
  **/
@@ -125,26 +125,26 @@ gnome_canvas_points_free (GnomeCanvasPoints *points)
  * @my1: The Y coordinate of the first miter point is returned here.
  * @mx2: The X coordinate of the second miter point is returned here.
  * @my2: The Y coordinate of the second miter point is returned here.
- * 
+ *
  * Given three points forming an angle, computes the coordinates of the inside
  * and outside points of the mitered corner formed by a line of a given width at
  * that angle.
- * 
+ *
  * Return value: FALSE if the angle is less than 11 degrees (this is the same
  * threshold as X uses.  If this occurs, the return points are not modified.
  * Otherwise, returns TRUE.
  **/
-int
-gnome_canvas_get_miter_points (double x1, double y1, double x2, double y2, double x3, double y3,
-			       double width,
-			       double *mx1, double *my1, double *mx2, double *my2)
+gint
+gnome_canvas_get_miter_points (gdouble x1, gdouble y1, gdouble x2, gdouble y2, gdouble x3, gdouble y3,
+			       gdouble width,
+			       gdouble *mx1, gdouble *my1, gdouble *mx2, gdouble *my2)
 {
-	double theta1;		/* angle of segment p2-p1 */
-	double theta2;		/* angle of segment p2-p3 */
-	double theta;		/* angle between line segments */
-	double theta3;		/* angle that bisects theta1 and theta2 and points to p1 */
-	double dist;		/* distance of miter points from p2 */
-	double dx, dy;		/* x and y offsets corresponding to dist */
+	gdouble theta1;		/* angle of segment p2-p1 */
+	gdouble theta2;		/* angle of segment p2-p3 */
+	gdouble theta;		/* angle between line segments */
+	gdouble theta3;		/* angle that bisects theta1 and theta2 and points to p1 */
+	gdouble dist;		/* distance of miter points from p2 */
+	gdouble dx, dy;		/* x and y offsets corresponding to dist */
 
 #define ELEVEN_DEGREES (11.0 * G_PI / 180.0)
 
@@ -203,16 +203,16 @@ gnome_canvas_get_miter_points (double x1, double y1, double x2, double y2, doubl
  * @by1: Y coordinate of first butt point is returned here
  * @bx2: X coordinate of second butt point is returned here
  * @by2: Y coordinate of second butt point is returned here
- * 
+ *
  * Computes the butt points of a line segment.
  **/
 void
-gnome_canvas_get_butt_points (double x1, double y1, double x2, double y2,
-			      double width, int project,
-			      double *bx1, double *by1, double *bx2, double *by2)
+gnome_canvas_get_butt_points (gdouble x1, gdouble y1, gdouble x2, gdouble y2,
+			      gdouble width, gint project,
+			      gdouble *bx1, gdouble *by1, gdouble *bx2, gdouble *by2)
 {
-	double length;
-	double dx, dy;
+	gdouble length;
+	gdouble dx, dy;
 
 	width *= 0.5;
 	dx = x2 - x1;
@@ -247,20 +247,20 @@ gnome_canvas_get_butt_points (double x1, double y1, double x2, double y2,
  * @num_points: Number of points in the polygon
  * @x: X coordinate of the point
  * @y: Y coordinate of the point
- * 
+ *
  * Computes the distance between a point and a polygon.
- * 
+ *
  * Return value: The distance from the point to the polygon, or zero if the
  * point is inside the polygon.
  **/
-double
-gnome_canvas_polygon_to_point (double *poly, int num_points, double x, double y)
+gdouble
+gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdouble y)
 {
-	double best;
-	int intersections;
-	int i;
-	double *p;
-	double dx, dy;
+	gdouble best;
+	gint intersections;
+	gint i;
+	gdouble *p;
+	gdouble dx, dy;
 
 	/* Iterate through all the edges in the polygon, updating best and intersections.
 	 *
@@ -273,7 +273,7 @@ gnome_canvas_polygon_to_point (double *poly, int num_points, double x, double y)
 	intersections = 0;
 
 	for (i = num_points, p = poly; i > 1; i--, p += 2) {
-		double px, py, dist;
+		gdouble px, py, dist;
 
 		/* Compute the point on the current edge closest to the point and update the
 		 * intersection count.  This must be done separately for vertical edges, horizontal
@@ -311,8 +311,8 @@ gnome_canvas_polygon_to_point (double *poly, int num_points, double x, double y)
 					intersections++;
 			}
 		} else {
-			double m1, b1, m2, b2;
-			int lower;
+			gdouble m1, b1, m2, b2;
+			gint lower;
 
 			/* Diagonal edge.  Convert the edge to a line equation (y = m1*x + b1), then
 			 * compute a line perpendicular to this edge but passing through the point,
@@ -385,7 +385,7 @@ void
 gnome_canvas_render_svp (GnomeCanvasBuf *buf, ArtSVP *svp, guint32 rgba)
 {
 	guint32 fg_color, bg_color;
-	int alpha;
+	gint alpha;
 
 	if (buf->is_bg) {
 		bg_color = buf->bg_color;
@@ -394,9 +394,9 @@ gnome_canvas_render_svp (GnomeCanvasBuf *buf, ArtSVP *svp, guint32 rgba)
 			fg_color = rgba >> 8;
 		else {
 			/* composite over background color */
-			int bg_r, bg_g, bg_b;
-			int fg_r, fg_g, fg_b;
-			int tmp;
+			gint bg_r, bg_g, bg_b;
+			gint fg_r, fg_g, fg_b;
+			gint tmp;
 
 			bg_r = (bg_color >> 16) & 0xff;
 			fg_r = (rgba >> 24) & 0xff;
@@ -506,7 +506,7 @@ gnome_canvas_update_svp_clip (GnomeCanvas *canvas, ArtSVP **p_svp, ArtSVP *new_s
 /**
  * gnome_canvas_item_reset_bounds:
  * @item: A canvas item
- * 
+ *
  * Resets the bounding box of a canvas item to an empty rectangle.
  **/
 void
@@ -579,7 +579,7 @@ gnome_canvas_item_update_svp_clip (GnomeCanvasItem *item, ArtSVP **p_svp, ArtSVP
  * @svp: the svp that needs to be redrawn
  *
  * Request redraw of the svp if in aa mode, or the entire item in in xlib mode.
- **/ 
+ **/
 void
 gnome_canvas_item_request_redraw_svp (GnomeCanvasItem *item, const ArtSVP *svp)
 {
@@ -593,7 +593,7 @@ gnome_canvas_item_request_redraw_svp (GnomeCanvasItem *item, const ArtSVP *svp)
 			gnome_canvas_request_redraw_uta (canvas, uta);
 		}
 	} else {
-		gnome_canvas_request_redraw (canvas, item->x1, item->y1, item->x2, item->y2);		
+		gnome_canvas_request_redraw (canvas, item->x1, item->y1, item->x2, item->y2);
 	}
 }
 
@@ -608,7 +608,7 @@ gnome_canvas_item_request_redraw_svp (GnomeCanvasItem *item, const ArtSVP *svp)
  * Sets the bbox to the new value, requesting full repaint.
  **/
 void
-gnome_canvas_update_bbox (GnomeCanvasItem *item, int x1, int y1, int x2, int y2)
+gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2, gint y2)
 {
 	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 	item->x1 = x1;
@@ -628,7 +628,7 @@ void
 gnome_canvas_buf_ensure_buf (GnomeCanvasBuf *buf)
 {
 	guchar *bufptr;
-	int y;
+	gint y;
 
 	if (!buf->is_buf) {
 		bufptr = buf->buf;

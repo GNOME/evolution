@@ -17,7 +17,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-
 #include "config.h"
 #include "art_svp_vpath_stroke.h"
 
@@ -48,18 +47,18 @@
    curve to the right.
 */
 static void
-art_svp_vpath_stroke_arc (ArtVpath **p_vpath, int *pn, int *pn_max,
-			  double xc, double yc,
-			  double x0, double y0,
-			  double x1, double y1,
-			  double radius,
-			  double flatness)
+art_svp_vpath_stroke_arc (ArtVpath **p_vpath, gint *pn, gint *pn_max,
+			  gdouble xc, gdouble yc,
+			  gdouble x0, gdouble y0,
+			  gdouble x1, gdouble y1,
+			  gdouble radius,
+			  gdouble flatness)
 {
-  double theta;
-  double th_0, th_1;
-  int n_pts;
-  int i;
-  double aradius;
+  gdouble theta;
+  gdouble th_0, th_1;
+  gint n_pts;
+  gint i;
+  gdouble aradius;
 
   aradius = fabs (radius);
   theta = 2 * M_SQRT2 * sqrt (flatness / aradius);
@@ -77,9 +76,6 @@ art_svp_vpath_stroke_arc (ArtVpath **p_vpath, int *pn, int *pn_max,
       if (th_1 < th_0) th_1 += M_PI * 2;
       n_pts = ceil ((th_1 - th_0) / theta);
     }
-#ifdef VERBOSE
-  printf ("start %f %f; th_0 = %f, th_1 = %f, r = %f, theta = %f\n", x0, y0, th_0, th_1, radius, theta);
-#endif
   art_vpath_add_point (p_vpath, pn, pn_max,
 		       ART_LINETO, xc + x0, yc + y0);
   for (i = 1; i < n_pts; i++)
@@ -88,15 +84,9 @@ art_svp_vpath_stroke_arc (ArtVpath **p_vpath, int *pn, int *pn_max,
       art_vpath_add_point (p_vpath, pn, pn_max,
 			   ART_LINETO, xc + cos (theta) * aradius,
 			   yc + sin (theta) * aradius);
-#ifdef VERBOSE
-      printf ("mid %f %f\n", cos (theta) * radius, sin (theta) * radius);
-#endif
     }
   art_vpath_add_point (p_vpath, pn, pn_max,
 		       ART_LINETO, xc + x1, yc + y1);
-#ifdef VERBOSE
-  printf ("end %f %f\n", x1, y1);
-#endif
 }
 
 /* Assume that forw and rev are at point i0. Bring them to i1,
@@ -113,24 +103,20 @@ art_svp_vpath_stroke_arc (ArtVpath **p_vpath, int *pn, int *pn_max,
    Precondition: no zero-length vectors, otherwise a divide by
    zero will happen.  */
 static void
-render_seg (ArtVpath **p_forw, int *pn_forw, int *pn_forw_max,
-	    ArtVpath **p_rev, int *pn_rev, int *pn_rev_max,
-	    ArtVpath *vpath, int i0, int i1, int i2,
+render_seg (ArtVpath **p_forw, gint *pn_forw, gint *pn_forw_max,
+	    ArtVpath **p_rev, gint *pn_rev, gint *pn_rev_max,
+	    ArtVpath *vpath, gint i0, gint i1, gint i2,
 	    ArtPathStrokeJoinType join,
-	    double line_width, double miter_limit, double flatness)
+	    gdouble line_width, gdouble miter_limit, gdouble flatness)
 {
-  double dx0, dy0;
-  double dx1, dy1;
-  double dlx0, dly0;
-  double dlx1, dly1;
-  double dmx, dmy;
-  double dmr2;
-  double scale;
-  double cross;
-
-#ifdef VERBOSE
-  printf ("join style = %d\n", join);
-#endif
+  gdouble dx0, dy0;
+  gdouble dx1, dy1;
+  gdouble dlx0, dly0;
+  gdouble dlx1, dly1;
+  gdouble dmx, dmy;
+  gdouble dmr2;
+  gdouble scale;
+  gdouble cross;
 
   /* The vectors of the lines from i0 to i1 and i1 to i2. */
   dx0 = vpath[i1].x - vpath[i0].x;
@@ -150,19 +136,6 @@ render_seg (ArtVpath **p_forw, int *pn_forw, int *pn_forw_max,
   scale = line_width / sqrt (dx1 * dx1 + dy1 * dy1);
   dlx1 = dy1 * scale;
   dly1 = -dx1 * scale;
-
-#ifdef VERBOSE
-  printf ("%% render_seg: (%g, %g) - (%g, %g) - (%g, %g)\n",
-	  vpath[i0].x, vpath[i0].y,
-	  vpath[i1].x, vpath[i1].y,
-	  vpath[i2].x, vpath[i2].y);
-
-  printf ("%% render_seg: d[xy]0 = (%g, %g), dl[xy]0 = (%g, %g)\n",
-	  dx0, dy0, dlx0, dly0);
-
-  printf ("%% render_seg: d[xy]1 = (%g, %g), dl[xy]1 = (%g, %g)\n",
-	  dx1, dy1, dlx1, dly1);
-#endif
 
   /* now, forw's last point is expected to be colinear along d[xy]0
      to point i0 - dl[xy]0, and rev with i0 + dl[xy]0. */
@@ -193,9 +166,6 @@ render_seg (ArtVpath **p_forw, int *pn_forw, int *pn_forw_max,
   if (cross * cross < EPSILON_2 && dx0 * dx1 + dy0 * dy1 >= 0)
     {
       /* going straight */
-#ifdef VERBOSE
-      printf ("%% render_seg: straight\n");
-#endif
       art_vpath_add_point (p_forw, pn_forw, pn_forw_max,
 		       ART_LINETO, vpath[i1].x - dlx0, vpath[i1].y - dly0);
       art_vpath_add_point (p_rev, pn_rev, pn_rev_max,
@@ -205,9 +175,6 @@ render_seg (ArtVpath **p_forw, int *pn_forw, int *pn_forw_max,
     {
       /* left turn, forw is outside and rev is inside */
 
-#ifdef VERBOSE
-      printf ("%% render_seg: left\n");
-#endif
       if (
 #ifdef NO_OPTIMIZE_INNER
 	  0 &&
@@ -265,9 +232,6 @@ render_seg (ArtVpath **p_forw, int *pn_forw, int *pn_forw_max,
   else
     {
       /* right turn, rev is outside and forw is inside */
-#ifdef VERBOSE
-      printf ("%% render_seg: right\n");
-#endif
 
       if (
 #ifdef NO_OPTIMIZE_INNER
@@ -328,15 +292,15 @@ render_seg (ArtVpath **p_forw, int *pn_forw, int *pn_forw_max,
 
 /* caps i1, under the assumption of a vector from i0 */
 static void
-render_cap (ArtVpath **p_result, int *pn_result, int *pn_result_max,
-	    ArtVpath *vpath, int i0, int i1,
-	    ArtPathStrokeCapType cap, double line_width, double flatness)
+render_cap (ArtVpath **p_result, gint *pn_result, gint *pn_result_max,
+	    ArtVpath *vpath, gint i0, gint i1,
+	    ArtPathStrokeCapType cap, gdouble line_width, gdouble flatness)
 {
-  double dx0, dy0;
-  double dlx0, dly0;
-  double scale;
-  int n_pts;
-  int i;
+  gdouble dx0, dy0;
+  gdouble dlx0, dly0;
+  gdouble scale;
+  gint n_pts;
+  gint i;
 
   dx0 = vpath[i1].x - vpath[i0].x;
   dy0 = vpath[i1].y - vpath[i0].y;
@@ -346,10 +310,6 @@ render_cap (ArtVpath **p_result, int *pn_result, int *pn_result_max,
   scale = line_width / sqrt (dx0 * dx0 + dy0 * dy0);
   dlx0 = dy0 * scale;
   dly0 = -dx0 * scale;
-
-#ifdef VERBOSE
-  printf ("cap style = %d\n", cap);
-#endif
 
   switch (cap)
     {
@@ -365,7 +325,7 @@ render_cap (ArtVpath **p_result, int *pn_result, int *pn_result_max,
 			   ART_LINETO, vpath[i1].x - dlx0, vpath[i1].y - dly0);
       for (i = 1; i < n_pts; i++)
 	{
-	  double theta, c_th, s_th;
+	  gdouble theta, c_th, s_th;
 
 	  theta = M_PI * i / n_pts;
 	  c_th = cos (theta);
@@ -410,21 +370,21 @@ ArtVpath *
 art_svp_vpath_stroke_raw (ArtVpath *vpath,
 			  ArtPathStrokeJoinType join,
 			  ArtPathStrokeCapType cap,
-			  double line_width,
-			  double miter_limit,
-			  double flatness)
+			  gdouble line_width,
+			  gdouble miter_limit,
+			  gdouble flatness)
 {
-  int begin_idx, end_idx;
-  int i;
+  gint begin_idx, end_idx;
+  gint i;
   ArtVpath *forw, *rev;
-  int n_forw, n_rev;
-  int n_forw_max, n_rev_max;
+  gint n_forw, n_rev;
+  gint n_forw_max, n_rev_max;
   ArtVpath *result;
-  int n_result, n_result_max;
-  double half_lw = 0.5 * line_width;
-  int closed;
-  int last, this, next, second;
-  double dx, dy;
+  gint n_result, n_result_max;
+  gdouble half_lw = 0.5 * line_width;
+  gint closed;
+  gint last, this, next, second;
+  gdouble dx, dy;
 
   n_forw_max = 16;
   forw = art_new (ArtVpath, n_forw_max);
@@ -487,7 +447,7 @@ art_svp_vpath_stroke_raw (ArtVpath *vpath,
 		  vpath[this].x == vpath[begin_idx].x &&
 		  vpath[this].y == vpath[begin_idx].y)
 		{
-		  int j;
+		  gint j;
 
 		  /* path is closed, render join to beginning */
 		  render_seg (&forw, &n_forw, &n_forw_max,
@@ -495,9 +455,6 @@ art_svp_vpath_stroke_raw (ArtVpath *vpath,
 			      vpath, last, this, second,
 			      join, half_lw, miter_limit, flatness);
 
-#ifdef VERBOSE
-		  printf ("%% forw %d, rev %d\n", n_forw, n_rev);
-#endif
 		  /* do forward path */
 		  art_vpath_add_point (&result, &n_result, &n_result_max,
 				   ART_MOVETO, forw[n_forw - 1].x,
@@ -519,7 +476,7 @@ art_svp_vpath_stroke_raw (ArtVpath *vpath,
 	      else
 		{
 		  /* path is open */
-		  int j;
+		  gint j;
 
 		  /* add to forw rather than result to ensure that
 		     forw has at least one point. */
@@ -556,64 +513,9 @@ art_svp_vpath_stroke_raw (ArtVpath *vpath,
 
   art_free (forw);
   art_free (rev);
-#ifdef VERBOSE
-  printf ("%% n_result = %d\n", n_result);
-#endif
   art_vpath_add_point (&result, &n_result, &n_result_max, ART_END, 0, 0);
   return result;
 }
-
-#define noVERBOSE
-
-#ifdef VERBOSE
-
-#define XOFF 50
-#define YOFF 700
-
-static void
-print_ps_vpath (ArtVpath *vpath)
-{
-  int i;
-
-  for (i = 0; vpath[i].code != ART_END; i++)
-    {
-      switch (vpath[i].code)
-	{
-	case ART_MOVETO:
-	  printf ("%g %g moveto\n", XOFF + vpath[i].x, YOFF - vpath[i].y);
-	  break;
-	case ART_LINETO:
-	  printf ("%g %g lineto\n", XOFF + vpath[i].x, YOFF - vpath[i].y);
-	  break;
-	default:
-	  break;
-	}
-    }
-  printf ("stroke showpage\n");
-}
-
-static void
-print_ps_svp (ArtSVP *vpath)
-{
-  int i, j;
-
-  printf ("%% begin\n");
-  for (i = 0; i < vpath->n_segs; i++)
-    {
-      printf ("%g setgray\n", vpath->segs[i].dir ? 0.7 : 0);
-      for (j = 0; j < vpath->segs[i].n_points; j++)
-	{
-	  printf ("%g %g %s\n",
-		  XOFF + vpath->segs[i].points[j].x,
-		  YOFF - vpath->segs[i].points[j].y,
-		  j ? "lineto" : "moveto");
-	}
-      printf ("stroke\n");
-    }
-
-  printf ("showpage\n");
-}
-#endif
 
 /* Render a vector path into a stroked outline.
 
@@ -675,9 +577,9 @@ ArtSVP *
 art_svp_vpath_stroke (ArtVpath *vpath,
 		      ArtPathStrokeJoinType join,
 		      ArtPathStrokeCapType cap,
-		      double line_width,
-		      double miter_limit,
-		      double flatness)
+		      gdouble line_width,
+		      gdouble miter_limit,
+		      gdouble flatness)
 {
 #ifdef ART_USE_NEW_INTERSECTOR
   ArtVpath *vpath_stroke;
@@ -686,22 +588,13 @@ art_svp_vpath_stroke (ArtVpath *vpath,
 
   vpath_stroke = art_svp_vpath_stroke_raw (vpath, join, cap,
 					   line_width, miter_limit, flatness);
-#ifdef VERBOSE
-  print_ps_vpath (vpath_stroke);
-#endif
   svp = art_svp_from_vpath (vpath_stroke);
-#ifdef VERBOSE
-  print_ps_svp (svp);
-#endif
   art_free (vpath_stroke);
 
   swr = art_svp_writer_rewind_new (ART_WIND_RULE_NONZERO);
   art_svp_intersector (svp, swr);
 
   svp2 = art_svp_writer_rewind_reap (swr);
-#ifdef VERBOSE
-  print_ps_svp (svp2);
-#endif
   art_svp_free (svp);
   return svp2;
 #else
@@ -710,28 +603,13 @@ art_svp_vpath_stroke (ArtVpath *vpath,
 
   vpath_stroke = art_svp_vpath_stroke_raw (vpath, join, cap,
 					   line_width, miter_limit, flatness);
-#ifdef VERBOSE
-  print_ps_vpath (vpath_stroke);
-#endif
   vpath2 = art_vpath_perturb (vpath_stroke);
-#ifdef VERBOSE
-  print_ps_vpath (vpath2);
-#endif
   art_free (vpath_stroke);
   svp = art_svp_from_vpath (vpath2);
-#ifdef VERBOSE
-  print_ps_svp (svp);
-#endif
   art_free (vpath2);
   svp2 = art_svp_uncross (svp);
-#ifdef VERBOSE
-  print_ps_svp (svp2);
-#endif
   art_svp_free (svp);
   svp3 = art_svp_rewind_uncrossed (svp2, ART_WIND_RULE_NONZERO);
-#ifdef VERBOSE
-  print_ps_svp (svp3);
-#endif
   art_svp_free (svp2);
 
   return svp3;

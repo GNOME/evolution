@@ -30,12 +30,11 @@
 #include "art_vpath.h"
 #include "art_svp.h"
 
-
 /* reverse a list of points in place */
 static void
-reverse_points (ArtPoint *points, int n_points)
+reverse_points (ArtPoint *points, gint n_points)
 {
-  int i;
+  gint i;
   ArtPoint tmp_p;
 
   for (i = 0; i < (n_points >> 1); i++)
@@ -66,15 +65,15 @@ reverse_points (ArtPoint *points, int n_points)
 ArtSVP *
 art_svp_from_vpath (ArtVpath *vpath)
 {
-  int n_segs, n_segs_max;
+  gint n_segs, n_segs_max;
   ArtSVP *svp;
-  int dir;
-  int new_dir;
-  int i;
+  gint dir;
+  gint new_dir;
+  gint i;
   ArtPoint *points;
-  int n_points, n_points_max;
-  double x, y;
-  double x_min, x_max;
+  gint n_points, n_points_max;
+  gdouble x, y;
+  gdouble x_min, x_max;
 
   n_segs = 0;
   n_segs_max = 16;

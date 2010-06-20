@@ -41,10 +41,10 @@ typedef enum {
 typedef struct _ArtSvpWriter ArtSvpWriter;
 
 struct _ArtSvpWriter {
-  int (*add_segment) (ArtSvpWriter *self, int wind_left, int delta_wind,
-		      double x, double y);
-  void (*add_point) (ArtSvpWriter *self, int seg_id, double x, double y);
-  void (*close_segment) (ArtSvpWriter *self, int seg_id);
+  gint (*add_segment) (ArtSvpWriter *self, gint wind_left, gint delta_wind,
+		      gdouble x, gdouble y);
+  void (*add_point) (ArtSvpWriter *self, gint seg_id, gdouble x, gdouble y);
+  void (*close_segment) (ArtSvpWriter *self, gint seg_id);
 };
 
 ArtSvpWriter *
@@ -54,8 +54,8 @@ ArtSVP *
 art_svp_writer_rewind_reap (ArtSvpWriter *self);
 
 #if 0  /* XXX already declared in art_svp.h */
-int
-art_svp_seg_compare (const void *s1, const void *s2);
+gint
+art_svp_seg_compare (gconstpointer s1, gconstpointer s2);
 #endif
 
 void

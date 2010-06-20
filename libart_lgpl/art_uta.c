@@ -36,7 +36,7 @@
  * Returns: the newly allocated #ArtUta.
  **/
 ArtUta *
-art_uta_new (int x0, int y0, int x1, int y1)
+art_uta_new (gint x0, gint y0, gint x1, gint y1)
 {
   ArtUta *uta;
 
@@ -64,7 +64,7 @@ art_uta_new (int x0, int y0, int x1, int y1)
  * Returns: the newly allocated #ArtUta.
  **/
 ArtUta *
-art_uta_new_coords (int x0, int y0, int x1, int y1)
+art_uta_new_coords (gint x0, gint y0, gint x1, gint y1)
 {
   return art_uta_new (x0 >> ART_UTILE_SHIFT, y0 >> ART_UTILE_SHIFT,
 		      1 + (x1 >> ART_UTILE_SHIFT),

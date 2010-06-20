@@ -42,7 +42,7 @@
 void
 art_drect_svp (ArtDRect *bbox, const ArtSVP *svp)
 {
-  int i;
+  gint i;
 
   if (svp->n_segs == 0)
     {
@@ -54,7 +54,7 @@ art_drect_svp (ArtDRect *bbox, const ArtSVP *svp)
     }
 
   art_drect_copy (bbox, &svp->segs[0].bbox);
-  
+
   for (i = 1; i < svp->n_segs; i++)
     {
       bbox->x0 = MIN (bbox->x0, svp->segs[i].bbox.x0);

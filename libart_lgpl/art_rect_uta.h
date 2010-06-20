@@ -28,8 +28,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 ArtIRect *
-art_rect_list_from_uta (ArtUta *uta, int max_width, int max_height,
-			int *p_nrects);
+art_rect_list_from_uta (ArtUta *uta, gint max_width, gint max_height,
+			gint *p_nrects);
 
 #ifdef __cplusplus
 }

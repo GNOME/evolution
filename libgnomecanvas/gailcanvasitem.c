@@ -25,35 +25,35 @@
 #include <libgail-util/gailmisc.h>
 
 static void       gail_canvas_item_initialize               (AtkObject         *obj,
-		                                             gpointer          data);
+							     gpointer          data);
 static AtkObject* gail_canvas_item_get_parent               (AtkObject         *obj);
 static gint       gail_canvas_item_get_index_in_parent      (AtkObject         *obj);
 static AtkStateSet* gail_canvas_item_ref_state_set          (AtkObject         *obj);
 
 static void       gail_canvas_item_component_interface_init (AtkComponentIface *iface);
 static guint      gail_canvas_item_add_focus_handler        (AtkComponent      *component,
-					                     AtkFocusHandler   handler);
+							     AtkFocusHandler   handler);
 static void       gail_canvas_item_get_extents              (AtkComponent      *component,
-					                     gint              *x,
-					                     gint              *y,
-					                     gint              *width,
-					                     gint              *height,
-					                     AtkCoordType      coord_type);
+							     gint              *x,
+							     gint              *y,
+							     gint              *width,
+							     gint              *height,
+							     AtkCoordType      coord_type);
 static gint       gail_canvas_item_get_mdi_zorder           (AtkComponent      *component);
 static gboolean   gail_canvas_item_grab_focus               (AtkComponent      *component);
 static void       gail_canvas_item_remove_focus_handler     (AtkComponent      *component,
-					                     guint             handler_id);
+							     guint             handler_id);
 static gboolean   is_item_on_screen                         (GnomeCanvasItem   *item);
 static void       get_item_extents                          (GnomeCanvasItem   *item,
-					                     gint              *x,
-					                     gint              *y,
-					                     gint              *width,
-					                     gint              *height);
+							     gint              *x,
+							     gint              *y,
+							     gint              *width,
+							     gint              *height);
 static gboolean   is_item_in_window                         (GnomeCanvasItem   *item,
-					                     gint              x,
-					                     gint              y,
-					                     gint              width,
-					                     gint              height);
+							     gint              x,
+							     gint              y,
+							     gint              width,
+							     gint              height);
 
 static AtkGObjectAccessibleClass *parent_class = NULL;
 
@@ -85,7 +85,7 @@ gail_canvas_item_new (GObject *obj)
 
 static void
 gail_canvas_item_initialize (AtkObject   *obj,
-		             gpointer    data)
+			     gpointer    data)
 {
   ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
 
@@ -280,7 +280,7 @@ gail_canvas_item_get_extents (AtkComponent *component,
   atk_gobj = ATK_GOBJECT_ACCESSIBLE (component);
   obj = atk_gobject_accessible_get_object (atk_gobj);
 
-  if (obj == NULL) 
+  if (obj == NULL)
     /* item is defunct */
     return;
 
@@ -290,7 +290,7 @@ gail_canvas_item_get_extents (AtkComponent *component,
   /* If this item has no parent canvas, something's broken */
   g_return_if_fail (GTK_IS_WIDGET (item->canvas));
 
-  get_item_extents (item, &local_x, &local_y, width, height);  
+  get_item_extents (item, &local_x, &local_y, width, height);
   if (!is_item_in_window (item, local_x, local_y, *width, *height))
     {
       *x = G_MININT;
@@ -315,7 +315,7 @@ gail_canvas_item_get_extents (AtkComponent *component,
 static gint
 gail_canvas_item_get_mdi_zorder (AtkComponent *component)
 {
-  g_return_val_if_fail (ATK_OBJECT (component), -1); 
+  g_return_val_if_fail (ATK_OBJECT (component), -1);
 
   return gail_canvas_item_get_index_in_parent (ATK_OBJECT (component));
 }
@@ -353,11 +353,11 @@ gail_canvas_item_remove_focus_handler (AtkComponent *component,
   g_signal_handler_disconnect (ATK_OBJECT (component), handler_id);
 }
 
-static gboolean 
+static gboolean
 is_item_on_screen (GnomeCanvasItem *item)
 {
   gint x, y, width, height;
- 
+
   get_item_extents (item, &x, &y, &width, &height);
   return is_item_in_window (item, x, y, width, height);
 }
@@ -369,14 +369,14 @@ get_item_extents (GnomeCanvasItem   *item,
                   gint              *width,
                   gint              *height)
 {
-  double bx1, by1, bx2, by2;
-  double i2c[6];
+  gdouble bx1, by1, bx2, by2;
+  gdouble i2c[6];
   ArtPoint p1, p2, p3, p4;
   ArtPoint q1, q2, q3, q4;
-  double min_x1, min_y1, min_x2, min_y2;
-  double max_x1, max_y1, max_x2, max_y2;
-  int x1, y1, x2, y2;
-  int scroll_x, scroll_y;
+  gdouble min_x1, min_y1, min_x2, min_y2;
+  gdouble max_x1, max_y1, max_x2, max_y2;
+  gint x1, y1, x2, y2;
+  gint scroll_x, scroll_y;
 
   /* Get the bounding box in item-relative coordinates */
 
@@ -392,7 +392,7 @@ get_item_extents (GnomeCanvasItem   *item,
   /* Convert the bounding box to canvas pixel coordinates and find its minimum
    * surrounding rectangle.
    */
-  
+
   p1.x = p2.x = bx1;
   p1.y = p4.y = by1;
   p3.x = p4.x = bx2;
@@ -489,9 +489,9 @@ is_item_in_window (GnomeCanvasItem   *item,
   window = gtk_widget_get_window (widget);
   if (window)
     {
-      int window_width, window_height;
- 
-      gdk_window_get_geometry (window, NULL, NULL, 
+      gint window_width, window_height;
+
+      gdk_window_get_geometry (window, NULL, NULL,
                                &window_width, &window_height, NULL);
       /*
        * Check whether rectangles intersect

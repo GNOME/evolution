@@ -20,6 +20,8 @@
 #ifndef __ART_RECT_H__
 #define __ART_RECT_H__
 
+#include <glib.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -29,12 +31,12 @@ typedef struct _ArtIRect ArtIRect;
 
 struct _ArtDRect {
   /*< public >*/
-  double x0, y0, x1, y1;
+  gdouble x0, y0, x1, y1;
 };
 
 struct _ArtIRect {
   /*< public >*/
-  int x0, y0, x1, y1;
+  gint x0, y0, x1, y1;
 };
 
 /* Make a copy of the rectangle. */
@@ -45,7 +47,7 @@ void art_irect_intersect (ArtIRect *dest,
 			  const ArtIRect *src1, const ArtIRect *src2);
 
 /* Return true if the rectangle is empty. */
-int art_irect_empty (const ArtIRect *src);
+gint art_irect_empty (const ArtIRect *src);
 
 /* Make a copy of the rectangle. */
 void art_drect_copy (ArtDRect *dest, const ArtDRect *src);
@@ -55,11 +57,11 @@ void art_drect_union (ArtDRect *dest,
 		      const ArtDRect *src1, const ArtDRect *src2);
 
 /* Return true if the rectangle is empty. */
-int art_drect_empty (const ArtDRect *src);
+gint art_drect_empty (const ArtDRect *src);
 
 void
 art_drect_affine_transform (ArtDRect *dst, const ArtDRect *src,
-			   const double matrix[6]);
+			   const gdouble matrix[6]);
 
 void art_drect_to_irect (ArtIRect *dst, ArtDRect *src);
 

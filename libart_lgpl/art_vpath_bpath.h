@@ -27,14 +27,14 @@
 extern "C" {
 #endif /* __cplusplus */
 
-ArtPoint *art_bezier_to_vec (double x0, double y0,
-			     double x1, double y1,
-			     double x2, double y2,
-			     double x3, double y3,
+ArtPoint *art_bezier_to_vec (gdouble x0, gdouble y0,
+			     gdouble x1, gdouble y1,
+			     gdouble x2, gdouble y2,
+			     gdouble x3, gdouble y3,
 			     ArtPoint *p,
-			     int level);
+			     gint level);
 
-ArtVpath *art_bez_path_to_vec (const ArtBpath *bez, double flatness);
+ArtVpath *art_bez_path_to_vec (const ArtBpath *bez, gdouble flatness);
 
 #ifdef __cplusplus
 }

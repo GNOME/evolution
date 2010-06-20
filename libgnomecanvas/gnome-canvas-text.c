@@ -64,7 +64,7 @@ enum {
 	PROP_FONT,
 	PROP_FONT_DESC,
 	PROP_FAMILY, PROP_FAMILY_SET,
-	
+
 	/* Style */
 	PROP_ATTRIBUTES,
 	PROP_STYLE,         PROP_STYLE_SET,
@@ -103,7 +103,6 @@ struct _GnomeCanvasTextPrivate {
 	FT_Bitmap bitmap;
 };
 
-
 static void gnome_canvas_text_class_init (GnomeCanvasTextClass *class);
 static void gnome_canvas_text_init (GnomeCanvasText *text);
 static void gnome_canvas_text_destroy (GtkObject *object);
@@ -116,23 +115,27 @@ static void gnome_canvas_text_get_property (GObject            *object,
 					    GValue             *value,
 					    GParamSpec         *pspec);
 
-static void gnome_canvas_text_update (GnomeCanvasItem *item, double *affine,
-				      ArtSVP *clip_path, int flags);
+static void gnome_canvas_text_update (GnomeCanvasItem *item, gdouble *affine,
+				      ArtSVP *clip_path, gint flags);
 static void gnome_canvas_text_realize (GnomeCanvasItem *item);
 static void gnome_canvas_text_unrealize (GnomeCanvasItem *item);
 static void gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-				    int x, int y, int width, int height);
-static double gnome_canvas_text_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+				    gint x, gint y, gint width, gint height);
+static gdouble gnome_canvas_text_point (GnomeCanvasItem *item,
+				       gdouble x,
+				       gdouble y,
+				       gint cx,
+				       gint cy,
 				       GnomeCanvasItem **actual_item);
 static void gnome_canvas_text_bounds (GnomeCanvasItem *item,
-				      double *x1, double *y1, double *x2, double *y2);
+				      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 static void gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 
 static void gnome_canvas_text_set_markup (GnomeCanvasText *textitem,
 					  const gchar     *markup);
 
 static void gnome_canvas_text_set_font_desc    (GnomeCanvasText *textitem,
-					        PangoFontDescription *font_desc);
+						PangoFontDescription *font_desc);
 
 static void gnome_canvas_text_apply_font_desc  (GnomeCanvasText *textitem);
 static void gnome_canvas_text_apply_attributes (GnomeCanvasText *textitem);
@@ -146,11 +149,11 @@ static GnomeCanvasItemClass *parent_class;
 
 /**
  * gnome_canvas_text_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GnomeCanvasText class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GnomeCanvasText class.
  **/
 GType
@@ -230,7 +233,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-
 	/* Font */
 	g_object_class_install_property
                 (gobject_class,
@@ -240,7 +242,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      "Font description as a string",
                                       NULL,
                                       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	
+
         g_object_class_install_property
 		(gobject_class,
 		 PROP_FONT_DESC,
@@ -258,7 +260,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      "Name of the font family, e.g. Sans, Helvetica, Times, Monospace",
 				      NULL,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	
+
 	/* Style */
         g_object_class_install_property
                 (gobject_class,
@@ -266,7 +268,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
                  g_param_spec_boxed ("attributes", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_STYLE,
@@ -276,7 +278,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				    PANGO_TYPE_STYLE,
 				    PANGO_STYLE_NORMAL,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_VARIANT,
@@ -286,7 +288,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				    PANGO_TYPE_VARIANT,
 				    PANGO_VARIANT_NORMAL,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_WEIGHT,
@@ -297,8 +299,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				   G_MAXINT,
 				   PANGO_WEIGHT_NORMAL,
 				   G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_STRETCH,
@@ -308,18 +309,19 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				    PANGO_TYPE_STRETCH,
 				    PANGO_STRETCH_NORMAL,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SIZE,
 		 g_param_spec_int ("size",
 				   "Font size",
-				   "Font size (as a multiple of PANGO_SCALE, eg. 12*PANGO_SCALE for a 12pt font size)",
+				   "Font size (as a multiple of PANGO_SCALE, "
+				   "eg. 12*PANGO_SCALE for a 12pt font size)",
 				   0,
 				   G_MAXINT,
 				   0,
 				   G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		PROP_SIZE_POINTS,
@@ -329,8 +331,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				     0.0,
 				     G_MAXDOUBLE,
 				     0.0,
-				     G_PARAM_READABLE | G_PARAM_WRITABLE));  
-	
+				     G_PARAM_READABLE | G_PARAM_WRITABLE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_RISE,
@@ -341,7 +343,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				   G_MAXINT,
 				   0,
 				   G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_STRIKETHROUGH,
@@ -350,7 +352,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				       "Whether to strike through the text",
 				       FALSE,
 				       G_PARAM_READABLE | G_PARAM_WRITABLE));
-	
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_UNDERLINE,
@@ -370,8 +372,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      0.0,
 				      G_MAXDOUBLE,
 				      1.0,
-				      G_PARAM_READABLE | G_PARAM_WRITABLE));  
-	
+				      G_PARAM_READABLE | G_PARAM_WRITABLE));
+
         g_object_class_install_property
 		(gobject_class,
                  PROP_ANCHOR,
@@ -464,40 +466,43 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      G_PARAM_READABLE));
 
 	/* Style props are set (explicitly applied) or not */
-#define ADD_SET_PROP(propname, propval, nick, blurb) g_object_class_install_property (gobject_class, propval, g_param_spec_boolean (propname, nick, blurb, FALSE, G_PARAM_READABLE | G_PARAM_WRITABLE))
+#define ADD_SET_PROP(propname, propval, nick, blurb) \
+	g_object_class_install_property ( \
+	gobject_class, propval, g_param_spec_boolean ( \
+	propname, nick, blurb, FALSE, G_PARAM_READABLE | G_PARAM_WRITABLE))
 
 	ADD_SET_PROP ("family_set", PROP_FAMILY_SET,
 		      "Font family set",
-		      "Whether this tag affects the font family");  
-	
+		      "Whether this tag affects the font family");
+
 	ADD_SET_PROP ("style_set", PROP_STYLE_SET,
 		      "Font style set",
 		      "Whether this tag affects the font style");
-	
+
 	ADD_SET_PROP ("variant_set", PROP_VARIANT_SET,
 		      "Font variant set",
 		      "Whether this tag affects the font variant");
-	
+
 	ADD_SET_PROP ("weight_set", PROP_WEIGHT_SET,
 		      "Font weight set",
 		      "Whether this tag affects the font weight");
-	
+
 	ADD_SET_PROP ("stretch_set", PROP_STRETCH_SET,
 		      "Font stretch set",
 		      "Whether this tag affects the font stretch");
-	
+
 	ADD_SET_PROP ("size_set", PROP_SIZE_SET,
 		      "Font size set",
 		      "Whether this tag affects the font size");
-	
+
 	ADD_SET_PROP ("rise_set", PROP_RISE_SET,
 		      "Rise set",
 		      "Whether this tag affects the rise");
-	
+
 	ADD_SET_PROP ("strikethrough_set", PROP_STRIKETHROUGH_SET,
 		      "Strikethrough set",
 		      "Whether this tag affects strikethrough");
-	
+
 	ADD_SET_PROP ("underline_set", PROP_UNDERLINE_SET,
 		      "Underline set",
 		      "Whether this tag affects underlining");
@@ -506,7 +511,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		      "Scale set",
 		      "Whether this tag affects font scaling");
 #undef ADD_SET_PROP
-	
+
 	object_class->destroy = gnome_canvas_text_destroy;
 
 	item_class->update = gnome_canvas_text_update;
@@ -533,15 +538,15 @@ gnome_canvas_text_init (GnomeCanvasText *text)
 	text->layout = NULL;
 
 	text->font_desc = NULL;
-	
+
 	text->underline     = PANGO_UNDERLINE_NONE;
 	text->strikethrough = FALSE;
 	text->rise          = 0;
-	
+
 	text->underline_set = FALSE;
 	text->strike_set    = FALSE;
 	text->rise_set      = FALSE;
-	
+
 	text->priv = g_new (GnomeCanvasTextPrivate, 1);
 	text->priv->bitmap.buffer = NULL;
 	text->priv->render_dirty = 1;
@@ -565,7 +570,7 @@ gnome_canvas_text_destroy (GtkObject *object)
 	if (text->layout)
 	    g_object_unref (G_OBJECT (text->layout));
 	text->layout = NULL;
-	
+
 	if (text->font_desc) {
 		pango_font_description_free (text->font_desc);
 		text->font_desc = NULL;
@@ -574,36 +579,41 @@ gnome_canvas_text_destroy (GtkObject *object)
 	if (text->attr_list)
 		pango_attr_list_unref (text->attr_list);
 	text->attr_list = NULL;
-	
+
 	if (text->stipple)
 		g_object_unref (text->stipple);
 	text->stipple = NULL;
 
 	if (text->priv && text->priv->bitmap.buffer) {
-		g_free (text->priv->bitmap.buffer);		
+		g_free (text->priv->bitmap.buffer);
 	}
 	g_free (text->priv);
 	text->priv = NULL;
-	
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
-get_bounds (GnomeCanvasText *text, double *px1, double *py1, double *px2, double *py2)
+get_bounds (GnomeCanvasText *text,
+            gdouble *px1,
+            gdouble *py1,
+            gdouble *px2,
+            gdouble *py2)
 {
 	GnomeCanvasItem *item;
-	double wx, wy;
+	gdouble wx, wy;
 
 	item = GNOME_CANVAS_ITEM (text);
 
 	/* Get canvas pixel coordinates for text position */
 
-	
 	wx = text->x;
 	wy = text->y;
 	gnome_canvas_item_i2w (item, &wx, &wy);
-	gnome_canvas_w2c (item->canvas, wx + text->xofs, wy + text->yofs, &text->cx, &text->cy);
+	gnome_canvas_w2c (
+		item->canvas, wx + text->xofs, wy + text->yofs,
+		&text->cx, &text->cy);
 
 	/* Get canvas pixel coordinates for clip rectangle position */
 
@@ -691,7 +701,7 @@ set_text_gc_foreground (GnomeCanvasText *text)
 
 /* Sets the stipple pattern for the text */
 static void
-set_stipple (GnomeCanvasText *text, GdkBitmap *stipple, int reconfigure)
+set_stipple (GnomeCanvasText *text, GdkBitmap *stipple, gint reconfigure)
 {
 	if (text->stipple && !reconfigure)
 		g_object_unref (text->stipple);
@@ -750,7 +760,7 @@ gnome_canvas_text_set_property (GObject            *object,
 	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
 	gboolean color_changed;
-	int have_pixel;
+	gint have_pixel;
 	PangoAlignment align;
 
 	g_return_if_fail (object != NULL);
@@ -761,27 +771,26 @@ gnome_canvas_text_set_property (GObject            *object,
 
 	color_changed = FALSE;
 	have_pixel = FALSE;
-	
 
 	if (!text->layout) {
 
-	        PangoContext *gtk_context, *context;
+		PangoContext *gtk_context, *context;
 		gtk_context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
-		
-	        if (item->canvas->aa)  {
+
+		if (item->canvas->aa)  {
 			PangoFontMap *fontmap;
 			PangoLanguage *language;
 			gint	pixels, mm;
-			double	dpi_x;
-			double	dpi_y;
-			
+			gdouble	dpi_x;
+			gdouble	dpi_y;
+
 			pixels = gdk_screen_width ();
 			mm = gdk_screen_width_mm ();
-			dpi_x = (((double) pixels * 25.4) / (double) mm);
-			
+			dpi_x = (((gdouble) pixels * 25.4) / (gdouble) mm);
+
 			pixels = gdk_screen_height ();
 			mm = gdk_screen_height_mm ();
-			dpi_y = (((double) pixels * 25.4) / (double) mm);
+			dpi_y = (((gdouble) pixels * 25.4) / (gdouble) mm);
 
 			/* XXX This used to call pango_ft2_get_context().
 			 *     Is there a better way to do this? */
@@ -795,15 +804,14 @@ gnome_canvas_text_set_property (GObject            *object,
 						    pango_context_get_base_dir (gtk_context));
 			pango_context_set_font_description (context,
 							    pango_context_get_font_description (gtk_context));
-			
+
 		} else
 			context = gtk_context;
-			
 
 		text->layout = pango_layout_new (context);
-		
-	        if (item->canvas->aa)
-		        g_object_unref (G_OBJECT (context));
+
+		if (item->canvas->aa)
+			g_object_unref (G_OBJECT (context));
 	}
 
 	switch (param_id) {
@@ -831,7 +839,7 @@ gnome_canvas_text_set_property (GObject            *object,
 		break;
 
 	case PROP_FONT: {
-		const char *font_name;
+		const gchar *font_name;
 		PangoFontDescription *font_desc;
 
 		font_name = g_value_get_string (value);
@@ -839,7 +847,7 @@ gnome_canvas_text_set_property (GObject            *object,
 			font_desc = pango_font_description_from_string (font_name);
 		else
 			font_desc = NULL;
-		
+
 		gnome_canvas_text_set_font_desc (text, font_desc);
 		if (font_desc)
 			pango_font_description_free (font_desc);
@@ -891,7 +899,7 @@ gnome_canvas_text_set_property (GObject            *object,
 							 g_value_get_double (value) * PANGO_SCALE);
 			break;
 		}
-		
+
 		gnome_canvas_text_apply_font_desc (text);
 		text->priv->render_dirty = 1;
 		break;
@@ -910,29 +918,29 @@ gnome_canvas_text_set_property (GObject            *object,
 	case PROP_SCALE:
 		text->scale = g_value_get_double (value);
 		text->scale_set = TRUE;
-		
+
 		gnome_canvas_text_apply_font_desc (text);
 		text->priv->render_dirty = 1;
 		break;
-		
+
 	case PROP_SCALE_SET:
 		text->scale_set = g_value_get_boolean (value);
-		
+
 		gnome_canvas_text_apply_font_desc (text);
 		text->priv->render_dirty = 1;
-		break;		
-		
+		break;
+
 	case PROP_UNDERLINE:
 		text->underline = g_value_get_enum (value);
 		text->underline_set = TRUE;
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_UNDERLINE_SET:
 		text->underline_set = g_value_get_boolean (value);
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
@@ -940,14 +948,14 @@ gnome_canvas_text_set_property (GObject            *object,
 	case PROP_STRIKETHROUGH:
 		text->strikethrough = g_value_get_boolean (value);
 		text->strike_set = TRUE;
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_STRIKETHROUGH_SET:
 		text->strike_set = g_value_get_boolean (value);
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
@@ -955,14 +963,14 @@ gnome_canvas_text_set_property (GObject            *object,
 	case PROP_RISE:
 		text->rise = g_value_get_int (value);
 		text->rise_set = TRUE;
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_RISE_SET:
 		text->rise_set = TRUE;
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
@@ -973,7 +981,7 @@ gnome_canvas_text_set_property (GObject            *object,
 
 		text->attr_list = g_value_peek_pointer (value);
 		pango_attr_list_ref (text->attr_list);
-		
+
 		gnome_canvas_text_apply_attributes (text);
 		text->priv->render_dirty = 1;
 		break;
@@ -987,31 +995,31 @@ gnome_canvas_text_set_property (GObject            *object,
 
 		switch (text->justification) {
 		case GTK_JUSTIFY_LEFT:
-		        align = PANGO_ALIGN_LEFT;
+			align = PANGO_ALIGN_LEFT;
 			break;
 		case GTK_JUSTIFY_CENTER:
-		        align = PANGO_ALIGN_CENTER;
+			align = PANGO_ALIGN_CENTER;
 			break;
 		case GTK_JUSTIFY_RIGHT:
-		        align = PANGO_ALIGN_RIGHT;
+			align = PANGO_ALIGN_RIGHT;
 			break;
 		default:
-		        /* GTK_JUSTIFY_FILL isn't supported yet. */
-		        align = PANGO_ALIGN_LEFT;
+			/* GTK_JUSTIFY_FILL isn't supported yet. */
+			align = PANGO_ALIGN_LEFT;
 			break;
-		}		  
+		}
 		pango_layout_set_alignment (text->layout, align);
-		text->priv->render_dirty = 1;				
+		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
-		text->priv->render_dirty = 1;				
+		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_CLIP_HEIGHT:
 		text->clip_height = fabs (g_value_get_double (value));
-		text->priv->render_dirty = 1;				
+		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_CLIP:
@@ -1028,7 +1036,7 @@ gnome_canvas_text_set_property (GObject            *object,
 		break;
 
         case PROP_FILL_COLOR: {
-		const char *color_name;
+		const gchar *color_name;
 
 		color_name = g_value_get_string (value);
 		if (color_name) {
@@ -1090,14 +1098,14 @@ gnome_canvas_text_set_property (GObject            *object,
 	/* Calculate text dimensions */
 
 	if (text->layout)
-	        pango_layout_get_pixel_size (text->layout,
+		pango_layout_get_pixel_size (text->layout,
 					     &text->max_width,
 					     &text->height);
 	else {
 		text->max_width = 0;
 		text->height = 0;
 	}
-	
+
 	gnome_canvas_item_request_update (item);
 }
 
@@ -1138,7 +1146,7 @@ gnome_canvas_text_get_property (GObject            *object,
 	case PROP_SIZE:
 	case PROP_SIZE_POINTS:
 		ensure_font (text);
-		
+
 		switch (param_id) {
 		case PROP_FONT:
 		{
@@ -1146,14 +1154,14 @@ gnome_canvas_text_get_property (GObject            *object,
 			 * here, we could just hand off string ownership
 			 */
 			gchar *str;
-			
+
 			str = pango_font_description_to_string (text->font_desc);
 			g_value_set_string (value, str);
 			g_free (str);
 
 			break;
 		}
-			
+
 		case PROP_FONT_DESC:
 			g_value_set_boxed (value, text->font_desc);
 			break;
@@ -1161,29 +1169,32 @@ gnome_canvas_text_get_property (GObject            *object,
 		case PROP_FAMILY:
 			g_value_set_string (value, pango_font_description_get_family (text->font_desc));
 			break;
-			
+
 		case PROP_STYLE:
 			g_value_set_enum (value, pango_font_description_get_style (text->font_desc));
 			break;
-			
+
 		case PROP_VARIANT:
 			g_value_set_enum (value, pango_font_description_get_variant (text->font_desc));
 			break;
-			
+
 		case PROP_WEIGHT:
 			g_value_set_int (value, pango_font_description_get_weight (text->font_desc));
 			break;
-			
+
 		case PROP_STRETCH:
 			g_value_set_enum (value, pango_font_description_get_stretch (text->font_desc));
 			break;
-			
+
 		case PROP_SIZE:
 			g_value_set_int (value, pango_font_description_get_size (text->font_desc));
 			break;
-			
+
 		case PROP_SIZE_POINTS:
-			g_value_set_double (value, ((double)pango_font_description_get_size (text->font_desc)) / (double)PANGO_SCALE);
+			g_value_set_double (
+				value, ((gdouble)
+				pango_font_description_get_size (text->font_desc)) /
+				(gdouble)PANGO_SCALE);
 			break;
 		}
 		break;
@@ -1195,7 +1206,8 @@ gnome_canvas_text_get_property (GObject            *object,
 	case PROP_STRETCH_SET:
 	case PROP_SIZE_SET:
 	{
-		PangoFontMask set_mask = text->font_desc ? pango_font_description_get_set_fields (text->font_desc) : 0;
+		PangoFontMask set_mask = text->font_desc ?
+			pango_font_description_get_set_fields (text->font_desc) : 0;
 		PangoFontMask test_mask = get_property_font_set_mask (param_id);
 		g_value_set_boolean (value, (set_mask & test_mask) != 0);
 
@@ -1208,28 +1220,28 @@ gnome_canvas_text_get_property (GObject            *object,
 	case PROP_SCALE_SET:
 		g_value_set_boolean (value, text->scale_set);
 		break;
-		
+
 	case PROP_UNDERLINE:
 		g_value_set_enum (value, text->underline);
 		break;
 	case PROP_UNDERLINE_SET:
 		g_value_set_boolean (value, text->underline_set);
 		break;
-		
+
 	case PROP_STRIKETHROUGH:
 		g_value_set_boolean (value, text->strikethrough);
 		break;
 	case PROP_STRIKETHROUGH_SET:
 		g_value_set_boolean (value, text->strike_set);
 		break;
-		
+
 	case PROP_RISE:
 		g_value_set_int (value, text->rise);
 		break;
 	case PROP_RISE_SET:
 		g_value_set_boolean (value, text->rise_set);
 		break;
-		
+
 	case PROP_ATTRIBUTES:
 		g_value_set_boxed (value, text->attr_list);
 		break;
@@ -1340,14 +1352,14 @@ gnome_canvas_text_apply_attributes (GnomeCanvasText *text)
 		attr_list = pango_attr_list_copy (text->attr_list);
 	else
 		attr_list = pango_attr_list_new ();
-	
+
 	if (text->underline_set)
 		add_attr (attr_list, pango_attr_underline_new (text->underline));
 	if (text->strike_set)
 		add_attr (attr_list, pango_attr_strikethrough_new (text->strikethrough));
 	if (text->rise_set)
 		add_attr (attr_list, pango_attr_rise_new (text->rise));
-	
+
 	pango_layout_set_attributes (text->layout, attr_list);
 	pango_attr_list_unref (attr_list);
 }
@@ -1402,10 +1414,13 @@ gnome_canvas_text_set_markup (GnomeCanvasText *textitem,
 
 /* Update handler for the text item */
 static void
-gnome_canvas_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+gnome_canvas_text_update (GnomeCanvasItem *item,
+                          gdouble *affine,
+                          ArtSVP *clip_path,
+                          gint flags)
 {
 	GnomeCanvasText *text;
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	text = GNOME_CANVAS_TEXT (item);
 
@@ -1458,7 +1473,7 @@ gnome_canvas_text_unrealize (GnomeCanvasItem *item)
 /* Draw handler for the text item */
 static void
 gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-			int x, int y, int width, int height)
+			gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasText *text;
 	GdkRectangle rect;
@@ -1480,13 +1495,11 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (text->stipple)
 		gnome_canvas_set_stipple_origin (item->canvas, text->gc);
 
-
 	gdk_draw_layout (drawable, text->gc, text->cx - x, text->cy - y, text->layout);
 
 	if (text->clip)
 		gdk_gc_set_clip_rectangle (text->gc, NULL);
 }
-
 
 /* Render handler for the text item */
 static void
@@ -1494,15 +1507,15 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 {
 	GnomeCanvasText *text;
 	guint32 fg_color;
-	int render_x = 0, render_y = 0; /* offsets for text rendering,
+	gint render_x = 0, render_y = 0; /* offsets for text rendering,
 					 * for clipping rectangles */
-	int x, y;
-	int w, h;
+	gint x, y;
+	gint w, h;
 	guchar *dst, *src;
-	int src_dx, src_dy;
-	int i, alpha;
-	int bm_rows, bm_width;
-	
+	gint src_dx, src_dy;
+	gint i, alpha;
+	gint bm_rows, bm_width;
+
 	text = GNOME_CANVAS_TEXT (item);
 
 	if (!text->text)
@@ -1514,16 +1527,17 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 
 	bm_rows = (text->clip) ? text->clip_cheight : text->height;
 	bm_width = (text->clip) ? text->clip_cwidth : text->max_width;
-	if(text->priv->render_dirty ||
+	if (text->priv->render_dirty ||
 	   bm_rows != text->priv->bitmap.rows ||
-	   bm_width != text->priv->bitmap.width) {		
-		if(text->priv->bitmap.buffer) {
+	   bm_width != text->priv->bitmap.width) {
+		if (text->priv->bitmap.buffer) {
 			g_free(text->priv->bitmap.buffer);
 		}
 		text->priv->bitmap.rows =  bm_rows;
 		text->priv->bitmap.width = bm_width;
 		text->priv->bitmap.pitch = (text->priv->bitmap.width+3)&~3;
-		text->priv->bitmap.buffer = g_malloc0 (text->priv->bitmap.rows * text->priv->bitmap.pitch);
+		text->priv->bitmap.buffer = g_malloc0 (
+			text->priv->bitmap.rows * text->priv->bitmap.pitch);
 		text->priv->bitmap.num_grays = 256;
 		text->priv->bitmap.pixel_mode = ft_pixel_mode_grays;
 
@@ -1536,7 +1550,7 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 		   if the glyph falls in the bounding box before
 		   rasterizing it. */
 
-		if(text->clip) {
+		if (text->clip) {
 			render_x = text->cx - text->clip_cx;
 			render_y = text->cy - text->clip_cy;
 		}
@@ -1553,16 +1567,16 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 		x = text->cx - buf->rect.x0;
 		y = text->cy - buf->rect.y0;
 	}
-		
+
 	w = text->priv->bitmap.width;
 	h = text->priv->bitmap.rows;
 
 	src_dx = src_dy = 0;
-	
+
 	if (x + w > buf->rect.x1 - buf->rect.x0) {
 		w = buf->rect.x1 - buf->rect.x0 - x;
 	}
-	
+
 	if (y + h > buf->rect.y1 - buf->rect.y0) {
 		h = buf->rect.y1 - buf->rect.y0 - y;
 	}
@@ -1572,13 +1586,13 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 		src_dx += - x;
 		x = 0;
 	}
-	
+
 	if (y < 0) {
 		h -= -y;
 		src_dy += - y;
 		y = 0;
 	}
-	
+
 	dst = buf->buf + y * buf->buf_rowstride + x * 3;
 	src = text->priv->bitmap.buffer +
 		src_dy * text->priv->bitmap.pitch + src_dx;
@@ -1596,21 +1610,21 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 		dst += buf->buf_rowstride - w*3;
 		src += text->priv->bitmap.pitch - w;
 	}
-	
+
 	buf->is_bg = 0;
 	return;
 }
 
 /* Point handler for the text item */
 static double
-gnome_canvas_text_point (GnomeCanvasItem *item, double x, double y,
-			 int cx, int cy, GnomeCanvasItem **actual_item)
+gnome_canvas_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
+			 gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	GnomeCanvasText *text;
 	PangoLayoutIter *iter;
-	int x1, y1, x2, y2;
-	int dx, dy;
-	double dist, best;
+	gint x1, y1, x2, y2;
+	gint dx, dy;
+	gdouble dist, best;
 
 	text = GNOME_CANVAS_TEXT (item);
 
@@ -1626,10 +1640,10 @@ gnome_canvas_text_point (GnomeCanvasItem *item, double x, double y,
 
 	iter = pango_layout_get_iter (text->layout);
 	do {
- 	        PangoRectangle log_rect;
+		PangoRectangle log_rect;
 
 		pango_layout_iter_get_line_extents (iter, NULL, &log_rect);
-				
+
 		x1 = text->cx + PANGO_PIXELS (log_rect.x);
 		y1 = text->cy + PANGO_PIXELS (log_rect.y);
 		x2 = x1 + PANGO_PIXELS (log_rect.width);
@@ -1676,20 +1690,24 @@ gnome_canvas_text_point (GnomeCanvasItem *item, double x, double y,
 		dist = sqrt (dx * dx + dy * dy);
 		if (dist < best)
 			best = dist;
-		
+
 	} while (pango_layout_iter_next_line(iter));
 
 	pango_layout_iter_free(iter);
-	
+
 	return best / item->canvas->pixels_per_unit;
 }
 
 /* Bounds handler for the text item */
 static void
-gnome_canvas_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
+gnome_canvas_text_bounds (GnomeCanvasItem *item,
+                          gdouble *x1,
+                          gdouble *y1,
+                          gdouble *x2,
+                          gdouble *y2)
 {
 	GnomeCanvasText *text;
-	double width, height;
+	gdouble width, height;
 
 	text = GNOME_CANVAS_TEXT (item);
 
@@ -1749,5 +1767,5 @@ gnome_canvas_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double 
 	}
 
 	*x2 = *x1 + width;
-	*y2 = *y1 + height;	
+	*y2 = *y1 + height;
 }

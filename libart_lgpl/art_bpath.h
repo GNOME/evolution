@@ -35,16 +35,16 @@ typedef struct _ArtBpath ArtBpath;
 struct _ArtBpath {
   /*< public >*/
   ArtPathcode code;
-  double x1;
-  double y1;
-  double x2;
-  double y2;
-  double x3;
-  double y3;
+  gdouble x1;
+  gdouble y1;
+  gdouble x2;
+  gdouble y2;
+  gdouble x3;
+  gdouble y3;
 };
 
 ArtBpath *
-art_bpath_affine_transform (const ArtBpath *src, const double matrix[6]);
+art_bpath_affine_transform (const ArtBpath *src, const gdouble matrix[6]);
 
 #ifdef __cplusplus
 }

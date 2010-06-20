@@ -38,11 +38,11 @@
  *
  * Return value: the winding number.
  **/
-int
-art_svp_point_wind (ArtSVP *svp, double x, double y)
+gint
+art_svp_point_wind (ArtSVP *svp, gdouble x, gdouble y)
 {
-  int i, j;
-  int wind = 0;
+  gint i, j;
+  gint wind = 0;
 
   for (i = 0; i < svp->n_segs; i++)
     {
@@ -57,7 +57,7 @@ art_svp_point_wind (ArtSVP *svp, double x, double y)
 	    wind += seg->dir ? 1 : -1;
 	  else if (seg->bbox.x0 <= x)
 	    {
-	      double x0, y0, x1, y1, dx, dy;
+	      gdouble x0, y0, x1, y1, dx, dy;
 
 	      for (j = 0; j < seg->n_points - 1; j++)
 		{
@@ -91,42 +91,42 @@ art_svp_point_wind (ArtSVP *svp, double x, double y)
  *
  * Return value: the distance.
  **/
-double
-art_svp_point_dist (ArtSVP *svp, double x, double y)
+gdouble
+art_svp_point_dist (ArtSVP *svp, gdouble x, gdouble y)
 {
-  int i, j;
-  double dist_sq;
-  double best_sq = -1;
+  gint i, j;
+  gdouble dist_sq;
+  gdouble best_sq = -1;
 
   for (i = 0; i < svp->n_segs; i++)
     {
       ArtSVPSeg *seg = &svp->segs[i];
       for (j = 0; j < seg->n_points - 1; j++)
 	{
-	  double x0 = seg->points[j].x;
-	  double y0 = seg->points[j].y;
-	  double x1 = seg->points[j + 1].x;
-	  double y1 = seg->points[j + 1].y;
+	  gdouble x0 = seg->points[j].x;
+	  gdouble y0 = seg->points[j].y;
+	  gdouble x1 = seg->points[j + 1].x;
+	  gdouble y1 = seg->points[j + 1].y;
 
-	  double dx = x1 - x0;
-	  double dy = y1 - y0;
+	  gdouble dx = x1 - x0;
+	  gdouble dy = y1 - y0;
 
-	  double dxx0 = x - x0;
-	  double dyy0 = y - y0;
+	  gdouble dxx0 = x - x0;
+	  gdouble dyy0 = y - y0;
 
-	  double dot = dxx0 * dx + dyy0 * dy;
+	  gdouble dot = dxx0 * dx + dyy0 * dy;
 
 	  if (dot < 0)
 	    dist_sq = dxx0 * dxx0 + dyy0 * dyy0;
 	  else
 	    {
-	      double rr = dx * dx + dy * dy;
+	      gdouble rr = dx * dx + dy * dy;
 
 	      if (dot > rr)
 		dist_sq = (x - x1) * (x - x1) + (y - y1) * (y - y1);
 	      else
 		{
-		  double perp = (y - y0) * dx - (x - x0) * dy;
+		  gdouble perp = (y - y0) * dx - (x - x0) * dy;
 
 		  dist_sq = perp * perp / rr;
 		}
