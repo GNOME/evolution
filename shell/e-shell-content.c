@@ -254,13 +254,10 @@ shell_content_forall (GtkContainer *container,
                       gpointer callback_data)
 {
 	EShellContentPrivate *priv;
-	GtkWidget *parent = NULL;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
-	if (priv->searchbar != NULL)
-		parent = gtk_widget_get_parent (priv->searchbar);
 
-	if (include_internals && parent == GTK_WIDGET (container))
+	if (priv->searchbar != NULL)
 		callback (priv->searchbar, callback_data);
 
 	/* Chain up to parent's forall() method. */
@@ -346,10 +343,8 @@ e_shell_content_set_searchbar (EShellContent *shell_content,
 {
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	if (searchbar != NULL) {
+	if (searchbar != NULL)
 		g_return_if_fail (GTK_IS_WIDGET (searchbar));
-		g_object_ref_sink (searchbar);
-	}
 
 	if (shell_content->priv->searchbar != NULL)
 		gtk_container_remove (
