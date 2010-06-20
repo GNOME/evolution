@@ -1,3 +1,96 @@
+Evolution 2.30.2 2010-06-20
+---------------------------
+
+Bug Fixes:
+	Bug 531013 - Proxy login window is not in focus. (Vibha Yadav)
+	Bug 531912 - Mail inline parser doesn't always work (Milan Crha)
+	Bug 534369 - [new-mail-notify] Intermittent notifications (Milan Crha)
+	Bug 576165 - SIGSEGV in e_plugin_mono_register_type (bnc)
+	             (Chenthill Palanisamy)
+	Bug 585301 - Use camel_init() to initialize NSS consistently
+	             (David Woodhouse)
+	Bug 585904 - Don't overwrite Date: header when writing Fcc
+	             (David Woodhouse)
+	Bug 593890 - New folder window is not in focus in filter dialog
+	             (Milan Crha)
+	Bug 594153 - Allow setting alarms on any meeting (Jim Ramsay)
+	Bug 599794 - Reopened drafts shouldn't ask for save without change
+	             (Milan Crha)
+	Bug 603418 - Custom headers not displayed in message preview
+	             (Milan Crha)
+	Bug 604430 - Calendar view not remembered (Milan Crha)
+	Bug 608855 - Can't drag and drop multiple attachments (Matthew Barnes)
+	Bug 611560 - 'Mark as junk' should be disabled in junk folder
+	             (Milan Crha)
+	Bug 612082 - Crash in em_format_snoop_type (Michel Dänzer)
+	Bug 613392 - No copyright/licensing information for geo-utils
+	             (Cedric Bosdonnat)
+	Bug 614346 - Use cached table row height rather than recalculate
+	             (Michel Dänzer)
+	Bug 615291 - Preview pane's attachment bar accepts drop
+	             (Matthew Barnes)
+	Bug 615384 - Use contact's free/busy URL only when not empty
+	             (Holger Mickler)
+	Bug 615745 - New task pop up in calendar day view doesn't work
+	             (Matthew Barnes)
+	Bug 616640 - Don't display attachment size if it's unknown
+	             (Matthew Barnes)
+	Bug 616823 - Evolution allows moving IMAP Inbox to other folders
+	             (Milan Crha)
+	Bug 616889 - Force 24h format for locales not supporting 12h format
+	             (Gert Michael Kulyk)
+	Bug 617041 - Set translation domain for e-mail-reader actions
+	             (Gert Kulyk)
+	Bug 617094 - System timezone label not initialized in preferences
+	             (Matthew Barnes)
+	Bug 617150 - Crash printing contacts in List View (Bharath Acharya)
+	Bug 617557 - Quits without asking user to save unfinished messages
+	             (Milan Crha)
+	Bug 617865 - Various data file cleanups (Matthew Barnes)
+	Bug 618113 - Missing icon in alarm dialog (Matthew Barnes)
+	Bug 618177 - Mobile Phone of imported contacts not shown in preview
+	             (Milan Crha)
+	Bug 618400 - "Mark All Messages as Read" shortcut missing
+	             (Matthew Barnes)
+	Bug 618902 - Crash when viewing/closing messages quickly
+	             (Matthew Barnes)
+	Bug 619010 - Mailer's crash avoidance features are broken
+	             (Matthew Barnes)
+	Bug 619098 - mail_shell_backend_sync_store_cb() has wrong signature
+	             (Jonathon Jongsma)
+	Bug 619345 - GtkHTML color settings not being honored (Matthew Barnes)
+	Bug 619417 - system_tz_label is not translated in cal-prefs-dialog
+	             (Gert Michael Kulyk)
+	Bug 620150 - EventEditor: Disconnect signal handlers before disposing
+	             model (Matthew Barnes)
+	Bug 620602 - Next/prev shortcuts should focus message list
+	             (Matthew Barnes)
+	Bug 620628 - Checkbox in vfolder deletion prompt is saved backwards
+	             (Matthew Barnes)
+	Bug 621839 - Improve auto-selection of messages (Matthew Barnes)
+	Bug 621958 - Due date is not displayed in message list (Matthew Barnes)
+
+Other Changes:
+	* Use default headers when none stored to display in mailer (Milan Crha)
+	* Fix a typo on Makefile.am that prevents installation of a big
+	  chunk of the stock icons (Fridrich Štrba)
+	* Create the source groups required to ensure local adresssbooks
+	  and calendars are created (Chenthill Palanisamy)
+	* Improve attachment bar selection behavior. (Matthew Barnes)
+	* Fix alignment of lblCarset in composer-prefs-dialog
+	  (Gert Michael Kulyk)
+	* Add more missing icons for GtkhtmlEditor. (Matthew Barnes)
+	* Warn the user before marking all messages as read
+	  (Chenthill Palanisamy)
+	* Various win32 improvements (Fridrich Štrba)
+
+Translations:
+	Ivar Smolin (et)
+	Christian Kirbach (de)
+	Peteris Krisjanis (lv)
+	Rudolfs Mazurs (lv)
+	Wadim Dziedzic (pl)
+
 Evolution 2.30.1 2010-04-26
 ---------------------------
 
