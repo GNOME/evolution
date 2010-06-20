@@ -259,7 +259,7 @@ idle_cb (gchar **uris)
 			gtk_main_quit ();
 	} else {
 		if (express_mode && requested_view == NULL)
-			requested_view = "mail";
+			requested_view = (gchar *) "mail";
 		e_shell_create_shell_window (shell, requested_view);
 	}
 

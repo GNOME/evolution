@@ -465,7 +465,7 @@ can_support_actions (void)
 static void
 new_notify_status (EMEventTargetFolder *t)
 {
-	gchar *msg, *safetext;
+	gchar *msg;
 	gboolean new_icon = !status_icon;
 
 	if (new_icon) {
@@ -540,6 +540,8 @@ new_notify_status (EMEventTargetFolder *t)
 #ifdef HAVE_LIBNOTIFY
 	/* Now check whether we're supposed to send notifications */
 	if (is_part_enabled (GCONF_KEY_STATUS_NOTIFICATION)) {
+		gchar *safetext;
+
 		safetext = g_markup_escape_text(msg, strlen(msg));
 		if (notify) {
 			notify_notification_update (notify, _("New email"), safetext, "mail-unread");

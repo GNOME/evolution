@@ -130,6 +130,8 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		base_uri[7] = base_uri_seventh;
 	}
 
+	name = _("On This Computer");
+
 	if (on_this_computer != NULL) {
 		GSList *sources, *iter;
 		const gchar *group_base_uri;
