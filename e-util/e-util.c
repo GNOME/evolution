@@ -147,7 +147,6 @@ e_show_uri (GtkWindow *parent,
 	GtkWidget *dialog;
 	GdkScreen *screen = NULL;
 	GError *error = NULL;
-	gchar *decoded_uri;
 	guint32 timestamp;
 
 	g_return_if_fail (uri != NULL);
@@ -157,11 +156,8 @@ e_show_uri (GtkWindow *parent,
 	if (parent != NULL)
 		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 
-	decoded_uri = g_strdup (uri);
-	camel_url_decode (decoded_uri);
-
-	if (gtk_show_uri (screen, decoded_uri, timestamp, &error))
-		goto exit;
+	if (gtk_show_uri (screen, uri, timestamp, &error))
+		return;
 
 	dialog = gtk_message_dialog_new_with_markup (
 		parent, GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -176,9 +172,6 @@ e_show_uri (GtkWindow *parent,
 
 	gtk_widget_destroy (dialog);
 	g_error_free (error);
-
-exit:
-	g_free (decoded_uri);
 }
 
 /**
