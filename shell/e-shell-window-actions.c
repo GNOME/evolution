@@ -34,7 +34,7 @@
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
 
 #define EVOLUTION_FAQ \
-	"http://www.go-evolution.org/FAQ"
+	"http://live.gnome.org/Evolution/FAQ"
 
 #define EVOLUTION_WEBSITE \
 	"http://www.gnome.org/projects/evolution/"
