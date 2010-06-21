@@ -640,7 +640,7 @@ contact_list_editor_email_entry_updated_cb (GtkWidget *widget,
 	entry = E_NAME_SELECTOR_ENTRY (widget);
 	model = E_CONTACT_LIST_MODEL (editor->priv->model);
 
-	email = g_strdup (e_destination_get_address (destination));
+	email = g_strdup (e_destination_get_textrep (destination, TRUE));
 	store = e_name_selector_entry_peek_destination_store (entry);
 	e_destination_store_remove_destination (store, destination);
 	gtk_entry_set_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY)), "");
