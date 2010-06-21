@@ -137,8 +137,6 @@ ea_day_view_get_name (AtkObject *accessible)
 
 	day_view = E_DAY_VIEW (widget);
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
-	if (!gtk_widget_get_visible (GTK_WIDGET (gcal)))
-		return NULL;
 
 	label_text = ea_gnome_calendar_get_label_description (gcal);
 

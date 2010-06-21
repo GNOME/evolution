@@ -138,8 +138,6 @@ ea_week_view_get_name (AtkObject *accessible)
 
 	week_view = E_WEEK_VIEW (widget);
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
-	if (!gtk_widget_get_visible (GTK_WIDGET (gcal)))
-		return NULL;
 
 	label_text = ea_gnome_calendar_get_label_description (gcal);
 
