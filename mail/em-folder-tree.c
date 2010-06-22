@@ -1663,9 +1663,7 @@ folder_tree_drop_async__free (struct _DragDataReceivedAsync *m)
 	g_object_unref(m->context);
 	camel_object_unref(m->store);
 	g_free(m->full_name);
-
-	g_free(m->selection->data);
-	g_free(m->selection);
+	gtk_selection_data_free (m->selection);
 }
 
 static MailMsgInfo folder_tree_drop_async_info = {
@@ -1735,10 +1733,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 	m->info = info;
 
 	/* need to copy, goes away once we exit */
-	m->selection = g_malloc0(sizeof(*m->selection));
-	m->selection->data = g_malloc(selection->length);
-	memcpy(m->selection->data, selection->data, selection->length);
-	m->selection->length = selection->length;
+	m->selection = gtk_selection_data_copy (selection);
 
 	tree_drag_data_action(m);
 }

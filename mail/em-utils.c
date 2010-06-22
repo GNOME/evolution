@@ -856,18 +856,18 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
  * automatically cleaned up when the application quits.
  **/
 void
-em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
+em_utils_selection_get_urilist (GtkSelectionData *selection_data,
+                                CamelFolder *folder)
 {
 	CamelStream *stream;
 	CamelURL *url;
 	gint fd, i, res = 0;
-	gchar *tmp, **uris;
+	gchar **uris;
 
 	d(printf(" * drop uri list\n"));
 
-	tmp = g_strndup((gchar *)data->data, data->length);
-	uris = g_strsplit(tmp, "\n", 0);
-	g_free(tmp);
+	uris = gtk_selection_data_get_uris (selection_data);
+
 	for (i=0;res == 0 && uris[i];i++) {
 		g_strstrip(uris[i]);
 		if (uris[i][0] == '#')
@@ -889,7 +889,7 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 		camel_url_free(url);
 	}
 
-	g_strfreev(uris);
+	g_strfreev (uris);
 }
 
 static void
