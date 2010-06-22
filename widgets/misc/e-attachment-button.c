@@ -247,6 +247,18 @@ attachment_button_expand_clicked_cb (EAttachmentButton *button)
 }
 
 static void
+attachment_button_expand_drag_begin_cb (EAttachmentButton *button,
+                                        GdkDragContext *context)
+{
+	EAttachmentView *view;
+
+	view = e_attachment_button_get_view (button);
+
+	attachment_button_select_path (button);
+	e_attachment_view_drag_begin (view, context);
+}
+
+static void
 attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
                                            GdkDragContext *context,
                                            GtkSelectionData *selection,
@@ -255,12 +267,21 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 {
 	EAttachmentView *view;
 
-	attachment_button_select_path (button);
-
 	view = e_attachment_button_get_view (button);
 
 	e_attachment_view_drag_data_get (
 		view, context, selection, info, time);
+}
+
+static void
+attachment_button_expand_drag_end_cb (EAttachmentButton *button,
+                                      GdkDragContext *context)
+{
+	EAttachmentView *view;
+
+	view = e_attachment_button_get_view (button);
+
+	e_attachment_view_drag_end (view, context);
 }
 
 static gboolean
@@ -579,8 +600,18 @@ attachment_button_init (EAttachmentButton *button)
 		G_CALLBACK (attachment_button_expand_clicked_cb), button);
 
 	g_signal_connect_swapped (
+		button->priv->expand_button, "drag-begin",
+		G_CALLBACK (attachment_button_expand_drag_begin_cb),
+		button);
+
+	g_signal_connect_swapped (
 		button->priv->expand_button, "drag-data-get",
 		G_CALLBACK (attachment_button_expand_drag_data_get_cb),
+		button);
+
+	g_signal_connect_swapped (
+		button->priv->expand_button, "drag-end",
+		G_CALLBACK (attachment_button_expand_drag_end_cb),
 		button);
 
 	g_signal_connect_swapped (
@@ -589,10 +620,19 @@ attachment_button_init (EAttachmentButton *button)
 		button);
 
 	g_signal_connect_swapped (
+		button->priv->toggle_button, "drag-begin",
+		G_CALLBACK (attachment_button_expand_drag_begin_cb),
+		button);
+
+	g_signal_connect_swapped (
 		button->priv->toggle_button, "drag-data-get",
 		G_CALLBACK (attachment_button_expand_drag_data_get_cb),
 		button);
 
+	g_signal_connect_swapped (
+		button->priv->toggle_button, "drag-end",
+		G_CALLBACK (attachment_button_expand_drag_end_cb),
+		button);
 }
 
 GType

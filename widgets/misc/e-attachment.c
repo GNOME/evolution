@@ -56,6 +56,7 @@
 
 struct _EAttachmentPrivate {
 	GFile *file;
+	GIcon *icon;
 	GFileInfo *file_info;
 	GCancellable *cancellable;
 	CamelMimePart *mime_part;
@@ -85,6 +86,7 @@ enum {
 	PROP_ENCRYPTED,
 	PROP_FILE,
 	PROP_FILE_INFO,
+	PROP_ICON,
 	PROP_LOADING,
 	PROP_MIME_PART,
 	PROP_PERCENT,
@@ -357,7 +359,11 @@ attachment_update_icon_column (EAttachment *attachment)
 		E_ATTACHMENT_STORE_COLUMN_ICON, icon,
 		-1);
 
-	g_object_unref (icon);
+	/* Cache the icon to reuse for things like drag-n-drop. */
+	if (attachment->priv->icon != NULL)
+		g_object_unref (attachment->priv->icon);
+	attachment->priv->icon = icon;
+	g_object_notify (G_OBJECT (attachment), "icon");
 }
 
 static void
@@ -601,6 +607,12 @@ attachment_get_property (GObject *object,
 				E_ATTACHMENT (object)));
 			return;
 
+		case PROP_ICON:
+			g_value_set_object (
+				value, e_attachment_get_icon (
+				E_ATTACHMENT (object)));
+			return;
+
 		case PROP_SHOWN:
 			g_value_set_boolean (
 				value, e_attachment_get_shown (
@@ -657,6 +669,11 @@ attachment_dispose (GObject *object)
 	if (priv->file != NULL) {
 		g_object_unref (priv->file);
 		priv->file = NULL;
+	}
+
+	if (priv->icon != NULL) {
+		g_object_unref (priv->icon);
+		priv->icon = NULL;
 	}
 
 	if (priv->file_info != NULL) {
@@ -769,6 +786,16 @@ attachment_class_init (EAttachmentClass *class)
 			"File Info",
 			NULL,
 			G_TYPE_FILE_INFO,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ICON,
+		g_param_spec_object (
+			"icon",
+			"Icon",
+			NULL,
+			G_TYPE_ICON,
 			G_PARAM_READABLE));
 
 	g_object_class_install_property (
@@ -1176,6 +1203,14 @@ e_attachment_get_file_info (EAttachment *attachment)
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
 
 	return attachment->priv->file_info;
+}
+
+GIcon *
+e_attachment_get_icon (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	return attachment->priv->icon;
 }
 
 gboolean

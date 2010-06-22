@@ -1218,8 +1218,6 @@ e_attachment_view_motion_notify_event (EAttachmentView *view,
 	context = gtk_drag_begin (
 		widget, targets, GDK_ACTION_COPY, 1, (GdkEvent *) event);
 
-	gtk_drag_set_icon_default (context);
-
 	return TRUE;
 }
 
@@ -1408,6 +1406,7 @@ e_attachment_view_drag_begin (EAttachmentView *view,
                               GdkDragContext *context)
 {
 	EAttachmentViewPrivate *priv;
+	guint n_selected;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
@@ -1421,6 +1420,48 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 
 	g_warn_if_fail (priv->selected == NULL);
 	priv->selected = e_attachment_view_get_selected_attachments (view);
+	n_selected = g_list_length (priv->selected);
+
+	if (n_selected > 1)
+		gtk_drag_set_icon_stock (
+			context, GTK_STOCK_DND_MULTIPLE, 0, 0);
+
+	else if (n_selected == 1) {
+		EAttachment *attachment;
+		GtkIconTheme *icon_theme;
+		GtkIconInfo *icon_info;
+		GIcon *icon;
+		gint width, height;
+
+		attachment = E_ATTACHMENT (priv->selected->data);
+		icon = e_attachment_get_icon (attachment);
+		g_return_if_fail (icon != NULL);
+
+		icon_theme = gtk_icon_theme_get_default ();
+		gtk_icon_size_lookup (GTK_ICON_SIZE_DND, &width, &height);
+
+		icon_info = gtk_icon_theme_lookup_by_gicon (
+			icon_theme, icon, MIN (width, height),
+			GTK_ICON_LOOKUP_USE_BUILTIN);
+
+		if (icon_info != NULL) {
+			GdkPixbuf *pixbuf;
+			GError *error = NULL;
+
+			pixbuf = gtk_icon_info_load_icon (icon_info, &error);
+
+			if (pixbuf != NULL) {
+				gtk_drag_set_icon_pixbuf (
+					context, pixbuf, 0, 0);
+				g_object_unref (pixbuf);
+			} else if (error != NULL) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
+			}
+
+			gtk_icon_info_free (icon_info);
+		}
+	}
 }
 
 void
