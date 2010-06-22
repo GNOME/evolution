@@ -904,18 +904,12 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 	CamelStream *stream;
 	CamelURL *url;
 	gint fd, i, res = 0;
-	gchar *tmp, **uris;
-	const guchar *data;
-	gint length;
+	gchar **uris;
 
 	d(printf(" * drop uri list\n"));
 
-	data = gtk_selection_data_get_data (selection_data);
-	length = gtk_selection_data_get_length (selection_data);
+	uris = gtk_selection_data_get_uris (selection_data);
 
-	tmp = g_strndup ((gchar *) data, length);
-	uris = g_strsplit (tmp, "\n", 0);
-	g_free(tmp);
 	for (i=0;res == 0 && uris[i];i++) {
 		g_strstrip(uris[i]);
 		if (uris[i][0] == '#')
@@ -937,7 +931,7 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 		camel_url_free(url);
 	}
 
-	g_strfreev(uris);
+	g_strfreev (uris);
 }
 
 static void
