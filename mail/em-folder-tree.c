@@ -1103,12 +1103,15 @@ render_icon (GtkTreeViewColumn *column,
              GtkTreeIter *iter)
 {
 	GtkTreeSelection *selection;
+	GtkTreePath *drag_dest_row;
 	GtkWidget *tree_view;
 	GIcon *icon;
 	guint unread;
 	guint old_unread;
 	gchar *icon_name;
-	gboolean row_selected, is_drafts = FALSE;
+	gboolean is_selected;
+	gboolean is_drafts = FALSE;
+	gboolean is_drag_dest = FALSE;
 
 	gtk_tree_model_get (
 		model, iter,
@@ -1121,14 +1124,37 @@ render_icon (GtkTreeViewColumn *column,
 	if (icon_name == NULL)
 		return;
 
-	icon = g_themed_icon_new (icon_name);
-
 	tree_view = gtk_tree_view_column_get_tree_view (column);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	row_selected = gtk_tree_selection_iter_is_selected (selection, iter);
+	is_selected = gtk_tree_selection_iter_is_selected (selection, iter);
+
+	gtk_tree_view_get_drag_dest_row (
+		GTK_TREE_VIEW (tree_view), &drag_dest_row, NULL);
+	if (drag_dest_row != NULL) {
+		GtkTreePath *path;
+
+		path = gtk_tree_model_get_path (model, iter);
+		if (gtk_tree_path_compare (path, drag_dest_row) == 0)
+			is_drag_dest = TRUE;
+		gtk_tree_path_free (path);
+
+		gtk_tree_path_free (drag_dest_row);
+	}
+
+	if (g_strcmp0 (icon_name, "folder") == 0) {
+		if (is_selected) {
+			g_free (icon_name);
+			icon_name = g_strdup ("folder-open");
+		} else if (is_drag_dest) {
+			g_free (icon_name);
+			icon_name = g_strdup ("folder-drag-accept");
+		}
+	}
+
+	icon = g_themed_icon_new (icon_name);
 
 	/* Show an emblem if there's new mail. */
-	if (!row_selected && unread > old_unread && !is_drafts) {
+	if (!is_selected && unread > old_unread && !is_drafts) {
 		GIcon *temp_icon;
 		GEmblem *emblem;
 
@@ -1418,19 +1444,26 @@ tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *folde
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GdkColormap *colormap;
+	GdkPixmap *pixmap;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	selection = gtk_tree_view_get_selection ((GtkTreeView *) widget);
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
 	path = gtk_tree_model_get_path (model, &iter);
 	priv->drag_row = gtk_tree_row_reference_new (model, path);
-	gtk_tree_path_free (path);
 
-	/* FIXME: set a drag icon? */
+	pixmap = gtk_tree_view_create_row_drag_icon (tree_view, path);
+	colormap = gdk_drawable_get_colormap (pixmap);
+	gtk_drag_set_icon_pixmap (context, colormap, pixmap, NULL, 0, 0);
+
+	gtk_tree_path_free (path);
 }
 
 static void
@@ -1717,7 +1750,11 @@ is_special_local_folder (const gchar *name)
 }
 
 static GdkAtom
-folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkTreePath *path)
+folder_tree_drop_target (EMFolderTree *folder_tree,
+                         GdkDragContext *context,
+                         GtkTreePath *path,
+                         GdkDragAction *actions,
+                         GdkDragAction *suggested_action)
 {
 	EMFolderTreePrivate *p = folder_tree->priv;
 	gchar *full_name = NULL, *uri = NULL, *src_uri = NULL;
@@ -1735,6 +1772,10 @@ folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkT
 
 	if (!gtk_tree_model_get_iter (model, &iter, path))
 		return GDK_NONE;
+
+	/* We may override these further down. */
+	*actions = context->actions;
+	*suggested_action = context->suggested_action;
 
 	gtk_tree_model_get (
 		model, &iter,
@@ -1811,9 +1852,9 @@ folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkT
 				/* allow only copy of the Inbox and other system folders */
 				GdkAtom xfolder;
 
-				/* TODO: not sure if this is legal, but it works, force copy for special local folders */
-				context->suggested_action = GDK_ACTION_COPY;
-				context->actions = GDK_ACTION_COPY;
+				/* force copy for special local folders */
+				*suggested_action = GDK_ACTION_COPY;
+				*actions = GDK_ACTION_COPY;
 				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
 				while (targets != NULL) {
 					if (targets->data == (gpointer) xfolder) {
@@ -1845,9 +1886,9 @@ folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkT
 
 				camel_url_free (url);
 
-				/* TODO: not sure if this is legal, but it works, force copy for special local folders */
-				context->suggested_action = GDK_ACTION_COPY;
-				context->actions = GDK_ACTION_COPY;
+				/* force copy for special local folders */
+				*suggested_action = GDK_ACTION_COPY;
+				*actions = GDK_ACTION_COPY;
 				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
 				while (targets != NULL) {
 					if (targets->data == (gpointer) xfolder) {
@@ -1949,6 +1990,8 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guin
 	GtkTreeViewColumn *column;
 	GtkTreeView *tree_view;
 	gint cell_x, cell_y;
+	GdkDragAction actions;
+	GdkDragAction suggested_action;
 	GtkTreePath *path;
 	GdkAtom target;
 
@@ -1970,12 +2013,13 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guin
 	if (!gtk_tree_view_get_path_at_pos (tree_view, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 
-	target = folder_tree_drop_target(folder_tree, context, path);
-	gtk_tree_path_free (path);
-	if (target == GDK_NONE)
-		return FALSE;
+	target = folder_tree_drop_target (
+		folder_tree, context, path,
+		&actions, &suggested_action);
 
-	return TRUE;
+	gtk_tree_path_free (path);
+
+	return (target != GDK_NONE);
 }
 
 static void
@@ -1983,7 +2027,7 @@ tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *folder_
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 
-	if (priv->drag_row) {
+	if (priv->drag_row != NULL) {
 		gtk_tree_row_reference_free (priv->drag_row);
 		priv->drag_row = NULL;
 	}
@@ -2012,7 +2056,8 @@ tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolde
 		priv->autoexpand_id = 0;
 	}
 
-	gtk_tree_view_set_drag_dest_row(tree_view, NULL, GTK_TREE_VIEW_DROP_BEFORE);
+	gtk_tree_view_set_drag_dest_row (
+		tree_view, NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
 #define SCROLL_EDGE_SIZE 15
@@ -2069,13 +2114,20 @@ tree_autoexpand (EMFolderTree *folder_tree)
 }
 
 static gboolean
-tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint time, EMFolderTree *folder_tree)
+tree_drag_motion (GtkWidget *widget,
+                  GdkDragContext *context,
+                  gint x,
+                  gint y,
+                  guint time,
+                  EMFolderTree *folder_tree)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeViewDropPosition pos;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
-	GdkDragAction action = 0;
+	GdkDragAction actions;
+	GdkDragAction suggested_action;
+	GdkDragAction chosen_action = 0;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	GdkAtom target;
@@ -2084,11 +2136,12 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
-	if (!gtk_tree_view_get_dest_row_at_pos(tree_view, x, y, &path, &pos))
+	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, &pos))
 		return FALSE;
 
 	if (priv->autoscroll_id == 0)
-		priv->autoscroll_id = g_timeout_add (150, (GSourceFunc) tree_autoscroll, folder_tree);
+		priv->autoscroll_id = g_timeout_add (
+			150, (GSourceFunc) tree_autoscroll, folder_tree);
 
 	gtk_tree_model_get_iter (model, &iter, path);
 
@@ -2118,33 +2171,36 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 		priv->autoexpand_id = 0;
 	}
 
-	target = folder_tree_drop_target(folder_tree, context, path);
-	if (target != GDK_NONE) {
-		for (i=0; i<NUM_DROP_TYPES; i++) {
-			if (drop_atoms[i] == target) {
-				switch (i) {
-				case DND_DROP_TYPE_UID_LIST:
-				case DND_DROP_TYPE_FOLDER:
-					action = context->suggested_action;
-					if (action == GDK_ACTION_COPY && (context->actions & GDK_ACTION_MOVE))
-						action = GDK_ACTION_MOVE;
-					gtk_tree_view_set_drag_dest_row(tree_view, path, GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
-					break;
-				default:
-					gtk_tree_view_set_drag_dest_row(tree_view, path, GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
-					action = context->suggested_action;
-					break;
-				}
+	target = folder_tree_drop_target (
+		folder_tree, context, path,
+		&actions, &suggested_action);
+	for (i = 0; target != GDK_NONE && i < NUM_DROP_TYPES; i++) {
+		if (drop_atoms[i] != target)
+			continue;
+		switch (i) {
+			case DND_DROP_TYPE_UID_LIST:
+			case DND_DROP_TYPE_FOLDER:
+				chosen_action = suggested_action;
+				if (chosen_action == GDK_ACTION_COPY && (actions & GDK_ACTION_MOVE))
+					chosen_action = GDK_ACTION_MOVE;
+				gtk_tree_view_set_drag_dest_row (
+					tree_view, path,
+					GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
 				break;
-			}
+			default:
+				gtk_tree_view_set_drag_dest_row (
+					tree_view, path,
+					GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
+				chosen_action = suggested_action;
+				break;
 		}
+
+		break;
 	}
 
-	gtk_tree_path_free(path);
+	gdk_drag_status(context, chosen_action, time);
 
-	gdk_drag_status(context, action, time);
-
-	return action != 0;
+	return chosen_action != 0;
 }
 
 void
