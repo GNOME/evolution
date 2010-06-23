@@ -35,6 +35,10 @@
 #include "e-util/e-categories-config.h"
 #include "common/authentication.h"
 
+#include "gnome-cal.h"
+#include "shell/e-shell-window.h"
+#include "shell/e-shell-view.h"
+
 
 
 /**
@@ -423,6 +427,55 @@ cal_comp_memo_new_with_defaults (ECal *client)
 	}
 
 	return comp;
+}
+
+void
+cal_comp_update_time_by_active_window (ECalComponent *comp, EShell *shell)
+{
+	GtkWindow *window;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (shell != NULL);
+
+	window = e_shell_get_active_window (shell);
+	if (window && E_IS_SHELL_WINDOW (window)) {
+		EShellWindow *shell_window = E_SHELL_WINDOW (window);
+
+		if (e_shell_window_get_active_view (shell_window)
+		    && g_str_equal (e_shell_window_get_active_view (shell_window), "calendar")) {
+			EShellView *view;
+			GnomeCalendar *gnome_cal;
+			time_t start = 0, end = 0;
+			icaltimezone *zone;
+			struct icaltimetype itt;
+			icalcomponent *icalcomp;
+			icalproperty *prop;
+
+			view = e_shell_window_peek_shell_view (shell_window, "calendar");
+			g_return_if_fail (view != NULL);
+
+			gnome_cal = NULL;
+			g_object_get (G_OBJECT (e_shell_view_get_shell_content (view)), "calendar", &gnome_cal, NULL);
+			g_return_if_fail (gnome_cal != NULL);
+
+			gnome_calendar_get_current_time_range (gnome_cal, &start, &end);
+			g_return_if_fail (start != 0);
+
+			zone = e_cal_model_get_timezone (gnome_calendar_get_model (gnome_cal));
+			itt = icaltime_from_timet_with_zone (start, FALSE, zone);
+
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+			prop = icalcomponent_get_first_property (icalcomp, ICAL_DTSTART_PROPERTY);
+			if (prop) {
+				icalproperty_set_dtstart (prop, itt);
+			} else {
+				prop = icalproperty_new_dtstart (itt);
+				icalcomponent_add_property (icalcomp, prop);
+			}
+
+			e_cal_component_rescan (comp);
+		}
+	}
 }
 
 /**

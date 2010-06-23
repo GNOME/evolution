@@ -210,8 +210,9 @@ memo_shell_backend_memo_new_cb (ECal *cal,
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 
-	editor = memo_editor_new (cal, shell, flags);
 	comp = cal_comp_memo_new_with_defaults (cal);
+	cal_comp_update_time_by_active_window (comp, shell);
+	editor = memo_editor_new (cal, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
@@ -237,8 +238,9 @@ memo_shell_backend_memo_shared_new_cb (ECal *cal,
 	flags |= COMP_EDITOR_IS_SHARED;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	editor = memo_editor_new (cal, shell, flags);
 	comp = cal_comp_memo_new_with_defaults (cal);
+	cal_comp_update_time_by_active_window (comp, shell);
+	editor = memo_editor_new (cal, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));

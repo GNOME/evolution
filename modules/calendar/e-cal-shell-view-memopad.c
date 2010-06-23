@@ -80,8 +80,9 @@ action_calendar_memopad_new_cb (GtkAction *action,
 	g_slist_free (list);
 
 	client = comp_data->client;
-	editor = memo_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_memo_new_with_defaults (client);
+	cal_comp_update_time_by_active_window (comp, shell);
+	editor = memo_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));

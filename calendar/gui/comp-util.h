@@ -29,6 +29,8 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal.h>
 
+struct _EShell;
+
 void cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone);
 
 /* Returns TRUE if the component uses the given timezone for both DTSTART
@@ -49,6 +51,8 @@ ECalComponent *cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 ECalComponent *cal_comp_event_new_with_current_time (ECal *client, gboolean all_day);
 ECalComponent *cal_comp_task_new_with_defaults (ECal *client);
 ECalComponent *cal_comp_memo_new_with_defaults (ECal *client);
+
+void cal_comp_update_time_by_active_window (ECalComponent *comp, struct _EShell *shell);
 
 void    cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list);
 GSList *cal_comp_selection_get_string_list (GtkSelectionData *data);
