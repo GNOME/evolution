@@ -2536,6 +2536,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	struct _itip_puri *puri;
 	CamelDataWrapper *content;
 	CamelStream *mem;
+	GByteArray *buffer = g_byte_array_new ();
 
 	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
 
@@ -2561,13 +2562,13 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	/* This is non-gui thread. Download the part for using in the main thread */
 	content = camel_medium_get_content_object ((CamelMedium *) target->part);
-	mem = camel_stream_mem_new ();
+	mem = camel_stream_mem_new_with_byte_array (buffer);
 	camel_data_wrapper_decode_to_stream (content, mem);
 
-	if (((CamelStreamMem *) mem)->buffer->len == 0)
+	if (buffer->len == 0)
 		puri->vcalendar = NULL;
 	else
-		puri->vcalendar = g_strndup ((gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+		puri->vcalendar = g_strndup ((gchar *)buffer->data, buffer->len);
 	camel_object_unref (mem);
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
