@@ -172,10 +172,8 @@
                                 <property name="visible">True</property>
                                 <property name="headers_visible">False</property>
                                 <property name="search_column">0</property>
-                                <signal handler="contact_list_editor_drag_motion_cb" name="drag_motion"/>
                                 <signal handler="contact_list_editor_tree_view_key_press_event_cb" name="key_press_event"/>
                                 <signal handler="contact_list_editor_drag_data_received_cb" name="drag_data_received"/>
-                                <signal handler="contact_list_editor_drag_drop_cb" name="drag_drop"/>
                               </object>
                             </child>
                           </object>

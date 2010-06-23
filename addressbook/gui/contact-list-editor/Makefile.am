@@ -11,7 +11,8 @@ libecontactlisteditor_la_CPPFLAGS =			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
+	$(CAMEL_CFLAGS)
 
 libecontactlisteditor_la_SOURCES = 		\
 	e-contact-list-editor.c			\
@@ -29,7 +30,8 @@ libecontactlisteditor_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CAMEL_LIBS)
 
 ui_DATA  = contact-list-editor.ui
 

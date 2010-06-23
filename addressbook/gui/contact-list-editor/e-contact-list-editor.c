@@ -35,6 +35,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <camel/camel.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include "e-util/e-util.h"
@@ -438,6 +439,7 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
                                            guint info,
                                            guint time)
 {
+	CamelInternetAddress *address;
 	EContactListEditor *editor;
 	EContactListModel *model;
 	gboolean changed = FALSE;
@@ -445,13 +447,19 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 	const guchar *data;
 	GList *list, *iter;
 	GdkAtom target;
+	gint n_addresses = 0;
+	gchar *text;
 
 	editor = contact_list_editor_extract (widget);
-
 	model = E_CONTACT_LIST_MODEL (editor->priv->model);
 
-	/* Sanity check the selection target. */
 	target = gtk_selection_data_get_target (selection_data);
+
+	/* Sanity check the selection target. */
+
+	if (gtk_targets_include_text (&target, 1))
+		goto handle_text;
+
 	if (!e_targets_include_directory (&target, 1))
 		goto exit;
 
@@ -493,66 +501,41 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 		contact_list_editor_update (editor);
 	}
 
+	goto exit;
+
+handle_text:
+
+	address = camel_internet_address_new ();
+	text = (gchar *) gtk_selection_data_get_text (selection_data);
+
+	/* See if Camel can parse a valid email address from the text. */
+	if (text != NULL && *text != '\0') {
+		camel_url_decode (text);
+		if (g_ascii_strncasecmp (text, "mailto:", 7) == 0)
+			n_addresses = camel_address_decode (
+				CAMEL_ADDRESS (address), text + 7);
+		else
+			n_addresses = camel_address_decode (
+				CAMEL_ADDRESS (address), text);
+	}
+
+	if (n_addresses == 1) {
+		g_free (text);
+
+		text = camel_address_format (CAMEL_ADDRESS (address));
+		e_contact_list_model_add_email (model, text);
+
+		contact_list_editor_scroll_to_end (editor);
+		editor->priv->changed = TRUE;
+
+		contact_list_editor_update (editor);
+		handled = TRUE;
+	}
+
+	g_free (text);
+
 exit:
 	gtk_drag_finish (context, handled, FALSE, time);
-}
-
-gboolean
-contact_list_editor_drag_drop_cb (GtkWidget *widget,
-                                  GdkDragContext *context,
-                                  gint x, gint y,
-                                  guint time);
-
-gboolean
-contact_list_editor_drag_drop_cb (GtkWidget *widget,
-                                  GdkDragContext *context,
-                                  gint x, gint y,
-                                  guint time)
-{
-	GList *targets;
-	GList *iter;
-
-	targets = gdk_drag_context_list_targets (context);
-
-	for (iter = targets; iter != NULL; iter = iter->next) {
-		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
-
-		if (e_targets_include_directory (&target, 1)) {
-			gtk_drag_get_data (widget, context, target, time);
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
-gboolean
-contact_list_editor_drag_motion_cb (GtkWidget *widget,
-                                    GdkDragContext *context,
-                                    gint x, gint y,
-                                    guint time);
-
-gboolean
-contact_list_editor_drag_motion_cb (GtkWidget *widget,
-                                    GdkDragContext *context,
-                                    gint x, gint y,
-                                    guint time)
-{
-	GList *targets;
-	GList *iter;
-
-	targets = gdk_drag_context_list_targets (context);
-
-	for (iter = targets; iter != NULL; iter = iter->next) {
-		GdkAtom target = GDK_POINTER_TO_ATOM (iter->data);
-
-		if (e_targets_include_directory (&target, 1)) {
-			gdk_drag_status (context, GDK_ACTION_LINK, time);
-			return TRUE;
-		}
-	}
-
-	return FALSE;
 }
 
 void
@@ -1315,6 +1298,7 @@ contact_list_editor_init (EContactListEditor *editor)
 
 	gtk_tree_view_enable_model_drag_dest (view, NULL, 0, GDK_ACTION_LINK);
 	e_drag_dest_add_directory_targets (WIDGET (TREE_VIEW));
+	gtk_drag_dest_add_text_targets (WIDGET (TREE_VIEW));
 
 	g_signal_connect (
 		priv->model, "row-deleted",
