@@ -1625,6 +1625,31 @@ msg_composer_paste_clipboard_cb (EWebView *web_view,
 	g_signal_stop_emission_by_name (web_view, "paste-clipboard");
 }
 
+static void
+msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
+                                 EMsgComposer *composer)
+{
+	EAttachmentView *view;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
+	gint n_targets;
+
+	/* XXX GtkHTML doesn't set itself up as a drag destination until
+	 *     it's realized, and we need to amend to its target list so
+	 *     it will accept the same drag targets as the attachment bar.
+	 *     Do this any earlier and GtkHTML will just overwrite us. */
+
+	view = e_msg_composer_get_attachment_view (composer);
+
+	target_list = e_attachment_view_get_target_list (view);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
+	target_list = gtk_drag_dest_get_target_list (widget);
+	gtk_target_list_add_table (target_list, targets, n_targets);
+
+	gtk_target_table_free (targets, n_targets);
+}
+
 struct _drop_data {
 	EMsgComposer *composer;
 
@@ -1835,6 +1860,10 @@ msg_composer_constructed (GObject *object)
 		targets, n_targets, drag_actions);
 
 	g_signal_connect (
+		html, "realize",
+		G_CALLBACK (msg_composer_realize_gtkhtml_cb), composer);
+
+	g_signal_connect (
 		html, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received), NULL);
 
@@ -2038,6 +2067,9 @@ msg_composer_drag_data_received (GtkWidget *widget,
 	e_attachment_paned_drag_data_received (
 		E_ATTACHMENT_PANED (view),
 		context, x, y, selection, info, time);
+
+	/* Stop the signal from propagating to GtkHtml. */
+	g_signal_stop_emission_by_name (widget, "drag-data-received");
 }
 
 static void
