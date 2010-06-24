@@ -48,6 +48,7 @@
 #include "e-cal-shell-content.h"
 #include "e-cal-shell-migrate.h"
 #include "e-cal-shell-settings.h"
+#include "e-cal-shell-sidebar.h"
 #include "e-cal-shell-view.h"
 
 #define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
@@ -539,6 +540,8 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gchar *source_uid = NULL;
 	gchar *comp_uid = NULL;
 	gchar *comp_rid = NULL;
+	GDate start_date;
+	GDate end_date;
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
@@ -552,6 +555,9 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	cp = euri->query;
 	if (cp == NULL)
 		goto exit;
+
+	g_date_clear (&start_date, 1);
+	g_date_clear (&end_date, 1);
 
 	while (*cp != '\0') {
 		gchar *header;
@@ -572,7 +578,13 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		content_len = strcspn (cp, "&");
 
 		content = g_strndup (cp, content_len);
-		if (g_ascii_strcasecmp (header, "source-uid") == 0)
+		if (g_ascii_strcasecmp (header, "startdate") == 0)
+			g_date_set_time_t (
+				&start_date, time_from_isodate (content));
+		else if (g_ascii_strcasecmp (header, "enddate") == 0)
+			g_date_set_time_t (
+				&end_date, time_from_isodate (content));
+		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
 			source_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
 			comp_uid = g_strdup (content);
@@ -586,6 +598,21 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 			if (strcmp (cp, "amp;") == 0)
 				cp += 4;
 		}
+	}
+
+	/* This is primarily for launching Evolution
+	 * from the calendar in the clock applet. */
+	if (g_date_valid (&start_date)) {
+		if (g_date_valid (&end_date))
+			e_cal_shell_backend_open_date_range (
+				E_CAL_SHELL_BACKEND (shell_backend),
+				&start_date, &end_date);
+		else
+			e_cal_shell_backend_open_date_range (
+				E_CAL_SHELL_BACKEND (shell_backend),
+				&start_date, NULL);
+		handled = TRUE;
+		goto exit;
 	}
 
 	if (source_uid == NULL || comp_uid == NULL)
@@ -830,4 +857,58 @@ e_cal_shell_backend_get_source_list (ECalShellBackend *cal_shell_backend)
 		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
 
 	return cal_shell_backend->priv->source_list;
+}
+
+void
+e_cal_shell_backend_open_date_range (ECalShellBackend *cal_shell_backend,
+                                     const GDate *start_date,
+                                     const GDate *end_date)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSidebar *shell_sidebar;
+	GtkWidget *shell_window = NULL;
+	ECalendar *navigator;
+	GList *watched_windows;
+
+	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (cal_shell_backend));
+
+	shell_backend = E_SHELL_BACKEND (cal_shell_backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+	watched_windows = e_shell_get_watched_windows (shell);
+
+	/* Try to find an EShellWindow already in calendar view. */
+	while (watched_windows != NULL) {
+		GtkWidget *window = GTK_WIDGET (watched_windows->data);
+
+		if (E_IS_SHELL_WINDOW (window)) {
+			const gchar *active_view;
+
+			active_view = e_shell_window_get_active_view (
+				E_SHELL_WINDOW (window));
+			if (g_strcmp0 (active_view, "calendar") == 0) {
+				gtk_window_present (GTK_WINDOW (window));
+				shell_window = window;
+				break;
+			}
+		}
+
+		watched_windows = g_list_next (watched_windows);
+	}
+
+	/* Otherwise create a new EShellWindow in calendar view. */
+	if (shell_window == NULL)
+		shell_window = e_shell_create_shell_window (shell, "calendar");
+
+	/* Now dig up the date navigator and select the date range. */
+
+	shell_view = e_shell_window_get_shell_view (
+		E_SHELL_WINDOW (shell_window), "calendar");
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	navigator = e_cal_shell_sidebar_get_date_navigator (
+		E_CAL_SHELL_SIDEBAR (shell_sidebar));
+
+	e_calendar_item_set_selection (
+		navigator->calitem, start_date, end_date);
 }
