@@ -101,7 +101,7 @@ typedef void (*MailAsyncFunc)(gpointer , gpointer , gpointer );
 /* create a new async event handler */
 MailAsyncEvent *mail_async_event_new(void);
 /* forward a camel event (or other call) to the gui thread */
-gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer , gpointer , gpointer );
+guint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer , gpointer , gpointer );
 /* wait for all outstanding async events to complete */
 gint mail_async_event_destroy(MailAsyncEvent *ea);
 
