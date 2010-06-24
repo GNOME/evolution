@@ -39,18 +39,6 @@ enum {
 static gpointer parent_class;
 
 static void
-hinted_entry_hide_hint (EHintedEntry *entry)
-{
-	entry->priv->hint_shown = FALSE;
-
-	gtk_entry_set_text (GTK_ENTRY (entry), "");
-
-	gtk_widget_modify_text (GTK_WIDGET (entry), GTK_STATE_NORMAL, NULL);
-
-	g_object_notify (G_OBJECT (entry), "hint-shown");
-}
-
-static void
 hinted_entry_show_hint (EHintedEntry *entry)
 {
 	GtkStyle *style;
@@ -65,6 +53,19 @@ hinted_entry_show_hint (EHintedEntry *entry)
 	style = gtk_widget_get_style (GTK_WIDGET (entry));
 	color = &style->text[GTK_STATE_INSENSITIVE];
 	gtk_widget_modify_text (GTK_WIDGET (entry), GTK_STATE_NORMAL, color);
+
+	g_object_notify (G_OBJECT (entry), "hint-shown");
+}
+
+static void
+hinted_entry_show_text (EHintedEntry *entry,
+                        const gchar *text)
+{
+	entry->priv->hint_shown = FALSE;
+
+	gtk_entry_set_text (GTK_ENTRY (entry), text);
+
+	gtk_widget_modify_text (GTK_WIDGET (entry), GTK_STATE_NORMAL, NULL);
 
 	g_object_notify (G_OBJECT (entry), "hint-shown");
 }
@@ -129,7 +130,7 @@ hinted_entry_focus_in_event (GtkWidget *widget,
 	EHintedEntry *entry = E_HINTED_ENTRY (widget);
 
 	if (e_hinted_entry_get_hint_shown (entry))
-		hinted_entry_hide_hint (entry);
+		hinted_entry_show_text (entry, "");
 
 	/* Chain up to parent's focus_in_event() method. */
 	return GTK_WIDGET_CLASS (parent_class)->
@@ -269,14 +270,16 @@ e_hinted_entry_get_hint_shown (EHintedEntry *entry)
 const gchar *
 e_hinted_entry_get_text (EHintedEntry *entry)
 {
+	const gchar *text = "";
+
 	/* XXX This clumsily overrides gtk_entry_get_text(). */
 
 	g_return_val_if_fail (E_IS_HINTED_ENTRY (entry), NULL);
 
-	if (e_hinted_entry_get_hint_shown (entry))
-		return "";
+	if (!e_hinted_entry_get_hint_shown (entry))
+		text = gtk_entry_get_text (GTK_ENTRY (entry));
 
-	return gtk_entry_get_text (GTK_ENTRY (entry));
+	return text;
 }
 
 void
@@ -296,8 +299,6 @@ e_hinted_entry_set_text (EHintedEntry *entry,
 	if (*text == '\0' && !GTK_WIDGET_HAS_FOCUS (entry))
 #endif
 		hinted_entry_show_hint (entry);
-	else {
-		hinted_entry_hide_hint (entry);
-		gtk_entry_set_text (GTK_ENTRY (entry), text);
-	}
+	else
+		hinted_entry_show_text (entry, text);
 }
