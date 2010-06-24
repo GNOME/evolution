@@ -192,6 +192,12 @@ web_view_request_check_for_error (EWebViewRequest *request,
 	if (error == NULL)
 		return FALSE;
 
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+		/* use this error, but do not close the stream */
+		g_error_free (error);
+		return TRUE;
+	}
+
 	/* XXX Should we log errors that are not cancellations? */
 
 	html = GTK_HTML (request->web_view);
