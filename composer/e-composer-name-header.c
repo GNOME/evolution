@@ -154,6 +154,8 @@ composer_name_header_constructor (GType type,
 		NULL);
 	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
 
+	g_free (label);
+
 	return object;
 }
 

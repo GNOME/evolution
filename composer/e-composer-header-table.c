@@ -471,6 +471,7 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_update_destinations (
 		old_destinations, always_cc ? account->cc_addrs : NULL);
 	e_composer_header_table_set_destinations_cc (table, new_destinations);
+	e_destination_freev (old_destinations);
 	e_destination_freev (new_destinations);
 
 	/* Update automatic BCC destinations. */
@@ -480,6 +481,7 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_update_destinations (
 		old_destinations, always_bcc ? account->bcc_addrs : NULL);
 	e_composer_header_table_set_destinations_bcc (table, new_destinations);
+	e_destination_freev (old_destinations);
 	e_destination_freev (new_destinations);
 
 	/* XXX We should NOT be checking specific account types here.

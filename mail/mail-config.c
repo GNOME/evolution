@@ -147,41 +147,17 @@ gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
-		     GConfEntry *entry, gpointer user_data)
-{
-	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
-	if (!config->jh_check) {
-		mail_session_set_junk_headers (NULL, NULL, 0);
-	} else {
-		GSList *node;
-		GPtrArray *name, *value;
-
-		config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
-		node = config->jh_header;
-		name = g_ptr_array_new ();
-		value = g_ptr_array_new ();
-		while (node && node->data) {
-			gchar **tok = g_strsplit (node->data, "=", 2);
-			g_ptr_array_add (name, g_strdup(tok[0]));
-			g_ptr_array_add (value, g_strdup(tok[1]));
-			node = node->next;
-			g_strfreev (tok);
-		}
-		mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
-		g_ptr_array_free (name, TRUE);
-		g_ptr_array_free (value, TRUE);
-	}
-}
-
-static void
 gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
                           GConfEntry *entry, gpointer user_data)
 {
 	GSList *node;
 	GPtrArray *name, *value;
 
+	g_slist_foreach (config->jh_header, (GFunc) g_free, NULL);
+	g_slist_free (config->jh_header);
+
 	config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+
 	node = config->jh_header;
 	name = g_ptr_array_new ();
 	value = g_ptr_array_new ();
@@ -193,6 +169,23 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 		g_strfreev (tok);
 	}
 	mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
+
+	g_ptr_array_foreach (name, (GFunc) g_free, NULL);
+	g_ptr_array_foreach (value, (GFunc) g_free, NULL);
+	g_ptr_array_free (name, TRUE);
+	g_ptr_array_free (value, TRUE);
+}
+
+static void
+gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
+		     GConfEntry *entry, gpointer user_data)
+{
+	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
+	if (!config->jh_check) {
+		mail_session_set_junk_headers (NULL, NULL, 0);
+	} else {
+		gconf_jh_headers_changed (NULL, 0, NULL, NULL);
+	}
 }
 
 static void

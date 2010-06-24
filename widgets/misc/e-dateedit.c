@@ -2004,6 +2004,7 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 
 					if (strcmp (b, t) == 0) {
 						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (priv->time_combo), &iter);
+						g_free (text);
 						break;
 					}
 				}

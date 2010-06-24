@@ -97,6 +97,8 @@ shell_window_init_switcher_style (EShellWindow *shell_window)
 
 		gtk_radio_action_set_current_value (
 			GTK_RADIO_ACTION (action), style);
+
+		g_free (string);
 	}
 
 	g_signal_connect (

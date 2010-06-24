@@ -1690,6 +1690,8 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	 * automatic CC addresses that have already been added. */
 	e_composer_header_table_add_destinations_cc (table, ccv);
 
+	e_destination_freev (tov);
+	e_destination_freev (ccv);
 	g_free (subject);
 
 	/* add post-to, if nessecary */

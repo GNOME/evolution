@@ -270,6 +270,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		gtk_widget_show (browser);
 	}
 
+	g_ptr_array_foreach (views, (GFunc) g_free, NULL);
 	g_ptr_array_free (views, TRUE);
 
 	em_utils_uids_free (uids);

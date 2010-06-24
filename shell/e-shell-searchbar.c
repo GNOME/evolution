@@ -1385,6 +1385,7 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	else if (searchbar->priv->search_option != NULL)
 		gtk_radio_action_set_current_value (
 			searchbar->priv->search_option, 0);
+	g_free (string);
 
 	key = STATE_KEY_SEARCH_TEXT;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
