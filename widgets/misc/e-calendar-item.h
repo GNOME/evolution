@@ -319,8 +319,8 @@ gboolean
    the start of the selection is shown. If start_date is NULL it clears the
    selection. */
 void	e_calendar_item_set_selection		(ECalendarItem *calitem,
-						 GDate *start_date,
-						 GDate *end_date);
+						 const GDate *start_date,
+						 const GDate *end_date);
 
 /* Marks a particular day. Passing E_CALENDAR_ITEM_MARK_BOLD as the day style
    will result in the day being shown as bold by default. The style callback

@@ -188,8 +188,8 @@ static void e_calendar_item_date_range_changed	(ECalendarItem	*calitem);
 static void e_calendar_item_queue_signal_emission	(ECalendarItem	*calitem);
 static gboolean e_calendar_item_signal_emission_idle_cb	(gpointer data);
 static void e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
-						       GDate		*start_date,
-						       GDate		*end_date,
+						       const GDate	*start_date,
+						       const GDate	*end_date,
 						       gboolean emission);
 
 /* Our arguments. */
@@ -3094,8 +3094,8 @@ e_calendar_item_get_selection		(ECalendarItem	*calitem,
 
 static void
 e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
-					   GDate		*start_date,
-					   GDate		*end_date,
+					   const GDate		*start_date,
+					   const GDate		*end_date,
 					   gboolean emission)
 {
 	gint start_year, start_month, start_day;
@@ -3197,8 +3197,8 @@ e_calendar_item_style_set (GtkWidget *widget, ECalendarItem *calitem)
 
 void
 e_calendar_item_set_selection (ECalendarItem	*calitem,
-			       GDate		*start_date,
-			       GDate		*end_date)
+			       const GDate	*start_date,
+			       const GDate	*end_date)
 {
 	/* If the user is in the middle of a selection, we must abort it. */
 	if (calitem->selecting) {

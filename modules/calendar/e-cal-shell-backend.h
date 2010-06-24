@@ -64,6 +64,10 @@ void		e_cal_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_cal_shell_backend_get_source_list
 					(ECalShellBackend *cal_shell_backend);
+void		e_cal_shell_backend_open_date_range
+					(ECalShellBackend *cal_shell_backend,
+					 const GDate *start_date,
+					 const GDate *end_date);
 
 G_END_DECLS
 
