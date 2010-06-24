@@ -608,6 +608,7 @@ struct _proxy_msg {
 	mail_async_event_t type;
 
 	GThread *thread;
+	guint idle_id;
 
 	MailAsyncFunc func;
 	gpointer o;
@@ -628,10 +629,11 @@ do_async_event(struct _proxy_msg *m)
 }
 
 static gint
-idle_async_event(gpointer mm)
+idle_async_event (struct _proxy_msg *m)
 {
-	do_async_event(mm);
-	mail_msg_unref(mm);
+	m->idle_id = 0;
+	do_async_event (m);
+	mail_msg_unref (m);
 
 	return FALSE;
 }
@@ -655,7 +657,7 @@ mail_async_event_new (void)
 	return ea;
 }
 
-gint
+guint
 mail_async_event_emit (MailAsyncEvent *ea,
                        mail_async_event_t type,
                        MailAsyncFunc func,
@@ -664,7 +666,7 @@ mail_async_event_emit (MailAsyncEvent *ea,
                        gpointer data)
 {
 	struct _proxy_msg *m;
-	gint id;
+	guint id;
 
 	/* We dont have a reply port for this, we dont
 	 * care when/if it gets executed, just queue it. */
@@ -687,7 +689,8 @@ mail_async_event_emit (MailAsyncEvent *ea,
 	 * overflow and deadlock us. */
 	if (type == MAIL_ASYNC_GUI) {
 		if (mail_in_main_thread ())
-			g_idle_add(idle_async_event, m);
+			m->idle_id = g_idle_add (
+				(GSourceFunc) idle_async_event, m);
 		else
 			mail_msg_main_loop_push(m);
 	} else
@@ -711,6 +714,10 @@ mail_async_event_destroy (MailAsyncEvent *ea)
 			g_mutex_unlock(ea->lock);
 			errno = EDEADLK;
 			return -1;
+		}
+		if (m->idle_id > 0) {
+			g_source_remove (m->idle_id);
+			m->idle_id = 0;
 		}
 		g_mutex_unlock(ea->lock);
 		mail_msg_wait(id);
