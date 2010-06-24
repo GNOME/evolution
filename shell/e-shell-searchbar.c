@@ -447,8 +447,10 @@ shell_searchbar_option_changed_cb (GtkRadioAction *action,
 		e_shell_searchbar_set_search_text (searchbar, search_text);
 		if (search_text != NULL && *search_text != '\0')
 			e_shell_view_execute_search (shell_view);
-		else
+		else {
 			shell_searchbar_save_search_option (searchbar);
+			gtk_widget_grab_focus (searchbar->priv->search_entry);
+		}
 
 	} else if (search_text != NULL)
 		e_shell_searchbar_set_search_text (searchbar, NULL);
