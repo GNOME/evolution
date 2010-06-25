@@ -313,8 +313,6 @@ e_cal_list_view_new (ECalModel *model)
 		E_TYPE_CAL_LIST_VIEW, "model", model, NULL);
 	setup_e_table (E_CAL_LIST_VIEW (cal_list_view));
 
-	g_object_unref (model);
-
 	return cal_list_view;
 }
 
