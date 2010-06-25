@@ -15,16 +15,16 @@
     </columns>
     <data>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">day(s)</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">day(s)</col>
       </row>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">week(s)</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">week(s)</col>
       </row>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">month(s)</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">month(s)</col>
       </row>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">year(s)</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">year(s)</col>
       </row>
     </data>
   </object>
@@ -34,13 +34,13 @@
     </columns>
     <data>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">for</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">for</col>
       </row>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">until</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">until</col>
       </row>
       <row>
-        <col comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])" id="0" translatable="yes">forever</col>
+        <col id="0" translatable="yes" context="recurrpage" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">forever</col>
       </row>
     </data>
   </object>

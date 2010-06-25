@@ -23,10 +23,10 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">for</col>
+        <col id="0" translatable="yes" context="eventpage" comments="TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes">for</col>
       </row>
       <row>
-        <col id="0" translatable="yes">until</col>
+        <col id="0" translatable="yes" context="eventpage" comments="TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]">until</col>
       </row>
     </data>
   </object>
@@ -41,13 +41,13 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">15 minutes before appointment</col>
+        <col id="0" translatable="yes" context="eventpage" comments="TRANSLATORS: Predefined alarm's description">15 minutes before appointment</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1 hour before appointment</col>
+        <col id="0" translatable="yes" context="eventpage" comments="TRANSLATORS: Predefined alarm's description">1 hour before appointment</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1 day before appointment</col>
+        <col id="0" translatable="yes" context="eventpage" comments="TRANSLATORS: Predefined alarm's description">1 day before appointment</col>
       </row>
     </data>
   </object>
