@@ -673,7 +673,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	e_calendar_item_set_days_start_week_sel (calitem, 9);
 	e_calendar_item_set_max_days_sel (calitem, 42);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	gtk_widget_set_size_request (widget, -1, 200);
 	priv->date_navigator = g_object_ref (widget);
 	gtk_widget_show (widget);
 
