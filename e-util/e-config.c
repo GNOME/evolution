@@ -386,55 +386,65 @@ ep_cmp(gconstpointer ap, gconstpointer bp)
 	return strcmp(a->item->path, b->item->path);
 }
 
-static struct _widget_node *
+static GList *
 ec_assistant_find_page (EConfig *ec, GtkWidget *page, gint *page_index)
 {
-	struct _widget_node *wn = NULL;
+	struct _widget_node *node = NULL;
 	GList *link;
 
 	g_return_val_if_fail (ec != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ASSISTANT (ec->widget), NULL);
 	g_return_val_if_fail (page != NULL, NULL);
 
-	link = ec->priv->widgets;
+	/* Assume failure, then if we do fail we can just return. */
+	if (page_index != NULL)
+		*page_index = -1;
 
-	while (link != NULL) {
-		wn = link->data;
+	/* Find the page widget in our sorted widget node list. */
+	for (link = ec->priv->widgets; link != NULL; link = link->next) {
+		node = link->data;
 
-		if (wn->frame == page
-		    && (wn->item->type == E_CONFIG_PAGE
-			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH
-			|| wn->item->type == E_CONFIG_PAGE_PROGRESS))
-				break;
+		if (node->frame != page)
+			continue;
 
-		link = g_list_next (link);
+		if (node->item->type == E_CONFIG_PAGE)
+			break;
+
+		if (node->item->type == E_CONFIG_PAGE_START)
+			break;
+
+		if (node->item->type == E_CONFIG_PAGE_FINISH)
+			break;
+
+		if (node->item->type == E_CONFIG_PAGE_PROGRESS)
+			break;
 	}
 
-	g_return_val_if_fail (wn != NULL, NULL);
+	/* FAIL: The widget is not in our list. */
+	if (link == NULL)
+		return NULL;
 
-	if (wn->frame != page)
-		wn = NULL;
-
+	/* Find the corresponding GtkAssistant page index. */
 	if (page_index) {
-		if (wn) {
-			GtkAssistant *assistant = GTK_ASSISTANT (ec->widget);
-			gint index, count = gtk_assistant_get_n_pages (assistant);
+		GtkAssistant *assistant;
+		GtkWidget *nth_page;
+		gint ii, n_pages;
 
-			for (index = 0; index < count; index++) {
-				if (gtk_assistant_get_nth_page (assistant, index) == page)
-					break;
+		assistant = GTK_ASSISTANT (ec->widget);
+		n_pages = gtk_assistant_get_n_pages (assistant);
+
+		for (ii = 0; ii < n_pages; ii++) {
+			nth_page = gtk_assistant_get_nth_page (assistant, ii);
+			if (page == nth_page) {
+				*page_index = ii;
+				break;
 			}
-
-			if (index == count)
-				index = -1;
-			*page_index = index;
-		} else {
-			*page_index = -1;
 		}
+
+		g_warn_if_fail (ii < n_pages);
 	}
 
-	return wn;
+	return link;
 }
 
 static void
@@ -444,6 +454,7 @@ ec_assistant_check_current (EConfig *ec)
 	struct _finish_page_node *fp;
 	GtkAssistant *assistant;
 	GtkWidget *page;
+	GList *link;
 	gint page_no;
 
 	g_return_if_fail (GTK_IS_ASSISTANT (ec->widget));
@@ -458,8 +469,9 @@ ec_assistant_check_current (EConfig *ec)
 	page = gtk_assistant_get_nth_page (assistant, page_no);
 	g_return_if_fail (page != NULL);
 
-	wn = ec_assistant_find_page (ec, page, NULL);
-	g_return_if_fail (wn != NULL);
+	link = ec_assistant_find_page (ec, page, NULL);
+	g_return_if_fail (link != NULL);
+	wn = link->data;
 
 	/* this should come first, as the check function can change the finish state of the page */
 	gtk_assistant_set_page_complete (assistant, page, e_config_page_check (ec, wn->item->path));
@@ -483,38 +495,54 @@ ec_assistant_check_current (EConfig *ec)
 static gint
 ec_assistant_forward (gint current_page, gpointer user_data)
 {
+	GtkAssistant *assistant;
 	EConfig *ec = user_data;
-	struct _widget_node *wn;
-	gint next_page = current_page + 1;
+	struct _widget_node *node;
+	GtkWidget *page_widget;
 	GList *link = NULL;
+	gint next_page;
 
-	d(printf("next page from '%d'\n", current_page));
+	/* As far as we're concerned, the GtkAssistant is just an unordered
+	 * collection of pages.  Our sorted list of widget nodes determines
+	 * the next page. */
 
-	wn = ec_assistant_find_page (ec, gtk_assistant_get_nth_page (GTK_ASSISTANT (ec->widget), current_page), NULL);
+	assistant = GTK_ASSISTANT (ec->widget);
+	page_widget = gtk_assistant_get_nth_page (assistant, current_page);
+	link = ec_assistant_find_page (ec, page_widget, NULL);
 
-	/* XXX This is a little kludgy.  We have to find
-	 *     the GList node for the page we just found. */
-	if (wn != NULL)
-		link = g_list_find (ec->priv->widgets, wn);
+	g_return_val_if_fail (link != NULL, -1);
+	node = (struct _widget_node *) link->data;
 
-	if (link && link->next) {
-		for (link = link->next; link->next; link = link->next) {
-			wn = link->data;
+	/* If we're already on a FINISH page then we're done. */
+	if (node->item->type == E_CONFIG_PAGE_FINISH)
+		return -1;
 
-			if (!wn->empty && wn->frame != NULL
-			    && (wn->item->type == E_CONFIG_PAGE
-				|| wn->item->type == E_CONFIG_PAGE_START
-				|| wn->item->type == E_CONFIG_PAGE_FINISH
-				|| wn->item->type == E_CONFIG_PAGE_PROGRESS))
-				break;
-		}
+	/* Find the next E_CONFIG_PAGE* type node. */
+	for (link = link->next; link != NULL; link = link->next) {
+		node = (struct _widget_node *) link->data;
+
+		if (node->empty || node->frame == NULL)
+			continue;
+
+		if (node->item->type == E_CONFIG_PAGE)
+			break;
+
+		if (node->item->type == E_CONFIG_PAGE_START)
+			break;
+
+		if (node->item->type == E_CONFIG_PAGE_FINISH)
+			break;
+
+		if (node->item->type == E_CONFIG_PAGE_PROGRESS)
+			break;
 	}
 
-	if (link && link->next) {
-		wn = link->data;
-		ec_assistant_find_page (ec, wn->frame, &next_page);
-		d(printf(" is %s (%d)\n",wn->item->path, next_page));
-	}
+	/* Find the corresponding GtkAssistant page number. */
+	if (link != NULL) {
+		node = (struct _widget_node *) link->data;
+		ec_assistant_find_page (ec, node->frame, &next_page);
+	} else
+		next_page = -1;
 
 	return next_page;
 }
@@ -527,7 +555,7 @@ ec_rebuild (EConfig *emp)
 	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL, *assistant = NULL;
 	gint pageno = 0, sectionno = 0, itemno = 0;
 	gint n_visible_widgets = 0;
-	struct _widget_node *last_active_page = NULL;
+	GList *last_active_link = NULL;
 	gboolean is_assistant;
 	GList *link;
 
@@ -541,9 +569,20 @@ ec_rebuild (EConfig *emp)
 	/* because rebuild destroys pages, and destroying active page causes crashes */
 	is_assistant = emp->widget && GTK_IS_ASSISTANT (emp->widget);
 	if (is_assistant) {
+		GtkAssistant *assistant;
 		gint page_index = gtk_assistant_get_current_page (GTK_ASSISTANT (emp->widget));
-		if (page_index != -1)
-			last_active_page = ec_assistant_find_page (emp, gtk_assistant_get_nth_page (GTK_ASSISTANT (emp->widget), page_index), NULL);
+
+		assistant = GTK_ASSISTANT (emp->widget);
+		page_index = gtk_assistant_get_current_page (assistant);
+
+		if (page_index != -1) {
+			GtkWidget *nth_page;
+
+			nth_page = gtk_assistant_get_nth_page (
+				GTK_ASSISTANT (emp->widget), page_index);
+			last_active_link = ec_assistant_find_page (
+				emp, nth_page, NULL);
+		}
 		gtk_assistant_set_current_page (GTK_ASSISTANT (emp->widget), 0);
 	}
 
@@ -680,8 +719,7 @@ ec_rebuild (EConfig *emp)
 				break;
 			}
 
-			if (item->type == E_CONFIG_PAGE_FINISH || wn->widget == NULL) {
-				/* always rebuild finish page, to have it as the last page */
+			if (wn->widget == NULL) {
 				if (item->factory) {
 					page = item->factory(emp, item, root, wn->frame, wn->context->data);
 				} else {
@@ -989,11 +1027,15 @@ ec_rebuild (EConfig *emp)
 		}
 	}
 
-	if (is_assistant && last_active_page) {
+	if (is_assistant && last_active_link != NULL) {
+		GtkAssistant *assistant;
+		struct _widget_node *wn;
 		gint page_index = -1;
 
-		ec_assistant_find_page (emp, last_active_page->frame, &page_index);
-		gtk_assistant_set_current_page (GTK_ASSISTANT (emp->widget), page_index);
+		wn = last_active_link->data;
+		assistant = GTK_ASSISTANT (emp->widget);
+		ec_assistant_find_page (emp, wn->frame, &page_index);
+		gtk_assistant_set_current_page (assistant, page_index);
 	}
 }
 
