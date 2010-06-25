@@ -489,6 +489,16 @@ mail_shell_content_check_state (EShellContent *shell_content)
 	return e_mail_reader_check_state (E_MAIL_READER (shell_content));
 }
 
+static void
+mail_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	EMailShellContentPrivate *priv;
+
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	gtk_widget_grab_focus (priv->message_list);
+}
+
 static GtkActionGroup *
 mail_shell_content_get_action_group (EMailReader *reader)
 {
@@ -695,6 +705,7 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = mail_shell_content_check_state;
+	shell_content_class->focus_search_results = mail_shell_content_focus_search_results;
 
 	/* Inherited from EMailReader */
 	g_object_class_override_property (

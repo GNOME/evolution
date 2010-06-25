@@ -621,6 +621,16 @@ task_shell_content_check_state (EShellContent *shell_content)
 }
 
 static void
+task_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	ETaskShellContentPrivate *priv;
+
+	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	gtk_widget_grab_focus (priv->task_table);
+}
+
+static void
 task_shell_content_class_init (ETaskShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -638,6 +648,7 @@ task_shell_content_class_init (ETaskShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = task_shell_content_check_state;
+	shell_content_class->focus_search_results = task_shell_content_focus_search_results;
 
 	g_object_class_install_property (
 		object_class,

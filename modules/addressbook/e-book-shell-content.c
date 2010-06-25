@@ -364,6 +364,18 @@ book_shell_content_check_state (EShellContent *shell_content)
 }
 
 static void
+book_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	EBookShellContent *book_shell_content;
+	EAddressbookView *view;
+
+	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
+	view = e_book_shell_content_get_current_view (book_shell_content);
+
+	gtk_widget_grab_focus (GTK_WIDGET (view));
+}
+
+static void
 book_shell_content_class_init (EBookShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -380,6 +392,7 @@ book_shell_content_class_init (EBookShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = book_shell_content_check_state;
+	shell_content_class->focus_search_results = book_shell_content_focus_search_results;
 
 	g_object_class_install_property (
 		object_class,

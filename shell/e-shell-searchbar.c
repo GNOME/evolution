@@ -300,7 +300,7 @@ static void
 shell_searchbar_execute_search_cb (EShellView *shell_view,
                                    EShellSearchbar *searchbar)
 {
-	GtkWidget *widget;
+	EShellContent *shell_content;
 
 	shell_searchbar_update_search_widgets (searchbar);
 
@@ -312,9 +312,10 @@ shell_searchbar_execute_search_cb (EShellView *shell_view,
 	/* Direct the focus away from the search entry, so that a
 	 * focus-in event is required before the text can be changed.
 	 * This will reset the entry to the appropriate visual state. */
-	widget = searchbar->priv->search_entry;
-	if (gtk_widget_is_focus (widget))
-		gtk_widget_child_focus (widget, GTK_DIR_TAB_FORWARD);
+	if (gtk_widget_is_focus (searchbar->priv->search_entry)) {
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		e_shell_content_focus_search_results (shell_content);
+	}
 }
 
 static void
@@ -857,7 +858,7 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			G_PARAM_CONSTRUCT));
 
 	/**
-	 * EShellContent:shell-view
+	 * EShellSearchbar:shell-view
 	 *
 	 * The #EShellView to which the searchbar widget belongs.
 	 **/
@@ -873,7 +874,7 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			G_PARAM_CONSTRUCT_ONLY));
 
 	/**
-	 * EShellContent:state-group
+	 * EShellSearchbar:state-group
 	 *
 	 * Key file group name to read and write search bar state.
 	 **/

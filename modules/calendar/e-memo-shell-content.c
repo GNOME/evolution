@@ -601,6 +601,16 @@ memo_shell_content_check_state (EShellContent *shell_content)
 }
 
 static void
+memo_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	EMemoShellContentPrivate *priv;
+
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
+
+	gtk_widget_grab_focus (priv->memo_table);
+}
+
+static void
 memo_shell_content_class_init (EMemoShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -618,6 +628,7 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = memo_shell_content_check_state;
+	shell_content_class->focus_search_results = memo_shell_content_focus_search_results;
 
 	g_object_class_install_property (
 		object_class,

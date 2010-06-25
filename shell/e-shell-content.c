@@ -386,6 +386,29 @@ e_shell_content_check_state (EShellContent *shell_content)
 }
 
 /**
+ * e_shell_content_focus_search_results:
+ * @shell_content: an #EShellContent
+ *
+ * #EShellContent subclasses should implement the
+ * <structfield>focus_search_results</structfield> method in
+ * #EShellContentClass to direct input focus to the widget
+ * displaying search results.  This is usually called during
+ * e_shell_view_execute_search().
+ **/
+void
+e_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	EShellContentClass *shell_content_class;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	shell_content_class = E_SHELL_CONTENT_GET_CLASS (shell_content);
+
+	if (shell_content_class->focus_search_results != NULL)
+		shell_content_class->focus_search_results (shell_content);
+}
+
+/**
  * e_shell_content_get_shell_view:
  * @shell_content: an #EShellContent
  *

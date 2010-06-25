@@ -357,6 +357,7 @@ cal_shell_content_constructed (GObject *object)
 		foreign_content = e_shell_view_get_shell_content (foreign_view);
 		g_object_get (foreign_content, "model", &task_model, NULL);
 	}
+
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
@@ -547,10 +548,27 @@ cal_shell_content_map (GtkWidget *widget)
 }
 
 static void
+cal_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	gtk_widget_grab_focus (GTK_WIDGET (calendar_view));
+}
+
+static void
 cal_shell_content_class_init (ECalShellContentClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellContentPrivate));
@@ -563,6 +581,9 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = cal_shell_content_map;
+
+	shell_content_class = E_SHELL_CONTENT_CLASS (class);
+	shell_content_class->focus_search_results = cal_shell_content_focus_search_results;
 
 	g_object_class_install_property (
 		object_class,
