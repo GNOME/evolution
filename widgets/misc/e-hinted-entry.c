@@ -123,6 +123,34 @@ hinted_entry_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static void
+hinted_entry_grab_focus (GtkWidget *widget)
+{
+	EHintedEntryPrivate *priv;
+	GtkSettings *settings;
+	const gchar *property_name;
+	gboolean select_on_focus;
+
+	priv = E_HINTED_ENTRY_GET_PRIVATE (widget);
+
+	/* We don't want hints to be selected so we must temporarily
+	 * override the "gtk-entry-select-on-focus" setting. */
+
+	settings = gtk_widget_get_settings (widget);
+	property_name = "gtk-entry-select-on-focus";
+
+	g_object_get (settings, property_name, &select_on_focus, NULL);
+
+	if (priv->hint_shown)
+		g_object_set (settings, property_name, FALSE, NULL);
+
+	/* Chain up to parent's grab_focus() method. */
+	GTK_WIDGET_CLASS (parent_class)->grab_focus (widget);
+
+	if (priv->hint_shown)
+		g_object_set (settings, property_name, select_on_focus, NULL);
+}
+
 static gboolean
 hinted_entry_focus_in_event (GtkWidget *widget,
                              GdkEventFocus *event)
@@ -169,6 +197,7 @@ hinted_entry_class_init (EHintedEntryClass *class)
 	object_class->finalize = hinted_entry_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->grab_focus = hinted_entry_grab_focus;
 	widget_class->focus_in_event = hinted_entry_focus_in_event;
 	widget_class->focus_out_event = hinted_entry_focus_out_event;
 
