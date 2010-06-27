@@ -808,7 +808,7 @@ msgstr "Nieuw adresboek aanmaken"
 # upgraden/opwaarderen
 #: ../addressbook/gui/component/addressbook-component.c:418
 msgid "Failed upgrading Address Book settings or folders."
-msgstr "Het opwaarderen van adresboek-instellingen of mappen is mislukt."
+msgstr "Het opwaarderen van adresboekinstellingen of mappen is mislukt."
 
 # ?
 #: ../addressbook/gui/component/addressbook-config.c:332
@@ -870,7 +870,7 @@ msgstr "Downloaden"
 #: ../addressbook/gui/component/addressbook-config.c:1221
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
-msgstr "Adresboek eigenschappen"
+msgstr "Adresboekeigenschappen"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:74
 #: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1209
@@ -988,7 +988,7 @@ msgstr "_Eigenschappen"
 
 #: ../addressbook/gui/component/addressbook-view.c:1223
 msgid "Contact Source Selector"
-msgstr "Contactenbron-selectie"
+msgstr "Contactenbronselectie"
 
 #: ../addressbook/gui/component/addressbook.c:102
 msgid "Accessing LDAP Server anonymously"
@@ -1147,7 +1147,7 @@ msgstr "Onderscheiden naam"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Email address"
-msgstr "E-mail adres"
+msgstr "E-mailadres"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
 msgid ""
@@ -1310,7 +1310,7 @@ msgid ""
 "list. It is for display purposes only. "
 msgstr ""
 "Deze naam wordt gebruikt om deze server in uw mappenlijst weer te geven. De "
-"naam is alleen voor weergave-doeleinden."
+"naam is alleen voor weergavedoeleinden."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -1723,7 +1723,7 @@ msgstr "Barbados"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Belarus"
-msgstr "Wit Rusland"
+msgstr "Wit-Rusland"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Belgium"
@@ -1823,7 +1823,7 @@ msgstr "China"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Christmas Island"
-msgstr "Kerstmis-Eiland"
+msgstr "Kersteiland"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Cocos (Keeling) Islands"
@@ -1923,7 +1923,7 @@ msgstr "Falkland eilanden"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Faroe Islands"
-msgstr "Faroër Eilanden"
+msgstr "Faeröer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Fiji"
@@ -1939,7 +1939,7 @@ msgstr "Frankrijk"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "French Guiana"
-msgstr "Frans Guiana"
+msgstr "Frans-Guyana"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "French Polynesia"
@@ -2023,7 +2023,7 @@ msgstr "Heard en McDonald Eilanden"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Holy See"
-msgstr "Holy See"
+msgstr "Heilige Stoel"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Honduras"
@@ -2107,7 +2107,7 @@ msgstr "Korea, Democratische republiek van"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Korea, Republic Of"
-msgstr "Noord Korea"
+msgstr "Noord-Korea"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Kuwait"
@@ -2263,11 +2263,11 @@ msgstr "Nederlandse Antillen"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "New Caledonia"
-msgstr "Nieuw Caledonië"
+msgstr "Nieuw-Caledonië"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "New Zealand"
-msgstr "Nieuw Zeeland"
+msgstr "Nieuw-Zeeland"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nicaragua"
@@ -2503,7 +2503,7 @@ msgstr "Thailand"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Timor-Leste"
-msgstr "Oost Timor"
+msgstr "Oost-Timor"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Togo"
@@ -2535,7 +2535,7 @@ msgstr "Turkmenistan"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Turks And Caicos Islands"
-msgstr "Turkse en Caicos Eilanden"
+msgstr "Turks- en Caicoseilanden"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Tuvalu"
@@ -11620,7 +11620,7 @@ msgstr "Debug"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:42
 msgid "Error, Warnings and Debug messages"
-msgstr "Fout-, waarschuwings,- en debug-berichten"
+msgstr "Fout-, waarschuwings-, en debug-berichten"
 
 # gebruikt/ingeschakeld
 # is tabelkop en geeft vinkjes of een lokatie wel of niet gebruikt wordt
@@ -12077,7 +12077,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr "Hier kunt u uw e-mail accounts instellen"
+msgstr "Hier kunt u uw e-mailaccounts instellen"
 
 # netwerkverbindingsinstellingen instellen
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
@@ -12090,7 +12090,7 @@ msgstr "Evolution e-mail"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
-msgstr "Evolution e-mail accountconfiguratie"
+msgstr "Evolution e-mailaccountconfiguratie"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
