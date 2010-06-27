@@ -26,9 +26,9 @@ liborg_gnome_audio_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_audio_inline_la_LIBADD =			\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(GSTREAMER_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)				\
+	$(GSTREAMER_LIBS)
 
 EXTRA_DIST = org-gnome-audio-inline.eplug.xml
 
