@@ -2613,6 +2613,9 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	str = g_strdup_printf (_("Week %d"), g_date_get_iso8601_week_of_year (&dt));
 	gtk_label_set_text (GTK_LABEL (day_view->week_number_label), str);
 	g_free (str);
+
+	if (day_view->work_week_view)
+		e_day_view_recalc_work_week (day_view);
 }
 
 /* Whether we are displaying a work-week, in which case the display always
