@@ -36,7 +36,6 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
 m4_define([glib_minimum_version], [2.22.0])
-m4_define([gtk_minimum_version], [2.20.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
@@ -50,6 +49,17 @@ m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
 m4_define([unique_minimum_version], [1.1.2])
 m4_define([dbus_glib_minimum_version], [0.74])
+
+dnl **********************************
+dnl GTK version
+dnl **********************************
+if $PKG_CONFIG --exists gtk+-3.0; then
+	GTK_PACKAGE="gtk+-3.0"
+	gtk_minimum_version="2.90.5"
+else	
+	GTK_PACKAGE="gtk+-2.0"
+	gtk_minimum_version="2.20.0"
+fi
 
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
@@ -220,7 +230,7 @@ dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
 	 gthread-2.0 >= glib_minimum_version
-	 gtk+-2.0 >= gtk_minimum_version
+	 $GTK_PACKAGE >= $gtk_minimum_version
 	 gail >= gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
