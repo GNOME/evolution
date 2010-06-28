@@ -1421,7 +1421,7 @@ plugins_base_always="calendar-file calendar-http itip-formatter plugin-manager d
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
 dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-junk-plugin"
 
-plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline"
+plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline dbx-import"
 
 plugins_standard="$plugins_standard_always"
 dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
@@ -1775,6 +1775,7 @@ plugins/caldav/Makefile
 plugins/calendar-file/Makefile
 plugins/calendar-http/Makefile
 plugins/calendar-weather/Makefile
+plugins/dbx-import/Makefile
 plugins/default-source/Makefile
 plugins/email-custom-header/Makefile
 plugins/external-editor/Makefile

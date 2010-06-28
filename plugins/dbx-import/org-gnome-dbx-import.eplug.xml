@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<e-plugin-list>
+  <e-plugin
+    id="org.gnome.evolution.plugin.dbx.import"
+    type="shlib"
+    location="@PLUGINDIR@/liborg-gnome-dbx-import@SOEXT@"
+    _name="Outlook DBX import">
+    <_description>Import Outlook Express messages from DBX file</_description>
+    <author name="David Woodhouse" email="dwmw2@infradead.org"/>
+    <hook class="org.gnome.evolution.import:1.0">
+        <importer
+	 target="uri"
+	 _name = "Outlook Express 5/6 personal folders (.dbx)"
+	 supported="org_gnome_evolution_readdbx_supported"
+	 get-widget="org_gnome_evolution_readdbx_getwidget"
+	 import="org_gnome_evolution_readdbx_import"
+	 cancel="org_gnome_evolution_readdbx_cancel">
+	</importer>
+    </hook>
+  </e-plugin> 
+</e-plugin-list>
+

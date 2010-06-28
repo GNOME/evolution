@@ -1,0 +1,753 @@
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* dbx-importer.c
+*
+* Author: David Woodhouse <dwmw2@infradead.org>
+*
+* Copyright © 2010 Intel Corporation
+*
+* Evolution parts largely lifted from pst-import.c:
+*   Author: Chris Halls <chris.halls@credativ.co.uk>
+*	    Bharath Acharya <abharath@novell.com>
+*   Copyright © 2006 Chris Halls
+*
+* Some DBX bits from libdbx:
+*   Author: David Smith <Dave.S@Earthcorp.Com>
+*    Copyright © 2001 David Smith
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) version 3.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public
+* License along with the program; if not, see <http://www.gnu.org/licenses/>
+*
+*/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#define G_LOG_DOMAIN "eplugin-readdbx"
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
+
+#include <glib/gi18n-lib.h>
+#include <glib/gstdio.h>
+#include <glib/gprintf.h>
+
+#include <gtk/gtk.h>
+
+#include <e-util/e-import.h>
+#include <e-util/e-plugin.h>
+#include <e-util/e-mktemp.h>
+
+#include <shell/e-shell.h>
+#include <shell/e-shell-window.h>
+#include <shell/e-shell-view.h>
+
+#include <libebook/e-contact.h>
+#include <libebook/e-book.h>
+
+#include <libecal/e-cal.h>
+#include <libecal/e-cal-component.h>
+
+#include <libedataserver/e-data-server-util.h>
+#include <libedataserverui/e-source-selector-dialog.h>
+
+#include <mail/e-mail-local.h>
+#include <mail/mail-mt.h>
+#include <mail/mail-tools.h>
+#include <mail/em-utils.h>
+
+#define d(x)
+
+#ifdef WIN32
+#ifdef gmtime_r
+#undef gmtime_r
+#endif
+#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
+#endif
+
+gboolean org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target);
+GtkWidget *org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
+void org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportImporter *im);
+void org_gnome_evolution_readdbx_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+/* em-folder-selection-button.h is private, even though other internal evo plugins use it!
+   so declare the functions here
+   TODO: sort out whether this should really be private
+*/
+typedef struct _EMFolderSelectionButton        EMFolderSelectionButton;
+GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *caption);
+void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri);
+const gchar *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
+
+typedef struct {
+	MailMsg base;
+
+	EImport *import;
+	EImportTarget *target;
+
+	GMutex *status_lock;
+	gchar *status_what;
+	gint status_pc;
+	gint status_timeout_id;
+	CamelOperation *status;
+	CamelException ex;
+
+	guint32 *indices;
+	guint32 index_count;
+
+	gchar *uri;
+	gint dbx_fd;
+	//	dbx_file dbx;
+
+	CamelOperation *cancel;
+	CamelFolder *folder;
+	gchar *parent_uri;
+	gchar *folder_name;
+	gchar *folder_uri;
+	gint folder_count;
+	gint current_item;
+} DbxImporter;
+
+
+static unsigned char oe56_mbox_sig[16] = {
+	0xcf, 0xad, 0x12, 0xfe, 0xc5, 0xfd, 0x74, 0x6f,
+	0x66, 0xe3, 0xd1, 0x11, 0x9a, 0x4e, 0x00, 0xc0
+};
+static unsigned char oe56_flist_sig[16] = {
+	0xcf, 0xad, 0x12, 0xfe, 0xc6, 0xfd, 0x74, 0x6f,
+	0x66, 0xe3, 0xd1, 0x11, 0x9a, 0x4e, 0x00, 0xc0
+};
+static unsigned char oe4_mbox_sig[8] = {
+	0x4a, 0x4d, 0x46, 0x36, 0x03, 0x00, 0x01, 0x00
+};
+
+gboolean
+org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
+{
+	gchar signature[16];
+	gboolean ret = FALSE;
+	gint fd, n;
+	EImportTargetURI *s;
+	gchar *filename;
+
+	if (target->type != E_IMPORT_TARGET_URI) {
+		return FALSE;
+	}
+
+	s = (EImportTargetURI *)target;
+
+	if (s->uri_src == NULL) {
+		return TRUE;
+	}
+
+	if (strncmp (s->uri_src, "file:///", strlen ("file:///")) != 0) {
+		return FALSE;
+	}
+
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	fd = g_open (filename, O_RDONLY, 0);
+	g_free (filename);
+
+	if (fd != -1) {
+		n = read (fd, signature, sizeof (signature));
+		if (n == sizeof (signature)) {
+			if (!memcmp(signature, oe56_mbox_sig, sizeof(oe56_mbox_sig))) {
+				ret = TRUE;
+			} else if (!memcmp(signature, oe56_flist_sig, sizeof(oe56_flist_sig))) {
+				d(printf("Found DBX folder list file\n"));
+			} else if (!memcmp(signature, oe4_mbox_sig, sizeof(oe4_mbox_sig))) {
+				d(printf("Found OE4 DBX file\n"));
+			}
+		}
+		close (fd);
+	}				
+
+	return ret;
+}
+
+static void
+folder_selected(EMFolderSelectionButton *button, EImportTargetURI *target)
+{
+	g_free(target->uri_dest);
+	target->uri_dest = g_strdup(em_folder_selection_button_get_selection(button));
+}
+
+GtkWidget *
+org_gnome_evolution_readdbx_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	GtkWidget *hbox, *w;
+	GtkLabel *label;
+	gchar *select_uri = NULL;
+
+#if 1
+	GtkWindow *window;
+	/* preselect the folder selected in a mail view */
+	window = e_shell_get_active_window (e_shell_get_default ());
+	if (E_IS_SHELL_WINDOW (window)) {
+		EShellWindow *shell_window;
+		const gchar *view;
+
+		shell_window = E_SHELL_WINDOW (window);
+		view = e_shell_window_get_active_view (shell_window);
+
+		if (view && g_str_equal (view, "mail")) {
+			EShellView *shell_view = e_shell_window_get_shell_view (shell_window, view);
+
+			if (shell_view) {
+				EMFolderTree *folder_tree = NULL;
+				EShellSidebar *shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+				g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+				if (folder_tree)
+					select_uri = em_folder_tree_get_selected_uri (folder_tree);
+			}
+		}
+	}
+#endif
+	if (!select_uri)
+		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX));
+
+	hbox = gtk_hbox_new(FALSE, 0);
+
+	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
+	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+
+	label = GTK_LABEL (w);
+
+	w = em_folder_selection_button_new(
+		_("Select folder"), _("Select folder to import OE folder into"));
+	gtk_label_set_mnemonic_widget (label, w);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
+	folder_selected ((EMFolderSelectionButton *)w, (EImportTargetURI *)target);
+	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
+	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+
+	w = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start((GtkBox *)w, hbox, FALSE, FALSE, 0);
+	gtk_widget_show_all(w);
+
+	g_free (select_uri);
+
+	return w;
+}
+
+static gchar *
+dbx_import_describe (DbxImporter *m, gint complete)
+{
+	return g_strdup (_("Importing Outlook Express data"));
+}
+
+/* Types taken from libdbx and fixed */
+struct _dbx_tableindexstruct {
+	guint32 self;
+	guint32 unknown1;
+	guint32 anotherTablePtr;
+	guint32 parent;
+	char unknown2;
+	char ptrCount;
+	char reserve3;
+	char reserve4;
+	guint32 indexCount;
+};
+
+struct _dbx_indexstruct {
+	guint32 indexptr;
+	guint32 anotherTablePtr;
+	guint32 indexCount;
+};
+
+#define INDEX_POINTER 0xE4
+#define ITEM_COUNT 0xC4
+
+
+struct _dbx_email_headerstruct {
+	guint32 self;
+	guint32 size;
+	unsigned short int u1;
+	unsigned char count;
+	unsigned char u2;
+};
+
+
+struct _dbx_block_hdrstruct {
+	guint32 self;
+	guint32 nextaddressoffset;
+	unsigned short blocksize;
+	unsigned char intcount;
+	unsigned char unknown1;
+	guint32 nextaddress;
+};
+
+static int dbx_pread(gint fd, void *buf, guint32 count, guint32 offset)
+{
+	if (lseek(fd, offset, SEEK_SET) != offset)
+		return -1;
+	return read(fd, buf, count);
+}
+
+static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index_ofs)
+{
+	struct _dbx_tableindexstruct tindex;
+	struct _dbx_indexstruct index;
+	gint i;
+
+	d(printf("Loading index table at 0x%x\n", pos));
+
+	if (dbx_pread(m->dbx_fd, &tindex, sizeof(tindex), pos) != sizeof(tindex)) {
+		camel_exception_setv(&m->base.ex, 1, "Failed to read table index from DBX file");
+		return FALSE;
+	}
+	tindex.anotherTablePtr = GUINT32_FROM_LE(tindex.anotherTablePtr);
+	tindex.self = GUINT32_FROM_LE(tindex.self);
+	tindex.indexCount = GUINT32_FROM_LE(tindex.indexCount);
+
+	if (tindex.self != pos) {
+		camel_exception_setv(&m->base.ex, 1, "Corrupt DBX file: Index table at 0x%x does not point to itself",
+				     pos);
+		return FALSE;
+	}
+
+	d(printf("Index at %x: indexCount %x, anotherTablePtr %x\n", pos, tindex.indexCount, tindex.anotherTablePtr));
+
+	if (tindex.indexCount > 0) {
+		if (!dbx_load_index_table(m, tindex.anotherTablePtr, index_ofs))
+			return FALSE;
+	}
+	
+	d(printf("Index at %x has ptrCount %d\n", pos, tindex.ptrCount));
+
+	pos += sizeof(tindex);
+
+	for (i = 0; i < tindex.ptrCount; i++) {
+		if (dbx_pread(m->dbx_fd, &index, sizeof(index), pos) != sizeof(index)) {
+			camel_exception_setv(&m->base.ex, 1, "Failed to read index entry from DBX file");
+			return FALSE;
+		}
+		index.indexptr = GUINT32_FROM_LE(index.indexptr);
+		index.anotherTablePtr = GUINT32_FROM_LE(index.anotherTablePtr);
+		index.indexCount = GUINT32_FROM_LE(index.indexCount);
+		
+		if (*index_ofs == m->index_count) {
+			camel_exception_setv(&m->base.ex, 1,
+					     "Corrupt DBX file: Seems to contain more than %d entries claimed in its header\n",
+					     m->index_count);
+			return FALSE;
+		}
+		m->indices[(*index_ofs)++] = index.indexptr;
+		if (index.indexCount > 0) {
+			if (!dbx_load_index_table(m, index.anotherTablePtr, index_ofs))
+				return FALSE;
+		}
+		pos += sizeof(index);
+	}
+	return TRUE;
+}
+static gboolean dbx_load_indices(DbxImporter *m)
+{
+	guint indexptr, itemcount;
+	guint32 index_ofs = 0;
+
+	if (dbx_pread(m->dbx_fd, &indexptr, 4, INDEX_POINTER) != 4) {
+		camel_exception_setv(&m->base.ex, 1, "Failed to read first index pointer from DBX file");
+		return FALSE;
+	}
+
+	if (dbx_pread(m->dbx_fd, &itemcount, 4, ITEM_COUNT) != 4) {
+		camel_exception_setv(&m->base.ex, 1, "Failed to read item count from DBX file");
+		return FALSE;
+	}
+
+	indexptr = GUINT32_FROM_LE(indexptr);
+	m->index_count = itemcount = GUINT32_FROM_LE(itemcount);
+	m->indices = g_malloc(itemcount * 4);
+
+	d(printf("indexptr %x, itemcount %d\n", indexptr, itemcount));
+
+	if (indexptr && !dbx_load_index_table(m, indexptr, &index_ofs))
+		return FALSE;
+
+	d(printf("Loaded %d of %d indices\n", index_ofs, m->index_count));
+
+	if (index_ofs < m->index_count) {
+		camel_exception_setv(&m->base.ex, 1,
+				     "Corrupt DBX file: Seems to contain fewer than %d entries claimed in its header\n",
+				     m->index_count);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gboolean
+dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
+{
+	/* FIXME: We really ought to set up CamelStream that we can feed to the
+	   MIME parser, rather than using a temporary file */
+
+	struct _dbx_block_hdrstruct hdr;
+	guint32 buflen = 0x200;
+	guchar *buffer = g_malloc(buflen);
+
+	ftruncate(bodyfd, 0);
+	lseek(bodyfd, 0, SEEK_SET);
+
+	while (offset) {
+		d(printf("Reading mail data chunk from %x\n", offset));
+
+		if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
+			camel_exception_setv(&m->base.ex, 1,
+					     "Failed to read mail data block from DBX file at offset %x\n",
+					     offset);
+			return FALSE;
+		}
+		hdr.self = GUINT32_FROM_LE(hdr.self);
+		hdr.blocksize = GUINT16_FROM_LE(hdr.blocksize);
+		hdr.nextaddress = GUINT32_FROM_LE(hdr.nextaddress);
+
+		if (hdr.self != offset) {
+			camel_exception_setv(&m->base.ex, 1,
+					     "Corrupt DBX file: Mail data block at 0x%x does not point to itself",
+					     offset);
+			return FALSE;
+		}
+
+		if (hdr.blocksize > buflen) {
+			g_free(buffer);
+			buflen = hdr.blocksize;
+			buffer = g_malloc(buflen);
+		}
+		d(printf("Reading %d bytes from %lx\n", hdr.blocksize, offset + sizeof(hdr)));
+		if (dbx_pread(m->dbx_fd, buffer, hdr.blocksize, offset + sizeof(hdr)) != hdr.blocksize) {
+			camel_exception_setv(&m->base.ex, 1,
+					     "Failed to read mail data from DBX file at offset %x\n",
+					     offset + sizeof(hdr));
+			return FALSE;
+		}
+		if (write(bodyfd, buffer, hdr.blocksize) != hdr.blocksize) {
+			camel_exception_setv(&m->base.ex, 1,
+					     "Failed to write mail data to temporary file\n",
+					     offset + sizeof(hdr));
+			return FALSE;
+		}
+		offset = hdr.nextaddress;
+	}
+	return TRUE;
+}
+
+static gboolean
+dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
+{
+	struct _dbx_email_headerstruct hdr;
+	guchar *buffer;
+	guint32 dataptr = 0;
+	int i;
+
+	if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
+		camel_exception_setv(&m->base.ex, 1,
+				     "Failed to read mail header from DBX file at offset %x\n",
+				     offset);
+		return FALSE;
+	}
+	hdr.self = GUINT32_FROM_LE(hdr.self);
+	hdr.size = GUINT32_FROM_LE(hdr.size);
+
+	if (hdr.self != offset) {
+		camel_exception_setv(&m->base.ex, 1, "Corrupt DBX file: Mail header at 0x%x does not point to itself",
+				     offset);
+		return FALSE;
+	}
+	buffer = g_malloc(hdr.size);
+	offset += sizeof(hdr);
+	if (dbx_pread(m->dbx_fd, buffer, hdr.size, offset) != hdr.size) {
+		camel_exception_setv(&m->base.ex, 1,
+				     "Failed to read mail data block from DBX file at offset %x\n",
+				     offset);
+		g_free(buffer);
+		return FALSE;
+	}
+
+	for (i = 0; i < hdr.count; i++) {
+		guchar type = buffer[i*4];
+		gint val = buffer[i*4 + 1] + (buffer[i*4 + 2] << 8) + (buffer[i*4 + 3] << 16);
+
+		switch(type) {
+		case 0x01:
+			*flags = buffer[hdr.count*4 + val];
+			d(printf("Got type 0x01 flags %02x\n", *flags));
+			break;
+		case 0x81:
+			*flags = val;
+			d(printf("Got type 0x81 flags %02x\n", *flags));
+			break;
+		case 0x04:
+			dataptr = GUINT32_FROM_LE(*(guint32 *)(buffer + hdr.count*4 + val));
+			d(printf("Got type 0x04 data pointer %x\n", dataptr));
+			break;
+		case 0x84:
+			dataptr = val;
+			d(printf("Got type 0x84 data pointer %x\n", dataptr));
+			break;
+		default:
+			/* We don't care about anything else */
+			d(printf("Ignoring type %02x datum\n", type));
+			break;
+		}
+	}
+	g_free(buffer);
+
+	if (!dataptr)
+		return FALSE;
+
+	return dbx_read_mail_body(m, dataptr, bodyfd);
+}
+
+static void
+dbx_import_file (DbxImporter *m)
+{
+	gchar *filename;
+	CamelFolder *folder;
+	gint tmpfile;
+	gint i;
+	gint missing = 0;
+	m->status_what = NULL;
+	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
+	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
+
+	camel_operation_start (NULL, _("Importing '%s'"), filename);
+	folder = mail_tool_uri_to_folder (m->parent_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
+	if (!folder)
+		return;
+	d(printf("importing to %s\n", camel_folder_get_full_name(folder)));
+
+	camel_folder_freeze(folder);
+
+	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
+	m->dbx_fd = g_open (filename, O_RDONLY, 0);
+	g_free (filename);
+
+	if (m->dbx_fd == -1) {
+		camel_exception_setv(&m->base.ex, 1, "Failed to open import file\n");
+		goto out;
+	}
+
+	if (!dbx_load_indices(m))
+		goto out;
+
+	tmpfile = e_mkstemp("dbx-import-XXXXXX");
+	if (tmpfile == -1) {
+		camel_exception_setv(&m->base.ex, 1, "Failed to create temporary file for import\n");
+		goto out;
+	}
+
+	for (i = 0; i < m->index_count; i++) {
+		CamelMessageInfo *info;
+		CamelMimeMessage *msg;
+		CamelMimeParser *mp;
+		gint dbx_flags = 0;
+		gint flags = 0;
+
+		camel_operation_progress(NULL, 100 * i / m->index_count);
+		camel_operation_progress(m->status, 100 * i / m->index_count);
+		
+		if (!dbx_read_email(m, m->indices[i], tmpfile, &dbx_flags)) {
+			d(printf("Cannot read email index %d at %x\n",
+				 i, m->indices[i]));
+			if (camel_exception_is_set(&m->base.ex))
+				goto out;
+			missing++;
+			continue;
+		}
+		if (dbx_flags & 0x40)
+			flags |= CAMEL_MESSAGE_DELETED;
+		if (dbx_flags & 0x80)
+			flags |= CAMEL_MESSAGE_SEEN;
+		if (dbx_flags & 0x80000)
+			flags |= CAMEL_MESSAGE_ANSWERED;
+
+		mp = camel_mime_parser_new();
+
+		lseek(tmpfile, 0, SEEK_SET);
+		camel_mime_parser_init_with_fd(mp, tmpfile);
+
+		msg = camel_mime_message_new();
+		if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp) == -1) {
+			/* set exception? */
+			g_object_unref (msg);
+			g_object_unref (mp);
+			break;
+		}
+
+		info = camel_message_info_new(NULL);
+		camel_message_info_set_flags(info, flags, ~0);
+		camel_folder_append_message(folder, msg, info, NULL, &m->base.ex);
+		camel_message_info_free(info);
+		g_object_unref (msg);
+			
+		if (camel_exception_is_set(&m->base.ex)) {
+			g_object_unref(mp);
+			break;
+		}
+	}
+ out:
+	if (m->dbx_fd != -1)
+		close(m->dbx_fd);
+	if (m->indices)
+		g_free(m->indices);
+	camel_folder_sync(folder, FALSE, NULL);
+	camel_folder_thaw(folder);
+	g_object_unref(folder);
+	if (missing && !camel_exception_is_set(&m->base.ex)) {
+		camel_exception_setv(&m->base.ex, 1,
+				     "%d messages imported correctly; %d message bodies were not present in the DBX file",
+				     m->index_count - missing, missing);
+	}
+	camel_operation_end(NULL);
+}
+
+static void
+dbx_import_import (DbxImporter *m)
+{
+	CamelOperation *oldcancel = NULL;
+
+	oldcancel = camel_operation_register (m->status);
+
+	dbx_import_file (m);
+
+	camel_operation_register (oldcancel);
+}
+
+static void
+dbx_import_imported (DbxImporter *m)
+{
+	e_import_complete (m->target->import, (EImportTarget *)m->target);
+}
+
+static void
+dbx_import_free (DbxImporter *m)
+{
+	camel_operation_unref (m->status);
+
+	g_free (m->status_what);
+	g_mutex_free (m->status_lock);
+
+	g_source_remove (m->status_timeout_id);
+	m->status_timeout_id = 0;
+
+	g_free (m->folder_name);
+	g_free (m->folder_uri);
+	g_free (m->parent_uri);
+
+	g_object_unref (m->import);
+}
+
+static MailMsgInfo dbx_import_info = {
+	sizeof (DbxImporter),
+	(MailMsgDescFunc) dbx_import_describe,
+	(MailMsgExecFunc) dbx_import_import,
+	(MailMsgDoneFunc) dbx_import_imported,
+	(MailMsgFreeFunc) dbx_import_free,
+};
+
+static gboolean
+dbx_status_timeout (gpointer data)
+{
+	DbxImporter *importer = data;
+	gint pc;
+	gchar *what;
+
+	if (importer->status_what) {
+		g_mutex_lock (importer->status_lock);
+		what = importer->status_what;
+		importer->status_what = NULL;
+		pc = importer->status_pc;
+		g_mutex_unlock (importer->status_lock);
+
+		e_import_status (importer->target->import, (EImportTarget *)importer->target, what, pc);
+	}
+
+	return TRUE;
+}
+
+static void
+dbx_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+{
+	DbxImporter *importer = data;
+
+	if (pc == CAMEL_OPERATION_START) {
+		pc = 0;
+	} else if (pc == CAMEL_OPERATION_END) {
+		pc = 100;
+	}
+
+	g_mutex_lock (importer->status_lock);
+	g_free (importer->status_what);
+	importer->status_what = g_strdup (what);
+	importer->status_pc = pc;
+	g_mutex_unlock (importer->status_lock);
+}
+
+/* Start the main import operation */
+void
+org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	DbxImporter *m;
+	gint id;
+
+	m = mail_msg_new (&dbx_import_info);
+	g_datalist_set_data (&target->data, "dbx-msg", m);
+	m->import = ei;
+	g_object_ref (m->import);
+	m->target = target;
+
+	m->parent_uri = NULL;
+	m->folder_name = NULL;
+	m->folder_uri = NULL;
+
+	m->status_timeout_id = g_timeout_add (100, dbx_status_timeout, m);
+	/*m->status_timeout_id = NULL;*/
+	m->status_lock = g_mutex_new ();
+	m->status = camel_operation_new (dbx_status, m);
+
+	id = m->base.seq;
+
+	mail_msg_unordered_push (m);
+}
+
+void
+org_gnome_evolution_readdbx_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+{
+	DbxImporter *m = g_datalist_get_data (&target->data, "dbx-msg");
+
+	if (m) {
+		camel_operation_cancel (m->status);
+	}
+}
+
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
+{
+	if (enable) {
+		bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+		g_message ("DBX Plugin enabled");
+	} else {
+		g_message ("DBX Plugin disabled");
+	}
+
+	return 0;
+}
