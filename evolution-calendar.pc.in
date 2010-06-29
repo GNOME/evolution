@@ -12,6 +12,6 @@ privincludedir=@privincludedir@
 Name: Evolution Calendar
 Description: Calendar utilities for Evolution
 Version: @VERSION@
-Requires: evolution-shell
+Requires: @EVOLUTION_SHELL@
 Libs: -L${privlibdir} -levolution-calendar
 Cflags: -I${privincludedir}

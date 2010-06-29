@@ -90,6 +90,8 @@ if test "x${enable_gtk3}" = "xyes"; then
 	clutter_gtk_minimum_version="1.0"
 	gtkimageview_minimum_version="2.0"
 	gweather_minimum_version="2.90.0"
+
+	EVOLUTION_SHELL="evolution-shell-3.0"
 else
 	LIBEDATASERVERUI="libedataserverui-1.2"
 
@@ -118,6 +120,8 @@ else
 	gtkimageview_minimum_version="1.6"
 	gweather_minimum_version="2.25.3"
 	libnotify_minimum_version="0.3.0"
+
+	EVOLUTION_SHELL="evolution-shell"
 fi
 
 AC_SUBST(GTKHTML_EDITOR)
@@ -126,6 +130,7 @@ AC_SUBST(GTKHTML)
 AC_SUBST(UNIQUE)
 AC_SUBST(GNOME_DESKTOP)
 AC_SUBST(LIBEDATASERVERUI)
+AC_SUBST(EVOLUTION_SHELL)
 AM_CONDITIONAL([ENABLE_GTK3], [test "$enable_gtk3" = yes])
 
 dnl ******************************
