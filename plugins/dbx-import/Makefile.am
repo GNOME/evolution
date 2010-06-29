@@ -31,6 +31,7 @@ liborg_gnome_dbx_import_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_dbx_import_la_LIBADD =			\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/shell/libeshell.la		\
 	$(CAMEL_LIBS)					\
 	$(EVOLUTION_CALENDAR_LIBS)			\
 	$(EVOLUTION_MAIL_LIBS)				\
