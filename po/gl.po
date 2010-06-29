@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-30 00:08+0200\n"
-"PO-Revision-Date: 2010-06-29 13:24+0200\n"
+"POT-Creation-Date: 2010-06-30 00:11+0200\n"
+"PO-Revision-Date: 2010-06-30 00:13+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome@g11n.net>\n"
 "MIME-Version: 1.0\n"
@@ -12193,10 +12193,12 @@ msgid "Import mail from Elm."
 msgstr "Importar correo desde o Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:116
+#: ../plugins/dbx-import/dbx-importer.c:228
 msgid "_Destination folder:"
 msgstr "Cartafol de _destino:"
 
 #: ../mail/importers/evolution-mbox-importer.c:122
+#: ../plugins/dbx-import/dbx-importer.c:234
 #: ../plugins/pst-import/pst-importer.c:301
 msgid "Select folder"
 msgstr "Seleccionar cartafol"
@@ -12233,6 +12235,7 @@ msgstr "Importando caixa de correo"
 
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:149
+#: ../plugins/dbx-import/dbx-importer.c:531
 #: ../plugins/pst-import/pst-importer.c:453
 #: ../plugins/pst-import/pst-importer.c:559
 #, c-format
@@ -16773,6 +16776,26 @@ msgstr ""
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
 msgid "Map for contacts"
 msgstr "Sen contactos"
+
+#: ../plugins/dbx-import/dbx-importer.c:234
+msgid "Select folder to import OE folder into"
+msgstr "Seleccione un cartafol onde importar o cartafol de OE"
+
+#: ../plugins/dbx-import/dbx-importer.c:253
+msgid "Importing Outlook Express data"
+msgstr "Importando os datos do Outlook Express"
+
+#: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
+msgid "Import Outlook Express messages from DBX file"
+msgstr "Importar as mensaxes do Outlook desde un ficheiro DBX"
+
+#: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
+msgid "Outlook DBX import"
+msgstr "Importar DBX do Outlook"
+
+#: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
+msgid "Outlook Express 5/6 personal folders (.dbx)"
+msgstr "Cartafol persoal do Outlook Expres 5/6 (.dbx)"
 
 #: ../plugins/default-source/default-source.c:83
 msgid "Mark as _default address book"
