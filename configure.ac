@@ -38,28 +38,13 @@ dnl Required Packages
 m4_define([glib_minimum_version], [2.22.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
-m4_define([gnome_desktop_minimum_version], [2.26.0])
-m4_define([libgtkhtml_minimum_version], [3.31.2])
-m4_define([gail_minimum_version], [1.9.0])		dnl For libgnomecanvas
 m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
-m4_define([unique_minimum_version], [1.1.2])
 m4_define([dbus_glib_minimum_version], [0.74])
-
-dnl **********************************
-dnl GTK version
-dnl **********************************
-if $PKG_CONFIG --exists gtk+-3.0; then
-	GTK_PACKAGE="gtk+-3.0"
-	gtk_minimum_version="2.90.5"
-else	
-	GTK_PACKAGE="gtk+-2.0"
-	gtk_minimum_version="2.20.0"
-fi
 
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
@@ -70,6 +55,68 @@ m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gweather_minimum_version], [2.25.3])
 m4_define([gtkimageview_minimum_version], [1.6])
 m4_define([gladeui_minimum_version], [3.0.0])
+
+	
+dnl **********************************
+dnl Gtk-3 compatibility
+dnl **********************************
+AC_ARG_ENABLE([gtk3],
+	AS_HELP_STRING([--enable-gtk3],
+	[Attempt to use gtk+-3]),
+	[enable_gtk3=$enableval],[enable_gtk3=no])
+
+if test "x${enable_gtk3}" = "xyes"; then
+	LIBEDATASERVERUI="libedataserverui-3.0"
+	GTK="gtk+-3.0"
+	gtk_minimum_version="2.90.5"
+
+	GAIL="gail-3.0"
+	gail_minimum_version="2.90.5"
+
+	UNIQUE="unique-3.0"
+	unique_minimum_version="2.90"
+
+	GNOME_DESKTOP="gnome-desktop-3.0"
+	gnome_desktop_minimum_version="2.90"
+
+	CANBERRA_GTK="libcanberra-gtk3"
+	libcanberra_gtk_minimum_version="0.25"
+
+	GTKHTML="libgtkhtml-4.0"
+	libgtkhtml_minimum_version="3.31.4"
+
+	GTKHTML_EDITOR="gtkhtml-editor-4.0"
+else	
+	LIBEDATASERVERUI="libedataserverui-1.2"
+	
+	GTK="gtk+-2.0"
+	gtk_minimum_version="2.20.0"
+
+	GAIL="gail"
+	gail_minimum_version="1.9.0"
+
+	UNIQUE="unique-1.0"
+	unique_minimum_version="1.1.2"
+
+	GNOME_DESKTOP="gnome-desktop-2.0"
+	gnome_desktop_minimum_version="2.26.0"
+	
+	CANBERRA_GTK="libcanberra-gtk"
+	libcanberra_gtk_minimum_version="0"
+	
+	GTKHTML="libgtkhtml-3.14"
+	libgtkhtml_minimum_version="3.31.2"
+
+	GTKHTML_EDITOR="gtkhtml-editor-4.0"
+fi
+
+AC_SUBST(GTKHTML_EDITOR)
+AC_SUBST(GTK)
+AC_SUBT(GTKHTML)
+AC_SUBST(UNIQUE)
+AC_SUBST(GNOME_DESKTOP)
+AC_SUBST(LIBEDATASERVERUI)
+AM_CONDITIONAL([ENABLE_GTK3], [test "$enable_gtk3" = yes])
 
 dnl ******************************
 dnl Compiler Warning Flags
@@ -230,14 +277,14 @@ dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
 	 gthread-2.0 >= glib_minimum_version
-	 $GTK_PACKAGE >= $gtk_minimum_version
-	 gail >= gail_minimum_version
+	 $GTK >= $gtk_minimum_version
+	 $GAIL >= $gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 pangoft2 >= pangoft2_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 gnome-desktop-2.0 >= gnome_desktop_minimum_version
-	 unique-1.0 >= unique_minimum_version])
+	 $GNOME_DESKTOP >= $gnome_desktop_minimum_version
+	 $UNIQUE >= $unique_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -245,7 +292,7 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	[libebook-1.2 >= eds_minimum_version
 	 libecal-1.2 >= eds_minimum_version
 	 libedataserver-1.2 >= eds_minimum_version
-	 libedataserverui-1.2 >= eds_minimum_version
+	 $LIBEDATASERVERUI >= eds_minimum_version
 	 libegroupwise-1.2 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
 
@@ -259,7 +306,7 @@ AC_ARG_ENABLE([canberra],
 	[enable_canberra="$enableval"], [enable_canberra=yes])
 
 if test $enable_canberra = yes; then
-	PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk])
+	PKG_CHECK_MODULES([CANBERRA],[$CANBERRA_GTK >= $libcanberra_gtk_minimum_version])
 	AC_DEFINE(HAVE_CANBERRA, 1, [Define if using Canberra and Canberra-GTK for sound])
 fi
 AC_SUBST(CANBERRA_CFLAGS)
@@ -652,7 +699,7 @@ dnl *************************
 dnl GTKHTML check
 dnl XXX Drop the version from the package name?
 dnl *************************
-PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-3.14 >= libgtkhtml_minimum_version])
+PKG_CHECK_MODULES([GTKHTML], [$GTKHTML >= $libgtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
@@ -1187,7 +1234,7 @@ dnl (which are dragged in through libedataserverui), as both
 dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-1.2 gthread-2.0)
+EVO_SET_COMPILE_FLAGS(CERT_UI, $LIBEDATASERVERUI gthread-2.0)
 CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
 CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
@@ -1196,7 +1243,7 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserverui-1.2 camel-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, $LIBEDATASERVERUI camel-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1212,14 +1259,14 @@ AC_SUBST(TZDIALOG_LIBS)
 dnl ***************
 dnl E_WIDGETS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-1.2 gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, $LIBEDATASERVERUI $GTKHTML_EDITOR)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-1.2 camel-provider-1.2 libebook-1.2)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, $LIBEDATASERVERUI camel-provider-1.2 libebook-1.2)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1233,14 +1280,14 @@ AC_SUBST(LIBFILTER_LIBS)
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-3.14 libedataserverui-1.2)
+EVO_SET_COMPILE_FLAGS(SHELL, $GTKHTML $LIBEDATASERVERUI)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-3.14 libebook-1.2 libedataserverui-1.2 camel-1.2 gtkhtml-editor"
+EVOLUTION_ADDRESSBOOK_DEPS="$GTKHTML libebook-1.2 $LIBEDATASERVERUI camel-1.2 $GTKHTML_EDITOR"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1271,14 +1318,14 @@ EVO_SET_COMPILE_FLAGS(GDATA, libgdata >= 0.4.0)
 AC_SUBST(GDATA_CFLAGS)
 AC_SUBST(GDATA_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, $GTKHTML libebook-1.2 libecal-1.2 $LIBEDATASERVERUI libebackend-1.2 $libnotify $GTKHTML_EDITOR)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-3.14 gtkhtml-editor $mozilla_nss libebook-1.2 libedataserverui-1.2)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 $GTKHTML $GTKHTML_EDITOR $mozilla_nss libebook-1.2 $LIBEDATASERVERUI)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1291,7 +1338,7 @@ AC_SUBST(DATASERVER_EXEC_VERSION)
 dnl *****************
 dnl EggSMClient Flags
 dnl *****************
-EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-2.0)
+EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, $GTK)
 AC_SUBST(EGG_SMCLIENT_CFLAGS)
 AC_SUBST(EGG_SMCLIENT_LIBS)
 

@@ -1,11 +1,24 @@
 ACLOCAL_AMFLAGS=-I m4
 
 pkgconfigdir = $(libdir)/pkgconfig
+INTERFACE_VERSION=3.0
+
+if ENABLE_GTK3
+%-$(INTERFACE_VERSION).pc: %.pc
+	 cp $< $@
+
+pkgconfig_DATA = 					\
+	evolution-calendar-$(INTERFACE_VERSION).pc	\
+	evolution-mail-$(INTERFACE_VERSION).pc		\
+	evolution-plugin-$(INTERFACE_VERSION).pc	\
+	evolution-shell-$(INTERFACE_VERSION).pc
+else
 pkgconfig_DATA = 				\
 	evolution-calendar.pc			\
 	evolution-mail.pc			\
 	evolution-plugin.pc			\
 	evolution-shell.pc
+endif	
 
 EXTRA_DIST = 			\
 	AUTHORS			\
