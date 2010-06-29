@@ -107,7 +107,7 @@ else
 	GTKHTML="libgtkhtml-3.14"
 	libgtkhtml_minimum_version="3.31.2"
 
-	GTKHTML_EDITOR="gtkhtml-editor-4.0"
+	GTKHTML_EDITOR="gtkhtml-editor-3.14"
 fi
 
 AC_SUBST(GTKHTML_EDITOR)
