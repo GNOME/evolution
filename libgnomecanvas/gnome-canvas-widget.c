@@ -33,7 +33,6 @@
 
 #include <config.h>
 #include <math.h>
-#include <gtk/gtksignal.h>
 #include "gnome-canvas-widget.h"
 
 enum {
