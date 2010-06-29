@@ -306,6 +306,8 @@ plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
 plugins/contacts-map/contacts-map.c
 plugins/contacts-map/org-gnome-contacts-map.eplug.xml
+plugins/dbx-import/dbx-importer.c
+plugins/dbx-import/org-gnome-dbx-import.eplug.xml
 plugins/default-source/default-source.c
 plugins/default-source/org-gnome-default-source.eplug.xml
 plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
