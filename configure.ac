@@ -48,10 +48,7 @@ m4_define([dbus_glib_minimum_version], [0.74])
 
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
-m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
-m4_define([clutter_gtk_minimum_version], [0.10.0])
-m4_define([gtkimageview_minimum_version], [1.6])
 m4_define([gladeui_minimum_version], [3.0.0])
 
 dnl **********************************
@@ -84,11 +81,18 @@ if test "x${enable_gtk3}" = "xyes"; then
 
 	GTKHTML_EDITOR="gtkhtml-editor-4.0"
 
-	gweather_minimum_version="2.90.0"
 	libnotify_minimum_version="0.5.1"
-else	
+
+	dnl XXX These versions don't yet exist.  The latest releases
+	dnl     link to gtk+-2.0 so we've bumped the versions to some
+	dnl     bogus value to force some plugins to be disabled.
+	champlain_minimum_version="0.8"
+	clutter_gtk_minimum_version="1.0"
+	gtkimageview_minimum_version="2.0"
+	gweather_minimum_version="2.90.0"
+else
 	LIBEDATASERVERUI="libedataserverui-1.2"
-	
+
 	GTK="gtk+-2.0"
 	gtk_minimum_version="2.20.0"
 
@@ -100,15 +104,18 @@ else
 
 	GNOME_DESKTOP="gnome-desktop-2.0"
 	gnome_desktop_minimum_version="2.26.0"
-	
+
 	CANBERRA_GTK="libcanberra-gtk"
 	libcanberra_gtk_minimum_version="0"
-	
+
 	GTKHTML="libgtkhtml-3.14"
 	libgtkhtml_minimum_version="3.31.2"
 
 	GTKHTML_EDITOR="gtkhtml-editor-3.14"
 
+	champlain_minimum_version="0.4"
+	clutter_gtk_minimum_version="0.10.0"
+	gtkimageview_minimum_version="1.6"
 	gweather_minimum_version="2.25.3"
 	libnotify_minimum_version="0.3.0"
 fi
@@ -1507,15 +1514,15 @@ if test "x$enable_plugins" = "xexperimental"; then
 		[enable_contacts_map="$enableval"], [enable_contacts_map=yes])
 
 	if test "x$enable_contacts_map" = "xyes"; then
-		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.5 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.5 >= $champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 		if test "x$have_champlain" = "xno"; then
-			PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.4 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+			PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.4 >= $champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 		fi
 		AC_SUBST(CHAMPLAIN_CFLAGS)
 		AC_SUBST(CHAMPLAIN_LIBS)
 
 		if test "x$have_champlain" = "xno"; then
-			AC_MSG_ERROR([champlain-gtk is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+			AC_MSG_ERROR([champlain-gtk >= $champlain_minimum_version is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
 		PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
@@ -1526,7 +1533,7 @@ if test "x$enable_plugins" = "xexperimental"; then
 			AC_MSG_ERROR([geoclue is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
-		PKG_CHECK_MODULES( [CLUTTER_GTK], [clutter-gtk-0.10 >= clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
+		PKG_CHECK_MODULES( [CLUTTER_GTK], [clutter-gtk-0.10 >= $clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
 
 		if test "x$have_clutter_gtk" = "xno"; then
 			AC_MSG_ERROR([clutter_gtk is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
@@ -1545,14 +1552,14 @@ AC_ARG_ENABLE([image-inline],
 	[enable_image_inline="$enableval"], [enable_image_inline=yes])
 
 if test "x$enable_image_inline" = "xyes"; then
-	PKG_CHECK_MODULES(GTKIMAGEVIEW, gtkimageview >= gtkimageview_minimum_version, have_imageview=yes, have_imageview=no)
+	PKG_CHECK_MODULES(GTKIMAGEVIEW, gtkimageview >= $gtkimageview_minimum_version, have_imageview=yes, have_imageview=no)
 	AC_SUBST(GTKIMAGEVIEW_CFLAGS)
 	AC_SUBST(GTKIMAGEVIEW_LIBS)
 
 	if test "x$have_imageview" = "xyes"; then
 		plugins_standard="$plugins_standard image-inline"
 	else
-		AC_MSG_ERROR([gtkimageview is required for the image-inline plugin.  Use --disable-image-inline to exclude the plugin.])
+		AC_MSG_ERROR([gtkimageview >= $gtkimageview_minimum_version is required for the image-inline plugin.  Use --disable-image-inline to exclude the plugin.])
 	fi
 fi
 
