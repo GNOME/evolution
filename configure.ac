@@ -1828,6 +1828,7 @@ echo "
 fi
 
 echo "
+	GTK+ package:		$GTK
 	LDAP support:		$msg_ldap
 	NetworkManager:		$enable_nm
 	Windows SENS:           $enable_sens
