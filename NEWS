@@ -1,3 +1,66 @@
+Evolution 2.31.4 2010-06-29
+---------------------------
+
+Bug Fixes:
+	Bug 623029 - Work week days not restored on start (Milan Crha)
+	Bug 622535 - Account assistant loops on first run (Matthew Barnes)
+	Bug 553104 - Ambiguous "for" in calendar translations (Milan Crha)
+	Bug 621770 - Bottom-left calendar too big (Milan Crha)
+	Bug 617854 - Critical warnings in calendar view (Milan Crha)
+	Bug 620815 - Memory leaks with Evolution (Milan Crha)
+	Bug 622633 - Can't launch Evolution from clock applet (Matthew Barnes)
+	Bug 621903 - Crash on HTML message print preview (Milan Crha)
+	Bug 622547 - mail_async_event_destroy() doesn't cancel its idle callback (Matthew Barnes)
+	Bug 604262 - "Copy Email Address" should also copy to primary clipboard (Matthew Barnes)
+	Bug 622559 - Changing search option should focus search entry (Matthew Barnes)
+	Bug 611165 - Use memo start date from a calendar view, if active (Milan Crha)
+	Bug 620246 - Increase size of 'group' combo box in task (Milan Crha)
+	Bug 331305 - Can't drag email addresses to Contact List Editor (Matthew Barnes)
+	Bug 621819 - Can't drag message attachments to folders (Matthew Barnes)
+	Bug 622329 - Help menu points to the wrong FAQ page (Matthew Barnes)
+	Bug 619347 - Contact List Editor calls wrong EDestination function (Matthew Barnes)
+	Bug 620951 - A11y support still thinks GnomeCalendar is a widget (Matthew Barnes)
+	Bug 621759 - EShellSearchbar reference counting errors (Matthew Barnes)
+	Bug 621210 - Can't get the shell back after closing it (Matthew Barnes)
+	Bug 616724 - Initialize message window with threaded state of main window (Matthew Barnes)
+	Bug 621958 - Due date is not displayed in message list (Matthew Barnes)
+	Bug 619098 - mail_shell_backend_sync_store_cb() has wrong signature (Jonathon Jongsma)
+	Bug 621930  - Error when using Assign Color filter action (Lucian Langa)
+	Bug 621839 - Improve auto-selection of messages (Matthew Barnes)
+	Bug 206061 - Allow normal, non-vFolder, Trash and Junk folder (Milan Crha)
+	Bug 585904 - Don't overwrite Date: header when writing Fcc (David Woodhouse)
+	Bug 617557 - Quits without asking user to save unfinished messages (Milan Crha)
+	Bug 534369 - [new-mail-notify] Intermittent notifications (Milan Crha)
+	Bug 603468 - Improve handling of --quit option (Matthew Barnes)
+	Bug 619218 - Should select imported certificate when succeeded (Milan Crha)
+	Bug 585301 - Use camel_init() to initialize NSS consistently (David Woodhouse)
+	Bug 585353 - (part of bug) Use new CAMEL_STORE_REAL_JUNK_FOLDER flag (Milan Crha)
+	Bug 501534 - apply new customized view to all folders (Chenthill Palanisamy)
+	Bug 611100 - Forward-to filter stops at outbox (Milan Crha)
+	Bug 573228 - Make the "This event has alarms" icon clickable (Milan Crha)
+
+Miscellaneous Fixes:
+	Build with gtk3 and have backward compatibility (Chenthill Palanisamy, Matthew Barnes)
+	Add Outlook Express DBX mailbox file importer plugin [patch v2: Don't error on empty mailboxes, build plugin by default] (David Woodhouse)
+	audio-inline: Fix linking order issue. (Matthew Barnes)
+	Composer: Append drag dest targets to the GtkHTML widget. (Matthew Barnes)
+	Various folder tree icon enhancements. (Matthew Barnes)
+	Use an appropriate icon when dragging attachments. (Matthew Barnes)
+	Don't auto-undelete when viewing Trash folder. (Matthew Barnes)
+	Composer: Only hide single From account in express mode. (Matthew Barnes)
+	Left-align text in switcher buttons. (Matthew Barnes)
+	[win32] Don't run evolution when asked to register handlers. (Fridrich 真trba)
+	[win32] add --register-handlers and --unregister-handlers options and don't tamper with registry unless asked for it explicitely. (Fridrich 真trba)
+	Warn the user before marking all messages as read (Chenthill Palanisamy)
+	Remove gnome-pilot integration. (Matthew Barnes)
+	Embed libart_lgpl and libgnomecanvas. (Matthew Barnes)
+
+Translations:
+	Kjartan Maraas (nn)
+	Wouter Bolsterlee (nl)
+	Jorge Gonz真lez (es)
+	Fran Di真guez (gl)
+
 Evolution 2.31.3 2010-06-07
 ---------------------------
 Bug Fixes:
