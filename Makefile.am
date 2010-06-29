@@ -115,6 +115,7 @@ MAINTAINERCLEANFILES =			\
 # Scrollkeeper must be disabled for distcheck to work because
 # distcheck uses a custom prefix.  See GNOME bug #354357.
 DISTCHECK_CONFIGURE_FLAGS =		\
+	--enable-gtk3			\
 	--enable-gtk-doc		\
 	--disable-scrollkeeper		\
 	--enable-test-component		\
