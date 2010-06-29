@@ -68,10 +68,10 @@ AC_ARG_ENABLE([gtk3],
 if test "x${enable_gtk3}" = "xyes"; then
 	LIBEDATASERVERUI="libedataserverui-3.0"
 	GTK="gtk+-3.0"
-	gtk_minimum_version="2.90.5"
+	gtk_minimum_version="2.90.4"
 
 	GAIL="gail-3.0"
-	gail_minimum_version="2.90.5"
+	gail_minimum_version="2.90.4"
 
 	UNIQUE="unique-3.0"
 	unique_minimum_version="2.90"
@@ -112,7 +112,7 @@ fi
 
 AC_SUBST(GTKHTML_EDITOR)
 AC_SUBST(GTK)
-AC_SUBT(GTKHTML)
+AC_SUBST(GTKHTML)
 AC_SUBST(UNIQUE)
 AC_SUBST(GNOME_DESKTOP)
 AC_SUBST(LIBEDATASERVERUI)
