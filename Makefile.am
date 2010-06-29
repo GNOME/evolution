@@ -120,6 +120,7 @@ DISTCHECK_CONFIGURE_FLAGS =		\
 	--enable-gtk-doc		\
 	--disable-scrollkeeper		\
 	--enable-test-component		\
+	--disable-weather		\
 	--with-help
 
 # Generate a ChangeLog file from 'git log'
