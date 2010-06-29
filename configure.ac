@@ -51,11 +51,9 @@ m4_define([nm_minimum_version],[0.7])
 m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([clutter_gtk_minimum_version], [0.10.0])
-m4_define([gweather_minimum_version], [2.25.3])
 m4_define([gtkimageview_minimum_version], [1.6])
 m4_define([gladeui_minimum_version], [3.0.0])
 
-	
 dnl **********************************
 dnl Gtk-3 compatibility
 dnl **********************************
@@ -86,6 +84,7 @@ if test "x${enable_gtk3}" = "xyes"; then
 
 	GTKHTML_EDITOR="gtkhtml-editor-4.0"
 
+	gweather_minimum_version="2.90.0"
 	libnotify_minimum_version="0.5.1"
 else	
 	LIBEDATASERVERUI="libedataserverui-1.2"
@@ -110,6 +109,7 @@ else
 
 	GTKHTML_EDITOR="gtkhtml-editor-3.14"
 
+	gweather_minimum_version="2.25.3"
 	libnotify_minimum_version="0.3.0"
 fi
 
@@ -1483,7 +1483,7 @@ AC_ARG_ENABLE([weather],
 	[enable_weather="$enableval"],[enable_weather=yes])
 
 if test "x$enable_weather" = "xyes"; then
-	PKG_CHECK_MODULES([LIBGWEATHER], gweather >= gweather_minimum_version,
+	PKG_CHECK_MODULES([LIBGWEATHER], gweather >= $gweather_minimum_version,
 	have_weather="yes", have_weather="no")
 	AC_SUBST(GWEATHER_CFLAGS)
 	AC_SUBST(GWEATHER_LIBS)
@@ -1491,7 +1491,7 @@ if test "x$enable_weather" = "xyes"; then
 	if test "x$have_weather" = "xyes"; then
 		plugins_base="$plugins_base calendar-weather"
 	else
-		AC_MSG_ERROR([gweather >= gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
+		AC_MSG_ERROR([gweather >= $gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
 	fi
 fi
 
