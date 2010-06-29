@@ -120,6 +120,7 @@ DISTCHECK_CONFIGURE_FLAGS =		\
 	--enable-gtk-doc		\
 	--disable-scrollkeeper		\
 	--enable-test-component		\
+	--disable-image-inline		\
 	--disable-weather		\
 	--with-help
 
