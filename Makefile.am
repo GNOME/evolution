@@ -7,20 +7,22 @@ if ENABLE_GTK3
 %-$(INTERFACE_VERSION).pc: %.pc
 	 cp $< $@
 
-pkgconfig_DATA = 					\
+pkgconfig_in_files =					\
 	evolution-calendar-$(INTERFACE_VERSION).pc	\
 	evolution-mail-$(INTERFACE_VERSION).pc		\
 	evolution-plugin-$(INTERFACE_VERSION).pc	\
 	evolution-shell-$(INTERFACE_VERSION).pc
+pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=-$(INTERFACE_VERSION).pc)
 else
 pkgconfig_DATA = 				\
 	evolution-calendar.pc			\
 	evolution-mail.pc			\
 	evolution-plugin.pc			\
 	evolution-shell.pc
-endif	
+endif
 
 EXTRA_DIST = 			\
+	$(pkgconfig_DATA)	\
 	AUTHORS			\
 	COPYING-DOCS		\
 	COPYING.LGPL2		\
@@ -39,8 +41,7 @@ EXTRA_DIST = 			\
 	intltool-extract.in	\
 	evolution-zip.in	\
 	gnome-doc-utils.make    \
-	gtk-doc.make		\
-	$(pkgconfig_DATA:.pc=.pc.in)
+	gtk-doc.make
 
 if ENABLE_SMIME
 SMIME_SUBDIR=smime
