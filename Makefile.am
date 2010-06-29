@@ -85,8 +85,14 @@ SUBDIRS = 			\
 	sounds			\
 	$(HELP_SUBDIR)
 
+if ENABLE_GTK3
+DISTCLEANFILES = 			\
+	$(builddir)/iconv-detect.h	\
+	$(pkgconfig_in_files)
+else
 DISTCLEANFILES = 			\
 	$(builddir)/iconv-detect.h
+endif
 
 MAINTAINERCLEANFILES =			\
 	$(srcdir)/INSTALL		\
