@@ -51,7 +51,6 @@ m4_define([nm_minimum_version],[0.7])
 m4_define([champlain_minimum_version], [0.4])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([clutter_gtk_minimum_version], [0.10.0])
-m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gweather_minimum_version], [2.25.3])
 m4_define([gtkimageview_minimum_version], [1.6])
 m4_define([gladeui_minimum_version], [3.0.0])
@@ -86,6 +85,8 @@ if test "x${enable_gtk3}" = "xyes"; then
 	libgtkhtml_minimum_version="3.31.4"
 
 	GTKHTML_EDITOR="gtkhtml-editor-4.0"
+
+	libnotify_minimum_version="0.5.1"
 else	
 	LIBEDATASERVERUI="libedataserverui-1.2"
 	
@@ -108,6 +109,8 @@ else
 	libgtkhtml_minimum_version="3.31.2"
 
 	GTKHTML_EDITOR="gtkhtml-editor-3.14"
+
+	libnotify_minimum_version="0.3.0"
 fi
 
 AC_SUBST(GTKHTML_EDITOR)
@@ -1297,7 +1300,7 @@ dnl Libnotify Flags
 dnl ***************
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
+PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= $libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
 if test "x$HAVE_LIBNOTIFY" = "xyes"; then
 	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
 	libnotify="libnotify"
