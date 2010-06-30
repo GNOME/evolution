@@ -24,4 +24,55 @@
 #define gdk_drag_context_get_selected_action(context)  gdk_drag_context_get_action(context)
 #endif
 
+#if GTK_CHECK_VERSION (2,90,5)
+
+/* Recreate GdkRegion until we drop GTK2 compatibility. */
+
+typedef enum {
+	GDK_OVERLAP_RECTANGLE_IN,
+	GDK_OVERLAP_RECTANGLE_OUT,
+	GDK_OVERLAP_RECTANGLE_PART
+} GdkOverlapType;
+
+#define GdkRegion cairo_region_t
+
+#define gdk_region_new() \
+	(cairo_region_create ())
+
+#define gdk_region_destroy(region) \
+	(cairo_region_destroy (region))
+
+#define gdk_region_intersect(source1, source2) \
+	(cairo_region_intersect ((source1), (source2)))
+
+#define gdk_region_rect_in(region, rectangle) \
+	(cairo_region_contains_rectangle ((region), (rectangle)))
+
+#define gdk_region_rectangle(rectangle) \
+	(((rectangle)->width <= 0 || (rectangle)->height <= 0) ? \
+	cairo_region_create () : cairo_region_create_rectangle (rectangle))
+
+#define gdk_region_get_rectangles(region, rectangles, n_rectangles) \
+	G_STMT_START { \
+		GdkRectangle *__rects; \
+		gint __i, __n; \
+		\
+		__n = cairo_region_num_rectangles (region); \
+		__rects = g_new (GdkRectangle, __n); \
+		\
+		for (__i = 0; __i < __n; __i++) \
+			cairo_region_get_rectangle ((region), __i, &__rects[__i]); \
+		\
+		*(n_rectangles) = __n; \
+		*(rectangles) = __rects; \
+	} G_STMT_END
+
+#define gdk_region_union_with_rect(region, rect) \
+	G_STMT_START { \
+		if ((rect)->width > 0 && (rect)->height > 0) \
+			cairo_region_union_rectangle ((region), (rect)); \
+	} G_STMT_END
+
+#endif
+
 #endif /* __GTK_COMPAT_H__ */

@@ -40,6 +40,8 @@
 
 #include <text/e-text.h>
 
+#include "e-util/gtk-compat.h"
+
 #define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemPrivate))

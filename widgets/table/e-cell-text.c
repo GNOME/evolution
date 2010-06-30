@@ -54,6 +54,7 @@
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"
 #include "e-util/e-unicode.h"
+#include "e-util/gtk-compat.h"
 
 #include "e-table.h"
 #include "e-cell-text.h"

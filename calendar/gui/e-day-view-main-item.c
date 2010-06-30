@@ -41,6 +41,8 @@
 #include "comp-util.h"
 #include "calendar-config.h"
 
+#include "e-util/gtk-compat.h"
+
 #define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate))
