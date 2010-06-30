@@ -143,6 +143,7 @@ struct _EMAccountEditorPrivate {
 
 	EAccount *modified_account;
 	EAccount *original_account;
+	gboolean new_account;
 
 	struct _EMConfig *config;
 	GList *providers;
@@ -248,6 +249,7 @@ emae_set_original_account (EMAccountEditor *emae,
 	} else {
 		modified_account = e_account_new ();
 		modified_account->enabled = TRUE;
+		emae->priv->new_account = TRUE;
 
 		e_account_set_string (
 			modified_account, E_ACCOUNT_DRAFTS_FOLDER_URI,
@@ -2284,7 +2286,9 @@ emae_option_toggle (EMAccountEditorService *service, CamelURL *url, const gchar 
 {
 	GtkWidget *w;
 
-	/* FIXME: how do we get the default value ever? */
+	if (service->emae->priv->new_account && def)
+		camel_url_set_param (url, name, "");
+
 	w = gtk_check_button_new_with_mnemonic (text);
 	g_object_set_data ((GObject *)w, "option-name", (gpointer)name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), camel_url_get_param (url, name) != NULL);
@@ -2387,6 +2391,13 @@ emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gch
 		min = 0.0;
 		def = 0.0;
 		max = 1.0;
+	}
+
+	if (service->emae->priv->new_account && on == 'y') {
+		gchar value[16];
+
+		sprintf (value, "%d", (gint) def);
+		camel_url_set_param (url, name, value);
 	}
 
 	if ((enable = (val = camel_url_get_param (url, name)) != NULL) )
