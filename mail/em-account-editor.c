@@ -2168,8 +2168,8 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	GtkWidget *w;
 	GtkBuilder *builder;
 
-	/*if (old)
-	  return old;*/
+	if (old && emae->type == EMAE_PAGES)
+	  return old;
 
 	account = em_account_editor_get_modified_account (emae);
 
