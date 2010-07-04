@@ -483,9 +483,10 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 	/* make the exact copy of the template message, with all
 	   its attachments and message structure */
 	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (template), mem);
-	camel_stream_reset (mem);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (new), mem);
+	camel_data_wrapper_write_to_stream (
+		CAMEL_DATA_WRAPPER (template), mem, NULL);
+	camel_stream_reset (mem, NULL);
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (new), mem, NULL);
 	g_object_unref (mem);
 
 	/* Add the headers from the message we are replying to, so CC and that

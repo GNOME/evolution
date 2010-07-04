@@ -913,15 +913,15 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 
 		byte_array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (byte_array);
-		camel_data_wrapper_decode_to_stream (content, stream);
+		camel_data_wrapper_decode_to_stream (content, stream, NULL);
 
 		str = g_strndup ((gchar *) byte_array->data, byte_array->len);
 		g_object_unref (stream);
 
 		if (replace_variables (clues, message, &str)) {
 			stream = camel_stream_mem_new_with_buffer (str, strlen (str));
-			camel_stream_reset (stream);
-			camel_data_wrapper_construct_from_stream (content, stream);
+			camel_stream_reset (stream, NULL);
+			camel_data_wrapper_construct_from_stream (content, stream, NULL);
 			g_object_unref (stream);
 		}
 
@@ -1417,13 +1417,13 @@ em_utils_redirect_message_by_uid (CamelFolder *folder, const gchar *uid)
 }
 
 static void
-emu_handle_receipt_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, CamelException *ex)
+emu_handle_receipt_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error)
 {
 	if (msg)
 		em_utils_handle_receipt(folder, uid, msg);
 
 	/* we dont care really if we can't get the message */
-	camel_exception_clear(ex);
+	g_clear_error (error);
 }
 
 /* Message disposition notifications, rfc 2298 */
@@ -1541,7 +1541,7 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	/* Translators: First %s is an email address, second %s is the subject of the email, third %s is the date */
 			     _("Your message to %s about \"%s\" on %s has been read."),
 			     self_address, message_subject, message_date);
-	camel_data_wrapper_construct_from_stream (receipt_text, stream);
+	camel_data_wrapper_construct_from_stream (receipt_text, stream, NULL);
 	g_object_unref (stream);
 
 	part = camel_mime_part_new ();
@@ -1569,7 +1569,7 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 			     "Original-Message-ID: %s\n"
 			     "Disposition: manual-action/MDN-sent-manually; displayed\n",
 			     ua, recipient, message_id);
-	camel_data_wrapper_construct_from_stream (receipt_data, stream);
+	camel_data_wrapper_construct_from_stream (receipt_data, stream, NULL);
 	g_object_unref (stream);
 
 	g_free (ua);

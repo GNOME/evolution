@@ -1189,7 +1189,7 @@ em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart *part
 	if (camel_content_type_is (dw->mime_type, "text", "*"))
 		em_format_format_text(emf, stream, (CamelDataWrapper *)part);
 	else
-		camel_data_wrapper_decode_to_stream(dw, stream);
+		camel_data_wrapper_decode_to_stream(dw, stream, NULL);
 }
 
 /**
@@ -1233,8 +1233,9 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 			CAMEL_STREAM_FILTER (filter_stream),
 			CAMEL_MIME_FILTER (windows));
 
-		camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filter_stream);
-		camel_stream_flush((CamelStream *)filter_stream);
+		camel_data_wrapper_decode_to_stream (
+			dw, (CamelStream *)filter_stream, NULL);
+		camel_stream_flush((CamelStream *)filter_stream, NULL);
 		g_object_unref (filter_stream);
 
 		charset = camel_mime_filter_windows_real_charset (windows);
@@ -1262,14 +1263,18 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	}
 	g_object_unref (gconf);
 
-	size = camel_data_wrapper_decode_to_stream(emf->mode == EM_FORMAT_SOURCE ? (CamelDataWrapper *)dw: camel_medium_get_content ((CamelMedium *)dw), (CamelStream *)filter_stream);
-	camel_stream_flush((CamelStream *)filter_stream);
+	size = camel_data_wrapper_decode_to_stream (
+		emf->mode == EM_FORMAT_SOURCE ?
+			(CamelDataWrapper *) dw :
+			camel_medium_get_content ((CamelMedium *)dw),
+		(CamelStream *)filter_stream, NULL);
+	camel_stream_flush((CamelStream *)filter_stream, NULL);
 	g_object_unref (filter_stream);
-	camel_stream_reset (mem_stream);
+	camel_stream_reset (mem_stream, NULL);
 
 	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
-		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream);
-		camel_stream_flush((CamelStream *)stream);
+		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream, NULL);
+		camel_stream_flush((CamelStream *)stream, NULL);
 	} else {
 		((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_optional(emf, stream, (CamelMimePart *)dw, mem_stream);
 	}
@@ -1337,10 +1342,10 @@ emf_application_xpkcs7mime (EMFormat *emf,
                             gboolean is_fallback)
 {
 	CamelCipherContext *context;
-	CamelException *ex;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	struct _EMFormatCache *emfc;
+	GError *local_error = NULL;
 
 	/* should this perhaps run off a key of ".secured" ? */
 	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
@@ -1349,16 +1354,17 @@ emf_application_xpkcs7mime (EMFormat *emf,
 		return;
 	}
 
-	ex = camel_exception_new();
-
 	context = camel_smime_context_new(emf->session);
 
 	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_SMIME;
 
 	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, ex);
+	valid = camel_cipher_decrypt(context, part, opart, &local_error);
 	if (valid == NULL) {
-		em_format_format_error(emf, stream, "%s", ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+		em_format_format_error (
+			emf, stream, "%s",
+			local_error->message ? local_error->message :
+			_("Could not parse S/MIME message: Unknown error"));
 		em_format_part_as(emf, stream, part, NULL);
 	} else {
 		if (emfc == NULL)
@@ -1373,7 +1379,6 @@ emf_application_xpkcs7mime (EMFormat *emf,
 
 	g_object_unref (opart);
 	g_object_unref (context);
-	camel_exception_free(ex);
 }
 #endif
 
@@ -1496,12 +1501,12 @@ emf_multipart_encrypted (EMFormat *emf,
                          gboolean is_fallback)
 {
 	CamelCipherContext *context;
-	CamelException *ex;
 	const gchar *protocol;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	CamelMultipartEncrypted *mpe;
 	struct _EMFormatCache *emfc;
+	GError *local_error = NULL;
 
 	/* should this perhaps run off a key of ".secured" ? */
 	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
@@ -1527,14 +1532,17 @@ emf_multipart_encrypted (EMFormat *emf,
 
 	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_PGP;
 
-	ex = camel_exception_new();
 	context = camel_gpg_context_new(emf->session);
 	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, ex);
+	valid = camel_cipher_decrypt(context, part, opart, &local_error);
 	if (valid == NULL) {
-		em_format_format_error(emf, stream, ex->desc?_("Could not parse PGP/MIME message"):_("Could not parse PGP/MIME message: Unknown error"));
-		if (ex->desc)
-			em_format_format_error(emf, stream, "%s", ex->desc);
+		em_format_format_error (
+			emf, stream, local_error->message ?
+			_("Could not parse PGP/MIME message") :
+			_("Could not parse PGP/MIME message: Unknown error"));
+		if (local_error->message != NULL)
+			em_format_format_error (
+				emf, stream, "%s", local_error->message);
 		em_format_part_as(emf, stream, part, "multipart/mixed");
 	} else {
 		if (emfc == NULL)
@@ -1550,14 +1558,13 @@ emf_multipart_encrypted (EMFormat *emf,
 	/* TODO: Make sure when we finalize this part, it is zero'd out */
 	g_object_unref (opart);
 	g_object_unref (context);
-	camel_exception_free(ex);
 }
 
 static void
 emf_write_related(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	em_format_format_content(emf, stream, puri->part);
-	camel_stream_close(stream);
+	camel_stream_close(stream, NULL);
 }
 
 /* RFC 2387 */
@@ -1634,7 +1641,7 @@ emf_multipart_related (EMFormat *emf,
 	g_string_append_printf(emf->part_id, ".related.%d", displayid);
 	em_format_part(emf, stream, display_part);
 	g_string_truncate(emf->part_id, partidlen);
-	camel_stream_flush(stream);
+	camel_stream_flush(stream, NULL);
 
 	link = g_queue_peek_head_link (emf->pending_uri_level->data);
 
@@ -1709,14 +1716,18 @@ emf_multipart_signed (EMFormat *emf,
 		em_format_format_error(emf, stream, _("Unsupported signature format"));
 		em_format_part_as(emf, stream, part, "multipart/mixed");
 	} else {
-		CamelException *ex = camel_exception_new();
 		CamelCipherValidity *valid;
+		GError *local_error = NULL;
 
-		valid = camel_cipher_verify(cipher, part, ex);
+		valid = camel_cipher_verify(cipher, part, &local_error);
 		if (valid == NULL) {
-			em_format_format_error(emf, stream, ex->desc?_("Error verifying signature"):_("Unknown error verifying signature"));
-			if (ex->desc)
-				em_format_format_error(emf, stream, "%s", ex->desc);
+			em_format_format_error (
+				emf, stream, local_error->message ?
+				_("Error verifying signature") :
+				_("Unknown error verifying signature"));
+			if (local_error->message != NULL)
+				em_format_format_error (
+					emf, stream, "%s", local_error->message);
 			em_format_part_as(emf, stream, part, "multipart/mixed");
 		} else {
 			if (emfc == NULL)
@@ -1729,7 +1740,7 @@ emf_multipart_signed (EMFormat *emf,
 			em_format_format_secure(emf, stream, cpart, valid);
 		}
 
-		camel_exception_free(ex);
+		g_error_free (local_error);
 		g_object_unref (cipher);
 	}
 }
@@ -1769,10 +1780,11 @@ emf_application_mbox (EMFormat *emf,
 
 	mem_stream = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (
-		camel_medium_get_content (CAMEL_MEDIUM (mime_part)), mem_stream);
+		camel_medium_get_content (CAMEL_MEDIUM (mime_part)),
+		mem_stream, NULL);
 	camel_seekable_stream_seek (
-		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET);
-	camel_mime_parser_init_with_stream (parser, mem_stream);
+		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET, NULL);
+	camel_mime_parser_init_with_stream (parser, mem_stream, NULL);
 	g_object_unref (mem_stream);
 
 	/* Extract messages from the mbox. */
@@ -1783,7 +1795,7 @@ emf_application_mbox (EMFormat *emf,
 		message = camel_mime_message_new ();
 		mime_part = CAMEL_MIME_PART (message);
 
-		if (camel_mime_part_construct_from_parser (mime_part, parser) == -1) {
+		if (camel_mime_part_construct_from_parser (mime_part, parser, NULL) == -1) {
 			g_object_unref (message);
 			break;
 		}
@@ -1849,8 +1861,8 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	CamelDataWrapper *dw;
 	CamelMimePart *opart;
 	CamelStream *ostream;
-	CamelException *ex;
 	gchar *type;
+	GError *local_error = NULL;
 
 	if (!ipart) {
 		em_format_format_error(emf, stream, _("Unknown error verifying signature"));
@@ -1859,17 +1871,20 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 
 	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SIGNED | EM_FORMAT_VALIDITY_FOUND_PGP;
 
-	ex = camel_exception_new();
 	cipher = camel_gpg_context_new(emf->session);
 	/* Verify the signature of the message */
-	valid = camel_cipher_verify(cipher, ipart, ex);
+	valid = camel_cipher_verify(cipher, ipart, &local_error);
 	if (!valid) {
-		em_format_format_error(emf, stream, ex->desc?_("Error verifying signature"):_("Unknown error verifying signature"));
-		if (ex->desc)
-			em_format_format_error(emf, stream, "%s", ex->desc);
+		em_format_format_error (
+			emf, stream, local_error->message ?
+			_("Error verifying signature") :
+			_("Unknown error verifying signature"));
+		if (local_error->message)
+			em_format_format_error (
+				emf, stream, "%s", local_error->message);
 		em_format_format_source(emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
-		camel_exception_free(ex);
+		g_error_free (local_error);
 		g_object_unref (cipher);
 		return;
 	}
@@ -1887,8 +1902,9 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 
 	/* Pass through the filters that have been setup */
 	dw = camel_medium_get_content ((CamelMedium *)ipart);
-	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filtered_stream);
-	camel_stream_flush((CamelStream *)filtered_stream);
+	camel_data_wrapper_decode_to_stream (
+		dw, (CamelStream *)filtered_stream, NULL);
+	camel_stream_flush((CamelStream *)filtered_stream, NULL);
 	g_object_unref (filtered_stream);
 
 	/* Create a new text/plain MIME part containing the signed content preserving the original part's Content-Type params */
@@ -1905,7 +1921,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	camel_content_type_unref (content_type);
 
 	dw = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (dw, ostream);
+	camel_data_wrapper_construct_from_stream (dw, ostream, NULL);
 	camel_data_wrapper_set_mime_type (dw, type);
 	g_free (type);
 
@@ -1922,7 +1938,6 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	g_object_unref (opart);
 	g_object_unref (ostream);
 	g_object_unref (cipher);
-	camel_exception_free(ex);
 }
 
 static void
@@ -1930,25 +1945,30 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 {
 	CamelCipherContext *cipher;
 	CamelCipherValidity *valid;
-	CamelException *ex;
 	CamelMimePart *opart;
 	CamelDataWrapper *dw;
 	gchar *mime_type;
+	GError *local_error = NULL;
 
 	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_PGP;
 
 	cipher = camel_gpg_context_new(emf->session);
-	ex = camel_exception_new();
 	opart = camel_mime_part_new();
 	/* Decrypt the message */
-	valid = camel_cipher_decrypt (cipher, ipart, opart, ex);
+	valid = camel_cipher_decrypt (cipher, ipart, opart, &local_error);
 	if (!valid) {
-		em_format_format_error(emf, stream, ex->desc?_("Could not parse PGP message"):_("Could not parse PGP message: Unknown error"));
-		if (ex->desc)
-			em_format_format_error(emf, stream, "%s", ex->desc);
+		em_format_format_error (
+			emf, stream, _("Could not parse PGP message: "));
+		if (local_error->message != NULL)
+			em_format_format_error (
+				emf, stream, "%s", local_error->message);
+		else
+			em_format_format_error (
+				emf, stream, _("Unknown error"));
 		em_format_format_source(emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
-		camel_exception_free(ex);
+
+		g_error_free (local_error);
 		g_object_unref (cipher);
 		g_object_unref (opart);
 		return;
@@ -1974,7 +1994,6 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 	/* Clean Up */
 	g_object_unref (opart);
 	g_object_unref (cipher);
-	camel_exception_free (ex);
 }
 
 static EMFormatHandler type_builtin_table[] = {
@@ -2043,7 +2062,7 @@ em_format_snoop_type (CamelMimePart *part)
 		byte_array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (byte_array);
 
-		if (camel_data_wrapper_decode_to_stream (dw, stream) > 0) {
+		if (camel_data_wrapper_decode_to_stream (dw, stream, NULL) > 0) {
 			gchar *content_type;
 
 			content_type = g_content_type_guess (

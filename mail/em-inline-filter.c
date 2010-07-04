@@ -92,12 +92,12 @@ inline_filter_add_part(EMInlineFilter *emif, const gchar *data, gint len)
 		camel_stream_filter_add (CAMEL_STREAM_FILTER (filter_stream), enc_filter);
 
 		/* properly encode content */
-		camel_data_wrapper_construct_from_stream (dw, filter_stream);
+		camel_data_wrapper_construct_from_stream (dw, filter_stream, NULL);
 
 		g_object_unref (enc_filter);
 		g_object_unref (filter_stream);
 	} else {
-		camel_data_wrapper_construct_from_stream (dw, mem);
+		camel_data_wrapper_construct_from_stream (dw, mem, NULL);
 	}
 	g_object_unref (mem);
 

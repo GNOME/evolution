@@ -58,7 +58,6 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 	gchar *parent_name;
 	gchar *container_id;
 	const gchar *item_id;
-	CamelException ex;
 	CamelStore *store;
 	CamelFolder *folder;
 	EAccount *account;
@@ -91,9 +90,9 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 			else
 				parent_name = NULL;
 		}
-		camel_exception_init (&ex);
-		if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
-			camel_exception_clear (&ex);
+		store = (CamelStore *) camel_session_get_service (
+			session, uri, CAMEL_PROVIDER_STORE, NULL);
+		if (store == NULL) {
 			g_strfreev (names);
 			return;
 		}
@@ -116,9 +115,8 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 				account = mail_config_get_account_by_source_url (uri);
 				uri = account->source->url;
 				em_folder_tree_model_remove_store (model, store);
-				camel_exception_init (&ex);
-				if (!(provider = camel_provider_get(uri, &ex))) {
-					camel_exception_clear (&ex);
+				provider = camel_provider_get (uri, NULL);
+				if (provider == NULL) {
 					g_strfreev (names);
 					return;
 				}
@@ -208,8 +206,8 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 
 		byte_array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (byte_array);
-		camel_data_wrapper_write_to_stream (dw, stream);
-		camel_stream_write (stream, "", 1);
+		camel_data_wrapper_write_to_stream (dw, stream, NULL);
+		camel_stream_write (stream, "", 1, NULL);
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (from_addr && camel_internet_address_get(from_addr, 0, &name, &email)) {

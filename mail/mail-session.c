@@ -89,16 +89,16 @@ struct _MailSessionClass {
 static gchar *mail_data_dir;
 static gchar *mail_config_dir;
 
-static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
-static gboolean forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex);
+static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, GError **error);
+static gboolean forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, GError **error);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *prompt, gboolean cancel);
-static CamelFilterDriver *get_filter_driver(CamelSession *session, const gchar *type, CamelException *ex);
+static CamelFilterDriver *get_filter_driver(CamelSession *session, const gchar *type, GError **error);
 static gboolean lookup_addressbook(CamelSession *session, const gchar *name);
 
 static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const gchar *text, gint pc);
 static gpointer ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, guint size);
 static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m);
-static void ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex);
+static gboolean ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, GError **error);
 
 GType mail_session_get_type (void);
 
@@ -175,8 +175,13 @@ make_key (CamelService *service, const gchar *item)
 /* ********************************************************************** */
 
 static gchar *
-get_password (CamelSession *session, CamelService *service, const gchar *domain,
-	      const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex)
+get_password (CamelSession *session,
+              CamelService *service,
+              const gchar *domain,
+              const gchar *prompt,
+              const gchar *item,
+              guint32 flags,
+              GError **error)
 {
 	gchar *url;
 	gchar *ret = NULL;
@@ -266,7 +271,10 @@ get_password (CamelSession *session, CamelService *service, const gchar *domain,
 	g_free(url);
 
 	if (ret == NULL)
-		camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
+		g_set_error (
+			error, G_IO_ERROR,
+			G_IO_ERROR_CANCELLED,
+			_("User canceled operation."));
 
 	return ret;
 }
@@ -276,7 +284,7 @@ forget_password (CamelSession *session,
                  CamelService *service,
                  const gchar *domain,
                  const gchar *item,
-                 CamelException *ex)
+                 GError **error)
 {
 	gchar *key = make_key (service, item);
 
@@ -466,9 +474,12 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *promp
 }
 
 static CamelFolder *
-get_folder (CamelFilterDriver *d, const gchar *uri, gpointer data, CamelException *ex)
+get_folder (CamelFilterDriver *d,
+            const gchar *uri,
+            gpointer data,
+            GError **error)
 {
-	return mail_tool_uri_to_folder(uri, 0, ex);
+	return mail_tool_uri_to_folder (uri, 0, error);
 }
 
 static void
@@ -517,7 +528,7 @@ session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 }
 
 static CamelFilterDriver *
-main_get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
+main_get_filter_driver (CamelSession *session, const gchar *type, GError **error)
 {
 	CamelFilterDriver *driver;
 	EFilterRule *rule = NULL;
@@ -599,10 +610,11 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 }
 
 static CamelFilterDriver *
-get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
+get_filter_driver (CamelSession *session, const gchar *type, GError **error)
 {
-	return (CamelFilterDriver *) mail_call_main (MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
-						     session, type, ex);
+	return (CamelFilterDriver *) mail_call_main (
+		MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
+		session, type, error);
 }
 
 /* TODO: This is very temporary, until we have a better way to do the progress reporting,
@@ -664,8 +676,12 @@ forward_to_flush_outbox_cb (gpointer data)
 }
 
 static void
-ms_forward_to_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
-		  gint queued, const gchar *appended_uid, gpointer data)
+ms_forward_to_cb (CamelFolder *folder,
+                  CamelMimeMessage *msg,
+                  CamelMessageInfo *info,
+                  gint queued,
+                  const gchar *appended_uid,
+                  gpointer data)
 {
 	static guint preparing_flush = 0;
 
@@ -681,8 +697,12 @@ ms_forward_to_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *
 	}
 }
 
-static void
-ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex)
+static gboolean
+ms_forward_to (CamelSession *session,
+               CamelFolder *folder,
+               CamelMimeMessage *message,
+               const gchar *address,
+               GError **error)
 {
 	EAccount *account;
 	CamelMimeMessage *forward;
@@ -693,28 +713,34 @@ ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *mes
 	struct _camel_header_raw *xev;
 	gchar *subject;
 
-	g_return_if_fail (folder != NULL);
-	g_return_if_fail (message != NULL);
-	g_return_if_fail (address != NULL);
+	g_return_val_if_fail (folder != NULL, FALSE);
+	g_return_val_if_fail (message != NULL, FALSE);
+	g_return_val_if_fail (address != NULL, FALSE);
 
 	if (!*address) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("No destination address provided, forward of the message has been cancelled."));
-		return;
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No destination address provided, forward "
+			  "of the message has been cancelled."));
+		return FALSE;
 	}
 
 	account = em_utils_guess_account_with_recipients (message, folder);
 	if (!account) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("No account found to use, forward of the message has been cancelled."));
-		return;
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No account found to use, forward of the "
+			  "message has been cancelled."));
+		return FALSE;
 	}
 
 	forward = camel_mime_message_new ();
 
 	/* make copy of the message, because we are going to modify it */
 	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, mem);
-	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET);
-	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)forward, mem);
+	camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, mem, NULL);
+	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET, NULL);
+	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)forward, mem, NULL);
 	g_object_unref (mem);
 
 	/* clear previous recipients */
@@ -758,6 +784,8 @@ ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *mes
 	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, forward, info, ms_forward_to_cb, NULL);
+
+	return TRUE;
 }
 
 gchar *

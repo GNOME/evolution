@@ -186,12 +186,13 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gin
 	if (msg) {
 		stream = camel_stream_fs_new_with_fd (fds[1]);
 
-		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
-		camel_stream_flush (stream);
-		camel_stream_close (stream);
+		camel_data_wrapper_write_to_stream (
+			CAMEL_DATA_WRAPPER (msg), stream, NULL);
+		camel_stream_flush (stream, NULL);
+		camel_stream_close (stream, NULL);
 		g_object_unref (stream);
 	} else if (in) {
-		camel_write (fds[1], in, strlen (in));
+		camel_write (fds[1], in, strlen (in), NULL);
 		close (fds[1]);
 	}
 
@@ -203,7 +204,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gin
 		memstream = (CamelStreamMem *) camel_stream_mem_new ();
 		camel_stream_mem_set_byte_array (memstream, output_buffer);
 
-		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
+		camel_stream_write_to_stream (stream, (CamelStream *) memstream, NULL);
 		g_object_unref (stream);
 		g_byte_array_append (output_buffer, (guchar *)"", 1);
 

@@ -83,7 +83,7 @@ static gboolean em_junk_bf_unicode = TRUE;
 static void
 init_db (void)
 {
-	CamelStream *stream = camel_stream_fs_new_with_name (WELCOME_MESSAGE, O_RDONLY, 0);
+	CamelStream *stream = camel_stream_fs_new_with_name (WELCOME_MESSAGE, O_RDONLY, 0, NULL);
 	CamelMimeParser *parser = camel_mime_parser_new ();
 	CamelMimeMessage *msg = camel_mime_message_new ();
 	const gchar *argv[] = {
@@ -93,11 +93,11 @@ init_db (void)
 		NULL
 	};
 
-	camel_mime_parser_init_with_stream (parser, stream);
+	camel_mime_parser_init_with_stream (parser, stream, NULL);
 	camel_mime_parser_scan_from (parser, FALSE);
 	g_object_unref (stream);
 
-	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser);
+	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser, NULL);
 	g_object_unref (parser);
 
 	d(fprintf (stderr, "Initing the bogofilter DB with Welcome message\n"));
@@ -164,9 +164,10 @@ retry:
 	}
 
 	stream = camel_stream_fs_new_with_fd (bf_in);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
-	camel_stream_flush (stream);
-	camel_stream_close (stream);
+	camel_data_wrapper_write_to_stream (
+		CAMEL_DATA_WRAPPER (msg), stream, NULL);
+	camel_stream_flush (stream, NULL);
+	camel_stream_close (stream, NULL);
 	g_object_unref (stream);
 
 #ifndef G_OS_WIN32

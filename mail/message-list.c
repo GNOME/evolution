@@ -1456,13 +1456,14 @@ get_trimmed_subject (CamelMessageInfo *info)
 }
 
 static gpointer
-ml_tree_value_at_ex (ETreeModel *etm, ETreePath path, gint col, CamelMessageInfo *msg_info, MessageList *message_list)
+ml_tree_value_at_ex (ETreeModel *etm,
+                     ETreePath path,
+                     gint col,
+                     CamelMessageInfo *msg_info,
+                     MessageList *message_list)
 {
-	CamelException ex;
 	const gchar *str;
 	guint32 flags;
-
-	camel_exception_init (&ex);
 
 	g_return_val_if_fail (msg_info != NULL, NULL);
 
@@ -1644,17 +1645,16 @@ ml_tree_value_at_ex (ETreeModel *etm, ETreePath path, gint col, CamelMessageInfo
 		account = mail_config_get_account_by_source_url (url);
 
 		if (account) {
-			curl = camel_url_new (url, &ex);
+			curl = camel_url_new (url, NULL);
 			location = g_strconcat (account->name, ":", curl->path, NULL);
 		} else {
 			/* Local account */
 			euri = em_uri_from_camel(url);
-			curl = camel_url_new (euri, &ex);
+			curl = camel_url_new (euri, NULL);
 			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local"))
 				location = g_strconcat (_("On This Computer"), ":",curl->path, NULL);
 		}
 
-		camel_exception_clear (&ex);
 		camel_url_free (curl);
 		g_free (url);
 		g_free (euri);
@@ -2160,7 +2160,10 @@ ml_drop_async_exec (struct _drop_msg *m)
 {
 	switch (m->info) {
 	case DND_X_UID_LIST:
-		em_utils_selection_get_uidlist(m->selection, m->folder, m->action == GDK_ACTION_MOVE, &m->base.ex);
+		em_utils_selection_get_uidlist (
+			m->selection, m->folder,
+			m->action == GDK_ACTION_MOVE,
+			&m->base.error);
 		break;
 	case DND_MESSAGE_RFC822:
 		em_utils_selection_get_message(m->selection, m->folder);
@@ -2181,7 +2184,7 @@ ml_drop_async_done (struct _drop_msg *m)
 		success = FALSE;
 		delete = FALSE;
 	} else {
-		success = !camel_exception_is_set (&m->base.ex);
+		success = (m->base.error == NULL);
 		delete = success && m->move && !m->moved;
 	}
 
@@ -3684,14 +3687,11 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 	gboolean hide_deleted;
 	GConfClient *gconf;
 	CamelStore *folder_store;
-	CamelException ex;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	if (message_list->folder == folder)
 		return;
-
-	camel_exception_init (&ex);
 
 	if (message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
@@ -4392,7 +4392,8 @@ regen_list_exec (struct _regen_list_msg *m)
 	} else {
 		gboolean store_has_vjunk = folder_store_supports_vjunk_folder (m->folder);
 
-		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
+		searchuids = uids = camel_folder_search_by_expression (
+			m->folder, expr, &m->base.error);
 		/* If m->changes is not NULL, then it means we are called from folder_changed event,
 		   thus we will keep the selected message to be sure it doesn't disappear because
 		   it no longer belong to our search filter. */
@@ -4430,7 +4431,7 @@ regen_list_exec (struct _regen_list_msg *m)
 		}
 	}
 
-	if (camel_exception_is_set (&m->base.ex))
+	if (m->base.error != NULL)
 		return;
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
@@ -4446,17 +4447,11 @@ regen_list_exec (struct _regen_list_msg *m)
 			else
 				m->tree = camel_folder_thread_messages_new (m->folder, uids, m->thread_subject);
 		} else {
-			CamelException ex;
-
 			camel_folder_sort_uids (m->ml->folder, uids);
 			m->summary = g_ptr_array_new ();
 
-			camel_exception_init (&ex);
-			camel_folder_summary_prepare_fetch_all (m->folder->summary, &ex);
-			if (camel_exception_is_set (&ex)) {
-				g_warning ("Exception while reloading: %s\n", camel_exception_get_description (&ex));
-				camel_exception_clear (&ex);
-			}
+			camel_folder_summary_prepare_fetch_all (
+				m->folder->summary, NULL);
 
 			for (i = 0; i < uids->len; i++) {
 				info = camel_folder_get_message_info (m->folder, uids->pdata[i]);

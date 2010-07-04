@@ -159,7 +159,7 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 	em_format_part((EMFormat *) emfq, (CamelStream *)mem, part);
 	g_object_unref(emfq);
 
-	camel_stream_write((CamelStream *) mem, "", 1);
+	camel_stream_write((CamelStream *) mem, "", 1, NULL);
 	g_object_unref (mem);
 
 	text = (gchar *)buf->data;
@@ -618,7 +618,6 @@ build_message (EMsgComposer *composer,
 	CamelSession *session;
 	CamelStream *stream;
 	CamelMimePart *part;
-	CamelException ex;
 	GByteArray *data;
 	EAccount *account;
 	gchar *charset;
@@ -627,6 +626,7 @@ build_message (EMsgComposer *composer,
 	gboolean smime_sign;
 	gboolean smime_encrypt;
 	gint i;
+	GError *local_error = NULL;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
@@ -746,7 +746,7 @@ build_message (EMsgComposer *composer,
 
 	/* construct the content object */
 	plain = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (plain, stream);
+	camel_data_wrapper_construct_from_stream (plain, stream, NULL);
 	g_object_unref (stream);
 
 	if (plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
@@ -803,7 +803,7 @@ build_message (EMsgComposer *composer,
 			g_object_unref (mf);
 		}
 
-		camel_data_wrapper_construct_from_stream (html, stream);
+		camel_data_wrapper_construct_from_stream (html, stream, NULL);
 		g_object_unref (stream);
 		camel_data_wrapper_set_mime_type (html, "text/html; charset=utf-8");
 
@@ -892,8 +892,6 @@ build_message (EMsgComposer *composer,
 		current = CAMEL_DATA_WRAPPER (multipart);
 	}
 
-	camel_exception_init (&ex);
-
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 	pgp_sign = gtk_toggle_action_get_active (action);
 
@@ -961,10 +959,10 @@ build_message (EMsgComposer *composer,
 			camel_cipher_sign (
 				cipher, pgp_userid, account_hash_algo_to_camel_hash (
 				account ? e_account_get_string (account, E_ACCOUNT_PGP_HASH_ALGORITHM) : NULL),
-				part, npart, &ex);
+				part, npart, &local_error);
 			g_object_unref (cipher);
 
-			if (camel_exception_is_set (&ex)) {
+			if (local_error != NULL) {
 				g_object_unref (npart);
 				goto exception;
 			}
@@ -988,13 +986,13 @@ build_message (EMsgComposer *composer,
 					account->pgp_always_trust);
 			camel_cipher_encrypt (
 				cipher, pgp_userid, recipients,
-				part, npart, &ex);
+				part, npart, &local_error);
 			g_object_unref (cipher);
 
 			if (account && account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_set_size (recipients, recipients->len - 1);
 
-			if (camel_exception_is_set (&ex)) {
+			if (local_error != NULL) {
 				g_object_unref (npart);
 				goto exception;
 			}
@@ -1025,8 +1023,9 @@ build_message (EMsgComposer *composer,
 		if (smime_sign && (account == NULL ||
 				account->smime_sign_key == NULL ||
 				account->smime_sign_key[0] == 0)) {
-			camel_exception_set (
-				&ex, CAMEL_EXCEPTION_SYSTEM,
+			g_set_error (
+				&local_error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				_("Cannot sign outgoing message: "
 				  "No signing certificate set for "
 				  "this account"));
@@ -1036,8 +1035,9 @@ build_message (EMsgComposer *composer,
 		if (smime_encrypt && (account == NULL ||
 				account->smime_sign_key == NULL ||
 				account->smime_sign_key[0] == 0)) {
-			camel_exception_set (
-				&ex, CAMEL_EXCEPTION_SYSTEM,
+			g_set_error (
+				&local_error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				_("Cannot encrypt outgoing message: "
 				  "No encryption certificate set for "
 				  "this account"));
@@ -1070,10 +1070,10 @@ build_message (EMsgComposer *composer,
 					(account != NULL) ?
 					e_account_get_string (account,
 					E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
-				part, npart, &ex);
+				part, npart, &local_error);
 			g_object_unref (cipher);
 
-			if (camel_exception_is_set (&ex)) {
+			if (local_error != NULL) {
 				g_object_unref (npart);
 				goto exception;
 			}
@@ -1095,10 +1095,12 @@ build_message (EMsgComposer *composer,
 				(CamelSMIMEContext *) cipher, TRUE,
 				account->smime_encrypt_key);
 
-			camel_cipher_encrypt (cipher, NULL, recipients, part, (CamelMimePart *)new, &ex);
+			camel_cipher_encrypt (
+				cipher, NULL, recipients, part,
+				(CamelMimePart *) new, &local_error);
 			g_object_unref (cipher);
 
-			if (camel_exception_is_set (&ex))
+			if (local_error != NULL)
 				goto exception;
 
 			if (account->smime_encrypt_to_self)
@@ -1141,19 +1143,20 @@ skip_content:
 
 	return new;
 
- exception:
+exception:
 
 	if (part != CAMEL_MIME_PART (new))
 		g_object_unref (part);
 
 	g_object_unref (new);
 
-	if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
-		e_alert_run_dialog_for_args ((GtkWindow *)composer, "mail-composer:no-build-message",
-			    camel_exception_get_description (&ex), NULL);
-	}
+	if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		e_alert_run_dialog_for_args (
+			(GtkWindow *) composer,
+			"mail-composer:no-build-message",
+			local_error->message, NULL);
 
-	camel_exception_clear (&ex);
+	g_error_free (local_error);
 
 	if (recipients) {
 		for (i=0; i<recipients->len; i++)
@@ -1478,12 +1481,14 @@ autosave_load_draft (const gchar *filename)
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (!(stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0)))
+	stream = camel_stream_fs_new_with_name (
+		filename, O_RDONLY, 0, NULL);
+	if (stream == NULL)
 		return NULL;
 
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (
-		CAMEL_DATA_WRAPPER (msg), stream);
+		CAMEL_DATA_WRAPPER (msg), stream, NULL);
 	g_object_unref (stream);
 
 	composer = e_msg_composer_new_with_message (msg);
@@ -2602,7 +2607,6 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
 	CamelSession *session;
-	CamelException ex;
 	CamelCipherValidity *valid;
 	GtkToggleAction *action = NULL;
 	const gchar *protocol;
@@ -2620,15 +2624,15 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	if (action)
 		gtk_toggle_action_set_active (action, TRUE);
 
-	camel_exception_init (&ex);
 	session = e_msg_composer_get_session (composer);
 	cipher = camel_gpg_context_new (session);
 	mime_part = camel_mime_part_new ();
-	valid = camel_cipher_decrypt (cipher, multipart, mime_part, &ex);
+	valid = camel_cipher_decrypt (cipher, multipart, mime_part, NULL);
 	g_object_unref (cipher);
-	camel_exception_clear (&ex);
+
 	if (valid == NULL)
 		return;
+
 	camel_cipher_validity_free (valid);
 
 	content_type = camel_mime_part_get_content_type (mime_part);
@@ -3687,12 +3691,13 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	if (!g_file_test (dec_file_name, G_FILE_TEST_IS_REGULAR))
 		return NULL;
 
-	stream = camel_stream_fs_new_with_name (dec_file_name, O_RDONLY, 0);
+	stream = camel_stream_fs_new_with_name (
+		dec_file_name, O_RDONLY, 0, NULL);
 	if (!stream)
 		return NULL;
 
 	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	camel_data_wrapper_construct_from_stream (wrapper, stream, NULL);
 	g_object_unref (CAMEL_OBJECT (stream));
 
 	mime_type = e_util_guess_mime_type (dec_file_name, TRUE);
@@ -4166,13 +4171,14 @@ e_msg_composer_load_from_file (const gchar *filename)
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0);
+	stream = camel_stream_fs_new_with_name (
+		filename, O_RDONLY, 0, NULL);
 	if (stream == NULL)
 		return NULL;
 
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (
-		CAMEL_DATA_WRAPPER (msg), stream);
+		CAMEL_DATA_WRAPPER (msg), stream, NULL);
 	g_object_unref (stream);
 
 	composer = e_msg_composer_new_with_message (msg);

@@ -86,14 +86,14 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 
 	name = g_build_filename(tmpdir, ".evo-attachment.tnef", NULL);
 
-	out = camel_stream_fs_new_with_name(name, O_RDWR|O_CREAT, 0666);
+	out = camel_stream_fs_new_with_name(name, O_RDWR|O_CREAT, 0666, NULL);
 	if (out == NULL)
 	    goto fail;
 	content = camel_medium_get_content ((CamelMedium *)t->part);
 	if (content == NULL)
 		goto fail;
-	if (camel_data_wrapper_decode_to_stream(content, out) == -1
-	    || camel_stream_close(out) == -1) {
+	if (camel_data_wrapper_decode_to_stream(content, out, NULL) == -1
+	    || camel_stream_close(out, NULL) == -1) {
 		g_object_unref (out);
 		goto fail;
 	}
@@ -136,9 +136,9 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 
 		path = g_build_filename(tmpdir, d->d_name, NULL);
 
-		stream = camel_stream_fs_new_with_name(path, O_RDONLY, 0);
+		stream = camel_stream_fs_new_with_name(path, O_RDONLY, 0, NULL);
 		content = camel_data_wrapper_new();
-		camel_data_wrapper_construct_from_stream(content, stream);
+		camel_data_wrapper_construct_from_stream(content, stream, NULL);
 		g_object_unref (stream);
 
 		part = camel_mime_part_new();

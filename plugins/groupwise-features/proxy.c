@@ -642,7 +642,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
 	CamelOfflineStore *store;
-	CamelException ex;
 	gint pag_num;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
@@ -650,11 +649,11 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* We are using some g_object_set on this. We shuold also avoid double-free later. So reffing */
 	g_object_ref (account);
 
-	camel_exception_init (&ex);
-	if (!(store = (CamelOfflineStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {
-		camel_exception_clear (&ex);
+	store = (CamelOfflineStore *) camel_session_get_service (
+		session, e_account_get_string (account, E_ACCOUNT_SOURCE_URL),
+		CAMEL_PROVIDER_STORE, NULL);
+	if (store == NULL)
 		return NULL;
-	}
 
 	if (g_strrstr (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), "groupwise://"))
 	{
@@ -717,7 +716,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	g_object_unref (store);
-	camel_exception_clear (&ex);
+
 	return NULL;
 }
 

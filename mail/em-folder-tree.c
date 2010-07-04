@@ -191,7 +191,8 @@ folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 {
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
-	m->fi = camel_store_get_folder_info (m->store, m->top, flags, &m->base.ex);
+	m->fi = camel_store_get_folder_info (
+		m->store, m->top, flags, &m->base.error);
 }
 
 static void
@@ -226,7 +227,7 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	gtk_tree_model_get_iter (model, &root, path);
 
 	/* if we had an error, then we need to re-set the load subdirs state and collapse the node */
-	if (!m->fi && camel_exception_is_set(&m->base.ex)) {
+	if (!m->fi && m->base.error != NULL) {
 		gtk_tree_store_set(
 			GTK_TREE_STORE (model), &root,
 			COL_BOOL_LOAD_SUBDIRS, TRUE, -1);
@@ -440,11 +441,9 @@ folder_tree_expand_node (const gchar *key,
 	model = gtk_tree_view_get_model (tree_view);
 
 	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
-		CamelException ex;
-
-		camel_exception_init (&ex);
-		store = (CamelStore *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
-		camel_exception_clear (&ex);
+		store = (CamelStore *) camel_session_get_service (
+			session, account->source->url,
+			CAMEL_PROVIDER_STORE, NULL);
 
 		if (store == NULL)
 			return;
@@ -552,7 +551,6 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
                             const gchar *new_name)
 {
 	CamelFolderInfo *folder_info;
-	CamelException ex;
 	CamelStore *store;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
@@ -564,12 +562,11 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	gchar **strv;
 	gpointer parent;
 	guint index;
+	GError *local_error = NULL;
 
 	/* XXX Consider splitting this into separate async functions:
 	 *     em_folder_tree_rename_folder_async()
 	 *     em_folder_tree_rename_folder_finish() */
-
-	camel_exception_init (&ex);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (folder_tree));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -608,7 +605,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 
 	/* Check for duplicate folder name. */
 	folder_info = camel_store_get_folder_info (
-		store, new_full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+		store, new_full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 	if (folder_info != NULL) {
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder-exists",
@@ -618,16 +615,17 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	}
 
 	/* XXX This needs to be asynchronous. */
-	camel_store_rename_folder (store, old_full_name, new_full_name, &ex);
-	if (camel_exception_is_set (&ex)) {
+	if (!camel_store_rename_folder (
+		store, old_full_name, new_full_name, &local_error)) {
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
-			old_full_name, new_full_name, ex.desc, NULL);
+			old_full_name, new_full_name,
+			local_error->message, NULL);
+		g_clear_error (&local_error);
 		goto exit;
 	}
 
 exit:
-	camel_exception_clear (&ex);
 
 	g_free (old_name);
 	g_free (old_full_name);
@@ -1471,7 +1469,6 @@ tree_drag_data_delete (GtkWidget *widget,
 	GtkTreePath *src_path;
 	gboolean is_store;
 	CamelStore *store;
-	CamelException ex;
 	GtkTreeIter iter;
 
 	if (!priv->drag_row || (src_path = gtk_tree_row_reference_get_path (priv->drag_row)))
@@ -1491,10 +1488,8 @@ tree_drag_data_delete (GtkWidget *widget,
 	if (is_store)
 		goto fail;
 
-	camel_exception_init(&ex);
-	camel_store_delete_folder(store, full_name, &ex);
-	if (camel_exception_is_set(&ex))
-		camel_exception_clear(&ex);
+	camel_store_delete_folder(store, full_name, NULL);
+
 fail:
 	gtk_tree_path_free(src_path);
 	g_free (full_name);
@@ -1514,7 +1509,6 @@ tree_drag_data_get (GtkWidget *widget,
 	GtkTreePath *src_path;
 	CamelFolder *folder;
 	CamelStore *store;
-	CamelException ex;
 	GtkTreeIter iter;
 
 	if (!priv->drag_row || !(src_path = gtk_tree_row_reference_get_path(priv->drag_row)))
@@ -1535,8 +1529,6 @@ tree_drag_data_get (GtkWidget *widget,
 	if (full_name == NULL)
 		goto fail;
 
-	camel_exception_init(&ex);
-
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
@@ -1544,7 +1536,7 @@ tree_drag_data_get (GtkWidget *widget,
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
-		if ((folder = camel_store_get_folder(store, full_name, 0, &ex))) {
+		if ((folder = camel_store_get_folder(store, full_name, 0, NULL))) {
 			GPtrArray *uids = camel_folder_get_uids(folder);
 
 			em_utils_selection_set_urilist(selection, folder, uids);
@@ -1556,8 +1548,6 @@ tree_drag_data_get (GtkWidget *widget,
 		abort();
 	}
 
-	if (camel_exception_is_set(&ex))
-		camel_exception_clear(&ex);
 fail:
 	gtk_tree_path_free(src_path);
 	g_free (full_name);
@@ -1597,7 +1587,7 @@ folder_tree_drop_folder(struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
-	if (!(folder = mail_tool_uri_to_folder((gchar *)data, 0, &m->base.ex)))
+	if (!(folder = mail_tool_uri_to_folder((gchar *)data, 0, &m->base.error)))
 		return;
 
 	full_name = camel_folder_get_full_name (folder);
@@ -1648,14 +1638,15 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 		/* copy or move (aka rename) a folder */
 		folder_tree_drop_folder(m);
 	} else if (m->full_name == NULL) {
-		camel_exception_set (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot drop message(s) into toplevel store"));
-	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &m->base.ex))) {
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("Cannot drop message(s) into toplevel store"));
+	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &m->base.error))) {
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
-			em_utils_selection_get_uidlist(m->selection, folder, m->move, &m->base.ex);
-			m->moved = m->move && !camel_exception_is_set(&m->base.ex);
+			em_utils_selection_get_uidlist(m->selection, folder, m->move, &m->base.error);
+			m->moved = m->move && (m->base.error == NULL);
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */
@@ -2348,11 +2339,9 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree, GList *list, gboole
 	for (;list;list = list->next) {
 		struct _selected_uri *u = g_malloc0(sizeof(*u));
 		CamelURL *url;
-		CamelException ex = { 0 };
 
 		u->uri = g_strdup(list->data);
-		u->store = (CamelStore *)camel_session_get_service (session, u->uri, CAMEL_PROVIDER_STORE, &ex);
-		camel_exception_clear(&ex);
+		u->store = (CamelStore *)camel_session_get_service (session, u->uri, CAMEL_PROVIDER_STORE, NULL);
 
 		url = camel_url_new(u->uri, NULL);
 		if (u->store == NULL || url == NULL) {
@@ -2704,13 +2693,10 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gchar *full_name = NULL;
-	CamelException ex;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
-
-	camel_exception_init (&ex);
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -2720,9 +2706,8 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 				    COL_STRING_FULL_NAME, &full_name, -1);
 
 	if (store && full_name)
-		folder = camel_store_get_folder (store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
-
-	camel_exception_clear (&ex);
+		folder = camel_store_get_folder (
+			store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 
 	return folder;
 }
@@ -2735,13 +2720,10 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *folder_tree)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gchar *full_name = NULL, *name = NULL, *uri = NULL;
-	CamelException ex;
 	CamelStore *store = NULL;
 	CamelFolderInfo *fi = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
-
-	camel_exception_init (&ex);
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);

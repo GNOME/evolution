@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 #include <libedataserver/e-flag.h>
 
 #include "mail-mt.h"
@@ -41,6 +42,7 @@ enum _write_msg_t {
 
 struct _write_msg {
 	EMSyncStream *emss;
+	GError *error;
 	EFlag *done;
 
 	enum _write_msg_t op;
@@ -67,22 +69,23 @@ sync_stream_process_message (struct _write_msg *msg)
 	if (emss->buffer != NULL && emss->buffer->len > 0) {
 		EM_SYNC_STREAM_GET_CLASS (emss)->sync_write (
 			CAMEL_STREAM (emss), emss->buffer->str,
-			emss->buffer->len);
+			emss->buffer->len, &msg->error);
 		g_string_set_size (emss->buffer, 0);
 	}
 
 	switch (msg->op) {
 		case EMSS_WRITE:
 			EM_SYNC_STREAM_GET_CLASS (emss)->sync_write (
-				CAMEL_STREAM (emss), msg->string, msg->len);
+				CAMEL_STREAM (emss), msg->string,
+				msg->len, &msg->error);
 			break;
 		case EMSS_FLUSH:
 			EM_SYNC_STREAM_GET_CLASS (emss)->sync_flush (
-				CAMEL_STREAM (emss));
+				CAMEL_STREAM (emss), &msg->error);
 			break;
 		case EMSS_CLOSE:
 			EM_SYNC_STREAM_GET_CLASS (emss)->sync_close (
-				CAMEL_STREAM (emss));
+				CAMEL_STREAM (emss), &msg->error);
 			break;
 	}
 
@@ -93,12 +96,16 @@ sync_stream_process_message (struct _write_msg *msg)
 }
 
 static void
-sync_stream_sync_op (EMSyncStream *emss, enum _write_msg_t op,
-	      const gchar *string, gsize len)
+sync_stream_sync_op (EMSyncStream *emss,
+                     enum _write_msg_t op,
+                     const gchar *string,
+                     gsize len,
+                     GError **error)
 {
 	struct _write_msg msg;
 
 	msg.done = e_flag_new ();
+	msg.error = NULL;
 	msg.emss = emss;
 	msg.op = op;
 	msg.string = string;
@@ -112,6 +119,9 @@ sync_stream_sync_op (EMSyncStream *emss, enum _write_msg_t op,
 
 	e_flag_wait (msg.done);
 	e_flag_free (msg.done);
+
+	if (msg.error != NULL)
+		g_propagate_error (error, msg.error);
 
 	g_object_unref (emss);
 }
@@ -128,57 +138,74 @@ sync_stream_finalize (GObject *object)
 }
 
 static gssize
-sync_stream_write (CamelStream *stream, const gchar *string, gsize len)
+sync_stream_write (CamelStream *stream,
+                   const gchar *string,
+                   gsize len,
+                   GError **error)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);
 
-	if (emss->cancel)
+	if (emss->cancel) {
+		g_set_error (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED,
+			_("Canceled"));
 		return -1;
+	}
 
 	if (mail_in_main_thread ()) {
-		EM_SYNC_STREAM_GET_CLASS (emss)->sync_write (stream, string, len);
+		EM_SYNC_STREAM_GET_CLASS (emss)->sync_write (stream, string, len, error);
 	} else if (emss->buffer != NULL) {
 		if (len < (emss->buffer->allocated_len - emss->buffer->len))
 			g_string_append_len (emss->buffer, string, len);
 		else
-			sync_stream_sync_op (emss, EMSS_WRITE, string, len);
+			sync_stream_sync_op (emss, EMSS_WRITE, string, len, error);
 	} else {
-		sync_stream_sync_op(emss, EMSS_WRITE, string, len);
+		sync_stream_sync_op(emss, EMSS_WRITE, string, len, error);
 	}
 
 	return (gssize) len;
 }
 
 static gint
-sync_stream_flush (CamelStream *stream)
+sync_stream_flush (CamelStream *stream,
+                   GError **error)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);
 
-	if (emss->cancel)
+	if (emss->cancel) {
+		g_set_error (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED,
+			_("Canceled"));
 		return -1;
+	}
 
 	if (mail_in_main_thread ())
-		return EM_SYNC_STREAM_GET_CLASS (emss)->sync_flush (stream);
+		return EM_SYNC_STREAM_GET_CLASS (emss)->sync_flush (stream, error);
 	else
-		sync_stream_sync_op (emss, EMSS_FLUSH, NULL, 0);
+		sync_stream_sync_op (emss, EMSS_FLUSH, NULL, 0, error);
 
 	return 0;
 }
 
 static gint
-sync_stream_close (CamelStream *stream)
+sync_stream_close (CamelStream *stream,
+                   GError **error)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);
 
-	if (emss->cancel)
+	if (emss->cancel) {
+		g_set_error (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED,
+			_("Canceled"));
 		return -1;
+	}
 
 	emss->idle_id = 0;
 
 	if (mail_in_main_thread ())
-		return EM_SYNC_STREAM_GET_CLASS (emss)->sync_close (stream);
+		return EM_SYNC_STREAM_GET_CLASS (emss)->sync_close (stream, error);
 	else
-		sync_stream_sync_op (emss, EMSS_CLOSE, NULL, 0);
+		sync_stream_sync_op (emss, EMSS_CLOSE, NULL, 0, error);
 
 	return 0;
 }

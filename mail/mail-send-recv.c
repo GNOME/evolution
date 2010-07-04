@@ -122,7 +122,7 @@ struct _send_info {
 	struct _send_data *data;
 };
 
-static CamelFolder *receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelException *ex);
+static CamelFolder *receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, GError **error);
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
@@ -372,16 +372,13 @@ static send_info_t
 get_receive_type(const gchar *url)
 {
 	CamelProvider *provider;
-	CamelException ex;
 
 	/* HACK: since mbox is ALSO used for native evolution trees now, we need to
 	   fudge this to treat it as a special 'movemail' source */
 	if (!strncmp(url, "mbox:", 5))
 		return SEND_RECEIVE;
 
-	camel_exception_init (&ex);
-	provider = camel_provider_get(url, &ex);
-	camel_exception_clear (&ex);
+	provider = camel_provider_get(url, NULL);
 
 	if (!provider)
 		return SEND_INVALID;
@@ -792,7 +789,7 @@ receive_done (const gchar *uri, gpointer data)
    This can also be used to hook into which folders are being updated, and occasionally
    let them refresh */
 static CamelFolder *
-receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelException *ex)
+receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, GError **error)
 {
 	struct _send_info *info = data;
 	CamelFolder *folder;
@@ -806,7 +803,7 @@ receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelE
 		g_object_ref (oldinfo->folder);
 		return oldinfo->folder;
 	}
-	folder = mail_tool_uri_to_folder (uri, 0, ex);
+	folder = mail_tool_uri_to_folder (uri, 0, error);
 	if (!folder)
 		return NULL;
 
@@ -838,12 +835,8 @@ receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelE
 static void
 get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 {
-	CamelException ex;
-
-	camel_exception_init (&ex);
-
 	while (info) {
-		if (camel_store_can_refresh_folder (store, info, &ex)) {
+		if (camel_store_can_refresh_folder (store, info, NULL)) {
 			CamelURL *url = camel_url_new (info->uri, NULL);
 
 			if (url && (!camel_url_get_param (url, "noselect") || !g_str_equal (camel_url_get_param (url, "noselect"), "yes")))
@@ -852,7 +845,6 @@ get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 			if (url)
 				camel_url_free (url);
 		}
-		camel_exception_clear (&ex);
 
 		get_folders (store, folders, info->child);
 		info = info->next;
@@ -879,21 +871,19 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 {
 	gint i;
 	CamelFolder *folder;
-	CamelException ex = CAMEL_EXCEPTION_INITIALISER;
+	GError *local_error = NULL;
 
 	get_folders (m->store, m->folders, m->finfo);
 
 	for (i=0;i<m->folders->len;i++) {
-		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, &ex);
+		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, &local_error);
 		if (folder) {
-			camel_folder_sync (folder, FALSE, &ex);
-			camel_exception_clear(&ex);
-			camel_folder_refresh_info(folder, &ex);
-			camel_exception_clear(&ex);
+			camel_folder_sync (folder, FALSE, NULL);
+			camel_folder_refresh_info(folder, NULL);
 			g_object_unref (folder);
-		} else if (camel_exception_is_set(&ex)) {
-			g_warning ("Failed to refresh folders: %s", camel_exception_get_description (&ex));
-			camel_exception_clear (&ex);
+		} else if (local_error != NULL) {
+			g_warning ("Failed to refresh folders: %s", local_error->message);
+			g_clear_error (&local_error);
 		}
 
 		if (camel_operation_cancel_check(m->info->cancel))

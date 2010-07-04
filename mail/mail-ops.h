@@ -51,7 +51,7 @@ gint mail_get_message (CamelFolder *folder, const gchar *uid,
 
 gint
 mail_get_messagex(CamelFolder *folder, const gchar *uid,
-		  void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, CamelException *),
+		  void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error),
 		  gpointer data, MailMsgDispatchFunc dispatch);
 
 /* get several messages */
@@ -105,7 +105,7 @@ gint mail_get_folderinfo (CamelStore *store, CamelOperation *op,
 
 /* remove an existing folder */
 void mail_remove_folder (CamelFolder *folder,
-			 void (*done) (CamelFolder *folder, gboolean removed, CamelException *ex, gpointer data),
+			 void (*done) (CamelFolder *folder, gboolean removed, GError **error, gpointer data),
 			 gpointer data);
 
 /* transfer (copy/move) a folder */

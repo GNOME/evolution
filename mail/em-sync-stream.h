@@ -69,9 +69,12 @@ struct _EMSyncStreamClass {
 
 	gssize		(*sync_write)		(CamelStream *stream,
 						 const gchar *string,
-						 gsize len);
-	gint		(*sync_close)		(CamelStream *stream);
-	gint		(*sync_flush)		(CamelStream *stream);
+						 gsize len,
+						 GError **error);
+	gint		(*sync_close)		(CamelStream *stream,
+						 GError **error);
+	gint		(*sync_flush)		(CamelStream *stream,
+						 GError **error);
 };
 
 GType		em_sync_stream_get_type		(void);

@@ -205,7 +205,7 @@ elm_import_done(struct _elm_import_msg *m)
 {
 	printf("importing complete\n");
 
-	if (!camel_exception_is_set(&m->base.ex)) {
+	if (m->base.error == NULL) {
 		GConfClient *gconf;
 
 		gconf = gconf_client_get_default();

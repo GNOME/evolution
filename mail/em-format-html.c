@@ -204,7 +204,7 @@ efh_format_exec (struct _format_msg *m)
 				(CamelMimePart *) m->message, handle, FALSE);
 	}
 
-	camel_stream_flush((CamelStream *)m->estream);
+	camel_stream_flush((CamelStream *)m->estream, NULL);
 
 	puri_level = format->pending_uri_level;
 	base = format->base;
@@ -244,8 +244,10 @@ efh_format_exec (struct _format_msg *m)
 			/* Closing this base stream can queue more jobs, so we need
 			   to check the list again after we've finished */
 			d(printf("out of jobs, closing root stream\n"));
-			camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
-			camel_stream_close((CamelStream *)m->estream);
+			camel_stream_write_string (
+				(CamelStream *) m->estream,
+				"</body>\n</html>\n", NULL);
+			camel_stream_close((CamelStream *)m->estream, NULL);
 			g_object_unref (m->estream);
 			m->estream = NULL;
 		}
@@ -274,7 +276,7 @@ efh_format_free (struct _format_msg *m)
 	d(printf("formatter freed\n"));
 	g_object_unref(m->format);
 	if (m->estream) {
-		camel_stream_close((CamelStream *)m->estream);
+		camel_stream_close((CamelStream *)m->estream, NULL);
 		g_object_unref (m->estream);
 	}
 	if (m->folder)
@@ -695,11 +697,11 @@ efh_format_source (EMFormat *emf,
 		CAMEL_STREAM_FILTER (filtered_stream), filter);
 	g_object_unref (filter);
 
-	camel_stream_write_string (stream, "<table><tr><td><tt>");
+	camel_stream_write_string (stream, "<table><tr><td><tt>", NULL);
 	em_format_format_text (emf, (CamelStream *) filtered_stream, dw);
 	g_object_unref (filtered_stream);
 
-	camel_stream_write_string(stream, "</tt></td></tr></table>");
+	camel_stream_write_string(stream, "</tt></td></tr></table>", NULL);
 }
 
 static void
@@ -720,18 +722,20 @@ efh_format_attachment (EMFormat *emf,
 		"<table width=10 cellspacing=0 cellpadding=0>"
 		"<tr><td></td></tr></table></td>"
 		"<td><table width=3 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td><td><font size=-1>\n");
+		"<tr><td></td></tr></table></td><td><font size=-1>\n",
+		NULL);
 
 	/* output some info about it */
 	text = em_format_describe_part(part, mime_type);
 	html = camel_text_to_html (
 		text, ((EMFormatHTML *)emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html);
+	camel_stream_write_string (stream, html, NULL);
 	g_free (html);
 	g_free (text);
 
-	camel_stream_write_string (stream, "</font></td></tr><tr></table>");
+	camel_stream_write_string (
+		stream, "</font></td></tr><tr></table>", NULL);
 
 	if (handle && em_format_is_inline (emf, emf->part_id->str, part, handle))
 		handle->handler (emf, stream, part, handle, FALSE);
@@ -1215,12 +1219,12 @@ em_format_html_file_part(EMFormatHTML *efh, const gchar *mime_type, const gchar 
 	CamelDataWrapper *dw;
 	gchar *basename;
 
-	stream = camel_stream_fs_new_with_name(filename, O_RDONLY, 0);
+	stream = camel_stream_fs_new_with_name(filename, O_RDONLY, 0, NULL);
 	if (stream == NULL)
 		return NULL;
 
 	dw = camel_data_wrapper_new();
-	camel_data_wrapper_construct_from_stream(dw, stream);
+	camel_data_wrapper_construct_from_stream(dw, stream, NULL);
 	g_object_unref (stream);
 	if (mime_type)
 		camel_data_wrapper_set_mime_type(dw, mime_type);
@@ -1436,7 +1440,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 			break;
 		}
 		/* FIXME: progress reporting in percentage, can we get the length always?  do we care? */
-		n = camel_stream_read(instream, buffer, sizeof (buffer));
+		n = camel_stream_read(instream, buffer, sizeof (buffer), NULL);
 		if (n > 0) {
 			nread += n;
 			/* If we didn't get a valid Content-Length header, do not try to calculate percentage */
@@ -1445,18 +1449,18 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 				camel_operation_progress(NULL, pc_complete);
 			}
 			d(printf("  read %d bytes\n", n));
-			if (costream && camel_stream_write (costream, buffer, n) == -1) {
+			if (costream && camel_stream_write (costream, buffer, n, NULL) == -1) {
 				n = -1;
 				break;
 			}
 
-			camel_stream_write(job->stream, buffer, n);
+			camel_stream_write(job->stream, buffer, n, NULL);
 		}
 	} while (n>0);
 
 	/* indicates success */
 	if (n == 0)
-		camel_stream_close(job->stream);
+		camel_stream_close(job->stream, NULL);
 
 	if (costream) {
 		/* do not store broken files in a cache */
@@ -1709,8 +1713,9 @@ efh_text_plain (EMFormatHTML *efh,
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream),
 			CAMEL_MIME_FILTER (inline_filter));
-		camel_data_wrapper_decode_to_stream (dw, (CamelStream *)filtered_stream);
-		camel_stream_close((CamelStream *)filtered_stream);
+		camel_data_wrapper_decode_to_stream (
+			dw, (CamelStream *)filtered_stream, NULL);
+		camel_stream_close((CamelStream *)filtered_stream, NULL);
 		g_object_unref (filtered_stream);
 
 		mp = em_inline_filter_get_multipart(inline_filter);
@@ -1753,11 +1758,12 @@ efh_text_plain (EMFormatHTML *efh,
 				e_color_to_value (
 					&efh->priv->colors[
 					EM_FORMAT_HTML_COLOR_TEXT]));
-			camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
+			camel_stream_write_string (
+				stream, "<tt>\n" EFH_MESSAGE_START, NULL);
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)newpart);
-			camel_stream_flush((CamelStream *)filtered_stream);
-			camel_stream_write_string(stream, "</tt>\n");
-			camel_stream_write_string(stream, "</div>\n");
+			camel_stream_flush((CamelStream *)filtered_stream, NULL);
+			camel_stream_write_string (stream, "</tt>\n", NULL);
+			camel_stream_write_string (stream, "</div>\n", NULL);
 		} else {
 			g_string_append_printf(((EMFormat *)efh)->part_id, ".inline.%d", i);
 			em_format_part((EMFormat *)efh, stream, newpart);
@@ -1777,9 +1783,11 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
-		camel_stream_write_string( stream, "\n<!-- text/richtext -->\n");
+		camel_stream_write_string (
+			stream, "\n<!-- text/richtext -->\n", NULL);
 	} else {
-		camel_stream_write_string( stream, "\n<!-- text/enriched -->\n");
+		camel_stream_write_string (
+			stream, "\n<!-- text/enriched -->\n", NULL);
 	}
 
 	enriched = camel_mime_filter_enriched_new(flags);
@@ -1803,7 +1811,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 
 	g_object_unref (filtered_stream);
-	camel_stream_write_string(stream, "</div>");
+	camel_stream_write_string (stream, "</div>", NULL);
 }
 
 static void
@@ -1997,19 +2005,19 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 	g_object_unref (html_filter);
 
-	camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
+	camel_stream_write_string (stream, "<tt>\n" EFH_MESSAGE_START, NULL);
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
-	camel_stream_flush((CamelStream *)filtered_stream);
-	camel_stream_write_string(stream, "</tt>\n");
+	camel_stream_flush((CamelStream *)filtered_stream, NULL);
+	camel_stream_write_string (stream, "</tt>\n", NULL);
 
-	camel_stream_write_string(stream, "</div>");
+	camel_stream_write_string (stream, "</div>", NULL);
 }
 
 static void
 emfh_write_related(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	em_format_format_content(emf, stream, puri->part);
-	camel_stream_close(stream);
+	camel_stream_close(stream, NULL);
 }
 
 static void
@@ -2120,7 +2128,7 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	g_string_append_printf(emf->part_id, "related.%d", displayid);
 	em_format_part(emf, stream, display_part);
 	g_string_truncate(emf->part_id, partidlen);
-	camel_stream_flush(stream);
+	camel_stream_flush(stream, NULL);
 
 	/* queue a job to check for un-referenced parts to add as attachments */
 	job = em_format_html_job_new((EMFormatHTML *)emf, emfh_multipart_related_check, NULL);
@@ -2137,8 +2145,8 @@ efh_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 
 	d(printf("writing image '%s'\n", puri->cid));
-	camel_data_wrapper_decode_to_stream(dw, stream);
-	camel_stream_close(stream);
+	camel_data_wrapper_decode_to_stream(dw, stream, NULL);
+	camel_stream_close(stream, NULL);
 }
 
 static void

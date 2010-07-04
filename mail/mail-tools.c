@@ -44,16 +44,16 @@
 /* **************************************** */
 
 CamelFolder *
-mail_tool_get_inbox (const gchar *url, CamelException *ex)
+mail_tool_get_inbox (const gchar *url, GError **error)
 {
 	CamelStore *store;
 	CamelFolder *folder;
 
-	store = camel_session_get_store (session, url, ex);
+	store = camel_session_get_store (session, url, error);
 	if (!store)
 		return NULL;
 
-	folder = camel_store_get_inbox (store, ex);
+	folder = camel_store_get_inbox (store, error);
 	g_object_unref (store);
 
 	return folder;
@@ -74,21 +74,22 @@ is_local_provider (CamelStore *store)
 }
 
 CamelFolder *
-mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex)
+mail_tool_get_trash (const gchar *url, gint connect, GError **error)
 {
 	CamelStore *store;
 	CamelFolder *trash;
 
 	if (connect)
-		store = camel_session_get_store (session, url, ex);
+		store = camel_session_get_store (session, url, error);
 	else
-		store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, ex);
+		store = (CamelStore *) camel_session_get_service (
+			session, url, CAMEL_PROVIDER_STORE, error);
 
 	if (!store)
 		return NULL;
 
 	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED || is_local_provider (store))
-		trash = camel_store_get_trash (store, ex);
+		trash = camel_store_get_trash (store, error);
 	else
 		trash = NULL;
 
@@ -100,7 +101,7 @@ mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex)
 #ifndef G_OS_WIN32
 
 static gchar *
-mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
+mail_tool_get_local_movemail_path (const guchar *uri, GError **error)
 {
 	guchar *safe_uri, *c;
 	const gchar *data_dir;
@@ -116,8 +117,11 @@ mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 	path = g_build_filename (data_dir, "spool", NULL);
 
 	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0700) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory '%s': %s"),
-				     path, g_strerror(errno));
+		g_set_error (
+			error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			_("Could not create spool directory '%s': %s"),
+			path, g_strerror(errno));
 		g_free(path);
 		return NULL;
 	}
@@ -132,33 +136,37 @@ mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 #endif
 
 gchar *
-mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
+mail_tool_do_movemail (const gchar *source_url, GError **error)
 {
 #ifndef G_OS_WIN32
 	gchar *dest_path;
 	struct stat sb;
 	CamelURL *uri;
+	gboolean success;
 
-	uri = camel_url_new(source_url, ex);
+	uri = camel_url_new(source_url, error);
 	if (uri == NULL)
 		return NULL;
 
 	if (strcmp(uri->protocol, "mbox") != 0) {
 		/* This is really only an internal error anyway */
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("Trying to movemail a non-mbox source '%s'"),
-				      source_url);
+		g_set_error (
+			error, CAMEL_SERVICE_ERROR,
+			CAMEL_SERVICE_ERROR_URL_INVALID,
+			_("Trying to movemail a non-mbox source '%s'"),
+			source_url);
 		camel_url_free(uri);
 		return NULL;
 	}
 
 	/* Set up our destination. */
-	dest_path = mail_tool_get_local_movemail_path ((guchar *)source_url, ex);
+	dest_path = mail_tool_get_local_movemail_path (
+		(guchar *) source_url, error);
 	if (dest_path == NULL)
 		return NULL;
 
 	/* Movemail from source (source_url) to dest_path */
-	camel_movemail (uri->path, dest_path, ex);
+	success = camel_movemail (uri->path, dest_path, error);
 	camel_url_free(uri);
 
 	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
@@ -167,7 +175,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 		return NULL;
 	}
 
-	if (camel_exception_is_set (ex)) {
+	if (!success) {
 		g_free (dest_path);
 		return NULL;
 	}
@@ -275,7 +283,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
+mail_tool_uri_to_folder (const gchar *uri, guint32 flags, GError **error)
 {
 	CamelURL *url;
 	CamelStore *store = NULL;
@@ -294,19 +302,23 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
 		/* FIXME?: the filter:get_folder callback should do this itself? */
 		curi = em_uri_to_camel(uri);
 		if (uri == NULL) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Invalid folder: '%s'"), uri);
+			g_set_error (
+				error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				_("Invalid folder: '%s'"), uri);
 			return NULL;
 		}
 		uri = curi;
 	}
 
-	url = camel_url_new (uri + offset, ex);
+	url = camel_url_new (uri + offset, error);
 	if (!url) {
 		g_free(curi);
 		return NULL;
 	}
 
-	store = (CamelStore *)camel_session_get_service(session, uri+offset, CAMEL_PROVIDER_STORE, ex);
+	store = (CamelStore *) camel_session_get_service (
+		session, uri + offset, CAMEL_PROVIDER_STORE, error);
 	if (store) {
 		const gchar *name;
 
@@ -323,11 +335,11 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
 
 		if (offset) {
 			if (offset == 7)
-				folder = camel_store_get_trash (store, ex);
+				folder = camel_store_get_trash (store, error);
 			else if (offset == 6)
-				folder = camel_store_get_junk (store, ex);
+				folder = camel_store_get_junk (store, error);
 		} else
-			folder = camel_store_get_folder (store, name, flags, ex);
+			folder = camel_store_get_folder (store, name, flags, error);
 		g_object_unref (store);
 	}
 

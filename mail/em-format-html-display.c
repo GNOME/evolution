@@ -426,14 +426,14 @@ efhd_format_attachment (EMFormat *emf,
 		stream, EM_FORMAT_HTML_VPAD
 		"<table cellspacing=0 cellpadding=0><tr><td>"
 		"<table width=10 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td>");
+		"<tr><td></td></tr></table></td>", NULL);
 
 	camel_stream_printf (
 		stream, "<td><object classid=\"%s\"></object></td>", classid);
 
 	camel_stream_write_string (
 		stream, "<td><table width=3 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td><td><font size=-1>");
+		"<tr><td></td></tr></table></td><td><font size=-1>", NULL);
 
 	/* output some info about it */
 	/* FIXME: should we look up mime_type from object again? */
@@ -441,13 +441,13 @@ efhd_format_attachment (EMFormat *emf,
 	html = camel_text_to_html (
 		text, EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html);
+	camel_stream_write_string (stream, html, NULL);
 	g_free (html);
 	g_free (text);
 
 	camel_stream_write_string (
 		stream, "</font></td></tr><tr></table>\n"
-		EM_FORMAT_HTML_VPAD);
+		EM_FORMAT_HTML_VPAD, NULL);
 
 	if (handle && info->shown)
 		handle->handler (emf, stream, part, handle, FALSE);
@@ -491,7 +491,7 @@ efhd_format_optional (EMFormat *emf,
 	camel_stream_write_string (
 		stream, EM_FORMAT_HTML_VPAD
 		"<table cellspacing=0 cellpadding=0><tr><td>"
-		"<h3><font size=-1 color=red>");
+		"<h3><font size=-1 color=red>", NULL);
 
 	html = camel_text_to_html (
 		_("Evolution cannot render this email as it is too "
@@ -499,19 +499,18 @@ efhd_format_optional (EMFormat *emf,
 		  "with an external text editor."),
 		EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html);
+	camel_stream_write_string (stream, html, NULL);
 	camel_stream_write_string (
-		stream, "</font></h3></td></tr></table>\n");
+		stream, "</font></h3></td></tr></table>\n", NULL);
 	camel_stream_write_string (
-		stream, "<table cellspacing=0 cellpadding=0><tr>");
+		stream, "<table cellspacing=0 cellpadding=0><tr>", NULL);
 	camel_stream_printf (
 		stream, "<td><object classid=\"%s\"></object>"
 		"</td></tr></table>", classid);
 
 	g_free(html);
 
-	camel_stream_write_string (
-		stream, EM_FORMAT_HTML_VPAD);
+	camel_stream_write_string (stream, EM_FORMAT_HTML_VPAD, NULL);
 
 	g_free (classid);
 }
@@ -681,8 +680,8 @@ efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 
 	/* TODO: identical to efh_write_image */
 	d(printf("writing image '%s'\n", puri->cid));
-	camel_data_wrapper_decode_to_stream(dw, stream);
-	camel_stream_close(stream);
+	camel_data_wrapper_decode_to_stream(dw, stream, NULL);
+	camel_stream_close(stream, NULL);
 }
 
 static void
@@ -869,7 +868,7 @@ efhd_attachment_frame (EMFormat *emf,
 		info->handle->handler (
 			emf, stream, info->puri.part, info->handle, FALSE);
 
-	camel_stream_close (stream);
+	camel_stream_close (stream, NULL);
 }
 
 static void

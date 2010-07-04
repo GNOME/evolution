@@ -98,13 +98,9 @@ vfolder_setup_exec (struct _setup_msg *m)
 	while (l && !vfolder_shutdown) {
 		d(printf(" Adding uri: %s\n", (gchar *)l->data));
 
-		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
-		if (folder) {
-			list = g_list_append(list, folder);
-		} else {
-			g_warning("Could not open vfolder source: %s", (gchar *)l->data);
-			camel_exception_clear(&m->base.ex);
-		}
+		folder = mail_tool_uri_to_folder (l->data, 0, NULL);
+		if (folder != NULL)
+			list = g_list_append (list, folder);
 		l = l->next;
 	}
 
@@ -258,7 +254,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 	}
 
 	if (folder == NULL)
-		folder = mail_tool_uri_to_folder (m->uri, 0, &m->base.ex);
+		folder = mail_tool_uri_to_folder (m->uri, 0, &m->base.error);
 
 	if (folder != NULL) {
 		l = m->folders;
@@ -1014,7 +1010,6 @@ vfolder_load_storage(void)
 	EFilterRule *rule;
 	gchar *xmlfile;
 	GConfClient *gconf;
-	CamelException ex;
 
 	G_LOCK (vfolder_hash);
 
@@ -1028,18 +1023,14 @@ vfolder_load_storage(void)
 
 	G_UNLOCK (vfolder_hash);
 
-	camel_exception_init (&ex);
-
 	/* first, create the vfolder store, and set it up */
 	data_dir = mail_session_get_data_dir ();
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
-	vfolder_store = camel_session_get_store(session, storeuri, &ex);
+	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
 		g_warning("Cannot open vfolder store - no vfolders available");
 		return;
 	}
-
-	camel_exception_clear (&ex);
 
 	g_signal_connect (
 		vfolder_store, "folder-deleted",

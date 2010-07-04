@@ -779,7 +779,7 @@ ping_store_exec (struct _ping_store_msg *m)
 			online = TRUE;
 	}
 	if (online)
-		camel_store_noop (m->store, &m->base.ex);
+		camel_store_noop (m->store, &m->base.error);
 }
 
 static void

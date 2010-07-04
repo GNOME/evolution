@@ -155,7 +155,7 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMim
 	EM_FORMAT_CLASS (parent_class)->format_clone (emf, folder, uid, msg, src);
 
 	gconf = gconf_client_get_default ();
-	camel_stream_reset(emfq->stream);
+	camel_stream_reset(emfq->stream, NULL);
 	if (gconf_client_get_bool(gconf, "/apps/evolution/mail/composer/top_signature", NULL))
 		emfq_format_empty_line(emf, emfq->stream, (CamelMimePart *)msg, NULL);
 	g_object_unref (gconf);
@@ -166,7 +166,7 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMim
 	if (handle)
 		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
 
-	camel_stream_flush(emfq->stream);
+	camel_stream_flush(emfq->stream, NULL);
 
 	g_signal_emit_by_name(emf, "complete");
 }
@@ -428,7 +428,7 @@ emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 	em_format_part (emf, stream, part);
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
-		camel_stream_write_string(stream, "</blockquote><!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->");
+		camel_stream_write_string(stream, "</blockquote><!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->", NULL);
 }
 
 static void
@@ -456,16 +456,16 @@ emfq_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 		gchar *text, *html;
 
 		camel_stream_write_string(stream,
-					  "<table border=1 cellspacing=0 cellpadding=0><tr><td><font size=-1>\n");
+					  "<table border=1 cellspacing=0 cellpadding=0><tr><td><font size=-1>\n", NULL);
 
 		/* output some info about it */
 		text = em_format_describe_part(part, mime_type);
 		html = camel_text_to_html(text, ((EMFormatQuote *)emf)->text_html_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-		camel_stream_write_string(stream, html);
+		camel_stream_write_string(stream, html, NULL);
 		g_free(html);
 		g_free(text);
 
-		camel_stream_write_string(stream, "</font></td></tr></table>");
+		camel_stream_write_string(stream, "</font></td></tr></table>", NULL);
 
 		handle->handler(emf, stream, part, handle, FALSE);
 	}
@@ -508,7 +508,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	g_object_unref (html_filter);
 
 	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
-	camel_stream_flush((CamelStream *)filtered_stream);
+	camel_stream_flush((CamelStream *)filtered_stream, NULL);
 	g_object_unref (filtered_stream);
 }
 
@@ -521,9 +521,9 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
-		camel_stream_write_string(stream, "\n<!-- text/richtext -->\n");
+		camel_stream_write_string(stream, "\n<!-- text/richtext -->\n", NULL);
 	} else {
-		camel_stream_write_string(stream, "\n<!-- text/enriched -->\n");
+		camel_stream_write_string(stream, "\n<!-- text/enriched -->\n", NULL);
 	}
 
 	enriched = camel_mime_filter_enriched_new(flags);
@@ -532,7 +532,7 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 		CAMEL_STREAM_FILTER (filtered_stream), enriched);
 	g_object_unref (enriched);
 
-	camel_stream_write_string(stream, "<br><hr><br>");
+	camel_stream_write_string(stream, "<br><hr><br>", NULL);
 	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	g_object_unref (filtered_stream);
 }
@@ -540,7 +540,7 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 static void
 emfq_text_html(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
-	camel_stream_write_string(stream, "\n<!-- text/html -->\n");
+	camel_stream_write_string(stream, "\n<!-- text/html -->\n", NULL);
 	em_format_format_text(emf, stream, (CamelDataWrapper *)part);
 }
 

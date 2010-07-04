@@ -41,7 +41,7 @@ struct _MailMsg {
 	guint seq;	/* seq number for synchronisation */
 	gint priority;		/* priority (default = 0) */
 	CamelOperation *cancel;	/* a cancellation/status handle */
-	CamelException ex;	/* an initialised camel exception, upto the caller to use this */
+	GError *error;		/* up to the caller to use this */
 	MailMsgPrivate *priv;
 };
 

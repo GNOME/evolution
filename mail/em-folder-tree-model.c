@@ -206,7 +206,6 @@ account_changed_cb (EAccountList *accounts,
 	EMFolderTreeModelStoreInfo *si;
 	CamelProvider *provider;
 	CamelStore *store;
-	CamelException ex;
 	gchar *uri;
 
 	si = g_hash_table_lookup (model->priv->account_index, account);
@@ -219,22 +218,17 @@ account_changed_cb (EAccountList *accounts,
 	if (!account->enabled ||!(uri = account->source->url))
 		return;
 
-	camel_exception_init (&ex);
-	if (!(provider = camel_provider_get(uri, &ex))) {
-		camel_exception_clear (&ex);
+	if (!(provider = camel_provider_get(uri, NULL)))
 		return;
-	}
 
 	/* make sure the new store belongs in the tree */
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
 	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, &ex);
-	if (store == NULL) {
-		camel_exception_clear (&ex);
+		session, uri, CAMEL_PROVIDER_STORE, NULL);
+	if (store == NULL)
 		return;
-	}
 
 	em_folder_tree_model_add_store (model, store, account->name);
 	g_object_unref (store);

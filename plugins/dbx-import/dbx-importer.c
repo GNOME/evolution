@@ -105,7 +105,6 @@ typedef struct {
 	gint status_pc;
 	gint status_timeout_id;
 	CamelOperation *status;
-	CamelException ex;
 
 	guint32 *indices;
 	guint32 index_count;
@@ -310,7 +309,9 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 	d(printf("Loading index table at 0x%x\n", pos));
 
 	if (dbx_pread(m->dbx_fd, &tindex, sizeof(tindex), pos) != sizeof(tindex)) {
-		camel_exception_setv(&m->base.ex, 1, "Failed to read table index from DBX file");
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to read table index from DBX file");
 		return FALSE;
 	}
 	tindex.anotherTablePtr = GUINT32_FROM_LE(tindex.anotherTablePtr);
@@ -318,8 +319,10 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 	tindex.indexCount = GUINT32_FROM_LE(tindex.indexCount);
 
 	if (tindex.self != pos) {
-		camel_exception_setv(&m->base.ex, 1, "Corrupt DBX file: Index table at 0x%x does not point to itself",
-				     pos);
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Corrupt DBX file: Index table at 0x%x does not "
+			"point to itself", pos);
 		return FALSE;
 	}
 
@@ -336,7 +339,10 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 
 	for (i = 0; i < tindex.ptrCount; i++) {
 		if (dbx_pread(m->dbx_fd, &index, sizeof(index), pos) != sizeof(index)) {
-			camel_exception_setv(&m->base.ex, 1, "Failed to read index entry from DBX file");
+			g_set_error (
+				&m->base.error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				"Failed to read index entry from DBX file");
 			return FALSE;
 		}
 		index.indexptr = GUINT32_FROM_LE(index.indexptr);
@@ -344,9 +350,12 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 		index.indexCount = GUINT32_FROM_LE(index.indexCount);
 		
 		if (*index_ofs == m->index_count) {
-			camel_exception_setv(&m->base.ex, 1,
-					     "Corrupt DBX file: Seems to contain more than %d entries claimed in its header\n",
-					     m->index_count);
+			g_set_error (
+				&m->base.error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				"Corrupt DBX file: Seems to contain more "
+				"than %d entries claimed in its header",
+				m->index_count);
 			return FALSE;
 		}
 		m->indices[(*index_ofs)++] = index.indexptr;
@@ -364,12 +373,16 @@ static gboolean dbx_load_indices(DbxImporter *m)
 	guint32 index_ofs = 0;
 
 	if (dbx_pread(m->dbx_fd, &indexptr, 4, INDEX_POINTER) != 4) {
-		camel_exception_setv(&m->base.ex, 1, "Failed to read first index pointer from DBX file");
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to read first index pointer from DBX file");
 		return FALSE;
 	}
 
 	if (dbx_pread(m->dbx_fd, &itemcount, 4, ITEM_COUNT) != 4) {
-		camel_exception_setv(&m->base.ex, 1, "Failed to read item count from DBX file");
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to read item count from DBX file");
 		return FALSE;
 	}
 
@@ -385,9 +398,10 @@ static gboolean dbx_load_indices(DbxImporter *m)
 	d(printf("Loaded %d of %d indices\n", index_ofs, m->index_count));
 
 	if (index_ofs < m->index_count) {
-		camel_exception_setv(&m->base.ex, 1,
-				     "Corrupt DBX file: Seems to contain fewer than %d entries claimed in its header\n",
-				     m->index_count);
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Corrupt DBX file: Seems to contain fewer than %d "
+			"entries claimed in its header", m->index_count);
 		return FALSE;
 	}
 	return TRUE;
@@ -410,9 +424,11 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 		d(printf("Reading mail data chunk from %x\n", offset));
 
 		if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
-			camel_exception_setv(&m->base.ex, 1,
-					     "Failed to read mail data block from DBX file at offset %x\n",
-					     offset);
+			g_set_error (
+				&m->base.error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				"Failed to read mail data block from "
+				"DBX file at offset %x", offset);
 			return FALSE;
 		}
 		hdr.self = GUINT32_FROM_LE(hdr.self);
@@ -420,9 +436,11 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 		hdr.nextaddress = GUINT32_FROM_LE(hdr.nextaddress);
 
 		if (hdr.self != offset) {
-			camel_exception_setv(&m->base.ex, 1,
-					     "Corrupt DBX file: Mail data block at 0x%x does not point to itself",
-					     offset);
+			g_set_error (
+				&m->base.error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				"Corrupt DBX file: Mail data block at "
+				"0x%x does not point to itself", offset);
 			return FALSE;
 		}
 
@@ -433,15 +451,19 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 		}
 		d(printf("Reading %d bytes from %lx\n", hdr.blocksize, offset + sizeof(hdr)));
 		if (dbx_pread(m->dbx_fd, buffer, hdr.blocksize, offset + sizeof(hdr)) != hdr.blocksize) {
-			camel_exception_setv(&m->base.ex, 1,
-					     "Failed to read mail data from DBX file at offset %x\n",
-					     offset + sizeof(hdr));
+			g_set_error (
+				&m->base.error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				"Failed to read mail data from DBX file "
+				"at offset %x",
+				offset + sizeof(hdr));
 			return FALSE;
 		}
 		if (write(bodyfd, buffer, hdr.blocksize) != hdr.blocksize) {
-			camel_exception_setv(&m->base.ex, 1,
-					     "Failed to write mail data to temporary file\n",
-					     offset + sizeof(hdr));
+			g_set_error (
+				&m->base.error,
+				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+				"Failed to write mail data to temporary file");
 			return FALSE;
 		}
 		offset = hdr.nextaddress;
@@ -458,25 +480,29 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 	int i;
 
 	if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
-		camel_exception_setv(&m->base.ex, 1,
-				     "Failed to read mail header from DBX file at offset %x\n",
-				     offset);
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to read mail header from DBX file at offset %x",
+			offset);
 		return FALSE;
 	}
 	hdr.self = GUINT32_FROM_LE(hdr.self);
 	hdr.size = GUINT32_FROM_LE(hdr.size);
 
 	if (hdr.self != offset) {
-		camel_exception_setv(&m->base.ex, 1, "Corrupt DBX file: Mail header at 0x%x does not point to itself",
-				     offset);
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Corrupt DBX file: Mail header at 0x%x does not "
+			"point to itself", offset);
 		return FALSE;
 	}
 	buffer = g_malloc(hdr.size);
 	offset += sizeof(hdr);
 	if (dbx_pread(m->dbx_fd, buffer, hdr.size, offset) != hdr.size) {
-		camel_exception_setv(&m->base.ex, 1,
-				     "Failed to read mail data block from DBX file at offset %x\n",
-				     offset);
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to read mail data block from DBX file "
+			"at offset %x", offset);
 		g_free(buffer);
 		return FALSE;
 	}
@@ -529,7 +555,7 @@ dbx_import_file (DbxImporter *m)
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
 
 	camel_operation_start (NULL, _("Importing '%s'"), filename);
-	folder = mail_tool_uri_to_folder (m->parent_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
+	folder = mail_tool_uri_to_folder (m->parent_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
 	if (!folder)
 		return;
 	d(printf("importing to %s\n", camel_folder_get_full_name(folder)));
@@ -541,7 +567,9 @@ dbx_import_file (DbxImporter *m)
 	g_free (filename);
 
 	if (m->dbx_fd == -1) {
-		camel_exception_setv(&m->base.ex, 1, "Failed to open import file\n");
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to open import file");
 		goto out;
 	}
 
@@ -550,7 +578,9 @@ dbx_import_file (DbxImporter *m)
 
 	tmpfile = e_mkstemp("dbx-import-XXXXXX");
 	if (tmpfile == -1) {
-		camel_exception_setv(&m->base.ex, 1, "Failed to create temporary file for import\n");
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Failed to create temporary file for import");
 		goto out;
 	}
 
@@ -560,6 +590,7 @@ dbx_import_file (DbxImporter *m)
 		CamelMimeParser *mp;
 		gint dbx_flags = 0;
 		gint flags = 0;
+		gboolean success;
 
 		camel_operation_progress(NULL, 100 * i / m->index_count);
 		camel_operation_progress(m->status, 100 * i / m->index_count);
@@ -567,7 +598,7 @@ dbx_import_file (DbxImporter *m)
 		if (!dbx_read_email(m, m->indices[i], tmpfile, &dbx_flags)) {
 			d(printf("Cannot read email index %d at %x\n",
 				 i, m->indices[i]));
-			if (camel_exception_is_set(&m->base.ex))
+			if (m->base.error != NULL)
 				goto out;
 			missing++;
 			continue;
@@ -585,7 +616,7 @@ dbx_import_file (DbxImporter *m)
 		camel_mime_parser_init_with_fd(mp, tmpfile);
 
 		msg = camel_mime_message_new();
-		if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp) == -1) {
+		if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp, NULL) == -1) {
 			/* set exception? */
 			g_object_unref (msg);
 			g_object_unref (mp);
@@ -594,11 +625,12 @@ dbx_import_file (DbxImporter *m)
 
 		info = camel_message_info_new(NULL);
 		camel_message_info_set_flags(info, flags, ~0);
-		camel_folder_append_message(folder, msg, info, NULL, &m->base.ex);
+		success = camel_folder_append_message (
+			folder, msg, info, NULL, &m->base.error);
 		camel_message_info_free(info);
 		g_object_unref (msg);
-			
-		if (camel_exception_is_set(&m->base.ex)) {
+
+		if (!success) {
 			g_object_unref(mp);
 			break;
 		}
@@ -611,10 +643,12 @@ dbx_import_file (DbxImporter *m)
 	camel_folder_sync(folder, FALSE, NULL);
 	camel_folder_thaw(folder);
 	g_object_unref(folder);
-	if (missing && !camel_exception_is_set(&m->base.ex)) {
-		camel_exception_setv(&m->base.ex, 1,
-				     "%d messages imported correctly; %d message bodies were not present in the DBX file",
-				     m->index_count - missing, missing);
+	if (missing && m->base.error == NULL) {
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"%d messages imported correctly; %d message "
+			"bodies were not present in the DBX file",
+			m->index_count - missing, missing);
 	}
 	camel_operation_end(NULL);
 }

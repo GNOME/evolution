@@ -266,9 +266,13 @@ static void
 sub_folder_exec (struct _zsubscribe_msg *m)
 {
 	if (m->subscribe)
-		camel_store_subscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
+		camel_store_subscribe_folder (
+			m->sub->store, m->node->info->full_name,
+			&m->base.error);
 	else
-		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
+		camel_store_unsubscribe_folder (
+			m->sub->store, m->node->info->full_name,
+			&m->base.error);
 }
 
 static void
@@ -285,7 +289,7 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	if (m->sub->cancel)
 		return;
 
-	if (!camel_exception_is_set(&m->base.ex)) {
+	if (m->base.error == NULL) {
 		if (m->subscribe)
 			m->node->info->flags |= CAMEL_FOLDER_SUBSCRIBED;
 		else
@@ -451,7 +455,12 @@ sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 	if (m->seq == m->sub->seq) {
 		camel_operation_register (m->base.cancel);
 		/* get the full folder tree for search ability */
-		m->info = camel_store_get_folder_info (m->sub->store, NULL, CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL | CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_LIST | CAMEL_STORE_FOLDER_INFO_RECURSIVE, &m->base.ex);
+		m->info = camel_store_get_folder_info (
+			m->sub->store, NULL,
+			CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL |
+			CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_LIST |
+			CAMEL_STORE_FOLDER_INFO_RECURSIVE,
+			&m->base.error);
 		camel_operation_unregister (m->base.cancel);
 	}
 }
@@ -463,10 +472,10 @@ sub_folderinfo_done (struct _emse_folderinfo_msg *m)
 	if (m->sub->cancel || m->seq != m->sub->seq)
 		return;
 
-	if (camel_exception_is_set (&m->base.ex)) {
-		g_warning ("Error getting folder info from store: %s",
-			   camel_exception_get_description (&m->base.ex));
-	}
+	if (m->base.error != NULL)
+		g_warning (
+			"Error getting folder info from store: %s",
+			m->base.error->message);
 
 	if (m->info) {
 		if (m->node) {

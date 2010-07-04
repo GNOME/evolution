@@ -48,16 +48,14 @@ void
 e_mail_local_init (const gchar *data_dir)
 {
 	static gboolean initialized = FALSE;
-	CamelException ex;
 	CamelService *service;
 	CamelURL *url;
 	gchar *temp;
 	gint ii;
+	GError *local_error = NULL;
 
 	g_return_if_fail (!initialized);
 	g_return_if_fail (data_dir != NULL);
-
-	camel_exception_init (&ex);
 
 	url = camel_url_new ("mbox:", NULL);
 	temp = g_build_filename (data_dir, "local", NULL);
@@ -66,10 +64,10 @@ e_mail_local_init (const gchar *data_dir)
 
 	temp = camel_url_to_string (url, 0);
 	service = camel_session_get_service (
-		session, temp, CAMEL_PROVIDER_STORE, &ex);
+		session, temp, CAMEL_PROVIDER_STORE, &local_error);
 	g_free (temp);
 
-	if (camel_exception_is_set (&ex))
+	if (local_error != NULL)
 		goto fail;
 
 	/* Populate the rest of the default_local_folders array. */
@@ -86,9 +84,7 @@ e_mail_local_init (const gchar *data_dir)
 		default_local_folders[ii].folder_uri = folder_uri;
 		default_local_folders[ii].folder = camel_store_get_folder (
 			CAMEL_STORE (service), display_name,
-			CAMEL_STORE_FOLDER_CREATE, &ex);
-
-		camel_exception_clear (&ex);
+			CAMEL_STORE_FOLDER_CREATE, NULL);
 	}
 
 	camel_url_free (url);
@@ -99,9 +95,11 @@ e_mail_local_init (const gchar *data_dir)
 	return;
 
 fail:
-	g_warning ("Could not initialize local store/folder: %s", ex.desc);
+	g_warning (
+		"Could not initialize local store/folder: %s",
+		local_error->message);
 
-	camel_exception_clear (&ex);
+	g_error_free (local_error);
 	camel_url_free (url);
 }
 

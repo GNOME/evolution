@@ -54,7 +54,7 @@ struct _import_mbox_msg {
 	gchar *uri;
 	CamelOperation *cancel;
 
-	void (*done)(gpointer data, CamelException *ex);
+	void (*done)(gpointer data, GError **error);
 	gpointer done_data;
 };
 
@@ -122,7 +122,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	if (m->uri == NULL || m->uri[0] == 0)
 		folder = e_mail_local_get_folder (E_MAIL_FOLDER_INBOX);
 	else
-		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
+		folder = mail_tool_uri_to_folder (
+			m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
 
 	if (folder == NULL)
 		return;
@@ -160,7 +161,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			camel_operation_progress(NULL, pc);
 
 			msg = camel_mime_message_new();
-			if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp) == -1) {
+			if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp, NULL) == -1) {
 				/* set exception? */
 				g_object_unref (msg);
 				break;
@@ -179,11 +180,12 @@ import_mbox_exec (struct _import_mbox_msg *m)
 				flags |= decode_status(tmp);
 
 			camel_message_info_set_flags(info, flags, ~0);
-			camel_folder_append_message(folder, msg, info, NULL, &m->base.ex);
+			camel_folder_append_message (
+				folder, msg, info, NULL, &m->base.error);
 			camel_message_info_free(info);
 			g_object_unref (msg);
 
-			if (camel_exception_is_set(&m->base.ex))
+			if (m->base.error != NULL)
 				break;
 
 			camel_mime_parser_step(mp, NULL, NULL);
@@ -206,7 +208,7 @@ static void
 import_mbox_done (struct _import_mbox_msg *m)
 {
 	if (m->done)
-		m->done(m->done_data, &m->base.ex);
+		m->done(m->done_data, &m->base.error);
 }
 
 static void
@@ -227,7 +229,7 @@ static MailMsgInfo import_mbox_info = {
 };
 
 gint
-mail_importer_import_mbox(const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, CamelException *), gpointer data)
+mail_importer_import_mbox(const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, GError **), gpointer data)
 {
 	struct _import_mbox_msg *m;
 	gint id;

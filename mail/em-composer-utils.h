@@ -47,7 +47,7 @@ void em_utils_forward_messages (CamelFolder *folder, GPtrArray *uids, const gcha
 void em_utils_redirect_message (CamelMimeMessage *message);
 void em_utils_redirect_message_by_uid (CamelFolder *folder, const gchar *uid);
 
-void em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex);
+void em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, const gchar *address, GError **error);
 
 void em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg);
 void em_utils_send_receipt   (CamelFolder *folder, CamelMimeMessage *message);

@@ -181,13 +181,13 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
 	length = gtk_selection_data_get_length (selection_data);
 
 	stream = camel_stream_mem_new ();
-	camel_stream_write (stream, data, length);
-	camel_stream_reset (stream);
+	camel_stream_write (stream, data, length, NULL);
+	camel_stream_reset (stream, NULL);
 
 	message = camel_mime_message_new ();
 	wrapper = CAMEL_DATA_WRAPPER (message);
 
-	if (camel_data_wrapper_construct_from_stream (wrapper, stream) == -1)
+	if (camel_data_wrapper_construct_from_stream (wrapper, stream, NULL) == -1)
 		goto exit;
 
 	store = e_attachment_view_get_store (view);
@@ -221,7 +221,6 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
                                     guint time)
 {
 	static GdkAtom atom = GDK_NONE;
-	CamelException ex = CAMEL_EXCEPTION_INITIALISER;
 	CamelDataWrapper *wrapper;
 	CamelMimeMessage *message;
 	CamelMultipart *multipart;
@@ -236,6 +235,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	gpointer parent;
 	gint length;
 	guint ii;
+	GError *local_error = NULL;
 
 	if (G_UNLIKELY (atom == GDK_NONE))
 		atom = gdk_atom_intern_static_string ("x-uid-list");
@@ -276,14 +276,14 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		goto exit;
 
 	/* The first string is the folder URI. */
-	folder = mail_tool_uri_to_folder (data, 0, &ex);
+	folder = mail_tool_uri_to_folder (data, 0, &local_error);
 	if (folder == NULL)
 		goto exit;
 
 	/* Handle one message. */
 	if (uids->len == 1) {
 		message = camel_folder_get_message (
-			folder, uids->pdata[0], &ex);
+			folder, uids->pdata[0], &local_error);
 		if (message == NULL)
 			goto exit;
 
@@ -307,7 +307,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 	for (ii = 0; ii < uids->len; ii++) {
 		message = camel_folder_get_message (
-			folder, uids->pdata[ii], &ex);
+			folder, uids->pdata[ii], &local_error);
 		if (message == NULL) {
 			g_object_unref (multipart);
 			goto exit;
@@ -346,7 +346,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	g_object_unref (multipart);
 
 exit:
-	if (camel_exception_is_set (&ex)) {
+	if (local_error != NULL) {
 		const gchar *folder_name = data;
 
 		if (folder != NULL)
@@ -354,10 +354,9 @@ exit:
 
 		e_alert_run_dialog_for_args (
 			parent, "mail-composer:attach-nomessages",
-			folder_name, camel_exception_get_description (&ex),
-			NULL);
+			folder_name, local_error->message, NULL);
 
-		camel_exception_clear (&ex);
+		g_clear_error (&local_error);
 	}
 
 	if (folder != NULL)

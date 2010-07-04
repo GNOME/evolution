@@ -533,7 +533,13 @@ update_states_in_main_thread (const struct _migrate_state_info * info)
 }
 
 static void
-migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const gchar *acc, CamelException *ex, gboolean *done, gint *nth_folder, gint total_folders)
+migrate_folders (CamelStore *store,
+                 gboolean is_local,
+                 CamelFolderInfo *fi,
+                 const gchar *acc,
+                 gboolean *done,
+                 gint *nth_folder,
+                 gint total_folders)
 {
 	CamelFolder *folder;
 
@@ -550,13 +556,13 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 		g_idle_add ((GSourceFunc) update_states_in_main_thread, info);
 
 		if (is_local)
-				folder = camel_store_get_folder (store, fi->full_name, CAMEL_STORE_IS_MIGRATING, ex);
+				folder = camel_store_get_folder (store, fi->full_name, CAMEL_STORE_IS_MIGRATING, NULL);
 		else
-				folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+				folder = camel_store_get_folder (store, fi->full_name, 0, NULL);
 
 		if (folder != NULL)
 			camel_folder_summary_migrate_infos (folder->summary);
-		migrate_folders(store, is_local, fi->child, acc, ex, done, nth_folder, total_folders);
+		migrate_folders(store, is_local, fi->child, acc, done, nth_folder, total_folders);
 		fi = fi->next;
 	}
 
@@ -601,12 +607,11 @@ setup_local_store (EShellBackend *shell_backend,
 #ifndef G_OS_WIN32
 
 struct migrate_folders_to_db_structure {
-		gchar *account_name;
-		CamelException ex;
-		CamelStore *store;
-		CamelFolderInfo *info;
-		gboolean done;
-		gboolean is_local_store;
+	gchar *account_name;
+	CamelStore *store;
+	CamelFolderInfo *info;
+	gboolean done;
+	gboolean is_local_store;
 };
 
 static void
@@ -614,9 +619,10 @@ migrate_folders_to_db_thread (struct migrate_folders_to_db_structure *migrate_db
 {
 		gint num_of_folders = 0, nth_folder = 0;
 		count_folders (migrate_dbs->info, &num_of_folders);
-		migrate_folders (migrate_dbs->store, migrate_dbs->is_local_store, migrate_dbs->info,
-						migrate_dbs->account_name, &(migrate_dbs->ex), &(migrate_dbs->done),
-						&nth_folder, num_of_folders);
+		migrate_folders (
+			migrate_dbs->store, migrate_dbs->is_local_store,
+			migrate_dbs->info, migrate_dbs->account_name,
+			&(migrate_dbs->done), &nth_folder, num_of_folders);
 }
 
 static void
@@ -655,7 +661,6 @@ migrate_to_db (EShellBackend *shell_backend)
 			migrate_dbs.is_local_store = TRUE;
 		else
 			migrate_dbs.is_local_store = FALSE;
-		camel_exception_init (&migrate_dbs.ex);
 		migrate_dbs.account_name = _("On This Computer");
 		migrate_dbs.info = info;
 		migrate_dbs.store = store;
@@ -681,17 +686,13 @@ migrate_to_db (EShellBackend *shell_backend)
 		    && service->url[0]
 		    && strncmp(service->url, "mbox:", 5) != 0) {
 
-			CamelException ex;
-
-			camel_exception_init (&ex);
 			e_mail_store_add_by_uri (service->url, name);
 
-			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
-			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
+			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, NULL);
+			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
 			if (info) {
 				struct migrate_folders_to_db_structure migrate_dbs;
 
-				migrate_dbs.ex = ex;
 				migrate_dbs.account_name = account->name;
 				migrate_dbs.info = info;
 				migrate_dbs.store = store;
@@ -702,8 +703,6 @@ migrate_to_db (EShellBackend *shell_backend)
 					g_main_context_iteration (NULL, TRUE);
 			} else
 				printf("%s:%s: failed to get folder infos \n", G_STRLOC, G_STRFUNC);
-			camel_exception_clear(&ex);
-
 		}
 		i++;
 		e_iterator_next (iter);

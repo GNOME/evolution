@@ -203,7 +203,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 
 	byte_array = g_byte_array_new ();
 	stream = camel_stream_mem_new_with_byte_array (byte_array);
-	camel_data_wrapper_decode_to_stream (content, stream);
+	camel_data_wrapper_decode_to_stream (content, stream, NULL);
 	str = g_strndup ((gchar *) byte_array->data, byte_array->len);
 	g_object_unref (stream);
 

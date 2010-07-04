@@ -66,7 +66,6 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 {
 	gchar *uri;
 	EAccount *account;
-	CamelException ex;
 	CamelProvider *provider;
 
 	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
@@ -78,11 +77,10 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 	uri = account->source->url;
 	em_folder_tree_model_remove_store (model, store);
 
-	camel_exception_init (&ex);
-	if (!(provider = camel_provider_get(uri, &ex))) {
-		camel_exception_clear (&ex);
+	provider = camel_provider_get (uri, NULL);
+	if (provider == NULL)
 		return;
-	}
+
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 	em_folder_tree_model_add_store (model, store, account->name);
@@ -143,9 +141,9 @@ create_folder_exec (struct _EMCreateFolder *m)
 {
 	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
 
-	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &m->base.ex))) {
+	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &m->base.error))) {
 		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder (m->store, m->full_name, &m->base.ex);
+			camel_store_subscribe_folder (m->store, m->full_name, &m->base.error);
 	}
 }
 
@@ -239,7 +237,6 @@ users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	struct _EMFolderTreeModelStoreInfo *si;
 	EMFolderSelector *emfs = ssi->emfs;
 	const gchar *uri, *path;
-	CamelException ex;
 	CamelStore *store;
 
 	if (response != GTK_RESPONSE_OK) {
@@ -253,11 +250,10 @@ users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 
 	d(printf ("Creating new folder: %s (%s)\n", path, uri));
 
-	camel_exception_init (&ex);
-	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
-		camel_exception_clear (&ex);
+	store = (CamelStore *) camel_session_get_service (
+		session, uri, CAMEL_PROVIDER_STORE, NULL);
+	if (store == NULL)
 		return;
-	}
 
 	if (!(si = em_folder_tree_model_lookup_store_info (ssi->model, store))) {
 		g_assert_not_reached ();
@@ -293,7 +289,6 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 	struct ShareInfo *ssi;
 	const gchar *uri;
 	EGwConnection *cnc;
-	CamelException ex;
 	CamelStore *store;
 
 	ssi = g_new0(struct ShareInfo, 1);
@@ -304,11 +299,10 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 
 	/* i want store at this point to get cnc not sure proper or not*/
 	uri = em_folder_selector_get_selected_uri (emfs);
-	camel_exception_init (&ex);
-	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
-		camel_exception_clear (&ex);
+	store = (CamelStore *) camel_session_get_service (
+		session, uri, CAMEL_PROVIDER_STORE, NULL);
+	if (store == NULL)
 		return;
-	}
 
 	cnc = get_cnc (store);
 	users_dialog = gtk_dialog_new_with_buttons (

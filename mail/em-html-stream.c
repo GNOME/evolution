@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
 #include "em-html-stream.h"
 
 #define d(x)
@@ -63,19 +64,24 @@ html_stream_dispose (GObject *object)
 
 	if (emhs->html_stream) {
 		/* set 'in finalise' flag */
-		camel_stream_close (CAMEL_STREAM (emhs));
+		camel_stream_close (CAMEL_STREAM (emhs), NULL);
 	}
 }
 
 static gssize
 html_stream_sync_write (CamelStream *stream,
                         const gchar *buffer,
-                        gsize n)
+                        gsize n,
+                        GError **error)
 {
 	EMHTMLStream *emhs = EM_HTML_STREAM (stream);
 
-	if (emhs->html == NULL)
+	if (emhs->html == NULL) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No HTML stream available"));
 		return -1;
+	}
 
 	if (emhs->html_stream == NULL)
 		emhs->html_stream = gtk_html_begin_full (
@@ -87,12 +93,17 @@ html_stream_sync_write (CamelStream *stream,
 }
 
 static gint
-html_stream_sync_flush (CamelStream *stream)
+html_stream_sync_flush (CamelStream *stream,
+                        GError **error)
 {
 	EMHTMLStream *emhs = (EMHTMLStream *)stream;
 
-	if (emhs->html_stream == NULL)
+	if (emhs->html_stream == NULL) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No HTML stream available"));
 		return -1;
+	}
 
 	gtk_html_flush (emhs->html);
 
@@ -100,12 +111,17 @@ html_stream_sync_flush (CamelStream *stream)
 }
 
 static gint
-html_stream_sync_close (CamelStream *stream)
+html_stream_sync_close (CamelStream *stream,
+                        GError **error)
 {
 	EMHTMLStream *emhs = (EMHTMLStream *)stream;
 
-	if (emhs->html_stream == NULL)
+	if (emhs->html_stream == NULL) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No HTML stream available"));
 		return -1;
+	}
 
 	gtk_html_stream_close (emhs->html_stream, GTK_HTML_STREAM_OK);
 	html_stream_cleanup (emhs);

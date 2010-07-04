@@ -88,7 +88,6 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 		EAccount *temp = NULL;
 		EAccountList *accounts = e_get_account_list ();
 		CamelURL *url = NULL;
-		CamelException ex;
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		GString *str;
@@ -98,7 +97,7 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 
 		temp = mail_config_get_account_by_source_url (account->source->url);
 
-		url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), &ex);
+		url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), NULL);
 
 		model = gtk_tree_view_get_model (ui->custom_headers_tree);
 		if (gtk_tree_model_get_iter_first(model, &iter)) {
@@ -261,7 +260,6 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	EAccount *account;
 	GtkWidget *vbox;
 	CamelURL *url = NULL;
-	CamelException ex;
 	GtkBuilder *builder;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
@@ -290,7 +288,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->remove_header = GTK_BUTTON(e_builder_get_widget (builder, "removeHeader"));
 	ui->entry_header = GTK_ENTRY (e_builder_get_widget (builder, "customHeaderEntry"));
 
-	url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), &ex);
+	url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), NULL);
 
 	ui->store = gtk_tree_store_new (1, G_TYPE_STRING);
 	gtk_tree_view_set_model (ui->custom_headers_tree, GTK_TREE_MODEL(ui->store));

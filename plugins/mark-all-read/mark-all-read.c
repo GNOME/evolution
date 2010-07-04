@@ -343,29 +343,31 @@ mark_all_as_read (CamelFolder *folder)
 	camel_folder_free_uids (folder, uids);
 }
 
-static void
+static gboolean
 mar_all_sub_folders (CamelStore *store,
                      CamelFolderInfo *fi,
-                     CamelException *ex)
+                     GError **error)
 {
 	while (fi) {
 		CamelFolder *folder;
 
 		if (fi->child) {
-			mar_all_sub_folders (store, fi->child, ex);
-			if (camel_exception_is_set (ex))
-				return;
+			if (!mar_all_sub_folders (store, fi->child, error))
+				return FALSE;
 		}
 
-		if (!(folder = camel_store_get_folder (store, fi->full_name, 0, ex)))
-			return;
+		folder = camel_store_get_folder (
+			store, fi->full_name, 0, error);
+		if (folder == NULL)
+			return FALSE;
 
-		if (!CAMEL_IS_VEE_FOLDER (folder)) {
+		if (!CAMEL_IS_VEE_FOLDER (folder))
 			mark_all_as_read (folder);
-		}
 
 		fi = fi->next;
 	}
+
+	return TRUE;
 }
 
 static void
@@ -375,7 +377,6 @@ mar_got_folder (gchar *folder_uri,
 {
 	CamelFolderInfo *folder_info;
 	CamelStore *parent_store;
-	CamelException ex;
 	const gchar *full_name;
 	gint response;
 
@@ -383,17 +384,15 @@ mar_got_folder (gchar *folder_uri,
 	if (!folder)
 		return;
 
-	camel_exception_init (&ex);
-
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
 	folder_info = camel_store_get_folder_info (
 		parent_store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 
-	if (camel_exception_is_set (&ex))
+	if (folder_info == NULL)
 		goto exit;
 
 	response = prompt_user (folder_info->child != NULL);
@@ -404,7 +403,7 @@ mar_got_folder (gchar *folder_uri,
 	if (response == MARK_ALL_READ_CURRENT_FOLDER)
 		mark_all_as_read (folder);
 	else if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
-		mar_all_sub_folders (parent_store, folder_info, &ex);
+		mar_all_sub_folders (parent_store, folder_info, NULL);
 
 exit:
 	camel_store_free_folder_info (parent_store, folder_info);

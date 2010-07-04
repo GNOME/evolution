@@ -204,7 +204,7 @@ mbox_status_timeout(gpointer data)
 }
 
 static void
-mbox_import_done(gpointer data, CamelException *ex)
+mbox_import_done(gpointer data, GError **error)
 {
 	MboxImporter *importer = data;
 
@@ -330,7 +330,7 @@ mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 		gchar *from;
 
 		msg = camel_mime_message_new();
-		if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp) == -1) {
+		if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp, NULL) == -1) {
 			g_object_unref (msg);
 			break;
 		}

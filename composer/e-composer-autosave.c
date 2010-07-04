@@ -417,7 +417,7 @@ autosave_snapshot_cb (GFile *file,
 	camel_stream_mem_set_byte_array (
 		CAMEL_STREAM_MEM (camel_stream), buffer);
 	camel_data_wrapper_decode_to_stream (
-		CAMEL_DATA_WRAPPER (message), camel_stream);
+		CAMEL_DATA_WRAPPER (message), camel_stream, NULL);
 	g_object_unref (message);
 	g_object_unref (camel_stream);
 

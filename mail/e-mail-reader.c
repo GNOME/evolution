@@ -1789,7 +1789,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
                                const gchar *message_uid,
                                CamelMimeMessage *message,
                                gpointer user_data,
-                               CamelException *ex)
+                               GError **error)
 {
 	EMailReader *reader = user_data;
 	EMailReaderPrivate *priv;
@@ -1874,24 +1874,19 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 			timeout_interval, (GSourceFunc)
 			mail_reader_message_read_cb, reader);
 
-	} else if (camel_exception_is_set (ex)) {
+	} else if (error != NULL && *error != NULL) {
 		gchar *string;
 
-		if (ex->id != CAMEL_EXCEPTION_OPERATION_IN_PROGRESS) {
-			/* Display the error inline and clear the exception. */
-			string = g_strdup_printf (
-					"<h2>%s</h2><p>%s</p>",
-					_("Unable to retrieve message"),
-					ex->desc);
-		} else {
-			string = g_strdup_printf (
-				_("Retrieving message '%s'"), cursor_uid);
-		}
+		/* Display the error inline and clear the exception. */
+		string = g_strdup_printf (
+			"<h2>%s</h2><p>%s</p>",
+			_("Unable to retrieve message"),
+			(*error)->message);
 
 		e_web_view_load_string (web_view, string);
 		g_free (string);
 
-		camel_exception_clear (ex);
+		g_clear_error (error);
 	}
 
 	/* We referenced this in the call to mail_get_messagex(). */

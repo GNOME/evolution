@@ -551,38 +551,28 @@ all_accounts:
 	/* Add local folders. */
 	iter = mail_vfolder_get_sources_local ();
 	while (iter != NULL) {
-		CamelException ex;
-
-		camel_exception_init (&ex);
-
 		folder_uri = iter->data;
-		folder = mail_tool_uri_to_folder (folder_uri, 0, &ex);
+		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL);
 
 		if (folder != NULL)
 			list = g_list_append (list, folder);
 		else
 			g_warning ("Could not open vfolder source: %s", folder_uri);
 
-		camel_exception_clear (&ex);
 		iter = g_list_next (iter);
 	}
 
 	/* Add remote folders. */
 	iter = mail_vfolder_get_sources_remote ();
 	while (iter != NULL) {
-		CamelException ex;
-
-		camel_exception_init (&ex);
-
 		folder_uri = iter->data;
-		folder = mail_tool_uri_to_folder (folder_uri, 0, &ex);
+		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL);
 
 		if (folder != NULL)
 			list = g_list_append (list, folder);
 		else
 			g_warning ("Could not open vfolder source: %s", folder_uri);
 
-		camel_exception_clear (&ex);
 		iter = g_list_next (iter);
 	}
 

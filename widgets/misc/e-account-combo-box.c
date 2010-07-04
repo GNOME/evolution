@@ -107,7 +107,6 @@ static gboolean
 account_combo_box_test_account (EAccount *account)
 {
 	CamelStore *store;
-	CamelException ex;
 	const gchar *url;
 	gboolean writable = FALSE;
 
@@ -124,15 +123,13 @@ account_combo_box_test_account (EAccount *account)
 		return TRUE;
 
 	/* Account must be writable. */
-	camel_exception_init (&ex);
 	url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
 	store = CAMEL_STORE (camel_session_get_service (
-		camel_session, url, CAMEL_PROVIDER_STORE, &ex));
+		camel_session, url, CAMEL_PROVIDER_STORE, NULL));
 	if (store != NULL) {
 		writable = (store->mode & CAMEL_STORE_WRITE);
 		g_object_unref (store);
 	}
-	camel_exception_clear (&ex);
 
 	return writable;
 }
