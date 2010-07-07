@@ -24,6 +24,7 @@
 #define _E_MAIL_PANED_VIEW_H_
 
 #include <gtk/gtk.h>
+#include "e-mail-view.h"
 
 #define E_MAIL_PANED_VIEW_TYPE        (e_mail_paned_view_get_type ())
 #define E_MAIL_PANED_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_PANED_VIEW_TYPE, MailFolderView))
@@ -36,13 +37,13 @@
 typedef struct _EMailPanedViewPrivate EMailPanedViewPrivate;
 
 typedef struct _EMailPanedView {
-	GtkVBox parent;
+	EMailView parent;
 
 	EMailPanedViewPrivate *priv;
 } EMailPanedView;
 
 typedef struct _EMailPanedViewClass {
-	GtkVBoxClass parent_class;
+	EMailViewClass parent_class;
 
 } EMailPanedViewClass;
 

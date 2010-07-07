@@ -612,7 +612,7 @@ mail_message_pane_constructed (GObject *object)
 	key = "/apps/evolution/mail/display/show_deleted";
 	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
 
-	id = "org.gnome.evolution.mail.pane";
+	id = "org.gnome.evolution.mail.message.pane";
 	e_plugin_ui_register_manager (ui_manager, id, object);
 	e_plugin_ui_enable_manager (ui_manager, id);
 

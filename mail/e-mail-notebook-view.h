@@ -24,6 +24,7 @@
 #define _E_MAIL_NOTEBOOK_VIEW_H_
 
 #include <gtk/gtk.h>
+#include "e-mail-view.h"
 
 #define E_MAIL_NOTEBOOK_VIEW_TYPE        (e_mail_notebook_view_get_type ())
 #define E_MAIL_NOTEBOOK_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_NOTEBOOK_VIEW_TYPE, MailFolderView))
@@ -36,13 +37,13 @@
 typedef struct _EMailNotebookViewPrivate EMailNotebookViewPrivate;
 
 typedef struct _EMailNotebookView {
-	GtkVBox parent;
+	EMailView parent;
 
 	EMailNotebookViewPrivate *priv;
 } EMailNotebookView;
 
 typedef struct _EMailNotebookViewClass {
-	GtkVBoxClass parent_class;
+	EMailViewClass parent_class;
 
 } EMailNotebookViewClass;
 
