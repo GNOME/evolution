@@ -774,6 +774,8 @@ contact_list_editor_select_button_clicked_cb (GtkWidget *widget)
 
 	g_list_free (list);
 
+	e_name_selector_show_dialog (editor->priv->name_selector,
+				     eab_editor_get_window (EAB_EDITOR (editor)));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_hide (GTK_WIDGET (dialog));
 

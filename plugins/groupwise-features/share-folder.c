@@ -536,29 +536,19 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 }
 
 static void
-addressbook_dialog_response (ENameSelectorDialog *name_selector_dialog, gint response, gpointer user_data)
-{
-	gtk_widget_hide (GTK_WIDGET (name_selector_dialog));
-}
-
-static void
 addressbook_entry_changed (GtkWidget *entry, gpointer   user_data)
 {
 
 }
 
 static void
-address_button_clicked_cb (GtkButton *button, gpointer data)
+address_button_clicked_cb (GtkButton *button, ShareFolder *sf)
 {
-	ShareFolder *sf = data;
-	ENameSelectorDialog *name_selector_dialog;
-
-	name_selector_dialog = e_name_selector_peek_dialog (sf->name_selector);
-	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+	e_name_selector_show_dialog (sf->name_selector, sf->window);
 }
 
-	static void
-user_selected(GtkTreeSelection *selection, ShareFolder *sf)
+static void
+user_selected (GtkTreeSelection *selection, ShareFolder *sf)
 {
 	GtkTreeModel *model;
 
@@ -695,7 +685,7 @@ share_folder_construct (ShareFolder *sf)
 	sf->name_selector = e_name_selector_new ();
 	name_selector_dialog = e_name_selector_peek_dialog (sf->name_selector);
 	g_signal_connect (name_selector_dialog, "response",
-			G_CALLBACK (addressbook_dialog_response), sf);
+			G_CALLBACK (gtk_widget_hide), sf);
 
 	name_selector_model = e_name_selector_peek_model (sf->name_selector);
 	e_name_selector_model_add_section (name_selector_model, "Add User", _("Add User"), NULL);

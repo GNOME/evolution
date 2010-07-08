@@ -884,12 +884,10 @@ address_button_clicked (GtkButton *button, EAccount *account)
 {
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
-	ENameSelectorDialog *name_selector_dialog;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
-	name_selector_dialog = e_name_selector_peek_dialog (priv->proxy_name_selector);
-	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+	e_name_selector_show_dialog (priv->proxy_name_selector, priv->main);
 }
 
 static void

@@ -189,13 +189,9 @@ static void
 addressbook_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EDelegateDialog *edd = data;
-	EDelegateDialogPrivate *priv;
-	ENameSelectorDialog *name_selector_dialog;
 
-	priv = edd->priv;
-
-	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
-	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+	e_name_selector_show_dialog (edd->priv->name_selector,
+				     e_delegate_dialog_get_toplevel (edd));
 }
 
 static void

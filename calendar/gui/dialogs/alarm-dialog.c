@@ -902,13 +902,9 @@ show_options (Dialog *dialog)
 #endif
 
 static void
-addressbook_clicked_cb (GtkWidget *widget, gpointer data)
+addressbook_clicked_cb (GtkWidget *widget, Dialog *dialog)
 {
-	Dialog *dialog = data;
-	ENameSelectorDialog *name_selector_dialog;
-
-	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
-	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+	e_name_selector_show_dialog (dialog->name_selector, dialog->toplevel);
 }
 
 static void

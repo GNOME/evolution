@@ -224,6 +224,7 @@ composer_name_header_clicked (EComposerHeader *header)
 	dialog = e_name_selector_peek_dialog (priv->name_selector);
 	e_name_selector_dialog_set_destination_index (
 		dialog, priv->destination_index);
+	e_name_selector_show_dialog (priv->name_selector, header->title_widget);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }

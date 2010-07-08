@@ -973,11 +973,8 @@ static void
 to_button_clicked_cb (GtkButton *button,
                       MemoPage *mpage)
 {
-	ENameSelectorDialog *name_selector_dialog;
-
-	name_selector_dialog = e_name_selector_peek_dialog (
-		mpage->priv->name_selector);
-	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+	e_name_selector_show_dialog (mpage->priv->name_selector,
+				     mpage->priv->main);
 }
 
 static void

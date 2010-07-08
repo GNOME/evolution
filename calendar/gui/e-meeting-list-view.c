@@ -945,10 +945,8 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 void
 e_meeting_list_view_invite_others_dialog (EMeetingListView *view)
 {
-	ENameSelectorDialog *dialog;
-
-	dialog = e_name_selector_peek_dialog (view->priv->name_selector);
-	gtk_widget_show (GTK_WIDGET (dialog));
+	e_name_selector_show_dialog (view->priv->name_selector,
+				     GTK_WIDGET (view));
 }
 
 void
