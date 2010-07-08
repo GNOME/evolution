@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-06-29 17:11+0000\n"
-"PO-Revision-Date: 2010-07-01 09:00+0200\n"
+"POT-Creation-Date: 2010-07-08 18:38+0000\n"
+"PO-Revision-Date: 2010-07-08 22:54+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -704,20 +704,20 @@ msgstr ""
 msgid "Contact List Members"
 msgstr "Miembros de la lista de contactos"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:907
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1324
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:909
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1326
 msgid "_Members"
 msgstr "_Miembros"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1162
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1164
 msgid "Error adding list"
 msgstr "Error al añadir la lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1176
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1178
 msgid "Error modifying list"
 msgstr "Error al modificar la lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1190
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1192
 msgid "Error removing list"
 msgstr "Error al eliminar la lista"
 
@@ -1334,7 +1334,9 @@ msgstr "Protocolo no implementado"
 #: ../calendar/gui/e-cal-model-tasks.c:443
 #: ../calendar/gui/e-cal-model-tasks.c:717 ../calendar/gui/e-task-table.c:215
 #: ../calendar/gui/e-task-table.c:230 ../calendar/gui/e-task-table.c:587
-#: ../calendar/gui/print.c:2675
+#: ../calendar/gui/print.c:2675 ../mail/em-sync-stream.c:151
+#: ../mail/em-sync-stream.c:178 ../mail/em-sync-stream.c:199
+#, c-format
 msgid "Canceled"
 msgstr "Cancelado"
 
@@ -4159,9 +4161,9 @@ msgstr "La nota no se puede editar completamente porque no es el organizador"
 msgid "Unable to open memos in '%s'."
 msgstr "No es posible abrir las notas en «%s»."
 
-#: ../calendar/gui/dialogs/memo-page.c:1081 ../em-format/em-format-quote.c:215
-#: ../em-format/em-format.c:939 ../mail/em-format-html.c:2276
-#: ../mail/em-format-html.c:2335 ../mail/em-format-html.c:2359
+#: ../calendar/gui/dialogs/memo-page.c:1078 ../em-format/em-format-quote.c:215
+#: ../em-format/em-format.c:939 ../mail/em-format-html.c:2284
+#: ../mail/em-format-html.c:2343 ../mail/em-format-html.c:2367
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:80
 msgid "To"
 msgstr "Para"
@@ -4767,7 +4769,7 @@ msgstr "No"
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-store.c:127 ../calendar/gui/e-meeting-store.c:162
 #: ../calendar/gui/e-meeting-store.c:225 ../calendar/gui/print.c:972
-#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:972
+#: ../calendar/gui/print.c:989 ../e-util/e-charset.c:52 ../mail/em-utils.c:967
 #: ../plugins/itip-formatter/itip-formatter.c:457
 #: ../plugins/itip-formatter/itip-formatter.c:2342
 #: ../plugins/plugin-manager/plugin-manager.c:89
@@ -8250,7 +8252,8 @@ msgstr "Guardar borrador"
 msgid "_Do not show this message again."
 msgstr "_No mostrar otra vez este mensaje."
 
-#: ../composer/e-msg-composer.c:1030
+#: ../composer/e-msg-composer.c:1029
+#, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
@@ -8258,6 +8261,7 @@ msgstr ""
 "de firma para esta cuenta"
 
 #: ../composer/e-msg-composer.c:1041
+#, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -8265,21 +8269,21 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1462
+#: ../composer/e-msg-composer.c:1465
 msgid "Unable to reconstruct message from autosave file"
 msgstr "No se pudo reconstruir el mensaje desde el archivo autoguardado"
 
-#: ../composer/e-msg-composer.c:1528 ../composer/e-msg-composer.c:1807
+#: ../composer/e-msg-composer.c:1533 ../composer/e-msg-composer.c:1812
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:3529
+#: ../composer/e-msg-composer.c:3533
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
 "editarse."
 
-#: ../composer/e-msg-composer.c:4134
+#: ../composer/e-msg-composer.c:4139
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
@@ -8544,7 +8548,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:608
-#: ../mail/em-account-editor.c:2096 ../mail/em-account-editor.c:2217
+#: ../mail/em-account-editor.c:2098 ../mail/em-account-editor.c:2219
 #: ../mail/mail-config.ui.h:61
 msgid "Identity"
 msgstr "Identidad"
@@ -8597,7 +8601,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2972 ../mail/mail-config.ui.h:34
+#: ../mail/em-account-editor.c:2983 ../mail/mail-config.ui.h:34
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -8677,12 +8681,12 @@ msgid "Evolution account assistant"
 msgstr "Asistente de cuentas de Evolution"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:342 ../mail/e-mail-migrate.c:659
+#: ../capplet/settings/mail-capplet-shell.c:342 ../mail/e-mail-migrate.c:664
 #: ../mail/e-mail-store.c:227 ../mail/em-folder-tree-model.c:148
 #: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
 #: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:163
-#: ../mail/em-folder-tree-model.c:165 ../mail/mail-vfolder.c:211
-#: ../mail/message-list.c:1654
+#: ../mail/em-folder-tree-model.c:165 ../mail/mail-vfolder.c:207
+#: ../mail/message-list.c:1655
 #: ../modules/addressbook/e-book-shell-backend.c:125
 #: ../modules/addressbook/e-book-shell-migrate.c:130
 #: ../modules/calendar/e-cal-shell-backend.c:122
@@ -8696,7 +8700,7 @@ msgid "On This Computer"
 msgstr "En este equipo"
 
 #: ../capplet/settings/mail-settings-view.c:146
-#: ../plugins/groupwise-features/share-folder.c:747
+#: ../plugins/groupwise-features/share-folder.c:737
 msgid "Modify"
 msgstr "Modificar"
 
@@ -8940,7 +8944,7 @@ msgstr "Mensajes de sucesos:"
 msgid "Log Level"
 msgstr "Nivel de sucesos"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2736
+#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2739
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensajes"
@@ -9051,14 +9055,14 @@ msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:940
-#: ../mail/em-format-html.c:2277 ../mail/em-format-html.c:2339
-#: ../mail/em-format-html.c:2362 ../modules/mail/em-mailer-prefs.c:81
+#: ../mail/em-format-html.c:2285 ../mail/em-format-html.c:2347
+#: ../mail/em-format-html.c:2370 ../modules/mail/em-mailer-prefs.c:81
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:941
-#: ../mail/em-format-html.c:2278 ../mail/em-format-html.c:2343
-#: ../mail/em-format-html.c:2365 ../modules/mail/em-mailer-prefs.c:82
+#: ../mail/em-format-html.c:2286 ../mail/em-format-html.c:2351
+#: ../mail/em-format-html.c:2373 ../modules/mail/em-mailer-prefs.c:82
 msgid "Bcc"
 msgstr "Cco"
 
@@ -9070,7 +9074,7 @@ msgid "Subject"
 msgstr "Asunto"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:358 ../mail/em-format-html.c:2459
+#: ../em-format/em-format-quote.c:358 ../mail/em-format-html.c:2467
 #: ../modules/mail/em-mailer-prefs.c:1144
 msgid "Mailer"
 msgstr "Transporte"
@@ -9094,51 +9098,54 @@ msgstr "Grupos de noticias"
 msgid "Face"
 msgstr "Cara"
 
-#: ../em-format/em-format.c:1302
+#: ../em-format/em-format.c:1307
 #, c-format
 msgid "%s attachment"
 msgstr "%s adjunto"
 
-#: ../em-format/em-format.c:1361
+#: ../em-format/em-format.c:1367
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "No es posible interpretar el mensaje S/MIME: Error desconocido"
 
-#: ../em-format/em-format.c:1515 ../em-format/em-format.c:1685
+#: ../em-format/em-format.c:1520 ../em-format/em-format.c:1692
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "No es posible analizar el mensaje MIME. Mostrando la fuente."
 
-#: ../em-format/em-format.c:1523
+#: ../em-format/em-format.c:1528
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado no soportado para multipart/encrypted"
 
-#: ../em-format/em-format.c:1535
+#: ../em-format/em-format.c:1541
 msgid "Could not parse PGP/MIME message"
 msgstr "No es posible interpretar el mensaje PGP/MIME"
 
-#: ../em-format/em-format.c:1535
+#: ../em-format/em-format.c:1542
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "No se pudo interpretar el mensaje PGP/MIME: Error desconocido"
 
-#: ../em-format/em-format.c:1709
+#: ../em-format/em-format.c:1716
 msgid "Unsupported signature format"
 msgstr "Formato de firma no soportado"
 
-#: ../em-format/em-format.c:1717 ../em-format/em-format.c:1867
+#: ../em-format/em-format.c:1726 ../em-format/em-format.c:1880
 msgid "Error verifying signature"
 msgstr "Error al verificar la firma"
 
-#: ../em-format/em-format.c:1717 ../em-format/em-format.c:1856
-#: ../em-format/em-format.c:1867
+#: ../em-format/em-format.c:1727 ../em-format/em-format.c:1868
+#: ../em-format/em-format.c:1881
 msgid "Unknown error verifying signature"
 msgstr "Error desconocido al verificar la firma"
 
-#: ../em-format/em-format.c:1946
-msgid "Could not parse PGP message"
-msgstr "No es posible interpretar el mensaje PGP"
+#: ../em-format/em-format.c:1961
+#| msgid "Could not parse PGP message"
+msgid "Could not parse PGP message: "
+msgstr "No se pudo analizar el mensaje PGP: "
 
-#: ../em-format/em-format.c:1946
-msgid "Could not parse PGP message: Unknown error"
-msgstr "No es posible interpretar el mensaje PGP: Error desconocido"
+#: ../em-format/em-format.c:1967 ../plugins/caldav/caldav-browse-server.c:203
+#: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
+#: ../smime/gui/certificate-manager.c:100
+msgid "Unknown error"
+msgstr "Error desconocido"
 
 #: ../filter/e-filter-datespec.c:74
 #, c-format
@@ -9436,7 +9443,7 @@ msgid "years"
 msgstr "años"
 
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
-#: ../mail/em-format-html-display.c:1028 ../mail/mail-config.ui.h:15
+#: ../mail/em-format-html-display.c:1027 ../mail/mail-config.ui.h:15
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:118
 #: ../widgets/misc/e-attachment-paned.c:123
 msgid "Attachment"
@@ -9533,26 +9540,26 @@ msgid "Name"
 msgstr "Nombre"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:283
-#: ../mail/em-folder-tree-model.c:706 ../mail/em-folder-tree.c:2770
+#: ../mail/em-folder-tree-model.c:700 ../mail/em-folder-tree.c:2752
 #: ../modules/mail/e-mail-shell-view-private.c:953
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
-#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:699
+#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:693
 msgid "Drafts"
 msgstr "Borradores"
 
-#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:709
+#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:703
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
-#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:711
+#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:705
 msgid "Sent"
 msgstr "Correo enviado"
 
-#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:702
+#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:696
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-#: ../plugins/templates/templates.c:572
+#: ../plugins/templates/templates.c:573
 msgid "Templates"
 msgstr "Plantillas"
 
@@ -9569,11 +9576,11 @@ msgstr "Migración"
 msgid "Migrating '%s':"
 msgstr "Migrando «%s»:"
 
-#: ../mail/e-mail-migrate.c:643
+#: ../mail/e-mail-migrate.c:649
 msgid "Migrating Folders"
 msgstr "Migrando carpetas"
 
-#: ../mail/e-mail-migrate.c:644
+#: ../mail/e-mail-migrate.c:650
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -9585,7 +9592,7 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#: ../mail/e-mail-migrate.c:740
+#: ../mail/e-mail-migrate.c:739
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
@@ -9602,7 +9609,7 @@ msgstr "No preguntarme de nuevo"
 msgid "Copy to Folder"
 msgstr "Copiar a la carpeta"
 
-#: ../mail/e-mail-reader.c:262 ../mail/em-folder-utils.c:378
+#: ../mail/e-mail-reader.c:262 ../mail/em-folder-utils.c:402
 msgid "C_opy"
 msgstr "C_opiar"
 
@@ -9610,7 +9617,7 @@ msgstr "C_opiar"
 msgid "Move to Folder"
 msgstr "Mover a la carpeta"
 
-#: ../mail/e-mail-reader.c:636 ../mail/em-folder-utils.c:378
+#: ../mail/e-mail-reader.c:636 ../mail/em-folder-utils.c:402
 msgid "_Move"
 msgstr "_Mover"
 
@@ -10112,19 +10119,18 @@ msgstr "_Todas las cabeceras del mensaje"
 msgid "Show messages with all email headers"
 msgstr "Mostrar los mensajes con todas las cabeceras de correo-e"
 
-#: ../mail/e-mail-reader.c:1884
+#: ../mail/e-mail-reader.c:1883
 msgid "Unable to retrieve message"
 msgstr "No se pudo obtener el mensaje"
 
-#: ../mail/e-mail-reader.c:1888 ../mail/e-mail-reader.c:1948
-#: ../mail/mail-ops.c:1842
+#: ../mail/e-mail-reader.c:1943 ../mail/mail-ops.c:1891
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Obteniendo mensaje «%s»"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2466 ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-reader.c:2461 ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:303
 #: ../plugins/google-account-setup/google-source.c:537
 #: ../plugins/google-account-setup/google-source.c:659
@@ -10132,33 +10138,33 @@ msgstr "Obteniendo mensaje «%s»"
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../mail/e-mail-reader.c:2596
+#: ../mail/e-mail-reader.c:2591
 #: ../modules/mail/e-mail-attachment-handler.c:132
 msgid "_Forward"
 msgstr "Reen_viar"
 
-#: ../mail/e-mail-reader.c:2597
+#: ../mail/e-mail-reader.c:2592
 msgid "Forward the selected message to someone"
 msgstr "Reenvía a alguien el mensaje seleccionado"
 
-#: ../mail/e-mail-reader.c:2642 ../mail/em-filter-i18n.h:14
-#: ../plugins/groupwise-features/share-folder.c:753
+#: ../mail/e-mail-reader.c:2637 ../mail/em-filter-i18n.h:14
+#: ../plugins/groupwise-features/share-folder.c:743
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../mail/e-mail-reader.c:2650
+#: ../mail/e-mail-reader.c:2645
 #: ../modules/calendar/e-cal-shell-view-actions.c:1305
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../mail/e-mail-reader.c:2654
+#: ../mail/e-mail-reader.c:2649
 #: ../modules/calendar/e-cal-shell-view-actions.c:1298
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../mail/e-mail-reader.c:2664 ../mail/mail-dialogs.ui.h:19
+#: ../mail/e-mail-reader.c:2659 ../mail/mail-dialogs.ui.h:19
 msgid "Reply"
 msgstr "Responder"
 
@@ -10168,7 +10174,7 @@ msgstr "Marcar para seguimiento"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:506 ../mail/mail-config.ui.h:75
+#: ../mail/em-account-editor.c:508 ../mail/mail-config.ui.h:75
 #: ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
 msgstr "Sin cifrado"
@@ -10176,7 +10182,7 @@ msgstr "Sin cifrado"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:510 ../mail/mail-config.ui.h:131
+#: ../mail/em-account-editor.c:512 ../mail/mail-config.ui.h:131
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
 msgstr "Cifrado TLS"
@@ -10184,17 +10190,17 @@ msgstr "Cifrado TLS"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:514 ../mail/mail-config.ui.h:100
+#: ../mail/em-account-editor.c:516 ../mail/mail-config.ui.h:100
 #: ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "Cifrado SSL"
 
-#: ../mail/em-account-editor.c:601
+#: ../mail/em-account-editor.c:603
 #, c-format
 msgid "%s License Agreement"
 msgstr "Acuerdo de licencia %s"
 
-#: ../mail/em-account-editor.c:608
+#: ../mail/em-account-editor.c:610
 #, c-format
 msgid ""
 "\n"
@@ -10208,34 +10214,34 @@ msgstr ""
 "y marque la casilla para aceptarlo.\n"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:895 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:897 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:979
+#: ../mail/em-account-editor.c:981
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/em-account-editor.c:980
+#: ../mail/em-account-editor.c:982
 msgid "Always"
 msgstr "Siempre"
 
-#: ../mail/em-account-editor.c:981
+#: ../mail/em-account-editor.c:983
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1718 ../widgets/misc/e-account-tree-view.c:124
+#: ../mail/em-account-editor.c:1720 ../widgets/misc/e-account-tree-view.c:124
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:2093
+#: ../mail/em-account-editor.c:2095
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2094
+#: ../mail/em-account-editor.c:2096
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -10245,7 +10251,7 @@ msgstr ""
 "\n"
 "Pulse «Adelante» para comenzar. "
 
-#: ../mail/em-account-editor.c:2097
+#: ../mail/em-account-editor.c:2099
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -10255,20 +10261,20 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2099 ../mail/em-account-editor.c:2256
+#: ../mail/em-account-editor.c:2101 ../mail/em-account-editor.c:2258
 #: ../mail/mail-config.ui.h:93
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2100
+#: ../mail/em-account-editor.c:2102
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2102 ../mail/em-account-editor.c:2727
+#: ../mail/em-account-editor.c:2104 ../mail/em-account-editor.c:2738
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2103
+#: ../mail/em-account-editor.c:2105
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -10277,11 +10283,11 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2105
+#: ../mail/em-account-editor.c:2107
 msgid "Account Management"
 msgstr "Administración de cuentas"
 
-#: ../mail/em-account-editor.c:2106
+#: ../mail/em-account-editor.c:2108
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -10289,11 +10295,11 @@ msgstr ""
 "Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
 "Este nombre se usará sólo para mostrarlo."
 
-#: ../mail/em-account-editor.c:2110
+#: ../mail/em-account-editor.c:2112
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2111
+#: ../mail/em-account-editor.c:2113
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -10307,29 +10313,29 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2543
+#: ../mail/em-account-editor.c:2554
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2551
+#: ../mail/em-account-editor.c:2562
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:2825
+#: ../mail/em-account-editor.c:2836
 msgid "Please select a folder from the current account."
 msgstr "Seleccionar una carpeta de la cuenta actual."
 
-#: ../mail/em-account-editor.c:3095 ../mail/mail-config.ui.h:107
+#: ../mail/em-account-editor.c:3106 ../mail/mail-config.ui.h:107
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3140 ../mail/em-account-editor.c:3208
+#: ../mail/em-account-editor.c:3151 ../mail/em-account-editor.c:3219
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3141 ../mail/em-account-editor.c:3209
+#: ../mail/em-account-editor.c:3152 ../mail/em-account-editor.c:3220
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
@@ -10673,7 +10679,7 @@ msgstr "_Nombre de la carpeta:"
 #: ../mail/em-folder-tree-model.c:149 ../mail/em-folder-tree-model.c:152
 #: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:160
 #: ../mail/em-folder-tree-model.c:167 ../mail/em-folder-tree-model.c:169
-#: ../mail/mail-vfolder.c:1070 ../mail/mail-vfolder.c:1135
+#: ../mail/mail-vfolder.c:1061 ../mail/mail-vfolder.c:1126
 msgid "Search Folders"
 msgstr "Carpetas de búsqueda"
 
@@ -10682,7 +10688,7 @@ msgstr "Carpetas de búsqueda"
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
 
-#: ../mail/em-folder-tree-model.c:774 ../mail/em-folder-tree-model.c:1117
+#: ../mail/em-folder-tree-model.c:768 ../mail/em-folder-tree-model.c:1111
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -10691,7 +10697,7 @@ msgstr "Cargando…"
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/em-folder-tree.c:597
+#: ../mail/em-folder-tree.c:594
 msgid "Folder names cannot contain '/'"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 
@@ -10713,70 +10719,71 @@ msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:1079
+#: ../mail/em-folder-tree.c:1077
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1313
+#: ../mail/em-folder-tree.c:1311
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:1626 ../mail/em-folder-utils.c:92
+#: ../mail/em-folder-tree.c:1616 ../mail/em-folder-utils.c:92
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1628 ../mail/em-folder-utils.c:94
+#: ../mail/em-folder-tree.c:1618 ../mail/em-folder-utils.c:94
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1635 ../mail/message-list.c:2153
+#: ../mail/em-folder-tree.c:1625 ../mail/message-list.c:2153
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1637 ../mail/message-list.c:2155
+#: ../mail/em-folder-tree.c:1627 ../mail/message-list.c:2155
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:1652
+#: ../mail/em-folder-tree.c:1643
+#, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
-#: ../mail/em-folder-utils.c:379
+#: ../mail/em-folder-utils.c:403
 msgid "Move Folder To"
 msgstr "Mover carpeta a"
 
-#: ../mail/em-folder-utils.c:379
+#: ../mail/em-folder-utils.c:403
 msgid "Copy Folder To"
 msgstr "Copiar carpeta a"
 
-#: ../mail/em-folder-utils.c:509
-#: ../plugins/groupwise-features/share-folder-common.c:138
+#: ../mail/em-folder-utils.c:533
+#: ../plugins/groupwise-features/share-folder-common.c:136
 #, c-format
 msgid "Creating folder '%s'"
 msgstr "Creando carpeta «%s»"
 
-#: ../mail/em-folder-utils.c:672
+#: ../mail/em-folder-utils.c:693
 msgid "Create Folder"
 msgstr "Crear carpeta"
 
-#: ../mail/em-folder-utils.c:673
-#: ../plugins/groupwise-features/install-shared.c:167
-#: ../plugins/groupwise-features/share-folder-common.c:349
+#: ../mail/em-folder-utils.c:694
+#: ../plugins/groupwise-features/install-shared.c:165
+#: ../plugins/groupwise-features/share-folder-common.c:343
 msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
 
-#: ../mail/em-folder-utils.c:693
+#: ../mail/em-folder-utils.c:714
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Desuscribiéndose de la carpeta «%s»"
 
-#: ../mail/em-format-html-display.c:90 ../mail/em-format-html.c:1567
+#: ../mail/em-format-html-display.c:90 ../mail/em-format-html.c:1571
 msgid "Unsigned"
 msgstr "No firmado"
 
@@ -10788,7 +10795,7 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:91 ../mail/em-format-html.c:1568
+#: ../mail/em-format-html-display.c:91 ../mail/em-format-html.c:1572
 msgid "Valid signature"
 msgstr "Firma válida"
 
@@ -10800,7 +10807,7 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:92 ../mail/em-format-html.c:1569
+#: ../mail/em-format-html-display.c:92 ../mail/em-format-html.c:1573
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
@@ -10812,7 +10819,7 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:93 ../mail/em-format-html.c:1570
+#: ../mail/em-format-html-display.c:93 ../mail/em-format-html.c:1574
 msgid "Valid signature, but cannot verify sender"
 msgstr "Firma válida, pero no se puede verificar el remitente"
 
@@ -10824,7 +10831,7 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
 
-#: ../mail/em-format-html-display.c:94 ../mail/em-format-html.c:1571
+#: ../mail/em-format-html-display.c:94 ../mail/em-format-html.c:1575
 msgid "Signature exists, but need public key"
 msgstr "La firma existe pero se necesita la clave pública"
 
@@ -10836,7 +10843,7 @@ msgstr ""
 "Este mensaje está firmado con una firma pero no existe una clave pública "
 "correspondiente."
 
-#: ../mail/em-format-html-display.c:101 ../mail/em-format-html.c:1577
+#: ../mail/em-format-html-display.c:101 ../mail/em-format-html.c:1581
 msgid "Unencrypted"
 msgstr "Descifrado"
 
@@ -10848,7 +10855,7 @@ msgstr ""
 "Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
 "de Internet."
 
-#: ../mail/em-format-html-display.c:102 ../mail/em-format-html.c:1578
+#: ../mail/em-format-html-display.c:102 ../mail/em-format-html.c:1582
 msgid "Encrypted, weak"
 msgstr "Cifrado, débil"
 
@@ -10862,7 +10869,7 @@ msgstr ""
 "ser difícil, pero no imposible para un espía ver el contenido de este "
 "mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:103 ../mail/em-format-html.c:1579
+#: ../mail/em-format-html-display.c:103 ../mail/em-format-html.c:1583
 msgid "Encrypted"
 msgstr "Cifrado"
 
@@ -10874,7 +10881,7 @@ msgstr ""
 "Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
 
-#: ../mail/em-format-html-display.c:104 ../mail/em-format-html.c:1580
+#: ../mail/em-format-html-display.c:104 ../mail/em-format-html.c:1584
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
@@ -10904,28 +10911,28 @@ msgstr ""
 "Evolution no puede mostrar este correo debido a que es demasiado grande para "
 "procesarlo. Puede verlo sin formato o con un editor de texto externo."
 
-#: ../mail/em-format-html-display.c:726
+#: ../mail/em-format-html-display.c:725
 msgid "Completed on"
 msgstr "Completado en"
 
-#: ../mail/em-format-html-display.c:734
+#: ../mail/em-format-html-display.c:733
 msgid "Overdue:"
 msgstr "Atrasado:"
 
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/em-format-html-display.c:738
+#: ../mail/em-format-html-display.c:737
 msgid "by"
 msgstr "por"
 
-#: ../mail/em-format-html-display.c:953 ../mail/em-format-html-display.c:1000
+#: ../mail/em-format-html-display.c:952 ../mail/em-format-html-display.c:999
 msgid "View _Unformatted"
 msgstr "Ver _sin formato"
 
-#: ../mail/em-format-html-display.c:955
+#: ../mail/em-format-html-display.c:954
 msgid "Hide _Unformatted"
 msgstr "Ocultar _sin formato"
 
-#: ../mail/em-format-html-display.c:1020
+#: ../mail/em-format-html-display.c:1019
 msgid "O_pen With"
 msgstr "Abrir c_on"
 
@@ -10938,73 +10945,80 @@ msgstr "Página %d de %d"
 msgid "Formatting message"
 msgstr "Formateando el mensaje"
 
-#: ../mail/em-format-html.c:345
+#: ../mail/em-format-html.c:347
 msgid "Formatting Message..."
 msgstr "Formateando el mensaje…"
 
-#: ../mail/em-format-html.c:1414 ../mail/em-format-html.c:1423
+#: ../mail/em-format-html.c:1418 ../mail/em-format-html.c:1427
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "Obteniendo «%s»"
 
-#: ../mail/em-format-html.c:1888
+#: ../mail/em-format-html.c:1896
 msgid "Unknown external-body part."
 msgstr "Parte externa al cuerpo del mensaje desconocida."
 
-#: ../mail/em-format-html.c:1896
+#: ../mail/em-format-html.c:1904
 msgid "Malformed external-body part."
 msgstr "Parte externa al cuerpo del mensaje mal escrita."
 
-#: ../mail/em-format-html.c:1926
+#: ../mail/em-format-html.c:1934
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: ../mail/em-format-html.c:1937
+#: ../mail/em-format-html.c:1945
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Puntero a archivo local (%s) válido en el sitio «%s»"
 
-#: ../mail/em-format-html.c:1939
+#: ../mail/em-format-html.c:1947
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Puntero a archivo local (%s)"
 
-#: ../mail/em-format-html.c:1960
+#: ../mail/em-format-html.c:1968
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Puntero a datos remotos (%s)"
 
-#: ../mail/em-format-html.c:1971
+#: ../mail/em-format-html.c:1979
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#: ../mail/em-format-html.c:2634
+#: ../mail/em-format-html.c:2642
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "%s envió este mensaje en nombre de %s"
 
-#: ../mail/em-subscribe-editor.c:668
+#: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
+#: ../mail/em-html-stream.c:122
+#, c-format
+#| msgid "No summary available."
+msgid "No HTML stream available"
+msgstr "No hay un flujo HTML disponible"
+
+#: ../mail/em-subscribe-editor.c:677
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Este almacén no soporta suscripciones, o no están activadas."
 
-#: ../mail/em-subscribe-editor.c:719
+#: ../mail/em-subscribe-editor.c:728
 msgid "Subscribed"
 msgstr "Suscrito"
 
-#: ../mail/em-subscribe-editor.c:723
+#: ../mail/em-subscribe-editor.c:732
 msgid "Folder"
 msgstr "Carpeta"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:1111
+#: ../mail/em-subscribe-editor.c:1120
 msgid "Please select a server."
 msgstr "Seleccione un servidor."
 
-#: ../mail/em-subscribe-editor.c:1157
+#: ../mail/em-subscribe-editor.c:1166
 msgid "No server has been selected"
 msgstr "No se ha seleccionado ningún servidor"
 
@@ -11027,7 +11041,7 @@ msgstr "_No mostrar otra vez este mensaje."
 msgid "Message Filters"
 msgstr "Filtros de mensajes"
 
-#: ../mail/em-utils.c:853
+#: ../mail/em-utils.c:848
 #, c-format
 msgid "Messages from %s"
 msgstr "Mensajes de %s"
@@ -11358,9 +11372,6 @@ msgstr ""
 "todas las carpetas"
 
 #: ../mail/evolution-mail.schemas.in.h:66
-#| msgid ""
-#| "Enable this to use Space bar key to scroll in message preview, message "
-#| "list and folders."
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "Activar para usar una ajuste de vista de lista de mensajes similar para "
@@ -11388,7 +11399,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Flush Outbox after filtering"
-msgstr ""
+msgstr "Limpiar la bandeja de salida después de filtrar"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Height of the message-list pane"
@@ -12142,6 +12153,10 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"Indica si se debe limpiar la bandeja de salida después de finalizar el "
+"filtrado. La limpieza de la bandeja de salida sólo sucede cuando se usó "
+"algún filtro de acción «Reenviar a» y, aproximadamente, un minuto después de "
+"la última invocación a una acción."
 
 #: ../mail/evolution-mail.schemas.in.h:205
 msgid "Width of the message-list pane"
@@ -12156,7 +12171,7 @@ msgid "Importing Elm data"
 msgstr "Importando datos de Elm"
 
 #: ../mail/importers/elm-importer.c:325 ../mail/importers/pine-importer.c:400
-#: ../modules/mail/e-mail-shell-view.c:952
+#: ../modules/mail/e-mail-shell-view.c:942
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:5
 #: ../widgets/misc/e-send-options.c:499
 msgid "Mail"
@@ -12171,18 +12186,18 @@ msgid "Import mail from Elm."
 msgstr "Importar correo de Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:116
-#: ../plugins/dbx-import/dbx-importer.c:228
+#: ../plugins/dbx-import/dbx-importer.c:227
 msgid "_Destination folder:"
 msgstr "Carpeta de _destino:"
 
 #: ../mail/importers/evolution-mbox-importer.c:122
-#: ../plugins/dbx-import/dbx-importer.c:234
-#: ../plugins/pst-import/pst-importer.c:301
+#: ../plugins/dbx-import/dbx-importer.c:233
+#: ../plugins/pst-import/pst-importer.c:300
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
 #: ../mail/importers/evolution-mbox-importer.c:122
-#: ../plugins/pst-import/pst-importer.c:301
+#: ../plugins/pst-import/pst-importer.c:300
 msgid "Select folder to import into"
 msgstr "Seleccione la carpeta en la que importar"
 
@@ -12212,15 +12227,15 @@ msgid "Importing mailbox"
 msgstr "Importando buzón de correo"
 
 #. Destination folder, was set in our widget
-#: ../mail/importers/mail-importer.c:149
-#: ../plugins/dbx-import/dbx-importer.c:531
-#: ../plugins/pst-import/pst-importer.c:453
-#: ../plugins/pst-import/pst-importer.c:559
+#: ../mail/importers/mail-importer.c:150
+#: ../plugins/dbx-import/dbx-importer.c:557
+#: ../plugins/pst-import/pst-importer.c:452
+#: ../plugins/pst-import/pst-importer.c:558
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importando «%s»"
 
-#: ../mail/importers/mail-importer.c:293
+#: ../mail/importers/mail-importer.c:295
 #, c-format
 msgid "Scanning %s"
 msgstr "Analizando %s"
@@ -13066,17 +13081,16 @@ msgstr "Haciendo ping a %s"
 msgid "Filtering Selected Messages"
 msgstr "Filtrado de mensajes seleccionados"
 
-#: ../mail/mail-ops.c:243
+#: ../mail/mail-ops.c:245
 msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
-#. sending mail, filtering failed
-#: ../mail/mail-ops.c:575
+#: ../mail/mail-ops.c:592
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
-#: ../mail/mail-ops.c:587 ../mail/mail-ops.c:615
+#: ../mail/mail-ops.c:608 ../mail/mail-ops.c:635
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13085,139 +13099,138 @@ msgstr ""
 "Falló al anexar a %s: %s\n"
 "En su lugar se anexará a la carpeta local «Correo enviado»."
 
-#: ../mail/mail-ops.c:632
+#: ../mail/mail-ops.c:654
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../mail/mail-ops.c:743 ../mail/mail-ops.c:824
+#: ../mail/mail-ops.c:774 ../mail/mail-ops.c:866
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
-#: ../mail/mail-ops.c:753
+#: ../mail/mail-ops.c:782
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: ../mail/mail-ops.c:780
+#: ../mail/mail-ops.c:826
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Falló al enviar %d de %d mensajes"
 
-#: ../mail/mail-ops.c:782 ../mail/mail-send-recv.c:761
+#: ../mail/mail-ops.c:828 ../mail/mail-send-recv.c:758
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:784 ../mail/mail-send-recv.c:763
+#: ../mail/mail-ops.c:830 ../mail/mail-send-recv.c:760
 msgid "Complete."
 msgstr "Completado."
 
-#: ../mail/mail-ops.c:896
+#: ../mail/mail-ops.c:938
 #, c-format
 msgid "Saving message to folder '%s'"
 msgstr "Guardando mensaje en la carpeta «%s»"
 
-#: ../mail/mail-ops.c:973
+#: ../mail/mail-ops.c:1018
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a «%s»"
 
-#: ../mail/mail-ops.c:973
+#: ../mail/mail-ops.c:1018
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a «%s»"
 
-#: ../mail/mail-ops.c:1082
+#: ../mail/mail-ops.c:1127
 #, c-format
 msgid "Scanning folders in '%s'"
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/mail-ops.c:1190
+#: ../mail/mail-ops.c:1235
 msgid "Forwarded messages"
 msgstr "Mensajes reenviados"
 
-#: ../mail/mail-ops.c:1231
+#: ../mail/mail-ops.c:1276
 #, c-format
 msgid "Opening folder '%s'"
 msgstr "Abriendo carpeta «%s»"
 
-#: ../mail/mail-ops.c:1297
+#: ../mail/mail-ops.c:1342
 #, c-format
 msgid "Retrieving quota information for folder '%s'"
 msgstr "Obteniendo la información de la cuota para la carpeta «%s»"
 
-#: ../mail/mail-ops.c:1369
+#: ../mail/mail-ops.c:1414
 #, c-format
 msgid "Opening store '%s'"
 msgstr "Abriendo almacén «%s»"
 
-#: ../mail/mail-ops.c:1440
+#: ../mail/mail-ops.c:1485
 #, c-format
 msgid "Removing folder '%s'"
 msgstr "Eliminando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1560
+#: ../mail/mail-ops.c:1609
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1623
+#: ../mail/mail-ops.c:1672
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1624
+#: ../mail/mail-ops.c:1673
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1678
+#: ../mail/mail-ops.c:1727
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1718
+#: ../mail/mail-ops.c:1767
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1763
+#: ../mail/mail-ops.c:1812
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1764
+#: ../mail/mail-ops.c:1813
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: ../mail/mail-ops.c:1960
+#: ../mail/mail-ops.c:2016
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Descargando %d mensaje"
 msgstr[1] "Descargando %d mensajes"
 
-#: ../mail/mail-ops.c:2049
+#: ../mail/mail-ops.c:2105
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Guardando %d mensaje"
 msgstr[1] "Guardando %d mensajes"
 
-#: ../mail/mail-ops.c:2130
+#: ../mail/mail-ops.c:2192
 #, c-format
-msgid ""
-"Error saving messages to: %s:\n"
-" %s"
-msgstr ""
-"Error guardando mensajes en: %s:\n"
-" %s"
+#| msgid ""
+#| "Error saving messages to: %s:\n"
+#| " %s"
+msgid "Error saving messages to: %s:\n"
+msgstr "Error al guardar los mensajes en: %s:\n"
 
-#: ../mail/mail-ops.c:2202
+#: ../mail/mail-ops.c:2265
 msgid "Saving attachment"
 msgstr "Guardando adjunto"
 
-#: ../mail/mail-ops.c:2220 ../mail/mail-ops.c:2228
+#: ../mail/mail-ops.c:2285 ../mail/mail-ops.c:2295
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13226,27 +13239,27 @@ msgstr ""
 "No es posible crear el archivo de salida: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2243
-#, c-format
-msgid "Could not write data: %s"
-msgstr "No es posible escribir datos: %s"
+#: ../mail/mail-ops.c:2310
+#| msgid "Could not write data: %s"
+msgid "Could not write data: "
+msgstr "No se pudieron escribir los datos: "
 
-#: ../mail/mail-ops.c:2388
+#: ../mail/mail-ops.c:2454
 #, c-format
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de «%s»"
 
-#: ../mail/mail-ops.c:2388
+#: ../mail/mail-ops.c:2454
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Reconectándose con «%s»"
 
-#: ../mail/mail-ops.c:2484
+#: ../mail/mail-ops.c:2550
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
 
-#: ../mail/mail-ops.c:2570
+#: ../mail/mail-ops.c:2636
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
@@ -13254,81 +13267,84 @@ msgstr "Comprobando el servicio"
 msgid "Canceling..."
 msgstr "Cancelando…"
 
-#: ../mail/mail-send-recv.c:427
+#: ../mail/mail-send-recv.c:424
 msgid "Send & Receive Mail"
 msgstr "Enviar y recibir correo"
 
-#: ../mail/mail-send-recv.c:444
+#: ../mail/mail-send-recv.c:441
 msgid "Cancel _All"
 msgstr "Cancelar _todo"
 
-#: ../mail/mail-send-recv.c:554
+#: ../mail/mail-send-recv.c:551
 msgid "Updating..."
 msgstr "Actualizando…"
 
-#: ../mail/mail-send-recv.c:554 ../mail/mail-send-recv.c:631
+#: ../mail/mail-send-recv.c:551 ../mail/mail-send-recv.c:628
 msgid "Waiting..."
 msgstr "Esperando…"
 
-#: ../mail/mail-send-recv.c:874
+#: ../mail/mail-send-recv.c:866
 #, c-format
 msgid "Checking for new mail"
 msgstr "Comprobando correo nuevo"
 
-#: ../mail/mail-session.c:220
+#: ../mail/mail-session.c:225
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduzca la contraseña para %s"
 
-#: ../mail/mail-session.c:222
+#: ../mail/mail-session.c:227
 msgid "Enter Passphrase"
 msgstr "Introduzca la contraseña"
 
-#: ../mail/mail-session.c:225
+#: ../mail/mail-session.c:230
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduzca su contraseña para %s"
 
-#: ../mail/mail-session.c:227
+#: ../mail/mail-session.c:232
 msgid "Enter Password"
 msgstr "Introduzca contraseña"
 
-#: ../mail/mail-session.c:269
+#: ../mail/mail-session.c:277
+#, c-format
 msgid "User canceled operation."
 msgstr "El usuario canceló la operación."
 
-#: ../mail/mail-session.c:701
+#: ../mail/mail-session.c:723
+#, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/mail-session.c:707
+#: ../mail/mail-session.c:732
+#, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
-#: ../mail/mail-tools.c:119
+#: ../mail/mail-tools.c:123
 #, c-format
 msgid "Could not create spool directory '%s': %s"
 msgstr "No se pudo crear el directorio spool «%s»: %s"
 
-#: ../mail/mail-tools.c:149
+#: ../mail/mail-tools.c:156
 #, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
 msgstr "Intentando mover correo desde un origen que no es un buzón «%s»"
 
-#: ../mail/mail-tools.c:255
+#: ../mail/mail-tools.c:263
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Mensaje reenviado: %s"
 
-#: ../mail/mail-tools.c:257
+#: ../mail/mail-tools.c:265
 msgid "Forwarded message"
 msgstr "Mensaje reenviado"
 
-#: ../mail/mail-tools.c:297
+#: ../mail/mail-tools.c:308
 #, c-format
 msgid "Invalid folder: '%s'"
 msgstr "Carpeta no válida: «%s»"
@@ -13338,12 +13354,12 @@ msgstr "Carpeta no válida: «%s»"
 msgid "Setting up Search Folder: %s"
 msgstr "Configurando carpeta de búsqueda: %s"
 
-#: ../mail/mail-vfolder.c:228
+#: ../mail/mail-vfolder.c:224
 #, c-format
 msgid "Updating Search Folders for '%s:%s'"
 msgstr "Actualizando carpetas de búsqueda para «%s: %s»"
 
-#: ../mail/mail-vfolder.c:235
+#: ../mail/mail-vfolder.c:231
 #, c-format
 msgid "Updating Search Folders for '%s'"
 msgstr "Actualizando carpetas de búsqueda para «%s»"
@@ -13352,7 +13368,7 @@ msgstr "Actualizando carpetas de búsqueda para «%s»"
 #. the second %s is uri of the removed folder. For more than one search
 #. folder is each of them on a separate line, with four spaces in front
 #. of its name, without quotes.
-#: ../mail/mail-vfolder.c:678
+#: ../mail/mail-vfolder.c:674
 #, c-format
 msgid ""
 "The Search Folder \"%s\" has been updated, because it used just removed "
@@ -13365,11 +13381,11 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../mail/mail-vfolder.c:1188
+#: ../mail/mail-vfolder.c:1179
 msgid "Edit Search Folder"
 msgstr "Editar carpeta de búsqueda"
 
-#: ../mail/mail-vfolder.c:1293
+#: ../mail/mail-vfolder.c:1284
 msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
@@ -14050,16 +14066,16 @@ msgstr "%e de %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%e de %b de %Y"
 
-#: ../mail/message-list.c:2577
+#: ../mail/message-list.c:2580
 msgid "Select all visible messages"
 msgstr "Selecciona todos los mensajes visibles"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4337 ../mail/message-list.c:4734
+#: ../mail/message-list.c:4337 ../mail/message-list.c:4729
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
-#: ../mail/message-list.c:4573
+#: ../mail/message-list.c:4568
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -14067,7 +14083,7 @@ msgstr ""
 "Ningún mensaje satisface su criterio de búsqueda. Limpie el criterio de "
 "selección con el elemento del menú Buscar->Limpiar o cámbielo."
 
-#: ../mail/message-list.c:4575
+#: ../mail/message-list.c:4570
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -15571,7 +15587,7 @@ msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:820
-#: ../modules/mail/e-mail-shell-view.c:875
+#: ../modules/mail/e-mail-shell-view.c:865
 msgid "_Disable Account"
 msgstr "_Desactivar cuenta"
 
@@ -15901,11 +15917,11 @@ msgstr[1] "%d en total"
 msgid "All Account Search"
 msgstr "Búsqueda en todas las cuentas"
 
-#: ../modules/mail/e-mail-shell-view.c:685
+#: ../modules/mail/e-mail-shell-view.c:675
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
-#: ../modules/mail/e-mail-shell-view.c:873
+#: ../modules/mail/e-mail-shell-view.c:863
 msgid "Proxy _Logout"
 msgstr "_Cerrar sesión proxy"
 
@@ -16418,22 +16434,22 @@ msgstr "Bogofilter no está disponible. Instálelo primero."
 msgid "Error occurred while spawning %s: %s."
 msgstr "Ocurrió un error al crear %s: %s."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:186
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:187
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "El proceso hijo de Bogofilter no está respondiendo, matándolo…"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:188
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:189
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr "Espere a que el proceso hijo de Bogofilter se interrumpa, terminando…"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:211
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:212
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr "Falló la tubería hacia Bogofilter, código de error: %d"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:396
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:397
 msgid "Convert message text to _Unicode"
 msgstr "Convertir el texto del correo a _Unicode"
 
@@ -16478,12 +16494,6 @@ msgid ""
 msgstr ""
 "El servidor devolvió datos inesperados.\n"
 "%d - %s"
-
-#: ../plugins/caldav/caldav-browse-server.c:203
-#: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
-#: ../smime/gui/certificate-manager.c:100
-msgid "Unknown error"
-msgstr "Error desconocido"
 
 #: ../plugins/caldav/caldav-browse-server.c:333
 #: ../plugins/caldav/caldav-browse-server.c:584
@@ -16728,28 +16738,23 @@ msgstr ""
 msgid "Map for contacts"
 msgstr "Mapa para los contactos"
 
-#: ../plugins/dbx-import/dbx-importer.c:234
-#| msgid "Select folder to import into"
+#: ../plugins/dbx-import/dbx-importer.c:233
 msgid "Select folder to import OE folder into"
 msgstr "Seleccionar la carpeta en la que importar la carpeta OE"
 
-#: ../plugins/dbx-import/dbx-importer.c:253
-#| msgid "Importing Outlook data"
+#: ../plugins/dbx-import/dbx-importer.c:252
 msgid "Importing Outlook Express data"
 msgstr "Importando datos de Outlook Express"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
-#| msgid "Import Outlook messages from PST file"
 msgid "Import Outlook Express messages from DBX file"
 msgstr "Importar mensajes de Outlook Express desde un archivo DBX"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
-#| msgid "Outlook PST import"
 msgid "Outlook DBX import"
 msgstr "Importador DBX de Outlook"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
-#| msgid "Outlook personal folders (.pst)"
 msgid "Outlook Express 5/6 personal folders (.dbx)"
 msgstr "Carpetas personales de Outlook Express 5/6 (.dbx)"
 
@@ -17078,12 +17083,12 @@ msgstr "Aceptar provisionalmente"
 msgid "Rese_nd Meeting..."
 msgstr "Reen_viar reunión…"
 
-#: ../plugins/groupwise-features/install-shared.c:167
-#: ../plugins/groupwise-features/share-folder-common.c:349
+#: ../plugins/groupwise-features/install-shared.c:165
+#: ../plugins/groupwise-features/share-folder-common.c:343
 msgid "Create folder"
 msgstr "Crear carpeta"
 
-#: ../plugins/groupwise-features/install-shared.c:219
+#: ../plugins/groupwise-features/install-shared.c:217
 #, c-format
 msgid ""
 "The user '%s' has shared a folder with you\n"
@@ -17108,11 +17113,11 @@ msgstr ""
 "Pulse «Aplicar» para instalar la carpeta compartida\n"
 "\n"
 
-#: ../plugins/groupwise-features/install-shared.c:231
+#: ../plugins/groupwise-features/install-shared.c:229
 msgid "Install the shared folder"
 msgstr "Instalar la carpeta compartida"
 
-#: ../plugins/groupwise-features/install-shared.c:235
+#: ../plugins/groupwise-features/install-shared.c:233
 msgid "Shared Folder Installation"
 msgstr "Instalación de carpeta compartida"
 
@@ -17377,25 +17382,25 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%s Introduzca la contraseña para %s (usuario %s)"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
-#: ../plugins/groupwise-features/proxy.c:690
+#: ../plugins/groupwise-features/proxy.c:689
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "La solapa del Proxy estará disponible sólo cuando la cuenta esté conectada."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
-#: ../plugins/groupwise-features/proxy.c:696
+#: ../plugins/groupwise-features/proxy.c:695
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "La solapa del Proxy estará disponible sólo cuando la cuenta esté activada."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:700
 msgctxt "GW"
 msgid "Proxy"
 msgstr "Proxy"
 
-#: ../plugins/groupwise-features/proxy.c:929
-#: ../plugins/groupwise-features/share-folder.c:701
+#: ../plugins/groupwise-features/proxy.c:926
+#: ../plugins/groupwise-features/share-folder.c:691
 msgid "Add User"
 msgstr "Añadir usuario"
 
@@ -17403,16 +17408,16 @@ msgstr "Añadir usuario"
 msgid "Advanced send options"
 msgstr "Opciones de envío avanzadas"
 
-#: ../plugins/groupwise-features/share-folder-common.c:315
-#: ../plugins/groupwise-features/share-folder.c:736
+#: ../plugins/groupwise-features/share-folder-common.c:309
+#: ../plugins/groupwise-features/share-folder.c:726
 msgid "Users"
 msgstr "Usuarios"
 
-#: ../plugins/groupwise-features/share-folder-common.c:316
+#: ../plugins/groupwise-features/share-folder-common.c:310
 msgid "Enter the users and set permissions"
 msgstr "Introduzca los usuarios y establezca permisos"
 
-#: ../plugins/groupwise-features/share-folder-common.c:416
+#: ../plugins/groupwise-features/share-folder-common.c:410
 msgid "Sharing"
 msgstr "Compartir"
 
@@ -17420,7 +17425,7 @@ msgstr "Compartir"
 msgid "Custom Notification"
 msgstr "Notificación personalizada"
 
-#: ../plugins/groupwise-features/share-folder.c:741
+#: ../plugins/groupwise-features/share-folder.c:731
 msgid "Add   "
 msgstr "Añadir   "
 
@@ -17481,12 +17486,12 @@ msgstr "Imagen en línea"
 msgid "View image attachments directly in mail messages."
 msgstr "Ver los adjuntos directamente en los mensajes de correo."
 
-#: ../plugins/imap-features/imap-headers.c:332
+#: ../plugins/imap-features/imap-headers.c:330
 #: ../plugins/imap-features/imap-headers.ui.h:2
 msgid "Custom Headers"
 msgstr "Cabeceras personalizadas"
 
-#: ../plugins/imap-features/imap-headers.c:345
+#: ../plugins/imap-features/imap-headers.c:343
 #: ../plugins/imap-features/imap-headers.ui.h:5
 msgid "IMAP Headers"
 msgstr "Cabeceras IMAP"
@@ -18779,7 +18784,7 @@ msgstr "En la carpeta actual y _subcarpetas"
 msgid "In Current _Folder Only"
 msgstr "Sólo en la ca_rpeta actual"
 
-#: ../plugins/mark-all-read/mark-all-read.c:438
+#: ../plugins/mark-all-read/mark-all-read.c:437
 msgid "Mark Me_ssages as Read"
 msgstr "Marcar los mensajes como _leídos"
 
@@ -18898,35 +18903,35 @@ msgstr "Importador PST de Outlook"
 msgid "Outlook personal folders (.pst)"
 msgstr "Carpetas personales de Outlook (.pst)"
 
-#: ../plugins/pst-import/pst-importer.c:296
+#: ../plugins/pst-import/pst-importer.c:295
 msgid "_Mail"
 msgstr "Co_rreo"
 
-#: ../plugins/pst-import/pst-importer.c:308
+#: ../plugins/pst-import/pst-importer.c:307
 msgid "Destination folder:"
 msgstr "Carpeta de destino:"
 
 #. Address book
-#: ../plugins/pst-import/pst-importer.c:314
+#: ../plugins/pst-import/pst-importer.c:313
 msgid "_Address Book"
 msgstr "Libreta de _direcciones"
 
 #. Appointments
-#: ../plugins/pst-import/pst-importer.c:321
+#: ../plugins/pst-import/pst-importer.c:320
 msgid "A_ppointments"
 msgstr "Ci_tas"
 
 #. Tasks
-#: ../plugins/pst-import/pst-importer.c:327 ../views/tasks/galview.xml.h:3
+#: ../plugins/pst-import/pst-importer.c:326 ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
 msgstr "_Tareas"
 
 #. Journal
-#: ../plugins/pst-import/pst-importer.c:333
+#: ../plugins/pst-import/pst-importer.c:332
 msgid "_Journal entries"
 msgstr "Entradas del dia_rio"
 
-#: ../plugins/pst-import/pst-importer.c:348
+#: ../plugins/pst-import/pst-importer.c:347
 msgid "Importing Outlook data"
 msgstr "_Importando datos de Outlook"
 
@@ -19109,31 +19114,31 @@ msgstr "Falló al crear la tubería: %s"
 msgid "Error after fork: %s"
 msgstr "Error después de bifurcar: %s"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:231
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:232
 #, c-format
 msgid "SpamAssassin child process does not respond, killing..."
 msgstr "El proceso hijo de SpamAssasin no está respondiendo, matándolo…"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:233
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:234
 #, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
 msgstr "Espere a que el proceso hijo de SpamAssasin se interrumpa, terminando…"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:242
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:243
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
 msgstr "Falló la tubería hacia SpamAssasin, código de error: %d"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:505
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:506
 #, c-format
 msgid "SpamAssassin is not available. Please install it first."
 msgstr "SpamAssasin no está disponible. Instálelo primero."
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:926
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:927
 msgid "This will make SpamAssassin more reliable, but slower"
 msgstr "Esto hará que SpamAssasin sea más exacto, pero más lento"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:934
+#: ../plugins/sa-junk-plugin/em-junk-filter.c:935
 msgid "I_nclude remote tests"
 msgstr "I_ncluir tests remotos"
 
@@ -19299,15 +19304,15 @@ msgstr ""
 msgid "Drafts based template plugin"
 msgstr "Borradores basados en el complemento de plantillas"
 
-#: ../plugins/templates/templates.c:615
+#: ../plugins/templates/templates.c:616
 msgid "No Title"
 msgstr "Sin título"
 
-#: ../plugins/templates/templates.c:686
+#: ../plugins/templates/templates.c:687
 msgid "Save as _Template"
 msgstr "Guardar como plan_tilla"
 
-#: ../plugins/templates/templates.c:688
+#: ../plugins/templates/templates.c:689
 msgid "Save as Template"
 msgstr "Guardar como plantilla"
 
@@ -21850,13 +21855,16 @@ msgstr "pulsar"
 msgid "sort"
 msgstr "ordenar"
 
-#: ../widgets/text/e-text.c:2474
+#: ../widgets/text/e-text.c:2475
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: ../widgets/text/e-text.c:2486
+#: ../widgets/text/e-text.c:2487
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Could not parse PGP message: Unknown error"
+#~ msgstr "No es posible interpretar el mensaje PGP: Error desconocido"
 
 #~ msgid "Default Sync Address:"
 #~ msgstr "Dirección de sincr. predeterminada:"
