@@ -552,7 +552,9 @@ dbx_import_file (DbxImporter *m)
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
 
 	camel_operation_start (NULL, _("Importing '%s'"), filename);
-	folder = mail_tool_uri_to_folder (m->parent_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
+	folder = mail_tool_uri_to_folder (
+		m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
+		m->base.cancellable, &m->base.error);
 	if (!folder)
 		return;
 	d(printf("importing to %s\n", camel_folder_get_full_name(folder)));
@@ -623,7 +625,8 @@ dbx_import_file (DbxImporter *m)
 		info = camel_message_info_new (NULL);
 		camel_message_info_set_flags (info, flags, ~0);
 		success = camel_folder_append_message (
-			folder, msg, info, NULL, &m->base.error);
+			folder, msg, info, NULL,
+			m->base.cancellable, &m->base.error);
 		camel_message_info_free (info);
 		g_object_unref (msg);
 
@@ -637,7 +640,8 @@ dbx_import_file (DbxImporter *m)
 		close (m->dbx_fd);
 	if (m->indices)
 		g_free (m->indices);
-	camel_folder_sync (folder, FALSE, NULL);
+	/* FIXME Not passing GCancellable or GError here. */
+	camel_folder_sync (folder, FALSE, NULL, NULL);
 	camel_folder_thaw (folder);
 	g_object_unref (folder);
 	if (missing && m->base.error == NULL) {

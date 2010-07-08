@@ -937,9 +937,12 @@ message_list_copy (MessageList *ml, gboolean cut)
 
 			camel_folder_freeze (ml->folder);
 			for (i=0;i<uids->len;i++)
-				camel_folder_set_message_flags (ml->folder, uids->pdata[i],
-							       CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED,
-							       CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED);
+				camel_folder_set_message_flags (
+					ml->folder, uids->pdata[i],
+					CAMEL_MESSAGE_SEEN |
+					CAMEL_MESSAGE_DELETED,
+					CAMEL_MESSAGE_SEEN |
+					CAMEL_MESSAGE_DELETED);
 
 			camel_folder_thaw (ml->folder);
 		}
@@ -2108,8 +2111,9 @@ ml_selection_received (GtkWidget *widget,
 		return;
 	}
 
+	/* FIXME Not passing a GCancellable or GError here. */
 	em_utils_selection_get_uidlist (
-		selection_data, ml->folder, FALSE, NULL);
+		selection_data, ml->folder, FALSE, NULL, NULL);
 }
 
 static void
@@ -2176,6 +2180,7 @@ ml_drop_async_exec (struct _drop_msg *m)
 		em_utils_selection_get_uidlist (
 			m->selection, m->folder,
 			m->action == GDK_ACTION_MOVE,
+			m->base.cancellable,
 			&m->base.error);
 		break;
 	case DND_MESSAGE_RFC822:
@@ -4514,7 +4519,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
 	/* camel_folder_summary_prepare_fetch_all (m->folder->summary, NULL); */
-	if (!camel_operation_cancel_check (m->base.cancel)) {
+	if (!g_cancellable_is_cancelled (m->base.cancellable)) {
 		/* update/build a new tree */
 		if (m->dotree) {
 			ml_sort_uids_by_tree (m->ml, uids);
@@ -4557,7 +4562,7 @@ regen_list_done (struct _regen_list_msg *m)
 	if (!m->complete)
 		return;
 
-	if (camel_operation_cancel_check (m->base.cancel))
+	if (g_cancellable_is_cancelled (m->base.cancellable))
 		return;
 
 	if (m->ml->folder != m->folder)
@@ -4744,8 +4749,9 @@ mail_regen_cancel (MessageList *ml)
 		while (l) {
 			MailMsg *mm = l->data;
 
-			if (mm->cancel)
-				camel_operation_cancel (mm->cancel);
+			if (mm->cancellable)
+				camel_operation_cancel (
+					CAMEL_OPERATION (mm->cancellable));
 			l = l->next;
 		}
 

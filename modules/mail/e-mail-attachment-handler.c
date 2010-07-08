@@ -288,14 +288,16 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		goto exit;
 
 	/* The first string is the folder URI. */
-	folder = mail_tool_uri_to_folder (data, 0, &local_error);
+	/* FIXME Not passing a GCancellable here. */
+	folder = mail_tool_uri_to_folder (data, 0, NULL, &local_error);
 	if (folder == NULL)
 		goto exit;
 
 	/* Handle one message. */
 	if (uids->len == 1) {
+		/* FIXME Not passing a GCancellable here. */
 		message = camel_folder_get_message (
-			folder, uids->pdata[0], &local_error);
+			folder, uids->pdata[0], NULL, &local_error);
 		if (message == NULL)
 			goto exit;
 
@@ -318,8 +320,9 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	camel_multipart_set_boundary (multipart, NULL);
 
 	for (ii = 0; ii < uids->len; ii++) {
+		/* FIXME Not passing a GCancellable here. */
 		message = camel_folder_get_message (
-			folder, uids->pdata[ii], &local_error);
+			folder, uids->pdata[ii], NULL, &local_error);
 		if (message == NULL) {
 			g_object_unref (multipart);
 			goto exit;

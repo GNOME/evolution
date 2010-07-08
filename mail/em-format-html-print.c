@@ -223,8 +223,10 @@ emfhp_complete (EMFormatHTMLPrint *efhp)
 }
 
 static void
-emfhp_got_message (CamelFolder *folder, const gchar *uid,
-                   CamelMimeMessage *msg, gpointer data)
+emfhp_got_message (CamelFolder *folder,
+                   const gchar *uid,
+                   CamelMimeMessage *msg,
+                   gpointer data)
 {
 	EMFormatHTMLPrint *efhp = data;
 
@@ -237,9 +239,11 @@ emfhp_got_message (CamelFolder *folder, const gchar *uid,
 
 	g_signal_connect (
 		efhp, "complete", G_CALLBACK (emfhp_complete), efhp);
+
+	/* FIXME Not passing a GCancellable here. */
 	em_format_format_clone (
 		(EMFormat *) efhp, folder, uid, msg,
-		(EMFormat *) efhp->source);
+		(EMFormat *) efhp->source, NULL);
 }
 
 void

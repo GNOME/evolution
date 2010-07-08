@@ -478,7 +478,8 @@ get_folder (CamelFilterDriver *d,
             gpointer data,
             GError **error)
 {
-	return mail_tool_uri_to_folder (uri, 0, error);
+	/* FIXME Not passing a GCancellable here. */
+	return mail_tool_uri_to_folder (uri, 0, NULL, error);
 }
 
 static void
@@ -636,7 +637,7 @@ static gpointer ms_thread_msg_new (CamelSession *session, CamelSessionThreadOps 
 
 		msg->data = m;
 		g_object_unref (msg->op);
-		msg->op = g_object_ref (m->cancel);
+		msg->op = g_object_ref (m->cancellable);
 	}
 
 	return msg;
@@ -780,7 +781,8 @@ ms_forward_to (CamelSession *session,
 	/* and send it */
 	info = camel_message_info_new (NULL);
 	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	camel_message_info_set_flags (
+		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, forward, info, ms_forward_to_cb, NULL);
 
 	return TRUE;

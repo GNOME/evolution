@@ -132,7 +132,7 @@ struct _itip_puri {
 
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
-static void itip_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
+static void itip_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri, GCancellable *cancellable);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 typedef struct {
@@ -2025,9 +2025,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 	}
 
-	if (!save_schedules && pitip->delete_message) {
+	if (!save_schedules && pitip->delete_message)
 		camel_folder_delete_message (pitip->folder, pitip->uid);
-	}
 
         if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
                 ECalComponent *comp = NULL;
@@ -2097,7 +2096,10 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
                 e_cal_component_rescan (comp);
                 if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE, FALSE)) {
-			camel_folder_set_message_flags (pitip->folder, pitip->uid, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
+			camel_folder_set_message_flags (
+				pitip->folder, pitip->uid,
+				CAMEL_MESSAGE_ANSWERED,
+				CAMEL_MESSAGE_ANSWERED);
 		}
 
                 g_object_unref (comp);
@@ -2748,12 +2750,17 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 }
 
 static void
-itip_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+itip_attachment_frame (EMFormat *emf,
+                       CamelStream *stream,
+                       EMFormatPURI *puri,
+                       GCancellable *cancellable)
 {
 	struct _itip_puri *info = (struct _itip_puri *)puri;
 
-	d(printf("writing to frame content, handler is '%s'\n", info->handle->mime_type));
-	info->handle->handler (emf, stream, info->puri.part, info->handle, FALSE);
+	info->handle->handler (
+		emf, stream, info->puri.part,
+		info->handle, cancellable, FALSE);
+
 	camel_stream_close (stream, NULL);
 }
 

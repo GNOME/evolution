@@ -66,9 +66,13 @@ make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part
 			g_free (str);
 		}
 
-		em_format_part_as (format, stream, part, "application/octet-stream");
+		/* FIXME Not passing a GCancellable here. */
+		em_format_part_as (
+			format, stream, part,
+			"application/octet-stream", NULL);
 	} else
-		em_format_part (format, stream, part);
+		/* FIXME Not passing a GCancellable here. */
+		em_format_part (format, stream, part, NULL);
 
 	g_string_truncate (format->part_id, partidlen);
 }
@@ -80,7 +84,10 @@ org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t)
 	if (epp_mode != EPP_TEXT
 	    || strstr (t->format->part_id->str, ".alternative-prefer-plain.") != NULL
 	    || em_format_is_inline (t->format, t->format->part_id->str, t->part, &(t->item->handler)))
-		t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
+		/* FIXME Not passing a GCancellable here. */
+		t->item->handler.old->handler (
+			t->format, t->stream, t->part,
+			t->item->handler.old, NULL, FALSE);
 	else if (epp_show_suppressed)
 		make_part_attachment (t->format, t->stream, t->part, -1);
 }
@@ -155,10 +162,16 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 
 		if (display_part && have_plain && nparts == 2) {
 			g_string_append_printf (t->format->part_id, ".alternative-prefer-plain.%d", displayid);
-			em_format_part_as (t->format, t->stream, display_part, "text/html");
+			/* FIXME Not passing a GCancellable here. */
+			em_format_part_as (
+				t->format, t->stream,
+				display_part, "text/html", NULL);
 			g_string_truncate (t->format->part_id, partidlen);
 		} else {
-			t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
+			/* FIXME Not passing a GCancellable here. */
+			t->item->handler.old->handler (
+				t->format, t->stream, t->part,
+				t->item->handler.old, NULL, FALSE);
 		}
 		return;
 	} else if (!CAMEL_IS_MULTIPART (mp)) {
@@ -179,7 +192,10 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 	/* if we found a text part, show it */
 	if (display_part) {
 		g_string_append_printf(t->format->part_id, ".alternative-prefer-plain.%d", displayid);
-		em_format_part_as(t->format, t->stream, display_part, "text/plain");
+		/* FIXME Not passing a GCancellable here. */
+		em_format_part_as (
+			t->format, t->stream,
+			display_part, "text/plain", NULL);
 		g_string_truncate (t->format->part_id, partidlen);
 	}
 

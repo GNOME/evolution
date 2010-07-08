@@ -108,7 +108,7 @@ static const gchar *smime_sign_colour[5] = {
 	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\"",""
 };
 
-static void efhd_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
+static void efhd_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri, GCancellable *cancellable);
 static void efhd_message_add_bar (EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
@@ -384,14 +384,15 @@ efhd_format_clone (EMFormat *emf,
                    CamelFolder *folder,
                    const gchar *uid,
                    CamelMimeMessage *msg,
-                   EMFormat *src)
+                   EMFormat *src,
+                   GCancellable *cancellable)
 {
 	if (emf != src)
 		EM_FORMAT_HTML (emf)->header_wrap_flags = 0;
 
 	/* Chain up to parent's format_clone() method. */
 	EM_FORMAT_CLASS (parent_class)->
-		format_clone (emf, folder, uid, msg, src);
+		format_clone (emf, folder, uid, msg, src, cancellable);
 }
 
 static void
@@ -399,7 +400,8 @@ efhd_format_attachment (EMFormat *emf,
                         CamelStream *stream,
                         CamelMimePart *part,
                         const gchar *mime_type,
-                        const EMFormatHandler *handle)
+                        const EMFormatHandler *handle,
+                        GCancellable *cancellable)
 {
 	gchar *classid, *text, *html;
 	struct _attach_puri *info;
@@ -450,7 +452,8 @@ efhd_format_attachment (EMFormat *emf,
 		EM_FORMAT_HTML_VPAD, NULL);
 
 	if (handle && info->shown)
-		handle->handler (emf, stream, part, handle, FALSE);
+		handle->handler (
+			emf, stream, part, handle, cancellable, FALSE);
 
 	g_free (classid);
 }
@@ -519,12 +522,13 @@ static void
 efhd_format_secure (EMFormat *emf,
                     CamelStream *stream,
                     CamelMimePart *part,
-                    CamelCipherValidity *valid)
+                    CamelCipherValidity *valid,
+                    GCancellable *cancellable)
 {
 	EMFormatClass *format_class;
 
 	format_class = g_type_class_peek (EM_TYPE_FORMAT);
-	format_class->format_secure (emf, stream, part, valid);
+	format_class->format_secure (emf, stream, part, valid, cancellable);
 
 	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
@@ -674,7 +678,10 @@ efhd_builtin_init (EMFormatHTMLDisplayClass *efhc)
 }
 
 static void
-efhd_write_image (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+efhd_write_image (EMFormat *emf,
+                  CamelStream *stream,
+                  EMFormatPURI *puri,
+                  GCancellable *cancellable)
 {
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 
@@ -857,13 +864,15 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 static void
 efhd_attachment_frame (EMFormat *emf,
                        CamelStream *stream,
-                       EMFormatPURI *puri)
+                       EMFormatPURI *puri,
+                       GCancellable *cancellable)
 {
 	struct _attach_puri *info = (struct _attach_puri *)puri;
 
 	if (info->shown)
 		info->handle->handler (
-			emf, stream, info->puri.part, info->handle, FALSE);
+			emf, stream, info->puri.part,
+			info->handle, cancellable, FALSE);
 
 	camel_stream_close (stream, NULL);
 }

@@ -201,7 +201,8 @@ folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
 	m->fi = camel_store_get_folder_info (
-		m->store, m->top, flags, &m->base.error);
+		m->store, m->top, flags,
+		m->base.cancellable, &m->base.error);
 
 	/* XXX POP3 stores always return an error because they have
 	 *     no folder hierarchy to scan.  Clear that error so the
@@ -623,8 +624,10 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	g_strfreev (strv);
 
 	/* Check for duplicate folder name. */
+	/* FIXME camel_store_get_folder_info() may block. */
 	folder_info = camel_store_get_folder_info (
-		store, new_full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL);
+		store, new_full_name,
+		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 	if (folder_info != NULL) {
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder-exists",
@@ -633,9 +636,9 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		goto exit;
 	}
 
-	/* XXX This needs to be asynchronous. */
+	/* FIXME camel_store_rename_folder() may block. */
 	if (!camel_store_rename_folder (
-		store, old_full_name, new_full_name, &local_error)) {
+		store, old_full_name, new_full_name, NULL, &local_error)) {
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
 			old_full_name, new_full_name,
@@ -1528,7 +1531,8 @@ tree_drag_data_delete (GtkWidget *widget,
 	if (is_store)
 		goto fail;
 
-	camel_store_delete_folder (store, full_name, NULL);
+	/* FIXME camel_store_delete_folder() may block. */
+	camel_store_delete_folder (store, full_name, NULL, NULL);
 
 fail:
 	gtk_tree_path_free (src_path);
@@ -1578,7 +1582,10 @@ tree_drag_data_get (GtkWidget *widget,
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
-		if ((folder = camel_store_get_folder (store, full_name, 0, NULL))) {
+		/* FIXME camel_store_get_folder() may block. */
+		if ((folder = camel_store_get_folder (
+			store, full_name, 0, NULL, NULL))) {
+
 			GPtrArray *uids = camel_folder_get_uids (folder);
 
 			em_utils_selection_set_urilist (selection, folder, uids);
@@ -1628,7 +1635,8 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
-	if (!(folder = mail_tool_uri_to_folder ((gchar *)data, 0, &m->base.error)))
+	if (!(folder = mail_tool_uri_to_folder (
+		(gchar *)data, 0, m->base.cancellable, &m->base.error)))
 		return;
 
 	full_name = camel_folder_get_full_name (folder);
@@ -1691,11 +1699,15 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Cannot drop message(s) into toplevel store"));
 	} else if ((folder = camel_store_get_folder (
-		m->store, m->full_name, 0, &m->base.error))) {
+		m->store, m->full_name, 0,
+		m->base.cancellable, &m->base.error))) {
+
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
-			em_utils_selection_get_uidlist (m->selection, folder, m->move, &m->base.error);
+			em_utils_selection_get_uidlist (
+				m->selection, folder, m->move,
+				m->base.cancellable, &m->base.error);
 			m->moved = m->move && (m->base.error == NULL);
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
@@ -2798,9 +2810,11 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 				    COL_STRING_FULL_NAME, &full_name, -1);
 
+	/* FIXME camel_store_get_folder() may block. */
 	if (store && full_name)
 		folder = camel_store_get_folder (
-			store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL);
+			store, full_name,
+			CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 
 	g_free (full_name);
 

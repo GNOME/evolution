@@ -83,7 +83,7 @@ MailFolderCache *
 		mail_folder_cache_get_default	(void);
 void		mail_folder_cache_note_store	(MailFolderCache *self,
 						 CamelStore *store,
-						 CamelOperation *op,
+						 GCancellable *cancellable,
 						 NoteDoneFunc done,
 						 gpointer data);
 void		mail_folder_cache_note_store_remove

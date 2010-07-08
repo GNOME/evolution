@@ -73,7 +73,9 @@ get_selected_message (EShellView *shell_view,
 		*folder = e_mail_reader_get_folder (reader);
 		*selected_uid = g_strdup (g_ptr_array_index (uids, 0));
 
-		msg = camel_folder_get_message (*folder, *selected_uid, NULL);
+		/* FIXME Not passing a GCancellable or GError here. */
+		msg = camel_folder_get_message (
+			*folder, *selected_uid, NULL, NULL);
 	}
 
 	em_utils_uids_free (uids);

@@ -81,10 +81,11 @@ e_mail_local_init (const gchar *data_dir)
 		camel_url_set_fragment (url, display_name);
 		folder_uri = camel_url_to_string (url, 0);
 
+		/* FIXME camel_store_get_folder() may block. */
 		default_local_folders[ii].folder_uri = folder_uri;
 		default_local_folders[ii].folder = camel_store_get_folder (
 			CAMEL_STORE (service), display_name,
-			CAMEL_STORE_FOLDER_CREATE, NULL);
+			CAMEL_STORE_FOLDER_CREATE, NULL, NULL);
 	}
 
 	camel_url_free (url);

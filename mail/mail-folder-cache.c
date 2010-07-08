@@ -188,11 +188,16 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 		}
 
 		if (CAMEL_IS_VEE_STORE (up->store) && !up->remove) {
-			/* Normally the vfolder store takes care of the folder_opened event itself,
-			   but we add folder to the noting system later, thus we do not know about
-			   search folders to update them in a tree, thus ensure their changes will
-			   be tracked correctly. */
-			CamelFolder *folder = camel_store_get_folder (up->store, up->full_name, 0, NULL);
+			/* Normally the vfolder store takes care of the
+			 * folder_opened event itself, but we add folder to
+			 * the noting system later, thus we do not know about
+			 * search folders to update them in a tree, thus
+			 * ensure their changes will be tracked correctly. */
+			CamelFolder *folder;
+
+			/* FIXME camel_store_get_folder() may block. */
+			folder = camel_store_get_folder (
+				up->store, up->full_name, 0, NULL, NULL);
 
 			if (folder) {
 				mail_folder_cache_note_folder (self, folder);
@@ -802,7 +807,8 @@ ping_store_exec (struct _ping_store_msg *m)
 			online = TRUE;
 	}
 	if (online)
-		camel_store_noop (m->store, &m->base.error);
+		camel_store_noop (
+			m->store, m->base.cancellable, &m->base.error);
 }
 
 static void
@@ -1086,7 +1092,7 @@ mail_folder_cache_get_default (void)
 void
 mail_folder_cache_note_store (MailFolderCache *self,
                               CamelStore *store,
-                              CamelOperation *op,
+                              GCancellable *cancellable,
                               NoteDoneFunc done,
                               gpointer data)
 {
@@ -1143,7 +1149,8 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		}
 	} else {
 	normal_setup:
-		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
+		ud->id = mail_get_folderinfo (
+			store, cancellable, update_folders, ud);
 	}
 
 	g_queue_push_tail (&si->folderinfo_updates, ud);

@@ -103,12 +103,16 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 
 			if (e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
 
-				folder = camel_store_get_folder (store, "Mailbox", 0, NULL);
+				/* FIXME Not passing a GCancellable or GError here. */
+				folder = camel_store_get_folder (store, "Mailbox", 0, NULL, NULL);
 				/*changes = camel_folder_change_info_new ();
 				camel_folder_change_info_remove_uid (changes, (gchar *) item_id);
 				camel_folder_summary_remove_uid (folder->summary, item_id);*/
 				/* camel_folder_delete_message (folder, item_id); */
-				camel_folder_set_message_flags (folder, item_id, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+				camel_folder_set_message_flags (
+					folder, item_id,
+					CAMEL_MESSAGE_DELETED,
+					CAMEL_MESSAGE_DELETED);
 				camel_folder_summary_touch (folder->summary);
 				/* camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes); */
 				uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);

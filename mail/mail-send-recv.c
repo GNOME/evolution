@@ -101,7 +101,7 @@ typedef enum {
 
 struct _send_info {
 	send_info_t type;		/* 0 = fetch, 1 = send */
-	CamelOperation *cancel;
+	GCancellable *cancellable;
 	gchar *uri;
 	gboolean keep_on_server;
 	send_state_t state;
@@ -145,8 +145,8 @@ static void
 free_send_info (struct _send_info *info)
 {
 	g_free (info->uri);
-	if (info->cancel)
-		g_object_unref (info->cancel);
+	if (info->cancellable)
+		g_object_unref (info->cancellable);
 	if (info->timeout_id != 0)
 		g_source_remove (info->timeout_id);
 	g_free (info->what);
@@ -181,7 +181,7 @@ static void
 receive_cancel (GtkButton *button, struct _send_info *info)
 {
 	if (info->state == SEND_ACTIVE) {
-		camel_operation_cancel (info->cancel);
+		camel_operation_cancel (CAMEL_OPERATION (info->cancellable));
 		if (info->status_label)
 			gtk_label_set_text (
 				GTK_LABEL (info->status_label),
@@ -529,12 +529,12 @@ build_dialog (GtkWindow *parent,
 
 			info->uri = g_strdup (source->url);
 			info->keep_on_server = source->keep_on_server;
-			info->cancel = camel_operation_new ();
+			info->cancellable = (GCancellable *) camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_signal_connect (
-				info->cancel, "status",
+				info->cancellable, "status",
 				G_CALLBACK (operation_status), info);
 
 			g_hash_table_insert (data->active, info->uri, info);
@@ -619,12 +619,12 @@ build_dialog (GtkWindow *parent,
 
 			info->uri = g_strdup (destination);
 			info->keep_on_server = FALSE;
-			info->cancel = camel_operation_new ();
+			info->cancellable = (GCancellable *) camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_signal_connect (
-				info->cancel, "status",
+				info->cancellable, "status",
 				G_CALLBACK (operation_status), info);
 
 			g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
@@ -765,7 +765,7 @@ receive_done (const gchar *uri, gpointer data)
 		mail_send_queue (local_outbox,
 				 info->uri,
 				 E_FILTER_SOURCE_OUTGOING,
-				 info->cancel,
+				 info->cancellable,
 				 receive_get_folder, info,
 				 receive_status, info,
 				 receive_done, info);
@@ -830,7 +830,8 @@ receive_get_folder (CamelFilterDriver *d,
 		g_object_ref (oldinfo->folder);
 		return oldinfo->folder;
 	}
-	folder = mail_tool_uri_to_folder (uri, 0, error);
+	/* FIXME Not passing a GCancellable here. */
+	folder = mail_tool_uri_to_folder (uri, 0, NULL, error);
 	if (!folder)
 		return NULL;
 
@@ -905,17 +906,20 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 	get_folders (m->store, m->folders, m->finfo);
 
 	for (i=0;i<m->folders->len;i++) {
-		folder = mail_tool_uri_to_folder (m->folders->pdata[i], 0, &local_error);
+		folder = mail_tool_uri_to_folder (
+			m->folders->pdata[i], 0,
+			m->base.cancellable, &local_error);
 		if (folder) {
-			camel_folder_sync (folder, FALSE, NULL);
-			camel_folder_refresh_info (folder, NULL);
+			/* FIXME Not passing a GCancellable or GError here. */
+			camel_folder_sync (folder, FALSE, NULL, NULL);
+			camel_folder_refresh_info (folder, NULL, NULL);
 			g_object_unref (folder);
 		} else if (local_error != NULL) {
 			g_warning ("Failed to refresh folders: %s", local_error->message);
 			g_clear_error (&local_error);
 		}
 
-		if (camel_operation_cancel_check (m->info->cancel))
+		if (g_cancellable_is_cancelled (m->info->cancellable))
 			break;
 	}
 }
@@ -979,8 +983,9 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 	struct _send_info *info = data;
 
 	if (store) {
-		mail_folder_cache_note_store (mail_folder_cache_get_default (),
-			store, info->cancel,
+		mail_folder_cache_note_store (
+			mail_folder_cache_get_default (),
+			store, info->cancellable,
 			receive_update_got_folderinfo, info);
 	} else {
 		receive_done("", info);
@@ -1021,24 +1026,29 @@ mail_send_receive (GtkWindow *parent)
 
 		switch (info->type) {
 		case SEND_RECEIVE:
-			mail_fetch_mail (info->uri, info->keep_on_server,
-					E_FILTER_SOURCE_INCOMING,
-					info->cancel,
-					receive_get_folder, info,
-					receive_status, info,
-					receive_done, info);
+			mail_fetch_mail (
+				info->uri,
+				info->keep_on_server,
+				E_FILTER_SOURCE_INCOMING,
+				info->cancellable,
+				receive_get_folder, info,
+				receive_status, info,
+				receive_done, info);
 			break;
 		case SEND_SEND:
 			/* todo, store the folder in info? */
-			mail_send_queue (local_outbox, info->uri,
-					E_FILTER_SOURCE_OUTGOING,
-					info->cancel,
-					receive_get_folder, info,
-					receive_status, info,
-					receive_done, info);
+			mail_send_queue (
+				local_outbox, info->uri,
+				E_FILTER_SOURCE_OUTGOING,
+				info->cancellable,
+				receive_get_folder, info,
+				receive_status, info,
+				receive_done, info);
 			break;
 		case SEND_UPDATE:
-			mail_get_store (info->uri, info->cancel, receive_update_got_store, info);
+			mail_get_store (
+				info->uri, info->cancellable,
+				receive_update_got_store, info);
 			break;
 		default:
 			break;
@@ -1239,14 +1249,14 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 	info->status_label = NULL;
 	info->uri = g_strdup (uri);
 	info->keep_on_server = keep_on_server;
-	info->cancel = camel_operation_new ();
+	info->cancellable = (GCancellable *) camel_operation_new ();
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;
 
 	g_signal_connect (
-		info->cancel, "status",
+		info->cancellable, "status",
 		G_CALLBACK (operation_status), info);
 
 	d(printf("Adding new info %p\n", info));
@@ -1255,25 +1265,29 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 
 	switch (info->type) {
 	case SEND_RECEIVE:
-		mail_fetch_mail (info->uri, info->keep_on_server,
-				 E_FILTER_SOURCE_INCOMING,
-				 info->cancel,
-				 receive_get_folder, info,
-				 receive_status, info,
-				 receive_done, info);
+		mail_fetch_mail (
+			info->uri, info->keep_on_server,
+			E_FILTER_SOURCE_INCOMING,
+			info->cancellable,
+			receive_get_folder, info,
+			receive_status, info,
+			receive_done, info);
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
 		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-		mail_send_queue (local_outbox, info->uri,
-				 E_FILTER_SOURCE_OUTGOING,
-				 info->cancel,
-				 receive_get_folder, info,
-				 receive_status, info,
-				 receive_done, info);
+		mail_send_queue (
+			local_outbox, info->uri,
+			E_FILTER_SOURCE_OUTGOING,
+			info->cancellable,
+			receive_get_folder, info,
+			receive_status, info,
+			receive_done, info);
 		break;
 	case SEND_UPDATE:
-		mail_get_store (info->uri, info->cancel, receive_update_got_store, info);
+		mail_get_store (
+			info->uri, info->cancellable,
+			receive_update_got_store, info);
 		break;
 	default:
 		g_return_if_reached ();
@@ -1315,7 +1329,7 @@ mail_send (void)
 	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
 	info->keep_on_server = FALSE;
-	info->cancel = NULL;
+	info->cancellable = NULL;
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
@@ -1329,7 +1343,7 @@ mail_send (void)
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	mail_send_queue (local_outbox, info->uri,
 			 E_FILTER_SOURCE_OUTGOING,
-			 info->cancel,
+			 info->cancellable,
 			 receive_get_folder, info,
 			 receive_status, info,
 			 receive_done, info);

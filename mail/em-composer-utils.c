@@ -229,9 +229,10 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 	if (queued) {
 		if (emcs && emcs->drafts_folder) {
 			/* delete the old draft message */
-			camel_folder_set_message_flags (emcs->drafts_folder, emcs->drafts_uid,
-							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
-							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+			camel_folder_set_message_flags (
+				emcs->drafts_folder, emcs->drafts_uid,
+				CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
+				CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 			g_object_unref (emcs->drafts_folder);
 			emcs->drafts_folder = NULL;
 			g_free (emcs->drafts_uid);
@@ -240,8 +241,12 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 
 		if (emcs && emcs->folder) {
 			/* set any replied flags etc */
-			camel_folder_set_message_flags (emcs->folder, emcs->uid, emcs->flags, emcs->set);
-			camel_folder_set_message_user_flag (emcs->folder, emcs->uid, "receipt-handled", TRUE);
+			camel_folder_set_message_flags (
+				emcs->folder, emcs->uid,
+				emcs->flags, emcs->set);
+			camel_folder_set_message_user_flag (
+				emcs->folder, emcs->uid,
+				"receipt-handled", TRUE);
 			g_object_unref (emcs->folder);
 			emcs->folder = NULL;
 			g_free (emcs->uid);
@@ -542,6 +547,7 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	/* mail the message */
 	e_msg_composer_set_mail_sent (composer, TRUE);
 	info = camel_message_info_new (NULL);
+
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	send = g_malloc (sizeof (*send));
@@ -593,9 +599,10 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 
 	if (emcs->drafts_folder) {
 		/* delete the original draft message */
-		camel_folder_set_message_flags (emcs->drafts_folder, emcs->drafts_uid,
-						CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
-						CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+		camel_folder_set_message_flags (
+			emcs->drafts_folder, emcs->drafts_uid,
+			CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
+			CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 		g_object_unref (emcs->drafts_folder);
 		emcs->drafts_folder = NULL;
 		g_free (emcs->drafts_uid);
@@ -604,7 +611,9 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 
 	if (emcs->folder) {
 		/* set the replied flags etc */
-		camel_folder_set_message_flags (emcs->folder, emcs->uid, emcs->flags, emcs->set);
+		camel_folder_set_message_flags (
+			emcs->folder, emcs->uid,
+			emcs->flags, emcs->set);
 		g_object_unref (emcs->folder);
 		emcs->folder = NULL;
 		g_free (emcs->uid);
@@ -717,7 +726,9 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	}
 
 	info = camel_message_info_new (NULL);
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
+
+	camel_message_info_set_flags (
+		info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
 
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
 	g_object_unref (folder);
@@ -1142,7 +1153,9 @@ static void
 real_update_forwarded_flag (gpointer uid, gpointer folder)
 {
 	if (uid && folder)
-		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED);
+		camel_folder_set_message_flags (
+			folder, uid, CAMEL_MESSAGE_FORWARDED,
+			CAMEL_MESSAGE_FORWARDED);
 }
 
 static void
@@ -1796,7 +1809,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	/* Send the receipt */
 	info = camel_message_info_new (NULL);
 	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	camel_message_info_set_flags (
+		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);
 }
 

@@ -115,7 +115,7 @@ struct _EMFormatHTMLJob {
 	GNode *puri_level;
 	CamelURL *base;
 
-	void (*callback)(EMFormatHTMLJob *job, gint cancelled);
+	void (*callback)(EMFormatHTMLJob *job, GCancellable *cancellable);
 	union {
 		gchar *uri;
 		CamelMedium *msg;
@@ -269,7 +269,7 @@ void		em_format_html_remove_pobject	(EMFormatHTML *efh,
 void		em_format_html_clear_pobject	(EMFormatHTML *efh);
 EMFormatHTMLJob *
 		em_format_html_job_new		(EMFormatHTML *efh,
-						 void (*callback)(EMFormatHTMLJob *job, gint cancelled),
+						 void (*callback)(EMFormatHTMLJob *job, GCancellable *cancellable),
 						 gpointer data);
 void		em_format_html_job_queue	(EMFormatHTML *efh,
 						 EMFormatHTMLJob *job);

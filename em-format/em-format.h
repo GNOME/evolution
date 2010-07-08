@@ -63,6 +63,7 @@ typedef void	(*EMFormatFunc)			(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,
 						 const EMFormatHandler *info,
+						 GCancellable *cancellable,
 						 gboolean is_fallback);
 
 typedef enum {
@@ -106,7 +107,8 @@ struct _EMFormatHandler {
 typedef struct _EMFormatPURI EMFormatPURI;
 typedef void	(*EMFormatPURIFunc)		(EMFormat *emf,
 						 CamelStream *stream,
-						 EMFormatPURI *puri);
+						 EMFormatPURI *puri,
+						 GCancellable *cancellable);
 
 /**
  * struct _EMFormatPURI - Pending URI object.
@@ -252,7 +254,8 @@ struct _EMFormatClass {
 						 CamelFolder *folder,
 						 const gchar *uid,
 						 CamelMimeMessage *message,
-						 EMFormat *source);
+						 EMFormat *source,
+						 GCancellable *cancellable);
 
 	/* some internel error/inconsistency */
 	void		(*format_error)		(EMFormat *emf,
@@ -264,7 +267,8 @@ struct _EMFormatClass {
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,
 						 const gchar *mime_type,
-						 const EMFormatHandler *info);
+						 const EMFormatHandler *info,
+						 GCancellable *cancellable);
 
 	/* use for unparsable content */
 	void		(*format_source)	(EMFormat *emf,
@@ -274,7 +278,8 @@ struct _EMFormatClass {
 	void		(*format_secure)	(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,
-						 CamelCipherValidity *validity);
+						 CamelCipherValidity *validity,
+						 GCancellable *cancellable);
 
 	/* returns true if the formatter is still busy with pending stuff */
 	gboolean	(*busy)			(EMFormat *);
@@ -360,19 +365,22 @@ void		em_format_format_clone		(EMFormat *emf,
 						 CamelFolder *folder,
 						 const gchar *uid,
 						 CamelMimeMessage *message,
-						 EMFormat *source);
+						 EMFormat *source,
+						 GCancellable *cancellable);
 
 /* formats a new message */
 void		em_format_format		(EMFormat *emf,
 						 CamelFolder *folder,
 						 const gchar *uid,
-						 CamelMimeMessage *message);
+						 CamelMimeMessage *message,
+						 GCancellable *cancellable);
 void		em_format_queue_redraw		(EMFormat *emf);
 void		em_format_format_attachment	(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,
 						 const gchar *mime_type,
-						 const EMFormatHandler *info);
+						 const EMFormatHandler *info,
+						 GCancellable *cancellable);
 void		em_format_format_error		(EMFormat *emf,
 						 CamelStream *stream,
 						 const gchar *format,
@@ -380,7 +388,8 @@ void		em_format_format_error		(EMFormat *emf,
 void		em_format_format_secure		(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,
-						 CamelCipherValidity *valid);
+						 CamelCipherValidity *valid,
+						 GCancellable *cancellable);
 void		em_format_format_source		(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part);
@@ -390,7 +399,8 @@ gboolean	em_format_busy			(EMFormat *emf);
 /* raw content only */
 void		em_format_format_content	(EMFormat *emf,
 						 CamelStream *stream,
-						 CamelMimePart *part);
+						 CamelMimePart *part,
+						 GCancellable *cancellable);
 
 /* raw content text parts - should this just be checked/done by above? */
 void		em_format_format_text		(EMFormat *emf,
@@ -400,10 +410,12 @@ void		em_format_format_text		(EMFormat *emf,
 void		em_format_part_as		(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *part,
-						 const gchar *mime_type);
+						 const gchar *mime_type,
+						 GCancellable *cancellable);
 void		em_format_part			(EMFormat *emf,
 						 CamelStream *stream,
-						 CamelMimePart *part);
+						 CamelMimePart *mime_part,
+						 GCancellable *cancellable);
 void		em_format_merge_handler		(EMFormat *new,
 						 EMFormat *old);
 

@@ -86,9 +86,9 @@ store_info_new (CamelStore *store,
 	/* If these are vfolders then they need to be opened now,
 	 * otherwise they won't keep track of all folders. */
 	if (store->flags & CAMEL_STORE_VTRASH)
-		store_info->vtrash = camel_store_get_trash (store, NULL);
+		store_info->vtrash = camel_store_get_trash (store, NULL, NULL);
 	if (store->flags & CAMEL_STORE_VJUNK)
-		store_info->vjunk = camel_store_get_junk (store, NULL);
+		store_info->vjunk = camel_store_get_junk (store, NULL, NULL);
 
 	return store_info;
 }

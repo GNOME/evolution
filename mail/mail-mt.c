@@ -89,7 +89,7 @@ mail_msg_new (MailMsgInfo *info)
 	msg->info = info;
 	msg->ref_count = 1;
 	msg->seq = mail_msg_seq++;
-	msg->cancel = camel_operation_new ();
+	msg->cancellable = (GCancellable *) camel_operation_new ();
 
 	msg->priv = g_slice_new0 (MailMsgPrivate);
 	msg->priv->activity = e_activity_new ();
@@ -99,10 +99,10 @@ mail_msg_new (MailMsgInfo *info)
 
 	e_activity_set_cancellable (
 		msg->priv->activity,
-		G_CANCELLABLE (msg->cancel));
+		G_CANCELLABLE (msg->cancellable));
 
 	g_signal_connect (
-		msg->cancel, "cancelled",
+		msg->cancellable, "cancelled",
 		G_CALLBACK (mail_msg_cancelled),
 		GINT_TO_POINTER (msg->seq));
 
@@ -157,8 +157,8 @@ mail_msg_free (MailMsg *mail_msg)
 		g_object_unref (mail_msg->priv->activity);
 	}
 
-	if (mail_msg->cancel != NULL)
-		g_object_unref (mail_msg->cancel);
+	if (mail_msg->cancellable != NULL)
+		g_object_unref (mail_msg->cancellable);
 
 	if (mail_msg->error != NULL)
 		g_error_free (mail_msg->error);
@@ -255,8 +255,7 @@ mail_msg_check_error (gpointer msg)
 
 	if (m->error == NULL
 	    || g_error_matches (m->error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
-	    || g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID)
-	    || (m->cancel && camel_operation_cancel_check (m->cancel)))
+	    || g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID))
 		return;
 
 	if (active_errors == NULL)
@@ -295,26 +294,26 @@ mail_msg_check_error (gpointer msg)
 
 }
 
-void mail_msg_cancel (guint msgid)
+void
+mail_msg_cancel (guint msgid)
 {
-	MailMsg *m;
+	MailMsg *msg;
 
 	g_mutex_lock (mail_msg_lock);
 
-	m = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid));
+	msg = g_hash_table_lookup (
+		mail_msg_active_table, GINT_TO_POINTER (msgid));
 
-	if (m != NULL && m->cancel != NULL && !camel_operation_cancel_check (m->cancel)) {
-		g_signal_handlers_block_by_func (m->cancel, mail_msg_cancelled, GINT_TO_POINTER (m->seq));
-		camel_operation_cancel (m->cancel);
-		g_signal_handlers_unblock_by_func (m->cancel, mail_msg_cancelled, GINT_TO_POINTER (m->seq));
-	}
+	if (msg != NULL && msg->cancellable != NULL)
+		camel_operation_cancel (CAMEL_OPERATION (msg->cancellable));
 
 	g_mutex_unlock (mail_msg_lock);
 }
 
 /* waits for a message to be finished processing (freed)
    the messageid is from MailMsg->seq */
-void mail_msg_wait (guint msgid)
+void
+mail_msg_wait (guint msgid)
 {
 	MailMsg *m;
 
@@ -473,10 +472,9 @@ mail_msg_idle_cb (void)
 static void
 mail_msg_proxy (MailMsg *msg)
 {
-	if (msg->info->desc != NULL && msg->cancel) {
+	if (msg->info->desc != NULL) {
 		gchar *text = msg->info->desc (msg);
-		camel_operation_register (msg->cancel);
-		camel_operation_start (msg->cancel, "%s", text);
+		camel_operation_start (msg->cancellable, "%s", text);
 		g_free (text);
 	}
 
@@ -489,10 +487,8 @@ mail_msg_proxy (MailMsg *msg)
 	if (msg->info->exec != NULL)
 		msg->info->exec (msg);
 
-	if (msg->info->desc != NULL && msg->cancel) {
-		camel_operation_end (msg->cancel);
-		camel_operation_unregister ();
-	}
+	if (msg->info->desc != NULL)
+		camel_operation_end (msg->cancellable);
 
 	g_async_queue_push (msg_reply_queue, msg);
 

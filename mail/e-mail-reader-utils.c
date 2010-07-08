@@ -153,6 +153,7 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 
 	mask = CAMEL_MESSAGE_SEEN;
 	set  = CAMEL_MESSAGE_SEEN;
+
 	camel_folder_set_message_flags (folder, uid, mask, set);
 }
 
@@ -180,6 +181,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
 			folder, uids->pdata[ii], mask, set);
 
 	em_utils_uids_free (uids);
+
 	camel_folder_thaw (folder);
 
 	return ii;

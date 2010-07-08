@@ -142,9 +142,14 @@ create_folder_exec (struct _EMCreateFolder *m)
 {
 	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
 
-	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &m->base.error))) {
+	if ((m->fi = camel_store_create_folder (
+		m->store, m->parent, m->name,
+		m->base.cancellable, &m->base.error))) {
+
 		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder (m->store, m->full_name, &m->base.error);
+			camel_store_subscribe_folder (
+				m->store, m->full_name,
+				m->base.cancellable, &m->base.error);
 	}
 }
 

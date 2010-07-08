@@ -563,7 +563,8 @@ all_accounts:
 	iter = mail_vfolder_get_sources_local ();
 	while (iter != NULL) {
 		folder_uri = iter->data;
-		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL);
+		/* FIXME Not passing a GCancellable or GError here. */
+		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL, NULL);
 
 		if (folder != NULL)
 			list = g_list_append (list, folder);
@@ -577,7 +578,8 @@ all_accounts:
 	iter = mail_vfolder_get_sources_remote ();
 	while (iter != NULL) {
 		folder_uri = iter->data;
-		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL);
+		/* FIXME Not passing a GCancellable or GError here. */
+		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL, NULL);
 
 		if (folder != NULL)
 			list = g_list_append (list, folder);

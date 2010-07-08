@@ -67,6 +67,7 @@ emfh_format_format (EMFormat *md,
                     CamelStream *stream,
                     CamelMimePart *part,
                     const EMFormatHandler *info,
+                    GCancellable *cancellable,
                     gboolean is_fallback)
 {
 	struct _EMFormatHookItem *item = (EMFormatHookItem *)info;
@@ -78,7 +79,8 @@ emfh_format_format (EMFormat *md,
 
 		e_plugin_invoke (item->hook->hook.plugin, item->format, &target);
 	} else if (info->old) {
-		info->old->handler (md, stream, part, info->old, FALSE);
+		info->old->handler (
+			md, stream, part, info->old, cancellable, FALSE);
 	}
 }
 

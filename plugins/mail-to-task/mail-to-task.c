@@ -780,7 +780,10 @@ do_mail_to_event (AsyncData *data)
 			struct _manage_comp *mc;
 
 			/* retrieve the message from the CamelFolder */
-			message = camel_folder_get_message (folder, g_ptr_array_index (uids, i), NULL);
+			/* FIXME Not passing a GCancellable or GError. */
+			message = camel_folder_get_message (
+				folder, g_ptr_array_index (uids, i),
+				NULL, NULL);
 			if (!message) {
 				continue;
 			}

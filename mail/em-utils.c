@@ -493,6 +493,7 @@ em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrAr
 			camel_folder_free_message_info (folder, mi);
 		}
 	}
+
 	camel_folder_thaw (folder);
 
 	em_utils_uids_free (uids);
@@ -532,6 +533,7 @@ em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GP
 			camel_folder_free_message_info (folder, mi);
 		}
 	}
+
 	camel_folder_thaw (folder);
 
 	g_free (now);
@@ -558,7 +560,9 @@ em_utils_write_messages_to_stream (CamelFolder *folder, GPtrArray *uids, CamelSt
 		CamelMimeMessage *message;
 		gchar *from;
 
-		message = camel_folder_get_message (folder, uids->pdata[i], NULL);
+		/* FIXME camel_folder_get_message() may block. */
+		message = camel_folder_get_message (
+			folder, uids->pdata[i], NULL, NULL);
 		if (message == NULL) {
 			res = -1;
 			break;
@@ -607,8 +611,9 @@ em_utils_read_messages_from_stream (CamelFolder *folder, CamelStream *stream)
 			break;
 		}
 
+		/* FIXME camel_folder_append_message() may block. */
 		success = camel_folder_append_message (
-			folder, msg, NULL, NULL, NULL);
+			folder, msg, NULL, NULL, NULL, NULL);
 		g_object_unref (msg);
 
 		if (!success)
@@ -712,7 +717,9 @@ em_utils_selection_get_message (GtkSelectionData *selection_data,
 		camel_stream_mem_new_with_buffer ((gchar *)data, length);
 	msg = camel_mime_message_new ();
 	if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)msg, stream, NULL) == 0)
-		camel_folder_append_message (folder, msg, NULL, NULL, NULL);
+		/* FIXME camel_folder_append_message() may block. */
+		camel_folder_append_message (
+			folder, msg, NULL, NULL, NULL, NULL);
 	g_object_unref (msg);
 	g_object_unref (stream);
 }
@@ -762,6 +769,7 @@ void
 em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
                                 CamelFolder *dest,
                                 gint move,
+                                GCancellable *cancellable,
                                 GError **error)
 {
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
@@ -800,9 +808,13 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 		return;
 	}
 
-	folder = mail_tool_uri_to_folder ((gchar *) data, 0, error);
+	/* FIXME mail_tool_uri_to_folder() may block. */
+	folder = mail_tool_uri_to_folder (
+		(gchar *) data, 0, cancellable, error);
 	if (folder) {
-		camel_folder_transfer_messages_to (folder, uids, dest, NULL, move, error);
+		/* FIXME camel_folder_transfer_messages_to() may block. */
+		camel_folder_transfer_messages_to (
+			folder, uids, dest, NULL, move, cancellable, error);
 		g_object_unref (folder);
 	}
 
@@ -1243,7 +1255,13 @@ em_utils_get_proxy_uri (const gchar *pUri)
  * Return value: The html version.
  **/
 gchar *
-em_utils_message_to_html (CamelMimeMessage *message, const gchar *credits, guint32 flags, gssize *len, EMFormat *source, const gchar *append, guint32 *validity_found)
+em_utils_message_to_html (CamelMimeMessage *message,
+                          const gchar *credits,
+                          guint32 flags,
+                          gssize *len,
+                          EMFormat *source,
+                          const gchar *append,
+                          guint32 *validity_found)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1269,7 +1287,9 @@ em_utils_message_to_html (CamelMimeMessage *message, const gchar *credits, guint
 		g_free (charset);
 	}
 
-	em_format_format_clone ((EMFormat *)emfq, NULL, NULL, message, source);
+	/* FIXME Not passing a GCancellable here. */
+	em_format_format_clone (
+		EM_FORMAT (emfq), NULL, NULL, message, source, NULL);
 	if (validity_found)
 		*validity_found = ((EMFormat *)emfq)->validity_found;
 	g_object_unref (emfq);

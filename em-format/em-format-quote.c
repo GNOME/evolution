@@ -59,14 +59,16 @@ emfq_format_clone (EMFormat *emf,
                    CamelFolder *folder,
                    const gchar *uid,
                    CamelMimeMessage *msg,
-                   EMFormat *src)
+                   EMFormat *src,
+                   GCancellable *cancellable)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 	const EMFormatHandler *handle;
 	GConfClient *gconf;
 
 	/* Chain up to parent's format_clone() method. */
-	EM_FORMAT_CLASS (parent_class)->format_clone (emf, folder, uid, msg, src);
+	EM_FORMAT_CLASS (parent_class)->format_clone (
+		emf, folder, uid, msg, src, cancellable);
 
 	gconf = gconf_client_get_default ();
 	camel_stream_reset (emfq->stream, NULL);
@@ -75,10 +77,16 @@ emfq_format_clone (EMFormat *emf,
 	g_object_unref (gconf);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
-		handle->handler (emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
+		handle->handler (
+			emf, emfq->stream,
+			CAMEL_MIME_PART (msg),
+			handle, cancellable, FALSE);
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
-		handle->handler (emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
+		handle->handler (
+			emf, emfq->stream,
+			CAMEL_MIME_PART (msg),
+			handle, cancellable, FALSE);
 
 	camel_stream_flush (emfq->stream, NULL);
 
@@ -121,7 +129,8 @@ emfq_format_attachment (EMFormat *emf,
                         CamelStream *stream,
                         CamelMimePart *part,
                         const gchar *mime_type,
-                        const EMFormatHandler *handle)
+                        const EMFormatHandler *handle,
+                        GCancellable *cancellable)
 {
 	EMFormatQuote *emfq = EM_FORMAT_QUOTE (emf);
 	gchar *text, *html;
@@ -144,7 +153,7 @@ emfq_format_attachment (EMFormat *emf,
 
 	camel_stream_write_string (stream, "</font></td></tr></table>", NULL);
 
-	handle->handler (emf, stream, part, handle, FALSE);
+	handle->handler (emf, stream, part, handle, cancellable, FALSE);
 }
 
 static void
@@ -471,6 +480,7 @@ emfq_format_message_prefix (EMFormat *emf,
                             CamelStream *stream,
                             CamelMimePart *part,
                             const EMFormatHandler *info,
+                            GCancellable *cancellable,
                             gboolean is_fallback)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
@@ -484,6 +494,7 @@ emfq_format_message (EMFormat *emf,
                      CamelStream *stream,
                      CamelMimePart *part,
                      const EMFormatHandler *info,
+                     GCancellable *cancellable,
                      gboolean is_fallback)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
@@ -502,7 +513,7 @@ emfq_format_message (EMFormat *emf,
 	} else if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
 		emfq_format_headers (emfq, stream, (CamelMedium *)part);
 
-	em_format_part (emf, stream, part);
+	em_format_part (emf, stream, part, cancellable);
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_write_string (
@@ -515,6 +526,7 @@ emfq_text_plain (EMFormat *emf,
                  CamelStream *stream,
                  CamelMimePart *part,
                  const EMFormatHandler *info,
+                 GCancellable *cancellable,
                  gboolean is_fallback)
 {
 	EMFormatQuote *emfq = EM_FORMAT_QUOTE (emf);
@@ -564,6 +576,7 @@ emfq_text_enriched (EMFormat *emf,
                     CamelStream *stream,
                     CamelMimePart *part,
                     const EMFormatHandler *info,
+                    GCancellable *cancellable,
                     gboolean is_fallback)
 {
 	CamelStream *filtered_stream;
@@ -596,6 +609,7 @@ emfq_text_html (EMFormat *emf,
                 CamelStream *stream,
                 CamelMimePart *part,
                 const EMFormatHandler *info,
+                GCancellable *cancellable,
                 gboolean is_fallback)
 {
 	camel_stream_write_string(stream, "\n<!-- text/html -->\n", NULL);
@@ -607,6 +621,7 @@ emfq_ignore (EMFormat *emf,
              CamelStream *stream,
              CamelMimePart *part,
              const EMFormatHandler *info,
+             GCancellable *cancellable,
              gboolean is_fallback)
 {
 	/* NOOP */

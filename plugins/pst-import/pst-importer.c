@@ -251,7 +251,8 @@ get_suggested_foldername (EImportTargetURI *target)
 		g_string_append (foldername, "outlook_data");
 	}
 
-	if (mail_tool_uri_to_folder (foldername->str, 0, NULL) != NULL) {
+	/* FIXME Not passing a GCancellable or GError here. */
+	if (mail_tool_uri_to_folder (foldername->str, 0, NULL, NULL) != NULL) {
 		CamelFolder *folder;
 
 		/* Folder exists - add a number */
@@ -261,7 +262,8 @@ get_suggested_foldername (EImportTargetURI *target)
 		for (i=1; i<10000; i++) {
 			g_string_truncate (foldername, len);
 			g_string_append_printf (foldername, "_%d", i);
-			if ((folder=mail_tool_uri_to_folder (foldername->str, 0, NULL)) == NULL) {
+			/* FIXME Not passing a GCancellable or GError here. */
+			if ((folder=mail_tool_uri_to_folder (foldername->str, 0, NULL, NULL)) == NULL) {
 				/* Folder does not exist */
 				break;
 			}
@@ -452,7 +454,9 @@ pst_import_file (PstImporter *m)
 	camel_operation_start (NULL, _("Importing '%s'"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
-		mail_tool_uri_to_folder (m->parent_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
+		mail_tool_uri_to_folder (
+			m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
+			m->base.cancellable, &m->base.error);
 	}
 
 	ret = pst_init (&m->pst, filename);
@@ -703,7 +707,9 @@ pst_create_folder (PstImporter *m)
 
 			*pos = '\0';
 
-			folder = mail_tool_uri_to_folder (dest, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
+			folder = mail_tool_uri_to_folder (
+				dest, CAMEL_STORE_FOLDER_CREATE,
+				m->base.cancellable, &m->base.error);
 			g_object_unref (folder);
 			*pos = '/';
 		}
@@ -715,8 +721,9 @@ pst_create_folder (PstImporter *m)
 		g_object_unref (m->folder);
 	}
 
-	m->folder = mail_tool_uri_to_folder (m->folder_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
-
+	m->folder = mail_tool_uri_to_folder (
+		m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
+		m->base.cancellable, &m->base.error);
 }
 
 /**
@@ -916,12 +923,14 @@ pst_process_email (PstImporter *m, pst_item *item)
 	if (item->flags & 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
+	/* FIXME Not passing a GCancellable or GError here. */
 	success = camel_folder_append_message (
-		m->folder, msg, info, NULL, NULL);
+		m->folder, msg, info, NULL, NULL, NULL);
 	camel_message_info_free (info);
 	g_object_unref (msg);
 
-	camel_folder_sync (m->folder, FALSE, NULL);
+	/* FIXME Not passing a GCancellable or GError here. */
+	camel_folder_sync (m->folder, FALSE, NULL, NULL);
 	camel_folder_thaw (m->folder);
 
 	if (!success) {

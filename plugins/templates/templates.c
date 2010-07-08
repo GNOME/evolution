@@ -565,8 +565,9 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		gchar *path;
 		guint ii;
 
+		/* FIXME Not passing a GCancellable or GError here. */
 		folder = camel_store_get_folder (
-			store, folder_info->full_name, 0, NULL);
+			store, folder_info->full_name, 0, NULL, NULL);
 		folder_name = camel_folder_get_name (folder);
 
 		action_name = g_strdup_printf (
@@ -612,7 +613,9 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			if (flags & CAMEL_MESSAGE_DELETED)
 				continue;
 
-			template = camel_folder_get_message (folder, uid, NULL);
+			/* FIXME Not passing a GCancellable or GError here. */
+			template = camel_folder_get_message (
+				folder, uid, NULL, NULL);
 			g_object_ref (template);
 
 			action_label =
@@ -764,10 +767,11 @@ update_actions_cb (EShellView *shell_view)
 	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 	full_name = camel_folder_get_full_name (templates_folder);
 
+	/* FIXME Not passing a GCancellable or GError here. */
 	folder_info = camel_store_get_folder_info (
 		store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
+		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 
 	build_template_menus_recurse (
 		ui_manager, action_group,

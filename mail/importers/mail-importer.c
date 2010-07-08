@@ -123,7 +123,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		folder = e_mail_local_get_folder (E_MAIL_FOLDER_INBOX);
 	else
 		folder = mail_tool_uri_to_folder (
-			m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.error);
+			m->uri, CAMEL_STORE_FOLDER_CREATE,
+			m->base.cancellable, &m->base.error);
 
 	if (folder == NULL)
 		return;
@@ -181,7 +182,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 
 			camel_message_info_set_flags (info, flags, ~0);
 			camel_folder_append_message (
-				folder, msg, info, NULL, &m->base.error);
+				folder, msg, info, NULL,
+				m->base.cancellable, &m->base.error);
 			camel_message_info_free (info);
 			g_object_unref (msg);
 
@@ -190,7 +192,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 
 			camel_mime_parser_step (mp, NULL, NULL);
 		}
-		camel_folder_sync (folder, FALSE, NULL);
+		/* FIXME Not passing a GCancellable or GError here. */
+		camel_folder_sync (folder, FALSE, NULL, NULL);
 		camel_folder_thaw (folder);
 		camel_operation_end (NULL);
 		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
@@ -200,7 +203,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		g_object_unref (mp);
 	}
 fail1:
-	camel_folder_sync (folder, FALSE, NULL);
+	/* FIXME Not passing a GCancellable or GError here. */
+	camel_folder_sync (folder, FALSE, NULL, NULL);
 	g_object_unref (folder);
 }
 

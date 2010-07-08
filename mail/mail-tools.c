@@ -44,7 +44,9 @@
 /* **************************************** */
 
 CamelFolder *
-mail_tool_get_inbox (const gchar *url, GError **error)
+mail_tool_get_inbox (const gchar *url,
+                     GCancellable *cancellable,
+                     GError **error)
 {
 	CamelStore *store;
 	CamelFolder *folder;
@@ -53,7 +55,7 @@ mail_tool_get_inbox (const gchar *url, GError **error)
 	if (!store)
 		return NULL;
 
-	folder = camel_store_get_inbox (store, error);
+	folder = camel_store_get_inbox (store, cancellable, error);
 	g_object_unref (store);
 
 	return folder;
@@ -76,6 +78,7 @@ is_local_provider (CamelStore *store)
 CamelFolder *
 mail_tool_get_trash (const gchar *url,
                      gint connect,
+                     GCancellable *cancellable,
                      GError **error)
 {
 	CamelStore *store;
@@ -93,7 +96,7 @@ mail_tool_get_trash (const gchar *url,
 	if (connect ||
 		(CAMEL_SERVICE (store)->status == CAMEL_SERVICE_CONNECTED ||
 		is_local_provider (store)))
-		trash = camel_store_get_trash (store, error);
+		trash = camel_store_get_trash (store, cancellable, error);
 	else
 		trash = NULL;
 
@@ -293,7 +296,10 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_uri_to_folder (const gchar *uri, guint32 flags, GError **error)
+mail_tool_uri_to_folder (const gchar *uri,
+                         guint32 flags,
+                         GCancellable *cancellable,
+                         GError **error)
 {
 	CamelURL *url;
 	CamelStore *store = NULL;
@@ -345,11 +351,14 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, GError **error)
 
 		if (offset) {
 			if (offset == 7)
-				folder = camel_store_get_trash (store, error);
+				folder = camel_store_get_trash (
+					store, cancellable, error);
 			else if (offset == 6)
-				folder = camel_store_get_junk (store, error);
+				folder = camel_store_get_junk (
+					store, cancellable, error);
 		} else
-			folder = camel_store_get_folder (store, name, flags, error);
+			folder = camel_store_get_folder (
+				store, name, flags, cancellable, error);
 		g_object_unref (store);
 	}
 
@@ -381,7 +390,8 @@ mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids)
 	if (in == NULL)
 		return NULL;
 
-	folder = mail_tool_uri_to_folder (in, 0, NULL);
+	/* FIXME Not passing a GCancellable or GError here. */
+	folder = mail_tool_uri_to_folder (in, 0, NULL, NULL);
 
 	if (!folder)
 		return NULL;

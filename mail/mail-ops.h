@@ -71,7 +71,7 @@ gint mail_get_folder_quota (CamelFolder *folder,
 		 gpointer data, MailMsgDispatchFunc dispatch);
 
 /* and for a store */
-gint mail_get_store (const gchar *uri, CamelOperation *op,
+gint mail_get_store (const gchar *uri, GCancellable *cancellable,
 		    void (*done) (gchar *uri, CamelStore *store, gpointer data), gpointer data);
 
 /* build an attachment */
@@ -99,9 +99,10 @@ void mail_empty_trash (EAccount *account,
 		       gpointer data);
 
 /* get folder info asynchronously */
-gint mail_get_folderinfo (CamelStore *store, CamelOperation *op,
-			 gboolean (*done)(CamelStore *store, CamelFolderInfo *info, gpointer data),
-			 gpointer data);
+gint		mail_get_folderinfo		(CamelStore *store,
+						 GCancellable *cancellable,
+						 gboolean (*done)(CamelStore *store, CamelFolderInfo *info, gpointer data),
+						 gpointer data);
 
 /* remove an existing folder */
 void mail_remove_folder (CamelFolder *folder,
@@ -124,23 +125,33 @@ gint mail_save_part (CamelMimePart *part, const gchar *path,
 		    gpointer data, gboolean readonly);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
-void mail_send_queue (CamelFolder *queue, const gchar *destination,
-		      const gchar *type, CamelOperation *cancel,
-		      CamelFilterGetFolderFunc get_folder, gpointer get_data,
-		      CamelFilterStatusFunc *status, gpointer status_data,
-		      void (*done)(const gchar *destination, gpointer data),
-		      gpointer data);
+void		mail_send_queue			(CamelFolder *queue,
+						 const gchar *destination,
+						 const gchar *type,
+						 GCancellable *cancellable,
+						 CamelFilterGetFolderFunc get_folder,
+						 gpointer get_data,
+						 CamelFilterStatusFunc *status,
+						 gpointer status_data,
+						 void (*done)(const gchar *destination, gpointer data),
+						 gpointer data);
 
-void mail_fetch_mail (const gchar *source, gint keep,
-		      const gchar *type, CamelOperation *cancel,
-		      CamelFilterGetFolderFunc get_folder, gpointer get_data,
-		      CamelFilterStatusFunc *status, gpointer status_data,
-		      void (*done)(const gchar *source, gpointer data),
-		      gpointer data);
+void		mail_fetch_mail			(const gchar *source,
+						 gint keep,
+						 const gchar *type,
+						 GCancellable *cancellable,
+						 CamelFilterGetFolderFunc get_folder,
+						 gpointer get_data,
+						 CamelFilterStatusFunc *status,
+						 gpointer status_data,
+						 void (*done)(const gchar *source, gpointer data),
+						 gpointer data);
 
-void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
-			 const gchar *type, gboolean notify,
-			 CamelOperation *cancel);
+void		mail_filter_folder		(CamelFolder *source_folder,
+						 GPtrArray *uids,
+						 const gchar *type,
+						 gboolean notify,
+						 CamelOperation *cancel);
 
 /* convenience functions for above */
 void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);

@@ -348,18 +348,20 @@ mark_all_as_read (CamelFolder *folder)
 static gboolean
 mar_all_sub_folders (CamelStore *store,
                      CamelFolderInfo *fi,
+                     GCancellable *cancellable,
                      GError **error)
 {
 	while (fi) {
 		CamelFolder *folder;
 
 		if (fi->child) {
-			if (!mar_all_sub_folders (store, fi->child, error))
+			if (!mar_all_sub_folders (
+				store, fi->child, cancellable, error))
 				return FALSE;
 		}
 
 		folder = camel_store_get_folder (
-			store, fi->full_name, 0, error);
+			store, fi->full_name, 0, cancellable, error);
 		if (folder == NULL)
 			return FALSE;
 
@@ -389,10 +391,11 @@ mar_got_folder (gchar *folder_uri,
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
+	/* FIXME Not passing a GCancellable or GError here. */
 	folder_info = camel_store_get_folder_info (
 		parent_store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
+		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 
 	if (folder_info == NULL)
 		goto exit;
@@ -405,7 +408,8 @@ mar_got_folder (gchar *folder_uri,
 	if (response == MARK_ALL_READ_CURRENT_FOLDER)
 		mark_all_as_read (folder);
 	else if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
-		mar_all_sub_folders (parent_store, folder_info, NULL);
+		/* FIXME Not passing a GCancellable or GError here. */
+		mar_all_sub_folders (parent_store, folder_info, NULL, NULL);
 
 exit:
 	camel_store_free_folder_info (parent_store, folder_info);

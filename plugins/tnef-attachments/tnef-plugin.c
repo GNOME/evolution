@@ -165,9 +165,15 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 	g_string_append_printf(t->format->part_id, ".tnef");
 
 	if (camel_multipart_get_number (mp) > 0)
-		em_format_part_as(t->format, t->stream, mainpart, "multipart/mixed");
+		/* FIXME Not passing a GCancellable here. */
+		em_format_part_as (
+			t->format, t->stream, mainpart,
+			"multipart/mixed", NULL);
 	else if (t->item->handler.old)
-	    t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
+		/* FIXME Not passing a GCancellable here. */
+		t->item->handler.old->handler (
+			t->format, t->stream, t->part,
+			t->item->handler.old, NULL, FALSE);
 
 	g_string_truncate (t->format->part_id, len);
 
@@ -177,7 +183,10 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 	goto ok;
  fail:
 	if (t->item->handler.old)
-	    t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
+		/* FIXME Not passing a GCancellable here. */
+		t->item->handler.old->handler (
+			t->format, t->stream, t->part,
+			t->item->handler.old, NULL, FALSE);
  ok:
 	g_free (name);
 	g_free (tmpdir);

@@ -1353,6 +1353,7 @@ action_mail_toggle_important_cb (GtkAction *action,
 		flags ^= CAMEL_MESSAGE_FLAGGED;
 		if (flags & CAMEL_MESSAGE_FLAGGED)
 			flags &= ~CAMEL_MESSAGE_DELETED;
+
 		camel_folder_set_message_flags (
 			folder, uids->pdata[ii], CAMEL_MESSAGE_FLAGGED |
 			CAMEL_MESSAGE_DELETED, flags);
@@ -2233,8 +2234,10 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		(EEvent *) event, "message.reading",
 		(EEventTarget *) target);
 
+	/* FIXME Need to pass a GCancellable. */
 	em_format_format (
-		EM_FORMAT (formatter), folder, message_uid, message);
+		EM_FORMAT (formatter), folder,
+		message_uid, message, NULL);
 
 	/* Reset the shell view icon. */
 	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
@@ -2355,7 +2358,9 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 				priv->retrieving_message_operation_id = op_id;
 		}
 	} else {
-		em_format_format (EM_FORMAT (formatter), NULL, NULL, NULL);
+		/* FIXME Need to pass a GCancellable. */
+		em_format_format (
+			EM_FORMAT (formatter), NULL, NULL, NULL, NULL);
 		priv->restoring_message_selection = FALSE;
 	}
 
@@ -2490,7 +2495,8 @@ mail_reader_set_folder (EMailReader *reader,
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_sent (folder, folder_uri));
 
-	em_format_format (EM_FORMAT (formatter), NULL, NULL, NULL);
+	/* FIXME Need to pass a GCancellable. */
+	em_format_format (EM_FORMAT (formatter), NULL, NULL, NULL, NULL);
 
 	priv->folder_was_just_selected = (folder != NULL);
 

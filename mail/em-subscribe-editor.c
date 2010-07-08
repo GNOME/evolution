@@ -268,11 +268,11 @@ sub_folder_exec (struct _zsubscribe_msg *m)
 	if (m->subscribe)
 		camel_store_subscribe_folder (
 			m->sub->store, m->node->info->full_name,
-			&m->base.error);
+			m->base.cancellable, &m->base.error);
 	else
 		camel_store_unsubscribe_folder (
 			m->sub->store, m->node->info->full_name,
-			&m->base.error);
+			m->base.cancellable, &m->base.error);
 }
 
 static void
@@ -453,15 +453,13 @@ static void
 sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 {
 	if (m->seq == m->sub->seq) {
-		camel_operation_register (m->base.cancel);
 		/* get the full folder tree for search ability */
 		m->info = camel_store_get_folder_info (
 			m->sub->store, NULL,
 			CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL |
 			CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_LIST |
 			CAMEL_STORE_FOLDER_INFO_RECURSIVE,
-			&m->base.error);
-		camel_operation_unregister ();
+			m->base.cancellable, &m->base.error);
 	}
 }
 

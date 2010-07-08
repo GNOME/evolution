@@ -38,10 +38,10 @@ typedef void	(*MailMsgDispatchFunc)	(gpointer msg);
 struct _MailMsg {
 	MailMsgInfo *info;
 	volatile gint ref_count;
-	guint seq;	/* seq number for synchronisation */
-	gint priority;		/* priority (default = 0) */
-	CamelOperation *cancel;	/* a cancellation/status handle */
-	GError *error;		/* up to the caller to use this */
+	guint seq;			/* seq number for synchronisation */
+	gint priority;			/* priority (default = 0) */
+	GCancellable *cancellable;	/* a cancellation/status handle */
+	GError *error;			/* up to the caller to use this */
 	MailMsgPrivate *priv;
 };
 

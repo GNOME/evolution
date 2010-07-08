@@ -105,15 +105,19 @@ static void	add_attachments_from_multipart	(EMsgComposer *composer,
 /* used by e_msg_composer_new_with_message () */
 static void	handle_multipart		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
+						 CamelOperation *operation,
 						 gint depth);
 static void	handle_multipart_alternative	(EMsgComposer *composer,
 						 CamelMultipart *multipart,
+						 CamelOperation *operation,
 						 gint depth);
 static void	handle_multipart_encrypted	(EMsgComposer *composer,
 						 CamelMimePart *multipart,
+						 CamelOperation *operation,
 						 gint depth);
 static void	handle_multipart_signed		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
+						 CamelOperation *operation,
 						 gint depth);
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -134,7 +138,10 @@ G_DEFINE_TYPE_WITH_CODE (
  * Return Value: The part in displayable html format.
  **/
 static gchar *
-emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
+emcu_part_to_html (CamelMimePart *part,
+                   gssize *len,
+                   EMFormat *source,
+                   CamelOperation *operation)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -157,7 +164,9 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 			em_format_set_default_charset (
 				(EMFormat *) emfq, source->charset);
 	}
-	em_format_part ((EMFormat *) emfq, (CamelStream *)mem, part);
+	em_format_part (
+		EM_FORMAT (emfq), CAMEL_STREAM (mem),
+		part, G_CANCELLABLE (operation));
 	g_object_unref (emfq);
 
 	camel_stream_write((CamelStream *) mem, "", 1, NULL);
@@ -614,6 +623,7 @@ build_message (EMsgComposer *composer,
 	CamelTransferEncoding plain_encoding;
 	const gchar *iconv_charset = NULL;
 	GPtrArray *recipients = NULL;
+	CamelOperation *operation;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelMimeMessage *new;
@@ -645,6 +655,8 @@ build_message (EMsgComposer *composer,
 		g_object_ref (p->redirect);
 		return p->redirect;
 	}
+
+	operation = camel_operation_registered ();
 
 	new = camel_mime_message_new ();
 	build_message_headers (composer, new, FALSE);
@@ -960,10 +972,17 @@ build_message (EMsgComposer *composer,
 				camel_gpg_context_set_always_trust (
 					CAMEL_GPG_CONTEXT (cipher),
 					account->pgp_always_trust);
+
+			camel_operation_start (
+				operation, _("Signing message"));
 			camel_cipher_sign (
-				cipher, pgp_userid, account_hash_algo_to_camel_hash (
+				cipher, pgp_userid,
+				account_hash_algo_to_camel_hash (
 				account ? e_account_get_string (account, E_ACCOUNT_PGP_HASH_ALGORITHM) : NULL),
-				part, npart, &local_error);
+				part, npart, G_CANCELLABLE (operation),
+				&local_error);
+			camel_operation_end (operation);
+
 			g_object_unref (cipher);
 
 			if (local_error != NULL) {
@@ -988,9 +1007,15 @@ build_message (EMsgComposer *composer,
 				camel_gpg_context_set_always_trust (
 					CAMEL_GPG_CONTEXT (cipher),
 					account->pgp_always_trust);
+
+			camel_operation_start (
+				operation, _("Encrypting mesage"));
 			camel_cipher_encrypt (
 				cipher, pgp_userid, recipients,
-				part, npart, &local_error);
+				part, npart, G_CANCELLABLE (operation),
+				&local_error);
+			camel_operation_end (operation);
+
 			g_object_unref (cipher);
 
 			if (account && account->pgp_encrypt_to_self && pgp_userid)
@@ -1069,12 +1094,18 @@ build_message (EMsgComposer *composer,
 					TRUE, account->smime_encrypt_key);
 			}
 
-			camel_cipher_sign (cipher, account->smime_sign_key,
+			camel_operation_start (
+				operation, _("Signing message"));
+			camel_cipher_sign (
+				cipher, account->smime_sign_key,
 				account_hash_algo_to_camel_hash (
 					(account != NULL) ?
 					e_account_get_string (account,
 					E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
-				part, npart, &local_error);
+				part, npart, G_CANCELLABLE (operation),
+				&local_error);
+			camel_operation_end (operation);
+
 			g_object_unref (cipher);
 
 			if (local_error != NULL) {
@@ -1099,9 +1130,15 @@ build_message (EMsgComposer *composer,
 				(CamelSMIMEContext *) cipher, TRUE,
 				account->smime_encrypt_key);
 
+			camel_operation_start (
+				operation, _("Encrypting message"));
 			camel_cipher_encrypt (
 				cipher, NULL, recipients, part,
-				(CamelMimePart *) new, &local_error);
+				(CamelMimePart *) new,
+				G_CANCELLABLE (operation),
+				&local_error);
+			camel_operation_end (operation);
+
 			g_object_unref (cipher);
 
 			if (local_error != NULL)
@@ -1144,6 +1181,9 @@ skip_content:
 	camel_medium_set_header (
 		CAMEL_MEDIUM (new), "X-Evolution-Format",
 		html_content ? "text/html" : "text/plain");
+
+	if (operation != NULL)
+		g_object_unref (operation);
 
 	return new;
 
@@ -2443,6 +2483,7 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer,
 static void
 handle_multipart_signed (EMsgComposer *composer,
                          CamelMultipart *multipart,
+                         CamelOperation *operation,
                          gint depth)
 {
 	CamelContentType *content_type;
@@ -2485,29 +2526,32 @@ handle_multipart_signed (EMsgComposer *composer,
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 			/* Handle the signed content and configure
 			 * the composer to sign outgoing messages. */
-			handle_multipart_signed (composer, multipart, depth);
+			handle_multipart_signed (
+				composer, multipart, operation, depth);
 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* Decrypt the encrypted content and configure
 			 * the composer to encrypt outgoing messages. */
-			handle_multipart_encrypted (composer, mime_part, depth);
+			handle_multipart_encrypted (
+				composer, mime_part, operation, depth);
 
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
-				composer, multipart, depth);
+				composer, multipart, operation, depth);
 
 		} else {
 			/* There must be attachments... */
-			handle_multipart (composer, multipart, depth);
+			handle_multipart (
+				composer, multipart, operation, depth);
 		}
 
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (mime_part, &length, NULL);
+		html = emcu_part_to_html (mime_part, &length, NULL, operation);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2517,6 +2561,7 @@ handle_multipart_signed (EMsgComposer *composer,
 static void
 handle_multipart_encrypted (EMsgComposer *composer,
                             CamelMimePart *multipart,
+                            CamelOperation *operation,
                             gint depth)
 {
 	CamelContentType *content_type;
@@ -2544,7 +2589,11 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	session = e_msg_composer_get_session (composer);
 	cipher = camel_gpg_context_new (session);
 	mime_part = camel_mime_part_new ();
-	valid = camel_cipher_decrypt (cipher, multipart, mime_part, NULL);
+	camel_operation_start (operation, _("Decrypting message"));
+	valid = camel_cipher_decrypt (
+		cipher, multipart, mime_part,
+		G_CANCELLABLE (operation), NULL);
+	camel_operation_end (operation);
 	g_object_unref (cipher);
 
 	if (valid == NULL)
@@ -2568,29 +2617,31 @@ handle_multipart_encrypted (EMsgComposer *composer,
 			/* Handle the signed content and configure the
 			 * composer to sign outgoing messages. */
 			handle_multipart_signed (
-				composer, content_multipart, depth);
+				composer, content_multipart, operation, depth);
 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* Decrypt the encrypted content and configure the
 			 * composer to encrypt outgoing messages. */
-			handle_multipart_encrypted (composer, mime_part, depth);
+			handle_multipart_encrypted (
+				composer, mime_part, operation, depth);
 
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
-				composer, content_multipart, depth);
+				composer, content_multipart, operation, depth);
 
 		} else {
 			/* There must be attachments... */
-			handle_multipart (composer, content_multipart, depth);
+			handle_multipart (
+				composer, content_multipart, operation, depth);
 		}
 
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (mime_part, &length, NULL);
+		html = emcu_part_to_html (mime_part, &length, NULL, operation);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2602,6 +2653,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 static void
 handle_multipart_alternative (EMsgComposer *composer,
                               CamelMultipart *multipart,
+                              CamelOperation *operation,
                               gint depth)
 {
 	/* Find the text/html part and set the composer body to it's contents */
@@ -2631,18 +2683,21 @@ handle_multipart_alternative (EMsgComposer *composer,
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 				/* Handle the signed content and configure
 				 * the composer to sign outgoing messages. */
-				handle_multipart_signed (composer, mp, depth + 1);
+				handle_multipart_signed (
+					composer, mp, operation, depth + 1);
 
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* Decrypt the encrypted content and configure
 				 * the composer to encrypt outgoing messages. */
 				handle_multipart_encrypted (
-					composer, mime_part, depth + 1);
+					composer, mime_part,
+					operation, depth + 1);
 
 			} else {
 				/* Depth doesn't matter so long as we
 				 * don't pass 0. */
-				handle_multipart (composer, mp, depth + 1);
+				handle_multipart (
+					composer, mp, operation, depth + 1);
 			}
 
 		} else if (camel_content_type_is (content_type, "text", "html")) {
@@ -2663,7 +2718,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (text_part, &length, NULL);
+		html = emcu_part_to_html (text_part, &length, NULL, operation);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 }
@@ -2671,6 +2726,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 static void
 handle_multipart (EMsgComposer *composer,
                   CamelMultipart *multipart,
+                  CamelOperation *operation,
                   gint depth)
 {
 	gint i, nparts;
@@ -2698,22 +2754,25 @@ handle_multipart (EMsgComposer *composer,
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 				/* Handle the signed content and configure
 				 * the composer to sign outgoing messages. */
-				handle_multipart_signed (composer, mp, depth + 1);
+				handle_multipart_signed (
+					composer, mp, operation, depth + 1);
 
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* Decrypt the encrypted content and configure
 				 * the composer to encrypt outgoing messages. */
 				handle_multipart_encrypted (
-					composer, mime_part, depth + 1);
+					composer, mime_part,
+					operation, depth + 1);
 
 			} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 				handle_multipart_alternative (
-					composer, mp, depth + 1);
+					composer, mp, operation, depth + 1);
 
 			} else {
 				/* Depth doesn't matter so long as we
 				 * don't pass 0. */
-				handle_multipart (composer, mp, depth + 1);
+				handle_multipart (
+					composer, mp, operation, depth + 1);
 			}
 
 		} else if (depth == 0 && i == 0) {
@@ -2722,7 +2781,8 @@ handle_multipart (EMsgComposer *composer,
 
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
-			html = emcu_part_to_html (mime_part, &length, NULL);
+			html = emcu_part_to_html (
+				mime_part, &length, NULL, operation);
 			e_msg_composer_set_pending_body (composer, html, length);
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -2785,6 +2845,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	EDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
+	CamelOperation *operation = NULL;  /* FIXME Pass this in. */
 	struct _camel_header_raw *headers;
 	CamelDataWrapper *content;
 	EAccount *account = NULL;
@@ -3031,22 +3092,26 @@ e_msg_composer_new_with_message (EShell *shell,
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 			/* Handle the signed content and configure the
 			 * composer to sign outgoing messages. */
-			handle_multipart_signed (composer, multipart, 0);
+			handle_multipart_signed (
+				composer, multipart, operation, 0);
 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* Decrypt the encrypted content and configure the
 			 * composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (
-				composer, CAMEL_MIME_PART (message), 0);
+				composer, CAMEL_MIME_PART (message),
+				operation, 0);
 
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
-			handle_multipart_alternative (composer, multipart, 0);
+			handle_multipart_alternative (
+				composer, multipart, operation, 0);
 
 		} else {
 			/* There must be attachments... */
-			handle_multipart (composer, multipart, 0);
+			handle_multipart (
+				composer, multipart, operation, 0);
 		}
 	} else {
 		gchar *html;
@@ -3059,7 +3124,8 @@ e_msg_composer_new_with_message (EShell *shell,
 		    || camel_content_type_is (content_type, "application", "pkcs7-mime")))
 			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT)), TRUE);
 
-		html = emcu_part_to_html ((CamelMimePart *)message, &length, NULL);
+		html = emcu_part_to_html (
+			CAMEL_MIME_PART (message), &length, NULL, operation);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 
@@ -3071,6 +3137,9 @@ e_msg_composer_new_with_message (EShell *shell,
 	e_msg_composer_flush_pending_body (composer);
 
 	set_signature_gui (composer);
+
+	if (operation != NULL)
+		g_object_unref (operation);
 
 	return composer;
 }

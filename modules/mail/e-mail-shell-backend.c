@@ -795,5 +795,6 @@ mbox_fill_preview_cb (GObject *preview, CamelMimeMessage *msg)
 	format = g_object_get_data (preview, "mbox-imp-formatter");
 	g_return_if_fail (format != NULL);
 
-	em_format_format (EM_FORMAT (format), NULL, NULL, msg);
+	/* FIXME Not passing a GCancellable here. */
+	em_format_format (EM_FORMAT (format), NULL, NULL, msg, NULL);
 }
