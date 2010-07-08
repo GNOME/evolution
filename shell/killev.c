@@ -29,6 +29,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-data-server-util.h>
+
 /* Seconds to wait after asking Evolution to terminate gracefully.
  * If the process has not terminated before the timeout expires,
  * then we get violent. */
@@ -97,6 +99,7 @@ main (gint argc, gchar **argv)
 {
 	GFile *pid_file;
 	GFileMonitor *monitor;
+	const gchar *user_config_dir;
 	gchar *filename;
 	GError *error = NULL;
 
@@ -106,10 +109,8 @@ main (gint argc, gchar **argv)
 
 	g_type_init ();
 
-	/* XXX If e_get_user_data_dir() ever gets moved to libedataserver,
-	 *     use that instead of hard-coding the directory path here. */
-	filename = g_build_filename (
-		g_get_home_dir (), ".evolution", ".running", NULL);
+	user_config_dir = e_get_user_config_dir ();
+	filename = g_build_filename (user_config_dir, ".running", NULL);
 	pid_file = g_file_new_for_path (filename);
 	g_free (filename);
 

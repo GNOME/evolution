@@ -59,26 +59,6 @@
 #include "e-util-private.h"
 
 /**
- * e_get_user_data_dir:
- *
- * Returns the base directory for Evolution-specific user data.
- * The string is owned by Evolution and must not be modified or freed.
- *
- * Returns: base directory for user data
- **/
-const gchar *
-e_get_user_data_dir (void)
-{
-	static gchar *dirname = NULL;
-
-	if (G_UNLIKELY (dirname == NULL))
-		dirname = g_build_filename (
-			g_get_home_dir (), ".evolution", NULL);
-
-	return dirname;
-}
-
-/**
  * e_get_gnome2_user_dir:
  *
  * Returns the base directory for user data, according to libgnome.

@@ -36,7 +36,6 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <libedataserver/e-data-server-util.h>
 #include "e-util.h"
 #include "e-mktemp.h"
 
@@ -109,9 +108,11 @@ get_dir (gboolean make)
 	static time_t last = 0;
 
 #ifdef TEMP_HOME
-	gchar *tmpdir = NULL;
-	tmpdir = g_build_filename(e_get_user_data_dir (),
-		"cache", "tmp", NULL);
+	const gchar *user_cache_dir;
+	gchar *tmpdir;
+
+	user_cache_dir = e_get_user_cache_dir ();
+	tmpdir = g_build_filename (user_cache_dir, "tmp", NULL);
 	path = g_string_new(tmpdir);
 	if (make && g_mkdir_with_parents(tmpdir, 0777) == -1) {
 		g_string_free(path, TRUE);

@@ -156,11 +156,14 @@ endif
 killev_CPPFLAGS =						\
 	$(AM_CPPFLAGS)						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)
 
 killev_SOURCES = killev.c
 
-killev_LDADD = $(GNOME_PLATFORM_LIBS)
+killev_LDADD =							\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(EVOLUTION_DATA_SERVER_LIBS)
 
 # Misc stuff
 

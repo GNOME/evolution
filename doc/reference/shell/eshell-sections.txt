@@ -657,7 +657,6 @@ e_run_signature_script
 <SECTION>
 <FILE>e-util</FILE>
 <TITLE>Miscellaneous Utilities</TITLE>
-e_get_user_data_dir
 e_get_gnome2_user_dir
 e_get_accels_filename
 e_show_uri

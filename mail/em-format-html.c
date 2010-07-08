@@ -761,7 +761,7 @@ efh_class_init (EMFormatHTMLClass *class)
 {
 	GObjectClass *object_class;
 	EMFormatClass *format_class;
-	gchar *pathname;
+	const gchar *user_cache_dir;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFormatHTMLPrivate));
@@ -908,14 +908,12 @@ efh_class_init (EMFormatHTMLClass *class)
 			G_PARAM_READABLE));
 
 	/* cache expiry - 2 hour access, 1 day max */
-	pathname = g_build_filename (
-		e_get_user_data_dir (), "cache", NULL);
-	emfh_http_cache = camel_data_cache_new (pathname, NULL);
+	user_cache_dir = e_get_user_cache_dir ();
+	emfh_http_cache = camel_data_cache_new (user_cache_dir, NULL);
 	if (emfh_http_cache) {
 		camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
 		camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);
 	}
-	g_free (pathname);
 }
 
 static void

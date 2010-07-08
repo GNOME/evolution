@@ -30,6 +30,10 @@
 
 #include <e-util/e-marshal.h>
 
+/* e_get_user_data_dir() used to live here, so #include its new home
+ * for backward-compatibility (not that we really care about that). */
+#include <libedataserver/e-data-server-util.h>
+
 /* Convenience macro to help migrate from libglade to GtkBuilder.
  * Use it as a direct replacement for glade_xml_get_widget(). */
 #define e_builder_get_widget(builder, name) \
@@ -46,7 +50,6 @@ typedef enum {
 
 typedef void (*ETypeFunc) (GType type, gpointer user_data);
 
-const gchar *	e_get_user_data_dir		(void);
 const gchar *	e_get_gnome2_user_dir		(void);
 const gchar *	e_get_accels_filename		(void);
 void		e_show_uri			(GtkWindow *parent,
