@@ -47,4 +47,7 @@ typedef struct _EMailPanedViewClass {
 
 } EMailPanedViewClass;
 
+GtkWidget *
+e_mail_paned_view_new (EShellContent *content);
+
 #endif

@@ -24,6 +24,8 @@
 #define _E_MAIL_VIEW_H_
 
 #include <gtk/gtk.h>
+#include <shell/e-shell-content.h>
+
 
 #define E_MAIL_VIEW_TYPE        (e_mail_view_get_type ())
 #define E_MAIL_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_VIEW_TYPE, MailFolderView))
@@ -39,6 +41,7 @@ typedef struct _EMailView {
 	GtkVBox parent;
 
 	EMailViewPrivate *priv;
+        EShellContent *content;
 } EMailView;
 
 typedef struct _EMailViewClass {
