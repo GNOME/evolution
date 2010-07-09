@@ -177,7 +177,7 @@ contacts_removed (EBookShellView *book_shell_view,
 
 static void
 book_open_cb (EBook *book,
-              EBookStatus status,
+              const GError *error,
               gpointer user_data)
 {
 	EAddressbookView *view = user_data;
@@ -187,11 +187,11 @@ book_open_cb (EBook *book,
 	source = e_book_get_source (book);
 	model = e_addressbook_view_get_model (view);
 
-	if (status == E_BOOK_ERROR_OK) {
+	if (!error) {
 		e_addressbook_model_set_book (model, book);
 		e_addressbook_model_force_folder_bar_message (model);
-	} else if (status != E_BOOK_ERROR_CANCELLED)
-		eab_load_error_dialog (NULL /* XXX */, source, status);
+	} else if (!g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+		eab_load_error_dialog (NULL /* XXX */, source, error);
 }
 
 static void

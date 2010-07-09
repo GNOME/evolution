@@ -160,8 +160,14 @@ struct _ECalModelClass {
 						 const gchar *message,
 						 gint progress,
 						 ECalSourceType type);
+	#ifndef E_CAL_DISABLE_DEPRECATED
 	void		(*cal_view_done)	(ECalModel *model,
 						 ECalendarStatus status,
+						 ECalSourceType type);
+	#endif
+	void		(*cal_view_complete)	(ECalModel *model,
+						 ECalendarStatus status,
+						 const gchar *error_msg,
 						 ECalSourceType type);
 	void		(*status_message)	(ECalModel *model,
 						 const gchar *message,

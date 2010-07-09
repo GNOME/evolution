@@ -143,11 +143,11 @@ addressbook_value_at (ETableModel *etc, gint col, gint row)
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
-contact_modified_cb (EBook* book, EBookStatus status,
+contact_modified_cb (EBook* book, const GError *error,
 		     gpointer user_data)
 {
-	if (status != E_BOOK_ERROR_OK)
-		eab_error_dialog (_("Error modifying card"), status);
+	if (error)
+		eab_error_dialog (_("Error modifying card"), error);
 }
 
 static void

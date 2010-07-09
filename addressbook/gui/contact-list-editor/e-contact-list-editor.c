@@ -208,7 +208,7 @@ contact_list_editor_add_email (EContactListEditor *editor)
 
 static void
 contact_list_editor_book_loaded (EBook *new_book,
-                                 EBookStatus status,
+                                 const GError *error,
                                  EContactListEditor *editor)
 {
 	EContactListEditorPrivate *priv = editor->priv;
@@ -218,9 +218,9 @@ contact_list_editor_book_loaded (EBook *new_book,
 	priv->load_source_id = 0;
 	priv->load_book = NULL;
 
-	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
+	if (error || new_book == NULL) {
 		eab_load_error_dialog (
-			NULL, e_book_get_source (new_book), status);
+			NULL, e_book_get_source (new_book), error);
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
 			e_book_get_source (priv->book));
@@ -266,7 +266,7 @@ contact_list_editor_contact_exists (EContactListModel *model,
 
 static void
 contact_list_editor_list_added_cb (EBook *book,
-                                   EBookStatus status,
+                                   const GError *error,
                                    const gchar *id,
                                    EditorCloseStruct *ecs)
 {
@@ -280,9 +280,9 @@ contact_list_editor_list_added_cb (EBook *book,
 	e_contact_set (priv->contact, E_CONTACT_UID, (gchar *) id);
 
 	eab_editor_contact_added (
-		EAB_EDITOR (editor), status, priv->contact);
+		EAB_EDITOR (editor), error, priv->contact);
 
-	if (status == E_BOOK_ERROR_OK) {
+	if (!error) {
 		priv->is_new_list = FALSE;
 
 		if (should_close)
@@ -297,7 +297,7 @@ contact_list_editor_list_added_cb (EBook *book,
 
 static void
 contact_list_editor_list_modified_cb (EBook *book,
-                                      EBookStatus status,
+                                      const GError *error,
                                       EditorCloseStruct *ecs)
 {
 	EContactListEditor *editor = ecs->editor;
@@ -308,9 +308,9 @@ contact_list_editor_list_modified_cb (EBook *book,
 	priv->in_async_call = FALSE;
 
 	eab_editor_contact_modified (
-		EAB_EDITOR (editor), status, priv->contact);
+		EAB_EDITOR (editor), error, priv->contact);
 
-	if (status == E_BOOK_ERROR_OK) {
+	if (!error) {
 		if (should_close)
 			eab_editor_close (EAB_EDITOR (editor));
 	}
@@ -816,7 +816,7 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 
 	editor->priv->load_book = e_book_new (source, NULL);
 	editor->priv->load_source_id = addressbook_load (
-		editor->priv->load_book, (EBookCallback)
+		editor->priv->load_book, (EBookExCallback)
 		contact_list_editor_book_loaded, editor);
 }
 
@@ -1113,11 +1113,11 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	if (priv->is_new_list)
 		eab_merging_book_add_contact (
-			priv->book, contact, (EBookIdCallback)
+			priv->book, contact, (EBookIdExCallback)
 			contact_list_editor_list_added_cb, ecs);
 	else
 		eab_merging_book_commit_contact (
-			priv->book, contact, (EBookCallback)
+			priv->book, contact, (EBookExCallback)
 			contact_list_editor_list_modified_cb, ecs);
 
 	priv->changed = FALSE;
@@ -1152,44 +1152,44 @@ contact_list_editor_get_window (EABEditor *editor)
 
 static void
 contact_list_editor_contact_added (EABEditor *editor,
-                                   EBookStatus status,
+                                   const GError *error,
                                    EContact *contact)
 {
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		return;
 
-	if (status == E_BOOK_ERROR_CANCELLED)
+	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error adding list"), status);
+	eab_error_dialog (_("Error adding list"), error);
 }
 
 static void
 contact_list_editor_contact_modified (EABEditor *editor,
-                                      EBookStatus status,
+                                      const GError *error,
                                       EContact *contact)
 {
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		return;
 
-	if (status == E_BOOK_ERROR_CANCELLED)
+	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error modifying list"), status);
+	eab_error_dialog (_("Error modifying list"), error);
 }
 
 static void
 contact_list_editor_contact_deleted (EABEditor *editor,
-                                     EBookStatus status,
+                                     const GError *error,
                                      EContact *contact)
 {
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		return;
 
-	if (status == E_BOOK_ERROR_CANCELLED)
+	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error removing list"), status);
+	eab_error_dialog (_("Error removing list"), error);
 }
 
 static void

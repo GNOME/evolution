@@ -1565,18 +1565,18 @@ struct TryOpenEBookStruct {
 };
 
 static void
-try_open_e_book_cb (EBook *book, EBookStatus status, gpointer closure)
+try_open_e_book_cb (EBook *book, const GError *error, gpointer closure)
 {
 	struct TryOpenEBookStruct *data = (struct TryOpenEBookStruct *)closure;
 
 	if (!data)
 		return;
 
-	data->result = status == E_BOOK_ERROR_OK;
+	data->result = error == NULL;
 
 	if (!data->result) {
 		g_clear_error (data->error);
-		g_set_error (data->error, E_BOOK_ERROR, status, "EBookStatus returned %d", status);
+		g_propagate_error (data->error, g_error_copy (error));
 	}
 
 	e_flag_set (data->flag);
@@ -1600,10 +1600,10 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	data.flag = flag;
 	data.result = FALSE;
 
-	if (e_book_async_open (book, only_if_exists, try_open_e_book_cb, &data) != FALSE) {
+	if (!e_book_async_open_ex (book, only_if_exists, try_open_e_book_cb, &data)) {
 		e_flag_free (flag);
 		g_clear_error (error);
-		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_OTHER_ERROR, "Failed to call e_book_async_open.");
+		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_OTHER_ERROR, "Failed to call e_book_async_open_ex.");
 		return FALSE;
 	}
 

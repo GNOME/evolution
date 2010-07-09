@@ -24,8 +24,8 @@
 
 #include <libebook/e-book.h>
 
-guint      addressbook_load                 (EBook *book, EBookCallback cb, gpointer closure);
+guint      addressbook_load                 (EBook *book, EBookExCallback cb, gpointer closure);
 void       addressbook_load_cancel          (guint id);
-void       addressbook_load_default_book    (EBookCallback open_response, gpointer closure);
+void       addressbook_load_default_book    (EBookExCallback open_response, gpointer closure);
 
 #endif /* __ADDRESSBOOK_H__ */

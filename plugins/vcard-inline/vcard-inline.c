@@ -114,13 +114,13 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 
 static void
 org_gnome_vcard_inline_book_open_cb (EBook *book,
-                                     EBookStatus status,
+                                     const GError *error,
                                      gpointer user_data)
 {
 	GList *contact_list = user_data;
 	GList *iter;
 
-	if (status != E_BOOK_ERROR_OK)
+	if (error)
 		goto exit;
 
 	for (iter = contact_list; iter != NULL; iter = iter->next)

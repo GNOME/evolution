@@ -168,9 +168,10 @@ memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
 }
 
 static void
-memo_table_model_cal_view_done_cb (EMemoTable *memo_table,
-                                   ECalendarStatus status,
-                                   ECalSourceType type)
+memo_table_model_cal_view_complete_cb ( EMemoTable *memo_table,
+					ECalendarStatus status,
+					const gchar *error_msg,
+					ECalSourceType type)
 {
 	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
@@ -216,8 +217,8 @@ memo_table_set_model (EMemoTable *memo_table,
 		memo_table);
 
 	g_signal_connect_swapped (
-		model, "cal-view-done",
-		G_CALLBACK (memo_table_model_cal_view_done_cb),
+		model, "cal-view-complete",
+		G_CALLBACK (memo_table_model_cal_view_complete_cb),
 		memo_table);
 }
 

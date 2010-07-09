@@ -397,8 +397,7 @@ contacts_added (EBookView *book_view, const GList *contact_list,
 }
 
 static void
-sequence_complete (EBookView *book_view, const GList *contact_list,
-                   EFlag *book_view_started)
+view_complete (EBookView *book_view, EBookViewStatus status, const gchar *error_msg, EFlag *book_view_started)
 {
 	e_flag_set (book_view_started);
 }
@@ -596,8 +595,8 @@ load_contacts (EContactPrintContext *ctxt)
 		book_view, "contacts_added",
 		G_CALLBACK (contacts_added), ctxt);
 	g_signal_connect (
-		book_view, "sequence_complete",
-		G_CALLBACK (sequence_complete), book_view_started);
+		book_view, "view_complete",
+		G_CALLBACK (view_complete), book_view_started);
 
 	e_book_view_start (book_view);
 
@@ -609,7 +608,7 @@ load_contacts (EContactPrintContext *ctxt)
 	g_signal_handlers_disconnect_by_func (
 		book_view, G_CALLBACK (contacts_added), ctxt);
 	g_signal_handlers_disconnect_by_func (
-		book_view, G_CALLBACK (sequence_complete), book_view_started);
+		book_view, G_CALLBACK (view_complete), book_view_started);
 }
 
 static void

@@ -37,11 +37,11 @@
 #define d(x)
 
 static void addressbook_authenticate (EBook *book, gboolean previous_failure,
-				      ESource *source, EBookCallback cb, gpointer closure);
+				      ESource *source, EBookExCallback cb, gpointer closure);
 static void auth_required_cb (EBook *book, gpointer data);
 
 typedef struct {
-	EBookCallback cb;
+	EBookExCallback cb;
 	ESource *source;
 	gpointer closure;
 	guint cancelled : 1;
@@ -71,7 +71,7 @@ remove_parameters_from_uri (const gchar *uri)
 }
 
 static void
-load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
+load_source_auth_cb (EBook *book, const GError *error, gpointer closure)
 {
 	LoadSourceData *data = closure;
 	gboolean was_in = g_object_get_data (G_OBJECT (book), "authenticated") != NULL;
@@ -83,10 +83,10 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 		return;
 	}
 
-	if (status != E_BOOK_ERROR_OK) {
+	if (error) {
 
 		/* the user clicked cancel in the password dialog */
-		if (status == E_BOOK_ERROR_CANCELLED) {
+		if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
 
 			if (e_book_check_static_capability (book, "anon-access")) {
 
@@ -103,20 +103,20 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 						"%s", _("Accessing LDAP Server anonymously"));
 				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
-				status = E_BOOK_ERROR_OK;
+				error = NULL;
 
 				goto done;
 			}
-		} else if (status == E_BOOK_ERROR_INVALID_SERVER_VERSION) {
+		} else if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_INVALID_SERVER_VERSION)) {
 			e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
 						     "addressbook:server-version",
 						     NULL);
-			status = E_BOOK_ERROR_OK;
+			error = NULL;
 			goto done;
-		} else if (status == E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD) {
+		} else if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD)) {
 			goto done;
 		} else {
-			if (status == E_BOOK_ERROR_AUTHENTICATION_FAILED) {
+			if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_AUTHENTICATION_FAILED)) {
 				const gchar *uri = e_book_get_uri (book);
 				gchar *stripped_uri = remove_parameters_from_uri (uri);
 				const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
@@ -142,7 +142,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 done:
 	if (data->cb)
-		data->cb (book, status, data->closure);
+		data->cb (book, error, data->closure);
 
 	free_load_source_data (data);
 }
@@ -168,7 +168,7 @@ set_remember_password (ESource *source, gboolean value)
 
 static void
 addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *source,
-			  EBookCallback cb, gpointer closure)
+			  EBookExCallback cb, gpointer closure)
 {
 	const gchar *password = NULL;
 	gchar *pass_dup = NULL;
@@ -231,14 +231,18 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	}
 
 	if (password || pass_dup) {
-		e_book_async_authenticate_user (book, user, password ? password : pass_dup,
-						e_source_get_property (source, "auth"),
-						cb, closure);
+		e_book_async_authenticate_user_ex (book, user, password ? password : pass_dup,
+						   e_source_get_property (source, "auth"),
+						   cb, closure);
 		g_free (pass_dup);
 	}
 	else {
+		GError *error = g_error_new (E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED, _("Cancelled"));
+
 		/* they hit cancel */
-		cb (book, E_BOOK_ERROR_CANCELLED, closure);
+		cb (book, error, closure);
+
+		g_error_free (error);
 	}
 
 	g_free (uri);
@@ -256,7 +260,7 @@ auth_required_cb (EBook *book, gpointer data)
 
 }
 static void
-load_source_cb (EBook *book, EBookStatus status, gpointer closure)
+load_source_cb (EBook *book, const GError *error, gpointer closure)
 {
 	LoadSourceData *load_source_data = closure;
 
@@ -265,7 +269,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 		return;
 	}
 
-	if (status == E_BOOK_ERROR_OK && book != NULL) {
+	if (!error && book != NULL) {
 		const gchar *auth;
 
 		auth = e_source_get_property (load_source_data->source, "auth");
@@ -279,13 +283,13 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 		}
 		}
 	}
-	load_source_data->cb (book, status, load_source_data->closure);
+	load_source_data->cb (book, error, load_source_data->closure);
 	free_load_source_data (load_source_data);
 }
 
 guint
 addressbook_load (EBook *book,
-		  EBookCallback cb, gpointer closure)
+		  EBookExCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new0 (LoadSourceData, 1);
 
@@ -294,7 +298,7 @@ addressbook_load (EBook *book,
 	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
 	load_source_data->cancelled = FALSE;
 
-	e_book_async_open (book, FALSE, load_source_cb, load_source_data);
+	e_book_async_open_ex (book, FALSE, load_source_cb, load_source_data);
 
 	return GPOINTER_TO_UINT (load_source_data);
 }
@@ -308,33 +312,33 @@ addressbook_load_cancel (guint id)
 }
 
 static void
-default_book_cb (EBook *book, EBookStatus status, gpointer closure)
+default_book_cb (EBook *book, const GError *error, gpointer closure)
 {
 	LoadSourceData *load_source_data = closure;
 
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		load_source_data->source = g_object_ref (e_book_get_source (book));
 
-	load_source_cb (book, status, closure);
+	load_source_cb (book, error, closure);
 }
 
 void
-addressbook_load_default_book (EBookCallback cb, gpointer closure)
+addressbook_load_default_book (EBookExCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new (LoadSourceData, 1);
 	EBook *book;
+	GError *error = NULL;
 
 	load_source_data->cb = cb;
 	load_source_data->source = NULL;
 	load_source_data->closure = closure;
 	load_source_data->cancelled = FALSE;
 
-	book = e_book_new_default_addressbook (NULL);
-	if (!book)
-		/* XXX We should just use a GError and its error code here. */
-		load_source_cb (
-			NULL, E_BOOK_ERROR_OTHER_ERROR, load_source_data);
-	else
-		e_book_async_open (
+	book = e_book_new_default_addressbook (&error);
+	if (!book) {
+		load_source_cb (NULL, error, load_source_data);
+		g_error_free (error);
+	} else
+		e_book_async_open_ex (
 			book, FALSE, default_book_cb, load_source_data);
 }

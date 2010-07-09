@@ -337,6 +337,7 @@ search_started (EAddressbookModel *model,
 static void
 search_result (EAddressbookModel *model,
 	       EBookViewStatus status,
+	       const gchar *error_msg,
 	       EAddressbookReflowAdapter *adapter)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;

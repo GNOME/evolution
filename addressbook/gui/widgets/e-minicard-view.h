@@ -85,7 +85,7 @@ struct _EMinicardViewClass
 
 GType    e_minicard_view_get_type          (void);
 void     e_minicard_view_remove_selection  (EMinicardView *view,
-					    EBookCallback  cb,
+					    EBookExCallback  cb,
 					    gpointer       closure);
 void     e_minicard_view_jump_to_letter    (EMinicardView *view,
 					    gunichar       letter);

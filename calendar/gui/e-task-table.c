@@ -246,9 +246,10 @@ task_table_model_cal_view_progress_cb (ETaskTable *task_table,
 }
 
 static void
-task_table_model_cal_view_done_cb (ETaskTable *task_table,
-                                   ECalendarStatus status,
-                                   ECalSourceType type)
+task_table_model_cal_view_complete_cb ( ETaskTable *task_table,
+					ECalendarStatus status,
+					const gchar *error_msg,
+					ECalSourceType type)
 {
 	task_table_emit_status_message (task_table, NULL, -1.0);
 }
@@ -294,8 +295,8 @@ task_table_set_model (ETaskTable *task_table,
 		task_table);
 
 	g_signal_connect_swapped (
-		model, "cal-view-done",
-		G_CALLBACK (task_table_model_cal_view_done_cb),
+		model, "cal-view-complete",
+		G_CALLBACK (task_table_model_cal_view_complete_cb),
 		task_table);
 }
 

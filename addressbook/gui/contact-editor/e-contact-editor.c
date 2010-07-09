@@ -197,44 +197,44 @@ static const gint email_default [] = { 0, 1, 2, 2 };
 
 static void
 e_contact_editor_contact_added (EABEditor *editor,
-                                EBookStatus status,
+                                const GError *error,
                                 EContact *contact)
 {
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		return;
 
-	if (status == E_BOOK_ERROR_CANCELLED)
+	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error adding contact"), status);
+	eab_error_dialog (_("Error adding contact"), error);
 }
 
 static void
 e_contact_editor_contact_modified (EABEditor *editor,
-                                   EBookStatus status,
+                                   const GError *error,
                                    EContact *contact)
 {
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		return;
 
-	if (status == E_BOOK_ERROR_CANCELLED)
+	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error modifying contact"), status);
+	eab_error_dialog (_("Error modifying contact"), error);
 }
 
 static void
 e_contact_editor_contact_deleted (EABEditor *editor,
-                                  EBookStatus status,
+                                  const GError *error,
                                   EContact *contact)
 {
-	if (status == E_BOOK_ERROR_OK)
+	if (!error)
 		return;
 
-	if (status == E_BOOK_ERROR_CANCELLED)
+	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error removing contact"), status);
+	eab_error_dialog (_("Error removing contact"), error);
 }
 
 static void
@@ -2691,15 +2691,15 @@ init_all (EContactEditor *editor)
 }
 
 static void
-new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
+new_target_cb (EBook *new_book, const GError *error, EContactEditor *editor)
 {
 	editor->load_source_id = 0;
 	editor->load_book      = NULL;
 
-	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
+	if (error || new_book == NULL) {
 		GtkWidget *source_combo_box;
 
-		eab_load_error_dialog (NULL, e_book_get_source (new_book), status);
+		eab_load_error_dialog (NULL, e_book_get_source (new_book), error);
 
 		source_combo_box = e_builder_get_widget (
 			editor->builder, "source-combo-box-source");
@@ -2747,7 +2747,7 @@ source_changed (ESourceComboBox *source_combo_box, EContactEditor *editor)
 
 	editor->load_book = e_book_new (source, NULL);
 	editor->load_source_id = addressbook_load (editor->load_book,
-						   (EBookCallback) new_target_cb, editor);
+						   (EBookExCallback) new_target_cb, editor);
 }
 
 static void
@@ -3025,7 +3025,7 @@ typedef struct {
 } EditorCloseStruct;
 
 static void
-contact_moved_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
+contact_moved_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
 {
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
@@ -3035,7 +3035,7 @@ contact_moved_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 
 	e_contact_set (ce->contact, E_CONTACT_UID, ecs->new_id);
 
-	eab_editor_contact_deleted (EAB_EDITOR (ce), status, ce->contact);
+	eab_editor_contact_deleted (EAB_EDITOR (ce), error, ce->contact);
 
 	ce->is_new_contact = FALSE;
 
@@ -3058,16 +3058,16 @@ contact_moved_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 }
 
 static void
-contact_added_cb (EBook *book, EBookStatus status, const gchar *id, EditorCloseStruct *ecs)
+contact_added_cb (EBook *book, const GError *error, const gchar *id, EditorCloseStruct *ecs)
 {
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
 	if (ce->source_book != ce->target_book && e_book_is_writable (ce->source_book) &&
-	    status == E_BOOK_ERROR_OK && ce->is_new_contact == FALSE) {
+	    !error && ce->is_new_contact == FALSE) {
 		ecs->new_id = g_strdup (id);
-		e_book_async_remove_contact (ce->source_book, ce->contact,
-					     (EBookCallback) contact_moved_cb, ecs);
+		e_book_async_remove_contact_ex (ce->source_book, ce->contact,
+					     (EBookExCallback) contact_moved_cb, ecs);
 		return;
 	}
 
@@ -3076,9 +3076,9 @@ contact_added_cb (EBook *book, EBookStatus status, const gchar *id, EditorCloseS
 
 	e_contact_set (ce->contact, E_CONTACT_UID, (gchar *) id);
 
-	eab_editor_contact_added (EAB_EDITOR (ce), status, ce->contact);
+	eab_editor_contact_added (EAB_EDITOR (ce), error, ce->contact);
 
-	if (status == E_BOOK_ERROR_OK) {
+	if (!error) {
 		ce->is_new_contact = FALSE;
 
 		if (should_close) {
@@ -3095,7 +3095,7 @@ contact_added_cb (EBook *book, EBookStatus status, const gchar *id, EditorCloseS
 }
 
 static void
-contact_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
+contact_modified_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
 {
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
@@ -3103,9 +3103,9 @@ contact_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 	gtk_widget_set_sensitive (ce->app, TRUE);
 	ce->in_async_call = FALSE;
 
-	eab_editor_contact_modified (EAB_EDITOR (ce), status, ce->contact);
+	eab_editor_contact_modified (EAB_EDITOR (ce), error, ce->contact);
 
-	if (status == E_BOOK_ERROR_OK) {
+	if (!error) {
 		if (should_close) {
 			eab_editor_close (EAB_EDITOR (ce));
 		}
@@ -3137,14 +3137,14 @@ real_save_contact (EContactEditor *ce, gboolean should_close)
 	if (ce->source_book != ce->target_book) {
 		/* Two-step move; add to target, then remove from source */
 		eab_merging_book_add_contact (ce->target_book, ce->contact,
-					      (EBookIdCallback) contact_added_cb, ecs);
+					      (EBookIdExCallback) contact_added_cb, ecs);
 	} else {
 		if (ce->is_new_contact)
 			eab_merging_book_add_contact (ce->target_book, ce->contact,
-						      (EBookIdCallback) contact_added_cb, ecs);
+						      (EBookIdExCallback) contact_added_cb, ecs);
 		else
 			eab_merging_book_commit_contact (ce->target_book, ce->contact,
-							 (EBookCallback) contact_modified_cb, ecs);
+							 (EBookExCallback) contact_modified_cb, ecs);
 	}
 }
 
@@ -3641,7 +3641,7 @@ e_contact_editor_dispose (GObject *object)
 }
 
 static void
-supported_fields_cb (EBook *book, EBookStatus status,
+supported_fields_cb (EBook *book, const GError *error,
 		     EList *fields, EContactEditor *ce)
 {
 	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
@@ -3659,7 +3659,7 @@ supported_fields_cb (EBook *book, EBookStatus status,
 }
 
 static void
-required_fields_cb (EBook *book, EBookStatus status,
+required_fields_cb (EBook *book, const GError *error,
 		    EList *fields, EContactEditor *ce)
 {
 
@@ -3697,8 +3697,8 @@ e_contact_editor_new (EShell *shell,
 		      NULL);
 
 	if (book)
-		e_book_async_get_supported_fields (
-			book, (EBookEListCallback)supported_fields_cb, editor);
+		e_book_async_get_supported_fields_ex (
+			book, (EBookEListExCallback)supported_fields_cb, editor);
 
 	return editor;
 }
@@ -3751,10 +3751,10 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 			editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
 								       G_CALLBACK (writable_changed), editor);
 
-			e_book_async_get_supported_fields (editor->target_book,
-							   (EBookEListCallback) supported_fields_cb, editor);
-			e_book_async_get_required_fields (editor->target_book,
-							  (EBookEListCallback)  required_fields_cb, editor);
+			e_book_async_get_supported_fields_ex (editor->target_book,
+							   (EBookEListExCallback) supported_fields_cb, editor);
+			e_book_async_get_required_fields_ex (editor->target_book,
+							  (EBookEListExCallback)  required_fields_cb, editor);
 		}
 
 		writable = e_book_is_writable (editor->target_book);
@@ -3790,11 +3790,11 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 		editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
 							       G_CALLBACK (writable_changed), editor);
 
-		e_book_async_get_supported_fields (editor->target_book,
-						   (EBookEListCallback) supported_fields_cb, editor);
+		e_book_async_get_supported_fields_ex (editor->target_book,
+						   (EBookEListExCallback) supported_fields_cb, editor);
 
-		e_book_async_get_required_fields (editor->target_book,
-							  (EBookEListCallback)  required_fields_cb, editor);
+		e_book_async_get_required_fields_ex (editor->target_book,
+							  (EBookEListExCallback)  required_fields_cb, editor);
 		if (!editor->is_new_contact)
 			editor->changed = TRUE;
 

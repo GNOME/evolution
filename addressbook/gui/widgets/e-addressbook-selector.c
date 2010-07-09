@@ -102,7 +102,7 @@ merge_context_free (MergeContext *merge_context)
 
 static void
 addressbook_selector_removed_cb (EBook *book,
-                                 EBookStatus status,
+                                 const GError *error,
                                  MergeContext *merge_context)
 {
 	merge_context->pending_removals--;
@@ -118,16 +118,16 @@ addressbook_selector_removed_cb (EBook *book,
 
 static void
 addressbook_selector_merge_next_cb (EBook *book,
-                                    EBookStatus status,
+                                    const GError *error,
                                     const gchar *id,
                                     MergeContext *merge_context)
 {
-	if (merge_context->remove_from_source && status == E_BOOK_ERROR_OK) {
+	if (merge_context->remove_from_source && !error) {
 		/* Remove previous contact from source. */
-		e_book_async_remove_contact (
+		e_book_async_remove_contact_ex (
 			merge_context->source_book,
 			merge_context->current_contact,
-			(EBookCallback) addressbook_selector_removed_cb,
+			(EBookExCallback) addressbook_selector_removed_cb,
 			merge_context);
 		merge_context->pending_removals++;
 	}
@@ -139,7 +139,7 @@ addressbook_selector_merge_next_cb (EBook *book,
 		eab_merging_book_add_contact (
 			merge_context->target_book,
 			merge_context->current_contact,
-			(EBookIdCallback) addressbook_selector_merge_next_cb,
+			(EBookIdExCallback) addressbook_selector_merge_next_cb,
 			merge_context);
 
 	} else if (merge_context->pending_removals == 0)
@@ -319,7 +319,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 
 	eab_merging_book_add_contact (
 		target_book, merge_context->current_contact,
-		(EBookIdCallback) addressbook_selector_merge_next_cb,
+		(EBookIdExCallback) addressbook_selector_merge_next_cb,
 		merge_context);
 
 	return TRUE;

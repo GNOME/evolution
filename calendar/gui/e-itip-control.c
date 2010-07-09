@@ -142,7 +142,7 @@ set_ok_sens (EItipControl *itip)
 }
 
 static void
-cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
+cal_opened_cb (ECal *ecal, const GError *error, gpointer data)
 {
 	EItipControl *itip = data;
 	EItipControlPrivate *priv;
@@ -156,7 +156,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 
-	if (status != E_CALENDAR_STATUS_OK) {
+	if (error) {
 		g_hash_table_remove (priv->ecals[source_type], e_source_peek_uid (source));
 
 		return;
@@ -166,7 +166,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	set_ok_sens (itip);
 }
 
-typedef void (* EItipControlOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
+typedef void (* EItipControlOpenFunc) (ECal *ecal, const GError *error, gpointer data);
 
 static ECal *
 start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type, EItipControlOpenFunc func, gpointer data)
@@ -189,7 +189,7 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type,
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (ecal, zone, NULL);
 
-	g_signal_connect (G_OBJECT (ecal), "cal_opened", G_CALLBACK (func), data);
+	g_signal_connect (G_OBJECT (ecal), "cal_opened_ex", G_CALLBACK (func), data);
 
 	g_hash_table_insert (priv->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
 
@@ -239,7 +239,7 @@ source_changed_cb (ESourceComboBox *escb, EItipControl *itip)
 }
 
 static void
-find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
+find_cal_opened_cb (ECal *ecal, const GError *error, gpointer data)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -262,7 +262,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
-	if (status != E_CALENDAR_STATUS_OK) {
+	if (error) {
 		g_hash_table_remove (priv->ecals[source_type], e_source_peek_uid (source));
 
 		goto cleanup;

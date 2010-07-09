@@ -308,16 +308,16 @@ alarm_notify_new (void)
 }
 
 static void
-cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
+cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
 {
 	AlarmNotifyPrivate *priv;
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
 
 	priv = an->priv;
 
-	d (printf("%s:%d (cal_opened_cb) %s - Calendar Status %d\n", __FILE__, __LINE__, e_cal_get_uri (client), status));
+	d (printf("%s:%d (cal_opened_cb) %s - Calendar Status %d%s%s%s\n", __FILE__, __LINE__, e_cal_get_uri (client), error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
 
-	if (status == E_CALENDAR_STATUS_OK)
+	if (!error)
 		alarm_queue_add_client (client);
 	else {
 		g_hash_table_remove (priv->uri_client_hash[e_cal_get_source_type (client)],
@@ -389,7 +389,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	if (client) {
 		d (printf("%s:%d (alarm_notify_add_calendar) %s - Calendar Open Async... %p\n", __FILE__, __LINE__, str_uri, client));
 		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
-		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
+		g_signal_connect (G_OBJECT (client), "cal_opened_ex", G_CALLBACK (cal_opened_cb), an);
 		/* to resolve floating DATE-TIME properly */
 		e_cal_set_default_timezone (client, config_data_get_timezone (), NULL);
 		e_cal_open_async (client, FALSE);

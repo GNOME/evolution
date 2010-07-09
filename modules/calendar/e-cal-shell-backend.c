@@ -282,7 +282,7 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 static void
 cal_shell_backend_new_event (ECal *cal,
-                             ECalendarStatus status,
+                             const GError *error,
                              EShell *shell,
                              CompEditorFlags flags,
                              gboolean all_day)
@@ -291,7 +291,7 @@ cal_shell_backend_new_event (ECal *cal,
 	CompEditor *editor;
 
 	/* XXX Handle errors better. */
-	if (status != E_CALENDAR_STATUS_OK)
+	if (error)
 		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
@@ -308,39 +308,39 @@ cal_shell_backend_new_event (ECal *cal,
 
 static void
 cal_shell_backend_event_new_cb (ECal *cal,
-                                ECalendarStatus status,
+                                const GError *error,
                                 EShell *shell)
 {
 	CompEditorFlags flags;
 
 	flags = COMP_EDITOR_USER_ORG;
-	cal_shell_backend_new_event (cal, status, shell, flags, FALSE);
+	cal_shell_backend_new_event (cal, error, shell, flags, FALSE);
 
 	g_object_unref (cal);
 }
 
 static void
 cal_shell_backend_event_all_day_new_cb (ECal *cal,
-                                        ECalendarStatus status,
+                                        const GError *error,
                                         EShell *shell)
 {
 	CompEditorFlags flags;
 
 	flags = COMP_EDITOR_USER_ORG;
-	cal_shell_backend_new_event (cal, status, shell, flags, TRUE);
+	cal_shell_backend_new_event (cal, error, shell, flags, TRUE);
 
 	g_object_unref (cal);
 }
 
 static void
 cal_shell_backend_event_meeting_new_cb (ECal *cal,
-                                        ECalendarStatus status,
+                                        const GError *error,
                                         EShell *shell)
 {
 	CompEditorFlags flags;
 
 	flags = COMP_EDITOR_USER_ORG | COMP_EDITOR_MEETING;
-	cal_shell_backend_new_event (cal, status, shell, flags, FALSE);
+	cal_shell_backend_new_event (cal, error, shell, flags, FALSE);
 
 	g_object_unref (cal);
 }
@@ -425,17 +425,17 @@ action_event_new_cb (GtkAction *action,
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "event-all-day-new") == 0)
 		g_signal_connect (
-			cal, "cal-opened",
+			cal, "cal-opened-ex",
 			G_CALLBACK (cal_shell_backend_event_all_day_new_cb),
 			shell);
 	else if (strcmp (action_name, "event-meeting-new") == 0)
 		g_signal_connect (
-			cal, "cal-opened",
+			cal, "cal-opened-ex",
 			G_CALLBACK (cal_shell_backend_event_meeting_new_cb),
 			shell);
 	else
 		g_signal_connect (
-			cal, "cal-opened",
+			cal, "cal-opened-ex",
 			G_CALLBACK (cal_shell_backend_event_new_cb),
 			shell);
 

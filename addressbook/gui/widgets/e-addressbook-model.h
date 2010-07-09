@@ -63,7 +63,8 @@ struct _EAddressbookModelClass {
 						 gboolean writable);
 	void		(*search_started)	(EAddressbookModel *model);
 	void		(*search_result)	(EAddressbookModel *model,
-						 EBookViewStatus status);
+						 EBookViewStatus status,
+						 const gchar *error_msg);
 	void		(*status_message)	(EAddressbookModel *model,
 						 const gchar *message);
 	void		(*folder_bar_message)	(EAddressbookModel *model,

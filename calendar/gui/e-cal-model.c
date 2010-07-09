@@ -136,7 +136,10 @@ enum {
 	ROW_APPENDED,
 	COMPS_DELETED,
 	CAL_VIEW_PROGRESS,
+	#ifndef E_CAL_DISABLE_DEPRECATED
 	CAL_VIEW_DONE,
+	#endif
+	CAL_VIEW_COMPLETE,
 	STATUS_MESSAGE,
 	TIMEZONE_CHANGED,
 	LAST_SIGNAL
@@ -394,6 +397,8 @@ e_cal_model_class_init (ECalModelClass *class)
 			      NULL, NULL,
 			      e_marshal_VOID__STRING_INT_INT,
 			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
+
+	#ifndef E_CAL_DISABLE_DEPRECATED
 	signals[CAL_VIEW_DONE] =
 		g_signal_new ("cal_view_done",
 			      G_TYPE_FROM_CLASS (class),
@@ -402,6 +407,16 @@ e_cal_model_class_init (ECalModelClass *class)
 			      NULL, NULL,
 			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	#endif
+
+	signals[CAL_VIEW_COMPLETE] =
+		g_signal_new ("cal_view_complete",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, cal_view_complete),
+			      NULL, NULL,
+			      e_marshal_VOID__INT_STRING_INT,
+			      G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -2003,15 +2018,19 @@ e_cal_view_progress_cb (ECalView *query, const gchar *message, gint percent, gpo
 }
 
 static void
-e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer user_data)
+e_cal_view_complete_cb (ECalView *query, ECalendarStatus status, const gchar *error_msg, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
 	ECal *client = e_cal_view_get_client (query);
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	#ifndef E_CAL_DISABLE_DEPRECATED
 	/* emit the signal on the model and let the view catch it to display */
 	g_signal_emit (G_OBJECT (model), signals[CAL_VIEW_DONE], 0, status,
+			e_cal_get_source_type (client));
+	#endif
+	g_signal_emit (G_OBJECT (model), signals[CAL_VIEW_COMPLETE], 0, status, error_msg,
 			e_cal_get_source_type (client));
 }
 
@@ -2062,7 +2081,7 @@ try_again:
 	g_signal_connect (client_data->query, "objects_modified", G_CALLBACK (e_cal_view_objects_modified_cb), model);
 	g_signal_connect (client_data->query, "objects_removed", G_CALLBACK (e_cal_view_objects_removed_cb), model);
 	g_signal_connect (client_data->query, "view_progress", G_CALLBACK (e_cal_view_progress_cb), model);
-	g_signal_connect (client_data->query, "view_done", G_CALLBACK (e_cal_view_done_cb), model);
+	g_signal_connect (client_data->query, "view_complete", G_CALLBACK (e_cal_view_complete_cb), model);
 
 	e_cal_view_start (client_data->query);
 }
@@ -2086,17 +2105,17 @@ backend_died_cb (ECal *client, gpointer user_data)
 }
 
 static void
-cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
+cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
 	ECalModelClient *client_data;
 
-	if (status == E_CALENDAR_STATUS_BUSY) {
+	if (g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_BUSY)) {
 		e_cal_open_async (client, FALSE);
 		return;
 	}
 
-	if (status != E_CALENDAR_STATUS_OK) {
+	if (error) {
 		e_cal_model_remove_client (model, client);
 		e_cal_model_update_status_message (model, NULL, -1.0);
 		return;
@@ -2159,7 +2178,7 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 
 		e_cal_set_default_timezone (client, e_cal_model_get_timezone (model), NULL);
 
-		g_signal_connect (client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
+		g_signal_connect (client, "cal_opened_ex", G_CALLBACK (cal_opened_cb), model);
 		e_cal_open_async (client, TRUE);
 	}
 

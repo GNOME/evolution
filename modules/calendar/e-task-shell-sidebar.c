@@ -171,7 +171,7 @@ task_shell_sidebar_backend_error_cb (ETaskShellSidebar *task_shell_sidebar,
 
 static void
 task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
-                                     ECalendarStatus status,
+                                     const GError *error,
                                      ECal *client)
 {
 	EShellView *shell_view;
@@ -183,12 +183,12 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
-		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+	if (g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
+	    g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
 		e_auth_cal_forget_password (client);
 
 	/* Handle errors. */
-	switch (status) {
+	switch (error ? error->code : E_CALENDAR_STATUS_OK) {
 		case E_CALENDAR_STATUS_OK:
 			break;
 
@@ -213,7 +213,7 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 			return;
 	}
 
-	g_assert (status == E_CALENDAR_STATUS_OK);
+	g_assert (error == NULL);
 
 	g_signal_handlers_disconnect_matched (
 		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
@@ -227,7 +227,7 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 
 static void
 task_shell_sidebar_default_opened_cb (ETaskShellSidebar *task_shell_sidebar,
-                                      ECalendarStatus status,
+                                      const GError *error,
                                       ECal *client)
 {
 	EShellView *shell_view;
@@ -236,12 +236,12 @@ task_shell_sidebar_default_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
-		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+	if (g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
+	    g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
 		e_auth_cal_forget_password (client);
 
 	/* Handle errors. */
-	switch (status) {
+	switch (error ? error->code : E_CALENDAR_STATUS_OK) {
 		case E_CALENDAR_STATUS_OK:
 			break;
 
@@ -259,7 +259,7 @@ task_shell_sidebar_default_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 			return;
 	}
 
-	g_assert (status == E_CALENDAR_STATUS_OK);
+	g_assert (error == NULL);
 
 	g_signal_handlers_disconnect_matched (
 		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
@@ -301,7 +301,7 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	g_return_if_fail (client != NULL);
 
 	g_signal_connect_swapped (
-		client, "cal-opened",
+		client, "cal-opened-ex",
 		G_CALLBACK (task_shell_sidebar_default_opened_cb),
 		task_shell_sidebar);
 
@@ -894,7 +894,7 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	g_free (message);
 
 	g_signal_connect_swapped (
-		client, "cal-opened",
+		client, "cal-opened-ex",
 		G_CALLBACK (task_shell_sidebar_client_opened_cb),
 		task_shell_sidebar);
 

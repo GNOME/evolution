@@ -121,11 +121,11 @@ quick_add_set_vcard (QuickAdd *qa, const gchar *vcard)
 }
 
 static void
-merge_cb (EBook *book, EBookStatus status, gpointer closure)
+merge_cb (EBook *book, const GError *error, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (status == E_BOOK_ERROR_OK) {
+	if (!error) {
 		if (e_book_is_writable (book))
 			eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
 		else
@@ -186,14 +186,14 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 }
 
 static void
-ce_have_contact (EBook *book, EBookStatus status, EContact *contact, gpointer closure)
+ce_have_contact (EBook *book, const GError *error, EContact *contact, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (status != E_BOOK_ERROR_OK) {
+	if (error) {
 		if (book)
 			g_object_unref (book);
-		g_warning ("Failed to find contact, status %d.", status);
+		g_warning ("Failed to find contact, status %d (%s).", error->code, error->message);
 		quick_add_unref (qa);
 	} else {
 		EShell *shell;
@@ -235,14 +235,14 @@ ce_have_contact (EBook *book, EBookStatus status, EContact *contact, gpointer cl
 }
 
 static void
-ce_have_book (EBook *book, EBookStatus status, gpointer closure)
+ce_have_book (EBook *book, const GError *error, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (status != E_BOOK_ERROR_OK) {
+	if (error) {
 		if (book)
 			g_object_unref (book);
-		g_warning ("Couldn't open local address book.");
+		g_warning ("Couldn't open local address book (%s).", error->message);
 		quick_add_unref (qa);
 	} else {
 		eab_merging_book_find_contact (book, qa->contact, ce_have_contact, qa);

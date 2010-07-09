@@ -39,7 +39,7 @@
  *
  **/
 void
-delete_error_dialog (GError *error, ECalComponentVType vtype)
+delete_error_dialog (const GError *error, ECalComponentVType vtype)
 {
 	GtkWidget *dialog;
 	const gchar *str;
@@ -49,19 +49,23 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 		return;
 
 	switch (error->code) {
-	case E_CALENDAR_STATUS_CORBA_EXCEPTION:
+	case E_CALENDAR_STATUS_DBUS_EXCEPTION:
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-			str = _("The event could not be deleted due to a corba error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The event could not be deleted due to a dbus error: %s");
 			break;
 		case E_CAL_COMPONENT_TODO:
-			str = _("The task could not be deleted due to a corba error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The task could not be deleted due to a dbus error: %s");
 			break;
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("The memo could not be deleted due to a corba error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The memo could not be deleted due to a dbus error: %s");
 			break;
 		default:
-			str = _("The item could not be deleted due to a corba error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The item could not be deleted due to a dbus error: %s");
 			break;
 		}
 		break;
@@ -84,16 +88,20 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 	case E_CALENDAR_STATUS_OTHER_ERROR:
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-			str = _("The event could not be deleted due to an error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The event could not be deleted due to an error: %s");
 			break;
 		case E_CAL_COMPONENT_TODO:
-			str = _("The task could not be deleted due to an error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The task could not be deleted due to an error: %s");
 			break;
 		case E_CAL_COMPONENT_JOURNAL:
-			str = _("The memo could not be deleted due to an error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The memo could not be deleted due to an error: %s");
 			break;
 		default:
-			str = _("The item could not be deleted due to an error");
+			/* Translators: The '%s' is replaced with a detailed error message */
+			str = _("The item could not be deleted due to an error: %s");
 			break;
 		}
 		break;
@@ -106,7 +114,7 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_ERROR,
-					 GTK_BUTTONS_OK, "%s", str);
+					 GTK_BUTTONS_OK, str, error->message);
 	if (vtype == E_CAL_COMPONENT_EVENT)
 		icon_name = "x-office-calendar";
 	else if (vtype == E_CAL_COMPONENT_TODO)

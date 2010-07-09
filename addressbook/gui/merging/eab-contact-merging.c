@@ -49,9 +49,9 @@ typedef struct {
 	/*match is the duplicate contact already existing in the addressbook*/
 	EContact *match;
 	GList *avoid;
-	EBookIdCallback id_cb;
-	EBookCallback   cb;
-	EBookContactCallback c_cb;
+	EBookIdExCallback id_cb;
+	EBookExCallback   cb;
+	EBookContactExCallback c_cb;
 	gpointer closure;
 } EContactMergingLookup;
 
@@ -110,12 +110,12 @@ free_lookup (EContactMergingLookup *lookup)
 }
 
 static void
-final_id_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
+final_id_cb (EBook *book, const GError *error, const gchar *id, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
 	if (lookup->id_cb)
-		lookup->id_cb (lookup->book, status, id, lookup->closure);
+		lookup->id_cb (lookup->book, error, id, lookup->closure);
 
 	free_lookup (lookup);
 
@@ -123,12 +123,12 @@ final_id_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 }
 
 static void
-final_cb_as_id (EBook *book, EBookStatus status, gpointer closure)
+final_cb_as_id (EBook *book, const GError *error, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
 	if (lookup->id_cb)
-		lookup->id_cb (lookup->book, status, lookup->contact ? e_contact_get_const (lookup->contact, E_CONTACT_UID) : NULL, lookup->closure);
+		lookup->id_cb (lookup->book, error, lookup->contact ? e_contact_get_const (lookup->contact, E_CONTACT_UID) : NULL, lookup->closure);
 
 	free_lookup (lookup);
 
@@ -136,12 +136,12 @@ final_cb_as_id (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-final_cb (EBook *book, EBookStatus status, gpointer closure)
+final_cb (EBook *book, const GError *error, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
 	if (lookup->cb)
-		lookup->cb (lookup->book, status, lookup->closure);
+		lookup->cb (lookup->book, error, lookup->closure);
 
 	free_lookup (lookup);
 
@@ -153,21 +153,25 @@ doit (EContactMergingLookup *lookup, gboolean force_commit)
 {
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
 		if (force_commit)
-			e_book_async_commit_contact (lookup->book, lookup->contact, final_cb_as_id, lookup);
+			e_book_async_commit_contact_ex (lookup->book, lookup->contact, final_cb_as_id, lookup);
 		else
-			e_book_async_add_contact (lookup->book, lookup->contact, final_id_cb, lookup);
+			e_book_async_add_contact_ex (lookup->book, lookup->contact, final_id_cb, lookup);
 	} else if (lookup->op == E_CONTACT_MERGING_COMMIT)
-		e_book_async_commit_contact (lookup->book, lookup->contact, final_cb, lookup);
+		e_book_async_commit_contact_ex (lookup->book, lookup->contact, final_cb, lookup);
 }
 
 static void
 cancelit (EContactMergingLookup *lookup)
 {
+	GError *error = g_error_new (E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED, _("Cancelled"));
+
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
-		final_id_cb (lookup->book, E_BOOK_ERROR_CANCELLED, NULL, lookup);
+		final_id_cb (lookup->book, error, NULL, lookup);
 	} else if (lookup->op == E_CONTACT_MERGING_COMMIT) {
-		final_cb (lookup->book, E_BOOK_ERROR_CANCELLED, lookup);
+		final_cb (lookup->book, error, lookup);
 	}
+
+	g_error_free (error);
 }
 
 static void
@@ -371,8 +375,8 @@ mergeit (EContactMergingLookup *lookup)
 	{
 	case GTK_RESPONSE_OK:
 		     lookup->contact = lookup->match;
-		     e_book_async_remove_contact (lookup->book, lookup->match, NULL, lookup);
-		     e_book_async_add_contact (lookup->book, lookup->contact, final_id_cb, lookup);
+		     e_book_async_remove_contact_ex (lookup->book, lookup->match, NULL, lookup);
+		     e_book_async_add_contact_ex (lookup->book, lookup->contact, final_id_cb, lookup);
 		     value = 1;
 		     break;
 	case GTK_RESPONSE_CANCEL:
@@ -466,7 +470,7 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 
 	if (lookup->op == E_CONTACT_MERGING_FIND) {
 		if (lookup->c_cb)
-			lookup->c_cb (lookup->book, E_BOOK_ERROR_OK, (gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE ? NULL : match, lookup->closure);
+			lookup->c_cb (lookup->book, NULL, (gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE ? NULL : match, lookup->closure);
 
 		free_lookup (lookup);
 		finished_lookup ();
@@ -543,7 +547,7 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 gboolean
 eab_merging_book_add_contact (EBook           *book,
 			      EContact        *contact,
-			      EBookIdCallback  cb,
+			      EBookIdExCallback  cb,
 			      gpointer         closure)
 {
 	EContactMergingLookup *lookup;
@@ -566,7 +570,7 @@ eab_merging_book_add_contact (EBook           *book,
 gboolean
 eab_merging_book_commit_contact (EBook                 *book,
 				 EContact              *contact,
-				 EBookCallback          cb,
+				 EBookExCallback          cb,
 				 gpointer               closure)
 {
 	EContactMergingLookup *lookup;
@@ -589,7 +593,7 @@ eab_merging_book_commit_contact (EBook                 *book,
 gboolean
 eab_merging_book_find_contact (EBook                 *book,
 			       EContact              *contact,
-			       EBookContactCallback   cb,
+			       EBookContactExCallback   cb,
 			       gpointer               closure)
 {
 	EContactMergingLookup *lookup;

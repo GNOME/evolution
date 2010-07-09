@@ -597,14 +597,14 @@ load_alarms_for_today (ClientAlarms *ca)
 
 /* Called when a calendar client finished loading; we load its alarms */
 static void
-cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
+cal_opened_cb (ECal *client, const GError *error, gpointer data)
 {
 	ClientAlarms *ca;
 
 	ca = data;
 
-	d(printf("%s:%d (cal_opened_cb) - Opened Calendar %p (Status %d)\n",__FILE__, __LINE__, client, status==E_CALENDAR_STATUS_OK));
-	if (status != E_CALENDAR_STATUS_OK)
+	d(printf("%s:%d (cal_opened_cb) - Opened Calendar %p (Status %d%s%s%s)\n",__FILE__, __LINE__, client, error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
+	if (error)
 		return;
 
 	load_alarms_for_today (ca);
@@ -1999,7 +1999,7 @@ alarm_queue_add_async (struct _alarm_client_msg *msg)
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
 	} else {
-		g_signal_connect (client, "cal_opened",
+		g_signal_connect (client, "cal_opened_ex",
 				  G_CALLBACK (cal_opened_cb),
 				  ca);
 	}

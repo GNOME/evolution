@@ -319,9 +319,9 @@ ivcal_import_items(gpointer d)
 }
 
 static void
-ivcal_opened(ECal *ecal, ECalendarStatus status, ICalImporter *ici)
+ivcal_opened(ECal *ecal, const GError *error, ICalImporter *ici)
 {
-	if (!ici->cancelled && status == E_CALENDAR_STATUS_OK) {
+	if (!ici->cancelled && !error) {
 		e_import_status(ici->import, ici->target, _("Importing..."), 0);
 		ici->idle_id = g_idle_add(ivcal_import_items, ici);
 	} else
@@ -348,7 +348,7 @@ ivcal_import(EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
 		ici->client = client;
 		ici->source_type = type;
 		e_import_status(ei, target, _("Opening calendar"), 0);
-		g_signal_connect(client, "cal-opened", G_CALLBACK(ivcal_opened), ici);
+		g_signal_connect(client, "cal-opened-ex", G_CALLBACK(ivcal_opened), ici);
 		e_cal_open_async(client, TRUE);
 		return;
 	} else {

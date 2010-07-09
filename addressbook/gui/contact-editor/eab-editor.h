@@ -72,9 +72,9 @@ struct _EABEditorClass {
 	GtkWindow* (* get_window) (EABEditor *editor);
 
 	/* signals */
-	void (* contact_added)    (EABEditor *editor, EBookStatus status, EContact *contact);
-	void (* contact_modified) (EABEditor *editor, EBookStatus status, EContact *contact);
-	void (* contact_deleted)  (EABEditor *editor, EBookStatus status, EContact *contact);
+	void (* contact_added)    (EABEditor *editor, const GError *error, EContact *contact);
+	void (* contact_modified) (EABEditor *editor, const GError *error, EContact *contact);
+	void (* contact_deleted)  (EABEditor *editor, const GError *error, EContact *contact);
 	void (* editor_closed)    (EABEditor *editor);
 };
 
@@ -98,13 +98,13 @@ gboolean	eab_editor_prompt_to_save_changes
 
 /* these four generate EABEditor signals */
 void		eab_editor_contact_added	(EABEditor *editor,
-						 EBookStatus status,
+						 const GError *error,
 						 EContact *contact);
 void		eab_editor_contact_modified	(EABEditor *editor,
-						 EBookStatus status,
+						 const GError *error,
 						 EContact *contact);
 void		eab_editor_contact_deleted	(EABEditor *editor,
-						 EBookStatus status,
+						 const GError *error,
 						 EContact *contact);
 void		eab_editor_closed		(EABEditor *editor);
 

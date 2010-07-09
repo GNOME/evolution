@@ -145,7 +145,7 @@ typedef struct {
 	gint count;
 } FormatItipFindData;
 
-typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
+typedef void (* FormatItipOpenFunc) (ECal *ecal, const GError *error, gpointer data);
 
 static gboolean check_is_instance (icalcomponent *icalcomp);
 
@@ -472,24 +472,25 @@ set_buttons_sensitive (struct _itip_puri *pitip)
 }
 
 static void
-add_failed_to_load_msg (ItipView *view, ESource *source, ECalendarStatus status)
+add_failed_to_load_msg (ItipView *view, ESource *source, const GError *error)
 {
-	gchar *msg, *msg_full;
+	gchar *msg;
 
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (source != NULL);
+	g_return_if_fail (error != NULL);
 
-	msg = g_strdup_printf (_("Failed to load the calendar '%s'"), e_source_peek_name (source));
-	msg_full = g_strconcat (msg, " (", e_cal_get_error_message (status), ")", NULL);
+	/* Translators: The first '%s' is replaced with a calendar name,
+	   the second '%s' with an error message */
+	msg = g_strdup_printf (_("Failed to load the calendar '%s' (%s)"), e_source_peek_name (source), error->message);
 
-	itip_view_add_lower_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, msg_full);
+	itip_view_add_lower_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, msg);
 
-	g_free (msg_full);
 	g_free (msg);
 }
 
 static void
-cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
+cal_opened_cb (ECal *ecal, const GError *error, gpointer data)
 {
 	struct _itip_puri *pitip = data;
 	ESource *source;
@@ -500,10 +501,10 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 
-	if (status != E_CALENDAR_STATUS_OK) {
+	if (error) {
 		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
 
-		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, status);
+		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
 
 		if (pitip->current_ecal == ecal) {
 			pitip->current_ecal = NULL;
@@ -561,7 +562,7 @@ start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalSourceType
 	if (!ecal)
 		return NULL;
 
-	g_signal_connect (G_OBJECT (ecal), "cal_opened", G_CALLBACK (func), data);
+	g_signal_connect (G_OBJECT (ecal), "cal_opened_ex", G_CALLBACK (func), data);
 
 	g_hash_table_insert (pitip->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
 
@@ -604,7 +605,7 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 }
 
 static void
-find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
+find_cal_opened_cb (ECal *ecal, const GError *error, gpointer data)
 {
 	FormatItipFindData *fd = data;
 	struct _itip_puri *pitip = fd->puri;
@@ -620,12 +621,12 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
-	if (status != E_CALENDAR_STATUS_OK) {
+	if (error) {
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
 		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
-		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, status);
+		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
 
 		if (pitip->current_ecal == ecal) {
 			pitip->current_ecal = NULL;

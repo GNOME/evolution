@@ -34,11 +34,11 @@ typedef void (*EABHaveAddressCallback) (EBook *book, const gchar *addr, EContact
 guint                  eab_name_and_email_query      (EBook                    *book,
 						      const gchar               *name,
 						      const gchar               *email,
-						      EBookListCallback         cb,
+						      EBookListExCallback       cb,
 						      gpointer                  closure);
 guint                  eab_nickname_query            (EBook                    *book,
 						      const gchar               *nickname,
-						      EBookListCallback         cb,
+						      EBookListExCallback       cb,
 						      gpointer                  closure);
 
 GList                 *eab_contact_list_from_string (const gchar *str);

@@ -138,7 +138,7 @@ attachment_handler_update_objects (ECal *client,
 
 static void
 attachment_handler_import_event (ECal *client,
-                                 ECalendarStatus status,
+                                 const GError *error,
                                  EAttachment *attachment)
 {
 	icalcomponent *component;
@@ -146,7 +146,7 @@ attachment_handler_import_event (ECal *client,
 	icalcompiter iter;
 
 	/* FIXME Notify the user somehow. */
-	g_return_if_fail (status == E_CALENDAR_STATUS_OK);
+	g_return_if_fail (error == NULL);
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -178,7 +178,7 @@ attachment_handler_import_event (ECal *client,
 
 static void
 attachment_handler_import_todo (ECal *client,
-                                ECalendarStatus status,
+                                const GError *error,
                                 EAttachment *attachment)
 {
 	icalcomponent *component;
@@ -186,7 +186,7 @@ attachment_handler_import_todo (ECal *client,
 	icalcompiter iter;
 
 	/* FIXME Notify the user somehow. */
-	g_return_if_fail (status == E_CALENDAR_STATUS_OK);
+	g_return_if_fail (error == NULL);
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -310,7 +310,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		goto exit;
 
 	g_object_ref (attachment);
-	g_signal_connect (client, "cal-opened", callback, attachment);
+	g_signal_connect (client, "cal-opened-ex", callback, attachment);
 	e_cal_open_async (client, FALSE);
 
 exit:

@@ -201,7 +201,7 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 static void
 task_shell_backend_task_new_cb (ECal *cal,
-                                ECalendarStatus status,
+                                const GError *error,
                                 EShell *shell)
 {
 	ECalComponent *comp;
@@ -209,7 +209,7 @@ task_shell_backend_task_new_cb (ECal *cal,
 	CompEditorFlags flags = 0;
 
 	/* XXX Handle errors better. */
-	if (status != E_CALENDAR_STATUS_OK)
+	if (error)
 		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
@@ -226,7 +226,7 @@ task_shell_backend_task_new_cb (ECal *cal,
 
 static void
 task_shell_backend_task_assigned_new_cb (ECal *cal,
-                                         ECalendarStatus status,
+                                         const GError *error,
                                          EShell *shell)
 {
 	ECalComponent *comp;
@@ -234,7 +234,7 @@ task_shell_backend_task_assigned_new_cb (ECal *cal,
 	CompEditorFlags flags = 0;
 
 	/* XXX Handle errors better. */
-	if (status != E_CALENDAR_STATUS_OK)
+	if (error)
 		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
@@ -296,12 +296,12 @@ action_task_new_cb (GtkAction *action,
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "task-assigned-new") == 0)
 		g_signal_connect (
-			cal, "cal-opened",
+			cal, "cal-opened-ex",
 			G_CALLBACK (task_shell_backend_task_assigned_new_cb),
 			shell);
 	else
 		g_signal_connect (
-			cal, "cal-opened",
+			cal, "cal-opened-ex",
 			G_CALLBACK (task_shell_backend_task_new_cb),
 			shell);
 

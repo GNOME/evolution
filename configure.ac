@@ -169,6 +169,8 @@ dnl	-Wmissing-format-attribute
 dnl	-Wshadow
 dnl	-Wformat-nonliteral
 dnl	-Wstrict-aliasing=2
+dnl	-DE_BOOK_DISABLE_DEPRECATED
+dnl	-DE_CAL_DISABLE_DEPRECATED
 
 dnl GCC 4.4 got more aggressive in its aliasing optimizations, changing
 dnl behavior that -- according to the C99 standard -- is supposed to be

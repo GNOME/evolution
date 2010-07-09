@@ -24,6 +24,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include "e-addressbook-model.h"
+#include <e-util/e-marshal.h>
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 
@@ -46,7 +47,7 @@ struct _EAddressbookModelPrivate {
 	gulong modify_contact_id;
 	gulong status_message_id;
 	gulong writable_status_id;
-	gulong sequence_complete_id;
+	gulong view_complete_id;
 	gulong backend_died_id;
 
 	guint search_in_progress	: 1;
@@ -109,16 +110,16 @@ remove_book_view(EAddressbookModel *model)
 		g_signal_handler_disconnect (
 			model->priv->book_view,
 			model->priv->status_message_id);
-	if (model->priv->book_view && model->priv->sequence_complete_id)
+	if (model->priv->book_view && model->priv->view_complete_id)
 		g_signal_handler_disconnect (
 			model->priv->book_view,
-			model->priv->sequence_complete_id);
+			model->priv->view_complete_id);
 
 	model->priv->create_contact_id = 0;
 	model->priv->remove_contact_id = 0;
 	model->priv->modify_contact_id = 0;
 	model->priv->status_message_id = 0;
-	model->priv->sequence_complete_id = 0;
+	model->priv->view_complete_id = 0;
 
 	model->priv->search_in_progress = FALSE;
 
@@ -266,13 +267,14 @@ status_message (EBookView *book_view,
 }
 
 static void
-sequence_complete (EBookView *book_view,
+view_complete (EBookView *book_view,
                    EBookViewStatus status,
+		   const gchar *error_msg,
                    EAddressbookModel *model)
 {
 	model->priv->search_in_progress = FALSE;
 	status_message (book_view, NULL, model);
-	g_signal_emit (model, signals[SEARCH_RESULT], 0, status);
+	g_signal_emit (model, signals[SEARCH_RESULT], 0, status, error_msg);
 	g_signal_emit (model, signals[STOP_STATE_CHANGED], 0);
 }
 
@@ -297,14 +299,14 @@ backend_died (EBook *book,
 
 static void
 book_view_loaded (EBook *book,
-                  EBookStatus status,
+                  const GError *error,
                   EBookView *book_view,
                   gpointer closure)
 {
 	EAddressbookModel *model = closure;
 
-	if (status != E_BOOK_ERROR_OK) {
-		eab_error_dialog (_("Error getting book view"), status);
+	if (error) {
+		eab_error_dialog (_("Error getting book view"), error);
 		return;
 	}
 
@@ -327,9 +329,9 @@ book_view_loaded (EBook *book,
 	model->priv->status_message_id = g_signal_connect (
 		model->priv->book_view, "status-message",
 		G_CALLBACK (status_message), model);
-	model->priv->sequence_complete_id = g_signal_connect (
-		model->priv->book_view, "sequence-complete",
-		G_CALLBACK (sequence_complete), model);
+	model->priv->view_complete_id = g_signal_connect (
+		model->priv->book_view, "view-complete",
+		G_CALLBACK (view_complete), model);
 
 	model->priv->search_in_progress = TRUE;
 	g_signal_emit (model, signals[MODEL_CHANGED], 0);
@@ -361,7 +363,7 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 			model->priv->first_get_view = FALSE;
 
 			if (e_book_check_static_capability (model->priv->book, "do-initial-query")) {
-				e_book_async_get_book_view (
+				e_book_async_get_book_view_ex (
 					model->priv->book, model->priv->query,
 					NULL, limit, book_view_loaded, model);
 			} else {
@@ -373,7 +375,7 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 					       signals[STOP_STATE_CHANGED], 0);
 			}
 		} else
-			e_book_async_get_book_view (
+			e_book_async_get_book_view_ex (
 				model->priv->book, model->priv->query,
 				NULL, limit, book_view_loaded, model);
 
@@ -570,8 +572,8 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, search_result),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+			      e_marshal_VOID__UINT_STRING,
+			      G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_STRING);
 
 	signals[FOLDER_BAR_MESSAGE] =
 		g_signal_new ("folder_bar_message",

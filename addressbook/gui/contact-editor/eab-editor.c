@@ -181,7 +181,7 @@ eab_editor_class_init (EABEditorClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, contact_added),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_OBJECT,
+			      e_marshal_NONE__POINTER_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -191,7 +191,7 @@ eab_editor_class_init (EABEditorClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, contact_modified),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_OBJECT,
+			      e_marshal_NONE__POINTER_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -201,7 +201,7 @@ eab_editor_class_init (EABEditorClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, contact_deleted),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_OBJECT,
+			      e_marshal_NONE__POINTER_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -385,35 +385,35 @@ eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
 
 void
 eab_editor_contact_added (EABEditor *editor,
-                          EBookStatus status,
+                          const GError *error,
                           EContact *contact)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	g_signal_emit (editor, signals[CONTACT_ADDED], 0, status, contact);
+	g_signal_emit (editor, signals[CONTACT_ADDED], 0, error, contact);
 }
 
 void
 eab_editor_contact_modified (EABEditor *editor,
-                             EBookStatus status,
+                             const GError *error,
                              EContact *contact)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	g_signal_emit (editor, signals[CONTACT_MODIFIED], 0, status, contact);
+	g_signal_emit (editor, signals[CONTACT_MODIFIED], 0, error, contact);
 }
 
 void
 eab_editor_contact_deleted (EABEditor *editor,
-                            EBookStatus status,
+                            const GError *error,
                             EContact *contact)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	g_signal_emit (editor, signals[CONTACT_DELETED], 0, status, contact);
+	g_signal_emit (editor, signals[CONTACT_DELETED], 0, error, contact);
 }
 
 void

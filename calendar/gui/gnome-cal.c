@@ -305,10 +305,11 @@ view_progress_cb (ECalModel *model,
 }
 
 static void
-view_done_cb (ECalModel *model,
-              ECalendarStatus status,
-              ECalSourceType type,
-              GnomeCalendar *gcal)
+view_complete_cb (ECalModel *model,
+		  ECalendarStatus status,
+		  const gchar *error_msg,
+		  ECalSourceType type,
+		  GnomeCalendar *gcal)
 {
 	gcal_update_status_message (gcal, NULL, -1);
 }
@@ -419,8 +420,8 @@ gnome_calendar_constructed (GObject *object)
 		G_CALLBACK (view_progress_cb), gcal);
 
 	g_signal_connect (
-		model, "cal-view-done",
-		G_CALLBACK (view_done_cb), gcal);
+		model, "cal-view-complete",
+		G_CALLBACK (view_complete_cb), gcal);
 
 	/* Day View */
 	calendar_view = e_day_view_new (model);
@@ -807,11 +808,11 @@ dn_e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer data)
 
 /* Callback used when the calendar query is done */
 static void
-dn_e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer data)
+dn_e_cal_view_complete_cb (ECalView *query, ECalendarStatus status, const gchar *error_msg, gpointer data)
 {
 	/* FIXME Better error reporting */
 	if (status != E_CALENDAR_STATUS_OK)
-		g_warning (G_STRLOC ": Query did not successfully complete");
+		g_warning (G_STRLOC ": Query did not successfully complete, code:%d (%s)", status, error_msg ? error_msg : "Unknown error");
 }
 
 ECalendarView *
@@ -1103,8 +1104,8 @@ try_again:
 				  G_CALLBACK (dn_e_cal_view_objects_modified_cb), gcal);
 		g_signal_connect (new_query, "objects_removed",
 				  G_CALLBACK (dn_e_cal_view_objects_removed_cb), gcal);
-		g_signal_connect (new_query, "view_done",
-				  G_CALLBACK (dn_e_cal_view_done_cb), gcal);
+		g_signal_connect (new_query, "view_complete",
+				  G_CALLBACK (dn_e_cal_view_complete_cb), gcal);
 
 		g_mutex_lock (priv->dn_query_lock);
 		priv->dn_queries = g_list_append (priv->dn_queries, new_query);
@@ -1487,7 +1488,7 @@ gnome_calendar_do_dispose (GObject *object)
 		g_signal_handlers_disconnect_by_func (
 			priv->model, view_progress_cb, gcal);
 		g_signal_handlers_disconnect_by_func (
-			priv->model, view_done_cb, gcal);
+			priv->model, view_complete_cb, gcal);
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}

@@ -67,7 +67,7 @@
 #define d(x)
 
 static void status_message     (EAddressbookView *view, const gchar *status);
-static void search_result      (EAddressbookView *view, EBookViewStatus status);
+static void search_result      (EAddressbookView *view, EBookViewStatus status, const gchar *error_msg);
 static void folder_bar_message (EAddressbookView *view, const gchar *status);
 static void stop_state_changed (GtkObject *object, EAddressbookView *view);
 static void backend_died       (EAddressbookView *view);
@@ -1084,14 +1084,15 @@ status_message (EAddressbookView *view,
 
 static void
 search_result (EAddressbookView *view,
-               EBookViewStatus status)
+               EBookViewStatus status,
+	       const gchar *error_msg)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	eab_search_result_dialog (GTK_WIDGET (shell_window), status);
+	eab_search_result_dialog (GTK_WIDGET (shell_window), status, error_msg);
 }
 
 static void
@@ -1252,9 +1253,9 @@ e_addressbook_view_print (EAddressbookView *view,
  * which a user doesnt have write permission
  */
 static void
-delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
+delete_contacts_cb (EBook *book, const GError *error, gpointer closure)
 {
-	switch (status) {
+	switch (error ? error->code : E_BOOK_ERROR_OK) {
 		case E_BOOK_ERROR_OK :
 		case E_BOOK_ERROR_CANCELLED :
 			break;
@@ -1265,7 +1266,7 @@ delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 			break;
 		default :
 			/* Unknown error */
-			eab_error_dialog (_("Failed to delete contact"), status);
+			eab_error_dialog (_("Failed to delete contact"), error);
 			break;
 	}
 }
@@ -1391,10 +1392,10 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		}
 
 		/* Remove the cards all at once. */
-		e_book_async_remove_contacts (book,
-					      ids,
-					      delete_contacts_cb,
-					      NULL);
+		e_book_async_remove_contacts_ex (book,
+						 ids,
+						 delete_contacts_cb,
+						 NULL);
 
 		g_list_free (ids);
 	}
@@ -1402,10 +1403,10 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		for (l=list;l;l=g_list_next(l)) {
 			contact = l->data;
 			/* Remove the card. */
-			e_book_async_remove_contact (book,
-						     contact,
-						     delete_contacts_cb,
-						     NULL);
+			e_book_async_remove_contact_ex (book,
+							contact,
+							delete_contacts_cb,
+							NULL);
 		}
 	}
 

@@ -230,7 +230,7 @@ book_shell_backend_init_importers (void)
 
 static void
 book_shell_backend_new_contact_cb (EBook *book,
-                                   EBookStatus status,
+                                   const GError *error,
                                    gpointer user_data)
 {
 	EShell *shell;
@@ -238,7 +238,7 @@ book_shell_backend_new_contact_cb (EBook *book,
 	EABEditor *editor;
 
 	/* XXX Handle errors better. */
-	if (status != E_BOOK_ERROR_OK)
+	if (error)
 		return;
 
 	contact = e_contact_new ();
@@ -255,7 +255,7 @@ book_shell_backend_new_contact_cb (EBook *book,
 
 static void
 book_shell_backend_new_contact_list_cb (EBook *book,
-                                        EBookStatus status,
+                                        const GError *error,
                                         gpointer user_data)
 {
 	EShell *shell;
@@ -263,7 +263,7 @@ book_shell_backend_new_contact_list_cb (EBook *book,
 	EABEditor *editor;
 
 	/* XXX Handle errors better. */
-	if (status != E_BOOK_ERROR_OK)
+	if (error)
 		return;
 
 	contact = e_contact_new ();
@@ -317,12 +317,12 @@ action_contact_new_cb (GtkAction *action,
 		book = e_book_new_default_addressbook (NULL);
 
 	if (strcmp (action_name, "contact-new") == 0)
-		e_book_async_open (
+		e_book_async_open_ex (
 			book, FALSE,
 			book_shell_backend_new_contact_cb, shell);
 
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_book_async_open (
+		e_book_async_open_ex (
 			book, FALSE,
 			book_shell_backend_new_contact_list_cb, shell);
 }

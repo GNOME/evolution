@@ -30,12 +30,13 @@
 G_BEGIN_DECLS
 
 void                eab_error_dialog              (const gchar *msg,
-						   EBookStatus  status);
+						   const GError *error);
 void                eab_load_error_dialog         (GtkWidget *parent,
 						   ESource *source,
-						   EBookStatus status);
+						   const GError *error);
 void                eab_search_result_dialog      (GtkWidget *parent,
-						   EBookViewStatus status);
+						   EBookViewStatus status,
+						   const gchar *error_msg);
 gint                eab_prompt_save_dialog        (GtkWindow   *parent);
 
 void                eab_transfer_contacts         (EBook       *source,
