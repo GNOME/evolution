@@ -122,7 +122,7 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 	GtkWidget *message_list;
 	EMailReader *reader;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_freeze (MESSAGE_LIST (message_list));
@@ -180,7 +180,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 		priv->merge_id = e_ui_manager_add_ui_from_file (
 			E_UI_MANAGER (ui_manager), basename);
 		e_mail_reader_create_charset_menu (
-			E_MAIL_READER (priv->mail_shell_content),
+			E_MAIL_READER (priv->mail_shell_content->view),
 			ui_manager, priv->merge_id);
 	} else if (!view_is_active && priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
@@ -248,7 +248,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
-	reader = E_MAIL_READER (shell_content);
+	reader = E_MAIL_READER (E_MAIL_SHELL_CONTENT (shell_content)->view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -795,7 +795,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	reader = E_MAIL_READER (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_content->view);	
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 

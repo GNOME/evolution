@@ -33,6 +33,8 @@
 #include "e-mail-config-format-html.h"
 #include "e-mail-config-web-view.h"
 
+#include "mail/e-mail-paned-view.h"
+
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -51,6 +53,7 @@ e_module_load (GTypeModule *type_module)
 
 	e_mail_shell_backend_register_type (type_module);
 	e_mail_shell_content_register_type (type_module);
+	e_mail_paned_view_register_type (type_module);	
 	e_mail_shell_sidebar_register_type (type_module);
 	e_mail_shell_view_register_type (type_module);
 

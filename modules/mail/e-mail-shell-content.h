@@ -25,7 +25,7 @@
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
-
+#include <mail/e-mail-view.h>
 #include <mail/em-format-html-display.h>
 
 /* Standard GObject macros */
@@ -55,6 +55,7 @@ typedef struct _EMailShellContentPrivate EMailShellContentPrivate;
 
 struct _EMailShellContent {
 	EShellContent parent;
+	EMailView *view;
 	EMailShellContentPrivate *priv;
 };
 

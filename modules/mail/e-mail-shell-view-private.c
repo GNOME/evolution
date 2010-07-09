@@ -37,7 +37,7 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 	gboolean folder_selected;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 
 	folder_selected =
 		!(flags & CAMEL_FOLDER_NOSELECT) &&
@@ -89,7 +89,7 @@ ctrl:
 
 emit:
 	/* Forward the key press to the EMailReader interface. */
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	g_signal_emit_by_name (reader, "key-press-event", event, &handled);
 
 exit:
@@ -107,7 +107,7 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	const gchar *list_uri;
 	gchar *tree_uri;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
@@ -231,7 +231,7 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 		return FALSE;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	menu = e_mail_reader_get_popup_menu (reader);
 
 	e_shell_view_update_actions (shell_view);
@@ -291,7 +291,7 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 	if (!magic_spacebar)
 		return;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	if (scroll_type == GTK_SCROLL_PAGE_FORWARD)
@@ -325,7 +325,7 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 	 * and this is the last EMailShellView instance.  Synchronize
 	 * the currently selected folder before we terminate. */
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	message_list = e_mail_reader_get_message_list (reader);
 	folder = e_mail_reader_get_folder (reader);
 
@@ -458,7 +458,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	priv->mail_shell_content = g_object_ref (shell_content);
 	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
-	reader = E_MAIL_READER (shell_content);
+	reader = E_MAIL_READER (E_MAIL_SHELL_CONTENT(shell_content)->view);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -671,7 +671,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
-	reader = E_MAIL_READER (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_content->view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
@@ -738,7 +738,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -800,7 +800,7 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -848,7 +848,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
-	reader = E_MAIL_READER (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_content->view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
