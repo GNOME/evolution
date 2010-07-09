@@ -28,8 +28,8 @@
 
 
 #define E_MAIL_VIEW_TYPE        (e_mail_view_get_type ())
-#define E_MAIL_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_VIEW_TYPE, MailFolderView))
-#define E_MAIL_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_MAIL_VIEW_TYPE, MailFolderViewClass))
+#define E_MAIL_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_VIEW_TYPE, EMailView))
+#define E_MAIL_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_MAIL_VIEW_TYPE, EMailViewClass))
 #define IS_E_MAIL_VIEW(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_MAIL_VIEW_TYPE))
 #define IS_E_MAIL_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_MAIL_VIEW_TYPE))
 #define E_MAIL_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_MAIL_VIEW_TYPE, EMailViewClass))
@@ -47,6 +47,10 @@ typedef struct _EMailView {
 typedef struct _EMailViewClass {
 	GtkVBoxClass parent_class;
 
+	void (*pane_close) (EMailView *);
+
 } EMailViewClass;
+
+GType e_mail_view_get_type (void);
 
 #endif

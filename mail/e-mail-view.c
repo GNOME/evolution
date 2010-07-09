@@ -42,6 +42,9 @@ enum {
 	PROP_SHELL_VIEW
 };
 
+struct _EMailViewPrivate {
+};
+
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
@@ -105,7 +108,7 @@ e_mail_view_class_init (EMailViewClass *klass)
 		g_signal_new ("pane-close",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMailViewClass , view_close),
+			      G_STRUCT_OFFSET (EMailViewClass , pane_close),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);

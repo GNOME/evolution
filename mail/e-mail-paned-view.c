@@ -27,7 +27,9 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include "e-mail-pane.h"
+#include "e-mail-paned-view.h"
+
+#include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-util-private.h"
 #include "e-util/e-binding.h"
@@ -38,14 +40,19 @@
 #include "widgets/misc/e-preview-pane.h"
 #include "widgets/misc/e-search-bar.h"
 
+#include <shell/e-shell-window-actions.h>
+
 #include "em-utils.h"
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "message-list.h"
+#include "e-mail-reader-utils.h"
 
-G_DEFINE_TYPE (EMailPanedView, e_mail_paned_view, GTK_TYPE_VBOX)
 
-struct _EMailPanePrivate {
+#define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
+
+struct _EMailPanedViewPrivate {
 	GtkWidget *paned;
 	GtkWidget *scrolled_window;
 	GtkWidget *message_list;
@@ -68,11 +75,6 @@ struct _EMailPanePrivate {
 };
 
 enum {
-	PANE_CLOSE,
-	LAST_SIGNAL
-};
-
-enum {
 	PROP_0,
 	PROP_GROUP_BY_THREADS,
 	PROP_ORIENTATION,
@@ -80,12 +82,253 @@ enum {
 	PROP_SHOW_DELETED
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+#define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
+#define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
+#define STATE_KEY_PREVIEW_VISIBLE	"PreviewVisible"
+
+
+static gpointer parent_class;
+static GType mail_paned_view_type;
 
 static void
-e_mail_paned_view_init (EMailPanedView  *shell)
+mail_paned_view_save_boolean (EMailPanedView *view,
+                                 const gchar *key,
+                                 gboolean value)
 {
-	shell->priv = g_new0(EMailPanedViewPrivate, 1);
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EMailReader *reader;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+	gchar *group_name;
+
+	shell_content = E_MAIL_VIEW (view)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	reader = E_MAIL_READER (view);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+
+	if (folder_uri == NULL)
+		return;
+
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+	g_key_file_set_boolean (key_file, group_name, key, value);
+	g_free (group_name);
+
+	e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
+mail_paned_view_message_list_built_cb (EMailPanedView *view,
+                                          MessageList *message_list)
+{
+	EMailPanedViewPrivate *priv = view->priv;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GKeyFile *key_file;
+
+	g_signal_handler_disconnect (
+		message_list, priv->message_list_built_id);
+	priv->message_list_built_id = 0;
+
+	shell_content = E_MAIL_VIEW (view)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	if (message_list->cursor_uid != NULL)
+		;  /* do nothing */
+
+	else if (message_list->folder_uri == NULL)
+		;  /* do nothing */
+
+	else if (e_shell_window_get_safe_mode (shell_window))
+		e_shell_window_set_safe_mode (shell_window, FALSE);
+
+	else {
+		const gchar *folder_uri;
+		const gchar *key;
+		gchar *group_name;
+		gchar *uid;
+
+		key = STATE_KEY_SELECTED_MESSAGE;
+		folder_uri = message_list->folder_uri;
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		uid = g_key_file_get_string (key_file, group_name, key, NULL);
+		g_free (group_name);
+
+		/* Use selection fallbacks if UID is not found. */
+		message_list_select_uid (message_list, uid, TRUE);
+
+		g_free (uid);
+	}
+}
+
+static void
+mail_paned_view_message_selected_cb (EMailPanedView *view,
+                                        const gchar *message_uid,
+                                        MessageList *message_list)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+	const gchar *key;
+	gchar *group_name;
+
+	folder_uri = message_list->folder_uri;
+
+	/* This also gets triggered when selecting a store name on
+	 * the sidebar such as "On This Computer", in which case
+	 * 'folder_uri' will be NULL. */
+	if (folder_uri == NULL)
+		return;
+
+	shell_content = E_MAIL_VIEW (view)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	key = STATE_KEY_SELECTED_MESSAGE;
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+	if (message_uid != NULL)
+		g_key_file_set_string (key_file, group_name, key, message_uid);
+	else
+		g_key_file_remove_key (key_file, group_name, key, NULL);
+	e_shell_view_set_state_dirty (shell_view);
+
+	g_free (group_name);
+}
+
+static void
+mail_paned_view_restore_state_cb (EShellWindow *shell_window,
+                                     EShellView *shell_view,
+                                     EMailPanedView *view)
+{
+	EMailPanedViewPrivate *priv;
+	GConfBridge *bridge;
+	GObject *object;
+	const gchar *key;
+
+	priv = view->priv;
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/mail/display/hpaned_size";
+	gconf_bridge_bind_property (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/mail/display/paned_size";
+	gconf_bridge_bind_property (bridge, key, object, "vposition");
+}
+
+static void
+mail_paned_view_notify_group_by_threads_cb (EMailReader *reader)
+{
+	gboolean group_by_threads;
+
+	group_by_threads = e_mail_reader_get_group_by_threads (reader);
+
+	mail_paned_view_save_boolean (
+		E_MAIL_PANED_VIEW (reader),
+		STATE_KEY_GROUP_BY_THREADS, group_by_threads);
+}
+
+static GtkOrientation
+mail_paned_view_get_orientation (EMailPanedView *view)
+{
+	return view->priv->orientation;
+}
+
+static void
+mail_paned_view_set_orientation (EMailPanedView *view,
+                                    GtkOrientation orientation)
+{
+	view->priv->orientation = orientation;
+
+	g_object_notify (G_OBJECT (view), "orientation");
+
+	e_mail_paned_view_update_view_instance (view);
+}
+
+static void
+mail_paned_view_set_property (GObject *object,
+                                 guint property_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_GROUP_BY_THREADS:
+			e_mail_reader_set_group_by_threads (
+				E_MAIL_READER (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_ORIENTATION:
+			mail_paned_view_set_orientation (
+				E_MAIL_PANED_VIEW (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			e_mail_paned_view_set_preview_visible (
+				E_MAIL_PANED_VIEW  (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHOW_DELETED:
+			e_mail_paned_view_set_show_deleted (
+				E_MAIL_PANED_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_paned_view_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_GROUP_BY_THREADS:
+			g_value_set_boolean (
+				value,
+				e_mail_reader_get_group_by_threads (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value,
+				mail_paned_view_get_orientation (
+				E_MAIL_PANED_VIEW (object)));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			g_value_set_boolean (
+				value,
+				e_mail_paned_view_get_preview_visible (
+				E_MAIL_PANED_VIEW (object)));
+			return;
+
+		case PROP_SHOW_DELETED:
+			g_value_set_boolean (
+				value,
+				e_mail_paned_view_get_show_deleted (
+				E_MAIL_PANED_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -127,6 +370,191 @@ mail_paned_view_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static GtkActionGroup *
+mail_paned_view_get_action_group (EMailReader *reader)
+{
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_content = E_MAIL_VIEW (reader)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
+}
+
+static EMFormatHTML *
+mail_paned_view_get_formatter (EMailReader *reader)
+{
+	EMailPanedViewPrivate *priv;
+
+	priv =  E_MAIL_PANED_VIEW (reader)->priv;
+
+	return EM_FORMAT_HTML (priv->formatter);
+}
+
+static gboolean
+mail_paned_view_get_hide_deleted (EMailReader *reader)
+{
+	return !e_mail_paned_view_get_show_deleted (E_MAIL_PANED_VIEW(reader));
+}
+
+static GtkWidget *
+mail_paned_view_get_message_list (EMailReader *reader)
+{
+	EMailPanedViewPrivate *priv;
+
+	priv = E_MAIL_PANED_VIEW (reader)->priv;
+
+	return priv->message_list;
+}
+
+static GtkMenu *
+mail_paned_view_get_popup_menu (EMailReader *reader)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GtkUIManager *ui_manager;
+	GtkWidget *widget;
+
+	shell_content = E_MAIL_VIEW (reader)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
+
+	return GTK_MENU (widget);
+}
+
+static EShellBackend *
+mail_paned_view_get_shell_backend (EMailReader *reader)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+
+	shell_content = E_MAIL_VIEW (reader)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+
+	return e_shell_view_get_shell_backend (shell_view);
+}
+
+static GtkWindow *
+mail_paned_view_get_window (EMailReader *reader)
+{
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_content = E_MAIL_VIEW (reader)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	return GTK_WINDOW (shell_window);
+}
+
+static void
+mail_paned_view_set_folder (EMailReader *reader,
+                               CamelFolder *folder,
+                               const gchar *folder_uri)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EShellSettings *shell_settings;
+	EMailPanedViewPrivate *priv;
+	EMailReaderIface *default_iface;
+	GtkWidget *message_list;
+	GKeyFile *key_file;
+	gchar *group_name;
+	const gchar *key;
+	gboolean value;
+	GError *error = NULL;
+
+	priv = E_MAIL_PANED_VIEW (reader)->priv;
+
+	shell_content = E_MAIL_VIEW (reader)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	message_list_freeze (MESSAGE_LIST (message_list));
+
+	/* Chain up to interface's default set_folder() method. */
+	default_iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
+	default_iface->set_folder (reader, folder, folder_uri);
+
+	if (folder == NULL)
+		goto exit;
+
+	mail_refresh_folder (folder, NULL, NULL);
+
+	/* This is a one-time-only callback. */
+	if (MESSAGE_LIST (message_list)->cursor_uid == NULL &&
+		priv->message_list_built_id == 0)
+		priv->message_list_built_id = g_signal_connect_swapped (
+			message_list, "message-list-built",
+			G_CALLBACK (mail_paned_view_message_list_built_cb),
+			reader);
+
+	/* Restore the folder's preview and threaded state. */
+
+	key_file = e_shell_view_get_state_key_file (shell_view);
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+	key = STATE_KEY_GROUP_BY_THREADS;
+	value = g_key_file_get_boolean (key_file, group_name, key, &error);
+	if (error != NULL) {
+		value = TRUE;
+		g_clear_error (&error);
+	}
+
+	e_mail_reader_set_group_by_threads (reader, value);
+
+	key = STATE_KEY_PREVIEW_VISIBLE;
+	value = g_key_file_get_boolean (key_file, group_name, key, &error);
+	if (error != NULL) {
+		value = TRUE;
+		g_clear_error (&error);
+	}
+
+	/* XXX This is a little confusing and needs rethought.  The
+	 *     EShellWindow:safe-mode property blocks automatic message
+	 *     selection, but the "mail-safe-list" shell setting blocks
+	 *     both the preview pane and automatic message selection. */
+	if (e_shell_settings_get_boolean (shell_settings, "mail-safe-list")) {
+		e_shell_settings_set_boolean (
+			shell_settings, "mail-safe-list", FALSE);
+		e_shell_window_set_safe_mode (shell_window, TRUE);
+		value = FALSE;
+	}
+
+	e_mail_paned_view_set_preview_visible (
+		E_MAIL_PANED_VIEW (reader), value);
+
+	g_free (group_name);
+
+exit:
+	message_list_thaw (MESSAGE_LIST (message_list));
+}
+
+static void
+mail_paned_view_show_search_bar (EMailReader *reader)
+{
+	EMailPanedViewPrivate *priv;
+
+	priv = E_MAIL_PANED_VIEW (reader)->priv;
+
+	gtk_widget_show (priv->search_bar);
 }
 
 static void
@@ -207,48 +635,53 @@ mail_paned_view_constructed (GObject *object)
 
 	/* Load the view instance. */
 
-	e_mail_shell_content_update_view_instance (
-		E_MAIL_SHELL_CONTENT (shell_content));
+	e_mail_paned_view_update_view_instance (
+		E_MAIL_PANED_VIEW (object));
 
 	/* Message list customizations. */
 
-	reader = E_MAIL_READER (shell_content);
+	reader = E_MAIL_READER (object);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-selected",
-		G_CALLBACK (mail_shell_content_message_selected_cb),
-		shell_content);
+		G_CALLBACK (mail_paned_view_message_selected_cb),
+		object);
 
 	/* Restore pane positions from the last session once
 	 * the shell view is fully initialized and visible. */
 	g_signal_connect (
 		shell_window, "shell-view-created::mail",
-		G_CALLBACK (mail_shell_content_restore_state_cb),
-		shell_content);
+		G_CALLBACK (mail_paned_view_restore_state_cb),
+		object);
 
 	e_mail_reader_connect_headers (reader);
 }
 
 static void
-e_mail_paned_view_class_init (EMailPanedViewClass *klass)
+mail_paned_view_init (EMailPanedView  *shell)
+{
+	shell->priv = g_new0(EMailPanedViewPrivate, 1);
+
+	shell->priv->preview_visible = TRUE;
+
+	g_signal_connect (
+		shell, "notify::group-by-threads",
+		G_CALLBACK (mail_paned_view_notify_group_by_threads_cb),
+		NULL);
+	
+}
+
+static void
+mail_paned_view_class_init (EMailPanedViewClass *klass)
 {
 	GObjectClass * object_class = G_OBJECT_CLASS (klass);
 
-	e_mail_paned_view_parent_class = g_type_class_peek_parent (klass);
-	object_class->finalize = e_mail_paned_view_finalize;
+	parent_class = g_type_class_peek_parent (klass);
 	object_class->dispose = mail_paned_view_dispose;
 	object_class->constructed = mail_paned_view_constructed;
-
-
-	signals[PANE_CLOSE] =
-		g_signal_new ("pane-close",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMailPanedViewClass , view_close),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	object_class->set_property = mail_paned_view_set_property;
+	object_class->get_property = mail_paned_view_get_property;
 
 
 	/* Inherited from EMailReader */
@@ -282,18 +715,66 @@ e_mail_paned_view_class_init (EMailPanedViewClass *klass)
 }
 
 static void
-mail_pane_reader_init (EMailReaderIface *iface)
+mail_paned_view_reader_init (EMailReaderIface *iface)
 {
-	iface->get_action_group = mail_pane_get_action_group;
-	iface->get_formatter = mail_pane_get_formatter;
-	iface->get_hide_deleted = mail_pane_get_hide_deleted;
-	iface->get_message_list = mail_pane_get_message_list;
-	iface->get_popup_menu = mail_pane_get_popup_menu;
-	iface->get_shell_backend = mail_pane_get_shell_backend;
-	iface->get_window = mail_pane_get_window;
-	iface->set_folder = mail_pane_set_folder;
-	iface->show_search_bar = mail_pane_show_search_bar;
+	iface->get_action_group = mail_paned_view_get_action_group;
+	iface->get_formatter = mail_paned_view_get_formatter;
+	iface->get_hide_deleted = mail_paned_view_get_hide_deleted;
+	iface->get_message_list = mail_paned_view_get_message_list;
+	iface->get_popup_menu = mail_paned_view_get_popup_menu;
+	iface->get_shell_backend = mail_paned_view_get_shell_backend;
+	iface->get_window = mail_paned_view_get_window;
+	iface->set_folder = mail_paned_view_set_folder;
+	iface->show_search_bar = mail_paned_view_show_search_bar;
 }
+
+GType
+e_mail_paned_view_get_type (void)
+{
+	return mail_paned_view_type;
+}
+
+void
+e_mail_paned_view_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EMailPanedViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) mail_paned_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMailPanedView),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) mail_paned_view_init,
+		NULL   /* value_table */
+	};
+
+	static const GInterfaceInfo orientable_info = {
+		(GInterfaceInitFunc) NULL,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+
+	static const GInterfaceInfo reader_info = {
+		(GInterfaceInitFunc) mail_paned_view_reader_init,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+
+	mail_paned_view_type = g_type_module_register_type (
+		type_module, E_MAIL_VIEW_TYPE,
+		"EMailPanedView", &type_info, 0);
+
+	g_type_module_add_interface (
+		type_module, mail_paned_view_type,
+		GTK_TYPE_ORIENTABLE, &orientable_info);
+
+	g_type_module_add_interface (
+		type_module, mail_paned_view_type,
+		E_TYPE_MAIL_READER, &reader_info);
+}
+
 
 GtkWidget *
 e_mail_paned_view_new (EShellContent *content)
@@ -301,7 +782,7 @@ e_mail_paned_view_new (EShellContent *content)
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (content), NULL);
 
 	return g_object_new (
-		E_TYPE_MAIL_PANED_VIEW,
+		E_MAIL_PANED_VIEW_TYPE,
 		"shell-content", content, NULL);
 }
 
@@ -358,7 +839,7 @@ e_mail_paned_view_get_searchbar (EMailPanedView *view)
 	g_return_val_if_fail (
 		E_IS_MAIL_PANED_VIEW (view), NULL);
 
-	shell_content = E_PANED_VIEW (view)->content;
+	shell_content = E_MAIL_VIEW (view)->content;
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	widget = e_shell_view_get_searchbar (shell_view);
 
@@ -395,7 +876,7 @@ e_mail_paned_view_get_view_instance (EMailPanedView *view)
 }
 
 void
-e_mail_paned_view_set_search_strings (EmailPanedView *view,
+e_mail_paned_view_set_search_strings (EMailPanedView *view,
                                          GSList *search_strings)
 {
 	ESearchBar *search_bar;
@@ -435,7 +916,7 @@ mail_paned_display_view_cb (EMailPanedView *view,
 }
 
 void
-e_mail_shell_content_update_view_instance (EMailPanedView *view)
+e_mail_paned_view_update_view_instance (EMailPanedView *view)
 {
 	EMailReader *reader;
 	EShell *shell;
@@ -453,8 +934,6 @@ e_mail_shell_content_update_view_instance (EMailPanedView *view)
 	gboolean show_vertical_view;
 	const gchar *folder_uri;
 	gchar *view_id;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
 
 	shell_content = E_MAIL_VIEW(view)->content;
 	shell_view = e_shell_content_get_shell_view (shell_content);
