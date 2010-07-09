@@ -25,7 +25,8 @@
 
 #include <gtk/gtk.h>
 #include <shell/e-shell-content.h>
-
+#include <shell/e-shell-searchbar.h>
+#include "widgets/menus/gal-view-instance.h"
 
 #define E_MAIL_VIEW_TYPE        (e_mail_view_get_type ())
 #define E_MAIL_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_VIEW_TYPE, EMailView))
@@ -49,8 +50,21 @@ typedef struct _EMailViewClass {
 
 	void (*pane_close) (EMailView *);
 
+	EShellSearchbar * (*get_searchbar) (EMailView *view);
+	void (*set_search_strings) (EMailView *view, GSList *search_strings);
+	GalViewInstance * (*get_view_instance) (EMailView *view);
+	void (*update_view_instance) (EMailView *view);
+	
+
 } EMailViewClass;
 
 GType e_mail_view_get_type (void);
+
+void e_mail_view_update_view_instance (EMailView *view);
+GalViewInstance * e_mail_view_get_view_instance (EMailView *view);
+
+void e_mail_view_set_search_strings (EMailView *view, GSList *search_strings);
+
+EShellSearchbar * e_mail_view_get_searchbar (EMailView *view);
 
 #endif

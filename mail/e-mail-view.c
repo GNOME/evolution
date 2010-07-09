@@ -104,6 +104,11 @@ e_mail_view_class_init (EMailViewClass *klass)
 	object_class->set_property = mail_view_set_property;
 	object_class->get_property = mail_view_get_property;
 
+	klass->get_searchbar = NULL;
+	klass->set_search_strings = NULL;
+	klass->get_view_instance = NULL;
+	klass->update_view_instance = NULL;
+
 	signals[PANE_CLOSE] =
 		g_signal_new ("pane-close",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -130,4 +135,28 @@ e_mail_view_class_init (EMailViewClass *klass)
 
 }
 
+void
+e_mail_view_update_view_instance (EMailView *view)
+{
+	E_MAIL_VIEW_GET_CLASS (view)->update_view_instance (view);
+}
+
+GalViewInstance *
+e_mail_view_get_view_instance (EMailView *view)
+{
+	return E_MAIL_VIEW_GET_CLASS (view)->get_view_instance (view);
+}
+
+void
+e_mail_view_set_search_strings (EMailView *view,
+                                         GSList *search_strings)
+{
+	E_MAIL_VIEW_GET_CLASS (view)->set_search_strings (view, search_strings);
+}
+
+EShellSearchbar *
+e_mail_view_get_searchbar (EMailView *view)
+{
+	return E_MAIL_VIEW_GET_CLASS (view)->get_searchbar (view);
+}
 

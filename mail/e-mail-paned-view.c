@@ -87,7 +87,7 @@ enum {
 #define STATE_KEY_PREVIEW_VISIBLE	"PreviewVisible"
 
 
-static gpointer parent_class;
+static EMailViewClass *parent_class;
 static GType mail_paned_view_type;
 
 static void
@@ -576,7 +576,7 @@ mail_paned_view_constructed (GObject *object)
 	priv->formatter = em_format_html_display_new ();
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	//G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	shell_content = E_MAIL_VIEW (object)->content;
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -673,7 +673,7 @@ mail_paned_view_init (EMailPanedView  *shell)
 }
 
 static void
-mail_paned_view_class_init (EMailPanedViewClass *klass)
+mail_paned_view_class_init (EMailViewClass *klass)
 {
 	GObjectClass * object_class = G_OBJECT_CLASS (klass);
 
@@ -683,6 +683,10 @@ mail_paned_view_class_init (EMailPanedViewClass *klass)
 	object_class->set_property = mail_paned_view_set_property;
 	object_class->get_property = mail_paned_view_get_property;
 
+	klass->get_searchbar = e_mail_paned_view_get_searchbar;
+	klass->set_search_strings = e_mail_paned_view_set_search_strings;
+	klass->get_view_instance = e_mail_paned_view_get_view_instance;
+	klass->update_view_instance = e_mail_paned_view_update_view_instance;
 
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
