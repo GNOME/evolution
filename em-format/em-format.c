@@ -1365,6 +1365,8 @@ emf_application_xpkcs7mime (EMFormat *emf,
 			emf, stream, "%s",
 			local_error->message ? local_error->message :
 			_("Could not parse S/MIME message: Unknown error"));
+		g_clear_error (&local_error);
+
 		em_format_part_as(emf, stream, part, NULL);
 	} else {
 		if (emfc == NULL)
@@ -1543,6 +1545,8 @@ emf_multipart_encrypted (EMFormat *emf,
 		if (local_error->message != NULL)
 			em_format_format_error (
 				emf, stream, "%s", local_error->message);
+		g_clear_error (&local_error);
+
 		em_format_part_as(emf, stream, part, "multipart/mixed");
 	} else {
 		if (emfc == NULL)
@@ -1727,7 +1731,10 @@ emf_multipart_signed (EMFormat *emf,
 				_("Unknown error verifying signature"));
 			if (local_error->message != NULL)
 				em_format_format_error (
-					emf, stream, "%s", local_error->message);
+					emf, stream, "%s",
+					local_error->message);
+			g_clear_error (&local_error);
+
 			em_format_part_as(emf, stream, part, "multipart/mixed");
 		} else {
 			if (emfc == NULL)
@@ -1740,7 +1747,6 @@ emf_multipart_signed (EMFormat *emf,
 			em_format_format_secure(emf, stream, cpart, valid);
 		}
 
-		g_error_free (local_error);
 		g_object_unref (cipher);
 	}
 }
@@ -1884,7 +1890,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 				emf, stream, "%s", local_error->message);
 		em_format_format_source(emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
-		g_error_free (local_error);
+		g_clear_error (&local_error);
 		g_object_unref (cipher);
 		return;
 	}
@@ -1968,7 +1974,7 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 		em_format_format_source(emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 
-		g_error_free (local_error);
+		g_clear_error (&local_error);
 		g_object_unref (cipher);
 		g_object_unref (opart);
 		return;
