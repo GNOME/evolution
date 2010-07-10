@@ -1644,6 +1644,11 @@ msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
 	 *     it will accept the same drag targets as the attachment bar.
 	 *     Do this any earlier and GtkHTML will just overwrite us. */
 
+	/* When redirecting a message, the message body is not
+	 * editable and therefore cannot be a drag destination. */
+	if (!e_web_view_get_editable (E_WEB_VIEW (widget)))
+		return;
+
 	view = e_msg_composer_get_attachment_view (composer);
 
 	target_list = e_attachment_view_get_target_list (view);
