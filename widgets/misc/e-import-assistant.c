@@ -1254,10 +1254,7 @@ static void
 import_assistant_construct (EImportAssistant *import_assistant)
 {
 	GtkAssistant *assistant;
-	GtkIconTheme *icon_theme;
 	GtkWidget *page;
-	GdkPixbuf *pixbuf;
-	gint size;
 
 	assistant = GTK_ASSISTANT (import_assistant);
 
@@ -1266,11 +1263,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 
 	import_assistant->priv->import =
 		e_import_new ("org.gnome.evolution.shell.importer");
-
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &size, NULL);
-	pixbuf = gtk_icon_theme_load_icon (
-		icon_theme, "stock_mail-import", size, 0, NULL);
 
 	gtk_window_set_position (GTK_WINDOW (assistant), GTK_WIN_POS_CENTER);
 	gtk_window_set_title (GTK_WINDOW (assistant), _("Evolution Import Assistant"));
@@ -1281,7 +1273,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = import_assistant_simple_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Import Data"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
@@ -1289,7 +1280,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = import_assistant_destination_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Import Location"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 	} else {
@@ -1307,7 +1297,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		gtk_widget_show (page);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Evolution Import Assistant"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_INTRO);
 		gtk_assistant_set_page_complete (assistant, page, TRUE);
@@ -1316,7 +1305,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = import_assistant_type_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Importer Type"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 		gtk_assistant_set_page_complete (assistant, page, TRUE);
@@ -1325,7 +1313,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = import_assistant_selection_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Select Information to Import"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
@@ -1333,7 +1320,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = import_assistant_file_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Select a File"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
@@ -1341,7 +1327,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = import_assistant_destination_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Import Location"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
@@ -1354,7 +1339,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		gtk_widget_show (page);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 		gtk_assistant_set_page_title (assistant, page, _("Import Data"));
 		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
 		gtk_assistant_set_page_complete (assistant, page, TRUE);
@@ -1364,7 +1348,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 	page = import_assistant_progress_page_init (import_assistant);
 
 	gtk_assistant_append_page (assistant, page);
-	gtk_assistant_set_page_header_image (assistant, page, pixbuf);
 	gtk_assistant_set_page_title (assistant, page, _("Import Data"));
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_PROGRESS);
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
@@ -1372,8 +1355,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 	gtk_assistant_set_forward_page_func (
 		assistant, (GtkAssistantPageFunc)
 		forward_cb, import_assistant, NULL);
-
-	g_object_unref (pixbuf);
 
 	gtk_assistant_update_buttons_state (assistant);
 }
