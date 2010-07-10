@@ -116,10 +116,10 @@ struct _MessageListPrivate {
 	GtkTargetList *paste_target_list;
 
 	/* This aids in automatic message selection. */
-	time_t latest_read_date;
-	const gchar *latest_read_uid;
-	time_t latest_unread_date;
-	const gchar *latest_unread_uid;
+	time_t newest_read_date;
+	const gchar *newest_read_uid;
+	time_t oldest_unread_date;
+	const gchar *oldest_unread_uid;
 };
 
 enum {
@@ -698,20 +698,20 @@ message_list_select_uid (MessageList *message_list,
 	 * requested message UID was not found and 'with_fallback' is set,
 	 * try a couple fallbacks:
 	 *
-	 * 1) Most recently received unread message in the list.
-	 * 2) Most recently received read message in the list.
+	 * 1) Oldest unread message in the list, by date received.
+	 * 2) Newest read message in the list, by date received.
 	 */
 	if (message_list->regen || message_list->regen_timeout_id) {
 		g_free (message_list->pending_select_uid);
 		message_list->pending_select_uid = g_strdup (uid);
 		message_list->pending_select_fallback = with_fallback;
 	} else if (with_fallback) {
-		if (node == NULL && priv->latest_unread_uid != NULL)
+		if (node == NULL && priv->oldest_unread_uid != NULL)
 			node = g_hash_table_lookup (
-				uid_nodemap, priv->latest_unread_uid);
-		if (node == NULL && priv->latest_read_uid != NULL)
+				uid_nodemap, priv->oldest_unread_uid);
+		if (node == NULL && priv->newest_read_uid != NULL)
 			node = g_hash_table_lookup (
-				uid_nodemap, priv->latest_read_uid);
+				uid_nodemap, priv->newest_read_uid);
 	}
 
 	if (node) {
@@ -2881,10 +2881,10 @@ clear_tree (MessageList *ml, gboolean tfree)
 	g_hash_table_destroy (ml->uid_nodemap);
 	ml->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 
-	ml->priv->latest_read_date = 0;
-	ml->priv->latest_read_uid = NULL;
-	ml->priv->latest_unread_date = 0;
-	ml->priv->latest_unread_uid = NULL;
+	ml->priv->newest_read_date = 0;
+	ml->priv->newest_read_uid = NULL;
+	ml->priv->oldest_unread_date = 0;
+	ml->priv->oldest_unread_uid = NULL;
 
 	if (ml->tree_root) {
 		/* we should be frozen already */
@@ -3048,14 +3048,17 @@ ml_uid_nodemap_insert (MessageList *message_list,
 	/* Track the latest seen and unseen messages shown, used in
 	 * fallback heuristics for automatic message selection. */
 	if (flags & CAMEL_MESSAGE_SEEN) {
-		if (date > message_list->priv->latest_read_date) {
-			message_list->priv->latest_read_date = date;
-			message_list->priv->latest_read_uid = uid;
+		if (date > message_list->priv->newest_read_date) {
+			message_list->priv->newest_read_date = date;
+			message_list->priv->newest_read_uid = uid;
 		}
 	} else {
-		if (date > message_list->priv->latest_unread_date) {
-			message_list->priv->latest_unread_date = date;
-			message_list->priv->latest_unread_uid = uid;
+		if (message_list->priv->oldest_unread_date == 0) {
+			message_list->priv->oldest_unread_date = date;
+			message_list->priv->oldest_unread_uid = uid;
+		} else if (date < message_list->priv->oldest_unread_date) {
+			message_list->priv->oldest_unread_date = date;
+			message_list->priv->oldest_unread_uid = uid;
 		}
 	}
 
@@ -3070,14 +3073,14 @@ ml_uid_nodemap_remove (MessageList *message_list,
 
 	uid = camel_message_info_uid (info);
 
-	if (uid == message_list->priv->latest_read_uid) {
-		message_list->priv->latest_read_date = 0;
-		message_list->priv->latest_read_uid = NULL;
+	if (uid == message_list->priv->newest_read_uid) {
+		message_list->priv->newest_read_date = 0;
+		message_list->priv->newest_read_uid = NULL;
 	}
 
-	if (uid == message_list->priv->latest_unread_uid) {
-		message_list->priv->latest_unread_date = 0;
-		message_list->priv->latest_unread_uid = NULL;
+	if (uid == message_list->priv->oldest_unread_uid) {
+		message_list->priv->oldest_unread_date = 0;
+		message_list->priv->oldest_unread_uid = NULL;
 	}
 
 	g_hash_table_remove (message_list->uid_nodemap, uid);
