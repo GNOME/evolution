@@ -2575,10 +2575,12 @@ message_list_selectable_update_actions (ESelectable *selectable,
                                         gint n_clipboard_targets)
 {
 	GtkAction *action;
+	gboolean sensitive;
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	sensitive = (e_tree_row_count (E_TREE (selectable)) > 0);
 	gtk_action_set_tooltip (action, _("Select all visible messages"));
-	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void
