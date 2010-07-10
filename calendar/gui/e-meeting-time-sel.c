@@ -1468,8 +1468,6 @@ void
 e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, gboolean all)
 {
 	EMeetingTime start, end;
-	GdkCursor *cursor;
-	GdkWindow *window;
 
 	/* nothing to refresh, lets not leak a busy cursor */
 	if (e_meeting_store_count_actual_attendees (mts->model) <= 0)
@@ -1484,14 +1482,22 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, 
 	end.hour = 0;
 	end.minute = 0;
 
-	/*  set the cursor to Busy, We need to reset it to normal once the free busy
-	    queries are complete */
-	cursor = gdk_cursor_new (GDK_WATCH);
-	window = gtk_widget_get_window (GTK_WIDGET (mts));
-	gdk_window_set_cursor (window, cursor);
-	gdk_cursor_unref (cursor);
+	/* XXX This function is called during schedule page initialization
+	 *     before the meeting time selector is realized, meaning it has
+	 *     no GdkWindow yet.  This avoids a runtime warning. */
+	if (gtk_widget_get_realized (GTK_WIDGET (mts))) {
+		GdkCursor *cursor;
+		GdkWindow *window;
 
-	mts->last_cursor_set = GDK_WATCH;
+		/* Set the cursor to Busy.  We need to reset it to
+		 * normal once the free busy queries are complete. */
+		cursor = gdk_cursor_new (GDK_WATCH);
+		window = gtk_widget_get_window (GTK_WIDGET (mts));
+		gdk_window_set_cursor (window, cursor);
+		gdk_cursor_unref (cursor);
+
+		mts->last_cursor_set = GDK_WATCH;
+	}
 
 	/* Ref ourselves in case we are called back after destruction,
 	 * we can do this because we will get a call back even after
