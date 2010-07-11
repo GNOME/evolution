@@ -248,7 +248,7 @@ e_text_model_real_insert_length (ETextModel *model,
 
 	for (p = text, l = 0;
 	     l < length;
-	     p = g_utf8_next_char (p), l ++);
+	     p = g_utf8_next_char (p), l++);
 
 	byte_length = p - text;
 
@@ -278,7 +278,7 @@ e_text_model_real_delete (ETextModel *model, gint position, gint length)
 
 	for (p = offs, l = 0;
 	     l < length;
-	     p = g_utf8_next_char (p), l ++);
+	     p = g_utf8_next_char (p), l++);
 
 	byte_length = p - offs;
 

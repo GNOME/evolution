@@ -30,7 +30,7 @@ add_pages (EPreferencesWindow *preferences_window)
 {
 	gint i;
 
-	for (i = 0; i < NUM_PAGES; i ++) {
+	for (i = 0; i < NUM_PAGES; i++) {
 		GtkWidget *widget;
 		gchar *caption;
 		gchar *page_name;

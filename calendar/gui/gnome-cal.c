@@ -808,11 +808,17 @@ dn_e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer data)
 
 /* Callback used when the calendar query is done */
 static void
-dn_e_cal_view_complete_cb (ECalView *query, ECalendarStatus status, const gchar *error_msg, gpointer data)
+dn_e_cal_view_complete_cb (ECalView *query,
+                           ECalendarStatus status,
+                           const gchar *error_msg,
+                           gpointer data)
 {
 	/* FIXME Better error reporting */
 	if (status != E_CALENDAR_STATUS_OK)
-		g_warning (G_STRLOC ": Query did not successfully complete, code:%d (%s)", status, error_msg ? error_msg : "Unknown error");
+		g_warning (
+			G_STRLOC ": Query did not successfully complete, "
+			"code: %d (%s)", status, error_msg ? error_msg :
+			"Unknown error");
 }
 
 ECalendarView *

@@ -112,10 +112,16 @@ enum {
 	PROP_HANDLE_POPUP
 };
 
-static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
+static void	e_text_command			(ETextEventProcessor *tep,
+						 ETextEventProcessorCommand *command,
+						 gpointer data);
 
-static void e_text_text_model_changed(ETextModel *model, EText *text);
-static void e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data, gpointer data);
+static void	e_text_text_model_changed	(ETextModel *model,
+						 EText *text);
+static void	e_text_text_model_reposition	(ETextModel *model,
+						 ETextModelReposFn fn,
+						 gpointer repos_data,
+						 gpointer data);
 
 static void _get_tep(EText *text);
 
@@ -395,7 +401,9 @@ create_layout (EText *text)
 
 	text->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), text->text);
 	if (text->line_wrap)
-		pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
+		pango_layout_set_width (
+			text->layout, text->clip_width < 0
+			? -1 : text->clip_width * PANGO_SCALE);
 	reset_layout_attrs (text);
 }
 
@@ -440,7 +448,9 @@ reset_layout (EText *text)
 		PangoRectangle strong_pos, weak_pos;
 		gchar *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
-		pango_layout_get_cursor_pos (text->layout, offs - text->text, &strong_pos, &weak_pos);
+		pango_layout_get_cursor_pos (
+			text->layout, offs - text->text,
+			&strong_pos, &weak_pos);
 
 		if (strong_pos.x != weak_pos.x ||
 		    strong_pos.y != weak_pos.y ||
@@ -472,7 +482,10 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 }
 
 static void
-e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data, gpointer user_data)
+e_text_text_model_reposition (ETextModel *model,
+                              ETextModelReposFn fn,
+                              gpointer repos_data,
+                              gpointer user_data)
 {
 	EText *text = E_TEXT (user_data);
 	gint model_len = e_text_model_get_text_length (model);
@@ -620,8 +633,9 @@ calc_ellipsis (EText *text)
 {
 /* FIXME: a pango layout per calc_ellipsis sucks */
 	gint width;
-	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
-							      text->ellipsis ? text->ellipsis : "...");
+	PangoLayout *layout = gtk_widget_create_pango_layout (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+		text->ellipsis ? text->ellipsis : "...");
 	pango_layout_get_size (layout, &width, NULL);
 
 	text->ellipsis_width = width;
@@ -781,7 +795,9 @@ e_text_set_property (GObject *object,
 		calc_ellipsis (text);
 		if (text->line_wrap) {
 			if (text->layout)
-				pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
+				pango_layout_set_width (
+					text->layout, text->clip_width < 0
+					? -1 : text->clip_width * PANGO_SCALE);
 			text->needs_split_into_lines = 1;
 		} else {
 			text->needs_calc_height = 1;
@@ -890,7 +906,9 @@ e_text_set_property (GObject *object,
 		text->line_wrap = g_value_get_boolean (value);
 		if (text->line_wrap) {
 			if (text->layout) {
-				pango_layout_set_width (text->layout, text->width < 0 ? -1 : text->width * PANGO_SCALE);
+				pango_layout_set_width (
+					text->layout, text->width < 0
+					? -1 : text->width * PANGO_SCALE);
 			}
 		}
 		text->needs_split_into_lines = 1;
@@ -919,7 +937,9 @@ e_text_set_property (GObject *object,
 		calc_ellipsis (text);
 		if (text->line_wrap) {
 			if (text->layout) {
-				pango_layout_set_width (text->layout, text->width < 0 ? -1 : text->width * PANGO_SCALE);
+				pango_layout_set_width (
+					text->layout, text->width < 0 ?
+					-1 : text->width * PANGO_SCALE);
 			}
 			text->needs_split_into_lines = 1;
 		}
@@ -992,7 +1012,8 @@ e_text_set_property (GObject *object,
 	}
 
 	if (color_changed) {
-               GdkColormap *colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
+               GdkColormap *colormap = gtk_widget_get_colormap (
+			GTK_WIDGET (item->canvas));
 
 	       text->color = color;
                gdk_rgb_find_color (colormap, &text->color);
@@ -1124,7 +1145,11 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_HEIGHT:
-		g_value_set_double (value, text->clip && text->clip_height != -1 ? text->clip_height : text->height / text->item.canvas->pixels_per_unit);
+		g_value_set_double (
+			value, text->clip &&
+			text->clip_height != -1 ?
+			text->clip_height : text->height /
+			text->item.canvas->pixels_per_unit);
 		break;
 
 	case PROP_DRAW_BORDERS:
@@ -1200,7 +1225,8 @@ e_text_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint f
 	text = E_TEXT (item);
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update) (item, affine, clip_path, flags);
+		GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update (
+			item, affine, clip_path, flags);
 
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
@@ -1292,7 +1318,11 @@ _get_tep(EText *text)
 }
 
 static void
-draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, gint x1, gint y1, PangoRectangle rect)
+draw_pango_rectangle (GdkDrawable *drawable,
+                      GdkGC *gc,
+                      gint x1,
+                      gint y1,
+                      PangoRectangle rect)
 {
 	gint width = rect.width / PANGO_SCALE;
 	gint height = rect.height / PANGO_SCALE;
@@ -1661,7 +1691,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				PangoRectangle strong_pos, weak_pos;
 				gchar *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
-				pango_layout_get_cursor_pos (text->layout, offs - text->text + text->preedit_len, &strong_pos, &weak_pos);
+				pango_layout_get_cursor_pos (
+					text->layout, offs - text->text +
+					text->preedit_len, &strong_pos,
+					&weak_pos);
 				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
@@ -1729,7 +1762,11 @@ e_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 /* Bounds handler for the text item */
 static void
-e_text_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
+e_text_bounds (GnomeCanvasItem *item,
+               gdouble *x1,
+               gdouble *y1,
+               gdouble *x2,
+               gdouble *y2)
 {
 	EText *text;
 	gdouble width, height;
@@ -1816,7 +1853,9 @@ get_position_from_xy (EText *text, gint x, gint y)
 	x -= text->cx;
 	y -= text->cy;
 
-	pango_layout_xy_to_index (text->layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing);
+	pango_layout_xy_to_index (
+		text->layout, x * PANGO_SCALE,
+		y * PANGO_SCALE, &index, &trailing);
 
 	return g_utf8_pointer_to_offset (text->text, text->text + index + trailing);
 }
@@ -2012,11 +2051,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				 */
 
 				if (save_text && save_text->im_context) {
-					g_signal_handlers_disconnect_matched (save_text->im_context,
-									      G_SIGNAL_MATCH_DATA,
-                                                                             0, 0, NULL,
-                                                                             NULL, save_text);
-                                       save_text->im_context_signals_registered = FALSE;
+					g_signal_handlers_disconnect_matched (
+						save_text->im_context,
+						G_SIGNAL_MATCH_DATA,
+                                                0, 0, NULL, NULL, save_text);
+					save_text->im_context_signals_registered =
+						FALSE;
                                 }
 
 				if (text->im_context) {
@@ -2091,7 +2131,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventKey key;
 			gint ret;
 
-			if (text->im_context && gtk_im_context_filter_keypress (text->im_context, (GdkEventKey*)event)) {
+			if (text->im_context &&
+				gtk_im_context_filter_keypress (
+				text->im_context, (GdkEventKey*)event)) {
 				text->need_im_reset = TRUE;
 				return 1;
 			}
@@ -2106,7 +2148,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.key.length = key.length;
 			e_tep_event.key.string = key.string;
 #else
-			e_tep_event.key.string = e_utf8_from_gtk_event_key (GTK_WIDGET (item->canvas), key.keyval, key.string);
+			e_tep_event.key.string = e_utf8_from_gtk_event_key (
+				GTK_WIDGET (item->canvas),
+				key.keyval, key.string);
 			if (e_tep_event.key.string != NULL) {
 				e_tep_event.key.length = strlen (e_tep_event.key.string);
 			} else {
@@ -2260,14 +2304,17 @@ e_text_copy_clipboard (EText *text)
 	selection_end_pos = MAX (text->selection_start, text->selection_end);
 
 	/* convert sel_start/sel_end to byte indices */
-	selection_start_pos = g_utf8_offset_to_pointer (text->text, selection_start_pos) - text->text;
-	selection_end_pos = g_utf8_offset_to_pointer (text->text, selection_end_pos) - text->text;
+	selection_start_pos = g_utf8_offset_to_pointer (
+		text->text, selection_start_pos) - text->text;
+	selection_end_pos = g_utf8_offset_to_pointer (
+		text->text, selection_end_pos) - text->text;
 
 	gtk_clipboard_set_text (
-				gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
-							  GDK_SELECTION_CLIPBOARD),
-				text->text + selection_start_pos,
-				selection_end_pos - selection_start_pos);
+		gtk_widget_get_clipboard (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+		GDK_SELECTION_CLIPBOARD),
+		text->text + selection_start_pos,
+		selection_end_pos - selection_start_pos);
 }
 
 void
@@ -2342,7 +2389,8 @@ primary_clear_cb (GtkClipboard *clipboard,
 {
 #ifdef notyet
 	/* XXX */
-	gtk_editable_select_region (GTK_EDITABLE (entry), entry->current_pos, entry->current_pos);
+	gtk_editable_select_region (
+		GTK_EDITABLE (entry), entry->current_pos, entry->current_pos);
 #endif
 }
 
@@ -2358,7 +2406,9 @@ e_text_update_primary_selection (EText *text)
 	};
 	GtkClipboard *clipboard;
 
-	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas), GDK_SELECTION_PRIMARY);
+	clipboard = gtk_widget_get_clipboard (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+		GDK_SELECTION_PRIMARY);
 
 	if (text->selection_start != text->selection_end) {
 		if (!gtk_clipboard_set_with_owner (clipboard, targets, G_N_ELEMENTS (targets),
@@ -2412,7 +2462,11 @@ popup_menu_detach (GtkWidget *attach_widget,
 }
 
 static void
-popup_menu_placement_cb (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+popup_menu_placement_cb (GtkMenu *menu,
+                         gint *x,
+                         gint *y,
+                         gboolean *push_in,
+                         gpointer user_data)
 {
 	EText *text = E_TEXT(user_data);
 	GnomeCanvasItem *item = &text->item;
@@ -2454,7 +2508,9 @@ popup_targets_received (GtkClipboard     *clipboard,
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (menuitem, "activate",
 				  G_CALLBACK (e_text_cut_clipboard), text);
-	gtk_widget_set_sensitive (menuitem, text->editable && (text->selection_start != text->selection_end));
+	gtk_widget_set_sensitive (
+		menuitem, text->editable &&
+		(text->selection_start != text->selection_end));
 
 	/* copy menu item */
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
@@ -2470,7 +2526,9 @@ popup_targets_received (GtkClipboard     *clipboard,
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (menuitem, "activate",
 				  G_CALLBACK (e_text_paste_clipboard), text);
-	gtk_widget_set_sensitive (menuitem, text->editable && gtk_selection_data_targets_include_text (data));
+	gtk_widget_set_sensitive (
+		menuitem, text->editable &&
+		gtk_selection_data_targets_include_text (data));
 
 	menuitem = gtk_menu_item_new_with_label (_("Select All"));
 	gtk_widget_show (menuitem);
@@ -2608,7 +2666,8 @@ find_offset_into_line (EText *text, gint offset_into_text, gchar **start_of_line
 }
 
 /* direction = TRUE (move forward), FALSE (move backward)
-   Any error shall return length(text->text) or 0 or text->selection_end (as deemed fit) */
+   Any error shall return length(text->text) or 0 or
+   text->selection_end (as deemed fit) */
 static gint
 _get_updated_position (EText *text, gboolean direction)
 {
@@ -2634,7 +2693,8 @@ _get_updated_position (EText *text, gboolean direction)
 	if (!g_utf8_validate(text->text, -1, NULL))
 		return text->selection_end;
 
-	/* get layout's PangoLogAttr to facilitate moving when moving across grapheme cluster as in indic langs */
+	/* get layout's PangoLogAttr to facilitate moving when
+	 * moving across grapheme cluster as in indic langs */
 	pango_layout_get_log_attrs (text->layout, &log_attrs, &n_attrs);
 
 	/* Fetch the current gchar index in the line & keep moving
@@ -2748,14 +2808,16 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		if (text->selection_end >= length)
 			new_pos = length;
 		else
-			new_pos = _get_updated_position(text, TRUE);	/* get updated position to display cursor */
+			/* get updated position to display cursor */
+			new_pos = _get_updated_position(text, TRUE);
 
 		break;
 
 	case E_TEP_BACKWARD_CHARACTER:
 		new_pos = 0;
 		if (text->selection_end >= 1)
-			new_pos = _get_updated_position(text, FALSE);	/* get updated position to display cursor */
+			/* get updated position to display cursor */
+			new_pos = _get_updated_position (text, FALSE);
 
 		break;
 
@@ -2768,12 +2830,14 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		if (text->selection_end >= 1) {
 			gint pos = text->selection_end;
 
-			p = g_utf8_find_prev_char (text->text, g_utf8_offset_to_pointer (text->text, text->selection_end));
-			pos --;
+			p = g_utf8_find_prev_char (
+				text->text, g_utf8_offset_to_pointer (
+				text->text, text->selection_end));
+			pos--;
 
 			if (p != text->text) {
 				p = g_utf8_find_prev_char (text->text, p);
-				pos --;
+				pos--;
 
 				while (p && p > text->text) {
 					unival = g_utf8_get_char (p);
@@ -2783,7 +2847,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 					}
 					else {
 						p = g_utf8_find_prev_char (text->text, p);
-						pos --;
+						pos--;
 					}
 				}
 			}
@@ -2813,7 +2877,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			p = g_utf8_next_char (p);
 			while (offset_into_line > 0 && p && *p != '\n' && *p != '\0') {
 				p = g_utf8_next_char (p);
-				offset_into_line --;
+				offset_into_line--;
 			}
 		}
 
@@ -2837,7 +2901,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 				p = g_utf8_find_prev_char (text->text, p);
 				while (p > text->text) {
 					if (*p == '\n') {
-						p ++;
+						p++;
 						break;
 					}
 					p = g_utf8_find_prev_char (text->text, p);
@@ -2851,7 +2915,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 		while (offset_into_line > 0 && p && *p != '\n' && *p != '\0') {
 			p = g_utf8_next_char (p);
-			offset_into_line --;
+			offset_into_line--;
 		}
 
 		/* at this point, p points to the new location,
@@ -2894,7 +2958,9 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		else
 			text->selection_start = g_utf8_pointer_to_offset (text->text, p);
 
-		text->selection_start = e_text_model_validate_position (text->model, text->selection_start);
+		text->selection_start =
+			e_text_model_validate_position (
+			text->model, text->selection_start);
 
 		length = g_utf8_strlen (text->text, -1);
 		if (text->selection_end >= length) {
@@ -3024,7 +3090,9 @@ capitalize (EText *text, gint start, gint end, ETextEventProcessorCaps type)
 }
 
 static void
-e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
+e_text_command (ETextEventProcessor *tep,
+                ETextEventProcessorCommand *command,
+                gpointer data)
 {
 	EText *text = E_TEXT(data);
 	gboolean scroll = TRUE;
@@ -3041,7 +3109,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		use_start = TRUE;
 		break;
 	case E_TEP_SELECT:
-		text->selection_start = e_text_model_validate_position (text->model, text->selection_start); /* paranoia */
+		text->selection_start =
+			e_text_model_validate_position (
+			text->model, text->selection_start); /* paranoia */
 		text->selection_end = _get_position(text, command);
 
 		e_text_update_primary_selection (text);
@@ -3117,11 +3187,18 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		break;
 	case E_TEP_CAPS:
 		if (text->selection_start == text->selection_end) {
-			capitalize (text, text->selection_start, next_word (text, text->selection_start), command->value);
+			capitalize (
+				text, text->selection_start,
+				next_word (text, text->selection_start),
+				command->value);
 		} else {
-			gint selection_start = MIN (text->selection_start, text->selection_end);
-			gint selection_end = MAX (text->selection_start, text->selection_end);
-			capitalize (text, selection_start, selection_end, command->value);
+			gint selection_start = MIN (
+				text->selection_start, text->selection_end);
+			gint selection_end = MAX (
+				text->selection_start, text->selection_end);
+			capitalize (
+				text, selection_start,
+				selection_end, command->value);
 		}
 		break;
 	case E_TEP_NOP:
@@ -3149,12 +3226,14 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		selection_index = use_start ? text->selection_start : text->selection_end;
 
 		/* convert to a byte index */
-		selection_index = g_utf8_offset_to_pointer (text->text, selection_index) - text->text;
+		selection_index = g_utf8_offset_to_pointer (
+			text->text, selection_index) - text->text;
 
 		do {
 			PangoLayoutLine *line = pango_layout_iter_get_line (iter);
 
-			if (selection_index >= line->start_index && selection_index <= line->start_index + line->length) {
+			if (selection_index >= line->start_index &&
+				selection_index <= line->start_index + line->length) {
 				/* found the line with the start of the selection */
 				cur_line = line;
 				break;
@@ -3168,7 +3247,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			/* gboolean trailing = FALSE; */
 			PangoRectangle pango_pos;
 
-			if (selection_index > 0 && selection_index == cur_line->start_index + cur_line->length) {
+			if (selection_index > 0 && selection_index ==
+				cur_line->start_index + cur_line->length) {
 				selection_index--;
 				/* trailing = TRUE; */
 			}
@@ -3612,7 +3692,6 @@ e_text_init (EText *text)
 	text->allow_newlines          = TRUE;
 
 	text->last_type_request       = -1;
-	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
 	text->last_time_request       = 0;
 	text->queued_requests         = NULL;
 
@@ -3651,7 +3730,8 @@ e_text_preedit_changed_cb (GtkIMContext *context,
 
 	cursor_pos = CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1));
 	etext->preedit_len = strlen (preedit_string);
-	etext->preedit_pos = g_utf8_offset_to_pointer (preedit_string, cursor_pos) - preedit_string;
+	etext->preedit_pos = g_utf8_offset_to_pointer (
+		preedit_string, cursor_pos) - preedit_string;
 	g_free (preedit_string);
 
 	g_signal_emit (etext, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
@@ -3661,10 +3741,10 @@ static gboolean
 e_text_retrieve_surrounding_cb (GtkIMContext *context,
 				EText        *text)
 {
-	gtk_im_context_set_surrounding (context,
-					text->text,
-					strlen (text->text),
-					g_utf8_offset_to_pointer (text->text, MIN (text->selection_start, text->selection_end)) - text->text);
+	gtk_im_context_set_surrounding (
+		context, text->text, strlen (text->text),
+		g_utf8_offset_to_pointer (text->text, MIN (
+		text->selection_start, text->selection_end)) - text->text);
 
 	return TRUE;
 }

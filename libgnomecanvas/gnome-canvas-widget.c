@@ -24,8 +24,9 @@
  */
 /* Widget item type for GnomeCanvas widget
  *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent canvas widget.  Tk is
- * copyrighted by the Regents of the University of California, Sun Microsystems, and other parties.
+ * GnomeCanvas is basically a port of the Tk toolkit's most excellent canvas
+ * widget.  Tk is copyrighted by the Regents of the University of California,
+ * Sun Microsystems, and other parties.
  *
  *
  * Author: Federico Mena <federico@nuclecu.unam.mx>
@@ -58,17 +59,30 @@ static void gnome_canvas_widget_set_property (GObject            *object,
 					      const GValue       *value,
 					      GParamSpec         *pspec);
 
-static void   gnome_canvas_widget_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
-static gdouble gnome_canvas_widget_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
-					       gint cx, gint cy, GnomeCanvasItem **actual_item);
-static void   gnome_canvas_widget_bounds      (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
+static void	gnome_canvas_widget_update	(GnomeCanvasItem *item,
+						 gdouble *affine,
+						 ArtSVP *clip_path,
+						 gint flags);
+static gdouble	gnome_canvas_widget_point	(GnomeCanvasItem *item,
+						 gdouble x,
+						 gdouble y,
+						 gint cx,
+						 gint cy,
+						 GnomeCanvasItem **actual_item);
+static void	gnome_canvas_widget_bounds	(GnomeCanvasItem *item,
+						 gdouble *x1,
+						 gdouble *y1,
+						 gdouble *x2,
+						 gdouble *y2);
 
-static void gnome_canvas_widget_render (GnomeCanvasItem *item,
-					GnomeCanvasBuf *buf);
-static void gnome_canvas_widget_draw (GnomeCanvasItem *item,
-				      GdkDrawable *drawable,
-				      gint x, gint y,
-				      gint width, gint height);
+static void	gnome_canvas_widget_render	(GnomeCanvasItem *item,
+						 GnomeCanvasBuf *buf);
+static void	gnome_canvas_widget_draw	(GnomeCanvasItem *item,
+						 GdkDrawable *drawable,
+						 gint x,
+						 gint y,
+						 gint width,
+						 gint height);
 
 static GnomeCanvasItemClass *parent_class;
 
@@ -438,7 +452,10 @@ gnome_canvas_widget_get_property (GObject            *object,
 }
 
 static void
-gnome_canvas_widget_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
+gnome_canvas_widget_update (GnomeCanvasItem *item,
+                            gdouble *affine,
+                            ArtSVP *clip_path,
+                            gint flags)
 {
 	GnomeCanvasWidget *witem;
 
@@ -538,7 +555,11 @@ gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 }
 
 static void
-gnome_canvas_widget_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
+gnome_canvas_widget_bounds (GnomeCanvasItem *item,
+                            gdouble *x1,
+                            gdouble *y1,
+                            gdouble *x2,
+                            gdouble *y2)
 {
 	GnomeCanvasWidget *witem;
 

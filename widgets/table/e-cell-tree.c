@@ -356,7 +356,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						       rect.y + rect.height);
 				}
 				parent_node = e_tree_model_node_get_parent (tree_model, parent_node);
-				depth --;
+				depth--;
 				offset -= INDENT_AMOUNT;
 			}
 		}
@@ -761,7 +761,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 						offset - INDENT_AMOUNT / 2, 0);
 				}
 				node = e_tree_model_node_get_parent (tree_model, node);
-				depth --;
+				depth--;
 				offset -= INDENT_AMOUNT;
 			}
 		}

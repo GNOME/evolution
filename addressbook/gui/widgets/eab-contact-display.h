@@ -52,9 +52,16 @@ typedef struct _EABContactDisplay EABContactDisplay;
 typedef struct _EABContactDisplayClass EABContactDisplayClass;
 typedef struct _EABContactDisplayPrivate EABContactDisplayPrivate;
 
+/**
+ * EABContactDisplayMode:
+ * @EAB_CONTACT_DISPLAY_RENDER_NORMAL:
+ *   For use in the preview pane.
+ * @EAB_CONTACT_DISPLAY_RENDER_COMPACT:
+ *   For use with embedded vcards.
+ **/
 typedef enum {
-	EAB_CONTACT_DISPLAY_RENDER_NORMAL,  /* for use in the preview pane */
-	EAB_CONTACT_DISPLAY_RENDER_COMPACT  /* for use with embedded vcards (e.g, the EABVCardControl) */
+	EAB_CONTACT_DISPLAY_RENDER_NORMAL,
+	EAB_CONTACT_DISPLAY_RENDER_COMPACT
 } EABContactDisplayMode;
 
 struct _EABContactDisplay {

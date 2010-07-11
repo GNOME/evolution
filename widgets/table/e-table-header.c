@@ -365,7 +365,7 @@ eth_do_insert (ETableHeader *eth, gint pos, ETableCol *val)
 	memmove (&eth->columns [pos+1], &eth->columns [pos],
 		sizeof (ETableCol *) * (eth->col_count - pos));
 	eth->columns [pos] = val;
-	eth->col_count ++;
+	eth->col_count++;
 }
 
 /**
@@ -639,7 +639,7 @@ e_table_header_move (ETableHeader *eth, gint source_index, gint target_index)
 	g_return_if_fail (target_index < eth->col_count + 1);
 
 	if (source_index < target_index)
-		target_index --;
+		target_index--;
 
 	old = eth->columns [source_index];
 	eth_do_remove (eth, source_index, FALSE);
@@ -723,7 +723,7 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 		min_width += eth->columns[i]->min_width + eth->width_extras;
 		if (eth->columns[i]->resizable) {
 			expansion += eth->columns[i]->expansion;
-			expandable_count ++;
+			expandable_count++;
 		}
 	}
 	/* If there's no room for anything, don't change. */

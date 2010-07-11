@@ -2774,7 +2774,7 @@ e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
 	gint i, n;
 
 	n = e_table_model_row_count (E_TABLE_MODEL (model));
-	for (i = 0; i < n; i ++) {
+	for (i = 0; i < n; i++) {
 		ECalModelComponent *comp_data = e_cal_model_get_component_at (model, i);
 
 		mdata.comp_data = comp_data;

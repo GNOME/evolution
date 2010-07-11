@@ -106,8 +106,11 @@ static const gchar *ui =
 "  </toolbar>"
 "</ui>";
 
-static void event_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
+static void	event_editor_edit_comp		(CompEditor *editor,
+						 ECalComponent *comp);
+static gboolean	event_editor_send_comp		(CompEditor *editor,
+						 ECalComponentItipMethod method,
+						 gboolean strip_alarms);
 
 G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR)
 
@@ -365,7 +368,9 @@ event_editor_constructor (GType type,
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (editor, TRUE);
-		if (!((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM))) {
+		if (!((flags & COMP_EDITOR_USER_ORG) ||
+			(flags & COMP_EDITOR_DELEGATE) ||
+			(flags & COMP_EDITOR_NEW_ITEM))) {
 			GtkAction *action;
 
 			action = comp_editor_get_action (editor, "free-busy");
@@ -635,7 +640,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			gtk_action_set_visible (action, TRUE);
 		}
 
-		if (!(delegate && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
+		if (!(delegate && e_cal_get_static_capability (
+			client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
 			event_page_remove_all_attendees (priv->event_page);
 
 			for (l = attendees; l != NULL; l = l->next) {
@@ -645,11 +651,15 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 				if (delegate &&	!g_str_equal (itip_strip_mailto (ca->value), user_email))
 					continue;
 
-				ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
+				ia = E_MEETING_ATTENDEE (
+					e_meeting_attendee_new_from_e_cal_component_attendee (ca));
 
-				/* If we aren't the organizer or the attendee is just delegated, don't allow editing */
-				if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
-					e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
+				/* If we aren't the organizer or the attendee
+				 * is just delegated, don't allow editing. */
+				if (!comp_editor_get_user_org (editor) ||
+					e_meeting_attendee_is_set_delto (ia))
+					e_meeting_attendee_set_edit_level (
+						ia,  E_MEETING_ATTENDEE_EDIT_NONE);
 
 				event_page_add_attendee (priv->event_page, ia);
 
@@ -663,7 +673,9 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 				EIterator *it;
 
 				accounts = itip_addresses_get ();
-				for (it = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(it);e_iterator_next(it)) {
+				for (it = e_list_get_iterator((EList *)accounts);
+					e_iterator_is_valid(it);
+					e_iterator_next(it)) {
 					EMeetingAttendee *ia;
 
 					account = (EAccount*)e_iterator_get(it);
@@ -687,13 +699,17 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}
 	e_cal_component_free_attendee_list (attendees);
 
-	comp_editor_set_needs_send (editor, priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)));
+	comp_editor_set_needs_send (
+		editor, priv->meeting_shown && (itip_organizer_is_user (
+		comp, client) || itip_sentby_is_user (comp, client)));
 
 	priv->updating = FALSE;
 }
 
 static gboolean
-event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms)
+event_editor_send_comp (CompEditor *editor,
+                        ECalComponentItipMethod method,
+                        gboolean strip_alarms)
 {
 	EventEditorPrivate *priv;
 	ECalComponent *comp = NULL;
@@ -721,7 +737,8 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboo
 
  parent:
 	if (COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp)
-		return COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp (editor, method, strip_alarms);
+		return COMP_EDITOR_CLASS (event_editor_parent_class)->
+			send_comp (editor, method, strip_alarms);
 
 	return FALSE;
 }

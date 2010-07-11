@@ -2309,8 +2309,8 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 
 	while (cell_h > 1) {
 		*day_h += week_view->row_heights[cell_y + 1];
-		cell_h --;
-		cell_y ++;
+		cell_h--;
+		cell_y++;
 	}
 }
 
@@ -2633,7 +2633,7 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 	} else {
 		week = 0;
 
-		for (day = 0; day < 7; day ++) {
+		for (day = 0; day < 7; day++) {
 			gint day_x = 0, day_y = 0, rows = 0;
 			e_week_view_layout_get_day_position (day, FALSE, 1, week_view->display_start_day, week_view->compress_weekend,
 								&day_x, &day_y, &rows);

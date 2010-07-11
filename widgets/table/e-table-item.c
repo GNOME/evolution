@@ -205,7 +205,7 @@ eti_grab (ETableItem *eti, guint32 time)
 			eti->gtk_grabbed = TRUE;
 		}
 	}
-	eti->grabbed_count ++;
+	eti->grabbed_count++;
 }
 
 inline static void
@@ -213,7 +213,7 @@ eti_ungrab (ETableItem *eti, guint32 time)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
-	eti->grabbed_count --;
+	eti->grabbed_count--;
 	if (eti->grabbed_count == 0) {
 		if (eti->grab_cancelled) {
 			eti->grab_cancelled = FALSE;
@@ -660,7 +660,7 @@ height_cache_idle(ETableItem *eti)
 	for (i = eti->height_cache_idle_count; i < eti->rows; i++) {
 		if (eti->height_cache[i] == -1) {
 			eti_row_height(eti, i);
-			changed ++;
+			changed++;
 			if (changed >= 20)
 				break;
 		}
@@ -1045,7 +1045,7 @@ eti_cancel_drag_due_to_model_change (ETableItem *eti)
 static void
 eti_freeze (ETableItem *eti)
 {
-	eti->frozen_count ++;
+	eti->frozen_count++;
 	d(g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
 }
 
@@ -1055,7 +1055,7 @@ eti_unfreeze (ETableItem *eti)
 	if (eti->frozen_count <= 0)
 		return;
 
-	eti->frozen_count --;
+	eti->frozen_count--;
 	d(g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
 	if (eti->frozen_count == 0 && eti->queue_show_cursor) {
 		eti_show_cursor (eti, 0);
@@ -2258,7 +2258,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (cursor_row != new_cursor_row || cursor_col != new_cursor_col) {
 				eti->click_count = 1;
 			} else {
-				eti->click_count ++;
+				eti->click_count++;
 				eti->row_guess = row;
 
 				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, cursor_col, row)) {
@@ -3464,7 +3464,7 @@ e_table_item_print_page  (EPrintable *ep,
 		if (eti->horizontal_draw_grid) {
 			gp_draw_rect(context, 0, yd, width, 1);
 		}
-		yd ++;
+		yd++;
 	}
 
 	itemcontext->rows_printed = row;

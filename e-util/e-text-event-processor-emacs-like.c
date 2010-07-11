@@ -29,9 +29,13 @@
 #include "e-text-event-processor-emacs-like.h"
 #include "e-util.h"
 
-static gint e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
+static gint	e_text_event_processor_emacs_like_event
+						(ETextEventProcessor *tep,
+						 ETextEventProcessorEvent *event);
 
-G_DEFINE_TYPE (ETextEventProcessorEmacsLike, e_text_event_processor_emacs_like, E_TEXT_EVENT_PROCESSOR_TYPE)
+G_DEFINE_TYPE (
+	ETextEventProcessorEmacsLike,
+	e_text_event_processor_emacs_like, E_TEXT_EVENT_PROCESSOR_TYPE)
 
 /* The arguments we take */
 enum {
@@ -115,13 +119,15 @@ e_text_event_processor_emacs_like_init (ETextEventProcessorEmacsLike *tep)
 }
 
 static gint
-e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event)
+e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
+                                         ETextEventProcessorEvent *event)
 {
 	ETextEventProcessorCommand command;
 	ETextEventProcessorEmacsLike *tep_el = E_TEXT_EVENT_PROCESSOR_EMACS_LIKE(tep);
 	command.action = E_TEP_NOP;
 	/* Warning from the Intel compiler here:
-	 * e-text-event-processor-emacs-like.c(136): warning #589: transfer of control bypasses initialization of:
+	 * e-text-event-processor-emacs-like.c(136): warning #589:
+	 *   transfer of control bypasses initialization of:
          *   variable "key" (declared at line 194)
          *  switch (event->type) {
          *  ^
@@ -467,7 +473,9 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.value = alt_keys[(gint) (key.keyval - 'a')].value;
 						command.string = alt_keys[(gint) (key.keyval - 'a')].string;
 					}
-				} else if (!(key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK) && key.length > 0) {
+				} else if (!(key.state & GDK_MOD1_MASK) &&
+					!(key.state & GDK_CONTROL_MASK) &&
+					key.length > 0) {
 					if (key.keyval >= GDK_KP_0 && key.keyval <= GDK_KP_9) {
 						key.keyval = '0';
 						key.string = "0";
@@ -502,7 +510,6 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 ETextEventProcessor *
 e_text_event_processor_emacs_like_new (void)
 {
-	ETextEventProcessorEmacsLike *retval = g_object_new (E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE, NULL);
-	return E_TEXT_EVENT_PROCESSOR (retval);
+	return g_object_new (E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE, NULL);
 }
 

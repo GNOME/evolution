@@ -285,7 +285,7 @@ e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 	ECanvasVbox *e_canvas_vbox;
 
 	e_canvas_vbox = E_CANVAS_VBOX (item);
-	for ( list = e_canvas_vbox->items; list; list = list->next ) {
+	for (list = e_canvas_vbox->items; list; list = list->next) {
 		GnomeCanvasItem *child = GNOME_CANVAS_ITEM(list->data);
 		gnome_canvas_item_set(child,
 				      "width", (gdouble) e_canvas_vbox->minimum_width,

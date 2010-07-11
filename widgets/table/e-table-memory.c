@@ -175,7 +175,7 @@ e_table_memory_insert (ETableMemory *etmm,
 		etmm->priv->data + row,
 		(etmm->priv->num_rows - row) * sizeof (gpointer));
 	etmm->priv->data[row] = data;
-	etmm->priv->num_rows ++;
+	etmm->priv->num_rows++;
 	if (!etmm->priv->frozen)
 		e_table_model_row_inserted(E_TABLE_MODEL(etmm), row);
 }
@@ -206,7 +206,7 @@ e_table_memory_remove (ETableMemory *etmm, gint row)
 		etmm->priv->data + row,
 		etmm->priv->data + row + 1,
 		(etmm->priv->num_rows - row - 1) * sizeof (gpointer));
-	etmm->priv->num_rows --;
+	etmm->priv->num_rows--;
 	if (!etmm->priv->frozen)
 		e_table_model_row_deleted(E_TABLE_MODEL(etmm), row);
 	return ret;
@@ -250,7 +250,7 @@ e_table_memory_freeze(ETableMemory *etmm)
 	if (priv->frozen == 0)
 		e_table_model_pre_change(E_TABLE_MODEL(etmm));
 
-	priv->frozen ++;
+	priv->frozen++;
 }
 
 /**
@@ -268,7 +268,7 @@ e_table_memory_thaw(ETableMemory *etmm)
 	ETableMemoryPriv *priv = etmm->priv;
 
 	if (priv->frozen > 0)
-		priv->frozen --;
+		priv->frozen--;
 	if (priv->frozen == 0) {
 		e_table_model_changed(E_TABLE_MODEL(etmm));
 	}

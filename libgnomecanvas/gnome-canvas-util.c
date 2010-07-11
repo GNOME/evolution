@@ -24,8 +24,9 @@
  */
 /* Miscellaneous utility functions for the GnomeCanvas widget
  *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent canvas widget.  Tk is
- * copyrighted by the Regents of the University of California, Sun Microsystems, and other parties.
+ * GnomeCanvas is basically a port of the Tk toolkit's most excellent canvas
+ * widget.  Tk is copyrighted by the Regents of the University of California,
+ * Sun Microsystems, and other parties.
  *
  *
  * Author: Federico Mena <federico@nuclecu.unam.mx>
@@ -135,9 +136,17 @@ gnome_canvas_points_free (GnomeCanvasPoints *points)
  * Otherwise, returns TRUE.
  **/
 gint
-gnome_canvas_get_miter_points (gdouble x1, gdouble y1, gdouble x2, gdouble y2, gdouble x3, gdouble y3,
-			       gdouble width,
-			       gdouble *mx1, gdouble *my1, gdouble *mx2, gdouble *my2)
+gnome_canvas_get_miter_points (gdouble x1,
+                               gdouble y1,
+                               gdouble x2,
+                               gdouble y2,
+                               gdouble x3,
+                               gdouble y3,
+                               gdouble width,
+                               gdouble *mx1,
+                               gdouble *my1,
+                               gdouble *mx2,
+                               gdouble *my2)
 {
 	gdouble theta1;		/* angle of segment p2-p1 */
 	gdouble theta2;		/* angle of segment p2-p3 */
@@ -262,12 +271,12 @@ gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdoubl
 	gdouble *p;
 	gdouble dx, dy;
 
-	/* Iterate through all the edges in the polygon, updating best and intersections.
-	 *
-	 * When computing intersections, include left X coordinate of line within its range, but not
-	 * Y coordinate.  Otherwise if the point lies exactly below a vertex we'll count it as two
+	/* Iterate through all the edges in the polygon, updating best and
 	 * intersections.
-	 */
+	 *
+	 * When computing intersections, include left X coordinate of line
+	 * within its range, but not Y coordinate.  Otherwise if the point
+	 * lies exactly below a vertex we'll count it as two intersections. */
 
 	best = 1.0e36;
 	intersections = 0;
@@ -275,10 +284,10 @@ gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdoubl
 	for (i = num_points, p = poly; i > 1; i--, p += 2) {
 		gdouble px, py, dist;
 
-		/* Compute the point on the current edge closest to the point and update the
-		 * intersection count.  This must be done separately for vertical edges, horizontal
-		 * edges, and others.
-		 */
+		/* Compute the point on the current edge closest to the
+		 * point and update the intersection count.  This must be
+		 * done separately for vertical edges, horizontal edges,
+		 * and others. */
 
 		if (p[2] == p[0]) {
 			/* Vertical edge */
@@ -361,9 +370,8 @@ gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdoubl
 			best = dist;
 	}
 
-	/* We've processed all the points.  If the number of intersections is odd, the point is
-	 * inside the polygon.
-	 */
+	/* We've processed all the points.  If the number of
+	 * intersections is odd, the point is inside the polygon. */
 
 	if (intersections & 0x1)
 		return 0.0;
@@ -490,7 +498,10 @@ gnome_canvas_update_svp (GnomeCanvas *canvas, ArtSVP **p_svp, ArtSVP *new_svp)
  * on what's changed. This function takes responsibility for freeing new_svp.
  **/
 void
-gnome_canvas_update_svp_clip (GnomeCanvas *canvas, ArtSVP **p_svp, ArtSVP *new_svp, ArtSVP *clip_svp)
+gnome_canvas_update_svp_clip (GnomeCanvas *canvas,
+                              ArtSVP **p_svp,
+                              ArtSVP *new_svp,
+                              ArtSVP *clip_svp)
 {
 	ArtSVP *clipped_svp;
 
@@ -558,8 +569,10 @@ gnome_canvas_item_update_svp (GnomeCanvasItem *item, ArtSVP **p_svp, ArtSVP *new
  * on what's changed. This function takes responsibility for freeing new_svp.
  **/
 void
-gnome_canvas_item_update_svp_clip (GnomeCanvasItem *item, ArtSVP **p_svp, ArtSVP *new_svp,
-				   ArtSVP *clip_svp)
+gnome_canvas_item_update_svp_clip (GnomeCanvasItem *item,
+                                   ArtSVP **p_svp,
+                                   ArtSVP *new_svp,
+                                   ArtSVP *clip_svp)
 {
 	ArtSVP *clipped_svp;
 

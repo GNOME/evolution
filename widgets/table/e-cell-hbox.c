@@ -307,7 +307,7 @@ e_cell_hbox_new (void)
 void
 e_cell_hbox_append (ECellHbox *hbox, ECell *subcell, gint model_col, gint size)
 {
-	hbox->subcell_count ++;
+	hbox->subcell_count++;
 
 	hbox->subcells   = g_renew (ECell *, hbox->subcells,   hbox->subcell_count);
 	hbox->model_cols = g_renew (int,     hbox->model_cols, hbox->subcell_count);

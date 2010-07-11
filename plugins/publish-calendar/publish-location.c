@@ -40,7 +40,9 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	EUri *euri;
 
 	client = gconf_client_get_default ();
-	uris = gconf_client_get_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, NULL);
+	uris = gconf_client_get_list (
+		client, "/apps/evolution/calendar/publish/uris",
+		GCONF_VALUE_STRING, NULL);
 	l = uris;
 	while (l && l->data) {
 		gchar *str = l->data;
@@ -100,7 +102,9 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	uri->events = events;
 
 	uris = g_slist_prepend (uris, e_publish_uri_to_xml (uri));
-	gconf_client_set_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, uris, NULL);
+	gconf_client_set_list (
+		client, "/apps/evolution/calendar/publish/uris",
+		GCONF_VALUE_STRING, uris, NULL);
 	g_slist_foreach (uris, (GFunc) g_free, NULL);
 	g_slist_free (uris);
 	g_object_unref (client);
@@ -236,7 +240,8 @@ e_publish_uri_to_xml (EPublishUri *uri)
 	else
 		xmlSetProp (root, (xmlChar *)"fb_duration_type", (xmlChar *)"weeks");
 
-	for (calendars = uri->events; calendars != NULL; calendars = g_slist_next (calendars)) {
+	for (calendars = uri->events; calendars != NULL;
+		calendars = g_slist_next (calendars)) {
 		xmlNodePtr node;
 		node = xmlNewChild (root, NULL, (const guchar *)"event", NULL);
 		xmlSetProp (node, (const guchar *)"uid", calendars->data);

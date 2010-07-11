@@ -368,7 +368,7 @@ em_junk_sa_run_spamd (const gchar *binary)
 		time_req.tv_sec = 0;
 		time_req.tv_nsec = 50000000;
 
-		for (i = 0; i < 100; i ++) {
+		for (i = 0; i < 100; i++) {
 			if (stat (em_junk_sa_get_socket_path (), &stat_buf) == 0) {
 				d(fprintf (stderr, "socket created\n"));
 				break;
@@ -395,7 +395,7 @@ em_junk_sa_start_own_daemon ()
 	em_junk_sa_socket_path = e_mktemp ("spamd-socket-path-XXXXXX");
 	em_junk_sa_spamd_pidfile = e_mktemp ("spamd-pid-file-XXXXXX");
 
-	for (b = 0; em_junk_sa_spamd_binaries [b]; b ++) {
+	for (b = 0; em_junk_sa_spamd_binaries [b]; b++) {
 		em_junk_sa_use_spamc = em_junk_sa_run_spamd (em_junk_sa_spamd_binaries [b]);
 		if (em_junk_sa_use_spamc) {
 			em_junk_sa_new_daemon_started = TRUE;
@@ -411,7 +411,7 @@ em_junk_sa_find_spamc ()
 		gint b;
 
 		em_junk_sa_use_spamc = FALSE;
-		for (b = 0; em_junk_sa_spamc_binaries [b]; b ++) {
+		for (b = 0; em_junk_sa_spamc_binaries [b]; b++) {
 			em_junk_sa_spamc_binary = em_junk_sa_spamc_binaries [b];
 			if (em_junk_sa_test_spamd_running (em_junk_sa_spamc_binary, FALSE)) {
 				em_junk_sa_use_spamc = TRUE;
@@ -456,7 +456,7 @@ em_junk_sa_test_spamd (void)
 
 	/* try to use sytem spamd first */
 	if (try_system_spamd) {
-		for (b = 0; em_junk_sa_spamc_binaries [b]; b ++) {
+		for (b = 0; em_junk_sa_spamc_binaries [b]; b++) {
 			em_junk_sa_spamc_binary = em_junk_sa_spamc_binaries [b];
 			if (em_junk_sa_test_spamd_running (em_junk_sa_spamc_binary, TRUE)) {
 				em_junk_sa_use_spamc = TRUE;
@@ -468,7 +468,7 @@ em_junk_sa_test_spamd (void)
 
 	/* if there's no system spamd running, try to use user one with user specified socket */
 	if (!em_junk_sa_use_spamc && em_junk_sa_preferred_socket_path) {
-		for (b = 0; em_junk_sa_spamc_binaries [b]; b ++) {
+		for (b = 0; em_junk_sa_spamc_binaries [b]; b++) {
 			em_junk_sa_spamc_binary = em_junk_sa_spamc_binaries [b];
 			if (em_junk_sa_test_spamd_running (em_junk_sa_spamc_binary, FALSE)) {
 				em_junk_sa_use_spamc = TRUE;
@@ -532,7 +532,7 @@ em_junk_sa_check_respawn_too_fast ()
 		rv = FALSE;
 
 	em_junk_sa_spamd_restarts [em_junk_sa_spamd_restarts_count % SPAMD_RESTARTS_SIZE] = time_now;
-	em_junk_sa_spamd_restarts_count ++;
+	em_junk_sa_spamd_restarts_count++;
 
 	G_UNLOCK (spamd_restart);
 

@@ -96,7 +96,7 @@ e_tree_memory_path_depth (ETreeMemoryPath *path)
 	g_return_val_if_fail(path != NULL, -1);
 
 	for ( path = path->parent; path; path = path->parent)
-		depth ++;
+		depth++;
 	return depth;
 }
 
@@ -133,7 +133,7 @@ e_tree_memory_path_insert (ETreeMemoryPath *parent,
 					parent->first_child = child;
 				break;
 			}
-			position --;
+			position--;
 		}
 	}
 
@@ -152,7 +152,7 @@ e_tree_path_unlink (ETreeMemoryPath *path)
 		if (path == parent->last_child)
 			parent->last_child = path->prev_sibling;
 
-		parent->num_children --;
+		parent->num_children--;
 	}
 
 	/* unlink prev/next sibling links */
@@ -185,7 +185,7 @@ e_tree_memory_freeze(ETreeMemory *etmm)
 	if (priv->frozen == 0)
 		e_tree_model_pre_change(E_TREE_MODEL(etmm));
 
-	priv->frozen ++;
+	priv->frozen++;
 }
 
 /**
@@ -203,7 +203,7 @@ e_tree_memory_thaw(ETreeMemory *etmm)
 	ETreeMemoryPriv *priv = etmm->priv;
 
 	if (priv->frozen > 0)
-		priv->frozen --;
+		priv->frozen--;
 	if (priv->frozen == 0) {
 		e_tree_model_node_changed(E_TREE_MODEL(etmm), priv->root);
 	}
@@ -566,7 +566,7 @@ e_tree_memory_node_insert_before (ETreeMemory *etree,
 		for (child = parent_path->first_child; child; child = child->next_sibling) {
 			if (child == sibling_path)
 				break;
-			position ++;
+			position++;
 		}
 	} else
 		position = parent_path->num_children;
@@ -619,7 +619,7 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 		     sibling;
 		     old_position++, sibling = sibling->prev_sibling)
 			/* Empty intentionally*/;
-		old_position --;
+		old_position--;
 	}
 
 	/* unlink this node - we only have to unlink the root node being removed,

@@ -66,13 +66,17 @@
 
 #define d(x)
 
-static void status_message     (EAddressbookView *view, const gchar *status);
-static void search_result      (EAddressbookView *view, EBookViewStatus status, const gchar *error_msg);
-static void folder_bar_message (EAddressbookView *view, const gchar *status);
-static void stop_state_changed (GtkObject *object, EAddressbookView *view);
-static void backend_died       (EAddressbookView *view);
-
-static void command_state_change (EAddressbookView *view);
+static void	status_message			(EAddressbookView *view,
+						 const gchar *status);
+static void	search_result			(EAddressbookView *view,
+						 EBookViewStatus status,
+						 const gchar *error_msg);
+static void	folder_bar_message		(EAddressbookView *view,
+						 const gchar *status);
+static void	stop_state_changed		(GtkObject *object,
+						 EAddressbookView *view);
+static void	backend_died			(EAddressbookView *view);
+static void	command_state_change		(EAddressbookView *view);
 
 struct _EAddressbookViewPrivate {
 	gpointer shell_view;  /* weak pointer */

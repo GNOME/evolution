@@ -217,7 +217,7 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 			NULL
 		};
 		e_contact_editor_fullname->editable = g_value_get_boolean (value) ? TRUE : FALSE;
-		for (i = 0; widget_names[i] != NULL; i ++) {
+		for (i = 0; widget_names[i] != NULL; i++) {
 			GtkWidget *w = e_builder_get_widget(e_contact_editor_fullname->builder, widget_names[i]);
 			if (GTK_IS_ENTRY (w)) {
 				gtk_editable_set_editable (GTK_EDITABLE (w),

@@ -348,7 +348,7 @@ e_week_view_layout_get_day_position	(gint		 day,
 		edge = 3;
 
 		if (wk (0) + wk (1) + wk (2) < wk (3) + wk (4) + wk (5) + wk (6))
-			edge ++;
+			edge++;
 
 		if (day < edge) {
 			*day_x = 0;
@@ -375,10 +375,10 @@ e_week_view_layout_get_day_position	(gint		 day,
 
 					if (wd > 6) { /* too many rows, make last shorter */
 						arr [i - m] --;
-						wd --;
+						wd--;
 					} else if (wd < 6) { /* free rows left, enlarge those bigger */
 						arr [i - m] ++;
-						wd ++;
+						wd++;
 					}
 
 					if (wd == 6)

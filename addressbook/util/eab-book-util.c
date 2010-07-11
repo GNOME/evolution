@@ -48,7 +48,7 @@ escape (const gchar *str)
 		else
 			g_string_append_c (s, *p);
 
-		p ++;
+		p++;
 	}
 
 	return g_string_free (s, FALSE);

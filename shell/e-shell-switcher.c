@@ -164,7 +164,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 		y -= V_PADDING;
 	}
 
-	for (i = 0; i <= row_last; i ++)
+	for (i = 0; i <= row_last; i++)
 		g_list_free (rows [i]);
 	g_free (rows);
 

@@ -511,7 +511,7 @@ install_loadable_roots (void)
 			"/opt/mozilla/lib/mozilla"
 		};
 
-		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i ++) {
+		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i++) {
 			gchar *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
 
 			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
@@ -1109,7 +1109,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		goto loser;
 	}
 
-	for ( i = 0; i < numcerts; i++ ) {
+	for (i = 0; i < numcerts; i++) {
 		rawCerts[i] = &certCollection->rawCerts[i];
 	}
 

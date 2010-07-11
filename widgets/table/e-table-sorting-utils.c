@@ -213,13 +213,13 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 
 	i = view_row;
 	if (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i + 1], row, cmp_cache) < 0) {
-		i ++;
+		i++;
 		while (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
-			i ++;
+			i++;
 	} else if (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i - 1], row, cmp_cache) > 0) {
-		i --;
+		i--;
 		while (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) > 0)
-			i --;
+			i--;
 	}
 
 	e_table_sorting_utils_free_cmp_cache (cmp_cache);
@@ -339,13 +339,13 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 	path = map_table[i];
 
 	if (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i + 1], path, cmp_cache) < 0) {
-		i ++;
+		i++;
 		while (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path, cmp_cache) < 0)
-			i ++;
+			i++;
 	} else if (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i - 1], path, cmp_cache) > 0) {
-		i --;
+		i--;
 		while (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path, cmp_cache) > 0)
-			i --;
+			i--;
 	}
 
 	e_table_sorting_utils_free_cmp_cache (cmp_cache);

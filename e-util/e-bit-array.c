@@ -61,7 +61,7 @@ e_bit_array_insert_real(EBitArray *eba, gint row)
 		eba->data[box] =
 			(eba->data[box] & BITMASK_LEFT(row)) |
 			((eba->data[box] & BITMASK_RIGHT(row)) >> 1);
-		eba->bit_count ++;
+		eba->bit_count++;
 	}
 }
 
@@ -96,7 +96,7 @@ e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 			/* this over-runs our memory! */
 			/*eba->data[i] = eba->data[i] << 1; */
 		}
-		eba->bit_count --;
+		eba->bit_count--;
 		/* Remove the last word if not needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
 			eba->data = g_renew(guint32, eba->data, eba->bit_count >> 5);
@@ -258,7 +258,7 @@ e_bit_array_select_all (EBitArray *eba)
 	if (!eba->data)
 		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
 
-	for (i = 0; i < (eba->bit_count + 31) / 32; i ++) {
+	for (i = 0; i < (eba->bit_count + 31) / 32; i++) {
 		eba->data[i] = ONES;
 	}
 
@@ -268,7 +268,7 @@ e_bit_array_select_all (EBitArray *eba)
 		gint unselected_mask = 0;
 		gint num_unselected_in_last_byte = 32 - eba->bit_count % 32;
 
-		for (i = 0; i < num_unselected_in_last_byte; i ++)
+		for (i = 0; i < num_unselected_in_last_byte; i++)
 			unselected_mask |= 1 << i;
 
 		eba->data[(eba->bit_count + 31) / 32 - 1] &= ~unselected_mask;
@@ -290,7 +290,7 @@ e_bit_array_invert_selection (EBitArray *eba)
 	if (!eba->data)
 		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
 
-	for (i = 0; i < (eba->bit_count + 31) / 32; i ++) {
+	for (i = 0; i < (eba->bit_count + 31) / 32; i++) {
 		eba->data[i] = ~eba->data[i];
 	}
 }
@@ -327,10 +327,10 @@ e_bit_array_change_range(EBitArray *eba, gint start, gint end, gboolean grow)
 		} else {
 			OPERATE(eba, i, BITMASK_LEFT(start), grow);
 			if (grow)
-				for (i ++; i < last; i++)
+				for (i++; i < last; i++)
 					eba->data[i] = ONES;
 			else
-				for (i ++; i < last; i++)
+				for (i++; i < last; i++)
 					eba->data[i] = 0;
 			OPERATE(eba, i, BITMASK_RIGHT(end), grow);
 		}

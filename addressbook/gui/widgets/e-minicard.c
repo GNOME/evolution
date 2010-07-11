@@ -734,7 +734,7 @@ e_minicard_resize_children( EMinicard *e_minicard )
 					    e_minicard->width - e_minicard->list_icon_size - 3,
 					    3);
 	}
-	for ( list = e_minicard->fields; list; list = g_list_next( list ) ) {
+	for (list = e_minicard->fields; list; list = g_list_next( list )) {
 		gnome_canvas_item_set( E_MINICARD_FIELD( list->data )->label,
 				       "width", (double) e_minicard->width - 4.0,
 				       NULL );
@@ -973,7 +973,7 @@ remodel( EMinicard *e_minicard )
 					g_object_set(minicard_field->label,
 						     "field", string,
 						     NULL);
-					count ++;
+					count++;
 				} else {
 					e_minicard_field_destroy(minicard_field);
 				}

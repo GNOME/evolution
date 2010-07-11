@@ -259,7 +259,7 @@ incarnate (EReflow *reflow)
 
 	last_column = value + page_size + 1 - E_REFLOW_BORDER_WIDTH - E_REFLOW_DIVIDER_WIDTH;
 	last_column /= column_width + E_REFLOW_FULL_GUTTER;
-	last_column ++;
+	last_column++;
 
 	if (first_column >= 0 && first_column < reflow->column_count)
 		first_cell = reflow->columns[first_column];
@@ -335,7 +335,7 @@ reflow_columns (EReflow *reflow)
 		gint unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), i);
 		if (i != 0 && running_height + reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH > reflow->height) {
 			list = g_slist_prepend (list, GINT_TO_POINTER(i));
-			column_count ++;
+			column_count++;
 			running_height = E_REFLOW_BORDER_WIDTH * 2 + reflow->heights[unsorted];
 		} else
 			running_height += reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH;
@@ -343,7 +343,7 @@ reflow_columns (EReflow *reflow)
 
 	reflow->column_count = column_count;
 	reflow->columns = g_renew (int, reflow->columns, column_count);
-	column_count --;
+	column_count--;
 
 	for (; column_count > column_start; column_count--) {
 		GSList *to_free;
@@ -403,7 +403,7 @@ item_removed (EReflowModel *model, gint i, EReflow *reflow)
 	memmove (reflow->heights + i, reflow->heights + i + 1, (reflow->count - i - 1) * sizeof (gint));
 	memmove (reflow->items + i, reflow->items + i + 1, (reflow->count - i - 1) * sizeof (GnomeCanvasItem *));
 
-	reflow->count --;
+	reflow->count--;
 
 	reflow->heights [reflow->count] = 0;
 	reflow->items [reflow->count] = NULL;
@@ -448,7 +448,7 @@ items_inserted (EReflowModel *model, gint position, gint count, EReflow *reflow)
 	else
 		e_sorter_array_set_count (reflow->sorter, reflow->count);
 
-	for (i = position; i < position + count; i ++) {
+	for (i = position; i < position + count; i++) {
 		gint sorted = e_sorter_model_to_sorted (E_SORTER (reflow->sorter), i);
 		gint c;
 
@@ -1401,7 +1401,7 @@ e_reflow_reflow( GnomeCanvasItem *item, gint flags )
 		if (next_column < reflow->column_count && i == reflow->columns[next_column]) {
 			running_height = E_REFLOW_BORDER_WIDTH;
 			running_width += reflow->column_width + E_REFLOW_FULL_GUTTER;
-			next_column ++;
+			next_column++;
 		}
 
 		if (unsorted >= 0 && reflow->items[unsorted]) {

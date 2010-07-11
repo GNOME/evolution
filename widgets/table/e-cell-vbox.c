@@ -299,7 +299,7 @@ e_cell_vbox_new (void)
 void
 e_cell_vbox_append (ECellVbox *vbox, ECell *subcell, gint model_col)
 {
-	vbox->subcell_count ++;
+	vbox->subcell_count++;
 
 	vbox->subcells   = g_renew (ECell *, vbox->subcells,   vbox->subcell_count);
 	vbox->model_cols = g_renew (int,     vbox->model_cols, vbox->subcell_count);

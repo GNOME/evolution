@@ -237,7 +237,7 @@ find_path(ETreeSorted *ets, ETreePath corresponding)
 
 	path = ets->priv->root;
 
-	for (i = depth - 1; i >= 0 && path != NULL; i --) {
+	for (i = depth - 1; i >= 0 && path != NULL; i--) {
 		gint j;
 
 		if (path->num_children == -1) {
@@ -313,7 +313,7 @@ find_or_create_path(ETreeSorted *ets, ETreePath corresponding)
 
 	path = ets->priv->root;
 
-	for (i = depth - 1; i >= 0 && path != NULL; i --) {
+	for (i = depth - 1; i >= 0 && path != NULL; i--) {
 		gint j;
 
 		if (path->num_children == -1) {
@@ -465,7 +465,7 @@ generate_children(ETreeSorted *ets, ETreeSortedPath *path)
 	for (child = e_tree_model_node_get_first_child(ets->priv->source, path->corresponding);
 	     child;
 	     child = e_tree_model_node_get_next(ets->priv->source, child)) {
-		count ++;
+		count++;
 	}
 
 	path->num_children = count;
@@ -782,7 +782,7 @@ ets_get_children (ETreeModel *etm, ETreePath node, ETreePath **nodes)
 		gint i;
 
 		(*nodes) = g_malloc (sizeof (ETreePath) * n_children);
-		for (i = 0; i < n_children; i ++) {
+		for (i = 0; i < n_children; i++) {
 			(*nodes)[i] = path->children[i];
 		}
 	}
@@ -1027,7 +1027,7 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 		for (counter = e_tree_model_node_get_next(etm, child);
 		     counter;
 		     counter = e_tree_model_node_get_next(etm, counter))
-			position --;
+			position--;
 
 		if (position != parent_path->num_children) {
 			for (i = 0; i < parent_path->num_children; i++) {
@@ -1060,7 +1060,7 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 		} else {
 			mark_path_needs_resort(ets, parent_path, TRUE, FALSE);
 		}
-		parent_path->num_children ++;
+		parent_path->num_children++;
 		parent_path->children = g_renew(ETreeSortedPath *, parent_path->children, parent_path->num_children);
 		memmove(parent_path->children + i + 1, parent_path->children + i, (parent_path->num_children - 1 - i) * sizeof(gint));
 		parent_path->children[i] = path;
@@ -1098,12 +1098,12 @@ ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, gint
 		gint i;
 		for (i = 0; i < parent_path->num_children; i++) {
 			if (parent_path->children[i]->orig_position > old_position)
-				parent_path->children[i]->orig_position --;
+				parent_path->children[i]->orig_position--;
 		}
 
 		i = path->position;
 
-		parent_path->num_children --;
+		parent_path->num_children--;
 		memmove(parent_path->children + i, parent_path->children + i + 1, sizeof(ETreeSortedPath *) * (parent_path->num_children - i));
 		for (; i < parent_path->num_children; i++) {
 			parent_path->children[i]->position = i;

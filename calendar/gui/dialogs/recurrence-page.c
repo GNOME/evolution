@@ -493,7 +493,7 @@ get_start_weekday_mask (ECalComponent *comp)
 	e_cal_component_get_dtstart (comp, &dt);
 
 	if (dt.value) {
-		short weekday;
+		gshort weekday;
 
 		weekday = icaltime_day_of_week (*dt.value);
 		retval = 0x1 << (weekday - 1);
@@ -1325,7 +1325,7 @@ make_recurrence_special (RecurrencePage *rpage)
 
 /* Counts the elements in the by_xxx fields of an icalrecurrencetype */
 static gint
-count_by_xxx (short *field, gint max_elements)
+count_by_xxx (gshort *field, gint max_elements)
 {
 	gint i;
 

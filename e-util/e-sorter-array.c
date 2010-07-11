@@ -213,7 +213,7 @@ e_sorter_array_append  (ESorterArray *esa, gint count)
 				esa->sorted + pos,
 				sizeof (gint) * (esa->rows - pos));
 			esa->sorted[pos] = value;
-			esa->rows ++;
+			esa->rows++;
 		}
 	} else {
 		esa->rows += count;

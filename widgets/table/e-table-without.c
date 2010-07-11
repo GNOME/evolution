@@ -118,7 +118,7 @@ remove_row (ETableWithout *etw, gint view_row)
 		etss->map_table + view_row,
 		etss->map_table + view_row + 1,
 		(etss->n_map - view_row - 1) * sizeof (gint));
-	etss->n_map --;
+	etss->n_map--;
 	e_table_model_row_deleted (E_TABLE_MODEL (etw), view_row);
 }
 
@@ -325,7 +325,7 @@ void         e_table_without_hide       (ETableWithout *etw,
 	for (i = 0; i < etss->n_map; i++) {
 		if (check_with_key (etw, key, etw_view_to_model_row (etw, i))) {
 			remove_row (etw, i);
-			i --;
+			i--;
 		}
 	}
 }
@@ -341,7 +341,7 @@ void         e_table_without_hide_adopt (ETableWithout *etw,
 	for (i = 0; i < etss->n_map; i++) {
 		if (check_with_key (etw, key, etw_view_to_model_row (etw, i))) {
 			remove_row (etw, i);
-			i --;
+			i--;
 		}
 	}
 }

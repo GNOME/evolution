@@ -84,7 +84,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		/* iso-8859-1 */
 		ib = (gchar *) string;
 		new = ob = (gchar *)g_new (unsigned char, bytes * 2 + 1);
-		for (i = 0; i < (bytes); i ++) {
+		for (i = 0; i < (bytes); i++) {
 			ob += e_unichar_to_utf8 (ib[i], ob);
 		}
 		*ob = '\0';

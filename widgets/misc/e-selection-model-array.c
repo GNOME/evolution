@@ -148,9 +148,9 @@ e_selection_model_array_move_row(ESelectionModelArray *esma, gint old_row, gint 
 		new_row_sorted = es_row_model_to_sorted (esma, new_row);
 
 		if (old_row_sorted < esma->cursor_row_sorted && esma->cursor_row_sorted < new_row_sorted)
-			esma->cursor_row_sorted --;
+			esma->cursor_row_sorted--;
 		else if (new_row_sorted < esma->cursor_row_sorted && esma->cursor_row_sorted < old_row_sorted)
-			esma->cursor_row_sorted ++;
+			esma->cursor_row_sorted++;
 
 		e_bit_array_move_row(esma->eba, old_row, new_row);
 

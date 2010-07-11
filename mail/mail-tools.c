@@ -74,7 +74,9 @@ is_local_provider (CamelStore *store)
 }
 
 CamelFolder *
-mail_tool_get_trash (const gchar *url, gint connect, GError **error)
+mail_tool_get_trash (const gchar *url,
+                     gint connect,
+                     GError **error)
 {
 	CamelStore *store;
 	CamelFolder *trash;
@@ -88,7 +90,9 @@ mail_tool_get_trash (const gchar *url, gint connect, GError **error)
 	if (!store)
 		return NULL;
 
-	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED || is_local_provider (store))
+	if (connect ||
+		(CAMEL_SERVICE (store)->status == CAMEL_SERVICE_CONNECTED ||
+		is_local_provider (store)))
 		trash = camel_store_get_trash (store, error);
 	else
 		trash = NULL;
@@ -101,7 +105,8 @@ mail_tool_get_trash (const gchar *url, gint connect, GError **error)
 #ifndef G_OS_WIN32
 
 static gchar *
-mail_tool_get_local_movemail_path (const guchar *uri, GError **error)
+mail_tool_get_local_movemail_path (const guchar *uri,
+                                   GError **error)
 {
 	guchar *safe_uri, *c;
 	const gchar *data_dir;
@@ -244,10 +249,15 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 }
 
 void
-mail_tool_restore_xevolution_headers (CamelMimeMessage *message, struct _camel_header_raw *xev)
+mail_tool_restore_xevolution_headers (CamelMimeMessage *message,
+                                      struct _camel_header_raw *xev)
 {
+	CamelMedium *medium;
+
+	medium = CAMEL_MEDIUM (message);
+
 	for (;xev;xev=xev->next)
-		camel_medium_add_header((CamelMedium *)message, xev->name, xev->value);
+		camel_medium_add_header (medium, xev->name, xev->value);
 }
 
 CamelMimePart *
@@ -397,6 +407,7 @@ mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids)
 gchar *
 mail_tools_folder_to_url (CamelFolder *folder)
 {
+	CamelService *service;
 	CamelStore *parent_store;
 	const gchar *full_name;
 	CamelURL *url;
@@ -406,9 +417,10 @@ mail_tools_folder_to_url (CamelFolder *folder)
 
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
+	service = CAMEL_SERVICE (parent_store);
 
-	url = camel_url_copy(((CamelService *)parent_store)->url);
-	if (((CamelService *)parent_store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
+	url = camel_url_copy (service->url);
+	if (service->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
 		camel_url_set_fragment(url, full_name);
 	} else {
 		gchar *name = g_alloca(strlen(full_name)+2);

@@ -122,16 +122,15 @@ typedef struct {
 	gint current_item;
 } DbxImporter;
 
-
-static unsigned char oe56_mbox_sig[16] = {
+static guchar oe56_mbox_sig[16] = {
 	0xcf, 0xad, 0x12, 0xfe, 0xc5, 0xfd, 0x74, 0x6f,
 	0x66, 0xe3, 0xd1, 0x11, 0x9a, 0x4e, 0x00, 0xc0
 };
-static unsigned char oe56_flist_sig[16] = {
+static guchar oe56_flist_sig[16] = {
 	0xcf, 0xad, 0x12, 0xfe, 0xc6, 0xfd, 0x74, 0x6f,
 	0x66, 0xe3, 0xd1, 0x11, 0x9a, 0x4e, 0x00, 0xc0
 };
-static unsigned char oe4_mbox_sig[8] = {
+static guchar oe4_mbox_sig[8] = {
 	0x4a, 0x4d, 0x46, 0x36, 0x03, 0x00, 0x01, 0x00
 };
 
@@ -174,7 +173,7 @@ org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
 			}
 		}
 		close (fd);
-	}				
+	}
 
 	return ret;
 }
@@ -258,10 +257,10 @@ struct _dbx_tableindexstruct {
 	guint32 unknown1;
 	guint32 anotherTablePtr;
 	guint32 parent;
-	char unknown2;
-	char ptrCount;
-	char reserve3;
-	char reserve4;
+	gchar unknown2;
+	gchar ptrCount;
+	gchar reserve3;
+	gchar reserve4;
 	guint32 indexCount;
 };
 
@@ -274,26 +273,24 @@ struct _dbx_indexstruct {
 #define INDEX_POINTER 0xE4
 #define ITEM_COUNT 0xC4
 
-
 struct _dbx_email_headerstruct {
 	guint32 self;
 	guint32 size;
-	unsigned short int u1;
-	unsigned char count;
-	unsigned char u2;
+	gushort u1;
+	guchar count;
+	guchar u2;
 };
-
 
 struct _dbx_block_hdrstruct {
 	guint32 self;
 	guint32 nextaddressoffset;
-	unsigned short blocksize;
-	unsigned char intcount;
-	unsigned char unknown1;
+	gushort blocksize;
+	guchar intcount;
+	guchar unknown1;
 	guint32 nextaddress;
 };
 
-static int dbx_pread(gint fd, void *buf, guint32 count, guint32 offset)
+static gint dbx_pread(gint fd, gpointer buf, guint32 count, guint32 offset)
 {
 	if (lseek(fd, offset, SEEK_SET) != offset)
 		return -1;
@@ -332,7 +329,7 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 		if (!dbx_load_index_table(m, tindex.anotherTablePtr, index_ofs))
 			return FALSE;
 	}
-	
+
 	d(printf("Index at %x has ptrCount %d\n", pos, tindex.ptrCount));
 
 	pos += sizeof(tindex);
@@ -348,7 +345,7 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 		index.indexptr = GUINT32_FROM_LE(index.indexptr);
 		index.anotherTablePtr = GUINT32_FROM_LE(index.anotherTablePtr);
 		index.indexCount = GUINT32_FROM_LE(index.indexCount);
-		
+
 		if (*index_ofs == m->index_count) {
 			g_set_error (
 				&m->base.error,
@@ -477,7 +474,7 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 	struct _dbx_email_headerstruct hdr;
 	guchar *buffer;
 	guint32 dataptr = 0;
-	int i;
+	gint i;
 
 	if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
 		g_set_error (
@@ -511,7 +508,7 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 		guchar type = buffer[i*4];
 		gint val = buffer[i*4 + 1] + (buffer[i*4 + 2] << 8) + (buffer[i*4 + 3] << 16);
 
-		switch(type) {
+		switch (type) {
 		case 0x01:
 			*flags = buffer[hdr.count*4 + val];
 			d(printf("Got type 0x01 flags %02x\n", *flags));
@@ -594,7 +591,7 @@ dbx_import_file (DbxImporter *m)
 
 		camel_operation_progress(NULL, 100 * i / m->index_count);
 		camel_operation_progress(m->status, 100 * i / m->index_count);
-		
+
 		if (!dbx_read_email(m, m->indices[i], tmpfile, &dbx_flags)) {
 			d(printf("Cannot read email index %d at %x\n",
 				 i, m->indices[i]));

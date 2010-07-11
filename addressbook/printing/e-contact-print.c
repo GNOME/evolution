@@ -154,7 +154,8 @@ e_contact_text_height (GtkPrintContext *context,
 }
 
 static void
-e_contact_print_letter_heading (EContactPrintContext *ctxt, gchar *letter)
+e_contact_print_letter_heading (EContactPrintContext *ctxt,
+                                gchar *letter)
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
@@ -230,7 +231,8 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 }
 
 static gdouble
-e_contact_get_contact_height (EContact *contact, EContactPrintContext *ctxt)
+e_contact_get_contact_height (EContact *contact,
+                              EContactPrintContext *ctxt)
 {
 	GtkPageSetup *setup;
 	gchar *file_as;
@@ -278,7 +280,8 @@ e_contact_get_contact_height (EContact *contact, EContactPrintContext *ctxt)
 }
 
 static void
-e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
+e_contact_print_contact (EContact *contact,
+                         EContactPrintContext *ctxt)
 {
 	GtkPageSetup *setup;
 	gchar *file_as;
@@ -359,7 +362,8 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 }
 
 static gint
-contact_compare (EContact *contact1, EContact *contact2)
+contact_compare (EContact *contact1,
+                 EContact *contact2)
 {
 	const gchar *field1, *field2;
 
@@ -384,7 +388,8 @@ contact_compare (EContact *contact1, EContact *contact2)
 }
 
 static void
-contacts_added (EBookView *book_view, const GList *contact_list,
+contacts_added (EBookView *book_view,
+                const GList *contact_list,
                 EContactPrintContext *ctxt)
 {
 	while (contact_list != NULL) {
@@ -397,7 +402,10 @@ contacts_added (EBookView *book_view, const GList *contact_list,
 }
 
 static void
-view_complete (EBookView *book_view, EBookViewStatus status, const gchar *error_msg, EFlag *book_view_started)
+view_complete (EBookView *book_view,
+               EBookViewStatus status,
+               const gchar *error_msg,
+               EFlag *book_view_started)
 {
 	e_flag_set (book_view_started);
 }
@@ -431,7 +439,8 @@ get_float (gchar *data)
 }
 
 static void
-get_font (gchar *data, PangoFontDescription **variable)
+get_font (gchar *data,
+          PangoFontDescription **variable)
 {
 	PangoFontDescription *desc = NULL;
 
@@ -612,7 +621,8 @@ load_contacts (EContactPrintContext *ctxt)
 }
 
 static void
-contact_draw (EContact *contact, EContactPrintContext *ctxt)
+contact_draw (EContact *contact,
+              EContactPrintContext *ctxt)
 {
 	GtkPageSetup *setup;
 	gdouble page_height;
@@ -720,8 +730,8 @@ contact_begin_print (GtkPrintOperation *operation,
  * while printing*/
 void
 contact_page_draw_footer (GtkPrintOperation *operation,
-			  GtkPrintContext *context,
-			  gint page_nr)
+                          GtkPrintContext *context,
+                          gint page_nr)
 {
 	PangoFontDescription *desc;
 	PangoLayout *layout;
@@ -802,8 +812,10 @@ contact_end_print (GtkPrintOperation *operation,
 }
 
 void
-e_contact_print (EBook *book, EBookQuery *query,
-                 GList *contact_list, GtkPrintOperationAction action)
+e_contact_print (EBook *book,
+                 EBookQuery *query,
+                 GList *contact_list,
+                 GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
 	EContactPrintContext ctxt;

@@ -85,9 +85,8 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 		tag_calendar_by_client (dlg->ecal, client);
 }
 
-/* Event handler for day groups in the month item.  A button press makes the calendar jump to the
- * selected day and destroys the Go-to dialog box.
- */
+/* Event handler for day groups in the month item.  A button press makes
+ * the calendar jump to the selected day and destroys the Go-to dialog box. */
 static void
 ecal_event (ECalendarItem *calitem, gpointer user_data)
 {
@@ -193,13 +192,21 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 {
 	GtkAdjustment *adj;
 
-	g_signal_connect (dlg->month_combobox, "changed", G_CALLBACK (month_changed), dlg);
+	g_signal_connect (
+		dlg->month_combobox, "changed",
+		G_CALLBACK (month_changed), dlg);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (dlg->year));
-	g_signal_connect (adj, "value_changed", G_CALLBACK (year_changed), dlg);
+	g_signal_connect (
+		adj, "value_changed",
+		G_CALLBACK (year_changed), dlg);
 
-	g_signal_connect (dlg->ecal->calitem, "date_range_changed", G_CALLBACK (ecal_date_range_changed), dlg);
-	g_signal_connect (dlg->ecal->calitem, "selection_changed", G_CALLBACK (ecal_event), dlg);
+	g_signal_connect (
+		dlg->ecal->calitem, "date_range_changed",
+		G_CALLBACK (ecal_date_range_changed), dlg);
+	g_signal_connect (
+		dlg->ecal->calitem, "selection_changed",
+		G_CALLBACK (ecal_event), dlg);
 }
 
 /* Creates a "goto date" dialog and runs it */

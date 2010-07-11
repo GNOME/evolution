@@ -107,7 +107,7 @@ finalize (GObject *object)
 		g_free (config_listener->priv);
 	}
 
-	for ( list = g_list_first (groupwise_accounts); list; list = g_list_next (list) ) {
+	for (list = g_list_first (groupwise_accounts); list; list = g_list_next (list)) {
 
 		info = (GwAccountInfo *) (list->data);
 
@@ -494,7 +494,7 @@ get_addressbook_names_from_server (gchar *source_url)
 	cnc = NULL;
 
 	do {
-		count ++;
+		count++;
 		/*we have to uncache the password before prompting again*/
 		if (failed_auth) {
 			e_passwords_forget_password ("Groupwise", key);
@@ -986,7 +986,7 @@ camel_gw_listener_construct (CamelGwListener *config_listener)
 
 	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
 
-	for ( iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ); e_iterator_is_valid (iter); e_iterator_next (iter) ) {
+	for (iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ); e_iterator_is_valid (iter); e_iterator_next (iter)) {
 
 		account = E_ACCOUNT (e_iterator_get (iter));
 

@@ -853,7 +853,7 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 
 	key = strrchr (gconf_entry_get_key (entry), '/');
 	if (key) {
-		key ++;
+		key++;
 		if (!strcmp (key, "check_incoming"))
 			camel_session_set_check_junk (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
 	}

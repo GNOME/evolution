@@ -848,7 +848,7 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 		cairo_line_to (cr, right, y - yinc / 2);
 		cairo_set_line_width (cr, 1);
 		cairo_stroke (cr);
-		row ++;
+		row++;
 	}
 
 	pango_font_description_free (font_hour);
@@ -2780,7 +2780,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 				&page_start, &pages);
 
 			if (next_line) {
-				next_line ++;
+				next_line++;
 				if (!*next_line)
 					next_line = NULL;
 			}

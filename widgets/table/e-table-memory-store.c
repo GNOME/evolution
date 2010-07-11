@@ -544,7 +544,7 @@ e_table_memory_store_remove (ETableMemoryStore *etms, gint row)
 	model = E_TABLE_MODEL (etms);
 	column_count = e_table_model_column_count (model);
 
-	for (i = 0; i < column_count; i ++)
+	for (i = 0; i < column_count; i++)
 		e_table_model_free_value (model, i, e_table_model_value_at (model, i, row));
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (etms)) - 1;
@@ -567,8 +567,8 @@ e_table_memory_store_clear (ETableMemoryStore *etms)
 	row_count = e_table_model_row_count (model);
 	column_count = e_table_model_column_count (model);
 
-	for (i = 0; i < row_count; i ++) {
-		for (j = 0; j < column_count; j ++) {
+	for (i = 0; i < row_count; i++) {
+		for (j = 0; j < column_count; j++) {
 			e_table_model_free_value (model, j, e_table_model_value_at (model, j, i));
 		}
 	}

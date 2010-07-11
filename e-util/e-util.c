@@ -540,15 +540,15 @@ e_str_without_underscores (const gchar *string)
 	new_string = g_malloc (strlen (string) + 1);
 
 	dp = new_string;
-	for (sp = string; *sp != '\0'; sp ++) {
+	for (sp = string; *sp != '\0'; sp++) {
 		if (*sp != '_') {
 			*dp = *sp;
-			dp ++;
+			dp++;
 		} else if (sp[1] == '_') {
 			/* Translate "__" in "_".  */
 			*dp = '_';
-			dp ++;
-			sp ++;
+			dp++;
+			sp++;
 		}
 	}
 	*dp = 0;
@@ -687,7 +687,7 @@ e_format_number (gint number)
 		}
 		char_length += strlen(group);
 		list = g_list_prepend(list, group);
-		group_count ++;
+		group_count++;
 	}
 
 	if (list) {

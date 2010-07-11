@@ -96,27 +96,32 @@ load_source_auth_cb (EBook *book, const GError *error, gpointer closure)
 				   so that it wil valid for other servers which provide
 				   anonymous access*/
 
-				dialog = gtk_message_dialog_new (NULL,
-						0,
-						GTK_MESSAGE_WARNING,
-						GTK_BUTTONS_OK,
-						"%s", _("Accessing LDAP Server anonymously"));
-				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+				dialog = gtk_message_dialog_new (
+					NULL, 0,
+					GTK_MESSAGE_WARNING,
+					GTK_BUTTONS_OK,
+					"%s", _("Accessing LDAP Server anonymously"));
+				g_signal_connect (
+					dialog, "response",
+					G_CALLBACK(gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
 				error = NULL;
 
 				goto done;
 			}
-		} else if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_INVALID_SERVER_VERSION)) {
-			e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
-						     "addressbook:server-version",
-						     NULL);
+		} else if (g_error_matches (error, E_BOOK_ERROR,
+			E_BOOK_ERROR_INVALID_SERVER_VERSION)) {
+			e_alert_run_dialog_for_args (
+				e_shell_get_active_window (NULL),
+				"addressbook:server-version", NULL);
 			error = NULL;
 			goto done;
-		} else if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD)) {
+		} else if (g_error_matches (error, E_BOOK_ERROR,
+			E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD)) {
 			goto done;
 		} else {
-			if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_AUTHENTICATION_FAILED)) {
+			if (g_error_matches (error, E_BOOK_ERROR,
+				E_BOOK_ERROR_AUTHENTICATION_FAILED)) {
 				const gchar *uri = e_book_get_uri (book);
 				gchar *stripped_uri = remove_parameters_from_uri (uri);
 				const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");

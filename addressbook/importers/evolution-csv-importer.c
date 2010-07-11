@@ -671,7 +671,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 			else
 				g_string_append_c (line, c);
 		}
-		gci->count ++;
+		gci->count++;
 	}
 
 	str = g_string_new("");

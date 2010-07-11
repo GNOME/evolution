@@ -1045,7 +1045,7 @@ config_button_remove (GtkWidget *widget, ETableConfig *config)
 
 		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (gint) * (config->temp_state->col_count - row - 1));
 		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (gdouble) * (config->temp_state->col_count - row - 1));
-		config->temp_state->col_count --;
+		config->temp_state->col_count--;
 	}
 	config->temp_state->columns = g_renew (int, config->temp_state->columns, config->temp_state->col_count);
 	config->temp_state->expansions = g_renew (double, config->temp_state->expansions, config->temp_state->col_count);

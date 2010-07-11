@@ -495,7 +495,7 @@ render_contact (GString *buffer,
 						mail,
 						name ? "&gt;" : "",
 						attr_str ? attr_str : "");
-		email_num ++;
+		email_num++;
 		nl = "<br>";
 
 		g_free (html);

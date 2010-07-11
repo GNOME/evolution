@@ -526,7 +526,7 @@ ml_search_forward(MessageList *ml, gint start, gint end, guint32 flags, guint32 
 
 	etta = e_tree_get_table_adapter (E_TREE (ml));
 
-	for (row = start; row <= end; row ++) {
+	for (row = start; row <= end; row++) {
 		path = e_tree_table_adapter_node_at_row(etta, row);
 		if (path
 		    && (info = get_message_info(ml, path))
@@ -547,7 +547,7 @@ ml_search_backward(MessageList *ml, gint start, gint end, guint32 flags, guint32
 
 	etta = e_tree_get_table_adapter (E_TREE (ml));
 
-	for (row = start; row >= end; row --) {
+	for (row = start; row >= end; row--) {
 		path = e_tree_table_adapter_node_at_row(etta, row);
 		if (path
 		    && (info = get_message_info(ml, path))
@@ -3002,7 +3002,7 @@ find_next_selectable (MessageList *ml)
 		info = get_message_info (ml, node);
 		if (info && is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
-		vrow ++;
+		vrow++;
 	}
 
 	/* We didn't find any undeleted entries _below_ the currently selected one
@@ -3014,7 +3014,7 @@ find_next_selectable (MessageList *ml)
 		info = get_message_info (ml, node);
 		if (info && is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
-		vrow --;
+		vrow--;
 	}
 
 	return NULL;

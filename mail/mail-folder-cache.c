@@ -181,8 +181,10 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 
 		/* indicate that the folder has changed (new mail received, etc) */
 		if (up->uri) {
-			g_signal_emit (self, signals[FOLDER_CHANGED], 0, up->store,
-				       up->uri, up->full_name, up->new, up->msg_uid, up->msg_sender, up->msg_subject);
+			g_signal_emit (
+				self, signals[FOLDER_CHANGED], 0, up->store,
+				up->uri, up->full_name, up->new, up->msg_uid,
+				up->msg_sender, up->msg_subject);
 		}
 
 		if (CAMEL_IS_VEE_STORE (up->store) && !up->remove) {
@@ -239,7 +241,13 @@ flush_updates (MailFolderCache *self)
  * it's correct.  */
 
 static void
-update_1folder(MailFolderCache *self, struct _folder_info *mfi, gint new, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject, CamelFolderInfo *info)
+update_1folder (MailFolderCache *self,
+                struct _folder_info *mfi,
+                gint new,
+                const gchar *msg_uid,
+                const gchar *msg_sender,
+                const gchar *msg_subject,
+                CamelFolderInfo *info)
 {
 	struct _folder_update *up;
 	CamelFolder *folder;
@@ -252,9 +260,12 @@ update_1folder(MailFolderCache *self, struct _folder_info *mfi, gint new, const 
 
 		d(printf("update 1 folder '%s'\n", folder->full_name));
 		if ((self->priv->count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
-		    || (is_drafts = em_utils_folder_is_drafts (folder, info ? info->uri : NULL))
-		    || (is_outbox = em_utils_folder_is_outbox (folder, info ? info->uri : NULL))
-		    || (self->priv->count_sent && em_utils_folder_is_sent (folder, info ? info->uri : NULL))) {
+		    || (is_drafts = em_utils_folder_is_drafts (
+			folder, info ? info->uri : NULL))
+		    || (is_outbox = em_utils_folder_is_outbox (
+			folder, info ? info->uri : NULL))
+		    || (self->priv->count_sent && em_utils_folder_is_sent (
+			folder, info ? info->uri : NULL))) {
 			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count (folder);
 			if (is_drafts || is_outbox) {
@@ -323,7 +334,8 @@ folder_changed_cb (CamelFolder *folder,
 		last_newmail_per_folder = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	/* it's fine to hash them by folder pointer here */
-	latest_received = GPOINTER_TO_INT (g_hash_table_lookup (last_newmail_per_folder, folder));
+	latest_received = GPOINTER_TO_INT (
+		g_hash_table_lookup (last_newmail_per_folder, folder));
 
 	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
@@ -366,7 +378,9 @@ folder_changed_cb (CamelFolder *folder,
 	}
 
 	if (new > 0)
-		g_hash_table_insert (last_newmail_per_folder, folder, GINT_TO_POINTER (latest_received));
+		g_hash_table_insert (
+			last_newmail_per_folder, folder,
+			GINT_TO_POINTER (latest_received));
 
 	g_mutex_lock (self->priv->stores_mutex);
 	if (self->priv->stores != NULL
@@ -383,7 +397,10 @@ folder_changed_cb (CamelFolder *folder,
 }
 
 static void
-unset_folder_info(MailFolderCache *self, struct _folder_info *mfi, gint delete, gint unsub)
+unset_folder_info (MailFolderCache *self,
+                   struct _folder_info *mfi,
+                   gint delete,
+                   gint unsub)
 {
 	struct _folder_update *up;
 
@@ -561,7 +578,11 @@ folder_to_url(CamelStore *store, const gchar *full_name)
 }
 
 static void
-rename_folders(MailFolderCache *self, struct _store_info *si, const gchar *oldbase, const gchar *newbase, CamelFolderInfo *fi)
+rename_folders (MailFolderCache *self,
+                struct _store_info *si,
+                const gchar *oldbase,
+                const gchar *newbase,
+                CamelFolderInfo *fi)
 {
 	gchar *old, *olduri, *oldfile, *newuri, *newfile;
 	struct _folder_info *mfi;
@@ -772,10 +793,12 @@ ping_store_exec (struct _ping_store_msg *m)
 
 	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED) {
 		if (CAMEL_IS_DISCO_STORE (m->store) &&
-		    camel_disco_store_status (CAMEL_DISCO_STORE (m->store)) != CAMEL_DISCO_STORE_OFFLINE)
+			camel_disco_store_status (
+			CAMEL_DISCO_STORE (m->store)) !=CAMEL_DISCO_STORE_OFFLINE)
 			online = TRUE;
 		else if (CAMEL_IS_OFFLINE_STORE (m->store) &&
-			 CAMEL_OFFLINE_STORE (m->store)->state != CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
+			CAMEL_OFFLINE_STORE (m->store)->state !=
+			CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
 			online = TRUE;
 	}
 	if (online)
@@ -854,7 +877,8 @@ storeinfo_find_folder_info (CamelStore *store,
                             struct _find_info *fi)
 {
 	if (fi->fi == NULL) {
-		if (((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
+		if (((CamelService *)store)->provider->url_equal (
+			fi->url, ((CamelService *)store)->url)) {
 			gchar *path = fi->url->fragment?fi->url->fragment:fi->url->path;
 
 			if (path[0] == '/')
@@ -1077,12 +1101,13 @@ mail_folder_cache_note_store (MailFolderCache *self,
 
 	si = g_hash_table_lookup (self->priv->stores, store);
 	if (si == NULL) {
-		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
-
 		si = g_malloc0(sizeof(*si));
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
-		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
-						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
+		si->folders_uri = g_hash_table_new (
+			CAMEL_STORE_CLASS (
+			CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
+			CAMEL_STORE_CLASS (
+			CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
 		si->store = g_object_ref (store);
 		g_hash_table_insert(self->priv->stores, store, si);
 		g_queue_init (&si->folderinfo_updates);
@@ -1095,18 +1120,22 @@ mail_folder_cache_note_store (MailFolderCache *self,
 	ud->cancel = 0;
 	ud->cache = self;
 
-	/* We might get a race when setting up a store, such that it is still left in offline mode,
-	   after we've gone online.  This catches and fixes it up when the shell opens us */
+	/* We might get a race when setting up a store, such that it is
+	 * still left in offline mode, after we've gone online.  This
+	 * catches and fixes it up when the shell opens us. */
 	if (CAMEL_IS_DISCO_STORE (store)) {
-		if (camel_session_get_online (session)
-		    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
+		if (camel_session_get_online (session) &&
+			 camel_disco_store_status (CAMEL_DISCO_STORE (store)) ==
+			CAMEL_DISCO_STORE_OFFLINE) {
 			/* Note: we use the 'id' here, even though its not the right id, its still ok */
 			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
 		} else {
 			goto normal_setup;
 		}
 	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
-		if (camel_session_get_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+		if (camel_session_get_online (session) &&
+			CAMEL_OFFLINE_STORE (store)->state ==
+			CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
 			/* Note: we use the 'id' here, even though its not the right id, its still ok */
 			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
 		} else {
@@ -1121,7 +1150,8 @@ mail_folder_cache_note_store (MailFolderCache *self,
 
 	g_mutex_unlock (self->priv->stores_mutex);
 
-	/* there is potential for race here, but it is safe as we check for the store anyway */
+	/* there is potential for race here, but it is safe as we check
+	 * for the store anyway */
 	if (hook) {
 		g_signal_connect (
 			store, "folder-opened",
@@ -1316,7 +1346,9 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
 /* Returns whether folder 'folder' has children based on folder_info->child property.
    If not found returns FALSE and sets 'found' to FALSE, if not NULL. */
 gboolean
-mail_folder_cache_get_folder_has_children (MailFolderCache *self, CamelFolder *folder, gboolean *found)
+mail_folder_cache_get_folder_has_children (MailFolderCache *self,
+                                           CamelFolder *folder,
+                                           gboolean *found)
 {
 	gchar *uri = mail_tools_folder_to_url (folder);
 	struct _find_info fi = { uri, NULL, NULL };

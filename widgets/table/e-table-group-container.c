@@ -496,7 +496,7 @@ etgc_add (ETableGroup *etg, gint row)
 		if (comp_val == 0) {
 			e_table_sorting_utils_free_cmp_cache (cmp_cache);
 			child = child_node->child;
-			child_node->count ++;
+			child_node->count++;
 			e_table_group_add (child, row);
 			compute_text (etgc, child_node);
 			return;
@@ -598,7 +598,7 @@ etgc_remove (ETableGroup *etg, gint row)
 		ETableGroup                   *child = child_node->child;
 
 		if (e_table_group_remove (child, row)) {
-			child_node->count --;
+			child_node->count--;
 			if (child_node->count == 0) {
 				e_table_group_container_child_node_free (etgc, child_node);
 				etgc->children = g_list_remove (etgc->children, child_node);

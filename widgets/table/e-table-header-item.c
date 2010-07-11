@@ -1241,7 +1241,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 			ETableSortColumn column =
 				e_table_sort_info_grouping_get_nth(
 					ethi->sort_info, i);
-			group_indent ++;
+			group_indent++;
 			g_hash_table_insert (
 				arrows,
 				GINT_TO_POINTER ((gint) column.column),
@@ -1782,8 +1782,8 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 										e_table_sort_info_sorting_get_nth (ethi->sort_info, j));
 
 					e_table_sort_info_sorting_truncate (ethi->sort_info, length - 1);
-					length --;
-					i --;
+					length--;
+					i--;
 				} else {
 					ascending = !ascending;
 					column.ascending = ascending;

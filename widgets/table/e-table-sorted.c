@@ -220,7 +220,7 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row
 
 	etss->map_table = g_realloc (etss->map_table, (etss->n_map + count) * sizeof(gint));
 
-	for (; count > 0; count --) {
+	for (; count > 0; count--) {
 		if (!full_change)
 			e_table_model_pre_change (etm);
 		i = etss->n_map;
@@ -272,7 +272,7 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, gint row,
 				if (shift)
 					e_table_model_pre_change (etm);
 				memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(gint));
-				etss->n_map --;
+				etss->n_map--;
 				if (shift)
 					e_table_model_row_deleted (etm, i);
 			}

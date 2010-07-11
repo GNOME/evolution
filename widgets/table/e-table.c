@@ -1701,7 +1701,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 				  0, 1, 0 + row, 1 + row,
 				  GTK_FILL | GTK_EXPAND,
 				  GTK_FILL, 0, 0);
-		row ++;
+		row++;
 	}
 	gtk_table_attach (GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
 			  0, 1, 0 + row, 1 + row,

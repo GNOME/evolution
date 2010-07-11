@@ -329,7 +329,7 @@ delete_contacts (ContactCopyProcess *process)
 static void
 process_unref (ContactCopyProcess *process)
 {
-	process->count --;
+	process->count--;
 	if (process->count == 0) {
 		if (process->done_cb)
 			process->done_cb (process);
@@ -374,7 +374,7 @@ do_copy (gpointer data, gpointer user_data)
 
 	book = process->destination;
 
-	process->count ++;
+	process->count++;
 	eab_merging_book_add_contact(book, contact, contact_added_cb, process);
 }
 

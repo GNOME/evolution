@@ -1181,10 +1181,10 @@ encode_signature_uid (ESignature *signature)
 
 	s = uid;
 	while (*s) {
-		len ++;
+		len++;
 		if (*s == '"' || *s == '.' || *s == '=')
-			len ++;
-		s ++;
+			len++;
+		s++;
 	}
 
 	ename = g_new (gchar, len + 1);
@@ -1194,23 +1194,23 @@ encode_signature_uid (ESignature *signature)
 	while (*s) {
 		if (*s == '"') {
 			*e = '.';
-			e ++;
+			e++;
 			*e = '1';
-			e ++;
+			e++;
 		} else if (*s == '=') {
 			*e = '.';
-			e ++;
+			e++;
 			*e = '2';
-			e ++;
+			e++;
 		} else {
 			*e = *s;
-			e ++;
+			e++;
 		}
 		if (*s == '.') {
 			*e = '.';
-			e ++;
+			e++;
 		}
-		s ++;
+		s++;
 	}
 	*e = 0;
 
@@ -1226,13 +1226,13 @@ decode_signature_name (const gchar *name)
 
 	s = name;
 	while (*s) {
-		len ++;
+		len++;
 		if (*s == '.') {
-			s ++;
+			s++;
 			if (!*s || !(*s == '.' || *s == '1' || *s == '2'))
 				return NULL;
 		}
-		s ++;
+		s++;
 	}
 
 	dname = g_new (char, len + 1);
@@ -1241,7 +1241,7 @@ decode_signature_name (const gchar *name)
 	d = dname;
 	while (*s) {
 		if (*s == '.') {
-			s ++;
+			s++;
 			if (!*s || !(*s == '.' || *s == '1' || *s == '2')) {
 				g_free (dname);
 				return NULL;
@@ -1254,8 +1254,8 @@ decode_signature_name (const gchar *name)
 				*d = '.';
 		} else
 			*d = *s;
-		d ++;
-		s ++;
+		d++;
+		s++;
 	}
 	*d = 0;
 

@@ -183,8 +183,10 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if (g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
-	    g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
+	if (g_error_matches (error, E_CALENDAR_ERROR,
+		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
+	    g_error_matches (error, E_CALENDAR_ERROR,
+		E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
 		e_auth_cal_forget_password (client);
 
 	/* Handle errors. */
@@ -236,8 +238,10 @@ memo_shell_sidebar_default_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 
-	if (g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
-	    g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
+	if (g_error_matches (error, E_CALENDAR_ERROR,
+		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
+	    g_error_matches (error, E_CALENDAR_ERROR,
+		E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
 		e_auth_cal_forget_password (client);
 
 	/* Handle errors. */

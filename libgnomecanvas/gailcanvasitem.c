@@ -31,17 +31,17 @@ static gint       gail_canvas_item_get_index_in_parent      (AtkObject         *
 static AtkStateSet* gail_canvas_item_ref_state_set          (AtkObject         *obj);
 
 static void       gail_canvas_item_component_interface_init (AtkComponentIface *iface);
-static guint      gail_canvas_item_add_focus_handler        (AtkComponent      *component,
+static guint      gail_canvas_item_add_focus_handler        (AtkComponent *component,
 							     AtkFocusHandler   handler);
-static void       gail_canvas_item_get_extents              (AtkComponent      *component,
+static void       gail_canvas_item_get_extents              (AtkComponent *component,
 							     gint              *x,
 							     gint              *y,
 							     gint              *width,
 							     gint              *height,
 							     AtkCoordType      coord_type);
-static gint       gail_canvas_item_get_mdi_zorder           (AtkComponent      *component);
-static gboolean   gail_canvas_item_grab_focus               (AtkComponent      *component);
-static void       gail_canvas_item_remove_focus_handler     (AtkComponent      *component,
+static gint       gail_canvas_item_get_mdi_zorder           (AtkComponent *component);
+static gboolean   gail_canvas_item_grab_focus               (AtkComponent *component);
+static void       gail_canvas_item_remove_focus_handler     (AtkComponent *component,
 							     guint             handler_id);
 static gboolean   is_item_on_screen                         (GnomeCanvasItem   *item);
 static void       get_item_extents                          (GnomeCanvasItem   *item,
@@ -383,7 +383,8 @@ get_item_extents (GnomeCanvasItem   *item,
   bx1 = by1 = bx2 = by2 = 0.0;
 
   if (GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->bounds)
-    (* GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->bounds) (item, &bx1, &by1, &bx2, &by2);
+    GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->bounds (
+      item, &bx1, &by1, &bx2, &by2);
 
   /* Get the item coordinates -> canvas pixel coordinates affine */
 

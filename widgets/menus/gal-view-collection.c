@@ -443,11 +443,11 @@ load_single_dir (GalViewCollection *collection,
 			if (item->filename && *item->filename) {
 				collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 				collection->view_data[collection->view_count] = item;
-				collection->view_count ++;
+				collection->view_count++;
 			} else {
 				collection->removed_view_data = g_renew(GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
 				collection->removed_view_data[collection->removed_view_count] = item;
-				collection->removed_view_count ++;
+				collection->removed_view_count++;
 			}
 		}
 		g_free(id);
@@ -665,7 +665,7 @@ gal_view_collection_append                   (GalViewCollection *collection,
 
 	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
-	collection->view_count ++;
+	collection->view_count++;
 
 	gal_view_collection_changed(collection);
 }
@@ -682,14 +682,14 @@ gal_view_collection_delete_view              (GalViewCollection *collection,
 
 	item = collection->view_data[i];
 	memmove(collection->view_data + i, collection->view_data + i + 1, (collection->view_count - i - 1) * sizeof(GalViewCollectionItem *));
-	collection->view_count --;
+	collection->view_count--;
 	if (item->built_in) {
 		g_free(item->filename);
 		item->filename = NULL;
 
 		collection->removed_view_data = g_renew(GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
 		collection->removed_view_data[collection->removed_view_count] = item;
-		collection->removed_view_count ++;
+		collection->removed_view_count++;
 	} else {
 		gal_view_collection_item_free (item);
 	}
@@ -727,7 +727,7 @@ gal_view_collection_copy_view                (GalViewCollection *collection,
 
 	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
-	collection->view_count ++;
+	collection->view_count++;
 
 	gal_view_collection_changed(collection);
 }
@@ -770,7 +770,7 @@ gal_view_collection_append_with_title (GalViewCollection *collection, const gcha
 
 	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
-	collection->view_count ++;
+	collection->view_count++;
 
 	gal_view_collection_changed(collection);
 	return item->id;

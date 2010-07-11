@@ -295,7 +295,7 @@ org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t)
 	struct _org_gnome_audio_inline_pobject *pobj;
 	gchar *classid = g_strdup_printf ("org-gnome-audio-inline-button-panel-%d", org_gnome_audio_class_id_counter);
 
-	org_gnome_audio_class_id_counter ++;
+	org_gnome_audio_class_id_counter++;
 
 	d(printf ("audio inline formatter: format classid %s\n", classid));
 

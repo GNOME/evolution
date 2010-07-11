@@ -88,8 +88,11 @@ static const gchar *ui =
 "  </toolbar>"
 "</ui>";
 
-static void task_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
+static void	task_editor_edit_comp		(CompEditor *editor,
+						 ECalComponent *comp);
+static gboolean	task_editor_send_comp		(CompEditor *editor,
+						 ECalComponentItipMethod method,
+						 gboolean strip_alarms);
 
 G_DEFINE_TYPE (TaskEditor, task_editor, TYPE_COMP_EDITOR)
 
@@ -413,9 +416,12 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			EMeetingAttendee *ia;
 
 			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
-			/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
-			if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
-				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
+			/* If we aren't the organizer or the attendee is just
+			 * delegating, don't allow editing. */
+			if (!comp_editor_get_user_org (editor) ||
+				e_meeting_attendee_is_set_delto (ia))
+				e_meeting_attendee_set_edit_level (
+					ia,  E_MEETING_ATTENDEE_EDIT_NONE);
 			task_page_add_attendee (priv->task_page, ia);
 
 			g_object_unref (ia);
@@ -428,7 +434,9 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			EIterator *it;
 
 			accounts = itip_addresses_get ();
-			for (it = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(it);e_iterator_next(it)) {
+			for (it = e_list_get_iterator((EList *)accounts);
+				e_iterator_is_valid(it);
+				e_iterator_next(it)) {
 				EMeetingAttendee *ia;
 
 				account = (EAccount*)e_iterator_get(it);
@@ -451,13 +459,17 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}
 	e_cal_component_free_attendee_list (attendees);
 
-	comp_editor_set_needs_send (editor, priv->assignment_shown && itip_organizer_is_user (comp, client));
+	comp_editor_set_needs_send (
+		editor, priv->assignment_shown &&
+		itip_organizer_is_user (comp, client));
 
 	priv->updating = FALSE;
 }
 
 static gboolean
-task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms)
+task_editor_send_comp (CompEditor *editor,
+                       ECalComponentItipMethod method,
+                       gboolean strip_alarms)
 {
 	TaskEditorPrivate *priv;
 	ECalComponent *comp = NULL;
@@ -485,7 +497,8 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gbool
 
  parent:
 	if (COMP_EDITOR_CLASS (task_editor_parent_class)->send_comp)
-		return COMP_EDITOR_CLASS (task_editor_parent_class)->send_comp (editor, method, strip_alarms);
+		return COMP_EDITOR_CLASS (task_editor_parent_class)->
+			send_comp (editor, method, strip_alarms);
 
 	return FALSE;
 }

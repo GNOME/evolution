@@ -103,7 +103,8 @@ etfci_find_button (ETableFieldChooserItem *etfci, gdouble loc)
 		ecol = e_table_header_get_column (etfci->combined_header, i);
 		if (ecol->disabled)
 			continue;
-		height += e_table_header_compute_height (ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
+		height += e_table_header_compute_height (
+			ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
 		if (height > loc)
 			return i;
 	}
@@ -164,7 +165,8 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 		ecol = e_table_header_get_column (etfci->combined_header, i);
 		if (ecol->disabled)
 			continue;
-		height += e_table_header_compute_height (ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
+		height += e_table_header_compute_height (
+			ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
 	}
 
 	etfci->height = height;
@@ -176,14 +178,18 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 }
 
 static void
-etfci_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
+etfci_update (GnomeCanvasItem *item,
+              gdouble *affine,
+              ArtSVP *clip_path,
+              gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	gdouble   i2c [6];
 	ArtPoint c1, c2, i1, i2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update)(item, affine, clip_path, flags);
+		GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update (
+			item, affine, clip_path, flags);
 
 	i1.x = i1.y = 0;
 	i2.x = etfci->width;
@@ -198,17 +204,21 @@ etfci_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint fl
 	     item->x2 != c2.x ||
 	     item->y2 != c2.y)
 		{
-			gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+			gnome_canvas_request_redraw (
+				item->canvas, item->x1,
+				item->y1, item->x2, item->y2);
 			item->x1 = c1.x;
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
 /* FIXME: Group Child bounds !? */
 #if 0
-			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+			gnome_canvas_group_child_bounds (
+				GNOME_CANVAS_GROUP (item->parent), item);
 #endif
 		}
-	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+	gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
 static void
@@ -235,9 +245,11 @@ etfci_drop_full_header (ETableFieldChooserItem *etfci)
 
 	header = G_OBJECT (etfci->full_header);
 	if (etfci->full_header_structure_change_id)
-		g_signal_handler_disconnect (header, etfci->full_header_structure_change_id);
+		g_signal_handler_disconnect (
+			header, etfci->full_header_structure_change_id);
 	if (etfci->full_header_dimension_change_id)
-		g_signal_handler_disconnect (header, etfci->full_header_dimension_change_id);
+		g_signal_handler_disconnect (
+			header, etfci->full_header_dimension_change_id);
 	etfci->full_header_structure_change_id = 0;
 	etfci->full_header_dimension_change_id = 0;
 
@@ -249,19 +261,23 @@ etfci_drop_full_header (ETableFieldChooserItem *etfci)
 }
 
 static void
-full_header_structure_changed (ETableHeader *header, ETableFieldChooserItem *etfci)
+full_header_structure_changed (ETableHeader *header,
+                               ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
-full_header_dimension_changed (ETableHeader *header, gint col, ETableFieldChooserItem *etfci)
+full_header_dimension_changed (ETableHeader *header,
+                               gint col,
+                               ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
-etfci_add_full_header (ETableFieldChooserItem *etfci, ETableHeader *header)
+etfci_add_full_header (ETableFieldChooserItem *etfci,
+                       ETableHeader *header)
 {
 	etfci->full_header = header;
 	g_object_ref (etfci->full_header);
@@ -299,19 +315,23 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 }
 
 static void
-table_header_structure_changed (ETableHeader *header, ETableFieldChooserItem *etfci)
+table_header_structure_changed (ETableHeader *header,
+                                ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
-table_header_dimension_changed (ETableHeader *header, gint col, ETableFieldChooserItem *etfci)
+table_header_dimension_changed (ETableHeader *header,
+                                gint col,
+                                ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
-etfci_add_table_header (ETableFieldChooserItem *etfci, ETableHeader *header)
+etfci_add_table_header (ETableFieldChooserItem *etfci,
+                        ETableHeader *header)
 {
 	etfci->header = header;
 	g_object_ref (etfci->header);
@@ -326,7 +346,10 @@ etfci_add_table_header (ETableFieldChooserItem *etfci, ETableHeader *header)
 }
 
 static void
-etfci_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+etfci_set_property (GObject *object,
+                    guint prop_id,
+                    const GValue *value,
+                    GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ETableFieldChooserItem *etfci;
@@ -449,7 +472,12 @@ etfci_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
+etfci_draw (GnomeCanvasItem *item,
+            GdkDrawable *drawable,
+            gint x,
+            gint y,
+            gint width,
+            gint height)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
@@ -548,7 +576,8 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 
 	etfci->drag_col = ecol->col_idx;
 
-	etfci_drag_types[0].target = g_strdup_printf("%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
+	etfci_drag_types[0].target = g_strdup_printf (
+		"%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
 	d(g_print ("etfci - %s\n", etfci_drag_types[0].target));
 	list = gtk_target_list_new (etfci_drag_types, G_N_ELEMENTS (etfci_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);

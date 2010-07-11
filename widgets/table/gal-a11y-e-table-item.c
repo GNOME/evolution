@@ -42,13 +42,13 @@
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-e-table-column-header.h"
 
-#define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETableItemClass))
 static GObjectClass *parent_class;
 static AtkComponentIface *component_parent_iface;
 static GType parent_type;
 static gint priv_offset;
 static GQuark		quark_accessible_object = 0;
-#define GET_PRIVATE(object) ((GalA11yETableItemPrivate *) (((gchar *) object) + priv_offset))
+#define GET_PRIVATE(object) \
+	((GalA11yETableItemPrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETableItemPrivate {
@@ -156,7 +156,9 @@ eti_a11y_get_gobject (AtkObject *accessible)
 }
 
 static void
-eti_a11y_reset_focus_object (GalA11yETableItem *a11y, ETableItem *item, gboolean notify)
+eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
+                             ETableItem *item,
+                             gboolean notify)
 {
 	ESelectionModel * esm;
 	gint cursor_row, cursor_col, view_row, view_col;
@@ -270,7 +272,9 @@ eti_get_extents (AtkComponent *component,
 					coord_type);
 
 	if (parent && GAL_A11Y_IS_E_TABLE_CLICK_TO_ADD (parent)) {
-		ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (parent)));
+		ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (
+			atk_gobject_accessible_get_object (
+			ATK_GOBJECT_ACCESSIBLE (parent)));
 		if (etcta) {
 			*width = etcta->width;
 			*height = etcta->height;
@@ -366,9 +370,13 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 					   (GWeakNotify) cell_destroyed,
 					   ret);
 			/* if current cell is focused, add FOCUSED state */
-			if (e_selection_model_cursor_row (item->selection) == GAL_A11Y_E_CELL (ret)->row &&
-					e_selection_model_cursor_col (item->selection) == GAL_A11Y_E_CELL (ret)->model_col)
-				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (ret), ATK_STATE_FOCUSED, FALSE);
+			if (e_selection_model_cursor_row (item->selection) ==
+				GAL_A11Y_E_CELL (ret)->row &&
+				e_selection_model_cursor_col (item->selection) ==
+				GAL_A11Y_E_CELL (ret)->model_col)
+				gal_a11y_e_cell_add_state (
+					GAL_A11Y_E_CELL (ret),
+					ATK_STATE_FOCUSED, FALSE);
 		} else
 			ret = NULL;
 
@@ -565,7 +573,8 @@ table_is_row_selected (AtkTable *table, gint row)
 	if (!item)
 		return FALSE;
 
-	return e_selection_model_is_row_selected(item->selection, view_to_model_row (item, row));
+	return e_selection_model_is_row_selected (
+		item->selection, view_to_model_row (item, row));
 }
 
 static gboolean
@@ -697,8 +706,8 @@ eti_rows_inserted (ETableModel * model, gint row, gint count,
 	g_signal_emit_by_name (table_item, "row-inserted", row,
 			       count, NULL);
 
-        for (i = row; i < (row + count); i ++) {
-                for (j = 0; j < n_cols; j ++) {
+        for (i = row; i < (row + count); i++) {
+                for (j = 0; j < n_cols; j++) {
 			g_signal_emit_by_name (table_item,
 					       "children_changed::add",
                                                ( ((i + 1)*n_cols) + j), NULL, NULL);
@@ -713,7 +722,9 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 		  AtkObject * table_item)
 {
 	gint i,j, n_rows, n_cols, old_nrows;
-	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
+	ETableItem *item = E_TABLE_ITEM (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (table_item)));
 
 	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
         n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
@@ -727,8 +738,8 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 	g_signal_emit_by_name (table_item, "row-deleted", row,
 			       count, NULL);
 
-        for (i = row; i < (row + count); i ++) {
-                for (j = 0; j < n_cols; j ++) {
+        for (i = row; i < (row + count); i++) {
+                for (j = 0; j < n_cols; j++) {
 			g_signal_emit_by_name (table_item,
 					       "children_changed::remove",
                                                ( ((i + 1)*n_cols) + j), NULL, NULL);
@@ -797,8 +808,8 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         reorder = g_malloc0 (sizeof (gint) * n_cols);
 
         /* Compare with previously saved column headers. */
-        for ( i = 0; i < n_cols && cols[i]; i ++ ) {
-                for ( j = 0; j < prev_n_cols && prev_cols[j]; j ++ ) {
+        for (i = 0; i < n_cols && cols[i]; i++) {
+                for (j = 0; j < prev_n_cols && prev_cols[j]; j++) {
                         if (prev_cols [j] == cols[i] && i != j) {
 
                                 reorder_found = TRUE;
@@ -820,8 +831,8 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         }
 
         /* Now try to find if there are removed columns. */
-        for (i = 0; i < prev_n_cols && prev_cols[i]; i ++) {
-                for (j = 0; j < n_cols && cols[j]; j ++)
+        for (i = 0; i < prev_n_cols && prev_cols[i]; i++) {
+                for (j = 0; j < n_cols && cols[j]; j++)
                         if (prev_cols [j] == cols[i])
 				break;
 
@@ -843,19 +854,31 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 	if (removed_found) {
 		for (i = 0; i < prev_n_cols; i ++ ) {
 			if (prev_state[i] == ETI_HEADER_REMOVED) {
-				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-deleted", i, 1);
-				for (j = 0; j < n_rows; j ++)
-					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::remove", ((j+1)*prev_n_cols+i), NULL, NULL);
+				g_signal_emit_by_name (
+					G_OBJECT(a11y_item),
+					"column-deleted", i, 1);
+				for (j = 0; j < n_rows; j++)
+					g_signal_emit_by_name (
+						G_OBJECT(a11y_item),
+						"children_changed::remove",
+						((j+1)*prev_n_cols+i),
+						NULL, NULL);
 			}
 		}
 	}
 
 	if (added_found) {
-		for ( i = 0; i < n_cols; i ++ ) {
+		for (i = 0; i < n_cols; i++) {
 			if (state[i] == ETI_HEADER_NEW_ADDED) {
-				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-inserted", i, 1);
-				for (j = 0; j < n_rows; j ++)
-					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::add", ((j+1)*n_cols+i), NULL, NULL);
+				g_signal_emit_by_name (
+					G_OBJECT(a11y_item),
+					"column-inserted", i, 1);
+				for (j = 0; j < n_rows; j++)
+					g_signal_emit_by_name (
+						G_OBJECT(a11y_item),
+						"children_changed::add",
+						((j+1)*n_cols+i),
+						NULL, NULL);
 			}
 		}
 	}
@@ -899,16 +922,17 @@ eti_class_init (GalA11yETableItemClass *klass)
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	quark_accessible_object               = g_quark_from_static_string ("gtk-accessible-object");
+	quark_accessible_object =
+		g_quark_from_static_string ("gtk-accessible-object");
 
-	parent_class                          = g_type_class_ref (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->dispose                 = eti_dispose;
+	object_class->dispose = eti_dispose;
 
-	atk_object_class->get_n_children      = eti_get_n_children;
-	atk_object_class->ref_child           = eti_ref_child;
-	atk_object_class->initialize	      = eti_real_initialize;
-	atk_object_class->ref_state_set       = eti_ref_state_set;
+	atk_object_class->get_n_children = eti_get_n_children;
+	atk_object_class->ref_child = eti_ref_child;
+	atk_object_class->initialize = eti_real_initialize;
+	atk_object_class->ref_state_set = eti_ref_state_set;
 }
 
 static void
@@ -925,15 +949,16 @@ eti_init (GalA11yETableItem *a11y)
 
 /* atk selection */
 
-static void             atk_selection_interface_init    (AtkSelectionIface      *iface);
-static gboolean         selection_add_selection    (AtkSelection           *selection,
-						    gint                   i);
-static gboolean         selection_clear_selection  (AtkSelection           *selection);
-static AtkObject*       selection_ref_selection    (AtkSelection           *selection,
-						    gint                   i);
-static gint             selection_get_selection_count (AtkSelection           *selection);
-static gboolean         selection_is_child_selected (AtkSelection           *selection,
-						     gint                   i);
+static void	atk_selection_interface_init	(AtkSelectionIface *iface);
+static gboolean	selection_add_selection		(AtkSelection *selection,
+						 gint i);
+static gboolean	selection_clear_selection	(AtkSelection *selection);
+static AtkObject *
+		selection_ref_selection		(AtkSelection *selection,
+						 gint i);
+static gint	selection_get_selection_count	(AtkSelection *selection);
+static gboolean	selection_is_child_selected	(AtkSelection *selection,
+						 gint i);
 
 /* callbacks */
 static void eti_a11y_selection_model_removed_cb (ETableItem *eti,
@@ -995,11 +1020,13 @@ gal_a11y_e_table_item_get_type (void)
 			NULL
 		};
 
-		factory = atk_registry_get_factory (atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
 		parent_type = atk_object_factory_get_accessible_type (factory);
 
-		type = gal_a11y_type_register_static_with_private (PARENT_TYPE, "GalA11yETableItem", &info, 0,
-								   sizeof (GalA11yETableItemPrivate), &priv_offset);
+		type = gal_a11y_type_register_static_with_private (
+			PARENT_TYPE, "GalA11yETableItem", &info, 0,
+			sizeof (GalA11yETableItemPrivate), &priv_offset);
 
 		g_type_add_interface_static (type, ATK_TYPE_COMPONENT, &atk_component_info);
 		g_type_add_interface_static (type, ATK_TYPE_TABLE, &atk_table_info);
@@ -1051,7 +1078,8 @@ gal_a11y_e_table_item_new (ETableItem *item)
 							     item->selection);
 
 		/* find the TableItem's parent: table or tree */
-		GET_PRIVATE (a11y)->widget = gtk_widget_get_parent (GTK_WIDGET (item->parent.canvas));
+		GET_PRIVATE (a11y)->widget = gtk_widget_get_parent (
+			GTK_WIDGET (item->parent.canvas));
 		parent = gtk_widget_get_accessible (GET_PRIVATE (a11y)->widget);
 		name = atk_object_get_name (parent);
 		if (name)

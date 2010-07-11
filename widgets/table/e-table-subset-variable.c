@@ -110,7 +110,7 @@ etssv_remove    (ETableSubsetVariable *etssv,
 		if (etss->map_table[i] == row) {
 			e_table_model_pre_change (etm);
 			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(gint));
-			etss->n_map --;
+			etss->n_map--;
 
 			e_table_model_row_deleted (etm, i);
 			return TRUE;

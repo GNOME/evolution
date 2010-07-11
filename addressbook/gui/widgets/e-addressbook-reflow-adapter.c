@@ -170,7 +170,7 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 			this_height += 3;
 
 			height += this_height;
-			count ++;
+			count++;
 		}
 		g_free (string);
 	}
