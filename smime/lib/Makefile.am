@@ -12,6 +12,7 @@ libessmime_la_CPPFLAGS =				\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(CAMEL_CFLAGS)					\
 	$(CERT_UI_CFLAGS)
@@ -30,6 +31,7 @@ libessmime_la_SOURCES = 	\
 
 libessmime_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(CAMEL_LIBS)				\
 	$(CERT_UI_LIBS)

@@ -57,6 +57,7 @@ libeshell_la_CPPFLAGS =						\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(datadir)"\"				\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
@@ -92,6 +93,7 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/smclient/libeggsmclient.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(SHELL_LIBS)
 
