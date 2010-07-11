@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.31.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-11 14:19+0200\n"
-"PO-Revision-Date: 2010-07-11 14:38+0100\n"
+"PO-Revision-Date: 2010-07-11 17:25+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -1266,21 +1266,21 @@ msgstr ""
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
-msgstr "Motoren for denne adresseboken forsto ikke denne spørringen."
+msgstr "Motoren for denne adresseboken forsto ikke denne spørringen. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:154
-#, fuzzy, c-format
+#, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "Motoren for denne adresseboken nektet å utføre denne spørringen."
+msgstr "Motoren for denne adresseboken nektet å utføre denne spørringen. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "This query did not complete successfully. %s"
-msgstr "Denne spørringen ble ikke fullført."
+msgstr "Denne spørringen ble ikke fullført. %s"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:184
@@ -3457,27 +3457,27 @@ msgstr "T_rekk tilbake kommentar"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to a dbus error: %s"
-msgstr "Hendelsen kunne ikke slettes pga en feil"
+msgstr "Hendelsen kunne ikke slettes pga en feil i dbus: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to a dbus error: %s"
-msgstr "Oppgaven kunne ikke slettes pga en feil"
+msgstr "Oppgaven kunne ikke slettes pga en feil i dbus: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to a dbus error: %s"
-msgstr "Notatet kunne ikke slettes pga en feil"
+msgstr "Notatet kunne ikke slettes pga en feil i dbus: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to a dbus error: %s"
-msgstr "Oppføringen kunne ikke slettes pga en feil"
+msgstr "Oppføringen kunne ikke slettes pga en feil i dbus: %s"
 
 #: ../calendar/gui/dialogs/delete-error.c:75
 msgid "The event could not be deleted because permission was denied"
@@ -3497,27 +3497,27 @@ msgstr "Oppføringen kunne ikke slettes fordi tilgang ble nektet"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to an error: %s"
-msgstr "Hendelsen kunne ikke slettes pga en feil"
+msgstr "Hendelsen kunne ikke slettes pga en feil: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to an error: %s"
-msgstr "Oppgaven kunne ikke slettes pga en feil"
+msgstr "Oppgaven kunne ikke slettes pga en feil: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to an error: %s"
-msgstr "Notatet kunne ikke slettes pga en feil"
+msgstr "Notatet kunne ikke slettes pga en feil: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to an error: %s"
-msgstr "Oppføringen kunne ikke slettes pga en feil"
+msgstr "Oppføringen kunne ikke slettes pga en feil: %s"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:1
 msgid "Contacts..."
@@ -3761,35 +3761,30 @@ msgstr "_Tid:"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:17
-#, fuzzy
 msgctxt "eventpage"
 msgid "1 day before appointment"
 msgstr "1 dag før avtalen"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:19
-#, fuzzy
 msgctxt "eventpage"
 msgid "1 hour before appointment"
 msgstr "1 time før avtalen"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:21
-#, fuzzy
 msgctxt "eventpage"
 msgid "15 minutes before appointment"
 msgstr "15 minutter før avtalen"
 
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#, fuzzy
 msgctxt "eventpage"
 msgid "for"
 msgstr "i"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #: ../calendar/gui/dialogs/event-page.ui.h:25
-#, fuzzy
 msgctxt "eventpage"
 msgid "until"
 msgstr "til"
@@ -4047,28 +4042,24 @@ msgstr "dag(er)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:10
-#, fuzzy
 msgctxt "recurrpage"
 msgid "for"
-msgstr "i"
+msgstr "med"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
-#, fuzzy
 msgctxt "recurrpage"
 msgid "forever"
 msgstr "alltid"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
-#, fuzzy
 msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "måned(er)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:16
-#, fuzzy
 msgctxt "recurrpage"
 msgid "until"
 msgstr "til"
@@ -11755,7 +11746,12 @@ msgid_plural ""
 "%s have been updated, because they used just removed folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Filterregel «%s» ble oppdatert fordi den brukte en mappe som ble fjernet\n"
+"«%s»."
 msgstr[1] ""
+"Følgende filterregler\n"
+"%s ble oppdatert fordi de brukte en mappe som ble fjernet\n"
+"«%s»."
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 #: ../mail/mail-config.ui.h:2
@@ -12831,8 +12827,11 @@ msgid_plural ""
 "The following Search Folders\n"
 "%s have been updated, because they used just removed folder\n"
 "\"%s\"."
-msgstr[0] ""
+msgstr[0] "Søkemappe «%s» ble oppdatert fordi den bruke en mappe som er fjernet"
 msgstr[1] ""
+"Følgende søkemapper\n"
+"%s ble oppdatert fordi de brukte en mappe som ble fjernet\n"
+"«%s»."
 
 #: ../mail/mail-vfolder.c:1179
 msgid "Edit Search Folder"
@@ -20791,256 +20790,3 @@ msgstr "Velg alle"
 #: ../widgets/text/e-text.c:2487
 msgid "Input Methods"
 msgstr "Inndatametoder"
-
-#~ msgid "Success"
-#~ msgstr "Suksess"
-
-#~ msgid "Backend busy"
-#~ msgstr "Motor opptatt"
-
-#~ msgid "Repository offline"
-#~ msgstr "Frakoblet lager"
-
-#~ msgid "Address Book does not exist"
-#~ msgstr "Adresseboken eksisterer ikke"
-
-#~ msgid "No Self Contact defined"
-#~ msgstr "Egen kontaktinformasjon er ikke definert"
-
-#~ msgid "Permission denied"
-#~ msgstr "Tilgang nektet"
-
-#~ msgid "Contact not found"
-#~ msgstr "Kontakt ikke funnet"
-
-#~ msgid "Contact ID already exists"
-#~ msgstr "Kontakt-ID eksisterer allerede"
-
-#~ msgid "Protocol not supported"
-#~ msgstr "Protokollen er ikke støttet"
-
-#~ msgid "Could not cancel"
-#~ msgstr "Kunne ikke avbryte"
-
-#~ msgid "Authentication Failed"
-#~ msgstr "Autentisering feilet"
-
-#~ msgid "Authentication Required"
-#~ msgstr "Autentisering kreves"
-
-#~ msgid "TLS not Available"
-#~ msgstr "TLS er ikke tilgjengelig"
-
-#~ msgid "No such source"
-#~ msgstr "Ingen slik kilde"
-
-#~ msgid "Not available in offline mode"
-#~ msgstr "Ikke tilgjengelig i frakoblet modus"
-
-#~ msgid "Other error"
-#~ msgstr "Annen feil"
-
-#~ msgid "Invalid server version"
-#~ msgstr "Ugyldig versjon av tjener"
-
-#~ msgid "Unsupported authentication method"
-#~ msgstr "Autentiseringsmetoden er ikke støttet"
-
-#~ msgid "The event could not be deleted due to a corba error"
-#~ msgstr "Hendelsen kunne ikke slettes pga en CORBA-feil"
-
-#~ msgid "The task could not be deleted due to a corba error"
-#~ msgstr "Oppgaven kunne ikke slettes pga en CORBA-feil"
-
-#~ msgid "The memo could not be deleted due to a corba error"
-#~ msgstr "Notatet kunne ikke slettes pga en CORBA-feil"
-
-#~ msgid "The item could not be deleted due to a corba error"
-#~ msgstr "Oppføringen kunne ikke slettes pga en CORBA-feil"
-
-#~ msgid "Could not parse PGP message: Unknown error"
-#~ msgstr "Kunne ikke lese PGP-melding: Ukjent feil"
-
-#~ msgid "Text"
-#~ msgstr "Tekst"
-
-#~ msgid "Text to display"
-#~ msgstr "Tekst som skal vises"
-
-#~ msgid "X"
-#~ msgstr "X"
-
-#~ msgid "X position"
-#~ msgstr "X-posisjon"
-
-#~ msgid "Y"
-#~ msgstr "Y"
-
-#~ msgid "Y position"
-#~ msgstr "Y-posisjon"
-
-#~ msgid "Width"
-#~ msgstr "Bredde"
-
-#~ msgid "Width for text box"
-#~ msgstr "Bredde på tekstboks"
-
-#~ msgid "Height"
-#~ msgstr "Høyde"
-
-#~ msgid "Height for text box"
-#~ msgstr "Høyde på tekstboks"
-
-#~ msgid "Editable"
-#~ msgstr "Redigerbar"
-
-#~ msgid "Is this rich text item editable?"
-#~ msgstr "Er denne tekstoppføringen redigerbar?"
-
-#~ msgid "Visible"
-#~ msgstr "Synlig"
-
-#~ msgid "Is this rich text item visible?"
-#~ msgstr "Er denne tekstoppføringen synlig?"
-
-#~ msgid "Cursor Visible"
-#~ msgstr "Synlig markør"
-
-#~ msgid "Is the cursor visible in this rich text item?"
-#~ msgstr "Er markøren synlig i denne tekstoppføringen?"
-
-#~ msgid "Cursor Blink"
-#~ msgstr "Markøren blinker"
-
-#~ msgid "Does the cursor blink in this rich text item?"
-#~ msgstr "Blinker markøren i denne tekstoppføringen?"
-
-#~ msgid "Grow Height"
-#~ msgstr "Voks i høyden"
-
-#~ msgid "Wrap Mode"
-#~ msgstr "Brytningsmodus"
-
-#, fuzzy
-#~ msgid "Justification mode"
-#~ msgstr "Egendefinert varsling"
-
-#~ msgid "Direction"
-#~ msgstr "Retning"
-
-#~ msgid "Text direction"
-#~ msgstr "Tekstretning"
-
-#~ msgid "Anchor"
-#~ msgstr "Anker"
-
-#~ msgid "Anchor point for text"
-#~ msgstr "Ankerpunkt for tekst"
-
-#~ msgid "Left Margin"
-#~ msgstr "Venstre marg"
-
-#~ msgid "Right Margin"
-#~ msgstr "Høyre marg"
-
-#~ msgid "Indentation"
-#~ msgstr "Innrykk"
-
-#, fuzzy
-#~ msgid "Number of pixels for indentation"
-#~ msgstr "Antall enheter for å bestemme en forvalgt påminnelse."
-
-#, fuzzy
-#~ msgid "Text to render"
-#~ msgstr "Sva_r til avsender"
-
-#, fuzzy
-#~ msgid "Marked up text to render"
-#~ msgstr "Send _oppdateringer til deltakere"
-
-#~ msgid "Font"
-#~ msgstr "Skrift"
-
-#, fuzzy
-#~ msgid "Font description as a string"
-#~ msgstr "Ingen beskrivelse tilgjengelig."
-
-#~ msgid "Font description"
-#~ msgstr "Beskrivelse av skrift"
-
-#~ msgid "Font family"
-#~ msgstr "Skriftfamilie"
-
-#~ msgid "Font style"
-#~ msgstr "Stil for skrift"
-
-#, fuzzy
-#~ msgid "Font variant"
-#~ msgstr "inneholder"
-
-#~ msgid "Font size"
-#~ msgstr "Skriftstørrelse"
-
-#, fuzzy
-#~ msgid "Font points"
-#~ msgstr "inneholder"
-
-#~ msgid "Rise"
-#~ msgstr "Hev"
-
-#~ msgid "Strikethrough"
-#~ msgstr "Gjennomstrek"
-
-#~ msgid "Underline"
-#~ msgstr "Understrek"
-
-#~ msgid "Scale"
-#~ msgstr "Skaler"
-
-#~ msgid "Text color, as string"
-#~ msgstr "Tekstfarge som en streng"
-
-#~ msgid "Text color, as a GdkColor"
-#~ msgstr "Tekstfarge som en GdkColor"
-
-#~ msgid "Text width"
-#~ msgstr "Tekstbredde"
-
-#, fuzzy
-#~ msgid "Width of the rendered text"
-#~ msgstr "Bredde på e-postlistefeltet"
-
-#~ msgid "Text height"
-#~ msgstr "Teksthøyde"
-
-#, fuzzy
-#~ msgid "Height of the rendered text"
-#~ msgstr "Høyde på e-postlistefeltet"
-
-#, fuzzy
-#~ msgid "Font family set"
-#~ msgstr "Etternavn"
-
-#, fuzzy
-#~ msgid "Font style set"
-#~ msgstr "Stil for utforming"
-
-#, fuzzy
-#~ msgid "Rise set"
-#~ msgstr "er satt"
-
-#, fuzzy
-#~ msgid "Underline set"
-#~ msgstr "Udefinert"
-
-#, fuzzy
-#~ msgid "Scale set"
-#~ msgstr "Dato sendt"
-
-#, fuzzy
-#~ msgid "Antialiased"
-#~ msgstr "Uten navn"
-
-#, fuzzy
-#~ msgid "The antialiasing mode of the canvas."
-#~ msgstr "Det finnes en annen kontakt."
