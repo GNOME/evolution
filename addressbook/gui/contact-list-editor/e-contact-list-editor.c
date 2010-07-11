@@ -751,6 +751,7 @@ contact_list_editor_select_button_clicked_cb (GtkWidget *widget)
 	ENameSelectorDialog *dialog;
 	EDestinationStore *store;
 	GList *list, *iter;
+	GtkWindow *window;
 
 	editor = contact_list_editor_extract (widget);
 
@@ -774,8 +775,9 @@ contact_list_editor_select_button_clicked_cb (GtkWidget *widget)
 
 	g_list_free (list);
 
-	e_name_selector_show_dialog (editor->priv->name_selector,
-				     eab_editor_get_window (EAB_EDITOR (editor)));
+	window = eab_editor_get_window (EAB_EDITOR (editor));
+	e_name_selector_show_dialog (
+		editor->priv->name_selector, GTK_WIDGET (window));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_hide (GTK_WIDGET (dialog));
 

@@ -187,6 +187,8 @@ message_push (Message *msg)
  * use a static ring-buffer so we can call this twice
  * in a printf without getting nonsense results.
  */
+d(#define DEBUGGING_ON)
+#ifdef DEBUGGING_ON
 static const gchar *
 e_ctime (const time_t *timep)
 {
@@ -201,6 +203,7 @@ e_ctime (const time_t *timep)
 
   return ret;
 }
+#endif
 
 /* Queues an alarm trigger for midnight so that we can load the next day's worth
  * of alarms.
