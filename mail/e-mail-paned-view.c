@@ -586,6 +586,8 @@ mail_paned_view_constructed (GObject *object)
 	web_view = em_format_html_get_web_view (
 		EM_FORMAT_HTML (priv->formatter));
 
+	e_mail_reader_init (E_MAIL_READER(object));
+
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);

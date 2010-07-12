@@ -37,6 +37,7 @@ libevolution_mail_la_CPPFLAGS =				\
 mailinclude_HEADERS =					\
 	e-mail-view.h					\
 	e-mail-paned-view.h				\
+	e-mail-notebook-view.h				\
 	e-mail-attachment-bar.h				\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
@@ -96,6 +97,7 @@ mailinclude_HEADERS =					\
 libevolution_mail_la_SOURCES =				\
 	e-mail-view.c					\
 	e-mail-paned-view.c				\
+	e-mail-notebook-view.c				\
 	e-mail-attachment-bar.c				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
