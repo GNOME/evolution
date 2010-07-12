@@ -203,6 +203,24 @@ mail_notebook_view_get_window (EMailReader *reader)
 	return GTK_WINDOW (shell_window);
 }
 
+static int
+emnv_get_page_num (EMailNotebookView *view,
+		   GtkWidget *widget)
+{
+	EMailNotebookViewPrivate *priv = view->priv;
+	int i, n;
+	
+	n = gtk_notebook_get_n_pages (priv->book);
+
+	for (i=0; i<n; i++) {
+		GtkWidget *curr = gtk_notebook_get_nth_page (priv->book, i);
+		if (curr == widget)
+			return i;
+	}
+
+	g_warn_if_reached ();
+}
+
 static void
 mail_notebook_view_set_folder (EMailReader *reader,
                                CamelFolder *folder,
@@ -216,15 +234,21 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 	new_view = g_hash_table_lookup (priv->views, folder_uri);
 	if (new_view) {
+		int curr = emnv_get_page_num (E_MAIL_NOTEBOOK_VIEW (reader), new_view);
 		priv->current_view = (EMailView *)new_view;
+		gtk_notebook_set_current_page (priv->book, curr);
 		return;
 	}
 
 	if (folder || folder_uri) {
+		int page;
+
 		new_view = e_mail_paned_view_new (E_MAIL_VIEW(reader)->content);
 		gtk_widget_show (new_view);
-		gtk_notebook_append_page (priv->book, new_view, gtk_label_new (camel_folder_get_full_name(folder)));
+		page = gtk_notebook_append_page (priv->book, new_view, gtk_label_new (camel_folder_get_full_name(folder)));
 		e_mail_reader_set_folder (E_MAIL_READER(new_view), folder, folder_uri);
+		gtk_notebook_set_current_page (priv->book, page);
+		g_hash_table_insert (priv->views, g_strdup(folder_uri), new_view);
 	}
 }
 
