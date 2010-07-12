@@ -2304,7 +2304,6 @@ mail_reader_set_folder (EMailReader *reader,
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	printf("PRIV %p\n", priv);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -2849,7 +2848,6 @@ e_mail_reader_init (EMailReader *reader)
 		menu_tool_action, "activate",
 		G_CALLBACK (action_mail_forward_cb), reader);
 
-	if (action_group) {
 	gtk_action_group_add_action_with_accel (
 		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
 
