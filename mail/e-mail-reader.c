@@ -2999,6 +2999,21 @@ e_mail_reader_init (EMailReader *reader)
 }
 
 void
+e_mail_reader_init_private (EMailReader *reader)
+{
+	
+	quark_private = g_quark_from_static_string ("EMailReader-private");
+
+	g_object_set_qdata_full (
+		G_OBJECT (reader), quark_private,
+		g_slice_new0 (EMailReaderPrivate),
+		(GDestroyNotify) mail_reader_private_free);
+	g_signal_connect (
+		reader, "destroy",
+		G_CALLBACK (mail_reader_destroy), NULL);
+}
+
+void
 e_mail_reader_changed (EMailReader *reader)
 {
 	g_return_if_fail (E_IS_MAIL_READER (reader));

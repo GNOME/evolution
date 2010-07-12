@@ -120,7 +120,15 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 static GtkActionGroup *
 mail_shell_content_get_action_group (EMailReader *reader)
 {
-	return e_mail_reader_get_action_group (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));	
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);	
 }
 
 static EMFormatHTML *

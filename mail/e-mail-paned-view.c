@@ -576,7 +576,8 @@ mail_paned_view_constructed (GObject *object)
 	priv->formatter = em_format_html_display_new ();
 
 	/* Chain up to parent's constructed() method. */
-	//G_OBJECT_CLASS (parent_class)->constructed (object);
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	shell_content = E_MAIL_VIEW (object)->content;
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -585,8 +586,6 @@ mail_paned_view_constructed (GObject *object)
 
 	web_view = em_format_html_get_web_view (
 		EM_FORMAT_HTML (priv->formatter));
-
-	e_mail_reader_init (E_MAIL_READER(object));
 
 	/* Build content widgets. */
 
@@ -641,6 +640,8 @@ mail_paned_view_constructed (GObject *object)
 		E_MAIL_PANED_VIEW (object));
 
 	/* Message list customizations. */
+
+	e_mail_reader_init_private (E_MAIL_READER(object));
 
 	reader = E_MAIL_READER (object);
 	message_list = e_mail_reader_get_message_list (reader);
