@@ -34,6 +34,7 @@
 #include "e-mail-config-web-view.h"
 
 #include "mail/e-mail-paned-view.h"
+#include "mail/e-mail-notebook-view.h"
 
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
@@ -54,6 +55,7 @@ e_module_load (GTypeModule *type_module)
 	e_mail_shell_backend_register_type (type_module);
 	e_mail_shell_content_register_type (type_module);
 	e_mail_paned_view_register_type (type_module);	
+	e_mail_notebook_view_register_type (type_module);
 	e_mail_shell_sidebar_register_type (type_module);
 	e_mail_shell_view_register_type (type_module);
 

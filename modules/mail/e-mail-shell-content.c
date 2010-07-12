@@ -40,6 +40,7 @@
 
 #include "e-mail-view.h"
 #include "e-mail-paned-view.h"
+#include "e-mail-notebook-view.h"
 #include "e-mail-reader.h"
 #include "e-mail-reader-utils.h"
 #include "e-mail-shell-backend.h"
@@ -93,7 +94,7 @@ mail_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 
-	widget = e_mail_paned_view_new (E_SHELL_CONTENT(object));
+	widget = e_mail_notebook_view_new (E_SHELL_CONTENT(object));
 	E_MAIL_SHELL_CONTENT(object)->view = (EMailView *)widget;
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -114,6 +115,64 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	gtk_widget_grab_focus (e_mail_reader_get_message_list(E_MAIL_READER (E_MAIL_SHELL_CONTENT(shell_content)->view)));
+}
+
+static GtkActionGroup *
+mail_shell_content_get_action_group (EMailReader *reader)
+{
+	return e_mail_reader_get_action_group (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));	
+}
+
+static EMFormatHTML *
+mail_shell_content_get_formatter (EMailReader *reader)
+{
+	return e_mail_reader_get_formatter (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
+}
+
+static gboolean
+mail_shell_content_get_hide_deleted (EMailReader *reader)
+{
+	return e_mail_reader_get_hide_deleted (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
+}
+
+static GtkWidget *
+mail_shell_content_get_message_list (EMailReader *reader)
+{
+	return e_mail_reader_get_message_list (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
+}
+
+static GtkMenu *
+mail_shell_content_get_popup_menu (EMailReader *reader)
+{
+	return e_mail_reader_get_popup_menu (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
+}
+
+static EShellBackend *
+mail_shell_content_get_shell_backend (EMailReader *reader)
+{
+	return e_mail_reader_get_shell_backend (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
+}
+
+static GtkWindow *
+mail_shell_content_get_window (EMailReader *reader)
+{
+	return e_mail_reader_get_window (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
+}
+
+static void
+mail_shell_content_set_folder (EMailReader *reader,
+                               CamelFolder *folder,
+                               const gchar *folder_uri)
+{
+	return e_mail_reader_set_folder (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view), 
+					 folder,
+					 folder_uri);
+}
+
+static void
+mail_shell_content_show_search_bar (EMailReader *reader)
+{
+	e_mail_reader_show_search_bar (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));
 }
 
 static void
@@ -151,6 +210,20 @@ e_mail_shell_content_get_type (void)
 	return mail_shell_content_type;
 }
 
+static void
+mail_shell_content_reader_init (EMailReaderIface *iface)
+{
+	iface->get_action_group = mail_shell_content_get_action_group;
+	iface->get_formatter = mail_shell_content_get_formatter;
+	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
+	iface->get_message_list = mail_shell_content_get_message_list;
+	iface->get_popup_menu = mail_shell_content_get_popup_menu;
+	iface->get_shell_backend = mail_shell_content_get_shell_backend;
+	iface->get_window = mail_shell_content_get_window;
+	iface->set_folder = mail_shell_content_set_folder;
+	iface->show_search_bar = mail_shell_content_show_search_bar;
+}
+
 void
 e_mail_shell_content_register_type (GTypeModule *type_module)
 {
@@ -167,9 +240,19 @@ e_mail_shell_content_register_type (GTypeModule *type_module)
 		NULL   /* value_table */
 	};
 
+	static const GInterfaceInfo reader_info = {
+		(GInterfaceInitFunc) mail_shell_content_reader_init,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+
 	mail_shell_content_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_CONTENT,
 		"EMailShellContent", &type_info, 0);
+
+	g_type_module_add_interface (
+		type_module, mail_shell_content_type,
+		E_TYPE_MAIL_READER, &reader_info);	
 
 }
 
