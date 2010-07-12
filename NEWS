@@ -1,3 +1,42 @@
+Evolution 2.31.5 2010-07-12
+---------------------------
+
+Bug Fixes:
+	Bug 624128 - Folder -> Subscriptions is always enabled (Matthew Barnes)
+	Bug 621839 - Improve auto-selection of messages (take two)
+	             (Matthew Barnes)
+	Bug 623702 - SEGV on redirecting message (Matthew Barnes)
+	Bug 623738 - Select All is always enabled for message list
+	             (Matthew Barnes)
+	Bug 623947 - Error handling issues in em-format.c (Matthew Barnes)
+	Bug 624011 - EMeetingTimeSelector tries to change mouse cursor
+	             before it's realized (Matthew Barnes)
+	Bug 624022 - "stock_mail-import" no longer exists in gnome-icon-theme
+	             (Matthew Barnes)
+	Bug 623204 - Be able to report detailed errors from backends
+	             (Milan Crha)
+	Bug 623796 - Post Message to List asks for confirmation on close
+	             (Milan Crha)
+	Bug 623432 - Use gweather-3.0 when building with gtk3
+	             (Maciej Piechotka)
+	Bug 623201 - Set default options automatically while creating a
+	             new account (Chenthill Palanisamy)
+
+Other Changes:
+	* Fix places where "~/.evolution" is hard-coded. (Matthew Barnes)
+	* Migrate from CamelException to GError. (Matthew Barnes)
+	* Fix transience problems with ENameSelectorDialogs ... (Michael Meeks)
+	* Allow edit accounts in the capplet to go fwd/back (Srinivasa Ragavan)
+	* Work around sudden disappearance of GdkRegion in GTK+ 2.90.5.
+	  (Matthew Barnes)
+
+Translations:
+	Jorge González (es)
+	Fran Diéguez (gl)
+	Kjartan Maraas (nb)
+	Matej Urban¿i¿ (sl)
+	Andrej ¿nidar¿i¿ (sl)
+
 Evolution 2.31.4 2010-06-29
 ---------------------------
 
