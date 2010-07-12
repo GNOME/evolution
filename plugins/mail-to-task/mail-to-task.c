@@ -1100,12 +1100,10 @@ static GtkActionEntry single_selection_entries[] = {
 
 static void
 update_actions_any_cb (EMailReader *reader,
+                       guint32 state,
                        GtkActionGroup *action_group)
 {
 	gboolean sensitive;
-	guint32 state;
-
-	state = e_mail_reader_check_state (reader);
 
 	sensitive =
 		(state & E_MAIL_READER_SELECTION_SINGLE) ||
@@ -1116,12 +1114,10 @@ update_actions_any_cb (EMailReader *reader,
 
 static void
 update_actions_one_cb (EMailReader *reader,
+                       guint32 state,
                        GtkActionGroup *action_group)
 {
 	gboolean sensitive;
-	guint32 state;
-
-	state = e_mail_reader_check_state (reader);
 
 	sensitive = (state & E_MAIL_READER_SELECTION_SINGLE);
 

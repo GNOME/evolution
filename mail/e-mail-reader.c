@@ -28,6 +28,7 @@
 #include <X11/XF86keysym.h>
 #endif
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-binding.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
@@ -2112,7 +2113,8 @@ mail_reader_set_message (EMailReader *reader,
 }
 
 static void
-mail_reader_update_actions (EMailReader *reader)
+mail_reader_update_actions (EMailReader *reader,
+                            guint32 state)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -2120,7 +2122,6 @@ mail_reader_update_actions (EMailReader *reader)
 	GtkAction *action;
 	const gchar *action_name;
 	gboolean sensitive;
-	guint32 state;
 
 	/* Be descriptive. */
 	gboolean any_messages_selected;
@@ -2128,7 +2129,7 @@ mail_reader_update_actions (EMailReader *reader)
 	gboolean enable_flag_clear;
 	gboolean enable_flag_completed;
 	gboolean enable_flag_for_followup;
-	gboolean have_an_account;
+	gboolean have_enabled_account;
 	gboolean multiple_messages_selected;
 	gboolean selection_has_deleted_messages;
 	gboolean selection_has_important_messages;
@@ -2141,8 +2142,6 @@ mail_reader_update_actions (EMailReader *reader)
 	gboolean selection_is_mailing_list;
 	gboolean single_message_selected;
 
-	state = e_mail_reader_check_state (reader);
-
 	shell_backend = e_mail_reader_get_shell_backend (reader);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -2154,8 +2153,8 @@ mail_reader_update_actions (EMailReader *reader)
 	disable_printing = FALSE;
 #endif
 
-	have_an_account =
-		(state & E_MAIL_READER_HAVE_ACCOUNT);
+	have_enabled_account =
+		(state & E_MAIL_READER_HAVE_ENABLED_ACCOUNT);
 	single_message_selected =
 		(state & E_MAIL_READER_SELECTION_SINGLE);
 	multiple_messages_selected =
@@ -2240,42 +2239,42 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward";
-	sensitive = have_an_account && any_messages_selected;
+	sensitive = have_enabled_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-attached";
-	sensitive = have_an_account && any_messages_selected;
+	sensitive = have_enabled_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-attached-full";
-	sensitive = have_an_account && any_messages_selected;
+	sensitive = have_enabled_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-as-menu";
-	sensitive = have_an_account && any_messages_selected;
+	sensitive = have_enabled_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-inline";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-inline-full";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-quoted";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-quoted-full";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2327,12 +2326,12 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-message-edit";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-message-new";
-	sensitive = have_an_account;
+	sensitive = have_enabled_account;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2392,23 +2391,23 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-redirect";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-all";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-list";
-	sensitive = have_an_account && single_message_selected &&
+	sensitive = have_enabled_account && single_message_selected &&
 		selection_is_mailing_list;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-sender";
-	sensitive = have_an_account && single_message_selected;
+	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2524,8 +2523,9 @@ mail_reader_class_init (EMailReaderIface *iface)
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EMailReaderIface, update_actions),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_cclosure_marshal_VOID__UINT,
+		G_TYPE_NONE, 1,
+		G_TYPE_UINT);
 }
 
 GType
@@ -2752,6 +2752,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_undeleted = FALSE;
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
+	gboolean have_enabled_account = FALSE;
 	gboolean drafts_or_outbox;
 	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
@@ -2854,8 +2855,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		camel_folder_free_message_info (folder, info);
 	}
 
-	if (em_utils_check_user_can_send_mail ())
-		state |= E_MAIL_READER_HAVE_ACCOUNT;
+	if (e_get_any_enabled_account () != NULL)
+		state |= E_MAIL_READER_HAVE_ENABLED_ACCOUNT;
 	if (uids->len == 1)
 		state |= E_MAIL_READER_SELECTION_SINGLE;
 	if (uids->len > 1)
@@ -2896,11 +2897,12 @@ e_mail_reader_check_state (EMailReader *reader)
 }
 
 void
-e_mail_reader_update_actions (EMailReader *reader)
+e_mail_reader_update_actions (EMailReader *reader,
+                              guint32 state)
 {
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	g_signal_emit (reader, signals[UPDATE_ACTIONS], 0);
+	g_signal_emit (reader, signals[UPDATE_ACTIONS], 0, state);
 }
 
 GtkAction *

@@ -60,7 +60,7 @@ typedef struct _EMailReader EMailReader;
 typedef struct _EMailReaderIface EMailReaderIface;
 
 enum {
-	E_MAIL_READER_HAVE_ACCOUNT			= 1 << 0,
+	E_MAIL_READER_HAVE_ENABLED_ACCOUNT		= 1 << 0,
 	E_MAIL_READER_SELECTION_SINGLE			= 1 << 1,
 	E_MAIL_READER_SELECTION_MULTIPLE		= 1 << 2,
 	E_MAIL_READER_SELECTION_CAN_ADD_SENDER		= 1 << 3,
@@ -102,14 +102,16 @@ struct _EMailReaderIface {
 
 	/* Signals */
 	void		(*show_search_bar)	(EMailReader *reader);
-	void		(*update_actions)	(EMailReader *reader);
+	void		(*update_actions)	(EMailReader *reader,
+						 guint32 state);
 };
 
 GType		e_mail_reader_get_type		(void);
 void		e_mail_reader_init		(EMailReader *reader);
 void		e_mail_reader_changed		(EMailReader *reader);
 guint32		e_mail_reader_check_state	(EMailReader *reader);
-void		e_mail_reader_update_actions	(EMailReader *reader);
+void		e_mail_reader_update_actions	(EMailReader *reader,
+						 guint32 state);
 GtkAction *	e_mail_reader_get_action	(EMailReader *reader,
 						 const gchar *action_name);
 GtkActionGroup *

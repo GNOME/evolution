@@ -785,6 +785,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_trash;
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
+	gboolean have_enabled_account;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
@@ -795,7 +796,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	reader = E_MAIL_READER (mail_shell_content);
-	e_mail_reader_update_actions (reader);
+	state = e_mail_reader_check_state (reader);
+	e_mail_reader_update_actions (reader, state);
+
+	have_enabled_account =
+		(state & E_MAIL_READER_HAVE_ENABLED_ACCOUNT);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -856,6 +861,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 		g_free (uri);
 	}
+
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
 	sensitive = (account != NULL) && folder_is_store;
@@ -918,6 +924,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
 	sensitive = folder_has_unread_rec && !folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);
+	sensitive = have_enabled_account;
 	gtk_action_set_sensitive (action, sensitive);
 
 	e_mail_shell_view_update_popup_labels (mail_shell_view);

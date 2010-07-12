@@ -137,3 +137,45 @@ e_get_account_by_uid (const gchar *uid)
 	/* XXX EAccountList misuses const. */
 	return (EAccount *) account;
 }
+
+/**
+ * e_get_any_enabled_account:
+ *
+ * Returns the default mail account if it's enabled, otherwise the first
+ * enabled mail account in the global #EAccountList, or finally %NULL if
+ * all mail accounts are disabled or none exist.
+ *
+ * Returns: an enabled #EAccount, or %NULL if there are none
+ **/
+EAccount *
+e_get_any_enabled_account (void)
+{
+	EAccount *account;
+	EAccountList *account_list;
+	EIterator *iter;
+
+	account = e_get_default_account ();
+	if (account != NULL && account->enabled)
+		return account;
+
+	account = NULL;
+
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iter) && account == NULL) {
+		EAccount *candidate;
+
+		/* XXX EIterator misuses const. */
+		candidate = (EAccount *) e_iterator_get (iter);
+
+		if (candidate->enabled)
+			account = candidate;
+		else
+			e_iterator_next (iter);
+	}
+
+	g_object_unref (iter);
+
+	return account;
+}

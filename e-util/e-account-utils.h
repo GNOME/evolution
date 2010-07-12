@@ -29,6 +29,7 @@ EAccount *	e_get_default_account		(void);
 void		e_set_default_account		(EAccount *account);
 EAccount *	e_get_account_by_name		(const gchar *name);
 EAccount *	e_get_account_by_uid		(const gchar *uid);
+EAccount *	e_get_any_enabled_account	(void);
 
 G_END_DECLS
 

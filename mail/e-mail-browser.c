@@ -295,6 +295,7 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 {
 	EMailReader *reader;
 	GtkMenu *menu;
+	guint32 state;
 
 	if (uri != NULL)
 		return FALSE;
@@ -302,7 +303,8 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	reader = E_MAIL_READER (browser);
 	menu = e_mail_reader_get_popup_menu (reader);
 
-	e_mail_reader_update_actions (reader);
+	state = e_mail_reader_check_state (reader);
+	e_mail_reader_update_actions (reader, state);
 
 	if (event == NULL)
 		gtk_menu_popup (
