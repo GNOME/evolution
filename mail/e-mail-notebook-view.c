@@ -63,6 +63,16 @@ e_mail_notebook_view_finalize (GObject *object)
 }
 
 static void
+mnv_page_changed (GtkNotebook *book, GtkNotebookPage *page,
+		  guint page_num, EMailNotebookView *view)
+{
+	EMailView *mview = gtk_notebook_get_nth_page (book, page_num);
+
+	view->priv->current_view = mview;
+	g_signal_emit_by_name (view, "changed");
+}
+
+static void
 mail_notebook_view_constructed (GObject *object)
 {
 	GtkWidget *widget, *container;
@@ -76,6 +86,8 @@ mail_notebook_view_constructed (GObject *object)
 	priv->book = (GtkNotebook *)widget;
 	gtk_widget_show (widget);
 	gtk_box_pack_start (GTK_BOX(container), widget, TRUE, TRUE, 0);
+
+	g_signal_connect (widget, "switch-page", G_CALLBACK(mnv_page_changed), object);
 
 	priv->current_view = e_mail_paned_view_new (E_MAIL_VIEW(object)->content);
 	gtk_widget_show (priv->current_view);
@@ -222,6 +234,18 @@ emnv_get_page_num (EMailNotebookView *view,
 }
 
 static void
+reconnect_changed_event (EMailReader *child, EMailReader *parent)
+{
+	g_signal_emit_by_name (parent, "changed");
+}
+
+static void
+reconnect_folder_loaded_event (EMailReader *child, EMailReader *parent)
+{
+	g_signal_emit_by_name (parent, "folder-loaded");
+}
+
+static void
 mail_notebook_view_set_folder (EMailReader *reader,
                                CamelFolder *folder,
                                const gchar *folder_uri)
@@ -244,11 +268,18 @@ mail_notebook_view_set_folder (EMailReader *reader,
 		int page;
 
 		new_view = e_mail_paned_view_new (E_MAIL_VIEW(reader)->content);
+		priv->current_view = (EMailView *)new_view;
 		gtk_widget_show (new_view);
 		page = gtk_notebook_append_page (priv->book, new_view, gtk_label_new (camel_folder_get_full_name(folder)));
 		e_mail_reader_set_folder (E_MAIL_READER(new_view), folder, folder_uri);
 		gtk_notebook_set_current_page (priv->book, page);
 		g_hash_table_insert (priv->views, g_strdup(folder_uri), new_view);
+		g_signal_connect ( E_MAIL_READER(new_view), "changed",
+				   G_CALLBACK (reconnect_changed_event),
+				   reader);
+		g_signal_connect ( E_MAIL_READER (new_view), "folder-loaded",
+				   G_CALLBACK (reconnect_folder_loaded_event),
+				   reader);
 	}
 }
 

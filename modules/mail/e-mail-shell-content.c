@@ -70,6 +70,18 @@ mail_shell_content_dispose (GObject *object)
 }
 
 static void
+reconnect_changed_event (EMailReader *child, EMailReader *parent)
+{
+	g_signal_emit_by_name (parent, "changed");
+}
+
+static void
+reconnect_folder_loaded_event (EMailReader *child, EMailReader *parent)
+{
+	g_signal_emit_by_name (parent, "folder-loaded");
+}
+
+static void
 mail_shell_content_constructed (GObject *object)
 {
 	EMailShellContentPrivate *priv;
@@ -98,6 +110,12 @@ mail_shell_content_constructed (GObject *object)
 	E_MAIL_SHELL_CONTENT(object)->view = (EMailView *)widget;
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
+	g_signal_connect ( E_MAIL_READER(widget), "changed",
+			   G_CALLBACK (reconnect_changed_event),
+			   object);
+	g_signal_connect ( E_MAIL_READER (widget), "folder-loaded",
+			   G_CALLBACK (reconnect_folder_loaded_event),
+			   object);
 
 }
 
