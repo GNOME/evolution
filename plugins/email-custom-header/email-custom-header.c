@@ -630,74 +630,39 @@ commit_changes (ConfigData *cd)
 }
 
 static void
-header_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, ConfigData *cd)
+cell_edited_cb (GtkCellRendererText *cell,
+                gchar *path_string,
+                gchar *new_text,
+                ConfigData *cd)
 {
-	GtkTreeSelection *selection;
-	gchar *keyword = NULL;
-	gchar *value = NULL;
-	gboolean valid;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cd->treeview));
-	/* move to the previous node */
-	valid = gtk_tree_path_prev (path);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (cd->treeview));
+	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
 
-	gtk_tree_model_get (model, iter, HEADER_KEY_COLUMN, &keyword, -1);
-
-	if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-		gtk_list_store_remove (cd->store, iter);
-
-	/* Check if we have a valid row to select. If not, then select
-	 * the previous row */
-	if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), iter)) {
-		gtk_tree_selection_select_iter (selection, iter);
-	} else {
-		if (path && valid) {
-			gtk_tree_model_get_iter (model, iter, path);
-			gtk_tree_selection_select_iter (selection, iter);
-		}
+	if (new_text == NULL || *g_strstrip (new_text) == '\0')
+		gtk_button_clicked (GTK_BUTTON (cd->header_remove));
+	else {
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			HEADER_KEY_COLUMN, new_text, -1);
+		commit_changes (cd);
 	}
-
-	gtk_widget_grab_focus (cd->treeview);
-	g_free (keyword);
-	g_free (value);
-}
-
-static gboolean
-header_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, ConfigData *cd)
-{
-	gboolean valid;
-
-	valid = gtk_tree_model_get_iter_first (model, iter);
-	while (valid && gtk_list_store_iter_is_valid (cd->store, iter)) {
-		gchar *keyword = NULL;
-		gchar *value = NULL;
-		gtk_tree_model_get (model, iter, HEADER_KEY_COLUMN, &keyword, -1);
-		/* Check if the keyword is not empty and then emit the row-changed
-		signal (if we delete the row, then the iter gets corrupted) */
-		if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-			gtk_tree_model_row_changed (model, path, iter);
-		else {
-			gtk_tree_model_get (model, iter, HEADER_VALUE_COLUMN, &value, -1);
-			/* Check if the keyword is not empty and then emit the row-changed
-			signal (if we delete the row, then the iter gets corrupted) */
-			if ((value) && !(g_utf8_strlen (g_strstrip (value), -1) > 0))
-				gtk_tree_model_row_changed (model, path, iter);
-		}
-
-		g_free (keyword);
-                g_free (value);
-
-		valid = gtk_tree_model_iter_next (model, iter);
-	}
-
-	return FALSE;
 }
 
 static void
-cell_edited_callback (GtkCellRendererText *cell,
-		      gchar               *path_string,
-		      gchar               *new_text,
-		      ConfigData             *cd)
+cell_editing_canceled_cb (GtkCellRenderer *cell,
+                          ConfigData *cd)
+{
+	gtk_button_clicked (GTK_BUTTON (cd->header_remove));
+}
+
+static void
+cell_value_edited_cb (GtkCellRendererText *cell,
+                      gchar *path_string,
+                      gchar *new_text,
+                      ConfigData *cd)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -706,62 +671,32 @@ cell_edited_callback (GtkCellRendererText *cell,
 
 	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
 
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    HEADER_KEY_COLUMN, new_text, -1);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		HEADER_VALUE_COLUMN, new_text, -1);
 
 	commit_changes (cd);
-}
-
-static void
-cell_value_edited_callback (GtkCellRendererText *cell,
-                      gchar               *path_string,
-                      gchar               *new_text,
-                      ConfigData          *cd)
-{
-        GtkTreeModel *model;
-        GtkTreeIter iter;
-
-        model = gtk_tree_view_get_model (GTK_TREE_VIEW (cd->treeview));
-
-        gtk_tree_model_get_iter_from_string (model, &iter, path_string);
-
-        gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-                    HEADER_VALUE_COLUMN, new_text, -1);
-
-        commit_changes (cd);
 }
 
 static void
 header_add_clicked (GtkButton *button, ConfigData *cd)
 {
 	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GtkTreeViewColumn *focus_col;
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
 	GtkTreePath *path;
+	GtkTreeIter iter;
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (cd->treeview));
-	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) header_foreach_check_isempty, cd);
-
-	/* Disconnect from signal so that we can create an empty row */
-	g_signal_handlers_disconnect_matched(G_OBJECT(model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, header_isempty, cd);
+	tree_view = GTK_TREE_VIEW (cd->treeview);
+	model = gtk_tree_view_get_model (tree_view);
 
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-			    HEADER_KEY_COLUMN, "", -1);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-			    HEADER_VALUE_COLUMN, "", -1);
 
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), HEADER_KEY_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
-
-	if (path) {
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (cd->treeview), path, focus_col, TRUE);
-		gtk_tree_view_row_activated(GTK_TREE_VIEW(cd->treeview), path, focus_col);
-		gtk_tree_path_free (path);
-	}
-
-	/* We have done our job, connect back to the signal */
-	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(header_isempty), cd);
+	column = gtk_tree_view_get_column (tree_view, HEADER_KEY_COLUMN);
+	gtk_tree_view_set_cursor (tree_view, path, column, TRUE);
+	gtk_tree_view_row_activated (tree_view, path, column);
+	gtk_tree_path_free (path);
 }
 
 static void
@@ -865,10 +800,9 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkWidget *hbox;
 	GSList *list;
 	GSList *header_list = NULL;
-	GtkTreeModel *model;
 	gint index;
-        gchar *buffer;
-        GtkTreeViewColumn *col;
+	gchar *buffer;
+	GtkTreeViewColumn *col;
 	gint col_pos;
 	GConfClient *client = gconf_client_get_default();
 	ConfigData *cd = g_new0 (ConfigData, 1);
@@ -950,22 +884,29 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
 			renderer, "text", HEADER_KEY_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
-        gtk_tree_view_column_set_resizable (col, TRUE);
-        gtk_tree_view_column_set_reorderable(col, TRUE);
-        g_object_set (col, "min-width", 50, NULL);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
+	g_object_set (col, "min-width", 50, NULL);
 
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
-	g_signal_connect(renderer, "edited", (GCallback) cell_edited_callback, cd);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (cell_edited_cb), cd);
+	g_signal_connect (
+		renderer, "editing-canceled",
+		G_CALLBACK (cell_editing_canceled_cb), cd);
 
 	renderer = gtk_cell_renderer_text_new ();
-        col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Values"),
-                        renderer, "text", HEADER_VALUE_COLUMN, NULL);
-        col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
-        gtk_tree_view_column_set_resizable (col, TRUE);
-        gtk_tree_view_column_set_reorderable(col, TRUE);
-        g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Values"),
+			renderer, "text", HEADER_VALUE_COLUMN, NULL);
+	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
+	gtk_tree_view_column_set_resizable (col, TRUE);
+	gtk_tree_view_column_set_reorderable(col, TRUE);
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 
-        g_signal_connect(renderer, "edited", (GCallback) cell_value_edited_callback, cd);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (cell_value_edited_cb), cd);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cd->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
@@ -983,25 +924,22 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	g_signal_connect (G_OBJECT (cd->header_edit), "clicked", G_CALLBACK (header_edit_clicked), cd);
 	gtk_widget_set_sensitive (cd->header_edit, FALSE);
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (cd->treeview));
-	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(header_isempty), cd);
-
 	/* Populate tree view with values from gconf */
 	header_list = gconf_client_get_list (client,GCONF_KEY_CUSTOM_HEADER,GCONF_VALUE_STRING, NULL);
 
 	for (list = header_list; list; list = g_slist_next (list)) {
 		gchar **parse_header_list;
 
-                buffer = list->data;
+		buffer = list->data;
 		gtk_list_store_append (cd->store, &iter);
 
-                parse_header_list = g_strsplit_set (buffer, "=,", -1);
+		parse_header_list = g_strsplit_set (buffer, "=,", -1);
 
-                gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, parse_header_list[0], -1);
+		gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, parse_header_list[0], -1);
 
 		for (index = 0; parse_header_list[index+1] ; ++index) {
-                        gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index+1], -1);
-                }
+			gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index+1], -1);
+		}
 	}
 
 	if (header_list) {

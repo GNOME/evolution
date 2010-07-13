@@ -59,21 +59,16 @@ enum {
 };
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
+GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *plugin);
 
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
-GtkWidget* org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+GtkWidget* org_gnome_attachment_reminder_config_option (EPlugin *plugin, struct _EConfigHookItemFactoryData *data);
 
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
 static gboolean check_for_attachment_clues (gchar *msg);
 static gboolean check_for_attachment (EMsgComposer *composer);
 static gchar * strip_text_msg (gchar *msg);
 static void commit_changes (UIData *ui);
-
-static void  cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
-				   gchar *new_text,UIData *ui);
-static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
-					*path, GtkTreeIter *iter, UIData *ui);
 
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
@@ -227,7 +222,9 @@ commit_changes (UIData *ui)
 	while (valid) {
 		gchar *keyword;
 
-		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
+		gtk_tree_model_get (
+			model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
+
 		/* Check if the keyword is not empty */
 		if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0))
 			clue_list = g_slist_append (clue_list, keyword);
@@ -241,107 +238,53 @@ commit_changes (UIData *ui)
 }
 
 static void
-clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
-{
-	GtkTreeSelection *selection;
-	gchar *keyword = NULL;
-	gboolean valid;
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
-	/* move to the previous node */
-	valid = gtk_tree_path_prev (path);
-
-	gtk_tree_model_get (model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-	if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-		gtk_list_store_remove (ui->store, iter);
-
-	/* Check if we have a valid row to select. If not, then select
-	 * the previous row */
-	if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), iter)) {
-		gtk_tree_selection_select_iter (selection, iter);
-	} else {
-		if (path && valid) {
-			gtk_tree_model_get_iter (model, iter, path);
-			gtk_tree_selection_select_iter (selection, iter);
-		}
-	}
-
-	gtk_widget_grab_focus (ui->treeview);
-	g_free (keyword);
-}
-
-static gboolean
-clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
-{
-	gboolean valid;
-
-	valid = gtk_tree_model_get_iter_first (model, iter);
-	while (valid && gtk_list_store_iter_is_valid (ui->store, iter)) {
-		gchar *keyword = NULL;
-		gtk_tree_model_get (model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-		/* Check if the keyword is not empty and then emit the row-changed
-		signal (if we delete the row, then the iter gets corrupted) */
-		if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-			gtk_tree_model_row_changed (model, path, iter);
-
-		g_free (keyword);
-		valid = gtk_tree_model_iter_next (model, iter);
-	}
-
-	return FALSE;
-}
-
-static void
-cell_edited_callback (GtkCellRendererText *cell,
-		      gchar               *path_string,
-		      gchar               *new_text,
-		      UIData             *ui)
+cell_edited_cb (GtkCellRendererText *cell,
+                gchar *path_string,
+                gchar *new_text,
+                UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-
 	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
 
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    CLUE_KEYWORD_COLUMN, new_text, -1);
+	if (new_text == NULL || *g_strstrip (new_text) == '\0')
+		gtk_button_clicked (GTK_BUTTON (ui->clue_remove));
+	else {
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			CLUE_KEYWORD_COLUMN, new_text, -1);
+		commit_changes (ui);
+	}
+}
 
-	commit_changes (ui);
+static void
+cell_editing_canceled_cb (GtkCellRenderer *cell,
+                          UIData *ui)
+{
+	gtk_button_clicked (GTK_BUTTON (ui->clue_remove));
 }
 
 static void
 clue_add_clicked (GtkButton *button, UIData *ui)
 {
 	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *new_clue = NULL;
-	GtkTreeViewColumn *focus_col;
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
 	GtkTreePath *path;
+	GtkTreeIter iter;
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) clue_foreach_check_isempty, ui);
+	tree_view = GTK_TREE_VIEW (ui->treeview);
+	model = gtk_tree_view_get_model (tree_view);
 
-	/* Disconnect from signal so that we can create an empty row */
-	g_signal_handlers_disconnect_matched(G_OBJECT(model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, clue_check_isempty, ui);
-
-	/* TODO : Trim and check for blank strings */
-	new_clue = g_strdup ("");
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    CLUE_KEYWORD_COLUMN, new_clue, -1);
 
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
-
-	if (path) {
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
-		gtk_tree_view_row_activated(GTK_TREE_VIEW(ui->treeview), path, focus_col);
-		gtk_tree_path_free (path);
-	}
-
-	/* We have done our job, connect back to the signal */
-	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(clue_check_isempty), ui);
+	column = gtk_tree_view_get_column (tree_view, CLUE_KEYWORD_COLUMN);
+	gtk_tree_view_set_cursor (tree_view, path, column, TRUE);
+	gtk_tree_view_row_activated (tree_view, path, column);
+	gtk_tree_path_free (path);
 }
 
 static void
@@ -437,7 +380,7 @@ destroy_ui_data (gpointer data)
 }
 
 GtkWidget *
-e_plugin_lib_get_configure_widget (EPlugin *epl)
+e_plugin_lib_get_configure_widget (EPlugin *plugin)
 {
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
@@ -445,7 +388,6 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GConfClient *gconf = gconf_client_get_default();
 	GtkWidget *hbox;
 	GSList *clue_list = NULL, *list;
-	GtkTreeModel *model;
 
 	GtkWidget *reminder_configuration_box;
 	GtkWidget *clue_container;
@@ -509,7 +451,12 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
 			renderer, "text", CLUE_KEYWORD_COLUMN, NULL);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
-	g_signal_connect(renderer, "edited", (GCallback) cell_edited_callback, ui);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (cell_edited_cb), ui);
+	g_signal_connect (
+		renderer, "editing-canceled",
+		G_CALLBACK (cell_editing_canceled_cb), ui);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
@@ -526,9 +473,6 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	ui->clue_edit = clue_edit;
 	g_signal_connect (G_OBJECT (ui->clue_edit), "clicked", G_CALLBACK (clue_edit_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(clue_check_isempty), ui);
 
 	/* Populate tree view with values from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
@@ -558,7 +502,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 /* Configuration in Mail Prefs Page goes here */
 
 GtkWidget *
-org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+org_gnome_attachment_reminder_config_option (EPlugin *plugin,
+                                             struct _EConfigHookItemFactoryData *data)
 {
 	/* This function and the hook needs to be removed,
 	once the configure code is thoroughly tested */
