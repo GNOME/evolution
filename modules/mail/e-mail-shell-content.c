@@ -78,6 +78,7 @@ enum {
 	PROP_GROUP_BY_THREADS,
 	PROP_ORIENTATION,
 	PROP_PREVIEW_VISIBLE,
+	PROP_QUOTE_FROM_SELECTION,
 	PROP_SHOW_DELETED
 };
 
@@ -292,6 +293,12 @@ mail_shell_content_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_QUOTE_FROM_SELECTION:
+			e_mail_reader_set_quote_from_selection (
+				E_MAIL_READER (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHOW_DELETED:
 			e_mail_shell_content_set_show_deleted (
 				E_MAIL_SHELL_CONTENT (object),
@@ -328,6 +335,13 @@ mail_shell_content_get_property (GObject *object,
 				value,
 				e_mail_shell_content_get_preview_visible (
 				E_MAIL_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_QUOTE_FROM_SELECTION:
+			g_value_set_boolean (
+				value,
+				e_mail_reader_get_quote_from_selection (
+				E_MAIL_READER (object)));
 			return;
 
 		case PROP_SHOW_DELETED:
@@ -722,6 +736,12 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 			"Whether the preview pane is visible",
 			TRUE,
 			G_PARAM_READWRITE));
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_QUOTE_FROM_SELECTION,
+		"quote-from-selection");
 
 	g_object_class_install_property (
 		object_class,

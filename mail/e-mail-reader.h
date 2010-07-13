@@ -137,6 +137,11 @@ gboolean	e_mail_reader_get_group_by_threads
 void		e_mail_reader_set_group_by_threads
 						(EMailReader *reader,
 						 gboolean group_by_threads);
+gboolean	e_mail_reader_get_quote_from_selection
+						(EMailReader *reader);
+void		e_mail_reader_set_quote_from_selection
+						(EMailReader *reader,
+						 gboolean quote_from_selection);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,

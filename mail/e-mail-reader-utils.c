@@ -382,6 +382,9 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
+	if (!e_mail_reader_get_quote_from_selection (reader))
+		goto whole_message;
+
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
 
