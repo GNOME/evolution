@@ -1051,6 +1051,22 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/private_list_reply</key>
+      <applyto>/apps/evolution/mail/prompts/private_list_reply</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Prompt when replying privately to list messages</short>
+         <long>
+         It disables/enables the repeated prompts to warn that you are
+	 sending a private reply to a message which arrived via a
+	 mailing list.
+         </long>
+      </locale>
+    </schema>
+
        <!-- Trash settings -->
 
     <schema>

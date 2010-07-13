@@ -32,6 +32,7 @@
 #include "e-util/e-binding.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/misc/e-popup-action.h"
@@ -838,7 +839,41 @@ static void
 action_mail_reply_sender_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	e_mail_reader_reply_to_message (reader, REPLY_MODE_SENDER);
+	gint mode = REPLY_MODE_SENDER;
+	GConfClient *gconf;
+
+	gconf = mail_config_get_gconf_client ();
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/private_list_reply", NULL) &&
+	    e_mail_reader_check_state(reader) & E_MAIL_READER_SELECTION_IS_MAILING_LIST) {
+		GtkDialog *dialog;
+		GtkWidget *content_area, *check;
+		gint response;
+
+		dialog = (GtkDialog*) e_alert_dialog_new_for_args (e_mail_reader_get_window (reader),
+								   "mail:ask-list-private-reply", NULL);
+
+		/*Check buttons*/
+		check = gtk_check_button_new_with_mnemonic (_("_Do not ask me again."));
+		gtk_container_set_border_width((GtkContainer *)check, 12);
+		content_area = gtk_dialog_get_content_area (dialog);
+		gtk_box_pack_start (GTK_BOX (content_area), check, TRUE, TRUE, 0);
+		gtk_widget_show (check);
+
+		response = gtk_dialog_run ((GtkDialog *) dialog);
+
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
+			gconf_client_set_bool(gconf, "/apps/evolution/mail/prompts/private_list_reply", FALSE, NULL);
+
+		gtk_widget_destroy((GtkWidget *)dialog);
+
+		if (response == GTK_RESPONSE_YES)
+			mode = REPLY_MODE_ALL;
+		else if (response == GTK_RESPONSE_OK)
+			mode = REPLY_MODE_LIST;
+		else if (response == GTK_RESPONSE_CANCEL)
+			return;
+	}
+	e_mail_reader_reply_to_message (reader, mode);
 }
 
 static void

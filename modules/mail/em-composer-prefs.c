@@ -417,6 +417,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		shell_settings, "composer-prompt-only-bcc",
 		widget, "active");
 
+	widget = e_builder_get_widget (prefs->builder, "chkPromptPrivateListReply");
+	e_mutual_binding_new (
+		shell_settings, "composer-prompt-private-list-reply",
+		widget, "active");
+
 	widget = e_builder_get_widget (prefs->builder, "chkAutoSmileys");
 	e_mutual_binding_new (
 		shell_settings, "composer-magic-smileys",

@@ -220,6 +220,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/prompts/only_bcc");
 
 	e_shell_settings_install_property_for_key (
+		"composer-prompt-private-list-reply",
+		"/apps/evolution/mail/prompts/private_list_reply");
+
+	e_shell_settings_install_property_for_key (
 		"composer-prompt-empty-subject",
 		"/apps/evolution/mail/prompts/empty_subject");
 
