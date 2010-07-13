@@ -193,6 +193,13 @@ folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 
 	m->fi = camel_store_get_folder_info (
 		m->store, m->top, flags, &m->base.error);
+
+	/* XXX POP3 stores always return an error because they have
+	 *     no folder hierarchy to scan.  Clear that error so the
+	 *     user doesn't see it. */
+	if (g_error_matches (m->base.error,
+		CAMEL_STORE_ERROR, CAMEL_STORE_ERROR_NO_FOLDER))
+		g_clear_error (&m->base.error);
 }
 
 static void
