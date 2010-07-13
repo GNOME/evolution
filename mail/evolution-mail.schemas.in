@@ -1067,6 +1067,21 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/reply_many_recips</key>
+      <applyto>/apps/evolution/mail/prompts/reply_many_recips</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Prompt when replying to many recipients</short>
+         <long>
+         It disables/enables the repeated prompts to warn that you are
+	 sending a reply to many people.
+         </long>
+      </locale>
+    </schema>
+
        <!-- Trash settings -->
 
     <schema>

@@ -224,6 +224,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/prompts/private_list_reply");
 
 	e_shell_settings_install_property_for_key (
+		"composer-prompt-reply-many-recips",
+		"/apps/evolution/mail/prompts/reply_many_recips");
+
+	e_shell_settings_install_property_for_key (
 		"composer-prompt-empty-subject",
 		"/apps/evolution/mail/prompts/empty_subject");
 

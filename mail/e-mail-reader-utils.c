@@ -353,13 +353,12 @@ html_contains_nonwhitespace (const gchar *html,
 }
 
 void
-e_mail_reader_reply_to_message (EMailReader *reader,
+e_mail_reader_reply_to_message (EMailReader *reader, CamelMimeMessage *src_message,
                                 gint reply_mode)
 {
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
-	CamelMimeMessage *src_message;
 	CamelFolder *folder;
 	EWebView *web_view;
 	struct _camel_header_raw *header;
@@ -382,6 +381,12 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
+	if (!gtk_widget_get_mapped (GTK_WIDGET(web_view)))
+		goto whole_message;
+
+	if (!src_message)
+		src_message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
+
 	if (!e_mail_reader_get_quote_from_selection (reader))
 		goto whole_message;
 
@@ -395,7 +400,6 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!html_contains_nonwhitespace (selection, length))
 		goto whole_message;
 
-	src_message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
 	new_message = camel_mime_message_new ();
 
 	/* Filter out "content-*" headers. */
@@ -426,7 +430,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 whole_message:
 	em_utils_reply_to_message (
-		folder, uid, NULL, reply_mode, EM_FORMAT (formatter));
+		folder, uid, src_message, reply_mode, EM_FORMAT (formatter));
 }
 
 void

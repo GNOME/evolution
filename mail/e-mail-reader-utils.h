@@ -48,6 +48,7 @@ guint		e_mail_reader_open_selected	(EMailReader *reader);
 void		e_mail_reader_print		(EMailReader *reader,
 						 GtkPrintOperationAction action);
 void		e_mail_reader_reply_to_message	(EMailReader *reader,
+						 CamelMimeMessage *message,
 						 gint reply_mode);
 void		e_mail_reader_select_next_message
 						(EMailReader *reader,
