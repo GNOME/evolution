@@ -1535,6 +1535,8 @@ efh_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMForm
 		job->stream = em_html_stream_new(html, handle);
 		em_format_html_job_queue(efh, job);
 	}
+
+	g_signal_stop_emission_by_name (html, "url-requested");
 }
 
 static gboolean
