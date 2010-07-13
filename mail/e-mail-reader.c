@@ -2762,7 +2762,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_undeleted = FALSE;
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
-	gboolean have_enabled_account = FALSE;
 	gboolean drafts_or_outbox;
 	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
