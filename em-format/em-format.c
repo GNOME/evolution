@@ -1229,6 +1229,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	const gchar *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
 	CamelStream *mem_stream = NULL;
+	GByteArray *mem_bytes;
 	gsize size;
 	gsize max;
 	GConfClient *gconf;
@@ -1261,7 +1262,8 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		charset = emf->default_charset;
 	}
 
-	mem_stream = (CamelStream *)camel_stream_mem_new ();
+	mem_bytes = g_byte_array_new ();
+	mem_stream = camel_stream_mem_new_with_byte_array (mem_bytes);
 	filter_stream = camel_stream_filter_new_with_stream(mem_stream);
 
 	if ((filter = camel_mime_filter_charset_new_convert(charset, "UTF-8"))) {
@@ -1288,11 +1290,12 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream);
 		camel_stream_flush((CamelStream *)stream);
 	} else {
-		((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_optional(emf, stream, (CamelMimePart *)dw, mem_stream);
+		((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_optional(emf, stream, (CamelMimePart *)dw, mem_bytes);
 	}
 
 	if (windows)
 		camel_object_unref(windows);
+	camel_object_unref (mem_stream);
 }
 
 /**

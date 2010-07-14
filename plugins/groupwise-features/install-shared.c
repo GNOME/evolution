@@ -194,7 +194,8 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	const gchar *name;
 	const gchar *email;
 	CamelMimeMessage *msg = (CamelMimeMessage *) target->message;
-	CamelStreamMem *content;
+	CamelStream *mem_content;
+	GByteArray *mem_bytes;
 	CamelDataWrapper *dw;
 	gchar *start_message;
 
@@ -213,9 +214,10 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 				return;
 		}
 
-		content = (CamelStreamMem *)camel_stream_mem_new();
-		camel_data_wrapper_write_to_stream(dw, (CamelStream *)content);
-		camel_stream_write((CamelStream *)content, "", 1);
+		mem_bytes = g_byte_array_new ();
+		mem_content = camel_stream_mem_new_with_byte_array (mem_bytes);
+		camel_data_wrapper_write_to_stream(dw, mem_content);
+		camel_stream_write (mem_content, "", 1);
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (from_addr && camel_internet_address_get(from_addr, 0, &name, &email)) {
@@ -226,7 +228,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 							   "Message from '%s'\n\n\n"
 							   "%s\n\n\n"
 							   "Click 'Apply' to install the shared folder\n\n"),
-							   name, name, content->buffer->data);
+							   name, name, mem_bytes->data);
 
 			page = gtk_label_new (start_message);
 			gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
@@ -252,7 +254,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		} else
 			g_warning ("Could not get the sender name");
 
-		camel_object_unref(content);
+		camel_object_unref (mem_content);
 	}
 }
 

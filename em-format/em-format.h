@@ -255,7 +255,7 @@ struct _EMFormatClass {
 	gboolean (*busy)(EMFormat *);
 
 	/* Shows optional way to open messages  */
-	void (*format_optional)(EMFormat *, CamelStream *, CamelMimePart *, CamelStream* );
+	void (*format_optional)(EMFormat *, CamelStream *, CamelMimePart *, const GByteArray *mem_bytes);
 
 	/* signals */
 	/* complete, alternative to polling busy, for asynchronous work */

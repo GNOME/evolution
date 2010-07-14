@@ -637,12 +637,14 @@ void
 em_utils_selection_set_mailbox(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids)
 {
 	CamelStream *stream;
+	GByteArray *mem_bytes;
 
-	stream = camel_stream_mem_new();
+	mem_bytes = g_byte_array_new ();
+	stream = camel_stream_mem_new_with_byte_array (mem_bytes);
 	if (em_utils_write_messages_to_stream(folder, uids, stream) == 0)
 		gtk_selection_data_set(data, data->target, 8,
-				       ((CamelStreamMem *)stream)->buffer->data,
-				       ((CamelStreamMem *)stream)->buffer->len);
+				       mem_bytes->data,
+				       mem_bytes->len);
 
 	camel_object_unref(stream);
 }

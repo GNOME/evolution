@@ -151,8 +151,8 @@ struct _attach_puri {
 	GtkImage *image;
 	GtkWidget *event_box;
 
-	/* Optional Text Mem Stream */
-	CamelStreamMem *mstream;
+	/* Optional Text Data */
+	GByteArray *mem_bytes;
 
 	/* Signed / Encrypted */
         camel_cipher_validity_sign_t sign;
@@ -472,7 +472,7 @@ static void
 efhd_format_optional (EMFormat *emf,
                       CamelStream *fstream,
                       CamelMimePart *part,
-                      CamelStream *mstream)
+                      const GByteArray *mem_bytes)
 {
 	gchar *classid, *html;
 	struct _attach_puri *info;
@@ -494,7 +494,9 @@ efhd_format_optional (EMFormat *emf,
 	info->snoop_mime_type = "text/plain";
 	info->attachment = e_attachment_new ();
 	e_attachment_set_mime_part (info->attachment, info->puri.part);
-	info->mstream = (CamelStreamMem *) mstream;
+	info->mem_bytes = g_byte_array_new ();
+	g_byte_array_append (info->mem_bytes, mem_bytes ? mem_bytes->data : (const guint8 *) "", mem_bytes ? mem_bytes->len : 1);
+
 	if (emf->valid) {
 		info->sign = emf->valid->sign.status;
 		info->encrypt = emf->valid->encrypt.status;
@@ -1038,9 +1040,11 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
-	gtk_text_buffer_set_text (buffer, (gchar *)info->mstream->buffer->data, info->mstream->buffer->len);
-	camel_object_unref(info->mstream);
-	info->mstream = NULL;
+	if (info->mem_bytes) {
+		gtk_text_buffer_set_text (buffer, (gchar *)info->mem_bytes->data, info->mem_bytes->len);
+		g_byte_array_free (info->mem_bytes, TRUE);
+	}
+	info->mem_bytes = NULL;
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);

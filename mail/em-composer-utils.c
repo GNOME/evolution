@@ -925,6 +925,7 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 		CamelMimePart *part = CAMEL_MIME_PART (content);
 		CamelContentType *type;
 		CamelStream *mem;
+		GByteArray *mem_bytes;
 		gchar *str;
 
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -940,10 +941,11 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 		if (!camel_content_type_is (type, "text", "*"))
 			return;
 
-		mem = camel_stream_mem_new ();
+		mem_bytes = g_byte_array_new ();
+		mem = camel_stream_mem_new_with_byte_array (mem_bytes);
 		camel_data_wrapper_decode_to_stream (content, mem);
 
-		str = g_strndup ((const gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+		str = g_strndup ((const gchar *)mem_bytes->data, mem_bytes->len);
 		camel_object_unref (mem);
 
 		if (replace_variables (clues, message, &str)) {
