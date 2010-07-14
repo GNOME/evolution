@@ -34,6 +34,8 @@ G_DEFINE_TYPE (EMailView, e_mail_view, GTK_TYPE_VBOX)
 
 enum {
 	PANE_CLOSE,
+	VIEW_CHANGED,
+	OPEN_MAIL,
 	LAST_SIGNAL
 };
 
@@ -108,7 +110,13 @@ e_mail_view_class_init (EMailViewClass *klass)
 	klass->set_search_strings = NULL;
 	klass->get_view_instance = NULL;
 	klass->update_view_instance = NULL;
-
+	klass->set_orientation = NULL;
+	klass->get_orientation = NULL;
+	klass->set_show_deleted = NULL;
+	klass->get_show_deleted = NULL;
+	klass->set_preview_visible = NULL;
+	klass->get_preview_visible = NULL;
+	
 	signals[PANE_CLOSE] =
 		g_signal_new ("pane-close",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -117,6 +125,24 @@ e_mail_view_class_init (EMailViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+	
+	signals[VIEW_CHANGED] =
+		g_signal_new ("view-changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMailViewClass , view_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);	
+
+	signals[OPEN_MAIL] =	
+		g_signal_new ("open-mail",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMailViewClass , open_mail),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1, G_TYPE_STRING);
 	/**
 	 * EMailView:shell-content
 	 *
@@ -160,3 +186,38 @@ e_mail_view_get_searchbar (EMailView *view)
 	return E_MAIL_VIEW_GET_CLASS (view)->get_searchbar (view);
 }
 
+void 
+e_mail_view_set_orientation (EMailView *view, GtkOrientation orientation)
+{
+	E_MAIL_VIEW_GET_CLASS (view)->set_orientation (view, orientation);
+}
+
+GtkOrientation 
+e_mail_view_get_orientation (EMailView *view)
+{
+	return E_MAIL_VIEW_GET_CLASS (view)->get_orientation (view);
+}
+
+void 
+e_mail_view_set_preview_visible (EMailView *view, gboolean visible)
+{
+	E_MAIL_VIEW_GET_CLASS (view)->set_preview_visible (view, visible);
+}
+
+gboolean 
+e_mail_view_get_preview_visible (EMailView *view)
+{
+	return E_MAIL_VIEW_GET_CLASS (view)->get_preview_visible (view);
+}
+
+void 
+e_mail_view_set_show_deleted (EMailView *view, gboolean show_deleted)
+{
+	E_MAIL_VIEW_GET_CLASS (view)->set_show_deleted (view, show_deleted);
+}
+
+gboolean 
+e_mail_view_get_show_deleted (EMailView *view)
+{
+	return E_MAIL_VIEW_GET_CLASS (view)->get_show_deleted (view);
+}

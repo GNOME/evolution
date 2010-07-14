@@ -54,6 +54,13 @@ struct _EMailShellContentPrivate {
 	int temp;
 };
 
+enum {
+	PROP_0,
+	PROP_GROUP_BY_THREADS,
+	PROP_ORIENTATION,
+	PROP_PREVIEW_VISIBLE,
+	PROP_SHOW_DELETED
+};
 
 static gpointer parent_class;
 static GType mail_shell_content_type;
@@ -82,6 +89,15 @@ reconnect_folder_loaded_event (EMailReader *child, EMailReader *parent)
 }
 
 static void
+msc_view_changed (EMailView *view, EMailShellContent *content)
+{
+	g_object_notify (G_OBJECT (content), "group-by-threads");
+	g_object_notify (G_OBJECT (content), "show-deleted");
+	g_object_notify (G_OBJECT (content), "preview-visible");
+	g_object_notify (G_OBJECT (content), "orientation");
+}
+
+static void
 mail_shell_content_constructed (GObject *object)
 {
 	EMailShellContentPrivate *priv;
@@ -105,8 +121,12 @@ mail_shell_content_constructed (GObject *object)
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
-
-	widget = e_mail_notebook_view_new (E_SHELL_CONTENT(object));
+	
+	if (1 || e_shell_get_express_mode(e_shell_get_default ())) {
+		widget = e_mail_notebook_view_new (E_SHELL_CONTENT(object));
+		g_signal_connect (widget, "view-changed", G_CALLBACK(msc_view_changed), object);
+	} else
+		widget = e_mail_paned_view_new (E_SHELL_CONTENT(object));
 	E_MAIL_SHELL_CONTENT(object)->view = (EMailView *)widget;
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -133,6 +153,12 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	gtk_widget_grab_focus (e_mail_reader_get_message_list(E_MAIL_READER (E_MAIL_SHELL_CONTENT(shell_content)->view)));
+}
+
+static void
+mail_shell_content_open_selected_mail (EMailReader *reader)
+{
+	e_mail_reader_open_selected_mail (E_MAIL_READER(E_MAIL_SHELL_CONTENT(reader)->view));	
 }
 
 static GtkActionGroup *
@@ -202,6 +228,84 @@ mail_shell_content_show_search_bar (EMailReader *reader)
 }
 
 static void
+mail_shell_content_set_property (GObject *object,
+                                 guint property_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_GROUP_BY_THREADS:
+			g_object_set (
+				E_MAIL_READER (E_MAIL_SHELL_CONTENT(object)->view),
+				"group-by-threads",
+				g_value_get_boolean (value),
+				NULL);
+			return;
+
+		case PROP_ORIENTATION:
+			e_mail_view_set_orientation (
+				E_MAIL_SHELL_CONTENT(object)->view,
+				g_value_get_enum (value));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			e_mail_view_set_preview_visible (
+				E_MAIL_SHELL_CONTENT(object)->view,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHOW_DELETED:
+			e_mail_view_set_show_deleted (
+				E_MAIL_SHELL_CONTENT(object)->view,
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_shell_content_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_GROUP_BY_THREADS: {
+			gboolean thr;
+
+			g_object_get ((GObject *)E_MAIL_SHELL_CONTENT(object)->view, "group-by-threads", &thr, NULL);
+			g_value_set_boolean (
+				value,
+				thr);
+			return;
+		}
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value,
+				e_mail_view_get_orientation (
+				E_MAIL_SHELL_CONTENT(object)->view));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			g_value_set_boolean (
+				value,
+				e_mail_view_get_preview_visible (
+				E_MAIL_SHELL_CONTENT(object)->view));
+			return;
+
+		case PROP_SHOW_DELETED:
+			g_value_set_boolean (
+				value,
+				e_mail_view_get_show_deleted (
+				E_MAIL_SHELL_CONTENT(object)->view));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -213,12 +317,41 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = mail_shell_content_dispose;
 	object_class->constructed = mail_shell_content_constructed;
+	object_class->set_property = mail_shell_content_set_property;
+	object_class->get_property = mail_shell_content_get_property;
+
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = mail_shell_content_check_state;
 	shell_content_class->focus_search_results = mail_shell_content_focus_search_results;
 
+	g_object_class_override_property (
+		object_class,
+		PROP_GROUP_BY_THREADS,
+		"group-by-threads");
 
+	g_object_class_install_property (
+		object_class,
+		PROP_PREVIEW_VISIBLE,
+		g_param_spec_boolean (
+			"preview-visible",
+			"Preview is Visible",
+			"Whether the preview pane is visible",
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DELETED,
+		g_param_spec_boolean (
+			"show-deleted",
+			"Show Deleted",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_override_property (
+		object_class, PROP_ORIENTATION, "orientation");	
 }
 
 static void
@@ -248,6 +381,7 @@ mail_shell_content_reader_init (EMailReaderIface *iface)
 	iface->get_window = mail_shell_content_get_window;
 	iface->set_folder = mail_shell_content_set_folder;
 	iface->show_search_bar = mail_shell_content_show_search_bar;
+	iface->open_selected_mail = mail_shell_content_open_selected_mail;
 }
 
 void
@@ -272,6 +406,12 @@ e_mail_shell_content_register_type (GTypeModule *type_module)
 		NULL  /* interface_data */
 	};
 
+	static const GInterfaceInfo orientable_info = {
+		(GInterfaceInitFunc) NULL,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+	
 	mail_shell_content_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_CONTENT,
 		"EMailShellContent", &type_info, 0);
@@ -280,6 +420,10 @@ e_mail_shell_content_register_type (GTypeModule *type_module)
 		type_module, mail_shell_content_type,
 		E_TYPE_MAIL_READER, &reader_info);	
 
+	g_type_module_add_interface (
+		type_module, mail_shell_content_type,
+		GTK_TYPE_ORIENTABLE, &orientable_info);
+	
 }
 
 GtkWidget *

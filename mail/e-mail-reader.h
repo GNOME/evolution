@@ -99,6 +99,7 @@ struct _EMailReaderIface {
 						 const gchar *folder_uri);
 	void		(*set_message)		(EMailReader *reader,
 						 const gchar *uid);
+	void 		(*open_selected_mail)	(EMailReader *reader);
 
 	/* Signals */
 	void		(*show_search_bar)	(EMailReader *reader);
@@ -120,6 +121,7 @@ GtkActionGroup *
 EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
+void		e_mail_reader_open_selected_mail(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);

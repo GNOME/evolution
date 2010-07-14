@@ -51,6 +51,8 @@ typedef struct _EMailPanedView {
 typedef struct _EMailPanedViewClass {
 	EMailViewClass parent_class;
 
+	void (*open_selected_mail) (EMailPanedView *view);
+
 } EMailPanedViewClass;
 
 GType e_mail_paned_view_get_type (void);
@@ -78,5 +80,13 @@ e_mail_paned_view_set_preview_visible (EMailPanedView *view,
                                           gboolean preview_visible);
 gboolean
 e_mail_paned_view_get_preview_visible (EMailPanedView *view);
+void
+e_mail_paned_view_set_orientation (EMailPanedView *view,
+				   GtkOrientation orientation);
+GtkOrientation 
+e_mail_paned_view_get_orientation (EMailPanedView *view);
+void
+e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
+					  gboolean visible);
 
 #endif

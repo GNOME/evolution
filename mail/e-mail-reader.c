@@ -607,7 +607,7 @@ static void
 action_mail_message_open_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	e_mail_reader_open_selected (reader);
+	e_mail_reader_open_selected_mail (reader);
 }
 
 static void
@@ -2722,6 +2722,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 	iface->get_folder_uri = mail_reader_get_folder_uri;
 	iface->set_folder = mail_reader_set_folder;
 	iface->set_message = mail_reader_set_message;
+	iface->open_selected_mail = e_mail_reader_open_selected;
 	iface->update_actions = mail_reader_update_actions;
 
 	g_object_interface_install_property (
@@ -3429,6 +3430,19 @@ e_mail_reader_set_message (EMailReader *reader,
 	g_return_if_fail (iface->set_message != NULL);
 
 	iface->set_message (reader, uid);
+}
+
+void
+e_mail_reader_open_selected_mail (EMailReader *reader)
+{
+	EMailReaderIface *iface;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	iface = E_MAIL_READER_GET_IFACE (reader);
+	g_return_if_fail (iface->open_selected_mail != NULL);
+
+	iface->open_selected_mail (reader);
 }
 
 gboolean

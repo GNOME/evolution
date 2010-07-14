@@ -23,9 +23,7 @@
 #define E_MAIL_MESSAGE_PANE_H
 
 #include <gtk/gtk.h>
-#include "e-mail-pane.h"
-#include <misc/e-focus-tracker.h>
-#include <shell/e-shell-backend.h>
+#include "e-mail-paned-view.h"
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_MESSAGE_PANE \
@@ -53,22 +51,16 @@ typedef struct _EMailMessagePaneClass EMailMessagePaneClass;
 typedef struct _EMailMessagePanePrivate EMailMessagePanePrivate;
 
 struct _EMailMessagePane {
-	EMailPane parent;
+	EMailPanedView parent;
 	EMailMessagePanePrivate *priv;
 };
 
 struct _EMailMessagePaneClass {
-	EMailPaneClass parent_class;
+	EMailPanedViewClass parent_class;
 };
 
 GType		e_mail_message_pane_get_type		(void);
-GtkWidget *	e_mail_message_pane_new		(EShellBackend *shell_backend);
-void		e_mail_message_pane_close		(EMailMessagePane *browser);
-gboolean	e_mail_message_pane_get_show_deleted	(EMailMessagePane *browser);
-void		e_mail_message_pane_set_show_deleted (EMailMessagePane *browser,
-						 gboolean show_deleted);
-EFocusTracker *	e_mail_message_pane_get_focus_tracker(EMailMessagePane *browser);
-GtkUIManager *	e_mail_message_pane_get_ui_manager	(EMailMessagePane *browser);
+GtkWidget *	e_mail_message_pane_new		(EShellContent *content);
 
 G_END_DECLS
 

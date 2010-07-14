@@ -58,4 +58,21 @@ void e_mail_notebook_view_set_search_strings (EMailView *view, GSList *search_st
 GalViewInstance * e_mail_notebook_view_get_view_instance (EMailView *view);
 void e_mail_notebook_view_update_view_instance (EMailView *view);
 
+void
+e_mail_notebook_view_set_show_deleted (EMailNotebookView *view,
+                                       gboolean show_deleted);
+gboolean
+e_mail_notebook_view_get_show_deleted (EMailNotebookView *view);
+
+void
+e_mail_notebook_view_set_preview_visible (EMailNotebookView *view,
+                                          gboolean preview_visible);
+gboolean
+e_mail_notebook_view_get_preview_visible (EMailNotebookView *view);
+void
+e_mail_notebook_view_set_orientation (EMailNotebookView *view,
+				   GtkOrientation orientation);
+GtkOrientation 
+e_mail_notebook_view_get_orientation (EMailNotebookView *view);
+
 #endif
