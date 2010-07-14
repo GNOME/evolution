@@ -973,9 +973,11 @@ load_certs (CertificateManagerData *cfm,
 	CERT_DestroyCertList (certList);
 }
 
-static void
+static gboolean
 populate_ui (CertificateManagerData *cfm)
 {
+	/* This is an idle callback. */
+
 	unload_certs (cfm, E_CERT_USER);
 	load_certs (cfm, E_CERT_USER, add_user_cert);
 
@@ -988,6 +990,8 @@ populate_ui (CertificateManagerData *cfm)
 	/* expand all three trees */
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->yourcerts_treeview));
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
+
+	return FALSE;
 }
 
 void
@@ -1031,7 +1035,11 @@ certificate_manager_config_init (EShell *shell)
 	initialize_contactcerts_ui(cfm_data);
 	initialize_authoritycerts_ui(cfm_data);
 
-	populate_ui (cfm_data);
+	/* Run this in an idle callback so Evolution has a chance to
+	 * fully initialize itself and start its main loop before we
+	 * load certificates, since doing so may trigger a password
+	 * dialog, and dialogs require a main loop. */
+	g_idle_add ((GSourceFunc) populate_ui, cfm_data);
 
 	widget = e_builder_get_widget (cfm_data->builder, "cert-manager-notebook");
 	g_object_ref (widget);
