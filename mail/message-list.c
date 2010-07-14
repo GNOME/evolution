@@ -4413,21 +4413,8 @@ static void
 free_message_info_data (gpointer uid, struct sort_message_info_data *data, struct sort_array_data *sort_data)
 {
 	if (data->values) {
-		gint i;
-
-		g_return_if_fail (data->values->len <= sort_data->sort_columns->len);
-
-		for (i = 0; i < data->values->len; i++) {
-			gpointer v = g_ptr_array_index (data->values, i);
-			struct sort_column_data *scol;
-
-			if (!v)
-				continue;
-
-			scol = g_ptr_array_index (sort_data->sort_columns, i);
-			ml_free_value (NULL, scol->col->compare_col, v, NULL);
-		}
-
+		/* values in this array are not newly allocated, even ml_tree_value_at_ex
+		   returns gpointer, not a gconstpointer */
 		g_ptr_array_free (data->values, TRUE);
 	}
 
