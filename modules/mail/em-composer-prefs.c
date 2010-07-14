@@ -447,6 +447,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		shell_settings, "composer-outlook-filenames",
 		widget, "active");
 
+	widget = e_builder_get_widget (prefs->builder, "chkIgnoreListReplyTo");
+	e_mutual_binding_new (
+		shell_settings, "composer-ignore-list-reply-to",
+		widget, "active");
+
 	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
 	e_mutual_binding_new (
 		shell_settings, "composer-top-signature",

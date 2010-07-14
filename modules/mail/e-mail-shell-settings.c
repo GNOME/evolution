@@ -216,6 +216,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/composer/outlook_filenames");
 
 	e_shell_settings_install_property_for_key (
+		"composer-ignore-list-reply-to",
+		"/apps/evolution/mail/composer/ignore_list_reply_to");
+
+	e_shell_settings_install_property_for_key (
 		"composer-prompt-only-bcc",
 		"/apps/evolution/mail/prompts/only_bcc");
 

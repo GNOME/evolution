@@ -1736,37 +1736,6 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	return composer;
 }
 
-static void
-get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
-{
-	CamelInternetAddress *reply_to;
-	const gchar *name, *addr, *posthdr;
-	gint i;
-
-	/* check whether there is a 'Newsgroups: ' header in there */
-	if (postto
-	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
-		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode((CamelAddress *)postto, posthdr);
-		return;
-	}
-
-	reply_to = camel_mime_message_get_reply_to (message);
-	if (!reply_to)
-		reply_to = camel_mime_message_get_from (message);
-
-	if (reply_to) {
-		for (i = 0; camel_internet_address_get (reply_to, i, &name, &addr); i++)
-			camel_internet_address_add (to, name, addr);
-	}
-}
-
-void
-em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
-{
-	get_reply_sender (message, to, postto);
-}
-
 static gboolean
 get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 {
@@ -1807,6 +1776,75 @@ get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 	return TRUE;
 }
 
+static CamelInternetAddress *
+get_reply_to (CamelMimeMessage *message)
+{
+	CamelInternetAddress *reply_to;
+	GConfClient *gconf;
+	gboolean ignore_list_reply_to;
+
+	gconf = mail_config_get_gconf_client ();
+	ignore_list_reply_to = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/ignore_list_reply_to", NULL);
+
+	reply_to = camel_mime_message_get_reply_to (message);
+	if (reply_to && ignore_list_reply_to) {
+		CamelInternetAddress *list = camel_internet_address_new ();
+
+		if (get_reply_list (message, list) &&
+		    camel_address_length (CAMEL_ADDRESS(list)) == camel_address_length (CAMEL_ADDRESS(reply_to))) {
+			gint i;
+			const gchar *r_name, *r_addr;
+			const gchar *l_name, *l_addr;
+
+			for (i = 0; i < camel_address_length (CAMEL_ADDRESS(list)); i++) {
+				if (!camel_internet_address_get (reply_to, i, &r_name, &r_addr))
+					break;
+				if (!camel_internet_address_get (list, i, &l_name, &l_addr))
+					break;
+				if (strcmp (l_addr, r_addr))
+					break;
+			}
+			if (i == camel_address_length (CAMEL_ADDRESS(list))) {
+				reply_to = NULL;
+			}
+		}
+		g_object_unref (list);
+	}
+	if (!reply_to)
+		reply_to = camel_mime_message_get_from (message);
+
+	return reply_to;
+}
+
+static void
+get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+{
+	CamelInternetAddress *reply_to;
+	const gchar *name, *addr, *posthdr;
+	gint i;
+
+	/* check whether there is a 'Newsgroups: ' header in there */
+	if (postto
+	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
+		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
+		camel_address_decode((CamelAddress *)postto, posthdr);
+		return;
+	}
+
+	reply_to = get_reply_to (message);
+
+	if (reply_to) {
+		for (i = 0; camel_internet_address_get (reply_to, i, &name, &addr); i++)
+			camel_internet_address_add (to, name, addr);
+	}
+}
+
+void
+em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+{
+	get_reply_sender (message, to, postto);
+}
+
 static void
 concat_unique_addrs (CamelInternetAddress *dest, CamelInternetAddress *src, GHashTable *rcpt_hash)
 {
@@ -1839,10 +1877,7 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 
 	rcpt_hash = em_utils_generate_account_hash ();
 
-	reply_to = camel_mime_message_get_reply_to (message);
-	if (!reply_to)
-		reply_to = camel_mime_message_get_from (message);
-
+	reply_to = get_reply_to(message);
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 

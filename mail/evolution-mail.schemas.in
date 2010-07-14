@@ -269,6 +269,27 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/ignore_list_reply_to</key>
+      <applyto>/apps/evolution/mail/composer/ignore_list_reply_to</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Ignore list Reply-To:</short>
+         <long>
+	   Some mailing lists set a Reply-To: header to trick users into
+	   sending replies to the list, even when they ask Evolution to
+	   make a private reply. Setting this option to TRUE will attempt
+	   to ignore such Reply-To: headers, so that Evolution will do
+	   as you ask it. If you use the private reply action, it will
+	   reply privately, while if you use the 'Reply to List' action
+	   it will do that. It works by comparing the Reply-To: header
+	   with a List-Post: header, if there is one.
+	 </long>
+      </locale>
+    </schema>
+
     <!-- Display Settings -->
 
     <schema>
