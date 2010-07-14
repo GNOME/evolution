@@ -354,7 +354,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EMFormatHTMLDisplay *html_display;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
-	CamelMimeMessage *src_message;
+	CamelMimeMessage *src_message = NULL;
 	CamelFolder *folder;
 	GtkHTML *html;
 	struct _camel_header_raw *header;
@@ -377,6 +377,13 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
+	if (!gtk_widget_get_mapped (GTK_WIDGET(html)))
+		goto whole_message;
+
+	src_message = CAMEL_MIME_MESSAGE (((EMFormat *) html_display)->message);
+	if (src_message)
+		camel_object_ref(src_message);
+
 	if (!gtk_html_command (html, "is-selection-active"))
 		goto whole_message;
 
@@ -387,8 +394,6 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!html_contains_nonwhitespace (selection, length))
 		goto whole_message;
 
-	src_message =
-		CAMEL_MIME_MESSAGE (((EMFormat *) html_display)->message);
 	new_message = camel_mime_message_new ();
 
 	/* Filter out "content-*" headers. */
@@ -410,6 +415,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		CAMEL_MIME_PART (new_message),
 		selection, length, "text/html");
 
+	camel_object_unref(src_message);
 	em_utils_reply_to_message (
 		folder, uid, new_message, reply_mode, NULL);
 
@@ -419,7 +425,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 whole_message:
 	em_utils_reply_to_message (
-		folder, uid, NULL, reply_mode, (EMFormat *) html_display);
+		folder, uid, src_message, reply_mode, (EMFormat *) html_display);
 }
 
 void
