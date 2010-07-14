@@ -384,8 +384,11 @@ e_mail_reader_reply_to_message (EMailReader *reader, CamelMimeMessage *src_messa
 	if (!gtk_widget_get_mapped (GTK_WIDGET(web_view)))
 		goto whole_message;
 
-	if (!src_message)
+	if (!src_message) {
 		src_message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
+		if (src_message)
+			g_object_ref(src_message);
+	}
 
 	if (!e_mail_reader_get_quote_from_selection (reader))
 		goto whole_message;
@@ -421,6 +424,7 @@ e_mail_reader_reply_to_message (EMailReader *reader, CamelMimeMessage *src_messa
 		CAMEL_MIME_PART (new_message),
 		selection, length, "text/html");
 
+	g_object_unref(src_message);
 	em_utils_reply_to_message (
 		folder, uid, new_message, reply_mode, NULL);
 

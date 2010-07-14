@@ -100,6 +100,9 @@ emf_finalize (GObject *object)
 	if (emf->session)
 		g_object_unref (emf->session);
 
+	if (emf->message)
+		g_object_unref (emf->message);
+
 	g_hash_table_destroy (emf->inline_table);
 
 	em_format_clear_headers(emf);

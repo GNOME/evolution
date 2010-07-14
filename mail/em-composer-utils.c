@@ -2200,9 +2200,12 @@ reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *messag
 {
 	struct _reply_data *rd = user_data;
 
-	if (message != NULL)
+	if (message != NULL) {
+		/* get_message_free() will also unref the message, so we need
+		   an extra ref for em_utils_reply_to_message() to drop. */
+		g_object_ref(message);
 		em_utils_reply_to_message(folder, uid, message, rd->mode, rd->source);
-
+	}
 	if (rd->source)
 		g_object_unref(rd->source);
 	g_free(rd);
@@ -2223,7 +2226,7 @@ reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *messag
  *
  * If @message is non null, then it is used directly, @folder and @uid
  * may be supplied in order to update the message flags once it has
- * been replied to.
+ * been replied to. Note that @message will be unreferenced on completion.
  **/
 EMsgComposer *
 em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source)
@@ -2286,6 +2289,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	composer_set_body (composer, message, source);
 
+	g_object_unref(message);
 	emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	emcs_set_folder_info (emcs, folder, uid, flags, flags);
 

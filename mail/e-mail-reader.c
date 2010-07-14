@@ -832,6 +832,9 @@ action_mail_reply_all_check(CamelFolder *folder, const gchar *uid, CamelMimeMess
 	if (!message)
 		return;
 
+	/* get_message_free() will unref the message, so we need to take an
+	   extra ref for e_mail_reader_reply_to_message() to own. */
+	g_object_ref(message);
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 
