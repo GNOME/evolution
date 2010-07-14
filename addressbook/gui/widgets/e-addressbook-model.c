@@ -199,10 +199,18 @@ remove_contact(EBookView *book_view,
 			const gchar *uid;
 
 			contact = array->pdata[ii];
+			/* check if already removed */
+			if (!contact)
+				continue;
+
 			uid = e_contact_get_const (contact, E_CONTACT_UID);
+			g_return_if_fail (uid != NULL);
+
 			if (strcmp (uid, target_uid) == 0) {
 				g_object_unref (contact);
 				g_array_append_val (indices, ii);
+				array->pdata[ii] = NULL;
+				break;
 			}
 		}
 	}
