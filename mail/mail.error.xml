@@ -58,6 +58,14 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
   </error>
 
+  <error id="ask-list-honour-reply-to" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Send private reply?</_primary>
+    <_secondary>You are replying privately to a message which arrived via a mailing list, but the list is trying to redirect your reply to go back to the list. Are you sure you want to proceed?</_secondary>
+    <button response="GTK_RESPONSE_NO" _label="Reply _Privately"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button response="GTK_RESPONSE_OK" _label="Reply to _List"></button>
+  </error>
+
   <error id="ask-list-private-reply" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Send private reply?</_primary>
     <_secondary>You are replying to a message which arrived via a mailing list, but you are replying privately to the sender; not to the list. Are you sure you want to proceed?</_secondary>

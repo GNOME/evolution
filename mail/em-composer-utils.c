@@ -1861,6 +1861,29 @@ em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, 
 }
 
 static void
+get_reply_from (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+{
+	CamelInternetAddress *from;
+	const gchar *name, *addr, *posthdr;
+	gint i;
+
+	/* check whether there is a 'Newsgroups: ' header in there */
+	if (postto
+	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
+		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
+		camel_address_decode((CamelAddress *)postto, posthdr);
+		return;
+	}
+
+	from = camel_mime_message_get_from (message);
+
+	if (from) {
+		for (i = 0; camel_internet_address_get (from, i, &name, &addr); i++)
+			camel_internet_address_add (to, name, addr);
+	}
+}
+
+static void
 concat_unique_addrs (CamelInternetAddress *dest, CamelInternetAddress *src, GHashTable *rcpt_hash)
 {
 	const gchar *name, *addr;
@@ -2274,6 +2297,12 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
 	switch (mode) {
+	case REPLY_MODE_FROM:
+		if (folder)
+			postto = camel_nntp_address_new();
+
+		get_reply_from (message, to, postto);
+		break;
 	case REPLY_MODE_SENDER:
 		if (folder)
 			postto = camel_nntp_address_new();

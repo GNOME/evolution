@@ -53,7 +53,8 @@ void em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMe
 void em_utils_send_receipt   (CamelFolder *folder, CamelMimeMessage *message);
 
 enum {
-	REPLY_MODE_SENDER,
+	REPLY_MODE_SENDER, /* Reply-To?:From */
+	REPLY_MODE_FROM,
 	REPLY_MODE_ALL,
 	REPLY_MODE_LIST
 };

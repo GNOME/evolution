@@ -980,6 +980,46 @@ action_mail_reply_sender_check(CamelFolder *folder, const gchar *uid, CamelMimeM
 			mode = REPLY_MODE_LIST;
 		else if (response == GTK_RESPONSE_CANCEL)
 			return;
+	} else if (gconf_client_get_bool(gconf, "/apps/evolution/mail/prompts/list_reply_to", NULL)) {
+		GtkDialog *dialog;
+		GtkWidget *content_area, *vbox, *check_again, *check_always_ignore;
+		gint response;
+
+		dialog = (GtkDialog*) e_alert_dialog_new_for_args (e_mail_reader_get_window (reader),
+								   "mail:ask-list-honour-reply-to", NULL);
+
+		/*Check buttons*/
+		vbox = gtk_vbox_new (FALSE, 0);
+		content_area = gtk_dialog_get_content_area (dialog);
+		gtk_container_set_border_width((GtkContainer *)vbox, 12);
+		gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
+		gtk_widget_show (vbox);
+
+		check_again = gtk_check_button_new_with_mnemonic (_("_Do not ask me again."));
+		gtk_box_pack_start (GTK_BOX (vbox), check_again, TRUE, TRUE, 0);
+		gtk_widget_show (check_again);
+
+		check_always_ignore = gtk_check_button_new_with_mnemonic (_("_Always ignore Reply-To: for mailing lists."));
+		gtk_box_pack_start (GTK_BOX (vbox), check_always_ignore, TRUE, TRUE, 0);
+		gtk_widget_show (check_always_ignore);
+
+		response = gtk_dialog_run ((GtkDialog *) dialog);
+
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_again)))
+			gconf_client_set_bool(gconf, "/apps/evolution/mail/prompts/list_reply_to", FALSE, NULL);
+
+		gconf_client_set_bool(gconf, "/apps/evolution/mail/composer/ignore_list_reply_to",
+				      gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_always_ignore)),
+				      NULL);
+
+		gtk_widget_destroy((GtkWidget *)dialog);
+
+		if (response == GTK_RESPONSE_NO)
+			mode = REPLY_MODE_FROM;
+		else if (response == GTK_RESPONSE_OK)
+			mode = REPLY_MODE_LIST;
+		else if (response == GTK_RESPONSE_CANCEL)
+			return;
 	}
 
 	e_mail_reader_reply_to_message (reader, message, mode);
@@ -992,7 +1032,8 @@ action_mail_reply_sender_cb (GtkAction *action,
 	GConfClient *gconf;
 
 	gconf = mail_config_get_gconf_client ();
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/private_list_reply", NULL) &&
+	if ((gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/private_list_reply", NULL) ||
+	     gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/list_reply_to", NULL)) &&
 	    e_mail_reader_check_state(reader) & E_MAIL_READER_SELECTION_IS_MAILING_LIST) {
 		CamelMimeMessage *message = NULL;
 		EWebView *web_view;

@@ -1106,6 +1106,18 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/prompts/list_reply_to</key>
+      <applyto>/apps/evolution/mail/prompts/list_reply_to</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Prompt when mailing list hijacks private replies</short>
+         <long>It disables/enables the repeated prompts to warn that you are trying sending a private reply to a message which arrived via a mailing list, but the list sets a Reply-To: header which redirects your reply back to the list</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/prompts/reply_many_recips</key>
       <applyto>/apps/evolution/mail/prompts/reply_many_recips</applyto>
       <owner>evolution-mail</owner>
