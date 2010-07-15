@@ -643,6 +643,27 @@ if test x"$have_xfree" = "xyes" ; then
 fi
 
 dnl **************************************************
+dnl Clutter support.
+dnl **************************************************
+AC_MSG_CHECKING([whether to build with Clutter])
+AC_ARG_WITH([clutter],
+       [AC_HELP_STRING([--with-clutter],
+       [Build with Clutter [default=no]])],
+       with_clutter="$withval", with_clutter="no")
+AC_MSG_RESULT($with_clutter)
+
+if test "x$with_clutter" = "xyes"; then
+   PKG_CHECK_MODULES(CLUTTER, [mx-1.0 clutter-gtk-0.90 >= 0.90.0 clutter-1.0 >= 1.0.0])
+
+   AC_DEFINE(HAVE_CLUTTER, 1, [Clutter available])
+   AM_CONDITIONAL(ENABLE_CLUTTER, true)
+else
+   AC_DEFINE(HAVE_CLUTTER, 0, [Clutter not available])
+   AM_CONDITIONAL(ENABLE_CLUTTER, false)
+fi
+
+
+dnl **************************************************
 dnl LDAP support.
 dnl **************************************************
 if test "$os_win32" != yes; then
