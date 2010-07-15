@@ -111,7 +111,12 @@
   <toolbar name='main-toolbar'>
     <placeholder name='mail-toolbar-common'>
       <toolitem action='mail-reply-sender'/>
-      <toolitem action='mail-reply-all'/>
+      <toolitem action='mail-reply-group'>
+        <menu action='mail-reply-group-menu'>
+          <menuitem action='mail-reply-all'/>
+          <menuitem action='mail-reply-list'/>
+        </menu>
+      </toolitem>
       <toolitem action='mail-forward'>
         <menu action='mail-forward-as-menu'>
           <menuitem action='mail-forward-attached-full'/>

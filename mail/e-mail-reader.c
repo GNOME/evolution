@@ -913,6 +913,21 @@ action_mail_reply_all_cb (GtkAction *action,
 }
 
 static void
+action_mail_reply_group_cb (GtkAction *action,
+			    EMailReader *reader)
+{
+	GConfClient *gconf = mail_config_get_gconf_client ();
+	gboolean reply_list = gconf_client_get_bool (gconf,
+					"/apps/evolution/mail/composer/group_reply_to_list", NULL);
+	guint32 state = e_mail_reader_check_state (reader);
+
+	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST))
+		e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_LIST);
+	else
+		action_mail_reply_all_cb(action, reader);
+}
+
+static void
 action_mail_reply_list_cb (GtkAction *action,
                            EMailReader *reader)
 {
@@ -1586,7 +1601,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_redirect_cb) },
 
 	{ "mail-reply-all",
-	  "mail-reply-all",
+	  NULL,
 	  N_("Reply to _All"),
 	  "<Shift><Control>r",
 	  N_("Compose a reply to all the recipients of the selected message"),
@@ -1702,6 +1717,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-forward-as-menu",
 	  NULL,
 	  N_("F_orward As"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "mail-reply-group-menu",
+	  NULL,
+	  N_("_Group Reply"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -2568,6 +2590,16 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-reply-group";
+	sensitive = have_enabled_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-group-menu";
+	sensitive = have_enabled_account && any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-reply-list";
 	sensitive = have_enabled_account && single_message_selected &&
 		selection_is_mailing_list;
@@ -2778,6 +2810,22 @@ e_mail_reader_init (EMailReader *reader)
 	gtk_action_group_add_action_with_accel (
 		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
 
+	/* Likewise the "mail-reply-group" action */
+
+	menu_tool_action = e_menu_tool_action_new (
+		"mail-reply-group", _("Group Reply"),
+		_("Reply to the mailing list, or to all recipients"), NULL);
+
+	gtk_action_set_icon_name (
+		GTK_ACTION (menu_tool_action), "mail-reply-all");
+
+	g_signal_connect (
+		menu_tool_action, "activate",
+		G_CALLBACK (action_mail_reply_group_cb), reader);
+
+	gtk_action_group_add_action_with_accel (
+		action_group, GTK_ACTION (menu_tool_action), "<Control>g");
+
 	/* Add the other actions the normal way. */
 
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
@@ -2814,6 +2862,10 @@ e_mail_reader_init (EMailReader *reader)
 	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	action_name = "mail-forward";
+	action = e_mail_reader_get_action (reader, action_name);
+	g_object_set (action, "is-important", TRUE, NULL);
+
+	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "is-important", TRUE, NULL);
 

@@ -220,6 +220,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/composer/ignore_list_reply_to");
 
 	e_shell_settings_install_property_for_key (
+		"composer-group-reply-to-list",
+		"/apps/evolution/mail/composer/group_reply_to_list");
+
+	e_shell_settings_install_property_for_key (
 		"composer-prompt-only-bcc",
 		"/apps/evolution/mail/prompts/only_bcc");
 

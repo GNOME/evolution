@@ -60,6 +60,23 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/group_reply_to_list</key>
+      <applyto>/apps/evolution/mail/composer/group_reply_to_list</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Group Reply replies to list</short>
+         <long>
+           Instead of the normal "Reply to All" behaviour, this option will
+	   make the 'Group Reply' toolbar button try to reply only to the
+	   mailing list through which you happened to receive the copy of
+	   the message to which you're replying.
+	 </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/reply_start_bottom</key>
       <applyto>/apps/evolution/mail/composer/reply_start_bottom</applyto>
       <owner>evolution-mail</owner>
