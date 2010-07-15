@@ -59,6 +59,7 @@ enum {
 };
 
 gchar *em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source);
+gboolean em_utils_is_munged_list_message (CamelMimeMessage *message);
 void em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto);
 void em_utils_get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto);
 EMsgComposer * em_utils_reply_to_message (CamelFolder *, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source);

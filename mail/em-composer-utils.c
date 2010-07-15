@@ -1776,19 +1776,15 @@ get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 	return TRUE;
 }
 
-static CamelInternetAddress *
-get_reply_to (CamelMimeMessage *message)
+gboolean
+em_utils_is_munged_list_message(CamelMimeMessage *message)
 {
-	CamelInternetAddress *reply_to;
-	GConfClient *gconf;
-	gboolean ignore_list_reply_to;
-
-	gconf = mail_config_get_gconf_client ();
-	ignore_list_reply_to = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/ignore_list_reply_to", NULL);
+	CamelInternetAddress *reply_to, *list;
+	gboolean result = FALSE;
 
 	reply_to = camel_mime_message_get_reply_to (message);
-	if (reply_to && ignore_list_reply_to) {
-		CamelInternetAddress *list = camel_internet_address_new ();
+	if (reply_to) {
+		list = camel_internet_address_new ();
 
 		if (get_reply_list (message, list) &&
 		    camel_address_length (CAMEL_ADDRESS(list)) == camel_address_length (CAMEL_ADDRESS(reply_to))) {
@@ -1804,11 +1800,30 @@ get_reply_to (CamelMimeMessage *message)
 				if (strcmp (l_addr, r_addr))
 					break;
 			}
-			if (i == camel_address_length (CAMEL_ADDRESS(list))) {
-				reply_to = NULL;
-			}
+			if (i == camel_address_length (CAMEL_ADDRESS(list)))
+				result = TRUE;
 		}
 		g_object_unref (list);
+	}
+	return result;
+}
+
+static CamelInternetAddress *
+get_reply_to (CamelMimeMessage *message)
+{
+	CamelInternetAddress *reply_to;
+
+	reply_to = camel_mime_message_get_reply_to (message);
+	if (reply_to) {
+		GConfClient *gconf;
+		gboolean ignore_list_reply_to;
+
+		gconf = mail_config_get_gconf_client ();
+		ignore_list_reply_to = gconf_client_get_bool (gconf,
+					"/apps/evolution/mail/composer/ignore_list_reply_to", NULL);
+
+		if (ignore_list_reply_to && em_utils_is_munged_list_message (message))
+			reply_to = NULL;
 	}
 	if (!reply_to)
 		reply_to = camel_mime_message_get_from (message);

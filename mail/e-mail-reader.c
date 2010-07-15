@@ -920,15 +920,24 @@ action_mail_reply_list_cb (GtkAction *action,
 }
 
 static void
-action_mail_reply_sender_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mail_reply_sender_check(CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gpointer user_data)
 {
+	GConfClient *gconf = mail_config_get_gconf_client ();
+	EMailReader *reader = user_data;
 	gint mode = REPLY_MODE_SENDER;
-	GConfClient *gconf;
 
-	gconf = mail_config_get_gconf_client ();
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/private_list_reply", NULL) &&
-	    e_mail_reader_check_state(reader) & E_MAIL_READER_SELECTION_IS_MAILING_LIST) {
+	if (!message)
+		return;
+
+	/* get_message_free() will unref the message, so we need to take an
+	   extra ref for e_mail_reader_reply_to_message() to own. */
+	g_object_ref(message);
+	
+	/* Don't do the "Are you sure you want to reply in private?" pop-up if
+	   it's a Reply-To: munged list message... unless we're ignoring munging */
+	if (gconf_client_get_bool (gconf,
+				   "/apps/evolution/mail/composer/ignore_list_reply_to", NULL)
+	    || !em_utils_is_munged_list_message (message)) {
 		GtkDialog *dialog;
 		GtkWidget *content_area, *check;
 		gint response;
@@ -957,7 +966,46 @@ action_mail_reply_sender_cb (GtkAction *action,
 		else if (response == GTK_RESPONSE_CANCEL)
 			return;
 	}
-	e_mail_reader_reply_to_message (reader, NULL, mode);
+
+	e_mail_reader_reply_to_message (reader, message, mode);
+}
+
+static void
+action_mail_reply_sender_cb (GtkAction *action,
+                             EMailReader *reader)
+{
+	GConfClient *gconf;
+
+	gconf = mail_config_get_gconf_client ();
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/private_list_reply", NULL) &&
+	    e_mail_reader_check_state(reader) & E_MAIL_READER_SELECTION_IS_MAILING_LIST) {
+		CamelMimeMessage *message = NULL;
+		EWebView *web_view;
+		EMFormatHTML *formatter;
+
+		formatter = e_mail_reader_get_formatter (reader);
+		web_view = em_format_html_get_web_view (formatter);
+		if (gtk_widget_get_mapped (GTK_WIDGET(web_view)))
+			message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
+
+		if (!message) {
+			CamelFolder *folder;
+			GtkWidget *message_list;
+			gchar *uid;
+
+			folder = e_mail_reader_get_folder (reader);
+			message_list = e_mail_reader_get_message_list (reader);
+
+			uid = MESSAGE_LIST (message_list)->cursor_uid;
+			g_return_if_fail (uid != NULL);
+
+			mail_get_message(folder, uid, action_mail_reply_sender_check, reader, mail_msg_unordered_push);
+			return;
+		}
+		action_mail_reply_sender_check(NULL, NULL, message, reader);
+		return;
+	}
+	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_SENDER);
 }
 
 static void
