@@ -26,6 +26,11 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
+#if HAVE_CLUTTER
+#include <clutter-gtk/clutter-gtk.h>
+#include <mx/mx.h>
+#endif
+
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
 #ifdef DATADIR
@@ -464,10 +469,20 @@ main (gint argc, gchar **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+#if HAVE_CLUTTER
+	gtk_clutter_init_with_args (
+		&argc, &argv, 
+		_("- The Evolution PIM and Email Client"), 
+		entries, (gchar *) GETTEXT_PACKAGE, &error);
+  	mx_style_load_from_file (mx_style_get_default (),
+                           EVOLUTION_MX_THEMEDIR "/default.css", NULL);
+
+#else	
 	gtk_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
+#endif	
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
