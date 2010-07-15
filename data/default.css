@@ -1,0 +1,111 @@
+/* Tab picker */
+EMailTabPicker {
+  border-image: url('tab-bar-background.png') 0 0 5;
+  padding: 0 0 0 3;
+}
+
+*#chooser-button {
+  border-image: url('tab-switcher.png') 9 6 5;
+  padding: 35 34 0 0;
+}
+
+*#chooser-button:hover {
+  border-image: url('tab-switcher-hover.png') 9 6 5;
+}
+
+*#chooser-close-button {
+  border-image: url('tab-switcher-close.png') 5 30 0 0;
+  padding: 32 33 0 0;
+}
+
+*#chooser-close-button:hover {
+  border-image: url('tab-switcher-close-hover.png') 5 30 0 0;
+  padding: 32 33 0 0;
+}
+
+*#tab-picker-preview {
+  padding: 4 0 4 3;
+}
+
+/* Tabs */
+EMailTab:hover {
+  color: #ffffff;
+  border-image: url('tab-inactive-hover.png') 12 31 5 9;
+}
+
+EMailTab {
+  color: #000000;
+  border-image: url('tab-inactive.png') 12 31 5 9;
+  padding: 8 10 4 14;
+}
+
+EMailTab:checked, EMailTab:active {
+  color: #727272;
+  border-image: url('tab-active.png') 8 31 9 11;
+  padding: 6 10 6 14;
+}
+
+*#private-tab:hover {
+  color: #ffffff;
+  border-image: url('tab-inactive-hover-private.png') 12 31 5 9;
+}
+
+*#private-tab {
+  color: #000000;
+  border-image: url('tab-inactive-private.png') 12 31 5 9;
+  padding: 8 10 4 14;
+}
+
+*#private-tab:checked, *#private-tab:active {
+  color: #727272;
+  border-image: url('tab-active-private.png') 8 31 9 11;
+  padding: 6 10 6 14;
+}
+
+EMailTab MxLabel {
+  font-size: 13;
+}
+
+*#tab-close-button {
+  border-image: url('close-on-tab.png') 0;
+  padding: 19 20 0 0;
+}
+
+*#tab-close-button:hover {
+  border-image: url('close-on-tab-hover.png') 0;
+}
+
+*#preview-tab {
+  border-image: url('preview-tab-inactive.png') 10;
+  padding: 7 10 7 14;
+}
+
+*#preview-tab:checked, *#preview-tab:active {
+  border-image: url('preview-tab-active.png') 10;
+}
+
+*#preview-tab:hover {
+  border-image: url('preview-tab-hover.png') 10;
+}
+
+*#private-preview-tab {
+  border-image: url('preview-tab-inactive-private.png') 10;
+}
+
+*#private-preview-tab:checked, *#private-preview-tab:active {
+  border-image: url('preview-tab-active-private.png') 10;
+}
+
+*#private-preview-tab:hover {
+  border-image: url('preview-tab-hover-private.png') 10;
+}
+
+*#new-tab {
+  border-image: url('tab-add.png') 9 6 5;
+  padding: 35 34 0 0;
+}
+
+*#new-tab:hover {
+  border-image: url('tab-add-hover.png') 9 6 5;
+}
+
