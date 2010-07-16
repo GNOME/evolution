@@ -271,6 +271,24 @@
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="failed-open-calendar" type="error" default="GTK_RESPONSE_YES">
+  <_primary>Error loading calendar</_primary>
+  <secondary>{0}</secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="failed-open-tasks" type="error" default="GTK_RESPONSE_YES">
+  <_primary>Error loading task list</_primary>
+  <secondary>{0}</secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="failed-open-memos" type="error" default="GTK_RESPONSE_YES">
+  <_primary>Error loading memo list</_primary>
+  <secondary>{0}</secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="server-version" type="warning">
  <_primary>Some features may not work properly with your current server.</_primary>
  <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results, the server should be upgraded to a supported version.</_secondary>

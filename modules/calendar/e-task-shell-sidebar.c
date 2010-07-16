@@ -209,6 +209,13 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 			/* fall through */
 
 		default:
+			if (error->code != E_CALENDAR_STATUS_REPOSITORY_OFFLINE) {
+				e_alert_run_dialog_for_args (
+					GTK_WINDOW (shell_window),
+					"calendar:failed-open-tasks",
+					error->message, NULL);
+			}
+
 			e_task_shell_sidebar_remove_source (
 				task_shell_sidebar,
 				e_cal_get_source (client));
@@ -257,6 +264,11 @@ task_shell_sidebar_default_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 			return;
 
 		default:
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
+				"calendar:failed-open-tasks",
+				error->message, NULL);
+
 			e_task_shell_sidebar_remove_source (
 				task_shell_sidebar,
 				e_cal_get_source (client));
