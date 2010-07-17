@@ -37,8 +37,6 @@ libevolution_mail_la_CPPFLAGS =				\
 
 mailinclude_HEADERS =					\
 	e-mail-view.h					\
-	e-mail-tab.h					\
-	e-mail-tab-picker.h				\
 	e-mail-folder-pane.h				\
 	e-mail-message-pane.h				\
 	e-mail-paned-view.h				\
@@ -99,9 +97,14 @@ mailinclude_HEADERS =					\
 	mail-vfolder.h					\
 	message-list.h
 
+if ENABLE_CLUTTER
+mailinclude_HEADERS +=					\
+	e-mail-tab.h					\
+	e-mail-tab-picker.h				
+
+endif
+
 libevolution_mail_la_SOURCES =				\
-	e-mail-tab.c					\
-	e-mail-tab-picker.c				\
 	e-mail-view.c					\
 	e-mail-folder-pane.c				\
 	e-mail-message-pane.c				\
@@ -162,6 +165,12 @@ libevolution_mail_la_SOURCES =				\
 	mail-tools.c					\
 	mail-vfolder.c					\
 	message-list.c
+
+if ENABLE_CLUTTER
+libevolution_mail_la_SOURCES +=				\
+	e-mail-tab.c					\
+	e-mail-tab-picker.c				
+endif
 
 if ENABLE_SMIME
 SMIME_LIBS =						\
