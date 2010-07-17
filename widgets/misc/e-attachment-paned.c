@@ -592,11 +592,19 @@ attachment_paned_init (EAttachmentPaned *paned)
 	 *
 	 * XXX This hack causes nasty side-effects in RTL locales,
 	 *     so check the reading direction before applying it.
-	 *     See GNOME bug #614049 for details + screenshot. */
+	 *     See GNOME bug #614049 for details + screenshot.
+	 *
+	 * XXX It also trips a height-for-width assertion GTK+ 3.
+	 *     The same GNOME bug has a patch to add a "label-fill"
+	 *     boolean property to GtkExpander to allow me to do
+	 *     what I'm trying to do here properly.
+	 */
 	widget = gtk_hbox_new (FALSE, 6);
 	gtk_size_group_add_widget (size_group, widget);
+#if !GTK_CHECK_VERSION(2,90,0)
 	if (gtk_widget_get_direction (widget) != GTK_TEXT_DIR_RTL)
 		gtk_widget_set_size_request (widget, G_MAXINT, -1);
+#endif
 	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
 	gtk_widget_show (widget);
 
