@@ -604,6 +604,10 @@ mail_config_init (void)
 
 	gtk_rc_parse (config->gtkrc);
 
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/prompts",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
 	/* Composer Configuration */
 
 	gconf_client_add_dir (
