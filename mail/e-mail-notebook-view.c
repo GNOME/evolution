@@ -182,7 +182,7 @@ tab_picker_preview_mode_notify (EMailTabPicker *picker,
 }
 
 static void
-mnv_browser_tab_anim_frame_cb (ClutterTimeline *timeline,
+mnv_tab_anim_frame_cb (ClutterTimeline *timeline,
                                gint             frame_num,
                                EMailTab          *tab)
 {
@@ -198,12 +198,64 @@ mnv_browser_tab_anim_frame_cb (ClutterTimeline *timeline,
 }
 
 static void
-mnv_browser_tab_anim_complete_cb (ClutterTimeline *timeline,
+mnv_tab_anim_complete_cb (ClutterTimeline *timeline,
                                   EMailTab          *tab)
 {
 	e_mail_tab_set_width (tab, 200);
 	g_object_unref (tab);
 	g_object_unref (timeline);
+}
+
+struct _tab_data {
+	gboolean select;
+	EMailNotebookView *view;
+	EMailTab *tab;
+};
+
+static void
+mnv_tab_closed_cb (ClutterTimeline *timeline,
+		struct _tab_data *data)
+{
+	EMailView *page = g_object_get_data ((GObject *)data->tab, "page");
+	const char *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
+	
+	e_mail_tab_picker_remove_tab (data->view->priv->tab_picker, data->tab); 
+
+	g_hash_table_remove (data->view->priv->views, folder_uri);
+	gtk_notebook_remove_page (data->view->priv->book, 
+			gtk_notebook_page_num (data->view->priv->book, (GtkWidget *)page));
+
+}
+
+static void
+mnv_tab_closed (EMailTab *tab, EMailNotebookView *view)
+{
+	EMailNotebookViewPrivate *priv = view->priv;
+	int page, cur;
+	gboolean select = FALSE;
+	ClutterTimeline *timeline;
+	struct _tab_data *data = g_new0 (struct _tab_data, 1);
+
+	page = e_mail_tab_picker_get_tab_no (priv->tab_picker,
+					     tab);
+	cur = e_mail_tab_picker_get_current_tab (priv->tab_picker);
+
+	if (cur == page)
+		select = TRUE;
+
+	data->select  = select;
+	data->tab = tab;
+	data->view = view;
+
+	clutter_actor_set_reactive (CLUTTER_ACTOR (tab), FALSE);
+  	timeline = clutter_timeline_new (150);
+	clutter_timeline_set_direction (timeline, CLUTTER_TIMELINE_BACKWARD);
+  	g_signal_connect (timeline, "new-frame",
+                    G_CALLBACK (mnv_tab_anim_frame_cb), tab);
+  	g_signal_connect (timeline, "completed",
+                    G_CALLBACK (mnv_tab_closed_cb), data);
+  	clutter_timeline_start (timeline);
+	
 }
 
 static void
@@ -282,9 +334,9 @@ mail_notebook_view_constructed (GObject *object)
 	g_object_ref (tab);
       	timeline = clutter_timeline_new (150);
 	g_signal_connect (timeline, "new-frame",
-       	            G_CALLBACK (mnv_browser_tab_anim_frame_cb), tab);
+       	            G_CALLBACK (mnv_tab_anim_frame_cb), tab);
       	g_signal_connect (timeline, "completed",
-       	            G_CALLBACK (mnv_browser_tab_anim_complete_cb), tab);
+       	            G_CALLBACK (mnv_tab_anim_complete_cb), tab);
 	clutter_timeline_start (timeline);
 #endif
 
@@ -552,12 +604,15 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
 
+	g_signal_connect (tab , "closed", 
+			  G_CALLBACK (mnv_tab_closed), nview);
+
 	g_object_ref (tab);
 	timeline = clutter_timeline_new (150);
 	g_signal_connect (timeline, "new-frame",
-       	            G_CALLBACK (mnv_browser_tab_anim_frame_cb), tab);
+       	            G_CALLBACK (mnv_tab_anim_frame_cb), tab);
 	g_signal_connect (timeline, "completed",
-       	            G_CALLBACK (mnv_browser_tab_anim_complete_cb), tab);
+       	            G_CALLBACK (mnv_tab_anim_complete_cb), tab);
 	clutter_timeline_start (timeline);
 #endif
 
@@ -649,9 +704,9 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			g_object_ref (tab);
       			timeline = clutter_timeline_new (150);
 	      		g_signal_connect (timeline, "new-frame",
-       	       	        	    G_CALLBACK (mnv_browser_tab_anim_frame_cb), tab);
+       	       	        	    G_CALLBACK (mnv_tab_anim_frame_cb), tab);
       			g_signal_connect (timeline, "completed",
-       		        	    G_CALLBACK (mnv_browser_tab_anim_complete_cb), tab);
+       		        	    G_CALLBACK (mnv_tab_anim_complete_cb), tab);
       			clutter_timeline_start (timeline);
 #endif		
 		} else {
@@ -667,6 +722,8 @@ mail_notebook_view_set_folder (EMailReader *reader,
 #endif			
 		}
 
+		g_signal_connect (tab , "closed", 
+				   G_CALLBACK (mnv_tab_closed), reader);
 		e_mail_reader_set_folder (E_MAIL_READER(priv->current_view), folder, folder_uri);
 		g_hash_table_insert (priv->views, g_strdup(folder_uri), priv->current_view);
 		g_signal_connect ( E_MAIL_READER(priv->current_view), "changed",
