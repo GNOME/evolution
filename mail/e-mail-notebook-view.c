@@ -110,6 +110,8 @@ mnv_page_changed (GtkNotebook *book, GtkNotebookPage *page,
 	view->priv->current_view = mview;
 	/* For EMailReader related changes to EShellView*/
 	g_signal_emit_by_name (view, "changed");
+	g_signal_emit_by_name (view, "folder-loaded");
+	
 	/* For EMailShellContent related changes */
 	g_signal_emit_by_name (view, "view-changed");
 
