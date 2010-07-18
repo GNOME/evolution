@@ -75,3 +75,14 @@ Shell Utilities
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_hide_widgets_for_express_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@builder: 
+@widget_name: 
+@Varargs: 
+
+

@@ -147,6 +147,14 @@ EShell
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_load_modules ##### -->
+<para>
+
+</para>
+
+@shell: 
+
+
 <!-- ##### FUNCTION e_shell_get_shell_backends ##### -->
 <para>
 
@@ -261,7 +269,25 @@ EShell
 @parent: 
 
 
+<!-- ##### FUNCTION e_shell_get_meego_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_get_express_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_small_screen_mode ##### -->
 <para>
 
 </para>
@@ -334,6 +360,17 @@ EShell
 @event_data: 
 
 
+<!-- ##### ENUM EShellQuitReason ##### -->
+<para>
+
+</para>
+
+@E_SHELL_QUIT_ACTION: 
+@E_SHELL_QUIT_LAST_WINDOW: 
+@E_SHELL_QUIT_OPTION: 
+@E_SHELL_QUIT_REMOTE_REQUEST: 
+@E_SHELL_QUIT_SESSION_REQUEST: 
+
 <!-- ##### FUNCTION e_shell_quit ##### -->
 <para>
 
@@ -352,12 +389,46 @@ EShell
 @shell: 
 
 
+<!-- ##### FUNCTION e_shell_adapt_window_size ##### -->
+<para>
+
+</para>
+
+@shell: 
+@window: 
+
+
+<!-- ##### FUNCTION e_shell_set_startup_view ##### -->
+<para>
+
+</para>
+
+@shell: 
+@view: 
+
+
+<!-- ##### FUNCTION e_shell_get_startup_view ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
 <!-- ##### MACRO E_SHELL_MIGRATE_ERROR ##### -->
 <para>
 
 </para>
 
 
+
+<!-- ##### ENUM EShellMigrateError ##### -->
+<para>
+
+</para>
+
+@E_SHELL_MIGRATE_ERROR_FAILED: 
 
 <!-- ##### FUNCTION e_shell_migrate_attempt ##### -->
 <para>
@@ -366,5 +437,14 @@ EShell
 
 @shell: 
 @Returns: 
+
+
+<!-- ##### FUNCTION e_shell_detect_meego ##### -->
+<para>
+
+</para>
+
+@is_meego: 
+@small_screen: 
 
 

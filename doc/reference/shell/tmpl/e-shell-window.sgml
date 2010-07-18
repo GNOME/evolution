@@ -321,3 +321,12 @@ EShellWindow
 @n_entries: 
 
 
+<!-- ##### FUNCTION e_shell_window_get_menu_bar_box ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+

@@ -390,6 +390,22 @@ EShellView
 @shell_view: 
 
 
+<!-- ##### FUNCTION e_shell_view_block_update_actions ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
+<!-- ##### FUNCTION e_shell_view_unblock_update_actions ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
 <!-- ##### FUNCTION e_shell_view_show_popup_menu ##### -->
 <para>
 

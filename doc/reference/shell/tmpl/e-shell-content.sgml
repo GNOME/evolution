@@ -58,6 +58,14 @@ EShellContent
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_content_focus_search_results ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+
+
 <!-- ##### FUNCTION e_shell_content_get_shell_view ##### -->
 <para>
 

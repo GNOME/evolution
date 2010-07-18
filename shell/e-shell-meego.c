@@ -30,12 +30,16 @@
 #endif
 
 #ifdef G_OS_WIN32
-void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
+void
+e_shell_detect_meego (gboolean *is_meego,
+                      gboolean *small_screen)
 {
 	*is_meego = *small_screen = FALSE;
 }
 #else
-void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen)
+void
+e_shell_detect_meego (gboolean *is_meego,
+                      gboolean *small_screen)
 {
 	Window *wm_window_v = NULL;
 	guchar *moblin_string = NULL;
