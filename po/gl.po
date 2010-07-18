@@ -19895,7 +19895,7 @@ msgstr ""
 "Ignacio Casal Quinteiro <icq@svn.gnome.org>, 2007, 2008.\n"
 "Ignacio Casal Quinteiro <nacho.resa@gmail.com>, 2005, 2006.\n"
 "Manuel A. Fernández Montecelo <manuel@sindominio.net>, 2001, 2005.\n"
-"Jesús Bravo Álvarez <jba@pobox.com>, 2000.\n"
+"Jesús Bravo Álvarez <jba@pobox.com>, 2000."
 
 #: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
