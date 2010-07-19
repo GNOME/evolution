@@ -51,6 +51,9 @@ struct _EMailNotebookViewPrivate {
 
 #if HAVE_CLUTTER	
 	EMailTabPicker *tab_picker;
+	GtkWidget *embed;
+	GtkWidget *actor;
+	GtkWidget *stage;
 #endif	
 };
 
@@ -64,6 +67,41 @@ enum {
 
 static EMailViewClass *parent_class;
 static GType mail_notebook_view_type;
+
+#if HAVE_CLUTTER
+struct _anim_data {
+	EMailNotebookView *view;
+	int page;
+};
+
+static void
+start_tab_switch_cb (ClutterAnimation *animation,
+                     struct _anim_data *data)
+{
+	gtk_notebook_set_current_page (data->view->priv->book, data->page);
+	animation = clutter_actor_animate ((ClutterActor *)data->view->priv->actor, CLUTTER_EASE_IN_SINE, 75,
+       	                 	 	   "opacity", 255,
+       	                  		   NULL);
+	
+}
+
+
+static void
+mnv_set_current_tab (EMailNotebookView *view,
+		     int page)
+{
+	ClutterAnimation *animation;
+	struct _anim_data *data = g_new0 (struct _anim_data, 1);
+
+	data->view = view;
+	data->page = page;
+
+	animation = clutter_actor_animate ((ClutterActor *)view->priv->actor, CLUTTER_EASE_OUT_SINE, 75,
+       	                 	 	   "opacity", 0,
+       	                  		   NULL);
+	g_signal_connect_after (animation, "completed", G_CALLBACK(start_tab_switch_cb), data);
+}
+#endif
 
 static void
 mail_notebook_view_init (EMailNotebookView  *shell)
@@ -266,8 +304,97 @@ tab_activated_cb (EMailTabPicker *picker,
 	EMailView *page = g_object_get_data ((GObject *)tab, "page");
 	int num = emnv_get_page_num (view, (GtkWidget *)page);
 
-	gtk_notebook_set_current_page (view->priv->book, num);
+	mnv_set_current_tab (view, num);
 }
+#endif
+
+static void
+tab_remove_gtk_called (GtkWidget *button,
+		       EMailNotebookView *view)
+{
+
+}
+
+static GtkWidget *
+create_tab_label (EMailNotebookView *view, 
+		  EMailView *page,
+		  const char *str)
+{
+	GtkWidget *container, *widget;
+
+	widget = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (widget);
+	container = widget;
+
+	widget = gtk_label_new (str);
+	gtk_widget_show (widget);
+	gtk_box_pack_start (GTK_BOX(container), widget, TRUE, FALSE, 0);
+
+	widget = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_stock ("gtk-close", GTK_ICON_SIZE_MENU));
+	gtk_widget_show_all (widget);
+	gtk_box_pack_end (GTK_BOX(container), widget, FALSE, FALSE, 0);
+	g_object_set_data ((GObject *)widget, "page", page);
+	g_signal_connect (widget, "clicked", G_CALLBACK (tab_remove_gtk_called), view);
+
+	return container;
+}
+
+#if HAVE_CLUTTER
+
+static ClutterActor *
+create_gtk_actor (GtkWidget *vbox)
+{
+  GtkWidget       *bin;
+  ClutterActor    *gtk_actor;
+
+  gtk_actor = gtk_clutter_actor_new ();
+  bin = gtk_clutter_actor_get_widget (GTK_CLUTTER_ACTOR (gtk_actor));
+
+  gtk_container_add (GTK_CONTAINER (bin), vbox);
+  
+  gtk_widget_show (bin);
+  gtk_widget_show(vbox);
+  return gtk_actor;
+}
+
+static void
+fix_clutter_embed_width (GtkWidget *widget, GtkAllocation *allocation, ClutterActor *actor)
+{
+	GtkWidget *embed = (GtkWidget *)g_object_get_data ((GObject *)actor, "embed");
+	GtkAllocation galoc;
+
+	gtk_widget_get_allocation (embed, &galoc);
+	clutter_actor_set_size (actor, allocation->width-1, galoc.height);
+}
+
+static GtkWidget *
+create_under_clutter (GtkWidget *widget, GtkWidget *paned)
+{
+	GtkWidget *embed;
+	ClutterActor *stage, *actor;
+
+	embed = gtk_clutter_embed_new ();
+	gtk_widget_show (embed);
+
+	actor = create_gtk_actor (widget);
+	clutter_actor_show (actor);
+	stage = gtk_clutter_embed_get_stage ((GtkClutterEmbed *)embed);
+	clutter_container_add_actor ((ClutterContainer *)stage, actor);
+	
+	g_object_set_data ((GObject *)actor, "embed", embed);
+	g_object_set_data ((GObject *)actor, "stage", stage);
+	g_object_set_data ((GObject *)actor, "widget", widget);
+	g_object_set_data ((GObject *)widget, "actor", actor);
+	g_object_set_data ((GObject *)embed, "actor", actor);
+
+	g_signal_connect (paned, "size-allocate", G_CALLBACK(fix_clutter_embed_width), actor);
+	clutter_actor_show(stage);
+	
+	return embed;
+}
+
 #endif
 
 static void
@@ -338,14 +465,28 @@ mail_notebook_view_constructed (GObject *object)
       	g_signal_connect (timeline, "completed",
        	            G_CALLBACK (mnv_tab_anim_complete_cb), tab);
 	clutter_timeline_start (timeline);
+#else
+
 #endif
 
 	widget = gtk_notebook_new ();
 	priv->book = (GtkNotebook *)widget;
 	gtk_widget_show (widget);
+#if HAVE_CLUTTER
+	priv->embed = create_under_clutter (widget, container);
+	gtk_box_pack_start (GTK_BOX (container), priv->embed, TRUE, TRUE, 0);
+	priv->actor = g_object_get_data((GObject *)priv->embed, "actor");
+	priv->stage = g_object_get_data((GObject *)priv->actor, "stage");
+#else	
 	gtk_box_pack_start (GTK_BOX(container), widget, TRUE, TRUE, 0);
+#endif
 
+#if HAVE_CLUTTER
 	gtk_notebook_set_show_tabs ((GtkNotebook *)widget, FALSE);
+#else	
+	gtk_notebook_set_scrollable ((GtkNotebook *)widget, TRUE);
+#endif
+
 	gtk_notebook_set_show_border ((GtkNotebook *)widget, FALSE);
 	g_signal_connect (widget, "switch-page", 
 		    G_CALLBACK(mnv_page_changed), object);
@@ -353,7 +494,11 @@ mail_notebook_view_constructed (GObject *object)
 	priv->current_view = (EMailView *)e_mail_folder_pane_new (E_MAIL_VIEW(object)->content);
 	e_mail_paned_view_set_preview_visible ((EMailPanedView *)priv->current_view, FALSE);
 	gtk_widget_show ((GtkWidget *)priv->current_view);
-	gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, gtk_label_new ("Please select a folder"));
+
+	gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, 
+			create_tab_label (E_MAIL_NOTEBOOK_VIEW(object),
+				priv->current_view,
+				_("Please select a folder")));
 	
 }
 
@@ -582,9 +727,16 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	folder = e_mail_reader_get_folder (E_MAIL_READER(view));
 	folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(view));
 
-	page = gtk_notebook_append_page (priv->book, pane, gtk_label_new (_("Mail")));
-	gtk_notebook_set_current_page (priv->book, page);
+	page = gtk_notebook_append_page (priv->book, pane, 
+				create_tab_label (nview,
+				priv->current_view,
+				_("Mail")));
 
+#if HAVE_CLUTTER
+	mnv_set_current_tab (nview, page);
+#else	
+	gtk_notebook_set_current_page (priv->book, page);
+#endif
 	info = camel_folder_get_message_info (folder, uid);
 
 #if HAVE_CLUTTER			
@@ -660,7 +812,11 @@ mail_notebook_view_set_folder (EMailReader *reader,
 #endif
 
 		priv->current_view = (EMailView *)new_view;
+#if HAVE_CLUTTER		
+		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(reader), curr);
+#else
 		gtk_notebook_set_current_page (priv->book, curr);
+#endif
 
 #if HAVE_CLUTTER		
 		tab = (EMailTab *)g_object_get_data ((GObject *)priv->current_view, "page");
@@ -676,8 +832,15 @@ mail_notebook_view_set_folder (EMailReader *reader,
 		if (g_hash_table_size (priv->views) != 0) {
 			priv->current_view = (EMailView *)e_mail_folder_pane_new (E_MAIL_VIEW(reader)->content);
 			gtk_widget_show ((GtkWidget *)priv->current_view);
-			page = gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, gtk_label_new (camel_folder_get_full_name(folder)));
-			gtk_notebook_set_current_page (priv->book, page);
+			page = gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, 
+						create_tab_label (E_MAIL_NOTEBOOK_VIEW(reader),
+							    	  priv->current_view,
+								  camel_folder_get_full_name (folder)));
+#if HAVE_CLUTTER		
+			mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(reader), page);
+#else
+				gtk_notebook_set_current_page (priv->book, page);
+#endif
 
 #if HAVE_CLUTTER
 			e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker, 
@@ -686,6 +849,7 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			
 			tab = (EMailTab *)e_mail_tab_new_full (camel_folder_get_full_name(folder), NULL, 1);
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
+			g_object_set_data ((GObject *)priv->current_view, "page", tab);
 
 			clone = e_mail_tab_new_full (camel_folder_get_full_name(folder), NULL, 1);
 			clutter_actor_set_reactive (clone, FALSE);
@@ -710,11 +874,16 @@ mail_notebook_view_set_folder (EMailReader *reader,
       			clutter_timeline_start (timeline);
 #endif		
 		} else {
-			gtk_notebook_set_tab_label (priv->book, (GtkWidget *)priv->current_view, gtk_label_new (camel_folder_get_full_name(folder)));
+			gtk_notebook_set_tab_label (priv->book, (GtkWidget *)priv->current_view, 
+						create_tab_label (E_MAIL_NOTEBOOK_VIEW(reader),
+							    	  priv->current_view,
+								  camel_folder_get_full_name (folder)));
+
 #if HAVE_CLUTTER			
 			tab = e_mail_tab_picker_get_tab(priv->tab_picker, 
 						e_mail_tab_picker_get_current_tab (priv->tab_picker));
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
+			g_object_set_data ((GObject *)priv->current_view, "page", tab);
 
 			e_mail_tab_set_text (tab, camel_folder_get_full_name(folder));
 			clone = e_mail_tab_get_preview_actor (tab);
@@ -722,8 +891,10 @@ mail_notebook_view_set_folder (EMailReader *reader,
 #endif			
 		}
 
+#if HAVE_CLUTTER		
 		g_signal_connect (tab , "closed", 
 				   G_CALLBACK (mnv_tab_closed), reader);
+#endif		
 		e_mail_reader_set_folder (E_MAIL_READER(priv->current_view), folder, folder_uri);
 		g_hash_table_insert (priv->views, g_strdup(folder_uri), priv->current_view);
 		g_signal_connect ( E_MAIL_READER(priv->current_view), "changed",
