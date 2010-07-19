@@ -739,6 +739,7 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	int page;
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (nview)->priv;
 	CamelMessageInfo *info;
+	GtkWidget *preview;
 #if HAVE_CLUTTER
 	EMailTab *tab;
 	ClutterActor *clone;
@@ -751,6 +752,8 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	pane = e_mail_message_pane_new (E_MAIL_VIEW(nview)->content);
 	priv->current_view = (EMailView *)pane;
 	gtk_widget_show (pane);
+	
+	preview = e_mail_paned_view_get_preview (E_MAIL_PANED_VIEW(pane));
 
 	folder = e_mail_reader_get_folder (E_MAIL_READER(view));
 	folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(view));
@@ -764,6 +767,9 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 
 #if HAVE_CLUTTER
 	mnv_set_current_tab (nview, page);
+	g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage); 
+	g_object_set_data ((GObject *)preview, "stage", priv->stage); 
+	g_object_set_data ((GObject *)preview, "actor", priv->actor); 		
 #else	
 	gtk_notebook_set_current_page (priv->book, page);
 #endif
@@ -857,7 +863,8 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 	if (folder || folder_uri) {
 		int page;
-		
+		GtkWidget *list;
+
 		if (priv->inited) {
 			priv->current_view = (EMailView *)e_mail_folder_pane_new (E_MAIL_VIEW(reader)->content);
 			gtk_widget_show ((GtkWidget *)priv->current_view);
@@ -920,10 +927,15 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			e_mail_tab_set_text ((EMailTab *)clone, camel_folder_get_full_name(folder));
 #endif			
 		}
-
+	
+		list = e_mail_reader_get_message_list (E_MAIL_READER(priv->current_view));
 #if HAVE_CLUTTER		
 		g_signal_connect (tab , "closed", 
 				   G_CALLBACK (mnv_tab_closed), reader);
+		g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage); 
+		g_object_set_data ((GObject *)list, "stage", priv->stage); 
+		g_object_set_data ((GObject *)list, "actor", priv->actor); 		
+		
 #endif		
 		e_mail_reader_set_folder (E_MAIL_READER(priv->current_view), folder, folder_uri);
 		g_hash_table_insert (priv->views, g_strdup(folder_uri), priv->current_view);

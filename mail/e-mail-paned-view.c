@@ -48,6 +48,11 @@
 #include "message-list.h"
 #include "e-mail-reader-utils.h"
 
+#if HAVE_CLUTTER
+#include <clutter/clutter.h>
+#include <mx/mx.h>
+#include <clutter-gtk/clutter-gtk.h>
+#endif
 
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
@@ -57,6 +62,7 @@ struct _EMailPanedViewPrivate {
 	GtkWidget *scrolled_window;
 	GtkWidget *message_list;
 	GtkWidget *search_bar;
+	GtkWidget *preview;
 
 	EMFormatHTMLDisplay *formatter;
 	GalViewInstance *view_instance;
@@ -178,7 +184,9 @@ mail_paned_view_message_selected_cb (EMailPanedView *view,
 	const gchar *folder_uri;
 	const gchar *key;
 	gchar *group_name;
-
+#if HAVE_CLUTTER
+	ClutterActor *actor = g_object_get_data ((GObject *)view->priv->preview, "actor");
+#endif	
 	folder_uri = message_list->folder_uri;
 
 	/* This also gets triggered when selecting a store name on
@@ -201,6 +209,17 @@ mail_paned_view_message_selected_cb (EMailPanedView *view,
 	e_shell_view_set_state_dirty (shell_view);
 
 	g_free (group_name);
+
+#if HAVE_CLUTTER	
+	if (actor) {
+  		clutter_actor_set_opacity (actor, 0);
+  		clutter_actor_animate (actor, CLUTTER_EASE_OUT_SINE, 150,
+       	        	          	"opacity", 255,
+       	                	  	NULL);
+	} 
+
+#endif
+	
 }
 
 static void
@@ -632,6 +651,7 @@ mail_paned_view_constructed (GObject *object)
 	gtk_widget_show (GTK_WIDGET (web_view));
 
 	widget = e_preview_pane_new (web_view);
+	priv->preview = widget;
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
@@ -1113,4 +1133,10 @@ e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
 	else
 		gtk_widget_hide (priv->scrolled_window);
 
+}
+
+GtkWidget *
+e_mail_paned_view_get_preview (EMailPanedView *view)
+{
+	return view->priv->preview;
 }

@@ -88,5 +88,7 @@ e_mail_paned_view_get_orientation (EMailPanedView *view);
 void
 e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
 					  gboolean visible);
+GtkWidget *
+e_mail_paned_view_get_preview (EMailPanedView *view);
 
 #endif
