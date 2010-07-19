@@ -36,6 +36,9 @@
 #include "mail/e-mail-reader-utils.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-format-html-display.h"
+#include "mail/em-composer-utils.h"
+#include "mail/em-utils.h"
+#include "mail/mail-tools.h"
 #include "mail/message-list.h"
 
 #define E_MAIL_FOLDER_PANE_GET_PRIVATE(obj) \
@@ -126,13 +129,77 @@ mfp_open_selected_mail (EMailPanedView *view)
 {
 	GPtrArray *uids;
 	int i;
+	GtkWindow *window;
+	CamelFolder *folder;
+	const gchar *folder_uri;
+        GPtrArray *views;
+	guint ii;
 
 	uids = e_mail_reader_get_selected_uids (E_MAIL_READER(view)); 
-	for (i=0; i<uids->len; i++) {
-		g_signal_emit_by_name (view, "open-mail", uids->pdata[i]);
+	window = e_mail_reader_get_window (E_MAIL_READER(view));
+	if (!em_utils_ask_open_many (window, uids->len)) {
+		em_utils_uids_free (uids);
+		return;
 	}
+
+	folder = e_mail_reader_get_folder (E_MAIL_READER(view));
+	folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(view));
+	if (em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_outbox (folder, folder_uri) ||
+		em_utils_folder_is_templates (folder, folder_uri)) {
+		em_utils_edit_messages (folder, uids, TRUE);
+		return;
+	}
+
+	views = g_ptr_array_new ();
+	/* For vfolders we need to edit the original, not the vfolder copy. */
+	for (ii = 0; ii < uids->len; ii++) {
+		const gchar *uid = uids->pdata[ii];
+		CamelFolder *real_folder;
+		CamelMessageInfo *info;
+		gchar *real_folder_uri;
+		gchar *real_uid;
+
+		if (!CAMEL_IS_VEE_FOLDER (folder)) {
+			g_ptr_array_add (views, g_strdup (uid));
+			continue;
+		}
+
+		info = camel_folder_get_message_info (folder, uid);
+		if (info == NULL)
+			continue;
+
+		real_folder = camel_vee_folder_get_location (
+			CAMEL_VEE_FOLDER (folder),
+			(CamelVeeMessageInfo *) info, &real_uid);
+		real_folder_uri = mail_tools_folder_to_url (real_folder);
+
+		if (em_utils_folder_is_drafts (real_folder, real_folder_uri) ||
+			em_utils_folder_is_outbox (real_folder, real_folder_uri)) {
+			GPtrArray *edits;
+
+			edits = g_ptr_array_new ();
+			g_ptr_array_add (edits, real_uid);
+			em_utils_edit_messages (real_folder, edits, TRUE);
+		} else {
+			g_free (real_uid);
+			g_ptr_array_add (views, g_strdup (uid));
+		}
+
+		g_free (real_folder_uri);
+		camel_folder_free_message_info (folder, info);
+	}
+
 	
-	printf("I WIN\n");
+	for (i=0; i<views->len; i++) {
+		g_signal_emit_by_name (view, "open-mail", views->pdata[i]);
+	}
+
+	g_ptr_array_foreach (views, (GFunc) g_free, NULL);
+	g_ptr_array_free (views, TRUE);
+
+	em_utils_uids_free (uids);
+
 }
 
 static void
