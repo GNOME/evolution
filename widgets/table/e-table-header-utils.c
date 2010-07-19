@@ -435,6 +435,9 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 						    layout, ecol->text, inner_width - (xpos - inner_x), FALSE);
 		}
 
+		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes 
+		 * Debug that later */
+#if 0	
 		pixmap = make_composite_pixmap (drawable, gc,
 						ecol->pixbuf, &style->bg[state],
 						clip_width, clip_height,
@@ -451,6 +454,14 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 					 clip_width, clip_height);
 			g_object_unref (pixmap);
 		}
+#endif
+		gdk_draw_pixbuf (drawable, gc,
+				ecol->pixbuf, 
+				0, 0,	
+				xpos, inner_y + (inner_height - clip_height) / 2,
+				-1, -1,
+				GDK_RGB_DITHER_NONE,
+				0, 0);		
 	} else {
 		e_table_draw_elided_string (drawable, gc, widget,
 					    inner_x, inner_y,
