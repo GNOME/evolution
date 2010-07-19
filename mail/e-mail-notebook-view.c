@@ -30,6 +30,7 @@
 
 #include "mail/e-mail-reader.h"
 #include "mail/message-list.h"
+#include "mail/em-folder-tree.h"
 #include "e-mail-notebook-view.h"
 #include "e-mail-folder-pane.h"
 #include "e-mail-message-pane.h"
@@ -80,7 +81,7 @@ start_tab_switch_cb (ClutterAnimation *animation,
                      struct _anim_data *data)
 {
 	gtk_notebook_set_current_page (data->view->priv->book, data->page);
-	animation = clutter_actor_animate ((ClutterActor *)data->view->priv->actor, CLUTTER_EASE_IN_SINE, 75,
+	animation = clutter_actor_animate ((ClutterActor *)data->view->priv->actor, CLUTTER_EASE_IN_SINE, 150,
        	                 	 	   "opacity", 255,
        	                  		   NULL);
 	
@@ -97,7 +98,7 @@ mnv_set_current_tab (EMailNotebookView *view,
 	data->view = view;
 	data->page = page;
 
-	animation = clutter_actor_animate ((ClutterActor *)view->priv->actor, CLUTTER_EASE_OUT_SINE, 75,
+	animation = clutter_actor_animate ((ClutterActor *)view->priv->actor, CLUTTER_EASE_OUT_SINE, 150,
        	                 	 	   "opacity", 0,
        	                  		   NULL);
 	g_signal_connect_after (animation, "completed", G_CALLBACK(start_tab_switch_cb), data);
@@ -146,6 +147,16 @@ mnv_page_changed (GtkNotebook *book, GtkNotebookPage *page,
 		  guint page_num, EMailNotebookView *view)
 {
 	EMailView *mview = (EMailView *)gtk_notebook_get_nth_page (book, page_num);
+	EShellContent *content = E_MAIL_VIEW(view)->content;
+	EShellView *shell_view = e_shell_content_get_shell_view (content);
+	EShellSidebar *sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	EMFolderTree *tree;
+	const char *uri = e_mail_reader_get_folder_uri (E_MAIL_READER(mview));
+
+				
+	g_object_get (sidebar, "folder-tree", &tree, NULL);
+	if (uri)
+		em_folder_tree_set_selected (tree, uri, FALSE);
 
 	view->priv->current_view = mview;
 	/* For EMailReader related changes to EShellView*/
@@ -738,7 +749,7 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 				FALSE);
 #endif	
 	pane = e_mail_message_pane_new (E_MAIL_VIEW(nview)->content);
-	priv->current_view = pane;
+	priv->current_view = (EMailView *)pane;
 	gtk_widget_show (pane);
 
 	folder = e_mail_reader_get_folder (E_MAIL_READER(view));
