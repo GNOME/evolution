@@ -122,7 +122,7 @@ mail_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 	
-	if (1 || e_shell_get_express_mode(e_shell_get_default ())) {
+	if (e_shell_get_express_mode(e_shell_get_default ())) {
 		widget = e_mail_notebook_view_new (E_SHELL_CONTENT(object));
 		g_signal_connect (widget, "view-changed", G_CALLBACK(msc_view_changed), object);
 	} else
