@@ -249,14 +249,6 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 }
 
 static void
-mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
-                                   EMailReader *reader)
-{
-	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
-	e_mail_shell_view_update_sidebar (mail_shell_view);
-}
-
-static void
 mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
                            GtkOrientation orientation,
                            GtkScrollType scroll_type,
@@ -304,6 +296,69 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 			MESSAGE_LIST (message_list),
 			MESSAGE_LIST_SELECT_PREVIOUS,
 			0, CAMEL_MESSAGE_SEEN);
+}
+
+static void
+mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
+                                   EMailReader *reader)
+{
+	GtkWidget *message_list;
+	EMFormatHTML *formatter;
+	EWebView *web_view;
+	EShellView *shell_view;
+	EShellTaskbar *shell_taskbar;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
+
+	formatter = e_mail_reader_get_formatter (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+	web_view = em_format_html_get_web_view (formatter);
+
+	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
+	e_mail_shell_view_update_sidebar (mail_shell_view);
+
+	/* Connect if its not connected already */
+	if (g_signal_handler_find (message_list, G_SIGNAL_MATCH_FUNC,
+				0, 0, NULL,
+				mail_shell_view_message_list_key_press_cb,
+				NULL))
+		return;
+	g_signal_connect_swapped (
+		message_list, "key-press",
+		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		message_list, "popup-menu",
+		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		message_list, "right-click",
+		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		web_view, "key-press-event",
+		G_CALLBACK (mail_shell_view_key_press_event_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		web_view, "popup-event",
+		G_CALLBACK (mail_shell_view_popup_event_cb),
+		mail_shell_view);
+
+	g_signal_connect_data (
+		web_view, "scroll",
+		G_CALLBACK (mail_shell_view_scroll_cb),
+		mail_shell_view, (GClosureNotify) NULL,
+		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+
+	g_signal_connect_swapped (
+		web_view, "status-message",
+		G_CALLBACK (e_shell_taskbar_set_message),
+		shell_taskbar);	
 }
 
 static void
