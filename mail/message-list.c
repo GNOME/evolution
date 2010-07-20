@@ -4198,8 +4198,9 @@ message_list_set_search (MessageList *ml, const gchar *search)
 		ml->thread_tree = NULL;
 	}
 
-#if HAVE_CLUTTER	
-	clutter_timeline_start (ml->priv->timeline);
+#if HAVE_CLUTTER
+	if (ml->priv->timeline)
+		clutter_timeline_start (ml->priv->timeline);
 #endif
 
 	if (ml->frozen == 0)
@@ -4653,7 +4654,7 @@ regen_list_done (struct _regen_list_msg *m)
 	m->ml->priv->any_row_changed = FALSE;
 
 #if HAVE_CLUTTER
-	if (clutter_timeline_is_playing(m->ml->priv->timeline)) {
+	if (m->ml->priv->timeline && clutter_timeline_is_playing(m->ml->priv->timeline)) {
 		clutter_timeline_stop (m->ml->priv->timeline);
 	} else {
 		ClutterActor *pane = g_object_get_data ((GObject *)m->ml, "actor");

@@ -53,6 +53,13 @@
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 
+
+#if HAVE_CLUTTER
+#include <clutter/clutter.h>
+#include <mx/mx.h>
+#include <clutter-gtk/clutter-gtk.h>
+#endif
+
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \
 	(G_OBJECT (obj), quark_private))
@@ -672,13 +679,25 @@ action_mail_next_cb (GtkAction *action,
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
-
+#if HAVE_CLUTTER
+	ClutterActor *actor;
+#endif
+	
 	direction = MESSAGE_LIST_SELECT_NEXT;
 	flags = 0;
 	mask  = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
+#if HAVE_CLUTTER
+	actor = g_object_get_data ((GObject *)message_list, "preview-actor");
+	if (actor) {
+  		clutter_actor_set_opacity (actor, 0);
+  		clutter_actor_animate (actor, CLUTTER_EASE_OUT_SINE, 500,
+       	        	          "opacity", 255,
+       	                	  NULL);
+	}
 
+#endif	
 	message_list_select (
 		MESSAGE_LIST (message_list), direction, flags, mask);
 }
@@ -2171,9 +2190,15 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			gboolean store_async;
 			MailMsgDispatchFunc disp_func;
 
+			
 			string = g_strdup_printf (
 				_("Retrieving message '%s'"), cursor_uid);
+#if HAVE_CLUTTER
+		if (!e_shell_get_express_mode(e_shell_get_default()))
+			e_web_view_load_string (web_view, string);			
+#else			
 			e_web_view_load_string (web_view, string);
+#endif
 			g_free (string);
 
 			store_async = parent_store->flags & CAMEL_STORE_ASYNC;

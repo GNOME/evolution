@@ -48,12 +48,6 @@
 #include "message-list.h"
 #include "e-mail-reader-utils.h"
 
-#if HAVE_CLUTTER
-#include <clutter/clutter.h>
-#include <mx/mx.h>
-#include <clutter-gtk/clutter-gtk.h>
-#endif
-
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
 
@@ -184,9 +178,7 @@ mail_paned_view_message_selected_cb (EMailPanedView *view,
 	const gchar *folder_uri;
 	const gchar *key;
 	gchar *group_name;
-#if HAVE_CLUTTER
-	ClutterActor *actor = g_object_get_data ((GObject *)view->priv->preview, "actor");
-#endif	
+
 	folder_uri = message_list->folder_uri;
 
 	/* This also gets triggered when selecting a store name on
@@ -210,16 +202,6 @@ mail_paned_view_message_selected_cb (EMailPanedView *view,
 
 	g_free (group_name);
 
-#if HAVE_CLUTTER	
-	if (actor) {
-  		clutter_actor_set_opacity (actor, 0);
-  		clutter_actor_animate (actor, CLUTTER_EASE_OUT_SINE, 150,
-       	        	          	"opacity", 255,
-       	                	  	NULL);
-	} 
-
-#endif
-	
 }
 
 static void

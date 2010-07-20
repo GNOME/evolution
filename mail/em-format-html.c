@@ -50,6 +50,8 @@
 #include "e-util/e-extensible.h"
 #include "misc/e-web-view.h"
 
+#include "shell/e-shell.h"
+
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
@@ -341,8 +343,11 @@ efh_format_timeout(struct _format_msg *m)
 		p->last_part = NULL;
 	} else {
 		efh->state = EM_FORMAT_HTML_STATE_RENDERING;
-
+#if HAVE_CLUTTER
+		if (p->last_part != m->message && !e_shell_get_express_mode(e_shell_get_default())) {		
+#else		
 		if (p->last_part != m->message) {
+#endif			
 			hstream = gtk_html_begin (GTK_HTML (web_view));
 			gtk_html_stream_printf (hstream, "<h5>%s</h5>", _("Formatting Message..."));
 			gtk_html_stream_close (hstream, GTK_HTML_STREAM_OK);

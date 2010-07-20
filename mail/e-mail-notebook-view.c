@@ -71,37 +71,18 @@ static EMailViewClass *parent_class;
 static GType mail_notebook_view_type;
 
 #if HAVE_CLUTTER
-struct _anim_data {
-	EMailNotebookView *view;
-	int page;
-};
-
-static void
-start_tab_switch_cb (ClutterAnimation *animation,
-                     struct _anim_data *data)
-{
-	gtk_notebook_set_current_page (data->view->priv->book, data->page);
-	animation = clutter_actor_animate ((ClutterActor *)data->view->priv->actor, CLUTTER_EASE_IN_SINE, 150,
-       	                 	 	   "opacity", 255,
-       	                  		   NULL);
-	
-}
-
-
 static void
 mnv_set_current_tab (EMailNotebookView *view,
 		     int page)
 {
 	ClutterAnimation *animation;
-	struct _anim_data *data = g_new0 (struct _anim_data, 1);
 
-	data->view = view;
-	data->page = page;
-
-	animation = clutter_actor_animate ((ClutterActor *)view->priv->actor, CLUTTER_EASE_OUT_SINE, 150,
-       	                 	 	   "opacity", 0,
+	clutter_actor_set_opacity (view->priv->actor, 0);
+	gtk_notebook_set_current_page (view->priv->book, page);
+	animation = clutter_actor_animate ((ClutterActor *)view->priv->actor, CLUTTER_EASE_IN_SINE, 500,
+       	                 	 	   "opacity", 255,
        	                  		   NULL);
-	g_signal_connect_after (animation, "completed", G_CALLBACK(start_tab_switch_cb), data);
+
 }
 #endif
 
@@ -153,7 +134,6 @@ mnv_page_changed (GtkNotebook *book, GtkNotebookPage *page,
 	EMFolderTree *tree;
 	const char *uri = e_mail_reader_get_folder_uri (E_MAIL_READER(mview));
 
-				
 	g_object_get (sidebar, "folder-tree", &tree, NULL);
 	if (uri)
 		em_folder_tree_set_selected (tree, uri, FALSE);
@@ -744,6 +724,7 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	EMailTab *tab;
 	ClutterActor *clone;
 	ClutterTimeline *timeline;
+	GtkWidget *mlist;
 
 	e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker, 
 						e_mail_tab_picker_get_current_tab (priv->tab_picker)),
@@ -766,10 +747,11 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 				camel_message_info_subject(info)));
 
 #if HAVE_CLUTTER
+	mlist = e_mail_reader_get_message_list (E_MAIL_READER(pane));
 	mnv_set_current_tab (nview, page);
 	g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage); 
-	g_object_set_data ((GObject *)preview, "stage", priv->stage); 
-	g_object_set_data ((GObject *)preview, "actor", priv->actor); 		
+	g_object_set_data ((GObject *)mlist, "stage", priv->stage); 
+	g_object_set_data ((GObject *)mlist, "preview-actor", priv->actor); 		
 #else	
 	gtk_notebook_set_current_page (priv->book, page);
 #endif
@@ -838,6 +820,9 @@ mail_notebook_view_set_folder (EMailReader *reader,
 	new_view = g_hash_table_lookup (priv->views, folder_uri);
 	if (new_view) {
 		int curr = emnv_get_page_num (E_MAIL_NOTEBOOK_VIEW (reader), new_view);
+
+		if (curr == e_mail_tab_picker_get_current_tab (priv->tab_picker))
+			return;
 #if HAVE_CLUTTER		
 		EMailTab *tab;
 
