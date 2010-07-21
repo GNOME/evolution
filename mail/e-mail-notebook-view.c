@@ -820,11 +820,11 @@ mail_notebook_view_set_folder (EMailReader *reader,
 	new_view = g_hash_table_lookup (priv->views, folder_uri);
 	if (new_view) {
 		int curr = emnv_get_page_num (E_MAIL_NOTEBOOK_VIEW (reader), new_view);
+#if HAVE_CLUTTER		
+		EMailTab *tab;
 
 		if (curr == e_mail_tab_picker_get_current_tab (priv->tab_picker))
 			return;
-#if HAVE_CLUTTER		
-		EMailTab *tab;
 
 		e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker, 
 						e_mail_tab_picker_get_current_tab (priv->tab_picker)),
