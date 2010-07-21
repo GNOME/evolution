@@ -43,6 +43,7 @@ typedef struct _EMailView {
 
 	EMailViewPrivate *priv;
         EShellContent *content;
+	struct _EMailView *prev;
 } EMailView;
 
 typedef struct _EMailViewClass {

@@ -54,8 +54,8 @@ struct _EMailNotebookViewPrivate {
 #if HAVE_CLUTTER	
 	EMailTabPicker *tab_picker;
 	GtkWidget *embed;
-	GtkWidget *actor;
-	GtkWidget *stage;
+	ClutterActor *actor;
+	ClutterActor *stage;
 #endif	
 };
 
@@ -118,8 +118,6 @@ emnv_get_page_num (EMailNotebookView *view,
 			return i;
 	}
 
-	g_warn_if_reached ();
-
 	return 0;
 }
 
@@ -135,10 +133,14 @@ mnv_page_changed (GtkNotebook *book, GtkNotebookPage *page,
 	const char *uri = e_mail_reader_get_folder_uri (E_MAIL_READER(mview));
 
 	g_object_get (sidebar, "folder-tree", &tree, NULL);
-	if (uri)
+	if (uri && E_IS_MAIL_FOLDER_PANE (mview))
 		em_folder_tree_set_selected (tree, uri, FALSE);
 
-	view->priv->current_view = mview;
+	if (mview != view->priv->current_view) {
+		mview->prev = view->priv->current_view;
+		view->priv->current_view = mview;
+	}
+
 	/* For EMailReader related changes to EShellView*/
 	g_signal_emit_by_name (view, "changed");
 	g_signal_emit_by_name (view, "folder-loaded");
@@ -249,11 +251,19 @@ mnv_tab_closed_cb (ClutterTimeline *timeline,
 {
 	EMailView *page = g_object_get_data ((GObject *)data->tab, "page");
 	const char *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
+	EMailView *prev;
+	int num;
 	
-	e_mail_tab_picker_remove_tab (data->view->priv->tab_picker, data->tab); 
-
 	if (E_IS_MAIL_FOLDER_PANE (page))
 		g_hash_table_remove (data->view->priv->views, folder_uri);
+	prev = page->prev;
+	if (prev) {
+		num = emnv_get_page_num (data->view, (GtkWidget *)prev);
+		mnv_set_current_tab (data->view, num);
+		e_mail_tab_picker_set_current_tab (data->view->priv->tab_picker, num);
+	}
+
+	e_mail_tab_picker_remove_tab (data->view->priv->tab_picker, data->tab); 
 	gtk_notebook_remove_page (data->view->priv->book, 
 			gtk_notebook_page_num (data->view->priv->book, (GtkWidget *)page));
 
@@ -311,12 +321,20 @@ tab_remove_gtk_cb (GtkWidget *button,
 {
 	EMailView *page = g_object_get_data ((GObject *)button, "page");
 	const char *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
+	EMailView *prev;
+	int num;
 	
 	if (gtk_notebook_get_n_pages(view->priv->book) == 1)
 		return;
 
 	if (E_IS_MAIL_FOLDER_PANE (page))
 		g_hash_table_remove (view->priv->views, folder_uri);
+
+	prev = page->prev;
+	if (prev) {
+		num = emnv_get_page_num (view, (GtkWidget *)prev);
+		gtk_notebook_set_current_page (view->priv->book, num);
+	}
 	gtk_notebook_remove_page (view->priv->book, 
 			gtk_notebook_page_num (view->priv->book, (GtkWidget *)page));
 	
@@ -720,6 +738,8 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (nview)->priv;
 	CamelMessageInfo *info;
 	GtkWidget *preview;
+	int pos;
+
 #if HAVE_CLUTTER
 	EMailTab *tab;
 	ClutterActor *clone;
@@ -730,8 +750,11 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 						e_mail_tab_picker_get_current_tab (priv->tab_picker)),
 				FALSE);
 #endif	
+	pos = emnv_get_page_num (nview, (GtkWidget *)priv->current_view);
 	pane = e_mail_message_pane_new (E_MAIL_VIEW(nview)->content);
+	E_MAIL_VIEW(pane)->prev = priv->current_view;
 	priv->current_view = (EMailView *)pane;
+	
 	gtk_widget_show (pane);
 	
 	preview = e_mail_paned_view_get_preview (E_MAIL_PANED_VIEW(pane));
@@ -741,10 +764,11 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 
 	info = camel_folder_get_message_info (folder, uid);
 
-	page = gtk_notebook_append_page (priv->book, pane, 
+	page = gtk_notebook_insert_page (priv->book, pane, 
 				create_tab_label (nview,
 				priv->current_view,
-				camel_message_info_subject(info)));
+				camel_message_info_subject(info)), 
+				pos+1);
 
 #if HAVE_CLUTTER
 	mlist = e_mail_reader_get_message_list (E_MAIL_READER(pane));
@@ -768,7 +792,7 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	e_mail_tab_set_preview_actor (tab, clone);
 	e_mail_tab_set_can_close (tab, TRUE);
 	e_mail_tab_enable_drag (tab, TRUE);
-	e_mail_tab_picker_add_tab (priv->tab_picker, tab, -1);
+	e_mail_tab_picker_add_tab (priv->tab_picker, tab, pos+1);
 	
 	page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
@@ -851,8 +875,11 @@ mail_notebook_view_set_folder (EMailReader *reader,
 		GtkWidget *list;
 
 		if (priv->inited) {
+			EMailView *old_view = priv->current_view;
+
 			priv->current_view = (EMailView *)e_mail_folder_pane_new (E_MAIL_VIEW(reader)->content);
 			gtk_widget_show ((GtkWidget *)priv->current_view);
+			priv->current_view->prev = old_view;
 			page = gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, 
 						create_tab_label (E_MAIL_NOTEBOOK_VIEW(reader),
 							    	  priv->current_view,

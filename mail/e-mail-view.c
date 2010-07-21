@@ -53,6 +53,7 @@ static void
 e_mail_view_init (EMailView  *shell)
 {
 	shell->priv = g_new0(EMailViewPrivate, 1);
+	shell->prev = NULL;
 }
 
 static void
