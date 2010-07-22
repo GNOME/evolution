@@ -2606,6 +2606,7 @@ emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *par
 	return NULL;
 section:
 	d (printf ("Building extra section '%s'\n", eitem->path));
+	w = NULL;
 	url = emae_account_url (emae, emae_service_info[service->type].account_uri_key);
 	item->extra_table = g_hash_table_new (g_str_hash, g_str_equal);
 	extra = g_hash_table_new (g_str_hash, g_str_equal);
@@ -2699,7 +2700,8 @@ section:
 	}
 
 	camel_url_free (url);
-	gtk_widget_show (w);
+	if (w)
+		gtk_widget_show (w);
 
 	return w;
 }

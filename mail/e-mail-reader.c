@@ -124,7 +124,7 @@ action_mail_add_sender_cb (GtkAction *action,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	CamelMessageInfo *info;
+	CamelMessageInfo *info = NULL;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *address;

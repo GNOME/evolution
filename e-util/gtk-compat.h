@@ -27,12 +27,10 @@
 #if GTK_CHECK_VERSION (2,90,5)
 
 /* Recreate GdkRegion until we drop GTK2 compatibility. */
-
-typedef enum {
-	GDK_OVERLAP_RECTANGLE_IN,
-	GDK_OVERLAP_RECTANGLE_OUT,
-	GDK_OVERLAP_RECTANGLE_PART
-} GdkOverlapType;
+#define GdkOverlapType cairo_region_overlap_t
+#define GDK_OVERLAP_RECTANGLE_IN   CAIRO_REGION_OVERLAP_IN
+#define GDK_OVERLAP_RECTANGLE_OUT  CAIRO_REGION_OVERLAP_OUT
+#define GDK_OVERLAP_RECTANGLE_PART CAIRO_REGION_OVERLAP_PART
 
 #define GdkRegion cairo_region_t
 

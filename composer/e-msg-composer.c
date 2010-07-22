@@ -2536,7 +2536,7 @@ handle_multipart_signed (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
-	GtkToggleAction *action;
+	GtkToggleAction *action = NULL;
 	const gchar *protocol;
 
 	content = CAMEL_DATA_WRAPPER (multipart);
