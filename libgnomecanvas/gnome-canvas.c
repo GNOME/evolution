@@ -94,7 +94,7 @@
 #include "gnome-canvas-marshal.h"
 #include "gnome-canvas-marshal.c"
 
-#include <e-util/gtk-compat.h>
+#include "e-util/gtk-compat.h"
 
 /* We must run our idle update handler *before* GDK wants to redraw. */
 #define CANVAS_IDLE_PRIORITY (GDK_PRIORITY_REDRAW - 5)

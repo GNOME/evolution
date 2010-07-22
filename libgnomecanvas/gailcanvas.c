@@ -29,7 +29,7 @@
 #include "gailcanvasitemfactory.h"
 #include "gailcanvaswidgetfactory.h"
 
-#include <e-util/gtk-compat.h>
+#include "e-util/gtk-compat.h"
 
 static void       gail_canvas_class_init          (GailCanvasClass *klass);
 static void       gail_canvas_real_initialize     (AtkObject       *obj,

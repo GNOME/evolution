@@ -53,15 +53,15 @@
 #define gdk_region_get_rectangles(region, rectangles, n_rectangles) \
 	G_STMT_START { \
 		GdkRectangle *__rects; \
-		gint __i, __n; \
+		gint __i, __nrects; \
 		\
-		__n = cairo_region_num_rectangles (region); \
-		__rects = g_new (GdkRectangle, __n); \
+		__nrects = cairo_region_num_rectangles (region); \
+		__rects = g_new (GdkRectangle, __nrects); \
 		\
-		for (__i = 0; __i < __n; __i++) \
+		for (__i = 0; __i < __nrects; __i++) \
 			cairo_region_get_rectangle ((region), __i, &__rects[__i]); \
 		\
-		*(n_rectangles) = __n; \
+		*(n_rectangles) = __nrects; \
 		*(rectangles) = __rects; \
 	} G_STMT_END
 
