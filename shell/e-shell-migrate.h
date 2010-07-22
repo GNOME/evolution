@@ -44,8 +44,8 @@ typedef enum {
 	E_SHELL_MIGRATE_ERROR_FAILED
 } EShellMigrateError;
 
-gboolean	e_shell_migrate_attempt		(EShell *shell);
-GQuark		e_shell_migrate_error_quark	(void);
+gboolean	e_shell_migrate_attempt			(EShell *shell);
+GQuark		e_shell_migrate_error_quark		(void);
 
 G_END_DECLS
 

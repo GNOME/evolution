@@ -1301,8 +1301,6 @@ get_font_options (void)
 
 /* Evolution Locks for crash recovery */
 
-#define LOCK_FILE ".running"
-
 static const gchar *
 get_lock_filename (void)
 {
@@ -1310,7 +1308,7 @@ get_lock_filename (void)
 
 	if (G_UNLIKELY (filename == NULL))
 		filename = g_build_filename (
-			e_get_user_data_dir (), LOCK_FILE, NULL);
+			e_get_user_config_dir (), ".running", NULL);
 
 	return filename;
 }

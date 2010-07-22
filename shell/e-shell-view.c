@@ -111,7 +111,7 @@ shell_view_init_search_context (EShellViewClass *class)
 	ERuleContext *search_context;
 	EFilterRule *rule;
 	EFilterPart *part;
-	const gchar *data_dir;
+	const gchar *config_dir;
 	gchar *system_filename;
 	gchar *user_filename;
 
@@ -128,9 +128,9 @@ shell_view_init_search_context (EShellViewClass *class)
 		EVOLUTION_RULEDIR, class->search_rules, NULL);
 
 	/* The filename for custom saved searches is always of
-	 * the form "$(shell_backend_data_dir)/searches.xml". */
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	user_filename = g_build_filename (data_dir, "searches.xml", NULL);
+	 * the form "$(shell_backend_config_dir)/searches.xml". */
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	user_filename = g_build_filename (config_dir, "searches.xml", NULL);
 
 	/* Create the search context instance.  Subclasses may override
 	 * the GType so check that it's really an ERuleContext instance. */
@@ -175,7 +175,7 @@ shell_view_init_view_collection (EShellViewClass *class)
 	base_dir = EVOLUTION_GALVIEWSDIR;
 	system_dir = g_build_filename (base_dir, backend_name, NULL);
 
-	base_dir = e_shell_backend_get_data_dir (shell_backend);
+	base_dir = e_shell_backend_get_config_dir (shell_backend);
 	local_dir = g_build_filename (base_dir, "views", NULL);
 
 	/* The view collection is never destroyed. */
@@ -216,7 +216,7 @@ shell_view_load_state (EShellView *shell_view)
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	config_dir = e_shell_backend_get_config_dir (shell_backend);
-	filename = g_build_filename (config_dir, "state", NULL);
+	filename = g_build_filename (config_dir, "state.ini", NULL);
 
 	/* XXX Should do this asynchronously. */
 	key_file = shell_view->priv->state_key_file;
@@ -277,7 +277,7 @@ shell_view_save_state (EShellView *shell_view)
 	contents = g_key_file_to_data (key_file, NULL, NULL);
 	g_return_val_if_fail (contents != NULL, NULL);
 
-	path = g_build_filename (config_dir, "state", NULL);
+	path = g_build_filename (config_dir, "state.ini", NULL);
 	file = g_file_new_for_path (path);
 	g_free (path);
 

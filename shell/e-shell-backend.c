@@ -123,22 +123,18 @@ shell_backend_finalize (GObject *object)
 static const gchar *
 shell_backend_get_config_dir (EShellBackend *shell_backend)
 {
+	EShellBackendClass *class;
+
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+
+	/* Determine the user config directory for this backend. */
 	if (G_UNLIKELY (shell_backend->priv->config_dir == NULL)) {
-		const gchar *data_dir;
-		gchar *config_dir;
+		const gchar *user_config_dir;
 
-		/* Determine the user configuration directory
-		 * for this backend. */
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
-		config_dir = g_build_filename (data_dir, "config", NULL);
-		shell_backend->priv->config_dir = config_dir;
-
-		/* Create the user configuration directory for this backend,
-		 * which should also create the user data directory. */
-		if (g_mkdir_with_parents (config_dir, 0700) != 0)
-			g_critical (
-				"Cannot create directory %s: %s",
-				config_dir, g_strerror (errno));
+		user_config_dir = e_get_user_config_dir ();
+		shell_backend->priv->config_dir =
+			g_build_filename (user_config_dir, class->name, NULL);
+		g_mkdir_with_parents (shell_backend->priv->config_dir, 0700);
 	}
 
 	return shell_backend->priv->config_dir;
@@ -149,14 +145,17 @@ shell_backend_get_data_dir (EShellBackend *shell_backend)
 {
 	EShellBackendClass *class;
 
-	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
-
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 
 	/* Determine the user data directory for this backend. */
-	if (G_UNLIKELY (shell_backend->priv->data_dir == NULL))
-		shell_backend->priv->data_dir = g_build_filename (
-			e_get_user_data_dir (), class->name, NULL);
+	if (G_UNLIKELY (shell_backend->priv->data_dir == NULL)) {
+		const gchar *user_data_dir;
+
+		user_data_dir = e_get_user_data_dir ();
+		shell_backend->priv->data_dir =
+			g_build_filename (user_data_dir, class->name, NULL);
+		g_mkdir_with_parents (shell_backend->priv->data_dir, 0700);
+	}
 
 	return shell_backend->priv->data_dir;
 }

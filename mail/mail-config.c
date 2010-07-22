@@ -535,7 +535,7 @@ mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 	config_dir = mail_session_get_config_dir ();
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
-	filename = g_build_filename (config_dir, basename, NULL);
+	filename = g_build_filename (config_dir, "folders", basename, NULL);
 	g_free (basename);
 	g_free (url);
 

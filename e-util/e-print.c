@@ -37,7 +37,7 @@
 static gchar *
 key_file_get_filename (void)
 {
-	return g_build_filename (e_get_user_data_dir (), "printing", NULL);
+	return g_build_filename (e_get_user_data_dir (), "printing.ini", NULL);
 }
 
 static void

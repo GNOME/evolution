@@ -1007,15 +1007,9 @@ mail_session_get_data_dir (void)
 const gchar *
 mail_session_get_config_dir (void)
 {
-	if (G_UNLIKELY (mail_config_dir == NULL)) {
+	if (G_UNLIKELY (mail_config_dir == NULL))
 		mail_config_dir = g_build_filename (
-			mail_session_get_data_dir (), "config", NULL);
-
-		if (g_mkdir_with_parents (mail_config_dir, 0777) != 0)
-			g_critical (
-				"Cannot create directory %s: %s",
-				mail_config_dir, g_strerror (errno));
-	}
+			e_get_user_config_dir (), "mail", NULL);
 
 	return mail_config_dir;
 }

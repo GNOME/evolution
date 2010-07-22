@@ -2342,7 +2342,7 @@ emu_restore_folder_tree_state (EMFolderTree *folder_tree)
 	config_dir = e_shell_backend_get_config_dir (backend);
 	g_return_if_fail (config_dir != NULL);
 
-	filename = g_build_filename (config_dir, "state", NULL);
+	filename = g_build_filename (config_dir, "state.ini", NULL);
 
 	key_file = g_key_file_new ();
 	g_key_file_load_from_file (key_file, filename, 0, &error);

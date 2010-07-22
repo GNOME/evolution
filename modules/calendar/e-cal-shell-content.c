@@ -141,7 +141,8 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 }
 
 static gchar *
-cal_chell_content_get_pad_state_filename (EShellContent *shell_content, ETable *table)
+cal_shell_content_get_pad_state_filename (EShellContent *shell_content,
+                                          ETable *table)
 {
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
@@ -167,11 +168,13 @@ cal_chell_content_get_pad_state_filename (EShellContent *shell_content, ETable *
 }
 
 static void
-cal_shell_content_save_table_state (EShellContent *shell_content, ETable *table)
+cal_shell_content_save_table_state (EShellContent *shell_content,
+                                    ETable *table)
 {
 	gchar *filename;
 
-	filename = cal_chell_content_get_pad_state_filename (shell_content, table);
+	filename = cal_shell_content_get_pad_state_filename (
+		shell_content, table);
 	g_return_if_fail (filename != NULL);
 
 	e_table_save_state (table, filename);
@@ -179,11 +182,13 @@ cal_shell_content_save_table_state (EShellContent *shell_content, ETable *table)
 }
 
 static void
-cal_shell_content_load_table_state (EShellContent *shell_content, ETable *table)
+cal_shell_content_load_table_state (EShellContent *shell_content,
+                                    ETable *table)
 {
 	gchar *filename;
 
-	filename = cal_chell_content_get_pad_state_filename (shell_content, table);
+	filename = cal_shell_content_get_pad_state_filename (
+		shell_content, table);
 	g_return_if_fail (filename != NULL);
 
 	e_table_load_state (table, filename);

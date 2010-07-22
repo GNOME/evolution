@@ -32,6 +32,7 @@
 #include <gconf/gconf-client.h>
 
 #include <libedataserver/e-uid.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include "e-signature.h"
 
@@ -493,6 +494,24 @@ e_signature_set_from_xml (ESignature *signature, const gchar *xml)
 			break;
 		}
 
+		/* If the signature is not a script, replace the directory
+		 * part with the current signatures directory.  This makes
+		 * moving the signatures directory transparent. */
+		if (!e_signature_get_is_script (signature)) {
+			const gchar *user_data_dir;
+			gchar *basename;
+			gchar *filename;
+
+			user_data_dir = e_get_user_data_dir ();
+
+			filename = signature->priv->filename;
+			basename = g_path_get_basename (filename);
+			signature->priv->filename = g_build_filename (
+				user_data_dir, "signatures", basename, NULL);
+			g_free (basename);
+			g_free (filename);
+		}
+
 		cur = cur->next;
 	}
 
@@ -544,13 +563,25 @@ e_signature_to_xml (ESignature *signature)
 
 		string = e_signature_get_filename (signature);
 		if (string != NULL) {
-			node = xmlNewTextChild (
-				root, NULL, (xmlChar *) "filename",
-				(xmlChar *) string);
-			if (e_signature_get_is_script (signature))
+
+			/* For scripts we save the full filename,
+			 * for normal signatures just the basename. */
+			if (e_signature_get_is_script (signature)) {
+				node = xmlNewTextChild (
+					root, NULL, (xmlChar *) "filename",
+					(xmlChar *) string);
 				xmlSetProp (
 					node, (xmlChar *) "script",
 					(xmlChar *) "true");
+			} else {
+				gchar *basename;
+
+				basename = g_path_get_basename (string);
+				node = xmlNewTextChild (
+					root, NULL, (xmlChar *) "filename",
+					(xmlChar *) basename);
+				g_free (basename);
+			}
 		}
 	} else {
 		/* this is to make Evolution-1.4 and older 1.5 versions happy */

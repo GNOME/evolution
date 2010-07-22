@@ -149,7 +149,7 @@ shell_content_constructed (GObject *object)
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
-	const gchar *data_dir;
+	const gchar *config_dir;
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -159,9 +159,9 @@ shell_content_constructed (GObject *object)
 	 *     in shell_view_init_search_context().  ERuleContext ought
 	 *     to remember the filename when loading rules so you don't
 	 *     have to keep passing it in when saving rules. */
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
 	shell_content->priv->user_filename =
-		g_build_filename (data_dir, "searches.xml", NULL);
+		g_build_filename (config_dir, "searches.xml", NULL);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }

@@ -25,7 +25,7 @@
 #include "e-datetime-format.h"
 #include "e-util.h"
 
-#define KEYS_FILENAME "datetime-formats"
+#define KEYS_FILENAME "datetime-formats.ini"
 #define KEYS_GROUPNAME "formats"
 
 #ifdef G_OS_WIN32
