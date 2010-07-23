@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-28.kn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-22 13:53+0530\n"
-"PO-Revision-Date: 2010-04-22 14:00+0530\n"
+"PO-Revision-Date: 2010-07-23 15:50+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
-"Language-Team: kn-IN <>\n"
+"Language-Team: LC_MESSAGES <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8498,9 +8498,8 @@ msgid "The email address you have entered is invalid."
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:181
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span weight=\"bold\">ಮೈಲನ್ನು ಅಳಿಸು</span>"
+msgstr "<span size=\"large\" weight=\"bold\">ವ್ಯಕ್ತಿಗತ ವಿಸ್ತರಣೆಗಳು:</span>"
 
 #: ../capplet/settings/mail-account-view.c:186
 msgid "Name:"
@@ -9703,7 +9702,6 @@ msgstr ""
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:105
 #: ../modules/calendar/e-task-shell-view-actions.c:559
-#, fuzzy
 msgid "Do not ask me again"
 msgstr "ಪುನಃ ನನ್ನನ್ನು ಕೇಳಬೇಡ."
 
@@ -12429,9 +12427,8 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "ಹೊರಹೋಗುವ ಸಂದೇಶವನ್ನು ಡಿಜಿಟಲಿ ಸಹಿ ಮಾಡು (ಪೂರ್ವನಿಯೋಜಿತ ಆಗಿ)(_u)"
 
 #: ../mail/mail-config.ui.h:36
-#, fuzzy
 msgid "Displayed Message _Headers"
-msgstr "ಎಲ್ಲಾ ಸಂದೇಶ ಹೆಡರ್‌ಗಳು(_H)"
+msgstr "ಸಂದೇಶದ ಹೆಡರ್‌ಗಳನ್ನು ತೋರಿಸು (_H)"
 
 #: ../mail/mail-config.ui.h:37
 msgid "Do not format messages when text si_ze exceeds"
@@ -13271,9 +13268,9 @@ msgstr ""
 "ಮಾಡಲಾಗಿದೆ."
 
 #: ../mail/mail-tools.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr "ಸ್ಪೂಲ್‌ಕೋಶ '%s' ಅನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ: %s"
+msgstr "ಸ್ಪೂಲ್‌ಕೋಶ `%s' ಅನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ: %s"
 
 #: ../mail/mail-tools.c:153
 #, c-format
@@ -14744,11 +14741,11 @@ msgstr "1"
 
 #: ../modules/addressbook/ldap-config.ui.h:2
 msgid "3268"
-msgstr ""
+msgstr "3268"
 
 #: ../modules/addressbook/ldap-config.ui.h:3
 msgid "389"
-msgstr ""
+msgstr "389"
 
 #: ../modules/addressbook/ldap-config.ui.h:4
 msgid "5"
@@ -14756,7 +14753,7 @@ msgstr "5"
 
 #: ../modules/addressbook/ldap-config.ui.h:5
 msgid "636"
-msgstr ""
+msgstr "636"
 
 #: ../modules/addressbook/ldap-config.ui.h:6
 msgid "Anonymously"
@@ -14962,12 +14959,12 @@ msgstr "`%s' ಕ್ಯಾಲೆಂಡರನ್ನು ವರ್ಗಾಯಿಸಲ
 #: ../modules/calendar/e-cal-shell-sidebar.c:168
 #: ../modules/calendar/e-memo-shell-sidebar.c:163
 #: ../modules/calendar/e-task-shell-sidebar.c:163
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s\n"
 "%s"
 msgstr ""
-"%s ನಲ್ಲಿ ದೋಷ:\n"
+"%s ನಲ್ಲಿ ದೋಷ\n"
 " %s"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:227
@@ -17299,7 +17296,6 @@ msgid "Cal_endar:"
 msgstr "ಕ್ಯಾಲೆಂಡರ್(_e):"
 
 #: ../plugins/google-account-setup/google-source.c:666
-#, fuzzy
 msgid "Retrieve _list"
 msgstr "ಪಟ್ಟಿಯನ್ನು ಮರಳಿ ಪಡೆ(_l)"
 
@@ -18604,9 +18600,9 @@ msgstr[1] ""
 
 #. To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:506
-#, fuzzy, c-format
+#, c-format
 msgid "From: %s"
-msgstr "%s ನಿಂದ:"
+msgstr "ಇಂದ: %s"
 
 #. To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:518
@@ -20014,9 +20010,8 @@ msgid "i_n"
 msgstr "ಇದರೊಳಗೆ(_n)"
 
 #: ../shell/e-shell-switcher.c:448
-#, fuzzy
 msgid "Toolbar Style"
-msgstr "ಉಪಕರಣ ಪಟ್ಟಿಯ ಶೈಲಿ(_b)"
+msgstr "ಉಪಕರಣ ಪಟ್ಟಿಕೆಯ ಶೈಲಿ"
 
 #: ../shell/e-shell-switcher.c:449
 msgid "The switcher's toolbar style"
@@ -20568,9 +20563,8 @@ msgid "Whether the network is available"
 msgstr "ಪ್ಲಗ್‌ಇನ್ ಶಕ್ತಗೊಳಿಸಲ್ಪಟ್ಟಿದೆಯೆ"
 
 #: ../shell/e-shell.c:852 ../widgets/misc/e-online-button.c:134
-#, fuzzy
 msgid "Online"
-msgstr "ಇನ್‌ಲೈನ್"
+msgstr "ಆನ್‌ಲೈನ್"
 
 #: ../shell/e-shell.c:853
 #, fuzzy
@@ -20693,12 +20687,10 @@ msgid "Are you sure you want to forget all remembered passwords?"
 msgstr "ನೆನಪಿಟ್ಟುಕೊಂಡ ಎಲ್ಲಾ ಗುಪ್ತಪದಗಳನ್ನು ನೀವು ಖಚಿತವಾಗಿಯೂ ಮರೆಯಲು ಬಯಸುತ್ತೀರೇ?"
 
 #: ../shell/shell.error.xml.h:2
-#, fuzzy
 msgid "Continue"
-msgstr "ಈ ಮೌಲ್ಯವನ್ನು ಹೊಂದಿದೆ"
+msgstr "ಮುಂದುವರೆ"
 
 #: ../shell/shell.error.xml.h:3
-#, fuzzy
 msgid "Delete old data from version {0}?"
 msgstr "ಆವೃತ್ತಿ {0} ಇಂದ ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಅಳಿಸಬೇಕೆ?"
 
@@ -20823,32 +20815,32 @@ msgstr "ಒಂದು ಹೊಸ ಪರೀಕ್ಷಾ ಅಂಶವನ್ನು �
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
+msgstr "ಕಡತವು ಒಂದು ಮಾನ್ಯವಾದ .desktop ಕಡತವಾಗಿಲ್ಲ"
 
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
+msgstr "ಗುರುತಿಸಲಾಗದ ಗಣಕತೆರೆ ಕಡತ ಆವೃತ್ತಿ '%s'"
 
 #: ../smclient/eggdesktopfile.c:958
-#, fuzzy, c-format
+#, c-format
 msgid "Starting %s"
-msgstr "%s ಅನ್ನು ಶೋಧಿಸಲಾಗುತ್ತಿದೆ"
+msgstr "%s ಅನ್ನು ಆರಂಭಿಸಲಾಗುತ್ತಿದೆ"
 
 #: ../smclient/eggdesktopfile.c:1100
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "ಅನ್ವಯವು ಆಜ್ಞಾ ಸಾಲಿನಲ್ಲಿ ಯಾವುದೆ ದಸ್ತಾವೇಜುಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವುದಿಲ್ಲ"
 
 #: ../smclient/eggdesktopfile.c:1168
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "ಗುರುತಿಸಲಾಗದ ಆರಂಭ ಆಯ್ಕೆ: %d"
 
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
+msgstr "ಒಂದು 'Type=Link' ಗಣಕತೆರೆ ನಮೂದಿಗಾಗಿ ದಸ್ತಾವೇಜು URIಗಳನ್ನು ಒದಗಿಸಲಾಗಿಲ್ಲ"
 
 #: ../smclient/eggdesktopfile.c:1394
 #, c-format
@@ -20856,14 +20848,12 @@ msgid "Not a launchable item"
 msgstr "ಆರಂಭಿಸಬಹುದಾದ ಅಂಶವಲ್ಲ"
 
 #: ../smclient/eggsmclient.c:227
-#, fuzzy
 msgid "Disable connection to session manager"
-msgstr "ಅಂತರ್ಜಾಲಕ್ಕೆ ನೇರವಾದ ಸಂಪರ್ಕ(_D)"
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಾಹಕನೊಂದಿಗಿನ ಸಂಪರ್ಕವನ್ನು ಕಡಿದುಹಾಕು"
 
 #: ../smclient/eggsmclient.c:230
-#, fuzzy
 msgid "Specify file containing saved configuration"
-msgstr "ಪೈಲಟ್ ಸಂರಚನೆಯನ್ನು ತಯಾರುಗೊಳಿಸಿ"
+msgstr "ಉಳಿಸಲಾದ ಸಂರಚನೆಯನ್ನು ಹೊಂದಿರುವ ಕಡತವನ್ನು ಸೂಚಿಸಿ"
 
 #: ../smclient/eggsmclient.c:230
 msgid "FILE"
@@ -20871,7 +20861,7 @@ msgstr "FILE"
 
 #: ../smclient/eggsmclient.c:233
 msgid "Specify session management ID"
-msgstr ""
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಹಣಾ ಐಡಿಯನ್ನು ಸೂಚಿಸಿ"
 
 #: ../smclient/eggsmclient.c:233
 msgid "ID"
@@ -20879,12 +20869,11 @@ msgstr "ID"
 
 #: ../smclient/eggsmclient.c:254
 msgid "Session management options:"
-msgstr ""
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಹಣಾ ಆಯ್ಕೆಗಳು:"
 
 #: ../smclient/eggsmclient.c:255
-#, fuzzy
 msgid "Show session management options"
-msgstr "ಚಿತ್ರ ಸಜೀವನಗಳನ್ನು(ಎನಿಮೇಶನ್) ತೋರಿಸು"
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಹಣಾ ಆಯ್ಕೆಗಳನ್ನು ತೋರಿಸು"
 
 #: ../smime/gui/ca-trust-dialog.c:96
 #, c-format
@@ -21611,9 +21600,8 @@ msgid "Show Attachment _Bar"
 msgstr "ಲಗತ್ತು ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು(_B)"
 
 #: ../widgets/misc/e-attachment-paned.c:636
-#, fuzzy
 msgid "Show _Attachment Bar"
-msgstr "ಲಗತ್ತು ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು(_B)"
+msgstr "ಲಗತ್ತು ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು(_A)"
 
 #: ../widgets/misc/e-attachment-store.c:538
 msgid "Add Attachment"
