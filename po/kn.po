@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-28.kn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 23:24+0530\n"
-"PO-Revision-Date: 2010-04-22 00:58+0530\n"
+"PO-Revision-Date: 2010-07-23 14:23+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
-"Language-Team: kn-IN <>\n"
+"Language-Team: LC_MESSAGES <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8271,9 +8271,8 @@ msgid "The email address you have entered is invalid."
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:181
-#, fuzzy
 msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-msgstr "<span weight=\"bold\">ಮೈಲನ್ನು ಅಳಿಸು</span>"
+msgstr "<span size=\"large\" weight=\"bold\">ವ್ಯಕ್ತಿಗತ ವಿಸ್ತರಣೆಗಳು:</span>"
 
 #: ../capplet/settings/mail-account-view.c:186
 msgid "Name:"
@@ -9376,7 +9375,6 @@ msgstr "ಸ್ಥಳೀಯ ಮೈಲ್ ಫೋಲ್ಡರುಗಳ ಶೇಖರ
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:103
 #: ../modules/calendar/e-task-shell-view-actions.c:561
-#, fuzzy
 msgid "Do not ask me again"
 msgstr "ಪುನಃ ನನ್ನನ್ನು ಕೇಳಬೇಡ."
 
@@ -10819,9 +10817,8 @@ msgid "Search _Folders"
 msgstr "ಹುಡುಕು ಫೋಲ್ಡರುಗಳು(_F)"
 
 #: ../mail/em-vfolder-rule.c:521
-#, fuzzy
 msgid "Add Folder"
-msgstr "ಫೋಲ್ಡರ್"
+msgstr "ಕಡತಕೋಶವನ್ನು ಸೇರಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 #, fuzzy
@@ -14493,12 +14490,12 @@ msgstr "ಕ್ಯಾಲೆಂಡರ್ ಹಾಗು ಕಾರ್ಯಗಳು"
 #: ../modules/calendar/e-cal-shell-sidebar.c:168
 #: ../modules/calendar/e-memo-shell-sidebar.c:163
 #: ../modules/calendar/e-task-shell-sidebar.c:163
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s\n"
 "%s"
 msgstr ""
-"%s ನಲ್ಲಿ ದೋಷ:\n"
+"%s ನಲ್ಲಿ ದೋಷ\n"
 " %s"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:227
@@ -19963,32 +19960,32 @@ msgstr "ಒಂದು ಹೊಸ ಪರೀಕ್ಷಾ ಅಂಶವನ್ನು �
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
+msgstr "ಕಡತವು ಒಂದು ಮಾನ್ಯವಾದ .desktop ಕಡತವಾಗಿಲ್ಲ"
 
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
+msgstr "ಗುರುತಿಸಲಾಗದ ಗಣಕತೆರೆ ಕಡತ ಆವೃತ್ತಿ '%s'"
 
 #: ../smclient/eggdesktopfile.c:958
-#, fuzzy, c-format
+#, c-format
 msgid "Starting %s"
-msgstr "%s ಅನ್ನು ಶೋಧಿಸಲಾಗುತ್ತಿದೆ"
+msgstr "%s ಅನ್ನು ಆರಂಭಿಸಲಾಗುತ್ತಿದೆ"
 
 #: ../smclient/eggdesktopfile.c:1100
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "ಅನ್ವಯವು ಆಜ್ಞಾ ಸಾಲಿನಲ್ಲಿ ಯಾವುದೆ ದಸ್ತಾವೇಜುಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವುದಿಲ್ಲ"
 
 #: ../smclient/eggdesktopfile.c:1168
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "ಗುರುತಿಸಲಾಗದ ಆರಂಭ ಆಯ್ಕೆ: %d"
 
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
+msgstr "ಒಂದು 'Type=Link' ಗಣಕತೆರೆ ನಮೂದಿಗಾಗಿ ದಸ್ತಾವೇಜು URIಗಳನ್ನು ಒದಗಿಸಲಾಗಿಲ್ಲ"
 
 #: ../smclient/eggdesktopfile.c:1394
 #, c-format
@@ -19996,9 +19993,8 @@ msgid "Not a launchable item"
 msgstr "ಆರಂಭಿಸಬಹುದಾದ ಅಂಶವಲ್ಲ"
 
 #: ../smclient/eggsmclient.c:227
-#, fuzzy
 msgid "Disable connection to session manager"
-msgstr "ಅಂತರ್ಜಾಲಕ್ಕೆ ನೇರವಾದ ಸಂಪರ್ಕ(_D)"
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಾಹಕನೊಂದಿಗ ಸಂಪರ್ಕವನ್ನು ಕಡಿದುಹಾಕು"
 
 #: ../smclient/eggsmclient.c:230
 #, fuzzy
@@ -20011,7 +20007,7 @@ msgstr "FILE"
 
 #: ../smclient/eggsmclient.c:233
 msgid "Specify session management ID"
-msgstr ""
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಹಣಾ ಐಡಿಯನ್ನು ಸೂಚಿಸಿ"
 
 #: ../smclient/eggsmclient.c:233
 msgid "ID"
@@ -20019,12 +20015,11 @@ msgstr "ID"
 
 #: ../smclient/eggsmclient.c:254
 msgid "Session management options:"
-msgstr ""
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಹಣಾ ಆಯ್ಕೆಗಳು:"
 
 #: ../smclient/eggsmclient.c:255
-#, fuzzy
 msgid "Show session management options"
-msgstr "ಚಿತ್ರ ಸಜೀವನಗಳನ್ನು(ಎನಿಮೇಶನ್) ತೋರಿಸು"
+msgstr "ಅಧಿವೇಶನ ನಿರ್ವಹಣಾ ಆಯ್ಕೆಗಳನ್ನು ತೋರಿಸು"
 
 #: ../smime/gui/ca-trust-dialog.c:104
 #, c-format
@@ -21240,7 +21235,6 @@ msgid "Add _Script"
 msgstr "ಸ್ಕ್ರಿಪ್ಟನ್ನು ಸೇರಿಸು(_S)"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
