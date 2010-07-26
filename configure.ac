@@ -76,6 +76,9 @@ if test "x${enable_gtk3}" = "xyes"; then
 	CANBERRA_GTK="libcanberra-gtk3"
 	libcanberra_gtk_minimum_version="0.25"
 
+	CLUTTER_GTK="clutter-gtk-1.0"
+	clutter_gtk_minimum_version="0.90"
+
 	GTKHTML="libgtkhtml-4.0"
 	libgtkhtml_minimum_version="3.31.4"
 
@@ -90,7 +93,6 @@ if test "x${enable_gtk3}" = "xyes"; then
 	dnl     link to gtk+-2.0 so we've bumped the versions to some
 	dnl     bogus value to force some plugins to be disabled.
 	champlain_minimum_version="0.8"
-	clutter_gtk_minimum_version="1.0"
 	gtkimageview_minimum_version="2.0"
 
 	EVOLUTION_SHELL="evolution-shell-3.0"
@@ -112,6 +114,9 @@ else
 	CANBERRA_GTK="libcanberra-gtk"
 	libcanberra_gtk_minimum_version="0"
 
+	CLUTTER_GTK="clutter-gtk-0.10"
+	clutter_gtk_minimum_version="0.10"
+
 	GTKHTML="libgtkhtml-3.14"
 	libgtkhtml_minimum_version="3.31.2"
 
@@ -121,7 +126,6 @@ else
 	gweather_minimum_version="2.25.3"
 
 	champlain_minimum_version="0.4"
-	clutter_gtk_minimum_version="0.10.0"
 	gtkimageview_minimum_version="1.6"
 	libnotify_minimum_version="0.3.0"
 
@@ -1565,10 +1569,10 @@ if test "x$enable_plugins" = "xexperimental"; then
 			AC_MSG_ERROR([geoclue is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
-		PKG_CHECK_MODULES( [CLUTTER_GTK], [clutter-gtk-0.10 >= $clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
+		PKG_CHECK_MODULES( [CLUTTER_GTK], [$CLUTTER_GTK >= $clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
 
 		if test "x$have_clutter_gtk" = "xno"; then
-			AC_MSG_ERROR([clutter_gtk is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+			AC_MSG_ERROR([$CLUTTER_GTK is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
 		plugins_standard="$plugins_standard contacts-map"
