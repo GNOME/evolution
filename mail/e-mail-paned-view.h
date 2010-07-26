@@ -25,7 +25,6 @@
 
 #include <mail/e-mail-view.h>
 
-#include <shell/e-shell-content.h>
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
@@ -68,8 +67,7 @@ struct _EMailPanedViewClass {
 };
 
 GType		e_mail_paned_view_get_type	(void);
-void		e_mail_paned_view_register_type	(GTypeModule *type_module);
-GtkWidget *	e_mail_paned_view_new		(EShellContent *content);
+GtkWidget *	e_mail_paned_view_new		(EShellView *shell_view);
 void		e_mail_paned_view_hide_message_list_pane
 						(EMailPanedView *view,
 						 gboolean visible);

@@ -374,6 +374,7 @@ mail_backend_constructed (GObject *object)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
+	const gchar *data_dir;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);

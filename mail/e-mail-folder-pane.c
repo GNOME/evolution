@@ -49,60 +49,23 @@ struct _EMailFolderPanePrivate {
 	gint placeholder;
 };
 
-enum {
-	PROP_0,
-	PROP_PREVIEW_VISIBLE
-};
-
 G_DEFINE_TYPE (EMailFolderPane, e_mail_folder_pane, E_TYPE_MAIL_PANED_VIEW)
+
+static gboolean
+folder_pane_get_preview_visible (EMailView *view)
+{
+	return FALSE;
+}
 
 static void
 folder_pane_set_preview_visible (EMailView *view,
                                  gboolean preview_visible)
 {
-}
-
-static gboolean
-folder_pane_get_preview_visible (EMailView *view)
-{
-
-	return FALSE;
-}
-
-static void
-mail_folder_pane_get_property (GObject *object,
-                               guint property_id,
-                               GValue *value,
-                               GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_PREVIEW_VISIBLE:
-			g_value_set_boolean (
-				value,
-				FALSE);
-			return;
-
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-mail_folder_pane_set_property (GObject *object,
-                               guint property_id,
-                               const GValue *value,
-                               GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_PREVIEW_VISIBLE:
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+	/* Ignore the request. */
 }
 
 static guint
-mfp_open_selected_mail (EMailPanedView *view)
+mail_paned_view_open_selected_mail (EMailPanedView *view)
 {
 	GPtrArray *uids;
 	gint i;
@@ -182,27 +145,17 @@ mfp_open_selected_mail (EMailPanedView *view)
 static void
 e_mail_folder_pane_class_init (EMailFolderPaneClass *class)
 {
-	GObjectClass *object_class;
 	EMailViewClass *mail_view_class;
 	EMailPanedViewClass *mail_paned_view_class;
 
 	g_type_class_add_private (class, sizeof (EMailFolderPanePrivate));
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = mail_folder_pane_set_property;
-	object_class->get_property = mail_folder_pane_get_property;
-
 	mail_view_class = E_MAIL_VIEW_CLASS (class);
-	mail_view_class->set_preview_visible = folder_pane_set_preview_visible;
 	mail_view_class->get_preview_visible = folder_pane_get_preview_visible;
+	mail_view_class->set_preview_visible = folder_pane_set_preview_visible;
 
 	mail_paned_view_class = E_MAIL_PANED_VIEW_CLASS (class);
-	mail_paned_view_class->open_selected_mail = mfp_open_selected_mail;
-
-	g_object_class_override_property (
-		object_class,
-		PROP_PREVIEW_VISIBLE,
-		"preview-visible");
+	mail_paned_view_class->open_selected_mail = mail_paned_view_open_selected_mail;
 }
 
 static void
@@ -211,15 +164,13 @@ e_mail_folder_pane_init (EMailFolderPane *browser)
 	browser->priv = E_MAIL_FOLDER_PANE_GET_PRIVATE (browser);
 }
 
-GtkWidget *
-e_mail_folder_pane_new (EShellContent *content)
+EMailView *
+e_mail_folder_pane_new (EShellView *shell_view)
 {
-	g_return_val_if_fail (E_IS_SHELL_CONTENT (content), NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return g_object_new (
 		E_TYPE_MAIL_FOLDER_PANE,
-		"shell-content", content,
-		"preview-visible", FALSE,
-		NULL);
+		"shell-view", shell_view, NULL);
 }
 

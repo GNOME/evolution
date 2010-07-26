@@ -4120,20 +4120,6 @@ message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted)
 	}
 }
 
-#if HAVE_CLUTTER
-static void
-on_timeline_started (ClutterTimeline *timeline, ClutterActor *actor)
-{
-	clutter_actor_show(actor);
-}
-
-static void
-on_timeline_stopped (ClutterTimeline *timeline, ClutterActor *actor)
-{
-	clutter_actor_hide(actor);
-}
-#endif
-
 void
 message_list_set_search (MessageList *ml, const gchar *search)
 {
@@ -4175,9 +4161,12 @@ message_list_set_search (MessageList *ml, const gchar *search)
 			clutter_behaviour_apply (behaviour, texture);
 			clutter_timeline_set_loop (ml->priv->timeline, TRUE);
 
-			g_signal_connect(ml->priv->timeline, "started", G_CALLBACK(on_timeline_started), texture);
-			g_signal_connect(ml->priv->timeline, "paused", G_CALLBACK(on_timeline_stopped), texture);
-			//g_signal_connect(ml->priv->timeline, "completed", G_CALLBACK(on_timeline_stopped), texture);
+			g_signal_connect_swapped (
+				ml->priv->timeline, "started",
+				G_CALLBACK (clutter_actor_show), texture);
+			g_signal_connect (
+				ml->priv->timeline, "paused",
+				G_CALLBACK (clutter_actor_hide), texture);
 
 			clutter_timeline_pause (ml->priv->timeline);
 			clutter_timeline_stop (ml->priv->timeline);

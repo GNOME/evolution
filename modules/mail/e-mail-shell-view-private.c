@@ -319,11 +319,11 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 	e_mail_shell_view_update_sidebar (mail_shell_view);
 
 	/* Connect if its not connected already */
-	if (g_signal_handler_find (message_list, G_SIGNAL_MATCH_FUNC,
-				0, 0, NULL,
-				mail_shell_view_message_list_key_press_cb,
-				NULL))
+	if (g_signal_handler_find (
+		message_list, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		mail_shell_view_message_list_key_press_cb, NULL))
 		return;
+
 	g_signal_connect_swapped (
 		message_list, "key-press",
 		G_CALLBACK (mail_shell_view_message_list_key_press_cb),

@@ -62,9 +62,7 @@ struct _EMailNotebookViewClass {
 };
 
 GType		e_mail_notebook_view_get_type	(void);
-void		e_mail_notebook_view_register_type
-						(GTypeModule *type_module);
-GtkWidget *	e_mail_notebook_view_new	(EShellContent *content);
+GtkWidget *	e_mail_notebook_view_new	(EShellView *shell_view);
 EShellSearchbar *
 		e_mail_notebook_view_get_searchbar
 						(EMailNotebookView *view);

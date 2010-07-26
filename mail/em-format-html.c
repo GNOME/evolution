@@ -50,7 +50,7 @@
 #include "e-util/e-extensible.h"
 #include "misc/e-web-view.h"
 
-#include "shell/e-shell.h"
+#include <shell/e-shell.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>

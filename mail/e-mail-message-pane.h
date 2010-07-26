@@ -59,7 +59,7 @@ struct _EMailMessagePaneClass {
 };
 
 GType		e_mail_message_pane_get_type	(void);
-GtkWidget *	e_mail_message_pane_new		(EShellContent *content);
+EMailView *	e_mail_message_pane_new		(EShellView *shell_view);
 
 G_END_DECLS
 

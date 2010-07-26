@@ -89,12 +89,15 @@ reconnect_folder_loaded_event (EMailReader *child, EMailReader *parent)
 }
 
 static void
-msc_view_changed (EMailView *view, EMailShellContent *content)
+mail_shell_content_view_changed_cb (EMailView *view,
+                                    EMailShellContent *content)
 {
+	g_object_freeze_notify (G_OBJECT (content));
 	g_object_notify (G_OBJECT (content), "group-by-threads");
 	g_object_notify (G_OBJECT (content), "show-deleted");
 	g_object_notify (G_OBJECT (content), "preview-visible");
 	g_object_notify (G_OBJECT (content), "orientation");
+	g_object_thaw_notify (G_OBJECT (content));
 }
 
 static void
@@ -123,19 +126,24 @@ mail_shell_content_constructed (GObject *object)
 	container = GTK_WIDGET (object);
 
 	if (e_shell_get_express_mode(e_shell_get_default ())) {
-		widget = e_mail_notebook_view_new (E_SHELL_CONTENT(object));
-		g_signal_connect (widget, "view-changed", G_CALLBACK(msc_view_changed), object);
+		widget = e_mail_notebook_view_new (shell_view);
+		g_signal_connect (
+			widget, "view-changed",
+			G_CALLBACK (mail_shell_content_view_changed_cb),
+			object);
 	} else
-		widget = e_mail_paned_view_new (E_SHELL_CONTENT(object));
+		widget = e_mail_paned_view_new (shell_view);
+
 	E_MAIL_SHELL_CONTENT(object)->view = (EMailView *)widget;
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
-	g_signal_connect ( E_MAIL_READER(widget), "changed",
-			   G_CALLBACK (reconnect_changed_event),
-			   object);
-	g_signal_connect ( E_MAIL_READER (widget), "folder-loaded",
-			   G_CALLBACK (reconnect_folder_loaded_event),
-			   object);
+
+	g_signal_connect (
+		widget, "changed",
+		G_CALLBACK (reconnect_changed_event), object);
+	g_signal_connect (
+		widget, "folder-loaded",
+		G_CALLBACK (reconnect_folder_loaded_event), object);
 
 }
 
@@ -422,7 +430,6 @@ e_mail_shell_content_register_type (GTypeModule *type_module)
 	g_type_module_add_interface (
 		type_module, mail_shell_content_type,
 		GTK_TYPE_ORIENTABLE, &orientable_info);
-
 }
 
 GtkWidget *
@@ -438,7 +445,18 @@ e_mail_shell_content_new (EShellView *shell_view)
 EShellSearchbar *
 e_mail_shell_content_get_searchbar (EMailShellContent *mail_shell_content)
 {
-	return e_mail_view_get_searchbar (mail_shell_content->view);
+	GtkWidget *searchbar;
+	EShellView *shell_view;
+	EShellContent *shell_content;
+
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	searchbar = e_shell_view_get_searchbar (shell_view);
+
+	return E_SHELL_SEARCHBAR (searchbar);
 }
 
 void

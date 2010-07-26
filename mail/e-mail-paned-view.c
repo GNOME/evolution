@@ -63,7 +63,6 @@ struct _EMailPanedViewPrivate {
 
 	EMFormatHTMLDisplay *formatter;
 	GalViewInstance *view_instance;
-	GtkOrientation orientation;
 
 	/* ETable scrolling hack */
 	gdouble default_scrollbar_position;
@@ -72,40 +71,37 @@ struct _EMailPanedViewPrivate {
 
 	/* Signal handler IDs */
 	guint message_list_built_id;
-
-	guint preview_visible	: 1;
-	guint show_deleted	: 1;
 };
 
 enum {
 	PROP_0,
-	PROP_GROUP_BY_THREADS,
-	PROP_ORIENTATION,
-	PROP_PREVIEW_VISIBLE,
-	PROP_SHOW_DELETED
+	PROP_GROUP_BY_THREADS
 };
 
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
 #define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
 #define STATE_KEY_PREVIEW_VISIBLE	"PreviewVisible"
 
-static EMailViewClass *parent_class;
-static GType mail_paned_view_type;
+/* Forward Declarations */
+static void e_mail_paned_view_reader_init (EMailReaderIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMailPanedView, e_mail_paned_view, E_TYPE_MAIL_VIEW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_MAIL_READER, e_mail_paned_view_reader_init))
 
 static void
-mail_paned_view_save_boolean (EMailPanedView *view,
+mail_paned_view_save_boolean (EMailView *view,
                               const gchar *key,
                               gboolean value)
 {
 	EShellView *shell_view;
-	EShellContent *shell_content;
 	EMailReader *reader;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 	gchar *group_name;
 
-	shell_content = E_MAIL_VIEW (view)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_view = e_mail_view_get_shell_view (view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (view);
@@ -122,21 +118,21 @@ mail_paned_view_save_boolean (EMailPanedView *view,
 }
 
 static void
-mail_paned_view_message_list_built_cb (EMailPanedView *view,
+mail_paned_view_message_list_built_cb (EMailView *view,
                                        MessageList *message_list)
 {
-	EMailPanedViewPrivate *priv = view->priv;
+	EMailPanedViewPrivate *priv;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellContent *shell_content;
 	GKeyFile *key_file;
+
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
 
 	g_signal_handler_disconnect (
 		message_list, priv->message_list_built_id);
 	priv->message_list_built_id = 0;
 
-	shell_content = E_MAIL_VIEW (view)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	key_file = e_shell_view_get_state_key_file (shell_view);
@@ -170,11 +166,10 @@ mail_paned_view_message_list_built_cb (EMailPanedView *view,
 }
 
 static void
-mail_paned_view_message_selected_cb (EMailPanedView *view,
+mail_paned_view_message_selected_cb (EMailView *view,
                                      const gchar *message_uid,
                                      MessageList *message_list)
 {
-	EShellContent *shell_content;
 	EShellView *shell_view;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
@@ -189,8 +184,7 @@ mail_paned_view_message_selected_cb (EMailPanedView *view,
 	if (folder_uri == NULL)
 		return;
 
-	shell_content = E_MAIL_VIEW (view)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_view = e_mail_view_get_shell_view (view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	key = STATE_KEY_SELECTED_MESSAGE;
@@ -216,7 +210,7 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
 	GObject *object;
 	const gchar *key;
 
-	priv = view->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -255,7 +249,7 @@ mail_paned_view_notify_group_by_threads_cb (EMailReader *reader)
 	group_by_threads = e_mail_reader_get_group_by_threads (reader);
 
 	mail_paned_view_save_boolean (
-		E_MAIL_PANED_VIEW (reader),
+		E_MAIL_VIEW (reader),
 		STATE_KEY_GROUP_BY_THREADS, group_by_threads);
 }
 
@@ -269,24 +263,6 @@ mail_paned_view_set_property (GObject *object,
 		case PROP_GROUP_BY_THREADS:
 			e_mail_reader_set_group_by_threads (
 				E_MAIL_READER (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_ORIENTATION:
-			e_mail_view_set_orientation (
-				E_MAIL_VIEW (object),
-				g_value_get_enum (value));
-			return;
-
-		case PROP_PREVIEW_VISIBLE:
-			e_mail_view_set_preview_visible (
-				E_MAIL_VIEW  (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_SHOW_DELETED:
-			e_mail_view_set_show_deleted (
-				E_MAIL_VIEW (object),
 				g_value_get_boolean (value));
 			return;
 	}
@@ -307,27 +283,6 @@ mail_paned_view_get_property (GObject *object,
 				e_mail_reader_get_group_by_threads (
 				E_MAIL_READER (object)));
 			return;
-
-		case PROP_ORIENTATION:
-			g_value_set_enum (
-				value,
-				e_mail_view_get_orientation (
-				E_MAIL_VIEW (object)));
-			return;
-
-		case PROP_PREVIEW_VISIBLE:
-			g_value_set_boolean (
-				value,
-				e_mail_view_get_preview_visible (
-				E_MAIL_VIEW (object)));
-			return;
-
-		case PROP_SHOW_DELETED:
-			g_value_set_boolean (
-				value,
-				e_mail_view_get_show_deleted (
-				E_MAIL_VIEW (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -338,7 +293,7 @@ mail_paned_view_dispose (GObject *object)
 {
 	EMailPanedViewPrivate *priv;
 
-	priv = E_MAIL_PANED_VIEW (object)->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -371,18 +326,18 @@ mail_paned_view_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_paned_view_parent_class)->dispose (object);
 }
 
 static GtkActionGroup *
 mail_paned_view_get_action_group (EMailReader *reader)
 {
-	EShellContent *shell_content;
-	EShellWindow *shell_window;
+	EMailView *view;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 
-	shell_content = E_MAIL_VIEW (reader)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
@@ -393,7 +348,7 @@ mail_paned_view_get_formatter (EMailReader *reader)
 {
 	EMailPanedViewPrivate *priv;
 
-	priv =  E_MAIL_PANED_VIEW (reader)->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
 
 	return EM_FORMAT_HTML (priv->formatter);
 }
@@ -409,7 +364,7 @@ mail_paned_view_get_message_list (EMailReader *reader)
 {
 	EMailPanedViewPrivate *priv;
 
-	priv = E_MAIL_PANED_VIEW (reader)->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
 
 	return priv->message_list;
 }
@@ -417,14 +372,14 @@ mail_paned_view_get_message_list (EMailReader *reader)
 static GtkMenu *
 mail_paned_view_get_popup_menu (EMailReader *reader)
 {
+	EMailView *view;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellContent *shell_content;
 	GtkUIManager *ui_manager;
 	GtkWidget *widget;
 
-	shell_content = E_MAIL_VIEW (reader)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -436,11 +391,11 @@ mail_paned_view_get_popup_menu (EMailReader *reader)
 static EShellBackend *
 mail_paned_view_get_shell_backend (EMailReader *reader)
 {
-	EShellContent *shell_content;
+	EMailView *view;
 	EShellView *shell_view;
 
-	shell_content = E_MAIL_VIEW (reader)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
 
 	return e_shell_view_get_shell_backend (shell_view);
 }
@@ -448,12 +403,12 @@ mail_paned_view_get_shell_backend (EMailReader *reader)
 static GtkWindow *
 mail_paned_view_get_window (EMailReader *reader)
 {
-	EShellContent *shell_content;
-	EShellWindow *shell_window;
+	EMailView *view;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 
-	shell_content = E_MAIL_VIEW (reader)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	return GTK_WINDOW (shell_window);
@@ -461,15 +416,15 @@ mail_paned_view_get_window (EMailReader *reader)
 
 static void
 mail_paned_view_set_folder (EMailReader *reader,
-                               CamelFolder *folder,
-                               const gchar *folder_uri)
+                            CamelFolder *folder,
+                            const gchar *folder_uri)
 {
+	EMailPanedViewPrivate *priv;
+	EMailView *view;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellContent *shell_content;
 	EShellSettings *shell_settings;
-	EMailPanedViewPrivate *priv;
 	EMailReaderIface *default_iface;
 	GtkWidget *message_list;
 	GKeyFile *key_file;
@@ -478,10 +433,10 @@ mail_paned_view_set_folder (EMailReader *reader,
 	gboolean value;
 	GError *error = NULL;
 
-	priv = E_MAIL_PANED_VIEW (reader)->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
 
-	shell_content = E_MAIL_VIEW (reader)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
@@ -553,7 +508,7 @@ mail_paned_view_show_search_bar (EMailReader *reader)
 {
 	EMailPanedViewPrivate *priv;
 
-	priv = E_MAIL_PANED_VIEW (reader)->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
 
 	gtk_widget_show (priv->search_bar);
 }
@@ -561,10 +516,6 @@ mail_paned_view_show_search_bar (EMailReader *reader)
 static guint
 mail_paned_view_reader_open_selected_mail (EMailReader *reader)
 {
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW (reader)->priv;
-
 	return E_MAIL_PANED_VIEW_CLASS (G_OBJECT_GET_CLASS (reader))->open_selected_mail (E_MAIL_PANED_VIEW (reader));
 }
 
@@ -572,22 +523,22 @@ static void
 mail_paned_view_constructed (GObject *object)
 {
 	EMailPanedViewPrivate *priv;
-	EShellContent *shell_content;
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	ESearchBar *search_bar;
 	EMailReader *reader;
+	EMailView *view;
 	GtkWidget *message_list;
 	GtkWidget *container;
 	GtkWidget *widget;
 	EWebView *web_view;
 
-	priv = E_MAIL_PANED_VIEW (object)->priv;
+	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
 	priv->formatter = em_format_html_display_new ();
 
-	shell_content = E_MAIL_VIEW (object)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	view = E_MAIL_VIEW (object);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
@@ -666,20 +617,10 @@ mail_paned_view_constructed (GObject *object)
 		object);
 
 	e_mail_reader_connect_headers (reader);
-}
 
-static EShellSearchbar *
-mail_paned_view_get_searchbar (EMailView *view)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	GtkWidget *widget;
-
-	shell_content = view->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	widget = e_shell_view_get_searchbar (shell_view);
-
-	return E_SHELL_SEARCHBAR (widget);
+	/* Do this after creating the message list.  Our
+	 * set_preview_visible() method relies on it. */
+	e_mail_view_set_preview_visible (view, TRUE);
 }
 
 static void
@@ -723,7 +664,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	EMailPanedViewPrivate *priv;
 	EMailReader *reader;
 	EShell *shell;
-	EShellContent *shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellViewClass *shell_view_class;
@@ -740,8 +680,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
 
-	shell_content = view->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_view = e_mail_view_get_shell_view (view);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 
@@ -873,63 +812,10 @@ mail_paned_view_update_view_instance (EMailView *view)
 }
 
 static void
-mail_paned_view_set_orientation (EMailView *view,
-                                 GtkOrientation orientation)
-{
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	priv->orientation = orientation;
-
-	g_object_notify (G_OBJECT (view), "orientation");
-
-	e_mail_view_update_view_instance (view);
-}
-
-static GtkOrientation
-mail_paned_view_get_orientation (EMailView *view)
-{
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	return priv->orientation;
-}
-
-static void
-mail_paned_view_set_show_deleted (EMailView *view,
-                                  gboolean show_deleted)
-{
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	priv->show_deleted = show_deleted;
-
-	g_object_notify (G_OBJECT (view), "show-deleted");
-}
-
-static gboolean
-mail_paned_view_get_show_deleted (EMailView *view)
-{
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	return priv->show_deleted;
-}
-
-static void
 mail_paned_view_set_preview_visible (EMailView *view,
                                      gboolean preview_visible)
 {
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	if (preview_visible == priv->preview_visible)
-		return;
+	EMailViewClass *parent_class;
 
 	/* If we're showing the preview, tell EMailReader to reload the
 	 * selected message.  This should force it to download the full
@@ -947,23 +833,13 @@ mail_paned_view_set_preview_visible (EMailView *view,
 			e_mail_reader_set_message (reader, cursor_uid);
 	}
 
-	priv->preview_visible = preview_visible;
-
 	mail_paned_view_save_boolean (
-		E_MAIL_PANED_VIEW (view),
+		E_MAIL_VIEW (view),
 		STATE_KEY_PREVIEW_VISIBLE, preview_visible);
 
-	g_object_notify (G_OBJECT (view), "preview-visible");
-}
-
-static gboolean
-mail_paned_view_get_preview_visible (EMailView *view)
-{
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	return priv->preview_visible;
+	/* Chain up to parent's set_preview_visible() method. */
+	parent_class = E_MAIL_VIEW_CLASS (e_mail_paned_view_parent_class);
+	parent_class->set_preview_visible (view, preview_visible);
 }
 
 static guint
@@ -973,12 +849,11 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 }
 
 static void
-mail_paned_view_class_init (EMailPanedViewClass *class)
+e_mail_paned_view_class_init (EMailPanedViewClass *class)
 {
 	GObjectClass *object_class;
 	EMailViewClass *mail_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailPanedViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -988,17 +863,11 @@ mail_paned_view_class_init (EMailPanedViewClass *class)
 	object_class->get_property = mail_paned_view_get_property;
 
 	mail_view_class = E_MAIL_VIEW_CLASS (class);
-	mail_view_class->get_searchbar = mail_paned_view_get_searchbar;
 	mail_view_class->set_search_strings = mail_paned_view_set_search_strings;
 	mail_view_class->get_view_instance = mail_paned_view_get_view_instance;
 	mail_view_class->update_view_instance = mail_paned_view_update_view_instance;
 
-	mail_view_class->set_orientation = mail_paned_view_set_orientation;
-	mail_view_class->get_orientation = mail_paned_view_get_orientation;
-	mail_view_class->set_show_deleted = mail_paned_view_set_show_deleted;
-	mail_view_class->get_show_deleted = mail_paned_view_get_show_deleted;
 	mail_view_class->set_preview_visible = mail_paned_view_set_preview_visible;
-	mail_view_class->get_preview_visible = mail_paned_view_get_preview_visible;
 
 	class->open_selected_mail = mail_paned_view_open_selected_mail;
 
@@ -1007,33 +876,10 @@ mail_paned_view_class_init (EMailPanedViewClass *class)
 		object_class,
 		PROP_GROUP_BY_THREADS,
 		"group-by-threads");
-
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_VISIBLE,
-		g_param_spec_boolean (
-			"preview-visible",
-			"Preview is Visible",
-			"Whether the preview pane is visible",
-			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_DELETED,
-		g_param_spec_boolean (
-			"show-deleted",
-			"Show Deleted",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	g_object_class_override_property (
-		object_class, PROP_ORIENTATION, "orientation");
 }
 
 static void
-mail_paned_view_reader_init (EMailReaderIface *iface)
+e_mail_paned_view_reader_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_paned_view_get_action_group;
 	iface->get_formatter = mail_paned_view_get_formatter;
@@ -1048,11 +894,9 @@ mail_paned_view_reader_init (EMailReaderIface *iface)
 }
 
 static void
-mail_paned_view_init (EMailPanedView *view)
+e_mail_paned_view_init (EMailPanedView *view)
 {
 	view->priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	view->priv->preview_visible = TRUE;
 
 	g_signal_connect (
 		view, "notify::group-by-threads",
@@ -1060,61 +904,14 @@ mail_paned_view_init (EMailPanedView *view)
 		NULL);
 }
 
-GType
-e_mail_paned_view_get_type (void)
-{
-	return mail_paned_view_type;
-}
-
-void
-e_mail_paned_view_register_type (GTypeModule *type_module)
-{
-	static const GTypeInfo type_info = {
-		sizeof (EMailPanedViewClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_paned_view_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMailPanedView),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) mail_paned_view_init,
-		NULL   /* value_table */
-	};
-#if 0
-	static const GInterfaceInfo orientable_info = {
-		(GInterfaceInitFunc) NULL,
-		(GInterfaceFinalizeFunc) NULL,
-		NULL  /* interface_data */
-	};
-#endif
-	static const GInterfaceInfo reader_info = {
-		(GInterfaceInitFunc) mail_paned_view_reader_init,
-		(GInterfaceFinalizeFunc) NULL,
-		NULL  /* interface_data */
-	};
-
-	mail_paned_view_type = g_type_module_register_type (
-		type_module, E_TYPE_MAIL_VIEW,
-		"EMailPanedView", &type_info, 0);
-#if 0
-	g_type_module_add_interface (
-		type_module, mail_paned_view_type,
-		GTK_TYPE_ORIENTABLE, &orientable_info);
-#endif
-	g_type_module_add_interface (
-		type_module, mail_paned_view_type,
-		E_TYPE_MAIL_READER, &reader_info);
-}
-
 GtkWidget *
-e_mail_paned_view_new (EShellContent *content)
+e_mail_paned_view_new (EShellView *shell_view)
 {
-	g_return_val_if_fail (E_IS_SHELL_CONTENT (content), NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return g_object_new (
 		E_TYPE_MAIL_PANED_VIEW,
-		"shell-content", content, NULL);
+		"shell-view", shell_view, NULL);
 }
 
 void
@@ -1127,7 +924,6 @@ e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
 		gtk_widget_show (view->priv->scrolled_window);
 	else
 		gtk_widget_hide (view->priv->scrolled_window);
-
 }
 
 GtkWidget *

@@ -22,7 +22,6 @@
 #ifndef E_MAIL_FOLDER_PANE_H
 #define E_MAIL_FOLDER_PANE_H
 
-#include <shell/e-shell-content.h>
 #include <mail/e-mail-paned-view.h>
 
 /* Standard GObject macros */
@@ -60,7 +59,7 @@ struct _EMailFolderPaneClass {
 };
 
 GType		e_mail_folder_pane_get_type	(void);
-GtkWidget *	e_mail_folder_pane_new		(EShellContent *content);
+EMailView *	e_mail_folder_pane_new		(EShellView *shell_view);
 
 G_END_DECLS
 

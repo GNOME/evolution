@@ -686,15 +686,17 @@ action_mail_next_cb (GtkAction *action,
 	mask  = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
+
 #if HAVE_CLUTTER
-	actor = g_object_get_data ((GObject *)message_list, "preview-actor");
-	if (actor) {
+	actor = g_object_get_data (G_OBJECT (message_list), "preview-actor");
+	if (actor != NULL) {
 		clutter_actor_set_opacity (actor, 0);
 		clutter_actor_animate (
 			actor, CLUTTER_EASE_OUT_SINE,
 			500, "opacity", 255, NULL);
 	}
 #endif
+
 	message_list_select (
 		MESSAGE_LIST (message_list), direction, flags, mask);
 }
@@ -2190,8 +2192,8 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			string = g_strdup_printf (
 				_("Retrieving message '%s'"), cursor_uid);
 #if HAVE_CLUTTER
-		if (!e_shell_get_express_mode(e_shell_get_default()))
-			e_web_view_load_string (web_view, string);
+			if (!e_shell_get_express_mode (e_shell_get_default ()))
+				e_web_view_load_string (web_view, string);
 #else
 			e_web_view_load_string (web_view, string);
 #endif

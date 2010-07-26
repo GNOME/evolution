@@ -33,7 +33,11 @@
 	((obj), E_TYPE_MAIL_VIEW, EMailViewPrivate))
 
 struct _EMailViewPrivate {
-	gint placeholder;
+	EShellView *shell_view;
+	GtkOrientation orientation;
+
+	guint preview_visible : 1;
+	guint show_deleted    : 1;
 };
 
 enum {
@@ -45,12 +49,25 @@ enum {
 
 enum {
 	PROP_0,
-	PROP_SHELL_VIEW
+	PROP_ORIENTATION,
+	PROP_PREVIEW_VISIBLE,
+	PROP_SHELL_VIEW,
+	PROP_SHOW_DELETED
 };
 
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (EMailView, e_mail_view, GTK_TYPE_VBOX)
+
+static void
+mail_view_set_shell_view (EMailView *view,
+                          EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (view->priv->shell_view == NULL);
+
+	view->priv->shell_view = g_object_ref (shell_view);
+}
 
 static void
 mail_view_set_property (GObject *object,
@@ -59,9 +76,28 @@ mail_view_set_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ORIENTATION:
+			e_mail_view_set_orientation (
+				E_MAIL_VIEW (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			e_mail_view_set_preview_visible (
+				E_MAIL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHELL_VIEW:
-			E_MAIL_VIEW(object)->content =
-				g_value_get_object (value);
+			mail_view_set_shell_view (
+				E_MAIL_VIEW (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SHOW_DELETED:
+			e_mail_view_set_show_deleted (
+				E_MAIL_VIEW (object),
+				g_value_get_boolean (value));
 			return;
 	}
 
@@ -75,13 +111,95 @@ mail_view_get_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value, e_mail_view_get_orientation (
+				E_MAIL_VIEW (object)));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			g_value_set_boolean (
+				value, e_mail_view_get_preview_visible (
+				E_MAIL_VIEW (object)));
+			return;
+
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
-				value, E_MAIL_VIEW(object)->content);
+				value, e_mail_view_get_shell_view (
+				E_MAIL_VIEW (object)));
+			return;
+
+		case PROP_SHOW_DELETED:
+			g_value_set_boolean (
+				value, e_mail_view_get_show_deleted (
+				E_MAIL_VIEW (object)));
 			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_view_dispose (GObject *object)
+{
+	EMailViewPrivate *priv;
+
+	priv = E_MAIL_VIEW_GET_PRIVATE (object);
+
+	if (priv->shell_view != NULL) {
+		g_object_unref (priv->shell_view);
+		priv->shell_view = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_view_parent_class)->dispose (object);
+}
+
+static GtkOrientation
+mail_view_get_orientation (EMailView *view)
+{
+	return view->priv->orientation;
+}
+
+static void
+mail_view_set_orientation (EMailView *view,
+                           GtkOrientation orientation)
+{
+	view->priv->orientation = orientation;
+
+	g_object_notify (G_OBJECT (view), "orientation");
+
+	e_mail_view_update_view_instance (view);
+}
+
+static gboolean
+mail_view_get_preview_visible (EMailView *view)
+{
+	return view->priv->preview_visible;
+}
+
+static void
+mail_view_set_preview_visible (EMailView *view,
+                               gboolean preview_visible)
+{
+	view->priv->preview_visible = preview_visible;
+
+	g_object_notify (G_OBJECT (view), "preview-visible");
+}
+
+static gboolean
+mail_view_get_show_deleted (EMailView *view)
+{
+	return view->priv->show_deleted;
+}
+
+static void
+mail_view_set_show_deleted (EMailView *view,
+                            gboolean show_deleted)
+{
+	view->priv->show_deleted = show_deleted;
+
+	g_object_notify (G_OBJECT (view), "show-deleted");
 }
 
 static void
@@ -94,6 +212,14 @@ e_mail_view_class_init (EMailViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_view_set_property;
 	object_class->get_property = mail_view_get_property;
+	object_class->dispose = mail_view_dispose;
+
+	class->get_orientation = mail_view_get_orientation;
+	class->set_orientation = mail_view_set_orientation;
+	class->get_preview_visible = mail_view_get_preview_visible;
+	class->set_preview_visible = mail_view_set_preview_visible;
+	class->get_show_deleted = mail_view_get_show_deleted;
+	class->set_show_deleted = mail_view_set_show_deleted;
 
 	signals[PANE_CLOSE] = g_signal_new (
 		"pane-close",
@@ -122,27 +248,61 @@ e_mail_view_class_init (EMailViewClass *class)
 		g_cclosure_marshal_VOID__STRING,
 		G_TYPE_NONE, 1, G_TYPE_STRING);
 
-	/**
-	 * EMailView:shell-content
-	 *
-	 * The #EShellContent to which the widget belongs.
-	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_ORIENTATION,
+		g_param_spec_enum (
+			"orientation",
+			"Orientation",
+			NULL,
+			GTK_TYPE_ORIENTATION,
+			GTK_ORIENTATION_HORIZONTAL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PREVIEW_VISIBLE,
+		g_param_spec_boolean (
+			"preview-visible",
+			"Preview Visible",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_VIEW,
 		g_param_spec_object (
-			"shell-content",
+			"shell-view",
+			"Shell View",
 			NULL,
-			NULL,
-			E_TYPE_SHELL_CONTENT,
+			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DELETED,
+		g_param_spec_boolean (
+			"show-deleted",
+			"Show Deleted",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void
 e_mail_view_init (EMailView *view)
 {
 	view->priv = E_MAIL_VIEW_GET_PRIVATE (view);
+}
+
+EShellView *
+e_mail_view_get_shell_view (EMailView *view)
+{
+	g_return_val_if_fail (E_IS_MAIL_VIEW (view), NULL);
+
+	return view->priv->shell_view;
 }
 
 void
@@ -185,17 +345,17 @@ e_mail_view_set_search_strings (EMailView *view,
 	class->set_search_strings (view, search_strings);
 }
 
-EShellSearchbar *
-e_mail_view_get_searchbar (EMailView *view)
+GtkOrientation
+e_mail_view_get_orientation (EMailView *view)
 {
 	EMailViewClass *class;
 
-	g_return_val_if_fail (E_IS_MAIL_VIEW (view), NULL);
+	g_return_val_if_fail (E_IS_MAIL_VIEW (view), 0);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (class->get_searchbar != NULL, NULL);
+	g_return_val_if_fail (class->get_orientation != NULL, 0);
 
-	return class->get_searchbar (view);
+	return class->get_orientation (view);
 }
 
 void
@@ -212,17 +372,17 @@ e_mail_view_set_orientation (EMailView *view,
 	class->set_orientation (view, orientation);
 }
 
-GtkOrientation
-e_mail_view_get_orientation (EMailView *view)
+gboolean
+e_mail_view_get_preview_visible (EMailView *view)
 {
 	EMailViewClass *class;
 
-	g_return_val_if_fail (E_IS_MAIL_VIEW (view), 0);
+	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (class->get_orientation != NULL, 0);
+	g_return_val_if_fail (class->get_preview_visible != NULL, FALSE);
 
-	return class->get_orientation (view);
+	return class->get_preview_visible (view);
 }
 
 void
@@ -240,16 +400,16 @@ e_mail_view_set_preview_visible (EMailView *view,
 }
 
 gboolean
-e_mail_view_get_preview_visible (EMailView *view)
+e_mail_view_get_show_deleted (EMailView *view)
 {
 	EMailViewClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (class->get_preview_visible != NULL, FALSE);
+	g_return_val_if_fail (class->get_show_deleted != NULL, FALSE);
 
-	return class->get_preview_visible (view);
+	return class->get_show_deleted (view);
 }
 
 void
@@ -264,17 +424,4 @@ e_mail_view_set_show_deleted (EMailView *view,
 	g_return_if_fail (class->set_show_deleted != NULL);
 
 	class->set_show_deleted (view, show_deleted);
-}
-
-gboolean
-e_mail_view_get_show_deleted (EMailView *view)
-{
-	EMailViewClass *class;
-
-	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
-
-	class = E_MAIL_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (class->get_show_deleted != NULL, FALSE);
-
-	return class->get_show_deleted (view);
 }
