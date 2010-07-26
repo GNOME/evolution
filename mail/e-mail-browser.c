@@ -64,7 +64,6 @@ enum {
 	PROP_0,
 	PROP_FOCUS_TRACKER,
 	PROP_GROUP_BY_THREADS,
-	PROP_QUOTE_FROM_SELECTION,
 	PROP_SHELL_BACKEND,
 	PROP_SHOW_DELETED,
 	PROP_UI_MANAGER
@@ -358,11 +357,6 @@ mail_browser_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_QUOTE_FROM_SELECTION:
-			e_mail_reader_set_quote_from_selection (
-				E_MAIL_READER (object),
-				g_value_get_boolean (value));
-
 		case PROP_SHELL_BACKEND:
 			mail_browser_set_shell_backend (
 				E_MAIL_BROWSER (object),
@@ -395,12 +389,6 @@ mail_browser_get_property (GObject *object,
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value, e_mail_reader_get_group_by_threads (
-				E_MAIL_READER (object)));
-			return;
-
-		case PROP_QUOTE_FROM_SELECTION:
-			g_value_set_boolean (
-				value, e_mail_reader_get_quote_from_selection (
 				E_MAIL_READER (object)));
 			return;
 
@@ -556,8 +544,6 @@ mail_browser_constructed (GObject *object)
 		G_CALLBACK (mail_browser_status_message_cb), object);
 
 	e_mail_reader_init (reader);
-
-	e_mail_reader_set_quote_from_selection (reader, TRUE);
 
 	action_group = priv->action_group;
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -804,12 +790,6 @@ mail_browser_class_init (EMailBrowserClass *class)
 		object_class,
 		PROP_GROUP_BY_THREADS,
 		"group-by-threads");
-
-	/* Inherited from EMailReader */
-	g_object_class_override_property (
-		object_class,
-		PROP_QUOTE_FROM_SELECTION,
-		"quote-from-selection");
 
 	g_object_class_install_property (
 		object_class,

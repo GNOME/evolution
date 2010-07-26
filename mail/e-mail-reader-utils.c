@@ -353,7 +353,8 @@ html_contains_nonwhitespace (const gchar *html,
 }
 
 void
-e_mail_reader_reply_to_message (EMailReader *reader, CamelMimeMessage *src_message,
+e_mail_reader_reply_to_message (EMailReader *reader,
+                                CamelMimeMessage *src_message,
                                 gint reply_mode)
 {
 	EMFormatHTML *formatter;
@@ -384,14 +385,11 @@ e_mail_reader_reply_to_message (EMailReader *reader, CamelMimeMessage *src_messa
 	if (!gtk_widget_get_mapped (GTK_WIDGET(web_view)))
 		goto whole_message;
 
-	if (!src_message) {
-		src_message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
-		if (src_message)
-			g_object_ref(src_message);
+	if (src_message == NULL) {
+		src_message = EM_FORMAT (formatter)->message;
+		if (src_message != NULL)
+			g_object_ref (src_message);
 	}
-
-	if (!e_mail_reader_get_quote_from_selection (reader))
-		goto whole_message;
 
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;

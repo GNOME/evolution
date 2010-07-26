@@ -85,8 +85,7 @@ struct _EMailReaderPrivate {
 	guint folder_was_just_selected    : 1;
 	guint restoring_message_selection : 1;
 
-	guint group_by_threads     : 1;
-	guint quote_from_selection : 1;
+	guint group_by_threads : 1;
 };
 
 enum {
@@ -2756,15 +2755,6 @@ mail_reader_class_init (EMailReaderIface *iface)
 			FALSE,
 			G_PARAM_READWRITE));
 
-	g_object_interface_install_property (
-		iface,
-		g_param_spec_boolean (
-			"quote-from-selection",
-			"Quote From Selection",
-			"Quote selected text when replying",
-			FALSE,
-			G_PARAM_READWRITE));
-
 	signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (iface),
@@ -3501,36 +3491,6 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 		MESSAGE_LIST (message_list), group_by_threads);
 
 	g_object_notify (G_OBJECT (reader), "group-by-threads");
-}
-
-gboolean
-e_mail_reader_get_quote_from_selection (EMailReader *reader)
-{
-	EMailReaderPrivate *priv;
-
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
-
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
-
-	return priv->quote_from_selection;
-}
-
-void
-e_mail_reader_set_quote_from_selection (EMailReader *reader,
-                                        gboolean quote_from_selection)
-{
-	EMailReaderPrivate *priv;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
-
-	if (quote_from_selection == priv->quote_from_selection)
-		return;
-
-	priv->quote_from_selection = quote_from_selection;
-
-	g_object_notify (G_OBJECT (reader), "quote-from-selection");
 }
 
 void

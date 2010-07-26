@@ -634,12 +634,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_mail_shell_view_actions_init (mail_shell_view);
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 
-	/* When replying, only quote from selected
-	 * text if the message preview is visible. */
-	e_binding_new (
-		reader, "preview-visible",
-		reader, "quote-from-selection");
-
 	/* Populate built-in rules for search entry popup menu.
 	 * Keep the assertions, please.  If the conditions aren't
 	 * met we're going to crash anyway, just more mysteriously. */
