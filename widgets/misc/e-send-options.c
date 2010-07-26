@@ -342,7 +342,7 @@ delay_until_date_changed_cb (GtkWidget *dedit, gpointer data)
 
 }
 static void
-page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, gpointer data)
+page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, gpointer data)
 {
 	ESendOptionsDialog *sod = data;
 	ESendOptionsDialogPrivate *priv = sod->priv;

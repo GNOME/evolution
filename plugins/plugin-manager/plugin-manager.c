@@ -91,7 +91,7 @@ eppm_set_label (GtkLabel *l, const gchar *v)
 
 static void
 eppm_switch_page_cb (GtkNotebook *notebook,
-                     GtkNotebookPage *page,
+                     GtkWidget *page,
                      guint page_num)
 {
 	last_selected_page = page_num;

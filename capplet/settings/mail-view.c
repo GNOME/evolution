@@ -138,7 +138,7 @@ mail_view_class_init (MailViewClass *klass)
 };
 
 static void
-mv_switch (GtkNotebook     *notebook,GtkNotebookPage *page, guint page_num, gpointer user_data)
+mv_switch (GtkNotebook *notebook, GtkWidget *page, guint page_num, gpointer user_data)
 {
 	MailView *shell = (MailView *)notebook;
 	MailViewPrivate *priv = shell->priv;

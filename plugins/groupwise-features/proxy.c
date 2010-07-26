@@ -59,7 +59,7 @@
 
 static GObjectClass *parent_class = NULL;
 
-static gboolean proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, EAccount *account);
+static gboolean proxy_page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, EAccount *account);
 
 struct _proxyDialogPrivate {
 	/* UI data for the Add/Edit Proxy dialog*/
@@ -721,7 +721,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static gboolean
-proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, EAccount *account)
+proxy_page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, EAccount *account)
 {
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;

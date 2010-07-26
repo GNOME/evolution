@@ -122,7 +122,7 @@ emnv_get_page_num (EMailNotebookView *view,
 }
 
 static void
-mnv_page_changed (GtkNotebook *book, GtkNotebookPage *page,
+mnv_page_changed (GtkNotebook *book, GtkWidget *page,
 		  guint page_num, EMailNotebookView *view)
 {
 	EMailView *mview = (EMailView *)gtk_notebook_get_nth_page (book, page_num);
