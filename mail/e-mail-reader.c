@@ -53,7 +53,6 @@
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 
-
 #if HAVE_CLUTTER
 #include <clutter/clutter.h>
 #include <mx/mx.h>
@@ -682,7 +681,7 @@ action_mail_next_cb (GtkAction *action,
 #if HAVE_CLUTTER
 	ClutterActor *actor;
 #endif
-	
+
 	direction = MESSAGE_LIST_SELECT_NEXT;
 	flags = 0;
 	mask  = 0;
@@ -691,13 +690,12 @@ action_mail_next_cb (GtkAction *action,
 #if HAVE_CLUTTER
 	actor = g_object_get_data ((GObject *)message_list, "preview-actor");
 	if (actor) {
-  		clutter_actor_set_opacity (actor, 0);
-  		clutter_actor_animate (actor, CLUTTER_EASE_OUT_SINE, 500,
-       	        	          "opacity", 255,
-       	                	  NULL);
+		clutter_actor_set_opacity (actor, 0);
+		clutter_actor_animate (
+			actor, CLUTTER_EASE_OUT_SINE,
+			500, "opacity", 255, NULL);
 	}
-
-#endif	
+#endif
 	message_list_select (
 		MESSAGE_LIST (message_list), direction, flags, mask);
 }
@@ -887,7 +885,7 @@ action_mail_reply_all_check(CamelFolder *folder, const gchar *uid, CamelMimeMess
 			mode = REPLY_MODE_SENDER;
 		else if (response == GTK_RESPONSE_CANCEL)
 			return;
-	}		   
+	}
 
 	e_mail_reader_reply_to_message (reader, message, mode);
 }
@@ -966,7 +964,7 @@ action_mail_reply_sender_check(CamelFolder *folder, const gchar *uid, CamelMimeM
 	/* get_message_free() will unref the message, so we need to take an
 	   extra ref for e_mail_reader_reply_to_message() to own. */
 	g_object_ref(message);
-	
+
 	/* Don't do the "Are you sure you want to reply in private?" pop-up if
 	   it's a Reply-To: munged list message... unless we're ignoring munging */
 	if (gconf_client_get_bool (gconf,
@@ -2190,13 +2188,12 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			gboolean store_async;
 			MailMsgDispatchFunc disp_func;
 
-			
 			string = g_strdup_printf (
 				_("Retrieving message '%s'"), cursor_uid);
 #if HAVE_CLUTTER
 		if (!e_shell_get_express_mode(e_shell_get_default()))
-			e_web_view_load_string (web_view, string);			
-#else			
+			e_web_view_load_string (web_view, string);
+#else
 			e_web_view_load_string (web_view, string);
 #endif
 			g_free (string);
@@ -3037,7 +3034,7 @@ e_mail_reader_init_private (EMailReader *reader)
 	message_list = e_mail_reader_get_message_list (reader);
 
 	web_view = em_format_html_get_web_view (formatter);
-	
+
 	quark_private = g_quark_from_static_string ("EMailReader-private");
 
 	/* Connect signals. */
@@ -3064,7 +3061,7 @@ e_mail_reader_init_private (EMailReader *reader)
 
 	g_signal_connect_swapped (
 		message_list, "selection-change",
-		G_CALLBACK (e_mail_reader_changed), reader);	
+		G_CALLBACK (e_mail_reader_changed), reader);
 
 	g_object_set_qdata_full (
 		G_OBJECT (reader), quark_private,
@@ -3457,17 +3454,17 @@ e_mail_reader_set_message (EMailReader *reader,
 	iface->set_message (reader, uid);
 }
 
-void
+guint
 e_mail_reader_open_selected_mail (EMailReader *reader)
 {
 	EMailReaderIface *iface;
 
-	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
 	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_if_fail (iface->open_selected_mail != NULL);
+	g_return_val_if_fail (iface->open_selected_mail != NULL, 0);
 
-	iface->open_selected_mail (reader);
+	return iface->open_selected_mail (reader);
 }
 
 gboolean

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -20,11 +20,10 @@
  *
  */
 
-#ifndef _E_MAIL_PANED_VIEW_H_
-#define _E_MAIL_PANED_VIEW_H_
+#ifndef E_MAIL_PANED_VIEW_H
+#define E_MAIL_PANED_VIEW_H
 
-#include <gtk/gtk.h>
-#include "e-mail-view.h"
+#include <mail/e-mail-view.h>
 
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-searchbar.h>
@@ -32,63 +31,50 @@
 
 #include <mail/em-format-html-display.h>
 
-#define E_MAIL_PANED_VIEW_TYPE        (e_mail_paned_view_get_type ())
-#define E_MAIL_PANED_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_PANED_VIEW_TYPE, EMailPanedView))
-#define E_MAIL_PANED_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_MAIL_PANED_VIEW_TYPE, EMailPanedViewClass))
-#define E_IS_MAIL_PANED_VIEW(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_MAIL_PANED_VIEW_TYPE))
-#define E_IS_MAIL_PANED_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_MAIL_PANED_VIEW_TYPE))
-#define E_MAIL_PANED_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_MAIL_PANED_VIEW_TYPE, EMailPanedViewClass))
+/* Standard GObject macros */
+#define E_TYPE_MAIL_PANED_VIEW \
+	(e_mail_paned_view_get_type ())
+#define E_MAIL_PANED_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_PANED_VIEW, EMailPanedView))
+#define E_MAIL_PANED_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_PANED_VIEW, EMailPanedViewClass))
+#define E_IS_MAIL_PANED_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_PANED_VIEW))
+#define E_IS_MAIL_PANED_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_PANED_VIEW))
+#define E_MAIL_PANED_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_PANED_VIEW, EMailPanedViewClass))
 
+G_BEGIN_DECLS
 
+typedef struct _EMailPanedView EMailPanedView;
+typedef struct _EMailPanedViewClass EMailPanedViewClass;
 typedef struct _EMailPanedViewPrivate EMailPanedViewPrivate;
 
-typedef struct _EMailPanedView {
+struct _EMailPanedView {
 	EMailView parent;
-
 	EMailPanedViewPrivate *priv;
-} EMailPanedView;
+};
 
-typedef struct _EMailPanedViewClass {
+struct _EMailPanedViewClass {
 	EMailViewClass parent_class;
 
-	void (*open_selected_mail) (EMailPanedView *view);
+	guint		(*open_selected_mail)	(EMailPanedView *view);
+};
 
-} EMailPanedViewClass;
+GType		e_mail_paned_view_get_type	(void);
+void		e_mail_paned_view_register_type	(GTypeModule *type_module);
+GtkWidget *	e_mail_paned_view_new		(EShellContent *content);
+void		e_mail_paned_view_hide_message_list_pane
+						(EMailPanedView *view,
+						 gboolean visible);
+GtkWidget *	e_mail_paned_view_get_preview	(EMailPanedView *view);
 
-GType e_mail_paned_view_get_type (void);
-void
-e_mail_paned_view_register_type (GTypeModule *type_module);
-GtkWidget *
-e_mail_paned_view_new (EShellContent *content);
-void
-e_mail_paned_view_update_view_instance (EMailPanedView *view);
-GalViewInstance *
-e_mail_paned_view_get_view_instance (EMailPanedView *view);
-void
-e_mail_paned_view_set_search_strings (EMailPanedView *view,
-                                         GSList *search_strings);
-void
-e_mail_paned_view_set_show_deleted (EMailPanedView *view,
-                                       gboolean show_deleted);
+G_END_DECLS
 
-gboolean
-e_mail_paned_view_get_show_deleted (EMailPanedView *view);
-EShellSearchbar *
-e_mail_paned_view_get_searchbar (EMailPanedView *view);
-void
-e_mail_paned_view_set_preview_visible (EMailPanedView *view,
-                                          gboolean preview_visible);
-gboolean
-e_mail_paned_view_get_preview_visible (EMailPanedView *view);
-void
-e_mail_paned_view_set_orientation (EMailPanedView *view,
-				   GtkOrientation orientation);
-GtkOrientation 
-e_mail_paned_view_get_orientation (EMailPanedView *view);
-void
-e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
-					  gboolean visible);
-GtkWidget *
-e_mail_paned_view_get_preview (EMailPanedView *view);
-
-#endif
+#endif /* E_MAIL_PANED_VIEW_H */

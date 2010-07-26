@@ -28,13 +28,12 @@
 
 #include "mail/e-mail-reader.h"
 
-#define e_mail_message_pane_GET_PRIVATE(obj) \
+#define E_MAIL_MESSAGE_PANE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_MESSAGE_PANE, EMailMessagePanePrivate))
 
-
 struct _EMailMessagePanePrivate {
-	int fo;
+	gint placeholder;
 };
 
 enum {
@@ -42,20 +41,19 @@ enum {
 	PROP_PREVIEW_VISIBLE
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMailMessagePane, e_mail_message_pane, E_TYPE_MAIL_PANED_VIEW)
 
 /* This is too trivial to put in a file.
  * It gets merged with the EMailReader UI. */
 static void
 mail_message_pane_set_property (GObject *object,
-                           guint property_id,
-                           const GValue *value,
-                           GParamSpec *pspec)
+                                guint property_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_PREVIEW_VISIBLE:
 			return;
-		
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -63,80 +61,66 @@ mail_message_pane_set_property (GObject *object,
 
 static void
 mail_message_pane_get_property (GObject *object,
-                           guint property_id,
-                           GValue *value,
-                           GParamSpec *pspec)
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
 				value,
 				TRUE);
-		return;			
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-mail_message_pane_dispose (GObject *object)
-{
-	EMailMessagePanePrivate *priv;
-
-	priv = e_mail_message_pane_GET_PRIVATE (object);
-
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-static void
 mail_message_pane_constructed (GObject *object)
 {
 	EMailMessagePanePrivate *priv;
-		
-	/* Chain up to parent's constructed() method. */
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	priv = e_mail_message_pane_GET_PRIVATE (object);
+	priv = E_MAIL_MESSAGE_PANE_GET_PRIVATE (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_message_pane_parent_class)->constructed (object);
 
 	gtk_widget_hide (e_mail_reader_get_message_list (E_MAIL_READER(object)));
 	e_mail_paned_view_hide_message_list_pane (E_MAIL_PANED_VIEW(object), FALSE);
 }
 
 static void
-message_pane_set_preview_visible (EMailMessagePane *view,
-                                          gboolean preview_visible)
+message_pane_set_preview_visible (EMailView *view,
+                                  gboolean preview_visible)
 {
-	e_mail_paned_view_set_preview_visible (E_MAIL_PANED_VIEW(view), TRUE);
-
-	return;
+	/* Chain up to parent's set_preview_visible() method. */
+	E_MAIL_VIEW_CLASS (e_mail_message_pane_parent_class)->
+		set_preview_visible (view, TRUE);
 }
 
 static gboolean
-message_pane_get_preview_visible (EMailMessagePane *view)
+message_pane_get_preview_visible (EMailView *view)
 {
-
 	return TRUE;
 }
 
 static void
-mail_message_pane_class_init (EMailMessagePaneClass *class)
+e_mail_message_pane_class_init (EMailMessagePaneClass *class)
 {
 	GObjectClass *object_class;
+	EMailViewClass *mail_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailMessagePanePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_message_pane_set_property;
 	object_class->get_property = mail_message_pane_get_property;
-	object_class->dispose = mail_message_pane_dispose;
 	object_class->constructed = mail_message_pane_constructed;
 
-	E_MAIL_VIEW_CLASS(g_type_class_peek_parent(class))->set_preview_visible = message_pane_set_preview_visible;
-	E_MAIL_VIEW_CLASS(g_type_class_peek_parent(class))->get_preview_visible = message_pane_get_preview_visible;
+	mail_view_class = E_MAIL_VIEW_CLASS (class);
+	mail_view_class->set_preview_visible = message_pane_set_preview_visible;
+	mail_view_class->get_preview_visible = message_pane_get_preview_visible;
 
 	g_object_class_override_property (
 		object_class,
@@ -145,37 +129,9 @@ mail_message_pane_class_init (EMailMessagePaneClass *class)
 }
 
 static void
-mail_message_pane_init (EMailMessagePane *browser)
+e_mail_message_pane_init (EMailMessagePane *browser)
 {
-
-	browser->priv = e_mail_message_pane_GET_PRIVATE (browser);
-}
-
-GType
-e_mail_message_pane_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailMessagePaneClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_message_pane_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailMessagePane),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_message_pane_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_MAIL_PANED_VIEW_TYPE , "EMailMessagePane", &type_info, 0);
-
-	}
-
-	return type;
+	browser->priv = E_MAIL_MESSAGE_PANE_GET_PRIVATE (browser);
 }
 
 GtkWidget *
@@ -185,7 +141,7 @@ e_mail_message_pane_new (EShellContent *content)
 
 	return g_object_new (
 		E_TYPE_MAIL_MESSAGE_PANE,
-		"shell-content", content, 
+		"shell-content", content,
 		"preview-visible", TRUE,
 		NULL);
 }

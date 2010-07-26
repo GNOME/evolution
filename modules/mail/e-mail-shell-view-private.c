@@ -358,7 +358,7 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 	g_signal_connect_swapped (
 		web_view, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
-		shell_taskbar);	
+		shell_taskbar);
 }
 
 static void

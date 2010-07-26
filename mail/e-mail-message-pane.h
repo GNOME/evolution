@@ -1,5 +1,5 @@
 /*
- * e-mail-pane.h
+ * e-mail-message-pane.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,8 +22,7 @@
 #ifndef E_MAIL_MESSAGE_PANE_H
 #define E_MAIL_MESSAGE_PANE_H
 
-#include <gtk/gtk.h>
-#include "e-mail-paned-view.h"
+#include <mail/e-mail-paned-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_MESSAGE_PANE \
@@ -59,7 +58,7 @@ struct _EMailMessagePaneClass {
 	EMailPanedViewClass parent_class;
 };
 
-GType		e_mail_message_pane_get_type		(void);
+GType		e_mail_message_pane_get_type	(void);
 GtkWidget *	e_mail_message_pane_new		(EShellContent *content);
 
 G_END_DECLS

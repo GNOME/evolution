@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -20,59 +20,78 @@
  *
  */
 
-#ifndef _E_MAIL_NOTEBOOK_VIEW_H_
-#define _E_MAIL_NOTEBOOK_VIEW_H_
+#ifndef E_MAIL_NOTEBOOK_VIEW_H
+#define E_MAIL_NOTEBOOK_VIEW_H
 
-#include <gtk/gtk.h>
-#include "e-mail-view.h"
+#include <mail/e-mail-view.h>
 #include <shell/e-shell-searchbar.h>
-#include "widgets/menus/gal-view-instance.h"
+#include <menus/gal-view-instance.h>
 
-#define E_MAIL_NOTEBOOK_VIEW_TYPE        (e_mail_notebook_view_get_type ())
-#define E_MAIL_NOTEBOOK_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_NOTEBOOK_VIEW_TYPE, EMailNotebookView))
-#define E_MAIL_NOTEBOOK_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_MAIL_NOTEBOOK_VIEW_TYPE, EMailNotebookViewClass))
-#define E_IS_MAIL_NOTEBOOK_VIEW(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_MAIL_NOTEBOOK_VIEW_TYPE))
-#define E_IS_MAIL_NOTEBOOK_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_MAIL_NOTEBOOK_VIEW_TYPE))
-#define E_MAIL_NOTEBOOK_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_MAIL_NOTEBOOK_VIEW_TYPE, EMailNotebookViewClass))
+/* Standard GObject macros */
+#define E_TYPE_MAIL_NOTEBOOK_VIEW \
+	(e_mail_notebook_view_get_type ())
+#define E_MAIL_NOTEBOOK_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookView))
+#define E_MAIL_NOTEBOOK_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewClass))
+#define E_IS_MAIL_NOTEBOOK_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_NOTEBOOK_VIEW))
+#define E_IS_MAIL_NOTEBOOK_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_NOTEBOOK_VIEW))
+#define E_MAIL_NOTEBOOK_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewClass))
 
+G_BEGIN_DECLS
 
+typedef struct _EMailNotebookView EMailNotebookView;
+typedef struct _EMailNotebookViewClass EMailNotebookViewClass;
 typedef struct _EMailNotebookViewPrivate EMailNotebookViewPrivate;
 
-typedef struct _EMailNotebookView {
+struct _EMailNotebookView {
 	EMailView parent;
-
 	EMailNotebookViewPrivate *priv;
-} EMailNotebookView;
+};
 
-typedef struct _EMailNotebookViewClass {
+struct _EMailNotebookViewClass {
 	EMailViewClass parent_class;
+};
 
-} EMailNotebookViewClass;
+GType		e_mail_notebook_view_get_type	(void);
+void		e_mail_notebook_view_register_type
+						(GTypeModule *type_module);
+GtkWidget *	e_mail_notebook_view_new	(EShellContent *content);
+EShellSearchbar *
+		e_mail_notebook_view_get_searchbar
+						(EMailNotebookView *view);
+void		e_mail_notebook_view_set_search_strings
+						(EMailNotebookView *view,
+						 GSList *search_strings);
+GalViewInstance *
+		e_mail_notebook_view_get_view_instance
+						(EMailNotebookView *view);
+void		e_mail_notebook_view_update_view_instance
+						(EMailNotebookView *view);
+void		e_mail_notebook_view_set_show_deleted
+						(EMailNotebookView *view,
+						 gboolean show_deleted);
+gboolean	e_mail_notebook_view_get_show_deleted
+						(EMailNotebookView *view);
+void		e_mail_notebook_view_set_preview_visible
+						(EMailNotebookView *view,
+						 gboolean preview_visible);
+gboolean	e_mail_notebook_view_get_preview_visible
+						(EMailNotebookView *view);
+void		e_mail_notebook_view_set_orientation
+						(EMailNotebookView *view,
+						 GtkOrientation orientation);
+GtkOrientation	e_mail_notebook_view_get_orientation
+						(EMailNotebookView *view);
 
-GType e_mail_notebook_view_get_type (void);
-void e_mail_notebook_view_register_type (GTypeModule *type_module);
-GtkWidget * e_mail_notebook_view_new (EShellContent *content);
+G_END_DECLS
 
-EShellSearchbar * e_mail_notebook_view_get_searchbar (EMailView *view);
-void e_mail_notebook_view_set_search_strings (EMailView *view, GSList *search_strings);
-GalViewInstance * e_mail_notebook_view_get_view_instance (EMailView *view);
-void e_mail_notebook_view_update_view_instance (EMailView *view);
-
-void
-e_mail_notebook_view_set_show_deleted (EMailNotebookView *view,
-                                       gboolean show_deleted);
-gboolean
-e_mail_notebook_view_get_show_deleted (EMailNotebookView *view);
-
-void
-e_mail_notebook_view_set_preview_visible (EMailNotebookView *view,
-                                          gboolean preview_visible);
-gboolean
-e_mail_notebook_view_get_preview_visible (EMailNotebookView *view);
-void
-e_mail_notebook_view_set_orientation (EMailNotebookView *view,
-				   GtkOrientation orientation);
-GtkOrientation 
-e_mail_notebook_view_get_orientation (EMailNotebookView *view);
-
-#endif
+#endif /* E_MAIL_NOTEBOOK_VIEW_H */

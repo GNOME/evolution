@@ -1,4 +1,6 @@
 /*
+ * e-mail-pane.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -10,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -20,30 +22,44 @@
  *
  */
 
-#ifndef _E_MAIL_PANE_H_
-#define _E_MAIL_PANE_H_
+#ifndef E_MAIL_PANE_H
+#define E_MAIL_PANE_H
 
 #include <gtk/gtk.h>
 
-#define E_MAIL_PANE_TYPE        (e_mail_pane_get_type ())
-#define E_MAIL_PANE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_MAIL_PANE_TYPE, MailFolderView))
-#define E_MAIL_PANE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_MAIL_PANE_TYPE, MailFolderViewClass))
-#define IS_E_MAIL_PANE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_MAIL_PANE_TYPE))
-#define IS_E_MAIL_PANE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_MAIL_PANE_TYPE))
-#define E_MAIL_PANE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_MAIL_PANE_TYPE, EMailPaneClass))
+#define E_TYPE_MAIL_PANE \
+	(e_mail_pane_get_type ())
+#define E_MAIL_PANE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_PANE, MailFolderView))
+#define E_MAIL_PANE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_PANE, MailFolderViewClass))
+#define E_IS_MAIL_PANE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_PANE))
+#define E_IS_MAIL_PANE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_PANE))
+#define E_MAIL_PANE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_PANE, EMailPaneClass))
 
+G_BEGIN_DECLS
 
+typedef struct _EMailPane EMailPane;
+typedef struct _EMailPaneClass EMailPaneClass;
 typedef struct _EMailPanePrivate EMailPanePrivate;
 
-typedef struct _EMailPane {
+struct _EMailPane {
 	GtkVBox parent;
-
 	EMailPanePrivate *priv;
-} EMailPane;
+};
 
-typedef struct _EMailPaneClass {
+struct _EMailPaneClass {
 	GtkVBoxClass parent_class;
+};
 
-} EMailPaneClass;
+G_END_DECLS
 
-#endif
+#endif /* E_MAIL_PANE_H */

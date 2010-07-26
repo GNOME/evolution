@@ -795,7 +795,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	reader = E_MAIL_READER (mail_shell_content->view);	
+	reader = E_MAIL_READER (mail_shell_content->view);
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 
@@ -861,7 +861,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 		g_free (uri);
 	}
-
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
 	sensitive = (account != NULL) && folder_is_store;

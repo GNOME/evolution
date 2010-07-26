@@ -109,6 +109,7 @@ e_table_header_width_extras (GtkStyle *style)
 /* Creates a pixmap that is a composite of a background color and the upper-left
  * corner rectangle of a pixbuf.
  */
+#if 0
 static GdkPixmap *
 make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 		       GdkPixbuf *pixbuf, GdkColor *bg, gint width, gint height,
@@ -216,6 +217,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 
 	return pixmap;
 }
+#endif
 
 /* Default width of the elision arrow in pixels */
 #define ARROW_WIDTH 4
@@ -407,7 +409,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gint pwidth, pheight;
 		gint clip_width, clip_height;
 		gint xpos;
-		GdkPixmap *pixmap;
+		/* GdkPixmap *pixmap; */
 
 		g_return_if_fail (ecol->pixbuf != NULL);
 
@@ -435,9 +437,9 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 						    layout, ecol->text, inner_width - (xpos - inner_x), FALSE);
 		}
 
-		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes 
+		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes
 		 * Debug that later */
-#if 0	
+#if 0
 		pixmap = make_composite_pixmap (drawable, gc,
 						ecol->pixbuf, &style->bg[state],
 						clip_width, clip_height,
@@ -456,12 +458,12 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		}
 #endif
 		gdk_draw_pixbuf (drawable, gc,
-				ecol->pixbuf, 
-				0, 0,	
+				ecol->pixbuf,
+				0, 0,
 				xpos, inner_y + (inner_height - clip_height) / 2,
 				-1, -1,
 				GDK_RGB_DITHER_NONE,
-				0, 0);		
+				0, 0);
 	} else {
 		e_table_draw_elided_string (drawable, gc, widget,
 					    inner_x, inner_y,

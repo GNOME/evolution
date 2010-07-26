@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -24,11 +24,9 @@
 #  include <config.h>
 #endif
 
-
 #include <glib.h>
 #include <glib/gi18n.h>
 #include "e-mail-pane.h"
-
 
 G_DEFINE_TYPE (EMailPane, e_mail_pane, GTK_TYPE_VBOX)
 
@@ -71,5 +69,4 @@ e_mail_pane_class_init (EMailPaneClass *klass)
 			      G_TYPE_NONE, 0);
 
 }
-
 

@@ -154,7 +154,7 @@ e_mail_tab_picker_drop (MxDroppable         *droppable,
               (tab->position + tab->width <= props->position) &&
               !mx_draggable_is_enabled (MX_DRAGGABLE (props->tab)))
             {
-              new_position --;
+              new_position--;
               break;
             }
 
@@ -674,7 +674,7 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
 
       clutter_actor_get_preferred_width (actor, child_box.y2, NULL, &width);
 
-      /* Fill out data - note it's ok to fill out docking here as when it 
+      /* Fill out data - note it's ok to fill out docking here as when it
        * changes, the tab queues a relayout.
        */
       props->docking = e_mail_tab_get_docking (props->tab);
@@ -876,7 +876,7 @@ e_mail_tab_picker_scroll_event_cb (ClutterActor       *actor,
       e_mail_tab_picker_scroll_to (self, priv->scroll_end + 200, 150);
       break;
     }
-  
+
   return TRUE;
 }
 
@@ -1021,12 +1021,12 @@ e_mail_tab_picker_add_tab (EMailTabPicker *picker, EMailTab *tab, gint position)
   EMailTabPickerPrivate *priv = picker->priv;
 
   if (priv->tabs && (priv->current_tab >= position))
-    priv->current_tab ++;
+    priv->current_tab++;
 
   props = g_slice_new (EMailTabPickerProps);
   props->tab = tab;
   priv->tabs = g_list_insert (priv->tabs, props, position);
-  priv->n_tabs ++;
+  priv->n_tabs++;
 
   clutter_actor_set_parent (CLUTTER_ACTOR (tab), CLUTTER_ACTOR (picker));
   mx_draggable_set_axis (MX_DRAGGABLE (tab), MX_DRAG_AXIS_X);
@@ -1073,21 +1073,21 @@ e_mail_tab_picker_remove_tab (EMailTabPicker *picker, EMailTab *tab)
       if (priv->current_tab)
         {
           if (priv->current_tab > position)
-            priv->current_tab --;
+            priv->current_tab--;
           else if (priv->current_tab == position)
             e_mail_tab_picker_set_current_tab (picker, priv->current_tab - 1);
         }
       else if (priv->tabs->next && (position == 0))
         {
           e_mail_tab_picker_set_current_tab (picker, priv->current_tab + 1);
-          priv->current_tab --;
+          priv->current_tab--;
         }
     }
 
   g_slice_free (EMailTabPickerProps, tab_link->data);
   priv->tabs = g_list_delete_link (priv->tabs, tab_link);
   clutter_actor_unparent (CLUTTER_ACTOR (tab));
-  priv->n_tabs --;
+  priv->n_tabs--;
 
   clutter_actor_queue_relayout (CLUTTER_ACTOR (picker));
 }
@@ -1096,9 +1096,9 @@ GList *
 e_mail_tab_picker_get_tabs (EMailTabPicker *picker)
 {
   GList *tab_list, *t;
-  
+
   EMailTabPickerPrivate *priv = picker->priv;
-  
+
   tab_list = NULL;
   for (t = g_list_last (priv->tabs); t; t = t->prev)
     {
@@ -1184,10 +1184,10 @@ e_mail_tab_picker_reorder (EMailTabPicker *picker,
     }
   else if ((priv->current_tab > old_position) &&
            (new_position >= priv->current_tab))
-    priv->current_tab --;
+    priv->current_tab--;
   else if ((priv->current_tab < old_position) &&
            (new_position <= priv->current_tab))
-    priv->current_tab ++;
+    priv->current_tab++;
 
   clutter_actor_queue_relayout (CLUTTER_ACTOR (picker));
 }

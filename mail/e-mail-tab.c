@@ -663,7 +663,7 @@ e_mail_tab_get_preferred_height (ClutterActor *actor,
                    padding.top + padding.bottom + priv->spacing +
                    label_nat_height;
 
-      /* Sometimes the preview's natural height will be nan due to 
+      /* Sometimes the preview's natural height will be nan due to
        * keeping of the aspect ratio. This guards against that and stops
        * Clutter from warning that the natural height is less than the
        * minimum height.
@@ -1853,7 +1853,7 @@ e_mail_tab_alert_cb (EMailTab *tab)
   name = (priv->private ^ (priv->alert_count % 2)) ? NULL : "private-tab";
   if (!priv->preview_mode)
     clutter_actor_set_name (CLUTTER_ACTOR (tab), name);
-  priv->alert_count ++;
+  priv->alert_count++;
 
   if (priv->alert_count < 4)
     return TRUE;

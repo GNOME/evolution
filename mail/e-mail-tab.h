@@ -1,5 +1,5 @@
 /*
- * Borrowed from Moblin-Web-Browser: The web browser for Moblin 
+ * Borrowed from Moblin-Web-Browser: The web browser for Moblin
  * Copyright (c) 2009, Intel Corporation.
  *
  * This program is free software; you can redistribute it and/or modify it

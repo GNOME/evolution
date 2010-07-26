@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -23,7 +23,6 @@
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
-
 
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -45,18 +44,22 @@
 #include "e-mail-tab-picker.h"
 #endif
 
+#define E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewPrivate))
+
 struct _EMailNotebookViewPrivate {
 	GtkNotebook *book;
 	EMailView *current_view;
 	GHashTable *views;
 	gboolean inited;
 
-#if HAVE_CLUTTER	
+#if HAVE_CLUTTER
 	EMailTabPicker *tab_picker;
 	GtkWidget *embed;
 	ClutterActor *actor;
 	ClutterActor *stage;
-#endif	
+#endif
 };
 
 enum {
@@ -73,43 +76,26 @@ static GType mail_notebook_view_type;
 #if HAVE_CLUTTER
 static void
 mnv_set_current_tab (EMailNotebookView *view,
-		     int page)
+		     gint page)
 {
 	ClutterAnimation *animation;
 
 	clutter_actor_set_opacity (view->priv->actor, 0);
 	gtk_notebook_set_current_page (view->priv->book, page);
-	animation = clutter_actor_animate ((ClutterActor *)view->priv->actor, CLUTTER_EASE_IN_SINE, 500,
-       	                 	 	   "opacity", 255,
-       	                  		   NULL);
 
+	animation = clutter_actor_animate (
+		(ClutterActor *)view->priv->actor,
+		CLUTTER_EASE_IN_SINE, 500, "opacity", 255, NULL);
 }
 #endif
 
-static void
-mail_notebook_view_init (EMailNotebookView  *shell)
-{
-	shell->priv = g_new0(EMailNotebookViewPrivate, 1);
-	
-	shell->priv->inited = FALSE;
-	shell->priv->views = g_hash_table_new (g_str_hash, g_str_equal);
-}
-
-static void
-e_mail_notebook_view_finalize (GObject *object)
-{
-	/* EMailNotebookView *shell = (EMailNotebookView *)object; */
-
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static int
+static gint
 emnv_get_page_num (EMailNotebookView *view,
 		   GtkWidget *widget)
 {
 	EMailNotebookViewPrivate *priv = view->priv;
-	int i, n;
-	
+	gint i, n;
+
 	n = gtk_notebook_get_n_pages (priv->book);
 
 	for (i=0; i<n; i++) {
@@ -130,7 +116,7 @@ mnv_page_changed (GtkNotebook *book, GtkWidget *page,
 	EShellView *shell_view = e_shell_content_get_shell_view (content);
 	EShellSidebar *sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	EMFolderTree *tree;
-	const char *uri = e_mail_reader_get_folder_uri (E_MAIL_READER(mview));
+	const gchar *uri = e_mail_reader_get_folder_uri (E_MAIL_READER(mview));
 
 	g_object_get (sidebar, "folder-tree", &tree, NULL);
 	if (uri && E_IS_MAIL_FOLDER_PANE (mview))
@@ -144,7 +130,7 @@ mnv_page_changed (GtkNotebook *book, GtkWidget *page,
 	/* For EMailReader related changes to EShellView*/
 	g_signal_emit_by_name (view, "changed");
 	g_signal_emit_by_name (view, "folder-loaded");
-	
+
 	/* For EMailShellContent related changes */
 	g_signal_emit_by_name (view, "view-changed");
 
@@ -155,7 +141,7 @@ static void
 fix_tab_picker_width (GtkWidget *widget, GtkAllocation *allocation, ClutterActor *actor)
 {
 	ClutterActor *stage = g_object_get_data ((GObject *)actor, "stage");
-	
+
 	clutter_actor_set_size (actor, allocation->width-1, -1);
 	clutter_actor_set_size (stage, allocation->width-1, -1);
 }
@@ -167,9 +153,9 @@ fix_height_cb (ClutterActor *actor,
 {
 	GtkWidget *embed = (GtkWidget *)g_object_get_data ((GObject *)actor, "embed");
 	ClutterActor *stage = g_object_get_data ((GObject *)actor, "stage");
-	
+
 	clutter_actor_set_height (stage, clutter_actor_get_height(actor));
-	gtk_widget_set_size_request (embed, -1, (int) clutter_actor_get_height(actor));
+	gtk_widget_set_size_request (embed, -1, (gint) clutter_actor_get_height(actor));
 }
 
 static void
@@ -207,9 +193,9 @@ tab_picker_preview_mode_notify (EMailTabPicker *picker,
 			/* Show all pages so that the preview clones work correctly */
 			clutter_actor_set_opacity (preview, 255);
 			clutter_actor_show (preview);
-        	} else {
-            		clutter_actor_hide (preview);
-        	}
+		} else {
+			clutter_actor_hide (preview);
+		}
 	}
 	g_list_free (tabs);
 }
@@ -219,7 +205,7 @@ mnv_tab_anim_frame_cb (ClutterTimeline *timeline,
                                gint             frame_num,
                                EMailTab          *tab)
 {
-  	if (!clutter_actor_get_parent (CLUTTER_ACTOR (tab))) {
+	if (!clutter_actor_get_parent (CLUTTER_ACTOR (tab))) {
 		clutter_timeline_stop (timeline);
 		g_object_unref (timeline);
 		g_object_unref (tab);
@@ -250,10 +236,10 @@ mnv_tab_closed_cb (ClutterTimeline *timeline,
 		struct _tab_data *data)
 {
 	EMailView *page = g_object_get_data ((GObject *)data->tab, "page");
-	const char *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
+	const gchar *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
 	EMailView *prev;
-	int num;
-	
+	gint num;
+
 	if (E_IS_MAIL_FOLDER_PANE (page))
 		g_hash_table_remove (data->view->priv->views, folder_uri);
 	prev = page->prev;
@@ -263,8 +249,8 @@ mnv_tab_closed_cb (ClutterTimeline *timeline,
 		e_mail_tab_picker_set_current_tab (data->view->priv->tab_picker, num);
 	}
 
-	e_mail_tab_picker_remove_tab (data->view->priv->tab_picker, data->tab); 
-	gtk_notebook_remove_page (data->view->priv->book, 
+	e_mail_tab_picker_remove_tab (data->view->priv->tab_picker, data->tab);
+	gtk_notebook_remove_page (data->view->priv->book,
 			gtk_notebook_page_num (data->view->priv->book, (GtkWidget *)page));
 
 }
@@ -273,7 +259,7 @@ static void
 mnv_tab_closed (EMailTab *tab, EMailNotebookView *view)
 {
 	EMailNotebookViewPrivate *priv = view->priv;
-	int page, cur;
+	gint page, cur;
 	gboolean select = FALSE;
 	ClutterTimeline *timeline;
 	struct _tab_data *data = g_new0 (struct _tab_data, 1);
@@ -293,14 +279,15 @@ mnv_tab_closed (EMailTab *tab, EMailNotebookView *view)
 	data->view = view;
 
 	clutter_actor_set_reactive (CLUTTER_ACTOR (tab), FALSE);
-  	timeline = clutter_timeline_new (150);
+	timeline = clutter_timeline_new (150);
 	clutter_timeline_set_direction (timeline, CLUTTER_TIMELINE_BACKWARD);
-  	g_signal_connect (timeline, "new-frame",
-                    G_CALLBACK (mnv_tab_anim_frame_cb), tab);
-  	g_signal_connect (timeline, "completed",
-                    G_CALLBACK (mnv_tab_closed_cb), data);
-  	clutter_timeline_start (timeline);
-	
+	g_signal_connect (
+		timeline, "new-frame",
+		G_CALLBACK (mnv_tab_anim_frame_cb), tab);
+	g_signal_connect (
+		timeline, "completed",
+		G_CALLBACK (mnv_tab_closed_cb), data);
+	clutter_timeline_start (timeline);
 }
 
 static void
@@ -309,7 +296,7 @@ tab_activated_cb (EMailTabPicker *picker,
 		  EMailNotebookView *view)
 {
 	EMailView *page = g_object_get_data ((GObject *)tab, "page");
-	int num = emnv_get_page_num (view, (GtkWidget *)page);
+	gint num = emnv_get_page_num (view, (GtkWidget *)page);
 
 	mnv_set_current_tab (view, num);
 }
@@ -320,10 +307,10 @@ tab_remove_gtk_cb (GtkWidget *button,
 		   EMailNotebookView *view)
 {
 	EMailView *page = g_object_get_data ((GObject *)button, "page");
-	const char *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
+	const gchar *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(page));
 	EMailView *prev;
-	int num;
-	
+	gint num;
+
 	if (gtk_notebook_get_n_pages(view->priv->book) == 1)
 		return;
 
@@ -335,15 +322,15 @@ tab_remove_gtk_cb (GtkWidget *button,
 		num = emnv_get_page_num (view, (GtkWidget *)prev);
 		gtk_notebook_set_current_page (view->priv->book, num);
 	}
-	gtk_notebook_remove_page (view->priv->book, 
+	gtk_notebook_remove_page (view->priv->book,
 			gtk_notebook_page_num (view->priv->book, (GtkWidget *)page));
-	
+
 }
 
 static GtkWidget *
-create_tab_label (EMailNotebookView *view, 
+create_tab_label (EMailNotebookView *view,
 		  EMailView *page,
-		  const char *str)
+		  const gchar *str)
 {
 	GtkWidget *container, *widget;
 
@@ -378,7 +365,7 @@ create_gtk_actor (GtkWidget *vbox)
   bin = gtk_clutter_actor_get_widget (GTK_CLUTTER_ACTOR (gtk_actor));
 
   gtk_container_add (GTK_CONTAINER (bin), vbox);
-  
+
   gtk_widget_show (bin);
   gtk_widget_show(vbox);
   return gtk_actor;
@@ -407,7 +394,7 @@ create_under_clutter (GtkWidget *widget, GtkWidget *paned)
 	clutter_actor_show (actor);
 	stage = gtk_clutter_embed_get_stage ((GtkClutterEmbed *)embed);
 	clutter_container_add_actor ((ClutterContainer *)stage, actor);
-	
+
 	g_object_set_data ((GObject *)actor, "embed", embed);
 	g_object_set_data ((GObject *)actor, "stage", stage);
 	g_object_set_data ((GObject *)actor, "widget", widget);
@@ -416,7 +403,7 @@ create_under_clutter (GtkWidget *widget, GtkWidget *paned)
 
 	g_signal_connect (paned, "size-allocate", G_CALLBACK(fix_clutter_embed_width), actor);
 	clutter_actor_show(stage);
-	
+
 	return embed;
 }
 
@@ -437,7 +424,7 @@ mail_notebook_view_constructed (GObject *object)
 
 	container = GTK_WIDGET(object);
 
-#if HAVE_CLUTTER	
+#if HAVE_CLUTTER
 	widget = gtk_clutter_embed_new ();
 	gtk_widget_show (widget);
 	gtk_box_pack_start (GTK_BOX(container), widget, FALSE, FALSE, 0);
@@ -448,29 +435,34 @@ mail_notebook_view_constructed (GObject *object)
 
 	priv->tab_picker = (EMailTabPicker *)e_mail_tab_picker_new ();
 	clutter_actor_show ((ClutterActor *)priv->tab_picker);
-	g_signal_connect (priv->tab_picker, "tab-activated",
-		    G_CALLBACK (tab_activated_cb), object);
-  	g_signal_connect (priv->tab_picker, "chooser-clicked",
-                    G_CALLBACK (chooser_clicked_cb), object);
-	g_signal_connect (priv->tab_picker, "notify::preview-mode",
-                    G_CALLBACK (tab_picker_preview_mode_notify), object);
-	g_signal_connect (priv->tab_picker, "notify::height", 
-		    G_CALLBACK(fix_height_cb), widget);
+	g_signal_connect (
+		priv->tab_picker, "tab-activated",
+		G_CALLBACK (tab_activated_cb), object);
+	g_signal_connect (
+		priv->tab_picker, "chooser-clicked",
+		G_CALLBACK (chooser_clicked_cb), object);
+	g_signal_connect (
+		priv->tab_picker, "notify::preview-mode",
+		G_CALLBACK (tab_picker_preview_mode_notify), object);
+	g_signal_connect (
+		priv->tab_picker, "notify::height",
+		G_CALLBACK(fix_height_cb), widget);
 
 	clutter_container_add_actor ((ClutterContainer *)stage, (ClutterActor *)priv->tab_picker);
 
 	g_object_set_data ((GObject *)priv->tab_picker, "embed", widget);
 	g_object_set_data ((GObject *)priv->tab_picker, "stage", stage);
 
-	g_signal_connect (object, "size-allocate", 
-		    G_CALLBACK(fix_tab_picker_width), priv->tab_picker);
+	g_signal_connect (
+		object, "size-allocate",
+		G_CALLBACK(fix_tab_picker_width), priv->tab_picker);
 
 	clutter_actor_set_height (stage, clutter_actor_get_height((ClutterActor *)priv->tab_picker));
-	gtk_widget_set_size_request (widget, -1, (int) clutter_actor_get_height((ClutterActor *)priv->tab_picker));
+	gtk_widget_set_size_request (widget, -1, (gint) clutter_actor_get_height((ClutterActor *)priv->tab_picker));
 
 	tab = (EMailTab *) e_mail_tab_new_full ("", NULL, 1);
 	clone = e_mail_tab_new_full ("", NULL, 200);
-	
+
 	e_mail_tab_set_can_close ((EMailTab *)clone, FALSE);
 	clutter_actor_set_reactive (clone, FALSE);
 	clutter_actor_show (clone);
@@ -484,14 +476,14 @@ mail_notebook_view_constructed (GObject *object)
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, 0);
 
 	g_object_ref (tab);
-      	timeline = clutter_timeline_new (150);
-	g_signal_connect (timeline, "new-frame",
-       	            G_CALLBACK (mnv_tab_anim_frame_cb), tab);
-      	g_signal_connect (timeline, "completed",
-       	            G_CALLBACK (mnv_tab_anim_complete_cb), tab);
+	timeline = clutter_timeline_new (150);
+	g_signal_connect (
+		timeline, "new-frame",
+		G_CALLBACK (mnv_tab_anim_frame_cb), tab);
+	g_signal_connect (
+		timeline, "completed",
+		G_CALLBACK (mnv_tab_anim_complete_cb), tab);
 	clutter_timeline_start (timeline);
-#else
-
 #endif
 
 	widget = gtk_notebook_new ();
@@ -502,29 +494,29 @@ mail_notebook_view_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), priv->embed, TRUE, TRUE, 0);
 	priv->actor = g_object_get_data((GObject *)priv->embed, "actor");
 	priv->stage = g_object_get_data((GObject *)priv->actor, "stage");
-#else	
+#else
 	gtk_box_pack_start (GTK_BOX(container), widget, TRUE, TRUE, 0);
 #endif
 
 #if HAVE_CLUTTER
 	gtk_notebook_set_show_tabs ((GtkNotebook *)widget, FALSE);
-#else	
+#else
 	gtk_notebook_set_scrollable ((GtkNotebook *)widget, TRUE);
 #endif
 
 	gtk_notebook_set_show_border ((GtkNotebook *)widget, FALSE);
-	g_signal_connect (widget, "switch-page", 
+	g_signal_connect (widget, "switch-page",
 		    G_CALLBACK(mnv_page_changed), object);
 
 	priv->current_view = (EMailView *)e_mail_folder_pane_new (E_MAIL_VIEW(object)->content);
-	e_mail_paned_view_set_preview_visible ((EMailPanedView *)priv->current_view, FALSE);
+	e_mail_view_set_preview_visible (priv->current_view, FALSE);
 	gtk_widget_show ((GtkWidget *)priv->current_view);
 
-	gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, 
+	gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view,
 			create_tab_label (E_MAIL_NOTEBOOK_VIEW(object),
 				priv->current_view,
 				_("Please select a folder")));
-	
+
 }
 
 static void
@@ -563,28 +555,155 @@ mail_notebook_view_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-static void
-mail_notebook_view_class_init (EMailViewClass *klass)
+static EShellSearchbar *
+mail_notebook_view_get_searchbar (EMailView *view)
 {
-	GObjectClass * object_class = G_OBJECT_CLASS (klass);
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	GtkWidget *widget;
 
-	parent_class = g_type_class_peek_parent (klass);
+	g_return_val_if_fail (
+		E_IS_MAIL_NOTEBOOK_VIEW (view), NULL);
+
+	shell_content = E_MAIL_VIEW (view)->content;
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	widget = e_shell_view_get_searchbar (shell_view);
+
+	return E_SHELL_SEARCHBAR (widget);
+/*
+	if (!E_MAIL_NOTEBOOK_VIEW(view)->priv->current_view)
+		return NULL;
+	return e_mail_view_get_searchbar (E_MAIL_NOTEBOOK_VIEW(view)->priv->current_view); */
+}
+
+static void
+mail_notebook_view_set_search_strings (EMailView *view,
+                                       GSList *search_strings)
+{
+	e_mail_view_set_search_strings (E_MAIL_NOTEBOOK_VIEW (view)->priv->current_view, search_strings);
+}
+
+static GalViewInstance *
+mail_notebook_view_get_view_instance (EMailView *view)
+{
+	if (!E_MAIL_NOTEBOOK_VIEW(view)->priv->current_view)
+		return NULL;
+
+	return e_mail_view_get_view_instance (E_MAIL_NOTEBOOK_VIEW (view)->priv->current_view);
+}
+
+static void
+mail_notebook_view_update_view_instance (EMailView *view)
+{
+	e_mail_view_update_view_instance (E_MAIL_NOTEBOOK_VIEW (view)->priv->current_view);
+}
+
+static void
+mail_notebook_view_set_orientation (EMailView *view,
+                                    GtkOrientation orientation)
+{
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	if (!priv->current_view)
+		return;
+
+	e_mail_view_set_orientation (priv->current_view, orientation);
+}
+
+static GtkOrientation
+mail_notebook_view_get_orientation (EMailView *view)
+{
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	if (!priv->current_view)
+		return GTK_ORIENTATION_VERTICAL;
+
+	return e_mail_view_get_orientation (priv->current_view);
+}
+
+static void
+mail_notebook_view_set_show_deleted (EMailView *view,
+                                     gboolean show_deleted)
+{
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	if (!priv->current_view)
+		return;
+
+	e_mail_view_set_show_deleted (priv->current_view, show_deleted);
+}
+
+static gboolean
+mail_notebook_view_get_show_deleted (EMailView *view)
+{
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	if (!priv->current_view)
+		return FALSE;
+
+	return e_mail_view_get_show_deleted (priv->current_view);
+}
+
+static void
+mail_notebook_view_set_preview_visible (EMailView *view,
+                                        gboolean preview_visible)
+{
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	if (!priv->current_view)
+		return;
+
+	e_mail_view_set_preview_visible (priv->current_view, preview_visible);
+}
+
+static gboolean
+mail_notebook_view_get_preview_visible (EMailView *view)
+{
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	if (!priv->current_view)
+		return FALSE;
+
+	return e_mail_view_get_preview_visible (priv->current_view);
+}
+
+static void
+mail_notebook_view_class_init (EMailNotebookViewClass *class)
+{
+	GObjectClass *object_class;
+	EMailViewClass *mail_view_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMailNotebookViewPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_notebook_view_constructed;
 	object_class->set_property = mail_notebook_view_set_property;
 	object_class->get_property = mail_notebook_view_get_property;
-	
-	object_class->finalize = e_mail_notebook_view_finalize;
 
-	klass->get_searchbar = e_mail_notebook_view_get_searchbar;
-	klass->set_search_strings = e_mail_notebook_view_set_search_strings;
-	klass->get_view_instance = e_mail_notebook_view_get_view_instance;
-	klass->update_view_instance = e_mail_notebook_view_update_view_instance;
-	klass->set_orientation = e_mail_notebook_view_set_orientation;
-	klass->get_orientation = e_mail_notebook_view_get_orientation;
-	klass->set_show_deleted = e_mail_notebook_view_set_show_deleted;
-	klass->get_show_deleted = e_mail_notebook_view_get_show_deleted;
-	klass->set_preview_visible = e_mail_notebook_view_set_preview_visible;
-	klass->get_preview_visible = e_mail_notebook_view_get_preview_visible;
+	mail_view_class = E_MAIL_VIEW_CLASS (class);
+	mail_view_class->get_searchbar = mail_notebook_view_get_searchbar;
+	mail_view_class->set_search_strings = mail_notebook_view_set_search_strings;
+	mail_view_class->get_view_instance = mail_notebook_view_get_view_instance;
+	mail_view_class->update_view_instance = mail_notebook_view_update_view_instance;
+	mail_view_class->set_orientation = mail_notebook_view_set_orientation;
+	mail_view_class->get_orientation = mail_notebook_view_get_orientation;
+	mail_view_class->set_show_deleted = mail_notebook_view_set_show_deleted;
+	mail_view_class->get_show_deleted = mail_notebook_view_get_show_deleted;
+	mail_view_class->set_preview_visible = mail_notebook_view_set_preview_visible;
+	mail_view_class->get_preview_visible = mail_notebook_view_get_preview_visible;
 
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
@@ -613,7 +732,16 @@ mail_notebook_view_class_init (EMailViewClass *klass)
 			G_PARAM_READWRITE));
 
 	g_object_class_override_property (
-		object_class, PROP_ORIENTATION, "orientation"); */	
+		object_class, PROP_ORIENTATION, "orientation"); */
+}
+
+static void
+mail_notebook_view_init (EMailNotebookView  *view)
+{
+	view->priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+
+	view->priv->inited = FALSE;
+	view->priv->views = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 GtkWidget *
@@ -622,14 +750,13 @@ e_mail_notebook_view_new (EShellContent *content)
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (content), NULL);
 
 	return g_object_new (
-		E_MAIL_NOTEBOOK_VIEW_TYPE,
+		E_TYPE_MAIL_NOTEBOOK_VIEW,
 		"shell-content", content, NULL);
 }
 
 static GtkActionGroup *
 mail_notebook_view_get_action_group (EMailReader *reader)
 {
-	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -638,19 +765,14 @@ mail_notebook_view_get_action_group (EMailReader *reader)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);	
-/*	
-	if (!priv->current_view)
-		return NULL;
-
-	return e_mail_reader_get_action_group (E_MAIL_READER(priv->current_view));*/
+	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
 static EMFormatHTML *
 mail_notebook_view_get_formatter (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
-	
+
 	if (!priv->current_view)
 		return NULL;
 
@@ -661,7 +783,7 @@ static gboolean
 mail_notebook_view_get_hide_deleted (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
-	
+
 	if (!priv->current_view)
 		return FALSE;
 
@@ -672,22 +794,22 @@ static GtkWidget *
 mail_notebook_view_get_message_list (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
-	
+
 	if (!priv->current_view)
 		return NULL;
 
-	return e_mail_reader_get_message_list (E_MAIL_READER(priv->current_view));	
+	return e_mail_reader_get_message_list (E_MAIL_READER(priv->current_view));
 }
 
 static GtkMenu *
 mail_notebook_view_get_popup_menu (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
-	
+
 	if (!priv->current_view)
 		return NULL;
 
-	return e_mail_reader_get_popup_menu (E_MAIL_READER(priv->current_view));	
+	return e_mail_reader_get_popup_menu (E_MAIL_READER(priv->current_view));
 }
 
 static EShellBackend *
@@ -729,16 +851,16 @@ reconnect_folder_loaded_event (EMailReader *child, EMailReader *parent)
 }
 
 static void
-mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView *nview)
+mail_netbook_view_open_mail (EMailView *view, const gchar *uid, EMailNotebookView *nview)
 {
 	const gchar *folder_uri;
-	CamelFolder *folder;	
+	CamelFolder *folder;
 	GtkWidget *pane;
-	int page;
+	gint page;
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (nview)->priv;
 	CamelMessageInfo *info;
 	GtkWidget *preview;
-	int pos;
+	gint pos;
 
 #if HAVE_CLUTTER
 	EMailTab *tab;
@@ -746,17 +868,17 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 	ClutterTimeline *timeline;
 	GtkWidget *mlist;
 
-	e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker, 
+	e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker,
 						e_mail_tab_picker_get_current_tab (priv->tab_picker)),
 				FALSE);
-#endif	
+#endif
 	pos = emnv_get_page_num (nview, (GtkWidget *)priv->current_view);
 	pane = e_mail_message_pane_new (E_MAIL_VIEW(nview)->content);
 	E_MAIL_VIEW(pane)->prev = priv->current_view;
 	priv->current_view = (EMailView *)pane;
-	
+
 	gtk_widget_show (pane);
-	
+
 	preview = e_mail_paned_view_get_preview (E_MAIL_PANED_VIEW(pane));
 
 	folder = e_mail_reader_get_folder (E_MAIL_READER(view));
@@ -764,62 +886,64 @@ mail_netbook_view_open_mail (EMailView *view, const char *uid, EMailNotebookView
 
 	info = camel_folder_get_message_info (folder, uid);
 
-	page = gtk_notebook_insert_page (priv->book, pane, 
+	page = gtk_notebook_insert_page (priv->book, pane,
 				create_tab_label (nview,
 				priv->current_view,
-				camel_message_info_subject(info)), 
+				camel_message_info_subject(info)),
 				pos+1);
 
 #if HAVE_CLUTTER
 	mlist = e_mail_reader_get_message_list (E_MAIL_READER(pane));
 	mnv_set_current_tab (nview, page);
-	g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage); 
-	g_object_set_data ((GObject *)mlist, "stage", priv->stage); 
-	g_object_set_data ((GObject *)mlist, "preview-actor", priv->actor); 		
-#else	
+	g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage);
+	g_object_set_data ((GObject *)mlist, "stage", priv->stage);
+	g_object_set_data ((GObject *)mlist, "preview-actor", priv->actor);
+#else
 	gtk_notebook_set_current_page (priv->book, page);
 #endif
 
-#if HAVE_CLUTTER			
+#if HAVE_CLUTTER
 	tab = (EMailTab *)e_mail_tab_new_full (camel_message_info_subject(info), NULL, 1);
 	g_object_set_data ((GObject *)tab, "page", pane);
 	clutter_actor_show((ClutterActor *)tab);
 
 	clone = e_mail_tab_new_full (camel_message_info_subject(info), NULL, 200);
-	clutter_actor_set_reactive (clone, FALSE);		
+	clutter_actor_set_reactive (clone, FALSE);
 	clutter_actor_show (clone);
 
 	e_mail_tab_set_preview_actor (tab, clone);
 	e_mail_tab_set_can_close (tab, TRUE);
 	e_mail_tab_enable_drag (tab, TRUE);
 	e_mail_tab_picker_add_tab (priv->tab_picker, tab, pos+1);
-	
+
 	page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
 
-	g_signal_connect (tab , "closed", 
+	g_signal_connect (tab , "closed",
 			  G_CALLBACK (mnv_tab_closed), nview);
 
 	g_object_ref (tab);
 	timeline = clutter_timeline_new (150);
-	g_signal_connect (timeline, "new-frame",
-       	            G_CALLBACK (mnv_tab_anim_frame_cb), tab);
-	g_signal_connect (timeline, "completed",
-       	            G_CALLBACK (mnv_tab_anim_complete_cb), tab);
+	g_signal_connect (
+		timeline, "new-frame",
+		G_CALLBACK (mnv_tab_anim_frame_cb), tab);
+	g_signal_connect (
+		timeline, "completed",
+		G_CALLBACK (mnv_tab_anim_complete_cb), tab);
 	clutter_timeline_start (timeline);
 #endif
 
-	g_signal_connect ( E_MAIL_READER(pane), "changed",
-			   G_CALLBACK (reconnect_changed_event),
-			   nview);
-	g_signal_connect ( E_MAIL_READER (pane), "folder-loaded",
-			   G_CALLBACK (reconnect_folder_loaded_event),
-			   nview);
+	g_signal_connect (
+		E_MAIL_READER(pane), "changed",
+		G_CALLBACK (reconnect_changed_event), nview);
+	g_signal_connect (
+		E_MAIL_READER (pane), "folder-loaded",
+		G_CALLBACK (reconnect_folder_loaded_event), nview);
 	e_mail_reader_set_folder (
 		E_MAIL_READER (pane), folder, folder_uri);
 	e_mail_reader_set_group_by_threads (
 		E_MAIL_READER (pane),
-		e_mail_reader_get_group_by_threads (E_MAIL_READER(view))); 
+		e_mail_reader_get_group_by_threads (E_MAIL_READER(view)));
 
 	e_mail_reader_set_message (E_MAIL_READER (pane), uid);
 	camel_message_info_free (info);
@@ -832,7 +956,7 @@ mail_notebook_view_set_folder (EMailReader *reader,
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 	GtkWidget *new_view;
-#if HAVE_CLUTTER	
+#if HAVE_CLUTTER
 	EMailTab *tab;
 	ClutterActor *clone;
 	ClutterTimeline *timeline;
@@ -843,35 +967,35 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 	new_view = g_hash_table_lookup (priv->views, folder_uri);
 	if (new_view) {
-		int curr = emnv_get_page_num (E_MAIL_NOTEBOOK_VIEW (reader), new_view);
-#if HAVE_CLUTTER		
+		gint curr = emnv_get_page_num (E_MAIL_NOTEBOOK_VIEW (reader), new_view);
+#if HAVE_CLUTTER
 		EMailTab *tab;
 
 		if (curr == e_mail_tab_picker_get_current_tab (priv->tab_picker))
 			return;
 
-		e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker, 
+		e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker,
 						e_mail_tab_picker_get_current_tab (priv->tab_picker)),
 					FALSE);
 #endif
 
 		priv->current_view = (EMailView *)new_view;
-#if HAVE_CLUTTER		
+#if HAVE_CLUTTER
 		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(reader), curr);
 #else
 		gtk_notebook_set_current_page (priv->book, curr);
 #endif
 
-#if HAVE_CLUTTER		
+#if HAVE_CLUTTER
 		tab = (EMailTab *)g_object_get_data ((GObject *)priv->current_view, "page");
 		curr = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 		e_mail_tab_picker_set_current_tab (priv->tab_picker, curr);
-#endif		
+#endif
 		return;
 	}
 
 	if (folder || folder_uri) {
-		int page;
+		gint page;
 		GtkWidget *list;
 
 		if (priv->inited) {
@@ -880,21 +1004,26 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			priv->current_view = (EMailView *)e_mail_folder_pane_new (E_MAIL_VIEW(reader)->content);
 			gtk_widget_show ((GtkWidget *)priv->current_view);
 			priv->current_view->prev = old_view;
-			page = gtk_notebook_append_page (priv->book, (GtkWidget *)priv->current_view, 
-						create_tab_label (E_MAIL_NOTEBOOK_VIEW(reader),
-							    	  priv->current_view,
-								  camel_folder_get_full_name (folder)));
-#if HAVE_CLUTTER		
+			page = gtk_notebook_append_page (
+				priv->book, (GtkWidget *)priv->current_view,
+				create_tab_label (
+					E_MAIL_NOTEBOOK_VIEW (reader),
+					priv->current_view,
+					camel_folder_get_full_name (folder)));
+#if HAVE_CLUTTER
 			mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(reader), page);
 #else
-				gtk_notebook_set_current_page (priv->book, page);
+			gtk_notebook_set_current_page (priv->book, page);
 #endif
 
 #if HAVE_CLUTTER
-			e_mail_tab_set_active (e_mail_tab_picker_get_tab (priv->tab_picker, 
-						e_mail_tab_picker_get_current_tab (priv->tab_picker)),
-						FALSE);
-			
+			e_mail_tab_set_active (
+				e_mail_tab_picker_get_tab (
+					priv->tab_picker,
+					e_mail_tab_picker_get_current_tab (
+						priv->tab_picker)),
+				FALSE);
+
 			tab = (EMailTab *)e_mail_tab_new_full (camel_folder_get_full_name(folder), NULL, 1);
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
@@ -914,22 +1043,24 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
 
 			g_object_ref (tab);
-      			timeline = clutter_timeline_new (150);
-	      		g_signal_connect (timeline, "new-frame",
-       	       	        	    G_CALLBACK (mnv_tab_anim_frame_cb), tab);
-      			g_signal_connect (timeline, "completed",
-       		        	    G_CALLBACK (mnv_tab_anim_complete_cb), tab);
-      			clutter_timeline_start (timeline);
-#endif		
+			timeline = clutter_timeline_new (150);
+			g_signal_connect (
+				timeline, "new-frame",
+				G_CALLBACK (mnv_tab_anim_frame_cb), tab);
+			g_signal_connect (
+				timeline, "completed",
+				G_CALLBACK (mnv_tab_anim_complete_cb), tab);
+			clutter_timeline_start (timeline);
+#endif
 		} else {
 			priv->inited = TRUE;
-			gtk_notebook_set_tab_label (priv->book, (GtkWidget *)priv->current_view, 
+			gtk_notebook_set_tab_label (priv->book, (GtkWidget *)priv->current_view,
 						create_tab_label (E_MAIL_NOTEBOOK_VIEW(reader),
-							    	  priv->current_view,
+								  priv->current_view,
 								  camel_folder_get_full_name (folder)));
 
-#if HAVE_CLUTTER			
-			tab = e_mail_tab_picker_get_tab(priv->tab_picker, 
+#if HAVE_CLUTTER
+			tab = e_mail_tab_picker_get_tab(priv->tab_picker,
 						e_mail_tab_picker_get_current_tab (priv->tab_picker));
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
@@ -937,18 +1068,18 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			e_mail_tab_set_text (tab, camel_folder_get_full_name(folder));
 			clone = e_mail_tab_get_preview_actor (tab);
 			e_mail_tab_set_text ((EMailTab *)clone, camel_folder_get_full_name(folder));
-#endif			
+#endif
 		}
-	
+
 		list = e_mail_reader_get_message_list (E_MAIL_READER(priv->current_view));
-#if HAVE_CLUTTER		
-		g_signal_connect (tab , "closed", 
+#if HAVE_CLUTTER
+		g_signal_connect (tab , "closed",
 				   G_CALLBACK (mnv_tab_closed), reader);
-		g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage); 
-		g_object_set_data ((GObject *)list, "stage", priv->stage); 
-		g_object_set_data ((GObject *)list, "actor", priv->actor); 		
-		
-#endif		
+		g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage);
+		g_object_set_data ((GObject *)list, "stage", priv->stage);
+		g_object_set_data ((GObject *)list, "actor", priv->actor);
+
+#endif
 		e_mail_reader_set_folder (E_MAIL_READER(priv->current_view), folder, folder_uri);
 		g_hash_table_insert (priv->views, g_strdup(folder_uri), priv->current_view);
 		g_signal_connect ( E_MAIL_READER(priv->current_view), "changed",
@@ -966,62 +1097,19 @@ static void
 mail_notebook_view_show_search_bar (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
-		
-	e_mail_reader_show_search_bar (E_MAIL_READER(priv->current_view));	
+
+	e_mail_reader_show_search_bar (E_MAIL_READER(priv->current_view));
 }
 
-EShellSearchbar *
-e_mail_notebook_view_get_searchbar (EMailView *view)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	GtkWidget *widget;
-
-	g_return_val_if_fail (
-		E_IS_MAIL_NOTEBOOK_VIEW (view), NULL);
-
-	shell_content = E_MAIL_VIEW (view)->content;
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	widget = e_shell_view_get_searchbar (shell_view);
-
-	return E_SHELL_SEARCHBAR (widget);	
-/*	
-	if (!E_MAIL_NOTEBOOK_VIEW(view)->priv->current_view)
-		return NULL;
-	return e_mail_view_get_searchbar (E_MAIL_NOTEBOOK_VIEW(view)->priv->current_view); */
-}
-
-static void
+static guint
 mail_notebook_view_open_selected_mail (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
-	
+
 	if (!priv->current_view)
-		return ;
+		return 0;
 
-	return e_mail_reader_open_selected_mail (E_MAIL_READER(priv->current_view));	
-}
-
-void
-e_mail_notebook_view_set_search_strings (EMailView *view,
-					 GSList *search_strings)
-{
-	e_mail_view_set_search_strings (E_MAIL_NOTEBOOK_VIEW (view)->priv->current_view, search_strings);
-}
-
-GalViewInstance *
-e_mail_notebook_view_get_view_instance (EMailView *view)
-{
-	if (!E_MAIL_NOTEBOOK_VIEW(view)->priv->current_view)
-		return NULL;
-
-	return e_mail_view_get_view_instance (E_MAIL_NOTEBOOK_VIEW (view)->priv->current_view);
-}
-
-void
-e_mail_notebook_view_update_view_instance (EMailView *view)
-{
-	e_mail_view_update_view_instance (E_MAIL_NOTEBOOK_VIEW (view)->priv->current_view);
+	return e_mail_reader_open_selected_mail (E_MAIL_READER(priv->current_view));
 }
 
 static void
@@ -1068,7 +1156,7 @@ e_mail_notebook_view_register_type (GTypeModule *type_module)
 	};
 
 	mail_notebook_view_type = g_type_module_register_type (
-		type_module, E_MAIL_VIEW_TYPE,
+		type_module, E_TYPE_MAIL_VIEW,
 		"EMailNotebookView", &type_info, 0);
 
 	g_type_module_add_interface (
@@ -1076,54 +1164,3 @@ e_mail_notebook_view_register_type (GTypeModule *type_module)
 		E_TYPE_MAIL_READER, &reader_info);
 }
 
-void
-e_mail_notebook_view_set_show_deleted (EMailNotebookView *view,
-                                       gboolean show_deleted)
-{
-	if (!view->priv->current_view)
-		return;
-	
-	e_mail_view_set_show_deleted (view->priv->current_view, show_deleted);
-}
-gboolean
-e_mail_notebook_view_get_show_deleted (EMailNotebookView *view)
-{
-	if (!view->priv->current_view)
-		return FALSE;
-	
-	return e_mail_view_get_show_deleted (view->priv->current_view);
-}
-void
-e_mail_notebook_view_set_preview_visible (EMailNotebookView *view,
-                                          gboolean preview_visible)
-{
-	if (!view->priv->current_view)
-		return ;
-
-	e_mail_view_set_preview_visible (view->priv->current_view, preview_visible);
-}
-gboolean
-e_mail_notebook_view_get_preview_visible (EMailNotebookView *view)
-{
-	if (!view->priv->current_view)
-		return FALSE;
-	
-	return e_mail_view_get_preview_visible (view->priv->current_view);
-}
-void
-e_mail_notebook_view_set_orientation (EMailNotebookView *view,
-				   GtkOrientation orientation)
-{
-	if (!view->priv->current_view)
-		return;
-	
-	e_mail_view_set_orientation (view->priv->current_view, orientation);
-}
-GtkOrientation 
-e_mail_notebook_view_get_orientation (EMailNotebookView *view)
-{
-	if (!view->priv->current_view)
-		return GTK_ORIENTATION_VERTICAL;
-	
-	return e_mail_view_get_orientation (view->priv->current_view);
-}

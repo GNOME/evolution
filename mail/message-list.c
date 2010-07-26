@@ -2382,7 +2382,7 @@ message_list_init (MessageList *message_list)
 	message_list->priv->timeline = NULL;
 	message_list->priv->search_texture = NULL;
 #endif
-	
+
 	message_list->normalised_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
@@ -4137,10 +4137,10 @@ on_timeline_stopped (ClutterTimeline *timeline, ClutterActor *actor)
 void
 message_list_set_search (MessageList *ml, const gchar *search)
 {
-#if HAVE_CLUTTER	
+#if HAVE_CLUTTER
 	if (ml->priv->timeline == NULL) {
 		ClutterActor *stage = g_object_get_data ((GObject *)ml, "stage");
-		
+
 		if (stage) {
 			ClutterActor *texture = NULL;
 			ClutterPath *path;
@@ -4152,7 +4152,7 @@ message_list_set_search (MessageList *ml, const gchar *search)
 							"system-search",
 							72,
 							GTK_ICON_LOOKUP_NO_SVG);
-			
+
 			if (info) {
 				texture = clutter_texture_new_from_file (gtk_icon_info_get_filename(info), NULL);
 				gtk_icon_info_free(info);
@@ -4174,18 +4174,18 @@ message_list_set_search (MessageList *ml, const gchar *search)
 
 			clutter_behaviour_apply (behaviour, texture);
 			clutter_timeline_set_loop (ml->priv->timeline, TRUE);
-			
+
 			g_signal_connect(ml->priv->timeline, "started", G_CALLBACK(on_timeline_started), texture);
 			g_signal_connect(ml->priv->timeline, "paused", G_CALLBACK(on_timeline_stopped), texture);
 			//g_signal_connect(ml->priv->timeline, "completed", G_CALLBACK(on_timeline_stopped), texture);
-			
-			clutter_timeline_pause (ml->priv->timeline);			
+
+			clutter_timeline_pause (ml->priv->timeline);
 			clutter_timeline_stop (ml->priv->timeline);
 
 		}
 	}
 #endif
-	
+
 	if (search == NULL || search[0] == '\0')
 		if (ml->search == NULL || ml->search[0] == '\0')
 			return;
@@ -4658,15 +4658,15 @@ regen_list_done (struct _regen_list_msg *m)
 		clutter_timeline_stop (m->ml->priv->timeline);
 	} else {
 		ClutterActor *pane = g_object_get_data ((GObject *)m->ml, "actor");
-		
+
 		if (pane) {
-  			clutter_actor_set_opacity (pane, 0);
-  			clutter_actor_animate (pane, CLUTTER_EASE_OUT_SINE, 150,
-       	                 	 	"opacity", 255,
-       	                  		NULL);
+			clutter_actor_set_opacity (pane, 0);
+			clutter_actor_animate (
+				pane, CLUTTER_EASE_OUT_SINE,
+				150, "opacity", 255, NULL);
 		}
 	}
-#endif			
+#endif
 }
 
 static void

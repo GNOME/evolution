@@ -471,18 +471,18 @@ main (gint argc, gchar **argv)
 
 #if HAVE_CLUTTER
 	gtk_clutter_init_with_args (
-		&argc, &argv, 
-		_("- The Evolution PIM and Email Client"), 
+		&argc, &argv,
+		_("- The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
-  	mx_style_load_from_file (mx_style_get_default (),
-                           EVOLUTION_MX_THEMEDIR "/default.css", NULL);
-
-#else	
+	mx_style_load_from_file (
+		mx_style_get_default (),
+		EVOLUTION_MX_THEMEDIR "/default.css", NULL);
+#else
 	gtk_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
-#endif	
+#endif
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
