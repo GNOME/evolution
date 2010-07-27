@@ -39,7 +39,7 @@ typedef struct IEnumEventObject IEnumEventObject;
 const IID IID_IEnumEventObject;
 typedef struct IEnumEventObjectVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEnumEventObject *This,REFIID riid,gpointer *ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEnumEventObject *This,REFIID riid,PVOID *ppvObject);
 		ULONG (WINAPI *AddRef)(IEnumEventObject *This);
 		ULONG (WINAPI *Release)(IEnumEventObject *This);
 		HRESULT (WINAPI *Clone)(IEnumEventObject *This,IEnumEventObject **ppInterface);
@@ -57,7 +57,7 @@ typedef struct IEventObjectCollection IEventObjectCollection;
 const IID IID_IEventObjectCollection;
 typedef struct IEventObjectCollectionVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEventObjectCollection *This,REFIID riid,gpointer *ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEventObjectCollection *This,REFIID riid,PVOID *ppvObject);
 		ULONG (WINAPI *AddRef)(IEventObjectCollection *This);
 		ULONG (WINAPI *Release)(IEventObjectCollection *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(IEventObjectCollection *This,UINT *pctinfo);
@@ -81,7 +81,7 @@ typedef struct IEventSystem IEventSystem;
 const IID IID_IEventSystem;
 typedef struct IEventSystemVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEventSystem *This,REFIID riid,gpointer *ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEventSystem *This,REFIID riid,PVOID *ppvObject);
 		ULONG (WINAPI *AddRef)(IEventSystem *This);
 		ULONG (WINAPI *Release)(IEventSystem *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(IEventSystem *This,UINT *pctinfo);
@@ -105,7 +105,7 @@ typedef struct IEventSubscription IEventSubscription;
 const IID IID_IEventSubscription;
 typedef struct IEventSubscriptionVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(IEventSubscription *This,REFIID riid,gpointer *ppvObject);
+		HRESULT (WINAPI *QueryInterface)(IEventSubscription *This,REFIID riid,PVOID *ppvObject);
 		ULONG (WINAPI *AddRef)(IEventSubscription *This);
 		ULONG (WINAPI *Release)(IEventSubscription *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(IEventSubscription *This,UINT *pctinfo);
@@ -174,7 +174,7 @@ typedef struct ISensNetwork ISensNetwork;
 const IID IID_ISensNetwork;
 typedef struct ISensNetworkVtbl {
 	BEGIN_INTERFACE
-		HRESULT (WINAPI *QueryInterface)(ISensNetwork *This,REFIID riid,gpointer *ppvObject);
+		HRESULT (WINAPI *QueryInterface)(ISensNetwork *This,REFIID riid,PVOID *ppvObject);
 		ULONG (WINAPI *AddRef)(ISensNetwork *This);
 		ULONG (WINAPI *Release)(ISensNetwork *This);
 		HRESULT (WINAPI *GetTypeInfoCount)(ISensNetwork *This,UINT *pctinfo);
@@ -261,7 +261,7 @@ static void e_sens_network_listener_init(ESensNetworkListener**,EWindowsSENS*);
 
 /* Functions to implement ISensNetwork interface */
 
-static HRESULT WINAPI e_sens_network_listener_queryinterface (ISensNetwork*,REFIID,gpointer *);
+static HRESULT WINAPI e_sens_network_listener_queryinterface (ISensNetwork*,REFIID,PVOID *);
 static ULONG WINAPI e_sens_network_listener_addref (ISensNetwork*);
 static ULONG WINAPI e_sens_network_listener_release (ISensNetwork*);
 static HRESULT WINAPI e_sens_network_listener_gettypeinfocount (ISensNetwork*, UINT*);
