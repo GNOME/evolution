@@ -184,6 +184,12 @@ shell_xdg_migrate_cache_dir (EShell *shell,
 	g_free (old_filename);
 	g_free (new_filename);
 
+	old_filename = g_build_filename (old_cache_dir, "tmp", NULL);
+	new_filename = g_build_filename (new_cache_dir, "tmp", NULL);
+	shell_xdg_migrate_rename (old_filename, new_filename);
+	g_free (old_filename);
+	g_free (new_filename);
+
 	/* Try to remove the old cache directory.  Good chance this will
 	 * fail on the first try, since E-D-S puts stuff here too. */
 	shell_xdg_migrate_rmdir (old_cache_dir);
