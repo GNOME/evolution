@@ -4269,7 +4269,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	} else {
 		ECalComponentDateTime ecdt;
 
-		e_cal_component_get_dtend (comp, &date);
+		e_cal_component_get_dtend (comp, &ecdt);
 		is_date = ecdt.value && ecdt.value->is_date;
 		if (!is_date)
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
