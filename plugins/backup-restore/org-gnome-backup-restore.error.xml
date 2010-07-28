@@ -5,17 +5,17 @@
   <_primary>Invalid Evolution backup file</_primary>
   <_secondary>Please select a valid backup file to restore.</_secondary>
  </error>
-   <error id="backup-confirm" type="warning" default="GTK_RESPONSE_NO">
+   <error id="backup-confirm" type="warning" default="GTK_RESPONSE_CANCEL">
     <_primary>Are you sure you want to close Evolution?</_primary>
-    <_secondary xml:space="preserve">Evolution backup can start only when Evolution is not running. Please make sure that you save and close all your unsaved windows before proceeding.  If you want Evolution to restart automatically after backup, please enable the toggle button.</_secondary>
-    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
-    <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+    <_secondary xml:space="preserve">To backup your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding.</_secondary>
+    <button _label="Close and Backup Evolution" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   </error>
-   <error id="restore-confirm" type="warning" default="GTK_RESPONSE_NO">
+   <error id="restore-confirm" type="warning" default="GTK_RESPONSE_CANCEL">
     <_primary>Are you sure you want to restore Evolution from the selected backup file?</_primary>
-    <_secondary xml:space="preserve">This will delete all your current Evolution data and settings and restore them from your backup. Evolution restore can start only when Evolution is not running. Please make sure that you close all your unsaved windows before you proceed. If you want Evolution to restart automatically restart after restore, please enable the toggle button.</_secondary>
-    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
-    <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+    <_secondary xml:space="preserve">To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your backup.</_secondary>
+    <button _label="Close and Restore Evolution" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   </error>  
    <error id="insufficient-permissions" type="error">
    	<_primary>Insufficient Permissions</_primary>
