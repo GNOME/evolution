@@ -63,14 +63,31 @@ shell_xdg_migrate_rename (const gchar *old_filename,
 static gboolean
 shell_xdg_migrate_rmdir (const gchar *dirname)
 {
+	GDir *dir = NULL;
 	gboolean success = TRUE;
 
 	if (g_file_test (dirname, G_FILE_TEST_IS_DIR)) {
 		g_print ("  rmdir %s\n", dirname);
 		if (g_rmdir (dirname) < 0) {
-			g_printerr ("  FAILED: %s\n", g_strerror (errno));
+			g_printerr ("  FAILED: %s", g_strerror (errno));
+			if (errno == ENOTEMPTY) {
+				dir = g_dir_open (dirname, 0, NULL);
+				g_printerr (" (contents follows)");
+			}
+			g_printerr ("\n");
 			success = FALSE;
 		}
+	}
+
+	/* List the directory's contents to aid debugging. */
+	if (dir != NULL) {
+		const gchar *basename;
+
+		/* Align the filenames beneath the error message. */
+		while ((basename = g_dir_read_name (dir)) != NULL)
+			g_print ("          %s\n", basename);
+
+		g_dir_close (dir);
 	}
 
 	return success;
