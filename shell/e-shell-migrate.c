@@ -229,6 +229,24 @@ shell_xdg_migrate_config_dir_common (EShell *shell,
 	g_free (old_filename);
 	g_free (new_filename);
 
+	/* This one only occurs in calendar and memos.
+	 * For other backends this will just be a no-op. */
+	old_filename = g_build_filename (
+		old_config_dir, "config", "MemoPad", NULL);
+	new_filename = g_build_filename (new_config_dir, "MemoPad", NULL);
+	shell_xdg_migrate_rename (old_filename, new_filename);
+	g_free (old_filename);
+	g_free (new_filename);
+
+	/* This one only occurs in calendar and tasks.
+	 * For other backends this will just be a no-op. */
+	old_filename = g_build_filename (
+		old_config_dir, "config", "TaskPad", NULL);
+	new_filename = g_build_filename (new_config_dir, "TaskPad", NULL);
+	shell_xdg_migrate_rename (old_filename, new_filename);
+	g_free (old_filename);
+	g_free (new_filename);
+
 	/* Subtle name change: config/state --> state.ini */
 	old_filename = g_build_filename (old_config_dir, "config", "state", NULL);
 	new_filename = g_build_filename (new_config_dir, "state.ini", NULL);
@@ -264,37 +282,6 @@ shell_xdg_migrate_config_dir_common (EShell *shell,
 		g_dir_close (dir);
 	}
 	g_free (dirname);
-
-	g_free (old_config_dir);
-	g_free (new_config_dir);
-}
-
-static void
-shell_xdg_migrate_config_dir_calendar (EShell *shell,
-                                       const gchar *old_base_dir)
-{
-	const gchar *user_config_dir;
-	gchar *old_config_dir;
-	gchar *new_config_dir;
-	gchar *old_filename;
-	gchar *new_filename;
-
-	user_config_dir = e_get_user_config_dir ();
-
-	old_config_dir = g_build_filename (old_base_dir, "calendar", NULL);
-	new_config_dir = g_build_filename (user_config_dir, "calendar", NULL);
-
-	old_filename = g_build_filename (old_config_dir, "config", "TaskPad", NULL);
-	new_filename = g_build_filename (new_config_dir, "TaskPad", NULL);
-	shell_xdg_migrate_rename (old_filename, new_filename);
-	g_free (old_filename);
-	g_free (new_filename);
-
-	old_filename = g_build_filename (old_config_dir, "config", "MemoPad", NULL);
-	new_filename = g_build_filename (new_config_dir, "MemoPad", NULL);
-	shell_xdg_migrate_rename (old_filename, new_filename);
-	g_free (old_filename);
-	g_free (new_filename);
 
 	g_free (old_config_dir);
 	g_free (new_config_dir);
@@ -380,7 +367,6 @@ shell_xdg_migrate_config_dir (EShell *shell,
 			shell, old_base_dir, shell_backend_names[ii]);
 
 	/* Handle backend-specific files. */
-	shell_xdg_migrate_config_dir_calendar (shell, old_base_dir);
 	shell_xdg_migrate_config_dir_mail (shell, old_base_dir);
 
 	/* Remove leftover "config" directories. */
