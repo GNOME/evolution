@@ -663,7 +663,7 @@ done:
 
 	if (changed_count > 0) {
 		GtkWidget *dialog;
-		const gchar *data_dir;
+		const gchar *config_dir;
 		gchar *user, *info;
 
 		info = g_strdup_printf (ngettext (
@@ -678,8 +678,8 @@ done:
 		em_utils_show_info_silent (dialog);
 		g_free (info);
 
-		data_dir = mail_session_get_data_dir ();
-		user = g_build_filename (data_dir, "vfolders.xml", NULL);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save ((ERuleContext *) context, user);
 		g_free (user);
 	}
@@ -742,12 +742,12 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 	G_UNLOCK (vfolder);
 
 	if (changed) {
-		const gchar *data_dir;
+		const gchar *config_dir;
 		gchar *user;
 
 		d(printf("Vfolders updated from renamed folder\n"));
-		data_dir = mail_session_get_data_dir ();
-		user = g_build_filename (data_dir, "vfolders.xml", NULL);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	}
@@ -907,7 +907,7 @@ store_folder_deleted_cb (CamelStore *store,
 	/* delete it from our list */
 	rule = e_rule_context_find_rule((ERuleContext *)context, info->full_name, NULL);
 	if (rule) {
-		const gchar *data_dir;
+		const gchar *config_dir;
 
 		/* We need to stop listening to removed events, otherwise we'll try and remove it again */
 		g_signal_handlers_disconnect_matched(context, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
@@ -916,8 +916,8 @@ store_folder_deleted_cb (CamelStore *store,
 		g_object_unref(rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
-		data_dir = mail_session_get_data_dir ();
-		user = g_build_filename (data_dir, "vfolders.xml", NULL);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	} else {
@@ -945,7 +945,7 @@ store_folder_renamed_cb (CamelStore *store,
 	G_LOCK (vfolder);
 	d(printf("Changing folder name in hash table to '%s'\n", info->full_name));
 	if (g_hash_table_lookup_extended (vfolder_hash, old_name, &key, &folder)) {
-		const gchar *data_dir;
+		const gchar *config_dir;
 
 		g_hash_table_remove (vfolder_hash, key);
 		g_free (key);
@@ -963,8 +963,8 @@ store_folder_renamed_cb (CamelStore *store,
 		e_filter_rule_set_name(rule, info->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
-		data_dir = mail_session_get_data_dir ();
-		user = g_build_filename (data_dir, "vfolders.xml", NULL);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 
@@ -1006,6 +1006,7 @@ vfolder_load_storage(void)
 	G_LOCK_DEFINE_STATIC (vfolder_hash);
 
 	const gchar *data_dir;
+	const gchar *config_dir;
 	gchar *user, *storeuri;
 	EFilterRule *rule;
 	gchar *xmlfile;
@@ -1023,8 +1024,10 @@ vfolder_load_storage(void)
 
 	G_UNLOCK (vfolder_hash);
 
-	/* first, create the vfolder store, and set it up */
 	data_dir = mail_session_get_data_dir ();
+	config_dir = mail_session_get_config_dir ();
+
+	/* first, create the vfolder store, and set it up */
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
 	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
@@ -1043,7 +1046,7 @@ vfolder_load_storage(void)
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
 
 	/* load our rules */
-	user = g_build_filename (data_dir, "vfolders.xml", NULL);
+	user = g_build_filename (config_dir, "vfolders.xml", NULL);
 	context = em_vfolder_context_new ();
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
@@ -1091,12 +1094,12 @@ vfolder_load_storage(void)
 void
 vfolder_revert(void)
 {
-	const gchar *data_dir;
+	const gchar *config_dir;
 	gchar *user;
 
 	d(printf("vfolder_revert\n"));
-	data_dir = mail_session_get_data_dir ();
-	user = g_build_filename (data_dir, "vfolders.xml", NULL);
+	config_dir = mail_session_get_config_dir ();
+	user = g_build_filename (config_dir, "vfolders.xml", NULL);
 	e_rule_context_revert((ERuleContext *)context, user);
 	g_free(user);
 }
@@ -1107,7 +1110,7 @@ vfolder_edit (EShellView *shell_view)
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	GtkWidget *dialog;
-	const gchar *data_dir;
+	const gchar *config_dir;
 	gchar *filename;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
@@ -1115,8 +1118,8 @@ vfolder_edit (EShellView *shell_view)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	filename = g_build_filename (data_dir, "vfolders.xml", NULL);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	filename = g_build_filename (config_dir, "vfolders.xml", NULL);
 
 	/* ensures vfolder is running */
 	vfolder_load_storage ();
@@ -1143,14 +1146,14 @@ static void
 edit_rule_response(GtkWidget *w, gint button, gpointer data)
 {
 	if (button == GTK_RESPONSE_OK) {
-		const gchar *data_dir;
+		const gchar *config_dir;
 		gchar *user;
 		EFilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
 		EFilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
 		e_filter_rule_copy(orig, rule);
-		data_dir = mail_session_get_data_dir ();
-		user = g_build_filename (data_dir, "vfolders.xml", NULL);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	}
@@ -1211,7 +1214,7 @@ static void
 new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 {
 	if (button == GTK_RESPONSE_OK) {
-		const gchar *data_dir;
+		const gchar *config_dir;
 		gchar *user;
 		EFilterRule *rule = g_object_get_data((GObject *)w, "rule");
 		EAlert *alert = NULL;
@@ -1229,8 +1232,8 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 
 		g_object_ref(rule);
 		e_rule_context_add_rule((ERuleContext *)context, rule);
-		data_dir = mail_session_get_data_dir ();
-		user = g_build_filename (data_dir, "vfolders.xml", NULL);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	}

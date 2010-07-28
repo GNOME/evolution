@@ -532,15 +532,15 @@ main_get_filter_driver (CamelSession *session, const gchar *type, GError **error
 {
 	CamelFilterDriver *driver;
 	EFilterRule *rule = NULL;
-	const gchar *data_dir;
+	const gchar *config_dir;
 	gchar *user, *system;
 	GConfClient *gconf;
 	ERuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
 
-	data_dir = mail_session_get_data_dir ();
-	user = g_build_filename (data_dir, "filters.xml", NULL);
+	config_dir = mail_session_get_config_dir ();
+	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (ERuleContext *) em_filter_context_new ();
 	e_rule_context_load (fc, system, user);

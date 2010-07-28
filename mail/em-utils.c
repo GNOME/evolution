@@ -244,12 +244,12 @@ em_filter_editor_response (GtkWidget *dialog, gint button, gpointer user_data)
 	EMFilterContext *fc;
 
 	if (button == GTK_RESPONSE_OK) {
-		const gchar *data_dir;
+		const gchar *config_dir;
 		gchar *user;
 
-		data_dir = mail_session_get_data_dir ();
+		config_dir = mail_session_get_config_dir ();
 		fc = g_object_get_data ((GObject *) dialog, "context");
-		user = g_strdup_printf ("%s/filters.xml", data_dir);
+		user = g_build_filename (config_dir, "filters.xml", NULL);
 		e_rule_context_save ((ERuleContext *) fc, user);
 		g_free (user);
 	}
@@ -276,7 +276,7 @@ static EMFilterSource em_filter_source_element_names[] = {
 void
 em_utils_edit_filters (GtkWidget *parent)
 {
-	const gchar *data_dir;
+	const gchar *config_dir;
 	gchar *user, *system;
 	EMFilterContext *fc;
 
@@ -285,10 +285,10 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 
-	data_dir = mail_session_get_data_dir ();
+	config_dir = mail_session_get_config_dir ();
 
 	fc = em_filter_context_new ();
-	user = g_build_filename (data_dir, "filters.xml", NULL);
+	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *) fc, system, user);
 	g_free (user);
