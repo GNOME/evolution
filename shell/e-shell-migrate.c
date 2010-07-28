@@ -196,11 +196,13 @@ shell_xdg_migrate_config_dir_common (EShell *shell,
                                      const gchar *old_base_dir,
                                      const gchar *backend_name)
 {
+	GDir *dir;
 	const gchar *user_config_dir;
 	gchar *old_config_dir;
 	gchar *new_config_dir;
 	gchar *old_filename;
 	gchar *new_filename;
+	gchar *dirname;
 
 	user_config_dir = e_get_user_config_dir ();
 
@@ -227,6 +229,35 @@ shell_xdg_migrate_config_dir_common (EShell *shell,
 	shell_xdg_migrate_rename (old_filename, new_filename);
 	g_free (old_filename);
 	g_free (new_filename);
+
+	/* GIO had a bug for awhile where it would leave behind an empty
+	 * temp file with the pattern .goutputstream-XXXXXX if an output
+	 * stream operation was cancelled.  We've had several reports of
+	 * these files in config directories, so remove any we find. */
+	dirname = g_build_filename (old_config_dir, "config", NULL);
+	dir = g_dir_open (dirname, 0, NULL);
+	if (dir != NULL) {
+		const gchar *basename;
+
+		while ((basename = g_dir_read_name (dir)) != NULL) {
+			gchar *filename;
+			struct stat st;
+
+			if (!g_str_has_prefix (basename, ".goutputstream"))
+				continue;
+
+			filename = g_build_filename (dirname, basename, NULL);
+
+			/* Verify the file is indeed empty. */
+			if (g_stat (filename, &st) == 0 && st.st_size == 0)
+				g_unlink (filename);
+
+			g_free (filename);
+		}
+
+		g_dir_close (dir);
+	}
+	g_free (dirname);
 
 	g_free (old_config_dir);
 	g_free (new_config_dir);
