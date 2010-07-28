@@ -16,9 +16,7 @@
  *
  */
 
-#include <dbus/dbus.h>
-#include <dbus/dbus-glib.h>
-#include <dbus/dbus-glib-lowlevel.h>
+#include <gio/gio.h>
 #include <NetworkManager/NetworkManager.h>
 
 #include <shell/e-shell.h>
@@ -36,7 +34,7 @@ typedef struct _ENetworkManagerClass ENetworkManagerClass;
 
 struct _ENetworkManager {
 	EExtension parent;
-	DBusConnection *connection;
+	GDBusConnection *connection;
 };
 
 struct _ENetworkManagerClass {
@@ -63,45 +61,38 @@ network_manager_get_shell (ENetworkManager *extension)
 	return E_SHELL (extensible);
 }
 
-static DBusHandlerResult
-network_manager_monitor (DBusConnection *connection G_GNUC_UNUSED,
-                         DBusMessage *message,
-                         gpointer user_data)
+static void
+nm_connection_closed_cb (GDBusConnection *pconnection, gboolean remote_peer_vanished, GError *error, gpointer user_data)
+{
+	ENetworkManager *extension = user_data;
+
+	g_object_unref (extension->connection);
+	extension->connection = NULL;
+
+	g_timeout_add_seconds (
+		3, (GSourceFunc) network_manager_connect, extension);
+}
+
+static void
+network_manager_signal_cb (GDBusConnection *connection,
+	const gchar *sender_name,
+	const gchar *object_path,
+	const gchar *interface_name,
+	const gchar *signal_name,
+	GVariant *parameters,
+	gpointer user_data)
 {
 	ENetworkManager *extension = user_data;
 	EShell *shell;
-	const gchar *path;
 	guint32 state;
-	DBusError error = DBUS_ERROR_INIT;
 
 	shell = network_manager_get_shell (extension);
 
-	path = dbus_message_get_path (message);
+	if (g_strcmp0 (interface_name, NM_DBUS_INTERFACE) != 0
+	    || g_strcmp0 (signal_name, "StateChanged") != 0)
+		return;
 
-	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
-		g_strcmp0 (path, DBUS_PATH_LOCAL) == 0) {
-		dbus_connection_unref (extension->connection);
-		extension->connection = NULL;
-
-		g_timeout_add_seconds (
-			3, (GSourceFunc) network_manager_connect, extension);
-
-		return DBUS_HANDLER_RESULT_HANDLED;
-	}
-
-	if (!dbus_message_is_signal (message, NM_DBUS_INTERFACE, "StateChanged"))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	dbus_message_get_args (
-		message, &error,
-		DBUS_TYPE_UINT32, &state,
-		DBUS_TYPE_INVALID);
-
-	if (dbus_error_is_set (&error)) {
-		g_warning ("%s", error.message);
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-	}
-
+	g_variant_get (parameters, "(u)", &state);
 	switch (state) {
 		case NM_STATE_CONNECTED:
 			e_shell_set_network_available (shell, TRUE);
@@ -113,35 +104,35 @@ network_manager_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		default:
 			break;
 	}
-
-	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
 static void
 network_manager_check_initial_state (ENetworkManager *extension)
 {
 	EShell *shell;
-	DBusMessage *message = NULL;
-	DBusMessage *response = NULL;
+	GDBusMessage *message = NULL;
+	GDBusMessage *response = NULL;
 	guint32 state = -1;
-	DBusError error = DBUS_ERROR_INIT;
+	GError *error = NULL;
 
 	shell = network_manager_get_shell (extension);
 
-	message = dbus_message_new_method_call (
+	message = g_dbus_message_new_method_call (
 		NM_DBUS_SERVICE, NM_DBUS_PATH, NM_DBUS_INTERFACE, "state");
 
 	/* XXX Assuming this should be safe to call synchronously. */
-	response = dbus_connection_send_with_reply_and_block (
-		extension->connection, message, 100, &error);
+	response = g_dbus_connection_send_message_with_reply_sync (
+		extension->connection, message, 100, NULL, NULL, &error);
 
 	if (response != NULL) {
-		dbus_message_get_args (
-			response, &error, DBUS_TYPE_UINT32,
-			&state, DBUS_TYPE_INVALID);
+		GVariant *body = g_dbus_message_get_body (response);
+
+		g_variant_get (body, "(u)", &state);
 	} else {
-		g_warning ("%s", error.message);
-		dbus_error_free (&error);
+		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+		g_object_unref (message);
 		return;
 	}
 
@@ -150,14 +141,14 @@ network_manager_check_initial_state (ENetworkManager *extension)
 	if (state == NM_STATE_ASLEEP || state == NM_STATE_DISCONNECTED)
 		e_shell_set_network_available (shell, FALSE);
 
-	dbus_message_unref (message);
-	dbus_message_unref (response);
+	g_object_unref (message);
+	g_object_unref (response);
 }
 
 static gboolean
 network_manager_connect (ENetworkManager *extension)
 {
-	DBusError error = DBUS_ERROR_INIT;
+	GError *error = NULL;
 
 	/* This is a timeout callback, so the return value denotes
 	 * whether to reschedule, not whether we're successful. */
@@ -165,40 +156,37 @@ network_manager_connect (ENetworkManager *extension)
 	if (extension->connection != NULL)
 		return FALSE;
 
-	extension->connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
+	extension->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
 	if (extension->connection == NULL) {
-		g_warning ("%s", error.message);
-		dbus_error_free (&error);
+		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_error_free (error);
+
 		return TRUE;
 	}
 
-	dbus_connection_setup_with_g_main (extension->connection, NULL);
-	dbus_connection_set_exit_on_disconnect (extension->connection, FALSE);
+	g_dbus_connection_set_exit_on_close (extension->connection, FALSE);
 
-	if (!dbus_connection_add_filter (
+	if (!g_dbus_connection_signal_subscribe (
 		extension->connection,
-		network_manager_monitor, extension, NULL))
-		goto fail;
-
-	network_manager_check_initial_state (extension);
-
-	dbus_bus_add_match (
-		extension->connection,
-		"type='signal',"
-		"interface='" NM_DBUS_INTERFACE "',"
-		"sender='" NM_DBUS_SERVICE "',"
-		"path='" NM_DBUS_PATH "'",
-		&error);
-	if (dbus_error_is_set (&error)) {
-		g_warning ("%s", error.message);
-		dbus_error_free (&error);
+		NM_DBUS_SERVICE,
+		NM_DBUS_INTERFACE,
+		NULL,
+		NM_DBUS_PATH,
+		NULL,
+		network_manager_signal_cb,
+		extension,
+		NULL)) {
+		g_warning ("%s: Failed to subscribe for a signal", G_STRFUNC);
 		goto fail;
 	}
+
+	g_signal_connect (extension->connection, "closed", G_CALLBACK (nm_connection_closed_cb), extension);
+	network_manager_check_initial_state (extension);
 
 	return FALSE;
 
 fail:
-	dbus_connection_unref (extension->connection);
+	g_object_unref (extension->connection);
 	extension->connection = NULL;
 
 	return TRUE;

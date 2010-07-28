@@ -35,7 +35,7 @@ dnl Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
-m4_define([glib_minimum_version], [2.22.0])
+m4_define([glib_minimum_version], [2.25.11])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
@@ -44,7 +44,6 @@ m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
-m4_define([dbus_glib_minimum_version], [0.74])
 
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
@@ -1158,13 +1157,6 @@ else
 	fi
 fi
 AC_SUBST(TNEF_CFLAGS)
-
-dnl ******************************
-dnl Check for dbus-glib-1 and dbus
-dnl ******************************
-PKG_CHECK_MODULES([DBUS_GLIB], [dbus-glib-1 >= dbus_glib_minimum_version])
-AC_SUBST(DBUS_GLIB_CFLAGS)
-AC_SUBST(DBUS_GLIB_LIBS)
 
 dnl ******************************
 dnl Check for NetworkManager

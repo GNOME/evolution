@@ -29,13 +29,11 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
+#include <gio/gio.h>
 
 #ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
 #endif
-
-#include <dbus/dbus-glib.h>
-#include <dbus/dbus-glib-lowlevel.h>
 
 #include <time.h>
 
@@ -112,39 +110,46 @@ is_part_enabled (const gchar *gconf_key)
 #define DBUS_PATH		"/org/gnome/evolution/mail/newmail"
 #define DBUS_INTERFACE		"org.gnome.evolution.mail.dbus.Signal"
 
-static DBusConnection *bus = NULL;
+static GDBusConnection *connection = NULL;
 
-static gboolean init_dbus (void);
+static gboolean init_gdbus (void);
 
 static void
 send_dbus_message (const gchar *name,
                    const gchar *data,
-                   guint new,
+                   guint new_count,
                    const gchar *msg_uid,
                    const gchar *msg_sender,
                    const gchar *msg_subject)
 {
-	DBusMessage *message;
+	GDBusMessage *message;
+	GVariantBuilder *builder;
+	GError *error = NULL;
 
 	/* Create a new message on the DBUS_INTERFACE */
-	if (!(message = dbus_message_new_signal (DBUS_PATH, DBUS_INTERFACE, name)))
+	if (!(message = g_dbus_message_new_signal (DBUS_PATH, DBUS_INTERFACE, name)))
 		return;
 
-	/* Appends the data as an argument to the message */
-	dbus_message_append_args (message, DBUS_TYPE_STRING, &data, DBUS_TYPE_INVALID);
+	builder = g_variant_builder_new (G_VARIANT_TYPE_TUPLE);
 
-	if (new) {
-		gchar * display_name = em_utils_folder_name_from_uri (data);
-		dbus_message_append_args (message,
-					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
-					  DBUS_TYPE_INVALID);
+	/* Appends the data as an argument to the message */
+	g_variant_builder_add (builder, "(s)", data);
+
+	if (new_count) {
+		gchar *display_name = em_utils_folder_name_from_uri (data);
+
+		g_variant_builder_add (builder, "(s)", display_name);
+		g_variant_builder_add (builder, "(u)", new_count);
+
+		g_free (display_name);
 	}
 
-	#define add_named_param(name, value)	\
-		if (value) {	\
-			gchar *val;	\
+	#define add_named_param(name, value)				\
+		if (value) {						\
+			gchar *val;					\
 			val = g_strconcat (name, ":", value, NULL);	\
-			dbus_message_append_args (message, DBUS_TYPE_STRING, &val, DBUS_TYPE_INVALID);	\
+			g_variant_builder_add (builder, "(s)", val);	\
+			g_free (val);					\
 		}
 
 	add_named_param ("msg_uid", msg_uid);
@@ -153,58 +158,59 @@ send_dbus_message (const gchar *name,
 
 	#undef add_named_param
 
+	g_dbus_message_set_body (message, g_variant_builder_end (builder));
+
 	/* Sends the message */
-	dbus_connection_send (bus, message, NULL);
+	g_dbus_connection_send_message (connection, message, NULL, &error);
 
 	/* Frees the message */
-	dbus_message_unref (message);
+	g_object_unref (message);
+
+	if (error) {
+		g_debug ("Mail-Notification: %s: Error while sending DBus message: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 }
 
 static gboolean
-reinit_dbus (gpointer user_data)
+reinit_gdbus (gpointer user_data)
 {
-	if (!enabled || init_dbus ())
+	if (!enabled || init_gdbus ())
 		return FALSE;
 
 	/* keep trying to re-establish dbus connection */
 	return TRUE;
 }
 
-static DBusHandlerResult
-filter_function (DBusConnection *connection, DBusMessage *message, gpointer user_data)
+static void
+connection_closed_cb (GDBusConnection *pconnection, gboolean remote_peer_vanished, GError *error, gpointer user_data)
 {
-	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
-	    strcmp (dbus_message_get_path (message), DBUS_PATH_LOCAL) == 0) {
-		dbus_connection_unref (bus);
-		bus = NULL;
+	g_return_if_fail (connection != pconnection);
 
-		g_timeout_add (3000, reinit_dbus, NULL);
+	g_object_unref (connection);
+	connection = NULL;
 
-		return DBUS_HANDLER_RESULT_HANDLED;
-	}
-
-	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+	g_timeout_add (3000, reinit_gdbus, NULL);
 }
 
 static gboolean
-init_dbus (void)
+init_gdbus (void)
 {
-	DBusError error;
+	GError *error = NULL;
 
-	if (bus != NULL)
+	if (connection != NULL)
 		return TRUE;
 
-	dbus_error_init (&error);
-	if (!(bus = dbus_bus_get (DBUS_BUS_SESSION, &error))) {
-		g_warning ("could not get system bus: %s\n", error.message);
-		dbus_error_free (&error);
+	connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
+	if (error) {
+		g_warning ("could not get system bus: %s\n", error->message);
+		g_error_free (error);
+
 		return FALSE;
 	}
 
-	dbus_connection_setup_with_g_main (bus, NULL);
-	dbus_connection_set_exit_on_disconnect (bus, FALSE);
-
-	dbus_connection_add_filter (bus, filter_function, NULL, NULL);
+	g_dbus_connection_set_exit_on_close (connection, FALSE);
+	g_signal_connect (connection, "closed", G_CALLBACK (connection_closed_cb), NULL);
 
 	return TRUE;
 }
@@ -214,7 +220,7 @@ init_dbus (void)
 static void
 new_notify_dbus (EMEventTargetFolder *t)
 {
-	if (bus != NULL)
+	if (connection != NULL)
 		send_dbus_message (
 			"Newmail", t->uri, t->new, t->msg_uid,
 			t->msg_sender, t->msg_subject);
@@ -223,7 +229,7 @@ new_notify_dbus (EMEventTargetFolder *t)
 static void
 read_notify_dbus (EMEventTargetMessage *t)
 {
-	if (bus != NULL)
+	if (connection != NULL)
 		send_dbus_message (
 			"MessageReading",
 			camel_folder_get_name (t->folder),
@@ -235,10 +241,10 @@ enable_dbus (gint enable)
 {
 	if (enable) {
 		/* we ignore errors here */
-		init_dbus ();
-	} else if (bus != NULL) {
-		dbus_connection_unref (bus);
-		bus = NULL;
+		init_gdbus ();
+	} else if (connection != NULL) {
+		g_object_unref (connection);
+		connection = NULL;
 	}
 }
 

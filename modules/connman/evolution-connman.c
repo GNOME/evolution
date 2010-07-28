@@ -16,9 +16,7 @@
  *
  */
 
-#include <dbus/dbus.h>
-#include <dbus/dbus-glib.h>
-#include <dbus/dbus-glib-lowlevel.h>
+#include <gio/gio.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
@@ -36,7 +34,7 @@
 
 typedef struct {
 	EExtension parent;
-	DBusConnection *connection;
+	GDBusConnection *connection;
 } EConnMan;
 typedef EExtensionClass EConnManClass;
 
@@ -61,67 +59,77 @@ extension_set_state (EConnMan *extension, const gchar *state)
 	e_shell_set_network_available (E_SHELL (extensible), !g_strcmp0 (state, "online"));
 }
 
-static DBusHandlerResult
-connman_monitor (DBusConnection *connection G_GNUC_UNUSED,
-		 DBusMessage *message,
-		 gpointer user_data)
+static void
+cm_connection_closed_cb (GDBusConnection *pconnection, gboolean remote_peer_vanished, GError *error, gpointer user_data)
 {
-	gchar *value;
 	EConnMan *extension = user_data;
-	DBusError error = DBUS_ERROR_INIT;
-	DBusHandlerResult ret = DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
-	if (!dbus_message_has_path (message, CM_DBUS_PATH) ||
-	    !dbus_message_has_interface (message, CM_DBUS_INTERFACE) ||
-	    !dbus_message_has_member (message, "StateChanged"))
-		goto err_exit;
+	g_object_unref (extension->connection);
+	extension->connection = NULL;
 
-	if (!dbus_message_get_args (message, &error,
-				    DBUS_TYPE_STRING, &value,
-				    DBUS_TYPE_INVALID))
-		goto err_exit;
+	g_timeout_add_seconds (
+		3, (GSourceFunc) network_manager_connect, extension);
+}
 
-	extension_set_state (extension, value);
-	ret = DBUS_HANDLER_RESULT_HANDLED;
+static void
+conn_manager_signal_cb (GDBusConnection *connection,
+	const gchar *sender_name,
+	const gchar *object_path,
+	const gchar *interface_name,
+	const gchar *signal_name,
+	GVariant *parameters,
+	gpointer user_data)
+{
+	EConnMan *extension = user_data;
+	gchar *state = NULL;
 
-    err_exit:
-	return ret;
+	if (g_strcmp0 (interface_name, CM_DBUS_INTERFACE) != 0
+	    || g_strcmp0 (object_path, CM_DBUS_PATH) != 0
+	    || g_strcmp0 (signal_name, "StateChanged") != 0)
+		return;
+
+	g_variant_get (parameters, "(s)", &state);
+	extension_set_state (extension, state);
+	g_free (state);
 }
 
 static void
 connman_check_initial_state (EConnMan *extension)
 {
-	DBusMessage *message = NULL;
-	DBusMessage *response = NULL;
-	DBusError error = DBUS_ERROR_INIT;
+	GDBusMessage *message = NULL;
+	GDBusMessage *response = NULL;
+	GError *error = NULL;
 
-	message = dbus_message_new_method_call (
+	message = g_dbus_message_new_method_call (
 		CM_DBUS_SERVICE, CM_DBUS_PATH, CM_DBUS_INTERFACE, "GetState");
 
 	/* XXX Assuming this should be safe to call synchronously. */
-	response = dbus_connection_send_with_reply_and_block (
-		extension->connection, message, 100, &error);
+	response = g_dbus_connection_send_message_with_reply_sync (
+		extension->connection, message, 100, NULL, NULL, &error);
 
 	if (response != NULL) {
-		const gchar *value;
-		if (dbus_message_get_args (message, &error,
-					   DBUS_TYPE_STRING, &value,
-					   DBUS_TYPE_INVALID))
-			extension_set_state (extension, value);
+		gchar *state = NULL;
+		GVariant *body = g_dbus_message_get_body (response);
+
+		g_variant_get (body, "(s)", &state);
+		extension_set_state (extension, state);
+		g_free (state);
 	} else {
-		g_warning ("%s", error.message);
-		dbus_error_free (&error);
+		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+		g_object_unref (message);
 		return;
 	}
 
-	dbus_message_unref (message);
-	dbus_message_unref (response);
+	g_object_unref (message);
+	g_object_unref (response);
 }
 
 static gboolean
 network_manager_connect (EConnMan *extension)
 {
-	DBusError error = DBUS_ERROR_INIT;
+	GError *error = NULL;
 
 	/* This is a timeout callback, so the return value denotes
 	 * whether to reschedule, not whether we're successful. */
@@ -129,40 +137,38 @@ network_manager_connect (EConnMan *extension)
 	if (extension->connection != NULL)
 		return FALSE;
 
-	extension->connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
+	extension->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
 	if (extension->connection == NULL) {
-		g_warning ("%s", error.message);
-		dbus_error_free (&error);
+		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_error_free (error);
+
 		return TRUE;
 	}
 
-	dbus_connection_setup_with_g_main (extension->connection, NULL);
-	dbus_connection_set_exit_on_disconnect (extension->connection, FALSE);
+	g_dbus_connection_set_exit_on_close (extension->connection, FALSE);
 
-	if (!dbus_connection_add_filter (
-		extension->connection, connman_monitor, extension, NULL))
-		goto fail;
-
-	dbus_bus_add_match (
+	if (!g_dbus_connection_signal_subscribe (
 		extension->connection,
-		"type='signal',"
-		"interface='" CM_DBUS_INTERFACE "',"
-		"sender='" CM_DBUS_SERVICE "',"
-		"member='StateChanged',"
-		"path='" CM_DBUS_PATH "'",
-		&error);
-	if (dbus_error_is_set (&error)) {
-		g_warning ("%s", error.message);
-		dbus_error_free (&error);
+		CM_DBUS_SERVICE,
+		CM_DBUS_INTERFACE,
+		NULL,
+		CM_DBUS_PATH,
+		NULL,
+		conn_manager_signal_cb,
+		extension,
+		NULL)) {
+		g_warning ("%s: Failed to subscribe for a signal", G_STRFUNC);
 		goto fail;
 	}
+
+	g_signal_connect (extension->connection, "closed", G_CALLBACK (cm_connection_closed_cb), extension);
 
 	connman_check_initial_state (extension);
 
 	return FALSE;
 
 fail:
-	dbus_connection_unref (extension->connection);
+	g_object_unref (extension->connection);
 	extension->connection = NULL;
 
 	return TRUE;

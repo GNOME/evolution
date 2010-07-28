@@ -17,7 +17,6 @@ liborg_gnome_mail_notification_la_CPPFLAGS =	\
 	-I$(top_srcdir)/widgets			\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	$(EVOLUTION_MAIL_CFLAGS)		\
-	$(DBUS_GLIB_CFLAGS)			\
 	$(LIBNOTIFY_CFLAGS)			\
 	$(CANBERRA_CFLAGS)
 
@@ -26,7 +25,6 @@ liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_mail_notification_la_LIBADD = 		\
-	$(DBUS_GLIB_LIBS)				\
 	$(CANBERRA_LIBS)				\
 	$(LIBNOTIFY_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la 		\
