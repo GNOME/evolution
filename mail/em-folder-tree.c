@@ -2888,6 +2888,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 
 	while (valid) {
 		const gchar *key = STATE_KEY_EXPANDED;
+		gboolean expand_row;
 		gchar *group_name;
 		gchar *uri;
 
@@ -2899,22 +2900,17 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 
 		group_name = g_strdup_printf ("Store %s", uri);
 
+		/* Expand stores that have no "Expanded" key. */
+		expand_row = !g_key_file_has_key (
+			key_file, group_name, key, NULL);
+
+		/* Do not expand local stores in Express mode. */
 		if (e_shell_get_express_mode (shell)) {
-			gboolean system = FALSE;
+			expand_row &= (strncmp (uri, "vfolder", 7) != 0);
+			expand_row &= (strncmp (uri, "mbox", 4) != 0);
+		}
 
-			if (strncmp (uri, "vfolder", 7) == 0 ||
-					strncmp(uri, "mbox", 4) == 0)
-				system = TRUE;
-
-			if (!system && !g_key_file_has_key (key_file, group_name, key, NULL)) {
-				GtkTreePath *path;
-
-				path = gtk_tree_model_get_path (tree_model, &iter);
-				gtk_tree_view_expand_row (tree_view, path, FALSE);
-				gtk_tree_path_free (path);
-			}
-
-		} else if (!g_key_file_has_key (key_file, group_name, key, NULL)) {
+		if (expand_row) {
 			GtkTreePath *path;
 
 			path = gtk_tree_model_get_path (tree_model, &iter);
