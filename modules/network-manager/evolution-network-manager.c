@@ -122,7 +122,7 @@ network_manager_check_initial_state (ENetworkManager *extension)
 
 	/* XXX Assuming this should be safe to call synchronously. */
 	response = g_dbus_connection_send_message_with_reply_sync (
-		extension->connection, message, 100, NULL, NULL, &error);
+		extension->connection, message, G_DBUS_SEND_MESSAGE_FLAGS_NONE, 100, NULL, NULL, &error);
 
 	if (response != NULL) {
 		GVariant *body = g_dbus_message_get_body (response);

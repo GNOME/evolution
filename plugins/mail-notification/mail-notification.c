@@ -161,7 +161,7 @@ send_dbus_message (const gchar *name,
 	g_dbus_message_set_body (message, g_variant_builder_end (builder));
 
 	/* Sends the message */
-	g_dbus_connection_send_message (connection, message, NULL, &error);
+	g_dbus_connection_send_message (connection, message, G_DBUS_SEND_MESSAGE_FLAGS_NONE, NULL, &error);
 
 	/* Frees the message */
 	g_object_unref (message);

@@ -35,7 +35,7 @@ dnl Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
-m4_define([glib_minimum_version], [2.25.11])
+m4_define([glib_minimum_version], [2.25.12])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
