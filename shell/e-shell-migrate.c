@@ -47,14 +47,32 @@ static gboolean
 shell_xdg_migrate_rename (const gchar *old_filename,
                           const gchar *new_filename)
 {
+	gboolean old_filename_is_dir;
+	gboolean old_filename_exists;
+	gboolean new_filename_exists;
 	gboolean success = TRUE;
 
-	if (g_file_test (old_filename, G_FILE_TEST_EXISTS)) {
-		g_print ("  mv %s %s\n", old_filename, new_filename);
+	old_filename_is_dir = g_file_test (old_filename, G_FILE_TEST_IS_DIR);
+	old_filename_exists = g_file_test (old_filename, G_FILE_TEST_EXISTS);
+	new_filename_exists = g_file_test (new_filename, G_FILE_TEST_EXISTS);
+
+	if (!old_filename_exists)
+		return TRUE;
+
+	g_print ("  mv %s %s\n", old_filename, new_filename);
+
+	/* It's safe to go ahead and move directories because rename()
+	 * will fail if the new directory already exists with content.
+	 * With regular files we have to be careful not to overwrite
+	 * new files with old files. */
+	if (old_filename_is_dir || !new_filename_exists) {
 		if (g_rename (old_filename, new_filename) < 0) {
 			g_printerr ("  FAILED: %s\n", g_strerror (errno));
 			success = FALSE;
 		}
+	} else {
+		g_printerr ("  FAILED: Destination file already exists\n");
+		success = FALSE;
 	}
 
 	return success;
