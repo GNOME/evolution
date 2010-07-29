@@ -173,6 +173,7 @@ network_manager_connect (ENetworkManager *extension)
 		NULL,
 		NM_DBUS_PATH,
 		NULL,
+		G_DBUS_SIGNAL_FLAGS_NONE,
 		network_manager_signal_cb,
 		extension,
 		NULL)) {
