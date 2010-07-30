@@ -1505,7 +1505,7 @@ e_shell_handle_uris (EShell *shell,
 		goto unique;
 
 	if (do_import) {
-		n_handled = e_shell_utils_import_uris (shell, uris, FALSE);
+		n_handled = e_shell_utils_import_uris (shell, uris);
 	} else {
 		for (ii = 0; uris[ii] != NULL; ii++) {
 			gboolean handled;
@@ -1517,8 +1517,7 @@ e_shell_handle_uris (EShell *shell,
 		}
 
 		if (n_handled == 0)
-			n_handled = e_shell_utils_import_uris (
-				shell, uris, TRUE);
+			n_handled = e_shell_utils_import_uris (shell, uris);
 	}
 
 	return n_handled;

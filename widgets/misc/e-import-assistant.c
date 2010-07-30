@@ -1413,8 +1413,7 @@ e_import_assistant_new (GtkWindow *parent)
  */
 GtkWidget *
 e_import_assistant_new_simple (GtkWindow *parent,
-                               gchar **uris,
-                               gboolean preview)
+                               gchar **uris)
 {
 	GtkWidget *assistant;
 
@@ -1431,9 +1430,6 @@ e_import_assistant_new_simple (GtkWindow *parent,
 		g_object_unref (assistant);
 		return NULL;
 	}
-
-	/* FIXME Implement the 'preview' mode, probably
-	 *       by adding a new function to an importer */
 
 	return assistant;
 }

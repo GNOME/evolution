@@ -303,13 +303,11 @@ exit:
 /**
  * e_shell_utils_import_uris:
  * @shell: The #EShell instance
- * @uris: %NULL-terminated list of URIs to import or preview
- * @preview: rather preview than import given URIs
+ * @uris: %NULL-terminated list of URIs to import
  *
  * Imports given URIs to Evolution, giving user a choice what to import
  * if more than one importer can be applied, and where to import it, if
- * the importer itself is configurable. It can preview data, instead of
- * importing if requested and the imported has that implemented.
+ * the importer itself is configurable.
  *
  * URIs should be either a filename or URI of form file://.
  * All others are skipped.
@@ -317,7 +315,8 @@ exit:
  * Returns: the number of URIs successfully handled
  **/
 guint
-e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
+e_shell_utils_import_uris (EShell *shell,
+                           gchar **uris)
 {
 	GtkWindow *parent;
 	GtkWidget *assistant;
@@ -326,7 +325,7 @@ e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
 	g_return_val_if_fail (uris != NULL, 0);
 
 	parent = e_shell_get_active_window (shell);
-	assistant = e_import_assistant_new_simple (parent, uris, preview);
+	assistant = e_import_assistant_new_simple (parent, uris);
 
 	if (assistant) {
 		g_signal_connect_after (
@@ -340,11 +339,8 @@ e_shell_utils_import_uris (EShell *shell, gchar **uris, gboolean preview)
 		e_shell_watch_window (shell, GTK_WINDOW (assistant));
 
 		gtk_widget_show (assistant);
-	} else {
-		g_warning (
-			"%s: Cannot %s any of the given URIs",
-			G_STRFUNC, preview ? "preview" : "import");
-	}
+	} else
+		g_warning ("Cannot import any of the given URIs");
 
 	return g_strv_length (uris);
 }
