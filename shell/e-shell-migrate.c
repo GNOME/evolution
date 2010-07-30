@@ -333,11 +333,20 @@ shell_xdg_migrate_config_dir_mail (EShell *shell,
 	g_free (new_filename);
 
 	/* I hate this file.  GtkHtml uses style properties for fonts. */
-	old_filename = g_build_filename (old_config_dir, "config", "gtkrc-mail-fonts", NULL);
-	new_filename = g_build_filename (new_config_dir, "gtkrc-mail-fonts", NULL);
+	old_filename = g_build_filename (
+		old_config_dir, "config", "gtkrc-mail-fonts", NULL);
+	new_filename = g_build_filename (
+		new_config_dir, "gtkrc-mail-fonts", NULL);
 	shell_xdg_migrate_rename (old_filename, new_filename);
 	g_free (old_filename);
 	g_free (new_filename);
+
+	/* This file is no longer used.  Try removing it. */
+	old_filename = g_build_filename (
+		old_config_dir, "config",
+		"folder-tree-expand-state.xml", NULL);
+	g_unlink (old_filename);
+	g_free (old_filename);
 
 	/* Everything else in the "config" directory just should be
 	 * per-folder ETree files recording the expanded state of mail
