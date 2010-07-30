@@ -1489,7 +1489,7 @@ unique:  /* Send a message to the other Evolution process. */
 guint
 e_shell_handle_uris (EShell *shell,
                      gchar **uris,
-		     gboolean do_import)
+                     gboolean do_import)
 {
 	UniqueApp *app;
 	UniqueMessageData *data;

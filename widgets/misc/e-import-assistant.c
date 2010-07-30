@@ -29,8 +29,9 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "e-util/e-import.h"
-#include "e-util/e-util-private.h"
+#include <e-util/e-import.h>
+#include <e-util/e-extensible.h>
+#include <e-util/e-util-private.h>
 
 #define E_IMPORT_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -120,8 +121,11 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE_WITH_CODE (
+	EImportAssistant, e_import_assistant, GTK_TYPE_ASSISTANT,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /* Importing functions */
 
@@ -1106,7 +1110,7 @@ import_assistant_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_import_assistant_parent_class)->dispose (object);
 }
 
 static void
@@ -1119,7 +1123,7 @@ import_assistant_finalize (GObject *object)
 	g_slist_free (priv->selection_page.importers);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_import_assistant_parent_class)->finalize (object);
 }
 
 static void
@@ -1157,7 +1161,7 @@ static gboolean
 import_assistant_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
-	GtkWidgetClass *widget_class;
+	GtkWidgetClass *parent_class;
 
 	if (event->keyval == GDK_Escape) {
 		g_signal_emit_by_name (widget, "cancel");
@@ -1165,8 +1169,8 @@ import_assistant_key_press_event (GtkWidget *widget,
 	}
 
 	/* Chain up to parent's key_press_event () method. */
-	widget_class = GTK_WIDGET_CLASS (parent_class);
-	return widget_class->key_press_event (widget, event);
+	parent_class = GTK_WIDGET_CLASS (e_import_assistant_parent_class);
+	return parent_class->key_press_event (widget, event);
 }
 
 static void
@@ -1209,13 +1213,12 @@ import_assistant_prepare (GtkAssistant *assistant,
 }
 
 static void
-import_assistant_class_init (EImportAssistantClass *class)
+e_import_assistant_class_init (EImportAssistantClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkAssistantClass *assistant_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EImportAssistantPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1267,6 +1270,8 @@ import_assistant_construct (EImportAssistant *import_assistant)
 	gtk_window_set_position (GTK_WINDOW (assistant), GTK_WIN_POS_CENTER);
 	gtk_window_set_title (GTK_WINDOW (assistant), _("Evolution Import Assistant"));
 	gtk_window_set_default_size (GTK_WINDOW (assistant), 500, 330);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (import_assistant));
 
 	if (import_assistant->priv->is_simple) {
 		/* simple import assistant page, URIs of files will be known later */
@@ -1360,35 +1365,9 @@ import_assistant_construct (EImportAssistant *import_assistant)
 }
 
 static void
-import_assistant_init (EImportAssistant *import_assistant)
+e_import_assistant_init (EImportAssistant *import_assistant)
 {
 	/* do nothing here */
-}
-
-GType
-e_import_assistant_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EImportAssistantClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) import_assistant_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EImportAssistant),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) import_assistant_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_ASSISTANT, "EImportAssistant", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *
