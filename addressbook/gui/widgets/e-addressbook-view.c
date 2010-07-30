@@ -577,8 +577,12 @@ addressbook_view_constructed (GObject *object)
 	g_signal_connect_swapped (
 		view_instance, "display-view",
 		G_CALLBACK (addressbook_view_display_view_cb), view);
-	gal_view_instance_load (view_instance);
 	view->priv->view_instance = view_instance;
+
+	/* Do not call gal_view_instance_load() here.  EBookShellContent
+	 * must first obtain a reference to this EAddressbookView so that
+	 * e_book_shell_content_get_current_view() returns the correct
+	 * view in GalViewInstance::loaded signal handlers. */
 
 	g_free (uri);
 }

@@ -303,6 +303,11 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		E_ADDRESSBOOK_VIEW (widget));
 
 	view_instance = e_addressbook_view_get_view_instance (view);
+
+	/* This must come after e_book_shell_content_set_current_view()
+	 * because book_shell_view_notify_view_id_cb() relies on it. */
+	gal_view_instance_load (view_instance);
+
 	view_id = gal_view_instance_get_current_view_id (view_instance);
 	e_shell_view_set_view_id (shell_view, view_id);
 	g_free (view_id);

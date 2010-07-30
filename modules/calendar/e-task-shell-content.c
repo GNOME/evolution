@@ -541,8 +541,11 @@ task_shell_content_constructed (GObject *object)
 		view_instance, "display-view",
 		G_CALLBACK (task_shell_content_display_view_cb),
 		object);
-	gal_view_instance_load (view_instance);
 	priv->view_instance = view_instance;
+
+	/* Do this last so e_task_shell_content_get_view_instance() returns
+	 * the correct instance in GalViewInstance::loaded signal handlers. */
+	gal_view_instance_load (view_instance);
 
 	/* Restore pane positions from the last session once
 	 * the shell view is fully initialized and visible. */
