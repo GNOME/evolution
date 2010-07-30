@@ -59,6 +59,7 @@ libeshell_la_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(EGG_SMCLIENT_CFLAGS)					\
 	$(CLUTTER_CFLAGS)					\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
@@ -96,6 +97,7 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(EGG_SMCLIENT_LIBS)				\
 	$(CLUTTER_LIBS)					\
 	$(SHELL_LIBS)
 
