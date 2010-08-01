@@ -422,7 +422,7 @@ e_image_chooser_class_init (EImageChooserClass *class)
 			"icon-name",
 			"Icon Name",
 			NULL,
-			"stock_person",
+			"avatar-default",
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 

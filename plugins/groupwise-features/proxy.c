@@ -606,7 +606,7 @@ proxy_update_tree_view (EAccount *account)
 	GdkPixbuf *broken_image = NULL;
 	GList *list_iter;
 	proxyHandler *aclInstance;
-	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
+	gchar *file_name = e_icon_factory_get_icon_filename ("avatar-default", GTK_ICON_SIZE_DIALOG);
 	proxyDialogPrivate *priv;
 
 	prd = g_object_get_data ((GObject *)account, "prd");

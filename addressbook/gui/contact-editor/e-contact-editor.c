@@ -2338,7 +2338,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 			editor->image_set = TRUE;
 		}
 		else {
-			gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
+			gchar *file_name = e_icon_factory_get_icon_filename ("avatar-default", GTK_ICON_SIZE_DIALOG);
 			e_image_chooser_set_from_file (E_IMAGE_CHOOSER (widget), file_name);
 			editor->image_set = FALSE;
 			g_free (file_name);
@@ -2921,7 +2921,7 @@ image_cleared (EContactEditor *editor)
 
 	image_chooser = e_builder_get_widget (editor->builder, "image-chooser");
 
-	file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
+	file_name = e_icon_factory_get_icon_filename ("avatar-default", GTK_ICON_SIZE_DIALOG);
 
 	g_signal_handlers_block_by_func (image_chooser, image_chooser_changed, editor);
 	e_image_chooser_set_from_file (E_IMAGE_CHOOSER (image_chooser), file_name);
@@ -2968,7 +2968,7 @@ update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
 	if (!pixbuf) {
 		gchar *alternate_file;
-		alternate_file = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
+		alternate_file = e_icon_factory_get_icon_filename ("avatar-default", GTK_ICON_SIZE_DIALOG);
 		if (alternate_file) {
 			pixbuf = gdk_pixbuf_new_from_file_at_size (alternate_file, 128, 128, NULL);
 			g_free (alternate_file);

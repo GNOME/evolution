@@ -156,7 +156,7 @@
                 <child>
                    <object class="GtkImage" id="custom2">
                      <property name="visible">True</property>
-                     <property name="icon-name">stock_person</property>
+                     <property name="icon-name">avatar-default</property>
                    </object>
                 </child>
               </object>
