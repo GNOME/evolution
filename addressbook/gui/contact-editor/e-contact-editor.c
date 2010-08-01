@@ -2747,7 +2747,7 @@ source_changed (ESourceComboBox *source_combo_box, EContactEditor *editor)
 
 	editor->load_book = e_book_new (source, NULL);
 	editor->load_source_id = addressbook_load (editor->load_book,
-						   (EBookExCallback) new_target_cb, editor);
+						   (EBookAsyncCallback) new_target_cb, editor);
 }
 
 static void
@@ -3066,8 +3066,8 @@ contact_added_cb (EBook *book, const GError *error, const gchar *id, EditorClose
 	if (ce->source_book != ce->target_book && e_book_is_writable (ce->source_book) &&
 	    !error && ce->is_new_contact == FALSE) {
 		ecs->new_id = g_strdup (id);
-		e_book_async_remove_contact_ex (ce->source_book, ce->contact,
-					     (EBookExCallback) contact_moved_cb, ecs);
+		e_book_remove_contact_async (ce->source_book, ce->contact,
+					     (EBookAsyncCallback) contact_moved_cb, ecs);
 		return;
 	}
 
@@ -3137,14 +3137,14 @@ real_save_contact (EContactEditor *ce, gboolean should_close)
 	if (ce->source_book != ce->target_book) {
 		/* Two-step move; add to target, then remove from source */
 		eab_merging_book_add_contact (ce->target_book, ce->contact,
-					      (EBookIdExCallback) contact_added_cb, ecs);
+					      (EBookIdAsyncCallback) contact_added_cb, ecs);
 	} else {
 		if (ce->is_new_contact)
 			eab_merging_book_add_contact (ce->target_book, ce->contact,
-						      (EBookIdExCallback) contact_added_cb, ecs);
+						      (EBookIdAsyncCallback) contact_added_cb, ecs);
 		else
 			eab_merging_book_commit_contact (ce->target_book, ce->contact,
-							 (EBookExCallback) contact_modified_cb, ecs);
+							 (EBookAsyncCallback) contact_modified_cb, ecs);
 	}
 }
 
@@ -3697,8 +3697,8 @@ e_contact_editor_new (EShell *shell,
 		      NULL);
 
 	if (book)
-		e_book_async_get_supported_fields_ex (
-			book, (EBookEListExCallback)supported_fields_cb, editor);
+		e_book_get_supported_fields_async (
+			book, (EBookEListAsyncCallback)supported_fields_cb, editor);
 
 	return editor;
 }
@@ -3751,10 +3751,10 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 			editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
 								       G_CALLBACK (writable_changed), editor);
 
-			e_book_async_get_supported_fields_ex (editor->target_book,
-							   (EBookEListExCallback) supported_fields_cb, editor);
-			e_book_async_get_required_fields_ex (editor->target_book,
-							  (EBookEListExCallback)  required_fields_cb, editor);
+			e_book_get_supported_fields_async (editor->target_book,
+							   (EBookEListAsyncCallback) supported_fields_cb, editor);
+			e_book_get_required_fields_async (editor->target_book,
+							  (EBookEListAsyncCallback)  required_fields_cb, editor);
 		}
 
 		writable = e_book_is_writable (editor->target_book);
@@ -3790,11 +3790,11 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 		editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
 							       G_CALLBACK (writable_changed), editor);
 
-		e_book_async_get_supported_fields_ex (editor->target_book,
-						   (EBookEListExCallback) supported_fields_cb, editor);
+		e_book_get_supported_fields_async (editor->target_book,
+						   (EBookEListAsyncCallback) supported_fields_cb, editor);
 
-		e_book_async_get_required_fields_ex (editor->target_book,
-							  (EBookEListExCallback)  required_fields_cb, editor);
+		e_book_get_required_fields_async (editor->target_book,
+						  (EBookEListAsyncCallback)  required_fields_cb, editor);
 		if (!editor->is_new_contact)
 			editor->changed = TRUE;
 

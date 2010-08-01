@@ -37,11 +37,11 @@
 #define d(x)
 
 static void addressbook_authenticate (EBook *book, gboolean previous_failure,
-				      ESource *source, EBookExCallback cb, gpointer closure);
+				      ESource *source, EBookAsyncCallback cb, gpointer closure);
 static void auth_required_cb (EBook *book, gpointer data);
 
 typedef struct {
-	EBookExCallback cb;
+	EBookAsyncCallback cb;
 	ESource *source;
 	gpointer closure;
 	guint cancelled : 1;
@@ -173,7 +173,7 @@ set_remember_password (ESource *source, gboolean value)
 
 static void
 addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *source,
-			  EBookExCallback cb, gpointer closure)
+			  EBookAsyncCallback cb, gpointer closure)
 {
 	const gchar *password = NULL;
 	gchar *pass_dup = NULL;
@@ -236,9 +236,9 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	}
 
 	if (password || pass_dup) {
-		e_book_async_authenticate_user_ex (book, user, password ? password : pass_dup,
-						   e_source_get_property (source, "auth"),
-						   cb, closure);
+		e_book_authenticate_user_async (book, user, password ? password : pass_dup,
+						e_source_get_property (source, "auth"),
+						cb, closure);
 		g_free (pass_dup);
 	}
 	else {
@@ -294,7 +294,7 @@ load_source_cb (EBook *book, const GError *error, gpointer closure)
 
 guint
 addressbook_load (EBook *book,
-		  EBookExCallback cb, gpointer closure)
+		  EBookAsyncCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new0 (LoadSourceData, 1);
 
@@ -303,7 +303,7 @@ addressbook_load (EBook *book,
 	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
 	load_source_data->cancelled = FALSE;
 
-	e_book_async_open_ex (book, FALSE, load_source_cb, load_source_data);
+	e_book_open_async (book, FALSE, load_source_cb, load_source_data);
 
 	return GPOINTER_TO_UINT (load_source_data);
 }
@@ -328,7 +328,7 @@ default_book_cb (EBook *book, const GError *error, gpointer closure)
 }
 
 void
-addressbook_load_default_book (EBookExCallback cb, gpointer closure)
+addressbook_load_default_book (EBookAsyncCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new (LoadSourceData, 1);
 	EBook *book;
@@ -344,6 +344,6 @@ addressbook_load_default_book (EBookExCallback cb, gpointer closure)
 		load_source_cb (NULL, error, load_source_data);
 		g_error_free (error);
 	} else
-		e_book_async_open_ex (
+		e_book_open_async (
 			book, FALSE, default_book_cb, load_source_data);
 }

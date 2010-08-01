@@ -30,18 +30,18 @@
 
 G_BEGIN_DECLS
 
-gboolean  eab_merging_book_add_contact    (EBook           *book,
-					   EContact        *contact,
-					   EBookIdExCallback  cb,
-					   gpointer         closure);
-gboolean  eab_merging_book_commit_contact (EBook           *book,
-					   EContact        *contact,
-					   EBookExCallback    cb,
-					   gpointer         closure);
-gboolean eab_merging_book_find_contact (EBook                 *book,
-					EContact              *contact,
-					EBookContactExCallback   cb,
-					gpointer               closure);
+gboolean eab_merging_book_add_contact (EBook                *book,
+				       EContact             *contact,
+				       EBookIdAsyncCallback  cb,
+				       gpointer              closure);
+gboolean eab_merging_book_commit_contact (EBook              *book,
+					  EContact           *contact,
+					  EBookAsyncCallback  cb,
+					  gpointer            closure);
+gboolean eab_merging_book_find_contact (EBook                     *book,
+					EContact                  *contact,
+					EBookContactAsyncCallback  cb,
+					gpointer                   closure);
 
 G_END_DECLS
 

@@ -55,11 +55,11 @@ escape (const gchar *str)
 }
 
 guint
-eab_name_and_email_query (EBook *book,
-			  const gchar *name,
-			  const gchar *email,
-			  EBookListExCallback cb,
-			  gpointer closure)
+eab_name_and_email_query (EBook                  *book,
+			  const gchar            *name,
+			  const gchar            *email,
+			  EBookListAsyncCallback  cb,
+			  gpointer                closure)
 {
 	gchar *email_query=NULL, *name_query=NULL;
 	EBookQuery *query;
@@ -119,7 +119,7 @@ eab_name_and_email_query (EBook *book,
 	else
 		return 0;
 
-	tag = e_book_async_get_contacts_ex (book, query, cb, closure);
+	tag = e_book_get_contacts_async (book, query, cb, closure);
 
 	g_free (email_query);
 	g_free (name_query);
@@ -134,10 +134,10 @@ eab_name_and_email_query (EBook *book,
  * Simple nickname query
  */
 guint
-eab_nickname_query (EBook                 *book,
+eab_nickname_query (EBook                  *book,
 		    const gchar            *nickname,
-		    EBookListExCallback      cb,
-		    gpointer               closure)
+		    EBookListAsyncCallback  cb,
+		    gpointer                closure)
 {
 	EBookQuery *query;
 	gchar *query_string;
@@ -154,7 +154,7 @@ eab_nickname_query (EBook                 *book,
 
 	query = e_book_query_from_string (query_string);
 
-	retval = e_book_async_get_contacts_ex (book, query, cb, closure);
+	retval = e_book_get_contacts_async (book, query, cb, closure);
 
 	g_free (query_string);
 	e_book_query_unref (query);

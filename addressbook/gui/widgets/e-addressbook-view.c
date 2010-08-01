@@ -1400,10 +1400,10 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		}
 
 		/* Remove the cards all at once. */
-		e_book_async_remove_contacts_ex (book,
-						 ids,
-						 delete_contacts_cb,
-						 NULL);
+		e_book_remove_contacts_async (book,
+					      ids,
+					      delete_contacts_cb,
+					      NULL);
 
 		g_list_free (ids);
 	}
@@ -1411,10 +1411,10 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		for (l=list;l;l=g_list_next(l)) {
 			contact = l->data;
 			/* Remove the card. */
-			e_book_async_remove_contact_ex (book,
-							contact,
-							delete_contacts_cb,
-							NULL);
+			e_book_remove_contact_async (book,
+						     contact,
+						     delete_contacts_cb,
+						     NULL);
 		}
 	}
 

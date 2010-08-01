@@ -243,12 +243,12 @@ action_contact_new_cb (GtkAction *action,
 		book = e_book_new_default_addressbook (NULL);
 
 	if (strcmp (action_name, "contact-new") == 0)
-		e_book_async_open_ex (
+		e_book_open_async (
 			book, FALSE,
 			book_shell_backend_new_contact_cb, shell);
 
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_book_async_open_ex (
+		e_book_open_async (
 			book, FALSE,
 			book_shell_backend_new_contact_list_cb, shell);
 }

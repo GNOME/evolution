@@ -32,13 +32,13 @@ typedef void (*EABHaveAddressCallback) (EBook *book, const gchar *addr, EContact
 
 /* Specialized Name/Email Queries */
 guint                  eab_name_and_email_query      (EBook                    *book,
-						      const gchar               *name,
-						      const gchar               *email,
-						      EBookListExCallback       cb,
+						      const gchar              *name,
+						      const gchar              *email,
+						      EBookListAsyncCallback    cb,
 						      gpointer                  closure);
 guint                  eab_nickname_query            (EBook                    *book,
-						      const gchar               *nickname,
-						      EBookListExCallback       cb,
+						      const gchar              *nickname,
+						      EBookListAsyncCallback     cb,
 						      gpointer                  closure);
 
 GList                 *eab_contact_list_from_string (const gchar *str);

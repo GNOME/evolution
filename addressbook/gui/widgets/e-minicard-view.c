@@ -456,7 +456,7 @@ e_minicard_view_selection_event (EReflow *reflow,
 
 typedef struct {
 	EMinicardView *view;
-	EBookExCallback cb;
+	EBookAsyncCallback cb;
 	gpointer closure;
 } ViewCbClosure;
 
@@ -467,7 +467,7 @@ do_remove (gint i, gpointer user_data)
 	EContact *contact;
 	ViewCbClosure *viewcbclosure = user_data;
 	EMinicardView *view = viewcbclosure->view;
-	EBookExCallback cb = viewcbclosure->cb;
+	EBookAsyncCallback cb = viewcbclosure->cb;
 	gpointer closure = viewcbclosure->closure;
 
 	g_object_get (view->adapter,
@@ -476,7 +476,7 @@ do_remove (gint i, gpointer user_data)
 
 	contact = e_addressbook_reflow_adapter_get_contact (view->adapter, i);
 
-	e_book_async_remove_contact_ex (book, contact, cb, closure);
+	e_book_remove_contact_async (book, contact, cb, closure);
 
 	g_object_unref (contact);
 }
@@ -623,9 +623,9 @@ e_minicard_view_get_type (void)
 }
 
 void
-e_minicard_view_remove_selection(EMinicardView *view,
-				 EBookExCallback  cb,
-				 gpointer       closure)
+e_minicard_view_remove_selection(EMinicardView      *view,
+				 EBookAsyncCallback  cb,
+				 gpointer            closure)
 {
 	ViewCbClosure viewcbclosure;
 	viewcbclosure.view = view;

@@ -371,7 +371,7 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 			model->priv->first_get_view = FALSE;
 
 			if (e_book_check_static_capability (model->priv->book, "do-initial-query")) {
-				e_book_async_get_book_view_ex (
+				e_book_get_book_view_async (
 					model->priv->book, model->priv->query,
 					NULL, limit, book_view_loaded, model);
 			} else {
@@ -383,7 +383,7 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 					       signals[STOP_STATE_CHANGED], 0);
 			}
 		} else
-			e_book_async_get_book_view_ex (
+			e_book_get_book_view_async (
 				model->priv->book, model->priv->query,
 				NULL, limit, book_view_loaded, model);
 

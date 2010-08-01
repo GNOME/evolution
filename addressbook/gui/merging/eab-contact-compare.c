@@ -707,7 +707,7 @@ use_common_book_cb (EBook *book, const GError *error, gpointer closure)
 	}
 
 	if (query)
-		e_book_async_get_contacts_ex (book, query, query_cb, info);
+		e_book_get_contacts_async (book, query, query_cb, info);
 	else
 		query_cb (book, NULL, NULL, info);
 
@@ -731,7 +731,7 @@ eab_contact_locate_match (EContact *contact, EABContactMatchQueryCallback cb, gp
 	info->closure = closure;
 	info->avoid = NULL;
 
-	addressbook_load_default_book ((EBookExCallback) use_common_book_cb, info);
+	addressbook_load_default_book ((EBookAsyncCallback) use_common_book_cb, info);
 }
 
 /**
@@ -764,6 +764,6 @@ eab_contact_locate_match_full (EBook *book, EContact *contact, GList *avoid, EAB
 	if (book)
 		use_common_book_cb (book, NULL, info);
 	else
-		addressbook_load_default_book ((EBookExCallback) use_common_book_cb, info);
+		addressbook_load_default_book ((EBookAsyncCallback) use_common_book_cb, info);
 }
 

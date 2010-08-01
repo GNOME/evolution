@@ -818,7 +818,7 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 
 	editor->priv->load_book = e_book_new (source, NULL);
 	editor->priv->load_source_id = addressbook_load (
-		editor->priv->load_book, (EBookExCallback)
+		editor->priv->load_book, (EBookAsyncCallback)
 		contact_list_editor_book_loaded, editor);
 }
 
@@ -1115,11 +1115,11 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	if (priv->is_new_list)
 		eab_merging_book_add_contact (
-			priv->book, contact, (EBookIdExCallback)
+			priv->book, contact, (EBookIdAsyncCallback)
 			contact_list_editor_list_added_cb, ecs);
 	else
 		eab_merging_book_commit_contact (
-			priv->book, contact, (EBookExCallback)
+			priv->book, contact, (EBookAsyncCallback)
 			contact_list_editor_list_modified_cb, ecs);
 
 	priv->changed = FALSE;
