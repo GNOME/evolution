@@ -1466,7 +1466,7 @@ gchar *em_uri_to_camel(const gchar *euri)
 			else
 				curl = camel_url_new("mbox:", NULL);
 
-			base = g_strdup_printf("%s/.evolution/mail/%s", g_get_home_dir(), eurl->user);
+			base = g_strdup_printf("%s/mail/%s", e_get_user_data_dir(), eurl->user);
 #ifdef G_OS_WIN32
 			/* Turn backslashes into slashes to avoid URI encoding */
 			{
