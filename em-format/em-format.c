@@ -859,6 +859,8 @@ em_format_redraw (EMFormat *emf)
 void
 em_format_set_mode(EMFormat *emf, em_format_mode_t type)
 {
+	g_return_if_fail (EM_IS_FORMAT (emf));
+
 	if (emf->mode == type)
 		return;
 
