@@ -38,7 +38,6 @@
 #define GCONF_LAST_VERSION_KEY	"/apps/evolution/last_version"
 
 /******************** Begin XDG Base Directory Migration ********************/
-
 /* These are the known EShellBackend names as of Evolution 3.0 */
 static const gchar *shell_backend_names[] =
 	{ "addressbook", "calendar", "mail", "memos", "tasks", NULL };
@@ -61,7 +60,7 @@ shell_xdg_migrate_rename (const gchar *old_filename,
 
 	g_print ("  mv %s %s\n", old_filename, new_filename);
 
-	/* It's safe to go ahead and move directories because rename()
+	/* It's safe to go ahead and move directories because rename ()
 	 * will fail if the new directory already exists with content.
 	 * With regular files we have to be careful not to overwrite
 	 * new files with old files. */
@@ -77,6 +76,7 @@ shell_xdg_migrate_rename (const gchar *old_filename,
 
 	return success;
 }
+
 
 static gboolean
 shell_xdg_migrate_rmdir (const gchar *dirname)
@@ -134,6 +134,78 @@ shell_xdg_migrate_process_corrections (GHashTable *corrections)
 
 		g_hash_table_iter_remove (&iter);
 	}
+}
+
+static gboolean
+shell_xdg_migrate_rename_files (const gchar *src_directory,
+                                const gchar *dst_directory)
+{
+	GDir *dir;
+	GHashTable *corrections;
+	const gchar *basename;
+	const gchar *home_dir;
+	gchar *old_base_dir;
+	gchar *new_base_dir;
+
+	dir = g_dir_open (src_directory, 0, NULL);
+	if (dir == NULL)
+		return FALSE;
+
+	/* This is to avoid renaming files which we're iterating over the
+	 * directory.  POSIX says the outcome of that is unspecified. */
+	corrections = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	g_mkdir_with_parents (dst_directory, 0700);
+
+	home_dir = g_get_home_dir ();
+	old_base_dir = g_build_filename (home_dir, ".evolution", NULL);
+	e_filename_make_safe (old_base_dir);
+	new_base_dir = g_strdup (e_get_user_data_dir ());
+	e_filename_make_safe (new_base_dir);
+
+	while ((basename = g_dir_read_name (dir)) != NULL) {
+		GString *buffer;
+		gchar *old_filename;
+		gchar *new_filename;
+		gchar *cp;
+
+		buffer = g_string_new (basename);
+
+		if ((cp = strstr (basename, old_base_dir)) != NULL) {
+			g_string_erase (
+				buffer, cp - basename,
+				strlen (old_base_dir));
+			g_string_insert (
+				buffer, cp - basename, new_base_dir);
+		}
+
+		old_filename = g_build_filename (
+			src_directory, basename, NULL);
+		new_filename = g_build_filename (
+			dst_directory, buffer->str, NULL);
+
+		g_string_free (buffer, TRUE);
+
+		g_hash_table_insert (corrections, old_filename, new_filename);
+	}
+
+	g_free (old_base_dir);
+	g_free (new_base_dir);
+
+	g_dir_close (dir);
+
+	shell_xdg_migrate_process_corrections (corrections);
+	g_hash_table_destroy (corrections);
+
+	/* It's tempting to want to remove the source directory here.
+	 * Don't.  We might be iterating over the source directory's
+	 * parent directory, and removing the source directory would
+	 * screw up the iteration. */
+
+	return TRUE;
 }
 
 static gboolean
@@ -237,7 +309,7 @@ shell_xdg_migrate_config_dir_common (EShell *shell,
 
 	old_filename = g_build_filename (old_config_dir, "views", NULL);
 	new_filename = g_build_filename (new_config_dir, "views", NULL);
-	shell_xdg_migrate_rename (old_filename, new_filename);
+	shell_xdg_migrate_rename_files (old_filename, new_filename);
 	g_free (old_filename);
 	g_free (new_filename);
 
@@ -353,7 +425,7 @@ shell_xdg_migrate_config_dir_mail (EShell *shell,
 	 * threads.  Rename this directory to "folders". */
 	old_filename = g_build_filename (old_config_dir, "config", NULL);
 	new_filename = g_build_filename (new_config_dir, "folders", NULL);
-	shell_xdg_migrate_rename (old_filename, new_filename);
+	shell_xdg_migrate_rename_files (old_filename, new_filename);
 	g_free (old_filename);
 	g_free (new_filename);
 
