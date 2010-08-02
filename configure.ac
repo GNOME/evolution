@@ -300,14 +300,14 @@ dnl Check for base dependencies early.
 dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[gio-2.0 >= glib_minimum_version
-	 $GTK >= gtk_minimum_version
-	 $GAIL >= gail_minimum_version
+	 $GTK >= $gtk_minimum_version
+	 $GAIL >= $gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 pangoft2 >= pangoft2_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 $GNOME_DESKTOP >= gnome_desktop_minimum_version
-	 $UNIQUE >= unique_minimum_version])
+	 $GNOME_DESKTOP >= $gnome_desktop_minimum_version
+	 $UNIQUE >= $unique_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
