@@ -1184,6 +1184,9 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
 
 	formatter = e_mail_reader_get_formatter (reader);
 
+	if (!formatter)
+		return;
+
 	if (gtk_toggle_action_get_active (action))
 		mode = EM_FORMAT_ALLHEADERS;
 	else
@@ -1213,7 +1216,10 @@ action_mail_show_source_cb (GtkAction *action,
 	browser = e_mail_browser_new (shell_backend);
 	reader = E_MAIL_READER (browser);
 	formatter = e_mail_reader_get_formatter (reader);
-	em_format_set_mode (EM_FORMAT (formatter), EM_FORMAT_SOURCE);
+
+	if (formatter)
+		em_format_set_mode (EM_FORMAT (formatter), EM_FORMAT_SOURCE);
+
 	e_mail_reader_set_folder (reader, folder, folder_uri);
 	e_mail_reader_set_message (reader, uids->pdata[0]);
 	gtk_widget_show (browser);
