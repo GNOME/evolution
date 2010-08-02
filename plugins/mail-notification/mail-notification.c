@@ -161,13 +161,15 @@ send_dbus_message (const gchar *name,
 	g_dbus_message_set_body (message, g_variant_builder_end (builder));
 
 	/* Sends the message */
-	g_dbus_connection_send_message (connection, message, G_DBUS_SEND_MESSAGE_FLAGS_NONE, NULL, &error);
+	g_dbus_connection_send_message (
+		connection, message,
+		G_DBUS_SEND_MESSAGE_FLAGS_NONE, NULL, &error);
 
 	/* Frees the message */
 	g_object_unref (message);
 
 	if (error) {
-		g_debug ("Mail-Notification: %s: Error while sending DBus message: %s", G_STRFUNC, error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 }
@@ -183,7 +185,10 @@ reinit_gdbus (gpointer user_data)
 }
 
 static void
-connection_closed_cb (GDBusConnection *pconnection, gboolean remote_peer_vanished, GError *error, gpointer user_data)
+connection_closed_cb (GDBusConnection *pconnection,
+                      gboolean remote_peer_vanished,
+                      GError *error,
+                      gpointer user_data)
 {
 	g_return_if_fail (connection != pconnection);
 
@@ -210,7 +215,10 @@ init_gdbus (void)
 	}
 
 	g_dbus_connection_set_exit_on_close (connection, FALSE);
-	g_signal_connect (connection, "closed", G_CALLBACK (connection_closed_cb), NULL);
+
+	g_signal_connect (
+		connection, "closed",
+		G_CALLBACK (connection_closed_cb), NULL);
 
 	return TRUE;
 }

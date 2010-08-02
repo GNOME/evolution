@@ -516,7 +516,8 @@ mail_paned_view_show_search_bar (EMailReader *reader)
 static guint
 mail_paned_view_reader_open_selected_mail (EMailReader *reader)
 {
-	return E_MAIL_PANED_VIEW_CLASS (G_OBJECT_GET_CLASS (reader))->open_selected_mail (E_MAIL_PANED_VIEW (reader));
+	return E_MAIL_PANED_VIEW_GET_CLASS (reader)->
+		open_selected_mail (E_MAIL_PANED_VIEW (reader));
 }
 
 static void
