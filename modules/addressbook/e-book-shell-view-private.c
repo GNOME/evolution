@@ -139,6 +139,9 @@ contact_changed (EBookShellView *book_shell_view,
 	EBookShellContent *book_shell_content;
 	EContact *contact;
 
+	g_return_if_fail (E_IS_SHELL_VIEW (book_shell_view));
+	g_return_if_fail (book_shell_view->priv != NULL);
+
 	book_shell_content = book_shell_view->priv->book_shell_content;
 
 	contact = e_addressbook_model_contact_at (model, index);
@@ -157,6 +160,9 @@ contacts_removed (EBookShellView *book_shell_view,
 {
 	EBookShellContent *book_shell_content;
 	EContact *preview_contact;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (book_shell_view));
+	g_return_if_fail (book_shell_view->priv != NULL);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 
@@ -259,22 +265,22 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			hash_table, g_strdup (uid),
 			g_object_ref (widget));
 
-		g_signal_connect_swapped (
-			widget, "open-contact",
-			G_CALLBACK (open_contact), book_shell_view);
+		g_signal_connect_object (
+			widget, "open-contact", G_CALLBACK (open_contact),
+			book_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_swapped (
-			widget, "popup-event",
-			G_CALLBACK (popup_event), book_shell_view);
+		g_signal_connect_object (
+			widget, "popup-event", G_CALLBACK (popup_event),
+			book_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			widget, "command-state-change",
 			G_CALLBACK (e_shell_view_update_actions),
-			book_shell_view);
+			book_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_swapped (
-			widget, "selection-change",
-			G_CALLBACK (selection_change), book_shell_view);
+		g_signal_connect_object (
+			widget, "selection-change", G_CALLBACK (selection_change),
+			book_shell_view, G_CONNECT_SWAPPED);
 
 		book = e_book_new (source, NULL);
 		view = E_ADDRESSBOOK_VIEW (widget);
@@ -284,13 +290,13 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 		model = e_addressbook_view_get_model (view);
 
-		g_signal_connect_swapped (
-			model, "contact-changed",
-			G_CALLBACK (contact_changed), book_shell_view);
+		g_signal_connect_object (
+			model, "contact-changed", G_CALLBACK (contact_changed),
+			book_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_swapped (
-			model, "contacts-removed",
-			G_CALLBACK (contacts_removed), book_shell_view);
+		g_signal_connect_object (
+			model, "contacts-removed", G_CALLBACK (contacts_removed),
+			book_shell_view, G_CONNECT_SWAPPED);
 	}
 
 	e_book_shell_content_set_current_view (
@@ -473,25 +479,25 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	selector = e_book_shell_sidebar_get_selector (
 		E_BOOK_SHELL_SIDEBAR (shell_sidebar));
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "button-press-event",
 		G_CALLBACK (book_shell_view_selector_button_press_event_cb),
-		book_shell_view);
+		book_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "key-press-event",
 		G_CALLBACK (book_shell_view_selector_key_press_event_cb),
-		book_shell_view);
+		book_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "popup-menu",
 		G_CALLBACK (book_shell_view_selector_popup_menu_cb),
-		book_shell_view);
+		book_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "primary-selection-changed",
 		G_CALLBACK (book_shell_view_activate_selected_source),
-		book_shell_view);
+		book_shell_view, G_CONNECT_SWAPPED);
 
 	e_categories_add_change_hook (
 		(GHookFunc) e_book_shell_view_update_search_filter,
