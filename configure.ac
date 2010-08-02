@@ -37,7 +37,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl Required Packages
 m4_define([glib_minimum_version], [2.25.12])
 m4_define([eds_minimum_version], [evo_version])
-m4_define([gnome_icon_theme_minimum_version], [2.19.91])
+m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
