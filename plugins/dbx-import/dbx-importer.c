@@ -452,8 +452,8 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				"Failed to read mail data from DBX file "
-				"at offset %x",
-				offset + sizeof(hdr));
+				"at offset %lx",
+				(long)(offset + sizeof(hdr)));
 			return FALSE;
 		}
 		if (write(bodyfd, buffer, hdr.blocksize) != hdr.blocksize) {
