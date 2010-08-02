@@ -1603,7 +1603,7 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	if (!e_book_open_async (book, only_if_exists, try_open_e_book_cb, &data)) {
 		e_flag_free (flag);
 		g_clear_error (error);
-		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_OTHER_ERROR, "Failed to call e_book_async_open_ex.");
+		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_OTHER_ERROR, "Failed to call e_book_open_async.");
 		return FALSE;
 	}
 
