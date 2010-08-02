@@ -344,6 +344,7 @@ user_message_response (GtkDialog *dialog, gint button, struct _user_message_msg 
 static void
 user_message_exec (struct _user_message_msg *m)
 {
+	GtkWindow *parent;
 	const gchar *error_type;
 
 	if (!m->ismain && user_message_dialog != NULL) {
@@ -372,10 +373,10 @@ user_message_exec (struct _user_message_msg *m)
 			g_return_if_reached ();
 	}
 
-	/* The mail daemon won't have a window here, so there's nothing to set
-	 * as the parent */
+	/* Pull in the active window from the shell to get a parent window */
+	parent = e_shell_get_active_window (e_shell_get_default ());
 	user_message_dialog =
-		e_alert_dialog_new_for_args (NULL, error_type, m->prompt, NULL);
+		e_alert_dialog_new_for_args (parent, error_type, m->prompt, NULL);
 	g_object_set (
 		user_message_dialog, "allow_shrink", TRUE,
 		"allow_grow", TRUE, NULL);
