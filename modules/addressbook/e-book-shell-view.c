@@ -33,6 +33,9 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 	EShellView *shell_view;
 	GList *keys, *iter;
 
+	g_return_if_fail (E_IS_SHELL_VIEW (book_shell_view));
+	g_return_if_fail (book_shell_view->priv != NULL);
+
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	book_shell_content = book_shell_view->priv->book_shell_content;
 
@@ -114,10 +117,10 @@ book_shell_view_constructed (GObject *object)
 	book_shell_backend = book_shell_view->priv->book_shell_backend;
 	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		source_list, "changed",
 		G_CALLBACK (book_shell_view_source_list_changed_cb),
-		book_shell_view);
+		book_shell_view, G_CONNECT_SWAPPED);
 }
 
 static void
