@@ -184,6 +184,7 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/widgets/text/libetext.la	\
+	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
