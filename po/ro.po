@@ -50,7 +50,7 @@ msgstr "Adresa „{0}” deja există."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "Cannot add new contact"
-msgstr "Nu pot adăuga un contact nou."
+msgstr "Nu se poate adăuga un contact nou."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
@@ -1447,7 +1447,7 @@ msgstr "Pagina %d"
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:48
 msgid "Can not open file"
-msgstr "Nu pot deschide fișierul"
+msgstr "Nu se poate deschide fișierul"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:42
 msgid "Couldn't get list of address books"
@@ -3664,15 +3664,15 @@ msgstr "atașament"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3118
 msgid "Unable to use current version!"
-msgstr "Nu pot folosi versiunea curentă!"
+msgstr "Nu se poate folosi versiunea curentă!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:92
 msgid "Could not open source"
-msgstr "Nu pot deschide sursa"
+msgstr "Nu se poate deschide sursa"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:100
 msgid "Could not open destination"
-msgstr "Nu pot deschide destinația"
+msgstr "Nu se poate deschide destinația"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:109
 msgid "Destination is read only"
@@ -3901,7 +3901,7 @@ msgstr "Este nevoie de cel puțin un participant."
 #: ../calendar/gui/dialogs/event-page.c:2649
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "Nu pot deschide calendarul „%s”."
+msgstr "Nu se poate deschide calendarul „%s”."
 
 #. Translators: This string is used when we are creating an Event
 #. (meeting or appointment)  on behalf of some other user
@@ -4467,7 +4467,7 @@ msgstr "Data scadentă este greșită"
 #: ../calendar/gui/dialogs/task-page.c:1744
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "Nu pot deschide sarcinile în „%s”."
+msgstr "Nu se pot deschide sarcinile în „%s”."
 
 #: ../calendar/gui/dialogs/task-page.ui.h:2
 msgid "Categor_ies..."
@@ -8214,7 +8214,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:7
 msgid "Could not create composer window."
-msgstr "Nu pot crea fereastra de compunere."
+msgstr "Nu se poate crea fereastra de compunere."
 
 #: ../composer/mail-composer.error.xml.h:8
 msgid "Could not create message."
@@ -8222,15 +8222,15 @@ msgstr "Nu am putut crea mesajul."
 
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "Nu pot citi fișierul semnătură „{0}”."
+msgstr "Nu se poate citi fișierul semnătură „{0}”."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "Nu pot obține mesajele pentru atașare de la {0}."
+msgstr "Nu se pot obține mesajele pentru atașare de la {0}."
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "Nu pot salva către fișierul de autosalvare „{0}”."
+msgstr "Nu se poate salva către fișierul de autosalvare „{0}”."
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Do you want to recover unfinished messages?"
@@ -8986,7 +8986,7 @@ msgstr "Nu am putut parsa mesajul S/MIME: Eroare necunoscută"
 
 #: ../em-format/em-format.c:1527 ../em-format/em-format.c:1701
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Nu pot parsa mesajul MIME. Afișez ca sursă."
+msgstr "Nu se poate parsa mesajul MIME. Se afișează ca sursă."
 
 #: ../em-format/em-format.c:1535
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -10914,17 +10914,13 @@ msgstr "Indicator către o dată externă necunoscută (tip „%s”)"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #: ../mail/em-format-html.c:2647
-#, fuzzy, c-format
-#| msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgid "This message was sent by %s on behalf of %s"
-msgstr "Mesajul a fost trimis de <b>%s</b> în numele lui <b>%s</b>"
+msgstr "Mesajul a fost trimis de %s în numele lui %s"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
-#, fuzzy, c-format
-#| msgid "No summary available."
 msgid "No HTML stream available"
-msgstr "Nici un sumar disponibil."
+msgstr "Niciun flux HTML disponibil"
 
 #: ../mail/em-subscribe-editor.c:677
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -10951,20 +10947,16 @@ msgstr "Nici un server nu a fost selectat"
 #. The %d is replaced with the actual count of messages. If you need a '%' in your text,
 #. then write it doubled, like '%%'.
 #: ../mail/em-utils.c:106
-#, fuzzy, c-format
-#| msgid "Are you sure you want to open {0} messages at once?"
 msgid "Are you sure you want to open %d messages at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
-msgstr[0] "Sunteți sigur că doriți să deschideți {0} mesaje concomitent?"
-msgstr[1] "Sunteți sigur că doriți să deschideți {0} mesaje concomitent?"
-msgstr[2] "Sunteți sigur că doriți să deschideți {0} mesaje concomitent?"
+msgstr[0] "Sigur doriți să deschideți %d mesaj concomitent?"
+msgstr[1] "Sigur doriți să deschideți %d mesaje concomitent?"
+msgstr[2] "Sigur doriți să deschideți %d de mesaje concomitent?"
 
 #: ../mail/em-utils.c:152
 #: ../modules/mailto-handler/evolution-mailto-handler.c:146
-#, fuzzy
-#| msgid "_Do not show this message again."
 msgid "_Do not show this message again"
-msgstr "_Nu mai arătă acest mesaj din nou."
+msgstr "_Nu mai arăta acest mesaj din nou"
 
 #: ../mail/em-utils.c:314
 msgid "Message Filters"
@@ -11291,14 +11283,9 @@ msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:66
-#, fuzzy
-#| msgid ""
-#| "Enable this to use Space bar key to scroll in message preview, message "
-#| "list and folders."
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
-"Activează tasta Spațiu pentru derularea previzualizării mesajului, a listei "
-"de mesaje și dosare."
+
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "Enable/disable caret mode"
@@ -11447,18 +11434,11 @@ msgstr ""
 "permanentă a mesajelor, nu doar înlăturarea lor din rezultatele căutării."
 
 #: ../mail/evolution-mail.schemas.in.h:89
-#, fuzzy
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that deleting messages "
-#| "from a search folder permanently deletes the message, not simply removing "
-#| "it from the search results."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
-"Activează sau dezactivează notificările repetate prin care se atenționează "
-"faptul că ștergerea mesajelor din dosarele de căutare determină ștergerea "
-"permanentă a mesajelor, nu doar înlăturarea lor din rezultatele căutării."
+
 
 #: ../mail/evolution-mail.schemas.in.h:90
 msgid ""
@@ -11655,10 +11635,8 @@ msgid "Prompt when mailing list hijacks private replies"
 msgstr "Atenționează la marcarea mai multor mesaje"
 
 #: ../mail/evolution-mail.schemas.in.h:130
-#, fuzzy
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when replying privately to list messages"
-msgstr "Atenționează la marcarea mai multor mesaje"
+msgstr "Atenționează când se răspunde în privat unor mesaje de pe listă"
 
 #: ../mail/evolution-mail.schemas.in.h:131
 #, fuzzy
@@ -12156,10 +12134,8 @@ msgstr "Importă mailuri din Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:116
 #: ../plugins/dbx-import/dbx-importer.c:226
-#, fuzzy
-#| msgid "Destination folder:"
 msgid "_Destination folder:"
-msgstr "Dosarul destinație:"
+msgstr "_Dosarul destinație:"
 
 #: ../mail/importers/evolution-mbox-importer.c:122
 #: ../plugins/dbx-import/dbx-importer.c:232
@@ -12174,16 +12150,12 @@ msgstr "Selectați dosarul în care se face importarea"
 
 #. Translators: Column header for a message subject
 #: ../mail/importers/evolution-mbox-importer.c:372
-#, fuzzy
-#| msgid "Subject"
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Subiect"
 
 #. Translators: Column header for a message From address
 #: ../mail/importers/evolution-mbox-importer.c:376
-#, fuzzy
-#| msgid "From"
 msgctxt "mboxImp"
 msgid "From"
 msgstr "De la"
@@ -12206,10 +12178,8 @@ msgstr "Import căsuța de mail"
 #: ../plugins/dbx-import/dbx-importer.c:554
 #: ../plugins/pst-import/pst-importer.c:452
 #: ../plugins/pst-import/pst-importer.c:558
-#, fuzzy, c-format
-#| msgid "Importing `%s'"
 msgid "Importing '%s'"
-msgstr "Import „%s”"
+msgstr "Se importă „%s”"
 
 #: ../mail/importers/mail-importer.c:295
 #, c-format
@@ -12218,7 +12188,7 @@ msgstr "Se scanează %s"
 
 #: ../mail/importers/pine-importer.c:221
 msgid "Importing Pine data"
-msgstr "Import datele Pine"
+msgstr "Se importă datele Pine"
 
 #: ../mail/importers/pine-importer.c:405
 #: ../modules/addressbook/addressbook-config.c:1006
@@ -12404,16 +12374,12 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Semnea_ză digital mesajele trimise (implicit)"
 
 #: ../mail/mail-config.ui.h:39
-#, fuzzy
-#| msgid "Displayed Message _Headers"
 msgid "Displayed Message Headers"
-msgstr "A_ntetele afișate ale mesajului"
+msgstr "Antetele afișate ale mesajului"
 
 #: ../mail/mail-config.ui.h:40
-#, fuzzy
-#| msgid "Do not format messages when text si_ze exceeds"
 msgid "Do not display messages when text si_ze exceeds"
-msgstr "Nu formata mesajele când dimen_siunea textului depășește"
+msgstr "Nu afișa mesajele când dimen_siunea textului depășește"
 
 #: ../mail/mail-config.ui.h:41
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -12693,20 +12659,16 @@ msgid "Select HTML variable width font for printing"
 msgstr "Selectează fontul HTML de lățime variabilă pentru tipărire"
 
 #: ../mail/mail-config.ui.h:118
-#, fuzzy
-#| msgid "Select Folder"
 msgid "Select Junk Folder"
-msgstr "Alege dosar"
+msgstr "Alegeți dosarul de spam"
 
 #: ../mail/mail-config.ui.h:119
 msgid "Select Sent Folder"
 msgstr "Alegeți dosarul Trimise"
 
 #: ../mail/mail-config.ui.h:120
-#, fuzzy
-#| msgid "Select Drafts Folder"
 msgid "Select Trash Folder"
-msgstr "Alegeți dosarul Ciorne"
+msgstr "Alegeți dosarul coș de gunoi"
 
 #: ../mail/mail-config.ui.h:121
 msgid "Sender Photograph"
@@ -12737,10 +12699,8 @@ msgid "Server _Type:"
 msgstr "_Tip server: "
 
 #: ../mail/mail-config.ui.h:128
-#, fuzzy
-#| msgid "Sig_ning certificate:"
 msgid "Si_gning algorithm:"
-msgstr "Certificat pentru sem_nare:"
+msgstr "Al_goritm de semnare:"
 
 #: ../mail/mail-config.ui.h:129
 msgid "Sig_natures"
@@ -12759,10 +12719,8 @@ msgid "Signatures"
 msgstr "Semnături"
 
 #: ../mail/mail-config.ui.h:133
-#, fuzzy
-#| msgid "Sig_ning certificate:"
 msgid "Signing _algorithm:"
-msgstr "Certificat pentru sem_nare:"
+msgstr "_Algoritm de semnare:"
 
 #: ../mail/mail-config.ui.h:134
 msgid "Spell Checking"
@@ -12857,10 +12815,8 @@ msgid "_Forward style:"
 msgstr "Stilul pentru î_naintare:"
 
 #: ../mail/mail-config.ui.h:157
-#, fuzzy
-#| msgid "Current Folder"
 msgid "_Junk Folder:"
-msgstr "Dosarul curent"
+msgstr "Dosarul _spam"
 
 #: ../mail/mail-config.ui.h:158
 msgid "_Keep Signature above the original message on replying"
@@ -12940,10 +12896,8 @@ msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "_Micșorează antetele To / CC / Bcc la "
 
 #: ../mail/mail-config.ui.h:180
-#, fuzzy
-#| msgid "Drafts _Folder:"
 msgid "_Trash Folder:"
-msgstr "_Dosar ciorne:"
+msgstr "_Dosar coș de gunoi:"
 
 #: ../mail/mail-config.ui.h:181
 msgid "_Use Secure Connection:"
@@ -12999,10 +12953,8 @@ msgid "Co_mpleted"
 msgstr "_Terminat"
 
 #: ../mail/mail-dialogs.ui.h:6
-#, fuzzy
-#| msgid "collapse"
 msgid "Collapse _all"
-msgstr "pliază"
+msgstr "Pliază to_ate"
 
 #: ../mail/mail-dialogs.ui.h:7
 msgid "Digital Signature"
@@ -13013,10 +12965,8 @@ msgid "Do Not Forward"
 msgstr "Nu înainta"
 
 #: ../mail/mail-dialogs.ui.h:9
-#, fuzzy
-#| msgid "E_xpand All Threads"
 msgid "E_xpand all"
-msgstr "E_xpandează toate discuțiile"
+msgstr "E_xpandează toate"
 
 #: ../mail/mail-dialogs.ui.h:10
 msgid "Encryption"
@@ -13117,10 +13067,6 @@ msgid "Failed to apply outgoing filters: %s"
 msgstr "Eroare în aplicarea filtrelor la trimitere: %s"
 
 #: ../mail/mail-ops.c:608 ../mail/mail-ops.c:635
-#, fuzzy, c-format
-#| msgid ""
-#| "Failed to append to %s: %s\n"
-#| "Appending to local `Sent' folder instead."
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
@@ -13129,8 +13075,6 @@ msgstr ""
 "Adaug la dosarul local „Trimise” în loc."
 
 #: ../mail/mail-ops.c:654
-#, fuzzy, c-format
-#| msgid "Failed to append to local `Sent' folder: %s"
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Eroare la adăugarea în dosarul local „Trimise”: %s"
 
@@ -13251,14 +13195,8 @@ msgstr[1] "Se salvează %d mesaje"
 msgstr[2] "Se salvează %d de mesaje"
 
 #: ../mail/mail-ops.c:2192
-#, fuzzy, c-format
-#| msgid ""
-#| "Error saving messages to: %s:\n"
-#| " %s"
 msgid "Error saving messages to: %s:\n"
-msgstr ""
-"Eroare la salvarea mesajului: %s:\n"
-" %s"
+msgstr "Eroare la salvarea mesajelor în: %s:\n"
 
 #: ../mail/mail-ops.c:2265
 msgid "Saving attachment"
@@ -13270,14 +13208,12 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"Nu pot crea fișierul de ieșire: %s:\n"
+"Nu se poate crea fișierul de ieșire: %s:\n"
 " %s"
 
 #: ../mail/mail-ops.c:2310
-#, fuzzy
-#| msgid "Could not write data: %s"
 msgid "Could not write data: "
-msgstr "Nu pot scrie data: %s"
+msgstr "Nu se pot scrie date: "
 
 #: ../mail/mail-ops.c:2454
 #, c-format
@@ -13362,14 +13298,10 @@ msgstr ""
 "anulată."
 
 #: ../mail/mail-tools.c:128
-#, fuzzy, c-format
-#| msgid "Could not create spool directory `%s': %s"
 msgid "Could not create spool directory '%s': %s"
 msgstr "Nu am putut crea directorul spool „%s”: %s"
 
 #: ../mail/mail-tools.c:161
-#, fuzzy, c-format
-#| msgid "Trying to movemail a non-mbox source `%s'"
 msgid "Trying to movemail a non-mbox source '%s'"
 msgstr "Încercare de mutaremail a sursei non-mbox „%s”"
 
@@ -13383,8 +13315,6 @@ msgid "Forwarded message"
 msgstr "Mesaj înaintat"
 
 #: ../mail/mail-tools.c:318
-#, fuzzy, c-format
-#| msgid "Invalid folder: `%s'"
 msgid "Invalid folder: '%s'"
 msgstr "Dosar nevalid: „%s”"
 
@@ -13560,7 +13490,7 @@ msgstr "Nu s-a putut crea dosarul „{0}”."
 
 #: ../mail/mail.error.xml.h:26
 msgid "Cannot create temporary save directory."
-msgstr "Nu pot crea directorul temporar pentru salvare."
+msgstr "Nu se poate crea directorul temporar pentru salvare."
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot create the save directory, because \"{1}\""
@@ -13583,10 +13513,8 @@ msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Nu s-a putut muta dosarul „{0}” în „{1}”."
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
-#| msgid "Cannot open source \"{1}\""
 msgid "Cannot open source \"{1}\"."
-msgstr "Nu s-a putu deschide sursa „{1}”"
+msgstr "Nu s-a putut deschide sursa „{1}”."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot open source \"{2}\"."
@@ -13614,7 +13542,7 @@ msgstr "Nu s-a putut redenumi sau muta dosarul sistem „{0}”."
 
 #: ../mail/mail.error.xml.h:38
 msgid "Cannot save changes to account."
-msgstr "Nu pot salva modificările contului."
+msgstr "Nu se pot salva modificările contului."
 
 #: ../mail/mail.error.xml.h:39
 msgid "Cannot save to directory \"{0}\"."
@@ -13626,7 +13554,7 @@ msgstr "Nu s-a putut salva în fișierul „{0}”."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Nu s-a putu defini scritpul pentru semnătură „{0}”."
+msgstr "Nu s-a putut defini scritpul pentru semnătură „{0}”."
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -13646,22 +13574,16 @@ msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "Ștergeți mesajele din dosarul de căutare „{0}”?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
-#| msgid "Do not disable"
 msgid "Do _Not Disable"
-msgstr "Nu dezactiva"
+msgstr "_Nu dezactiva"
 
 #: ../mail/mail.error.xml.h:47
-#, fuzzy
-#| msgid "Do _not Send"
 msgid "Do _Not Send"
 msgstr "_Nu trimite"
 
 #: ../mail/mail.error.xml.h:48
-#, fuzzy
-#| msgid "_Do not Synchronize"
 msgid "Do _Not Synchronize"
-msgstr "_Nu Sincroniza"
+msgstr "_Nu sincroniza"
 
 #: ../mail/mail.error.xml.h:49
 msgid ""
@@ -13711,10 +13633,6 @@ msgid "If you continue, you will not be able to recover these messages."
 msgstr "În cazul în care continuați, nu veți mai putea recupera aceste mesaje."
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders contents "
-#| "will be deleted permanently."
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -13851,10 +13769,8 @@ msgid "Really delete folder \"{0}\"?"
 msgstr "Doriți să ștergeți dosarul „{0}”?"
 
 #: ../mail/mail.error.xml.h:90
-#, fuzzy
-#| msgid "_Private"
 msgid "Reply _Privately"
-msgstr "_Personal"
+msgstr "Răspunde _personal"
 
 #: ../mail/mail.error.xml.h:93
 msgid "Search Folders automatically updated."
@@ -13862,13 +13778,11 @@ msgstr "Dosarele de căutare actualizate automat."
 
 #: ../mail/mail.error.xml.h:94
 msgid "Send private reply?"
-msgstr ""
+msgstr "Trimiteți răspuns personal?"
 
 #: ../mail/mail.error.xml.h:95
-#, fuzzy
-#| msgid "Sender or Recipients"
 msgid "Send reply to all recipients?"
-msgstr "Expeditor sau destinatari"
+msgstr "Trimiteți răspuns tuturor destinatarilor?"
 
 #: ../mail/mail.error.xml.h:96
 msgid "Signature Already Exists"
@@ -13965,14 +13879,8 @@ msgstr ""
 "subdosarele sale."
 
 #: ../mail/mail.error.xml.h:114
-#, fuzzy
-#| msgid ""
-#| "This will mark all messages as read in the selected folder and its "
-#| "subfolders."
 msgid "This will mark all messages as read in the selected folder."
-msgstr ""
-"Acest lucru va marca toate mesajele ca citite în dosarul selectat și în "
-"subdosarele sale."
+msgstr "Acest lucru va marca toate mesajele ca citite în dosarul selectat."
 
 #: ../mail/mail.error.xml.h:115
 msgid "Unable to connect to the GroupWise server."
@@ -13983,12 +13891,12 @@ msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"Nu pot deschide dosarul cu ciorne pentru acest cont. Doriți să folosiți "
+"Nu se poate deschide dosarul cu ciorne pentru acest cont. Doriți să folosiți "
 "dosarul sistem implicit pentru ciorne?"
 
 #: ../mail/mail.error.xml.h:117
 msgid "Unable to read license file."
-msgstr "Nu pot citi fișierul de licență."
+msgstr "Nu se poate citi fișierul de licență."
 
 #: ../mail/mail.error.xml.h:118
 msgid "Use _Default"
@@ -14095,16 +14003,12 @@ msgid "_Open Messages"
 msgstr "_Deschide mesajele"
 
 #: ../mail/mail.error.xml.h:142
-#, fuzzy
-#| msgid "Send Receipt"
 msgid "_Send Receipt"
-msgstr "Trimite confirmare"
+msgstr "_Trimite confirmare"
 
 #: ../mail/mail.error.xml.h:143
-#, fuzzy
-#| msgid "Synchronize"
 msgid "_Synchronize"
-msgstr "Sincronizează"
+msgstr "_Sincronizează"
 
 #: ../mail/message-list.c:1170
 msgid "Unseen"
@@ -14282,8 +14186,6 @@ msgstr ""
 "vulnerabili la atacuri informatice."
 
 #: ../modules/addressbook/addressbook-config.c:602
-#, fuzzy
-#| msgid "Use in _Birthday & Anniversaries calendar"
 msgid "U_se in Birthday & Anniversaries calendar"
 msgstr "Folosit în calendarul _Zile de naștere & aniversări"
 
@@ -14954,10 +14856,8 @@ msgid "Loading calendars"
 msgstr "Se încarcă calendarele"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:664
-#, fuzzy
-#| msgid "_New Calendar"
 msgid "_New Calendar..."
-msgstr "Calendar _nou"
+msgstr "Calendar _nou..."
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:681
 msgid "Calendar Selector"
@@ -15886,16 +15786,12 @@ msgid "Show message preview pane"
 msgstr "Arată panoul de previzualizare mesaje"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1099
-#, fuzzy
-#| msgid "Show deleted messages"
 msgid "Show _Deleted Messages"
-msgstr "Arată mesajele șterse"
+msgstr "Arată mesa_jele șterse"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1101
-#, fuzzy
-#| msgid "Show deleted messages (with a strike-through) in the message-list."
 msgid "Show deleted messages with a line through them"
-msgstr "Afișează mesajele șterse (cu o tăietură) în lista de mesaje."
+msgstr "Afișează mesajele șterse cu o tăietură în lista de mesaje."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1107
 msgid "_Group By Threads"
@@ -16135,8 +16031,6 @@ msgstr ""
 "pentru mail."
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:138
-#, fuzzy
-#| msgid "Do you want to make Evolution your default e-mail client?"
 msgid "Do you want to make Evolution your default email client?"
 msgstr "Doriți să faceți Evolution clientul implicit pentru email?"
 
@@ -16169,8 +16063,6 @@ msgstr "De la %s:"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:313
 #: ../modules/startup-wizard/evolution-startup-wizard.c:410
-#, fuzzy
-#| msgid "Importing files"
 msgid "Importing Files"
 msgstr "Importare fișiere"
 
@@ -16263,7 +16155,7 @@ msgstr "Redă atașamentele audio direct în mesaje."
 
 #: ../plugins/backup-restore/backup-restore.c:160
 msgid "Select name of the Evolution backup file"
-msgstr "Alege numele copiei de siguranta pentru Evolution"
+msgstr "Alege numele copiei de siguranță pentru Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:191
 msgid "_Restart Evolution after backup"
@@ -16289,7 +16181,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:305
 msgid "_Restore Evolution from the backup file"
-msgstr "_Restaurează Evolution dintr-o copie de sigurantă"
+msgstr "_Restaurează Evolution dintr-o copie de siguranță"
 
 #: ../plugins/backup-restore/backup-restore.c:312
 msgid "Please select an Evolution Archive to restore:"
@@ -16301,13 +16193,11 @@ msgstr "Alegeți un fișier pentru restaurare"
 
 #: ../plugins/backup-restore/backup-restore.c:323
 msgid "Restore from backup"
-msgstr "Restaurează dintr-o copie de sigurantă"
+msgstr "Restaurează dintr-o copie de siguranță"
 
 #: ../plugins/backup-restore/backup-restore.c:361
-#, fuzzy
-#| msgid "_Backup Settings..."
 msgid "_Backup Evolution Settings..."
-msgstr "Configurări _copie de siguranță..."
+msgstr "Creează _copii de siguranță configurărilor Evolution..."
 
 #: ../plugins/backup-restore/backup-restore.c:363
 msgid "Backup Evolution data and settings to an archive file"
@@ -16316,10 +16206,8 @@ msgstr ""
 "fișier arhivă"
 
 #: ../plugins/backup-restore/backup-restore.c:368
-#, fuzzy
-#| msgid "R_estore Settings..."
 msgid "R_estore Evolution Settings..."
-msgstr "R_estaurare configurări..."
+msgstr "Restaurează _copii de siguranță ale configurărilor Evolution..."
 
 #: ../plugins/backup-restore/backup-restore.c:370
 msgid "Restore Evolution data and settings from an archive file"
@@ -16364,7 +16252,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup.c:213
 msgid "Backup complete"
-msgstr "Copiere de sigurantă finalizată"
+msgstr "Copiere de siguranță finalizată"
 
 #: ../plugins/backup-restore/backup.c:218
 #: ../plugins/backup-restore/backup.c:239
@@ -16373,14 +16261,12 @@ msgid "Restarting Evolution"
 msgstr "Se repornește Evolution"
 
 #: ../plugins/backup-restore/backup.c:255
-#, fuzzy
-#| msgid "Backup current Evolution data"
 msgid "Back up current Evolution data"
-msgstr "Salvează de sigurantă datele curente Evolution"
+msgstr "Creează copii de siguranță datelor curente Evolution"
 
 #: ../plugins/backup-restore/backup.c:260
 msgid "Extracting files from backup"
-msgstr "Se extrag fișierele din copia de sigurantă"
+msgstr "Se extrag fișierele din copia de siguranță"
 
 #: ../plugins/backup-restore/backup.c:267
 msgid "Loading Evolution settings"
@@ -16453,13 +16339,11 @@ msgstr "Dorești să închizi Evolution?"
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "Sigur doriți să restaurați Evolution din copia de sigurantă aleasă?"
+msgstr "Sigur doriți să restaurați Evolution din copia de siguranță aleasă?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#, fuzzy
-#| msgid "Choose an action:"
 msgid "Close and Backup Evolution"
-msgstr "Alegeți o acțiune:"
+msgstr "Închide și creează copii de siguranță Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 #, fuzzy
@@ -16473,11 +16357,11 @@ msgstr "Permisiuni insuficiente"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid "Invalid Evolution backup file"
-msgstr "Copie de sigurantă Evolution nevalidă"
+msgstr "Copie de siguranță Evolution nevalidă"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid "Please select a valid backup file to restore."
-msgstr "Pentru restaurare, alegeți o copie de sigurantă validă."
+msgstr "Pentru restaurare, alegeți o copie de siguranță validă."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "The selected folder is not writable."
@@ -16517,8 +16401,6 @@ msgstr "Contacte pentru mesageria instant"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:745
-#, fuzzy
-#| msgid "Synchronize contact info and images from Pidgin buddy list"
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "Sincronizează informațiile și imaginile contactelor din lista Pidgin"
 
@@ -16661,11 +16543,9 @@ msgid "Previous attempt failed with code %d"
 msgstr "Încercarea anterioară a eșuat cu codul %d"
 
 #: ../plugins/caldav/caldav-browse-server.c:801
-#, fuzzy, c-format
-#| msgid "Enter password for user <b>%s</b> on server <b>%s</b>"
 msgid "Enter password for user %s on server %s"
 msgstr ""
-"Introduceți parola pentru utilizatorul <b>%s</b> de pe serverul <b>%s</b>"
+"Introduceți parola pentru utilizatorul %s de pe serverul %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:860
 #, c-format
@@ -16868,34 +16748,24 @@ msgid "Map for contacts"
 msgstr "Hartă pentru contacte"
 
 #: ../plugins/dbx-import/dbx-importer.c:232
-#, fuzzy
-#| msgid "Select folder to import into"
 msgid "Select folder to import OE folder into"
-msgstr "Selectați dosarul în care se face importarea"
+msgstr "Selectați dosarul în care se face importarea dosarului OE"
 
 #: ../plugins/dbx-import/dbx-importer.c:251
-#, fuzzy
-#| msgid "Importing Outlook data"
 msgid "Importing Outlook Express data"
-msgstr "Se importă datele Outlook"
+msgstr "Se importă datele Outlook Express"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
-#, fuzzy
-#| msgid "Import Outlook messages from PST file"
 msgid "Import Outlook Express messages from DBX file"
-msgstr "Import mesaje Outlook din fișier PST"
+msgstr "Importă mesaje Outlook Express din fișier DBX"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
-#, fuzzy
-#| msgid "Outlook PST import"
 msgid "Outlook DBX import"
-msgstr "Import Outlook PST"
+msgstr "Importă Outlook DBX"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
-#, fuzzy
-#| msgid "Outlook personal folders (.pst)"
 msgid "Outlook Express 5/6 personal folders (.dbx)"
-msgstr "Dosare personale Outlook (.pst)"
+msgstr "Dosare personale Outlook Express 5/6 (.dbx)"
 
 #: ../plugins/default-source/default-source.c:83
 msgid "Mark as _default address book"
@@ -17141,10 +17011,8 @@ msgstr "Fișierul ales nu pare a fi o imagine .png validă. Eroare: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:274
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:236
-#, fuzzy
-#| msgid "_Server:"
 msgid "Server"
-msgstr "_Server:"
+msgstr "Server"
 
 #: ../plugins/google-account-setup/google-source.c:437
 #, c-format
@@ -17173,10 +17041,8 @@ msgid "Cal_endar:"
 msgstr "Cal_endar:"
 
 #: ../plugins/google-account-setup/google-source.c:669
-#, fuzzy
-#| msgid "Retrieve _list"
 msgid "Retrieve _List"
-msgstr "Obțină _listă"
+msgstr "Obține _listă"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
@@ -17437,10 +17303,8 @@ msgid "The participants will receive the following notification.\n"
 msgstr "Participanții vor primi următoarea notificare.\n"
 
 #: ../plugins/groupwise-features/properties.ui.h:9
-#, fuzzy
-#| msgid "Users"
 msgid "Users:"
-msgstr "Utilizatori"
+msgstr "Utilizatori:"
 
 #: ../plugins/groupwise-features/properties.ui.h:12
 msgid "_Not Shared"
@@ -17527,8 +17391,6 @@ msgstr "Tabul de proxy va fi disponibil doar după ce contul este activat."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:700
-#, fuzzy
-#| msgid "Proxy"
 msgctxt "GW"
 msgid "Proxy"
 msgstr "Proxy"
@@ -17675,10 +17537,8 @@ msgstr "Opțiuni IMAP"
 #. Translators: The first '%s' is replaced with a calendar name,
 #. the second '%s' with an error message
 #: ../plugins/itip-formatter/itip-formatter.c:485
-#, fuzzy, c-format
-#| msgid "Failed to load the calendar '%s'"
 msgid "Failed to load the calendar '%s' (%s)"
-msgstr "Eroare la deschiderea calendarului „%s”"
+msgstr "Eroare la deschiderea calendarului „%s” (%s)"
 
 #: ../plugins/itip-formatter/itip-formatter.c:649
 #, c-format
@@ -17789,11 +17649,11 @@ msgstr "Nu am putut trimite informațiile despre ședință, nu există ședinț
 
 #: ../plugins/itip-formatter/itip-formatter.c:1461
 msgid "Unable to send task information, the task does not exist"
-msgstr "Nu pot trimite informațiile pentru sarcină, sarcina nu există"
+msgstr "Nu se pot trimite informațiile pentru sarcină, sarcina nu există"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1464
 msgid "Unable to send memo information, the memo does not exist"
-msgstr "Nu pot trimite informațiile pentru notă, nota nu există"
+msgstr "Nu se pot trimite informațiile pentru notă, nota nu există"
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1529
@@ -18009,285 +17869,189 @@ msgstr "%A, %e %B, %Y %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:367
 #: ../plugins/itip-formatter/itip-view.c:455
 #: ../plugins/itip-formatter/itip-view.c:542
-#, fuzzy, c-format
-#| msgid "Please respond on behalf of <b>%s</b>"
 msgid "Please respond on behalf of %s"
-msgstr "Te rog răspunde în numele lui <b>%s</b>"
+msgstr "Te rog răspunde în numele lui %s"
 
 #: ../plugins/itip-formatter/itip-view.c:369
 #: ../plugins/itip-formatter/itip-view.c:457
 #: ../plugins/itip-formatter/itip-view.c:544
-#, fuzzy, c-format
-#| msgid "Received on behalf of <b>%s</b>"
 msgid "Received on behalf of %s"
-msgstr "Primit din partea lui <b>%s</b>"
+msgstr "Primit din partea lui %s"
 
 #: ../plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s has published the following meeting information:"
 msgid "%s through %s has published the following meeting information:"
-msgstr "<b>%s</b> prin %s a publicat următoarele informații pentru ședință:"
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following meeting information:"
 msgid "%s has published the following meeting information:"
-msgstr "<b>%s</b> a publicat următoarele informații pentru ședință:"
+msgstr "%s a publicat următoarele informații pentru ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:381
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has delegated the following meeting to you:"
 msgid "%s has delegated the following meeting to you:"
-msgstr "<b>%s</n> a delegat următoarea ședință către dumneavoastră:"
+msgstr "%s a delegat următoarea ședință către dumneavoastră:"
 
 #: ../plugins/itip-formatter/itip-view.c:384
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s requests your presence at the following meeting:"
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> prin %s vă solicită prezența la următoarea ședință:"
+msgstr "%s prin %s vă solicită prezența la următoarea ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:386
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests your presence at the following meeting:"
 msgid "%s requests your presence at the following meeting:"
-msgstr "<b>%s</b> vă solicită prezența la următoarea ședință:"
+msgstr "%s vă solicită prezența la următoarea ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:392
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> prin %s dorește să adauge la o ședință existentă:"
+msgstr "%s prin %s dorește să adauge la o ședință existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:394
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgid "%s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> dorește să adauge la o ședință existentă:"
+msgstr "%s dorește să adauge la o ședință existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:398
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s wishes to receive the latest information for the "
-#| "following meeting:"
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"<b>%s</b> până la %s doresc să primească ultimele informații pentru "
+"%s până la %s doresc să primească ultimele informații pentru "
 "următoarele întâlnire:"
 
 #: ../plugins/itip-formatter/itip-view.c:400
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following "
-#| "meeting:"
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr ""
-"<b>%s</b> dorește să primească ultimele informații despre următoarea ședință:"
+"%s dorește să primească ultimele informații despre următoarea ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:404
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has sent back the following meeting response:"
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> până la %s au trimis următorul răspuns pentru întâlnire:"
+msgstr "%s până la %s au trimis următorul răspuns pentru întâlnire:"
 
 #: ../plugins/itip-formatter/itip-view.c:406
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following meeting response:"
 msgid "%s has sent back the following meeting response:"
-msgstr "<b>%s</b> a trimis înapoi următorul răspuns la ședință:"
+msgstr "%s a trimis înapoi următorul răspuns la ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:410
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgid "%s through %s has canceled the following meeting:"
-msgstr "<b>%s</b> prin %s a anulat următoarea ședință:"
+msgstr "%s prin %s a anulat următoarea ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:412
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following meeting."
 msgid "%s has canceled the following meeting."
-msgstr "<b>%s</b> a anulat următoarea ședință."
+msgstr "%s a anulat următoarea ședință."
 
 #: ../plugins/itip-formatter/itip-view.c:416
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has proposed the following meeting changes."
 msgid "%s through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> prin %s a propus următoarele modificări ale întâlnirii."
+msgstr "%s prin %s a propus următoarele modificări ale întâlnirii."
 
 #: ../plugins/itip-formatter/itip-view.c:418
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following meeting changes."
 msgid "%s has proposed the following meeting changes."
-msgstr "<b>%s</b> a propus următoarele modificări la ședință."
+msgstr "%s a propus următoarele modificări la ședință."
 
 #: ../plugins/itip-formatter/itip-view.c:422
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> prin %s a refuzat următoarele modificări la ședință:"
+msgstr "%s prin %s a refuzat următoarele modificări la ședință:"
 
 #: ../plugins/itip-formatter/itip-view.c:424
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has declined the following meeting changes."
 msgid "%s has declined the following meeting changes."
-msgstr "<b>%s</b> a refuzat următoarele modificări la ședință."
+msgstr "%s a refuzat următoarele modificări la ședință."
 
 #: ../plugins/itip-formatter/itip-view.c:462
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following task:"
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b> prin %s a publicat următoarea sarcină:"
+msgstr "%s prin %s a publicat următoarea sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:464
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following task:"
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> a publicat următoarea sarcină:"
+msgstr "%s a publicat următoarea sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:469
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> cere desemnarea lui %s pentru următoarea sarcină:"
+msgstr "%s cere desemnarea lui %s pentru următoarea sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:472
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has assigned you a task:"
 msgid "%s through %s has assigned you a task:"
-msgstr "<b>%s</b> prin %s v-a desemnat pentru o sarcină:"
+msgstr "%s prin %s v-a desemnat pentru o sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has assigned you a task:"
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> v-a desemnat pentru o sarcină:"
+msgstr "%s v-a desemnat pentru o sarcină:"
 
 #: ../plugins/itip-formatter/itip-view.c:480
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> prin %s dorește să vă adauge la o sarcină existentă:"
+msgstr "%s prin %s dorește să vă adauge la o sarcină existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:482
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing task:"
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> dorește să vă adauge la o sarcină existentă:"
+msgstr "%s dorește să vă adauge la o sarcină existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:486
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s wishes to receive the latest information for the "
-#| "following assigned task:"
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"<b>%s</b> prin %s dorește să primească ultimele informații pentru "
+"%s prin %s dorește să primească ultimele informații pentru "
 "următoarele sarcini desemnate:"
 
 #: ../plugins/itip-formatter/itip-view.c:488
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following "
-#| "assigned task:"
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr ""
-"<b>%s</b> dorește să primească ultimele informații referitoare la următoarea "
+"%s dorește să primească ultimele informații referitoare la următoarea "
 "sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:492
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s has sent back the following assigned task response:"
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
-"<b>%s</b> prin %s a trimis înapoi următorul răspuns pentru sarcinile "
+"%s prin %s a trimis înapoi următorul răspuns pentru sarcinile "
 "desemnate:"
 
 #: ../plugins/itip-formatter/itip-view.c:494
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following assigned task response:"
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> a trimis înapoi următorul răspuns la sarcina desemnată:"
+msgstr "%s a trimis înapoi următorul răspuns la sarcina desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:498
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgid "%s through %s has canceled the following assigned task:"
-msgstr "<b>%s</b> prin %s a anulat următoarea sarcină desemnată:"
+msgstr "%s prin %s a anulat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:500
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following assigned task:"
 msgid "%s has canceled the following assigned task:"
-msgstr "<b>%s</b> a anulat următoarea sarcină desemnată:"
+msgstr "%s a anulat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:504
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> through %s has proposed the following task assignment changes:"
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
-"<b>%s</b> prin %s a propus următoarele modificări pentru sarcinile desemnate:"
+"%s prin %s a propus următoarele modificări pentru sarcinile desemnate:"
 
 #: ../plugins/itip-formatter/itip-view.c:506
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgid "%s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> a propus următoarele modificări la desemnarea sarcinii:"
+msgstr "%s a propus următoarele modificări la desemnarea sarcinii:"
 
 #: ../plugins/itip-formatter/itip-view.c:510
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgid "%s through %s has declined the following assigned task:"
-msgstr "<b>%s</b> prin %s a refuzat următoarea sarcină desemnată:"
+msgstr "%s prin %s a refuzat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:512
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has declined the following assigned task:"
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> a declinat următoarea sarcină desemnată:"
+msgstr "%s a declinat următoarea sarcină desemnată:"
 
 #: ../plugins/itip-formatter/itip-view.c:549
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following memo:"
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b> prin %s a publicat următoarea notiță:"
+msgstr "%s prin %s a publicat următoarea notiță:"
 
 #: ../plugins/itip-formatter/itip-view.c:551
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following memo:"
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> a publicat următoarea notiță:"
+msgstr "%s a publicat următoarea notiță:"
 
 #: ../plugins/itip-formatter/itip-view.c:556
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing memo:"
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> prin %s dorește să adauge la o notiță existentă:"
+msgstr "%s prin %s dorește să adauge la o notiță existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:558
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing memo:"
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> dorește să adauge la o notiță existentă:"
+msgstr "%s dorește să adauge la o notiță existentă:"
 
 #: ../plugins/itip-formatter/itip-view.c:562
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following shared memo:"
 msgid "%s through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> prin %s a anulat următoarea notiță partajată:"
+msgstr "%s prin %s a anulat următoarea notiță partajată:"
 
 #: ../plugins/itip-formatter/itip-view.c:564
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following shared memo:"
 msgid "%s has canceled the following shared memo:"
-msgstr "<b>%s</b> a anulat următoarea notiță partajată:"
+msgstr "%s a anulat următoarea notiță partajată:"
 
 #: ../plugins/itip-formatter/itip-view.c:688
 msgid "All day:"
@@ -18331,10 +18095,8 @@ msgstr "_Refuză"
 #: ../plugins/itip-formatter/itip-view.c:862
 #: ../plugins/itip-formatter/itip-view.c:878
 #: ../plugins/itip-formatter/itip-view.c:883
-#, fuzzy
-#| msgid "Accept"
 msgid "A_ccept"
-msgstr "Acceptare"
+msgstr "A_cceptă"
 
 #: ../plugins/itip-formatter/itip-view.c:853
 msgid "_Decline all"
@@ -18352,10 +18114,8 @@ msgid "_Tentative"
 msgstr "Î_ntr-o doară"
 
 #: ../plugins/itip-formatter/itip-view.c:855
-#, fuzzy
-#| msgid "_Accept all"
 msgid "A_ccept all"
-msgstr "_Acceptă tot"
+msgstr "A_cceptă tot"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:866
@@ -18419,10 +18179,6 @@ msgid "Itip Formatter"
 msgstr "Formatare itip"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
-#, fuzzy
-#| msgid ""
-#| "&quot;{0}&quot; has delegated the meeting. Do you want to add the "
-#| "delegate &quot;{1}&quot;?"
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr "„{0}” a delegat ședința. Doriți să adăugați delegatul „{1}”?"
 
@@ -20366,16 +20122,12 @@ msgid "Are you sure you want to forget all remembered passwords?"
 msgstr "Sunteți sigur că doriți să uitați toate parolele memorate?"
 
 #: ../shell/shell.error.xml.h:2
-#, fuzzy
-#| msgid "Delete old data from version {0}?"
 msgid "Cannot upgrade directly from version {0}"
-msgstr "Ștergeți datele vechi din versiunea {0}?"
+msgstr ""
 
 #: ../shell/shell.error.xml.h:3
-#, fuzzy
-#| msgid "Continue"
 msgid "Continue Anyway"
-msgstr "Continuă"
+msgstr "Continuă oricum"
 
 #: ../shell/shell.error.xml.h:4
 msgid ""
@@ -20605,8 +20357,6 @@ msgid "Certificate Viewer: %s"
 msgstr "Vizualizare certificat: %s"
 
 #: ../smime/gui/component.c:46
-#, fuzzy, c-format
-#| msgid "Enter the password for `%s'"
 msgid "Enter the password for '%s'"
 msgstr "Introduceți parola pentru „%s”"
 
@@ -20651,10 +20401,8 @@ msgid "Authorities"
 msgstr "Autorități"
 
 #: ../smime/gui/smime-ui.ui.h:3
-#, fuzzy
-#| msgid "Backup All"
 msgid "Backup _All"
-msgstr "Fă o copie de siguranță la tot"
+msgstr "Fă o copie de siguranță l_a tot"
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid ""
@@ -20806,10 +20554,8 @@ msgid "Your Certificates"
 msgstr "Certificatele dumneavoastră"
 
 #: ../smime/gui/smime-ui.ui.h:43
-#, fuzzy
-#| msgid "Backup"
 msgid "_Backup"
-msgstr "Copie de siguranță"
+msgstr "Co_pie de siguranță"
 
 #: ../smime/gui/smime-ui.ui.h:44
 msgid "_Edit CA Trust"
@@ -20861,22 +20607,16 @@ msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:639
-#, fuzzy
-#| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-256 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 cu criptare RSA"
+msgstr "PKCS #1 SHA-256 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:642
-#, fuzzy
-#| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-384 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 cu criptare RSA"
+msgstr "PKCS #1 SHA-384 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:645
-#, fuzzy
-#| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-512 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 cu criptare RSA"
+msgstr "PKCS #1 SHA-512 cu criptare RSA"
 
 #: ../smime/lib/e-cert.c:672
 msgid "PKCS #1 RSA Encryption"
@@ -21459,10 +21199,8 @@ msgstr ""
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:770
-#, fuzzy
-#| msgid "Cancel"
 msgid "_Cancel Import"
-msgstr "Renunță"
+msgstr "An_ulează importarea"
 
 #: ../widgets/misc/e-import-assistant.c:912
 #, fuzzy
@@ -22173,16 +21911,16 @@ msgstr "Metode de introducere"
 #~ msgstr "Nu am putut porni evolution-data-server"
 
 #~ msgid "Could not read pilot's Calendar application block"
-#~ msgstr "Nu pot citi blocul de aplicație al calendarului pilot"
+#~ msgstr "Nu se poate citi blocul de aplicație al calendarului pilot"
 
 #~ msgid "Default Priority:"
 #~ msgstr "Prioritatea implicită:"
 
 #~ msgid "Could not read pilot's ToDo application block"
-#~ msgstr "Nu pot citi blocul aplicației ToDo pentru pilot"
+#~ msgstr "Nu se poate citi blocul aplicației ToDo pentru pilot"
 
 #~ msgid "Could not write pilot's ToDo application block"
-#~ msgstr "Nu pot scrie blocul aplicației ToDo pentru pilot"
+#~ msgstr "Nu se poate scrie blocul aplicației ToDo pentru pilot"
 
 #~ msgid "Show week numbers in date navigator"
 #~ msgstr "Afișează numărul de săptămâni în navigatorul pentru date"
