@@ -299,16 +299,15 @@ dnl **********************************
 dnl Check for base dependencies early.
 dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
-	[glib-2.0 >= glib_minimum_version
-	 gthread-2.0 >= glib_minimum_version
-	 $GTK >= $gtk_minimum_version
-	 $GAIL >= $gail_minimum_version
+	[gio-2.0 >= glib_minimum_version
+	 $GTK >= gtk_minimum_version
+	 $GAIL >= gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 pangoft2 >= pangoft2_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 $GNOME_DESKTOP >= $gnome_desktop_minimum_version
-	 $UNIQUE >= $unique_minimum_version])
+	 $GNOME_DESKTOP >= gnome_desktop_minimum_version
+	 $UNIQUE >= unique_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -1272,7 +1271,7 @@ dnl (which are dragged in through libedataserverui), as both
 dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
-EVO_SET_COMPILE_FLAGS(CERT_UI, $LIBEDATASERVERUI gthread-2.0)
+EVO_SET_COMPILE_FLAGS(CERT_UI, $LIBEDATASERVERUI)
 CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
 CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
