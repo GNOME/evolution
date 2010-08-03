@@ -1,3 +1,110 @@
+Evolution 2.31.6 2010-08-02
+---------------------------
+
+Evolution now complies with the XDG Base Directory Specification [1],
+which means user-specific data is no longer stored under ~/.evolution.
+Instead, data is partitioned into three base directories controlled by
+environment variables:
+
+   $XDG_DATA_HOME/evolution    (default: $HOME/.local/share/evolution)
+   $XDG_CACHE_HOME/evolution   (default: $HOME/.cache/evolution)
+   $XDG_CONFIG_HOME/evolution  (default: $HOME/.config/evolution)
+
+Data which is managed by Evolution will be migrated from $HOME/.evolution
+on startup.
+
+[1] http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+
+
+Express mode now shows mail messages and folders in tabs, using Clutter
+for animation effects if available.  (Srinivasa Ragavan)
+
+
+Bug Fixes:
+	Bug 598833 - Do not ship dropped evo_mail_notifier.png (Matthew Barnes)
+	Bug 615049 - Crash in remove_contact at e-addressbook-model.c:202
+	             (Milan Crha)
+	Bug 622181 - Backup settings uses unhelpful yes/no dialog
+	             (Matthew Barnes)
+	Bug 622912 - Migrate from dbus-glib to glib's GDBus (Milan Crha)
+	Bug 623035 - Crash when printing email with too many recipients
+	             (Milan Crha)
+	Bug 624204 - Warn when replying privately to a mailing list message
+	             (David Woodhouse)
+	Bug 624216 - Runtime warning in Attachment Reminder plugin
+	             (Matthew Barnes)
+	Bug 624235 - CamelPOP3Store missing some methods (Matthew Barnes)
+	Bug 624237 - Fails to start when smartcard is inserted (Matthew Barnes)
+	Bug 624285 - When replying, ignore text selection if preview is hidden
+	             (Matthew Barnes)
+	Bug 624335 - Abort after group-by-thread with certain sorting
+	             (Milan Crha)
+	Bug 624482 - Monitor /apps/evolution/mail/prompts for changes
+	             (David Woodhouse)
+	Bug 624500 - Missing EggSMClient linker flags in shell (Matthew Barnes)
+	Bug 624525 - Variable name collision in gtk-compat macro (Milan Crha)
+	Bug 624534 - Adapt to GTK+ GtkNotebookPage changes (Kjartan Maraas)
+	Bug 624677 - Missing keyboard shortcut for "Save as mbox"
+	             (Matthew Barnes)
+	Bug 624891 - Various compiler warnings in git/master (Milan Crha)
+	Bug 625204 - Typo in e_day_view_finish_long_event_resize()
+	             (Thomas Mittelstaedt)
+	Bug 625606 - git/master build dies with glib-2.25.12 (Milan Crha)
+	Bug 625624 - Customizations of contacts views forgotten
+	             (Matthew Barnes)
+	Bug 625724 - Message filters do no work (Lucian Langa)
+	Bug 625761 - Folder views not preserved after migration (Lucian Langa)
+
+Other Changes:
+	* EMailReader: Remove unused variable (Matthew Barnes)
+	* Warn on reply-to-all with too many recipients (David Woodhouse)
+	* Add support for ignoring mailing list Reply-To: headers
+	  (David Woodhouse)
+	* Fix two memory leaks when replying (David Woodhouse)
+	* Don't show the "reply in private?" nag popup for munged Reply-To:
+	  list messages (David Woodhouse)
+	* Change 'Reply to All' toolbar button into configurable
+	  'Group Reply' (David Woodhouse)
+	* Add nag popup when mailing list hijacks private reply with
+	  Reply-To: header (David Woodhouse)
+	* Clean up "ensure_sources" backend routines. (Matthew Barnes)
+	* Report error to user when fails to open calendar/task/memo list
+	  (Milan Crha)
+	* Disable my evil GtkExpander hack in EAttachmentPaned (Matthew Barnes)
+	* Use PVOID instead of gpointer when working with COM+ function
+	  pointers (Fridrich Štrba)
+	* Migrate ~/.evolution to XDG base directories. (Matthew Barnes)
+	* Reset BASE_VERSION to 2.32. (Matthew Barnes)
+	* Remove unused 'preview' argument from
+	  e_import_assistant_new_simple(). (Matthew Barnes)
+	* Make EImportAssistant extensible. (Matthew Barnes)
+	* addressbook/gui, plugins/groupwise, widgets/misc: Update to new
+	  icon theme (Rob Bradford)
+	* build: Update gnome-icon-theme dependency for new default-avatar
+	  icon (Rob Bradford)
+	* addressbook: Port to use new _async suffix instead of _ex suffix
+	  (Rob Bradford)
+	* mail-reader: e_mail_reader_get_formatter may now return NULL
+	  (Rob Bradford)
+	* Prefer gio-2.0 when requiring GLib libraries. (Matthew Barnes)
+	* mail-session: Use the shell's active window as parent for
+	  dialog (Rob Bradford)
+	* fix lifecycle nasties bgo#625852 (Michael Meeks)
+
+Translations:
+	Mario Blättermann (de)
+	Christian Kirbach (de)
+	Jorge González (es)
+	Fran Diéguez (gl)
+	Nana Suryana (id)
+	Shankar Prasad (kn)
+	Sandeep Shedmake (mr)
+	Kjartan Maraas (nb)
+	Lucian Adrian Grijincu (ro)
+	krishnababu k (te)
+	Aron Xu (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
 Evolution 2.31.5 2010-07-12
 ---------------------------
 
@@ -31,11 +138,11 @@ Other Changes:
 	  (Matthew Barnes)
 
 Translations:
-	Jorge Gonz�lez (es)
-	Fran Di�guez (gl)
+	Jorge González (es)
+	Fran Diéguez (gl)
 	Kjartan Maraas (nb)
-	Matej Urban�i� (sl)
-	Andrej �nidar�i� (sl)
+	Matej Urban¿i¿ (sl)
+	Andrej ¿nidar¿i¿ (sl)
 
 Evolution 2.31.4 2010-06-29
 ---------------------------
@@ -88,8 +195,8 @@ Miscellaneous Fixes:
 	Don't auto-undelete when viewing Trash folder. (Matthew Barnes)
 	Composer: Only hide single From account in express mode. (Matthew Barnes)
 	Left-align text in switcher buttons. (Matthew Barnes)
-	[win32] Don't run evolution when asked to register handlers. (Fridrich ��trba)
-	[win32] add --register-handlers and --unregister-handlers options and don't tamper with registry unless asked for it explicitely. (Fridrich ��trba)
+	[win32] Don't run evolution when asked to register handlers. (Fridrich ¿¿trba)
+	[win32] add --register-handlers and --unregister-handlers options and don't tamper with registry unless asked for it explicitely. (Fridrich ¿¿trba)
 	Warn the user before marking all messages as read (Chenthill Palanisamy)
 	Remove gnome-pilot integration. (Matthew Barnes)
 	Embed libart_lgpl and libgnomecanvas. (Matthew Barnes)
@@ -97,8 +204,8 @@ Miscellaneous Fixes:
 Translations:
 	Kjartan Maraas (nn)
 	Wouter Bolsterlee (nl)
-	Jorge Gonz��lez (es)
-	Fran Di��guez (gl)
+	Jorge Gonz¿¿lez (es)
+	Fran Di¿¿guez (gl)
 
 Evolution 2.31.3 2010-06-07
 ---------------------------
@@ -138,20 +245,20 @@ Miscellaneous Fixes:
 	Hook up GNOME's configured SOCKS4 proxy in the mail session (Federico Mena Quintero)
 	Convert "startup-wizard" to an EExtension. (Matthew Barnes)
 	Use the send_port, not the recv_port, when configuring SMTP for an account (Federico Mena Quintero)
-	[win32] Relocate the position of mail-autoconfig directory (Fridrich ��trba)
+	[win32] Relocate the position of mail-autoconfig directory (Fridrich ¿¿trba)
 	Use EWebView functions whenever possible. (Matthew Barnes)
 	Fix alignment of lblCarset in composer-prefs-dialog (Gert Michael Kulyk)
 	Simplify the Notes tab in Contact Editor. (Matthew Barnes)
-	Install evolution-alarm-notify into bindir for windows (Fridrich ��trba)
-	[win32] Set a path in evolution-alarm-notify binary, so it finds its dependencies even if it is started by a link in StartUp submenu of Program menu. (Fridrich ��trba)
+	Install evolution-alarm-notify into bindir for windows (Fridrich ¿¿trba)
+	[win32] Set a path in evolution-alarm-notify binary, so it finds its dependencies even if it is started by a link in StartUp submenu of Program menu. (Fridrich ¿¿trba)
 	Revert "don't bridge to the active-view gconf setting" (Matthew Barnes)
 	Merge branch 'express2' (Matthew Barnes)
 	Add tooltips for print button on CompEditor toolbar. (Matthew Barnes)
 
 Translations:
 	Ivar Smolin (et)
-	Jorge Gonz��lez (es)
-	Fran Di��guez (gl)
+	Jorge Gonz¿¿lez (es)
+	Fran Di¿¿guez (gl)
 	Theppitak Karoonboonyanan (th)
 	Sira Nokyoongtong (th)
 	Kjartan Maraas (nn)
@@ -204,58 +311,58 @@ Bug Fixes:
 Other Changes:
 	* Convert "default-mailer" plugin to an extension. (Matthew Barnes)
 	* Initial implementation of setting evolution as default mail client
-	  and mailto handler. (Fridrich Štrba)
+	  and mailto handler. (Fridrich Å trba)
 	* Require GtkHtml 3.31.2 for new API in bug #220672. (Matthew Barnes)
 	* Improve attachment bar selection behavior. (Matthew Barnes)
 	* Create the source groups required to ensure local adresssbooks and
 	  calendars are created (Chenthill Palanisamy)
 	* Consider full name and also the first part of e-mail address for
-	  contact description in the import dialogue. (Fridrich Štrba)
-	* On Windows, some LDIF files can have .ldi extension (Fridrich Štrba)
+	  contact description in the import dialogue. (Fridrich Å trba)
+	* On Windows, some LDIF files can have .ldi extension (Fridrich Å trba)
 	* [win32] Set patch to evolution's bindir because some child
-	  processes need it in some situations. (Fridrich Štrba)
+	  processes need it in some situations. (Fridrich Å trba)
 	* [win32] Don't call glib functions before g_thread_init was called
 	  and register evolution as capable to handle mailto: protocol on
-	  startup (Fridrich Štrba)
+	  startup (Fridrich Å trba)
 	* [win32] Make Evolution actually appear in "Set Program Access and
 	  Defaults" dialogue and use quoted string instead of short path,
 	  since this is how the "Hotmail" e-mail provider is doing it
-	  (unlike what documentation says) (Fridrich Štrba)
+	  (unlike what documentation says) (Fridrich Å trba)
 	* [win32] Implement --reinstall, --show-icons, --hide-icons options
 	  to be used by windows default application setting dialogue
-	  (Fridrich Štrba)
+	  (Fridrich Å trba)
 	* [win32] Try to get the default application registration right
-	  (Fridrich Štrba)
+	  (Fridrich Å trba)
 	* [win32] Register evolution as "Contacts" application and .vcf
-	  handler (Fridrich Štrba)
+	  handler (Fridrich Å trba)
 	* [win32] Register evolution as able to handle ldif files too
-	  (Fridrich Štrba)
+	  (Fridrich Å trba)
 
 Translations:
-[be8a061] Updated Galician translations (Fran Diéguez)
+[be8a061] Updated Galician translations (Fran DiÃ©guez)
 [3a9faf9] Updated Shavian translation (Thomas Thurman)
-[491100b] Updated Spanish translation (Jorge González)
-[c5fa894] Updated Spanish translation (Jorge González)
+[491100b] Updated Spanish translation (Jorge GonzÃ¡lez)
+[c5fa894] Updated Spanish translation (Jorge GonzÃ¡lez)
 [ce37e4c] Estonian translation updated (Ivar Smolin)
 [85ebbc3] Updated Shavian translation (Thomas Thurman)
 [fd151ac] Updated Shavian translation (Thomas Thurman)
 [801c425] Updated Shavian transliteration (Thomas Thurman)
-[933e668] Updated Galician translations (Fran Diéguez)
-[073d7e1] Updated Norwegian bokmål translation (Kjartan Maraas)
+[933e668] Updated Galician translations (Fran DiÃ©guez)
+[073d7e1] Updated Norwegian bokmÃ¥l translation (Kjartan Maraas)
 [2f57daa] Updated Oriya Translation (Manoj Kumar Giri)
 [a516af7] Updated Oriya Translation (Manoj Kumar Giri)
 [aa3e354] Updated Oriya Translation (Manoj Kumar Giri)
 [8254cec] [help] Updated German help translation screenshots (Christian Kirbach)
-[e1bae28] Updated Spanish translation (Jorge González)
-[518c616] Estonian translation updated (Mattias Põldaru)
+[e1bae28] Updated Spanish translation (Jorge GonzÃ¡lez)
+[518c616] Estonian translation updated (Mattias PÃµldaru)
 [27eb820] Added be to LINGUAS (Ihar Hrachyshka)
-[1d4c54e] Updated Galician translations (Fran Diéguez)
+[1d4c54e] Updated Galician translations (Fran DiÃ©guez)
 
 Evolution 2.31.1 2010-05-03
 ----------------------------
 
 Bug Fixes:
-	Bug #614346 - Use cached table row height rather than recalculate (Michel Dänzer)
+	Bug #614346 - Use cached table row height rather than recalculate (Michel DÃ¤nzer)
 	Bug #545505 - Properly free unused message infos periodically (Milan Crha)
 	Bug #609052 - Crash printing contacts in List View (Bharath Acharya)
 	Bug #569523 - be.po (Ihar Hrachyshka)
@@ -267,13 +374,13 @@ Bug Fixes:
 	Bug #603418 - Custom headers not displayed in message preview (Milan Crha)
 	Bug #613392 - No copyright/licensing information for geo-utils (Cedric Bosdonnat)
 	Bug #360461 - Avoid markup in translatable messages (Milan Crha)
-	Bug #583742 — Port to external libgdata (Philip Withnall)
+	Bug #583742 â Port to external libgdata (Philip Withnall)
 	Bug #494047 - Unescape uris in composer's Post-To (Milan Crha)
 	Bug #615331 - Message list/Folder tree focus policy has changed (Milan Crha)
 	Bug #616097 - Remembers page ranges (Matthew Barnes)
 	Bug #592986 - Preferences window shows some buttons on icons (Matthew Barnes)
 	Bug #610428 - Duplicate mnemonic in itip formatted message (Matthew Barnes)
-	Bug #614041 - Filter's relative date combos aren't set (Matthew Barnes)
+	BugÂ #614041 - Filter's relative date combos aren't set (Matthew Barnes)
 	Bug #615814 - Missing mnemonic in import dialog (Matthew Barnes)
 	Bug #613867 - Minor typo in Evolution documentation (Marios Zindilis)
 	Bug #600861 - Backup utility should use --quit instead of --force-shutdown (Matthew Barnes)
@@ -288,10 +395,10 @@ Bug Fixes:
 	Bug #612236 - Find-As-You-Type in Folder list stops working (Milan Crha)
 	Bug 614644 - Email window's title is blank when subject is blank (Matthew Barnes)
 	Bug #614647 - Don't reset names and colors of default mail labels (Matt McCutchen)
-	Bug #614813 - Crash during e-mail migration (Jürg Billeter)
+	Bug #614813 - Crash during e-mail migration (JÃ¼rg Billeter)
 	Bug #614889 - Memory leaks in EMailSidebar (Paolo Borelli)
 	Bug #614892 - String leak in the composer (Paolo Borelli)
-	Bug #614918 - GnomeGoal: Correct Desktop Files (Javier Jardón)
+	Bug #614918 - GnomeGoal: Correct Desktop Files (Javier JardÃ³n)
 	Bug #614926 - Memos and Tasks accelerators switched since 2.28 (Matt McCutchen 2)
 	Bug #591939 - Use ngettext in e-datetime-format.c (Milan Crha)
 	Bug #574755 - Add translator comments (Milan Crha)
@@ -331,22 +438,22 @@ Bug Fixes:
 Miscellaneous Fixes:
 	Adapt to Camel API changes. (Matthew Barnes)
 	[i18n] Strings not aligned in ui. (bgo #616181) (Mario Carrion)
-	One more fix of the icon installation (Fridrich Štrba)
-	Fix a typo on Makefile.am that prevents installation of a big chunk of the stock icons (Fridrich Štrba)
+	One more fix of the icon installation (Fridrich Å trba)
+	Fix a typo on Makefile.am that prevents installation of a big chunk of the stock icons (Fridrich Å trba)
 	Use default headers when none stored to display in mailer (Milan Crha)
-	Fix linking of face plugin (Fridrich Štrba)
+	Fix linking of face plugin (Fridrich Å trba)
 	Camel is now GObject-based. (Matthew Barnes)
 	Initialize dbus threading to avoid loosing alarms (Michael Meeks)
-	Relocating EVOLUTION_BINDIR which will be used in plugin setting Evolution comme defaut mail application on windows. (Fridrich Štrba)
-	Remove 3 leftover references to non-existing libraries (Fridrich Štrba)
+	Relocating EVOLUTION_BINDIR which will be used in plugin setting Evolution comme defaut mail application on windows. (Fridrich Å trba)
+	Remove 3 leftover references to non-existing libraries (Fridrich Å trba)
 	Work around another dropped gnome-icon-theme icon. (Matthew Barnes)
 	Fix migration event hook for google-account-setup and calendar-weather plugins (Philip Withnall)
 	fix disappearing e-table headers by realising the (horrible) pet widget we are going to steal the gc from, so it actually has it. (Michael Meeks)
 	Adapt to Camel API changes. (Matthew Barnes)
 	Fix compiler warnings. (Matthew Barnes)
-	Don't bundle 256x256 icon since it does not work anyway (Fridrich Štrba)
-	Give the windows version of evolution-alarm-notify a nice win32 icon (Fridrich Štrba)
-	Adding the stock_people icon needed and absent in gnome-icon-theme (Fridrich Štrba)
+	Don't bundle 256x256 icon since it does not work anyway (Fridrich Å trba)
+	Give the windows version of evolution-alarm-notify a nice win32 icon (Fridrich Å trba)
+	Adding the stock_people icon needed and absent in gnome-icon-theme (Fridrich Å trba)
 	Add more stock icons dropped from gnome-icon-theme. (Matthew Barnes)
 	Revise legacy stock icon contexts. (Matthew Barnes)
 	Adapt to libedataserverui API changes. (Matthew Barnes)
@@ -355,10 +462,10 @@ Miscellaneous Fixes:
 	Fix usage of "backup" in translatable strings (Philip Withnall)
 	Open and save smime-ui.ui in Glade 3. (Matthew Barnes)
 	Install stock icons in "hicolor" instead of "gnome". (Matthew Barnes)
-	Remove comments that have no point after pthreads dependency disappeared (Fridrich Štrba)
+	Remove comments that have no point after pthreads dependency disappeared (Fridrich Å trba)
 	Remove duplicate use_system_timezone pref, set default to true (Sandy Armstrong)
-	[win32] Fix a build breakage by adding a proper define for gmtime_r instead of the broken one that used to be pulled by including pthread.h (Fridrich Štrba)
-	Use accessor functions instead direct access (GSEAL work) (Javier Jardón)
+	[win32] Fix a build breakage by adding a proper define for gmtime_r instead of the broken one that used to be pulled by including pthread.h (Fridrich Å trba)
+	Use accessor functions instead direct access (GSEAL work) (Javier JardÃ³n)
 	Adapt to Camel API changes. (Matthew Barnes)
 	Forgot to commit some bits. (Matthew Barnes)
 	Giant leap towards GSEAL compliance. (Matthew Barnes)
@@ -368,8 +475,8 @@ Miscellaneous Fixes:
 	Do not hide junk mail when vJunk folder not supported by store (Milan Crha)
 	Fix distcheck errors. (Matthew Barnes)
 	Drop the "hula-account-setup" plugin. (Matthew Barnes)
-	Revert "[win32] #undef some conflicting defines" (Fridrich Štrba)
-	[win32] #undef some conflicting defines (Fridrich Štrba)
+	Revert "[win32] #undef some conflicting defines" (Fridrich Å trba)
+	[win32] #undef some conflicting defines (Fridrich Å trba)
 	Adapt to Camel API changes. (Matthew Barnes)
 	Generate ChangeLog files for tarball releases. (Matthew Barnes)
 	Remove dead Bonobo-era source files. (Matthew Barnes)
@@ -384,18 +491,18 @@ Miscellaneous Fixes:
 	Add --name-space to MKDB_OPTIONS. (Matthew Barnes)
 	Move EPoolv back to Evolution from libedataserver. (Matthew Barnes)
 	Post-release version bump. (Matthew Barnes)
-	[win32] Test for eventsys.h and sensevts.h properly (Fridrich Štrba)
+	[win32] Test for eventsys.h and sensevts.h properly (Fridrich Å trba)
 	Fix build settings under capplet. (Matthew Barnes)
 	Disable the status bar for all but the mail view. Not implemented prettily, but cf. mail_shell_backend_window_created_cb getting invoked even for addressbok windows ... (Michael Meeks)
 	If no <> in the email address, the address should be the full email address. Fix for #613564 (caiqm)
-	Build libevolution-mail-settings as dll on windows (Fridrich Štrba)
+	Build libevolution-mail-settings as dll on windows (Fridrich Å trba)
 	Express: Composer always defaults to HTML mode (Matthew Barnes)
 	Hide searchbar in calendar view in express mode. (Srinivasa Ragavan)
 	Drop support for migrating from Evolution < 2.0. (Matthew Barnes)
-	Reformat code so that it looks ok (Fridrich Štrba)
-	[win32] Don't brew your own macro if glib has one suitable available (Fridrich Štrba)
-	[win32] Windows SENS module cannot be built with C++ compiler (Fridrich Štrba)
-	[win32] Some buildability tweaks for Windows SENS module (Fridrich Štrba)
+	Reformat code so that it looks ok (Fridrich Å trba)
+	[win32] Don't brew your own macro if glib has one suitable available (Fridrich Å trba)
+	[win32] Windows SENS module cannot be built with C++ compiler (Fridrich Å trba)
+	[win32] Some buildability tweaks for Windows SENS module (Fridrich Å trba)
 	Last scroll-pane, and manual sizing tweak (Michael Meeks)
 	Get the new contact sizing right despite the scrolled regions. Add Claire's calendar popup feedback wrt. express mode (Michael Meeks)
 	Scrolled window for personal bits ... (Michael Meeks)
@@ -405,20 +512,20 @@ Miscellaneous Fixes:
 
 Translations:
 	vasudeven (ta)
-	Mattias Põldaru (et)
+	Mattias PÃµldaru (et)
 	Rodrigo Flores (pt)
 	Christian Kirbach (de)
 	Shankar Prasad (kn)
 	Valencian translation  (ca)
-	Francisco Diéguez (gl)
-	Jorge González (es)
-	Fran Diéguez (gl)
+	Francisco DiÃ©guez (gl)
+	Jorge GonzÃ¡lez (es)
+	Fran DiÃ©guez (gl)
 	Nikos Bakaoukas (el)
 	Philip Withnall (en_GB)
 	Bruno Brouard (fr)
 	Theppitak Karoonboonyanan (th)
 	Petr Kovar (cs)
-	Mario Blättermann (de)
+	Mario BlÃ¤ttermann (de)
 	Kjartan Maraas (nn)
 	Maxim V. Dziumanenko (uk)
 	Jordi Serratosa (ca)
@@ -458,11 +565,11 @@ Other Changes:
 
 Translations:
 	Alexander Shopov (bg)
-	Mario Blättermann (de)
+	Mario BlÃ¤ttermann (de)
 	Bruce Cowan (en_GB)
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	Claude Paroz (fr)
-	Fran Diéguez (gl)
+	Fran DiÃ©guez (gl)
 	Kjartan Maraas (nb)
 	Nils-Christoph Fiedler (nds)
 	Leonid Kanter (ru)
@@ -477,7 +584,7 @@ Bug Fixes:
 	#609982 - Avoid unnecessary prompts when marking folders as read (Matthew Barnes) 
 	#609042 - Convert quoted-printing to UTF-8 when copying to clipboard (Matthew Barnes) 
 	#610124 - Autosave errors dialogues can't be dismissed (Matthew Barnes) 
-	#438759 - Fixed German translation, bug #438759 (Mario Blättermann) 
+	#438759 - Fixed German translation, bug #438759 (Mario BlÃ¤ttermann) 
 	#609836 - Add translator comments to ambiguous strings (Matthew Barnes) 
 	#604306 - Crash in folder_tree_cell_edited_cb (Milan Crha) 
 	#610085 - e_alert_get_primary_text() does not escape arguments (Matthew Barnes) 
@@ -498,10 +605,10 @@ Other Changes:
 Translations:
 	Nils-Christoph Fiedler (ru)
 	Petr Kovar (cs)
-	Mattias Põldaru (et)
-	Mario Blättermann (gl)
-	Fran Diéguez (gl)
-	Mario Blättermann (de)
+	Mattias PÃµldaru (et)
+	Mario BlÃ¤ttermann (gl)
+	Fran DiÃ©guez (gl)
+	Mario BlÃ¤ttermann (de)
 	Bruno Brouard (fr)
 	vasudeven (ta)
 	Kjartan Maraas (nb)		
@@ -557,10 +664,10 @@ Translations:
 	Krasimir Chonov (bg)
 	Jamil Ahmed (bn)
 	Jiri Eischmann (cs)
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	Kjartan Maraas (nb)
-	Åsmund Skjæveland (nn)
-	Matej Urbančič (sl)
+	Ãsmund SkjÃ¦veland (nn)
+	Matej UrbanÄiÄ (sl)
 	Aron Xu (zh_CN)
 
 Evolution 2.29.6 2010-01-25
@@ -643,7 +750,7 @@ Translations:
 	Chao-Hsiung Liao (zh_HK) (zh_TW)
 	Alexander Shopov (bg)
 	Krasimir Chonov (bg)
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	Kjartan Maraas (nb)
 	Milan Crha (nb)
 
@@ -712,10 +819,10 @@ Other Changes:
 
 Translations:
 	Jiri Eischmann (cs)
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	Kjartan Maraas (nb)
 	Tomasz Dominikowski (pl)
-	Matej Urbančič (sl)
+	Matej UrbanÄiÄ (sl)
 	Daniel Nylander (sv)
 	krishnababu k (te)
 
@@ -777,9 +884,9 @@ Misc Fixes
 	Remove libhal requirement from configure (Bastien Nocera)
 
 Translations:
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	Daniel Nylander (sv)
-	Matej Urbančič (sl)
+	Matej UrbanÄiÄ (sl)
 	Kjartan Maraas (nb)
 	Ray Wang (zh_CN)
 
@@ -835,7 +942,7 @@ Conduits:
 	(Matt McCutchen 2)
 
 Misc:
-	#602920 - In German translation (Mario Blättermann)
+	#602920 - In German translation (Mario BlÃ¤ttermann)
 	#602719 - Default /evolution/shell/network_config/proxy_type to 0 
 		  explicitly(Milan Crha)
 	#602625 - Typos in translation messages (Matthew Barnes)
@@ -886,47 +993,47 @@ Misc:
 	Updated POTFILES.in/skip after GTKBuilder migration (Claude Paroz)
 
 Translations:
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	Ivar Smolin (et)
-	Mattias Põldaru (et)
+	Mattias PÃµldaru (et)
 	Claude Paroz (fr)
 	Bruno Brouard (fr)
-	Matej Urbančič (sl)
+	Matej UrbanÄiÄ (sl)
 	Zhang Miao (zh_CN)
 
 Evolution 2.29.2 2009-11-16
 ---------------------------
 
 Bug Fixes:
-	Bug 600397 - Delete option enabled for undeletable ESource
+	BugÂ 600397 - Delete option enabled for undeletable ESource
 	(Matthew Barnes)
-	Bug 600714 - No label colors in popup menu (Matthew Barnes)
-	Bug 600933 - Empty Trash missing for real trash folders
+	BugÂ 600714 - No label colors in popup menu (Matthew Barnes)
+	BugÂ 600933 - Empty Trash missing for real trash folders
 	(Matthew Barnes)
-	Bug 601601 - No Create Rule in popup menu (Lucian Langa)
-	Bug 601767 - Delete action in calendar view has glitches
+	BugÂ 601601 - No Create Rule in popup menu (Lucian Langa)
+	BugÂ 601767 - Delete action in calendar view has glitches
 	(Matthew Barnes)
-	Bug 601769 - Print issues in address book (Matthew Barnes)
-	Bug 601774 - "Send Message to Contact" is always disabled
+	BugÂ 601769 - Print issues in address book (Matthew Barnes)
+	BugÂ 601774 - "Send Message to Contact" is always disabled
 	(Matthew Barnes)
-	Bug 601785 - Menu glitches in memo and task view (Matthew Barnes)
+	BugÂ 601785 - Menu glitches in memo and task view (Matthew Barnes)
 	Bug 600133 - Crash on day view print preview without all day events
 	(Milan Crha)
 	Bug 600217 - Crashes in emfh_multipart_related_check (Bharath Acharya)
-	Bug 601626 - pst-import missing link to libeutil (Travis Reitter)
+	BugÂ 601626 - pst-import missing link to libeutil (Travis Reitter)
 	Bug 588093 - Allow import of local files from command line (Milan Crha)
-	Bug 601516 - Calendar views missing from calendar popup menu
+	BugÂ 601516 - Calendar views missing from calendar popup menu
 	(Matthew Barnes)
 	Bug 593751 - Show correct context menu in calendar views (Milan Crha)
 	Bug 601218 - Accepted meeting doesn't show attachments in calendar
 	view (Milan Crha)
 	Bug 250046 - Composer addresses reading fixes (Milan Crha)
-	Bug 600926 - Fails to build due to missing dependencies
+	BugÂ 600926 - Fails to build due to missing dependencies
 	(Jonathon Jongsma)
-	Bug 600926 - Fails to build due to missing dependencies (Yan Li)
-	Bug 601219 - Transient dialogs in composer window blocks main window
+	BugÂ 600926 - Fails to build due to missing dependencies (Yan Li)
+	BugÂ 601219 - Transient dialogs in composer window blocks main window
 	(Matthew Barnes)
-	Bug 271836 - Incorrect signature for "model_cell_changed" signal
+	BugÂ 271836 - Incorrect signature for "model_cell_changed" signal
 	handler (Li Yuan)
 	Bug 601229 -  Crashes when replying a mail. (Chenthill Palanisamy)
 	Bug 557613 -  evolution crashed with SIGSEGV in try_open_e_book_cb()
@@ -944,7 +1051,7 @@ Bug Fixes:
 	mail's tab closed automatically (Yan Li)
 	Bug 557505 - [bbdb] hangs and is unresponsive (Milan Crha)
 	Bug 596827 - Don't remove meeting attendees after edit (Milan Crha)
-	Bug 600402 - Clear search is always enabled in calendar/contact/task
+	BugÂ 600402 - Clear search is always enabled in calendar/contact/task
 	(Matthew Barnes)
 	Bug 599124 - Signature always includes an empty line in front of
 	text (Milan Crha)
@@ -953,11 +1060,11 @@ Bug Fixes:
 	(Milan Crha)
 	Bug 583450 - [prefer-plain] Ability to hide html attachments
 	(Milan Crha)
-	Bug 599890 - Search should not be remembered across folders
+	BugÂ 599890 - Search should not be remembered across folders
 	(Matthew Barnes)
 	Bug 570835 - Custom e-mail headers inserted with double column
 	(Milan Crha)
-	Bug 599837 - Junk plugin combo box is invisible (Matthew Barnes)
+	BugÂ 599837 - Junk plugin combo box is invisible (Matthew Barnes)
 	Bug 561843 - Properly check for filename being set, to not crash
 	(Milan Crha)
 	Bug 600019 - Menu glitches when an account name is selected
@@ -967,9 +1074,9 @@ Bug Fixes:
 	Bug 268644 - unread mail shortcut collides with gtk tree search
 	(Milan Crha)
 	Bug 599896 - Flush outbox option is missing (Matthew Barnes)
-	Bug 599882 - Crash in em_folder_tree_select_prev_path() when wrapping
+	BugÂ 599882 - Crash in em_folder_tree_select_prev_path() when wrapping
 	to bottom (Matthew Barnes)
-	Bug 599842 - EConfig does not respond to disabling/enabling EPlugins
+	BugÂ 599842 - EConfig does not respond to disabling/enabling EPlugins
 	(Matthew Barnes)
 	Bug 552727 - Flooded by spam checking errors if bogofilter not
 	installed (Milan Crha)
@@ -1032,8 +1139,8 @@ Other Changes:
 
 Translations:
 	Thomas Thurman (en@shaw)
-	Jorge González (es)
-	Matej Urbančič (sl)
+	Jorge GonzÃ¡lez (es)
+	Matej UrbanÄiÄ (sl)
 	vasudeven (ta)
 
 Evolution 2.29.1 2009-10-26
@@ -1273,18 +1380,18 @@ Bug Fixes:
 	(H.Habighorst)
 	Bug #592680 -  Remove deprecated Encoding key from desktop file 
 	(Frederic Peters)
-	Fixed bug #591916 (Mario Blättermann)
+	Fixed bug #591916 (Mario BlÃ¤ttermann)
 	Bug #592551 - Build break fix caused by bug #581288 (Milan Crha)
-	Bug #567260 - Migrate from GnomeDruid to GtkAssistant (Milan Crha)
-	Bug #591829 - Dragging mails to folder tree does not work 
+	BugÂ #567260 - Migrate from GnomeDruid to GtkAssistant (Milan Crha)
+	BugÂ #591829 - Dragging mails to folder tree does not work 
 	(Matthew Barnes)
-	Bug #591830 - Inline attachments no longer shown (Matthew Barnes)
-	Bug #592032 - Marks message as read when preview is off (Matthew Barnes)
-	Bug #592034 - Reply to List doesn't work (Matthew Barnes)
-	Bug #591755 - Gtk-Doc build failure when NM support disabled 
+	BugÂ #591830 - Inline attachments no longer shown (Matthew Barnes)
+	BugÂ #592032 - Marks message as read when preview is off (Matthew Barnes)
+	BugÂ #592034 - Reply to List doesn't work (Matthew Barnes)
+	BugÂ #591755 - Gtk-Doc build failure when NM support disabled 
 	(H.Habighorst)
-	Bug #567260 – Migrate from GnomeDruid to GtkAssistant (Milan Crha)
-	Bug #591377 – Fails to detect krb5 in configure with -as-needed 
+	Bug #567260 â Migrate from GnomeDruid to GtkAssistant (Milan Crha)
+	Bug #591377 â Fails to detect krb5 in configure with -as-needed 
 	(H.Habighorst)
 
 Other Fixes:
@@ -1340,14 +1447,14 @@ Other Fixes:
 
 Translations:
 	Ivar Smolin (et)
-	Mattias Põldaru (et)
-	Åsmund Skjæveland (nn)
+	Mattias PÃµldaru (et)
+	Ãsmund SkjÃ¦veland (nn)
 	drtvasudevan (ta)
 	Leonid Kanter (ru)
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 	David Planella (ca)
-	Andrej Žnidaršič (sl)
-	Matej Urbančič (sl)
+	Andrej Å½nidarÅ¡iÄ (sl)
+	Matej UrbanÄiÄ (sl)
 	Luca Ferretti (it)
 	Daniel Nylander (sv)
 	Khaled Hosny (ar)
@@ -1357,7 +1464,7 @@ Translations:
 	Yavor Doganov (bg)
 	Kostas Papadimas (el)
 	Chao-Hsiung Liao (zh_HK)
-	Mario Blättermann (de)
+	Mario BlÃ¤ttermann (de)
 	Christian Kirbach (de)   
 	Gabor Kelemen (hu)
 	Sandeep Shedmake (mr)
@@ -1369,8 +1476,8 @@ Translations:
 	Kenneth Nielsen (da)
 	Ilkka Tuohela (fi)
 	A S Alam (pa)
-	Žygimantas Beručka (lt)
-	Igor Nestorović (sr)
+	Å½ygimantas BeruÄka (lt)
+	Igor NestoroviÄ (sr)
 	Kjartan Maraas (nb)
 	Denis Arnaud (br)
 
@@ -1378,7 +1485,7 @@ Evolution 2.27.91 2009-08-24
 ----------------------------
 
 Calendar:
-	#591414 - libevolution-cal-shared is linked as a module (Götz Waschk)
+	#591414 - libevolution-cal-shared is linked as a module (GÃ¶tz Waschk)
 
 Miscellaneous:
 	#591321 - Cosmetic changes and fixes in configure.ac (H.Habighorst)
@@ -1395,11 +1502,11 @@ Translations:
 	Jamil Ahmed (bn)
 	Gil Forcada (ca)
 	Carles Ferrando (ca@valencia)
-	Jorge González (es)
-	Mattias Põldaru (et)
+	Jorge GonzÃ¡lez (es)
+	Mattias PÃµldaru (et)
 	Ivar Smolin (et)
-	Seán de Búrca (ga)
-	Antón Méixome (gl)
+	SeÃ¡n de BÃºrca (ga)
+	AntÃ³n MÃ©ixome (gl)
 	Mark Krapivner (he)
 	Changwoo Ryu (ko)
 	Kjartan Maraas (nb)
@@ -1431,8 +1538,8 @@ Calendar:
 	#579646 - Remember alarm's last notified per calendar (Milan Crha)
 
 Mail:
-	#590747 – Composer autosave can easily lose data (Philip Withnall)
-	#562913 – Changed signature format not written to GConf (Matthew Barnes)
+	#590747 â Composer autosave can easily lose data (Philip Withnall)
+	#562913 â Changed signature format not written to GConf (Matthew Barnes)
 	#401530 - [imap-features] imap-headers.glade issues (Milan Crha)
 	#563795 - Crashed while importing an mbox file in local folder (Milan Crha)
 	#589982 - Fix a critical warning while replying for a mail (Srinivasa Ragavan)	
@@ -1448,7 +1555,7 @@ Miscellaneous
 	#580895 - Fix evolution build break (Milan Crha)
 	#580895 - Kill libgnomeui/gnome-thumbnail.h (Milan Crha)
 	#325611 - Rephrased translators comments (Milan Crha)
-	#590260 – Minimum requirement of libpst not checked (Matthew Barnes)
+	#590260 â Minimum requirement of libpst not checked (Matthew Barnes)
 	
 Other Fixes:
 
@@ -1457,12 +1564,12 @@ Calendar:
 	to (Srinivasa Ragavan)
 
 Translations:
-	Jorge González (es)
-	Seán de Búrca (ga)
+	Jorge GonzÃ¡lez (es)
+	SeÃ¡n de BÃºrca (ga)
 	Iestyn Pryce (cy)
 	Ivar Smolin (et)
 	Kjartan Maraas (nb)
-	Mattias Põldaru (et)
+	Mattias PÃµldaru (et)
 	
 
 Evolution 2.27.5 2009-07-27
@@ -1506,9 +1613,9 @@ Other Fixes:
 	Make it possible to send/receive without dialog (Srinivasa Ragavan)
 
 Translations:
-	Mario Blättermann (de)
+	Mario BlÃ¤ttermann (de)
 	Daniel Nylander (sv)
-	Jorge González (es)
+	Jorge GonzÃ¡lez (es)
 
 Evolution 2.27.4 2009-07-15
 ---------------------------
@@ -1534,8 +1641,8 @@ Calendar:
 	#240605 - auto-select next day at midnight in selected day view (Milan Crha)
 
 Mail:
-	#345775 – Missing blank line between messages in saved mbox (Matthew Barnes)
-	#464131 – Allow inline view of application/mbox attachments (Matthew Barnes)
+	#345775 â Missing blank line between messages in saved mbox (Matthew Barnes)
+	#464131 â Allow inline view of application/mbox attachments (Matthew Barnes)
 	#568302 - Skip "noselect=yes" folders on Send/Receive (Milan Crha)
 	#268644 - unread mail shortcut collides with gtk tree search (Milan Crha)
 	#587699 - Localize only local folder names (Milan Crha)
@@ -1547,21 +1654,21 @@ Plugins:
 	#346146 - Appointments in Sent folder should not display actions (Milan Crha)
 	#566369 - backup-restore - recognize broken archive (Milan Crha)
 	#566369 - fix string typo "cancelled" => "canceled" (Milan Crha)
-	#588106 – Makefile.am misuses *_LDFLAGS (Daniel Macks)
+	#588106 â Makefile.am misuses *_LDFLAGS (Daniel Macks)
 
 Misc:
 	#586378 - Various build cleanups (H.Habighorst)	
-	#586478 – Fix quoting in configure.ac (H.Habighorst)
-	#586631 – Rearrange autotool initialization in configure.ac (H.Habighorst)
-	#586632 – Require automake 1.9 (H.Habighorst)
-	#586629 – Fix whitespace in configure.ac (H.Habighorst)
-	#586806 – Fix iconv cflags/libs in configure.ac (H.Habighorst)
-	#586809 – Enable "silent rules" automake 1.11 option (Matthew Barnes)
+	#586478 â Fix quoting in configure.ac (H.Habighorst)
+	#586631 â Rearrange autotool initialization in configure.ac (H.Habighorst)
+	#586632 â Require automake 1.9 (H.Habighorst)
+	#586629 â Fix whitespace in configure.ac (H.Habighorst)
+	#586806 â Fix iconv cflags/libs in configure.ac (H.Habighorst)
+	#586809 â Enable "silent rules" automake 1.11 option (Matthew Barnes)
 	#587138 - Require libxml2 2.7.3 (Yavor Doganov)
 	#587374 - iconv test broken on some gcc (Matthew Barnes)
-	#586991 – Require autoconf 2.58 / various configure cleanups (H.Habighorst)
-	#588277 – Unnecessary special-purpose configure flag (Matthew Barnes)
-	#588018 – NetworkManager & DBUS build check rewrite (H.Habighorst)
+	#586991 â Require autoconf 2.58 / various configure cleanups (H.Habighorst)
+	#588277 â Unnecessary special-purpose configure flag (Matthew Barnes)
+	#588018 â NetworkManager & DBUS build check rewrite (H.Habighorst)
 
 Other Fixes:
 
@@ -1613,7 +1720,7 @@ Bugs Fixed:
 	#362907 - Give icons to Drafts/Sent/Templates folders (Milan Crha)
 	#584733 - Cannot create new account (Srinivasa Ragavan)
 	#581780 - Remember passwords in keyring for web calendars too (Milan Crha)
-	#572543 – Doesn't show correct application for pdf attachments (Matthew Barnes)
+	#572543 â Doesn't show correct application for pdf attachments (Matthew Barnes)
 	#581280 - Wrong attachment name in event (Matthew Barnes)
 	#582939 - Drop support for CDE (Matthew Barnes)
 	#574940 - Do not use freed memory in EMFolderView/Browser (Milan Crha)
@@ -1621,7 +1728,7 @@ Bugs Fixed:
 	#580212 - Report inline parts only when found both tags (Milan Crha)
 	#323037 - Folder emblem to show new mail arrival (Milan Crha)
 	#583446 - refresh folder hook (Lucian Langa)
-	#584154 – custom icon folder hook does not work (Milan Crha)
+	#584154 â custom icon folder hook does not work (Milan Crha)
 	#583991 - "Suggest automatic display of attachment" does not work (Matthew Barnes)
 	#583441 - bbdb plugin is getting information from composer now (Milan Crha)
 	#535516 - Crash in GConf Bridge while replying (Milan Crha)
@@ -1653,44 +1760,44 @@ Evolution 2.27.2 2009-05-25
 
 Bug Fixed:
 
-	#274117 – Difficult to post a new message to newsgroups
+	#274117 â Difficult to post a new message to newsgroups
 	          (Matthew Barnes)
-	#440919 – Evolution can't attach "zero length" files (Matthew Barnes)
-	#458491 – Remove useless "Call To..." popup menu option
+	#440919 â Evolution can't attach "zero length" files (Matthew Barnes)
+	#458491 â Remove useless "Call To..." popup menu option
 	          (Matthew Barnes)
-	#523216 – User-oriented plugin descriptions (Matthew Barnes)
-	#524497 – Wrong "From" value if multiple accounts configured
+	#523216 â User-oriented plugin descriptions (Matthew Barnes)
+	#524497 â Wrong "From" value if multiple accounts configured
 	          (Jeff Cai)
-	#559366 – Evolution: Cannot scroll the Calendar view using the
+	#559366 â Evolution: Cannot scroll the Calendar view using the
 	          arrow keys (Marcel Stimberg)
-	#571496 – Migrate from deprecated gnome_execute to
+	#571496 â Migrate from deprecated gnome_execute to
 	          g_spawn/xdg-terminal (Adam Petaccia)
-	#578176 – "Send message to contact" does not honor "always BCC"
+	#578176 â "Send message to contact" does not honor "always BCC"
 	          (Matthew Barnes)
-	#578478 – Composer shows not all "From" information (Matthew Barnes)
-	#579779 – Evolution crashes when updating a repeated (ej, yearly)
+	#578478 â Composer shows not all "From" information (Matthew Barnes)
+	#579779 â Evolution crashes when updating a repeated (ej, yearly)
 	          event for al event instances (Milan Crha)
-	#580163 – alarm notify window does not resize correctly
+	#580163 â alarm notify window does not resize correctly
 	          (Ritesh Khadgaray)
-	#580900 – Kill libgnomeui/gnome-dateedit (Adam Petaccia)
-	#580925 – Better search bar for word searches (Matthew Barnes)
-	#581424 – Personal folder tree appears besides Public folder when
+	#580900 â Kill libgnomeui/gnome-dateedit (Adam Petaccia)
+	#580925 â Better search bar for word searches (Matthew Barnes)
+	#581424 â Personal folder tree appears besides Public folder when
 	          you go to Folder > Subscription (Johnny Jacob)
-	#581454 – Move nautilus-sendto integration to Evolution
+	#581454 â Move nautilus-sendto integration to Evolution
 	          (Matthew Barnes)
-	#582144 – Evolution not showing proper attachment filename
+	#582144 â Evolution not showing proper attachment filename
 	          (Matthew Barnes)
-	#582168 – Remove duplicated shebang and comment from autogen.sh
+	#582168 â Remove duplicated shebang and comment from autogen.sh
 	          (Damien Lespiau)
-	#582585 – Crash when deleting multiple attachments from composed
+	#582585 â Crash when deleting multiple attachments from composed
 	          mail (Matthew Barnes)
-	#582626 – Time zone "select" button is broken (Milan Crha)
-	#582744 – CC field autofill doesn't work for replies (Matthew Barnes)
-	#583360 – Evolution won't set "UTC" as a "second zone" on Calendar
+	#582626 â Time zone "select" button is broken (Milan Crha)
+	#582744 â CC field autofill doesn't work for replies (Matthew Barnes)
+	#583360 â Evolution won't set "UTC" as a "second zone" on Calendar
 	          and Tasks preferences (Milan Crha)
-	#498712 – (bnc) deleting meetings sometimes does not work properly
+	#498712 â (bnc) deleting meetings sometimes does not work properly
 	          (Chenthill Palanisamy)
-	#499107 – (bnc) delete all the recurring instances from the folder
+	#499107 â (bnc) delete all the recurring instances from the folder
 	          (Chenthill Palanisamy)
 
 Updated Translations:
@@ -1726,10 +1833,10 @@ Bug fixes:
 	#471083 (bnc) - Do not allow deletion of system folders
 	#561312 - Do not invoke recurrence dialog while modifying detached instances
 	#467659 (bnc) - Set the description for send mail operation
-	#578685 – evolution crashed with SIGSEGV
-	#577929 – Consolidate marshallers
-	#565780 – Message view is tightly packed and hard to read
-	#577898 – Port ExoBinding to Evolution
+	#578685 â evolution crashed with SIGSEGV
+	#577929 â Consolidate marshallers
+	#565780 â Message view is tightly packed and hard to read
+	#577898 â Port ExoBinding to Evolution
 	#572348 - Removed deprecated Gtk+ symbols
 	#577615 - Get rid of "Adjust for daylight saving time" option
 	#205804 - Include timezone information in a tooltip when differs from user's
@@ -1747,7 +1854,7 @@ Bug fixes:
 	#575773 - Allow Last Modified and Created columns for event table
 	#491755 - Sanitize values from GConf before using them
 	#579635 - Hide last junked message too from the non-junk folder
-	#516933 – Rewrite attachment UI
+	#516933 â Rewrite attachment UI
 	#579550 - Do not mark newly recognized Junk messages Read
 	#572348 - Fix filter breakage after deprecated Gtk+ symbols removal
 	#578335 - Store username in a source URL in CalDAV
@@ -1755,22 +1862,22 @@ Bug fixes:
 	#579774 - Use spamc to learn junk if available
 	#570730 - Get rid of gnome-config in Evolution
 	#273818 - Allow scrolling Month View by a week only
-	#580898 – Kill libgnomeui/gnome-winhints
-	#580894 – Kill libgnome/gnome-util (partial fix)
-	#580896 – Kill libgnome/gnome-program
-	#580892 – Kill libgnomeui/gnome-app and gnome-app-helper
-	#580893 – Kill libgnome/gnome-gconf
-	#575242 – New composer window not autosaved until modification
-	#581032 – Some links can't be opened
-	#542685 – [default-mailer] Leaking GConfValue
-	#572977 – Use g_strerror() instead of strerror()
-	#577482 – Bad strings in plugins/itip-formatter/itip-view.c
-	#325131 – Do not translate ETable property nicknames
-	#574781 – Bad e-send-options.glade strings
-	#575124 – Clarify "S_pecify the mailbox name" string
-	#575122 – "before every anniversary/birthday" is missing translator comment
+	#580898 â Kill libgnomeui/gnome-winhints
+	#580894 â Kill libgnome/gnome-util (partial fix)
+	#580896 â Kill libgnome/gnome-program
+	#580892 â Kill libgnomeui/gnome-app and gnome-app-helper
+	#580893 â Kill libgnome/gnome-gconf
+	#575242 â New composer window not autosaved until modification
+	#581032 â Some links can't be opened
+	#542685 â [default-mailer] Leaking GConfValue
+	#572977 â Use g_strerror() instead of strerror()
+	#577482 â Bad strings in plugins/itip-formatter/itip-view.c
+	#325131 â Do not translate ETable property nicknames
+	#574781 â Bad e-send-options.glade strings
+	#575124 â Clarify "S_pecify the mailbox name" string
+	#575122 â "before every anniversary/birthday" is missing translator comment
 	#573170 - Add back support for vfolder of vfolders
-	#569696 – Memory leak in message-list
+	#569696 â Memory leak in message-list
 	#573830 - g_timeout_add_seconds should be preferred to g_timeout_add
 	#355240 - String errors
 
@@ -1786,11 +1893,11 @@ Updated translations:
 	Amanpreet Singh Alam (pa)
 	Shankar Prasad (kn)
 	Jen Ockwell (en_GB)
-	Mattias Põldaru (et)
+	Mattias PÃµldaru (et)
 	Fotis Tsamis (el)
 	Shankar Prasad (kn)
 	Baris Cicek (tr)
-	Miloš Popović (sr)
+	MiloÅ¡ PopoviÄ (sr)
 	Ivar Smolin (po)
 	Theppitak Karoonboonyanan (th)
 	Khaled Hosny (ar)
@@ -1830,7 +1937,7 @@ Updated Translations:
 	Kenneth Nielsen (da)
 	Kjartan Maraas (nb)
 	Manoj Kumar Giri (or)
-	Mattias Põldaru (et)
+	Mattias PÃµldaru (et)
 	Philip Withnall (en)
 	Simos Xenitellis (el)
 	Sweta Kothari (gu)
@@ -1874,7 +1981,7 @@ Bug Fixes:
 	#572962 : Pass e_shell_dbus_initialise() the right type of object, and fix the incorrect function declaration. Go offline when we see NM_STATE_ASLEEP from NetworkManager (Matthew Barnes)
 	#572975 : Destroy file chooser dialog early enough to not have hidden any other windows below it (Milan Crha)
 	#573198 : (Chenthill Palanisamy)
-	$566556 : Make it use the proper action. (Paweł Zembrzuski)
+	$566556 : Make it use the proper action. (PaweÅ Zembrzuski)
 
 Other contributions:
 	Build a "GUI" executable. (Tor Lillqvist)
@@ -1903,8 +2010,8 @@ Updated Translations:
 	Jorge Gonzalez (es)
 	Jovan Naumovski (mk)
 	Kjartan Maraas (nb)
-	Miloš Popović) (sr)
-	Nguyễn Thái Ngọc Duy (vi)
+	MiloÅ¡ PopoviÄ) (sr)
+	Nguyá»n ThÃ¡i Ngá»c Duy (vi)
 	Raivis Dejus (lv)
 	Wadim Dziedzic (pl)
 
@@ -2174,7 +2281,7 @@ Updated Translations:
 	Kenneth Nielsen (da)
 	Ivar Smolin (et)
 	Daniel Nylander (sv)
-	Mikel González (ast)
+	Mikel GonzÃ¡lez (ast)
 	Ronny Standke (de)
 	Theppitak Karoonboonyanan (th)
 	Marcel Telka (sk)
@@ -2222,13 +2329,13 @@ Updated Translations:
 	Gabor Kelemen (hu)
 	Kenneth Nielsen (da)
 	Luca Ferretti (it)
-	Fabrício Godoy, Vladimir Melo and Leonardo Ferreira Fontenelle (pt_BR)
+	FabrÃ­cio Godoy, Vladimir Melo and Leonardo Ferreira Fontenelle (pt_BR)
 	Laurent Dhima (sq)
-	Igor Nestorović(sr, sr@latin)
+	Igor NestoroviÄ(sr, sr@latin)
 	Pierros Papadeas (el)
-	Žygimantas Beručka (lt)
+	Å½ygimantas BeruÄka (lt)
 	Tirumurthi Vasudevan (ta)
-	Inaki Larrañaga Murgoitio (eu)
+	Inaki LarraÃ±aga Murgoitio (eu)
 	Shankar Prasad (kn)
 	Chao-Hsiung Liao (zh_HK, zh_TW)
 	Jiri Eischmann (cs)
@@ -2296,10 +2403,10 @@ Updated Translations:
 	Kjartan Maraas (nb)
 	Ilkka Tuohela (fi)
 	Daniel Nylander (sv)
-	Goran Rakić(sr, sr@Latin)
+	Goran RakiÄ(sr, sr@Latin)
 	Shankar Prasad (kn)
 	Chao-Hsiung Liao (zh_HK, zh_TW)
-	Åsmund Skjæveland (nn)
+	Ãsmund SkjÃ¦veland (nn)
 	Jovan Naumovski (mk)
 
 Evolution 2.23.90 2008-08-18
@@ -2319,7 +2426,7 @@ Bug Fixes:
 	#519292: Better thread expand and collapse handling (Milan Crha)
 	#529743: Support Subject or Recipients contain search (Srinivasa Ragavan)
 	#530402: Improve dialog wording, and don't use a window title (HIG) (Matthew Barnes)(
-	#531288: Use proxy icon from tango-icon-theme and fall back to the icon shipped by gnome-control-center (Josef Vybíral)
+	#531288: Use proxy icon from tango-icon-theme and fall back to the icon shipped by gnome-control-center (Josef VybÃ­ral)
 	#535745: Require and link calendar libs with libgdata and libgdata-google (Milan Crha)
 	#544117: Initialize variables to NULL, to not free uninitialized memory in the cleanup part on the error (Milan Crha)
 	#546263: Editing contact list messes minicard view fixed (Milan Crha)
@@ -2402,12 +2509,12 @@ Bug Fixes:
 
 Updated Translations:
 	Ignacio Casal Quinteiro (gl)
-	Frco. Javier Rial Rodríguez (gl)
+	Frco. Javier Rial RodrÃ­guez (gl)
 	Kjartan Maraas (nb)
 	Changwoo Ryu (ko)
 	Abou Manal (ar)
 	Petr Kovar (cs)
-	Fabrício Godoy (pt_BR)
+	FabrÃ­cio Godoy (pt_BR)
 	Jorge Gonzalez (es)
 	Bruno Brouard and Claude Paroz (fr)
 	Zabeeh Khan (ps)
@@ -2419,7 +2526,7 @@ Evolution 2.23.5 2008-07-21
 New in 2.23.5
 	Camel DB Summary support. (Srinivasa Ragavan & Sankar P)
 	New EPlugin for message templates. (Bharath Acharya & Diego Escalante Urrelo)
-	Google Contacts support (Jörgen Scheibengruber)
+	Google Contacts support (JÃ¶rgen Scheibengruber)
 
 Bug Fixes:
 	#543753: Addressbook error string fixes (Andre Klapper)
@@ -2706,7 +2813,7 @@ Updated Translations:
 	Simos Xenitellis (el)
 	Kenneth Nielsen (da)
 	Gintautas Miliauskas (lt)
-	Åsmund Skjæveland (nn)
+	Ãsmund SkjÃ¦veland (nn)
 	Krishna Babu K (te)
 	Yavor Doganov (bg)
 	Sandeep Shedmake (mr)
@@ -2728,14 +2835,14 @@ Updated Translations:
 	Luca Ferretti (it)
 	Ivar Smolin (et)
 	Ankit Patel (gu)
-	Stéphane Raimbault (fr)
+	StÃ©phane Raimbault (fr)
 	Gabor Kelemen (hu)
-	Åsmund Skjæveland (nn)
+	Ãsmund SkjÃ¦veland (nn)
 	Hendrik Richter (de)
 	Takeshi AIHANA (ja)
 	Tino Meinen (nl)
 	Sandeep Shedmake (mr)
-	Ihar Hrachyshka, AleśNavicki (be@latin)
+	Ihar Hrachyshka, AleÅNavicki (be@latin)
 	Changwoo Ryu (ko)
 	Chao-Hsiung Liao (zh_HK,zh_TW)
 	Maxim Dziumanenko (uk)
@@ -2789,7 +2896,7 @@ Updated Translations:
 	Daniel Nylander (sv)
 	Jorge Gonzalez (es)
 	Ignacio Casal Quinteiro (gl)
-	Nguyễn Thái Ngọc Duy (vi)
+	Nguyá»n ThÃ¡i Ngá»c Duy (vi)
 	Wadim Dziedzic (pl)
 	Kjartan Maraas (nb)
 	Djihed Afifi (ar)
@@ -2843,7 +2950,7 @@ Updated Translations:
 	Jorge Gonzalez (es)
 	Daniel Nylander (sv)
 	Inaki Larranaga Murgoitio (eu)
-	Stéphane Raimbault (fr)
+	StÃ©phane Raimbault (fr)
 	Claude Paroz (fr)
 	Duarte Loreto (pt)
 	Chao-Hsiung Liao (zh_HK)
@@ -2899,7 +3006,7 @@ Other Contributors:
 	libsoup updates (Dan Winship)
 
 Updated Translations:
-	Žygimantas Beručka (lt)
+	Å½ygimantas BeruÄka (lt)
 	Jovan Naumovski (mk)
 	Jorge Gonzalez (es)
 	Andre Klapper (de)
@@ -2934,7 +3041,7 @@ Bug fixes:
 	#350932: Enable the use of scrollable tabs in the mail-preferences dialog. (Gert Kulyk)
 	#362638: Overhaul the message passing API (Matthew Barnes)
 	#364642: New option in Composer tab to preset Request Read Receipt in composer (Milan Crha)
-	#375580: Use ISO-8859-1 encoding to store contacts in iPod (João Vale)
+	#375580: Use ISO-8859-1 encoding to store contacts in iPod (JoÃ£o Vale)
 	#448441: Disable "OK" and "Edit Full" buttons if no source is selected. Also set always book from combo, do not use the new created (Milan Crha)
 	#457842: Do not call edit/start editing of the event when double clicked on the same component as is actually editing (Milan Crha)
 	#474118: Check for the right type of store and invoke appropriate functions (Bharath Acharya)
@@ -2976,7 +3083,7 @@ Updated Translations:
 	Yannig Marchegay (oc)
 	Wadim Dziedzic (pl)
 	Daniel Nylander (sv)
-	Seán de Búrca (ga)
+	SeÃ¡n de BÃºrca (ga)
 	Djihed Afifi (ar)
 
 Evolution 2.21.4 2007-12-17
@@ -3039,11 +3146,11 @@ Updated Translations:
 	Kjartan Maraas (nb)
 	Kostas Papadimas (el)
 	Jorge Gonzalez (es)
-	Matej Urbančič(sl)
+	Matej UrbanÄiÄ(sl)
 	Andre Klapper (de)
 	Rodrigo Flores (pt_BR)
 	Daniel Nylander (sv)
-	Seán de Búrca (ga)
+	SeÃ¡n de BÃºrca (ga)
 
 Evolution 2.21.3 2007-12-03
 ---------------------------
@@ -3086,7 +3193,7 @@ Bug fixes:
 Updated Translations:
 	Jorge Gonzalez (es)
 	Ivar Smolin (et)
-	Matej Urbančič(sl)
+	Matej UrbanÄiÄ(sl)
 	Yannig Marchegay (oc)
 	Daniel Nylander (sv)
 
@@ -3199,7 +3306,7 @@ Bug fixes:
 
 Updated Translations:
 	Jorge Gonzalez (es)
-	Matej Urbanči (sl)
+	Matej UrbanÄi (sl)
 	Anas Husseini (ar)
 	Daniel Nylander (sv)
 	David Planella (ca)
@@ -3207,7 +3314,7 @@ Updated Translations:
 	Ivar Smolin (et)
 	Gintautas Miliauskas (lt)
 	Ignacio Casal Quinteiro (gl)
-	Stéphane Raimbault (fr)
+	StÃ©phane Raimbault (fr)
 
 Evolution 2.12.0 2007-09-17
 ----------------------------
@@ -3369,7 +3476,7 @@ Updated Translations:
 	Ilkka Tuohela (fi)
 	Andre Klapper, Hendrik Richter (de)
 	Kjartan Maraas (nb)
-	Stéphane Raimbault (fr)
+	StÃ©phane Raimbault (fr)
 	Theppitak Karoonboonyanan (th)
 	Takeshi AIHANA (ja)
 	Reinout van Schouwen (nl)
@@ -3425,7 +3532,7 @@ Other Contributors:
 	- Exchange Calendar delegation bug fixes (Suman)
 
 Updated Translations:
-	Claude Paroz and Stéphane Raimbault (fr)
+	Claude Paroz and StÃ©phaneÂ Raimbault (fr)
 	Jorge Gonzalez (es)
 	Andre Klapper (de)
 	Daniel Nylander (sv)
@@ -3508,10 +3615,10 @@ Bug fixes:
 
 Updated Translations:
 	Jorge Gonzalez (es)
-	Matic Žgur (sl)
+	Matic Å½gur (sl)
 	Bharat Kumar (te)
-	Claude Paroz, Myriam Malga and Stéphane Raimbault (fr)
-	Danilo Šegan (sr)
+	Claude Paroz, Myriam Malga and StÃ©phane Raimbault (fr)
+	Danilo Å egan (sr)
 	Vincent van Adrighem (nl)
 	Raivis Dejus (lv)
 	Daniel Nylander (sv)
@@ -3576,7 +3683,7 @@ Bug fixes:
 
 Updated Translations:
 	Jorge Gonzalez (es)
-	Nguyễn Thái Ngọc Duy (vi)
+	Nguyá»n ThÃ¡i Ngá»c Duy (vi)
 	Priit Laes (et)
 	Clytie Siddall (vi)
 	Kjartan Maraas (nb)
@@ -3672,7 +3779,7 @@ Bug fixes:
 	#347767: A confirmation dialog will come up if a memo is saved
 	 without a summary (Ushveen Kaur)
 	#351729: Fixed unnecessary/broken windows (Milan Crha)
-	#386503: Help Menu or F1 now works (Matthew Barnes, Götz Waschk)
+	#386503: Help Menu or F1 now works (Matthew Barnes, GÃ¶tz Waschk)
 	#415770: Outlook style reply option (Christian Kellner)
 	#424562: Dropped support for GTK+ < 2.10 (Matthew Barnes)
 	#427232: Fixed a crash during startup due to missing relative-URI
@@ -3704,7 +3811,7 @@ Updated Translations:
 	Ivar Smolin (et)
 	Hendrik Richter (de)
 	Daniel Nylander (sv)
-	Stéphane Raimbault (fr)
+	StÃ©phane Raimbault (fr)
 	Rhys Jones (cy)
 	Yair Hershkoviz (he)
 	Jakub Friedl (cs)
@@ -3738,18 +3845,18 @@ Bug fixes:
 	#435610: Run gtk-update-icon-cache in uninstall-hook (David Farning)
 	#330098: Selecting Copy on Right-clicking any memo list now works
 	 (Naresh)
-	#424055: Fixed resizing of contact list dialog. (Øystein Gisnås)
+	#424055: Fixed resizing of contact list dialog. (Ãystein GisnÃ¥s)
 	#417797: Copy and move of contacts between address books now works
-	 correctly (Øystein Gisnås)
+	 correctly (Ãystein GisnÃ¥s)
 	#404239: Included a missing row columns in contacts minicard view
-	 (Øystein Gisnås)
+	 (Ãystein GisnÃ¥s)
 	#358250: Change field Organization to Company in AddressBook (Javier
 	 F. Serrador)
 	#325118: Add translator comments for a string (Andre Klapper)
 	#378441: Mnemonics added for FROM/SUBJECT/TO headers in message pane
 	 (Ebby Wiselyn)
 	#380750: Make force-shutdown work in Solaris (Wang Xin)
-	#414195: Fix build break (Loïc Minier)
+	#414195: Fix build break (LoÃ¯c Minier)
 	#425506: Fix a crash when clicking the Edit button (Xiurong Simon
 	 Zheng)
 	#324982: Fix warnings at program startup (Hiroyuki Ikezoe)
@@ -3784,9 +3891,9 @@ Bug fixes:
 	#343195: Get total number of mails with CAMEL_FOLDER_TOTAL if the folder
 	 is junk folder. (Hiroyuki Ikezoe)
 	#383953: Fix message count display (Matthew Barnes)
-	#332765: More intelligent message selection (Christof Krüger)
+	#332765: More intelligent message selection (Christof KrÃ¼ger)
 	#424795: Fix system beep (Karl Relton)
-	#352713: Update parent rows when a child row changes (René Stadler)
+	#352713: Update parent rows when a child row changes (RenÃ© Stadler)
 	#400241: Don't #include <composer/e-msg-composer.h> since we don't
 	 install that file (Matthew Barnes)
 	#411331: Fix the message selection (Srinivasa Ragavan)
@@ -3839,7 +3946,7 @@ Fixes since 2.9.92 :
 
 Updated Translations:
 
-	Igor Nestorović (sr)
+	Igor NestoroviÄ (sr)
 	Jakub Friedl (cs)
 	Christian Kintner (de)
 	Theppitak Karoonboonyanan (th)
@@ -3849,7 +3956,7 @@ Updated Translations:
 	Gabor Kelemen (hu)
 	Daniel Nylander (sv)
 	Tino Meinen (nl)
-	Josep Puigdemont i Casamajó (ca)
+	Josep Puigdemont i CasamajÃ³ (ca)
 	Alexander Shopov (bg)
 	Ilkka Tuohela (fi)
 	Maxim Dziumanenko (uk)
@@ -3887,8 +3994,8 @@ Updated Translations:
 	Funda Wang (zh_CN)
 	Artur Flinta (pl)
 	Leonardo Ferreira Fontenelle, Washington Lins (pt_BR)
-	Stéphane Raimbault (fr)
-	Nguyễn Thái Ngọc Duy (vi)
+	StÃ©phane Raimbault (fr)
+	Nguyá»n ThÃ¡i Ngá»c Duy (vi)
 	Alexander Shopov (bg)
 	David Lodge (en_GB)
 	Djihed Afifi (ar)
@@ -3907,7 +4014,7 @@ Evolution 2.9.91 2007-02-12
 Updated Translations:
 	Djihed Afifi (ar)
 	Theppitak Karoonboonyanan (th)
-	Stéphane Raimbault, Robert-André Mauchin and Stéphane Raimbault (fr)
+	StÃ©phane Raimbault, Robert-AndrÃ© Mauchin and StÃ©phane Raimbault (fr)
 	Duarte Loreto (pt)
 	Hendrik Richter (de)
 	David Lodge (eb_GB)
@@ -3942,7 +4049,7 @@ Evolution 2.9.5 2007-01-08
 --------------------------
 
 Updated Translations:
-Djihed Afifi (ar), Danilo Šegan (sr), David Lodge (en_GB), Kjartan Maraas
+Djihed Afifi (ar), Danilo Å egan (sr), David Lodge (en_GB), Kjartan Maraas
 (nb), Gintautas Miliauskas (lt), Jordi Mas (ca), Bernat Tallaferro (ca), 
 Clytie Siddall (vi), Priit Laes (et)
 
@@ -3977,7 +4084,7 @@ Evolution 2.9.3 2006-12-04
 
 Updated Translations:
 Ivar Smolin (et), Jakub Friedl (cs),
-Karsten Bräckelmann (nb), Francisco Javier F. Serrador (es),
+Karsten BrÃ¤ckelmann (nb), Francisco Javier F. Serrador (es),
 Christophe Merlet (fr)
 
 Contributors :
@@ -3997,7 +4104,7 @@ Updated Translations:
 Christophe Merlet (fr), Alexander Shopov (bg),
 Francisco Javier F. Serrador (es), Ivar Smolin (et),
 Ilkka Tuohela (fi), Pawan Chitrakar (ne), Gabor Kelemen (hu),
-Josep Puigdemont i Casamajó (ca).
+Josep Puigdemont i CasamajÃ³ (ca).
 
 Contributors :
 Jules Colding, Harish Krishnaswamy, Ben Gamari, Priit Laes.
@@ -4016,15 +4123,15 @@ Johan Dahlin (sv)
 Satoru SATOH (ja)
 Alexander Shopov (bg)
 Luca Ferretti (it)
-Zygimantas Beručka (lt)
-Cyprien Le Pannérer (fr)
+Zygimantas BeruÄka (lt)
+Cyprien Le PannÃ©rer (fr)
 Jordi Mas (ca)
 Tino Meinen (nl)
 Ankit Patel (gu)
 Daniel Nylander (sv)
 Ignacio Casal Quinteiro (gl)
 Pema Geyleg (dz)
-Åsmund Skjæveland (nn)
+Ãsmund SkjÃ¦veland (nn)
 Hendrik Richter (de)
 Nickolay V. Shmyrev (ru)
 Changwoo Ryu (ko)
@@ -4057,11 +4164,11 @@ Ignacio Casal Quinteiro (gl), Ilkka Tuohela (fi),
 Francisco Javier Fernandez Serrador (es),
 Daniel Nylander (sv), Jovan Naumovski (mk),
 Pema Geyleg (dz), Ivar Smolin (et), 
-Åsmund Skjæveland (nn), Hendrik Richter (de),
+Ãsmund SkjÃ¦veland (nn), Hendrik Richter (de),
 Nickolay V. Shmyrev (ru), Daniel Nylander (sv),
 Changwoo Ryu (ko), Wouter Bolsterlee (nl),
 Luca Ferretti (it), Gabor Kelemen (hu),
-Cyprien Le Pannérer (fr), Subhransu Behera (or),
+Cyprien Le PannÃ©rer (fr), Subhransu Behera (or),
 Pawan Chitrakar (ne), Alexander Shopov (bg),
 David Lodge (en_GB), Ankit Patel (gu), 
 Vladimer Sichinava (ka), Kostas Papadimas (el),
@@ -4092,8 +4199,8 @@ Updated Translations
 
 Hendrik Richter (de), Wouter Bolsterlee (nl), Daniel Nylander (sv),
 Priit Laes (et), Francisco Javier F. Serrador (es), Satoru SATOH (ja),
-Subhransu Behera (or), Matic Å½gu (sl), Jovan Naumovski (mk), 
-Ankit Patel (gu), Å½ygimantas BeruÄka (lt), Gabor Kelemen (hu),
+Subhransu Behera (or), Matic ÃÂ½gu (sl), Jovan Naumovski (mk), 
+Ankit Patel (gu), ÃÂ½ygimantas BeruÃÂka (lt), Gabor Kelemen (hu),
 Ilkka Tuohela (fi), Ahmad Riza H Nst (id), Rahul Bhalerao (mr),
 Clytie Siddall (vi), Changwoo Ryu (ko), Chao-Hsiung Liao (zh_HK) (zh_TW),
 Tino Meinen (nl), Ani Peter (ml), Xavier Conde Rueda (ca), 
@@ -4105,7 +4212,7 @@ Bug Fixes
 Pavel Roskin, Kjartan Maraas, Srinivasa Ragavan, Laurent Goujon, 
 Matthew Barnes, Chenthill Palanisamy, Li Yuan, Harish Krishnaswamy,
 Mubeen Jukaku, Ushveen Kaur, Jeff Cai, Johannes Berg, Hiroyuki Ikezoe,
-Øystein Gisnås
+Ãystein GisnÃ¥s
 
 Evolution 2.7.91 2006-08-07
 ---------------------------
@@ -4151,7 +4258,7 @@ Raghavendran, Shree Krishnan, Ushveen Kaur, Karsten
 Brackelmann, Michael Zucchi, Hiroyuki Ikezoe,
 Rajeev Ramanathan, Chenthill Palanisamy, Li Yuan,
 Devashish Sharma, Mikhail Zabaluev, Ross Burton,  
-Sankar, Benoît Dejean, Vandana Shenoy, Julio M. Merino
+Sankar, BenoÃ®t Dejean, Vandana Shenoy, Julio M. Merino
 Vidal, Luca Ferretti.
 
 Evolution 2.7.4 2006-07-10
@@ -4162,19 +4269,19 @@ Francisco Javier F. Serrador, Jovan Naumovski,
 Changwoo Ryu, Nikos Charonitakis, Rostislav
 Raykov, Ilkka Tuohela, Ivar Smolin, Ahmad Riza
 H Nst, Inaki Larranaga, Ankit Patel, Vincent
-van Adrighem, Runa Bhattacharjee, Benoît Dejean,
+van Adrighem, Runa Bhattacharjee, BenoÃ®t Dejean,
 Theppitak Karoonboonyanan, Pawan Chitrakar, I.Felix,
 Rajesh Ranjan, Kjartan Maraas, Chao-Hsiung Liao,
 Clytie Siddall, Hendrik Richter, Daniel Nylander.
 
 Bug fixes :
 
-Andreas Köhler, Harish Krishnaswamy, Ushveen Kaur,
+Andreas KÃ¶hler, Harish Krishnaswamy, Ushveen Kaur,
 Andre Klapper, Johnny Jacob, Mathew Barnes, Arvind_evo,
 Srinivasa Ragavan, Tor Lillqvist, Li Yuan, Chenthill,
 Wang Xin, Rajeev Ramanathan, Aishwarya K, Hiroyuki Ikezoe,
 Simon Zheng, Devashish Sharma, Oswald Rodrigues, Harry Lu,
-Oswald, Sushma Rai, Mathew Barnes, Karsten Bräckelmann,
+Oswald, Sushma Rai, Mathew Barnes, Karsten BrÃ¤ckelmann,
 Sankar P, Frederic Peters.
 
 Evolution 2.7.3 2006-06-12
@@ -4224,7 +4331,7 @@ Updated Translations:
 	- gu (Ankit Patel)
 	- ja (Takeshi AIHaNA)
 	- ka (Clytie Siddall)
-	- lt (Å½ygimantas BeruÄka)
+	- lt (ÃÂ½ygimantas BeruÃÂka)
 	- nb (Kjartan Maraas)
 	- nl (Vincent van Adrighem)
 	- no (Kjartan Maraas)
@@ -4255,7 +4362,7 @@ Updated Translations:
 	- fi (Ilkka Tuohela)
 	- gl (Ignacio Casal Quinteiro)
 	- gu (Ankit Patel)
-	- lt (Žygimantas Beručka)
+	- lt (Å½ygimantas BeruÄka)
 	- nb, no (Kjartan Maraas)
 	- nl (Tino Meinen)
 	- pt_BR (Raphael Higino)
@@ -4300,69 +4407,69 @@ Evolution 2.5.5 2006-01-16
   
 Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
 
-	#326458 – New Meeting/Task UI: remove useless seperators (Srini)
-	#326265 – "Message Source", "Character Encoding" miss mnemonics (Srini)
-	#326266 – avoid using "i" as mnemonic (Srini)
-	#326381 – change "_Insert" mnemonic in Signature Editor Menu (Srini)
-	#325110 – Compose Message Controls Not Working (Shreyas)
-	#326877 – UI: Menu Bar Changes Number Of Items When No Email Highlighted (Srini)
-	#218570 – "Collapse all" and "expand all" threads feature missing (Srini)
-	#221270 – Send & Receive -dialog should show also account name for usability (Rohini)
-	#246257 – Find in Message dialog - UI suggestions (Rohini)
-	#239929 – Zoom with mousewheel broken (Rajeev)
-	#255303 – changing folders strangeness (Srini)
-	#325334 – "Canceled" spelling errors (Andre Klapper)
-	#325618 – Exchange operations plugin doesn't get loaded on startup. (Srini)
-	#313095 – gw: Disable a account which has done proxy login to other account error message is wrong (Shreyas)
-	#325568 – Spaces disappeared from strings (Andre Klapper)
-	#325748 – Add a new mozila built-in cert module's path for compatible reason (Simon Zheng)
-	#273076 – Cryptic short messages in Evolution certificate manager (Andre Klapper)
-	#324739 – Crash moving from mail to calendar (Srini)
-	#325629 – port to the new libnotify API (Sebastien Bacher)
-	#324816 – Alarm Tray eats CPU (Chakravarthi)
-	#324889 – Selecting calendar from event-notification drop-down from notification-area crashes EDS (Chakravarthi)
-	#213660 – Set default alarm type and sound file in preferences (Johnny Jacob)
-	#320101 – When Scheduling Meeting, [Invitations] Tab Accepts Multiple Names (Chenthill)
-	#311888 – On Recurrence Meeting Screen, Calendar Doesn't Display Correct View (Chenthill)
-	#313112 – Make this occurence movable does not delete moved recurring instance (Chenthill)
-	#259505 – In Calendar List View, switching months changes View (Chenthill)
-	#271810 – Calendar not enabled if editor adds event (Chenthill)
-	#274234 – jump to today pretty useless (Srini)
-	#271541 – Read Only Calendars shouldn't present Read Only "New" Screen (Chenthill)
-	#326735 – Meeting editor shows a wrong organizer (Chenthill)
-	#325446 – Alarm Editor Window width changes as typing custom message (Srini)
-	#325502 – resizing task editor window does not resize description input field (Srini)
-	#325612 – strings in e-alarm-list.c need translator comments (Andre Klapper)
-	#261071 – "RSVP" in evolution addressbook probably needs a translator comment (Andre Klapper)
-	#216535 – changing start time should keep appointment's time length (Johnny Jacob)
-	#258786 – 'Mark Selected Tasks as Complete' active even after tasks are marked complete (Johnny Jacob)
-	#303193 – Changing reminder snooze time doesn't work after pressing ALT-S (Johnny Jacob)
-	#325416 – tooltip of *earlier* appointment displayed in day view (Srini)
-	#325414 – calendar tooltip never disappearing when aborting appointment creation (Srini)
-	#323127 – Attachments pane gone wild (Johnny Jacob)
-	#326378 – missing mnemonics for mail recover dialog buttons (Srini)
-	#246237 – Compose a message dialog - label suggestions (Rohini)
-	#317283 – Contact Categories dialog should have a default response (Devashish)
-	#317282 – Contact Full Name dialog should have a default response (Default)
-	#326268 – "search > advanced" misses mnemonic (Srini)
-	#307513 – Please update some of the commandline tools. (Ali Akcaagac)
-	#325334 – "Canceled" spelling errors (Andre Klapper)
-	#326265 – "Message Source", "Character Encoding" miss mnemonics (Srini)
-	#220286 – Hints are not gone after a folder switch (Srini)
-	#326264 – "Current View" and "Caret Mode" have same mnemonic (Srini)
-	#325132 – change "Sa junk-plugin" to "Spamassassin plugin" (Andre Klapper)
-	#325210 – Plugin Spam learn can not work correctly (Shi Pu)
-	#327053 – One typo in the .po file (Harish)
-	#327155 – New grammar error (Harish)
-	#326842 – Save password not working (Sushma)
-	#271546 – Can't subscribe to other user's calendar with non-english Exchange server (Chenthill)
-	#326060 – Exchange password expiry handling is broken (Sushma)
-	#316100 – there is an empty menu after the help menu (Srini)
-	#314748 – modal dialog issue (Sushma)
-	#267402 – can not specify https URL for a remote calendar location (Tony Tsui)
-	#326265 – "Message Source", "Character Encoding" miss mnemonics (Srini)
-	#323011 – UI: options available on right click should be in menus as well (Srini)
-	#325926 – Menu bar has entry with no text (Chenthill)
+	#326458 â New Meeting/Task UI: remove useless seperators (Srini)
+	#326265 â "Message Source", "Character Encoding" miss mnemonics (Srini)
+	#326266 â avoid using "i" as mnemonic (Srini)
+	#326381 â change "_Insert" mnemonic in Signature Editor Menu (Srini)
+	#325110 â Compose Message Controls Not Working (Shreyas)
+	#326877 â UI: Menu Bar Changes Number Of Items When No Email Highlighted (Srini)
+	#218570 â "Collapse all" and "expand all" threads feature missing (Srini)
+	#221270 â Send & Receive -dialog should show also account name for usability (Rohini)
+	#246257 â Find in Message dialog - UI suggestions (Rohini)
+	#239929 â Zoom with mousewheel broken (Rajeev)
+	#255303 â changing folders strangeness (Srini)
+	#325334 â "Canceled" spelling errors (Andre Klapper)
+	#325618 â Exchange operations plugin doesn't get loaded on startup. (Srini)
+	#313095 â gw: Disable a account which has done proxy login to other account error message is wrong (Shreyas)
+	#325568 â Spaces disappeared from strings (Andre Klapper)
+	#325748 â Add a new mozila built-in cert module's path for compatible reason (Simon Zheng)
+	#273076 â Cryptic short messages in Evolution certificate manager (Andre Klapper)
+	#324739 â Crash moving from mail to calendar (Srini)
+	#325629 â port to the new libnotify API (Sebastien Bacher)
+	#324816 â Alarm Tray eats CPU (Chakravarthi)
+	#324889 â Selecting calendar from event-notification drop-down from notification-area crashes EDS (Chakravarthi)
+	#213660 â Set default alarm type and sound file in preferences (Johnny Jacob)
+	#320101 â When Scheduling Meeting, [Invitations] Tab Accepts Multiple Names (Chenthill)
+	#311888 â On Recurrence Meeting Screen, Calendar Doesn't Display Correct View (Chenthill)
+	#313112 â Make this occurence movable does not delete moved recurring instance (Chenthill)
+	#259505 â In Calendar List View, switching months changes View (Chenthill)
+	#271810 â Calendar not enabled if editor adds event (Chenthill)
+	#274234 â jump to today pretty useless (Srini)
+	#271541 â Read Only Calendars shouldn't present Read Only "New" Screen (Chenthill)
+	#326735 â Meeting editor shows a wrong organizer (Chenthill)
+	#325446 â Alarm Editor Window width changes as typing custom message (Srini)
+	#325502 â resizing task editor window does not resize description input field (Srini)
+	#325612 â strings in e-alarm-list.c need translator comments (Andre Klapper)
+	#261071 â "RSVP" in evolution addressbook probably needs a translator comment (Andre Klapper)
+	#216535 â changing start time should keep appointment's time length (Johnny Jacob)
+	#258786 â 'Mark Selected Tasks as Complete' active even after tasks are marked complete (Johnny Jacob)
+	#303193 â Changing reminder snooze time doesn't work after pressing ALT-S (Johnny Jacob)
+	#325416 â tooltip of *earlier* appointment displayed in day view (Srini)
+	#325414 â calendar tooltip never disappearing when aborting appointment creation (Srini)
+	#323127 â Attachments pane gone wild (Johnny Jacob)
+	#326378 â missing mnemonics for mail recover dialog buttons (Srini)
+	#246237 â Compose a message dialog - label suggestions (Rohini)
+	#317283 â Contact Categories dialog should have a default response (Devashish)
+	#317282 â Contact Full Name dialog should have a default response (Default)
+	#326268 â "search > advanced" misses mnemonic (Srini)
+	#307513 â Please update some of the commandline tools. (Ali Akcaagac)
+	#325334 â "Canceled" spelling errors (Andre Klapper)
+	#326265 â "Message Source", "Character Encoding" miss mnemonics (Srini)
+	#220286 â Hints are not gone after a folder switch (Srini)
+	#326264 â "Current View" and "Caret Mode" have same mnemonic (Srini)
+	#325132 â change "Sa junk-plugin" to "Spamassassin plugin" (Andre Klapper)
+	#325210 â Plugin Spam learn can not work correctly (Shi Pu)
+	#327053 â One typo in the .po file (Harish)
+	#327155 â New grammar error (Harish)
+	#326842 â Save password not working (Sushma)
+	#271546 â Can't subscribe to other user's calendar with non-english Exchange server (Chenthill)
+	#326060 â Exchange password expiry handling is broken (Sushma)
+	#316100 â there is an empty menu after the help menu (Srini)
+	#314748 â modal dialog issue (Sushma)
+	#267402 â can not specify https URL for a remote calendar location (Tony Tsui)
+	#326265 â "Message Source", "Character Encoding" miss mnemonics (Srini)
+	#323011 â UI: options available on right click should be in menus as well (Srini)
+	#325926 â Menu bar has entry with no text (Chenthill)
 	
 New features and other fixes :
 	- Merge caldav eplugin from evolution-caldav into Evolution (Harish)
@@ -4383,10 +4490,10 @@ Updated Translations:
 	- fi (Ilkka Tuohela)
 	- gu (Ankit Patel)
 	- ja (Takeshi AIHANA)
-	- lt (Žygimantas Beručka)
+	- lt (Å½ygimantas BeruÄka)
 	- nl (Vincent van Adrighem)
 	- nb, no (Kjartan Maraas)
-	- nn (Åsmund Skjæveland)
+	- nn (Ãsmund SkjÃ¦veland)
 	- vi (Clytie Siddall)
 	- zh_TW (Zhe Su, Chao-Hsiung Liao) 
 
@@ -4396,7 +4503,7 @@ Evolution 2.5.4 2006-01-02
 Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
 
 	#301149 - Translated plugin names, descriptions and labels. (Funda Wang)
-	#323151 - Seperator in toolbar between Send/Receive and component buttons (Karsten Bräckelmann)
+	#323151 - Seperator in toolbar between Send/Receive and component buttons (Karsten BrÃ¤ckelmann)
 	#325120 - Remove ui/evolution-executive-summary.xml from CVS
 	#306117 - Partially fixes typos and harmonizing capital/small letters (Andre Klapper)
 	#319946 - Shortcut keys for Send/Receive and Save Message are same when invoked through Alt-F (Andre Klapper)
@@ -4491,9 +4598,9 @@ Updated Translations:
 	- gl (Ignacio Casal Quinteiro)
 	- gu (Ankit Patel)
 	- ja (Takeshi AIHANA)
-	- lt (Žygimantas Beručka)
+	- lt (Å½ygimantas BeruÄka)
 	- nb, no (Kjartan Maraas)
-	- nn (Åsmund Skjæveland)
+	- nn (Ãsmund SkjÃ¦veland)
 	- vi (Clytie Siddall)
 	- zh_CN (Funda Wang)
 
@@ -4550,7 +4657,7 @@ Updated Translations:
 	- fi (Ilkka Tuohela)
 	- gl (Ignacio Casal Quinteiro)
 	- ja (Takeshi AIHANA)
-	- lt (Zygimantas Beručka)
+	- lt (Zygimantas BeruÄka)
 	- nb, no (Kjartan Maraas)
 	- th (Theppitak Karoonboonyanan)
 	- zh_CN (Funda Wang)
@@ -4608,7 +4715,7 @@ Update Translations:
 	- fi (Ilkka Tuohela)
 	- gl (Ignacio Casal Quinteiro)
 	- ku (Erdal Ronahi)
-	- lt (Žygimantas Beručka)
+	- lt (Å½ygimantas BeruÄka)
 
 Evolution 2.5.1 2005-10-25
 --------------------------
@@ -4699,7 +4806,7 @@ Updated Translations:
 
 	- bg (Alexander Shopov)
 	- bg (Rostislav Raykov)
-	- ca (Josep Puigdemont i Casamajó)
+	- ca (Josep Puigdemont i CasamajÃ³)
 	- ca (Xavi Conde Rueda)
 	- cy (Rhys Jones)
 	- de (Frank Arnold)
@@ -4711,7 +4818,7 @@ Updated Translations:
 	- hu (Gabor Kelemen)
 	- id (Mohammad DAMT)
 	- ja (Takeshi AIHANA)
-	- lt (Zygimantas Beručka)
+	- lt (Zygimantas BeruÄka)
 	- nb, no (Kjartan Maraas)
 	- nb, no (Terance Sola)
 	- nl (Tino Meinen)
@@ -4719,7 +4826,7 @@ Updated Translations:
 	- pt_BR (Raphael Higino)
 	- ru (Nickolay V. Shmyrev)
 	- sq (Laurent Dhima)
-	- sr, sr@Latn (Igor Nestorović)
+	- sr, sr@Latn (Igor NestoroviÄ)
 	- sv (Christian Rose)
 	- th (Theppitak Karoonboonyanan)
 	- th (Supranee Thirawatthanasuk)
@@ -4864,7 +4971,7 @@ Updated Translations:
 	- et (Ivar Smolin)
 	- fi (Ilkka Tuohela)
 	- ja (Takeshi AIHANA)
-	- lt (Žygimantas Beručka)
+	- lt (Å½ygimantas BeruÄka)
 	- nb, no (Kjartan Maraas)
 	- nl (Tino Meinen)
 	- POTFILES (Adam Weinberger)
@@ -4874,7 +4981,7 @@ Updated Translations:
 	- POTFILES (Vivek Jain)
 	- pt_BR (Raphael Higino)
 	- sk (Marcel Telka)
-	- sr, sr@Latn (Igor Nestorović)
+	- sr, sr@Latn (Igor NestoroviÄ)
 	- vi (Clytie Siddall)
 	- zh_CN (Funda Wang)
 
@@ -4928,7 +5035,7 @@ Updated Translations:
 	- es (Francisco Javier F. Serrador)
 	- et (Ivar Smolin)
 	- nb, no (Terance Sola)
-	- sr, sr@Latn (Igor Nestorović)
+	- sr, sr@Latn (Igor NestoroviÄ)
 	- vi (Clytie Siddall)
 	- zh_TW (Chao-Hsiung Liao)
 	- POTFILES (Sankar P, Vivek Jain)
@@ -5302,14 +5409,14 @@ Other bugs
 
  * Plugins
    - Make e-popup more robust (Michael)
-   - Cleanup authors/descriptions (Björn Torkelsson)
+   - Cleanup authors/descriptions (BjÃ¶rn Torkelsson)
    - out of office exchange fixes (Sushma)
    - retry send options if invalid session string (Chen)
    - set proper default port for shared folders (Vivek)
 
  * Miscellaneous
    - BSD runtime linking fixes (Hans)
-   - distclean fixes (Björn Torkelsson)
+   - distclean fixes (BjÃ¶rn Torkelsson)
 
 Updated translations:
 	- et (Priit Laes)
@@ -5772,7 +5879,7 @@ Other bugs
 Updated translations:
 
   - da (Martin Willemoes Hansen)
-  - lt (Žygimantas Beručka)
+  - lt (Å½ygimantas BeruÄka)
   - nl (Vincent van Adrighem)
   - de (Hendrik Richter)
   - it (Marco Ciampa)
@@ -6018,7 +6125,7 @@ Updated translations:
   - pt_BR (Raphael Higino)
   - da (Martin Willemoes Hansen)
   - ko (Changwoo Ryu)
-  - nn (Åsmund Skjæveland)
+  - nn (Ãsmund SkjÃ¦veland)
   - sr (Danilo Segan)
   - hu (Laszlo Dvornik)
   - bs Danilo Segan
@@ -6088,7 +6195,7 @@ Updated translations:
   - ms (Hasbullah Bin Pit)
   - nb (Sigurd Gartmann)
   - nl (Vincent van Adrighem)
-  - nn (Åsmund Skjæveland)
+  - nn (Ãsmund SkjÃ¦veland)
   - no (Kjartan Maraas)
   - pl (Artur Flinta)
   - pt (Duarte Loreto)
