@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-03 13:39+0200\n"
-"PO-Revision-Date: 2010-08-03 13:42+0200\n"
+"PO-Revision-Date: 2010-08-03 14:55+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8486,11 +8486,11 @@ msgstr "Identidade"
 
 #: ../capplet/settings/mail-account-view.c:608
 msgid "Next - Receiving mail"
-msgstr "Seguinte - Recibindo o correo"
+msgstr "Seguinte - Recepción o correo"
 
 #: ../capplet/settings/mail-account-view.c:609
 msgid "Receiving mail"
-msgstr "Recibindo correo"
+msgstr "Recepción de correo"
 
 #: ../capplet/settings/mail-account-view.c:609
 #: ../capplet/settings/mail-account-view.c:610
@@ -8512,16 +8512,16 @@ msgstr "Opcións de recepción"
 #: ../capplet/settings/mail-account-view.c:610
 #: ../capplet/settings/mail-account-view.c:612
 msgid "Back - Receiving mail"
-msgstr "Anterior - Recibindo o correo"
+msgstr "Anterior - Recepción de correo"
 
 #: ../capplet/settings/mail-account-view.c:612
 msgid "Sending mail"
-msgstr "Enviando correo"
+msgstr "Envío de correo"
 
 #: ../capplet/settings/mail-account-view.c:612
 #: ../capplet/settings/mail-account-view.c:613
 msgid "Next - Review account"
-msgstr "Seguinte - Revisando a conta"
+msgstr "Seguinte - Revisar a conta"
 
 #: ../capplet/settings/mail-account-view.c:612
 msgid "Next - Defaults"
@@ -8538,7 +8538,7 @@ msgstr "Predefinidos"
 
 #: ../capplet/settings/mail-account-view.c:613
 msgid "Back - Sending mail"
-msgstr "Anterior - Enviando correo"
+msgstr "Anterior - Envío de correo"
 
 #: ../capplet/settings/mail-account-view.c:615
 msgid "Review account"
@@ -8550,7 +8550,7 @@ msgstr "Rematar"
 
 #: ../capplet/settings/mail-account-view.c:615
 msgid "Back - Sending"
-msgstr "Anterior - Enviando"
+msgstr "Anterior - Envío"
 
 #: ../capplet/settings/mail-account-view.c:719
 msgid "Setup Google contacts with Evolution"
@@ -10237,7 +10237,7 @@ msgstr ""
 #: ../mail/em-account-editor.c:2101 ../mail/em-account-editor.c:2258
 #: ../mail/mail-config.ui.h:98
 msgid "Receiving Email"
-msgstr "Recibindo correo"
+msgstr "Recepción de correo"
 
 #: ../mail/em-account-editor.c:2102
 msgid "Please configure the following account settings."
@@ -13162,7 +13162,7 @@ msgstr "Filtrando as mensaxes seleccionadas"
 
 #: ../mail/mail-ops.c:245
 msgid "Fetching Mail"
-msgstr "Recibindo correo"
+msgstr "Obtendo as mensaxes"
 
 #: ../mail/mail-ops.c:592
 #, c-format
@@ -13208,17 +13208,17 @@ msgstr "Terminado."
 #: ../mail/mail-ops.c:938
 #, c-format
 msgid "Saving message to folder '%s'"
-msgstr "Gardando a mensaxe no cartafol %s"
+msgstr "Gardando a mensaxe no cartafol «%s»"
 
 #: ../mail/mail-ops.c:1018
 #, c-format
 msgid "Moving messages to '%s'"
-msgstr "Movendo as mensaxes a %s"
+msgstr "Movendo as mensaxes a «%s»"
 
 #: ../mail/mail-ops.c:1018
 #, c-format
 msgid "Copying messages to '%s'"
-msgstr "Copiando as mensaxes a %s"
+msgstr "Copiando as mensaxes a «%s»"
 
 #: ../mail/mail-ops.c:1127
 #, c-format
@@ -13232,22 +13232,22 @@ msgstr "Mensaxes reenviadas"
 #: ../mail/mail-ops.c:1276
 #, c-format
 msgid "Opening folder '%s'"
-msgstr "Abrindo cartafol %s"
+msgstr "Abrindo o cartafol «%s»"
 
 #: ../mail/mail-ops.c:1342
 #, c-format
 msgid "Retrieving quota information for folder '%s'"
-msgstr "Obtendo a información de cuota do cartafol %s"
+msgstr "Obtendo a información da cuota do cartafol «%s»"
 
 #: ../mail/mail-ops.c:1414
 #, c-format
 msgid "Opening store '%s'"
-msgstr "Abrindo almacenamento %s"
+msgstr "Abrindo o almacén «%s»"
 
 #: ../mail/mail-ops.c:1485
 #, c-format
 msgid "Removing folder '%s'"
-msgstr "Eliminando o cartafol %s"
+msgstr "Eliminando o cartafol «%s»"
 
 #: ../mail/mail-ops.c:1609
 #, c-format
@@ -13267,12 +13267,12 @@ msgstr "Almacenando a conta «%s»"
 #: ../mail/mail-ops.c:1727
 #, c-format
 msgid "Refreshing folder '%s'"
-msgstr "Actualizando o cartafol %s"
+msgstr "Actualizando o cartafol «%s»"
 
 #: ../mail/mail-ops.c:1767
 #, c-format
 msgid "Expunging folder '%s'"
-msgstr "Compactando o cartafol %s"
+msgstr "Compactando o cartafol «%s»"
 
 #: ../mail/mail-ops.c:1812
 #, c-format
@@ -13287,8 +13287,8 @@ msgstr "Cartafoles locais"
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "Recuperando %d mensaxe"
-msgstr[1] "Recuperando %d mensaxes"
+msgstr[0] "Descargando %d mensaxe"
+msgstr[1] "Descargando %d mensaxes"
 
 #: ../mail/mail-ops.c:2105
 #, c-format
@@ -13322,7 +13322,7 @@ msgstr "Non é posíbel escribir os datos: "
 #: ../mail/mail-ops.c:2454
 #, c-format
 msgid "Disconnecting from '%s'"
-msgstr "Desconectando de %s"
+msgstr "Desconectando de «%s»"
 
 #: ../mail/mail-ops.c:2454
 #, c-format
@@ -13356,7 +13356,7 @@ msgstr "Actualizando..."
 
 #: ../mail/mail-send-recv.c:551 ../mail/mail-send-recv.c:628
 msgid "Waiting..."
-msgstr "En espera..."
+msgstr "Agardando..."
 
 #: ../mail/mail-send-recv.c:866
 #, c-format
@@ -18967,7 +18967,7 @@ msgstr "engadido"
 
 #: ../plugins/plugin-manager/plugin-manager.c:430
 msgid "_Plugins"
-msgstr "_engadidos"
+msgstr "_Engadidos"
 
 #: ../plugins/plugin-manager/plugin-manager.c:432
 msgid "Enable and disable plugins"
