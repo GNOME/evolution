@@ -57,7 +57,6 @@ main (gint argc, gchar **argv)
 	textdomain (GETTEXT_PACKAGE);
 
 	g_thread_init (NULL);
-	dbus_g_thread_init ();
 
 #ifdef G_OS_WIN32
 	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);

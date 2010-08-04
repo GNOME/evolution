@@ -225,7 +225,6 @@ main (gint argc, gchar *argv[])
 
 	if (!g_thread_get_initialized ())
 		g_thread_init (NULL);
-	dbus_g_thread_init ();
 
 	client = gconf_client_get_default();
 
