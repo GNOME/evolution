@@ -175,12 +175,6 @@ dnl	-Wstrict-aliasing=2
 dnl	-DE_BOOK_DISABLE_DEPRECATED
 dnl	-DE_CAL_DISABLE_DEPRECATED
 
-dnl GCC 4.4 got more aggressive in its aliasing optimizations, changing
-dnl behavior that -- according to the C99 standard -- is supposed to be
-dnl undefined.  We may still have aliasing abuses lying around that rely
-dnl on GCC's previous "undefined" behavior, so disable strict-aliasing
-dnl optimzation until we can find and fix all the abuses.
-dnl XXX This really belongs in AM_CFLAGS.
 AM_CPPFLAGS="$WARNING_FLAGS -fno-strict-aliasing"
 AC_SUBST(AM_CPPFLAGS)
 
@@ -222,6 +216,17 @@ AC_PATH_PROG([PERL], [perl])
 AC_SUBST(PERL)
 
 AC_ARG_PROGRAM
+
+dnl GCC 4.4 got more aggressive in its aliasing optimizations, changing
+dnl behavior that -- according to the C99 standard -- is supposed to be
+dnl undefined.  We may still have aliasing abuses lying around that rely
+dnl on GCC's previous "undefined" behavior, so disable strict-aliasing
+dnl optimzation until we can find and fix all the abuses.
+dnl (AC_PROG_CC must run first to set the GCC variable.)
+dnl XXX This really belongs in AM_CFLAGS.
+if test "x${GCC}" = "xyes"; then
+	CFLAGS="$CFLAGS -fno-strict-aliasing"
+fi
 
 dnl ******************************
 dnl I18N stuff
