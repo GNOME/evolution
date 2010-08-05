@@ -496,10 +496,10 @@ init_timezone_monitors (ECalShellView *view)
 		g_object_unref (file);
 
 		if (priv->monitors[i])
-			g_signal_connect (G_OBJECT (priv->monitors[i]),
-					"changed",
-					G_CALLBACK (system_timezone_monitor_changed),
-					view);
+			g_signal_connect_object (G_OBJECT (priv->monitors[i]),
+						 "changed",
+						 G_CALLBACK (system_timezone_monitor_changed),
+						 view, 0);
 	}
 }
 
@@ -561,102 +561,102 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		calendar_view =
 			gnome_calendar_get_calendar_view (calendar, ii);
 
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			calendar_view, "popup-event",
 			G_CALLBACK (cal_shell_view_popup_event_cb),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			calendar_view, "selection-changed",
 			G_CALLBACK (e_shell_view_update_actions),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			calendar_view, "user-created",
 			G_CALLBACK (cal_shell_view_user_created_cb),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 	}
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		calendar, "dates-shown-changed",
 		G_CALLBACK (e_cal_shell_view_update_sidebar),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "status-message",
 		G_CALLBACK (e_cal_shell_view_set_status_message),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "notify::timezone",
 		G_CALLBACK (e_cal_shell_view_update_timezone),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		date_navigator, "scroll-event",
 		G_CALLBACK (cal_shell_view_date_navigator_scroll_event_cb),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		date_navigator->calitem, "date-range-changed",
 		G_CALLBACK (cal_shell_view_date_navigator_date_range_changed_cb),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		date_navigator->calitem, "selection-changed",
 		G_CALLBACK (cal_shell_view_date_navigator_selection_changed_cb),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "popup-event",
 		G_CALLBACK (cal_shell_view_selector_popup_event_cb),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		cal_shell_sidebar, "client-added",
 		G_CALLBACK (cal_shell_view_selector_client_added_cb),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		cal_shell_sidebar, "client-removed",
 		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
-		cal_shell_view);
+		cal_shell_view, G_CONNECT_SWAPPED);
 
 	if (memo_table)
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			memo_table, "popup-event",
 			G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
 	if (memo_table)
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			memo_table, "selection-change",
 			G_CALLBACK (e_cal_shell_view_memopad_actions_update),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
 	if (memo_table)
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			memo_table, "status-message",
 			G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
 	if (task_table)
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			task_table, "popup-event",
 			G_CALLBACK (cal_shell_view_taskpad_popup_event_cb),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
 	if (task_table)
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			task_table, "status-message",
 			G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
 	if (task_table)
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			task_table, "selection-change",
 			G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
-			cal_shell_view);
+			cal_shell_view, G_CONNECT_SWAPPED);
 
 	e_categories_add_change_hook (
 		(GHookFunc) e_cal_shell_view_update_search_filter,
