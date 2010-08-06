@@ -5,7 +5,7 @@
 	-e 's|\@LOCALEDIR\@|$(localedir)|' $< > $@
 
 %.eplug.in: %.eplug.xml
-	LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
+	LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp/notthere $< $@
 
 %.error: %.error.xml
-	LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
+	LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp/notthere $< $@
