@@ -493,26 +493,25 @@ e_signature_set_from_xml (ESignature *signature, const gchar *xml)
 			}
 			break;
 		}
-
-		/* If the signature is not a script, replace the directory
-		 * part with the current signatures directory.  This makes
-		 * moving the signatures directory transparent. */
-		if (!e_signature_get_is_script (signature)) {
-			const gchar *user_data_dir;
-			gchar *basename;
-			gchar *filename;
-
-			user_data_dir = e_get_user_data_dir ();
-
-			filename = signature->priv->filename;
-			basename = g_path_get_basename (filename);
-			signature->priv->filename = g_build_filename (
-				user_data_dir, "signatures", basename, NULL);
-			g_free (basename);
-			g_free (filename);
-		}
-
 		cur = cur->next;
+	}
+
+	/* If the signature is not a script, replace the directory
+	 * part with the current signatures directory.  This makes
+	 * moving the signatures directory transparent. */
+	if (!e_signature_get_is_script (signature)) {
+		const gchar *user_data_dir;
+		gchar *basename;
+		gchar *filename;
+	  
+		user_data_dir = e_get_user_data_dir ();
+
+		filename = signature->priv->filename;
+		basename = g_path_get_basename (filename);
+		signature->priv->filename = g_build_filename (
+			user_data_dir, "signatures", basename, NULL);
+		g_free (basename);
+		g_free (filename);
 	}
 
 	xmlFreeDoc (doc);
