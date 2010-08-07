@@ -3604,7 +3604,7 @@ msgstr "ஒரு டிபஸ் பிழையால் இந்த பண�
 #: ../calendar/gui/dialogs/delete-error.c:64
 #, c-format
 msgid "The memo could not be deleted due to a dbus error: %s"
-msgstr "%sThe memo could not be deleted due to a dbus error: %s"
+msgstr "The memo could not be deleted due to a dbus error: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:68
