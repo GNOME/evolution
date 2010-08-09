@@ -1319,6 +1319,14 @@ e_shell_searchbar_set_state_group (EShellSearchbar *searchbar,
 	g_object_notify (G_OBJECT (searchbar), "state-group");
 }
 
+static gboolean
+idle_execute_search (gpointer shell_view)
+{
+	e_shell_view_execute_search (shell_view);
+	g_object_unref (shell_view);
+	return FALSE;
+}
+
 void
 e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 {
@@ -1420,9 +1428,10 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_unblock_activate (action);
 
-	/* Now execute the search. */
+	/* Execute the search when we have time. */
+	g_object_ref (shell_view);
 	searchbar->priv->state_dirty = FALSE;
-	e_shell_view_execute_search (shell_view);
+	g_idle_add (idle_execute_search, shell_view);
 }
 
 void
