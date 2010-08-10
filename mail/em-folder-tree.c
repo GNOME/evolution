@@ -2106,7 +2106,7 @@ tree_autoscroll (EMFolderTree *folder_tree)
 	adjustment = gtk_tree_view_get_vadjustment (tree_view);
 
 	page_size = gtk_adjustment_get_value (adjustment);
-	upper = gtk_adjustment_get_value (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
 	value = gtk_adjustment_get_value (adjustment);
 
 	value = CLAMP (value + offset, 0.0, upper - page_size);
