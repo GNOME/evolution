@@ -55,7 +55,10 @@ static const gchar *ui =
 "    <separator/>"
 "    <placeholder name='inline-actions'>"
 "      <menuitem action='show'/>"
+"      <menuitem action='show-all'/>"
+"      <separator/>"
 "      <menuitem action='hide'/>"
+"      <menuitem action='hide-all'/>"
 "    </placeholder>"
 "    <separator/>"
 "    <placeholder name='custom-actions'/>"
@@ -111,6 +114,27 @@ action_hide_cb (GtkAction *action,
 	attachment = list->data;
 
 	e_attachment_set_shown (attachment, FALSE);
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+}
+
+static void
+action_hide_all_cb (GtkAction *action,
+                    EAttachmentView *view)
+{
+	EAttachmentStore *store;
+	GList *list, *iter;
+
+	store = e_attachment_view_get_store (view);
+	list = e_attachment_store_get_attachments (store);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (iter->data);
+		e_attachment_set_shown (attachment, FALSE);
+	}
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
@@ -287,6 +311,27 @@ action_show_cb (GtkAction *action,
 	g_list_free (list);
 }
 
+static void
+action_show_all_cb (GtkAction *action,
+                    EAttachmentView *view)
+{
+	EAttachmentStore *store;
+	GList *list, *iter;
+
+	store = e_attachment_view_get_store (view);
+	list = e_attachment_store_get_attachments (store);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (iter->data);
+		e_attachment_set_shown (attachment, TRUE);
+	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+}
+
 static GtkActionEntry standard_entries[] = {
 
 	{ "cancel",
@@ -353,12 +398,26 @@ static GtkActionEntry inline_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_hide_cb) },
 
+	{ "hide-all",
+	  NULL,
+	  N_("Hid_e All"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_hide_all_cb) },
+
 	{ "show",
 	  NULL,
 	  N_("_View Inline"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_show_cb) }
+	  G_CALLBACK (action_show_cb) },
+
+	{ "show-all",
+	  NULL,
+	  N_("Vie_w All Inline"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_show_all_cb) }
 };
 
 static void
@@ -568,17 +627,40 @@ attachment_view_update_actions (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
 	EAttachment *attachment;
+	EAttachmentStore *store;
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GList *list, *iter;
+	guint n_shown = 0;
+	guint n_hidden = 0;
 	guint n_selected;
 	gboolean busy = FALSE;
 	gboolean can_show = FALSE;
 	gboolean shown = FALSE;
+	gboolean visible;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
 	priv = e_attachment_view_get_private (view);
+
+	store = e_attachment_view_get_store (view);
+	list = e_attachment_store_get_attachments (store);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		attachment = iter->data;
+
+		if (!e_attachment_get_can_show (attachment))
+			continue;
+
+		if (e_attachment_get_shown (attachment))
+			n_shown++;
+		else
+			n_hidden++;
+	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+
 	list = e_attachment_view_get_selected_attachments (view);
 	n_selected = g_list_length (list);
 
@@ -600,6 +682,12 @@ attachment_view_update_actions (EAttachmentView *view)
 	action = e_attachment_view_get_action (view, "hide");
 	gtk_action_set_visible (action, can_show && shown);
 
+	/* Show this action if there are multiple viewable
+	 * attachments, and at least one of them is shown. */
+	visible = (n_shown + n_hidden > 1) && (n_shown > 0);
+	action = e_attachment_view_get_action (view, "hide-all");
+	gtk_action_set_visible (action, visible);
+
 	action = e_attachment_view_get_action (view, "properties");
 	gtk_action_set_visible (action, !busy && n_selected == 1);
 
@@ -611,6 +699,12 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	action = e_attachment_view_get_action (view, "show");
 	gtk_action_set_visible (action, can_show && !shown);
+
+	/* Show this action if there are multiple viewable
+	 * attachments, and at least one of them is hidden. */
+	visible = (n_shown + n_hidden > 1) && (n_hidden > 0);
+	action = e_attachment_view_get_action (view, "show-all");
+	gtk_action_set_visible (action, visible);
 
 	/* Clear out the "openwith" action group. */
 	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);

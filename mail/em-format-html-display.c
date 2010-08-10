@@ -744,31 +744,24 @@ efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMF
 
 /* ********************************************************************** */
 
-/* Checks on the widget whether it can be processed, based on the
- * state of EMFormatHTML.  The widget should have set "efh" data as
- * the EMFormatHTML instance. */
-static gboolean
-efhd_can_process_attachment (GtkWidget *button)
-{
-	EMFormatHTML *efh;
-
-	if (!button)
-		return FALSE;
-
-	efh = g_object_get_data (G_OBJECT (button), "efh");
-
-	return efh && efh->state != EM_FORMAT_HTML_STATE_RENDERING;
-}
-
 static void
-efhd_attachment_button_expanded (GtkWidget *widget,
+efhd_attachment_button_expanded (EAttachmentButton *button,
                                  GParamSpec *pspec,
                                  struct _attach_puri *info)
 {
-	if (!efhd_can_process_attachment (widget))
+	EMFormatHTML *efh;
+
+	/* FIXME The PURI struct seems to have some lifecycle issues,
+	 *       because casting info->puri.format to an EMFormatHTML
+	 *       can lead to crashes.  So we hack around it. */
+	efh = g_object_get_data (G_OBJECT (button), "efh");
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	if (efh->state == EM_FORMAT_HTML_STATE_RENDERING)
 		return;
 
-	info->shown = ~info->shown;
+	info->shown = e_attachment_button_get_expanded (button);
+
 	em_format_set_inline (
 		info->puri.format, info->puri.part_id, info->shown);
 }
@@ -848,6 +841,10 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	gtk_container_add (GTK_CONTAINER (eb), widget);
 	gtk_widget_show (widget);
 
+	/* FIXME Not sure why the expanded callback can't just use
+	 *       info->puri.format, but there seems to be lifecycle
+	 *       issues with the PURI struct.  Maybe it should have
+	 *       a reference count? */
 	g_object_set_data (G_OBJECT (widget), "efh", efh);
 
 	g_signal_connect (
