@@ -251,6 +251,11 @@ struct _EMFormatClass {
 	/* Shows optional way to open messages  */
 	void (*format_optional)(EMFormat *, CamelStream *, CamelMimePart *, CamelStream* );
 
+	gboolean	(*is_inline)		(EMFormat *emf,
+						 const gchar *part_id,
+						 CamelMimePart *mime_part,
+						 const EMFormatHandler *handle);
+
 	/* signals */
 	/* complete, alternative to polling busy, for asynchronous work */
 	void (*complete)(EMFormat *);
@@ -277,9 +282,9 @@ void		em_format_add_header		(EMFormat *emf,
 gint		em_format_is_attachment		(EMFormat *emf,
 						 CamelMimePart *part);
 
-gint		em_format_is_inline		(EMFormat *emf,
-						 const gchar *partid,
-						 CamelMimePart *part,
+gboolean	em_format_is_inline		(EMFormat *emf,
+						 const gchar *part_id,
+						 CamelMimePart *mime_part,
 						 const EMFormatHandler *handle);
 void		em_format_set_inline		(EMFormat *emf,
 						 const gchar *partid,

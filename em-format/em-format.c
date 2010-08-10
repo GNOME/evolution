@@ -117,6 +117,35 @@ emf_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static gboolean
+emf_is_inline (EMFormat *emf,
+               const gchar *part_id,
+               CamelMimePart *mime_part,
+               const EMFormatHandler *handle)
+{
+	struct _EMFormatCache *emfc;
+	const gchar *disposition;
+
+	if (handle == NULL)
+		return FALSE;
+
+	emfc = g_hash_table_lookup (emf->inline_table, part_id);
+	if (emfc && emfc->state != INLINE_UNSET)
+		return emfc->state & 1;
+
+	/* Some types need to override the disposition.
+	 * e.g. application/x-pkcs7-mime */
+	if (handle->flags & EM_FORMAT_HANDLER_INLINE_DISPOSITION)
+		return TRUE;
+
+	disposition = camel_mime_part_get_disposition (mime_part);
+	if (disposition != NULL)
+		return g_ascii_strcasecmp (disposition, "inline") == 0;
+
+	/* Otherwise, use the default for this handler type. */
+	return (handle->flags & EM_FORMAT_HANDLER_INLINE) != 0;
+}
+
 static void
 emf_base_init (EMFormatClass *class)
 {
@@ -138,6 +167,7 @@ emf_class_init (EMFormatClass *class)
 	class->format_clone = emf_format_clone;
 	class->format_secure = emf_format_secure;
 	class->busy = emf_busy;
+	class->is_inline = emf_is_inline;
 
 	signals[EMF_COMPLETE] = g_signal_new (
 		"complete",
@@ -1040,28 +1070,22 @@ gint em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
  *
  * Return value:
  **/
-gint em_format_is_inline(EMFormat *emf, const gchar *partid, CamelMimePart *part, const EMFormatHandler *handle)
+gboolean
+em_format_is_inline (EMFormat *emf,
+                     const gchar *part_id,
+                     CamelMimePart *mime_part,
+                     const EMFormatHandler *handle)
 {
-	struct _EMFormatCache *emfc;
-	const gchar *tmp;
+	EMFormatClass *class;
 
-	if (handle == NULL)
-		return FALSE;
+	g_return_val_if_fail (EM_IS_FORMAT (emf), FALSE);
+	g_return_val_if_fail (part_id != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), FALSE);
 
-	emfc = g_hash_table_lookup(emf->inline_table, partid);
-	if (emfc && emfc->state != INLINE_UNSET)
-		return emfc->state & 1;
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_val_if_fail (class->is_inline != NULL, FALSE);
 
-	/* some types need to override the disposition, e.g. application/x-pkcs7-mime */
-	if (handle->flags & EM_FORMAT_HANDLER_INLINE_DISPOSITION)
-		return TRUE;
-
-	tmp = camel_mime_part_get_disposition(part);
-	if (tmp)
-		return g_ascii_strcasecmp(tmp, "inline") == 0;
-
-	/* otherwise, use the default for this handler type */
-	return (handle->flags & EM_FORMAT_HANDLER_INLINE) != 0;
+	return class->is_inline (emf, part_id, mime_part, handle);
 }
 
 /**

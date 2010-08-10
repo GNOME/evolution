@@ -50,15 +50,29 @@ efhp_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static gboolean
+efhp_is_inline (EMFormat *emf,
+                const gchar *part_id,
+                CamelMimePart *mime_part,
+                const EMFormatHandler *handle)
+{
+	/* When printing, inline any part that has a handler. */
+	return (handle != NULL);
+}
+
 static void
 efhp_class_init (EMFormatHTMLPrintClass *class)
 {
 	GObjectClass *object_class;
+	EMFormatClass *format_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = efhp_finalize;
+
+	format_class = EM_FORMAT_CLASS (class);
+	format_class->is_inline = efhp_is_inline;
 }
 
 static void
