@@ -36,7 +36,15 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-settings.h"
 
+#define EM_FORMAT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT, EMFormatPrivate))
+
 #define d(x)
+
+struct _EMFormatPrivate {
+	guint redraw_idle_id;
+};
 
 /* Used to cache various data/info for redraws
    The validity stuff could be cached at a higher level but this is easier
@@ -106,6 +114,9 @@ emf_finalize (GObject *object)
 {
 	EMFormat *emf = EM_FORMAT (object);
 
+	if (emf->priv->redraw_idle_id > 0)
+		g_source_remove (emf->priv->redraw_idle_id);
+
 	if (emf->session)
 		g_object_unref (emf->session);
 
@@ -142,6 +153,12 @@ emf_format_clone (EMFormat *emf,
                   CamelMimeMessage *msg,
                   EMFormat *emfsource)
 {
+	/* Cancel any pending redraws. */
+	if (emf->priv->redraw_idle_id > 0) {
+		g_source_remove (emf->priv->redraw_idle_id);
+		emf->priv->redraw_idle_id = 0;
+	}
+
 	em_format_clear_puri_tree(emf);
 
 	if (emf != emfsource) {
@@ -276,6 +293,7 @@ emf_class_init (EMFormatClass *class)
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMFormatPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = emf_finalize;
@@ -304,6 +322,8 @@ emf_init (EMFormat *emf)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
+
+	emf->priv = EM_FORMAT_GET_PRIVATE (emf);
 
 	emf->inline_table = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -884,13 +904,25 @@ em_format_format (EMFormat *emf,
 	em_format_format_clone (emf, folder, uid, message, NULL);
 }
 
-void
-em_format_redraw (EMFormat *emf)
+static gboolean
+format_redraw_idle_cb (EMFormat *emf)
 {
-	g_return_if_fail (EM_IS_FORMAT (emf));
+	emf->priv->redraw_idle_id = 0;
 
 	em_format_format_clone (
 		emf, emf->folder, emf->uid, emf->message, emf);
+
+	return FALSE;
+}
+
+void
+em_format_queue_redraw (EMFormat *emf)
+{
+	g_return_if_fail (EM_IS_FORMAT (emf));
+
+	if (emf->priv->redraw_idle_id == 0)
+		emf->priv->redraw_idle_id = g_idle_add (
+			(GSourceFunc) format_redraw_idle_cb, emf);
 }
 
 /**
@@ -914,7 +946,7 @@ em_format_set_mode (EMFormat *emf,
 
 	/* force redraw if type changed afterwards */
 	if (emf->message != NULL)
-		em_format_redraw (emf);
+		em_format_queue_redraw (emf);
 }
 
 /**
@@ -938,7 +970,7 @@ em_format_set_charset (EMFormat *emf,
 	emf->charset = g_strdup(charset);
 
 	if (emf->message)
-		em_format_redraw(emf);
+		em_format_queue_redraw(emf);
 }
 
 /**
@@ -963,7 +995,7 @@ em_format_set_default_charset (EMFormat *emf,
 	emf->default_charset = g_strdup(charset);
 
 	if (emf->message && emf->charset == NULL)
-		em_format_redraw(emf);
+		em_format_queue_redraw (emf);
 }
 
 /**
@@ -1143,7 +1175,7 @@ em_format_set_inline (EMFormat *emf,
 	emfc->state = state?INLINE_ON:INLINE_OFF;
 
 	if (emf->message)
-		em_format_redraw(emf);
+		em_format_queue_redraw (emf);
 }
 
 void

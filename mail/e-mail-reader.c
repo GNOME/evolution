@@ -377,7 +377,7 @@ action_mail_flag_clear_cb (GtkAction *action,
 
 	em_utils_flag_for_followup_clear (window, folder, uids);
 
-	em_format_redraw (EM_FORMAT (formatter));
+	em_format_queue_redraw (EM_FORMAT (formatter));
 }
 
 static void
@@ -396,7 +396,7 @@ action_mail_flag_completed_cb (GtkAction *action,
 
 	em_utils_flag_for_followup_completed (window, folder, uids);
 
-	em_format_redraw (EM_FORMAT (formatter));
+	em_format_queue_redraw (EM_FORMAT (formatter));
 }
 
 static void

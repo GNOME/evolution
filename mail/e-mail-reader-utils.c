@@ -720,7 +720,7 @@ headers_changed_cb (GConfClient *client,
 
 	/* force a redraw */
 	if (EM_FORMAT (formatter)->message)
-		em_format_redraw (EM_FORMAT (formatter));
+		em_format_queue_redraw (EM_FORMAT (formatter));
 }
 
 static void

@@ -186,7 +186,6 @@ struct _EMFormatHeader {
  **/
 struct _EMFormat {
 	GObject parent;
-
 	EMFormatPrivate *priv;
 
 	CamelMimeMessage *message; /* the current message */
@@ -359,7 +358,7 @@ void		em_format_format		(EMFormat *emf,
 						 CamelFolder *folder,
 						 const gchar *uid,
 						 CamelMimeMessage *message);
-void		em_format_redraw		(EMFormat *emf);
+void		em_format_queue_redraw		(EMFormat *emf);
 void		em_format_format_attachment	(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,

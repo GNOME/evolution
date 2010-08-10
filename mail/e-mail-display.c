@@ -204,7 +204,7 @@ mail_display_style_set (GtkWidget *widget,
 	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
 
 	mail_display_update_formatter_colors (E_MAIL_DISPLAY (widget));
-	em_format_redraw (EM_FORMAT (priv->formatter));
+	em_format_queue_redraw (EM_FORMAT (priv->formatter));
 }
 
 static void
@@ -264,7 +264,7 @@ mail_display_link_clicked (GtkHTML *html,
 		}
 
 		priv->formatter->header_wrap_flags = flags;
-		em_format_redraw (EM_FORMAT (priv->formatter));
+		em_format_queue_redraw (EM_FORMAT (priv->formatter));
 
 	} else if (*uri == '#')
 		gtk_html_jump_to_anchor (html, uri + 1);

@@ -618,7 +618,7 @@ mail_browser_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		search_bar, "changed",
-		G_CALLBACK (em_format_redraw), priv->formatter);
+		G_CALLBACK (em_format_queue_redraw), priv->formatter);
 
 	/* Bind GObject properties to GConf keys. */
 

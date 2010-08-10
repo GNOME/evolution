@@ -980,7 +980,7 @@ efh_init (EMFormatHTML *efh,
 
 	g_signal_connect_swapped (
 		efh, "notify::mark-citations",
-		G_CALLBACK (em_format_redraw), NULL);
+		G_CALLBACK (em_format_queue_redraw), NULL);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (efh));
 }
@@ -1040,7 +1040,7 @@ em_format_html_load_images (EMFormatHTML *efh)
 	/* This will remain set while we're still
 	 * rendering the same message, then it wont be. */
 	efh->priv->load_images_now = TRUE;
-	em_format_redraw (EM_FORMAT (efh));
+	em_format_queue_redraw (EM_FORMAT (efh));
 }
 
 void

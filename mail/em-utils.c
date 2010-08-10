@@ -455,7 +455,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 	camel_tag_list_free (&tags);
 
 	formatter = e_mail_reader_get_formatter (reader);
-	em_format_redraw (EM_FORMAT (formatter));
+	em_format_queue_redraw (EM_FORMAT (formatter));
 
 exit:
 	/* XXX We shouldn't be freeing this. */
