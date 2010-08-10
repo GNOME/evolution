@@ -23,7 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-account-utils.h"
 #include "e-util/e-binding.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util.h"
@@ -181,52 +180,6 @@ static GtkActionEntry source_entries[] = {
 	  N_("Create a new mail folder"),
 	  G_CALLBACK (action_mail_folder_new_cb) }
 };
-
-static gboolean
-mail_shell_backend_init_preferences (EShell *shell)
-{
-	EAccountList *account_list;
-	GtkWidget *preferences_window;
-
-	/* This is a main loop idle callback. */
-
-	account_list = e_get_account_list ();
-	preferences_window = e_shell_get_preferences_window (shell);
-
-	e_preferences_window_add_page (
-		E_PREFERENCES_WINDOW (preferences_window),
-		"mail-accounts",
-		"preferences-mail-accounts",
-		_("Mail Accounts"),
-		em_account_prefs_new (account_list),
-		100);
-
-	e_preferences_window_add_page (
-		E_PREFERENCES_WINDOW (preferences_window),
-		"mail",
-		"preferences-mail",
-		_("Mail Preferences"),
-		em_mailer_prefs_new (shell),
-		300);
-
-	e_preferences_window_add_page (
-		E_PREFERENCES_WINDOW (preferences_window),
-		"composer",
-		"preferences-composer",
-		_("Composer Preferences"),
-		em_composer_prefs_new (shell),
-		400);
-
-	e_preferences_window_add_page (
-		E_PREFERENCES_WINDOW (preferences_window),
-		"system-network-proxy",
-		"preferences-system-network-proxy",
-		_("Network Preferences"),
-		em_network_prefs_new (),
-		500);
-
-	return FALSE;
-}
 
 static void
 mail_shell_backend_sync_store_done_cb (CamelStore *store,
@@ -474,6 +427,7 @@ mail_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	GtkWidget *preferences_window;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -513,9 +467,41 @@ mail_shell_backend_constructed (GObject *object)
 
 	e_mail_shell_settings_init (shell);
 
-	/* Initialize preferences after the main loop starts so
-	 * that all EPlugins and EPluginHooks are loaded first. */
-	g_idle_add ((GSourceFunc) mail_shell_backend_init_preferences, shell);
+
+	/* Setup preference widget factories */
+	preferences_window = e_shell_get_preferences_window (shell);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"mail-accounts",
+		"preferences-mail-accounts",
+		_("Mail Accounts"),
+		em_account_prefs_new,
+		100);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"mail",
+		"preferences-mail",
+		_("Mail Preferences"),
+		em_mailer_prefs_new,
+		300);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"composer",
+		"preferences-composer",
+		_("Composer Preferences"),
+		em_composer_prefs_new,
+		400);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"system-network-proxy",
+		"preferences-system-network-proxy",
+		_("Network Preferences"),
+		em_network_prefs_new,
+		500);
 }
 
 static void

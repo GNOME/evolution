@@ -32,6 +32,9 @@
 	((obj), E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate))
 
 struct _EPreferencesWindowPrivate {
+	gboolean   setup;
+	gpointer   shell;
+
 	GtkWidget *icon_view;
 	GtkWidget *scroll;
 	GtkWidget *notebook;
@@ -138,6 +141,11 @@ preferences_window_dispose (GObject *object)
 		priv->notebook = NULL;
 	}
 
+	if (priv->shell) {
+		g_object_remove_weak_pointer (priv->shell, &priv->shell);
+		priv->shell = NULL;
+	}
+
 	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */
@@ -165,6 +173,8 @@ preferences_window_show (GtkWidget *widget)
 	GtkTreePath *path;
 
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (widget);
+	if (!priv->setup)
+		g_warning ("Error - preferences window has not been setup correctly");
 
 	icon_view = GTK_ICON_VIEW (priv->icon_view);
 
@@ -375,9 +385,27 @@ e_preferences_window_get_type (void)
 }
 
 GtkWidget *
-e_preferences_window_new (void)
+e_preferences_window_new (gpointer shell)
 {
-	return g_object_new (E_TYPE_PREFERENCES_WINDOW, NULL);
+	EPreferencesWindow *window;
+
+	window = g_object_new (E_TYPE_PREFERENCES_WINDOW, NULL);
+
+	/* ideally should be an object property */
+	window->priv->shell = shell;
+	if (shell)
+		g_object_add_weak_pointer (shell, &window->priv->shell);
+
+	return GTK_WIDGET (window);
+}
+
+gpointer
+e_preferences_window_get_shell (EPreferencesWindow *window)
+{
+	g_return_val_if_fail (E_IS_PREFERENCES_WINDOW (window), NULL);
+	g_return_val_if_fail (window->priv != NULL, NULL);
+
+	return window->priv->shell;
 }
 
 void
@@ -385,7 +413,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
                                const gchar *page_name,
                                const gchar *icon_name,
                                const gchar *caption,
-                               GtkWidget *widget,
+			       EPreferencesWindowCreatePageFn create_fn,
                                gint sort_order)
 {
 	GtkTreeRowReference *reference;
@@ -396,13 +424,14 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	GHashTable *index;
 	GdkPixbuf *pixbuf;
 	GtkTreeIter iter;
+	GtkWidget *align;
 	gint page;
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
+	g_return_if_fail (create_fn != NULL);
 	g_return_if_fail (page_name != NULL);
 	g_return_if_fail (icon_name != NULL);
 	g_return_if_fail (caption != NULL);
-	g_return_if_fail (GTK_IS_WIDGET (widget));
 
 	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
 	notebook = GTK_NOTEBOOK (window->priv->notebook);
@@ -425,8 +454,10 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	g_hash_table_insert (index, g_strdup (page_name), reference);
 	gtk_tree_path_free (path);
 
-	gtk_widget_show (widget);
-	gtk_notebook_append_page (notebook, widget, NULL);
+	align = g_object_new (GTK_TYPE_ALIGNMENT, NULL);
+	gtk_widget_show (GTK_WIDGET (align));
+	g_object_set_data (G_OBJECT (align), "create_fn", create_fn);
+	gtk_notebook_append_page (notebook, align, NULL);
 
 	/* Force GtkIconView to recalculate the text wrap width,
 	 * otherwise we get a really narrow icon list on the left
@@ -445,6 +476,7 @@ e_preferences_window_show_page (EPreferencesWindow *window,
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 	g_return_if_fail (page_name != NULL);
+	g_return_if_fail (window->priv->setup);
 
 	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
 	reference = g_hash_table_lookup (window->priv->index, page_name);
@@ -466,6 +498,7 @@ e_preferences_window_filter_page (EPreferencesWindow *window,
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 	g_return_if_fail (page_name != NULL);
+	g_return_if_fail (window->priv->setup);
 
 	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
 	reference = g_hash_table_lookup (window->priv->index, page_name);
@@ -487,3 +520,38 @@ e_preferences_window_filter_page (EPreferencesWindow *window,
 		gtk_widget_show (window->priv->scroll);
 }
 
+/*
+ * Create all the deferred configuration pages.
+ */
+void
+e_preferences_window_setup (EPreferencesWindow *window)
+{
+	gint i, num;
+	GtkNotebook *notebook;
+	EPreferencesWindowPrivate *priv;
+
+	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
+	notebook = GTK_NOTEBOOK (priv->notebook);
+	num = gtk_notebook_get_n_pages (notebook);
+
+	for (i = 0; i < num; i++) {
+		GtkBin *align;
+		GtkWidget *content;
+		EPreferencesWindowCreatePageFn create_fn;
+
+		align = GTK_BIN (gtk_notebook_get_nth_page (notebook, i));
+		create_fn = g_object_get_data (G_OBJECT (align), "create_fn");
+
+		if (!create_fn || gtk_bin_get_child (align))
+			continue;
+
+		
+		content = create_fn (window);
+		if (content) {
+			gtk_widget_show (content);
+			gtk_container_add (GTK_CONTAINER (align), content);
+		}
+	}
+	
+	priv->setup = TRUE;
+}

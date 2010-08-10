@@ -592,9 +592,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 }
 
 GtkWidget *
-em_composer_prefs_new (EShell *shell)
+em_composer_prefs_new (EPreferencesWindow *window)
 {
 	EMComposerPrefs *prefs;
+	EShell *shell = e_preferences_window_get_shell (window);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 

@@ -129,7 +129,7 @@ add_section (GtkWidget *container,
 }
 
 GtkWidget *
-autocompletion_config_new (EShell *shell)
+autocompletion_config_new (EPreferencesWindow *window)
 {
 	EShellSettings *shell_settings;
 	ESourceList *source_list;
@@ -138,6 +138,9 @@ autocompletion_config_new (EShell *shell)
 	GtkWidget *itembox;
 	GtkWidget *widget;
 	GtkWidget *vbox;
+	EShell *shell;
+
+	shell = e_preferences_window_get_shell (window);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 

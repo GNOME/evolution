@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
 #include <shell/e-shell.h>
+#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_MAILER_PREFS \
@@ -108,10 +109,9 @@ struct _EMMailerPrefsClass {
 	GtkVBoxClass parent_class;
 };
 
-GType		em_mailer_prefs_get_type	(void);
-GtkWidget *	create_combo_text_widget	(void);
-
-GtkWidget *	em_mailer_prefs_new		(EShell *shell);
+GType      em_mailer_prefs_get_type (void);
+GtkWidget *create_combo_text_widget (void);
+GtkWidget *em_mailer_prefs_new      (EPreferencesWindow *window);
 
 G_END_DECLS
 

@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
 #include <libedataserverui/e-source-selector.h>
-#include <shell/e-shell.h>
+#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define CALENDAR_TYPE_PREFS_DIALOG \
@@ -106,7 +106,7 @@ struct _CalendarPrefsDialogClass {
 };
 
 GType		calendar_prefs_dialog_get_type	(void);
-GtkWidget *	calendar_prefs_dialog_new	(EShell *shell);
+GtkWidget *	calendar_prefs_dialog_new	(EPreferencesWindow *window);
 
 G_END_DECLS
 

@@ -442,26 +442,6 @@ cal_shell_backend_init_importers (void)
 }
 
 static gboolean
-cal_shell_backend_init_preferences (EShell *shell)
-{
-	GtkWidget *preferences_window;
-
-	/* This is a main loop idle callback. */
-
-	preferences_window = e_shell_get_preferences_window (shell);
-
-	e_preferences_window_add_page (
-		E_PREFERENCES_WINDOW (preferences_window),
-		"calendar-and-tasks",
-		"preferences-calendar-and-tasks",
-		_("Calendar and Tasks"),
-		calendar_prefs_dialog_new (shell),
-		600);
-
-	return FALSE;
-}
-
-static gboolean
 cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                  const gchar *uri)
 {
@@ -696,6 +676,7 @@ cal_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	GtkWidget *preferences_window;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -716,9 +697,16 @@ cal_shell_backend_constructed (GObject *object)
 
 	e_cal_shell_backend_init_settings (shell);
 
-	/* Initialize preferences after the main loop starts so
-	 * that all EPlugins and EPluginHooks are loaded first. */
-	g_idle_add ((GSourceFunc) cal_shell_backend_init_preferences, shell);
+	/* Setup preference widget factories */
+	preferences_window = e_shell_get_preferences_window (shell);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"calendar-and-tasks",
+		"preferences-calendar-and-tasks",
+		_("Calendar and Tasks"),
+		calendar_prefs_dialog_new,
+		600);
 }
 
 static void

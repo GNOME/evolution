@@ -27,10 +27,11 @@
 
 #include <glib.h>
 #include <shell/e-shell.h>
+#include <widgets/misc/e-preferences-window.h>
 
 G_BEGIN_DECLS
 
-GtkWidget *	autocompletion_config_new	(EShell *shell);
+GtkWidget *autocompletion_config_new (EPreferencesWindow *window);
 
 G_END_DECLS
 

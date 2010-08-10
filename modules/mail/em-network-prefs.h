@@ -25,6 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
+#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_NETWORK_PREFS \
@@ -93,8 +94,8 @@ struct _EMNetworkPrefsClass {
 	GtkVBoxClass parent_class;
 };
 
-GType		em_network_prefs_get_type	(void);
-GtkWidget *	em_network_prefs_new		(void);
+GType	   em_network_prefs_get_type (void);
+GtkWidget *em_network_prefs_new      (EPreferencesWindow *window);
 
 G_END_DECLS
 

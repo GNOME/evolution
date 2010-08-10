@@ -301,8 +301,17 @@ book_shell_backend_init_preferences (EShell *shell)
 		"contacts",
 		"preferences-autocompletion",
 		_("Contacts"),
-		autocompletion_config_new (shell),
+		autocompletion_config_new,
 		200);
+
+	preferences_window = e_shell_get_preferences_window (shell);
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"certificates",
+		"preferences-certificates",
+		_("Certificates"),
+		certificate_manager_config_new,
+		700);
 
 	return FALSE;
 }
@@ -460,7 +469,6 @@ book_shell_backend_constructed (GObject *object)
 	 *     things that use S/MIME.  Maybe put it in EShell? */
 #ifdef ENABLE_SMIME
 	smime_component_init ();
-	certificate_manager_config_init (shell);
 #endif
 
 	book_shell_backend_init_importers ();

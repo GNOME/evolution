@@ -26,6 +26,7 @@
 #include <table/e-table.h>
 #include <libedataserver/e-account-list.h>
 #include <misc/e-account-manager.h>
+#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_ACCOUNT_PREFS \
@@ -61,8 +62,8 @@ struct _EMAccountPrefsClass {
 	EAccountManagerClass parent_class;
 };
 
-GType		em_account_prefs_get_type	(void);
-GtkWidget *	em_account_prefs_new		(EAccountList *account_list);
+GType      em_account_prefs_get_type (void);
+GtkWidget *em_account_prefs_new (EPreferencesWindow *window);
 
 G_END_DECLS
 

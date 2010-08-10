@@ -915,6 +915,7 @@ action_preferences_cb (GtkAction *action,
 
 	shell = e_shell_window_get_shell (shell_window);
 	preferences_window = e_shell_get_preferences_window (shell);
+	e_preferences_window_setup (E_PREFERENCES_WINDOW (preferences_window));
 
 	gtk_window_set_transient_for (
 		GTK_WINDOW (preferences_window),

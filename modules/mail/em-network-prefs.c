@@ -488,7 +488,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 }
 
 GtkWidget *
-em_network_prefs_new (void)
+em_network_prefs_new (EPreferencesWindow *window)
 {
 	EMNetworkPrefs *new;
 

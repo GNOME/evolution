@@ -1146,7 +1146,7 @@ e_shell_init (EShell *shell)
 
 	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
 	shell->priv->gconf_client = gconf_client_get_default ();
-	shell->priv->preferences_window = e_preferences_window_new ();
+	shell->priv->preferences_window = e_preferences_window_new (shell);
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();

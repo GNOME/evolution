@@ -27,6 +27,7 @@
 #include <gtkhtml/gtkhtml.h>
 
 #include <shell/e-shell.h>
+#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_COMPOSER_PREFS \
@@ -75,10 +76,10 @@ struct _EMComposerPrefsClass {
 	GtkVBoxClass parent_class;
 };
 
-GType		em_composer_prefs_get_type	(void);
-GtkWidget *	em_composer_prefs_new		(EShell *shell);
-void		em_composer_prefs_new_signature (GtkWindow *parent,
-						 gboolean html_mode);
+GType      em_composer_prefs_get_type      (void);
+GtkWidget *em_composer_prefs_new           (EPreferencesWindow *window);
+void       em_composer_prefs_new_signature (GtkWindow *parent,
+					    gboolean html_mode);
 
 G_END_DECLS
 

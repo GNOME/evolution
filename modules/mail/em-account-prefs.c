@@ -33,6 +33,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-account-utils.h"
 
 #include "e-mail-store.h"
 #include "em-config.h"
@@ -326,8 +327,12 @@ em_account_prefs_get_type (void)
 }
 
 GtkWidget *
-em_account_prefs_new (EAccountList *account_list)
+em_account_prefs_new (EPreferencesWindow *window)
 {
+	EAccountList *account_list;
+
+	account_list = e_get_account_list ();
+
 	g_return_val_if_fail (E_IS_ACCOUNT_LIST (account_list), NULL);
 
 	return g_object_new (

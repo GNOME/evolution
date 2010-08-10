@@ -1237,9 +1237,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 }
 
 GtkWidget *
-em_mailer_prefs_new (EShell *shell)
+em_mailer_prefs_new (EPreferencesWindow *window)
 {
 	EMMailerPrefs *new;
+	EShell *shell = e_preferences_window_get_shell (window);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 

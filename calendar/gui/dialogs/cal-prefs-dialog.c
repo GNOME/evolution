@@ -847,9 +847,12 @@ calendar_prefs_dialog_get_type (void)
 }
 
 GtkWidget *
-calendar_prefs_dialog_new (EShell *shell)
+calendar_prefs_dialog_new (EPreferencesWindow *window)
 {
+	EShell *shell;
 	CalendarPrefsDialog *dialog;
+
+	shell = e_preferences_window_get_shell (window);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 

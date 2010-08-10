@@ -23,12 +23,13 @@
 #ifndef _CERTIFICATE_MANAGER_H_
 #define _CERTIFICATE_MANAGER_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <shell/e-shell.h>
+#include <widgets/misc/e-preferences-window.h>
 
 G_BEGIN_DECLS
 
-void		certificate_manager_config_init	(EShell *shell);
+GtkWidget *certificate_manager_config_new (EPreferencesWindow *window);
 
 G_END_DECLS
 
