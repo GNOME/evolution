@@ -87,16 +87,16 @@ action_cancel_cb (GtkAction *action,
                   EAttachmentView *view)
 {
 	EAttachment *attachment;
-	GList *selected;
+	GList *list;
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	attachment = selected->data;
+	list = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	attachment = list->data;
 
 	e_attachment_cancel (attachment);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -104,16 +104,16 @@ action_hide_cb (GtkAction *action,
                 EAttachmentView *view)
 {
 	EAttachment *attachment;
-	GList *selected;
+	GList *list;
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	attachment = selected->data;
+	list = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	attachment = list->data;
 
 	e_attachment_set_shown (attachment, FALSE);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -122,19 +122,19 @@ action_open_in_cb (GtkAction *action,
 {
 	GAppInfo *app_info;
 	GtkTreePath *path;
-	GList *selected;
+	GList *list;
 
-	selected = e_attachment_view_get_selected_paths (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	path = selected->data;
+	list = e_attachment_view_get_selected_paths (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	path = list->data;
 
 	app_info = g_object_get_data (G_OBJECT (action), "app-info");
 	g_return_if_fail (G_IS_APP_INFO (app_info));
 
 	e_attachment_view_open_path (view, path, app_info);
 
-	g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -143,12 +143,12 @@ action_properties_cb (GtkAction *action,
 {
 	EAttachment *attachment;
 	GtkWidget *dialog;
-	GList *selected;
+	GList *list;
 	gpointer parent;
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	attachment = selected->data;
+	list = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	attachment = list->data;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -157,8 +157,8 @@ action_properties_cb (GtkAction *action,
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -198,7 +198,7 @@ action_save_all_cb (GtkAction *action,
                     EAttachmentView *view)
 {
 	EAttachmentStore *store;
-	GList *selected, *iter;
+	GList *list, *iter;
 	GFile *destination;
 	gpointer parent;
 
@@ -209,16 +209,16 @@ action_save_all_cb (GtkAction *action,
 
 	/* XXX We lose the previous selection. */
 	e_attachment_view_select_all (view);
-	selected = e_attachment_view_get_selected_attachments (view);
+	list = e_attachment_view_get_selected_attachments (view);
 	e_attachment_view_unselect_all (view);
 
 	destination = e_attachment_store_run_save_dialog (
-		store, selected, parent);
+		store, list, parent);
 
 	if (destination == NULL)
 		goto exit;
 
-	for (iter = selected; iter != NULL; iter = iter->next) {
+	for (iter = list; iter != NULL; iter = iter->next) {
 		EAttachment *attachment = iter->data;
 
 		e_attachment_save_async (
@@ -229,8 +229,8 @@ action_save_all_cb (GtkAction *action,
 	g_object_unref (destination);
 
 exit:
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -238,7 +238,7 @@ action_save_as_cb (GtkAction *action,
                    EAttachmentView *view)
 {
 	EAttachmentStore *store;
-	GList *selected, *iter;
+	GList *list, *iter;
 	GFile *destination;
 	gpointer parent;
 
@@ -247,15 +247,15 @@ action_save_as_cb (GtkAction *action,
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	selected = e_attachment_view_get_selected_attachments (view);
+	list = e_attachment_view_get_selected_attachments (view);
 
 	destination = e_attachment_store_run_save_dialog (
-		store, selected, parent);
+		store, list, parent);
 
 	if (destination == NULL)
 		goto exit;
 
-	for (iter = selected; iter != NULL; iter = iter->next) {
+	for (iter = list; iter != NULL; iter = iter->next) {
 		EAttachment *attachment = iter->data;
 
 		e_attachment_save_async (
@@ -266,8 +266,8 @@ action_save_as_cb (GtkAction *action,
 	g_object_unref (destination);
 
 exit:
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -275,16 +275,16 @@ action_show_cb (GtkAction *action,
                 EAttachmentView *view)
 {
 	EAttachment *attachment;
-	GList *selected;
+	GList *list;
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	attachment = selected->data;
+	list = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	attachment = list->data;
 
 	e_attachment_set_shown (attachment, TRUE);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static GtkActionEntry standard_entries[] = {
@@ -970,18 +970,18 @@ e_attachment_view_get_selected_attachments (EAttachmentView *view)
 {
 	EAttachmentStore *store;
 	GtkTreeModel *model;
-	GList *selected, *item;
+	GList *list, *item;
 	gint column_id;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 
 	column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
-	selected = e_attachment_view_get_selected_paths (view);
+	list = e_attachment_view_get_selected_paths (view);
 	store = e_attachment_view_get_store (view);
 	model = GTK_TREE_MODEL (store);
 
 	/* Convert the GtkTreePaths to EAttachments. */
-	for (item = selected; item != NULL; item = item->next) {
+	for (item = list; item != NULL; item = item->next) {
 		EAttachment *attachment;
 		GtkTreePath *path;
 		GtkTreeIter iter;
@@ -995,7 +995,7 @@ e_attachment_view_get_selected_attachments (EAttachmentView *view)
 		item->data = attachment;
 	}
 
-	return selected;
+	return list;
 }
 
 void
@@ -1036,23 +1036,23 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 {
 	EAttachmentStore *store;
 	GtkTreeModel *model;
-	GList *selected, *item;
+	GList *list, *item;
 	gint column_id;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
 	column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
-	selected = e_attachment_view_get_selected_paths (view);
+	list = e_attachment_view_get_selected_paths (view);
 	store = e_attachment_view_get_store (view);
 	model = GTK_TREE_MODEL (store);
 
 	/* Remove attachments in reverse order to avoid invalidating
 	 * tree paths as we iterate over the list.  Note, the list is
 	 * probably already sorted but we sort again just to be safe. */
-	selected = g_list_reverse (g_list_sort (
-		selected, (GCompareFunc) gtk_tree_path_compare));
+	list = g_list_reverse (g_list_sort (
+		list, (GCompareFunc) gtk_tree_path_compare));
 
-	for (item = selected; item != NULL; item = item->next) {
+	for (item = list; item != NULL; item = item->next) {
 		EAttachment *attachment;
 		GtkTreePath *path = item->data;
 		GtkTreeIter iter;
@@ -1064,8 +1064,8 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 	}
 
 	/* If we only removed one attachment, try to select another. */
-	if (select_next && g_list_length (selected) == 1) {
-		GtkTreePath *path = selected->data;
+	if (select_next && g_list_length (list) == 1) {
+		GtkTreePath *path = list->data;
 
 		e_attachment_view_select_path (view, path);
 		if (!e_attachment_view_path_is_selected (view, path))
@@ -1073,8 +1073,8 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 				e_attachment_view_select_path (view, path);
 	}
 
-	g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
 }
 
 gboolean
@@ -1108,12 +1108,12 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 	path_is_selected = e_attachment_view_path_is_selected (view, path);
 
 	if (event->button == 1 && event->type == GDK_BUTTON_PRESS) {
-		GList *selected, *iter;
+		GList *list, *iter;
 		gboolean busy = FALSE;
 
-		selected = e_attachment_view_get_selected_attachments (view);
+		list = e_attachment_view_get_selected_attachments (view);
 
-		for (iter = selected; iter != NULL; iter = iter->next) {
+		for (iter = list; iter != NULL; iter = iter->next) {
 			EAttachment *attachment = iter->data;
 			busy |= e_attachment_get_loading (attachment);
 			busy |= e_attachment_get_saving (attachment);
@@ -1130,8 +1130,8 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 			handled = TRUE;
 		}
 
-		g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-		g_list_free (selected);
+		g_list_foreach (list, (GFunc) g_object_unref, NULL);
+		g_list_free (list);
 	}
 
 	if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
@@ -1346,19 +1346,19 @@ void
 e_attachment_view_sync_selection (EAttachmentView *view,
                                   EAttachmentView *target)
 {
-	GList *selected, *iter;
+	GList *list, *iter;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (target));
 
-	selected = e_attachment_view_get_selected_paths (view);
+	list = e_attachment_view_get_selected_paths (view);
 	e_attachment_view_unselect_all (target);
 
-	for (iter = selected; iter != NULL; iter = iter->next)
+	for (iter = list; iter != NULL; iter = iter->next)
 		e_attachment_view_select_path (target, iter->data);
 
-	g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (selected);
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
 }
 
 void
