@@ -42,6 +42,8 @@
 
 #define d(x)
 
+typedef struct _EMFormatCache EMFormatCache;
+
 struct _EMFormatPrivate {
 	guint redraw_idle_id;
 };
@@ -75,7 +77,7 @@ static gpointer parent_class;
 static guint signals[EMF_LAST_SIGNAL];
 
 static void
-emf_free_cache(struct _EMFormatCache *efc)
+emf_free_cache(EMFormatCache *efc)
 {
 	if (efc->valid)
 		camel_cipher_validity_free(efc->valid);
@@ -84,10 +86,10 @@ emf_free_cache(struct _EMFormatCache *efc)
 	g_free(efc);
 }
 
-static struct _EMFormatCache *
+static EMFormatCache *
 emf_insert_cache(EMFormat *emf, const gchar *partid)
 {
-	struct _EMFormatCache *new;
+	EMFormatCache *new;
 
 	new = g_malloc0(sizeof(*new)+strlen(partid));
 	strcpy(new->partid, partid);
@@ -99,7 +101,7 @@ emf_insert_cache(EMFormat *emf, const gchar *partid)
 static void
 emf_clone_inlines (gpointer key, gpointer val, gpointer data)
 {
-	struct _EMFormatCache *emfc = val, *new;
+	EMFormatCache *emfc = val, *new;
 
 	new = emf_insert_cache((EMFormat *)data, emfc->partid);
 	new->state = emfc->state;
@@ -257,7 +259,7 @@ emf_is_inline (EMFormat *emf,
                CamelMimePart *mime_part,
                const EMFormatHandler *handle)
 {
-	struct _EMFormatCache *emfc;
+	EMFormatCache *emfc;
 	const gchar *disposition;
 
 	if (handle == NULL)
@@ -1161,7 +1163,7 @@ em_format_set_inline (EMFormat *emf,
                       const gchar *part_id,
                       gint state)
 {
-	struct _EMFormatCache *emfc;
+	EMFormatCache *emfc;
 
 	g_return_if_fail (EM_IS_FORMAT (emf));
 	g_return_if_fail (part_id != NULL);
@@ -1447,7 +1449,7 @@ emf_application_xpkcs7mime (EMFormat *emf,
 	CamelCipherContext *context;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
-	struct _EMFormatCache *emfc;
+	EMFormatCache *emfc;
 	GError *local_error = NULL;
 
 	/* should this perhaps run off a key of ".secured" ? */
@@ -1610,7 +1612,7 @@ emf_multipart_encrypted (EMFormat *emf,
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	CamelMultipartEncrypted *mpe;
-	struct _EMFormatCache *emfc;
+	EMFormatCache *emfc;
 	GError *local_error = NULL;
 
 	/* should this perhaps run off a key of ".secured" ? */
@@ -1786,7 +1788,7 @@ emf_multipart_signed (EMFormat *emf,
 	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
 	CamelCipherContext *cipher = NULL;
-	struct _EMFormatCache *emfc;
+	EMFormatCache *emfc;
 
 	/* should this perhaps run off a key of ".secured" ? */
 	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
