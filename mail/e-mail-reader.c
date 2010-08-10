@@ -1198,7 +1198,7 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
                                  EMailReader *reader)
 {
 	EMFormatHTML *formatter;
-	em_format_mode_t mode;
+	EMFormatMode mode;
 
 	formatter = e_mail_reader_get_formatter (reader);
 
@@ -1206,9 +1206,9 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
 		return;
 
 	if (gtk_toggle_action_get_active (action))
-		mode = EM_FORMAT_ALLHEADERS;
+		mode = EM_FORMAT_MODE_ALLHEADERS;
 	else
-		mode = EM_FORMAT_NORMAL;
+		mode = EM_FORMAT_MODE_NORMAL;
 
 	em_format_set_mode (EM_FORMAT (formatter), mode);
 }
@@ -1235,8 +1235,9 @@ action_mail_show_source_cb (GtkAction *action,
 	reader = E_MAIL_READER (browser);
 	formatter = e_mail_reader_get_formatter (reader);
 
-	if (formatter)
-		em_format_set_mode (EM_FORMAT (formatter), EM_FORMAT_SOURCE);
+	if (formatter != NULL)
+		em_format_set_mode (
+			EM_FORMAT (formatter), EM_FORMAT_MODE_SOURCE);
 
 	e_mail_reader_set_folder (reader, folder, folder_uri);
 	e_mail_reader_set_message (reader, uids->pdata[0]);

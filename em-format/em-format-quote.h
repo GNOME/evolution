@@ -44,24 +44,25 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), EM_TYPE_FORMAT_QUOTE, EMFormatQuoteClass))
 
-#define EM_FORMAT_QUOTE_CITE (1<<0)
-#define EM_FORMAT_QUOTE_HEADERS (1<<1)
-#define EM_FORMAT_QUOTE_KEEP_SIG (1<<2) /* do not strip signature */
-
 G_BEGIN_DECLS
 
 typedef struct _EMFormatQuote EMFormatQuote;
 typedef struct _EMFormatQuoteClass EMFormatQuoteClass;
 typedef struct _EMFormatQuotePrivate EMFormatQuotePrivate;
 
+typedef enum {
+	EM_FORMAT_QUOTE_CITE = 1 << 0,
+	EM_FORMAT_QUOTE_HEADERS = 1 << 1,
+	EM_FORMAT_QUOTE_KEEP_SIG = 1 << 2  /* do not strip signature */
+} EMFormatQuoteFlags;
+
 struct _EMFormatQuote {
 	EMFormat format;
-
 	EMFormatQuotePrivate *priv;
 
 	gchar *credits;
 	CamelStream *stream;
-	guint32 flags;
+	EMFormatQuoteFlags flags;
 
 	guint32 text_html_flags;
 };
@@ -73,7 +74,7 @@ struct _EMFormatQuoteClass {
 GType		em_format_quote_get_type	(void);
 EMFormatQuote *	em_format_quote_new		(const gchar *credits,
 						 CamelStream *stream,
-						 guint32 flags);
+						 EMFormatQuoteFlags flags);
 
 G_END_DECLS
 

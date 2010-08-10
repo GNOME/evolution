@@ -59,34 +59,20 @@ typedef struct _EMFormatPrivate EMFormatPrivate;
 typedef struct _EMFormatHandler EMFormatHandler;
 typedef struct _EMFormatHeader EMFormatHeader;
 
-typedef void (*EMFormatFunc) (EMFormat *md, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info, gboolean is_fallback);
+typedef void	(*EMFormatFunc)			(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part,
+						 const EMFormatHandler *info,
+						 gboolean is_fallback);
 
-typedef enum _em_format_mode_t {
-	EM_FORMAT_NORMAL,
-	EM_FORMAT_ALLHEADERS,
-	EM_FORMAT_SOURCE
-} em_format_mode_t;
-
-/**
- * struct _EMFormatHandler - MIME type handler.
- *
- * @mime_type: Type this handler handles.
- * @handler: The handler callback.
- * @flags: Handling flags, see enum _em_format_handler_t.
- * @old: The last handler set on this type.  Allows overrides to
- * fallback to previous implementation.
- *
- **/
-struct _EMFormatHandler {
-	gchar *mime_type;
-	EMFormatFunc handler;
-	guint32 flags;
-
-	EMFormatHandler *old;
-};
+typedef enum {
+	EM_FORMAT_MODE_NORMAL,
+	EM_FORMAT_MODE_ALLHEADERS,
+	EM_FORMAT_MODE_SOURCE
+} EMFormatMode;
 
 /**
- * enum _em_format_handler_t - Format handler flags.
+ * EMFormatHandlerFlags - Format handler flags.
  *
  * @EM_FORMAT_HANDLER_INLINE: This type should be shown expanded
  * inline by default.
@@ -94,13 +80,33 @@ struct _EMFormatHandler {
  * shown inline, despite what the Content-Disposition suggests.
  *
  **/
-enum _em_format_handler_t {
+typedef enum {
 	EM_FORMAT_HANDLER_INLINE = 1<<0,
 	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1<<1
+} EMFormatHandlerFlags;
+
+/**
+ * struct _EMFormatHandler - MIME type handler.
+ *
+ * @mime_type: Type this handler handles.
+ * @handler: The handler callback.
+ * @flags: Handler flags
+ * @old: The last handler set on this type.  Allows overrides to
+ * fallback to previous implementation.
+ *
+ **/
+struct _EMFormatHandler {
+	gchar *mime_type;
+	EMFormatFunc handler;
+	EMFormatHandlerFlags flags;
+
+	EMFormatHandler *old;
 };
 
 typedef struct _EMFormatPURI EMFormatPURI;
-typedef void (*EMFormatPURIFunc)(EMFormat *md, CamelStream *stream, EMFormatPURI *puri);
+typedef void	(*EMFormatPURIFunc)		(EMFormat *emf,
+						 CamelStream *stream,
+						 EMFormatPURI *puri);
 
 /**
  * struct _EMFormatPURI - Pending URI object.
@@ -216,7 +222,7 @@ struct _EMFormat {
 	/* current level to search from */
 	GNode *pending_uri_level;
 
-	em_format_mode_t mode;	/* source/headers/etc */
+	EMFormatMode mode;	/* source/headers/etc */
 	gchar *charset;		/* charset override */
 	gchar *default_charset;	/* charset fallback */
 	gboolean composer; /* Formatting from composer ?*/
@@ -229,27 +235,47 @@ struct _EMFormatClass {
 	GHashTable *type_handlers;
 
 	/* lookup handler, default falls back to hashtable above */
-	const EMFormatHandler *(*find_handler)(EMFormat *, const gchar *mime_type);
+	const EMFormatHandler *
+			(*find_handler)		(EMFormat *emf,
+						 const gchar *mime_type);
 
 	/* start formatting a message */
-	void (*format_clone)(EMFormat *, CamelFolder *, const gchar *uid, CamelMimeMessage *, EMFormat *);
+	void		(*format_clone)		(EMFormat *emf,
+						 CamelFolder *folder,
+						 const gchar *uid,
+						 CamelMimeMessage *message,
+						 EMFormat *source);
 
 	/* some internel error/inconsistency */
-	void (*format_error)(EMFormat *, CamelStream *, const gchar *msg);
+	void		(*format_error)		(EMFormat *emf,
+						 CamelStream *stream,
+						 const gchar *errmsg);
 
 	/* use for external structured parts */
-	void (*format_attachment)(EMFormat *, CamelStream *, CamelMimePart *, const gchar *mime_type, const EMFormatHandler *info);
+	void		(*format_attachment)	(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part,
+						 const gchar *mime_type,
+						 const EMFormatHandler *info);
 
 	/* use for unparsable content */
-	void (*format_source)(EMFormat *, CamelStream *, CamelMimePart *);
+	void		(*format_source)	(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part);
 	/* for outputing secure(d) content */
-	void (*format_secure)(EMFormat *, CamelStream *, CamelMimePart *, CamelCipherValidity *);
+	void		(*format_secure)	(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part,
+						 CamelCipherValidity *validity);
 
 	/* returns true if the formatter is still busy with pending stuff */
-	gboolean (*busy)(EMFormat *);
+	gboolean	(*busy)			(EMFormat *);
 
 	/* Shows optional way to open messages  */
-	void (*format_optional)(EMFormat *, CamelStream *, CamelMimePart *, CamelStream* );
+	void		(*format_optional)	(EMFormat *emf,
+						 CamelStream *filter_stream,
+						 CamelMimePart *mime_part,
+						 CamelStream *mem_stream);
 
 	gboolean	(*is_inline)		(EMFormat *emf,
 						 const gchar *part_id,
@@ -258,11 +284,11 @@ struct _EMFormatClass {
 
 	/* signals */
 	/* complete, alternative to polling busy, for asynchronous work */
-	void (*complete)(EMFormat *);
+	void		(*complete)		(EMFormat *emf);
 };
 
 void		em_format_set_mode		(EMFormat *emf,
-						 em_format_mode_t type);
+						 EMFormatMode mode);
 void		em_format_set_charset		(EMFormat *emf,
 						 const gchar *charset);
 void		em_format_set_default_charset	(EMFormat *emf,
@@ -373,7 +399,7 @@ void		em_format_part			(EMFormat *emf,
 void		em_format_merge_handler		(EMFormat *new,
 						 EMFormat *old);
 
-const gchar * em_format_snoop_type (CamelMimePart *part);
+const gchar *	em_format_snoop_type		(CamelMimePart *part);
 
 G_END_DECLS
 

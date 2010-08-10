@@ -181,7 +181,7 @@ efh_format_exec (struct _format_msg *m)
 
 	/* <insert top-header stuff here> */
 
-	if (format->mode == EM_FORMAT_SOURCE) {
+	if (format->mode == EM_FORMAT_MODE_SOURCE) {
 		em_format_format_source (
 			format, (CamelStream *) m->estream,
 			(CamelMimePart *) m->message);
@@ -2659,7 +2659,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		camel_stream_printf (stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
 
 	/* dump selected headers */
-	if (emf->mode == EM_FORMAT_ALLHEADERS) {
+	if (emf->mode == EM_FORMAT_MODE_ALLHEADERS) {
 		header = ((CamelMimePart *)part)->headers;
 		while (header) {
 			efh_format_header(emf, stream, part, header, EM_FORMAT_HTML_HEADER_NOCOLUMNS, charset);
