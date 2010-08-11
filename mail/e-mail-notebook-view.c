@@ -993,31 +993,28 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 
 	clutter_actor_show_all (texture);
 
-	//cairo_set_source_rgba (cr, color->red, color->green, color->blue, 1.0);
-	cairo_set_source_rgba (cr, 0.3, 0.2, 0.4, 1.0);
-
-	cairo_save (cr);
-	x+=4;
-
-	cairo_set_source_rgba (cr, 0.8, 0.5, 0.3, 1.0);
-	cairo_arc (cr, x,  50 - (weeks[0] * ratio), 3, 0, 2*M_PI);
-
-	cairo_fill (cr);
-	cairo_restore (cr);
 
 	cairo_save (cr);
 	cairo_new_path (cr);
-	cairo_move_to (cr, x, 50 - (weeks[0] * ratio));
+	cairo_move_to (cr, x, 50 - (weeks[52] * ratio));
 
 	cairo_set_source_rgba (cr, 0.3, 0.2, 0.4, 1.0);
 
-	for (i=1; i<53; i++) {	
-		x+=4;
+	for (i=51; i>=0; i--) {	
+		x+=3;
 		cairo_line_to (cr, x, 50 - (weeks[i]*ratio));
 
 	}
 
 	cairo_stroke (cr);
+	cairo_restore (cr);
+
+	cairo_save (cr);
+
+	cairo_set_source_rgba (cr, 0.8, 0.5, 0.3, 1.0);
+	cairo_arc (cr, x,  50 - (weeks[0] * ratio), 3, 0, 2*M_PI);
+
+	cairo_fill (cr);
 	cairo_restore (cr);
 
   	cairo_destroy(cr);
