@@ -488,6 +488,8 @@ mail_notebook_view_constructed (GObject *object)
 		(ClutterContainer *) stage,
 		(ClutterActor *) priv->tab_picker);
 
+	e_mail_tab_picker_enable_drop (priv->tab_picker, TRUE);
+
 	g_object_set_data ((GObject *)priv->tab_picker, "embed", widget);
 	g_object_set_data ((GObject *)priv->tab_picker, "stage", stage);
 
@@ -511,11 +513,11 @@ mail_notebook_view_constructed (GObject *object)
 
 	e_mail_tab_set_preview_actor ((EMailTab *)tab, clone);
 	e_mail_tab_set_can_close (tab, TRUE);
-	e_mail_tab_enable_drag (tab, TRUE);
 
 	e_mail_tab_picker_add_tab (priv->tab_picker, tab, -1);
 	clutter_actor_show((ClutterActor *)tab);
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, 0);
+	e_mail_tab_enable_drag (tab, TRUE);
 
 	g_object_ref (tab);
 	timeline = clutter_timeline_new (150);
@@ -899,8 +901,8 @@ mail_netbook_view_open_mail (EMailView *view,
 
 	e_mail_tab_set_preview_actor (tab, clone);
 	e_mail_tab_set_can_close (tab, TRUE);
-	e_mail_tab_enable_drag (tab, TRUE);
 	e_mail_tab_picker_add_tab (priv->tab_picker, tab, pos+1);
+	e_mail_tab_enable_drag (tab, TRUE);
 
 	page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
@@ -934,6 +936,95 @@ mail_netbook_view_open_mail (EMailView *view,
 	e_mail_reader_set_message (E_MAIL_READER (pane), uid);
 	camel_message_info_free (info);
 }
+
+#if HAVE_CLUTTER
+static ClutterActor *
+build_histogram (GtkWidget *widget, CamelFolder *folder)
+{
+	int week_time = 60 * 60 * 24 * 7;
+	int weeks[54];
+	int i;
+	GPtrArray *uids;
+	int max = 1;
+	ClutterActor *texture;
+	cairo_t *cr;
+	float ratio;
+	int x = 0;
+	time_t now = time(NULL);
+	GtkStyle *style;
+	GdkColor *color;
+
+	for (i=0; i<54; i++)
+		weeks[i] = 0;
+
+	style = gtk_widget_get_style (GTK_WIDGET (widget));
+	color = &style->mid[GTK_STATE_NORMAL];
+
+	uids = camel_folder_get_uids (folder);
+	camel_folder_summary_prepare_fetch_all (folder->summary, NULL);
+	for (i = 0; i < uids->len; i++) {
+		CamelMessageInfo *info = camel_folder_get_message_info (folder, uids->pdata[i]);
+		if (info) {
+			time_t dreceived = now - camel_message_info_date_received (info);
+			int week;
+
+			week = (dreceived / week_time) - 1;
+			if (week > 52)
+				weeks[53]++;
+			else
+				weeks[week]++;
+
+			camel_message_info_free (info);
+		} 
+	}
+
+	for (i=0; i< 53; i++) {
+		if (weeks[i] > max)
+			max = weeks[i];
+	}
+
+	ratio = 50.0/max;
+
+	camel_folder_free_uids (folder, uids);
+
+  	texture = clutter_cairo_texture_new (200, 50);
+	clutter_actor_set_size (texture, 200, 50);
+  	cr = clutter_cairo_texture_create (CLUTTER_CAIRO_TEXTURE (texture));
+
+	clutter_actor_show_all (texture);
+
+	//cairo_set_source_rgba (cr, color->red, color->green, color->blue, 1.0);
+	cairo_set_source_rgba (cr, 0.3, 0.2, 0.4, 1.0);
+
+	cairo_save (cr);
+	x+=4;
+
+	cairo_set_source_rgba (cr, 0.8, 0.5, 0.3, 1.0);
+	cairo_arc (cr, x,  50 - (weeks[0] * ratio), 3, 0, 2*M_PI);
+
+	cairo_fill (cr);
+	cairo_restore (cr);
+
+	cairo_save (cr);
+	cairo_new_path (cr);
+	cairo_move_to (cr, x, 50 - (weeks[0] * ratio));
+
+	cairo_set_source_rgba (cr, 0.3, 0.2, 0.4, 1.0);
+
+	for (i=1; i<53; i++) {	
+		x+=4;
+		cairo_line_to (cr, x, 50 - (weeks[i]*ratio));
+
+	}
+
+	cairo_stroke (cr);
+	cairo_restore (cr);
+
+  	cairo_destroy(cr);
+
+	return texture;
+}
+#endif
 
 static void
 mail_notebook_view_set_folder (EMailReader *reader,
@@ -1017,21 +1108,21 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			tab = (EMailTab *)e_mail_tab_new_full (camel_folder_get_full_name(folder), NULL, 1);
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
-
-			clone = e_mail_tab_new_full (camel_folder_get_full_name(folder), NULL, 1);
+			clutter_actor_show((ClutterActor *)tab);
+	
+			clone = build_histogram ((GtkWidget *)reader, folder);
 			clutter_actor_set_reactive (clone, FALSE);
-			e_mail_tab_set_can_close ((EMailTab *)clone, FALSE);
 			clutter_actor_show (clone);
 
-			e_mail_tab_set_can_close (tab, TRUE);
-			e_mail_tab_picker_add_tab (priv->tab_picker, tab, -1);
 			e_mail_tab_set_preview_actor (tab, clone);
-			e_mail_tab_enable_drag (tab, TRUE);
-			clutter_actor_show((ClutterActor *)tab);
+			e_mail_tab_set_can_close (tab, TRUE);
+			e_mail_tab_set_preview_mode (tab, e_mail_tab_picker_get_preview_mode(priv->tab_picker));
 
+			e_mail_tab_picker_add_tab (priv->tab_picker, tab, -1);
 			page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 			e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
 
+			e_mail_tab_enable_drag (tab, TRUE);
 			g_object_ref (tab);
 			timeline = clutter_timeline_new (150);
 			g_signal_connect (
@@ -1056,8 +1147,10 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
 
 			e_mail_tab_set_text (tab, camel_folder_get_full_name(folder));
-			clone = e_mail_tab_get_preview_actor (tab);
-			e_mail_tab_set_text ((EMailTab *)clone, camel_folder_get_full_name(folder));
+			clone = build_histogram ((GtkWidget *)reader, folder);
+			clutter_actor_set_reactive (clone, FALSE);
+			clutter_actor_show (clone);			
+			e_mail_tab_set_preview_actor (tab, clone);
 #endif
 		}
 
