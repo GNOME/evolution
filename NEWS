@@ -1,3 +1,56 @@
+Evolution 2.30.3 2010-08-11
+---------------------------
+
+Bug Fixes:
+	Bug 598833 - Do not ship dropped evo_mail_notifier.png
+	             (Yves-Alexis Perez)
+	Bug 604262 - "Copy Email Address" should also copy to primary
+	             clipboard (Matthew Barnes)
+	Bug 612178 - Do not access CamelStreamMem::buffer directly (Milan Crha)
+	Bug 615049 - Crash in remove_contact at e-addressbook-model.c:202
+	             (Milan Crha)
+	Bug 617854 - Critical warnings in calendar view (Milan Crha)
+	Bug 619959 - Crash in format_itip at itip-formatter.c line 2567
+	             (Milan Crha)
+	Bug 621819 - Can't drag message attachments to folders (Matthew Barnes)
+	Bug 621839 - Improve auto-selection of messages (take two)
+	             (Matthew Barnes)
+	Bug 622329 - Help menu points to the wrong FAQ page (Matthew Barnes)
+	Bug 622535 - Account assistant loops on first run (Matthew Barnes)
+	Bug 622547 - mail_async_event_destroy() doesn't cancel its idle
+	             callback (Matthew Barnes)
+	Bug 622559 - Changing search option should focus search entry
+	             (Matthew Barnes)
+	Bug 622633 - Can't launch Evolution from clock applet (Matthew Barnes)
+	Bug 623029 - Work week days not restored on start (Milan Crha)
+	Bug 623796 - Post Message to List asks for confirmation on close
+	             (Milan Crha)
+	Bug 624237 - Fails to start when smartcard is inserted (Matthew Barnes)
+	Bug 624335 - Abort after group-by-thread with certain sorting
+	             (Milan Crha)
+	Bug 624677 - Missing keyboard shortcut for "Save as mbox"
+	             (Matthew Barnes)
+	Bug 625204 - Typo in e_day_view_finish_long_event_resize()
+	             (Thomas Mittelstaedt)
+	Bug 626059 - Welcome messages has incorrect links (Christian Kirbach)
+
+Other Changes:
+	* EHintedEntry: Don't select hints on grab_focus(). (Matthew Barnes)
+	* Use PVOID instead of gpointer when working with COM+ function
+	  pointers (Fridrich Štrba)
+	* Fix two memory leaks when replying (David Woodhouse)
+	* Allow edit accounts in the capplet to go fwd/back.
+	  (Srinivasa Ragavan)
+	* Various folder tree icon enhancements. (Matthew Barnes)
+
+Translations:
+	Christian Kirbach (de)
+	Nana Suryana (id)
+	Shankar Prasad (kn)
+	Sandeep Shedmake (mr)
+	Armijn Hemel (nl)
+	krishnababu k (te)
+
 Evolution 2.30.2 2010-06-20
 ---------------------------
 
