@@ -2045,6 +2045,11 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 	priv->model = model;
 	priv->client = client;
 
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_DATE_EDIT;
+	E_TYPE_TIMEZONE_ENTRY;
+
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "task-page.ui");
 

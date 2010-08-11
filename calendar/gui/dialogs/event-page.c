@@ -3144,6 +3144,11 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 	g_object_ref (model);
 	priv->model = model;
 
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_DATE_EDIT;
+	E_TYPE_TIMEZONE_ENTRY;
+
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "event-page.ui");
 
