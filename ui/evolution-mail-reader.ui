@@ -57,7 +57,12 @@
           <separator/>
           <menuitem action='mail-previous'/>
           <menuitem action='mail-previous-unread'/>
-          <menuitem action='mail-previous-important'/>
+	  <menuitem action='mail-previous-important'/>
+	  <separator/>
+	  <menuitem action='mail-goto-folder'/>	 	
+	  <menuitem action='mail-goto-nexttab'/>	 	  
+	  <menuitem action='mail-goto-prevtab'/>	
+	  <menuitem action='mail-close-tab'/>	 	  	  	  
         </menu>
         <menuitem action='mail-reply-sender'/>
         <menuitem action='mail-reply-list'/>
