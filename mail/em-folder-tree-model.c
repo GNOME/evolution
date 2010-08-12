@@ -250,7 +250,9 @@ account_removed_cb (EAccountList *accounts,
 
 /* HACK: FIXME: the component should listen to the account object directly */
 static void
-add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
+add_new_store (gchar *uri,
+               CamelStore *store,
+               gpointer user_data)
 {
 	EAccount *account = user_data;
 
@@ -413,10 +415,10 @@ folder_tree_model_class_init (EMFolderTreeModelClass *class)
 }
 
 static void
-em_folder_tree_model_set_unread_count (EMFolderTreeModel *model,
-                                       CamelStore *store,
-                                       const gchar *full,
-                                       gint unread)
+folder_tree_model_set_unread_count (EMFolderTreeModel *model,
+                                    CamelStore *store,
+                                    const gchar *full,
+                                    gint unread)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -465,14 +467,6 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 		gtk_tree_path_free (path);
 		iter = parent;
 	}
-}
-
-static void
-folder_unread_updated_cb (MailFolderCache *cache, CamelStore *store,
-			  const gchar *full_name, gint unread, gpointer user_data)
-{
-	EMFolderTreeModel *model = (EMFolderTreeModel*) user_data;
-	em_folder_tree_model_set_unread_count (model, store, full_name, unread);
 }
 
 static void
@@ -533,9 +527,10 @@ folder_tree_model_init (EMFolderTreeModel *model)
 		model->priv->accounts, "account-added",
 		G_CALLBACK (account_added_cb), model);
 
-	g_signal_connect (mail_folder_cache_get_default (),
-			  "folder-unread-updated",
-			  G_CALLBACK (folder_unread_updated_cb), model);
+	g_signal_connect_swapped (
+		mail_folder_cache_get_default (),
+		"folder-unread-updated",
+		G_CALLBACK (folder_tree_model_set_unread_count), model);
 }
 
 GType
@@ -638,7 +633,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	guint32 flags, add_flags = 0;
 	EMEventTargetCustomIcon *target;
 
-	/* make sure we don't already know about it? */
+	/* Make sure we don't already know about it. */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
 		return;
 
@@ -696,14 +691,17 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			name = _("Templates");
 			is_templates = TRUE;
 		} else if (!strcmp(fi->full_name, "Inbox")) {
-			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_INBOX;
+			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
+				CAMEL_FOLDER_TYPE_INBOX;
 			name = _("Inbox");
 		} else if (!strcmp(fi->full_name, "Outbox")) {
-			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_OUTBOX;
+			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
+				CAMEL_FOLDER_TYPE_OUTBOX;
 			name = _("Outbox");
 		} else if (!strcmp(fi->full_name, "Sent")) {
 			name = _("Sent");
-			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_SENT;
+			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
+				CAMEL_FOLDER_TYPE_SENT;
 		}
 	}
 
@@ -791,13 +789,17 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			gtk_tree_store_append (tree_store, &sub, iter);
 
 			if (!emitted) {
-				path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
-				g_signal_emit (model, signals[LOADED_ROW], 0, path, iter);
+				path = gtk_tree_model_get_path (
+					GTK_TREE_MODEL (model), iter);
+				g_signal_emit (
+					model, signals[LOADED_ROW],
+					0, path, iter);
 				gtk_tree_path_free (path);
 				emitted = TRUE;
 			}
 
-			em_folder_tree_model_set_folder_info (model, &sub, si, fi, fully_loaded);
+			em_folder_tree_model_set_folder_info (
+				model, &sub, si, fi, fully_loaded);
 			fi = fi->next;
 		} while (fi);
 	}
@@ -825,16 +827,16 @@ folder_subscribed (CamelStore *store,
 	if (si == NULL)
 		goto done;
 
-	/* make sure we don't already know about it? */
+	/* Make sure we don't already know about it? */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
 		goto done;
 
-	/* get our parent folder's path */
+	/* Get our parent folder's path. */
 	dirname = g_alloca(strlen(fi->full_name)+1);
 	strcpy(dirname, fi->full_name);
 	p = strrchr(dirname, '/');
 	if (p == NULL) {
-		/* user subscribed to a toplevel folder */
+		/* User subscribed to a toplevel folder. */
 		reference = si->row;
 	} else {
 		*p = 0;
@@ -848,14 +850,13 @@ folder_subscribed (CamelStore *store,
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &parent, path);
 	gtk_tree_path_free (path);
 
-	/* make sure parent's subfolders have already been loaded */
+	/* Make sure parent's subfolders have already been loaded. */
 	gtk_tree_model_get (
 		GTK_TREE_MODEL (model), &parent,
 		COL_BOOL_LOAD_SUBDIRS, &load, -1);
 	if (load)
 		goto done;
 
-	/* append a new node */
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
@@ -1073,7 +1074,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	account = mail_config_get_account_by_source_url (uri);
 
-	/* add the store to the tree */
+	/* Add the store to the tree. */
 	gtk_tree_store_append (tree_store, &iter, NULL);
 	gtk_tree_store_set (
 		tree_store, &iter,
@@ -1103,7 +1104,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	/* Transfer ownership of the URI and GtkTreeRowReference. */
 	g_hash_table_insert (model->priv->uri_index, uri, reference);
 
-	/* each store has folders... but we don't load them until the user demands them */
+	/* Each store has folders, but we don't load them until
+	 * the user demands them. */
 	root = iter;
 	gtk_tree_store_append (tree_store, &iter, &root);
 	gtk_tree_store_set (
@@ -1120,7 +1122,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_IS_DRAFT, FALSE,
 		-1);
 
-	/* listen to store events */
+	/* Listen to store events. */
 	si->created_id = g_signal_connect (
 		store, "folder-created",
 		G_CALLBACK (folder_created_cb), model);
