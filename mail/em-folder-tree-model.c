@@ -1312,14 +1312,50 @@ em_folder_tree_model_lookup_store_info (EMFolderTreeModel *model,
 
 GtkTreeRowReference *
 em_folder_tree_model_lookup_uri (EMFolderTreeModel *model,
-                                 const gchar *uri)
+                                 const gchar *folder_uri)
 {
 	GtkTreeRowReference *reference;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-	g_return_val_if_fail (uri != NULL, NULL);
+	g_return_val_if_fail (folder_uri != NULL, NULL);
 
-	reference = g_hash_table_lookup (model->priv->uri_index, uri);
+	reference = g_hash_table_lookup (model->priv->uri_index, folder_uri);
 
 	return gtk_tree_row_reference_valid (reference) ? reference : NULL;
+}
+
+void
+em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
+                                         const gchar *folder_uri,
+                                         guint n_marked)
+{
+	GtkTreeRowReference *reference;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	guint unread;
+
+	/* The user marked messages in the given folder as unread.
+	 * Update our unread counts so we don't misinterpret this
+	 * event as new mail arriving. */
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (folder_uri != NULL);
+
+	reference = em_folder_tree_model_lookup_uri (model, folder_uri);
+	g_return_if_fail (gtk_tree_row_reference_valid (reference));
+
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (model), &iter,
+		COL_UINT_UNREAD, &unread, -1);
+
+	unread += n_marked;
+
+	gtk_tree_store_set (
+		GTK_TREE_STORE (model), &iter,
+		COL_UINT_UNREAD_LAST_SEL, unread,
+		COL_UINT_UNREAD, unread, -1);
 }

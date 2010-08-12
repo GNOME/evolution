@@ -152,7 +152,11 @@ EMFolderTreeModelStoreInfo *
 GtkTreeRowReference *
 		em_folder_tree_model_lookup_uri
 					(EMFolderTreeModel *model,
-					 const gchar *uri);
+					 const gchar *folder_uri);
+void		em_folder_tree_model_user_marked_unread
+					(EMFolderTreeModel *model,
+					 const gchar *folder_uri,
+					 guint n_marked);
 
 G_END_DECLS
 

@@ -575,17 +575,26 @@ action_mail_mark_unread_cb (GtkAction *action,
                             EMailReader *reader)
 {
 	GtkWidget *message_list;
+	EMFolderTreeModel *model;
+	const gchar *folder_uri;
 	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 	guint32 set  = 0;
+	guint n_marked;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	e_mail_reader_mark_selected (reader, mask, set);
+	n_marked = e_mail_reader_mark_selected (reader, mask, set);
 
 	if (MESSAGE_LIST (message_list)->seen_id != 0) {
 		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
 		MESSAGE_LIST (message_list)->seen_id = 0;
 	}
+
+	/* Notify the tree model that the user has marked messages as
+	 * unread so it doesn't mistake the event as new mail arriving. */
+	model = em_folder_tree_model_get_default ();
+	folder_uri = e_mail_reader_get_folder_uri (reader);
+	em_folder_tree_model_user_marked_unread (model, folder_uri, n_marked);
 }
 
 static void
