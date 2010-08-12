@@ -4644,7 +4644,8 @@ regen_list_done (struct _regen_list_msg *m)
 
 #if HAVE_CLUTTER
 	if (m->ml->priv->timeline && clutter_timeline_is_playing(m->ml->priv->timeline)) {
-		clutter_timeline_stop (m->ml->priv->timeline);
+		clutter_timeline_pause (m->ml->priv->timeline);
+		clutter_actor_hide (m->ml->priv->search_texture);
 	} else {
 		ClutterActor *pane = g_object_get_data ((GObject *)m->ml, "actor");
 
