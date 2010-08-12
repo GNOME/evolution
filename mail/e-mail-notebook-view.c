@@ -376,6 +376,8 @@ create_tab_label (EMailNotebookView *view,
 	gtk_widget_show_all (widget);
 	gtk_box_pack_end (GTK_BOX(container), widget, FALSE, FALSE, 0);
 	g_object_set_data ((GObject *)widget, "page", page);
+	g_object_set_data ((GObject *)page, "close-button", widget);
+	
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (tab_remove_gtk_cb), view);
@@ -864,6 +866,7 @@ mail_netbook_view_open_mail (EMailView *view,
 	pos = emnv_get_page_num (nview, GTK_WIDGET (priv->current_view));
 	pane = e_mail_message_pane_new (shell_view);
 	pane->prev = priv->current_view;
+	E_MAIL_MESSAGE_PANE(pane)->parent_folder_view = priv->current_view;
 	priv->current_view = pane;
 
 	gtk_widget_show (GTK_WIDGET (pane));
@@ -893,6 +896,8 @@ mail_netbook_view_open_mail (EMailView *view,
 #if HAVE_CLUTTER
 	tab = (EMailTab *)e_mail_tab_new_full (camel_message_info_subject(info), NULL, 1);
 	g_object_set_data ((GObject *)tab, "page", pane);
+	g_object_set_data ((GObject *)pane, "tab", tab);
+	
 	clutter_actor_show((ClutterActor *)tab);
 
 	clone = e_mail_tab_new_full (camel_message_info_subject(info), NULL, 200);
@@ -932,7 +937,8 @@ mail_netbook_view_open_mail (EMailView *view,
 	e_mail_reader_set_group_by_threads (
 		E_MAIL_READER (pane),
 		e_mail_reader_get_group_by_threads (E_MAIL_READER(view)));
-
+	
+	e_mail_reader_enable_show_folder (E_MAIL_READER(pane));
 	e_mail_reader_set_message (E_MAIL_READER (pane), uid);
 	camel_message_info_free (info);
 }
@@ -1105,8 +1111,10 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			tab = (EMailTab *)e_mail_tab_new_full (camel_folder_get_full_name(folder), NULL, 1);
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
+			g_object_set_data ((GObject *)priv->current_view, "tab", tab);
+
 			clutter_actor_show((ClutterActor *)tab);
-	
+			
 			clone = build_histogram ((GtkWidget *)reader, folder);
 			clutter_actor_set_reactive (clone, FALSE);
 			clutter_actor_show (clone);
@@ -1142,6 +1150,7 @@ mail_notebook_view_set_folder (EMailReader *reader,
 						e_mail_tab_picker_get_current_tab (priv->tab_picker));
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
+			g_object_set_data ((GObject *)priv->current_view, "tab", tab);
 
 			e_mail_tab_set_text (tab, camel_folder_get_full_name(folder));
 			clone = build_histogram ((GtkWidget *)reader, folder);
@@ -1187,6 +1196,17 @@ mail_notebook_view_show_search_bar (EMailReader *reader)
 	reader = E_MAIL_READER (priv->current_view);
 
 	e_mail_reader_show_search_bar (reader);
+}
+
+static gboolean
+mail_notebook_view_enable_show_folder (EMailReader *reader)
+{
+	EMailNotebookViewPrivate *priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
+	
+	if (!priv->current_view)
+		return FALSE;
+
+	return e_mail_reader_get_enable_show_folder (E_MAIL_READER(priv->current_view));	
 }
 
 static guint
@@ -1248,6 +1268,7 @@ e_mail_notebook_view_reader_init (EMailReaderIface *iface)
 	iface->set_folder = mail_notebook_view_set_folder;
 	iface->show_search_bar = mail_notebook_view_show_search_bar;
 	iface->open_selected_mail = mail_notebook_view_open_selected_mail;
+	iface->enable_show_folder = mail_notebook_view_enable_show_folder;
 }
 
 static void
@@ -1259,12 +1280,104 @@ e_mail_notebook_view_init (EMailNotebookView  *view)
 	view->priv->views = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
+static void
+emnv_show_folder (EMailNotebookView *view, gpointer not_used)
+{
+	int pos;
+	EMailNotebookViewPrivate *priv = view->priv;
+	
+	pos = emnv_get_page_num (view, (GtkWidget *)E_MAIL_MESSAGE_PANE(priv->current_view)->parent_folder_view);
+
+#if HAVE_CLUTTER		
+	e_mail_tab_picker_set_current_tab (priv->tab_picker, pos);
+	mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(view), pos);
+#else
+	gtk_notebook_set_current_page (priv->book, pos);
+#endif
+
+
+}
+
+static void
+emnv_show_prevtab (EMailNotebookView *view, gpointer not_used)
+{
+	int pos;
+	EMailNotebookViewPrivate *priv = view->priv;
+	
+	pos = emnv_get_page_num (view, (GtkWidget *)E_MAIL_MESSAGE_PANE(priv->current_view)->parent_folder_view);
+
+#if HAVE_CLUTTER	
+	pos = e_mail_tab_picker_get_current_tab (priv->tab_picker);
+	if (pos > 0) {
+		e_mail_tab_picker_set_current_tab (priv->tab_picker, pos-1);
+		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(view), pos-1);
+	}
+#else
+	pos = gtk_notebook_get_current_page (priv->book);
+	if (pos > 0 )
+		gtk_notebook_set_current_page (priv->book, pos-1);
+#endif
+
+
+}
+
+static void
+emnv_show_nexttab (EMailNotebookView *view, gpointer not_used)
+{
+	int pos;
+	EMailNotebookViewPrivate *priv = view->priv;
+	
+
+#if HAVE_CLUTTER		
+	pos = e_mail_tab_picker_get_current_tab (priv->tab_picker);
+
+	if (pos < (gtk_notebook_get_n_pages (priv->book)-1)) {
+		e_mail_tab_picker_set_current_tab (priv->tab_picker, pos+1);
+		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW(view), pos+1);
+	}
+#else
+	pos = gtk_notebook_get_current_page (priv->book);
+	if (pos < (gtk_notebook_get_n_pages (priv->book)-1))
+		gtk_notebook_set_current_page (priv->book, pos+1);
+#endif
+
+
+}
+
+static void
+emnv_close_tab (EMailNotebookView *view, gpointer not_used)
+{
+	EMailNotebookViewPrivate *priv = view->priv;
+	
+#if HAVE_CLUTTER		
+	mnv_tab_closed (g_object_get_data((GObject *)priv->current_view, "tab"), 
+			view);
+#else
+	tab_remove_gtk_cb (g_object_get_data((GObject *)priv->current_view, "close-button"),
+				view);
+#endif
+
+
+}
+
 GtkWidget *
 e_mail_notebook_view_new (EShellView *shell_view)
 {
+	GtkWidget *widget;
+
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return g_object_new (
+	widget = g_object_new (
 		E_TYPE_MAIL_NOTEBOOK_VIEW,
 		"shell-view", shell_view, NULL);
+	g_signal_connect (widget, "show-folder",
+			G_CALLBACK (emnv_show_folder), widget);
+	g_signal_connect (widget, "show-next-tab",
+			G_CALLBACK (emnv_show_nexttab), widget);
+	g_signal_connect (widget, "show-previous-tab",
+			G_CALLBACK (emnv_show_prevtab), widget);
+	g_signal_connect (widget, "close-tab",
+			G_CALLBACK (emnv_close_tab), widget);
+
+	return widget;
 }

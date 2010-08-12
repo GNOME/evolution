@@ -52,6 +52,7 @@ typedef struct _EMailMessagePanePrivate EMailMessagePanePrivate;
 struct _EMailMessagePane {
 	EMailPanedView parent;
 	EMailMessagePanePrivate *priv;
+	EMailView *parent_folder_view;
 };
 
 struct _EMailMessagePaneClass {
