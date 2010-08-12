@@ -3470,7 +3470,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 		gchar *htmlbody;
 
 		htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		set_editor_text (composer, htmlbody, FALSE);
+		set_editor_text (composer, htmlbody, TRUE);
 		g_free (htmlbody);
 	}
 }
