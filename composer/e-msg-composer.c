@@ -406,10 +406,10 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 
 static void
 set_recipients_from_destv (CamelMimeMessage *msg,
-			   EDestination **to_destv,
-			   EDestination **cc_destv,
-			   EDestination **bcc_destv,
-			   gboolean redirect)
+                           EDestination **to_destv,
+                           EDestination **cc_destv,
+                           EDestination **bcc_destv,
+                           gboolean redirect)
 {
 	CamelInternetAddress *to_addr;
 	CamelInternetAddress *cc_addr;
@@ -647,9 +647,10 @@ build_message (EMsgComposer *composer,
 	new = camel_mime_message_new ();
 	build_message_headers (composer, new, FALSE);
 	for (i = 0; i < p->extra_hdr_names->len; i++) {
-		camel_medium_add_header (CAMEL_MEDIUM (new),
-					 p->extra_hdr_names->pdata[i],
-					 p->extra_hdr_values->pdata[i]);
+		camel_medium_add_header (
+			CAMEL_MEDIUM (new),
+			p->extra_hdr_names->pdata[i],
+			p->extra_hdr_values->pdata[i]);
 	}
 
 	/* Message Disposition Notification */
@@ -723,7 +724,7 @@ build_message (EMsgComposer *composer,
 
 	if (plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
 		/* encode to quoted-printable by ourself, together with
-		   taking care of "\nFrom " text */
+		 * taking care of "\nFrom " text */
 		CamelStream *filter_stream;
 		CamelMimeFilter *mf, *qp;
 
@@ -782,7 +783,7 @@ build_message (EMsgComposer *composer,
 
 		if (pre_encode) {
 			/* encode to quoted-printable by ourself, together with
-			   taking care of "\nFrom " text */
+			 * taking care of "\nFrom " text */
 			CamelStream *filter_stream;
 			CamelMimeFilter *mf, *qp;
 
@@ -814,8 +815,8 @@ build_message (EMsgComposer *composer,
 
 		/* Build the multipart/alternative */
 		body = camel_multipart_new ();
-		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
-						  "multipart/alternative");
+		camel_data_wrapper_set_mime_type (
+			CAMEL_DATA_WRAPPER (body), "multipart/alternative");
 		camel_multipart_set_boundary (body, NULL);
 
 		part = camel_mime_part_new ();
@@ -864,8 +865,9 @@ build_message (EMsgComposer *composer,
 		CamelMultipart *multipart = camel_multipart_new ();
 
 		if (p->is_alternative) {
-			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-							  "multipart/alternative");
+			camel_data_wrapper_set_mime_type (
+				CAMEL_DATA_WRAPPER (multipart),
+				"multipart/alternative");
 		}
 
 		/* Generate a random boundary. */
@@ -1271,9 +1273,10 @@ is_top_signature (EMsgComposer *composer)
 
 	g_return_val_if_fail (priv != NULL, FALSE);
 
-	/* The composer had been created from a stored message, thus the signature
-	   placement is either there already, or pt it at the bottom regardless
-	   of a preferences (which is for reply anyway, not for Edit as new) */
+	/* The composer had been created from a stored message, thus the
+	 * signature placement is either there already, or pt it at the
+	 * bottom regardless of a preferences (which is for reply anyway,
+	 * not for Edit as new) */
 	if (priv->is_from_message)
 		return FALSE;
 
@@ -1415,17 +1418,17 @@ set_editor_text (EMsgComposer *composer,
 	g_return_if_fail (text != NULL);
 
 	/*
-
-	   Keeping Signatures in the beginning of composer
-	   ------------------------------------------------
-
-	   Purists are gonna blast me for this.
-	   But there are so many people (read Outlook users) who want this.
-	   And Evo is an exchange-client, Outlook-replacement etc.
-	   So Here it goes :(
-
-	   -- Sankar
-
+	 *
+	 * Keeping Signatures in the beginning of composer
+	 * ------------------------------------------------
+	 *
+	 * Purists are gonna blast me for this.
+	 * But there are so many people (read Outlook users) who want this.
+	 * And Evo is an exchange-client, Outlook-replacement etc.
+	 * So Here it goes :(
+	 *
+	 * -- Sankar
+	 *
 	 */
 
 	if (is_top_signature (composer)) {
@@ -1730,14 +1733,14 @@ msg_composer_delete_event_cb (GtkWidget *widget, gpointer user_data)
 
 	if (g_list_length (e_shell_get_watched_windows (shell)) == 1) {
 		/* This is the last watched window, use the quit
-		   mechanism to have a draft saved properly */
+		 * mechanism to have a draft saved properly */
 		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
 	} else {
 		/* This is needed for the ACTION macro. */
 		EMsgComposer *composer = E_MSG_COMPOSER (widget);
 
 		/* There are more watched windows opened,
-		   invoke only a close action */
+		 * invoke only a close action */
 		gtk_action_activate (ACTION (CLOSE));
 	}
 
@@ -2435,7 +2438,7 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer)
 static void
 add_attachments_handle_mime_part (EMsgComposer *composer,
                                   CamelMimePart *mime_part,
-				  gboolean just_inlines,
+                                  gboolean just_inlines,
                                   gboolean related,
                                   gint depth)
 {
@@ -2516,7 +2519,7 @@ add_attachments_from_multipart (EMsgComposer *composer,
 void
 e_msg_composer_add_message_attachments (EMsgComposer *composer,
                                         CamelMimeMessage *message,
-					gboolean just_inlines)
+                                        gboolean just_inlines)
 {
 	CamelDataWrapper *wrapper;
 
@@ -2566,9 +2569,9 @@ handle_multipart_signed (EMsgComposer *composer,
 		multipart = CAMEL_MULTIPART (content);
 
 		/* Note: depth is preserved here because we're not
-		   counting multipart/signed as a multipart, instead
-		   we want to treat the content part as our mime part
-		   here. */
+		 * counting multipart/signed as a multipart, instead
+		 * we want to treat the content part as our mime part
+		 * here. */
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 			/* Handle the signed content and configure
@@ -2648,9 +2651,9 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		CamelMultipart *content_multipart = CAMEL_MULTIPART (content);
 
 		/* Note: depth is preserved here because we're not
-		   counting multipart/encrypted as a multipart, instead
-		   we want to treat the content part as our mime part
-		   here. */
+		 * counting multipart/encrypted as a multipart, instead
+		 * we want to treat the content part as our mime part
+		 * here. */
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 			/* Handle the signed content and configure the
@@ -3399,8 +3402,9 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 					body = content;
 					content = NULL;
 				} else {
-					body = g_locale_to_utf8 (content, clen, &nread,
-								 &nwritten, NULL);
+					body = g_locale_to_utf8 (
+						content, clen, &nread,
+						&nwritten, NULL);
 					if (body) {
 						body = g_realloc (body, nwritten + 1);
 						body[nwritten] = '\0';
@@ -3524,7 +3528,7 @@ e_msg_composer_set_body_text (EMsgComposer *composer,
 void
 e_msg_composer_set_body (EMsgComposer *composer,
                          const gchar *body,
-			 const gchar *mime_type)
+                         const gchar *mime_type)
 {
 	EMsgComposerPrivate *p = composer->priv;
 	EComposerHeaderTable *table;
@@ -3576,7 +3580,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 void
 e_msg_composer_add_header (EMsgComposer *composer,
                            const gchar *name,
-			   const gchar *value)
+                           const gchar *value)
 {
 	EMsgComposerPrivate *p = composer->priv;
 
@@ -3602,7 +3606,7 @@ e_msg_composer_add_header (EMsgComposer *composer,
 void
 e_msg_composer_modify_header (EMsgComposer *composer,
                               const gchar *name,
-			      const gchar *change_value)
+                              const gchar *change_value)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (name != NULL);
@@ -3682,7 +3686,7 @@ e_msg_composer_attach (EMsgComposer *composer,
  **/
 CamelMimePart *
 e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
-					   const gchar *filename)
+                                           const gchar *filename)
 {
 	gchar *mime_type, *cid, *url, *name, *dec_file_name;
 	CamelStream *stream;
@@ -3744,7 +3748,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
  **/
 void
 e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
-						CamelMimePart *part)
+                                                CamelMimePart *part)
 {
 	gchar *url;
 	const gchar *location, *cid;
@@ -4112,13 +4116,15 @@ e_msg_composer_request_close (EMsgComposer *composer)
 	composer->priv->application_exiting = TRUE;
 }
 
-/* Returns whether can close the composer immediately. It will return FALSE also when
-   saving to drafts, but the e_msg_composer_is_exiting will return TRUE for this case.
-   can_save_draft means whether can save draft immediately, or rather keep it on the
-   caller (when FALSE). If kept on the folder, then returns FALSE and sets interval
-   variable to return TRUE in e_msg_composer_is_exiting. */
+/* Returns whether can close the composer immediately. It will return FALSE
+ * also when saving to drafts, but the e_msg_composer_is_exiting will return
+ * TRUE for this case.  can_save_draft means whether can save draft
+ * immediately, or rather keep it on the caller (when FALSE). If kept on the
+ * folder, then returns FALSE and sets interval variable to return TRUE in
+ * e_msg_composer_is_exiting. */
 gboolean
-e_msg_composer_can_close (EMsgComposer *composer, gboolean can_save_draft)
+e_msg_composer_can_close (EMsgComposer *composer,
+                          gboolean can_save_draft)
 {
 	gboolean res = FALSE;
 	GtkhtmlEditor *editor;
@@ -4380,7 +4386,8 @@ e_save_spell_languages (GList *spell_languages)
 }
 
 void
-e_msg_composer_set_mail_sent (EMsgComposer *composer, gboolean mail_sent)
+e_msg_composer_set_mail_sent (EMsgComposer *composer,
+                              gboolean mail_sent)
 {
 	g_return_if_fail (composer != NULL);
 
