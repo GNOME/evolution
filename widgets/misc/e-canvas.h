@@ -20,38 +20,51 @@
  *
  */
 
-#ifndef __E_CANVAS_H__
-#define __E_CANVAS_H__
+#ifndef E_CANVAS_H
+#define E_CANVAS_H
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
+/* ECanvas - A class derived from canvas for the purpose of adding
+ * evolution specific canvas hacks. */
+
+/* Standard GObject macros */
+#define E_TYPE_CANVAS \
+	(e_canvas_get_type ())
+#define E_CANVAS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CANVAS, ECanvas))
+#define E_CANVAS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CANVAS, ECanvasClass))
+#define E_IS_CANVAS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CANVAS))
+#define E_IS_CANVAS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CANVAS))
+#define E_CANVAS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CANVAS, ECanvasClass))
+
 G_BEGIN_DECLS
 
-/* ECanvas - A class derived from canvas for the purpose of adding
- * evolution specific canvas hacks.
- */
+typedef void	(*ECanvasItemReflowFunc)	(GnomeCanvasItem *item,
+						 gint flags);
 
-#define E_CANVAS_TYPE			(e_canvas_get_type ())
-#define E_CANVAS(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_CANVAS_TYPE, ECanvas))
-#define E_CANVAS_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_CANVAS_TYPE, ECanvasClass))
-#define E_IS_CANVAS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_CANVAS_TYPE))
-#define E_IS_CANVAS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_CANVAS_TYPE))
-
-typedef void		(*ECanvasItemReflowFunc)		(GnomeCanvasItem *item,
-								 gint	  flags);
-
-typedef void            (*ECanvasItemSelectionFunc)             (GnomeCanvasItem *item,
-								 gint             flags,
-								 gpointer         user_data);
+typedef void	(*ECanvasItemSelectionFunc)	(GnomeCanvasItem *item,
+						 gint flags,
+						 gpointer user_data);
 /* Returns the same as strcmp does. */
-typedef gint            (*ECanvasItemSelectionCompareFunc)      (GnomeCanvasItem *item,
-								 gpointer         data1,
-								 gpointer         data2,
-								 gint             flags);
+typedef gint	(*ECanvasItemSelectionCompareFunc)
+						(GnomeCanvasItem *item,
+						 gpointer data1,
+						 gpointer data2,
+						 gint flags);
 
-typedef struct _ECanvas       ECanvas;
-typedef struct _ECanvasClass  ECanvasClass;
+typedef struct _ECanvas ECanvas;
+typedef struct _ECanvasClass ECanvasClass;
 
 /* Object flags for items */
 enum {
@@ -70,18 +83,20 @@ typedef struct {
 	gpointer         id;
 } ECanvasSelectionInfo;
 
-typedef void (*ECanvasItemGrabCancelled) (ECanvas *canvas, GnomeCanvasItem *item, gpointer data);
+typedef void	(*ECanvasItemGrabCancelled)	(ECanvas *canvas,
+						 GnomeCanvasItem *item,
+						 gpointer data);
 
-struct _ECanvas
-{
+struct _ECanvas {
 	GnomeCanvas parent;
-	gint                   idle_id;
-	GList                *selection;
+
+	gint idle_id;
+	GList *selection;
 	ECanvasSelectionInfo *cursor;
 
-	GtkWidget            *tooltip_window;
-	gint                   visibility_notify_id;
-	GtkWidget            *toplevel;
+	GtkWidget *tooltip_window;
+	gint visibility_notify_id;
+	GtkWidget *toplevel;
 
 	/* Input context for dead key support */
 	GtkIMContext *im_context;
@@ -92,36 +107,36 @@ struct _ECanvas
 	gpointer grab_cancelled_data;
 };
 
-struct _ECanvasClass
-{
+struct _ECanvasClass {
 	GnomeCanvasClass parent_class;
-	void (* reflow) (ECanvas *canvas);
+
+	void		(*reflow)		(ECanvas *canvas);
 };
 
-GType      e_canvas_get_type                             (void);
-GtkWidget *e_canvas_new                                  (void);
+GType		e_canvas_get_type		(void);
+GtkWidget *	e_canvas_new			(void);
 
 /* Used to send all of the keystroke events to a specific item as well as
- * GDK_FOCUS_CHANGE events.
- */
-void       e_canvas_item_grab_focus                      (GnomeCanvasItem                 *item,
-							  gboolean                         widget_too);
-void       e_canvas_item_request_reflow                  (GnomeCanvasItem                 *item);
-void       e_canvas_item_request_parent_reflow           (GnomeCanvasItem                 *item);
-void       e_canvas_item_set_reflow_callback             (GnomeCanvasItem                 *item,
-							  ECanvasItemReflowFunc            func);
-
-gint        e_canvas_item_grab                            (ECanvas                         *canvas,
-							  GnomeCanvasItem                 *item,
-							  guint                            event_mask,
-							  GdkCursor                       *cursor,
-							  guint32                          etime,
-							  ECanvasItemGrabCancelled         cancelled,
-							  gpointer                         cancelled_data);
-void       e_canvas_item_ungrab                          (ECanvas                         *canvas,
-							  GnomeCanvasItem                 *item,
-							  guint32                          etime);
+ * GDK_FOCUS_CHANGE events. */
+void		e_canvas_item_grab_focus	(GnomeCanvasItem *item,
+						 gboolean widget_too);
+void		e_canvas_item_request_reflow	(GnomeCanvasItem *item);
+void		e_canvas_item_request_parent_reflow
+						(GnomeCanvasItem *item);
+void		e_canvas_item_set_reflow_callback
+						(GnomeCanvasItem *item,
+						 ECanvasItemReflowFunc func); 
+gint		e_canvas_item_grab		(ECanvas *canvas,
+						 GnomeCanvasItem *item,
+						 guint event_mask,
+						 GdkCursor *cursor,
+						 guint32 etime,
+						 ECanvasItemGrabCancelled cancelled,
+						 gpointer cancelled_data);
+void		e_canvas_item_ungrab		(ECanvas *canvas,
+						 GnomeCanvasItem *item,
+						 guint32 etime);
 
 G_END_DECLS
 
-#endif /* __E_CANVAS_H__ */
+#endif /* E_CANVAS_H */
