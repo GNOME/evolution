@@ -3953,7 +3953,7 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 
 	/* Notify the folder tree model that the user has marked a message
 	 * as unread so it doesn't mistake the event as new mail arriving. */
-	if (flag == CAMEL_MESSAGE_SEEN) {
+	if (col == COL_MESSAGE_STATUS && (flags & CAMEL_MESSAGE_SEEN)) {
 		EMFolderTreeModel *model;
 
 		model = em_folder_tree_model_get_default ();
