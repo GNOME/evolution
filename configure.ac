@@ -37,6 +37,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl Required Packages
 m4_define([glib_minimum_version], [2.25.12])
 m4_define([eds_minimum_version], [evo_version])
+m4_define([gtkhtml_minimum_version], [3.31.90])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
@@ -79,8 +80,6 @@ if test "x${enable_gtk3}" = "xyes"; then
 	clutter_gtk_minimum_version="0.90"
 
 	GTKHTML="libgtkhtml-4.0"
-	libgtkhtml_minimum_version="3.31.4"
-
 	GTKHTML_EDITOR="gtkhtml-editor-4.0"
 
 	GWEATHER="gweather-3.0"
@@ -117,8 +116,6 @@ else
 	clutter_gtk_minimum_version="0.10"
 
 	GTKHTML="libgtkhtml-3.14"
-	libgtkhtml_minimum_version="3.31.2"
-
 	GTKHTML_EDITOR="gtkhtml-editor-3.14"
 
 	GWEATHER="gweather"
@@ -749,7 +746,7 @@ dnl *************************
 dnl GTKHTML check
 dnl XXX Drop the version from the package name?
 dnl *************************
-PKG_CHECK_MODULES([GTKHTML], [$GTKHTML >= $libgtkhtml_minimum_version])
+PKG_CHECK_MODULES([GTKHTML], [$GTKHTML >= gtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
