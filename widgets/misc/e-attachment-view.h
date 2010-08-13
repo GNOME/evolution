@@ -109,6 +109,7 @@ struct _EAttachmentViewPrivate {
 	gint start_x;
 	gint start_y;
 
+	guint dragging : 1;
 	guint editable : 1;
 };
 
@@ -122,6 +123,9 @@ EAttachmentViewPrivate *
 		e_attachment_view_get_private	(EAttachmentView *view);
 EAttachmentStore *
 		e_attachment_view_get_store	(EAttachmentView *view);
+gboolean	e_attachment_view_get_dragging	(EAttachmentView *view);
+void		e_attachment_view_set_dragging	(EAttachmentView *view,
+						 gboolean dragging);
 gboolean	e_attachment_view_get_editable	(EAttachmentView *view);
 void		e_attachment_view_set_editable	(EAttachmentView *view,
 						 gboolean editable);

@@ -37,6 +37,7 @@ struct _EAttachmentTreeViewPrivate {
 
 enum {
 	PROP_0,
+	PROP_DRAGGING,
 	PROP_EDITABLE
 };
 
@@ -49,6 +50,12 @@ attachment_tree_view_set_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DRAGGING:
+			e_attachment_view_set_dragging (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_EDITABLE:
 			e_attachment_view_set_editable (
 				E_ATTACHMENT_VIEW (object),
@@ -66,6 +73,12 @@ attachment_tree_view_get_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DRAGGING:
+			g_value_set_boolean (
+				value, e_attachment_view_get_dragging (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+
 		case PROP_EDITABLE:
 			g_value_set_boolean (
 				value, e_attachment_view_get_editable (
@@ -466,6 +479,9 @@ attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->row_activated = attachment_tree_view_row_activated;
+
+	g_object_class_override_property (
+		object_class, PROP_DRAGGING, "dragging");
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");

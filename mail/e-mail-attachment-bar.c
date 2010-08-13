@@ -57,6 +57,7 @@ struct _EMailAttachmentBarPrivate {
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_DRAGGING,
 	PROP_EDITABLE,
 	PROP_EXPANDED
 };
@@ -120,6 +121,12 @@ mail_attachment_bar_set_property (GObject *object,
 				g_value_get_int (value));
 			return;
 
+		case PROP_DRAGGING:
+			e_attachment_view_set_dragging (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_EDITABLE:
 			e_attachment_view_set_editable (
 				E_ATTACHMENT_VIEW (object),
@@ -148,6 +155,13 @@ mail_attachment_bar_get_property (GObject *object,
 				value,
 				e_mail_attachment_bar_get_active_view (
 				E_MAIL_ATTACHMENT_BAR (object)));
+			return;
+
+		case PROP_DRAGGING:
+			g_value_set_boolean (
+				value,
+				e_attachment_view_get_dragging (
+				E_ATTACHMENT_VIEW (object)));
 			return;
 
 		case PROP_EDITABLE:
@@ -255,6 +269,14 @@ mail_attachment_bar_constructed (GObject *object)
 	e_mutual_binding_new (
 		object, "active-view",
 		priv->combo_box, "active");
+
+	e_mutual_binding_new (
+		object, "dragging",
+		priv->icon_view, "dragging");
+
+	e_mutual_binding_new (
+		object, "dragging",
+		priv->tree_view, "dragging");
 
 	e_mutual_binding_new (
 		object, "editable",
@@ -458,6 +480,9 @@ mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_override_property (
+		object_class, PROP_DRAGGING, "dragging");
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");

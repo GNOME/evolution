@@ -824,6 +824,15 @@ attachment_view_class_init (EAttachmentViewIface *iface)
 	g_object_interface_install_property (
 		iface,
 		g_param_spec_boolean (
+			"dragging",
+			"Dragging",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
 			"editable",
 			"Editable",
 			NULL,
@@ -1025,6 +1034,7 @@ e_attachment_view_set_editable (EAttachmentView *view,
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
 	priv = e_attachment_view_get_private (view);
+
 	priv->editable = editable;
 
 	if (editable)
@@ -1033,6 +1043,33 @@ e_attachment_view_set_editable (EAttachmentView *view,
 		e_attachment_view_drag_dest_unset (view);
 
 	g_object_notify (G_OBJECT (view), "editable");
+}
+
+gboolean
+e_attachment_view_get_dragging (EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+
+	priv = e_attachment_view_get_private (view);
+
+	return priv->dragging;
+}
+
+void
+e_attachment_view_set_dragging (EAttachmentView *view,
+                                gboolean dragging)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	priv = e_attachment_view_get_private (view);
+
+	priv->dragging = dragging;
+
+	g_object_notify (G_OBJECT (view), "dragging");
 }
 
 GtkTargetList *
@@ -1507,10 +1544,7 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 
 	priv = e_attachment_view_get_private (view);
 
-	/* Prevent the user from dragging and dropping to
-	 * the same attachment view, which would duplicate
-	 * the attachment. */
-	e_attachment_view_drag_dest_unset (view);
+	e_attachment_view_set_dragging (view, TRUE);
 
 	g_warn_if_fail (priv->selected == NULL);
 	priv->selected = e_attachment_view_get_selected_attachments (view);
@@ -1569,9 +1603,7 @@ e_attachment_view_drag_end (EAttachmentView *view,
 
 	priv = e_attachment_view_get_private (view);
 
-	/* Restore the previous drag destination state. */
-	if (e_attachment_view_get_editable (view))
-		e_attachment_view_drag_dest_set (view);
+	e_attachment_view_set_dragging (view, FALSE);
 
 	g_list_foreach (priv->selected, (GFunc) g_object_unref, NULL);
 	g_list_free (priv->selected);
@@ -1698,6 +1730,11 @@ e_attachment_view_drag_motion (EAttachmentView *view,
 	if (!e_attachment_view_get_editable (view))
 		return FALSE;
 
+	/* Disallow drops if we initiated the drag.
+	 * This helps prevent duplicate attachments. */
+	if (e_attachment_view_get_dragging (view))
+		return FALSE;
+
 	actions = gdk_drag_context_get_actions (context);
 	actions &= priv->drag_actions;
 	chosen_action = gdk_drag_context_get_suggested_action (context);
@@ -1725,7 +1762,9 @@ e_attachment_view_drag_drop (EAttachmentView *view,
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (GDK_IS_DRAG_CONTEXT (context), FALSE);
 
-	return TRUE;
+	/* Disallow drops if we initiated the drag.
+	 * This helps prevent duplicate attachments. */
+	return !e_attachment_view_get_dragging (view);
 }
 
 void

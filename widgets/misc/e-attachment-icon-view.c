@@ -37,6 +37,7 @@ struct _EAttachmentIconViewPrivate {
 
 enum {
 	PROP_0,
+	PROP_DRAGGING,
 	PROP_EDITABLE
 };
 
@@ -56,6 +57,12 @@ attachment_icon_view_set_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DRAGGING:
+			e_attachment_view_set_dragging (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_EDITABLE:
 			e_attachment_view_set_editable (
 				E_ATTACHMENT_VIEW (object),
@@ -73,6 +80,12 @@ attachment_icon_view_get_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DRAGGING:
+			g_value_set_boolean (
+				value, e_attachment_view_get_dragging (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+
 		case PROP_EDITABLE:
 			g_value_set_boolean (
 				value, e_attachment_view_get_editable (
@@ -434,6 +447,9 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 
 	icon_view_class = GTK_ICON_VIEW_CLASS (class);
 	icon_view_class->item_activated = attachment_icon_view_item_activated;
+
+	g_object_class_override_property (
+		object_class, PROP_DRAGGING, "dragging");
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");

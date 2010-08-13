@@ -113,14 +113,6 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
 						 gint depth);
 
-static void	msg_composer_drag_data_received	(GtkWidget *widget,
-						 GdkDragContext *context,
-						 gint x,
-						 gint y,
-						 GtkSelectionData *selection,
-						 guint info,
-						 guint time);
-
 /**
  * emcu_part_to_html:
  * @part:
@@ -1663,17 +1655,49 @@ msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
 	gtk_target_table_free (targets, n_targets);
 }
 
-struct _drop_data {
-	EMsgComposer *composer;
+static gboolean
+msg_composer_drag_motion_cb (GtkWidget *widget,
+                             GdkDragContext *context,
+                             gint x,
+                             gint y,
+                             guint time,
+                             EMsgComposer *composer)
+{
+	EAttachmentView *view;
 
-	GdkDragContext *context;
-	/* Only selection->data and selection->length are valid */
-	GtkSelectionData *selection;
+	view = e_msg_composer_get_attachment_view (composer);
 
-	guint32 action;
-	guint info;
-	guint time;
-};
+	/* Stop the signal from propagating to GtkHtml. */
+	g_signal_stop_emission_by_name (widget, "drag-motion");
+
+	return e_attachment_view_drag_motion (view, context, x, y, time);
+}
+
+static void
+msg_composer_drag_data_received_cb (GtkWidget *widget,
+                                    GdkDragContext *context,
+                                    gint x,
+                                    gint y,
+                                    GtkSelectionData *selection,
+                                    guint info,
+                                    guint time,
+                                    EMsgComposer *composer)
+{
+	EAttachmentView *view;
+
+	view = e_msg_composer_get_attachment_view (composer);
+
+	/* Forward the data to the attachment view.  Note that calling
+	 * e_attachment_view_drag_data_received() will not work because
+	 * that function only handles the case where all the other drag
+	 * handlers have failed. */
+	e_attachment_paned_drag_data_received (
+		E_ATTACHMENT_PANED (view),
+		context, x, y, selection, info, time);
+
+	/* Stop the signal from propagating to GtkHtml. */
+	g_signal_stop_emission_by_name (widget, "drag-data-received");
+}
 
 static void
 msg_composer_notify_header_cb (EMsgComposer *composer)
@@ -1792,9 +1816,6 @@ msg_composer_constructed (GObject *object)
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
-	GdkDragAction drag_actions;
-	GtkTargetList *target_list;
-	GtkTargetEntry *targets;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
 	GtkHTML *html;
@@ -1802,7 +1823,6 @@ msg_composer_constructed (GObject *object)
 	const gchar *id;
 	gboolean active;
 	guint binding_id;
-	gint n_targets;
 
 	editor = GTKHTML_EDITOR (object);
 	composer = E_MSG_COMPOSER (object);
@@ -1863,24 +1883,17 @@ msg_composer_constructed (GObject *object)
 
 	/* Drag-and-Drop Support */
 
-	target_list = e_attachment_view_get_target_list (view);
-	drag_actions = e_attachment_view_get_drag_actions (view);
-
-	targets = gtk_target_table_new_from_list (target_list, &n_targets);
-
-	gtk_drag_dest_set (
-		GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
-		targets, n_targets, drag_actions);
-
 	g_signal_connect (
 		html, "realize",
 		G_CALLBACK (msg_composer_realize_gtkhtml_cb), composer);
 
 	g_signal_connect (
-		html, "drag-data-received",
-		G_CALLBACK (msg_composer_drag_data_received), NULL);
+		html, "drag-motion",
+		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
-	gtk_target_table_free (targets, n_targets);
+	g_signal_connect (
+		html, "drag-data-received",
+		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
 
 	/* Configure Headers */
 
@@ -2038,51 +2051,6 @@ msg_composer_key_press_event (GtkWidget *widget,
 
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
-}
-
-static gboolean
-msg_composer_drag_motion (GtkWidget *widget,
-                          GdkDragContext *context,
-                          gint x,
-                          gint y,
-                          guint time)
-{
-	EMsgComposer *composer;
-	EAttachmentView *view;
-
-	/* Widget may be EMsgComposer or GtkHTML. */
-	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (widget));
-	view = e_msg_composer_get_attachment_view (composer);
-
-	return e_attachment_view_drag_motion (view, context, x, y, time);
-}
-
-static void
-msg_composer_drag_data_received (GtkWidget *widget,
-                                 GdkDragContext *context,
-                                 gint x,
-                                 gint y,
-                                 GtkSelectionData *selection,
-                                 guint info,
-                                 guint time)
-{
-	EMsgComposer *composer;
-	EAttachmentView *view;
-
-	/* Widget may be EMsgComposer or GtkHTML. */
-	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (widget));
-	view = e_msg_composer_get_attachment_view (composer);
-
-	/* Forward the data to the attachment view.  Note that calling
-	 * e_attachment_view_drag_data_received() will not work because
-	 * that function only handles the case where all the other drag
-	 * handlers have failed. */
-	e_attachment_paned_drag_data_received (
-		E_ATTACHMENT_PANED (view),
-		context, x, y, selection, info, time);
-
-	/* Stop the signal from propagating to GtkHtml. */
-	g_signal_stop_emission_by_name (widget, "drag-data-received");
 }
 
 static void
@@ -2281,8 +2249,6 @@ msg_composer_class_init (EMsgComposerClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = msg_composer_map;
 	widget_class->key_press_event = msg_composer_key_press_event;
-	widget_class->drag_motion = msg_composer_drag_motion;
-	widget_class->drag_data_received = msg_composer_drag_data_received;
 
 	editor_class = GTKHTML_EDITOR_CLASS (class);
 	editor_class->cut_clipboard = msg_composer_cut_clipboard;
