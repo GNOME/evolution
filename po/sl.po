@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2010-08-13 17:17+0000\n"
-"PO-Revision-Date: 2010-08-13 22:22+0100\n"
+"PO-Revision-Date: 2010-08-14 19:24+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -11617,7 +11617,7 @@ msgstr "Pokaži fotografijo pošiljatelja na pladnju branja sporočil."
 
 #: ../mail/evolution-mail.schemas.in.h:173
 msgid "Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one."
-msgstr ""
+msgstr "Nekateri dopisni seznami določajo možnost odgovori-na: s katerim se sporočila pošiljajo na seznam tudi, če je izbrana možnost zasebnega sporočila pošiljatelju. Izbrana možnost poskuša prezreti odgovarjanje na naslov dopisnega seznama. Program Evolution bo zahteval potrdilo za pošiljanje na zasebni naslov ali na dopisni seznam.."
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Spell check inline"
@@ -13512,11 +13512,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:122
 msgid "You are replying privately to a message which arrived via a mailing list, but the list is trying to redirect your reply to go back to the list. Are you sure you want to proceed?"
-msgstr ""
+msgstr "Odgovarjate zasebno pošiljatelju na sporočilo, ki je prispelo preko dopisnega seznama, vendar pa bo sporočilo poslano neposredno na dopisni seznam. Ali želite nadaljevati?"
 
 #: ../mail/mail.error.xml.h:123
 msgid "You are replying to a message which arrived via a mailing list, but you are replying privately to the sender; not to the list. Are you sure you want to proceed?"
-msgstr ""
+msgstr "Odgovarjate na sporočilo, ki je prispelo preko dopisnega seznama, vendar odgovarjate zasebno pošiljatelju in ne na seznam. Ali želite nadaljevati?"
 
 #: ../mail/mail.error.xml.h:124
 msgid "You are replying to a message which was sent to many recipients. Are you sure you want to reply to ALL of them?"
@@ -15862,11 +15862,11 @@ msgstr "V izbrano mapo ni mogoče pisati."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "To backup your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding."
-msgstr ""
+msgstr "Za ustvarjanje varnostne kopije podatkov in nastavitev je najprej treba zapreti program Evolution. Najprej je treba seveda shraniti vse podatke. "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your backup."
-msgstr ""
+msgstr "Za obnovitev podatkov in nastavitev je treba najprej zapreti program Evolution. Najprej je treba seveda shraniti vse podatke. Z dejanjem bodo najprej izbrisani podatki in izbrisane trenutne nastavitve, potem pa bodo obnovljene iz varnostne kopije."
 
 #: ../plugins/bbdb/bbdb.c:685
 #: ../plugins/bbdb/bbdb.c:694
