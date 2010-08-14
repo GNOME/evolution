@@ -427,9 +427,9 @@ mail_shell_backend_window_created_cb (EShell *shell,
 		mail_shell_backend_window_weak_notify_cb, shell);
 
 	if (first_time) {
-		g_signal_connect (
+		g_signal_connect_swapped (
 			window, "map-event",
-			G_CALLBACK (e_msg_composer_check_autosave), NULL);
+			G_CALLBACK (e_msg_composer_check_autosave), shell);
 		first_time = FALSE;
 	}
 }
