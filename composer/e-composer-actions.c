@@ -208,8 +208,11 @@ action_new_message_cb (GtkAction *action,
                        EMsgComposer *composer)
 {
 	EMsgComposer *new_composer;
+	EShell *shell;
 
-	new_composer = e_msg_composer_new ();
+	shell = e_msg_composer_get_shell (composer);
+
+	new_composer = e_msg_composer_new (shell);
 	gtk_widget_show (GTK_WIDGET (new_composer));
 }
 

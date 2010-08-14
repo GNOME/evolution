@@ -138,6 +138,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWindow *window;
 	GtkHTML *html;
 	const gchar *path;
+	gboolean small_screen_mode;
 	gchar *filename;
 	gint ii;
 	GError *error = NULL;
@@ -146,16 +147,19 @@ e_composer_private_constructed (EMsgComposer *composer)
 	html = gtkhtml_editor_get_html (editor);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
-	shell = e_shell_get_default ();
+	shell = e_msg_composer_get_shell (composer);
+	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
-	if (e_msg_composer_get_lite ()) {
+	if (small_screen_mode) {
 #if 0
-		/* In the lite composer, for small screens, we are not ready yet
-		 * to hide the menubar.  It still has useful items like the ones
-		 * to show/hide the various header fields, plus the security options.
+		/* In the lite composer, for small screens, we are not
+		 * ready yet to hide the menubar.  It still has useful
+		 * items like the ones to show/hide the various header
+		 * fields, plus the security options.
 		 *
-		 * When we move those options out of the menu and into the composer's
-		 * toplevel, we can probably get rid of the menu.
+		 * When we move those options out of the menu and into
+		 * the composer's toplevel, we can probably get rid of
+		 * the menu.
 		 */
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-menu");
 		gtk_widget_hide (widget);
@@ -255,7 +259,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	widget = e_composer_header_table_new (shell);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
-	if (e_msg_composer_get_lite ())
+	if (small_screen_mode)
 		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 1);
 	else
 		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 2);
@@ -265,7 +269,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the attachment paned. */
 
-	if (e_msg_composer_get_lite ()) {
+	if (small_screen_mode) {
 		e_attachment_paned_set_default_height (75); /* short attachment bar for Anjal */
 		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
 	}
@@ -274,7 +278,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->attachment_paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	if (e_msg_composer_get_lite ()) {
+	if (small_screen_mode) {
 		GtkWidget *tmp, *tmp1, *tmp_box, *container;
 		GtkWidget *combo;
 
@@ -412,6 +416,13 @@ e_composer_private_dispose (EMsgComposer *composer)
 		binding_id = g_array_index (array, guint, 0);
 		gconf_bridge_unbind (bridge, binding_id);
 		g_array_remove_index_fast (array, 0);
+	}
+
+	if (composer->priv->shell != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (composer->priv->shell),
+			&composer->priv->shell);
+		composer->priv->shell = NULL;
 	}
 
 	if (composer->priv->header_table != NULL) {

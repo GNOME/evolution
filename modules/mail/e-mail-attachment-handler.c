@@ -59,10 +59,14 @@ static void
 mail_attachment_handler_forward (GtkAction *action,
                                  EAttachmentView *view)
 {
+	EShell *shell;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
+
+	/* FIXME Pass this in somehow. */
+	shell = e_shell_get_default ();
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -71,7 +75,7 @@ mail_attachment_handler_forward (GtkAction *action,
 	mime_part = e_attachment_get_mime_part (attachment);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
-	em_utils_forward_message (CAMEL_MIME_MESSAGE (wrapper), NULL);
+	em_utils_forward_message (shell, CAMEL_MIME_MESSAGE (wrapper), NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -81,10 +85,14 @@ static void
 mail_attachment_handler_reply_all (GtkAction *action,
                                    EAttachmentView *view)
 {
+	EShell *shell;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
+
+	/* FIXME Pass this in somehow. */
+	shell = e_shell_get_default ();
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -94,7 +102,7 @@ mail_attachment_handler_reply_all (GtkAction *action,
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_reply_to_message (
-		NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
+		shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
 		REPLY_MODE_ALL, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
@@ -105,10 +113,14 @@ static void
 mail_attachment_handler_reply_sender (GtkAction *action,
                                       EAttachmentView *view)
 {
+	EShell *shell;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
+
+	/* FIXME Pass this in somehow. */
+	shell = e_shell_get_default ();
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -118,7 +130,7 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_reply_to_message (
-		NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
+		shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
 		REPLY_MODE_SENDER, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);

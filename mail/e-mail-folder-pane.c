@@ -67,6 +67,9 @@ folder_pane_set_preview_visible (EMailView *view,
 static guint
 mail_paned_view_open_selected_mail (EMailPanedView *view)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailReader *reader;
 	GPtrArray *uids;
 	gint i;
 	GtkWindow *window;
@@ -75,19 +78,24 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	GPtrArray *views;
 	guint n_views, ii;
 
-	uids = e_mail_reader_get_selected_uids (E_MAIL_READER(view));
-	window = e_mail_reader_get_window (E_MAIL_READER(view));
+	reader = E_MAIL_READER (view);
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	uids = e_mail_reader_get_selected_uids (reader);
+	window = e_mail_reader_get_window (reader);
 	if (!em_utils_ask_open_many (window, uids->len)) {
 		em_utils_uids_free (uids);
 		return 0;
 	}
 
-	folder = e_mail_reader_get_folder (E_MAIL_READER(view));
-	folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER(view));
+	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 	if (em_utils_folder_is_drafts (folder, folder_uri) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_templates (folder, folder_uri)) {
-		em_utils_edit_messages (folder, uids, TRUE);
+		em_utils_edit_messages (shell, folder, uids, TRUE);
 		return 0;
 	}
 
@@ -120,7 +128,8 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 
 			edits = g_ptr_array_new ();
 			g_ptr_array_add (edits, real_uid);
-			em_utils_edit_messages (real_folder, edits, TRUE);
+			em_utils_edit_messages (
+				shell, real_folder, edits, TRUE);
 		} else {
 			g_free (real_uid);
 			g_ptr_array_add (views, g_strdup (uid));

@@ -29,28 +29,52 @@
 
 G_BEGIN_DECLS
 
-void em_utils_compose_new_message (const gchar *fromuri);
-
-/* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
-EMsgComposer * em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
-
-GtkWidget * em_utils_edit_message (CamelMimeMessage *message, CamelFolder *folder);
-void em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids, gboolean replace);
-
-void em_utils_forward_attached (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
-void em_utils_forward_inline (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
-void em_utils_forward_quoted (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
-
-struct _EMsgComposer * em_utils_forward_message (CamelMimeMessage *msg, const gchar *fromuri);
-void em_utils_forward_messages (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
-
-void em_utils_redirect_message (CamelMimeMessage *message);
-void em_utils_redirect_message_by_uid (CamelFolder *folder, const gchar *uid);
-
-void em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, const gchar *address, GError **error);
-
-void em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg);
-void em_utils_send_receipt   (CamelFolder *folder, CamelMimeMessage *message);
+void		em_utils_compose_new_message	(EShell *shell,
+						 const gchar *from_uri);
+EMsgComposer *	em_utils_compose_new_message_with_mailto
+						(EShell *shell,
+						 const gchar *url,
+						 const gchar *from_uri);
+GtkWidget *	em_utils_edit_message		(EShell *shell,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder);
+void		em_utils_edit_messages		(EShell *shell,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 gboolean replace);
+void		em_utils_forward_attached	(EShell *shell,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 const gchar *from_uri);
+void		em_utils_forward_inline		(EShell *shell,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 const gchar *from_uri);
+void		em_utils_forward_quoted		(EShell *shell,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 const gchar *from_uri);
+EMsgComposer *	em_utils_forward_message	(EShell *shell,
+						 CamelMimeMessage *msg,
+						 const gchar *from_uri);
+void		em_utils_forward_messages	(EShell *shell,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 const gchar *from_uri);
+void		em_utils_redirect_message	(EShell *shell,
+						 CamelMimeMessage *message);
+void		em_utils_redirect_message_by_uid(EShell *shell,
+						 CamelFolder *folder,
+						 const gchar *uid);
+void		em_utils_forward_message_raw	(CamelFolder *folder,
+						 CamelMimeMessage *message,
+						 const gchar *address,
+						 GError **error);
+void		em_utils_handle_receipt		(CamelFolder *folder,
+						 const gchar *uid,
+						 CamelMimeMessage *msg);
+void		em_utils_send_receipt		(CamelFolder *folder,
+						 CamelMimeMessage *message);
 
 enum {
 	REPLY_MODE_SENDER, /* Reply-To?:From */
@@ -63,7 +87,7 @@ gchar *em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *so
 gboolean em_utils_is_munged_list_message (CamelMimeMessage *message);
 void em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto);
 void em_utils_get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto);
-EMsgComposer * em_utils_reply_to_message (CamelFolder *, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source);
+EMsgComposer * em_utils_reply_to_message (EShell *shell, CamelFolder *, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source);
 EDestination ** em_utils_camel_address_to_destination (CamelInternetAddress *iaddr);
 
 void em_configure_new_composer (struct _EMsgComposer *composer);

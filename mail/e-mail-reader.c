@@ -420,10 +420,15 @@ static void
 action_mail_forward_cb (GtkAction *action,
                         EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 	const gchar *folder_uri;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -433,7 +438,7 @@ action_mail_forward_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_messages (folder, uids, folder_uri);
+		em_utils_forward_messages (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
 }
@@ -442,10 +447,15 @@ static void
 action_mail_forward_attached_cb (GtkAction *action,
                                  EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 	const gchar *folder_uri;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -455,7 +465,7 @@ action_mail_forward_attached_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_attached (folder, uids, folder_uri);
+		em_utils_forward_attached (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
 }
@@ -464,10 +474,15 @@ static void
 action_mail_forward_inline_cb (GtkAction *action,
                                EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 	const gchar *folder_uri;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -477,7 +492,7 @@ action_mail_forward_inline_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_inline (folder, uids, folder_uri);
+		em_utils_forward_inline (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
 }
@@ -486,10 +501,15 @@ static void
 action_mail_forward_quoted_cb (GtkAction *action,
                                EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 	const gchar *folder_uri;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -499,7 +519,7 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_quoted (folder, uids, folder_uri);
+		em_utils_forward_quoted (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
 }
@@ -601,24 +621,34 @@ static void
 action_mail_message_edit_cb (GtkAction *action,
                              EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GPtrArray *uids;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	em_utils_edit_messages (folder, uids, FALSE);
+	em_utils_edit_messages (shell, folder, uids, FALSE);
 }
 
 static void
 action_mail_message_new_cb (GtkAction *action,
                             EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	const gchar *folder_uri;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
-	em_utils_compose_new_message (folder_uri);
+	em_utils_compose_new_message (shell, folder_uri);
 }
 
 static void
@@ -867,9 +897,14 @@ static void
 action_mail_redirect_cb (GtkAction *action,
                          EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *uid;
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -877,7 +912,7 @@ action_mail_redirect_cb (GtkAction *action,
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
-	em_utils_redirect_message_by_uid (folder, uid);
+	em_utils_redirect_message_by_uid (shell, folder, uid);
 }
 
 static void

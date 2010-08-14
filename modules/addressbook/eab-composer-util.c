@@ -28,7 +28,8 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 
 void
-eab_send_as_to (GList *destinations)
+eab_send_as_to (EShell *shell,
+                GList *destinations)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -40,10 +41,12 @@ eab_send_as_to (GList *destinations)
 		EDestination **destinations;
 	} convert;
 
+	g_return_if_fail (E_IS_SHELL (shell));
+
 	if (destinations == NULL)
 		return;
 
-	composer = e_msg_composer_new ();
+	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
 
 	to_array = g_ptr_array_new ();
@@ -107,7 +110,8 @@ get_email (EContact *contact, EContactField field_id, gchar **to_free)
 }
 
 void
-eab_send_as_attachment (GList *destinations)
+eab_send_as_attachment (EShell *shell,
+                        GList *destinations)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -115,10 +119,12 @@ eab_send_as_attachment (GList *destinations)
 	GList *contacts, *iter;
 	gchar *data;
 
+	g_return_if_fail (E_IS_SHELL (shell));
+
 	if (destinations == NULL)
 		return;
 
-	composer = e_msg_composer_new ();
+	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
 
 	attachment = camel_mime_part_new ();

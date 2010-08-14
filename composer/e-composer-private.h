@@ -87,6 +87,8 @@ G_BEGIN_DECLS
 
 struct _EMsgComposerPrivate {
 
+	gpointer shell;  /* weak pointer */
+
 	/*** UI Management ***/
 
 	GtkWidget *html_editor;

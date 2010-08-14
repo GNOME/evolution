@@ -61,9 +61,18 @@ book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
                                     EDestination *destination,
                                     EABContactDisplay *display)
 {
+	EShell *shell;
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
 	GList node = { destination, NULL, NULL };
 
-	eab_send_as_to (&node);
+	shell_content = E_SHELL_CONTENT (book_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+
+	eab_send_as_to (shell, &node);
 }
 
 static void

@@ -470,9 +470,13 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 	CamelMimeMessage *new, *template;
 	struct _camel_header_raw *header;
 	CamelStream *mem;
+	EShell *shell;
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (message != NULL);
+
+	/* FIXME Pass this in somehow. */
+	shell = e_shell_get_default ();
 
 	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 	template = g_object_get_data (G_OBJECT (action), "template");
@@ -513,7 +517,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	em_utils_edit_message (new, folder);
+	em_utils_edit_message (shell, new, folder);
 
 	g_object_unref (new);
 }

@@ -188,6 +188,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
 guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
+	EShell *shell;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
@@ -198,9 +199,11 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
+
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
-	shell_backend = e_mail_reader_get_shell_backend (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
 
@@ -212,7 +215,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	if (em_utils_folder_is_drafts (folder, folder_uri) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_templates (folder, folder_uri)) {
-		em_utils_edit_messages (folder, uids, TRUE);
+		em_utils_edit_messages (shell, folder, uids, TRUE);
 		return uids->len;
 	}
 
@@ -246,7 +249,8 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 			edits = g_ptr_array_new ();
 			g_ptr_array_add (edits, real_uid);
-			em_utils_edit_messages (real_folder, edits, TRUE);
+			em_utils_edit_messages (
+				shell, real_folder, edits, TRUE);
 		} else {
 			g_free (real_uid);
 			g_ptr_array_add (views, g_strdup (uid));
@@ -357,6 +361,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
                                 CamelMimeMessage *src_message,
                                 gint reply_mode)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
@@ -372,6 +378,9 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	 * back to the normal em_utils_reply_to_message(). */
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	formatter = e_mail_reader_get_formatter (reader);
 	web_view = em_format_html_get_web_view (formatter);
@@ -422,9 +431,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		CAMEL_MIME_PART (new_message),
 		selection, length, "text/html");
 
-	g_object_unref(src_message);
+	g_object_unref (src_message);
+
 	em_utils_reply_to_message (
-		folder, uid, new_message, reply_mode, NULL);
+		shell, folder, uid, new_message, reply_mode, NULL);
 
 	g_free (selection);
 
@@ -432,7 +442,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 whole_message:
 	em_utils_reply_to_message (
-		folder, uid, src_message, reply_mode, EM_FORMAT (formatter));
+		shell, folder, uid, src_message,
+		reply_mode, EM_FORMAT (formatter));
 }
 
 void

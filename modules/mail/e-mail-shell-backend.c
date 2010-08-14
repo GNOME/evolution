@@ -136,9 +136,12 @@ action_mail_message_new_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
+	EShell *shell;
 	EMFolderTree *folder_tree;
 	const gchar *view_name;
 	gchar *uri = NULL;
+
+	shell = e_shell_window_get_shell (shell_window);
 
 	if (!em_utils_check_user_can_send_mail ())
 		return;
@@ -156,7 +159,7 @@ action_mail_message_new_cb (GtkAction *action,
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 
 exit:
-	em_utils_compose_new_message (uri);
+	em_utils_compose_new_message (shell, uri);
 
 	g_free (uri);
 }
@@ -235,9 +238,12 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 {
 	EShellBackend *shell_backend = user_data;
 	CamelURL *url = user_data;
+	EShell *shell;
 	const gchar *forward;
 	const gchar *reply;
 	const gchar *uid;
+
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (folder == NULL) {
 		g_warning ("Could not open folder '%s'", folder_uri);
@@ -258,7 +264,8 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 		else
 			mode = REPLY_MODE_SENDER;
 
-		em_utils_reply_to_message (folder, uid, NULL, mode, NULL);
+		em_utils_reply_to_message (
+			shell, folder, uid, NULL, mode, NULL);
 
 	} else if (forward != NULL) {
 		GPtrArray *uids;
@@ -267,13 +274,17 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 		g_ptr_array_add (uids, g_strdup (uid));
 
 		if (g_strcmp0 (forward, "attached") == 0)
-			em_utils_forward_attached (folder, uids, folder_uri);
+			em_utils_forward_attached (
+				shell, folder, uids, folder_uri);
 		else if (g_strcmp0 (forward, "inline") == 0)
-			em_utils_forward_inline (folder, uids, folder_uri);
+			em_utils_forward_inline (
+				shell, folder, uids, folder_uri);
 		else if (g_strcmp0 (forward, "quoted") == 0)
-			em_utils_forward_quoted (folder, uids, folder_uri);
+			em_utils_forward_quoted (
+				shell, folder, uids, folder_uri);
 		else
-			em_utils_forward_messages (folder, uids, folder_uri);
+			em_utils_forward_messages (
+				shell, folder, uids, folder_uri);
 
 	} else {
 		GtkWidget *browser;
@@ -299,7 +310,8 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 
 	if (g_str_has_prefix (uri, "mailto:")) {
 		if (em_utils_check_user_can_send_mail ())
-			em_utils_compose_new_message_with_mailto (uri, NULL);
+			em_utils_compose_new_message_with_mailto (
+				shell, uri, NULL);
 
 	} else if (g_str_has_prefix (uri, "email:")) {
 		CamelURL *url;

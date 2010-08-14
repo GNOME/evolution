@@ -116,11 +116,16 @@ emla_list_action_do (CamelFolder *folder,
 	gint t;
 	EMsgComposer *composer;
 	gint send_message_response;
+	EShellBackend *shell_backend;
+	EShell *shell;
 	EAccount *account;
 	GtkWindow *window;
 
 	if (msg == NULL)
 		return;
+
+	shell_backend = e_mail_reader_get_shell_backend (action_data->reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	window = e_mail_reader_get_window (action_data->reader);
 
@@ -172,7 +177,7 @@ emla_list_action_do (CamelFolder *folder,
 
 			if (send_message_response == GTK_RESPONSE_YES) {
 				/* directly send message */
-				composer = e_msg_composer_new_from_url (url);
+				composer = e_msg_composer_new_from_url (shell, url);
 				if ((account = mail_config_get_account_by_source_url (action_data->uri)))
 					e_composer_header_table_set_account (
 						e_msg_composer_get_header_table (composer),
@@ -180,7 +185,7 @@ emla_list_action_do (CamelFolder *folder,
 				e_msg_composer_send (composer);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
-				em_utils_compose_new_message_with_mailto (url, action_data->uri);
+				em_utils_compose_new_message_with_mailto (shell, url, action_data->uri);
 			}
 
 			goto exit;

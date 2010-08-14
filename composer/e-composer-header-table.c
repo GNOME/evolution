@@ -168,9 +168,13 @@ static void
 composer_header_table_notify_widget (GtkWidget *widget,
                                      const gchar *property_name)
 {
+	EShell *shell;
 	GtkWidget *parent;
 
-	if (e_msg_composer_get_lite ()) {
+	/* FIXME Pass this in somehow. */
+	shell = e_shell_get_default ();
+
+	if (e_shell_get_small_screen_mode (shell)) {
 		parent = gtk_widget_get_parent (widget);
 		parent = g_object_get_data (G_OBJECT (parent), "pdata");
 	} else
@@ -516,17 +520,6 @@ composer_header_table_set_shell (EComposerHeaderTable *table,
 	table->priv->shell = g_object_ref (shell);
 }
 
-static gint
-get_row_padding (void)
-{
-	/* For small screens, make the header-table's rows be packed closely together */
-
-	if (e_msg_composer_get_lite ())
-		return 0;
-	else
-		return 3;
-}
-
 static GObject *
 composer_header_table_constructor (GType type,
                                    guint n_construct_properties,
@@ -536,12 +529,15 @@ composer_header_table_constructor (GType type,
 	EComposerHeaderTablePrivate *priv;
 	guint rows, ii;
 	gint row_padding;
+	gboolean small_screen_mode;
 
 	/* Chain up to parent's constructor() method. */
 	object = G_OBJECT_CLASS (parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
 	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
+
+	small_screen_mode = e_shell_get_small_screen_mode (priv->shell);
 
 	rows = G_N_ELEMENTS (priv->headers);
 	gtk_table_resize (GTK_TABLE (object), rows, 4);
@@ -551,7 +547,8 @@ composer_header_table_constructor (GType type,
 	/* Use "ypadding" instead of "row-spacing" because some rows may
 	 * be invisible and we don't want spacing around them. */
 
-	row_padding = get_row_padding ();
+	/* For small screens, pack the table's rows closely together. */
+	row_padding = small_screen_mode ? 0 : 3;
 
 	for (ii = 0; ii < rows; ii++) {
 		gtk_table_attach (
@@ -580,13 +577,13 @@ composer_header_table_constructor (GType type,
 		priv->signature_combo_box, "visible");
 
 	/* Now add the signature stuff. */
-	if (!e_msg_composer_get_lite ()) {
+	if (!small_screen_mode) {
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_label,
 			2, 3, ii, ii + 1, 0, 0, 0, row_padding);
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_combo_box,
-			3, 4, ii, ii + 1, e_msg_composer_get_lite () ? GTK_FILL: 0, 0, 0, row_padding);
+			3, 4, ii, ii + 1, 0, 0, 0, row_padding);
 	} else {
 		GtkWidget *box = gtk_hbox_new (FALSE, 0);
 

@@ -19,12 +19,14 @@
 #ifndef EAB_COMPOSER_UTIL_H
 #define EAB_COMPOSER_UTIL_H
 
-#include <gtk/gtk.h>
+#include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
-void		eab_send_as_to			(GList *destinations);
-void		eab_send_as_attachment		(GList *destinations);
+void		eab_send_as_to			(EShell *shell,
+						 GList *destinations);
+void		eab_send_as_attachment		(EShell *shell,
+						 GList *destinations);
 
 G_END_DECLS
 

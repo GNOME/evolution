@@ -30,6 +30,7 @@
 #include <gtkhtml-editor.h>
 #include <misc/e-attachment-view.h>
 #include <misc/e-focus-tracker.h>
+#include <shell/e-shell.h>
 
 #include "e-composer-header-table.h"
 
@@ -68,14 +69,17 @@ struct _EMsgComposerClass {
 };
 
 GType		e_msg_composer_get_type		(void);
-EMsgComposer *	e_msg_composer_new		(void);
-gboolean	e_msg_composer_get_lite		(void);
-EMsgComposer *	e_msg_composer_new_with_message	(CamelMimeMessage *msg);
-EMsgComposer *	e_msg_composer_new_from_url	(const gchar *url);
-EMsgComposer *	e_msg_composer_new_redirect	(CamelMimeMessage *message,
+EMsgComposer *	e_msg_composer_new		(EShell *shell);
+EMsgComposer *	e_msg_composer_new_with_message	(EShell *shell,
+						 CamelMimeMessage *msg);
+EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
+						 const gchar *url);
+EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
+						 CamelMimeMessage *message,
 						 const gchar *resent_from);
 EFocusTracker *	e_msg_composer_get_focus_tracker(EMsgComposer *composer);
 CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
+EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_draft	(EMsgComposer *composer);
@@ -137,8 +141,9 @@ void		e_msg_composer_request_close	(EMsgComposer *composer);
 gboolean	e_msg_composer_can_close	(EMsgComposer *composer,
 						 gboolean can_save_draft);
 
-EMsgComposer *	e_msg_composer_load_from_file	(const gchar *filename);
-void		e_msg_composer_check_autosave	(GtkWindow *parent);
+EMsgComposer *	e_msg_composer_load_from_file	(EShell *shell,
+						 const gchar *filename);
+void		e_msg_composer_check_autosave	(EShell *shell);
 
 void		e_msg_composer_reply_indent	(EMsgComposer *composer);
 

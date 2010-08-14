@@ -358,9 +358,16 @@ static void
 action_contact_forward_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GList *list, *iter;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
@@ -381,7 +388,8 @@ action_contact_forward_cb (GtkAction *action,
 		iter->data = destination;
 	}
 
-	eab_send_as_attachment (list);
+	eab_send_as_attachment (shell, list);
+
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 }
@@ -581,9 +589,16 @@ static void
 action_contact_send_message_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GList *list, *iter;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
@@ -604,7 +619,8 @@ action_contact_send_message_cb (GtkAction *action,
 		iter->data = destination;
 	}
 
-	eab_send_as_to (list);
+	eab_send_as_to (shell, list);
+
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 }

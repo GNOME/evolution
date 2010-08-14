@@ -1273,6 +1273,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users,
 		gboolean strip_alarms, gboolean only_new_attendees)
 {
+	EShell *shell;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
@@ -1321,7 +1322,10 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	/* Subject information */
 	subject = comp_subject (method, comp);
 
-	composer = e_msg_composer_new ();
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
+
+	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
 
 	setup_from (method, send_comp, client, table);
@@ -1402,6 +1406,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
                         icalcomponent *zones,
                         GSList *attachments_list)
 {
+	EShell *shell;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
@@ -1423,7 +1428,10 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	/* Subject information */
 	subject = comp_subject (method, comp);
 
-	composer = e_msg_composer_new ();
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
+
+	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
 
 	setup_from (method, send_comp, client, table);
