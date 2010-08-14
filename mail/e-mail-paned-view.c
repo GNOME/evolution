@@ -527,7 +527,7 @@ mail_paned_view_enable_show_folder (EMailReader *reader)
 	EMailPanedViewPrivate *priv;
 
 	priv = E_MAIL_PANED_VIEW (reader)->priv;
-	
+
 	return priv->enable_show_folder ? TRUE : FALSE;
 }
 

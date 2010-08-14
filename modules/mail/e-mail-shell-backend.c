@@ -479,7 +479,6 @@ mail_shell_backend_constructed (GObject *object)
 
 	e_mail_shell_settings_init (shell);
 
-
 	/* Setup preference widget factories */
 	preferences_window = e_shell_get_preferences_window (shell);
 

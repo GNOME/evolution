@@ -264,7 +264,8 @@ static const gchar *addrspec_hdrs[] = {
 
 #if 0
 /* FIXME: include Sender and Resent-* headers too? */
-/* For Translators only: The following strings are used in the header table in the preview pane */
+/* For Translators only: The following strings are
+ * used in the header table in the preview pane. */
 static gchar *i18n_hdrs[] = {
 	N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
 };
@@ -387,7 +388,10 @@ emfq_format_header (EMFormat *emf,
 			return;
 
 		buf = camel_header_unfold (txt);
-		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset))) {
+		addrs = camel_header_address_decode (
+			txt, emf->charset ?
+			emf->charset : emf->default_charset);
+		if (addrs == NULL) {
 			g_free (buf);
 			return;
 		}
@@ -485,11 +489,15 @@ emfq_format_message (EMFormat *emf,
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
-		camel_stream_printf(stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->\n"
-				    "<blockquote type=cite>\n");
+		camel_stream_printf (
+			stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+			"key=\"orig\" value=\"1\">-->\n"
+			"<blockquote type=cite>\n");
 
 	if (((CamelMimePart *)emf->message) != part) {
-		camel_stream_printf(stream,  "%s</br>\n", _("-------- Forwarded Message --------"));
+		camel_stream_printf (
+			stream,  "%s</br>\n",
+			_("-------- Forwarded Message --------"));
 		emfq_format_headers (emfq, stream, (CamelMedium *)part);
 	} else if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
 		emfq_format_headers (emfq, stream, (CamelMedium *)part);
@@ -497,7 +505,9 @@ emfq_format_message (EMFormat *emf,
 	em_format_part (emf, stream, part);
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
-		camel_stream_write_string(stream, "</blockquote><!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->", NULL);
+		camel_stream_write_string (
+			stream, "</blockquote><!--+GtkHTML:"
+			"<DATA class=\"ClueFlow\" clear=\"orig\">-->", NULL);
 }
 
 static void
@@ -541,8 +551,11 @@ emfq_text_plain (EMFormat *emf,
 		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 	g_object_unref (html_filter);
 
-	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
-	camel_stream_flush((CamelStream *)filtered_stream, NULL);
+	em_format_format_text (
+		EM_FORMAT (emfq), filtered_stream,
+		CAMEL_DATA_WRAPPER (part));
+
+	camel_stream_flush (filtered_stream, NULL);
 	g_object_unref (filtered_stream);
 }
 

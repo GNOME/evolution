@@ -1090,7 +1090,6 @@ populate_ui (CertificateManagerData *cfm)
 	return FALSE;
 }
 
-
 GtkWidget *
 certificate_manager_config_new (EPreferencesWindow *window)
 {

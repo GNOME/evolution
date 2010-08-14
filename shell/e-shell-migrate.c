@@ -77,7 +77,6 @@ shell_xdg_migrate_rename (const gchar *old_filename,
 	return success;
 }
 
-
 static gboolean
 shell_xdg_migrate_rmdir (const gchar *dirname)
 {

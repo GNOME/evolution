@@ -393,7 +393,6 @@ void
 em_format_class_add_handler (EMFormatClass *emfc,
                              EMFormatHandler *info)
 {
-	d(printf("adding format handler to '%s' '%s'\n",	g_type_name_from_class((GTypeClass *)emfc), info->mime_type));
 	info->old = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
 	g_hash_table_insert(emfc->type_handlers, (gpointer) info->mime_type, info);
 }
@@ -582,11 +581,13 @@ em_format_add_puri (EMFormat *emf,
 
 		d(printf("built cid '%s'\n", puri->cid));
 
-		/* not quite same as old behaviour, it also put in the relative uri and a fallback for no parent uri */
+		/* Not quite same as old behaviour, it also put in the
+		 * relative uri and a fallback for no parent uri. */
 		tmp = camel_mime_part_get_content_location(part);
 		puri->uri = NULL;
 		if (tmp == NULL) {
-			/* no location, don't set a uri at all, html parts do this themselves */
+			/* No location, don't set a uri at all,
+			 * html parts do this themselves. */
 		} else {
 			if (strchr(tmp, ':') == NULL && emf->base != NULL) {
 				CamelURL *uri;
@@ -833,7 +834,9 @@ em_format_part_as (EMFormat *emf,
 		mime_type = "application/octet-stream";
 	}
 
-	((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment(emf, stream, part, mime_type, handle);
+	EM_FORMAT_GET_CLASS (emf)->format_attachment (
+		emf, stream, part, mime_type, handle);
+
 finish:
 	emf->base = base_save;
 	emf->snoop_mime_type = snoop_save;
@@ -988,7 +991,8 @@ void
 em_format_set_default_charset (EMFormat *emf,
                                const gchar *charset)
 {
-	if ((emf->default_charset && charset && g_ascii_strcasecmp(emf->default_charset, charset) == 0)
+	if ((emf->default_charset && charset &&
+	    g_ascii_strcasecmp(emf->default_charset, charset) == 0)
 	    || (emf->default_charset == NULL && charset == NULL)
 	    || (emf->default_charset == charset))
 		return;
@@ -1379,7 +1383,8 @@ em_format_format_text (EMFormat *emf,
 		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream, NULL);
 		camel_stream_flush((CamelStream *)stream, NULL);
 	} else {
-		((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_optional(emf, stream, (CamelMimePart *)dw, mem_stream);
+		EM_FORMAT_GET_CLASS (emf)->format_optional (
+			emf, stream, (CamelMimePart *)dw, mem_stream);
 	}
 
 	if (windows)
@@ -1455,13 +1460,17 @@ emf_application_xpkcs7mime (EMFormat *emf,
 	/* should this perhaps run off a key of ".secured" ? */
 	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
 	if (emfc && emfc->valid) {
-		em_format_format_secure(emf, stream, emfc->secured, camel_cipher_validity_clone(emfc->valid));
+		em_format_format_secure (
+			emf, stream, emfc->secured,
+			camel_cipher_validity_clone (emfc->valid));
 		return;
 	}
 
 	context = camel_smime_context_new(emf->session);
 
-	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_SMIME;
+	emf->validity_found |=
+		EM_FORMAT_VALIDITY_FOUND_ENCRYPTED |
+		EM_FORMAT_VALIDITY_FOUND_SMIME;
 
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, &local_error);
@@ -1618,26 +1627,34 @@ emf_multipart_encrypted (EMFormat *emf,
 	/* should this perhaps run off a key of ".secured" ? */
 	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
 	if (emfc && emfc->valid) {
-		em_format_format_secure(emf, stream, emfc->secured, camel_cipher_validity_clone(emfc->valid));
+		em_format_format_secure (
+			emf, stream, emfc->secured,
+			camel_cipher_validity_clone (emfc->valid));
 		return;
 	}
 
 	mpe = (CamelMultipartEncrypted*)camel_medium_get_content ((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_ENCRYPTED(mpe)) {
-		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
-		em_format_format_source(emf, stream, part);
+		em_format_format_error (
+			emf, stream, _("Could not parse MIME message. "
+			"Displaying as source."));
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	protocol = camel_content_type_param(((CamelDataWrapper *)mpe)->mime_type, "protocol");
 	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
-		em_format_format_error(emf, stream, _("Unsupported encryption type for multipart/encrypted"));
-		em_format_part_as(emf, stream, part, "multipart/mixed");
+		em_format_format_error (
+			emf, stream, _("Unsupported encryption "
+			"type for multipart/encrypted"));
+		em_format_part_as (emf, stream, part, "multipart/mixed");
 		return;
 	}
 
-	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_PGP;
+	emf->validity_found |=
+		EM_FORMAT_VALIDITY_FOUND_ENCRYPTED |
+		EM_FORMAT_VALIDITY_FOUND_PGP;
 
 	context = camel_gpg_context_new(emf->session);
 	opart = camel_mime_part_new();
@@ -1743,7 +1760,9 @@ emf_multipart_related (EMFormat *emf,
 
 			/* set the partid since add_puri uses it */
 			g_string_append_printf(emf->part_id, ".related.%d", i);
-			puri = em_format_add_puri(emf, sizeof(EMFormatPURI), NULL, body_part, emf_write_related);
+			puri = em_format_add_puri (
+				emf, sizeof (EMFormatPURI), NULL,
+				body_part, emf_write_related);
 			g_string_truncate(emf->part_id, partidlen);
 			d(printf(" part '%s' '%s' added\n", puri->uri?puri->uri:"", puri->cid));
 		}
@@ -1760,12 +1779,9 @@ emf_multipart_related (EMFormat *emf,
 		EMFormatPURI *puri = link->data;
 
 		if (puri->use_count == 0) {
-			d(printf("part '%s' '%s' used '%d'\n", puri->uri?puri->uri:"", puri->cid, puri->use_count));
 			if (puri->func == emf_write_related) {
 				g_string_printf(emf->part_id, "%s", puri->part_id);
 				em_format_part(emf, stream, puri->part);
-			} else {
-				d(printf("unreferenced uri generated by format code: %s\n", puri->uri?puri->uri:puri->cid));
 			}
 		}
 
@@ -1793,14 +1809,19 @@ emf_multipart_signed (EMFormat *emf,
 	/* should this perhaps run off a key of ".secured" ? */
 	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
 	if (emfc && emfc->valid) {
-		em_format_format_secure(emf, stream, emfc->secured, camel_cipher_validity_clone(emfc->valid));
+		em_format_format_secure (
+			emf, stream, emfc->secured,
+			camel_cipher_validity_clone (emfc->valid));
 		return;
 	}
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content ((CamelMedium *)part);
-	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
-	    || (cpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
-		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
+	if (!CAMEL_IS_MULTIPART_SIGNED (mps)
+	    || (cpart = camel_multipart_get_part ((CamelMultipart *)mps,
+		CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
+		em_format_format_error (
+			emf, stream, _("Could not parse MIME message. "
+			"Displaying as source."));
 		em_format_format_source(emf, stream, part);
 		return;
 	}
@@ -2024,7 +2045,8 @@ emf_inlinepgp_signed (EMFormat *emf,
 	camel_stream_flush((CamelStream *)filtered_stream, NULL);
 	g_object_unref (filtered_stream);
 
-	/* Create a new text/plain MIME part containing the signed content preserving the original part's Content-Type params */
+	/* Create a new text/plain MIME part containing the signed
+	 * content preserving the original part's Content-Type params. */
 	content_type = camel_mime_part_get_content_type (ipart);
 	type = camel_content_type_format (content_type);
 	content_type = camel_content_type_decode (type);
@@ -2071,7 +2093,9 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 	gchar *mime_type;
 	GError *local_error = NULL;
 
-	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_PGP;
+	emf->validity_found |=
+		EM_FORMAT_VALIDITY_FOUND_ENCRYPTED |
+		EM_FORMAT_VALIDITY_FOUND_PGP;
 
 	cipher = camel_gpg_context_new(emf->session);
 	opart = camel_mime_part_new();
@@ -2228,7 +2252,10 @@ em_format_snoop_type (CamelMimePart *part)
 		g_free (magic_type);
 
 	if (!types_cache)
-		types_cache = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) NULL);
+		types_cache = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
 
 	if (res) {
 		tmp = g_hash_table_lookup (types_cache, res);

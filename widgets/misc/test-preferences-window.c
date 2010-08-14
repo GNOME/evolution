@@ -28,7 +28,7 @@ create_page_number (gint i)
 {
 	gchar *caption;
 	GtkWidget *widget;
-	
+
 	caption = g_strdup_printf ("Title of page %d", i);
 
 	widget = gtk_label_new (caption);

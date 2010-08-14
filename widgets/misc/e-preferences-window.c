@@ -545,13 +545,12 @@ e_preferences_window_setup (EPreferencesWindow *window)
 		if (!create_fn || gtk_bin_get_child (align))
 			continue;
 
-		
 		content = create_fn (window);
 		if (content) {
 			gtk_widget_show (content);
 			gtk_container_add (GTK_CONTAINER (align), content);
 		}
 	}
-	
+
 	priv->setup = TRUE;
 }

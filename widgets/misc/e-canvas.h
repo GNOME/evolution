@@ -125,7 +125,7 @@ void		e_canvas_item_request_parent_reflow
 						(GnomeCanvasItem *item);
 void		e_canvas_item_set_reflow_callback
 						(GnomeCanvasItem *item,
-						 ECanvasItemReflowFunc func); 
+						 ECanvasItemReflowFunc func);
 gint		e_canvas_item_grab		(ECanvas *canvas,
 						 GnomeCanvasItem *item,
 						 guint event_mask,

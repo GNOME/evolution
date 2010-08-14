@@ -503,7 +503,7 @@ e_signature_set_from_xml (ESignature *signature, const gchar *xml)
 		const gchar *user_data_dir;
 		gchar *basename;
 		gchar *filename;
-	  
+
 		user_data_dir = e_get_user_data_dir ();
 
 		filename = signature->priv->filename;
