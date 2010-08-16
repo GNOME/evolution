@@ -29,7 +29,8 @@
 
 #include "e-tree-selection-model.h"
 
-G_DEFINE_TYPE (ETreeSelectionModel, e_tree_selection_model, E_SELECTION_MODEL_TYPE)
+G_DEFINE_TYPE (
+	ETreeSelectionModel, e_tree_selection_model, E_TYPE_SELECTION_MODEL)
 
 enum {
 	PROP_0,

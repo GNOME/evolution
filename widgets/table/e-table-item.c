@@ -2850,7 +2850,7 @@ eti_class_init (ETableItemClass *klass)
 					 g_param_spec_object ("selection_model",
 							      "Selection model",
 							      "Selection model",
-							      E_SELECTION_MODEL_TYPE,
+							      E_TYPE_SELECTION_MODEL,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
