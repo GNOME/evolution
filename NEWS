@@ -1,3 +1,41 @@
+Evolution 2.31.90 2010-08-16
+----------------------------
+
+Bug Fixes:
+	Bug 624896 - Missing icons in table properties (Matthew Barnes)
+	Bug 605737 - Appointment reminder shows icons on buttons (Matthew Barnes)
+	Bug 624913 - Disallow drag-and-drop within the same attachment bar (Matthew Barnes)
+	Bug 323142 - Signature missing when handling mailto: URI with body part (Matthew Barnes)
+	Bug 626724 - Folder tree mistakes "mark as unread" as new mail (Matthew Barnes)
+	Bug 271691 - Add a way to view all attachments inline (Matthew Barnes)
+	Bug 626453 - Show attachments inline when printing (Matthew Barnes)
+	Bug 626090 - Only set -fno-strict-aliasing for GCC (Matthew Barnes)
+	Bug 626059 - Welcome messages has incorrect links (Christian Kirbach)
+	Bug 625847 - make signatures work again. (Michael Meeks)
+
+Miscellaneous Fixes:
+	ESelectionModel, ECanvas, EMsgComposer, EMfolderTreeModel, EMFormat cleanups. (Matthew Barnes)
+	Pass an EShell to EMsgComposer instances. (Matthew Barnes)
+	Pause timline instead of stop. It hides the search animation texture. (Srinivasa Ragavan)
+	Add keybindings to tab. (Srinivasa Ragavan)
+	remove select-on-focus hack, and replace with new skip-a-parent chaining hack; sub-set this only for when we have a hint visible ie. fix alt-c + type-new-search (Michael Meeks)
+	Ensure widgets are registered, without relying on config dialog setup at startup. (Michael Meeks)
+	build: Add libemformat to LDADD for evolution-settings (Rob Bradford)
+	Add Histogram of mail trend in clutter tab and enable DnD of tabs. (Srinivasa Ragavan)
+	Change em_format_redraw() to em_format_queue_redraw(). (Matthew Barnes)
+	Defer the load / creation of configuration UI with changes to e_preferences_window to take factory callbacks and store a reference to the shell. - This makes start-up substantially faster, particularly on Atom (eg.). (Michael Meeks)
+	docs on where the repo for the web version lives, and how to deal with it (Michael Meeks)
+	Execute calendar search post startup, not (Michael Meeks)
+	Make the intention of /tmp more explicit, and rescue people who happen to have evolution .po files in /tmp from a sad fate ... (Michael Meeks)
+
+Translations:
+	Fran Diéguez (gl)
+	Matej Urbančič (sl)
+	Claude Paroz (fr)
+	Kjartan Maraas (nn)
+	drtv (ta)
+	Nils-Christoph Fiedler (de)
+
 Evolution 2.31.6 2010-08-02
 ---------------------------
 
