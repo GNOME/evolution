@@ -2049,6 +2049,7 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 	 * GType before we load the GtkBuilder definition file. */
 	E_TYPE_DATE_EDIT;
 	E_TYPE_TIMEZONE_ENTRY;
+	E_TYPE_SOURCE_COMBO_BOX;
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "task-page.ui");
